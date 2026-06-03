@@ -182,3 +182,14 @@ tags:
 1. 보안에서 가장 위험한 순간은 금고(저장)나 배송차(전송)가 아니라, 점원이 돈을 세기 위해 책상(RAM) 위에 꺼내놓는 **딱 그 찰나**예요!
 2. TEE는 그 책상을 총알도 못 뚫는 **방탄 유리 밀실** 안에 넣어버려서 바깥 강도(해커)가 절대 볼 수 없게 만들어요!
 3. [[1019_homomorphic_encryption|동형 암호]]([[617_fhe_modular_multiplier|FHE]])는 돈이 여전히 잠금 상태인데도 누구든 손을 넣어 더할 수는 있지만 꺼내 볼 수는 없는 **마법의 잠금 상자**랍니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 20 / 1108
+
+← **이전**: [[019_ai_emerging_tech|19. 완전한 통제 원칙 (Open Platform for Security) — 분리 보호]]
+**다음**: [[021_psychological_acceptability_principle|21. 심리적 사용성 원칙 (Psychological Acceptability) — 보안이 사용성을 해치면 안 됨]] →
+
+---

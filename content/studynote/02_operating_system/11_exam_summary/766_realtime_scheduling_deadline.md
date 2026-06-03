@@ -222,3 +222,14 @@ tags:
 1. 일반 컴퓨터(범용 OS)는 밀린 숙제를 그냥 최대한 빨리 끝내려고 노력만 해요. 내일 내도 선생님한테 혼나고 끝나니까요.
 2. 하지만 우주선이나 자동차 컴퓨터(실시간 OS)는 '타이밍'이 목숨이에요. 0.1초라도 늦게 브레이크를 밟으면 쾅! 하고 큰 사고가 나거든요.
 3. 그래서 이런 컴퓨터에는 "무슨 일이 있어도 브레이크 누르기 숙제는 1초 안에 무조건 끝내!"라고 가장 센 권력을 쥐여주는 특별한 '실시간 선생님([[079_kube_scheduler_pod_placement|스케줄러]])'이 들어있답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 766 / 800
+
+← **이전**: [[765_selinux_mac_mandatory_access_control|765. SELinux 보안 강제 접근 통제 (SELinux MAC Mandatory Access Control)]]
+**다음**: [[767_spinlock_smp_multiprocessor|767. 스핀락 멀티 프로세서 전용 활용 (Spinlock SMP Multiprocessor)]] →
+
+---

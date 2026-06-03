@@ -155,3 +155,14 @@ Pool A | Pool B | Pool C
 1. [[308_bulkhead_pattern|벌크헤드]] ([[308_bulkhead_pattern|Bulkhead]])은 레고 블록으로 성을 만들 때처럼, 규칙을 정하고 역할을 나누어 함께 작업하는 방법이에요.
 2. 혼자서 막 만들면 나중에 무너지거나 고치기 어렵지만, 약속을 지키면 누구나 쉽게 고치고 더 크게 만들 수 있어요.
 3. 그래서 [[001_software_engineering_definition|소프트웨어 공학]]은 프로그래머들이 좋은 프로그램을 빠르고 안전하게 만들 수 있게 도와주는 '규칙 모음집'이에요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 739 / 973
+
+← **이전**: [[573_timeout_retry_backoff_strategy|573. 타임아웃 (Timeout) 및 재시도 (Retry) 백오프(Backoff) 전략]]
+**다음**: [[574_bulkhead_pattern_thread_pool_isolation|574. 벌크헤드 (Bulkhead) - 스레드 풀 격리로 일부 장애가 전체 리소스 고갈로 이어지는 현상 방지]] →
+
+---

@@ -137,3 +137,14 @@ tags:
 1. 나쁜 친구가 놀이터 규칙을 깨뜨리면 바로 알아차리고 막아야 해요.
 2. 이 개념은 어떤 장난이 위험한지 미리 알고, 문제가 생기면 어떻게 다시 정리할지도 알려줘요.
 3. 그래서 놀이터를 더 안전하게 지킬 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 852 / 1120
+
+← **이전**: [[730_sql_injection_error_blind_union|730. APT (Advanced Persistent Threat 고도화 공격망]]
+**다음**: [[732_zero_day_attack_vulnerability_exploit|732. 제로 데이 (Zero-day 방어되지 않은 취약점 노출 즉시 전산자원 위협) 공격]] →
+
+---

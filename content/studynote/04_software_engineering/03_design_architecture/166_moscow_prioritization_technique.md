@@ -170,3 +170,14 @@ MoSCoW 분류
 1. MoSCoW는 소풍 가방에 무엇을 먼저 넣을지 정하는 방법이에요.
 2. 도시락과 물은 꼭 넣고, 장난감은 자리가 남으면 넣어요.
 3. 그래서 가장 중요한 것을 놓치지 않고 제시간에 출발할 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 166 / 973
+
+← **이전**: [[165_acceptance_criteria_definition|165. 인수 기준 (Acceptance Criteria) 정의]]
+**다음**: [[167_kano_model_quality_attributes|167. 카노 모델 (Kano Model) - 당연적, 일원적, 매력적 품질]] →
+
+---

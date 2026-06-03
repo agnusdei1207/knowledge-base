@@ -140,3 +140,14 @@ VM (Virtual Machine) · 하이퍼바이저
 1. 클라우드는 컴퓨터를 여러 칸으로 나눠서 여러 사람이 안전하게 쓰게 하는 큰 건물이에요.
 2. 어떤 칸은 벽이 두꺼운 방, 어떤 칸은 가벼운 텐트, 어떤 칸은 아예 필요한 순간만 열리는 방이에요.
 3. 그래서 필요한 만큼만 쓰고, 필요할 때 빨리 늘릴 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 52 / 800
+
+← **이전**: [[051_grid_computing|51. 그리드 컴퓨팅 (Grid Computing)]]
+**다음**: [[053_virtualization_architecture|53. 가상화 아키텍처 (Virtualization Architecture)]] →
+
+---

@@ -193,3 +193,14 @@ tags:
 1. 디스크 접근 시간 = [[324_seek_time|탐색 시간]](Seek Time) + [[325_rotational_latency|회전 지연]]([[325_rotational_latency|Rotational Latency]]) + [[326_transfer_time|전송 시간]]([[326_transfer_time|Transfer Time]])은 컴퓨터가 디스크와 장치가 [[001_dikw_pyramid|데이터]]를 주고받는 길을 정리하는 방법이에요.
 2. 먼저 [[466_logical_block_address_lba|논리적 블록 주소]] (LBA, Logical Block Address)을 이해하면 디스크 접근 시간 = [[324_seek_time|탐색 시간]](Seek Time) + [[325_rotational_latency|회전 지연]]([[325_rotational_latency|Rotational Latency]]) + [[326_transfer_time|전송 시간]]([[326_transfer_time|Transfer Time]])이 왜 필요한지 더 쉽게 보여요.
 3. 그래서 디스크 접근 시간 = [[324_seek_time|탐색 시간]](Seek Time) + [[325_rotational_latency|회전 지연]]([[325_rotational_latency|Rotational Latency]]) + [[326_transfer_time|전송 시간]]([[326_transfer_time|Transfer Time]])을 잘 알면 나중에 [[468_disk_scheduling_purpose|디스크 스케줄링]] ([[468_disk_scheduling_purpose|Disk Scheduling]]) 목적도 훨씬 쉽게 배울 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 467 / 800
+
+← **이전**: [[466_logical_block_address_lba|466. 논리적 블록 주소 (LBA, Logical Block Address) - 1차원 배열로 매핑]]
+**다음**: [[468_disk_scheduling_purpose|468. 디스크 스케줄링 (Disk Scheduling) 목적 - 탐색 시간 최소화, 처리량 극대화]] →
+
+---

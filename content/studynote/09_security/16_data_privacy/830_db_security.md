@@ -125,3 +125,14 @@ tags:
 1. [[002_database_definition|데이터베이스]] 보안 (DB [[283_security_tactics|Security]])는 내 이름표와 비밀 상자를 어떻게 안전하게 다룰지 정하는 약속이에요.
 2. 작은 조각 정보도 모이면 내가 누구인지 알 수 있어요.
 3. 그래서 꼭 필요한 것만 모으고, 다 쓰면 빨리 치워야 해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 904 / 1108
+
+← **이전**: [[829_casb|829. CASB (Cloud Access Security Broker)]]
+**다음**: [[831_field_level_security|831. 필드 레벨 보안 (Field-level Security)]] →
+
+---

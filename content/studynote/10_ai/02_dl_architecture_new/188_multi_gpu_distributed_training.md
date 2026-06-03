@@ -138,3 +138,14 @@ Pytorch 클러스터 환경에서 멀티 [[418_gpu|GPU]] 코드를 짤 때 주�
 1. 1명의 로봇 요리사([[418_gpu|GPU]] 1대)가 100만 명분의 샌드위치를 혼자 만들면 허리가 부러져 쓰러져요.
 2. **[[001_dikw_pyramid|데이터]] [[430_index_fast_full_scan|병렬]]화(DDP)** 전술은 로봇을 10명 [[016_replication_factor|복제]]해서 각자 10만 명분씩 똑같은 샌드위치를 미친 듯이 빠르게 만들게 시키는 마법이에요!
 3. **모델 [[430_index_fast_full_scan|병렬]]화([[015_payback_period|PP]])** 전술은 샌드위치가 코끼리만 하게 너무 거대할 때, 1번 로봇은 빵만 자르고 2번 로봇은 치즈만 올리고 3번 로봇은 햄만 올려서, 로봇들끼리 컨베이어 벨트로 넘겨가며 거대 샌드위치를 완성하는 멋진 분업 작전이랍니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 188 / 420
+
+← **이전**: [[187_mixed_precision_training|187. 혼합 정밀도 훈련 (Mixed Precision Training)]]
+**다음**: [[189_zero_deepspeed|189. ZeRO (Zero Redundancy Optimizer)]] →
+
+---

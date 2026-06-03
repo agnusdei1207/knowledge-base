@@ -131,3 +131,14 @@ Container Runtime
 같은 집에서도 방마다 보이는 창문이 다르면 서로 덜 헷갈려요.  
 네임스페이스는 리눅스 안에서 보이는 세상을 나눠 줘요.  
 그래서 여러 프로그램이 함께 있어도 서로 덜 부딪혀요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 62 / 371
+
+← **이전**: [[062_container_vs_vm_architecture|62. 컨테이너 vs 가상머신(VM)]]
+**다음**: [[064_cgroups_control_groups_resource_limit|64. cgroups (Control Groups) - 컨테이너가 사용할 수 있는 CPU, 메모리 자원의 상한선을 제한(Limit)하고]] →
+
+---

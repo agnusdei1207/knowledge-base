@@ -128,3 +128,14 @@ SLO (서비스 수준 목표) 타협 및 에러 예산 (Error Budget) 도출
 1. 게임을 너무 완벽하게 하려고 한 번도 안 죽으려 조심조심만 하면 진도도 안 나가고 재미가 없잖아요?
 2. 에러 예산은 엄마가 "한 달에 딱 3번까지는 게임에서 죽어도 돼!"라고 주는 '죽음 허용 쿠폰'이에요.
 3. 쿠폰이 남아있으면 어려운 보스한테 과감하게 덤벼볼 수 있고, 쿠폰을 다 쓰면 그다음부터는 안전하고 쉬운 곳에서 실력을 키우는 훈련만 해야 한답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 101 / 973
+
+← **이전**: [[100_sre_site_reliability_engineering_error_budget|100. SRE (Site Reliability Engineering) - 구글의 운영 방식, 에러 예산]]
+**다음**: [[102_sli_slo_service_level_indicator_objective|102. SLI (Service Level Indicator) / SLO (Service Level Objective)]] →
+
+---

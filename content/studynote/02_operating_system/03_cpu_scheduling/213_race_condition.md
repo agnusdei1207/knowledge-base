@@ -181,3 +181,14 @@ tags:
 1. 경쟁 조건 (Race Condition)은 컴퓨터가 누가 먼저 CPU를 쓰면 좋은지 줄을 세우는 방법이에요.
 2. 먼저 대상 [[141_latency|지연 시간]] (Target [[141_latency|Latency]]) / 최소 입자 (Minimum Granularity)을 이해하면 경쟁 조건 (Race Condition)이 왜 필요한지 더 쉽게 보여요.
 3. 그래서 경쟁 조건 (Race Condition)을 잘 알면 나중에 동적 우선순위 승급 (Priority Boost)도 훨씬 쉽게 배울 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 213 / 800
+
+← **이전**: [[212_synchronization_mechanisms|212. 동기화 (Synchronization) 메커니즘]]
+**다음**: [[214_critical_section|214. 임계 구역 (Critical Section)]] →
+
+---

@@ -130,3 +130,14 @@ Alert Fatigue              Risk Graph 우선순위화         SBOM + CNAPP 연�
 1. CNAPP은 집 전체를 지키는 스마트홈 보안 시스템이에요. 문잠금([[780_cspm_cloud_security_posture_management|CSPM]]), 방범카메라([[332_cwpp|CWPP]]), 건축설계 점검([[793_iac_idempotency_template|IaC]])을 하나의 앱으로 관리해요.
 2. [[096_risk_non_risk_architecture_evaluation_flaws|Risk]] Graph는 문이 열려 있고, 창문도 열려 있고, 경보도 꺼져 있다는 세 가지가 동시에 일어날 때만 위험 경보를 울려요.
 3. 하나씩 경보가 울리면 너무 많아서 무시하게 되지만, 진짜 위험한 조합만 골라서 알려주니까 더 안전해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 333 / 373
+
+← **이전**: [[332_cwpp|332. CWPP 런타임 워크로드 보호 (CWPP Cloud Workload Protection Platform Falco eBPF seccomp]]
+**다음**: [[334_opa_gatekeeper_rego|334. Policy as Code OPA Gatekeeper Rego (OPA Open Policy Agent Gatekeeper Rego]] →
+
+---

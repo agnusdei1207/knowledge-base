@@ -309,3 +309,14 @@ Zhamak Dehghani: 4대 원칙
 1. [[211_data_mesh_domain_ownership|데이터 메시]]는 [[136_variance|분산]] 빵집 — 중앙 공장([[208_data_lake_schema_on_read|데이터 레이크]]) 대신, 각 동네([[064_relation_domain|도메인]] 팀)가 자기 빵([[154_data_product|데이터 제품]])을 굽고 표준 진열대(플랫폼)에 올려요!
 2. 4대 원칙 — 각 팀이 소유하고, [[001_dikw_pyramid|데이터]]를 제품처럼, 혼자서도 할 수 있는 플랫폼, 공통 규칙. 이 네 가지가 균형 잡혀야 [[211_data_mesh_domain_ownership|데이터 메시]]가 작동해요.
 3. 조직 변화가 더 중요 — 도구(플랫폼)보다 각 팀의 [[001_dikw_pyramid|데이터]] 역량 키우기가 먼저. 역량 없이 도구만 도입하면 [[136_variance|분산]] 카오스!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 256 / 262
+
+← **이전**: [[255_data_observability|043. 데이터 옵저버빌리티]]
+**다음**: [[257_data_fabric|045. 데이터 패브릭 — Data Fabric]] →
+
+---

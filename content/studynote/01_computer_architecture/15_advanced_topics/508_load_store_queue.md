@@ -147,3 +147,14 @@ LSQ는 ROB, [[507_memory_dependence_predictor|메모리 의존성 예측기]], �
 1. 로드-스토어 큐는 컴퓨터 안에서 물건을 꺼내는 일과 넣는 일을 잠깐 정리해 두는 큰 [[104_classification_analysis|분류]]함이에요.
 2. 누가 먼저 해도 되는지, 같은 물건이면 바로 건네줄 수 있는지를 이 [[104_classification_analysis|분류]]함이 계속 [[396_validation|확인]]해 줘요.
 3. 그래서 컴퓨터는 줄이 엉키지 않으면서도 훨씬 빠르게 일을 처리할 수 있답니다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 508 / 803
+
+← **이전**: [[507_memory_dependence_predictor|507. 메모리 의존성 예측기 (Memory Dependence Predictor)]]
+**다음**: [[509_register_file_ports|509. 레지스터 파일 포트 (Register File Ports)]] →
+
+---

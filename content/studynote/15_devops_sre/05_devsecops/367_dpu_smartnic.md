@@ -137,3 +137,14 @@ DPU + AI 가속기 통합 (추론 + 네트워킹 단일 칩)
 1. DPU는 컴퓨터 안에 있는 작은 독립 컴퓨터로, 네트워크 청소 같은 귀찮은 일을 혼자 다 처리해요.
 2. 덕분에 메인 CPU는 게임(앱)에만 집중할 수 있어서 컴퓨터가 훨씬 빨라져요.
 3. P4와 eBPF는 이 작은 컴퓨터에게 "어떤 순서로 어떻게 일하라"고 알려주는 특별한 언어예요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 367 / 373
+
+← **이전**: [[366_architecture|366. 퍼듀 모델 산업 제어망 스마트팩토리 보안 (Purdue Model ICS OT Security IEC 62443 Smart Factory)]]
+**다음**: [[368_process|368. 침수 냉각 탄소 인식 컴퓨팅 그린옵스 (Immersion Cooling Carbon-Aware Computing PUE GreenOps)]] →
+
+---

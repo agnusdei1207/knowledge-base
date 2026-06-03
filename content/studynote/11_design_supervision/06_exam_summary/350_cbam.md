@@ -106,3 +106,14 @@ tags:
 1. [[230_cbam_cost_benefit_analysis_method|CBAM]] 경제성 관점 확장은 집을 짓기 전에 방과 길을 먼저 그려 보는 것과 같아요.
 2. 어느 방을 크게 하고 어디를 튼튼하게 할지 미리 정해야 해요.
 3. 그래야 나중에 고칠 때도 왜 그렇게 만들었는지 알 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 428 / 530
+
+← **이전**: [[349_atam|349. ATAM 아키텍처 트레이드오프 평가 (Architecture Tradeoff Analysis Method)]]
+**다음**: [[351_process|351. 민감도 상충점 리스크 (Sensitivity Point and Tradeoff Risk)]] →
+
+---

@@ -182,3 +182,14 @@ tags:
 1. 컴퓨터는 자주 쓰는 물건은 손에 가까운 서랍에, 가끔 쓰는 물건은 책장에, 오래 둘 물건은 창고에 나눠서 넣어 둬요.
 2. 그래서 매번 창고까지 뛰어가지 않아도, 필요한 물건을 훨씬 빨리 꺼낼 수 있어요.
 3. [[252_memory_hierarchy|메모리 계층 구조]]는 이렇게 “가까운 곳엔 조금만, 먼 곳엔 많이” 두어서 빠름과 넉넉함을 같이 얻는 방법이에요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 245 / 803
+
+← **이전**: [[244_epic|244. EPIC (Explicitly Parallel Instruction Computing)]]
+**다음**: [[246_locality_of_reference|246. 참조의 지역성 (Locality of Reference)]] →
+
+---

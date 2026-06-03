@@ -139,3 +139,14 @@ tags:
 1. [[306_service_discovery_pattern|서비스 디스커버리]] Eureka Consul는 복잡한 일을 순서대로 정리해 주는 큰 정리함이에요.
 2. 어디에 무엇을 넣을지 먼저 정해 두면, 나중에 찾거나 고칠 때 훨씬 쉬워져요.
 3. 그래서 일이 커질수록 먼저 기준을 만들고 같이 약속하는 것이 중요해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 367 / 482
+
+← **이전**: [[366_api_gateway_auth_throttling|366. API 게이트웨이 인증 스로틀링 집계 (API Gateway Auth Throttling)]]
+**다음**: [[368_circuit_breaker_pattern|368. 서킷 브레이커 장애 연쇄 차단 패턴 (Circuit Breaker Pattern)]] →
+
+---

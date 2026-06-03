@@ -153,3 +153,14 @@ Glass-Box Reuse (글래스박스):
 1. 소프트웨어 재사용은 레고 블록 조립이에요 — 이미 만들어진 블록을 조립하면 훨씬 빠르게 완성품을 만들 수 있어요!
 2. CBD는 레고 블록마다 표준 연결 홈을 만드는 거예요 — 어떤 블록이든 맞게 연결돼요!
 3. [[532_microservices_decomposition_patterns|마이크로서비스]]는 현대판 CBD예요 — 각 [[090_service_kubernetes_network_load_balancing|서비스]]가 독립된 [[561_container_based_deployment|컨테이너]] 박스에 담겨 어디서든 조립될 수 있어요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 30 / 973
+
+← **이전**: [[029_reverse_engineering|29. 역공학 (Reverse Engineering)]]
+**다음**: [[031_software_maintenance_types|31. 소프트웨어 유지보수 유형 — 4가지 변경 분류]] →
+
+---

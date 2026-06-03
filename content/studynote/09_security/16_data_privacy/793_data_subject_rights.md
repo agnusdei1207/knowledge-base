@@ -125,3 +125,14 @@ tags:
 1. 정보 주체 권리 ([[001_dikw_pyramid|Data]] Subject Rights)는 내 이름표와 비밀 상자를 어떻게 안전하게 다룰지 정하는 약속이에요.
 2. 작은 조각 정보도 모이면 내가 누구인지 알 수 있어요.
 3. 그래서 꼭 필요한 것만 모으고, 다 쓰면 빨리 치워야 해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 867 / 1108
+
+← **이전**: [[792_gdpr_legal_bases|792. GDPR 6 Legal Bases (GDPR의 6가지 처리 근거)]]
+**다음**: [[794_right_to_be_forgotten|794. Right to be Forgotten (잊힐 권리 (Right To Be Forgotten)]] →
+
+---

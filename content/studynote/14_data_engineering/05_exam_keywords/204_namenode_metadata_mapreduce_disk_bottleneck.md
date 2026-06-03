@@ -270,3 +270,14 @@ Spark: 인메모리 처리 → 10~100배 성능 향상
 ```
 2. HA NameNode는 "지도를 두 명이 갖고, 한 명이 아프면 다른 사람이 바로 지도를 꺼내는 것"이에요.
 3. [[018_mapreduce|MapReduce]] 디스크 병목은 "덧셈할 때마다 칠판에 지우고 다시 쓰는 것"인데, Spark는 "머릿속으로 연산해서 최종 답만 칠판에 쓰는 것"처럼 훨씬 빠르답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 204 / 258
+
+← **이전**: [[203_hadoop_hdfs_block_replication_fault_tolerance|203. 하둡 HDFS (Hadoop Distributed File System) 블록 복제 내결함성]]
+**다음**: [[205_shuffle_sort_yarn_resource_manager|205. 셔플·정렬 (Shuffle & Sort)과 YARN (Yet Another Resource Negotiator)]] →
+
+---

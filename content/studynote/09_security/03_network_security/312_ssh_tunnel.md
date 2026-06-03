@@ -125,3 +125,14 @@ tags:
 1. [[538_ssh_vs_telnet_secure_remote|SSH]] 터널/[[736_port_forwarding_jump_station_bastion_host|포트 포워딩]] ([[538_ssh_vs_telnet_secure_remote|SSH]] Tunnel/[[446_port_and_bus|Port]] Forwarding)는 컴퓨터끼리 인사하고 [[396_validation|확인]]하는 순서를 정한 약속이에요.
 2. 순서를 건너뛰면 나쁜 사람이 친구인 척할 수 있어요.
 3. 그래서 컴퓨터는 차례대로 묻고 답하면서 서로를 믿게 돼요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 366 / 1108
+
+← **이전**: [[311_scp|311. SCP (SCP)]]
+**다음**: [[313_known_hosts|313. ~/.ssh/known_hosts 파일 예시 (Known Hosts)]] →
+
+---

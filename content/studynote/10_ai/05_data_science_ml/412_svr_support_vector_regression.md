@@ -133,3 +133,14 @@ SVR을 잘 쓰면 잡음이 있는 회귀 문제에서도 안정적인 예측이
 1. 점을 찍어서 선을 맞출 때, 아주 작은 흔들림은 괜찮다고 해요.
 2. 선에서 너무 멀어진 점만 다시 고치면 돼요.
 3. 그래서 시끄러운 점이 있어도 비교적 잘 그릴 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 412 / 420
+
+← **이전**: [[411_pacf_partial_autocorrelation|411. 편자기상관함수 (PACF, Partial Autocorrelation Function)]]
+**다음**: [[413_imitation_learning_behavior_cloning|413. 자율주행 모방 학습 (Imitation Learning / Behavior Cloning)]] →
+
+---

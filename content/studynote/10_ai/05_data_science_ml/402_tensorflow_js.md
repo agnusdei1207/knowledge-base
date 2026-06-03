@@ -133,3 +133,14 @@ TensorFlow.js는 [[190_ai_llm_requirements_specification|AI]] 기술의 진입 �
 1. 컴퓨터가 똑똑해지려면 멀리 있는 큰 서버에 물어봐야 했어요.
 2. 하지만 이제 웹 브라우저 안에서 컴퓨터가 혼자서도 척척 생각할 수 있게 되었답니다.
 3. 내 [[001_dikw_pyramid|데이터]]를 밖으로 보내지 않아도 브라우저가 직접 내 얼굴이나 목소리를 알아볼 수 있어요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 402 / 420
+
+← **이전**: [[401_smt_vs_nmt|401. SMT (Statistical Machine Translation) vs NMT (Neural Machine Translation)]]
+**다음**: [[403_rlhf_reward_model|403. RLHF 보상 모델 (Reward Model)]] →
+
+---

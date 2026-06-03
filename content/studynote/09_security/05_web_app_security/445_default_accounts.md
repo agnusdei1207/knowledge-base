@@ -125,3 +125,14 @@ tags:
 1. 기본 계정 및 비밀번호 (Default Accounts & Passwords)는 컴퓨터 세상을 더 안전하게 만들기 위한 중요한 약속이나 도구예요.
 2. 겉으로는 어려워 보여도, 왜 필요한지와 어떻게 움직이는지를 알면 훨씬 쉬워져요.
 3. 그래서 이름만 외우지 말고 어디에 쓰이는지 같이 기억해야 해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 501 / 1108
+
+← **이전**: [[444_security_misconfiguration_deep|444. A05. 보안 설정 오류 (Security Misconfiguration Deep)]]
+**다음**: [[446_unnecessary_services|446. 불필요한 서비스 및 포트 (Unnecessary Services & Ports)]] →
+
+---

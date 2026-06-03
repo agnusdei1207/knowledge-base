@@ -189,3 +189,13 @@ SJF ordering
 2. 그러면 짧은 숙제를 한 친구들이 오래 기다리지 않아 반 전체 평균 기다림이 줄어요.
 3. 하지만 긴 숙제는 계속 뒤로 밀릴 수 있어서 차례를 너무 늦추지 않게 도와주는 규칙도 필요해요.
 
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 175 / 800
+
+← **이전**: [[174_convoy_effect|174. 호위 효과 (Convoy Effect) - FCFS의 단점]]
+**다음**: [[176_exponential_averaging|176. 지수 평균법 (Exponential Averaging) - 다음 CPU 버스트 길이 예측]] →
+
+---

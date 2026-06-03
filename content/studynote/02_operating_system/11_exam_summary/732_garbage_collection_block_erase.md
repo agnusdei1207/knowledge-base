@@ -195,3 +195,14 @@ OS와 [[327_ssd|SSD]] 사이의 보이지 않는 벽을 뚫어준 혁명적 기�
 1. 칠판(블록)에 글씨([[286_page_frame|페이지]])를 가득 썼어요. 군데군데 틀린 글씨(쓰레기)가 있지만, 이 칠판은 아주 특이해서 글자 1개만 지울 수 없고 무조건 '물뿌리개'로 칠판 전체를 한방에 지워야 해요.
 2. 하지만 칠판에 아직 남아있는 중요한 글자들도 있잖아요? 이걸 그냥 지우면 혼나겠죠!
 3. 그래서 똑똑한 비서([[478_ftl_flash_translation_layer|FTL]])가 중요한 글자들만 재빨리 옆에 있는 새 칠판에 예쁘게 옮겨 적은(Copy) 다음, 헌 칠판에 물을 쫙 뿌려서 깨끗한 새 칠판으로 만들어(Erase) 놓는답니다! 이걸 [[380_garbage_collection|가비지 컬렉션]]이라고 해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 732 / 800
+
+← **이전**: [[731_ssd_ftl_flash_translation_layer|731. SSD FTL (Flash Translation Layer)]]
+**다음**: [[733_file_system_allocation_contiguous_linked_indexed|733. 파일 시스템 연속, 연결, 색인 할당 (File System Allocation Contiguous Linked Indexed)]] →
+
+---

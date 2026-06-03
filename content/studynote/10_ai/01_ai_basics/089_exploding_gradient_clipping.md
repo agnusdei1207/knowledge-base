@@ -130,3 +130,14 @@ LSTM · GRU · ResNet (구조적 우회로 설계)
 1. 딥러닝이 정답을 찾기 위해 발걸음(기울기)을 옮기는데, 실수로 발걸음이 너무 커져서 100km 단위로 뻗어 나가는 게 '기울기 폭발'이에요.
 2. 이러면 목적지를 지나쳐 우주 밖으로 튕겨 나가서 컴퓨터가 에러를 내며 멈춰버려요.
 3. 그래서 아무리 발을 크게 뻗으려 해도 딱 1미터만 갈 수 있게 다리를 묶어두는 안전장치가 '[[267_weight_bias_activation|가중치]] 클리핑'이랍니다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 89 / 420
+
+← **이전**: [[088_vanishing_gradient_relu_skip_connection|88. 기울기 소실 (Vanishing Gradient) - 딥러닝 암흑기의 원인]]
+**다음**: [[090_regularization_overfitting_prevention|90. 정규화 (Regularization) - 과적합 방지 및 L1/L2 규제]] →
+
+---

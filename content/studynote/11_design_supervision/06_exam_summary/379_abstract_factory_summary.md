@@ -111,3 +111,14 @@ tags:
 1. [[255_abstract_factory_pattern_object_families|추상 팩토리]] 패턴 ([[147_abstract_factory_pattern|Abstract Factory Pattern]])은 같은 색 연필 세트와 지우개 세트를 한 상자째 바꾸는 것처럼 약속을 먼저 정하는 거예요.
 2. 그러면 서로 다른 사람이 해도 같은 규칙으로 움직일 수 있어요.
 3. 그래서 규모가 커질수록 제품군 단위의 [[087_process_state_transition|생성]] [[194_consistency_database_integrity|일관성]]을 보장하는 일이 더 중요해져요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 457 / 530
+
+← **이전**: [[378_factory_method_summary|378. 팩토리 메서드 패턴 (Factory Method Pattern)]]
+**다음**: [[380_builder_pattern_summary|380. 빌더 패턴 (Builder Pattern)]] →
+
+---

@@ -164,3 +164,14 @@ for (int i = 0; i < n - 1; i++) {
 ---
 <!-- [✅ Gemini 3.1 Pro Verified] -->
 > **🛡️ 3.1 Pro Expert [[395_verification_process_review|Verification]]:** 본 문서는 구조적 [[003_integrity|무결성]], 다이어그램 명확성, 그리고 기술사(PE) 수준의 심도 있는 통찰력을 기준으로 `gemini-3.1-pro-preview` 모델 룰 기반 엔진에 의해 [[395_verification_process_review|검증]] 및 보완되었습니다. (Verified at: 2026-04-02)
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 48 / 175
+
+← **이전**: [[047_quick_sort|20. 퀵 정렬 (Quick Sort) — 평균 O(n log n), 최악 O(n²), 불안정]]
+**다음**: [[049_hamiltonian_path|21. 해밀턴 경로 (Hamiltonian Path) — NP-완전, 백트래킹]] →
+
+---

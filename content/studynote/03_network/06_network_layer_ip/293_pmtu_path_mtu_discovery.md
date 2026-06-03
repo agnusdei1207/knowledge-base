@@ -142,3 +142,14 @@ PMTU는 패킷 캡슐화, MTU에서 출발해 현재 메커니즘을 정교화�
 1. 택배를 보내려면 집 주소가 정확해야 길을 잃지 않아요.
 2. 이 개념은 인터넷 세상에서 주소를 정하고 다음 길을 찾는 지도와 같아요.
 3. 그래서 멀리 있는 친구 컴퓨터까지도 편지가 도착할 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 414 / 1120
+
+← **이전**: [[292_packet_encapsulation_mtu_ethernet_1500_bytes|292. 패킷 캡슐화, MTU (Maximum Transmission Unit)]]
+**다음**: [[294_ttl_time_to_live_looping_prevention|294. TTL (Time to Live)]] →
+
+---

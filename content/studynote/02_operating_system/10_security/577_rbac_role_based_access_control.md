@@ -168,3 +168,14 @@ roleRef:
 2. **역할 매개**는 각 부서장의 역할(인사팀, 회계팀)을定義(정의)하고, 직원에게 부서 역할을 부여하는 것과 같다. 새로운 직원이 들어오면 역할만 부여하면 되고, 퇴사하면 역할을 회수하면 된다.
 
 3. **권한 분리(SoD)**는 **"요청하는 사람"과 "승인하는 사람"을 분리**하는 것과 같다. 돈을 보내라는 요청을 직접 승인하면 사기(yscams)가 발생할 수 있으므로, 별도의 역할을 통해相互[[395_verification_process_review|검증]](상호 [[395_verification_process_review|검증]])을 수행한다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 577 / 800
+
+← **이전**: [[576_capability_list|576. 자격 증명 리스트 (Capability List / Ticket) - 주체 중심 (주체가 가진 권한 리스트 토큰 방식)]]
+**다음**: [[578_dac_discretionary_access_control|578. 임의적 접근 제어 (DAC, Discretionary Access Control) - 소유자가 임의로 권한 위임]] →
+
+---

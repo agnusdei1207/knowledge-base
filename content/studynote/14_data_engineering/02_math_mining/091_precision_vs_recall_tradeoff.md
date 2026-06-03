@@ -129,3 +129,14 @@ Cost-sensitive Learning (비즈니스 리스크 기반 동적 임계값 적용)
 1. 숨바꼭질할 때 "조금이라도 보이면 다 찾아낼 거야!([[092_recall_sensitivity_hit_rate|재현율]] 높임)" 하면 인형을 친구로 착각하기도 쉬워요.
 2. 반대로 "얼굴이 확실히 보여야만 찾았다고 할 거야!([[233_precision_recall_f1_roc_auc_threshold|정밀도]] 높임)" 하면 숨은 친구를 그냥 지나칠 수도 있어요.
 3. 그래서 내가 실수를 줄일지, 아니면 한 명도 안 놓치고 다 찾을지를 결정하는 게 임계값 조절이랍니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 91 / 258
+
+← **이전**: [[090_accuracy_precision_recall_f1_score|분류 평가 지표: 정확도, 정밀도, 재현율, F1-Score]]
+**다음**: [[092_recall_sensitivity_hit_rate|재현율 (Recall / Sensitivity): 데이터의 실종을 막는 탐지 성능]] →
+
+---

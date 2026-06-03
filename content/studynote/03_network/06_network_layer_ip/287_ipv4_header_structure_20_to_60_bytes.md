@@ -152,3 +152,14 @@ tags:
 1. 택배를 보내려면 집 주소가 정확해야 길을 잃지 않아요.
 2. 이 개념은 인터넷 세상에서 주소를 정하고 다음 길을 찾는 지도와 같아요.
 3. 그래서 멀리 있는 친구 컴퓨터까지도 편지가 도착할 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 408 / 1120
+
+← **이전**: [[286_ipv4_internet_protocol_version_4_rfc_791|286. IPv4 (Internet Protocol Version 4)]]
+**다음**: [[288_version_ihl_tos_total_length|288. 버전 (IV), 헤더 길이 (IHL), 서비스 타입 (TOS/DSCP), 전체 길이 (Total Length)]] →
+
+---

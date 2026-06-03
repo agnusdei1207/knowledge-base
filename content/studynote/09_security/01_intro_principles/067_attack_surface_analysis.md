@@ -131,3 +131,14 @@ Reduction
 밖에 보여 주는 부분이 많을수록 위험해요.  
 문과 창문을 줄이면 더 안전해요.  
 공격 표면은 그런 열려 있는 곳이에요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 67 / 1108
+
+← **이전**: [[066_pasta_threat_modeling|066. PASTA (Process for Attack Simulation and Threat Analysis) — 7단계 위협 모델링]]
+**다음**: [[068_cryptography|068. 암호학 (Cryptography) — 기밀성·무결성·인증·부인방지 제공]] →
+
+---

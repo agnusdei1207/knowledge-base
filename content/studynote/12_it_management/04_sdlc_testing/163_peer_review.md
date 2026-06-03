@@ -149,3 +149,14 @@ Collective Code Ownership · 학습 조직 문화
 1. 동료 검토는 친구끼리 숙제를 바꿔 읽어 보는 거예요.
 2. 내가 못 본 실수를 친구가 찾아주고, 친구 숙제를 보면서 나도 더 잘 배우게 돼요.
 3. 그래서 숙제를 내기 전에 한 번 더 같이 보면 더 튼튼한 답이 돼요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 277 / 587
+
+← **이전**: [[162_walkthrough_informal_review|162. 워크스루 (Walkthrough, 비공식 검토)]]
+**다음**: [[164_tdd_test_driven_development|164. TDD (Test Driven Development, 테스트 주도 개발)]] →
+
+---

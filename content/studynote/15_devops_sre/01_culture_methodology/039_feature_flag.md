@@ -236,3 +236,14 @@ OpenFeature 표준 (CNCF)
 1. [[576_feature_flag_ab_testing_rollout|피처 플래그]]는 새 놀이기구를 놀이공원에 설치해두고 아직 문을 닫아두는 것처럼, 코드는 배포하되 기능은 준비될 때 열 수 있어요.
 2. 새 기능을 전체 사용자의 1%에게만 먼저 보여주고 문제가 없으면 점점 늘려가는 점진적 롤아웃으로 배포 위험을 최소화해요.
 3. [[576_feature_flag_ab_testing_rollout|피처 플래그]]를 많이 만들고 정리하지 않으면 "if A and not B or (C and D)" 같은 복잡한 조건이 쌓여 코드가 엉망이 되므로 만료일 [[009_config|설정]]이 필수예요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 39 / 373
+
+← **이전**: [[038_water_scrum_fall|038. 워터스크럼폴 (WaterScrumFall) — 애자일 실패 패턴]]
+**다음**: [[040_trunk_based_development|040. 트렁크 기반 개발 (Trunk-Based Development)]] →
+
+---

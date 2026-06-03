@@ -203,3 +203,14 @@ Data Mart: 부서/주제별 서브셋 (마케팅 · 재무 · 영업)
 ```
 2. 영업팀 마트는 영업 [[001_dikw_pyramid|데이터]]만, 재무팀 마트는 재무 [[001_dikw_pyramid|데이터]]만 있어서, 각 팀은 자기 팀에 필요한 정보를 빠르게 꺼내볼 수 있다.
 3. 단, 각 팀이 자기 사물함(마트)을 따로 만들어 쓰면 같은 물건이 다르게 기록([[001_dikw_pyramid|데이터]] 불일치)될 수 있으니, 큰 마트(중앙 [[209_data_warehouse_schema_on_write|DW]])에서 가져오는 규칙을 지켜야 한다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 222 / 371
+
+← **이전**: [[222_schema_on_write_etl_warehouse|222. 스키마 온 라이트 (Schema-on-Write)]]
+**다음**: [[224_data_lakehouse_delta_lake_databricks|224. 데이터 레이크하우스 (Data Lakehouse)]] →
+
+---

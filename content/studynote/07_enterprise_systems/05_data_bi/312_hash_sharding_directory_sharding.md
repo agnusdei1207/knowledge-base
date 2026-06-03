@@ -177,3 +177,14 @@ Consistent Hashing + Virtual Node - 확장성 극대화
 1. [[280_sharding|샤딩]]은 반을 나눠 각 반에 선생님을 배정하는 것이에요. 학생이 늘면 반을 더 만들어요.
 2. Consistent Hashing은 원형 좌석 배치예요. 새 학생이 오면 옆 친구 자리만 바꾸면 돼요.
 3. [[506_directory_structure_symbol_table|Directory]] Sharding은 안내 데스크가 "3반 학생은 3번 교실로 가세요"라고 알려주는 방식이에요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 312 / 482
+
+← **이전**: [[311_parquet_orc_rle_compression|311. 컬럼 지향 저장소 Parquet ORC 압축 효율 RLE 메커니즘 (Columnar Storage Compression)]]
+**다음**: [[313_htap_in_memory_architecture|313. HTAP 하이브리드 트랜잭션 분석 처리 인메모리 아키텍처 (HTAP In-Memory Architecture)]] →
+
+---

@@ -113,3 +113,14 @@ tags:
 1. [[631_sddc|SDDC]] [[858_sddc_software_defined_data_center_infrastructure|소프트웨어 정의 데이터센터]] [[633_sdn_whitebox|SDN]] 스토리지는 사람이 많은 운동회에서 어디로 가야 하는지 알려 주는 안내판과 비슷해요.
 2. 규칙이 없으면 모두가 한곳에 몰려서 느려지고 다투지만, 길을 정해 두면 훨씬 부드럽게 움직일 수 있어요.
 3. 그래서 컴퓨터 세상에서도 [[631_sddc|SDDC]] [[858_sddc_software_defined_data_center_infrastructure|소프트웨어 정의 데이터센터]] [[633_sdn_whitebox|SDN]] 스토리지를 쓰면 많은 팀과 [[090_service_kubernetes_network_load_balancing|서비스]]가 덜 부딪히고 더 빨리 움직일 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 322 / 371
+
+← **이전**: [[322_6r_rehost_refactor|322. 클라우드 마이그레이션 6R (Rehost, Refactor 중심)]]
+**다음**: [[324_process|324. 엣지 컴퓨팅 분산 지연 최적화 포그 컴퓨팅 (Cloud Architecture Concept)]] →
+
+---

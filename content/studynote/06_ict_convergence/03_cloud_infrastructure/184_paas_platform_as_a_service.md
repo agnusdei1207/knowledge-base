@@ -198,3 +198,14 @@ PaaS (Platform as a Service)
 1. PaaS는 장난감 자동차를 직접 고치는 대신, 이미 길과 충전소가 준비된 큰 놀이 트랙에 자동차만 올리는 것과 비슷해요.
 2. 그래서 우리는 자동차를 어떻게 재미있게 움직일지만 생각하면 되고, 길 관리와 전기 공급은 트랙 주인이 해 줘요.
 3. 하지만 트랙 주인이 정한 규칙이 있으니, 아주 특별한 자동차를 쓰고 싶다면 다른 놀이터가 더 맞을 수도 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 184 / 552
+
+← **이전**: [[183_iaas_infrastructure_as_a_service|183. IaaS (Infrastructure as a Service) - 서버, 스토리지, 네트워크 가상화 제공]]
+**다음**: [[185_saas_software_as_a_service|185. SaaS (Software as a Service) - 완제품 소프트웨어 제공]] →
+
+---

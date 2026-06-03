@@ -301,3 +301,14 @@ TensorBoard Embedding Projector
 1. t-SNE는 3D 지도를 2D로 [[347_compaction|압축]] — 수백 개의 특징(차원)을 가진 [[001_dikw_pyramid|데이터]]를 평면에 찍어서 "비슷한 것끼리 뭉치게" 표현해요!
 2. t-분포의 두꺼운 꼬리가 핵심 — 멀리 있는 그룹들을 더 확실히 떼어놓는 것이 t-SNE의 비법이에요. 인근 동네는 붙이고, 먼 도시는 확실히 분리!
 3. 클러스터 간 거리는 무시해요 — t-SNE는 "동네 내부 구조"를 잘 보여주지만, "도시 간 실제 거리"는 믿으면 안 돼요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 44 / 420
+
+← **이전**: [[043_svd|043. SVD — 특이값 분해 (Singular Value Decomposition)]]
+**다음**: [[045_kmeans|045. K-평균 군집화 — K-Means Clustering]] →
+
+---

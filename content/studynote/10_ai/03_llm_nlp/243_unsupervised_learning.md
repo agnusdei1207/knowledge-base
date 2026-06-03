@@ -141,3 +141,14 @@ tags:
 1. **[[121_supervised_learning|지도 학습]]**은 엄마가 "이 블록은 네모, 저건 세모야" 하고 **정답을 다 알려주면서** 모양 맞추기를 가르치는 거예요.
 2. 반면에 **[[122_unsupervised_learning|비지도 학습]]([[122_unsupervised_learning|Unsupervised Learning]])**은 엄마가 정답을 하나도 안 알려주고 그냥 **수만 개의 섞인 레고 블록을 방에 확 쏟아부어 버린 채 나가는 거**예요!
 3. 그럼 똑똑한 로봇이 혼자 방에 앉아서 **"어? 이 블록들은 색깔이 비슷하네? 얘네는 크기가 비슷하네?"** 라면서 스스로 끼리끼리 예쁘게 묶어놓고 숨겨진 규칙을 찾아내는 멋진 자습 방법이랍니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 243 / 420
+
+← **이전**: [[242_supervised_learning|242. 지도 학습 (Supervised Learning) : 분류와 회귀]]
+**다음**: [[244_reinforcement_learning_mdp|244. 강화 학습 (Reinforcement Learning)]] →
+
+---

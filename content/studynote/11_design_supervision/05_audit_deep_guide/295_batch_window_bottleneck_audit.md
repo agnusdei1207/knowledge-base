@@ -104,3 +104,14 @@ tags:
 1. 일정 여유는 학교에서 준비물을 미리 챙기는 것처럼, 중요한 기준을 먼저 맞추는 일이야.
 2. 의존 체인은 선생님이 수업 중간에 계속 확인하는 것처럼, 실제로 잘 되고 있는지 보는 과정이야.
 3. [[139_throughput|처리량]] 튜닝은 시험 결과표처럼, 정말 효과가 있었는지 나중에 다시 확인하게 해주는 증거야.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 356 / 530
+
+← **이전**: [[294_test_data_masking_nonprod|294. 비운영 환경 테스트데이터 마스킹 감리 (Non Production Test Data Masking Audit)]]
+**다음**: [[296_third_party_api_timeout_circuit_breaker|296. 서드파티 API 타임아웃과 서킷브레이커 감리 (Third Party API Timeout and Circuit Breaker]] →
+
+---

@@ -122,3 +122,14 @@ GCM 모드는 [[655_block_cipher_des_3des_feistel|블록 암호]] 운영 모드,
 1. 비밀 편지를 보낼 때는 자물쇠와 비밀번호가 필요해요.
 2. 이 개념은 누가 진짜 친구인지 [[396_validation|확인]]하고, 편지가 바뀌지 않았는지도 살펴봐요.
 3. 그래서 나쁜 사람이 중간에 훔쳐보거나 바꾸기 어려워져요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 780 / 1120
+
+← **이전**: [[658_block_cipher_modes_ecb_cbc_ctr|658. 블록 암호 운영 모드 (ECB 기본/취약 모드, CBC(IV 필요), CFB, OFB, CTR)]]
+**다음**: [[660_asymmetric_public_key_cryptography_rsa|660. 비대칭키/공개키 암호화 (Asymmetric/Public Key)]] →
+
+---

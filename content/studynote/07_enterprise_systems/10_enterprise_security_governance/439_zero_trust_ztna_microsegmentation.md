@@ -139,3 +139,14 @@ tags:
 1. [[667_zero_trust_runtime_integrity_measurement|제로 트러스트]] [[339_ztna|ZTNA]] [[1044_micro_segmentation_east_west_traffic_security|마이크로 세그멘테이션]]는 복잡한 일을 순서대로 정리해 주는 큰 정리함이에요.
 2. 어디에 무엇을 넣을지 먼저 정해 두면, 나중에 찾거나 고칠 때 훨씬 쉬워져요.
 3. 그래서 일이 커질수록 먼저 기준을 만들고 같이 약속하는 것이 중요해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 439 / 482
+
+← **이전**: [[438_mlops_drift_detection_retraining|438. MLOps 드리프트 탐지 재학습 파이프라인 자동화 (MLOps)]]
+**다음**: [[440_sase_sdwan_cloud_security|440. SASE SD-WAN 클라우드 보안 (SASE: Secure Access Service Edge)]] →
+
+---

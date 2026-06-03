@@ -135,3 +135,14 @@ Nested Virtualization
 [[527_hardware_assisted_virtualization|하드웨어 보조]] [[015_virtualization|가상화]]는 컴퓨터 안에 가상세계 전용 문지기를 넣는 거예요.  
 예전에는 선생님이 모든 방을 직접 돌봤지만, 이제는 문지기가 먼저 보고 중요한 일만 선생님께 알려 줘요.  
 그래서 여러 컴퓨터를 더 빠르고 안전하게 돌릴 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 59 / 800
+
+← **이전**: [[058_paravirtualization|58. 반가상화 (Paravirtualization) - 하이퍼콜 (Hypercall)]]
+**다음**: [[060_container_virtualization|60. 컨테이너 가상화 (Container Virtualization) - OS 수준 가상화]] →
+
+---

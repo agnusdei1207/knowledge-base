@@ -104,3 +104,14 @@ MMS/[[213_data_catalog_metadata|데이터 카탈로그]]는 **[[052_data_governa
 1. [[012_metadata|메타데이터]]는 도서관의 **카드 목록**이에요. 책이 **어디에 있고 무슨 내용**인지 알려줘요.
 2. 카드 목록(MMS)이 없으면 수백만 권의 책 중에서 **원하는 책을 찾을 수 없어요**.
 3. [[213_data_catalog_metadata|데이터 카탈로그]] 덕분에 "매출 테이블이 어디 있지?"를 **바로 검색**할 수 있답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 125 / 600
+
+← **이전**: [[124_data_governance_db_perspective|124. 데이터 거버넌스 (Data Governance) - 데이터 품질·보안·표준의 전사 관리 체계]]
+**다음**: [[126_data_standardization_word_domain_term|126. 데이터 표준화 (단어·도메인·용어) - 전사 데이터 용어 통일 체계]] →
+
+---

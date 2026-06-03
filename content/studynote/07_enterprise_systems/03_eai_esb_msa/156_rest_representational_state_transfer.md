@@ -140,3 +140,14 @@ Hypermedia / API governance / modern web APIs
 1. REST는 물건마다 주소표를 붙여 두고, 가져오기·넣기·지우기 규칙을 정하는 방법이에요.
 2. 그래서 누가 와도 같은 규칙으로 물건을 찾고 바꿀 수 있어요.
 3. 규칙을 잘 지키면 가게가 커져도 덜 헷갈리고 더 빨리 일할 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 156 / 482
+
+← **이전**: [[155_eai_vs_esb_architecture|155. EAI vs ESB (EAI vs ESB Architecture)]]
+**다음**: [[157_restful_api_richardson_maturity_model|157. RESTful API 성숙도 모델 (Richardson Maturity Model)]] →
+
+---

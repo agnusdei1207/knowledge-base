@@ -129,3 +129,14 @@ tags:
 1. [[101_isp_information_strategy_planning_4_steps|정보화 전략 계획]] ([[101_isp_information_strategy_planning_4_steps|ISP]]) [[178_as_is_to_be_analysis|AS-IS]] / TO-BE는 모두가 같은 규칙으로 일하게 해 주는 반장 약속표예요.
 2. 약속만 적어 두는 것이 아니라 누가 지켰는지 확인하고 고치는 방법까지 함께 정해요.
 3. 그래서 일이 많아져도 서로 부딪히지 않고 더 안전하게 움직일 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 355 / 587
+
+← **이전**: [[240_hyperautomation_hybrid_workforce|240. 초자동화 (Hyperautomation) 프로세스 마이닝 + RPA + AI + 챗봇 결합 하이브리드 워크포스 통합 플랫폼]]
+**다음**: [[242_ea_architecture_planning|242. 전사 아키텍처 (EA)]] →
+
+---

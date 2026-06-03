@@ -101,3 +101,14 @@ Spike는 **Agile에서 기술 리스크를 사전 제거하는 유일한 공식 
 1. Spike는 **정찰대**예요. 본대(개발팀)가 가기 전에 **먼저 가서 [[396_validation|확인]]**해요.
 2. "이 길이 안전한가?" "이 도구가 쓸만한가?" **조사하고 보고**해요.
 3. 정찰 결과를 보고 본대가 **안전하게 진격**할 수 있답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 129 / 973
+
+← **이전**: [[128_water_scrum_fall_anti_pattern|128. Water-Scrum-Fall (안티패턴) - 하이브리드 Agile의 함정]]
+**다음**: [[130_acceptance_criteria_vs_dod|130. 인수 기준 vs 완료 정의 (Acceptance Criteria vs Definition of Done)]] →
+
+---

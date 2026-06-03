@@ -108,3 +108,14 @@ QKV 시스템은 **Transformer의 핵심 연산 단위**이며, 이 구조의 �
 1. Q는 도서관에서 **"공룡"이라고 검색**하는 거예요 (Query).
 2. K는 각 책에 붙은 **태그(키워드)**예요. "공룡" 태그가 있는 책이 매치돼요.
 3. V는 책의 **실제 내용**이에요. 매치된 책의 내용을 **더 많이 읽어서** 답을 만들어요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 122 / 420
+
+← **이전**: [[121_attention_mechanism|121. 어텐션 메커니즘 (Attention Mechanism) - Seq2Seq 병목 해소·가중 컨텍스트]]
+**다음**: [[123_transformer_architecture|123. Transformer 아키텍처 - Self-Attention 기반 병렬 시퀀스 처리]] →
+
+---

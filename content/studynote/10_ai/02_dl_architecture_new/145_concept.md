@@ -55,3 +55,14 @@ RLHF는 **ChatGPT의 핵심 기술**이며, DPO가 간소화 대안으로 부상
 1. RLHF는 **반려견 교육**이에요. 좋은 행동에 **간식(보상)**을 줘요.
 2. "이 답변이 더 좋아" 하고 **사람이 골라주면** AI가 배워요.
 3. 이렇게 배워서 ChatGPT가 **예의 바르고 유용한** 답을 해요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 145 / 420
+
+← **이전**: [[144_concept|144. RAG (Retrieval-Augmented Generation) - 검색 증강 생성]]
+**다음**: [[146_chain_of_thought_cot|146. CoT (Chain-of-Thought) 프롬프팅 - 단계별 추론]] →
+
+---

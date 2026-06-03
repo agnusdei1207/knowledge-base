@@ -125,3 +125,14 @@ tags:
 1. [[001_dikw_pyramid|데이터]] 포이즈닝 ([[001_dikw_pyramid|Data]] Poisoning)는 학교 규칙표처럼 무엇을 준비하고 어떻게 확인할지 알려 주는 기준이에요.
 2. 규칙표만 붙여 두고 지키지 않으면 아무 소용이 없어요.
 3. 그래서 보안도 규칙과 실제 행동이 함께 맞아야 해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 1043 / 1108
+
+← **이전**: [[946_real_world_patches|946. 물리 세계 적대적 공격 (Real-world Adversarial Patches)]]
+**다음**: [[948_clean_label_poisoning|948. Clean-Label Poisoning (Clean-Label Poisoning)]] →
+
+---

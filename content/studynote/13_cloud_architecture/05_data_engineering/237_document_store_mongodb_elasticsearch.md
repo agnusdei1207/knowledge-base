@@ -259,3 +259,14 @@ Document DB: JSON/BSON 문서 단위 저장 (JOIN 불필요)
 ```
 2. MongoDB는 자유 노트 앱이다. 줄이 없는 노트처럼 각 메모(문서)가 원하는 형태로 저장되고, 메모마다 다른 내용을 적어도 된다.
 3. Elasticsearch는 강력한 책 검색 시스템이다. "레시피 책"을 찾을 때 "레시피"나 "조리법"을 검색해도 찾아주고, 어떤 책이 더 관련 있는지 점수([[232_tfidf_cosine_similarity_text_embedding_confusion_matrix|TF-IDF]])로 정렬해서 보여준다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 236 / 371
+
+← **이전**: [[236_key_value_store_redis_dynamodb|236. 키-값 저장소 (Key-Value Store) - Redis / DynamoDB]]
+**다음**: [[238_wide_column_cassandra_hbase_lsm|238. 와이드 컬럼 저장소 (Wide-Column Store) - Cassandra / HBase]] →
+
+---

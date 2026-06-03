@@ -106,3 +106,14 @@ tags:
 1. 형상 [[159_baseline_requirements_configuration_management|베이스라인]] 변경 심의은 숙제 계획표와 [[396_validation|확인]] 도장을 같이 챙기는 것과 같아요.
 2. 누가 무엇을 했는지 적어 두면 다음 사람도 헷갈리지 않아요.
 3. 끝났다고 말하려면 정말 끝났는지 [[396_validation|확인]]표가 있어야 해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 413 / 530
+
+← **이전**: [[334_process|334. 마이그레이션 무결성 100% 검증 (Migration Integrity Verification)]]
+**다음**: [[336_process|336. 고가용성 모의 페일오버 테스트 (High Availability Failover Test)]] →
+
+---

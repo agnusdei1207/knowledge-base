@@ -126,3 +126,14 @@ Reconciliation Loop
 [[565_operator_pattern_kubernetes_automation|오퍼레이터]]는 화분을 대신 돌보는 로봇이에요.  
 물이 부족하면 물을 주고, 잎이 시들면 다시 챙겨요.  
 그래서 계속 같은 모습으로 유지할 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 56 / 371
+
+← **이전**: [[056_helm_chart|56. Helm Chart - Kubernetes 패키지 매니저와 템플릿 배포]]
+**다음**: [[058_hpa_vpa|58. HPA / VPA - 쿠버네티스 자동 확장 전략]] →
+
+---

@@ -195,3 +195,14 @@ tags:
 1. 숙제를 날짜별 [[501_file_definition_logical_record|파일]]철에 넣어 두면 오늘 숙제는 오늘 철만 열어 보면 돼요.
 2. 지난달 숙제를 정리할 때도 종이를 한 장씩 버리지 않고 [[501_file_definition_logical_record|파일]]철째 치울 수 있어요.
 3. 하지만 날짜가 아니라 엉뚱한 기준으로 철을 나누면 찾기도 어렵고 정리도 힘들어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 180 / 600
+
+← **이전**: [[179_table_partitioning_concept|179. 파티셔닝 (Partitioning) - 대용량 테이블 물리적 분할 관리 기법]]
+**다음**: [[181_hash_partitioning|181. 해시 파티셔닝 (Hash Partitioning) - 해시 함수 기반 균등 분산]] →
+
+---

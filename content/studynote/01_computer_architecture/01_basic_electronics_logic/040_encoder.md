@@ -193,3 +193,14 @@ IoT 센서 인터페이스
 1. 인코더는 여러 개의 [[238_switch_operation_principles|스위치]](입력) 중 어떤 [[238_switch_operation_principles|스위치]]가 켜졌는지 숫자(이진 코드)로 바꿔주는 변환기예요.
 2. 우선순위 인코더는 여러 [[238_switch_operation_principles|스위치]]가 동시에 켜질 때, 가장 중요한 [[238_switch_operation_principles|스위치]] 번호만 알려주는 똑똑한 인코더예요.
 3. 컴퓨터에서는 여러 장치가 동시에 "나 처리해줘!"라고 할 때, 인코더가 가장 급한 장치 번호를 CPU에 전달해줘요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 40 / 803
+
+← **이전**: [[039_decoder|039. 디코더 (Decoder) — n-to-2^n 조합 논리 회로]]
+**다음**: [[041_multiplexer|041. 멀티플렉서 (MUX, Multiplexer)]] →
+
+---

@@ -193,3 +193,14 @@ Windows [[212_synchronization_mechanisms|동기화]] 설계는 유저 모드와 
 1. Critical Section은 같은 반 안에서만 쓰는 내부 자물쇠 — 빠르지만 다른 반과 공유 불가.
 2. [[022_kernel_role|Kernel]] Mutex는 선생님 도장이 찍힌 공식 출입증 — 느리지만 학교 전체(다른 프로세스)에서도 인정.
 3. Event 객체는 '이제 들어와도 돼요' [[130_signal|신호]]등 — 자동 리셋은 한 명씩, 수동 리셋은 모두에게 [[130_signal|신호]]!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 251 / 800
+
+← **이전**: [[250_pthreads_synchronization|250. Pthreads 동기화 (Pthreads Synchronization)]]
+**다음**: [[252_memory_hierarchy|252. 메모리 계층 구조 (Memory Hierarchy)]] →
+
+---

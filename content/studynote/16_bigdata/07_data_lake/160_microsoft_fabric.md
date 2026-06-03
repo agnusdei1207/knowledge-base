@@ -182,3 +182,14 @@ Microsoft Fabric은 OneLake라는 단일 저장소 위에 [[001_dikw_pyramid|데
 1. Microsoft Fabric은 학교의 모든 과목([[001_dikw_pyramid|데이터]] 수집, 분석, ML, 보고서)을 하나의 교실(Fabric)에서 배우는 통합 수업이에요.
 2. OneLake는 반 전체가 쓰는 공용 책장이에요. 모두가 같은 책([[001_dikw_pyramid|데이터]])을 쓰니 똑같은 책을 여러 권 살 필요가 없어요.
 3. Shortcut은 다른 반 책장의 책을 우리 반에서도 볼 수 있게 해주는 도서관 링크 시스템이에요 (복사 없이 원본 그대로).
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 160 / 262
+
+← **이전**: [[159_snowflake_data_lake|159. Snowflake on Data Lake — External Table과 Iceberg 지원]]
+**다음**: [[161_visualization_principles|161. 데이터 시각화 원칙 (Data Visualization Principles) — Tufte 데이터 잉크 비율]] →
+
+---

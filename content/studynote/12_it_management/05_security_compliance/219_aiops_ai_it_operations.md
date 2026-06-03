@@ -129,3 +129,14 @@ AI옵스 ([[099_aiops_chatbot_itsm_automation|AIOps]], [[190_ai_llm_requirements
 1. AI옵스 ([[099_aiops_chatbot_itsm_automation|AIOps]], [[190_ai_llm_requirements_specification|AI]] for IT Operations)는 모두가 같은 규칙으로 일하게 해 주는 반장 약속표예요.
 2. 약속만 적어 두는 것이 아니라 누가 지켰는지 확인하고 고치는 방법까지 함께 정해요.
 3. 그래서 일이 많아져도 서로 부딪히지 않고 더 안전하게 움직일 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 333 / 587
+
+← **이전**: [[218_cdc_change_data_capture|218. 변경 데이터 캡처 (CDC, Change Data Capture) 데이터베이스 실시간 마이그레이션 연동망]]
+**다음**: [[220_mlops_machine_learning_operations|220. MLOps (Machine Learning Operations)]] →
+
+---

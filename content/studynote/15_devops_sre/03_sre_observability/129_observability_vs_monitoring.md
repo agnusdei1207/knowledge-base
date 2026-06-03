@@ -82,3 +82,14 @@ tags:
 1. [[229_monitor|모니터]]링은 **체온계**예요. 열이 나는지(예상 문제)만 [[396_validation|확인]]해요.
 2. [[111_observability_metrics_logs_traces|관측 가능성]]은 **MRI**예요. **왜 아픈지** 몸 속을 자세히 볼 수 있어요.
 3. MRI(3 Pillars)가 있으면 **예상 못 한 병**도 찾을 수 있답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 129 / 373
+
+← **이전**: [[128_blameless_postmortem|128. Blameless Postmortem - 비난 없는 장애 사후 분석]]
+**다음**: [[130_monitoring_vs_observability|130. 모니터링 vs 관측 가능성 심화 - MELT와 OpenTelemetry]] →
+
+---

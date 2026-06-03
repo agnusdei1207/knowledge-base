@@ -129,3 +129,14 @@ tags:
 1. [[793_iac_idempotency_template|IaC]] [[195_terraform_hashicorp_agnostic_aws_gcp|테라폼]] 코드 인프라 선언 통제망은 모두가 같은 규칙으로 일하게 해 주는 반장 약속표예요.
 2. 약속만 적어 두는 것이 아니라 누가 지켰는지 확인하고 고치는 방법까지 함께 정해요.
 3. 그래서 일이 많아져도 서로 부딪히지 않고 더 안전하게 움직일 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 526 / 587
+
+← **이전**: [[342_serverless_faas_limitations_audit|342. 서버리스 FaaS 아키텍처 한계 분석망]]
+**다음**: [[343_management|343. IaC 테라폼 코드 인프라 선언 통제망]] →
+
+---

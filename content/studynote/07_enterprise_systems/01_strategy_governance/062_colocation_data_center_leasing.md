@@ -132,3 +132,14 @@ Direct Connect
 내 물건은 내가 사요.  
 그 물건을 잘 지켜 주는 창고만 빌려요.  
 그래서 안전하면서도 내가 직접 관리할 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 62 / 482
+
+← **이전**: [[061_on_premise_legacy_infrastructure|61. 온프레미스 (On-Premise) 프라이빗 IT 인프라]]
+**다음**: [[063_cloud_vendor_lock_in_avoidance|63. 클라우드 벤더 락인 (Cloud Vendor Lock-in) 회피 전략]] →
+
+---

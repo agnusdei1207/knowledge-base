@@ -191,3 +191,14 @@ SCD (Slowly Changing Dimension): Type 1/2/3
 ```
 2. [[273_dimension_table_analysis_perspective|차원 테이블]]은 **장난감 설명서**야. 그 장난감이 뭔지, 누가 샀는지, 언제 샀는지 자세히 설명해줘.
 3. SCD는 **고객 주소가 바뀌어도 예전 주소도 기억하는 것**이야. 그래서 작년에 어디 살았는지도 알 수 있어.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 210 / 258
+
+← **이전**: [[209_data_mart_kimball_star_schema|209. 데이터 마트 (Data Mart) Kimball 다차원 분석 스타 스키마 (Star Schema)]]
+**다음**: [[211_olap_drill_down_roll_up_surrogate_key|211. OLAP (Online Analytical Processing) 드릴다운·롤업·서로게이트 키]] →
+
+---

@@ -125,3 +125,14 @@ Change → Build → Release Package → Deployment → Verification → Rollbac
 1. 릴리스는 선물상자 포장이에요.
 2. 배포는 그 선물을 실제로 건네는 일이에요.
 3. 잘못되면 다시 가져오는 방법도 준비해야 해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 55 / 482
+
+← **이전**: [[054_change_management_cab|54. 변경 관리와 CAB (Change Management CAB)]]
+**다음**: [[056_bcp_business_continuity_plan_bia|56. 비즈니스 연속성 계획 (BCP, Business Continuity Plan) - 재난/재해 시 핵심 업무 기능 유지 지침]] →
+
+---

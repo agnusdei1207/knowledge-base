@@ -143,3 +143,14 @@ Root Bridge가 선출되면, 나머지 [[238_switch_operation_principles|스위�
 1. 학교 우편함에 이름표가 붙어 있어야 편지가 엉뚱한 곳에 가지 않아요.
 2. 이 개념은 어느 교실로 보내야 할지 알아보는 [[104_classification_analysis|분류]] 규칙과 같아요.
 3. 그래서 같은 건물 안에서도 편지가 더 빠르고 질서 있게 움직여요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 377 / 1120
+
+← **이전**: [[255_root_bridge_rp_dp_bp|255. 루트 브리지 (Root Bridge), 루트 포트 (RP), 지정 포트 (DP), 차단 포트 (BP, Non-Designated)]]
+**다음**: [[257_stp_4_states_blocking_listening_learning_forwarding|257. STP 4단계 상태 전이 (단절, 청취, 학습, 전송)]] →
+
+---

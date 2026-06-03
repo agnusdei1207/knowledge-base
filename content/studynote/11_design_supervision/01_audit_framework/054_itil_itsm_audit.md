@@ -125,3 +125,14 @@ Process Definition → Ticket/Evidence Review → Compliance Check → Findings 
 1. [[062_itil|ITIL]]/[[096_iso_iec_20000_itsm_certification|ITSM]] [[606_auditing_linux_auditd|감사]]는 선생님이 숙제 규칙이 지켜졌는지 보는 거예요.
 2. 말만 하는 게 아니라 실제로 한 기록이 있어야 해요.
 3. 그래서 다음에는 더 잘하게 만들 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 81 / 530
+
+← **이전**: [[053_blockchain_audit|53. 블록체인 감사 (Blockchain Audit)]]
+**다음**: [[055_isms_p_audit|55. ISMS-P 감사 (ISMS-P Audit)]] →
+
+---

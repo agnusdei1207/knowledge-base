@@ -215,3 +215,14 @@ tags:
 1. 나쁜 도둑(해커)이 우리 집 금고(중요 프로그램)를 털려고 "금고는 안방 창문 옆에 있다!"라고 도면(메모리 주소)을 다 외워왔어요.
 2. 하지만 우리 집은 마법의 집([[374_aslr|ASLR]])이라서, 매일 아침 눈을 뜰 때마다 금고 위치가 화장실, 다락방, 베란다로 완전 무작위로 휙휙 바뀐답니다!
 3. 밤에 몰래 들어온 도둑은 도면만 믿고 안방 창문 옆을 뒤지다가 아무것도 없어서 멘붕에 빠지고, 결국 경보음(크래시)이 울려 경찰에 잡혀간답니다! 방어 대성공!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 764 / 800
+
+← **이전**: [[763_rootkit_detection_integrity_scan|763. 루트킷 탐지 무결성 스캔 (Rootkit Detection Integrity Scan)]]
+**다음**: [[765_selinux_mac_mandatory_access_control|765. SELinux 보안 강제 접근 통제 (SELinux MAC Mandatory Access Control)]] →
+
+---

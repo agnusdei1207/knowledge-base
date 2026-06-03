@@ -198,3 +198,14 @@ CASB는 크게 트래픽을 실시간으로 가로채는 '[[264_proxy_pattern_su
 1. 엄마 몰래 불량식품을 사 먹거나 위험한 장난감을 사서 노는 것을 섀도우 IT라고 해요.
 2. 엄마(IT 부서)는 아이를 혼내는 대신, 아이가 좋아하는 장난감 가게 리스트를 만들어 안전한 것만 고르도록 도와줘요.
 3. 이렇게 하면 아이는 재밌게 놀 수 있고, 엄마는 아이가 다칠까 봐 걱정하지 않아도 된답니다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 7 / 482
+
+← **이전**: [[006_tco_total_cost_of_ownership|6. 총 소유 비용 (TCO, Total Cost of Ownership) - 하드웨어/소프트웨어 구매 비용 외 운영, 유지보수, 교육]]
+**다음**: [[008_isp_information_strategy_planning|8. 정보화 전략 계획 (ISP, Information Strategy Planning) - 기업의 중장기 경영 목표 달성을 위한 전사적]] →
+
+---

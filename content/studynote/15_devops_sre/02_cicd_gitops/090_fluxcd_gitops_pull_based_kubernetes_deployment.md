@@ -119,3 +119,14 @@ Image Automation 및 멀티 테넌시 분산 배포 고도화
 1. 예전에는 택배 기사 아저씨가 우리 집 비밀번호를 직접 누르고 들어와서(Push) 물건을 놓고 갔어요.
 2. Flux는 우리 집 안에 있는 똑똑한 로봇강아지예요. 이 강아지가 수시로 문을 열고 우체통(Git)을 [[396_validation|확인]]해서 물건을 물어와요(Pull).
 3. 남에게 집 비밀번호를 안 알려줘도 되니 도둑 걱정도 없고, 강아지 5마리가 일을 나눠서 하니까 엄청 빠르답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 90 / 373
+
+← **이전**: [[089_argocd_gitops_continuous_delivery_kubernetes|89. ArgoCD - 쿠버네티스를 위한 GitOps 선언적 배포 도구]]
+**다음**: [[091_kustomize_kubernetes_declarative_overlay_manifest|91. Kustomize (커스터마이즈) - K8s 오버레이 선언적 템플릿 관리]] →
+
+---

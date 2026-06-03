@@ -234,3 +234,14 @@ Unified: Batch + Stream 통합 (Flink · Beam)
 ```
 2. 윈도우는 강의 그물을 일정 구간에 치는 것이다. 10분마다 그물을 걷어서 그 사이 잡힌 물고기를 세면, 10분 단위 어획량(집계)을 알 수 있다.
 3. [[085_watermark|워터마크]]는 "이 물고기는 너무 오래전에 잡힌 것이라 포함하지 않겠다"는 규칙이다. 너무 늦게 도착한 [[001_dikw_pyramid|데이터]]는 결과에 포함하지 않아야 처리가 멈추지 않는다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 228 / 371
+
+← **이전**: [[228_batch_processing_hadoop_spark|228. 배치 처리 (Batch Processing)]]
+**다음**: [[230_apache_kafka_distributed_messaging|230. 아파치 카프카 (Apache Kafka)]] →
+
+---

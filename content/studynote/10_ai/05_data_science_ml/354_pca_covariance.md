@@ -112,3 +112,14 @@ PCA는 [[241_machine_learning_basics|머신러닝]] [[123_pipe|파이프]]라인
 1. PCA는 "1,000장의 사진에서 공통된 얼굴 특징만 뽑아내는 마법"이에요.
 2. 모든 사진에서 가장 많이 변하는 특징(눈 크기, 얼굴형)을 1번, 2번 주성분으로 선택해요.
 3. 이렇게 하면 1,000개의 픽셀 대신 [[489_raid_10_hybrid|10]]개의 숫자로 얼굴을 표현할 수 있어 저장도 쉽고 AI도 더 빠르게 돌아가요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 354 / 420
+
+← **이전**: [[353_logistic_regression_odds|353. 로지스틱 회귀 (Logistic Regression)]]
+**다음**: [[355_random_forest_feature_importance|355. 랜덤 포레스트 변수 중요도 (Feature Importance)]] →
+
+---

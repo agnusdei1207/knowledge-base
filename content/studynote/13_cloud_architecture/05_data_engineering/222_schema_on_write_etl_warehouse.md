@@ -188,3 +188,14 @@ Schema-on-Read: 저장 후 읽을 때 스키마 적용 (Lake)
 ```
 2. 마치 도서관에서 책을 받을 때 제목·저자·ISBN이 모두 맞아야 등록해주는 것처럼, 정해진 규칙을 통과한 [[001_dikw_pyramid|데이터]]만 저장될 수 있다.
 3. 이렇게 저장된 [[001_dikw_pyramid|데이터]]는 누구나 믿고 사용할 수 있지만, 새로운 종류의 책([[001_dikw_pyramid|데이터]])이 들어오려면 도서관 [[104_classification_analysis|분류]] 체계([[005_schema|스키마]])를 바꿔야 하는 번거로움이 있다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 221 / 371
+
+← **이전**: [[221_data_warehouse_olap_sql|221. 데이터 웨어하우스 (Data Warehouse / DW)]]
+**다음**: [[223_data_mart_department_analytics|223. 데이터 마트 (Data Mart)]] →
+
+---

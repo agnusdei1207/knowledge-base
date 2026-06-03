@@ -125,3 +125,14 @@ North-South 트래픽 (North South Traffic [[936_perimeter_security|Perimeter Se
 1. North-South 트래픽 (North South Traffic [[936_perimeter_security|Perimeter Security]])는 컴퓨터 세상을 더 안전하게 만들기 위한 중요한 약속이나 도구예요.
 2. 겉으로는 어려워 보여도, 왜 필요한지와 어떻게 움직이는지를 알면 훨씬 쉬워져요.
 3. 그래서 이름만 외우지 말고 어디에 쓰이는지 같이 기억해야 해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 275 / 1108
+
+← **이전**: [[221_east_west_traffic_lateral_movement_segmentation|221. East-West 트래픽 (East West Traffic Lateral Movement Segmentation)]]
+**다음**: [[223_network_segmentation_vlan_vrf_isolation|223. 네트워크 세그멘테이션 (VLAN, VRF를 통한 논리적 격리)]] →
+
+---

@@ -132,3 +132,14 @@ High Availability
 멈추지 않고 고치는 방법이에요.  
 기차를 세우지 않고 바퀴를 바꿔요.  
 라이브 패칭은 그런 기술이에요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 68 / 800
+
+← **이전**: [[067_lkm|67. 모듈 적재 (Loadable Kernel Modules, LKM)]]
+**다음**: [[069_ebpf|69. BPF (Berkeley Packet Filter) / eBPF (Extended BPF) - 커널 내 샌드박스 프로그램]] →
+
+---

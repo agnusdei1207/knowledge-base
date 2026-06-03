@@ -134,3 +134,14 @@ Reference Architecture
 1. [[057_operator_pattern|오퍼레이터 패턴]]은 복잡한 일을 순서와 규칙으로 정리해서 실수하지 않게 도와주는 방법이에요.
 2. CRD 같은 친구들과 같이 움직여야 더 잘 작동해요.
 3. 그래서 문제가 생겨도 어디서 틀렸는지 빨리 찾고 다시 고치기 쉬워져요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 220 / 373
+
+← **이전**: [[219_declarative_yaml|219. 쿠버네티스 선언적(Declarative) 제어 루프]]
+**다음**: [[221_k8s_clusterip_nodeport_loadbalancer_ingress|221. K8s 서비스 퍼블리싱 (ClusterIP, NodePort, LoadBalancer, Ingress) 라우팅 패러다임]] →
+
+---

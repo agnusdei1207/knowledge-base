@@ -128,3 +128,14 @@ User-Kernel Boundary
 문을 직접 열지 않아도 대신 열어 주는 사람이 있어요.  
 시스템 콜 래퍼가 그런 역할을 해요.  
 그래서 프로그램이 [[022_kernel_role|커널]]과 쉽게 이야기할 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 65 / 800
+
+← **이전**: [[064_rootfs_overlayfs|64. 루트 파일 시스템 (Root Filesystem) / 오버레이 파일 시스템 (OverlayFS)]]
+**다음**: [[066_vfs|66. VFS (Virtual File System)]] →
+
+---

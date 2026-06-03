@@ -204,3 +204,14 @@ tags:
 1. 한계 [[057_register|레지스터]] (Limit [[175_register_addressing|Register]])은 컴퓨터가 메모리를 방처럼 나눠 쓰고 주소를 찾는 방법이에요.
 2. 먼저 [[329_base_register|베이스 레지스터]] (Base/Relocation [[175_register_addressing|Register]])을 이해하면 한계 [[057_register|레지스터]] (Limit [[175_register_addressing|Register]])이 왜 필요한지 더 쉽게 보여요.
 3. 그래서 한계 [[057_register|레지스터]] (Limit [[175_register_addressing|Register]])을 잘 알면 나중에 [[331_dynamic_loading|동적 적재]] ([[331_dynamic_loading|Dynamic Loading]])도 훨씬 쉽게 배울 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 330 / 800
+
+← **이전**: [[329_base_register|329. 베이스 레지스터 (Base/Relocation Register) - 물리 시작 주소 보유]]
+**다음**: [[331_dynamic_loading|331. 동적 적재 (Dynamic Loading) - 루틴 호출 시점에 메모리 적재 (효율성)]] →
+
+---

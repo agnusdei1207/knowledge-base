@@ -290,3 +290,14 @@ ChatGPT 업무 데이터 입력
 1. 섀도 IT = 몰래 쓰는 비공식 창고 — IT 승인(공식 창고) 느려서 개인 클라우드(비공식) 사용. 보이지 않아 관리 불가, 보안 사고 위험!
 2. [[741_casb_cloud_access_security_broker|CASB]] = 세관 검사대 — 직원이 클라우드로 보내는 [[001_dikw_pyramid|데이터]] 모두 검사. 기밀 [[001_dikw_pyramid|데이터]] 업로드 차단, 미승인 앱 접근 제어!
 3. 해결책 = 빠른 대안 제공 — 차단만 하면 반발. 48시간 승인 + 공식 [[190_ai_llm_requirements_specification|AI]] 도구 제공. 고위험 앱 800개→23개 감소!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 89 / 587
+
+← **이전**: [[049_shadow_it|49. 섀도우 IT (Shadow IT)]]
+**다음**: [[050_ciso_cdo_independence|50. 정보보호최고책임자 (CISO) 및 최고데이터책임자 (CDO) 직무 독립성]] →
+
+---

@@ -215,3 +215,14 @@ tags:
 1. 학교 도서관의 책을 "누가 빌릴 수 있고, 어떤 책은 선생님만 볼 수 있는지" 결정하는 사람이 교장 선생님인 것처럼, [[001_dikw_pyramid|Data]] Owner는 회사 [[001_dikw_pyramid|데이터]]의 교장 선생님이야.
 2. [[001_dikw_pyramid|Data]] Owner는 컴퓨터를 직접 다루지 않아도 돼 — "이 [[001_dikw_pyramid|데이터]]는 마케팅 팀만 볼 수 있어"처럼 규칙을 결정하는 게 역할이거든.
 3. [[001_dikw_pyramid|데이터]]가 잘못 사용되거나 [[781_personal_information|개인정보]]가 유출되면, [[001_dikw_pyramid|Data]] Owner가 최종 책임을 지기 때문에 가장 신중하게 역할을 수행해야 해.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 200 / 262
+
+← **이전**: [[199_data_steward|193. 데이터 스튜어드 (Data Steward) — 도메인 데이터 책임자]]
+**다음**: [[201_data_quality_dimensions|195. 데이터 품질 차원 (Data Quality Dimensions) — 완전성/정확성/일관성/적시성]] →
+
+---

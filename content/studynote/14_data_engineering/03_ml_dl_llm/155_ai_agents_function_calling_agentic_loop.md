@@ -181,3 +181,14 @@ AI 에이전트 (Agentic Loop)
     ▼
 멀티 에이전트: CrewAI · AutoGen · LangGraph
 ```
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 155 / 258
+
+← **이전**: [[154_gan_generative_adversarial_network|154. GAN (Generative Adversarial Network) - 생성자와 판별자의 피 터지는 적대적 훈련 연금술]]
+**다음**: [[156_recommendation_system_deepfm_collaborative_filtering|156. 추천 시스템 DeepFM (Deep Factorization Machine) 협업 필터링]] →
+
+---

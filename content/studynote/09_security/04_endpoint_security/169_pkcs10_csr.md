@@ -165,3 +165,14 @@ X.509 인증서 발급
 1. CSR은 "이 자물쇠 모양으로 내 이름표를 만들어 주세요" 하고 보내는 신청서예요.
 2. 하지만 자물쇠를 여는 진짜 열쇠는 집에 꼭 숨겨 두고 절대 같이 보내면 안 돼요.
 3. 그래서 시장님은 신청서를 보고 확인한 뒤, 진짜 허가증인 인증서를 따로 만들어 주는 거예요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 222 / 1108
+
+← **이전**: [[168_caa_certification_authority_authorization|168. CAA (Certification Authority Authorization) — 허용된 CA DNS 레코드]]
+**다음**: [[170_pkcs7_cms|170. PKCS#7 / CMS — 인증서 envelope 형식]] →
+
+---

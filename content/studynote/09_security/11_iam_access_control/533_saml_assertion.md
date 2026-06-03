@@ -125,3 +125,14 @@ SAML Assertion (SAML 어서션)를 제대로 이해하면 개념 하나를 외�
 1. SAML Assertion (SAML 어서션)는 컴퓨터끼리 인사하고 [[396_validation|확인]]하는 순서를 정한 약속이에요.
 2. 순서를 건너뛰면 나쁜 사람이 친구인 척할 수 있어요.
 3. 그래서 컴퓨터는 차례대로 묻고 답하면서 서로를 믿게 돼요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 589 / 1108
+
+← **이전**: [[532_saml_2_0|532. SAML 2.0 (SAML 2.0)]]
+**다음**: [[534_saml_request_response|534. SAML Request/Response (SAML Request/Response)]] →
+
+---

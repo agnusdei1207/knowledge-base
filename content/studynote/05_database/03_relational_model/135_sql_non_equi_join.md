@@ -53,3 +53,14 @@ Non-Equi·Self JOIN은 **[[083_relationship_in_er_model|관계]]형 [[001_dikw_p
 1. Non-Equi는 **"키가 150~160이면 M사이즈"**처럼 범위로 매칭해요.
 2. Self JOIN은 **같은 사진에서 부모와 자식**을 찾는 거예요.
 3. 같은 테이블을 **두 번 사용**하되 **이름(별칭)을 다르게** 붙여요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 135 / 600
+
+← **이전**: [[134_sql_outer_join_left_right_full|134. SQL OUTER JOIN (LEFT·RIGHT·FULL) - 비매칭 행도 포함하는 결합]]
+**다음**: [[136_cross_join_cartesian_product|136. CROSS JOIN & Cartesian Product - 카테시안 곱 결합]] →
+
+---

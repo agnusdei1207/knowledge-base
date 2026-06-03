@@ -134,3 +134,14 @@ Rootless Container
 같은 집에 살아도 방마다 다른 지도와 이름표를 붙여 주는 거예요.  
 그래서 한 방에서 하는 일이 다른 방에는 잘 안 보여요.  
 [[561_container_based_deployment|컨테이너]]는 이렇게 나눠서 쓰는 똑똑한 방이에요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 61 / 800
+
+← **이전**: [[060_container_virtualization|60. 컨테이너 가상화 (Container Virtualization) - OS 수준 가상화]]
+**다음**: [[062_cgroups|62. 컨트롤 그룹 (cgroups) - 자원 할당 제어]] →
+
+---

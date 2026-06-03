@@ -55,3 +55,14 @@ Event Sourcing은 **[[606_auditing_linux_auditd|감사]]·추적·재생이 중�
 1. Event Sourcing은 **일기장**이에요. 오늘 잔고(상태)만 보는 게 아니라 **모든 용돈 기록(이벤트)**을 남겨요.
 2. 기록을 처음부터 **다시 읽으면(Replay)** 지금 잔고를 정확히 알 수 있어요.
 3. "3일 전에 뭘 샀지?" 같은 **시간 여행 질문**에도 답할 수 있어요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 137 / 371
+
+← **이전**: [[137_transactional_outbox_pattern|137. Transactional Outbox 패턴 - 이벤트 발행의 원자성 보장]]
+**다음**: [[139_cqrs_msa|139. CQRS (Command Query Responsibility Segregation) - 명령·조회 분리]] →
+
+---

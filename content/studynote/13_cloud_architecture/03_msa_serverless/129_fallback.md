@@ -89,3 +89,14 @@ Fallback은 **MSA에서 사용자 경험을 지키는 마지막 방어선**이�
 1. Fallback은 **비상식량**이에요. 정상 배달이 안 오면 **비상식량으로 버텨요**.
 2. 추천 [[090_service_kubernetes_network_load_balancing|서비스]]가 고장나도 **인기 상품 목록(캐시)**을 보여줘서 쇼핑은 계속돼요.
 3. 비상식량이 없으면 **굶어야(에러)** 하니까, 꼭 준비해둬야 해요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 128 / 371
+
+← **이전**: [[128_circuit_breaker|128. Circuit Breaker - MSA 장애 전파 차단 패턴]]
+**다음**: [[130_bulkhead_pattern|130. Bulkhead 패턴 - 격벽으로 장애 격리]] →
+
+---

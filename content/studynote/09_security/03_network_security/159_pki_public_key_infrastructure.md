@@ -154,3 +154,14 @@ HTTPS · 전자서명 · VPN · 기기 인증 확산
 1. PKI는 누가 진짜인지 [[396_validation|확인]]해 주는 디지털 신분증 시스템이에요.
 2. 그래서 인터넷에서 처음 만난 컴퓨터도 "이 친구가 맞구나" 하고 믿을 수 있어요.
 3. 하지만 신분증을 잘 만들고 잘 관리해야만 모두가 안심하고 쓸 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 212 / 1108
+
+← **이전**: [[158_tpm_trusted_platform_module|158. TPM (Trusted Platform Module) — 플랫폼 키 저장, 원격 증명]]
+**다음**: [[160_ca_certification_authority|160. CA (Certification Authority) — 인증서 발급/관리]] →
+
+---

@@ -214,3 +214,14 @@ tags:
 1. 드론 스웜은 여러 대의 드론이 친구들처럼 서로 보고 움직이는 방법이에요.
 2. 그래서 한 대가 돌을 만나 멈추면, 옆 친구들도 부딪히지 않게 같이 길을 바꿀 수 있어요.
 3. 하지만 어디로 갈지와 얼마나 붙어 다닐지는 미리 정한 규칙이 있어야 안전해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 180 / 552
+
+← **이전**: [[179_bci_brain_computer_interface|179. BCI (Brain-Computer Interface) - 뇌파를 직접 인식하여 기계를 제어하는 신경망 인터페이스 기술 (뉴럴링크)]]
+**다음**: [[181_cloud_computing_nist_characteristics|181. 클라우드 컴퓨팅 5대 특징 (NIST Cloud Computing Characteristics)]] →
+
+---

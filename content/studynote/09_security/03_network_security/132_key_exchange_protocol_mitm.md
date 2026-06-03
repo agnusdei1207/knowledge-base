@@ -125,3 +125,14 @@ tags:
 1. 키교환 [[295_protocol_field_tcp_udp_icmp|프로토콜]] ([[067_db_key_uniqueness_minimality|Key]] Exchange [[295_protocol_field_tcp_udp_icmp|Protocol]] Mitm)는 학교 규칙표처럼 무엇을 준비하고 어떻게 확인할지 알려 주는 기준이에요.
 2. 규칙표만 붙여 두고 지키지 않으면 아무 소용이 없어요.
 3. 그래서 보안도 규칙과 실제 행동이 함께 맞아야 해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 185 / 1108
+
+← **이전**: [[131_ecdhe_ephemeral_ecdh|131. ECDHE (Ephemeral Elliptic Curve Diffie-Hellman)]]
+**다음**: [[133_hybrid_encryption|133. 하이브리드 암호 시스템 (Hybrid Encryption)과 KEM/DEM 아키텍처 (Hybrid Encryption)]] →
+
+---

@@ -161,3 +161,14 @@ DeepFM 은 [[211_recommendation_system|추천 시스템]]의 두 핵심 과제�
 1. 🛒 DeepFM 은 "어떤 물건을 살지" 예측하는 쇼핑 [[190_ai_llm_requirements_specification|AI]] 인데, 단순한 패턴과 복잡한 패턴을 동시에 배워요.
 2. 🔗 FM 파트는 "농구공 + 운동화 = 스포츠 관심자" 처럼 2가지 조합 패턴을, DNN 파트는 더 복잡한 여러 개 조합을 봐요.
 3. 🤝 둘이 같은 재료([[278_instruction_tuning|임베딩]])를 쓰니까 따로 공부하는 것보다 더 효율적이에요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 340 / 420
+
+← **이전**: [[339_word2vec|339. Word2Vec (Word2vec)]]
+**다음**: [[341_eigenvalue_decomposition|341. 고유값 분해 (Eigenvalue Decomposition, EVD)]] →
+
+---

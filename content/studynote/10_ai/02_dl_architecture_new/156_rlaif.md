@@ -133,3 +133,14 @@ RLAIF의 등장은 [[231_ai_turing_test|인공지능]]이 스스로를 [[016_rep
 1. 옛날에는 악동 로봇([[190_ai_llm_requirements_specification|AI]])이 엉뚱한 대답을 하면 사람 선생님들이 수만 장의 시험지를 밤새 손으로 채점하며 바른말을 가르쳤어요. ([[250_rlhf_human_feedback_reinforcement_alignment_cot|RLHF]])
 2. 너무 힘들어서, 이제는 전교 1등 천재 로봇([[302_gpt_autoregressive|GPT]]-4)에게 "네가 대신 애들 대답이 착한지 나쁜지 자동 채점기 돌려!"라고 알바를 맡겼어요. ([[269_vector_database|RLAIF]])
 3. 놀랍게도 천재 로봇 심판은 사람보다 훨씬 빠르고 공평하게 점수를 매겨줘서, 아기 로봇들이 눈 깜짝할 사이에 척척 예절 바른 천사로 자라났답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 156 / 420
+
+← **이전**: [[155_rlhf|155. RLHF (인간 피드백 기반 강화학습)]]
+**다음**: [[157_knowledge_distillation|157. 지식 증류 (Knowledge Distillation)]] →
+
+---

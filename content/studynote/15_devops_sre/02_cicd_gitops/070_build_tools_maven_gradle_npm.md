@@ -133,3 +133,14 @@ CI/CD
 재료를 넣으면 요리가 돼요.  
 자동으로 만들어 주는 거예요.  
 빌드 도구는 그런 도구예요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 70 / 373
+
+← **이전**: [[069_commit_message_convention_feat_fix|69. 커밋 메시지 컨벤션 - feat, fix, docs 등 접두어 표준화]]
+**다음**: [[071_jenkins_ci_cd_pipeline_automation|71. 젠킨스 (Jenkins) - 오픈소스 CI/CD 자동화 빌드 서버]] →
+
+---

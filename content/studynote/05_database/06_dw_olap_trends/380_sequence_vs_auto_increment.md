@@ -132,3 +132,14 @@ tags:
 1. 여러 상자에 있던 블록을 큰 정리장에 모아 보고 싶은 모양대로 다시 보는 거예요.
 2. 빨리 넣는 법과 빨리 보는 법은 다를 수 있어요.
 3. 그래서 창고를 어떻게 나누고 언제 정리할지 정해야 해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 380 / 600
+
+← **이전**: [[379_delta_encoding_gorilla_compression|379. 델타 인코딩 (Delta Encoding) 및 시계열 데이터 압축 (Gorilla алгоритм)]]
+**다음**: [[381_imdb_snapshot_logging_checkpointing|381. 메인 메모리 DB의 스냅샷 로깅 (Checkpointing in IMDB)]] →
+
+---

@@ -137,3 +137,14 @@ AOP 기반 동적 프록시 · ORM 지연 로딩 · RPC 스텁
 1. [[264_proxy_pattern_surrogate_access_control|프록시]]는 진짜 사람 대신 먼저 나와서 일을 처리해 주는 대리인이에요.
 2. 어떤 [[264_proxy_pattern_surrogate_access_control|프록시]]는 물건이 필요할 때만 창고를 열고, 어떤 [[264_proxy_pattern_surrogate_access_control|프록시]]는 출입증을 먼저 [[396_validation|확인]]해요.
 3. 또 어떤 [[264_proxy_pattern_surrogate_access_control|프록시]]는 멀리 있는 사람에게 대신 전화해서 답을 받아오는 똑똑한 전달자예요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 215 / 530
+
+← **이전**: [[158_proxy_pattern|158. 프록시 패턴 (Proxy Pattern)]]
+**다음**: [[160_design_pattern_ocp_dip_principles|160. 디자인 패턴과 설계 원칙 (OCP·DIP와 디자인 패턴)]] →
+
+---

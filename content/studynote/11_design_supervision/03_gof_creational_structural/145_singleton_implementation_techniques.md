@@ -133,3 +133,14 @@ tags:
 1. 싱글턴을 만드는 방법이 여러 가지 있는데, 어떤 방법은 여러 사람이 동시에 접근할 때 문제가 생길 수 있어요.
 2. 가장 안전한 방법(Enum)은 법적으로 하나임을 공인받아 [[016_replication_factor|복제]] 자체가 불가능해요.
 3. 스프링 같은 프레임워크를 쓴다면 직접 구현 없이 @Bean으로 관리할 수 있어요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 201 / 530
+
+← **이전**: [[144_singleton_pattern|144. 싱글턴 패턴 (Singleton Pattern)]]
+**다음**: [[146_factory_method_pattern|146. 팩터리 메서드 패턴 (Factory Method Pattern)]] →
+
+---

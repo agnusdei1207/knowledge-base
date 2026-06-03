@@ -210,3 +210,14 @@ ACL은 그저 '목록'일 뿐이다. 이 목록을 누가 통제하느냐에 따
 1. 철수는 보물상자에 자물쇠를 걸어두고, 평소에는 '가족'만 열 수 있게 비밀번호를 맞췄어요(기본 권한).
 2. 그런데 어느 날 단짝 친구인 짱구에게만 딱 하루 보물상자를 열게 해주고 싶어졌어요! 짱구를 가족으로 만들 순 없잖아요?
 3. 그래서 철수는 보물상자 옆에 '허락 명단([[549_acl_access_control_list|ACL]])'이라는 쪽지를 하나 붙이고 "짱구는 열어봐도 됨!"이라고 썼어요. 자물쇠는 이 쪽지를 보고 짱구에게만 특별히 상자를 열어준답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 739 / 800
+
+← **이전**: [[738_buffer_cache_file_io_delayed_write|738. 버퍼 캐시 파일 입출력 지연 (Buffer Cache File I/O Delayed Write)]]
+**다음**: [[740_protection_domain_least_privilege|740. 보호 도메인 최소 권한 원칙 (Protection Domain Least Privilege)]] →
+
+---

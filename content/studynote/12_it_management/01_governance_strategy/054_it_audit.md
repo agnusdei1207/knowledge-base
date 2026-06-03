@@ -128,3 +128,14 @@ IT [[606_auditing_linux_auditd|감사]]는 조직의 통제 신뢰도를 높이�
 1. IT [[606_auditing_linux_auditd|감사]]는 컴퓨터 방이 안전한지 살펴보는 검사예요.
 2. 열쇠, 기록, [[555_backup_and_restore_strategy|백업]]이 제대로 있는지 봐요.
 3. 그래서 문제가 생기기 전에 고칠 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 97 / 587
+
+← **이전**: [[053_data_stewardship_role|53. 데이터 스튜어드 역할 (Data Stewardship Role)]]
+**다음**: [[055_digital_transformation|55. 디지털 전환 (Digital Transformation)]] →
+
+---

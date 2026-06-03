@@ -125,3 +125,14 @@ A02. [[479_cryptographic_failures|암호화 실패]] (Cryptographic Failures)를
 1. A02. [[479_cryptographic_failures|암호화 실패]] (Cryptographic Failures)는 비밀 편지를 안전하게 잠그거나 진짜인지 확인하는 특별한 약속이에요.
 2. 하지만 자물쇠가 좋아도 열쇠를 아무 데나 두면 금방 들켜요.
 3. 그래서 암호는 만드는 방법과 열쇠를 지키는 방법을 같이 배워야 해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 480 / 1108
+
+← **이전**: [[423_access_control_bypass|423. 접근 제어 회피 (Access Control Bypass)]]
+**다음**: [[425_hardcoded_credentials|425. 하드코딩 자격증명 (Hardcoded Credentials)]] →
+
+---

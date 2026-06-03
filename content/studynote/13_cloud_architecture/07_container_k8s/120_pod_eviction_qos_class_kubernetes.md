@@ -124,3 +124,14 @@ resources:
 1. [[388_qos_quality_of_service_best_effort_intserv_diffserv|QoS]] Class는 비행기 좌석 등급이에요. **1등석(Guaranteed)**은 가장 안전해요.
 2. 비행기(노드)가 너무 무거우면 **이코노미(BestEffort) 짐부터 내려요** (Eviction).
 3. 중요한 짐(프로덕션 [[198_pod_kubernetes_minimum_deployment_unit|Pod]])은 **1등석에 놓아야** 안전하답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 119 / 371
+
+← **이전**: [[119_kubernetes_declarative_api|119. K8s 선언적 API (Declarative API) - Desired State·Reconciliation Loop]]
+**다음**: [[121_monolithic_architecture|121. 모놀리식 아키텍처 (Monolithic Architecture) - 단일체 구조의 특징과 한계]] →
+
+---

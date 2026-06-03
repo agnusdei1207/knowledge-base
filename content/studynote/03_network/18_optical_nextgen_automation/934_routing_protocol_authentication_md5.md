@@ -144,3 +144,14 @@ BGP는 [[405_tcp_transmission_control_protocol_connection_oriented|TCP]] [[446_p
 1. 교통경찰(라우터)들이 서로 폰으로 전화를 걸어서 "오늘은 1번 도로가 뻥 뚫렸어!" 하고 길을 알려줘요.
 2. 그런데 웬 나쁜 악당(해커)이 경찰인 척 폰으로 전화를 걸어서 "저쪽 낭떠러지 길이 뚫렸어!" 하고 거짓말을 해서 자동차들을 위험에 빠뜨리는 사건이 발생했어요.
 3. 그래서 진짜 경찰들끼리 통화할 때는 무조건 말끝에 "우리만 아는 암호([[668_md5_hash_collision_vulnerability|MD5]] 해시)!"를 덧붙이기로 규칙을 정했답니다. 암호를 모르는 악당이 전화를 걸면 경찰들이 듣자마자 전화를 뚝 끊어버리게 된 거죠!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 1055 / 1120
+
+← **이전**: [[933_fragmentation_overlap_ids_evasion|933. 패킷 단편화 오프셋 중첩 검증 룰 방화벽 모니터 (비정상 IDS 시그니처)]]
+**다음**: [[935_rpki_bgp_hijacking_prevention|935. RPKI (Resource Public Key Infrastructure]] →
+
+---

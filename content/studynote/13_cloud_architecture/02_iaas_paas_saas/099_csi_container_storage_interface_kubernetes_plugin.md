@@ -101,3 +101,14 @@ Volume Snapshot · Volume Cloning · 동적 확장 지원 (미래 확장)
 1. 예전에는 레고 장난감을 살 때 사람 인형과 자동차가 아예 본드로 붙어서 나왔어요.
 2. 하지만 CSI라는 규칙이 생기고 나서부터는 자동차와 사람을 뗐다 붙였다 할 수 있는 구멍(블록)이 생겼어요.
 3. 이제는 자동차가 부서져도 사람 인형은 그대로 두고 다른 자동차로 쏙 바꿔 타면 된답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 98 / 371
+
+← **이전**: [[098_kubernetes_storage_volume_pv_pvc|98. K8s 스토리지 관리 - 볼륨, PV, PVC (영구 스토리지)]]
+**다음**: [[100_cni_container_network_interface_flannel_calico|100. CNI (Container Network Interface) - 파드 간 오버레이 통신 표준]] →
+
+---

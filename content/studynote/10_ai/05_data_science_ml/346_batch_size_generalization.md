@@ -220,3 +220,14 @@ PAC-Bayes (Probably Approximately Correct-Bayesian) 이론에 의하면, 플랫 
 1. 🏔️ 큰 배치로 학습하면 좁은 봉우리(Sharp Minima)에 딱 맞게 올라가지만, 조금만 바람이 불어도(환경 변화) 떨어져요.
 2. 🌄 작은 배치는 이리저리 흔들리며 올라가지만, 결국 넓은 평원(Flat Minima)에 도착해서 어떤 바람에도 안 흔들려요.
 3. ⚖️ 배치를 크게 쓸 때는 [[080_gradient_descent_learning_rate|학습률]]도 같이 키워야(Linear Scaling Rule) 발걸음의 크기가 맞아요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 346 / 420
+
+← **이전**: [[345_backprop_chain_rule_math|345. 역전파 편미분 (Backpropagation)]]
+**다음**: [[347_cross_entropy_kld|347. 교차 엔트로피와 KLD (Kullback-Leibler Divergence)]] →
+
+---

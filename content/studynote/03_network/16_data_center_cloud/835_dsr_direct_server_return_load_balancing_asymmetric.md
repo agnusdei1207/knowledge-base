@@ -130,3 +130,14 @@ DSR는 [[178_round_robin_scheduling|라운드 로빈]]에서 출발해 현재 �
 1. 큰 아파트에 사는 친구들이 층마다 다른 규칙으로 엘리베이터를 타면 복잡해져요.
 2. 이 개념은 어느 층에서 누구를 어떻게 연결할지 자동으로 정리해 주는 관리실과 같아요.
 3. 그래서 많은 컴퓨터가 한 건물 안에서 더 잘 협력할 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 956 / 1120
+
+← **이전**: [[834_load_balancing_algorithm_round_robin_least_connection|834. 라운드 로빈 분배 (RR)]]
+**다음**: [[836_vpc_virtual_private_cloud_subnet_isolation|836. VPC (가상 사설 클라우드망)]] →
+
+---

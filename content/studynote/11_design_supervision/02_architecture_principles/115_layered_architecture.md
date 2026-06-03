@@ -148,3 +148,14 @@ tags:
 1. 케이크는 스폰지, 크림, 딸기 층으로 나뉘어 있고, 각 층은 자기 역할만 해요.
 2. 딸기(프레젠테이션)가 바뀌어도 스폰지(비즈니스)와 크림([[001_dikw_pyramid|데이터]])은 그대로예요.
 3. [[205_layered_architecture_separation_of_concerns|계층형 아키텍처]]는 이렇게 역할이 다른 것들을 층층이 쌓아서 깔끔하게 만드는 방법이에요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 171 / 530
+
+← **이전**: [[114_architecture_style|114. 아키텍처 스타일 (Architecture Style)]]
+**다음**: [[116_hexagonal_architecture_ports_and_adapters|116. 헥사고날 아키텍처 (Hexagonal Architecture / Ports and Adapters)]] →
+
+---

@@ -228,3 +228,14 @@ ZFS는 [[501_file_definition_logical_record|파일]] 시스템의 진화 역사�
 1. 일반 컴퓨터(ext4)는 일기장 글씨를 고칠 때 지우개로 빡빡 지우고 그 자리에 다시 써요. 쓰다가 갑자기 정전이 되면 지워지기만 하고 원래 글씨도 날아가 버리는 대형사고가 나요.
 2. 하지만 마법의 컴퓨터(ZFS [[542_cow_file_system|COW]])는 절대 지우개를 쓰지 않아요! 무조건 새 텅 빈 종이를 꺼내서 예쁘게 새로 쓰고, 다 완성되면 옛날 종이를 찢어버려요. 쓰다가 정전돼도 옛날 종이가 무사하죠!
 3. 게다가 1초에 한 번씩 "지금 일기장 상태 찰칵!" 하고 사진([[022_snapshot_backup_architecture|스냅샷]])을 찍어둘 수 있어서, 해커가 일기장을 훔쳐 가도 1초 전으로 완벽하게 되돌릴 수 있는 무적의 방패랍니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 781 / 800
+
+← **이전**: [[780_ebpf_dynamic_kernel_tracing_performance|780. eBPF 동적 커널 트레이싱 프레임워크 성능 (Ebpf Dynamic Kernel Tracing Performance)]]
+**다음**: [[782_lfs_log_structured_file_system|782. LFS (Log-structured File System) 랜덤 쓰기 순차화]] →
+
+---

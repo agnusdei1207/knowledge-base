@@ -221,3 +221,14 @@ POSIX [[092_thread_lwp|스레드]] (pthreads) API는 "소프트웨어가 특정 
 1. 옛날에는 레고(A운영체제)에서 만든 장난감 바퀴는 옥스포드(B운영체제) 장난감에 끼울 수가 없어서 장난감을 매번 새로 사야 했어요.
 2. 그래서 장난감 회사들이 모여서 "우리 바퀴 꼽는 구멍 크기(pthreads [[014_api_posix|API]])는 전 세계 무조건 똑같이 통일하자!"라고 약속(표준)을 했어요.
 3. 덕분에 개발자 아저씨들은 똑같은 바퀴(코드) 하나만 잘 만들어두면, 지구상 어떤 컴퓨터 장난감에 꽂아도 완벽하게 굴러가는 마법 같은 세상을 만들었답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 790 / 800
+
+← **이전**: [[789_live_patching_kpatch_no_downtime|789. 라이브 패칭 (Kpatch) 커널 정지 없는 보안]]
+**다음**: [[791_lock_elision_hardware_transactional_memory|791. 락 엘리전 하드웨어 트랜잭션 메모리 활용 (Lock Elision Hardware Transactional Memory)]] →
+
+---

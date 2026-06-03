@@ -134,3 +134,14 @@ Reference Architecture
 1. [[207_iac_terraform_immutable_infrastructure|인프라스트럭처 애즈 코드]]는 복잡한 일을 순서와 규칙으로 정리해서 실수하지 않게 도와주는 방법이에요.
 2. [[080_kube_controller_manager_desired_state|Desired State]] 같은 친구들과 같이 움직여야 더 잘 작동해요.
 3. 그래서 문제가 생겨도 어디서 틀렸는지 빨리 찾고 다시 고치기 쉬워져요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 191 / 373
+
+← **이전**: [[190_cncf_landscape_observability|190. 클라우드 네이티브 생태계 (CNCF) Landscape 진화 방향 (Observability 통일화)]]
+**다음**: [[192_immutable_infrastructure|192. 불변 인프라 (Immutable Infrastructure)]] →
+
+---

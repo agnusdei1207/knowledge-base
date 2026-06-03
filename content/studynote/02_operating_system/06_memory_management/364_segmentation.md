@@ -199,3 +199,14 @@ CPU는 `<세그먼트 번호(s), 오프셋(d)>`을 내뿜는다.
 1. 세그멘테이션 (Segmentation)은 컴퓨터가 메모리를 방처럼 나눠 쓰고 주소를 찾는 방법이에요.
 2. 먼저 [[363_inverted_page_table|역 페이지 테이블]] ([[363_inverted_page_table|Inverted Page Table]])을 이해하면 세그멘테이션 (Segmentation)이 왜 필요한지 더 쉽게 보여요.
 3. 그래서 세그멘테이션 (Segmentation)을 잘 알면 나중에 [[365_segment_table|세그먼트 테이블]] ([[365_segment_table|Segment Table]])도 훨씬 쉽게 배울 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 364 / 800
+
+← **이전**: [[363_inverted_page_table|363. 역 페이지 테이블 (Inverted Page Table) - 시스템 내 단 하나의 페이지 테이블, 프레임 중심]]
+**다음**: [[365_segment_table|365. 세그먼트 테이블 (Segment Table) - 기준(Base) 주소와 한계(Limit) 길이]] →
+
+---

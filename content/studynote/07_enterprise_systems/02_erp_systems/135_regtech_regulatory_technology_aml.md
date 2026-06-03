@@ -53,3 +53,14 @@ RegTech는 **금융 규제 준수의 필수 인프라**이며, AI가 이상 거�
 1. RegTech는 **자동 교통단속 카메라**예요. 위반(불법 거래)을 **AI가 자동 탐지**해요.
 2. 사람이 수천 대 차를 보는 건 불가능하지만 **AI는 실시간 감시**가 가능해요.
 3. 은행이 **규칙을 잘 지키는지** AI가 자동으로 [[396_validation|확인]]해준답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 135 / 482
+
+← **이전**: [[134_esg_management_it_system_carbon_tracking|134. ESG 경영 & IT 시스템 - 탄소 추적·ESG 데이터 관리]]
+**다음**: [[136_proptech_property_technology_real_estate|136. PropTech (부동산 기술) - 디지털 부동산 혁신]] →
+
+---

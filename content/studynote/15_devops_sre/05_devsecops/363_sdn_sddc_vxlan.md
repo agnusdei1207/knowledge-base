@@ -132,3 +132,14 @@ eBPF (Cilium) — 오버레이 없는 직접 네트워킹
 1. SDN은 모든 교통신호를 중앙에서 컴퓨터로 조종하는 스마트 교통 관제 시스템이에요.
 2. VXLAN은 물리적 도로 위에 가상의 전용차선을 그려서 각 회사(테넌트)가 자기만의 길을 달릴 수 있게 해요.
 3. SDDC는 건물(하드웨어) 위에 유리 천막(소프트웨어)을 덮어서 안에서 모든 것을 자유롭게 바꿀 수 있는 구조예요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 363 / 373
+
+← **이전**: [[362_o_ran|362. O-RAN 프론트홀 화이트박스 분리 아키텍처 (O-RAN Open Radio Access Network Fronthaul Whitebox]]
+**다음**: [[364_process|364. 멀티클러스터 쿠버네티스 페더레이션 고가용성 배포 (Multi-cluster Kubernetes Federation High-Availability]] →
+
+---

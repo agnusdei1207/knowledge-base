@@ -132,3 +132,14 @@ MLP / Backpropagation
 친구들 말을 점수로 바꾸어 더해요.  
 점수가 기준보다 높으면 "맞아!"라고 해요.  
 이 간단한 방식이 신경망의 시작이에요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 62 / 420
+
+← **이전**: [[061_artificial_neural_network_ann_neuron_model|61. 인공 신경망 (ANN, Artificial Neural Network)]]
+**다음**: [[063_single_layer_perceptron_xor_problem|63. 단층 퍼셉트론 (Single-Layer Perceptron)과 XOR 문제]] →
+
+---

@@ -53,3 +53,14 @@ LayerNorm:  Transformer 표준 (배치 무관)
 1. 과적합은 **한 문제집만 외우는** 거예요. 새 시험에서 틀려요.
 2. [[093_normalization|정규화]]는 **다양한 문제집으로 연습**하는 거예요. 어떤 시험이든 잘 봐요.
 3. Dropout은 **일부러 어려운 환경(뉴런 꺼짐)에서 연습**해서 더 강해져요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 134 / 258
+
+← **이전**: [[133_backpropagation_chain_rule|133. 역전파 & 연쇄 법칙 (Backpropagation & Chain Rule)]]
+**다음**: [[135_cnn_convolutional_neural_network|135. CNN (Convolutional Neural Network) - 합성곱 신경망의 구조와 원리]] →
+
+---

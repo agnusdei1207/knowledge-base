@@ -125,3 +125,14 @@ tags:
 1. [[092_aead|AEAD]] 암호화 강제 ([[694_thread_local_storage_tls|TLS]] 1.3의 대학살)는 비밀 편지를 안전하게 잠그거나 진짜인지 확인하는 특별한 약속이에요.
 2. 하지만 자물쇠가 좋아도 열쇠를 아무 데나 두면 금방 들켜요.
 3. 그래서 암호는 만드는 방법과 열쇠를 지키는 방법을 같이 배워야 해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 191 / 1108
+
+← **이전**: [[137_tls_1_3_handshake|137. TLS 1.3 핸드셰이크 (1-RTT, 0-RTT, PSK)]]
+**다음**: [[139_pfs_perfect_forward_secrecy|139. 전방 비밀성 (PFS, Perfect Forward Secrecy)]] →
+
+---

@@ -128,3 +128,14 @@ FR1 주파수는 [[763_5g_nr_new_radio_scalable_numerology|5G NR]] 신무선 표
 1. 큰 장난감 도시를 여러 구역으로 나누고 필요한 규칙만 골라 쓰는 것과 같아요.
 2. 이 개념은 빠른 길, 안전한 길, 많은 사람이 쓰는 길을 각각 다르게 꾸미게 해줘요.
 3. 그래서 미래 통신망이 더 똑똑하고 유연해져요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 885 / 1120
+
+← **이전**: [[763_5g_nr_new_radio_scalable_numerology|763. 5G NR (New Radio) 신무선 표준 대역]]
+**다음**: [[765_fr2_mmwave_28ghz_small_cell_beamforming|765. FR2 주파수 (mmWave 24Ghz~ 밀리미터파 직진성 극한, 장애물 회절 약화 대형 스몰셀 조밀 구성 기술 체계 대역)]] →
+
+---

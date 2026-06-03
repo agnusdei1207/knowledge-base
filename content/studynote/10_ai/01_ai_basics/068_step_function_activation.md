@@ -129,3 +129,14 @@ ReLU
 넘으면 1, 아니면 0이에요.  
 너무 딱딱해서 배우기는 어려워요.  
 계단 함수는 그런 [[238_switch_operation_principles|스위치]]예요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 68 / 420
+
+← **이전**: [[067_activation_function_neural_network_non_linearity|67. 활성화 함수 (Activation Function) - 신경망 층 사이에 비선형성(Non-linearity)을 부여하는 필수 함수]]
+**다음**: [[069_sigmoid_function_vanishing_gradient|69. 시그모이드 함수 (Sigmoid) - 0~1 사이 반환, 기울기 소실(Vanishing Gradient) 문제 발생]] →
+
+---

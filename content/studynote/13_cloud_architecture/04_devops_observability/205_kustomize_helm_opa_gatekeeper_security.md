@@ -229,3 +229,14 @@ Kyverno: YAML 네이티브 정책 · Helm/Kustomize 통합
 ```
 2. `image:latest` 금지는 "유통기한이 없는 음식은 학교에 가져오면 안 돼"와 같아. 반드시 날짜([[288_version_ihl_tos_total_length|버전]])를 붙여야 해.
 3. 사람이 매번 확인하지 않아도 기계가 24시간 지켜보니까 실수로 규정을 어기는 일이 없어.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 204 / 371
+
+← **이전**: [[204_pod_security_psa_psp_kubernetes|204. 컨테이너 보안 / Pod 시큐리티 (PSA/PSP)]]
+**다음**: [[206_postmortem_blameless_devops_culture|206. 포스트모템 / 비난 없는 회고 (Blameless Post-mortem)]] →
+
+---

@@ -145,3 +145,14 @@ SR-IOV · vhost 같은 고성능 데이터 경로 최적화
 1. [[058_paravirtualization|반가상화]] I/O는 컴퓨터들이 서로 비밀 신호를 미리 약속해 두고 빠르게 이야기하는 방법이에요.
 2. 그래서 매번 긴 설명을 하지 않아도 필요한 물건을 빨리 주고받을 수 있어요.
 3. 대신 이 비밀 신호를 아는 친구들끼리만 가장 빠르게 움직일 수 있답니다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 664 / 803
+
+← **이전**: [[662_shadow_page_table|662. 그림자 페이지 테이블 (Shadow Page Table)]]
+**다음**: [[664_full_virtualization_io|664. 전가상화 (Full Virtualization) I/O]] →
+
+---

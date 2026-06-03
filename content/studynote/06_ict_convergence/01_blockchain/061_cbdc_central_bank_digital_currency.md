@@ -131,3 +131,14 @@ CBDC
 CBDC는 종이돈을 스마트폰에 넣은 것처럼 보이지만, 실제 주인은 나라예요.  
 그래서 돈값이 흔들리지 않아요.  
 대신 누구에게 어떻게 줄지는 아주 신중하게 정해야 해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 61 / 552
+
+← **이전**: [[060_hyperledger_architecture_peer_orderer_msp|60. 하이퍼레저 아키텍처 - 피어(Peer), 오더러(Orderer), MSP(Membership Service Provider)]]
+**다음**: [[062_bitcoin_halving_supply_shock|62. 비트코인 반감기 (Halving) - 약 4년마다 채굴 보상이 절반으로 줄어드는 메커니즘]] →
+
+---

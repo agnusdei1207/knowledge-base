@@ -64,3 +64,14 @@ EPM은 **[[081_erp_enterprise_resource_planning|ERP]] [[001_dikw_pyramid|데이�
 1. ERP는 **계기판**(지금 속도·연료)이에요. EPM은 **내비게이션**(목적지 경로)이에요.
 2. 내비가 없으면 "지금 어디쯤이지? 언제 도착하지?" **알 수 없어요**.
 3. EPM 덕분에 회사가 **목표까지 얼마나 남았는지** 정확히 알 수 있어요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 133 / 482
+
+← **이전**: [[132_hris_e_hr_talent_management_system|132. HRIS·e-HR·인재관리시스템 (Talent Management) - 디지털 인사 관리]]
+**다음**: [[134_esg_management_it_system_carbon_tracking|134. ESG 경영 & IT 시스템 - 탄소 추적·ESG 데이터 관리]] →
+
+---

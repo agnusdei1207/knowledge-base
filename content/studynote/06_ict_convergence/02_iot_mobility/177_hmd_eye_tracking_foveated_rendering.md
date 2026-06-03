@@ -184,3 +184,14 @@ Display output + gaze-based interaction
 1. 안경 컴퓨터는 네가 어디를 보는지 먼저 알아내고, 그곳만 가장 예쁘게 그려 줘요.
 2. 네가 안 보는 구석은 조금 덜 정성껏 그려도 눈치채기 어려워서 힘을 아낄 수 있어요.
 3. 그래서 작은 안경도 덜 뜨거워지고 더 오래 멋진 세상을 보여 줄 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 177 / 552
+
+← **이전**: [[176_wearable_device_wban|176. 웨어러블 디바이스 (Wearable Device) - 신체 부착형 기기 통신 체계 (WBAN, Wireless Body Area]]
+**다음**: [[178_tele_haptics_communication|178. 디지털 후각 / 촉각 텔레햅틱 (Tele-haptics) 통신 지연 제어]] →
+
+---

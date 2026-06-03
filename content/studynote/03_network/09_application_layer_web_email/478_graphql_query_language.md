@@ -252,3 +252,14 @@ GraphQL는 [[156_rest_representational_state_transfer|REST]] API에서 출발해
 1. 기존 [[477_rest_api_architecture|REST API]] 식당은 햄버거 세트(서버가 정한 규칙)만 팔아서, 내가 안 먹는 피클(오버패칭)도 무조건 받아야 하고 감자튀김을 더 먹으려면 줄을 두 번(언더패칭) 서야 했어요.
 2. 하지만 [[246_graphql_query_language_overfetching_solution|GraphQL]] 마라탕 가게에서는 종이 1장에 "고기 2장, 채소 빼고, 소스 많이"라고 내가 원하는 딱 그 모양대로만 체크해서 내밀면 한 번에 완벽한 요리가 나와요!
 3. 그래서 핸드폰(클라이언트)이 불필요한 [[001_dikw_pyramid|데이터]]를 받지 않아서 통신 [[001_dikw_pyramid|데이터]]도 아끼고 화면도 훨씬 빨리 뜰 수 있게 도와주는 똑똑한 주문서랍니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 599 / 1120
+
+← **이전**: [[477_rest_api_architecture|477. REST API (Representational State Transfer)]]
+**다음**: [[479_grpc_protobuf_http2|479. gRPC]] →
+
+---

@@ -133,3 +133,14 @@ LTV : CAC 비율을 기반으로 한 그로스 해킹(Growth Hacking) 및 마케
 1. 동네 문방구 아주머니가 "철수가 오늘 500원짜리 딱지를 샀네!" 하고 끝내면 옛날 방식이에요.
 2. 하지만 똑똑한 아주머니는 "철수는 앞으로 초등학교 졸업할 때까지 3년 동안 매일 와서 불량식품을 사 먹을 테니, 사실 500원이 아니라 50만 원짜리 엄청난 VIP 꼬마 손님이네!"라고 계산한답니다.
 3. 이렇게 한 친구가 우리 가게에 평생 동안 와서 써줄 돈을 미리 전부 계산해서 금액표를 붙여 놓은 것을 '고객 생애 가치(LTV)'라고 불러요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 108 / 482
+
+← **이전**: [[107_crm_customer_relationship_management|107. CRM (Customer Relationship Management, 고객 관계 관리) - 신규 고객 획득 및 기존 고객 유지/충성도]]
+**다음**: [[109_cac_customer_acquisition_cost|109. 고객 획득 비용 (CAC, Customer Acquisition Cost) - LTV > CAC 공식과 그로스 해킹]] →
+
+---

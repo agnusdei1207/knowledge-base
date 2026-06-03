@@ -181,3 +181,14 @@ Databricks는 2023년 기준 기업 가치 430억 달러로 평가되며, 2024�
 1. Databricks는 모든 도구가 한 건물에 있는 연구소예요. [[001_dikw_pyramid|데이터]] 수집, 분석, [[190_ai_llm_requirements_specification|AI]] 훈련을 한 곳에서 다 할 수 있어요.
 2. Photon Engine은 자동차 터보 장치처럼, 같은 일을 훨씬 빠르게 해주는 특별 엔진이에요.
 3. Spark 만든 사람들이 세운 회사라 마치 요리사가 직접 차린 레스토랑처럼, 도구와 플랫폼이 딱 맞게 설계되어 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 158 / 262
+
+← **이전**: [[157_data_analysis_services|157. 클라우드 빅데이터 분석 서비스 — Amazon EMR/Azure HDInsight/GCP Dataproc]]
+**다음**: [[159_snowflake_data_lake|159. Snowflake on Data Lake — External Table과 Iceberg 지원]] →
+
+---

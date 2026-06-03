@@ -122,3 +122,14 @@ Relational Model
 번호표가 꼭 있어야 해요.  
 같은 번호면 안 돼요.  
 개체 [[003_integrity|무결성]]은 그런 규칙이에요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 74 / 600
+
+← **이전**: [[073_integrity_constraints_overview|73. 무결성 제약조건 (Integrity Constraints)]]
+**다음**: [[075_referential_integrity_foreign_key_cascade|75. 참조 무결성 (Referential Integrity) - 외래 키 값은 참조하는 릴레이션의 기본키 값이거나 NULL이어야 함]] →
+
+---

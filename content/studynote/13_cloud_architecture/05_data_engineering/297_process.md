@@ -113,3 +113,14 @@ tags:
 1. [[207_iac_terraform_immutable_infrastructure|인프라스트럭처 애즈 코드]] [[195_terraform_hashicorp_agnostic_aws_gcp|테라폼]] [[171_idempotency_iac_terraform|멱등성]]는 사람이 많은 운동회에서 어디로 가야 하는지 알려 주는 안내판과 비슷해요.
 2. 규칙이 없으면 모두가 한곳에 몰려서 느려지고 다투지만, 길을 정해 두면 훨씬 부드럽게 움직일 수 있어요.
 3. 그래서 컴퓨터 세상에서도 [[207_iac_terraform_immutable_infrastructure|인프라스트럭처 애즈 코드]] [[195_terraform_hashicorp_agnostic_aws_gcp|테라폼]] [[171_idempotency_iac_terraform|멱등성]]를 쓰면 많은 팀과 [[090_service_kubernetes_network_load_balancing|서비스]]가 덜 부딪히고 더 빨리 움직일 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 296 / 371
+
+← **이전**: [[296_gitops|296. GitOps 깃업스 선언형 인프라 상태 동기화 (GitOps)]]
+**다음**: [[298_immutable|298. 불변 인프라 컨테이너 재생성 교체 (Immutable)]] →
+
+---

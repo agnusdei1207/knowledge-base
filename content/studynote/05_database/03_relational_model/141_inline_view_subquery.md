@@ -54,3 +54,14 @@ JOIN (SELECT dept_id, MAX(sal) AS max_sal FROM emp GROUP BY dept_id) t
 1. 인라인 뷰는 **임시 메모**예요. 복잡한 계산 결과를 **메모에 적어둬요**.
 2. 메모를 보면서 **본 작업(메인 [[298_qkv_attention|쿼리]])**을 [[216_progress_in_synchronization|진행]]하면 쉬워요.
 3. CTE(WITH)는 **같은 메모를 더 깔끔하게** 적는 방법이에요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 141 / 600
+
+← **이전**: [[140_sql_subquery|140. SQL 서브쿼리 심화 - EXISTS·IN·스칼라·인라인 뷰]]
+**다음**: [[142_scalar_subquery|142. 스칼라 서브쿼리 (Scalar Subquery) - SELECT 절 단일값 반환]] →
+
+---

@@ -186,3 +186,14 @@ Prototype과 Flyweight를 올바르게 구분하면 객체 설계의 [[282_perfo
 1. Prototype은 이미 만든 장난감을 본떠서 새 장난감을 빨리 하나 더 만드는 방법이에요.
 2. Flyweight는 여러 장난감이 똑같이 쓰는 큰 부품은 함께 쓰고, 이름표 같은 작은 부분만 각자 다르게 들고 있는 방법이에요.
 3. 그래서 Prototype은 빨리 만들 때 좋고, Flyweight는 많이 모아 둘 때 좋답니다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 229 / 530
+
+← **이전**: [[172_builder_immutable_object|172. 빌더 패턴을 활용한 불변 객체 (Immutable Object) 설계]]
+**다음**: [[174_j2ee_framework_patterns|174. J2EE 프레임워크 패턴 (J2EE Framework Patterns)]] →
+
+---

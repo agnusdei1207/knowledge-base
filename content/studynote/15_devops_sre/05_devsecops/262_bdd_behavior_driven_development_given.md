@@ -135,3 +135,14 @@ Reference Architecture
 1. [[165_bdd_behavior_driven_development|BDD]] 비즈니스 언어 포맷 기반 [[406_acceptance_test_uat|인수 테스트]]는 복잡한 일을 순서와 규칙으로 정리해서 실수하지 않게 도와주는 방법이에요.
 2. Given-When-Then 같은 친구들과 같이 움직여야 더 잘 작동해요.
 3. 그래서 문제가 생겨도 어디서 틀렸는지 빨리 찾고 다시 고치기 쉬워져요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 262 / 373
+
+← **이전**: [[261_tdd_test_driven_development|261. TDD (Test-Driven Development) 실패-구현-리팩토링 레드 그린 사이클]]
+**다음**: [[263_unit_test_mocking_stubbing|263. 유닛 테스트 (Unit Test) 함수 격리망 프레임워크 모킹(Mocking), 스터빙(Stubbing) 더블 기법]] →
+
+---

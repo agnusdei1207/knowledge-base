@@ -198,3 +198,14 @@ tags:
 1. 동적 연결 (Dynamic Linking)은 컴퓨터가 메모리를 방처럼 나눠 쓰고 주소를 찾는 방법이에요.
 2. 먼저 [[331_dynamic_loading|동적 적재]] ([[331_dynamic_loading|Dynamic Loading]])을 이해하면 동적 연결 (Dynamic Linking)이 왜 필요한지 더 쉽게 보여요.
 3. 그래서 동적 연결 (Dynamic Linking)을 잘 알면 나중에 [[333_shared_library|공유 라이브러리]] ([[333_shared_library|Shared Library]]) 스터브 ([[460_stub_test_double|Stub]]) 코드도 훨씬 쉽게 배울 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 332 / 800
+
+← **이전**: [[331_dynamic_loading|331. 동적 적재 (Dynamic Loading) - 루틴 호출 시점에 메모리 적재 (효율성)]]
+**다음**: [[333_shared_library|333. 공유 라이브러리 (Shared Library) 스터브 (Stub) 코드]] →
+
+---

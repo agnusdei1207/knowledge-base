@@ -124,3 +124,14 @@ tags:
 1. 객체 지향 설계 원칙은 블록을 아무 데나 쌓지 말고, 튼튼하게 버틸 모양으로 먼저 나누는 규칙이에요.
 2. 처음에 자리를 잘 정해 두면 새 블록을 붙일 때 무너지지 않아요.
 3. 그래서 나중에 바꾸거나 고칠 때도 훨씬 쉬워져요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 144 / 530
+
+← **이전**: [[100_architecture_tactics_quality_attributes|100. 아키텍처 전술 (Architecture Tactics) - 품질 속성 달성을 위한 설계 전략]]
+**다음**: [[101_solid_object_oriented_design_principles|객체 지향 설계 원칙 (SOLID)]] →
+
+---

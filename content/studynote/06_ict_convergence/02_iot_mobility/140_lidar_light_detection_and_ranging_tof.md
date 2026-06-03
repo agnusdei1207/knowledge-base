@@ -53,3 +53,14 @@ LiDAR는 **자율주행·측량의 핵심 센서**이며, 솔리드 [[272_state_
 1. LiDAR는 **박쥐의 초음파**예요. 빛을 쏘고 **돌아오는 시간**으로 거리를 재요.
 2. 초당 **30만 번** 쏴서 주변의 **3D 지도**를 만들어요.
 3. 자율주행차가 **장애물까지 거리를 정확히** 아는 비결이에요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 140 / 552
+
+← **이전**: [[139_sensor_fusion_camera_lidar_radar|139. 센서 퓨전 (Camera·LiDAR·Radar) - 자율주행 인지 통합]]
+**다음**: [[141_v2x_vehicle_to_everything_communication|141. V2X (Vehicle-to-Everything) 통신 - 차량-인프라 연결]] →
+
+---

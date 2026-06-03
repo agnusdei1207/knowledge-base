@@ -314,3 +314,14 @@ AWS, Snowflake, Databricks 지원
 1. 컬럼형은 같은 종류끼리 묶기 — CSV가 "1번 사람 모든 정보"를 묶으면, Parquet는 "모든 사람의 나이"를 묶어요. 나이만 필요할 때 엄청 빠르죠!
 2. 술어 푸시다운은 목차 이용하기 — "1월 [[001_dikw_pyramid|데이터]]"를 찾을 때 목차(Row Group 통계) 보고 12월 [[001_dikw_pyramid|데이터]]는 통째로 건너뛰어요!
 3. Parquet는 Spark 친구, ORC는 [[544_hive|Hive]] 친구 — 같은 기능이지만 각자 잘 맞는 생태계가 달라요. 쓰는 도구에 맞게 선택!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 45 / 258
+
+← **이전**: [[044_kappa_architecture_single_streaming_layer|044. 카파 아키텍처 — 단일 스트리밍 레이어]]
+**다음**: [[046_lsm_tree_log_structured_merge|046. LSM 트리 — Log-Structured Merge-Tree]] →
+
+---

@@ -127,3 +127,14 @@ Helm Package Manager
 
 > 🧒 **어린이 비유**
 > Helm은 레고 설명서 세트예요. Chart가 설명서, values.yaml이 원하는 색깔 선택표, Release는 완성된 레고 작품이에요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 315 / 373
+
+← **이전**: [[314_pv_pvc|PV PVC PersistentVolume]]
+**다음**: [[316_management|SRE Site Reliability Engineering]] →
+
+---

@@ -105,3 +105,14 @@ tags:
 1. ERD는 "학생이 과목을 듣는다"라는 **[[083_relationship_in_er_model|관계]]를 그림**으로 표현한 거예요.
 2. 매핑 규칙은 이 그림을 **컴퓨터가 이해하는 표(테이블)**로 바꾸는 번역 문법이에요.
 3. "학생↔과목" 같은 복잡한 [[083_relationship_in_er_model|관계]]는 **수강 기록부(교차 테이블)**를 만들어서 연결한답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 116 / 600
+
+← **이전**: [[115_logical_design_normalization|115. 논리 설계와 정규화 (Logical Design & Normalization) - ERD→릴레이션 변환·FD 분석]]
+**다음**: [[117_physical_database_design_indexing|117. 물리 데이터베이스 설계 (Physical DB Design) - 인덱스·파티셔닝·스토리지 최적화]] →
+
+---

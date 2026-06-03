@@ -146,3 +146,14 @@ IP 주소 고갈 문제, 클라스풀 주소체계는 [[296_header_checksum_ipv4
 1. 택배를 보내려면 집 주소가 정확해야 길을 잃지 않아요.
 2. 이 개념은 인터넷 세상에서 주소를 정하고 다음 길을 찾는 지도와 같아요.
 3. 그래서 멀리 있는 친구 컴퓨터까지도 편지가 도착할 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 418 / 1120
+
+← **이전**: [[296_header_checksum_ipv4_integrity|296. 헤더 체크섬 (Header Checksum)]]
+**다음**: [[298_ip_classes_a_b_c_d_multicast_e_experimental|298. 클래스 A, B, C, D (멀티캐스트), E (실험용)]] →
+
+---

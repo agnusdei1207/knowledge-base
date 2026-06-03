@@ -298,3 +298,14 @@ Photon (Databricks) · Spark Connect (원격 실행)
 ```
 2. [[023_lazy_evaluation|지연 평가]]는 "쇼핑 목록을 다 적은 다음 한 번에 효율적으로 쇼핑하는 것"이에요. 중간에 불필요한 물건을 AI가 목록에서 지워줘요.
 3. DAG는 "요리 레시피 흐름도"예요. 어떤 재료([[001_dikw_pyramid|데이터]])가 어떤 순서로 섞여야 완성 요리(결과)가 나오는지 그림으로 보여줘요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 206 / 258
+
+← **이전**: [[205_shuffle_sort_yarn_resource_manager|205. 셔플·정렬 (Shuffle & Sort)과 YARN (Yet Another Resource Negotiator)]]
+**다음**: [[207_data_lake_schema_on_read_raw_storage|207. 데이터 레이크 (Data Lake) 스키마 온 리드 (Schema-on-Read)]] →
+
+---

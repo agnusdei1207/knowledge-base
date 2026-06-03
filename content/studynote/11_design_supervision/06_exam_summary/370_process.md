@@ -111,3 +111,14 @@ tags:
 1. [[213_msa_microservices_architecture|마이크로서비스 아키텍처]] ([[365_msa_microservice_architecture|Microservice Architecture]], [[619_msa_traffic_hardware|MSA]])은 큰 학교를 학년별 건물로 나눠 각자 시간표대로 움직이게 하는 것처럼 약속을 먼저 정하는 거예요.
 2. 그러면 서로 다른 사람이 해도 같은 규칙으로 움직일 수 있어요.
 3. 그래서 규모가 커질수록 팀과 [[090_service_kubernetes_network_load_balancing|서비스]]의 자율성을 배포 단위에 반영하는 일이 더 중요해져요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 448 / 530
+
+← **이전**: [[369_process|369. 이벤트 소싱 (Event Sourcing)]]
+**다음**: [[371_api_gateway_summary|371. API 게이트웨이 (API Gateway)]] →
+
+---

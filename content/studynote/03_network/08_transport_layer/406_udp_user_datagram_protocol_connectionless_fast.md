@@ -147,3 +147,14 @@ UDP는 TCP에서 출발해 현재 메커니즘을 정교화하고, 이후 [[405_
 1. 물건을 보낼 때 받는 사람이 너무 빨리 받으면 놓칠 수 있어요.
 2. 이 개념은 천천히 보낼지, 다시 보낼지, 길이 막히면 멈출지를 정해줘요.
 3. 그래서 멀리 보내도 덜 잃어버리고 더 안정적으로 도착해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 527 / 1120
+
+← **이전**: [[405_tcp_transmission_control_protocol_connection_oriented|405. TCP (Transmission Control Protocol)]]
+**다음**: [[407_tcp_segment_header_structure_20_60_bytes|407. TCP 세그먼트 (Segment) 헤더]] →
+
+---

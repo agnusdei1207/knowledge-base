@@ -137,3 +137,14 @@ tags:
 1. 이 개념은 큰 여행을 떠나기 전에 어디로 갈지 정하는 지도와 같아요.
 2. 지도가 있어야 길을 잃지 않고 필요한 준비물을 챙길 수 있어요.
 3. 그래서 모두가 같은 목적지를 보며 움직일 수 있답니다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 59 / 587
+
+← **이전**: [[033_platform_business_model|33. 플랫폼 비즈니스 모델 (Platform Business Model)]]
+**다음**: [[034_platform_business_model|플랫폼 비즈니스 모델 (Platform Business Model)]] →
+
+---

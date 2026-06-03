@@ -125,3 +125,14 @@ Access Token vs [[505_refresh_token|Refresh Token]] (수명 및 용도 차이)�
 1. Access Token vs [[505_refresh_token|Refresh Token]] (수명 및 용도 차이)는 컴퓨터끼리 인사하고 [[396_validation|확인]]하는 순서를 정한 약속이에요.
 2. 순서를 건너뛰면 나쁜 사람이 친구인 척할 수 있어요.
 3. 그래서 컴퓨터는 차례대로 묻고 답하면서 서로를 믿게 돼요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 569 / 1108
+
+← **이전**: [[512_oauth_scope|512. Scope (OAuth 권한 범위)]]
+**다음**: [[514_oidc_overview|514. OIDC (OIDC)]] →
+
+---

@@ -130,3 +130,14 @@ Team Sync
 아침에 짧게 이야기해요.  
 어디까지 왔는지 알려 줘요.  
 데일리 스크럼은 그런 점검이에요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 69 / 973
+
+← **이전**: [[068_sprint_planning|68. 스프린트 계획 회의 (Sprint Planning)]]
+**다음**: [[070_sprint_review_demo|70. 스프린트 리뷰 (Sprint Review) - 데모 및 피드백]] →
+
+---

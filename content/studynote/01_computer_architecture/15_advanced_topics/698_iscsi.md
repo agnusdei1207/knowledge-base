@@ -157,3 +157,14 @@ NVMe/TCP (Non-Volatile Memory Express over Transmission Control Protocol)
 1. iSCSI는 멀리 있는 큰 서랍장을 인터넷 길로 가져와 내 방 서랍처럼 쓰게 해 주는 방법이에요.
 2. 그래서 비싼 특별한 길을 새로 만들지 않아도, 원격 저장공간을 편하게 사용할 수 있어요.
 3. 대신 길이 막히면 서랍 여는 속도도 느려지니까, 길을 잘 나누고 정리해야 한답니다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 699 / 803
+
+← **이전**: [[697_fcoe|697. FCoE (Fibre Channel over Ethernet)]]
+**다음**: [[699_nvme_queue_pairs|699. NVMe 큐 쌍 (Queue Pairs)]] →
+
+---

@@ -141,3 +141,14 @@ RIP는 [[350_distance_vector_hold_down_timer_triggered_update|홀드다운 타�
 1. 여러 갈림길이 있는 미로에서 가장 좋은 길을 고르는 게임과 같아요.
 2. 이 개념은 길이 막히면 다른 길로 빨리 바꾸는 규칙도 알려줘요.
 3. 그래서 인터넷 길찾기가 덜 헤매고 더 똑똑해져요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 472 / 1120
+
+← **이전**: [[350_distance_vector_hold_down_timer_triggered_update|350. 홀드다운 타이머 (Hold-down Timer), 트리거드 업데이트 (Triggered Update)]]
+**다음**: [[352_ripv1_classful_vs_ripv2_classless_vlsm|352. RIPv1 (클래스풀, 브로드캐스트) vs RIPv2 (클래스리스/VLSM, 멀티캐스트: 224.0.0.9)]] →
+
+---

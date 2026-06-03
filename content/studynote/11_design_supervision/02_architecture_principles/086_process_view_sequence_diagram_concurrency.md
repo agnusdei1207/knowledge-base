@@ -106,3 +106,14 @@ tags:
 1. 식당에서 손님 동선과 주방 동선을 같이 그려야 안 막힌다.
 2. 주문표가 여러 사람 손을 거치면, 누가 어디서 기다리는지 알아야 빨라진다.
 3. 문이 열리는 순서까지 봐야 건물이 덜 막힌다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 129 / 530
+
+← **이전**: [[085_logical_view_class_diagram_functional_requirements|85. 논리 뷰 (Logical View) - 최종 사용자 요구사항 개념 설계]]
+**다음**: [[087_implementation_view_component_diagram_packaging|87. 구현 뷰 (Implementation View) - 소프트웨어 모듈 컴포넌트 설계]] →
+
+---

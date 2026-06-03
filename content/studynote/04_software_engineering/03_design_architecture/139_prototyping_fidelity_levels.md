@@ -52,3 +52,14 @@ tags:
 1. Lo-Fi는 **연필 스케치**예요. 빠르게 그려서 **대략적인 모양**을 [[396_validation|확인]]해요.
 2. Hi-Fi는 **완성 그림**이에요. 실제처럼 **클릭도 되고 움직여요**.
 3. 처음부터 완성 그림을 그리면 **수정이 어려우니** 스케치부터 시작해요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 139 / 973
+
+← **이전**: [[138_prototyping_throwaway_evolutionary|138. 프로토타이핑 - Throwaway vs Evolutionary 프로토타입]]
+**다음**: [[140_shadowing_observation_technique|140. 쉐도잉 & 관찰 기법 (Shadowing/Observation) - 현장 기반 요구 도출]] →
+
+---

@@ -123,3 +123,14 @@ tags:
 1. [[130_probability|확률]]적 [[275_gradient_descent_sgd|경사 하강법]] (SGD, [[241_optimizer_sgd_minibatch_adam_momentum_adaptive|Stochastic Gradient Descent]])은(는) 복잡해 보여도 일정한 순서와 규칙을 따라 움직여요.
 2. 중간 과정을 잘 이해하면 왜 그런 결과가 나오는지 스스로 설명할 수 있어요.
 3. 그래서 겉모습보다 흐름과 비교 기준을 함께 기억하는 것이 중요해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 81 / 420
+
+← **이전**: [[080_gradient_descent_learning_rate|080. 학습률 (Learning Rate in Gradient Descent)]]
+**다음**: [[082_mini_batch_size_epoch_iteration|82. 미니배치 사이즈 (Mini-batch Size) / 에폭 (Epoch) / 이터레이션 (Iteration)]] →
+
+---

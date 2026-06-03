@@ -62,3 +62,14 @@ Digital Workplace는 **그룹웨어+Enterprise 2.0+[[190_ai_llm_requirements_spe
 1. 그룹웨어는 **우편함**이에요. 공문(결재)을 넣고 꺼내요.
 2. Enterprise 2.0은 **카톡 그룹채팅**이에요. 실시간으로 **자유롭게 소통**해요.
 3. 지금은 [[190_ai_llm_requirements_specification|AI]] 비서(Copilot)가 **회의 요약·자료 정리**까지 도와준답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 131 / 482
+
+← **이전**: [[130_seci_model_knowledge_creation|130. SECI 모델 - 노나카의 조직 지식 창조 이론]]
+**다음**: [[132_hris_e_hr_talent_management_system|132. HRIS·e-HR·인재관리시스템 (Talent Management) - 디지털 인사 관리]] →
+
+---

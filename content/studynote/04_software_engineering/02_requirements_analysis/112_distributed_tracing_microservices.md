@@ -123,3 +123,14 @@ W3C Trace [[033_context|Context]] 표준: [[461_http_stateless_connection_orient
 1. 택배를 보내면 **송장번호([[303_trace_id|Trace ID]])**로 지금 어디에 있는지 추적할 수 있죠?
 2. [[136_variance|분산]] 트레이싱도 인터넷 요청에 송장번호를 붙여서, **어느 컴퓨터에서 오래 멈췄는지** 찾아내요.
 3. 덕분에 개발자가 "아! 여기가 느렸구나!"라고 **바로 고칠 수 있답니다!**
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 112 / 973
+
+← **이전**: [[111_observability_metrics_logs_traces|111. 관측 가능성 (Observability) - Metrics·Logs·Traces 3대 신호와 SRE 실천]]
+**다음**: [[113_chaos_engineering_chaos_monkey|113. 카오스 엔지니어링 (Chaos Engineering) - Chaos Monkey·정상 상태 가설·실험 설계]] →
+
+---

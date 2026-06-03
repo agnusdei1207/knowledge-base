@@ -63,3 +63,14 @@ ReLU는 **딥러닝의 가장 기본적이고 중요한 [[129_activation_functio
 1. ReLU는 **문**이에요. 좋은 [[130_signal|신호]](양수)는 **열어서 통과**, 나쁜 [[130_signal|신호]](음수)는 **닫아서 차단**해요.
 2. 옛날 문([[268_sigmoid_vanishing_gradient|Sigmoid]])은 **반만 열려서** [[130_signal|신호]]가 점점 약해졌어요(Vanishing).
 3. [[269_relu_activation|ReLU]] 덕분에 **깊은 신경망**도 잘 학습할 수 있게 됐답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 130 / 258
+
+← **이전**: [[129_activation_function|129. 활성화 함수 (Activation Function) - 신경망의 비선형 변환 핵심]]
+**다음**: [[131_loss_function_optimizer_gradient_descent|131. 손실 함수·옵티마이저·경사 하강법 - 딥러닝 학습의 3대 축]] →
+
+---

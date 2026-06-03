@@ -219,3 +219,14 @@ tags:
 - 각 섹션 끝에 📢 요약 비유 반드시 추가
 - 최소 800자/[[501_file_definition_logical_record|파일]]
 - [[501_file_definition_logical_record|파일]]명: 01_, 02_... 형식
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 29 / 175
+
+← **이전**: [[028_binary_search|18. 이분 탐색 (Binary Search) — O(log n), 정렬된 배열 필수]]
+**다음**: [[030_linear_search|1. 선형 탐색 (Linear Search) — O(n)]] →
+
+---

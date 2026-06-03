@@ -235,3 +235,14 @@ SMOTE는 클래스 불균형 문제 해결의 사실상 표준 기법이지만 �
 ```
 2. SMOTE는 빨간 옷 아이 두 명 사이에 "비슷하게 생긴 새 빨간 옷 아이"를 만들어줘서 AI가 빨간 옷의 특징을 더 잘 배우게 해준다.
 3. 단, 시험 볼 때(테스트)는 진짜 빨간 옷 아이만 써야 한다—연습용 가짜 아이를 시험에 쓰면 점수가 부풀려지는 속임수가 된다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 231 / 258
+
+← **이전**: [[230_svd_matrix_factorization_random_forest_xgboost_boosting|230. SVD (Singular Value Decomposition) 행렬 분해 랜덤 포레스트 XGBoost 부스팅]]
+**다음**: [[232_tfidf_cosine_similarity_text_embedding_confusion_matrix|232. TF-IDF (Term Frequency-Inverse Document Frequency) 코사인 유사도 텍스트 임베딩 혼동]] →
+
+---

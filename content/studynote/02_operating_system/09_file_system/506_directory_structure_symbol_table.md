@@ -145,3 +145,14 @@ tags:
 1. 컴퓨터 화면에서 폴더(디렉터리) 이미지는 겉보기엔 노란색 [[501_file_definition_logical_record|파일]]철 주머니 가방처럼 생겼지만, 사실 그 안에는 부피나 공간이 있는 비밀 박스가 아니에요! (서버 가상 환상)
 2. 폴더의 진짜 정체는, 칠판에 적어둔 단순히 얇은 **"이름표 번역 짝꿍 짝짓기 리스트(심볼 매핑 테이블)" 일기장 종이 1장** 이랍니다!
 3. 우리가 폴더를 더블 클릭하면, [[001_operating_system_purpose|운영체제]] 로봇이 일기장 종이를 열어보고 "아! 가족사진 [[501_file_definition_logical_record|파일]] 이름 옆에 진짜 하드디스크 창고 907번 방 주소가 써있네! 내가 번쩍 점프 뛰어서 가져올게 결론 워프!" 라고 1초 만에 인간과 기계 사이를 연결해 통역을 날려 도와주는 신비의 마법 번역 사전 장부, 그게 디렉터리 구조 [[501_file_definition_logical_record|파일]]이랍니다!!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 506 / 800
+
+← **이전**: [[505_file_indexed_access_method|505. 색인 접근 (Indexed Access)]]
+**다음**: [[507_single_two_level_directory_ufd|507. 1단계 디렉터리 / 2단계 디렉터리 (사용자별 UFD) (Single Two Level Directory Ufd)]] →
+
+---

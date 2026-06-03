@@ -127,3 +127,14 @@ TDD / CI / Pair Programming
 코드를 잘 쓰는 연습이에요.  
 친구와 같이 쓰기도 해요.  
 XP는 그런 방법이에요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 73 / 973
+
+← **이전**: [[072_burndown_burnup_chart|72. 번다운 차트 (Burndown Chart) / 번업 차트 (Burnup Chart)]]
+**다음**: [[074_pair_programming_driver_navigator|74. 페어 프로그래밍 (Pair Programming) - Driver / Navigator]] →
+
+---

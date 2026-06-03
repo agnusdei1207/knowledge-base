@@ -133,3 +133,14 @@ CMAF는 [[298_ip_classes_a_b_c_d_multicast_e_experimental|멀티캐스트]] 오�
 1. 엄청 빠른 빛 자동차와 똑똑한 로봇 교통정리원이 함께 일하는 미래 도시와 같아요.
 2. 이 개념은 빛처럼 빠르게 보내면서도 스스로 상태를 보고 길을 고치게 해줘요.
 3. 그래서 더 큰 인터넷도 사람 손을 덜 타고 잘 움직일 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 1027 / 1120
+
+← **이전**: [[905_hls_http_live_streaming_m3u8_adaptive_bitrate|905. 멀티캐스트 오디오/비디오 스트리밍 프로토콜 (HLS HTTP Live Streaming)]]
+**다음**: [[907_jitter_buffer_video_conferencing_adaptive_playout|907. 화상 회의 지터 버퍼 (Jitter Buffer 패킷 도달 시간편차 무작위성 완충 재생 지연 최신 동기화 체계망 오디오 왜곡]] →
+
+---

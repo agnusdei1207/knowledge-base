@@ -82,3 +82,14 @@ HDFS의 작은 [[501_file_definition_logical_record|파일]] 문제는 [[014_nam
 1. **작은 [[501_file_definition_logical_record|파일]] 문제**: 커다란 장난감 상자에 커다란 블록을 넣어야 하는데, 아주 작은 모래알들을 하나씩 따로 포장해서 넣는 것과 같아요.
 2. **이유**: 모래알마다 이름표([[012_metadata|메타데이터]])를 붙이다 보니, 이름표를 적어둔 수첩([[014_namenode|네임노드]])이 꽉 차서 더 이상 글을 쓸 수 없게 되는 거예요.
 3. **결론**: 모래알들을 커다란 한 봉지에 담아서 정리하면 이름표를 하나만 써도 되니까 훨씬 편해진다는 뜻이에요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 43 / 262
+
+← **이전**: [[042_cloudera_cdp_platform|Cloudera CDP (Cloudera Data Platform)]]
+**다음**: [[044_apache_storm|아파치 스톰 (Apache Storm) 및 실시간 분산 처리]] →
+
+---

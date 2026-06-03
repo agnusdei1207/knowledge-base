@@ -228,3 +228,14 @@ eBPF로 커널 기능 동적 확장
 1. OS [[090_service_kubernetes_network_load_balancing|서비스]]는 호텔처럼 고객(앱)을 위한 [[090_service_kubernetes_network_load_balancing|서비스]]([[501_file_definition_logical_record|파일]], 인터넷)와 호텔 내부 관리(자원 배분, 보안)로 나뉘어요.
 2. 시스템 콜은 고객이 프런트 데스크([[022_kernel_role|커널]])에 요청하는 방법 — 직접 금고에 손대지 못하고 반드시 창구를 통해야 해요.
 3. strace를 쓰면 앱이 어떤 OS [[090_service_kubernetes_network_load_balancing|서비스]]를 몇 번 요청했는지 전부 볼 수 있어서 느린 원인을 찾거나 에러를 디버깅할 때 유용해요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 39 / 800
+
+← **이전**: [[038_init_systemd|038. init과 systemd — 부팅 초기화 시스템]]
+**다음**: [[040_error_detection|040. 오류 탐지 (Error Detection)]] →
+
+---

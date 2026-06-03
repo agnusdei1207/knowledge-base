@@ -57,3 +57,14 @@ GRU 2 Gate: Reset + Update (LSTM 단순화)
 1. LSTM은 **포스트잇 붙은 일기장**이에요. 중요한 페이지를 **잊지 않아요**.
 2. RNN은 옛날 일기를 잊지만, LSTM은 **포스트잇(Gate) 덕분에 기억**해요.
 3. GRU는 **포스트잇을 2개만 쓰는** 간단한 버전이에요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 137 / 258
+
+← **이전**: [[136_rnn_recurrent_neural_network|136. RNN (Recurrent Neural Network) - 순환 신경망과 시퀀스 처리]]
+**다음**: [[138_attention_mechanism_dynamic_weight|138. Attention Mechanism - 동적 가중치로 핵심 정보에 집중]] →
+
+---

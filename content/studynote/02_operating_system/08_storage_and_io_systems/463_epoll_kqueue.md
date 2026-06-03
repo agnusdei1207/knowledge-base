@@ -180,3 +180,14 @@ tags:
 1. epoll / kqueue (Epoll Kqueue)은 컴퓨터가 디스크와 장치가 [[001_dikw_pyramid|데이터]]를 주고받는 길을 정리하는 방법이에요.
 2. 먼저 I/O 완료 [[446_port_and_bus|포트]] (IOCP, I/O Completion [[446_port_and_bus|Port]])을 이해하면 epoll / kqueue (Epoll Kqueue)이 왜 필요한지 더 쉽게 보여요.
 3. 그래서 epoll / kqueue (Epoll Kqueue)을 잘 알면 나중에 io_uring도 훨씬 쉽게 배울 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 463 / 800
+
+← **이전**: [[462_iocp_io_completion_port|462. I/O 완료 포트 (IOCP, I/O Completion Port) - Windows 비동기 I/O 스케일링]]
+**다음**: [[464_io_uring|464. io_uring (I/O Uring)]] →
+
+---

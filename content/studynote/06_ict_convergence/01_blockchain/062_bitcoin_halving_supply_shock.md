@@ -130,3 +130,14 @@ Fee Market
 처음에는 사탕을 많이 주다가, 시간이 지나면 절반만 주는 거예요.  
 그래서 사탕이 점점 귀해져요.  
 비트코인 반감기도 그렇게 코인을 천천히 나눠 주는 규칙이에요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 62 / 552
+
+← **이전**: [[061_cbdc_central_bank_digital_currency|61. CBDC (Central Bank Digital Currency) - 중앙은행 디지털 화폐]]
+**다음**: [[063_mempool_transaction_queue|63. 트랜잭션 풀 (Mempool / Memory Pool) - 블록에 포함되지 않은 대기 중인 트랜잭션 저장소]] →
+
+---

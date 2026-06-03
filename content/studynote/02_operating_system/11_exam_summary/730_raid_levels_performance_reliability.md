@@ -196,3 +196,14 @@ $0101 \oplus 1010 \oplus 0011 = \mathbf{1100}$ (죽었던 [[001_dikw_pyramid|데
 1. 철수는 보물 지도([[001_dikw_pyramid|데이터]]) 1장을 잃어버릴까 봐 너무 무서웠어요. (단일 디스크의 공포)
 2. 그래서 지도를 반으로 쫙 찢은 다음, 왼쪽 반쪽은 영희한테, 오른쪽 반쪽은 민수한테 맡겼어요. ([[484_raid_0_striping|RAID 0]]: 이렇게 하면 지도를 2배 빨리 읽을 수 있지만, 한 명이라도 잃어버리면 지도를 못 봐요!)
 3. 그래서 지도를 1장 더 똑같이 복사([[485_raid_1_mirroring|RAID 1]])하거나, 영희와 민수가 가진 지도의 글자를 섞은 '비밀 요약본(패리티, [[487_raid_5_distributed_parity|RAID 5]])'을 짱구에게 맡겼어요! 이제 영희가 지도를 잃어버려도 짱구의 요약본을 보고 똑같이 그려낼 수 있답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 730 / 800
+
+← **이전**: [[729_sstf_starvation_middle_bias|729. SSTF 기아 현상 (가운데 편중) (Sstf Starvation Middle Bias)]]
+**다음**: [[731_ssd_ftl_flash_translation_layer|731. SSD FTL (Flash Translation Layer)]] →
+
+---

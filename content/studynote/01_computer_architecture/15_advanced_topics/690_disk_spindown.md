@@ -148,3 +148,14 @@ Deep archive with tape / cloud archive
 1. 아무도 놀지 않는 회전목마를 하루 종일 돌리면 전기가 아까워요.
 2. 디스크 스핀다운은 손님이 없을 때 회전목마를 잠깐 멈춰 두는 방법이에요.
 3. 다시 타려면 조금 기다려야 하지만, 쉬는 동안 전기와 열을 많이 아낄 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 691 / 803
+
+← **이전**: [[689_nvram_logging|689. NVRAM 로깅]]
+**다음**: [[691_maid_storage|691. MAID (Massive Array of Idle Disks)]] →
+
+---

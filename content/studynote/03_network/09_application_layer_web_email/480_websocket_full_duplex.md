@@ -226,3 +226,14 @@ WebSocket는 gRPC에서 출발해 현재 메커니즘을 정교화하고, 이후
 1. 옛날 인터넷은 궁금한 게 있을 때마다 엄마(서버)한테 다가가서 "다 됐어?"라고 수백 번씩 물어봐야([[747_io_polling_overhead|Polling]]) 했어요. 엄마도 나도 너무 피곤했죠.
 2. [[975_websocket_full_duplex_realtime_http_upgrade|웹소켓]]은 엄마와 내 방 사이에 팽팽한 **'실 전화기'**를 연결해둔 거예요. 언제든 궁금한 게 있으면 입만 대고 물어보고, 엄마도 밥 다 되면 바로 실 전화기로 말해주죠!
 3. 무겁게 매번 방문을 열고 왔다 갔다 할 필요 없이, 끊어지지 않는 실 전화기([[405_tcp_transmission_control_protocol_connection_oriented|TCP]] 연결) 하나로 하루 종일 쉴 새 없이 수다를 떨 수 있는 마법 같은 기술이랍니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 601 / 1120
+
+← **이전**: [[479_grpc_protobuf_http2|479. gRPC]]
+**다음**: [[481_sse_server_sent_events|481. SSE (Server-Sent Events)]] →
+
+---

@@ -157,3 +157,14 @@ RTOS 연동 예외 분리(SysTick / PendSV)
 1. 컴퓨터 안에는 여러 장치가 "나부터 봐 줘!" 하고 동시에 손을 들어요.
 2. VIC와 NVIC는 그중에서 가장 급한 친구를 먼저 고르고, 선생님이 바로 그 친구 자리로 가게 도와줘요.
 3. 특히 NVIC는 가방 챙기기까지 빨리 해 줘서, 중요한 일을 더 빨리 시작할 수 있게 해 줘요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 559 / 803
+
+← **이전**: [[558_nmi|558. NMI (Non-Maskable Interrupt)]]
+**다음**: [[560_multicore_interrupt_routing|560. 멀티코어 인터럽트 라우팅 (GIC: Generic Interrupt Controller, APIC: Advanced Programmable]] →
+
+---

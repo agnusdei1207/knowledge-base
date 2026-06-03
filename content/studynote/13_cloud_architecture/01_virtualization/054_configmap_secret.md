@@ -127,3 +127,14 @@ Pod 주입
 1. ConfigMap은 메모지에 적은 일반 정보예요.
 2. Secret은 남에게 보이면 안 되는 비밀번호예요.
 3. 둘을 나눠 두면 정리도 쉽고 안전해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 53 / 371
+
+← **이전**: [[053_service_pod_deployment|53. 서비스와 파드 배포 (Service Pod Deployment)]]
+**다음**: [[055_ingress_service_types|55. Ingress와 Service Type]] →
+
+---

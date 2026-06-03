@@ -384,3 +384,14 @@ Sim-to-Real Transfer → 실차 배포 · V2X 통신
 ```
 2. DAgger는 피아노 학원에서 틀린 부분만 선생님이 다시 시범 보여주는 것이에요. 연습하다가 막히는 부분(분포 이탈)에 딱 맞는 가르침(전문가 레이블)이 쌓여요.
 3. [[126_digital_twin_concept|디지털 트윈]] 시뮬레이터는 자동차 게임 같아요. 게임에서는 충돌해도 다시 살아나기 때문에, 현실에서 절대 못 해볼 위험한 상황(역주행 차, 폭설)을 안전하게 연습할 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 200 / 258
+
+← **이전**: [[199_intent_based_networking_ibn_ai_traffic_routing|199. 인텐트 기반 네트워킹 (IBN, Intent-Based Networking) 트래픽 AI 라우팅 분배망]]
+**다음**: [[201_bigdata_3v_5v_volume_velocity_variety|201. 빅데이터 3V·5V 특성 (Big Data 3V·5V Characteristics)]] →
+
+---

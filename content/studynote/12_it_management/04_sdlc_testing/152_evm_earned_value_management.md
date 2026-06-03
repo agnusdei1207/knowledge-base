@@ -171,3 +171,14 @@ Agile 애자일 번다운 차트(Burndown Chart) JIRA 대통일 (현재) / 무�
 1. 엄마가 내게 "용돈 10만 원 줄 테니 한 달 동안 수학 문제집 100장 풀어(계획 [[153_pv_planned_value|PV]])"라고 미션을 줬어요. 
 2. 보름(15일) 지났을 때, 내가 피시방 가서 용돈 8만 원이나 써버렸어요(진짜 쓴 돈 [[155_ac_actual_cost|AC]] 💀). 엄마는 "돈을 80% 썼으니 문제집도 80장 풀었겠지?" 뇌피셜 기대(Hope)를 하지만 ➔ 내 방에 쳐들어와 직접 눈으로 **'진짜 푼 문제집 장수(진짜 획득한 가치 [[154_ev_earned_value|EV]] ✨)'**를 세어보니 고작 20장 풀고 게임만 한 팩트가 적발 딱 걸렸어요 쾅 💥!!
 3. **EVM 엑스레이 마법**은 이렇게 "내가 기대한 거([[153_pv_planned_value|PV]]) / 진짜 쓴 돈([[155_ac_actual_cost|AC]]) / 그리고 팩트 진짜 땀 흘려 해낸 결과물([[154_ev_earned_value|EV]])" 3가지를 도끼로 찢어 분리해서 잔혹하게 냉정 비교 채점 치는 거예요! 돈만 펑펑 쓰고 숙제([[154_ev_earned_value|EV]])가 엉망진창 똥 0.2 성적표([[158_cpi_cost_performance_index|CPI]] 떡락)가 뜬 걸 ➔ 엄마가 15일 차 초반에 1초 컷 엑스레이 스캔 조기 발견(Early Warning 쉴드)해서 내 등짝 스매싱 팩폭 수술을 때려 남은 15일 벼락치기 펌핑을 강제 통제하는 우주 최강 무적 생존 감시 레이더랍니다 🚀!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 266 / 587
+
+← **이전**: [[151_pert_three_point_estimation|151. PERT (Program Evaluation and Review Technique, 3점 추정) - 불확실성 늪의 확률적 엑스레이]]
+**다음**: [[153_pv_planned_value|153. PV (Planned Value, 계획 가치) - EVM 인바디 엑스레이의 절대 0순위 베이스캠프]] →
+
+---

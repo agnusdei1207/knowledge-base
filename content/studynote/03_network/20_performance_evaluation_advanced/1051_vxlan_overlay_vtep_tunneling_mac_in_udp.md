@@ -127,3 +127,14 @@ tags:
 1. 달리기 시합에서 누가 얼마나 빨랐는지 재려면 초시계와 기록표가 필요해요.
 2. 이 개념은 네트워크가 어디서 느려졌는지 숫자로 찾아내는 도구예요.
 3. 그래서 막연히 고치는 대신 가장 중요한 곳부터 똑똑하게 손볼 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 156 / 1120
+
+← **이전**: [[1050_rdma_roce_remote_direct_memory_access_storage|1050. RDMA / RoCE 스토리지 서버 네트워킹]]
+**다음**: [[1052_evpn_vxlan_bgp_control_plane_routing|1052. EVPN-VXLAN BGP 컨트롤 플레인 전이]] →
+
+---

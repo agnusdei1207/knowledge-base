@@ -114,3 +114,14 @@ GMM은 K-Means보다 표현력이 높고 [[130_probability|확률]]적 해석이
 1. GMM은 "여러 종류의 콩이 섞인 콩 주머니"를 각 콩 종류(가우시안)로 분리하는 AI예요.
 2. "이 콩은 검은콩일 [[130_probability|확률]] 80%, 완두콩일 [[130_probability|확률]] 20%"처럼 소프트하게 [[104_classification_analysis|분류]]해요.
 3. E-step에서 [[130_probability|확률]] 계산, M-step에서 각 콩 종류의 평균/모양 업데이트를 반복하면 완벽히 분리돼요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 360 / 420
+
+← **이전**: [[359_cosine_similarity_math|359. 코사인 유사도 (Cosine Similarity)]]
+**다음**: [[361_multicollinearity_vif|361. 다중 공선성 (Multicollinearity) 과 VIF (Variance Inflation Factor)]] →
+
+---

@@ -152,3 +152,14 @@ tags:
 1. 처음에 [[418_5g_embb_urllc_mmtc_slicing|5G]] 스마트폰이 나왔을 때는 속도(입구 문)만 엄청 넓은 [[418_5g_embb_urllc_mmtc_slicing|5G]] 문을 달고, 막상 식당 안쪽 주방장(코어 뇌)은 손이 엄청 느린 옛날 **4G 할아버지 요리사([[766_nsa_non_standalone_5g_lte_core|NSA]] 짝퉁 망)**를 그대로 써서, 손님이 몰리면 요리가 막혀서 폰 배터리가 엄청 빨리 달았어요!
 2. 그래서 대장님(아키텍트)이 낡은 할아버지 요리사를 내보내고, 입구 속도랑 완벽하게 똑같이 손이 미친 듯이 빠른 **초천재 [[418_5g_embb_urllc_mmtc_slicing|5G]] 전용 로봇 요리사([[767_sa_standalone_5g_core_network|SA]] 단독모드 코어)**로 100% 주방을 싹 다 통째로 갈아 끼웠답니다!
 3. 이제 입구([[171_antenna_basic_dipole_resonance|안테나]])부터 주방(코어 뇌)까지 100% 진짜 **Standalone** [[418_5g_embb_urllc_mmtc_slicing|5G]] 완벽 통일 로봇들로 꽉 차서!! 자동차가 스스로 달리는 자율주행도 단 0.1초의 버벅거림 멈춤 없이 완벽하게 생명을 지켜주는 진짜 미래 마법 인터넷이 완성된 거예요 🚀!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 150 / 552
+
+← **이전**: [[149_network_slicing_5g_architecture|149. 네트워크 슬라이싱 (Network Slicing) - 5G 융합 가상 격리 전용망]]
+**다음**: [[151_sba_service_based_architecture_5g|151. SBA (Service Based Architecture) - 5G 코어망 클라우드 네이티브 대통합 뼈대]] →
+
+---

@@ -166,3 +166,14 @@ Persistent Memory · Embedded NVM · In-Memory Computing
 1. SCM은 냉장고와 창고 사이에 있는 특별한 보관함 같아요.
 2. 자주 꺼내야 하는 물건을 너무 멀리 두지 않으면서도, 전원이 꺼져도 잊어버리지 않게 해 줘요.
 3. 그런데 보관함마다 잘 보관하는 물건이 달라서, 어떤 것은 장난감에 좋고 어떤 것은 책에 더 잘 맞아요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 493 / 803
+
+← **이전**: [[492_cloud_native_processor|492. 클라우드 네이티브 프로세서 (ARM Neoverse 등)]]
+**다음**: [[494_optane_memory|494. 옵테인 메모리 (3D XPoint)]] →
+
+---

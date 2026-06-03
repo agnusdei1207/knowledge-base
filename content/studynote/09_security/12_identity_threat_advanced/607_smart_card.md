@@ -125,3 +125,14 @@ tags:
 1. 스마트 카드 (Smart Card)는 컴퓨터 세상을 더 안전하게 만들기 위한 중요한 약속이나 도구예요.
 2. 겉으로는 어려워 보여도, 왜 필요한지와 어떻게 움직이는지를 알면 훨씬 쉬워져요.
 3. 그래서 이름만 외우지 말고 어디에 쓰이는지 같이 기억해야 해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 668 / 1108
+
+← **이전**: [[607_secure_session_management|607. 안전한 세션 관리 (Secure Session Management)]]
+**다음**: [[608_error_handling_logging|608. 오류 처리와 로깅 보안 (Error Handling & Logging Security)]] →
+
+---

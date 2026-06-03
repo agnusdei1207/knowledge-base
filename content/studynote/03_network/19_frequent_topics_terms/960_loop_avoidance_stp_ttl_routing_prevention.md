@@ -124,3 +124,14 @@ L3 라우터가 길을 찾을 때도 멍청한 [[001_algorithm_definition|알고
 1. 비슷한 이름의 장난감을 헷갈리지 않게 표를 붙이는 것과 같아요.
 2. 이 개념은 무엇이 어떻게 다른지 쉽게 구별하게 도와줘요.
 3. 그래서 시험에서도 실무에서도 말을 더 정확하게 쓸 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 1081 / 1120
+
+← **이전**: [[959_spanning_tree_protocol_stp_loop_avoidance|959. 스패닝 트리]]
+**다음**: [[961_ospf_link_state_database_dijkstra_spf_routing|961. OSPF 링크 상태 데이터베이스 (LSDB)]] →
+
+---

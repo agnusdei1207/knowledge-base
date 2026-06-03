@@ -157,3 +157,14 @@ Must-Staple · CT · 짧은 수명 인증서
 1. 원래는 입장권이 진짜인지 알아보려고 손님이 매번 [[396_validation|확인]]소에 다녀와야 했어요.
 2. [[679_ocsp_online_certificate_status_protocol|OCSP]] Stapling은 공연장 아저씨가 아침에 미리 [[396_validation|확인]] 도장을 받아 표랑 같이 보여 주는 거예요.
 3. 그래서 줄은 빨라지지만, 그 도장이 오래되지 않았는지 매일 새로 [[396_validation|확인]]하는 일도 꼭 필요해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 239 / 1108
+
+← **이전**: [[185_dynamic_pinning_ct_log_based|185. 동적 핀닝과 CT 로그 기반 방어 (Dynamic Pinning and CT Log-Based Defense)]]
+**다음**: [[187_mtls_mutual_tls_authentication|187. mTLS (Mutual TLS)]] →
+
+---

@@ -185,3 +185,14 @@ OS 교과서에서 30년 넘게 토시 하나 안 틀리고 가르치는 완벽�
 1. [[387_page_fault|페이지 부재]] 처리 과정 6단계 (OS [[677_trap_based_system_call_implementation|트랩]], [[057_register|레지스터]] 저장, 디스크 읽기, 문맥교환 등)은 컴퓨터가 메모리를 더 크게 보이게 하고 부족함을 숨기는 방법이에요.
 2. 먼저 [[387_page_fault|페이지 부재]] ([[387_page_fault|Page Fault]])을 이해하면 [[387_page_fault|페이지 부재]] 처리 과정 6단계 (OS [[677_trap_based_system_call_implementation|트랩]], [[057_register|레지스터]] 저장, 디스크 읽기, 문맥교환 등)이 왜 필요한지 더 쉽게 보여요.
 3. 그래서 [[387_page_fault|페이지 부재]] 처리 과정 6단계 (OS [[677_trap_based_system_call_implementation|트랩]], [[057_register|레지스터]] 저장, 디스크 읽기, 문맥교환 등)을 잘 알면 나중에 [[389_page_fault_rate_eat|페이지 부재율]] ([[389_page_fault_rate_eat|Page Fault Rate]]) 와 실질 접근 시간 (EAT) [[282_performance_tactics|성능]] [[083_relationship_in_er_model|관계]]도 훨씬 쉽게 배울 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 388 / 800
+
+← **이전**: [[387_page_fault|387. 페이지 부재 (Page Fault) - 무효 페이지 접근 시 발생하는 트랩(인터럽트)]]
+**다음**: [[389_page_fault_rate_eat|389. 페이지 부재율 (Page Fault Rate) 와 실질 접근 시간 (EAT) 성능 관계]] →
+
+---

@@ -151,3 +151,14 @@ Zero Trust endpoint verification
 1. TPM은 컴퓨터 안에 있는 아주 작은 경비 로봇이에요.
 2. 이 로봇은 집 안이 멀쩡한지 먼저 [[396_validation|확인]]하고, 괜찮을 때만 보물상자 열쇠를 꺼내 줘요.
 3. 그래서 나쁜 사람이 컴퓨터를 몰래 바꿔 놓으면, 로봇이 열쇠를 안 줘서 쉽게 못 열어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 211 / 1108
+
+← **이전**: [[157_hsm_hardware_security_module|157. HSM (Hardware Security Module) — 물리적 키 보호]]
+**다음**: [[159_pki_public_key_infrastructure|159. PKI (Public Key Infrastructure) — 공개키 인증서 체계]] →
+
+---

@@ -80,3 +80,14 @@ tags:
 - 여러 명의 요리사가 각자 재료를 썰다가, 요리를 완성하기 위해 재료를 서로 바꾸는 시간이에요.
 - 재료를 옮기는 데 시간이 너무 오래 걸리면 요리가 늦어지니까, 최대한 재료 이동을 줄여야 해요.
 - 처음부터 비슷한 재료끼리 모여서 요리를 시작하면 훨씬 빨리 끝낼 수 있답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 66 / 262
+
+← **이전**: [[065_spark_runtime_architecture|스파크 런타임 아키텍처 (Executor / Driver / Cluster Manager)]]
+**다음**: [[067_spark_data_serialization|Spark 데이터 직렬화 (Data Serialization)]] →
+
+---

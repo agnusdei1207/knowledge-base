@@ -129,3 +129,14 @@ tags:
 1. [[231_did_decentralized_identity|DID]] 탈중앙 신원 증명 [[229_zkp_data_clean_room|영지식 증명]] (ZKP) [[303_authentication_authorization_patterns|인증]]망은 모두가 같은 규칙으로 일하게 해 주는 반장 약속표예요.
 2. 약속만 적어 두는 것이 아니라 누가 지켰는지 확인하고 고치는 방법까지 함께 정해요.
 3. 그래서 일이 많아져도 서로 부딪히지 않고 더 안전하게 움직일 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 548 / 587
+
+← **이전**: [[353_blockchain_smart_contract_reentrancy|353. 블록체인 스마트 컨트랙트 정형 검증 재진입 취약 차단]]
+**다음**: [[354_did_zkp|354. DID 탈중앙 신원 증명 영지식 증명 (ZKP) 인증망]] →
+
+---

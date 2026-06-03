@@ -169,3 +169,14 @@ Event-Driven Architecture · CQRS 확장
 1. [[539_event_bus_stream_processing|이벤트 버스]]는 반장이 친구들 이름을 하나씩 부르지 않고 교실 방송으로 "숙제 나왔어"라고 알려 주는 거예요.
 2. 숙제가 필요한 친구만 듣고 움직이니까 반장은 모두를 직접 챙기지 않아도 돼요.
 3. 대신 누가 방송을 들었는지 적어 두지 않으면 나중에 왜 숙제가 안 됐는지 찾기 어려워져요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 240 / 530
+
+← **이전**: [[183_master_worker_pattern|183. 마스터-워커 패턴 (Master-Worker Pattern)]]
+**다음**: [[185_peer_to_peer_architecture|185. 피어투피어 아키텍처 (Peer-to-Peer Architecture)]] →
+
+---

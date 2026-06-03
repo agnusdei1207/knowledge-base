@@ -186,3 +186,14 @@ Policy · Quality · PII 제어 연동
 1. [[001_dikw_pyramid|데이터]] [[152_hub_dummy_switching_intelligent|허브]]는 학교 물건이 어디에 있고 누가 쓰는지 알려 주는 큰 안내판이에요.
 2. 그래서 "이 공은 누구 것이고 어디 운동장에서 쓰지?"를 바로 찾을 수 있어요.
 3. 물건이 많아져도 안내판이 있으면 잃어버리지 않고, 함부로 쓰면 안 되는 것도 쉽게 알 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 180 / 262
+
+← **이전**: [[179_unified_batch_streaming|179. 통합 배치/스트리밍 플랫폼 (Unified Batch/Streaming) — Spark/Flink 통합]]
+**다음**: [[181_multicloud_data_platform|181. 멀티클라우드 데이터 플랫폼 (Multi-cloud Data Platform) — Snowflake/Databricks]] →
+
+---

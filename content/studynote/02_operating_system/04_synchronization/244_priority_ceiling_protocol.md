@@ -192,3 +192,14 @@ PCP는 [[286_circular_wait|순환 대기]] ([[286_circular_wait|Circular Wait]])
 1. 친구가 공용 레고 박스를 빌리는 순간, 선생님이 "지금부터 이 친구가 가장 먼저 돌려줘야 하는 사람 수준"으로 대우해줘요.
 2. 그래서 다른 어떤 친구도 레고 박스를 가진 친구를 방해하거나 끼어들 수 없어요.
 3. 레고를 다 쓰고 돌려주면, 그 친구는 다시 원래 자기 차례로 돌아가요 — 공평하죠!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 244 / 800
+
+← **이전**: [[243_deadlock_recovery|243. 교착 상태 복구 (Deadlock Recovery)]]
+**다음**: [[245_classic_synchronization_problems|245. 고전적 동기화 문제들 (Classic Synchronization Problems)]] →
+
+---

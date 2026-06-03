@@ -128,3 +128,14 @@ tags:
 1. [[249_value_chain_competitive_analysis|가치 사슬]]은 레스토랑 운영의 모든 단계예요! 재료 사오기 → 요리하기 → 서빙하기 → 광고하기 → 고객 [[090_service_kubernetes_network_load_balancing|서비스]] 각각에서 어떻게 더 잘할 수 있는지 분석해요.
 2. 아마존은 모든 단계에 로봇과 AI를 넣어서 더 빠르고 저렴하게 만들었어요.
 3. 현대에는 각 단계를 디지털로 혁신하면(디지털 [[249_value_chain_competitive_analysis|가치 사슬]]) 경쟁자보다 훨씬 유리한 위치를 차지할 수 있답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 26 / 482
+
+← **이전**: [[025_mbo_management_by_objectives|25. MBO (Management by Objectives) — 목표 관리]]
+**다음**: [[027_value_chain_primary_activities|27. 가치 사슬 본원적 활동 (Value Chain Primary Activities)]] →
+
+---

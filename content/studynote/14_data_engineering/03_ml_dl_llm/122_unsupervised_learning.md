@@ -105,3 +105,14 @@ tags:
 1. 비지도 학습은 **정답 없이 퍼즐을 맞추는** 거예요. 비슷한 조각끼리 모아봐요.
 2. K-Means는 구슬을 **색깔별로 [[104_classification_analysis|분류]]**하는 것이고, PCA는 구슬의 **핵심 특징만** 추려내는 거예요.
 3. 정답을 모르지만 **규칙을 스스로 발견**할 수 있어서 정말 대단해요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 122 / 258
+
+← **이전**: [[121_supervised_learning|121. 지도 학습 (Supervised Learning) - 라벨 기반 학습·분류·회귀]]
+**다음**: [[123_reinforcement_learning|123. 강화 학습 (Reinforcement Learning) - 보상 기반 행동 최적화]] →
+
+---

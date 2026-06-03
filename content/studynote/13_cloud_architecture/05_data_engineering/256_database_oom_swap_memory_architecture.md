@@ -113,3 +113,14 @@ tags:
 1. [[002_database_definition|데이터베이스]] [[157_oom_killer|OOM]] 킬 대비 메모리 아키텍처는 사람이 많은 운동회에서 어디로 가야 하는지 알려 주는 안내판과 비슷해요.
 2. 규칙이 없으면 모두가 한곳에 몰려서 느려지고 다투지만, 길을 정해 두면 훨씬 부드럽게 움직일 수 있어요.
 3. 그래서 컴퓨터 세상에서도 [[002_database_definition|데이터베이스]] [[157_oom_killer|OOM]] 킬 대비 메모리 아키텍처를 쓰면 많은 팀과 [[090_service_kubernetes_network_load_balancing|서비스]]가 덜 부딪히고 더 빨리 움직일 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 255 / 371
+
+← **이전**: [[255_time_series_rollup_retention_compression|255. 시계열 DB 롤업 / 보존 정책 / 압축 (InfluxDB)]]
+**다음**: [[257_olap_star_schema_fact_dimension_table|257. OLAP 스타 스키마 - 팩트/차원 테이블 (OLAP)]] →
+
+---

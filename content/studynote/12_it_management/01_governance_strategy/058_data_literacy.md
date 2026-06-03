@@ -113,3 +113,14 @@ tags:
 [[001_dikw_pyramid|데이터]] 리터러시는 숫자 뒤의 뜻을 읽는 힘이에요.  
 표를 볼 줄 아는 것만이 아니라, 왜 그런지도 아는 거예요.  
 그래서 모두가 같은 숫자를 보고 같은 뜻을 이해해야 해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 101 / 587
+
+← **이전**: [[057_subscription_economy_xaas|57. 구독 경제 (Subscription Economy) 및 XaaS - 소유에서 사용으로]]
+**다음**: [[059_bimodal_it|59. 바이모달 IT (Bimodal IT, 가트너)]] →
+
+---

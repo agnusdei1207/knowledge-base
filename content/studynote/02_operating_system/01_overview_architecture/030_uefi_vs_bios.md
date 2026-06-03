@@ -160,3 +160,14 @@ ARM 기반 서버(AWS Graviton, Ampere Altra)와 임베디드 시스템에서는
 1. BIOS는 구형 피처폰이에요 — 전화는 되지만 앱은 없어요!
 2. UEFI는 스마트폰이에요 — 예쁜 화면, 빠른 부팅, 잠금 화면([[608_secure_boot|Secure Boot]])이 있어요!
 3. Secure Boot는 공항 보안 검색대예요 — 서명이 없는 프로그램은 컴퓨터를 부팅할 수 없어요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 30 / 800
+
+← **이전**: [[029_bootloader|29. 부트로더 (Bootloader)]]
+**다음**: [[031_sysgen|31. SYSGEN — 시스템 생성과 OS 구성]] →
+
+---

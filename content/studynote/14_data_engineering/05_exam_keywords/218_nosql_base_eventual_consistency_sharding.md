@@ -233,3 +233,14 @@ Sharding: 수평 분할 · Consistent Hashing
 ```
 2. [[280_sharding|샤딩]]은 학교 급식 배식대를 여러 줄로 나눈 것이야 — 줄이 많을수록 밥을 빨리 받을 수 있어!
 3. [[650_eventual_consistency|결과적 일관성]]은 SNS에서 내가 올린 사진이 모든 친구에게 5초 뒤에 뜨는 것 — 동시에 안 보여도 결국은 다 보게 되잖아?
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 218 / 258
+
+← **이전**: [[217_cdc_binlog_change_capture_debezium|217. CDC (Change Data Capture) 빈로그 데이터 변경 캡처 Debezium]]
+**다음**: [[219_cap_pacelc_distributed_tradeoff|219. CAP 정리 (CAP Theorem)와 PACELC 정리 분산 트레이드오프]] →
+
+---

@@ -228,3 +228,14 @@ tags:
 1. 일기장(하드디스크)은 깊은 지하 창고에 있어서 한 글자 쓸 때마다 지하로 뛰어갔다 오면(동기식 [[289_cqrs_db|쓰기]]) 일기를 다 쓰는 데 하루 종일 걸려요.
 2. 그래서 똑똑한 [[001_operating_system_purpose|운영체제]]는 책상 위에 작은 이면지(메모리 캐시)를 두고 일단 거기다 글씨를 막 휘갈겨 써놓게 해요([[015_지연_데이터_관점|지연]] [[289_cqrs_db|쓰기]]). 그러면 1초 만에 다 썼다고 생각하고 놀러 갈 수 있죠!
 3. 나중에 우리가 쿨쿨 잠이 들면, 요정([[022_kernel_role|커널]] [[092_thread_lwp|스레드]])이 나타나서 이면지에 있는 글씨들을 모아서 한 번에 지하 창고 일기장에 예쁘게 옮겨 적어준답니다. 정말 고마운 요정이죠?
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 757 / 800
+
+← **이전**: [[756_system_call_overhead_reasons|756. 시스템 콜 오버헤드 이유 (System Call Overhead Reasons)]]
+**다음**: [[758_journaling_file_system_transaction_log|758. 저널링 파일 시스템 트랜잭션 로그 (Journaling File System Transaction Log)]] →
+
+---

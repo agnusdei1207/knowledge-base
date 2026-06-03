@@ -152,3 +152,14 @@ tags:
 1. 물건을 보낼 때 받는 사람이 너무 빨리 받으면 놓칠 수 있어요.
 2. 이 개념은 천천히 보낼지, 다시 보낼지, 길이 막히면 멈출지를 정해줘요.
 3. 그래서 멀리 보내도 덜 잃어버리고 더 안정적으로 도착해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 536 / 1120
+
+← **이전**: [[414_tcp_udp_checksum_virtual_header|414. 체크섬 (Checksum)]]
+**다음**: [[416_tcp_3_way_handshake_connection_setup|416. TCP 3-Way Handshake]] →
+
+---

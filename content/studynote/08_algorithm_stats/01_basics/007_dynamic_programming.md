@@ -271,3 +271,14 @@ DP의 최신 동향은 **확률적 동적 프로그래밍(Stochastic Dynamic Pro
 - 각 섹션 끝에 📢 요약 비유 반드시 추가
 - 최소 800자/[[501_file_definition_logical_record|파일]]
 - [[501_file_definition_logical_record|파일]]명: 01_, 02_... 형식
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 7 / 175
+
+← **이전**: [[006_greedy_algorithm|6. 탐욕 알고리즘 (Greedy Algorithm) — 지역 최적 → 전체 최적]]
+**다음**: [[008_memoization|8. 메모이제이션 (Memoization) — Top-Down DP]] →
+
+---

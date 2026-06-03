@@ -212,3 +212,14 @@ Skew Join은 [[001_dikw_pyramid|데이터]] 쏠림으로 인한 특정 [[514_par
 ### 👶 어린이를 위한 3줄 비유 설명
 
 교실에서 모둠별로 청소를 나눠서 하는데, 한 모둠에만 쓰레기가 산더미처럼 쌓여 있으면([[001_dikw_pyramid|데이터]] 스큐) 그 모둠은 한 시간 동안 치우고 나머지 모둠은 5분 만에 끝나고 기다려야 해요. 선생님(AQE)이 "저 모둠 쓰레기가 너무 많다" 고 보고 자동으로 두 팀으로 나눠줘요. 미리 쓰레기를 여러 통에 나눠 담아두면([[605_password_salting_hash|Salting]]) 처음부터 공평하게 나눌 수 있어요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 69 / 262
+
+← **이전**: [[068_spark_broadcast_join|Spark Broadcast Join]]
+**다음**: [[070_partition_optimization|19. 파티션 최적화 (Partition Optimization) — Repartition vs Coalesce]] →
+
+---

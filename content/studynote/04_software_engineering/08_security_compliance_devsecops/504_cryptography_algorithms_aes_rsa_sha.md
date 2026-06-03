@@ -169,3 +169,14 @@ tags:
 1. 암호화 [[001_algorithm_definition|알고리즘]] (대칭키-[[656_aes_advanced_encryption_standard_rijndael|AES]], 비대칭키-[[110_rsa|RSA]]/[[554_ecc_circuit|ECC]], 일방향-SHA) 적용 기준은 레고 블록으로 성을 만들 때처럼, 규칙을 정하고 역할을 나누어 함께 작업하는 방법이에요.
 2. 혼자서 막 만들면 나중에 무너지거나 고치기 어렵지만, 약속을 지키면 누구나 쉽게 고치고 더 크게 만들 수 있어요.
 3. 그래서 [[001_software_engineering_definition|소프트웨어 공학]]은 프로그래머들이 좋은 프로그램을 빠르고 안전하게 만들 수 있게 도와주는 '규칙 모음집'이에요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 600 / 973
+
+← **이전**: [[504_cryptographic_algorithm_selection|504. 암호화 알고리즘 적용 기준]]
+**다음**: [[505_password_storage_kdf_salt|505. 비밀번호 저장 방식 - KDF (Key Derivation Function) 및 솔트(Salt)]] →
+
+---

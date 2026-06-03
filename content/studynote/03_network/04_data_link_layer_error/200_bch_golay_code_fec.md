@@ -130,3 +130,14 @@ BCH 코드 / 골레이 코드는 [[199_reed_solomon_code_burst_error|리드-솔�
 1. 편지를 보낼 때 봉투를 제대로 닫고 틀린 글자가 없는지 [[396_validation|확인]]해야 해요.
 2. 이 개념은 편지가 깨지거나 사라졌을 때 다시 보내는 규칙까지 정해줘요.
 3. 그래서 중간에 흔들려도 중요한 내용이 더 안전하게 도착해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 321 / 1120
+
+← **이전**: [[199_reed_solomon_code_burst_error|199. 리드-솔로몬 코드 (Reed-Solomon Code)]]
+**다음**: [[201_convolutional_code_viterbi|201. 길쌈 코드 (Convolutional Code)]] →
+
+---

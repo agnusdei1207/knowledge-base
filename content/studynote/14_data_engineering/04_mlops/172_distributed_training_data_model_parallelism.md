@@ -191,3 +191,14 @@ Large-scale foundation model training
 1. [[001_dikw_pyramid|데이터]] 병렬화는 같은 문제집을 여러 친구가 나눠 풀고 마지막에 답을 모아 보는 거예요.
 2. 모델 병렬화는 문제집이 너무 두꺼워서 앞장은 한 친구, 뒷장은 다른 친구가 맡는 거예요.
 3. 아주 큰 숙제는 두 방법을 같이 써서 빨리도 하고, 한 사람 가방이 터지지 않게 해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 172 / 258
+
+← **이전**: [[171_xai_lime_shap_explainable_ai|171. 설명 가능한 AI (XAI)]]
+**다음**: [[173_tensor_core_hbm_mixed_precision_training|173. Tensor Core·HBM 기반 혼합 정밀도 학습 (Mixed Precision Training)]] →
+
+---

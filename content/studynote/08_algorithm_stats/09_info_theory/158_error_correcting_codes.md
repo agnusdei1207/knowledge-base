@@ -198,3 +198,14 @@ ECC는 **[[642_reliability_mtbf_mttr_mttf_availability|신뢰성]] 있는 디지
 1. **ECC는 "받아쓰기 채점 선생님"**: 틀린 곳을 알아서 고쳐주는 수학적 검사기.
 2. **[[110_hamming_distance|해밍 거리]]는 "단어 사이 오타 수"**: cat과 bat는 1개 다르고(거리=1), cat과 dog는 3개 다르다(거리=3).
 3. **Reed-Solomon은 "QR코드 마법"**: QR코드의 30%가 가려져도 내용을 읽을 수 있는 것이 바로 RS 코드 덕분.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 158 / 175
+
+← **이전**: [[157_channel_coding|8. 채널 부호화 정리 (Channel Coding Theorem) — 샤논 한계]]
+**다음**: [[159_compression|10. 데이터 압축 (Compression) — 무손실/손실, 허프만/LZ/웨이블릿]] →
+
+---

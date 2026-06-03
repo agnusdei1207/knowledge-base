@@ -196,3 +196,14 @@ CPU가 [[322_logical_virtual_address|논리 주소]] `0x1234`를 부르면 MMU�
 1. 긴 기차 장난감(프로그램)을 통째로 넣을 긴 상자(연속 메모리)를 찾으려니 방안에 남는 공간이 없었어요.
 2. 그래서 똑똑한 철수는 기차를 똑같은 크기의 레고 블록([[286_page_frame|페이지]]) 단위로 다 부숴버렸어요!
 3. 부순 블록들을 책상 서랍, 장난감통 등 흩어진 좁은 공간(프레임)에 마구 쑤셔 넣고, 나중에 '보물지도([[353_page_table|페이지 테이블]])'를 보고 순서대로 꺼내어 다시 기차로 조립하며 놀았답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 715 / 800
+
+← **이전**: [[714_dynamic_allocation_first_best_worst_fit|714. 동적 할당 First/Best/Worst Fit (Dynamic Allocation First Best Worst Fit)]]
+**다음**: [[716_tlb_hit_ratio_cache_speed|716. TLB 적중률 캐시 속도 (TLB Hit Ratio Cache Speed)]] →
+
+---

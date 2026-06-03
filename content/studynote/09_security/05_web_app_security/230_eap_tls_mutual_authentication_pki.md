@@ -125,3 +125,14 @@ EAP-TLS를 제대로 이해하면 개념 하나를 외우는 데서 끝나지 �
 1. EAP-TLS는 학교 규칙표처럼 무엇을 준비하고 어떻게 확인할지 알려 주는 기준이에요.
 2. 규칙표만 붙여 두고 지키지 않으면 아무 소용이 없어요.
 3. 그래서 보안도 규칙과 실제 행동이 함께 맞아야 해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 283 / 1108
+
+← **이전**: [[229_peap_protected_eap_tls_tunnel_authentication|229. PEAP (Protected EAP)]]
+**다음**: [[231_mac_address_filtering_spoofing_vulnerability|231. MAC 주소 필터링 (MAC Address Filtering)]] →
+
+---

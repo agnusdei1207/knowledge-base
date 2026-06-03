@@ -219,3 +219,14 @@ tags:
 - 각 섹션 끝에 📢 요약 비유 반드시 추가
 - 최소 800자/[[501_file_definition_logical_record|파일]]
 - [[501_file_definition_logical_record|파일]]명: 01_, 02_, 03_... 형식 (2자리 숫자)
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 4 / 552
+
+← **이전**: [[003_semantic_web|3. 시맨틱 웹 (Semantic Web) - 온톨로지(Ontology) 기반 의미 연결망]]
+**다음**: [[005_genesis_block|5. 제네시스 블록 (Genesis Block) - 블록체인의 첫 번째 블록]] →
+
+---

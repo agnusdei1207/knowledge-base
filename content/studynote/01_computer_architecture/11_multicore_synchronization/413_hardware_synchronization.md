@@ -171,3 +171,14 @@ Compare-and-Swap (CAS) · Load-Linked / Store-Conditional (LL/SC)
 1. 여러 친구가 같은 장난감 상자에 손을 넣으면 서로 부딪혀서 순서가 꼬일 수 있어요.
 2. 하드웨어 [[212_synchronization_mechanisms|동기화]]는 컴퓨터가 "지금은 이 친구만 1초 동안 만져!"라고 정해 주는 아주 빠른 전자 자물쇠예요.
 3. 그래서 친구가 많아도 장난감을 잃어버리지 않고, 빠르게 차례를 바꿔 가며 놀 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 414 / 803
+
+← **이전**: [[412_relaxed_consistency|412. 완화된 일관성 (Relaxed Consistency)]]
+**다음**: [[414_test_and_set|414. Test-and-Set 연산]] →
+
+---

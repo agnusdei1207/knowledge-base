@@ -193,3 +193,14 @@ tags:
 1. 조건 변수 (Condition Variable)은 컴퓨터가 여러 친구가 동시에 만져도 부딪히지 않게 순서를 맞추는 규칙이에요.
 2. 먼저 하드웨어 [[158_instruction|명령어]] 기반 [[212_synchronization_mechanisms|동기화]]을 이해하면 조건 변수 (Condition Variable)이 왜 필요한지 더 쉽게 보여요.
 3. 그래서 조건 변수 (Condition Variable)을 잘 알면 나중에 [[415_compare_and_swap|Compare-and-Swap]] ([[768_cas_compare_and_swap_lock_free|CAS]]) [[158_instruction|명령어]]도 훨씬 쉽게 배울 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 228 / 800
+
+← **이전**: [[227_busy_waiting|227. 바쁜 대기 (Busy Waiting)]]
+**다음**: [[229_monitor|229. 모니터 (Monitor)]] →
+
+---

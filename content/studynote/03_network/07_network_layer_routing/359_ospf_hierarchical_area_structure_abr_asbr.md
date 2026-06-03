@@ -151,3 +151,14 @@ OSPF를 켤 때 단 1대의 라우터만 있더라도 무조건 **`Area 0`**부�
 1. 여러 갈림길이 있는 미로에서 가장 좋은 길을 고르는 게임과 같아요.
 2. 이 개념은 길이 막히면 다른 길로 빨리 바꾸는 규칙도 알려줘요.
 3. 그래서 인터넷 길찾기가 덜 헤매고 더 똑똑해져요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 480 / 1120
+
+← **이전**: [[358_ospf_adjacency_hello_lsa_lsdb|358. OSPF 인접성(Adjacency), Hello 패킷, LSA (Link State Advertisement), LSDB 교환]]
+**다음**: [[360_ospf_dr_bdr_designated_router_lsa_flooding|360. DR (Designated Router), BDR]] →
+
+---

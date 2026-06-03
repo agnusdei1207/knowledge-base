@@ -176,3 +176,14 @@ UTP는 양단이 전기적으로 고립되어 있어 대충 꽂아도 선로 성
 1. 보통 랜선([[124_unshielded_twisted_pair|UTP]])은 얇은 옷만 입어서, 공장의 시끄러운 모터나 큰 기계 옆을 지날 때는 전기파 공격(노이즈)에 맞아 아파하며 [[001_dikw_pyramid|데이터]]를 떨어뜨려요.
 2. 그래서 랜선 겉에 반짝이는 은박지나 쇠그물 '갑옷(차폐막)'을 튼튼하게 입힌 것이 바로 STP나 [[482_ftp_file_transfer_protocol|FTP]] 케이블이랍니다.
 3. 이 갑옷은 공격을 튕겨내지만, 맞은 공격 에너지를 안전하게 버리기 위해 케이블 끝을 무조건 땅(접지)에 잘 꽂아 연결해 주어야만 완벽하게 작동해요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 246 / 1120
+
+← **이전**: [[124_unshielded_twisted_pair|124. UTP (Unshielded Twisted Pair)]]
+**다음**: [[126_utp_category|126. UTP 카테고리 (Cat 3, Cat 5, Cat 5e, Cat 6, Cat 6a, Cat 7, Cat 8)]] →
+
+---

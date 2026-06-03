@@ -106,3 +106,14 @@ tags:
 1. [[673_function_point_ilf_eif|기능점수]] 정산 증빙은 체온계로 몸 상태를 재고 기록하는 것과 비슷해요.
 2. 숫자만 보는 게 아니라 왜 올라갔는지 같이 살펴야 해요.
 3. 그래야 다음에 무엇을 고칠지 바로 결정할 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 408 / 530
+
+← **이전**: [[329_process|329. 전자정부법 의무 대상 (Mandatory Scope under the E-Government Act)]]
+**다음**: [[331_kwcag|331. 웹 접근성 KWCAG (Korean Web Content Accessibility Guidelines)]] →
+
+---

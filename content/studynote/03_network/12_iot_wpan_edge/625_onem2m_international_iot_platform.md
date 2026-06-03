@@ -122,3 +122,14 @@ oneM2M 아키텍처는 [[121_lwm2m_lightweight_m2m|LwM2M]] 표준 [[295_protocol
 1. 작은 로봇 친구들이 배터리를 아껴가며 서로 메시지를 주고받는 장난감 마을과 같아요.
 2. 이 개념은 누가 가까운지, 누가 대신 알려줄지, 무엇을 현장에서 바로 처리할지를 정해줘요.
 3. 그래서 작은 기기들도 오래 버티면서 똑똑하게 협력할 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 746 / 1120
+
+← **이전**: [[624_lwm2m_lightweight_m2m_device_management|624. LwM2M (Lightweight M2M) 표준 프로토콜 관리 메커니즘]]
+**다음**: [[626_edge_computing_fog_computing_iot|626. 엣지 컴퓨팅 (Edge Computing, 포그 컴퓨팅 구분)]] →
+
+---

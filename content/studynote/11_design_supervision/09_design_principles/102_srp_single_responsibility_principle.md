@@ -131,3 +131,14 @@ SRP를 철저히 지키면 코드의 가독성이 급격히 상승하고, 특정
 1. 요리사는 요리만 하고, 청소부는 청소만 해야 식당이 안 망가져요.
 2. 만약 요리사가 요리하다 말고 바닥을 닦으면 찌개도 타고 바닥도 더러워지겠죠?
 3. 컴퓨터 프로그램도 각자 자기가 잘하는 딱 한 가지 일만 하도록 나눠주는 것이 SRP랍니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 147 / 530
+
+← **이전**: [[102_srp_single_responsibility_principle|102. 단일 책임 원칙 (Single Responsibility Principle, SRP)]]
+**다음**: [[103_ocp_open_closed_principle|103. 개방-폐쇄 원칙 (Open-Closed Principle, OCP)]] →
+
+---

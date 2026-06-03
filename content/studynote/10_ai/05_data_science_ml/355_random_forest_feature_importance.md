@@ -108,3 +108,14 @@ OOB(Out-Of-Bag) 오차: [[259_bagging_random_forest|배깅]]에서 각 트리는
 1. [[353_random_forest|랜덤 포레스트]]는 500명의 전문가가 각자 [[001_dikw_pyramid|데이터]]를 보고 투표하는 AI예요.
 2. 변수 중요도는 500명이 "이 정보가 결정에 얼마나 도움됐나요?"라고 평가한 평균 점수예요.
 3. 점수가 높은 특성이 AI의 예측에 가장 큰 영향을 미치는 핵심 정보예요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 355 / 420
+
+← **이전**: [[354_pca_covariance|354. PCA (Principal Component Analysis)]]
+**다음**: [[356_mahalanobis_distance|356. 마할라노비스 거리 (Mahalanobis Distance)]] →
+
+---

@@ -118,3 +118,14 @@ ARM CCA는 ARM 생태계가 [[795_confidential_computing|기밀 컴퓨팅]]을 �
 1. 큰 컴퓨터 호텔 안에 관리인도 마음대로 못 여는 특별 객실이 새로 생겼다고 생각해 보세요.
 2. 중요한 손님은 그 방 안에서만 비밀 계산을 해요.
 3. 그래서 호텔 관리인도 손님 방 안 내용을 몰래 보기 더 어려워져요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 800 / 803
+
+← **이전**: [[798_tdi|798. TDI (Trust Domain Interconnect)]]
+**다음**: [[800_riscv_pmp|800. RISC-V PMP (Physical Memory Protection)]] →
+
+---

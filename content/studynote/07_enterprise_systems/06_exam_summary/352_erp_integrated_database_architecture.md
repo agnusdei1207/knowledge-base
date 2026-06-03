@@ -139,3 +139,14 @@ tags:
 1. [[081_erp_enterprise_resource_planning|ERP]] 자원 통합 [[002_database_definition|데이터베이스]] 아키텍처는 복잡한 일을 순서대로 정리해 주는 큰 정리함이에요.
 2. 어디에 무엇을 넣을지 먼저 정해 두면, 나중에 찾거나 고칠 때 훨씬 쉬워져요.
 3. 그래서 일이 커질수록 먼저 기준을 만들고 같이 약속하는 것이 중요해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 352 / 482
+
+← **이전**: [[351_finops_cloud_financial_optimization|351. FinOps 클라우드 재무 최적화 3단계 (FinOps Cloud Financial Optimization)]]
+**다음**: [[353_scm_bullwhip_effect|353. SCM 채찍 효과 (SCM Bullwhip Effect Supply Chain)]] →
+
+---

@@ -123,3 +123,14 @@ AWS Lambda와 Fargate는 각 함수 실행을 Firecracker 마이크로VM으로 �
 1. [[561_container_based_deployment|컨테이너]]는 도시락 통 같아요 — 안에 뭐가 들었는지 다 정해져 있어서, 어디서든 같은 맛이에요.
 2. 도시락 통([[561_container_based_deployment|컨테이너]])은 방([[598_vm_migration_nic|VM]])보다 작고 가볍지만, 방만큼 완전히 분리되지는 않아요.
 3. 같은 도시락 레시피(이미지)로 만들면, 친구 집에서도 우리 집에서도 동일하게 먹을 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 501 / 552
+
+← **이전**: [[500_multi_cloud_vendor_lock_in_avoidance|500. 멀티 클라우드 전략과 벤더 종속성 회피 (Multi-Cloud Strategy and Vendor Lock-in Avoidance)]]
+**다음**: [[502_kubernetes_pod_orchestration_deployment|502. 쿠버네티스 Pod 오케스트레이션 배포 (Kubernetes Pod Orchestration Deployment)]] →
+
+---

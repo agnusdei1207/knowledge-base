@@ -140,3 +140,14 @@ MPI 기반 [[136_variance|분산]] 클러스터 [[430_index_fast_full_scan|병�
 1. 이 개념은 복잡한 일을 한눈에 보이게 정리해서 모두가 같은 규칙으로 움직이게 해 줘.
 2. 그래서 많은 기계나 사람, 프로그램이 함께 일해도 어디서 문제가 생겼는지 찾기 쉬워져.
 3. 한마디로 이 개념은 복잡한 일을 질서 있게 움직이게 만드는 안내판이야.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 227 / 552
+
+← **이전**: [[226_hpc_supercomputing_infrastructure|226. 슈퍼컴퓨팅 / HPC 인프라 아키텍처 (High Performance Computing)]]
+**다음**: [[228_edge_computing_hardware_offloading_dpu|228. 엣지 컴퓨팅 하드웨어 오프로딩 (SmartNIC / DPU - Data Processing Unit)]] →
+
+---

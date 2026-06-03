@@ -104,3 +104,14 @@ tags:
 1. [[052_data_governance_framework|데이터 거버넌스]]는 도시의 **교통법규**예요. 차([[001_dikw_pyramid|데이터]])가 많으면 법이 필요해요.
 2. **경찰([[067_data_steward_data_quality|데이터 스튜어드]])**이 교통([[001_dikw_pyramid|데이터]] 품질)을 관리하고, **신호등(기술 도구)**이 흐름을 조절해요.
 3. 법규가 없으면 사고([[001_dikw_pyramid|데이터]] 오류)가 나서 **모두가 불편**해진답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 124 / 600
+
+← **이전**: [[123_reference_data_code_tables|123. 참조 데이터 & 코드 테이블 (Reference Data & Code Tables) - 코드성 데이터 표준화]]
+**다음**: [[125_metadata_management_system_mms|125. 메타데이터 관리 시스템 (MMS) - 데이터에 대한 데이터 관리]] →
+
+---

@@ -113,3 +113,14 @@ GitOps는 **[[531_cloud_native_architecture|클라우드 네이티브]] 운영�
 1. GitOps는 **설계도(Git)**를 바꾸면 로봇이 알아서 건물(클러스터)을 **자동으로 고치는** 시스템이에요.
 2. 누군가 몰래 건물을 바꾸면(드리프트), 로봇이 설계도를 보고 **원래대로 되돌려놔요**.
 3. 설계도 변경은 반드시 **선생님(리뷰어) 승인**을 받아야 해서 안전하답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 119 / 973
+
+← **이전**: [[118_shadow_deployment_traffic_mirroring|118. 섀도 배포 (Shadow Deployment) - 트래픽 미러링·무위험 프로덕션 검증]]
+**다음**: [[120_declarative_infrastructure_idempotence|120. 선언적 인프라와 멱등성 (Declarative Infrastructure & Idempotence) - IaC 핵심 원칙]] →
+
+---

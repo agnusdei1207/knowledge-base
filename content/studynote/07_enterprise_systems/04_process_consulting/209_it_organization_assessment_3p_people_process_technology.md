@@ -137,3 +137,14 @@ tags:
 1. 축구를 잘하려면 선수들, 작전판, 축구화가 모두 잘 맞아야 해요.
 2. 사람만 좋거나 신발만 좋아도 경기가 잘 풀리지는 않아요.
 3. 3P는 무엇이 부족한지 나눠 보고, 팀이 함께 잘 뛰게 만드는 방법이에요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 209 / 482
+
+← **이전**: [[208_cmmi_capability_maturity_model_integration_levels|208. CMMI (Capability Maturity Model Integration) - 성숙도 수준 평가]]
+**다음**: [[210_rpa_robotic_process_automation_attended_unattended|210. RPA (Robotic Process Automation) - Attended Bot과 Unattended Bot]] →
+
+---

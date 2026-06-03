@@ -113,3 +113,14 @@ tags:
 1. [[179_kafka_flink_watermark_time_window|카프카]] [[136_variance|분산]] 메시징 Pub/Sub [[514_partition_slice_volume|파티션]] [[191_consumer_group_kafka_partition_load_balancing|컨슈머 그룹]]는 사람이 많은 운동회에서 어디로 가야 하는지 알려 주는 안내판과 비슷해요.
 2. 규칙이 없으면 모두가 한곳에 몰려서 느려지고 다투지만, 길을 정해 두면 훨씬 부드럽게 움직일 수 있어요.
 3. 그래서 컴퓨터 세상에서도 [[179_kafka_flink_watermark_time_window|카프카]] [[136_variance|분산]] 메시징 Pub/Sub [[514_partition_slice_volume|파티션]] [[191_consumer_group_kafka_partition_load_balancing|컨슈머 그룹]]를 쓰면 많은 팀과 [[090_service_kubernetes_network_load_balancing|서비스]]가 덜 부딪히고 더 빨리 움직일 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 314 / 371
+
+← **이전**: [[314_etl_vs_elt|314. ETL 적재 전 변환 vs ELT 클라우드 내부 변환 (ETL ELT)]]
+**다음**: [[316_process|316. CDC 트랜잭션 로그 기반 데이터 실시간 변경 캡처 (CDC)]] →
+
+---

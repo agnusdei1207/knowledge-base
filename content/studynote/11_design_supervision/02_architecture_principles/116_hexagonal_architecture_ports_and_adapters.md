@@ -143,3 +143,14 @@ DIP가 헥사고날의 핵심 원칙이다. [[064_relation_domain|도메인]]이
 1. 스마트폰의 USB-C 구멍([[446_port_and_bus|포트]])은 충전기, 이어폰, 외부 모니터를 다 연결할 수 있어요.
 2. 스마트폰([[064_relation_domain|도메인]]) 자체는 어떤 선이 꽂혔는지 신경 쓰지 않아요.
 3. [[216_hexagonal_architecture_ports_and_adapters|헥사고날 아키텍처]]는 핵심 기능([[064_relation_domain|도메인]])을 이런 표준 [[446_port_and_bus|포트]]로 보호하는 방법이에요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 172 / 530
+
+← **이전**: [[115_layered_architecture|115. 계층형 아키텍처 (Layered Architecture)]]
+**다음**: [[117_clean_architecture|117. 클린 아키텍처 (Clean Architecture)]] →
+
+---

@@ -147,3 +147,14 @@ HOLAP - MOLAP+ROLAP 하이브리드 계층화
 1. [[316_olap|OLAP]] 큐브는 미리 잘라 포장해 둔 음식 세트예요. 주문이 오면 바로 꺼내주면 돼요.
 2. MOLAP은 모든 세트를 미리 만들어 냉장 보관한 것, ROLAP은 주문 즉시 만드는 것이에요.
 3. HOLAP은 자주 팔리는 인기 메뉴는 미리 만들고, 특별 주문만 즉석 요리하는 방식이에요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 307 / 482
+
+← **이전**: [[306_data_governance_3_elements|306. 데이터 거버넌스 3요소 원칙 조직 프로세스 IT시스템 (Data Governance)]]
+**다음**: [[308_ai_bi_augmented_analytics|308. AI BI 증강 분석 자동화 (Augmented Analytics)]] →
+
+---

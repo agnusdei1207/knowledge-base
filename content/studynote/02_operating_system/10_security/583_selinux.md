@@ -151,3 +151,14 @@ SELinux은 [[001_operating_system_purpose|운영체제]] [[043_protection_securi
 2. **SELinux는 "보안 라벨"을 이용해 접근을 제어**한다. 웹 서버에는 `httpd_t`(웹 유형)라는 라벨이 붙어있고, 비밀 [[501_file_definition_logical_record|파일]]에는 `shadow_t`(비밀 유형)라는 라벨이 붙어있다. 웹 서버가 비밀 [[501_file_definition_logical_record|파일]]에 접근하려고 하면, **"네 라벨은 웹服务器인데, 여기 들어갈 수 있어?"라는 질문에 "안 돼!"** 하고 쫓겨난다.
 
 3. **SELinux의 어려운 점**은 **[[009_config|설정]] [[501_file_definition_logical_record|파일]]에서 `SELINUX=disabled`로 끌 수 있다는 것**이다. 마치 "火灾(화재) 경보기 때문에 귀찮다"고 Alarm(경보)을 꺼버리면, 정말로 火事(화재)가 났을 때 알림을 받을 수 없는 것과 같다. 이것이 SELinux를 해제하면 안 되는 이유다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 583 / 800
+
+← **이전**: [[582_linux_security_modules_lsm|582. 리눅스 보안 모듈 (LSM, Linux Security Modules) - 플러그인 훅 구조]]
+**다음**: [[584_apparmor|584. AppArmor]] →
+
+---

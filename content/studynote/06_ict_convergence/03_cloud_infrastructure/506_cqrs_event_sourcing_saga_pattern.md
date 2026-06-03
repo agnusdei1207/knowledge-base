@@ -129,3 +129,14 @@ tags:
 1. CQRS는 글쓰기 연필([[289_cqrs_db|쓰기]])과 읽기 안경(읽기)을 따로 가지는 것처럼, 저장과 조회를 다른 방법으로 해요.
 2. [[249_event_sourcing_append_only_state_reconstruction|이벤트 소싱]]은 일기장에 매일 있었던 일을 기록하는 것 — 오늘 상태를 지우지 않고, 어제부터 오늘까지 일어난 일을 모두 쌓아가요.
 3. [[312_saga_pattern_choreography_orchestration|사가]] 패턴은 릴레이 경주처럼, 한 팀원이 실수하면 앞서 달린 팀원들이 함께 되돌아와 처음부터 다시 시작해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 506 / 552
+
+← **이전**: [[505_microservices_api_gateway_service_mesh|505. 마이크로서비스, API 게이트웨이, 서비스 메시 (MSA API Gateway Service Mesh)]]
+**다음**: [[507_chaos_engineering_shadow_circuit_breaker|507. 카오스 엔지니어링, 섀도 배포, 서킷 브레이커 (Chaos Engineering Shadow Deployment Circuit]] →
+
+---

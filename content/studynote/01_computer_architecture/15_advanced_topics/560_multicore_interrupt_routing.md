@@ -157,3 +157,14 @@ Interrupt Remapping · Posted Interrupt
 1. 컴퓨터 안에 일하는 사람이 여러 명이면, 누가 전화를 받을지 잘 정해야 해요.
 2. 같은 물건을 계속 다루는 사람에게 전화를 보내면 더 빨리 이해하고 처리할 수 있어요.
 3. 멀티코어 [[016_interrupt_mechanism|인터럽트]] [[339_routing_overview_best_path_selection|라우팅]]은 그래서 "아무나 받기"가 아니라 "가장 알맞은 사람이 받기"를 도와주는 장치예요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 560 / 803
+
+← **이전**: [[559_vic_nvic|559. 벡터형 인터럽트 컨트롤러 (VIC: Vectored Interrupt Controller, NVIC: Nested Vectored]]
+**다음**: [[561_msi|561. MSI (Message Signaled Interrupts)]] →
+
+---

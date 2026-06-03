@@ -139,3 +139,14 @@ tags:
 1. ViewFS는 여러 도서관을 하나의 검색창에서 찾을 수 있는 통합 앱이에요! 각 도서관([[014_namenode|NameNode]])은 따로 있지만, 앱에서는 한 번에 검색할 수 있어요.
 2. "컴퓨터 책은 A도서관, 역사 책은 B도서관"인데 앱에서는 모두 /computer, /history로 통일해서 보여줘요!
 3. 요즘은 클라우드 전자도서관(Ozone)으로 업그레이드해서 수십 억 권도 거뜬히 관리할 수 있답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 48 / 262
+
+← **이전**: [[047_prescriptive_analytics|25. 처방 분석 (Prescriptive Analytics) — 최적 행동 처방]]
+**다음**: [[049_data_serialization_avro_protobuf_thrift|27. 데이터 직렬화: Avro / Protobuf / Thrift]] →
+
+---

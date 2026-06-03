@@ -129,3 +129,14 @@ DID ([[010_decentralization|탈중앙화]] 신원 증명) W3C 표준 [[303_authe
 1. DID ([[010_decentralization|탈중앙화]] 신원 증명) W3C 표준 [[303_authentication_authorization_patterns|인증]] 체계 및 [[012_mydata|마이데이터]] [[303_authentication_authorization_patterns|인증]] 대체는 모두가 같은 규칙으로 일하게 해 주는 반장 약속표예요.
 2. 약속만 적어 두는 것이 아니라 누가 지켰는지 확인하고 고치는 방법까지 함께 정해요.
 3. 그래서 일이 많아져도 서로 부딪히지 않고 더 안전하게 움직일 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 345 / 587
+
+← **이전**: [[230_web3_token_economics|230. 웹 3.0 (Web 3.0) 분산 경제 플랫폼 및 토큰 이코노믹스 비즈니스 접목]]
+**다음**: [[232_spatial_computing_digital_twin|232. 공간 컴퓨팅 (Spatial Computing) 기반 디지털 트윈(Digital Twin) 시뮬레이션]] →
+
+---

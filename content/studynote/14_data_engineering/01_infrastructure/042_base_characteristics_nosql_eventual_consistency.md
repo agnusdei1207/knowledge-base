@@ -263,3 +263,14 @@ NewSQL: ACID + 분산 확장성 동시 달성
 1. BASE는 여러 지점 카페의 메뉴판 — 본사에서 가격이 바뀌어도 모든 지점이 동시에 바뀌지 않지만 며칠 내에 전부 같아져요!
 2. [[650_eventual_consistency|결과적 일관성]]은 소문이 퍼지는 것 — 처음엔 모르는 친구가 있지만 결국 모두 알게 돼요.
 3. 중요한 결제 [[001_dikw_pyramid|데이터]]는 ACID(은행 금고), 덜 중요한 피드 [[001_dikw_pyramid|데이터]]는 BASE(보통 서랍) — 각각 다른 규칙으로 저장해요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 42 / 258
+
+← **이전**: [[041_pacelc_theorem_cap_extension|041. PACELC 정리 (PACELC Theorem)]]
+**다음**: [[043_lambda_architecture_batch_speed_layer|043. 람다 아키텍처 — 배치 & 스피드 레이어]] →
+
+---

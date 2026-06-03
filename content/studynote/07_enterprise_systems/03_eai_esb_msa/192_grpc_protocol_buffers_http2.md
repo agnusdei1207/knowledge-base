@@ -145,3 +145,14 @@ HTTP/2 멀티플렉싱 · 스트리밍
 1. gRPC는 컴퓨터 친구들끼리 같은 약속 종이를 보고 아주 짧은 암호말로 대화하는 방법이에요.
 2. 그래서 길게 설명하지 않아도 빨리 알아듣고 바로 일을 할 수 있어요.
 3. 하지만 처음 약속 종이를 잘 만들어 두지 않으면 모두가 헷갈릴 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 192 / 482
+
+← **이전**: [[191_consumer_group_kafka_partition_load_balancing|191. 컨슈머 그룹 (Consumer Group) - Kafka 파티션 병렬 처리와 부하 분산]]
+**다음**: [[193_openapi_specification_swagger_api_design|193. OpenAPI Specification - Swagger 기반 API 계약 표준]] →
+
+---

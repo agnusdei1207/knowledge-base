@@ -76,3 +76,13 @@ tags:
 Cloud-Agnostic 아키텍처: CNCF 표준 · OCI 호환
 ```
 
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 50 / 371
+
+← **이전**: [[050_data_gravity_cloud_lock_in|데이터 중력과 클라우드 Lock-In (Data Gravity & Cloud Lock-In)]]
+**다음**: [[052_kubernetes_cluster_architecture|52. 쿠버네티스 클러스터 아키텍처 (Kubernetes Cluster Architecture)]] →
+
+---

@@ -132,3 +132,14 @@ MME는 [[753_epc_evolved_packet_core_sgw_pgw|EPC]] S-GW, P-GW 제어 망 트래�
 1. 큰 장난감 도시를 여러 구역으로 나누고 필요한 규칙만 골라 쓰는 것과 같아요.
 2. 이 개념은 빠른 길, 안전한 길, 많은 사람이 쓰는 길을 각각 다르게 꾸미게 해줘요.
 3. 그래서 미래 통신망이 더 똑똑하고 유연해져요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 875 / 1120
+
+← **이전**: [[753_epc_evolved_packet_core_sgw_pgw|753. EPC (Evolved Packet Core 코어망 시스템) S-GW, P-GW 제어 망 트래픽 통합]]
+**다음**: [[755_hss_home_subscriber_server|755. HSS (Home Subscriber Server 가입자 마스터 정보)]] →
+
+---

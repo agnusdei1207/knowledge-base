@@ -56,3 +56,14 @@ Externalized Configuration은 **12-Factor App의 핵심**이며, [[009_config|Co
 1. 외부 [[009_config|설정]]은 **유니폼과 이름표를 분리**하는 거예요.
 2. 같은 유니폼(코드)에 **이름표([[009_config|설정]])만 바꾸면** 다른 환경에서 사용해요.
 3. 비밀번호는 **금고([[567_vault|Vault]])**에 따로 보관해서 안전해요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 141 / 371
+
+← **이전**: [[141_microservice_chassis|141. Microservice Chassis - MSA 공통 관심사 프레임워크]]
+**다음**: [[143_strangler_fig_pattern|143. Strangler Fig 패턴 - 모놀리스→MSA 점진적 전환]] →
+
+---

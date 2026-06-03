@@ -104,3 +104,14 @@ tags:
 1. 인증서 자산목록은 학교에서 준비물을 미리 챙기는 것처럼, 중요한 기준을 먼저 맞추는 일이야.
 2. 만료 알림은 선생님이 수업 중간에 계속 확인하는 것처럼, 실제로 잘 되고 있는지 보는 과정이야.
 3. 자동 갱신은 시험 결과표처럼, 정말 효과가 있었는지 나중에 다시 확인하게 해주는 증거야.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 372 / 530
+
+← **이전**: [[306_web_shell_upload_filter|306. 웹셸 업로드 필터 다중방어 감리 (Web Shell Upload Filter Defense Audit)]]
+**다음**: [[307_certificate_expiration_monitoring|307. 서버 인증서 수명주기 모니터링 체계 (Server Certificate Lifecycle Monitoring Audit)]] →
+
+---

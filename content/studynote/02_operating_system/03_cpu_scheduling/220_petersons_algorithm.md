@@ -251,3 +251,14 @@ void enter_critical_section(int i) {
 1. 피터슨 [[001_algorithm_definition|알고리즘]] (Peterson's [[001_algorithm_definition|Algorithm]])은 컴퓨터가 누가 먼저 CPU를 쓰면 좋은지 줄을 세우는 방법이에요.
 2. 먼저 실시간 리눅스 ([[654_preempt_rt_linux_spinlock_mutex|PREEMPT_RT]] 패치)을 이해하면 피터슨 [[001_algorithm_definition|알고리즘]] (Peterson's [[001_algorithm_definition|Algorithm]])이 왜 필요한지 더 쉽게 보여요.
 3. 그래서 피터슨 [[001_algorithm_definition|알고리즘]] (Peterson's [[001_algorithm_definition|Algorithm]])을 잘 알면 나중에 [[213_race_condition|경쟁 조건]] ([[213_race_condition|Race Condition]])도 훨씬 쉽게 배울 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 220 / 800
+
+← **이전**: [[219_dekkers_algorithm|219. 데커의 알고리즘 (Dekker's Algorithm)]]
+**다음**: [[221_hardware_synchronization_tas_cas|221. 하드웨어적 동기화 (TAS, CAS)]] →
+
+---

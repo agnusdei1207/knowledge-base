@@ -148,3 +148,14 @@ Linux kernel / container process
 1. 선생님은 누구를 어디에 앉힐지 정해요.
 2. 이불을 까는 사람과 실제로 누워 자는 사람은 역할이 달라요.
 3. 그래서 준비와 실행을 나누면 문제가 생겨도 어디서인지 찾기 쉬워요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 83 / 371
+
+← **이전**: [[083_kube_proxy_iptables_ipvs_routing|83. Kube-proxy - 노드 내부의 네트워크 라우팅 및 서비스 로드밸런싱 통신 규칙(iptables/IPVS) 설정]]
+**다음**: [[085_pod_kubernetes_container_unit|85. Pod (파드) - K8s의 최소 배포 및 스케일링 단위]] →
+
+---

@@ -183,3 +183,14 @@ vLLM 과 PagedAttention 은 [[263_llm_large_language_model|LLM]] 을 상용 [[09
 1. 📖 [[190_ai_llm_requirements_specification|AI]] 가 글을 쓸 때 앞에서 한 말을 계속 기억해야 해서(KV 캐시), 메모장을 많이 써요.
 2. 📄 PagedAttention 은 메모장을 조각조각 나눠서 필요할 때만 쓰니까 낭비가 없어요.
 3. 🚌 Continuous [[389_bulk_insert_batching_optimization|Batching]] 덕분에 [[190_ai_llm_requirements_specification|AI]] 가 여러 질문을 동시에 처리해서 24배나 빠르게 답해줄 수 있어요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 338 / 420
+
+← **이전**: [[337_rlhf|337. RLHF (Reinforcement Learning from Human Feedback)]]
+**다음**: [[339_word2vec|339. Word2Vec (Word2vec)]] →
+
+---

@@ -237,3 +237,14 @@ RTOS 설계에서 가장 유명하고 치명적인 버그 원인이 [[205_priori
 1. 일반 컴퓨터(윈도우)는 뷔페 식당이라서, 아무리 배고픈 사람이 와도 순서대로 줄을 서서 밥을 먹어야 해요. 
 2. 하지만 자동차 에어백이나 우주선에 들어가는 컴퓨터(RTOS)는 응급실이에요. 진짜 위급한 환자(가장 중요한 작업)가 오면 다른 환자들을 다 밀어내고 무조건 1초 만에 수술을 시작한답니다.
 3. 그래서 일반 컴퓨터는 가끔 마우스가 버벅거려도 괜찮지만, RTOS 컴퓨터는 단 0.001초라도 약속 시간을 어기면 안 되게 아주 엄격하게 만들어져 있어요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 623 / 800
+
+← **이전**: [[622_ios_xnu_hybrid_kernel_app_sandbox|622. iOS XNU 하이브리드 커널 및 샌드박스 앱 관리 모형 (Ios Xnu Hybrid Kernel App Sandbox)]]
+**다음**: [[624_microkernel_ipc_message_passing_latency|624. 마이크로커널 IPC 메시지 패싱 지연 단축 기법 구조 설계 (Microkernel IPC Message Passing Latency)]] →
+
+---

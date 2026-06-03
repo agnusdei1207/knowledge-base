@@ -133,3 +133,14 @@ In-place VPA (파드 재시작 없는 런타임 자원 갱신 연구)
 1. VPA는 컴퓨터 안의 꼬마 일꾼들에게 딱 맞는 크기의 밥그릇을 찾아주는 똑똑한 요리사예요.
 2. 밥그릇이 너무 작아서 일꾼이 배고파 쓰러지거나([[157_oom_killer|OOM]]), 그릇만 크고 밥을 버리는 낭비를 막아주죠.
 3. 며칠 동안 일꾼이 얼마나 먹는지 지켜보다가, 내일 아침부터는 제일 적당한 크기의 그릇으로 몰래 바꿔준답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 95 / 371
+
+← **이전**: [[095_hpa_horizontal_pod_autoscaler_kubernetes|95. HPA (Horizontal Pod Autoscaler) - CPU 기반 파드 자동 스케일링]]
+**다음**: [[097_ca_cluster_autoscaler_kubernetes_node_scaling|97. 클러스터 오토스케일러 (CA) - K8s 물리 노드 자동 스케일링]] →
+
+---

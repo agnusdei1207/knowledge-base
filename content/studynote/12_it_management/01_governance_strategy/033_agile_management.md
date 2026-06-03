@@ -191,3 +191,14 @@ SAFe → 대규모 PI Planning → 포트폴리오 레벨 애자일
 1. [[004_agile_relation|애자일]]은 2주마다 숙제를 제출하는 방식이다 — 학기 말 한 번 내는 것보다 중간중간 피드백을 받으면 더 좋은 결과물이 나온다.
 2. [[067_sprint_timebox|스프린트]]는 짧은 달리기다 — 마라톤(폭포수)이 아니라 2주씩 전력 질주하고, 쉬면서 방향을 확인한다.
 3. [[084_kanban_board_wip_limit|Kanban]] WIP 제한은 요리사가 동시에 담을 수 있는 접시 수다 — 너무 많이 담으면 다 식고, 적당히 제한하면 신선하게 나온다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 57 / 587
+
+← **이전**: [[032_network_effect|32. 네트워크 효과 (Network Effect) / 메트칼프의 법칙]]
+**다음**: [[033_platform_business_model|33. 플랫폼 비즈니스 모델 (Platform Business Model)]] →
+
+---

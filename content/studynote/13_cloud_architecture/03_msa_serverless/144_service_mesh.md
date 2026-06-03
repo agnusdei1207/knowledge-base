@@ -54,3 +54,14 @@ tags:
 1. [[302_service_mesh_istio|서비스 메시]]는 **우체국 시스템**이에요. 편지를 직접 가져가지 않고 **우체부([[830_sidecar_proxy_architecture_envoy_decoupling|사이드카]])**가 배달해요.
 2. 우체부가 **[[104_classification_analysis|분류]]·보안·재배달**을 다 해줘서 보내는 사람은 편해요.
 3. 우체국 본부(컨트롤 플레인)가 **모든 우체부에게 규칙**을 알려줘요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 143 / 371
+
+← **이전**: [[143_strangler_fig_pattern|143. Strangler Fig 패턴 - 모놀리스→MSA 점진적 전환]]
+**다음**: [[145_sidecar_proxy_pattern|145. 사이드카 프록시 패턴 (Sidecar Proxy) - Envoy 기반]] →
+
+---

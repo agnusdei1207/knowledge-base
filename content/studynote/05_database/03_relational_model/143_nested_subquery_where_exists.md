@@ -58,3 +58,14 @@ SELECT * FROM customer c WHERE EXISTS (
 1. 중첩 서브쿼리는 **마트료시카 인형**이에요. 열면 **안에 또 있어요**.
 2. 너무 깊으면 **복잡해지니까** CTE로 한 단계씩 나눠요.
 3. 한 번에 두 가지 조건("주문 있고 반품 있는")을 **[[396_validation|확인]]**할 수 있어요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 143 / 600
+
+← **이전**: [[142_scalar_subquery|142. 스칼라 서브쿼리 (Scalar Subquery) - SELECT 절 단일값 반환]]
+**다음**: [[144_correlated_subquery_nested_loop|144. 상관 서브쿼리 (Correlated Subquery) - 외부 참조 Nested Loop]] →
+
+---

@@ -125,3 +125,14 @@ Blind SQL Injection를 제대로 이해하면 개념 하나를 외우는 데서 
 1. Blind SQL Injection는 누군가 규칙의 틈을 찾아 몰래 장난을 치는 방법이에요.
 2. 그래서 문을 단단히 잠그는 것뿐 아니라, 누가 이상하게 움직이는지도 바로 알아차려야 해요.
 3. 컴퓨터는 이상한 흔적을 빨리 보고 퍼지기 전에 멈추게 해야 안전해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 487 / 1108
+
+← **이전**: [[430_error_based_sqli|430. Error-based SQL Injection (Error-based SQL Injection)]]
+**다음**: [[432_time_based_blind_sqli|432. Time-based Blind SQL Injection (Time-based Blind SQL Injection)]] →
+
+---

@@ -144,3 +144,14 @@ DDIM: 결정론적(η=0) 또는 확률적(η=1) → 50~100 스텝으로 고품�
 1. [[153_diffusion_model_stable_diffusion_denoising|디퓨전 모델]]은 "완성된 그림에 눈을 뿌려서 지우는 과정"을 반대로 배워. 눈 지우는 법을 알면 눈 쌓인 그림을 복원할 수 있어.
 2. 1000번에 걸쳐 조금씩 노이즈를 더하고, 역방향으로 1000번에 걸쳐 조금씩 노이즈를 지운다.
 3. DDIM은 1000번 지우는 대신 100번만 지워도 비슷한 결과를 내는 더 영리한 방법이야.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 391 / 420
+
+← **이전**: [[390_maml_meta_learning|390. 메타 러닝 MAML (Model-Agnostic Meta-Learning)]]
+**다음**: [[392_perceptron_convergence|392. 퍼셉트론 수렴 정리 (Perceptron Convergence Theorem)]] →
+
+---

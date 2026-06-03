@@ -184,3 +184,14 @@ OS 설계의 핵심은 이 두 극단적인 목표 사이에서 **안전(Safety)
 1. 진행 (Progress)은 컴퓨터가 누가 먼저 CPU를 쓰면 좋은지 줄을 세우는 방법이에요.
 2. 먼저 [[150_task|태스크]] 스케줄링의 [[402_cache_coherence|캐시 일관성]] ([[402_cache_coherence|Cache Coherence]]) 문제을 이해하면 진행 (Progress)이 왜 필요한지 더 쉽게 보여요.
 3. 그래서 진행 (Progress)을 잘 알면 나중에 코-스케줄링 (Co-scheduling / Gang Scheduling)도 훨씬 쉽게 배울 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 216 / 800
+
+← **이전**: [[215_mutual_exclusion|215. 상호 배제 (Mutual Exclusion, Mutex)]]
+**다음**: [[217_bounded_waiting|217. 한정된 대기 (Bounded Waiting)]] →
+
+---

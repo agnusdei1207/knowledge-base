@@ -140,3 +140,14 @@ tags:
 1. 이 개념은 복잡한 일을 한눈에 보이게 정리해서 모두가 같은 규칙으로 움직이게 해 줘.
 2. 그래서 많은 기계나 사람, 프로그램이 함께 일해도 어디서 문제가 생겼는지 찾기 쉬워져.
 3. 한마디로 이 개념은 복잡한 일을 질서 있게 움직이게 만드는 안내판이야.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 265 / 552
+
+← **이전**: [[264_sllm_slm_small_large_language_model|264. sLLM / SLM (Small Large Language Model)]]
+**다음**: [[266_self_supervised_learning|266. 자기 지도 학습 (Self-Supervised Learning)]] →
+
+---

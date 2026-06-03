@@ -124,3 +124,14 @@ tags:
 1. 비밀번호 암호화 저장 방식 진단은 일을 잘했는지 [[396_validation|확인]]하는 [[435_checklist_based_testing|체크리스트]]를 만들고, 실제로 했다는 증거를 모으는 방법이에요.
 2. 약속한 대로 했는지, 빠진 것은 없는지, 고친 뒤 다시 [[396_validation|확인]]했는지를 차례대로 보는 거예요.
 3. 그래서 나중에 문제가 생겨도 누구 말이 맞는지 금방 알 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 101 / 530
+
+← **이전**: [[066_password_encryption_hash_salt_audit|66. 비밀번호 암호화 저장 방식 (단방향 해시 및 솔팅) 감리]]
+**다음**: [[067_ssl_tls_certificate_encryption_audit|67. SSL/TLS 인증서 및 통신 구간 암호화 점검 (SSL/TLS Certificate and Encryption Audit)]] →
+
+---

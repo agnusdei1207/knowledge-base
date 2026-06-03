@@ -172,3 +172,14 @@ Network design, clustering, infrastructure spanning
 1. 여러 섬을 다리로 이어야 할 때, 이미 연결된 섬 무리에서 가장 싼 다리 하나만 계속 고르는 게 프림 [[001_algorithm_definition|알고리즘]]이에요.
 2. 그래서 같은 섬을 빙빙 도는 쓸데없는 다리를 만들지 않고 모두를 이어 갈 수 있어요.
 3. 중요한 것은 우리 집에서 제일 가까운 섬을 찾는 게 아니라, 섬 전체를 가장 적은 돈으로 잇는 거예요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 171 / 175
+
+← **이전**: [[170_bellman_ford|08. 벨만-포드 (Bellman-Ford)]]
+**다음**: [[172_bipartite_matching|172. 이분 매칭 (Bipartite Matching)]] →
+
+---

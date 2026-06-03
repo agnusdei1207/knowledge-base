@@ -186,3 +186,14 @@ Kafka의 가장 중요한 설계 특성 중 하나는 Producer와 Consumer의 �
 
 ---
 > **🛡️ Expert [[395_verification_process_review|Verification]]:** 본 문서는 Apache Kafka의 핵심 개념(Topic, [[514_partition_slice_volume|Partition]], Offset, [[020_isr|ISR]])과 [[389_mesh_topology|메시]]징 시스템과의 비교를 기준으로 기술적 [[002_bigdata_5v|정확성]]을 [[395_verification_process_review|검증]]하였습니다. (Verified at: 2026-04-05)
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 77 / 262
+
+← **이전**: [[076_apache_flink|01. Apache Flink - 상태 기반 스트리밍処理의 完成形]]
+**다음**: [[078_kafka_hadoop_integration|03. Kafka Hadoop Integration]] →
+
+---

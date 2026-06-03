@@ -117,3 +117,14 @@ IDC 조사에 따르면 기업이 보유한 [[001_dikw_pyramid|데이터]]의 **
 1. [[062_darkdata|다크 데이터]]는 장난감 상자에 있지만 꺼내지 않아 잊혀진 장난감이에요.
 2. [[001_dikw_pyramid|데이터]] 클린 룸은 친구와 각자 장난감 이름만 알려주고 함께 노는 규칙이에요.
 3. [[012_mydata|마이데이터]]는 내 장난감 열쇠를 내가 직접 갖고, 누구에게 빌려줄지 내가 정하는 거예요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 522 / 552
+
+← **이전**: [[521_homomorphic_encryption_post_quantum_crypto|521. 동형 암호와 양자 내성 암호 전환 (Homomorphic Encryption Post-Quantum Cryptography)]]
+**다음**: [[523_dataops_feature_flag_citizen_developer|523. DataOps, 피처 플래그, 시민 개발자 노코드 (DataOps Feature Flag Citizen Developer No-Code)]] →
+
+---

@@ -145,3 +145,14 @@ print(heapq.heappop(pq))  # (1, 'task_a') — 최솟값 우선
 1. 우선순위 큐는 응급실 대기 시스템이에요! 먼저 온 순서가 아니라 가장 아픈 환자가 먼저 진료를 받아요.
 2. 이진 힙이라는 구조로 구현해서, 가장 급한 것을 꺼내거나 새로운 것을 넣을 때 모두 O(log n)이면 돼요!
 3. 내비게이션 최단 경로 탐색, [[501_file_definition_logical_record|파일]] [[347_compaction|압축]], [[001_operating_system_purpose|운영체제]] 프로세스 스케줄링 등 어디서나 사용된답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 83 / 175
+
+← **이전**: [[082_bloom_filter|28. 블룸 필터 (Bloom Filter)]]
+**다음**: [[084_deque|29. 덱 (Deque — Double-Ended Queue)]] →
+
+---

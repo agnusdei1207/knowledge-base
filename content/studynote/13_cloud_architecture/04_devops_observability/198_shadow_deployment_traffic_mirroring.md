@@ -208,3 +208,14 @@ Istio Mirror: 서비스 메시 기반 트래픽 복제
 ```
 2. 학생들(사용자)은 기존 선생님의 수업만 듣고, 새 선생님의 결과는 교장선생님(개발팀)만 확인해.
 3. 새 선생님이 틀린 답을 말하거나 너무 느리다면 수업 방식을 고치고, 완벽해지면 그때 공식 선생님으로 교체해.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 197 / 371
+
+← **이전**: [[197_dark_launching_traffic_shadow|197. 다크 론칭 (Dark Launching)]]
+**다음**: [[199_platform_engineering_idp_golden_path|199. 플랫폼 엔지니어링 (Platform Engineering)]] →
+
+---

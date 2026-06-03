@@ -196,3 +196,14 @@ tags:
 1. 큰 장난감 상자를 날짜별 상자로 나눴다면, 지역 [[154_database_index_b_tree_search_optimization|인덱스]]는 상자마다 붙은 이름표예요.
 2. 전역 [[154_database_index_b_tree_search_optimization|인덱스]]는 모든 상자를 한꺼번에 설명하는 큰 안내판이라서 전체를 찾기엔 편하지만 상자 하나를 빼면 다시 고쳐야 할 수 있어요.
 3. 그래서 상자를 자주 바꾸는 집이라면 보통은 상자별 이름표를 쓰고, 정말 필요할 때만 큰 안내판을 써요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 185 / 600
+
+← **이전**: [[184_partition_pruning|184. 파티션 프루닝 (Partition Pruning)]]
+**다음**: [[186_stored_procedure_trigger|186. 스토어드 프로시저 (Stored Procedure) / 트리거 (Trigger) - 데이터베이스 (Database, DB) 서버]] →
+
+---

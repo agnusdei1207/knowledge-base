@@ -168,3 +168,14 @@ JVM 기반 Tungsten에서 컬럼형 Arrow, C++ Photon을 거쳐 [[191_oss_licens
 1. Photon Engine은 자동차 엔진을 낡은 것에서 **슈퍼카 엔진**으로 바꿔주는 것과 같아요!
 2. 자동차 겉모습(코드)은 그대로인데, 엔진만 바꿨더니 같은 길을 10배나 빠르게 달릴 수 있게 돼요.
 3. 덕분에 수억 개의 [[001_dikw_pyramid|데이터]]를 처리하는 시간이 확 줄어들고, 클라우드 비용도 많이 절약할 수 있답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 74 / 262
+
+← **이전**: [[073_delta_lake_on_spark|22. Delta Lake on Spark — ACID 트랜잭션 지원 레이크하우스]]
+**다음**: [[075_spark_35_improvements|24. Apache Spark 3.5 주요 개선 사항]] →
+
+---

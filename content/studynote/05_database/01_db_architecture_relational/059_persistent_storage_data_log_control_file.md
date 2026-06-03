@@ -135,3 +135,14 @@ Redo Log / Control File
 [[001_dikw_pyramid|데이터]] [[501_file_definition_logical_record|파일]]은 진짜 물건이 들어 있는 창고예요.  
 [[568_logs_distributed_logging_elk_fluentd|로그]] [[501_file_definition_logical_record|파일]]은 무엇이 언제 바뀌었는지 적는 일기예요.  
 제어 [[501_file_definition_logical_record|파일]]은 그 창고가 어디 있는지 알려 주는 지도예요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 59 / 600
+
+← **이전**: [[058_database_instance_architecture|58. 데이터베이스 인스턴스 (Database Instance) - 메모리와 백그라운드 프로세스]]
+**다음**: [[060_serverless_database_aurora|60. 서버리스 데이터베이스 (Serverless DB) - Amazon Aurora Serverless 등 자동 확장 아키텍처]] →
+
+---

@@ -160,3 +160,13 @@ tags:
 2. BFS는 내 바로 앞 길부터 차근차근 살피는 것이고, DFS는 한 방향으로 끝까지 달려보고 막히면 돌아오는 방식이에요.
 3. 이 두 방법은 복잡한 AI가 없어도 반드시 답을 찾을 수 있는 가장 믿음직한 탐색법이랍니다.
 
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 14 / 420
+
+← **이전**: [[013_state_space_search|13. 상태 공간 탐색 (State Space Search)]]
+**다음**: [[015_heuristic_search|15. 휴리스틱 탐색 (Heuristic Search / Informed Search) - 직관이나 경험 기반 정보(휴리스틱 함수)를]] →
+
+---

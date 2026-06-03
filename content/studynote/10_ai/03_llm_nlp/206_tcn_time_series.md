@@ -137,3 +137,14 @@ TCN([[157_time_series_deep_learning_tcn_transformer|Temporal Convolutional Netwo
 1. 옛날 [[244_rnn_time_series_lstm_cell_gate_long_term_dependency|RNN]] 로봇은 10년 치 주식 달력을 보려면 하루, 이틀, 삼일... **손가락으로 순서대로 짚으며 3,000번을 셌어야 해서 엄청 느리고 앞 내용을 다 까먹었어요.**
 2. TCN 마법사 로봇은 10년 치 달력을 바닥에 쫙 펼쳐놓고, 거대한 돋보기를 들고 하늘에서 쾅! 하고 한 번에 내려다보며 도장을 찍어버려요.
 3. 무식하게 세지 않고 **전체 흐름을 한 장의 '사진(이미지)'처럼 한 방에 스캔**해 버리니까, 훈련 속도는 번개처럼 100배 빨라지고 기억력도 우주 최고로 좋아진 천재 로봇이랍니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 206 / 420
+
+← **이전**: [[205_knowledge_graph_rag|205. 지식 그래프 (Knowledge Graph) 지능형 연계]]
+**다음**: [[207_audio_mel_spectrogram|207. 오디오 딥러닝과 멜 스펙트로그램 (Audio MEL Spectrogram)]] →
+
+---

@@ -133,3 +133,14 @@ Terraform은 OpenTofu([[191_oss_license_compliance|OSS]] Fork)와의 생태계 �
 1. 옛날에는 레고(인프라)를 **설명서 없이 손으로** 만들어서, 같은 걸 다시 만들 수 없었어요.
 2. Terraform은 **레고 설명서(코드)**를 쓰면 로봇이 자동으로 조립해줘요!
 3. 설명서를 Git에 보관하니까, 누가 언제 무엇을 바꿨는지 **기록이 다 남아서** 안전해요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 114 / 371
+
+← **이전**: [[114_argocd_gitops_cd|114. Argo CD (ArgoCD GitOps CD) - K8s 선언적 지속 배포·Git 단일 진실 원천]]
+**다음**: [[116_kubernetes_container_image_security_scanning|116. 컨테이너 이미지 보안 스캐닝 (Container Image Security Scanning) - CVE·SBOM·정책]] →
+
+---

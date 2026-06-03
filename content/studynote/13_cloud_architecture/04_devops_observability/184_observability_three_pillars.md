@@ -157,3 +157,14 @@ OpenTelemetry 기반 상관분석
 1. [[342_routing_metric_hop_bandwidth_delay|메트릭]]은 "지금 열이 몇 도인지" 보는 체온계예요.
 2. [[568_logs_distributed_logging_elk_fluentd|로그]]는 "언제 어디가 아팠는지" 적어 놓은 진료 기록이에요.
 3. 트레이스는 몸속에서 어디가 막혔는지 따라가는 지도라서, 셋을 같이 봐야 정확히 고칠 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 183 / 371
+
+← **이전**: [[183_error_budget_sre_innovation_balance|183. 에러 예산 (Error Budget) - 혁신 속도와 신뢰성의 운영 균형]]
+**다음**: [[185_metrics_prometheus_grafana|185. 메트릭 (Metrics - Prometheus, Grafana)]] →
+
+---

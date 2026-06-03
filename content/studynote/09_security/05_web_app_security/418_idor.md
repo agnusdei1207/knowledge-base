@@ -125,3 +125,14 @@ IDOR (Insecure [[176_direct_addressing|Direct]] Object [[316_reference_pattern_n
 1. IDOR (Insecure [[176_direct_addressing|Direct]] Object [[316_reference_pattern_nosql|Reference]])는 컴퓨터 세상을 더 안전하게 만들기 위한 중요한 약속이나 도구예요.
 2. 겉으로는 어려워 보여도, 왜 필요한지와 어떻게 움직이는지를 알면 훨씬 쉬워져요.
 3. 그래서 이름만 외우지 말고 어디에 쓰이는지 같이 기억해야 해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 474 / 1108
+
+← **이전**: [[417_broken_access_control|417. 취약한 접근 제어 (Broken Access Control)]]
+**다음**: [[419_path_traversal|419. 경로 순회 (Path Traversal)]] →
+
+---

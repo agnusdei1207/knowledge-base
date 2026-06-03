@@ -139,3 +139,14 @@ tags:
 1. [[209_data_warehouse_schema_on_write|데이터 웨어하우스]] 아키텍처는 복잡한 일을 순서대로 정리해 주는 큰 정리함이에요.
 2. 어디에 무엇을 넣을지 먼저 정해 두면, 나중에 찾거나 고칠 때 훨씬 쉬워져요.
 3. 그래서 일이 커질수록 먼저 기준을 만들고 같이 약속하는 것이 중요해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 261 / 482
+
+← **이전**: [[260_enterprise_integration_test_oat_uat_checklist|260. 엔터프라이즈 통합 테스트 OAT/UAT 체크리스트 (Enterprise Integration Test: OAT / UAT)]]
+**다음**: [[262_data_mart_concept_design|262. 데이터 마트 (Data Mart) 개념 및 설계]] →
+
+---

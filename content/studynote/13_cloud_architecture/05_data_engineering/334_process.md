@@ -113,3 +113,14 @@ tags:
 1. [[089_daemonset_kubernetes_background_node_agent|데몬셋]] 전체 노드 로깅 [[198_pod_kubernetes_minimum_deployment_unit|포드]] 할당는 사람이 많은 운동회에서 어디로 가야 하는지 알려 주는 안내판과 비슷해요.
 2. 규칙이 없으면 모두가 한곳에 몰려서 느려지고 다투지만, 길을 정해 두면 훨씬 부드럽게 움직일 수 있어요.
 3. 그래서 컴퓨터 세상에서도 [[089_daemonset_kubernetes_background_node_agent|데몬셋]] 전체 노드 로깅 [[198_pod_kubernetes_minimum_deployment_unit|포드]] 할당를 쓰면 많은 팀과 [[090_service_kubernetes_network_load_balancing|서비스]]가 덜 부딪히고 더 빨리 움직일 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 333 / 371
+
+← **이전**: [[333_process|333. OCI 이미지 표준 런타임 (OCI)]]
+**다음**: [[335_process|335. 테인트 톨러레이션 노드 오염 배제 스케줄링 (Taint and Toleration)]] →
+
+---

@@ -130,3 +130,14 @@ Memcached 증폭 서버 공격 방어 미흡는 [[511_dns_hierarchical_distribut
 1. 나쁜 친구가 놀이터 규칙을 깨뜨리면 바로 알아차리고 막아야 해요.
 2. 이 개념은 어떤 장난이 위험한지 미리 알고, 문제가 생기면 어떻게 다시 정리할지도 알려줘요.
 3. 그래서 놀이터를 더 안전하게 지킬 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 841 / 1120
+
+← **이전**: [[719_dns_amplification_any_txt_query|719. DNS 증폭 (위장 IP로 파싱 데이터/TXT 등 다량 요구 패킷 대형화 수백배 반사 대상자 타격)]]
+**다음**: [[721_drdos_scrubbing_center_mitigation|721. DRDoS 스크러빙 센터 (Scrubbing Center) 완화 트래픽 정제 대피소]] →
+
+---

@@ -115,3 +115,14 @@ tags:
 1. LSTM의 게이트는 **수도꼭지 3개**예요. 하나는 오래된 물(기억)을 빼고, 하나는 새 물을 넣고, 하나는 필요한 만큼만 내보내요.
 2. 수도꼭지를 **얼마나 틀지(0~1)** AI가 알아서 학습해요.
 3. 덕분에 물탱크(Cell [[272_state_pattern|State]])가 넘치거나 마르지 않고 **딱 적당하게** 유지돼요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 116 / 420
+
+← **이전**: [[115_lstm_long_short_term_memory|115. LSTM (Long Short-Term Memory) - 게이트 메커니즘과 장기 기억 보호]]
+**다음**: [[117_gru|117. GRU (Gated Recurrent Unit) - LSTM 간소화·Reset Gate·Update Gate]] →
+
+---

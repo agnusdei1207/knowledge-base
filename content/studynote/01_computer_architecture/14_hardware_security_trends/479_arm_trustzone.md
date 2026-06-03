@@ -175,3 +175,14 @@ ARM CCA (Confidential Compute Architecture) · Realm 분리
 1. TrustZone은 한 집 안에 일반 방과 비밀 방을 따로 만드는 기술이에요.
 2. 비밀 방 열쇠가 있는 사람만 중요한 상자를 만질 수 있어서, 거실이 어지러워져도 상자는 안전해요.
 3. 그래서 스마트폰은 같은 칩을 쓰면서도 돈과 지문 같은 중요한 정보를 따로 지킬 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 479 / 803
+
+← **이전**: [[478_tee|478. 신뢰 실행 환경 (TEE, Trusted Execution Environment)]]
+**다음**: [[480_intel_sgx|480. Intel SGX]] →
+
+---

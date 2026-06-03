@@ -142,3 +142,14 @@ LLM + 벡터 DB: RAG (Retrieval-Augmented Generation) 추천
 1. [[159_gnn_graph_neural_network_message_passing|GNN]] 추천은 "내 친구의 친구가 좋아하는 책"까지 파악해서 나에게 맞는 책을 추천해주는 거예요.
 2. 벡터 DB는 수백만 권의 책을 "취향 지도"에 배치해두고, 내 취향과 가장 가까운 책을 순식간에 찾아주는 시스템이에요.
 3. AI가 계속 학습해서 내 취향 지도를 업데이트하면, 추천이 점점 정확해져요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 320 / 482
+
+← **이전**: [[319_airflow_dag_pipeline|319. Apache Airflow DAG 파이프라인 오케스트레이션]]
+**다음**: [[321_isp_as_is_to_be|321. ISP AS-IS TO-BE 분석 방법론 (ISP Information Strategy Planning)]] →
+
+---

@@ -319,3 +319,14 @@ Lambda Function as a Service
 1. MSA는 대형마트 → 전문점 거리 전환 — 하나의 큰 가게(모놀리스) 대신, 각 물건별 전문점([[532_microservices_decomposition_patterns|마이크로서비스]])으로 분리해서 각자 독립 운영해요!
 2. Strangler Fig는 점진적 집 수리 — 한꺼번에 헐고 짓는 대신(Big Bang), 사람이 살면서 방 하나씩 리모델링. 훨씬 안전해요.
 3. Circuit Breaker는 전기 차단기 — [[090_service_kubernetes_network_load_balancing|서비스]] 하나가 망가졌을 때 전체로 퍼지지 않도록 "뚝!" 차단해서 시스템을 보호해요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 43 / 371
+
+← **이전**: [[043_replatform_cloud_managed_services|043. Re-platform — 클라우드 관리형 서비스 전환]]
+**다음**: [[045_migration_repurchase_saas|045. 클라우드 이전 전략 — Repurchase & SaaS Migration]] →
+
+---

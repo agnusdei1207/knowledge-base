@@ -125,3 +125,14 @@ tags:
 1. [[461_http_stateless_connection_oriented|HTTP]] Response Smuggling (응답 분할 및 가로채기)는 누군가 규칙의 틈을 찾아 몰래 장난을 치는 방법이에요.
 2. 그래서 문을 단단히 잠그는 것뿐 아니라, 누가 이상하게 움직이는지도 바로 알아차려야 해요.
 3. 컴퓨터는 이상한 흔적을 빨리 보고 퍼지기 전에 멈추게 해야 안전해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 581 / 1108
+
+← **이전**: [[524_http_request_smuggling_types|524. HTTP Request Smuggling 유형 (CL.TE, TE.CL, H2.CL)]]
+**다음**: [[526_iam|526. IAM (Identity and Access Management)]] →
+
+---

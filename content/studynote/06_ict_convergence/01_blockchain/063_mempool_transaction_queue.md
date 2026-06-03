@@ -136,3 +136,14 @@ Confirmation
 놀이공원에 들어가려면 먼저 줄을 서야 해요.  
 앞줄에 서는 사람은 더 빨리 들어가요.  
 멤풀은 [[004_blockchain|블록체인]] 거래가 기다리는 줄이에요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 63 / 552
+
+← **이전**: [[062_bitcoin_halving_supply_shock|62. 비트코인 반감기 (Halving) - 약 4년마다 채굴 보상이 절반으로 줄어드는 메커니즘]]
+**다음**: [[064_bft_pbft_consensus_3_phases|64. BFT 합의의 3단계 - Pre-prepare, Prepare, Commit]] →
+
+---

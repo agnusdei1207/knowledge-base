@@ -364,3 +364,14 @@ CT 트리거 도입
     ▼
 지속 모니터링 → 드리프트 재감지 → CT 재발동 (순환)
 ```
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 162 / 258
+
+← **이전**: [[161_mlops_machine_learning_operations|161. MLOps (Machine Learning Operations) - AI 모델 개발~서빙 CI/CD 자동화]]
+**다음**: [[163_data_drift_statistical_distribution_shift|163. 데이터 드리프트 (Data Drift) - 운영 데이터 통계 분포 이격]] →
+
+---

@@ -135,3 +135,14 @@ AIOps / NoOps (AI를 활용한 이상 탐지 및 완전 무인 운영)
 1. 옛날에는 레고를 만드는 팀과 성이 안 부서지게 지키는 팀이 서로 자기 일만 하다가 맨날 싸웠어요.
 2. [[652_devops_calms_culture|데브옵스]]는 이 두 팀을 한 팀으로 묶고, "버튼 하나만 누르면 로봇이 레고를 멋지게 조립해 주는 마법 기계"를 같이 만들게 했어요.
 3. 그래서 이제는 레고 성이 부서질 걱정 없이 하루에도 수십 번씩 새롭고 멋진 장난감을 뚝딱뚝딱 완성해서 친구들에게 보여줄 수 있게 되었답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 97 / 973
+
+← **이전**: [[096_spotify_model_tribe_squad|96. Spotify 모델 - Tribe, Squad, Chapter, Guild]]
+**다음**: [[098_iac_infrastructure_as_code_terraform|98. 인프라로서의 코드 (IaC, Infrastructure as Code)]] →
+
+---

@@ -125,3 +125,14 @@ tags:
 1. 금융감독원 (FSS) Cyber Supervision (Fss Cyber Supervision)는 학교 규칙표처럼 무엇을 준비하고 어떻게 확인할지 알려 주는 기준이에요.
 2. 규칙표만 붙여 두고 지키지 않으면 아무 소용이 없어요.
 3. 그래서 보안도 규칙과 실제 행동이 함께 맞아야 해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 976 / 1108
+
+← **이전**: [[888_electronic_financial_supervision_regulation|888. 전자금융감독규정 (Electronic Financial Supervision Regulation)]]
+**다음**: [[890_sbom_cyclonedx_spdx|890. SBOM (Software Bill of Materials)]] →
+
+---

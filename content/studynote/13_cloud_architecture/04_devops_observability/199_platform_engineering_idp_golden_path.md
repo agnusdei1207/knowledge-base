@@ -162,3 +162,14 @@ Backstage · Port · Humanitec → IDP 도구
 ```
 2. 학생(개발자)은 공부(비즈니스 로직 개발)에만 집중하고, 조리사(플랫폼 팀)가 밥(인프라)을 책임져.
 3. 만약 특별한 음식이 먹고 싶다면(커스텀 인프라) 직접 만들 수 있지만, 대부분은 급식만으로 충분해.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 198 / 371
+
+← **이전**: [[198_shadow_deployment_traffic_mirroring|198. 섀도우 배포 / 트래픽 미러링 (Shadow Deployment / Traffic Mirroring)]]
+**다음**: [[200_internal_developer_platform_backstage|200. IDP / Backstage (Internal Developer Platform)]] →
+
+---

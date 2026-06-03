@@ -128,3 +128,14 @@ ZigBee는 [[608_beacon_technology_ibeacon_eddystone|비컨]] 기술에서 출발
 1. 작은 로봇 친구들이 배터리를 아껴가며 서로 [[389_mesh_topology|메시]]지를 주고받는 장난감 마을과 같아요.
 2. 이 개념은 누가 가까운지, 누가 대신 알려줄지, 무엇을 현장에서 바로 처리할지를 정해줘요.
 3. 그래서 작은 기기들도 오래 버티면서 똑똑하게 협력할 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 730 / 1120
+
+← **이전**: [[608_beacon_technology_ibeacon_eddystone|608. 비컨 (Beacon) 기술]]
+**다음**: [[610_z_wave_900mhz_smart_home_iot|610. Z-Wave (Z웨이브)]] →
+
+---

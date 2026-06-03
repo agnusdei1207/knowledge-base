@@ -241,3 +241,14 @@ AI + 지식 그래프 통합 (LLM + KG)
 1. [[070_graph_datastructure|그래프]] DB는 사람들의 [[083_relationship_in_er_model|관계]]를 점(사람)과 선([[083_relationship_in_er_model|관계]])으로 저장하는 [[001_dikw_pyramid|데이터]]베이스로, SNS에서 "친구의 친구의 친구" 찾기에 완벽해요.
 2. [[083_relationship_in_er_model|관계]]형 DB로 여러 단계 연결을 찾으려면 여러 번 테이블을 합쳐야 해서 느리지만, [[070_graph_datastructure|그래프]] DB는 선을 따라가면 되니까 훨씬 빠르고 간단해요.
 3. 사기꾼들이 여러 계좌를 하나의 기기로 나누어 쓰는 패턴을 [[070_graph_datastructure|그래프]] DB가 즉시 발견해서 금융 사기 탐지에 핵심적으로 쓰여요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 39 / 258
+
+← **이전**: [[038_wide_column|038. 와이드 컬럼 저장소 (Wide Column Store)]]
+**다음**: [[040_cap_theorem_consistency_availability_partition|040. CAP 정리 (CAP Theorem)]] →
+
+---

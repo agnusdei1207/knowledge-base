@@ -130,3 +130,14 @@ tags:
 1. 비슷한 이름의 장난감을 헷갈리지 않게 표를 붙이는 것과 같아요.
 2. 이 개념은 무엇이 어떻게 다른지 쉽게 구별하게 도와줘요.
 3. 그래서 시험에서도 실무에서도 말을 더 정확하게 쓸 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 1087 / 1120
+
+← **이전**: [[965_nat_traversal_stun_turn_ice_webrtc_p2p|965. NAT 횡단 (NAT Traversal)]]
+**다음**: [[967_tcp_sliding_window_flow_control_buffer_management|967. TCP 슬라이딩 윈도우]] →
+
+---

@@ -266,3 +266,14 @@ PCA 주성분 = V의 열벡터
 ```
 2. LDA는 "고양이와 개를 가장 잘 구분하는 방향으로 그림자를 만드는 것"으로, 처음부터 어떤 동물인지 알고 시작한다.
 3. t-SNE는 "비슷한 친구끼리 가깝게, 다른 친구끼리 멀게 자리를 배치하는 것"인데, 2D 지도로 만들어주기 때문에 눈으로 군집을 바로 볼 수 있다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 228 / 258
+
+← **이전**: [[227_logistic_regression_clt_pvalue_type_error|227. 로지스틱 회귀 (Logistic Regression) CLT p-value 1/2종 오류]]
+**다음**: [[229_time_series_arima_stationarity_collaborative_filtering|229. 시계열 ARIMA (AutoRegressive Integrated Moving Average) 정상성 협업 필터링]] →
+
+---

@@ -94,3 +94,14 @@ AS-IS (현행) → Fit-Gap 분석 → 표준으로 흡수 가능? → yes/BPR, n
 1. 기성복이 잘 맞으면 그냥 입고, 안 맞으면 수선해야 한다.
 2. 모든 옷을 크게 고치면 비싸고, 모든 몸에 맞춤옷만 만들면 더 비싸다.
 3. 그래서 어디를 바꾸고 어디를 그대로 둘지 정해야 한다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 86 / 482
+
+← **이전**: [[085_erp_implementation_lifecycle|85. ERP 구축 생명주기 - 패키지 선정 -> 커스터마이징 / CBO (Custom Built Object) -> 데이터 이관 ->]]
+**다음**: [[087_erp_package_advantages_best_practice|87. ERP 패키지의 장점 - 베스트 프랙티스(Best Practice) 내재화, 통합 데이터베이스 구축, 유지보수 용이]] →
+
+---

@@ -139,3 +139,14 @@ tags:
 1. [[211_data_mesh_domain_ownership|데이터 메시]] [[136_variance|분산]] [[064_relation_domain|도메인]] 프로덕트는 복잡한 일을 순서대로 정리해 주는 큰 정리함이에요.
 2. 어디에 무엇을 넣을지 먼저 정해 두면, 나중에 찾거나 고칠 때 훨씬 쉬워져요.
 3. 그래서 일이 커질수록 먼저 기준을 만들고 같이 약속하는 것이 중요해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 392 / 482
+
+← **이전**: [[391_storage_compute_separation|391. 스토리지 컴퓨팅 분리 클라우드 확장 (Storage-Compute Separation)]]
+**다음**: [[393_data_fabric_virtual_metadata_intelligence|393. 데이터 패브릭 가상화 메타 지능 연결 (Data Fabric)]] →
+
+---

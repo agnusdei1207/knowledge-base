@@ -106,3 +106,14 @@ tags:
 1. [[231_adr_architecture_decision_record_documentation|ADR]] 아키텍처 결정 기록은 집을 짓기 전에 방과 길을 먼저 그려 보는 것과 같아요.
 2. 어느 방을 크게 하고 어디를 튼튼하게 할지 미리 정해야 해요.
 3. 그래야 나중에 고칠 때도 왜 그렇게 만들었는지 알 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 431 / 530
+
+← **이전**: [[352_process|352. 품질 속성 시나리오 (Quality Attribute Scenario)]]
+**다음**: [[354_solid_5|354. 객체지향 SOLID 5원칙 (SOLID Principles)]] →
+
+---

@@ -52,3 +52,14 @@ tags:
 1. 센서 퓨전은 **눈(카메라)+귀(레이더)+손([[140_lidar_light_detection_and_ranging_tof|LiDAR]])**을 합치는 거예요.
 2. 눈만으로 판단하면 **어두울 때 실수**하지만, 귀와 손도 쓰면 정확해요.
 3. 자율주행차가 **안전하게 달리려면** 여러 감각을 합쳐야 해요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 139 / 552
+
+← **이전**: [[138_autonomous_vehicle_level_4_high_automation|138. 자율주행 Level 4 고도 자율 - 특정 영역 완전 무인]]
+**다음**: [[140_lidar_light_detection_and_ranging_tof|140. LiDAR (Light Detection and Ranging) - ToF 기반 3D 거리 측정]] →
+
+---

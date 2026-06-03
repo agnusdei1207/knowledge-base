@@ -275,3 +275,14 @@ score = IDF × (TF × (k1+1)) / (TF + k1 × (1-b+b×fieldLen/avgLen))
 1. [[500_inverted_index_elasticsearch|역색인]]은 단어장의 색인 [[286_page_frame|페이지]]와 같아요. "[[542_redis|Redis]]"를 찾으면 색인에서 즉시 12, 45, 87페이지라고 알려줘요 — 책 전체를 읽을 필요가 없어요.
 2. Elasticsearch는 도서관의 스마트 검색 로봇 — 수백만 권 중에서 "가장 관련 있는" 책을 순위 매겨 1초 안에 꺼내줘요.
 3. ELK [[057_stack|스택]]은 앱의 모든 일기([[568_logs_distributed_logging_elk_fluentd|로그]])를 모아 자동으로 [[070_graph_datastructure|그래프]]로 그려주는 시스템 — 문제가 생기면 어느 일기에서 시작됐는지 바로 찾아줘요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 136 / 262
+
+← **이전**: [[135_time_series_db|135. 시계열 데이터베이스 (Time Series DB) — InfluxDB/TimescaleDB/QuestDB]]
+**다음**: [[137_multi_model_db|137. 다중 모델 데이터베이스 (Multi-Model DB) — ArangoDB/SurrealDB]] →
+
+---

@@ -155,3 +155,14 @@ IN과 GN은 "배치가 작아도 학습이 흔들리지 않게 하자"는 현실
 1. 친구들 키를 잴 때 반 전체 평균으로만 재면 사람이 적을 때 자꾸 헷갈려요.
 2. 인스턴스 [[093_normalization|정규화]]와 그룹 [[093_normalization|정규화]]는 각 친구 안에서, 또는 비슷한 친구끼리만 기준을 잡는 방법이에요.
 3. 그래서 사람이 적어도 덜 흔들리고, 컴퓨터가 더 차분하게 공부할 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 415 / 420
+
+← **이전**: [[414_knowledge_distillation_temperature_scaling|414. 지식 증류 (Knowledge Distillation)]]
+**다음**: [[416_dp_sgd_model_inversion_defense|416. 모델 역산 공격 방어와 DP-SGD (Differentially Private Stochastic Gradient Descent)]] →
+
+---

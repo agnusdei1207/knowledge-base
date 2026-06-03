@@ -175,3 +175,14 @@ Continuous supply-chain security and runtime re-evaluation
 1. SAST는 내가 직접 만든 장난감에서 날카로운 부분이 없는지 살펴보는 검사예요.
 2. SCA는 친구에게 빌린 부품 중에 이미 고장 난 부품이 섞여 있는지 확인하는 검사예요.
 3. 두 검사를 함께 해야 위험한 장난감이 완성되기 전에 미리 고칠 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 174 / 371
+
+← **이전**: [[174_devsecops_shift_left_security|174. 데브섹옵스 (DevSecOps, Shift-Left Security)]]
+**다음**: [[176_container_image_vulnerability_scanning|176. 컨테이너 이미지 취약점 스캐닝 (Container Image Vulnerability Scanning)]] →
+
+---

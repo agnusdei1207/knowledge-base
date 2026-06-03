@@ -79,3 +79,14 @@ Map 함수는 [[136_variance|분산]] 컴퓨팅의 가장 원초적이고 강력
 1. 거대한 도서관 책들을 종류별로 [[104_classification_analysis|분류]]하는 일이야.
 2. 각 책꽂이 담당자들이 자기 자리에 있는 책들을 "이건 소설책, 1권", "저건 과학책, 1권"이라고 쪽지를 써서 붙여.
 3. 이 단계가 끝나면 나중에 종류별로 모으기가 훨씬 쉬워지겠지?
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 32 / 262
+
+← **이전**: [[031_mapreduce_programming_model_parallel_processing|09. 맵리듀스 (MapReduce) - 대규모 데이터 병렬 처리를 위한 분산 프로그래밍 모델]]
+**다음**: [[033_reduce_function_aggregation_logic|Reduce 함수: 분산 데이터의 최종 집계 및 요약]] →
+
+---

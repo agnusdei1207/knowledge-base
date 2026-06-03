@@ -146,3 +146,14 @@ BM25를 적용하면 문서 길이 편향과 단순 TF 폭주를 줄이면서, �
 1. 책에서 필요한 내용을 찾을 때, 그냥 단어가 많이 나온다고 좋은 책은 아니에요.
 2. 드문 중요한 단어가 적당히 들어 있고, 책이 너무 길어서 우연히 많이 나온 건 아닌지도 봐야 해요.
 3. BM25는 그런 걸 계산해서 더 알맞은 책을 먼저 보여주는 똑똑한 검색 규칙이에요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 417 / 420
+
+← **이전**: [[416_dp_sgd_model_inversion_defense|416. 모델 역산 공격 방어와 DP-SGD (Differentially Private Stochastic Gradient Descent)]]
+**다음**: [[418_smote_oversampling_undersampling|418. 오버샘플링·언더샘플링·SMOTE (Synthetic Minority Over-sampling Technique)]] →
+
+---

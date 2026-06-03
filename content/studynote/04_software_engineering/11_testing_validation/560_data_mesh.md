@@ -157,3 +157,14 @@ Platform -> Common Standards
 1. [[211_data_mesh_domain_ownership|데이터 메시]] ([[320_data_mesh|Data Mesh]])은 레고 블록으로 성을 만들 때처럼, 규칙을 정하고 역할을 나누어 함께 작업하는 방법이에요.
 2. 혼자서 막 만들면 나중에 무너지거나 고치기 어렵지만, 약속을 지키면 누구나 쉽게 고치고 더 크게 만들 수 있어요.
 3. 그래서 [[001_software_engineering_definition|소프트웨어 공학]]은 프로그래머들이 좋은 프로그램을 빠르고 안전하게 만들 수 있게 도와주는 '규칙 모음집'이에요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 711 / 973
+
+← **이전**: [[559_serverless_cold_start_mitigation|559. 콜드 스타트 (Cold Start) 지연 문제 및 극복 방안 (Provisioned Concurrency 등)]]
+**다음**: [[560_data_mesh_decentralized_data_ownership|560. 데이터 메시 (Data Mesh) - 데이터 소유권의 탈중앙화 (도메인 중심)]] →
+
+---

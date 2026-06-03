@@ -128,3 +128,14 @@ CNI (Container Network Interface) 표준화
 1. 컴퓨터 세상에는 여러 아파트(노드)가 있고, 아파트 안에는 수많은 방([[085_pod_kubernetes_container_unit|파드]])이 있어요.
 2. 서로 다른 아파트에 있는 방끼리 비밀 전화를 걸려면, 동네 우체국이 모르는 주소를 알아서 전달해 줄 똑똑한 전화국 직원이 필요해요.
 3. CNI는 [[196_kubernetes_k8s_container_orchestration|쿠버네티스]] 건물주가 고용한 전화국 직원으로, 플란넬, 칼리코 같은 여러 회사 중 우리 아파트에 가장 잘 맞는 직원을 골라 쓸 수 있답니다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 99 / 371
+
+← **이전**: [[099_csi_container_storage_interface_kubernetes_plugin|99. CSI (Container Storage Interface) - K8s 스토리지 범용 표준 플러그인]]
+**다음**: [[101_serviceaccount_rbac_kubernetes_authorization|101. K8s 보안 - 서비스 어카운트 (ServiceAccount) 및 RBAC 권한]] →
+
+---

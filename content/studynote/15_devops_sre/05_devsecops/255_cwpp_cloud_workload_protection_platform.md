@@ -134,3 +134,14 @@ Reference Architecture
 1. 클라우드 워크로드 [[571_protection_vs_security|보호]] 플랫폼은 복잡한 일을 순서와 규칙으로 정리해서 실수하지 않게 도와주는 방법이에요.
 2. Runtime [[571_protection_vs_security|Protection]] 같은 친구들과 같이 움직여야 더 잘 작동해요.
 3. 그래서 문제가 생겨도 어디서 틀렸는지 빨리 찾고 다시 고치기 쉬워져요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 255 / 373
+
+← **이전**: [[254_cspm_cloud_security_posture_management|254. 클라우드 보안 형상 관리 (CSPM, Cloud Security Posture Management)]]
+**다음**: [[256_cnapp_cloud_native_application_protection|256. CNAPP (Cloud-Native Application Protection Platform)]] →
+
+---

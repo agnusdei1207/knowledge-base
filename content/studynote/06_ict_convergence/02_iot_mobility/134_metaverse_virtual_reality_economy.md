@@ -52,3 +52,14 @@ tags:
 1. [[594_metaverse_realtime_sync_rendering_offloading|메타버스]]는 **디지털 세계**예요. 아바타로 **친구를 만나고 놀 수** 있어요.
 2. 가상 세계에서 **옷을 사고 집을 꾸미는** 경제 활동도 해요.
 3. 로블록스처럼 **직접 게임을 만들어 돈을 벌 수도** 있답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 134 / 552
+
+← **이전**: [[133_volumetric_video_hologram|133. 볼류메트릭 비디오 & 홀로그램 - 3D 실감 콘텐츠 기술]]
+**다음**: [[135_autonomous_vehicle_sae_levels|135. 자율주행 SAE 레벨 (Level 0~5) - 자율주행 단계 분류]] →
+
+---

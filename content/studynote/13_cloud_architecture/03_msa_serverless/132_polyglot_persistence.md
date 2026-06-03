@@ -67,3 +67,14 @@ Polyglot Persistence는 **MSA의 [[001_dikw_pyramid|데이터]] 최적화 [[268_
 1. Polyglot은 **요리마다 최적의 칼**을 쓰는 거예요. 빵에는 빵 칼, 고기에는 고기 칼!
 2. 모든 요리에 **식빵 칼만 쓰면** 비효율적이에요.
 3. 각 [[090_service_kubernetes_network_load_balancing|서비스]]에 **가장 잘 맞는 DB**를 골라주면 성능이 좋아진답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 131 / 371
+
+← **이전**: [[131_database_per_service|131. Database per Service - MSA 데이터 분리 패턴]]
+**다음**: [[133_2pc_limitations|133. 2PC 한계와 MSA 분산 트랜잭션 - 왜 Saga가 필요한가]] →
+
+---

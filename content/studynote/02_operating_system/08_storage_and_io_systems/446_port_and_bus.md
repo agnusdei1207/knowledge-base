@@ -175,3 +175,14 @@ tags:
 1. 포트 (Port) / [[344_bus|버스]] ([[344_bus|Bus]])은 컴퓨터가 디스크와 장치가 [[001_dikw_pyramid|데이터]]를 주고받는 길을 정리하는 방법이에요.
 2. 먼저 I/O 하드웨어 인터페이스 요소을 이해하면 포트 (Port) / [[344_bus|버스]] ([[344_bus|Bus]])이 왜 필요한지 더 쉽게 보여요.
 3. 그래서 포트 (Port) / [[344_bus|버스]] ([[344_bus|Bus]])을 잘 알면 나중에 메모리 맵 I/O (Memory-mapped I/O) vs 분리된 I/O (Isolated I/O / Port I/O)도 훨씬 쉽게 배울 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 446 / 800
+
+← **이전**: [[445_io_hardware_interface|445. I/O 하드웨어 인터페이스 요소 (I/O Hardware Interface)]]
+**다음**: [[447_memory_mapped_io_vs_isolated_io|447. 메모리 맵 I/O (Memory-mapped I/O) vs 분리된 I/O (Isolated I/O / Port I/O)]] →
+
+---

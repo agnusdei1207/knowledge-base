@@ -136,3 +136,14 @@ tags:
 1. **[[165_feature_store_training_serving_consistency|피처 스토어]]**는 여러 [[190_ai_llm_requirements_specification|AI]] 팀이 필요한 **[[001_dikw_pyramid|데이터]] 특징들을 한 곳에 모아두고 같이 쓰는** 공용 재료 창고예요!
 2. 추천팀, 광고팀, 검색팀이 각자 같은 [[001_dikw_pyramid|데이터]]를 따로 만들 필요 없이 **이미 만들어진 특징을 가져다 쓰면** 시간과 비용이 크게 줄어요.
 3. 특히 **"학습할 때 쓴 특징"과 "실제 [[090_service_kubernetes_network_load_balancing|서비스]]에서 쓰는 특징"이 정확히 같도록** 보장해서 [[190_ai_llm_requirements_specification|AI]] [[282_performance_tactics|성능]]이 실제로도 유지되게 해요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 323 / 420
+
+← **이전**: [[322_data_concept_drift|322. 데이터 드리프트 (Data Drift) / 컨셉 드리프트 (Concept Drift)]]
+**다음**: [[324_model_registry|324. 모델 레지스트리 (Model Registry)]] →
+
+---

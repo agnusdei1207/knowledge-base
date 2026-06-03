@@ -155,3 +155,14 @@ BFT는 [[136_variance|분산]] 시스템에서 악의적 행위자까지 허용�
 1. 5명이 투표하는데 1명이 거짓말쟁이여도, 나머지 4명이 다수결로 올바른 결정을 내릴 수 있어요.
 2. 이 원리를 수학으로 정리하면 "거짓말쟁이가 n/3보다 적으면 안전"이에요.
 3. [[004_blockchain|블록체인]]이 해커 공격을 받아도 버티는 이유가 바로 이 수학 덕분입니다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 476 / 552
+
+← **이전**: [[475_pow_pos_proof_mechanisms_comparison|475. PoW와 PoS 합의 메커니즘 비교 (PoW vs PoS Consensus Mechanism)]]
+**다음**: [[477_smart_contract_evm_gas_execution|477. 스마트 컨트랙트 EVM과 가스 실행 구조 (Smart Contract EVM and Gas Execution)]] →
+
+---

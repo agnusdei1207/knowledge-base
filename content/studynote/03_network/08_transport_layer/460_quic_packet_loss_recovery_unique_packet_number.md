@@ -151,3 +151,14 @@ TCP의 옵션 칸은 고작 40바이트 제한이라, 이빨 빠진 패킷을 �
 1. 물건을 보낼 때 받는 사람이 너무 빨리 받으면 놓칠 수 있어요.
 2. 이 개념은 천천히 보낼지, 다시 보낼지, 길이 막히면 멈출지를 정해줘요.
 3. 그래서 멀리 보내도 덜 잃어버리고 더 안정적으로 도착해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 581 / 1120
+
+← **이전**: [[459_quic_fec_forward_error_correction|459. FEC 기능 선택적 포함 (초기)]]
+**다음**: [[461_http_stateless_connection_oriented|461. HTTP (HyperText Transfer Protocol) 상태 비저장 (Stateless), 연결형/비연결형 특징]] →
+
+---

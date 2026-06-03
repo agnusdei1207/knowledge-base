@@ -121,3 +121,14 @@ MIB / OID는 SNMP에서 출발해 현재 메커니즘을 정교화하고, 이후
 1. 친구 이름을 전화번호부에서 찾는 것처럼 컴퓨터도 이름과 번호를 연결해요.
 2. 이 개념은 누가 아픈지 살펴보는 건강검진표와 운영일지 역할도 해요.
 3. 그래서 문제가 나도 빨리 찾고 고칠 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 650 / 1120
+
+← **이전**: [[528_snmp_simple_network_management_protocol|528. SNMP (Simple Network Management Protocol)]]
+**다음**: [[530_smi_structure_of_management_information|530. SMI (Structure of Management Information)]] →
+
+---

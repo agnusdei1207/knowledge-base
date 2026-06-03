@@ -135,3 +135,14 @@ Capital One 같은 사고    Drift Detection               AI 기반 이상 탐�
 1. CSPM은 클라우드 집(AWS/Azure)의 모든 문과 창문이 잠겨 있는지 자동으로 [[396_validation|확인]]하는 로봇 점검관이에요.
 2. CIS Benchmark는 이렇게 해야 안전하다는 공식 안전 [[435_checklist_based_testing|체크리스트]]예요. 점검관이 이 리스트를 기준으로 [[396_validation|확인]]해요.
 3. Drift Detection은 어제는 잠겼던 창문이 오늘 열려 있으면 바로 알려주는 기능이에요. 누가 몰래 바꿨는지 즉시 알 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 331 / 373
+
+← **이전**: [[330_process|330. 마이크로 세그멘테이션 제로 트러스트 네트워크 (Micro-segmentation ZTNA Zero Trust Network Access]]
+**다음**: [[332_cwpp|332. CWPP 런타임 워크로드 보호 (CWPP Cloud Workload Protection Platform Falco eBPF seccomp]] →
+
+---

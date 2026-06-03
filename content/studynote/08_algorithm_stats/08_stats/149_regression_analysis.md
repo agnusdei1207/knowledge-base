@@ -252,3 +252,14 @@ P(y=k|x) = exp(Xβ_k) / Σ_j exp(Xβ_j)
 회귀 분석은 "산점도의 점들을 가장 잘 관통하는 선 긋기"야 — 그 선으로 새 데이터의 값을 예측할 수 있어!
 [[227_logistic_regression_clt_pvalue_type_error|로지스틱 회귀]]는 "이메일이 스팸일 [[130_probability|확률]] 계산기"야 — "돈 벌기", "클릭하세요" 같은 단어가 많을수록 스팸 [[130_probability|확률]]이 100%에 가까워져.
 릿지(Ridge)는 "모든 변수를 조금씩 줄이기", 라쏘([[102_lasso_ridge_regression_regularization|Lasso]])는 "중요하지 않은 변수는 완전히 없애기"야 — 둘 다 모델이 과도하게 복잡해지는 걸 막아줘!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 149 / 175
+
+← **이전**: [[148_t_f_anova|19. t-검정 / F-검정 / ANOVA — 평균 비교 검정]]
+**다음**: [[150_information_theory|1. 정보이론 (Information Theory) — Shannon, 1948]] →
+
+---

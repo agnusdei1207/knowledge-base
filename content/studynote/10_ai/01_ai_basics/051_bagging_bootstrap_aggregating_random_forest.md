@@ -126,3 +126,14 @@ tags:
 1. [[259_bagging_random_forest|배깅]]은 1명의 천재 학생에게 시험을 보게 하는 대신, 서로 다른 책으로 공부한 100명의 학생을 모아서 다수결로 정답을 찍는 마법이에요.
 2. 1명의 천재는 자기가 잘못 외운 문제(과적합)에서 틀릴 수 있지만, 100명은 투표를 통해 엉뚱한 오답을 걸러낼 수 있죠.
 3. [[353_random_forest|랜덤 포레스트]]는 이 100명의 학생이 시험을 칠 때 다 똑같은 생각만 하지 못하게, 눈가리개를 씌워 일부 정보만 보고 투표하게 만들어 더 완벽한 집단 지성을 만든답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 51 / 420
+
+← **이전**: [[050_voting_hard_soft_ensemble|보팅 앙상블 — 하드/소프트 보팅 (Hard vs Soft Voting Ensemble)]]
+**다음**: [[052_boosting_ensemble_gradient_boosting|52. 부스팅 (Boosting) - AdaBoost, GBM, XGBoost, LightGBM]] →
+
+---

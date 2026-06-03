@@ -118,3 +118,14 @@ tags:
 1. [[289_image_segmentation|이미지 분할]]은 사진 속 고양이의 **털 하나하나까지 정확하게 색칠하는** 초정밀 색칠 공부예요!
 2. 네모 박스(탐지)는 고양이 주변 풀밭까지 포함하지만, 분할은 **고양이 윤곽만** 따라 색칠해요.
 3. 병원에서 의사 선생님이 MRI 사진의 나쁜 세포만 정확히 찾아내는 데 이 기술이 쓰인답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 109 / 420
+
+← **이전**: [[108_yolo_ssd_1_stage_object_detection_real_time|108. YOLO와 SSD (1-Stage 객체 탐지)]]
+**다음**: [[110_semantic_vs_instance_segmentation_fcn_unet_mask_rcnn|110. Semantic vs Instance Segmentation - FCN·U-Net·Mask R-CNN·Panoptic 분할 체계]] →
+
+---

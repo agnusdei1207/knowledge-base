@@ -55,3 +55,14 @@ Positional Encoding:
 1. Multi-Head는 **여러 탐정**이에요. 각각 다른 관점으로 **동시에 조사**해요.
 2. Positional Encoding은 **번호표**예요. "이 단어는 **3번째**입니다" 알려줘요.
 3. 번호표가 없으면 AI가 **순서를 모르니까** 문장을 이해 못 해요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 140 / 258
+
+← **이전**: [[139_transformer_architecture_self_attention|139. Transformer 아키텍처 - Self-Attention 기반 병렬 처리]]
+**다음**: [[141_bert_encoder_mlm_bidirectional|141. BERT Encoder - MLM 양방향 사전 학습 상세]] →
+
+---

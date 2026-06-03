@@ -132,3 +132,14 @@ tags:
 1. 약속을 적은 공책을 순서대로 정리하는 방법이에요.
 2. 누가 먼저 읽고 쓰는지 규칙을 지켜야 헷갈리지 않아요.
 3. 규칙이 약하면 빠르지만 틀릴 수 있고, 너무 세면 느려질 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 565 / 600
+
+← **이전**: [[564_column_storage_run_length_encoding_rle|564. 컬럼 기반 스토리지 런 렝스 인코딩(RLE) 압축 효율화 탐색]]
+**다음**: [[566_cache_stampede_mutex_probabilistic_early_expiration|566. 캐시 스탬피드 뮤텍스 락 및 확률적 갱신(Probabilistic Early Expiration) 회피기법]] →
+
+---

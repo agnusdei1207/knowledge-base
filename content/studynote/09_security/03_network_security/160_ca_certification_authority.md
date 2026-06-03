@@ -148,3 +148,14 @@ ACME 자동화 · 짧은 수명 인증서 · 지속적 신뢰 운영
 1. CA는 컴퓨터 세상에서 진짜 신분증을 만들어 주는 믿을 만한 아저씨예요.
 2. 그래서 우리 브라우저는 처음 보는 서버도 "이 신분증에 공식 도장이 있네" 하고 믿을 수 있어요.
 3. 하지만 도장을 잃어버리거나 잘못 찍으면 큰일이 나서, 아주 조심조심 관리해야 해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 213 / 1108
+
+← **이전**: [[159_pki_public_key_infrastructure|159. PKI (Public Key Infrastructure) — 공개키 인증서 체계]]
+**다음**: [[161_ra_registration_authority|161. RA (Registration Authority) — 인증 요청 검증/승인]] →
+
+---

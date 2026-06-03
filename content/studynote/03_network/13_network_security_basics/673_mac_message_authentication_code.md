@@ -126,3 +126,14 @@ MAC 변수 및 기능는 [[003_integrity|무결성]] 및 출처 [[303_authentica
 1. 비밀 편지를 보낼 때는 자물쇠와 비밀번호가 필요해요.
 2. 이 개념은 누가 진짜 친구인지 [[396_validation|확인]]하고, 편지가 바뀌지 않았는지도 살펴봐요.
 3. 그래서 나쁜 사람이 중간에 훔쳐보거나 바꾸기 어려워져요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 794 / 1120
+
+← **이전**: [[672_integrity_origin_authentication_code|672. 무결성 및 출처 인증용 서명 데이터 코드 제어]]
+**다음**: [[674_hmac_hash_based_mac_ipsec|674. HMAC (Hash-based MAC) 통신 기반 IPsec 등 활용 구조]] →
+
+---

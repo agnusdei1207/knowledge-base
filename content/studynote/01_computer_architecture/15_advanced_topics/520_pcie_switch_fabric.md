@@ -159,3 +159,14 @@ CXL switch · composable infrastructure · 외부 패브릭 확장
 1. [[356_pcie|PCIe]] [[238_switch_operation_principles|스위치]]는 컴퓨터 안에 더 많은 길을 만들어 주는 교통 정리 센터예요.
 2. 친구들끼리 물건을 주고받을 때 꼭 선생님 책상을 거치지 않아도 되게 도와줘요.
 3. 하지만 큰길 하나가 너무 좁으면 아무리 갈래길이 많아도 결국 그곳에서 막히기 때문에 길 배치를 잘해야 해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 520 / 803
+
+← **이전**: [[519_iommu_overhead|519. IOMMU 성능 오버헤드 (IOMMU Performance Overhead)]]
+**다음**: [[521_nvme_of|521. NVMe 오버 패브릭 (NVMe-oF)]] →
+
+---

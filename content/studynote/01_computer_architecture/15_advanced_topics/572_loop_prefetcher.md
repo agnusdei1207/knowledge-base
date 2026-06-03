@@ -153,3 +153,14 @@ Irregular Pattern 대응 Adaptive Prefetch
 1. 친구가 숫자를 2, 4, 6, 8처럼 읽으면 다음은 10일 거라고 쉽게 짐작할 수 있어요.
 2. 컴퓨터도 같은 규칙을 보면 다음에 필요한 [[001_dikw_pyramid|데이터]]를 미리 가져와요.
 3. 그래서 기다리지 않고 바로바로 계산을 이어 갈 수 있답니다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 572 / 803
+
+← **이전**: [[571_instruction_prefetch_buffer|571. 명령어 프리패치 버퍼 (Instruction Prefetch Buffer)]]
+**다음**: [[573_stream_prefetcher|573. 스트림 프리패처 (Stream Prefetcher)]] →
+
+---

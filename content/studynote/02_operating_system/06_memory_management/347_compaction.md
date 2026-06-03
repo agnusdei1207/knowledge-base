@@ -191,3 +191,14 @@ tags:
 1. 압축 (Compaction)은 컴퓨터가 메모리를 방처럼 나눠 쓰고 주소를 찾는 방법이에요.
 2. 먼저 [[346_worst_fit|최악 적합]] ([[346_worst_fit|Worst-Fit]])을 이해하면 압축 (Compaction)이 왜 필요한지 더 쉽게 보여요.
 3. 그래서 압축 (Compaction)을 잘 알면 나중에 [[348_buddy_system|버디 시스템]] ([[348_buddy_system|Buddy System]]) 할당기도 훨씬 쉽게 배울 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 347 / 800
+
+← **이전**: [[346_worst_fit|346. 최악 적합 (Worst-Fit) - 가장 큰 공간 할당 (큰 가용 공간 남김)]]
+**다음**: [[348_buddy_system|348. 버디 시스템 (Buddy System) 할당기 - 2의 승수로 분할 및 병합 (외부 단편화 절충)]] →
+
+---

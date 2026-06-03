@@ -108,3 +108,14 @@ ZKP 기반 프라이버시 프로토콜
 1. 여러 친구의 색연필을 한 바구니에 섞어 두면 누가 어떤 색을 가져갔는지 바로 모르겠죠.
 2. 하지만 규칙 없이 섞으면 누가 자기 물건을 찾지 못할 수도 있어요.
 3. 그래서 섞는 방법보다, 섞은 뒤에도 약속을 지키는 것이 더 중요해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 77 / 552
+
+← **이전**: [[076_permissionless_vs_permissioned_blockchain|76. 무허가형 (Permissionless) vs 허가형 (Permissioned) 블록체인]]
+**다음**: [[078_web3_social_network_mastodon_nostr|78. 웹3.0 소셜 네트워크 (Mastodon, Bluesky, Nostr 기반 프로토콜)]] →
+
+---

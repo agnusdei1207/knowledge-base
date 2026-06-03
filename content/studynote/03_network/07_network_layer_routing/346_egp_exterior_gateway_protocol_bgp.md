@@ -147,3 +147,14 @@ EGP는 IGP에서 출발해 현재 메커니즘을 정교화하고, 이후 [[347_
 1. 여러 갈림길이 있는 미로에서 가장 좋은 길을 고르는 게임과 같아요.
 2. 이 개념은 길이 막히면 다른 길로 빨리 바꾸는 규칙도 알려줘요.
 3. 그래서 인터넷 길찾기가 덜 헤매고 더 똑똑해져요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 467 / 1120
+
+← **이전**: [[345_igp_interior_gateway_protocol_rip_ospf|345. IGP (Interior Gateway Protocol)]]
+**다음**: [[347_distance_vector_routing_bellman_ford|347. 거리 벡터 (Distance Vector) 라우팅 알고리즘]] →
+
+---

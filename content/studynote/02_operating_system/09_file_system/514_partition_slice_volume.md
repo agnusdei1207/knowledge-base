@@ -156,3 +156,14 @@ tags:
 1. 거대한 하드디스크(저장소) 1개를 통째로 다 쓰면(단일 파티션 지옥), '[[001_operating_system_purpose|운영체제]](컴퓨터 심장)' [[501_file_definition_logical_record|파일]]과 '내 게임 저장 [[501_file_definition_logical_record|파일]]' 이 한 상자 안에 뒤섞여버려요! 만약 [[589_virus|바이러스]] 걸려 상자를 포맷(버리고 청소)하면 내 피땀 눈물 게임 [[501_file_definition_logical_record|파일]]도 싹 다 죽어 멸망해 버리죠 ㅠㅠ.
 2. 그래서 똑똑한 컴퓨터는 **파티션(Partition 가벽 조각 칼질 쪼개기)** 을 쳐요! 빈 상자 안에 강철 벽을 세워 방을 2개로 찢어요(C드라이브 OS방, D드라이브 내 게임방)! 이렇게 쪼개면 C드라이브 방이 [[589_virus|바이러스]]로 폭발해도 강철 벽 덕분에 D드라이브 내 게임은 1도 안 지워지고 혼자 안전하게 우주 생존 [[571_protection_vs_security|보호]] 방패막을 전개한답니다!
 3. 나아가 요즘 최고의 마법 **볼륨([[001_bigdata_3v_5v|Volume]] 고무 풍선 융합)** 기술은 반대로 하드디스크 부품 3개를 마치 찰흙처럼 하나로 쭉 뭉쳐 이어 붙여서, "와! 1테라짜리 하드 3개가 합체해 무려 3테라짜리 초거대 슈퍼 수영장 저장소 가상 덩어리" 로 만들어버리는 무한 용량 늘리기 컴퓨터 I/O 합체 변신술의 끝판왕 구조랍니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 514 / 800
+
+← **이전**: [[513_general_graph_directory|513. 일반 그래프 디렉터리 (순환 허용) (General Graph Directory)]]
+**다음**: [[515_mbr_vs_gpt|515. MBR (Master Boot Record) vs GPT (GUID Partition Table)]] →
+
+---

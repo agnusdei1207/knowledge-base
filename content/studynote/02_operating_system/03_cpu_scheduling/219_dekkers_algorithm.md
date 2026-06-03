@@ -182,3 +182,14 @@ tags:
 1. 데커의 [[001_algorithm_definition|알고리즘]] (Dekker's [[001_algorithm_definition|Algorithm]])은 컴퓨터가 누가 먼저 CPU를 쓰면 좋은지 줄을 세우는 방법이에요.
 2. 먼저 [[561_container_based_deployment|컨테이너]] 스케줄링 ([[062_cgroups|cgroups]] cpu.shares, cpu.cfs_quota_us)을 이해하면 데커의 [[001_algorithm_definition|알고리즘]] (Dekker's [[001_algorithm_definition|Algorithm]])이 왜 필요한지 더 쉽게 보여요.
 3. 그래서 데커의 [[001_algorithm_definition|알고리즘]] (Dekker's [[001_algorithm_definition|Algorithm]])을 잘 알면 나중에 무중단 [[629_live_migration_pre_copy|라이브 마이그레이션]] 스케줄링 고려사항도 훨씬 쉽게 배울 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 219 / 800
+
+← **이전**: [[218_software_synchronization_solutions|218. 소프트웨어적 동기화 해결책 (Software Synchronization Solutions)]]
+**다음**: [[220_petersons_algorithm|220. 피터슨 알고리즘 (Peterson's Algorithm)]] →
+
+---

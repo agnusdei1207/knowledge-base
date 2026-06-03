@@ -242,3 +242,14 @@ MDP: 상태(S) · 행동(A) · 보상(R) · 전이(T)
 ```
 2. Q러닝은 각 상황에서 어떤 선택이 미래에 제일 많은 점수를 줄지 표를 만들어 기억하는 것이고, DQN은 그 표가 너무 커질 때 신경망([[190_ai_llm_requirements_specification|AI]] 두뇌)으로 대신 계산하는 방법이에요.
 3. 알파고는 이 방법으로 사람과 수백만 번 바둑을 두면서 세계 챔피언보다 강해졌어요—인간이 5000년 동안 쌓은 바둑 지식을 단 몇 달 만에 배운 거예요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 253 / 258
+
+← **이전**: [[252_knowledge_distillation_quantization_edge_slm_diffusion|252. 지식 증류 (Knowledge Distillation) 양자화 (Quantization) 경량 SLM 디퓨전 생성]]
+**다음**: [[254_mlops_data_concept_drift_feature_store_monitoring|254. MLOps 데이터·컨셉 드리프트 피처 스토어 모니터링 종합]] →
+
+---

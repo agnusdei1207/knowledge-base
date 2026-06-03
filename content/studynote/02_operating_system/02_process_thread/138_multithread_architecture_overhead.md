@@ -111,3 +111,14 @@ tags:
 1. 멀티스레드 아키텍처 오버헤드 ([[275_lock_contention_monitoring|락 경합]] 등) (Multithread [[319_architecture|Architecture]] Overhead)은 컴퓨터가 여러 일을 나눠서 처리하고 서로 기다리게 하는 약속이에요.
 2. 먼저 [[137_multiprocess_architecture|멀티프로세스 아키텍처]] ([[137_multiprocess_architecture|크롬 브라우저 등]])을 이해하면 멀티스레드 아키텍처 오버헤드 ([[275_lock_contention_monitoring|락 경합]] 등) (Multithread [[319_architecture|Architecture]] Overhead)이 왜 필요한지 더 쉽게 보여요.
 3. 그래서 멀티스레드 아키텍처 오버헤드 ([[275_lock_contention_monitoring|락 경합]] 등) (Multithread [[319_architecture|Architecture]] Overhead)을 잘 알면 나중에 [[139_actor_model|액터 모델]] ([[139_actor_model|Actor Model]])도 훨씬 쉽게 배울 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 138 / 800
+
+← **이전**: [[137_multiprocess_architecture|137. 멀티프로세스 아키텍처 (크롬 브라우저 등) (Multiprocess Architecture)]]
+**다음**: [[139_actor_model|139. 액터 모델 (Actor Model) - Erlang, Akka 동시성 모델]] →
+
+---

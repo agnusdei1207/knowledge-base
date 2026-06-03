@@ -132,3 +132,14 @@ tags:
 1. 큰 장난감 상자를 종류별로 빨리 꺼내려고 다른 방식으로 나누어 담는 거예요.
 2. 정리 방식은 자유롭지만 규칙이 느슨하면 찾는 법을 잘 정해야 해요.
 3. 많이 넣고 많이 꺼낼 때 어떤 칸막이가 좋은지 고르는 일이 중요해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 568 / 600
+
+← **이전**: [[567_redis_cache_eviction_policy_lru_lfu|567. 레디스 만료 데이터 키 삭제 정책(LRU, LFU, Random) 캐시 스토리지 운영]]
+**다음**: [[569_cassandra_write_path_commitlog_memtable_sstable|569. 카산드라 쓰기 경로(Commit Log -> Memtable -> SSTable) 병목 배제 모델]] →
+
+---

@@ -145,3 +145,14 @@ Strategic Repositioning and Blue Ocean
 1. 가게는 싸게 많이 팔지, 특별하게 멋지게 팔지, 아주 특정 손님만 위해 팔지 먼저 정해야 해요.
 2. 세 가지를 다 조금씩 하려 하면 준비도 어렵고 손님도 헷갈려요.
 3. 그래서 잘할 수 있는 한 가지 방향을 똑똑하게 고르는 게 중요해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 218 / 482
+
+← **이전**: [[217_logic_tree_framework|217. 로직 트리 (Logic Tree) 구조 분해 프레임워크]]
+**다음**: [[219_benchmarking_best_practice|219. 벤치마킹 (Benchmarking) - 업계 최고 수준(Best Practice) 타사와의 지표 비교 분석]] →
+
+---

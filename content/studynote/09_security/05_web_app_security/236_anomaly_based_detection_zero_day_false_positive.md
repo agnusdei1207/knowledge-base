@@ -125,3 +125,14 @@ tags:
 1. 이상 탐지 (Anomaly-based [[961_deepfake_detection|Detection]])는 컴퓨터 세상을 더 안전하게 만들기 위한 중요한 약속이나 도구예요.
 2. 겉으로는 어려워 보여도, 왜 필요한지와 어떻게 움직이는지를 알면 훨씬 쉬워져요.
 3. 그래서 이름만 외우지 말고 어디에 쓰이는지 같이 기억해야 해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 289 / 1108
+
+← **이전**: [[235_signature_based_detection_misuse_known_attacks|235. 시그니처 기반 탐지 (Signature-based Detection)]]
+**다음**: [[237_hids_hips_host_based_intrusion_detection|237. HIDS/HIPS (호스트 기반 침입 탐지/방지 시스템)]] →
+
+---

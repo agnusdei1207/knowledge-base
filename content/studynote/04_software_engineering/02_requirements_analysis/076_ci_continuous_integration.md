@@ -141,3 +141,14 @@ CD로 배포 자동화
 1. 숙제를 다 끝낼 때마다 선생님이 바로 확인해 주면 틀린 곳을 빨리 고칠 수 있어요.
 2. 한 달 뒤에 한꺼번에 보면 어디가 틀렸는지 찾기 어려워요.
 3. CI는 코드를 자주 검사하는 습관이에요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 76 / 973
+
+← **이전**: [[075_collective_code_ownership|75. 공동 코드 소유 (Collective Code Ownership)]]
+**다음**: [[077_tdd_test_driven_development|77. 테스트 주도 개발 (TDD, Test Driven Development) - Red-Green-Refactor]] →
+
+---

@@ -172,3 +172,14 @@ ARM (Advanced RISC Machine) · MIPS (Microprocessor without Interlocked Pipeline
 1. 컴퓨터가 계산할 때는, 멀리 있는 창고에서 물건을 가져오는 일과 책상 위에서 계산하는 일을 따로 나누는 게 더 빨라요.
 2. 그래서 먼저 심부름꾼이 물건을 책상 위에 올려두고, 계산하는 친구는 책상 위 물건만 가지고 바로 계산해요.
 3. 이렇게 하면 창고가 조금 늦어도 계산 규칙은 단순해져서, 컴퓨터가 더 빠르고 똑똑하게 일할 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 197 / 803
+
+← **이전**: [[196_cisc|196. CISC (Complex Instruction Set Computer)]]
+**다음**: [[198_x86_architecture|198. x86 아키텍처]] →
+
+---

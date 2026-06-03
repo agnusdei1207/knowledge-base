@@ -300,3 +300,14 @@ SRE와 ITSM 융합
 1. ITIL은 IT팀 운영 교과서 — 수십 년간 전 세계 IT팀이 쌓은 경험을 책으로 정리한 것. 이 교과서대로 하면 IT [[090_service_kubernetes_network_load_balancing|서비스]]가 잘 돌아가요!
 2. 인시던트는 응급실, [[077_problem_management|문제 관리]]는 예방 접종 — 불 났을 때(인시던트) 빠르게 끄고, 왜 불이 났는지(문제) 찾아서 다시 안 나게 해요!
 3. CMDB는 IT 지도 — 서버, 앱, DB가 어떻게 연결됐는지 지도([[091_cmdb|CMDB]]). 뭔가 바꿀 때(변경) 지도 보고 영향 [[396_validation|확인]]!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 45 / 482
+
+← **이전**: [[044_agile_management_enterprise|044. 기업 애자일 경영]]
+**다음**: [[046_itsm_it_service_management|046. IT 서비스 관리 — ITSM 심화]] →
+
+---

@@ -139,3 +139,14 @@ tags:
 1. [[622_mqtt_publish_subscribe_qos|MQTT]] Pub/Sub 브로커 기반 경량 [[101_iot_concept|IoT]] [[295_protocol_field_tcp_udp_icmp|프로토콜]]는 복잡한 일을 순서대로 정리해 주는 큰 정리함이에요.
 2. 어디에 무엇을 넣을지 먼저 정해 두면, 나중에 찾거나 고칠 때 훨씬 쉬워져요.
 3. 그래서 일이 커질수록 먼저 기준을 만들고 같이 약속하는 것이 중요해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 413 / 482
+
+← **이전**: [[412_lpwan_lora_zigbee_matter|412. LPWAN 로라 지그비 매터 통신 표준 (LPWAN: Low Power Wide Area Network)]]
+**다음**: [[414_coap_udp_restful_iot|414. CoAP UDP RESTful P2P IoT 경량 프로토콜 (CoAP)]] →
+
+---

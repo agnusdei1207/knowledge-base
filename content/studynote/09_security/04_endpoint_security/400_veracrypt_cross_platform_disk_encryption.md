@@ -125,3 +125,14 @@ VeraCrypt (Cross-Platform Disk Encryption)를 제대로 이해하면 개념 하�
 1. VeraCrypt (Cross-Platform Disk Encryption)는 학교 규칙표처럼 무엇을 준비하고 어떻게 확인할지 알려 주는 기준이에요.
 2. 규칙표만 붙여 두고 지키지 않으면 아무 소용이 없어요.
 3. 그래서 보안도 규칙과 실제 행동이 함께 맞아야 해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 454 / 1108
+
+← **이전**: [[399_luks_linux_unified_key_setup|399. LUKS (Linux Unified Key Setup)]]
+**다음**: [[401_full_drive_encryption_fde_os_level|401. 전드라이브 암호화 (FDE, Full Drive Encryption)]] →
+
+---

@@ -168,3 +168,14 @@ ORM 매핑 → [[483_active_vs_passive_ftp|액티브]] 레코드 ORM 패턴 → 
 1. [[483_active_vs_passive_ftp|액티브]] 레코드 객체는 자기 방(DB 테이블)을 직접 청소하고 정리하는 학생이야.
 2. `student.save()`라고 하면 학생이 스스로 자기 정보를 일기장(DB)에 적는 거야.
 3. 간단한 일기는 혼자 [[289_cqrs_db|쓰기]] 쉽지만, 복잡한 소설은 편집자([[001_dikw_pyramid|Data]] Mapper)가 따로 필요해!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 296 / 530
+
+← **이전**: [[234_front_controller_vs_page_controller|234. 프론트 컨트롤러 vs 페이지 컨트롤러 (Front Controller vs Page Controller)]]
+**다음**: [[236_data_mapper_pattern|236. 데이터 매퍼 패턴 (Data Mapper Pattern)]] →
+
+---

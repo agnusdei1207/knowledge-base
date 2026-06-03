@@ -130,3 +130,14 @@ tags:
 1. 팩터리 메서드는 피자 가게 체인처럼, 본사(Creator)가 피자 만드는 방법을 규정하지만 각 지점(서브클래스)이 자신만의 레시피로 피자(제품)를 만들어요.
 2. 손님(클라이언트)은 어느 지점에서나 '피자 주문'이라는 동일한 방식을 사용해요.
 3. 새 피자 종류를 추가할 때 기존 주문 시스템을 바꾸지 않아도 돼요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 202 / 530
+
+← **이전**: [[145_singleton_implementation_techniques|145. 싱글턴 구현 기법 (Singleton Implementation Techniques)]]
+**다음**: [[147_abstract_factory_pattern|147. 추상 팩토리 (Abstract Factory) 패턴]] →
+
+---

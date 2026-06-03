@@ -193,3 +193,14 @@ City-scale MaaS linked with C-ITS and Smart City
 1. [[344_bus|버스]]표, 기차표, 택시비를 따로 내지 않고 한 장의 마법 표로 이어 타는 게 MaaS예요.
 2. 앱이 어디서 갈아타야 가장 빠른지도 같이 알려줘요.
 3. 그래서 자동차를 꼭 사지 않아도 필요한 탈것들을 이어서 편하게 갈 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 172 / 552
+
+← **이전**: [[171_smart_city_platform_architecture|171. 스마트 시티 (Smart City) 플랫폼 아키텍처]]
+**다음**: [[173_c_its_cooperative_intelligent_transport_systems|173. C-ITS (Cooperative Intelligent Transport Systems, 협력형 지능형 교통 체계)]] →
+
+---

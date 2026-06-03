@@ -173,3 +173,14 @@ Automated issuance and large-scale certificate operations
 1. 인터넷 친구가 자기 이름표만 보여 주면 바로 믿지 않고, 그 친구를 소개해 준 선생님 이름표도 함께 [[396_validation|확인]]해요.
 2. 그리고 마지막에는 내가 원래부터 믿고 있던 큰 학교 도장까지 이어지는지 살펴봐요.
 3. 이렇게 소개 줄이 끊기지 않아야 "정말 맞는 친구구나" 하고 안심할 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 233 / 1108
+
+← **이전**: [[179_self_signed_certificate|179. Self-signed 인증서 — 자체 발급 인증서, 내부용]]
+**다음**: [[181_bridge_ca_cross_certification|181. 브릿지 CA (Bridge CA) — 교차 인증]] →
+
+---

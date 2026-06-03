@@ -152,3 +152,14 @@ NVMe-oF ANA / telemetry-driven path control
 1. 집에 가는 길이 하나뿐이면 공사할 때 꼼짝 못 하지만, 두세 길이 있으면 돌아갈 수 있어요.
 2. 컴퓨터도 저장장치로 가는 길을 여러 개 만들어 두면 한 길이 막혀도 계속 일을 할 수 있어요.
 3. 멀티패스 I/O는 여러 길을 하나의 같은 목적지로 잘 묶어 주는 똑똑한 길 안내예요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 687 / 803
+
+← **이전**: [[685_lun_masking|685. LUN (Logical Unit Number) 마스킹]]
+**다음**: [[687_storage_controller_cache_mirroring|687. 스토리지 컨트롤러 캐시 미러링]] →
+
+---

@@ -132,3 +132,14 @@ K8s Native Secrets (단순 Base64 인코딩, 파편화 한계)
 1. [[514_secret_management_vault_kms|시크릿]] 매니저는 우리 집의 귀중한 열쇠(비밀번호)들을 아무 데나 두지 않고 아주 튼튼한 마법의 **강철 금고**에 보관하는 곳이에요.
 2. 문을 열어야 할 때는 가족이나 허락받은 로봇에게만 딱 한 번 쓰고 버려지는 **일회용 열쇠**를 만들어 줘요.
 3. 그래서 나쁜 도둑이 예전 열쇠를 훔쳐 가더라도, 이미 자물쇠가 바뀌어 있어서 절대로 문을 열 수 없게 막아준답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 95 / 373
+
+← **이전**: [[094_pipeline_security_lock_in_ci_cd|94. 파이프라인 보안 락인 (Pipeline Security)]]
+**다음**: [[096_k8s_sealed_secrets_gitops_encryption|96. K8s Sealed Secrets - GitOps 시크릿 암호화 관리]] →
+
+---

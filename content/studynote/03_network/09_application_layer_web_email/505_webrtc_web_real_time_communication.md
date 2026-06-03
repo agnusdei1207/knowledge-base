@@ -220,3 +220,14 @@ WebRTC는 IPTV [[298_ip_classes_a_b_c_d_multicast_e_experimental|멀티캐스트
 1. 옛날엔 컴퓨터로 화상 통화를 하려면 무겁고 귀찮은 **'어려운 프로그램(플러그인/앱)'**을 30분이나 낑낑대며 설치해야 했어요. ([[589_virus|바이러스]]도 덤으로 들어왔죠 ㅠㅠ).
 2. **WebRTC(웹알티씨)**는 구글 천재들이 만든 짱짱한 **'마법의 실전화기'**예요. 아무것도 안 깔아도, 그냥 내가 평소에 쓰던 구글 크롬(인터넷 창) 주소만 딱 클릭하면 바로 작동해요!
 3. 중간에 비싼 전화국 서버 아저씨를 거치지 않고, 짱구(나)랑 맹구(친구) 크롬 창끼리 직접 1대1 다이렉트([[916_p2p_peer_to_peer_networking_super_node_gnutella|P2P]])로 실이 이어져서 목소리랑 얼굴이 0.1초 만에 무료로 쓩! 날아가는 엄청 멋진 웹 마법이랍니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 626 / 1120
+
+← **이전**: [[504_iptv_multicast_igmp_pim|504. IPTV 멀티캐스트 (IGMP, PIM) 전송]]
+**다음**: [[506_cdn_content_delivery_network_edge_caching|506. CDN (Content Delivery/Distribution Network)]] →
+
+---

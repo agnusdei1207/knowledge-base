@@ -64,3 +64,14 @@ DoD (전체 공통): 코드 리뷰 완료, 단위 테스트 80%+, CI 통과, 배
 1. AC는 **요리 레시피(맛 조건)**예요. "이 케이크는 딸기맛이어야 해!"
 2. DoD는 **위생 기준**이에요. "모든 요리는 깨끗한 주방에서, 유통기한 내 재료로!"
 3. 레시피([[155_ac_actual_cost|AC]])와 위생(DoD) **둘 다 통과**해야 손님에게 낼 수 있어요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 130 / 973
+
+← **이전**: [[129_spike_agile_technical_investigation|129. Spike (스파이크) - Agile 기술 불확실성 해소 탐구]]
+**다음**: [[131_requirements_engineering|131. 요구사항 공학 (Requirements Engineering) - 체계적 요구 수집·분석·관리]] →
+
+---

@@ -125,3 +125,14 @@ PA-DSS (Payment Application [[001_dikw_pyramid|Data]] [[283_security_tactics|Sec
 1. PA-DSS (Payment Application [[001_dikw_pyramid|Data]] [[283_security_tactics|Security]] Standard)는 학교 규칙표처럼 무엇을 준비하고 어떻게 확인할지 알려 주는 기준이에요.
 2. 규칙표만 붙여 두고 지키지 않으면 아무 소용이 없어요.
 3. 그래서 보안도 규칙과 실제 행동이 함께 맞아야 해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 941 / 1108
+
+← **이전**: [[861_pci_dss_compliance_levels|861. PCI DSS Compliance Levels (Merchant/Service Provider)]]
+**다음**: [[862_pickle_deserialization|862. pickle Deserialization (Python Pickle Insecure Deserialization)]] →
+
+---

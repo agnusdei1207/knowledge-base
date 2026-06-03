@@ -145,3 +145,14 @@ internal clock + monitor + redundancy + tamper lock
 1. 컴퓨터는 "하나, 둘, 셋" 박자에 맞춰 일을 하는데, 나쁜 사람이 박자를 너무 빨리 치게 만들어요.
 2. 그러면 아직 숙제를 다 안 썼는데도 "끝!" 하고 다음 줄로 넘어가 버려서 틀린 답이 나와요.
 3. 그래서 중요한 컴퓨터는 박자가 이상하면 바로 알아채고, 다시 확인하거나 멈추는 장치를 꼭 넣어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 773 / 803
+
+← **이전**: [[771_voltage_glitching|771. 볼티지 글리칭 (Voltage Glitching)]]
+**다음**: [[773_emfi|773. EMFI (Electromagnetic Fault Injection)]] →
+
+---

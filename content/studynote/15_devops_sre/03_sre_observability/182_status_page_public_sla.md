@@ -177,3 +177,14 @@ Postmortem linkage and trust building
 1. 상태 [[286_page_frame|페이지]]는 놀이공원 입구에 있는 "어떤 놀이기구가 멈췄는지" 알려 주는 큰 안내판이에요.
 2. 안내판이 빨리 바뀌면 사람들은 왜 기다려야 하는지 알고 덜 불안해해요.
 3. 그래서 좋은 회사는 놀이기구를 고치는 일만큼, 지금 상황을 정확히 알려 주는 일도 중요하게 생각해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 182 / 373
+
+← **이전**: [[181_sre_embedded_model|181. SRE (Site Reliability Engineering) 임베디드 운영 모델 (Embedded Model)]]
+**다음**: [[183_zero_data_loss_architecture|183. 데이터 손실 제로 (Zero Data Loss) 아키텍처]] →
+
+---

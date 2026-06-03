@@ -210,3 +210,14 @@ monolith boundary → [[192_module_independence|모듈]]형 모놀리스 → [[6
 1. [[192_module_independence|모듈]]형 모놀리스는 잘 정리된 학교 건물 — 하나의 건물(단일 배포)이지만 국어실, 수학실, 과학실(각 [[192_module_independence|모듈]])이 따로 있어서 각 방에서 필요한 것은 복도(공개 [[014_api_posix|API]])를 통해서만 요청해.
 2. 방([[192_module_independence|모듈]]) 안에 있는 물건(내부 클래스)은 다른 방에서 직접 가져오면 안 되고, 담당 선생님([[192_module_independence|모듈]] [[014_api_posix|API]])을 통해서만 빌릴 수 있어.
 3. 나중에 학교가 커지면(팀/[[090_service_kubernetes_network_load_balancing|서비스]] 규모 증가) 수학실만 떼어내 다른 건물(별도 [[619_msa_traffic_hardware|MSA]] [[090_service_kubernetes_network_load_balancing|서비스]])로 이전할 수 있어 — 이미 경계가 명확하기 때문에 분리가 쉬워.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 291 / 530
+
+← **이전**: [[229_double_dispatch_visitor|229. 더블 디스패치와 방문자 패턴 (Double Dispatch / Visitor Pattern)]]
+**다음**: [[231_domain_event_outbox_pattern|231. 도메인 이벤트 아웃박스 패턴 (Domain Event Outbox Pattern)]] →
+
+---

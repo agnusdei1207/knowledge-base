@@ -141,3 +141,14 @@ Hybrid long-term archive with migration planning
 1. 광 디스크 주크박스는 많은 그림책을 큰 책장에 꽂아 두고 필요할 때만 꺼내 주는 로봇 책장 같아요.
 2. 책은 평소에 가만히 쉬고 있어서 전기도 거의 안 쓰고 오래 보관할 수 있어요.
 3. 대신 책을 꺼내 오는 시간이 조금 걸리니까, 자주 읽는 책보다 오래 간직할 책에 더 잘 어울려요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 695 / 803
+
+← **이전**: [[693_worm_storage|693. WORM (Write Once Read Many) 스토리지]]
+**다음**: [[695_storage_topology|695. 스토리지 네트워크 토폴로지 (FC-AL, FC-SW)]] →
+
+---

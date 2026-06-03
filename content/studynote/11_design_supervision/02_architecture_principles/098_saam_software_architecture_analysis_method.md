@@ -124,3 +124,14 @@ CBAM (Cost Benefit Analysis Method)
 1. 내가 만든 레고 성이 있는데, 나중에 "창문을 성문으로 바꾸자!"라는 계획(시나리오)이 생겼다고 상상해 봐요.
 2. SAAM은 이 계획을 진짜로 하기 전에 "레고 블록을 몇 개나 부수고 다시 조립해야 할까?"를 미리 계산해 보는 검사법이에요.
 3. 계산해 봤더니 맨 밑바닥 블록 하나 때문에 성 전체를 다 부숴야 한다면, 처음부터 레고를 잘못 조립했다는 걸 깨닫게 해준답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 141 / 530
+
+← **이전**: [[097_cbam_cost_benefit_analysis_method_architecture_roi|97. CBAM (Cost Benefit Analysis Method) - 아키텍처 경제성 ROI 평가]]
+**다음**: [[099_adr_architecture_decision_record|99. ADR (Architecture Decision Record) - 아키텍처 설계 결정 기록]] →
+
+---

@@ -125,3 +125,14 @@ tags:
 1. [[360_thunderbolt|Thunderbolt]] [[283_security_tactics|Security]] ([[746_io_direct_memory_access_dma|DMA]] 방어 레벨)는 컴퓨터 세상을 더 안전하게 만들기 위한 중요한 약속이나 도구예요.
 2. 겉으로는 어려워 보여도, 왜 필요한지와 어떻게 움직이는지를 알면 훨씬 쉬워져요.
 3. 그래서 이름만 외우지 말고 어디에 쓰이는지 같이 기억해야 해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 103 / 1108
+
+← **이전**: [[0994_firewire_attack|994. Firewire 공격 (IEEE 1394 DMA 활용)]]
+**다음**: [[0996_usb_bad_hid_emulation|996. USB_BAD (USB HID Emulation)]] →
+
+---

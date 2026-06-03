@@ -127,3 +127,14 @@ VPN 원격 접근            NetworkPolicy (K8s)            서비스 메시 통
 1. [[1044_micro_segmentation_east_west_traffic_security|마이크로 세그멘테이션]]은 학교 각 교실에 잠금장치를 다는 거예요. 복도(네트워크)에 들어와도 허락받은 교실([[090_service_kubernetes_network_load_balancing|서비스]])에만 들어갈 수 있어요.
 2. [[825_cilium_ebpf_kubernetes_networking_security|Cilium]] eBPF는 복도 바닥에 내장된 발자국 인식 시스템이에요. 누가 어디로 가는지 즉시 파악하고 차단해요.
 3. [[585_zero_skipping|Zero]] Trust는 친구라도 증명해야 들어올 수 있다는 원칙이에요. 예전에 허락받았어도 매번 다시 [[396_validation|확인]]해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 330 / 373
+
+← **이전**: [[329_process|329. Secret Manager HashiCorp Vault 시크릿 관리 하드코딩 방지 (Secret Manager HashiCorp]]
+**다음**: [[331_cspm|331. CSPM 클라우드 보안 형상 관리 (CSPM Cloud Security Posture Management CIS Benchmark]] →
+
+---

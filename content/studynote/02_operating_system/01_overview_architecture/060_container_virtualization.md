@@ -129,3 +129,14 @@ Cloud Native / MSA
 [[561_container_based_deployment|컨테이너]]는 한 집 안에서 방만 따로 쓰는 거예요.  
 문도 잠그고, 전기도 따로 계산해서 안전하게 지내요.  
 그래서 필요한 방을 아주 빨리 만들고 없앨 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 60 / 800
+
+← **이전**: [[059_hardware_assisted_virtualization|59. 하드웨어 보조 가상화 (Intel VT-x, AMD-V)]]
+**다음**: [[061_namespace|61. 네임스페이스 (Namespace) - 자원 격리]] →
+
+---

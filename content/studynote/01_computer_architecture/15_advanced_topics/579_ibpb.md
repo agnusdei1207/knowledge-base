@@ -181,3 +181,14 @@ eIBRS · predictor partitioning
 1. 컴퓨터는 다음에 어디로 갈지 기억해 두는데, 그 기억이 다음 친구에게 그대로 남으면 장난을 당할 수 있어요.
 2. IBPB는 친구가 바뀔 때 그 기억을 싹 지워서, 전 친구의 낙서가 다음 친구를 속이지 못하게 해요.
 3. 그래서 컴퓨터는 조금 다시 생각해야 하지만, 서로의 비밀을 훨씬 더 안전하게 지킬 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 579 / 803
+
+← **이전**: [[578_kpti|578. 커널 페이지 테이블 격리 (KPTI, Kernel Page Table Isolation)]]
+**다음**: [[580_retpoline|580. Retpoline (Return Trampoline)]] →
+
+---

@@ -136,3 +136,14 @@ IP [[598_spoofing|스푸핑]]는 [[312_arp_address_resolution_protocol_ip_to_mac
 1. 나쁜 친구가 놀이터 규칙을 깨뜨리면 바로 알아차리고 막아야 해요.
 2. 이 개념은 어떤 장난이 위험한지 미리 알고, 문제가 생기면 어떻게 다시 정리할지도 알려줘요.
 3. 그래서 놀이터를 더 안전하게 지킬 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 825 / 1120
+
+← **이전**: [[703_arp_spoofing_mac_deception_mitm|703. ARP 스푸핑 (ARP Spoofing)]]
+**다음**: [[705_dns_spoofing_cache_poisoning_dnssec|705. DNS 스푸핑 / DNS Cache Poisoning 매칭 결함 포트 번호 난수 제어 취약 노출 방어 기법 (DNSSEC 도입]] →
+
+---

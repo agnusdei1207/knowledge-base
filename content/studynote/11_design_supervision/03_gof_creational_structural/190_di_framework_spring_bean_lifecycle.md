@@ -132,3 +132,14 @@ tags:
 1. [[190_enterprise_di_framework_lifecycle|DI]] [[561_container_based_deployment|컨테이너]]는 학교(스프링)가 선생님(빈)에게 필요한 교재(의존성)를 준비해주는 것이에요.
 2. 선생님이 직접 교재를 구하러 다니지([[087_process_state_transition|new]] 직접 [[087_process_state_transition|생성]]) 않아도 돼요.
 3. 학교가 교재를 바꾸면(의존성 교체) 선생님은 그냥 같은 방식으로 가르치면(코드 변경 없이) 돼요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 250 / 530
+
+← **이전**: [[189_sidecar_logging_monitoring|189. 사이드카·로깅·모니터링 패턴 (Sidecar, Logging & Monitoring Pattern)]]
+**다음**: [[190_enterprise_di_framework_lifecycle|190. 엔터프라이즈 모듈 분리 의존성 주입(DI) 프레임워크 생명주기 관리 구조 (Spring Bean Lifecycle)]] →
+
+---

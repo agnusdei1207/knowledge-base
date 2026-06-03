@@ -106,3 +106,14 @@ tags:
 1. [[282_performance_tactics|성능]] [[162_apm_application_performance_management|APM]]·TPS 튜닝은 체온계로 몸 상태를 재고 기록하는 것과 비슷해요.
 2. 숫자만 보는 게 아니라 왜 올라갔는지 같이 살펴야 해요.
 3. 그래야 다음에 무엇을 고칠지 바로 결정할 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 416 / 530
+
+← **이전**: [[337_dr_rto_rpo|337. DR·RTO·RPO 모의 훈련 (DR RTO RPO Drill)]]
+**다음**: [[339_process|339. 개인정보 암호화 단방향·양방향 조치 (Personal Data Encryption Control)]] →
+
+---

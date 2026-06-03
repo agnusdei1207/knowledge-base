@@ -143,3 +143,14 @@ ZK-Rollup · 프라이버시 신원 · 검증 가능한 계산
 1. [[229_zkp_data_clean_room|영지식 증명]]은 비밀 답을 보여 주지 않고도 내가 정답을 알고 있다는 것만 알려 주는 마법 같은 방법이에요.
 2. 가속 [[009_semiconductor|반도체]]는 그 마법 숙제를 아주 빨리 풀어 주는 특별한 계산 공장이라고 생각하면 돼요.
 3. 그래서 비밀은 지키면서도 정답 확인은 훨씬 빨라질 수 있답니다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 616 / 803
+
+← **이전**: [[615_smart_contract_coprocessor|615. 스마트 컨트랙트 검증 보조 코프로세서 (Smart Contract Verification Coprocessor)]]
+**다음**: [[617_fhe_modular_multiplier|617. 완전 동형 암호 (FHE)용 대규모 모듈러 곱셈기]] →
+
+---

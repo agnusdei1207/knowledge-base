@@ -194,3 +194,14 @@ K8s on Hadoop · Spark on K8s → 클라우드 통합 관리
 ```
 2. ResourceManager는 교장선생님처럼 전체 [[208_schedule_history_transaction_execution_order|스케줄]]을 결정하고, NodeManager는 각 선생님처럼 운동장 상황을 보고해.
 3. [[843_hadoop_rack_awareness_data_replication_topology|Hadoop]] 1.x에서는 운동장 [[208_schedule_history_transaction_execution_order|스케줄]] 담당(JobTracker)이 너무 많은 일을 혼자 해서 학교가 무너질 뻔했어([[454_spof|SPOF]]). YARN으로 역할을 나눠서 해결했어.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 213 / 371
+
+← **이전**: [[213_mapreduce_distributed_computation|213. 맵리듀스 (MapReduce)]]
+**다음**: [[215_apache_spark_in_memory_processing|215. 아파치 스파크 (Apache Spark)]] →
+
+---

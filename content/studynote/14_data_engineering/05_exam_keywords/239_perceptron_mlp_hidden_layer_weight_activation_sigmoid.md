@@ -273,3 +273,14 @@ CNN · RNN · Transformer → 딥러닝 시대
 ```
 2. [[267_weight_bias_activation|가중치]]는 선생님 말씀 중 중요한 것에 귀를 쫑긋 세우는 것(w 큼)이고, 편향은 기본적으로 긍정적이거나 부정적인 선입견(b)이다.
 3. [[272_backpropagation|역전파]]는 요리가 실패했을 때 "마지막에 소금을 넣었나, 그 전에 간장을 넣었나" 거슬러 올라가며 잘못된 단계를 찾아 고치는 과정이다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 239 / 258
+
+← **이전**: [[238_svm_margin_kernel_trick_naive_bayes|238. SVM (Support Vector Machine) 마진 커널 트릭 나이브 베이즈 (Naive Bayes)]]
+**다음**: [[240_relu_vanishing_gradient_softmax_backprop_chain|240. ReLU 기울기 소실 (Vanishing Gradient) 복원 소프트맥스 역전파 연쇄 법칙]] →
+
+---

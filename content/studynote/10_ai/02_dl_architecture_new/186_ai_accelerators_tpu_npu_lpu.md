@@ -155,3 +155,14 @@ TPU 시스톨릭 어레이 · 대규모 분산 학습
 1. 보통 컴퓨터 칩은 이것저것 다 잘하는 만능 선수인데, [[231_ai_turing_test|인공지능]]은 같은 계산을 너무 많이 해서 더 전문 선수가 필요했어요.
 2. [[425_tpu|TPU]], [[424_npu|NPU]], LPU는 [[231_ai_turing_test|인공지능]] 계산만 엄청 빨리 하도록 만든 전용 운동선수예요.
 3. 그래서 어디서 뛸지에 따라 선수도 달라져요. 큰 경기장에서는 [[425_tpu|TPU]], 휴대폰 안에서는 [[424_npu|NPU]], 말 빨리하기 경기는 LPU가 더 잘 맞아요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 186 / 420
+
+← **이전**: [[185_tensor_core_gpu|185. GPU 아키텍처 기반 텐서 코어 (Tensor Core GPU Architecture)]]
+**다음**: [[187_mixed_precision_training|187. 혼합 정밀도 훈련 (Mixed Precision Training)]] →
+
+---

@@ -128,3 +128,14 @@ Context Switch
 종이 울리면 바꿔요.  
 CPU도 잠깐 쉬어요.  
 타이머 [[016_interrupt_mechanism|인터럽트]]는 그런 [[130_signal|신호]]예요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 72 / 800
+
+← **이전**: [[071_os_timer|71. 운영체제 타이머 (Timer) - 시스템 클럭, 카운터]]
+**다음**: [[073_tick_jiffies|73. 틱 (Tick) / 지피스 (Jiffies)]] →
+
+---

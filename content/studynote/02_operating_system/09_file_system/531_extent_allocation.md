@@ -166,3 +166,14 @@ tags:
 1. 게임 [[501_file_definition_logical_record|파일]]이 어마어마하게 커지면, 컴퓨터 주소록([[154_database_index_b_tree_search_optimization|인덱스]] 트리)에 "이 게임 [[501_file_definition_logical_record|파일]] 1번부터 10만 번까지 주소 10만 개" 를 일일이 다 볼펜으로 적어야 하니, 장부 종이만 산더미처럼 쌓여서 메모리 창고가 꽉 차 터지는 슬픔 에러(Overhead 장부 낭비)가 생겼어요!
 2. 최신 천재 리눅스는 **"익스텐트(Extent 연속 묶음 마법 보자기!)"** 라는 [[347_compaction|압축]] 기술 무기를 썼어요! 어차피 게임 [[501_file_definition_logical_record|파일]]이 10만 줄 연속으로 이어져 있다면 멍청하게 10만 개 다 안 적어요! **"여기 1번부터 시작해서 $\times$ 길이 10만 줄! 끝!"** 이라고 단 1장짜리 스티커 요약 메모 딱지 투하 렌더로 깔끔하게 100만 배 [[347_compaction|압축]] 퉁쳐버립니다!
 3. 요약 장부가 단 1장으로 작고 날렵하니까, 찾으러 가는 디스크 모터도 "아 중간에 복잡하게 책장 뒤질 필요 없이, 1번부터 10만 번까지 직행 고속도로 순차 스피드 다이렉트 브아앙 쾅 타격!!" 단 1번 만에 우주 쾌적 스왑 스피드로 [[501_file_definition_logical_record|파일]]을 꺼내서 올려주는 엄청난 [[159_compression|데이터 압축]] 부스트 사냥 마일스톤이랍니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 531 / 800
+
+← **이전**: [[530_inode_indirect_blocks|530. i-node 단일/이중/삼중 간접 블록 (Indirect Blocks) - 대용량 파일 확장 지원 체계]]
+**다음**: [[532_free_space_management|532. 빈 공간 관리 (Free-Space Management) 알고리즘]] →
+
+---

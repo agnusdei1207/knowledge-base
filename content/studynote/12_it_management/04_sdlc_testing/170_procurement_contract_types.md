@@ -175,3 +175,14 @@ Delivery / change control / operation management
 1. 어떤 일은 "이거 하나 만들어 주면 얼마예요?" 하고 한 번에 값을 정할 수 있어요.
 2. 어떤 일은 얼마나 오래 걸릴지 몰라서 시간마다 돈을 주거나, 쓴 만큼 계산해야 더 공평해요.
 3. 그래서 계약 방식은 물건 가격표가 아니라, 일이 달라졌을 때 돈을 어떻게 나눌지 정하는 약속이에요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 284 / 587
+
+← **이전**: [[169_technical_debt_control_matrix|169. 기술 부채 통제 매트릭스 (Technical Debt Control Matrix)]]
+**다음**: [[171_isms_p|171. 정보보호 및 개인정보보호 관리체계 (ISMS-P)]] →
+
+---

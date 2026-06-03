@@ -162,3 +162,14 @@ OpenTelemetry 기반 통합 관측성
 1. [[569_distributed_tracing_opentelemetry_jaeger|분산 추적]]은 택배 상자에 같은 송장 번호를 붙여서 여러 창고를 지나도 같은 물건인지 알아보게 하는 방법이에요.
 2. 그래서 어디 창고에서 오래 멈췄는지, 어디서 문제가 생겼는지 금방 찾을 수 있어요.
 3. 번호가 중간에 사라지면 길을 잃어버리니까, 끝까지 같은 번호를 전해 주는 게 가장 중요해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 186 / 482
+
+← **이전**: [[185_log_aggregation_fluentd_elasticsearch|185. 로그 수집 통합 (Log Aggregation) 아키텍처 - Fluentd -> Elasticsearch 파이프라인]]
+**다음**: [[187_strangler_fig_pattern_msa_migration|187. 스트랭글러 피그 패턴 (Strangler Fig Pattern) - 점진적 MSA 전환]] →
+
+---

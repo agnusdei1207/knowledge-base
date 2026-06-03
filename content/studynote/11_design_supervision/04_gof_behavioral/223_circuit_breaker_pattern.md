@@ -217,3 +217,14 @@ public class OrderService {
 1. Circuit Breaker는 집 전기 차단기 — 너무 많은 전기(장애 요청)가 흐르면 차단기가 내려가서(Open) 집 전체가 불타는 것을 막아줘.
 2. 60초 후에 "이제 괜찮나?" 하고 조금씩 [[002_current|전류]]를 흘려보고(Half-Open) 안전하면 다시 정상 운전(Closed), 아직도 문제면 다시 차단(Open)해.
 3. 차단 중에도 집에 불(사용자 요청)이 들어오면 "지금 정전 중이에요, 대신 손전등([[129_fallback|Fallback]]) 쓰세요"라고 알려줘서 완전히 멈추지 않도록 해.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 284 / 530
+
+← **이전**: [[222_mocking_unit_test_stub|222. 모킹과 단위 테스트 (Mocking / Unit Test / Test Double)]]
+**다음**: [[224_exponential_backoff_retry|224. 지수 백오프 재시도 패턴 (Exponential Backoff and Retry Pattern)]] →
+
+---

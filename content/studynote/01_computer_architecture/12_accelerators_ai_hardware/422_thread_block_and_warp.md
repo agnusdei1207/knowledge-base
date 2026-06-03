@@ -180,3 +180,14 @@ SM (Streaming Multiprocessor) 기반 실행 모델
 1. [[418_gpu|GPU]] 공장에서는 사람을 한 명씩 부르는 대신 32명씩 한 줄로 세워 한꺼번에 움직여요. 그 한 줄이 워프예요.
 2. 그리고 여러 줄을 같은 방에 넣어 공구함을 같이 쓰게 만든 묶음이 블록이에요.
 3. 줄 서는 방법과 방 배치가 잘 맞아야 공장이 쉬지 않고 빠르게 돌아가요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 423 / 803
+
+← **이전**: [[421_streaming_multiprocessor|421. 스트리밍 멀티프로세서 (SM)]]
+**다음**: [[423_simt|423. SIMT (Single Instruction Multiple Threads)]] →
+
+---

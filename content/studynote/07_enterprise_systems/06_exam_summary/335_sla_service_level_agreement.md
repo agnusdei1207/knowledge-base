@@ -139,3 +139,14 @@ tags:
 1. [[085_sla|SLA]] [[090_service_kubernetes_network_load_balancing|서비스]] 수준 협약 지표 관리는 복잡한 일을 순서대로 정리해 주는 큰 정리함이에요.
 2. 어디에 무엇을 넣을지 먼저 정해 두면, 나중에 찾거나 고칠 때 훨씬 쉬워져요.
 3. 그래서 일이 커질수록 먼저 기준을 만들고 같이 약속하는 것이 중요해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 335 / 482
+
+← **이전**: [[334_itsm_itil_service_catalog|334. ITSM ITIL 서비스 카탈로그 관리 (ITSM ITIL Service Catalog)]]
+**다음**: [[336_cmdb_configuration_management|336. CMDB 자산 형상 통제 베이스라인 (CMDB Configuration Management Database)]] →
+
+---

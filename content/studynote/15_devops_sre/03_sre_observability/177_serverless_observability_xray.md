@@ -170,3 +170,14 @@ SLO 기반 Serverless Operations
 1. [[206_serverless_cold_start|서버리스]] 함수는 잠깐 열렸다 닫히는 작은 가게라서, 가게 안에 카메라를 오래 설치해 둘 수 없어요.
 2. 그래서 손님 표에 번호를 붙여서 어느 가게를 거쳤는지 계속 따라가야 해요.
 3. AWS X-Ray는 그 번호들을 이어서 어디서 오래 기다렸는지 지도로 보여 줘요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 177 / 373
+
+← **이전**: [[176_slow_query_distributed_db_tracing|176. 분산 DB 쿼리 플랜 지연 역추적 (Slow Query Tracing)]]
+**다음**: [[178_grafana_dashboard_as_code|178. 그라파나 대시보드 코드화 (Grafana Dashboard as Code) 프로비저닝]] →
+
+---

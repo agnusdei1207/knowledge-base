@@ -134,3 +134,14 @@ Zero-downtime Migration / Real-time Analytics
 1. 큰 공책을 매번 통째로 베끼지 않고, 오늘 바뀐 줄만 적어 친구에게 보내는 게 CDC예요.
 2. 그래서 훨씬 빨리 맞출 수 있고, 공책을 닫아 두지 않아도 돼요.
 3. 대신 어느 줄이 먼저 바뀌었는지 순서를 잃지 않는 게 아주 중요해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 341 / 373
+
+← **이전**: [[340_pub_sub|340. 카프카 분산 메시지 스트리밍 (Apache Kafka Topic Partition Offset Consumer Group ISR]]
+**다음**: [[342_process|342. 데이터 레이크하우스 스토리지·컴퓨팅·트랜잭션 (Data Lakehouse)]] →
+
+---

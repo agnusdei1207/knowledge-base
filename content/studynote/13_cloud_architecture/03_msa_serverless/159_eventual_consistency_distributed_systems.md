@@ -135,3 +135,14 @@ Tunable Consistency · CRDTs (충돌 해소 자료구조)
 ```
 2. 지도 회사(클라우드)는 일단 [[090_service_kubernetes_network_load_balancing|서비스]]는 끊기지 않게 하고, 나중에 업데이트를 맞춰요.
 3. 긴급 상황(금융 거래)은 실시간 반영이 필요하지만, 맛집 후기(SNS 좋아요)는 잠깐 오래된 숫자를 보여줘도 괜찮아요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 158 / 371
+
+← **이전**: [[158_grpc_protocol_buffers_http2|158. gRPC와 프로토콜 버퍼 (gRPC / Protocol Buffers / HTTP2)]]
+**다음**: [[160_service_mesh_istio_linkerd|160. 이스티오 / 링커디 서비스 메시 (Istio / Linkerd Service Mesh)]] →
+
+---

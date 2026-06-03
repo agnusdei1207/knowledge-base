@@ -139,3 +139,14 @@ tags:
 1. [[344_finops|FinOps]] 핀옵스 재무 가시성 비용 최적화는 복잡한 일을 순서대로 정리해 주는 큰 정리함이에요.
 2. 어디에 무엇을 넣을지 먼저 정해 두면, 나중에 찾거나 고칠 때 훨씬 쉬워져요.
 3. 그래서 일이 커질수록 먼저 기준을 만들고 같이 약속하는 것이 중요해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 430 / 482
+
+← **이전**: [[429_serverless_cold_start_provisioned|429. 서버리스 콜드 스타트 지연 해결 프로비저닝 (Serverless Cold Start)]]
+**다음**: [[431_quantum_computing_qubit_shor_grover|431. 양자 컴퓨터 큐비트 쇼어/그로버 알고리즘 (Quantum Computing)]] →
+
+---

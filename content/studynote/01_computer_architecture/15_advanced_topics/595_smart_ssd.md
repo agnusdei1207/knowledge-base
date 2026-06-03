@@ -168,3 +168,14 @@ Drive-level data reduction
 1. 스마트 SSD는 장난감 상자 안에 작은 [[104_classification_analysis|분류]] 로봇이 들어 있는 것과 같아요.
 2. 로봇이 먼저 비슷한 장난감만 골라서 꺼내 주면, 우리는 상자를 다 쏟아 보지 않아도 돼요.
 3. 그래서 힘도 덜 들고, 진짜 필요한 장난감을 훨씬 빨리 찾을 수 있답니다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 595 / 803
+
+← **이전**: [[594_kv_ssd|594. 키-밸류 스토리지 (Key-Value Solid-State Drive)]]
+**다음**: [[596_computational_storage|596. 컴퓨테이셔널 스토리지 (Computational Storage)]] →
+
+---

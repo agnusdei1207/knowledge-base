@@ -167,3 +167,14 @@ scale_deployment("my-service", optimal_pods)
 1. 처방 분석은 [[001_dikw_pyramid|데이터]] 의사예요! 몸 상태([[001_dikw_pyramid|데이터]])를 보고 어떤 약(행동)을 먹어야 할지 구체적으로 알려줘요.
 2. "내일 비 올 것 같다(예측)"에서 나아가 "지금 우산을 사러 가세요, 가장 가까운 편의점은 100m 앞입니다(처방)"까지 말해줘요.
 3. 요즘 [[190_ai_llm_requirements_specification|AI]] 에이전트는 처방까지 자동으로 실행해서, 사람이 아무것도 안 해도 최적 결정이 이루어지는 세상을 만들고 있답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 47 / 262
+
+← **이전**: [[046_predictive_analytics|24. 예측 분석 (Predictive Analytics) — 과거 데이터로 미래 예측]]
+**다음**: [[048_hdfs_viewfs|26. HDFS ViewFS — Hadoop 연합 네임스페이스 통합 뷰]] →
+
+---

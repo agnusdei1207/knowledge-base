@@ -149,3 +149,14 @@ ERP (Enterprise Resource Planning)
 1. 레고를 만들 때 부품만 맞추면 끝이 아니에요.
 2. 손이 몇 개 필요한지, 테이블이 충분한지도 같이 봐야 해요.
 3. [[082_mrp_material_requirements_planning|MRP]] II는 부품, 자리, 사람을 함께 계산하는 똑똑한 계획이에요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 83 / 482
+
+← **이전**: [[082_mrp_material_requirements_planning|82. MRP (Material Requirements Planning)]]
+**다음**: [[084_extended_erp_erp_ii_scm_crm|84. 확장형 ERP (Extended ERP) - 외부 공급망(SCM) 및 고객(CRM)까지 통합 연계 (ERP II)]] →
+
+---

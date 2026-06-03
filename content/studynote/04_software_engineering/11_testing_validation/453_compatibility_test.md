@@ -161,3 +161,14 @@ tags:
 1. [[344_compatibility_usability|호환성]] 테스트 ([[344_compatibility_usability|Compatibility]] Test)은 레고 블록으로 성을 만들 때처럼, 규칙을 정하고 역할을 나누어 함께 작업하는 방법이에요.
 2. 혼자서 막 만들면 나중에 무너지거나 고치기 어렵지만, 약속을 지키면 누구나 쉽게 고치고 더 크게 만들 수 있어요.
 3. 그래서 [[001_software_engineering_definition|소프트웨어 공학]]은 프로그래머들이 좋은 프로그램을 빠르고 안전하게 만들 수 있게 도와주는 '규칙 모음집'이에요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 497 / 973
+
+← **이전**: [[452_ab_test|452. A/B 테스트 - 두 가지 UI/기능을 실 사용자에게 노출하여 반응 비교]]
+**다음**: [[453_compatibility_test|453. 호환성 테스트 (Compatibility Test) - OS, 브라우저, 기기(모바일) 등 이기종 환경 동작 확인]] →
+
+---

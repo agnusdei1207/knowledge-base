@@ -160,3 +160,14 @@ SAN (Storage Area Network)은 스토리지와 입출력 경로 최적화을 이�
 1. 거실에 둔 만능 책장([[492_nas_network_attached_storage|NAS]])은 다 같이 폴더를 보기 편하지만, 여러 명이 몰려들면 책 꺼내는 데 줄 서야 하고 택배 포장([[405_tcp_transmission_control_protocol_connection_oriented|TCP]] 통신망 포장지)을 뜯느라 되게 굼뜨고 느려져요. 
 2. 하지만 아빠가 회사에서 엄청나게 중요한 비밀 계산 일기(대형 폭파 스피드 DB [[001_dikw_pyramid|데이터]])를 1초에 만 번씩 읽고 써야 한다면? 아예 벽을 부수고 전용 [[123_pipe|파이프]] 배관 통로(광케이블 전용 SAN 망)를 아빠 책상부터 창고 끝까지 지하로 다이렉트 뚫고 만들었어요! 
 3. 택배 포장지 뜯을 필요도 없고 줄 서서 신호등 건널 필요도 없이 쏘는 즉시 창고 빈칸 블록에 도장 쾅쾅 무적의 직결 다이렉트 타격을 꽂아버리는 아주 비싸지만 엄청 빠른 귀족 전용 철도망 창고 구조랍니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 493 / 800
+
+← **이전**: [[492_nas_network_attached_storage|492. NAS (Network Attached Storage) - 파일 단위 접근 (NFS, SMB/CIFS)]]
+**다음**: [[494_object_storage|494. 오브젝트 스토리지 (Object Storage) - 플랫 네임스페이스, REST API 기반 클라우드 (Amazon S3)]] →
+
+---

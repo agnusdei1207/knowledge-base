@@ -345,3 +345,14 @@ COVID-19는 전례 없는 Sudden Drift를 유발했다. 항공·숙박·소매 �
     ▼
 대응: CT 재학습 · 윈도우 전략 · 멀티모델 · 앙상블 적응
 ```
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 164 / 258
+
+← **이전**: [[163_data_drift_statistical_distribution_shift|163. 데이터 드리프트 (Data Drift) - 운영 데이터 통계 분포 이격]]
+**다음**: [[165_feature_store_training_serving_consistency|165. 피처 스토어 (Feature Store) - 훈련/서빙 피처 일관성]] →
+
+---

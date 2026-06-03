@@ -298,3 +298,14 @@ Pulse Latch (하이브리드)
 1. 에지 [[507_acid_properties|트리거]]는 정확한 순간 포착 — 클럭이 0→1 바뀌는 그 순간(에지)에만 데이터를 기억해요. 항상 열려있는 문(래치)보다 훨씬 안전!
 2. 메타스태빌리티는 동전이 서는 것 — 너무 바쁠 때 데이터가 들어오면(셋업 위반) [[051_flip_flop|플립플롭]]이 0도 1도 아닌 중간에 멈출 수 있어요!
 3. FPGA는 D [[051_flip_flop|플립플롭]] 레고 — Verilog로 "posedge clk"라고 쓰면 에지 [[507_acid_properties|트리거]] FF 자동 [[087_process_state_transition|생성]]. LUT+FF 조합이 디지털 회로의 기본!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 46 / 803
+
+← **이전**: [[045_clock|045. 클럭 — Clock Signal]]
+**다음**: [[047_level_trigger|047. 레벨 트리거 — Level Trigger]] →
+
+---

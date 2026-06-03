@@ -187,3 +187,14 @@ NPU (Neural Processing Unit) · ASIC (Application-Specific Integrated Circuit)
 1. 컴퓨터 안의 CPU는 이것저것 다 할 줄 아는 만능 직원이에요.
 2. 그런데 똑같은 상자를 엄청 많이 옮길 때는 상자 옮기기만 잘하는 기계가 훨씬 빨라요.
 3. 하드웨어 가속기는 바로 그런 전문 기계라서, 반복 일을 대신 맡아 컴퓨터 전체를 더 빠르게 도와준답니다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 418 / 803
+
+← **이전**: [[416_memory_barrier|416. 메모리 배리어 (Memory Barrier / Fence)]]
+**다음**: [[418_gpu|418. GPU (Graphics Processing Unit)]] →
+
+---

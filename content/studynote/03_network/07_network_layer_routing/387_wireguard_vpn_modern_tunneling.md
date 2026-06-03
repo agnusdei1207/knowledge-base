@@ -149,3 +149,14 @@ WireGuard는 DMVPN에서 출발해 현재 메커니즘을 정교화하고, 이�
 1. 여러 갈림길이 있는 미로에서 가장 좋은 길을 고르는 게임과 같아요.
 2. 이 개념은 길이 막히면 다른 길로 빨리 바꾸는 규칙도 알려줘요.
 3. 그래서 인터넷 길찾기가 덜 헤매고 더 똑똑해져요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 508 / 1120
+
+← **이전**: [[386_dmvpn_dynamic_multipoint_vpn_gre_ipsec_nhrp|386. DMVPN (Dynamic Multipoint VPN)]]
+**다음**: [[388_qos_quality_of_service_best_effort_intserv_diffserv|388. QoS (Quality of Service)]] →
+
+---

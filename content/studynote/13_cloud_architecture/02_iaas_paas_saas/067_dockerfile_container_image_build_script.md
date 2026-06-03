@@ -131,3 +131,14 @@ CI/CD
 레시피를 적어 두면 똑같이 만들 수 있어요.  
 도커파일은 그런 레시피예요.  
 그래서 이미지를 쉽게 만들 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 66 / 371
+
+← **이전**: [[066_docker_daemon_dockerd|66. 도커 데몬 (Docker Daemon, dockerd) - 컨테이너 라이프사이클 관리 프로세스]]
+**다음**: [[068_docker_image_immutable_package|68. 도커 이미지 (Docker Image) - 불변(Immutable) 상태의 애플리케이션 실행 패키지 파일]] →
+
+---

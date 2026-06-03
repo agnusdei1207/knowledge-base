@@ -132,3 +132,14 @@ Syslog는 [[528_snmp_simple_network_management_protocol|SNMP]] Trap에서 출발
 1. 친구 이름을 전화번호부에서 찾는 것처럼 컴퓨터도 이름과 번호를 연결해요.
 2. 이 개념은 누가 아픈지 살펴보는 건강검진표와 운영일지 역할도 해요.
 3. 그래서 문제가 나도 빨리 찾고 고칠 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 656 / 1120
+
+← **이전**: [[534_snmp_trap_inform|534. SNMP Trap]]
+**다음**: [[536_ntp_network_time_protocol_stratum|536. NTP (Network Time Protocol)]] →
+
+---

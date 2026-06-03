@@ -145,3 +145,14 @@ Verkle-style proofs and stateless validation
 1. [[004_blockchain|블록체인]]은 매일 일기장을 쓰는 것뿐 아니라, 오늘 기분이 어떤지도 따로 적어 두는 친구와 같아요.
 2. 일기장이 너무 두꺼워지면 예전 [[286_page_frame|페이지]]와 오늘 [[286_page_frame|페이지]]를 같이 찾느라 시간이 오래 걸려요.
 3. 그래서 자주 보는 내용은 책상 위에 두고, 오래된 내용은 정리해서 보관해야 빨리 움직일 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 647 / 803
+
+← **이전**: [[645_data_pipeline_acceleration|645. 데이터 파이프라인 (Data Pipeline) 가속]]
+**다음**: [[647_bft_verification|647. 비잔틴 장애 허용 (BFT) 분산 시스템 검증]] →
+
+---

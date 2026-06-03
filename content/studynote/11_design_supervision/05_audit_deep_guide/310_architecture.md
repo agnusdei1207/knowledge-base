@@ -106,3 +106,14 @@ tags:
 1. 마이크로세그멘테이션 기반 수평 이동 방어 아키텍처은 집을 짓기 전에 방과 길을 먼저 그려 보는 것과 같아요.
 2. 어느 방을 크게 하고 어디를 튼튼하게 할지 미리 정해야 해요.
 3. 그래야 나중에 고칠 때도 왜 그렇게 만들었는지 알 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 378 / 530
+
+← **이전**: [[309_metric|309. CVE 스캐너 주기 보고 및 결함 조치 지표 (CVE Scanner Reporting Metrics)]]
+**다음**: [[310_microsegmentation_lateral_movement|310. 마이크로세그멘테이션과 수평 이동 방어 (Micro-Segmentation for Lateral Movement Defense)]] →
+
+---

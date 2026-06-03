@@ -111,3 +111,14 @@ tags:
 1. 전통적 [[190_ai_llm_requirements_specification|AI]]: 요리책을 보고 레시피만 읽어주는 친구예요.
 2. 에이전틱 [[190_ai_llm_requirements_specification|AI]]: 직접 시장에 가서 재료를 사고, 요리하고, 맛을 본 뒤 싱거우면 소금을 더 넣어 완벽한 요리를 만드는 셰프예요.
 3. 차이점: 말만 하는 게 아니라, 목표를 이룰 때까지 스스로 생각하고 행동해서 결과를 만들어내는 똑똑한 대리인이에요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 536 / 552
+
+← **이전**: [[535_moe_mixture_of_experts|535. 전문가 혼합 모델 (Mixture of Experts, MoE)]]
+**다음**: [[537_semantic_cache_rag_cost_reduction|537. 시맨틱 캐시 RAG 비용·지연 절감 (Semantic Cache RAG Cost and Latency Reduction)]] →
+
+---

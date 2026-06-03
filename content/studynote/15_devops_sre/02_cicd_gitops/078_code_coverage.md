@@ -120,3 +120,14 @@ JaCoCo (Java [[082_process_memory_structure|Code]] Coverage)와 Istanbul 같은 
 1. 책에 형광펜을 칠한 부분만 보면 어디를 읽었는지 알 수 있는 것과 같다.
 2. 하지만 색칠이 많다고 해서 내용을 다 이해한 것은 아니다.
 3. 그래서 컴퓨터도 읽은 곳과 진짜 이해한 곳을 따로 봐야 한다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 78 / 373
+
+← **이전**: [[077_unit_testing_automation_junit_pytest_mocking|77. 단위 테스트 (Unit Test) 자동화 (JUnit, PyTest)]]
+**다음**: [[079_sonarqube|079. 소나큐브 (SonarQube - 정적 코드 분석)]] →
+
+---

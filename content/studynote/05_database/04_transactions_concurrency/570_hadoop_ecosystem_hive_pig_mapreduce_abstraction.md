@@ -132,3 +132,14 @@ tags:
 1. 여러 창고에 장난감을 나눠 두고도 같은 물건처럼 써야 하는 상황이에요.
 2. 멀리 떨어진 창고끼리는 이야기하는 데 시간이 걸려요.
 3. 그래서 어디까지 맞춰 둘지와 얼마나 빨리 답할지를 함께 정해야 해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 570 / 600
+
+← **이전**: [[569_cassandra_write_path_commitlog_memtable_sstable|569. 카산드라 쓰기 경로(Commit Log -> Memtable -> SSTable) 병목 배제 모델]]
+**다음**: [[571_spark_micro_batch_vs_flink_native_stream|571. Spark 스트리밍 마이크로 배치 vs Flink 네이티브 스트림 인 메모리 DB]] →
+
+---

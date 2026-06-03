@@ -132,3 +132,14 @@ E-R 모델의 개체(Entity)는 카오스(혼돈) 상태의 현실 비즈니스�
 1. 개체(Entity)는 레고로 마을을 만들 때, 우리가 반드시 만들어야 할 가장 중요한 주인공 덩어리(경찰서, 소방차, 사람)들을 말해요.
 2. 지나가는 구름이나 흙먼지 같은 건 중요하지 않으니까 빼고, 경찰서나 자동차처럼 이름표([[289_identification_flags_fragmentation_offset|식별자]])를 딱 붙일 수 있는 확실한 것들만 주인공으로 뽑죠.
 3. 이렇게 똑똑하게 주인공 덩어리들을 먼저 정해놔야, 컴퓨터라는 똑똑한 공장이 주인공들마다 멋진 집([[002_database_definition|데이터베이스]] 테이블)을 예쁘게 지어줄 수 있답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 81 / 600
+
+← **이전**: [[080_er_model_entity_relationship_peter_chen|080. E-R 모델 (Entity-Relationship Model, 피터 첸)]]
+**다음**: [[082_attribute_types_er_model|82. 속성 (Attribute)]] →
+
+---

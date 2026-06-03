@@ -139,3 +139,14 @@ tags:
 1. [[239_micro_frontends_architecture|마이크로 프론트엔드]] [[319_webassembly_architecture|WebAssembly]] [[282_performance_tactics|성능]] 가속는 복잡한 일을 순서대로 정리해 주는 큰 정리함이에요.
 2. 어디에 무엇을 넣을지 먼저 정해 두면, 나중에 찾거나 고칠 때 훨씬 쉬워져요.
 3. 그래서 일이 커질수록 먼저 기준을 만들고 같이 약속하는 것이 중요해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 433 / 482
+
+← **이전**: [[432_cxl_chiplet_memory_pooling|432. CXL 칩렛 메모리 풀링 아키텍처 (CXL: Compute Express Link)]]
+**다음**: [[434_llm_transformer_attention_mechanism|434. 딥러닝 트랜스포머 LLM 자기회귀 어텐션 메커니즘 (LLM / Transformer)]] →
+
+---

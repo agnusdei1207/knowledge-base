@@ -129,3 +129,14 @@ Low-speed Counter
 도미노를 하나 쓰러뜨리면 다음 도미노가 차례로 넘어가요.  
 그래서 만들기는 쉽지만, 마지막 도미노까지 가는 데는 시간이 걸려요.  
 빨리 동시에 움직여야 하면 다른 방식이 더 좋아요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 61 / 803
+
+← **이전**: [[060_synchronous_counter|60. 동기식 카운터 (Synchronous Counter)]]
+**다음**: [[062_up_down_counter|62. 업/다운 카운터 (Up/Down Counter)]] →
+
+---

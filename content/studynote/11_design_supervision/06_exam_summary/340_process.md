@@ -106,3 +106,14 @@ tags:
 1. [[191_oss_license_compliance|오픈소스]] GPL 컴플라이언스 배포은 모두가 같은 규칙의 블록을 쓰는 것과 같아요.
 2. 블록 모양이 같아야 친구가 만든 것도 잘 이어 붙일 수 있어요.
 3. 규칙을 지키면 더 많은 사람과 쉽게 함께 놀 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 418 / 530
+
+← **이전**: [[339_process|339. 개인정보 암호화 단방향·양방향 조치 (Personal Data Encryption Control)]]
+**다음**: [[341_audit|341. 감리 독립성 지배 구조 (Audit Independence Governance)]] →
+
+---

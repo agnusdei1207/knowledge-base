@@ -128,3 +128,14 @@ tags:
 1. [[235_edge_computing_smart_factory|엣지 컴퓨팅]]은 편의점 계산대예요. 멀리 본사 서버까지 가지 않고 바로 계산해 줘요.
 2. [[106_fog_computing_cisco_architecture|포그 컴퓨팅]]은 동네 마트 창고예요. 여러 편의점 [[001_dikw_pyramid|데이터]]를 모아서 정리한 뒤 본사에 보내요.
 3. 클라우드는 본사 대형 창고예요. 느리지만 엄청 많은 걸 저장하고 분석할 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 487 / 552
+
+← **이전**: [[486_iot_sensor_network_comprehensive|486. IoT 센서 네트워크 종합 (IoT Sensor Network Comprehensive)]]
+**다음**: [[488_lpwan_lora_nb_iot_licensed_unlicensed|488. LPWAN: LoRa, NB-IoT 면허/비면허 비교 (LPWAN: LoRa NB-IoT Licensed Unlicensed)]] →
+
+---

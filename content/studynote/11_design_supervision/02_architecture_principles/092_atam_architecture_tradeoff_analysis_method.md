@@ -136,3 +136,14 @@ CBAM (Cost Benefit Analysis Method, 경제성/비용 분석)
 1. ATAM은 블록 장난감으로 성을 만들기 전에, 친구들끼리 도안을 보고 미리 토론하는 시간이에요.
 2. "성에 창문을 많이 뚫으면 예쁘지만(미관), 적의 화살이 들어오기 쉽잖아(방어력)!"라며 장단점을 따져요.
 3. 이렇게 서로 포기할 건 포기하고(타협), 가장 중요한 목표를 맞춘 완벽한 설계도를 정해서 나중에 성을 부수고 다시 짓는 헛고생을 막아준답니다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 135 / 530
+
+← **이전**: [[091_quality_attribute_scenario_architecture_evaluation|91. 품질 속성 시나리오 (Quality Attribute Scenario)]]
+**다음**: [[093_atam_phases_initialization_evaluation_analysis_reporting|93. 아키텍처 평가 방법론 ATAM 4단계 페이즈 프로세스]] →
+
+---

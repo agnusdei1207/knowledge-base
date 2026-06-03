@@ -148,3 +148,14 @@ Web 3.0은 단순한 기술 트렌드가 아니라 인터넷 플랫폼 경제의
 1. 지금 유튜브는 구글이 주인이고 유튜버는 돈 일부만 받지만, Web 3.0은 유튜버가 직접 주인이 되어 수익을 다 가질 수 있어요.
 2. 토큰은 '이 [[090_service_kubernetes_network_load_balancing|서비스]]의 주인 증서'처럼 — 더 많이 기여하면 더 많은 토큰을 받고, [[090_service_kubernetes_network_load_balancing|서비스]]가 성장하면 함께 부자가 돼요.
 3. 하지만 토큰을 잘못 설계하면 가치가 0이 될 수 있으니, 진짜 쓸모 있는 토큰을 만드는 게 핵심이에요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 544 / 552
+
+← **이전**: [[543_sbt_soulbound_token_identity|543. SBT 소울바운드 토큰과 신원 인증 (SBT Soulbound Token Identity Credential)]]
+**다음**: [[545_modular_blockchain_da_consensus_separation|545. 모듈러 블록체인과 데이터 가용성 계층 (Modular Blockchain and Data Availability Layer)]] →
+
+---

@@ -189,3 +189,14 @@ tags:
 1. 스핀락 (Spinlock)은 컴퓨터가 여러 친구가 동시에 만져도 부딪히지 않게 순서를 맞추는 규칙이에요.
 2. 먼저 [[213_race_condition|경쟁 조건]] ([[213_race_condition|Race Condition]])을 이해하면 스핀락 (Spinlock)이 왜 필요한지 더 쉽게 보여요.
 3. 그래서 스핀락 (Spinlock)을 잘 알면 나중에 [[214_critical_section|임계 구역]] 문제 해결의 3조건도 훨씬 쉽게 배울 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 222 / 800
+
+← **이전**: [[221_hardware_synchronization_tas_cas|221. 하드웨어적 동기화 (TAS, CAS)]]
+**다음**: [[223_mutex|223. 임계 구역 문제 해결의 3조건 - 상호 배제(Mutual Exclusion), 진행(Progress), 한정된 대기(Bounded]] →
+
+---

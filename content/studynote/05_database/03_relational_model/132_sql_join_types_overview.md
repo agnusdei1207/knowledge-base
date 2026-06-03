@@ -66,3 +66,14 @@ JOIN은 **[[083_relationship_in_er_model|관계]]형 DB의 핵심 연산**이며
 1. INNER JOIN은 **양쪽 모두 참석한 사람만** 명단에 남겨요.
 2. LEFT JOIN은 **A반 전체 + B반에서 겹치는 사람**을 포함해요.
 3. 겹치지 않는 사람은 **빈칸(NULL)**으로 채워진답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 132 / 600
+
+← **이전**: [[131_sql_ansi_iso_standard|131. SQL 표준 (ANSI/ISO SQL) - 관계형 데이터베이스 질의 언어 표준]]
+**다음**: [[133_sql_inner_join_intersection|133. SQL INNER JOIN - 교집합 결합의 기본]] →
+
+---

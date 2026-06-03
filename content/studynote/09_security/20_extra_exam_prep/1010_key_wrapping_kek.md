@@ -125,3 +125,14 @@ tags:
 1. [[067_db_key_uniqueness_minimality|Key]] Wrapping (KEK 활용)는 비밀 편지를 안전하게 잠그거나 진짜인지 확인하는 특별한 약속이에요.
 2. 하지만 자물쇠가 좋아도 열쇠를 아무 데나 두면 금방 들켜요.
 3. 그래서 암호는 만드는 방법과 열쇠를 지키는 방법을 같이 배워야 해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 121 / 1108
+
+← **이전**: [[100_sha_2|100. SHA-2 — SHA-224/256/384/512, 현재 표준]]
+**다음**: [[1011_envelope_encryption|1011. Envelope Encryption (Envelope Encryption)]] →
+
+---

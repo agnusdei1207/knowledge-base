@@ -132,3 +132,14 @@ tags:
 1. 여러 학교 학생들이 각자 집에서 공부하고 선생님에게 풀이 방법만 알려주면, 선생님이 가장 좋은 공부법을 만들어요 — 이게 [[256_federated_learning_privacy_model_security|연합 학습]]이에요.
 2. 학생들의 실제 일기(개인 [[001_dikw_pyramid|데이터]])는 절대 공유하지 않아요.
 3. 하지만 풀이 방법(그래디언트)에서도 일기 내용을 추론할 수 있어서 노이즈(잡음)를 섞어 보호해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 471 / 552
+
+← **이전**: [[470_adversarial_attack_poisoning_evasion|470. 적대적 공격: 포이즈닝과 이베이전 (Adversarial Attack Poisoning Evasion)]]
+**다음**: [[472_on_device_ai_slm_edge_inference|472. 온디바이스 AI와 SLM 엣지 추론 (On-Device AI SLM Edge Inference)]] →
+
+---

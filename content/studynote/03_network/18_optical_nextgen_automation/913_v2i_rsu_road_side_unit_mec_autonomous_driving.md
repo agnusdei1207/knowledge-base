@@ -128,3 +128,14 @@ V2I 노변 기지국는 IPFS에서 출발해 현재 메커니즘을 정교화하
 1. 엄청 빠른 빛 자동차와 똑똑한 로봇 교통정리원이 함께 일하는 미래 도시와 같아요.
 2. 이 개념은 빛처럼 빠르게 보내면서도 스스로 상태를 보고 길을 고치게 해줘요.
 3. 그래서 더 큰 인터넷도 사람 손을 덜 타고 잘 움직일 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 1034 / 1120
+
+← **이전**: [[912_ipfs_interplanetary_file_system_content_addressing_p2p|912. IPFS (InterPlanetary File System 콘텐츠 주소 지정 영구 분산 P2P 해시 기반 웹 스토리지 프로토콜]]
+**다음**: [[914_lte_r_railway_communication_qpp_ps_lte|914. 철도 통신망 (LTE-R)]] →
+
+---

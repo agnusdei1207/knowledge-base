@@ -125,3 +125,14 @@ tags:
 1. [[511_dns_hierarchical_distributed_architecture|DNS]] [[598_spoofing|스푸핑]] ([[976_dns_spoofing|DNS Spoofing]])는 학교 규칙표처럼 무엇을 준비하고 어떻게 확인할지 알려 주는 기준이에요.
 2. 규칙표만 붙여 두고 지키지 않으면 아무 소용이 없어요.
 3. 그래서 보안도 규칙과 실제 행동이 함께 맞아야 해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 1072 / 1108
+
+← **이전**: [[975_owasp_llm_top10|975. OWASP LLM Top 10 (OWASP LLM Top 10)]]
+**다음**: [[976_llm01_prompt_injection|976. LLM01: Prompt Injection (LLM01: Prompt Injection)]] →
+
+---

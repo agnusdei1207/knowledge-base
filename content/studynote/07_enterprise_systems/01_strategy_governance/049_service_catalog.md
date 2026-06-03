@@ -294,3 +294,14 @@ IaC 기반 자동 프로비저닝
 1. [[088_service_catalog|서비스 카탈로그]] = 레스토랑 메뉴판 — 손님(직원)이 볼 수 있는 것만. 주방 레시피(기술 내용)는 내부용. SLA는 음식 대기 시간!
 2. 셀프서비스 = 인터넷 쇼핑몰 — 장바구니에 IT [[090_service_kubernetes_network_load_balancing|서비스]] 담고 주문. 배송 추적처럼 처리 상태 실시간 [[396_validation|확인]]!
 3. AWS [[088_service_catalog|Service Catalog]] = 회사 전용 마트 — IT가 승인한 상품만 진열. 개발자가 골라 배포. 보안/비용 자동 적용!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 49 / 482
+
+← **이전**: [[048_slm_ola_uc|048. SLM·OLA·UC — 서비스 수준 관리 체계]]
+**다음**: [[050_cmdb_configuration_management_database|CMDB — 구성 관리 데이터베이스 (Configuration Management Database)]] →
+
+---

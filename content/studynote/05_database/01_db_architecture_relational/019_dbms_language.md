@@ -193,3 +193,14 @@ tags:
 1. [[002_database_definition|데이터베이스]]라는 거대한 장난감 성을 통제하려면 성문 수비대와 이야기할 수 있는 '특별한 마법 주문([[502_dbms|DBMS]] 언어)'이 필요해요.
 2. 성의 방을 새로 만들거나 부수는 주문([[020_ddl|DDL]]), 방 안에 장난감을 넣거나 빼는 주문([[083_dml|DML]]), 열쇠를 나눠주는 주문([[022_dcl|DCL]])이 다 따로 있죠!
 3. 이 주문들 덕분에 우리는 성이 안에서 어떻게 생겼는지 몰라도, 주문만 외우면 원하는 장난감을 안전하고 빠르게 꺼내 놀 수 있답니다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 19 / 600
+
+← **이전**: [[018_object_oriented_relational_data_model|18. 객체지향 데이터 모델 (OODBMS) / 객체 관계형 데이터 모델 (ORDBMS)]]
+**다음**: [[020_ddl|20. DDL (Data Definition Language) - 데이터 정의 언어 (CREATE, ALTER, DROP, TRUNCATE)]] →
+
+---

@@ -106,3 +106,14 @@ tags:
 1. [[409_cve_lifecycle|CVE]] 스캐너 주기 보고 및 [[352_defect_definition|결함]] 조치 지표은 체온계로 몸 상태를 재고 기록하는 것과 비슷해요.
 2. 숫자만 보는 게 아니라 왜 올라갔는지 같이 살펴야 해요.
 3. 그래야 다음에 무엇을 고칠지 바로 결정할 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 377 / 530
+
+← **이전**: [[309_cve_scanner_reporting_remediation|309. CVE 스캐너 주기 보고와 결함 조치 (CVE Scanner Reporting and Remediation Audit)]]
+**다음**: [[310_architecture|310. 마이크로세그멘테이션 기반 수평 이동 방어 아키텍처 (Micro-Segmentation Architecture)]] →
+
+---

@@ -207,3 +207,14 @@ tags:
 1. [[249_event_sourcing_append_only_state_reconstruction|이벤트 소싱]]은 지금 점수가 몇 점인지 한 줄만 적는 대신, 점수가 올라가고 내려간 모든 일을 차례대로 적는 거예요.
 2. 그래서 나중에 "왜 이렇게 됐지?" 하고 물어보면 처음부터 다시 따라가며 알 수 있어요.
 3. 대신 기록이 많아지니, 중간 정리표와 규칙을 잘 만들어 두어야 헷갈리지 않아요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 180 / 482
+
+← **이전**: [[179_cqrs_pattern_command_query|179. CQRS (Command Query Responsibility Segregation) 패턴 - MSA의 복잡한 조인 조회 한계]]
+**다음**: [[181_service_mesh_istio_linkerd|181. 서비스 메시 (Service Mesh) - Istio와 Linkerd 기반 서비스 간 트래픽 제어]] →
+
+---

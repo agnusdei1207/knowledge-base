@@ -167,3 +167,14 @@ Hadoop Ecosystem: 분산 저장 + 분산 처리
 ```
 2. 이걸 혼자(RDBMS) 처리하기는 불가능해서 수백 명이 분업([[136_variance|분산]] 처리)해야 해.
 3. 그런데 책이 많다고 저절로 지식이 생기는 건 아니야. "어떤 질문에 답할 건지(Value)"를 먼저 정해야 해.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 209 / 371
+
+← **이전**: [[209_resilience_reliability_redundancy|209. 시스템 신뢰성과 이중화 (Reliability, Resilience, Redundancy)]]
+**다음**: [[211_hadoop_ecosystem_mapreduce|211. 하둡 에코시스템 (Hadoop Ecosystem)]] →
+
+---

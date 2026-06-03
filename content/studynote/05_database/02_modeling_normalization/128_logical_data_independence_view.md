@@ -105,3 +105,14 @@ tags:
 1. 뷰는 방의 **커튼**이에요. 방 안(테이블)을 바꿔도 **밖에서 보는 모습**은 그대로예요.
 2. 민감한 물건(비밀번호 컬럼)은 **커튼으로 가릴(보안)** 수 있어요.
 3. 덕분에 방을 리모델링([[005_schema|스키마]] 변경)해도 **손님(프로그램)은 영향 없이** 지낼 수 있어요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 128 / 600
+
+← **이전**: [[127_information_engineering_methodology_ie|127. 정보공학 방법론 (IE, Information Engineering) - 데이터 중심 시스템 개발]]
+**다음**: [[129_orm_impedance_mismatch|129. ORM & 임피던스 불일치 (Object-Relational Mismatch)]] →
+
+---

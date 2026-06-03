@@ -163,3 +163,14 @@ tags:
 1. [[128_water_scrum_fall_anti_pattern|안티패턴]]: [[537_distributed_monolith_antipattern|분산 모놀리스]] (Distributed Monolith)은 레고 블록으로 성을 만들 때처럼, 규칙을 정하고 역할을 나누어 함께 작업하는 방법이에요.
 2. 혼자서 막 만들면 나중에 무너지거나 고치기 어렵지만, 약속을 지키면 누구나 쉽게 고치고 더 크게 만들 수 있어요.
 3. 그래서 [[001_software_engineering_definition|소프트웨어 공학]]은 프로그래머들이 좋은 프로그램을 빠르고 안전하게 만들 수 있게 도와주는 '규칙 모음집'이에요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 665 / 973
+
+← **이전**: [[536_service_to_service_asynchronous_communication|536. 서비스 간 비동기 통신 - 메시지 큐, AMQP]]
+**다음**: [[537_distributed_monolith_antipattern|537. 분산 모놀리스 (Distributed Monolith) 안티패턴]] →
+
+---

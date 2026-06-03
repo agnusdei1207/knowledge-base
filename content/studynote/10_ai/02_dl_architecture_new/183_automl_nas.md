@@ -176,3 +176,14 @@ Bayesian Optimization + Early Stopping
 1. AutoML은 로봇이 여러 공부 방법을 대신 시험해 보고 제일 잘 맞는 방법을 골라주는 것과 같아요.
 2. HPO는 같은 문제집으로 공부하되 연필, 시간표, 쉬는 시간을 바꿔 보는 거예요.
 3. NAS는 아예 어떤 문제집과 책상을 쓸지까지 바꿔 보는 거라서 더 똑똑할 수 있지만 훨씬 더 큰 비용이 들어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 183 / 420
+
+← **이전**: [[182_spark_ray_distributed|182. 분산 처리 컴퓨팅 AI 훈련 인프라 (Apache Spark, Ray)]]
+**다음**: [[184_ab_testing_shadow_canary|184. A/B 테스팅, 섀도우 배포, 카나리 롤아웃 (A/B Testing, Shadow Deployment, Canary Rollout)]] →
+
+---

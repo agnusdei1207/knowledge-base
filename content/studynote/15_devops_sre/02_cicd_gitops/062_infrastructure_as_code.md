@@ -144,3 +144,14 @@ GitOps / Policy as Code
 건물을 짓기 전에 설계도를 먼저 그려요.  
 설계도가 있으면 같은 집을 또 지을 수 있어요.  
 IaC는 컴퓨터 세상을 설계도로 관리하는 방법이에요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 62 / 373
+
+← **이전**: [[061_helm_charts|61. Helm Charts (헬름 차트) - 쿠버네티스 패키징]]
+**다음**: [[063_terraform_ansible|63. Terraform vs Ansible]] →
+
+---

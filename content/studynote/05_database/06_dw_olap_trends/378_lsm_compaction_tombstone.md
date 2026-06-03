@@ -132,3 +132,14 @@ tags:
 1. 큰 장난감 상자를 종류별로 빨리 꺼내려고 다른 방식으로 나누어 담는 거예요.
 2. 정리 방식은 자유롭지만 규칙이 느슨하면 찾는 법을 잘 정해야 해요.
 3. 많이 넣고 많이 꺼낼 때 어떤 칸막이가 좋은지 고르는 일이 중요해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 378 / 600
+
+← **이전**: [[377_lsm_tree_storage_engine|377. LSM-Tree (Log-Structured Merge-Tree)]]
+**다음**: [[379_delta_encoding_gorilla_compression|379. 델타 인코딩 (Delta Encoding) 및 시계열 데이터 압축 (Gorilla алгоритм)]] →
+
+---

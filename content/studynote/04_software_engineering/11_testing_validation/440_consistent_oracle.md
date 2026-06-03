@@ -163,3 +163,14 @@ tags:
 1. [[194_consistency_database_integrity|일관성]] 오라클 (Consistent [[188_pl_sql_t_sql_procedural|Oracle]])은 레고 블록으로 성을 만들 때처럼, 규칙을 정하고 역할을 나누어 함께 작업하는 방법이에요.
 2. 혼자서 막 만들면 나중에 무너지거나 고치기 어렵지만, 약속을 지키면 누구나 쉽게 고치고 더 크게 만들 수 있어요.
 3. 그래서 [[001_software_engineering_definition|소프트웨어 공학]]은 프로그래머들이 좋은 프로그램을 빠르고 안전하게 만들 수 있게 도와주는 '규칙 모음집'이에요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 471 / 973
+
+← **이전**: [[439_heuristic_oracle|439. 휴리스틱 오라클 (Heuristic Oracle) - 샘플링에 직관적/경험적 판단 추가]]
+**다음**: [[440_consistent_oracle|440. 일관성 오라클 (Consistent Oracle) - 변경 전/후의 결과가 동일한지 확인 (회귀 테스트에 유용)]] →
+
+---

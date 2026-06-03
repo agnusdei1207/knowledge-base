@@ -164,3 +164,14 @@ tags:
 1. [[001_dikw_pyramid|데이터]] 전송 [[158_instruction|명령어]]는 컴퓨터 안에서 물건을 옮기는 택배 기사님이에요.
 2. 계산 로봇은 물건을 만들 수 있어도, 택배 기사님이 상자를 안 가져오면 아무것도 시작할 수 없어요.
 3. 그래서 컴퓨터는 물건을 어디서 어디로 빠르게 옮길지 아주 똑똑하게 정한답니다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 183 / 803
+
+← **이전**: [[182_relative_addressing|182. PC 상대 주소 지정 (PC-Relative)]]
+**다음**: [[184_arithmetic_instructions|184. 산술 연산 명령어 (Arithmetic Instructions)]] →
+
+---

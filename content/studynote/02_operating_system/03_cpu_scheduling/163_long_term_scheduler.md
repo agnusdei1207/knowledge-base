@@ -152,3 +152,14 @@ HPC / 클러스터 workload admission으로 철학 계승
 1. 장기 [[079_kube_scheduler_pod_placement|스케줄러]]는 놀이공원 입구에서 "지금 몇 명까지 들어와도 괜찮을까"를 정하는 사람 같아요.
 2. 너무 많이 들이면 안이 꽉 막히고, 너무 적게 들이면 놀이기구가 놀게 돼요.
 3. 그래서 안이 잘 돌아가도록 알맞은 수만 골라 들여보내는 거예요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 163 / 800
+
+← **이전**: [[162_medium_term_scheduler_swapping|162. 중기 스케줄러 (Medium-term Scheduler) - 스와핑 (Swapping)]]
+**다음**: [[164_io_bound_process|164. I/O 바운드 프로세스 (I/O Bound Process)]] →
+
+---

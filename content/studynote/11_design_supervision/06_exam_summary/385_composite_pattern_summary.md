@@ -111,3 +111,14 @@ tags:
 1. [[261_composite_pattern_tree_structure|컴포지트]] 패턴 ([[154_composite_pattern|Composite Pattern]])은 작은 상자와 큰 상자를 모두 같은 방법으로 열어 보는 것처럼 약속을 먼저 정하는 거예요.
 2. 그러면 서로 다른 사람이 해도 같은 규칙으로 움직일 수 있어요.
 3. 그래서 규모가 커질수록 부분-전체 관계를 같은 계약으로 다루는 일이 더 중요해져요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 463 / 530
+
+← **이전**: [[384_bridge_pattern_summary|384. 브리지 패턴 (Bridge Pattern)]]
+**다음**: [[386_decorator_pattern_summary|386. 데코레이터 패턴 (Decorator Pattern)]] →
+
+---

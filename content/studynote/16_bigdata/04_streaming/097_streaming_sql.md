@@ -249,3 +249,14 @@ LEFT JOIN users u ON c.user_id = u.user_id;
 ### 👶 어린이를 위한 3줄 비유 설명
 
 스트리밍 SQL은 "흐르는 물에 낚시 그물을 치는 것"이에요. SQL(그물 모양)만 설명하면 시스템이 알아서 계속 물고기([[001_dikw_pyramid|데이터]])를 잡아줘요. ksqlDB는 [[179_kafka_flink_watermark_time_window|Kafka]] 강에 사는 물고기 전용 그물, Flink SQL은 모든 강에서 쓸 수 있는 표준 그물, [[056_spark_sql|Spark SQL]] 스트리밍은 기존 낚시터(Spark)에 새 그물을 추가한 거예요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 97 / 262
+
+← **이전**: [[096_kappa_architecture|21. 카파 아키텍처 (Kappa Architecture) — 스트리밍 단일화]]
+**다음**: [[098_cep|23. CEP (Complex Event Processing) — 복합 이벤트 처리]] →
+
+---

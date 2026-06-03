@@ -229,3 +229,14 @@ Azure Event Hubs는 [[214_kafka_pubsub_topic_partition_offset_broker|Apache Kafk
 ### 👶 어린이를 위한 3줄 비유 설명
 
 Azure Event Hubs는 Microsoft의 편지 배달 시스템이에요. 특별한 점은 Kafka라는 다른 우편 시스템의 편지([[179_kafka_flink_watermark_time_window|Kafka]] [[389_mesh_topology|메시]]지)도 받을 수 있어요([[179_kafka_flink_watermark_time_window|Kafka]] 호환 [[014_api_posix|API]]). 중요한 편지는 자동으로 사진을 찍어 보관(Capture → ADLS)하고, 다른 도시(다른 Azure 리전)에도 복사본을 보내서 편지가 절대 없어지지 않도록 해요([[593_geo_geostationary_earth_orbit_satellite|Geo]]-[[360_ospf_dr_bdr_designated_router_lsa_flooding|DR]])!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 93 / 262
+
+← **이전**: [[092_google_pubsub|17. Google Pub/Sub — GCP 글로벌 분산 메시지 서비스]]
+**다음**: [[094_apache_pulsar|19. Apache Pulsar — 컴퓨팅/스토리지 분리 메시징]] →
+
+---

@@ -177,3 +177,14 @@ SRE 에러 버짓 → 신뢰성 관리 → Platform Engineering → NoOps
 1. [[652_devops_calms_culture|DevOps]] 토폴로지는 주방 팀 구성 방식이다 — 요리사가 직접 서빙하거나(통합), 전담 웨이터가 팀별 배치되거나(분리), 키오스크로 자동화(NoOps)하는 다양한 방식이 있다.
 2. Anti-Type A는 의사와 간호사가 메모지로만 소통하는 병원이다 — 개발팀과 운영팀이 티켓으로만 소통하면 환자(소프트웨어)가 제때 치료받지 못한다.
 3. [[100_sre_site_reliability_engineering_error_budget|SRE]] 에러 버짓은 장애 용돈이다 — 한 달에 쓸 수 있는 장애 시간이 정해져 있고, 다 쓰면 새 기능 배포가 금지된다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 34 / 373
+
+← **이전**: [[033_conway_s_law|콘웨이의 법칙과 역 콘웨이 기동 (Conway's Law & Inverse Conway Maneuver)]]
+**다음**: [[035_blameless_postmortem|035. 무결함 사후 검토 (Blameless Postmortem)]] →
+
+---

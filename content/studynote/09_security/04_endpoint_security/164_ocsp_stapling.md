@@ -158,3 +158,14 @@ Must-Staple · 자동 갱신 · 모니터링
 1. 예전에는 손님이 매번 학교에 전화해서 선생님 허락증이 진짜인지 물어봐야 했어요.
 2. 이제는 선생님이 아침에 학교 도장을 미리 받아 명찰에 붙여 오니까, 손님이 다시 전화할 필요가 없어요.
 3. 대신 그 도장이 오래되지 않았는지 선생님이 매일 잘 챙겨야 한답니다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 217 / 1108
+
+← **이전**: [[163_ocsp_online_certificate_status_protocol|163. OCSP (Online Certificate Status Protocol) — 실시간 인증서 상태 질의]]
+**다음**: [[165_ct_certificate_transparency|165. CT (Certificate Transparency) — 인증서 발급 공개 로그]] →
+
+---

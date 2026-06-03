@@ -125,3 +125,14 @@ SQL/DDL → Dictionary Lookup → Cache → Metadata
 1. [[393_data_dictionary|데이터 사전]] 캐시는 자주 보는 정보만 앞에 두는 거예요.
 2. 그래서 빨리 찾을 수 있어요.
 3. 하지만 바뀌면 바로 다시 맞춰야 해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 56 / 600
+
+← **이전**: [[055_connection_pool_dbcp|55. 커넥션 풀과 DBCP (Connection Pool / DBCP)]]
+**다음**: [[057_shared_pool_oracle_sga|57. 공유 풀 (Shared Pool) - Oracle 인스턴스 구조]] →
+
+---

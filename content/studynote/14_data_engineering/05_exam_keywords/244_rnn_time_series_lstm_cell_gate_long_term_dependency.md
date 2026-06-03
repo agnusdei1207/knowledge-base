@@ -241,3 +241,14 @@ GRU (간소화 LSTM) → Transformer (병렬화)
 ```
 2. LSTM의 세 개 게이트는 "무엇을 잊을까(망각)", "무엇을 새로 기억할까(입력)", "무엇을 지금 말할까(출력)"를 결정하는 세 명의 기억 관리자야.
 3. GRU는 LSTM보다 관리자가 한 명 적어서 더 빠르게 일하는데, 결과는 거의 비슷해서 바쁠 때 [[289_cqrs_db|쓰기]] 좋아.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 244 / 258
+
+← **이전**: [[243_cnn_stride_pooling_resnet_residual_yolo_object_detection|243. CNN (Convolutional Neural Network) 스트라이드 풀링 ResNet 잔차 연결 YOLO 객체 탐지]]
+**다음**: [[245_seq2seq_context_vector_attention_dynamic_weight|245. Seq2Seq (Sequence-to-Sequence) 컨텍스트 벡터 (Context Vector) 어텐션 동적 가중]] →
+
+---

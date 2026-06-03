@@ -193,3 +193,14 @@ FAIR + CARE (원주민 데이터 권리) 통합 논의
 1. FAIR 원칙은 [[001_dikw_pyramid|데이터]]를 도서관 책처럼 잘 정리해서 누구나 찾고 쓸 수 있게 만드는 규칙이에요.
 2. 책에 ISBN, 저자, 빌리는 방법, [[583_ai_code_license_security_threats|저작권]]이 다 적혀있어야 유용하듯이, [[001_dikw_pyramid|데이터]]도 마찬가지예요.
 3. AI가 잘 배우려면 학습 [[001_dikw_pyramid|데이터]]도 FAIR하게 정리되어야 한답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 247 / 262
+
+← **이전**: [[246_data_voucher|데이터바우처 사업 (Data Voucher Program)]]
+**다음**: [[248_european_data_strategy|036. 유럽 데이터 전략과 데이터 공간 (European Data Strategy & Data Spaces)]] →
+
+---

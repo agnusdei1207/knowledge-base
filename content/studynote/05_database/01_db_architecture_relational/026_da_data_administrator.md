@@ -144,3 +144,14 @@ C시스템: customer_code (문자)  → EDW 통합, MDM 구축 가능
 1. DA는 학교 도서관의 도서 [[104_classification_analysis|분류]] 담당 선생님이에요! 책([[001_dikw_pyramid|데이터]])마다 정해진 규칙으로 제목·저자·장르를 정리해서 누구나 쉽게 찾게 해요.
 2. DA가 없으면 각 선생님이 다른 방식으로 책을 정리해서, 다른 반(시스템)의 책과 합치기가 매우 어려워요.
 3. 요즘은 AI가 자동으로 [[001_dikw_pyramid|데이터]]를 [[104_classification_analysis|분류]]·정리하는 [[213_data_catalog_metadata|데이터 카탈로그]] 도구가 [[104_da_as_is_analysis|DA]] 업무를 도와주고 있답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 26 / 600
+
+← **이전**: [[025_dba_database_administrator|25. DBA (Database Administrator) — 데이터베이스 관리자]]
+**다음**: [[027_database_designer|27. 데이터베이스 설계자 (Database Designer) — DB 설계 역할과 책임]] →
+
+---

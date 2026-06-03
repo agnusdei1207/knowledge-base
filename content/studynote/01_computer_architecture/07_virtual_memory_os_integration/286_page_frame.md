@@ -187,3 +187,14 @@ TLB (Translation Lookaside Buffer) · Huge Page
 1. 페이지는 책을 똑같은 크기의 카드로 잘라 놓은 것이고, 프레임은 그 카드가 들어가는 서랍 칸이에요.
 2. 카드와 서랍 칸의 크기가 같아서 어느 칸에 넣어도 잘 들어가요.
 3. 그래서 컴퓨터는 책 전체를 한곳에 두지 않아도, 필요한 카드만 꺼내서 똑똑하게 정리할 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 286 / 803
+
+← **이전**: [[285_paging|285. 페이징 (Paging)]]
+**다음**: [[287_internal_fragmentation|287. 내부 단편화 (Internal Fragmentation)]] →
+
+---

@@ -179,3 +179,14 @@ Connected and automated mobility ecosystem
 1. 자동차들이 서로 무전기로 "앞에 위험해!" 하고 알려 주는 게 C-ITS예요.
 2. 그래서 내 눈에 아직 안 보여도 친구 차나 [[130_signal|신호]]등이 먼저 알려 줄 수 있어요.
 3. 덕분에 더 일찍 천천히 멈추거나 길을 바꿔서 사고를 줄일 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 173 / 552
+
+← **이전**: [[172_maas_mobility_as_a_service|172. 마스 (MaaS, Mobility as a Service)]]
+**다음**: [[174_edge_ai_on_device_ai|174. 엣지 AI (Edge AI) 및 온디바이스 AI 아키텍처]] →
+
+---

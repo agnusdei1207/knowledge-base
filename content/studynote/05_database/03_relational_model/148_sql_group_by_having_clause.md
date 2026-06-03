@@ -130,3 +130,14 @@ Map-Reduce 분산 병렬 컴퓨팅으로 철학 계승 (빅데이터 집계)
 1. 사과 공장에 사과가 1만 개 들어왔어요. **`WHERE`** 아저씨는 사과를 믹서기에 넣기 전에 먼저 벌레 먹은 사과를 쏙쏙 빼서 버려주는 첫 번째 문지기예요.
 2. 싱싱한 사과들을 **`GROUP BY`**라는 거대한 믹서기에 넣고 윙 갈아버리면, 개별 사과 모양은 다 없어지고 꽉 찬 **사과 주스 10통(그룹 통계)**으로 변신한답니다!
 3. 마지막으로 **`HAVING`** 아저씨가 당도 측정기를 10개의 주스통에 푹 꽂아보고, "당도가 10점 안 넘는 주스통 3개는 통째로 다 버려라!" 하고 불합격시켜 버리는 두 번째 깐깐한 문지기랍니다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 148 / 600
+
+← **이전**: [[147_aggregate_function_group_by|147. 집계 함수 (Aggregate Function) - SUM, AVG, MAX, MIN, COUNT]]
+**다음**: [[149_rollup_cube_grouping_sets|149. ROLLUP, CUBE, GROUPING SETS (Rollup Cube Grouping Sets)]] →
+
+---

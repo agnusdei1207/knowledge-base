@@ -104,3 +104,14 @@ IE는 **전사 [[104_da_as_is_analysis|데이터 아키텍처]]의 이론적 기
 1. IE는 **도시 계획**이에요. 도시(회사) 전체 지도를 먼저 그리고, 건물(시스템)을 짓는 거예요.
 2. 지도(전사 [[014_data_model_components|데이터 모델]]) 없이 건물만 짓면 **도로([[001_dikw_pyramid|데이터]])가 안 맞아요**.
 3. 큰 그림부터 그리면 **모든 건물이 조화롭게** 연결된답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 127 / 600
+
+← **이전**: [[126_data_standardization_word_domain_term|126. 데이터 표준화 (단어·도메인·용어) - 전사 데이터 용어 통일 체계]]
+**다음**: [[128_logical_data_independence_view|128. 논리적 데이터 독립성 & 뷰 (Logical Data Independence & View)]] →
+
+---

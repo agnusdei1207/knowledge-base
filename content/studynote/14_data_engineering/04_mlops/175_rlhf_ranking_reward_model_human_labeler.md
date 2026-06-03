@@ -182,3 +182,14 @@ Aligned LLM with continuous feedback loop
 1. RLHF는 AI에게 여러 답안을 보여 주고 사람 선생님이 "이 답이 더 좋아"라고 계속 알려 주는 공부법이에요.
 2. AI는 그 순서를 배우면서 그냥 말이 되는 답보다 사람이 더 좋아하는 답을 하려고 해요.
 3. 그래서 선생님이 무엇을 좋은 답이라고 보는지 잘 정하는 것이 아주 중요해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 175 / 258
+
+← **이전**: [[174_llmops_prompt_template_rag_pipeline|174. LLMOps (Large Language Model Operations) - 프롬프트 템플릿 관리, RAG 벡터 DB 동기화,]]
+**다음**: [[176_automl_hyperparameter_optimization_bayesian|176. AutoML (Automated Machine Learning) 하이퍼파라미터 최적화 베이지안 탐색]] →
+
+---

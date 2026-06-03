@@ -136,3 +136,14 @@ YOLO와 SSD가 이끄는 1-Stage 탐지기의 탄생은 단순한 [[001_algorith
 1. **옛날 방식(R-[[243_cnn_stride_pooling_resnet_residual_yolo_object_detection|CNN]])**은 숨은그림찾기를 할 때 동전만 한 돋보기로 그림판 전체를 2,000번씩 훑어보느라 시간이 엄청 오래 걸렸어요.
 2. 하지만 **YOLO(1-Stage)**는 도화지 위에 듬성듬성 투명한 바둑판을 딱 얹어놓고, 단 1초 만에 도장 찍듯이 그림을 찾아내는 초능력 스캐너예요.
 3. 덕분에 빠르게 쌩쌩 달리는 자율주행 자동차도 눈앞에 튀어나오는 고양이를 1초 만에 발견하고 브레이크를 밟을 수 있게 되었답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 108 / 420
+
+← **이전**: [[107_rcnn_fast_faster_region_proposal_network|107. R-CNN, Fast R-CNN, Faster R-CNN (2-Stage 탐지기) 진화]]
+**다음**: [[109_image_segmentation_semantic_instance_u_net_pixel|109. 이미지 분할 (Image Segmentation) - Semantic·Instance·U-Net 픽셀 단위 추론]] →
+
+---

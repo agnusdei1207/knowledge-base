@@ -165,3 +165,14 @@ GNN + Neo4j 하이브리드 - AI 기반 사기 예측
 1. [[070_graph_datastructure|그래프]] DB는 친구 [[083_relationship_in_er_model|관계]] 지도예요. "나→친구→친구의 친구"를 줄을 따라 즉시 찾을 수 있어요.
 2. 사기 링 탐지는 같은 전화번호를 여러 계정이 쓰는 걸 찾는 거예요.
 3. SQL은 전화번호부 전체를 비교해야 하지만, [[070_graph_datastructure|그래프]] DB는 줄을 따라가기만 하면 돼요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 310 / 482
+
+← **이전**: [[309_influxdb_downsampling|309. 시계열 데이터베이스 InfluxDB 다운샘플링 롤업 (Time-Series DB Downsampling)]]
+**다음**: [[311_parquet_orc_rle_compression|311. 컬럼 지향 저장소 Parquet ORC 압축 효율 RLE 메커니즘 (Columnar Storage Compression)]] →
+
+---

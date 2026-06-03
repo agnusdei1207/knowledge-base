@@ -138,3 +138,14 @@ Secure Boot 및 공급망 서명 체인 결합 (End-to-End 무결성 보장)
 1. OTA는 로봇 장난감을 수리점에 가져가지 않아도, 무선 인터넷으로 새 기능을 다운받는 마법이에요.
 2. 다운받다가 갑자기 전기가 끊어져도 고장 나지 않게, 로봇 안에 예비 뇌(A/B [[514_partition_slice_volume|파티션]])를 두 개나 만들어 뒀어요.
 3. 나쁜 해커가 만든 가짜 마법을 받지 않도록, 로봇은 진짜 회사가 보낸 암호 편지만 열어볼 수 있게 똑똑하게 훈련되어 있답니다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 101 / 373
+
+← **이전**: [[100_multi_region_deployment_pipeline_disaster_recovery|100. 멀티 리전 (Multi-Region) 배포 파이프라인 - 글로벌 고가용성(DR) 및 레이턴시 최적화]]
+**다음**: [[102_air_gapped_cicd_tarball_delivery|에어 갭 (Air-gapped) 환경의 CI/CD: 폐쇄망 배포 전략]] →
+
+---

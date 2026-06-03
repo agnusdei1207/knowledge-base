@@ -135,3 +135,14 @@ mTLS는 [[302_service_mesh_istio|서비스 메시]]의 핵심 보안 기능이�
 1. 각 집([[090_service_kubernetes_network_load_balancing|서비스]])마다 보안 카메라와 잠금장치를 따로 설치하는 대신, 아파트 단지([[302_service_mesh_istio|서비스 메시]])에서 공동 보안 시스템을 제공해요.
 2. 집주인(개발자)은 보안 시스템을 신경 쓰지 않고 자기 생활(비즈니스 로직)에 집중할 수 있어요.
 3. 단지 관리자(컨트롤 플레인)가 모든 집의 보안 [[164_policy|정책]]을 한 곳에서 관리해요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 181 / 530
+
+← **이전**: [[124_api_gateway|124. API 게이트웨이 (API Gateway)]]
+**다음**: [[126_strangler_fig_pattern|126. 스트랭글러 피그 패턴 (Strangler Fig Pattern)]] →
+
+---

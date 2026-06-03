@@ -104,3 +104,14 @@ BOM은 **제조업 [[001_dikw_pyramid|데이터]]의 DNA**이며, [[122_plm_prod
 1. BOM은 요리 **레시피**예요. 밀가루·계란·설탕 등 **재료(부품)와 양(수량)**이 적혀 있어요.
 2. 레시피가 틀리면 **맛없는 요리(불량 제품)**가 나오니까, 정확해야 해요.
 3. 설계 레시피(E-BOM)와 조리 순서(M-BOM)가 **다를 수 있어서** 변환이 필요하답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 124 / 482
+
+← **이전**: [[123_pdm_product_data_management|123. PDM (Product Data Management) - 제품 데이터 관리 시스템]]
+**다음**: [[125_c_commerce_collaborative_commerce|125. C-Commerce (Collaborative Commerce) - 기업 간 협업 상거래]] →
+
+---

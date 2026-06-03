@@ -190,3 +190,14 @@ MLP는 [[265_single_layer_perceptron_xor|단층 퍼셉트론]]의 한계를 극�
 1. 🏗️ **"레고 블록 탑 쌓기"**
 2. 레고 한 층([[265_single_layer_perceptron_xor|단층 퍼셉트론]])으로는 단순한 모양만 만들 수 있어요 — 직선만 그을 수 있는 것처럼요.
 3. 층을 여러 개 쌓으면(다층 [[239_perceptron_mlp_hidden_layer_weight_activation_sigmoid|퍼셉트론]]) 복잡한 성이나 로켓도 만들 수 있어요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 266 / 420
+
+← **이전**: [[265_single_layer_perceptron_xor|265. 단층 퍼셉트론 (Single-Layer Perceptron)]]
+**다음**: [[267_weight_bias_activation|267. 가중치 (Weight) / 편향 (Bias) / 활성화 함수 (Activation Function)]] →
+
+---

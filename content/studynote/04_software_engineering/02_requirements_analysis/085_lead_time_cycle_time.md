@@ -113,3 +113,14 @@ Lead Time / Cycle Time 분석
 1. 리드 타임은 주문서를 낸 뒤 음식이 내 앞에 올 때까지의 전체 시간이야.
 2. 사이클 타임은 요리사가 실제로 볶고 굽는 시간만 따로 재는 거야.
 3. 대기 시간이 길면 주방이 느린 게 아니라 줄이 막힌 걸 수도 있어.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 85 / 973
+
+← **이전**: [[084_kanban_board_wip_limit|84. 칸반 (Kanban) - 워크플로우 시각화, WIP(Work In Progress) 제한]]
+**다음**: [[086_cumulative_flow_diagram_cfd|86. 누적 흐름도 (CFD, Cumulative Flow Diagram)]] →
+
+---

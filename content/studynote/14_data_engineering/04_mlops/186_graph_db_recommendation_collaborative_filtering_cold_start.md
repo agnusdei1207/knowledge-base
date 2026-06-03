@@ -311,3 +311,14 @@ LightGCN 아키텍처:
 ```
 2. **[[347_cold_start_problem|콜드 스타트 문제]]**는 처음 도서관에 온 학생에게는 이전 대출 기록이 없어서 "비슷한 취향의 친구"를 찾을 수 없어 추천이 어렵다는 문제예요—이때는 학생이 좋아하는 과목이나 작가(콘텐츠 기반)를 물어보는 것이 해결책이에요.
 3. **[[070_graph_datastructure|그래프]] DB 추천**은 마치 친구의 친구의 친구까지 연결된 [[083_relationship_in_er_model|관계]]망을 통해 "너와 3단계 연결된 사람도 이걸 좋아했어"라고 알려주는, 더 넓은 [[083_relationship_in_er_model|관계]]망을 활용하는 똑똑한 추천 방법이에요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 186 / 258
+
+← **이전**: [[185_k_anonymity_masking_data_pipeline|185. K-익명성 (K-Anonymity), 마스킹 (Masking) 파이프 자동 변환]]
+**다음**: [[187_time_series_interpolation_rollup_dashboard|187. 시계열 DB 보간법 (Interpolation) 롤업 (Rollup) 통계 지표 대시보드]] →
+
+---

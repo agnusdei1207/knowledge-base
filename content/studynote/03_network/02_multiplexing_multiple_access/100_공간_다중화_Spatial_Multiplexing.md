@@ -121,3 +121,14 @@ Massive MIMO 및 분산 공간 다중화 (Joint Transmission) · 5G/6G 초거대
 1. 넓은 운동장에서 친구에게 공을 던질 때 한 개씩만 던지면 시간이 오래 걸려요.
 2. 공간 [[071_다중화_Multiplexing|다중화]]는 양손과 두 발까지 모두 써서 4개의 다른 색깔 공을 한꺼번에 벽과 바닥에 마구 튕겨 던지는 기술이에요.
 3. 공들이 사방으로 제멋대로 날아가지만, 똑똑한 친구(수신기)는 날아오는 각도를 재빨리 계산해서 4개의 공을 한 번에 탁탁 완벽하게 잡아내어 놀이를 4배 빨리 끝낸답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 110 / 1120
+
+← **이전**: [[1009_backhaul_network_base_station_core_connection|1009. 백홀 (Backhaul)]]
+**다음**: [[1010_midhaul_network_c_ran_fronthaul_du_cu|1010. 미드홀 (Midhaul)]] →
+
+---

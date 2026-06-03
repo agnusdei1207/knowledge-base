@@ -185,3 +185,14 @@ AOP · Security Chain · Observability로 확장된 정책망
 1. 필터와 인터셉터는 학교에 들어갈 때 먼저 손 씻기 검사하고, 교실 앞에서 이름표를 다시 보는 두 단계 규칙이에요.
 2. 그래서 선생님은 수업만 잘하면 되고, 검사 규칙은 따로 맡은 곳이 처리해 줘요.
 3. 규칙을 어디에서 검사할지만 잘 정하면 학교가 훨씬 안전하고 깔끔하게 돌아간답니다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 234 / 530
+
+← **이전**: [[177_front_controller_pattern|177. 프론트 컨트롤러 패턴 (Front Controller Pattern)]]
+**다음**: [[179_repository_pattern|179. 레파지토리 패턴 (Repository Pattern)]] →
+
+---

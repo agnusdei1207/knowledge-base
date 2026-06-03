@@ -178,3 +178,14 @@ tags:
 1. 캐시 컬러링 (Cache Coloring) / [[286_page_frame|페이지]] 컬러링은 컴퓨터가 메모리를 방처럼 나눠 쓰고 주소를 찾는 방법이에요.
 2. 먼저 로컬 노드 할당 vs 인터리브 할당을 이해하면 캐시 컬러링 (Cache Coloring) / [[286_page_frame|페이지]] 컬러링이 왜 필요한지 더 쉽게 보여요.
 3. 그래서 캐시 컬러링 (Cache Coloring) / [[286_page_frame|페이지]] 컬러링을 잘 알면 나중에 [[380_garbage_collection|가비지 컬렉션]] ([[380_garbage_collection|Garbage Collection]]) 기초도 훨씬 쉽게 배울 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 379 / 800
+
+← **이전**: [[378_local_node_vs_interleaved_allocation|378. 로컬 노드 할당 vs 인터리브 할당 (Local Node Vs Interleaved Allocation)]]
+**다음**: [[380_garbage_collection|380. 가비지 컬렉션 (Garbage Collection) 기초 - 참조 카운팅, Mark-and-Sweep]] →
+
+---

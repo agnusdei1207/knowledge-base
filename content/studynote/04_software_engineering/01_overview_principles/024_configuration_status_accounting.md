@@ -147,3 +147,14 @@ CSA는 [[652_devops_calms_culture|DevOps]] 환경에서 [[119_gitops_single_sour
 1. CSA는 학교 성적 기록부처럼, 소프트웨어의 모든 변경 내역을 빠짐없이 적어놓는 것이에요!
 2. "누가 언제 무엇을 바꿨고, 선생님([[160_change_control_board_ccb_requirements_review|CCB]])이 허락했는지"를 모두 기록해서 나중에 확인할 수 있어요.
 3. 비행기나 의료 기기처럼 안전이 중요한 SW는 이 기록이 없으면 검사를 통과할 수 없답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 24 / 973
+
+← **이전**: [[023_configuration_audit|23. 형상 감사 (Configuration Audit)]]
+**다음**: [[025_baseline|25. 기준선 (Baseline) — 형상 관리의 공식 참조점]] →
+
+---

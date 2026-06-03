@@ -125,3 +125,14 @@ tags:
 1. [[477_rest_api_architecture|REST API]] 보안 ([[156_rest_representational_state_transfer|REST]] [[615_api_security|API Security]])는 컴퓨터 세상을 더 안전하게 만들기 위한 중요한 약속이나 도구예요.
 2. 겉으로는 어려워 보여도, 왜 필요한지와 어떻게 움직이는지를 알면 훨씬 쉬워져요.
 3. 그래서 이름만 외우지 말고 어디에 쓰이는지 같이 기억해야 해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 554 / 1108
+
+← **이전**: [[497_graphql_dos|497. GraphQL DoS (GraphQL DoS)]]
+**다음**: [[499_api_versioning_security|499. API Versioning (API 버전 관리와 보안)]] →
+
+---

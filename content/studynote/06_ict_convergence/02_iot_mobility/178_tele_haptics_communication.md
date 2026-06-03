@@ -164,3 +164,14 @@ Position-force packetization + timestamp
 1. 멀리 있는 로봇 손을 내 손과 실처럼 연결해서, 내가 누르면 로봇도 같이 눌리게 만드는 거예요.
 2. 로봇이 딱딱한 물건을 만지면 그 느낌이 아주 빨리 내 장갑으로 돌아와야 손을 다치지 않아요.
 3. 냄새는 비밀 레시피 쪽지로 보내서, 내 옆 기계가 같은 향을 다시 만들어 주는 거예요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 178 / 552
+
+← **이전**: [[177_hmd_eye_tracking_foveated_rendering|177. HMD (Head Mounted Display) 시선 추적(Eye Tracking), 포비티드 렌더링 (Foveated Rendering]]
+**다음**: [[179_bci_brain_computer_interface|179. BCI (Brain-Computer Interface) - 뇌파를 직접 인식하여 기계를 제어하는 신경망 인터페이스 기술 (뉴럴링크)]] →
+
+---

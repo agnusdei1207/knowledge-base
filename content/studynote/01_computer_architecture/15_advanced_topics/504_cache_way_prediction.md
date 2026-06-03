@@ -150,3 +150,14 @@ Adaptive confidence-based cache lookup
 1. 캐시 웨이 예측은 여러 서랍이 있을 때 가장 자주 넣어 두는 서랍부터 먼저 열어 보는 거예요.
 2. 맞으면 한 서랍만 열어도 되니까 빨리 찾고 힘도 적게 들어요.
 3. 틀리면 다른 서랍도 다시 봐야 하니까, 물건을 비슷한 곳에 잘 두는 습관이 중요하답니다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 504 / 803
+
+← **이전**: [[503_branch_misprediction_penalty|503. 분기 예측 실패 페널티 (Branch Misprediction Penalty)]]
+**다음**: [[505_cache_line_prefetch|505. 캐시 라인 프리패치 (Cache Line Prefetching)]] →
+
+---

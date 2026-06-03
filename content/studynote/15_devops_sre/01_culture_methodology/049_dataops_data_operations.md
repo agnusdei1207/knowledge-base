@@ -319,3 +319,14 @@ Monte Carlo, Metaplane
 1. [[324_dataops|DataOps]] = [[001_dikw_pyramid|데이터]] 공장 자동화 — 소프트웨어 공장([[652_devops_calms_culture|DevOps]])처럼 [[001_dikw_pyramid|데이터]] 공장도 자동화. 수동 스크립트→자동 [[090_configuration_item|CI]]/CD. 품질+속도 동시 향상!
 2. [[001_dikw_pyramid|데이터]] [[090_configuration_item|CI]]/CD = 자동 품질 검사 — dbt 모델(설계) 변경 시 자동 테스트. 오류 [[001_dikw_pyramid|데이터]] 배포 차단. 수동 배포 대비 오류 70% 감소!
 3. [[255_data_observability|데이터 옵저버빌리티]] = 공장 품질 카메라 — 신선도·볼륨·분포 실시간 [[229_monitor|모니터]]링. [[236_anomaly_based_detection_zero_day_false_positive|이상 탐지]] 6시간→25분. 야간 호출 0회!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 49 / 373
+
+← **이전**: [[048_mlops_machine_learning_operations|048. MLOps — 머신러닝 운영]]
+**다음**: [[050_bizdevops_business_alignment|BizDevOps — 비즈니스 정렬 (BizDevOps Business Alignment)]] →
+
+---

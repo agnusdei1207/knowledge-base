@@ -54,3 +54,14 @@ ESG IT 시스템은 **규제 대응과 기업 가치 향상의 핵심 인프라*
 1. ESG는 기업의 **건강검진**이에요. 환경·사회·경영 건강을 **수치로 측정**해요.
 2. IT 시스템이 **얼마나 탄소를 배출했는지** 자동으로 계산해줘요.
 3. 건강한(ESG 좋은) 기업에 **투자자가 더 많이 투자**한답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 134 / 482
+
+← **이전**: [[133_epm_enterprise_performance_management_cpm|133. EPM/CPM (Enterprise Performance Management) - 기업 성과 관리]]
+**다음**: [[135_regtech_regulatory_technology_aml|135. RegTech (규제 기술) - AML·KYC·준법 자동화]] →
+
+---

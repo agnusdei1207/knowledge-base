@@ -123,3 +123,14 @@ Argo Rollouts (점진적 배포) 연계 및 클라우드 네이티브 표준화
 1. ArgoCD는 우리 집 장난감을 정리해 주는 아주 똑똑한 정리 로봇이에요.
 2. 노트(Git)에 "레고는 상자에 3개 담아둬"라고 쓰면, 로봇이 그걸 보고 알아서 레고를 3개로 딱 맞춰줘요.
 3. 누군가 몰래 레고를 1개 숨겨도, 로봇이 3분마다 [[396_validation|확인]]해서 다시 3개로 완벽하게 채워놓는답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 89 / 373
+
+← **이전**: [[088_pull_based_deployment_gitops_argocd_security_auto_healing|88. 풀 기반(Pull-based) 배포 - ArgoCD와 GitOps 무적 보안]]
+**다음**: [[090_fluxcd_gitops_pull_based_kubernetes_deployment|90. FluxCD - ArgoCD 경쟁 GitOps CD 도구]] →
+
+---

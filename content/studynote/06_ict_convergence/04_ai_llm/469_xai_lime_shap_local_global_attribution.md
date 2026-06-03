@@ -137,3 +137,14 @@ XAI는 AI의 [[282_performance_tactics|성능]]과 신뢰를 동시에 달성하
 1. AI가 "이 사람은 병에 걸릴 것 같아요"라고 할 때, 왜 그렇게 생각하는지 이유를 알려주는 것이 XAI예요.
 2. LIME은 "이 환자 주변 사람들을 조금씩 바꿔보며" 이유를 찾고, SHAP은 "모든 가능한 조합을 공평하게 계산해서" 이유를 찾아요.
 3. AI가 공평하고 설명 가능해야 사람들이 믿고 쓸 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 469 / 552
+
+← **이전**: [[468_model_drift_retraining|468. 모델 드리프트 (Model Drift)와 재학습 (Retraining)]]
+**다음**: [[470_adversarial_attack_poisoning_evasion|470. 적대적 공격: 포이즈닝과 이베이전 (Adversarial Attack Poisoning Evasion)]] →
+
+---

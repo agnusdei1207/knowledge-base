@@ -156,3 +156,14 @@ B+Tree 인덱스 기반 범용 검색
 1. 해시 [[154_database_index_b_tree_search_optimization|인덱스]]는 이름을 들으면 바로 사물함 번호를 알려주는 기계예요.
 2. 그래서 같은 사람을 찾을 때는 아주 빠르지만, 번호 순서대로 여러 칸을 찾는 일은 잘 못해요.
 3. 즉 "딱 한 명 찾기"에는 강하지만 "줄 세워 찾기"에는 약한 도구예요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 157 / 600
+
+← **이전**: [[156_b_tree_b_plus_tree_index|156. B-Tree 인덱스 / B+Tree 인덱스 (B-tree B+tree Index)]]
+**다음**: [[158_bitmap_index_cardinality_dml|158. 비트맵 인덱스 (Bitmap Index) - 분포도(Cardinality)가 나쁜(성별 등) 컬럼에 적합, DML 성능 저하]] →
+
+---

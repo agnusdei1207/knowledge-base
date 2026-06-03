@@ -131,3 +131,14 @@ GDPR / 기본값 프라이버시
 Privacy by Design은 비밀을 처음부터 잘 지키는 노트예요.  
 기본으로 잠겨 있어서 깜빡해도 안전해요.  
 그래서 나중에 문제를 고치느라 힘들지 않아요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 60 / 1108
+
+← **이전**: [[059_bolt_on_security|59. 사후 보안 (Bolt-on Security) - 완성 후 보안 추가]]
+**다음**: [[061_secure_by_default|61. Secure by Default (기본값 안전)]] →
+
+---

@@ -150,3 +150,14 @@ SSI(Self-Sovereign Identity) 원칙:
 1. 지금은 구글이나 카카오가 내 신분증을 보관하고 있는데, DID는 내가 직접 내 신분증을 가지고 다니는 거예요.
 2. VC는 학교가 '이 학생은 수학을 잘 해요'라고 도장 찍어준 디지털 증명서예요.
 3. VP는 그 증명서에서 '수학 점수만 보여주고 나머지는 가리는 것'이라 [[781_personal_information|개인정보]]를 적게 공개해도 돼요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 483 / 552
+
+← **이전**: [[482_blockchain_trilemma_scalability_decentralization_security|482. 블록체인 트릴레마: 확장성-탈중앙화-보안 (Blockchain Trilemma)]]
+**다음**: [[484_dao_decentralized_autonomous_organization|484. DAO 탈중앙화 자율 조직 (DAO, Decentralized Autonomous Organization)]] →
+
+---

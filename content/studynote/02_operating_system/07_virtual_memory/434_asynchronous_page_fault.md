@@ -179,3 +179,14 @@ VM을 이사 시킨 뒤 일단 껍데기만 새 서버에 띄운다. 유저가 �
 1. 비동기식 [[720_page_fault_isr|페이지 폴트]] (Asynchronous [[286_page_frame|Page]] Faults) 핸들링은 컴퓨터가 메모리를 더 크게 보이게 하고 부족함을 숨기는 방법이에요.
 2. 먼저 [[363_inverted_page_table|역 페이지 테이블]] 탐색 최적화 [[667_hash_function_integrity_one_way|해시 함수]]을 이해하면 비동기식 [[720_page_fault_isr|페이지 폴트]] (Asynchronous [[286_page_frame|Page]] Faults) 핸들링이 왜 필요한지 더 쉽게 보여요.
 3. 그래서 비동기식 [[720_page_fault_isr|페이지 폴트]] (Asynchronous [[286_page_frame|Page]] Faults) 핸들링을 잘 알면 나중에 [[357_tlb|TLB]] 슛다운 ([[435_tlb_shootdown|TLB Shootdown]])도 훨씬 쉽게 배울 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 434 / 800
+
+← **이전**: [[433_inverted_page_table_hash|433. 역 페이지 테이블 탐색 최적화 해시 함수 (Inverted Page Table Hash)]]
+**다음**: [[435_tlb_shootdown|435. TLB 슛다운 (TLB Shootdown) - 멀티코어 환경에서 타 코어의 TLB 무효화 오버헤드]] →
+
+---

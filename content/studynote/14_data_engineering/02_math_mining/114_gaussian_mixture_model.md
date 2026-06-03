@@ -111,3 +111,14 @@ GMM은 K-Means의 [[130_probability|확률]]적 일반화이며, 클러스터 �
 1. K-Means는 학생을 **"반드시 A반!"**이라고 정하는 거예요.
 2. GMM은 **"A반에 70%, B반에 30%"**처럼 어느 반에 더 가까운지 [[130_probability|확률]]로 말해줘요.
 3. 세상에는 딱 나눌 수 없는 것이 많으니까, GMM처럼 **[[130_probability|확률]]로 표현**하는 게 더 정확하답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 114 / 258
+
+← **이전**: [[113_manifold_hypothesis_dimensionality_reduction|113. 매니폴드 가설 (Manifold Hypothesis) - 고차원 데이터와 차원 축소의 수학적 근거]]
+**다음**: [[115_dbscan_clustering|115. DBSCAN 클러스터링 - 밀도 기반 군집화·노이즈 분리·비구형 클러스터]] →
+
+---

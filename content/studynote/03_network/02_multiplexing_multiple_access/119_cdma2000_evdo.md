@@ -187,3 +187,14 @@ CDMA2000 [[584_802_1x_pnac_eap_radius|1x]] / EV-DO는 PAMA에서 출발해 현�
 1. 옛날 핸드폰은 전화 통화가 주인공이라서 인터넷을 쓰려고 하면 너무 좁은 길을 써야 해서 답답했어요.
 2. EV-DO는 인터넷 전용으로 아주 넓고 매끄러운 1차선 고속도로를 새로 뚫어준 똑똑한 기술이에요.
 3. 이 길 위에서는 기지국 아저씨가 가장 [[130_signal|신호]]가 좋은 친구부터 돌아가며 번개처럼 빨리 [[001_dikw_pyramid|데이터]]를 쏴주기 때문에 영화도 금방 다운받을 수 있게 되었답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 240 / 1120
+
+← **이전**: [[118_pama|118. PAMA (Pre-Assigned Multiple Access)]]
+**다음**: [[120_wcdma_hspa|120. W-CDMA (Wideband CDMA) / HSPA (High Speed Packet Access)]] →
+
+---

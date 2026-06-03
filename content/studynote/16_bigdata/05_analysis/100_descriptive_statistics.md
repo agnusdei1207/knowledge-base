@@ -93,3 +93,14 @@ tags:
 1. 우리 반 친구들의 키를 일일이 다 말하는 대신, "우리 반 평균 키는 140cm야"라고 짧게 줄여 말하는 것이 기술 통계예요.
 2. 키가 제일 큰 친구와 작은 친구의 차이가 얼마나 나는지도 알려주면 우리 반의 특징을 더 잘 알 수 있죠.
 3. 복잡한 관찰 일기를 사진 한 장으로 요약해서 보여주는 것과 같답니다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 100 / 262
+
+← **이전**: [[099_realtime_olap|24. 실시간 OLAP (Real-time OLAP) — Apache Druid/Pinot/ClickHouse]]
+**다음**: [[101_inferential_statistics|추론 통계 (Inferential Statistics)]] →
+
+---

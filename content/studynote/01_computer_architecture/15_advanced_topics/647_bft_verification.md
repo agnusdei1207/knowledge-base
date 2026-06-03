@@ -143,3 +143,14 @@ High-throughput permissioned BFT services
 1. 여러 친구가 같이 규칙을 정할 때, 몇몇 친구가 거짓말을 할 수도 있다고 생각하고 [[396_validation|확인]]하는 방법이 BFT예요.
 2. 그래서 누가 말했는지, 몇 명이 같은 말을 했는지, 순서가 맞는지를 하나씩 꼭 [[396_validation|확인]]해요.
 3. 덕분에 장난꾸러기 친구가 있어도 반 전체가 엉뚱한 결정을 하지 않게 돼요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 648 / 803
+
+← **이전**: [[646_blockchain_storage_bottleneck|646. 블록체인 노드 스토리지 병목 현상]]
+**다음**: [[648_cap_theorem_storage|648. 캡 정리 (CAP Theorem)와 분산 스토리지]] →
+
+---

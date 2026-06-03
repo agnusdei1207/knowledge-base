@@ -135,3 +135,14 @@ API Gateway + Event Broker + iPaaS
 1. 예전에는 친구들끼리 모두 직접 전화해서 너무 복잡했어요.
 2. EAI는 큰 전화 교환실 하나를 두는 방법이고, ESB는 모두가 같은 통화 규칙을 쓰게 만드는 방법이에요.
 3. 둘 다 복잡함을 줄이지만, 너무 한곳에 몰아두면 다시 막힐 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 155 / 482
+
+← **이전**: [[154_esb_enterprise_service_bus_soa|154. ESB (Enterprise Service Bus) - 스파게티 강결합을 찢어발긴 SOA 중앙 고속도로 통역 뇌]]
+**다음**: [[156_rest_representational_state_transfer|156. REST (Representational State Transfer)]] →
+
+---

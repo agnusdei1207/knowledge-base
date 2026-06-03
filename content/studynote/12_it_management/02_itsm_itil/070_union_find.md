@@ -126,3 +126,14 @@ Graph Algorithms
 친구 무리를 합쳐요.  
 대표를 빨리 찾아요.  
 Union-Find는 그런 도구예요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 124 / 587
+
+← **이전**: [[070_service_value_chain|70. ITIL 4 서비스 가치 사슬 (Service Value Chain)]]
+**다음**: [[071_four_dimensions|71. 4차원 모델 (Four Dimensions of Service Management)]] →
+
+---

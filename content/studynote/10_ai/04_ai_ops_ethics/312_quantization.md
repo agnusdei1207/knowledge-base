@@ -136,3 +136,14 @@ FP32 → INT8로 변환 시 용량이 4배 축소(700GB → 175GB)되고, INT4�
 1. **[[434_quantization|양자화]]**는 고화질(FP32) 동영상을 [[347_compaction|압축]](INT8)해서 **4배 더 작게** 만드는 것처럼, [[190_ai_llm_requirements_specification|AI]] 모델의 숫자들을 더 작은 숫자로 바꿔 **용량과 속도를 동시에 개선**하는 거예요!
 2. 32비트 소수점 숫자를 8비트 정수로 바꾸면 **크기는 4분의 1**, 계산 속도는 **2~4배 빨라**져요 — 단, 약간의 정확도 손실이 생길 수 있어요.
 3. 덕분에 스마트폰에서도 **ChatGPT 같은 거대 [[190_ai_llm_requirements_specification|AI]]**를 인터넷 없이 바로 사용할 수 있게 됐어요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 312 / 420
+
+← **이전**: [[311_knowledge_distillation|311. 지식 증류 (Knowledge Distillation)]]
+**다음**: [[313_slm|313. SLM (Small Language Model)]] →
+
+---

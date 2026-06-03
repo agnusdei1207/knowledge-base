@@ -139,3 +139,14 @@ tags:
 1. [[305_saga|사가 패턴]] [[551_compensating_transaction_logical_rollback|보상 트랜잭션]] [[248_distributed_transaction_multiple_nodes|분산 트랜잭션]]는 복잡한 일을 순서대로 정리해 주는 큰 정리함이에요.
 2. 어디에 무엇을 넣을지 먼저 정해 두면, 나중에 찾거나 고칠 때 훨씬 쉬워져요.
 3. 그래서 일이 커질수록 먼저 기준을 만들고 같이 약속하는 것이 중요해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 370 / 482
+
+← **이전**: [[369_database_per_service|369. 데이터베이스 퍼 서비스 고립 원칙 (Database per Service)]]
+**다음**: [[371_cqrs_command_query_separation|371. CQRS 명령 조회 모델 분리 패턴 (Command Query Responsibility Segregation)]] →
+
+---

@@ -130,3 +130,14 @@ $$ \text{Output Size} = \lfloor \frac{\text{Input} + 2 \times \text{[[098_paddin
 1. 아주 큰 그림을 돋보기로 살필 때, 오른쪽으로 1칸씩 촘촘히 옮기면 시간이 너무 오래 걸려요.
 2. 그래서 돋보기를 2칸씩 껑충껑충 건너뛰면서 살피는 방법을 '스트라이드'라고 불러요.
 3. 이렇게 껑충 뛰면 시간도 절약되고, 그림의 핵심만 뽑은 작은 요약본을 순식간에 만들 수 있답니다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 97 / 420
+
+← **이전**: [[096_convolution_layer_filter_stride_padding|96. 합성곱 층 (Convolution Layer) - 필터 스캐닝 특징 추출]]
+**다음**: [[098_padding_convolutional_neural_network_same_valid|98. 패딩 (Padding) - 이미지 크기 축소 방지와 가장자리 보존]] →
+
+---

@@ -151,3 +151,14 @@ tags:
 1. 웹 프로그레시브 [[090_service_kubernetes_network_load_balancing|서비스]]워커([[090_service_kubernetes_network_load_balancing|Service]] Worker) 연계망은 레고 블록으로 성을 만들 때처럼, 규칙을 정하고 역할을 나누어 함께 작업하는 방법이에요.
 2. 혼자서 막 만들면 나중에 무너지거나 고치기 어렵지만, 약속을 지키면 누구나 쉽게 고치고 더 크게 만들 수 있어요.
 3. 그래서 [[001_software_engineering_definition|소프트웨어 공학]]은 프로그래머들이 좋은 프로그램을 빠르고 안전하게 만들 수 있게 도와주는 '규칙 모음집'이에요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 957 / 973
+
+← **이전**: [[783_ssr_server_side_rendering_hydration|783. 서버 사이드 렌더링(SSR) 하이드레이션(Hydration)]]
+**다음**: [[785_msa_eventual_consistency_data|785. 마이크로서비스 데이터 일관성 결과적 일관성 확보]] →
+
+---

@@ -171,3 +171,14 @@ tags:
 1. 경계값 분석 (Boundary Value Analysis)은 레고 블록으로 성을 만들 때처럼, 규칙을 정하고 역할을 나누어 함께 작업하는 방법이에요.
 2. 혼자서 막 만들면 나중에 무너지거나 고치기 어렵지만, 약속을 지키면 누구나 쉽게 고치고 더 크게 만들 수 있어요.
 3. 그래서 [[001_software_engineering_definition|소프트웨어 공학]]은 프로그래머들이 좋은 프로그램을 빠르고 안전하게 만들 수 있게 도와주는 '규칙 모음집'이에요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 419 / 973
+
+← **이전**: [[413_equivalence_partitioning|413. 동등 분할 (Equivalence Partitioning) - 입력 영역을 유효/무효 클래스로 분할하여 대푯값 테스트]]
+**다음**: [[414_boundary_value_analysis|414. 경계값 분석 (Boundary Value Analysis) - 경계 부분에서 결함이 많다는 점 이용 (분할의 가장자리 값)]] →
+
+---

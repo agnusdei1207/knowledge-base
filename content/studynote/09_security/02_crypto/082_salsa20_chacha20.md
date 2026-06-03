@@ -125,3 +125,14 @@ Salsa20/ChaCha20를 제대로 이해하면 개념 하나를 외우는 데서 끝
 1. Salsa20/ChaCha20는 컴퓨터끼리 인사하고 [[396_validation|확인]]하는 순서를 정한 약속이에요.
 2. 순서를 건너뛰면 나쁜 사람이 친구인 척할 수 있어요.
 3. 그래서 컴퓨터는 차례대로 묻고 답하면서 서로를 믿게 돼요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 82 / 1108
+
+← **이전**: [[081_rc4_stream_cipher|81. RC4 (Rivest Cipher 4)]]
+**다음**: [[083_aes_advanced_encryption_standard|083. AES (Advanced Encryption Standard) — 128/192/256비트 키]] →
+
+---

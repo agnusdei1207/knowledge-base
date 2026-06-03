@@ -245,3 +245,14 @@ Reverse ETL: DW → SaaS 도구로 데이터 역전달
 ```
 2. dbt는 "이 장난감들을 이렇게 분류해라"라는 정리 규칙서(SQL [[501_file_definition_logical_record|파일]])다. 규칙서를 고치면 다음번에 자동으로 새로운 방식으로 정리된다.
 3. 원시 [[001_dikw_pyramid|데이터]]를 보존하는 것은 장난감 설명서를 버리지 않는 것과 같다. 나중에 다른 방법으로 조립(재분석)하고 싶을 때 다시 꺼내볼 수 있다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 226 / 371
+
+← **이전**: [[226_etl_extract_transform_load|226. ETL (Extract, Transform, Load)]]
+**다음**: [[228_batch_processing_hadoop_spark|228. 배치 처리 (Batch Processing)]] →
+
+---

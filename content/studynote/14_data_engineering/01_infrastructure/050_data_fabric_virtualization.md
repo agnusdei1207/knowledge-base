@@ -205,3 +205,14 @@ ETL + 중앙 DW (1990s~2000s)
 1. [[212_data_fabric_virtualization|데이터 패브릭]]은 도서관 통합 검색 시스템 — 어느 서가(클라우드)에 있어도 하나의 검색창으로 찾아줘.
 2. [[360_data_virtualization|데이터 가상화]]는 음식 배달 앱처럼 — 각 식당(DB)에 있는 음식을 이동 없이 내 앞에 바로 가져와.
 3. [[190_ai_llm_requirements_specification|AI]] [[012_metadata|메타데이터]]는 스마트 사서 — "이 [[001_dikw_pyramid|데이터]] 쓰는 사람은 저것도 필요해요"라고 자동으로 추천해줘.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 50 / 258
+
+← **이전**: [[049_data_mesh_distributed_ownership|049. 데이터 메시 — Data Mesh Distributed Ownership]]
+**다음**: [[051_data_catalog_metadata_discovery|51. 데이터 카탈로그 (Data Catalog) - 메타데이터 검색 및 자산화]] →
+
+---

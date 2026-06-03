@@ -132,3 +132,14 @@ tags:
 1. 컴퓨터가 정보를 잘 정리하고 지키기 위해 쓰는 약속이에요.
 2. 약속마다 하는 일이 조금씩 달라요.
 3. 그래서 이름만 외우지 말고 언제 쓰는지 같이 알아야 해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 578 / 600
+
+← **이전**: [[577_many_to_many_resolution_intersection_entity|577. 다대다 관계 해소 교차 릴레이션 (Intersection Entity / Mapping Table) 분해]]
+**다음**: [[579_referential_integrity_cascade_restrict_set_null|579. 무결성 제약 조건 CASCADE, RESTRICT, SET NULL 연쇄 업데이트 삭제 설정]] →
+
+---

@@ -119,3 +119,14 @@ K8s에서 [[085_pod_kubernetes_container_unit|파드]] 배치를 제어하는 �
 1. [[196_kubernetes_k8s_container_orchestration|쿠버네티스]] 마을에는 일반 집과 수영장이 달린 아주 비싼 대저택([[418_gpu|GPU]] 노드)이 있어요.
 2. 대저택 주인은 아무나 들어오지 못하게 문 앞에 "냄새나는 마늘(Taint)"을 잔뜩 뿌려놨어요.
 3. 오직 수영 국가대표 선수들만 "코마개(Toleration)"를 가지고 있어서 냄새를 참고 저택에 들어가 수영장을 독차지할 수 있답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 105 / 371
+
+← **이전**: [[105_operator_pattern_crd_custom_controller_kubernetes|105. 오퍼레이터 패턴 (Operator Pattern) - K8s 봇 자동화]]
+**다음**: [[107_node_affinity_kubernetes_scheduling_required_preferred|107. 노드 어피니티 (Node Affinity) - K8s 스케줄링 유도]] →
+
+---

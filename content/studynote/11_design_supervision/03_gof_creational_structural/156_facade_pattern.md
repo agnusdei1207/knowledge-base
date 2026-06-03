@@ -130,3 +130,14 @@ tags:
 1. 파사드는 여행사처럼, 복잡한 항공·호텔·렌터카 예약을 한 번에 처리해줘요.
 2. 여행객(클라이언트)은 각 시스템을 알 필요 없이 여행사(파사드)에만 말하면 돼요.
 3. [[014_api_posix|API]] 게이트웨이나 [[090_service_kubernetes_network_load_balancing|서비스]] 레이어가 바로 이 파사드 역할을 해요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 212 / 530
+
+← **이전**: [[155_decorator_pattern|155. 데코레이터 패턴 (Decorator Pattern)]]
+**다음**: [[157_flyweight_pattern|157. 플라이웨이트 (Flyweight) 패턴]] →
+
+---

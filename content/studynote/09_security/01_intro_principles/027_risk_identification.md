@@ -133,3 +133,14 @@ E - Elevation of Privilege (권한 상승)
 1. 위험 [[655_ir_detection_analysis|식별]]은 집 점검이에요! 도둑(위협)이 들어올 수 있는 열린 창문(취약점)과 그 근처 귀중품(자산)을 목록으로 만들어요.
 2. STRIDE로 6종류 나쁜 행동(신분 사칭·위조·부인·유출·방해·권한 탈취)을 체계적으로 점검해요!
 3. AI가 전 세계 해킹 정보를 실시간으로 수집해서 새로운 위협을 자동으로 알려주는 시대가 됐답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 27 / 1108
+
+← **이전**: [[026_risk_management_process|26. 위험 관리 프로세스 (Risk Management Process) — 정보보안 위험 식별·평가·처리 체계]]
+**다음**: [[028_quantitative_risk_analysis|28. 정량적 위험 분석 (Quantitative Risk Analysis)]] →
+
+---

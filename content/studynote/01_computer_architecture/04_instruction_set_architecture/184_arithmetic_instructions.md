@@ -172,3 +172,14 @@ ADD · SUB · INC · DEC
 1. 산술 연산 [[158_instruction|명령어]]는 컴퓨터가 숫자를 더하고 빼면서 다음 일을 정하게 해 주는 계산 버튼이에요.
 2. 이 버튼을 눌러야 "한 칸 더 가기", "사탕이 몇 개 남았는지 보기" 같은 일이 가능해져요.
 3. 하지만 너무 큰 숫자를 작은 상자에 넣으면 넘칠 수 있어서, 컴퓨터는 계산 결과가 괜찮은지도 함께 살펴본답니다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 184 / 803
+
+← **이전**: [[183_data_transfer_instructions|183. 데이터 전송 명령어 (Data Transfer Instructions)]]
+**다음**: [[185_logical_operations|185. 논리 연산 명령어 (Logical Operation Instructions)]] →
+
+---

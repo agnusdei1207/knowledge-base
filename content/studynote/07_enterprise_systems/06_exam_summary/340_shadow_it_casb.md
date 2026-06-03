@@ -139,3 +139,14 @@ tags:
 1. 섀도우 IT [[741_casb_cloud_access_security_broker|CASB]] 솔루션 통제는 복잡한 일을 순서대로 정리해 주는 큰 정리함이에요.
 2. 어디에 무엇을 넣을지 먼저 정해 두면, 나중에 찾거나 고칠 때 훨씬 쉬워져요.
 3. 그래서 일이 커질수록 먼저 기준을 만들고 같이 약속하는 것이 중요해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 340 / 482
+
+← **이전**: [[339_cloud_migration_6r|339. 클라우드 마이그레이션 6R 전략 (Cloud Migration 6R Strategy)]]
+**다음**: [[341_data_steward_quality_ownership|341. 데이터 스튜어드 품질 오너십 (Data Steward Quality Ownership)]] →
+
+---

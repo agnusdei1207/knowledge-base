@@ -172,3 +172,14 @@ Outbox · CDC · End-to-End 무손실
 1. 아주 중요한 숙제는 한 공책에만 쓰지 않고, 안전한 두 곳에 똑같이 적어 둬야 해요.
 2. 그리고 두 곳 다 잘 적힌 걸 [[396_validation|확인]]하기 전에는 "숙제 냈어요"라고 말하면 안 돼요.
 3. 그래야 한 공책이 젖어도 다른 공책을 보고 똑같이 다시 보여 줄 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 183 / 373
+
+← **이전**: [[182_status_page_public_sla|182. 상태 페이지 (Status Page) - 대외 공개 SLA 운영]]
+**다음**: [[184_dr_chaos_engineering_fusion|184. 재해 복구 훈련과 카오스 엔지니어링 융합 (Disaster Recovery + Chaos Engineering)]] →
+
+---

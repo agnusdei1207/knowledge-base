@@ -120,3 +120,14 @@ route to class
 1. 탐정이 단서 몇 개만 보고도 어느 상자에서 왔는지 맞히는 것과 같다.
 2. 단서가 서로 얼마나 잘 어울리는지 [[130_probability|확률]]로 계산하면 더 빨리 맞힐 수 있다.
 3. 그래서 컴퓨터는 적은 정보로도 가장 그럴듯한 답을 찾는다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 139 / 587
+
+← **이전**: [[077_problem_management|77. 문제 관리 (Problem Management)]]
+**다음**: [[078_kedb|78. KEDB (Known Error Database)]] →
+
+---

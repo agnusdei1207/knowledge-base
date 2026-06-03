@@ -188,3 +188,14 @@ Audit / ISMS-P / digital trust governance
 1. PIA는 새 놀이터를 만들기 전에 어디가 위험한지 먼저 살펴보는 안전 검사예요.
 2. 미끄럼틀, 문, 가방 보관함을 하나씩 보면서 누가 다칠 수 있는지 미리 찾아봐요.
 3. 그래서 놀이터를 연 뒤에 고생하지 않고, 처음부터 더 안전하게 만들 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 288 / 587
+
+← **이전**: [[173_ciso_role_and_responsibility|173. 정보보호최고책임자 (CISO) 지정 의무 및 역할]]
+**다음**: [[175_drs_bcp_strategy|175. 재해 복구 시스템 (Disaster Recovery System, DRS) 및 업무 연속성 계획 (Business Continuity]] →
+
+---

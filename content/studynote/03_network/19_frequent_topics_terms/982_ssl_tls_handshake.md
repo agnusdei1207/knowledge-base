@@ -309,3 +309,14 @@ SSL/[[694_thread_local_storage_tls|TLS]] 핸드셰이크는 ESP에서 출발해 
 1. 핸드셰이크는 [[461_spy_test_double|스파이]] 두 명이 처음 만나서 진짜 우리 편이 맞는지 신분증([[303_authentication_authorization_patterns|인증]]서)을 꼼꼼히 [[396_validation|확인]]하는 비밀 접선 과정이에요.
 2. 신분이 [[396_validation|확인]]되면, 둘은 아주 복잡한 퀴즈를 풀어서 오늘 하루만 쓸 '비밀번호(대칭키)'를 짠! 하고 만들어내죠.
 3. 이 인사가 끝나고 나면, 두 [[461_spy_test_double|스파이]]는 아무리 나쁜 악당이 엿듣고 있어도 그 비밀번호로만 해석할 수 있는 외계어로 대화하며 안전하게 정보를 주고받을 수 있답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 1103 / 1120
+
+← **이전**: [[981_esp_encapsulating_security_payload|981. ESP (Encapsulating Security Payload)]]
+**다음**: [[983_vpn_virtual_private_network|983. VPN (가상 사설망)]] →
+
+---

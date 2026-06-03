@@ -129,3 +129,14 @@ AIC/BIC를 쓰면 모델 선택이 감이 아니라 기준이 된다. 특히 시
 1. 점수가 비슷한 두 숙제를 볼 때, 너무 길고 복잡한 숙제는 감점돼요.
 2. AIC와 BIC는 "짧고 잘 쓴 숙제"를 고르도록 도와줘요.
 3. 그래서 꼭 필요한 것만 남긴 똑똑한 숙제를 찾게 해줘요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 410 / 420
+
+← **이전**: [[409_kmeans_elbow_silhouette|409. K-Means 최적 K 선택 (Kmeans Elbow Silhouette)]]
+**다음**: [[411_pacf_partial_autocorrelation|411. 편자기상관함수 (PACF, Partial Autocorrelation Function)]] →
+
+---

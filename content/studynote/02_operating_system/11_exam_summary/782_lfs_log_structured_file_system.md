@@ -221,3 +221,14 @@ LFS의 가장 빛나는 장점(항상 덧붙여 [[289_cqrs_db|쓰기]])이 결�
 1. 칠판(디스크)에 그림([[001_dikw_pyramid|데이터]])을 지우고 새로 그리는 건 시간이 꽤 오래 걸려요. (기존 덮어쓰기)
 2. 그래서 똑똑한 선생님은 아주 긴 두루마리 도화지([[568_logs_distributed_logging_elk_fluentd|로그]])를 가져와서, 예전 그림을 굳이 지우지 않고 무조건 끝부분 빈 공간에 새 그림을 휙휙 엄청 빨리 그려나갔어요. ([[541_log_structured_file_system|LFS]] 순차 [[289_cqrs_db|쓰기]])
 3. 다 그리다 종이가 꽉 차면, 종이의 앞부분부터 보면서 쓸데없는 낙서는 가위로 잘라버리고 예쁜 그림들만 다시 모아서 뒤쪽에 붙이는 청소([[380_garbage_collection|가비지 컬렉션]])를 해준답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 782 / 800
+
+← **이전**: [[781_zfs_cow_volume_management|781. ZFS Copy-on-Write 볼륨 관리 통합 (Zfs COW Volume Management)]]
+**다음**: [[783_mobile_energy_aware_scheduler_eas|783. 모바일 환경 에너지 인지 스케줄러 (Mobile Energy Aware Scheduler Eas)]] →
+
+---

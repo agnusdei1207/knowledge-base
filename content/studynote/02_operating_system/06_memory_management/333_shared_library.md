@@ -209,3 +209,14 @@ tags:
 1. 공유 [[336_library_vs_framework|라이브러리]] (Shared [[336_library_vs_framework|Library]]) 스터브 ([[460_stub_test_double|Stub]]) 코드은 컴퓨터가 메모리를 방처럼 나눠 쓰고 주소를 찾는 방법이에요.
 2. 먼저 [[332_dynamic_linking|동적 연결]] ([[332_dynamic_linking|Dynamic Linking]])을 이해하면 공유 [[336_library_vs_framework|라이브러리]] (Shared [[336_library_vs_framework|Library]]) 스터브 ([[460_stub_test_double|Stub]]) 코드이 왜 필요한지 더 쉽게 보여요.
 3. 그래서 공유 [[336_library_vs_framework|라이브러리]] (Shared [[336_library_vs_framework|Library]]) 스터브 ([[460_stub_test_double|Stub]]) 코드을 잘 알면 나중에 [[334_static_linking|정적 연결]] ([[334_static_linking|Static Linking]])도 훨씬 쉽게 배울 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 333 / 800
+
+← **이전**: [[332_dynamic_linking|332. 동적 연결 (Dynamic Linking) - 실행 시점에 라이브러리 연결 (.dll, .so)]]
+**다음**: [[334_static_linking|334. 정적 연결 (Static Linking)]] →
+
+---

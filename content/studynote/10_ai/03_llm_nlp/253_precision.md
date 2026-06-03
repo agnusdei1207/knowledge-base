@@ -211,3 +211,14 @@ tags:
 1. [[233_precision_recall_f1_roc_auc_threshold|정밀도]]는 **"내가 맞다고 한 것 중 실제로 맞은 비율"**이에요.
 2. "이 사람이 나쁜 사람이야!"라고 100번 말했는데 85번만 맞았으면 [[233_precision_recall_f1_roc_auc_threshold|정밀도]] 85%예요.
 3. [[233_precision_recall_f1_roc_auc_threshold|정밀도]]가 낮으면 억울한 사람이 많아지니까, 특히 법이나 의료처럼 중요한 곳에서는 [[233_precision_recall_f1_roc_auc_threshold|정밀도]]를 꼭 높여야 해요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 253 / 420
+
+← **이전**: [[252_confusion_matrix|252. 혼동 행렬 (Confusion Matrix)]]
+**다음**: [[254_recall_sensitivity|254. 재현율 (Recall) / 민감도]] →
+
+---

@@ -123,3 +123,14 @@ Data Lakehouse (Delta Lake, Iceberg) - 통합 계층
 1. 가방에 장난감을 다 넣고 다니면 너무 무겁고 힘들어요.
 2. 그래서 장난감은 집에 두고, 놀고 싶을 때만 필요한 것만 꺼내서 노는 거예요.
 3. 그러면 가방도 가볍고, 더 많은 장난감을 가질 수 있답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 293 / 482
+
+← **이전**: [[292_cloud_native_dw_snowflake_bigquery_redshift|292. 클라우드 네이티브 DW (Snowflake, BigQuery, Redshift) 아키텍처]]
+**다음**: [[294_zero_copy_cloning|294. 제로 카피 클론 (Zero-Copy Cloning)]] →
+
+---

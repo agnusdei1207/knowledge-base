@@ -188,3 +188,14 @@ Multi-Region · Multi-AZ 이중화 + Chaos Engineering 검증
 ```
 2. RTO는 게임이 꺼진 후 다시 켜서 이어서 할 수 있게 되는 시간이야. 빠를수록 좋지.
 3. Active-Active는 게임을 두 대 콘솔에서 동시에 하는 것처럼, 하나가 꺼져도 다른 하나로 즉시 계속할 수 있어.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 208 / 371
+
+← **이전**: [[208_immutable_infra_hotfix_no_ssh|208. 인프라 불변성 원칙과 핫픽스 금지 (Immutable Infrastructure)]]
+**다음**: [[210_hadoop_ecosystem_overview|210. 빅데이터 3V/5V와 클라우드 데이터 아키텍처]] →
+
+---

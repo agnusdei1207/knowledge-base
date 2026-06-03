@@ -193,3 +193,14 @@ First-Fit이 아무리 훌륭해도 가변 분할 환경에 얽힌 '50퍼센트 
 1. 최초 적합 (First-Fit)은 컴퓨터가 메모리를 방처럼 나눠 쓰고 주소를 찾는 방법이에요.
 2. 먼저 동적 메모리 할당 문제 (가변 분할 배치 [[001_algorithm_definition|알고리즘]])을 이해하면 최초 적합 (First-Fit)이 왜 필요한지 더 쉽게 보여요.
 3. 그래서 최초 적합 (First-Fit)을 잘 알면 나중에 [[345_best_fit|최적 적합]] ([[345_best_fit|Best-Fit]])도 훨씬 쉽게 배울 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 344 / 800
+
+← **이전**: [[343_dynamic_storage_allocation_problem|343. 동적 메모리 할당 문제 (가변 분할 배치 알고리즘) (Dynamic Storage Allocation Problem)]]
+**다음**: [[345_best_fit|345. 최적 적합 (Best-Fit) - 가장 크기가 비슷한 공간 (자투리 최소화, 검색 시간 소요)]] →
+
+---

@@ -125,3 +125,14 @@ tags:
 1. 암호 스위트 명명 규칙 (Cipher Suite Naming Convention)는 비밀 편지를 안전하게 잠그거나 진짜인지 확인하는 특별한 약속이에요.
 2. 하지만 자물쇠가 좋아도 열쇠를 아무 데나 두면 금방 들켜요.
 3. 그래서 암호는 만드는 방법과 열쇠를 지키는 방법을 같이 배워야 해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 359 / 1108
+
+← **이전**: [[304_tls_cipher_suite|304. TLS 암호 스위트 (TLS Cipher Suite)]]
+**다음**: [[306_pfs_detail|306. 완전 전방 비밀성 세부 (Perfect Forward Secrecy, PFS)]] →
+
+---

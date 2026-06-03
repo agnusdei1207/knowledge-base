@@ -135,3 +135,14 @@ MLP / Backpropagation
 직선 자 하나로는 대각선에 놓인 점들을 못 나눠요.  
 그래서 더 똑똑한 층이 필요해요.  
 XOR 문제는 그걸 보여 주는 대표 예예요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 63 / 420
+
+← **이전**: [[062_perceptron_rosenblatt_single_layer|62. 퍼셉트론 (Perceptron) - 단층 신경망]]
+**다음**: [[064_mlp_multi_layer_perceptron_hidden_layer|64. 다층 퍼셉트론 (MLP, Multi-Layer Perceptron) - 은닉층(Hidden Layer) 도입으로 비선형 문제 해결]] →
+
+---

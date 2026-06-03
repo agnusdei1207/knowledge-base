@@ -124,3 +124,14 @@ tags:
 1. 블랙보드는 여러 전문가가 칠판에 각자 아는 것을 써서 어려운 문제를 함께 푸는 방법이에요.
 2. 한 전문가가 쓴 것을 다른 전문가가 보고 더 발전시켜요.
 3. 음성 인식처럼 복잡한 [[190_ai_llm_requirements_specification|AI]] 문제를 이 방식으로 해결해요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 191 / 530
+
+← **이전**: [[134_pipe_filter_pattern|134. 파이프-필터 패턴 (Pipe-Filter Pattern)]]
+**다음**: [[136_microkernel_plugin_architecture|136. 마이크로커널·플러그인 아키텍처 (Microkernel / Plugin Architecture)]] →
+
+---

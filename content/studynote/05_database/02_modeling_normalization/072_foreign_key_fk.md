@@ -122,3 +122,14 @@ Relational Model
 다른 친구 번호를 적어요.  
 그래야 서로 연결돼요.  
 외래 키는 그런 약속이에요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 72 / 600
+
+← **이전**: [[071_alternate_key|71. 대체 키 (Alternate Key) - 후보 키 중 기본 키로 선택되지 않은 나머지 키]]
+**다음**: [[073_integrity_constraints_overview|73. 무결성 제약조건 (Integrity Constraints)]] →
+
+---

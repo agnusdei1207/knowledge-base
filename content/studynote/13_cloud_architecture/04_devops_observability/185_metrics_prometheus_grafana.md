@@ -179,3 +179,14 @@ Thanos · Mimir 기반 장기 보존 · 멀티클러스터 확장
 1. [[342_routing_metric_hop_bandwidth_delay|메트릭]]은 컴퓨터가 지금 얼마나 바쁘고 아픈지를 숫자로 알려 주는 건강 체크표예요.
 2. Prometheus는 여러 기계에게 정기적으로 "지금 상태 어때?" 하고 묻는 선생님이에요.
 3. Grafana는 그 답을 [[070_graph_datastructure|그래프]]로 그려서 누가 힘들어하는지 바로 보이게 해 주는 칠판이에요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 184 / 371
+
+← **이전**: [[184_observability_three_pillars|184. 옵저버빌리티 3대 기둥 (Observability Three Pillars)]]
+**다음**: [[186_golden_signals_sre_monitoring|186. 골든 시그널 (4 Golden Signals - SRE 모니터링)]] →
+
+---

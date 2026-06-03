@@ -149,3 +149,14 @@ tags:
 1. 무상태성은 가게 아저씨가 손님을 외우지 않고, 손님이 번호표를 보여 주면 바로 도와주는 방법이에요.
 2. 그래서 어느 직원이 와도 같은 번호표만 있으면 일을 이어서 할 수 있어요.
 3. 대신 손님은 필요한 표를 잘 챙겨 와야 해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 162 / 482
+
+← **이전**: [[161_rest_level_3_hateoas|161. Level 3 - HATEOAS (Hypermedia As The Engine Of Application State), 응답에]]
+**다음**: [[163_microservices_architecture_msa|163. 마이크로서비스 아키텍처 (MSA, Microservices Architecture) - 거대한 모놀리식(Monolithic)]] →
+
+---

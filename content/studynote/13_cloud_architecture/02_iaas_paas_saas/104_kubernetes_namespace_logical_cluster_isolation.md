@@ -128,3 +128,14 @@ Default Namespace 혼재 (자원 독식, 충돌)
 1. 넓은 운동장에 [[061_namespace|네임스페이스]]라는 투명한 '유리벽'을 세워서 1반과 2반의 체육 시간을 나눠주는 거예요.
 2. 유리벽이 있으니까 1반 친구가 던진 공이 2반 친구 머리에 맞는 일(이름 충돌)이 없어져요.
 3. 선생님이 각 반마다 쓸 수 있는 줄넘기 개수(ResourceQuota)도 딱 정해주니까 누구 하나가 다 독차지할 수 없답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 103 / 371
+
+← **이전**: [[103_helm_kubernetes_package_manager_chart_template|103. 헬름 (Helm) - 쿠버네티스 패키지 매니저 및 템플릿 엔진]]
+**다음**: [[105_operator_pattern_crd_custom_controller_kubernetes|105. 오퍼레이터 패턴 (Operator Pattern) - K8s 봇 자동화]] →
+
+---

@@ -142,3 +142,14 @@ FP 산정 컴포넌트:
 1. FP는 소프트웨어 크기를 재는 단위예요 — 건물 면적처럼 소프트웨어 기능의 크기를 수치로 표현해요!
 2. 감리사는 개발사가 제출한 [[293_fp_function_point|FP]] 산정서가 정확한지 독립적으로 [[395_verification_process_review|검증]]해요!
 3. AI가 요구사항 문서를 읽고 자동으로 FP를 계산해주는 시대가 다가오고 있어요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 39 / 530
+
+← **이전**: [[031_audit_by_project_type|31. 정보화 사업 유형별 감리 (Audit by Project Type)]]
+**다음**: [[032_audit_automation_tools|32. 감리 자동화 도구 (Audit Automation Tools)]] →
+
+---

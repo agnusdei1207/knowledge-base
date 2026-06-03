@@ -151,3 +151,14 @@ MLOps에서 드리프트 탐지는 모델의 지속적 품질을 보장하는 �
 1. 드리프트는 AI가 "작년에 배웠는데 올해 세상이 달라져서 틀리기 시작하는" 것이야.
 2. K-S 검정은 "작년 성적 분포와 올해 성적 분포를 [[070_graph_datastructure|그래프]]로 겹쳐보고 가장 차이나는 지점을 측정"하는 거야.
 3. PSI가 0.25보다 크면 "세상이 너무 많이 바뀌었으니 AI를 다시 훈련시키자!"는 [[130_signal|신호]]야.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 400 / 420
+
+← **이전**: [[399_active_learning_qbc|399. 액티브 러닝 (Active Learning)]]
+**다음**: [[401_smt_vs_nmt|401. SMT (Statistical Machine Translation) vs NMT (Neural Machine Translation)]] →
+
+---

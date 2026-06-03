@@ -133,3 +133,14 @@ ISO 27001 네트워크 통제 및 [[781_personal_information|개인정보]]…�
 1. 나쁜 친구가 놀이터 규칙을 깨뜨리면 바로 알아차리고 막아야 해요.
 2. 이 개념은 어떤 장난이 위험한지 미리 알고, 문제가 생기면 어떻게 다시 정리할지도 알려줘요.
 3. 그래서 놀이터를 더 안전하게 지킬 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 871 / 1120
+
+← **이전**: [[749_dlp_data_loss_prevention_dark_data|749. 다크 데이터 / Data Loss Prevention (DLP 네트워크 기반 메일 메신저 단말 외장 유출 차단 모델 시스템 개념]]
+**다음**: [[751_3gpp_3rd_generation_partnership_project|751. 3GPP (3rd Generation Partnership Project) 표준 개발]] →
+
+---

@@ -149,3 +149,14 @@ D_M² > χ²(p, α)  → 이상치 (α = 0.01~0.05)
 1. [[106_mahalanobis_distance|마할라노비스 거리]]는 "단순 자 거리" 대신 "[[001_dikw_pyramid|데이터]]의 생김새(타원형 분포)를 고려한 거리"야.
 2. 역공분산 행렬은 특성들 사이의 상관관계를 "평평하게 펼쳐서" 공정하게 비교할 수 있게 해줘.
 3. 카이제곱 임계값으로 "이 정도 거리면 [[076_outlier_detection_iqr_dbscan_isolation_forest|이상치]]야"라는 통계적 기준을 [[009_config|설정]]할 수 있어.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 397 / 420
+
+← **이전**: [[396_differential_privacy|396. 차분 프라이버시 (Differential Privacy)]]
+**다음**: [[398_gat|398. GAT (Graph Attention Network)]] →
+
+---

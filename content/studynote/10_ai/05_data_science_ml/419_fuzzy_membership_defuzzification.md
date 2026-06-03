@@ -144,3 +144,14 @@ $$
 1. 어떤 음식이 맵냐고 물으면 "매워/안 매워"만으로는 부족할 때가 있어요.
 2. "조금 매워", "꽤 매워"처럼 단계로 생각하는 게 퍼지예요.
 3. 마지막엔 그 느낌을 숫자로 바꿔서 에어컨 세기나 기계 움직임을 정해 주는 거예요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 419 / 420
+
+← **이전**: [[418_smote_oversampling_undersampling|418. 오버샘플링·언더샘플링·SMOTE (Synthetic Minority Over-sampling Technique)]]
+**다음**: [[420_iso_42001_ai_management_system|420. ISO/IEC 42001 AI 경영시스템 (AI Management System, AIMS)]] →
+
+---

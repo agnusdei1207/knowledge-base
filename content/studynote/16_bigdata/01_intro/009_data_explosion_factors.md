@@ -158,3 +158,14 @@ SNS / Clicks       ──┘
 ```
 
 [[001_dikw_pyramid|데이터]] 폭증은 [[055_digital_transformation|디지털 전환]]과 [[101_iot_concept|IoT]], 소셜·모바일, 클라우드 확산이 합쳐져 빅데이터 플랫폼을 요구한 흐름이다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 9 / 262
+
+← **이전**: [[008_big_data_vs_traditional_data|8. 빅데이터 vs 전통적 데이터 — RDBMS 한계(수평 확장 불가, 고정 스키마)]]
+**다음**: [[010_data_democratization|10. 데이터 민주화 (Data Democratization) — 셀프서비스 분석, 시민 데이터 과학자]] →
+
+---

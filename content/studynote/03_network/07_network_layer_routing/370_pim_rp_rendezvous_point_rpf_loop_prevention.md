@@ -142,3 +142,14 @@ RP, RPF [[298_ip_classes_a_b_c_d_multicast_e_experimental|멀티캐스트]] 루�
 1. 여러 갈림길이 있는 미로에서 가장 좋은 길을 고르는 게임과 같아요.
 2. 이 개념은 길이 막히면 다른 길로 빨리 바꾸는 규칙도 알려줘요.
 3. 그래서 인터넷 길찾기가 덜 헤매고 더 똑똑해져요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 491 / 1120
+
+← **이전**: [[369_multicast_routing_pim_dense_vs_sparse|369. 멀티캐스트 라우팅]]
+**다음**: [[371_vrf_virtual_routing_and_forwarding|371. VRF (Virtual Routing and Forwarding)]] →
+
+---

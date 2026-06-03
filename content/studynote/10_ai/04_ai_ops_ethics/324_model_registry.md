@@ -131,3 +131,14 @@ ML 팀이 매주 새 모델을 학습한다. 6개월 후 프로덕션에 문제�
 1. **[[166_model_registry_versioning_mlflow|모델 레지스트리]]**는 [[190_ai_llm_requirements_specification|AI]] 모델의 **"역대 기록 보관소"**예요 — 어떤 [[288_version_ihl_tos_total_length|버전]]이 언제 만들어졌고, 얼마나 정확했고, 지금 어디서 사용 중인지 다 기록해요!
 2. 새 AI가 더 좋으면 **챔피언 교체(Production 승격)**, 문제가 생기면 **이전 [[288_version_ihl_tos_total_length|버전]]으로 즉시 [[658_ir_recovery|복구]]([[098_rollback_strategy_pipeline_error_threshold|롤백]])** 할 수 있어요.
 3. 의료·금융 규제에서 "이 AI는 어떤 [[001_dikw_pyramid|데이터]]로 만들었나요?"라고 물으면, [[166_model_registry_versioning_mlflow|모델 레지스트리]]가 **완벽한 [[606_auditing_linux_auditd|감사]] 기록**을 제공해요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 324 / 420
+
+← **이전**: [[323_feature_store|323. 피처 스토어 (Feature Store)]]
+**다음**: [[325_xai|325. 설명 가능한 AI (XAI, eXplainable AI)]] →
+
+---

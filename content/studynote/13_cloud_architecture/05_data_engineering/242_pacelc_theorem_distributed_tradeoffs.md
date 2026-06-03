@@ -113,3 +113,14 @@ tags:
 1. [[342_pacelc|PACELC]] 정리는 사람이 많은 운동회에서 어디로 가야 하는지 알려 주는 안내판과 비슷해요.
 2. 규칙이 없으면 모두가 한곳에 몰려서 느려지고 다투지만, 길을 정해 두면 훨씬 부드럽게 움직일 수 있어요.
 3. 그래서 컴퓨터 세상에서도 [[342_pacelc|PACELC]] 정리를 쓰면 많은 팀과 [[090_service_kubernetes_network_load_balancing|서비스]]가 덜 부딪히고 더 빨리 움직일 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 241 / 371
+
+← **이전**: [[241_cap_theorem_distributed_systems|241. CAP 정리 (CAP Theorem in Distributed Systems)]]
+**다음**: [[243_sharding_horizontal_scaling_database|243. 샤딩 - 수평 확장 (Sharding)]] →
+
+---

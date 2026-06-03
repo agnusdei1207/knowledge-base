@@ -251,3 +251,14 @@ BERT · GPT · T5 (Foundation Models)
 ```
 2. [[120_context_vector|컨텍스트 벡터]] 없는 어텐션은 책을 다 읽고 메모지 하나에만 적어 두는 것, 어텐션이 있으면 번역할 때 원본 책을 다시 펼쳐볼 수 있어.
 3. 어텐션 [[267_weight_bias_activation|가중치]] [[003_bigdata_7v|시각화]]는 번역가가 "이 영어 단어를 쓸 때 한국어의 어느 부분을 보고 있었는지" 색깔로 보여주는 지도야.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 245 / 258
+
+← **이전**: [[244_rnn_time_series_lstm_cell_gate_long_term_dependency|244. RNN (Recurrent Neural Network) 시계열 LSTM 셀 게이트 장기 의존성 극복]]
+**다음**: [[246_transformer_self_attention_parallel_positional_encoding|246. 트랜스포머 (Transformer) 셀프 어텐션 병렬 처리 포지셔널 인코딩]] →
+
+---

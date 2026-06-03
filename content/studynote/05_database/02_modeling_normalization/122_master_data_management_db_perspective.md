@@ -108,3 +108,14 @@ MDM은 **[[052_data_governance_framework|데이터 거버넌스]]의 기술적 �
 1. MDM은 학교 **출석부 관리 시스템**이에요. 같은 학생이 다른 이름으로 등록되면 안 돼요.
 2. "홍길동"과 "길동 홍"이 같은 사람인지 확인해서 **하나로 합쳐요** (골든 레코드).
 3. 덕분에 어떤 선생님(시스템)이 봐도 **같은 학생 정보**를 볼 수 있답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 122 / 600
+
+← **이전**: [[121_data_architecture_framework_zachman|121. 데이터 아키텍처 프레임워크 (Zachman Framework) - 엔터프라이즈 데이터 설계 체계]]
+**다음**: [[123_reference_data_code_tables|123. 참조 데이터 & 코드 테이블 (Reference Data & Code Tables) - 코드성 데이터 표준화]] →
+
+---

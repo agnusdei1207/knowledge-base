@@ -179,3 +179,14 @@ L-BFGS(Limited-memory BFGS)는 최근 m개 기울기 정보만 저장 → 수백
 답을 찾을 때 "여기가 아니면 반쪽에 있겠지"(이분법)처럼 좁혀가는 방법이 있어요.  
 뉴턴-랩슨은 "현재 위치의 기울기를 보고 단숨에 훨씬 가까운 곳으로 점프"하는 방법이에요.  
 이 덕분에 계산기나 컴퓨터가 제곱근, 나눗셈을 아주 빠르게 처리할 수 있답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 128 / 175
+
+← **이전**: [[127_matrix_multiplication|행렬 곱셈 최적화 (Matrix Multiplication Optimization)]]
+**다음**: [[129_monte_carlo_integration|10. 몬테카를로 수치적분 (Monte Carlo Integration) — 확률적 근사]] →
+
+---

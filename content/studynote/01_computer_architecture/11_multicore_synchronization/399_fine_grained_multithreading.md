@@ -167,3 +167,14 @@ Throughput-oriented workload?
 1. 세밀한 [[397_multithreading|멀티스레딩]]은 선생님이 한 친구만 계속 가르치는 대신, 여러 친구를 한 문제씩 돌아가며 가르치는 방법이에요.
 2. 어떤 친구가 답을 생각하느라 잠깐 멈추면, 선생님은 쉬지 않고 바로 다른 친구를 도와줘요.
 3. 그래서 한 친구는 조금 더 기다릴 수 있지만, 반 전체 공부는 더 빨리 끝나요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 400 / 803
+
+← **이전**: [[398_coarse_grained_multithreading|398. 거친 멀티스레딩 (Coarse-grained)]]
+**다음**: [[400_smt|400. 동시 멀티스레딩 (SMT, Simultaneous Multithreading)]] →
+
+---

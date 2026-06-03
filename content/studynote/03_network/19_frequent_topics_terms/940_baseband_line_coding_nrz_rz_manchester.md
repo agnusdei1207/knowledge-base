@@ -134,3 +134,14 @@ IEEE 802.3([[230_ethernet_structure_and_principles_ieee_802_3|이더넷]] 랜선
 1. 비슷한 이름의 장난감을 헷갈리지 않게 표를 붙이는 것과 같아요.
 2. 이 개념은 무엇이 어떻게 다른지 쉽게 구별하게 도와줘요.
 3. 그래서 시험에서도 실무에서도 말을 더 정확하게 쓸 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 1061 / 1120
+
+← **이전**: [[939_honeypot_deception|939. 포니팟 (Honeypot) 허니넷(Honeynet) 유인 분리망 분석 시스템 / 사이버 기만 기술 (Deception Technology)]]
+**다음**: [[941_shannon_hartley_theorem_channel_capacity_snr|941. 샤논-하틀리(Shannon-Hartley)]] →
+
+---

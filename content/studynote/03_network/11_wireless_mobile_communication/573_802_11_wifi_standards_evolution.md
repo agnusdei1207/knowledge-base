@@ -131,3 +131,14 @@ tags:
 1. 걸어 다니면서 무전기를 쓰면 멀어질수록 소리가 작아지고 다른 친구 목소리와 섞여요.
 2. 이 개념은 어디서 말할지, 얼마나 크게 말할지, 언제 다른 기지국으로 옮길지를 정해줘요.
 3. 그래서 움직이면서도 통화나 데이터가 덜 끊기게 도와줘요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 694 / 1120
+
+← **이전**: [[572_ap_access_point_ds_distribution_system|572. AP (Access Point) / DS (Distribution System, 분배 시스템)]]
+**다음**: [[574_802_11n_wifi_4_mimo_channel_bonding|574. 11n (Wi-Fi 4)]] →
+
+---

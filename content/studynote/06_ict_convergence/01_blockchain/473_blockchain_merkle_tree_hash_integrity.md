@@ -142,3 +142,14 @@ SPV 노드는 블록 헤더(80바이트)만 저장하며, 특정 Tx 포함 증�
 1. 100개 상자를 일일이 열어보는 대신, 상자들을 쌍으로 묶어 자물쇠를 채우고 그 자물쇠들을 또 묶는 식으로 제일 위 자물쇠 하나로 전체를 잠급니다.
 2. 하나라도 바꾸면 위쪽 자물쇠가 달라지므로 즉시 들통납니다.
 3. 자물쇠 번호만 알면 "내 상자가 정말 포함됐나요?"를 금방 [[396_validation|확인]]할 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 473 / 552
+
+← **이전**: [[472_on_device_ai_slm_edge_inference|472. 온디바이스 AI와 SLM 엣지 추론 (On-Device AI SLM Edge Inference)]]
+**다음**: [[474_dlt_distributed_ledger_technology|474. 분산 원장 기술 (DLT, Distributed Ledger Technology)]] →
+
+---

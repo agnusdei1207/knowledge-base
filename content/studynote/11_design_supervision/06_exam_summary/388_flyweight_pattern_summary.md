@@ -111,3 +111,14 @@ tags:
 1. [[265_flyweight_pattern_instance_sharing|플라이웨이트]] 패턴 ([[157_flyweight_pattern|Flyweight Pattern]])은 같은 모양 스탬프 하나를 여러 종이에 찍어 쓰는 것처럼 약속을 먼저 정하는 거예요.
 2. 그러면 서로 다른 사람이 해도 같은 규칙으로 움직일 수 있어요.
 3. 그래서 규모가 커질수록 공유 가능한 상태와 외부 상태를 분리하는 일이 더 중요해져요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 466 / 530
+
+← **이전**: [[387_facade_pattern_summary|387. 퍼사드 패턴 (Facade Pattern)]]
+**다음**: [[389_proxy_pattern_summary|389. 프록시 패턴 (Proxy Pattern)]] →
+
+---

@@ -169,3 +169,14 @@ tags:
 1. 스풀링 (Spooling, Simultaneous Peripheral [[329_delta_encoding|Operation]] On-Line)은 컴퓨터가 디스크와 장치가 [[001_dikw_pyramid|데이터]]를 주고받는 길을 정리하는 방법이에요.
 2. 먼저 [[456_caching|캐싱]] ([[456_caching|Caching]])을 이해하면 스풀링 (Spooling, Simultaneous Peripheral [[329_delta_encoding|Operation]] On-Line)이 왜 필요한지 더 쉽게 보여요.
 3. 그래서 스풀링 (Spooling, Simultaneous Peripheral [[329_delta_encoding|Operation]] On-Line)을 잘 알면 나중에 예약 및 단독 장치 접근 제어도 훨씬 쉽게 배울 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 457 / 800
+
+← **이전**: [[456_caching|456. 캐싱 (Caching) - 자주 사용하는 데이터 복사본 유지 (속도 빠른 메모리 활용)]]
+**다음**: [[458_device_reservation_exclusive_access|458. 예약 및 단독 장치 접근 제어 (Device Reservation Exclusive Access)]] →
+
+---

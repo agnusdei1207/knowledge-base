@@ -208,3 +208,14 @@ EU AI Act · 금융 규제: 설명 의무화
 ```
 2. LIME은 AI에게 "비슷한 상황을 많이 만들어 보여주면서 어떤 조건이 바뀔 때 답이 달라지는지"로 이유를 알아내는 방법이에요.
 3. SHAP은 팀 프로젝트에서 각 팀원이 성과에 얼마나 기여했는지 공정하게 계산하는 것처럼, 각 정보([[247_feature_label_variables|피처]])가 [[190_ai_llm_requirements_specification|AI]] 판단에 얼마나 기여했는지 숫자로 알려줘요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 255 / 258
+
+← **이전**: [[254_mlops_data_concept_drift_feature_store_monitoring|254. MLOps 데이터·컨셉 드리프트 피처 스토어 모니터링 종합]]
+**다음**: [[256_federated_learning_privacy_model_security|256. 연합 학습 (Federated Learning) 프라이버시 모델 보안]] →
+
+---

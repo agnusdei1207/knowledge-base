@@ -125,3 +125,14 @@ tags:
 1. [[707_session_hijacking_tcp_seq_cookie|세션 하이재킹]] ([[160_session_controlling_terminal|Session]] Hijacking)는 누군가 규칙의 틈을 찾아 몰래 장난을 치는 방법이에요.
 2. 그래서 문을 단단히 잠그는 것뿐 아니라, 누가 이상하게 움직이는지도 바로 알아차려야 해요.
 3. 컴퓨터는 이상한 흔적을 빨리 보고 퍼지기 전에 멈추게 해야 안전해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 325 / 1108
+
+← **이전**: [[270_cookie_hijacking|270. 쿠키 하이재킹 (Cookie Hijacking)]]
+**다음**: [[272_packet_sniffing|272. 패킷 스니핑 (Packet Sniffing)]] →
+
+---

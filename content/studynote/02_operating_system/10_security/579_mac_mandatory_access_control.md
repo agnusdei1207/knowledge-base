@@ -152,3 +152,14 @@ system_u:system_r:httpd_t:s0 httpd
 2. **보안 라벨**은 놀이공원의 **"입장 등급표"**와 같다. Silver 등급은 Silver 놀이기구만, Gold 등급은 Gold 놀이기구만 탈 수 있다. 등급표가 없으면 아무 놀이기구도 탈 수 없다.
 
 3. **관리 복잡성**은 입장 등급표를 **"새로 [[009_config|설정]]하거나 변경하려면 병원 전체의 규정을 수정해야"** 하는 것과 같다. 한 명의 등급을 바꾸어도 전체 시스템에 영향을 미칠 수 있다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 579 / 800
+
+← **이전**: [[578_dac_discretionary_access_control|578. 임의적 접근 제어 (DAC, Discretionary Access Control) - 소유자가 임의로 권한 위임]]
+**다음**: [[580_bell_lapadula_model|580. 벨-라파둘라 모델 (Bell-LaPadula) - 기밀성 위주 보안 정책 (No Read Up, No Write Down)]] →
+
+---

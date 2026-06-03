@@ -168,3 +168,14 @@ TLB (Translation Lookaside Buffer) · 디스크립터 캐싱
 1. [[365_segment_table|세그먼트 테이블]]은 학교에서 "몇 반이 어느 교실을 쓰고, 어디까지 써도 되는지" 적어 둔 배정표예요.
 2. 어떤 반이 자기 교실 밖 복도까지 책상을 놓으려고 하면 선생님이 바로 막아요.
 3. 그래서 모두가 자기 자리를 안전하게 쓰면서도, 필요한 교실은 함께 나눠 쓸 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 294 / 803
+
+← **이전**: [[293_segmentation|293. 세그멘테이션 (Segmentation)]]
+**다음**: [[295_external_fragmentation|295. 외부 단편화 (External Fragmentation)]] →
+
+---

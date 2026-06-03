@@ -194,3 +194,14 @@ Cross-Device / Cross-Silo 운영
 1. 연방 학습은 각 학교가 시험지를 밖으로 보내지 않고, 공부해서 좋아진 방법만 선생님에게 알려 주는 방식이에요.
 2. 선생님은 그 방법들을 잘 모아 전국 공통 교과서를 조금씩 더 똑똑하게 만들어요.
 3. 하지만 학교마다 배우는 내용이 너무 다르거나 거짓말을 하면 교과서가 이상해질 수 있어서 규칙이 꼭 필요해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 181 / 258
+
+← **이전**: [[180_cdc_debezium_binlog_realtime_sync|180. CDC (Change Data Capture)와 Debezium 기반 Binlog 실시간 동기화]]
+**다음**: [[182_blockchain_smart_contract_data_integrity|182. 블록체인/스마트 컨트랙트 (Blockchain/Smart Contract) 데이터 무결 증빙과 Non-Fungible Token]] →
+
+---

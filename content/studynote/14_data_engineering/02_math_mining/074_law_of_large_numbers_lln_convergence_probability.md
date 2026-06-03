@@ -123,3 +123,14 @@ Convergence
 많이 하면 비슷해져요.  
 평균이 자리를 잡아요.  
 대수의 법칙은 그런 이야기예요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 74 / 258
+
+← **이전**: [[073_central_limit_theorem_clt_sample_mean_normal_distribution|73. 중심 극한 정리 (CLT) - 30개 표본 정규분포 마법]]
+**다음**: [[075_conditional_probability_bayes_theorem_posterior|75. 조건부 확률(Conditional Probability)과 베이즈 정리(Bayes)]] →
+
+---

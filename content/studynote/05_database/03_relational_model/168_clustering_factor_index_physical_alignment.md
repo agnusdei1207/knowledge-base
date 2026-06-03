@@ -154,3 +154,14 @@ CF는 [[154_database_index_b_tree_search_optimization|인덱스]] 리프 엔트�
 1. CF는 공룡 책 목록을 보고 책장에 갔을 때, 그 책들이 한 칸에 모여 있는지 보는 점수예요.
 2. 점수가 좋으면 한 번에 여러 권을 꺼낼 수 있어서 금방 끝나요.
 3. 점수가 나쁘면 책이 여기저기 흩어져 있어서 선생님이 책장을 계속 뛰어다녀야 해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 168 / 600
+
+← **이전**: [[167_sql_hint_optimizer_override|167. 힌트 (Hint) - 개발자가 옵티마이저에게 접근 경로를 명시적으로 지시 (/*+ INDEX(EMP IDX_01) */ 등)]]
+**다음**: [[169_clustering_factor_index_physical_sort|169. 클러스터링 팩터 (Clustering Factor) - 인덱스 정렬 순서와 실제 물리적 데이터 정렬 순서의 일치 정도]] →
+
+---

@@ -165,3 +165,14 @@ tags:
 1. 탐색적 테스트 차터 기반 [[210_heuristics_scheduling|휴리스틱]]은 레고 블록으로 성을 만들 때처럼, 규칙을 정하고 역할을 나누어 함께 작업하는 방법이에요.
 2. 혼자서 막 만들면 나중에 무너지거나 고치기 어렵지만, 약속을 지키면 누구나 쉽게 고치고 더 크게 만들 수 있어요.
 3. 그래서 [[001_software_engineering_definition|소프트웨어 공학]]은 프로그래머들이 좋은 프로그램을 빠르고 안전하게 만들 수 있게 도와주는 '규칙 모음집'이에요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 802 / 973
+
+← **이전**: [[635_mcdc_modified_condition_decision_coverage|635. MC/DC 항공/자동차 안전 표준 조건]]
+**다음**: [[637_fuzz_testing_vulnerability_discovery|637. 퍼즈 테스트 보안 취약점 발견]] →
+
+---

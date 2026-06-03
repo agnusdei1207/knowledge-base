@@ -161,3 +161,14 @@ tags:
 1. 컴퓨터가 저장한 소설 [[501_file_definition_logical_record|파일]]이 진짜 책([[001_dikw_pyramid|데이터]])이라면, [[501_file_definition_logical_record|파일]] [[082_attribute_types_er_model|속성]]([[012_metadata|메타데이터]])은 그 책 뒷면에 딱 붙어있는 **"도서관 바코드와 대출금지 라벨 딱지 지표"** 들이에요! 
 2. 사서 선생님([[001_operating_system_purpose|운영체제]])은 책을 10만 권 정리할 때 굳이 책을 펴서 내용을 하나하나 읽어볼([[001_dikw_pyramid|데이터]] 불러서 랙 걸리기) 필요가 상실 전혀 없죠.
 3. 그저 겉면에 붙은 [[082_attribute_types_er_model|속성]] 바코드만 "삑!" 하고 광속 스캔 치면, 1초 만에 '해리포터(이름), 530쪽(크기), 3층 B구역(위치), 초등학생 열람금지([[571_protection_vs_security|보호]] 권한)' 를 모두 순식간에 통제하고 알아채서 수만 개 [[501_file_definition_logical_record|파일]]을 관리할 수 있게 돕는 천재 정보 딱지 매핑 시스템이랍니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 502 / 800
+
+← **이전**: [[501_file_definition_logical_record|501. 파일 (File)의 정의 - 논리적 레코드의 연속, OS가 관리하는 정보의 기본 단위]]
+**다음**: [[503_magic_number_file_signature|503. 매직 넘버 (Magic Number) - 파일 확장자 외 내용 식별자]] →
+
+---

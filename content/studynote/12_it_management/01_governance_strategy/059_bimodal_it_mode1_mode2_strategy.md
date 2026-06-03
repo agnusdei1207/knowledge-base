@@ -130,3 +130,14 @@ Mode 2
 바이모달 IT는 하나의 집에서 숙제방과 실험방을 따로 쓰는 거예요.  
 숙제방은 조용하고 정확해야 하고, 실험방은 빨리 바뀌어도 괜찮아요.  
 둘 다 잘 써야 집 전체가 잘 돌아가요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 103 / 587
+
+← **이전**: [[059_bimodal_it|59. 바이모달 IT (Bimodal IT, 가트너)]]
+**다음**: [[060_rpa_hyperautomation|60. RPA (Robotic Process Automation) 및 초자동화 (Hyperautomation)]] →
+
+---

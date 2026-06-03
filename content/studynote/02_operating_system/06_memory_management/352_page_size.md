@@ -180,3 +180,14 @@ tags:
 1. [[286_page_frame|페이지]] 크기 ([[286_page_frame|Page]] Size)은 컴퓨터가 메모리를 방처럼 나눠 쓰고 주소를 찾는 방법이에요.
 2. 먼저 [[259_paging|페이징]] ([[259_paging|Paging]])을 이해하면 [[286_page_frame|페이지]] 크기 ([[286_page_frame|Page]] Size)이 왜 필요한지 더 쉽게 보여요.
 3. 그래서 [[286_page_frame|페이지]] 크기 ([[286_page_frame|Page]] Size)을 잘 알면 나중에 [[353_page_table|페이지 테이블]] ([[353_page_table|Page Table]])도 훨씬 쉽게 배울 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 352 / 800
+
+← **이전**: [[351_paging|351. 페이징 (Paging) - 물리 메모리를 프레임(Frame), 논리 메모리를 페이지(Page)로 고정 크기 분할]]
+**다음**: [[353_page_table|353. 페이지 테이블 (Page Table) - 페이지 번호를 프레임 번호로 매핑]] →
+
+---

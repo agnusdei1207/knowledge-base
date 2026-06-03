@@ -220,3 +220,14 @@ tags:
 - 제조 빅데이터는 "공장 기계가 아프기 전에 '나 좀 이상해'라고 말하는 시스템"이다.
 - 예지정비는 "이가 썩기 전에 치과를 예약하는 것"처럼 미리 고장을 막는 것이다.
 - [[190_ai_llm_requirements_specification|AI]] 불량 검사는 "100개의 제품을 1초도 안 걸려 다 검사하는 로봇 눈"이다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 217 / 262
+
+← **이전**: [[216_public_bigdata|211. 공공 빅데이터 (Public Sector Big Data) — 교통예측/범죄예방/도시계획]]
+**다음**: [[218_retail_logistics_bigdata|213. 유통·물류 빅데이터 (Retail & Logistics Big Data) — 수요예측/재고최적화/배송경로]] →
+
+---

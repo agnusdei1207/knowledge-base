@@ -118,3 +118,14 @@ Matter는 스마트 홈의 **USB-C 모먼트**이며, 플랫폼 파편화를 해
 1. 옛날에는 Apple 전구, Google 전구, Amazon 전구를 **따로따로** 사야 했어요.
 2. Matter는 **하나의 전구로 모든 플랫폼**에서 쓸 수 있게 해주는 통일 규격이에요.
 3. 마치 USB-C처럼 **하나의 충전기로 모든 기기를 충전**하는 것과 같답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 116 / 552
+
+← **이전**: [[115_thread_protocol_ipv6_smart_home|115. Thread 프로토콜 (Thread Protocol) - IPv6 기반 저전력 메시·Matter 핵심 전송 계층]]
+**다음**: [[117_6lowpan_iot_ipv6|117. 6LoWPAN (IPv6 over Low-Power WPAN) - IoT IPv6 압축·적응 계층]] →
+
+---

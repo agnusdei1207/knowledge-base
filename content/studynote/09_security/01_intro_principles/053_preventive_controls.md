@@ -130,3 +130,14 @@ Threat → Preventive Control → Block / Limit
 1. 예방 통제는 문을 잠그고 낯선 사람을 막는 거예요.
 2. 문제가 생기기 전에 미리 막으면 훨씬 안전해요.
 3. 하지만 경보기와 소화기도 같이 있어야 더 든든해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 53 / 1108
+
+← **이전**: [[052_risk_mitigation|52. 위험 완화 (Risk Mitigation)]]
+**다음**: [[054_detective_controls|54. 탐지 통제 (Detective Controls)]] →
+
+---

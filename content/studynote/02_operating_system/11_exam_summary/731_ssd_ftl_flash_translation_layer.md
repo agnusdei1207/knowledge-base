@@ -195,3 +195,14 @@ SSD를 이해하려면 셀, [[286_page_frame|페이지]], 블록의 크기 단�
 1. 칠판(하드디스크)에 분필로 글씨를 쓰면, 지우개로 지우고 그 자리에 바로 다시 쓸 수 있죠.
 2. 그런데 SSD는 '유성 매직 공책'이에요. 한번 쓰면 지울 수가 없어서, 틀린 걸 고치려면 새 [[286_page_frame|페이지]]를 펴서 새로 적고 예전 [[286_page_frame|페이지]]는 찢어서 버려야 해요.
 3. 이 공책을 관리하는 비서([[478_ftl_flash_translation_layer|FTL]])는 엄마([[001_operating_system_purpose|운영체제]])가 "1페이지 고쳐!"라고 하면, 몰래 2페이지에 새 글을 쓴 다음 목차 번호표를 샥! 바꿔치기해서 엄마를 완벽하게 속인답니다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 731 / 800
+
+← **이전**: [[730_raid_levels_performance_reliability|730. RAID 0, 1, 5, 6 성능 신뢰성 (RAID Levels Performance Reliability)]]
+**다음**: [[732_garbage_collection_block_erase|732. 가비지 컬렉션 블록 지우기 (Garbage Collection Block Erase)]] →
+
+---

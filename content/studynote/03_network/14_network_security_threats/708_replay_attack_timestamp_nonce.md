@@ -133,3 +133,14 @@ tags:
 1. 나쁜 친구가 놀이터 규칙을 깨뜨리면 바로 알아차리고 막아야 해요.
 2. 이 개념은 어떤 장난이 위험한지 미리 알고, 문제가 생기면 어떻게 다시 정리할지도 알려줘요.
 3. 그래서 놀이터를 더 안전하게 지킬 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 829 / 1120
+
+← **이전**: [[707_session_hijacking_tcp_seq_cookie|707. 세션 하이재킹 (Session Hijacking / TCP Seq 번호 추정 절도 등 탈취/Cookie/토큰 갈취 기법)]]
+**다음**: [[709_dos_denial_of_service_availability|709. DoS (Denial of Service 가용성 타격 위협 목적)]] →
+
+---

@@ -144,3 +144,14 @@ ISO 27001의 Annex A 93개 통제 항목이 실제 구현의 [[435_checklist_bas
 1. 보안 지침은 학교 생활 규칙표처럼, 컴퓨터와 데이터를 안전하게 지키는 약속들이에요!
 2. 규칙을 종이에 쓰는 것([[164_policy|정책]] 문서)만으로는 안 되고, 실제로 자물쇠 달기(암호화), 감시 카메라 설치([[568_logs_distributed_logging_elk_fluentd|로그]] 모니터링), 교육하기(보안 훈련)를 해야 해요.
 3. 이 모든 것이 잘 지켜지는지 검사관([[606_auditing_linux_auditd|감사]])이 확인해서 안전한 회사 [[303_authentication_authorization_patterns|인증]](ISO 27001)을 주기도 한답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 24 / 1108
+
+← **이전**: [[023_information_security_standard_guideline|23. 정보보안 표준 및 지침 (Information Security Standard & Guideline)]]
+**다음**: [[025_security_procedure_manual|25. 보안 절차 매뉴얼 (Security Procedure Manual) — 정책의 실행 가이드]] →
+
+---

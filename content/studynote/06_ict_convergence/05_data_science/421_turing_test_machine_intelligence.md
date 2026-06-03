@@ -140,3 +140,14 @@ tags:
 1. 이 개념은 복잡한 일을 한눈에 보이게 정리해서 모두가 같은 규칙으로 움직이게 해 줘.
 2. 그래서 많은 기계나 사람, 프로그램이 함께 일해도 어디서 문제가 생겼는지 찾기 쉬워져.
 3. 한마디로 이 개념은 복잡한 일을 질서 있게 움직이게 만드는 안내판이야.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 421 / 552
+
+← **이전**: [[420_hadoop_hdfs_block_replication|420. 빅데이터 처리 하둡 HDFS 블록 복제 3벌 랙 인지 분산 데이터베이스 연계망 처리 (Hadoop HDFS Block Replication)]]
+**다음**: [[422_a_star_admissible_heuristic|422. A* 허용 휴리스틱 (A STAR Admissible Heuristic)]] →
+
+---

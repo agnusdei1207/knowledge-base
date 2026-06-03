@@ -111,3 +111,14 @@ tags:
 1. [[256_builder_pattern_step_by_step_creation|빌더]] 패턴 ([[148_builder_pattern|Builder Pattern]])은 레고 설명서를 보며 한 단계씩 성을 쌓는 것처럼 약속을 먼저 정하는 거예요.
 2. 그러면 서로 다른 사람이 해도 같은 규칙으로 움직일 수 있어요.
 3. 그래서 규모가 커질수록 복잡한 조립 과정을 읽기 쉬운 단계로 나누는 일이 더 중요해져요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 458 / 530
+
+← **이전**: [[379_abstract_factory_summary|379. 추상 팩토리 패턴 (Abstract Factory Pattern)]]
+**다음**: [[381_prototype_pattern_summary|381. 프로토타입 패턴 (Prototype Pattern)]] →
+
+---

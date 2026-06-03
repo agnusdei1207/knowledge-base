@@ -111,3 +111,14 @@ tags:
 1. 객체지향 [[242_solid_object_oriented_design_principles|SOLID]] 5원칙 ([[242_solid_object_oriented_design_principles|SOLID]] Principles)은 레고 블록을 색과 용도별로 정리하는 규칙처럼 약속을 먼저 정하는 거예요.
 2. 그러면 서로 다른 사람이 해도 같은 규칙으로 움직일 수 있어요.
 3. 그래서 규모가 커질수록 변경 이유, 확장 지점, 의존 방향을 동시에 통제하는 일이 더 중요해져요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 432 / 530
+
+← **이전**: [[353_architecture|353. ADR 아키텍처 결정 기록 (Architecture Decision Record)]]
+**다음**: [[355_process|355. 단일 책임 원칙 (Single Responsibility Principle, SRP)]] →
+
+---

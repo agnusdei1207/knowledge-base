@@ -177,3 +177,14 @@ OS 설계자가 PFF의 상한선을 초당 50번, 하한선을 초당 40번으�
 1. [[266_page_fault_frequency|페이지 부재 빈도]] ([[306_pff|PFF]], [[286_page_frame|Page]]-Fault Frequency) 모델은 컴퓨터가 메모리를 더 크게 보이게 하고 부족함을 숨기는 방법이에요.
 2. 먼저 [[416_working_set_model|워킹 셋 모델]] ([[416_working_set_model|Working-Set Model]])을 이해하면 [[266_page_fault_frequency|페이지 부재 빈도]] ([[306_pff|PFF]], [[286_page_frame|Page]]-Fault Frequency) 모델이 왜 필요한지 더 쉽게 보여요.
 3. 그래서 [[266_page_fault_frequency|페이지 부재 빈도]] ([[306_pff|PFF]], [[286_page_frame|Page]]-Fault Frequency) 모델을 잘 알면 나중에 [[418_memory_mapped_file_mmap|메모리 매핑 파일]] (Memory-Mapped Files, [[749_memory_mapped_file_mmap|mmap]])도 훨씬 쉽게 배울 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 417 / 800
+
+← **이전**: [[416_working_set_model|416. 워킹 셋 모델 (Working-Set Model) - 특정 시간 구간(윈도우) 동안 참조된 페이지 집합 보장]]
+**다음**: [[418_memory_mapped_file_mmap|418. 메모리 매핑 파일 (Memory-Mapped Files, mmap)]] →
+
+---

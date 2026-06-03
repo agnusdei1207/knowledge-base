@@ -129,3 +129,14 @@ tags:
 1. 마이크로 프론트엔드 (Micro Frontends)는 모두가 같은 규칙으로 일하게 해 주는 반장 약속표예요.
 2. 약속만 적어 두는 것이 아니라 누가 지켰는지 확인하고 고치는 방법까지 함께 정해요.
 3. 그래서 일이 많아져도 서로 부딪히지 않고 더 안전하게 움직일 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 353 / 587
+
+← **이전**: [[238_lowcode_nocode_citizen_developer|238. 로우코드/노코드 (LC/NC) 시민 개발자 (Citizen Developer) 플랫폼 도입과 섀도우 IT 거버넌스 타협망]]
+**다음**: [[240_hyperautomation_hybrid_workforce|240. 초자동화 (Hyperautomation) 프로세스 마이닝 + RPA + AI + 챗봇 결합 하이브리드 워크포스 통합 플랫폼]] →
+
+---

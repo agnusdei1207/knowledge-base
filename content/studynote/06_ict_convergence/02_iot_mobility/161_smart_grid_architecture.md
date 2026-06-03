@@ -153,3 +153,14 @@ ESS · DER · EV 연계
 1. 예전 전기망은 그냥 전기를 보내기만 하는 큰 파이프였어요.
 2. 스마트 그리드는 전기가 얼마나 쓰이는지 계속 보고, 많으면 아끼라고 알려 주고, 남으면 잘 나눠 주는 똑똑한 전기 길이에요.
 3. 그래서 전기를 더 무조건 만드는 대신, 지금 어디에 얼마나 필요한지 보고 알뜰하게 쓰게 도와줘요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 161 / 552
+
+← **이전**: [[160_uwb_ultra_wideband|160. UWB (Ultra-Wideband / 초광대역) 통신 - 매우 짧은 임펄스(Impulse) 신호를 넒은 주파수에 걸쳐 송신,]]
+**다음**: [[162_ami_advanced_metering_infrastructure|162. AMI (Advanced Metering Infrastructure) - 지능형 원격 검침 인프라]] →
+
+---

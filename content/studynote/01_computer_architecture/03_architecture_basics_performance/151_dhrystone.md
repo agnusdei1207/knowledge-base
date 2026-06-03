@@ -173,3 +173,14 @@ CoreMark · SPEC CPU · 실사용 워크로드 중심 평가로 확장
 1. Dhrystone은 컴퓨터에게 “이 작은 숙제를 몇 번이나 빨리 풀 수 있니?” 하고 묻는 시험지예요.
 2. 이 시험지는 계산과 길 찾기 같은 기본 머리 회전을 잘하는지 보는 데 좋아요.
 3. 하지만 숙제가 너무 작아서, 큰 학교생활 전체를 잘하는지까지는 다 알려주지 못해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 151 / 803
+
+← **이전**: [[150_spec_benchmark|150. SPEC 벤치마크 (Standard Performance Evaluation Corporation)]]
+**다음**: [[152_whetstone|152. Whetstone (웻스톤) 벤치마크]] →
+
+---

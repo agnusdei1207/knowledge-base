@@ -125,3 +125,14 @@ tags:
 1. [[124_crt|CRT]] (Chinese Remainder Theorem, 중국인의 나머지 정리)는 비밀 편지를 안전하게 잠그거나 진짜인지 확인하는 특별한 약속이에요.
 2. 하지만 자물쇠가 좋아도 열쇠를 아무 데나 두면 금방 들켜요.
 3. 그래서 암호는 만드는 방법과 열쇠를 지키는 방법을 같이 배워야 해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 171 / 1108
+
+← **이전**: [[117_extended_euclidean_algorithm|117. 확장 유클리드 알고리즘 (Extended Euclidean Algorithm)]]
+**다음**: [[119_ecc_elliptic_curve_cryptography|119. ECC (Elliptic Curve Cryptography)]] →
+
+---

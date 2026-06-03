@@ -206,3 +206,14 @@ NUMA / False Sharing / Lock Contention
 1. [[118_shared_memory|공유 메모리]]는 여러 친구가 같은 큰 공책을 함께 보는 것과 같아요.
 2. 그래서 쪽지를 주고받지 않아도 아주 빨리 같이 숙제를 할 수 있어요.
 3. 하지만 동시에 같은 줄에 쓰면 엉키니까, 순서를 정하는 규칙이 꼭 필요해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 378 / 803
+
+← **이전**: [[376_multicomputer|376. 다중 컴퓨터 (Multicomputer)]]
+**다음**: [[378_distributed_memory|378. 분산 메모리 시스템 (Distributed Memory)]] →
+
+---

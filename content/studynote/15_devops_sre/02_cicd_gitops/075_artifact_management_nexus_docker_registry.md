@@ -121,3 +121,14 @@ deploy
 1. 완성한 장난감은 이름표 붙은 상자에 넣어 둬요.
 2. 상자 번호가 안 바뀌어야 다시 찾기 쉬워요.
 3. 검사표가 있어야 정말 써도 되는지 알 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 75 / 373
+
+← **이전**: [[074_gitlab_ci_cd_pipeline_automation|74. GitLab CI/CD - 파이프라인 자동화]]
+**다음**: [[076_artifact_repository_nexus_jfrog_ecr|76. 아티팩트 리포지토리 - Nexus, JFrog, AWS ECR 이미지 저장소]] →
+
+---

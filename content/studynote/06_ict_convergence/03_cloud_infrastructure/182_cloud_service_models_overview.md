@@ -189,3 +189,14 @@ SaaS + XaaS (Everything as a Service)
 1. 클라우드 [[090_service_kubernetes_network_load_balancing|서비스]] 모델은 장난감을 직접 만드는지, 반쯤 만들어진 걸 조립하는지, 완성품을 빌려 쓰는지 정하는 방법이에요.
 2. 직접 만들수록 마음대로 바꿀 수 있지만 힘이 많이 들고, 완성품을 빌릴수록 편하지만 바꾸는 건 어려워져요.
 3. 그래서 컴퓨터도 일을 얼마나 직접 챙길지에 따라 [[183_iaas_infrastructure_as_a_service|IaaS]], [[184_paas_platform_as_a_service|PaaS]], SaaS를 골라 쓰는 거예요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 182 / 552
+
+← **이전**: [[181_cloud_computing_nist_characteristics|181. 클라우드 컴퓨팅 5대 특징 (NIST Cloud Computing Characteristics)]]
+**다음**: [[183_iaas_infrastructure_as_a_service|183. IaaS (Infrastructure as a Service) - 서버, 스토리지, 네트워크 가상화 제공]] →
+
+---

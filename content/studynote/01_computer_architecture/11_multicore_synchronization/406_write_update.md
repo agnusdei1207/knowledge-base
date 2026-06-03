@@ -168,3 +168,14 @@ tags:
 1. 친구 한 명이 답을 고치면, Write-Update는 다른 친구 공책에도 새 답을 바로 적어 주는 거예요.
 2. 그래서 다른 친구가 곧바로 보면 헷갈리지 않고 바로 읽을 수 있어요.
 3. 하지만 답이 계속 바뀌면 모두 공책을 매번 다시 적어야 해서 오히려 더 바빠져요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 407 / 803
+
+← **이전**: [[405_write_invalidate|405. 무효화 정책 (Write-Invalidate)]]
+**다음**: [[407_mesi_protocol|407. MESI 프로토콜 (Modified, Exclusive, Shared, Invalid)]] →
+
+---

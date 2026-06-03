@@ -243,3 +243,14 @@ OCAP는 Anycast 기반 [[506_cdn_content_delivery_network_edge_caching|CDN]] 설
 1. 게임을 하나 샀는데 어떤 건 닌텐도 전용, 어떤 건 플레이스테이션 전용이라서 게임기를 10개나 다 따로 사야(하드웨어 파편화 지옥) 하면 너무 슬프고 돈 아깝죠?
 2. 엣날 케이블 TV 앱 개발자들도 기계가 너무 달라서 매일 밤을 새워 앱을 100번씩 고쳐(노가다 코딩) 썼답니다. 그래서 대장님들이 모여서 **OCAP(오캡)**이라는 마법의 '통일 규칙(자바 가상 기계)'을 만들었어요!
 3. 이제 케이블 회사가 어떤 TV 기계를 사 오든 무조건 그 기계에 **'만능 번역기 [[259_adapter_pattern_interface_wrapper|어댑터]](JVM 껍데기)'**를 똑같이 달아야 해요! 그러면 개발자 삼촌들은 게임을 딱 1번만 만들어도(Write Once) 전국의 모든 100만 대 TV에서 완벽하게 다 돌아가는(Run Anywhere) 엄청난 평화의 고속도로가 열렸답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 630 / 1120
+
+← **이전**: [[508_anycast_based_cdn_architecture|508. Anycast 기반 CDN 설계]]
+**다음**: [[510_dash_dynamic_adaptive_streaming_over_http|510. DASH (Dynamic Adaptive Streaming over HTTP)]] →
+
+---

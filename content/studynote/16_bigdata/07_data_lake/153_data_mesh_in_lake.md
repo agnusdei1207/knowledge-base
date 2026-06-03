@@ -172,3 +172,14 @@ Zhamak Dehghani가 2019년 제시한 [[211_data_mesh_domain_ownership|데이터 
 1. [[211_data_mesh_domain_ownership|데이터 메시]] [[146_lakehouse|레이크하우스]]는 각 반([[064_relation_domain|도메인]])이 자기 교실(Delta 테이블)을 스스로 관리하는 학교예요.
 2. 교장 선생님([[150_unity_catalog|Unity Catalog]])은 학교 전체 규칙만 정하고, 각 반 선생님([[064_relation_domain|도메인]] 팀)이 자기 반을 운영해요.
 3. 다른 반에서 우리 반 정보를 볼 때는 선생님 허락(접근 제어)을 받아야 하고, 누가 봤는지 기록도 남아요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 153 / 262
+
+← **이전**: [[152_medallion_architecture|152. 메달리온 아키텍처 (Medallion Architecture) — Delta Lake 기반 3계층]]
+**다음**: [[154_data_product|154. 데이터 제품 (Data Product) — API 인터페이스와 SLA 품질 지표]] →
+
+---

@@ -131,3 +131,14 @@ tags:
 1. 정형 [[395_verification_process_review|검증]]은 레고로 만든 성이 절대 안 무너진다는 걸 확인하는 방법이에요.
 2. 손으로 마구 때려보는 게 아니라, 천재 수학자가 현미경으로 레고 블록 모양을 계산해서 "이건 헐크가 때려도 100% 안 부서짐!" 하고 증명서를 써주는 거죠.
 3. 계산이 너무 어려워서 비싸지만, 그만큼 세상에서 제일 튼튼한 성보호막을 얻을 수 있답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 93 / 552
+
+← **이전**: [[092_decentralized_escrow_trust|92. 탈중앙화 신탁 관리 (Decentralized Escrow)]]
+**다음**: [[094_data_availability_da_layer_celestia|94. 데이터 가용성 (Data Availability, DA) 계층]] →
+
+---

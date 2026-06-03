@@ -198,3 +198,14 @@ tags:
 1. 친구들과 레고 성을 같이 만들 때, 누가 언제 어느 블록을 끼우고 뺐는지 빠짐없이 공책에 적어두는 것이 '형상 관리'예요.
 2. 중간에 완성된 1층 성벽을 사진으로 찰칵 찍어두면([[159_baseline_requirements_configuration_management|베이스라인]]), 나중에 2층을 올리다 무너져도 언제든 1층 사진을 보고 처음부터 다시 시작할 수 있죠.
 3. 누군가 마음대로 블록 색깔을 바꾸고 싶다면 꼭 친구들 회의([[160_change_control_board_ccb_requirements_review|CCB]])를 열어 허락을 받아야만 성이 예쁘게 완성된답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 20 / 973
+
+← **이전**: [[019_software_product_line|19. 소프트웨어 제품 라인 (SPL, Software Product Line) - 도메인/어플리케이션 공학]]
+**다음**: [[021_configuration_identification|21. 형상 식별 (Configuration Identification) - 형상 항목(CI) 선정]] →
+
+---

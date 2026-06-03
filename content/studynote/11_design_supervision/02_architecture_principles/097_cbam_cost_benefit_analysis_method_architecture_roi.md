@@ -131,3 +131,14 @@ CBAM (Cost Benefit Analysis Method) · 경제성 및 ROI 중심 확장 평가
 1. 아주 튼튼한 장난감 로봇을 만들고 싶어서 비싼 쇠붙이를 잔뜩 사려고 했어요.
 2. 하지만 아빠가 "그렇게 비싼 쇠로 만들 바에야 차라리 새 로봇을 사는 게 낫다"고 하셨죠.
 3. CBAM은 우리 용돈(비용)에 맞춰서, 제일 재밌게 가지고 놀 수 있는(효용) 딱 적당한 플라스틱 부품을 고르는 계산법이랍니다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 140 / 530
+
+← **이전**: [[096_risk_non_risk_architecture_evaluation_flaws|96. 리스크(Risk)와 비리스크(Non-risk) - 아키텍처 평가 위험 도출]]
+**다음**: [[098_saam_software_architecture_analysis_method|98. SAAM (Software Architecture Analysis Method) - 소프트웨어 아키텍처 평가법의 시초]] →
+
+---

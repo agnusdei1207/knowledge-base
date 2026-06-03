@@ -148,3 +148,14 @@ RDF 트리플 구축
 1. [[160_knowledge_graph_graphrag_integration|지식 그래프]]는 사람, 장소, 물건이 서로 어떻게 이어져 있는지 그린 큰 [[083_relationship_in_er_model|관계]] 지도예요.
 2. 그냥 이름만 적는 것이 아니라 "누가 누구의 친구인지"까지 적어 두는 거예요.
 3. 그래서 컴퓨터가 질문을 받으면 연결선을 따라가며 답을 더 똑똑하게 찾을 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 521 / 530
+
+← **이전**: [[442_architecture|442. 인텐트 기반 IBN 아키텍처 자동 변환망 (Intent-Based Networking Architecture)]]
+**다음**: [[444_sbom|444. SBOM 소프트웨어 구성 명세 취약 방어 (Software Bill of Materials Vulnerability Defense)]] →
+
+---

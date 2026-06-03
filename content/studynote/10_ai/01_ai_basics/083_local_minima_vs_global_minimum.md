@@ -149,3 +149,14 @@ Gradient Descent
 1. 언덕에서 공을 굴릴 때는 낮은 곳으로 가려고 해요.
 2. 그런데 중간에 멈추거나, 좁고 날카로운 곳에 빠질 수 있어요.
 3. 그래서 컴퓨터는 살짝 흔들어 주고, 걸음도 조절하면서 더 좋은 자리를 찾는답니다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 83 / 420
+
+← **이전**: [[082_mini_batch_size_epoch_iteration|82. 미니배치 사이즈 (Mini-batch Size) / 에폭 (Epoch) / 이터레이션 (Iteration)]]
+**다음**: [[084_momentum_optimizer_local_minima_escape|84. 모멘텀 (Momentum) 옵티마이저 - 관성 활용 최적화]] →
+
+---

@@ -136,3 +136,14 @@ MLOps는 AI를 실험실에서 세상으로 꺼내는 다리다. 아무리 뛰�
 1. **[[348_mlops|MLOps]]**는 [[190_ai_llm_requirements_specification|AI]] 모델을 만들고, [[090_service_kubernetes_network_load_balancing|서비스]]에 올리고, 잘 작동하는지 감시하는 **전 과정을 자동으로** 처리하는 시스템이에요!
 2. "[[001_dikw_pyramid|데이터]] 준비 → 모델 학습 → 배포 → [[229_monitor|모니터]]링 → 다시 학습" 사이클을 사람 손 없이 **컨베이어 벨트처럼 자동으로** 돌아가게 해요.
 3. AI를 연구실에서 **실제 [[090_service_kubernetes_network_load_balancing|서비스]]로 안정적으로 이전**하는 데 반드시 필요한, [[190_ai_llm_requirements_specification|AI]] 엔지니어의 필수 기술이에요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 321 / 420
+
+← **이전**: [[320_diffusion_model|320. 디퓨전 모델 (Diffusion Model)]]
+**다음**: [[322_data_concept_drift|322. 데이터 드리프트 (Data Drift) / 컨셉 드리프트 (Concept Drift)]] →
+
+---

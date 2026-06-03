@@ -196,3 +196,14 @@ tags:
 1. 장난감 성을 지을 때, '아빠(돈 내는 사람)', '디자이너(그림 그리는 사람)', '조립하는 사람'의 생각이 다 달라요.
 2. [[112_zachman_framework|잭맨 프레임워크]]는 이 사람들에게 "누가, 무엇을, 언제, 어디서, 어떻게, 왜" 만드는지 6가지 질문을 던져서 표로 꼼꼼히 정리해 주는 거대한 [[435_checklist_based_testing|체크리스트]]예요.
 3. 이 표만 꽉 채우면 서로 싸우지 않고, 부품을 빼먹지도 않고 아주 튼튼하고 멋진 장난감 성을 완벽하게 완성할 수 있답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 12 / 482
+
+← **이전**: [[011_ea_components|11. EA 구성요소 (BA: 비즈니스, DA: 데이터, AA: 애플리케이션, TA: 기술 아키텍처) + SA (보안 아키텍처)]]
+**다음**: [[013_togaf_framework|13. TOGAF (The Open Group Architecture Framework) - ADM(Architecture Development]] →
+
+---

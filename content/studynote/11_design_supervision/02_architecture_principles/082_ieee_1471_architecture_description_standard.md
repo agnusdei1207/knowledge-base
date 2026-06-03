@@ -124,3 +124,14 @@ IEEE 1471을 기준으로 설계하면 변경 이유가 [[192_module_independenc
 1. IEEE 1471은 블록을 아무 데나 쌓지 말고, 튼튼하게 버틸 모양으로 먼저 나누는 규칙이에요.
 2. 처음에 자리를 잘 정해 두면 새 블록을 붙일 때 무너지지 않아요.
 3. 그래서 나중에 바꾸거나 고칠 때도 훨씬 쉬워져요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 125 / 530
+
+← **이전**: [[081_software_architecture|81. 소프트웨어 아키텍처 (Software Architecture)]]
+**다음**: [[083_architecture_elements_stakeholder_view_viewpoint|83. 아키텍처 주요 요소 - 이해관계자, 관심사, 뷰, 뷰포인트]] →
+
+---

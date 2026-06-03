@@ -209,3 +209,14 @@ SIP는 XMPP에서 출발해 현재 메커니즘을 정교화하고, 이후 H.323
 1. 철수가 영희한테 전화를 걸 때, 무거운 동영상(목소리)을 무조건 처음부터 마구 쏘면 영희 핸드폰이 터져버릴지도 몰라요(오류 폭발).
 2. **[[535_system_in_package|SIP]](십)**은 철수가 편지에 "안녕 영희야 나랑 전화할래? 내 폰은 카메라 엄청 좋아!([[048_sdp|SDP]])"라고 가벼운 글씨로만 **'초대장'**을 써서 먼저 보내는 똑똑한 방법이에요.
 3. 영희가 초대장을 보고 "응! 좋아! 전화 연결해!"라고 허락을 한 뒤에야, 비로소 진짜 목소리([[451_rtp_real_time_transport_protocol|RTP]])가 오가는 길이 뻥 뚫려서 전화가 걸리게 돕는 엄청나게 예의 바르고 착한 **'통화 연결 비서'**랍니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 622 / 1120
+
+← **이전**: [[500_xmpp_extensible_messaging_presence_protocol|500. XMPP (Extensible Messaging and Presence Protocol)]]
+**다음**: [[502_h323_itu_t_multimedia_conferencing|502. H.323]] →
+
+---

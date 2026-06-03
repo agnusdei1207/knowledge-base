@@ -53,3 +53,14 @@ CROSS JOIN은 **의도적 조합 [[087_process_state_transition|생성]]에만 �
 1. CROSS JOIN은 **모든 짝 만들기**예요. 3명×4명 = **12개 짝**이 나와요.
 2. 일부러 "모든 조합"이 필요할 때만 사용해요.
 3. 실수로 사용하면 **조합이 폭발(100만 행!)**해서 컴퓨터가 느려져요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 136 / 600
+
+← **이전**: [[135_sql_non_equi_join|135. SQL Non-Equi JOIN & Self JOIN - 범위·자기 참조 결합]]
+**다음**: [[137_sql_self_join_recursive|137. SQL Self JOIN & Recursive CTE - 자기 참조와 재귀 쿼리]] →
+
+---

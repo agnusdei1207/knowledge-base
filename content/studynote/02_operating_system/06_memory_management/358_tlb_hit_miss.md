@@ -191,3 +191,14 @@ C++이나 Java에서 거대한 `Linked List` 나 무분별한 `new Object()` 할
 1. [[357_tlb|TLB]] 적중 ([[357_tlb|TLB]] [[263_cache_hit_miss|Hit]]) / [[357_tlb|TLB]] 미스 ([[357_tlb|TLB]] Miss)은 컴퓨터가 메모리를 방처럼 나눠 쓰고 주소를 찾는 방법이에요.
 2. 먼저 [[357_tlb|TLB]] ([[357_tlb|Translation Look-aside Buffer]])을 이해하면 [[357_tlb|TLB]] 적중 ([[357_tlb|TLB]] [[263_cache_hit_miss|Hit]]) / [[357_tlb|TLB]] 미스 ([[357_tlb|TLB]] Miss)이 왜 필요한지 더 쉽게 보여요.
 3. 그래서 [[357_tlb|TLB]] 적중 ([[357_tlb|TLB]] [[263_cache_hit_miss|Hit]]) / [[357_tlb|TLB]] 미스 ([[357_tlb|TLB]] Miss)을 잘 알면 나중에 [[357_tlb|TLB]] [[264_hit_ratio|적중률]] ([[359_effective_access_time|Hit Ratio]]) / 실질 메모리 접근 시간 (EAT, [[359_effective_access_time|Effective Access Time]])도 훨씬 쉽게 배울 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 358 / 800
+
+← **이전**: [[357_tlb|357. TLB (Translation Look-aside Buffer) - 주소 변환 캐시(SRAM 연관 메모리 하드웨어)]]
+**다음**: [[359_effective_access_time|359. TLB 적중률 (Hit Ratio) / 실질 메모리 접근 시간 (EAT, Effective Access Time)]] →
+
+---

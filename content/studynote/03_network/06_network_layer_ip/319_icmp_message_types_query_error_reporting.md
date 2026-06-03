@@ -153,3 +153,14 @@ tags:
 1. 택배를 보내려면 집 주소가 정확해야 길을 잃지 않아요.
 2. 이 개념은 인터넷 세상에서 주소를 정하고 다음 길을 찾는 지도와 같아요.
 3. 그래서 멀리 있는 친구 컴퓨터까지도 편지가 도착할 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 440 / 1120
+
+← **이전**: [[318_icmp_internet_control_message_protocol_diagnostics|318. ICMP (Internet Control Message Protocol) 진단/오류 알림]]
+**다음**: [[320_icmp_time_exceeded_ttl_expiration_traceroute|320. Time Exceeded (TTL 만료, Traceroute 원리)]] →
+
+---

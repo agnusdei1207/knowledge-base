@@ -138,3 +138,14 @@ tags:
 1. [[179_kafka_flink_watermark_time_window|Kafka]] 오프셋은 책 북마크예요! 여러 독자([[191_consumer_group_kafka_partition_load_balancing|컨슈머 그룹]])가 같은 책(토픽)을 각자 북마크를 꽂아서 독립적으로 읽어요.
 2. [[191_consumer_group_kafka_partition_load_balancing|컨슈머 그룹]]은 바리스타 팀이에요 — 커피 머신([[514_partition_slice_volume|파티션]]) 개수만큼 바리스타를 배정해서 빠르게 주문(메시지)을 처리해요!
 3. 처리 속도가 느리면 대기 줄([[089_consumer_lag|Consumer Lag]])이 길어지니 바리스타(컨슈머)를 더 추가해야 해요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 27 / 258
+
+← **이전**: [[026_topic_partition|26. Kafka 토픽 파티션 (Topic Partition) — 분산 스트림 병렬 처리]]
+**다음**: [[028_apache_hive|28. Apache Hive]] →
+
+---

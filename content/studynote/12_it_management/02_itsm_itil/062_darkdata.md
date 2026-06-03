@@ -145,3 +145,14 @@ Dark Data
 창고에 넣어 둔 상자 중에는 안 쓰는 것도 많아요.  
 어떤 상자는 버려도 되고, 어떤 상자는 꼭 남겨야 해요.  
 다크 [[001_dikw_pyramid|데이터]] 관리는 그 상자들을 똑똑하게 정리하는 일이에요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 107 / 587
+
+← **이전**: [[061_itsm|61. ITSM (IT Service Management)]]
+**다음**: [[062_itil|62. ITIL (IT Infrastructure Library)]] →
+
+---

@@ -198,3 +198,14 @@ Data Product Thinking → API · SLA 기반 데이터 계약
 ```
 2. [[211_data_mesh_domain_ownership|데이터 메시]]는 각 반 선생님([[064_relation_domain|도메인]] 팀)이 직접 자기 반 숙제를 검사하고 관리하도록 바꾸는 것이다.
 3. 교장 선생님(연합 거버넌스)은 전체 채점 기준만 정해주고, 각 반은 그 기준 안에서 자유롭게 운영한다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 222 / 258
+
+← **이전**: [[221_lsm_tree_memtable_sequential_flush_compaction|221. LSM 트리 (Log-Structured Merge-Tree) 멤테이블 순차 플러시 콤팩션]]
+**다음**: [[223_data_fabric_metadata_virtualization_integration|223. 데이터 패브릭 (Data Fabric) 메타데이터 가상화 AI 통합]] →
+
+---

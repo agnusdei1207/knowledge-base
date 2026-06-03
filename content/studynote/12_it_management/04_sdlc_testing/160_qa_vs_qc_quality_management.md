@@ -144,3 +144,14 @@ QC: 리뷰 · 테스트 · 검수 · 결함 측정
 1. QA는 숙제를 틀리지 않게 하려고 공부 방법과 규칙을 잘 만드는 거예요.
 2. QC는 숙제를 다 한 뒤에 정말 맞았는지 [[396_validation|확인]]하는 거예요.
 3. 둘 중 하나만 하면 자꾸 같은 실수를 하게 되니까, 미리 준비하고 나중에 [[396_validation|확인]]도 해야 해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 274 / 587
+
+← **이전**: [[159_spi_schedule_performance_index|159. SPI (Schedule Performance Index, 일정 성과 지수)]]
+**다음**: [[161_inspection_formal_review|161. 인스펙션 (Inspection, 공식 검토)]] →
+
+---

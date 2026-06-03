@@ -164,3 +164,14 @@ CBO (Cost-Based Optimizer) · 현대 SQL 튜닝
 1. RBO는 길이 얼마나 막혔는지 안 보고, 큰길이면 무조건 좋다고 생각하는 오래된 내비게이션이에요.
 2. 그래서 사람이 너무 많아도 좁은 길보다 큰길만 고집해서 오히려 더 늦어질 수 있어요.
 3. 요즘은 길 상태를 같이 보는 더 똑똑한 내비게이션이 필요하답니다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 164 / 600
+
+← **이전**: [[163_optimizer_sql_execution_plan_generator|163. 옵티마이저 (Optimizer) - SQL 실행 최적 경로(Execution Plan) 생성기]]
+**다음**: [[165_cbo_cost_based_optimizer|165. 비용 기반 옵티마이저 (CBO, Cost Based Optimizer) - 시스템 통계 정보 기반, 디스크 I/O 등 최소 비용]] →
+
+---

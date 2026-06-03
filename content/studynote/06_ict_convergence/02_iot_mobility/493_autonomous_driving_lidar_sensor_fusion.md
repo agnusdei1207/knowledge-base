@@ -138,3 +138,14 @@ tags:
 1. 자율주행 레벨은 운전을 얼마나 차가 스스로 하는지를 0~5단계로 나눈 기준이에요.
 2. [[139_sensor_fusion_camera_lidar_radar|센서 퓨전]]은 여러 친구의 증언을 종합해서 범인을 찾는 것이에요. 카메라 친구, 레이더 친구, [[140_lidar_light_detection_and_ranging_tof|LiDAR]] 친구가 각자 본 것을 합쳐야 정확해요.
 3. Tesla는 눈만 믿는 천재, Waymo는 눈·귀·레이더까지 다 쓰는 꼼꼼한 학생이에요. 누가 더 안전한지는 아직 논쟁 중이에요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 493 / 552
+
+← **이전**: [[492_metaverse_xr_slam_spatial_mapping|492. 메타버스, XR, SLAM 공간 인식 (Metaverse, XR, SLAM Spatial Mapping)]]
+**다음**: [[494_v2x_c_v2x_5g_vehicle_communication|494. V2X 차량 통신과 C-V2X 5G 연계 (V2X Vehicle Communication and C-V2X 5G)]] →
+
+---

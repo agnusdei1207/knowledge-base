@@ -128,3 +128,14 @@ tags:
 1. [[751_chaos_engineering|카오스 엔지니어링]]은 지진 대피 훈련이에요 — 실제 지진 전에 연습해서, 진짜 지진이 나도 당황하지 않도록 해요.
 2. [[118_shadow_deployment_traffic_mirroring|섀도 배포]]는 새 선생님이 수업을 몰래 참관하는 것처럼, 학생들(사용자)은 모르지만 미리 실력을 [[395_verification_process_review|검증]]해요.
 3. [[307_circuit_breaker_pattern|서킷 브레이커]]는 두꺼비집이에요 — 전기(요청)가 너무 많이 흐르면 자동으로 끊어서 집 전체가 타지 않게 해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 507 / 552
+
+← **이전**: [[506_cqrs_event_sourcing_saga_pattern|506. CQRS, 이벤트 소싱, 사가 패턴 (CQRS Event Sourcing Saga Pattern)]]
+**다음**: [[508_quantum_computing_security_shor_grover_threat|508. 양자 컴퓨팅과 암호 보안 위협 (Quantum Computing Security Shor Grover Threat)]] →
+
+---

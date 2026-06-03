@@ -129,3 +129,14 @@ tags:
 1. [[098_self_service_portal_helpdesk_automation|셀프 서비스 포털]] ([[098_self_service_portal_helpdesk_automation|Self-Service Portal]])는 모두가 같은 규칙으로 일하게 해 주는 반장 약속표예요.
 2. 약속만 적어 두는 것이 아니라 누가 지켰는지 확인하고 고치는 방법까지 함께 정해요.
 3. 그래서 일이 많아져도 서로 부딪히지 않고 더 안전하게 움직일 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 179 / 587
+
+← **이전**: [[097_itsm_tools_servicenow_jira|97. ITSM 도구 플랫폼 (ServiceNow, Jira Service Management)]]
+**다음**: [[098_self_service_portal_helpdesk_automation|98. 셀프 서비스 포털 (Self-Service Portal) - 헬프데스크 혁신]] →
+
+---

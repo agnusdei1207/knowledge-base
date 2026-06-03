@@ -243,3 +243,14 @@ Guarded Suspension (가드 서스펜션)은 멀티스레드 프로그래밍의 �
 1. 엄마가 밥을 다 차릴 때까지 아이들은 식탁에서 기다려요(suspend).
 2. "다 됐다!"라고 부르면(notify) 모두 달려와서 먹어요.
 3. 밥이 없는데 계속 숟가락을 들고 서 있는 건(busy-waiting) 너무 피곤하잖아요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 269 / 530
+
+← **이전**: [[207_null_object_pattern|207. 널 객체 패턴 (Null Object Pattern)]]
+**다음**: [[209_read_write_lock_pattern|209. 읽기-쓰기 락 패턴 (Read-Write Lock Pattern)]] →
+
+---

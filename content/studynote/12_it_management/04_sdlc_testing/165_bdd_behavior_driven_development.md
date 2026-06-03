@@ -169,3 +169,14 @@ CI/CD 회귀 테스트 · 생존 문서 (Living Documentation)
 1. 친구들과 게임을 만들 때 "이 버튼을 누르면 어떤 일이 생겨야 하는지"를 먼저 약속하는 게 BDD예요.
 2. 모두가 같은 약속을 보고 게임을 만들면 나중에 "나는 이렇게 생각했는데?"라는 싸움이 줄어요.
 3. 그리고 그 약속을 자동으로 검사해서 게임이 업데이트돼도 규칙이 그대로 지켜지는지 확인한답니다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 279 / 587
+
+← **이전**: [[164_tdd_test_driven_development|164. TDD (Test Driven Development, 테스트 주도 개발)]]
+**다음**: [[166_cicd_continuous_integration_deployment|166. CI/CD (Continuous Integration/Continuous Deployment, 지속적 통합/배포)]] →
+
+---

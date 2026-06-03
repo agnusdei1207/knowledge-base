@@ -194,3 +194,14 @@ A/B 테스트는 통계 [[395_verification_process_review|검증]]이 강점이�
 1. 새 장난감을 바로 모두에게 주지 않고, 먼저 몰래 시험해 보거나 몇 명에게만 먼저 써 보게 하는 거예요.
 2. 그렇게 하면 장난감이 금방 고장 나는지, 친구들이 더 좋아하는지 안전하게 알 수 있어요.
 3. 그래서 모두에게 주기 전에 가장 좋은 방법을 골라서 실수할 확률을 줄일 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 170 / 258
+
+← **이전**: [[169_model_serving_engine_triton_tensorflow_serving|169. 모델 서빙 엔진 (Model Serving Engine) - TensorFlow Serving, NVIDIA Triton]]
+**다음**: [[171_xai_lime_shap_explainable_ai|171. 설명 가능한 AI (XAI)]] →
+
+---

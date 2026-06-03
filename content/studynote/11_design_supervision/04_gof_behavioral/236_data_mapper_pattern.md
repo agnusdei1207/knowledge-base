@@ -214,3 +214,14 @@ persistence separation → [[001_dikw_pyramid|데이터]] 매퍼 패턴 → repo
 1. 요리사([[064_relation_domain|도메인]])는 요리만 하고, 배달원(매퍼)은 음식을 냉장고(DB)에서 꺼내고 넣는 일만 해.
 2. 요리사는 냉장고가 어디 있는지, 어떻게 생겼는지 전혀 몰라도 돼.
 3. 냉장고가 바뀌어도(DB 교체) 요리사는 계속 같은 방식으로 요리할 수 있어!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 297 / 530
+
+← **이전**: [[235_active_record_orm_pattern|235. 액티브 레코드 ORM 패턴 (Active Record ORM Pattern)]]
+**다음**: [[237_single_table_inheritance|237. 싱글 테이블 상속 (Single Table Inheritance, STI)]] →
+
+---

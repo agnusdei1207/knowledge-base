@@ -105,3 +105,14 @@ tags:
 1. [[160_session_controlling_terminal|세션]] 저장소는 학교에서 준비물을 미리 챙기는 것처럼, 중요한 기준을 먼저 맞추는 일이야.
 2. 탈취 탐지는 선생님이 수업 중간에 계속 확인하는 것처럼, 실제로 잘 되고 있는지 보는 과정이야.
 3. 접속 [[164_policy|정책]]은 시험 결과표처럼, 정말 효과가 있었는지 나중에 다시 확인하게 해주는 증거야.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 375 / 530
+
+← **이전**: [[308_audit|308. 세션 타임아웃과 중복로그인 차단 감리 (Session Timeout and Duplicate Login Control Audit)]]
+**다음**: [[309_cve_scanner_reporting_remediation|309. CVE 스캐너 주기 보고와 결함 조치 (CVE Scanner Reporting and Remediation Audit)]] →
+
+---

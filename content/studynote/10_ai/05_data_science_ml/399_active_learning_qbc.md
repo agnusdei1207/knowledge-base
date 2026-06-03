@@ -143,3 +143,14 @@ x* = argmax I(y; θ | x, D)
 1. [[214_active_learning|액티브 러닝]]은 "내가 모르는 문제만 선생님께 질문하는" [[268_strategy_pattern|전략]]이야. 다 아는 문제는 설명 안 들어도 되니까.
 2. QBC는 여러 선생님(위원회)에게 같은 문제를 보여줬을 때 "선생님마다 답이 다른 문제"를 먼저 물어보는 방법이야.
 3. [[151_entropy|엔트로피]] 샘플링은 AI가 "고양이인지 개인지 확신이 없는 사진"을 먼저 레이블 요청하는 방식이야.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 399 / 420
+
+← **이전**: [[398_gat|398. GAT (Graph Attention Network)]]
+**다음**: [[400_mlops_drift_detection|400. MLOps 드리프트 탐지 (Mlops Drift Detection)]] →
+
+---

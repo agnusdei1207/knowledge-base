@@ -186,3 +186,14 @@ FTL (Flash Translation Layer)은 "하드웨어의 치명적 결함을 어떻게�
 1. FTL (Flash Translation Layer)은 컴퓨터가 디스크와 장치가 [[001_dikw_pyramid|데이터]]를 주고받는 길을 정리하는 방법이에요.
 2. 먼저 [[380_garbage_collection|가비지 컬렉션]] ([[380_garbage_collection|Garbage Collection]] in [[327_ssd|SSD]])을 이해하면 FTL (Flash Translation Layer)이 왜 필요한지 더 쉽게 보여요.
 3. 그래서 FTL (Flash Translation Layer)을 잘 알면 나중에 [[479_wear_leveling|마모 평준화]] ([[479_wear_leveling|Wear Leveling]])도 훨씬 쉽게 배울 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 478 / 800
+
+← **이전**: [[477_ssd_garbage_collection|477. 가비지 컬렉션 (Garbage Collection in SSD) - 유효 페이지 복사 후 블록 전체 지우기]]
+**다음**: [[479_wear_leveling|479. 마모 평준화 (Wear Leveling) - 수명 연장을 위해 쓰기 작업을 전체 블록에 고르게 분산]] →
+
+---

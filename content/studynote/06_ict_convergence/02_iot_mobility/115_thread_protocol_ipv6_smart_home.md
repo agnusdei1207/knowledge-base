@@ -114,3 +114,14 @@ Thread는 **[[324_ipv6_128bit_next_generation_address|IPv6]] 네이티브 + 저�
 1. Zigbee는 외국어를 쓰는 친구라서 **통역사(게이트웨이)**가 필요해요.
 2. Thread는 **세계 공용어([[324_ipv6_128bit_next_generation_address|IPv6]])**를 쓰니까 통역 없이 바로 인터넷에 연결돼요!
 3. 지금은 Apple·Google·Amazon이 모두 Thread를 지원해서 **스마트 홈의 공통 언어**가 되고 있답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 115 / 552
+
+← **이전**: [[114_ble_bluetooth_low_energy_beacon|114. 블루투스 저전력 (BLE, Bluetooth Low Energy)]]
+**다음**: [[116_matter_smart_home_standard|116. Matter 스마트 홈 표준 - Apple·Google·Amazon 통합 IoT 프로토콜]] →
+
+---

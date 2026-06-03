@@ -126,3 +126,14 @@ SSL/[[694_thread_local_storage_tls|TLS]] 통신 모델 개요는 [[679_ocsp_onli
 1. 비밀 편지를 보낼 때는 자물쇠와 비밀번호가 필요해요.
 2. 이 개념은 누가 진짜 친구인지 [[396_validation|확인]]하고, 편지가 바뀌지 않았는지도 살펴봐요.
 3. 그래서 나쁜 사람이 중간에 훔쳐보거나 바꾸기 어려워져요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 802 / 1120
+
+← **이전**: [[680_ocsp_stapling_tls_handshake_performance|680. OCSP Stapling (TLS Handshake 트래픽 성능 확장용 서버 캐시 상태 전송 메커니즘 개선기법)]]
+**다음**: [[682_tls_handshake_protocol|682. TLS Handshake 프로토콜 (3-Way 유사 연결 초기화, 세션키 협상, Cipher Suite 교환 포함)]] →
+
+---

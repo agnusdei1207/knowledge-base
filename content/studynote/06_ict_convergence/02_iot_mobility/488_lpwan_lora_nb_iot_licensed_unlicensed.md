@@ -137,3 +137,14 @@ LPWAN은 스마트 미터링·정밀 농업·스마트시티 인프라에서 수
 1. LoRa는 저전력 봉화 [[130_signal|신호]]예요. 배터리 하나로 10년 동안 산꼭대기에서 [[130_signal|신호]]를 보낼 수 있어요.
 2. NB-IoT는 이동통신 회사가 깔아준 안전한 전용선이에요. 끊김이 없는 대신 요금을 내야 해요.
 3. Sigfox는 엽서 배달부예요. 딱 12글자짜리 초소형 메시지만 하루 140번 보낼 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 488 / 552
+
+← **이전**: [[487_edge_fog_computing_distributed_ai|487. 엣지·포그 컴퓨팅과 분산 AI 처리 (Edge-Fog Computing and Distributed AI)]]
+**다음**: [[489_mqtt_coap_iot_protocols_pubsub_rest|489. MQTT Pub/Sub와 CoAP REST 경량 프로토콜 (MQTT CoAP IoT Lightweight Protocols)]] →
+
+---

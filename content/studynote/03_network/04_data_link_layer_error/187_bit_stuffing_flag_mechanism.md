@@ -136,3 +136,14 @@ tags:
 1. 편지를 보낼 때 봉투를 제대로 닫고 틀린 글자가 없는지 [[396_validation|확인]]해야 해요.
 2. 이 개념은 편지가 깨지거나 사라졌을 때 다시 보내는 규칙까지 정해줘요.
 3. 그래서 중간에 흔들려도 중요한 내용이 더 안전하게 도착해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 308 / 1120
+
+← **이전**: [[186_character_stuffing_dle_stx_etx|186. 플래그(Flag) 방식 - 문자 삽입 (Character/Byte Stuffing) - DLE, STX, ETX]]
+**다음**: [[188_error_control_overview|188. 오류 제어 (Error Control) 개요]] →
+
+---

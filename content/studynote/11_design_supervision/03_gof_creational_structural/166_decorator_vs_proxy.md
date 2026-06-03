@@ -164,3 +164,14 @@ AOP · Lazy Loading · Remote Proxy · Middleware
 1. [[262_decorator_pattern_dynamic_wrapper|데코레이터]]는 기본 장난감 자동차에 스티커, 불빛, 날개를 하나씩 붙이는 거예요.
 2. [[264_proxy_pattern_surrogate_access_control|프록시]]는 장난감 보관함 앞에서 "이건 지금 꺼내도 되는지" [[396_validation|확인]]해 주는 문지기예요.
 3. 둘 다 자동차를 직접 바꾸지는 않지만, 하나는 더 멋지게 만들고 다른 하나는 사용을 관리해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 222 / 530
+
+← **이전**: [[165_bridge_vs_strategy|165. 브리지 vs 전략 패턴 (Bridge vs Strategy Pattern)]]
+**다음**: [[167_abstract_factory_factory_derivation|167. 추상 팩토리 팩토리 클래스 도출 (Abstract Factory Derivation)]] →
+
+---

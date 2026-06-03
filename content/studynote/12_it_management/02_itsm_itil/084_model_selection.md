@@ -138,3 +138,14 @@ tags:
 1. 장난감 자동차는 빨리 달리는 것만으로 고르지 않아요.
 2. 어디서나 잘 달리고 고장도 적은지 같이 봐야 해요.
 3. 모델도 시험 점수보다 실제에서 잘 되는지가 더 중요해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 151 / 587
+
+← **이전**: [[083_dml|83. DML (Definitive Media Library)]]
+**다음**: [[084_service_level_management|84. 서비스 수준 관리 (SLM, Service Level Management)]] →
+
+---

@@ -127,3 +127,14 @@ main / hotfix
 1. GitFlow는 숙제한 종이를 종류별로 [[501_file_definition_logical_record|파일]]에 나눠 넣는 거예요.
 2. 새 숙제는 따로 모으고, 시험 전에 한 번 더 정리해요.
 3. 급한 수정은 바로 완성본 [[501_file_definition_logical_record|파일]]에 넣어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 53 / 373
+
+← **이전**: [[052_git_branching_strategies|52. Git 브랜치 전략 (Git Branching Strategies)]]
+**다음**: [[054_github_flow|54. GitHub Flow]] →
+
+---

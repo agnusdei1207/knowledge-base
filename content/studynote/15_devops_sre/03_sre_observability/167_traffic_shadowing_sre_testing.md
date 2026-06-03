@@ -170,3 +170,14 @@ tags:
 1. 트래픽 섀도잉은 새 요리사가 손님 주문을 몰래 같이 만들어 보는 연습이에요.
 2. 손님은 원래 요리사가 만든 음식만 먹지만, 주방장은 새 요리사가 얼마나 잘했는지 옆에서 비교해요.
 3. 충분히 잘하면 그때 새 요리사에게도 진짜 손님 음식을 맡길 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 167 / 373
+
+← **이전**: [[166_distributed_lock_bottleneck_observability|166. 분산 락 병목 관측 (Distributed Lock Observability)]]
+**다음**: [[168_event_sourcing_replay_monitoring|168. 이벤트 소싱 상태 복구 모니터링 (Event Sourcing Replay Monitoring)]] →
+
+---

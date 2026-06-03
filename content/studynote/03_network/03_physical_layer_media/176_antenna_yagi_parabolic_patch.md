@@ -187,3 +187,14 @@ patch array / phased array / beamforming
 1. 야기우다 [[171_antenna_basic_dipole_resonance|안테나]]는 막대들이 전파를 한쪽으로 밀어 주는 긴 손전등 같아요.
 2. 파라볼라 [[171_antenna_basic_dipole_resonance|안테나]]는 접시 모양으로 전파를 한 점에 모아서 아주 멀리 보는 망원경 같아요.
 3. 패치 [[171_antenna_basic_dipole_resonance|안테나]]는 얇은 판을 여러 개 붙여서 기계 안에도 넣고, 필요하면 함께 힘을 모을 수 있는 레고 판 같아요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 297 / 1120
+
+← **이전**: [[175_eirp_effective_isotropic_radiated_power|175. 유효 등방성 복사 전력 (EIRP, Effective Isotropic Radiated Power)]]
+**다음**: [[177_smart_antenna_phased_array|177. 스마트 안테나 (Smart Antenna) / 위상 배열 안테나 (Phased Array)]] →
+
+---

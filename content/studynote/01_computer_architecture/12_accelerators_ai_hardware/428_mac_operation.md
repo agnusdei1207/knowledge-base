@@ -191,3 +191,14 @@ SIMD (Single Instruction, Multiple Data) · 벡터 MAC 확장
 1. MAC은 숫자 두 개를 곱한 다음, 그 답을 바로 저금통에 넣어 계속 모으는 계산 기계예요.
 2. 이렇게 하면 매번 종이에 적었다가 다시 읽지 않아도 돼서 더 빨리 계산할 수 있어요.
 3. [[231_ai_turing_test|인공지능]] 칩은 이런 저금통 계산기를 아주 많이 모아 놓고, 모두가 동시에 일하게 만든 거예요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 429 / 803
+
+← **이전**: [[427_tensor_core|427. 텐서 코어 (Tensor Core)]]
+**다음**: [[429_dla|429. DLA (Deep Learning Accelerator)]] →
+
+---

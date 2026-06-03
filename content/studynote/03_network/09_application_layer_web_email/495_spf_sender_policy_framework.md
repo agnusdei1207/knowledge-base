@@ -224,3 +224,14 @@ SPF는 PGP에서 출발해 현재 메커니즘을 정교화하고, 이후 DKIM�
 1. 이메일 세상에는 나쁜 해커가 "안녕? 나 구글 사장님이야~" 하고 편지 겉봉투에 거짓말로 이름을 써서 사기를 치는 일([[598_spoofing|스푸핑]])이 너무 많아요.
 2. **SPF**는 이 사기꾼을 잡기 위해 구글이 전 세계 전화번호부([[511_dns_hierarchical_distributed_architecture|DNS]])에 "우리 구글의 진짜 우체부 자동차 번호판(IP 주소)은 1, 2, 3번뿐입니다!"라고 미리 적어두는 약속이에요.
 3. 편지를 받는 컴퓨터는 겉봉투의 이름만 믿지 않고, 편지를 배달 온 자동차 번호판이 전화번호부에 적힌 진짜 번호가 맞는지 [[396_validation|확인]]한 뒤 가짜면 쓰레기통(스팸함)에 던져버린답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 616 / 1120
+
+← **이전**: [[494_pgp_pretty_good_privacy_web_of_trust|494. PGP (Pretty Good Privacy)]]
+**다음**: [[496_dkim_domainkeys_identified_mail|496. DKIM (DomainKeys Identified Mail)]] →
+
+---

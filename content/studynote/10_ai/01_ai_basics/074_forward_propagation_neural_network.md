@@ -125,3 +125,14 @@ Backward Propagation
 앞으로 차례차례 가요.  
 중간에서 계산해요.  
 [[271_forward_propagation|순전파]]는 그런 과정이에요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 74 / 420
+
+← **이전**: [[073_softmax_function_multiclass_classification_probability|73. 소프트맥스 함수 (Softmax) - 다중 클래스 분류 시 출 력층 적용, 결과값 총합을 1로 만들어 확률화]]
+**다음**: [[075_loss_function_cost_function|75. 손실 함수 (Loss Function) - 예측 오차 계산]] →
+
+---

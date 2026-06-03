@@ -192,3 +192,14 @@ tags:
 1. 동기화 (Synchronization) 메커니즘은 컴퓨터가 누가 먼저 CPU를 쓰면 좋은지 줄을 세우는 방법이에요.
 2. 먼저 리눅스 CFS (Completely Fair Scheduler)을 이해하면 동기화 (Synchronization) 메커니즘이 왜 필요한지 더 쉽게 보여요.
 3. 그래서 동기화 (Synchronization) 메커니즘을 잘 알면 나중에 윈도우 스케줄링도 훨씬 쉽게 배울 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 212 / 800
+
+← **이전**: [[211_context_switch|211. 문맥 교환 (Context Switch)]]
+**다음**: [[213_race_condition|213. 경쟁 조건 (Race Condition)]] →
+
+---

@@ -145,3 +145,14 @@ CBO (Cost-Based Optimizer)
 1. [[163_optimizer_sql_execution_plan_generator|옵티마이저]]는 "공원 가는 길 알려줘"라고 하면 제일 빠른 길을 골라 주는 안내 로봇이에요.
 2. 그런데 지도 정보가 오래되면 공사 중인 길로 안내할 수도 있어요.
 3. 그래서 길 안내 로봇도 최신 지도가 있어야 똑똑하게 일할 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 52 / 600
+
+← **이전**: [[051_logging_engine_wal_redo_undo|51. 로깅 엔진 (Logging Engine)]]
+**다음**: [[053_db_parser_parse_tree|53. DB 파서와 파스 트리 (DB Parser Parse Tree)]] →
+
+---

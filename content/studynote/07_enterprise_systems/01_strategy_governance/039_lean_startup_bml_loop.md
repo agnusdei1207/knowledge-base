@@ -232,3 +232,14 @@ LLM 기반 인사이트 생성
 1. 허영 지표는 SNS 팔로워 수처럼 보기 좋지만 정작 제품이 잘 팔리는지 알 수 없는 숫자이고, 실행 가능 지표는 "재구매율"처럼 행동을 바꿀 [[167_sql_hint_optimizer_override|힌트]]를 주는 숫자예요.
 2. PMF(제품-시장 적합성)는 "이 제품이 없어지면 매우 실망할 것"이라는 사람이 40% 이상이어야 달성한 것으로 보아요.
 3. 성장 엔진은 입소문(바이럴), 단골(스티키), 광고(유료) 세 가지 중 자기 [[090_service_kubernetes_network_load_balancing|서비스]]에 맞는 것을 선택해야 지속 성장할 수 있어요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 39 / 482
+
+← **이전**: [[038_ambidextrous_organization|038. 양손잡이 조직 II — IT 전략 적용]]
+**다음**: [[040_mvp_and_pivot_lean|040. MVP (Minimum Viable Product) — 최소 기능 제품]] →
+
+---

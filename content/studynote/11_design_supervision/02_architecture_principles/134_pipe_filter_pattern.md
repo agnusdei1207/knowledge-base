@@ -124,3 +124,14 @@ tags:
 1. [[123_pipe|파이프]]-필터는 물이 여러 정수 필터를 거쳐 깨끗해지는 것처럼 [[001_dikw_pyramid|데이터]]를 단계별로 처리해요.
 2. 각 필터(단계)가 독립적이어서 하나를 바꿔도 다른 단계에 영향을 주지 않아요.
 3. Unix [[158_instruction|명령어]] [[123_pipe|파이프]](|)가 바로 이 패턴의 가장 간단한 예시예요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 190 / 530
+
+← **이전**: [[133_anti_corruption_layer|133. 부패 방지 레이어 (Anti-Corruption Layer (ACL))]]
+**다음**: [[135_blackboard_pattern|135. 블랙보드 패턴 (Blackboard Pattern)]] →
+
+---

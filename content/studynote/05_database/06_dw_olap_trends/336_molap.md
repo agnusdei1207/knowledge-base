@@ -134,3 +134,14 @@ MOLAP (Multidimensional [[316_olap|OLAP]])는 다차원 큐브(Cube) 사전 [[08
 1. 여러 상자에 있던 블록을 큰 정리장에 모아 보고 싶은 모양대로 다시 보는 거예요.
 2. 빨리 넣는 법과 빨리 보는 법은 다를 수 있어요.
 3. 그래서 창고를 어떻게 나누고 언제 정리할지 정해야 해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 336 / 600
+
+← **이전**: [[335_snowflake_schema|335. 스노우플레이크 스키마 (Snowflake Schema)]]
+**다음**: [[337_rolap|337. ROLAP (Relational OLAP)]] →
+
+---

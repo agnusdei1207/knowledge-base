@@ -163,3 +163,14 @@ Hopper FP8 · Transformer Engine
 1. [[427_tensor_core|텐서 코어]]는 숫자 벽돌을 한 개씩 옮기는 대신, 여러 개를 한 판에 담아 한꺼번에 옮기는 기계예요.
 2. 그래서 [[231_ai_turing_test|인공지능]]이 해야 하는 큰 계산을 훨씬 빨리 끝낼 수 있어요.
 3. 하지만 벽돌 크기와 상자 모양이 기계 규격에 맞아야 진짜 빨라져요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 185 / 420
+
+← **이전**: [[184_ab_testing_shadow_canary|184. A/B 테스팅, 섀도우 배포, 카나리 롤아웃 (A/B Testing, Shadow Deployment, Canary Rollout)]]
+**다음**: [[186_ai_accelerators_tpu_npu_lpu|186. AI 반도체 엑셀러레이터 (TPU, NPU, LPU)]] →
+
+---

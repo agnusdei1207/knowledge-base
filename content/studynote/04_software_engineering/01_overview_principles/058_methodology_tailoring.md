@@ -117,3 +117,14 @@ tags:
 테일러링은 옷을 내 몸에 맞게 고치는 거예요.  
 너무 크면 불편하고, 너무 작아도 못 입어요.  
 그래서 상황에 맞게 조금씩 바꾸는 게 중요해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 58 / 973
+
+← **이전**: [[057_mda_model_driven_architecture|57. 모델 주도 아키텍처 (MDA, Model Driven Architecture) - PIM, PSM 매핑]]
+**다음**: [[059_pmo_project_management_office|59. PMO (Project Management Office) - 전사 프로젝트 관리 조직]] →
+
+---

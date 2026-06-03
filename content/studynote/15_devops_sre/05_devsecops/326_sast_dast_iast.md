@@ -128,3 +128,14 @@ tags:
 1. SAST는 글을 쓰고 나서 맞춤법 검사기로 [[396_validation|확인]]하는 거예요. 코드를 실행하지 않아도 실수를 찾을 수 있어요.
 2. DAST는 완성된 음식을 직접 먹어보고 맛이 이상한지 [[396_validation|확인]]하는 거예요. 실제로 해보지 않으면 모르는 문제가 있어요.
 3. IAST는 음식 재료 안에 센서를 넣어서 요리하면서 자동으로 이상한 점을 알려주는 거예요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 326 / 373
+
+← **이전**: [[325_audit|325. DevSecOps 시프트 레프트 보안 조기 점검 (DevSecOps Shift-Left Security STRIDE Threat]]
+**다음**: [[327_process|327. SCA 오픈소스 컴플라이언스 스캔 (SCA Software Composition Analysis Open Source Compliance]] →
+
+---

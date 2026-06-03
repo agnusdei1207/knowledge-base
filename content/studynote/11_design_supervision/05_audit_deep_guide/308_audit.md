@@ -104,3 +104,14 @@ tags:
 1. 비활성 시간 제한은 학교에서 준비물을 미리 챙기는 것처럼, 중요한 기준을 먼저 맞추는 일이야.
 2. 동시 [[160_session_controlling_terminal|세션]] 제어는 선생님이 수업 중간에 계속 확인하는 것처럼, 실제로 잘 되고 있는지 보는 과정이야.
 3. 재인증은 시험 결과표처럼, 정말 효과가 있었는지 나중에 다시 확인하게 해주는 증거야.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 374 / 530
+
+← **이전**: [[307_certificate_expiration_monitoring|307. 서버 인증서 수명주기 모니터링 체계 (Server Certificate Lifecycle Monitoring Audit)]]
+**다음**: [[308_session_timeout_duplicate_login|308. 사용자 세션 통제와 동시접속 방지 감리 (User Session Control and Duplicate Login Prevention]] →
+
+---

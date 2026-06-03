@@ -118,3 +118,14 @@ SLI/SLO/SLA
 
 > 🧒 **어린이 비유**
 > SLO는 "이번 달 지각 허용 횟수 2번" 같은 규칙이에요. 2번 다 쓰면 새 방과후 활동(기능 추가)은 다음 달로 미뤄야 해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 317 / 373
+
+← **이전**: [[316_management|SRE Site Reliability Engineering]]
+**다음**: [[318_process|Toil SRE Automation]] →
+
+---

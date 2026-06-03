@@ -170,3 +170,14 @@ Airflow:
 1. Oozie는 [[001_dikw_pyramid|데이터]] 공장 자동화 관리자예요! 매일 정해진 시간에 [[001_dikw_pyramid|데이터]] 처리 작업을 순서대로 자동 실행해요.
 2. 현대 [[001_dikw_pyramid|데이터]] 엔지니어는 Airflow를 더 선호해요 — Python으로 [[123_pipe|파이프]]라인을 쉽게 작성하고 예쁜 화면으로 [[229_monitor|모니터]]링할 수 있어요!
 3. Oozie는 [[061_on_premise_legacy_infrastructure|온프레미스]] [[843_hadoop_rack_awareness_data_replication_topology|Hadoop]] 환경에서 여전히 현역이지만, 클라우드로 이전할 때는 Airflow로 마이그레이션한답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 51 / 262
+
+← **이전**: [[050_hadoop_security_kerberos_ranger_atlas|28. Hadoop 보안 — Kerberos, Ranger, Atlas]]
+**다음**: [[052_apache_spark|01. Apache Spark — 인메모리 분산 처리 엔진 (Unified Analytics Engine)]] →
+
+---

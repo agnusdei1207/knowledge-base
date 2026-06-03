@@ -166,3 +166,14 @@ SDDC는 VMware의 Broadcom 인수 이후 라이선스 [[164_policy|정책]] 변�
 1. SDDC는 거대한 레고 도시를 **설계 프로그램**으로 뚝딱뚝딱 만드는 것처럼, 서버·네트워크·저장소를 컴퓨터 코드 몇 줄로 즉시 만들어내는 마법의 [[801_data_center_3_tier_architecture_core_aggregation_access|데이터센터]]예요!
 2. 예전에는 새 서버를 쓰려면 몇 주 동안 케이블 꽂고 [[009_config|설정]]해야 했지만, SDDC에서는 버튼 하나로 수 분 만에 준비돼요.
 3. 회사 창고([[061_on_premise_legacy_infrastructure|온프레미스]])와 임대 창고(클라우드)를 같은 앱으로 동시에 관리할 수 있어서, 짐이 많을 때 임대 창고를 즉시 빌릴 수 있답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 22 / 371
+
+← **이전**: [[022_snapshot_backup_architecture|22. 스냅샷 (Snapshot) - 클라우드 스토리지 백업 및 복원 아키텍처]]
+**다음**: [[024_sdn_software_defined_networking|24. SDN (Software Defined Networking) — 소프트웨어 정의 네트워킹]] →
+
+---

@@ -125,3 +125,14 @@ NULL [[074_byte|Byte]] [[480_injection|Injection]] (널 [[074_byte|바이트]] �
 1. NULL [[074_byte|Byte]] [[480_injection|Injection]] (널 [[074_byte|바이트]] 주입)는 누군가 규칙의 틈을 찾아 몰래 장난을 치는 방법이에요.
 2. 그래서 문을 단단히 잠그는 것뿐 아니라, 누가 이상하게 움직이는지도 바로 알아차려야 해요.
 3. 컴퓨터는 이상한 흔적을 빨리 보고 퍼지기 전에 멈추게 해야 안전해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 549 / 1108
+
+← **이전**: [[492_unicode_normalization|492. Unicode Normalization (유니코드 정규화 공격)]]
+**다음**: [[494_null_byte_poisoning|494. Null Byte Poisoning (널 바이트 포이즈닝)]] →
+
+---

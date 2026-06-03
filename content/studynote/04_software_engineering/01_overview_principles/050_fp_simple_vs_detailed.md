@@ -202,3 +202,14 @@ SNAP (비기능 요구사항 포인트) + FP 혼용 (현재)
 1. FP는 소프트웨어 크기를 "방 개수"로 재는 것 — 얼마나 많은 기능이 있는지 숫자로 표현해.
 2. 간이법은 방 개수만 세고, 상세법은 방 크기와 위치(VAF)까지 꼼꼼히 따져.
 3. COSMIC은 문이 몇 번 열리고 닫히는지 세는 것 — 문([[001_dikw_pyramid|데이터]] 이동) 하나하나가 작업 크기야.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 50 / 973
+
+← **이전**: [[049_function_point_fp_estimation|049. 기능 점수 — Function Point (FP) Estimation]]
+**다음**: [[051_delphi_method|51. 델파이 기법 (Delphi Method)]] →
+
+---

@@ -294,3 +294,14 @@ N >= 1,000,000 → O(N²)는 절대 사용 금지
 - 각 섹션 끝에 📢 요약 비유 반드시 추가
 - 최소 800자/[[501_file_definition_logical_record|파일]]
 - [[501_file_definition_logical_record|파일]]명: 01_, 02_... 형식
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 4 / 175
+
+← **이전**: [[003_space_complexity|3. 공간 복잡도 (Space Complexity)]]
+**다음**: [[005_divide_and_conquer|5. 분할 정복 (Divide and Conquer) — 재귀 분할 + 병합]] →
+
+---

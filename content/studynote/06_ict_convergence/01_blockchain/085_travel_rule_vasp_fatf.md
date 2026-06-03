@@ -121,3 +121,14 @@ VASP 간 안전 전송
 1. 트래블 룰은 택배를 보낼 때 보내는 사람과 받는 사람 이름을 봉투에 같이 적는 거예요.
 2. VASP는 우체국 창구처럼 그 이름이 맞는지 [[396_validation|확인]]해 줘요.
 3. 이름이 없으면 누가 보냈는지 몰라서 위험한 택배가 될 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 85 / 552
+
+← **이전**: [[084_blockchain_interoperability_polkadot_cosmos|84. 블록체인 상호운용성 (Interoperability) 폴카닷(Polkadot), 코스모스(Cosmos) 네트워크]]
+**다음**: [[086_multisig_wallet_n_of_m|86. 지갑 멀티시그 (Multi-Sig, Multi-Signature) - 출금을 위해 N명 중 M명 이상의 서명이 필요한 보안 지갑]] →
+
+---

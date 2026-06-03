@@ -185,3 +185,14 @@ tags:
 1. 세마포어 (Semaphore)은 컴퓨터가 여러 친구가 동시에 만져도 부딪히지 않게 순서를 맞추는 규칙이에요.
 2. 먼저 [[214_critical_section|임계 구역]] 문제 해결의 3조건을 이해하면 세마포어 (Semaphore)이 왜 필요한지 더 쉽게 보여요.
 3. 그래서 세마포어 (Semaphore)을 잘 알면 나중에 피터슨의 해결책 (Peterson's [[001_algorithm_definition|Algorithm]])도 훨씬 쉽게 배울 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 224 / 800
+
+← **이전**: [[223_mutex|223. 임계 구역 문제 해결의 3조건 - 상호 배제(Mutual Exclusion), 진행(Progress), 한정된 대기(Bounded]]
+**다음**: [[225_binary_semaphore|225. 이진 세마포어 (Binary Semaphore)]] →
+
+---

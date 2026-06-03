@@ -55,3 +55,14 @@ Hub-and-Spoke:
 1. Hub는 **[[152_hub_dummy_switching_intelligent|허브]] 공항**이에요. 모든 비행기가 **[[152_hub_dummy_switching_intelligent|허브]]를 거쳐** 목적지로 가요.
 2. 직항([[916_p2p_peer_to_peer_networking_super_node_gnutella|P2P]])보다 **[[152_hub_dummy_switching_intelligent|허브]] 경유**가 노선(연결)이 적어요.
 3. 하지만 [[152_hub_dummy_switching_intelligent|허브]]가 **고장나면 전체가 멈추는** 문제([[454_spof|SPOF]])가 있어요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 143 / 482
+
+← **이전**: [[142_point_to_point_integration_spaghetti|142. P2P 통합 (Point-to-Point) - 스파게티 통합의 문제]]
+**다음**: [[144_hub_and_spoke_architecture_eai|144. Hub-and-Spoke 아키텍처 심화 - EAI 중앙 통합]] →
+
+---

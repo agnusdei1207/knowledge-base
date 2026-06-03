@@ -236,3 +236,14 @@ HTTPS는 [[461_http_stateless_connection_oriented|HTTP]]/3 특징에서 출발�
 1. 인터넷에서 그냥 글을 보내면 엽서에 글을 쓰는 것과 같아서, 배달하는 우체부 아저씨나 옆집 사람이 내용을 다 훔쳐볼 수 있어요!
 2. HTTPS는 내가 쓴 엽서를 절대로 뚫을 수 없는 **강철 금고**에 넣고 꽁꽁 잠가서 보내는 마법의 택배 상자예요.
 3. 게다가 상자를 받으러 나온 사람이 가짜가 아님을 증명하는 **'공인된 신분증([[303_authentication_authorization_patterns|인증]]서)'**까지 확인하고 열쇠를 열어주니 해커가 중간에서 절대 훔쳐보거나 장난칠 수 없답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 592 / 1120
+
+← **이전**: [[470_http3_quic_multiplexing_qpack|470. HTTP/3 특징]]
+**다음**: [[472_www_caching_mechanism_proxy|472. WWW 캐싱 메커니즘 / 프록시]] →
+
+---

@@ -374,3 +374,14 @@ Raft · Paxos 합의 알고리즘 → 안전한 리더 선출
 ```
 2. **쿼럼**은 "반 전체 30명 중 16명 이상이 동의해야 반장이 된다"는 규칙이에요—교실이 둘로 나뉠 때 한쪽이 16명 이상이어야만 반장을 선출할 수 있어서, 양쪽 동시에 반장이 나오는 일이 없어요.
 3. **펜싱**은 새 반장이 뽑힌 후 전 반장의 교실 열쇠와 반장 도장을 즉시 회수하는 것처럼, 구형 리더가 실수로 [[001_dikw_pyramid|데이터]]를 건드리지 못하게 물리적으로 차단하는 방법이에요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 190 / 258
+
+← **이전**: [[189_kafka_consumer_lag_monitoring_alert|189. 카프카 컨슈머 랙 (Kafka Consumer Lag) 지연 모니터링 경보 파이프]]
+**다음**: [[191_event_sourcing_replay_lambda_kappa|191. 람다/카파 아키텍처 재현 (Event Sourcing Replay - Lambda/Kappa Architecture)]] →
+
+---

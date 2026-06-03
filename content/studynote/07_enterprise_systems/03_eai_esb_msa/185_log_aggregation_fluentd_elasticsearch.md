@@ -188,3 +188,14 @@ Elasticsearch 중앙 검색
 1. 여러 친구가 각자 쓴 메모를 한 상자에 모아 두면, 나중에 누가 어떤 말을 했는지 찾기가 쉬워져요.
 2. 메모를 날짜와 이름표로 정리해 두면 더 빨리 찾을 수 있고, 갑자기 메모가 많이 와도 중간 바구니가 있으면 잃어버리지 않아요.
 3. 그래서 [[568_logs_distributed_logging_elk_fluentd|로그]] 통합은 메모를 많이 모으는 것보다, 잘 정리해서 필요할 때 바로 꺼내 보는 방법이에요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 185 / 482
+
+← **이전**: [[184_externalized_configuration_server|184. 외부화된 설정 서버 (Externalized Configuration Server)]]
+**다음**: [[186_distributed_tracing_zipkin_jaeger|186. 분산 추적 (Distributed Tracing) 인프라 - 다수 서비스를 거치는 응용 프로그램 프로그래밍 인터페이스 (Application]] →
+
+---

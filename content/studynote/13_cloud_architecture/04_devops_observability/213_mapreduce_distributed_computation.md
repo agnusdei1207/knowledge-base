@@ -219,3 +219,14 @@ MapReduce 처리 흐름
 ```
 2. Shuffle은 같은 시대의 책 목록을 한 사람에게 모아주는 것, Reduce는 그 사람이 최종적으로 합산하는 거야.
 3. 혼자서 모든 책을 찾는 것보다 여러 명이 나눠서 동시에 찾으니([[430_index_fast_full_scan|병렬]]) 훨씬 빠른 거야!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 212 / 371
+
+← **이전**: [[212_hdfs_distributed_file_system|212. HDFS (Hadoop Distributed File System)]]
+**다음**: [[214_yarn_resource_manager_hadoop|214. YARN (Yet Another Resource Negotiator)]] →
+
+---

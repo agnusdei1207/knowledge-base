@@ -235,3 +235,14 @@ AGI 논의: 튜링 테스트 · 중국어 방 · 프레임 문제
 ```
 2. [[233_expert_system|전문가 시스템]]은 의사 선생님이 알고 있는 진단 규칙("열이 38도 이상이고 기침이 있으면 독감 의심")을 컴퓨터에 입력해 컴퓨터가 의사처럼 진단하게 만든 것이다.
 3. [[012_fuzzy_logic|퍼지 논리]]는 "뜨겁다/차갑다"처럼 딱 나누지 않고 "조금 뜨겁다(0.3), 꽤 뜨겁다(0.7)"처럼 정도로 표현해 세탁기나 에어컨이 더 똑똑하게 작동하게 한다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 235 / 258
+
+← **이전**: [[234_master_data_management_mdm_golden_record_clean_room|234. 마스터 데이터 관리 (MDM, Master Data Management) 골든 레코드 클린 룸]]
+**다음**: [[236_a_star_heuristic_minimax_mcts_monte_carlo|236. A* 휴리스틱 (Heuristic) 미니맥스 (Minimax) MCTS (Monte Carlo Tree Search)]] →
+
+---

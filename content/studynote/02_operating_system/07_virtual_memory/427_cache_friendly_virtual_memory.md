@@ -189,3 +189,14 @@ tags:
 1. 캐시 친화적 [[381_virtual_memory|가상 메모리]] 관리 배치 (Cache Friendly [[381_virtual_memory|Virtual Memory]])은 컴퓨터가 메모리를 더 크게 보이게 하고 부족함을 숨기는 방법이에요.
 2. 먼저 [[377_numa_allocation|NUMA]] 환경의 [[381_virtual_memory|가상 메모리]] 스케줄링 ([[377_numa_allocation|NUMA]] 노드 별 [[286_page_frame|페이지]] 할당 / numactl)을 이해하면 캐시 친화적 [[381_virtual_memory|가상 메모리]] 관리 배치 (Cache Friendly [[381_virtual_memory|Virtual Memory]])이 왜 필요한지 더 쉽게 보여요.
 3. 그래서 캐시 친화적 [[381_virtual_memory|가상 메모리]] 관리 배치 (Cache Friendly [[381_virtual_memory|Virtual Memory]])을 잘 알면 나중에 [[428_vma_struct|VMA]] ([[428_vma_struct|Virtual Memory Area]]) 구조체 (리눅스 [[022_kernel_role|커널]] 프로세스 주소 공간 매핑)도 훨씬 쉽게 배울 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 427 / 800
+
+← **이전**: [[426_numa_virtual_memory_scheduling|426. NUMA 환경의 가상 메모리 스케줄링 (NUMA 노드 별 페이지 할당 / numactl)]]
+**다음**: [[428_vma_struct|428. VMA (Virtual Memory Area) 구조체 (리눅스 커널 프로세스 주소 공간 매핑)]] →
+
+---

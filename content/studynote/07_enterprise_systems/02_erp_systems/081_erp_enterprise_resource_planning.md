@@ -138,3 +138,14 @@ Cloud ERP / Composable ERP / Intelligent ERP
 1. ERP는 회사 안의 모든 팀이 같은 큰 공책을 함께 쓰는 거예요.
 2. 누가 물건을 팔면 창고, 공장, 계산하는 팀이 그 내용을 동시에 알 수 있어요.
 3. 그래서 "재고가 몇 개야?" 같은 질문에 모두가 같은 답을 말하게 돼요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 81 / 482
+
+← **이전**: [[080_hyperautomation_rpa_ai|080. 하이퍼오토메이션 (Hyperautomation: RPA + AI)]]
+**다음**: [[082_mrp_material_requirements_planning|82. MRP (Material Requirements Planning)]] →
+
+---

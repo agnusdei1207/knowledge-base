@@ -260,3 +260,14 @@ CloudOps 자동화 통합
 1. Rehost는 이사할 때 가구를 그대로 옮기는 것 — 가구 디자인(코드)을 바꾸지 않고 새 집(클라우드)으로 이사해요!
 2. 빠르게 이사할 수 있지만 새 집 구조에 맞춰 가구를 배치하지 않아 공간 활용이 비효율적일 수 있어요.
 3. 이사 후에 조금씩 인테리어(Re-platform → Re-architect)를 개선하면 결국 훨씬 좋은 집이 돼요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 41 / 371
+
+← **이전**: [[041_cloud_migration_6r_strategies|041. 클라우드 마이그레이션 6R 전략 (Cloud Migration 6R)]]
+**다음**: [[043_replatform_cloud_managed_services|043. Re-platform — 클라우드 관리형 서비스 전환]] →
+
+---

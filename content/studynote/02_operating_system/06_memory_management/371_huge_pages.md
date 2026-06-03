@@ -188,3 +188,14 @@ Java 기반의 대규모 스프링(Spring) 서버는 부팅 시 수 GB의 힙을
 1. 거대 [[286_page_frame|페이지]] (Huge Pages / Transparent Huge Pages)은 컴퓨터가 메모리를 방처럼 나눠 쓰고 주소를 찾는 방법이에요.
 2. 먼저 파편화 관리 및 조각 모음을 이해하면 거대 [[286_page_frame|페이지]] (Huge Pages / Transparent Huge Pages)이 왜 필요한지 더 쉽게 보여요.
 3. 그래서 거대 [[286_page_frame|페이지]] (Huge Pages / Transparent Huge Pages)을 잘 알면 나중에 아키텍처 종속적인 [[328_mmu|MMU]] 인터페이스도 훨씬 쉽게 배울 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 371 / 800
+
+← **이전**: [[370_memory_compaction|370. 파편화 관리 및 조각 모음 - 리눅스 메모리 컴팩션 (Memory Compaction)]]
+**다음**: [[372_architecture_dependent_mmu|372. 아키텍처 종속적인 MMU 인터페이스 (Architecture Dependent MMU)]] →
+
+---

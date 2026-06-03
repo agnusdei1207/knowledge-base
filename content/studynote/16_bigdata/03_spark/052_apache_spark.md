@@ -191,3 +191,14 @@ RDD는 스파크의 근간이 되는 불변 [[136_variance|분산]] 컬렉션으
 
 ---
 > **🛡️ Expert [[395_verification_process_review|Verification]]:** 본 문서는 Apache Spark의 최신 아키텍처(3.5.x)를 기준으로 구조적 [[003_integrity|무결성]]과 기술사 수준의 심층 분석을 [[395_verification_process_review|검증]]하였습니다. (Verified at: 2026-04-05)
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 52 / 262
+
+← **이전**: [[051_apache_oozie|29. Apache Oozie — Hadoop 워크플로 스케줄러]]
+**다음**: [[053_rdd|02. RDD (Resilient Distributed Dataset) — 불변 분산 데이터셋]] →
+
+---

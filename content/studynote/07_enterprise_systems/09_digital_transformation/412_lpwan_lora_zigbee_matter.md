@@ -139,3 +139,14 @@ tags:
 1. [[109_lpwan_low_power_wide_area_network|LPWAN]] [[283_lora_low_rank_adaptation|로라]] [[609_zigbee_ieee_802_15_4_mesh_iot|지그비]] [[612_matter_csa_smart_home_standard|매터]] 통신 표준는 복잡한 일을 순서대로 정리해 주는 큰 정리함이에요.
 2. 어디에 무엇을 넣을지 먼저 정해 두면, 나중에 찾거나 고칠 때 훨씬 쉬워져요.
 3. 그래서 일이 커질수록 먼저 기준을 만들고 같이 약속하는 것이 중요해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 412 / 482
+
+← **이전**: [[411_iot_edge_fog_computing|411. IoT 엣지/포그 컴퓨팅 아키텍처 (IoT: Internet of Things)]]
+**다음**: [[413_mqtt_pubsub_broker_iot|413. MQTT Pub/Sub 브로커 기반 경량 IoT 프로토콜 (MQTT)]] →
+
+---

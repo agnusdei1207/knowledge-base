@@ -209,3 +209,14 @@ tags:
 1. 버디 시스템 (Buddy System) 할당기은 컴퓨터가 메모리를 방처럼 나눠 쓰고 주소를 찾는 방법이에요.
 2. 먼저 [[347_compaction|압축]] ([[347_compaction|Compaction]])을 이해하면 버디 시스템 (Buddy System) 할당기이 왜 필요한지 더 쉽게 보여요.
 3. 그래서 버디 시스템 (Buddy System) 할당기을 잘 알면 나중에 [[349_slab_allocator|슬랩 할당기]] ([[349_slab_allocator|Slab Allocator]])도 훨씬 쉽게 배울 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 348 / 800
+
+← **이전**: [[347_compaction|347. 압축 (Compaction) - 외부 단편화 해결, 동적 재배치 시에만 가능, 오버헤드 막심]]
+**다음**: [[349_slab_allocator|349. 슬랩 할당기 (Slab Allocator) - 커널 객체 캐싱, 단편화 방지 및 속도 향상]] →
+
+---

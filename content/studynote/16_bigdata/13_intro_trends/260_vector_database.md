@@ -354,3 +354,14 @@ LLM 지식 한계 극복
 1. 벡터 [[278_instruction_tuning|임베딩]] = 의미 지도 좌표 — "고양이"와 "강아지"는 지도에서 가까운 좌표. "자동차"는 멀리. 비슷한 의미 = 가까운 위치!
 2. [[351_hnsw|HNSW]] = 계층적 지름길 — 먼 곳 먼저 빠르게 이동(상위 레이어), 가까이서 정밀 탐색(하위 레이어). 99% 정확도로 100배 빠름!
 3. [[276_fine_tuning|RAG]] = [[190_ai_llm_requirements_specification|AI]] 오픈북 시험 — LLM이 암기만으로 답하면 오류. 관련 문서(벡터 DB 검색)를 펼쳐보고 답변. 최신 정보도 OK!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 260 / 262
+
+← **이전**: [[259_realtime_olap|047. 실시간 OLAP — ClickHouse·Druid·Pinot·StarRocks]]
+**다음**: [[261_knowledge_graph|049. 지식 그래프 — Knowledge Graph]] →
+
+---

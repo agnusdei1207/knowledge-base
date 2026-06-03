@@ -188,3 +188,14 @@ tags:
 1. [[760_slab_allocator_object_caching|슬랩]] 할당기 ([[760_slab_allocator_object_caching|Slab]] Allocator)은 컴퓨터가 메모리를 방처럼 나눠 쓰고 주소를 찾는 방법이에요.
 2. 먼저 [[348_buddy_system|버디 시스템]] ([[348_buddy_system|Buddy System]]) 할당기을 이해하면 [[760_slab_allocator_object_caching|슬랩]] 할당기 ([[760_slab_allocator_object_caching|Slab]] Allocator)이 왜 필요한지 더 쉽게 보여요.
 3. 그래서 [[760_slab_allocator_object_caching|슬랩]] 할당기 ([[760_slab_allocator_object_caching|Slab]] Allocator)을 잘 알면 나중에 [[350_non_contiguous_memory_allocation|비연속 메모리 할당]] ([[350_non_contiguous_memory_allocation|Non-contiguous Memory Allocation]])도 훨씬 쉽게 배울 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 349 / 800
+
+← **이전**: [[348_buddy_system|348. 버디 시스템 (Buddy System) 할당기 - 2의 승수로 분할 및 병합 (외부 단편화 절충)]]
+**다음**: [[350_non_contiguous_memory_allocation|350. 비연속 메모리 할당 (Non-contiguous Memory Allocation)]] →
+
+---

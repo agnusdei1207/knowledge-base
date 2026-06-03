@@ -125,3 +125,14 @@ tags:
 1. [[1028_wban_wireless_body_area_network|체내 통신]] ([[927_wban_wireless_body_area_network_healthcare_sar|WBAN]] [[673_mac_message_authentication_code|MAC]] 및 주파수 대역)는 컴퓨터 세상을 더 안전하게 만들기 위한 중요한 약속이나 도구예요.
 2. 겉으로는 어려워 보여도, 왜 필요한지와 어떻게 움직이는지를 알면 훨씬 쉬워져요.
 3. 그래서 이름만 외우지 말고 어디에 쓰이는지 같이 기억해야 해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 150 / 1108
+
+← **이전**: [[1028_bug_bounty|1028. Bug Bounty (버그 바운티)]]
+**다음**: [[1029_lora_lpwan_chirp_spread_spectrum_iot|1029. LPWAN 로라 (LoRa)]] →
+
+---

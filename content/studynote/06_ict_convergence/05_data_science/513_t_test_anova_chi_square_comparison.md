@@ -139,3 +139,14 @@ ANOVA가 "적어도 하나의 집단 평균이 다르다"는 것만 알려주면
 1. [[070_t_test_independent_paired_mean_difference|t-검정]]은 두 반의 평균 점수가 다른지 비교하는 거고, ANOVA는 세 반 이상을 한 번에 비교하는 방법이야.
 2. [[147_chi_square_test|카이제곱 검정]]은 숫자가 아니라 종류(색깔, 성별, 예/아니오)로 나뉜 [[001_dikw_pyramid|데이터]]들이 서로 관련 있는지 알아보는 거야.
 3. 가장 중요한 건 [[001_dikw_pyramid|데이터]] 종류와 집단 수에 맞는 도구를 골라 쓰는 것이야!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 513 / 552
+
+← **이전**: [[512_hypothesis_testing_p_value_significance|512. 가설 검정과 유의 수준 P-Value (Hypothesis Testing P-Value Significance Level)]]
+**다음**: [[514_regression_ols_vif_multicollinearity|514. 회귀 분석: OLS, VIF, 다중공선성 (Regression OLS VIF Multicollinearity)]] →
+
+---

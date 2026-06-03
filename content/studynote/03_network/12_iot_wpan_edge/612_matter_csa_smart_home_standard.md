@@ -129,3 +129,14 @@ Matter 보안 통일 표준는 [[092_thread_lwp|Thread]] [[295_protocol_field_tc
 1. 작은 로봇 친구들이 배터리를 아껴가며 서로 메시지를 주고받는 장난감 마을과 같아요.
 2. 이 개념은 누가 가까운지, 누가 대신 알려줄지, 무엇을 현장에서 바로 처리할지를 정해줘요.
 3. 그래서 작은 기기들도 오래 버티면서 똑똑하게 협력할 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 733 / 1120
+
+← **이전**: [[611_thread_protocol_ipv6_mesh_wpan|611. Thread 프로토콜]]
+**다음**: [[613_6lowpan_ipv6_header_compression_iot|613. 6LoWPAN]] →
+
+---

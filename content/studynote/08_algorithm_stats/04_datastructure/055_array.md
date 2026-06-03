@@ -162,3 +162,14 @@ base address = 0x1000, sizeof(int) = 4
 1. 배열은 번호가 적힌 서랍장이야. 3번 서랍을 열고 싶으면 바로 3번으로 가면 돼.
 2. 서랍이 꽉 차면 두 배 큰 서랍장으로 이사 가는 게 동적 배열이야.
 3. 중간 서랍에 새 물건을 끼우려면 뒤 서랍을 다 한 칸씩 밀어야 해서 시간이 오래 걸려.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 55 / 175
+
+← **이전**: [[054_longest_increasing_subsequence|24. LIS (Longest Increasing Subsequence) — 최장 증가 부분 수열]]
+**다음**: [[056_linked_list|2. 연결 리스트 (Linked List) — 단일/이중/순환]] →
+
+---

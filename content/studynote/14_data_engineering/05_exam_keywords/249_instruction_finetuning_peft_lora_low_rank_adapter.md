@@ -205,3 +205,14 @@ Instruction Fine-Tuning → 인간 선호 정렬
 ```
 2. LoRA는 그 대신 **교과서에 포스트잇만 붙이는 것**이야. 교과서는 그대로 두고, 새로운 것은 포스트잇에만 써. 훨씬 빠르고 싸!
 3. QLoRA는 그 교과서를 **[[347_compaction|압축]]해서 더 얇게 만든 다음 포스트잇 붙이기**야. 책장 공간([[418_gpu|GPU]] 메모리)을 엄청 아낄 수 있어.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 249 / 258
+
+← **이전**: [[248_bert_encoder_mlm_gpt_decoder_autoregressive_comparison|248. BERT 인코더 MLM vs GPT 디코더 자동 회귀 (Autoregressive) 심화 비교]]
+**다음**: [[250_rlhf_human_feedback_reinforcement_alignment_cot|250. RLHF (Reinforcement Learning from Human Feedback) 정렬 CoT 프롬프트 심화]] →
+
+---

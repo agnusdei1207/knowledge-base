@@ -145,3 +145,14 @@ tags:
 - [[236_anomaly_based_detection_zero_day_false_positive|이상 탐지]]는 "보통과 다른 것"을 자동으로 찾아내는 거예요. 모든 사과 중에 썩은 사과 하나를 찾는 것처럼요.
 - 컴퓨터가 "정상이 어떻게 생겼는지"를 먼저 배우고, 그것과 많이 다른 것이 나타나면 "이상하다!"고 알려줘요.
 - 은행 카드 사기, 공장 기계 고장, 해킹 시도를 이렇게 미리 잡아낼 수 있어요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 111 / 262
+
+← **이전**: [[110_social_network_analysis|107. 소셜 네트워크 분석 (SNA, Social Network Analysis) — 중심성/커뮤니티 탐지]]
+**다음**: [[112_time_series_analysis|109. 시계열 분석 (Time Series Analysis) — ARIMA/Prophet/LSTM 시계열 예측]] →
+
+---

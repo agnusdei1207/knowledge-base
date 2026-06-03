@@ -129,3 +129,14 @@ TI 융합 / STIX, TAXII 표준 지…는 SOAR에서 출발해 현재 메커니�
 1. 나쁜 친구가 놀이터 규칙을 깨뜨리면 바로 알아차리고 막아야 해요.
 2. 이 개념은 어떤 장난이 위험한지 미리 알고, 문제가 생기면 어떻게 다시 정리할지도 알려줘요.
 3. 그래서 놀이터를 더 안전하게 지킬 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 867 / 1120
+
+← **이전**: [[745_soar_security_orchestration_automation_response|745. SOAR (Security Orchestration, Automation and Response)]]
+**다음**: [[747_web_shell_file_upload_vulnerability|747. 웹쉘 (Web Shell 모니터, 디렉토리 실행 등 권한 취약 방지 스캔)]] →
+
+---

@@ -208,3 +208,14 @@ Adaptive Query Execution (AQE): 런타임 동적 최적화
 ```
 2. Spark도 filter, groupBy, count 같은 연산을 모두 모아두었다가, "결과를 줘!"(액션) 할 때 한 번에 최적화해서 실행해.
 3. 덕분에 "필요한 자료만 가져오기(Pushdown)", "중간 저장 없이 연속 처리([[082_pipeline|Pipeline]] Fusion)" 등의 자동 최적화가 가능해.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 216 / 371
+
+← **이전**: [[216_rdd_resilient_distributed_dataset|216. RDD (Resilient Distributed Dataset)]]
+**다음**: [[218_spark_streaming_realtime_processing|218. 스파크 스트리밍 / Structured Streaming]] →
+
+---

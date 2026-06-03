@@ -125,3 +125,14 @@ tags:
 1. 타원곡선 (Elliptic Curve Equation)는 비밀 편지를 안전하게 잠그거나 진짜인지 확인하는 특별한 약속이에요.
 2. 하지만 자물쇠가 좋아도 열쇠를 아무 데나 두면 금방 들켜요.
 3. 그래서 암호는 만드는 방법과 열쇠를 지키는 방법을 같이 배워야 해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 173 / 1108
+
+← **이전**: [[119_ecc_elliptic_curve_cryptography|119. ECC (Elliptic Curve Cryptography)]]
+**다음**: [[121_ecdlp|121. ECDLP (타원곡선 이산 대수 문제)]] →
+
+---

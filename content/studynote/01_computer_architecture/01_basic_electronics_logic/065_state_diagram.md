@@ -124,3 +124,14 @@ FSM / Control Logic
 게임 맵처럼 어디로 갈지 적어 둔 그림이에요.  
 [[178_as_is_to_be_analysis|현재 상태]]와 다음 상태를 보여 줘요.  
 상태도는 그런 길 안내 그림이에요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 65 / 803
+
+← **이전**: [[064_johnson_counter|64. 존슨 카운터 (Johnson Counter)]]
+**다음**: [[066_state_table|66. 상태표 (State Table)]] →
+
+---

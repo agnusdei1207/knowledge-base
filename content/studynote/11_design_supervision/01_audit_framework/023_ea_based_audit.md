@@ -254,3 +254,14 @@ AWS, Azure, GCP 환경에서의 [[110_enterprise_architecture_ea|EA]] [[116_refe
 1. 아파트 단지를 지을 때 각 동마다 "내 방은 잘 만들었어요" 검사(기존 감리)만 하면, 동 사이의 배관이 엉켜서 물이 안 나오는 사고가 생겨요.
 2. [[110_enterprise_architecture_ea|EA]] 기반 감리는 아파트 단지 전체의 설계도([[110_enterprise_architecture_ea|EA]] [[116_reference_model|참조 모델]])를 들고 "배관·전기·도로가 전부 규격대로 연결되는지" 도시 건축가가 [[396_validation|확인]]하는 것이에요.
 3. 한 동이 아무리 예쁘게 잘 지어져도, 전체 단지 도면에서 벗어나면 "다시 지으세요"라고 할 수 있는 강력한 감시 시스템이랍니다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 25 / 530
+
+← **이전**: [[022_cisa_certification_audit|22. CISA (Certified Information Systems Auditor) - 국제 공인 정보시스템 감사사]]
+**다음**: [[024_risk_based_audit|24. 위험 기반 감리 (Risk-based Audit)]] →
+
+---

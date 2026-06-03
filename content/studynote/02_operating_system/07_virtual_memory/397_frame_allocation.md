@@ -175,3 +175,14 @@ tags:
 1. 프레임 할당 (Frame Allocation) [[001_algorithm_definition|알고리즘]]은 컴퓨터가 메모리를 더 크게 보이게 하고 부족함을 숨기는 방법이에요.
 2. 먼저 [[396_dirty_bit|변경 비트]] (Modify [[086_fenwick_tree|Bit]] / [[396_dirty_bit|Dirty Bit]])을 이해하면 프레임 할당 (Frame Allocation) [[001_algorithm_definition|알고리즘]]이 왜 필요한지 더 쉽게 보여요.
 3. 그래서 프레임 할당 (Frame Allocation) [[001_algorithm_definition|알고리즘]]을 잘 알면 나중에 [[398_equal_vs_proportional_allocation|균등 할당]] ([[398_equal_vs_proportional_allocation|Equal Allocation]]) vs 비례 할당 (Proportional Allocation)도 훨씬 쉽게 배울 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 397 / 800
+
+← **이전**: [[396_dirty_bit|396. 변경 비트 (Modify Bit / Dirty Bit) - 교체 시 디스크 기록 여부 결정, 디스크 I/O 최적화]]
+**다음**: [[398_equal_vs_proportional_allocation|398. 균등 할당 (Equal Allocation) vs 비례 할당 (Proportional Allocation)]] →
+
+---

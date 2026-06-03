@@ -166,3 +166,14 @@ LIME과 SHAP을 적절히 사용하면 모델은 단순한 예측기에서 설�
 1. 설명 가능한 AI는 똑똑한 로봇이 왜 그런 답을 했는지 같이 말해 주는 기능이에요.
 2. LIME은 한 문제를 왜 그렇게 풀었는지 가까이서 설명해 주고, SHAP은 어떤 힌트들이 얼마나 큰 도움을 줬는지 나눠서 보여줘요.
 3. 그래서 사람들은 로봇의 답을 그냥 믿는 게 아니라, 이유를 보고 확인할 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 171 / 258
+
+← **이전**: [[170_ab_test_canary_rollout_shadow_mirroring|170. 서빙 아키텍처 A/B 테스트 및 카나리 롤아웃 (Canary Rollout), 섀도우 미러링 검증 라우터]]
+**다음**: [[172_distributed_training_data_model_parallelism|172. GPU 인프라 분산 학습 (Data Parallelism vs Model Parallelism)]] →
+
+---

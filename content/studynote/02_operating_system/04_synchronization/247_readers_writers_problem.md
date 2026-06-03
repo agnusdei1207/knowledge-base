@@ -221,3 +221,14 @@ rcu_read_unlock();
 1. 같은 책을 친구 여럿이 같이 읽을 수 있지만, 글씨를 고치려면 모두 자리를 비워줘야 해요.
 2. 독자 우선 규칙은 친구들이 계속 읽으러 오면 고치려는 친구가 계속 기다려야 해서 불공평해요.
 3. RCU는 제일 똑똑한 해결책 — 책을 복사해서 수정하고, 다 읽은 친구들이 떠나면 조용히 원본과 교체해요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 247 / 800
+
+← **이전**: [[246_bounded_buffer_producer_consumer|246. 유한 버퍼 문제 (Bounded-Buffer Problem) / 생산자-소비자 (Producer-Consumer) 문제]]
+**다음**: [[248_dining_philosophers_problem|248. 식사하는 철학자 문제 (Dining-Philosophers Problem) - 교착상태 및 기아 상태 예방]] →
+
+---

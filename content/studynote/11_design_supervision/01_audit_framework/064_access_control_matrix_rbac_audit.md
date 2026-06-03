@@ -129,3 +129,14 @@ Zero Trust
 문 열쇠를 사람마다 따로 주면 복잡해요.  
 역할별로 열쇠를 나누면 쉬워져요.  
 RBAC는 그런 역할별 열쇠 관리예요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 97 / 530
+
+← **이전**: [[063_software_license_compliance_gpl_mit|63. 소프트웨어 라이선스 컴플라이언스 (Software License Compliance)]]
+**다음**: [[064_access_control_rbac_audit|64. 접근 통제 및 권한 관리 감리 (Access Control and RBAC Audit)]] →
+
+---

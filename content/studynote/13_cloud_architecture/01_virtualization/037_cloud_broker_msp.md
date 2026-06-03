@@ -207,3 +207,14 @@ CNCF FinOps Foundation
 1. MSP는 클라우드 건물의 전문 관리인이에요 — 기업 대신 서버 관리, 보안, 비용 절감을 모두 처리해줘요.
 2. 클라우드 브로커는 여러 클라우드 회사 중 기업에게 가장 맞는 [[090_service_kubernetes_network_load_balancing|서비스]]를 골라주는 중개인이에요.
 3. 여러 클라우드를 동시에 쓰는 기업들이 많아지면서 이것들을 통합 관리해주는 MSP의 역할이 더 중요해지고 있어요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 36 / 371
+
+← **이전**: [[036_migration_6r|036. 클라우드 마이그레이션 6R 전략]]
+**다음**: [[038_data_gravity_vendor_lockin|038. 데이터 중력과 벤더 종속 (Data Gravity & Vendor Lock-in)]] →
+
+---

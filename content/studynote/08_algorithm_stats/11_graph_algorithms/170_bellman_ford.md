@@ -181,3 +181,14 @@ Distance-vector routing · arbitrage detection · Johnson reweighting
 1. 벨만-포드는 미로의 모든 길을 여러 번 살펴보며 더 좋은 길이 숨어 있는지 확인하는 방법이에요.
 2. 어떤 길은 지나가면 사탕을 하나 더 주는 특별한 길이라서, 그냥 빠른 길찾기보다 더 조심해야 해요.
 3. 만약 빙글빙글 돌수록 사탕이 계속 늘어나는 길이 있으면, 이 [[001_algorithm_definition|알고리즘]]은 "여긴 답이 없어"라고 알려줘요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 170 / 175
+
+← **이전**: [[169_evolutionary_algorithms|10. 진화 알고리즘 — 유전 알고리즘 (GA), 입자 군집 최적화 (PSO)]]
+**다음**: [[171_prim_algorithm|171. 프림 알고리즘 (Prim's Algorithm)]] →
+
+---

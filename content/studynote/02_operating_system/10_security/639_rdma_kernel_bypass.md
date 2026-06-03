@@ -208,3 +208,14 @@ RDMA와 [[022_kernel_role|커널]] 바이패스는 "[[001_operating_system_purpo
 1. 컴퓨터끼리 편지([[001_dikw_pyramid|데이터]])를 보낼 때는 원래 우체국장([[001_operating_system_purpose|운영체제]])이 일일이 주소를 적고 포장([[405_tcp_transmission_control_protocol_connection_oriented|TCP]]/IP)하느라 시간이 엄청 오래 걸렸어요.
 2. 그런데 편지가 너무 많아져서 우체국장이 기절해 버렸어요. 그래서 'RDMA'라는 순간 이동 마법의 터널을 뚫었답니다.
 3. 이제는 우체국장을 아예 무시하고, 내 책상 위에서 마법 터널로 편지를 밀어 넣으면 1초 만에 옆집 친구 책상 위에 편지가 딱! 나타나요! 너무 빠르고 우체국장도 쉴 수 있어서 일석이조예요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 639 / 800
+
+← **이전**: [[638_btrfs_subvolume_compression|638. Btrfs 서브볼륨 및 압축/암호화 통합 커널 파일 시스템 동향 (Btrfs Subvolume Compression)]]
+**다음**: [[640_unikernel_mirageos_architecture|640. 유니커널 (Unikernel) 커널 분할 오버헤드 극소화 구조체 망 보안 융합 (MirageOS)]] →
+
+---

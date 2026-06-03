@@ -143,3 +143,14 @@ Offset 관리 · Rebalancing · Lag 모니터링
 1. 큰 상자들을 한 사람이 다 옮기면 너무 오래 걸려요.
 2. 그래서 친구들이 팀을 만들어 상자를 구역별로 나눠 옮겨요.
 3. 누가 어디까지 했는지 표시해 두면, 친구 한 명이 쉬어도 다른 친구가 이어서 할 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 191 / 482
+
+← **이전**: [[190_event_driven_architecture_eda_pubsub|190. 이벤트 기반 아키텍처 (Event-Driven Architecture, EDA) - 비동기 Publish/Subscribe]]
+**다음**: [[192_grpc_protocol_buffers_http2|192. gRPC - Protocol Buffers와 HTTP/2 기반 고성능 RPC]] →
+
+---

@@ -113,3 +113,14 @@ tags:
 1. [[276_fine_tuning|RAG]] 증강 정보 [[275_react_framework|환각]] 방지 [[263_llm_large_language_model|LLM]] 오케스트레이터 결합는 사람이 많은 운동회에서 어디로 가야 하는지 알려 주는 안내판과 비슷해요.
 2. 규칙이 없으면 모두가 한곳에 몰려서 느려지고 다투지만, 길을 정해 두면 훨씬 부드럽게 움직일 수 있어요.
 3. 그래서 컴퓨터 세상에서도 [[276_fine_tuning|RAG]] 증강 정보 [[275_react_framework|환각]] 방지 [[263_llm_large_language_model|LLM]] 오케스트레이터 결합를 쓰면 많은 팀과 [[090_service_kubernetes_network_load_balancing|서비스]]가 덜 부딪히고 더 빨리 움직일 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 361 / 371
+
+← **이전**: [[361_process|361. 다크 데이터 식별 비식별화 K-익명 통계 안전 연계 (Dark Data)]]
+**다음**: [[363_process|363. LLM 캐싱 프롬프트 토큰 반복 요금 레이턴시 방어 계층 (LLM)]] →
+
+---

@@ -192,3 +192,14 @@ tags:
 1. [[154_database_index_b_tree_search_optimization|인덱스]] 주소 지정은 큰 장난감 상자를 한 번 정해 두고, 그 안에서 몇 번째 칸을 열지 숫자로 세는 방법이에요.
 2. 그래서 상자 이름은 그대로 두고 숫자만 0, 1, 2로 바꾸면 장난감을 차례대로 찾을 수 있어요.
 3. 컴퓨터는 이 방법으로 [[055_array|배열]]처럼 줄지어 있는 [[001_dikw_pyramid|데이터]]를 빠르게 훑는답니다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 181 / 803
+
+← **이전**: [[180_base_register_addressing|180. 베이스 레지스터 주소 지정 (Base Register)]]
+**다음**: [[182_relative_addressing|182. PC 상대 주소 지정 (PC-Relative)]] →
+
+---

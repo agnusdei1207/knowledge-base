@@ -153,3 +153,14 @@ BPE는 단순한 [[001_algorithm_definition|알고리즘]]으로 단어 단위 v
 1. BPE는 자주 같이 오는 글자들을 묶어서 새 이름을 주는 거야. "ab"가 자주 나오면 "ab"라는 새 토큰을 만들어.
 2. 이렇게 계속 묶다 보면 자주 쓰는 단어는 하나의 토큰이 되고, 드문 단어는 작은 조각들로 나뉘어.
 3. 덕분에 "처음 본 단어"도 이미 알고 있는 조각들로 분해해서 이해할 수 있어!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 384 / 420
+
+← **이전**: [[383_llm_autoregressive_math|383. LLM 자기 회귀 (Auto-Regressive) 언어 모델 우도 수식]]
+**다음**: [[385_wordpiece_sentencepiece|385. WordPiece / SentencePiece 토크나이징 비교 (Wordpiece Sentencepiece)]] →
+
+---

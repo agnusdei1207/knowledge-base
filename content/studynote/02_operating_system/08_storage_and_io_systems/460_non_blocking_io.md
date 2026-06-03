@@ -183,3 +183,14 @@ Node.js는 이 넌블로킹 철학으로 무장한 최강의 싱글 [[092_thread
 1. 논블로킹 I/O (Non-[[122_sync_async_communication|blocking]] I/O)은 컴퓨터가 디스크와 장치가 [[001_dikw_pyramid|데이터]]를 주고받는 길을 정리하는 방법이에요.
 2. 먼저 블로킹 I/O ([[122_sync_async_communication|Blocking]] I/O)을 이해하면 논블로킹 I/O (Non-[[122_sync_async_communication|blocking]] I/O)이 왜 필요한지 더 쉽게 보여요.
 3. 그래서 논블로킹 I/O (Non-[[122_sync_async_communication|blocking]] I/O)을 잘 알면 나중에 비동기 I/O (Asynchronous I/O, AIO)도 훨씬 쉽게 배울 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 460 / 800
+
+← **이전**: [[459_blocking_io|459. 블로킹 I/O (Blocking I/O) - I/O 완료 시까지 프로세스 대기]]
+**다음**: [[461_asynchronous_io_aio|461. 비동기 I/O (Asynchronous I/O, AIO) - I/O 요청 후 즉시 작업 진행, 완료 시 시그널/콜백 알림]] →
+
+---

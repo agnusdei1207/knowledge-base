@@ -123,3 +123,14 @@ tags:
 1. 번역할 때 "고양이"라는 단어를 만들 때는 영어 입력에서 **"cat"에만 집중**하고, "매트"를 만들 때는 **"mat"에만 집중**하는 게 어텐션이에요!
 2. 도서관 책장에서 "이 질문엔 3번 책이 제일 중요해, 7번 책도 조금 봐야 해" 하고 **매번 새로 골라보는** 똑똑한 탐색 방법이에요.
 3. 이 아이디어 덕분에 **[[246_transformer_self_attention_parallel_positional_encoding|Transformer]], [[302_gpt_autoregressive|GPT]], ChatGPT** 같은 엄청난 AI들이 탄생할 수 있었어요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 296 / 420
+
+← **이전**: [[295_seq2seq|295. Seq2Seq (Sequence to Sequence)]]
+**다음**: [[297_transformer|297. 트랜스포머 (Transformer)]] →
+
+---

@@ -129,3 +129,14 @@ tags:
 1. 정보 보안 관리 (Information [[283_security_tactics|Security]] [[372_management|Management]])는 모두가 같은 규칙으로 일하게 해 주는 반장 약속표예요.
 2. 약속만 적어 두는 것이 아니라 누가 지켰는지 확인하고 고치는 방법까지 함께 정해요.
 3. 그래서 일이 많아져도 서로 부딪히지 않고 더 안전하게 움직일 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 173 / 587
+
+← **이전**: [[094_reinforcement_learning|94. 스트리밍 SQL — ksqlDB (Confluent) / Flink SQL / Spark Structured Streaming]]
+**다음**: [[095_information_security_management_ism|95. 정보 보안 관리 - 기밀성, 무결성, 가용성 통제]] →
+
+---

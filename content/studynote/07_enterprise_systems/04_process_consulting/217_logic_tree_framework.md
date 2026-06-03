@@ -146,3 +146,14 @@ Data-driven Action Design
 1. 로직 트리는 큰 문제를 작은 상자들로 나눠 담는 정리함이에요.
 2. 상자 이름을 잘 붙이면 무엇이 빠졌는지 금방 보여요.
 3. 그래서 어디부터 고쳐야 하는지 헷갈리지 않게 도와줘요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 217 / 482
+
+← **이전**: [[216_liss_logic|216. LISS (Linearly Independent, Spatially Spanning) 논리 원리]]
+**다음**: [[218_porter_generic_strategies|218. 포터의 본원적 경쟁 전략 - 원가 우위, 차별화, 집중화]] →
+
+---

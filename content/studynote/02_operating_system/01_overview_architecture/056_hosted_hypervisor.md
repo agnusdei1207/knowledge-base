@@ -130,3 +130,14 @@ Hosted Hypervisor
 1. 호스트드 하이퍼바이저는 이미 있는 집 안에 작은 방을 만드는 거예요.
 2. 만들기 쉽고 바로 써 볼 수 있어요.
 3. 하지만 아주 큰 일엔 좀 약할 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 56 / 800
+
+← **이전**: [[055_bare_metal_hypervisor|55. 베어메탈 하이퍼바이저 (Bare Metal Hypervisor)]]
+**다음**: [[057_full_virtualization|57. 전가상화 (Full Virtualization) - 이진 변환 (Binary Translation)]] →
+
+---

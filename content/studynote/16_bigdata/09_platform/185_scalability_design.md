@@ -175,3 +175,14 @@ tags:
 1. 확장성은 친구가 많아질수록 책상을 더 잘 나눠 놓아 모두가 같이 공부할 수 있게 만드는 거예요.
 2. [[280_sharding|샤딩]]과 [[179_table_partitioning_concept|파티셔닝]]은 책과 공책을 여러 서랍에 나눠 넣어 한 서랍만 너무 붐비지 않게 하는 방법이에요.
 3. 그래서 아이가 많아져도 교실이 완전히 엉키지 않고, 필요한 물건을 빨리 찾을 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 185 / 262
+
+← **이전**: [[184_data_catalog_integration|184. 데이터 카탈로그 통합 (Data Catalog Integration) - Glue · DataHub · OpenMetadata]]
+**다음**: [[186_data_compression|186. 데이터 컴프레션 전략 (Data Compression Strategy) — Snappy/Zstd/Gzip]] →
+
+---

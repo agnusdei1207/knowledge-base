@@ -230,3 +230,14 @@ EA 법제화 (전자정부법)
 1. 자크만 프레임워크는 IT 시스템을 6가지 관점(경영자, 설계자, 개발자 등)과 6가지 질문(무엇, 어떻게, 어디서, 누가, 언제, 왜)으로 나눈 36칸 [[435_checklist_based_testing|체크리스트]]예요.
 2. 이 36칸을 모두 채우면 "이 IT 시스템에 대해 모든 [[173_stakeholder_identification_impact_matrix|이해관계자]]가 필요한 정보를 가지고 있다"는 것을 보장할 수 있어요.
 3. 보안 분야에서도 이 틀을 써서 비즈니스 레벨부터 기술 레벨까지 빠짐없이 보안 요구사항을 정리해요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 41 / 1108
+
+← **이전**: [[040_inherited_risk|040. 상속된 위험 (Inherited Risk)]]
+**다음**: [[042_sabsa|042. SABSA (Sherwood Applied Business Security Architecture)]] →
+
+---

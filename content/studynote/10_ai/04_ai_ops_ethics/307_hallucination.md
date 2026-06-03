@@ -131,3 +131,14 @@ LLM은 텍스트의 통계적 패턴을 학습한 예측기다. 학습 [[001_dik
 1. **[[251_hallucination_rag_augmented_retrieval_vector_db|할루시네이션]]**은 AI가 "모른다"고 말하는 대신 **그럴싸한 거짓말을 자신 있게 하는** 것이에요 — 마치 시험에서 모르는 문제에 아무 답이나 당당히 쓰는 것처럼요!
 2. AI는 진실을 찾는 게 아니라 **"자연스럽게 이어지는 글자"**를 만들어내는 기계라서, 사실이 아닌 것도 그럴듯하면 써버려요.
 3. 이걸 막으려면 **외부 지식 검색([[276_fine_tuning|RAG]])**이나 **전문가 [[396_validation|확인]](Human-in-the-Loop)**을 반드시 함께 사용해야 해요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 307 / 420
+
+← **이전**: [[306_peft_lora|306. PEFT (Parameter-Efficient Fine-Tuning) / LoRA (Low-Rank Adaptation)]]
+**다음**: [[308_rag|308. RAG (Retrieval-Augmented Generation)]] →
+
+---

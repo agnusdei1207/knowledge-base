@@ -173,3 +173,14 @@ Adaptive Sampling · 자동 튜닝 연계
 1. [[136_variance|분산]] DB는 여러 창고에서 물건을 가져오는 큰 가게라서, 주문이 늦으면 어느 창고에서 늦었는지 먼저 찾아야 해요.
 2. 트레이스는 물건이 지나간 길을 보여 주고, [[298_qkv_attention|쿼리]] 플랜은 왜 그 창고가 느렸는지 이유를 알려줘요.
 3. 그래서 둘을 같이 보면 "어디서 막혔는지"와 "왜 막혔는지"를 한 번에 알 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 176 / 373
+
+← **이전**: [[175_buffer_queue_telemetry|175. 시스템 경계 완충지대 텔레메트리 (Buffer/Queue Telemetry)]]
+**다음**: [[177_serverless_observability_xray|177. 서버리스 옵저버빌리티 (Serverless Observability) - AWS X-Ray]] →
+
+---

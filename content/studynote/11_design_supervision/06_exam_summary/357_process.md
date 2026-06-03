@@ -111,3 +111,14 @@ tags:
 1. 리스코프 치환 원칙 ([[245_lsp_liskov_substitution_principle|Liskov Substitution Principle]], [[245_lsp_liskov_substitution_principle|LSP]])은 같은 규칙으로 놀 수 있는 팀원만 같은 유니폼을 입히는 것처럼 약속을 먼저 정하는 거예요.
 2. 그러면 서로 다른 사람이 해도 같은 규칙으로 움직일 수 있어요.
 3. 그래서 규모가 커질수록 [[234_uml_class_relationships_generalization_dependency|상속]]과 다형성에서 계약 일관성을 지키는 일이 더 중요해져요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 435 / 530
+
+← **이전**: [[356_process|356. 개방-폐쇄 원칙 (Open-Closed Principle, OCP)]]
+**다음**: [[358_architecture|358. 인터페이스 분리 원칙 (Interface Segregation Principle, ISP)]] →
+
+---

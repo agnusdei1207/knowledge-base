@@ -53,3 +53,14 @@ LoRA는 **[[263_llm_large_language_model|LLM]] Fine-tuning의 사실상 표준**
 1. LoRA는 건물([[190_ai_llm_requirements_specification|AI]])을 **그대로 두고 간판만 바꾸는** 거예요.
 2. 건물 전체를 공사하는 것보다 **100배 빠르고 저렴**해요.
 3. 간판만 바꿔도 **완전히 다른 가게([[064_relation_domain|도메인]])**처럼 보인답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 135 / 420
+
+← **이전**: [[134_peft|134. PEFT (Parameter-Efficient Fine-Tuning) - 소수 파라미터만 학습하는 효율적 미세 조정]]
+**다음**: [[136_prompt_tuning|136. Prompt Tuning - 소프트 프롬프트로 LLM 적응]] →
+
+---

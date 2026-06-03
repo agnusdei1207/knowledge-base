@@ -165,3 +165,14 @@ CLIP (OpenAI, 2021) — 대조 학습으로 텍스트-이미지 정렬
     ▼
 옴니모달 AI — 모든 감각 통합 추론
 ```
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 158 / 258
+
+← **이전**: [[157_time_series_deep_learning_tcn_transformer|157. 시계열 예측 딥러닝 TCN (Temporal Convolutional Network) 병렬 합성곱]]
+**다음**: [[159_gnn_graph_neural_network_message_passing|159. GNN (Graph Neural Network) 그래프 노드 메시지 패싱 네트워크]] →
+
+---

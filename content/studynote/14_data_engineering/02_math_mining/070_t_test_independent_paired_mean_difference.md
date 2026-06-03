@@ -131,3 +131,14 @@ Statistical Inference
 두 팀이 진짜 다른지 봐요.  
 기록 차이를 계산해요.  
 t-검정은 그런 검사예요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 70 / 258
+
+← **이전**: [[069_type_1_2_error_statistical_power|69. 1종 오류와 2종 오류, 검정력(Power) - 오판의 리스크 관리]]
+**다음**: [[071_anova_analysis_of_variance_f_value_post_hoc|71. 분산 분석 (ANOVA) - 다수 집단 간 평균 차이 통계적 검증]] →
+
+---

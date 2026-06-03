@@ -175,3 +175,14 @@ Factory Method 결합
 1. 선생님은 "준비하기 → 만들기 → 검사하기 → 정리하기" 순서를 항상 똑같이 정해 둬요.
 2. 그런데 만들기 시간에 종이비행기를 만들지, 종이배를 만들지는 반마다 달라요.
 3. 순서는 선생님이 지키게 하고, 무엇을 만들지는 각 반이 정하게 한 것이 이 패턴 조합이에요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 224 / 530
+
+← **이전**: [[167_abstract_factory_factory_derivation|167. 추상 팩토리 팩토리 클래스 도출 (Abstract Factory Derivation)]]
+**다음**: [[169_static_factory_method|169. 정적 팩토리 메서드 (Static Factory Method)]] →
+
+---

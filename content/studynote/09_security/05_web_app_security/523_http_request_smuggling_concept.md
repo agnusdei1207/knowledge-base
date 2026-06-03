@@ -125,3 +125,14 @@ tags:
 1. [[461_http_stateless_connection_oriented|HTTP]] Request Smuggling (개념 및 [[212_synchronization_mechanisms|동기화]] 오류)는 누군가 규칙의 틈을 찾아 몰래 장난을 치는 방법이에요.
 2. 그래서 문을 단단히 잠그는 것뿐 아니라, 누가 이상하게 움직이는지도 바로 알아차려야 해요.
 3. 컴퓨터는 이상한 흔적을 빨리 보고 퍼지기 전에 멈추게 해야 안전해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 579 / 1108
+
+← **이전**: [[522_modsecurity_crs|522. ModSecurity Core Rule Set (Generic 공격 탐지)]]
+**다음**: [[524_http_request_smuggling_types|524. HTTP Request Smuggling 유형 (CL.TE, TE.CL, H2.CL)]] →
+
+---

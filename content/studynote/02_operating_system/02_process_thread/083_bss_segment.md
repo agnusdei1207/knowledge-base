@@ -131,3 +131,14 @@ Page Fault 시 0페이지 할당
 1. BSS는 "아직 안 채운 빈 상자"를 미리 예약해 두는 거예요.
 2. 상자 안에 무엇이 들어갈지는 나중에 정하고, 처음엔 깨끗하게 비워 둬요.
 3. 그래서 컴퓨터는 큰 상자를 써도 [[501_file_definition_logical_record|파일]]은 작게, 시작은 깔끔하게 할 수 있답니다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 83 / 800
+
+← **이전**: [[082_process_memory_structure|82. 프로세스 메모리 구조 - Text(Code), Data, BSS, Heap, Stack]]
+**다음**: [[084_heap_segment|84. 힙 (Heap) 영역 - 동적 할당 (malloc/free)]] →
+
+---

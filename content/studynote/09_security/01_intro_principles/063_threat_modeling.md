@@ -140,3 +140,14 @@ Secure Design
 새 집에 들어가기 전에 어디로 들어올 수 있는지 먼저 봐요.  
 문, 창문, 담장에 구멍이 없는지 [[396_validation|확인]]해요.  
 [[611_threat_modeling|위협 모델링]]은 그런 구멍을 미리 찾는 일이에요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 63 / 1108
+
+← **이전**: [[062_secure_coding|62. 시큐어 코딩 (Secure Coding)]]
+**다음**: [[064_dread_model|064. DREAD 모델 — Damage/Reproducibility/Exploitability/Affected Users discoverability]] →
+
+---

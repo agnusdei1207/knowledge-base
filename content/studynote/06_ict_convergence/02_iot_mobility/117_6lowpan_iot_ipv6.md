@@ -105,3 +105,14 @@ tags:
 1. [[324_ipv6_128bit_next_generation_address|IPv6]] 편지는 **봉투(40바이트)가 너무 커서** 작은 엽서(127바이트)에 안 들어가요.
 2. 6LoWPAN은 봉투를 **작게 접어서([[347_compaction|압축]])** 엽서에 넣을 수 있게 해주는 기술이에요.
 3. 이 기술 덕분에 아주 작은 센서도 **인터넷([[324_ipv6_128bit_next_generation_address|IPv6]]) 주소를 가지고** 세상과 대화할 수 있답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 117 / 552
+
+← **이전**: [[116_matter_smart_home_standard|116. Matter 스마트 홈 표준 - Apple·Google·Amazon 통합 IoT 프로토콜]]
+**다음**: [[118_mqtt_protocol|118. MQTT 프로토콜 (Message Queuing Telemetry Transport) - IoT 경량 메시징]] →
+
+---

@@ -131,3 +131,14 @@ Kernel Observability
 [[022_kernel_role|커널]] 안을 안전하게 들여다봐요.  
 무엇이 일어나는지 볼 수 있어요.  
 eBPF는 그런 똑똑한 안경이에요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 69 / 800
+
+← **이전**: [[068_live_patching|68. 동적 커널 패치 (Live Patching) - kpatch, kGraft]]
+**다음**: [[070_hal|70. 하드웨어 추상화 계층 (HAL, Hardware Abstraction Layer)]] →
+
+---

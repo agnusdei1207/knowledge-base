@@ -129,3 +129,14 @@ tags:
 1. 아키텍처 평가 [[229_atam_architecture_trade_off_analysis_method|ATAM]] [[230_cbam_cost_benefit_analysis_method|CBAM]] [[095_tradeoff_point_architecture_evaluation_atam_conflict|상충점]] 민감도 도출 로직은 모두가 같은 규칙으로 일하게 해 주는 반장 약속표예요.
 2. 약속만 적어 두는 것이 아니라 누가 지켰는지 확인하고 고치는 방법까지 함께 정해요.
 3. 그래서 일이 많아져도 서로 부딪히지 않고 더 안전하게 움직일 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 568 / 587
+
+← **이전**: [[363_micro_frontend_deployment_independence|363. 마이크로 프론트엔드 배포 독립성 컴포넌트 결합망 진단]]
+**다음**: [[364_atam_cbam_architecture_evaluation|364. 아키텍처 평가 ATAM CBAM 상충점 민감도 도출 로직]] →
+
+---

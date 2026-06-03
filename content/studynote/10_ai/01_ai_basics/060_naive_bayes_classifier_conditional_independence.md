@@ -128,3 +128,14 @@ P(C) × Π P(xi|C)
 [[264_naive_bayes|나이브 베이즈]]는 각 증상을 따로 점수 매겨서 병을 찾는 방법이에요.  
 좀 단순하지만 아주 빨라요.  
 그래서 스팸 메일처럼 빨리 골라야 할 때 좋아요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 60 / 420
+
+← **이전**: [[059_kernel_trick_rbf_polynomial|59. 커널 트릭 (Kernel Trick) - 비선형 분류를 위한 고차원 암시적 매핑 (RBF, Polynomial)]]
+**다음**: [[061_artificial_neural_network_ann_neuron_model|61. 인공 신경망 (ANN, Artificial Neural Network)]] →
+
+---

@@ -171,3 +171,14 @@ Composite Pattern 마트료시카 대관식 강림 🚀 / 유저는 걍 껍데�
 1. 내가 **'사과 1개(단일 [[501_file_definition_logical_record|파일]] Leaf)'**와 **'사과 100개가 든 커다란 나무 상자(복합 폴더 [[261_composite_pattern_tree_structure|Composite]])'**를 과일 가게에 팔러 갔어요!
 2. 옛날 바보 가게 주인(스파게티 코드 💥)은 "어? 사과는 저울에 달고, 상자는 뜯어서 안에 든 거 하나하나 다 꺼내서 따로따로 재야 해 ㅠ" 라며 피 터지게 1시간 동안 [[104_classification_analysis|분류]] 노가다를 치다 뻗어 타죽었어요 💀.
 3. 하지만 **[[261_composite_pattern_tree_structure|컴포지트]]([[261_composite_pattern_tree_structure|Composite]] 마법 텐트 🚀)** 천재 주인이 오면 다릅니다!! 눈에 보이는 게 사과 1개든, 100개 든 거대 상자든 1도 차별 안 하고 대충 퉁쳐서 ➔ 걍 똑같은 커다란 마법 저울(`Component` 공통 대문 껍데기 ✨)에 무지성 1방에 턱 올려버립니다 쾅!! 그러면 요술 상자가 뱃속에서 지 스스로 알아서([[014_recursion|재귀]] 짬처리 핑퐁) 100개 사과 무게를 오토 광속 0.1초 컷 계산 합산해 내어 완벽 100점짜리 가격표를 뱉어주는 엄청 편안한 꿀빨기 다이어트 계산 마법이랍니다 🚀!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 210 / 530
+
+← **이전**: [[153_bridge_pattern|153. 구조 패턴: 브리지 (Bridge Pattern) - 추상부와 구현부의 완벽 이혼 절단 융합술]]
+**다음**: [[155_decorator_pattern|155. 데코레이터 패턴 (Decorator Pattern)]] →
+
+---

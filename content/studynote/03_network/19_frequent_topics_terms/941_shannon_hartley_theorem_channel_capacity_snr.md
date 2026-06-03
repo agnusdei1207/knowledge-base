@@ -137,3 +137,14 @@ $$ C = B \cdot \log_2 (1 + \frac{S}{N}) $$
 1. 비슷한 이름의 장난감을 헷갈리지 않게 표를 붙이는 것과 같아요.
 2. 이 개념은 무엇이 어떻게 다른지 쉽게 구별하게 도와줘요.
 3. 그래서 시험에서도 실무에서도 말을 더 정확하게 쓸 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 1062 / 1120
+
+← **이전**: [[940_baseband_line_coding_nrz_rz_manchester|940. 기저대역(Baseband) 선로 부호 (RZ, NRZ, 맨체스터 등)]]
+**다음**: [[942_aliasing_nyquist_sampling_theorem_distortion|942. 에일리어싱 (Aliasing)]] →
+
+---

@@ -184,3 +184,14 @@ safer concurrent design and test scenarios
 1. 페트리 넷은 방마다 구슬을 놓고, 구슬이 있어야만 다음 문이 열리는 규칙 놀이판이에요.
 2. 그래서 어떤 문은 두 개의 구슬이 모두 있을 때만 열리고, 구슬이 없으면 아무도 지나갈 수 없어요.
 3. 컴퓨터는 이 규칙을 보고 여러 일이 동시에 일어날 때 어디서 막히는지 미리 알아낼 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 176 / 973
+
+← **이전**: [[175_formal_informal_specification_languages|175. 요구사항 명세 언어 (Z, VDM 등 정형 언어)]]
+**다음**: [[177_requirements_management_tools_jira_doors|177. 요구사항 도구 (Jira, DOORS 등) 활용 전략]] →
+
+---

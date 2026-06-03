@@ -152,3 +152,14 @@ Schedule Compression / Replanning / Stakeholder Reporting
 1. 오늘까지 숙제 10장을 끝내기로 했는데 7장만 끝냈다면, 그 차이를 숫자로 보여주는 것이 SV예요.
 2. 숙제가 얼마나 늦었는지를 돈처럼 같은 기준으로 세니까, 다른 과목과도 쉽게 비교할 수 있어요.
 3. 하지만 마지막 날엔 결국 숙제를 다 끝낼 수도 있어서, 얼마나 늦었는지는 다른 지표도 함께 봐야 해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 271 / 587
+
+← **이전**: [[156_cv_cost_variance|156. CV (Cost Variance) = EV]]
+**다음**: [[158_cpi_cost_performance_index|158. CPI (Cost Performance Index, 비용 성과 지수)]] →
+
+---

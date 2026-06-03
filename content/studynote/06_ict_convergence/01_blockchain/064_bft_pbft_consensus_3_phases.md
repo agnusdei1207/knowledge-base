@@ -134,3 +134,14 @@ Fast Finality
 회의에서 도장을 세 번 받아야 끝나요.  
 거짓말하는 사람이 있어도 규칙이 있으면 괜찮아요.  
 PBFT는 그런 식으로 합의하는 방법이에요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 64 / 552
+
+← **이전**: [[063_mempool_transaction_queue|63. 트랜잭션 풀 (Mempool / Memory Pool) - 블록에 포함되지 않은 대기 중인 트랜잭션 저장소]]
+**다음**: [[065_consensus_finality_probabilistic_deterministic|65. 합의 완결성 (Finality) - 블록이 체인에 기록되어 뒤집히지 않음이 보장되는 상태 (PoW는 확률적 완결성, BFT는 즉각적]] →
+
+---

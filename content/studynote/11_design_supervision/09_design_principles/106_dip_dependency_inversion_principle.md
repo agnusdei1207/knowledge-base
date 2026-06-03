@@ -129,3 +129,14 @@ SOLID 원칙 정립: DIP (Dependency Inversion Principle)
 1. DIP는 장난감 자동차의 바퀴를 본드(강결합)로 붙이지 않는 원칙이에요.
 2. 바퀴가 들어가는 동그란 구멍(인터페이스) 모양만 똑같게 만들어 두면 돼요.
 3. 그러면 흙길을 달릴 땐 큰 바퀴로, 방에서 놀 땐 부드러운 바퀴로 자동차를 망가뜨리지 않고 쉽게 바꿀 수 있답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 155 / 530
+
+← **이전**: [[106_dip_dependency_inversion_principle|106. 의존성 역전 원칙 (DIP, Dependency Inversion Principle)]]
+**다음**: [[107_dry_dont_repeat_yourself|107. 반복 금지 원칙 (DRY, Don't Repeat Yourself)]] →
+
+---

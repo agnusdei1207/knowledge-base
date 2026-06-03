@@ -150,3 +150,14 @@ BTFN (Backward Taken, Forward Not Taken)
 1. 갈림길이 나오기 전에 "보통은 이쪽으로 가더라" 하고 먼저 길을 정하는 게 정적 [[231_branch_prediction|분기 예측]]이에요.
 2. 지난번에 어디로 갔는지는 기억하지 않아도, 길 모양만 보고 빨리 움직일 수 있어요.
 3. 자주 가던 길에서는 잘 맞지만, 매번 길이 달라지면 틀릴 수도 있어서 더 똑똑한 지도와 함께 쓰면 좋아요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 232 / 803
+
+← **이전**: [[231_branch_prediction|231. 분기 예측 (Branch Prediction)]]
+**다음**: [[233_dynamic_prediction|233. 동적 분기 예측 (Dynamic Prediction)]] →
+
+---

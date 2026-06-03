@@ -161,3 +161,14 @@ AWS SnapStart & WebAssembly 엣지 융합 (현재) / 걍 켜진 상태 램 메�
 1. **[[206_serverless_cold_start|서버리스]]([[206_serverless_cold_start|Serverless]])**는 돈을 엄청 아끼기 위해서 평소에는 **장난감 공장(서버) 불을 싹 다 꺼놓고 직원들도 집에 다 퇴근시켜 0원(무료)**으로 만드는 마법이에요!
 2. 근데 갑자기 손님이 "로봇 줘!" 주문을 틱 누르면 ➔ 알바생들이 집에서 허겁지겁 택시 타고 공장으로 뛰어와서 불 켜고 기계 예열(부팅) 하느라 **3초 동안 기다려야 하는 랙([[141_latency|지연 시간]])**이 발생하는데, 이걸 **'[[559_serverless_cold_start_mitigation|콜드 스타트]]([[347_cold_start_problem|Cold Start]] 🥶)'**라고 불러요! 
 3. 이 3초 랙이 너무 빡치면? 돈을 조금 더 내더라도 알바생 1명한테 **"너 퇴근하지 말고 공장 따뜻하게(Warm) 보일러 켜놓고 문 앞에서 무조건 24시간 대기 타 쾅 🚀!"** 하고 고정 보초([[528_provisioning|프로비저닝]] 록온 쉴드)를 세워두면 ➔ 다음 손님 올 때 0.1초 컷 쾌속 빛의 속도로 로봇을 튀겨 서빙해 주는 완벽 방어막이 완성된답니다 ✨!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 151 / 371
+
+← **이전**: [[151_aws_lambda_cloud_functions|151. 서버리스 컴퓨팅 (Serverless Computing / FaaS) - 인프라 짬처리의 궁극적 진화]]
+**다음**: [[153_provisioned_concurrency_warm_start|153. 프로비저닝된 동시성 / 웜 스타트 (Provisioned Concurrency / Warm Start) - 서버리스 콜드 스타트]] →
+
+---

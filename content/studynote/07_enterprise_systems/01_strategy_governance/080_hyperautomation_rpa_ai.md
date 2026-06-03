@@ -128,3 +128,14 @@ AI(OCR, NLP, 머신러닝) 기술을 모듈화하여 RPA 파이프라인 전방�
 1. 하이퍼오토메이션([[240_hyperautomation_hybrid_workforce|초자동화]])은 단순한 청소 로봇([[060_rpa_hyperautomation|RPA]])에게 '똑똑한 [[231_ai_turing_test|인공지능]] 두뇌([[190_ai_llm_requirements_specification|AI]])'와 '돋보기(카메라)'를 달아준 엄청난 업그레이드예요.
 2. 예전 로봇은 바닥에 네모난 블록만 주울 수 있었고 구겨진 종이(어려운 문서)가 있으면 에러가 났지만, 이젠 돋보기로 글씨를 읽고 [[231_ai_turing_test|인공지능]]으로 "아, 이건 쓰레기네!"라고 스스로 판단하죠.
 3. 그리고 만약 로봇이 헷갈리는 장난감을 발견하면, 버리지 않고 엄마(직원)에게 "이거 버릴까요?"라고 물어본 뒤 다음부턴 알아서 척척 치우는 천재 로봇이랍니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 80 / 482
+
+← **이전**: [[079_rpa_robotic_process_automation|079. RPA (Robotic Process Automation)]]
+**다음**: [[081_erp_enterprise_resource_planning|81. ERP (Enterprise Resource Planning)]] →
+
+---

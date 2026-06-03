@@ -131,3 +131,14 @@ Key Design
 문을 열 수 있는 건 많아요.  
 하지만 꼭 필요한 것만 골라야 해요.  
 슈퍼 키는 그런 큰 열쇠 묶음이에요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 68 / 600
+
+← **이전**: [[067_db_key_uniqueness_minimality|67. 키 (Key)의 개념 - 유일성(Uniqueness), 최소성(Minimality)]]
+**다음**: [[069_candidate_key_uniqueness_minimality|69. 후보 키 (Candidate Key) - 유일성과 최소성을 모두 만족하는 키]] →
+
+---

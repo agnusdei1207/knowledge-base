@@ -132,3 +132,14 @@ RANK() 동점 점프 / DENSE_RANK() 비점프는 [[002_database_definition|데�
 1. 컴퓨터가 정보를 잘 정리하고 지키기 위해 쓰는 약속이에요.
 2. 약속마다 하는 일이 조금씩 달라요.
 3. 그래서 이름만 외우지 말고 언제 쓰는지 같이 알아야 해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 437 / 600
+
+← **이전**: [[436_window_function_over|436. 윈도우 함수 OVER (PARTITION BY)]]
+**다음**: [[438_group_by_rollup_cube|438. GROUP BY 다차원 ROLLUP, CUBE]] →
+
+---

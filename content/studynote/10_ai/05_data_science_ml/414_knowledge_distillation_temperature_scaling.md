@@ -128,3 +128,14 @@ tags:
 1. 큰 책을 아주 똑똑하게 줄여서 작은 책으로 만드는 거예요.
 2. 작은 책에는 정답뿐 아니라 "이것도 비슷해"라는 [[167_sql_hint_optimizer_override|힌트]]가 들어 있어요.
 3. 그래서 작은 책만 봐도 꽤 똑똑하게 문제를 풀 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 414 / 420
+
+← **이전**: [[413_imitation_learning_behavior_cloning|413. 자율주행 모방 학습 (Imitation Learning / Behavior Cloning)]]
+**다음**: [[415_instance_normalization_group_normalization|415. 인스턴스 정규화 vs 그룹 정규화 (Instance Normalization vs Group Normalization)]] →
+
+---

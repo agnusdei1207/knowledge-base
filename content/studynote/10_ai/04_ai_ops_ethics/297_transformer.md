@@ -131,3 +131,14 @@ Transformer는 [[190_ai_llm_requirements_specification|AI]] 역사에서 가장 
 1. **[[246_transformer_self_attention_parallel_positional_encoding|Transformer]]([[246_transformer_self_attention_parallel_positional_encoding|트랜스포머]])**는 책을 한 글자씩 읽는 대신, **책 전체를 사진으로 찍어서 한 번에 모든 글자의 [[083_relationship_in_er_model|관계]]를 파악**하는 엄청나게 빠른 신경망이에요!
 2. 덕분에 [[418_gpu|GPU]](컴퓨터 계산 장치)를 **최대한 동시에** 활용할 수 있어서, 엄청 큰 AI도 빠르게 학습할 수 있어요.
 3. **ChatGPT, [[301_bert_mlm|BERT]], Stable Diffusion** 등 요즘 유명한 AI가 모두 이 [[246_transformer_self_attention_parallel_positional_encoding|Transformer]] 구조를 사용하고 있어요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 297 / 420
+
+← **이전**: [[296_attention_mechanism|296. 어텐션 메커니즘 (Attention Mechanism)]]
+**다음**: [[298_qkv_attention|298. 쿼리(Q) / 키(K) / 밸류(V)]] →
+
+---

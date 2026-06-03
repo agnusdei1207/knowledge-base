@@ -333,3 +333,14 @@ LLM 기반 취약점 탐지
 1. [[395_verification_process_review|Verification]] vs [[396_validation|Validation]] = 설계도 vs 고객 만족 — 설계도대로 지었나?(V), 고객이 살기 편한가?(V). 둘 다 YES여야 완성!
 2. [[161_inspection_formal_review|인스펙션]] = 엄격한 논문 심사 — 3~5명이 사전에 읽고 [[352_defect_definition|결함]] 목록 작성. 회의에서 수정 필요 여부 결정. [[352_defect_definition|결함]] 70% 탐지!
 3. Quality Gate = 출발 전 [[435_checklist_based_testing|체크리스트]] — 버그 0, 커버리지 80%, 보안 취약점 0 만족해야 배포. 비행기 이륙 전 안전 점검!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 72 / 530
+
+← **이전**: [[047_rtm_requirements_traceability_matrix_validation|047. 요구사항 추적 매트릭스 — RTM 심화]]
+**다음**: [[049_hand_over_education_manual_audit|49. 유지보수 이관 및 운영자 교육·매뉴얼 적정성 진단 (Hand-over, Training and Manual Audit)]] →
+
+---

@@ -105,3 +105,14 @@ KMS는 **조직 지식을 자산화**하여 인력 유실 위험을 줄이고, [
 1. KMS는 회사의 **위키피디아**예요. 모든 사람의 지식을 **한 곳에 모아요**.
 2. 요리사의 **손맛(암묵지)**을 **레시피([[129_explicit_knowledge_formalization|형식지]])**로 만들어서 다른 사람도 배울 수 있어요.
 3. 선배가 떠나도 **레시피(KMS)가 남아서** 회사의 지식이 사라지지 않아요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 127 / 482
+
+← **이전**: [[126_scm_erp_mes_vertical_integration|126. SCM·ERP·MES 수직 통합 - 계획→실행→현장의 데이터 연속성]]
+**다음**: [[128_tacit_vs_explicit_knowledge|128. 암묵지 vs 형식지 (Tacit vs Explicit Knowledge) - 지식 변환과 SECI 모델]] →
+
+---

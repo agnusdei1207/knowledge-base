@@ -139,3 +139,14 @@ tags:
 1. 택배를 보내려면 집 주소가 정확해야 길을 잃지 않아요.
 2. 이 개념은 인터넷 세상에서 주소를 정하고 다음 길을 찾는 지도와 같아요.
 3. 그래서 멀리 있는 친구 컴퓨터까지도 편지가 도착할 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 430 / 1120
+
+← **이전**: [[308_static_dynamic_nat_pat_port_address_translation|308. Static NAT (1:1) / Dynamic NAT (M:N) / PAT (Port Address Translation =]]
+**다음**: [[310_alg_application_layer_gateway_nat_traversal|310. ALG (Application Layer Gateway)]] →
+
+---

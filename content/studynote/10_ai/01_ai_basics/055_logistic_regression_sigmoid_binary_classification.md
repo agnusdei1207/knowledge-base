@@ -124,3 +124,14 @@ x → z = w·x + b → sigmoid(z) → P(y=1) → class
 1. [[227_logistic_regression_clt_pvalue_type_error|로지스틱 회귀]]는 "맞다/아니다"를 [[130_probability|확률]]로 말해요.
 2. 점수가 높으면 1에 가깝고 낮으면 0에 가까워요.
 3. 그래서 어떤 답인지 더 부드럽게 판단할 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 55 / 420
+
+← **이전**: [[054_decision_tree_impurity_entropy_gini|54. 의사결정나무의 불순도 (Decision Tree Impurity: Entropy/Gini)]]
+**다음**: [[056_knn_k_nearest_neighbors_lazy_learning|56. K-NN (K-Nearest Neighbors) - 새로운 데이터를 가장 가까운 K개 이웃의 클래스 중 다수결로 판별 (게으른]] →
+
+---

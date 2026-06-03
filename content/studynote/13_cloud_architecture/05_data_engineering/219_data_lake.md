@@ -82,3 +82,14 @@ Data Lakehouse: Lake + Warehouse 통합 (Delta · Iceberg)
 ```
 2. 예전에는 장난감 통, 책꽂이로 다 나눠야 했지만, 이제는 일단 상자에 다 넣어두고 나중에 놀고 싶을 때 꺼내서 정리하면 돼요.
 3. 상자가 아주 커서 세상 모든 물건을 다 담아도 끄떡없답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 218 / 371
+
+← **이전**: [[218_spark_streaming_realtime_processing|218. 스파크 스트리밍 / Structured Streaming]]
+**다음**: [[220_schema_on_read_data_lake|220. 스키마 온 리드 (Schema-on-Read)]] →
+
+---

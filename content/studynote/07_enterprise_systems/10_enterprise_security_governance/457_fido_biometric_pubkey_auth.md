@@ -139,3 +139,14 @@ FIDO 로컬 생체 서버 공개키 [[303_authentication_authorization_patterns|
 1. FIDO 로컬 생체 서버 공개키 [[303_authentication_authorization_patterns|인증]]는 복잡한 일을 순서대로 정리해 주는 큰 정리함이에요.
 2. 어디에 무엇을 넣을지 먼저 정해 두면, 나중에 찾거나 고칠 때 훨씬 쉬워져요.
 3. 그래서 일이 커질수록 먼저 기준을 만들고 같이 약속하는 것이 중요해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 457 / 482
+
+← **이전**: [[456_neuromorphic_spike_neural_edge|456. 뉴로모픽 연산 스파이크 신경망 저전력 에지 컴퓨팅 (Neuromorphic Computing & SNN)]]
+**다음**: [[458_oauth2_oidc_token_delegation|458. OAuth 2.0 / OIDC 토큰 위임 인증 인가 분산 (OAuth 2.0 / OpenID Connect)]] →
+
+---

@@ -134,3 +134,14 @@ Carbon-Aware Computing (Temporal/Spatial Shifting)
 1. 침수 냉각은 뜨거운 컴퓨터를 특수 기름(유전체)에 담가서 식히는 것으로, 선풍기(공랭)보다 훨씬 효율적이에요.
 2. [[359_esg_carbon_aware_pue|Carbon-Aware]] Computing은 바람이 많이 부는 밤에 세탁기를 돌리는 것처럼, 전기가 가장 깨끗한 시간에 컴퓨터 작업을 하는 거예요.
 3. [[237_pue_power_usage_effectiveness_datacenter_metric|PUE]] 1.0은 전기를 100% 컴퓨터에만 쓰는 완벽한 효율이고, 공랭 [[801_data_center_3_tier_architecture_core_aggregation_access|데이터센터]]는 1.6처럼 60%를 냉각에 낭비해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 368 / 373
+
+← **이전**: [[367_dpu_smartnic|367. DPU SmartNIC 인프라 오프로딩 데이터 처리 장치 (DPU SmartNIC Infrastructure Offloading]]
+**다음**: [[369_dlt_bft|369. 블록체인 분산원장 스마트계약 BFT 합의 (Blockchain DLT Smart Contract BFT PBFT Consensus)]] →
+
+---

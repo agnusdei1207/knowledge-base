@@ -134,3 +134,14 @@ Reference Architecture
 1. [[204_immutable_infrastructure_configuration_drift_prevention|불변 인프라]]는 복잡한 일을 순서와 규칙으로 정리해서 실수하지 않게 도와주는 방법이에요.
 2. Golden Image 같은 친구들과 같이 움직여야 더 잘 작동해요.
 3. 그래서 문제가 생겨도 어디서 틀렸는지 빨리 찾고 다시 고치기 쉬워져요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 192 / 373
+
+← **이전**: [[191_iac_infrastructure_as_code_declarative|191. 인프라스트럭처 애즈 코드 (IaC, Infrastructure as Code)]]
+**다음**: [[193_configuration_drift|193. 구성 편류 (Configuration Drift)]] →
+
+---

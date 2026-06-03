@@ -129,3 +129,14 @@ tags:
 1. 실을 통해 전화기를 만들 때 실이 길거나 약하면 목소리가 잘 안 들려요.
 2. 이 개념은 어떤 실이나 파이프가 말을 더 멀리 잘 보내는지 알려줘요.
 3. 덕분에 상황에 맞는 선과 장비를 골라 더 멀리, 더 빠르게 보낼 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 267 / 1120
+
+← **이전**: [[145_dsu_csu_digital_service_unit|145. DSU (Digital Service Unit) / CSU (Channel Service Unit)]]
+**다음**: [[147_cable_modem_docsis|147. 케이블 모뎀 (Cable Modem) / DOCSIS 표준]] →
+
+---

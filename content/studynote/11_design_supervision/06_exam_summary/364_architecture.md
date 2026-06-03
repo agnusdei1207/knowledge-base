@@ -111,3 +111,14 @@ tags:
 1. [[205_layered_architecture_separation_of_concerns|계층형 아키텍처]] ([[205_layered_architecture_separation_of_concerns|Layered Architecture]])은 학교 건물을 층별로 교실, 행정실, 창고로 나누는 것처럼 약속을 먼저 정하는 거예요.
 2. 그러면 서로 다른 사람이 해도 같은 규칙으로 움직일 수 있어요.
 3. 그래서 규모가 커질수록 관심사를 수직 계층으로 분리하는 일이 더 중요해져요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 442 / 530
+
+← **이전**: [[363_process|363. 결합도·응집도 (Coupling and Cohesion)]]
+**다음**: [[365_architecture|365. 클린 아키텍처 (Clean Architecture)]] →
+
+---

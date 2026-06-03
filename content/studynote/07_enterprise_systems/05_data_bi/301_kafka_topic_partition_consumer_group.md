@@ -183,3 +183,14 @@ Replication Factor + ISR = 고가용성 보장
 1. 토픽은 학교 알림판이고, [[514_partition_slice_volume|파티션]]은 알림판을 반별로 나눈 구역이에요.
 2. [[191_consumer_group_kafka_partition_load_balancing|컨슈머 그룹]]은 각 구역 담당 학생 모둠이고, 한 구역은 한 학생만 담당해요.
 3. 오프셋은 어디까지 읽었는지 표시하는 책갈피예요. 덕분에 다음 날에도 이어서 읽을 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 301 / 482
+
+← **이전**: [[300_realtime_data_streaming_kafka_cdc|300. 실시간 데이터 스트리밍 (Kafka + CDC)]]
+**다음**: [[302_dataops_cicd_dbt|302. 데이터옵스 CI/CD 파이프라인 자동 테스팅 (DataOps CI/CD dbt)]] →
+
+---

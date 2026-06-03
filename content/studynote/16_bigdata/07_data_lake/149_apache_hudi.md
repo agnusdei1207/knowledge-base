@@ -173,3 +173,14 @@ Apache Hudi는 CDC와 upsert가 핵심 요건인 [[208_data_lake_schema_on_read|
 1. Hudi는 일기장에서 틀린 글자만 수정 테이프로 고치는 방식이에요. 전체 일기를 다시 쓸 필요가 없답니다.
 2. 수정 내용을 빠르게 적고 싶으면 MOR(포스트잇 방식), 나중에 읽기 편하게 하고 싶으면 [[542_cow_file_system|COW]](완성본 인쇄 방식)을 골라요.
 3. 주기적으로 포스트잇을 정리해서 일기장에 깔끔하게 붙이는 작업([[347_compaction|Compaction]])도 해줘야 해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 149 / 262
+
+← **이전**: [[148_apache_iceberg|148. Apache Iceberg — 오픈 테이블 포맷 히든 파티셔닝]]
+**다음**: [[150_unity_catalog|150. Unity Catalog (Databricks) — 레이크하우스 통합 거버넌스]] →
+
+---

@@ -256,3 +256,14 @@ Outbox 패턴: 트랜잭션 보장 이벤트 발행
 ```
 2. MySQL Binlog는 도서관의 '대출 기록지'야 — 어떤 책이 언제 누가 빌려갔고, 반납됐는지 순서대로 적혀 있어.
 3. Debezium은 이 기록지를 읽어서 Kafka라는 방송 시스템으로 변환하는 '방송 번역사'야 — 그러면 여러 시스템이 동시에 소식을 들을 수 있어!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 217 / 258
+
+← **이전**: [[216_lambda_kappa_architecture_batch_realtime|216. 람다 (Lambda) vs 카파 (Kappa) 아키텍처 배치·실시간]]
+**다음**: [[218_nosql_base_eventual_consistency_sharding|218. NoSQL BASE (Basically Available, Soft-state, Eventually Consistent) 결과적]] →
+
+---

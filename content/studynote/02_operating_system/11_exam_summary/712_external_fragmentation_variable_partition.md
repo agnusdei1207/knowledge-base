@@ -201,3 +201,14 @@ tags:
 1. 주차장(메모리)에 주차 선을 안 그려놓고, 차가 올 때마다 딱 차 크기만큼만 바짝 붙여서 주차하게 했어요(가변 분할).
 2. 트럭이랑 자전거가 번갈아 가며 주차했다 나갔다 하니까, 나중에는 자전거 1대만 들어갈 만한 아주 좁은 빈틈(구멍)들이 주차장 곳곳에 100개나 생겼어요.
 3. 틈새들을 다 합치면 트럭 10대도 들어갈 크기인데, 틈새가 뿔뿔이 흩어져([[291_fragmentation_and_reassembly_process|단편화]]) 있으니까 진짜 트럭이 오면 주차를 못 하고 쫓겨나는 바보 같은 상황이 바로 '[[342_external_fragmentation|외부 단편화]]'랍니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 712 / 800
+
+← **이전**: [[711_logical_physical_address_translation_mmu|711. 논리 주소 물리 주소 변환 MMU (Logical Physical Address Translation MMU)]]
+**다음**: [[713_internal_fragmentation_fixed_paging|713. 내부 단편화 고정/페이징 (Internal Fragmentation Fixed Paging)]] →
+
+---

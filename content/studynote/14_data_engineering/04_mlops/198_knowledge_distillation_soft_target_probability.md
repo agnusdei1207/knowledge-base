@@ -358,3 +358,14 @@ for inputs, labels in dataloader:
 ```
 2. 온도 매개변수는 아이스크림 온도예요. 너무 딱딱하면(낮은 온도) 한 맛만 강하게 느껴지고, 살짝 녹으면(높은 온도) 여러 맛이 고루 느껴지죠.
 3. DistilBERT는 두꺼운 사전을 얇은 포켓 사전으로 만든 거예요. 40%는 줄었지만 97%의 내용은 그대로 담겨 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 198 / 258
+
+← **이전**: [[197_data_catalog_lineage_visualization_security|197. 데이터 카탈로그 (Data Catalog) 계보 (Lineage) 시각화 보안 정책 연계망]]
+**다음**: [[199_intent_based_networking_ibn_ai_traffic_routing|199. 인텐트 기반 네트워킹 (IBN, Intent-Based Networking) 트래픽 AI 라우팅 분배망]] →
+
+---

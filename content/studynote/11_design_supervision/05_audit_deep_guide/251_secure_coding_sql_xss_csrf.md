@@ -190,3 +190,14 @@ XSS는 사용자가 입력한 `<script>` 태그가 다른 사용자의 브라우
 1. SQL [[480_injection|인젝션]]은 마법 주문서에 "내 말을 무조건 따라!"라고 쓴 쪽지를 몰래 끼워 넣는 속임수야.
 2. XSS는 친구에게 전달할 편지 속에 폭탄 스티커를 숨겨 상대방 책상에서 터지게 하는 것이고.
 3. CSRF는 누군가가 엄마 이름으로 가짜 편지를 써서 용돈을 자기 통장에 넣도록 속이는 것이야.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 312 / 530
+
+← **이전**: [[250_message_passing_delegation|250. 메시지 패싱과 위임 (Message Passing & Delegation)]]
+**다음**: [[252_encryption_hash_salt_audit|252. 암호화 해시 솔트 감리 (Encryption Hash Salt Audit)]] →
+
+---

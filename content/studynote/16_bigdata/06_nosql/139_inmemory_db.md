@@ -235,3 +235,14 @@ Kafka (배치 처리용 로그 → BigQuery/Redshift)
 1. 인메모리 DB는 책가방 대신 손에 들고 있는 것 — 바로 꺼낼 수 있어서 교과서(디스크 DB)를 책가방에서 찾는 것보다 10만 배 빨라요.
 2. Memcached는 포스트잇(빠르지만 날리면 사라짐), Redis는 화이트보드(빠르고 사진으로 [[555_backup_and_restore_strategy|백업]] 가능), SAP HANA는 대형 스마트 칠판(모든 기능 + 수식도 가능)이에요.
 3. [[262_lru_page_replacement|LRU]] [[164_policy|정책]]은 냉장고 정리 — 오래된 음식부터 버려서 새로 산 음식을 넣을 공간을 만드는 것처럼, 오래된 [[001_dikw_pyramid|데이터]]를 지워 새 [[001_dikw_pyramid|데이터]]를 위한 메모리를 확보해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 139 / 262
+
+← **이전**: [[138_newsql|138. NewSQL — CockroachDB/TiDB/YugabyteDB SQL+수평확장+ACID]]
+**다음**: [[140_consistency_levels|140. 일관성 수준 선택 (Consistency Levels) — Strong/Eventual/Bounded Staleness]] →
+
+---

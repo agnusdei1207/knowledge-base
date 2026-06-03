@@ -179,3 +179,14 @@ tags:
 1. 점유 대기 ([[284_hold_and_wait|Hold and Wait]])은 컴퓨터가 여러 친구가 동시에 만져도 부딪히지 않게 순서를 맞추는 규칙이에요.
 2. 먼저 원자적 변수 (Atomic Variable)을 이해하면 점유 대기 ([[284_hold_and_wait|Hold and Wait]])이 왜 필요한지 더 쉽게 보여요.
 3. 그래서 점유 대기 ([[284_hold_and_wait|Hold and Wait]])을 잘 알면 나중에 acquire() / release() 함수도 훨씬 쉽게 배울 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 231 / 800
+
+← **이전**: [[230_deadlock|230. 교착 상태 (Deadlock)]]
+**다음**: [[232_no_preemption|232. 비선점 (No Preemption)]] →
+
+---

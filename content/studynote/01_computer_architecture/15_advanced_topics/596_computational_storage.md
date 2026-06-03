@@ -171,3 +171,14 @@ Data-Centric Distributed Infrastructure
 1. 예전에는 모든 숙제를 선생님 책상으로 가져가서 검사받아야 했어요.
 2. 계산형 스토리지는 각 반에서 반장이 먼저 숙제를 확인하고, 정말 중요한 것만 선생님께 가져가는 방법이에요.
 3. 그래서 선생님은 덜 바빠지고, 숙제 검사도 더 빨리 끝낼 수 있답니다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 596 / 803
+
+← **이전**: [[595_smart_ssd|595. 스마트 SSD (Smart Solid-State Drive)]]
+**다음**: [[597_slc_caching|597. SLC (Single-Level Cell) 캐싱]] →
+
+---

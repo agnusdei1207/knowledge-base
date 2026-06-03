@@ -130,3 +130,14 @@ tags:
 1. [[751_chaos_engineering|카오스 엔지니어링]]은 건물에 **일부러 약한 지진**을 일으켜서, 건물이 안 무너지는지 [[396_validation|확인]]하는 거예요.
 2. 만약 벽이 금이 가면, 지진이 진짜 오기 **전에 미리 보수**할 수 있어요!
 3. 덕분에 진짜 지진(장애)이 와도 **건물([[090_service_kubernetes_network_load_balancing|서비스]])이 안전하게** 버틸 수 있답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 113 / 973
+
+← **이전**: [[112_distributed_tracing_microservices|112. 분산 트레이싱 (Distributed Tracing) - Span·Trace ID·OpenTelemetry 추적 체계]]
+**다음**: [[114_feature_flag_toggle_deployment|114. 피처 플래그 (Feature Flag/Toggle) - 배포와 릴리즈 분리·다크 런칭]] →
+
+---

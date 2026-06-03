@@ -106,3 +106,14 @@ tags:
 1. 민감도 [[095_tradeoff_point_architecture_evaluation_atam_conflict|상충점]] [[096_risk_non_risk_architecture_evaluation_flaws|리스크]]은 집을 짓기 전에 방과 길을 먼저 그려 보는 것과 같아요.
 2. 어느 방을 크게 하고 어디를 튼튼하게 할지 미리 정해야 해요.
 3. 그래야 나중에 고칠 때도 왜 그렇게 만들었는지 알 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 429 / 530
+
+← **이전**: [[350_cbam|350. CBAM 경제성 관점 확장 (Cost Benefit Analysis Method)]]
+**다음**: [[352_process|352. 품질 속성 시나리오 (Quality Attribute Scenario)]] →
+
+---

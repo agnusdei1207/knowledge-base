@@ -179,3 +179,14 @@ cgroups를 조종하는 [[196_kubernetes_k8s_container_orchestration|쿠버네�
 1. [[062_cgroups|Cgroups]] 메모리 서브시스템의 자원 제한 (Memory Limit) 동작은 컴퓨터가 메모리를 더 크게 보이게 하고 부족함을 숨기는 방법이에요.
 2. 먼저 [[438_unified_buffer_cache_page_cache|파일시스템 버퍼 캐시]]([[536_buffer_cache_page_cache|Buffer Cache]])와 [[381_virtual_memory|가상 메모리]] [[286_page_frame|페이지]] 캐시([[286_page_frame|Page]] Cache)의 통합 원리을 이해하면 [[062_cgroups|Cgroups]] 메모리 서브시스템의 자원 제한 (Memory Limit) 동작이 왜 필요한지 더 쉽게 보여요.
 3. 그래서 [[062_cgroups|Cgroups]] 메모리 서브시스템의 자원 제한 (Memory Limit) 동작을 잘 알면 나중에 [[615_ebpf|eBPF]] 기반 메모리 할당 트레이싱도 훨씬 쉽게 배울 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 439 / 800
+
+← **이전**: [[438_unified_buffer_cache_page_cache|438. 파일시스템 버퍼 캐시(Buffer Cache)와 가상 메모리 페이지 캐시(Page Cache)의 통합 원리]]
+**다음**: [[440_ebpf_memory_tracing|440. eBPF 기반 메모리 할당 트레이싱 (Ebpf Memory Tracing)]] →
+
+---

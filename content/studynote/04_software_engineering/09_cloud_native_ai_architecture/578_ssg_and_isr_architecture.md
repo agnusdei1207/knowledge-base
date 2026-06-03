@@ -165,3 +165,14 @@ tags:
 1. 정적 사이트 [[087_process_state_transition|생성]] (SSG) / 증분 정적 재생성 ([[020_isr|ISR]]) 패턴은 레고 블록으로 성을 만들 때처럼, 규칙을 정하고 역할을 나누어 함께 작업하는 방법이에요.
 2. 혼자서 막 만들면 나중에 무너지거나 고치기 어렵지만, 약속을 지키면 누구나 쉽게 고치고 더 크게 만들 수 있어요.
 3. 그래서 [[001_software_engineering_definition|소프트웨어 공학]]은 프로그래머들이 좋은 프로그램을 빠르고 안전하게 만들 수 있게 도와주는 '규칙 모음집'이에요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 744 / 973
+
+← **이전**: [[577_server_side_rendering_ssr_nextjs|577. 서버 사이드 렌더링 (SSR) 컴포넌트 아키텍처 (Next.js, Nuxt.js)]]
+**다음**: [[579_offline_first_pwa_service_worker|579. 오프라인 우선 (Offline-first) 아키텍처 (PWA, Service Worker, IndexedDB)]] →
+
+---

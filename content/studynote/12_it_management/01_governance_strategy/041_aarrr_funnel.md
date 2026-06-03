@@ -258,3 +258,14 @@ Predictive Churn Prevention
 1. AARRR은 손님이 가게에 오는 여정을 5단계로 나눈 것 — 처음 알게 되고([[042_aarrr_funnel|Acquisition]]), 맛보고(Activation), 단골 되고([[515_mvcc|Retention]]), 친구에게 알리고(Referral), 돈 쓰는 것(Revenue)!
 2. [[041_growth_hacking|그로스 해킹]]은 마치 의사처럼 — 어느 단계가 약한지 데이터로 찾아서(진단), 실험으로 빠르게 고쳐요(치료).
 3. 가장 중요한 R은 [[515_mvcc|Retention]] — 새 손님을 계속 데려와도 기존 손님이 떠나면 "밑 빠진 독에 물 붓기"예요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 73 / 587
+
+← **이전**: [[040_okr_objectives_key_results|040. OKR (Objectives and Key Results) — 목표와 핵심 결과]]
+**다음**: [[041_growth_hacking|41. 그로스 해킹 (Growth Hacking)]] →
+
+---

@@ -192,3 +192,14 @@ Zero-knowledge proof and privacy-preserving verification
 1. [[004_blockchain|블록체인]]은 여러 친구가 같은 보증 스티커 번호를 같이 적어 두는 공책이에요.
 2. [[022_smart_contract|스마트 컨트랙트]]와 NFT는 "누가 이 그림을 볼 수 있고 돈은 어떻게 나눌지"를 자동으로 정해 주는 약속 딱지예요.
 3. 하지만 처음부터 거짓 그림을 넣으면 스티커가 진짜여도 내용은 틀릴 수 있어서, 처음 확인하는 과정이 꼭 필요해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 182 / 258
+
+← **이전**: [[181_federated_learning_privacy_distributed_training|181. 연방 학습 (Federated Learning) - 분산 엣지 노드 가중치 로컬 전송]]
+**다음**: [[183_post_quantum_cryptography_key_transition|183. 양자 내성 암호 (Post-Quantum Cryptography) 클라우드 인프라 키 전환]] →
+
+---

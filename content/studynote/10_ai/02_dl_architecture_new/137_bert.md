@@ -53,3 +53,14 @@ BERT는 **NLU의 기반 모델**이며, [[278_instruction_tuning|임베딩]](Sen
 1. BERT는 **편집자**예요. 문장의 **앞뒤를 다 보고** 의미를 이해해요.
 2. GPT는 **소설 작가**(앞→뒤 [[289_cqrs_db|쓰기]]), BERT는 **교정자**(앞뒤 맥락 파악)예요.
 3. "bank"가 **은행인지 강둑인지** 앞뒤 문맥을 보고 정확히 알아내요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 137 / 420
+
+← **이전**: [[136_prompt_tuning|136. Prompt Tuning - 소프트 프롬프트로 LLM 적응]]
+**다음**: [[138_mlm_learning|138. MLM (Masked Language Model) - BERT의 핵심 사전 학습 기법]] →
+
+---

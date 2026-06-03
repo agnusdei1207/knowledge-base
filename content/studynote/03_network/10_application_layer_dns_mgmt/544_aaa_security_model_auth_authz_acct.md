@@ -216,3 +216,14 @@ AAA 보안 모델는 LDAP에서 출발해 현재 메커니즘을 정교화하고
 1. AAA 모델은 놀이공원의 완벽한 3단계 경비 시스템이에요. 첫 번째([[303_authentication_authorization_patterns|인증]])는 입구에서 "너 표 샀어?" 하고 신분증을 꼼꼼히 [[396_validation|확인]]하는 과정이에요.
 2. 두 번째([[509_authorization_models_rbac_abac|인가]])는 놀이공원 안에서 무서운 롤러코스터를 탈 때 "너 키가 130cm 넘어? 넌 회전목마만 타!" 하고 탈 수 있는 놀이기구 권한을 나누어 주는 거예요.
 3. 세 번째(과금/[[606_auditing_linux_auditd|감사]])는 나갈 때 "너 오늘 츄러스 2개 먹고 사파리 3번 탔지?" 하고 영수증을 뽑아서 네가 한 모든 행동을 다 기록해두는 완벽한 일기장 같은 거랍니다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 665 / 1120
+
+← **이전**: [[543_ldap_lightweight_directory_access_protocol|543. LDAP (Lightweight Directory Access Protocol)]]
+**다음**: [[545_kerberos_kdc_ticket_based_auth|545. 커버로스 (Kerberos)]] →
+
+---

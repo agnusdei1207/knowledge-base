@@ -247,3 +247,14 @@ void handle_sys_open() {
 3. 이렇게 하면 한 학생이 장난을 쳐도 학교 전체 수업이 멈추지 않고, 중요한 장비들을 안전하게 [[571_protection_vs_security|보호]]할 수 있답니다!
 
 ---
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 11 / 800
+
+← **이전**: [[010_embedded_system|10. 임베디드 시스템 (Embedded System)]]
+**다음**: [[012_mode_bit|12. 모드 비트 (Mode Bit)]] →
+
+---

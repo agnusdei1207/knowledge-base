@@ -52,3 +52,14 @@ Prompt Tuning은 **다작업 서빙에 최적**이며, 대규모 모델에서 Lo
 1. Prompt Tuning은 **자물쇠([[190_ai_llm_requirements_specification|AI]])는 그대로 두고 열쇠(프롬프트)만 만드는** 거예요.
 2. 열쇠 하나로 **하나의 문제**를 풀 수 있어요. 열쇠가 100개면 100개 문제!
 3. 자물쇠를 바꾸는 것(Full FT)보다 **열쇠만 만드는 게** 훨씬 빨라요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 136 / 420
+
+← **이전**: [[135_lora_low_rank_adaptation|135. LoRA (Low-Rank Adaptation) - 효율적 LLM 미세 조정의 표준]]
+**다음**: [[137_bert|137. BERT (Bidirectional Encoder Representations from Transformers)]] →
+
+---

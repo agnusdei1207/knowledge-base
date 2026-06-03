@@ -127,3 +127,13 @@ COMMIT [[158_instruction|명령어]]에서 출발한 논점이 [[313_rollback|RO
 2. 이 약속을 잘 지키면 [[001_dikw_pyramid|데이터]]가 많아도 더 안전하고 빠르게 움직일 수 있어요.
 3. 그래서 언제 이 방법을 쓰고 언제 다른 방법을 써야 하는지 아는 것이 중요해요.
 
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 199 / 600
+
+← **이전**: [[198_commit_command_transaction_complete|198. COMMIT 명령어 (Commit Command Transaction Complete)]]
+**다음**: [[200_savepoint_partial_rollback|200. SAVEPOINT (Savepoint Partial Rollback)]] →
+
+---

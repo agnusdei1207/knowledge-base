@@ -179,3 +179,14 @@ tags:
 1. 우선순위 스케줄링은 학교에서 아픈 친구나 급한 심부름을 먼저 도와주는 규칙과 같아요.
 2. 그런데 급한 친구만 계속 오면 맨 뒤 친구는 영원히 자기 차례를 못 받을 수 있어요.
 3. 그래서 컴퓨터는 오래 기다린 친구를 조금씩 앞으로 올려 주며 모두가 언젠가는 차례를 받게 만든답니다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 180 / 800
+
+← **이전**: [[179_time_quantum_context_switch|179. 시간 할당량 (Time Quantum / Time Slice) 의 크기와 문맥 교환 오버헤드]]
+**다음**: [[181_starvation_indefinite_blocking|181. 기아 상태 (Starvation / Indefinite Blocking)]] →
+
+---

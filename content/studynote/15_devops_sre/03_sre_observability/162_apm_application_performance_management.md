@@ -160,3 +160,14 @@ APM (Application Performance Management)
 1. APM은 컴퓨터 프로그램 안에서 어디가 느린지 찾아주는 현미경 같은 도구예요.
 2. 그냥 "늦었어"라고 말하는 게 아니라, "여기 버튼을 누른 뒤 이 부분에서 오래 걸렸어"라고 정확히 알려줘요.
 3. 그래서 고쳐야 할 곳을 빨리 찾을 수 있어서 [[090_service_kubernetes_network_load_balancing|서비스]]가 더 빠르고 튼튼해져요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 162 / 373
+
+← **이전**: [[161_aiops_anomaly_detection_auto_remediation|161. AIOps (Artificial Intelligence for IT Operations)]]
+**다음**: [[163_rum_real_user_monitoring|163. RUM (Real User Monitoring)]] →
+
+---

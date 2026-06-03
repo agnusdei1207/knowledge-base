@@ -139,3 +139,14 @@ tags:
 1. [[101_isp_information_strategy_planning_4_steps|ISP]] [[178_as_is_to_be_analysis|AS-IS]] TO-BE 분석 방법론는 복잡한 일을 순서대로 정리해 주는 큰 정리함이에요.
 2. 어디에 무엇을 넣을지 먼저 정해 두면, 나중에 찾거나 고칠 때 훨씬 쉬워져요.
 3. 그래서 일이 커질수록 먼저 기준을 만들고 같이 약속하는 것이 중요해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 321 / 482
+
+← **이전**: [[320_gnn_vector_db_recommendation|320. GNN + 벡터 DB (Milvus) 기반 추천 시스템]]
+**다음**: [[322_ea_zachman_framework|322. EA 프레임워크 잭맨 6×6 매트릭스 (EA Zachman Framework)]] →
+
+---

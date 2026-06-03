@@ -136,3 +136,14 @@ ATAM 아키텍처 평가 (트레이드오프 분석)
 1. 엄마가 "방 좀 깨끗하게 치워!"라고 하면 얼마나 치워야 깨끗한지 몰라서 맨날 혼나요.
 2. 그래서 "저녁 6시까지(환경), 내가(자극원), 청소기를 돌려서(자극), 거실 바닥에(대상), 장난감이 하나도 없게(응답) 치우고, 엄마한테 100점을 받겠다(응답 척도)!"라고 약속을 적었어요.
 3. 이렇게 6가지 규칙으로 정확하게 약속을 정해서 싸우지 않게 만드는 종이가 '[[352_process|품질 속성 시나리오]]'랍니다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 134 / 530
+
+← **이전**: [[090_architecture_drivers_quality_attributes_constraints|90. 아키텍처 드라이버 (Architecture Drivers) - 시스템 설계 핵심 요구사항]]
+**다음**: [[092_atam_architecture_tradeoff_analysis_method|92. 아키텍처 평가 방법론 - ATAM (Architecture Trade-off Analysis Method)]] →
+
+---

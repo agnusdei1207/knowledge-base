@@ -106,3 +106,14 @@ tags:
 1. 아웃바운드는 길에서 **전단지를 뿌리는** 거예요. 많은 사람이 그냥 지나가요.
 2. 인바운드는 **맛있는 음식을 만들어서** 손님이 알아서 찾아오게 하는 거예요.
 3. 요즘은 맛집(인바운드)이 되면서 **가끔 쿠폰(아웃바운드)**도 보내는 혼합 [[268_strategy_pattern|전략]]이 대세랍니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 118 / 482
+
+← **이전**: [[117_martech_marketing_technology_convergence|117. 마테크 (MarTech, Marketing Technology) - 마케팅·기술 융합 생태계]]
+**다음**: [[119_mes_manufacturing_execution_system|119. MES (Manufacturing Execution System) - 제조 실행 시스템·스마트 팩토리 핵심]] →
+
+---

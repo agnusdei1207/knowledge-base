@@ -220,3 +220,14 @@ SLM (Small Language Model): Phi · Gemma · Mistral
 ```
 2. [[434_quantization|양자화]]는 그 10권 책의 글씨를 아주 작게 줄여 인쇄하는 것—내용은 같은데 공간을 4배 덜 차지해요.
 3. [[153_diffusion_model_stable_diffusion_denoising|디퓨전 모델]]은 낙서를 지우는 과정을 거꾸로 배워서, 마치 마법처럼 아무것도 없는 화면에서 새로운 그림을 그려내는 AI예요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 252 / 258
+
+← **이전**: [[251_hallucination_rag_augmented_retrieval_vector_db|251. 할루시네이션 (Hallucination) RAG (Retrieval Augmented Generation) 벡터 DB]]
+**다음**: [[253_reinforcement_learning_mdp_policy_value_q_learning_dqn|253. 강화 학습 (Reinforcement Learning) MDP 정책 가치 Q러닝 DQN]] →
+
+---

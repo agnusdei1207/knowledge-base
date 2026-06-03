@@ -295,3 +295,14 @@ Linux의 풍부한 모니터링 도구 생태계(/proc, perf, [[615_ebpf|eBPF]])
 1. [[282_performance_tactics|성능]] 모니터링 ([[282_performance_tactics|Performance]] Monitoring) 및 튜닝 방법론은 컴퓨터가 누가 들어와도 되는지와 무엇을 막아야 하는지 정하는 문지기 규칙이에요.
 2. 먼저 [[608_secure_boot|보안 부팅]] ([[608_secure_boot|Secure Boot]]) 인증서 체인 로딩 [[395_verification_process_review|검증]]을 이해하면 [[282_performance_tactics|성능]] 모니터링 ([[282_performance_tactics|Performance]] Monitoring) 및 튜닝 방법론이 왜 필요한지 더 쉽게 보여요.
 3. 그래서 [[282_performance_tactics|성능]] 모니터링 ([[282_performance_tactics|Performance]] Monitoring) 및 튜닝 방법론을 잘 알면 나중에 리틀의 법칙 (Little's Law)도 훨씬 쉽게 배울 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 609 / 800
+
+← **이전**: [[608_secure_boot|608. 보안 부팅 (Secure Boot) 인증서 체인 로딩 검증]]
+**다음**: [[610_littles_law|610. 리틀의 법칙 (Little's Law) - L = λW (대기 큐 성능 분석)]] →
+
+---

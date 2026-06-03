@@ -331,3 +331,14 @@ Redis Enterprise: 멀티티어
 1. IMDB는 책상 위 필기 — 창고(디스크)에서 책 꺼내기 대신 이미 책상(RAM)에 펼쳐진 노트. 1,000배 빨리 읽을 수 있어요!
 2. [[542_redis|Redis]] 내구성은 노트 사진 찍기 — 책상 노트(RAM)가 지워지면 안 되니 주기적으로 사진([[022_snapshot_backup_architecture|스냅샷]]) 찍고 수정 기록(AOF) 저장!
 3. [[263_cache_hit_miss|캐시 히트]]는 신나는 빠름 — 95% 요청이 캐시에서 해결되면 DB는 5%만 일해요. 요청 20배 많아도 DB가 안 힘들어요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 46 / 600
+
+← **이전**: [[045_relational_calculus|045. 관계 해석 — Relational Calculus]]
+**다음**: [[047_columnar_store_olap|047. 컬럼 기반 스토리지 — Columnar Store & OLAP]] →
+
+---

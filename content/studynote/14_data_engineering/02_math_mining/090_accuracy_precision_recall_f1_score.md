@@ -120,3 +120,14 @@ F1-Score (두 지표의 조화 평균으로 종합 평가)
 1. 사과 골라내기 시험에서 '전체 중 몇 개를 맞췄나'가 정확도예요.
 2. '내가 사과라고 한 것 중에 진짜 사과가 많다'면 [[233_precision_recall_f1_roc_auc_threshold|정밀도]]가 높은 거고, '진짜 사과를 하나도 빠짐없이 다 찾았다'면 [[092_recall_sensitivity_hit_rate|재현율]]이 높은 거예요.
 3. 둘 다 골고루 아주 잘했다는 걸 칭찬해 주는 종합 우승 상장이 바로 F1-Score랍니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 90 / 258
+
+← **이전**: [[089_confusion_matrix_tp_fp_fn_tn|혼동 행렬 (Confusion Matrix): 분류 모델 평가의 기초]]
+**다음**: [[091_precision_vs_recall_tradeoff|정밀도와 재현율의 트레이드오프: 임계값 조절 전략]] →
+
+---

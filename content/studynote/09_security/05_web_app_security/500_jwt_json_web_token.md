@@ -125,3 +125,14 @@ tags:
 1. [[549_jwt_json_web_token|JWT]] ([[549_jwt_json_web_token|JSON Web Token]])는 학교 규칙표처럼 무엇을 준비하고 어떻게 확인할지 알려 주는 기준이에요.
 2. 규칙표만 붙여 두고 지키지 않으면 아무 소용이 없어요.
 3. 그래서 보안도 규칙과 실제 행동이 함께 맞아야 해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 556 / 1108
+
+← **이전**: [[499_api_versioning_security|499. API Versioning (API 버전 관리와 보안)]]
+**다음**: [[501_jwt_structure_jws_jwe|501. JWT 구조 (JWS vs JWE)]] →
+
+---

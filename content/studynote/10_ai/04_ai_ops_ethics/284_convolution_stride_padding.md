@@ -212,3 +212,14 @@ $$O = \left\lfloor \frac{I - F + 2P}{S} \right\rfloor + 1$$
 1. [[228_cnn_1d_2d_3d_video_medical|합성곱]] 필터는 '스탬프 도장'이야. 같은 도장을 그림 전체에 찍어서 특별한 무늬(특징)가 있는 곳을 찾는 거야.
 2. [[097_stride_convolutional_neural_network_downsampling|스트라이드]]는 도장을 찍을 때 '몇 칸씩 건너뛰느냐'야. 한 칸씩 찍으면 꼼꼼하고, 두 칸씩 건너뛰면 결과물이 절반 크기가 돼.
 3. [[098_padding_convolutional_neural_network_same_valid|패딩]]은 그림 주변에 미리 '흰 테두리'를 붙이는 거야. 그래야 가장자리도 빠짐없이 도장을 찍을 수 있거든!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 284 / 420
+
+← **이전**: [[283_cnn_overview|283. CNN (Convolutional Neural Network)]]
+**다음**: [[285_pooling_layer|285. 풀링 (Pooling)]] →
+
+---

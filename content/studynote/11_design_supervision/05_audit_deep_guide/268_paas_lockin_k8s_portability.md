@@ -104,3 +104,14 @@ tags:
 1. 표준 API는 학교에서 준비물을 미리 챙기는 것처럼, 중요한 기준을 먼저 맞추는 일이야.
 2. [[198_abstraction_control_data_process|추상화]] 계층은 선생님이 수업 중간에 계속 확인하는 것처럼, 실제로 잘 되고 있는지 보는 과정이야.
 3. 배포 이식성은 시험 결과표처럼, 정말 효과가 있었는지 나중에 다시 확인하게 해주는 증거야.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 329 / 530
+
+← **이전**: [[267_cloud_infrastructure_audit_csap|267. 클라우드 인프라 CSAP 감리 (Cloud Infrastructure CSAP Audit)]]
+**다음**: [[269_blockchain_node_audit|269. 블록체인 노드 아키텍처 감리 (Blockchain Node Architecture Audit)]] →
+
+---

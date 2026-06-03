@@ -168,3 +168,14 @@ Sharding · Queueing · Optimistic Locking 개선
 1. [[136_variance|분산]] 락은 여러 친구가 하나뿐인 장난감을 차례로 쓰게 하는 규칙이에요.
 2. 누가 얼마나 오래 장난감을 잡고 있었는지 재지 않으면 왜 줄이 길어졌는지 몰라요.
 3. 시간을 재어 보면 장난감을 더 나눌지, 사용하는 방법을 바꿀지 똑똑하게 결정할 수 있답니다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 166 / 373
+
+← **이전**: [[165_service_mesh_telemetry_sidecar|165. 서비스 메시 기반 텔레메트리 (Service Mesh Telemetry)]]
+**다음**: [[167_traffic_shadowing_sre_testing|167. 트래픽 섀도잉 (Traffic Shadowing)]] →
+
+---

@@ -127,3 +127,14 @@ Independence / Goodness-of-fit
 사탕 개수를 세어요.  
 예상한 수와 비교해요.  
 카이제곱 검정은 그런 계산이에요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 72 / 258
+
+← **이전**: [[071_anova_analysis_of_variance_f_value_post_hoc|71. 분산 분석 (ANOVA) - 다수 집단 간 평균 차이 통계적 검증]]
+**다음**: [[073_central_limit_theorem_clt_sample_mean_normal_distribution|73. 중심 극한 정리 (CLT) - 30개 표본 정규분포 마법]] →
+
+---

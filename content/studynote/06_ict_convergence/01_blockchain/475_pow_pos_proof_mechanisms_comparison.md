@@ -148,3 +148,14 @@ PoW와 PoS는 각각 물리적 비용(전기·장비)과 경제적 비용(자산
 1. PoW는 반 전체가 어려운 수학 문제를 가장 빨리 푼 사람이 오늘의 반장이 되는 방식이에요.
 2. PoS는 학급 기금을 제일 많이 맡긴 사람이 반장이 되지만, 나쁜 짓하면 기금을 돌려받지 못해요.
 3. 비트코인은 PoW를 계속 쓰고, 이더리움은 2022년에 PoS로 바꿔서 전기를 99% 절약했어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 475 / 552
+
+← **이전**: [[474_dlt_distributed_ledger_technology|474. 분산 원장 기술 (DLT, Distributed Ledger Technology)]]
+**다음**: [[476_bft_byzantine_fault_tolerance_majority_defense|476. BFT 비잔틴 장애 허용과 다수결 방어 (Byzantine Fault Tolerance Majority Defense)]] →
+
+---

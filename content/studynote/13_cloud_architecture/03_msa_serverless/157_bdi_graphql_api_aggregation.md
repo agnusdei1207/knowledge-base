@@ -143,3 +143,14 @@ API Gateway + BFF + GraphQL Federation → 통합 API 레이어
 ```
 2. GraphQL은 직접 선택하는 뷔페 — 내가 먹고 싶은 것만 골라 담을 수 있어 남기는 음식이 없어요.
 3. 두 방법 모두 여러 주방([[090_service_kubernetes_network_load_balancing|서비스]])을 직접 돌아다니지 않아도 되게 해줘서 훨씬 편리해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 156 / 371
+
+← **이전**: [[156_serverless_vendor_lockin_knative|156. 서버리스 벤더 락인과 Knative (Vendor Lock-in / Knative)]]
+**다음**: [[158_grpc_protocol_buffers_http2|158. gRPC와 프로토콜 버퍼 (gRPC / Protocol Buffers / HTTP2)]] →
+
+---

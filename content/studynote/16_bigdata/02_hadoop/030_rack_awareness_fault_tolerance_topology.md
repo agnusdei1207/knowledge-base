@@ -86,3 +86,14 @@ Block Replication (Factor = 3):
 1. 중요한 보물 지도 3장을 똑같은 상자 안에 다 넣어두면, 상자를 잃어버렸을 때 지도가 다 없어져요.
 2. [[017_rack_awareness|랙 인지]]는 지도 한 장은 우리 집(랙 1)에 두고, 나머지 두 장은 옆집(랙 2)에 나눠서 보관하는 규칙이에요.
 3. 이렇게 하면 우리 집에 불이 나도 옆집에 지도가 남아 있어서 보물을 찾을 수 있답니다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 30 / 262
+
+← **이전**: [[029_datanode_block_storage_heartbeat|07. 데이터노드 (DataNode) - HDFS 분산 저장의 워커 노드 및 블록 관리]]
+**다음**: [[031_mapreduce_programming_model_parallel_processing|09. 맵리듀스 (MapReduce) - 대규모 데이터 병렬 처리를 위한 분산 프로그래밍 모델]] →
+
+---

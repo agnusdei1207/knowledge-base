@@ -132,3 +132,14 @@ tags:
 1. 큰 아파트에 사는 친구들이 층마다 다른 규칙으로 엘리베이터를 타면 복잡해져요.
 2. 이 개념은 어느 층에서 누구를 어떻게 연결할지 자동으로 정리해 주는 관리실과 같아요.
 3. 그래서 많은 컴퓨터가 한 건물 안에서 더 잘 협력할 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 937 / 1120
+
+← **이전**: [[815_overlay_network_virtualization_l2_extension|815. 오버레이 네트워크 (Overlay Network) 논리 스위치 L2 확장 터널 구조 터널링]]
+**다음**: [[817_vxlan_virtual_extensible_lan_mac_in_udp|817. VXLAN (Virtual eXtensible LAN)]] →
+
+---

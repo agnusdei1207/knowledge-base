@@ -131,3 +131,14 @@ Multiple Comparison
 반이 여러 개예요.  
 평균이 다른지 봐요.  
 ANOVA는 그런 검사예요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 71 / 258
+
+← **이전**: [[070_t_test_independent_paired_mean_difference|70. T-검정 (t-Test) - 두 집단 간 평균 차이 통계적 검증]]
+**다음**: [[072_chi_square_test_categorical_independence_goodness_of_fit|72. 카이제곱 검정 (Chi-square Test) - 범주형 데이터 독립성/적합성]] →
+
+---

@@ -165,3 +165,14 @@ tags:
 1. 마이크로 [[022_kernel_role|커널]] ([[024_microkernel|Microkernel]] / 플러그인) 아키텍처은 레고 블록으로 성을 만들 때처럼, 규칙을 정하고 역할을 나누어 함께 작업하는 방법이에요.
 2. 혼자서 막 만들면 나중에 무너지거나 고치기 어렵지만, 약속을 지키면 누구나 쉽게 고치고 더 크게 만들 수 있어요.
 3. 그래서 [[001_software_engineering_definition|소프트웨어 공학]]은 프로그래머들이 좋은 프로그램을 빠르고 안전하게 만들 수 있게 도와주는 '규칙 모음집'이에요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 764 / 973
+
+← **이전**: [[597_headless_cms_architecture|597. 헤드리스 (Headless) CMS 아키텍처 - 프론트엔드와 백엔드 분리 유연성 제공]]
+**다음**: [[599_modular_monolith_architecture|599. 모듈러 모놀리스 (Modular Monolith) 아키텍처 - MSA 전환 전 단계, 모듈 간 강결합 방지 아키텍처]] →
+
+---

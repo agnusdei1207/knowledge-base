@@ -104,3 +104,14 @@ tags:
 1. 정공학은 **레시피를 보고 요리를 만드는** 거예요.
 2. [[029_reverse_engineering|역공학]]은 완성된 요리를 **맛보고 레시피를 알아내는** 거예요.
 3. 설계도가 없는 옛날 건물(레거시)을 수리하려면 먼저 **설계도를 복원([[029_reverse_engineering|역공학]])**해야 한답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 120 / 600
+
+← **이전**: [[119_fact_table_dimension_table|119. 팩트 테이블과 디멘전 테이블 (Fact & Dimension Table) - DW 스타 스키마 핵심 구성 요소]]
+**다음**: [[121_data_architecture_framework_zachman|121. 데이터 아키텍처 프레임워크 (Zachman Framework) - 엔터프라이즈 데이터 설계 체계]] →
+
+---

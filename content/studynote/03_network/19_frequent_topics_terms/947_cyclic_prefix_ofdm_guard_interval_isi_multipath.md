@@ -124,3 +124,14 @@ OFDM 사이클릭 프리픽스는 FDM 가드 밴드에서 출발해 현재 메�
 1. 비슷한 이름의 장난감을 헷갈리지 않게 표를 붙이는 것과 같아요.
 2. 이 개념은 무엇이 어떻게 다른지 쉽게 구별하게 도와줘요.
 3. 그래서 시험에서도 실무에서도 말을 더 정확하게 쓸 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 1068 / 1120
+
+← **이전**: [[946_guard_band_fdm_adjacent_channel_interference|946. FDM 가드 밴드 (Guard Band)]]
+**다음**: [[948_hamming_distance_error_detection_correction_code|948. 해밍 거리 (Hamming Distance)]] →
+
+---

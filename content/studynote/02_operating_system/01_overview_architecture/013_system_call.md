@@ -233,3 +233,14 @@ syscall          ; 커널 모드 진입 (Trap 발생)
 3. 이렇게 정해진 버튼만 눌러야 카메라가 고장 나지 않고 안전하게 오래 사용할 수 있답니다!
 
 ---
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 13 / 800
+
+← **이전**: [[012_mode_bit|12. 모드 비트 (Mode Bit)]]
+**다음**: [[014_api_posix|14. API (Application Programming Interface), POSIX 표준]] →
+
+---

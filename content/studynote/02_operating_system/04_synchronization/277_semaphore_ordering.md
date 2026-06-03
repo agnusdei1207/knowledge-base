@@ -147,3 +147,14 @@ tags:
 1. [[224_semaphore|세마포어]]로 순서를 조종하는 건 운동회 릴레이 배턴과 같아요!
 2. 뒷사람([[092_thread_lwp|스레드]] B)은 배턴이 없으면 아무리 뛸 준비가 됐어도 달리지 못하고 멈춰 서서 기다려야 하죠. (Wait)
 3. 앞사람([[092_thread_lwp|스레드]] A)이 달려와 "자, 여기 배턴!" 하고 내밀어 주면 ([[130_signal|Signal]]) 그제서야 풀려나 즐겁게 뛰어나갑니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 277 / 800
+
+← **이전**: [[276_lock_hierarchy|276. 데드락 회피를 위한 Lock Hierarchy (락 순서화)]]
+**다음**: [[278_binary_semaphore_vs_mutex|278. 이진 세마포어 vs 뮤텍스 차이 (소유권 유무) (Binary Semaphore Vs Mutex)]] →
+
+---

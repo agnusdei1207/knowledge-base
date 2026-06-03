@@ -132,3 +132,14 @@ tags:
 1. DB 설계자는 도서관 설계사예요! 어떤 책장(테이블)을 만들고, 어떻게 [[104_classification_analysis|분류]]([[093_normalization|정규화]])하고, 어디에 색인([[154_database_index_b_tree_search_optimization|인덱스]])을 달지 결정해요.
 2. 잘 설계된 도서관은 원하는 책을 빠르게 찾을 수 있지만, 설계가 나쁘면 책을 찾는 데 한참 걸려요!
 3. [[190_ai_llm_requirements_specification|AI]] 도구는 사람들의 독서 패턴([[298_qkv_attention|쿼리]])을 분석해서 어디에 색인을 더 달면 좋을지 자동으로 추천해준답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 27 / 600
+
+← **이전**: [[026_da_data_administrator|26. DA (Data Administrator) — 데이터 관리자]]
+**다음**: [[028_database_users|28. 데이터베이스 사용자 유형 (Database Users)]] →
+
+---

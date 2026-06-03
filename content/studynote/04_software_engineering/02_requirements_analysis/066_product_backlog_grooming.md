@@ -133,3 +133,14 @@ Sprint Planning
 해야 할 일을 한 상자에 다 넣어요.  
 먼저 할 것부터 정해요.  
 제품 백로그는 그런 정리표예요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 66 / 973
+
+← **이전**: [[065_development_team_scrum|65. 개발 팀 (Development Team) - 자기 조직화, 다기능 팀]]
+**다음**: [[067_sprint_timebox|67. 스프린트 (Sprint) - 1~4주의 개발 주기]] →
+
+---

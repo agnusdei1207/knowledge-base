@@ -132,3 +132,14 @@ VXLAN는 [[816_underlay_network_physical_infrastructure_routing|언더레이 네
 1. 큰 아파트에 사는 친구들이 층마다 다른 규칙으로 엘리베이터를 타면 복잡해져요.
 2. 이 개념은 어느 층에서 누구를 어떻게 연결할지 자동으로 정리해 주는 관리실과 같아요.
 3. 그래서 많은 컴퓨터가 한 건물 안에서 더 잘 협력할 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 938 / 1120
+
+← **이전**: [[816_underlay_network_physical_infrastructure_routing|816. 언더레이 네트워크 (Underlay Network) 오버레이 터널을 품는 물리 망 패킷 포워딩 베이스]]
+**다음**: [[818_nvgre_network_virtualization_using_generic_routing_encapsulation|818. NVGRE (Network Virtualization using Generic Routing Encapsulation) MS]] →
+
+---

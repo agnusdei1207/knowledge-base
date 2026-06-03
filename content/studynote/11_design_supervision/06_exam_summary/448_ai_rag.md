@@ -144,3 +144,14 @@ RAG는 단일 검색기가 아니라 [[001_dikw_pyramid|데이터]] 준비에서
 1. AI에게 그냥 대답하라고 하면 가끔 없는 이야기를 만들 수 있어요.
 2. 그래서 먼저 책장에서 관련 책을 찾아 보여 주고 답하게 해요.
 3. 책을 잘 나눠 꽂고 빨리 찾게 정리하는 일이 바로 [[276_fine_tuning|RAG]] [[123_pipe|파이프]]예요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 526 / 530
+
+← **이전**: [[447_process|447. 데이터 레이크하우스 스키마 온 리드 융합망 (Data Lakehouse Schema-on-Read Convergence Architecture)]]
+**다음**: [[449_mvcc|449. 동시성 제어 MVCC 낙관 비관 락킹 패턴 (MVCC Concurrency Control with Optimistic and]] →
+
+---

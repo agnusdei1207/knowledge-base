@@ -190,3 +190,14 @@ RTO / RPO 설정
 1. RTO는 놀다가 넘어졌을 때 "몇 분 안에 다시 일어나서 걸을 수 있어야 해"라고 정하는 약속이에요.
 2. 빨리 일어나려면 약도 미리 준비하고, 도와줄 사람도 가까이 있어야 해요.
 3. 그래서 중요한 일일수록 다시 시작하는 시간을 미리 정하고 연습해 두는 거예요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 290 / 587
+
+← **이전**: [[175_drs_bcp_strategy|175. 재해 복구 시스템 (Disaster Recovery System, DRS) 및 업무 연속성 계획 (Business Continuity]]
+**다음**: [[177_rpo_recovery_point_objective|177. RPO (Recovery Point Objective)]] →
+
+---

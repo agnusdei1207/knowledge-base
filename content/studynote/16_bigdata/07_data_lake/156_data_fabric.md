@@ -180,3 +180,14 @@ tags:
 1. [[212_data_fabric_virtualization|데이터 패브릭]]은 마법의 도서관 카드예요. 전국 어느 도서관에 있는 책도 이 카드 하나로 바로 빌릴 수 있어요.
 2. [[190_ai_llm_requirements_specification|AI]] 사서(능동적 [[012_metadata|메타데이터]])가 어떤 책이 어디 있는지 자동으로 파악하고, 비슷한 책도 알려줘요.
 3. 책을 우리 도서관으로 옮길 필요 없이 그 자리에서 바로 읽을 수 있어서([[360_data_virtualization|데이터 가상화]]) 훨씬 빠르답니다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 156 / 262
+
+← **이전**: [[155_elt_vs_etl|155. ELT vs ETL — 클라우드 시대 데이터 변환 패러다임 전환]]
+**다음**: [[157_data_analysis_services|157. 클라우드 빅데이터 분석 서비스 — Amazon EMR/Azure HDInsight/GCP Dataproc]] →
+
+---

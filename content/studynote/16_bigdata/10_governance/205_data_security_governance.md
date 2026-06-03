@@ -216,3 +216,14 @@ DDM (동적 마스킹):  프로덕션 데이터 유지, 쿼리 시점에 역할�
 - [[001_dikw_pyramid|데이터]] [[006_security_governance|보안 거버넌스]]는 **학교 귀중품 보관 시스템**이에요: 자물쇠(암호화), 출입 카드(접근 제어), 가리개([[172_maas_mobility_as_a_service|마스]]킹), [[933_cctv|CCTV]]([[606_auditing_linux_auditd|감사]] [[568_logs_distributed_logging_elk_fluentd|로그]]), 대량 반출 경보([[386_dlp|DLP]])가 모두 함께 작동해요.
 - [[585_zero_skipping|Zero]] Trust는 "학교 교직원도 매번 신분증을 [[396_validation|확인]]한다"는 원칙이에요 — 내부 사람이라도 항상 [[395_verification_process_review|검증]]해야 더 안전해요.
 - [[606_auditing_linux_auditd|감사]] [[568_logs_distributed_logging_elk_fluentd|로그]]는 **절대 지울 수 없는 출입 기록부**예요: 언제, 누가, 무엇을 보았는지 기록이 남아 나중에 문제가 생겼을 때 반드시 추적할 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 205 / 262
+
+← **이전**: [[204_mdm|198. 마스터 데이터 관리 (MDM, Master Data Management) — 황금 레코드 생성]]
+**다음**: [[206_pipa_bigdata_exception|200. 개인정보보호법 빅데이터 특례 (PIPA Big Data Exception) — 가명처리 허용 데이터 3법]] →
+
+---

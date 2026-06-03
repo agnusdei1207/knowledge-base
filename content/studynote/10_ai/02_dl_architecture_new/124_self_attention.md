@@ -102,3 +102,14 @@ Self-Attention은 **[[246_transformer_self_attention_parallel_positional_encodin
 1. Self-Attention은 교실에서 **모든 친구의 얼굴을 보면서** [[083_relationship_in_er_model|관계]]를 파악하는 거예요.
 2. "고양이가 매트 위에 앉았다"에서 "앉았다"는 **"고양이"와 "매트"를 더 많이** 봐요.
 3. 이 방법 덕분에 AI가 **문장의 뜻을 정확하게 이해**할 수 있답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 124 / 420
+
+← **이전**: [[123_transformer_architecture|123. Transformer 아키텍처 - Self-Attention 기반 병렬 시퀀스 처리]]
+**다음**: [[125_multi_head_attention|125. Multi-Head Attention - 다관점 병렬 Attention으로 풍부한 표현 학습]] →
+
+---

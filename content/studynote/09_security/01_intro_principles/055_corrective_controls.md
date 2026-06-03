@@ -125,3 +125,14 @@ Incident → Containment → Recovery → Restoration → Verification
 1. 교정 통제는 망가진 장난감을 고치는 일이에요.
 2. 다시 놀 수 있게 원래대로 돌려놓아요.
 3. 다음엔 덜 망가지도록 방법도 바꿔요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 55 / 1108
+
+← **이전**: [[054_detective_controls|54. 탐지 통제 (Detective Controls)]]
+**다음**: [[056_deterrent_controls|56. 억제 통제 (Deterrent Controls) - 위협 행동 억제]] →
+
+---

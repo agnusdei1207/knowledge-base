@@ -198,3 +198,14 @@ Cassandra, RocksDB, LevelDB
 1. B+트리는 도서관 서가처럼 큰 [[104_classification_analysis|분류]]→중간 [[104_classification_analysis|분류]]→실제 책 순서로 3단계로 나눠 빠르게 찾는 구조예요.
 2. 실제 책([[001_dikw_pyramid|데이터]])은 맨 아래 단에만 있고, 연속된 칸들이 연결되어 있어 "20세~30세" 같은 범위 검색도 빠르답니다.
 3. MySQL이 수억 개 [[001_dikw_pyramid|데이터]]에서 3번만에 원하는 행을 찾을 수 있는 비결이 바로 이 B+트리예요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 37 / 600
+
+← **이전**: [[036_b_tree|036. B-트리 (B-Tree)]]
+**다음**: [[038_relational_algebra|038. 관계 대수 (Relational Algebra)]] →
+
+---

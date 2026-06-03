@@ -106,3 +106,14 @@ MSP / Channel / Peer / Orderer
 하이퍼레저 패브릭은 초대장 받은 사람만 들어오는 [[004_blockchain|블록체인]]이에요.  
 아무나 다 보는 게 아니라, 필요한 사람끼리만 장부를 함께 써요.  
 그래서 회사에서 [[289_cqrs_db|쓰기]] 더 좋아요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 58 / 552
+
+← **이전**: [[057_solidity_smart_contract_language|57. 솔리디티 (Solidity) - 이더리움 스마트 컨트랙트 개발 언어]]
+**다음**: [[059_chaincode_smart_contract|59. 체인코드 (Chaincode) - 하이퍼레저의 스마트 컨트랙트]] →
+
+---

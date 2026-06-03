@@ -159,3 +159,14 @@ TPU (Tensor Processing Unit) · NPU (Neural Processing Unit) · Tensor Core
 1. 시스톨릭 어레이는 친구들이 네모 줄을 서서 물건을 옆 사람에게 계속 넘겨 주는 릴레이 놀이와 같아요.
 2. 필요한 물건을 매번 창고까지 뛰어가서 가져오지 않으니까 시간도 아끼고 힘도 덜 들어요.
 3. 하지만 네모 줄에 딱 맞는 물건일 때 가장 잘하고, 모양이 제멋대로면 다른 도구가 더 잘할 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 427 / 803
+
+← **이전**: [[425_tpu|425. TPU (Tensor Processing Unit)]]
+**다음**: [[427_tensor_core|427. 텐서 코어 (Tensor Core)]] →
+
+---

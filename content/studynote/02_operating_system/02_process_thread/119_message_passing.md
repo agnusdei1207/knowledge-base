@@ -111,3 +111,14 @@ tags:
 1. 메시지 전달 (Message Passing) 방식은 컴퓨터가 여러 일을 나눠서 처리하고 서로 기다리게 하는 약속이에요.
 2. 먼저 [[118_shared_memory|공유 메모리]] ([[118_shared_memory|Shared Memory]]) 방식을 이해하면 메시지 전달 (Message Passing) 방식이 왜 필요한지 더 쉽게 보여요.
 3. 그래서 메시지 전달 (Message Passing) 방식을 잘 알면 나중에 [[120_direct_communication|직접 통신]] ([[120_direct_communication|Direct Communication]])도 훨씬 쉽게 배울 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 119 / 800
+
+← **이전**: [[118_shared_memory|118. 공유 메모리 (Shared Memory) 방식 - 빠름, 동기화 문제 발생]]
+**다음**: [[120_direct_communication|120. 직접 통신 (Direct Communication) - 수신자 명시]] →
+
+---

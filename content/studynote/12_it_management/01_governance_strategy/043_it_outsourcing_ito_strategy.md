@@ -310,3 +310,14 @@ AI/ML 운영 관리 서비스 MSP
 1. IT 아웃소싱은 전문 청소부 고용 — 청소(비핵심 IT)는 전문가에게 맡기고, 자신은 핵심 일(사업 [[268_strategy_pattern|전략]])에 집중해요!
 2. SLA는 청소부 계약서 — "매주 월요일 청소 완료, 못 하면 요금 할인"처럼 [[090_service_kubernetes_network_load_balancing|서비스]] 수준과 보상을 명확히 정해요.
 3. 전부 맡기면 위험 — 집 열쇠를 줬다가 청소부가 갑자기 그만두면 청소 방법을 아무도 모르는 것처럼, 핵심 역량은 내부에 유지해야 해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 77 / 587
+
+← **이전**: [[042_growth_hacking|042. 그로스 해킹 (Growth Hacking)]]
+**다음**: [[043_it_outsourcing_strategy|43. IT 아웃소싱 (ITO, IT Outsourcing) 전략]] →
+
+---

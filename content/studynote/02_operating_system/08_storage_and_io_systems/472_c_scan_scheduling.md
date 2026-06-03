@@ -186,3 +186,14 @@ C-SCAN (Circular SCAN)은 시스템 공학에서 "효율성(전체 [[139_through
 1. C-SCAN (Circular SCAN)은 컴퓨터가 디스크와 장치가 [[001_dikw_pyramid|데이터]]를 주고받는 길을 정리하는 방법이에요.
 2. 먼저 SCAN 스케줄링 ([[471_scan_elevator_scheduling|엘리베이터 알고리즘]])을 이해하면 C-SCAN (Circular SCAN)이 왜 필요한지 더 쉽게 보여요.
 3. 그래서 C-SCAN (Circular SCAN)을 잘 알면 나중에 LOOK 및 C-LOOK도 훨씬 쉽게 배울 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 472 / 800
+
+← **이전**: [[471_scan_elevator_scheduling|471. SCAN 스케줄링 (엘리베이터 알고리즘) (Scan Elevator Scheduling)]]
+**다음**: [[473_look_c_look_scheduling|473. LOOK 및 C-LOOK - 양 끝까지 가지 않고 마지막 요청까지만 이동 후 턴 (SCAN/C-SCAN 최적화)]] →
+
+---

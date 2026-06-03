@@ -206,3 +206,14 @@ eBPF for Windows / CO-RE / eBPF-as-a-Service (미래)
 1. eBPF는 **'서버 컴퓨터 속 [[001_operating_system_purpose|운영체제]]([[022_kernel_role|커널]])에 작은 감시 카메라를 설치하는 기술'** 이에요. 컴퓨터를 끄거나 다시 시작하지 않고도 카메라를 달아서 모든 [[001_dikw_pyramid|데이터]] 흐름을 볼 수 있어요!
 2. 특별한 **안전 검사관(Verifier)** 이 카메라 프로그램을 먼저 검사해서, 혹시라도 컴퓨터를 망가뜨릴 코드는 절대 설치 못하게 막아요.
 3. 이 기술 덕분에 각 앱마다 경비원([[830_sidecar_proxy_architecture_envoy_decoupling|사이드카]] [[264_proxy_pattern_surrogate_access_control|프록시]])을 따로 배치하지 않아도, **[[022_kernel_role|커널]] 하나로 모든 앱을 동시에 관찰하고 [[571_protection_vs_security|보호]]**할 수 있어서, 클라우드 서버 관리가 훨씬 가벼워졌어요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 147 / 373
+
+← **이전**: [[146_opentelemetry_otel_observability_standard|146. OpenTelemetry (OTel) - 관측 가능성 통합 표준]]
+**다음**: [[148_chaos_engineering_resiliency_testing|148. 카오스 엔지니어링 (Chaos Engineering)]] →
+
+---

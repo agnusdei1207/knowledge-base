@@ -134,3 +134,14 @@ tags:
 1. 5G의 세 가지 특성은 빠른 차선([[760_embb_enhanced_mobile_broadband_vr_ar|eMBB]]), 앰뷸런스 전용차선([[761_urllc_ultra_reliable_low_latency|uRLLC]]), 오토바이 전용도로([[762_mmtc_massive_machine_type_communications|mMTC]])예요.
 2. [[149_network_slicing_5g_architecture|네트워크 슬라이싱]]은 하나의 도로를 소프트웨어로 세 개의 전용차선으로 분리하는 마법이에요.
 3. [[767_sa_standalone_5g_core_network|SA]] 아키텍처는 새 건물에 새 전기 설비까지 다 새로 설치하는 것이어서 비싸지만, 5G의 모든 기능을 100% 쓸 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 495 / 552
+
+← **이전**: [[494_v2x_c_v2x_5g_vehicle_communication|494. V2X 차량 통신과 C-V2X 5G 연계 (V2X Vehicle Communication and C-V2X 5G)]]
+**다음**: [[496_6g_terahertz_ntn_ris_satellite|496. 6G 테라헤르츠, NTN, RIS 기술 (6G Terahertz NTN RIS Satellite Communication)]] →
+
+---

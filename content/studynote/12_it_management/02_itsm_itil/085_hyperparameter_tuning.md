@@ -121,3 +121,14 @@ HPO (Hyperparameter Optimization)는 후보 설정을 만들고, 학습과 [[395
 1. [[041_bagging_boosting|하이퍼파라미터 튜닝]]은 쿠키를 구울 때 온도와 시간을 조금씩 바꿔 보는 것과 같아요.
 2. 반죽은 같아도 온도가 다르면 맛이 달라져요.
 3. 그래서 제일 잘 구워지는 설정을 찾아야 해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 153 / 587
+
+← **이전**: [[084_service_level_management|84. 서비스 수준 관리 (SLM, Service Level Management)]]
+**다음**: [[085_sla|85. SLA (Service Level Agreement)]] →
+
+---

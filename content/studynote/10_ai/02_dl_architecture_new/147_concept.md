@@ -185,3 +185,14 @@ LLM 내재화 추론 (o1, o3 계열 모델)
 1. ToT(Tree-of-Thought)는 AI가 어려운 문제를 풀 때 **한 방향만 보지 않고 여러 길을 동시에 [[315_exploration_exploitation|탐험]]**하는 방법이에요. 미로에서 갈림길마다 여러 [[315_exploration_exploitation|탐험]]대를 보내는 것처럼요!
 2. [[315_exploration_exploitation|탐험]]대 중 막힌 길로 간 팀은 **바로 포기하고 돌아와서([[010_backtracking|백트래킹]])** 다른 길을 탐색해요. 그래서 틀린 방향으로 끝까지 달려가는 실수를 줄일 수 있어요.
 3. 비용(토큰)이 많이 들지만, **수학 증명이나 복잡한 퍼즐처럼 정답을 꼭 맞춰야 하는 문제**에서 훨씬 정확한 답을 찾아낸답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 147 / 420
+
+← **이전**: [[146_chain_of_thought_cot|146. CoT (Chain-of-Thought) 프롬프팅 - 단계별 추론]]
+**다음**: [[148_hallucination|148. 할루시네이션 (Hallucination / 환각)]] →
+
+---

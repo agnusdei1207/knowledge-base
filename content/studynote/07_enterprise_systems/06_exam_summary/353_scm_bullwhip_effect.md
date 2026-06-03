@@ -139,3 +139,14 @@ tags:
 1. [[167_scm_software_configuration_management|SCM]] 채찍 효과는 복잡한 일을 순서대로 정리해 주는 큰 정리함이에요.
 2. 어디에 무엇을 넣을지 먼저 정해 두면, 나중에 찾거나 고칠 때 훨씬 쉬워져요.
 3. 그래서 일이 커질수록 먼저 기준을 만들고 같이 약속하는 것이 중요해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 353 / 482
+
+← **이전**: [[352_erp_integrated_database_architecture|352. ERP 자원 통합 데이터베이스 아키텍처 (ERP Enterprise Resource Planning)]]
+**다음**: [[354_sop_sales_operations_planning|354. S&OP 영업 생산 계획 통합 조정 (Sales and Operations Planning)]] →
+
+---

@@ -125,3 +125,14 @@ Optimizer / Security / Metadata Query
 1. [[393_data_dictionary|데이터 사전]]은 책 제목과 위치를 적어 둔 목록이에요.
 2. [[394_catalog_metadata|카탈로그]] 관리자는 그 목록을 계속 고쳐 줘요.
 3. 그래서 원하는 책을 빨리 찾을 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 54 / 600
+
+← **이전**: [[053_db_parser_parse_tree|53. DB 파서와 파스 트리 (DB Parser Parse Tree)]]
+**다음**: [[055_connection_pool_dbcp|55. 커넥션 풀과 DBCP (Connection Pool / DBCP)]] →
+
+---

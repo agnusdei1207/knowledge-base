@@ -163,3 +163,14 @@ tags:
 1. [[568_logs_distributed_logging_elk_fluentd|로그]] 취합 아키텍처 ([[185_log_aggregation_fluentd_elasticsearch|Log Aggregation]] Pattern)은 레고 블록으로 성을 만들 때처럼, 규칙을 정하고 역할을 나누어 함께 작업하는 방법이에요.
 2. 혼자서 막 만들면 나중에 무너지거나 고치기 어렵지만, 약속을 지키면 누구나 쉽게 고치고 더 크게 만들 수 있어요.
 3. 그래서 [[001_software_engineering_definition|소프트웨어 공학]]은 프로그래머들이 좋은 프로그램을 빠르고 안전하게 만들 수 있게 도와주는 '규칙 모음집'이에요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 313 / 973
+
+← **이전**: [[312_saga_pattern_choreography_orchestration|312. 사가 (Saga) 패턴의 코레오그래피 (Choreography) vs 오케스트레이션 (Orchestration)]]
+**다음**: [[314_transactional_outbox_pattern|314. 트랜잭셔널 아웃박스 (Transactional Outbox) 패턴]] →
+
+---

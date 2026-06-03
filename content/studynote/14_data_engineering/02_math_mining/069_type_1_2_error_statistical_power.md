@@ -131,3 +131,14 @@ Decision Quality
 억울하게 잡을 수도 있어요.  
 놓쳐 버릴 수도 있어요.  
 검정력은 그런 실수 사이의 힘이에요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 69 / 258
+
+← **이전**: [[068_significance_level_alpha_p_value_hypothesis|68. 유의 수준(Alpha)과 유의 확률(p-value) - 귀무 가설 기각의 마지노선]]
+**다음**: [[070_t_test_independent_paired_mean_difference|70. T-검정 (t-Test) - 두 집단 간 평균 차이 통계적 검증]] →
+
+---

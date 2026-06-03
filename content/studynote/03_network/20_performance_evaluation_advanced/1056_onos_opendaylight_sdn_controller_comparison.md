@@ -142,3 +142,14 @@ ONOS / OpenDaylight 구조 모…는 화이트박스 [[746_ocp|OCP]] [[238_switc
 1. 달리기 시합에서 누가 얼마나 빨랐는지 재려면 초시계와 기록표가 필요해요.
 2. 이 개념은 네트워크가 어디서 느려졌는지 숫자로 찾아내는 도구예요.
 3. 그래서 막연히 고치는 대신 가장 중요한 곳부터 똑똑하게 손볼 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 161 / 1120
+
+← **이전**: [[1055_whitebox_switch_ocp_open_networking|1055. 화이트박스 OCP 스위치]]
+**다음**: [[1057_netconf_yang_network_configuration_modeling|1057. NETCONF / YANG 모델링 규격체 - 차세대 네트워크 자동화]] →
+
+---

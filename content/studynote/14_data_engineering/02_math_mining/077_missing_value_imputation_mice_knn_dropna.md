@@ -115,3 +115,14 @@ train-only 대치와 검증
 1. 퍼즐 조각이 몇 개 없으면 그림이 비어 보이죠.
 2. 그냥 잘라 버리면 그림은 작아지고, 아무 색이나 칠하면 이상해져요.
 3. 그래서 주변 모양을 보고 가장 자연스럽게 채우는 방법을 찾는 거예요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 77 / 258
+
+← **이전**: [[076_outlier_detection_iqr_dbscan_isolation_forest|76. 이상치 (Outlier) 탐지 - IQR, Z-Score, DBSCAN, Isolation Forest]]
+**다음**: [[078_data_scaling_normalization_min_max_standardization_z_score|78. 데이터 스케일링 - 정규화(Min-Max)와 표준화(Z-Score) 차이점]] →
+
+---

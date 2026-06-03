@@ -239,3 +239,14 @@ tags:
 - 각 섹션 끝에 📢 요약 비유 반드시 추가
 - 최소 800자/[[501_file_definition_logical_record|파일]]
 - [[501_file_definition_logical_record|파일]]명: 01_, 02_... 형식
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 22 / 175
+
+← **이전**: [[021_stability|14. 정렬 안정성 (Sort Stability) — 동일 키 순서 유지]]
+**다음**: [[023_external_sort|15. 외부 정렬 (External Sort) — 대용량 데이터, 멀티웨이 합병]] →
+
+---

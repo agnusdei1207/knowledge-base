@@ -182,3 +182,14 @@ beam steering and beamforming
 1. 스마트 [[171_antenna_basic_dipole_resonance|안테나]]는 친구 여러 명이 손전등을 들고 같은 곳을 비추도록 맞추는 것과 비슷해요.
 2. 손전등 몸체를 돌리지 않아도 비추는 박자와 방향을 잘 맞추면 빛이 한쪽으로 몰려요.
 3. 그래서 컴퓨터는 원하는 친구에게는 빛을 많이 보내고, 방해하는 쪽은 어둡게 만들 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 298 / 1120
+
+← **이전**: [[176_antenna_yagi_parabolic_patch|176. 야기우다 안테나, 파라볼라 안테나 (Parabolic), 패치 안테나]]
+**다음**: [[178_small_cell_macro_femto|178. 스몰셀 (Small Cell) / 매크로셀 (Macro Cell) / 펨토셀 (Femto Cell)]] →
+
+---

@@ -173,3 +173,13 @@ NIST [[017_csf|CSF]] 2.0 (Cybersecurity Framework)은 특히 [[009_incident_resp
 2. 완전한 중재 원칙은 학교 정문에서 아이들이 드나들 때마다 선생님이 한 명 한 명 [[396_validation|확인]] 도장을 찍어주는 것처럼, 모든 접근을 빠짐없이 검사하는 거예요.
 3. 최신에는 규칙을 사람이 일일이 [[396_validation|확인]]하는 대신, 컴퓨터가 자동으로 매 순간 규칙을 지키고 있는지 점검하는 스마트 시스템이 생겨났답니다!
 
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 17 / 1108
+
+← **이전**: [[016_data_privacy|16. 데이터 및 개인정보 보호 (Data & Privacy Protection)]]
+**다음**: [[018_iot_ot_ics_physical|18. IoT, OT, ICS 및 물리적 보안 (IoT, OT, ICS & Physical Security)]] →
+
+---

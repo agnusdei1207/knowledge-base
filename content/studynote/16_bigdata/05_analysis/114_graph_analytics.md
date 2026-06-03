@@ -161,3 +161,14 @@ N = 전체 노드 수
 - [[070_graph_datastructure|그래프]] 분석은 사람들 사이의 친구 [[083_relationship_in_er_model|관계]]를 선으로 그려서 누가 제일 인기 있고, 어떤 그룹이 있는지 찾는 거예요.
 - PageRank는 "유명한 친구가 많은 사람이 더 유명하다"는 원리로 웹페이지의 중요도를 계산해요.
 - 구글 검색, 페이스북 친구 추천, 배달 앱 최단 경로가 모두 이 기술을 사용해요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 114 / 262
+
+← **이전**: [[113_spatial_analysis|110. 공간 분석 (Spatial Analysis) — GIS 기반 지리공간 데이터 분석]]
+**다음**: [[115_text_summarization|112. 텍스트 요약 (Text Summarization) — 추출적/추상적 요약]] →
+
+---

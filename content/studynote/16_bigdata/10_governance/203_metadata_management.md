@@ -191,3 +191,14 @@ DataHub(LinkedIn [[191_oss_license_compliance|오픈소스]], 현 Acryl [[001_di
 - [[012_metadata|메타데이터]]는 **책 표지와 목차**예요: 책의 내용([[001_dikw_pyramid|데이터]])뿐 아니라 제목, 저자, 출판 날짜, 어떤 내용인지([[012_metadata|메타데이터]])가 있어야 원하는 책을 빠르게 찾을 수 있어요.
 - 비즈니스 [[012_metadata|메타데이터]]는 "이 [[001_dikw_pyramid|데이터]]가 무슨 의미인지", 기술 [[012_metadata|메타데이터]]는 "이 [[001_dikw_pyramid|데이터]]가 어떻게 저장되어 있는지", 운영 [[012_metadata|메타데이터]]는 "언제 만들어지고 어떻게 사용되었는지"를 알려줘요.
 - [[213_data_catalog_metadata|데이터 카탈로그]]는 **디지털 도서관 목록 시스템**이에요: 검색창에 "고객"을 치면 고객 관련 모든 [[001_dikw_pyramid|데이터]]셋이 나오고, 누가 소유하고, 어떻게 써야 하는지까지 바로 알 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 203 / 262
+
+← **이전**: [[202_data_quality_tools|196. 데이터 품질 관리 도구 (Data Quality Tools) — Great Expectations/Deequ/Soda Core]]
+**다음**: [[204_mdm|198. 마스터 데이터 관리 (MDM, Master Data Management) — 황금 레코드 생성]] →
+
+---

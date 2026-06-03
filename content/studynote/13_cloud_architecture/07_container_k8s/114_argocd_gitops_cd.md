@@ -119,3 +119,14 @@ Argo CD는 멀티클러스터 [[119_gitops_single_source_of_truth|GitOps]]·Argo
 1. 옛날에는 택배 아저씨([[071_jenkins_ci_cd_pipeline_automation|Jenkins]])가 집까지 와서 직접 물건을 놓아줬어요.
 2. Argo CD는 **우편함(Git)에 넣으면 집주인(클러스터)이 알아서 가져가는** 시스템이에요.
 3. 택배 아저씨에게 **집 열쇠를 안 줘도 돼서** 더 안전하고, 물건이 잘못 왔으면 **우편함만 바꾸면** 돼요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 113 / 371
+
+← **이전**: [[113_kubeflow_mlops_orchestration|113. Kubeflow MLOps 오케스트레이션 - K8s 네이티브 ML 파이프라인·실험 관리]]
+**다음**: [[115_terraform_infrastructure_provisioning|115. Terraform 인프라 프로비저닝 - IaC 선언적 다중 클라우드 관리]] →
+
+---

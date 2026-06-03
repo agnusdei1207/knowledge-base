@@ -177,3 +177,14 @@ Chiplet · CXL capacity tier · photonic interconnect
 1. 엑사스케일 노드 보드는 아주 많은 계산을 하는 슈퍼 로봇 팀의 몸통 같은 거예요.
 2. 팔 힘만 세면 안 되고, 머리, 배터리, 물통, 친구와 이야기하는 무전기까지 다 같이 좋아야 해요.
 3. 그래서 이 보드는 엄청 빠른 부품 모음이 아니라 모두가 같이 잘 움직이게 만든 특별한 팀판이랍니다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 600 / 803
+
+← **이전**: [[599_data_centric_fabric|599. 데이터 중심 패브릭 (Data-Centric Fabric)]]
+**다음**: [[601_liquid_cooling|601. 액체 냉각 시스템 (Liquid Cooling)]] →
+
+---

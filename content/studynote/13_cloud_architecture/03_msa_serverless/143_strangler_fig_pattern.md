@@ -53,3 +53,14 @@ Strangler Fig는 **모놀리스→[[619_msa_traffic_hardware|MSA]] 전환의 사
 1. Strangler Fig는 **덩굴이 큰 나무를 감싸** 천천히 대체하는 거예요.
 2. 한 번에 바꾸면 **위험하니까** 조금씩 새것으로 바꿔요.
 3. 결국 큰 나무(모놀리스)는 사라지고 **덩굴([[619_msa_traffic_hardware|MSA]])만** 남아요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 142 / 371
+
+← **이전**: [[142_externalized_configuration|142. Externalized Configuration - 외부 설정 관리 패턴]]
+**다음**: [[144_service_mesh|144. 서비스 메시 (Service Mesh) - 사이드카 기반 통신 인프라]] →
+
+---

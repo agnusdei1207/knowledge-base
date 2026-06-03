@@ -245,3 +245,14 @@ Token Bucket 기반 Rate Limiting은 [[014_api_posix|API]] 게이트웨이의 �
 1. 토큰 버킷은 동전 게임기 — 동전(토큰)이 있어야 게임을 할 수 있고, 동전이 없으면 기다려야 해. 동전통(버킷)이 꽉 차면 새 동전이 더 들어오지 않아.
 2. 초당 R개씩 동전이 자동으로 생기는데, 동전을 모아뒀다가(버스트) 한번에 많이 쓸 수 있어 — 단, 동전통(B) 크기를 넘으면 더 모을 수 없어.
 3. 토큰이 부족해서 게임을 못 하면 "토큰 없어요 (429 Too Many Requests), X초 후에 다시 와요 (Retry-After)"라고 친절하게 알려줘야 해.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 286 / 530
+
+← **이전**: [[224_exponential_backoff_retry|224. 지수 백오프 재시도 패턴 (Exponential Backoff and Retry Pattern)]]
+**다음**: [[226_leaky_bucket_traffic_shaping|226. 리키 버킷 트래픽 쉐이핑 (Leaky Bucket Traffic Shaping)]] →
+
+---

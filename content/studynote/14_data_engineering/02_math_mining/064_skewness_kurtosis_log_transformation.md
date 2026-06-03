@@ -136,3 +136,14 @@ Stabilized Modeling
 사탕 봉지가 한쪽으로 쏠려 있으면 왜도가 큰 거예요.  
 끝이 너무 뾰족하면 첨도가 큰 거예요.  
 [[568_logs_distributed_logging_elk_fluentd|로그]] 변환은 그 모양을 좀 더 고르게 만드는 방법이에요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 64 / 258
+
+← **이전**: [[063_central_tendency_dispersion_variance_iqr|63. 중심 경향도 (평균, 중앙값) 및 산포도 (분산, IQR) 분석]]
+**다음**: [[065_pearson_correlation_coefficient_multicollinearity|65. 피어슨 상관 계수 (Pearson Correlation) - 선형적 비례 관계 측정]] →
+
+---

@@ -104,3 +104,14 @@ tags:
 1. 갱신 주기는 학교에서 준비물을 미리 챙기는 것처럼, 중요한 기준을 먼저 맞추는 일이야.
 2. 모델 저장소는 선생님이 수업 중간에 계속 확인하는 것처럼, 실제로 잘 되고 있는지 보는 과정이야.
 3. 포트폴리오 연계는 시험 결과표처럼, 정말 효과가 있었는지 나중에 다시 확인하게 해주는 증거야.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 365 / 530
+
+← **이전**: [[302_audit_disclosure_accountability_procurement|302. 감리 공시와 조달 책임성 확보 (Audit Disclosure Accountability in Public Procurement)]]
+**다음**: [[303_ea_model_sync_rate|303. EA 포털 갱신율과 현행성 감리 (EA Portal Refresh Rate and Currency Audit)]] →
+
+---

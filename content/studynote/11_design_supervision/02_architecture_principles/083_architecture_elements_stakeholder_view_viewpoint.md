@@ -172,3 +172,14 @@ tags:
 1. 같은 도시라도 엄마는 병원 길, 아빠는 회사 길, 나는 놀이터 길이 궁금해요.
 2. 그래서 지도도 한 장이 아니라 목적별로 여러 장이 필요해요.
 3. 아키텍처 문서도 누가 묻는지에 맞춰 다른 답을 준비해야 해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 126 / 530
+
+← **이전**: [[082_ieee_1471_architecture_description_standard|82. IEEE 1471 (ISO/IEC 42010)]]
+**다음**: [[084_philippe_kruchten_4_1_view_architecture_model|84. 필립 크루첸 (Philippe Kruchten)의 4+1 View 모델]] →
+
+---

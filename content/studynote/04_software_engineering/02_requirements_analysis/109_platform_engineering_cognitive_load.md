@@ -124,3 +124,14 @@ Gartner는 2026년까지 대형 SW 조직 80%가 플랫폼 팀을 운영할 것�
 1. 옛날에는 피자를 만들려면 밀 베기부터 오븐 만들기까지 전부 해야 해서 피자 장인(개발자)이 너무 힘들었어요.
 2. 플랫폼 엔지니어링은 **자동 반죽 기계([[536_idp_identity_provider|IDP]])**를 설치해서, 장인은 버튼 한 번으로 반죽을 받고 맛있는 토핑만 올리면 돼요!
 3. 덕분에 피자가 훨씬 빨리 나오고, 장인이 과로로 쓰러지는 일도 사라졌답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 109 / 973
+
+← **이전**: [[108_llmops_large_language_model|108. LLMOps (대규모 언어 모델 운영)]]
+**다음**: [[110_idp_internal_developer_platform_backstage|110. 내부 개발자 플랫폼 (IDP, Internal Developer Platform) - Backstage·셀프서비스 카탈로그]] →
+
+---

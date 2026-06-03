@@ -132,3 +132,14 @@ SBA의 가장 어려운 실무 문제는 인메모리 그리드 장애 시 [[001
 1. 공간 기반 아키텍처는 모든 요리사가 공유 냉장고(메모리 그리드)에서 바로 재료를 꺼내 요리하는 방식이에요.
 2. 창고(DB)에는 나중에 천천히 정리해요 - 이렇게 하면 훨씬 빠르게 요리할 수 있어요.
 3. 티켓팅처럼 수백만 명이 동시에 요청하는 상황에 적합해요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 193 / 530
+
+← **이전**: [[136_microkernel_plugin_architecture|136. 마이크로커널·플러그인 아키텍처 (Microkernel / Plugin Architecture)]]
+**다음**: [[138_architectural_refactoring|138. 아키텍처 리팩터링 (Architectural Refactoring)]] →
+
+---

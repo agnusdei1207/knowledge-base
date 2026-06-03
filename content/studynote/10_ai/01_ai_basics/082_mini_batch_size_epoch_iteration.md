@@ -129,3 +129,14 @@ tags:
 1. 미니배치 사이즈 (Mini-[[346_batch_size_generalization|batch Size]]) / 에폭 (Epoch) / 이터레이션 (Iteration)은(는) 복잡해 보여도 일정한 순서와 규칙을 따라 움직여요.
 2. 중간 과정을 잘 이해하면 왜 그런 결과가 나오는지 스스로 설명할 수 있어요.
 3. 그래서 겉모습보다 흐름과 비교 기준을 함께 기억하는 것이 중요해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 82 / 420
+
+← **이전**: [[081_stochastic_gradient_descent_sgd|81. 확률적 경사 하강법 (SGD, Stochastic Gradient Descent)]]
+**다음**: [[083_local_minima_vs_global_minimum|83. 지역 최솟값 (Local Minima) vs 전역 최솟값 (Global Minimum)]] →
+
+---

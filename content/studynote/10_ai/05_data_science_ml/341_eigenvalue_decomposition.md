@@ -184,3 +184,14 @@ top_k_eigvec = eigenvectors[:, idx[:k]]
 1. 🏹 고유벡터는 "어떻게 밀거나 당겨도 방향이 안 바뀌는 마법 화살표"예요. 크기만 λ 배 되죠.
 2. 📊 [[163_pca|PCA]] 는 이 화살표 중에서 [[001_dikw_pyramid|데이터]]가 가장 많이 퍼진 방향을 골라서 그쪽으로 [[001_dikw_pyramid|데이터]]를 옮겨요.
 3. 🎵 고유값 분해는 복잡한 음악을 "도·레·미 각 음의 크기와 방향"으로 나누는 것과 같아요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 341 / 420
+
+← **이전**: [[340_deepfm_recommendation|340. DeepFM 딥러닝 추천 엔진 (Deepfm Recommendation)]]
+**다음**: [[342_svd|342. 특이값 분해 (SVD, Singular Value Decomposition)]] →
+
+---

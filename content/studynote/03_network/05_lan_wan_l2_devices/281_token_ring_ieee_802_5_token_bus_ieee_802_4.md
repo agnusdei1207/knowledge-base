@@ -144,3 +144,14 @@ IBM이 개발하여 1980년대~90년대 초반 기업망을 장악했던 4Mbps /
 1. 학교 우편함에 이름표가 붙어 있어야 편지가 엉뚱한 곳에 가지 않아요.
 2. 이 개념은 어느 교실로 보내야 할지 알아보는 [[104_classification_analysis|분류]] 규칙과 같아요.
 3. 그래서 같은 건물 안에서도 편지가 더 빠르고 질서 있게 움직여요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 402 / 1120
+
+← **이전**: [[280_local_loop_subscriber_line|280. 로컬 루프 (Local Loop, 가입자 선로)]]
+**다음**: [[282_fddi_fiber_distributed_data_interface_dual_ring|282. FDDI (Fiber Distributed Data Interface)]] →
+
+---

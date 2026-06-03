@@ -125,3 +125,14 @@ UTM는 WAF에서 출발해 현재 메커니즘을 정교화하고, 이후 NGFW�
 1. 비밀 편지를 보낼 때는 자물쇠와 비밀번호가 필요해요.
 2. 이 개념은 누가 진짜 친구인지 [[396_validation|확인]]하고, 편지가 바뀌지 않았는지도 살펴봐요.
 3. 그래서 나쁜 사람이 중간에 훔쳐보거나 바꾸기 어려워져요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 818 / 1120
+
+← **이전**: [[696_waf_web_application_firewall|696. WAF (Web Application Firewall, 애플리케이션L7 특화)]]
+**다음**: [[698_ngfw_next_generation_firewall|698. NGFW (Next-Generation Firewall, 차세대 방화벽 시그니처 융합 모델 딥 패킷 파싱 애플리케이션 ID 제어]] →
+
+---

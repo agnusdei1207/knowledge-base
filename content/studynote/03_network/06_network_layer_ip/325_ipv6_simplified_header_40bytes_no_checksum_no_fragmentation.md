@@ -152,3 +152,14 @@ IPv4의 14개 필드가 단 8개로 깔끔해졌다.
 1. 택배를 보내려면 집 주소가 정확해야 길을 잃지 않아요.
 2. 이 개념은 인터넷 세상에서 주소를 정하고 다음 길을 찾는 지도와 같아요.
 3. 그래서 멀리 있는 친구 컴퓨터까지도 편지가 도착할 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 446 / 1120
+
+← **이전**: [[324_ipv6_128bit_next_generation_address|324. IPv6 (Internet Protocol Version 6)]]
+**다음**: [[326_traffic_class_flow_label_ipv6_qos|326. 트래픽 클래스 (Traffic Class) / 플로우 레이블 (Flow Label)]] →
+
+---

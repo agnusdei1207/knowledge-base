@@ -187,3 +187,14 @@ C++ 게임 서버 개발자들은 이 [[342_external_fragmentation|외부 단편
 1. [[364_segmentation|세그멘테이션]]과 [[342_external_fragmentation|외부 단편화]] (가변 크기이므로 재발생) ([[364_segmentation|Segmentation]] [[342_external_fragmentation|External Fragmentation]])은 컴퓨터가 메모리를 방처럼 나눠 쓰고 주소를 찾는 방법이에요.
 2. 먼저 [[365_segment_table|세그먼트 테이블]] ([[365_segment_table|Segment Table]])을 이해하면 [[364_segmentation|세그멘테이션]]과 [[342_external_fragmentation|외부 단편화]] (가변 크기이므로 재발생) ([[364_segmentation|Segmentation]] [[342_external_fragmentation|External Fragmentation]])이 왜 필요한지 더 쉽게 보여요.
 3. 그래서 [[364_segmentation|세그멘테이션]]과 [[342_external_fragmentation|외부 단편화]] (가변 크기이므로 재발생) ([[364_segmentation|Segmentation]] [[342_external_fragmentation|External Fragmentation]])을 잘 알면 나중에 [[367_paged_segmentation|세그멘테이션 기반 페이징]] ([[367_paged_segmentation|Paged Segmentation]])도 훨씬 쉽게 배울 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 366 / 800
+
+← **이전**: [[365_segment_table|365. 세그먼트 테이블 (Segment Table) - 기준(Base) 주소와 한계(Limit) 길이]]
+**다음**: [[367_paged_segmentation|367. 세그멘테이션 기반 페이징 (Paged Segmentation) - 인텔 x86 아키텍처 (세그먼트를 다시 페이지로)]] →
+
+---

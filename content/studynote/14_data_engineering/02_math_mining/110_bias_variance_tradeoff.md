@@ -123,3 +123,14 @@ $\text{Total Error} = \text{[[094_bias|Bias]]}^2 + \text{[[136_variance|Variance
 1. **편향**은 시험 공부를 너무 안 해서 아는 게 하나도 없는 상태예요.
 2. **[[136_variance|분산]]**은 시험 문제랑 답을 통째로 외워버려서, 문제가 조금만 바뀌어도 못 푸는 상태예요.
 3. 제일 좋은 건 **원리를 잘 이해**해서 어떤 문제가 나와도 잘 푸는 "적당한 중간"을 찾는 거예요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 110 / 258
+
+← **이전**: [[109_euclidean_vs_manhattan_distance|109. 유클리드 거리 vs 맨해튼 거리 (Euclidean vs Manhattan Distance)]]
+**다음**: [[111_markov_chain_transition_matrix|111. 마르코프 체인 (Markov Chain) - 전이 행렬과 상태 확률 수렴]] →
+
+---

@@ -145,3 +145,14 @@ IBD (Initial Block Download)
 1. [[082_light_node_spv_simplified_payment_verification|라이트 노드]]는 책 제목만 보는 사람이고, 풀 노드는 책 내용을 직접 읽는 사람이에요.
 2. 프루닝 노드는 다 읽은 뒤 옛날 책장을 조금 비우는 사람이고, 아카이브 노드는 전부 모아두는 사람이에요.
 3. 그래서 진짜 규칙을 알고 싶으면, 남의 요약보다 내가 직접 책을 읽어야 한답니다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 83 / 552
+
+← **이전**: [[082_light_node_spv_simplified_payment_verification|82. 라이트 노드 (Light Node / SPV, Simplified Payment Verification)]]
+**다음**: [[084_blockchain_interoperability_polkadot_cosmos|84. 블록체인 상호운용성 (Interoperability) 폴카닷(Polkadot), 코스모스(Cosmos) 네트워크]] →
+
+---

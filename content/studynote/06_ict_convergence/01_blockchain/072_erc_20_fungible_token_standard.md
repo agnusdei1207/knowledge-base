@@ -123,3 +123,14 @@ Fungible Token
 모두 같은 토큰 규칙을 써요.  
 지갑도 거래소도 잘 알아봐요.  
 ERC-20은 그런 약속이에요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 72 / 552
+
+← **이전**: [[071_baas_blockchain_as_a_service|71. 블록체인 서비스형 (BaaS, Blockchain as a Service) - 클라우드 기반 블록체인 인프라 제공 서비스]]
+**다음**: [[073_erc_1155_multi_token_standard|73. ERC-1155 (다중 토큰 표준 - NFT와 FT 동시 발행 가능, 게임 아이템에 유리)]] →
+
+---

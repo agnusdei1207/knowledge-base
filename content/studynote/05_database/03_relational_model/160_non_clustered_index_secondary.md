@@ -151,3 +151,14 @@ Full Scan 중심 조회
 1. 넌클러스터드 [[154_database_index_b_tree_search_optimization|인덱스]]는 책 뒤에 붙은 찾아보기처럼, 원하는 내용을 빨리 찾게 도와주는 목록이에요.
 2. 하지만 목록만 보고 끝나는 게 아니라, 진짜 내용이 있는 [[286_page_frame|페이지]]로 한 번 더 가야 할 수도 있어요.
 3. 그래서 정말 자주 찾는 것만 잘 적어 두는 게 가장 똑똑해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 160 / 600
+
+← **이전**: [[159_clustered_index_physical_sort|159. 클러스터드 인덱스 (Clustered Index) - 물리적 데이터 정렬 기준, 테이블당 1개 (보통 PK)]]
+**다음**: [[161_composite_index_leading_column|161. 결합 인덱스 (Composite Index) - 2개 이상 컬럼으로 구성 (선행 컬럼 순서 중요)]] →
+
+---

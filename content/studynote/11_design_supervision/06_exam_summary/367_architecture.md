@@ -111,3 +111,14 @@ tags:
 1. 이벤트 주도 아키텍처 ([[140_event_driven_architecture_eda|Event-Driven Architecture]], [[064_eda|EDA]])은 학교 방송으로 알림을 보내 여러 반이 각자 필요한 행동을 하는 것처럼 약속을 먼저 정하는 거예요.
 2. 그러면 서로 다른 사람이 해도 같은 규칙으로 움직일 수 있어요.
 3. 그래서 규모가 커질수록 상태 변화를 비동기 신호로 전달하는 일이 더 중요해져요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 445 / 530
+
+← **이전**: [[366_process|366. 헥사고날 아키텍처 (Hexagonal Architecture)]]
+**다음**: [[368_cqrs|368. 명령-조회 책임 분리 (Command Query Responsibility Segregation, CQRS)]] →
+
+---

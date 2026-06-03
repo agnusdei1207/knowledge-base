@@ -149,3 +149,14 @@ tags:
 1. 전파는 멀리 가고 싶어도 지구가 둥글어서 그냥 앞으로만 가면 금방 안 보여요.
 2. 그래서 어떤 전파는 높은 하늘에 튕겨 보내고, 어떤 전파는 낮은 하늘에 퍼뜨려서 멀리 있는 친구가 받게 해요.
 3. 하늘의 어떤 층을 쓰느냐에 따라 멀리 가는 방법과 필요한 장비가 달라져요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 282 / 1120
+
+← **이전**: [[160_radio_propagation_ground_sky_space|160. 지상파 (Ground Wave) / 천파 (Sky Wave) / 공간파 (Space Wave)]]
+**다음**: [[162_los_line_of_sight_communication|162. 직선 가시거리 통신 (LOS, Line-of-Sight)]] →
+
+---

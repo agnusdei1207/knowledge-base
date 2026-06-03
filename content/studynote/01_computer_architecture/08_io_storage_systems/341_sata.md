@@ -155,3 +155,14 @@ NVMe (Non-Volatile Memory Express) / PCIe (PCI Express)
 1. SATA는 컴퓨터와 저장장치를 이어 주는 가늘고 정리된 전용 길이에요.
 2. 예전 길은 너무 넓고 복잡해서 서로 부딪혔지만, SATA는 한 장치마다 길을 따로 줘서 훨씬 편해졌어요.
 3. 아주 빠른 차(최신 [[327_ssd|SSD]])에게는 더 넓은 고속도로([[482_nvme|NVMe]])가 필요하지만, 큰 짐차([[465_hdd_structure|HDD]])에게는 SATA 길이 아직도 아주 쓸모 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 342 / 803
+
+← **이전**: [[340_scsi_sas|340. SCSI 및 SAS (Serial Attached SCSI)]]
+**다음**: [[342_nvme|342. NVMe (Non-Volatile Memory Express)]] →
+
+---

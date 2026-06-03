@@ -125,3 +125,14 @@ tags:
 1. [[694_thread_local_storage_tls|TLS]] 암호 스위트 ([[694_thread_local_storage_tls|TLS]] Cipher Suite)는 비밀 편지를 안전하게 잠그거나 진짜인지 확인하는 특별한 약속이에요.
 2. 하지만 자물쇠가 좋아도 열쇠를 아무 데나 두면 금방 들켜요.
 3. 그래서 암호는 만드는 방법과 열쇠를 지키는 방법을 같이 배워야 해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 358 / 1108
+
+← **이전**: [[303_tls_1_3_vs_1_2|303. TLS 1.3 vs 1.2 차이 (Transport Layer Security)]]
+**다음**: [[305_cipher_suite_naming|305. 암호 스위트 명명 규칙 (Cipher Suite Naming Convention)]] →
+
+---

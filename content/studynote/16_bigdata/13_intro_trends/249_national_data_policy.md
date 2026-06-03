@@ -222,3 +222,14 @@ AI 학습 데이터 규정 (AI 기본법 준비)
 1. [[001_dikw_pyramid|데이터]]기본법은 [[001_dikw_pyramid|데이터]]를 사고 팔 때 지켜야 할 규칙을 정한 법이에요 — 누군가가 [[001_dikw_pyramid|데이터]]를 독점하거나 허락 없이 사용하면 안 된다고 규정해요.
 2. 정부가 작은 회사들에게 [[001_dikw_pyramid|데이터]] 구매 상품권(바우처)을 줘서 값비싼 [[001_dikw_pyramid|데이터]]도 살 수 있게 해줘요.
 3. 한국, 유럽([[791_gdpr_eu|GDPR]]), 미국이 각각 다른 [[001_dikw_pyramid|데이터]] 규칙을 가지고 있어서 글로벌 [[090_service_kubernetes_network_load_balancing|서비스]]를 만들려면 세 나라 규칙을 모두 알아야 해요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 249 / 262
+
+← **이전**: [[248_european_data_strategy|036. 유럽 데이터 전략과 데이터 공간 (European Data Strategy & Data Spaces)]]
+**다음**: [[250_data_sovereignty|038. 데이터 주권 (Data Sovereignty)]] →
+
+---

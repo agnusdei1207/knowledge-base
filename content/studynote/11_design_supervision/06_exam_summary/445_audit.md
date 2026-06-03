@@ -144,3 +144,14 @@ tags:
 1. 오래된 장난감 상자를 한 번에 버리지 않고 새 상자를 옆에 두고 하나씩 옮기는 거예요.
 2. 옮길 때마다 무엇을 옮겼는지 적어 두어야 잃어버리지 않아요.
 3. 마지막 장난감까지 다 옮기면 그때 오래된 상자를 치우면 돼요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 523 / 530
+
+← **이전**: [[444_sbom|444. SBOM 소프트웨어 구성 명세 취약 방어 (Software Bill of Materials Vulnerability Defense)]]
+**다음**: [[446_csap|446. 공공 클라우드 CSAP 보안 인증 점검 통제 (CSAP Security Certification Control for Public]] →
+
+---

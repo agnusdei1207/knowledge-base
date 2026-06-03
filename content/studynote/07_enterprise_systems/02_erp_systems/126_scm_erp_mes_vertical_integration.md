@@ -106,3 +106,14 @@ tags:
 1. SCM은 **여행 계획**, ERP는 **일정표**, MES는 **현지 가이드**예요.
 2. 계획([[167_scm_software_configuration_management|SCM]])·일정([[081_erp_enterprise_resource_planning|ERP]])·가이드([[119_mes_manufacturing_execution_system|MES]])가 **서로 연결**되면 완벽한 여행이 돼요.
 3. 연결이 안 되면 계획은 파리인데 **가이드는 런던**에 가 있는 혼란이 생겨요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 126 / 482
+
+← **이전**: [[125_c_commerce_collaborative_commerce|125. C-Commerce (Collaborative Commerce) - 기업 간 협업 상거래]]
+**다음**: [[127_kms_knowledge_management_system|127. KMS (Knowledge Management System) - 조직 지식 관리 시스템]] →
+
+---

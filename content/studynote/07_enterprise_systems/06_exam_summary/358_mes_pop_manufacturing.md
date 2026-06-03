@@ -139,3 +139,14 @@ tags:
 1. [[119_mes_manufacturing_execution_system|MES]] 공장 실행 [[120_pop_point_of_production|POP]] 생산 [[001_dikw_pyramid|데이터]]는 복잡한 일을 순서대로 정리해 주는 큰 정리함이에요.
 2. 어디에 무엇을 넣을지 먼저 정해 두면, 나중에 찾거나 고칠 때 훨씬 쉬워져요.
 3. 그래서 일이 커질수록 먼저 기준을 만들고 같이 약속하는 것이 중요해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 358 / 482
+
+← **이전**: [[357_cdp_first_party_data|357. CDP 퍼스트파티 고객 데이터 통합 플랫폼 (Customer Data Platform)]]
+**다음**: [[359_plm_bom_product_lifecycle|359. PLM BOM 도면 제품 수명 주기 (PLM BOM Product Lifecycle Management)]] →
+
+---

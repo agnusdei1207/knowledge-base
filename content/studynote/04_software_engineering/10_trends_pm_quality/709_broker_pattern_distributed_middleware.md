@@ -152,3 +152,14 @@ tags:
 1. [[208_broker_pattern_distributed_systems_message|브로커 패턴]] [[136_variance|분산]] 시스템 미들웨어은 레고 블록으로 성을 만들 때처럼, 규칙을 정하고 역할을 나누어 함께 작업하는 방법이에요.
 2. 혼자서 막 만들면 나중에 무너지거나 고치기 어렵지만, 약속을 지키면 누구나 쉽게 고치고 더 크게 만들 수 있어요.
 3. 그래서 [[001_software_engineering_definition|소프트웨어 공학]]은 프로그래머들이 좋은 프로그램을 빠르고 안전하게 만들 수 있게 도와주는 '규칙 모음집'이에요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 882 / 973
+
+← **이전**: [[708_blackboard_pattern_non_deterministic|708. 블랙보드 패턴 비결정적 문제 해결]]
+**다음**: [[710_atdd_acceptance_test_driven_development|710. ATDD (인수 테스트 주도 개발) BDD 연계]] →
+
+---

@@ -113,3 +113,14 @@ tags:
 1. [[246_graphql_query_language_overfetching_solution|GraphQL]] 오버패칭 언더패칭 해결 선택 [[298_qkv_attention|쿼리]]는 사람이 많은 운동회에서 어디로 가야 하는지 알려 주는 안내판과 비슷해요.
 2. 규칙이 없으면 모두가 한곳에 몰려서 느려지고 다투지만, 길을 정해 두면 훨씬 부드럽게 움직일 수 있어요.
 3. 그래서 컴퓨터 세상에서도 [[246_graphql_query_language_overfetching_solution|GraphQL]] 오버패칭 언더패칭 해결 선택 [[298_qkv_attention|쿼리]]를 쓰면 많은 팀과 [[090_service_kubernetes_network_load_balancing|서비스]]가 덜 부딪히고 더 빨리 움직일 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 328 / 371
+
+← **이전**: [[328_grpc_http_2|328. gRPC 프로토콜 버퍼 HTTP/2 양방향 스트리밍 고속 (gRPC HTTP/2)]]
+**다음**: [[330_process|330. 트랜잭셔널 아웃박스 이벤트 로컬 DB 원자성 발행 (Transactional Outbox)]] →
+
+---

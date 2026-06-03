@@ -134,3 +134,14 @@ tags:
 1. 여러 상자에 있던 블록을 큰 정리장에 모아 보고 싶은 모양대로 다시 보는 거예요.
 2. 빨리 넣는 법과 빨리 보는 법은 다를 수 있어요.
 3. 그래서 창고를 어떻게 나누고 언제 정리할지 정해야 해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 587 / 600
+
+← **이전**: [[586_join_predicate_pushdown_view_query_transformation|586. 푸시 다운 조인 프레디케이트 (Join Predicate Pushdown) 뷰 연산 쿼리 변환]]
+**다음**: [[588_distributed_transaction_coordinator_dtc_2pc|588. 분산 트랜잭션 코디네이터 (DTC) 미들웨어 애플리케이션 트랜잭션 연합]] →
+
+---

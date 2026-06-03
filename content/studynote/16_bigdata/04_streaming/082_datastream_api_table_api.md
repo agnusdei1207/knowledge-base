@@ -237,3 +237,14 @@ Flink의 스트리밍 API가 저수준 RDD에서 고수준 SQL까지 통합되�
 ### 👶 어린이를 위한 3줄 비유 설명
 
 Flink에는 두 가지 요리 방법이 있어요. Table [[014_api_posix|API]]/SQL은 "레시피대로 요리하는 방법"(편리하고 빠름)이고, DataStream API는 "셰프가 직접 창의적으로 요리하는 방법"(어렵지만 자유로움)이에요. 같은 Flink 주방(실행 엔진)에서 요리하지만, 어떤 방법으로 요청하느냐가 다를 뿐이고 최종 음식(결과 [[001_dikw_pyramid|데이터]])은 같은 품질이랍니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 82 / 262
+
+← **이전**: [[081_flink_architecture|06. Flink 아키텍처 (Flink Architecture) — JobManager/TaskManager/JobGraph]]
+**다음**: [[083_flink_savepoint_checkpoint|08. Flink Savepoint / Checkpoint — 상태 저장 및 재시작 지점]] →
+
+---

@@ -119,3 +119,14 @@ RLHF는 딥러닝이 '수학적 오차(Loss)의 최소화'라는 딱딱한 기�
 1. 세상의 모든 책을 읽은 괴물 로봇이 있는데, 나쁜 책도 많이 읽어서 욕쟁이에 심술꾸러기가 됐어요.
 2. [[250_rlhf_human_feedback_reinforcement_alignment_cot|RLHF]] 선생님이 로봇에게 "예쁘게 말하면 사탕을 주고, 나쁘게 말하면 딱밤을 때릴 거야!"라며 훈련(강화학습)을 시켰어요.
 3. 사탕을 먹고 싶어진 로봇은 어떻게 말해야 사람들이 좋아하는지 스스로 깨우치고, 세상에서 제일 착하고 예의 바른 천사 챗봇으로 변했답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 462 / 552
+
+← **이전**: [[461_diffusion_model_noise_generation|461. 디퓨전 노이즈 역산 생성 (Diffusion Model Noise Generation)]]
+**다음**: [[463_markov_decision_process_mdp|463. 마르코프 결정 과정 (MDP)과 상태, 행동, 보상]] →
+
+---

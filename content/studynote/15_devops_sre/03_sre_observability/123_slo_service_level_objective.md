@@ -111,3 +111,14 @@ SLO는 **SRE의 가장 핵심적 의사결정 도구**이며, Error Budget을 �
 1. SLO는 시험 **합격 기준(90점)**이에요. 90점 이상이면 합격!
 2. Error Budget은 **틀려도 되는 문제 수(10문제)**예요. 10문제 이상 틀리면 보충 수업!
 3. 덕분에 "얼마나 더 실험([[247_feature_label_variables|피처]])해도 되는지" **숫자로 판단**할 수 있답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 123 / 373
+
+← **이전**: [[122_sli_service_level_indicator|122. SLI (Service Level Indicator) - 서비스 수준 측정 지표]]
+**다음**: [[124_sla_service_level_agreement|124. SLA (Service Level Agreement) - 서비스 수준 계약·위반 시 책임]] →
+
+---

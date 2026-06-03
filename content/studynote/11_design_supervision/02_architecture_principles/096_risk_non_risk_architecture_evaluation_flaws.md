@@ -118,3 +118,14 @@ tags:
 1. 리스크는 레고로 성을 만들 때 "이렇게 쌓으면 100% 무너져!" 하고 알려주는 빨간색 경고 딱지예요.
 2. 비리스크는 "지금 당장은 안 무너지니까 일단 합격!" 하고 붙여주는 초록색 딱지예요.
 3. 성을 다 쌓기 전에 미리 경고 딱지를 찾아내서 도면을 고쳐야, 힘들게 만든 성이 부서지는 걸 막을 수 있답니다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 139 / 530
+
+← **이전**: [[095_tradeoff_point_architecture_evaluation_atam_conflict|95. 상충점 (Trade-off Point) - 성능 대 보안 아키텍처 결단]]
+**다음**: [[097_cbam_cost_benefit_analysis_method_architecture_roi|97. CBAM (Cost Benefit Analysis Method) - 아키텍처 경제성 ROI 평가]] →
+
+---

@@ -188,3 +188,14 @@ eBPF의 `oomkill` 툴을 띄워두면, 리눅스 [[157_oom_killer|OOM]] 킬러�
 1. [[615_ebpf|eBPF]] 기반 메모리 할당 트레이싱 ([[615_ebpf|Ebpf]] Memory [[657_observability|Tracing]])은 컴퓨터가 메모리를 더 크게 보이게 하고 부족함을 숨기는 방법이에요.
 2. 먼저 [[062_cgroups|Cgroups]] 메모리 서브시스템의 자원 제한 ([[439_cgroups_memory_limit|Memory Limit]]) 동작을 이해하면 [[615_ebpf|eBPF]] 기반 메모리 할당 트레이싱 ([[615_ebpf|Ebpf]] Memory [[657_observability|Tracing]])이 왜 필요한지 더 쉽게 보여요.
 3. 그래서 [[615_ebpf|eBPF]] 기반 메모리 할당 트레이싱 ([[615_ebpf|Ebpf]] Memory [[657_observability|Tracing]])을 잘 알면 나중에 I/O 장치의 [[104_classification_analysis|분류]]도 훨씬 쉽게 배울 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 440 / 800
+
+← **이전**: [[439_cgroups_memory_limit|439. Cgroups 메모리 서브시스템의 자원 제한 (Memory Limit) 동작]]
+**다음**: [[441_io_device_classification|441. I/O 장치의 분류 - 블록 장치 (Block Device) vs 문자 장치 (Character Device)]] →
+
+---

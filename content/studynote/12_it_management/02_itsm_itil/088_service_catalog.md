@@ -129,3 +129,14 @@ tags:
 1. [[090_service_kubernetes_network_load_balancing|서비스]] [[394_catalog_metadata|카탈로그]] ([[090_service_kubernetes_network_load_balancing|Service]] [[394_catalog_metadata|Catalog]])는 모두가 같은 규칙으로 일하게 해 주는 반장 약속표예요.
 2. 약속만 적어 두는 것이 아니라 누가 지켰는지 확인하고 고치는 방법까지 함께 정해요.
 3. 그래서 일이 많아져도 서로 부딪히지 않고 더 안전하게 움직일 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 160 / 587
+
+← **이전**: [[088_optimizer|88. Amazon Kinesis Data Streams — 샤드 기반, AWS 관리형]]
+**다음**: [[089_CNN_Convolutional|89. 합성곱 신경망 (Convolutional Neural Network) - 공간 패턴 인식자]] →
+
+---

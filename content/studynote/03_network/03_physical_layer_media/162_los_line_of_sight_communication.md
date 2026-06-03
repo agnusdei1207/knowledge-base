@@ -150,3 +150,14 @@ LOS (Line-of-Sight) 확보 필요
 1. LOS는 두 친구가 서로를 바로 보면서 [[130_signal|신호]]를 주고받는 거예요.
 2. 중간에 벽이나 나무가 끼면 [[130_signal|신호]]가 잘 못 가서 말이 끊겨요.
 3. 그래서 높은 곳에 올라가고, 앞 공간도 넓게 비워 두어야 [[130_signal|신호]]가 잘 통해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 283 / 1120
+
+← **이전**: [[161_ionospheric_reflection_tropospheric_scatter|161. 전리층 반사 / 대류권 산란]]
+**다음**: [[163_penetration_diffraction_radio_waves|163. 투과율 (Penetration) / 회절 (Diffraction)]] →
+
+---

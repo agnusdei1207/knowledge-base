@@ -125,3 +125,14 @@ tags:
 1. [[032_firmware|펌웨어]] 보안 [[206_uefi_secure_boot_verification|UEFI Secure Boot]] ([[032_firmware|Firmware]] [[283_security_tactics|Security]] [[706_uefi|Uefi]])는 학교 규칙표처럼 무엇을 준비하고 어떻게 확인할지 알려 주는 기준이에요.
 2. 규칙표만 붙여 두고 지키지 않으면 아무 소용이 없어요.
 3. 그래서 보안도 규칙과 실제 행동이 함께 맞아야 해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 438 / 1108
+
+← **이전**: [[383_cpu_vuln_mitigation|383. CPU 취약점缓解 (Cpu Vuln Mitigation)]]
+**다음**: [[385_measured_boot|385. Measured Boot (Measured Boot)]] →
+
+---

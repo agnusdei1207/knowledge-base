@@ -141,3 +141,14 @@ tags:
 1. 처음에는 장난감 집을 만들 때 얼마나 큰지 눈대중으로 먼저 생각해요.
 2. 그다음에는 방이 몇 개고 창문이 몇 개인지 세어서 더 정확히 값을 정해요.
 3. [[673_function_point_ilf_eif|기능점수]]는 이런 방과 창문을 숫자로 세어 모두가 같은 기준으로 가격을 이야기하게 해 주는 방법이에요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 505 / 530
+
+← **이전**: [[426_liss_mece|426. LISS·MECE·로직트리 문제 구조화 (LISS, MECE, Logic Tree)]]
+**다음**: [[428_process|428. 정보보호 구현 기법 비교 (Delta, Encryption, Hash, Key Stretching, Obfuscation)]] →
+
+---

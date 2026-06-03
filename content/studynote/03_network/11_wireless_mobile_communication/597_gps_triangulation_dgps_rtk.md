@@ -202,3 +202,14 @@ tags:
 1. 와이파이가 100명이 왁자지껄 떠드는 시장통이라면, [[605_bluetooth_ieee_802_15_1_piconet_scatternet|블루투스]](피코넷)는 선생님(스마트폰) 1명이 7명의 학생(에어팟, 워치)에게 "너 말해, 이제 너 말해"라고 딱딱 지시를 내리는 아주 질서 정연한 교실이에요. 그래서 전파가 엉키지 않죠.
 2. 예전 [[605_bluetooth_ieee_802_15_1_piconet_scatternet|블루투스]]는 이어폰으로 노래를 계속 쏘느라 전기를 너무 많이 먹어서 배터리가 빨리 닳았어요.
 3. 그래서 나온 똑똑한 **[[607_ble_bluetooth_low_energy_iot|BLE]](저전력 [[605_bluetooth_ieee_802_15_1_piconet_scatternet|블루투스]])**는 딱 0.001초 동안만 "나 온도 25도야!" 하고 쪽지([[001_dikw_pyramid|데이터]])를 휙 던지고선 쿨쿨 깊은 잠에 빠져버려요! 그래서 동전만 한 작은 배터리 하나로 무려 5년 동안이나 죽지 않고 살아있는 거랍니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 718 / 1120
+
+← **이전**: [[596_haps_high_altitude_platform_station_drone|596. HAPS (고고도 전송 기지국, 성층권 드론 통신)]]
+**다음**: [[598_uwb_ultra_wideband_indoor_positioning|598. UWB (Ultra-Wideband)]] →
+
+---

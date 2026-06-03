@@ -230,3 +230,14 @@ FCA의 핵심 도구인 RTM은 요구사항 ID에서 설계 문서, 소스코드
 1. 엄마가 "숙제 다 하고, 내일 준비물 가방에 챙겨"라고 지시했어요.
 2. 형상 [[606_auditing_linux_auditd|감사]]는 엄마가 실제로 숙제를 다 했는지 [[396_validation|확인]]하고(FCA), 가방 안에 준비물이 빠짐없이 들어있는지 직접 열어보는([[163_pca|PCA]]) 과정이에요.
 3. 이 검사를 무사히 통과해야만 다음 날 당당하게 학교(배포)에 갈 수 있답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 23 / 973
+
+← **이전**: [[022_configuration_control|22. 형상 통제 (Configuration Control) - 변경 제어 위원회(CCB)]]
+**다음**: [[024_configuration_status_accounting|24. 형상 상태 기록 (CSA, Configuration Status Accounting)]] →
+
+---

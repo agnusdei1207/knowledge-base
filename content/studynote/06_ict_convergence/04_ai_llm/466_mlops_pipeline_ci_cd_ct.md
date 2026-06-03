@@ -119,3 +119,14 @@ MLOps는 "[[001_dikw_pyramid|데이터]] 과학자는 수학 공식만 짜는 �
 1. 장난감 공장에서 예전엔 아저씨가 손으로 하나하나 로봇을 만들어서 실수도 많고 너무 느렸어요.
 2. [[348_mlops|MLOps]] 마법사는 공장에 "자동 컨베이어 벨트(파이프라인)"를 깔아줬어요. 이제 나사가 빠진 로봇은 알아서 걸러내고([[090_configuration_item|CI]]), 고장 나면 1초 만에 새 로봇으로 바꿔줘요(CD).
 3. 심지어 유행이 바뀌면, 기계가 스스로 최신 설명서를 읽고 더 멋진 로봇으로 업그레이드해서 만들어내는([[162_continuous_training_pipeline_model_retraining|CT]]) 무적의 로봇 공장이 되었답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 466 / 552
+
+← **이전**: [[465_dqn_deep_q_network|465. DQN (Deep Q-Network)과 경험 리플레이, 타겟 네트워크]]
+**다음**: [[467_feature_store_data_sharing|467. 피처 스토어 (Feature Store)와 특징 변수 공유]] →
+
+---

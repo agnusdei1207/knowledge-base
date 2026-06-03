@@ -129,3 +129,14 @@ tags:
 1. [[173_ciso_role_and_responsibility|정보보호최고책임자]] ([[173_ciso_role_and_responsibility|CISO]]) 및 최고데이터책임자 ([[068_cdo_cio_role_separation_governance|CDO]]) 직무 독립성은 모두가 같은 규칙으로 일하게 해 주는 반장 약속표예요.
 2. 약속만 적어 두는 것이 아니라 누가 지켰는지 확인하고 고치는 방법까지 함께 정해요.
 3. 그래서 일이 많아져도 서로 부딪히지 않고 더 안전하게 움직일 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 90 / 587
+
+← **이전**: [[049_shadow_it_risk_management|049. 섀도 IT 리스크 관리 — Shadow IT Risk]]
+**다음**: [[050_ciso_cdo_independence_role|CISO·CDO 독립성과 역할 (CISO & CDO Independence)]] →
+
+---

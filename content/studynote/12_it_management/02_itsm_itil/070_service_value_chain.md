@@ -129,3 +129,14 @@ tags:
 1. [[062_itil|ITIL]] 4 [[090_service_kubernetes_network_load_balancing|서비스]] [[249_value_chain_competitive_analysis|가치 사슬]] ([[090_service_kubernetes_network_load_balancing|Service]] [[249_value_chain_competitive_analysis|Value Chain]])는 모두가 같은 규칙으로 일하게 해 주는 반장 약속표예요.
 2. 약속만 적어 두는 것이 아니라 누가 지켰는지 확인하고 고치는 방법까지 함께 정해요.
 3. 그래서 일이 많아져도 서로 부딪히지 않고 더 안전하게 움직일 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 123 / 587
+
+← **이전**: [[069_itil4_core_change|69. ITIL 4 의 핵심 개념 변화]]
+**다음**: [[070_union_find|70. Union-Find (합집합 찾기)]] →
+
+---

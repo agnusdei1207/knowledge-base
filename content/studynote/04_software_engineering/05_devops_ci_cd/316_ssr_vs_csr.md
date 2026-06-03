@@ -165,3 +165,14 @@ tags:
 1. 서버 사이드 렌더링 (SSR) vs 클라이언트 사이드 렌더링 ([[169_pkcs10_csr|CSR]])은 레고 블록으로 성을 만들 때처럼, 규칙을 정하고 역할을 나누어 함께 작업하는 방법이에요.
 2. 혼자서 막 만들면 나중에 무너지거나 고치기 어렵지만, 약속을 지키면 누구나 쉽게 고치고 더 크게 만들 수 있어요.
 3. 그래서 [[001_software_engineering_definition|소프트웨어 공학]]은 프로그래머들이 좋은 프로그램을 빠르고 안전하게 만들 수 있게 도와주는 '규칙 모음집'이에요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 316 / 973
+
+← **이전**: [[315_micro_frontends_architecture|315. 마이크로 프론트엔드 (Micro Frontends) 아키텍처]]
+**다음**: [[317_spa_single_page_application|317. 단일 페이지 애플리케이션 (SPA, Single Page Application) 설계]] →
+
+---

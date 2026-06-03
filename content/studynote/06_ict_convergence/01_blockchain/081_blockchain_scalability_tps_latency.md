@@ -140,3 +140,14 @@ tags:
 1. 이 개념은 복잡한 일을 한눈에 보이게 정리해서 모두가 같은 규칙으로 움직이게 해 줘.
 2. 그래서 많은 기계나 사람, 프로그램이 함께 일해도 어디서 문제가 생겼는지 찾기 쉬워져.
 3. 한마디로 이 개념은 복잡한 일을 질서 있게 움직이게 만드는 안내판이야.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 81 / 552
+
+← **이전**: [[080_cbdc_offline_payment_protocol|080. CBDC 오프라인 결제 프로토콜 (CBDC Offline Payment)]]
+**다음**: [[082_light_node_spv_simplified_payment_verification|82. 라이트 노드 (Light Node / SPV, Simplified Payment Verification)]] →
+
+---

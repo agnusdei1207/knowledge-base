@@ -286,3 +286,14 @@ DevOps + SRE 통합
 1. [[085_sla|SLA]] = 식당 약속 — 손님에게 "30분 내 음식 제공". 위반 시 할인권([[085_sla|SLA]] Credit). 측정 가능해야 진짜 약속!
 2. [[086_ola|OLA]] = 주방 팀 내부 타임라인 — 주방장에서 홀 서빙까지 각 단계 시간 합산이 손님 약속 시간보다 짧아야 해요!
 3. [[313_slm|SLM]] 성숙도 = 배달 추적 진화 — 완료만 [[396_validation|확인]](레벨1)에서 실시간 GPS+[[190_ai_llm_requirements_specification|AI]] 경로 최적화(레벨4)까지. [[001_dikw_pyramid|데이터]] 없이는 관리 불가!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 48 / 482
+
+← **이전**: [[047_sla_service_level_agreement|047. SLA 심화 — 계약 구조와 거버넌스]]
+**다음**: [[049_service_catalog|049. 서비스 카탈로그 — Service Catalog]] →
+
+---

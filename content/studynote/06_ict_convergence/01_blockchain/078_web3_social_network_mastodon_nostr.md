@@ -116,3 +116,14 @@ federation 또는 relay 전달
 1. 동네마다 놀이터가 있지만, 서로 쪽지를 보내며 친구를 찾는 모습과 같다.
 2. 어떤 놀이터는 규칙이 엄격하고, 어떤 놀이터는 입구가 많다.
 3. 그래서 중요한 건 "어디서 노느냐"보다 "어떤 규칙으로 연결되느냐"이다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 78 / 552
+
+← **이전**: [[077_crypto_mixing_tumbler_tornado_cash|77. 암호화폐 믹싱 (Coin Mixing / Tumbler) - 거래 자금 출처 추적을 어렵게 하는 트랜잭션 섞기 (Tornado]]
+**다음**: [[079_mydata_system_blockchain_receipt|079. 마이데이터 체계와 블록체인 데이터 영수증 (MyData & Blockchain Receipt)]] →
+
+---

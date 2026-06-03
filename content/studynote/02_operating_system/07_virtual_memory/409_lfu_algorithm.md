@@ -176,3 +176,14 @@ LFU의 '고인물 알박기' 문제를 해결하기 위해, 소프트웨어 공�
 1. [[263_lfu_page_replacement|LFU]] ([[263_lfu_page_replacement|Least Frequently Used]]) [[001_algorithm_definition|알고리즘]]은 컴퓨터가 메모리를 더 크게 보이게 하고 부족함을 숨기는 방법이에요.
 2. 먼저 개선된 [[407_second_chance_algorithm|2차 기회 알고리즘]]을 이해하면 [[263_lfu_page_replacement|LFU]] ([[263_lfu_page_replacement|Least Frequently Used]]) [[001_algorithm_definition|알고리즘]]이 왜 필요한지 더 쉽게 보여요.
 3. 그래서 [[263_lfu_page_replacement|LFU]] ([[263_lfu_page_replacement|Least Frequently Used]]) [[001_algorithm_definition|알고리즘]]을 잘 알면 나중에 [[410_mfu_algorithm|MFU]] ([[410_mfu_algorithm|Most Frequently Used]]) [[001_algorithm_definition|알고리즘]]도 훨씬 쉽게 배울 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 409 / 800
+
+← **이전**: [[408_enhanced_second_chance_algorithm|408. 개선된 2차 기회 알고리즘 (Enhanced Second Chance Algorithm)]]
+**다음**: [[410_mfu_algorithm|410. MFU (Most Frequently Used) 알고리즘]] →
+
+---

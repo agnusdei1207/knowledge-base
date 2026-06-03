@@ -170,3 +170,14 @@ OV / EV · CT 모니터링 · CAA · 피싱 대응의 다층 보완
 1. DV [[303_authentication_authorization_patterns|인증]]서는 "이 집 열쇠를 진짜 가지고 있니?"만 빨리 [[396_validation|확인]]해 주는 인터넷 자물쇠예요.
 2. 그래서 누구나 자기 집 문에는 아주 빨리 튼튼한 자물쇠를 달 수 있어요.
 3. 하지만 그 집 주인이 정말 착한 사람인지까지 알려 주는 건 아니라서, 다른 [[396_validation|확인]] 방법도 같이 필요해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 230 / 1108
+
+← **이전**: [[176_ev_extended_validation_certificate|176. EV (Extended Validation) 인증서]]
+**다음**: [[178_ov_organization_validation_certificate|178. OV (Organization Validation) 인증서]] →
+
+---

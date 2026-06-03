@@ -214,3 +214,14 @@ Lakehouse: Lake 위에 DW 기능 구현
 ```
 2. 마치 스위스 아미 나이프처럼, 하나의 도구([[146_lakehouse|레이크하우스]])가 분석·[[241_machine_learning_basics|머신러닝]]·실시간 [[001_dikw_pyramid|데이터]] 처리를 모두 해결해 주는 만능 [[001_dikw_pyramid|데이터]] 플랫폼이다.
 3. 타임트래블 기능은 "되돌리기(Ctrl+Z)" 버튼과 같다. 실수로 [[001_dikw_pyramid|데이터]]를 잘못 바꿔도, 이전 버전으로 돌아갈 수 있어서 안전하게 작업할 수 있다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 223 / 371
+
+← **이전**: [[223_data_mart_department_analytics|223. 데이터 마트 (Data Mart)]]
+**다음**: [[225_delta_lake_apache_iceberg_hudi|225. 델타 레이크 / Apache Iceberg / Apache Hudi]] →
+
+---

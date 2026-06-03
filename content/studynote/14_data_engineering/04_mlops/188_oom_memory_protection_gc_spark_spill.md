@@ -373,3 +373,14 @@ OOM (Out of Memory) 발생
 ```
 2. **GC(쓰레기 수거)**는 마치 수업 중에 가끔 선생님이 "이제 필요 없는 노트 버려라!"라고 하는 것처럼, 컴퓨터가 사용이 끝난 [[001_dikw_pyramid|데이터]]를 자동으로 치워서 공간을 만드는 작업이에요—너무 자주 하면 수업이 멈추니 조절이 중요해요.
 3. **Spill to Disk**는 책상이 가득 찼을 때 당장 쓰지 않는 책을 임시로 사물함(디스크)에 넣어두는 것처럼, 메모리가 부족하면 [[001_dikw_pyramid|데이터]]를 디스크에 잠깐 저장하고 나중에 다시 꺼내 작업을 계속하는 방법이에요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 188 / 258
+
+← **이전**: [[187_time_series_interpolation_rollup_dashboard|187. 시계열 DB 보간법 (Interpolation) 롤업 (Rollup) 통계 지표 대시보드]]
+**다음**: [[189_kafka_consumer_lag_monitoring_alert|189. 카프카 컨슈머 랙 (Kafka Consumer Lag) 지연 모니터링 경보 파이프]] →
+
+---

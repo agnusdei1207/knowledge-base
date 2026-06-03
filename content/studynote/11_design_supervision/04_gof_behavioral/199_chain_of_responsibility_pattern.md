@@ -128,3 +128,14 @@ tags:
 1. [[395_process|책임 연쇄 패턴]]은 고객 센터처럼, 1차 상담원이 못 해결하면 2차 전문가, 그래도 안 되면 3차 관리자에게 전달해요.
 2. 서블릿 필터 체인이 바로 이 패턴이에요 - 각 필터가 처리하고 다음으로 넘겨요.
 3. 요청을 보내는 쪽은 누가 처리할지 알 필요 없어요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 260 / 530
+
+← **이전**: [[198_state_vs_strategy|198. 상태 vs 전략 패턴 비교 (State vs Strategy Pattern)]]
+**다음**: [[200_chain_of_responsibility_pros_cons|200. 책임 연쇄 패턴 장단점 (Chain of Responsibility Pros and Cons)]] →
+
+---

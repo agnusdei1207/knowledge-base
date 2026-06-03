@@ -189,3 +189,14 @@ Lower overall query cost
 1. 사탕을 고를 때 상자를 전부 쏟아 놓고 찾는 것보다, 상자 안에서 딸기맛만 먼저 고르면 더 빨라요.
 2. [[002_database_definition|데이터베이스]]도 필요한 것만 먼저 골라 놓으면 뒤에서 섞고 계산하는 일이 훨씬 쉬워져요.
 3. 하지만 모양을 다 만든 뒤에만 고를 수 있는 조건은 너무 일찍 고르면 안 돼요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 178 / 600
+
+← **이전**: [[177_view_merging_query_transformation|177. 뷰 머징 (View Merging) - 옵티마이저의 쿼리 변환 (인라인 뷰를 메인 쿼리에 병합)]]
+**다음**: [[179_table_partitioning_concept|179. 파티셔닝 (Partitioning) - 대용량 테이블 물리적 분할 관리 기법]] →
+
+---

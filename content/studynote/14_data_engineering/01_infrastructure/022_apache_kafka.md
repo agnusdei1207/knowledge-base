@@ -178,3 +178,14 @@ Producer가 생성한 이벤트가 [[514_partition_slice_volume|파티션]] [[13
 ---
 <!-- [✅ Gemini 3.1 Pro Verified] -->
 > **🛡️ 3.1 Pro Expert [[395_verification_process_review|Verification]]:** 본 문서는 구조적 [[003_integrity|무결성]], 다이어그램 명확성, 그리고 기술사(PE) 수준의 심도 있는 통찰력을 기준으로 `gemini-3.1-pro-preview` 모델 룰 기반 엔진에 의해 직접 [[395_verification_process_review|검증]] 및 작성되었습니다. (Verified at: 2026-04-02)
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 22 / 258
+
+← **이전**: [[021_apache_spark_in_memory|21. 아파치 스파크 (Apache Spark) - 하둡 맵리듀스의 느린 디스크 반복 접근 단점을 극복한 인메모리(In-Memory)]]
+**다음**: [[023_lazy_evaluation|23. 지연 평가 (Lazy Evaluation)]] →
+
+---

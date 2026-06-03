@@ -55,3 +55,14 @@ CoT는 **[[263_llm_large_language_model|LLM]] 추론 능력 향상의 핵심 기
 1. CoT는 **시험에서 풀이 과정 [[289_cqrs_db|쓰기]]**예요. 답만 쓰면 실수해요.
 2. "단계별로 생각해 봐" 하면 AI가 **풀이를 써서** 정확해져요.
 3. 여러 번 풀어서(Self-[[194_consistency_database_integrity|Consistency]]) **다수결**로 정하면 더 정확해요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 146 / 420
+
+← **이전**: [[145_concept|145. RLHF (Reinforcement Learning from Human Feedback) - 인간 정렬]]
+**다음**: [[147_concept|147. ToT (Tree-of-Thought) - 분기 사고 구조 탐색망 추론 기법]] →
+
+---

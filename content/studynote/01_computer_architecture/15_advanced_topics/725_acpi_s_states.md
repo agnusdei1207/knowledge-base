@@ -158,3 +158,14 @@ S0 low power idle and Modern Standby
 1. 컴퓨터도 사람처럼 "일하는 중", "잠깐 자는 중", "짐 싸서 깊게 자는 중", "완전히 문 닫은 상태"가 있어.
 2. 빨리 다시 쓰려면 불을 조금 남겨 둬야 하고, 오래 쉬려면 더 많이 꺼야 해.
 3. 그래서 S-State는 컴퓨터가 얼마나 깊게 잘지 정해 주는 수면 규칙표라고 보면 돼.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 726 / 803
+
+← **이전**: [[724_t_states|724. T-States (Throttling States)]]
+**다음**: [[726_modern_standby_s0ix|726. 모던 스탠바이 (Modern Standby, S0ix)]] →
+
+---

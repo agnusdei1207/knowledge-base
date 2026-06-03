@@ -133,3 +133,14 @@ Worker · 메모리 최적화 결합
 1. 그림을 빨리 색칠해야 할 때는 손으로만 하지 않고 작은 기계를 빌려 도와줄 수 있어요.
 2. 하지만 어디를 칠할지 정하는 일은 여전히 내가 해야 해요.
 3. [[319_webassembly_architecture|웹어셈블리]]는 웹에서 어려운 계산만 빨리 해 주는 도우미 기계예요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 517 / 530
+
+← **이전**: [[438_architecture|438. PWA 오프라인 우선 서비스 워커 설계 (Progressive Web App Offline-First Service Worker]]
+**다음**: [[440_dapp|440. 블록체인 스마트 컨트랙트 DApp 보안 (Blockchain Smart Contract DApp Security)]] →
+
+---

@@ -222,3 +222,15 @@ Fault Tolerance는 부품이 죽지 않게 기도하는 메타가 아니다. 무
 1. 외발자전거([[454_spof|SPOF]])를 타고 가다 바퀴에 펑크가 나면 쾅 넘어지고 크게 다쳐서 병원에 가야 해요.
 2. 하지만 자동차([[296_fault_tolerance_architecture|결함 허용]] 듀얼 구성)에는 항상 뒷트렁크에 똑같이 생긴 '스페어 예비 타이어(Standby)'가 들어있어요.
 3. 바퀴에 펑크가 나더라도([[352_defect_definition|결함]] 발생) 금방 예비 타이어로 쓱 갈아 끼우면([[300_failover_architecture|Failover]]) 여행을 포기하지 않고 목적지까지 안전하게 갈 수 있는 멋진 대비책이랍니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 800 / 800
+
+← **이전**: [[799_lamport_timestamp_happens_before_causality|799. 람포트 타임스탬프 인과 관계 정렬 (Lamport Timestamp Happens Before Causality)]]
+
+✅ **마지막 글입니다.**
+
+---

@@ -166,3 +166,14 @@ tags:
 1. [[247_feature_label_variables|피처]] [[186_character_stuffing_dle_stx_etx|플래그]] (Feature [[186_character_stuffing_dle_stx_etx|Flag]]) 기반 A/B 테스트 및 점진적 롤아웃은 레고 블록으로 성을 만들 때처럼, 규칙을 정하고 역할을 나누어 함께 작업하는 방법이에요.
 2. 혼자서 막 만들면 나중에 무너지거나 고치기 어렵지만, 약속을 지키면 누구나 쉽게 고치고 더 크게 만들 수 있어요.
 3. 그래서 [[001_software_engineering_definition|소프트웨어 공학]]은 프로그래머들이 좋은 프로그램을 빠르고 안전하게 만들 수 있게 도와주는 '규칙 모음집'이에요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 742 / 973
+
+← **이전**: [[575_shadow_deployment_traffic_mirroring|575. 섀도우 배포 (Shadow Deployment / 트래픽 미러링) - 실운영 트래픽을 복제하여 신규 버전에 테스트]]
+**다음**: [[577_server_side_rendering_ssr_nextjs|577. 서버 사이드 렌더링 (SSR) 컴포넌트 아키텍처 (Next.js, Nuxt.js)]] →
+
+---

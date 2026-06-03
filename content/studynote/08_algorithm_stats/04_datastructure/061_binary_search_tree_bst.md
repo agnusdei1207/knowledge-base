@@ -91,3 +91,14 @@ BST는 [[031_binary_search_algorithm|이진 탐색]]의 아이디어를 트리�
 1. [[031_binary_search_algorithm|이진 탐색]] 트리는 번호표대로 책을 정리하는 **똑똑한 도서관 선반**과 같아요.
 2. 찾으려는 번호보다 작은 책은 왼쪽 칸에, 큰 책은 오른쪽 칸에 두어서 금방 찾을 수 있죠.
 3. 하지만 책을 한쪽으로만 계속 쌓으면 선반이 길어져서 찾기 힘드니 조심해야 해요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 61 / 175
+
+← **이전**: [[060_binary_tree|이진 트리 (Binary Tree)]]
+**다음**: [[062_avl_tree|AVL 트리 (Adelson-Velsky and Landis Tree)]] →
+
+---

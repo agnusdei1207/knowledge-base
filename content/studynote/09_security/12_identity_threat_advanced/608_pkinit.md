@@ -125,3 +125,14 @@ PKINIT (Public [[067_db_key_uniqueness_minimality|Key]] [[652_cryptography_conce
 1. PKINIT (Public [[067_db_key_uniqueness_minimality|Key]] [[652_cryptography_concept_encryption_decryption|Cryptography]] for Initial Auth)는 비밀 편지를 안전하게 잠그거나 진짜인지 확인하는 특별한 약속이에요.
 2. 하지만 자물쇠가 좋아도 열쇠를 아무 데나 두면 금방 들켜요.
 3. 그래서 암호는 만드는 방법과 열쇠를 지키는 방법을 같이 배워야 해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 670 / 1108
+
+← **이전**: [[608_error_handling_logging|608. 오류 처리와 로깅 보안 (Error Handling & Logging Security)]]
+**다음**: [[609_remote_desktop_gateway|609. 원격 데스크톱 게이트웨이 (Remote Desktop Gateway)]] →
+
+---

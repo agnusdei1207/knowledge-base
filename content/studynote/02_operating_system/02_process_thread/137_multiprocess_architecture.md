@@ -111,3 +111,14 @@ tags:
 1. 멀티프로세스 아키텍처 (크롬 브라우저 등) (Multiprocess [[319_architecture|Architecture]])은 컴퓨터가 여러 일을 나눠서 처리하고 서로 기다리게 하는 약속이에요.
 2. 먼저 [[136_zombie_thread|좀비 스레드]] ([[136_zombie_thread|Zombie Thread]])을 이해하면 멀티프로세스 아키텍처 (크롬 브라우저 등) (Multiprocess [[319_architecture|Architecture]])이 왜 필요한지 더 쉽게 보여요.
 3. 그래서 멀티프로세스 아키텍처 (크롬 브라우저 등) (Multiprocess [[319_architecture|Architecture]])을 잘 알면 나중에 [[138_multithread_architecture_overhead|멀티스레드 아키텍처 오버헤드]] ([[138_multithread_architecture_overhead|락 경합 등]])도 훨씬 쉽게 배울 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 137 / 800
+
+← **이전**: [[136_zombie_thread|136. 좀비 스레드 (Zombie Thread)]]
+**다음**: [[138_multithread_architecture_overhead|138. 멀티스레드 아키텍처 오버헤드 (락 경합 등) (Multithread Architecture Overhead)]] →
+
+---

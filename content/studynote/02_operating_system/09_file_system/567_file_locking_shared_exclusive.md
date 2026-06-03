@@ -155,3 +155,14 @@ tags:
 1. 멍청한 엄마(일반 무식한 [[501_file_definition_logical_record|파일]] 전송 방식 늪!)는 방구석 벽지 그림판(디스크 [[501_file_definition_logical_record|파일]] 빔!)에 "스마일 그림" 을 열심히 그리는 중이에요. 그런데 갑자기 말 안 듣는 동생 두 명이 확 들어오더니 엄마가 그리는 그 자리에 파란색 검정색 펜으로 무지성 떡칠(동시 접속 [[213_race_condition|Race Condition]] [[289_cqrs_db|쓰기]] 충돌 병목 랙!)을 해서 그림이 형체를 알 수 없는 괴물 폭파 파단 쓰레기([[001_dikw_pyramid|Data]] Corruption 멸망 랙!)가 되어 버렸어요 덜덜 마비!
 2. 그래서 똑똑한 철통 문지기 로봇이 **"[[501_file_definition_logical_record|파일]] 구경 자물쇠! [[501_file_definition_logical_record|파일]] 독점 수정 자물쇠!(Shared 공유 빔 & Exclusive 배타 잠금 록백!)"** 마법을 결속해 줬어요! 엄마가 그림판 수정(Write 타격!) 을 시작할 때 문지기에게 '배타적 열쇠독점 쾅' 을 걸고 들어가면, 바깥 방문이 쇠창살 철판(강제 대기 Wait 빔!) 으로 막히고 그 어떤 가족도 못 들어와 안전하게 스마일을 다 그릴 수 있는 방검복 쉴드(수정 [[001_dikw_pyramid|데이터]] 무결 보존 스피드!)를 달성해요 도출!
 3. 치명적 슬픔 피곤한 꽉 막힌 거미줄 멈춤 대참사 발생! 앗! 이 절대 방패 쇠창살에도 치명적 모순 단점이 있어요. 다른 3번 방에 접속([[136_variance|분산]] 네트워크 [[543_nfs_network_file_system|NFS]] 늪!) 하던 삼촌이 배타적 독점 쇠창살을 한 번 쾅 잠그고 들어갔는데, 폰 배터리가 꺼지며 화장실 창문으로 도망 런(인터넷 접속 끊김 서버 사망 연산 병목!) 해버린 거예요! [[022_kernel_role|커널]] 문지기 로봇은 멍청하게 "삼촌이 계속 그림 그리고 계시네?" 혼자 착각하며 무려 1년 내내 방을 봉쇄시켜놓고([[281_deadlock_definition|Deadlock]] 영구 차단 지옥의 데들락 트레이드오프 파단!) 아무도 그림을 못 고치게 멈추는 무서운 영원 마비 딜레마를 감당해야 하는 마법의 [[123_pipe|파이프]] 튜브랍니다. 진화 랙!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 567 / 800
+
+← **이전**: [[566_mmap_zero_copy_sendfile|566. mmap 기반 제로 카피 (Zero-copy) 전송 기술 (sendfile) 성능 이점]]
+**다음**: [[568_mandatory_advisory_lock|568. 강제적 잠금 (Mandatory Lock) vs 권고적 잠금 (Advisory Lock)]] →
+
+---

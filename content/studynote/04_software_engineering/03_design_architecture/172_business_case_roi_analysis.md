@@ -180,3 +180,14 @@ post-launch KPI tracking and feedback
 1. 비즈니스 케이스는 새 장난감을 사기 전에 "얼마나 들고 얼마나 오래 잘 쓸지" 계산해 보는 계획표예요.
 2. ROI는 장난감을 사서 얻는 좋은 점이 값어치를 하는지 빠르게 보는 숫자예요.
 3. 하지만 언제 좋은 점이 생기는지도 중요해서, 돈이 빨리 돌아오는지까지 같이 봐야 해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 172 / 973
+
+← **이전**: [[171_requirements_consistency_checking|171. 요구사항 일관성 검사 (Consistency Checking)]]
+**다음**: [[173_stakeholder_identification_impact_matrix|173. 이해관계자 (Stakeholder) 식별 및 영향도 매트릭스]] →
+
+---

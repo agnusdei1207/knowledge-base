@@ -137,3 +137,14 @@ tags:
 1. **[[190_ai_llm_requirements_specification|AI]] 윤리**는 AI가 **공정하고, 설명 가능하고, 안전하게** 작동하도록 만드는 원칙이에요 — AI가 특정 성별·인종을 차별하면 안 된다는 것도 [[190_ai_llm_requirements_specification|AI]] 윤리예요!
 2. **편향 있는 [[001_dikw_pyramid|데이터]]로 배운 [[190_ai_llm_requirements_specification|AI]]**는 편향된 판단을 내려서, 여성 이력서를 남성보다 낮게 평가하거나 특정 인종 얼굴을 잘 못 인식하는 문제가 생겨요.
 3. EU [[190_ai_llm_requirements_specification|AI]] Act 같은 법이 생겨서 **의료·채용·금융 [[190_ai_llm_requirements_specification|AI]]**는 반드시 공정성과 설명 가능성을 갖춰야 법적으로 허가를 받을 수 있어요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 330 / 420
+
+← **이전**: [[329_on_device_ai|329. 온디바이스 AI (On-Device AI)]]
+**다음**: [[331_multimodal_ai|331. 멀티모달 AI (Multimodal AI)]] →
+
+---

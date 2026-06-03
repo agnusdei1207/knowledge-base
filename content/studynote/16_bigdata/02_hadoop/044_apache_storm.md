@@ -85,3 +85,14 @@ Spout가 수집한 스트림이 Bolt 체인을 거쳐 처리되는 토폴로지 
 1. 폭포수([[001_dikw_pyramid|데이터]])가 끊임없이 쏟아지는 통로에 '물레방아(Spout)'를 설치해요.
 2. 물레방아가 물을 퍼 올리면, 중간중간 '거름망(Bolt)'이 나뭇잎을 걸러내고 깨끗한 물만 통과시켜요.
 3. 이 모든 과정이 쉬지 않고 아주 빠르게 돌아가는 거대한 정수기 시스템이 바로 Storm이에요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 44 / 262
+
+← **이전**: [[043_hdfs_small_file_problem|HDFS Small File Problem (HDFS 작은 파일 문제)]]
+**다음**: [[045_recommendation_system_algorithms|23. 추천 시스템 알고리즘 (Recommendation System Algorithms)]] →
+
+---

@@ -217,3 +217,14 @@ tags:
 - 각 섹션 끝에 📢 요약 비유 반드시 추가
 - 최소 800자/[[501_file_definition_logical_record|파일]]
 - [[501_file_definition_logical_record|파일]]명: 01_, 02_, 03_... 형식 (2자리 숫자)
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 5 / 552
+
+← **이전**: [[004_blockchain|4. 블록체인 (Blockchain) - 분산 원장 기술(DLT, Distributed Ledger Technology)]]
+**다음**: [[006_block_structure|6. 블록의 구조 - 블록 헤더 (버전, 이전 블록 해시, 머클 루트, 타임스탬프, 난이도, 논스) + 바디]] →
+
+---

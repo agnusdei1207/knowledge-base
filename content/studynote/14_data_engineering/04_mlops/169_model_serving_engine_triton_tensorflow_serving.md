@@ -386,3 +386,14 @@ TensorRT는 [[418_gpu|GPU]] 특화 딥러닝 추론 최적화 라이브러리다
     ▼
 API 게이트웨이 → REST/gRPC → 클라이언트 응답 (ms 이내)
 ```
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 169 / 258
+
+← **이전**: [[168_airflow_dag_pipeline_scheduling|168. 데이터 파이프라인 워크플로우 DAG 제어 (Apache Airflow) 자동화]]
+**다음**: [[170_ab_test_canary_rollout_shadow_mirroring|170. 서빙 아키텍처 A/B 테스트 및 카나리 롤아웃 (Canary Rollout), 섀도우 미러링 검증 라우터]] →
+
+---

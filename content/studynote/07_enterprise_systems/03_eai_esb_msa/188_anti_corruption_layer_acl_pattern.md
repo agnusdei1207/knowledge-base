@@ -144,3 +144,14 @@ ACL을 통한 도메인 번역 계층 도입
 1. 새로 지은 집은 깨끗한 규칙대로 꾸미고 싶어요.
 2. 그래서 바깥에서 들어오는 낡은 물건은 문 앞에서 정리하고 이름표도 새로 붙여요.
 3. 그러면 집 안은 늘 같은 규칙을 지키고, 나중에 바깥 창고가 바뀌어도 집 안은 그대로 쓸 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 188 / 482
+
+← **이전**: [[187_strangler_fig_pattern_msa_migration|187. 스트랭글러 피그 패턴 (Strangler Fig Pattern) - 점진적 MSA 전환]]
+**다음**: [[189_multi_tenant_database_architecture_saas|189. 멀티 테넌트 데이터베이스 아키텍처 (Multi-Tenant Database Architecture) - SaaS 격리 설계]] →
+
+---

@@ -134,3 +134,14 @@ Reference Architecture
 1. 시프트 레프트는 복잡한 일을 순서와 규칙으로 정리해서 실수하지 않게 도와주는 방법이에요.
 2. [[491_sast_static_analysis|SAST]] 같은 친구들과 같이 움직여야 더 잘 작동해요.
 3. 그래서 문제가 생겨도 어디서 틀렸는지 빨리 찾고 다시 고치기 쉬워져요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 242 / 373
+
+← **이전**: [[241_devsecops_devops_ci_cd_security|241. DevSecOps 사상 (DevSecOps)]]
+**다음**: [[243_sast_static_application_security_testing|243. 소스코드 정적 보안 분석 (SAST, Static Application Security Testing)]] →
+
+---

@@ -152,3 +152,14 @@ vllm serve Llama-3-8B-Instruct \
 1. AI에게 책 한 권을 통째로 주고 "3장 내용이 뭐야?"라고 물어볼 수 있는 것이 긴 [[033_context|컨텍스트]] 처리예요.
 2. 하지만 책이 너무 길면 AI도 중간 내용을 조금 잊어버려요 — 중요한 내용은 앞이나 뒤에 두는 게 좋아요.
 3. Mamba는 긴 책도 [[286_page_frame|페이지]]를 넘기듯 조금씩 기억하는 새로운 방식으로, 메모리를 훨씬 적게 써요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 549 / 552
+
+← **이전**: [[548_data_poisoning_adversarial_model_manipulation|548. 데이터 포이즈닝과 적대적 예제 모델 오판 (Data Poisoning Adversarial Model Manipulation)]]
+**다음**: [[550_ict_comprehensive_keywords_integration|550. 정보통신기술사 ICT 신기술 통합 정리 (PE ICT Emerging Technologies Comprehensive Review)]] →
+
+---

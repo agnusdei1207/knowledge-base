@@ -142,3 +142,14 @@ Hadoop 기반 분산 처리 (HDFS + Hive)
 1. 클라우드 DW는 구름 위에 있는 [[148_5g_embb_urllc_mmtc|초고속]] 도서관이에요—책([[001_dikw_pyramid|데이터]])은 엄청나게 많이 보관하면서, 필요할 때만 독서실 자리(컴퓨팅)를 빌려 써요.
 2. 바쁠 때는 독서실 자리를 100개로 늘리고, 한산할 때는 5개만 쓰면 되니까 낭비가 없어요.
 3. 마치 클라우드 게임처럼, 내 컴퓨터가 약해도 서버가 강력하니까 엄청난 [[001_dikw_pyramid|데이터]]도 빠르게 분석할 수 있어요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 292 / 482
+
+← **이전**: [[291_data_lineage_flow_transformation_tracking|291. 데이터 리니지 (Data Lineage) - 데이터 흐름 및 변환 추적]]
+**다음**: [[293_storage_compute_separation|293. 스토리지와 컴퓨팅의 분리 (Separation of Compute and Storage)]] →
+
+---

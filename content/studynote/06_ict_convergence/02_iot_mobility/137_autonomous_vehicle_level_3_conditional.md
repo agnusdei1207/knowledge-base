@@ -54,3 +54,14 @@ L3는 **자율주행 책임 전환의 분기점**이며, ODD 정의·Takeover·[
 1. L3는 **특정 구간 대리운전**이에요. 고속도로에서만 AI가 운전해요.
 2. 구간이 끝나면 **"이제 운전해 주세요!"** 알려줘요(Takeover).
 3. 운전자가 안 받으면 **자동으로 안전하게 멈춰요([[129_fallback|Fallback]])**!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 137 / 552
+
+← **이전**: [[136_autonomous_vehicle_level_2_adas|136. 자율주행 Level 2 ADAS - 운전 보조의 현재와 한계]]
+**다음**: [[138_autonomous_vehicle_level_4_high_automation|138. 자율주행 Level 4 고도 자율 - 특정 영역 완전 무인]] →
+
+---

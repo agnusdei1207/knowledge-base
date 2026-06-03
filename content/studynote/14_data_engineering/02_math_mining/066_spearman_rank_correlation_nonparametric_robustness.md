@@ -133,3 +133,14 @@ Nonparametric Analysis
 누가 몇 등인지 보는 거예요.  
 점수 차이보다 순서가 중요할 때 써요.  
 스피어만은 그런 순위 비교예요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 66 / 258
+
+← **이전**: [[065_pearson_correlation_coefficient_multicollinearity|65. 피어슨 상관 계수 (Pearson Correlation) - 선형적 비례 관계 측정]]
+**다음**: [[067_hypothesis_testing_null_alternative_p_value|67. 가설 검정 - 귀무 가설(H0) vs 대립 가설(H1)]] →
+
+---

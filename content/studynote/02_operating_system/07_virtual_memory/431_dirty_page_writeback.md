@@ -177,3 +177,14 @@ tags:
 1. 더티 [[286_page_frame|페이지]] [[289_cqrs_db|쓰기]] (Dirty [[286_page_frame|Page]] Writeback) 메커니즘 (pdflush / flusher [[092_thread_lwp|스레드]])은 컴퓨터가 메모리를 더 크게 보이게 하고 부족함을 숨기는 방법이에요.
 2. 먼저 [[430_demand_zero_paging|수요 페이지 제로화]] ([[430_demand_zero_paging|Demand Zero Paging]])을 이해하면 더티 [[286_page_frame|페이지]] [[289_cqrs_db|쓰기]] (Dirty [[286_page_frame|Page]] Writeback) 메커니즘 (pdflush / flusher [[092_thread_lwp|스레드]])이 왜 필요한지 더 쉽게 보여요.
 3. 그래서 더티 [[286_page_frame|페이지]] [[289_cqrs_db|쓰기]] (Dirty [[286_page_frame|Page]] Writeback) 메커니즘 (pdflush / flusher [[092_thread_lwp|스레드]])을 잘 알면 나중에 [[379_cache_coloring|캐시 컬러링]] ([[379_cache_coloring|Cache Coloring]])에 의한 [[286_page_frame|페이지]] 매핑 최적화도 훨씬 쉽게 배울 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 431 / 800
+
+← **이전**: [[430_demand_zero_paging|430. 수요 페이지 제로화 (Demand Zero Paging) - BSS 영역 보안 할당]]
+**다음**: [[432_cache_coloring_optimization|432. 캐시 컬러링 (Cache Coloring)에 의한 페이지 매핑 최적화]] →
+
+---

@@ -247,3 +247,14 @@ db.orders.aggregate([
 1. 문서형 DB는 자유 일기장 같아요. 어떤 날은 그림만, 어떤 날은 글만 써도 되는 것처럼 문서마다 내용이 달라도 괜찮아요.
 2. [[278_instruction_tuning|임베딩]]은 도시락 하나에 밥·반찬·국을 모두 담는 것이고, [[316_reference_pattern_nosql|참조]]는 식당에서 각 메뉴를 따로 주문하는 것처럼 상황에 맞게 골라야 해요.
 3. MongoDB는 가장 인기 있는 자유 일기장으로, 이제는 여러 일기를 동시에 쓸 때도 글자가 뒤섞이지 않는 [[142_fp_transaction_functions|트랜잭션 기능]]까지 갖췄어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 129 / 262
+
+← **이전**: [[128_redis|128. Redis (Remote Dictionary Server) — 인메모리 데이터 구조 서버]]
+**다음**: [[130_mongodb_architecture|130. MongoDB 아키텍처 — ReplicaSet/Sharding/Mongos]] →
+
+---

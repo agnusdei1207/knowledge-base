@@ -235,3 +235,14 @@ TBD + 피처 플래그 = 현대 DevOps 표준
 1. TBD는 한 달치 일기를 몰아 쓰는 것보다 매일 조금씩 쓰는 방식 — 나중에 기억나지 않는 것도 없고, 선생님도 바로바로 [[396_validation|확인]]할 수 있어요.
 2. [[576_feature_flag_ab_testing_rollout|피처 플래그]]는 새 기능을 만들어 놓고 "[[238_switch_operation_principles|스위치]]"로 켜고 끌 수 있어서, 완성 전에도 안전하게 메인 코드에 넣어 둘 수 있어요.
 3. 매일 조금씩 코드를 합치면 충돌(다른 사람 코드와 겹침)이 거의 없어서, 금요일마다 "대충돌"을 수습하는 고통이 사라져요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 40 / 373
+
+← **이전**: [[039_feature_flag|039. 피처 플래그 (Feature Flag / Feature Toggle)]]
+**다음**: [[041_trunk_based_development_tbd|041. TBD 심화: CI/CD 통합 및 코드 리뷰 (Trunk-Based Development Advanced)]] →
+
+---

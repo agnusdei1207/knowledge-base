@@ -130,3 +130,14 @@ CI/CD
 만드는 중인 것과 완성된 것을 따로 놓아요.  
 고쳐야 하는 것도 따로 놓아요.  
 Git Flow는 그런 식으로 브랜치를 나누는 방법이에요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 64 / 373
+
+← **이전**: [[063_terraform_ansible|63. Terraform vs Ansible]]
+**다음**: [[065_github_flow_branch_strategy|65. GitHub Flow - 극단적 단순화 브랜치 전략과 CD]] →
+
+---

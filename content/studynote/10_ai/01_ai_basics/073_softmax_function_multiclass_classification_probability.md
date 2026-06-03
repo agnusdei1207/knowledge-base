@@ -124,3 +124,14 @@ Probability Output
 점수를 [[130_probability|확률]]로 바꿔요.  
 합치면 1이 돼요.  
 [[270_softmax|소프트맥스]]는 그런 함수예요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 73 / 420
+
+← **이전**: [[072_leaky_relu_elu_dying_relu_solution|72. Leaky ReLU / ELU - ReLU의 죽은 뉴런(Dying ReLU, 음수 입력 시 가중치 미갱신) 문제 해결 (음수 구간에]]
+**다음**: [[074_forward_propagation_neural_network|74. 순전파 (Forward Propagation) - 신경망 계산 흐름]] →
+
+---

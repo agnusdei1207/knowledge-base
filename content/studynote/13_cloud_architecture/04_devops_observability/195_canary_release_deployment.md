@@ -197,3 +197,14 @@ Argo Rollouts · Flagger → 자동 카나리 분석
 ```
 2. 몇 명이 타봐서 안전하면 [[267_weight_bias_activation|가중치]]를 높여서 점점 더 많은 친구가 탈 수 있게 해.
 3. 만약 그 친구들이 다쳤다면? 즉시 멈추고 고치면 돼. 5명이 다친 것과 500명이 다친 것은 엄청 다르니까!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 194 / 371
+
+← **이전**: [[194_blue_green_deployment_strategy|194. 블루-그린 배포 (Blue-Green Deployment)]]
+**다음**: [[196_feature_flag_toggle_ab_testing|196. 피처 플래그 / 피처 토글 (Feature Flag / Toggle)]] →
+
+---

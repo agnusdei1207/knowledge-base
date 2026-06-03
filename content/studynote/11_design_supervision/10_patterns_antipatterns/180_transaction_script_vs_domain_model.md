@@ -165,3 +165,14 @@ Domain Model + Repository + richer business encapsulation
 1. 간단한 심부름은 해야 할 일을 종이에 적어 두면 금방 끝낼 수 있어요.
 2. 그런데 친구가 많아지고 규칙이 많아지면, 각자 맡은 일을 스스로 잘 아는 반장이 필요해져요.
 3. 그래서 쉬운 일은 메모장으로, 복잡한 일은 똑똑한 역할 나누기로 관리하는 거예요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 236 / 530
+
+← **이전**: [[179_repository_pattern|179. 레파지토리 패턴 (Repository Pattern)]]
+**다음**: [[181_unit_of_work_pattern|181. 유닛 오브 워크 패턴 (Unit of Work Pattern)]] →
+
+---

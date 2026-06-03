@@ -82,3 +82,14 @@ Platform Engineering · DevSecOps · FinOps
 ```
 2. 예전에는 일주일에 한 번 배달했다면, 이제는 주문 즉시 요리하고 바로 배달(자동화)해요.
 3. 음식이 식었거나 맛이 없으면(장애) 같이 고민해서 더 맛있는 조리법을 찾아내요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 160 / 371
+
+← **이전**: [[160_service_mesh_istio_linkerd|160. 이스티오 / 링커디 서비스 메시 (Istio / Linkerd Service Mesh)]]
+**다음**: [[162_calms_framework_devops_principles|CALMS 프레임워크 (CALMS Framework)]] →
+
+---

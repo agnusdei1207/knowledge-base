@@ -201,3 +201,14 @@ tags:
 1. 은행([[001_operating_system_purpose|운영체제]]) 금고에 돈이 20만 원밖에 안 남았어요. 근데 철수가 30만 원을 대출해 달라고 조르고 있어요.
 2. 은행원이 계산기를 두드려요. "음, 철수에게 20만 원을 다 줘도 철수는 돈이 모자라서 빚을 안 갚겠지? 그럼 나중에 돈 갚으러 올 영희한테 먼저 빌려주면 영희가 이자를 쳐서 갚을 테니 안전하겠군!"
 3. 이렇게 돈(자원)을 빌려줬을 때 은행이 파산(데드락)할지 안 할지 머릿속으로 미리 쫙 계산해 보고, 안전할 때만 돈을 빌려주는 아주 깐깐한 방법이 '은행원 [[001_algorithm_definition|알고리즘]]'이랍니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 707 / 800
+
+← **이전**: [[706_resource_allocation_graph_cycle|706. 자원 할당 그래프 사이클 (Resource Allocation Graph Cycle)]]
+**다음**: [[708_deadlock_ignorance_ostrich_algorithm|708. 교착 상태 무시 (타조 알고리즘) (Deadlock Ignorance Ostrich Algorithm)]] →
+
+---

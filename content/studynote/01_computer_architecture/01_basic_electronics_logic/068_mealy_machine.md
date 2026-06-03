@@ -125,3 +125,14 @@ Control Logic
 말을 듣자마자 바로 대답해요.  
 상황과 말 둘 다 봐요.  
 밀리 머신은 그런 빠른 기계예요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 68 / 803
+
+← **이전**: [[067_moore_machine|67. 무어 머신 (Moore Machine)]]
+**다음**: [[069_fpga|69. FPGA (Field Programmable Gate Array)]] →
+
+---

@@ -125,3 +125,14 @@ tags:
 1. **개념 설계**는 "이 집에는 거실·부엌·침실이 필요해!"라고 **큰 그림**을 그리는 거예요.
 2. **[[369_logic_bomb|논리]] 설계**는 "거실은 5×5m, 부엌은 3×3m"처럼 **정확한 크기**를 정하는 거예요.
 3. **물리 설계**는 "벽 두께 20cm, 수도관 위치는 여기"처럼 **실제로 짓는 방법**을 정하는 거랍니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 114 / 600
+
+← **이전**: [[113_denormalization_techniques_merge_split|113. 역정규화 기법 (Denormalization Techniques) - 테이블 병합·분할·중복 컬럼]]
+**다음**: [[115_logical_design_normalization|115. 논리 설계와 정규화 (Logical Design & Normalization) - ERD→릴레이션 변환·FD 분석]] →
+
+---

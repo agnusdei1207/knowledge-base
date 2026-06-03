@@ -176,3 +176,14 @@ Shielding · Floorplan 최적화 · Masking · EM TVLA
 1. 컴퓨터가 일할 때는 아주 작은 전자기 "숨결"이 밖으로 새어 나와요.
 2. EMA는 작은 [[171_antenna_basic_dipole_resonance|안테나]]로 그 숨결을 듣고, 컴퓨터가 무슨 비밀 계산을 하는지 맞히는 방법이에요.
 3. 그래서 안전한 컴퓨터는 숨결이 새지 않게 덮개를 씌우고, 밖에서 들어도 뜻을 알 수 없게 만들어야 해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 780 / 803
+
+← **이전**: [[778_dpa_resistant_logic|778. 전력 분석 공격 - DPA (Differential Power Analysis)]]
+**다음**: [[780_reverse_engineering|780. 물리적 분해 분석 (Reverse Engineering)]] →
+
+---

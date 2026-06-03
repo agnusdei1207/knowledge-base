@@ -205,3 +205,14 @@ Object Pool 패턴은 [[282_performance_tactics|성능]] 최적화의 필수 도
 1. 도서관에서 책(DB 커넥션)을 매번 새로 인쇄([[087_process_state_transition|생성]])하는 게 아니라, 반납된 책을 다시 빌려주는 것이 객체 풀이야.
 2. 빌린 책을 잃어버리면(누수) 도서관 책이 점점 줄어들어서 나중에는 아무도 못 빌려 — 그래서 try-with-resources라는 "자동 반납 규칙"이 있어.
 3. 책 몇 권이 필요한지 계산하는 공식(Little's Law)은 "하루에 얼마나 많은 사람이 얼마나 오래 읽는지"를 보면 알 수 있어.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 280 / 530
+
+← **이전**: [[218_immutable_object_pattern|218. 불변 객체 패턴 (Immutable Object Pattern)]]
+**다음**: [[220_callback_pattern|220. 콜백 패턴 (Callback Pattern)]] →
+
+---

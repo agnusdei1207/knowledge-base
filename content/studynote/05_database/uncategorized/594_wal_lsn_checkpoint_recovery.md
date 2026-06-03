@@ -134,3 +134,14 @@ WAL [[568_logs_distributed_logging_elk_fluentd|로그]] 플러시 [[244_lsn_log_
 1. 약속을 적은 공책을 순서대로 정리하는 방법이에요.
 2. 누가 먼저 읽고 쓰는지 규칙을 지켜야 헷갈리지 않아요.
 3. 규칙이 약하면 빠르지만 틀릴 수 있고, 너무 세면 느려질 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 594 / 600
+
+← **이전**: [[593_aries_recovery_algorithm|593. ARIES 복구 알고리즘 생존자 Analysis Redo Undo 3페이즈 시스템 복구 표준 원리]]
+**다음**: [[595_data_literacy|595. 데이터 리터러시 (Data Literacy) 기업 내 데이터 분석 역량 도구 지식 기반 문화 확산]] →
+
+---

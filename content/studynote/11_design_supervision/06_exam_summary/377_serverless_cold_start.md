@@ -111,3 +111,14 @@ tags:
 1. [[206_serverless_cold_start|서버리스]] [[559_serverless_cold_start_mitigation|콜드 스타트]] ([[206_serverless_cold_start|Serverless Cold Start]])은 닫아 둔 가게 문을 다시 열고 불을 켜는 데 처음 손님이 조금 더 기다리는 것처럼 약속을 먼저 정하는 거예요.
 2. 그러면 서로 다른 사람이 해도 같은 규칙으로 움직일 수 있어요.
 3. 그래서 규모가 커질수록 유휴 자원 절감과 [[459_quic_fec_forward_error_correction|초기]] 응답 [[015_지연_데이터_관점|지연]] 사이를 균형 있게 관리하는 일이 더 중요해져요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 455 / 530
+
+← **이전**: [[376_strangler_fig_summary|376. 스트랭글러 피그 패턴 (Strangler Fig Pattern)]]
+**다음**: [[378_factory_method_summary|378. 팩토리 메서드 패턴 (Factory Method Pattern)]] →
+
+---

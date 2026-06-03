@@ -112,3 +112,14 @@ PCA → LDA 하이브리드 파이프라인 (실무 표준)
     ├─► Kernel LDA — 커널 트릭 적용
     └─► 대조 학습 (Contrastive Learning) — LDA 철학의 딥러닝 계승
 ```
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 82 / 258
+
+← **이전**: [[081_dimensionality_reduction_pca_principal_component_analysis|81. 차원 축소 (Dimensionality Reduction) 및 PCA]]
+**다음**: [[083_association_rule_apriori_market_basket|83. 연관 규칙 탐색 (Association Rule) - Apriori 알고리즘]] →
+
+---

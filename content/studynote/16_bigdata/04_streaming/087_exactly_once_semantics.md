@@ -224,3 +224,14 @@ Exactly-Once Semantics는 **스트리밍 [[642_reliability_mtbf_mttr_mttf_availa
 ### 👶 어린이를 위한 3줄 비유 설명
 
 은행 ATM에서 돈을 뽑을 때 "계좌에서 돈이 나가는 것"과 "현금이 나오는 것"이 동시에 [[083_cross_validation|정확히 한 번]]만 일어나야 해요. 정전이 나서 현금이 안 나왔는데 잔액만 줄었다면(At-Least-Once 실패), 아니면 현금은 나왔는데 잔액이 안 줄었다면(중복 처리) 모두 큰일이죠! Exactly-Once는 "ATM이 어떤 상황에서도 딱 한 번만 거래가 일어나도록 보장"하는 것이에요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 87 / 262
+
+← **이전**: [[086_window_operations|11. 윈도우 연산 (Window Operations) — 텀블링/슬라이딩/세션]]
+**다음**: [[088_kafka_partitioning|13. Kafka 파티셔닝 전략 (Kafka Partitioning Strategy)]] →
+
+---

@@ -125,3 +125,14 @@ DDoS 3유형 (DDoS Three Attack Types)를 제대로 이해하면 개념 하나�
 1. DDoS 3유형 (DDoS Three Attack Types)는 누군가 규칙의 틈을 찾아 몰래 장난을 치는 방법이에요.
 2. 그래서 문을 단단히 잠그는 것뿐 아니라, 누가 이상하게 움직이는지도 바로 알아차려야 해요.
 3. 컴퓨터는 이상한 흔적을 빨리 보고 퍼지기 전에 멈추게 해야 안전해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 302 / 1108
+
+← **이전**: [[248_ddos_attack|248. DDoS 공격 (Ddos Attack)]]
+**다음**: [[250_scrubbing_center|250. 스크러빙 센터 (Scrubbing Center)]] →
+
+---

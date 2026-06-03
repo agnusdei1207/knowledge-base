@@ -131,3 +131,14 @@ Trunk-Based + Feature Flag
 1. 브랜치는 각자 숙제하는 작은 책상이에요.
 2. 숙제는 따로 해도, 마지막엔 한 책상에 깨끗하게 모아야 해요.
 3. 그래서 규칙이 있으면 친구들과 같이 작업해도 덜 싸워요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 52 / 373
+
+← **이전**: [[051_agile_maturity_assessment|051. 애자일 성숙도 평가 (Agile Maturity Assessment)]]
+**다음**: [[053_gitflow|53. GitFlow]] →
+
+---

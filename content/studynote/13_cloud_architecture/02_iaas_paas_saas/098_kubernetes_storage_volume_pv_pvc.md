@@ -127,3 +127,14 @@ CSI (Container Storage Interface)
 1. [[085_pod_kubernetes_container_unit|파드]]는 하루살이 요정이라 잠들면 주머니(기본 볼륨)에 있던 장난감이 다 사라져요.
 2. 그래서 요정 마을 이장님이 절대 부서지지 않는 마법 창고([[153_pv_planned_value|PV]])를 튼튼하게 지어두셨어요.
 3. 요정들이 "창고 1칸 쓸래요!" 하고 신청서([[269_pvc_vs_svc_virtual_circuits|PVC]])를 내면, 창고 열쇠를 받아서 장난감을 영원히 안전하게 보관할 수 있답니다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 97 / 371
+
+← **이전**: [[097_ca_cluster_autoscaler_kubernetes_node_scaling|97. 클러스터 오토스케일러 (CA) - K8s 물리 노드 자동 스케일링]]
+**다음**: [[099_csi_container_storage_interface_kubernetes_plugin|99. CSI (Container Storage Interface) - K8s 스토리지 범용 표준 플러그인]] →
+
+---

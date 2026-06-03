@@ -141,3 +141,14 @@ WBS / PMIS
 책을 늦게 내면 벌금을 낼 수 있어요.  
 하지만 선생님이 마감일을 바꿨다면 이야기가 달라져요.  
 그래서 언제, 왜, 누가 바꿨는지 기록을 꼭 봐야 해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 89 / 530
+
+← **이전**: [[058_ha_failover_test_audit|58. 고가용성 및 이중화 클러스터 페일오버 시나리오 실지 테스트 참관 (HA Failover Test Audit)]]
+**다음**: [[059_security_device_ruleset_audit|59. 보안 장비 정책 룰셋 최적화 상태 점검 (Security Device Ruleset Audit)]] →
+
+---

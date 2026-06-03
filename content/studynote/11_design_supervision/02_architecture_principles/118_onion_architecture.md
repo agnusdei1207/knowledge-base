@@ -143,3 +143,14 @@ tags:
 1. 양파는 껍질을 벗겨도 안에 또 껍질이 있고, 가장 안쪽이 제일 소중한 핵이에요.
 2. [[218_onion_architecture_domain_centric_design|어니언 아키텍처]]는 [[064_relation_domain|도메인]](핵심 비즈니스)을 가장 안쪽에, 기술([[002_database_definition|데이터베이스]], 웹)을 바깥에 두는 구조예요.
 3. 바깥 껍질(기술)이 바뀌어도 안쪽(비즈니스 규칙)은 그대로 남아있어요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 174 / 530
+
+← **이전**: [[117_clean_architecture|117. 클린 아키텍처 (Clean Architecture)]]
+**다음**: [[119_mvc_architecture|119. 모델-뷰-컨트롤러 아키텍처 (MVC, Model-View-Controller)]] →
+
+---

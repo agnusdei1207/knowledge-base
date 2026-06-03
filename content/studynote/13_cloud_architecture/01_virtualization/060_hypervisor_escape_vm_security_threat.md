@@ -138,3 +138,14 @@ Confidential Computing
 큰 아파트에는 방마다 문이 있어서 서로 못 들어가요.  
 그런데 나쁜 사람이 자기 방에서 경비실 열쇠를 훔치면 건물 전체가 위험해져요.  
 그래서 문만 잘 잠그는 게 아니라, 경비실 자체도 아주 튼튼하게 만들어야 해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 59 / 371
+
+← **이전**: [[059_micro_segmentation_east_west_traffic|59. 마이크로 세그멘테이션 (Micro-segmentation) - 동서(East-West) 트래픽 차단]]
+**다음**: [[061_container_lightweight_virtualization|61. 컨테이너 (Container) - 경량 가상화]] →
+
+---

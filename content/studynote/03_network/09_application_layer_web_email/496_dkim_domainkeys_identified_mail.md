@@ -212,3 +212,14 @@ DKIM는 SPF에서 출발해 현재 메커니즘을 정교화하고, 이후 DMARC
 1. 나쁜 악당이 우체부 몰래 내가 보낸 편지를 뜯어서 "철수야 돈 내놔!"라고 글씨를 사악하게 바꿔치기해서 친구한테 보낼 수 있어요(해킹).
 2. 그래서 나는 편지지 맨 밑에 나만 그릴 수 있는 **'엄청나게 복잡한 마법의 미로 그림(DKIM 비밀키 [[675_digital_signature_process_asymmetric_key|전자서명]])'**을 딱 그려서 봉투에 넣어요.
 3. 친구는 마을 게시판([[511_dns_hierarchical_distributed_architecture|DNS]])에 걸려있는 내 마법 그림 해독기(공개키)를 가져와서 편지를 비춰봐요. 악당이 편지를 한 글자라도 고치면 그림이 와장창 깨져 보이기 때문에 1초 만에 사기꾼을 잡아낼 수 있답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 617 / 1120
+
+← **이전**: [[495_spf_sender_policy_framework|495. SPF (Sender Policy Framework)]]
+**다음**: [[497_dmarc_domain_based_message_authentication|497. DMARC]] →
+
+---

@@ -132,3 +132,14 @@ tags:
 1. 비슷한 이름의 장난감을 헷갈리지 않게 표를 붙이는 것과 같아요.
 2. 이 개념은 무엇이 어떻게 다른지 쉽게 구별하게 도와줘요.
 3. 그래서 시험에서도 실무에서도 말을 더 정확하게 쓸 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 1096 / 1120
+
+← **이전**: [[974_restful_api_stateless_http_methods_uri|974. RESTful API]]
+**다음**: [[976_dns_spoofing|976. DNS 스푸핑 (DNS Spoofing / Cache Poisoning)]] →
+
+---

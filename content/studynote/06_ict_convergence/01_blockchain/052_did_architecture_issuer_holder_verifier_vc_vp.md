@@ -139,3 +139,14 @@ VP (Verifiable Presentation)
 1. DID는 내 이름표를 내가 직접 들고 다니는 거예요.
 2. 선생님은 이름표가 진짜인지 확인하고, 나는 필요한 정보만 보여 줘요.
 3. 그래서 아무나 내 정보를 전부 보지 못하게 할 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 52 / 552
+
+← **이전**: [[051_did_decentralized_identity_ssi|051. DID와 SSI (Decentralized Identity & Self-Sovereign Identity)]]
+**다음**: [[053_did_document_public_key|53. DID 문서와 공개키 (DID Document Public Key)]] →
+
+---

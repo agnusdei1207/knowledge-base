@@ -104,3 +104,14 @@ tags:
 1. 지배 원칙은 학교에서 준비물을 미리 챙기는 것처럼, 중요한 기준을 먼저 맞추는 일이야.
 2. [[249_value_chain_competitive_analysis|가치 사슬]]은 선생님이 수업 중간에 계속 확인하는 것처럼, 실제로 잘 되고 있는지 보는 과정이야.
 3. 지속적 개선은 시험 결과표처럼, 정말 효과가 있었는지 나중에 다시 확인하게 해주는 증거야.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 367 / 530
+
+← **이전**: [[303_ea_model_sync_rate|303. EA 포털 갱신율과 현행성 감리 (EA Portal Refresh Rate and Currency Audit)]]
+**다음**: [[305_4_1|305. 4+1 아키텍처 뷰 추적성 단절 진단 (4 Plus 1 Architecture View Traceability Gap Audit)]] →
+
+---

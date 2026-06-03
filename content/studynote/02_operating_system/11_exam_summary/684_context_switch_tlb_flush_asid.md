@@ -209,3 +209,14 @@ tags:
 1. 철수(프로세스 A)가 책상([[357_tlb|TLB]])에 "내 공책은 1번 서랍, 연필은 2번 서랍"이라고 포스트잇을 잔뜩 붙여놓고 일하고 있었어요.
 2. 영희(프로세스 B) 차례가 되자, 선생님은 영희가 철수 물건을 훔쳐볼까 봐 책상의 포스트잇을 싹 다 버렸어요([[357_tlb|TLB]] Flush). 영희는 자기 물건을 찾느라 한참 헤맸죠([[357_tlb|TLB]] Miss).
 3. 너무 불편해서, 이제는 포스트잇에 '철수용', '영희용' 이름표([[360_asid|ASID]])를 적기로 했어요. 이름표만 확인하면 되니까 뗄 필요 없이 바로 자기 물건을 찾을 수 있게 되었답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 684 / 800
+
+← **이전**: [[683_pcb_process_control_block_components|683. PCB 구성 요소 필수 암기 (PCB Process Control Block Components)]]
+**다음**: [[685_short_term_scheduler_dispatcher|685. 단기 스케줄러 디스패치 (Short Term Scheduler Dispatcher)]] →
+
+---

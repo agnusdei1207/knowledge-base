@@ -328,3 +328,14 @@ SAST/DAST/SCA 자동화
 1. [[242_shift_left_sdlc|시프트 레프트]]는 조기 검사 — 완성된 제품(운영)에서 [[352_defect_definition|결함]] 발견이면 다 뜯어야. 재료 [[396_validation|확인]](요구사항)에서 미리 잡으면 훨씬 쉬워요!
 2. 테스트 피라미드는 집 기초 — [[397_unit_test|단위 테스트]](기초) 많이, 통합(벽) 적당히, [[265_e2e_end_to_ui_selenium|E2E]](지붕) 조금. 기초가 튼튼해야 집이 안전!
 3. DevSecOps는 모두가 보안팀 — 보안 전문가만 보안 책임지는 게 아니라, 개발자도 코딩할 때 자동으로 보안 체크. 팀 전체가 보안 수호자!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 45 / 373
+
+← **이전**: [[044_tdd_bdd_test_driven_behavior_driven_development|044. TDD & BDD — 테스트 주도 개발]]
+**다음**: [[046_chatops_bot_collaboration|046. ChatOps — 봇 기반 협업 운영]] →
+
+---

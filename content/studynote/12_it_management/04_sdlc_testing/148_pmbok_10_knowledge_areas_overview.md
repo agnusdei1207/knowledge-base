@@ -139,3 +139,14 @@ PMBOK 7판 대혁명 / 프로세스 달달 외우는 거 버리고, 원칙(Princ
 1. 10대 지식 영역은 소풍 갈 때 짐을 싸는 완벽한 매뉴얼 체크리스트예요! 샌드위치 돈 계산(비용), 목적지 지도(범위), 타임테이블(일정), 비 올 때 우산([[096_risk_non_risk_architecture_evaluation_flaws|리스크]]) 등을 빠짐없이 챙기는 거죠.
 2. 그중 제일 중요한 반장(통합 관리) 역할이 있어요. 친구들이 각자 맡은 간식이나 지도를 잘 챙겼는지 전체적으로 확인하고 조율해 주는 대장이죠.
 3. 이 10가지를 하나도 안 빼먹고 체크리스트에 동그라미를 다 치면 소풍(프로젝트)이 완벽하게 재밌게 끝나고, 하나라도 대충 넘어가면 소풍 가서 꼭 큰일이 터진답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 262 / 587
+
+← **이전**: [[147_pmbok_10_knowledge_areas|147. PMBOK (Project Management Body of Knowledge) - PMI 프로젝트 관리 10대 지식 영역]]
+**다음**: [[149_wbs_work_breakdown_structure|149. WBS (Work Breakdown Structure)]] →
+
+---

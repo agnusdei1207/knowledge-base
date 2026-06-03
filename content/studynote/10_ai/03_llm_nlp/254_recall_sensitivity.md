@@ -193,3 +193,14 @@ $$F1 = \frac{2 \times \text{[[233_precision_recall_f1_roc_auc_threshold|Precisio
 1. 선생님이 반에서 감기 걸린 아이를 찾는다고 해보자. [[092_recall_sensitivity_hit_rate|재현율]]은 감기 걸린 아이 중 실제로 찾아낸 비율이다.
 2. 아이를 너무 조심스럽게 찾으면(높은 임계값) 몇 명을 놓치는데, 그게 FN이다.
 3. 중요한 것을 놓치면 안 될 때는 좀 더 넓게 의심해서 다 잡아내는 [[268_strategy_pattern|전략]]이 바로 [[092_recall_sensitivity_hit_rate|재현율]]을 높이는 것!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 254 / 420
+
+← **이전**: [[253_precision|253. 정밀도 (Precision)]]
+**다음**: [[255_f1_score|255. F1 스코어 (F1-Score)]] →
+
+---

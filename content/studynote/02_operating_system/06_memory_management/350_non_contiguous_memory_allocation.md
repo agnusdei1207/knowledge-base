@@ -199,3 +199,14 @@ C나 C++ 개발자가 [[055_array|배열]]([[055_array|Array]])을 만들면 주
 1. 비연속 메모리 할당 (Non-contiguous Memory Allocation)은 컴퓨터가 메모리를 방처럼 나눠 쓰고 주소를 찾는 방법이에요.
 2. 먼저 [[349_slab_allocator|슬랩 할당기]] ([[349_slab_allocator|Slab Allocator]])을 이해하면 비연속 메모리 할당 (Non-contiguous Memory Allocation)이 왜 필요한지 더 쉽게 보여요.
 3. 그래서 비연속 메모리 할당 (Non-contiguous Memory Allocation)을 잘 알면 나중에 [[259_paging|페이징]] ([[259_paging|Paging]])도 훨씬 쉽게 배울 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 350 / 800
+
+← **이전**: [[349_slab_allocator|349. 슬랩 할당기 (Slab Allocator) - 커널 객체 캐싱, 단편화 방지 및 속도 향상]]
+**다음**: [[351_paging|351. 페이징 (Paging) - 물리 메모리를 프레임(Frame), 논리 메모리를 페이지(Page)로 고정 크기 분할]] →
+
+---

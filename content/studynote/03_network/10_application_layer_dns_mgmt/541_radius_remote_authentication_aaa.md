@@ -200,3 +200,14 @@ RADIUS는 RMON에서 출발해 현재 메커니즘을 정교화하고, 이후 [[
 1. 회사나 학교에 있는 수십 대의 Wi-Fi 공유기들은 "이 사람이 진짜 우리 학생일까?" 스스로 판단할 능력이 없어요. 문만 지키는 바보 문지기거든요.
 2. 그래서 공유기들은 학생이 아이디와 비밀번호를 주면, 그걸 무전기(RADIUS)로 중앙에 있는 아주 똑똑한 교장선생님 서버에게 물어봐요.
 3. 교장선생님이 "오, 우리 학생 맞네! 문 열어줘!"라고 무전을 쳐주면, 공유기가 그제야 인터넷 문을 활짝 열어주는 아주 효율적이고 안전한 중앙 통제 규칙이랍니다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 662 / 1120
+
+← **이전**: [[540_rmon_remote_network_monitoring|540. RMON (Remote Network Monitoring)]]
+**다음**: [[542_tacacs_plus_terminal_access_control_cisco|542. TACACS+ (Terminal Access Controller Access Control System Plus)]] →
+
+---

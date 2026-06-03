@@ -158,3 +158,14 @@ Apache Kafka는 단순한 "[[001_dikw_pyramid|데이터]] 전송관"이 아니�
 1. [[179_kafka_flink_watermark_time_window|카프카]]는 놀이공원의 엄청나게 크고 튼튼한 **'줄서기(대기열) 울타리'** 랑 똑같아요.
 2. 예전(Flume)에는 손님([[001_dikw_pyramid|데이터]])이 마구 몰려오면 놀이기구([[843_hadoop_rack_awareness_data_replication_topology|하둡]]) 직원이 당황해서 손님들을 바깥으로 밀쳐내고([[001_dikw_pyramid|데이터]] 유실) 놀이기구가 고장 나 버렸죠.
 3. 하지만 튼튼한 울타리([[179_kafka_flink_watermark_time_window|카프카]])를 지어놓고 천천히 줄을 세워두면, 10만 명이 몰려와도 다치지 않고 놀이기구가 태울 수 있는 만큼만 안전하게 끊어서 태워줄 수 있는 기적의 마법이랍니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 78 / 262
+
+← **이전**: [[077_apache_kafka|02. Apache Kafka - 메시징에서 데이터 허브로의 진화]]
+**다음**: [[079_apache_storm|04. Apache Storm]] →
+
+---

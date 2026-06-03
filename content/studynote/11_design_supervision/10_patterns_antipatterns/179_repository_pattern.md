@@ -172,3 +172,14 @@ CQRS · Query Service · Unit of Work와 결합한 고도화
 1. 레파지토리는 장난감을 아무 상자에나 넣지 않고, 같은 세트끼리 한 상자에 잘 모아 두는 정리함이에요.
 2. 그래서 꺼낼 때도 부품 하나만 찾는 게 아니라 필요한 세트를 한 번에 가져올 수 있어요.
 3. 정리함이 잘 되어 있으면 장난감 만드는 규칙도 덜 헷갈리고 다시 놀기도 쉬워져요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 235 / 530
+
+← **이전**: [[178_interceptor_filter_pattern|178. 인터셉터 / 필터 패턴 (Interceptor / Filter Pattern)]]
+**다음**: [[180_transaction_script_vs_domain_model|180. 트랜잭션 스크립트 vs 도메인 모델 (Transaction Script vs Domain Model)]] →
+
+---

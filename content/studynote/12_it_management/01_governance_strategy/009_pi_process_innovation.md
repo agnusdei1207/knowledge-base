@@ -137,3 +137,14 @@ PI을 제대로 적용하면 [[268_strategy_pattern|전략]], 조직, 투자 기
 1. 이 개념은 큰 여행을 떠나기 전에 어디로 갈지 정하는 지도와 같아요.
 2. 지도가 있어야 길을 잃지 않고 필요한 준비물을 챙길 수 있어요.
 3. 그래서 모두가 같은 목적지를 보며 움직일 수 있답니다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 13 / 587
+
+← **이전**: [[008_bpr_business_process_reengineering|8. BPR (Business Process Reengineering)]]
+**다음**: [[009_process_innovation|9. PI (Process Innovation) - 점진적이고 지속적인 프로세스 혁신]] →
+
+---

@@ -153,3 +153,14 @@ SV · CPI · SPI
 1. SPI는 오늘 해야 할 숙제를 계획대로 얼마나 끝냈는지 알려 주는 숫자예요.
 2. 1보다 작으면 숙제가 밀리고 있다는 뜻이고, 1보다 크면 조금 앞서 가고 있다는 뜻이에요.
 3. 하지만 마지막 날에는 숫자가 좋아 보여도 중간에 얼마나 늦었는지는 따로 살펴봐야 해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 273 / 587
+
+← **이전**: [[158_cpi_cost_performance_index|158. CPI (Cost Performance Index, 비용 성과 지수)]]
+**다음**: [[160_qa_vs_qc_quality_management|160. QA vs QC (Quality Assurance vs Quality Control, 품질 보증 vs 품질 통제)]] →
+
+---

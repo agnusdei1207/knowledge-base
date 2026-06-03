@@ -138,3 +138,14 @@ IEEE 802.3 유선 [[230_ethernet_structure_and_principles_ieee_802_3|이더넷]]
 1. 비슷한 이름의 장난감을 헷갈리지 않게 표를 붙이는 것과 같아요.
 2. 이 개념은 무엇이 어떻게 다른지 쉽게 구별하게 도와줘요.
 3. 그래서 시험에서도 실무에서도 말을 더 정확하게 쓸 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 1072 / 1120
+
+← **이전**: [[950_hdlc_bit_stuffing_data_transparency_flag|950. HDLC 비트 스터핑 (Bit Stuffing)]]
+**다음**: [[952_csma_ca_hidden_terminal_rts_cts_wireless|952. 은닉 단말 (Hidden Terminal) 문제 (CSMA/CA RTS/CTS)]] →
+
+---

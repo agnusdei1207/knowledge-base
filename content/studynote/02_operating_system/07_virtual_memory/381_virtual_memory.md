@@ -183,3 +183,14 @@ tags:
 1. 가상 메모리 (Virtual Memory) 개념은 컴퓨터가 메모리를 더 크게 보이게 하고 부족함을 숨기는 방법이에요.
 2. 먼저 [[380_garbage_collection|가비지 컬렉션]] ([[380_garbage_collection|Garbage Collection]]) 기초을 이해하면 가상 메모리 (Virtual Memory) 개념이 왜 필요한지 더 쉽게 보여요.
 3. 그래서 가상 메모리 (Virtual Memory) 개념을 잘 알면 나중에 [[382_virtual_address_space|가상 주소 공간]] ([[382_virtual_address_space|Virtual Address Space]])도 훨씬 쉽게 배울 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 381 / 800
+
+← **이전**: [[380_garbage_collection|380. 가비지 컬렉션 (Garbage Collection) 기초 - 참조 카운팅, Mark-and-Sweep]]
+**다음**: [[382_virtual_address_space|382. 가상 주소 공간 (Virtual Address Space)]] →
+
+---

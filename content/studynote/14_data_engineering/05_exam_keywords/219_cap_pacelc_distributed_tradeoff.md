@@ -202,3 +202,14 @@ Tunable Consistency: 워크로드별 일관성 수준 조절
 ```
 2. CAP은 이 두 개를 **동시에 완벽하게 할 수는 없다**는 수학적 증명이야.
 3. PACELC는 여기서 더 나아가 **평소 전화가 잘 될 때도** 빠른 응답과 정확한 재고 중 뭘 더 중요하게 볼지 물어보는 거야.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 219 / 258
+
+← **이전**: [[218_nosql_base_eventual_consistency_sharding|218. NoSQL BASE (Basically Available, Soft-state, Eventually Consistent) 결과적]]
+**다음**: [[220_nosql_types_keyvalue_document_wide_column_graph|220. NoSQL 유형 비교: 키-값·도큐먼트·Wide-Column·그래프 (NoSQL Types Comparison)]] →
+
+---

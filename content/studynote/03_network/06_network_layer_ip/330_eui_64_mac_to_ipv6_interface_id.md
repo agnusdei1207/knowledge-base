@@ -153,3 +153,14 @@ EUI-64는 [[329_ipv6_link_local_fe80_site_local|링크 로컬 주소]] / 사이�
 1. 택배를 보내려면 집 주소가 정확해야 길을 잃지 않아요.
 2. 이 개념은 인터넷 세상에서 주소를 정하고 다음 길을 찾는 지도와 같아요.
 3. 그래서 멀리 있는 친구 컴퓨터까지도 편지가 도착할 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 451 / 1120
+
+← **이전**: [[329_ipv6_link_local_fe80_site_local|329. 링크 로컬 주소 (IPv6 Link Local, FE80::) / 사이트 로컬 주소]]
+**다음**: [[331_slaac_stateless_address_autoconfiguration_ndp|331. SLAAC (Stateless Address Autoconfiguration) 무상태 주소 자동 설정]] →
+
+---

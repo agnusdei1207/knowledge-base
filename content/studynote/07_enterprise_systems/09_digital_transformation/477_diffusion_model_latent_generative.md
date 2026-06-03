@@ -139,3 +139,14 @@ tags:
 1. [[153_diffusion_model_stable_diffusion_denoising|디퓨전 모델]] 잠재 공간 노이즈 역산 [[087_process_state_transition|생성]] AI는 복잡한 일을 순서대로 정리해 주는 큰 정리함이에요.
 2. 어디에 무엇을 넣을지 먼저 정해 두면, 나중에 찾거나 고칠 때 훨씬 쉬워져요.
 3. 그래서 일이 커질수록 먼저 기준을 만들고 같이 약속하는 것이 중요해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 477 / 482
+
+← **이전**: [[476_multi_party_computation_mpc|476. 다자간 보안 연산 (Multi-Party Computation, MPC)]]
+**다음**: [[478_slm_small_language_model_edge_rag|478. SLM 소형 언어 에지 RAG 온디바이스 (SLM, Small Language Model)]] →
+
+---

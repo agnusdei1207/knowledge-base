@@ -201,3 +201,14 @@ tags:
 1. **[[303_authentication_authorization_patterns|인증]]성**: 방문을 두드리는 사람이 진짜 엄마인지, 아니면 엄마 목소리를 흉내 내는 나쁜 늑대인지 [[396_validation|확인]]하는 방법이에요.
 2. **원리**: 단순히 엄마 목소리만 듣고 여는 게 아니라, 엄마와 나만 아는 비밀 암호([[303_authentication_authorization_patterns|인증]]서)를 대답하게 하거나 얼굴을 보여달라고 하는 거예요.
 3. **효과**: 이렇게 꼼꼼하게 [[396_validation|확인]]하면 아무리 똑똑한 나쁜 늑대라도 절대 속이고 집 안으로 들어올 수 없게 된답니다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 5 / 1108
+
+← **이전**: [[004_availability|4. 가용성 (Availability) — HA 설계, RAID, 부하 분산, DDoS 방어, SLA]]
+**다음**: [[006_security_governance|6. 보안 거버넌스 (Security Governance)]] →
+
+---

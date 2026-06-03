@@ -174,3 +174,14 @@ tags:
 1. 이 기술은 마치 우리가 매일 사용하는 "스마트폰"과 같아요.
 2. 복잡한 기계 장치들이 숨어 있지만, 우리는 화면만 터치하면 쉽게 원하는 것을 할 수 있죠.
 3. 이처럼 보이지 않는 곳에서 시스템이 잘 돌아가도록 돕는 멋진 마법 같은 기술이랍니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 584 / 1120
+
+← **이전**: [[462_http_methods_get_post_put_delete|462. HTTP 메서드 (GET, POST, PUT, DELETE, PATCH, OPTIONS, HEAD, TRACE)]]
+**다음**: [[464_http_1_1_persistent_connection_pipelining|464. HTTP 1.1]] →
+
+---

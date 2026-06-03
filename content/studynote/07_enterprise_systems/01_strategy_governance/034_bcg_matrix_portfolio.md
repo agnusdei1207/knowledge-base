@@ -165,3 +165,14 @@ Ansoff 성장 전략 + Three Horizons → 동적 포트폴리오
 1. BCG 매트릭스는 과수원 관리 방법이다 — 잘 자라는 나무(Star), 열매 수확 중인 나무(Cash [[542_cow_file_system|Cow]]), 성장 가능성 있는 나무(Question Mark), 뽑아낼 나무(Dog)로 나눠 관리한다.
 2. Cash Cow의 돈으로 Star에 투자한다 — 안정적으로 수확되는 사과(기존 제품)를 팔아서, 가능성 있는 망고(새 사업)에 물을 준다.
 3. Dog는 과감하게 철수해야 한다 — 열매도 안 열리고, 성장도 멈춘 나무는 빨리 뽑아서 다른 작물(새 사업)에 자리를 내줘야 한다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 34 / 482
+
+← **이전**: [[033_mckinsey_7s_model|맥킨지 7S 모델 (McKinsey 7S Model)]]
+**다음**: [[035_long_tail_theory|035. 롱테일 이론 (Long Tail Theory)]] →
+
+---

@@ -185,3 +185,14 @@ KPTI의 유일한, 하지만 치명적인 문제는 바로 **'[[357_tlb|TLB]] Fl
 1. [[022_kernel_role|커널]] [[353_page_table|페이지 테이블]] 격리 ([[578_kpti|KPTI]], [[022_kernel_role|Kernel]] [[286_page_frame|Page]]-Table [[195_isolation_concurrency_control|Isolation]])은 컴퓨터가 메모리를 더 크게 보이게 하고 부족함을 숨기는 방법이에요.
 2. 먼저 [[357_tlb|TLB]] 슛다운 ([[435_tlb_shootdown|TLB Shootdown]])을 이해하면 [[022_kernel_role|커널]] [[353_page_table|페이지 테이블]] 격리 ([[578_kpti|KPTI]], [[022_kernel_role|Kernel]] [[286_page_frame|Page]]-Table [[195_isolation_concurrency_control|Isolation]])이 왜 필요한지 더 쉽게 보여요.
 3. 그래서 [[022_kernel_role|커널]] [[353_page_table|페이지 테이블]] 격리 ([[578_kpti|KPTI]], [[022_kernel_role|Kernel]] [[286_page_frame|Page]]-Table [[195_isolation_concurrency_control|Isolation]])을 잘 알면 나중에 [[437_memory_encryption_virtualization|메모리 암호화 가상화]] (AMD SME/SEV, [[480_intel_sgx|Intel SGX]])도 훨씬 쉽게 배울 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 436 / 800
+
+← **이전**: [[435_tlb_shootdown|435. TLB 슛다운 (TLB Shootdown) - 멀티코어 환경에서 타 코어의 TLB 무효화 오버헤드]]
+**다음**: [[437_memory_encryption_virtualization|437. 메모리 암호화 가상화 (AMD SME/SEV, Intel SGX)]] →
+
+---

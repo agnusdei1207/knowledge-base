@@ -238,3 +238,14 @@ GPT-3 → GPT-4 → 멀티모달 · 에이전트 시대
 ```
 2. GPT는 이야기를 이어가는 작가야. 지금까지 쓴 내용만 보면서 다음 문장을 계속 만들어 가는데, 뒷내용은 미리 볼 수 없어.
 3. T5는 만능 번역기야. 문제를 주면 어떤 종류든 답을 텍스트로 돌려주는데, [[104_classification_analysis|분류]]도 번역도 요약도 모두 "텍스트 → 텍스트" 방식으로 통일해서 처리해.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 248 / 258
+
+← **이전**: [[247_foundation_model_llm_parameter_emergence_self_supervised|247. 파운데이션 모델 (Foundation Model) LLM 파라미터 창발성 (Emergence) 자기 지도 학습]]
+**다음**: [[249_instruction_finetuning_peft_lora_low_rank_adapter|249. 인스트럭션 파인튜닝 (Instruction Fine-Tuning) PEFT LoRA 저차원 어댑터]] →
+
+---

@@ -127,3 +127,14 @@ Network Policy는 **K8s [[667_zero_trust_runtime_integrity_measurement|제로 �
 1. K8s 기본은 모든 방 문이 열려있는 **자유로운 건물**이에요.
 2. Network Policy는 각 방에 **카드키(라벨)**가 있어야만 들어갈 수 있게 해요.
 3. 덕분에 나쁜 사람(공격자)이 한 방에 들어와도 **다른 방으로 못 가서** 피해가 줄어요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 116 / 371
+
+← **이전**: [[116_kubernetes_container_image_security_scanning|116. 컨테이너 이미지 보안 스캐닝 (Container Image Security Scanning) - CVE·SBOM·정책]]
+**다음**: [[118_oci_image_registry_tag_vulnerability|118. OCI 이미지 레지스트리 보안 (Image Registry Security) - 태그 불변성·서명·취약점 정책]] →
+
+---

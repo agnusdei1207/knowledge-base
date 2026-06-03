@@ -241,3 +241,14 @@ tags:
 1. 예전에는 '[[063_docker_architecture|도커]]([[063_docker_architecture|Docker]])'라는 하나의 큰 공장이 장난감([[561_container_based_deployment|컨테이너]]) 포장부터 배달, 조립까지 전부 다 혼자서 했어요.
 2. 그러다 공장이 너무 무거워지니까, 사람들이 '[[333_process|OCI]]'라는 조립 설명서(표준)를 만들고 일을 나눴어요.
 3. 이제는 '[[561_container_based_deployment|컨테이너]]디(containerd)' 아저씨가 택배를 받아오면, '런씨([[667_container_runtime_hw_isolation|runc]])'라는 조립 전문가가 설명서대로 1초 만에 장난감을 뚝딱 조립해 준답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 628 / 800
+
+← **이전**: [[627_iommu_dma_isolation|627. IOMMU (Input/Output MMU) 역할 - 가상머신 DMA 장치 할당 및 보호 격리]]
+**다음**: [[629_live_migration_pre_copy|629. 라이브 마이그레이션 (Live Migration) 메모리 더티 페이지 프리-카피(Pre-copy) 알고리즘 방식]] →
+
+---

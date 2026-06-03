@@ -197,3 +197,14 @@ tags:
 1. 다단계 [[259_paging|페이징]] (Hierarchical [[259_paging|Paging]])은 컴퓨터가 메모리를 방처럼 나눠 쓰고 주소를 찾는 방법이에요.
 2. 먼저 [[360_asid|ASID]] ([[360_asid|Address-Space Identifier]])을 이해하면 다단계 [[259_paging|페이징]] (Hierarchical [[259_paging|Paging]])이 왜 필요한지 더 쉽게 보여요.
 3. 그래서 다단계 [[259_paging|페이징]] (Hierarchical [[259_paging|Paging]])을 잘 알면 나중에 [[362_hashed_page_table|해시 페이지 테이블]] ([[362_hashed_page_table|Hashed Page Table]])도 훨씬 쉽게 배울 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 361 / 800
+
+← **이전**: [[360_asid|360. ASID (Address-Space Identifier) - TLB 내 프로세스 식별, 플러시(Flush) 최소화]]
+**다음**: [[362_hashed_page_table|362. 해시 페이지 테이블 (Hashed Page Table) - 주소 공간이 64비트 이상일 때 사용]] →
+
+---

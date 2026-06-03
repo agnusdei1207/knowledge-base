@@ -210,3 +210,14 @@ Apple의 [[791_apple_sep|SEP]]([[790_secure_enclave|Secure Enclave]] Processor)�
 1. 스마트폰(은행)의 매니저([[001_operating_system_purpose|운영체제]])는 평소엔 일을 잘하지만, 가끔 나쁜 악당(해커)에게 협박당하면 금고 비밀번호를 몽땅 불어버려요.
 2. 그래서 스마트폰 안에 아주 단단한 '투명 유리 금고(엔클레이브)'를 하나 더 지었어요. 이 금고는 매니저조차 열쇠가 없어서 못 열어요.
 3. 악당이 매니저를 협박해도, 진짜 중요한 지문이나 비밀번호는 이 투명 금고 안의 특수 요원([[478_tee|TEE]])만 확인하고 "결제해 줘!"라는 신호만 밖으로 던져주기 때문에 절대 털리지 않는답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 666 / 800
+
+← **이전**: [[665_windows_registry_configuration_manager|665. 시스템 레지스트리 (Windows Registry) 및 구성 데이터베이스 관리 구조]]
+**다음**: [[667_zero_trust_runtime_integrity_measurement|667. 제로 트러스트(Zero Trust) 철학 하의 운영체제 레벨 런타임 무결성 검증망 설계]] →
+
+---

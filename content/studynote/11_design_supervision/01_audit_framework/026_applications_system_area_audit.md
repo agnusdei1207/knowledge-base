@@ -141,3 +141,14 @@ tags:
 1. 응용 시스템 감리는 새 게임 출시 전 품질 검사예요! 모든 레벨이 정상 작동하는지, 버그가 없는지, 설명서대로 동작하는지 [[396_validation|확인]]해요.
 2. 요구사항 목록([[667_requirements_traceability_matrix|RTM]])을 하나하나 체크하면서 "이 기능이 구현됐나요?"를 [[396_validation|확인]]하는 과정이에요.
 3. 요즘은 [[079_sonarqube|SonarQube]] 같은 도구가 자동으로 수천 줄의 코드를 검사해서 문제를 빠르게 찾아준답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 28 / 530
+
+← **이전**: [[025_task_traceability_matrix|25. 작업 추적 매트릭스 (Task Traceability Matrix) — 요구사항 추적 가능성 보장]]
+**다음**: [[026_baseline_verification|026. 베이스라인 검증 (Baseline Verification)]] →
+
+---

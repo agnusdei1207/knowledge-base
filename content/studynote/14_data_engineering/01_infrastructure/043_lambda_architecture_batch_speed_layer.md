@@ -292,3 +292,14 @@ Apache Iceberg + Flink
 1. [[095_lambda_architecture|람다 아키텍처]]는 어제 신문 + 속보 조합 — 정확한 어제 기사(배치)와 방금 올라온 속보(스피드)를 합쳐서 보여줘요!
 2. 배치는 느리지만 정확, 스피드는 빠르지만 근사치 — 두 개를 합치면 빠르고 정확한 결과를 얻을 수 있어요.
 3. 현대는 [[096_kappa_architecture|카파 아키텍처]]로 진화 — "두 개의 시스템을 만드는 게 너무 복잡하니, 스트리밍 하나만 잘 만들자"는 방향이에요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 43 / 258
+
+← **이전**: [[042_base_characteristics_nosql_eventual_consistency|042. BASE 특성 — NoSQL 일관성 모델]]
+**다음**: [[044_kappa_architecture_single_streaming_layer|044. 카파 아키텍처 — 단일 스트리밍 레이어]] →
+
+---

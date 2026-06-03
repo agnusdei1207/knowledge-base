@@ -127,3 +127,13 @@ tags:
 2. 이 약속을 잘 지키면 [[001_dikw_pyramid|데이터]]가 많아도 더 안전하고 빠르게 움직일 수 있어요.
 3. 그래서 언제 이 방법을 쓰고 언제 다른 방법을 써야 하는지 아는 것이 중요해요.
 
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 242 / 600
+
+← **이전**: [[241_checkpoint_recovery_time_reduction|241. 검사점 회복 기법 (Checkpoint / Checkpointing)]]
+**다음**: [[243_aries_algorithm_recovery_analysis_redo_undo|243. ARIES 알고리즘 (ARIES Algorithm Recovery Analysis Redo Undo)]] →
+
+---

@@ -140,3 +140,13 @@ VHF (Very High Frequency) / UHF (Ultra High Frequency) 직진 통신
 2. 어떤 길을 가느냐는 전파의 높고 낮은 성질과 하늘 상태에 따라 달라져요.
 3. 그래서 무선 통신은 "세게 보내기"보다 "맞는 길 고르기"가 더 중요해요.
 
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 281 / 1120
+
+← **이전**: [[159_underwater_acoustic_communication|159. 음향 통신 (수중 음파 통신)]]
+**다음**: [[161_ionospheric_reflection_tropospheric_scatter|161. 전리층 반사 / 대류권 산란]] →
+
+---

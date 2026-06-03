@@ -201,3 +201,14 @@ vc.fit(X_train, y_train)
 1. 하드 [[258_voting_ensemble|보팅]]은 손들기 투표 — 많이 손든 쪽이 이기고, 자신감은 안 따져.
 2. 소프트 [[258_voting_ensemble|보팅]]은 점수 투표 — 각자 "A가 70점, B가 30점" 이라고 점수를 내면 평균이 가장 높은 쪽이 이겨.
 3. 가중 [[258_voting_ensemble|보팅]]은 선생님 의견에 더 많은 점수를 주는 것 — 똑똑한 친구 말을 조금 더 듣는 거야.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 50 / 420
+
+← **이전**: [[049_ensemble_learning_bagging_boosting|049. 앙상블 학습 — Ensemble Learning]]
+**다음**: [[051_bagging_bootstrap_aggregating_random_forest|051. 배깅과 랜덤 포레스트 (Bagging & Random Forest)]] →
+
+---

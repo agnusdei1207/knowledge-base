@@ -209,3 +209,14 @@ InnoDB Young/Old LRU (MySQL 5.x)
 1. 버퍼 풀은 도서관 사서의 책상 서랍 — 자주 빌리는 책을 미리 꺼내놔서 빠르게 빌려줘.
 2. 더티 [[286_page_frame|페이지]]는 내용을 고쳤지만 아직 반납 안 한 책 — 나중에 선생님(체크포인트)이 모아서 공식 기록에 반영해.
 3. WAL은 "먼저 일기 쓰고 행동" 규칙 — 갑자기 전기가 나가도 일기를 보면 어디까지 했는지 알 수 있어.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 50 / 600
+
+← **이전**: [[049_storage_engine_innodb_myisam|049. 스토리지 엔진 — InnoDB vs MyISAM]]
+**다음**: [[051_logging_engine_wal_redo_undo|51. 로깅 엔진 (Logging Engine)]] →
+
+---

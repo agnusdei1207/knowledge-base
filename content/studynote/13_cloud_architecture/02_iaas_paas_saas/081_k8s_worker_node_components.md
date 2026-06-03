@@ -149,3 +149,14 @@ DaemonSet · Static Pod → 노드 레벨 자동화
 ```
 2. 마스터 사장님의 명령 쪽지를 읽고 공장장 역할을 하는 녀석이 **[[082_kubelet_node_agent|Kubelet]]([[082_kubelet_node_agent|큐블렛]])** 이고, 실제 기계 [[238_switch_operation_principles|스위치]]를 넣고 물건을 착착 굽는 로봇 팔이 **런타임([[561_container_based_deployment|컨테이너]] 엔진)** 이에요.
 3. 그리고 밖에서 트럭(네트워크 손님)이 도착하면 헷갈리지 않게 딱 알맞은 창고 문 앞으로 짐을 옮기도록 교통정리 피리를 부는 수위 아저씨가 바로 **Kube-proxy([[264_proxy_pattern_surrogate_access_control|프록시]])** 랍니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 80 / 371
+
+← **이전**: [[080_kube_controller_manager_desired_state|80. Kube-Controller Manager - 클러스터의 원하는 상태(Desired State)와 현재 상태(Current State)를]]
+**다음**: [[082_kubelet_node_agent|82. Kubelet (큐블렛) - 마스터 노드의 명령을 받아 파드(Pod)를 생성/관리하고 헬스체크 결과를 보고하는 노드별 에이전트]] →
+
+---

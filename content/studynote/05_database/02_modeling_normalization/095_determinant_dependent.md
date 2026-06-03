@@ -112,3 +112,14 @@ tags:
 1. 학교에서 반장(결정자)이 한 명 정해지면, 그 반에 속한 학생들(종속자)의 규칙도 함께 정해져요.
 2. 반장 이름만 부르면 반 전체 학생이 누군지 확실하게 알 수 있는 것처럼, [[002_database_definition|데이터베이스]]에도 그런 똑똑한 리더 [[082_attribute_types_er_model|속성]]이 있어요.
 3. 리더와 리더를 따르는 친구들을 잘 짝지어 방(테이블)을 나눠주어야 학교([[002_database_definition|데이터베이스]])가 복잡해지지 않는답니다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 95 / 600
+
+← **이전**: [[094_functional_dependency_fd|94. 함수적 종속성 (Functional Dependency, FD)]]
+**다음**: [[096_full_functional_dependency|96. 완전 함수적 종속 (Full Functional Dependency)]] →
+
+---

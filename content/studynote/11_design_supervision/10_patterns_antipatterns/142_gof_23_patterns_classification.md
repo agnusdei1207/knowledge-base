@@ -159,3 +159,14 @@ GoF [[104_classification_analysis|분류]] 체계를 익히면 패턴 학습이 
 1. 레고를 만들 때 블록을 만드는 문제, 블록을 붙이는 문제, 친구들과 역할 나누는 문제는 서로 달라요.
 2. GoF [[104_classification_analysis|분류]]는 이걸 세 칸으로 나눠서 어떤 문제가 생겼는지 먼저 보게 해 줘요.
 3. 그래서 23가지 방법도 훨씬 쉽게 기억할 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 198 / 530
+
+← **이전**: [[141_design_pattern_gof_overview|141. 디자인 패턴 개요 (Design Pattern Overview)]]
+**다음**: [[143_creational_patterns_purpose|143. 생성 패턴의 목적 (Creational Patterns Purpose)]] →
+
+---

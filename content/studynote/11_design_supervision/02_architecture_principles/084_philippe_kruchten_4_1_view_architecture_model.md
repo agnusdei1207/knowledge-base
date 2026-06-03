@@ -149,3 +149,14 @@ Use Case (UC) 시나리오
 1. 집을 만들 때는 그림이 한 장만 있으면 부족해요.
 2. 방 그림, 전선 그림, 사람 동선 그림이 모두 있어야 진짜 집이 보여요.
 3. 마지막에는 '이 문으로 들어가서 저 방으로 갈 수 있나?'를 꼭 확인해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 127 / 530
+
+← **이전**: [[083_architecture_elements_stakeholder_view_viewpoint|83. 아키텍처 주요 요소 - 이해관계자, 관심사, 뷰, 뷰포인트]]
+**다음**: [[085_logical_view_class_diagram_functional_requirements|85. 논리 뷰 (Logical View) - 최종 사용자 요구사항 개념 설계]] →
+
+---

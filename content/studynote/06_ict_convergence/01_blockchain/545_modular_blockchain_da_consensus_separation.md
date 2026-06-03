@@ -164,3 +164,14 @@ AVS (Actively Validated Service)
 1. 모놀리식 [[004_blockchain|블록체인]]은 한 명이 요리·서빙·계산을 다 하는 것, 모듈러는 전문가가 각자 역할을 나누는 것이에요.
 2. Celestia는 [[001_dikw_pyramid|데이터]] 보관만 잘하는 전문 창고, 이더리움은 최종 결정만 내리는 판사, [[042_rollup_l2_solution|롤업]]은 실제로 계산하는 계산원이에요.
 3. 이렇게 역할을 나누면 각자가 더 빠르고 싸게 일할 수 있어서 전체 [[004_blockchain|블록체인]]이 훨씬 강해져요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 545 / 552
+
+← **이전**: [[544_web3_decentralized_platform_economy|544. Web 3.0 탈중앙화 플랫폼 경제 (Web 3.0 Decentralized Platform Economy)]]
+**다음**: [[546_data_fabric_distributed_data_mesh|546. 데이터 패브릭과 분산 데이터 메시 (Data Fabric and Distributed Data Mesh)]] →
+
+---

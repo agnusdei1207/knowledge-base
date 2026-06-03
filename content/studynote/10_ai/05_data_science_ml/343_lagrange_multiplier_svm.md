@@ -202,3 +202,14 @@ print(f"전체 데이터 대비 비율: {len(clf.support_vectors_)/len(X_train)*
 1. 🏁 라그랑주 승수는 "운동장 안에서만 달릴 수 있을 때, 운동장 경계를 달리기 방정식에 포함시켜서 가장 빠른 길을 찾는" 방법이에요.
 2. 🎯 [[238_svm_margin_kernel_trick_naive_bayes|SVM]] 은 이 방법으로 두 팀 사이에 가장 넓은 복도(마진)를 만들 수 있어요.
 3. 🔑 경계에 딱 걸쳐 있는 [[001_dikw_pyramid|데이터]](서포트 벡터)만이 그 복도 위치를 결정해요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 343 / 420
+
+← **이전**: [[342_svd|342. 특이값 분해 (SVD, Singular Value Decomposition)]]
+**다음**: [[344_activation_derivative_sigmoid|344. 활성화 함수 도함수 (Activation Derivative Sigmoid)]] →
+
+---

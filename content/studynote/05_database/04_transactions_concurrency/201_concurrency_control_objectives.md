@@ -127,3 +127,13 @@ SAVEPOINT에서 출발한 논점이 [[014_concurrency|동시성]] 제어 의 목
 2. 이 약속을 잘 지키면 [[001_dikw_pyramid|데이터]]가 많아도 더 안전하고 빠르게 움직일 수 있어요.
 3. 그래서 언제 이 방법을 쓰고 언제 다른 방법을 써야 하는지 아는 것이 중요해요.
 
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 201 / 600
+
+← **이전**: [[200_savepoint_partial_rollback|200. SAVEPOINT (Savepoint Partial Rollback)]]
+**다음**: [[202_concurrent_execution_problems_overview|202. 병행 수행 시 문제점 (Concurrent Execution Problems Overview)]] →
+
+---

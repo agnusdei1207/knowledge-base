@@ -174,3 +174,13 @@ tags:
 2. 컴퓨터도 여러 일이 차례를 기다리기 때문에 이런 기준으로 일을 얼마나 잘 나눠 줬는지 확인해요.
 3. 그래서 어떤 컴퓨터는 빨리 반응하는 것을, 어떤 컴퓨터는 많은 일을 끝내는 것을 더 중요하게 생각한답니다.
 
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 170 / 800
+
+← **이전**: [[169_dispatch_latency|169. 디스패치 지연 (Dispatch Latency)]]
+**다음**: [[171_cpu_utilization_throughput|171. CPU 이용률 (CPU Utilization) / 처리량 (Throughput)]] →
+
+---

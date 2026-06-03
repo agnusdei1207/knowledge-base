@@ -234,3 +234,14 @@ ML 기반 선택도 추정
 1. 셀렉트 연산은 학생 명단에서 "성적이 90점 이상인 학생만 보여줘"처럼 조건에 맞는 행만 골라내는 필터예요.
 2. 10만 명 중 10명을 찾을 때 [[154_database_index_b_tree_search_optimization|인덱스]]를 쓰면 빠르고, 10만 명 중 5만 명을 찾을 때는 그냥 전체 훑는 게 더 빠를 수 있어요.
 3. 빅데이터에서는 필터 조건을 최대한 일찍 적용해서 처리할 [[001_dikw_pyramid|데이터]]를 줄이는 게 [[282_performance_tactics|성능]]의 핵심이에요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 41 / 600
+
+← **이전**: [[040_pure_relational_operators|040. 순수 관계 연산자 (Pure Relational Operators) — σ, π, ⋈, ÷]]
+**다음**: [[042_relational_algebra_project|042. 프로젝트 연산 (Project) — 관계 대수 열 추출]] →
+
+---

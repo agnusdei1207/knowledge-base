@@ -129,3 +129,14 @@ tags:
 1. [[452_availability|가용성]] 관리 ([[452_availability|Availability]] [[372_management|Management]])는 모두가 같은 규칙으로 일하게 해 주는 반장 약속표예요.
 2. 약속만 적어 두는 것이 아니라 누가 지켰는지 확인하고 고치는 방법까지 함께 정해요.
 3. 그래서 일이 많아져도 서로 부딪히지 않고 더 안전하게 움직일 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 168 / 587
+
+← **이전**: [[092_GPT_NLP|92. 람다 아키텍처 — 배치(Speed Layer) + 실시간(Batch Layer) + Serving Layer]]
+**다음**: [[093_itscm|93. IT 서비스 연속성 관리 (ITSCM, IT Service Continuity Management)]] →
+
+---

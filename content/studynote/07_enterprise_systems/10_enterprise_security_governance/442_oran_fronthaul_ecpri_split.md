@@ -139,3 +139,14 @@ tags:
 1. [[782_o_ran_open_ran_white_box_interface|O-RAN]] [[784_fronthaul_ecpri_split_option|프론트홀]] eCPRI 분할 구조 전송망는 복잡한 일을 순서대로 정리해 주는 큰 정리함이에요.
 2. 어디에 무엇을 넣을지 먼저 정해 두면, 나중에 찾거나 고칠 때 훨씬 쉬워져요.
 3. 그래서 일이 커질수록 먼저 기준을 만들고 같이 약속하는 것이 중요해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 442 / 482
+
+← **이전**: [[441_clark_wilson_integrity_model|441. 클라크-윌슨 무결 트랜잭션 접근 제어 모델 (Clark-Wilson Integrity Model)]]
+**다음**: [[443_intelligent_edge_offloading_dpu|443. 지능형 엣지 오프로딩 DPU SmartNIC (Data Processing Unit / Smart Network Interface]] →
+
+---

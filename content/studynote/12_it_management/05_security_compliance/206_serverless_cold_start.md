@@ -129,3 +129,14 @@ tags:
 1. 서버리스 (Serverless) [[294_function_calling_tool_use|함수 호출]] 및 [[559_serverless_cold_start_mitigation|콜드 스타트]] 극복 방안은 모두가 같은 규칙으로 일하게 해 주는 반장 약속표예요.
 2. 약속만 적어 두는 것이 아니라 누가 지켰는지 확인하고 고치는 방법까지 함께 정해요.
 3. 그래서 일이 많아져도 서로 부딪히지 않고 더 안전하게 움직일 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 320 / 587
+
+← **이전**: [[205_kubernetes_container_orchestration|205. 컨테이너 오케스트레이션 (Kubernetes) 노드/포드(Pod) 고가용성 설계]]
+**다음**: [[207_iac_terraform_immutable_infrastructure|207. 인프라스트럭처 애즈 코드 (IaC, Terraform)]] →
+
+---

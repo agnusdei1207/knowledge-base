@@ -85,3 +85,14 @@ tags:
 1. **키 크기 비유:** 부모님의 키를 보고 내 키가 얼마나 클지 예상하는 마법의 자와 같아요.
 2. **성적 비유:** 공부한 시간과 시험 점수 사이의 [[083_relationship_in_er_model|관계]]를 찾아내서, "몇 시간 공부하면 몇 점 받을까?"를 맞히는 게임이에요.
 3. **길찾기 비유:** 점들이 흩어져 있는 운동장에 선을 하나 그어서, 점들이 최대한 그 선 근처에 모이게 만드는 놀이에요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 103 / 262
+
+← **이전**: [[102_eda_exploratory_data_analysis|탐색적 데이터 분석 (EDA, Exploratory Data Analysis)]]
+**다음**: [[104_classification_analysis|분류 (Classification) 분석]] →
+
+---

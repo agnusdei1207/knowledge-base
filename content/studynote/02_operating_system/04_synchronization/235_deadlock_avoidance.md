@@ -183,3 +183,14 @@ OS 스케줄러는 프로세스 P가 자원을 요구할 때 다음과 같이 �
 1. [[297_deadlock_avoidance|교착 상태 회피]] ([[297_deadlock_avoidance|Deadlock Avoidance]])은 컴퓨터가 여러 친구가 동시에 만져도 부딪히지 않게 순서를 맞추는 규칙이에요.
 2. 먼저 [[224_semaphore|세마포어]] ([[224_semaphore|Semaphore]])을 이해하면 [[297_deadlock_avoidance|교착 상태 회피]] ([[297_deadlock_avoidance|Deadlock Avoidance]])이 왜 필요한지 더 쉽게 보여요.
 3. 그래서 [[297_deadlock_avoidance|교착 상태 회피]] ([[297_deadlock_avoidance|Deadlock Avoidance]])을 잘 알면 나중에 [[226_counting_semaphore|카운팅 세마포어]] ([[226_counting_semaphore|Counting Semaphore]])도 훨씬 쉽게 배울 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 235 / 800
+
+← **이전**: [[234_deadlock_prevention|234. 교착 상태 예방 (Deadlock Prevention)]]
+**다음**: [[236_safe_state|236. 안전 상태 (Safe State)]] →
+
+---

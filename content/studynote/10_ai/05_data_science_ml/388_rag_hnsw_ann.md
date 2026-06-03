@@ -148,3 +148,14 @@ NSW (Navigable Small World): 소수의 장거리 연결 + 다수의 단거리 �
 1. RAG는 "시험 중 책을 찾아보는 오픈북 시험"이야. AI가 모든 걸 외우는 대신 필요할 때 빠르게 검색해.
 2. HNSW는 지도처럼 큰 그림(상위 레이어)에서 점점 자세한 곳(하위 레이어)으로 좁혀가며 가장 비슷한 답을 찾아.
 3. Reranker는 검색 결과 1~10위를 다시 꼼꼼히 읽어서 "진짜 제일 좋은 답"을 다시 고르는 2차 심사야.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 388 / 420
+
+← **이전**: [[387_topk_topp_sampling|387. Top-K / Top-P (Nucleus Sampling)]]
+**다음**: [[389_knowledge_distillation_soft_target|389. 지식 증류 소프트 타겟 (Soft Target)]] →
+
+---

@@ -144,3 +144,14 @@ tags:
 1. 물건을 보낼 때 받는 사람이 너무 빨리 받으면 놓칠 수 있어요.
 2. 이 개념은 천천히 보낼지, 다시 보낼지, 길이 막히면 멈출지를 정해줘요.
 3. 그래서 멀리 보내도 덜 잃어버리고 더 안정적으로 도착해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 543 / 1120
+
+← **이전**: [[421_tcp_flow_control_sliding_window_algorithm|421. TCP 흐름 제어 (Flow Control)]]
+**다음**: [[423_send_buffer_receive_buffer|423. 송신 버퍼 (Send Buffer) / 수신 버퍼 (Receive Buffer)]] →
+
+---

@@ -56,3 +56,14 @@ WHERE sal > (SELECT AVG(sal) FROM emp e2 WHERE e2.dept_id = e1.dept_id);
 1. 상관 서브쿼리는 **각 학생마다 반 평균을 따로 계산**하는 거예요.
 2. 학생이 100명이면 **100번 계산**해야 해서 느려요.
 3. Window Function은 **한 번에 다 계산**해서 훨씬 빨라요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 144 / 600
+
+← **이전**: [[143_nested_subquery_where_exists|143. 중첩 서브쿼리 & WHERE EXISTS 심화]]
+**다음**: [[145_sql_window_function_analytics|145. SQL Window Function 심화 - ROWS/RANGE Frame & 누적합]] →
+
+---

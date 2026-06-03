@@ -55,3 +55,14 @@ FROM emp e1;
 1. 스칼라 서브쿼리는 **각 문제마다 별도 계산기**를 돌리는 거예요.
 2. 문제가 **100개면 계산기를 100번** 돌려서 느려질 수 있어요.
 3. Window Function은 **한 번에 다 계산**해서 빨라요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 142 / 600
+
+← **이전**: [[141_inline_view_subquery|141. 인라인 뷰 (Inline View) - FROM 절 서브쿼리]]
+**다음**: [[143_nested_subquery_where_exists|143. 중첩 서브쿼리 & WHERE EXISTS 심화]] →
+
+---

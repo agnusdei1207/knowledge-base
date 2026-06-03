@@ -125,3 +125,14 @@ tags:
 1. [[537_oidc_openid_connect|OIDC]] [[512_oauth_scope|Scope]] ([[548_openid_connect|OpenID Connect]] [[512_oauth_scope|Scope]])는 컴퓨터끼리 인사하고 [[396_validation|확인]]하는 순서를 정한 약속이에요.
 2. 순서를 건너뛰면 나쁜 사람이 친구인 척할 수 있어요.
 3. 그래서 컴퓨터는 차례대로 묻고 답하면서 서로를 믿게 돼요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 596 / 1108
+
+← **이전**: [[539_claims|539. Claims (클레임)]]
+**다음**: [[541_pkce_in_oidc|541. PKCE in OIDC (Proof Key for Code Exchange)]] →
+
+---

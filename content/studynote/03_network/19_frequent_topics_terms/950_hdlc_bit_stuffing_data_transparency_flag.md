@@ -128,3 +128,14 @@ tags:
 1. 비슷한 이름의 장난감을 헷갈리지 않게 표를 붙이는 것과 같아요.
 2. 이 개념은 무엇이 어떻게 다른지 쉽게 구별하게 도와줘요.
 3. 그래서 시험에서도 실무에서도 말을 더 정확하게 쓸 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 1071 / 1120
+
+← **이전**: [[949_arq_automatic_repeat_request_go_back_n_selective|949. 자동 재전송 요구 (ARQ) 선택적/GBN]]
+**다음**: [[951_csma_cd_carrier_sense_multiple_access_collision_detection|951. 반송파 감지 다중 접속 및 충돌 검출 (CSMA/CD)]] →
+
+---

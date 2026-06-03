@@ -106,3 +106,14 @@ tags:
 1. 전자정부 표준 프레임워크 준수율은 모두가 같은 규칙의 블록을 쓰는 것과 같아요.
 2. 블록 모양이 같아야 친구가 만든 것도 잘 이어 붙일 수 있어요.
 3. 규칙을 지키면 더 많은 사람과 쉽게 함께 놀 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 396 / 530
+
+← **이전**: [[319_architecture|319. 전자정부 표준 프레임워크 준수율 (eGovFrame Compliance Rate Audit)]]
+**다음**: [[320_exam_essay_structure_map|320. IT 감리 논술 답안 구조 맵 (IT Audit Essay Structure Map)]] →
+
+---

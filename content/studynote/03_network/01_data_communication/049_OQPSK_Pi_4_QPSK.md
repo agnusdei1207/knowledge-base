@@ -294,3 +294,14 @@ QAM + OFDM
 1. QPSK 180° 문제 = 전등 [[238_switch_operation_principles|스위치]] 급격히 반전 — [[001_voltage|전압]]이 순간 0이 되어 증폭기 왜곡. 배터리 낭비!
 2. OQPSK = 두 다리 교대 걷기 — I/Q 채널이 반 박자씩 어긋나 동시 전환 방지. 최대 90° 전이로 안정!
 3. π/4-QPSK = 두 바퀴 45° 교대 사용 — 홀/짝 심볼마다 다른 [[053_성상도_Constellation_Diagram|성상도]]. 최대 135°, 차동 복조로 기준점 없이도 OK!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 49 / 1120
+
+← **이전**: [[048_BPSK_QPSK|048. BPSK·QPSK — 위상 편이 변조]]
+**다음**: [[050_M진_PSK_8PSK_16PSK|M진 PSK — 8PSK·16PSK (M-ary Phase Shift Keying)]] →
+
+---

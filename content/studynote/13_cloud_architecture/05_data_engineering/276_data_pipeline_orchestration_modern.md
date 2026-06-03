@@ -113,3 +113,14 @@ tags:
 1. [[645_data_pipeline_acceleration|데이터 파이프라인]] [[073_container_orchestration_tools|오케스트레이션]] - Airflow, Prefect, Dagster는 사람이 많은 운동회에서 어디로 가야 하는지 알려 주는 안내판과 비슷해요.
 2. 규칙이 없으면 모두가 한곳에 몰려서 느려지고 다투지만, 길을 정해 두면 훨씬 부드럽게 움직일 수 있어요.
 3. 그래서 컴퓨터 세상에서도 [[645_data_pipeline_acceleration|데이터 파이프라인]] [[073_container_orchestration_tools|오케스트레이션]] - Airflow, Prefect, Dagster를 쓰면 많은 팀과 [[090_service_kubernetes_network_load_balancing|서비스]]가 덜 부딪히고 더 빨리 움직일 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 275 / 371
+
+← **이전**: [[275_model_registry_deployment_serving|275. 모델 레지스트리 / 서빙 (Model Registry & Serving)]]
+**다음**: [[277_real_time_analytics_architecture|277. 실시간 분석 아키텍처 - HTAP (Real-time Analytics)]] →
+
+---

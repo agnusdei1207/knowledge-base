@@ -139,3 +139,14 @@ BCP 업무 연속성 [[658_ir_recovery|복구]] [[212_bia_business_impact_analys
 1. BCP 업무 연속성 [[658_ir_recovery|복구]] [[212_bia_business_impact_analysis_rto_rpo_dr|BIA]] 분석는 복잡한 일을 순서대로 정리해 주는 큰 정리함이에요.
 2. 어디에 무엇을 넣을지 먼저 정해 두면, 나중에 찾거나 고칠 때 훨씬 쉬워져요.
 3. 그래서 일이 커질수록 먼저 기준을 만들고 같이 약속하는 것이 중요해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 338 / 482
+
+← **이전**: [[337_incident_vs_problem_management|337. 인시던트 관리 vs 문제 관리 근본 원인 (Incident vs Problem Management)]]
+**다음**: [[339_cloud_migration_6r|339. 클라우드 마이그레이션 6R 전략 (Cloud Migration 6R Strategy)]] →
+
+---

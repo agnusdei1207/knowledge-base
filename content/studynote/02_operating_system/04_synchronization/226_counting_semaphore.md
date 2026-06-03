@@ -258,3 +258,14 @@ try {
 1. 카운팅 [[224_semaphore|세마포어]] (Counting [[224_semaphore|Semaphore]])은 컴퓨터가 여러 친구가 동시에 만져도 부딪히지 않게 순서를 맞추는 규칙이에요.
 2. 먼저 피터슨의 해결책 (Peterson's [[001_algorithm_definition|Algorithm]])을 이해하면 카운팅 [[224_semaphore|세마포어]] (Counting [[224_semaphore|Semaphore]])이 왜 필요한지 더 쉽게 보여요.
 3. 그래서 카운팅 [[224_semaphore|세마포어]] (Counting [[224_semaphore|Semaphore]])을 잘 알면 나중에 하드웨어 [[158_instruction|명령어]] 기반 [[212_synchronization_mechanisms|동기화]]도 훨씬 쉽게 배울 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 226 / 800
+
+← **이전**: [[225_binary_semaphore|225. 이진 세마포어 (Binary Semaphore)]]
+**다음**: [[227_busy_waiting|227. 바쁜 대기 (Busy Waiting)]] →
+
+---

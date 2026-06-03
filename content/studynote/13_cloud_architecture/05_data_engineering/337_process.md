@@ -113,3 +113,14 @@ tags:
 1. [[157_oom_killer|OOM]] 킬러 [[307_memory_protection|메모리 보호]] 리소스 제약 [[561_container_based_deployment|컨테이너]] 드롭는 사람이 많은 운동회에서 어디로 가야 하는지 알려 주는 안내판과 비슷해요.
 2. 규칙이 없으면 모두가 한곳에 몰려서 느려지고 다투지만, 길을 정해 두면 훨씬 부드럽게 움직일 수 있어요.
 3. 그래서 컴퓨터 세상에서도 [[157_oom_killer|OOM]] 킬러 [[307_memory_protection|메모리 보호]] 리소스 제약 [[561_container_based_deployment|컨테이너]] 드롭를 쓰면 많은 팀과 [[090_service_kubernetes_network_load_balancing|서비스]]가 덜 부딪히고 더 빨리 움직일 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 336 / 371
+
+← **이전**: [[336_process|336. 쿠버네티스 프로브 헬스 체크 생명 주기 복구망 (Kubernetes Probes)]]
+**다음**: [[338_process|338. 컬럼 지향 데이터 포맷 파케이 읽기 압축 분석망 (Cloud Architecture Concept)]] →
+
+---

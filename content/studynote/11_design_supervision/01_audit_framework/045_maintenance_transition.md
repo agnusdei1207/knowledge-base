@@ -285,3 +285,14 @@ IaC (Terraform) 인계
 1. 인수인계는 가게 인수 — 기존 사장(개발팀)이 새 사장(운영팀)에게 장사 비법(묵시적 지식)까지 다 알려줘야 해요. 레시피(문서)만으론 부족!
 2. 병행 운영은 견습 기간 — 선생(개발팀)이 옆에서 보면서 학생(운영팀)이 직접 운전(운영). 실수해도 즉시 도움!
 3. 완료 기준이 중요 — 서명 없이 "다 줬어요"는 분쟁 원인. [[435_checklist_based_testing|체크리스트]] 100% + 독립 운영 X주 무장애 + 서명 = 진짜 완료!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 67 / 530
+
+← **이전**: [[045_liquidated_damages_progress_verification|45. 사업자 지체상금 분쟁 예방을 위한 진척도 및 지연 사유 증빙 점검 (Liquidated Damages Progress Verification)]]
+**다음**: [[046_test_plan_scenario_result_verification|46. 테스트 계획·시나리오·결과서 완결성 대조 확인 (Test Plan, Scenario and Result Verification)]] →
+
+---

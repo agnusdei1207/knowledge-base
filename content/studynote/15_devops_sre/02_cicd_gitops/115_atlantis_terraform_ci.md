@@ -123,3 +123,14 @@ Atlantis는 [[119_gitops_single_source_of_truth|GitOps]] + Terraform의 가장 �
 1. 옛날에는 레고(인프라)를 **혼자 몰래 바꿀 수** 있었어요 → 실수해도 아무도 몰라요.
 2. Atlantis는 레고를 바꾸기 전에 **친구(리뷰어)한테 보여주고** "이래도 될까?"라고 물어봐야 해요.
 3. 친구가 "좋아!"라고 하면 로봇이 자동으로 바꿔주고, **기록도 다 남아서** 안전해요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 115 / 373
+
+← **이전**: [[114_kayenta_canary_analysis|114. Kayenta 카나리 분석 (Kayenta Canary Analysis) - 자동 배포 판단·ACA]]
+**다음**: [[116_infrastructure_drift_detection|116. 인프라 드리프트 감지 (Infrastructure Drift Detection) - IaC 상태 불일치 자동 탐지]] →
+
+---

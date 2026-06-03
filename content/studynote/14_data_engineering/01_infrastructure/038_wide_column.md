@@ -232,3 +232,14 @@ SQL 유사 문법으로 접근성 향상
 1. 와이드 컬럼 저장소는 학생마다 다른 과목을 가질 수 있는 성적표처럼, 행마다 서로 다른 컬럼을 가질 수 있는 유연한 [[001_dikw_pyramid|데이터]] 저장 방식이에요.
 2. Cassandra는 창고를 여러 곳에 [[136_variance|분산]]해 항상 이용 가능하게 하고([[572_ap_access_point_ds_distribution_system|AP]]), HBase는 중앙 창고 관리자가 정확한 재고를 보장해요([[086_CP_순환_전치_GI|CP]]).
 3. [[101_iot_concept|IoT]] 기기 100만 대가 매초 [[001_dikw_pyramid|데이터]]를 보내는 시스템에 Cassandra가 딱 맞는 이유는, [[514_partition_slice_volume|파티션]] 키로 [[001_dikw_pyramid|데이터]]를 균등하게 [[136_variance|분산]]해 초당 100만 건 쓰기를 처리할 수 있기 때문이에요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 38 / 258
+
+← **이전**: [[037_document|037. 문서 저장소 (Document Store)]]
+**다음**: [[039_graph_db|039. 그래프 데이터베이스 (Graph Database)]] →
+
+---

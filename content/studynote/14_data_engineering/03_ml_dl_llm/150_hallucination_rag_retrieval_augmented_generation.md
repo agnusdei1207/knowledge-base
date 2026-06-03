@@ -152,3 +152,14 @@ GraphRAG & Agentic RAG / 단순 문단 검색 텍스트를 넘어 ➔ 사내 인
 1. 똑똑하지만 기억이 자꾸 깜빡깜빡해서 모르는 것도 아는 척 뻔뻔하게 **거짓말([[275_react_framework|환각]] [[251_hallucination_rag_augmented_retrieval_vector_db|할루시네이션]])**을 지어내는 로봇 친구가 있어요.
 2. 이 로봇 친구가 거짓말을 못 하게 막으려면, 뇌를 뜯어고치는 비싼 수술(파인튜닝)을 하는 대신 걍 친구 손에 최신 **'백과사전 원본(사내 문서 벡터 DB)'**을 딱 쥐여주면 돼요!
 3. 유저가 질문하면 로봇이 1초 만에 백과사전을 촤르륵 뒤져서 연관된 3페이지만 스윽 뽑은 다음(검색 Retrieval), "오직 이 책에 적힌 글씨만 보고 읽어서 대답해 쾅!" 라고 약속(증강 Augmentation) 시켜서 오류 0% 완벽한 정답만 말하게 통제하는 오픈북 마법이랍니다 🚀!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 150 / 258
+
+← **이전**: [[149_prompt_engineering_cot_few_shot|149. 프롬프트 엔지니어링 (Prompt Engineering) - CoT / Few-Shot]]
+**다음**: [[151_vector_database_embedding_ann_search|151. 벡터 데이터베이스 (Vector DB) 임베딩과 ANN (근사 최근접) 검색 알고리즘]] →
+
+---

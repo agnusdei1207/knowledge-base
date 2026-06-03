@@ -111,3 +111,14 @@ tags:
 1. [[253_singleton_pattern_single_instance|싱글톤]] 패턴 ([[144_singleton_pattern|Singleton Pattern]])은 학교 방송실 마이크를 모두가 같이 쓰되 하나만 켜 두는 것처럼 약속을 먼저 정하는 거예요.
 2. 그러면 서로 다른 사람이 해도 같은 규칙으로 움직일 수 있어요.
 3. 그래서 규모가 커질수록 유일 인스턴스와 접근 경로를 통제하는 일이 더 중요해져요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 460 / 530
+
+← **이전**: [[381_prototype_pattern_summary|381. 프로토타입 패턴 (Prototype Pattern)]]
+**다음**: [[383_adapter_pattern_summary|383. 어댑터 패턴 (Adapter Pattern)]] →
+
+---

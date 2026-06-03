@@ -155,3 +155,14 @@ Synthetic Monitoring · APM · DEM 통합 관측성
 1. RUM은 컴퓨터가 "내가 잘했어"라고 말하는 대신, 진짜 사용한 친구들에게 "정말 빨랐니?"를 물어보는 거예요.
 2. 어떤 친구는 빠르게 느끼고, 어떤 친구는 오래 기다릴 수 있어서 모두의 이야기를 같이 들어야 해요.
 3. 그래서 RUM을 보면 어디에서 누가 가장 불편했는지 찾아서 더 빨리 고칠 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 163 / 373
+
+← **이전**: [[162_apm_application_performance_management|162. APM (Application Performance Management)]]
+**다음**: [[164_synthetic_monitoring_dummy_client|164. 합성 모니터링 (Synthetic Monitoring)]] →
+
+---

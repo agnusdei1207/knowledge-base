@@ -106,3 +106,14 @@ tags:
 1. [[004_agile_relation|애자일]] [[067_sprint_timebox|스프린트]] 마일스톤 평가은 숙제 계획표와 [[396_validation|확인]] 도장을 같이 챙기는 것과 같아요.
 2. 누가 무엇을 했는지 적어 두면 다음 사람도 헷갈리지 않아요.
 3. 끝났다고 말하려면 정말 끝났는지 [[396_validation|확인]]표가 있어야 해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 424 / 530
+
+← **이전**: [[345_audit|345. 클라우드 종속성과 이식성 진단 (Cloud Lock-in and Portability Audit)]]
+**다음**: [[347_cisa_it|347. CISA IT 통제 프로세스 (CISA IT Control Process)]] →
+
+---

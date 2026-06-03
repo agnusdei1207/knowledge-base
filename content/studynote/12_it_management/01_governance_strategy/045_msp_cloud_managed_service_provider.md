@@ -297,3 +297,14 @@ DevSecOps 통합 MSP
 1. MSP는 IT 전문 집사 — 서버 관리, 보안, 비용 모두 전문가(MSP)에게 맡기고 회사는 본업에 집중!
 2. FinOps는 클라우드 가계부 관리 — MSP가 쓸데없이 켜진 서버(낭비)를 찾아서 끄고, 저렴한 요금제(예약 인스턴스)로 절약!
 3. 계약 시 책임 범위가 핵심 — "MSP가 다 해준다" 막연한 계약 No! 어디서 어디까지가 MSP 책임인지 명확히 서면으로!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 81 / 587
+
+← **이전**: [[044_business_process_outsourcing_bpo|044. BPO — 비즈니스 프로세스 아웃소싱]]
+**다음**: [[045_msp_managed_service_provider|45. 클라우드 매니지드 서비스 (MSP, Managed Service Provider)]] →
+
+---

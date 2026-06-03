@@ -176,3 +176,14 @@ I/O 장치의 [[104_classification_analysis|분류]] ([[442_block_device|블록 
 1. I/O 장치의 [[104_classification_analysis|분류]]은 컴퓨터가 디스크와 장치가 [[001_dikw_pyramid|데이터]]를 주고받는 길을 정리하는 방법이에요.
 2. 먼저 [[615_ebpf|eBPF]] 기반 메모리 할당 트레이싱을 이해하면 I/O 장치의 [[104_classification_analysis|분류]]이 왜 필요한지 더 쉽게 보여요.
 3. 그래서 I/O 장치의 [[104_classification_analysis|분류]]을 잘 알면 나중에 [[442_block_device|블록 장치]]도 훨씬 쉽게 배울 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 441 / 800
+
+← **이전**: [[440_ebpf_memory_tracing|440. eBPF 기반 메모리 할당 트레이싱 (Ebpf Memory Tracing)]]
+**다음**: [[442_block_device|442. 블록 장치 (Block Device)]] →
+
+---

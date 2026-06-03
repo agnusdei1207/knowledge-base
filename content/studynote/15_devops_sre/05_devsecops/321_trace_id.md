@@ -115,3 +115,14 @@ Distributed Tracing
 
 > 🧒 **어린이 비유**
 > Trace ID는 소포 운송장 번호예요. 물건이 어느 배송센터를 거쳤는지 한 번호로 전부 추적할 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 321 / 373
+
+← **이전**: [[320_metric|Observability Metrics Logs Traces]]
+**다음**: [[322_cncf|OpenTelemetry CNCF]] →
+
+---

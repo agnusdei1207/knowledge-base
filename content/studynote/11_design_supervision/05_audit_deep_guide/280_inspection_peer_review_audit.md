@@ -104,3 +104,14 @@ tags:
 1. 검토 [[435_checklist_based_testing|체크리스트]]는 학교에서 준비물을 미리 챙기는 것처럼, 중요한 기준을 먼저 맞추는 일이야.
 2. [[352_defect_definition|결함]] 예방은 선생님이 수업 중간에 계속 [[396_validation|확인]]하는 것처럼, 실제로 잘 되고 있는지 보는 과정이야.
 3. 재작업 감소는 시험 결과표처럼, 정말 효과가 있었는지 나중에 다시 [[396_validation|확인]]하게 해주는 증거야.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 341 / 530
+
+← **이전**: [[279_test_automation_coverage|279. 테스트 자동화 커버리지 감리 (Test Automation Coverage Audit)]]
+**다음**: [[281_function_point_settlement|281. 기능점수 정산 감리 (Function Point Settlement Audit)]] →
+
+---

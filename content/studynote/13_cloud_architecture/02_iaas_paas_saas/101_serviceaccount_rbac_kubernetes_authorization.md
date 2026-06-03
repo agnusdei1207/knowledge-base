@@ -132,3 +132,14 @@ RBAC (Role-Based Access Control 도입)
 1. [[196_kubernetes_k8s_container_orchestration|쿠버네티스]] 마을에는 '[[090_service_kubernetes_network_load_balancing|서비스]] 어카운트'라는 로봇용 출입증이 있어요.
 2. 예전에는 모든 로봇에게 모든 문이 열리는 만능 키를 줘서 도둑이 로봇을 조종하면 마을이 엉망이 됐어요.
 3. 이제는 RBAC라는 규칙을 통해 로봇마다 꼭 필요한 방 문만 열리도록 열쇠의 모양을 다르게 깎아준답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 100 / 371
+
+← **이전**: [[100_cni_container_network_interface_flannel_calico|100. CNI (Container Network Interface) - 파드 간 오버레이 통신 표준]]
+**다음**: [[102_configmap_secret_kubernetes_12_factor_app|102. 컨피그맵 (ConfigMap) / 시크릿 (Secret) - K8s 환경 변수 주입 객체]] →
+
+---

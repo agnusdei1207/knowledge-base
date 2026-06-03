@@ -151,3 +151,14 @@ tags:
 1. 빠르고, 안전하고, 저렴한 배달 [[090_service_kubernetes_network_load_balancing|서비스]]를 한꺼번에 만드는 건 불가능해요 — [[004_blockchain|블록체인]]도 마찬가지예요.
 2. 비트코인은 안전하고 공평하지만 느리고, 솔라나는 빠르지만 참여하기 어려워요.
 3. 이더리움은 L2라는 지름길을 만들어서 세 가지를 모두 어느 정도 만족시키려 하고 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 482 / 552
+
+← **이전**: [[481_sharding_l1_parallel_processing|481. 샤딩과 L1 병렬 처리 (Sharding and L1 Parallel Transaction Processing)]]
+**다음**: [[483_did_decentralized_identity_w3c_vc_vp|483. 탈중앙화 신원: DID, VC, VP W3C 표준 (Decentralized Identity: DID, VC, VP)]] →
+
+---

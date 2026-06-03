@@ -129,3 +129,14 @@ CMMI (Capability [[011_maturity_model|Maturity Model]] Integration) 5단계 모�
 1. CMMI (Capability [[011_maturity_model|Maturity Model]] Integration) 5단계 모델은 모두가 같은 규칙으로 일하게 해 주는 반장 약속표예요.
 2. 약속만 적어 두는 것이 아니라 누가 지켰는지 확인하고 고치는 방법까지 함께 정해요.
 3. 그래서 일이 많아져도 서로 부딪히지 않고 더 안전하게 움직일 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 247 / 587
+
+← **이전**: [[132_v_model_sdlc_verification_validation_testing|132. V 모델 (V-Model)]]
+**다음**: [[134_cmmi_level_1_initial|134. CMMI 레벨 1 (Initial, 초기)]] →
+
+---

@@ -260,3 +260,14 @@ R² = 0.84, Adj R² = 0.82
 ```
 2. R²는 "내 예측이 정답의 몇 %를 맞혔는지" 알려주는 점수표이고, VIF는 "두 선생님이 똑같은 내용을 가르쳐서 어느 선생님이 진짜 도움이 됐는지 모르겠다"는 문제를 찾아내는 것이다.
 3. [[149_regression_analysis|회귀 분석]]은 과거 [[001_dikw_pyramid|데이터]]로 미래를 예측하는 공식이지만, "아이스크림 잘 팔리면 익사 사고가 늘어나니 아이스크림 금지!"처럼 엉뚱한 인과관계로 착각하지 않도록 조심해야 한다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 226 / 258
+
+← **이전**: [[225_kdd_t_test_anova_statistical_analysis|225. KDD (Knowledge Discovery in Databases) T검정 ANOVA 통계 분석]]
+**다음**: [[227_logistic_regression_clt_pvalue_type_error|227. 로지스틱 회귀 (Logistic Regression) CLT p-value 1/2종 오류]] →
+
+---

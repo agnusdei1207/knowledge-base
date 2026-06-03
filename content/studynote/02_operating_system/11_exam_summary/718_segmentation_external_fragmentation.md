@@ -205,3 +205,14 @@ CPU가 [[322_logical_virtual_address|논리 주소]]를 불렀을 때 MMU가 [[3
 1. 공책(메모리)에 일기를 쓸 때, [[259_paging|페이징]]은 무조건 '네모난 깍두기 공책'을 써서 글씨가 잘리든 말든 한 칸에 한 글자씩 꽉 채워 쓰는 방식이에요 (낭비 없음).
 2. '[[364_segmentation|세그멘테이션]]'은 스티커 사진을 오려 붙이는 거예요. 내 얼굴 모양, 별 모양대로 예쁘게 오리니까([[369_logic_bomb|논리]]적 분할) 보기엔 정말 좋아요!
 3. 그런데 스티커들을 공책에 막 붙이다 보면, 스티커들 사이에 애매한 빈틈([[342_external_fragmentation|외부 단편화]])이 잔뜩 남아서 나중엔 큰 스티커를 붙일 자리가 없어져 버리는 게 가장 큰 문제랍니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 718 / 800
+
+← **이전**: [[717_hierarchical_paging_multi_level|717. 다단계 페이지 테이블 사이즈 줄이기 (Hierarchical Paging Multi Level)]]
+**다음**: [[719_demand_paging_lazy_loading|719. 요구 페이징 (Demand Paging)]] →
+
+---

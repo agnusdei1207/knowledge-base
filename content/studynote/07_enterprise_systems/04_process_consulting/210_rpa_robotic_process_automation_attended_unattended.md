@@ -141,3 +141,14 @@ RPA (Robotic Process Automation)
 1. RPA는 컴퓨터에서 사람이 하던 반복 숙제를 대신해 주는 로봇 친구예요.
 2. 옆에서 버튼을 눌러 줘야 움직이면 Attended Bot이고, 혼자 밤새 일하면 Unattended Bot이에요.
 3. 하지만 화면이 바뀌면 로봇이 헷갈릴 수 있어서 잘 돌보는 선생님이 필요해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 210 / 482
+
+← **이전**: [[209_it_organization_assessment_3p_people_process_technology|209. IT 조직 진단 3P (People, Process, Platform/Technology)]]
+**다음**: [[211_desktop_analytics_task_mining_rpa_discovery|211. 데스크톱 애널리틱스 (Desktop Analytics) / 작업 마이닝 (Task Mining)]] →
+
+---

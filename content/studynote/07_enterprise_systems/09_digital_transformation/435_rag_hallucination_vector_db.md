@@ -139,3 +139,14 @@ tags:
 1. [[276_fine_tuning|RAG]] [[275_react_framework|환각]] 제어 벡터 DB는 복잡한 일을 순서대로 정리해 주는 큰 정리함이에요.
 2. 어디에 무엇을 넣을지 먼저 정해 두면, 나중에 찾거나 고칠 때 훨씬 쉬워져요.
 3. 그래서 일이 커질수록 먼저 기준을 만들고 같이 약속하는 것이 중요해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 435 / 482
+
+← **이전**: [[434_llm_transformer_attention_mechanism|434. 딥러닝 트랜스포머 LLM 자기회귀 어텐션 메커니즘 (LLM / Transformer)]]
+**다음**: [[436_prompt_engineering_cot_tot|436. 프롬프트 엔지니어링 CoT ToT 퓨샷/제로샷 (Prompt Engineering)]] →
+
+---

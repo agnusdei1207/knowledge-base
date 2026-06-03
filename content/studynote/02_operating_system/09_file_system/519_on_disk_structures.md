@@ -162,3 +162,14 @@ tags:
 1. 텅 빈 새로운 거대 컴퓨터 하드디스크(창고)를 샀어요! 당장 게임 [[501_file_definition_logical_record|파일]]([[001_dikw_pyramid|데이터]])을 넣을 수 없어요. 먼저 창고 안에 반듯하게 선을 긋고(포맷) 중요한 "장부 바구니 4구역" 기초 공사 뼈대 인프라를 지어놔야 하거든요!
 2. 1번 자리는 **[입구 경비실(부트블록)]**, 2번 자리는 **[창고 빈 공간 지도 팻말(슈퍼블록)]**, 3번 자리는 **[물건 이름표 안내([[506_directory_structure_symbol_table|디렉터리]])]**, 4번 자리는 물건의 크기, 주인의 **[비밀 명부 기록표 100만 칸 락백(FCB/아이노드 장부)]** 을 미리 만들어 각인해 영구 보관해 둬야 해요!!
 3. 컴퓨터 전원이 툭 끊겨도 이 4개의 철판 장부는 영원히 날아가지 않아요(On-Disk 구조 장점)! 그래서 내일 컴퓨터를 켜면([[516_mount_mechanism|마운트]]), [[001_operating_system_purpose|운영체제]] 아저씨가 이걸 보고 "아! 빈 공간이 여치고 아이노드가 저기구나!" 0.1초 만에 어제 우주를 무결점으로 부활시켜 살려내는 완벽한 [[501_file_definition_logical_record|파일]] [[571_protection_vs_security|보호]] 기초 공사 체제랍니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 519 / 800
+
+← **이전**: [[518_vfs_objects_superblock_inode_dentry_file|518. VFS 객체 - 슈퍼블록 (Superblock), 아이노드 (inode), 덴트리 (dentry), 파일 객체 (file object)]]
+**다음**: [[520_in_memory_structures|520. 메모리 내의 구조 - 마운트 테이블, 시스템 전체 열린 파일 테이블 (System-wide Open File Table), 프로세스별]] →
+
+---

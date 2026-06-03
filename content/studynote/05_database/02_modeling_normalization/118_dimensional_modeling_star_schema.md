@@ -121,3 +121,14 @@ tags:
 1. [[210_fact_dimension_table_snowflake_schema|팩트 테이블]]은 "가게에서 **무엇이 일어났는지**(매출 3만원)"를 기록하는 일지예요.
 2. 디멘전 테이블은 "**어디서, 언제, 누가** 샀는지"를 설명하는 사전이에요.
 3. [[334_star_schema|스타 스키마]]는 일지와 사전을 **별(Star) 모양으로 연결**해서 빠르게 분석할 수 있게 한 거예요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 118 / 600
+
+← **이전**: [[117_physical_database_design_indexing|117. 물리 데이터베이스 설계 (Physical DB Design) - 인덱스·파티셔닝·스토리지 최적화]]
+**다음**: [[119_fact_table_dimension_table|119. 팩트 테이블과 디멘전 테이블 (Fact & Dimension Table) - DW 스타 스키마 핵심 구성 요소]] →
+
+---

@@ -137,3 +137,14 @@ tags:
 1. **[[252_knowledge_distillation_quantization_edge_slm_diffusion|지식 증류]]**는 박사 교수(큰 [[190_ai_llm_requirements_specification|AI]])가 "고양이는 개와 비슷하고 자동차와는 달라"라는 **세세한 지식**을 작은 학생 AI에게 가르쳐주는 방법이에요!
 2. 단순히 "정답은 고양이야"가 아니라 교수의 **"고양이일 [[130_probability|확률]] 90%, 개일 [[130_probability|확률]] 7%"라는 분포** 전체를 학생이 배우는 거예요.
 3. 덕분에 스마트폰 같은 **작은 기기에도 거대 AI의 지식을 담은** 훨씬 가볍고 빠른 AI를 만들 수 있어요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 311 / 420
+
+← **이전**: [[310_cosine_similarity|310. 코사인 유사도 (Cosine Similarity)]]
+**다음**: [[312_quantization|312. 모델 양자화 (Quantization)]] →
+
+---

@@ -202,3 +202,14 @@ Crypto-Agility 기반의 장기 운영 체계
 1. 누군가 지금은 못 열어도 나중에 더 강한 도구로 열 수 있는 자물쇠라면, 미리 더 튼튼한 자물쇠로 바꿔야 해요.
 2. 그런데 집의 모든 문을 한꺼번에 바꾸면 혼란스러우니, 옛 자물쇠와 새 자물쇠를 함께 쓰는 시간이 필요해요.
 3. 그래서 PQC는 "새 자물쇠 하나"가 아니라, 집 전체 열쇠 체계를 천천히 바꾸는 계획이에요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 183 / 258
+
+← **이전**: [[182_blockchain_smart_contract_data_integrity|182. 블록체인/스마트 컨트랙트 (Blockchain/Smart Contract) 데이터 무결 증빙과 Non-Fungible Token]]
+**다음**: [[184_differential_privacy_noise_statistical_defense|184. 차분 프라이버시 노이즈 통계 방어 (Differential Privacy Noise Statistical Defense)]] →
+
+---

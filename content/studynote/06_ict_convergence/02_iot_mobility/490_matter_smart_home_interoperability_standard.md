@@ -136,3 +136,14 @@ Matter는 스마트홈 생태계의 표준화 이정표다. 제조사는 단일 
 1. [[612_matter_csa_smart_home_standard|Matter]] 이전엔 삼성 기기와 애플 기기가 서로 다른 언어라 대화를 못 했어요.
 2. Matter가 생기면서 모든 스마트홈 기기가 공통 언어를 배워 어떤 앱으로도 제어할 수 있게 됐어요.
 3. 기기 [[303_authentication_authorization_patterns|인증]]서(DAC)는 기기의 여권이에요. 가짜 기기는 여권이 없어서 네트워크에 들어올 수 없어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 490 / 552
+
+← **이전**: [[489_mqtt_coap_iot_protocols_pubsub_rest|489. MQTT Pub/Sub와 CoAP REST 경량 프로토콜 (MQTT CoAP IoT Lightweight Protocols)]]
+**다음**: [[491_digital_twin_sync_simulation|491. 디지털 트윈 동기화와 시뮬레이션 (Digital Twin Synchronization and Simulation)]] →
+
+---

@@ -197,3 +197,14 @@ CPU가 `I(Invalid)` [[073_bit|비트]]를 밟는 순간 터지는 이 거대한 
 1. [[255_demand_paging|요구 페이징]] ([[255_demand_paging|Demand Paging]])은 컴퓨터가 메모리를 더 크게 보이게 하고 부족함을 숨기는 방법이에요.
 2. 먼저 [[382_virtual_address_space|가상 주소 공간]] ([[382_virtual_address_space|Virtual Address Space]])을 이해하면 [[255_demand_paging|요구 페이징]] ([[255_demand_paging|Demand Paging]])이 왜 필요한지 더 쉽게 보여요.
 3. 그래서 [[255_demand_paging|요구 페이징]] ([[255_demand_paging|Demand Paging]])을 잘 알면 나중에 [[384_pure_demand_paging|순수 요구 페이징]] ([[384_pure_demand_paging|Pure Demand Paging]])도 훨씬 쉽게 배울 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 383 / 800
+
+← **이전**: [[382_virtual_address_space|382. 가상 주소 공간 (Virtual Address Space)]]
+**다음**: [[384_pure_demand_paging|384. 순수 요구 페이징 (Pure Demand Paging) - 시작할 때 아무것도 안 올림]] →
+
+---

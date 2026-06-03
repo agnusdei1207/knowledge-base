@@ -164,3 +164,14 @@ scores = cross_val_score(model, X, y, cv=tss, scoring='rmse')
 1. k-Fold는 5교시 수업에서 매 시간 다른 학생이 선생님 역할을 맡는 것이에요!
 2. 시계열 [[001_dikw_pyramid|데이터]]는 반드시 시간 순서를 지켜야 해요 — 미래 정보로 과거를 예측하면 안되니까요!
 3. [[190_ai_llm_requirements_specification|AI]] 시스템이 수천 번 [[250_cross_validation_kfold|교차 검증]]을 자동으로 수행해서 최적 모델을 찾아주는 AutoML도 있어요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 31 / 420
+
+← **이전**: [[030_validation_set|30. 검증 세트 — 하이퍼파라미터 튜닝의 심판]]
+**다음**: [[032_decision_tree|의사결정 트리 (Decision Tree)]] →
+
+---

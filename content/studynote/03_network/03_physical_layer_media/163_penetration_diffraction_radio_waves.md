@@ -151,3 +151,14 @@ tags:
 1. 전파는 벽을 만나면 어떤 건 통과하고, 어떤 건 모서리를 돌아서 가요.
 2. 낮은 주파수 전파는 덩치가 커서 멀리 돌고 집 안에도 비교적 잘 들어와요.
 3. 높은 주파수 전파는 아주 빠른 대신 벽에 더 약해서 가까이서 촘촘히 도와줘야 해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 284 / 1120
+
+← **이전**: [[162_los_line_of_sight_communication|162. 직선 가시거리 통신 (LOS, Line-of-Sight)]]
+**다음**: [[164_scattering_reflection_radio_waves|164. 산란 (Scattering) / 반사 (Reflection)]] →
+
+---

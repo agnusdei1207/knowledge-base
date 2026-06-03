@@ -152,3 +152,14 @@ DP-SGD를 적용하면 민감 [[001_dikw_pyramid|데이터]] 학습에서 "모�
 1. 누가 그림을 그렸는지 자국으로 들키지 않게, 연필 자국을 살짝 흐리게 만드는 방법이에요.
 2. DP-SGD는 한 사람이 너무 진하게 그리지 못하게 하고, 살짝 잡음도 섞어요.
 3. 그래서 전체 그림은 볼 수 있지만, 특정 사람의 비밀은 알아내기 더 어려워져요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 416 / 420
+
+← **이전**: [[415_instance_normalization_group_normalization|415. 인스턴스 정규화 vs 그룹 정규화 (Instance Normalization vs Group Normalization)]]
+**다음**: [[417_bm25_document_length_normalization|417. BM25 정보 검색 모델 (Best Matching 25)]] →
+
+---

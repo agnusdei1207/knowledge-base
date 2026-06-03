@@ -132,3 +132,14 @@ NGT / 브레인라이팅
 브레인스토밍은 머릿속 생각을 많이 꺼내 보는 놀이예요.  
 처음엔 틀려 보여도 괜찮고, 나중에 같이 고치면 돼요.  
 그래서 좋은 생각을 더 많이 찾을 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 60 / 973
+
+← **이전**: [[059_pmo_project_management_office|59. PMO (Project Management Office) - 전사 프로젝트 관리 조직]]
+**다음**: [[061_agile_manifesto|61. 애자일 선언문 (Agile Manifesto) - 4가지 가치, 12가지 원칙]] →
+
+---

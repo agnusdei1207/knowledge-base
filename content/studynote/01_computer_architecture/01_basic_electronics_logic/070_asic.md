@@ -130,3 +130,14 @@ Specialized Hardware
 딱 하나의 일을 잘하게 만들어요.  
 수정은 어렵지만 아주 빨라요.  
 ASIC은 그런 특별한 칩이에요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 70 / 803
+
+← **이전**: [[069_fpga|69. FPGA (Field Programmable Gate Array)]]
+**다음**: [[071_cpld|71. CPLD]] →
+
+---

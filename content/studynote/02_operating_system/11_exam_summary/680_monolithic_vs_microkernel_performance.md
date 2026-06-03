@@ -204,3 +204,14 @@ tags:
 1. '[[023_monolithic_kernel|모놀리식 커널]]'은 엄청나게 큰 텐트 안에 주방, 화장실, 침실이 벽 없이 다 모여있는 캠핑장이에요. 물건을 주고받긴 엄청 편하고 빠르지만, 요리하다 불이 나면 텐트 전체가 다 타버려요.
 2. '[[598_microkernel_plugin_architecture|마이크로 커널]]'은 주방, 화장실, 침실을 각각 따로 떨어진 작은 텐트로 지은 거예요. 밥을 먹으려면 밖으로 나가서([[117_ipc|IPC]]) 다른 텐트로 가야 해서 귀찮고 느려요.
 3. 하지만 주방 텐트에 불이 나도 다른 텐트는 끄떡없기 때문에, 우주선이나 자동차처럼 "절대 죽으면 안 되는 곳"에서는 불편하더라도 무조건 따로 떨어뜨려 놓는 [[598_microkernel_plugin_architecture|마이크로 커널]] 방식을 쓴답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 680 / 800
+
+← **이전**: [[679_system_call_api_wrapper|679. 시스템 콜 API 래퍼 (System Call API Wrapper)]]
+**다음**: [[681_ipc_performance_overhead|681. IPC 기법 성능 오버헤드 (IPC Performance Overhead)]] →
+
+---

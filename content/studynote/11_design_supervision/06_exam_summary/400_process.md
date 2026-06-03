@@ -111,3 +111,14 @@ tags:
 1. [[277_interpreter_pattern|해석자]] 패턴 ([[277_interpreter_pattern|Interpreter Pattern]])은 암호문 규칙표를 보고 한 글자씩 뜻을 바꿔 읽는 것처럼 약속을 먼저 정하는 거예요.
 2. 그러면 서로 다른 사람이 해도 같은 규칙으로 움직일 수 있어요.
 3. 그래서 규모가 커질수록 문법 규칙과 해석 규칙을 구조화하는 일이 더 중요해져요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 478 / 530
+
+← **이전**: [[399_architecture|399. 방문자 패턴 (Visitor Pattern)]]
+**다음**: [[401_process|401. 데이터 전송 객체 (Data Transfer Object, DTO)]] →
+
+---

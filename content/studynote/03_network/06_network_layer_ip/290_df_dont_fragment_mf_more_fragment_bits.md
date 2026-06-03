@@ -147,3 +147,14 @@ DF [[073_bit|비트]] / MF [[073_bit|비트]]는 [[289_identification_flags_frag
 1. 택배를 보내려면 집 주소가 정확해야 길을 잃지 않아요.
 2. 이 개념은 인터넷 세상에서 주소를 정하고 다음 길을 찾는 지도와 같아요.
 3. 그래서 멀리 있는 친구 컴퓨터까지도 편지가 도착할 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 411 / 1120
+
+← **이전**: [[289_identification_flags_fragmentation_offset|289. 식별자 (Identification), 플래그 (Flags), 단편화 오프셋 (Fragmentation Offset)]]
+**다음**: [[291_fragmentation_and_reassembly_process|291. 단편화 (Fragmentation) 및 재조립 (Reassembly)]] →
+
+---

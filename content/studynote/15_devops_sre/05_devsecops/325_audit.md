@@ -128,3 +128,14 @@ DevSecOps의 본질은 **"보안은 팀 전체의 책임"** 이라는 문화 전
 1. Shift-Left는 숙제 제출 전날 밤에 몰아서 [[396_validation|확인]]하는 게 아니라, 매일 조금씩 검토하는 거예요.
 2. STRIDE는 "누가 내 방에 들어올 수 있을까?"를 미리 생각해서 모든 잠금장치를 [[396_validation|확인]]하는 거예요.
 3. DevSecOps는 보안 선생님이 따로 검사하는 게 아니라, 모든 친구가 서로 [[396_validation|확인]]해주는 팀 활동이에요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 325 / 373
+
+← **이전**: [[324_audit|Chaos Engineering]]
+**다음**: [[326_sast_dast_iast|326. SAST DAST IAST 보안 테스트 비교 CI 파이프라인 배치 (SAST DAST IAST Security Testing]] →
+
+---

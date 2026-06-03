@@ -111,3 +111,14 @@ tags:
 1. [[263_facade_pattern_simplified_interface|퍼사드]] 패턴 ([[156_facade_pattern|Facade Pattern]])은 복잡한 놀이공원에서 안내 데스크가 표와 길을 한 번에 알려 주는 것처럼 약속을 먼저 정하는 거예요.
 2. 그러면 서로 다른 사람이 해도 같은 규칙으로 움직일 수 있어요.
 3. 그래서 규모가 커질수록 복잡한 사용 절차를 단순한 창구로 제공하는 일이 더 중요해져요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 465 / 530
+
+← **이전**: [[386_decorator_pattern_summary|386. 데코레이터 패턴 (Decorator Pattern)]]
+**다음**: [[388_flyweight_pattern_summary|388. 플라이웨이트 패턴 (Flyweight Pattern)]] →
+
+---

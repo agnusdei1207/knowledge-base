@@ -118,3 +118,14 @@ Kafka + Debezium + Flink 실시간 스트리밍 파이프라인
 1. 장난감 가게에 새 장난감이 들어올 때까지 기다리는 건 너무 지루해요.
 2. 그래서 장난감이 상자에 담기자마자 나에게 바로 알려주는 마법 벨을 달았어요.
 3. 벨이 울리자마자 달려가면 누구보다 먼저 새 장난감을 가지고 놀 수 있답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 300 / 482
+
+← **이전**: [[299_spark_rdd_resilient_distributed_dataset|299. 스파크 RDD (Resilient Distributed Dataset)]]
+**다음**: [[301_kafka_topic_partition_consumer_group|301. 카프카 토픽 파티셔닝 기반 컨슈머 그룹 부하 분산 (Kafka Topic Partition Consumer Group)]] →
+
+---

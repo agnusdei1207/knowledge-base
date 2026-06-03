@@ -136,3 +136,14 @@ tags:
 1. 클라우드 이사에는 6가지 방법이 있어요 — 가구를 그대로 들고 가거나, 새로 사거나, 아예 안 가거나.
 2. Refactor는 새 방에 맞게 집 전체를 새로 꾸미는 것 — 가장 좋지만 시간과 돈이 많이 들어요.
 3. Rehost는 짐을 그냥 옮기는 것 — 빠르지만 새 집의 좋은 기능(클라우드 혜택)을 아직 못 쓰는 거예요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 539 / 552
+
+← **이전**: [[538_adversarial_examples_differential_privacy|538. 적대적 예제와 차분 프라이버시 방어 (Adversarial Examples and Differential Privacy Defense)]]
+**다음**: [[540_sddc_hci_software_defined_appliance|540. SDDC와 HCI 소프트웨어 정의 데이터센터 (SDDC HCI Software-Defined Datacenter)]] →
+
+---

@@ -202,3 +202,14 @@ tags:
 1. [[259_paging|페이징]]의 [[307_memory_protection|메모리 보호]]은 컴퓨터가 메모리를 방처럼 나눠 쓰고 주소를 찾는 방법이에요.
 2. 먼저 [[354_ptbr_ptlr|PTBR]] ([[354_ptbr_ptlr|Page-Table Base Register]]) / PTLR ([[286_page_frame|Page]]-Table Length [[175_register_addressing|Register]])을 이해하면 [[259_paging|페이징]]의 [[307_memory_protection|메모리 보호]]이 왜 필요한지 더 쉽게 보여요.
 3. 그래서 [[259_paging|페이징]]의 [[307_memory_protection|메모리 보호]]을 잘 알면 나중에 [[356_shared_pages|페이징에서의 공유 페이지]] ([[356_shared_pages|Shared Pages]])도 훨씬 쉽게 배울 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 355 / 800
+
+← **이전**: [[354_ptbr_ptlr|354. PTBR (Page-Table Base Register) / PTLR (Page-Table Length Register)]]
+**다음**: [[356_shared_pages|356. 페이징에서의 공유 페이지 (Shared Pages) - 읽기 전용 코드(Reentrant code) 공유]] →
+
+---

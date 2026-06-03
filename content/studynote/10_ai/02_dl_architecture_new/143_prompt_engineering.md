@@ -54,3 +54,14 @@ CoT: "단계별로 생각해 봐" → 추론 과정 명시
 1. [[149_prompt_engineering_cot_few_shot|프롬프트 엔지니어링]]은 **AI에게 잘 질문**하는 거예요.
 2. "단계별로 생각해 봐([[146_chain_of_thought_cot|CoT]])"라고 하면 **더 정확한 답**을 줘요.
 3. **좋은 질문 = 좋은 답** — 질문하는 기술이 중요해요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 143 / 420
+
+← **이전**: [[142_concept|142. LLM 스케일링 법칙 & Emergence - 규모의 법칙과 창발]]
+**다음**: [[144_concept|144. RAG (Retrieval-Augmented Generation) - 검색 증강 생성]] →
+
+---

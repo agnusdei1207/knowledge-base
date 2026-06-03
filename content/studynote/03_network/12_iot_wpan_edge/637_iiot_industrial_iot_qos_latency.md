@@ -133,3 +133,14 @@ IIoT 트래픽 관리 한계/[[388_qos_quality_of_service_best_effort_intserv_di
 1. 작은 로봇 친구들이 배터리를 아껴가며 서로 메시지를 주고받는 장난감 마을과 같아요.
 2. 이 개념은 누가 가까운지, 누가 대신 알려줄지, 무엇을 현장에서 바로 처리할지를 정해줘요.
 3. 그래서 작은 기기들도 오래 버티면서 똑똑하게 협력할 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 758 / 1120
+
+← **이전**: [[636_wot_web_of_things_w3c_thing_description|636. W3C WoT (Web of Things)]]
+**다음**: [[638_smart_city_sensing_system_heterogeneous|638. 스마트 시티 (Smart City 통신망 다중화 연계) 센싱 시스템]] →
+
+---

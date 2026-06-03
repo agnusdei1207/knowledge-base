@@ -247,3 +247,14 @@ Flink SQL · Table API → 통합 배치/스트리밍
 ```
 2. [[085_watermark|워터마크]]는 "이 날짜 전 편지는 다 도착했겠지"라고 판단하는 기준이야 — 그래야 늦게 도착하는 편지를 하염없이 기다리지 않아도 되거든.
 3. 텀블링 윈도우는 '10분마다 정리하는 서랍', [[160_session_controlling_terminal|세션]] 윈도우는 '손님이 없으면 문 닫는 가게' — 어떻게 묶어서 볼지 결정하는 방법이야.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 215 / 258
+
+← **이전**: [[214_kafka_pubsub_topic_partition_offset_broker|214. 아파치 카프카 (Apache Kafka) Pub-Sub 토픽 파티션 오프셋 브로커]]
+**다음**: [[216_lambda_kappa_architecture_batch_realtime|216. 람다 (Lambda) vs 카파 (Kappa) 아키텍처 배치·실시간]] →
+
+---

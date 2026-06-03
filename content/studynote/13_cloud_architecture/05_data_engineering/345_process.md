@@ -113,3 +113,14 @@ tags:
 1. 에어플로우 [[401_bayesian_network_dag_causality|DAG]] 파이프라인 배치 종속 [[208_schedule_history_transaction_execution_order|스케줄]]는 사람이 많은 운동회에서 어디로 가야 하는지 알려 주는 안내판과 비슷해요.
 2. 규칙이 없으면 모두가 한곳에 몰려서 느려지고 다투지만, 길을 정해 두면 훨씬 부드럽게 움직일 수 있어요.
 3. 그래서 컴퓨터 세상에서도 에어플로우 [[401_bayesian_network_dag_causality|DAG]] 파이프라인 배치 종속 [[208_schedule_history_transaction_execution_order|스케줄]]를 쓰면 많은 팀과 [[090_service_kubernetes_network_load_balancing|서비스]]가 덜 부딪히고 더 빨리 움직일 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 344 / 371
+
+← **이전**: [[344_audit|344. 데이터 리니지 정보 흐름 규제 감사 추적 매핑 (Cloud Architecture Concept)]]
+**다음**: [[346_process|346. 마이크로 프론트엔드 UI 독립 배포 조직 모듈화 (Micro Frontend)]] →
+
+---

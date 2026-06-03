@@ -162,3 +162,14 @@ Precision Boost 2 · PBO · Eco Mode
 1. [[233_precision_recall_f1_roc_auc_threshold|Precision]] Boost는 컴퓨터가 자기 몸 상태를 계속 살피면서, 괜찮으면 조금 더 빨리 뛰는 기능이에요.
 2. 너무 뜨거워지거나 힘을 많이 쓰면 바로 살짝 속도를 낮춰서 안전하게 계속 달려요.
 3. 그래서 사람이 일일이 조절하지 않아도, 컴퓨터가 스스로 가장 좋은 속도를 찾으려고 노력한답니다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 732 / 803
+
+← **이전**: [[730_turbo_boost|730. 인텔 터보부스트 (Turbo Boost)]]
+**다음**: [[732_smartshift_dynamic_power|732. 스마트 시프트 (SmartShift)]] →
+
+---

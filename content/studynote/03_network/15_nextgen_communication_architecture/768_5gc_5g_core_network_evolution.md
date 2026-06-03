@@ -138,3 +138,14 @@ tags:
 1. 큰 장난감 도시를 여러 구역으로 나누고 필요한 규칙만 골라 쓰는 것과 같아요.
 2. 이 개념은 빠른 길, 안전한 길, 많은 사람이 쓰는 길을 각각 다르게 꾸미게 해줘요.
 3. 그래서 미래 통신망이 더 똑똑하고 유연해져요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 889 / 1120
+
+← **이전**: [[767_sa_standalone_5g_core_network|767. SA (Standalone 코어까지 5G Core(5GC) 풀 전환 클라우드 네이티브 슬라이싱 전체 통제 네트워크 지연 해결]]
+**다음**: [[769_sba_service_based_architecture_5g|769. SBA (Service Based Architecture 네트워크 기능 요소가 컨테이너/마이크로 서비스 RESTful API]] →
+
+---

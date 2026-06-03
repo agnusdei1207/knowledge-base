@@ -87,3 +87,14 @@ Apache Flume은 Source-Channel-Sink 아키텍처로 [[136_variance|분산]]된 [
 - 수많은 집에서 나오는 쓰레기를 청소차가 수거해서 커다란 쓰레기 처리장([[843_hadoop_rack_awareness_data_replication_topology|하둡]])으로 옮기는 것과 같아.
 - 플룸은 각 집 앞에 서 있는 '똑똑한 쓰레기통'인데, 쓰레기가 가득 차면 트럭에 실어서 안전하게 보내줘.
 - 쓰레기가 처리장에 잘 도착했는지 끝까지 [[396_validation|확인]]하니까, 중간에 쓰레기를 잃어버릴 걱정이 없단다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 40 / 262
+
+← **이전**: [[039_apache_sqoop|17. 아파치 스쿱 (Apache Sqoop) - RDBMS ↔ 하둡 데이터 전송]]
+**다음**: [[041_apache_ambari_management|아파치 암바리 (Apache Ambari)]] →
+
+---

@@ -135,3 +135,14 @@ NASA가 우주선 건강 모니터링을 위해 물리 시스템의 디지털 [[
 1. [[126_digital_twin_concept|디지털 트윈]]은 레고로 만든 나의 분신이에요. 실제 내가 다치기 전에 레고 분신으로 먼저 실험해볼 수 있어요.
 2. 공장 기계에 [[126_digital_twin_concept|디지털 트윈]]을 붙이면 기계가 아프기 전에 미리 고칠 수 있어요 — 사람으로 치면 건강검진이에요.
 3. 디지털 쓰레드는 태어나서 지금까지의 성장 앨범이에요. 기계가 처음 만들어진 순간부터 지금까지의 모든 기록이 담겨 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 491 / 552
+
+← **이전**: [[490_matter_smart_home_interoperability_standard|490. Matter 스마트홈 상호 운용성 표준 (Matter Smart Home Interoperability Standard)]]
+**다음**: [[492_metaverse_xr_slam_spatial_mapping|492. 메타버스, XR, SLAM 공간 인식 (Metaverse, XR, SLAM Spatial Mapping)]] →
+
+---

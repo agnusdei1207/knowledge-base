@@ -142,3 +142,14 @@ tags:
 1. 자전거 바퀴 하나에 문제가 생겨도 잠깐 버티게 만들면 [[296_fault_tolerance_architecture|결함 허용]]이에요.
 2. 위험하면 더 세게 달리지 않고 안전하게 멈추게 하는 건 페일세이프예요.
 3. 앞선 선수가 다치면 바로 다른 선수가 들어와 경기를 이어 가는 건 페일오버와 비슷해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 502 / 530
+
+← **이전**: [[423_architecture|423. 모킹 프레임워크 기반 격리 테스트 (Mocking Framework Isolation Testing)]]
+**다음**: [[425_architecture|425. 아키텍처의 개념적 무결성 (Conceptual Integrity)]] →
+
+---

@@ -159,3 +159,14 @@ FinOps and ROI optimization
 1. TCO는 물건을 살 때 처음 값만 보지 않고 끝까지 드는 돈을 다 세어 보는 거예요.
 2. 컴퓨터를 옮길 때도 전기값, 관리비, 고장비까지 같이 봐야 해요.
 3. 그래서 겉으로 싸 보이는 선택이 정말 싼지 제대로 알 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 225 / 482
+
+← **이전**: [[224_vsm_value_stream_mapping|224. 가치 흐름 매핑 (Value Stream Mapping)]]
+**다음**: [[226_finops_cloud_financial_management|226. FinOps (Cloud Financial Management)]] →
+
+---

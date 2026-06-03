@@ -55,3 +55,14 @@ OpenTelemetry는 **Observability의 [[190_cncf_landscape_observability|CNCF]] �
 1. OTel은 **만국 공통 단위(미터법)**예요. 어디서든 **같은 방식**으로 측정해요.
 2. 예전에는 나라마다(도구마다) 단위가 달라서 **비교가 어려웠어요**.
 3. OTel 하나면 **[[342_routing_metric_hop_bandwidth_delay|메트릭]]·[[568_logs_distributed_logging_elk_fluentd|로그]]·트레이스**를 모두 같은 방식으로 수집해요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 146 / 373
+
+← **이전**: [[145_jaeger_zipkin_distributed_tracing_backend|145. Jaeger & Zipkin - 분산 트레이싱 백엔드 비교]]
+**다음**: [[147_ebpf_kernel_observability_cilium|147. eBPF (Extended Berkeley Packet Filter) - 커널 레벨 샌드박스 관측 기술]] →
+
+---

@@ -125,3 +125,14 @@ TaaS (Tokenization-as-a-Service)를 제대로 이해하면 개념 하나를 외�
 1. TaaS (Tokenization-as-a-Service)는 내 이름표와 비밀 상자를 어떻게 안전하게 다룰지 정하는 약속이에요.
 2. 작은 조각 정보도 모이면 내가 누구인지 알 수 있어요.
 3. 그래서 꼭 필요한 것만 모으고, 다 쓰면 빨리 치워야 해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 895 / 1108
+
+← **이전**: [[820_tokenization|820. 토큰화 (Tokenization)]]
+**다음**: [[822_fpe|822. FPE (Format Preserving Encryption)]] →
+
+---

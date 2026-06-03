@@ -159,3 +159,14 @@ RBAC는 단순하고 관리가 쉽지만, 세밀한 조건 처리가 약할 수 
 1. [[509_authorization_models_rbac_abac|인가]] ([[509_authorization_models_rbac_abac|Authorization]]) 모델은 레고 블록으로 성을 만들 때처럼, 규칙을 정하고 역할을 나누어 함께 작업하는 방법이에요.
 2. 혼자서 막 만들면 나중에 무너지거나 고치기 어렵지만, 약속을 지키면 누구나 쉽게 고치고 더 크게 만들 수 있어요.
 3. 그래서 [[001_software_engineering_definition|소프트웨어 공학]]은 프로그래머들이 좋은 프로그램을 빠르고 안전하게 만들 수 있게 도와주는 '규칙 모음집'이에요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 609 / 973
+
+← **이전**: [[508_authentication_trends_mfa_fido|508. 인증 (Authentication) 트렌드 - MFA, FIDO, WebAuthn, 패스워드리스(Passwordless)]]
+**다음**: [[509_authorization_models_rbac_abac|509. 인가 (Authorization) 모델 - RBAC(역할 기반), ABAC(속성 기반, 조건부 규칙)]] →
+
+---

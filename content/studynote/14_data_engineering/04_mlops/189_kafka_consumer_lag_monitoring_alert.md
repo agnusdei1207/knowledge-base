@@ -397,3 +397,14 @@ Consumer Lag = Latest Offset - Consumer Offset
 ```
 2. **[[089_consumer_lag|Consumer Lag]] 모니터링**은 마치 음식점에서 주문 대기열 번호판을 관리자 핸드폰으로 실시간 전송하는 것처럼, [[179_kafka_flink_watermark_time_window|카프카]]의 처리 지연을 자동으로 감지해서 경보를 보내는 시스템이에요.
 3. **컨슈머 수 ≤ [[514_partition_slice_volume|파티션]] 수** 원칙은 마치 계산대가 4개인 마트에 직원이 10명이어도 4명만 계산대에 설 수 있는 것처럼, [[514_partition_slice_volume|파티션]] 수보다 컨슈머를 더 많이 늘려도 추가 컨슈머는 아무 일도 못 하는 낭비가 된다는 뜻이에요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 189 / 258
+
+← **이전**: [[188_oom_memory_protection_gc_spark_spill|188. OOM (Out of Memory) 메모리 보호 GC (Garbage Collection) 스파크 스왑 방어]]
+**다음**: [[190_split_brain_zookeeper_fencing_quorum|190. 스플릿 브레인 (Split Brain) 방어 주키퍼 (ZooKeeper) 펜싱 합의 코디 연계망]] →
+
+---

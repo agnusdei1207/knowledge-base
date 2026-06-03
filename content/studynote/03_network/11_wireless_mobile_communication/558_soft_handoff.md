@@ -148,3 +148,14 @@ tags:
 1. 원숭이가 나무줄기를 타고 이동할 때, 예전([[557_hard_handover_break_before_make_lte|하드 핸드오버]])에는 잡고 있던 줄기를 휙! 놓고 허공을 날아서 다음 줄기를 잡았어요. 엄청 무섭고 가끔 땅에 떨어지기도 했죠.
 2. 소프트 [[556_handover_handoff_types_concept|핸드오버]]는 원숭이가 오른손으로 다음 나무줄기를 꽉! 잡은 걸 [[396_validation|확인]]하고 나서야, 왼손에 쥐고 있던 예전 줄기를 스르륵 놓는 아주 안전한 방법이에요.
 3. 덕분에 달리는 기차 안에서 전화를 해도 목소리가 단 0.1초도 끊어지지 않고 부드럽게 이어질 수 있었답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 679 / 1120
+
+← **이전**: [[557_hard_handover_break_before_make_lte|557. 하드 핸드오버 (Hard Handoff)]]
+**다음**: [[559_call_admission_control|559. 호 수락 제어 (CAC, Call Admission Control)]] →
+
+---

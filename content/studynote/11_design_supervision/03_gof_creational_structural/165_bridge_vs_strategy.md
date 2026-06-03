@@ -160,3 +160,14 @@ tags:
 1. [[260_bridge_pattern_abstraction_implementation|브리지]]는 장난감 자동차 몸체와 바퀴를 따로 만들어서, 몸체 종류와 바퀴 종류를 마음대로 섞을 수 있게 하는 거예요.
 2. [[268_strategy_pattern|전략]]은 같은 자동차에 오늘은 빠른 바퀴, 내일은 미끄럼 방지 바퀴를 끼워서 달리는 방법을 바꾸는 거예요.
 3. 그래서 [[260_bridge_pattern_abstraction_implementation|브리지]]는 "부품 세계를 나누는 방법"이고, [[268_strategy_pattern|전략]]은 "행동 방법을 바꾸는 방법"이라고 생각하면 쉬워요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 221 / 530
+
+← **이전**: [[164_adapter_vs_facade|164. 어댑터 vs 퍼사드 (Adapter vs Facade)]]
+**다음**: [[166_decorator_vs_proxy|166. 데코레이터 vs 프록시 (Decorator vs Proxy)]] →
+
+---

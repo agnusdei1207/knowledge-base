@@ -161,3 +161,14 @@ Continuous flow improvement
 1. VSM은 일이 어디까지 왔는지와 어디서 멈췄는지 그려 보는 지도예요.
 2. 실제로 일하는 시간보다 기다리는 시간이 길면 빨리 끝나지 않아요.
 3. 그래서 멈추는 곳을 줄이면 같은 사람으로도 더 빨리 해낼 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 224 / 482
+
+← **이전**: [[223_dora_metrics_agile|223. DORA 메트릭스 (DORA Metrics)]]
+**다음**: [[225_tco_analysis_cloud_migration|225. TCO 분석 (Total Cost of Ownership Analysis)]] →
+
+---

@@ -130,3 +130,14 @@ CDN 캐싱 도입
 1. 자주 읽는 책을 집 근처 작은 도서관에 두면 멀리 큰 도서관까지 가지 않아도 돼요.
 2. 하지만 책이 바뀌었으면 작은 도서관 책도 같이 바꿔 줘야 해요.
 3. 그래서 엣지 [[456_caching|캐싱]]은 가까이 두어 빠르게 주되, 오래된 것을 빨리 갈아끼우는 일이 중요해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 515 / 530
+
+← **이전**: [[436_management|436. 클라우드 랜딩 존 하이브리드 거버넌스 (Cloud Landing Zone Hybrid Governance)]]
+**다음**: [[438_architecture|438. PWA 오프라인 우선 서비스 워커 설계 (Progressive Web App Offline-First Service Worker]] →
+
+---

@@ -122,3 +122,14 @@ Deployment가 복제 및 롤링 업데이트
 1. Pod는 같은 집에 사는 가족처럼 주소를 같이 쓰는 상자예요.
 2. 방은 여러 개일 수 있지만 우편함은 하나예요.
 3. 그래서 같이 움직여야 하는 친구들만 한 집에 살아요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 84 / 371
+
+← **이전**: [[084_container_runtime_containerd_runc_cri|84. 컨테이너 런타임 (Container Runtime) - 파드 구동의 심장 containerd]]
+**다음**: [[086_replicaset_kubernetes_controller_self_healing|86. 레플리카셋 (ReplicaSet) - 파드 수 유지와 자가 치유]] →
+
+---

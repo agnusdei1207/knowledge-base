@@ -139,3 +139,14 @@ tags:
 1. [[890_sbom_cyclonedx_spdx|SBOM]] [[191_oss_license_compliance|오픈소스]] [[520_supply_chain_attack_and_ci_cd_security|공급망]] [[395_verification_process_review|검증]]는 복잡한 일을 순서대로 정리해 주는 큰 정리함이에요.
 2. 어디에 무엇을 넣을지 먼저 정해 두면, 나중에 찾거나 고칠 때 훨씬 쉬워져요.
 3. 그래서 일이 커질수록 먼저 기준을 만들고 같이 약속하는 것이 중요해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 452 / 482
+
+← **이전**: [[451_secure_coding_sast_dast|451. 시큐어 코딩 SAST DAST 정적/동적 분석 체계 (Secure Coding, SAST, DAST)]]
+**다음**: [[453_xdr_extended_detection_response|453. XDR 통합 탐지 대응 (XDR, Extended Detection and Response)]] →
+
+---

@@ -182,3 +182,14 @@ EAT 수식의 뒷부분을 담당하던 `Page Fault Time(디스크 속도)`이 �
 1. [[387_page_fault|페이지 부재]]율 ([[387_page_fault|Page Fault]] Rate) 와 실질 접근 시간 (EAT) [[282_performance_tactics|성능]] 관계은 컴퓨터가 메모리를 더 크게 보이게 하고 부족함을 숨기는 방법이에요.
 2. 먼저 [[387_page_fault|페이지 부재]] 처리 과정 6단계 (OS [[677_trap_based_system_call_implementation|트랩]], [[057_register|레지스터]] 저장, 디스크 읽기, 문맥교환 등)을 이해하면 [[387_page_fault|페이지 부재]]율 ([[387_page_fault|Page Fault]] Rate) 와 실질 접근 시간 (EAT) [[282_performance_tactics|성능]] 관계이 왜 필요한지 더 쉽게 보여요.
 3. 그래서 [[387_page_fault|페이지 부재]]율 ([[387_page_fault|Page Fault]] Rate) 와 실질 접근 시간 (EAT) [[282_performance_tactics|성능]] 관계을 잘 알면 나중에 [[390_swap_space|스왑 공간]] ([[390_swap_space|Swap Space]]) / 베이킹 스토어 (Backing Store)도 훨씬 쉽게 배울 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 389 / 800
+
+← **이전**: [[388_page_fault_handling_6_steps|388. 페이지 부재 처리 과정 6단계 (OS 트랩, 레지스터 저장, 디스크 읽기, 문맥교환 등)]]
+**다음**: [[390_swap_space|390. 스왑 공간 (Swap Space) / 베이킹 스토어 (Backing Store)]] →
+
+---

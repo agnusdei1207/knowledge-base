@@ -143,3 +143,14 @@ DR, BDR는 [[357_ospf_open_shortest_path_first_overview|OSPF]] Area 계층적 �
 1. 여러 갈림길이 있는 미로에서 가장 좋은 길을 고르는 게임과 같아요.
 2. 이 개념은 길이 막히면 다른 길로 빨리 바꾸는 규칙도 알려줘요.
 3. 그래서 인터넷 길찾기가 덜 헤매고 더 똑똑해져요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 481 / 1120
+
+← **이전**: [[359_ospf_hierarchical_area_structure_abr_asbr|359. OSPF Area 계층적 구조]]
+**다음**: [[361_ospf_traffic_engineering_te|361. OSPF 트래픽엔지니어링(TE) 연동]] →
+
+---

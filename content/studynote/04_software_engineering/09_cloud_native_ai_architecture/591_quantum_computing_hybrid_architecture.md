@@ -165,3 +165,14 @@ tags:
 1. [[236_quantum_computing_pqc|양자 컴퓨팅]] ([[236_quantum_computing_pqc|Quantum Computing]]) [[001_algorithm_definition|알고리즘]] (쇼어 [[001_algorithm_definition|알고리즘]] 등)에 대비한 하이브리드 아키텍처 연구은 레고 블록으로 성을 만들 때처럼, 규칙을 정하고 역할을 나누어 함께 작업하는 방법이에요.
 2. 혼자서 막 만들면 나중에 무너지거나 고치기 어렵지만, 약속을 지키면 누구나 쉽게 고치고 더 크게 만들 수 있어요.
 3. 그래서 [[001_software_engineering_definition|소프트웨어 공학]]은 프로그래머들이 좋은 프로그램을 빠르고 안전하게 만들 수 있게 도와주는 '규칙 모음집'이에요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 757 / 973
+
+← **이전**: [[590_edge_ai_model_compression_architecture|590. 엣지 AI (Edge AI) / 온디바이스 AI (On-Device AI) - 모델 경량화 (양자화, 가지치기, 지식 증류)]]
+**다음**: [[592_blockchain_dapp_architecture_ipfs|592. 블록체인 DApp (Decentralized Application) 아키텍처 - 프론트엔드 + 스마트 컨트랙트 + IPFS]] →
+
+---

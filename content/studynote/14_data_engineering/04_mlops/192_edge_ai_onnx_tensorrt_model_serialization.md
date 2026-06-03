@@ -372,3 +372,14 @@ OTA 모델 업데이트 · 엣지-클라우드 연방 학습
 ```
 2. ONNX는 여러 나라 음식 레시피를 하나의 표준 레시피 책으로 만드는 거예요. 어느 주방(디바이스)에서도 같은 책으로 요리(추론)할 수 있어요.
 3. TensorRT는 요리사가 특정 주방(NVIDIA [[418_gpu|GPU]])에서 가장 빠르게 요리하도록 모든 동선을 최적화한 맞춤 레시피예요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 192 / 258
+
+← **이전**: [[191_event_sourcing_replay_lambda_kappa|191. 람다/카파 아키텍처 재현 (Event Sourcing Replay - Lambda/Kappa Architecture)]]
+**다음**: [[193_neuromorphic_chip_snn_low_power_inference|193. 뉴로모픽 반도체 (Neuromorphic Chip) SNN 저전력 추론]] →
+
+---

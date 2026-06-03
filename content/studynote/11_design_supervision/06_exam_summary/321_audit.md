@@ -106,3 +106,14 @@ tags:
 1. [[187_information_system_audit|정보시스템 감리]] 목적 3대 속성은 숙제 계획표와 [[396_validation|확인]] 도장을 같이 챙기는 것과 같아요.
 2. 누가 무엇을 했는지 적어 두면 다음 사람도 헷갈리지 않아요.
 3. 끝났다고 말하려면 정말 끝났는지 [[396_validation|확인]]표가 있어야 해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 399 / 530
+
+← **이전**: [[320_summary|320. IT 감리 논술 답안 구조 총정리 (IT Audit Essay Structure Summary)]]
+**다음**: [[322_audit|322. 3단계 감리 (Three-Stage Audit)]] →
+
+---

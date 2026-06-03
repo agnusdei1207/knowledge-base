@@ -159,3 +159,14 @@ LinearB / Swarmia:
 1. [[085_lead_time_cycle_time|리드 타임]]은 피자 주문부터 수령까지, 사이클 타임은 실제 요리 시간이에요!
 2. 작은 변경을 자주 배포하면 [[085_lead_time_cycle_time|리드 타임]]이 줄어들고 문제가 생겨도 쉽게 되돌릴 수 있어요!
 3. [[190_ai_llm_requirements_specification|AI]] [[330_code_review|코드 리뷰]] 덕분에 기다리는 시간([[085_lead_time_cycle_time|리드 타임]])을 1시간 이내로 줄이는 Elite 팀이 늘고 있어요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 31 / 373
+
+← **이전**: [[030_value_stream_mapping|30. 가치 흐름 맵핑 (VSM) — 낭비를 찾아 흐름을 최적화]]
+**다음**: [[032_conways_law|콘웨이의 법칙 (Conway's Law)]] →
+
+---

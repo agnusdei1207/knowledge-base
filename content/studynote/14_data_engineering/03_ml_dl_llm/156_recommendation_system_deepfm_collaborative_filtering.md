@@ -155,3 +155,14 @@ tags:
     ▼
 LLM 기반 대화형 추천 (Conversational RecSys)
 ```
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 156 / 258
+
+← **이전**: [[155_ai_agents_function_calling_agentic_loop|155. AI 에이전트 (AI Agents) 도구 함수 호출 (Function Calling) 자동 과업 루프]]
+**다음**: [[157_time_series_deep_learning_tcn_transformer|157. 시계열 예측 딥러닝 TCN (Temporal Convolutional Network) 병렬 합성곱]] →
+
+---

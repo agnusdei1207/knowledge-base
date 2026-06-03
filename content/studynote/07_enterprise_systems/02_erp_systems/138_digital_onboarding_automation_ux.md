@@ -53,3 +53,14 @@ tags:
 1. 디지털 온보딩은 **무인 체크인 키오스크**예요. 줄 안 서도 돼요!
 2. 신분증 사진 찍고, 얼굴 [[396_validation|확인]]하면 **바로 계좌가 열려요**.
 3. 은행에 가지 않아도 **집에서 수 분이면** 모든 게 끝나요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 138 / 482
+
+← **이전**: [[137_edutech_adaptive_learning_lms|137. EduTech & 적응형 학습 (Adaptive Learning) - LMS/LXP]]
+**다음**: [[139_o2o_online_to_offline_platform|139. O2O (Online to Offline) 플랫폼 - 온·오프라인 연결 비즈니스]] →
+
+---

@@ -130,3 +130,14 @@ Gateway API (Ingress의 한계를 넘는 역할 기반 트래픽 라우팅 표�
 1. 마을(클러스터)을 둘러싼 거대한 성벽에는 밖으로 나가는 문이 아예 없었어요(ClusterIP).
 2. 그래서 마을 사람들이 성벽의 똑같은 위치(31000번)에 작은 개구멍(NodePort)을 모두 뚫었답니다.
 3. 이제 밖에서 온 친구들이 어느 벽이든 31000번 구멍으로 편지를 넣으면, 마을 안으로 정확하게 배달될 수 있어요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 91 / 371
+
+← **이전**: [[091_clusterip_kubernetes_internal_service_dns|91. ClusterIP - K8s 클러스터 내부 통신 전용 기본 서비스]]
+**다음**: [[093_loadbalancer_kubernetes_service_cloud_provider|93. LoadBalancer - 퍼블릭 클라우드 연동 K8s 외부 진입점]] →
+
+---

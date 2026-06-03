@@ -123,3 +123,14 @@ Customer Journey
 어디로 와도 같아요.  
 기분 좋은 경험이 이어져요.  
 옴니채널은 그런 [[268_strategy_pattern|전략]]이에요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 73 / 482
+
+← **이전**: [[072_platform_business_two_sided_market|72. 플랫폼 비즈니스 (Platform Business) - 양면 시장 (Two-sided Market) 연결 구조]]
+**다음**: [[074_data_literacy_democratization|74. 데이터 리터러시 (Data Literacy) 민주화]] →
+
+---

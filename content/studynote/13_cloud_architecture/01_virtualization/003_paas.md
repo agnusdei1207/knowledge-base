@@ -191,3 +191,14 @@ PaaS는 높은 생산성을 주지만, [[183_iaas_infrastructure_as_a_service|Ia
 1. 게임을 만들었는데, 이 게임을 전 세계 친구들이 다운받게 하려면 아주 복잡한 컴퓨터 [[009_config|설정]]이 필요해요.
 2. PaaS는 "네가 만든 게임 [[501_file_definition_logical_record|파일]]만 넘겨주면, 우리가 알아서 전 세계 컴퓨터에 깔고 접속할 수 있게 세팅해 줄게!" 하는 착한 로봇 조수예요.
 3. 그래서 우리는 로봇이 일하는 동안 게임을 더 재미있게 업데이트하는 데에만 집중할 수 있답니다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 2 / 371
+
+← **이전**: [[002_iaas|2. IaaS (Infrastructure as a Service) - 서버(VM), 스토리지, 네트워크 인프라 제공 (AWS EC2,]]
+**다음**: [[004_saas|4. SaaS (Software as a Service) - 브라우저 기반 완제품 소프트웨어 제공 (Google Workspace, Salesforce)]] →
+
+---

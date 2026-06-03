@@ -210,3 +210,14 @@ tags:
 1. 자동차 공장([[001_operating_system_purpose|운영체제]])이 잘 돌아가나 보려고 1분마다 공장장(트레이싱 도구)이 기계를 전부 세우고 일일이 불량품을 세어보면 공장이 망하겠죠?
 2. [[615_ebpf|eBPF]] 마법은 공장 기계를 1초도 멈추지 않고, 컨베이어 벨트 위에 아주아주 작고 안전한 '투명 센서'들을 찰싹 붙여놓는 기술이에요.
 3. 이 센서들은 공장 속도에 전혀 방해를 주지 않고 "오늘 불량품 3개!"라고 요약 노트([[069_ebpf|BPF]] Map)에만 몰래 적어두기 때문에, 컴퓨터를 엄청 빠르고 안전하게 관리할 수 있답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 780 / 800
+
+← **이전**: [[779_load_balancing_queue_migration|779. 부하 균등화 (Load Balancing) 큐 이주]]
+**다음**: [[781_zfs_cow_volume_management|781. ZFS Copy-on-Write 볼륨 관리 통합 (Zfs COW Volume Management)]] →
+
+---

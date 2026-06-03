@@ -137,3 +137,14 @@ tags:
 1. [[196_kubernetes_k8s_container_orchestration|쿠버네티스]]는 장난감 상자를 정리해 주는 아주 똑똑한 정리함이에요.
 2. 장난감이 늘어나면 어디에 둘지 알아서 정해 주고, 빠진 장난감도 다시 채워요.
 3. 그래서 많은 장난감을 안전하게 같이 놀 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 51 / 371
+
+← **이전**: [[051_vendor_lock_in_cloud_computing|51. 벤더 종속 (Vendor Lock-in) - 클라우드 아키텍처의 함정]]
+**다음**: [[053_service_pod_deployment|53. 서비스와 파드 배포 (Service Pod Deployment)]] →
+
+---

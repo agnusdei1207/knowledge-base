@@ -170,3 +170,14 @@ NAND 게이트 이름의 플래시 메모리:
 1. NAND는 레고 기본 블록이에요 — NAND 하나만으로 AND·OR·NOT 모든 [[369_logic_bomb|논리]]를 만들 수 있어요!
 2. 실제 CPU와 메모리는 모두 NAND 게이트를 기반으로 만들어져 있어요!
 3. 고급 언어([[072_hdl|HDL]])로 회로를 설계하면 자동으로 NAND 조합으로 변환되는 마법 같은 도구도 있어요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 31 / 803
+
+← **이전**: [[030_xor_xnor|30. XOR·XNOR 게이트 — 동치와 배타적 논리]]
+**다음**: [[032_combinational_logic|조합 논리 회로 (Combinational Logic Circuit)]] →
+
+---

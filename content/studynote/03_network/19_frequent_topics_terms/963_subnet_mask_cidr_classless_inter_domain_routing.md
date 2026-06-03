@@ -139,3 +139,14 @@ tags:
 1. 비슷한 이름의 장난감을 헷갈리지 않게 표를 붙이는 것과 같아요.
 2. 이 개념은 무엇이 어떻게 다른지 쉽게 구별하게 도와줘요.
 3. 그래서 시험에서도 실무에서도 말을 더 정확하게 쓸 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 1084 / 1120
+
+← **이전**: [[962_bgp_as_path_loop_prevention_path_vector|962. BGP AS-Path]]
+**다음**: [[964_ipv6_header_compression_slaac_6lowpan_iot|964. IPv6 헤더 압축 / SLAAC]] →
+
+---

@@ -152,3 +152,14 @@ CD [[123_pipe|파이프]]라인에서 실제 서버를 교체할 때 다운타�
 ---
 <!-- [✅ Gemini 3.1 Pro Verified] -->
 > **🛡️ 3.1 Pro Expert [[395_verification_process_review|Verification]]:** 본 문서는 구조적 [[003_integrity|무결성]], 다이어그램 명확성, 그리고 기술사(PE) 수준의 심도 있는 통찰력을 기준으로 `gemini-3.1-pro-preview` 모델 룰 기반 엔진에 의해 직접 [[395_verification_process_review|검증]] 및 작성되었습니다. (Verified at: 2026-04-02)
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 21 / 373
+
+← **이전**: [[020_continuous_delivery|20. 지속적 전달 (CD, Continuous Delivery) - CI를 통과한 코드를 프로덕션(운영) 환경에 배포할 준비(아티팩트]]
+**다음**: [[022_continuous_feedback_telemetry|22. 지속적 피드백 (Continuous Feedback)]] →
+
+---

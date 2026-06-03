@@ -111,3 +111,14 @@ tags:
 1. [[158_proxy_pattern|프록시 패턴]] ([[158_proxy_pattern|Proxy Pattern]])은 도서관에서 귀한 책을 바로 만지지 않고 사서에게 부탁해 보여 달라는 것처럼 약속을 먼저 정하는 거예요.
 2. 그러면 서로 다른 사람이 해도 같은 규칙으로 움직일 수 있어요.
 3. 그래서 규모가 커질수록 접근 시점을 통제하고 부가 정책을 끼워 넣는 일이 더 중요해져요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 467 / 530
+
+← **이전**: [[388_flyweight_pattern_summary|388. 플라이웨이트 패턴 (Flyweight Pattern)]]
+**다음**: [[390_observer_pattern_summary|390. 옵저버 패턴 (Observer Pattern)]] →
+
+---

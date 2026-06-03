@@ -79,3 +79,14 @@ EDA는 분석 모델의 품질(Garbage In, Garbage Out 방지)을 결정짓는 �
 1. 낯선 곳으로 여행(분석)을 가기 전에, 지도를 펼쳐보고 어디에 산이 있고 바다가 있는지 훑어보는 것과 같아요.
 2. 돋보기를 들고 [[001_dikw_pyramid|데이터]] 속에 숨겨진 보물(패턴)이나 함정([[076_outlier_detection_iqr_dbscan_isolation_forest|이상치]])을 찾는 탐정 놀이와 같답니다.
 3. 본격적으로 요리를 시작하기 전에, 재료들이 신선한지 상한 곳은 없는지 꼼꼼히 살펴보는 과정이에요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 102 / 262
+
+← **이전**: [[101_inferential_statistics|추론 통계 (Inferential Statistics)]]
+**다음**: [[103_regression_analysis|회귀 분석 (Regression Analysis)]] →
+
+---

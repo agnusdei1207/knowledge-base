@@ -151,3 +151,14 @@ Level 2
 1. Level 0은 모든 부탁을 같은 우체통에 넣고, 종이 안에 "이거 해 주세요"라고 적는 방식이에요.
 2. 그래서 우체통만 봐서는 숙제를 낸 건지, 책을 빌린 건지 알 수 없어요.
 3. 더 좋은 단계로 가면 창구 이름과 규칙이 밖에서도 보여서, 누구나 더 쉽게 이해할 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 158 / 482
+
+← **이전**: [[157_restful_api_richardson_maturity_model|157. RESTful API 성숙도 모델 (Richardson Maturity Model)]]
+**다음**: [[159_rest_level_1_resources|159. Level 1 - 리소스별 고유 URI 할당]] →
+
+---

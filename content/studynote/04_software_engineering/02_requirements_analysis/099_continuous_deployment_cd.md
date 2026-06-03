@@ -121,3 +121,14 @@ CD는 기술적인 도구 설치만으로 완성되지 않으며, 배포 실패 
 1. CD는 장난감 공장에서 다 만들어진 예쁜 장난감을 우리 집 앞까지 가장 빠르고 안전하게 가져다주는 자동화된 배달 로봇이에요.
 2. 로봇은 배달 중에 장난감이 고장 나지 않게 튼튼하게 포장하고, 집 주인이 쓰고 있는 도중에도 뺏어가지 않고 몰래 새것으로 바꿔주는 마술([[082_zero_downtime_deployment_rolling_blue_green_canary|무중단 배포]])을 부린답니다.
 3. 이 로봇 덕분에 어른들은 밤새워서 힘들게 일하지 않아도 매일매일 새로운 장난감 기능을 우리에게 선물해 줄 수 있어요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 99 / 973
+
+← **이전**: [[098_iac_infrastructure_as_code_terraform|98. 인프라로서의 코드 (IaC, Infrastructure as Code)]]
+**다음**: [[100_sre_site_reliability_engineering_error_budget|100. SRE (Site Reliability Engineering) - 구글의 운영 방식, 에러 예산]] →
+
+---

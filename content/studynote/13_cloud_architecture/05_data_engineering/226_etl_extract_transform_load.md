@@ -200,3 +200,14 @@ ELT: Extract → Load → Transform (DW 내부에서 변환)
 ```
 2. 식탁에는 항상 깨끗이 손질된 음식만 올라오지만, 주방이 작으면 손님이 몰릴 때 음식이 늦게 나오는 것처럼, [[001_dikw_pyramid|데이터]]가 많아지면 [[215_etl_vs_elt_pipeline|ETL]] 서버가 느려질 수 있다.
 3. ELT는 재료를 일단 식탁 위([[209_data_warehouse_schema_on_write|DW]])에 가져다 놓고, 먹을 사람이 직접 손질하는 방식이다. 주방이 필요 없지만, 식탁이 커야([[209_data_warehouse_schema_on_write|DW]] [[282_performance_tactics|성능]]이 좋아야) 한다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 225 / 371
+
+← **이전**: [[225_delta_lake_apache_iceberg_hudi|225. 델타 레이크 / Apache Iceberg / Apache Hudi]]
+**다음**: [[227_elt_extract_load_transform_cloud|227. ELT (Extract, Load, Transform)]] →
+
+---

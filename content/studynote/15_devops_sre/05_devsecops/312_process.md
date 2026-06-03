@@ -139,3 +139,14 @@ Taint/Toleration
 
 > 🧒 **어린이 비유**
 > 노드는 놀이터, Taint는 "이 미끄럼틀은 헬멧 착용자만!"이라는 안내판이고, Toleration은 [[085_pod_kubernetes_container_unit|파드]]가 들고 있는 헬멧이에요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 312 / 373
+
+← **이전**: [[311_process|311. 데몬셋 (DaemonSet)]]
+**다음**: [[313_hpa_ca|HPA CA Autoscaling]] →
+
+---

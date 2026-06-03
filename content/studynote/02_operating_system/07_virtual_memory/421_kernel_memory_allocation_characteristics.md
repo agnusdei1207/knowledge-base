@@ -179,3 +179,14 @@ tags:
 1. [[022_kernel_role|커널]] 메모리 할당의 특징 ([[368_kernel_memory_allocation|Kernel Memory Allocation]] Characteristics)은 컴퓨터가 메모리를 더 크게 보이게 하고 부족함을 숨기는 방법이에요.
 2. 먼저 메모리 맵 I/O (Memory-Mapped I/O)을 이해하면 [[022_kernel_role|커널]] 메모리 할당의 특징 ([[368_kernel_memory_allocation|Kernel Memory Allocation]] Characteristics)이 왜 필요한지 더 쉽게 보여요.
 3. 그래서 [[022_kernel_role|커널]] 메모리 할당의 특징 ([[368_kernel_memory_allocation|Kernel Memory Allocation]] Characteristics)을 잘 알면 나중에 [[422_page_pinning_locking|페이지 고정]] ([[286_page_frame|Page]] Pinning / [[213_locking_mechanism_concurrency_control|Locking]])도 훨씬 쉽게 배울 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 421 / 800
+
+← **이전**: [[420_memory_mapped_io|420. 메모리 맵 I/O (Memory-Mapped I/O) - 디바이스 레지스터 매핑]]
+**다음**: [[422_page_pinning_locking|422. 페이지 고정 (Page Pinning / Locking) - I/O 대기 중인 페이지가 스왑아웃되지 않게 고정 (mlock)]] →
+
+---

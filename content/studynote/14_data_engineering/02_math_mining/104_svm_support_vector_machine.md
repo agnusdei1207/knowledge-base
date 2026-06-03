@@ -127,3 +127,14 @@ SVR (Support Vector Regression, 회귀 문제로의 확장)
 1. 호랑이 팀과 사자 팀이 싸우지 않게 운동장에 가장 튼튼하고 넓은 '안전지대(마진)' 선을 긋는 똑똑한 로봇이에요.
 2. 로봇은 멀리 있는 동물을 신경 쓰지 않고, 가장 앞에 나와서 으르렁거리는 동물들(서포트 벡터) 사이의 거리만 재서 선을 그어요.
 3. 동물들이 너무 섞여서 선을 못 그을 때는, 마법의 돋보기([[059_kernel_trick_rbf_polynomial|커널 트릭]])를 써서 입체로 띄운 다음 깔끔하게 판자로 나눠버린답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 104 / 258
+
+← **이전**: [[103_logistic_regression_sigmoid|로지스틱 회귀 (Logistic Regression) 및 시그모이드 (Sigmoid) 함수]]
+**다음**: [[105_tf_idf_cosine_similarity|TF-IDF 및 코사인 유사도 (TF-IDF & Cosine Similarity)]] →
+
+---

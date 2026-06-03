@@ -106,3 +106,14 @@ Cross-Attention은 **서로 다른 모달리티·언어 간 정보를 전달하�
 1. Cross-Attention은 **통역사**예요. 한국어([[040_encoder|인코더]])를 듣고 영어([[039_decoder|디코더]])로 번역해요.
 2. 통역사가 없으면 한국어만 아는 사람과 영어만 아는 사람이 **대화를 못 해요**.
 3. Stable Diffusion도 "고양이 그려줘"라는 **글([[040_encoder|인코더]])을 그림([[039_decoder|디코더]])으로 통역**한답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 128 / 420
+
+← **이전**: [[127_masked_self_attention|127. Masked Self-Attention - 자기 회귀 디코더의 미래 토큰 차단]]
+**다음**: [[129_position_wise_feed_forward_ffnn|129. Position-wise FFN - Transformer 내 2층 MLP 비선형 변환]] →
+
+---

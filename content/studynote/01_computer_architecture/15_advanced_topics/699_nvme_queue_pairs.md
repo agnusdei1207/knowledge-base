@@ -148,3 +148,14 @@ SPDK (Storage Performance Development Kit) · Polling
 1. [[482_nvme|NVMe]] 큐 쌍은 친구마다 자기만 쓰는 우편함과 답장함을 하나씩 주는 것과 같아요.
 2. 그러면 모두가 같은 우편함 앞에서 밀치지 않아도 되어 훨씬 빨리 편지를 주고받을 수 있어요.
 3. 하지만 우편함을 너무 많이 만들면 관리가 힘들어지니, 필요한 만큼만 똑똑하게 나눠야 해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 700 / 803
+
+← **이전**: [[698_iscsi|698. iSCSI (Internet Small Computer System Interface)]]
+**다음**: [[700_nvme_namespaces|700. NVMe 네임스페이스 (Namespaces)]] →
+
+---

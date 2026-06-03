@@ -214,3 +214,14 @@ tags:
 - 각 섹션 끝에 📢 요약 비유 반드시 추가
 - 최소 800자/[[501_file_definition_logical_record|파일]]
 - [[501_file_definition_logical_record|파일]]명: 01_, 02_... 형식
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 24 / 175
+
+← **이전**: [[023_external_sort|15. 외부 정렬 (External Sort) — 대용량 데이터, 멀티웨이 합병]]
+**다음**: [[025_sort_comparison|16. 정렬 알고리즘 비교 — 시간/공간/안정성/적합 환경]] →
+
+---

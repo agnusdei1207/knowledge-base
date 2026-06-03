@@ -111,3 +111,14 @@ tags:
 1. [[254_factory_method_pattern_subclass_creation|팩토리 메서드]] 패턴 ([[146_factory_method_pattern|Factory Method Pattern]])은 장난감을 만들 때 버튼만 누르면 맞는 조립 기계가 골라 주는 것처럼 약속을 먼저 정하는 거예요.
 2. 그러면 서로 다른 사람이 해도 같은 규칙으로 움직일 수 있어요.
 3. 그래서 규모가 커질수록 객체 [[087_process_state_transition|생성]] 변화 축을 한곳에 모으는 일이 더 중요해져요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 456 / 530
+
+← **이전**: [[377_serverless_cold_start|377. 서버리스 콜드 스타트 (Serverless Cold Start)]]
+**다음**: [[379_abstract_factory_summary|379. 추상 팩토리 패턴 (Abstract Factory Pattern)]] →
+
+---

@@ -132,3 +132,14 @@ tags:
 1. 여러 상자에 있던 블록을 큰 정리장에 모아 보고 싶은 모양대로 다시 보는 거예요.
 2. 빨리 넣는 법과 빨리 보는 법은 다를 수 있어요.
 3. 그래서 창고를 어떻게 나누고 언제 정리할지 정해야 해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 555 / 600
+
+← **이전**: [[554_tree_mapping_nested_set_vs_path|554. 트리 구조 매핑 Nested Set 성능 검색 비교 Nested Path 모델]]
+**다음**: [[556_master_slave_replication_lag_inconsistency|556. 마스터 슬레이브 지연(Replication Lag) 읽기 불일치 이슈 극복망]] →
+
+---

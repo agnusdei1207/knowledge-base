@@ -133,3 +133,14 @@ Security Protocols
 비밀을 지키는 도구들이 있어요.  
 자물쇠, 도장, 확인서가 각각 달라요.  
 암호학은 그런 도구를 다루는 거예요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 68 / 1108
+
+← **이전**: [[067_attack_surface_analysis|067. Attack Surface Analysis — 공격 표면 관리]]
+**다음**: [[069_classical_cipher|069. 고전 암호 — 치환 암호, 전치 암호]] →
+
+---

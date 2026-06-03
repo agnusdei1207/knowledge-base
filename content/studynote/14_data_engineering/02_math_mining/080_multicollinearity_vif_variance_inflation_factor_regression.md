@@ -111,3 +111,14 @@ $R^2_i$가 1에 가까울수록(즉, 다른 X 변수들로 완벽히 설명될�
     ▼
 XAI (설명 가능한 AI) — 투명한 변수 영향력 리포팅
 ```
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 80 / 258
+
+← **이전**: [[079_one_hot_encoding_categorical_dummy_variable|79. 원-핫 인코딩 (One-hot Encoding) - 범주형 변수의 더미 변수화]]
+**다음**: [[081_dimensionality_reduction_pca_principal_component_analysis|81. 차원 축소 (Dimensionality Reduction) 및 PCA]] →
+
+---

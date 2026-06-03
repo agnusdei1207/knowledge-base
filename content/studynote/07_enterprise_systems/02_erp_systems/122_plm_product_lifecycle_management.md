@@ -104,3 +104,14 @@ PLM은 **제조업 [[726_platform_engineering_idp_dx|DX]]([[055_digital_transfor
 1. PLM은 제품의 **출생(기획)부터 은퇴(폐기)**까지의 모든 기록을 관리하는 시스템이에요.
 2. 레시피([[124_bom_bill_of_materials|BOM]])를 바꾸려면 **승인(ECO)**을 받아야 해서 실수가 줄어요.
 3. 덕분에 자동차·비행기 같은 복잡한 제품도 **체계적으로 개발**할 수 있답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 122 / 482
+
+← **이전**: [[121_smart_factory_4_levels|121. 스마트 팩토리 4단계 (Smart Factory Maturity Levels) - Industry 4.0 성숙도 모델]]
+**다음**: [[123_pdm_product_data_management|123. PDM (Product Data Management) - 제품 데이터 관리 시스템]] →
+
+---

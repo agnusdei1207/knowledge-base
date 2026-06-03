@@ -140,3 +140,14 @@ tags:
 1. 이 개념은 복잡한 일을 한눈에 보이게 정리해서 모두가 같은 규칙으로 움직이게 해 줘.
 2. 그래서 많은 기계나 사람, 프로그램이 함께 일해도 어디서 문제가 생겼는지 찾기 쉬워져.
 3. 한마디로 이 개념은 복잡한 일을 질서 있게 움직이게 만드는 안내판이야.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 218 / 552
+
+← **이전**: [[217_hci_hyper_converged_infrastructure|217. 하이퍼컨버지드 인프라 (HCI, Hyper-Converged Infrastructure)]]
+**다음**: [[219_quantum_superposition_qubit|219. 양자 중첩 (Superposition)]] →
+
+---

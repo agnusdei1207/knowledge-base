@@ -194,3 +194,14 @@ Lakehouse: DW 기능 + Lake 유연성 통합
 ```
 2. 이 도서관은 책을 넣을 때 **미리 꼼꼼히 [[104_classification_analysis|분류]]해서 정리**해. 그래서 찾을 때는 아주 빠르게 찾을 수 있어.
 3. 한 번 넣은 기록은 **지우지 않고 영원히 보관**해. 5년 전 기록도 오늘처럼 정확하게 볼 수 있어.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 208 / 258
+
+← **이전**: [[207_data_lake_schema_on_read_raw_storage|207. 데이터 레이크 (Data Lake) 스키마 온 리드 (Schema-on-Read)]]
+**다음**: [[209_data_mart_kimball_star_schema|209. 데이터 마트 (Data Mart) Kimball 다차원 분석 스타 스키마 (Star Schema)]] →
+
+---

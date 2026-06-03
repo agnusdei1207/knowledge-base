@@ -104,3 +104,14 @@ Positional Encoding은 **Transformer가 순서를 이해하게 하는 유일한 
 1. Positional Encoding은 교실의 **좌석 번호**예요.
 2. 좌석 번호가 없으면 "누가 앞줄이고 뒷줄인지" **모르니까** 혼란스러워요.
 3. 좌석 번호 덕분에 AI가 **단어의 순서**를 이해할 수 있답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 126 / 420
+
+← **이전**: [[125_multi_head_attention|125. Multi-Head Attention - 다관점 병렬 Attention으로 풍부한 표현 학습]]
+**다음**: [[127_masked_self_attention|127. Masked Self-Attention - 자기 회귀 디코더의 미래 토큰 차단]] →
+
+---

@@ -170,3 +170,14 @@ tags:
 1. 한정된 대기 (Bounded Waiting)은 컴퓨터가 누가 먼저 CPU를 쓰면 좋은지 줄을 세우는 방법이에요.
 2. 먼저 에너지 인지 스케줄링 (Energy-Aware Scheduling, EAS)을 이해하면 한정된 대기 (Bounded Waiting)이 왜 필요한지 더 쉽게 보여요.
 3. 그래서 한정된 대기 (Bounded Waiting)을 잘 알면 나중에 [[561_container_based_deployment|컨테이너]] 스케줄링 ([[062_cgroups|cgroups]] cpu.shares, cpu.cfs_quota_us)도 훨씬 쉽게 배울 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 217 / 800
+
+← **이전**: [[216_progress_in_synchronization|216. 진행 (Progress)]]
+**다음**: [[218_software_synchronization_solutions|218. 소프트웨어적 동기화 해결책 (Software Synchronization Solutions)]] →
+
+---

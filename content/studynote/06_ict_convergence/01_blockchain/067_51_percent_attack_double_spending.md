@@ -129,3 +129,14 @@ Mitigation
 한쪽 사람이 너무 많으면 결과가 바뀔 수 있어요.  
 [[004_blockchain|블록체인]]도 똑같아요.  
 51% 공격은 그런 과반 장악이에요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 67 / 552
+
+← **이전**: [[066_dag_directed_acyclic_graph_tangle|66. 지향성 비순환 그래프 (DAG, Directed Acyclic Graph) - 블록체인 대신 트랜잭션들이 거미줄처럼 서로를 증명하는]]
+**다음**: [[068_eclipse_attack_p2p_isolation|68. 이클립스 공격 (Eclipse Attack) - 특정 노드의 주변 P2P 연결을 악성 노드가 장악하여 네트워크를 고립시키고 허위]] →
+
+---

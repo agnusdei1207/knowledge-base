@@ -114,3 +114,14 @@ C 선택 [[268_strategy_pattern|전략]]: GridSearchCV로 C=[0.001, 0.01, 0.1, 1
 1. SVM은 두 그룹을 가장 넓은 여백(마진)으로 나누는 결정 경계선을 찾는 AI예요.
 2. 슬랙 변수는 "경계선 근처 점들이 조금 침범해도 OK" 하는 융통성 있는 규칙이에요.
 3. C가 크면 "절대 침범 금지!", C가 작으면 "조금 침범해도 괜찮아요" - 이 균형이 핵심이에요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 367 / 420
+
+← **이전**: [[366_cooccurrence_matrix|366. 동시 등장 행렬 (Co-occurrence Matrix)]]
+**다음**: [[368_rbf_kernel|368. RBF 커널 (Radial Basis Function Kernel)]] →
+
+---

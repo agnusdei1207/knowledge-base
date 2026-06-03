@@ -193,3 +193,14 @@ SonarQube 대시보드:
 1. [[100_technical_debt_monitoring_release_policy|기술 부채]]는 숙제 미루기다 — 오늘 안 하면 내일 두 배, 계속 미루면 끝내기 불가능한 산이 된다.
 2. 보이 스카우트 규칙은 지나갈 때마다 쓰레기 하나씩 줍기다 — 큰 청소 한 번보다 매번 조금씩이 더 깨끗한 길을 만든다.
 3. SonarQube는 숙제 검사 로봇이다 — 제출 전에 틀린 문제(버그), 지저분한 글씨(코드 악취), 베낀 답안(중복 코드)을 자동으로 잡아낸다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 33 / 973
+
+← **이전**: [[032_software_obsolescence|소프트웨어 노후화 (Software Obsolescence)]]
+**다음**: [[034_legacy_system_modernization|레거시 시스템 현대화 (Legacy System Modernization)]] →
+
+---

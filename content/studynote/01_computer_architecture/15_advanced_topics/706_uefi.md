@@ -159,3 +159,14 @@ Capsule update · measured boot 확장
 1. 컴퓨터가 켜질 때는 바로 공부를 시작하는 게 아니라, 먼저 교실 문을 열고 자리표를 확인해야 해.
 2. UEFI는 누가 어디로 들어가야 하는지, 진짜 학생인지, 어떤 책을 먼저 꺼낼지 정해 주는 선생님 같은 규칙이야.
 3. 그래서 큰 컴퓨터도 헷갈리지 않고 안전하게 수업인 [[001_operating_system_purpose|운영체제]]를 시작할 수 있어.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 707 / 803
+
+← **이전**: [[705_open_source_firmware_coreboot|705. 오픈소스 펌웨어 (Coreboot, LinuxBoot)]]
+**다음**: [[707_acpi|707. ACPI (Advanced Configuration and Power Interface)]] →
+
+---

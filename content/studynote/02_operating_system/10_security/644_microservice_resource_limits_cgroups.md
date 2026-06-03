@@ -223,3 +223,14 @@ K8s는 사용자가 YAML 파일에 적은 Requests와 Limits를 Kubelet을 통�
 1. 거대한 피자(서버 메모리)를 100명의 친구들([[561_container_based_deployment|컨테이너]])이 나눠 먹기로 했어요. 근데 한 욕심쟁이 친구가 피자를 혼자 다 먹으려고 해요.
 2. 그래서 선생님([[001_operating_system_purpose|운영체제]] [[022_kernel_role|커널]])이 미리 규칙을 정했어요. "너는 무조건 2조각은 보장해 줄게(Request). 하지만 4조각 이상 먹으려 하면 식당에서 내쫓을 거야!(Limit)"
 3. 만약 그 친구가 5조각째를 먹으려고 손을 뻗는 순간, 선생님이 호루라기를 불고 즉시 식당 밖으로 던져버린답니다([[157_oom_killer|OOM]] Kill). 그래서 다른 친구들이 굶지 않고 평화롭게 피자를 먹을 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 644 / 800
+
+← **이전**: [[643_distributed_lock_manager_zookeeper|643. 분산 락 매니저 구현 (Chubby, ZooKeeper 등 분산 코디네이션 락 알고리즘)]]
+**다음**: [[645_kernel_module_signature_verification|645. 커널 동적 모듈 서명 (Module Signature Verification) 무결성 통제]] →
+
+---

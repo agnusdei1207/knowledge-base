@@ -133,3 +133,14 @@ Autonomous Edge + Cloud Coordination
 1. 멀리 있는 큰 부엌에서만 요리하면 음식이 늦게 와요.
 2. 그래서 가까운 곳에 작은 부엌을 두고 바로 필요한 것만 먼저 만들어요.
 3. 하지만 작은 부엌이 많아지면 누가 재료를 채우고 청소할지 더 잘 정해야 해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 350 / 373
+
+← **이전**: [[349_process|349. 하이브리드 멀티 클라우드 록인 회피 (Hybrid Multi-Cloud)]]
+**다음**: [[351_process|351. 양자 컴퓨팅 쇼어 알고리즘·양자 내성 암호 적용 (Quantum Computing and Post-Quantum Cryptography)]] →
+
+---

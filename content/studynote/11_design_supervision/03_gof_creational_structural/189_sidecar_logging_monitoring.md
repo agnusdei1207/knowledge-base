@@ -125,3 +125,14 @@ tags:
 1. [[830_sidecar_proxy_architecture_envoy_decoupling|사이드카]]는 주인공(앱) 옆에서 지원 역할을 하는 조연처럼, 로깅·모니터링을 담당해요.
 2. 주인공은 자기 역할(비즈니스 로직)에만 집중하고, [[830_sidecar_proxy_architecture_envoy_decoupling|사이드카]]가 나머지를 처리해요.
 3. Kubernetes에서 같은 [[085_pod_kubernetes_container_unit|파드]]([[198_pod_kubernetes_minimum_deployment_unit|Pod]]) 안에 여러 [[561_container_based_deployment|컨테이너]]가 [[830_sidecar_proxy_architecture_envoy_decoupling|사이드카]] 역할을 해요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 249 / 530
+
+← **이전**: [[189_sidecar_logging_monitoring|189. 사이드카 통합 로깅 및 모니터링 수집망 아키텍처 패턴 (Sidecar Integrated Logging and Monitoring]]
+**다음**: [[190_di_framework_spring_bean_lifecycle|190. DI 프레임워크와 스프링 빈 생명주기 (DI Framework & Spring Bean Lifecycle)]] →
+
+---

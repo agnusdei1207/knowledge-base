@@ -179,3 +179,14 @@ Word2Vec 은 현대 NLP 의 출발점이자 [[278_instruction_tuning|임베딩]]
 1. 📍 Word2Vec 은 단어마다 "지도의 좌표"를 부여해서, 비슷한 단어는 좌표가 가깝게 만들어요.
 2. 🔍 Skip-Gram 은 "사과"라는 단어를 보면 주변에 "과일", "빨간색", "맛있다"가 올 거라고 예측해서 단어의 의미를 배워요.
 3. ✨ 그래서 "왕 - 남자 + 여자" 계산을 하면 "여왕"이 나오는 신기한 수학이 가능해요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 339 / 420
+
+← **이전**: [[338_vllm_paged_attention|338. vLLM과 PagedAttention (페이지드 어텐션)]]
+**다음**: [[340_deepfm_recommendation|340. DeepFM 딥러닝 추천 엔진 (Deepfm Recommendation)]] →
+
+---

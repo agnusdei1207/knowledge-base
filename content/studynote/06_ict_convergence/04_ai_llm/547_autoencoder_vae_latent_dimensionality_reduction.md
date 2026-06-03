@@ -153,3 +153,14 @@ L_VAE = E[log p(x|z)]        (재구성 손실)
 1. [[335_autoencoder|오토인코더]]는 커다란 그림을 아주 작은 메모지에 요약하고, 그 메모지로 다시 그림을 그리는 훈련을 받아요.
 2. VAE는 "이 메모지에서 여러 가지 다른 그림을 만들 수 있어" — 새로운 창작이 가능해요.
 3. 덕분에 AI가 이상한 물건을 보면 "요약이 잘 안 되네?"라며 이상하다고 알아챌 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 547 / 552
+
+← **이전**: [[546_data_fabric_distributed_data_mesh|546. 데이터 패브릭과 분산 데이터 메시 (Data Fabric and Distributed Data Mesh)]]
+**다음**: [[548_data_poisoning_adversarial_model_manipulation|548. 데이터 포이즈닝과 적대적 예제 모델 오판 (Data Poisoning Adversarial Model Manipulation)]] →
+
+---

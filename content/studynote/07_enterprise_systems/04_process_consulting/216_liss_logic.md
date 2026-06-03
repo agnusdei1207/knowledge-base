@@ -135,3 +135,14 @@ Evolvable enterprise architecture
 1. LISS는 친구들과 역할놀이를 할 때 모두가 다른 역할을 맡고, 빠진 역할이 없게 만드는 규칙이에요.
 2. 누군가는 주문을 받고, 누군가는 계산하고, 누군가는 물건을 챙겨야 일이 잘 돌아가요.
 3. 서로 같은 일을 두 번 하지 않고 필요한 일이 모두 있으면 팀이 훨씬 잘 움직여요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 216 / 482
+
+← **이전**: [[215_mece_mutually_exclusive_collectively_exhaustive_issue_tree|215. MECE (Mutually Exclusive, Collectively Exhaustive) - 이슈 트리 분석 원칙 (중복 없이]]
+**다음**: [[217_logic_tree_framework|217. 로직 트리 (Logic Tree) 구조 분해 프레임워크]] →
+
+---

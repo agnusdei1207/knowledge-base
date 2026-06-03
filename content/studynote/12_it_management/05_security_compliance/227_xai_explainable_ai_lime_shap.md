@@ -129,3 +129,14 @@ tags:
 1. 설명 가능한 [[190_ai_llm_requirements_specification|AI]] (XAI) 도입은 모두가 같은 규칙으로 일하게 해 주는 반장 약속표예요.
 2. 약속만 적어 두는 것이 아니라 누가 지켰는지 확인하고 고치는 방법까지 함께 정해요.
 3. 그래서 일이 많아져도 서로 부딪히지 않고 더 안전하게 움직일 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 341 / 587
+
+← **이전**: [[226_ai_ethics_governance_eu_ai_act|226. AI 거버넌스 및 윤리 (AI Ethics & Governance) 가이드라인 제정]]
+**다음**: [[228_blockchain_smart_contract_traceability|228. 블록체인 스마트 컨트랙트 기반 공급망 증빙(Traceability) 플랫폼 연동]] →
+
+---

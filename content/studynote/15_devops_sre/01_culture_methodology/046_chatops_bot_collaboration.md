@@ -329,3 +329,14 @@ GPT/Copilot 통합 봇
 1. ChatOps는 공개 업무 방송 — 서버 작업을 몰래 하지 않고 채팅방에서 공개! 모두가 보니까 실수도 줄고, 서로 배울 수 있어요!
 2. [[207_chatops_slack_bot_deployment|ChatOps]] 봇은 채팅 비서 — "배포해줘" 명령 하면 봇이 실제로 실행하고 결과 보고. 코딩 없이 채팅방에서 서버 조종!
 3. 투명성의 힘 — 모든 운영 기록이 채팅 [[568_logs_distributed_logging_elk_fluentd|로그]]로 자동 저장. 신입이 시니어 채팅 [[568_logs_distributed_logging_elk_fluentd|로그]] 보고 배우는 무료 교과서!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 46 / 373
+
+← **이전**: [[045_shift_left_testing_security|045. 시프트 레프트 — Shift Left Testing & Security]]
+**다음**: [[047_error_budget_slo_sre|047. Error Budget — 오류 예산과 SLO]] →
+
+---

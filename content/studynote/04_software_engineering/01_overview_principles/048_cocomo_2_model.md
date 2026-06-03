@@ -321,3 +321,14 @@ COCOMO II + 데이터 보정
 1. [[145_cocomo_model|COCOMO]] II = 건물 공사비 견적 — 건물 크기(LOC)만으로 안 돼요. 땅 난이도(SF)와 자재 품질(EM)까지 고려해야 정확한 견적!
 2. SF = 공사 어려움 지수 — 처음 짓는 건물(PREC: 낮음), 규제 엄격(FLEX: 낮음) → SF 높아져 같은 크기인데 비용 2배. 경험이 돈!
 3. 추정 결과는 범위 — 285 PM 추정이지만 ±25%로 214~356 PM. 한 숫자만 믿으면 위험. 범위 제시가 올바른 추정!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 48 / 973
+
+← **이전**: [[047_cocomo_model|047. COCOMO 모델 — 소프트웨어 비용 추정]]
+**다음**: [[049_function_point_fp_estimation|049. 기능 점수 — Function Point (FP) Estimation]] →
+
+---

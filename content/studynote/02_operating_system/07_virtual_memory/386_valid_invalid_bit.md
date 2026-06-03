@@ -182,3 +182,14 @@ OS는 가상 주소 공간을 만들 때, 제일 첫 번째 [[286_page_frame|페
 1. 유효-무효 [[073_bit|비트]] ([[355_paging_memory_protection|Valid-Invalid Bit]])은 컴퓨터가 메모리를 더 크게 보이게 하고 부족함을 숨기는 방법이에요.
 2. 먼저 [[385_prepaging|선행 페이징]] ([[385_prepaging|Prepaging]])을 이해하면 유효-무효 [[073_bit|비트]] ([[355_paging_memory_protection|Valid-Invalid Bit]])이 왜 필요한지 더 쉽게 보여요.
 3. 그래서 유효-무효 [[073_bit|비트]] ([[355_paging_memory_protection|Valid-Invalid Bit]])을 잘 알면 나중에 [[387_page_fault|페이지 부재]] ([[387_page_fault|Page Fault]])도 훨씬 쉽게 배울 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 386 / 800
+
+← **이전**: [[385_prepaging|385. 선행 페이징 (Prepaging) - 페이지 부재 감소를 위해 미리 묶어 올림]]
+**다음**: [[387_page_fault|387. 페이지 부재 (Page Fault) - 무효 페이지 접근 시 발생하는 트랩(인터럽트)]] →
+
+---

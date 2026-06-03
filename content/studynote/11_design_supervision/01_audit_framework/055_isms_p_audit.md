@@ -125,3 +125,14 @@ ISMS-P는 법규 준수와 내부 통제를 동시에 다뤄야 하므로, 증�
 1. [[171_isms_p|ISMS-P]] 감사는 안전 규칙이 잘 지켜지는지 보는 일이에요.
 2. [[781_personal_information|개인정보]]를 함부로 다루지 않는지도 봐요.
 3. 그래서 우리 정보를 더 안전하게 지킬 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 82 / 530
+
+← **이전**: [[054_itil_itsm_audit|54. ITIL/ITSM 감사 (ITIL ITSM Audit)]]
+**다음**: [[056_hardware_sizing_verification|56. 하드웨어 Sizing 검증 (Hardware Sizing Verification)]] →
+
+---

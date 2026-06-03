@@ -181,3 +181,14 @@ Workload Identity 기반 Zero Trust secret delivery
 1. 비밀번호를 코드에 적어 두는 건 집 열쇠를 문 앞 화분 밑에 넣어 두는 것과 비슷해요.
 2. Vault는 경비실처럼 필요한 사람인지 [[396_validation|확인]]한 뒤 열쇠를 잠깐만 빌려줘요.
 3. 그래서 열쇠를 잃어버려도 오래 못 쓰고, 누가 가져갔는지도 바로 알 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 176 / 371
+
+← **이전**: [[176_container_image_vulnerability_scanning|176. 컨테이너 이미지 취약점 스캐닝 (Container Image Vulnerability Scanning)]]
+**다음**: [[178_sre_site_reliability_engineering|178. SRE (Site Reliability Engineering, 사이트 신뢰성 공학)]] →
+
+---

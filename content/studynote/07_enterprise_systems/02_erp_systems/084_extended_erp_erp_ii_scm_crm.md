@@ -134,3 +134,14 @@ SCM → 공급사 협업 → 납품 / 피드백
 1. 가게 안 기록만 맞추면 아직 반쪽짜리예요.
 2. 물건을 보내는 곳과 사는 사람 기록도 함께 맞아야 해요.
 3. [[081_erp_enterprise_resource_planning|ERP]] II는 가게 밖 사람들까지 한 장의 노트로 이어 주는 거예요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 84 / 482
+
+← **이전**: [[083_mrp_2_manufacturing_resource_planning|83. MRP II (Manufacturing Resource Planning) - 자재뿐 아니라 설비, 인력 등 생산 자원 전체 포괄]]
+**다음**: [[085_erp_implementation_lifecycle|85. ERP 구축 생명주기 - 패키지 선정 -> 커스터마이징 / CBO (Custom Built Object) -> 데이터 이관 ->]] →
+
+---

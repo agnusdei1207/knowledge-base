@@ -193,3 +193,14 @@ DP가 주는 가장 큰 이점은 "배경지식을 가진 공격자 앞에서도
 1. [[396_differential_privacy|차분 프라이버시]]는 반 친구 수를 알려 줄 때 누구 한 명이 들어왔는지 못 맞히게 숫자를 조금 흔들어 말하는 방법이에요.
 2. 그런데 아무렇게나 흔들면 소용이 없어서, 얼마나 흔들지 규칙을 먼저 정해요.
 3. 그래서 반 전체 모습은 알 수 있지만, 특정 친구가 있었는지는 쉽게 들키지 않아요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 184 / 258
+
+← **이전**: [[183_post_quantum_cryptography_key_transition|183. 양자 내성 암호 (Post-Quantum Cryptography) 클라우드 인프라 키 전환]]
+**다음**: [[185_k_anonymity_masking_data_pipeline|185. K-익명성 (K-Anonymity), 마스킹 (Masking) 파이프 자동 변환]] →
+
+---

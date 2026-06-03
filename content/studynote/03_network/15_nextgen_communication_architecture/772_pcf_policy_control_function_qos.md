@@ -124,3 +124,14 @@ PCF는 SMF에서 출발해 현재 메커니즘을 정교화하고, 이후 [[149_
 1. 큰 장난감 도시를 여러 구역으로 나누고 필요한 규칙만 골라 쓰는 것과 같아요.
 2. 이 개념은 빠른 길, 안전한 길, 많은 사람이 쓰는 길을 각각 다르게 꾸미게 해줘요.
 3. 그래서 미래 통신망이 더 똑똑하고 유연해져요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 893 / 1120
+
+← **이전**: [[771_smf_upf_session_management_user_plane|771. SMF (Session Management Function)]]
+**다음**: [[773_network_slicing_qos_isolation_nfv|773. 네트워크 슬라이싱 (Network Slicing 물리적 동일망 복수의 이종 독립 논리적 인스턴스 전용망 분할 보안, QoS 격리(eMBB/URLLC/mMTC)]] →
+
+---

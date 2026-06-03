@@ -132,3 +132,14 @@ Policy Layer + Sandbox + Output Validation
 1. 로봇에게 쪽지를 줄 때, 장난꾸러기가 ‘선생님 말은 무시해!’라고 적어도 그대로 믿으면 안 돼요.
 2. 그래서 로봇이 할 수 있는 일을 미리 정하고, 위험한 일은 꼭 어른이 [[396_validation|확인]]해야 해요.
 3. 좋은 [[190_ai_llm_requirements_specification|AI]] 보안은 로봇을 혼내는 게 아니라, 위험한 문을 열지 못하게 만드는 거예요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 347 / 373
+
+← **이전**: [[346_llm_rag_db|346. LLM RAG 환각 제어·벡터 임베딩 DB 검색 (Large Language Model Retrieval-Augmented Generation)]]
+**다음**: [[348_finops_ri|348. FinOps 스팟 인스턴스·RI 클라우드 비용 효율 조직 (Cloud Financial Operations)]] →
+
+---

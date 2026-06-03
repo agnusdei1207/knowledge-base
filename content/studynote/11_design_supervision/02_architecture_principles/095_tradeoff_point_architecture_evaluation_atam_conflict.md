@@ -118,3 +118,14 @@ ATAM 평가 및 위험 분석 (Risk Analysis)
 1. 놀이공원에서 롤러코스터를 타면 너무 재미있지만([[282_performance_tactics|성능]] 최고) 속이 울렁거려요(편안함 최악).
 2. 회전목마를 타면 속이 편안하지만(편안함 최고) 조금 심심해요([[282_performance_tactics|성능]] 최악).
 3. 이처럼 두 가지 좋은 점을 한 번에 가질 수 없어서, 지금 나에게 더 중요한 것 하나를 고르는 것이 상충점이랍니다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 138 / 530
+
+← **이전**: [[094_sensitivity_point_architecture_tradeoff_control_knob|94. 민감도점 (Sensitivity Point) - 아키텍처 품질 속성 스위치]]
+**다음**: [[096_risk_non_risk_architecture_evaluation_flaws|96. 리스크(Risk)와 비리스크(Non-risk) - 아키텍처 평가 위험 도출]] →
+
+---

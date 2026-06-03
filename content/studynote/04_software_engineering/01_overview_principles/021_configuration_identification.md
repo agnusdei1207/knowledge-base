@@ -179,3 +179,14 @@ SCM의 4대 활동은 [[655_ir_detection_analysis|식별]]→[[025_baseline|기�
 1. 장난감 로봇을 만들 때, 그냥 섞어두지 않고 머리, 팔, 다리로 나누는 것을 형상 [[655_ir_detection_analysis|식별]]이라고 해요.
 2. 각각의 부품에 "로봇팔-1호"라고 이름표를 붙여야 잃어버렸을 때 쉽게 찾고 조립할 수 있어요.
 3. 이렇게 이름표를 잘 붙여두면, 나중에 팔을 "로봇팔-2호"로 업그레이드할 때 다른 부품은 놔두고 팔만 딱 바꿀 수 있답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 21 / 973
+
+← **이전**: [[020_software_configuration_management|20. 형상 관리 (SCM, Software Configuration Management)]]
+**다음**: [[022_configuration_control|22. 형상 통제 (Configuration Control) - 변경 제어 위원회(CCB)]] →
+
+---

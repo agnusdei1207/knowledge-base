@@ -130,3 +130,14 @@ tags:
 1. [[275_gradient_descent_sgd|경사 하강법]]은 눈을 가린 채로 산비탈을 굴러 내려와 가장 깊은 계곡(정답)을 찾는 마법이에요.
 2. 발바닥 감각(미분)만으로 "아, 이쪽이 오르막이니까 반대쪽으로 한 발짝 가야지!" 하고 내려가는 거죠.
 3. 이 산에서 헤매지 않고 제일 빨리 내려오게 만들어 주는 특급 내비게이션 신발을 [[163_optimizer_sql_execution_plan_generator|옵티마이저]]([[277_adam_optimizer|Adam]] 등)라고 부른답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 79 / 420
+
+← **이전**: [[078_backpropagation_chain_rule_gradient|78. 역전파 (Backpropagation) - 가중치 수정과 기울기 계산]]
+**다음**: [[080_gradient_descent_learning_rate|080. 학습률 (Learning Rate in Gradient Descent)]] →
+
+---

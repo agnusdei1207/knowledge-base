@@ -212,3 +212,14 @@ Btrfs는 전통적인 스토리지 [[057_stack|스택]](LVM, [[483_raid_overview
 1. 기존 하드디스크는 방을 나눌 때 콘크리트 벽([[514_partition_slice_volume|파티션]])을 쳐서, 한 번 방을 만들면 크기를 바꾸기 너무 힘들었어요.
 2. 'Btrfs'는 거대한 체육관을 하나 짓고, 움직이는 커튼(서브볼륨)으로 방을 나눠서 언제든지 방 크기를 자유롭게 늘렸다 줄였다 할 수 있어요.
 3. 게다가 짐을 커튼 방에 넣을 때 마법의 [[347_compaction|압축]]기(ZSTD [[347_compaction|압축]])가 몰래 짐을 작게 만들어줘서, 원래보다 물건을 2배나 더 많이 넣을 수 있답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 638 / 800
+
+← **이전**: [[637_zfs_snapshot_cow_architecture|637. ZFS 복제 및 스냅샷 (Snapshot) 카피온라이트 구현 구조 설계 모형]]
+**다음**: [[639_rdma_kernel_bypass|639. RDMA (Remote Direct Memory Access) 커널 바이패스 초고속 통신 체제]] →
+
+---

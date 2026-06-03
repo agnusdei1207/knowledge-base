@@ -124,3 +124,14 @@ tags:
 1. [[039_sampling_audit_technique|샘플링 감리 기법]]은 일을 잘했는지 [[396_validation|확인]]하는 [[435_checklist_based_testing|체크리스트]]를 만들고, 실제로 했다는 증거를 모으는 방법이에요.
 2. 약속한 대로 했는지, 빠진 것은 없는지, 고친 뒤 다시 [[396_validation|확인]]했는지를 차례대로 보는 거예요.
 3. 그래서 나중에 문제가 생겨도 누구 말이 맞는지 금방 알 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 63 / 530
+
+← **이전**: [[043_requirements_traceability_matrix|043. 요구사항 추적성 매트릭스 (RTM)]]
+**다음**: [[044_auditor_independence_objectivity|44. 감리인의 독립성 및 객관성 (Auditor Independence and Objectivity)]] →
+
+---

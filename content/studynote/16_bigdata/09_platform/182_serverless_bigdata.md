@@ -187,3 +187,14 @@ Open table formats and intelligent query optimization
 1. [[206_serverless_cold_start|서버리스]] 빅데이터는 필요한 시간만 큰 계산 기계를 빌려 쓰는 방식이에요.
 2. [[501_file_definition_logical_record|파일]]을 날짜별로 잘 정리해 두면 필요한 것만 빨리 찾아서 돈도 덜 들어요.
 3. 하지만 아무거나 한꺼번에 다 읽으면 기계는 편해도 요금표가 금방 길어져요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 182 / 262
+
+← **이전**: [[181_multicloud_data_platform|181. 멀티클라우드 데이터 플랫폼 (Multi-cloud Data Platform) — Snowflake/Databricks]]
+**다음**: [[183_data_orchestration|183. 데이터 오케스트레이션 (Data Orchestration) - Apache Airflow / Dagster / Prefect]] →
+
+---

@@ -107,3 +107,14 @@ tags:
 1. [[190_secure_coding_guideline|시큐어 코딩]] 도구 미탐·오탐 비율 보고은 체온계로 몸 상태를 재고 기록하는 것과 비슷해요.
 2. 숫자만 보는 게 아니라 왜 올라갔는지 같이 살펴야 해요.
 3. 그래야 다음에 무엇을 고칠지 바로 결정할 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 391 / 530
+
+← **이전**: [[316_process|316. 데이터 마이그레이션 백업·롤백 테스트 (Migration Backup and Rollback Test Audit)]]
+**다음**: [[317_secure_coding_tool_false_rates|317. 시큐어 코딩 도구 미탐·오탐 비율 보고 (Secure Coding Tool False Negative and False Positive]] →
+
+---

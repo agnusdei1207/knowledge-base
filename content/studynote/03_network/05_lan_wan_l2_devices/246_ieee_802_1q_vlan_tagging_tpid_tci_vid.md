@@ -147,3 +147,14 @@ IEEE 802.1Q는 [[245_vlan_virtual_lan_broadcast_control|가상 랜]]에서 출�
 1. 학교 우편함에 이름표가 붙어 있어야 편지가 엉뚱한 곳에 가지 않아요.
 2. 이 개념은 어느 교실로 보내야 할지 알아보는 [[104_classification_analysis|분류]] 규칙과 같아요.
 3. 그래서 같은 건물 안에서도 편지가 더 빠르고 질서 있게 움직여요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 367 / 1120
+
+← **이전**: [[245_vlan_virtual_lan_broadcast_control|245. 가상 랜 (VLAN, Virtual LAN)]]
+**다음**: [[247_access_port_vs_trunk_port|247. 접근 포트 (Access Port) / 트렁크 포트 (Trunk Port)]] →
+
+---

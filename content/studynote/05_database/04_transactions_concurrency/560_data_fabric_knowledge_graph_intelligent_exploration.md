@@ -132,3 +132,14 @@ tags:
 1. 여러 상자에 있던 블록을 큰 정리장에 모아 보고 싶은 모양대로 다시 보는 거예요.
 2. 빨리 넣는 법과 빨리 보는 법은 다를 수 있어요.
 3. 그래서 창고를 어떻게 나누고 언제 정리할지 정해야 해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 560 / 600
+
+← **이전**: [[559_cosine_similarity_text_embedding_normalization|559. 코사인 유사도 텍스트 임베딩 매칭 정규화 거리 계측 연산 방식]]
+**다음**: [[561_cloud_db_high_availability_multi_az_failover|561. 클라우드 DB 고가용성 멀티 AZ 자동 페일오버 (Failover) 프로토콜]] →
+
+---

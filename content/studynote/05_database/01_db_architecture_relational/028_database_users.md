@@ -131,3 +131,14 @@ Text-to-SQL과 LLM의 발전으로 비전문가도 자연어로 DB를 조회하�
 1. DB 사용자는 도서관 이용 방식에 따라 달라요! 일반 독자(앱 사용자), 연구자(SQL 사용자), 사서([[025_dba_database_administrator|DBA]]) 모두 다른 방식으로 접근해요.
 2. [[010_least_privilege|최소 권한 원칙]]은 호텔 열쇠처럼 각자 필요한 방만 열 수 있도록 하는 거예요!
 3. 요즘은 [[190_ai_llm_requirements_specification|AI]] 비서가 "작년 매출 1위 제품 알려줘"라는 말을 SQL로 바꿔서 DB를 대신 조회해준답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 28 / 600
+
+← **이전**: [[027_database_designer|27. 데이터베이스 설계자 (Database Designer) — DB 설계 역할과 책임]]
+**다음**: [[029_file_system_problems|29. 파일 시스템의 문제점 (File System Problems)]] →
+
+---

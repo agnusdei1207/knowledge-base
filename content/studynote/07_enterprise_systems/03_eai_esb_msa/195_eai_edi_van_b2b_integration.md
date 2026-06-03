@@ -141,3 +141,14 @@ AS2 · Web-EDI · OpenAPI 하이브리드
 1. EDI는 회사들이 같은 양식의 편지를 써서 컴퓨터끼리 바로 읽게 하는 약속이에요.
 2. VAN은 그 편지가 잃어버리지 않도록 안전하게 옮겨 주는 특별한 우체국이에요.
 3. 요즘은 중요한 편지는 그렇게 보내고, 가벼운 질문은 인터넷으로 같이 주고받아요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 195 / 482
+
+← **이전**: [[194_webhook_reverse_api_event_push|194. 웹훅 (Webhook) - 역방향 API 기반 이벤트 푸시 연동]]
+**다음**: [[196_serverless_architecture_baas_integration|196. 서버리스 아키텍처 - BaaS와 FaaS 기반 엔터프라이즈 통합]] →
+
+---

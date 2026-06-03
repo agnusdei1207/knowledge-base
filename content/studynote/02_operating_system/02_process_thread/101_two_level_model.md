@@ -135,3 +135,14 @@ tags:
 1. 놀이공원(컴퓨터)에 손님([[092_thread_lwp|스레드]])은 100명인데 타야 할 범퍼카([[022_kernel_role|커널]] [[092_thread_lwp|스레드]])는 10대밖에 없어요.
 2. 대부분의 손님은 줄을 서서 범퍼카를 교대로 돌려타야([[100_many_to_many_model|다대다]] 모델) 놀이공원이 복잡해지지 않아요.
 3. 하지만 시장님처럼 급한 손님을 위해서는 절대 남과 섞이지 않는 전용 범퍼카([[099_one_to_one_model|일대일]] 고정)를 따로 빼놓는 똑똑한 시스템이 바로 '두 수준 모델'이랍니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 101 / 800
+
+← **이전**: [[100_many_to_many_model|100. 다대다 (Many-to-Many) 스레드 모델]]
+**다음**: [[102_implicit_threading|102. 암묵적 스레딩 (Implicit Threading) - 스레드 풀, OpenMP, Grand Central Dispatch(GCD)]] →
+
+---

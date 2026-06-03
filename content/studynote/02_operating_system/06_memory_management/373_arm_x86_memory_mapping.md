@@ -169,3 +169,14 @@ ARM과 x86의 메모리 매핑 아키텍처 대결은 "과거의 거대한 유�
 1. ARM / x86의 메모리 매핑 아키텍처 차이 (Arm X86 Memory [[010_schema_mapping|Mapping]])은 컴퓨터가 메모리를 방처럼 나눠 쓰고 주소를 찾는 방법이에요.
 2. 먼저 아키텍처 종속적인 [[328_mmu|MMU]] 인터페이스을 이해하면 ARM / x86의 메모리 매핑 아키텍처 차이 (Arm X86 Memory [[010_schema_mapping|Mapping]])이 왜 필요한지 더 쉽게 보여요.
 3. 그래서 ARM / x86의 메모리 매핑 아키텍처 차이 (Arm X86 Memory [[010_schema_mapping|Mapping]])을 잘 알면 나중에 주소 공간 무작위 배치 ([[374_aslr|ASLR]], Address Space Layout Randomization)도 훨씬 쉽게 배울 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 373 / 800
+
+← **이전**: [[372_architecture_dependent_mmu|372. 아키텍처 종속적인 MMU 인터페이스 (Architecture Dependent MMU)]]
+**다음**: [[374_aslr|374. 주소 공간 무작위 배치 (ASLR, Address Space Layout Randomization)]] →
+
+---

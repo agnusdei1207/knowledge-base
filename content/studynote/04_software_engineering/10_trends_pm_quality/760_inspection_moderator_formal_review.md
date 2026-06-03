@@ -152,3 +152,14 @@ tags:
 1. [[161_inspection_formal_review|인스펙션]] [[273_mediator_pattern|중재자]](Moderator) 주도 공식 검토은 레고 블록으로 성을 만들 때처럼, 규칙을 정하고 역할을 나누어 함께 작업하는 방법이에요.
 2. 혼자서 막 만들면 나중에 무너지거나 고치기 어렵지만, 약속을 지키면 누구나 쉽게 고치고 더 크게 만들 수 있어요.
 3. 그래서 [[001_software_engineering_definition|소프트웨어 공학]]은 프로그래머들이 좋은 프로그램을 빠르고 안전하게 만들 수 있게 도와주는 '규칙 모음집'이에요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 933 / 973
+
+← **이전**: [[759_qfd_quality_function_deployment|759. QFD 품질 기능 전개 요구사항 변환 기법]]
+**다음**: [[761_walkthrough_informal_technical_review|761. 워크스루 비공식 기술 검토 회의]] →
+
+---

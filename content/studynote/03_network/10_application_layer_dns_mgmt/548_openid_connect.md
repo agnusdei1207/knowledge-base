@@ -207,3 +207,14 @@ OpenID Connect는 SAML 2.0에서 출발해 현재 메커니즘을 정교화하�
 1. 새로 나온 게임 앱에 가입하려고 비밀번호를 또 만들려니 귀찮고 까먹을까 봐 걱정되죠? 옛날엔 다 그렇게 불편했어요.
 2. 하지만 OpenID Connect([[537_oidc_openid_connect|OIDC]]) 덕분에 게임 앱이 "구글 형님, 이 친구 누군지 대신 [[396_validation|확인]] 좀요!"라고 구글에 부탁할 수 있게 되었어요.
 3. 구글이 "어, 이 친구 내 친구 길동이 맞아!"라고 도장이 쾅 찍힌 보증서([[515_id_token_jwt|ID Token]])를 게임 앱에 휙 던져주면, 우리는 비밀번호 없이 1초 만에 뿅 하고 게임에 로그인할 수 있답니다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 669 / 1120
+
+← **이전**: [[547_saml_2_0_security_assertion_markup_language|547. SAML 2.0 (Security Assertion Markup Language)]]
+**다음**: [[549_jwt_json_web_token|549. JWT (JSON Web Token)]] →
+
+---

@@ -120,3 +120,14 @@ tags:
 1. 보통 [[561_container_based_deployment|컨테이너]]([[667_container_runtime_hw_isolation|runc]])는 교실 **칸막이**로 나뉜 거예요. 칸막이를 넘으면 옆 자리를 볼 수 있죠.
 2. gVisor는 **유리벽**이에요. 보이지만 넘어갈 수 없어요.
 3. Kata는 아예 **다른 건물**로 분리해서, 절대 옆 교실에 갈 수 없게 만든답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 110 / 371
+
+← **이전**: [[110_oom_out_of_memory_killed_kubernetes_limits|110. OOM Killed (Out of Memory) - K8s 파드 메모리 초과 강제 종료와 QoS 생존 전략]]
+**다음**: [[112_serverless_kubernetes_fargate|112. 서버리스 K8s (Serverless Kubernetes) - AWS Fargate·Azure ACI·Virtual Kubelet]] →
+
+---

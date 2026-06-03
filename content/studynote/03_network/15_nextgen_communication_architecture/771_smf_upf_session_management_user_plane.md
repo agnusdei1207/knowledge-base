@@ -128,3 +128,14 @@ SMF는 AMF에서 출발해 현재 메커니즘을 정교화하고, 이후 PCF와
 1. 큰 장난감 도시를 여러 구역으로 나누고 필요한 규칙만 골라 쓰는 것과 같아요.
 2. 이 개념은 빠른 길, 안전한 길, 많은 사람이 쓰는 길을 각각 다르게 꾸미게 해줘요.
 3. 그래서 미래 통신망이 더 똑똑하고 유연해져요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 892 / 1120
+
+← **이전**: [[770_amf_access_mobility_management_function|770. AMF (Access and Mobility Management Function / MME 대체)]]
+**다음**: [[772_pcf_policy_control_function_qos|772. PCF (Policy Control Function 사용자 정책 적용 자원 대조 통제 구조 연동 통합 기능 기능망 제어 분산]] →
+
+---

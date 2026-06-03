@@ -318,3 +318,14 @@ await: I/O ìììì ëìíì ëëê ìëêììíê ëê ìê (ëëì)
 1. I/O [[282_performance_tactics|성능]] 병목 (Bottleneck) 탐색법 (iostat, vmstat)은 컴퓨터가 누가 들어와도 되는지와 무엇을 막아야 하는지 정하는 문지기 규칙이에요.
 2. 먼저 멀티코어 확장성 병목 (Amdahl's Law) 및 [[022_kernel_role|커널]] [[275_lock_contention_monitoring|락 경합]] 진단을 이해하면 I/O [[282_performance_tactics|성능]] 병목 (Bottleneck) 탐색법 (iostat, vmstat)이 왜 필요한지 더 쉽게 보여요.
 3. 그래서 I/O [[282_performance_tactics|성능]] 병목 (Bottleneck) 탐색법 (iostat, vmstat)을 잘 알면 나중에 캐시 미스 오버헤드 측정 분석망 구조 적용도 훨씬 쉽게 배울 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 617 / 800
+
+← **이전**: [[616_amdahl_law_multicore_scaling|616. 멀티코어 확장성 병목 (Amdahl's Law) 및 커널 락 경합 진단]]
+**다음**: [[618_cache_miss_overhead|618. 캐시 미스 오버헤드 측정 분석망 구조 적용 (Cache Miss Overhead)]] →
+
+---

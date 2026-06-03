@@ -211,3 +211,14 @@ tags:
 1. 화장실([[214_critical_section|임계 구역]])을 완벽하게 쓰려면 3가지 철칙이 필요해요! 첫째, 내가 똥 싸고 있을 땐 **절대 남이 문 열고 들어오면 안 돼요([[283_mutual_exclusion|상호 배제]])**.
 2. 둘째, 화장실에 아무도 없는데 바깥에서 친구들끼리 "너 먼저 가, 아니야 너 먼저 가" 하다가 **아무도 못 들어가는 바보 같은 짓을 하면 안 돼요([[216_progress_in_synchronization|진행]])**.
 3. 셋째, 내가 줄을 서고 있는데 다른 덩치 큰 애들이 **계속 내 앞으로 새치기를 해서 내가 영원히 바지에 오줌을 싸게 만들면 안 돼요([[217_bounded_waiting|한정된 대기]])**. 이 3개가 지켜져야 평화로운 화장실이랍니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 697 / 800
+
+← **이전**: [[696_race_condition_concurrency_bug|696. 경쟁 조건 (Race Condition)]]
+**다음**: [[698_test_and_set_hardware_atomic|698. Test-and-Set 연산 하드웨어 (Test And Set Hardware Atomic)]] →
+
+---

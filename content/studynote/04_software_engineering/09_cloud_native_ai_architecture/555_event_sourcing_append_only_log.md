@@ -164,3 +164,14 @@ tags:
 1. [[249_event_sourcing_append_only_state_reconstruction|이벤트 소싱]] ([[307_event_sourcing|Event Sourcing]])은 레고 블록으로 성을 만들 때처럼, 규칙을 정하고 역할을 나누어 함께 작업하는 방법이에요.
 2. 혼자서 막 만들면 나중에 무너지거나 고치기 어렵지만, 약속을 지키면 누구나 쉽게 고치고 더 크게 만들 수 있어요.
 3. 그래서 [[001_software_engineering_definition|소프트웨어 공학]]은 프로그래머들이 좋은 프로그램을 빠르고 안전하게 만들 수 있게 도와주는 '규칙 모음집'이에요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 702 / 973
+
+← **이전**: [[555_event_sourcing|555. 이벤트 소싱 (Event Sourcing) - CRUD 대신 상태 변경 이력(Event) 자체를 추가(Append-only)]]
+**다음**: [[556_micro_frontends|556. 마이크로 프론트엔드 (Micro Frontends) - 모놀리식 프론트엔드를 독립적 팀 단위 컴포넌트로 분할]] →
+
+---

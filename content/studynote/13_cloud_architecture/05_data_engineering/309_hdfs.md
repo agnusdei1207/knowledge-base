@@ -113,3 +113,14 @@ tags:
 1. [[843_hadoop_rack_awareness_data_replication_topology|하둡]] [[136_variance|분산]] 시스템 [[013_hdfs|HDFS]] 디스크 [[018_mapreduce|맵리듀스]] 병목는 사람이 많은 운동회에서 어디로 가야 하는지 알려 주는 안내판과 비슷해요.
 2. 규칙이 없으면 모두가 한곳에 몰려서 느려지고 다투지만, 길을 정해 두면 훨씬 부드럽게 움직일 수 있어요.
 3. 그래서 컴퓨터 세상에서도 [[843_hadoop_rack_awareness_data_replication_topology|하둡]] [[136_variance|분산]] 시스템 [[013_hdfs|HDFS]] 디스크 [[018_mapreduce|맵리듀스]] 병목를 쓰면 많은 팀과 [[090_service_kubernetes_network_load_balancing|서비스]]가 덜 부딪히고 더 빨리 움직일 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 308 / 371
+
+← **이전**: [[308_process|308. 플랫폼 엔지니어링 IDP 인지 부하 감소 골든 패스 (IDP)]]
+**다음**: [[310_audit|310. 스파크 인메모리 처리 RDD 지연 평가 병렬 (RDD)]] →
+
+---

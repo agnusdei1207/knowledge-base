@@ -187,3 +187,14 @@ WHERE year = 2025;
 1. [[001_dikw_pyramid|데이터]] 이행 감리는 이사 후 새 집에서 "가져온 물건 목록을 보고 하나씩 체크하는 것"이야.
 2. 건수만 맞는 게 아니라 "가방 안에 진짜 노트북이 들어있는지, 아니면 벽돌이 들어있는지"도 [[396_validation|확인]]해야 해.
 3. 만약 이사 도중 물건이 사라지면 되돌아가서 다시 가져올 수 있도록 "세이브 포인트(체크포인트)"를 중간에 찍어두는 거야.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 316 / 530
+
+← **이전**: [[254_obfuscation_reverse_engineering|254. 난독화 리버스 엔지니어링 방어 (Obfuscation & Reverse Engineering Defense)]]
+**다음**: [[256_performance_metrics_tps_rsp|256. 성능 진단 지표 TPS/응답시간 (Performance Metrics TPS/Response Time)]] →
+
+---

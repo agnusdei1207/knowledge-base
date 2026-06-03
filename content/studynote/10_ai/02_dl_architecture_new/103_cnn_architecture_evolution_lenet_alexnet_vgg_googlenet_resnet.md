@@ -139,3 +139,14 @@ ViT (Vision Transformer) 및 NAS (자동 탐색)
 1. 똑똑한 [[231_ai_turing_test|인공지능]]을 만들려면 뇌세포 층을 아파트처럼 높게 쌓아야 해요.
 2. 하지만 너무 높게 쌓으면 맨 꼭대기 층까지 정보가 전달되지 않아서 똑똑해지지 않았어요.
 3. 과학자들이 중간에 막히지 않는 '고속 엘리베이터(잔차 연결)'를 발명해서 100층 넘게 지을 수 있게 된 거랍니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 103 / 420
+
+← **이전**: [[102_fully_connected_layer_dense_flatten_softmax|102. 완전 연결 층 (FC Layer) - 추출된 특징의 1차원 분류]]
+**다음**: [[104_resnet_residual_network_skip_connection_bottleneck|104. ResNet (Residual Network) - 잔차 연결 152층 기울기 소실 돌파]] →
+
+---

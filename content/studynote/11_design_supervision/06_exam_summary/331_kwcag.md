@@ -106,3 +106,14 @@ tags:
 1. 웹 [[292_accessibility_kwcag_wcag|접근성]] KWCAG은 모두가 같은 규칙의 블록을 쓰는 것과 같아요.
 2. 블록 모양이 같아야 친구가 만든 것도 잘 이어 붙일 수 있어요.
 3. 규칙을 지키면 더 많은 사람과 쉽게 함께 놀 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 409 / 530
+
+← **이전**: [[330_process|330. 기능점수 정산 증빙 (Function Point Settlement Evidence)]]
+**다음**: [[332_process|332. 시큐어 코딩 47개 보안 약점 (47 Secure Coding Weaknesses)]] →
+
+---

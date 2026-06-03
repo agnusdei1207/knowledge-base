@@ -197,3 +197,14 @@ CPU가 내뿜는 최초의 [[322_logical_virtual_address|논리 주소]](Logical
 1. [[364_segmentation|세그멘테이션]] 기반 [[259_paging|페이징]] (Paged [[364_segmentation|Segmentation]])은 컴퓨터가 메모리를 방처럼 나눠 쓰고 주소를 찾는 방법이에요.
 2. 먼저 [[366_segmentation_external_fragmentation|세그멘테이션과 외부 단편화]] ([[366_segmentation_external_fragmentation|가변 크기이므로 재발생]])을 이해하면 [[364_segmentation|세그멘테이션]] 기반 [[259_paging|페이징]] (Paged [[364_segmentation|Segmentation]])이 왜 필요한지 더 쉽게 보여요.
 3. 그래서 [[364_segmentation|세그멘테이션]] 기반 [[259_paging|페이징]] (Paged [[364_segmentation|Segmentation]])을 잘 알면 나중에 [[022_kernel_role|커널]] 메모리 할당 방식 (kmalloc, vmalloc)도 훨씬 쉽게 배울 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 367 / 800
+
+← **이전**: [[366_segmentation_external_fragmentation|366. 세그멘테이션과 외부 단편화 (가변 크기이므로 재발생) (Segmentation External Fragmentation)]]
+**다음**: [[368_kernel_memory_allocation|368. 커널 메모리 할당 방식 (kmalloc, vmalloc)]] →
+
+---

@@ -204,3 +204,14 @@ LLC · MAC · HDLC · PPP 등 세부 프로토콜로 확장
 1. [[001_dikw_pyramid|데이터]] 링크 계층은 장난감 편지를 그냥 던지지 않고 상자에 넣어 옆 친구에게 보내는 규칙이에요.
 2. 누가 먼저 보내고 얼마나 빨리 보내며, 상자가 찌그러졌는지도 여기서 살펴봐요.
 3. 그래서 옆 친구는 엉킨 종이 대신 정리된 상자를 받아 더 쉽게 내용을 읽을 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 302 / 1120
+
+← **이전**: [[180_xpon_epon_gpon_10gpon|180. xPON (Passive Optical Network) - EPON, GPON, 10G-PON]]
+**다음**: [[182_llc_logical_link_control|182. 논리적 링크 제어 (LLC, Logical Link Control) - IEEE 802.2]] →
+
+---

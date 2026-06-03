@@ -315,3 +315,14 @@ SaaS First 정책 (비커스텀 기능)
 1. 6R은 이사 [[268_strategy_pattern|전략]] 6가지 — 버리기(Retire), 그대로(Rehost), 일부 고치기(Replatform), 새 가구로 교체(Repurchase), 집 새로([[213_refactoring_cloud_native_rearchitecture|Refactor]])! 상황에 맞는 방법 선택!
 2. Repurchase는 구독 [[090_service_kubernetes_network_load_balancing|서비스]] 교체 — 직접 만든 낡은 냉장고(Exchange) 버리고, 매달 구독하는 새 냉장고(M365)로! 수리 걱정 끝!
 3. TCO가 핵심 — "월 구독료([[309_saas|SaaS]])가 비싸 보여도" 5년 총비용(서버+인건비+업그레이드) 합치면 SaaS가 저렴할 수 있어요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 44 / 371
+
+← **이전**: [[044_refactor_re_architect_cloud_native_msa|044. Re-factor & Re-architect — 클라우드 네이티브 MSA]]
+**다음**: [[046_migration_retire_retain|046. 클라우드 마이그레이션 — Retire & Retain 전략]] →
+
+---

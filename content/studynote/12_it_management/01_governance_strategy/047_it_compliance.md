@@ -129,3 +129,14 @@ IT 컴플라이언스 (IT [[058_it_compliance_sox_basel_gdpr_isms|Compliance]])�
 1. IT 컴플라이언스 (IT [[058_it_compliance_sox_basel_gdpr_isms|Compliance]])는 모두가 같은 규칙으로 일하게 해 주는 반장 약속표예요.
 2. 약속만 적어 두는 것이 아니라 누가 지켰는지 확인하고 고치는 방법까지 함께 정해요.
 3. 그래서 일이 많아져도 서로 부딪히지 않고 더 안전하게 움직일 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 85 / 587
+
+← **이전**: [[046_sla_service_level_agreement_metrics|046. SLA — 서비스 수준 협약 측정 지표]]
+**다음**: [[047_it_compliance_gdpr_sox_control_framework|047. IT 컴플라이언스 — GDPR·SOX·통제 프레임워크]] →
+
+---

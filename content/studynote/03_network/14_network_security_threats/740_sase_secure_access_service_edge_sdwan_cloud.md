@@ -128,3 +128,14 @@ SASE는 [[1044_micro_segmentation_east_west_traffic_security|마이크로 세그
 1. 나쁜 친구가 놀이터 규칙을 깨뜨리면 바로 알아차리고 막아야 해요.
 2. 이 개념은 어떤 장난이 위험한지 미리 알고, 문제가 생기면 어떻게 다시 정리할지도 알려줘요.
 3. 그래서 놀이터를 더 안전하게 지킬 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 861 / 1120
+
+← **이전**: [[739_micro_segmentation_lateral_movement_zero_trust|739. 마이크로 세그멘테이션 (Micro Segmentation 시스템망 트래픽 분할 보안통제구조 수평 전파/Lateral Movement]]
+**다음**: [[741_casb_cloud_access_security_broker|741. CASB (Cloud Access Security Broker 클라우드 망 접속 보안 모니터/가시성 유지 시스템)]] →
+
+---

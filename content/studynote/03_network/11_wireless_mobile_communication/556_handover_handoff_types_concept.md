@@ -219,3 +219,14 @@ tags:
 1. 여러분이 밤에 자동차를 타고 고속도로를 달릴 때, 가로등이 일정한 간격으로 서 있죠?
 2. 차가 달리면 앞 가로등 불빛은 멀어지고 다음 가로등 불빛이 다가오는데, 어두워지기 전에 스마트폰이 알아서 가장 밝은 가로등을 찾아 연결의 끈을 넘겨받는 거예요.
 3. 이 바톤 터치를 **'핸드오버'**라고 불러요. 덕분에 아빠가 고속도로를 달리며 유튜브를 봐도 끊기지 않고 계속 볼 수 있답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 677 / 1120
+
+← **이전**: [[555_co_channel_adjacent_interference|555. Co-channel Interference (동일 채널 간섭) / Adjacent Channel Interference (인접]]
+**다음**: [[557_hard_handover_break_before_make_lte|557. 하드 핸드오버 (Hard Handoff)]] →
+
+---

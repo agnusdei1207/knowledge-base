@@ -191,3 +191,14 @@ Completed / Failed with audit trail
 1. 여러 친구가 함께 큰 일을 할 때, 반장 한 명이 순서를 기억하고 "이제 너 차례야"라고 말해 주는 거예요.
 2. 누가 중간에 못 하면 반장은 앞에서 했던 친구들에게 다시 정리하라고 알려 줘요.
 3. 그래서 모두가 서로를 다 몰라도, 반장이 순서를 잘 챙기면 큰 일을 끝낼 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 177 / 482
+
+← **이전**: [[176_choreography_saga_pub_sub|176. 코레오그래피 사가 (Choreography Saga) - 중앙 통제 없이 각 서비스가 비동기 이벤트를 발행/구독 (Pub/Sub,]]
+**다음**: [[178_transactional_outbox_pattern_cdc|178. 트랜잭셔널 아웃박스 (Transactional Outbox) 패턴 - DB 커밋과 메시지 브로커 이벤트 발행의 원자성(Atomicity)]] →
+
+---

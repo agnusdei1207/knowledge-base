@@ -120,3 +120,14 @@ Snowflake Zero-Copy Clone - 즉각·비용 제로
 1. 친구랑 똑같은 그림을 그리고 싶은데, 시간이 너무 오래 걸려요.
 2. 그래서 마술 거울을 써서 친구 그림을 그대로 비춰서 보는 거예요.
 3. 내 거울에 낙서를 해도 친구 그림은 그대로니까 안심하고 놀 수 있답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 294 / 482
+
+← **이전**: [[293_storage_compute_separation|293. 스토리지와 컴퓨팅의 분리 (Separation of Compute and Storage)]]
+**다음**: [[295_data_mesh|295. 데이터 메시 (Data Mesh)]] →
+
+---

@@ -129,3 +129,14 @@ AdaBoost는 간단한 [[104_classification_analysis|분류]]기를 조합해 강
 1. 틀린 문제를 자꾸 다시 보는 선생님이 있어요.
 2. 다음에는 틀린 부분을 더 열심히 보게 만들어요.
 3. 이렇게 여러 번 도와주면 점점 더 잘하게 돼요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 137 / 587
+
+← **이전**: [[076_workaround_temporary_fix_incident|76. 워크어라운드 (Workaround) - 서비스 재개 임시 우회 조치]]
+**다음**: [[077_problem_management|77. 문제 관리 (Problem Management)]] →
+
+---

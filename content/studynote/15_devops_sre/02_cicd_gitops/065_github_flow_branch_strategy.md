@@ -126,3 +126,14 @@ CI/CD
 작은 가지에서 만들고 바로 큰 줄기에 붙여요.  
 붙이기 전에 꼭 [[396_validation|확인]]해요.  
 GitHub Flow는 그런 단순한 브랜치 방법이에요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 65 / 373
+
+← **이전**: [[064_git_flow_branch_strategy_release|64. Git Flow - 5개 브랜치 전략과 릴리스 관리]]
+**다음**: [[066_gitlab_flow_environment_branch_strategy|66. GitLab Flow - 환경(Environment) 기반 분기 및 배포 전략]] →
+
+---

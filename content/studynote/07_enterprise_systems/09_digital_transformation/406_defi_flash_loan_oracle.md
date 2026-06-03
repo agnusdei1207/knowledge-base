@@ -139,3 +139,14 @@ tags:
 1. [[033_defi_decentralized_finance|DeFi]] [[035_flash_loan|플래시 론]] 오라클는 복잡한 일을 순서대로 정리해 주는 큰 정리함이에요.
 2. 어디에 무엇을 넣을지 먼저 정해 두면, 나중에 찾거나 고칠 때 훨씬 쉬워져요.
 3. 그래서 일이 커질수록 먼저 기준을 만들고 같이 약속하는 것이 중요해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 406 / 482
+
+← **이전**: [[405_nft_non_fungible_token_erc|405. NFT 대체 불가능 토큰 ERC (NFT: Non-Fungible Token)]]
+**다음**: [[407_zkp_zero_knowledge_proof|407. ZKP 영지식 증명 비대화형 (ZKP: Zero-Knowledge Proof)]] →
+
+---

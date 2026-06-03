@@ -228,3 +228,14 @@ CPU가 [[158_instruction|명령어]]를 실행하며 [[322_logical_virtual_addre
 1. 베이스 [[057_register|레지스터]] (Base/Relocation [[175_register_addressing|Register]])은 컴퓨터가 메모리를 방처럼 나눠 쓰고 주소를 찾는 방법이에요.
 2. 먼저 [[328_mmu|MMU]] ([[328_mmu|Memory-Management Unit]])을 이해하면 베이스 [[057_register|레지스터]] (Base/Relocation [[175_register_addressing|Register]])이 왜 필요한지 더 쉽게 보여요.
 3. 그래서 베이스 [[057_register|레지스터]] (Base/Relocation [[175_register_addressing|Register]])을 잘 알면 나중에 [[330_limit_register|한계 레지스터]] ([[330_limit_register|Limit Register]])도 훨씬 쉽게 배울 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 329 / 800
+
+← **이전**: [[328_mmu|328. MMU (Memory-Management Unit) - 논리 주소를 물리 주소로 동적 변환하는 하드웨어]]
+**다음**: [[330_limit_register|330. 한계 레지스터 (Limit Register) - 메모리 보호, 주소 범위 검사]] →
+
+---

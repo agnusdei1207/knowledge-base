@@ -126,3 +126,14 @@ Democratization
 숫자를 읽을 수 있어야 해요.  
 모두가 배워요.  
 [[058_data_literacy|데이터 리터러시]] 민주화는 그런 거예요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 74 / 482
+
+← **이전**: [[073_omni_channel_o2o_evolution|73. 옴니채널 (Omni-Channel) - 오프라인, 온라인, 모바일 등 모든 채널을 통합해 일관된 고객 경험 제공 (O2O의 진화)]]
+**다음**: [[075_agile_pmo_project_management_office|75. 애자일 PMO (Project Management Office) - 폭포수 통제를 넘어 애자일 지원 조직으로의 전환]] →
+
+---

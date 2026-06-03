@@ -139,3 +139,14 @@ tags:
 1. 비즈니스 인텔리전스 기술 체계는 복잡한 일을 순서대로 정리해 주는 큰 정리함이에요.
 2. 어디에 무엇을 넣을지 먼저 정해 두면, 나중에 찾거나 고칠 때 훨씬 쉬워져요.
 3. 그래서 일이 커질수록 먼저 기준을 만들고 같이 약속하는 것이 중요해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 282 / 482
+
+← **이전**: [[281_olap_operations_drilldown_rollup_slice_dice_pivot|281. OLAP 연산 (Drill-down, Roll-up, Slice, Dice, Pivot)]]
+**다음**: [[283_data_visualization_dashboard_report|283. 데이터 시각화 (Data Visualization) 대시보드 및 리포트]] →
+
+---

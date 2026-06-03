@@ -139,3 +139,14 @@ THz 윈도우 탐색 · 초대역폭 활용
 1. THz는 아주 많은 짐을 한 번에 실어 나를 수 있는 [[148_5g_embb_urllc_mmtc|초고속]] 길이에요.
 2. 하지만 길이 아주 예민해서 비가 오거나 앞을 막으면 금방 힘이 약해져요.
 3. 그래서 THz는 어디서나 쓰는 길이 아니라, 짧고 똑바른 특별한 구간에서 가장 빛나요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 278 / 1120
+
+← **이전**: [[156_mmwave_millimeter_wave|156. 밀리미터파 (mmWave)]]
+**다음**: [[158_vlc_lifi_visible_light|158. 가시광 통신 (VLC, Visible Light Communication) / Li-Fi]] →
+
+---

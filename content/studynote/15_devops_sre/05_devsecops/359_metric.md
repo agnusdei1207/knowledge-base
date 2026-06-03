@@ -148,3 +148,14 @@ LLM 직접 호출 (고비용, 고레이턴시)
 1. [[280_ppo_proximal_policy_optimization|시맨틱 캐시]]는 선생님이 비슷한 질문에 같은 대답을 할 수 있도록 미리 정리해 둔 답안지예요.
 2. "사과 뭐야?"와 "애플이 뭔가요?"는 다른 말이지만 같은 뜻이라 같은 답안지를 써요.
 3. 덕분에 컴퓨터가 매번 비싼 AI에게 물어보지 않아도 돼서 빠르고 저렴하게 답을 줄 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 359 / 373
+
+← **이전**: [[358_architecture|358. 서드파티 API 통신 폴백 지터 백오프 설계 (Third-party API Fallback Jitter and Exponential]]
+**다음**: [[360_process|360. 가치 흐름 매핑 낭비 병목 식별 린 사상망 (Value Stream Mapping VSM Waste and Bottleneck]] →
+
+---

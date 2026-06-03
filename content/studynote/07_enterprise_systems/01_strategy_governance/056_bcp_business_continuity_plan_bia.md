@@ -120,3 +120,14 @@ RTO / RPO
 BCP는 집에 불이 나도 가족이 어디서 만나고 무엇부터 챙길지 정해 둔 약속이에요.  
 서버만 살리는 것이 아니라 사람, 장소, 일하는 순서도 같이 살려야 해요.  
 그래서 미리 연습해 두면 진짜 위기 때 덜 당황해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 56 / 482
+
+← **이전**: [[055_release_and_deployment_management|55. 릴리스와 배포 관리 (Release and Deployment Management)]]
+**다음**: [[057_disaster_recovery_dr_rto_rpo|57. 재해 복구 (Disaster Recovery, DR) - BIA와 RTO/RPO 설계]] →
+
+---

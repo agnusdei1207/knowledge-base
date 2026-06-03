@@ -148,3 +148,14 @@ tags:
 1. 멍청한 리눅스 관리자 방관 로봇(구식 Advisory [[510_lock|Lock]] 권고적 방식 늪!)은 화장실([[501_file_definition_logical_record|파일]] 영역 스왑!) 문 앞에 "사용 중 들어오지 마시오" 팻말만 걸어둬요. 대부분 착한 사람은 안 들어오지만, 눈이 먼 나쁜 미친 좀비(악성 오류 C언어 코드 프로그램 파단 랙!) 가 나타나면 팻말 무시하고 그냥 화장실 안에 쳐들어가서 볼일 보던 사람과 이리 치이고 저리 치이는 똥바다 대참사([[001_dikw_pyramid|Data]] Corruption [[501_file_definition_logical_record|파일]] 산산조각 붕괴 랙!) 멸망을 야기했어요 덜덜 마비!
 2. 그래서 똑똑한 윈도우 OS 경찰관이 **"강제 무적 철판 셔터 잠금! [[517_virtual_file_system_vfs|VFS]] 물리적 통제 빔!(Mandatory [[510_lock|Lock]] 통치 록백!)"** 마법을 결속해 줬어요! 팻말이 아니라 아예 화장실 입구를 2톤 강철 셔터로 막고 OS [[022_kernel_role|커널]]이 전기 충격기를 들고 섰어요! 눈먼 구식 좀비 봇이 팻말 안 읽고 무작정 돌진(I/O 바이패스 뚫기 타격!) 해와도, OS 철판 벽에 머리통 박고 기절([[013_system_call|System Call]] 에러 반환 튕겨냄 [[571_protection_vs_security|보호]] 스피드!) 하는 절대 입구 컷 통제를 달성해요 도출!
 3. 치명적 슬픔 악질 해커의 골탕 먹이기 디도스 사태 폭발 발생! 앗! 이 영원한 철판 셔터 강압 마법에도 끔찍한 모순 단점이 있어요. 나쁜 유저가 화장실에 들어가서 2톤 셔터를 닫아 달라고 (Mandatory [[510_lock|Lock]] 빔!) 시킨 뒤, 똥은 안 싸고 안에서 그대로 잠들어 버리면(무한 루프 데드락 해킹 [[268_strategy_pattern|전략]] 랙!)? 아예 경찰(관리자 Root)조차도 문을 못 부수고 마을 전체가 화장실 마비 폭주(Denial of [[090_service_kubernetes_network_load_balancing|Service]] 영원한 먹통 트레이드오프 파단!)에 걸려 시스템이 파산해 버려요. 그래서 똑똑한 리누스 토발즈는 "강제 잠금 저리 치워!" 하고 영원히 기능 삭제해 버리는 최후 결정을 하며 진화 랙이 생겼답니다 암막 진화 랙!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 568 / 800
+
+← **이전**: [[567_file_locking_shared_exclusive|567. 파일 잠금 (File Locking) - 공유 잠금(Shared lock) vs 배타적 잠금(Exclusive lock)]]
+**다음**: [[569_sparse_file_holes|569. 스파스 파일 (Sparse File) 저장 공간 절약 기술]] →
+
+---

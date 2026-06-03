@@ -171,3 +171,14 @@ tags:
 1. [[642_observability_telemetry|옵저버빌리티]] [[568_logs_distributed_logging_elk_fluentd|로그]], [[342_routing_metric_hop_bandwidth_delay|메트릭]], [[569_distributed_tracing_opentelemetry_jaeger|분산 추적]](Tracing)은 레고 블록으로 성을 만들 때처럼, 규칙을 정하고 역할을 나누어 함께 작업하는 방법이에요.
 2. 혼자서 막 만들면 나중에 무너지거나 고치기 어렵지만, 약속을 지키면 누구나 쉽게 고치고 더 크게 만들 수 있어요.
 3. 그래서 [[001_software_engineering_definition|소프트웨어 공학]]은 프로그래머들이 좋은 프로그램을 빠르고 안전하게 만들 수 있게 도와주는 '규칙 모음집'이에요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 825 / 973
+
+← **이전**: [[656_gitops_declarative_infrastructure|656. GitOps 인프라 선언적 관리]]
+**다음**: [[658_agile_scrum_roles|658. 애자일 스크럼 (Scrum) 역할 분담]] →
+
+---

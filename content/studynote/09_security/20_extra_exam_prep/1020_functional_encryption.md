@@ -125,3 +125,14 @@ Functional Encryption (함수 암호)를 제대로 이해하면 개념 하나를
 1. Functional Encryption (함수 암호)는 비밀 편지를 안전하게 잠그거나 진짜인지 확인하는 특별한 약속이에요.
 2. 하지만 자물쇠가 좋아도 열쇠를 아무 데나 두면 금방 들켜요.
 3. 그래서 암호는 만드는 방법과 열쇠를 지키는 방법을 같이 배워야 해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 134 / 1108
+
+← **이전**: [[101_sha_3|101. SHA-3 (Keccak) — 스펀지 구조(Sponge Construction), NIST 2015]]
+**다음**: [[1021_searchable_encryption|1021. Searchable Encryption (검색 가능 암호)]] →
+
+---

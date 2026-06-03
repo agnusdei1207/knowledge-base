@@ -129,3 +129,14 @@ tags:
 1. 아키텍처 평가 [[364_atam_cbam|ATAM CBAM]] [[095_tradeoff_point_architecture_evaluation_atam_conflict|상충점]] 민감도 도출 로직은 모두가 같은 규칙으로 일하게 해 주는 반장 약속표예요.
 2. 약속만 적어 두는 것이 아니라 누가 지켰는지 확인하고 고치는 방법까지 함께 정해요.
 3. 그래서 일이 많아져도 서로 부딪히지 않고 더 안전하게 움직일 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 569 / 587
+
+← **이전**: [[364_atam_cbam|364. 아키텍처 평가 ATAM CBAM 상충점 민감도 도출 로직]]
+**다음**: [[365_5_solid_code_smell|365. 객체지향 5원칙 SOLID 위배 코드 냄새(Code Smell) 리팩토링 검증]] →
+
+---

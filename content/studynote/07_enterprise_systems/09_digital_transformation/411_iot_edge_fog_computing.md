@@ -139,3 +139,14 @@ tags:
 1. [[101_iot_concept|IoT]] 엣지/[[106_fog_computing_cisco_architecture|포그 컴퓨팅]] 아키텍처는 복잡한 일을 순서대로 정리해 주는 큰 정리함이에요.
 2. 어디에 무엇을 넣을지 먼저 정해 두면, 나중에 찾거나 고칠 때 훨씬 쉬워져요.
 3. 그래서 일이 커질수록 먼저 기준을 만들고 같이 약속하는 것이 중요해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 411 / 482
+
+← **이전**: [[410_did_decentralized_identifier|410. DID 탈중앙 신원 증명 (DID: Decentralized Identifier)]]
+**다음**: [[412_lpwan_lora_zigbee_matter|412. LPWAN 로라 지그비 매터 통신 표준 (LPWAN: Low Power Wide Area Network)]] →
+
+---

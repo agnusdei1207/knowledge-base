@@ -122,3 +122,14 @@ readiness 통과 [[198_pod_kubernetes_minimum_deployment_unit|Pod]] 교체
     1. 새 교실을 먼저 준비한 뒤, 옛 교실을 천천히 정리하는 것과 같아요.
     2. 준비가 안 된 새 교실은 손님을 받으면 안 돼요.
     3. 그래서 컴퓨터도 조금씩 바꾸면서 안전하게 옮겨요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 86 / 371
+
+← **이전**: [[086_replicaset_kubernetes_controller_self_healing|86. 레플리카셋 (ReplicaSet) - 파드 수 유지와 자가 치유]]
+**다음**: [[088_statefulset_kubernetes_persistent_workload|88. 스테이트풀셋 (StatefulSet) - K8s 상태 저장 DB 배포]] →
+
+---

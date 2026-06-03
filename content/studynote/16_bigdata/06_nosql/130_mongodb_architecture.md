@@ -235,3 +235,14 @@ MongoDB의 [[086_replicaset_kubernetes_controller_self_healing|ReplicaSet]]-[[24
 1. ReplicaSet은 같은 책을 3권 인쇄해두는 것 — 한 권이 찢어져도 나머지 두 권으로 계속 읽을 수 있어요.
 2. Sharding은 두꺼운 백과사전을 ㄱ~ㅇ, ㅈ~ㅎ으로 나눠 다른 선반에 두는 것 — 선반 하나가 무거워지지 않아요.
 3. Mongos는 "내가 찾는 글자가 어느 선반에 있는지" 알려주는 안내원 — 덕분에 우리는 어느 선반에 뭐가 있는지 몰라도 돼요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 130 / 262
+
+← **이전**: [[129_document_db|129. 문서형 데이터베이스 (Document DB) — MongoDB/CouchDB/Firestore]]
+**다음**: [[131_column_family_db|131. 컬럼 패밀리 데이터베이스 (Column Family DB) — Cassandra/HBase/ScyllaDB]] →
+
+---

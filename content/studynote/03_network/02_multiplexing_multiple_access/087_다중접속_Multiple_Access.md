@@ -120,3 +120,14 @@ tags:
     1. 놀이터를 여러 반이 같이 쓰면 줄을 정해야 해요.
     2. 먼저 줄을 설지, 시간이 올 때까지 기다릴지 방법이 달라요.
     3. 그래서 통신도 누가 언제 쓰는지 규칙이 필요해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 87 / 1120
+
+← **이전**: [[086_CP_순환_전치_GI|86. CP (Cyclic Prefix) / GI (Guard Interval) - ISI 방지]]
+**다음**: [[088_주파수_분할_다중접속_FDMA|88. FDMA (Frequency Division Multiple Access)]] →
+
+---

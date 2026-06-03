@@ -129,3 +129,14 @@ tags:
 1. [[024_microkernel|마이크로커널]]은 스마트폰처럼 기본 기능만 있고, 앱(플러그인)을 설치해서 기능을 늘려요.
 2. 앱을 지워도 스마트폰 자체는 변하지 않아요.
 3. Eclipse, VS Code가 바로 이 방식으로 수천 개의 플러그인을 지원해요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 192 / 530
+
+← **이전**: [[135_blackboard_pattern|135. 블랙보드 패턴 (Blackboard Pattern)]]
+**다음**: [[137_space_based_architecture|137. 공간 기반 아키텍처 (Space-Based Architecture)]] →
+
+---

@@ -135,3 +135,14 @@ GPT 계보는 "언어 모델을 충분히 크게 훈련하면 모든 언어 [[15
 1. **GPT**는 소설 작가처럼 **앞 내용만 보면서** "다음에는 어떤 단어가 올까?"를 수십억 번 맞추다 보니 **언어를 완벽하게 배운 [[190_ai_llm_requirements_specification|AI]]**예요!
 2. "한국의 수도는" 다음에 "서울"을 쓰고, "서울" 다음에 "이다"를 쓰는 식으로 **한 단어씩 이어 [[087_process_state_transition|생성]]**하는 방식이에요.
 3. GPT-3, GPT-4, **ChatGPT** 모두 이 원리인데, 크기를 엄청 키웠더니 번역·코딩·요약 등 **거의 모든 걸 잘하는** 만능 AI가 됐어요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 302 / 420
+
+← **이전**: [[301_bert_mlm|301. BERT (Bidirectional Encoder Representations from Transformers)]]
+**다음**: [[303_foundation_model|303. 파운데이션 모델 (Foundation Model)]] →
+
+---

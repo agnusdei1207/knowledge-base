@@ -171,3 +171,14 @@ Same output target => arbitration required
 1. 크로스바 [[238_switch_operation_principles|스위치]]는 여러 친구가 여러 방으로 동시에 들어가고 싶을 때, 방마다 바로 이어지는 문을 많이 만들어 둔 집이에요.
 2. 그래서 가려는 방이 서로 다르면 기다리지 않고 한꺼번에 움직일 수 있어요.
 3. 하지만 방이 너무 많아지면 문을 만들 돈과 공간이 너무 많이 들어서, 큰 건물에서는 다른 길 찾기 방법을 같이 써야 해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 389 / 803
+
+← **이전**: [[387_interconnection_network|387. 상호 연결망 (Interconnection Network)]]
+**다음**: [[389_mesh_topology|389. 메시 (Mesh) 토폴로지]] →
+
+---

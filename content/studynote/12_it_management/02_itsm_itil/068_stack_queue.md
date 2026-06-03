@@ -125,3 +125,14 @@ Scheduling / Traversal
 쌓아 두면 나중에 올린 게 먼저 나와요.  
 줄 서면 먼저 온 사람이 먼저 가요.  
 [[057_stack|스택]]과 큐는 그런 순서예요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 120 / 587
+
+← **이전**: [[068_csi|68. 지속적 서비스 개선 (CSI, Continual Service Improvement)]]
+**다음**: [[069_deque_circular_queue|69. 데크/원형 큐 (Deque / Circular Queue)]] →
+
+---

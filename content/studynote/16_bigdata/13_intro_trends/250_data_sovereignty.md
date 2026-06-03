@@ -228,3 +228,14 @@ AI 국가 경쟁 + 데이터 규제 확산
 1. [[809_data_sovereignty|데이터 주권]]은 내 일기를 어느 나라 창고에 보관하느냐에 따라 누가 볼 수 있는지가 달라지는 것처럼, [[001_dikw_pyramid|데이터]]가 저장된 나라의 법이 적용되는 원칙이에요.
 2. EU는 유럽 시민의 [[781_personal_information|개인정보]]를 유럽 밖으로 보내려면 엄격한 조건을 지켜야 한다는 [[791_gdpr_eu|GDPR]] 법을 만들어 [[809_data_sovereignty|데이터 주권]]을 지키고 있어요.
 3. 글로벌 [[090_service_kubernetes_network_load_balancing|서비스]]를 하는 기업은 나라마다 별도 서버를 만들어야 할 수도 있어서 비용이 늘지만, 각 나라 고객의 신뢰를 얻어 사업을 키울 수 있어요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 250 / 262
+
+← **이전**: [[249_national_data_policy|037. 국가 데이터 정책 — 데이터기본법 · 데이터 산업 진흥법]]
+**다음**: [[251_data_anonymization|039. 개인정보 비식별화 (Data Anonymization / k-Anonymity)]] →
+
+---

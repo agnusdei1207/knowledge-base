@@ -143,3 +143,14 @@ Scaled [[519_dot_dns_over_tls|Dot]]-Product Attention은 [[246_transformer_self_
 1. 어텐션은 "내 질문(Query)과 책장의 각 책 제목([[067_db_key_uniqueness_minimality|Key]])을 비교해서 제일 관련된 책(Value)을 골라오는 도서관 사서야.
 2. √dₖ [[249_scaling_normalization_standardization|스케일링]]은 "책 제목이 너무 길면 비교가 어려우니까 길이에 맞게 점수를 낮춰주는" 공정한 채점 규칙이야.
 3. 멀티헤드 어텐션은 "여러 사서가 각자 다른 기준(주제·저자·발행년도)으로 책을 찾아서 합쳐주는" 팀 작업이야.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 381 / 420
+
+← **이전**: [[380_gradient_vanishing_kaiming|380. 기울기 소실/폭발 (Vanishing/Exploding Gradient)]]
+**다음**: [[382_positional_encoding_math|382. 트랜스포머 포지셔널 인코딩 (Positional Encoding) 수식]] →
+
+---

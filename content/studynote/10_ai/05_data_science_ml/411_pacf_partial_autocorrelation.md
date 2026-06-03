@@ -127,3 +127,14 @@ PACF를 올바르게 쓰면 [[342_arima_auto_regressive_integrated_moving_averag
 1. 시계열은 어제 일이 오늘 일에 영향을 주는 줄 알 수 있어요.
 2. PACF는 중간에 거친 사람들의 영향을 빼고, 바로 연결된 영향만 봐요.
 3. 그래서 몇 칸 전까지 직접 영향을 주는지 찾는 데 쓰여요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 411 / 420
+
+← **이전**: [[410_aic_bic_model_selection|410. AIC/BIC 모델 선택 (Akaike Information Criterion / Bayesian Information Criterion)]]
+**다음**: [[412_svr_support_vector_regression|412. 서포트 벡터 회귀 (SVR, Support Vector Regression)]] →
+
+---

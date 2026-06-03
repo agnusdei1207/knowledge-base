@@ -205,3 +205,14 @@ ISMP는 경영전략과 ISP를 바탕으로 실행 로드맵, 구축, 성과평�
 1. 친구들과 학교 축제에서 연극을 하기로 했어요([[101_isp_information_strategy_planning_4_steps|ISP]]). 그중에서 우리는 '백설 공주'를 무대에 올리기로 결정했죠.
 2. 백설 공주 연극을 진짜로 하려면 대본은 누가 쓰고, 옷은 몇 벌이 필요하며, 준비물 돈은 얼마나 들지 아주 꼼꼼하게 적어놔야 해요.
 3. 이렇게 연극(프로젝트) 하나를 완벽하게 해내기 위해 필요한 모든 준비물과 규칙을 자세히 적어둔 계획서를 ISMP라고 부른답니다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 9 / 482
+
+← **이전**: [[008_isp_information_strategy_planning|8. 정보화 전략 계획 (ISP, Information Strategy Planning) - 기업의 중장기 경영 목표 달성을 위한 전사적]]
+**다음**: [[010_ea_enterprise_architecture|10. EA (Enterprise Architecture, 전사적 아키텍처) - 기업의 비즈니스, 데이터, 애플리케이션, 기술 인프라를]] →
+
+---

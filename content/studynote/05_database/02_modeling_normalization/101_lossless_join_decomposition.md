@@ -124,3 +124,14 @@ tags:
 1. 레고 로봇을 몸통과 다리로 분리해서 보관하려고 해요.
 2. 아무 데나 부수면 나중에 다시 조립할 때 엉뚱한 다리가 붙어서 괴물이 될 수 있어요.
 3. 하지만 딱 맞는 '특수 연결 블록([[070_primary_key_alternate_key|기본 키]])'을 남겨두고 분리하면, 나중에 설명서 없이도 원래 로봇으로 완벽하게 다시 합체할 수 있답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 101 / 600
+
+← **이전**: [[100_normalization_decomposition|100. 정규화 (Normalization) - 이상 현상 방지를 위해 릴레이션을 분해(Decomposition)하는 과정]]
+**다음**: [[102_dependency_preservation_decomposition|102. 종속성 보존 (Dependency Preservation) - 분해 후에도 FD가 유지됨]] →
+
+---

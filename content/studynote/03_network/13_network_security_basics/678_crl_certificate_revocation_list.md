@@ -134,3 +134,14 @@ CRL 스펙 및 폐기 문제 및 배포 [[015_지연_데이터_관점|지연]] �
 1. 비밀 편지를 보낼 때는 자물쇠와 비밀번호가 필요해요.
 2. 이 개념은 누가 진짜 친구인지 [[396_validation|확인]]하고, 편지가 바뀌지 않았는지도 살펴봐요.
 3. 그래서 나쁜 사람이 중간에 훔쳐보거나 바꾸기 어려워져요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 799 / 1120
+
+← **이전**: [[677_ca_ra_certificate_authority_registration|677. 인증국 (CA, Certificate Authority), 등록기관 (RA, Registration Authority), 저장소]]
+**다음**: [[679_ocsp_online_certificate_status_protocol|679. OCSP (Online Certificate Status Protocol)]] →
+
+---

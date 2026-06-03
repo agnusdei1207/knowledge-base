@@ -139,3 +139,14 @@ SBOM은 Google SLSA 프레임워크와 결합하여 빌드 전 과정의 [[003_i
 1. 우리가 먹는 과자 뒤에 어떤 재료가 들어갔는지 적힌 **성분표**를 본 적 있니?
 2. SBOM은 컴퓨터 프로그램에 어떤 재료([[336_library_vs_framework|라이브러리]])가 들어갔는지 꼼꼼히 적어둔 명세서야.
 3. 나쁜 재료(취약점)가 발견되면 이 명세서를 보고 우리 프로그램이 안전한지 바로 [[396_validation|확인]]할 수 있단다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 109 / 373
+
+← **이전**: [[108_test_data_masking_pipeline|108. 테스트 데이터 마스킹 파이프라인 (Test Data Masking)]]
+**다음**: [[110_zero_downtime_db_schema_rollout|110. 무중단 DB 스키마 롤아웃 (Zero-Downtime) - Expand and Contract 패턴]] →
+
+---

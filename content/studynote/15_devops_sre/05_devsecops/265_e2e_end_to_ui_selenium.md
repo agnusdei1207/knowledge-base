@@ -134,3 +134,14 @@ E2E 테스트 / UI 테스트를 잘 적용하면 변경 회귀를 빠르게 드�
 1. E2E 테스트 / UI 테스트는 복잡한 일을 순서와 규칙으로 정리해서 실수하지 않게 도와주는 방법이에요.
 2. UI Automation 같은 친구들과 같이 움직여야 더 잘 작동해요.
 3. 그래서 문제가 생겨도 어디서 틀렸는지 빨리 찾고 다시 고치기 쉬워져요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 265 / 373
+
+← **이전**: [[264_integration_test_db_testcontainers|264. 통합 테스트 (Integration Test) DB 연동 모듈 조립망 결함 탐지 (Testcontainers 활용 격리 컨테이너]]
+**다음**: [[266_contract_testing_pact_msa_api|266. 계약 테스트 (Contract Testing / Pact)]] →
+
+---

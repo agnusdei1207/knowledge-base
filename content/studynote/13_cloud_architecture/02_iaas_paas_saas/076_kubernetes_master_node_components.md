@@ -140,3 +140,14 @@ self-healing / autoscaling / HA
 1. 학교에서는 선생님이 자리를 정하고 학생은 따라가요.
 2. 학생이 마음대로 자리 바꾸면 수업이 엉망이 돼요.
 3. [[196_kubernetes_k8s_container_orchestration|쿠버네티스]]의 뇌는 자리와 규칙을 정해 주는 선생님 같아요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 75 / 371
+
+← **이전**: [[075_kubernetes_k8s_cluster_architecture|75. K8s 클러스터 아키텍처 - 1개 이상의 컨트롤 플레인(마스터 노드)과 여러 개의 데이터 플레인(워커 노드)으로 구성]]
+**다음**: [[077_kube_api_server_k8s_hub|77. Kube-API Server - 모든 K8s 명령(kubectl)을 REST API로 수신하고 컴포넌트 간 통신을 중계하는 허브]] →
+
+---

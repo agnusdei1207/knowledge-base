@@ -130,3 +130,14 @@ tags:
 1. [[092_thread_lwp|스레드]] 자원 공유는 한 집에 사는 가족들이 거실, 주방, 화장실([[082_process_memory_structure|Code]], [[001_dikw_pyramid|Data]], [[078_heap_datastructure|Heap]])을 다 같이 쓰는 것과 같아요.
 2. 각자 집을 따로 짓고 살면 돈(메모리)도 많이 들고 서로 대화하기도 멀어서 힘든데, 한 집에서 살면 금방 물건을 빌려줄 수 있어서 엄청 빠르고 효율적이에요.
 3. 하지만 주방의 도마(공유 자원)를 여러 명이 동시에 쓰려고 하면 싸움이 나니까, 꼭 한 번에 한 명씩만 쓰는 규칙([[212_synchronization_mechanisms|동기화]])을 잘 지켜야 한답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 93 / 800
+
+← **이전**: [[092_thread_lwp|92. 스레드 (Thread) - 경량 프로세스 (LWP)]]
+**다음**: [[094_thread_independent_resources|94. 스레드의 독립 자원 - Thread ID, PC, 레지스터 집합, 스택]] →
+
+---

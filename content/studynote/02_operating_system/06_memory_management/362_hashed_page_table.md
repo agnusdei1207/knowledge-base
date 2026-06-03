@@ -188,3 +188,14 @@ tags:
 1. 해시 [[353_page_table|페이지 테이블]] (Hashed [[353_page_table|Page Table]])은 컴퓨터가 메모리를 방처럼 나눠 쓰고 주소를 찾는 방법이에요.
 2. 먼저 [[361_hierarchical_paging|다단계 페이징]] ([[361_hierarchical_paging|Hierarchical Paging]])을 이해하면 해시 [[353_page_table|페이지 테이블]] (Hashed [[353_page_table|Page Table]])이 왜 필요한지 더 쉽게 보여요.
 3. 그래서 해시 [[353_page_table|페이지 테이블]] (Hashed [[353_page_table|Page Table]])을 잘 알면 나중에 [[363_inverted_page_table|역 페이지 테이블]] ([[363_inverted_page_table|Inverted Page Table]])도 훨씬 쉽게 배울 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 362 / 800
+
+← **이전**: [[361_hierarchical_paging|361. 다단계 페이징 (Hierarchical Paging) - 페이지 테이블 크기 문제 해결 (2단계, 3단계...)]]
+**다음**: [[363_inverted_page_table|363. 역 페이지 테이블 (Inverted Page Table) - 시스템 내 단 하나의 페이지 테이블, 프레임 중심]] →
+
+---

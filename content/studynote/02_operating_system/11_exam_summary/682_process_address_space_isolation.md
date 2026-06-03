@@ -204,3 +204,14 @@ tags:
 1. 옛날 컴퓨터는 넓은 운동장에 모든 학생(프로그램)을 풀어놓고 놀게 했어요. 그래서 한 친구가 칠해놓은 그림을 다른 친구가 실수로 밟아서 망치는 일이 매일 일어났죠.
 2. 지금의 똑똑한 [[001_operating_system_purpose|운영체제]]는 마법을 부려서 학생마다 밖이 보이지 않는 '나만의 투명한 방([[382_virtual_address_space|가상 주소 공간]])'을 하나씩 만들어 주었어요!
 3. 모든 학생은 자기가 운동장을 통째로 혼자 쓴다고 착각하지만, 사실은 마법사([[328_mmu|MMU]])가 각자의 공간을 철저히 분리해 두었기 때문에 절대로 남의 그림을 밟거나 싸울 일이 없어졌답니다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 682 / 800
+
+← **이전**: [[681_ipc_performance_overhead|681. IPC 기법 성능 오버헤드 (IPC Performance Overhead)]]
+**다음**: [[683_pcb_process_control_block_components|683. PCB 구성 요소 필수 암기 (PCB Process Control Block Components)]] →
+
+---

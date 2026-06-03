@@ -129,3 +129,14 @@ tags:
 1. 챗봇 및 AI옵스([[099_aiops_chatbot_itsm_automation|AIOps]]) 결합 ITSM는 모두가 같은 규칙으로 일하게 해 주는 반장 약속표예요.
 2. 약속만 적어 두는 것이 아니라 누가 지켰는지 확인하고 고치는 방법까지 함께 정해요.
 3. 그래서 일이 많아져도 서로 부딪히지 않고 더 안전하게 움직일 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 181 / 587
+
+← **이전**: [[098_self_service_portal_helpdesk_automation|98. 셀프 서비스 포털 (Self-Service Portal) - 헬프데스크 혁신]]
+**다음**: [[099_aiops_chatbot_itsm_automation|99. 챗봇 및 AI옵스(AIOps) 결합 ITSM - 지능형 IT 서비스 자동화]] →
+
+---

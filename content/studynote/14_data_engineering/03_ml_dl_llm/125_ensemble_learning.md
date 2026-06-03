@@ -111,3 +111,14 @@ tags:
 1. [[257_ensemble_learning|앙상블]]은 **100명에게 물어서 다수결([[259_bagging_random_forest|Bagging]])**로 답을 정하는 거예요.
 2. 또는 **틀린 문제만 반복 연습([[127_boosting|Boosting]])**해서 점수를 올리는 거예요.
 3. 혼자보다 **여러 명이 모이면** 더 정확한 답을 찾을 수 있답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 125 / 258
+
+← **이전**: [[124_decision_tree|124. 의사결정 트리 (Decision Tree) - 해석 가능한 분류·회귀 알고리즘]]
+**다음**: [[126_bagging_random_forest|126. Bagging & Random Forest - 배깅 앙상블과 랜덤 포레스트]] →
+
+---

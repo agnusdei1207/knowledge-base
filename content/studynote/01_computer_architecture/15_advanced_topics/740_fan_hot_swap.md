@@ -148,3 +148,14 @@ Predictive maintenance and closed-loop service orchestration
 1. 서버 안에는 뜨거운 공기를 밖으로 밀어내는 작은 강한 선풍기들이 여러 개 있어요.
 2. 하나가 고장 나도 다른 선풍기들이 잠깐 더 세게 돌고, 새 선풍기를 바로 끼워 넣을 수 있어요.
 3. 그래서 컴퓨터를 끄지 않고도 계속 일을 시키면서 고칠 수 있답니다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 741 / 803
+
+← **이전**: [[739_heatpipe|739. 히트파이프 (Heatpipe)]]
+**다음**: [[741_redundant_power_supply|741. 이중화 전원 공급 장치 (Redundant Power Supply)]] →
+
+---

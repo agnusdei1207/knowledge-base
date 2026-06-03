@@ -126,3 +126,14 @@ JSON을 무덤으로 보낸 1등 공신입니다. gRPC의 [[001_dikw_pyramid|데
 1. 달리기 시합에서 누가 얼마나 빨랐는지 재려면 초시계와 기록표가 필요해요.
 2. 이 개념은 네트워크가 어디서 느려졌는지 숫자로 찾아내는 도구예요.
 3. 그래서 막연히 고치는 대신 가장 중요한 곳부터 똑똑하게 손볼 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 174 / 1120
+
+← **이전**: [[1067_istio_envoy_sidecar_proxy_service_mesh|1067. 이스티오(Istio) 사이드카 프록시]]
+**다음**: [[1069_webrtc_nat_traversal_stun_turn_ice|1069. WebRTC NAT 횡단 (STUN/TURN/ICE 통합)]] →
+
+---

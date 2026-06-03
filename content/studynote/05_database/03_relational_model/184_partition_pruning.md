@@ -175,3 +175,14 @@ tags:
 1. [[514_partition_slice_volume|파티션]] 프루닝은 장난감을 날짜별 상자에 넣어 두고, 오늘 필요한 상자 하나만 꺼내는 방법이에요.
 2. 그래서 모든 상자를 다 뒤지지 않아도 빨리 찾을 수 있어요.
 3. 하지만 날짜 대신 엉뚱한 기준으로 찾으면 결국 상자를 전부 다시 열어봐야 해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 184 / 600
+
+← **이전**: [[183_composite_partitioning|183. 컴포지트 파티셔닝 (Composite Partitioning) - 복합 (Range + Hash 등)]]
+**다음**: [[185_global_vs_local_index|185. 전역 인덱스 (Global Index) vs 지역 인덱스 (Local Index, 파티션별 독립 인덱스)]] →
+
+---

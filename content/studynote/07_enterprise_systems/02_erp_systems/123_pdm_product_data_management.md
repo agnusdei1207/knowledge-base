@@ -107,3 +107,14 @@ PDM은 **설계 협업의 기본 인프라**이며, PLM으로 확장하여 전�
 1. PDM은 설계팀의 **도서관**이에요. 도면(책)을 빌리고(체크아웃) 돌려놓아요(체크인).
 2. 같은 도면을 두 사람이 동시에 수정하면 **충돌**이 나니까, 한 명이 빌리면 다른 사람은 기다려야 해요.
 3. 덕분에 도면이 **항상 최신 [[288_version_ihl_tos_total_length|버전]]으로 안전하게** 관리된답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 123 / 482
+
+← **이전**: [[122_plm_product_lifecycle_management|122. PLM (Product Lifecycle Management) - 제품 전주기 관리 시스템]]
+**다음**: [[124_bom_bill_of_materials|124. BOM (Bill of Materials) - 부품 구성 목록·제조업 데이터 핵심]] →
+
+---

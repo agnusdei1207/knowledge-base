@@ -131,3 +131,14 @@ Immutable Deployment
 한 번 포장하면 내용이 안 바뀌어요.  
 그 상자를 어디서나 열 수 있어요.  
 [[063_docker_architecture|도커]] 이미지는 그런 불변 상자예요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 67 / 371
+
+← **이전**: [[067_dockerfile_container_image_build_script|67. 도커 파일 (Dockerfile) - 컨테이너 이미지를 생성(빌드)하기 위한 명령어 명세 스크립트 (IaC 성격)]]
+**다음**: [[069_layered_file_system_unionfs|69. 레이어드 파일 시스템 (Layered File System / UnionFS) - 도커 이미지의 핵심. 변경된 레이어(Layer)만]] →
+
+---

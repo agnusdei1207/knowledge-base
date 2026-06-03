@@ -174,3 +174,14 @@ Outcome metrics and portfolio feedback
 1. 테마는 여러 놀이를 하나로 묶는 "오늘 소풍의 큰 주제" 같은 거예요.
 2. 그래서 달리기, 보물찾기, 그림 그리기가 왜 함께 있는지 모두가 쉽게 이해할 수 있어요.
 3. 컴퓨터 일을 할 때도 큰 주제가 있으면 작은 기능들이 같은 방향으로 모여서 더 잘 만들어져요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 184 / 973
+
+← **이전**: [[183_user_story_mapping|183. 유저 스토리 맵 (User Story Mapping)]]
+**다음**: [[185_lean_canvas_business_model|185. 린 캔버스 (Lean Canvas) 1페이지 비즈니스 모델]] →
+
+---

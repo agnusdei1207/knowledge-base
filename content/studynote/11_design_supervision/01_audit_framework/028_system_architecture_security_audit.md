@@ -143,3 +143,14 @@ IAM:
 1. 시스템 보안 감리는 건물 완공 전 소방 안전 검사예요! 나중에 고치는 것보다 설계 단계에서 잡는 게 훨씬 저렴해요.
 2. [[667_zero_trust_runtime_integrity_measurement|Zero Trust]](절대 믿지 않기) 원칙이 제대로 구현됐는지, 모든 문에 잠금장치가 있는지 확인해요!
 3. 요즘은 AI가 [[793_iac_idempotency_template|인프라 코드]]를 자동으로 분석해서 보안 취약점을 즉시 알려주는 자동 감리 도구도 있어요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 33 / 530
+
+← **이전**: [[028_application_system_area_audit|28. 응용 시스템 영역 감리 (Application System Area Audit)]]
+**다음**: [[029_audit_by_project_type|29. 프로젝트 유형별 감리 (Audit by Project Type)]] →
+
+---

@@ -181,3 +181,14 @@ Steady State 가설 → 실험 → 관찰 → 개선
 ```
 2. 만약 한 조각 없어도 탑이 안 무너지면 "이 탑은 튼튼해!"라고 [[396_validation|확인]]한 거야.
 3. 이렇게 미리미리 약한 곳을 찾아서 고치면, 갑자기 진짜 고장 났을 때도 괜찮아.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 190 / 371
+
+← **이전**: [[190_opentelemetry_cncf_observability_standard|190. 오픈텔레메트리 (OpenTelemetry, CNCF 옵저버빌리티 표준)]]
+**다음**: [[192_zero_downtime_deployment_strategies|192. 무중단 배포 전략 3총사 (Zero Downtime Deployment Strategies)]] →
+
+---

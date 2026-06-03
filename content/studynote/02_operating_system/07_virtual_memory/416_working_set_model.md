@@ -184,3 +184,14 @@ tags:
 1. [[265_working_set|워킹 셋]] 모델 (Working-Set Model)은 컴퓨터가 메모리를 더 크게 보이게 하고 부족함을 숨기는 방법이에요.
 2. 먼저 [[415_locality_model|지역성 모델]] ([[415_locality_model|Locality Model]])을 이해하면 [[265_working_set|워킹 셋]] 모델 (Working-Set Model)이 왜 필요한지 더 쉽게 보여요.
 3. 그래서 [[265_working_set|워킹 셋]] 모델 (Working-Set Model)을 잘 알면 나중에 [[266_page_fault_frequency|페이지 부재 빈도]] ([[306_pff|PFF]], [[286_page_frame|Page]]-Fault Frequency) 모델도 훨씬 쉽게 배울 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 416 / 800
+
+← **이전**: [[415_locality_model|415. 지역성 모델 (Locality Model) - 시간적, 공간적 지역성]]
+**다음**: [[417_page_fault_frequency|417. 페이지 부재 빈도 (PFF, Page-Fault Frequency) 모델 - 상한/하한 설정하여 동적 프레임 할당 조절]] →
+
+---

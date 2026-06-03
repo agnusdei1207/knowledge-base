@@ -122,3 +122,14 @@ Number Theory
 짝수 하나를 봐요.  
 두 소수로 만들 수 있는지 봐요.  
 골드바흐 추측은 그런 이야기예요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 129 / 587
+
+← **이전**: [[072_sieve_of_eratosthenes|72. 에라토스테네스의 체 (Sieve of Eratosthenes)]]
+**다음**: [[073_spoc|73. SPOC (Single Point of Contact)]] →
+
+---

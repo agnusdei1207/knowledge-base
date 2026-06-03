@@ -185,3 +185,14 @@ TPM (Trusted Platform Module) 기반 Measured Boot
 1. Secure Boot는 컴퓨터가 켜질 때 "진짜 출입증을 가진 친구만 들어와"라고 [[396_validation|확인]]하는 문지기예요.
 2. 나쁜 친구가 선생님보다 먼저 교실에 들어오면 모두를 속일 수 있으니, 문 앞 검사가 아주 중요해요.
 3. 그래서 컴퓨터는 먼저 들어오는 프로그램부터 검사해서, 수상한 친구는 아예 교실에 못 들어오게 해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 477 / 803
+
+← **이전**: [[476_tpm|476. TPM (Trusted Platform Module)]]
+**다음**: [[478_tee|478. 신뢰 실행 환경 (TEE, Trusted Execution Environment)]] →
+
+---

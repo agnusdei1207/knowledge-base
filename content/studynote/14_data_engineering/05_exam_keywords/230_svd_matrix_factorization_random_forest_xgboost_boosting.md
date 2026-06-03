@@ -284,3 +284,14 @@ SVD·[[353_random_forest|랜덤 포레스트]]·XGBoost는 현대 [[001_dikw_pyr
 ```
 2. [[353_random_forest|랜덤 포레스트]]는 "100명의 전문가가 각자 다른 자료를 보고 투표"하는 방식이고, XGBoost는 "한 전문가가 틀린 부분만 집중 보완하며 100번 반복 학습"하는 방식이다.
 3. [[110_bias_variance_tradeoff|편향-분산 트레이드오프]]는 "너무 단순한 규칙은 항상 틀리고(편향), 너무 복잡한 규칙은 외운 것만 맞고 새 문제엔 틀리는([[136_variance|분산]]) 딜레마"로, [[257_ensemble_learning|앙상블]]은 이 둘의 균형을 잡는 방법이다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 230 / 258
+
+← **이전**: [[229_time_series_arima_stationarity_collaborative_filtering|229. 시계열 ARIMA (AutoRegressive Integrated Moving Average) 정상성 협업 필터링]]
+**다음**: [[231_smote_oversampling_class_imbalance_augmentation|231. SMOTE (Synthetic Minority Over-sampling Technique) 불균형 데이터 증강]] →
+
+---

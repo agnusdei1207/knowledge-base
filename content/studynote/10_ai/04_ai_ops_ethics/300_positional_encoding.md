@@ -128,3 +128,14 @@ RNN은 순차 처리 자체가 순서를 내포했지만, Transformer에는 명�
 1. Transformer는 단어를 한꺼번에 처리해서 **순서를 모르는 문제**가 있어요 — "나는 학교에 간다"와 "간다 학교에 나는"을 같다고 봐요!
 2. 그래서 각 단어에 **위치 번호 스티커(포지셔널 인코딩)**를 붙여서 "이 단어는 1번째, 저 단어는 2번째"라고 알려줘요.
 3. 이 스티커는 **수학 공식(sin/cos)**으로 만들어서 아무리 긴 문장도 위치를 정확히 표현할 수 있어요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 300 / 420
+
+← **이전**: [[299_multi_head_attention|299. 멀티 헤드 어텐션 (Multi-Head Attention)]]
+**다음**: [[301_bert_mlm|301. BERT (Bidirectional Encoder Representations from Transformers)]] →
+
+---

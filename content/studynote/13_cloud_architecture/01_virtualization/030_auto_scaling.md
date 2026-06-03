@@ -168,3 +168,14 @@ KEDA([[205_kubernetes_container_orchestration|Kubernetes]] Event-Driven Autoscal
 1. 오토 [[249_scaling_normalization_standardization|스케일링]]은 손님이 많으면 자동으로 직원을 더 부르는 시스템이에요!
 2. 손님이 없을 때는 직원을 퇴근시켜서 비용을 아끼고, 손님이 몰릴 때 자동으로 더 불러요!
 3. 현대 클라우드는 AI가 손님 패턴을 분석해서 미리 직원을 준비시키는 예측 [[249_scaling_normalization_standardization|스케일링]]도 해요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 29 / 371
+
+← **이전**: [[029_scale_up_scale_out|29. 스케일 업 vs 스케일 아웃 (Scale Up vs Scale Out)]]
+**다음**: [[031_load_balancer|31. 로드 밸런서 — 트래픽 분산의 핵심 기술]] →
+
+---

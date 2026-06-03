@@ -181,3 +181,14 @@ Application ──> SQL Query ──> DBMS 엔진 (Optimizer/Parser) ──> DB 
 1. [[001_dikw_pyramid|데이터]]베이스는 우리 집의 커다란 '비밀 금고'와 같아요.
 2. 예전에는 장난감을 아무 데나 둬서 잃어버렸지만, 이제는 금고 안에 차곡차곡 정리해서 언제든 찾기 쉽죠.
 3. 게다가 금고 관리인 아저씨가 있어서, 엄마 아빠가 동시에 열어도 헷갈리지 않고 안전하게 장난감을 넣고 뺄 수 있답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 2 / 600
+
+← **이전**: [[001_dikw_pyramid|1. 데이터 (Data) / 정보 (Information) / 지식 (Knowledge) / 지혜 (Wisdom) - DIKW 피라미드]]
+**다음**: [[003_dbms_database_management_system|3. 데이터베이스 관리 시스템 (DBMS) - 사용자와 DB 사이의 인터페이스 (데이터 독립성 제공)]] →
+
+---

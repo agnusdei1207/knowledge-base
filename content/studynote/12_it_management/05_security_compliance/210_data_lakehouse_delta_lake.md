@@ -129,3 +129,14 @@ tags:
 1. [[001_dikw_pyramid|데이터]] [[146_lakehouse|레이크하우스]] ([[001_dikw_pyramid|Data]] [[146_lakehouse|Lakehouse]])는 모두가 같은 규칙으로 일하게 해 주는 반장 약속표예요.
 2. 약속만 적어 두는 것이 아니라 누가 지켰는지 확인하고 고치는 방법까지 함께 정해요.
 3. 그래서 일이 많아져도 서로 부딪히지 않고 더 안전하게 움직일 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 324 / 587
+
+← **이전**: [[209_data_warehouse_schema_on_write|209. 데이터 웨어하우스 (DW)]]
+**다음**: [[211_data_mesh_domain_ownership|211. 데이터 메시 (Data Mesh)]] →
+
+---

@@ -111,3 +111,14 @@ tags:
 1. 고루틴 (Goroutine)은 컴퓨터가 여러 일을 나눠서 처리하고 서로 기다리게 하는 약속이에요.
 2. 먼저 [[139_actor_model|액터 모델]] ([[139_actor_model|Actor Model]])을 이해하면 고루틴 (Goroutine)이 왜 필요한지 더 쉽게 보여요.
 3. 그래서 고루틴 (Goroutine)을 잘 알면 나중에 [[141_coroutine|코루틴]] ([[141_coroutine|Coroutine]])도 훨씬 쉽게 배울 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 140 / 800
+
+← **이전**: [[139_actor_model|139. 액터 모델 (Actor Model) - Erlang, Akka 동시성 모델]]
+**다음**: [[141_coroutine|141. 코루틴 (Coroutine)]] →
+
+---

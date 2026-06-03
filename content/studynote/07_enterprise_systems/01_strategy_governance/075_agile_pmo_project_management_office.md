@@ -120,3 +120,14 @@ decision
 1. 선생님은 규칙만 말하지 않고 경기 흐름도 봐 줘요.
 2. 누가 어디서 막히는지 알면 도와주기 쉬워요.
 3. 그래서 팀이 더 빨리 놀고 더 잘 배워요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 75 / 482
+
+← **이전**: [[074_data_literacy_democratization|74. 데이터 리터러시 (Data Literacy) 민주화]]
+**다음**: [[076_value_stream_mapping_lean|76. 가치 흐름 매핑 (Value Stream Mapping) - Lean 기법, 낭비(Muda) 요소 식별 제거]] →
+
+---

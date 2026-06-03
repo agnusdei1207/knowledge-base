@@ -134,3 +134,14 @@ Reference Architecture
 1. [[171_idempotency_iac_terraform|멱등성]]은 복잡한 일을 순서와 규칙으로 정리해서 실수하지 않게 도와주는 방법이에요.
 2. Retry Safety 같은 친구들과 같이 움직여야 더 잘 작동해요.
 3. 그래서 문제가 생겨도 어디서 틀렸는지 빨리 찾고 다시 고치기 쉬워져요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 194 / 373
+
+← **이전**: [[193_configuration_drift|193. 구성 편류 (Configuration Drift)]]
+**다음**: [[195_terraform_hashicorp_agnostic_aws_gcp|195. 테라폼 (Terraform)]] →
+
+---

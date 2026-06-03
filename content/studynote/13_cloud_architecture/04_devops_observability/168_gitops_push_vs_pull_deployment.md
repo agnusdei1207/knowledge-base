@@ -127,3 +127,14 @@ Pull 모델: ArgoCD/Flux → Git 감시 → 클러스터 자율 동기화
 ```
 2. Pull 배포는 아이가 엄마가 적어준 메모(Git)를 보고 스스로 방을 정리하는 방식이에요.
 3. Pull 방식은 엄마가 방 열쇠를 다른 사람에게 맡기지 않아도 돼서 훨씬 안전해요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 167 / 371
+
+← **이전**: [[167_gitops|167. 깃옵스 (GitOps) - 선언적 인프라 및 애플리케이션의 상태 동기화 패러다임]]
+**다음**: [[169_iac_infrastructure_as_code_terraform|169. 인프라스트럭처 애즈 코드 (IaC, Infrastructure as Code)]] →
+
+---

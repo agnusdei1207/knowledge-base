@@ -86,3 +86,14 @@ tags:
 1. 국의 간을 볼 때 냄비 전체를 다 마셔보지 않고 한 숟가락만 떠서 먹어보는 것과 같아요.
 2. 한 숟가락의 맛(표본)을 보고 "아, 냄비 전체(모집단)가 짜구나"라고 짐작하는 것이 추론 통계랍니다.
 3. 국을 골고루 잘 섞어서(무작위 샘플링) 떠야 정확한 맛을 알 수 있다는 점이 가장 중요해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 101 / 262
+
+← **이전**: [[100_descriptive_statistics|기술 통계 (Descriptive Statistics)]]
+**다음**: [[102_eda_exploratory_data_analysis|탐색적 데이터 분석 (EDA, Exploratory Data Analysis)]] →
+
+---

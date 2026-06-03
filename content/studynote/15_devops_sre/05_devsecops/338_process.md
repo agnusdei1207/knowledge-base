@@ -130,3 +130,14 @@ Kubernetes 높은 진입   Team Topologies 이론             Backstage 생태�
 1. Platform Engineering은 학교 급식실 같아요. 요리 방법(인프라)을 몰라도 트레이(포털)를 들고 줄 서면 밥을 받을 수 있어요.
 2. Golden Path는 식단표예요. [[395_verification_process_review|검증]]된 메뉴(템플릿)를 선택하면 영양(보안)도 자동으로 챙겨줘요.
 3. 개발자는 요리사가 아니에요. 좋은 음식([[090_service_kubernetes_network_load_balancing|서비스]])을 만드는 데 집중할 수 있도록 급식실(플랫폼)이 도와줘요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 338 / 373
+
+← **이전**: [[337_audit|337. 뮤테이션 테스트 테스트 케이스 품질 평가 (Mutation Testing Mutant Survived PITest Stryker]]
+**다음**: [[339_hdfs|339. Hadoop HDFS MapReduce Spark 빅데이터 분산 처리 (Hadoop HDFS MapReduce vs Spark]] →
+
+---

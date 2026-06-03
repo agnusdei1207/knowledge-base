@@ -52,3 +52,14 @@ tags:
 1. Orchestration은 **교향곡 지휘자**예요. 지휘자가 **각 악기에 [[130_signal|신호]]**를 보내요.
 2. 한 악기가 틀리면 지휘자가 **"다시!"** 하고 보상(되돌리기)해요.
 3. 재즈(Choreography)보다 **복잡한 곡(비즈니스)**에 적합해요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 135 / 371
+
+← **이전**: [[135_choreography_saga|135. Choreography Saga - 이벤트 기반 분산 트랜잭션]]
+**다음**: [[137_transactional_outbox_pattern|137. Transactional Outbox 패턴 - 이벤트 발행의 원자성 보장]] →
+
+---

@@ -223,3 +223,14 @@ tags:
 1. 붕어빵을 만들 때, 주문이 들어올 때마다 밀가루 반죽부터 시작해서 철판을 새로 만들면 시간이 엄청 오래 걸리잖아요.
 2. 그래서 장사꾼([[001_operating_system_purpose|운영체제]])은 미리 붕어빵 철판(슬랩) 수백 개를 준비해 두고, 안에 내용물만 없는 '빈 껍데기(객체)'를 잔뜩 찍어놨어요.
 3. 주문이 들어오면 그 빈 껍데기에 팥([[001_dikw_pyramid|데이터]])만 쏙 넣어서 1초 만에 손님한테 주니까, 낭비되는 반죽(메모리)도 없고 속도도 엄청나게 빨라졌답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 760 / 800
+
+← **이전**: [[759_blocking_nonblocking_async_io|759. 블로킹 / 논블로킹 / 비동기 I/O (Blocking Nonblocking Async I/O)]]
+**다음**: [[761_device_driver_module_interface|761. 디바이스 드라이버 모듈 인터페이스 (Device Driver Module Interface)]] →
+
+---

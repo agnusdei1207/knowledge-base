@@ -141,3 +141,14 @@ git log v1.0.0..HEAD --oneline
 1. 기준선은 게임 저장 포인트처럼, 소프트웨어의 공식 체크포인트예요!
 2. 체크포인트를 저장한 후에는 어떤 변경이든 선생님([[160_change_control_board_ccb_requirements_review|CCB]])의 허락을 받아야 할 수 있어요.
 3. 덕분에 팀 전체가 같은 [[288_version_ihl_tos_total_length|버전]]을 기준으로 일하고, 나중에 문제가 생겨도 체크포인트로 돌아갈 수 있답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 25 / 973
+
+← **이전**: [[024_configuration_status_accounting|24. 형상 상태 기록 (CSA, Configuration Status Accounting)]]
+**다음**: [[026_version_control_system|26. VCS (Version Control System) — 형상 이력 관리 시스템]] →
+
+---

@@ -194,3 +194,14 @@ tags:
 1. 예전에는 공책에 줄을 쫙 그어놓고 숫자만 예쁘게 적는 [[001_dikw_pyramid|데이터]]([[002_structured_data|정형 데이터]])만 중요하게 생각했어요.
 2. 그런데 알고 보니 사람들이 주고받는 카톡 사진, 유튜브 영상, 목소리 [[501_file_definition_logical_record|파일]] 같은 자유로운 [[001_dikw_pyramid|데이터]]([[004_unstructured_data|비정형 데이터]])가 세상에 훨씬 더(80% 이상) 많았어요!
 3. 예전에는 이 영상과 목소리들을 어떻게 계산할지 몰라 창고에 방치([[062_darkdata|다크 데이터]])했지만, 이제 똑똑한 [[231_ai_turing_test|인공지능]]([[190_ai_llm_requirements_specification|AI]])과 거대한 바다([[208_data_lake_schema_on_read|데이터 레이크]]) 저장소가 생겨서 버려진 영상 속에서도 숨은 보물을 찾을 수 있게 되었답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 20 / 262
+
+← **이전**: [[019_data_de_identification|19. 개인정보 비식별화 — k-익명성 / l-다양성 / t-근접성]]
+**다음**: [[021_zettabyte_era_data_explosion|21. 제타바이트 시대 — 2025년 전 세계 생성 데이터 ~175 ZB]] →
+
+---

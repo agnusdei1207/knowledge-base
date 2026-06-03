@@ -141,3 +141,14 @@ MAML은 [[470_meta_learning_maml|메타 러닝]]의 이론적 기반을 확립�
 1. MAML은 "어떤 운동이든 빠르게 배울 수 있는 유연한 몸"을 만드는 훈련이야. 특정 운동을 잘하는 게 아니라 배우는 능력 자체를 키워.
 2. 내부 루프는 "새 운동을 3번 연습"하는 것, 외부 루프는 "그 3번 연습이 잘 되게 만드는 몸 상태를 만드는 것"이야.
 3. FOMAML은 계산을 줄이기 위해 "경사의 굽은 정도는 무시하고 방향만 보고 내려가는" 간소화 [[288_version_ihl_tos_total_length|버전]]이야.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 390 / 420
+
+← **이전**: [[389_knowledge_distillation_soft_target|389. 지식 증류 소프트 타겟 (Soft Target)]]
+**다음**: [[391_diffusion_reverse_process|391. 디퓨전 역과정 (Reverse Diffusion Process)]] →
+
+---

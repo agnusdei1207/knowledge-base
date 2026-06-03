@@ -218,3 +218,14 @@ FinOps 영역 성숙
 1. [[001_dikw_pyramid|데이터]] 중력은 물건이 많아질수록 이사하기 힘들어지는 것처럼, 클라우드에 [[001_dikw_pyramid|데이터]]가 쌓일수록 다른 클라우드로 이동하기 어려워지는 현상이에요.
 2. [[051_vendor_lock_in_cloud_computing|벤더 종속]]을 피하려면 여러 클라우드에서 동작하는 표준 도구([[205_kubernetes_container_orchestration|Kubernetes]] 등)를 쓰고, [[001_dikw_pyramid|데이터]]를 표준 형식으로 저장해야 해요.
 3. 금융기관이 AWS에만 의존하다가 Azure DR을 구축하자마자 AWS가 할인을 제공한 것처럼, 대안이 있어야 협상력이 생겨요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 37 / 371
+
+← **이전**: [[037_cloud_broker_msp|037. 클라우드 브로커와 MSP (Cloud Broker & MSP)]]
+**다음**: [[039_kvm_ovf|039. KVM과 OVF (Kernel-based Virtual Machine & Open Virtualization Format)]] →
+
+---

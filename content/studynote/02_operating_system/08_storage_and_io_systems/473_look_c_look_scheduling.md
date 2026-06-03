@@ -182,3 +182,14 @@ LOOK 및 C-LOOK [[001_algorithm_definition|알고리즘]]은 둔탁한 하드디
 1. LOOK 및 C-LOOK은 컴퓨터가 디스크와 장치가 [[001_dikw_pyramid|데이터]]를 주고받는 길을 정리하는 방법이에요.
 2. 먼저 [[472_c_scan_scheduling|C-SCAN]] ([[472_c_scan_scheduling|Circular SCAN]])을 이해하면 LOOK 및 C-LOOK이 왜 필요한지 더 쉽게 보여요.
 3. 그래서 LOOK 및 C-LOOK을 잘 알면 나중에 리눅스 I/O [[079_kube_scheduler_pod_placement|스케줄러]]도 훨씬 쉽게 배울 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 473 / 800
+
+← **이전**: [[472_c_scan_scheduling|472. C-SCAN (Circular SCAN) - 한 방향으로만 처리하고 끝에 도달하면 시작점으로 빠르게 복귀 (대기 시간 균등화)]]
+**다음**: [[474_linux_io_schedulers|474. 리눅스 I/O 스케줄러 - NOOP, CFQ(Completely Fair Queuing), Deadline, BFQ]] →
+
+---

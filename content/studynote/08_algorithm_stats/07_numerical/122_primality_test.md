@@ -327,3 +327,14 @@ Post-Quantum 연구
 1. √N까지 검사 = 책 절반만 뒤지기 — 약수는 항상 짝으로 존재. 작은 쪽이 √N 이하. √N까지만 [[396_validation|확인]]하면 충분!
 2. 밀러-라빈 = 강화 신분증 검사 — 15~20번 다른 방법으로 검사. 가짜 신분증(합성수) 통과 [[130_probability|확률]] 10억분의 1!
 3. [[110_rsa|RSA]] 소수 [[087_process_state_transition|생성]] = 복권 당첨 [[396_validation|확인]] — 랜덤 숫자 뽑고 빠른 필터 후 밀러-라빈 [[396_validation|확인]]. 평균 240번 시도로 1024비트 소수 발견!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 122 / 175
+
+← **이전**: [[121_sieve_of_eratosthenes|002. 에라토스테네스의 체 — Sieve of Eratosthenes]]
+**다음**: [[123_fast_exponentiation|004. 빠른 거듭제곱 — Fast Exponentiation]] →
+
+---

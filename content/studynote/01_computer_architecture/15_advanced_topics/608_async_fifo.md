@@ -168,3 +168,14 @@ almost-full/empty 기반 흐름 제어
 1. 빠른 형이 공을 많이 던지고 느린 동생이 천천히 받는다면, 중간에 큰 바구니가 있어야 해요.
 2. 형은 바구니에 자기 속도로 넣고, 동생은 자기 속도로 꺼내면 서로 부딪히지 않아요.
 3. 비동기 FIFO는 컴퓨터 안에서 그런 바구니 역할을 해 주는 똑똑한 저장 상자예요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 608 / 803
+
+← **이전**: [[607_clock_domain_crossing|607. 클럭 도메인 교차 (CDC, Clock Domain Crossing)]]
+**다음**: [[609_single_event_latchup|609. 단일 이벤트 래치업 (SEL, Single Event Latchup)]] →
+
+---

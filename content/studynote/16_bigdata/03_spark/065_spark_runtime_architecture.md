@@ -96,3 +96,14 @@ tags:
 - 거대한 레고 성을 만드는 팀워크와 같아요.
 - 설계도를 보고 "너는 성벽, 너는 지붕을 만들어"라고 지시하는 대장이 '드라이버'예요.
 - 실제로 브릭을 끼우고 만드는 팀원이 '실행기'이고, 이들에게 레고 브릭과 책상을 빌려주는 관리자가 '클러스터 매니저'랍니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 65 / 262
+
+← **이전**: [[064_spark_deployment_modes|스파크 배포 모드 (Spark Deployment Modes)]]
+**다음**: [[066_spark_shuffle_optimization|Spark Shuffle 최적화 (Shuffle Optimization)]] →
+
+---

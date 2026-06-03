@@ -196,3 +196,14 @@ Data Mesh: 도메인별 분산 소유권 + 자기 서빙 인프라
 ```
 2. 놀고 싶을 때 방에 들어가서 "오늘은 레고만 꺼낼래"하고 그때 골라 쓰는 거야. 미리 정리 안 해도 돼.
 3. 방이 너무 커지면 어디 있는지 모르게 되니까 **지도([[394_catalog_metadata|카탈로그]])**를 만들어야 찾을 수 있어.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 207 / 258
+
+← **이전**: [[206_spark_inmemory_rdd_lazy_evaluation_lineage|206. 아파치 스파크 (Apache Spark) 인메모리 RDD 지연 평가 계보]]
+**다음**: [[208_data_warehouse_schema_on_write_inmon|208. 데이터 웨어하우스 (Data Warehouse) 스키마 온 라이트 Inmon 설계]] →
+
+---

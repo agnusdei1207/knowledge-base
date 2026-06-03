@@ -300,3 +300,14 @@ AI 기반 메타데이터
 1. [[211_data_mesh_domain_ownership|데이터 메시]] = 프랜차이즈 식당 — 중앙 주방([[001_dikw_pyramid|데이터]] 팀) 대신 각 코너([[064_relation_domain|도메인]])가 직접 요리([[001_dikw_pyramid|데이터]] 관리). 파이프라인 대기 3주→2일!
 2. [[154_data_product|데이터 제품]] = 내부 고객용 [[014_api_posix|API]] — 주문 팀이 "주문 [[001_dikw_pyramid|데이터]] [[014_api_posix|API]]"를 [[085_sla|SLA]]+문서+품질 기준으로 제공. 다른 팀이 [[394_catalog_metadata|카탈로그]]에서 검색 후 바로 사용!
 3. 연합 거버넌스 = 프랜차이즈 본사 위생 점검 — 각 매장이 자율 운영하되, 위생 기준([[164_policy|정책]])은 자동(코드)으로 강제. 표준화된 자율성!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 49 / 258
+
+← **이전**: [[048_consistent_hashing_ring_structure|048. 일관 해싱 — Consistent Hashing & Ring]]
+**다음**: [[050_data_fabric_virtualization|데이터 패브릭 가상화 (Data Fabric Virtualization)]] →
+
+---

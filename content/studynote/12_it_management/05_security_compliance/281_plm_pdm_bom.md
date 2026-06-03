@@ -129,3 +129,14 @@ tags:
 1. [[122_plm_product_lifecycle_management|PLM]] / [[123_pdm_product_data_management|PDM]] 제품 수명 주기 BOM는 모두가 같은 규칙으로 일하게 해 주는 반장 약속표예요.
 2. 약속만 적어 두는 것이 아니라 누가 지켰는지 확인하고 고치는 방법까지 함께 정해요.
 3. 그래서 일이 많아져도 서로 부딪히지 않고 더 안전하게 움직일 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 411 / 587
+
+← **이전**: [[280_mes_manufacturing_execution_system|280. MES 공장 제조 실행 시스템]]
+**다음**: [[282_kms_seci|282. KMS 지식 관리 암묵지 형식지 SECI 모델]] →
+
+---

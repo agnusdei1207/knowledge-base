@@ -128,3 +128,14 @@ tags:
 1. 나쁜 친구가 놀이터 규칙을 깨뜨리면 바로 알아차리고 막아야 해요.
 2. 이 개념은 어떤 장난이 위험한지 미리 알고, 문제가 생기면 어떻게 다시 정리할지도 알려줘요.
 3. 그래서 놀이터를 더 안전하게 지킬 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 843 / 1120
+
+← **이전**: [[721_drdos_scrubbing_center_mitigation|721. DRDoS 스크러빙 센터 (Scrubbing Center) 완화 트래픽 정제 대피소]]
+**다음**: [[723_rudy_slow_http_post_attack|723. RUDY (Slow HTTP POST 공격)]] →
+
+---

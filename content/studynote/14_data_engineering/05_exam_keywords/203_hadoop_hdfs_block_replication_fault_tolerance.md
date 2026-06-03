@@ -287,3 +287,14 @@ Hadoop 2.x: HA NameNode · Federation
 ```
 2. 블록마다 3개씩 복사본을 만들어두기 때문에, 컴퓨터 한 대가 고장나도 다른 곳에서 레고 조각을 꺼낼 수 있어요.
 3. NameNode는 "어떤 컴퓨터에 어떤 레고 조각이 있는지 기억하는 목록 책"이고, DataNode는 "실제로 레고를 보관하는 창고"예요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 203 / 258
+
+← **이전**: [[202_scale_out_distributed_horizontal_expansion|202. 스케일 아웃 (Scale-Out) 분산 수평 확장]]
+**다음**: [[204_namenode_metadata_mapreduce_disk_bottleneck|204. NameNode 메타데이터와 MapReduce 디스크 병목 SPOF 극복]] →
+
+---

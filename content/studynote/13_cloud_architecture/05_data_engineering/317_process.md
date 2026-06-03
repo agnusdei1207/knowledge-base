@@ -113,3 +113,14 @@ tags:
 1. [[211_data_mesh_domain_ownership|데이터 메시]] [[064_relation_domain|도메인]] 주도 [[136_variance|분산]] [[001_dikw_pyramid|데이터]] 프로덕트는 사람이 많은 운동회에서 어디로 가야 하는지 알려 주는 안내판과 비슷해요.
 2. 규칙이 없으면 모두가 한곳에 몰려서 느려지고 다투지만, 길을 정해 두면 훨씬 부드럽게 움직일 수 있어요.
 3. 그래서 컴퓨터 세상에서도 [[211_data_mesh_domain_ownership|데이터 메시]] [[064_relation_domain|도메인]] 주도 [[136_variance|분산]] [[001_dikw_pyramid|데이터]] 프로덕트를 쓰면 많은 팀과 [[090_service_kubernetes_network_load_balancing|서비스]]가 덜 부딪히고 더 빨리 움직일 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 316 / 371
+
+← **이전**: [[316_process|316. CDC 트랜잭션 로그 기반 데이터 실시간 변경 캡처 (CDC)]]
+**다음**: [[318_process|318. 데이터 패브릭 가상화 메타 기반 융합 (Cloud Architecture Concept)]] →
+
+---

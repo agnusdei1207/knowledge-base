@@ -139,3 +139,14 @@ tags:
 1. [[110_enterprise_architecture_ea|EA]] 프레임워크 잭맨 6×6 매트릭스는 복잡한 일을 순서대로 정리해 주는 큰 정리함이에요.
 2. 어디에 무엇을 넣을지 먼저 정해 두면, 나중에 찾거나 고칠 때 훨씬 쉬워져요.
 3. 그래서 일이 커질수록 먼저 기준을 만들고 같이 약속하는 것이 중요해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 322 / 482
+
+← **이전**: [[321_isp_as_is_to_be|321. ISP AS-IS TO-BE 분석 방법론 (ISP Information Strategy Planning)]]
+**다음**: [[323_bpr_pi_difference|323. BPR PI 차이점 근본적 재설계 vs 점진적 혁신 (BPR vs PI)]] →
+
+---

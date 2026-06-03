@@ -120,3 +120,14 @@ Cluster Autoscaler
 사람이 많아지면 의자를 더 놓는 게 HPA예요.  
 의자 하나당 크기를 바꾸는 게 VPA예요.  
 자리가 부족하면 방을 더 넓히는 게 노드 확장이에요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 57 / 371
+
+← **이전**: [[057_operator_pattern|57. 오퍼레이터 패턴 (Operator Pattern) - 쿠버네티스 상태형 워크로드 자동 운영]]
+**다음**: [[059_micro_segmentation_east_west_traffic|59. 마이크로 세그멘테이션 (Micro-segmentation) - 동서(East-West) 트래픽 차단]] →
+
+---

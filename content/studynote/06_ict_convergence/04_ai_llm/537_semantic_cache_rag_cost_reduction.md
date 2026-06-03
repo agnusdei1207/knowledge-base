@@ -147,3 +147,14 @@ tags:
 1. "오늘 날씨 어때?"와 "지금 날씨 알려줘"는 다른 말이지만 뜻이 같아요 — [[280_ppo_proximal_policy_optimization|시맨틱 캐시]]는 이런 비슷한 질문을 기억해서 AI에게 다시 묻지 않아요.
 2. 덕분에 같은 대답을 매번 만드는 데 드는 돈과 시간을 아낄 수 있어요.
 3. 하지만 오래된 정보를 주면 안 되니까, 새로운 정보가 생기면 기억을 업데이트해야 해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 537 / 552
+
+← **이전**: [[536_agentic_ai_workflows|536. 에이전틱 AI 워크플로우 (Agentic AI Workflows)]]
+**다음**: [[538_adversarial_examples_differential_privacy|538. 적대적 예제와 차분 프라이버시 방어 (Adversarial Examples and Differential Privacy Defense)]] →
+
+---

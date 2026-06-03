@@ -130,3 +130,14 @@ tags:
 1. 달리기 시합에서 누가 얼마나 빨랐는지 재려면 초시계와 기록표가 필요해요.
 2. 이 개념은 네트워크가 어디서 느려졌는지 숫자로 찾아내는 도구예요.
 3. 그래서 막연히 고치는 대신 가장 중요한 곳부터 똑똑하게 손볼 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 166 / 1120
+
+← **이전**: [[105_csma_persistence|105. 1-Persistent, Non-Persistent, p-Persistent CSMA]]
+**다음**: [[1061_bgp_rpki_routing_security|1061. BGP RPKI 라우팅 보안 망]] →
+
+---

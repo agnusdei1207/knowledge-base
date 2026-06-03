@@ -259,3 +259,14 @@ Kubernetes: 컨테이너 오케스트레이션
 1. 클러스터는 팀 작업 — 어려운 숙제(계산/[[090_service_kubernetes_network_load_balancing|서비스]])를 혼자(단일 서버) 하는 대신 친구들과(노드들) 나눠서 해요!
 2. HA 클러스터는 팀장 교체 — 팀장([[483_active_vs_passive_ftp|Active]] 노드)이 아프면 부팀장(Standby)이 자동으로 팀을 이끌어요. 일이 멈추지 않아요!
 3. [[548_automotive_hpc|HPC]] 클러스터는 수학 릴레이 — 어마어마한 계산을 수천 명(노드)이 동시에 나눠서 빠르게 풀어요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 45 / 800
+
+← **이전**: [[044_shell|044. 셸 — Shell]]
+**다음**: [[046_standby_modes|046. 대기 모드 — OS Standby & Sleep Modes]] →
+
+---

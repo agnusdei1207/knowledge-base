@@ -125,3 +125,14 @@ HS256 vs RS256 ([[549_jwt_json_web_token|JWT]] 서명 방식 비교)를 제대�
 1. HS256 vs RS256 ([[549_jwt_json_web_token|JWT]] 서명 방식 비교)는 컴퓨터끼리 인사하고 [[396_validation|확인]]하는 순서를 정한 약속이에요.
 2. 순서를 건너뛰면 나쁜 사람이 친구인 척할 수 있어요.
 3. 그래서 컴퓨터는 차례대로 묻고 답하면서 서로를 믿게 돼요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 559 / 1108
+
+← **이전**: [[502_jwt_alg_none_vulnerability|502. JWT alg: none 취약점 (JSON Web Token)]]
+**다음**: [[504_jwt_leakage_xss_protection|504. JWT 유출 및 XSS 방어 (JSON Web Token)]] →
+
+---

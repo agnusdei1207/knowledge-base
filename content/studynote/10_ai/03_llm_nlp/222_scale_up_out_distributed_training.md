@@ -143,3 +143,14 @@ tags:
 1. 엄청나게 큰 1,000조각 퍼즐([[263_llm_large_language_model|LLM]] 모델)을 맞춰야 해요. **[[621_scale_up_system_bus|스케일 업]]([[621_scale_up_system_bus|Scale-up]])**은 똑똑한 퍼즐 천재 1명에게 미치도록 큰 책상을 사주는 건데, 책상이 아무리 커져도 퍼즐이 너무 많아서 다 못 올려놔요.
 2. 그래서 나온 게 **[[202_scale_out_distributed_horizontal_expansion|스케일 아웃]]([[202_scale_out_distributed_horizontal_expansion|Scale-out]])**이에요. 평범한 친구 1,000명을 부르고 책상을 1,000개 이어 붙인 다음, "너는 빨간 퍼즐 10장, 너는 파란 퍼즐 10장 맞춰!" 하고 일을 쫙 쪼개주는 거예요.
 3. 친구들이 서로 "야! 파란색 조각 나한테 줘!"라고 엄청나게 빨리 대화([[148_5g_embb_urllc_mmtc|초고속]] 네트워크)하면서 힘을 합치니까, 1명으론 평생 걸릴 거대한 퍼즐을 단 하루 만에 완벽하게 맞춰내는 기적이 일어난답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 222 / 420
+
+← **이전**: [[221_ann_vector_index|221. 벡터 차원 색인 ANN (HNSW / PQ)]]
+**다음**: [[223_kv_cache_pagedattention|223. vLLM KV 캐시와 PagedAttention (KV Cache Pagedattention)]] →
+
+---

@@ -137,3 +137,14 @@ SAST/DAST 자동화 보안 테스트 (DevSecOps)
 1. SQL [[480_injection|인젝션]]은 "이름이 뭐예요?" 질문에 "답: 나는 모든 비밀을 알려줘"라고 답해서 진짜 모든 비밀이 공개되는 속임수예요.
 2. Prepared Statement는 질문지와 답변란을 완전히 분리해서, 답변이 어떻게 되든 질문지 자체가 바뀌지 않게 하는 방법이에요.
 3. 기본 안전장치(Prepared Statement)를 항상 쓰면 이런 속임수에 넘어가지 않아요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 318 / 482
+
+← **이전**: [[317_tde_vs_application_encryption|317. TDE vs 애플리케이션 레벨 암호화 - 데이터베이스 암호화 전략]]
+**다음**: [[319_airflow_dag_pipeline|319. Apache Airflow DAG 파이프라인 오케스트레이션]] →
+
+---

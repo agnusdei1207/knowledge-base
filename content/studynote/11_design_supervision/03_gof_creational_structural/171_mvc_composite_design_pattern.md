@@ -186,3 +186,14 @@ MVP / MVVM / reactive UI architectures
 1. MVC는 장난감 가게에서 계산하는 사람, 장난감을 만드는 사람, 진열하는 사람을 따로 두는 것과 같아요.
 2. 진열대를 바꿔도 장난감 만드는 법은 그대로 두고, 주문받는 방법만 따로 고칠 수 있어요.
 3. 그래서 가게가 커져도 일이 한곳에 엉켜서 망가지지 않아요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 227 / 530
+
+← **이전**: [[170_module_pattern|170. 모듈 패턴 (Module Pattern)]]
+**다음**: [[172_builder_immutable_object|172. 빌더 패턴을 활용한 불변 객체 (Immutable Object) 설계]] →
+
+---

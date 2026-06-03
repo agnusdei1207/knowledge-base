@@ -137,3 +137,14 @@ Data Catalog 통합 → 규제 감사·품질 근본 원인 분석
 1. [[214_data_lineage_tracking|데이터 리니지]]는 [[001_dikw_pyramid|데이터]]의 '족보'예요—이 숫자가 어느 할아버지(소스)에서 태어나서 어떤 과정을 거쳐 지금의 모습이 됐는지 알려줘요.
 2. 마치 우리가 엄마, 아빠, 할머니, 할아버지를 거슬러 올라가는 가족 나무처럼, [[001_dikw_pyramid|데이터]]도 출처를 따라가면 원래 어디서 왔는지 알 수 있어요.
 3. 리포트 숫자가 이상하면 족보를 펼쳐서 "아, 이 숫자가 여기서 잘못 계산됐구나!"하고 금방 찾을 수 있어요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 291 / 482
+
+← **이전**: [[290_data_catalog_integrated_metadata_repository|290. 데이터 카탈로그 (Data Catalog) - 통합 메타데이터 저장소]]
+**다음**: [[292_cloud_native_dw_snowflake_bigquery_redshift|292. 클라우드 네이티브 DW (Snowflake, BigQuery, Redshift) 아키텍처]] →
+
+---

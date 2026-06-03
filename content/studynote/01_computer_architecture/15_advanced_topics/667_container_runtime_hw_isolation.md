@@ -152,3 +152,14 @@ microVM / confidential container
 1. `runc`는 큰 운동장을 선으로 나눠 각 팀이 자기 구역만 보게 해 주는 도구예요.
 2. 그래서 우리 팀은 자기 골대와 공만 보면서 바로 경기를 시작할 수 있어요.
 3. 하지만 운동장 자체는 하나라서, 규칙과 안전요원은 따로 필요하답니다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 668 / 803
+
+← **이전**: [[666_vfio_framework|666. VFIO 프레임워크]]
+**다음**: [[668_cgroups_hw_resource_allocation|668. cgroups (Control Groups) 자원 할당]] →
+
+---

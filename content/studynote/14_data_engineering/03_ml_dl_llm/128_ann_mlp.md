@@ -105,3 +105,14 @@ MLP는 **딥러닝의 가장 기본 빌딩 블록**이며, Transformer의 FFN으
 1. [[239_perceptron_mlp_hidden_layer_weight_activation_sigmoid|퍼셉트론]]은 **1단 필터**예요. 간단한 것만 걸러낼 수 있어요.
 2. MLP는 **여러 단 필터**예요. 복잡한 것도 **세밀하게 [[104_classification_analysis|분류]]**할 수 있어요.
 3. 틀린 답이 나오면 **[[272_backpropagation|역전파]](피드백)**로 필터를 조정해서 더 정확해져요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 128 / 258
+
+← **이전**: [[127_boosting|127. Boosting (부스팅) - 순차적 오류 보정 앙상블 학습]]
+**다음**: [[129_activation_function|129. 활성화 함수 (Activation Function) - 신경망의 비선형 변환 핵심]] →
+
+---

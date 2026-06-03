@@ -164,3 +164,14 @@ tags:
 1. 컴퓨터가 내 게임 폴더에 10만 조각 [[501_file_definition_logical_record|파일]]을 흩뿌려놓고 그 주소들을 **"1장짜리 색인([[154_database_index_b_tree_search_optimization|인덱스]] [[154_database_index_b_tree_search_optimization|Index]]) 100칸짜리 요약 수첩"** 에 쏙 다 적어뒀어요! 근데 폴더에 게임 업뎃으로 100만 조각 대용량 뚱땡이 블록 [[001_dikw_pyramid|데이터]]가 더 생겨버렸어요 팽창 [[095_overflow|오버플로우]] 폭발!!
 2. 헐 큰일 났다!! 1장짜리 요약 100칸 수첩에 주소를 다 적을 칸이 모자라요 "공간 꽉 찼음 멸망 에러([[095_overflow|오버플로우]])!!" 그래서 컴퓨터 뇌는 잔머리를 씁니다! 수첩 뒤에 다음 수첩 위치를 꼬리로 적어(연결 방식 기차놀이) 무한 잇기를 스왑 시키는 포팅 구조 하나!
 3. 그보다 더 천재적인 잔머리는 **"트리 [[435_pruning_hardware|가지치기]] 피라미드 조직도 만들기(다중 수준 [[154_database_index_b_tree_search_optimization|인덱스]] 트리 통치)!"** 아예 회장님 대빵 수첩(1차 [[154_database_index_b_tree_search_optimization|인덱스]])에 100명의 서브 부하 수첩 주소를 적고, 서브 수첩들에 말단 [[501_file_definition_logical_record|파일]] 조각들을 수백만 개 분기 피라미드 지배 렌더를 치게 만들어, 수첩 용량이 터지지 않으면서 전 우주의 거대 [[501_file_definition_logical_record|파일]]을 모두 흡수 통치 수용하는 마법 확장 시스템이랍니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 527 / 800
+
+← **이전**: [[526_indexed_allocation|526. 색인 할당 (Indexed Allocation) - 모든 블록 포인터를 색인 블록(Index Block) 하나에 모아 저장]]
+**다음**: [[528_unix_inode_mechanism|528. 유닉스 i-node (Index Node) 매커니즘 - 파일 메타데이터 및 다중 접근 포인터 보유]] →
+
+---

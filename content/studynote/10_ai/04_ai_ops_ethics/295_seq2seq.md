@@ -124,3 +124,14 @@ Seq2Seq는 입력-출력 길이 비대칭 문제를 [[040_encoder|인코더]]-[[
 1. **[[245_seq2seq_context_vector_attention_dynamic_weight|Seq2Seq]]**는 영어 문장을 들으면 한국어로 바꿔주는 번역 기계인데, **[[040_encoder|인코더]](귀)**가 영어를 듣고 요약 메모를 만들면, **[[039_decoder|디코더]](입)**가 그 메모를 보고 한국어를 말하는 구조예요!
 2. 하지만 문장이 너무 길면 **메모 한 장에 전부 담을 수 없어서** 중요한 내용이 빠지는 "메모 병목" 문제가 생겨요.
 3. 그래서 나중에 [[039_decoder|디코더]]가 **원본 전체를 다시 [[316_reference_pattern_nosql|참조]]할 수 있게** 만든 어텐션(Attention) 기술이 등장했어요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 295 / 420
+
+← **이전**: [[294_gru|294. GRU (Gated Recurrent Unit)]]
+**다음**: [[296_attention_mechanism|296. 어텐션 메커니즘 (Attention Mechanism)]] →
+
+---

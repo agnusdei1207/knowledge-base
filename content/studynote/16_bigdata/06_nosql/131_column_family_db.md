@@ -261,3 +261,14 @@ C++ ScyllaDB  → GC 없음, 코어별 CPU 친화성
 1. 컬럼 패밀리 DB는 학생마다 필요한 칸이 다른 성적표 — 미술반 학생에게는 실기 칸이 있고, 수학반 학생에게는 없어도 괜찮아요.
 2. Cassandra는 원형으로 앉은 친구들이 서로 소식을 전달하는 릴레이 게임 — 선생님([[172_maas_mobility_as_a_service|마스]]터) 없이도 모두가 같은 정보를 갖게 돼요.
 3. Compaction은 방 정리와 같아요. 쓰다 버린 메모(삭제 [[001_dikw_pyramid|데이터]])를 주기적으로 청소해서 서랍(디스크)을 깨끗하게 유지해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 131 / 262
+
+← **이전**: [[130_mongodb_architecture|130. MongoDB 아키텍처 — ReplicaSet/Sharding/Mongos]]
+**다음**: [[132_cassandra|132. Apache Cassandra — 마스터 없는 링 구조 분산 데이터베이스]] →
+
+---

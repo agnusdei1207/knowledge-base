@@ -207,3 +207,14 @@ Parquet/ORC 파일 (메타데이터 부재)
 ```
 2. Delta Lake는 다이어리(일기장), Iceberg는 여러 도서관에서 읽을 수 있는 표준 교과서, Hudi는 실시간으로 내용이 바뀌는 뉴스 게시판과 같다.
 3. ACID는 은행 통장 잔액처럼 믿을 수 있어야 하는 규칙이다. 내가 1만원을 출금할 때 다른 사람도 동시에 1만원을 출금해서 잔액이 마이너스가 되는 일이 없도록 보호한다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 224 / 371
+
+← **이전**: [[224_data_lakehouse_delta_lake_databricks|224. 데이터 레이크하우스 (Data Lakehouse)]]
+**다음**: [[226_etl_extract_transform_load|226. ETL (Extract, Transform, Load)]] →
+
+---

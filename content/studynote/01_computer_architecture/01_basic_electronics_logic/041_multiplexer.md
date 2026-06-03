@@ -220,3 +220,14 @@ SerDes (직렬화/역직렬화)
 1. 멀티플렉서는 여러 수도꼭지(입력) 중에서 손잡이(선택 [[130_signal|신호]])로 하나만 골라 물(출력)이 나오게 하는 분배기예요.
 2. 4개 입력이 있으면 2비트 [[130_signal|신호]](00, 01, [[489_raid_10_hybrid|10]], [[308_static_dynamic_nat_pat_port_address_translation|11]])로 어느 것을 선택할지 결정해요.
 3. CPU 내부에도 수십 개의 MUX가 있어서 어떤 [[001_dikw_pyramid|데이터]]를 계산에 쓸지 매 순간 선택하고 있어요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 41 / 803
+
+← **이전**: [[040_encoder|040. 인코더 (Encoder)]]
+**다음**: [[042_demultiplexer|042. 디멀티플렉서 (Demultiplexer, DEMUX)]] →
+
+---

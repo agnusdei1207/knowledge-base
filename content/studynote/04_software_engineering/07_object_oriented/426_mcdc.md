@@ -168,3 +168,14 @@ tags:
 1. 변경 조건/[[423_decision_coverage|결정 커버리지]] (MC/DC, Modified Condition/[[423_decision_coverage|Decision Coverage]])은 레고 블록으로 성을 만들 때처럼, 규칙을 정하고 역할을 나누어 함께 작업하는 방법이에요.
 2. 혼자서 막 만들면 나중에 무너지거나 고치기 어렵지만, 약속을 지키면 누구나 쉽게 고치고 더 크게 만들 수 있어요.
 3. 그래서 [[001_software_engineering_definition|소프트웨어 공학]]은 프로그래머들이 좋은 프로그램을 빠르고 안전하게 만들 수 있게 도와주는 '규칙 모음집'이에요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 444 / 973
+
+← **이전**: [[426_mcdc|426. 변경 조건/결정 커버리지 (MC/DC, Modified Condition/Decision Coverage)]]
+**다음**: [[427_multiple_condition_coverage|427. 다중 조건 커버리지 (Multiple Condition Coverage)]] →
+
+---

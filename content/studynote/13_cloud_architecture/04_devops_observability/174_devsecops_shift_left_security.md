@@ -175,3 +175,14 @@ Shift-Right runtime detection and continuous verification
 1. [[653_devsecops_shift_left|데브섹옵스]]는 숙제를 다 한 뒤 틀린 것을 찾는 게 아니라, 쓰는 중간중간 바로 고치게 도와주는 방법이에요.
 2. 그래서 큰 실수가 나중에 한꺼번에 터지지 않고, 작은 실수일 때 빨리 고칠 수 있어요.
 3. 또 숙제를 내기 전에도 보고, 낸 뒤에도 다시 [[396_validation|확인]]해서 더 안전하게 지킬 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 173 / 371
+
+← **이전**: [[173_configuration_management_ansible_chef_puppet|173. 구성 관리 도구 (Configuration Management) — Ansible, Chef, Puppet]]
+**다음**: [[175_sast_sca_code_security_scanning|175. 코드 정적 스캐닝 및 종속성 취약점 스캐닝 (Static Application Security Testing, Software]] →
+
+---

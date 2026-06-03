@@ -139,3 +139,14 @@ tags:
 1. [[096_iso_iec_20000_itsm_certification|ITSM]] [[062_itil|ITIL]] [[088_service_catalog|서비스 카탈로그]] 관리는 복잡한 일을 순서대로 정리해 주는 큰 정리함이에요.
 2. 어디에 무엇을 넣을지 먼저 정해 두면, 나중에 찾거나 고칠 때 훨씬 쉬워져요.
 3. 그래서 일이 커질수록 먼저 기준을 만들고 같이 약속하는 것이 중요해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 334 / 482
+
+← **이전**: [[333_cobit_it_governance|333. IT 거버넌스 COBIT 도메인 통제 (COBIT IT Governance)]]
+**다음**: [[335_sla_service_level_agreement|335. SLA 서비스 수준 협약 지표 관리 (SLA Service Level Agreement)]] →
+
+---

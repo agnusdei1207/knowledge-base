@@ -152,3 +152,14 @@ ARIMA(p,d,q) 적합 → AIC/BIC 최소 모델 선택
 1. 시계열은 매일 기온을 기록한 일기장처럼, 시간 순서가 중요한 [[001_dikw_pyramid|데이터]]야.
 2. ARIMA는 "어제 기온이 오늘에 영향을 주고(AR), 어제 예측 실수도 반영해서(MA)" 미래 기온을 예측하는 방법이야.
 3. 계절이 있으면 SARIMA로 "작년 여름이 올해 여름에도 영향을 준다"는 패턴까지 추가로 학습해!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 517 / 552
+
+← **이전**: [[516_markov_chain_absorbing_ergodic_transition|516. 마르코프 체인: 흡수, 에르고딕, 전이 상태 (Markov Chain Absorbing Ergodic Transition)]]
+**다음**: [[518_tfidf_cosine_similarity_text_mining_word2vec|518. TF-IDF, 코사인 유사도, 텍스트 마이닝 (TF-IDF Cosine Similarity Text Mining Word2Vec)]] →
+
+---

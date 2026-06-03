@@ -127,3 +127,14 @@ Ping of Death 대형 패킷 [[291_fragmentation_and_reassembly_process|단편화
 1. 나쁜 친구가 놀이터 규칙을 깨뜨리면 바로 알아차리고 막아야 해요.
 2. 이 개념은 어떤 장난이 위험한지 미리 알고, 문제가 생기면 어떻게 다시 정리할지도 알려줘요.
 3. 그래서 놀이터를 더 안전하게 지킬 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 835 / 1120
+
+← **이전**: [[713_icmp_smurf_attack_directed_broadcast|713. ICMP Smurf 공격 (IP 브로드캐스트+스푸핑) / 스머핑 라우터 IP Directed Broadcast 차단 설계]]
+**다음**: [[715_teardrop_attack_ip_offset_overlap|715. TearDrop 공격 (IP 헤더 오프셋 중복/오류 단편화 무한 재조립 오류 기만 다운)]] →
+
+---

@@ -147,3 +147,14 @@ tags:
 1. [[121_supervised_learning|지도 학습]]은 선생님이 정답을 알려주며 가르치는 것, [[122_unsupervised_learning|비지도 학습]]은 스스로 탐구하며 패턴을 찾는 것, [[253_reinforcement_learning_mdp_policy_value_q_learning_dqn|강화 학습]]은 게임을 하면서 점수를 올리는 법을 배우는 것이에요!
 2. 스팸 메일 잡기는 [[121_supervised_learning|지도 학습]], 고객 취향 자동 [[104_classification_analysis|분류]]는 [[122_unsupervised_learning|비지도 학습]], 바둑 [[190_ai_llm_requirements_specification|AI]](알파고)는 [[253_reinforcement_learning_mdp_policy_value_q_learning_dqn|강화 학습]]이에요.
 3. 요즘 챗GPT 같은 AI는 이 세 가지를 모두 섞어서 훨씬 더 똑똑해졌답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 24 / 420
+
+← **이전**: [[023_machine_learning_concept|23. 머신러닝 개념 (Machine Learning Concept)]]
+**다음**: [[025_bias_variance_tradeoff|25. 편향-분산 트레이드오프 (Bias-Variance Tradeoff)]] →
+
+---

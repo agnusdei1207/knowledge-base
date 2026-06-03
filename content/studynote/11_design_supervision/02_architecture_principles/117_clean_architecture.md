@@ -145,3 +145,14 @@ tags:
 1. 케이크의 핵심 맛(비즈니스 규칙)은 어떤 예쁜 장식(프레임워크)을 올려도 변하지 않아야 해요.
 2. [[217_clean_architecture_dependency_rule|클린 아키텍처]]는 장식을 아무리 바꿔도 케이크 안쪽([[064_relation_domain|도메인]])이 망가지지 않도록 만드는 방법이에요.
 3. 바깥(기술)이 안쪽(비즈니스)을 향해서만 의존하고, 안쪽은 바깥을 몰라야 해요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 173 / 530
+
+← **이전**: [[116_hexagonal_architecture_ports_and_adapters|116. 헥사고날 아키텍처 (Hexagonal Architecture / Ports and Adapters)]]
+**다음**: [[118_onion_architecture|118. 어니언 아키텍처 (Onion Architecture)]] →
+
+---

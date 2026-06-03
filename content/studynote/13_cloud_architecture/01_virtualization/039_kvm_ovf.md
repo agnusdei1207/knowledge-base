@@ -236,3 +236,14 @@ VM과 컨테이너를 혼용하는 구조
 1. KVM은 Linux [[022_kernel_role|커널]] 안에서 여러 개의 완전한 컴퓨터([[598_vm_migration_nic|VM]])를 만들어 실행하는 기술로, CPU의 [[015_virtualization|가상화]] 기능 덕분에 거의 실제 속도로 동작해요.
 2. OVF/OVA는 VM을 이삿짐처럼 표준 박스에 포장하는 방법 — VMware에서 만든 VM을 KVM에서도 열 수 있게 해주는 공통 표준이에요.
 3. OpenStack과 KVM을 결합하면 AWS 같은 [[008_private_cloud|프라이빗 클라우드]]를 회사 안에 직접 구축할 수 있고, VM을 끄지 않고 다른 서버로 이동시키는 [[629_live_migration_pre_copy|라이브 마이그레이션]]도 가능해요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 38 / 371
+
+← **이전**: [[038_data_gravity_vendor_lockin|038. 데이터 중력과 벤더 종속 (Data Gravity & Vendor Lock-in)]]
+**다음**: [[040_cloud_native|040. 클라우드 네이티브 (Cloud Native)]] →
+
+---

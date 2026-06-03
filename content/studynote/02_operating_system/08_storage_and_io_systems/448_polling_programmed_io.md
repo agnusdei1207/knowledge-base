@@ -181,3 +181,14 @@ I/O [[212_synchronization_mechanisms|동기화]]의 영원한 두 맞수다. 결
 1. 폴링 ([[747_io_polling_overhead|Polling]] / Programmed I/O)은 컴퓨터가 디스크와 장치가 데이터를 주고받는 길을 정리하는 방법이에요.
 2. 먼저 메모리 맵 I/O (Memory-mapped I/O) vs 분리된 I/O (Isolated I/O / [[446_port_and_bus|Port]] I/O)을 이해하면 폴링 ([[747_io_polling_overhead|Polling]] / Programmed I/O)이 왜 필요한지 더 쉽게 보여요.
 3. 그래서 폴링 ([[747_io_polling_overhead|Polling]] / Programmed I/O)을 잘 알면 나중에 [[016_interrupt_mechanism|인터럽트]] 구동 I/O ([[016_interrupt_mechanism|Interrupt]]-driven I/O)도 훨씬 쉽게 배울 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 448 / 800
+
+← **이전**: [[447_memory_mapped_io_vs_isolated_io|447. 메모리 맵 I/O (Memory-mapped I/O) vs 분리된 I/O (Isolated I/O / Port I/O)]]
+**다음**: [[449_interrupt_driven_io|449. 인터럽트 구동 I/O (Interrupt-driven I/O) - 완료 시 장치가 CPU에 인터럽트 발생]] →
+
+---

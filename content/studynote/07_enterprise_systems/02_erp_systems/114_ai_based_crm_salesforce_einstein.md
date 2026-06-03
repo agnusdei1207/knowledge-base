@@ -104,3 +104,14 @@ tags:
 1. 옛날 CRM은 손님 정보를 **적어두기만** 하는 수첩이었어요.
 2. [[190_ai_llm_requirements_specification|AI]] CRM은 수첩이 스스로 **"내일 이 손님이 안 올 것 같으니 쿠폰을 보내세요!"**라고 말해줘요.
 3. 심지어 **AI가 직접 손님에게 답장**을 보내주니까, 가게 사장님은 더 중요한 일에 집중할 수 있답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 114 / 482
+
+← **이전**: [[113_social_crm_listening_sentiment_analysis|113. 소셜 CRM (Social CRM) - 소셜 리스닝·감성 분석·고객 참여 관리]]
+**다음**: [[115_cdp_customer_data_platform_single_view|115. CDP (Customer Data Platform) - 통합 고객 프로파일·Single Customer View]] →
+
+---

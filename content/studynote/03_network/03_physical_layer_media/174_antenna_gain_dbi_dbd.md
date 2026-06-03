@@ -185,3 +185,14 @@ reference antenna
 1. [[171_antenna_basic_dipole_resonance|안테나]] 이득은 손전등이 빛을 더 만드는 게 아니라 빛을 어디에 더 모아 비출지 정하는 힘이에요.
 2. 어떤 숫자는 둥근 가짜 전구와 비교한 값이고, 어떤 숫자는 막대 [[171_antenna_basic_dipole_resonance|안테나]]와 비교한 값이라서 단위를 꼭 봐야 해요.
 3. 그래서 [[171_antenna_basic_dipole_resonance|안테나]]를 고를 때는 숫자 하나만 보지 말고 얼마나 넓게 비추는지도 같이 봐야 해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 295 / 1120
+
+← **이전**: [[173_isotropic_antenna_theory|173. 등방성 안테나 (Isotropic Antenna)]]
+**다음**: [[175_eirp_effective_isotropic_radiated_power|175. 유효 등방성 복사 전력 (EIRP, Effective Isotropic Radiated Power)]] →
+
+---

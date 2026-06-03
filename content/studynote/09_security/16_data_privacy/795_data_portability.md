@@ -125,3 +125,14 @@ tags:
 1. [[001_dikw_pyramid|Data]] Portability ([[001_dikw_pyramid|데이터]] 이동권 ([[001_dikw_pyramid|Data]] Portability)는 학교 규칙표처럼 무엇을 준비하고 어떻게 확인할지 알려 주는 기준이에요.
 2. 규칙표만 붙여 두고 지키지 않으면 아무 소용이 없어요.
 3. 그래서 보안도 규칙과 실제 행동이 함께 맞아야 해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 869 / 1108
+
+← **이전**: [[794_right_to_be_forgotten|794. Right to be Forgotten (잊힐 권리 (Right To Be Forgotten)]]
+**다음**: [[796_gdpr_dpia|796. DPIA (Data Protection Impact Assessment)]] →
+
+---

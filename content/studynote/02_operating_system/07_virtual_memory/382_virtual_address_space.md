@@ -195,3 +195,14 @@ tags:
 1. 가상 주소 공간 (Virtual Address Space)은 컴퓨터가 메모리를 더 크게 보이게 하고 부족함을 숨기는 방법이에요.
 2. 먼저 [[381_virtual_memory|가상 메모리]] ([[381_virtual_memory|Virtual Memory]]) 개념을 이해하면 가상 주소 공간 (Virtual Address Space)이 왜 필요한지 더 쉽게 보여요.
 3. 그래서 가상 주소 공간 (Virtual Address Space)을 잘 알면 나중에 [[255_demand_paging|요구 페이징]] ([[255_demand_paging|Demand Paging]])도 훨씬 쉽게 배울 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 382 / 800
+
+← **이전**: [[381_virtual_memory|381. 가상 메모리 (Virtual Memory) 개념 - 물리 메모리보다 큰 프로그램 실행 가능]]
+**다음**: [[383_demand_paging|383. 요구 페이징 (Demand Paging) - 필요한 페이지만 메모리에 적재]] →
+
+---

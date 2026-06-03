@@ -184,3 +184,14 @@ tags:
 1. 2차 기회 [[001_algorithm_definition|알고리즘]] (Second-Chance / [[302_clock_algorithm|Clock Algorithm]])은 컴퓨터가 메모리를 더 크게 보이게 하고 부족함을 숨기는 방법이에요.
 2. 먼저 [[262_lru_page_replacement|LRU]] [[012_approximation_algorithm|근사 알고리즘]] ([[406_lru_approximation|LRU Approximation]])을 이해하면 2차 기회 [[001_algorithm_definition|알고리즘]] (Second-Chance / [[302_clock_algorithm|Clock Algorithm]])이 왜 필요한지 더 쉽게 보여요.
 3. 그래서 2차 기회 [[001_algorithm_definition|알고리즘]] (Second-Chance / [[302_clock_algorithm|Clock Algorithm]])을 잘 알면 나중에 개선된 2차 기회 [[001_algorithm_definition|알고리즘]]도 훨씬 쉽게 배울 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 407 / 800
+
+← **이전**: [[406_lru_approximation|406. LRU 근사 알고리즘 (LRU Approximation) - 참조 비트 (Reference Bit) 사용]]
+**다음**: [[408_enhanced_second_chance_algorithm|408. 개선된 2차 기회 알고리즘 (Enhanced Second Chance Algorithm)]] →
+
+---

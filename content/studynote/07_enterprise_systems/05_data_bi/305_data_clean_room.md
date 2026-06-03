@@ -160,3 +160,14 @@ Snowflake/Google Ads DCR 플랫폼 상용화
 1. 클린 룸은 두 친구가 서로의 일기를 직접 보여주지 않고, 공통 내용만 알려주는 비밀 규칙이에요.
 2. Differential Privacy는 답을 알려줄 때 일부러 살짝 틀린 숫자를 섞어서 진짜 정보를 감추는 거예요.
 3. k-anonymity는 50명 이상이 같은 그룹일 때만 결과를 알려줘서, 특정 한 사람을 골라낼 수 없게 해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 305 / 482
+
+← **이전**: [[304_realtime_cdp_architecture|304. 실시간 CDP 아키텍처 1st Party 클릭 로그 수집 통합 (Real-time CDP Architecture)]]
+**다음**: [[306_data_governance_3_elements|306. 데이터 거버넌스 3요소 원칙 조직 프로세스 IT시스템 (Data Governance)]] →
+
+---

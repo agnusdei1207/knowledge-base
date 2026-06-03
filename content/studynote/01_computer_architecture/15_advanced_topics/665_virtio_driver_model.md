@@ -151,3 +151,14 @@ Packed Virtqueue + vDPA
 1. Virtio는 컴퓨터 안에서 쓰는 표준 택배 상자예요.
 2. 누구든 같은 상자에 물건을 담으면 창고 아저씨가 훨씬 빨리 옮길 수 있어요.
 3. 그래서 가상 컴퓨터도 진짜 컴퓨터처럼 빠르게 인터넷과 디스크를 쓸 수 있답니다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 666 / 803
+
+← **이전**: [[664_full_virtualization_io|664. 전가상화 (Full Virtualization) I/O]]
+**다음**: [[666_vfio_framework|666. VFIO 프레임워크]] →
+
+---

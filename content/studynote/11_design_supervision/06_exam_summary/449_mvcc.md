@@ -139,3 +139,14 @@ MVCC는 순수 잠금 중심 제어에서 시작해, 읽기 [[282_performance_ta
 1. 여러 친구가 같은 그림책을 보려고 할 때 한 권만 붙잡으면 싸우게 돼요.
 2. 그래서 보는 친구는 복사본을 보고, 고치는 친구는 새 종이에 바꿔 적어요.
 3. 다만 같은 곳을 동시에 고치려면 누가 먼저 할지 규칙을 정해야 해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 527 / 530
+
+← **이전**: [[448_ai_rag|448. AI 환각 방지 RAG 벡터 인덱싱 파이프 (AI Hallucination Mitigation RAG Vector Indexing]]
+**다음**: [[450_process|450. 가비지 컬렉션 스톱 더 월드 메모리 튜닝 (Garbage Collection Stop-the-World Memory Tuning)]] →
+
+---

@@ -147,3 +147,14 @@ MSA (마이크로서비스) 클라우드 인프라 아키텍처로 혼 빙의 �
 1. **[[258_structural_patterns_overview|구조 패턴]]**은 따로 굴러다니는 심심한 레고 블록들을 어떻게 조립하면 더 멋지고 엄청난 슈퍼 로봇을 만들 수 있는지 알려주는 **'비밀 조립 설명서 7가지 꿀팁'**이에요!
 2. 부품을 본드로 꽉 붙여버리면([[234_uml_class_relationships_generalization_dependency|상속]] 떡칠 강결합 💥) 나중에 팔 하나 부러졌을 때 로봇 전체를 버려야 하지만, 자석이나 찰칵 끼우는 조인트(합성, [[258_structural_patterns_overview|구조 패턴]] ✨)를 쓰면 부서진 팔만 1초 만에 쏙 빼고 새 걸로 갈아 끼울 수 있죠.
 3. 이 7가지 꿀팁([[259_adapter_pattern_interface_wrapper|어댑터]], [[262_decorator_pattern_dynamic_wrapper|데코레이터]], [[263_facade_pattern_simplified_interface|퍼사드]] 등)을 마스터하면 110V 장난감을 220V 구멍에 꽂는 변환 젠더([[259_adapter_pattern_interface_wrapper|어댑터]])도 만들고, 빵 위에 계속 딸기를 얹는 마법([[262_decorator_pattern_dynamic_wrapper|데코레이터]])도 부려서 세상 어떤 장난감이라도 뚝딱뚝딱 완벽하게 무한 변신 개조해 낼 수 있답니다 🚀!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 206 / 530
+
+← **이전**: [[149_prototype_pattern|149. 프로토타입 패턴 (Prototype Pattern) - 객체 복제를 통한 생성 최적화]]
+**다음**: [[151_adapter_pattern|151. 구조 패턴: 어댑터 (Adapter Pattern) - 인터페이스 불일치 융합 변환 젠더]] →
+
+---

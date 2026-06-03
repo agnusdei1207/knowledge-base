@@ -155,3 +155,14 @@ ARP는 목적이 "IP(3계층)를 이용해 [[673_mac_message_authentication_code
 1. 택배를 보내려면 집 주소가 정확해야 길을 잃지 않아요.
 2. 이 개념은 인터넷 세상에서 주소를 정하고 다음 길을 찾는 지도와 같아요.
 3. 그래서 멀리 있는 친구 컴퓨터까지도 편지가 도착할 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 434 / 1120
+
+← **이전**: [[312_arp_address_resolution_protocol_ip_to_mac|312. ARP (Address Resolution Protocol)]]
+**다음**: [[314_rarp_reverse_arp_mac_to_ip|314. RARP (Reverse ARP)]] →
+
+---

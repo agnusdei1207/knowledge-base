@@ -136,3 +136,14 @@ Data Trust
 책을 아무렇게나 두면 못 찾아요.  
 누가 책임지는지 정해야 정리가 돼요.  
 [[052_data_governance_framework|데이터 거버넌스]]는 그런 규칙이에요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 66 / 482
+
+← **이전**: [[065_shadow_data_cloud_security|65. 섀도우 데이터 (Shadow Data) - 통제받지 않은 클라우드 내 산재된 기업 민감 데이터]]
+**다음**: [[067_data_steward_data_quality|67. 데이터 스튜어드 (Data Steward) - 실무 부서 데이터 품질 관리 책임자]] →
+
+---

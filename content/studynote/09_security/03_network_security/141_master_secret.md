@@ -125,3 +125,14 @@ tags:
 1. 마스터 [[514_secret_management_vault_kms|시크릿]] (Master [[514_secret_management_vault_kms|Secret]])는 컴퓨터 세상을 더 안전하게 만들기 위한 중요한 약속이나 도구예요.
 2. 겉으로는 어려워 보여도, 왜 필요한지와 어떻게 움직이는지를 알면 훨씬 쉬워져요.
 3. 그래서 이름만 외우지 말고 어디에 쓰이는지 같이 기억해야 해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 194 / 1108
+
+← **이전**: [[140_session_key|140. 세션 키 (Session Key)]]
+**다음**: [[142_psk_pre_shared_key|142. PSK (Pre-Shared Key, 사전 공유 키)]] →
+
+---

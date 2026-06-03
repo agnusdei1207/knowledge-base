@@ -140,3 +140,14 @@ gRPC: Protocol Buffers + HTTP/2
 ```
 2. [[479_grpc_protobuf_http2|gRPC]]/Protobuf는 모스 부호로 통신하기 — 사람은 바로 못 읽지만 훨씬 짧고 빠르게 전달돼요.
 3. 두 컴퓨터([[090_service_kubernetes_network_load_balancing|서비스]])가 초고속으로 대화해야 할 때는 사람이 읽을 필요가 없으니 모스 부호([[479_grpc_protobuf_http2|gRPC]])가 훨씬 유리해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 157 / 371
+
+← **이전**: [[157_bdi_graphql_api_aggregation|157. BFF / GraphQL API 집계 (BFF Pattern / GraphQL)]]
+**다음**: [[159_eventual_consistency_distributed_systems|159. 결과적 일관성 (Eventual Consistency)]] →
+
+---

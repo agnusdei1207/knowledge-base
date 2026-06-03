@@ -154,3 +154,14 @@ AI 아키텍처 감리:
 1. 감리 자동화 도구는 품질 검사 로봇이에요 — 모든 코드를 자동으로 검사해서 문제를 찾아요!
 2. [[090_configuration_item|CI]]/CD 파이프라인은 자동 검사 컨베이어 벨트예요 — 코드가 올라오면 자동으로 여러 검사를 통과해야 배포돼요!
 3. [[190_ai_llm_requirements_specification|AI]] 감리는 점점 더 똑똑해져서 코드의 의미까지 이해하고 리뷰해주는 시대가 오고 있어요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 36 / 530
+
+← **이전**: [[029_database_area_audit|29. 데이터베이스 영역 감리 (Database Area Audit)]]
+**다음**: [[030_system_architecture_security_audit|30. 시스템 아키텍처/보안 영역 감리 (System Architecture and Security Audit)]] →
+
+---

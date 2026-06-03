@@ -124,3 +124,14 @@ IaC · 정책 자동화 적용
 1. 큰 놀이터에 새 친구들이 들어오려면 어디로 들어오고 어디서 놀지 먼저 규칙을 정해야 해요.
 2. 비슷한 놀이터가 여러 군데 있어도 같은 이름표와 안전 규칙을 쓰면 덜 헷갈려요.
 3. 그 규칙을 미리 만들어 둔 입구가 랜딩 존이고, 모두가 함께 지키게 하는 방법이 거버넌스예요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 514 / 530
+
+← **이전**: [[435_dora|435. DORA 메트릭스 리드 타임 배포 빈도 지표 (DORA Metrics for Lead Time and Deployment Frequency)]]
+**다음**: [[437_process|437. 엣지 네이티브 지연시간 단축 캐싱 분산 (Edge-Native Latency Reduction through Caching and]] →
+
+---

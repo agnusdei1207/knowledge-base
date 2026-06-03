@@ -210,3 +210,14 @@ LSM-Tree (쓰기 최적화, 순차 I/O)
 ```
 2. 메모장이 꽉 차면 한꺼번에 깔끔하게 묶어서 [[501_file_definition_logical_record|파일]] 캐비닛에 넣는데, 이것이 SSTable 플러시이다.
 3. [[501_file_definition_logical_record|파일]] 캐비닛에 쌓인 [[501_file_definition_logical_record|파일]]들을 주기적으로 합쳐서 큰 [[501_file_definition_logical_record|파일]]로 정리하는 작업이 Compaction이고, 이 덕분에 나중에 찾을 때도 빠르다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 221 / 258
+
+← **이전**: [[220_nosql_types_keyvalue_document_wide_column_graph|220. NoSQL 유형 비교: 키-값·도큐먼트·Wide-Column·그래프 (NoSQL Types Comparison)]]
+**다음**: [[222_data_mesh_distributed_ownership_data_product|222. 데이터 메시 (Data Mesh) 분산 오너십 데이터 프로덕트]] →
+
+---

@@ -131,3 +131,14 @@ Permissioned(통제/성능)
 1. 누구나 들어오는 공원은 자유롭지만 시끄러울 수 있어요.
 2. 초대받은 사람만 들어오는 방은 조용하지만 문이 엄격해요.
 3. [[004_blockchain|블록체인]]은 문을 어떻게 열지에 따라 성격이 달라져요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 76 / 552
+
+← **이전**: [[075_distributed_storage_filecoin_arweave|75. 분산 스토리지 보상 시스템 (Filecoin, Arweave)]]
+**다음**: [[077_crypto_mixing_tumbler_tornado_cash|77. 암호화폐 믹싱 (Coin Mixing / Tumbler) - 거래 자금 출처 추적을 어렵게 하는 트랜잭션 섞기 (Tornado]] →
+
+---

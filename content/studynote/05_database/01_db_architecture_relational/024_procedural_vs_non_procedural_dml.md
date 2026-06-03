@@ -154,3 +154,14 @@ CLOSE cur;
 1. 절차적 DML은 "첫 번째 서랍 열고, 세 번째 [[501_file_definition_logical_record|파일]] 찾고, 다섯 번째 줄 읽어라"처럼 단계를 하나하나 지시하는 방식이에요!
 2. 비절차적 SQL은 "김철수 씨 성적 알려줘"처럼 결과만 말하면 컴퓨터가 알아서 찾아주는 방식이에요.
 3. SQL 덕분에 개발자들은 [[001_dikw_pyramid|데이터]] 찾는 방법 대신 어떤 [[001_dikw_pyramid|데이터]]가 필요한지에만 집중할 수 있게 됐답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 24 / 600
+
+← **이전**: [[023_tcl|23. TCL (Transaction Control Language)]]
+**다음**: [[025_dba_database_administrator|25. DBA (Database Administrator) — 데이터베이스 관리자]] →
+
+---

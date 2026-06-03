@@ -129,3 +129,14 @@ Rolling Update / Autoscaling
 1. [[085_pod_kubernetes_container_unit|파드]]는 바뀔 수 있는 작은 상점이고, [[090_service_kubernetes_network_load_balancing|서비스]]는 상점 전화번호예요.
 2. 손님은 전화번호만 알면 안에 사람이 바뀌어도 계속 찾아갈 수 있어요.
 3. 그래서 가게를 고쳐도 손님이 덜 불편해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 52 / 371
+
+← **이전**: [[052_kubernetes_cluster_architecture|52. 쿠버네티스 클러스터 아키텍처 (Kubernetes Cluster Architecture)]]
+**다음**: [[054_configmap_secret|54. ConfigMap과 Secret]] →
+
+---

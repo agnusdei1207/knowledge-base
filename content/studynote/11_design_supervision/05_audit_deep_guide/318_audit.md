@@ -106,3 +106,14 @@ tags:
 1. 정보시스템 보안 감리 통제 체계은 집 문을 잠그고 누가 드나드는지 기록하는 것과 비슷해요.
 2. 문이 잠겼는지뿐 아니라 열쇠를 누가 갖고 있는지도 같이 봐야 해요.
 3. 그래야 나쁜 사람이 들어왔을 때 바로 막고 다시 고칠 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 393 / 530
+
+← **이전**: [[317_secure_coding_tool_false_rates|317. 시큐어 코딩 도구 미탐·오탐 비율 보고 (Secure Coding Tool False Negative and False Positive]]
+**다음**: [[318_security_audit_control_overview|318. 정보시스템 보안 감리 통제 체계 총론 (Information System Security Audit Control Overview)]] →
+
+---

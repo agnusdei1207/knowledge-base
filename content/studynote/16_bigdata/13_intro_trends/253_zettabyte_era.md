@@ -252,3 +252,14 @@ Green DC, 탄소 중립 데이터센터
 1. 제타바이트는 정말 어마어마한 숫자예요 — 전 세계 모래알보다 133배나 많은 [[074_byte|바이트]]가 2025년 [[087_process_state_transition|생성]]돼요!
 2. [[001_dikw_pyramid|데이터]] 폭증의 이유는 스마트폰·[[101_iot_concept|IoT]] 기기 수천억 개, YouTube·SNS 영상, 자율주행차 센서 — 우리가 생활하면서 계속 [[001_dikw_pyramid|데이터]]를 만들어내기 때문이에요.
 3. 이 모든 [[001_dikw_pyramid|데이터]]를 다 저장하고 처리하려면 어마어마한 전기와 인프라가 필요해서 — Edge AI로 중요한 것만 골라 클라우드에 보내는 기술이 필수예요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 253 / 262
+
+← **이전**: [[252_data_structured_ratio|040. 데이터 정형화 비율 (Structured vs Unstructured Data Ratio)]]
+**다음**: [[254_data_asset_valuation|042. 데이터 자산 평가]] →
+
+---

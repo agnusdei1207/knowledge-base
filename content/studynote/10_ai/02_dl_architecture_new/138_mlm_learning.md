@@ -54,3 +54,14 @@ MLM은 **양방향 언어 이해의 핵심 학습 방식**이며, [[301_bert_mlm
 1. MLM은 **빈칸 채우기 시험**이에요. "나는 ___에서 ___를 먹었다"
 2. 앞뒤 단어를 **모두 [[167_sql_hint_optimizer_override|힌트]]로** 사용해서 빈칸을 맞춰요.
 3. 이렇게 공부하면 **문장의 의미를 깊이** 이해할 수 있어요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 138 / 420
+
+← **이전**: [[137_bert|137. BERT (Bidirectional Encoder Representations from Transformers)]]
+**다음**: [[139_nsp_next_sentence_prediction|139. NSP (Next Sentence Prediction) - BERT의 문장 관계 학습]] →
+
+---

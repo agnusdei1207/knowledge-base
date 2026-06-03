@@ -214,3 +214,14 @@ tags:
 1. 철수와 영희가 빈 도화지(메모리)에 각자 그림을 그리려고 달려갔어요.
 2. 철수가 나무를 그리고 있는데, 선생님이 갑자기 "철수 스톱! 이제 영희 차례!"라고 했어요. 영희는 철수의 나무 위에 자기 꽃을 덧그려 버렸죠. 나중에 보니 그림이 완전히 엉망진창이 되었어요.
 3. 이렇게 서로 규칙 없이 동시에 붓을 칠하려다가 그림이 망가지는 현상을 '[[213_race_condition|경쟁 조건]]([[213_race_condition|Race Condition]])'이라고 부른답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 696 / 800
+
+← **이전**: [[695_thread_synchronization_mutual_exclusion|695. 스레드 동기화 상호 배제 (Thread Synchronization Mutual Exclusion)]]
+**다음**: [[697_critical_section_three_requirements|697. 임계 구역 3가지 요구조건 (Critical Section Three Requirements)]] →
+
+---

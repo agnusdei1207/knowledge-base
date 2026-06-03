@@ -179,3 +179,14 @@ tags:
 1. 예약 및 단독 장치 접근 제어 (Device Reservation Exclusive Access)은 컴퓨터가 디스크와 장치가 [[001_dikw_pyramid|데이터]]를 주고받는 길을 정리하는 방법이에요.
 2. 먼저 [[457_spooling|스풀링]] ([[457_spooling|Spooling]], Simultaneous Peripheral [[329_delta_encoding|Operation]] On-Line)을 이해하면 예약 및 단독 장치 접근 제어 (Device Reservation Exclusive Access)이 왜 필요한지 더 쉽게 보여요.
 3. 그래서 예약 및 단독 장치 접근 제어 (Device Reservation Exclusive Access)을 잘 알면 나중에 블로킹 I/O ([[122_sync_async_communication|Blocking]] I/O)도 훨씬 쉽게 배울 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 458 / 800
+
+← **이전**: [[457_spooling|457. 스풀링 (Spooling, Simultaneous Peripheral Operation On-Line) - 디스크를 대형 버퍼로]]
+**다음**: [[459_blocking_io|459. 블로킹 I/O (Blocking I/O) - I/O 완료 시까지 프로세스 대기]] →
+
+---

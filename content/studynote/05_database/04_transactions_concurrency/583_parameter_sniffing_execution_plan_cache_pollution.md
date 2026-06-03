@@ -132,3 +132,14 @@ tags:
 1. 도서관에서 책을 찾을 때 제목표를 먼저 보는 것과 비슷해요.
 2. 지름길을 잘 찾으면 빨리 찾지만, 표지가 엉뚱하면 더 돌아가요.
 3. 그래서 어떤 길이 빠른지 미리 계산하는 똑똑한 방법이 필요해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 583 / 600
+
+← **이전**: [[582_dynamic_performance_views_v_dollar_dmv_monitoring|582. 동적 성능 뷰 (V$, DMV) DBA 모니터링 병목 락 트레이싱 성능 지표 확인망]]
+**다음**: [[584_window_functions_rows_between_moving_average_partition|584. 윈도우 함수 ROWS BETWEEN 누적 합계 구간 이동 평균 연산 파티션]] →
+
+---

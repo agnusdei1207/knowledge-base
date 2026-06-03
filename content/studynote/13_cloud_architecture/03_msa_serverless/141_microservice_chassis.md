@@ -56,3 +56,14 @@ Microservice Chassis는 **[[619_msa_traffic_hardware|MSA]] 공통 기능의 표�
 1. Chassis는 자동차의 **차대(프레임)**예요. 바퀴·핸들·브레이크가 **이미 있어요**.
 2. 개발자는 **엔진(비즈니스 로직)만** 만들면 돼요. 나머지는 Chassis가 제공해요.
 3. 모든 차([[090_service_kubernetes_network_load_balancing|서비스]])가 **같은 차대**를 쓰면 **부품 호환**이 쉬워요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 140 / 371
+
+← **이전**: [[140_event_driven_architecture_eda|140. EDA (Event-Driven Architecture) - 이벤트 기반 아키텍처]]
+**다음**: [[142_externalized_configuration|142. Externalized Configuration - 외부 설정 관리 패턴]] →
+
+---

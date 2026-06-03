@@ -139,3 +139,14 @@ tags:
 1. [[208_data_lake_schema_on_read|데이터 레이크]] [[009_schema_on_read|스키마 온 리드]] 비정형는 복잡한 일을 순서대로 정리해 주는 큰 정리함이에요.
 2. 어디에 무엇을 넣을지 먼저 정해 두면, 나중에 찾거나 고칠 때 훨씬 쉬워져요.
 3. 그래서 일이 커질수록 먼저 기준을 만들고 같이 약속하는 것이 중요해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 387 / 482
+
+← **이전**: [[386_scd_slowly_changing_dimension_type2|386. SCD 서서히 변하는 차원 이력 관리 타입2 (SCD: Slowly Changing Dimension)]]
+**다음**: [[388_data_lakehouse_transaction_fusion|388. 데이터 레이크하우스 트랜잭션 융합 (Data Lakehouse)]] →
+
+---

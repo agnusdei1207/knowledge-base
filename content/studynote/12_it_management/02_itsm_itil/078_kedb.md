@@ -129,3 +129,14 @@ KEDB (Known Error [[501_database|Database]])가 정착되면 조직은 속도와
 1. KEDB (Known Error [[501_database|Database]])는 모두가 같은 규칙으로 일하게 해 주는 반장 약속표예요.
 2. 약속만 적어 두는 것이 아니라 누가 지켰는지 확인하고 고치는 방법까지 함께 정해요.
 3. 그래서 일이 많아져도 서로 부딪히지 않고 더 안전하게 움직일 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 140 / 587
+
+← **이전**: [[078_Naive_Bayes|78. DataStream API / Table API & SQL — Flink 두 계층]]
+**다음**: [[079_change_enablement|79. 변경 관리 (Change Management / Change Enablement)]] →
+
+---

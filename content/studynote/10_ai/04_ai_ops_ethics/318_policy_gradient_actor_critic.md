@@ -141,3 +141,14 @@ ChatGPT, Claude, Gemini 모두 이 3단계 [[250_rlhf_human_feedback_reinforceme
 1. **[[164_policy|정책]] 경사**는 Q값 표 대신 **"이 상황에서 이 행동을 할 [[130_probability|확률]]"을 직접 신경망으로 배우는** 방법으로, 버튼 고르기가 아닌 **핸들 각도(연속값)** 결정에 딱 맞아요!
 2. **[[172_actor_critic|Actor-Critic]]**은 행동을 결정하는 배우(Actor)와 "그 행동이 얼마나 좋았나" 평가하는 감독(Critic)이 협력하는 구조예요.
 3. **ChatGPT가 좋은 대답을 하도록 훈련**한 RLHF도 이 [[172_actor_critic|Actor-Critic]]([[395_ppo_clipping|PPO]]) 방식이에요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 318 / 420
+
+← **이전**: [[317_dqn|317. DQN (Deep Q-Network)]]
+**다음**: [[319_gan|319. GAN (Generative Adversarial Network)]] →
+
+---

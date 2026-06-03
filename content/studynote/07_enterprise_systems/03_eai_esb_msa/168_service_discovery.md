@@ -152,3 +152,14 @@ Kubernetes 내장 디스커버리 · 서비스 메시 · 정책 기반 라우팅
 1. [[306_service_discovery_pattern|서비스 디스커버리]]는 친구 가게가 오늘 어디서 장사하는지 알려 주는 지도예요.
 2. 가게가 이사하거나 문을 닫아도 지도가 바로 바뀌면 헛걸음을 하지 않아요.
 3. 그래서 컴퓨터들은 주소를 외우지 않고, 이름만 말하고 지도를 물어봐요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 168 / 482
+
+← **이전**: [[167_bff_backend_for_frontend|167. BFF (Backend For Frontend)]]
+**다음**: [[169_client_side_vs_server_side_discovery|169. 클라이언트 사이드 디스커버리 (Client-side Discovery) vs 서버 사이드 디스커버리]] →
+
+---

@@ -138,3 +138,14 @@ confidence / lift 평가
 1. 장바구니를 보면 사람들이 자주 같이 사는 물건을 찾을 수 있어요.
 2. 하지만 많이 같이 보인다고 꼭 특별한 관계는 아니에요.
 3. 그래서 먼저 자주 나오는 것부터 찾고, 그다음 진짜 의미가 있는지 봐요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 84 / 258
+
+← **이전**: [[083_association_rule_apriori_market_basket|83. 연관 규칙 탐색 (Association Rule) - Apriori 알고리즘]]
+**다음**: [[085_confidence_association_rule_conditional_probability|85. 신뢰도 (Confidence) - 연관 규칙 조건부 확률]] →
+
+---

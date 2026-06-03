@@ -216,3 +216,14 @@ Constitutional AI · RLAIF: AI 자가 피드백
 ```
 2. CoT는 **수학 시험에서 풀이 과정을 쓰는 것**과 같아. 답만 쓰면 틀리기 쉽지만, 과정을 적으면 훨씬 정확해져.
 3. [[190_ai_llm_requirements_specification|AI]] 정렬은 **AI에게 인성 교육을 시키는 것**이야. 공부를 잘하는 것도 중요하지만, 착하고 솔직하게 행동하는 것도 배워야 해.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 250 / 258
+
+← **이전**: [[249_instruction_finetuning_peft_lora_low_rank_adapter|249. 인스트럭션 파인튜닝 (Instruction Fine-Tuning) PEFT LoRA 저차원 어댑터]]
+**다음**: [[251_hallucination_rag_augmented_retrieval_vector_db|251. 할루시네이션 (Hallucination) RAG (Retrieval Augmented Generation) 벡터 DB]] →
+
+---

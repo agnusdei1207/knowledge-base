@@ -145,3 +145,14 @@ Webhook 구독 등록
 1. [[498_webhook_rest_api_reverse_callback|웹훅]]은 내가 계속 물어보지 않아도 일이 생기면 친구가 먼저 알려 주는 약속이에요.
 2. 하지만 누가 정말 친구인지 [[396_validation|확인]]하고, 같은 소식을 두 번 받아도 한 번만 처리해야 해요.
 3. 그래서 [[498_webhook_rest_api_reverse_callback|웹훅]]은 빠른 알림과 똑똑한 정리함을 함께 써야 잘 작동해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 194 / 482
+
+← **이전**: [[193_openapi_specification_swagger_api_design|193. OpenAPI Specification - Swagger 기반 API 계약 표준]]
+**다음**: [[195_eai_edi_van_b2b_integration|195. EDI와 VAN - B2B 전자문서 연동 구조]] →
+
+---

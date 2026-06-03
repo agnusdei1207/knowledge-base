@@ -156,3 +156,14 @@ NPS (Net Promoter Score): 추천 의향
 1. [[253_network_effect_metcalfe|네트워크 효과]]는 팩스처럼 친구가 많을수록 가치가 커지는 것이에요!
 2. 카카오톡이 이미 1억명을 가진 이유로 새 메신저 앱이 이기기 어려워요 — 이게 [[253_network_effect_metcalfe|네트워크 효과]]의 힘!
 3. AI는 사용자가 늘수록 더 똑똑해지는 [[190_ai_llm_requirements_specification|AI]] 플라이휠 효과로 [[253_network_effect_metcalfe|네트워크 효과]]가 점점 강해져요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 54 / 587
+
+← **이전**: [[031_long_tail|31. 롱테일 법칙 (Long Tail)]]
+**다음**: [[032_kedb|KEDB (Known Error Database, 기지 오류 데이터베이스)]] →
+
+---

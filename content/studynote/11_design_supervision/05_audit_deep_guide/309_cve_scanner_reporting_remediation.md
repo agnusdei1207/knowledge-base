@@ -106,3 +106,14 @@ tags:
 1. [[409_cve_lifecycle|CVE]] 스캐너 주기 보고와 [[352_defect_definition|결함]] 조치은 집 문을 잠그고 누가 드나드는지 기록하는 것과 비슷해요.
 2. 문이 잠겼는지뿐 아니라 열쇠를 누가 갖고 있는지도 같이 봐야 해요.
 3. 그래야 나쁜 사람이 들어왔을 때 바로 막고 다시 고칠 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 376 / 530
+
+← **이전**: [[308_session_timeout_duplicate_login|308. 사용자 세션 통제와 동시접속 방지 감리 (User Session Control and Duplicate Login Prevention]]
+**다음**: [[309_metric|309. CVE 스캐너 주기 보고 및 결함 조치 지표 (CVE Scanner Reporting Metrics)]] →
+
+---

@@ -129,3 +129,14 @@ tags:
 1. [[146_esb_enterprise_service_bus_architecture|ESB]] 엔터프라이즈 [[090_service_kubernetes_network_load_balancing|서비스]] [[344_bus|버스]] 라우팅은 모두가 같은 규칙으로 일하게 해 주는 반장 약속표예요.
 2. 약속만 적어 두는 것이 아니라 누가 지켰는지 확인하고 고치는 방법까지 함께 정해요.
 3. 그래서 일이 많아져도 서로 부딪히지 않고 더 안전하게 움직일 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 440 / 587
+
+← **이전**: [[298_esb_enterprise_service_bus|298. ESB 엔터프라이즈 서비스 버스 라우팅]]
+**다음**: [[299_restful_api_hateoas|299. RESTful API 무상태성 HATEOAS]] →
+
+---

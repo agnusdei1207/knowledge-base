@@ -199,3 +199,14 @@ Keyed Window State
 1. Kafka는 편지를 잃어버리지 않게 순서대로 쌓아 두는 큰 우체통이에요.
 2. Flink는 조금 늦게 온 편지도 원래 보낸 시간대로 다시 정리해 주는 똑똑한 [[104_classification_analysis|분류]]기예요.
 3. Watermark는 "이제 이 시간까지 온 편지는 거의 다 모였어"라고 알려 주는 마감선이에요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 179 / 258
+
+← **이전**: [[178_parquet_rle_encoding_columnar_compression|178. 파케이 (Parquet) 컬럼형 압축 포맷과 RLE (Run-Length Encoding) 최적화]]
+**다음**: [[180_cdc_debezium_binlog_realtime_sync|180. CDC (Change Data Capture)와 Debezium 기반 Binlog 실시간 동기화]] →
+
+---

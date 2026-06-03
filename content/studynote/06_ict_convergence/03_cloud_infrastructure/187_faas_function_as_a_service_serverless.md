@@ -140,3 +140,14 @@ FaaS의 경계를 드러내려면 **상시 구동 [[598_vm_migration_nic|VM]]·�
 1. 이 개념은 복잡한 일을 한눈에 보이게 정리해서 모두가 같은 규칙으로 움직이게 해 줘.
 2. 그래서 많은 기계나 사람, 프로그램이 함께 일해도 어디서 문제가 생겼는지 찾기 쉬워져.
 3. 한마디로 이 개념은 복잡한 일을 질서 있게 움직이게 만드는 안내판이야.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 187 / 552
+
+← **이전**: [[186_baas_backend_as_a_service_firebase|186. BaaS (Backend as a Service) - 모바일/웹 앱용 백엔드(데이터베이스 (Database, DB), 인증,]]
+**다음**: [[188_cloud_deployment_models_public_private|188. 클라우드 배포 모델 (Cloud Deployment Models Public Private)]] →
+
+---

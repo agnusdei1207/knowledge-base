@@ -135,3 +135,14 @@ tags:
 1. 약속을 적은 공책을 순서대로 정리하는 방법이에요.
 2. 누가 먼저 읽고 쓰는지 규칙을 지켜야 헷갈리지 않아요.
 3. 규칙이 약하면 빠르지만 틀릴 수 있고, 너무 세면 느려질 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 376 / 600
+
+← **이전**: [[375_timeseries_interpolation|375. 시계열 DB 보간 (Interpolation) 쿼리 기능]]
+**다음**: [[377_lsm_tree_storage_engine|377. LSM-Tree (Log-Structured Merge-Tree)]] →
+
+---

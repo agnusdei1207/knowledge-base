@@ -65,3 +65,14 @@ TMS:  채용 → 온보딩 → 교육 → 평가 → 승계
 1. HRIS는 회사의 **직원 명부**예요. 누가 어디서 일하고 급여가 얼마인지 기록해요.
 2. e-HR은 **키오스크**예요. 직원이 직접 휴가를 신청하고 급여를 [[396_validation|확인]]할 수 있어요.
 3. TMS는 **인재 육성 계획**이에요. 누구를 **어떻게 키울지** 체계적으로 관리해요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 132 / 482
+
+← **이전**: [[131_groupware_enterprise_2_0_collaboration|131. 그룹웨어 & Enterprise 2.0 협업 - 기업 협업 플랫폼의 진화]]
+**다음**: [[133_epm_enterprise_performance_management_cpm|133. EPM/CPM (Enterprise Performance Management) - 기업 성과 관리]] →
+
+---

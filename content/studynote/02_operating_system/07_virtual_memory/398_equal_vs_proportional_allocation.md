@@ -181,3 +181,14 @@ OS가 알아서 비례 할당을 해주지 않기 때문에, 클라우드 환경
 1. 균등 할당 (Equal Allocation) vs 비례 할당 (Proportional Allocation)은 컴퓨터가 메모리를 더 크게 보이게 하고 부족함을 숨기는 방법이에요.
 2. 먼저 [[397_frame_allocation|프레임 할당]] ([[397_frame_allocation|Frame Allocation]]) [[001_algorithm_definition|알고리즘]]을 이해하면 균등 할당 (Equal Allocation) vs 비례 할당 (Proportional Allocation)이 왜 필요한지 더 쉽게 보여요.
 3. 그래서 균등 할당 (Equal Allocation) vs 비례 할당 (Proportional Allocation)을 잘 알면 나중에 [[399_global_replacement|전역 교체]] ([[399_global_replacement|Global Replacement]])도 훨씬 쉽게 배울 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 398 / 800
+
+← **이전**: [[397_frame_allocation|397. 프레임 할당 (Frame Allocation) 알고리즘]]
+**다음**: [[399_global_replacement|399. 전역 교체 (Global Replacement) - 전체 프로세스 프레임 대상 (처리량 높음, 주로 사용)]] →
+
+---

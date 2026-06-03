@@ -165,3 +165,14 @@ CT 로그 서버 (CT Log Server) · SCT · 모니터링
 1. [[162_continuous_training_pipeline_model_retraining|CT]] [[568_logs_distributed_logging_elk_fluentd|로그]] 서버는 누가 신분증을 만들었는지 모두가 보는 게시판에 적어 두는 곳이에요.
 2. 그래서 나쁜 사람이 몰래 가짜 신분증을 만들어도 오래 숨기기 어려워져요.
 3. 하지만 이상한 신분증을 발견하면, 그다음에는 빨리 취소하고 바꾸는 일도 함께 해야 해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 219 / 1108
+
+← **이전**: [[165_ct_certificate_transparency|165. CT (Certificate Transparency) — 인증서 발급 공개 로그]]
+**다음**: [[167_sct_signed_certificate_timestamp|167. SCT (Signed Certificate Timestamp) — CT 증명]] →
+
+---

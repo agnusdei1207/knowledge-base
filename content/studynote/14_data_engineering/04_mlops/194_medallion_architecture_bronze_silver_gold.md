@@ -358,3 +358,14 @@ Gold 계층: 비즈니스 KPI · 집계 테이블 · ML 피처
 ```
 2. Bronze는 마치 창고에 쌓아둔 재료 상자예요. 버리지 않고 다 보관해서, 나중에 "아, 이게 필요했구나!" 할 때 꺼낼 수 있어요.
 3. Gold는 손님(사용자)이 바로 쓸 수 있도록 예쁘게 포장된 선물 같아요. 복잡한 계산은 이미 다 끝났고, 바로 숫자만 보면 돼요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 194 / 258
+
+← **이전**: [[193_neuromorphic_chip_snn_low_power_inference|193. 뉴로모픽 반도체 (Neuromorphic Chip) SNN 저전력 추론]]
+**다음**: [[195_federated_query_data_fabric_distributed_join|195. 연방 쿼리 (Federated Query) 데이터 패브릭 분산 메타 통계망 조인]] →
+
+---

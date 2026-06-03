@@ -125,3 +125,14 @@ tags:
 1. [[159_pki_public_key_infrastructure|PKI]] 공개키 인프라 (Public [[067_db_key_uniqueness_minimality|Key]] Infrastructure)는 학교 규칙표처럼 무엇을 준비하고 어떻게 확인할지 알려 주는 기준이에요.
 2. 규칙표만 붙여 두고 지키지 않으면 아무 소용이 없어요.
 3. 그래서 보안도 규칙과 실제 행동이 함께 맞아야 해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 1086 / 1108
+
+← **이전**: [[983_vpn_virtual_private_network_tunneling_encryption|983. VPN (가상 사설망)]]
+**다음**: [[984_quantum_security|984. 양자 컴퓨팅 보안 (Quantum Security)]] →
+
+---

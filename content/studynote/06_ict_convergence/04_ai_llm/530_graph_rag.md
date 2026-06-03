@@ -109,3 +109,14 @@ GraphRAG는 단순한 정보 검색을 넘어 '지식 발견'의 도구로 진�
 1. 기본 [[276_fine_tuning|RAG]]: 도서관에서 키워드로 비슷한 책 구절 몇 개를 찾아오는 거예요.
 2. GraphRAG: 도서관에 있는 모든 책의 인물 [[083_relationship_in_er_model|관계]]도를 미리 그려놓고, "누가 누구랑 친해?"라고 물으면 [[083_relationship_in_er_model|관계]]도를 보고 대답해주는 거예요.
 3. 차이점: 단편적인 문장이 아니라, 전체적인 인물들의 [[083_relationship_in_er_model|관계]]와 줄거리를 꿰뚫고 대답해주는 똑똑한 할아버지 같아요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 530 / 552
+
+← **이전**: [[529_dspy_prompt_auto_optimization_compilation|529. DSPy 프롬프트 자동 최적화와 컴파일 (DSPy Prompt Auto-Optimization Compilation)]]
+**다음**: [[531_api_throttling_bff_backend_for_frontend|531. API 스로틀링과 BFF 백엔드 포 프론트엔드 (API Throttling and BFF Backend For Frontend)]] →
+
+---

@@ -129,3 +129,14 @@ tags:
 1. [[007_public_cloud|퍼블릭 클라우드]] 보안 [[303_authentication_authorization_patterns|인증]] (CSAP)는 모두가 같은 규칙으로 일하게 해 주는 반장 약속표예요.
 2. 약속만 적어 두는 것이 아니라 누가 지켰는지 확인하고 고치는 방법까지 함께 정해요.
 3. 그래서 일이 많아져도 서로 부딪히지 않고 더 안전하게 움직일 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 307 / 587
+
+← **이전**: [[192_sast_dast_security_analysis|192. 소프트웨어 개발 보안 자동화 분석 도구 (SAST, DAST) 도입 및 오탐/미탐 비율 관리]]
+**다음**: [[194_cmmc_cybersecurity_maturity|194. CMMC (Cybersecurity Maturity Model Certification)]] →
+
+---

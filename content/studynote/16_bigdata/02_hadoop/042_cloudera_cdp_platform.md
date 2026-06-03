@@ -87,3 +87,14 @@ tags:
 1. **Cloudera [[193_crl_distribution_point_cdp|CDP]]**: 흩어져 있는 장난감 상자([[001_dikw_pyramid|데이터]])들을 한꺼번에 관리하는 '커다란 로봇 장난감 정리함'이에요.
 2. **이유**: 예전에는 내 방, 거실에 따로 정리해야 했지만, 이제는 이 로봇 상자 하나만 있으면 어디서든 똑같은 장난감을 꺼내 놀 수 있어요.
 3. **결론**: 아주 크고 똑똑해서 장난감이 섞이거나 잃어버리지 않게 지켜주는 든든한 대장 상자예요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 42 / 262
+
+← **이전**: [[041_apache_ambari_management|아파치 암바리 (Apache Ambari)]]
+**다음**: [[043_hdfs_small_file_problem|HDFS Small File Problem (HDFS 작은 파일 문제)]] →
+
+---

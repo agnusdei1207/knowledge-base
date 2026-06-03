@@ -148,3 +148,14 @@ NRU/NWD는 [[002_confidentiality|기밀성]]은 보장하지만, **[[003_integri
 3. **NWD (No Write Down)**는 **"위 계급 사람은 아래 계급에게 기밀 정보를 줄 수 없다"**는 규칙과 같다. 대대장이 이등병에게 비밀 작전 내용을 알려줄 수 없다.
 
 4. **한계**는 **"위 계급 사람이 아래 계급의 보고서를 수정할 수 있다"**는 점이다. 이등병의 순찰 보고서를 대대장이 고쳐버리면, [[003_integrity|무결성]]이 깨질 수 있다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 580 / 800
+
+← **이전**: [[579_mac_mandatory_access_control|579. 강제적 접근 제어 (MAC, Mandatory Access Control) - 시스템/보안 관리자가 등급 라벨 기반 강제 통제]]
+**다음**: [[581_biba_model|581. 비바 모델 (Biba Model) - 무결성 위주 정책 (No Read Down, No Write Up)]] →
+
+---

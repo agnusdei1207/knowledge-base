@@ -135,3 +135,14 @@ Startup Probe 탄생 (초기 부팅 시 방어막 제공으로 모든 앱의 완
 1. **Startup Probe**는 "나 밥 먹는 중이니까 건들지 마!" 하고 방문에 걸어두는 방해 금지 팻말이에요.
 2. **Readiness Probe**는 숙제를 다 끝마친 아이에게만 밖으로 나가서 친구들(트래픽)과 놀게 허락해 주는 깐깐한 엄마예요.
 3. **Liveness Probe**는 일하다가 눈 뜨고 잠든(좀비 상태) 직원을 발견하면 즉시 번쩍 들어서 병원에 눕히고 쌩쌩한 새 직원을 데려오는 감독관이에요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 107 / 371
+
+← **이전**: [[107_node_affinity_kubernetes_scheduling_required_preferred|107. 노드 어피니티 (Node Affinity) - K8s 스케줄링 유도]]
+**다음**: [[109_multi_cluster_federation_karmada_cloud_bursting|109. K8s 멀티 클러스터 및 연합(Federation) - Karmada·클라우드 버스팅]] →
+
+---

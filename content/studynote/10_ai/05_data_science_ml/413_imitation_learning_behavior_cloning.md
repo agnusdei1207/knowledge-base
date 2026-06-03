@@ -127,3 +127,14 @@ tags:
 1. 운전 잘하는 어른을 옆에서 보고 그대로 따라 하는 공부예요.
 2. 처음엔 잘하지만, 길이 조금만 달라지면 헷갈릴 수 있어요.
 3. 그래서 새로운 길에서도 다시 배우는 연습이 필요해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 413 / 420
+
+← **이전**: [[412_svr_support_vector_regression|412. 서포트 벡터 회귀 (SVR, Support Vector Regression)]]
+**다음**: [[414_knowledge_distillation_temperature_scaling|414. 지식 증류 (Knowledge Distillation)]] →
+
+---

@@ -191,3 +191,13 @@ immediate field encoding
 2. 그래서 창고에 가지 않고도 바로 계산을 시작할 수 있어요.
 3. 하지만 쪽지가 작아서 아주 큰 숫자는 다 적지 못하니 다른 보관함도 함께 써야 해요.
 
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 174 / 803
+
+← **이전**: [[173_addressing_modes|173. 주소 지정 방식 (Addressing Modes)]]
+**다음**: [[175_register_addressing|175. 레지스터 주소 지정 (Register)]] →
+
+---

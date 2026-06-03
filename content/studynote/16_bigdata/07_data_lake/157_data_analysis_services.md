@@ -175,3 +175,14 @@ tags:
 1. 클라우드 빅데이터 [[090_service_kubernetes_network_load_balancing|서비스]]는 요리사(Spark) 팀을 필요할 때만 빌려주는 파견 업체예요.
 2. 요리가 끝나면 팀을 돌려보내고(클러스터 종료) 재료([[001_dikw_pyramid|데이터]])만 창고(S3/GCS)에 남겨두면 돼요.
 3. AWS(EMR), Azure(HDInsight), GCP(Dataproc) 세 파견 업체 중 이미 쓰는 클라우드 것을 선택하면 가장 편해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 157 / 262
+
+← **이전**: [[156_data_fabric|156. 데이터 패브릭 (Data Fabric) — 위치 무관 지능형 데이터 연결]]
+**다음**: [[158_databricks_platform|158. Databricks — Spark 기반 레이크하우스 통합 플랫폼]] →
+
+---

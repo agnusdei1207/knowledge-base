@@ -134,3 +134,14 @@ Reference Architecture
 1. [[195_terraform_hashicorp_agnostic_aws_gcp|테라폼]] 상태 [[501_file_definition_logical_record|파일]]은 복잡한 일을 순서와 규칙으로 정리해서 실수하지 않게 도와주는 방법이에요.
 2. Remote Backend 같은 친구들과 같이 움직여야 더 잘 작동해요.
 3. 그래서 문제가 생겨도 어디서 틀렸는지 빨리 찾고 다시 고치기 쉬워져요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 196 / 373
+
+← **이전**: [[195_terraform_hashicorp_agnostic_aws_gcp|195. 테라폼 (Terraform)]]
+**다음**: [[197_aws_cloudformation_cdk_iac|197. AWS CloudFormation / AWS CDK - AWS 리소스 전용 IaC 도구 (AWS CloudFormation /]] →
+
+---

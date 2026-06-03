@@ -139,3 +139,14 @@ tags:
 1. [[316_olap|OLAP]] 연산는 복잡한 일을 순서대로 정리해 주는 큰 정리함이에요.
 2. 어디에 무엇을 넣을지 먼저 정해 두면, 나중에 찾거나 고칠 때 훨씬 쉬워져요.
 3. 그래서 일이 커질수록 먼저 기준을 만들고 같이 약속하는 것이 중요해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 281 / 482
+
+← **이전**: [[280_scd_type3_previous_column_limited_history|280. SCD Type 3 - 과거 컬럼 추가 제한적 이력 보존]]
+**다음**: [[282_business_intelligence_bi_technology_framework|282. 비즈니스 인텔리전스 (BI, Business Intelligence) 기술 체계]] →
+
+---

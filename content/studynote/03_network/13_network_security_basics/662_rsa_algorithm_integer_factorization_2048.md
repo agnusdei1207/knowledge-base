@@ -131,3 +131,14 @@ RSA는 앞선 661번 문서에서 배운 **소인수분해 문제(Integer Factor
 1. 비밀 편지를 보낼 때는 자물쇠와 비밀번호가 필요해요.
 2. 이 개념은 누가 진짜 친구인지 [[396_validation|확인]]하고, 편지가 바뀌지 않았는지도 살펴봐요.
 3. 그래서 나쁜 사람이 중간에 훔쳐보거나 바꾸기 어려워져요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 783 / 1120
+
+← **이전**: [[661_asymmetric_key_math_factorization_dlp|661. 수학적 문제 기반(소인수분해, 이산대수 등)]]
+**다음**: [[663_elgamal_dsa_discrete_logarithm_digital_signature|663. ElGamal 및 DSA (디지털 서명용 특화) 시스템]] →
+
+---

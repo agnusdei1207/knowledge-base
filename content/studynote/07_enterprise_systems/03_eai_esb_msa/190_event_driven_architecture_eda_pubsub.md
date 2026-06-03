@@ -143,3 +143,14 @@ Saga · CQRS · Event Sourcing 확장
 1. 한 친구가 소식을 모두에게 직접 전화하지 않고 방송으로 알려줘요.
 2. 필요한 친구들은 방송을 듣고 자기 일을 알아서 해요.
 3. 그래서 한 친구가 잠깐 바빠도 다른 친구들까지 모두 멈추지 않아요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 190 / 482
+
+← **이전**: [[189_multi_tenant_database_architecture_saas|189. 멀티 테넌트 데이터베이스 아키텍처 (Multi-Tenant Database Architecture) - SaaS 격리 설계]]
+**다음**: [[191_consumer_group_kafka_partition_load_balancing|191. 컨슈머 그룹 (Consumer Group) - Kafka 파티션 병렬 처리와 부하 분산]] →
+
+---

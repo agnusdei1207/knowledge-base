@@ -143,3 +143,14 @@ tags:
 1. 취소 점은 "프로그램의 정류 검문소" 같아요. 긴 작업 중간중에 "정지 버튼을 눌렀는가?"하고 [[396_validation|확인]]하는 곳이에요.
 2. I/O 작업([[501_file_definition_logical_record|파일]] 읽기, 네트워크 대기)을 하는 동안 컴퓨터가 자동으로 "정지 [[396_validation|확인]]"을 해줍니다.
 3. 계산만 반복하는 작업에는 정기적으로 "정지 버튼 눌렀는가?"를 코드에 직접 추가해야 해요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 112 / 800
+
+← **이전**: [[111_thread_cancellation|111. 스레드 취소 (Thread Cancellation) - 비동기식 취소, 지연 취소]]
+**다음**: [[113_thread_local_storage|113. 스레드 로컬 저장소 (TLS, Thread-Local Storage)]] →
+
+---

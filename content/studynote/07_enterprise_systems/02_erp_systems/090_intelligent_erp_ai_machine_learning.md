@@ -131,3 +131,14 @@ RPA 및 챗봇 결합 (Hyperautomation / CUI)
 1. 옛날 일기장은 오늘 하루 무슨 일이 있었는지만 적어두는 공책이었어요.
 2. 마법의 일기장(인텔리전트 [[081_erp_enterprise_resource_planning|ERP]])은 날씨와 뉴스를 스스로 읽고 "내일은 비가 오니 우산을 챙기세요"라고 미리 알려줘요.
 3. 심지어 내가 심부름을 까먹을까 봐 알아서 인터넷으로 우산을 주문까지 해주는 똑똑한 로봇 비서랍니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 90 / 482
+
+← **이전**: [[089_postmodern_erp_best_of_breed|89. 포스트 모던 ERP (Postmodern ERP) - 거대하고 무거운 단일 모놀리식 벤더 중심에서 벗어나, 코어 ERP와 각 부문별]]
+**다음**: [[091_composable_erp_pbc_api|91. 컴포저블 ERP (Composable ERP) - 비즈니스 블록을 조합하듯 API 중심으로 유연하게 조립/변경 가능한 최신 ERP]] →
+
+---

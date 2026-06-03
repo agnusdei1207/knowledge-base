@@ -145,3 +145,14 @@ S0ix / Modern Standby(상시 연결 + 저전력)
 1. S0는 깨어서 놀고 있는 상태예요.
 2. S3는 금방 깨는 낮잠, S4는 깊은 잠, S5는 완전히 잠든 상태예요.
 3. 컴퓨터는 상황에 따라 가장 알맞은 잠을 고른답니다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 76 / 800
+
+← **이전**: [[075_acpi|75. ACPI (Advanced Configuration and Power Interface)]]
+**다음**: [[077_c_states|77. 프로세서 전원 상태 (C-States)]] →
+
+---

@@ -220,3 +220,14 @@ Lambda / Kappa Architecture: 배치 + 스트림 통합
 ```
 2. 은행이 하루 이자를 계산할 때처럼, 모든 거래가 완전히 끝난 자정에 전체 계좌를 한꺼번에 계산하면 정확하고 빠르다.
 3. Apache Spark는 큰 퍼즐을 여러 명이 동시에 맞추는 것처럼, [[001_dikw_pyramid|데이터]]를 작게 나눠서 많은 컴퓨터가 동시에 처리하므로 혼자 할 때보다 훨씬 빠르다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 227 / 371
+
+← **이전**: [[227_elt_extract_load_transform_cloud|227. ELT (Extract, Load, Transform)]]
+**다음**: [[229_stream_processing_kafka_flink|229. 스트림 처리 (Stream Processing)]] →
+
+---

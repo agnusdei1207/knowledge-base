@@ -107,3 +107,14 @@ K8s는 **클라우드 네이티브의 운영 체제**이며, [[190_cncf_landscap
 1. K8s는 **항공 관제탑**이에요. 수백 대 비행기([[561_container_based_deployment|컨테이너]])를 자동으로 관리해요.
 2. 비행기가 고장 나면 **자동으로 다른 비행기를 보내서(Self-healing)** [[090_service_kubernetes_network_load_balancing|서비스]]가 멈추지 않아요.
 3. "비행기 3대 유지해"라고 말하면(선언적) **관제탑이 알아서** 3대를 유지한답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 122 / 973
+
+← **이전**: [[121_cicd_pipeline_automation|121. CI/CD 파이프라인 자동화 - 빌드·테스트·배포의 지속적 통합/전달 체계]]
+**다음**: [[123_serverless_faas_aws_lambda|123. 서버리스 & FaaS (Serverless / AWS Lambda) - 인프라 없는 함수 단위 컴퓨팅]] →
+
+---

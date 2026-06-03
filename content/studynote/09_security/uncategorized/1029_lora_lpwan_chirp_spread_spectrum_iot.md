@@ -125,3 +125,14 @@ tags:
 1. [[109_lpwan_low_power_wide_area_network|LPWAN]] [[283_lora_low_rank_adaptation|로라]] ([[617_lora_lorawan_css_chirp_spread_spectrum|LoRa]])는 컴퓨터 세상을 더 안전하게 만들기 위한 중요한 약속이나 도구예요.
 2. 겉으로는 어려워 보여도, 왜 필요한지와 어떻게 움직이는지를 알면 훨씬 쉬워져요.
 3. 그래서 이름만 외우지 말고 어디에 쓰이는지 같이 기억해야 해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 151 / 1108
+
+← **이전**: [[1028_wban_mac_duty_cycle_healthcare_sleep_mode|1028. 체내 통신 (WBAN MAC 및 주파수 대역)]]
+**다음**: [[1029_responsible_disclosure|1029. Responsible Disclosure (책임 있는 공개)]] →
+
+---

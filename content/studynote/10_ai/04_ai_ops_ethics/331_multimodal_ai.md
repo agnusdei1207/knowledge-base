@@ -132,3 +132,14 @@ tags:
 1. **[[158_multimodal_clip_vision_audio_encoding|멀티모달]] [[190_ai_llm_requirements_specification|AI]]**는 텍스트만 이해하는 AI에서 **사진도 보고, 소리도 듣고, 영상도 이해하는** 오감이 생긴 AI예요!
 2. "이 사진에서 뭐가 보여?" 하고 사진을 주면 **"빨간 사과가 테이블에 있어요"** 처럼 사진과 글을 동시에 다루는 능력이에요.
 3. **[[302_gpt_autoregressive|GPT]]-4V, Gemini, Claude 3**가 이미지도 이해하는 것처럼, [[158_multimodal_clip_vision_audio_encoding|멀티모달]] AI가 **인간과 가장 자연스러운 대화**를 가능하게 해요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 331 / 420
+
+← **이전**: [[330_ai_ethics|330. AI 윤리 (AI Ethics)]]
+**다음**: [[332_gnn|332. GNN (Graph Neural Network)]] →
+
+---

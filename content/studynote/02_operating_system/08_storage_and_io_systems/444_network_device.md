@@ -182,3 +182,14 @@ DPDK는 너무 코딩이 어렵고 보안이 개나발이다. 그래서 리눅�
 1. 네트워크 장치 ([[125_socket|소켓]] 인터페이스) (Network Device)은 컴퓨터가 디스크와 장치가 [[001_dikw_pyramid|데이터]]를 주고받는 길을 정리하는 방법이에요.
 2. 먼저 [[443_character_device|문자 장치]]을 이해하면 네트워크 장치 ([[125_socket|소켓]] 인터페이스) (Network Device)이 왜 필요한지 더 쉽게 보여요.
 3. 그래서 네트워크 장치 ([[125_socket|소켓]] 인터페이스) (Network Device)을 잘 알면 나중에 I/O 하드웨어 인터페이스 요소도 훨씬 쉽게 배울 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 444 / 800
+
+← **이전**: [[443_character_device|443. 문자 장치 (Character Device)]]
+**다음**: [[445_io_hardware_interface|445. I/O 하드웨어 인터페이스 요소 (I/O Hardware Interface)]] →
+
+---

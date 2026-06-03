@@ -227,3 +227,14 @@ tags:
 1. 미술관에서 유명한 그림을 고칠 때, 예전에는 관람객(독자)들을 밖으로 다 쫓아내고 문을 닫은 뒤([[510_lock|Lock]]) 그림을 고치느라 밖에서 줄이 엄청 길어졌어요.
 2. 마법의 [[254_rcu_read_copy_update|RCU]] 미술관은 문을 절대 닫지 않아요! 관람객이 구경하는 동안, 화가(Writer)는 옆방에 똑같은 액자(Copy)를 갖다 놓고 열심히 새 그림으로 고쳐 그려요.
 3. 그림이 완성되면 0.1초 만에 조명을 휙 틀어서(Update) 새 그림을 비춰요. 방금 들어온 사람은 새 그림을 보고, 옛날 그림을 보던 사람들이 다 집에 가면 그제야 옛날 그림을 쓰레기통에 버린답니다! 아무도 기다리지 않죠!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 792 / 800
+
+← **이전**: [[791_lock_elision_hardware_transactional_memory|791. 락 엘리전 하드웨어 트랜잭션 메모리 활용 (Lock Elision Hardware Transactional Memory)]]
+**다음**: [[793_working_set_window_size_dynamic_adjustment|793. 워킹 셋 윈도우 사이즈 동적 조절 (Working Set Window Size Dynamic Adjustment)]] →
+
+---

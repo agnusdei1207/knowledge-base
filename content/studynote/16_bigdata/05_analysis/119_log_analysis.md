@@ -164,3 +164,14 @@ Grok 패턴 예시 (Apache Access Log):
 - [[568_logs_distributed_logging_elk_fluentd|로그]] 분석은 컴퓨터가 매일 쓰는 일기를 읽고 "오늘 이상한 일이 있었나?"를 찾아내는 거예요.
 - 수백 개의 [[090_service_kubernetes_network_load_balancing|서비스]]가 초당 수백만 줄의 일기를 쓰는데, ELK [[057_stack|스택]]이 그걸 모아서 한눈에 볼 수 있게 해줘요.
 - 해커가 몰래 들어오려 할 때 [[568_logs_distributed_logging_elk_fluentd|로그]]에 흔적이 남는데, SIEM이 그 흔적을 자동으로 찾아내요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 119 / 262
+
+← **이전**: [[118_image_analysis|115. 이미지 분석 (Image Analysis) — CNN 기반 대용량 이미지 배치 처리]]
+**다음**: [[120_clickstream_analysis|117. 클릭스트림 분석 (Clickstream Analysis) — 사용자 행동 패턴 최적화]] →
+
+---

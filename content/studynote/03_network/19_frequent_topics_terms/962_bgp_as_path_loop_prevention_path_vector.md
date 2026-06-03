@@ -131,3 +131,14 @@ OSPF나 RIP는 루프가 돌면 죽습니다. BGP는 [[344_as_autonomous_system_
 1. 비슷한 이름의 장난감을 헷갈리지 않게 표를 붙이는 것과 같아요.
 2. 이 개념은 무엇이 어떻게 다른지 쉽게 구별하게 도와줘요.
 3. 그래서 시험에서도 실무에서도 말을 더 정확하게 쓸 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 1083 / 1120
+
+← **이전**: [[961_ospf_link_state_database_dijkstra_spf_routing|961. OSPF 링크 상태 데이터베이스 (LSDB)]]
+**다음**: [[963_subnet_mask_cidr_classless_inter_domain_routing|963. 서브넷 마스크 (Subnet Mask) / CIDR]] →
+
+---

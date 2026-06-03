@@ -123,3 +123,14 @@ Optimizer update
 1. 퍼즐을 맞춘 뒤 틀린 조각을 거꾸로 찾아가는 것과 같다.
 2. 어떤 조각이 문제를 만들었는지 알아야 다음에는 덜 틀린다.
 3. 그래서 컴퓨터는 답을 맞힌 뒤에도 뒤쪽부터 다시 살펴본다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 78 / 420
+
+← **이전**: [[077_cross_entropy_error_log_loss|77. 크로스 엔트로피 오차 (CEE) - 분류 문제 핵심 손실 함수]]
+**다음**: [[079_optimizer_gradient_descent|079. 옵티마이저와 경사 하강법 (Optimizer & Gradient Descent)]] →
+
+---

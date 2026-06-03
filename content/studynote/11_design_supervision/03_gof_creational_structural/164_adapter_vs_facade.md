@@ -157,3 +157,14 @@ tags:
 1. [[259_adapter_pattern_interface_wrapper|어댑터]]는 모양이 다른 장난감 배터리를 끼울 수 있게 도와주는 연결 부품이에요.
 2. [[263_facade_pattern_simplified_interface|퍼사드]]는 버튼이 너무 많은 기계를 "시작" 버튼 하나로 쉽게 쓰게 해 주는 도우미예요.
 3. 하나는 서로 안 맞는 것을 맞춰 주고, 다른 하나는 너무 복잡한 것을 쉽게 보여줘요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 220 / 530
+
+← **이전**: [[163_singleton_pattern_drawbacks|163. 싱글톤 패턴의 단점과 DI (Singleton Drawbacks & Dependency Injection)]]
+**다음**: [[165_bridge_vs_strategy|165. 브리지 vs 전략 패턴 (Bridge vs Strategy Pattern)]] →
+
+---

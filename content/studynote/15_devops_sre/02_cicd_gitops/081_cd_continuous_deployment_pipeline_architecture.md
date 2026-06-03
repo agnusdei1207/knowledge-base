@@ -134,3 +134,14 @@ Reference Architecture
 1. [[099_continuous_deployment_cd|지속적 배포]] [[123_pipe|파이프]]라인 아키텍처는 복잡한 일을 순서와 규칙으로 정리해서 실수하지 않게 도와주는 방법이에요.
 2. [[087_deployment_kubernetes_workload_rolling_update|Deployment]] Frequency 같은 친구들과 같이 움직여야 더 잘 작동해요.
 3. 그래서 문제가 생겨도 어디서 틀렸는지 빨리 찾고 다시 고치기 쉬워져요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 81 / 373
+
+← **이전**: [[080_sca_software_composition_analysis|80. 패키지 취약점 스캐닝 (SCA, Software Composition Analysis)]]
+**다음**: [[082_zero_downtime_deployment_rolling_blue_green_canary|82. 무중단 배포 (Zero Downtime Deployment) 전략 3가지]] →
+
+---

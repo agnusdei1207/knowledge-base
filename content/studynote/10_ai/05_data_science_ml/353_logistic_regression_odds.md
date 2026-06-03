@@ -110,3 +110,14 @@ tags:
 1. [[227_logistic_regression_clt_pvalue_type_error|로지스틱 회귀]]는 "합격/불합격 예측기"예요. 시험 점수, 출석률 등을 합쳐서 합격 [[130_probability|확률]]을 계산해요.
 2. 오즈는 "합격 가능성이 불합격보다 몇 배 높은가"를 나타내는 숫자예요.
 3. [[268_sigmoid_vanishing_gradient|시그모이드]]는 그 숫자를 0~100% [[130_probability|확률]]로 깔끔하게 바꿔주는 마법 변환기예요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 353 / 420
+
+← **이전**: [[352_perceptron_linear_separability|352. 퍼셉트론 (Perceptron)]]
+**다음**: [[354_pca_covariance|354. PCA (Principal Component Analysis)]] →
+
+---

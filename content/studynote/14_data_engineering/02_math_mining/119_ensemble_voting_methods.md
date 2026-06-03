@@ -112,3 +112,14 @@ vc = VotingClassifier(
 1. 하드 [[258_voting_ensemble|보팅]]은 **선거**예요. 3명이 투표해서 **많이 나온 답**이 정답이에요.
 2. 소프트 [[258_voting_ensemble|보팅]]은 각 사람이 **얼마나 확신하는지(점수)**를 평균 내서 결정해요.
 3. 여러 전문가가 모이면 **혼자보다 더 정확한 답**을 낼 수 있답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 119 / 258
+
+← **이전**: [[118_cross_entropy_kl_divergence|118. 교차 엔트로피와 KL 발산 (Cross-Entropy & KL Divergence) - 분류 손실 함수의 수학적 기반]]
+**다음**: [[120_concept|120. 부트스트래핑 (Bootstrapping) - 비모수 통계적 추론·신뢰 구간 추정]] →
+
+---

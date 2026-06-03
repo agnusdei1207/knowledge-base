@@ -134,3 +134,14 @@ tags:
 1. 여러 상자에 있던 블록을 큰 정리장에 모아 보고 싶은 모양대로 다시 보는 거예요.
 2. 빨리 넣는 법과 빨리 보는 법은 다를 수 있어요.
 3. 그래서 창고를 어떻게 나누고 언제 정리할지 정해야 해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 574 / 600
+
+← **이전**: [[573_ods_operational_data_store_near_real_time|573. ODS 준실시간 스냅샷 레코드 마이그레이션 DW 배치 레이어 차이점]]
+**다음**: [[575_scd_slowly_changing_dimension_type_history_management|575. Slowly Changing Dimension (SCD Type 1, 2, 3) 시계열 이력 차원 이력 관리 모델]] →
+
+---

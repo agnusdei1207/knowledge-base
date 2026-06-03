@@ -175,3 +175,14 @@ CPU 캐시를 교체할 때 회로를 아끼려고 무식한 [[261_fifo_page_rep
 1. 벨라디의 모순 (Belady's [[530_anomaly|Anomaly]])은 컴퓨터가 메모리를 더 크게 보이게 하고 부족함을 숨기는 방법이에요.
 2. 먼저 [[402_optimal_page_replacement|최적 교체 알고리즘]] ([[724_optimal_page_replacement_unrealizable|OPT]], Optimal)을 이해하면 벨라디의 모순 (Belady's [[530_anomaly|Anomaly]])이 왜 필요한지 더 쉽게 보여요.
 3. 그래서 벨라디의 모순 (Belady's [[530_anomaly|Anomaly]])을 잘 알면 나중에 [[261_fifo_page_replacement|FIFO]] (First-In, First-Out) 교체도 훨씬 쉽게 배울 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 403 / 800
+
+← **이전**: [[402_optimal_page_replacement|402. 최적 교체 알고리즘 (OPT, Optimal) - 앞으로 가장 오랫동안 안 쓸 페이지 교체 (구현 불가, 비교 기준)]]
+**다음**: [[404_fifo_page_replacement|404. FIFO (First-In, First-Out) 교체 - 가장 먼저 들어온 페이지 교체 (벨라디 모순 발생)]] →
+
+---

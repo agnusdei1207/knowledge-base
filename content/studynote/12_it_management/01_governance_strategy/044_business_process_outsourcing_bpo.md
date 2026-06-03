@@ -299,3 +299,14 @@ BPO의 고부가가치화
 1. BPO는 집안일 외주 — 요리(핵심 사업)는 내가 하고, 청소(회계)·빨래(HR)는 전문 도우미에게 맡겨서 더 중요한 일에 집중해요!
 2. SLA는 도우미와의 계약서 — "화장실 청결도 95% 이상, 어기면 계약 해지". 품질을 계약으로 보장받아요.
 3. [[060_rpa_hyperautomation|RPA]] + BPO는 자동 청소기 + 도우미 — 로봇 청소기([[060_rpa_hyperautomation|RPA]])가 단순 청소하고, 도우미는 복잡한 집안일만. 더 효율적이에요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 80 / 587
+
+← **이전**: [[044_bpo_business_process_outsourcing|44. BPO (Business Process Outsourcing)]]
+**다음**: [[045_msp_cloud_managed_service_provider|045. 클라우드 MSP — Cloud Managed Service Provider]] →
+
+---

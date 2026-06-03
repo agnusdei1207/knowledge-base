@@ -54,3 +54,14 @@ DSRC는 **[[141_v2x_vehicle_to_everything_communication|V2X]] 통신의 [[459_qu
 1. DSRC는 **워키토키**예요. 가까운 차끼리 **직접 대화**해요.
 2. 스마트폰([[143_c_v2x_cellular_based_communication|C-V2X]])처럼 **기지국 없이도** 바로 통신해요.
 3. 하지만 요즘은 **스마트폰 방식([[143_c_v2x_cellular_based_communication|C-V2X]])**이 더 인기가 많아요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 142 / 552
+
+← **이전**: [[141_v2x_vehicle_to_everything_communication|141. V2X (Vehicle-to-Everything) 통신 - 차량-인프라 연결]]
+**다음**: [[143_c_v2x_cellular_based_communication|143. C-V2X (Cellular V2X) - 5G 셀룰러 기반 차량 통신]] →
+
+---

@@ -125,3 +125,14 @@ tags:
 1. [[312_arp_address_resolution_protocol_ip_to_mac|ARP]] [[598_spoofing|스푸핑]] ([[991_arp_spoofing|Arp Spoofing]] Man In The Middle [[272_ci_cache_poisoning_runner_ephemeral|Cache Poisoning]])는 학교 규칙표처럼 무엇을 준비하고 어떻게 확인할지 알려 주는 기준이에요.
 2. 규칙표만 붙여 두고 지키지 않으면 아무 소용이 없어요.
 3. 그래서 보안도 규칙과 실제 행동이 함께 맞아야 해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 1100 / 1108
+
+← **이전**: [[990_reentrancy_attack|990. Reentrancy 공격 (Smart Contract)]]
+**다음**: [[992_stateful_inspection_firewall_session_state_table|992. 방화벽 (Stateful Inspection)]] →
+
+---

@@ -221,3 +221,14 @@ Exponential Backoff and Retry 패턴은 [[136_variance|분산]] 시스템의 복
 1. 게임에서 통신 오류가 났을 때 1초 후 다시 접속, 실패하면 2초 후, 또 실패하면 4초 후... 이렇게 기다리는 시간을 두 배씩 늘리는 것이 지수 백오프야.
 2. 모든 친구가 동시에 재접속을 시도하면 서버가 또 터지니까(Thundering Herd), 각자 다른 시간에 재시도하도록 무작위 딜레이(Jitter)를 더해줘.
 3. 결제나 주문처럼 중요한 것은 같은 요청을 두 번 하면 안 되니까 "주문번호 표([[194_idempotency|Idempotency]] [[067_db_key_uniqueness_minimality|Key]])"를 들고 가서 "이 주문은 하나만요"라고 서버에게 알려줘야 해.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 285 / 530
+
+← **이전**: [[223_circuit_breaker_pattern|223. 서킷 브레이커 패턴 (Circuit Breaker Pattern)]]
+**다음**: [[225_throttling_token_bucket|225. 쓰로틀링과 토큰 버킷 패턴 (Throttling / Token Bucket Pattern)]] →
+
+---

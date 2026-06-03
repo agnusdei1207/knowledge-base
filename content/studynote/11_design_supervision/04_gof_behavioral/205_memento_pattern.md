@@ -213,3 +213,14 @@ tags:
 1. 그림 그리다가 망했을 때 "되돌리기" 버튼을 누르면 이전 그림으로 돌아가죠?
 2. [[398_process|메멘토 패턴]]은 그 되돌리기 기능을 만드는 방법이에요.
 3. 그림판(Originator)이 자기 그림의 사진([[274_memento_pattern|Memento]])을 찍어두고, 앨범(Caretaker)에 저장해두는 거예요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 266 / 530
+
+← **이전**: [[204_iterator_pattern|204. 이터레이터 패턴 (Iterator Pattern)]]
+**다음**: [[206_interpreter_pattern|206. 해석자 패턴 (Interpreter Pattern)]] →
+
+---

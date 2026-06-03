@@ -149,3 +149,14 @@ FBI를 이해하려면 일반 [[154_database_index_b_tree_search_optimization|�
 1. 보통 사전은 원래 단어 순서로 찾게 되어 있어서, 단어를 이상하게 바꿔 찾으면 빨리 못 찾아요.
 2. 함수 기반 [[154_database_index_b_tree_search_optimization|인덱스]]는 사람들이 자주 바꿔서 찾는 모습대로 새 미니 사전을 하나 더 만드는 거예요.
 3. 그래서 찾기는 빨라지지만, 새 단어가 들어올 때마다 그 미니 사전도 같이 고쳐야 해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 162 / 600
+
+← **이전**: [[161_composite_index_leading_column|161. 결합 인덱스 (Composite Index) - 2개 이상 컬럼으로 구성 (선행 컬럼 순서 중요)]]
+**다음**: [[163_optimizer_sql_execution_plan_generator|163. 옵티마이저 (Optimizer) - SQL 실행 최적 경로(Execution Plan) 생성기]] →
+
+---

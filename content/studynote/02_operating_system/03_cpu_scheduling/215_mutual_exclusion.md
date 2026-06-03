@@ -195,3 +195,14 @@ tags:
 1. [[283_mutual_exclusion|상호 배제]] ([[283_mutual_exclusion|Mutual Exclusion]], [[223_mutex|Mutex]])은 컴퓨터가 누가 먼저 CPU를 쓰면 좋은지 줄을 세우는 방법이에요.
 2. 먼저 동적 우선순위 승급 (Priority Boost)을 이해하면 [[283_mutual_exclusion|상호 배제]] ([[283_mutual_exclusion|Mutual Exclusion]], [[223_mutex|Mutex]])이 왜 필요한지 더 쉽게 보여요.
 3. 그래서 [[283_mutual_exclusion|상호 배제]] ([[283_mutual_exclusion|Mutual Exclusion]], [[223_mutex|Mutex]])을 잘 알면 나중에 에너지 인지 스케줄링 (Energy-Aware Scheduling, EAS)도 훨씬 쉽게 배울 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 215 / 800
+
+← **이전**: [[214_critical_section|214. 임계 구역 (Critical Section)]]
+**다음**: [[216_progress_in_synchronization|216. 진행 (Progress)]] →
+
+---

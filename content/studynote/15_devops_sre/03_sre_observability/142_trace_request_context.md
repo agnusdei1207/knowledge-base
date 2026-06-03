@@ -54,3 +54,14 @@ Trace·Span·[[033_context|Context]] Propagation은 **[[569_distributed_tracing_
 1. Context는 **릴레이 바톤**이에요. 각 주자([[090_service_kubernetes_network_load_balancing|서비스]])가 **바톤(ID)**을 이어받아요.
 2. 바톤에 **추적 번호([[303_trace_id|Trace ID]])**가 적혀 있어서 전체 레이스를 추적해요.
 3. 바톤을 안 넘기면 **누가 달렸는지** 모르니까 꼭 넘겨야 해요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 142 / 373
+
+← **이전**: [[141_distributed_tracing_msa_request_flow|141. 분산 트레이싱 (Distributed Tracing) - MSA 요청 흐름 추적]]
+**다음**: [[143_span_service_operation_unit|143. Span 상세 - 서비스·오퍼레이션 단위 추적]] →
+
+---

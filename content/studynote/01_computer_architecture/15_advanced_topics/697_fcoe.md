@@ -155,3 +155,14 @@ NVMe/TCP (Non-Volatile Memory Express over Transmission Control Protocol)
 1. FCoE는 학교에 가는 길과 급식차 길을 하나의 큰 도로로 합치는 방법이에요.
 2. 대신 급식차 음식이 쏟아지면 안 되니까, 그 차선은 더 조심하고 우선으로 비켜 줘야 해요.
 3. 그래서 길은 줄어들지만 교통 규칙은 더 똑똑하게 만들어야 한답니다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 698 / 803
+
+← **이전**: [[696_fibre_channel_protocol|696. Fibre Channel (FC) 프로토콜]]
+**다음**: [[698_iscsi|698. iSCSI (Internet Small Computer System Interface)]] →
+
+---

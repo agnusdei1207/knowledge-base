@@ -157,3 +157,14 @@ DPO는 [[263_llm_large_language_model|LLM]] 정렬 훈련의 접근성을 민주
 1. AI에게 "이 대답이 저 대답보다 좋아"라는 비교만 보여주면 스스로 좋은 말투를 배우는 것이 DPO예요.
 2. 예전 방법([[250_rlhf_human_feedback_reinforcement_alignment_cot|RLHF]])은 채점 선생님(보상 모델)도 따로 훈련시켜야 해서 복잡했는데, DPO는 그 과정을 없앴어요.
 3. 덕분에 더 쉽고 빠르게 예의 바르고 도움이 되는 AI를 만들 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 532 / 552
+
+← **이전**: [[531_api_throttling_bff_backend_for_frontend|531. API 스로틀링과 BFF 백엔드 포 프론트엔드 (API Throttling and BFF Backend For Frontend)]]
+**다음**: [[533_ldm_latent_diffusion_model_optimization|533. LDM 잠재 디퓨전 모델과 생성 최적화 (LDM Latent Diffusion Model Generation Optimization)]] →
+
+---

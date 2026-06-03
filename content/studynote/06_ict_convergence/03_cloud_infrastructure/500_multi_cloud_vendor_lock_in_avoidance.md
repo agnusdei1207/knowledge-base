@@ -126,3 +126,14 @@ tags:
 1. 한 편의점에서만 간식을 사면 간편하지만, 그 편의점이 문을 닫으면 아무것도 못 사요.
 2. 여러 가게에서 나눠 사면 안전하지만, 영수증이 많아져서 용돈 관리가 더 필요해요.
 3. [[202_multi_cloud_hybrid_cloud_governance|멀티 클라우드]]도 마찬가지 — 여러 클라우드를 쓸수록 통합 관리 능력이 더 중요해져요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 500 / 552
+
+← **이전**: [[499_cloud_service_models_iaas_paas_saas_faas|499. 클라우드 서비스 모델 통합: IaaS~FaaS (Cloud Service Models IaaS PaaS SaaS FaaS)]]
+**다음**: [[501_docker_container_lightweight_os_isolation|501. 도커 컨테이너 경량 OS 격리 (Docker Container Lightweight OS Isolation)]] →
+
+---

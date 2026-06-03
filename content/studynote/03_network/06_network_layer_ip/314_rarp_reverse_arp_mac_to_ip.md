@@ -147,3 +147,14 @@ RARP는 [[312_arp_address_resolution_protocol_ip_to_mac|ARP]] 프레임에서 �
 1. 택배를 보내려면 집 주소가 정확해야 길을 잃지 않아요.
 2. 이 개념은 인터넷 세상에서 주소를 정하고 다음 길을 찾는 지도와 같아요.
 3. 그래서 멀리 있는 친구 컴퓨터까지도 편지가 도착할 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 435 / 1120
+
+← **이전**: [[313_arp_frame_request_broadcast_reply_unicast|313. ARP 프레임 (요청-브로드캐스트, 응답-유니캐스트)]]
+**다음**: [[315_proxy_arp_subnet_proxy_response|315. Proxy ARP (프록시 ARP)]] →
+
+---

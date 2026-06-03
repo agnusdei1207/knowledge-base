@@ -139,3 +139,14 @@ tags:
 1. [[165_feature_store_training_serving_consistency|피처 스토어]] [[241_machine_learning_basics|머신러닝]] 변수 캐시 MLOps는 복잡한 일을 순서대로 정리해 주는 큰 정리함이에요.
 2. 어디에 무엇을 넣을지 먼저 정해 두면, 나중에 찾거나 고칠 때 훨씬 쉬워져요.
 3. 그래서 일이 커질수록 먼저 기준을 만들고 같이 약속하는 것이 중요해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 399 / 482
+
+← **이전**: [[398_dataops_cicd_pipeline_automation|398. 데이터옵스 CI CD 파이프라인 자동 테스팅 (DataOps)]]
+**다음**: [[400_privacy_clean_room_data_sharing|400. 프라이버시 클린 룸 데이터 안전 공유 (Privacy Clean Room)]] →
+
+---

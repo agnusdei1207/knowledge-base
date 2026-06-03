@@ -153,3 +153,14 @@ NoC 기반 메시지 패싱 하드웨어 큐
 1. 옛날에는 친구들이 큰 칠판 하나를 같이 써서 서로 지우고 싸우기 쉬웠어요.
 2. 이제는 친구마다 받은편지함이 있어서 필요한 쪽지만 넣어 주면 돼요.
 3. 그래서 친구 수가 많아져도 덜 부딪히고 더 빨리 함께 일할 수 있답니다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 565 / 803
+
+← **이전**: [[564_asynchronous_bus_handshake|564. 비동기 버스 핸드셰이크 프로토콜 (Asynchronous Bus Handshake Protocol)]]
+**다음**: [[566_hardware_lock_elision|566. 하드웨어 락 엘리전 (Hardware Lock Elision, HLE)]] →
+
+---

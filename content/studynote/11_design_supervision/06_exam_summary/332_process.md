@@ -106,3 +106,14 @@ tags:
 1. [[190_secure_coding_guideline|시큐어 코딩]] 47개 보안 약점은 집 문을 잠그고 누가 드나드는지 기록하는 것과 비슷해요.
 2. 문이 잠겼는지뿐 아니라 열쇠를 누가 갖고 있는지도 같이 봐야 해요.
 3. 그래야 나쁜 사람이 들어왔을 때 바로 막고 다시 고칠 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 410 / 530
+
+← **이전**: [[331_kwcag|331. 웹 접근성 KWCAG (Korean Web Content Accessibility Guidelines)]]
+**다음**: [[333_metric|333. 데이터 품질 6대 지표 (Six Data Quality Metrics)]] →
+
+---

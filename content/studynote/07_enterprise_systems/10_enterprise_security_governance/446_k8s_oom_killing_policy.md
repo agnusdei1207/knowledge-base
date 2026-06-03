@@ -139,3 +139,14 @@ tags:
 1. 다중 클러스터 [[157_oom_killer|OOM]] 킬링 [[164_policy|정책]] [[208_schedule_history_transaction_execution_order|스케줄]]는 복잡한 일을 순서대로 정리해 주는 큰 정리함이에요.
 2. 어디에 무엇을 넣을지 먼저 정해 두면, 나중에 찾거나 고칠 때 훨씬 쉬워져요.
 3. 그래서 일이 커질수록 먼저 기준을 만들고 같이 약속하는 것이 중요해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 446 / 482
+
+← **이전**: [[445_c_its_cooperative_transport|445. C-ITS 협력 지능형 교통 시스템 (C-ITS, Cooperative Intelligent Transport System)]]
+**다음**: [[447_k_anonymity_privacy_design|447. 데이터 익명성 K-익명화 프라이버시 설계 (K-Anonymity & Privacy by Design)]] →
+
+---

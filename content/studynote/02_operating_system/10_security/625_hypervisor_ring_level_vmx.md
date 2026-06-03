@@ -232,3 +232,14 @@ tags:
 1. 옛날에는 컴퓨터 한 대에 윈도우 두 개를 띄우려면, 컴퓨터(CPU)가 두 윈도우의 싸움을 말리느라 속도가 엄청 느려졌어요.
 2. 그래서 컴퓨터 만드는 똑똑한 사람들(Intel, AMD)이 CPU 안에 '비밀의 방(Ring -1)'을 새로 하나 만들었어요.
 3. 이제 [[054_hypervisor|하이퍼바이저]]라는 관리자가 그 비밀의 방에 숨어서, 윈도우들이 서로 싸우지 않고 자기가 혼자 컴퓨터를 쓰는 것처럼 완벽하게 속여주기 때문에 가상머신이 진짜 컴퓨터처럼 빠르답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 625 / 800
+
+← **이전**: [[624_microkernel_ipc_message_passing_latency|624. 마이크로커널 IPC 메시지 패싱 지연 단축 기법 구조 설계 (Microkernel IPC Message Passing Latency)]]
+**다음**: [[626_shadow_page_table_vs_ept|626. 쉐도우 페이지 테이블 (Shadow Page Table) vs 확장 페이지 테이블 (EPT/NPT 하드웨어 보조)]] →
+
+---

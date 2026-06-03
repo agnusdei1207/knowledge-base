@@ -198,3 +198,14 @@ NVMe-oF · GPUDirect RDMA · AI 클러스터 인터커넥트
 1. RoCE는 컴퓨터끼리 물건을 주고받을 때, 복잡한 접수 창구를 건너뛰고 전용 통로로 바로 전달하는 방법이에요.
 2. 그래서 기다리는 시간이 짧아지고, 컴퓨터의 머리인 CPU도 다른 중요한 일을 더 많이 할 수 있어요.
 3. 대신 길이 막히지 않도록 [[130_signal|신호]]등과 차선 정리를 아주 똑똑하게 해 줘야 해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 364 / 803
+
+← **이전**: [[362_rdma|362. RDMA (Remote Direct Memory Access)]]
+**다음**: [[364_northbridge_southbridge|364. 노스브리지 (Northbridge)와 사우스브리지 (Southbridge)]] →
+
+---

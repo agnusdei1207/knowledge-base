@@ -165,3 +165,14 @@ tags:
 1. 객체지향 5원칙 [[242_solid_object_oriented_design_principles|SOLID]] 완벽 매핑은 레고 블록으로 성을 만들 때처럼, 규칙을 정하고 역할을 나누어 함께 작업하는 방법이에요.
 2. 혼자서 막 만들면 나중에 무너지거나 고치기 어렵지만, 약속을 지키면 누구나 쉽게 고치고 더 크게 만들 수 있어요.
 3. 그래서 [[001_software_engineering_definition|소프트웨어 공학]]은 프로그래머들이 좋은 프로그램을 빠르고 안전하게 만들 수 있게 도와주는 '규칙 모음집'이에요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 767 / 973
+
+← **이전**: [[600_architecture_runway_agile_foundation|600. 아키텍처 런웨이 (Architecture Runway) - 비즈니스 요구 수용을 위해 사전에 마련하는 기술적 기반 구조]]
+**다음**: [[602_information_hiding_encapsulation|602. 정보 은닉(Information Hiding) 캡슐화 연계]] →
+
+---

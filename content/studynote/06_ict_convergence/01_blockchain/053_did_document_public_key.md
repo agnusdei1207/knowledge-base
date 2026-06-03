@@ -131,3 +131,14 @@ DID Document / VC / VP
 1. [[231_did_decentralized_identity|DID]] 문서는 내 이름표 옆에 붙은 열쇠 안내판이에요.
 2. 친구는 안내판을 보고 진짜인지 [[396_validation|확인]]해요.
 3. 그래서 가운데 아저씨 없이도 서로 믿을 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 53 / 552
+
+← **이전**: [[052_did_architecture_issuer_holder_verifier_vc_vp|52. 탈중앙화 신원증명 (DID, Decentralized Identity)]]
+**다음**: [[054_dao_decentralized_autonomous_organization|54. DAO (Decentralized Autonomous Organization)]] →
+
+---

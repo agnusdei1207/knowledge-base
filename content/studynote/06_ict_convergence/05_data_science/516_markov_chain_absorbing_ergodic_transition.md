@@ -141,3 +141,14 @@ tags:
 1. [[140_markov_chain|마르코프 체인]]은 기억상실 개구리가 연못에서 수련잎을 뛰어다니는 것처럼, 지금 어느 잎에 있는지만 보고 다음 잎으로 점프하는 방식이야.
 2. 흡수 상태는 개구리가 빠지면 절대 못 나오는 함정 잎이야 — 한 번 빠지면 끝!
 3. 에르고딕 체인은 계속 뛰다 보면 결국 어느 잎에 제일 많이 있게 되는지 알 수 있어 — 그게 바로 정상 분포야!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 516 / 552
+
+← **이전**: [[515_pca_lda_svd_dimensionality_reduction|515. PCA, LDA, SVD 차원 축소 행렬 분해 (PCA LDA SVD Dimensionality Reduction)]]
+**다음**: [[517_time_series_arima_stationarity_smoothing|517. 시계열 ARIMA 정상성과 평활법 (Time Series ARIMA Stationarity Smoothing)]] →
+
+---

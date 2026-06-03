@@ -123,3 +123,14 @@ Key Management
 한 번만 쓰는 비밀 열쇠예요.  
 완벽하지만 준비가 어려워요.  
 일회용 패드는 그런 암호예요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 74 / 1108
+
+← **이전**: [[073_enigma|073. Enigma — 독일 제2차 세계대전 기계식 암호]]
+**다음**: [[075_computational_infeasibility|75. 현대 암호학 기본 가정 — computationally infeasible]] →
+
+---

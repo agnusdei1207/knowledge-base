@@ -174,3 +174,14 @@ PPO는 OpenAI의 ChatGPT 학습에 사용된 [[250_rlhf_human_feedback_reinforce
 1. Actor는 게임에서 어떤 버튼을 누를지 결정하는 선수이고, Critic은 "지금 네 행동이 평균보다 좋았니 나빴니?"를 점수로 알려주는 코치야.
 2. 이점 함수는 코치가 "이 행동은 평균보다 +3점 더 좋아"라고 알려주는 것으로, 선수는 +3점짜리 행동을 더 자주 하도록 [[268_strategy_pattern|전략]]을 수정해.
 3. PPO는 선수가 연습할 때 한 번에 너무 많이 바꾸면 오히려 실력이 떨어지니, "이번엔 [[489_raid_10_hybrid|10]]%만 바꿔"라는 안전 규칙을 지키게 하는 방법이야.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 373 / 420
+
+← **이전**: [[372_bellman_equation|372. 벨만 방정식 (Bellman Equation)]]
+**다음**: [[374_vae_reparameterization|374. VAE (Variational Autoencoder) 재파라미터화 트릭 (Reparameterization Trick)]] →
+
+---

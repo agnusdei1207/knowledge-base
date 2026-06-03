@@ -234,3 +234,14 @@ docker run -it --rm --env-file .env.prod myapp:v2.0 python console.py
 1. 게임기(운영 환경)에서 게임(일반 앱)을 할 때와, 게임 업데이트 패치(관리 프로세스)를 할 때 다른 기계를 쓰면 [[001_dikw_pyramid|데이터]]가 날아갈 수 있어요.
 2. 12 팩터 원칙은 게임을 할 때나 패치를 할 때 모두 똑같은 팩([[561_container_based_deployment|컨테이너]] 이미지)과 똑같은 세이브 [[501_file_definition_logical_record|파일]](환경 [[009_config|설정]])을 쓰라고 가르쳐줘요.
 3. 그러면 관리자가 실수로 이상한 [[158_instruction|명령어]]를 입력해서 소중한 게임 캐릭터 [[001_dikw_pyramid|데이터]]가 엉망진창이 되는 슬픈 일을 완벽하게 막을 수 있답니다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 18 / 373
+
+← **이전**: [[017_logs_event_stream|17. 로그 (Logs) - 로그를 이벤트 스트림으로 취급하여 표준 출력(stdout)으로 뿜어냄]]
+**다음**: [[019_continuous_integration|19. 지속적 통합 (CI, Continuous Integration) - 다수 개발자의 코드를 메인 브랜치에 수시로 병합하고 자동 빌드/테스트를]] →
+
+---

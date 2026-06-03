@@ -53,3 +53,14 @@ QLoRA = NF4 양자화 + LoRA + Double Quantization
 1. [[434_quantization|양자화]]는 **사진 [[347_compaction|압축]]**이에요. [[501_file_definition_logical_record|파일]]은 작아지지만 **사진은 거의 같아요**.
 2. QLoRA는 **[[347_compaction|압축]] 사진에 포스트잇([[617_lora_lorawan_css_chirp_spread_spectrum|LoRA]])**을 붙이는 거예요. 빠르고 저렴해요.
 3. 보통 컴퓨터에서도 **큰 AI를 돌릴 수** 있게 해줘요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 146 / 258
+
+← **이전**: [[145_peft_lora_low_rank_adaptation|145. PEFT & LoRA (Low-Rank Adaptation) - 효율적 파라미터 미세 조정]]
+**다음**: [[147_instruction_tuning_rlhf_alignment|147. 인스트럭션 튜닝 (Instruction Tuning) & RLHF]] →
+
+---

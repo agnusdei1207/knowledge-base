@@ -198,3 +198,14 @@ PTBR과 PTLR은 [[001_operating_system_purpose|운영체제]]의 [[369_logic_bom
 1. PTBR ([[286_page_frame|Page]]-Table [[329_base_register|Base Register]]) / PTLR ([[286_page_frame|Page]]-Table Length [[175_register_addressing|Register]])은 컴퓨터가 메모리를 방처럼 나눠 쓰고 주소를 찾는 방법이에요.
 2. 먼저 [[353_page_table|페이지 테이블]] ([[353_page_table|Page Table]])을 이해하면 PTBR ([[286_page_frame|Page]]-Table [[329_base_register|Base Register]]) / PTLR ([[286_page_frame|Page]]-Table Length [[175_register_addressing|Register]])이 왜 필요한지 더 쉽게 보여요.
 3. 그래서 PTBR ([[286_page_frame|Page]]-Table [[329_base_register|Base Register]]) / PTLR ([[286_page_frame|Page]]-Table Length [[175_register_addressing|Register]])을 잘 알면 나중에 [[259_paging|페이징]]의 [[307_memory_protection|메모리 보호]]도 훨씬 쉽게 배울 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 354 / 800
+
+← **이전**: [[353_page_table|353. 페이지 테이블 (Page Table) - 페이지 번호를 프레임 번호로 매핑]]
+**다음**: [[355_paging_memory_protection|355. 페이징의 메모리 보호 - 유효-무효 비트 (Valid-Invalid Bit)]] →
+
+---

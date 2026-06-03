@@ -251,3 +251,14 @@ public class ReadHeavyCache<K, V> {
 1. 그림책은 여러 친구가 동시에 볼 수 있어요 — 읽기 락은 공유해요!
 2. 하지만 그림책에 낙서([[289_cqrs_db|쓰기]])할 때는 다른 친구들이 잠깐 기다려야 해요.
 3. 그래서 [[280_read_write_lock|읽기-쓰기 락]]은 "함께 읽되, 쓸 때는 혼자만"이라는 규칙이에요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 270 / 530
+
+← **이전**: [[208_guarded_suspension_pattern|208. 가드 서스펜션 패턴 (Guarded Suspension Pattern)]]
+**다음**: [[210_monitor_object_pattern|210. 모니터 객체 패턴 (Monitor Object Pattern)]] →
+
+---

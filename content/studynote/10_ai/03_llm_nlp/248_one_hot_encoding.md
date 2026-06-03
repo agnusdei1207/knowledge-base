@@ -194,3 +194,14 @@ n범주 원-핫 인코딩:    다중공선성 없는 인코딩:
 1. [[079_one_hot_encoding_categorical_dummy_variable|원-핫 인코딩]]은 좋아하는 과일을 표시할 때 **각 과일에 동그라미 칸을 하나씩 만들고 딱 하나만 색칠하는 것**이에요.
 2. 사과=[1,0,0], 바나나=[0,1,0], 포도=[0,0,1]처럼 만들어서 컴퓨터가 "사과가 바나나의 반이다" 같은 이상한 생각을 안 하게 해요.
 3. 과일 종류가 너무 많아지면 칸도 너무 많아져서 힘들어지므로, 그럴 땐 "[[278_instruction_tuning|임베딩]]"이라는 더 똑똑한 방법을 써요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 248 / 420
+
+← **이전**: [[247_feature_label_variables|247. 독립 변수 (피처) / 종속 변수 (라벨)]]
+**다음**: [[249_scaling_normalization_standardization|249. 스케일링 (Scaling Normalization Standardization)]] →
+
+---

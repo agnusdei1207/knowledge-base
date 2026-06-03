@@ -127,3 +127,14 @@ Trunk-Based + Feature Flag
 1. Trunk-Based는 한 큰 길로 자주 모이는 거예요.
 2. 오래 돌아다니지 않고 빨리 합류해요.
 3. 그래서 서로 덜 부딪혀요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 55 / 373
+
+← **이전**: [[054_github_flow|54. GitHub Flow]]
+**다음**: [[056_cicd_pipeline|56. CI/CD 파이프라인 (Continuous Integration / Continuous Delivery) - 배포 자동화]] →
+
+---

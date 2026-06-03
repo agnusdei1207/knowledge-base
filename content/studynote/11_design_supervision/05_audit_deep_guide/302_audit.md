@@ -104,3 +104,14 @@ tags:
 1. 공시 범위는 학교에서 준비물을 미리 챙기는 것처럼, 중요한 기준을 먼저 맞추는 일이야.
 2. 책임 추적은 선생님이 수업 중간에 계속 확인하는 것처럼, 실제로 잘 되고 있는지 보는 과정이야.
 3. 계약 이행 보증은 시험 결과표처럼, 정말 효과가 있었는지 나중에 다시 확인하게 해주는 증거야.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 363 / 530
+
+← **이전**: [[301_baseline_hot_fix|301. 베이스라인과 Hot fix 통제 감리 (Baseline and Hot Fix Control Audit)]]
+**다음**: [[302_audit_disclosure_accountability_procurement|302. 감리 공시와 조달 책임성 확보 (Audit Disclosure Accountability in Public Procurement)]] →
+
+---

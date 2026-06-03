@@ -128,3 +128,14 @@ container layers
 바닥판이 있어야 집을 시작할 수 있어요.  
 위에 얇은 칸막이를 얹으면 새 방처럼 보일 수 있어요.  
 오버레이 [[501_file_definition_logical_record|파일]] 시스템은 그런 겹치기 방법이에요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 64 / 800
+
+← **이전**: [[063_docker_architecture|63. 도커 (Docker) 아키텍처]]
+**다음**: [[065_system_call_wrapper|65. 시스템 콜 래퍼 (System Call Wrapper)]] →
+
+---

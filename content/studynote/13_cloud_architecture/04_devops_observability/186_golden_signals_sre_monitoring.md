@@ -153,3 +153,14 @@ RED Method (Rate · Errors · Duration)
 ```
 2. 이 4가지만 정상이면 대부분 건강하고, 하나라도 이상하면 더 자세히 검사해요.
 3. [[090_service_kubernetes_network_load_balancing|서비스]]도 이 4가지([[015_지연_데이터_관점|지연]], 트래픽, 에러, 포화도)만 잘 보면 대부분의 문제를 잡을 수 있어요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 185 / 371
+
+← **이전**: [[185_metrics_prometheus_grafana|185. 메트릭 (Metrics - Prometheus, Grafana)]]
+**다음**: [[187_logging_elk_stack_centralized|187. 로그 및 ELK Stack (Logs, Centralized Logging)]] →
+
+---

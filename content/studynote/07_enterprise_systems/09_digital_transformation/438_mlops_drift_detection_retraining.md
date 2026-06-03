@@ -139,3 +139,14 @@ tags:
 1. [[348_mlops|MLOps]] 드리프트 탐지 재학습 [[123_pipe|파이프]]라인 자동화는 복잡한 일을 순서대로 정리해 주는 큰 정리함이에요.
 2. 어디에 무엇을 넣을지 먼저 정해 두면, 나중에 찾거나 고칠 때 훨씬 쉬워져요.
 3. 그래서 일이 커질수록 먼저 기준을 만들고 같이 약속하는 것이 중요해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 438 / 482
+
+← **이전**: [[437_peft_lora_efficient_finetuning|437. PEFT LoRA 저차원 가중치 효율적 파인튜닝 (PEFT / LoRA)]]
+**다음**: [[439_zero_trust_ztna_microsegmentation|439. 제로 트러스트 ZTNA 마이크로 세그멘테이션 (Zero Trust / ZTNA)]] →
+
+---

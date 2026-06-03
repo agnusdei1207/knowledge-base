@@ -137,3 +137,14 @@ tags:
 1. 저금통(현재 잔액)만 보면 돈을 얼마나 넣고 뺐는지 모르잖아요.
 2. [[249_event_sourcing_append_only_state_reconstruction|이벤트 소싱]]은 "100원 넣기", "50원 꺼내기" 같은 모든 기록을 순서대로 남기는 방법이에요.
 3. 그러면 어느 날의 잔액도 기록을 되감아서 계산할 수 있어요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 178 / 530
+
+← **이전**: [[121_cqrs_pattern|121. CQRS 패턴 (Command Query Responsibility Segregation)]]
+**다음**: [[123_msa_microservices_architecture|123. 마이크로서비스 아키텍처 (MSA, Microservices Architecture)]] →
+
+---

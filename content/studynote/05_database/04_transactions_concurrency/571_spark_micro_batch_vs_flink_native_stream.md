@@ -132,3 +132,14 @@ Spark 스트리밍 마이크로 배치 vs Flink 네이티브 스트림 인 메�
 1. 컴퓨터가 정보를 잘 정리하고 지키기 위해 쓰는 약속이에요.
 2. 약속마다 하는 일이 조금씩 달라요.
 3. 그래서 이름만 외우지 말고 언제 쓰는지 같이 알아야 해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 571 / 600
+
+← **이전**: [[570_hadoop_ecosystem_hive_pig_mapreduce_abstraction|570. 하둡 에코시스템 Hive, Pig 분산 DB 질의 쿼리 엔진 맵리듀스 추상화]]
+**다음**: [[572_dataops_automated_testing_canary_deployment|572. 데이터 옵스 자동화 테스트 카나리 배포 데이터 파이프라인 검증망 설계]] →
+
+---

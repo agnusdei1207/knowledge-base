@@ -136,3 +136,14 @@ RDBMS 한계           ->  Hadoop HDFS + MapReduce  ->  Spark (메모리 처리)
 1. HDFS는 큰 [[501_file_definition_logical_record|파일]]을 여러 컴퓨터에 나눠서 보관하는 [[136_variance|분산]] 도서관이에요. 책 하나가 망가져도 다른 복사본이 있어서 괜찮아요.
 2. MapReduce는 도서관의 모든 책을 수백 명이 동시에 읽고 결과를 모으는 방법이에요. 단, 메모를 매번 저장해서 느려요.
 3. Spark는 메모를 머릿속에 기억하면서 작업해서 MapReduce보다 훨씬 빠르게 결과를 낼 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 339 / 373
+
+← **이전**: [[338_process|338. Platform Engineering IDP Golden Path 개발자 경험 (Platform Engineering Internal]]
+**다음**: [[340_pub_sub|340. 카프카 분산 메시지 스트리밍 (Apache Kafka Topic Partition Offset Consumer Group ISR]] →
+
+---

@@ -64,3 +64,14 @@ SQL 표준은 **50년간 진화하며 여전히 [[001_dikw_pyramid|데이터]] �
 1. SQL은 [[002_database_definition|데이터베이스]]에게 말하는 **공용 언어**예요. "이 [[001_dikw_pyramid|데이터]] 보여줘!" 하면 **보여줘요**.
 2. 어떤 [[002_database_definition|데이터베이스]]([[188_pl_sql_t_sql_procedural|Oracle]]·MySQL)든 **같은 말(SQL)**을 이해해요.
 3. 최신 SQL은 **[[343_json|JSON]]·[[070_graph_datastructure|그래프]]**도 다룰 수 있어서 **더 강력**해졌답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 131 / 600
+
+← **이전**: [[130_erd_notation_ie_barker_idef1x|130. ERD 표기법 비교 (IE·Barker·IDEF1X)]]
+**다음**: [[132_sql_join_types_overview|132. SQL JOIN 유형 총정리 - INNER·LEFT·RIGHT·FULL·CROSS·SELF]] →
+
+---

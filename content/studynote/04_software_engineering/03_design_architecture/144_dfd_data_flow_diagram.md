@@ -53,3 +53,14 @@ DFD는 **[[383_data_centric_architecture|데이터 중심]] 시스템 분석의 
 1. DFD는 **지도**예요. [[001_dikw_pyramid|데이터]]가 **어디서 어디로** 흐르는지 보여줘요.
 2. 세계지도(전체)→나라(L1)→도시(L2)처럼 **점점 자세히** 그려요.
 3. 동그라미(프로세스)는 **[[001_dikw_pyramid|데이터]]를 바꾸는 곳**, 화살표는 **[[001_dikw_pyramid|데이터]]가 가는 길**이에요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 144 / 973
+
+← **이전**: [[143_structured_analysis_dfd_dd_minispec|143. 구조적 분석 (Structured Analysis) - DFD·DD·Mini-Spec]]
+**다음**: [[145_1_mini_spec|145. Mini-Spec (프로세스 명세서) - DFD 프로세스 상세 정의]] →
+
+---

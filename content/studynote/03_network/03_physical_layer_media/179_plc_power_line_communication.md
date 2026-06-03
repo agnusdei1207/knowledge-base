@@ -169,3 +169,14 @@ PLC (Power Line Communication)
 1. PLC는 전기가 다니는 전깃줄 위에 작은 편지를 같이 태워 보내는 방법이에요.
 2. 새 줄을 안 깔아도 된다는 장점이 있지만, 전깃줄은 원래 시끄러운 길이라 편지가 흔들리기 쉬워요.
 3. 그래서 멀리 많이 보내는 큰길보다는, 가까운 곳에 빨리 연결해야 할 때 더 잘 어울린답니다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 300 / 1120
+
+← **이전**: [[178_small_cell_macro_femto|178. 스몰셀 (Small Cell) / 매크로셀 (Macro Cell) / 펨토셀 (Femto Cell)]]
+**다음**: [[180_xpon_epon_gpon_10gpon|180. xPON (Passive Optical Network) - EPON, GPON, 10G-PON]] →
+
+---

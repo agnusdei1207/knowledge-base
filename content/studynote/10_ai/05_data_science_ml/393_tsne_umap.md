@@ -147,3 +147,14 @@ t-SNE와 UMAP은 고차원 [[001_dikw_pyramid|데이터]] 탐색의 필수 도�
 1. t-SNE/UMAP은 3D 지구본을 2D 세계 지도로 펴는 것처럼, 수백 차원의 [[001_dikw_pyramid|데이터]]를 2D로 펼쳐서 눈으로 볼 수 있게 해.
 2. t-SNE는 가까운 이웃만 잘 표현하는 지도를 만들고, UMAP은 가까운 것과 먼 것 모두 잘 표현하는 더 균형 잡힌 지도를 만들어.
 3. AI가 고양이와 개를 잘 구분하는지 [[396_validation|확인]]하려면 t-SNE로 그림을 그려봐. 고양이들이 한 덩어리, 개들이 한 덩어리로 모이면 AI가 잘 학습한 거야.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 393 / 420
+
+← **이전**: [[392_perceptron_convergence|392. 퍼셉트론 수렴 정리 (Perceptron Convergence Theorem)]]
+**다음**: [[394_automl_hyperopt_tpe|394. AutoML / Hyperopt (Automl Hyperopt TPE)]] →
+
+---

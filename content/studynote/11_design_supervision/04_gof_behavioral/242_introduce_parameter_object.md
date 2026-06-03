@@ -169,3 +169,14 @@ long parameter list → 파라미터 객체화 → value object
 1. 친구한테 심부름을 부탁할 때 "우유, 빵, 계란, 버터, 치즈 가져다줘" 하는 것보다 "냉장고 목록 카드"를 주는 게 훨씬 쉽다.
 2. 카드에는 나중에 "요거트"도 추가할 수 있지만, 말로 전달하면 매번 새로 외워야 한다.
 3. 파라미터 객체화는 바로 그 "심부름 카드"를 만드는 작업이다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 303 / 530
+
+← **이전**: [[241_extract_method_refactoring|241. 메서드 분리 리팩토링 (Extract Method Refactoring)]]
+**다음**: [[243_code_smell_diagnosis|243. 코드 스멜 진단 (Code Smell Diagnosis)]] →
+
+---

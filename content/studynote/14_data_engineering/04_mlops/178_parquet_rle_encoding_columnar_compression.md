@@ -190,3 +190,14 @@ Lakehouse 물리 저장 계층
 1. Parquet은 장난감을 종류별 상자에 나눠 담아 두는 정리법이라서, 자동차만 찾고 싶으면 자동차 상자만 열면 돼요.
 2. [[099_rle|RLE]] [[347_compaction|압축]]은 같은 블록이 여러 개 이어져 있으면 "빨간 블록 5개"처럼 묶어서 적는 방법이에요.
 3. 그래서 상자도 덜 열고, 안에 무엇이 있는지도 더 빨리 알 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 178 / 258
+
+← **이전**: [[177_delta_lakehouse_time_travel_transaction|177. 델타 레이크하우스 (Delta Lakehouse) - Time Travel과 트랜잭션]]
+**다음**: [[179_kafka_flink_watermark_time_window|179. 카프카 (Kafka) + 플링크 (Flink) 시간 창 (Time Window) 워터마크 (Watermark)]] →
+
+---

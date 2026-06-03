@@ -53,3 +53,14 @@ Fine-tuning은 **FM을 [[064_relation_domain|도메인]]에 적응시키는 핵�
 1. Fine-tuning은 **대학 졸업 후 직무 교육(OJT)**이에요.
 2. 기초(사전 학습)가 있으니 **적은 교육**만으로 전문가가 돼요.
 3. LoRA는 **핵심 부분만 교육**해서 시간과 비용을 아껴요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 144 / 258
+
+← **이전**: [[143_foundation_model_llm_pretraining|143. Foundation Model & LLM 사전 학습 - 기반 모델의 원리]]
+**다음**: [[145_peft_lora_low_rank_adaptation|145. PEFT & LoRA (Low-Rank Adaptation) - 효율적 파라미터 미세 조정]] →
+
+---

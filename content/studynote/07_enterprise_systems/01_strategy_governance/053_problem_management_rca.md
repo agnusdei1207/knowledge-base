@@ -129,3 +129,14 @@ RCA / KEDB
 1. [[077_problem_management|문제 관리]]는 자꾸 고장 나는 장난감을 왜 고장 나는지 조사하는 일이에요.
 2. 임시로 붙여 놓는 것만으로는 또 떨어질 수 있어요.
 3. 진짜 원인을 고치면 다음엔 덜 고장 나요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 53 / 482
+
+← **이전**: [[052_incident_management|52. 인시던트 관리 (Incident Management)]]
+**다음**: [[054_change_management_cab|54. 변경 관리와 CAB (Change Management CAB)]] →
+
+---

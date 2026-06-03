@@ -104,3 +104,14 @@ tags:
 1. [[067_sprint_timebox|스프린트]] 목표는 학교에서 준비물을 미리 챙기는 것처럼, 중요한 기준을 먼저 맞추는 일이야.
 2. 완료 기준은 선생님이 수업 중간에 계속 확인하는 것처럼, 실제로 잘 되고 있는지 보는 과정이야.
 3. 속도 [[096_risk_non_risk_architecture_evaluation_flaws|리스크]]는 시험 결과표처럼, 정말 효과가 있었는지 나중에 다시 확인하게 해주는 증거야.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 349 / 530
+
+← **이전**: [[287_audit_framework_3_0_agile|287. 감리 프레임워크 3.0 애자일 전환 (Audit Framework 3.0 Agile Transition)]]
+**다음**: [[289_msa_saga_eventual_consistency|289. MSA Saga와 최종 일관성 감리 (MSA Saga Eventual Consistency Audit)]] →
+
+---

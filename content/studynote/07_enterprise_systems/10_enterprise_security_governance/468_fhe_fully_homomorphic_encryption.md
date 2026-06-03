@@ -139,3 +139,14 @@ tags:
 1. [[1019_homomorphic_encryption|동형 암호]] 암호문 연산는 복잡한 일을 순서대로 정리해 주는 큰 정리함이에요.
 2. 어디에 무엇을 넣을지 먼저 정해 두면, 나중에 찾거나 고칠 때 훨씬 쉬워져요.
 3. 그래서 일이 커질수록 먼저 기준을 만들고 같이 약속하는 것이 중요해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 468 / 482
+
+← **이전**: [[467_pqc_lattice_post_quantum_crypto|467. 양자 내성 암호 격자 기반 (PQC, Post-Quantum Cryptography)]]
+**다음**: [[469_carbon_aware_computing|469. 탄소 인지 컴퓨팅 (Carbon-Aware Computing)]] →
+
+---

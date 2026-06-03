@@ -187,3 +187,14 @@ L-다양성 · T-근접성 보강
 1. K-익명성은 친구 여러 명이 같은 모자를 써서 멀리서 누가 누구인지 잘 안 보이게 만드는 방법이에요.
 2. 마스킹 파이프라인은 이름표, 전화번호, 주소를 자동으로 다른 모양으로 바꿔 주는 기계예요.
 3. 그래서 공부나 연습은 할 수 있지만, 특정 친구를 바로 알아보기는 어려워져요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 185 / 258
+
+← **이전**: [[184_differential_privacy_noise_statistical_defense|184. 차분 프라이버시 노이즈 통계 방어 (Differential Privacy Noise Statistical Defense)]]
+**다음**: [[186_graph_db_recommendation_collaborative_filtering_cold_start|186. 그래프 DB 추천 알고리즘 협업 필터링 (Collaborative Filtering) 콜드 스타트]] →
+
+---

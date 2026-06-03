@@ -161,3 +161,14 @@ NAND/NOR 범용성은 디지털 설계의 근본 원리다. 현대 [[064_eda|EDA
 1. NAND/NOR는 요리의 만능 소스예요! 간장 하나로 모든 요리를 만들 수 있듯, NAND 게이트 하나로 모든 디지털 회로를 만들 수 있어요.
 2. NAND가 NOR보다 빠른 건 두 사람이 동시에 일하는 게([[430_index_fast_full_scan|병렬]]) 순서대로 일하는 것([[149_serial_communication_rs232_rs485|직렬]])보다 빠른 것과 같아요!
 3. 스마트폰·USB에 들어있는 NAND 플래시도 이 NAND 게이트 원리로 만들어졌답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 29 / 803
+
+← **이전**: [[028_and_or_not|28. AND / OR / NOT 게이트 상세 (Boolean Expression & Circuit)]]
+**다음**: [[030_xor_xnor|30. XOR·XNOR 게이트 — 동치와 배타적 논리]] →
+
+---

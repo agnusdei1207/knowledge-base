@@ -140,3 +140,14 @@ tags:
 1. [[801_data_center_3_tier_architecture_core_aggregation_access|데이터센터]] [[237_pue_power_usage_effectiveness_datacenter_metric|PUE]] 하락을 위한 쿨링 인프라 도입 경제성는 복잡한 일을 순서대로 정리해 주는 큰 정리함이에요.
 2. 어디에 무엇을 넣을지 먼저 정해 두면, 나중에 찾거나 고칠 때 훨씬 쉬워져요.
 3. 그래서 일이 커질수록 먼저 기준을 만들고 같이 약속하는 것이 중요해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 255 / 482
+
+← **이전**: [[254_sustainable_it_architecture_server_efficiency|254. 지속 가능한 IT 아키텍처 서버 효율화 (Sustainable IT Architecture)]]
+**다음**: [[256_hybrid_workplace_zero_trust_security_architecture|256. 하이브리드 워크플레이스 보안 아키텍처 제로 트러스트 (Hybrid Workplace Zero Trust Security Architecture)]] →
+
+---

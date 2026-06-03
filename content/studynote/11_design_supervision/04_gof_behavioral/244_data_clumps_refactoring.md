@@ -178,3 +178,14 @@ public final class Money {
 1. 알림장에 매일 "국어책, 수학책, 연필, 지우개"를 따로따로 적는 대신 "1교시 준비물 세트"라고 묶어서 적으면 더 빠르다.
 2. 세트 이름이 생기면 "오늘은 세트에 색연필도 추가"처럼 한번만 바꿔도 모든 알림장이 업데이트된다.
 3. [[001_dikw_pyramid|데이터]] 클럼프 제거는 바로 이 "세트 이름 붙이기"다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 305 / 530
+
+← **이전**: [[243_code_smell_diagnosis|243. 코드 스멜 진단 (Code Smell Diagnosis)]]
+**다음**: [[245_temporary_field_refactoring|245. 임시 필드 안티패턴 (Temporary Field Anti-pattern)]] →
+
+---

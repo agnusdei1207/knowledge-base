@@ -186,3 +186,14 @@ Team Topologies → Platform Engineering → 인지 부하 최소화
 1. 콘웨이의 법칙은 "동네 친구끼리 팀을 만들면 동네별로 팀이 나뉜다"는 법칙이다 — 어울리는 사람들이 같은 팀(코드 [[192_module_independence|모듈]])이 된다.
 2. 역 콘웨이 기동은 포지션을 먼저 정하고 선수를 뽑는 것이다 — 공격수 전술을 먼저 짜고, 그 포지션에 맞는 선수를 선발한다.
 3. Team Topologies는 회사 조직도를 소프트웨어 설계도처럼 그리는 것이다 — 팀 경계가 곧 [[090_service_kubernetes_network_load_balancing|서비스]] 경계가 되도록 의도적으로 구성한다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 32 / 373
+
+← **이전**: [[031_lead_time_cycle_time|31. 리드 타임과 사이클 타임 — DevOps 흐름 핵심 지표]]
+**다음**: [[033_conway_s_law|콘웨이의 법칙과 역 콘웨이 기동 (Conway's Law & Inverse Conway Maneuver)]] →
+
+---

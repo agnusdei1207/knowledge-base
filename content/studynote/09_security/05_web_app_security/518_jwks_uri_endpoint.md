@@ -125,3 +125,14 @@ jwks_uri ([[343_json|JSON]] Web [[067_db_key_uniqueness_minimality|Key]] Set 엔
 1. jwks_uri ([[343_json|JSON]] Web [[067_db_key_uniqueness_minimality|Key]] Set 엔드포인트)는 내 이름표와 비밀 상자를 어떻게 안전하게 다룰지 정하는 약속이에요.
 2. 작은 조각 정보도 모이면 내가 누구인지 알 수 있어요.
 3. 그래서 꼭 필요한 것만 모으고, 다 쓰면 빨리 치워야 해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 574 / 1108
+
+← **이전**: [[517_oidc_discovery_document|517. Discovery Document (Discovery Document)]]
+**다음**: [[519_oidc_nonce|519. Nonce (OIDC Replay Attack 방지)]] →
+
+---

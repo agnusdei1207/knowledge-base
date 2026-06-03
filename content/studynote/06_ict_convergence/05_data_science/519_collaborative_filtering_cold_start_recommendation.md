@@ -136,3 +136,14 @@ tags:
 1. [[345_collaborative_filtering|협업 필터링]]은 친구들이 좋아하는 게임을 나도 좋아할 것이라고 추천하는 방식이야 — 취향이 비슷한 친구들의 의견을 모으는 거야.
 2. [[559_serverless_cold_start_mitigation|콜드 스타트]]는 새 학생이 전학 왔을 때처럼 아무것도 모를 때 일단 인기 있는 것을 추천하는 거야.
 3. NDCG는 추천 목록에서 좋아할 것이 앞에 나올수록 점수가 높아지는 성적표야!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 519 / 552
+
+← **이전**: [[518_tfidf_cosine_similarity_text_mining_word2vec|518. TF-IDF, 코사인 유사도, 텍스트 마이닝 (TF-IDF Cosine Similarity Text Mining Word2Vec)]]
+**다음**: [[520_data_mining_kdd_process_association_rules|520. 데이터 마이닝 KDD 프로세스와 연관 규칙 (Data Mining KDD Process Association Rules)]] →
+
+---

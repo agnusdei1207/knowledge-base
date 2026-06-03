@@ -149,3 +149,14 @@ tags:
 1. 컴퓨터 모터 하드디스크는 너무 느려서 거북이(ms 속도) 같아요. [[501_file_definition_logical_record|파일]] 읽어오라고 시키면 CPU 천재(ns 속도)가 속 터져서 심장마비 랙이 걸리거든요! 그래서 CPU 바로 옆에 **[[148_5g_embb_urllc_mmtc|초고속]] 임시 선반 창고(캐시 Cache 스왑 부스트!)** 인 메모리 풀장 세계를 만들어두었답니다!
 2. 옛날 바보 컴퓨터는 [[501_file_definition_logical_record|파일]](영화, 카톡) 놔두는 선반, 디스크 상자 껍데기 놔두는 선반을 따로 만들어서 공간 낭비 [[157_oom_killer|OOM]] 멸망 늪에 빠졌었어요. 하지만 최신 리눅스 천재들은 벽을 부수고 **"통합 캐시 선반 창고(Unified [[286_page_frame|Page]] Cache 원팀 록백 결속!)"** 로 융합 [[347_compaction|압축]]해서 메모리 공간 낭비 식충이 중복 에러를 100% 파괴 멸절시켰답니다! 
 3. 치명적 슬픔 발생 데들락 에러! 속도는 광속으로 빨라졌지만, 너무 빨리 처리하려고 바닥 하드디스크에 아직 덜 구워 저장한 새 [[501_file_definition_logical_record|파일]](Dirty [[286_page_frame|Page]] 상태!)이 선반 옥상에 쌓여 있을 때 갑자기! 컴퓨터 코드가 팍 뽑혀 기절(정전 크래시 파생 랙)하면? 옥상에 있던 새 [[501_file_definition_logical_record|파일]] 기록들이 허공 원자 입자로 싹 다 영구 증발 파괴되어 카톡 기록이 몽땅 날아가는 눈물의 양날의 검 트레이드오프 [[123_pipe|파이프]] 마스킹이 존재한답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 536 / 800
+
+← **이전**: [[535_grouping_counting_free_space|535. 그룹화 (Grouping) / 계수 (Counting) 기법]]
+**다음**: [[537_read_ahead_delayed_write|537. 미리 읽기 (Read-ahead) 및 지연 쓰기 (Delayed-write / Write-behind)]] →
+
+---

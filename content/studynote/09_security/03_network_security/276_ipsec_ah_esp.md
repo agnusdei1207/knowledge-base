@@ -125,3 +125,14 @@ tags:
 1. [[589_ipsec_offload|IPsec]] [[381_ah_authentication_header_integrity_auth|AH]]/[[382_esp_encapsulating_security_payload_confidentiality|ESP]] [[295_protocol_field_tcp_udp_icmp|프로토콜]] ([[589_ipsec_offload|Ipsec]] [[381_ah_authentication_header_integrity_auth|Ah]] [[382_esp_encapsulating_security_payload_confidentiality|Esp]])는 컴퓨터끼리 인사하고 [[396_validation|확인]]하는 순서를 정한 약속이에요.
 2. 순서를 건너뛰면 나쁜 사람이 친구인 척할 수 있어요.
 3. 그래서 컴퓨터는 차례대로 묻고 답하면서 서로를 믿게 돼요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 330 / 1108
+
+← **이전**: [[275_ipsec|275. IPsec (IPsec)]]
+**다음**: [[277_ipsec_modes|277. IPsec 모드 (Ipsec Modes)]] →
+
+---

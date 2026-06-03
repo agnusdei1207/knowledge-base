@@ -55,3 +55,14 @@ Hub의 정규 [[014_data_model_components|데이터 모델]]과 [[383_adapter_pa
 1. Hub는 **번역 사무소**예요. 영어·한국어·일본어를 **공통어로 번역**해요.
 2. 새 나라(시스템)가 오면 **통역사([[259_adapter_pattern_interface_wrapper|어댑터]]) 1명만** 추가하면 돼요.
 3. 번역 사무소가 **바빠지면([[454_spof|SPOF]])** 지점([[146_esb_enterprise_service_bus_architecture|ESB]])을 여러 개 만들어요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 144 / 482
+
+← **이전**: [[143_eai_enterprise_application_integration_hub|143. EAI (Enterprise Application Integration) - Hub-and-Spoke]]
+**다음**: [[145_message_broker_sync_async|145. 메시지 브로커 (Message Broker) - 동기·비동기 통합]] →
+
+---

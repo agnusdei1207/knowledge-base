@@ -146,3 +146,14 @@ VLSM는 [[305_supernetting_route_summarization|슈퍼네팅]] / 경로 요약에
 1. 택배를 보내려면 집 주소가 정확해야 길을 잃지 않아요.
 2. 이 개념은 인터넷 세상에서 주소를 정하고 다음 길을 찾는 지도와 같아요.
 3. 그래서 멀리 있는 친구 컴퓨터까지도 편지가 도착할 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 427 / 1120
+
+← **이전**: [[305_supernetting_route_summarization|305. 슈퍼네팅 (Supernetting) / 경로 요약 (Route Summarization)]]
+**다음**: [[307_nat_network_address_translation_router_principles|307. NAT (Network Address Translation)]] →
+
+---

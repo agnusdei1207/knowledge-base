@@ -133,3 +133,14 @@ Password Security
 비밀번호는 다시 꺼내 읽으면 안 돼요.  
 대신 특별한 표식을 붙여서 확인만 해요.  
 이게 해시와 [[671_password_hash_salt_pbkdf2_bcrypt_argon2|솔트]]예요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 100 / 530
+
+← **이전**: [[065_audit_trail_worm_storage_compliance|65. 로그 및 감사 추적 (Audit Trail) - 위변조 방지 컴플라이언스 점검]]
+**다음**: [[066_password_hash_salt_audit|66. 비밀번호 암호화 저장 방식 진단 (Password Hash and Salt Audit)]] →
+
+---

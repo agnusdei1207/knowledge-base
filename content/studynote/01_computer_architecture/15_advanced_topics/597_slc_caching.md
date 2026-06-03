@@ -177,3 +177,14 @@ pSLC burst cache 도입
 1. SLC 캐싱은 숙제를 할 때 먼저 작은 메모지에 빨리 적어 두는 것과 같아요.
 2. 나중에 시간이 나면 그 메모를 진짜 공책에 옮겨 적어서 정리해요.
 3. 메모지가 다 차면 그때부터는 공책에 바로 써야 해서 속도가 느려지는 거예요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 597 / 803
+
+← **이전**: [[596_computational_storage|596. 컴퓨테이셔널 스토리지 (Computational Storage)]]
+**다음**: [[598_vm_migration_nic|598. VM (Virtual Machine) 마이그레이션 NIC (Network Interface Card)]] →
+
+---

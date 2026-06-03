@@ -183,3 +183,14 @@ Trunk-Based Development + Feature Flag = CD 극대화
 ```
 2. "이제 팔아도 돼"라는 신호가 오면 상자만 뜯으면 바로 판매 시작, 문제 생기면 다시 포장해서 치우면 돼.
 3. 가게를 다시 꾸미지(재배포) 않아도 판매 ON/OFF를 할 수 있어서 엄청 편리해.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 195 / 371
+
+← **이전**: [[195_canary_release_deployment|195. 카나리 배포 (Canary Release)]]
+**다음**: [[197_dark_launching_traffic_shadow|197. 다크 론칭 (Dark Launching)]] →
+
+---

@@ -124,3 +124,14 @@ AES (Advanced Encryption Standard)
 1. AES는 비밀 상자를 여러 번 빙글빙글 섞는 아주 강한 자물쇠예요.
 2. 그런데 상자를 어떻게 묶느냐가 중요해서, 묶는 방법이 틀리면 내용이 보일 수 있어요.
 3. 그래서 자물쇠만 믿지 말고, 열쇠 관리와 묶는 방법도 같이 잘해야 해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 83 / 1108
+
+← **이전**: [[082_salsa20_chacha20|82. Salsa20/ChaCha20 (Salsa20/ChaCha20)]]
+**다음**: [[084_aes_spn_structure|084. AES SPN 구조 — SubBytes/ShiftRows/MixColumns/AddRoundKey]] →
+
+---

@@ -168,3 +168,14 @@ API Gateway · Event-Driven · Platform Engineering
 1. SOA는 학교 전체가 같이 쓰는 큰 안내실을 두고 모든 일이 거기를 거쳐 가게 만드는 방법이에요.
 2. MSA는 반마다 자기 준비물을 따로 챙기고, 필요할 때만 서로 연락하게 만드는 방법이에요.
 3. 학교 전체 규칙을 맞춰야 할 땐 SOA가 좋고, 반마다 빨리 움직여야 할 땐 MSA가 더 잘 맞아요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 165 / 482
+
+← **이전**: [[164_monolithic_architecture|164. 모놀리식 아키텍처 (Monolithic Architecture) - 프론트, 비즈니스 로직, DB 접근이 한 코드베이스와 단일]]
+**다음**: [[166_api_gateway_architecture|166. API 게이트웨이 (API Gateway) - 클라이언트 요청을 단일 진입점으로 받아 적절한 마이크로서비스로 라우팅, 인증/인가,]] →
+
+---

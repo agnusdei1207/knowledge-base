@@ -127,3 +127,14 @@ main merge
 1. GitHub Flow는 숙제하고 바로 제출함에 넣는 방식이에요.
 2. 제출하기 전에 친구가 한번 봐 주고, 검사도 해요.
 3. 그래서 빨리 끝내면서도 실수는 줄일 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 54 / 373
+
+← **이전**: [[053_gitflow|53. GitFlow]]
+**다음**: [[055_trunk_based_development|55. Trunk-Based Development]] →
+
+---

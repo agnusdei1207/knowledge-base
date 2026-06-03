@@ -161,3 +161,14 @@ BCP (Business Continuity Planning) / DR 거버넌스 고도화
 1. RPO는 컴퓨터가 갑자기 꺼졌을 때 몇 분 전까지만 다시 돌아가도 괜찮은지 정해 두는 약속이에요.
 2. 중요한 그림일수록 더 자주 저장해야 덜 잃어버려요.
 3. 그래서 아주 중요한 [[001_dikw_pyramid|데이터]]는 거의 안 잃게 하고, 덜 중요한 [[001_dikw_pyramid|데이터]]는 조금 잃는 대신 돈을 아끼기도 한답니다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 291 / 587
+
+← **이전**: [[176_rto_recovery_time_objective|176. RTO (Recovery Time Objective)]]
+**다음**: [[178_mirror_site|178. 미러 사이트 (Mirror Site)]] →
+
+---

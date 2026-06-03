@@ -107,3 +107,14 @@ LwM2M은 **대규모 [[101_iot_concept|IoT]] 디바이스 관리의 사실상 �
 1. LwM2M은 **수만 대의 로봇을 리모컨 하나로 관리**하는 기술이에요.
 2. 리모컨(서버)으로 로봇(디바이스)의 **[[009_config|설정]]을 바꾸거나 업데이트(FOTA)**할 수 있어요.
 3. 로봇이 "온도가 바뀌었어요!"라고 **알아서 알려주는(Observe)** 기능도 있답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 121 / 552
+
+← **이전**: [[120_coap_constrained_application_protocol|120. CoAP (Constrained Application Protocol) - IoT 경량 RESTful 프로토콜]]
+**다음**: [[122_onem2m_iot_standard|122. oneM2M IoT 표준 - 글로벌 IoT 서비스 플랫폼 표준 아키텍처]] →
+
+---

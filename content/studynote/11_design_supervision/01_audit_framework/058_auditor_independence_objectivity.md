@@ -107,3 +107,14 @@ tags:
 심판은 어느 팀 편도 들면 안 돼요.  
 마음도 공정해야 하고, 밖에서 봐도 공정해 보여야 해요.  
 그래야 모두가 결과를 믿을 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 87 / 530
+
+← **이전**: [[057_sampling_audit_technique|57. 샘플링 감리 기법 (Sampling Audit Technique) - 표본으로 전체를 검증하기]]
+**다음**: [[058_ha_failover_test_audit|58. 고가용성 및 이중화 클러스터 페일오버 시나리오 실지 테스트 참관 (HA Failover Test Audit)]] →
+
+---

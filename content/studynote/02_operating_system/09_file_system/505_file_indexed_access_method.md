@@ -145,3 +145,14 @@ IBM 이 1960년대 발명한 전설의 고전 [[501_file_definition_logical_reco
 1. 국어사전 1,000쪽 속에서 "하마" 라는 단어를 찾을 때, 첫 장부터 끝까지 한 장씩 다 넘겨 찾는 미련한 사람(순차 접근 검색 멸망!!)은 세상에 없죠?
 2. 똑똑한 사람은 맨 앞의 **"ㄱㄴㄷ 목차 (색인 [[154_database_index_b_tree_search_optimization|Index]] [[286_page_frame|페이지]] 포장)"** 한 장만 딱 펼쳐 봅니다! 거기엔 "ㅎ -> 800페이지 무리 범위임!" 이라고 아주 가볍게 요약 주소록 표지판이 몰래 적혀있어요([[154_database_index_b_tree_search_optimization|인덱스]] 탐색)!
 3. 목차([[154_database_index_b_tree_search_optimization|Index]])에서 주소 포인터를 알아냈다면, 앞 800장을 잡고 쫘아악 확 찢어버리듯 건너뛰어 곧바로 **하마 [[001_dikw_pyramid|데이터]] 본문 영역 위치로 단숨에 직접 워프 착지([[176_direct_addressing|Direct]] Access 연계 마법)** 해 버리는 가장 빠르고 마법 같은 이중 분리 컴퓨터 탐색의 기적, 그게 바로 [[501_file_definition_logical_record|파일]]의 색인 접근 규칙 구조랍니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 505 / 800
+
+← **이전**: [[504_file_access_methods_sequential_direct|504. 파일 접근 방법 - 순차 접근 (Sequential Access), 직접 접근 (Direct Access / Random Access)]]
+**다음**: [[506_directory_structure_symbol_table|506. 디렉터리 (Directory) 구조 - 심볼 테이블 (이름 -> 항목 번역)]] →
+
+---

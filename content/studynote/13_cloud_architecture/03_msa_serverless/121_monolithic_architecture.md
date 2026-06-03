@@ -106,3 +106,14 @@ tags:
 1. 모놀리식은 **원룸**이에요. 혼자 살 때는 편리하지만, **가족이 늘면** 좁아요.
 2. MSA는 **방이 여러 개인 아파트**예요. 각자 방에서 독립적으로 생활할 수 있어요.
 3. 처음에는 원룸(모놀리식)에서 시작하고, 가족이 늘면 **아파트([[619_msa_traffic_hardware|MSA]])로 이사**하는 게 좋답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 120 / 371
+
+← **이전**: [[120_pod_eviction_qos_class_kubernetes|120. Pod Eviction과 QoS Class (K8s 리소스 관리) - Guaranteed·Burstable·BestEffort]]
+**다음**: [[122_msa_microservices_architecture|122. MSA (Microservices Architecture) - 서비스별 독립 배포·스케일링 아키텍처]] →
+
+---

@@ -225,3 +225,14 @@ def consumer():
 1. 공장 컨베이어 벨트(버퍼)는 N개 칸만 있어요. 벨트가 가득 차면 만드는 기계(생산자)는 멈추고 기다려요.
 2. 벨트가 비면 포장 기계(소비자)가 기다리고, 새 물건이 오면 알려줘요([[130_signal|signal]]).
 3. 두 기계가 같은 칸에 동시에 손대면 충돌이 나니까, 한 번에 한 기계만 벨트에 접근할 수 있어요([[223_mutex|mutex]])!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 246 / 800
+
+← **이전**: [[245_classic_synchronization_problems|245. 고전적 동기화 문제들 (Classic Synchronization Problems)]]
+**다음**: [[247_readers_writers_problem|247. 독자-저자 문제 (Readers-Writers Problem) - 제1유형(독자 우선), 제2유형(저자 우선)]] →
+
+---

@@ -124,3 +124,14 @@ NoHz
 꼭 울릴 필요 없어요.  
 필요할 때만 울려요.  
 틱리스 [[022_kernel_role|커널]]은 그런 [[022_kernel_role|커널]]이에요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 74 / 800
+
+← **이전**: [[073_tick_jiffies|73. 틱 (Tick) / 지피스 (Jiffies)]]
+**다음**: [[075_acpi|75. ACPI (Advanced Configuration and Power Interface)]] →
+
+---

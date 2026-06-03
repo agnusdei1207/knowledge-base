@@ -121,3 +121,14 @@ HE 상용화가 완성되면 의료·금융 클라우드에서 원시 [[001_dikw
 1. [[1019_homomorphic_encryption|동형 암호]]는 봉인된 편지 안의 숫자를 뜯지 않고 더하는 마법 편지예요.
 2. 양자 내성 암호는 미래에 나올 초강력 열쇠 기계도 못 여는 특별 자물쇠예요.
 3. 둘 다 갖춰야 지금도, 나중에도 내 비밀이 안전하게 [[571_protection_vs_security|보호]]돼요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 521 / 552
+
+← **이전**: [[520_data_mining_kdd_process_association_rules|520. 데이터 마이닝 KDD 프로세스와 연관 규칙 (Data Mining KDD Process Association Rules)]]
+**다음**: [[522_dark_data_clean_room_mydata|522. 다크 데이터, 클린 룸, 마이데이터 (Dark Data Clean Room MyData)]] →
+
+---

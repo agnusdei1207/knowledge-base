@@ -139,3 +139,14 @@ tags:
 1. [[334_star_schema|스타 스키마]] 중심 팩트 방사 차원는 복잡한 일을 순서대로 정리해 주는 큰 정리함이에요.
 2. 어디에 무엇을 넣을지 먼저 정해 두면, 나중에 찾거나 고칠 때 훨씬 쉬워져요.
 3. 그래서 일이 커질수록 먼저 기준을 만들고 같이 약속하는 것이 중요해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 383 / 482
+
+← **이전**: [[382_elt_cloud_transform_architecture|382. ELT 클라우드 내부 변환 아키텍처 (ELT: Extract-Load-Transform)]]
+**다음**: [[384_snowflake_schema_normalized_dimension|384. 스노우플레이크 차원 정규화 계층 (Snowflake Schema)]] →
+
+---

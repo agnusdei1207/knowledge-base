@@ -222,3 +222,14 @@ tags:
 1. 전통 [[501_file_definition_logical_record|파일]] 시스템은 보물([[001_dikw_pyramid|데이터]])을 찾으려면 '아시아 대륙 $\rightarrow$ 한국 $\rightarrow$ 서울 $\rightarrow$ 철수네 집 $\rightarrow$ 서랍장' 지도를 5번이나 보고 찾아가야 해서 너무 느려요.
 2. [[494_object_storage|오브젝트 스토리지]]는 커다란 마법의 운동장(플랫 구조)이에요. 100만 개의 보물을 그냥 휙휙 던져두고, 각 보물에 '비밀번호(ID)'만 달아놨어요.
 3. 우리가 "비밀번호 777번 보물!" 하고 외치면([[014_api_posix|API]] 요청), 운동장 어디에 있든 1초 만에 슝~ 하고 내 손으로 날아오니까 아무리 보물이 많아져도 속도가 똑같이 엄청 빠르답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 773 / 800
+
+← **이전**: [[772_multi_queue_ssd_nvme_protocol|772. 다중 큐 SSD NVMe 프로토콜 장점 (Multi Queue SSD NVMe Protocol)]]
+**다음**: [[774_nfs_stateless_network_file_system|774. 네트워크 파일 시스템 (NFS) 무상태 (Stateless)]] →
+
+---

@@ -191,3 +191,14 @@ CosmosDB, ArangoDB, YugabyteDB
 1. NoSQL은 엑셀 표처럼 딱딱하게 정해진 칸이 아니라, 자유롭게 내용을 담을 수 있는 [[501_file_definition_logical_record|파일]] 폴더예요.
 2. 친구 목록처럼 [[083_relationship_in_er_model|관계]]를 저장하거나, 지도처럼 위치 정보를 담기에 훨씬 유리해요.
 3. 대신 "이 금액이 정확히 맞다"는 보장이 약해서, 은행 같은 데는 여전히 SQL을 써요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 35 / 258
+
+← **이전**: [[034_elt|ELT (Extract, Load, Transform) 현대 데이터 스택]]
+**다음**: [[036_key_value|036. 키-값 저장소 (Key-Value Store)]] →
+
+---

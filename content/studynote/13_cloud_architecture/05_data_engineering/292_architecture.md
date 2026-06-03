@@ -113,3 +113,14 @@ tags:
 1. [[376_strangler_fig_summary|스트랭글러 피그 패턴]] 레거시 점진적 [[619_msa_traffic_hardware|MSA]] 이관는 사람이 많은 운동회에서 어디로 가야 하는지 알려 주는 안내판과 비슷해요.
 2. 규칙이 없으면 모두가 한곳에 몰려서 느려지고 다투지만, 길을 정해 두면 훨씬 부드럽게 움직일 수 있어요.
 3. 그래서 컴퓨터 세상에서도 [[376_strangler_fig_summary|스트랭글러 피그 패턴]] 레거시 점진적 [[619_msa_traffic_hardware|MSA]] 이관를 쓰면 많은 팀과 [[090_service_kubernetes_network_load_balancing|서비스]]가 덜 부딪히고 더 빨리 움직일 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 291 / 371
+
+← **이전**: [[291_process|291. 서비스 메시 사이드카 프록시 통신 보안 제어 (Service Mesh)]]
+**다음**: [[293_process|293. 서버리스 콜드 스타트 지연 프로비저닝 대비 (Serverless Cold Start)]] →
+
+---

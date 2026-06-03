@@ -149,3 +149,14 @@ Webpack [[192_module_independence|Module]] Federation을 활용한 [[239_micro_f
 1. [[239_micro_frontends_architecture|마이크로 프론트엔드]] 웹팩 연계은 레고 블록으로 성을 만들 때처럼, 규칙을 정하고 역할을 나누어 함께 작업하는 방법이에요.
 2. 혼자서 막 만들면 나중에 무너지거나 고치기 어렵지만, 약속을 지키면 누구나 쉽게 고치고 더 크게 만들 수 있어요.
 3. 그래서 [[001_software_engineering_definition|소프트웨어 공학]]은 프로그래머들이 좋은 프로그램을 빠르고 안전하게 만들 수 있게 도와주는 '규칙 모음집'이에요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 855 / 973
+
+← **이전**: [[681_monorepo_vs_multirepo|681. 모노레포 vs 멀티레포]]
+**다음**: [[683_api_gateway_bff_backend_for_frontend|683. API 게이트웨이 BFF (Backend for Frontend)]] →
+
+---

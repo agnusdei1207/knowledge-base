@@ -133,3 +133,14 @@ SONET는 SDH에서 출발해 현재 메커니즘을 정교화하고, 이후 ROF�
 1. 엄청 빠른 빛 자동차와 똑똑한 로봇 교통정리원이 함께 일하는 미래 도시와 같아요.
 2. 이 개념은 빛처럼 빠르게 보내면서도 스스로 상태를 보고 길을 고치게 해줘요.
 3. 그래서 더 큰 인터넷도 사람 손을 덜 타고 잘 움직일 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 1017 / 1120
+
+← **이전**: [[895_sdh_synchronous_digital_hierarchy_stm1|895. SDH (동기식 디지털 위계)]]
+**다음**: [[897_rof_radio_over_fiber_analog_transmission_centralized|897. RoF (Radio over Fiber)]] →
+
+---

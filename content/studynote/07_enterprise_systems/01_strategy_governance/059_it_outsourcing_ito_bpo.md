@@ -139,3 +139,14 @@ SLA / Managed Service
 ITO는 컴퓨터 일 중 일부를 전문가에게 맡기는 거예요.  
 BPO는 계산이나 안내 같은 업무까지 더 크게 맡기는 거예요.  
 그래도 중요한 규칙과 열쇠는 집주인이 꼭 가지고 있어야 해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 59 / 482
+
+← **이전**: [[058_it_compliance_sox_basel_gdpr_isms|58. IT 컴플라이언스 (Compliance) - SOX, Basel, GDPR, ISMS]]
+**다음**: [[060_cloud_msp_managed_service_provider|60. 클라우드 MSP (Managed Service Provider) - 클라우드 운영 대행 아웃소싱]] →
+
+---

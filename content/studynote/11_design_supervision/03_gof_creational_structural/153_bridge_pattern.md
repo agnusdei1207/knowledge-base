@@ -175,3 +175,14 @@ MSA (마이크로서비스) 클라우드 모던 아키텍처 혼 빙의 환생 (
 1. 내가 **'리모컨 장난감(추상 껍데기 기능)'**이랑 **'미니카 자동차(쇳덩이 구현 기계)'**를 합체시켜서 조종하고 싶은데, 리모컨과 자동차를 본드 인두기로 아예 영구 찰싹 용접 떡칠해 버리면([[234_uml_class_relationships_generalization_dependency|상속]] 강결합 💥) ➔ 나중에 자동차 바퀴 고장 났을 때 멀쩡한 리모컨까지 통째로 쓰레기통에 내다 버려야 하는 끔찍한 바보 짓(M x N 파국 💀)이 터져요 ㅠ.
 2. **[[260_bridge_pattern_abstraction_implementation|브리지]]([[260_bridge_pattern_abstraction_implementation|Bridge]] 다리) 마법**은 리모컨이랑 자동차를 절대 안 붙이고!! 중간 허공에 안 보이는 **'[[605_bluetooth_ieee_802_15_1_piconet_scatternet|블루투스]] 무선 전파(다리 [[260_bridge_pattern_abstraction_implementation|브리지]] 변수 핑퐁 ✨)'** 끈 1개로만 찰칵 묶어주는 100% 완벽한 이혼 격리 천재 요술이에요 🚀!
 3. 이 무선 다리 덕분에 리모컨 껍데기에 예쁜 '부스터 버튼'을 100개 맘대로 추가 업그레이드(독립 진화) 시켜도 ➔ 밑에 굴러가는 자동차 쇳덩이 엔진은 단 1도 고장 뻗음 없이 무결점 100% 쌩쌩 쾌속 질주로 평화롭게 말을 듣고 핑퐁 스위칭 우주 생존하는 궁극의 분리 레고 조립 꿀팁이랍니다 🚀!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 209 / 530
+
+← **이전**: [[152_object_vs_class_adapter|152. 구조 패턴: 객체 어댑터 vs 클래스 어댑터 (Object vs Class Adapter) - 상속과 합성의 십자 트레이드오프]]
+**다음**: [[154_composite_pattern|154. 구조 패턴: 컴포지트 (Composite Pattern) - 트리 쇳덩이를 단일 껍데기로 압살 융합한 마트료시카 마법]] →
+
+---

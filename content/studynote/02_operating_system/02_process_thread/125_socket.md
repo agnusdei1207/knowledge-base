@@ -309,3 +309,14 @@ tags:
 1. 소켓은 집에 설치된 **"마법의 전화기"**예요. 전 세계 어디든 전화번호(IP 주소)와 방 번호([[402_port_number_16bit_application_process_identification|포트 번호]])만 알면 연결할 수 있어요.
 2. 전화를 걸 때 "여보세요~" 하고 연결을 확인하는 것([[416_tcp_3_way_handshake_connection_setup|TCP 3-Way Handshake]])처럼, 소켓도 통신하기 전에 꼭 악수(Handshake)를 해야 해요.
 3. TCP는 실수하면 다시 말해주는 친절한 통화 방식이고, UDP는 편지를 마구 던져 넣어 빠르지만 가끔 편지가 분실될 수도 있는 우편 방식이에요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 125 / 800
+
+← **이전**: [[124_named_pipe_fifo|124. 지명 파이프 (Named Pipe / FIFO) - 양방향 가능, 부모-자식 관계 무관]]
+**다음**: [[126_rpc|126. RPC (Remote Procedure Call) - 분산 시스템 함수 호출]] →
+
+---

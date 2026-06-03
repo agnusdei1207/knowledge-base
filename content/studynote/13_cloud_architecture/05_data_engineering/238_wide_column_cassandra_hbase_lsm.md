@@ -241,3 +241,14 @@ Wide-Column: 행 키 + 컬럼 패밀리 구조
 ```
 2. [[377_lsm_tree_storage_engine|LSM-Tree]] [[289_cqrs_db|쓰기]]는 칠판에 먼저 적고 나중에 공책에 옮기는 방식이다. 칠판 [[289_cqrs_db|쓰기]](메모리)는 빠르고, 나중에 공책 정리(SSTable [[289_cqrs_db|쓰기]])는 순서대로 하니 효율적이다.
 3. Cassandra의 Tunable Consistency는 투표 규칙이다. "1명만 찬성해도 통과"(빠름), "과반수 찬성해야 통과"(믿음직), "만장일치"(정확) 중 상황에 따라 고를 수 있다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 237 / 371
+
+← **이전**: [[237_document_store_mongodb_elasticsearch|237. 도큐먼트 저장소 (Document Store) - MongoDB / Elasticsearch]]
+**다음**: [[239_graph_database_neo4j_neptune|239. 그래프 데이터베이스 (Neo4j, AWS Neptune)]] →
+
+---

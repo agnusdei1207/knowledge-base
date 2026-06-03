@@ -132,3 +132,14 @@ tags:
 1. 장난감 집을 오래 쓰려면 예비 부품과 점검표가 있어야 해요.
 2. 고장 난 뒤에 찾으면 너무 늦어요.
 3. 그래서 미리 복사본과 [[396_validation|확인]] 방법을 준비해 두는 거예요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 572 / 600
+
+← **이전**: [[571_spark_micro_batch_vs_flink_native_stream|571. Spark 스트리밍 마이크로 배치 vs Flink 네이티브 스트림 인 메모리 DB]]
+**다음**: [[573_ods_operational_data_store_near_real_time|573. ODS 준실시간 스냅샷 레코드 마이그레이션 DW 배치 레이어 차이점]] →
+
+---

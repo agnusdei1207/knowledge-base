@@ -124,3 +124,14 @@ Cryptanalysis
 기어가 돌아가요.  
 매번 다른 암호가 돼요.  
 Enigma는 그런 기계예요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 73 / 1108
+
+← **이전**: [[072_vigenere_cipher|072. 다중 치환 암호 (Vigenère Cipher) — 키워드 기반 복수 치환]]
+**다음**: [[074_one_time_pad|074. 일회용 패드 (One-Time Pad)]] →
+
+---

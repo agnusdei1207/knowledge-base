@@ -139,3 +139,14 @@ tags:
 1. [[073_omni_channel_o2o_evolution|옴니채널]] 고객 경험 [[194_consistency_database_integrity|일관성]] [[139_o2o_online_to_offline_platform|O2O]] 진화는 복잡한 일을 순서대로 정리해 주는 큰 정리함이에요.
 2. 어디에 무엇을 넣을지 먼저 정해 두면, 나중에 찾거나 고칠 때 훨씬 쉬워져요.
 3. 그래서 일이 커질수록 먼저 기준을 만들고 같이 약속하는 것이 중요해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 344 / 482
+
+← **이전**: [[343_platform_business_two_sided_market|343. 플랫폼 비즈니스 양면 시장 (Platform Business Two-sided Market)]]
+**다음**: [[345_rpa_hyperautomation|345. RPA 초자동화 (RPA Robotic Process Automation Hyperautomation)]] →
+
+---

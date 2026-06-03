@@ -155,3 +155,14 @@ GPT-4 같은 대형 모델은 수백억 파라미터로 [[801_data_center_3_tier
 1. 큰 컴퓨터(클라우드)에만 있던 AI를 조그만 스마트폰 안에 넣는 것이 온디바이스 AI예요.
 2. 책을 요약본으로 만들고([[434_quantization|양자화]]), 불필요한 부분을 지우고(프루닝), 선생님이 학생에게 가르치듯(증류) 크기를 줄여요.
 3. 인터넷이 없어도 동작하고, 내 정보가 밖으로 나가지 않아서 안전해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 472 / 552
+
+← **이전**: [[471_federated_learning_privacy_gradient_aggregation|471. 연합 학습 프라이버시 보존 그래디언트 집계 (Federated Learning Privacy Gradient Aggregation)]]
+**다음**: [[473_blockchain_merkle_tree_hash_integrity|473. 블록체인 머클 트리와 해시 무결성 (Blockchain Merkle Tree and Hash Integrity)]] →
+
+---

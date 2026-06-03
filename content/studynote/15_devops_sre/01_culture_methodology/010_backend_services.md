@@ -288,3 +288,14 @@ Level 3: 동적 시크릿 (최고 보안)
 1. 집 전화기(앱)에 친구 집 번호(DB 주소)를 벽에 직접 써놓으면, 친구가 이사 가면 벽을 다시 칠해야 해요.
 2. 그런데 메모장([[156_environment_variables|환경 변수]]·[[095_secret_manager_hashicorp_vault_aws|시크릿 매니저]])에 번호를 적어두면, 친구가 이사 가도 메모장만 고치면 된답니다.
 3. 백엔드 [[090_service_kubernetes_network_load_balancing|서비스]] 원칙은 앱이 언제나 메모장을 보고 연결하도록 만드는 규칙이에요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 10 / 373
+
+← **이전**: [[009_config|9. 설정 (Config) - 환경 변수(Env Vars)에 설정을 저장하여 코드와 분리]]
+**다음**: [[011_build_release_run|11. 빌드, 릴리스, 실행 (Build, Release, Run) 단계의 엄격한 분리]] →
+
+---

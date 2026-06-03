@@ -126,3 +126,13 @@ tags:
 2. 이 약속을 잘 지키면 [[001_dikw_pyramid|데이터]]가 많아도 더 안전하고 빠르게 움직일 수 있어요.
 3. 그래서 언제 이 방법을 쓰고 언제 다른 방법을 써야 하는지 아는 것이 중요해요.
 
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 155 / 600
+
+← **이전**: [[154_database_index_b_tree_search_optimization|154. 인덱스 (Index) - B-Tree 3단 점프가 찢어버린 데이터 검색의 공간 특이점]]
+**다음**: [[156_b_tree_b_plus_tree_index|156. B-Tree 인덱스 / B+Tree 인덱스 (B-tree B+tree Index)]] →
+
+---

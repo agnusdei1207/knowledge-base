@@ -204,3 +204,14 @@ Real-time big-data dashboards with sub-second interaction
 1. 점이 너무 많으면 화면이 까맣게 뭉쳐서 아무것도 안 보여요.
 2. 그래서 비슷한 것끼리 묶거나 조금만 뽑아서 먼저 보여 주고, 더 보고 싶을 때만 자세히 열어 봐요.
 3. 이렇게 하면 아주 큰 [[001_dikw_pyramid|데이터]]도 사람 눈으로 이해하기 쉬운 그림이 돼요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 174 / 262
+
+← **이전**: [[173_geospatial_visualization|173. 지리공간 시각화 (Geospatial Visualization) — Kepler.gl, Folium, Deck.gl]]
+**다음**: [[175_platform_selection_criteria|175. 빅데이터 플랫폼 선택 기준 (Big Data Platform Selection Criteria)]] →
+
+---

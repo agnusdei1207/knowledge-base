@@ -165,3 +165,14 @@ tags:
 1. 탄력성 (Resiliency) 및 [[296_fault_tolerance_architecture|결함 허용]] ([[800_system_architecture_fault_tolerance_dual|Fault Tolerance]]) 패턴은 레고 블록으로 성을 만들 때처럼, 규칙을 정하고 역할을 나누어 함께 작업하는 방법이에요.
 2. 혼자서 막 만들면 나중에 무너지거나 고치기 어렵지만, 약속을 지키면 누구나 쉽게 고치고 더 크게 만들 수 있어요.
 3. 그래서 [[001_software_engineering_definition|소프트웨어 공학]]은 프로그래머들이 좋은 프로그램을 빠르고 안전하게 만들 수 있게 도와주는 '규칙 모음집'이에요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 734 / 973
+
+← **이전**: [[571_resiliency_and_fault_tolerance_patterns|571. 탄력성 (Resiliency) 및 결함 허용 (Fault Tolerance) 패턴]]
+**다음**: [[572_circuit_breaker|572. 서킷 브레이커 (Circuit Breaker) - 상태(Closed, Open, Half-Open) 기반 장애 확산 차단 (Resilience4j)]] →
+
+---

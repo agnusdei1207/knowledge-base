@@ -376,3 +376,14 @@ CI/CD 파이프라인 연동 → 자동 배포 · 롤백
     ▼
 모델 거버넌스: 감사 추적 · 규제 준수 (GDPR · AI Act)
 ```
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 166 / 258
+
+← **이전**: [[165_feature_store_training_serving_consistency|165. 피처 스토어 (Feature Store) - 훈련/서빙 피처 일관성]]
+**다음**: [[167_kubeflow_kubernetes_ml_pipeline|167. 쿠브플로우 (Kubeflow) - 쿠버네티스 기반 ML 파이프라인]] →
+
+---

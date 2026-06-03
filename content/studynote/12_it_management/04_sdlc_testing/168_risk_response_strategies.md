@@ -173,3 +173,14 @@ tags:
 1. 비가 올지 모를 때 우산을 미리 챙기거나, 실내 놀이터로 장소를 바꾸는 것이 [[096_risk_non_risk_architecture_evaluation_flaws|리스크]] 대응이에요.
 2. 어떤 위험은 없애고, 어떤 위험은 다른 사람 도움을 받고, 어떤 위험은 조금 줄이고, 어떤 위험은 그냥 받아들이는 거예요.
 3. 중요한 것은 "비가 올 수도 있다"고 아는 것에서 끝나지 않고, 그때 어떻게 할지 미리 정해 두는 거예요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 282 / 587
+
+← **이전**: [[167_scm_software_configuration_management|167. SCM (Software Configuration Management, 소프트웨어 형상 관리)]]
+**다음**: [[169_technical_debt_control_matrix|169. 기술 부채 통제 매트릭스 (Technical Debt Control Matrix)]] →
+
+---

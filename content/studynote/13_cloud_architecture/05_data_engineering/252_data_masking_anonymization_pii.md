@@ -113,3 +113,14 @@ tags:
 1. [[819_data_masking|데이터 마스킹]] 및 [[528_obfuscation_anti_debugging_mobile|난독화]] - PII [[571_protection_vs_security|보호]]는 사람이 많은 운동회에서 어디로 가야 하는지 알려 주는 안내판과 비슷해요.
 2. 규칙이 없으면 모두가 한곳에 몰려서 느려지고 다투지만, 길을 정해 두면 훨씬 부드럽게 움직일 수 있어요.
 3. 그래서 컴퓨터 세상에서도 [[819_data_masking|데이터 마스킹]] 및 [[528_obfuscation_anti_debugging_mobile|난독화]] - PII [[571_protection_vs_security|보호]]를 쓰면 많은 팀과 [[090_service_kubernetes_network_load_balancing|서비스]]가 덜 부딪히고 더 빨리 움직일 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 251 / 371
+
+← **이전**: [[251_vector_database_embedding_ann_rag|251. 벡터 데이터베이스 - ANN, RAG (Vector Database)]]
+**다음**: [[253_differential_privacy_noise_injection|253. 차분 프라이버시 - 노이즈 주입 (Differential Privacy)]] →
+
+---

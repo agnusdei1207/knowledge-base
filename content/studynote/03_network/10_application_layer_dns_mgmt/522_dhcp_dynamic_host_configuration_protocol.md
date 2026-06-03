@@ -120,3 +120,14 @@ DHCP [[446_port_and_bus|포트]] 67, 68는 [[521_mdns_multicast_dns_llmnr|mDNS]]
 1. 친구 이름을 전화번호부에서 찾는 것처럼 컴퓨터도 이름과 번호를 연결해요.
 2. 이 개념은 누가 아픈지 살펴보는 건강검진표와 운영일지 역할도 해요.
 3. 그래서 문제가 나도 빨리 찾고 고칠 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 643 / 1120
+
+← **이전**: [[521_mdns_multicast_dns_llmnr|521. mDNS (Multicast DNS) / LMNR]]
+**다음**: [[523_dhcp_dora_process|523. DHCP 과정 4단계 (DORA)]] →
+
+---

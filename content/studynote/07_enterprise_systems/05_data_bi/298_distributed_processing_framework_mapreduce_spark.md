@@ -120,3 +120,14 @@ Spark Structured Streaming + Delta Lake 통합
 1. 엄청나게 많은 사탕을 혼자 세려면 하루 종일 걸려요.
 2. 그래서 친구 10명에게 사탕을 나누어 주고 각자 몇 개인지 세게 했어요.
 3. 친구들이 알려준 숫자를 다 더하니까 금방 사탕의 개수를 알 수 있게 되었답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 298 / 482
+
+← **이전**: [[297_data_virtualization|297. 데이터 가상화 (Data Virtualization)]]
+**다음**: [[299_spark_rdd_resilient_distributed_dataset|299. 스파크 RDD (Resilient Distributed Dataset)]] →
+
+---

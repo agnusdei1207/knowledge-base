@@ -141,3 +141,14 @@ LoRa는 수백억 개의 사물들이 인터넷에 연결되는 진정한 'Massi
 1. 스마트폰으로 산속에서 와이파이를 잡으려 하면 [[130_signal|신호]]가 금방 끊어지고 배터리도 훅훅 닳아요.
 2. [[283_lora_low_rank_adaptation|로라]]([[617_lora_lorawan_css_chirp_spread_spectrum|LoRa]])는 아주 작은 동전 건전지 하나만으로 산 너머 10km까지 카톡을 보낼 수 있는 마법의 무전기예요.
 3. 대신 사진이나 동영상은 못 보내고 "온도 25도", "나 여기 있어" 같은 아주 짧은 글씨만 보낼 수 있답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 131 / 1120
+
+← **이전**: [[1028_wban_wireless_body_area_network|1028. 체내 통신 (WBAN: Wireless Body Area Network)]]
+**다음**: [[102_tdd|102. TDD (Time Division Duplexing) - 시분할 이중화 (업/다운링크 분리)]] →
+
+---

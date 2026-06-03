@@ -110,3 +110,14 @@ tags:
 1. [[253_reinforcement_learning_mdp_policy_value_q_learning_dqn|강화 학습]]은 **게임을 처음 하면서** 점수(보상)를 올리는 방법을 배우는 거예요.
 2. 좋은 행동(높은 점수)은 **더 많이 하고**, 나쁜 행동(낮은 점수)은 **줄여요**.
 3. AlphaGo도 이 방법으로 바둑을 배워서 **세계 챔피언**을 이겼답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 123 / 258
+
+← **이전**: [[122_unsupervised_learning|122. 비지도 학습 (Unsupervised Learning) - 라벨 없는 데이터의 구조 발견]]
+**다음**: [[124_decision_tree|124. 의사결정 트리 (Decision Tree) - 해석 가능한 분류·회귀 알고리즘]] →
+
+---

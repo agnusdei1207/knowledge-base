@@ -134,3 +134,14 @@ tags:
 1. 약속을 적은 공책을 순서대로 정리하는 방법이에요.
 2. 누가 먼저 읽고 쓰는지 규칙을 지켜야 헷갈리지 않아요.
 3. 규칙이 약하면 빠르지만 틀릴 수 있고, 너무 세면 느려질 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 582 / 600
+
+← **이전**: [[581_tablespace_system_capacity_management_datafiles|581. 테이블 스페이스 시스템 용량 분산 관리 물리 파일 그룹핑 구성 정책]]
+**다음**: [[583_parameter_sniffing_execution_plan_cache_pollution|583. 프로시저 플랜 캐시 스니핑 (Parameter Sniffing) 캐시 오염 실행 계획 악화]] →
+
+---

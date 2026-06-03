@@ -295,3 +295,14 @@ HR, 재무, 마케팅까지 애자일 확장
 1. 기업 [[004_agile_relation|애자일]]은 공장 전체 속도 높이기 — 한 팀이 빠르면 뭐해요, 옆 팀이 느리면 전체가 늦어요. 모든 팀이 같은 리듬으로 달리게 만드는 게 기업 [[004_agile_relation|애자일]]!
 2. SAFe의 [[009_process_innovation|PI]] Planning은 기차 시간표 — 수십 팀이 동시에 출발하는 날을 맞추는 것. 혼자 먼저 가면 충돌 사고!
 3. OKR과 [[004_agile_relation|애자일]]은 나침반과 배 — OKR이 방향을 정해주고, [[067_sprint_timebox|스프린트]]가 그 방향으로 빠르게 노를 저어요. 방향이 맞아야 빠른 게 의미 있어요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 44 / 482
+
+← **이전**: [[043_aarrr_funnel_pirate_metrics|043. AARRR 퍼널 — 해적 지표 (Pirate Metrics)]]
+**다음**: [[045_itil_itsm_framework|045. ITIL과 ITSM 프레임워크 — ITIL & ITSM]] →
+
+---

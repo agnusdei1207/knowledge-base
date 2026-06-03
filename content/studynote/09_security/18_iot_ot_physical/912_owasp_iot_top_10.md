@@ -125,3 +125,14 @@ OWASP [[101_iot_concept|IoT]] Top 10를 제대로 이해하면 개념 하나를 
 1. OWASP [[101_iot_concept|IoT]] Top 10는 컴퓨터 세상을 더 안전하게 만들기 위한 중요한 약속이나 도구예요.
 2. 겉으로는 어려워 보여도, 왜 필요한지와 어떻게 움직이는지를 알면 훨씬 쉬워져요.
 3. 그래서 이름만 외우지 말고 어디에 쓰이는지 같이 기억해야 해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 999 / 1108
+
+← **이전**: [[911_nist_ir_8259d|911. NIST IR 8259D (NIST IR 8259D)]]
+**다음**: [[913_iot_secure_design|913. IoT 보안 설계 (Secure by Default, Minimal Functionality)]] →
+
+---

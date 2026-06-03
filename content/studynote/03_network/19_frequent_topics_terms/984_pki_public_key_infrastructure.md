@@ -291,3 +291,14 @@ PKI는 단순한 기술적 암호화 도구가 아니라, 네트워크 공간에
 1. 인터넷 세상에서 상대방이 진짜 맞는지 [[396_validation|확인]]하려면 **'디지털 신분증'**이 필요한데, 이 신분증을 만들어주고 관리하는 전체 시스템을 PKI라고 불러요.
 2. 우리가 동사무소에 가서 신분증을 만들듯, 인터넷에서는 '[[303_authentication_authorization_patterns|인증]]기관([[089_contract_account_smart_contract|CA]])'이라는 믿을 수 있는 곳이 우리 정보에 '비밀 도장([[675_digital_signature_process_asymmetric_key|전자서명]])'을 쾅 찍어서 증명서를 발급해준답니다.
 3. 덕분에 해커가 가짜 사이트를 만들어 속이려 해도, 이 디지털 신분증에 찍힌 [[303_authentication_authorization_patterns|인증]]기관의 진짜 도장이 없으면 브라우저가 "이 사이트는 위험해요!"라고 바로 알려줄 수 있는 거예요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 1105 / 1120
+
+← **이전**: [[983_vpn_virtual_private_network|983. VPN (가상 사설망)]]
+**다음**: [[985_x509_certificate|985. X.509 인증서]] →
+
+---

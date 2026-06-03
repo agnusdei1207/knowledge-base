@@ -183,3 +183,14 @@ tags:
 1. 마이너 [[720_page_fault_isr|페이지 폴트]] (Minor [[387_page_fault|Page Fault]]) vs 메이저 [[720_page_fault_isr|페이지 폴트]] (Major [[387_page_fault|Page Fault]] / 디스크 I/O 동반)은 컴퓨터가 메모리를 더 크게 보이게 하고 부족함을 숨기는 방법이에요.
 2. 먼저 [[428_vma_struct|VMA]] ([[428_vma_struct|Virtual Memory Area]]) 구조체 (리눅스 [[022_kernel_role|커널]] 프로세스 주소 공간 매핑)을 이해하면 마이너 [[720_page_fault_isr|페이지 폴트]] (Minor [[387_page_fault|Page Fault]]) vs 메이저 [[720_page_fault_isr|페이지 폴트]] (Major [[387_page_fault|Page Fault]] / 디스크 I/O 동반)이 왜 필요한지 더 쉽게 보여요.
 3. 그래서 마이너 [[720_page_fault_isr|페이지 폴트]] (Minor [[387_page_fault|Page Fault]]) vs 메이저 [[720_page_fault_isr|페이지 폴트]] (Major [[387_page_fault|Page Fault]] / 디스크 I/O 동반)을 잘 알면 나중에 [[430_demand_zero_paging|수요 페이지 제로화]] ([[430_demand_zero_paging|Demand Zero Paging]])도 훨씬 쉽게 배울 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 429 / 800
+
+← **이전**: [[428_vma_struct|428. VMA (Virtual Memory Area) 구조체 (리눅스 커널 프로세스 주소 공간 매핑)]]
+**다음**: [[430_demand_zero_paging|430. 수요 페이지 제로화 (Demand Zero Paging) - BSS 영역 보안 할당]] →
+
+---

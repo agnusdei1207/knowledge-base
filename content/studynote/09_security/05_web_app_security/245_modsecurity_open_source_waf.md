@@ -125,3 +125,14 @@ ModSecurity ([[191_oss_license_compliance|오픈소스]] [[696_waf_web_applicati
 1. ModSecurity ([[191_oss_license_compliance|오픈소스]] [[696_waf_web_application_firewall|WAF]])는 컴퓨터 세상을 더 안전하게 만들기 위한 중요한 약속이나 도구예요.
 2. 겉으로는 어려워 보여도, 왜 필요한지와 어떻게 움직이는지를 알면 훨씬 쉬워져요.
 3. 그래서 이름만 외우지 말고 어디에 쓰이는지 같이 기억해야 해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 298 / 1108
+
+← **이전**: [[244_virtual_patching_waf|244. 가상 패치 (Virtual Patching)]]
+**다음**: [[246_api_gateway_security|246. API 게이트웨이 보안 (API Gateway Security)]] →
+
+---

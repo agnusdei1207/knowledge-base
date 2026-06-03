@@ -151,3 +151,14 @@ RPKI는 [[365_bgp_border_gateway_protocol_path_vector|BGP]] 해킹을 막는 궁
 1. 택배 아저씨들(라우터)은 묻지도 따지지도 않고 "나 구글이요~"라고 소리치는 사람한테 그냥 유튜브 소포를 다 던져줬어요. 가끔 나쁜 도둑이 구글인 척 소리쳐서 소포를 훔쳐 갔죠 ([[365_bgp_border_gateway_protocol_path_vector|BGP]] 하이재킹).
 2. 이래선 안 되겠다 싶어 '경찰청([[303_authentication_authorization_patterns|인증]]기관)'이 생겼고, 진짜 구글에게 위조 방지 도장이 찍힌 '진짜 구글 신분증(ROA)'을 만들어 줬어요. ([[935_rpki_resource_public_key_infrastructure_bgp_hijacking_prevention|RPKI]] 탄생)
 3. 이제 택배 아저씨는 "나 구글이요!" 소리치는 사람에게 무조건 신분증을 내놓으라고 하고, 경찰청 장부랑 맞는지 철저히 검사(Route [[396_validation|Validation]])한 뒤에만 소포를 건네준답니다! 사기꾼은 꼼짝 못 하겠죠?
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 1056 / 1120
+
+← **이전**: [[934_routing_protocol_authentication_md5|934. 라우팅 프로토콜 인증 방어망 (BGP 세션 탈취 방지, RST 스푸핑 우회)]]
+**다음**: [[936_dns_sinkhole|936. DNS 싱크홀]] →
+
+---

@@ -111,3 +111,14 @@ tags:
 1. [[001_dikw_pyramid|데이터]] 접근 객체 ([[001_dikw_pyramid|Data]] Access Object, [[054_dao_decentralized_autonomous_organization|DAO]])은 교실 대표가 선생님께 출석표를 대신 전달하는 것처럼 약속을 먼저 정하는 거예요.
 2. 그러면 서로 다른 사람이 해도 같은 규칙으로 움직일 수 있어요.
 3. 그래서 규모가 커질수록 [[001_dikw_pyramid|데이터]] 접근 책임을 전용 계층에 격리하는 일이 더 중요해져요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 480 / 530
+
+← **이전**: [[401_process|401. 데이터 전송 객체 (Data Transfer Object, DTO)]]
+**다음**: [[403_architecture|403. 안티 패턴 (Anti-Patterns)]] →
+
+---

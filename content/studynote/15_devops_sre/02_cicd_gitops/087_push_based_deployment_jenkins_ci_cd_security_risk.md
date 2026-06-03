@@ -127,3 +127,14 @@ GitOps는 선언된 상태를 기준으로 클러스터가 스스로 맞추게 �
     1. 한 사람이 모든 도시의 문을 직접 열어 주는 것과 비슷해요.
     2. 빠르긴 하지만, 열쇠를 잘못 쓰면 위험이 커져요.
     3. 그래서 가끔은 도시가 스스로 배달 목록을 [[396_validation|확인]]하는 편이 더 안전해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 87 / 373
+
+← **이전**: [[086_gitops_declarative_infrastructure_continuous_synchronization_argocd|86. GitOps (깃옵스) - 선언적 인프라 자동화 및 지속적 동기화]]
+**다음**: [[088_pull_based_deployment_gitops_argocd_security_auto_healing|88. 풀 기반(Pull-based) 배포 - ArgoCD와 GitOps 무적 보안]] →
+
+---

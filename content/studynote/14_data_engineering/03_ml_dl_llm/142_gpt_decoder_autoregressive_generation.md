@@ -54,3 +54,14 @@ KV Cache: 이전 K,V 재사용 → 추론 가속
 1. GPT는 **릴레이 소설**이에요. 앞 내용만 보고 **다음 문장을 써요**.
 2. 뒤 내용은 **아직 없으니까** 볼 수 없어요(Causal Mask).
 3. KV Cache는 **이미 쓴 부분을 기억**해서 더 빨리 써요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 142 / 258
+
+← **이전**: [[141_bert_encoder_mlm_bidirectional|141. BERT Encoder - MLM 양방향 사전 학습 상세]]
+**다음**: [[143_foundation_model_llm_pretraining|143. Foundation Model & LLM 사전 학습 - 기반 모델의 원리]] →
+
+---

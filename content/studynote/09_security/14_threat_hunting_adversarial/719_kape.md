@@ -125,3 +125,14 @@ KAPE (Kroll [[075_artifact_management_nexus_docker_registry|Artifact]] Parser an
 1. KAPE (Kroll [[075_artifact_management_nexus_docker_registry|Artifact]] Parser and Extractor)는 컴퓨터 세상을 더 안전하게 만들기 위한 중요한 약속이나 도구예요.
 2. 겉으로는 어려워 보여도, 왜 필요한지와 어떻게 움직이는지를 알면 훨씬 쉬워져요.
 3. 그래서 이름만 외우지 말고 어디에 쓰이는지 같이 기억해야 해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 793 / 1108
+
+← **이전**: [[718_velociraptor|718. Velociraptor (Endpoint Monitoring & Forensics)]]
+**다음**: [[720_autopsy|720. Autopsy (Autopsy)]] →
+
+---

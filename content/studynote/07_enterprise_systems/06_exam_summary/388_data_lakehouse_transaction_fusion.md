@@ -139,3 +139,14 @@ tags:
 1. [[210_data_lakehouse_delta_lake|데이터 레이크하우스]] [[191_transaction_concept_states|트랜잭션]] 융합는 복잡한 일을 순서대로 정리해 주는 큰 정리함이에요.
 2. 어디에 무엇을 넣을지 먼저 정해 두면, 나중에 찾거나 고칠 때 훨씬 쉬워져요.
 3. 그래서 일이 커질수록 먼저 기준을 만들고 같이 약속하는 것이 중요해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 388 / 482
+
+← **이전**: [[387_data_lake_schema_on_read|387. 데이터 레이크 스키마 온 리드 비정형 (Data Lake: Schema-on-Read)]]
+**다음**: [[389_data_catalog_metadata_tagging|389. 데이터 카탈로그 검색 메타 태깅 (Data Catalog)]] →
+
+---

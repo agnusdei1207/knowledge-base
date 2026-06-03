@@ -218,3 +218,14 @@ tini, dumb-init: 컨테이너용 경량 init
 1. init은 컴퓨터가 켜질 때 제일 먼저 시작되는 특별한 프로그램으로, 나머지 모든 프로그램의 부모예요.
 2. 옛날 방식(SysV)은 [[090_service_kubernetes_network_load_balancing|서비스]]를 하나씩 순서대로 켰지만, systemd는 상관없는 [[090_service_kubernetes_network_load_balancing|서비스]]들을 동시에 켜서 부팅을 몇 배 빠르게 해요.
 3. systemd는 [[090_service_kubernetes_network_load_balancing|서비스]] 관리, [[626_log_collection|로그 수집]], 자원 제한을 모두 통합해서 현대 Linux 서버의 핵심 관리자가 됐어요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 38 / 800
+
+← **이전**: [[037_system_daemon|037. 시스템 데몬 (System Daemon)]]
+**다음**: [[039_os_services|039. OS 서비스 (Operating System Services)]] →
+
+---

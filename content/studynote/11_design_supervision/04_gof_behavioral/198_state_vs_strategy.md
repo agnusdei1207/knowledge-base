@@ -135,3 +135,14 @@ GoF 패턴 학습에서 가장 많이 혼동되는 두 패턴이다. [[232_uml_u
 1. [[391_strategy_pattern_summary|전략 패턴]]은 리모컨처럼 내가 직접 채널([[001_algorithm_definition|알고리즘]])을 바꾸는 것이에요.
 2. [[394_process|상태 패턴]]은 신호등처럼 현재 상태에 따라 자동으로 다음 상태로 바뀌는 것이에요.
 3. 구조는 같지만 '누가 바꾸는지'(외부 vs 내부)가 핵심 차이예요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 259 / 530
+
+← **이전**: [[197_state_pattern|197. 상태 패턴 (State Pattern)]]
+**다음**: [[199_chain_of_responsibility_pattern|199. 책임 연쇄 패턴 (Chain of Responsibility Pattern)]] →
+
+---

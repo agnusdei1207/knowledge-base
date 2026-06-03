@@ -229,3 +229,14 @@ Primary 복구 후:
 ### 👶 어린이를 위한 3줄 비유 설명
 
 [[179_kafka_flink_watermark_time_window|Kafka]] MirrorMaker 2는 "중요 숙제의 사본을 만드는 자동 복사기"예요. 원본 공책(Primary 클러스터)의 내용을 실시간으로 사본 공책(Secondary 클러스터)에 복사하고, 어디까지 읽었는지(오프셋)도 기록해 둬요. 원본 공책이 불에 타도(Primary 장애) 사본 공책에서 읽던 곳부터 바로 이어서 공부할 수 있어요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 90 / 262
+
+← **이전**: [[089_consumer_lag|14. Consumer Lag — Kafka 소비 지연 모니터링]]
+**다음**: [[091_amazon_kinesis|16. Amazon Kinesis Data Streams — AWS 관리형 스트리밍]] →
+
+---

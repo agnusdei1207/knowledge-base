@@ -238,3 +238,14 @@ CockroachDB, Spanner: CP + 글로벌 분산
 1. [[341_process|CAP]] 정리는 세 가지 좋은 점(정확함, 빠름, 고장에도 OK) 중 동시에 두 개만 선택할 수 있는 규칙이에요.
 2. 인터넷 장애가 나면 "일단 응답하되 데이터가 조금 오래됐을 수 있어요([[572_ap_access_point_ds_distribution_system|AP]])" 또는 "정확한 데이터가 준비될 때까지 잠깐 기다려요([[086_CP_순환_전치_GI|CP]])" 중 하나를 선택해야 해요.
 3. 은행 앱([[086_CP_순환_전치_GI|CP]])과 SNS 좋아요([[572_ap_access_point_ds_distribution_system|AP]])가 다르게 작동하는 이유가 바로 이 [[341_process|CAP]] 정리 때문이에요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 40 / 258
+
+← **이전**: [[039_graph_db|039. 그래프 데이터베이스 (Graph Database)]]
+**다음**: [[041_pacelc_theorem_cap_extension|041. PACELC 정리 (PACELC Theorem)]] →
+
+---

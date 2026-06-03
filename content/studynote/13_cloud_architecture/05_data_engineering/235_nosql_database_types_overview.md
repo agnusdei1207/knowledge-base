@@ -228,3 +228,14 @@ NoSQL: 수평 확장 · 유연한 스키마 · 최종 일관성
 ```
 2. RDBMS가 만능 도구라면, NoSQL은 각자 한 가지를 잘하는 전문 도구다. 볼트를 조이는 데는 스패너(Key-Value)가, 나무를 자르는 데는 톱(Wide-Column)이 더 낫다.
 3. 현대 앱들은 여러 종류의 NoSQL을 함께 쓴다. 로그인([[542_redis|Redis]]), 상품 정보([[540_mongodb|MongoDB]]), 친구 추천(Neo4j)처럼 각 기능에 맞는 DB를 고르는 것이 스마트한 방법이다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 234 / 371
+
+← **이전**: [[234_columnar_storage_parquet_orc|234. 컬럼 지향 스토리지 (Columnar Storage) - Parquet / ORC]]
+**다음**: [[236_key_value_store_redis_dynamodb|236. 키-값 저장소 (Key-Value Store) - Redis / DynamoDB]] →
+
+---

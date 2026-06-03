@@ -228,3 +228,14 @@ MDM: 골든 레코드 생성 · 데이터 통합
 ```
 2. 골든 레코드는 여러 반의 기록 중 가장 정확한 정보만 골라 만든 "공식 학생 기록부"다.
 3. [[001_dikw_pyramid|데이터]] 클린 룸은 두 학교가 서로의 학생 명단을 공유하지 않고 "두 학교에 모두 다니는 학생이 몇 명인지"만 같이 세어보는 비밀 방이다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 234 / 258
+
+← **이전**: [[233_precision_recall_f1_roc_auc_threshold|233. 정밀도(Precision) 재현율(Recall) F1 스코어 ROC AUC 임계 곡선]]
+**다음**: [[235_ai_turing_test_expert_system_fuzzy_logic|235. AI 튜링 테스트 (Turing Test) 전문가 시스템 (Expert System) 퍼지 논리 (Fuzzy Logic)]] →
+
+---

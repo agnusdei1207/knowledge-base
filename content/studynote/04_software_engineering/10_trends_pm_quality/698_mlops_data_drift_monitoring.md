@@ -150,3 +150,14 @@ MLOps 데이터 드리프트 모니터링 개념 정립
 1. [[348_mlops|MLOps]] [[163_data_drift_statistical_distribution_shift|데이터 드리프트]] 모니터링은 레고 블록으로 성을 만들 때처럼, 규칙을 정하고 역할을 나누어 함께 작업하는 방법이에요.
 2. 혼자서 막 만들면 나중에 무너지거나 고치기 어렵지만, 약속을 지키면 누구나 쉽게 고치고 더 크게 만들 수 있어요.
 3. 그래서 [[001_software_engineering_definition|소프트웨어 공학]]은 프로그래머들이 좋은 프로그램을 빠르고 안전하게 만들 수 있게 도와주는 '규칙 모음집'이에요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 871 / 973
+
+← **이전**: [[697_llm_hallucination_rag_architecture|697. LLM 환각 방지 RAG 아키텍처]]
+**다음**: [[699_data_mesh_decentralized_ownership|699. 데이터 메시 탈중앙 도메인 오너십]] →
+
+---

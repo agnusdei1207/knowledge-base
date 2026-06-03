@@ -133,3 +133,14 @@ tags:
 1. [[638_mutation_testing_test_case_verification|뮤테이션 테스트]]는 선생님이 일부러 틀린 답을 답안지에 넣고 학생(테스트)이 고쳐 쓰는지 [[396_validation|확인]]하는 거예요.
 2. 뮤턴트가 생존한다는 건 학생이 선생님의 실수를 못 찾았다는 뜻이에요. 그 학생(테스트)은 제대로 [[395_verification_process_review|검증]]을 안 한 거예요.
 3. 뮤테이션 스코어 80%는 선생님이 넣은 실수 중 80%를 잡아냈다는 뜻이에요. 더 꼼꼼히 공부해야 점수가 올라가요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 337 / 373
+
+← **이전**: [[336_msa_api|336. Contract Testing MSA API 소비자 주도 계약 테스트 (Contract Testing MSA Consumer-Driven]]
+**다음**: [[338_process|338. Platform Engineering IDP Golden Path 개발자 경험 (Platform Engineering Internal]] →
+
+---

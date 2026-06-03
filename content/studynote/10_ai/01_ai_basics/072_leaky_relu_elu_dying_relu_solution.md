@@ -125,3 +125,14 @@ Activation Variants
 불이 꺼지지 않게 해요.  
 아주 작은 빛을 남겨요.  
 이 함수들은 그런 도움이에요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 72 / 420
+
+← **이전**: [[071_relu_rectified_linear_unit_activation|71. ReLU (Rectified Linear Unit) 함수 - x>0이면 x, x<0 이면 0 (기울기 소실 해결, 연산 빠름,]]
+**다음**: [[073_softmax_function_multiclass_classification_probability|73. 소프트맥스 함수 (Softmax) - 다중 클래스 분류 시 출 력층 적용, 결과값 총합을 1로 만들어 확률화]] →
+
+---

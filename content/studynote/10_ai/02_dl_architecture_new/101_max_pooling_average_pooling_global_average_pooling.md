@@ -119,3 +119,14 @@ GAP는 $7 \times 7$ 크기의 [[099_feature_map_activation_map_cnn_output|특성
 1. 도화지 크기를 줄일 때, '최대 [[285_pooling_layer|풀링]]'은 가장 진하게 칠해진 테두리만 남겨서 그림의 모양을 또렷하게 살리는 가위질이에요.
 2. '평균 [[285_pooling_layer|풀링]]'은 색깔을 다 섞어버려서 모양이 흐릿해지기 때문에 중간 과정에서는 쓰지 않아요.
 3. 하지만 맨 마지막에 '전역 평균 [[285_pooling_layer|풀링]]'으로 전체 그림의 점수를 딱 하나로 합치면, 컴퓨터가 너무 많은 숫자를 외우지 않아도 되어서 머리가 좋아진답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 101 / 420
+
+← **이전**: [[100_pooling_layer_max_pooling_downsampling_cnn|100. 풀링 층 (Pooling Layer) - 해상도 압축과 불변성 확보]]
+**다음**: [[102_fully_connected_layer_dense_flatten_softmax|102. 완전 연결 층 (FC Layer) - 추출된 특징의 1차원 분류]] →
+
+---

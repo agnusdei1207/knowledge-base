@@ -104,3 +104,14 @@ tags:
 1. 소프트웨어 자산목록은 학교에서 준비물을 미리 챙기는 것처럼, 중요한 기준을 먼저 맞추는 일이야.
 2. 의무사항 분석은 선생님이 수업 중간에 계속 확인하는 것처럼, 실제로 잘 되고 있는지 보는 과정이야.
 3. 소프트웨어 자재명세서는 시험 결과표처럼, 정말 효과가 있었는지 나중에 다시 확인하게 해주는 증거야.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 338 / 530
+
+← **이전**: [[276_network_separation_security|276. 망분리 보안 감리 (Network Separation Security Audit)]]
+**다음**: [[278_sla_mttr_measurement|278. SLA와 MTTR 측정 감리 (SLA and MTTR Measurement Audit)]] →
+
+---

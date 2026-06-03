@@ -194,3 +194,14 @@ tags:
 1. 공공 빅데이터는 국가가 운영하는 도서관이다 — 세금으로 만든 [[001_dikw_pyramid|데이터]] 책을 누구나 무료로 읽고 이용할 수 있다.
 2. FAIR 원칙은 좋은 도서관 운영 기준이다 — 책을 쉽게 찾고(Findable), 빌리고(Accessible), 다른 책과 합쳐 쓰고(Interoperable), 자유롭게 참고(Reusable)할 수 있어야 한다.
 3. 비식별화는 사진 속 얼굴 모자이크다 — 내용([[001_dikw_pyramid|데이터]] 가치)은 유지하되, 누가 누구인지([[781_personal_information|개인정보]])는 알 수 없게 처리한다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 245 / 262
+
+← **이전**: [[244_mydata|마이데이터 (MyData)]]
+**다음**: [[246_data_voucher|데이터바우처 사업 (Data Voucher Program)]] →
+
+---

@@ -180,3 +180,14 @@ Bulkhead · Service Mesh · Resilience operations
 1. 친구 집 초인종이 고장 났는데 계속 누르면 모두 시끄럽고 힘들어져요.
 2. [[307_circuit_breaker_pattern|서킷 브레이커]]는 "지금은 초인종 누르지 말고 잠깐 쉬자"라고 정해 주는 버튼이에요.
 3. 그래서 집이 다시 괜찮아졌는지 조금만 시험해 보고, 괜찮으면 다시 찾아가게 해 줘요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 170 / 482
+
+← **이전**: [[169_client_side_vs_server_side_discovery|169. 클라이언트 사이드 디스커버리 (Client-side Discovery) vs 서버 사이드 디스커버리]]
+**다음**: [[171_fallback_resilience_pattern|171. 폴백 (Fallback) 회복탄력성 패턴]] →
+
+---

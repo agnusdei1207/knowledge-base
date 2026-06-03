@@ -111,3 +111,14 @@ tags:
 1. 개방-폐쇄 원칙 ([[244_ocp_open_closed_principle|Open-Closed Principle]], [[746_ocp|OCP]])은 새 레일만 끼우면 장난감 기차가 더 달릴 수 있는 트랙처럼 약속을 먼저 정하는 거예요.
 2. 그러면 서로 다른 사람이 해도 같은 규칙으로 움직일 수 있어요.
 3. 그래서 규모가 커질수록 변화를 수정이 아니라 확장 지점으로 수용하는 일이 더 중요해져요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 434 / 530
+
+← **이전**: [[355_process|355. 단일 책임 원칙 (Single Responsibility Principle, SRP)]]
+**다음**: [[357_process|357. 리스코프 치환 원칙 (Liskov Substitution Principle, LSP)]] →
+
+---

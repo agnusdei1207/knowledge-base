@@ -128,3 +128,14 @@ tags:
 1. 비밀 편지를 보낼 때는 자물쇠와 비밀번호가 필요해요.
 2. 이 개념은 누가 진짜 친구인지 [[396_validation|확인]]하고, 편지가 바뀌지 않았는지도 살펴봐요.
 3. 그래서 나쁜 사람이 중간에 훔쳐보거나 바꾸기 어려워져요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 811 / 1120
+
+← **이전**: [[689_pqc_post_quantum_cryptography|689. 양자 내성 암호 (PQC, Post-Quantum Cryptography) 체계 및 통신망 교환 표준 (Shor's Algorithm]]
+**다음**: [[691_packet_filter_application_proxy|691. 패킷 필터 (Packet Filter 라우터/L3,L4), 애플리케이션 상태 필터 및 프록시]] →
+
+---

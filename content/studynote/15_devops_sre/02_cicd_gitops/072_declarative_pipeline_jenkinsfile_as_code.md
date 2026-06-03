@@ -126,3 +126,14 @@ Declarative Pipeline
 순서를 코드로 적어요.  
 자동으로 따라 해요.  
 선언적 [[123_pipe|파이프]]라인은 그런 방식이에요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 72 / 373
+
+← **이전**: [[071_jenkins_ci_cd_pipeline_automation|71. 젠킨스 (Jenkins) - 오픈소스 CI/CD 자동화 빌드 서버]]
+**다음**: [[073_github_actions_ci_cd_workflow|073. GitHub Actions 기반 CI/CD 워크플로우 (GitHub Actions CI/CD)]] →
+
+---

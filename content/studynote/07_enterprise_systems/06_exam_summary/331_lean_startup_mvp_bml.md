@@ -139,3 +139,14 @@ tags:
 1. [[035_lean_startup|린 스타트업]] [[036_mvp|MVP]] 배포 실험 BML 루프는 복잡한 일을 순서대로 정리해 주는 큰 정리함이에요.
 2. 어디에 무엇을 넣을지 먼저 정해 두면, 나중에 찾거나 고칠 때 훨씬 쉬워져요.
 3. 그래서 일이 커질수록 먼저 기준을 만들고 같이 약속하는 것이 중요해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 331 / 482
+
+← **이전**: [[330_long_tail_vs_pareto|330. 롱테일 법칙 vs 파레토 80:20 비교 (Long Tail vs Pareto 80:20)]]
+**다음**: [[332_growth_hacking_aarrr|332. 그로스 해킹 AARRR 퍼널 해적 지표 (Growth Hacking AARRR Pirate Metrics)]] →
+
+---

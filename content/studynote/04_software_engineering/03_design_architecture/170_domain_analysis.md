@@ -177,3 +177,13 @@ tags:
 2. 그래야 친구들이 같은 이름을 같은 뜻으로 쓰고, 규칙도 헷갈리지 않아요.
 3. [[064_relation_domain|도메인]] 분석은 바로 그 게임 세상의 약속을 먼저 정리하는 일이에요.
 
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 170 / 973
+
+← **이전**: [[169_hoq_house_of_quality_matrix|169. 품질의 집 (HoQ, House of Quality) 매트릭스]]
+**다음**: [[171_requirements_consistency_checking|171. 요구사항 일관성 검사 (Consistency Checking)]] →
+
+---

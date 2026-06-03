@@ -144,3 +144,14 @@ def random_level(max_level, p=0.5):
 1. [[067_skip_list|스킵 리스트]]는 도서관 책 찾기처럼, 큰 [[104_classification_analysis|분류]](레벨3)→중간 [[104_classification_analysis|분류]](레벨2)→작은 [[104_classification_analysis|분류]](레벨1)→실제 책(레벨0) 순으로 점점 좁혀가는 방식이에요!
 2. 처음부터 모든 책을 하나씩 뒤지는 대신, 위층 빠른 길을 먼저 타고 내려와서 훨씬 빠르게 찾을 수 있어요.
 3. 유명한 [[002_database_definition|데이터베이스]] Redis에서 순위표를 빠르게 처리할 때 이 방법을 쓴답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 76 / 175
+
+← **이전**: [[075_hashmap_vs_treemap|23. HashMap vs TreeMap — 해시맵과 트리맵 비교]]
+**다음**: [[077_union_find_disjoint_set|25. Union-Find (Disjoint Set) — 분리 집합 자료구조]] →
+
+---

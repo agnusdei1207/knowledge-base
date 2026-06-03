@@ -134,3 +134,14 @@ Reference Architecture
 1. [[097_ca_cluster_autoscaler_kubernetes_node_scaling|클러스터 오토스케일러]] / 수평적 [[085_pod_kubernetes_container_unit|파드]] 오토스케일러 연동은 복잡한 일을 순서와 규칙으로 정리해서 실수하지 않게 도와주는 방법이에요.
 2. [[567_metrics_time_series_prometheus_grafana|Metrics]] Server 같은 친구들과 같이 움직여야 더 잘 작동해요.
 3. 그래서 문제가 생겨도 어디서 틀렸는지 빨리 찾고 다시 고치기 쉬워져요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 218 / 373
+
+← **이전**: [[217_kubernetes|217. 컨테이너 오케스트레이션 (Kubernetes) 아키텍처]]
+**다음**: [[219_declarative_yaml|219. 쿠버네티스 선언적(Declarative) 제어 루프]] →
+
+---

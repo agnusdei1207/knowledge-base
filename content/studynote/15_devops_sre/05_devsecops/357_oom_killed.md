@@ -140,3 +140,14 @@ AI 기반 사전 예측적 자원 관리 (Karpenter)
 1. [[157_oom_killer|OOM]] Killer는 물이 넘칠 때 가장 물을 많이 쓰는 수도꼭지를 먼저 잠그는 자동 안전장치예요.
 2. K8s QoS는 중요한 앱(Guaranteed)은 물이 부족해도 마지막까지 쓸 수 있게 [[571_protection_vs_security|보호]]해줘요.
 3. VPA는 스마트 전기 계량기처럼 내 앱이 얼마나 메모리를 쓰는지 학습해서 자동으로 적당한 용량을 배정해줘요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 357 / 373
+
+← **이전**: [[356_ci_cd_dbt|356. 데이터옵스 CI/CD dbt 분석 파이프 자동망 (DataOps CI/CD with dbt)]]
+**다음**: [[358_architecture|358. 서드파티 API 통신 폴백 지터 백오프 설계 (Third-party API Fallback Jitter and Exponential]] →
+
+---

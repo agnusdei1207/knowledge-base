@@ -189,3 +189,14 @@ CFQ가 SSD에서 처참히 망하자, 똑똑한 이탈리아 해커들이 **BFQ*
 1. 리눅스 I/O [[079_kube_scheduler_pod_placement|스케줄러]]은 컴퓨터가 디스크와 장치가 [[001_dikw_pyramid|데이터]]를 주고받는 길을 정리하는 방법이에요.
 2. 먼저 LOOK 및 C-LOOK을 이해하면 리눅스 I/O [[079_kube_scheduler_pod_placement|스케줄러]]이 왜 필요한지 더 쉽게 보여요.
 3. 그래서 리눅스 I/O [[079_kube_scheduler_pod_placement|스케줄러]]을 잘 알면 나중에 [[475_ssd_structure|솔리드 스테이트 드라이브]] ([[327_ssd|SSD]], [[327_ssd|Solid State Drive]]) 구조도 훨씬 쉽게 배울 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 474 / 800
+
+← **이전**: [[473_look_c_look_scheduling|473. LOOK 및 C-LOOK - 양 끝까지 가지 않고 마지막 요청까지만 이동 후 턴 (SCAN/C-SCAN 최적화)]]
+**다음**: [[475_ssd_structure|475. 솔리드 스테이트 드라이브 (SSD, Solid State Drive) 구조 - NAND 플래시, 페이지(Page), 블록(Block)]] →
+
+---

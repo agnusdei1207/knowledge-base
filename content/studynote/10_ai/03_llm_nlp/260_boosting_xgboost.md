@@ -223,3 +223,14 @@ tags:
 1. 시험에서 틀린 문제만 골라서 다음엔 집중적으로 공부하는 방식이 [[127_boosting|부스팅]]이야.
 2. 첫 번째 선생님이 틀린 문제를, 두 번째 선생님이 담당하고, 세 번째 선생님이 그 다음 남은 오류를 고치는 식으로 반복하지!
 3. XGBoost는 이 방식에 "너무 한 부분만 과하게 공부하지 말기"([[093_normalization|정규화]])와 "빨리 가르치기"([[430_index_fast_full_scan|병렬]]화)를 추가한 슈퍼 선생님이야.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 260 / 420
+
+← **이전**: [[259_bagging_random_forest|259. 배깅 (Bagging)]]
+**다음**: [[261_svm_hyperplane_kernel|261. SVM (Support Vector Machine)]] →
+
+---

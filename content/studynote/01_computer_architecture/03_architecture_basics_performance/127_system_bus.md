@@ -168,3 +168,14 @@ PCIe (Peripheral Component Interconnect Express) · 고속 직렬 인터커넥�
 1. 컴퓨터 안의 두뇌와 창고와 장난감 친구들이 서로 이야기하려면 같이 쓰는 길이 필요해요.
 2. 그 길이 바로 시스템 [[344_bus|버스]]이고, 주소표와 [[130_signal|신호]]등과 짐차가 함께 움직이는 길이에요.
 3. 길이 막히지 않게 잘 나누고 순서를 지켜야 컴퓨터도 똑똑하고 빠르게 움직여요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 127 / 803
+
+← **이전**: [[126_harvard_architecture|126. 하버드 아키텍처 (Harvard Architecture)]]
+**다음**: [[128_von_neumann_bottleneck|128. 폰 노이만 병목현상 (Von Neumann Bottleneck)]] →
+
+---

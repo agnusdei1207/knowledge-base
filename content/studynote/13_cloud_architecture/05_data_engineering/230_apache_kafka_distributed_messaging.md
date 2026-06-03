@@ -209,3 +209,14 @@ Event-Driven Architecture (EDA) + CDC
 ```
 2. [[514_partition_slice_volume|파티션]]은 유튜브 재생목록과 같다. 한 채널의 영상이 여러 재생목록에 나뉘어 있으면, 여러 친구가 각자 다른 재생목록을 동시에 볼 수 있어 더 빠르다([[430_index_fast_full_scan|병렬]] 처리).
 3. 오프셋은 책갈피다. 어디까지 읽었는지(소비했는지) 북마크를 저장해두면, 다음에 이어서 읽을 수 있고, 처음부터 다시 읽고 싶으면 북마크를 앞으로 옮기면 된다(재처리).
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 229 / 371
+
+← **이전**: [[229_stream_processing_kafka_flink|229. 스트림 처리 (Stream Processing)]]
+**다음**: [[231_kafka_topic_partition_consumer_group|231. 카프카 토픽 / 파티션 / 컨슈머 그룹]] →
+
+---

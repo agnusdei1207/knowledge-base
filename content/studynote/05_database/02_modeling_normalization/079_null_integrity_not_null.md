@@ -127,3 +127,14 @@ NULL로 인한 삼치 논리(3-Valued Logic) 연산 붕괴 및 인덱스 누락 
 1. [[002_database_definition|데이터베이스]]에서 `NULL`은 0점이나 빈칸이 아니라, 시험지를 아예 내지 않아서 점수를 알 수 없는 '물음표(?)' 상태예요.
 2. 이 물음표(?) 상태인 친구랑 점수를 더하거나 비교하려고 하면 컴퓨터가 바보가 되어버려요.
 3. 그래서 [[002_database_definition|데이터베이스]] 선생님은 `NOT NULL`이라는 몽둥이를 들고, "이름이나 나이 같은 중요한 칸에 물음표(?)를 내면 절대 안 받아준다!"라고 철벽을 치는 거랍니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 79 / 600
+
+← **이전**: [[078_key_integrity|78. 키 무결성 (Key Integrity)]]
+**다음**: [[080_er_model_entity_relationship_peter_chen|080. E-R 모델 (Entity-Relationship Model, 피터 첸)]] →
+
+---

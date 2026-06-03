@@ -134,3 +134,14 @@ DLQ (Dead Letter [[058_queue|Queue]]) 패턴:
 ```
 2. 종소리마다 다른 행동이 연결되어 있어요 — 아침 종([[014_api_posix|API]] 요청), 점심 종([[208_schedule_history_transaction_execution_order|스케줄]]), 화재경보(S3 업로드).
 3. 선생님(개발자)은 어떤 종에 어떤 행동을 연결할지 규칙만 만들면, 이후엔 자동으로 돌아가요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 154 / 371
+
+← **이전**: [[154_stateless_serverless_external_storage|154. 서버리스 상태 비저장 제약 (Stateless Serverless) - 무한 스케일 아웃의 물리적 댓가]]
+**다음**: [[156_serverless_vendor_lockin_knative|156. 서버리스 벤더 락인과 Knative (Vendor Lock-in / Knative)]] →
+
+---

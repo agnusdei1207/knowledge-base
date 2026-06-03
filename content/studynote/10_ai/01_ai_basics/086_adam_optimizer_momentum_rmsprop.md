@@ -103,3 +103,14 @@ Adam은 [[080_gradient_descent_learning_rate|학습률]]을 자동화한 것이 
 1. 자전거에 방향 감지와 충격 흡수가 같이 있는 보조장치 같다.
 2. 한쪽으로만 밀지 않고, 흔들림도 같이 줄여 준다.
 3. 그래서 빨리 가면서도 넘어질 [[130_probability|확률]]이 줄어든다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 86 / 420
+
+← **이전**: [[085_adaptive_learning_rate_adagrad_rmsprop|85. 적응형 학습률 - Adagrad와 RMSProp의 보폭 조절 마법]]
+**다음**: [[087_weight_initialization_xavier_he_glorot|87. 가중치 초기화 (Weight Initialization) - Xavier와 He 초기화]] →
+
+---

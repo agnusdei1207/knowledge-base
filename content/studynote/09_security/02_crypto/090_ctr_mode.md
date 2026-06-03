@@ -139,3 +139,14 @@ GCM (Galois/Counter Mode) 완성을 통한 TLS 표준 장악
 1. 이전의 암호화([[089_cbc_mode|CBC]])는 요리사 100명이 줄을 서서 1번이 끝날 때까지 99명이 기다려야 했어요.
 2. CTR 암호화는 100명의 요리사에게 각자 번호표([[059_counter|카운터]])를 주고 "다 같이 시작!" 해서 100배 빨리 요리를 끝내는 방법이에요!
 3. 게다가 복잡하게 음식을 남기거나 억지로 채워 넣을([[098_padding_convolutional_neural_network_same_valid|패딩]]) 필요도 없어서 컴퓨터가 너무너무 좋아하는 천재적인 아이디어랍니다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 90 / 1108
+
+← **이전**: [[089_cbc_mode|089. CBC (Cipher Block Chaining) — 초기화 벡터(IV) 필요, 체인 의존성]]
+**다음**: [[091_gcm_mode|091. GCM (Galois/Counter Mode) — AEAD, 인증 암호화]] →
+
+---

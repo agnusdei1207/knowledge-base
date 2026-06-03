@@ -174,3 +174,14 @@ Certification / surveillance / improvement
 1. [[836_iso_27001_isms|ISMS]]-P는 우리 반을 안전하게 지키는 큰 약속장 같은 거예요.
 2. 문단속만 보는 게 아니라, 비밀노트를 어떻게 모으고 쓰고 버리는지도 같이 확인해요.
 3. 그래서 선생님이 없을 때도 우리 반이 계속 안전하게 움직이도록 도와줘요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 285 / 587
+
+← **이전**: [[170_procurement_contract_types|170. 조달 계약 방식 (Procurement Contract Types)]]
+**다음**: [[172_iso_iec_27001_standard|172. ISO/IEC 27001 (글로벌 정보보안 경영시스템 국제 표준 인증)]] →
+
+---

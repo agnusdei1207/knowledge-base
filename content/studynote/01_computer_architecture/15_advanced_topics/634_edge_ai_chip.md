@@ -148,3 +148,14 @@ On-device generative AI · PIM · TinyML continuum
 1. 엣지 [[190_ai_llm_requirements_specification|AI]] 칩은 로봇이 엄마 컴퓨터에게 물어보지 않고도 바로 생각할 수 있게 해주는 작은 두뇌예요.
 2. 이 두뇌는 힘이 아주 센 것보다 밥을 적게 먹으면서 빨리 대답하는 데 더 특화되어 있어요.
 3. 그래서 자동차나 카메라가 위험을 보면 인터넷이 없어도 바로 반응할 수 있답니다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 635 / 803
+
+← **이전**: [[633_sdn_whitebox|633. SDN (Software Defined Network) 화이트박스 스위치]]
+**다음**: [[635_on_device_ai|635. 온디바이스 AI (On-Device AI)]] →
+
+---

@@ -125,3 +125,14 @@ A10. SSRF를 제대로 이해하면 개념 하나를 외우는 데서 끝나지 
 1. A10. SSRF는 누군가 규칙의 틈을 찾아 몰래 장난을 치는 방법이에요.
 2. 그래서 문을 단단히 잠그는 것뿐 아니라, 누가 이상하게 움직이는지도 바로 알아차려야 해요.
 3. 컴퓨터는 이상한 흔적을 빨리 보고 퍼지기 전에 멈추게 해야 안전해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 524 / 1108
+
+← **이전**: [[467_logging_without_alert|467. Logging Without Alert (Logging Without Alert)]]
+**다음**: [[469_ssrf_metadata|469. SSRF 메타데이터 (SSRF Metadata)]] →
+
+---

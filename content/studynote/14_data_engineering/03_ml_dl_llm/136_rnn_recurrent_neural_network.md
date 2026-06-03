@@ -54,3 +54,14 @@ RNN은 **시퀀스 처리의 기초 아키텍처**이며, [[292_lstm|LSTM]]/GRU�
 1. RNN은 **일기장을 읽는** 것이에요. 어제 일기(은닉 상태)를 참고해서 **오늘을 이해**해요.
 2. 하지만 **오래된 일기(장기 기억)**는 잘 기억 못 해요(Vanishing).
 3. LSTM은 **중요한 일기에 포스트잇**을 붙여서 잊지 않게 해줘요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 136 / 258
+
+← **이전**: [[135_cnn_convolutional_neural_network|135. CNN (Convolutional Neural Network) - 합성곱 신경망의 구조와 원리]]
+**다음**: [[137_lstm_gru_long_short_term_memory|137. LSTM & GRU - 장기 의존성을 해결한 순환 신경망]] →
+
+---

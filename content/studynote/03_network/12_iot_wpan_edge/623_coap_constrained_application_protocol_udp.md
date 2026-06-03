@@ -126,3 +126,14 @@ CoAP는 MQTT에서 출발해 현재 메커니즘을 정교화하고, 이후 [[12
 1. 작은 로봇 친구들이 배터리를 아껴가며 서로 메시지를 주고받는 장난감 마을과 같아요.
 2. 이 개념은 누가 가까운지, 누가 대신 알려줄지, 무엇을 현장에서 바로 처리할지를 정해줘요.
 3. 그래서 작은 기기들도 오래 버티면서 똑똑하게 협력할 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 744 / 1120
+
+← **이전**: [[622_mqtt_publish_subscribe_qos|622. MQTT (Message Queuing Telemetry Transport)]]
+**다음**: [[624_lwm2m_lightweight_m2m_device_management|624. LwM2M (Lightweight M2M) 표준 프로토콜 관리 메커니즘]] →
+
+---

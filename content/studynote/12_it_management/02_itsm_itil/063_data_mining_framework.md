@@ -137,3 +137,14 @@ DataOps / MLOps
 퍼즐을 맞추려면 설명서가 필요해요.  
 [[284_data_mining_association_classification_clustering_crisp_dm|데이터 마이닝]]도 순서를 정해 놓아야 잘 돼요.  
 프레임워크는 그 순서를 알려 주는 설명서예요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 109 / 587
+
+← **이전**: [[062_itil|62. ITIL (IT Infrastructure Library)]]
+**다음**: [[063_itil_v3_service_lifecycle|63. ITIL V3 의 서비스 수명주기 (Service Lifecycle) 5단계]] →
+
+---

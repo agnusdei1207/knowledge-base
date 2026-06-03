@@ -130,3 +130,14 @@ tags:
 1. 선형 회귀는 친구가 던진 공이 날아간 거리를 줄자로 정확히 재는 거예요.
 2. [[227_logistic_regression_clt_pvalue_type_error|로지스틱 회귀]]는 친구가 던진 공이 바구니에 '들어갈지 안 들어갈지'를 퍼센트 [[130_probability|확률]]로 알려주는 마법 안경이에요.
 3. 숫자가 너무 크거나 작아도, '[[268_sigmoid_vanishing_gradient|시그모이드]]'라는 미끄럼틀을 타면 무조건 0퍼센트와 100퍼센트 사이로 예쁘게 맞춰진답니다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 103 / 258
+
+← **이전**: [[102_lasso_ridge_regression_regularization|회귀 라쏘 (Lasso) 및 릿지 (Ridge) 규제 (Regularization)]]
+**다음**: [[104_svm_support_vector_machine|서포트 벡터 머신 (SVM, Support Vector Machine)]] →
+
+---

@@ -174,3 +174,14 @@ FSPL (기본 자유 공간 손실)
 1. 전파는 한 줄로 가는 것이 아니라 둥글게 퍼져 나가요.
 2. 그래서 멀리 갈수록 같은 힘이 넓게 퍼져 약해져요.
 3. 컴퓨터와 통신 장비는 이 약해지는 정도를 먼저 계산해서 [[171_antenna_basic_dipole_resonance|안테나]]와 거리를 정한답니다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 287 / 1120
+
+← **이전**: [[165_fresnel_zone_clearance|165. 프레넬 영역 (Fresnel Zone)]]
+**다음**: [[167_fading_large_scale_small_scale|167. 페이딩 (Fading) - 대규모(Large-scale) 페이딩 vs 소규모(Small-scale) 페이딩]] →
+
+---

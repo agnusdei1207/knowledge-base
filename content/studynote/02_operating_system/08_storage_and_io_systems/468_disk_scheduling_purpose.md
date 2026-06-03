@@ -210,3 +210,14 @@ tags:
 1. 디스크 스케줄링 (Disk Scheduling) 목적은 컴퓨터가 디스크와 장치가 데이터를 주고받는 길을 정리하는 방법이에요.
 2. 먼저 디스크 접근 시간 = [[324_seek_time|탐색 시간]]([[467_disk_access_time|Seek Time]]) + [[325_rotational_latency|회전 지연]]([[325_rotational_latency|Rotational Latency]]) + [[326_transfer_time|전송 시간]]([[326_transfer_time|Transfer Time]])을 이해하면 디스크 스케줄링 (Disk Scheduling) 목적이 왜 필요한지 더 쉽게 보여요.
 3. 그래서 디스크 스케줄링 (Disk Scheduling) 목적을 잘 알면 나중에 [[173_fcfs_scheduling|FCFS]] (First-Come, First-Served) 스케줄링도 훨씬 쉽게 배울 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 468 / 800
+
+← **이전**: [[467_disk_access_time|467. 디스크 접근 시간 = 탐색 시간(Seek Time) + 회전 지연(Rotational Latency) + 전송 시간(Transfer]]
+**다음**: [[469_fcfs_disk_scheduling|469. FCFS (First-Come, First-Served) 스케줄링]] →
+
+---

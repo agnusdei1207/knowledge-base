@@ -154,3 +154,14 @@ FAIR = 현대화된 정량적 위험 분석 표준
 1. SLE는 자동차 사고 한 번의 수리비예요! 사고 났을 때 얼마나 손해인지 계산한 거예요.
 2. ALE는 1년 동안 예상되는 총 손해액이에요 — 수리비 × 연간 사고 [[130_probability|확률]]이에요!
 3. ALE가 보안 시스템 설치 비용보다 크면 투자하는 게 이익이에요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 30 / 1108
+
+← **이전**: [[029_qualitative_risk_analysis|29. 정성적 위험 분석 (Qualitative Risk Analysis)]]
+**다음**: [[031_aro_annual_rate_of_occurrence|31. ARO와 위험 정량화 — 연간 발생률의 의미]] →
+
+---

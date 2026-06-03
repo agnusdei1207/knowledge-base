@@ -135,3 +135,14 @@ Retention Policy
 [[555_backup_and_restore_strategy|백업]]은 다시 [[289_cqrs_db|쓰기]] 위한 복사본이에요.  
 아카이빙은 오래 보관할 자료를 따로 두는 거예요.  
 둘은 목적이 달라서 구분해야 해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 94 / 530
+
+← **이전**: [[062_backup_archiving_policy|62. 백업 및 아카이빙 정책 점검 (Backup and Archiving Policy Audit)]]
+**다음**: [[063_software_license_compliance|63. 소프트웨어 라이선스 컴플라이언스 (Software License Compliance)]] →
+
+---

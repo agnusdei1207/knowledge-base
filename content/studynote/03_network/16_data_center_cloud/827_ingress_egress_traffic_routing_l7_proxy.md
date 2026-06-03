@@ -137,3 +137,14 @@ Ingress와 [[189_egress|Egress]] 트래픽는 Kube-[[264_proxy_pattern_surrogate
 1. 큰 아파트에 사는 친구들이 층마다 다른 규칙으로 엘리베이터를 타면 복잡해져요.
 2. 이 개념은 어느 층에서 누구를 어떻게 연결할지 자동으로 정리해 주는 관리실과 같아요.
 3. 그래서 많은 컴퓨터가 한 건물 안에서 더 잘 협력할 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 948 / 1120
+
+← **이전**: [[826_kube_proxy_service_load_balancing_iptables_ipvs|826. Kube-Proxy 서비스 로드밸런싱]]
+**다음**: [[828_service_mesh_microservice_communication_infrastructure|828. 서비스 메시 (Service Mesh)]] →
+
+---

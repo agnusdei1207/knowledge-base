@@ -136,3 +136,14 @@ Cloud Native
 [[561_container_based_deployment|컨테이너]]는 필요한 물건만 담은 작은 상자예요.  
 아파트의 한 방처럼 빨리 만들고 빨리 옮길 수 있어요.  
 하지만 방이 곧 금고는 아니에요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 60 / 371
+
+← **이전**: [[060_hypervisor_escape_vm_security_threat|60. 하이퍼바이저 우회/탈출 (Hypervisor Escape) 보안 위협]]
+**다음**: [[062_container_vs_vm_architecture|62. 컨테이너 vs 가상머신(VM)]] →
+
+---

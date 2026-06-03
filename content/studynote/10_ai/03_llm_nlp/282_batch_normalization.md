@@ -225,3 +225,14 @@ BN은 현대 [[243_cnn_stride_pooling_resnet_residual_yolo_object_detection|CNN]
 1. 배치 [[093_normalization|정규화]]는 달리기 대회에서 매번 모든 선수의 속도를 "평균 속도"와 "얼마나 차이나는지"로 다시 표현하는 것이에요.
 2. 이렇게 하면 빠른 선수와 느린 선수가 섞여도 AI가 각자의 특성을 공평하게 배울 수 있어요.
 3. 하지만 선수(γ,β)가 나중에 "내 진짜 속도를 보여줄게"하고 다시 조정할 수 있어서, 개성이 완전히 없어지지는 않아요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 282 / 420
+
+← **이전**: [[281_early_stopping|281. 조기 종료 (Early Stopping)]]
+**다음**: [[283_cnn_overview|283. CNN (Convolutional Neural Network)]] →
+
+---

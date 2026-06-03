@@ -157,3 +157,14 @@ TCP의 1바이트 낱알 세기 철학이 담긴 공간이다.
 1. 물건을 보낼 때 받는 사람이 너무 빨리 받으면 놓칠 수 있어요.
 2. 이 개념은 천천히 보낼지, 다시 보낼지, 길이 막히면 멈출지를 정해줘요.
 3. 그래서 멀리 보내도 덜 잃어버리고 더 안정적으로 도착해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 528 / 1120
+
+← **이전**: [[406_udp_user_datagram_protocol_connectionless_fast|406. UDP (User Datagram Protocol)]]
+**다음**: [[408_tcp_header_ports_and_sequence_number_32bit|408. 소스/목적지 포트 번호, 일련번호 (Sequence Number, 32bit)]] →
+
+---

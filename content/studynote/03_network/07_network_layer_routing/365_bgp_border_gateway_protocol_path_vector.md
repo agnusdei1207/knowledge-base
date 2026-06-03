@@ -151,3 +151,14 @@ BGP는 L1/L2 라우터, L1/L2 Area 체계…에서 출발해 현재 메커니즘
 1. 여러 갈림길이 있는 미로에서 가장 좋은 길을 고르는 게임과 같아요.
 2. 이 개념은 길이 막히면 다른 길로 빨리 바꾸는 규칙도 알려줘요.
 3. 그래서 인터넷 길찾기가 덜 헤매고 더 똑똑해져요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 486 / 1120
+
+← **이전**: [[364_is_is_l1_l2_router_area_system|364. L1/L2 라우터, L1/L2 Area 체계, IS-IS over Ethernet/IP]]
+**다음**: [[366_ibgp_ebgp_split_horizon_rule|366. iBGP (내부 맺음), eBGP (외부 맺음), BGP Split Horizon 룰]] →
+
+---

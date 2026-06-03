@@ -336,3 +336,14 @@ LLM 기반 정책 생성
 1. [[058_it_compliance_sox_basel_gdpr_isms|Compliance]] [[344_as_autonomous_system_asn|as]] [[082_process_memory_structure|Code]] = 자동 [[130_signal|신호]]등 — 전통(경찰관 주기 점검) vs CaC(카메라 24시간 감시 + 위반 즉시 통보). 실시간 규정 준수!
 2. [[237_opa_open_policy_agent_gatekeeper|OPA]] Rego = 법전 코드화 — "특권 [[561_container_based_deployment|컨테이너]] 금지"를 코드로. 배포 시 자동 법전 검사. 위반 즉시 거부!
 3. [[242_shift_left_sdlc|Shift-Left]] [[058_it_compliance_sox_basel_gdpr_isms|Compliance]] = 출발 전 점검 — 운영 중 발견(100배 비용) 대신 배포 전 CI에서 발견(1 비용). 미리 고치면 싸요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 87 / 587
+
+← **이전**: [[047_it_compliance_gdpr_sox_control_framework|047. IT 컴플라이언스 — GDPR·SOX·통제 프레임워크]]
+**다음**: [[049_shadow_it|49. 섀도우 IT (Shadow IT)]] →
+
+---

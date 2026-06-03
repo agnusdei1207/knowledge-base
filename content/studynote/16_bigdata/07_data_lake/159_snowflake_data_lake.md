@@ -178,3 +178,14 @@ Snowflake는 SQL 네이티브 강점을 유지하면서 [[146_lakehouse|레이�
 1. Snowflake는 처음에는 식당([[209_data_warehouse_schema_on_write|DW]])이었는데, 이제는 외부 슈퍼마켓(레이크) 재료도 가져와서 요리([[298_qkv_attention|쿼리]])할 수 있어요.
 2. Virtual Warehouse는 손님([[298_qkv_attention|쿼리]])이 많으면 요리사(컴퓨팅)를 더 부르고, 한가하면 집에 보내는 스마트 주방이에요.
 3. Snowpark는 SQL만 쓰던 식당에서 Python 요리사도 일할 수 있게 해주는 새 조리 방식이에요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 159 / 262
+
+← **이전**: [[158_databricks_platform|158. Databricks — Spark 기반 레이크하우스 통합 플랫폼]]
+**다음**: [[160_microsoft_fabric|160. Microsoft Fabric — One Lake 통합 분석 플랫폼]] →
+
+---

@@ -152,3 +152,14 @@ DR과 [[751_chaos_engineering|카오스 엔지니어링]]을 결합하면 조직
 1. 진짜 불이 나기 전에 학교에서 대피 연습을 하면 어디로 뛰어가야 하는지 몸이 먼저 기억하게 돼요.
 2. [[360_ospf_dr_bdr_designated_router_lsa_flooding|DR]] 카오스는 컴퓨터 세상에서 그런 연습을 일부러 해 보는 거예요.
 3. 다만 진짜 위험해지지 않게 작은 구역부터 시험하고, 이상하면 바로 멈추는 규칙이 꼭 필요해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 184 / 373
+
+← **이전**: [[183_zero_data_loss_architecture|183. 데이터 손실 제로 (Zero Data Loss) 아키텍처]]
+**다음**: [[185_network_jitter|185. 네트워크 지터 (Network Jitter) 및 패킷 손실 관측 메트릭]] →
+
+---

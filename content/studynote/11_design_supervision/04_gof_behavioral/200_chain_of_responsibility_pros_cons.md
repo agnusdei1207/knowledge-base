@@ -121,3 +121,14 @@ Node.js Express의 미들웨어가 [[395_process|책임 연쇄 패턴]]의 간�
 1. [[276_chain_of_responsibility_pattern|책임 연쇄]]의 장점: 새 보안 검사(핸들러)를 언제든 추가할 수 있어요.
 2. 단점: 체인이 너무 길어지면 어디서 문제가 생겼는지 찾기 어려워요.
 3. 스프링 AOP, Node.js 미들웨어가 모두 이 패턴을 사용해요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 261 / 530
+
+← **이전**: [[199_chain_of_responsibility_pattern|199. 책임 연쇄 패턴 (Chain of Responsibility Pattern)]]
+**다음**: [[201_mediator_pattern|201. 미디에이터 패턴 (Mediator Pattern)]] →
+
+---

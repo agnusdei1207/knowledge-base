@@ -111,3 +111,14 @@ DDD의 바운디드 컨텍스트와 [[222_aggregate_ddd_transaction_consistency|
 1. DDD의 바운디드 컨텍스트와 [[222_aggregate_ddd_transaction_consistency|애그리게이트]] ([[127_ddd_domain_driven_design|Domain-Driven Design]] [[221_bounded_context_ddd_msa_boundary|Bounded Context]] and [[222_aggregate_ddd_transaction_consistency|Aggregate]])은 같은 “주문”이라도 가게, 창고, 택배팀이 각자 다른 뜻으로 쓰는 말을 구분하는 것처럼 약속을 먼저 정하는 거예요.
 2. 그러면 서로 다른 사람이 해도 같은 규칙으로 움직일 수 있어요.
 3. 그래서 규모가 커질수록 [[064_relation_domain|도메인]] 의미와 [[194_consistency_database_integrity|일관성]] 범위를 명확히 분리하는 일이 더 중요해져요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 452 / 530
+
+← **이전**: [[373_saga_pattern_compensation|373. 사가 패턴과 보상 트랜잭션 (Saga Pattern and Compensating Transaction)]]
+**다음**: [[375_acl_legacy_buffer|375. 안티 코럽션 레이어 (Anti-Corruption Layer, ACL)]] →
+
+---

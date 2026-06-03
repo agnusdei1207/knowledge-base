@@ -133,3 +133,14 @@ Risk-based Security
 어디가 중요한지 먼저 정해요.  
 그다음 누가 어떻게 해칠 수 있는지 상상해요.  
 PASTA는 그런 보안 생각 순서예요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 66 / 1108
+
+← **이전**: [[065_stride_model|065. STRIDE 모델 — Spoofing/Tampering/Repudiation/Information Disclosure/DoS/Elevation]]
+**다음**: [[067_attack_surface_analysis|067. Attack Surface Analysis — 공격 표면 관리]] →
+
+---

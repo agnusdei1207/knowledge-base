@@ -125,3 +125,14 @@ tags:
 1. 운영 CRM이 "오늘 어떤 손님이 왔고 뭘 샀는지" 기록하는 일기장이라면,
 2. 분석 CRM은 일기장을 쭉 읽고 **"다음 주에 이 손님이 안 올 것 같아!"**라고 예측하는 점쟁이([[190_ai_llm_requirements_specification|AI]])예요.
 3. 점쟁이의 예측을 듣고 미리 쿠폰을 보내면, 손님이 다시 와서 가게가 번창한답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 111 / 482
+
+← **이전**: [[110_operational_crm_sfa_ma_css|110. 운영 CRM (Operational CRM) - SFA·MA·CSS 프론트 오피스 자동화]]
+**다음**: [[112_collaborative_crm_omnichannel|112. 협업 CRM (Collaborative CRM) - 옴니채널 통합과 고객 접점 일관성]] →
+
+---

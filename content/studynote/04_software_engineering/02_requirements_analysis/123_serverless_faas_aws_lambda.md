@@ -107,3 +107,14 @@ tags:
 1. [[206_serverless_cold_start|서버리스]]는 **택시**예요. 필요할 때만 부르고 **탄 만큼만 내면** 돼요.
 2. [[598_vm_migration_nic|VM]](자가용)은 안 타도 **주차비·보험료**가 나가지만, 택시는 안 타면 **공짜**예요.
 3. 하지만 택시는 **부르면 오는 데 시간([[347_cold_start_problem|Cold Start]])**이 걸리는 단점이 있어요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 123 / 973
+
+← **이전**: [[122_container_orchestration_kubernetes_k8s|122. 컨테이너 오케스트레이션 (Container Orchestration) - K8s 핵심 개념과 아키텍처]]
+**다음**: [[124_cloud_native_development_architecture|124. 클라우드 네이티브 아키텍처 - CNCF 기반 현대 소프트웨어 개발 패러다임]] →
+
+---

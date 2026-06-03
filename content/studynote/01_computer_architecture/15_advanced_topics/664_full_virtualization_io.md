@@ -145,3 +145,14 @@ Trap-and-Emulate · MMIO 가로채기
 1. [[057_full_virtualization|전가상화]] I/O는 진짜 장난감처럼 보이는 가짜 장난감을 만들어 주는 방법이에요.
 2. 그래서 오래된 [[001_operating_system_purpose|운영체제]]도 익숙한 장난감이라고 생각하고 바로 놀 수 있어요.
 3. 하지만 뒤에서 누군가 계속 장난감을 움직여 줘야 해서 오래 쓰면 힘이 많이 든답니다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 665 / 803
+
+← **이전**: [[663_paravirtualization_io|663. 반가상화 (Paravirtualization) I/O]]
+**다음**: [[665_virtio_driver_model|665. Virtio 드라이버 모델]] →
+
+---

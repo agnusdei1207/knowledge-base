@@ -125,3 +125,14 @@ tags:
 1. [[746_io_direct_memory_access_dma|DMA]] 공격 ([[318_dma|Direct Memory Access]] Attack)는 누군가 규칙의 틈을 찾아 몰래 장난을 치는 방법이에요.
 2. 그래서 문을 단단히 잠그는 것뿐 아니라, 누가 이상하게 움직이는지도 바로 알아차려야 해요.
 3. 컴퓨터는 이상한 흔적을 빨리 보고 퍼지기 전에 멈추게 해야 안전해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 101 / 1108
+
+← **이전**: [[0992_cold_boot_attack|992. Cold Boot Attack (메모리 잔상 읽기)]]
+**다음**: [[0994_firewire_attack|994. Firewire 공격 (IEEE 1394 DMA 활용)]] →
+
+---

@@ -125,3 +125,14 @@ SameSite [[475_cookie_local_state|쿠키]] (SameSite [[475_cookie_local_state|Co
 1. SameSite [[475_cookie_local_state|쿠키]] (SameSite [[475_cookie_local_state|Cookie]])는 컴퓨터 세상을 더 안전하게 만들기 위한 중요한 약속이나 도구예요.
 2. 겉으로는 어려워 보여도, 왜 필요한지와 어떻게 움직이는지를 알면 훨씬 쉬워져요.
 3. 그래서 이름만 외우지 말고 어디에 쓰이는지 같이 기억해야 해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 533 / 1108
+
+← **이전**: [[476_csrf_deep|476. CSRF 심화 (Cross-Site Request Forgery Deep Dive)]]
+**다음**: [[478_csrf_token|478. CSRF 토큰 (CSRF Token)]] →
+
+---

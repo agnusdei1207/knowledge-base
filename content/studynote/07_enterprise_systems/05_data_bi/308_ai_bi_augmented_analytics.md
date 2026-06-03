@@ -163,3 +163,14 @@ GenAI BI - LLM 기반 대화형 데이터 분석
 1. 증강 분석은 "지난달 어느 과자가 제일 많이 팔렸어?"라고 말만 해도 [[070_graph_datastructure|그래프]]를 그려주는 컴퓨터예요.
 2. Auto-Insight는 컴퓨터가 스스로 "이 상품 판매가 갑자기 줄었는데 왜 그럴까요?"라고 먼저 알려주는 기능이에요.
 3. [[001_dikw_pyramid|Data]] Storytelling은 숫자들을 읽기 쉬운 이야기로 바꿔주는 거예요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 308 / 482
+
+← **이전**: [[307_molap_rolap_holap|307. 다차원 큐브 MOLAP ROLAP HOLAP 성능 튜닝 (Multidimensional OLAP)]]
+**다음**: [[309_influxdb_downsampling|309. 시계열 데이터베이스 InfluxDB 다운샘플링 롤업 (Time-Series DB Downsampling)]] →
+
+---

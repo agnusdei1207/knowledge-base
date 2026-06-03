@@ -216,3 +216,14 @@ tags:
 1. [[690_firewall_generation_evolution|방화벽]]은 아파트 입구에서 비밀번호를 모르는 나쁜 사람을 못 들어오게 막는 **현관문**이에요.
 2. 하지만 나쁜 사람이 택배 기사로 위장(암호화/웹 요청)해서 문을 통과해버리면 [[690_firewall_generation_evolution|방화벽]]은 막지 못해요. 이때 복도에 설치된 **[[933_cctv|CCTV]](IDS)** 가 그걸 보고 "경비 아저씨 출동하세요!" 하고 삐용삐용 알람을 울려주죠.
 3. 더 똑똑한 **방어 로봇([[695_ips_network_intrusion_prevention_system|IPS]])** 은 복도에서 나쁜 사람이 택배 상자에서 칼(해킹 코드)을 꺼내는 순간, 알람만 울리는 게 아니라 그 자리에서 직접 로봇 팔로 칼을 빼앗고 쫓아내는 멋진 경찰관 역할을 한답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 601 / 800
+
+← **이전**: [[600_port_scanning|600. 포트 스캐닝 (Port Scanning) 도구 원리]]
+**다음**: [[602_sandboxing_kernel_wrapper|602. 샌드박싱 (Sandboxing) 기술 커널 래퍼]] →
+
+---

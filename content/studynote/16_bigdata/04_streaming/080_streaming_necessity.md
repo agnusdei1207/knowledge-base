@@ -215,3 +215,14 @@ Step 4: 운영 역량 및 비용 검토
 ### 👶 어린이를 위한 3줄 비유 설명
 
 [[228_batch_processing_hadoop_spark|배치 처리]]는 하루치 편지를 저녁에 한꺼번에 가져다주는 우체부이고, 스트리밍은 편지가 오자마자 즉시 배달해주는 퀵서비스예요. 평소 편지는 저녁 배달로 충분하지만, 엄마한테 "지금 당장 집에 와야 해!"라는 긴급 [[389_mesh_topology|메시]]지는 퀵서비스(스트리밍)로 보내야 해요. 모든 편지를 퀵서비스로 보내면 비용이 너무 많이 들기 때문에 진짜 급한 것만 스트리밍을 써야 해요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 80 / 262
+
+← **이전**: [[079_apache_storm|04. Apache Storm]]
+**다음**: [[081_flink_architecture|06. Flink 아키텍처 (Flink Architecture) — JobManager/TaskManager/JobGraph]] →
+
+---

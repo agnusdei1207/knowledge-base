@@ -129,3 +129,14 @@ tags:
 1. 객체지향 5원칙 [[242_solid_object_oriented_design_principles|SOLID]] 위배 코드 냄새([[365_5_solid_code_smell|Code Smell]]) [[213_refactoring_cloud_native_rearchitecture|리팩토링]] 검증은 모두가 같은 규칙으로 일하게 해 주는 반장 약속표예요.
 2. 약속만 적어 두는 것이 아니라 누가 지켰는지 확인하고 고치는 방법까지 함께 정해요.
 3. 그래서 일이 많아져도 서로 부딪히지 않고 더 안전하게 움직일 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 571 / 587
+
+← **이전**: [[365_5_solid_code_smell|365. 객체지향 5원칙 SOLID 위배 코드 냄새(Code Smell) 리팩토링 검증]]
+**다음**: [[366_audit|366. 디자인 패턴 퍼사드, 전략, 옵저버 패턴 강결합 해소 구조 감사]] →
+
+---

@@ -104,3 +104,14 @@ tags:
 1. 보안 영역화는 학교에서 준비물을 미리 챙기는 것처럼, 중요한 기준을 먼저 맞추는 일이야.
 2. 자료 반출입은 선생님이 수업 중간에 계속 확인하는 것처럼, 실제로 잘 되고 있는지 보는 과정이야.
 3. 예외 승인은 시험 결과표처럼, 정말 효과가 있었는지 나중에 다시 확인하게 해주는 증거야.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 337 / 530
+
+← **이전**: [[275_digital_signature_privacy_law|275. 전자서명과 개인정보보호법 감리 (Digital Signature and Privacy Law Audit)]]
+**다음**: [[277_oss_license_compliance|277. OSS 라이선스 준수 감리 (OSS License Compliance Audit)]] →
+
+---

@@ -126,3 +126,14 @@ PKI는 피라미드 다단계처럼 꼬리에 꼬리를 무는 보증 시스템�
 1. 비밀 편지를 보낼 때는 자물쇠와 비밀번호가 필요해요.
 2. 이 개념은 누가 진짜 친구인지 [[396_validation|확인]]하고, 편지가 바뀌지 않았는지도 살펴봐요.
 3. 그래서 나쁜 사람이 중간에 훔쳐보거나 바꾸기 어려워져요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 797 / 1120
+
+← **이전**: [[675_digital_signature_process_asymmetric_key|675. 전자서명 (Digital Signature) 생성/검증 프로세스 개요 (비대칭키 활용 체계의 무결성 보증)]]
+**다음**: [[677_ca_ra_certificate_authority_registration|677. 인증국 (CA, Certificate Authority), 등록기관 (RA, Registration Authority), 저장소]] →
+
+---

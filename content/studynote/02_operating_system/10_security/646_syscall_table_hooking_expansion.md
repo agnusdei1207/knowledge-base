@@ -218,3 +218,14 @@ x86_64 아키텍처에서 시스템 콜 테이블은 단순히 함수 포인터�
 1. 컴퓨터([[001_operating_system_purpose|운영체제]])에는 '명령 접수처(시스템 콜 테이블)'가 있어요. 사용자가 "1번! [[501_file_definition_logical_record|파일]] 열어줘!" 하면 1번 창구로, "2번! 지워줘!" 하면 2번 창구로 보내주는 곳이죠.
 2. 나쁜 해커([[603_rootkit_syscall_hooking|루트킷]])나 참견쟁이 백신은 몰래 구청에 잠입해서, 1번 창구 팻말을 자기 자리로 가져와요(후킹). 그래서 모든 [[501_file_definition_logical_record|파일]] 열기 명령이 자기 손을 거치게 만들죠.
 3. 하지만 요즘 컴퓨터는 창구 번호판을 강철 유리로 덮어버리고([[307_memory_protection|메모리 보호]]), 매일 밤 창구 위치를 섞어버려서(KASLR) 아무도 몰래 팻말을 바꿀 수 없게 철벽 방어를 하고 있답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 646 / 800
+
+← **이전**: [[645_kernel_module_signature_verification|645. 커널 동적 모듈 서명 (Module Signature Verification) 무결성 통제]]
+**다음**: [[647_numa_aware_allocator_page_migration|647. NUMA 인지형 메모리 할당기 커널 페이지 이동 정책 프레임워크 설계 (NUMA Aware Allocator Page Migration)]] →
+
+---

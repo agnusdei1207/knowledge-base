@@ -181,3 +181,14 @@ tags:
 1. [[286_page_frame|페이지]] 테이블 ([[286_page_frame|Page]] Table)은 컴퓨터가 메모리를 방처럼 나눠 쓰고 주소를 찾는 방법이에요.
 2. 먼저 [[352_page_size|페이지 크기]] ([[352_page_size|Page Size]])을 이해하면 [[286_page_frame|페이지]] 테이블 ([[286_page_frame|Page]] Table)이 왜 필요한지 더 쉽게 보여요.
 3. 그래서 [[286_page_frame|페이지]] 테이블 ([[286_page_frame|Page]] Table)을 잘 알면 나중에 [[354_ptbr_ptlr|PTBR]] ([[354_ptbr_ptlr|Page-Table Base Register]]) / PTLR ([[286_page_frame|Page]]-Table Length [[175_register_addressing|Register]])도 훨씬 쉽게 배울 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 353 / 800
+
+← **이전**: [[352_page_size|352. 페이지 크기 (Page Size) - 주로 4KB. 커지면 내부 단편화 증가, 테이블 크기 감소]]
+**다음**: [[354_ptbr_ptlr|354. PTBR (Page-Table Base Register) / PTLR (Page-Table Length Register)]] →
+
+---

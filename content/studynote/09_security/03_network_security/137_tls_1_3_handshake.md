@@ -125,3 +125,14 @@ tags:
 1. [[694_thread_local_storage_tls|TLS]] 1.3 핸드셰이크 (1-RTT, 0-RTT, [[142_psk_pre_shared_key|PSK]])는 컴퓨터끼리 인사하고 [[396_validation|확인]]하는 순서를 정한 약속이에요.
 2. 순서를 건너뛰면 나쁜 사람이 친구인 척할 수 있어요.
 3. 그래서 컴퓨터는 차례대로 묻고 답하면서 서로를 믿게 돼요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 190 / 1108
+
+← **이전**: [[136_hkdf|136. HKDF (HMAC-based Key Derivation Function)]]
+**다음**: [[138_tls_1_3_aead|138. AEAD 암호화 강제 (TLS 1.3의 대학살)]] →
+
+---

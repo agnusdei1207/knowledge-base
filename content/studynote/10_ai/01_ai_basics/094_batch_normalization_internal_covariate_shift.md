@@ -121,3 +121,14 @@ tags:
 1. 딥러닝 층은 그림을 릴레이로 그리는 친구들인데, 앞 친구가 그림을 갑자기 너무 크게 넘겨주면 다음 친구가 당황해요.
 2. [[282_batch_normalization|배치 정규화]]는 중간에 서서 그림을 항상 '스케치북 크기'로 딱 맞게 줄여주거나 늘려주는 선생님이에요.
 3. 선생님 덕분에 친구들은 그림 크기 걱정 없이 아주 빠른 속도로 멋진 그림을 완성할 수 있게 되었어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 94 / 420
+
+← **이전**: [[093_early_stopping_overfitting_validation_loss|93. 조기 종료 (Early Stopping) - 과적합 방지와 학습 타이밍]]
+**다음**: [[095_cnn_convolutional_neural_network_image_recognition|95. 합성곱 신경망 (CNN) - 공간 정보 보존 이미지 인식 아키텍처]] →
+
+---

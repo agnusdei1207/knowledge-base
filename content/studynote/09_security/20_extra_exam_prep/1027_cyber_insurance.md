@@ -125,3 +125,14 @@ tags:
 1. 사이버 보험 (Cyber Insurance)는 컴퓨터 세상을 더 안전하게 만들기 위한 중요한 약속이나 도구예요.
 2. 겉으로는 어려워 보여도, 왜 필요한지와 어떻게 움직이는지를 알면 훨씬 쉬워져요.
 3. 그래서 이름만 외우지 말고 어디에 쓰이는지 같이 기억해야 해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 147 / 1108
+
+← **이전**: [[1026_smart_grid_ami_two_way_communication_energy|1026. 스마트 그리드 통신 인프라망 (Smart Grid Ami Two Way Communication Energy)]]
+**다음**: [[1027_uwsn_mac_routing_depth_based_protocol|1027. 수중 음파 통신망 라우팅/MAC (Uwsn Mac Routing Depth Based Protocol)]] →
+
+---

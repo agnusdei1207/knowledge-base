@@ -125,3 +125,14 @@ tags:
 1. 장난감 로봇을 조립하는데, 팔만 끼우고 다리는 못 끼운 채로 멈추면 괴물 로봇이 되어버리겠죠?
 2. 원자적 [[191_transaction_concept_states|트랜잭션]]은 "로봇을 완벽하게 다 조립하거나(All), 아니면 아예 부품 상자에서 꺼내지도 않은 처음 상태(Nothing)로 되돌리거나" 둘 중 하나만 허락하는 마법의 상자에요.
 3. 덕분에 중간에 정전이 되거나 컴퓨터가 고장 나도, [[501_file_definition_logical_record|파일]]이나 데이터가 반쯤 망가진 채로 남아버리는 끔찍한 일은 절대 일어나지 않는답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 267 / 800
+
+← **이전**: [[266_page_fault_frequency|266. 페이지 부재 빈도 (PFF, Page Fault Frequency)]]
+**다음**: [[268_software_transactional_memory|268. 소프트웨어 트랜잭셔널 메모리 (STM)]] →
+
+---

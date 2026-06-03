@@ -168,3 +168,14 @@ PPO는 단순함과 안정성을 겸비한 강화학습 [[001_algorithm_definiti
 1. PPO는 "매일 공부 방법을 조금씩만 바꾸는" 학습 규칙이야. 한 번에 너무 많이 바꾸면 오히려 나빠지거든.
 2. 클리핑은 "어제 방법에서 최대 20%만 달라지도록" 제한하는 안전 장치야.
 3. RLHF에서 PPO는 "사람들이 좋아하는 답을 많이 내도록 AI를 훈련"하는데, 너무 아부쟁이가 되지 않도록 브레이크도 걸어.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 395 / 420
+
+← **이전**: [[394_automl_hyperopt_tpe|394. AutoML / Hyperopt (Automl Hyperopt TPE)]]
+**다음**: [[396_differential_privacy|396. 차분 프라이버시 (Differential Privacy)]] →
+
+---

@@ -164,3 +164,14 @@ CPI (Cost Performance Index)
 1. CPI는 돈을 쓸 때마다 얼마나 알차게 썼는지 알려 주는 점수예요.
 2. 1000원을 써서 1000원어치 일을 하면 1점이고, 800원어치밖에 못 하면 0.8점이에요.
 3. 그래서 CPI를 보면 지금처럼 계속 돈을 쓰면 나중에 용돈이 더 필요한지 미리 알 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 272 / 587
+
+← **이전**: [[157_sv_schedule_variance|157. SV (Schedule Variance, 일정 차이)]]
+**다음**: [[159_spi_schedule_performance_index|159. SPI (Schedule Performance Index, 일정 성과 지수)]] →
+
+---

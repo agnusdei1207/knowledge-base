@@ -106,3 +106,14 @@ IT 감리 논술 답안 구조 맵를 제대로 적용하면 [[025_baseline|기�
 1. IT 감리 논술 답안 구조 맵은 시험 답안의 목차를 먼저 그리는 것과 같아요.
 2. 무엇을 먼저 말할지 정하면 긴장해도 빠뜨리지 않아요.
 3. 그래서 아는 것을 더 또렷하게 보여 줄 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 397 / 530
+
+← **이전**: [[319_egovframe_compliance_rate|319. 전자정부 표준 프레임워크 준수율 (eGovFrame Compliance Rate Audit)]]
+**다음**: [[320_summary|320. IT 감리 논술 답안 구조 총정리 (IT Audit Essay Structure Summary)]] →
+
+---

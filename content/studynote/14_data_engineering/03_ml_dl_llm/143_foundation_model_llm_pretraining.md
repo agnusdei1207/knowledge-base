@@ -55,3 +55,14 @@ Foundation Model은 **"하나의 모델=모든 작업"** 패러다임의 핵심�
 1. Foundation Model은 **대학 교양 과정**이에요. 기초를 넓게 배워요.
 2. 교양을 배운 후 **전공([[304_fine_tuning|Fine-tuning]])**을 정하면 빠르게 적응해요.
 3. 한 번 교양을 배우면 **어떤 전공이든** 할 수 있어요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 143 / 258
+
+← **이전**: [[142_gpt_decoder_autoregressive_generation|142. GPT Decoder - 자기회귀 생성 모델 상세]]
+**다음**: [[144_fine_tuning_transfer_learning|144. Fine-tuning & Transfer Learning - 사전 학습 모델 적응]] →
+
+---

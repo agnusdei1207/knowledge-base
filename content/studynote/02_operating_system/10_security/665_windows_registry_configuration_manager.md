@@ -221,3 +221,14 @@ Windows [[235_registry_immutable_tag|레지스트리]]는 1990년대 [[164_pc|PC
 1. 컴퓨터 안에는 수천 개의 프로그램이 살아요. 옛날에는 프로그램들이 각자 자기 방(폴더)에 비밀 노트를 숨겨둬서, 뭐가 어딨는지 찾으려면 하루 종일 걸렸어요.
 2. 그래서 윈도우 대장님이 아주 크고 튼튼한 '중앙 대형 도서관([[235_registry_immutable_tag|레지스트리]])'을 지었어요. 모든 프로그램은 자기 비밀 [[009_config|설정]]을 무조건 이 도서관에만 맡겨야 해요.
 3. 도서관 사서([[022_kernel_role|커널]])가 컴퓨터처럼 빠르게 책을 찾아주고, 남의 책은 절대 못 보게 철통 보안을 지켜줘서 컴퓨터가 빠르고 안전하게 돌아간답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 665 / 800
+
+← **이전**: [[664_windows_kernel_apc_dpc_irql|664. Windows 커널 비동기 프로시저 호출 (APC) 및 지연된 프로시저 호출 (DPC)]]
+**다음**: [[666_secure_enclave_trustzone_sgx_tee|666. 보안 엔클레이브 (TrustZone, SGX)와 OS TEE (Trusted Execution Environment) 연동 구조]] →
+
+---

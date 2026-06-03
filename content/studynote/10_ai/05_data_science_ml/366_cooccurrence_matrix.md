@@ -116,3 +116,14 @@ tags:
 1. 동시 등장 행렬은 "어떤 단어들이 같은 문장에서 짝꿍이 되는지" 횟수를 기록한 거대한 표예요.
 2. "고양이"와 "울음"이 많이 같이 나오면 표의 해당 칸 숫자가 커져요.
 3. 이 표를 [[347_compaction|압축]]([[230_svd_matrix_factorization_random_forest_xgboost_boosting|SVD]])하면 각 단어의 의미를 담은 짧은 벡터가 완성돼요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 366 / 420
+
+← **이전**: [[365_glove_word_embedding|365. GloVe (Global Vectors for Word Representation)]]
+**다음**: [[367_svm_slack_variable|367. SVM 슬랙 변수 (Slack Variable)]] →
+
+---

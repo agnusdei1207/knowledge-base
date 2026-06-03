@@ -136,3 +136,14 @@ Account Abstraction (ERC-4337) : 프로토콜 수준에서 EOA와 CA의 통합 �
 1. **EOA**는 네가 게임기에 동전을 넣고 '시작 버튼'을 누르는 손가락이에요.
 2. **[[089_contract_account_smart_contract|CA]]**는 동전이 들어오면 정해진 규칙대로 캐릭터를 움직이게 해주는 게임기 안의 '프로그램'이에요.
 3. 게임기([[089_contract_account_smart_contract|CA]])는 혼자서 동전을 넣거나 게임을 시작할 수 없고, 반드시 너(EOA)의 손가락이 필요하답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 88 / 552
+
+← **이전**: [[087_account_abstraction_erc_4337|87. 계정 추상화 (Account Abstraction, ERC-4337) - 이더리움 지갑(EOA)을 스마트 컨트랙트(CA)처럼 프로그래밍]]
+**다음**: [[089_contract_account_smart_contract|89. CA (Contract Account) - 코드에 의해 통제되는 컨트랙트 계정]] →
+
+---

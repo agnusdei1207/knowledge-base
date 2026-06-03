@@ -246,3 +246,14 @@ tags:
 1. [[483_raid_overview|RAID]] 0 ([[332_raid_0|스트라이핑]], Striping) ([[483_raid_overview|RAID]] 0 Striping)은 컴퓨터가 디스크와 장치가 데이터를 주고받는 길을 정리하는 방법이에요.
 2. 먼저 [[483_raid_overview|RAID]] (Redundant [[055_array|Array]] of Independent Disks)을 이해하면 [[483_raid_overview|RAID]] 0 ([[332_raid_0|스트라이핑]], Striping) ([[483_raid_overview|RAID]] 0 Striping)이 왜 필요한지 더 쉽게 보여요.
 3. 그래서 [[483_raid_overview|RAID]] 0 ([[332_raid_0|스트라이핑]], Striping) ([[483_raid_overview|RAID]] 0 Striping)을 잘 알면 나중에 [[485_raid_1_mirroring|RAID 1]] ([[333_raid_1|미러링]], Mirroring)도 훨씬 쉽게 배울 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 484 / 800
+
+← **이전**: [[483_raid_overview|483. RAID (Redundant Array of Independent Disks) - 성능 향상 및 신뢰성(중복성) 확보]]
+**다음**: [[485_raid_1_mirroring|485. RAID 1 (미러링, Mirroring) (RAID 1 Mirroring)]] →
+
+---

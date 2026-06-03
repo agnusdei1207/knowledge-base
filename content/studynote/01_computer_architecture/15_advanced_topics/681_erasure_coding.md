@@ -138,3 +138,14 @@ DPU 기반 가속 저장 경로
 1. 큰 그림을 여러 조각으로 나눠 친구들에게 맡기고, 잃어버린 조각을 찾는 비밀 [[167_sql_hint_optimizer_override|힌트]]도 같이 나눠 주는 게 EC예요.
 2. 친구 몇 명이 조각을 잃어버려도 남은 조각과 [[167_sql_hint_optimizer_override|힌트]]로 다시 그림을 만들 수 있어요.
 3. 대신 [[167_sql_hint_optimizer_override|힌트]]를 만들고 맞추는 계산이 어려워서, 똑똑한 계산기나 빠른 도우미가 필요해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 682 / 803
+
+← **이전**: [[680_hdfs|680. HDFS (Hadoop Distributed File System)]]
+**다음**: [[682_data_deduplication|682. 데이터 중복 제거 (Data Deduplication)]] →
+
+---

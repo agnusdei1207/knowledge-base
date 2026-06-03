@@ -110,3 +110,14 @@ Boosting은 **[[002_structured_data|정형 데이터]] ML의 최강 기법**이�
 1. Boosting은 **틀린 문제만 반복 연습**하는 공부법이에요.
 2. 1회차에서 틀린 문제를 **2회차에서 집중적으로** 풀면 점수가 올라요.
 3. XGBoost는 이 방법의 **최고 [[288_version_ihl_tos_total_length|버전]]**이라 대회에서 항상 우승한답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 127 / 258
+
+← **이전**: [[126_bagging_random_forest|126. Bagging & Random Forest - 배깅 앙상블과 랜덤 포레스트]]
+**다음**: [[128_ann_mlp|128. ANN & MLP (인공 신경망 & 다층 퍼셉트론) - 딥러닝의 기본 구조]] →
+
+---

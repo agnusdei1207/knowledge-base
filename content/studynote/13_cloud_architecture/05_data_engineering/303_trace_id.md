@@ -113,3 +113,14 @@ tags:
 1. [[569_distributed_tracing_opentelemetry_jaeger|분산 추적]] Trace ID 병목 파악 [[190_opentelemetry_cncf_observability_standard|오픈텔레메트리]]는 사람이 많은 운동회에서 어디로 가야 하는지 알려 주는 안내판과 비슷해요.
 2. 규칙이 없으면 모두가 한곳에 몰려서 느려지고 다투지만, 길을 정해 두면 훨씬 부드럽게 움직일 수 있어요.
 3. 그래서 컴퓨터 세상에서도 [[569_distributed_tracing_opentelemetry_jaeger|분산 추적]] Trace ID 병목 파악 [[190_opentelemetry_cncf_observability_standard|오픈텔레메트리]]를 쓰면 많은 팀과 [[090_service_kubernetes_network_load_balancing|서비스]]가 덜 부딪히고 더 빨리 움직일 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 302 / 371
+
+← **이전**: [[302_audit|302. 옵저버빌리티 관측성 로그 메트릭 분산 추적 (Cloud Architecture Concept)]]
+**다음**: [[304_process|304. 블루/그린 배포 무중단 롤백 용이 (Blue-Green Deployment)]] →
+
+---

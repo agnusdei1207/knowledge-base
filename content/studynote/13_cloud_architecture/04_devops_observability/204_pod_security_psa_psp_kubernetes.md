@@ -210,3 +210,14 @@ OPA Gatekeeper · Kyverno → 세밀한 정책 관리
 ```
 2. Restricted 프로파일은 가장 엄격한 규칙이야. 꼭 필요한 장난감(캐퍼빌리티)만 가져올 수 있어.
 3. 특별히 필요한 경우(시스템 [[603_component_independent_deployment_unit|컴포넌트]])만 예외로 허용하고, 기본값은 항상 "최소 권한"이야.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 203 / 371
+
+← **이전**: [[203_finops_cloud_cost_optimization|203. 클라우드 비용 최적화 / FinOps]]
+**다음**: [[205_kustomize_helm_opa_gatekeeper_security|205. Policy as Code / OPA Gatekeeper (쿠버네티스 정책 자동 검증)]] →
+
+---

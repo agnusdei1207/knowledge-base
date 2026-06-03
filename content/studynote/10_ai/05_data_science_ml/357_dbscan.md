@@ -114,3 +114,14 @@ DBSCAN은 군집 형태 제약 없음, [[076_outlier_detection_iqr_dbscan_isolat
 1. DBSCAN은 "주변에 친구가 많은 사람을 리더로 정하는 그룹 만들기"예요.
 2. 리더들이 서로 가까우면 같은 그룹, 아무 리더와도 가깝지 않으면 "외톨이([[076_outlier_detection_iqr_dbscan_isolation_forest|이상치]])"로 표시돼요.
 3. K-Means처럼 그룹 수를 미리 정하지 않아도 되니까 더 자유롭고 유연한 AI예요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 357 / 420
+
+← **이전**: [[356_mahalanobis_distance|356. 마할라노비스 거리 (Mahalanobis Distance)]]
+**다음**: [[358_hierarchical_clustering|358. 계층적 군집화 (Hierarchical Clustering)]] →
+
+---

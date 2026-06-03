@@ -136,3 +136,14 @@ tags:
 1. 모놀리식 [[004_blockchain|블록체인]]은 요리사가 혼자서 주문을 받고, 요리하고, 서빙까지 순식간에 해치우는 식당이에요.
 2. 여러 명이 일을 나누어 하는 식당(모듈러)보다 소통할 필요가 없어서 음식이 훨씬 빨리 나와요.
 3. 하지만 이 요리사가 아파서 쓰러지면 식당 전체가 아예 문을 닫아야 하는 단점도 있답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 96 / 552
+
+← **이전**: [[095_modular_blockchain_execution_da_consensus|95. 모듈러 블록체인 (Modular Blockchain) - 실행(Execution), 합의(Consensus), 정산(Settlement),]]
+**다음**: [[097_ecdsa_schnorr_signature_bitcoin|97. 타원곡선 디지털 서명 알고리즘 (ECDSA) 및 슈노르 서명 (Schnorr Signature - 다중 서명 병합 축소)]] →
+
+---

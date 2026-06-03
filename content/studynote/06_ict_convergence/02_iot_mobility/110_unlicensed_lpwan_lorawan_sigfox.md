@@ -135,3 +135,14 @@ LoRaWAN은 비면허 LPWAN의 승자로 굳어지고 있으며, 위성 [[617_lor
 1. LoRa는 큰 목소리(넓은 전파)로 소리치면서 시끄러운 운동장에서도 친구에게 메시지를 전하는 방법이에요.
 2. Sigfox는 아주 작은 목소리(좁은 전파)지만 **레이저처럼 정확하게** 한 친구에게만 쏘는 방법이에요.
 3. 둘 다 전기(배터리)를 아주 조금만 쓰고 아주 멀리까지 메시지를 보낼 수 있답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 110 / 552
+
+← **이전**: [[109_lpwan_low_power_wide_area_network|109. 저전력 광역 통신망 (LPWAN) - LoRa·Sigfox·NB-IoT 기술 비교]]
+**다음**: [[111_licensed_lpwan_nb_iot_lte_m|111. 면허 대역 LPWAN - NB-IoT vs LTE-M 3GPP 표준 IoT 통신]] →
+
+---

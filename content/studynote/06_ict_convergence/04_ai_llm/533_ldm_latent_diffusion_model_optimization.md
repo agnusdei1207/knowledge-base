@@ -151,3 +151,14 @@ LDM은 잠재 공간으로의 이동으로 [[153_diffusion_model_stable_diffusio
 1. 큰 그림을 바로 그리는 대신 작은 스케치(잠재 공간)에서 완성한 후 크게 확대하는 것이 LDM이에요.
 2. "붉은 석양의 산" 같은 말만 입력하면, AI가 노이즈(잡음)에서 조금씩 지워가며 그림을 만들어요.
 3. CFG 스케일을 높이면 정확히 원하는 그림, 낮추면 AI가 자유롭게 상상한 그림이 나와요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 533 / 552
+
+← **이전**: [[532_dpo_direct_preference_optimization|532. DPO 직접 선호 최적화 (DPO Direct Preference Optimization)]]
+**다음**: [[534_clip_multimodal_contrastive_alignment|534. CLIP 멀티모달 대조 학습 이미지-텍스트 정렬 (CLIP Multimodal Contrastive Image-Text Alignment)]] →
+
+---

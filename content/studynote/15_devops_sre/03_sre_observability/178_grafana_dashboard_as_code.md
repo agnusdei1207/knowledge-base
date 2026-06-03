@@ -177,3 +177,14 @@ Observability as Code
 1. 대시보드를 코드로 만든다는 건 그림을 손으로 다시 그리는 대신, 설계도를 보관해 두는 것과 같아요.
 2. 그래서 다른 방에서도 같은 그림을 다시 걸 수 있고, 누가 바꿨는지도 바로 알 수 있어요.
 3. 만약 그림이 망가져도 옛날 설계도를 꺼내서 금방 원래대로 되돌릴 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 178 / 373
+
+← **이전**: [[177_serverless_observability_xray|177. 서버리스 옵저버빌리티 (Serverless Observability) - AWS X-Ray]]
+**다음**: [[179_timeseries_db_influxdb_tsdb|179. 시계열 DB (Time-Series Database)]] →
+
+---

@@ -148,3 +148,14 @@ kube-scheduler: 자동 Pod 배치
 ```
 2. 이때 번개처럼 빠른 **'자리 배정 컴퓨터(스케줄러)'**가 짠! 나타납니다. 1초 만에 손님들의 요구사항을 쫙 스캔해요. "뚱뚱한 손님(CPU 많이 먹음)은 넓은 자리! 싸운 친구(반친화성)는 멀리 떨어뜨려!"
 3. 절대 사람들을 직접 끌고 가지는 않아요. 기차표에 "너는 3호 차 15번 좌석!"이라고 정확한 자리 번호(Node)만 쾅쾅 찍어주고 사라지면, 승무원([[082_kubelet_node_agent|Kubelet]])들이 표를 보고 안내해 주는 세상에서 제일 똑똑한 자리 배치 마법이랍니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 78 / 371
+
+← **이전**: [[078_etcd_distributed_key_value_store|78. etcd (엣시디) - 클러스터의 모든 상태 정보(설정, 메타데이터)를 저장하는 고가용성 분산 Key-Value 저장소]]
+**다음**: [[080_kube_controller_manager_desired_state|80. Kube-Controller Manager - 클러스터의 원하는 상태(Desired State)와 현재 상태(Current State)를]] →
+
+---

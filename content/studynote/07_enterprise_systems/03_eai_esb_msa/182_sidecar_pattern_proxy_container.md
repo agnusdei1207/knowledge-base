@@ -174,3 +174,14 @@ tags:
 1. [[830_sidecar_proxy_architecture_envoy_decoupling|사이드카]] 패턴은 친구가 숙제할 때 옆에서 연필 깎고 공책을 챙겨 주는 도우미를 붙이는 것과 비슷해요.
 2. 그래서 친구는 문제 푸는 데만 집중하고, 도우미는 준비물과 전달 일을 맡을 수 있어요.
 3. 하지만 친구마다 도우미를 다 붙이면 편하긴 해도 교실이 금방 꽉 찰 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 182 / 482
+
+← **이전**: [[181_service_mesh_istio_linkerd|181. 서비스 메시 (Service Mesh) - Istio와 Linkerd 기반 서비스 간 트래픽 제어]]
+**다음**: [[183_microservice_chassis_pattern|183. 마이크로서비스 샤시 (Microservice Chassis) - 공통 뼈대 패턴]] →
+
+---

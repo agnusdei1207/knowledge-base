@@ -122,3 +122,14 @@ tags:
 1. [[115_canary_deployment_gradual_rollout|카나리 배포]]는 새 음식이 맛있는지 한 숟갈만 먼저 먹어 보는 것과 같아요.
 2. 이상하면 바로 그만두고, 괜찮으면 조금씩 더 먹어 봐요.
 3. 그래서 큰 탈 없이 새 메뉴를 낼 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 85 / 373
+
+← **이전**: [[084_blue_green_deployment_zero_downtime_fast_rollback|84. 블루/그린 배포 (Blue/Green) - 무중단 광속 라우팅 스위칭 전략]]
+**다음**: [[086_gitops_declarative_infrastructure_continuous_synchronization_argocd|86. GitOps (깃옵스) - 선언적 인프라 자동화 및 지속적 동기화]] →
+
+---

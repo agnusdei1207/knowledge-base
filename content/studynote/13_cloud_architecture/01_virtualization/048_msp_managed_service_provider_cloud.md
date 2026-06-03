@@ -308,3 +308,14 @@ AI 자동화 운영
 1. MSP = 건물 관리 회사 — 건물주(기업)는 사업에 집중. 관리 회사(MSP)가 전기+보안+수리+비용절약 대행!
 2. RACI = 팀 역할표 — 누가 하는지, 누가 책임지는지 명확히. "그건 니 일" 분쟁 방지의 핵심!
 3. MSP [[012_roi_return_on_investment|ROI]] = 전문가 효율 — 클라우드 전문가 채용보다 MSP가 비용 절감 + 인시던트 감소로 162% [[012_roi_return_on_investment|ROI]]!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 47 / 371
+
+← **이전**: [[047_cloud_service_brokerage_csb|047. CSB — 클라우드 서비스 브로커리지]]
+**다음**: [[049_shadow_it_risk_management|049. 클라우드 섀도 IT — Cloud Shadow IT]] →
+
+---

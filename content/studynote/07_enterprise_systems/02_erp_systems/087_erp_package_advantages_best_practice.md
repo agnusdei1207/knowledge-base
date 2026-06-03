@@ -120,3 +120,14 @@ fit-gap / [[127_bpr_business_process_reengineering_radical_redesign|BPR]] / 업�
     1. 각자 다른 공책보다 한 권의 큰 공책에 쓰면 더 빨리 찾을 수 있어요.
     2. 이미 잘 짜인 레고 설명서를 따르면 집을 더 빨리 만들 수 있어요.
     3. 하지만 마음대로 부품을 바꾸면 설명서의 장점이 줄어들어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 87 / 482
+
+← **이전**: [[086_bpr_vs_erp_customization|86. BPR과 ERP의 관계 - 시스템에 맞춰 업무를 변경할 것인가(BPR 선행), 업무에 맞춰 시스템을 고칠 것인가(커스터마이징)]]
+**다음**: [[088_cloud_saas_erp_2_tier_architecture|88. 클라우드 ERP (SaaS ERP) - 2 Tier ERP 구조 (본사는 On-Premise 구축형 무거운 ERP, 지사는 SaaS]] →
+
+---

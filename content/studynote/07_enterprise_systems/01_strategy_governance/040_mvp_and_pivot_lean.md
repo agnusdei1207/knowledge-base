@@ -228,3 +228,14 @@ MVP -> MLP (Minimum Lovable Product)
 1. MVP는 자동차를 만들기 전에 먼저 킥보드를 만들어 "사람들이 새로운 이동 수단을 원하는지" [[396_validation|확인]]하는 방법이에요.
 2. "완벽한 제품"을 오래 만들다가 아무도 안 쓰는 것보다, 단순한 [[288_version_ihl_tos_total_length|버전]]을 빨리 만들어 실제 반응을 보는 것이 훨씬 현명해요.
 3. 피드백을 받아 "계속 이 방향으로 가자(Persevere)"거나 "방향을 바꾸자([[037_pivot|Pivot]])"를 결정하는 것이 MVP의 진짜 목적이에요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 40 / 482
+
+← **이전**: [[039_lean_startup_bml_loop|039. BML 루프 심화 — 린 스타트업 측정 지표]]
+**다음**: [[041_lean_startup_pivot|041. 피벗 (Pivot) — 전략적 방향 전환]] →
+
+---

@@ -191,3 +191,13 @@ roadmap / backlog / release planning
 2. 이렇게 계속 비교하면 가장 많이 이긴 장난감이 맨 앞에 오게 돼요.
 3. 하지만 장난감이 너무 많으면 먼저 몇 개만 골라 놓고 비교해야 덜 힘들어요.
 
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 174 / 973
+
+← **이전**: [[173_stakeholder_identification_impact_matrix|173. 이해관계자 (Stakeholder) 식별 및 영향도 매트릭스]]
+**다음**: [[175_formal_informal_specification_languages|175. 요구사항 명세 언어 (Z, VDM 등 정형 언어)]] →
+
+---

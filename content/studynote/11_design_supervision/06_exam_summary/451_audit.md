@@ -117,3 +117,14 @@ tags:
 1. 단어를 하나씩 따로 외우는 건 길 이름만 외우는 것과 같아요.
 2. 그런데 지도를 같이 보면 어디서 어디로 가는지 훨씬 빨리 알 수 있어요.
 3. 그래서 공부도 단어를 선으로 이어 놓으면 더 잘 떠오르고 더 잘 설명할 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 529 / 530
+
+← **이전**: [[450_process|450. 가비지 컬렉션 스톱 더 월드 메모리 튜닝 (Garbage Collection Stop-the-World Memory Tuning)]]
+**다음**: [[600_summary|600. 기술사 합격 최종 아키텍처 및 감리 설계 요약 집대성 (Final Architecture and Audit Design Master]] →
+
+---

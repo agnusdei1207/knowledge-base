@@ -166,3 +166,14 @@ CSPM, DevSecOps 통합
 1. 클라우드 감리는 서버실을 직접 방문하는 대신, 원격으로 코드와 [[009_config|설정]]을 [[396_validation|확인]]해요.
 2. 클라우드 회사(AWS 등)가 이미 안전하다는 [[303_authentication_authorization_patterns|인증]]서를 받았으면, 그 [[303_authentication_authorization_patterns|인증]]서로 물리 보안을 대신해요.
 3. 자동화 도구가 수천 개의 [[009_config|설정]]을 자동으로 점검해서 감리를 더 빠르고 정확하게 만들어요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 49 / 530
+
+← **이전**: [[036_audit_quality_management|36. 감리 품질 관리 (Audit Quality Management)]]
+**다음**: [[037_data_quality_diagnosis|037. 데이터 품질 진단 (Data Quality Diagnosis)]] →
+
+---

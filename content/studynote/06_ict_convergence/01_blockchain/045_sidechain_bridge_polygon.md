@@ -286,3 +286,14 @@ LayerZero V2, Chainlink CCIP
 1. 사이드체인은 보조 놀이터 — 큰 운동장(이더리움)에 줄이 길어서, 옆에 작은 놀이터(Polygon)를 만들어 빠르게 놀아요!
 2. 브릿지는 환전소 — 이더리움(달러)을 Polygon(원화)으로 바꿔주고, 다 쓰면 다시 달러로 바꿔요. 환전소가 안전해야 해요!
 3. ZK 브릿지가 가장 안전 — 수학 증명(ZK)으로 "정말 맞아요!"를 [[396_validation|확인]]. 해커가 속이기 불가능!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 45 / 552
+
+← **이전**: [[044_zk_rollup_validity_proof|044. ZK-Rollup & 유효성 증명]]
+**다음**: [[046_sharding_parallel_processing|046. 블록체인 샤딩 — Blockchain Sharding]] →
+
+---

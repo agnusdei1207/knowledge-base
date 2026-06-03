@@ -195,3 +195,14 @@ tags:
 1. [[214_critical_section|임계 구역]] 문제 해결의 3조건은 컴퓨터가 여러 친구가 동시에 만져도 부딪히지 않게 순서를 맞추는 규칙이에요.
 2. 먼저 [[214_critical_section|임계 구역]] ([[214_critical_section|Critical Section]])을 이해하면 [[214_critical_section|임계 구역]] 문제 해결의 3조건이 왜 필요한지 더 쉽게 보여요.
 3. 그래서 [[214_critical_section|임계 구역]] 문제 해결의 3조건을 잘 알면 나중에 선점형 [[022_kernel_role|커널]] (Preemptive [[022_kernel_role|Kernel]]) vs 비선점형 [[022_kernel_role|커널]] (Non-preemptive [[022_kernel_role|Kernel]])도 훨씬 쉽게 배울 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 223 / 800
+
+← **이전**: [[222_spinlock|222. 스핀락 (Spinlock)]]
+**다음**: [[224_semaphore|224. 세마포어 (Semaphore)]] →
+
+---

@@ -134,3 +134,14 @@ Kubernetes Operator (DB 특화 자동화)
 1. 놀이공원 범퍼카는 아무나 빈 차에 타면 되지만([[087_deployment_kubernetes_workload_rolling_update|Deployment]]), 지정 좌석제 버스는 자기 이름표가 있는 자리에만 앉아야 해요.
 2. 스테이트풀셋(StatefulSet)은 [[085_pod_kubernetes_container_unit|파드]]라는 친구들에게 '지정 좌석'과 '자기만의 서랍'을 영원히 만들어주는 선생님이에요.
 3. 그래서 컴퓨터가 잠깐 꺼졌다 켜져도, 항상 원래 내 자리에서 원래 내 물건을 그대로 찾을 수 있답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 87 / 371
+
+← **이전**: [[087_deployment_kubernetes_workload_rolling_update|87. 디플로이먼트 (Deployment) - K8s 무중단 배포 사령관]]
+**다음**: [[089_daemonset_kubernetes_background_node_agent|89. 데몬셋 (DaemonSet) - K8s 전 노드 백그라운드 파드 배포]] →
+
+---

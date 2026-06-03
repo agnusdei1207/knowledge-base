@@ -130,3 +130,14 @@ LOD / 데이터 생태계
 공공데이터는 모두가 같이 쓸 수 있게 나누는 정보예요.  
 보기만 좋은 종이보다, 바로 쓸 수 있는 형태가 더 좋아요.  
 그래야 여러 앱이 쉽게 만들어질 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 91 / 530
+
+← **이전**: [[059_security_device_ruleset_audit|59. 보안 장비 정책 룰셋 최적화 상태 점검 (Security Device Ruleset Audit)]]
+**다음**: [[061_dr_mock_drill_rto_rpo_audit|61. 재해 복구 (DR) 모의 훈련 참관 - RTO/RPO 달성 점검]] →
+
+---

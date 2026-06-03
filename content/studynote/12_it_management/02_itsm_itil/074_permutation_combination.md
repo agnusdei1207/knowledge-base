@@ -122,3 +122,14 @@ Binomial Coefficient
 줄 세우면 순열이에요.  
 사람만 고르면 조합이에요.  
 둘은 그런 수학이에요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 132 / 587
+
+← **이전**: [[074_event_management|74. 이벤트 관리 (Event Management)]]
+**다음**: [[075_combinatorics|75. 세그먼트 트리 (Segment Tree) — 구간 쿼리/업데이트]] →
+
+---

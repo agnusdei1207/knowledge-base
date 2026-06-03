@@ -142,3 +142,14 @@ API Gateway · Event Bus 연계
 1. [[206_serverless_cold_start|서버리스]]는 내가 큰 기계를 직접 돌리지 않고, 필요할 때만 버튼을 눌러 일을 맡기는 방법이에요.
 2. [[568_logs_distributed_logging_elk_fluentd|로그]]인이나 저장 같은 기본 도구는 이미 준비된 것을 쓰고, 특별한 일만 내가 만든 작은 함수가 해요.
 3. 그래서 빨리 시작할 수 있지만, 어떤 일을 어디에 맡길지는 똑똑하게 정해야 해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 196 / 482
+
+← **이전**: [[195_eai_edi_van_b2b_integration|195. EDI와 VAN - B2B 전자문서 연동 구조]]
+**다음**: [[197_data_mesh_decentralized_domain_ownership|197. 데이터 메시 (Data Mesh)]] →
+
+---

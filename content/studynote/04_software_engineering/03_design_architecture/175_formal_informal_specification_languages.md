@@ -185,3 +185,13 @@ verification / test derivation / auditability
 2. 그림과 규칙표를 쓰면 더 비슷하게 이해하고, 수학처럼 아주 정확히 쓰면 거의 틀리지 않게 약속할 수 있어요.
 3. 그래서 중요한 기계일수록 설명도 더 정확한 언어로 써야 해요.
 
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 175 / 973
+
+← **이전**: [[174_pairwise_comparison_priority_matrix|174. 페어와이즈 (Pairwise) 우선순위 결정 기법]]
+**다음**: [[176_petri_net_concurrent_system_specification|176. 페트리 넷 (Petri Net) - 병행 시스템 명세]] →
+
+---

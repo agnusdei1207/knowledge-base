@@ -176,3 +176,14 @@ tags:
 ---
 <!-- [✅ Gemini 3.1 Pro Verified] -->
 > **🛡️ 3.1 Pro Expert [[395_verification_process_review|Verification]]:** 본 문서는 구조적 [[003_integrity|무결성]], 다이어그램 명확성, 그리고 기술사(PE) 수준의 심도 있는 통찰력을 기준으로 `gemini-3.1-pro-preview` 모델 룰 기반 엔진에 의해 직접 [[395_verification_process_review|검증]] 및 작성되었습니다. (Verified at: 2026-04-02)
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 21 / 258
+
+← **이전**: [[020_yarn|20. YARN (Yet Another Resource Negotiator) - 하둡 2.0 클러스터 자원(CPU/Mem) 스케줄링 통합]]
+**다음**: [[022_apache_kafka|22. 아파치 카프카 (Apache Kafka) - 분산 이벤트 스트리밍 플랫폼]] →
+
+---

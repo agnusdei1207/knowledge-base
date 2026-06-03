@@ -136,3 +136,14 @@ tags:
 1. 나쁜 친구가 놀이터 규칙을 깨뜨리면 바로 알아차리고 막아야 해요.
 2. 이 개념은 어떤 장난이 위험한지 미리 알고, 문제가 생기면 어떻게 다시 정리할지도 알려줘요.
 3. 그래서 놀이터를 더 안전하게 지킬 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 859 / 1120
+
+← **이전**: [[737_backdoor_c2_beacon_behavior_analysis|737. 백도어 (Backdoor 포트 / C2 서버 Beacon 정주기 통신 이상 징후 망 행위 분석 대응 기계학습 모델 개발 방향)]]
+**다음**: [[739_micro_segmentation_lateral_movement_zero_trust|739. 마이크로 세그멘테이션 (Micro Segmentation 시스템망 트래픽 분할 보안통제구조 수평 전파/Lateral Movement]] →
+
+---

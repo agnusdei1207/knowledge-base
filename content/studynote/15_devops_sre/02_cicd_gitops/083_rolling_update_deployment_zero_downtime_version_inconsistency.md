@@ -128,3 +128,14 @@ Rolling Update
 1. [[193_rolling_update_deployment_kubernetes|롤링 배포]]는 놀이터 그네를 한 번에 다 바꾸지 않고 하나씩 교체하는 거예요.
 2. 그래서 다른 친구들은 계속 놀 수 있지만, 새 그네가 안전한지 먼저 [[396_validation|확인]]해야 해요.
 3. 만약 옛 그네와 새 그네를 같이 써도 되면, 아무도 기다리지 않고 계속 놀 수 있답니다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 83 / 373
+
+← **이전**: [[082_zero_downtime_deployment_rolling_blue_green_canary|82. 무중단 배포 (Zero Downtime Deployment) 전략 3가지]]
+**다음**: [[084_blue_green_deployment_zero_downtime_fast_rollback|84. 블루/그린 배포 (Blue/Green) - 무중단 광속 라우팅 스위칭 전략]] →
+
+---

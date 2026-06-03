@@ -200,3 +200,14 @@ tags:
 1. 철수는 편지에 항상 "내 친구 집 1번 방"이라는 가짜 주소([[322_logical_virtual_address|논리 주소]])만 적어서 보내요. 친구가 이사를 너무 자주 가기 때문에 진짜 주소를 외우기 힘들거든요.
 2. 하지만 우체국에는 '마법의 통역 기계([[328_mmu|MMU]])'가 있어요! 이 기계는 철수의 편지를 받자마자 "아, 철수 친구는 오늘 부산 100번지([[323_physical_address|물리 주소]])에 있네!" 하고 1초 만에 진짜 주소로 번역해 줘요.
 3. 만약 철수가 장난으로 "대통령의 방"이라고 적어 보내면, 통역 기계가 "여긴 네가 보낼 수 없는 권한 밖의 곳이야!"라며 편지를 찢어버린답니다(보안 검사). 덕분에 컴퓨터가 고장 나지 않아요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 711 / 800
+
+← **이전**: [[710_address_binding_compile_load_execution|710. 주소 바인딩 컴파일/로드/실행 (Address Binding Compile Load Execution)]]
+**다음**: [[712_external_fragmentation_variable_partition|712. 외부 단편화 가변 분할 (External Fragmentation Variable Partition)]] →
+
+---

@@ -210,3 +210,14 @@ Step 5: v1 잡과 v1 출력 테이블 종료/삭제
 ### 👶 어린이를 위한 3줄 비유 설명
 
 [[235_kappa|Kappa]] Architecture는 "모든 일을 일기장([[179_kafka_flink_watermark_time_window|Kafka]] [[568_logs_distributed_logging_elk_fluentd|로그]])에 날짜순으로 적고, 나중에 처음부터 다시 읽어서(리플레이) 결과를 계산"하는 방법이에요. Lambda처럼 일기장 요약(배치)과 실시간 메모(스트리밍) 두 가지를 따로 관리할 필요가 없어요. 일기장만 잘 보관하면 언제든지 처음부터 다시 읽어서 원하는 결과를 만들 수 있거든요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 96 / 262
+
+← **이전**: [[095_lambda_architecture|20. 람다 아키텍처 (Lambda Architecture) — 배치+실시간 이중 처리]]
+**다음**: [[097_streaming_sql|22. 스트리밍 SQL (Streaming SQL) — ksqlDB/Flink SQL/Spark Structured Streaming]] →
+
+---

@@ -162,3 +162,14 @@ optimizer = DPKerasSGDOptimizer(
 1. [[190_ai_llm_requirements_specification|AI]] 눈에 보이지 않는 작은 점을 사진에 찍으면 고양이를 강아지로 착각해요 — 이게 [[942_adversarial_example|적대적 예제]]예요.
 2. [[396_differential_privacy|차분 프라이버시]]는 AI가 개인 일기를 보고 공부해도, 나중에 그 일기 내용을 기억하지 못하도록 흐릿하게 배우게 하는 방법이에요.
 3. 이 두 가지를 함께 쓰면 더 안전하고 믿을 수 있는 AI를 만들 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 538 / 552
+
+← **이전**: [[537_semantic_cache_rag_cost_reduction|537. 시맨틱 캐시 RAG 비용·지연 절감 (Semantic Cache RAG Cost and Latency Reduction)]]
+**다음**: [[539_cloud_migration_6r_strategy|539. 클라우드 마이그레이션 6R 전략 (Cloud Migration 6R Strategy)]] →
+
+---

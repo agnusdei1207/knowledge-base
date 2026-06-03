@@ -139,3 +139,14 @@ tags:
 1. [[857_ibn_intent_based_networking_declarative_automation|IBN]] [[190_ai_llm_requirements_specification|AI]] [[633_sdn_whitebox|SDN]] 융합 통제는 복잡한 일을 순서대로 정리해 주는 큰 정리함이에요.
 2. 어디에 무엇을 넣을지 먼저 정해 두면, 나중에 찾거나 고칠 때 훨씬 쉬워져요.
 3. 그래서 일이 커질수록 먼저 기준을 만들고 같이 약속하는 것이 중요해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 479 / 482
+
+← **이전**: [[478_slm_small_language_model_edge_rag|478. SLM 소형 언어 에지 RAG 온디바이스 (SLM, Small Language Model)]]
+**다음**: [[480_telemetry_streaming_grpc_active|480. 텔레메트리 스트리밍 gRPC 폴링 탈피 능동 감시 (Streaming Telemetry, gRPC, Active Monitoring)]] →
+
+---

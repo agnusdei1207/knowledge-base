@@ -125,3 +125,14 @@ CD (승격)
 1. DataOps는 요리 재료를 매번 검사하고 식히는 공장 같아요.
 2. 문제가 있으면 바로 멈춰서 고쳐요.
 3. 그래서 맛이 늘 비슷하고 안전해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 53 / 258
+
+← **이전**: [[052_data_lineage_traceability_governance|52. 데이터 리니지 (Data Lineage)]]
+**다음**: [[054_open_table_format_iceberg_delta_hudi|54. 오픈 테이블 포맷 (Open Table Format: Iceberg/Delta/Hudi)]] →
+
+---

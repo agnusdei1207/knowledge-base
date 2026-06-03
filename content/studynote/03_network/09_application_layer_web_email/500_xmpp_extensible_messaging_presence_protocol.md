@@ -208,3 +208,14 @@ XMPP는 BOSH에서 출발해 현재 메커니즘을 정교화하고, 이후 SIP�
 1. 카카오톡이 없던 아주아주 옛날에는, 내가 쓰는 A 메신저랑 내 친구가 쓰는 B 메신저가 서로 이름이 다르면 대화를 할 수가 없었어요.
 2. **XMPP**는 마치 **'전 세계 공용 번역기'** 같은 엄청난 발명품이었어요. "우와! 내가 A 어플로 글을 써도 미국에 있는 B 어플 친구한테 쪽지가 슝 날아가네?!" 하는 기적을 열어주었죠.
 3. 하지만 글씨 한 줄을 보낼 때마다 무거운 상자와 자물쇠(XML)를 칭칭 감아서 택배를 보내야 해서 스마트폰 배터리가 너무 빨리 닳아버리는 치명적 단점 때문에 지금은 박물관으로 사라졌답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 621 / 1120
+
+← **이전**: [[499_bosh_bidirectional_streams_over_synchronous_http|499. BOSH (Bidirectional-streams Over Synchronous HTTP)]]
+**다음**: [[501_sip_session_initiation_protocol_voip|501. SIP (Session Initiation Protocol)]] →
+
+---

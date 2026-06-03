@@ -111,3 +111,14 @@ tags:
 1. 인터페이스 분리 원칙 ([[246_isp_interface_segregation_principle|Interface Segregation Principle]], [[101_isp_information_strategy_planning_4_steps|ISP]])은 필요한 버튼만 있는 리모컨을 사람마다 따로 주는 것처럼 약속을 먼저 정하는 거예요.
 2. 그러면 서로 다른 사람이 해도 같은 규칙으로 움직일 수 있어요.
 3. 그래서 규모가 커질수록 클라이언트별로 필요한 계약만 남기는 일이 더 중요해져요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 436 / 530
+
+← **이전**: [[357_process|357. 리스코프 치환 원칙 (Liskov Substitution Principle, LSP)]]
+**다음**: [[359_process|359. 의존 역전 원칙 (Dependency Inversion Principle, DIP)]] →
+
+---

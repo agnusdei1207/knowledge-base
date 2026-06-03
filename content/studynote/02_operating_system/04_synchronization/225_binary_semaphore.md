@@ -180,3 +180,14 @@ tags:
 1. 이진 [[224_semaphore|세마포어]] (Binary [[224_semaphore|Semaphore]])은 컴퓨터가 여러 친구가 동시에 만져도 부딪히지 않게 순서를 맞추는 규칙이에요.
 2. 먼저 선점형 [[022_kernel_role|커널]] (Preemptive [[022_kernel_role|Kernel]]) vs 비선점형 [[022_kernel_role|커널]] (Non-preemptive [[022_kernel_role|Kernel]])을 이해하면 이진 [[224_semaphore|세마포어]] (Binary [[224_semaphore|Semaphore]])이 왜 필요한지 더 쉽게 보여요.
 3. 그래서 이진 [[224_semaphore|세마포어]] (Binary [[224_semaphore|Semaphore]])을 잘 알면 나중에 메모리 장벽 ([[416_memory_barrier|Memory Barrier]] / Memory Fence)도 훨씬 쉽게 배울 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 225 / 800
+
+← **이전**: [[224_semaphore|224. 세마포어 (Semaphore)]]
+**다음**: [[226_counting_semaphore|226. 카운팅 세마포어 (Counting Semaphore)]] →
+
+---

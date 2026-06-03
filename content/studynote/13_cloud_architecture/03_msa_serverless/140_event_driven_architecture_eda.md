@@ -53,3 +53,14 @@ EDA는 **MSA의 느슨 결합·확장성을 실현하는 핵심 아키텍처**�
 1. EDA는 **게시판**이에요. 소식(이벤트)을 올리면 **관심있는 사람이 봐요**.
 2. 전화([[156_rest_representational_state_transfer|REST]])처럼 **기다리지 않아도** 돼서 빨라요.
 3. 새 소식을 **여러 사람이 동시에** 볼 수 있어서 효율적이에요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 139 / 371
+
+← **이전**: [[139_cqrs_msa|139. CQRS (Command Query Responsibility Segregation) - 명령·조회 분리]]
+**다음**: [[141_microservice_chassis|141. Microservice Chassis - MSA 공통 관심사 프레임워크]] →
+
+---

@@ -184,3 +184,14 @@ Multi-Model DB: 여러 데이터 모델 통합 지원
 ```
 2. 도큐먼트는 **서류 봉투**야. 봉투 안에 사진도 넣고 편지도 넣고 뭐든 넣을 수 있어. 내용이 다 달라도 괜찮아.
 3. [[070_graph_datastructure|그래프]]는 **친구 [[083_relationship_in_er_model|관계]]도**야. 나→내 친구→내 친구의 친구를 따라가면서 "우리 학교에서 몇 다리 건너 연결됐지?" 같은 걸 빠르게 찾을 수 있어.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 220 / 258
+
+← **이전**: [[219_cap_pacelc_distributed_tradeoff|219. CAP 정리 (CAP Theorem)와 PACELC 정리 분산 트레이드오프]]
+**다음**: [[221_lsm_tree_memtable_sequential_flush_compaction|221. LSM 트리 (Log-Structured Merge-Tree) 멤테이블 순차 플러시 콤팩션]] →
+
+---

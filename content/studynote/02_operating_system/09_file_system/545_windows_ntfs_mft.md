@@ -153,3 +153,14 @@ NTFS가 작은 [[501_file_definition_logical_record|파일]]과 큰 [[501_file_d
 1. 옛날 윈도우 98 시절 공책(FAT32!)은 보안 장치 자물쇠도 없고, [[501_file_definition_logical_record|파일]] 용량이 조금만 커도 에러 퍽퍽 나는 싸구려 연습장이었어요! 정전 나면 찌그렁 쓰레기장이 되버렸죠 멸망 늪!
 2. 그래서 마이크로소프트의 대 제왕 천재 마법사들이 **"NTFS 무적 철통 방패 시스템"** 공책을 발명했어요 록백 스왑! 이 공책 맨 앞장엔 **'MFT(마스터 [[501_file_definition_logical_record|파일]] 장부 뼈대!)'** 라는 위대한 목록이 있어서, 수만 개의 [[501_file_definition_logical_record|파일]]이 어딨는지 0.1초 만에 가리켜요 부스트! 심지어 엄청 작은 1KB짜리 메모 [[501_file_definition_logical_record|파일]]은? 굳이 공책 뒷장(디스크) 안 펼치고 앞장 목록 칸 장부 안에 내용을 그냥 본드를 발라 쏙 집어넣어(레지던트 [[347_compaction|압축]] 내장 빔!) 미치게 빠른 광속 로딩 성능을 낸답니다 절대 무결!
 3. 치명적 슬픔 코끼리 괴물 뚱보 현상 발생! 근데 카카오톡처럼 수백만 개의 쪼그만 잡다구리 이미지 [[501_file_definition_logical_record|파일]]이 매일 만들어지고 지워지면? 이 앞장 목록 장부(MFT 영역) 한 줄 한 줄 썼다 지운 자국이 늘어나면서 장부 책 자체가 어마어마하게 뚱보 코끼리 괴물로 비대화 파편화(MFT [[291_fragmentation_and_reassembly_process|단편화]] 분열 마비 늪!) 되어버려요. 나중엔 하드디스크 일반 빈 곳 용량이 텅텅 남아 돌아도 '장부 빈 줄 쓸 칸'이 터져서 빈 렉스가 폴더도 못 만드는 답답한 셧다운 막힘 오버헤드 피로도 현상 모순을 동시에 짊어지고 있답니다 만렙 진화 랙!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 545 / 800
+
+← **이전**: [[544_afs_smb_cifs_file_system|544. AFS (Andrew File System) / SMB/CIFS (Windows 파일 공유)]]
+**다음**: [[546_data_deduplication|546. 데이터 중복 제거 (Data Deduplication) 파일 시스템 기능]] →
+
+---

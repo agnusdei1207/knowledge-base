@@ -139,3 +139,14 @@ tags:
 1. [[244_consistent_hashing_ring_distribution|컨시스턴트 해싱]] [[035_nosql|NoSQL]] 샤드 리밸런싱 [[136_variance|분산]]는 복잡한 일을 순서대로 정리해 주는 큰 정리함이에요.
 2. 어디에 무엇을 넣을지 먼저 정해 두면, 나중에 찾거나 고칠 때 훨씬 쉬워져요.
 3. 그래서 일이 커질수록 먼저 기준을 만들고 같이 약속하는 것이 중요해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 455 / 482
+
+← **이전**: [[454_blockchain_eclipse_sybil_51|454. 블록체인 이클립스 시빌 노드 공격 51% 위협 (Blockchain Eclipse/Sybil/51% Attack)]]
+**다음**: [[456_neuromorphic_spike_neural_edge|456. 뉴로모픽 연산 스파이크 신경망 저전력 에지 컴퓨팅 (Neuromorphic Computing & SNN)]] →
+
+---

@@ -177,3 +177,14 @@ Java 표준 라이브러리의 `Stack<E>` 가 `Vector<E>` 를 [[234_uml_class_re
 1. 모든 새는 날 수 있다고 배웠는데, 타조는 날지 못한다 — 타조를 "날 수 있는 새" 서브클래스로 만들면 거짓말이 된다.
 2. "새" 카테고리에서 "날기" 기능은 선택 사항으로 분리하거나, 타조는 다른 카테고리에 넣어야 한다.
 3. [[234_uml_class_relationships_generalization_dependency|상속]] 거부 제거는 이처럼 "진짜 is-a [[083_relationship_in_er_model|관계]]인지" 다시 확인하는 과정이다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 307 / 530
+
+← **이전**: [[245_temporary_field_refactoring|245. 임시 필드 안티패턴 (Temporary Field Anti-pattern)]]
+**다음**: [[247_clean_code_naming_philosophy|247. 클린 코드 네이밍 철학 (Clean Code Self-Documenting Naming)]] →
+
+---

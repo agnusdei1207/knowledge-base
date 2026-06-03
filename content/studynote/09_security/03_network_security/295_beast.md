@@ -125,3 +125,14 @@ BEAST (Browser Exploit Against SSL/[[694_thread_local_storage_tls|TLS]])를 제�
 1. BEAST (Browser Exploit Against SSL/[[694_thread_local_storage_tls|TLS]])는 누군가 규칙의 틈을 찾아 몰래 장난을 치는 방법이에요.
 2. 그래서 문을 단단히 잠그는 것뿐 아니라, 누가 이상하게 움직이는지도 바로 알아차려야 해요.
 3. 컴퓨터는 이상한 흔적을 빨리 보고 퍼지기 전에 멈추게 해야 안전해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 349 / 1108
+
+← **이전**: [[294_poodle|294. POODLE (Padding Oracle On Downgraded Legacy Encryption)]]
+**다음**: [[296_crime_attack|296. CRIME (CRIME)]] →
+
+---

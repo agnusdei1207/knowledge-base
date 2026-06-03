@@ -250,3 +250,14 @@ public class MonitorCounter {
 1. 화장실에는 잠금장치가 있어서 한 명만 들어갈 수 있어요([[283_mutual_exclusion|상호 배제]]).
 2. 다른 사람들은 밖에서 줄을 서서 기다려요(Entry Set).
 3. 안에서 "잠깐만요!"하고 기다리는 사람은 대기실로 가고(Wait Set), 부르면 다시 나올 수 있어요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 271 / 530
+
+← **이전**: [[209_read_write_lock_pattern|209. 읽기-쓰기 락 패턴 (Read-Write Lock Pattern)]]
+**다음**: [[211_active_object_pattern|211. 액티브 오브젝트 패턴 (Active Object Pattern)]] →
+
+---

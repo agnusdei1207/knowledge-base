@@ -155,3 +155,14 @@ Kubernetes Service · Service Mesh · Policy-driven traffic
 1. 친구 가게가 자주 이사하면, 내가 직접 주소록을 찾을 수도 있고 콜센터 아저씨에게 물어볼 수도 있어요.
 2. 내가 직접 찾으면 빠를 수 있지만 매번 알아봐야 하고, 콜센터가 찾으면 나는 편하지만 콜센터가 똑똑해야 해요.
 3. 그래서 중요한 건 누가 찾든 지금 열려 있는 가게를 정확히 알려주는 거예요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 169 / 482
+
+← **이전**: [[168_service_discovery|168. 서비스 디스커버리 (Service Discovery) 동적 컨테이너 위치 레지스트리]]
+**다음**: [[170_circuit_breaker_pattern|170. 서킷 브레이커 (Circuit Breaker) 패턴]] →
+
+---

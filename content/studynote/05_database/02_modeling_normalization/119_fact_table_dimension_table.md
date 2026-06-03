@@ -114,3 +114,14 @@ tags:
 1. [[210_fact_dimension_table_snowflake_schema|팩트 테이블]]은 "가게 매출 일지"예요. **얼마를 벌었는지** 숫자를 기록해요.
 2. 디멘전 테이블은 "누가, 언제, 어디서, 무엇을"이라는 **맥락 사전**이에요.
 3. 일지와 사전을 합치면 "서울 매장에서 1월에 전자제품이 얼마나 팔렸는지" **다차원 분석**이 가능해요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 119 / 600
+
+← **이전**: [[118_dimensional_modeling_star_schema|118. 차원 모델링 (Dimensional Modeling) - 스타 스키마·스노우플레이크·팩트/디멘전]]
+**다음**: [[120_data_reverse_engineering|120. 데이터 역공학 (Data Reverse Engineering) - 기존 DB에서 ERD·모델 복원]] →
+
+---

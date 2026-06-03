@@ -165,3 +165,14 @@ K8s 클라우드 Service Discovery + API Gateway 대통일 / "야 개발자야 �
 1. 옛날엔 짜장면을 시켜 먹으려면 단골 중국집 **'직통 전화번호(IP 주소)'**를 공책에 펜으로 적어놓고 외워야 했어요. 사장님이 이사 가서 번호가 바뀌면 전화를 못 걸어 굶어 죽었죠 ㅠ.
 2. 하지만 엄청난 발명품 **'배달의민족 앱([[090_service_kubernetes_network_load_balancing|Service]] [[235_registry_immutable_tag|Registry]])'**이 나왔어요! 이제 중국집 사장님(Provider)은 앱에 "짜장면 팔아요(Publish)" 등록만 하면 돼요!
 3. 나(Requester)는 식당 번호를 1도 안 외워도 앱에서 검색(Find) 버튼 누르고 ➔ [주문]만 딸깍 클릭(Bind 연결)하면 식당 아저씨가 다이렉트로 집 앞까지 배달을 쏴주니까! 식당이 이사를 천 번을 해도 나는 평생 편하게 밥을 먹을 수 있는 엄청난 통신 요술 장부랍니다 🚀!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 150 / 482
+
+← **이전**: [[149_service_characteristics_soa|149. 서비스 (Service)의 특징 - SOA/MSA 비즈니스 단위 모듈, 느슨한 결합(Loose Coupling)]]
+**다음**: [[151_uddi_universal_description_discovery_integration|151. UDDI (Universal Description, Discovery and Integration) - SOA 서비스 레지스트리]] →
+
+---

@@ -227,3 +227,14 @@ TCP가 쌓아 올린 견고한 성을 부수고 등장한 [[461_http_stateless_c
 1. 예전 인터넷([[461_http_stateless_connection_oriented|HTTP]]/2)은 하나의 커다란 기차에 모든 택배를 싣고 가서, 앞 칸이 탈선하면 뒷 칸 택배들도 전부 멈춰서 오도가도 못했어요.
 2. 하지만 새로운 인터넷([[461_http_stateless_connection_oriented|HTTP]]/3)은 수천 대의 날쌘 오토바이([[454_quic_quick_udp_internet_connections|QUIC]])에 택배를 나눠서 보냅니다. 오토바이 한 대가 넘어지더라도 나머지 오토바이들은 쌩쌩 달려 목적지에 도착해요!
 3. 게다가 옛날에는 이사 가서 주소가 바뀌면 택배 아저씨랑 처음부터 다시 계약서를 써야 했는데, 이제는 '단골 회원 번호'만 보여주면 이사 간 집으로도 안 끊기고 택배가 와요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 591 / 1120
+
+← **이전**: [[469_http2_server_push|469. HTTP/2 서버 푸시 (Server Push)]]
+**다음**: [[471_https_http_over_tls|471. HTTPS (HTTP over TLS)]] →
+
+---

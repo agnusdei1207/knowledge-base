@@ -101,3 +101,14 @@ tags:
 1. 스니핑은 **남의 대화를 몰래 듣는([[701_sniffing_eavesdropping_promiscuous|도청]])** 거예요.
 2. 리플레이는 **"비밀번호"를 녹음해서** 나중에 다시 틀어 문을 여는 거예요.
 3. 일회용 비밀번호([[519_oidc_nonce|Nonce]])를 쓰면 **녹음해도 다시 못 쓰니까** 안전해요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 125 / 552
+
+← **이전**: [[124_iot_botnet_mirai|124. IoT 봇넷 & Mirai - IoT 디바이스 대상 DDoS 봇넷 공격]]
+**다음**: [[126_digital_twin_concept|126. 디지털 트윈 (Digital Twin) - 물리 세계의 가상 복제와 시뮬레이션]] →
+
+---

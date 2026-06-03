@@ -125,3 +125,14 @@ tags:
 1. [[538_ssh_vs_telnet_secure_remote|SSH]] 에이전트 포워딩 ([[538_ssh_vs_telnet_secure_remote|SSH]] Agent Forwarding)는 컴퓨터끼리 인사하고 [[396_validation|확인]]하는 순서를 정한 약속이에요.
 2. 순서를 건너뛰면 나쁜 사람이 친구인 척할 수 있어요.
 3. 그래서 컴퓨터는 차례대로 묻고 답하면서 서로를 믿게 돼요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 363 / 1108
+
+← **이전**: [[308_ssh_key_auth|308. SSH 공개키 인증 (SSH Key-Based Authentication)]]
+**다음**: [[310_sftp|310. SFTP 접속 (Sftp)]] →
+
+---

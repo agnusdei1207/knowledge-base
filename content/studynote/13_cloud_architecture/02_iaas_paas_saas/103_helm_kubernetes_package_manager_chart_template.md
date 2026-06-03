@@ -138,3 +138,14 @@ tags:
 1. [[196_kubernetes_k8s_container_orchestration|쿠버네티스]]에 프로그램을 까는 건 레고 블록 천 개를 일일이 조립하는 것처럼 힘들어요.
 2. [[207_helm_kubernetes_package_manager_chart|헬름]]은 "로봇 만들어줘!"라는 주문서 한 장만 쓰면 알아서 조립해 주는 똑똑한 마법 지팡이예요.
 3. 블록 색깔만 바꿔달라고 하면 언제든지 새 로봇으로 다시 만들어 줄 수도 있답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 102 / 371
+
+← **이전**: [[102_configmap_secret_kubernetes_12_factor_app|102. 컨피그맵 (ConfigMap) / 시크릿 (Secret) - K8s 환경 변수 주입 객체]]
+**다음**: [[104_kubernetes_namespace_logical_cluster_isolation|104. K8s 네임스페이스 (Namespace) - 논리적 분할과 격리]] →
+
+---

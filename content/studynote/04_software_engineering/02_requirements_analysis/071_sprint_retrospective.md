@@ -129,3 +129,14 @@ Learning Team
 끝나고 나서 다시 생각해요.  
 다음엔 더 잘하려고요.  
 [[067_sprint_timebox|스프린트]] 회고는 그런 시간이예요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 71 / 973
+
+← **이전**: [[070_sprint_review_demo|70. 스프린트 리뷰 (Sprint Review) - 데모 및 피드백]]
+**다음**: [[072_burndown_burnup_chart|72. 번다운 차트 (Burndown Chart) / 번업 차트 (Burnup Chart)]] →
+
+---

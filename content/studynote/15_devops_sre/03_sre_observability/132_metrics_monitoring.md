@@ -64,3 +64,14 @@ Prometheus → Pull → 서비스 /metrics 엔드포인트
 1. Prometheus는 **체온계**예요. 시스템의 **건강 수치**를 재요.
 2. Grafana는 **진료 차트**예요. 수치를 **[[070_graph_datastructure|그래프]]로 보기 쉽게** 보여줘요.
 3. 수치가 위험하면 **비상벨(Alertmanager)**이 울려서 바로 알 수 있어요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 132 / 373
+
+← **이전**: [[131_observability_three_pillars|131. 관측 가능성 Three Pillars - Metrics·Logs·Traces 심층 분석]]
+**다음**: [[133_four_golden_signals|133. 4대 골든 시그널 (Four Golden Signals) - SRE 핵심 모니터링 지표]] →
+
+---

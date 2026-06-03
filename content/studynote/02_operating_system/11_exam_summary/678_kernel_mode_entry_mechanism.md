@@ -218,3 +218,14 @@ CPU가 [[016_interrupt_mechanism|인터럽트]]나 [[677_trap_based_system_call_
 1. 컴퓨터 안에는 평범한 사람들이 노는 '놀이터(유저 모드)'와, 기계를 고치는 전문가들만 들어갈 수 있는 '통제실([[022_kernel_role|커널]] 모드)'이 분리되어 있어요.
 2. 만약 일반 사람이 통제실에 들어가서 버튼을 막 누르면 컴퓨터가 폭발하니까, 통제실 문은 아주 두꺼운 강철(권한 [[571_protection_vs_security|보호]])로 잠겨있죠.
 3. 일반 사람이 통제실의 도움이 필요하면, 문 옆에 있는 비상벨([[677_trap_based_system_call_implementation|트랩]])을 누릅니다! 그러면 전문가가 문을 아주 살짝 열고 부탁을 대신 들어준답니다. 이것이 바로 '[[022_kernel_role|커널]] 모드 진입'이에요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 678 / 800
+
+← **이전**: [[677_trap_based_system_call_implementation|677. 트랩 (Trap) 기반 시스템 콜 구현]]
+**다음**: [[679_system_call_api_wrapper|679. 시스템 콜 API 래퍼 (System Call API Wrapper)]] →
+
+---

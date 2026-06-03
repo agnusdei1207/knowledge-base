@@ -136,3 +136,14 @@ C-V2X의 승리는 이동통신 생태계(퀄컴, 화웨이, 에릭슨)의 규�
 1. 자동차끼리 대화할 때 '무전기([[590_wave_ieee_802_11p_dsrc_v2x|WAVE]])'를 쓸지 '스마트폰([[143_c_v2x_cellular_based_communication|C-V2X]])'을 쓸지 오랫동안 어른들이 싸웠어요.
 2. 무전기는 튼튼하지만 너무 느리고 촌스러워서, 결국 빠르고 멀리 터지는 '스마트폰([[143_c_v2x_cellular_based_communication|C-V2X]])'을 모든 자동차에 달기로 결정했어요.
 3. 이제 자동차들은 [[418_5g_embb_urllc_mmtc_slicing|5G]] 스마트폰 기술을 써서, 천리 밖의 구름이나 꽉 막힌 길 너머의 위험도 미리 카톡처럼 빠르게 주고받는답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 127 / 1120
+
+← **이전**: [[1024_v2x_vehicle_to_everything|1024. V2X (Vehicle-to-Everything)]]
+**다음**: [[1026_smart_grid_communication|1026. 스마트 그리드 (Smart Grid) 통신망]] →
+
+---

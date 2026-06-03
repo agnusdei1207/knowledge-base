@@ -131,3 +131,14 @@ strategy:
 1. 새 요리를 만들면 처음에 **10명 중 1명에게만** 맛보게 해요 ([[595_canary_stack_smashing_protector|카나리]]).
 2. "맛있다!"라고 하면 점점 더 많은 사람에게 주고, "맛없다!"라고 하면 즉시 멈춰요.
 3. 이렇게 하면 **모든 손님이 한꺼번에 맛없는 요리를 먹는 사고**를 막을 수 있답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 115 / 973
+
+← **이전**: [[114_feature_flag_toggle_deployment|114. 피처 플래그 (Feature Flag/Toggle) - 배포와 릴리즈 분리·다크 런칭]]
+**다음**: [[116_blue_green_deployment|116. 블루/그린 배포 (Blue/Green Deployment) - 무중단 전환과 즉시 롤백]] →
+
+---

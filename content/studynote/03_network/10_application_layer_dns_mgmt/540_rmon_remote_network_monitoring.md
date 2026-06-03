@@ -197,3 +197,14 @@ RMON는 [[539_netflow_sflow_traffic_monitoring|NetFlow]] / sFlow 트래픽 흐�
 1. 본사 사장님이 매번 전국 가게에 전화해서 "오늘 손님 몇 명이야?" 물어보는 건 너무 힘들고 전화 요금(네트워크 낭비)도 많이 나와요.
 2. RMON은 전국 모든 가게에 똑똑한 '점장님(Probe)'을 심어두고, 불량품(에러 패킷)이 얼마나 나왔는지 장부에 적어두다가 너무 많아지면 알아서 사장님께 비상벨을 울려주는 시스템이에요.
 3. 이 똑똑한 매니저 덕분에 네트워크 사장님들은 가만히 있어도 엉킨 인터넷 케이블 문제나 병목 현상을 순식간에 알아내서 고칠 수 있답니다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 661 / 1120
+
+← **이전**: [[539_netflow_sflow_traffic_monitoring|539. NetFlow (Cisco) / sFlow 트래픽 흐름 모니터링 분석 프로토콜]]
+**다음**: [[541_radius_remote_authentication_aaa|541. RADIUS (Remote Authentication Dial-In User Service)]] →
+
+---

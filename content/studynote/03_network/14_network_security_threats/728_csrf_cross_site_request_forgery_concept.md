@@ -124,3 +124,14 @@ CSRF [[303_authentication_authorization_patterns|인증]] [[160_session_controll
 1. 나쁜 친구가 놀이터 규칙을 깨뜨리면 바로 알아차리고 막아야 해요.
 2. 이 개념은 어떤 장난이 위험한지 미리 알고, 문제가 생기면 어떻게 다시 정리할지도 알려줘요.
 3. 그래서 놀이터를 더 안전하게 지킬 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 849 / 1120
+
+← **이전**: [[727_httponly_cookie_xss_defense|727. XSS 방어 HttpOnly 쿠키 속성 설정 원리 스크립트 접근 차단]]
+**다음**: [[729_csrf_defense_token_samesite_cookie|729. 크로스 사이트 요청 위조 (CSRF 원리 및 방어 토큰 방식 SameSite 설정)]] →
+
+---

@@ -140,3 +140,14 @@ tags:
 1. 이 개념은 복잡한 일을 한눈에 보이게 정리해서 모두가 같은 규칙으로 움직이게 해 줘.
 2. 그래서 많은 기계나 사람, 프로그램이 함께 일해도 어디서 문제가 생겼는지 찾기 쉬워져.
 3. 한마디로 이 개념은 복잡한 일을 질서 있게 움직이게 만드는 안내판이야.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 442 / 552
+
+← **이전**: [[441_batch_normalization_mean_variance|441. 배치 정규화 평균 분산 (Batch Normalization MEAN Variance)]]
+**다음**: [[443_pooling_resolution_invariance|443. 풀링 해상도 불변 차원 (Pooling Resolution Invariance)]] →
+
+---

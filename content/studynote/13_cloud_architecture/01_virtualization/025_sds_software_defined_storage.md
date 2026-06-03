@@ -167,3 +167,14 @@ SDS는 [[026_hci|Hyperconverged Infrastructure]] ([[630_hci|HCI]], [[630_hci|하
 1. SDS는 LEGO 스토리지예요! 어떤 브랜드의 블록(하드웨어)이든 모아서 원하는 크기의 창고(스토리지)를 만들 수 있어요.
 2. 예전에는 특정 회사(EMC, NetApp)의 비싼 전용 창고를 사야 했지만, 이제는 일반 부품으로 더 크고 저렴하게 만들 수 있어요.
 3. 요즘은 이 창고를 클라우드 앱이 필요할 때마다 자동으로 만들고 삭제하는 기능도 있답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 24 / 371
+
+← **이전**: [[024_sdn_software_defined_networking|24. SDN (Software Defined Networking) — 소프트웨어 정의 네트워킹]]
+**다음**: [[026_hci|26. HCI (Hyperconverged Infrastructure) — 하이퍼컨버지드 인프라]] →
+
+---

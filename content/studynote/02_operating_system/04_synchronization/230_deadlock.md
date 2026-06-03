@@ -179,3 +179,14 @@ OS가 데드락이라는 전염병을 대하는 4가지 철학이다. 아래로 
 1. [[281_deadlock_definition|교착 상태]] ([[281_deadlock_definition|Deadlock]])은 컴퓨터가 여러 친구가 동시에 만져도 부딪히지 않게 순서를 맞추는 규칙이에요.
 2. 먼저 [[415_compare_and_swap|Compare-and-Swap]] ([[768_cas_compare_and_swap_lock_free|CAS]]) [[158_instruction|명령어]]을 이해하면 [[281_deadlock_definition|교착 상태]] ([[281_deadlock_definition|Deadlock]])이 왜 필요한지 더 쉽게 보여요.
 3. 그래서 [[281_deadlock_definition|교착 상태]] ([[281_deadlock_definition|Deadlock]])을 잘 알면 나중에 [[699_mutex_lock_sleep_wait|뮤텍스 락]] ([[699_mutex_lock_sleep_wait|Mutex Lock]] / [[283_mutual_exclusion|Mutual Exclusion]] [[510_lock|Lock]])도 훨씬 쉽게 배울 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 230 / 800
+
+← **이전**: [[229_monitor|229. 모니터 (Monitor)]]
+**다음**: [[231_hold_and_wait|231. 점유 대기 (Hold and Wait)]] →
+
+---

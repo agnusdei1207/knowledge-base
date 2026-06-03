@@ -367,3 +367,14 @@ IoT · 모니터링 · 금융 틱 데이터 분석
 ```
 2. **보간법**은 체온계가 잠깐 고장나서 몇 분간 [[001_dikw_pyramid|데이터]]가 없을 때, "아까 36.5도였고 나중에 37도가 됐으니, 그 사이에는 36.7도 정도였겠지"라고 빈 칸을 채우는 방법이에요.
 3. **카디널리티 폭발**은 마치 도서관에서 모든 책의 제목을 색인으로 만들면 색인 카드가 책보다 더 많아지는 것처럼, 너무 다양한 태그를 사용하면 [[002_database_definition|데이터베이스]]의 색인이 폭발적으로 커지는 문제예요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 187 / 258
+
+← **이전**: [[186_graph_db_recommendation_collaborative_filtering_cold_start|186. 그래프 DB 추천 알고리즘 협업 필터링 (Collaborative Filtering) 콜드 스타트]]
+**다음**: [[188_oom_memory_protection_gc_spark_spill|188. OOM (Out of Memory) 메모리 보호 GC (Garbage Collection) 스파크 스왑 방어]] →
+
+---

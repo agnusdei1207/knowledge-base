@@ -205,3 +205,14 @@ NUMA (Non-[[379_uma|Uniform Memory Access]]) 아키텍처는 무어의 법칙(Mo
 1. NUMA (Non-[[379_uma|Uniform Memory Access]]) 아키텍처와 메모리 할당 [[164_policy|정책]]은 컴퓨터가 메모리를 방처럼 나눠 쓰고 주소를 찾는 방법이에요.
 2. 먼저 캐시 인식 [[001_dikw_pyramid|데이터]] 구조 ([[376_cache_aware_data_structures|Cache-aware Data Structures]])을 이해하면 NUMA (Non-[[379_uma|Uniform Memory Access]]) 아키텍처와 메모리 할당 [[164_policy|정책]]이 왜 필요한지 더 쉽게 보여요.
 3. 그래서 NUMA (Non-[[379_uma|Uniform Memory Access]]) 아키텍처와 메모리 할당 [[164_policy|정책]]을 잘 알면 나중에 로컬 노드 할당 vs 인터리브 할당도 훨씬 쉽게 배울 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 377 / 800
+
+← **이전**: [[376_cache_aware_data_structures|376. 캐시 인식 데이터 구조 (Cache-aware Data Structures)]]
+**다음**: [[378_local_node_vs_interleaved_allocation|378. 로컬 노드 할당 vs 인터리브 할당 (Local Node Vs Interleaved Allocation)]] →
+
+---

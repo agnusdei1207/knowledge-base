@@ -148,3 +148,14 @@ DevSecOps 공급망 통제 고도화
 1. SBOM은 프로그램 안에 어떤 부품이 들어갔는지 적어 둔 재료 목록이에요.
 2. 나쁜 부품이 발견되면 이 목록을 보고 우리 것도 위험한지 빨리 알 수 있어요.
 3. 그래서 큰 프로그램일수록 이런 목록을 꼭 챙겨야 해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 522 / 530
+
+← **이전**: [[443_process|443. 지식 그래프 시맨틱 웹 온톨로지망 (Knowledge Graph Semantic Web Ontology)]]
+**다음**: [[445_audit|445. 레거시 현대화 스트랭글러 피그 변환 감리 (Strangler Fig Pattern for Legacy Modernization]] →
+
+---

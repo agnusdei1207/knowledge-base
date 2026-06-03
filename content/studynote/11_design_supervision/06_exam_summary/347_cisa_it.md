@@ -106,3 +106,14 @@ tags:
 1. [[022_cisa_certification_audit|CISA]] IT 통제 프로세스은 숙제 계획표와 [[396_validation|확인]] 도장을 같이 챙기는 것과 같아요.
 2. 누가 무엇을 했는지 적어 두면 다음 사람도 헷갈리지 않아요.
 3. 끝났다고 말하려면 정말 끝났는지 [[396_validation|확인]]표가 있어야 해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 425 / 530
+
+← **이전**: [[346_audit|346. 애자일 스프린트 마일스톤 평가 (Agile Sprint Milestone Evaluation)]]
+**다음**: [[348_4_1_view|348. 4+1 뷰 아키텍처 (4+1 View Model)]] →
+
+---

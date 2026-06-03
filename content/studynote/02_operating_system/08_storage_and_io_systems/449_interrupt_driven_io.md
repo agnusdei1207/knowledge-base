@@ -180,3 +180,14 @@ C언어 디바이스 드라이버를 짤 때 절대 하면 안 되는 우주 최
 1. [[016_interrupt_mechanism|인터럽트]] 구동 I/O ([[016_interrupt_mechanism|Interrupt]]-driven I/O)은 컴퓨터가 디스크와 장치가 데이터를 주고받는 길을 정리하는 방법이에요.
 2. 먼저 [[448_polling_programmed_io|폴링]] ([[747_io_polling_overhead|Polling]] / Programmed I/O)을 이해하면 [[016_interrupt_mechanism|인터럽트]] 구동 I/O ([[016_interrupt_mechanism|Interrupt]]-driven I/O)이 왜 필요한지 더 쉽게 보여요.
 3. 그래서 [[016_interrupt_mechanism|인터럽트]] 구동 I/O ([[016_interrupt_mechanism|Interrupt]]-driven I/O)을 잘 알면 나중에 [[450_dma_direct_memory_access|직접 메모리 접근]] ([[746_io_direct_memory_access_dma|DMA]], [[318_dma|Direct Memory Access]])도 훨씬 쉽게 배울 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 449 / 800
+
+← **이전**: [[448_polling_programmed_io|448. 폴링 (Polling / Programmed I/O) - 상태 비트를 지속적으로 호스트가 읽음 (바쁜 대기)]]
+**다음**: [[450_dma_direct_memory_access|450. 직접 메모리 접근 (DMA, Direct Memory Access) - CPU 개입 없이 장치와 메모리 간 직접 데이터 전송]] →
+
+---

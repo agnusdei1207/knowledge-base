@@ -208,3 +208,14 @@ Alerting · Dashboard · Capacity Planning
 1. TSDB는 매일 키를 재서 적는 성장 노트처럼, 시간 순서대로 숫자를 모으는 특별한 공책이에요.
 2. 오래된 숫자는 하나하나 다 남기지 않고 "이번 달 평균"처럼 묶어서 적으면 훨씬 덜 복잡해져요.
 3. 그래서 지금 얼마나 자랐는지도 빨리 보고, 오래전부터 어떻게 변했는지도 쉽게 알 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 179 / 373
+
+← **이전**: [[178_grafana_dashboard_as_code|178. 그라파나 대시보드 코드화 (Grafana Dashboard as Code) 프로비저닝]]
+**다음**: [[180_devops_org_topology_sre_model|180. DevOps 조직 토폴로지와 SRE 팀 모델 (50% 인바운드 한계)]] →
+
+---

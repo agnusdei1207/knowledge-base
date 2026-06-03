@@ -168,3 +168,14 @@ Identity Map + New / Dirty / Removed 추적
 1. 장난감을 고치고 바꾸는 일을 할 때마다 엄마에게 바로바로 말하지 않고 메모장에 먼저 적어 두는 거예요.
 2. 다 끝나면 메모장을 보고 한 번에 "이건 새로 넣고, 이건 고치고, 이건 버릴게요" 하고 정리해요.
 3. 유닛 오브 워크는 이렇게 바뀐 것을 한꺼번에 정리해 주는 똑똑한 메모장이에요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 237 / 530
+
+← **이전**: [[180_transaction_script_vs_domain_model|180. 트랜잭션 스크립트 vs 도메인 모델 (Transaction Script vs Domain Model)]]
+**다음**: [[182_lazy_loading|182. 지연 로딩 (Lazy Loading)]] →
+
+---

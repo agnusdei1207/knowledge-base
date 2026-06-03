@@ -132,3 +132,14 @@ Approximate Membership Query
 아무 책이나 다 찾는 대신, 먼저 스티커를 보고 빨리 걸러내는 거예요.  
 스티커가 모두 붙어 있으면 아마 맞을 수 있지만, 하나라도 없으면 아니에요.  
 그래서 아주 많은 것을 빨리 검사할 때 좋아요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 105 / 587
+
+← **이전**: [[060_rpa_hyperautomation|60. RPA (Robotic Process Automation) 및 초자동화 (Hyperautomation)]]
+**다음**: [[061_itsm|61. ITSM (IT Service Management)]] →
+
+---

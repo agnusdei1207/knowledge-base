@@ -201,3 +201,14 @@ tags:
 1. 동적 메모리 할당 문제 (가변 분할 배치 [[001_algorithm_definition|알고리즘]]) (Dynamic Storage Allocation Problem)은 컴퓨터가 메모리를 방처럼 나눠 쓰고 주소를 찾는 방법이에요.
 2. 먼저 [[342_external_fragmentation|외부 단편화]] ([[342_external_fragmentation|External Fragmentation]])을 이해하면 동적 메모리 할당 문제 (가변 분할 배치 [[001_algorithm_definition|알고리즘]]) (Dynamic Storage Allocation Problem)이 왜 필요한지 더 쉽게 보여요.
 3. 그래서 동적 메모리 할당 문제 (가변 분할 배치 [[001_algorithm_definition|알고리즘]]) (Dynamic Storage Allocation Problem)을 잘 알면 나중에 [[344_first_fit|최초 적합]] ([[344_first_fit|First-Fit]])도 훨씬 쉽게 배울 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 343 / 800
+
+← **이전**: [[342_external_fragmentation|342. 외부 단편화 (External Fragmentation) - 가용 공간은 충분하나 불연속적이라 할당 불가]]
+**다음**: [[344_first_fit|344. 최초 적합 (First-Fit) - 첫 번째 충분한 공간 할당 (속도 빠름)]] →
+
+---

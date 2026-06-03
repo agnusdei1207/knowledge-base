@@ -111,3 +111,14 @@ tags:
 1. [[155_decorator_pattern|데코레이터 패턴]] ([[155_decorator_pattern|Decorator Pattern]])은 기본 케이크 위에 크림과 과일을 원하는 만큼 올리는 것처럼 약속을 먼저 정하는 거예요.
 2. 그러면 서로 다른 사람이 해도 같은 규칙으로 움직일 수 있어요.
 3. 그래서 규모가 커질수록 기본 기능 위에 부가 책임을 유연하게 쌓는 일이 더 중요해져요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 464 / 530
+
+← **이전**: [[385_composite_pattern_summary|385. 컴포지트 패턴 (Composite Pattern)]]
+**다음**: [[387_facade_pattern_summary|387. 퍼사드 패턴 (Facade Pattern)]] →
+
+---

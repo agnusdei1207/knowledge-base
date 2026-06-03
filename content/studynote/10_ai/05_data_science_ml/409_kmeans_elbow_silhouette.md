@@ -177,3 +177,14 @@ K-Means는 본질적으로 구형 (Spherical) 군집과 평균 중심에 잘 맞
 1. 친구들을 팀으로 나눌 때 팀 수를 너무 적게 하면 북적이고, 너무 많으면 한 팀에 사람이 너무 적어져요.
 2. 엘보우는 "팀을 더 늘려도 얼마나 좋아지는지"를 보고, 실루엣은 "같은 팀끼리 정말 잘 어울리는지"를 봐요.
 3. 그래서 둘을 같이 보면 친구들을 딱 알맞게 나누는 팀 수를 고를 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 409 / 420
+
+← **이전**: [[408_clip|408. CLIP (Contrastive Language-Image Pre-training)]]
+**다음**: [[410_aic_bic_model_selection|410. AIC/BIC 모델 선택 (Akaike Information Criterion / Bayesian Information Criterion)]] →
+
+---

@@ -127,3 +127,14 @@ DBCP는 이런 풀 관리의 대표 구현 중 하나다. HikariCP 같은 다른
 1. 커넥션 풀은 빌려 쓰는 자전거 보관소예요.
 2. 필요할 때 빌리고, 끝나면 다시 돌려줘요.
 3. 그래서 모두 빨리 이용할 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 55 / 600
+
+← **이전**: [[054_data_dictionary_catalog_manager|54. 데이터 사전과 카탈로그 관리자 (Data Dictionary Catalog Manager)]]
+**다음**: [[056_data_dictionary_cache|56. 데이터 사전 캐시 (Data Dictionary Cache)]] →
+
+---

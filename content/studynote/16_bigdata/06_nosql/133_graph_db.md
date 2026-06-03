@@ -242,3 +242,14 @@ RDBMS 유지 기준:
 1. [[070_graph_datastructure|그래프]] DB는 친구 [[083_relationship_in_er_model|관계]]를 선으로 이어놓은 그림 — "내 친구의 친구는 누구?"를 선을 따라가면 바로 알 수 있어요.
 2. 일반 DB가 "학생 명단"이라면 [[070_graph_datastructure|그래프]] DB는 "친구 [[083_relationship_in_er_model|관계]]도" — [[083_relationship_in_er_model|관계]]가 복잡할수록 [[070_graph_datastructure|그래프]] DB가 훨씬 유용해요.
 3. 사기꾼들이 돈을 돌리는 고리 패턴을 찾는 것도 선으로 이어진 그림에서 동그라미를 찾는 것과 같아서, [[070_graph_datastructure|그래프]] DB가 딱 맞는 도구예요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 133 / 262
+
+← **이전**: [[132_cassandra|132. Apache Cassandra — 마스터 없는 링 구조 분산 데이터베이스]]
+**다음**: [[134_cypher_query|134. Cypher 쿼리 언어 (Cypher Query Language) — 그래프 패턴 매칭]] →
+
+---

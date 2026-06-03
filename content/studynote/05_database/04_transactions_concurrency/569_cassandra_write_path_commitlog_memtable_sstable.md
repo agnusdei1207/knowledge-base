@@ -132,3 +132,14 @@ tags:
 1. 약속을 적은 공책을 순서대로 정리하는 방법이에요.
 2. 누가 먼저 읽고 쓰는지 규칙을 지켜야 헷갈리지 않아요.
 3. 규칙이 약하면 빠르지만 틀릴 수 있고, 너무 세면 느려질 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 569 / 600
+
+← **이전**: [[568_mongodb_sharding_chunk_migration_balancing|568. 몽고DB 샤딩 청크 마이그레이션 백그라운드 밸런싱 모형 분석망]]
+**다음**: [[570_hadoop_ecosystem_hive_pig_mapreduce_abstraction|570. 하둡 에코시스템 Hive, Pig 분산 DB 질의 쿼리 엔진 맵리듀스 추상화]] →
+
+---

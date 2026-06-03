@@ -103,3 +103,14 @@ OCF는 **이기종 [[101_iot_concept|IoT]] [[287_interoperability_tactics|상호
 1. OCF는 IoT의 **[[359_usb|USB]] 표준**이에요. 어떤 회사 제품이든 **같은 규격으로 연결**돼요.
 2. [[359_usb|USB]] 이전에는 프린터마다 **다른 케이블**이 필요했지만, USB로 통일되면서 편리해졌어요.
 3. 삼성 냉장고와 LG 에어컨도 OCF를 따르면 **서로 대화**할 수 있답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 123 / 552
+
+← **이전**: [[122_onem2m_iot_standard|122. oneM2M IoT 표준 - 글로벌 IoT 서비스 플랫폼 표준 아키텍처]]
+**다음**: [[124_iot_botnet_mirai|124. IoT 봇넷 & Mirai - IoT 디바이스 대상 DDoS 봇넷 공격]] →
+
+---

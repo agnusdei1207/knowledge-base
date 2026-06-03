@@ -129,3 +129,14 @@ Compliance Audit
 버릴 건 버려요.  
 남길 건 잠깐 남겨요.  
 이 [[164_policy|정책]]은 그런 약속이에요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 111 / 530
+
+← **이전**: [[071_source_code_obfuscation_audit|71. 소스코드 난독화 적용 여부 점검 - 금융/모바일 앱 보안]]
+**다음**: [[073_server_os_db_patch_vulnerability_scan|73. 서버/OS/DB 패치 및 취약점 스캐닝 감리]] →
+
+---

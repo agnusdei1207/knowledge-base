@@ -103,3 +103,14 @@ tags:
 1. Mirai는 비밀번호를 안 바꾼 **수십만 대의 [[101_iot_concept|IoT]] 기기를 좀비([[990_botnet_cnc|봇넷]])**로 만들었어요.
 2. 좀비 군대가 한 곳을 **한꺼번에 공격(DDoS)**해서 트위터·넷플릭스가 멈췄어요.
 3. 비밀번호를 **반드시 바꾸고**, [[101_iot_concept|IoT]] 기기도 **업데이트(FOTA)**해야 안전하답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 124 / 552
+
+← **이전**: [[123_ocf_open_connectivity_foundation|123. OCF (Open Connectivity Foundation) - IoT 상호운용성 표준]]
+**다음**: [[125_wireless_sniffing_replay_attack|125. 무선 스니핑 & 리플레이 공격 - IoT/무선 환경 도청·재전송 위협]] →
+
+---

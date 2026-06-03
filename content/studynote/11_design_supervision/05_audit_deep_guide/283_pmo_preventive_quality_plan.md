@@ -104,3 +104,14 @@ tags:
 1. 품질 게이트는 학교에서 준비물을 미리 챙기는 것처럼, 중요한 기준을 먼저 맞추는 일이야.
 2. 이슈 에스컬레이션은 선생님이 수업 중간에 계속 확인하는 것처럼, 실제로 잘 되고 있는지 보는 과정이야.
 3. 거버넌스 주기는 시험 결과표처럼, 정말 효과가 있었는지 나중에 다시 확인하게 해주는 증거야.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 344 / 530
+
+← **이전**: [[282_cocomo_ii_effort_estimation|282. COCOMO II 공수 산정 감리 (COCOMO II Effort Estimation Audit)]]
+**다음**: [[284_risk_register_monitoring|284. 위험등록부 모니터링 감리 (Risk Register Monitoring Audit)]] →
+
+---

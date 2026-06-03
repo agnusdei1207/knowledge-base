@@ -187,3 +187,14 @@ Scrum + PMBOK 조합, SAFe 연계
 1. [[147_pmbok_10_knowledge_areas|PMBOK]] 10대 지식 영역은 큰 프로젝트를 잘 관리하기 위한 10가지 역할 설명서예요.
 2. 일정, 비용, 품질, 위험 등 각 역할이 서로 협력해야 프로젝트가 성공해요.
 3. 마치 축구팀의 포지션 역할 매뉴얼처럼, 모두가 자기 역할을 알아야 이길 수 있어요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 35 / 973
+
+← **이전**: [[034_legacy_system_modernization|레거시 시스템 현대화 (Legacy System Modernization)]]
+**다음**: [[036_wbs|036. WBS — 작업 분해 구조 (Work Breakdown Structure)]] →
+
+---

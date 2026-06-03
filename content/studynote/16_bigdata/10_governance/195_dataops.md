@@ -187,3 +187,14 @@ tags:
 ---
 <!-- [✅ Gemini 3.1 Pro Verified] -->
 > **🛡️ 3.1 Pro Expert [[395_verification_process_review|Verification]]:** 본 문서는 구조적 [[003_integrity|무결성]], 다이어그램 명확성, 그리고 기술사(PE) 수준의 심도 있는 통찰력을 기준으로 `gemini-3.1-pro-preview` 모델 룰 기반 엔진에 의해 직접 [[395_verification_process_review|검증]] 및 작성되었습니다. (Verified at: 2026-04-05)
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 195 / 262
+
+← **이전**: [[194_datalineage|04. 데이터 리니지 (Data Lineage) - 데이터 계보 추적 시스템]]
+**다음**: [[196_opentableformat|06. 오픈 테이블 포맷 (Open Table Format) - 레이크하우스의 핵심 기반 기술]] →
+
+---

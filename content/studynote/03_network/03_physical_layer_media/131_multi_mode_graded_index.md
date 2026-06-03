@@ -179,3 +179,14 @@ GI-MMF는 광통신의 대중화와 [[801_data_center_3_tier_architecture_core_a
 1. 빛의 경주를 하는데, 안쪽 트랙은 거리가 짧고 바깥쪽 트랙은 거리가 길어요.
 2. 그냥 달리면 늦게 도착하는 빛 때문에 [[130_signal|신호]]가 뒤죽박죽 엉켜버려요.
 3. 그래서 바깥쪽 트랙에 '[[148_5g_embb_urllc_mmtc|초고속]] 매끄러운 바닥(낮은 [[129_refractive_index_tir|굴절률]])'을 깔아서 모두가 결승선에 똑같이 도착하게 만든 똑똑한 유리관이랍니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 252 / 1120
+
+← **이전**: [[130_multimode_step_index_fiber|130. 멀티모드 계단형 광섬유 (Multi-mode Step-index)]]
+**다음**: [[132_single_mode_multi_mode_fiber|132. 단일모드 광섬유 (Single-mode Fiber, SMF) / 다중모드 광섬유 (MMF)]] →
+
+---

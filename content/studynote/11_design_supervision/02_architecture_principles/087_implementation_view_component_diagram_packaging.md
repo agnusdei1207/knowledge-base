@@ -121,3 +121,14 @@ tags:
     1. 장난감을 종류별 상자에 넣으면 다시 찾기 쉬워요.
     2. 상자 사이에 연결 규칙이 있으면 부품이 서로 헷갈리지 않아요.
     3. 그래서 코드는 아무 데나 두는 것보다 역할대로 나누는 게 좋아요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 130 / 530
+
+← **이전**: [[086_process_view_sequence_diagram_concurrency|86. 프로세스 뷰 (Process View) - 시스템의 동시성 및 동적 성능 설계]]
+**다음**: [[088_physical_deployment_view_infrastructure_mapping|88. 물리/배포 뷰 (Physical/Deployment View) - 시스템 하드웨어 매핑]] →
+
+---

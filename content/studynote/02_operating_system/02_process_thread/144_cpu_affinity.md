@@ -286,3 +286,14 @@ CPU 친화성 Soft/Hard Affinity
 1. CPU 친화성 (CPU [[778_process_affinity_scheduling_pinning|Affinity]])은 컴퓨터가 여러 일을 나눠서 처리하고 서로 기다리게 하는 약속이에요.
 2. 먼저 [[034_context_switch|컨텍스트 스위칭]] 최소화를 위한 [[092_thread_lwp|스레드]] 고정 ([[092_thread_lwp|Thread]] [[778_process_affinity_scheduling_pinning|Affinity]]/Pinning)을 이해하면 CPU 친화성 (CPU [[778_process_affinity_scheduling_pinning|Affinity]])이 왜 필요한지 더 쉽게 보여요.
 3. 그래서 CPU 친화성 (CPU [[778_process_affinity_scheduling_pinning|Affinity]])을 잘 알면 나중에 [[377_numa_allocation|NUMA]]-인식 [[092_thread_lwp|스레드]] 스케줄링도 훨씬 쉽게 배울 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 144 / 800
+
+← **이전**: [[143_thread_affinity_pinning|143. 컨텍스트 스위칭 최소화를 위한 스레드 고정 (Thread Affinity/Pinning)]]
+**다음**: [[145_numa_thread_scheduling|145. NUMA-인식 스레드 스케줄링 (NUMA Thread Scheduling)]] →
+
+---

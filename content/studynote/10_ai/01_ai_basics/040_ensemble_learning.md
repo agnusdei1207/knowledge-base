@@ -236,3 +236,14 @@ AutoML에서 기본 모델로 채택
 1. [[125_ensemble_learning|앙상블 학습]]은 퀴즈쇼에서 혼자 답하는 것보다 관객 투표를 이용하는 것처럼, 여러 [[190_ai_llm_requirements_specification|AI]] 모델의 답을 모아 더 정확한 결과를 내는 방법이에요.
 2. [[259_bagging_random_forest|배깅]]은 같은 문제를 여러 명에게 따로 풀게 해서 다수결하는 것이고, [[127_boosting|부스팅]]은 틀린 문제만 골라서 더 집중적으로 다시 공부하는 방법이에요.
 3. XGBoost는 이 [[127_boosting|부스팅]] 방법을 아주 빠르고 정확하게 구현해서 요즘 [[001_dikw_pyramid|데이터]] 분석 대회의 단골 우승 무기가 됐어요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 40 / 420
+
+← **이전**: [[039_naive_bayes|039. 나이브 베이즈 (Naive Bayes) — 확률 기반 분류기]]
+**다음**: [[041_bagging_boosting|041. 하이퍼파라미터 튜닝 (Hyperparameter Tuning)]] →
+
+---

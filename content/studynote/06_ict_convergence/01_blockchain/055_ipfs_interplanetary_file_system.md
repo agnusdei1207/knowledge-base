@@ -125,3 +125,14 @@ P2P 저장 / pinning
 1. IPFS는 책 제목이 아니라 책 내용으로 찾는 도서관이에요.
 2. 같은 책은 같은 번호를 가져요.
 3. 그래서 어디서 받아도 같은 책인지 알 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 55 / 552
+
+← **이전**: [[054_dao_decentralized_autonomous_organization|54. DAO (Decentralized Autonomous Organization)]]
+**다음**: [[056_smart_contract_vulnerability_reentrancy|56. 스마트 컨트랙트 보안 취약점 - 재진입 (Re-entrancy), 오버플로우/언더플로우, 권한 탈취]] →
+
+---

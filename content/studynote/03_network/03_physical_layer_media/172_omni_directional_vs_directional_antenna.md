@@ -172,3 +172,14 @@ omni / sector / directional deployment
 1. 무지향성 [[171_antenna_basic_dipole_resonance|안테나]]는 여러 친구에게 한꺼번에 들리게 말하는 확성기 같아요.
 2. 지향성 [[171_antenna_basic_dipole_resonance|안테나]]는 한 친구를 향해 소리를 모아 멀리까지 들리게 하는 메가폰 같아요.
 3. 그래서 친구들이 여기저기 있으면 무지향성이 좋고, 멀리 있는 한 친구와 이야기할 땐 지향성이 좋아요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 293 / 1120
+
+← **이전**: [[171_antenna_basic_dipole_resonance|171. 안테나 (Antenna) 기본 원리 (공진/다이폴)]]
+**다음**: [[173_isotropic_antenna_theory|173. 등방성 안테나 (Isotropic Antenna)]] →
+
+---

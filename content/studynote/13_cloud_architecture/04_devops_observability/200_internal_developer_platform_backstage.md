@@ -214,3 +214,14 @@ IDP: 서비스 카탈로그 + 템플릿 + 문서 통합
 ```
 2. 새 친구(신규 입사자)가 와도 스마트패드만 켜면 학교 전체가 어떻게 돌아가는지 바로 알 수 있어.
 3. 새 [[090_service_kubernetes_network_load_balancing|서비스]]를 만들고 싶으면? 버튼 하나 누르면 표준 [[009_config|설정]]으로 서버가 뚝딱 생겨.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 199 / 371
+
+← **이전**: [[199_platform_engineering_idp_golden_path|199. 플랫폼 엔지니어링 (Platform Engineering)]]
+**다음**: [[201_dora_metrics_devops_performance|201. DORA 메트릭스 (DORA Metrics)]] →
+
+---

@@ -157,3 +157,14 @@ SRP (Single Responsibility Principle)
 1. 갓 클래스는 한 친구가 반장, 청소, 발표, 숙제 검사까지 전부 다 맡는 것과 같아요.
 2. 처음엔 빨라 보여도 그 친구가 아프면 반 전체가 바로 엉망이 돼요.
 3. 그래서 일은 잘게 나눠 각자 맡게 해야 모두가 편하고 실수도 줄어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 218 / 530
+
+← **이전**: [[161_anti_pattern|161. 안티 패턴 (Anti-Pattern)]]
+**다음**: [[163_singleton_pattern_drawbacks|163. 싱글톤 패턴의 단점과 DI (Singleton Drawbacks & Dependency Injection)]] →
+
+---

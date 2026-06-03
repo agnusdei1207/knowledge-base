@@ -113,3 +113,14 @@ tags:
 1. [[213_data_catalog_metadata|데이터 카탈로그]] 및 [[012_metadata|메타데이터]]는 사람이 많은 운동회에서 어디로 가야 하는지 알려 주는 안내판과 비슷해요.
 2. 규칙이 없으면 모두가 한곳에 몰려서 느려지고 다투지만, 길을 정해 두면 훨씬 부드럽게 움직일 수 있어요.
 3. 그래서 컴퓨터 세상에서도 [[213_data_catalog_metadata|데이터 카탈로그]] 및 [[012_metadata|메타데이터]]를 쓰면 많은 팀과 [[090_service_kubernetes_network_load_balancing|서비스]]가 덜 부딪히고 더 빨리 움직일 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 247 / 371
+
+← **이전**: [[247_data_virtualization_federated_query|247. 데이터 가상화 - 연방 쿼리 (Data Virtualization)]]
+**다음**: [[249_data_catalog_discovery_aws_glue|249. 데이터 카탈로그 및 메타데이터 - "어디에 무슨 데이터가 있는지" 검색/발견하고 개인정보 태깅을 통한 데이터 통제/활용 허브]] →
+
+---

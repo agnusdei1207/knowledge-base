@@ -125,3 +125,14 @@ tags:
 1. 유출 신고 의무 (Breach Notification)는 내 이름표와 비밀 상자를 어떻게 안전하게 다룰지 정하는 약속이에요.
 2. 작은 조각 정보도 모이면 내가 누구인지 알 수 있어요.
 3. 그래서 꼭 필요한 것만 모으고, 다 쓰면 빨리 치워야 해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 872 / 1108
+
+← **이전**: [[797_gdpr_dpo|797. DPO (Data Protection Officer)]]
+**다음**: [[799_cross_border_data_transfer|799. 개인정보 해외 이전 (Cross-border Data Transfer)]] →
+
+---

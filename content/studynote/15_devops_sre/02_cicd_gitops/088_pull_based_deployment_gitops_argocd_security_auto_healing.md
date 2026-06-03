@@ -137,3 +137,14 @@ Reconciliation Loop를 통한 Auto-healing (자동 복구)
 1. 옛날에는 택배 아저씨가 우리 집 비밀번호를 알고 들어와서 물건을 놓고 갔어요. (조금 무섭죠?)
 2. 그래서 지금은 집 안에 똑똑한 로봇을 두고, 그 로봇이 우편함만 [[396_validation|확인]]해서 물건을 집 안으로 가져오게 했어요.
 3. 풀 기반 배포(Pull-based)는 이렇게 외부 사람에게 비밀번호를 주지 않고, 내부 로봇이 알아서 집 안을 정리하는 안전한 방법이에요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 88 / 373
+
+← **이전**: [[087_push_based_deployment_jenkins_ci_cd_security_risk|87. 푸시 기반(Push-based) 배포 - 기존 CI/CD 젠킨스의 보안 한계]]
+**다음**: [[089_argocd_gitops_continuous_delivery_kubernetes|89. ArgoCD - 쿠버네티스를 위한 GitOps 선언적 배포 도구]] →
+
+---

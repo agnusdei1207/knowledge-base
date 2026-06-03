@@ -159,3 +159,14 @@ eBPF 기반 Mesh: Cilium Service Mesh (Sidecar-less)
 ```
 2. 학생들은 [[933_cctv|CCTV]] 설치 방법을 몰라도 되고, 경비원(Envoy)이 알아서 감시하고 보고해요.
 3. 수상한 학생(의심 트래픽)이 오면 경비원이 막아주고, 인기 있는 교실(핫 [[090_service_kubernetes_network_load_balancing|서비스]])은 여러 방으로 나눠 학생을 [[136_variance|분산]]시켜줘요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 159 / 371
+
+← **이전**: [[159_eventual_consistency_distributed_systems|159. 결과적 일관성 (Eventual Consistency)]]
+**다음**: [[161_devops_culture_automation_collaboration|데브옵스 (DevOps: Culture, Automation, Collaboration)]] →
+
+---

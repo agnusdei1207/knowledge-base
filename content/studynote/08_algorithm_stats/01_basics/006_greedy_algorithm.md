@@ -268,3 +268,14 @@ tags:
 - 각 섹션 끝에 📢 요약 비유 반드시 추가
 - 최소 800자/[[501_file_definition_logical_record|파일]]
 - [[501_file_definition_logical_record|파일]]명: 01_, 02_... 형식
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 6 / 175
+
+← **이전**: [[005_divide_and_conquer|5. 분할 정복 (Divide and Conquer) — 재귀 분할 + 병합]]
+**다음**: [[007_dynamic_programming|7. 동적 프로그래밍 (Dynamic Programming) — 최적 부분구조 + 중복 부분 문제]] →
+
+---

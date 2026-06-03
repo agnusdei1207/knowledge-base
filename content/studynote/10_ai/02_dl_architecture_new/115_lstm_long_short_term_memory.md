@@ -116,3 +116,14 @@ LSTM은 1997년 발표 이후 20년간 시퀀스 모델의 왕좌를 지켰으�
 1. LSTM은 3개의 **수문(게이트)**이 있는 댐이에요.
 2. 첫 번째 수문(Forget)은 오래된 물을 빼고, 두 번째(Input)는 새 물을 넣고, 세 번째(Output)는 필요한 만큼만 내보내요.
 3. 이렇게 하면 댐(기억)이 넘치거나 마르지 않고 **딱 적당한 물(정보)**을 유지할 수 있답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 115 / 420
+
+← **이전**: [[114_bptt_backpropagation_through_time|114. BPTT (Backpropagation Through Time) - 시간 축 역전파와 Truncated BPTT]]
+**다음**: [[116_lstm_gates|116. LSTM 게이트 상세 (LSTM Gates Detail) - Forget·Input·Output 게이트 수학적 분석]] →
+
+---

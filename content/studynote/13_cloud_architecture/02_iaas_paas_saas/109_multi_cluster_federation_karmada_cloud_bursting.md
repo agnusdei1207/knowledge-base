@@ -121,3 +121,14 @@ Karmada는 [[190_cncf_landscape_observability|CNCF]] Incubating 프로젝트로 
 1. 한 교실(클러스터)에 학생 5,000명을 넣으면 선생님(마스터)이 힘들어 쓰러져요.
 2. 그래서 교실을 10개로 나누고, **교장 선생님([[543_federation|Federation]])**이 10개 교실을 한 번에 관리해요!
 3. 1반이 물난리가 나도 나머지 9개 반은 멀쩡하게 수업을 계속할 수 있답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 108 / 371
+
+← **이전**: [[108_kubernetes_probes_liveness_readiness_startup_health_check|108. K8s 프로브(Probes) 생명주기 관리]]
+**다음**: [[110_oom_out_of_memory_killed_kubernetes_limits|110. OOM Killed (Out of Memory) - K8s 파드 메모리 초과 강제 종료와 QoS 생존 전략]] →
+
+---

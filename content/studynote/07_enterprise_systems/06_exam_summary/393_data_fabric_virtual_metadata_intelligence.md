@@ -139,3 +139,14 @@ tags:
 1. [[050_data_fabric_virtualization|데이터 패브릭 가상화]] 메타 지능 연결는 복잡한 일을 순서대로 정리해 주는 큰 정리함이에요.
 2. 어디에 무엇을 넣을지 먼저 정해 두면, 나중에 찾거나 고칠 때 훨씬 쉬워져요.
 3. 그래서 일이 커질수록 먼저 기준을 만들고 같이 약속하는 것이 중요해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 393 / 482
+
+← **이전**: [[392_data_mesh_distributed_domain|392. 데이터 메시 분산 도메인 프로덕트 (Data Mesh)]]
+**다음**: [[394_data_virtualization_federated_query|394. 데이터 가상화 물리 통합 불필요 연방 쿼리 (Data Virtualization)]] →
+
+---

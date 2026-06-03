@@ -141,3 +141,14 @@ tags:
 1. 내가 한국 도서관(SKT)의 회원증을 가지고 일본 도서관(Docomo)에 책을 빌리러 갔어요.
 2. 일본 사서 선생님은 내 회원증을 보고, 전화기를 들어 한국 도서관에 "이 친구 책 빌려줘도 돼? 나중에 책값 네가 보증설 거지?"라고 물어봐서 허락([[303_authentication_authorization_patterns|인증]])을 받습니다.
 3. 한국 도서관이 오케이를 해주면, 나는 회원증을 새로 만들 필요 없이 일본에서도 편하게 책을 빌려볼 수 있죠! 이게 바로 로밍이랍니다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 681 / 1120
+
+← **이전**: [[559_call_admission_control|559. 호 수락 제어 (CAC, Call Admission Control)]]
+**다음**: [[561_mobility_management_hlr_vlr_paging|561. 이동성 관리 (Mobility Management)]] →
+
+---

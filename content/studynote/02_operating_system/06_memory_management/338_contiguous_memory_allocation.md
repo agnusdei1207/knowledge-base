@@ -204,3 +204,14 @@ tags:
 1. 연속 메모리 할당 (Contiguous Memory Allocation)은 컴퓨터가 메모리를 방처럼 나눠 쓰고 주소를 찾는 방법이에요.
 2. 먼저 [[337_standard_vs_paging_swapping|표준 스와핑]] ([[337_standard_vs_paging_swapping|전체 프로세스]]) vs [[259_paging|페이징]] 시스템 [[335_swapping|스와핑]] ([[286_page_frame|페이지]] 단위)을 이해하면 연속 메모리 할당 (Contiguous Memory Allocation)이 왜 필요한지 더 쉽게 보여요.
 3. 그래서 연속 메모리 할당 (Contiguous Memory Allocation)을 잘 알면 나중에 [[339_fixed_partition|고정 분할 방식]] ([[339_fixed_partition|Fixed Partition]])도 훨씬 쉽게 배울 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 338 / 800
+
+← **이전**: [[337_standard_vs_paging_swapping|337. 표준 스와핑 (전체 프로세스) vs 페이징 시스템 스와핑 (페이지 단위) (Standard Vs Paging Swapping)]]
+**다음**: [[339_fixed_partition|339. 고정 분할 방식 (Fixed Partition)]] →
+
+---

@@ -125,3 +125,14 @@ tags:
 1. [[990_botnet_cnc|봇넷]] ([[990_botnet_cnc|Botnet]]) C&C ([[990_botnet_cnc|Botnet Cnc]] Zombie [[164_pc|Pc]] Ddos Infrastructure)는 컴퓨터 세상을 더 안전하게 만들기 위한 중요한 약속이나 도구예요.
 2. 겉으로는 어려워 보여도, 왜 필요한지와 어떻게 움직이는지를 알면 훨씬 쉬워져요.
 3. 그래서 이름만 외우지 말고 어디에 쓰이는지 같이 기억해야 해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 1098 / 1108
+
+← **이전**: [[989_dos_ddos_denial_of_service_drdos_amplification_reflection|989. 서비스 거부 공격 (DoS/DDoS)]]
+**다음**: [[990_reentrancy_attack|990. Reentrancy 공격 (Smart Contract)]] →
+
+---

@@ -56,3 +56,14 @@ Trace: {trace_id: "abc123"}
 1. [[112_distributed_tracing_microservices|분산 트레이싱]]은 **택배 추적**이에요. 택배가 **어디를 거쳤는지** 봐요.
 2. "결제 센터에서 **200ms나 머물렀네!**" → 여기가 **병목**이구나!
 3. 모든 택배에 **추적 번호([[303_trace_id|Trace ID]])**를 붙여서 끝까지 따라가요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 141 / 373
+
+← **이전**: [[140_structured_logging_json_format|140. 구조화 로깅 (Structured Logging) - JSON 포맷 표준화]]
+**다음**: [[142_trace_request_context|142. Trace·Span·Context Propagation - 분산 추적의 핵심 구성]] →
+
+---

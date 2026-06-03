@@ -141,3 +141,14 @@ RPA 발굴 · 프로세스 개선 · 하이퍼오토메이션
 1. 친구가 숙제할 때 같은 칸을 자꾸 옮겨 적는다면, 그건 로봇이 대신할 수 있는 일이에요.
 2. 작업 마이닝은 그런 반복 동작을 찾아서 "이건 기계가 해도 되겠네"라고 알려줘요.
 3. 하지만 친구의 비밀 노트는 가려 주고 꼭 필요한 장면만 봐야 해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 211 / 482
+
+← **이전**: [[210_rpa_robotic_process_automation_attended_unattended|210. RPA (Robotic Process Automation) - Attended Bot과 Unattended Bot]]
+**다음**: [[212_bia_business_impact_analysis_rto_rpo_dr|212. BIA (Business Impact Analysis) 평가 지표 분석 기법]] →
+
+---

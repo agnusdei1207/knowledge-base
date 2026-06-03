@@ -133,3 +133,14 @@ MSA (마이크로서비스) 생태계 완전 도약 / 초경량 REST/JSON, 깡�
 1. 옛날 장난감 로봇은 몸통부터 바퀴까지 본드 칠이 딱 되어있어서 바퀴 하나 부서지면 전체를 쓰레기통에 버려야 했어요(모놀리식 시스템 강결합 파국 💥).
 2. 똑똑한 발명가 대장님이 이 본드를 다 부수고([[618_soa_hardware|SOA]]), 자동차를 **'바퀴 1개', '핸들 1개' 완벽히 쪼개지는 조립식 레고 블록([[090_service_kubernetes_network_load_balancing|서비스]])**들로 분해해서 상자([[151_uddi_universal_description_discovery_integration|UDDI]] 도서관)에 따로따로 잘 담아 놨어요!
 3. 이제 삼촌들은 새로운 오토바이 장난감을 조립하고 싶을 때 처음부터 깎아 만들 필요 없이! 레고 상자에서 옛날에 쓰던 바퀴랑 핸들 블록만 핀셋으로 쏙쏙 빼서 딱 꼽으면(재사용) 1초 만에 새 오토바이가 탄생하는 엄청난 조립의 마법이랍니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 148 / 482
+
+← **이전**: [[147_data_application_process_integration_etl_api_bpm|147. 데이터·애플리케이션·프로세스 통합 (ETL / API / BPM)]]
+**다음**: [[149_service_characteristics_soa|149. 서비스 (Service)의 특징 - SOA/MSA 비즈니스 단위 모듈, 느슨한 결합(Loose Coupling)]] →
+
+---

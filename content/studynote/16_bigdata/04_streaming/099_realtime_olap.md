@@ -143,3 +143,14 @@ tags:
 1. 실시간 OLAP는 게임 점수판처럼, [[001_dikw_pyramid|데이터]]가 생기는 즉시 1초도 안 돼 집계해서 보여주는 기술이에요!
 2. 광고 회사, SNS, 쇼핑몰에서 "지금 이 순간 몇 명이 보고 있나?"를 실시간으로 알 수 있게 해줘요.
 3. Druid, Pinot, ClickHouse 같은 전문 도구들이 수십억 개의 [[001_dikw_pyramid|데이터]]를 0.5초 만에 집계하는 마법을 부린답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 99 / 262
+
+← **이전**: [[098_cep|23. CEP (Complex Event Processing) — 복합 이벤트 처리]]
+**다음**: [[100_descriptive_statistics|기술 통계 (Descriptive Statistics)]] →
+
+---

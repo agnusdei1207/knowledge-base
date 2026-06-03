@@ -125,3 +125,14 @@ tags:
 1. 키 폐기 ([[067_db_key_uniqueness_minimality|Key]] Destruction & Crypto-shredding)는 비밀 편지를 안전하게 잠그거나 진짜인지 확인하는 특별한 약속이에요.
 2. 하지만 자물쇠가 좋아도 열쇠를 아무 데나 두면 금방 들켜요.
 3. 그래서 암호는 만드는 방법과 열쇠를 지키는 방법을 같이 배워야 해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 208 / 1108
+
+← **이전**: [[154_key_management_lifecycle|154. 암호키 관리 생명주기 (Key Management Lifecycle) - 탈취당한 절대 반지의 파국을 막는 6단 방폭문 쉴드]]
+**다음**: [[156_key_rotation|156. 키 순환 (Key Rotation)]] →
+
+---

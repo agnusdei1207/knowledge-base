@@ -134,3 +134,14 @@ Reference Architecture
 1. [[559_serverless_cold_start_mitigation|콜드 스타트]]는 복잡한 일을 순서와 규칙으로 정리해서 실수하지 않게 도와주는 방법이에요.
 2. [[202_provisioned_concurrency_serverless_cold_start|Provisioned Concurrency]] 같은 친구들과 같이 움직여야 더 잘 작동해요.
 3. 그래서 문제가 생겨도 어디서 틀렸는지 빨리 찾고 다시 고치기 쉬워져요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 216 / 373
+
+← **이전**: [[215_serverless_faas_1_aws_lambda|215. 서버리스 (Serverless / FaaS) 아키텍처]]
+**다음**: [[217_kubernetes|217. 컨테이너 오케스트레이션 (Kubernetes) 아키텍처]] →
+
+---

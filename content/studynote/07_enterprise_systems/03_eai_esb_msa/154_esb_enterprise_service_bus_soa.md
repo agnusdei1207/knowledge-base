@@ -176,3 +176,14 @@ API Gateway & Service Mesh 탈중앙(Decentralization) 찢기 나노 융합 진�
 1. **[[146_esb_enterprise_service_bus_architecture|ESB]](기업용 [[090_service_kubernetes_network_load_balancing|서비스]] [[344_bus|버스]] 🚀)**는 말도 안 통하고 성격도 다 다른 100개의 장난감 성(컴퓨터 시스템들)을 하나로 이어주어 무적 생태계를 만드는 **'거대하고 똑똑한 마법의 배달 컨베이어 벨트(고속도로 텐트 ✨)'** 예요!
 2. 예전(스파게티 거미줄 파국 💀)에는 100개의 성끼리 연락하려면 각자 1만 개의 실전화기를 거미줄처럼 직접 내 손으로 엉망진창 묶어 엮어야 해서 ➔ 선 1개만 꼬여 끊어져도 100개 성 전체가 연락 두절 [[573_timeout_retry_backoff_strategy|타임아웃]] 뻗어 올스탑 와르르 도미노 붕괴 멸망 나는 끔찍한 대참사가 터졌죠 💥.
 3. 하지만 마을 한가운데 거대 마법의 벨트([[146_esb_enterprise_service_bus_architecture|ESB]] 록온 방폭문)를 쫙 깔아두면? ➔ 100개 성 친구들은 남 전화번호(IP) 몰라도 알 바 1도 없이 걍 무조건 자기 성 앞 1개 벨트에만 편지를 툭 올리면 끝(디커플링 자유 해방 꿀빨기 🚀)!! ➔ 벨트 뱃속에 사는 100% 똑똑한 로봇 뇌([[146_esb_enterprise_service_bus_architecture|ESB]] 엔진 봇)가 지 혼자 알아서 "아 이건 빨간 성으로 가는 거네! 포장지도 상대방이 찰떡같이 읽게 스페인어로 0.1초 컷 오토 번역 스위칭 바꿔줄게 쾅!" 하고 100% 무결점 오차 없이 안전 배달 스나이퍼 명중을 해 주는 엄청난 우주 최고 발명품 쉴드랍니다 ✨!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 154 / 482
+
+← **이전**: [[153_soap_simple_object_access_protocol|153. SOAP (Simple Object Access Protocol) - B2B 통신의 장갑차 XML 헌법]]
+**다음**: [[155_eai_vs_esb_architecture|155. EAI vs ESB (EAI vs ESB Architecture)]] →
+
+---

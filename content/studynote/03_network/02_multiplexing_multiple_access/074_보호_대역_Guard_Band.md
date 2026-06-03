@@ -122,3 +122,14 @@ Interference Reduction
 사이 공간을 비워요.  
 그래야 부딪히지 않아요.  
 [[571_protection_vs_security|보호]] 대역은 그런 공간이에요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 74 / 1120
+
+← **이전**: [[073_주파수_분할_다중화_FDM|73. 주파수 분할 다중화 (FDM, Frequency Division Multiplexing)]]
+**다음**: [[075_시분할_다중화_TDM|75. 시분할 다중화 (TDM, Time Division Multiplexing) (타임디비전 멀티플렉싱)]] →
+
+---

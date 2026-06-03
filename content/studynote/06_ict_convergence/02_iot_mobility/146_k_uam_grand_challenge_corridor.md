@@ -55,3 +55,14 @@ K-UAM은 **한국 도심 항공의 실증·상용화 [[268_strategy_pattern|전�
 1. K-UAM은 **하늘의 고속도로**를 만드는 거예요.
 2. 비행 택시가 **정해진 하늘 길(회랑)**을 따라 안전하게 날아요.
 3. 2025년에 **시험 비행**을 하고, 2030년에 **누구나 탈 수** 있을 거예요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 146 / 552
+
+← **이전**: [[145_uam_urban_air_mobility_evtol|145. UAM (Urban Air Mobility) - 도심 항공 모빌리티 & eVTOL]]
+**다음**: [[147_utm_unmanned_aircraft_system_traffic_management|147. UTM (Unmanned Aircraft System Traffic Management) - 무인 비행체 교통 관제 시스템]] →
+
+---

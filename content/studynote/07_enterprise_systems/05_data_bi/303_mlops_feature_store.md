@@ -159,3 +159,14 @@ MLOps 통합 - 피처→모델→서빙 자동화 파이프라인
 1. [[165_feature_store_training_serving_consistency|피처 스토어]]는 마트 진열대예요. 여러 요리사(모델)가 같은 재료([[247_feature_label_variables|피처]])를 진열대에서 가져다 쓰니 항상 같은 재료를 써요.
 2. 온라인 스토어는 손님 바로 앞 빠른 진열대, 오프라인 스토어는 창고 깊숙이 있는 대량 저장고예요.
 3. [[588_mlops_pipeline_automation|Training]]-Serving Skew 방지는 시험 준비할 때와 실제 시험에서 똑같은 교재를 쓰는 것이에요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 303 / 482
+
+← **이전**: [[302_dataops_cicd_dbt|302. 데이터옵스 CI/CD 파이프라인 자동 테스팅 (DataOps CI/CD dbt)]]
+**다음**: [[304_realtime_cdp_architecture|304. 실시간 CDP 아키텍처 1st Party 클릭 로그 수집 통합 (Real-time CDP Architecture)]] →
+
+---

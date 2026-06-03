@@ -234,3 +234,14 @@ Spark SQL: UNION ALL 파티션 병렬 처리
 1. 합집합은 두 반 출석부를 하나로 합치기, 교집합은 두 반 모두 다니는 학생 찾기, 차집합은 한 반에만 있는 학생 찾기예요.
 2. [[412_cartesian_product|카티션 프로덕트]]는 모든 티셔츠와 모든 바지를 한 번씩 다 조합해보는 것처럼, 두 테이블의 모든 조합을 만들어요.
 3. JOIN은 [[412_cartesian_product|카티션 프로덕트]]에서 "같은 학번끼리만" 조건을 붙여 의미 있는 조합만 남기는 스마트한 [[288_version_ihl_tos_total_length|버전]]이에요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 39 / 600
+
+← **이전**: [[038_relational_algebra|038. 관계 대수 (Relational Algebra)]]
+**다음**: [[040_pure_relational_operators|040. 순수 관계 연산자 (Pure Relational Operators) — σ, π, ⋈, ÷]] →
+
+---

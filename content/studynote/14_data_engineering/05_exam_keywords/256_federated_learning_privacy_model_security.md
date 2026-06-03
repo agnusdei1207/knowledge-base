@@ -234,3 +234,14 @@ W_k: 클라이언트 k의 로컬 모델 파라미터
 ```
 2. [[209_differential_privacy|차등 프라이버시]]는 [[659_ir_lessons_learned|교훈]]을 말할 때 일부러 약간 틀리게 말해서 원래 일기 내용을 알 수 없게 만드는 방법이에요.
 3. 그래디언트 역전 공격은 "[[659_ir_lessons_learned|교훈]]만 들어도 원래 일기 내용을 알아낼 수 있다"는 해킹 방법인데, [[209_differential_privacy|차등 프라이버시]]가 이걸 막아줘요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 256 / 258
+
+← **이전**: [[255_xai_lime_shap_explainable_contribution|255. XAI (Explainable AI) 설명 가능 AI LIME SHAP 기여도 분할]]
+**다음**: [[257_bigdata_analysis_cloud_pipeline_integration|257. 빅데이터 분석 클라우드 파이프라인 통합 아키텍처 종합]] →
+
+---

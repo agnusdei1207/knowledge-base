@@ -134,3 +134,14 @@ tags:
 1. 싱글턴은 학교에 교장 선생님이 딱 한 명인 것처럼, 클래스의 인스턴스가 하나만 존재해요.
 2. 모든 선생님(클라이언트)이 교장 선생님을 만나려면 교무실(getInstance())을 통해야 해요.
 3. 요즘은 스프링 같은 프레임워크가 이것을 자동으로 관리해줘요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 200 / 530
+
+← **이전**: [[143_creational_patterns_purpose|143. 생성 패턴의 목적 (Creational Patterns Purpose)]]
+**다음**: [[145_singleton_implementation_techniques|145. 싱글턴 구현 기법 (Singleton Implementation Techniques)]] →
+
+---

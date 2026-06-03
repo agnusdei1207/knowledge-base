@@ -125,3 +125,14 @@ tags:
 1. [[937_hybrid_encryption|하이브리드 암호 시스템]] (Hybrid [[652_cryptography_concept_encryption_decryption|Cryptography]] Symmetric Asymmetric Ssl [[494_pgp_pretty_good_privacy_web_of_trust|Pgp]])는 비밀 편지를 안전하게 잠그거나 진짜인지 확인하는 특별한 약속이에요.
 2. 하지만 자물쇠가 좋아도 열쇠를 아무 데나 두면 금방 들켜요.
 3. 그래서 암호는 만드는 방법과 열쇠를 지키는 방법을 같이 배워야 해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 1031 / 1108
+
+← **이전**: [[937_environmental_control|937. 환경 통제 (Environmental Control)]]
+**다음**: [[938_datacenter_tier|938. 데이터센터 등급 (Uptime Institute Tier 1-4)]] →
+
+---

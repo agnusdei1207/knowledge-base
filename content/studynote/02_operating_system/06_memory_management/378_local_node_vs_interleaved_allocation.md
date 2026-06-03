@@ -190,3 +190,14 @@ tags:
 1. 로컬 노드 할당 vs 인터리브 할당 (Local Node Vs Interleaved Allocation)은 컴퓨터가 메모리를 방처럼 나눠 쓰고 주소를 찾는 방법이에요.
 2. 먼저 [[377_numa_allocation|NUMA]] ([[377_numa_allocation|Non-Uniform Memory Access]]) 아키텍처와 메모리 할당 [[164_policy|정책]]을 이해하면 로컬 노드 할당 vs 인터리브 할당 (Local Node Vs Interleaved Allocation)이 왜 필요한지 더 쉽게 보여요.
 3. 그래서 로컬 노드 할당 vs 인터리브 할당 (Local Node Vs Interleaved Allocation)을 잘 알면 나중에 [[379_cache_coloring|캐시 컬러링]] ([[379_cache_coloring|Cache Coloring]]) / [[286_page_frame|페이지]] 컬러링도 훨씬 쉽게 배울 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 378 / 800
+
+← **이전**: [[377_numa_allocation|377. NUMA (Non-Uniform Memory Access) 아키텍처와 메모리 할당 정책]]
+**다음**: [[379_cache_coloring|379. 캐시 컬러링 (Cache Coloring) / 페이지 컬러링]] →
+
+---

@@ -139,3 +139,14 @@ tags:
 1. [[215_etl_vs_elt_pipeline|ETL]] 변환 적재 병목 구조 분석는 복잡한 일을 순서대로 정리해 주는 큰 정리함이에요.
 2. 어디에 무엇을 넣을지 먼저 정해 두면, 나중에 찾거나 고칠 때 훨씬 쉬워져요.
 3. 그래서 일이 커질수록 먼저 기준을 만들고 같이 약속하는 것이 중요해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 381 / 482
+
+← **이전**: [[380_data_mart_kimball_dimensional|380. 데이터 마트 Kimball 차원 모델링 (Data Mart Kimball Dimensional Modeling)]]
+**다음**: [[382_elt_cloud_transform_architecture|382. ELT 클라우드 내부 변환 아키텍처 (ELT: Extract-Load-Transform)]] →
+
+---

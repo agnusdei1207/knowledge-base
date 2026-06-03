@@ -111,3 +111,14 @@ tags:
 1. 단일 책임 원칙 ([[243_srp_single_responsibility_principle|Single Responsibility Principle]], [[243_srp_single_responsibility_principle|SRP]])은 서랍마다 양말, 책, 공구를 따로 넣는 정리법처럼 약속을 먼저 정하는 거예요.
 2. 그러면 서로 다른 사람이 해도 같은 규칙으로 움직일 수 있어요.
 3. 그래서 규모가 커질수록 변경 이유를 하나의 축으로 묶는 일이 더 중요해져요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 433 / 530
+
+← **이전**: [[354_solid_5|354. 객체지향 SOLID 5원칙 (SOLID Principles)]]
+**다음**: [[356_process|356. 개방-폐쇄 원칙 (Open-Closed Principle, OCP)]] →
+
+---

@@ -104,3 +104,14 @@ SLA와 [[451_mttr|MTTR]] 측정 감리를 충실히 적용하면 장애 대응 �
 1. [[090_service_kubernetes_network_load_balancing|서비스]] 수준 목표는 학교에서 준비물을 미리 챙기는 것처럼, 중요한 기준을 먼저 맞추는 일이야.
 2. 장애 시계는 선생님이 수업 중간에 계속 확인하는 것처럼, 실제로 잘 되고 있는지 보는 과정이야.
 3. [[658_ir_recovery|복구]] 품질은 시험 결과표처럼, 정말 효과가 있었는지 나중에 다시 확인하게 해주는 증거야.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 339 / 530
+
+← **이전**: [[277_oss_license_compliance|277. OSS 라이선스 준수 감리 (OSS License Compliance Audit)]]
+**다음**: [[279_test_automation_coverage|279. 테스트 자동화 커버리지 감리 (Test Automation Coverage Audit)]] →
+
+---

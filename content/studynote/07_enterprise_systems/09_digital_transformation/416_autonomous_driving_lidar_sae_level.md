@@ -139,3 +139,14 @@ tags:
 1. 자율주행 라이다 [[139_sensor_fusion_camera_lidar_radar|센서 퓨전]] SAE 레벨는 복잡한 일을 순서대로 정리해 주는 큰 정리함이에요.
 2. 어디에 무엇을 넣을지 먼저 정해 두면, 나중에 찾거나 고칠 때 훨씬 쉬워져요.
 3. 그래서 일이 커질수록 먼저 기준을 만들고 같이 약속하는 것이 중요해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 416 / 482
+
+← **이전**: [[415_metaverse_digital_twin_sensor_sync|415. 메타버스 디지털 트윈 센서 동기화 (Metaverse & Digital Twin)]]
+**다음**: [[417_v2x_cv2x_5g_vehicle_control|417. V2X C-V2X 5G 차량 제어 (V2X: Vehicle to Everything)]] →
+
+---

@@ -143,3 +143,14 @@ DistilBERT는 [[301_bert_mlm|BERT]]([[308_static_dynamic_nat_pat_port_address_tr
 1. [[252_knowledge_distillation_quantization_edge_slm_diffusion|지식 증류]]는 "대교수 선생님의 강의 방식"을 "어린 학생도 이해하는 쉬운 방식"으로 전달하는 거야.
 2. 소프트 타겟은 선생님이 "1번이 정답이지만 2번도 꽤 그럴듯해"라고 알려주는 [[167_sql_hint_optimizer_override|힌트]]야. 원-핫은 그냥 "1번!" 이라고만 하는 것.
 3. KL 다이버전스는 학생의 생각과 선생님의 생각이 얼마나 다른지 재는 거리계야. 작을수록 잘 배운 거야.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 389 / 420
+
+← **이전**: [[388_rag_hnsw_ann|388. RAG 파이프라인 (RAG HNSW ANN)]]
+**다음**: [[390_maml_meta_learning|390. 메타 러닝 MAML (Model-Agnostic Meta-Learning)]] →
+
+---

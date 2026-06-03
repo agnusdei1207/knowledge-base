@@ -111,3 +111,14 @@ tags:
 1. [[224_acl_anti_corruption_layer_legacy_integration|안티 코럽션 레이어]] (Anti-Corruption Layer, [[549_acl_access_control_list|ACL]])은 다른 나라 손님 말을 통역사가 우리말로 바꿔 주는 것처럼 약속을 먼저 정하는 거예요.
 2. 그러면 서로 다른 사람이 해도 같은 규칙으로 움직일 수 있어요.
 3. 그래서 규모가 커질수록 외부 모델의 의미 오염을 차단하는 일이 더 중요해져요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 453 / 530
+
+← **이전**: [[374_ddd_bounded_context_aggregate|374. DDD의 바운디드 컨텍스트와 애그리게이트 (Domain-Driven Design Bounded Context and Aggregate)]]
+**다음**: [[376_strangler_fig_summary|376. 스트랭글러 피그 패턴 (Strangler Fig Pattern)]] →
+
+---

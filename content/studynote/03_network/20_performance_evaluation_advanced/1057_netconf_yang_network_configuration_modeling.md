@@ -115,3 +115,14 @@ RESTCONF / SDN 자동화
 YANG은 장난감 조립 설명서예요.  
 NETCONF는 그 설명서를 실제 장난감에 넣어 조립하는 우체부예요.  
 그래서 사람 손으로 하나씩 누르지 않아도 한 번에 맞출 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 162 / 1120
+
+← **이전**: [[1056_onos_opendaylight_sdn_controller_comparison|1056. ONOS / OpenDaylight 구조 모델 비교]]
+**다음**: [[1058_streaming_telemetry_network_monitoring|1058. 스트리밍 텔레메트리 (Streaming Telemetry) - 푸시 기반 실시간 네트워크 관측]] →
+
+---

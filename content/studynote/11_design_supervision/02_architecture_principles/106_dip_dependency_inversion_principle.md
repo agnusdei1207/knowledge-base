@@ -141,3 +141,14 @@ DIP를 체계적으로 적용하면 시스템 전체가 플러그인(plug-in) �
 1. DIP는 장난감 자동차 바퀴를 접착제로 붙이지 않고, 규격에 맞는 구멍(인터페이스)을 만들어 두는 원칙이에요.
 2. 그 구멍에 맞는 바퀴라면 작은 바퀴든 큰 바퀴든 자유롭게 끼울 수 있어요.
 3. 그러면 자동차(비즈니스)를 망가뜨리지 않고 원하는 바퀴(기술)로 언제든 갈아 끼울 수 있답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 154 / 530
+
+← **이전**: [[105_isp_interface_segregation_principle|105. ISP (Interface Segregation Principle, 인터페이스 분리 원칙)]]
+**다음**: [[106_dip_dependency_inversion_principle|106. DIP (Dependency Inversion Principle, 의존성 역전 원칙)]] →
+
+---

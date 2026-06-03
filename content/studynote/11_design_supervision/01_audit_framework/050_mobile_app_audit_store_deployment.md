@@ -185,3 +185,14 @@ Google Privacy Sandbox / Apple Privacy Manifest (2021~)
 1. 모바일 앱 감리는 자동차 출고 전 안전 검사 — 브레이크(보안), 좌석([[292_accessibility_kwcag_wcag|접근성]]), 문서([[164_policy|정책]])를 다 [[396_validation|확인]]해.
 2. MASVS는 [[435_checklist_based_testing|체크리스트]]처럼 보안 항목을 하나씩 [[396_validation|확인]]하는 것 — 모두 통과해야 앱이 안전하다고 인정돼.
 3. [[292_accessibility_kwcag_wcag|접근성]] 감리는 시력이 나쁜 친구도 쓸 수 있는지 [[396_validation|확인]] — 모두를 위한 앱을 만드는 거야.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 76 / 530
+
+← **이전**: [[050_mobile_app_audit|50. 모바일 앱 사업 감리 (Mobile App Audit)]]
+**다음**: [[051_ai_bigdata_project_audit|51. AI / 빅데이터 사업 감리 (AI Audit)]] →
+
+---

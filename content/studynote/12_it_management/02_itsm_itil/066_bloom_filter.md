@@ -132,3 +132,14 @@ Approximate Query
 먼저 없다고 빨리 걸러 줘요.  
 있다고 하면 가끔 틀릴 수 있어요.  
 [[061_bloomfilter|블룸 필터]]는 그런 빠른 [[396_validation|확인]] 도구예요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 115 / 587
+
+← **이전**: [[065_service_design|65. 서비스 설계 (Service Design)]]
+**다음**: [[066_service_transition|66. 서비스 전환 (Service Transition)]] →
+
+---

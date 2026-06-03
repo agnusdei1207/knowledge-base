@@ -219,3 +219,14 @@ tags:
 1. 피자 한 판을 배달시키는데, 커다란 [[344_bus|버스]](기존 [[001_operating_system_purpose|운영체제]])에 운전기사, 안내원, 청소부 수십 명이 다 타고 오면 너무 무겁고 느리겠죠?
 2. 게다가 빈 좌석이 많아서 나쁜 도둑(해커)이 몰래 [[344_bus|버스]]에 타서 훔쳐 갈 수도 있어요.
 3. '[[640_unikernel_mirageos_architecture|유니커널]]'은 오직 피자 한 판과 작은 프로펠러만 달린 아주 작고 가벼운 배달 드론이에요! 너무 빨라서 1초 만에 날아오고, 빈 좌석(해커 구멍)이 전혀 없어서 도둑이 절대 탈 수 없는 완벽한 방패랍니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 797 / 800
+
+← **이전**: [[796_numa_local_remote_memory_latency|796. NUMA 로컬 메모리 원격 메모리 지연차 (NUMA Local Remote Memory Latency)]]
+**다음**: [[798_distributed_lock_zookeeper_consensus|798. 분산 락 주키퍼(ZooKeeper) 합의 동기화]] →
+
+---

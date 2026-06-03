@@ -130,3 +130,14 @@ Shift-Left / DevSecOps
 사후 보안은 다 만든 뒤에 문만 잠그는 거예요.  
 문이 튼튼해도, 집 안 구조가 약하면 문제를 못 막아요.  
 그래서 처음부터 안전하게 짓는 게 더 좋아요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 59 / 1108
+
+← **이전**: [[058_security_by_design|58. 내재적 보안 (Security by Design) - 설계 단계 보안 고려]]
+**다음**: [[060_privacy_by_design|60. Privacy by Design (PbD) - 7대 기본 원칙]] →
+
+---

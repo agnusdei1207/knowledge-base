@@ -305,3 +305,14 @@ Kafka + Flink 사실상 표준
 1. [[096_kappa_architecture|카파 아키텍처]]는 하나의 스마트 컨베이어 — [[216_lambda_kappa_architecture_batch_realtime|람다]]가 낮 컨베이어 + 야간 컨베이어 두 개라면, 카파는 하나로 24시간 처리해요!
 2. Kafka는 일기장 — 모든 사건을 일기로 기록해두면, 나중에 처음부터 읽어서 현재 상태를 재현할 수 있어요.
 3. 재처리가 핵심 장점 — 분석 방법을 바꿔야 할 때, [[179_kafka_flink_watermark_time_window|Kafka]] 일기장의 처음부터 다시 읽으면 되어요. 배치 시스템 없이도 가능!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 44 / 258
+
+← **이전**: [[043_lambda_architecture_batch_speed_layer|043. 람다 아키텍처 — 배치 & 스피드 레이어]]
+**다음**: [[045_columnar_storage_format_parquet_orc|045. 컬럼형 저장 형식 — Parquet & ORC]] →
+
+---

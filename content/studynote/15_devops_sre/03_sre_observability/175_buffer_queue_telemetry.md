@@ -175,3 +175,14 @@ Proactive control of boundary saturation
 1. 큐는 놀이기구 앞 줄처럼 사람들이 잠깐 기다리는 곳이에요.
 2. 줄이 얼마나 긴지뿐 아니라 가장 오래 기다린 사람이 몇 분째 서 있는지도 봐야 진짜 상황을 알아요.
 3. 그래서 줄이 너무 길어지기 전에 놀이기구를 더 열거나 천천히 입장시키는 거예요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 175 / 373
+
+← **이전**: [[174_runbook_playbook_incident_management|174. 런북/플레이북 (Runbook/Playbook)]]
+**다음**: [[176_slow_query_distributed_db_tracing|176. 분산 DB 쿼리 플랜 지연 역추적 (Slow Query Tracing)]] →
+
+---

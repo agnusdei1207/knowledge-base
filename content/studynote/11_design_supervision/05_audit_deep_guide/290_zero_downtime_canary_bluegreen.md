@@ -104,3 +104,14 @@ tags:
 1. 트래픽 분할은 학교에서 준비물을 미리 챙기는 것처럼, 중요한 기준을 먼저 맞추는 일이야.
 2. [[098_rollback_strategy_pipeline_error_threshold|롤백]] 경로는 선생님이 수업 중간에 계속 확인하는 것처럼, 실제로 잘 되고 있는지 보는 과정이야.
 3. [[288_version_ihl_tos_total_length|버전]] [[344_compatibility_usability|호환성]]은 시험 결과표처럼, 정말 효과가 있었는지 나중에 다시 확인하게 해주는 증거야.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 351 / 530
+
+← **이전**: [[289_msa_saga_eventual_consistency|289. MSA Saga와 최종 일관성 감리 (MSA Saga Eventual Consistency Audit)]]
+**다음**: [[291_cicd_pipeline_security_devsecops|291. CI/CD 파이프라인 보안과 DevSecOps 감리 (CI CD Pipeline Security and DevSecOps Audit)]] →
+
+---

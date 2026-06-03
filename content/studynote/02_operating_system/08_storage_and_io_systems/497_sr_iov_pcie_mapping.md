@@ -149,3 +149,14 @@ SR-IOV (Single Root I/O [[190_virtualization_computing_architecture_cloud|Virtua
 1. 한 컴퓨터 아파트에 10가구(가상 머신)가 사는데, 집에서 편지를 보낼 때마다 무조건 1층 경비실 우체통(Host OS [[630_vswitch_vnf_overhead|가상 스위치]])에 모아서 복사 검사를 매번 맡아야 하니까 며칠씩 줄을 서서 통신이 엄청 느려 터지는 랙이 걸렸어요 (기존 [[015_virtualization|가상화]] S/W 병목 붕괴)!
 2. 그래서 마법사가 아예 건물 밖 100기가짜리 거대 우체국 대형 [[123_pipe|파이프]]라인(물리 기판 랜카드 뿌리 PF)에다가 구멍 10개를 쪼개 파서, 10가구 거실마다 벽을 뚫고 다이렉트로 전용 수레 관문(VF 분신 [[516_mount_mechanism|마운트]] 연결선)을 꽂아 직결해 줘버렸습니다! 
 3. 이제 가구들은 경비 아저씨를 거칠 필요 1도 없이 무조건 0초 만에 거실 [[123_pipe|파이프]]로 편지를 광속 쏴버리는 엄청난 스피드 다이렉트 패스 속도를 파괴 얻었죠! 단, 이 거실 밖 [[123_pipe|파이프]]가 외부랑 너무 쇠창살 본드 결합 용접이 돼버려서, 이사([[598_vm_migration_nic|VM]] 무중단 클라우드 이동)를 영영 못 가게 발목이 묶였다는 슬픈 단점 락인 대가만 남은 최속의 속도 거래 마법입니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 497 / 800
+
+← **이전**: [[496_interrupt_sharing_msi_msix|496. 인터럽트 공유 (Interrupt Sharing) 및 MSI/MSI-X (Message Signaled Interrupts)]]
+**다음**: [[498_computational_storage|498. 컴퓨테이셔널 스토리지 (Computational Storage / Smart SSD) - I/O 노드 연산 오프로딩]] →
+
+---

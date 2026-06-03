@@ -177,3 +177,14 @@ tags:
 1. [[501_file_definition_logical_record|파일]] 지원 메모리 ([[501_file_definition_logical_record|File]]-backed Memory)은 컴퓨터가 메모리를 더 크게 보이게 하고 부족함을 숨기는 방법이에요.
 2. 먼저 [[391_anonymous_memory|익명 메모리]] ([[391_anonymous_memory|Anonymous Memory]])을 이해하면 [[501_file_definition_logical_record|파일]] 지원 메모리 ([[501_file_definition_logical_record|File]]-backed Memory)이 왜 필요한지 더 쉽게 보여요.
 3. 그래서 [[501_file_definition_logical_record|파일]] 지원 메모리 ([[501_file_definition_logical_record|File]]-backed Memory)을 잘 알면 나중에 [[393_copy_on_write|쓰기 시 복사]] ([[542_cow_file_system|COW]], [[542_cow_file_system|Copy-on-Write]])도 훨씬 쉽게 배울 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 392 / 800
+
+← **이전**: [[391_anonymous_memory|391. 익명 메모리 (Anonymous Memory) - 파일 시스템과 무관한 힙/스택 데이터 (스왑 영역 사용)]]
+**다음**: [[393_copy_on_write|393. 쓰기 시 복사 (COW, Copy-on-Write) - fork() 시 자원 공유하다 쓸 때 페이지 복제]] →
+
+---

@@ -137,3 +137,14 @@ RPA · Digital Twin of Process
 1. 컴퓨터는 사람들이 무슨 일을 했는지 발자국처럼 기록을 남겨요.
 2. [[129_process_mining_bpr_event_log_bottleneck_analysis|프로세스 마이닝]]은 그 발자국을 이어서 모두가 실제로 어떤 길로 다녔는지 찾는 거예요.
 3. 그래서 어디가 막히고 어디서 돌아갔는지 금방 알 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 205 / 482
+
+← **이전**: [[204_workflow_management_system_business_automation|204. 워크플로우 관리 시스템 (Workflow Management System)]]
+**다음**: [[206_conformance_checking_process_mining_deviation_audit|206. 적합성 검사 (Conformance Checking)]] →
+
+---

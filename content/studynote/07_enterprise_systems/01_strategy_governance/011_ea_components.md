@@ -191,3 +191,14 @@ IT 경영 측면에서 과거의 [[002_silo_hyeonhyung|사일로]]([[002_silo_hy
 1. 컴퓨터나 회사 시스템을 만들 때는 무작정 코딩부터 하는 게 아니라 큰 그림을 먼저 그려야 해요. 이 큰 그림이 바로 '아키텍처'예요.
 2. 어떤 일을 할지([[103_ba_as_is_analysis|BA]]), 정보는 어떻게 모을지([[104_da_as_is_analysis|DA]]), 무슨 앱을 쓸지([[105_aa_as_is_analysis|AA]]), 어떤 컴퓨터와 인터넷을 쓸지([[106_ta_as_is_analysis|TA]]), 해커를 어떻게 막을지([[767_sa_standalone_5g_core_network|SA]])를 순서대로 꼼꼼히 설계해요.
 3. 이렇게 5가지 설계를 레고 블록처럼 딱 맞게 연결해두면, 나중에 회사가 커지거나 고장이 나도 어디를 고쳐야 할지 금방 알 수 있어서 돈과 시간을 아낄 수 있답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 11 / 482
+
+← **이전**: [[010_ea_enterprise_architecture|10. EA (Enterprise Architecture, 전사적 아키텍처) - 기업의 비즈니스, 데이터, 애플리케이션, 기술 인프라를]]
+**다음**: [[012_zachman_framework|12. 잭맨 프레임워크 (Zachman Framework) - 6x6 매트릭스 (Who, What, Where, When, Why, How]] →
+
+---

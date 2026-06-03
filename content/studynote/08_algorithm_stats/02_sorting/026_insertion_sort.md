@@ -203,3 +203,14 @@ tags:
 - 각 섹션 끝에 📢 요약 비유 반드시 추가
 - 최소 800자/[[501_file_definition_logical_record|파일]]
 - [[501_file_definition_logical_record|파일]]명: 01_, 02_... 형식
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 26 / 175
+
+← **이전**: [[025_sort_comparison|16. 정렬 알고리즘 비교 — 시간/공간/안정성/적합 환경]]
+**다음**: [[027_sorting_network|17. 정렬 네트워크 (Sorting Network) — 병렬 정렬]] →
+
+---

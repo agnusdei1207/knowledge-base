@@ -249,3 +249,14 @@ tags:
 1. 커다란 사무실(컴퓨터) 안에 100명의 직원이 섞여서 일하면 서로 말소리도 섞이고 실수로 남의 서류를 버리는 일이 생겨요.
 2. 그래서 '[[061_namespace|네임스페이스]]'라는 투명한 마법의 유리방을 사람마다 씌워줬어요! 이 방에 들어가면 밖의 사람은 투명 인간처럼 아예 안 보이고, 나 혼자 회사에 있는 것처럼 느껴져요.
 3. 덕분에 100명이 각자 자기만의 완벽한 사무실([[561_container_based_deployment|컨테이너]])을 가진 것처럼 맘 편하게 일할 수 있어서, 똑똑한 [[063_docker_architecture|도커]]([[063_docker_architecture|Docker]]) 고래가 이 마법을 이용해 컴퓨터 세상을 엄청나게 발전시켰답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 744 / 800
+
+← **이전**: [[743_virtualization_hypervisor|743. 가상화 하이퍼바이저 (Virtualization Hypervisor)]]
+**다음**: [[745_system_clock_timer_tick|745. 시스템 클럭 타이머 틱 (System Clock Timer Tick)]] →
+
+---

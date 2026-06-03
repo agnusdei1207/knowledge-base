@@ -134,3 +134,14 @@ tags:
 1. 여러 상자에 있던 블록을 큰 정리장에 모아 보고 싶은 모양대로 다시 보는 거예요.
 2. 빨리 넣는 법과 빨리 보는 법은 다를 수 있어요.
 3. 그래서 창고를 어떻게 나누고 언제 정리할지 정해야 해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 325 / 600
+
+← **이전**: [[324_cold_hot_tiering|324. ODS (Operational Data Store)]]
+**다음**: [[326_elt_extract_load_transform_process|326. ELT (Extract, Load, Transform) 프로세스]] →
+
+---

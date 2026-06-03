@@ -213,3 +213,14 @@ synchronized void test(int i) {
 1. 5명의 친구가 둥근 식탁에서 밥을 먹는데, 포크가 사람 사이에 딱 1개씩 총 5개만 있어요. 밥을 먹으려면 꼭 양손에 포크 2개를 쥐어야 해요.
 2. 5명이 "배고파!" 하고 동시에 각자 자기 '왼쪽' 포크를 하나씩 딱 집어 들었어요. 그럼 식탁엔 포크가 하나도 없겠죠? 모두가 "오른쪽 포크 줘!" 하고 영원히 기다리다 굶어 죽는 게 '[[281_deadlock_definition|교착 상태]](데드락)'예요.
 3. 이걸 막으려면 선생님이 "1번부터 4번까지는 왼쪽 먼저 집고, 5번 친구만 특별히 '오른쪽' 포크를 먼저 집어라!"라고 규칙을 꼬아줘야 해요. 그러면 꼬리물기가 끊어져서 다 같이 밥을 먹을 수 있답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 704 / 800
+
+← **이전**: [[703_producer_consumer_bounded_buffer|703. 생산자 소비자 유한 버퍼 (Producer Consumer Bounded Buffer)]]
+**다음**: [[705_deadlock_four_necessary_conditions|705. 교착 상태 4가지 조건 (Deadlock Four Necessary Conditions)]] →
+
+---

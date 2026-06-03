@@ -129,3 +129,14 @@ tags:
 1. [[606_observer_pattern_pub_sub|옵저버 패턴]]은 유튜브 알림처럼, 크리에이터(Subject)가 영상을 올리면 구독자([[267_observer_pattern|Observer]])에게 자동 알림이 가요.
 2. 크리에이터는 구독자들이 어디서 알림을 받는지 알 필요 없어요.
 3. 스프링의 이벤트 시스템이 바로 이 패턴을 사용해요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 253 / 530
+
+← **이전**: [[191_behavioral_patterns_overview|191. 행위 패턴 개요 (Behavioral Patterns Overview)]]
+**다음**: [[193_strategy_pattern|193. 전략 패턴 (Strategy Pattern)]] →
+
+---

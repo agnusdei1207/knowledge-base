@@ -247,3 +247,14 @@ KDD 프로세스: 데이터 선택 → 전처리 → 변환 → 마이닝 → �
 ```
 2. 3개 반 이상 비교할 때는 T검정을 여러 번 쓰면 오류가 쌓이므로, ANOVA라는 한 번에 모두 비교하는 방법을 쓴다.
 3. KDD는 "보물 지도에서 보물을 찾는 5단계 과정"이고, 통계 검정은 "찾은 것이 진짜 보물인지 감정하는 단계"이다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 225 / 258
+
+← **이전**: [[224_data_lineage_flow_catalog_tagging|224. 데이터 리니지 (Data Lineage) 흐름 족보 카탈로그 태그 거버넌스]]
+**다음**: [[226_pearson_correlation_regression_r2_vif_multicollinearity|226. 피어슨 상관 (Pearson Correlation) 회귀 R² 결정계수 다중공선성 VIF]] →
+
+---

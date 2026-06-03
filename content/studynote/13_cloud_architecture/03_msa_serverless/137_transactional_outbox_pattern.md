@@ -54,3 +54,14 @@ Transactional Outbox는 **[[619_msa_traffic_hardware|MSA]] 이벤트 발행의 [
 1. Outbox는 **보내야 할 편지를 우편함에 넣는** 거예요.
 2. 편지와 일기(비즈니스 [[001_dikw_pyramid|데이터]])를 **동시에 저장**해서 빠뜨리지 않아요.
 3. 우체부(Debezium)가 우편함을 확인하고 **확실히 배달**해요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 136 / 371
+
+← **이전**: [[136_orchestration_saga|136. Orchestration Saga - 중앙 오케스트레이터 기반 분산 트랜잭션]]
+**다음**: [[138_event_sourcing_msa|138. Event Sourcing (MSA) - 상태 대신 이벤트를 저장]] →
+
+---

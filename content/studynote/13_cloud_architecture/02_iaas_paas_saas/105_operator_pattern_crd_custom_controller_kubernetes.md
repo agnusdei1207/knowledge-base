@@ -138,3 +138,14 @@ OperatorHub · OLM (Operator Lifecycle Manager) (생태계 및 생애주기 관�
 1. [[196_kubernetes_k8s_container_orchestration|쿠버네티스]]는 공장 로봇인데, 기본적으로는 똑같은 장난감만 단순하게 계속 찍어내는 일밖에 못 해요.
 2. 하지만 이 로봇의 머리에 '고장 난 자전거 고치는 법'이 담긴 특별한 [[359_usb|USB]]([[565_operator_pattern_kubernetes_automation|오퍼레이터]])를 꽂아줄 수 있어요.
 3. 그러면 로봇이 이제는 사람 도움 없이도 스스로 자전거를 뚝딱뚝딱 고쳐내는 똑똑한 전문가 로봇으로 변신한답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 104 / 371
+
+← **이전**: [[104_kubernetes_namespace_logical_cluster_isolation|104. K8s 네임스페이스 (Namespace) - 논리적 분할과 격리]]
+**다음**: [[106_taint_toleration_kubernetes_node_scheduling_repel|106. 테인트(Taint)와 톨러레이션(Toleration) - K8s 스케줄링 제어]] →
+
+---

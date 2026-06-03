@@ -156,3 +156,14 @@ def maxSlidingWindow(nums, k):
 1. 덱은 양쪽 모두 출입 가능한 버스예요! 앞문·뒷문 어디서든 타고 내릴 수 있어요.
 2. 단조 덱을 쓰면 이동하는 창문 안의 최댓값을 매번 다시 계산하지 않아도 돼요 — O(n²)을 O(n)으로 줄이는 마법!
 3. Python의 collections.deque는 이 덱을 빠르게 구현해둔 도구로 코딩 테스트에서 자주 쓰인답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 84 / 175
+
+← **이전**: [[083_priority_queue|28. 우선순위 큐 (Priority Queue)]]
+**다음**: [[085_segment_tree|29. 세그먼트 트리 (Segment Tree)]] →
+
+---

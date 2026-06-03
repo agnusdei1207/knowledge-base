@@ -54,3 +54,14 @@ PropTech는 **부동산 산업의 [[055_digital_transformation|디지털 전환]
 1. PropTech는 **부동산에 IT 기술**을 더한 거예요.
 2. VR로 **집에서 모델하우스**를 구경하고, AI가 **집값을 예측**해줘요.
 3. 큰 건물도 **작은 조각(토큰)**으로 나눠서 투자할 수 있답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 136 / 482
+
+← **이전**: [[135_regtech_regulatory_technology_aml|135. RegTech (규제 기술) - AML·KYC·준법 자동화]]
+**다음**: [[137_edutech_adaptive_learning_lms|137. EduTech & 적응형 학습 (Adaptive Learning) - LMS/LXP]] →
+
+---

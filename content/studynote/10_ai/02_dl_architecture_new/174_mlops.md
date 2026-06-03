@@ -183,3 +183,14 @@ LLMOps / governed AI operations
 1. MLOps는 똑똑한 로봇을 한 번 만드는 게 아니라, 로봇이 매일 잘 배우고 잘 일하는지 계속 돌봐주는 관리 방법이에요.
 2. 로봇이 이상한 음식을 먹거나 낯선 길을 만나면 실수할 수 있어서, 누가 보고 있다가 다시 연습도 시켜 줘야 해요.
 3. 그래서 MLOps는 로봇 공장, 검사실, 수리실을 한 줄로 연결해 놓은 시스템이라고 생각하면 돼요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 174 / 420
+
+← **이전**: [[173_a3c_ppo|173. A3C (Asynchronous Advantage Actor-Critic) 및 PPO (Proximal Policy Optimization)]]
+**다음**: [[175_data_drift|175. 데이터 드리프트 (Data Drift)]] →
+
+---

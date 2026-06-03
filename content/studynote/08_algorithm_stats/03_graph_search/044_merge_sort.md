@@ -206,3 +206,14 @@ tags:
 3. [[047_quick_sort|퀵 정렬]] 친구와 달리 어떤 경우에도 항상 같은 빠르기(O(N log N))가 보장되어서, 안정성이 중요한 학교 성적표 정렬에 딱 맞는답니다!
 
 ## 참고
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 44 / 175
+
+← **이전**: [[043_max_flow|16. 최대 유량 (Max Flow) — Ford-Fulkerson / Edmonds-Karp]]
+**다음**: [[045_min_cut|19. 최소 컷 (Min Cut) — Max-Flow Min-Cut 정리]] →
+
+---

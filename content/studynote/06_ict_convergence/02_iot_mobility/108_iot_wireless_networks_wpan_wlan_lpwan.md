@@ -135,3 +135,14 @@ LPWAN (LoRa, NB-IoT) 혁명 (초광역, 초저전력, 저비용 기반의 진정
 1. **[[604_wpan_wireless_personal_area_network|WPAN]]**은 짝꿍이랑 귓속말로 속닥거리는 거예요. 힘은 하나도 안 들지만 멀리 있는 친구에겐 안 들려요.
 2. **[[571_wlan_bss_ess_structure|WLAN]]**은 교실 앞 스피커로 크게 말하는 거예요. 정보는 엄청 많이 줄 수 있지만 건전지가 엄청나게 빨리 닳아요.
 3. **[[109_lpwan_low_power_wide_area_network|LPWAN]]**은 산봉우리에서 연기를 피워 올리는 거예요. 아주 짧은 [[130_signal|신호]]밖에 못 주지만, 밥(전기)을 거의 안 먹고도 엄청 멀리까지 [[130_signal|신호]]를 보낼 수 있답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 108 / 552
+
+← **이전**: [[107_hyper_connected_society|107. 초연결 사회 (Hyper-connected Society)]]
+**다음**: [[109_lpwan_low_power_wide_area_network|109. 저전력 광역 통신망 (LPWAN) - LoRa·Sigfox·NB-IoT 기술 비교]] →
+
+---

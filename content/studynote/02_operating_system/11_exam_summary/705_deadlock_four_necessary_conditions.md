@@ -209,3 +209,14 @@ tags:
 1. 길에서 차 두 대가 꽉 막혀서 서로 못 지나가는 '데드락'이 생기려면 꼭 4가지 나쁜 조건이 다 모여야 해요.
 2. 1) 길은 1차선이고([[283_mutual_exclusion|상호 배제]]) 2) 내 길을 안 내어주면서 앞길만 원하고([[231_hold_and_wait|점유 대기]]) 3) 렉카차로 강제로 끌어낼 수 없으며([[285_no_preemption|비선점]]) 4) 꼬리에 꼬리를 물고 막힌(원형 대기) 상태예요.
 3. 이 중에 단 1개만 고치면 돼요! 예를 들어 "무조건 작은 차가 먼저 비켜준다(원형 대기 파괴)"는 규칙 하나만 만들어도 영원히 길이 막히는 일은 싹 사라진답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 705 / 800
+
+← **이전**: [[704_dining_philosophers_problem_deadlock|704. 식사하는 철학자 교착 문제 (Dining Philosophers Problem Deadlock)]]
+**다음**: [[706_resource_allocation_graph_cycle|706. 자원 할당 그래프 사이클 (Resource Allocation Graph Cycle)]] →
+
+---

@@ -168,3 +168,14 @@ head dispatch
 1. FCFS는 먼저 줄 선 친구부터 차례대로 놀이기구를 타게 하는 규칙이에요.
 2. 그런데 앞 친구가 아주 오래 타면 뒤 친구들은 금방 끝날 수 있어도 계속 기다려야 해요.
 3. 그래서 줄 세우기는 쉽지만, 모두를 빨리 만족시키는 방법은 아닐 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 173 / 800
+
+← **이전**: [[172_turnaround_waiting_response_time|172. 반환 시간 (Turnaround Time) / 대기 시간 (Waiting Time) / 응답 시간 (Response Time)]]
+**다음**: [[174_convoy_effect|174. 호위 효과 (Convoy Effect) - FCFS의 단점]] →
+
+---

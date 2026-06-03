@@ -217,3 +217,14 @@ POSIX `shm_open()`과 `mmap()`을 활용한 가장 빠른 [[117_ipc|IPC]] 방식
 1. 두 개의 섬(프로세스)에 사는 친구들이 물건을 교환해야 해요. 가장 안전한 방법은 바다의 경찰 아저씨([[022_kernel_role|커널]])에게 택배를 맡기는 거예요(메시지 패싱).
 2. 하지만 경찰 아저씨를 거치면 시간이 2배로 걸리죠(복사 오버헤드). 그래서 두 섬 사이에 큰 다리를 놓고 물건을 그냥 밀어주기로 했어요([[118_shared_memory|공유 메모리]]).
 3. 속도는 엄청 빨라졌지만, 두 친구가 동시에 물건을 집으려다 다리 위에서 부딪혀 떨어질 수 있어요. 그래서 다리 양 끝에 신호등([[212_synchronization_mechanisms|동기화]] 락)을 세우는 귀찮은 작업을 직접 해야 한답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 681 / 800
+
+← **이전**: [[680_monolithic_vs_microkernel_performance|680. 모놀리식 vs 마이크로 커널 성능 비교 (Monolithic Vs Microkernel Performance)]]
+**다음**: [[682_process_address_space_isolation|682. 프로세스 주소 공간 분리 (Process Address Space Isolation)]] →
+
+---

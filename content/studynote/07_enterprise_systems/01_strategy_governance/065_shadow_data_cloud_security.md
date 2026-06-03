@@ -137,3 +137,14 @@ Cloud Governance
 중요한 서류를 여기저기 숨겨 두면 안 돼요.  
 어디 있는지 찾아내고, 잠그고, 목록을 적어야 해요.  
 섀도우 [[001_dikw_pyramid|데이터]]는 그런 숨은 [[001_dikw_pyramid|데이터]]를 말해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 65 / 482
+
+← **이전**: [[064_cloud_migration_6r_strategies|64. 클라우드 마이그레이션 전략 (6R: Rehost, Replatform, Refactor, Repurchase, Retire,]]
+**다음**: [[066_data_governance_framework|66. 데이터 거버넌스 (Data Governance) - 데이터 품질, 보안, 프라이버시 전사 관리 체계]] →
+
+---

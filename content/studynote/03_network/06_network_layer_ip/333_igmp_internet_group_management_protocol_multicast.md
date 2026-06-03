@@ -150,3 +150,14 @@ IGMP는 [[286_ipv4_internet_protocol_version_4_rfc_791|IPv4]]-IPv6 전환 기술
 1. 택배를 보내려면 집 주소가 정확해야 길을 잃지 않아요.
 2. 이 개념은 인터넷 세상에서 주소를 정하고 다음 길을 찾는 지도와 같아요.
 3. 그래서 멀리 있는 친구 컴퓨터까지도 편지가 도착할 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 454 / 1120
+
+← **이전**: [[332_ipv4_ipv6_transition_dual_stack_tunneling_nat64|332. IPv4-IPv6 전환 기술: 듀얼 스택 (Dual Stack), 터널링 (ISATAP, 6to4), 주소 변환 (NAT64/DNS64)]]
+**다음**: [[334_igmp_snooping_multicast_traffic_control|334. IGMP Snooping (스위치가 멀티캐스트 트래픽 불필요한 포트에 차단)]] →
+
+---

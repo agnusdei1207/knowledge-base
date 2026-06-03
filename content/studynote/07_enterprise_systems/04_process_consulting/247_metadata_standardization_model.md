@@ -139,3 +139,14 @@ tags:
 1. [[012_metadata|메타데이터]] 표준화 모델 도출는 복잡한 일을 순서대로 정리해 주는 큰 정리함이에요.
 2. 어디에 무엇을 넣을지 먼저 정해 두면, 나중에 찾거나 고칠 때 훨씬 쉬워져요.
 3. 그래서 일이 커질수록 먼저 기준을 만들고 같이 약속하는 것이 중요해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 247 / 482
+
+← **이전**: [[246_data_governance_council_operation|246. 데이터 거버넌스 협의체 운영 (Data Governance Council)]]
+**다음**: [[248_data_ownership_taxonomy_enterprise_classification|248. 데이터 오너십 및 전사 분류 체계 (Data Ownership / Enterprise Data Taxonomy)]] →
+
+---

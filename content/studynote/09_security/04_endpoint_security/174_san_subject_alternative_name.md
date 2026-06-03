@@ -192,3 +192,14 @@ Modern TLS for load balancer, virtual hosting, service mesh
 1. SAN은 한 장의 출입증에 "이 사람이 들어가도 되는 문들"을 여러 개 적어 두는 칸이에요.
 2. 그래서 같은 열쇠로도 정문, 옆문, 지하문 중 허락된 문인지 바로 확인할 수 있어요.
 3. 하지만 아무 문이나 다 적으면 위험하니까, 정말 필요한 문만 적어 두는 게 중요해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 227 / 1108
+
+← **이전**: [[173_x509_v3_certificate|173. X.509 v3 인증서 — Subject/Issuer/SAN/Key Usage/NSC]]
+**다음**: [[175_wildcard_certificate|175. 와일드카드 인증서 (Wildcard Certificate)]] →
+
+---

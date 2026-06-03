@@ -111,3 +111,14 @@ Z-Wave는 900MHz 서브 GHz의 **저간섭·고관통력**이라는 물리적 �
 1. Z-Wave는 시골 도로(900MHz)를 혼자 달리는 **자동차**예요. 서울 도로(2.4GHz)처럼 막히지 않아요!
 2. 그래서 벽도 잘 뚫고, 멀리까지 안정적으로 신호를 보낼 수 있어요.
 3. 하지만 지금은 **Matter라는 고속도로**가 생겨서, 다 같이 합치는 게 대세랍니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 113 / 552
+
+← **이전**: [[112_zigbee_mesh_network_smart_home|112. Zigbee 메시 네트워크 (Zigbee Mesh Network) - IEEE 802.15.4 스마트 홈 WPAN]]
+**다음**: [[114_ble_bluetooth_low_energy_beacon|114. 블루투스 저전력 (BLE, Bluetooth Low Energy)]] →
+
+---

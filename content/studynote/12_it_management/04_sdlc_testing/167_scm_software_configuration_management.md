@@ -174,3 +174,14 @@ GitOps · IaC (Infrastructure as Code) 기반 자동화 SCM
 1. SCM은 레고 작품을 만들 때 "어떤 조각을 언제 바꿨는지"를 공책에 적어 두는 방법이에요.
 2. 중요한 순간마다 사진을 찍어 두면, 나중에 망가져도 예전 모습으로 다시 만들 수 있어요.
 3. 그리고 마음대로 바꾸지 말고 선생님의 확인을 받으면, 친구들이 함께 만들어도 작품이 엉망이 되지 않아요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 281 / 587
+
+← **이전**: [[166_cicd_continuous_integration_deployment|166. CI/CD (Continuous Integration/Continuous Deployment, 지속적 통합/배포)]]
+**다음**: [[168_risk_response_strategies|168. 프로젝트 리스크 대응 전략 (Risk Response Strategies)]] →
+
+---

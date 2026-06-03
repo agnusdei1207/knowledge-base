@@ -120,3 +120,14 @@ Vision Transformer (ViT) · 합성곱 한계 극복을 위한 어텐션 도입
 1. [[228_cnn_1d_2d_3d_video_medical|합성곱]] 층은 커다란 그림책을 읽을 때 사용하는 마법의 돋보기예요.
 2. 돋보기를 책 위로 슥슥 밀면서(슬라이딩) "어! 여기 강아지 코가 있네!" 하고 중요한 부분만 찾아내요.
 3. 돋보기를 한 번에 얼마나 멀리 뛸지([[097_stride_convolutional_neural_network_downsampling|스트라이드]]), 책 바깥으로 안 나가게 방석을 깔지([[098_padding_convolutional_neural_network_same_valid|패딩]]) 정할 수 있답니다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 96 / 420
+
+← **이전**: [[095_cnn_convolutional_neural_network_image_recognition|95. 합성곱 신경망 (CNN) - 공간 정보 보존 이미지 인식 아키텍처]]
+**다음**: [[097_stride_convolutional_neural_network_downsampling|97. 스트라이드 (Stride) - CNN 필터 이동 보폭과 특징 맵 축소]] →
+
+---

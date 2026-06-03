@@ -184,3 +184,14 @@ tags:
 1. [[379_cache_coloring|캐시 컬러링]] ([[379_cache_coloring|Cache Coloring]])에 의한 [[286_page_frame|페이지]] 매핑 최적화은 컴퓨터가 메모리를 더 크게 보이게 하고 부족함을 숨기는 방법이에요.
 2. 먼저 [[431_dirty_page_writeback|더티 페이지 쓰기]] ([[431_dirty_page_writeback|Dirty Page Writeback]]) 메커니즘 (pdflush / flusher [[092_thread_lwp|스레드]])을 이해하면 [[379_cache_coloring|캐시 컬러링]] ([[379_cache_coloring|Cache Coloring]])에 의한 [[286_page_frame|페이지]] 매핑 최적화이 왜 필요한지 더 쉽게 보여요.
 3. 그래서 [[379_cache_coloring|캐시 컬러링]] ([[379_cache_coloring|Cache Coloring]])에 의한 [[286_page_frame|페이지]] 매핑 최적화을 잘 알면 나중에 [[363_inverted_page_table|역 페이지 테이블]] 탐색 최적화 [[667_hash_function_integrity_one_way|해시 함수]]도 훨씬 쉽게 배울 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 432 / 800
+
+← **이전**: [[431_dirty_page_writeback|431. 더티 페이지 쓰기 (Dirty Page Writeback) 메커니즘 (pdflush / flusher 스레드)]]
+**다음**: [[433_inverted_page_table_hash|433. 역 페이지 테이블 탐색 최적화 해시 함수 (Inverted Page Table Hash)]] →
+
+---

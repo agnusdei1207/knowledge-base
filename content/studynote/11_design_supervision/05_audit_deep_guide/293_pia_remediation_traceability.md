@@ -104,3 +104,14 @@ tags:
 1. 지적사항 관리는 학교에서 준비물을 미리 챙기는 것처럼, 중요한 기준을 먼저 맞추는 일이야.
 2. 통제 매핑은 선생님이 수업 중간에 계속 확인하는 것처럼, 실제로 잘 되고 있는지 보는 과정이야.
 3. 주체 위험 저감은 시험 결과표처럼, 정말 효과가 있었는지 나중에 다시 확인하게 해주는 증거야.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 354 / 530
+
+← **이전**: [[292_log_integrity_worm_forensics|292. 로그 무결성과 WORM 포렌식 감리 (Log Integrity WORM Forensics Audit)]]
+**다음**: [[294_test_data_masking_nonprod|294. 비운영 환경 테스트데이터 마스킹 감리 (Non Production Test Data Masking Audit)]] →
+
+---

@@ -157,3 +157,14 @@ ML-KEM · ML-DSA 중심 PQC 가속기
 1. 미래에는 지금 자물쇠보다 훨씬 복잡한 자물쇠를 써야 해서 계산이 많이 필요해요.
 2. 그래서 컴퓨터 옆에 아주 빠른 암호 전용 도우미를 두면, 어려운 문제를 대신 풀어 줘서 기다리는 시간이 줄어들어요.
 3. 덕분에 더 안전한 비밀 상자를 써도 생활이 너무 느려지지 않아요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 543 / 803
+
+← **이전**: [[542_pointer_authentication|542. 포인터 인증 (Pointer Authentication, ARM PAC)]]
+**다음**: [[544_secure_context_switching|544. 안전한 컨텍스트 스위칭 (Secure Context Switching)]] →
+
+---

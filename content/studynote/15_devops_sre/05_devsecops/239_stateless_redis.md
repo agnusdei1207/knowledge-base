@@ -134,3 +134,14 @@ Reference Architecture
 1. [[162_rest_statelessness|무상태성]] 설계는 복잡한 일을 순서와 규칙으로 정리해서 실수하지 않게 도와주는 방법이에요.
 2. [[542_redis|Redis]] 같은 친구들과 같이 움직여야 더 잘 작동해요.
 3. 그래서 문제가 생겨도 어디서 틀렸는지 빨리 찾고 다시 고치기 쉬워져요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 239 / 373
+
+← **이전**: [[238_6r_rehost_replatform_refactor|238. 클라우드 마이그레이션 6R (Rehost, Replatform, Refactor 등) 전환 전략망]]
+**다음**: [[240_knative_db|240. 서드파티 록인 회피 기술망 (Knative, 오픈소스 DB 클러스터링 기반)]] →
+
+---

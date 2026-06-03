@@ -138,3 +138,14 @@ EPC S-GW, P-GW 제어 망 트래픽…는 [[752_lte_long_term_evolution_4g|LTE]]
 1. 큰 장난감 도시를 여러 구역으로 나누고 필요한 규칙만 골라 쓰는 것과 같아요.
 2. 이 개념은 빠른 길, 안전한 길, 많은 사람이 쓰는 길을 각각 다르게 꾸미게 해줘요.
 3. 그래서 미래 통신망이 더 똑똑하고 유연해져요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 874 / 1120
+
+← **이전**: [[752_lte_long_term_evolution_4g|752. LTE (Long Term Evolution 4세대 망 진화) All-IP 패킷 교환 완전 전환, OFDMA]]
+**다음**: [[754_mme_mobility_management_entity|754. MME (Mobility Management Entity 제어 데이터 평면 구조적 통제 핸드오버)]] →
+
+---

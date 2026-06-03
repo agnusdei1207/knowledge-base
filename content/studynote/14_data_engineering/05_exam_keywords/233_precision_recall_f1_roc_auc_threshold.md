@@ -221,3 +221,14 @@ ROC 곡선 · AUC: 임계값 독립 분류 성능
 ```
 2. F1은 정밀도와 [[092_recall_sensitivity_hit_rate|재현율]] 둘 다 잘 하는 사람에게 높은 점수를 주는 성적표다—하나만 잘하면 점수가 낮다.
 3. ROC AUC는 "문턱을 어디 두든 얼마나 잘 구별하나"를 한 숫자(0~1)로 표현한 것으로, 1에 가까울수록 뛰어난 AI다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 233 / 258
+
+← **이전**: [[232_tfidf_cosine_similarity_text_embedding_confusion_matrix|232. TF-IDF (Term Frequency-Inverse Document Frequency) 코사인 유사도 텍스트 임베딩 혼동]]
+**다음**: [[234_master_data_management_mdm_golden_record_clean_room|234. 마스터 데이터 관리 (MDM, Master Data Management) 골든 레코드 클린 룸]] →
+
+---

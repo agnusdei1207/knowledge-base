@@ -134,3 +134,14 @@ Reference Architecture
 1. [[196_kubernetes_k8s_container_orchestration|쿠버네티스]] [[198_pod_kubernetes_minimum_deployment_unit|포드]] [[007_security_policy|보안 정책]]은 복잡한 일을 순서와 규칙으로 정리해서 실수하지 않게 도와주는 방법이에요.
 2. Admission Control 같은 친구들과 같이 움직여야 더 잘 작동해요.
 3. 그래서 문제가 생겨도 어디서 틀렸는지 빨리 찾고 다시 고치기 쉬워져요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 251 / 373
+
+← **이전**: [[250_secret_management_aws_api_key|250. 시크릿 매니지먼트 (Secret Management)]]
+**다음**: [[252_container_escape_vm_gvisor_kata|252. 컨테이너 이스케이프 (Container Escape) 방어]] →
+
+---

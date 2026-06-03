@@ -234,3 +234,14 @@ CPU가 [[158_instruction|명령어]] 한 줄을 실행할 때마다 [[016_interr
 1. 엄마가 피자([[001_dikw_pyramid|데이터]])를 오븐(I/O 장치)에 넣고 나서, 피자가 다 구워질 때까지 오븐 앞에서 멍하니 기다리는 건 '[[448_polling_programmed_io|폴링]]'이라고 해요.
 2. 하지만 똑똑한 엄마는 오븐 타이머를 맞춰두고 거실로 와서 재미있는 책(다른 프로그램)을 읽었어요.
 3. 그러다 오븐에서 "땡!"([[016_interrupt_mechanism|인터럽트]]) 소리가 나면 그때만 잠깐 가서 피자를 꺼내오죠. 덕분에 엄마는 피자도 굽고 책도 읽는 두 가지 일을 동시에 해낼 수 있게 되었어요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 752 / 800
+
+← **이전**: [[751_smp_cache_coherence_false_sharing|751. SMP 캐시 일관성 폴스 셰어링 (SMP Cache Coherence False Sharing)]]
+**다음**: [[753_priority_inversion_prevention|753. 우선순위 역전 (Priority Inversion) 방지]] →
+
+---

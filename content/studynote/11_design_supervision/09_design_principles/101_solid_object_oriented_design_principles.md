@@ -131,3 +131,14 @@ SOLID 설계 원칙 · 유지보수성과 확장성의 체계화
 1. SOLID는 레고 장난감을 오래오래 튼튼하게 가지고 놀기 위한 5가지 조립 규칙이에요.
 2. 각 레고 블록은 하나의 일만 하고([[243_srp_single_responsibility_principle|SRP]]), 새로운 날개를 달고 싶을 때 기존 몸통을 부수지 않아도 되게([[746_ocp|OCP]]) 만들어요.
 3. 이 규칙을 잘 지키면 장난감이 아무리 커져도 블록을 쉽게 뺐다 꼈다 하면서 멋지게 업그레이드할 수 있답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 145 / 530
+
+← **이전**: [[101_solid_object_oriented_design_principles|101. 객체 지향 설계 원칙 (SOLID, Object-Oriented Design Principles)]]
+**다음**: [[102_srp_single_responsibility_principle|102. 단일 책임 원칙 (Single Responsibility Principle, SRP)]] →
+
+---

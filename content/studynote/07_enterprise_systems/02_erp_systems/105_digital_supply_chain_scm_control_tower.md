@@ -127,3 +127,14 @@ SCM 컨트롤 타워 (Control Tower) · 중앙 집중형 의사결정 및 대안
 1. 옛날에는 택배가 어디쯤 오고 있는지 몰라서 도착할 때까지 창밖만 보며 마냥 기다려야 했어요.
 2. 디지털 [[520_supply_chain_attack_and_ci_cd_security|공급망]]은 택배 상자에 GPS 칩을 달아서, 내 택배가 지금 대전인지 서울인지 지도에서 실시간으로 빤히 볼 수 있게 해 줘요.
 3. [[167_scm_software_configuration_management|SCM]] 컨트롤 타워는 지도에서 고속도로가 막히는 걸 미리 발견하면, 택배 아저씨한테 "그 길 막혀요! 골목길로 돌아가세요!"라고 알려줘서 물건을 제시간에 받게 해주는 똑똑한 지휘관이랍니다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 105 / 482
+
+← **이전**: [[104_aps_advanced_planning_scheduling|104. APS (Advanced Planning and Scheduling) - 제약 조건 최적화 기반 고급 스케줄링 솔루션 (메모리]]
+**다음**: [[106_blockchain_scm_traceability_cold_chain|106. 블록체인 SCM 이력 추적 - 물류 운송 단계별 콜드체인 온도 및 조작 불가 원장 저장]] →
+
+---

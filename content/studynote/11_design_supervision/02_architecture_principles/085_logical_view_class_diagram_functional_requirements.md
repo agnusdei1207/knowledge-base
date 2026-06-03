@@ -121,3 +121,14 @@ tags:
 1. [[369_logic_bomb|논리]] 뷰는 큰 레고 상자를 열어 "이 블록은 뭐 하는 블록인지"를 적는 설명서예요.
 2. [[233_class_diagram_static_structure_uml|클래스 다이어그램]]은 블록들이 서로 어떻게 붙는지 보여 주는 조립도예요.
 3. 설명서가 있으면 친구가 바뀌어도 같은 장난감을 다시 만들 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 128 / 530
+
+← **이전**: [[084_philippe_kruchten_4_1_view_architecture_model|84. 필립 크루첸 (Philippe Kruchten)의 4+1 View 모델]]
+**다음**: [[086_process_view_sequence_diagram_concurrency|86. 프로세스 뷰 (Process View) - 시스템의 동시성 및 동적 성능 설계]] →
+
+---

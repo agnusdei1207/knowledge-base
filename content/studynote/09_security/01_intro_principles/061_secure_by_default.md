@@ -146,3 +146,14 @@ Zero Trust
 새 장난감은 처음부터 잠금이 걸려 있어야 해요.  
 그래야 아무나 함부로 못 만져요.  
 필요할 때만 주인이 직접 열어 쓰는 거예요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 61 / 1108
+
+← **이전**: [[060_privacy_by_design|60. Privacy by Design (PbD) - 7대 기본 원칙]]
+**다음**: [[062_secure_coding|62. 시큐어 코딩 (Secure Coding)]] →
+
+---

@@ -106,3 +106,14 @@ tags:
 1. 네트워크 장비 [[032_firmware|펌웨어]] [[737_backdoor_c2_beacon_behavior_analysis|백도어]] 모니터링은 집 문을 잠그고 누가 드나드는지 기록하는 것과 비슷해요.
 2. 문이 잠겼는지뿐 아니라 열쇠를 누가 갖고 있는지도 같이 봐야 해요.
 3. 그래야 나쁜 사람이 들어왔을 때 바로 막고 다시 고칠 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 383 / 530
+
+← **이전**: [[312_audit|312. 네트워크 장비 펌웨어 백도어 모니터링 (Network Firmware Backdoor Monitoring Audit)]]
+**다음**: [[313_certificate_pinning|313. 모바일 통신 구간 인증서 핀닝 (Certificate Pinning)]] →
+
+---

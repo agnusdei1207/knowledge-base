@@ -177,3 +177,14 @@ Progress · ETA · Error · Gap 모니터링
 1. [[249_event_sourcing_append_only_state_reconstruction|이벤트 소싱]]은 매일 일어난 일을 순서대로 적어 둔 긴 이야기책 같아요.
 2. 리플레이는 그 책을 다시 읽어 지금 상태를 만드는 것이고, [[229_monitor|모니터]]링은 몇 [[286_page_frame|페이지]]까지 읽었는지 알려 주는 책갈피예요.
 3. 책갈피가 없거나 [[286_page_frame|페이지]]가 빠지면 다시 읽기가 오래 걸리거나 틀릴 수 있어서, 속도와 [[002_bigdata_5v|정확성]]을 같이 봐야 해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 168 / 373
+
+← **이전**: [[167_traffic_shadowing_sre_testing|167. 트래픽 섀도잉 (Traffic Shadowing)]]
+**다음**: [[169_finops_cloud_cost_monitoring_sre|169. 클라우드 비용 모니터링 FinOps (Cloud Cost Monitoring)]] →
+
+---

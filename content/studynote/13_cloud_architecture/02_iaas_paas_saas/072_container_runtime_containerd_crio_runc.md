@@ -127,3 +127,14 @@ Container Execution
 그림을 실제로 움직여요.  
 그 일을 하는 엔진이에요.  
 런타임은 그런 도구예요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 71 / 371
+
+← **이전**: [[071_oci_open_container_initiative_standard|71. OCI (Open Container Initiative) - 컨테이너 이미지 포맷과 런타임에 대한 글로벌 표준 규격 (도커 종속성]]
+**다음**: [[073_container_orchestration_tools|73. 오케스트레이션 (Orchestration) 도구 - 수백~수만 개의 컨테이너를 자동 배치, 스케일링, 로드밸런싱, 장애 복구(Self-healing)하는]] →
+
+---

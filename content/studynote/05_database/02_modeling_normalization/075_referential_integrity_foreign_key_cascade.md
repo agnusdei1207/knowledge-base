@@ -121,3 +121,14 @@ commit
 1. 엄마 이름표가 있어야 아이 이름표도 맞아요.
 2. 엄마가 사라지면 아이도 같이 없어질 수 있어요.
 3. 하지만 기록이 중요하면 이름표만 바꾸고 남겨 두기도 해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 75 / 600
+
+← **이전**: [[074_entity_integrity_primary_key|74. 개체 무결성 (Entity Integrity) / 기본 키 (Primary Key)]]
+**다음**: [[076_domain_integrity|76. 도메인 무결성 (Domain Integrity) - 속성 값은 정의된 도메인에 속해야 함]] →
+
+---

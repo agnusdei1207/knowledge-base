@@ -131,3 +131,14 @@ Massive MIMO 결합 및 RIS (지능형 반사 표면)를 통한 6G 진화
 1. 어두운 방에서 친구를 찾을 때 방 전체를 밝히는 큰 전등을 켜면 전기를 많이 먹고 다른 친구들 눈까지 부시게 만들어요.
 2. 빔포밍은 '손전등'이나 '레이저 포인터'처럼 빛을 좁고 길게 만들어서, 딱 찾고자 하는 친구에게만 빛을 쏘아주는 똑똑한 [[171_antenna_basic_dipole_resonance|안테나]] 기술이에요.
 3. 덕분에 에너지를 아끼면서도 훨씬 더 멀리, 그리고 훨씬 더 빠르게 스마트폰 [[001_dikw_pyramid|데이터]]를 쏴줄 수 있답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 121 / 1120
+
+← **이전**: [[1019_thz_terahertz_6g_frequency_band_characteristics|1019. 테라헤르츠 (THz) 대역]]
+**다음**: [[1020_fso_free_space_optics_laser_communication|1020. 자유 공간 광통신 (FSO)]] →
+
+---

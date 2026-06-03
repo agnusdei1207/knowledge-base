@@ -165,3 +165,14 @@ tags:
 1. CF는 공룡 책 목록을 보고 책장에 갔을 때, 그 책들이 한 칸에 모여 있는지 보는 점수예요.
 2. 점수가 좋으면 한 번에 여러 권을 꺼낼 수 있어서 금방 끝나요.
 3. 점수가 나쁘면 책이 여기저기 흩어져 있어서 선생님이 책장을 계속 뛰어다녀야 해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 169 / 600
+
+← **이전**: [[168_clustering_factor_index_physical_alignment|168. 데이터 딕셔너리 통계 정보 (Statistics) - 테이블 건수, 블록 수, 인덱스 높이, 클러스터링 팩터 등]]
+**다음**: [[170_selectivity_cardinality_distribution_tuning|170. 선택도 (Selectivity) / 기수성 (Cardinality) / 분포도 (Distribution)]] →
+
+---

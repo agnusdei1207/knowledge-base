@@ -92,3 +92,14 @@ Hive는 현대적인 '[[210_data_lakehouse_delta_lake|데이터 레이크하우�
 - 아주 넓은 창고([[843_hadoop_rack_awareness_data_replication_topology|하둡]])에 수많은 장난감이 흩어져 있다고 해보자.
 - Hive는 "빨간색 자동차 가져와!"라고 말하면 창고 어디에 그게 있는지 대신 찾아주는 '도서관 사서'님이야.
 - 어려운 코딩 언어를 몰라도 "자동차 찾아줘"라고 우리 말(SQL)로 부탁하면 알아서 척척 찾아준단다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 36 / 262
+
+← **이전**: [[035_yarn_resource_negotiator|YARN: 하둡의 클러스터 자원 관리 및 통합 스케줄링 계층]]
+**다음**: [[037_apache_hbase_column_family|Apache HBase: 하둡 기반의 고성능 분산 NoSQL 데이터베이스]] →
+
+---

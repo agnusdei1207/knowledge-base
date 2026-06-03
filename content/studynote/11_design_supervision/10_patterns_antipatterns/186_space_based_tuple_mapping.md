@@ -154,3 +154,14 @@ Hot Spot 제어 · Idempotency · Versioned Payload
 1. 여러 친구가 함께 쓰는 장난감 창고에서는 장난감에 이름표와 칸 번호가 꼭 있어야 해요.
 2. 그래야 누가 어디에서 꺼내야 하는지, 언제 치워야 하는지 빨리 알 수 있어요.
 3. 스페이스 기반 아키텍처의 투플 맵핑은 장난감 창고의 이름표와 정리 규칙 같은 거예요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 243 / 530
+
+← **이전**: [[186_space_based_architecture|186. 스페이스 기반 아키텍처 (Space-Based Architecture)]]
+**다음**: [[187_lmax_disruptor_architecture|187. LMAX 디스럽터 아키텍처 (LMAX Disruptor Architecture)]] →
+
+---

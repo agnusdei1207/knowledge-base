@@ -129,3 +129,14 @@ AI 챗봇 결합 및 Shift-Left 최적화 ──▶ 티켓리스(Ticketless) 및
 1. [[073_spoc|SPOC]](스폭)은 학교에서 싸움이 나든 배가 아프든, 무조건 '양호 선생님(단일 창구)' 한 명한테만 달려가도록 정해놓은 약속이에요.
 2. 예전(헬프 데스크)에는 피가 나야만 양호 선생님이 밴드를 붙여줬지만, 지금([[072_service_desk|서비스 데스크]])은 다치기 전에 건강검진도 해주고 체육복도 빌려주는 만능 센터가 되었어요.
 3. 양호 선생님이 못 고치는 큰 병이면, 직접 병원 전문 의사 선생님(고급 기술자)에게 연락해서 끝까지 내 병을 책임지고 고쳐준답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 51 / 482
+
+← **이전**: [[050_cmdb_configuration_management_database|CMDB — 구성 관리 데이터베이스 (Configuration Management Database)]]
+**다음**: [[052_incident_management|52. 인시던트 관리 (Incident Management)]] →
+
+---

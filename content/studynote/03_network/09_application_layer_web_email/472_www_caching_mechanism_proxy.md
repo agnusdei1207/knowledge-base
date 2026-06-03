@@ -233,3 +233,14 @@ WWW [[456_caching|캐싱]] 메커니즘 / [[264_proxy_pattern_surrogate_access_c
 1. 인터넷에서 사진을 볼 때마다 매번 멀리 있는 미국 서버까지 가서 가져오려면 시간도 오래 걸리고 배달부 아저씨도 너무 힘들어요.
 2. 웹 [[456_caching|캐싱]]은 그 사진을 내 컴퓨터 서랍(브라우저)이나 우리 동네 창고([[506_cdn_content_delivery_network_edge_caching|CDN]])에 살짝 **'복사본'**으로 보관해 두고, 다음에 볼 때는 서랍에서 1초 만에 꺼내보는 마법이에요.
 3. 대신 원본 사진이 업데이트되면 서랍에 있는 낡은 사진을 과감히 버리고 새 사진을 받아와야 하는데, 언제 버릴지 똑똑하게 정해주는 규칙이 아주 중요하답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 593 / 1120
+
+← **이전**: [[471_https_http_over_tls|471. HTTPS (HTTP over TLS)]]
+**다음**: [[473_cache_control_header|473. 캐시 제어 헤더 (Cache-Control: max-age, no-cache, no-store 등)]] →
+
+---

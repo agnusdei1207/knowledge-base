@@ -150,3 +150,13 @@ tags:
 2. 중간에 “창문 하나 더!” 하고 바꾸고 싶으면, 얼마나 더 걸리는지 먼저 같이 이야기하고 고쳐야 해요.
 3. 그래야 나중에 왜 모양이 바뀌었는지 잊지 않고, 모두가 같은 그림을 보고 만들 수 있어요.
 
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 158 / 973
+
+← **이전**: [[157_requirements_traceability_matrix_rtm|157. 요구사항 추적 매트릭스 (RTM, Requirements Traceability Matrix)]]
+**다음**: [[159_baseline_requirements_configuration_management|159. 베이스라인 (Baseline) 설정 및 관리]] →
+
+---

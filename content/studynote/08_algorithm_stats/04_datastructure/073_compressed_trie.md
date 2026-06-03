@@ -93,3 +93,14 @@ Standard Trie:        Compressed Trie (Patricia):
 1. 일반 [[087_trie|트라이]]가 한 글자씩 써진 계단을 하나씩 밟고 올라가는 거라면,
 2. [[347_compaction|압축]] [[087_trie|트라이]]는 똑같은 글자가 계속될 때 그 계단들을 엘리베이터처럼 한 번에 슝~ 지나가는 거예요.
 3. 덕분에 훨씬 빨리 꼭대기(단어 끝)에 도착하고, 계단도 적게 만들어서 땅을 아낄 수 있답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 73 / 175
+
+← **이전**: [[072_fenwick_tree|펜윅 트리 / BIT (Fenwick Tree / Binary Indexed Tree) — 구간 합]]
+**다음**: [[074_suffix_tree_array|22. 서픽스 트리/배열 (Suffix Tree/Array) — 문자열 분석]] →
+
+---

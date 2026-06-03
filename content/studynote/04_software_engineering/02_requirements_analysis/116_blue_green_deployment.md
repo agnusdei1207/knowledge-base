@@ -116,3 +116,14 @@ tags:
 1. 블루/그린은 **무대 2개**가 있는 극장이에요. 하나는 공연 중이고, 다른 하나에서 새 공연을 준비해요.
 2. 준비가 끝나면 **조명을 순간 전환**해서 관객이 끊김 없이 새 공연을 봐요.
 3. 새 공연이 이상하면 **조명만 다시 바꾸면([[098_rollback_strategy_pipeline_error_threshold|롤백]])** 원래 공연으로 돌아갈 수 있답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 116 / 973
+
+← **이전**: [[115_canary_deployment_gradual_rollout|115. 카나리 배포 (Canary Deployment) - 점진적 롤아웃과 트래픽 분배 전략]]
+**다음**: [[117_rolling_update_deployment|117. 롤링 업데이트 (Rolling Update Deployment) - K8s 기본 무중단 배포 전략]] →
+
+---

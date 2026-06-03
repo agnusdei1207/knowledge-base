@@ -237,3 +237,14 @@ Kafka Connect + Schema Registry → 데이터 통합 허브
 ```
 2. [[514_partition_slice_volume|파티션]]은 채널을 여러 조각으로 나눠서 여러 TV(컨슈머)가 동시에 시청하게 하는 것 — 채널 조각이 많을수록 더 많은 TV가 동시에 볼 수 있어!
 3. 오프셋은 '어디까지 봤어요' 표시야 — TV를 껐다 켜도 이어보기가 되고, 다른 사람이 봐도 내 진도는 그대로야.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 214 / 258
+
+← **이전**: [[213_data_lakehouse_delta_lake_parquet_acid|213. 데이터 레이크하우스 (Data Lakehouse) Delta Lake 파케이 ACID]]
+**다음**: [[215_flink_native_stream_watermark_window_time|215. 아파치 플링크 (Apache Flink) 네이티브 스트림 워터마크 윈도우]] →
+
+---

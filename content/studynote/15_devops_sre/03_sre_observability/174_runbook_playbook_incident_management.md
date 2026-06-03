@@ -181,3 +181,14 @@ Postmortem-driven continuous update loop
 1. 런북은 "이 알람이 울리면 이렇게 해요"라고 적힌 자세한 레시피예요.
 2. [[637_playbook|플레이북]]은 여러 레시피를 모아 두고, 누가 무엇을 맡을지도 적어 둔 큰 작전판이에요.
 3. 그래서 갑자기 문제가 생겨도 당황하지 않고 차례대로 움직일 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 174 / 373
+
+← **이전**: [[173_microburst_traffic_spike_detection|173. 마이크로버스트 트래픽 스파이크 탐지 (Microburst Traffic Spike Detection)]]
+**다음**: [[175_buffer_queue_telemetry|175. 시스템 경계 완충지대 텔레메트리 (Buffer/Queue Telemetry)]] →
+
+---

@@ -139,3 +139,14 @@ tags:
 1. [[241_machine_learning_basics|머신러닝]] 과적합 [[257_ensemble_learning|앙상블]] [[259_bagging_random_forest|배깅]] [[127_boosting|부스팅]] 모델 비교는 복잡한 일을 순서대로 정리해 주는 큰 정리함이에요.
 2. 어디에 무엇을 넣을지 먼저 정해 두면, 나중에 찾거나 고칠 때 훨씬 쉬워져요.
 3. 그래서 일이 커질수록 먼저 기준을 만들고 같이 약속하는 것이 중요해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 460 / 482
+
+← **이전**: [[459_arima_timeseries_forecast|459. 시계열 ARIMA 정상 데이터 평활 예측 모델 (ARIMA Time Series Forecasting)]]
+**다음**: [[461_v_model_inspection_oat|461. V-모델 인스펙션 정적 검증 OAT 인수 테스트 (V-Model, Inspection, OAT)]] →
+
+---

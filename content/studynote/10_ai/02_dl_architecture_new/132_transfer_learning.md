@@ -63,3 +63,14 @@ Transfer Learning은 **현대 AI의 기본 패러다임**이며, [[617_lora_lora
 1. Transfer Learning은 **대학 교양(사전 학습)** 후 **전공([[304_fine_tuning|Fine-tuning]])**을 고르는 거예요.
 2. 교양을 열심히 하면 **어떤 전공이든 빨리** 배울 수 있어요.
 3. LoRA는 **전공 한두 과목만** 추가로 듣는 효율적인 방법이에요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 132 / 420
+
+← **이전**: [[131_self_supervised_learning|131. 자기 지도 학습 (Self-Supervised Learning) - 라벨 없이 학습하는 사전 훈련]]
+**다음**: [[133_fine_tuning|133. Fine-tuning (미세 조정) - 사전 학습 모델의 도메인 적응]] →
+
+---

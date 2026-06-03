@@ -185,3 +185,14 @@ Round Robin scheduling
 1. 라운드 로빈은 친구들이 한 대의 컴퓨터를 쓸 때 5분씩 번갈아 가며 차례를 주는 규칙이에요.
 2. 그래서 오래 게임하는 친구가 있어도 다른 친구들이 아주 오랫동안 기다리지는 않아요.
 3. 하지만 차례를 너무 짧게 잘라 버리면 게임보다 자리 바꾸는 시간이 더 많아져서 오히려 재미가 없어져요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 178 / 800
+
+← **이전**: [[177_srtf_scheduling|177. SRTF (Shortest Remaining Time First) 스케줄링 - SJF의 선점형 버전]]
+**다음**: [[179_time_quantum_context_switch|179. 시간 할당량 (Time Quantum / Time Slice) 의 크기와 문맥 교환 오버헤드]] →
+
+---

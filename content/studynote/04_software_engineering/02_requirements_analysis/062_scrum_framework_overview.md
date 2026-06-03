@@ -136,3 +136,14 @@ Sprint Review / Retrospective
 스크럼은 짧게 일하고 자주 확인하는 방법이에요.  
 무엇을 할지 정하고, 조금 만들고, 다시 고쳐요.  
 그래서 점점 더 잘할 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 62 / 973
+
+← **이전**: [[061_agile_manifesto|61. 애자일 선언문 (Agile Manifesto) - 4가지 가치, 12가지 원칙]]
+**다음**: [[063_product_owner_po|63. 제품 책임자 (Product Owner, PO)]] →
+
+---

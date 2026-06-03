@@ -209,3 +209,14 @@ IBM이 개발하여 리눅스 [[022_kernel_role|커널]]에 메인라인으로 �
 1. 평소에 학교([[001_operating_system_purpose|운영체제]])에서는 교문([[690_firewall_generation_evolution|방화벽]])에서 한 번만 이름표를 검사하면, 학교 안에서는 누구나 자유롭게 뛰어놀았어요.
 2. 하지만 나쁜 악당이 학생으로 변장해서 들어오는 일이 생겼어요. 그래서 '제로 트러스트'라는 새로운 규칙을 만들었어요!
 3. 이제는 학교 안에서 밥을 먹을 때도, 체육관에 들어갈 때도, 심지어 연필을 꺼낼 때마다 선생님([[022_kernel_role|커널]] IMA)이 "너 진짜 우리 학생 맞아? 지문 찍어봐!"라고 실시간으로 계속 검사를 한답니다. 위조범은 절대 아무것도 할 수 없어요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 667 / 800
+
+← **이전**: [[666_secure_enclave_trustzone_sgx_tee|666. 보안 엔클레이브 (TrustZone, SGX)와 OS TEE (Trusted Execution Environment) 연동 구조]]
+**다음**: [[668_side_channel_attack_meltdown_spectre_kpti|668. 부채널 공격 (Side-channel Attack, Meltdown/Spectre) 마이크로아키텍처 취약점 대응 소프트웨어 패치(KPTI,]] →
+
+---

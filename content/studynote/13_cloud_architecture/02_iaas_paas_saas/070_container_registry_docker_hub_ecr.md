@@ -129,3 +129,14 @@ CI/CD Deployment
 상자를 모아 두는 창고예요.  
 필요할 때 꺼내서 써요.  
 [[561_container_based_deployment|컨테이너]] [[235_registry_immutable_tag|레지스트리]]는 그런 곳이에요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 69 / 371
+
+← **이전**: [[069_layered_file_system_unionfs|69. 레이어드 파일 시스템 (Layered File System / UnionFS) - 도커 이미지의 핵심. 변경된 레이어(Layer)만]]
+**다음**: [[071_oci_open_container_initiative_standard|71. OCI (Open Container Initiative) - 컨테이너 이미지 포맷과 런타임에 대한 글로벌 표준 규격 (도커 종속성]] →
+
+---

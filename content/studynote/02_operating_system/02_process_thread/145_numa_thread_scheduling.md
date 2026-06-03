@@ -298,3 +298,14 @@ NUMA-인식 스레드 스케줄링
 1. [[377_numa_allocation|NUMA]]-인식 [[092_thread_lwp|스레드]] 스케줄링 ([[377_numa_allocation|NUMA]] [[092_thread_lwp|Thread]] Scheduling)은 컴퓨터가 여러 일을 나눠서 처리하고 서로 기다리게 하는 약속이에요.
 2. 먼저 CPU 친화성 ([[144_cpu_affinity|CPU Affinity]])을 이해하면 [[377_numa_allocation|NUMA]]-인식 [[092_thread_lwp|스레드]] 스케줄링 ([[377_numa_allocation|NUMA]] [[092_thread_lwp|Thread]] Scheduling)이 왜 필요한지 더 쉽게 보여요.
 3. 그래서 [[377_numa_allocation|NUMA]]-인식 [[092_thread_lwp|스레드]] 스케줄링 ([[377_numa_allocation|NUMA]] [[092_thread_lwp|Thread]] Scheduling)을 잘 알면 나중에 [[146_realtime_process|실시간 프로세스]] ([[146_realtime_process|Real-time Process]])도 훨씬 쉽게 배울 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 145 / 800
+
+← **이전**: [[144_cpu_affinity|144. CPU 친화성 (CPU Affinity) - Soft Affinity vs Hard Affinity]]
+**다음**: [[146_realtime_process|146. 실시간 프로세스 (Real-time Process)]] →
+
+---

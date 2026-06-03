@@ -125,3 +125,14 @@ tags:
 1. [[001_dikw_pyramid|데이터]] 추출 공격 ([[001_dikw_pyramid|Data]] Extraction)는 누군가 규칙의 틈을 찾아 몰래 장난을 치는 방법이에요.
 2. 그래서 문을 단단히 잠그는 것뿐 아니라, 누가 이상하게 움직이는지도 바로 알아차려야 해요.
 3. 컴퓨터는 이상한 흔적을 빨리 보고 퍼지기 전에 멈추게 해야 안전해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 1054 / 1108
+
+← **이전**: [[957_adversarial_prompting|957. 적대적 프롬프트 (Adversarial Prompting)]]
+**다음**: [[959_ai_phishing|959. AI 기반 피싱 (AI Phishing)]] →
+
+---

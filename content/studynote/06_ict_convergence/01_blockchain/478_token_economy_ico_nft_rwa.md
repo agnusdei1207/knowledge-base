@@ -149,3 +149,14 @@ tags:
 1. FT는 현금처럼 모두 같은 가치, NFT는 나만의 번호가 붙은 한정판 카드예요.
 2. ICO는 아이디어만 보고 투자하는 것, RWA는 실제 건물이나 금에 투자하는 것이에요.
 3. 토큰을 잘 설계하면 모두가 행복한 게임이 되고, 잘못 설계하면 게임 화폐가 쓸모없어집니다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 478 / 552
+
+← **이전**: [[477_smart_contract_evm_gas_execution|477. 스마트 컨트랙트 EVM과 가스 실행 구조 (Smart Contract EVM and Gas Execution)]]
+**다음**: [[479_zero_knowledge_proof_zkp_privacy|479. 영지식 증명 ZKP와 프라이버시 보호 (ZKP Zero-Knowledge Proof Privacy)]] →
+
+---

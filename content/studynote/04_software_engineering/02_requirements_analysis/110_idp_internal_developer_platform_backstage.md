@@ -124,3 +124,14 @@ IDP는 [[190_ai_llm_requirements_specification|AI]] 코드 [[087_process_state_t
 1. IDP는 학교 앞 **문구점 자판기**예요. 공책·연필·지우개가 세트로 들어있어요.
 2. 옛날에는 공책은 A가게, 연필은 B가게, 지우개는 C가게를 돌아다녀야 했는데, 이제 **버튼 하나**면 세트가 뿅 나와요!
 3. 덕분에 아이들(개발자)은 가게 돌아다닐 시간 없이 바로 공부(코딩)에 집중할 수 있답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 110 / 973
+
+← **이전**: [[109_platform_engineering_cognitive_load|109. 플랫폼 엔지니어링 (Platform Engineering) - 개발자 인지 부하 해소와 IDP 셀프서비스]]
+**다음**: [[111_observability_metrics_logs_traces|111. 관측 가능성 (Observability) - Metrics·Logs·Traces 3대 신호와 SRE 실천]] →
+
+---

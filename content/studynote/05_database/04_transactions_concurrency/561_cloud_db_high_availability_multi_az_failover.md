@@ -132,3 +132,14 @@ tags:
 1. 장난감 집을 오래 쓰려면 예비 부품과 점검표가 있어야 해요.
 2. 고장 난 뒤에 찾으면 너무 늦어요.
 3. 그래서 미리 복사본과 [[396_validation|확인]] 방법을 준비해 두는 거예요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 561 / 600
+
+← **이전**: [[560_data_fabric_knowledge_graph_intelligent_exploration|560. 데이터 패브릭 지식 그래프 연동 지능형 데이터 탐색 메타 계층]]
+**다음**: [[562_b_tree_disk_io_optimization_fanout|562. B-Tree 디스크 I/O 최적화 팬아웃 차수 및 노드 크기 블록 매핑]] →
+
+---

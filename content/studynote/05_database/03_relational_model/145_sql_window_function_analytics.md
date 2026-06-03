@@ -52,3 +52,14 @@ Window Frame은 **이동 평균·누적합·연속 집계의 핵심**이며, ROW
 1. Window Frame은 **망원경 줌**이에요. 넓게 or 좁게 볼 범위를 정해요.
 2. "최근 3일 평균"은 **2 PRECEDING**으로 앞 2행+현재 행을 봐요.
 3. "전체 누적합"은 **UNBOUNDED PRECEDING**으로 처음부터 다 더해요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 145 / 600
+
+← **이전**: [[144_correlated_subquery_nested_loop|144. 상관 서브쿼리 (Correlated Subquery) - 외부 참조 Nested Loop]]
+**다음**: [[146_window_function_partition_by_order_by|146. PARTITION BY & ORDER BY - Window 함수 핵심 절]] →
+
+---

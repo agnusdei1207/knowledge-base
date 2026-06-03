@@ -134,3 +134,14 @@ GitOps
 [[207_helm_kubernetes_package_manager_chart|Helm]] Charts는 레고 설명서처럼 부품과 순서를 묶어 둔 거예요.  
 색깔만 바꿔 여러 [[288_version_ihl_tos_total_length|버전]]을 만들 수 있어요.  
 그래서 같은 모양을 여러 곳에 쉽게 설치할 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 61 / 373
+
+← **이전**: [[060_chatops|60. ChatOps (Chat + Operations) 협업 운영 모델]]
+**다음**: [[062_infrastructure_as_code|62. 인프라스트럭처 애즈 코드 (Infrastructure as Code, IaC)]] →
+
+---

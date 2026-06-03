@@ -119,3 +119,14 @@ K 이웃 선택
 K-NN은 새 친구가 오면 옆에 있는 친구들만 보고 누구와 비슷한지 맞히는 게임이에요.  
 가까운 친구가 많을수록 그 친구의 정체를 더 잘 짐작할 수 있어요.  
 하지만 친구가 너무 많아지면 한 명씩 다 보기 힘들어져요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 56 / 420
+
+← **이전**: [[055_logistic_regression_sigmoid_binary_classification|55. 로지스틱 회귀와 시그모이드 이진 분류 (Logistic Regression / Sigmoid Binary Classification)]]
+**다음**: [[057_k_means_clustering_unsupervised_learning|57. K-Means 군집화 (K-Means Clustering) - 중심점 반복 이동으로 군집 찾기]] →
+
+---

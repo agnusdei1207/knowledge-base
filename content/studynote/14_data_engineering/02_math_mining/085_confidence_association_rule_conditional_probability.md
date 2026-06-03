@@ -122,3 +122,14 @@ Support / Confidence / Lift 평가
 1. 신뢰도는 "빵을 사는 사람이 우유도 같이 살까?"를 보는 거예요.
 2. 많이 같이 산다고 해도 우유가 원래 인기면 별로 놀랍지 않을 수 있어요.
 3. 그래서 자주 나오는지와 정말 특별한지를 같이 봐야 해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 85 / 258
+
+← **이전**: [[084_support_association_rule_transaction|84. 지지도 (Support) - 연관 규칙 평가 지표]]
+**다음**: [[086_lift_association_rule_marketing|86. 향상도 (Lift) - 연관 규칙의 유의성 검증 지표]] →
+
+---

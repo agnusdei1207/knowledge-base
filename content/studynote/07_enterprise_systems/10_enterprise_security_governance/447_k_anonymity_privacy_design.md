@@ -139,3 +139,14 @@ tags:
 1. [[001_dikw_pyramid|데이터]] 익명성 K-익명화 프라이버시 설계는 복잡한 일을 순서대로 정리해 주는 큰 정리함이에요.
 2. 어디에 무엇을 넣을지 먼저 정해 두면, 나중에 찾거나 고칠 때 훨씬 쉬워져요.
 3. 그래서 일이 커질수록 먼저 기준을 만들고 같이 약속하는 것이 중요해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 447 / 482
+
+← **이전**: [[446_k8s_oom_killing_policy|446. 다중 클러스터 OOM 킬링 정책 스케줄 (Kubernetes OOM Killer & Multi-Cluster Scheduling)]]
+**다음**: [[448_bcp_bia_rto_disaster_recovery|448. BCP BIA RTO 재해 복구 비즈니스 파급 분석 (BCP, BIA, RTO/RPO)]] →
+
+---

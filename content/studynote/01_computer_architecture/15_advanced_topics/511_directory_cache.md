@@ -162,3 +162,14 @@ backing directory in LLC / memory
 1. [[506_directory_structure_symbol_table|디렉터리]] 캐시는 누가 같은 장난감을 빌려 갔는지 적어 둔 빠른 메모장이에요.
 2. 자주 찾는 장난감은 큰 장부를 뒤지지 않고 이 메모장만 보면 바로 알 수 있어요.
 3. 그래서 친구가 많아져도 필요한 친구에게만 빨리 연락할 수 있답니다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 511 / 803
+
+← **이전**: [[510_snooping_bus_bottleneck|510. 스누핑 버스 병목 현상 (Snooping Bus Bottleneck)]]
+**다음**: [[512_mesi_protocol_states|512. 메시 프로토콜 상태 전이도 (MESI Protocol State Transition Diagram)]] →
+
+---

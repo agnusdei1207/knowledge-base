@@ -54,3 +54,14 @@ LLM은 **Pre-[[588_mlops_pipeline_automation|training]] + IT + [[250_rlhf_human_
 1. LLM은 **엄청 많은 책을 읽은 [[190_ai_llm_requirements_specification|AI]]**예요. 수십억 문장을 읽었어요.
 2. 책을 읽고(Pre-[[588_mlops_pipeline_automation|training]]), **선생님 말씀 듣는 법(IT)**을 배우고, **예의([[250_rlhf_human_feedback_reinforcement_alignment_cot|RLHF]])**를 배워요.
 3. ChatGPT처럼 **질문하면 답하는** 똑똑한 AI가 되는 거예요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 141 / 420
+
+← **이전**: [[140_gpt|140. GPT (Generative Pre-trained Transformer) - 자기회귀 언어 모델]]
+**다음**: [[142_concept|142. LLM 스케일링 법칙 & Emergence - 규모의 법칙과 창발]] →
+
+---

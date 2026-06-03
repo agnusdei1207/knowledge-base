@@ -251,3 +251,14 @@ Cassandra는 단일 [[172_maas_mobility_as_a_service|마스]]터 RDBMS의 확장
 1. Cassandra는 원형으로 앉은 친구들이 서로 노트를 돌려보는 스터디 모임 — 선생님 없이도 모두가 같은 내용을 갖게 돼요.
 2. RF=3이면 노트를 3개 복사해서 서로 다른 친구에게 맡기는 것 — 한 친구가 결석해도 나머지에게 물어볼 수 있어요.
 3. Compaction은 주기적인 방 정리 — 쓰레기(삭제된 [[001_dikw_pyramid|데이터]])가 쌓이면 필요한 물건(진짜 [[001_dikw_pyramid|데이터]])을 찾는 데 시간이 오래 걸리니까요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 132 / 262
+
+← **이전**: [[131_column_family_db|131. 컬럼 패밀리 데이터베이스 (Column Family DB) — Cassandra/HBase/ScyllaDB]]
+**다음**: [[133_graph_db|133. 그래프 데이터베이스 (Graph DB) — Neo4j/Amazon Neptune/Memgraph]] →
+
+---

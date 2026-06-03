@@ -125,3 +125,14 @@ tags:
 1. [[381_ah_authentication_header_integrity_auth|AH]] ([[381_ah_authentication_header_integrity_auth|Authentication Header]])는 학교 규칙표처럼 무엇을 준비하고 어떻게 [[396_validation|확인]]할지 알려 주는 기준이에요.
 2. 규칙표만 붙여 두고 지키지 않으면 아무 소용이 없어요.
 3. 그래서 보안도 규칙과 실제 행동이 함께 맞아야 해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 1078 / 1108
+
+← **이전**: [[979_llm04_model_dos|979. LLM04: Model DoS (LLM04: Model DoS)]]
+**다음**: [[980_llm05_supply_chain|980. LLM05: Supply Chain (LLM05: Supply Chain)]] →
+
+---

@@ -201,3 +201,14 @@ Flink의 가장 강력한 기능 중 하나는"이벤트 시간(발생 시간) �
 
 ---
 > **🛡️ Expert [[395_verification_process_review|Verification]]:** 본 문서는 Apache Flink의 핵심 개념(Continuous Processing, Event Time, Checkpoint)과 [[206_spark_inmemory_rdd_lazy_evaluation_lineage|Apache Spark]] Streaming과의 비교를 기준으로 기술적 [[002_bigdata_5v|정확성]]을 [[395_verification_process_review|검증]]하였습니다. (Verified at: 2026-04-05)
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 76 / 262
+
+← **이전**: [[075_spark_35_improvements|24. Apache Spark 3.5 주요 개선 사항]]
+**다음**: [[077_apache_kafka|02. Apache Kafka - 메시징에서 데이터 허브로의 진화]] →
+
+---

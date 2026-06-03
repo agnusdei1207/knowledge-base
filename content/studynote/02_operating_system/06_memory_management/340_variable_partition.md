@@ -202,3 +202,14 @@ tags:
 1. 가변 분할 방식 (Variable [[514_partition_slice_volume|Partition]])은 컴퓨터가 메모리를 방처럼 나눠 쓰고 주소를 찾는 방법이에요.
 2. 먼저 [[339_fixed_partition|고정 분할 방식]] ([[339_fixed_partition|Fixed Partition]])을 이해하면 가변 분할 방식 (Variable [[514_partition_slice_volume|Partition]])이 왜 필요한지 더 쉽게 보여요.
 3. 그래서 가변 분할 방식 (Variable [[514_partition_slice_volume|Partition]])을 잘 알면 나중에 [[341_internal_fragmentation|내부 단편화]] ([[341_internal_fragmentation|Internal Fragmentation]])도 훨씬 쉽게 배울 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 340 / 800
+
+← **이전**: [[339_fixed_partition|339. 고정 분할 방식 (Fixed Partition)]]
+**다음**: [[341_internal_fragmentation|341. 내부 단편화 (Internal Fragmentation) - 할당된 공간 내 남는 공간]] →
+
+---

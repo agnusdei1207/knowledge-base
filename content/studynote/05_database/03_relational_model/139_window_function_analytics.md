@@ -55,3 +55,14 @@ Window Function은 **현대 SQL 분석의 핵심**이며, [[144_correlated_subqu
 1. Window Function은 **석차표**예요. 각 학생 점수는 **그대로 두고 순위만 붙여요**.
 2. GROUP BY는 "반 평균만" 보여주지만, Window는 **각 학생 + 반 평균** 모두 보여줘요.
 3. "이전 시험보다 올랐나?"도 **LAG**로 쉽게 알 수 있어요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 139 / 600
+
+← **이전**: [[138_sql_subquery|138. SQL 서브쿼리 (Subquery) - 쿼리 안의 쿼리]]
+**다음**: [[140_sql_subquery|140. SQL 서브쿼리 심화 - EXISTS·IN·스칼라·인라인 뷰]] →
+
+---

@@ -137,3 +137,14 @@ Portability Design
 한 가게만 쓰는 열쇠를 많이 만들면 그 가게에 더 묶여요.  
 같은 규격으로 만들면 다른 곳으로 옮기기 쉬워요.  
 클라우드 락인은 그 옮기기 어려움을 줄이는 방법이에요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 63 / 482
+
+← **이전**: [[062_colocation_data_center_leasing|62. 코로케이션 (Colocation) - 데이터센터 공간 임대 서비스]]
+**다음**: [[064_cloud_migration_6r_strategies|64. 클라우드 마이그레이션 전략 (6R: Rehost, Replatform, Refactor, Repurchase, Retire,]] →
+
+---

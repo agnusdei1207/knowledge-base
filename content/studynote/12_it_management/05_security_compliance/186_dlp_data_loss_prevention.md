@@ -157,3 +157,14 @@ Endpoint / Network / Storage DLP
 1. DLP는 중요한 비밀 종이가 가방이나 메일로 밖에 나가려 할 때 알려 주는 똑똑한 선생님이에요.
 2. 컴퓨터 안, 인터넷 길, [[501_file_definition_logical_record|파일]] 창고를 모두 살펴보면서 중요한 종이가 새어 나가지 않게 막아요.
 3. 그래서 회사는 중요한 정보가 어디로 가는지 알고, 잘못 나가면 바로 멈출 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 300 / 587
+
+← **이전**: [[185_access_control_mac_dac_rbac_abac|185. 접근 제어 메커니즘 (Access Control: MAC, DAC, RBAC, ABAC)]]
+**다음**: [[187_information_system_audit|187. 정보시스템 감리 (Information System Audit)]] →
+
+---

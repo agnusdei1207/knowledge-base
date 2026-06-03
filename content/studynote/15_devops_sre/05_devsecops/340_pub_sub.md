@@ -135,3 +135,14 @@ RabbitMQ/ActiveMQ  ->  LinkedIn Kafka 오픈소스    ->  Kafka Streams API
 1. [[179_kafka_flink_watermark_time_window|Kafka]] Topic은 TV 채널이에요. Partition은 같은 채널의 여러 화면이고, 각 Consumer가 한 화면씩 맡아서 봐요.
 2. Offset은 드라마를 어디까지 봤는지 기록하는 책갈피예요. 나중에 다시 봐도 이어서 볼 수 있어요.
 3. ISR은 중요한 방송을 녹화해두는 [[555_backup_and_restore_strategy|백업]] 장치예요. 녹화기가 최소 2대 있어야 방송이 안전하게 기록돼요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 340 / 373
+
+← **이전**: [[339_hdfs|339. Hadoop HDFS MapReduce Spark 빅데이터 분산 처리 (Hadoop HDFS MapReduce vs Spark]]
+**다음**: [[341_cdc_db|341. CDC 트랜잭션 변경 실시간 캡처 DB 이관 (Change Data Capture)]] →
+
+---

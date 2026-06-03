@@ -205,3 +205,14 @@ raw_products ─┘         ↑                                    │
 ```
 2. 이 정보가 있으면 "이 분석 결과가 왜 틀렸지?"라는 질문에 원재료(원본 [[001_dikw_pyramid|데이터]])부터 조리 과정(변환)까지 바로 찾아볼 수 있다.
 3. 특히 [[781_personal_information|개인정보]] [[571_protection_vs_security|보호]]법([[791_gdpr_eu|GDPR]]) 위반 시 "이 정보가 어디까지 퍼졌나"를 즉시 추적할 수 있어 법적 책임을 다할 수 있다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 224 / 258
+
+← **이전**: [[223_data_fabric_metadata_virtualization_integration|223. 데이터 패브릭 (Data Fabric) 메타데이터 가상화 AI 통합]]
+**다음**: [[225_kdd_t_test_anova_statistical_analysis|225. KDD (Knowledge Discovery in Databases) T검정 ANOVA 통계 분석]] →
+
+---

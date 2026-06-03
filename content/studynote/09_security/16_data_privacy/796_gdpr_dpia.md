@@ -125,3 +125,14 @@ DPIA ([[001_dikw_pyramid|Data]] [[571_protection_vs_security|Protection]] Impact
 1. DPIA ([[001_dikw_pyramid|Data]] [[571_protection_vs_security|Protection]] Impact Assessment)는 학교 규칙표처럼 무엇을 준비하고 어떻게 확인할지 알려 주는 기준이에요.
 2. 규칙표만 붙여 두고 지키지 않으면 아무 소용이 없어요.
 3. 그래서 보안도 규칙과 실제 행동이 함께 맞아야 해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 870 / 1108
+
+← **이전**: [[795_data_portability|795. Data Portability (데이터 이동권 (Data Portability)]]
+**다음**: [[797_gdpr_dpo|797. DPO (Data Protection Officer)]] →
+
+---

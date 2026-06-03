@@ -134,3 +134,14 @@ LSM-Tree ([[221_lsm_tree_memtable_sequential_flush_compaction|Log-Structured Mer
 1. 큰 장난감 상자를 종류별로 빨리 꺼내려고 다른 방식으로 나누어 담는 거예요.
 2. 정리 방식은 자유롭지만 규칙이 느슨하면 찾는 법을 잘 정해야 해요.
 3. 많이 넣고 많이 꺼낼 때 어떤 칸막이가 좋은지 고르는 일이 중요해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 377 / 600
+
+← **이전**: [[376_nosql_hinted_handoff_merkle_tree|376. NoSQL 파티션 톨러런스 복구 (Hinted Handoff, Anti-entropy 매커니즘 / 머클 트리(Merkle Tree)]]
+**다음**: [[378_lsm_compaction_tombstone|378. 콤팩션 (Compaction)]] →
+
+---

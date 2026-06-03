@@ -196,3 +196,14 @@ RDBMS와 NoSQL의 I/O 특성 및 트레이드오프를 결정하는 자료구조
 1. [[002_database_definition|데이터베이스]]가 책들이 잔뜩 있는 도서관이라면, DBMS는 그 도서관에서 일하는 아주 똑똑한 '사서 선생님'이에요.
 2. 우리가 "우주에 관한 책 찾아주세요"라고 말하면, 사서 선생님이 가장 빠른 길로 가서 책을 꺼내다 주죠.
 3. 책이 찢어지지 않게 [[571_protection_vs_security|보호]]하고, 다른 사람이 볼 때는 순서를 정해주는 것도 모두 사서 선생님([[502_dbms|DBMS]])이 하는 아주 중요한 일이랍니다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 3 / 600
+
+← **이전**: [[002_database_definition|2. 데이터베이스 (Database)의 정의 - 통합(Integrated), 저장(Stored), 운영(Operational), 공용(Shared)]]
+**다음**: [[004_data_independence|4. 데이터 독립성 (Data Independence) - 논리적 독립성 vs 물리적 독립성]] →
+
+---

@@ -172,3 +172,14 @@ TLB · Victim Cache · TCAM 응용
 1. 완전 연관 사상은 빈 자리가 있으면 어디든 앉아도 되는 자유석 교실이에요.
 2. 그래서 같은 번호 때문에 친구가 쫓겨나는 일은 거의 없어요.
 3. 하지만 누가 어디 앉았는지 찾으려면 선생님이 교실 전체를 한꺼번에 살펴봐야 해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 268 / 803
+
+← **이전**: [[267_direct_mapping|267. 직접 사상 (Direct Mapping)]]
+**다음**: [[269_set_associative_mapping|269. 집합 연관 사상 (Set Associative Mapping)]] →
+
+---

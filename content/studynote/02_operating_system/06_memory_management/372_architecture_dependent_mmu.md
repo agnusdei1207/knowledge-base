@@ -171,3 +171,14 @@ tags:
 1. 아키텍처 종속적인 [[328_mmu|MMU]] 인터페이스 ([[319_architecture|Architecture]] Dependent [[328_mmu|MMU]])은 컴퓨터가 메모리를 방처럼 나눠 쓰고 주소를 찾는 방법이에요.
 2. 먼저 [[371_huge_pages|거대 페이지]] ([[371_huge_pages|Huge Pages]] / Transparent [[371_huge_pages|Huge Pages]])을 이해하면 아키텍처 종속적인 [[328_mmu|MMU]] 인터페이스 ([[319_architecture|Architecture]] Dependent [[328_mmu|MMU]])이 왜 필요한지 더 쉽게 보여요.
 3. 그래서 아키텍처 종속적인 [[328_mmu|MMU]] 인터페이스 ([[319_architecture|Architecture]] Dependent [[328_mmu|MMU]])을 잘 알면 나중에 ARM / x86의 메모리 매핑 아키텍처 차이도 훨씬 쉽게 배울 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 372 / 800
+
+← **이전**: [[371_huge_pages|371. 거대 페이지 (Huge Pages / Transparent Huge Pages) - TLB 미스 감소]]
+**다음**: [[373_arm_x86_memory_mapping|373. ARM / x86의 메모리 매핑 아키텍처 차이 (Arm X86 Memory Mapping)]] →
+
+---

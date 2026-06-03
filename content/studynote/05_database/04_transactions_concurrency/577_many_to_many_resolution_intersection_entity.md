@@ -132,3 +132,14 @@ tags:
 1. 블록 상자에 이름표와 규칙을 붙여 두는 것과 같아요.
 2. 어떤 칸에 어떤 블록이 들어가야 하는지 정해야 나중에 안 헷갈려요.
 3. 규칙이 분명하면 고치기도 쉬워져요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 577 / 600
+
+← **이전**: [[576_factless_fact_table_event_tracking_coverage|576. 팩트리스 팩트 테이블 (Factless Fact Table) 이벤트 추적 차원 교차망 모델]]
+**다음**: [[578_supertype_subtype_physical_data_model_conversion|578. 수퍼타입/서브타입 데이터 물리 변환 1:1 병합 테이블 최적 접근 모델]] →
+
+---

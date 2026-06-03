@@ -137,3 +137,14 @@ tags:
 1. 사람 눈에는 똑같아 보이는 고양이 사진에 아주 작은 점을 찍으면 AI가 강아지라고 착각해요 — 이게 이베이전 공격이에요.
 2. 요리사가 음식을 만들기 전 재료를 살짝 오염시켜 나중에 모든 음식이 이상하게 되도록 하는 것이 포이즈닝이에요.
 3. AI가 공격에 강해지려면 처음부터 이런 속임수를 많이 경험하며 훈련해야 해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 470 / 552
+
+← **이전**: [[469_xai_lime_shap_local_global_attribution|469. XAI, LIME, SHAP: 국소/전역 기여도 해석 (XAI LIME SHAP Local Global Attribution)]]
+**다음**: [[471_federated_learning_privacy_gradient_aggregation|471. 연합 학습 프라이버시 보존 그래디언트 집계 (Federated Learning Privacy Gradient Aggregation)]] →
+
+---

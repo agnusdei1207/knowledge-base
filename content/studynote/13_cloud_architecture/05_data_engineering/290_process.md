@@ -113,3 +113,14 @@ tags:
 1. [[249_event_sourcing_append_only_state_reconstruction|이벤트 소싱]] 상태 변경 이력 순차 저장 스트림는 사람이 많은 운동회에서 어디로 가야 하는지 알려 주는 안내판과 비슷해요.
 2. 규칙이 없으면 모두가 한곳에 몰려서 느려지고 다투지만, 길을 정해 두면 훨씬 부드럽게 움직일 수 있어요.
 3. 그래서 컴퓨터 세상에서도 [[249_event_sourcing_append_only_state_reconstruction|이벤트 소싱]] 상태 변경 이력 순차 저장 스트림를 쓰면 많은 팀과 [[090_service_kubernetes_network_load_balancing|서비스]]가 덜 부딪히고 더 빨리 움직일 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 289 / 371
+
+← **이전**: [[289_cqrs_db|289. CQRS 명령(쓰기) 조회(읽기) 모델 DB 분리 (CQRS DB)]]
+**다음**: [[291_process|291. 서비스 메시 사이드카 프록시 통신 보안 제어 (Service Mesh)]] →
+
+---

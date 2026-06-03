@@ -111,3 +111,14 @@ tags:
 1. 백오프 리트라이와 [[307_circuit_breaker_pattern|서킷 브레이커]] (Backoff Retry and [[304_circuit_breaker|Circuit Breaker]])은 친구 집 문을 두드리다 안 열리면 잠시 쉬고, 계속 없으면 오늘은 그만두는 것처럼 약속을 먼저 정하는 거예요.
 2. 그러면 서로 다른 사람이 해도 같은 규칙으로 움직일 수 있어요.
 3. 그래서 규모가 커질수록 장애 종류에 따라 재시도와 차단을 구분하는 일이 더 중요해져요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 485 / 530
+
+← **이전**: [[406_mvp_mvvm|406. MVP·MVVM 패턴 (Model-View-Presenter and Model-View-ViewModel)]]
+**다음**: [[408_process|408. 디스럽터 패턴 (Disruptor Pattern)]] →
+
+---

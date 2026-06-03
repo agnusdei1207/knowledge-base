@@ -163,3 +163,14 @@ tags:
 1. 불 [[369_logic_bomb|논리]]는 [[238_switch_operation_principles|스위치]]를 켜고 끄듯 딱 잘라 말해요.
 2. 퍼지 [[369_logic_bomb|논리]]는 “조금 덥다”처럼 애매한 말을 숫자로 바꿔요.
 3. 마지막엔 그 숫자를 다시 실제 온도나 힘으로 바꿔 기계를 움직여요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 12 / 420
+
+← **이전**: [[011_backward_chaining|11. 후향 추론 (Backward Chaining) - 가설/목표에서 시작하여 조건 데이터 검증 (목표 주도)]]
+**다음**: [[013_state_space_search|13. 상태 공간 탐색 (State Space Search)]] →
+
+---

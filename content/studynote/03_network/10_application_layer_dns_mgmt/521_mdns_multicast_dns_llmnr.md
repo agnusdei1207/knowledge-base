@@ -122,3 +122,14 @@ mDNS / LMNR는 DoH에서 출발해 현재 메커니즘을 정교화하고, 이�
 1. 친구 이름을 전화번호부에서 찾는 것처럼 컴퓨터도 이름과 번호를 연결해요.
 2. 이 개념은 누가 아픈지 살펴보는 건강검진표와 운영일지 역할도 해요.
 3. 그래서 문제가 나도 빨리 찾고 고칠 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 642 / 1120
+
+← **이전**: [[520_doh_dns_over_https|520. DoH (DNS over HTTPS)]]
+**다음**: [[522_dhcp_dynamic_host_configuration_protocol|522. DHCP (Dynamic Host Configuration Protocol) 포트 67, 68]] →
+
+---

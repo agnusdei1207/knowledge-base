@@ -153,3 +153,14 @@ Value Stream Management 플랫폼 — 실시간 자동 측정
 1. VSM은 내가 학교 숙제를 시작해서 제출하기까지 어디서 시간이 가장 많이 걸리는지 지도로 그리는 거예요.
 2. "숙제하는 시간(1시간)"보다 "게임하다가 시작 못 한 시간(3시간)"이 더 크면, 게임 시간을 줄이는 게 정답이에요.
 3. PCE는 전체 시간 중 진짜 일한 시간 비율인데, 이게 낮을수록 낭비가 많다는 [[130_signal|신호]]예요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 360 / 373
+
+← **이전**: [[359_metric|359. 시맨틱 캐시 RAG 비용 응답 단축 계층 (Semantic Cache for RAG Cost and Latency Reduction)]]
+**다음**: [[361_architecture|361. 컨웨이의 법칙 조직 구조 소프트웨어 반영 아키텍처 (Conway Law Organizational Structure Reflected]] →
+
+---

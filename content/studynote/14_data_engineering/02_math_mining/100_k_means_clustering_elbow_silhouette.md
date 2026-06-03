@@ -128,3 +128,14 @@ K-Means 군집화 알고리즘 · 유클리드 거리 측정
 1. 모양이 다른 레고 블록 수만 개를 비슷한 모양끼리 알아서 바구니(K)에 담아 정리하는 똑똑한 로봇이 있어요.
 2. 하지만 로봇은 바구니를 몇 개 준비해야 할지 몰라서, 바구니 개수를 늘려가며 빈 공간이 안 줄어들 때(엘보우) 멈춰요.
 3. 정리가 다 끝나면, 바구니 안의 블록들이 얼마나 잘 어울리는지 [[396_validation|확인]]하는 채점표(실루엣)를 보고 제일 점수가 높은 바구니 개수를 최종 결정한답니다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 100 / 258
+
+← **이전**: [[099_ab_testing_statistical_power|A/B 테스트 검정력 및 p-value 해킹 (A/B Testing Power & p-value Hacking)]]
+**다음**: [[101_naive_bayes_classifier|나이브 베이즈 분류와 라플라스 스무딩 (Naive Bayes Classifier & Laplace Smoothing)]] →
+
+---

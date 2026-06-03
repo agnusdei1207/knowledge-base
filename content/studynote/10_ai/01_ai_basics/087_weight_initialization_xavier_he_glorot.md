@@ -121,3 +121,14 @@ Xavier 또는 He 선택
     1. 탑을 세울 때 첫 블록이 중요해요.
     2. 작게 시작하면 너무 약하고, 크게 시작하면 무너질 수 있어요.
     3. 그래서 신경망도 시작 크기를 잘 골라야 해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 87 / 420
+
+← **이전**: [[086_adam_optimizer_momentum_rmsprop|86. Adam (Adaptive Moment Estimation) - 최강의 결합 옵티마이저]]
+**다음**: [[088_vanishing_gradient_relu_skip_connection|88. 기울기 소실 (Vanishing Gradient) - 딥러닝 암흑기의 원인]] →
+
+---

@@ -127,3 +127,14 @@ Text-to-SQL on BigData ([[263_llm_large_language_model|LLM]] ([[263_llm_large_la
 1. Text-to-SQL on BigData ([[263_llm_large_language_model|LLM]] ([[263_llm_large_language_model|Large Language Model]])으로 자연어 [[298_qkv_attention|쿼리]] 자동 [[087_process_state_transition|생성]])은 일을 하기 전에 "어떤 규칙으로 할지" 먼저 정하는 거예요.
 2. 중간에 [[396_validation|확인]]표가 있어야 틀린 곳을 빨리 고칠 수 있어요.
 3. 그래서 끝까지 잘했다고 말하려면 증거와 순서가 같이 있어야 해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 234 / 262
+
+← **이전**: [[233_ai_ml_llm|228. AI + 빅데이터 융합 (대규모 ML 학습, LLM 기반 데이터 분석)]]
+**다음**: [[235_kappa|230. 스트리밍 우선 아키텍처 (배치에서 스트리밍 전환, Kappa 아키텍처 강화)]] →
+
+---

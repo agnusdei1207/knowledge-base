@@ -170,3 +170,14 @@ API Gateway로 레거시·신규 트래픽 라우팅
 1. 소프트웨어 노후화는 낡은 스마트폰과 같다 — 처음엔 빨랐지만 앱이 많아지고 업데이트가 쌓이면 점점 느려진다.
 2. [[100_technical_debt_monitoring_release_policy|기술 부채]]는 숙제 미루기다 — 오늘 안 하면 내일 두 배가 되어 돌아온다.
 3. [[310_strangler_fig_pattern|Strangler Fig]] 패턴은 낡은 집 리모델링이다 — 한 방씩 고치고 다 고치면 낡은 구조물을 철거한다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 32 / 973
+
+← **이전**: [[031_software_maintenance_types|31. 소프트웨어 유지보수 유형 — 4가지 변경 분류]]
+**다음**: [[033_technical_debt|기술 부채 (Technical Debt)]] →
+
+---

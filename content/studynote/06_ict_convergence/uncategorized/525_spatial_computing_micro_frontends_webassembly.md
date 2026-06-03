@@ -116,3 +116,14 @@ tags:
 1. [[232_spatial_computing_digital_twin|공간 컴퓨팅]]은 방 전체가 TV 화면이 되어 손으로 만지며 노는 세상이에요.
 2. [[239_micro_frontends_architecture|마이크로 프론트엔드]]는 학교 반마다 독립적으로 꾸민 교실처럼, 각 팀이 자기 부분만 따로 만드는 거예요.
 3. WASM은 느린 자전거(JavaScript)를 오토바이(네이티브)만큼 빠르게 만들어주는 마법 엔진이에요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 525 / 552
+
+← **이전**: [[524_aiops_llmops_observability_distributed_tracing|524. AIOps, LLMOps, 옵저버빌리티, 분산 추적 (AIOps LLMOps Observability Distributed Tracing)]]
+**다음**: [[526_dpu_smartnic_infrastructure_offloading|526. DPU SmartNIC 인프라 오프로딩 가속 (DPU SmartNIC Infrastructure Offloading Acceleration)]] →
+
+---

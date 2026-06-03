@@ -198,3 +198,14 @@ P(정상|무료,당첨,클릭) ∝ P(정상) × P(무료|정상) × P(당첨|정
 1. 🍎 **"사과냐 오렌지냐 맞추기 게임"**
 2. "둥글고", "주황색이고", "신 냄새가 난다" — 각 [[167_sql_hint_optimizer_override|힌트]]가 독립적으로 오렌지일 [[130_probability|확률]]을 높여줘요.
 3. 세 [[167_sql_hint_optimizer_override|힌트]]의 [[130_probability|확률]]을 모두 곱하면 → "오렌지일 [[130_probability|확률]]이 훨씬 높네!" 하고 답을 내려요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 264 / 420
+
+← **이전**: [[263_kmeans_em|263. K-Means 군집화 (Kmeans EM)]]
+**다음**: [[265_single_layer_perceptron_xor|265. 단층 퍼셉트론 (Single-Layer Perceptron)]] →
+
+---

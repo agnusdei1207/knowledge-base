@@ -149,3 +149,14 @@ tags:
 1. [[212_data_fabric_virtualization|데이터 패브릭]]은 학교 도서관처럼, 여러 선생님의 책을 한 곳에 모아서 누구나 쉽게 찾을 수 있게 정리하는 방법이야.
 2. [[211_data_mesh_domain_ownership|데이터 메시]]는 각 반([[064_relation_domain|도메인]] 팀)이 자기 반 책장을 직접 관리하되, 도서 [[104_classification_analysis|분류]] 방식(거버넌스)만 학교 전체가 통일하는 방법이야.
 3. 둘 다 "모든 [[001_dikw_pyramid|데이터]]를 중앙에서 혼자 관리하면 너무 힘들다"는 문제를 해결하는 새로운 방식이야!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 546 / 552
+
+← **이전**: [[545_modular_blockchain_da_consensus_separation|545. 모듈러 블록체인과 데이터 가용성 계층 (Modular Blockchain and Data Availability Layer)]]
+**다음**: [[547_autoencoder_vae_latent_dimensionality_reduction|547. 오토인코더와 VAE 잠재 벡터 차원 축소 (Autoencoder VAE Latent Vector Dimensionality Reduction)]] →
+
+---

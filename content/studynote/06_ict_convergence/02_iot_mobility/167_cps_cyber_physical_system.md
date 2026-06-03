@@ -175,3 +175,14 @@ CPS (Cyber-Physical System)
 1. CPS는 로봇이 눈으로 보고 머리로 생각한 뒤 손으로 바로 움직이는 방식이에요.
 2. 그냥 보기만 하면 늦지만, 바로 움직이면 뜨거운 것과 부딪히는 것을 피할 수 있어요.
 3. 그래서 CPS는 "보는 컴퓨터"가 아니라 "움직이는 컴퓨터"라고 생각하면 쉬워요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 167 / 552
+
+← **이전**: [[166_smart_factory|166. 스마트 팩토리 (Smart Factory)]]
+**다음**: [[168_industrial_ethernet_tsn|168. 산업용 이더넷 및 TSN (Time-Sensitive Networking)]] →
+
+---

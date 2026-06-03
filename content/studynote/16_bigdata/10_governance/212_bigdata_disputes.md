@@ -194,3 +194,14 @@ tags:
 - 빅데이터 분쟁은 "이 정보를 써도 되나요?"라는 질문에서 시작돼요 — Cambridge Analytica는 허락도 없이 수천만 명의 정보를 가져가서 큰 벌을 받았어요.
 - Schrems II 판결은 "유럽 사람의 [[001_dikw_pyramid|데이터]]를 미국 서버에 보내면 안 된다"는 규칙을 만들었어요 — 이제 특별한 계약([[040_scc|SCC]])이 있어야만 가능해요.
 - Privacy by Design은 "나중에 고치지 말고 처음부터 [[781_personal_information|개인정보]] [[571_protection_vs_security|보호]]를 고려해서 만들자"는 원칙이에요 — 자동차 만들 때 에어백을 처음부터 넣는 것처럼요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 212 / 262
+
+← **이전**: [[211_data_ethics|205. 데이터 윤리 (Data Ethics) — 알고리즘 편향/공정성/투명성]]
+**다음**: [[213_data_audit|23. 데이터 감사 (Data Audit)]] →
+
+---

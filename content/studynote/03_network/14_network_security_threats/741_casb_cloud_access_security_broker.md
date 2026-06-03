@@ -136,3 +136,14 @@ CASB는 SASE에서 출발해 현재 메커니즘을 정교화하고, 이후 SWG�
 1. 나쁜 친구가 놀이터 규칙을 깨뜨리면 바로 알아차리고 막아야 해요.
 2. 이 개념은 어떤 장난이 위험한지 미리 알고, 문제가 생기면 어떻게 다시 정리할지도 알려줘요.
 3. 그래서 놀이터를 더 안전하게 지킬 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 862 / 1120
+
+← **이전**: [[740_sase_secure_access_service_edge_sdwan_cloud|740. SASE (Secure Access Service Edge 브랜치 사무소 단말 네트워크 엣지 클라우드 보안 통합체계/ SD-WAN]]
+**다음**: [[742_swg_secure_web_gateway|742. SWG (Secure Web Gateway 시큐어 웹 게이트웨이 / 프록시 보안 패키지 모델 구조적 설계)]] →
+
+---

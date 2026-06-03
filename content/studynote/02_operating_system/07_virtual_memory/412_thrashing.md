@@ -179,3 +179,14 @@ iOS나 Android는 PC처럼 든든한 스왑 디스크가 없다. [[256_flash_mem
 1. [[257_thrashing|스래싱]] ([[257_thrashing|Thrashing]])은 컴퓨터가 메모리를 더 크게 보이게 하고 부족함을 숨기는 방법이에요.
 2. 먼저 [[411_aging_algorithm|에이징]] ([[182_aging|Aging]]) 기반 [[260_page_replacement|페이지 교체]] 로직을 이해하면 [[257_thrashing|스래싱]] ([[257_thrashing|Thrashing]])이 왜 필요한지 더 쉽게 보여요.
 3. 그래서 [[257_thrashing|스래싱]] ([[257_thrashing|Thrashing]])을 잘 알면 나중에 [[258_degree_of_multiprogramming|다중 프로그래밍 정도]] ([[258_degree_of_multiprogramming|Degree of Multiprogramming]])와 CPU 이용률 [[083_relationship_in_er_model|관계]] [[070_graph_datastructure|그래프]]도 훨씬 쉽게 배울 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 412 / 800
+
+← **이전**: [[411_aging_algorithm|411. 에이징 (Aging) 기반 페이지 교체 로직]]
+**다음**: [[413_degree_of_multiprogramming_cpu_utilization|413. 다중 프로그래밍 정도 (Degree of Multiprogramming)와 CPU 이용률 관계 그래프]] →
+
+---

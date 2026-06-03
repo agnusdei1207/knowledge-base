@@ -127,3 +127,14 @@ Deep Learning
 위아래가 균형 잡혀 있어요.  
 가운데가 0이에요.  
 tanh는 그런 부드러운 함수예요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 70 / 420
+
+← **이전**: [[069_sigmoid_function_vanishing_gradient|69. 시그모이드 함수 (Sigmoid) - 0~1 사이 반환, 기울기 소실(Vanishing Gradient) 문제 발생]]
+**다음**: [[071_relu_rectified_linear_unit_activation|71. ReLU (Rectified Linear Unit) 함수 - x>0이면 x, x<0 이면 0 (기울기 소실 해결, 연산 빠름,]] →
+
+---

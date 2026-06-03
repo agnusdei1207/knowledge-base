@@ -135,3 +135,14 @@ tags:
 1. 미디에이터(채팅방)와 [[267_observer_pattern|옵저버]](구독 알림)를 합치면 [[539_event_bus_stream_processing|이벤트 버스]]가 돼요!
 2. 쇼핑몰이 주문 완료 이벤트를 발행하면, 이메일·재고·포인트 [[090_service_kubernetes_network_load_balancing|서비스]]가 각자 처리해요.
 3. 스프링 ApplicationEvent와 Kafka가 바로 이 두 패턴의 통합 구현이에요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 263 / 530
+
+← **이전**: [[201_mediator_pattern|201. 미디에이터 패턴 (Mediator Pattern)]]
+**다음**: [[203_visitor_pattern|203. 방문자 패턴 (Visitor Pattern)]] →
+
+---

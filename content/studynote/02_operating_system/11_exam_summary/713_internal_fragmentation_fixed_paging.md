@@ -184,3 +184,14 @@ tags:
 1. 철수가 피자 가게에서 "나는 피자 1.5조각만 먹을래!"라고 주문했어요.
 2. 하지만 피자집 주인([[259_paging|페이징]])은 "우리는 무조건 온전한 1조각 단위로만 팝니다!"라며 피자 2조각을 주었어요. 
 3. 철수는 피자 1.5조각을 먹고, 남은 0.5조각은 배가 불러서 그냥 쓰레기통에 버려야 했어요. 이렇게 정해진 크기로만 주다 보니 어쩔 수 없이 버려지는 자투리 0.5조각을 '[[341_internal_fragmentation|내부 단편화]]'라고 부른답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 713 / 800
+
+← **이전**: [[712_external_fragmentation_variable_partition|712. 외부 단편화 가변 분할 (External Fragmentation Variable Partition)]]
+**다음**: [[714_dynamic_allocation_first_best_worst_fit|714. 동적 할당 First/Best/Worst Fit (Dynamic Allocation First Best Worst Fit)]] →
+
+---

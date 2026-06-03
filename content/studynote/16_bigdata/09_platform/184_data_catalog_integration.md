@@ -170,3 +170,14 @@ tags:
 1. [[213_data_catalog_metadata|데이터 카탈로그]]는 도서관에서 어떤 책이 어디 있고 누가 쓴 책인지 알려 주는 큰 검색대 같아요.
 2. 여기에 책이 언제 들어왔는지, 믿을 만한 책인지, 누가 관리하는지도 같이 적혀 있어요.
 3. 그래서 많은 책이 있어도 헤매지 않고 바로 필요한 책을 찾을 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 184 / 262
+
+← **이전**: [[183_data_orchestration|183. 데이터 오케스트레이션 (Data Orchestration) - Apache Airflow / Dagster / Prefect]]
+**다음**: [[185_scalability_design|185. 확장성 설계 (Scalability Design) — 수평 확장/샤딩/파티셔닝/자동 확장]] →
+
+---

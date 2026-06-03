@@ -111,3 +111,14 @@ tags:
 1. [[276_chain_of_responsibility_pattern|책임 연쇄]] 패턴 ([[276_chain_of_responsibility_pattern|Chain of Responsibility]] Pattern)은 문제가 생기면 담임, 부장, 교장 순서로 차례차례 전달하는 것처럼 약속을 먼저 정하는 거예요.
 2. 그러면 서로 다른 사람이 해도 같은 규칙으로 움직일 수 있어요.
 3. 그래서 규모가 커질수록 요청 처리 파이프라인을 유연하게 구성하는 일이 더 중요해져요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 473 / 530
+
+← **이전**: [[394_process|394. 상태 패턴 (State Pattern)]]
+**다음**: [[396_process|396. 중재자 패턴 (Mediator Pattern)]] →
+
+---

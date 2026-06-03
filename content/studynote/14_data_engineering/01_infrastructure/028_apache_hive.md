@@ -158,3 +158,14 @@ Parquet:
 1. Apache Hive는 HDFS라는 거대 창고에 SQL이라는 친숙한 언어로 질문할 수 있게 해주는 번역기예요!
 2. [[544_hive|Hive]] Metastore는 도서관 목록 카드처럼 모든 [[001_dikw_pyramid|데이터]]의 위치와 구조를 기록해둬요!
 3. 요즘은 Hive보다 빠른 Trino, Spark를 더 많이 쓰지만 Metastore는 여전히 모두가 공유하는 핵심 인프라랍니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 28 / 258
+
+← **이전**: [[027_offset_consumer_group|27. Kafka 오프셋 & 컨슈머 그룹 (Offset & Consumer Group)]]
+**다음**: [[029_apache_zookeeper|29. Apache ZooKeeper]] →
+
+---

@@ -208,3 +208,14 @@ tags:
 1. 컴퓨터 안에는 아주 무서운 경비원(CPU)이 지키는 금고실([[022_kernel_role|커널]])이 있어요. 일반 시민(앱)이 금고실에 함부로 들어가면 경비원이 쫓아내요.
 2. 하지만 시민이 돈([[501_file_definition_logical_record|파일]], 인터넷 등)이 필요하면 꼭 금고실을 열어야 해요. 그래서 금고실 문 앞에 '비상벨(트랩)'을 만들어 두었어요.
 3. 시민이 비상벨을 "띵동!" 하고 누르면(시스템 콜), 금고실 안에 있는 은행원이 나와서 부탁을 들어주고 돈을 건네줍니다. 이렇게 하면 시민이 금고를 어지럽히지 않으면서도 안전하게 일을 할 수 있답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 677 / 800
+
+← **이전**: [[676_interrupt_vector_table_architecture|676. 인터럽트 벡터 테이블 구조화 (Interrupt Vector Table Architecture)]]
+**다음**: [[678_kernel_mode_entry_mechanism|678. 커널 모드 진입 메커니즘 (Kernel Mode Entry Mechanism)]] →
+
+---

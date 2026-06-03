@@ -137,3 +137,14 @@ CRC는 [[193_checksum_ones_complement|검사합]]에서 출발해 현재 메커�
 1. 편지를 보낼 때 봉투를 제대로 닫고 틀린 글자가 없는지 [[396_validation|확인]]해야 해요.
 2. 이 개념은 편지가 깨지거나 사라졌을 때 다시 보내는 규칙까지 정해줘요.
 3. 그래서 중간에 흔들려도 중요한 내용이 더 안전하게 도착해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 315 / 1120
+
+← **이전**: [[193_checksum_ones_complement|193. 검사합 (Checksum)]]
+**다음**: [[195_polynomial_generator_crc|195. 다항식(Polynomial) 연산 / 생성 다항식 (Generator Polynomial)]] →
+
+---

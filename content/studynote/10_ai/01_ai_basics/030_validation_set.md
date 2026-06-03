@@ -153,3 +153,14 @@ AutoML과 Neural [[319_architecture|Architecture]] Search([[492_nas_network_atta
 1. [[395_verification_process_review|검증]] 세트는 중간고사예요 — 공부(훈련) 후에 중간고사([[395_verification_process_review|검증]])로 공부 방향을 수정해요!
 2. 최종 시험(테스트 세트)은 딱 한 번만 봐요 — 미리 보면 진짜 실력을 알 수 없어요!
 3. [[001_dikw_pyramid|데이터]]가 적을 때는 5번 교대로 시험 보는 [[250_cross_validation_kfold|교차 검증]]으로 더 공정하게 평가해요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 30 / 420
+
+← **이전**: [[029_dropout|29. 드롭아웃 (Dropout)]]
+**다음**: [[031_cross_validation|31. 교차 검증 심화 — k-Fold부터 시계열 분할까지]] →
+
+---

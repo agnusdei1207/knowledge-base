@@ -126,3 +126,14 @@ CI (Continuous Integration) 게이트
 1. [[397_unit_test|단위 테스트]]는 숙제를 낼 때 선생님이 정답지를 몰래 먼저 [[396_validation|확인]]하는 것과 비슷해요.
 2. 문제가 틀리면 바로 알려주니까, 나중에 큰 시험에서 실수할 일이 줄어요.
 3. 그래서 컴퓨터는 고장 나기 전에 미리 "여기 이상해요!"라고 알려준답니다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 77 / 373
+
+← **이전**: [[076_artifact_repository_nexus_jfrog_ecr|76. 아티팩트 리포지토리 - Nexus, JFrog, AWS ECR 이미지 저장소]]
+**다음**: [[078_code_coverage|78. 코드 커버리지 (Code Coverage) 분석 도구 (JaCoCo) - 소스코드의 몇 %가 테스트되었는지 측정 (구문, 분기]] →
+
+---

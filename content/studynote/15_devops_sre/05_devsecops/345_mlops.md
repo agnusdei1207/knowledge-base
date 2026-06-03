@@ -132,3 +132,14 @@ MLOps Monitoring / Retraining Loop
 1. MLOps는 로봇이 처음만 잘 움직이는 게 아니라, 매일 바뀌는 길에서도 계속 잘 움직이게 돌봐주는 일이에요.
 2. 로봇이 무엇을 보고 배웠는지와 지금 무엇을 보고 있는지를 같이 [[396_validation|확인]]해야 해요.
 3. 그래서 똑똑한 로봇일수록 계속 점검하고 다시 가르쳐야 해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 345 / 373
+
+← **이전**: [[344_process|344. 데이터 패브릭 가상화·메타·지식 연결망 (Data Fabric)]]
+**다음**: [[346_llm_rag_db|346. LLM RAG 환각 제어·벡터 임베딩 DB 검색 (Large Language Model Retrieval-Augmented Generation)]] →
+
+---

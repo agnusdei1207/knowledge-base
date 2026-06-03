@@ -127,3 +127,14 @@ SOLID 원칙 정립 · OCP, ISP와의 결합을 통한 유연한 아키텍처 �
 1. 건전지 장난감 차에 '[[105_aa_as_is_analysis|AA]] 건전지'를 넣으라고 적혀 있어요.
 2. 어떤 브랜드의 [[105_aa_as_is_analysis|AA]] 건전지를 넣든 장난감 차는 똑같이 잘 움직여야 정상이에요.
 3. 만약 어떤 건전지를 넣었을 때 차가 고장 난다면, 그 건전지는 '[[105_aa_as_is_analysis|AA]] 건전지의 역할'을 제대로 못한 것이고 이게 바로 [[357_process|리스코프 치환 원칙]]을 어긴 거랍니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 151 / 530
+
+← **이전**: [[104_lsp_liskov_substitution_principle|104. 리스코프 치환 원칙 (Liskov Substitution Principle, LSP)]]
+**다음**: [[105_isp_interface_segregation_principle|105. 인터페이스 분리 원칙 (Interface Segregation Principle, ISP)]] →
+
+---

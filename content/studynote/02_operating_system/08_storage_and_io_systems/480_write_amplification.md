@@ -193,3 +193,14 @@ WAF를 높여서 SSD를 벽돌로 만드는 3대장 원인이다.
 1. [[289_cqrs_db|쓰기]] 증폭 (Write Amplification) 현상은 컴퓨터가 디스크와 장치가 [[001_dikw_pyramid|데이터]]를 주고받는 길을 정리하는 방법이에요.
 2. 먼저 [[479_wear_leveling|마모 평준화]] ([[479_wear_leveling|Wear Leveling]])을 이해하면 [[289_cqrs_db|쓰기]] 증폭 (Write Amplification) 현상이 왜 필요한지 더 쉽게 보여요.
 3. 그래서 [[289_cqrs_db|쓰기]] 증폭 (Write Amplification) 현상을 잘 알면 나중에 TRIM [[158_instruction|명령어]]도 훨씬 쉽게 배울 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 480 / 800
+
+← **이전**: [[479_wear_leveling|479. 마모 평준화 (Wear Leveling) - 수명 연장을 위해 쓰기 작업을 전체 블록에 고르게 분산]]
+**다음**: [[481_trim_command|481. TRIM 명령어 (Trim Command)]] →
+
+---

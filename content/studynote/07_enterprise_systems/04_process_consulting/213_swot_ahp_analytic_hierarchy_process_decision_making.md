@@ -136,3 +136,14 @@ Strategy ranking and portfolio decision
 1. SWOT-AHP는 하고 싶은 일 목록을 적고, 무엇이 더 중요한지 하나씩 비교해 보는 방법이에요.
 2. 그래서 "이것도 좋고 저것도 좋아"에서 끝나지 않고, 정말 먼저 해야 할 일을 찾게 도와줘요.
 3. 마치 장난감, 책, 간식 중에서 오늘 꼭 가져가야 할 것을 순서대로 고르는 것과 같아요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 213 / 482
+
+← **이전**: [[212_bia_business_impact_analysis_rto_rpo_dr|212. BIA (Business Impact Analysis) 평가 지표 분석 기법]]
+**다음**: [[214_delphi_method_expert_consensus_forecasting|214. 델파이 (Delphi) 기법 - 복수 전문가의 익명 반복 설문을 통한 예측 및 합의 도출]] →
+
+---

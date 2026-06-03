@@ -136,3 +136,14 @@ Container Platform
 도커는 도시락을 표준 상자에 담는 시스템이에요.  
 그 상자는 어디서나 똑같이 열 수 있어요.  
 그래서 프로그램을 쉽게 옮길 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 64 / 371
+
+← **이전**: [[064_cgroups_control_groups_resource_limit|64. cgroups (Control Groups) - 컨테이너가 사용할 수 있는 CPU, 메모리 자원의 상한선을 제한(Limit)하고]]
+**다음**: [[066_docker_daemon_dockerd|66. 도커 데몬 (Docker Daemon, dockerd) - 컨테이너 라이프사이클 관리 프로세스]] →
+
+---

@@ -151,3 +151,14 @@ TCP는 영수증이 올 때마다 걸린 시간([[441_rtt_round_trip_time_srtt_s
 1. 물건을 보낼 때 받는 사람이 너무 빨리 받으면 놓칠 수 있어요.
 2. 이 개념은 천천히 보낼지, 다시 보낼지, 길이 막히면 멈출지를 정해줘요.
 3. 그래서 멀리 보내도 덜 잃어버리고 더 안정적으로 도착해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 561 / 1120
+
+← **이전**: [[439_bbr_bottleneck_bandwidth_and_rtt_google_congestion_control|439. BBR (Bottleneck Bandwidth and Round-trip propagation time)]]
+**다음**: [[441_rtt_round_trip_time_srtt_smoothed|441. RTT (Round Trip Time), SRTT (Smoothed RTT)]] →
+
+---

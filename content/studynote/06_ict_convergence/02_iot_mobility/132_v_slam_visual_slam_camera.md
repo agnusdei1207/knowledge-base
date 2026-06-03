@@ -62,3 +62,14 @@ V-SLAM은 **XR·로봇·드론의 공간 인식 표준 기술**이며, VIO(카�
 1. V-SLAM은 **카메라(눈)만으로** 방의 지도를 그리면서 내 위치를 알아내요.
 2. 특징적인 물건(특징점)을 **기억해두고** 다시 보면 "아, 여기 왔었구나!" 알 수 있어요.
 3. VR 헤드셋이 **방 안에서 내 위치를 아는 건** V-[[131_slam_simultaneous_localization_mapping|SLAM]] 덕분이에요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 132 / 552
+
+← **이전**: [[131_slam_simultaneous_localization_mapping|131. SLAM (동시 위치 추정과 지도 작성) - XR/자율주행의 공간 인식 핵심]]
+**다음**: [[133_volumetric_video_hologram|133. 볼류메트릭 비디오 & 홀로그램 - 3D 실감 콘텐츠 기술]] →
+
+---

@@ -89,3 +89,14 @@ tags:
 1. 가족 성이 먼저 있어야 이름이 완성되는 아이와 비슷하다.
 2. 혼자서는 누구인지 못 알아보지만, 가족 이름이 붙으면 바로 알 수 있다.
 3. 부모를 잃으면 아이의 이름도 같이 사라진다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 86 / 600
+
+← **이전**: [[085_participation_constraint_total_partial|85. 참여 제약조건 (Participation Constraint) - 필수 참여(전체), 선택 참여(부분)]]
+**다음**: [[087_identifying_vs_non_identifying_relationship|87. 식별 관계 (Identifying) vs 비식별 관계 (Non-identifying)]] →
+
+---

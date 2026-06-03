@@ -128,3 +128,14 @@ tags:
 1. 엄청 빠른 빛 자동차와 똑똑한 로봇 교통정리원이 함께 일하는 미래 도시와 같아요.
 2. 이 개념은 빛처럼 빠르게 보내면서도 스스로 상태를 보고 길을 고치게 해줘요.
 3. 그래서 더 큰 인터넷도 사람 손을 덜 타고 잘 움직일 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 1038 / 1120
+
+← **이전**: [[916_p2p_peer_to_peer_networking_super_node_gnutella|916. P2P (Peer-to-Peer)]]
+**다음**: [[918_gossip_protocol_blockchain_epidemic_network|918. 블록체인 가십 프로토콜]] →
+
+---

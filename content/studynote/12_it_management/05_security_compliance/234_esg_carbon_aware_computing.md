@@ -129,3 +129,14 @@ tags:
 1. 지속 가능한 IT / ESG 경영 탄소 인지 ([[359_esg_carbon_aware_pue|Carbon-aware]]) 컴퓨팅 클라우드 스케줄링은 모두가 같은 규칙으로 일하게 해 주는 반장 약속표예요.
 2. 약속만 적어 두는 것이 아니라 누가 지켰는지 확인하고 고치는 방법까지 함께 정해요.
 3. 그래서 일이 많아져도 서로 부딪히지 않고 더 안전하게 움직일 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 348 / 587
+
+← **이전**: [[233_smart_city_platform_architecture|233. 스마트 시티 통합 플랫폼 아키텍처]]
+**다음**: [[235_edge_computing_smart_factory|235. 엣지 컴퓨팅 (Edge Computing) 분산 지연(Latency) 단축 모델 (스마트팩토리 CPS)]] →
+
+---

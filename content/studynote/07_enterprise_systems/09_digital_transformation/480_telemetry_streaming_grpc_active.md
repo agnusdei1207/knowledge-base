@@ -139,3 +139,14 @@ tags:
 1. 텔레메트리 스트리밍 [[479_grpc_protobuf_http2|gRPC]] [[448_polling_programmed_io|폴링]] 탈피 능동 감시는 복잡한 일을 순서대로 정리해 주는 큰 정리함이에요.
 2. 어디에 무엇을 넣을지 먼저 정해 두면, 나중에 찾거나 고칠 때 훨씬 쉬워져요.
 3. 그래서 일이 커질수록 먼저 기준을 만들고 같이 약속하는 것이 중요해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 480 / 482
+
+← **이전**: [[479_ibn_intent_based_networking|479. IBN AI SDN 융합 통제 (IBN, Intent-Based Networking)]]
+**다음**: [[481_enterprise_architecture_exam_summary|481. 엔터프라이즈 아키텍처 기술사 기출 종합 (Enterprise Architecture Exam Summary)]] →
+
+---

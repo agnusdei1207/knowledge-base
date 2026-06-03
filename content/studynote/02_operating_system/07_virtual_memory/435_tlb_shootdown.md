@@ -176,3 +176,14 @@ Java [[591_mvcc_garbage_collection_vacuum|가비지 컬렉터]](ZGC 등)는 애�
 1. [[357_tlb|TLB]] 슛다운 ([[357_tlb|TLB]] Shootdown)은 컴퓨터가 메모리를 더 크게 보이게 하고 부족함을 숨기는 방법이에요.
 2. 먼저 [[434_asynchronous_page_fault|비동기식 페이지 폴트]] ([[434_asynchronous_page_fault|Asynchronous Page Faults]]) 핸들링을 이해하면 [[357_tlb|TLB]] 슛다운 ([[357_tlb|TLB]] Shootdown)이 왜 필요한지 더 쉽게 보여요.
 3. 그래서 [[357_tlb|TLB]] 슛다운 ([[357_tlb|TLB]] Shootdown)을 잘 알면 나중에 [[022_kernel_role|커널]] [[353_page_table|페이지 테이블]] 격리 ([[578_kpti|KPTI]], [[022_kernel_role|Kernel]] [[286_page_frame|Page]]-Table [[195_isolation_concurrency_control|Isolation]])도 훨씬 쉽게 배울 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 435 / 800
+
+← **이전**: [[434_asynchronous_page_fault|434. 비동기식 페이지 폴트 (Asynchronous Page Faults) 핸들링]]
+**다음**: [[436_kpti_kernel_page_table_isolation|436. 커널 페이지 테이블 격리 (KPTI, Kernel Page-Table Isolation) - Meltdown 취약점 대응망]] →
+
+---

@@ -198,3 +198,14 @@ Lakehouse: DW + Lake 통합 (Delta Lake · Iceberg)
 ```
 2. 마치 도서관 사서처럼, 밤마다([[215_etl_vs_elt_pipeline|ETL]] 야간 배치) 각 교실(운영 DB)에서 중요한 내용을 가져와 도서관([[209_data_warehouse_schema_on_write|DW]])에 깔끔하게 분류해 넣는다.
 3. [[263_storage_compute_separation_bigquery|BigQuery]]·[[541_cassandra|Snowflake]]·Redshift는 같은 서류함이지만, 각각 Google·중립·Amazon 건물에 있는 셈이다. 어느 건물에 이미 살고 있느냐에 따라 선택이 달라진다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 220 / 371
+
+← **이전**: [[220_schema_on_read_data_lake|220. 스키마 온 리드 (Schema-on-Read)]]
+**다음**: [[222_schema_on_write_etl_warehouse|222. 스키마 온 라이트 (Schema-on-Write)]] →
+
+---

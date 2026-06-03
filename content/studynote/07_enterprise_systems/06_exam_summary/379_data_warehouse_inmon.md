@@ -139,3 +139,14 @@ tags:
 1. [[209_data_warehouse_schema_on_write|데이터 웨어하우스]] [[311_inmon|Inmon]] 방식 주제 통합는 복잡한 일을 순서대로 정리해 주는 큰 정리함이에요.
 2. 어디에 무엇을 넣을지 먼저 정해 두면, 나중에 찾거나 고칠 때 훨씬 쉬워져요.
 3. 그래서 일이 커질수록 먼저 기준을 만들고 같이 약속하는 것이 중요해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 379 / 482
+
+← **이전**: [[378_grpc_protocol_buffers|378. gRPC 프로토콜 버퍼 직렬화 통신 (gRPC Protocol Buffers)]]
+**다음**: [[380_data_mart_kimball_dimensional|380. 데이터 마트 Kimball 차원 모델링 (Data Mart Kimball Dimensional Modeling)]] →
+
+---

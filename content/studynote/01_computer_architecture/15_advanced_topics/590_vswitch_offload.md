@@ -167,3 +167,14 @@ DPU 기반 정책·서비스 통합 데이터 평면
 1. 아파트 관리실이 택배 규칙은 계속 정하지만, 자주 가는 집 택배는 자동 레일이 대신 보내 주는 거예요.
 2. 그래서 관리실 아저씨는 더 중요한 일을 하고, 택배도 더 빨리 도착해요.
 3. 규칙은 그대로 두고 배달만 똑똑하게 빠르게 만드는 것이 [[630_vswitch_vnf_overhead|vSwitch]] 오프로드랍니다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 590 / 803
+
+← **이전**: [[589_ipsec_offload|589. IPsec (Internet Protocol Security) 오프로드 가속기]]
+**다음**: [[591_tcam_packet_classification|591. TCAM (Ternary Content Addressable Memory) 기반 패킷 분류 알고리즘]] →
+
+---

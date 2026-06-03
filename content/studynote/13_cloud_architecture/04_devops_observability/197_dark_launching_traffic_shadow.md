@@ -181,3 +181,14 @@ Dark Launching: 사용자 모르게 신버전 동작 검증
 ```
 2. 친구에게는 기존 계산기 답을 알려주고, 새 계산기 결과는 선생님 수첩에만 적어둬.
 3. 수첩에 틀린 답이 없고 속도도 빠르다는 걸 확인하면, 그때서야 친구에게 새 계산기를 공개해.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 196 / 371
+
+← **이전**: [[196_feature_flag_toggle_ab_testing|196. 피처 플래그 / 피처 토글 (Feature Flag / Toggle)]]
+**다음**: [[198_shadow_deployment_traffic_mirroring|198. 섀도우 배포 / 트래픽 미러링 (Shadow Deployment / Traffic Mirroring)]] →
+
+---

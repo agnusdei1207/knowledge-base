@@ -133,3 +133,14 @@ Feature Selection
 두 장난감이 같이 움직이는지 보는 숫자예요.  
 너무 비슷하면 하나만 남겨도 돼요.  
 [[226_pearson_correlation_regression_r2_vif_multicollinearity|피어슨 상관]]은 그런 [[083_relationship_in_er_model|관계]]를 보는 도구예요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 65 / 258
+
+← **이전**: [[064_skewness_kurtosis_log_transformation|64. 왜도 (Skewness)와 첨도 (Kurtosis) - 데이터 분포 분석]]
+**다음**: [[066_spearman_rank_correlation_nonparametric_robustness|66. 스피어만 순위 상관 계수 (Spearman Rank Correlation)]] →
+
+---

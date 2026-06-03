@@ -125,3 +125,14 @@ tags:
 1. [[194_cmmc_cybersecurity_maturity|CMMC]] (Cybersecurity [[011_maturity_model|Maturity Model]] Certification)는 학교 규칙표처럼 무엇을 준비하고 어떻게 확인할지 알려 주는 기준이에요.
 2. 규칙표만 붙여 두고 지키지 않으면 아무 소용이 없어요.
 3. 그래서 보안도 규칙과 실제 행동이 함께 맞아야 해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 953 / 1108
+
+← **이전**: [[867_host_header_injection|867. Host Header Injection (호스트 헤더 인젝션)]]
+**다음**: [[868_http_response_splitting|868. HTTP Response Splitting (HTTP 응답 분할)]] →
+
+---

@@ -66,3 +66,14 @@ MSA에서는 **[[549_2pc_two_phase_commit_limitations_msa|2PC]] 대신 [[305_sag
 1. 2PC는 **단체 줄넘기**예요. 한 명이 실패하면 **전원 다시** 해야 해요.
 2. Saga는 **릴레이**예요. 각자 달리고, 실패하면 **그 구간만 되돌아와요**.
 3. MSA에서는 릴레이([[305_saga|Saga]])가 더 빠르고 **문제가 적어서** 많이 사용해요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 132 / 371
+
+← **이전**: [[132_polyglot_persistence|132. Polyglot Persistence - MSA 서비스별 최적 DB 선택]]
+**다음**: [[134_saga_pattern|134. Saga 패턴 - MSA 분산 트랜잭션의 표준 솔루션]] →
+
+---

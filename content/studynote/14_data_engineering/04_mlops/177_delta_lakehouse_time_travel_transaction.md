@@ -176,3 +176,14 @@ Lakehouse Governance · ML Reproducibility
 1. Delta Lake는 [[001_dikw_pyramid|데이터]] 창고에 날짜별 기록장이 붙어 있어서 어제 물건이 어디 있었는지 다시 볼 수 있어요.
 2. 누가 잘못 정리해도 이전 기록을 보고 바로 원래대로 돌릴 수 있어요.
 3. 그래서 같은 [[001_dikw_pyramid|데이터]]로 다시 공부하거나, 실수한 날의 상태를 다시 꺼내 보는 일이 쉬워져요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 177 / 258
+
+← **이전**: [[176_automl_hyperparameter_optimization_bayesian|176. AutoML (Automated Machine Learning) 하이퍼파라미터 최적화 베이지안 탐색]]
+**다음**: [[178_parquet_rle_encoding_columnar_compression|178. 파케이 (Parquet) 컬럼형 압축 포맷과 RLE (Run-Length Encoding) 최적화]] →
+
+---

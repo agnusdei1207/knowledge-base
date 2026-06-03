@@ -252,3 +252,14 @@ Android 13 이후 Binder는 [[782_memory_safety_rust_compiler_verification|Rust]
 1. Binder는 안드로이드라는 큰 학교에서 친구들(앱)이 선생님(시스템 [[090_service_kubernetes_network_load_balancing|서비스]])에게 쪽지를 보낼 때 쓰는 마법의 편지함이에요.
 2. 학교장 선생님([[022_kernel_role|커널]])이 쪽지를 받아서 한 번에 친구 책상에 직접 올려주니까(1회 복사), 중간에 다른 사람이 쪽지를 옮길 필요가 없어서 아주 빨라요.
 3. 쪽지를 받은 친구의 자리에는 미리 대기하는 조수([[103_thread_pool|스레드 풀]])가 있어서, 편지가 오면 바로 읽고 답장할 수 있게 도와준답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 135 / 800
+
+← **이전**: [[134_dbus|134. D-Bus (Desktop Bus) - 리눅스 데스크톱 환경 IPC]]
+**다음**: [[136_zombie_thread|136. 좀비 스레드 (Zombie Thread)]] →
+
+---

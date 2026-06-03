@@ -124,3 +124,14 @@ tags:
 1. [[357_process|리스코프 치환 원칙]]은 블록을 아무 데나 쌓지 말고, 튼튼하게 버틸 모양으로 먼저 나누는 규칙이에요.
 2. 처음에 자리를 잘 정해 두면 새 블록을 붙일 때 무너지지 않아요.
 3. 그래서 나중에 바꾸거나 고칠 때도 훨씬 쉬워져요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 150 / 530
+
+← **이전**: [[103_ocp_open_closed_principle|OCP (Open-Closed Principle, 개방-폐쇄 원칙)]]
+**다음**: [[104_lsp_liskov_substitution_principle|104. LSP (Liskov Substitution Principle, 리스코프 치환 원칙)]] →
+
+---

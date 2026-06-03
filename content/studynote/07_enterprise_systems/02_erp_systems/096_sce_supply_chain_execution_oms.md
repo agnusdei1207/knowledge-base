@@ -139,3 +139,14 @@ SCE (Supply Chain Execution) 통합
 1. 게임에서 성을 짓는 작전을 짜는 건 머리 아픈 일(계획, [[747_scp|SCP]])이에요.
 2. 작전대로 실제 일꾼들에게 "가서 나무 캐와!", "수레 끌고 와!"라고 현장 지시를 내리는 것이 바로 SCE랍니다.
 3. SCE 덕분에 수많은 일꾼이 엉키지 않고 척척 물건을 날라서 멋진 성을 빨리 지을 수 있어요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 96 / 482
+
+← **이전**: [[095_scp_supply_chain_planning|95. SCP (Supply Chain Planning) - 공급망 계획 (수요 예측, 생산 계획)]]
+**다음**: [[097_wms_warehouse_management_system|97. WMS (Warehouse Management System) - 창고 관리 시스템]] →
+
+---

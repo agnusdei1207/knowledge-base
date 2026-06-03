@@ -139,3 +139,14 @@ tags:
 1. [[054_hypervisor|하이퍼바이저]] Type 1/2 전반가상화 [[561_container_based_deployment|컨테이너]] 비교는 복잡한 일을 순서대로 정리해 주는 큰 정리함이에요.
 2. 어디에 무엇을 넣을지 먼저 정해 두면, 나중에 찾거나 고칠 때 훨씬 쉬워져요.
 3. 그래서 일이 커질수록 먼저 기준을 만들고 같이 약속하는 것이 중요해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 425 / 482
+
+← **이전**: [[424_hybrid_multicloud_lock_in|424. 하이브리드 멀티 클라우드 록인 회피 전략 (Hybrid Multi-Cloud)]]
+**다음**: [[426_kubernetes_pod_orchestration|426. 쿠버네티스 Pod 오케스트레이션 노드 관리 (Kubernetes)]] →
+
+---

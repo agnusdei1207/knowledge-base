@@ -132,3 +132,14 @@ RSVP 자원 예약 플로우는 [[390_diffserv_differentiated_services_dscp_phb|
 1. 달리기 시합에서 누가 얼마나 빨랐는지 재려면 초시계와 기록표가 필요해요.
 2. 이 개념은 네트워크가 어디서 느려졌는지 숫자로 찾아내는 도구예요.
 3. 그래서 막연히 고치는 대신 가장 중요한 곳부터 똑똑하게 손볼 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 199 / 1120
+
+← **이전**: [[108_CSMA_CA_무선LAN_충돌회피|108. CSMA/CA (무선 LAN 충돌 회피)]]
+**다음**: [[1091_gre_generic_routing_encapsulation_tunneling|1091. GRE 일반 캡슐화 포맷 오버헤드]] →
+
+---

@@ -341,3 +341,14 @@ AI 기반 엣지 케이스 자동 탐지
 1. TDD는 편지 먼저 [[289_cqrs_db|쓰기]] — "이 기능은 이렇게 동작해야 해"를 테스트로 먼저 정의하고, 그 편지 내용에 맞게 코드를 만들어요!
 2. BDD는 사용 설명서 먼저 — "사용자가 이렇게 하면 이렇게 돼야 해"를 기획자도 이해하는 자연어로 먼저 써요.
 3. 테스트가 있으면 [[213_refactoring_cloud_native_rearchitecture|리팩토링]]이 안전 — 코드를 고쳐도 테스트가 통과하면 "잘 돼!" [[396_validation|확인]] 가능. 테스트 없이 고치면 뭔가 망가질까봐 두려워요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 44 / 373
+
+← **이전**: [[043_dark_launching_shadow_traffic|043. 다크 런칭 & 섀도우 트래픽]]
+**다음**: [[045_shift_left_testing_security|045. 시프트 레프트 — Shift Left Testing & Security]] →
+
+---

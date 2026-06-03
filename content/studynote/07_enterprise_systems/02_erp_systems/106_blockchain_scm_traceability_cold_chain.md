@@ -128,3 +128,14 @@ IoT 센서 결합 (Cold Chain) · 스마트 컨트랙트를 통한 실시간 자
 1. 옛날에는 택배 상자에 "소중히 다뤄주세요"라고 써놔도 중간에 누가 발로 찼는지 알 방법이 없었어요.
 2. [[004_blockchain|블록체인]] SCM은 상자 안에 '절대 거짓말을 못 하는 마법 일기장'을 넣어두는 거예요. 온도나 충격이 있을 때마다 마법 일기장이 스스로 기록을 적어요.
 3. 이 일기장은 세상 그 누구도 지우개로 지울 수 없기 때문에, 우리는 마트에서 안심하고 가장 싱싱한 음식을 고를 수 있게 된답니다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 106 / 482
+
+← **이전**: [[105_digital_supply_chain_scm_control_tower|105. 디지털 공급망 (Digital Supply Chain) 및 SCM 컨트롤 타워 - 글로벌 물류 가시성 확보]]
+**다음**: [[107_crm_customer_relationship_management|107. CRM (Customer Relationship Management, 고객 관계 관리) - 신규 고객 획득 및 기존 고객 유지/충성도]] →
+
+---

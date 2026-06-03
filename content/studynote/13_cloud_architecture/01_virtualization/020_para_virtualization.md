@@ -204,3 +204,14 @@ tags:
 1. [[058_paravirtualization|반가상화]]는 가짜 컴퓨터 세계에 갇힌 프로그램에게 "너 사실 가짜 세계에 있는 거야"라고 솔직하게 알려주고 규칙을 바꾸는 기술이에요.
 2. 예전에는 프로그램이 진짜 컴퓨터인 줄 알고 억지로 혼자 하려다 속도가 엄청 느려졌는데, 이제는 사실을 알게 되어 지배자([[054_hypervisor|하이퍼바이저]])에게 직접 "도와주세요!" 하고 직통 전화를 걸어요.
 3. 이렇게 꼼수를 쓰지 않고 서로 [[120_direct_communication|직접 통신]]하니까 통역할 시간도 줄어들고 정보가 훨씬 빠르고 시원하게 펑펑 날아다니게 되었답니다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 19 / 371
+
+← **이전**: [[019_full_virtualization|19. 전가상화 (Full Virtualization) - 하드웨어 전체를 에뮬레이션, Guest OS 수정 없이 그대로 구동 (Binary]]
+**다음**: [[021_hardware_assisted_virtualization|21. 하드웨어 보조 가상화 (Hardware-assisted Virtualization) - CPU에 가상화 지원 명령어(Intel]] →
+
+---

@@ -145,3 +145,14 @@ tags:
 1. 함수적 [[008_dependencies|종속성]]은 자판기 버튼과 나오는 음료수와의 [[083_relationship_in_er_model|관계]]예요.
 2. 1번 버튼([[095_determinant_dependent|결정자]])을 누르면 무조건 콜라(종속자) 하나만 나와야 정상적인 자판기랍니다.
 3. 1번을 눌렀는데 사이다도 나오고 환타도 나오면 고장난 거라서, 자판기 안의 통을 분리해서 고쳐야 해요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 94 / 600
+
+← **이전**: [[093_update_anomaly|93. 갱신 이상 (Update Anomaly) - 중복 데이터 중 일부만 갱신되어 데이터 불일치 발생]]
+**다음**: [[095_determinant_dependent|95. 결정자 (Determinant) X / 종속자 (Dependent) Y]] →
+
+---

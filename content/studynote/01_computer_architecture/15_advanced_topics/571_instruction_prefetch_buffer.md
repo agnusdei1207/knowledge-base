@@ -161,3 +161,14 @@ Loop Stream Detector · Micro-Operation Cache
 1. 컴퓨터는 다음에 읽을 책장을 미리 책상 위에 올려두고 읽어요.
 2. 그래서 책장 넘기는 사람이 잠깐 늦어도 읽는 친구는 바로 멈추지 않아요.
 3. 이 미리 쌓아 둔 책장 더미가 바로 [[158_instruction|명령어]] 프리패치 버퍼예요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 571 / 803
+
+← **이전**: [[570_stp_vs_mtp|570. 단일 스레드 성능 (STP) vs 다중 스레드 성능 (MTP)]]
+**다음**: [[572_loop_prefetcher|572. 루프 프리패처 (Loop Prefetcher)]] →
+
+---

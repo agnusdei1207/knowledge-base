@@ -143,3 +143,14 @@ tags:
 1. 놀이공원에서 매표소([[014_api_posix|API]] 게이트웨이)만 거치면 모든 놀이기구([[090_service_kubernetes_network_load_balancing|서비스]])를 이용할 수 있어요.
 2. 매표소에서 입장권 [[396_validation|확인]]([[303_authentication_authorization_patterns|인증]])과 어떤 구역으로 갈지([[339_routing_overview_best_path_selection|라우팅]])를 결정해줘요.
 3. 방문객(클라이언트)은 각 놀이기구가 어디 있는지 몰라도 매표소가 안내해줘요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 180 / 530
+
+← **이전**: [[123_msa_microservices_architecture|123. 마이크로서비스 아키텍처 (MSA, Microservices Architecture)]]
+**다음**: [[125_service_mesh|125. 서비스 메시 (Service Mesh)]] →
+
+---

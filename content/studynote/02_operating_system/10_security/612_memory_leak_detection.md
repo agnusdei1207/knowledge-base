@@ -221,3 +221,14 @@ bpftrace -e 'uprobe:/path/bin:malloc { @alloc[arg0] = arg1 }'
 **원리**: Valgrind라는 로봇이 "이 장난감 아직 안 치웠어!" 하고 알려줘요. 그럼 빨리 치울 수 있죠.
 
 **효과**: 방이 깨끗하게 유지되어서 나중에 다른 장난감을 꺼낼 공간이 항상 넉넉해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 612 / 800
+
+← **이전**: [[611_cpu_idle_wait_optimization|611. CPU 유휴 (Idle) 대기 루프 최적화]]
+**다음**: [[613_profiling_gprof|613. 프로파일링 (Profiling) 도구 Gprof 커널 후킹 작동 원리]] →
+
+---

@@ -198,3 +198,14 @@ Accuracy-Fairness Frontier:
 - AI가 편향되는 것은 **인종차별적인 선생님에게 배운 학생**과 같아요: 선생님의 편견(편향된 훈련 [[001_dikw_pyramid|데이터]])을 학생([[190_ai_llm_requirements_specification|AI]])이 그대로 배워서 더 체계적으로 차별할 수 있어요.
 - [[227_xai_explainable_ai_lime_shap|XAI]](설명 가능한 [[190_ai_llm_requirements_specification|AI]])는 AI가 "왜 이 결정을 했는지" 알려주는 것이에요 — "이 사람이 대출 거절된 이유는 신용점수가 낮아서"라고 설명해 줘야 억울하지 않잖아요.
 - EU [[190_ai_llm_requirements_specification|AI]] Act는 AI도 자동차처럼 **안전 검사 의무**가 있다는 규칙이에요: 생명에 영향 주는 [[190_ai_llm_requirements_specification|AI]](의료·채용·사법)는 출시 전 엄격한 공정성 검사를 받아야 해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 211 / 262
+
+← **이전**: [[210_synthetic_data|204. 합성 데이터 (Synthetic Data) — 통계적 특성 보존 개인정보 대체]]
+**다음**: [[212_bigdata_disputes|206. 빅데이터 분쟁 (Big Data Legal Disputes) — 데이터 소유권/수집 동의/목적 외 사용]] →
+
+---

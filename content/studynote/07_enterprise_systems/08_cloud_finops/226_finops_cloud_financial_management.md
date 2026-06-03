@@ -162,3 +162,14 @@ Continuous FinOps operating model
 1. FinOps는 클라우드 돈을 누가 왜 쓰는지 모두가 같이 보는 방법이에요.
 2. 먼저 어디에 돈이 쓰이는지 보고, 아낄 수 있는 곳을 찾고, 다시 새지 않게 규칙을 만들어요.
 3. 그래서 필요한 건 쓰면서도 쓸데없는 낭비는 줄일 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 226 / 482
+
+← **이전**: [[225_tco_analysis_cloud_migration|225. TCO 분석 (Total Cost of Ownership Analysis)]]
+**다음**: [[227_cloud_cost_optimization|227. 클라우드 비용 최적화 (Cloud Cost Optimization)]] →
+
+---

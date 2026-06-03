@@ -125,3 +125,14 @@ tags:
 1. 원격 [[501_file_definition_logical_record|파일]] 포함 (RFI, Remote [[501_file_definition_logical_record|File]] Inclusion)는 컴퓨터 세상을 더 안전하게 만들기 위한 중요한 약속이나 도구예요.
 2. 겉으로는 어려워 보여도, 왜 필요한지와 어떻게 움직이는지를 알면 훨씬 쉬워져요.
 3. 그래서 이름만 외우지 말고 어디에 쓰이는지 같이 기억해야 해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 478 / 1108
+
+← **이전**: [[421_local_file_inclusion_lfi|421. 로컬 파일 포함 (LFI, Local File Inclusion)]]
+**다음**: [[423_access_control_bypass|423. 접근 제어 회피 (Access Control Bypass)]] →
+
+---

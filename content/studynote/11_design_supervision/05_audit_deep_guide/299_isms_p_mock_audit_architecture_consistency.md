@@ -104,3 +104,14 @@ tags:
 1. 통제 아키텍처는 학교에서 준비물을 미리 챙기는 것처럼, 중요한 기준을 먼저 맞추는 일이야.
 2. 증적 연계는 선생님이 수업 중간에 계속 확인하는 것처럼, 실제로 잘 되고 있는지 보는 과정이야.
 3. 개선 로드맵은 시험 결과표처럼, 정말 효과가 있었는지 나중에 다시 확인하게 해주는 증거야.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 360 / 530
+
+← **이전**: [[298_uat_customer_signoff_acceptance|298. UAT 고객 서명 인수인계 감리 (UAT Customer Signoff Acceptance Audit)]]
+**다음**: [[300_functional_safety_fmea_audit|300. 기능안전과 FMEA 감리 (Functional Safety FMEA Audit)]] →
+
+---

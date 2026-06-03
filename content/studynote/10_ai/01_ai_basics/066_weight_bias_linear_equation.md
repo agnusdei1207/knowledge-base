@@ -125,3 +125,14 @@ DNN
 무게를 어떻게 주느냐에 따라 결과가 달라져요.  
 시작 위치를 옮기면 전체가 같이 옮겨져요.  
 [[267_weight_bias_activation|가중치]]와 편향은 그런 조절 장치예요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 66 / 420
+
+← **이전**: [[065_dnn_deep_neural_network|65. 심층 신경망 (DNN, Deep Neural Network) - 2개 이상의 은닉층을 가진 다층 퍼셉트론]]
+**다음**: [[067_activation_function_neural_network_non_linearity|67. 활성화 함수 (Activation Function) - 신경망 층 사이에 비선형성(Non-linearity)을 부여하는 필수 함수]] →
+
+---

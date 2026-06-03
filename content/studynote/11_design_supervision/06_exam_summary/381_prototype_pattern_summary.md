@@ -111,3 +111,14 @@ tags:
 1. [[149_prototype_pattern|프로토타입 패턴]] ([[149_prototype_pattern|Prototype Pattern]])은 잘 만든 찰흙 모양을 본떠 여러 개를 찍어 내는 것처럼 약속을 먼저 정하는 거예요.
 2. 그러면 서로 다른 사람이 해도 같은 규칙으로 움직일 수 있어요.
 3. 그래서 규모가 커질수록 기존 상태를 바탕으로 빠르게 새 객체를 만드는 일이 더 중요해져요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 459 / 530
+
+← **이전**: [[380_builder_pattern_summary|380. 빌더 패턴 (Builder Pattern)]]
+**다음**: [[382_singleton_summary|382. 싱글톤 패턴 (Singleton Pattern)]] →
+
+---

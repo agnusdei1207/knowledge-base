@@ -137,3 +137,14 @@ Log4Shell 대응 지연        이미지 레지스트리 통합         SLSA 프
 1. SBOM은 레고 박스 안에 든 블록 목록이에요. 어떤 블록이 몇 개 들어있는지 정확히 알아야 불량 블록을 바로 찾을 수 있어요.
 2. 나쁜 블록([[409_cve_lifecycle|CVE]] 취약점)이 발견되면 [[890_sbom_cyclonedx_spdx|SBOM]] 목록을 보고 어느 레고 세트에 그 블록이 들어있는지 바로 알 수 있어요.
 3. [[890_sbom_cyclonedx_spdx|SBOM]] 없이는 모든 레고 세트를 하나하나 뜯어봐야 해서 시간이 너무 오래 걸려요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 328 / 373
+
+← **이전**: [[327_process|327. SCA 오픈소스 컴플라이언스 스캔 (SCA Software Composition Analysis Open Source Compliance]]
+**다음**: [[329_process|329. Secret Manager HashiCorp Vault 시크릿 관리 하드코딩 방지 (Secret Manager HashiCorp]] →
+
+---

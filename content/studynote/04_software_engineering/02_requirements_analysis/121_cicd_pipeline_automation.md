@@ -120,3 +120,14 @@ tags:
 1. [[090_configuration_item|CI]]/CD는 공장의 **자동 조립 라인**이에요. 재료(코드)를 넣으면 검사(테스트)하고 완제품(배포)이 나와요.
 2. 불량품(버그)이 발견되면 **즉시 라인이 멈추고** 알려줘요.
 3. 덕분에 **하루에 여러 번** 새 제품(기능)을 안전하게 출시할 수 있답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 121 / 973
+
+← **이전**: [[120_declarative_infrastructure_idempotence|120. 선언적 인프라와 멱등성 (Declarative Infrastructure & Idempotence) - IaC 핵심 원칙]]
+**다음**: [[122_container_orchestration_kubernetes_k8s|122. 컨테이너 오케스트레이션 (Container Orchestration) - K8s 핵심 개념과 아키텍처]] →
+
+---

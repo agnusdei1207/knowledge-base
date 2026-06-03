@@ -210,3 +210,14 @@ tags:
 1. 엄마가 요리할 때 "엄마 밥 다 됐어?" 하고 1분마다 부엌에 가서 물어보는 건 너무 피곤하죠?(이게 옛날 **[[448_polling_programmed_io|폴링]] 방식 [[014_api_posix|API]]**예요)
 2. **웹훅(Webhook)**은 그냥 내 방 문에 **'진동벨'**을 하나 달아두고 누워서 푹 쉬는 엄청나게 똑똑한 방법이에요!
 3. 엄마가 찌개를 다 끓이는 그 1초의 순간, 엄마가 부엌에서 버튼만 틱 누르면 내 방 진동벨이 징~ 울려서 "밥 다 됐다!"라는 걸 단숨에 알려주는 기적의 알람 시스템이랍니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 619 / 1120
+
+← **이전**: [[497_dmarc_domain_based_message_authentication|497. DMARC]]
+**다음**: [[499_bosh_bidirectional_streams_over_synchronous_http|499. BOSH (Bidirectional-streams Over Synchronous HTTP)]] →
+
+---

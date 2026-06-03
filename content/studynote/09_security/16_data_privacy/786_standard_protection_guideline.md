@@ -125,3 +125,14 @@ tags:
 1. [[781_personal_information|개인정보]] [[501_file_definition_logical_record|파일]] 표준 [[571_protection_vs_security|protection]] 지침 (Standard [[571_protection_vs_security|Protection]] Guideline)는 학교 규칙표처럼 무엇을 준비하고 어떻게 확인할지 알려 주는 기준이에요.
 2. 규칙표만 붙여 두고 지키지 않으면 아무 소용이 없어요.
 3. 그래서 보안도 규칙과 실제 행동이 함께 맞아야 해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 860 / 1108
+
+← **이전**: [[785_pia_process|785. 개인정보 영향평가 (PIA)]]
+**다음**: [[787_isms_p|787. 정보보호 管理체계 (ISMS-P)]] →
+
+---

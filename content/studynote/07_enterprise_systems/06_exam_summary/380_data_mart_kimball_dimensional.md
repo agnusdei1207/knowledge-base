@@ -139,3 +139,14 @@ tags:
 1. [[209_data_mart_kimball_star_schema|데이터 마트]] [[312_kimball|Kimball]] [[118_dimensional_modeling_star_schema|차원 모델링]]는 복잡한 일을 순서대로 정리해 주는 큰 정리함이에요.
 2. 어디에 무엇을 넣을지 먼저 정해 두면, 나중에 찾거나 고칠 때 훨씬 쉬워져요.
 3. 그래서 일이 커질수록 먼저 기준을 만들고 같이 약속하는 것이 중요해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 380 / 482
+
+← **이전**: [[379_data_warehouse_inmon|379. 데이터 웨어하우스 Inmon 방식 주제 통합 (Data Warehouse Inmon)]]
+**다음**: [[381_etl_pipeline_bottleneck_analysis|381. ETL 변환 적재 병목 구조 분석 (ETL: Extract-Transform-Load)]] →
+
+---

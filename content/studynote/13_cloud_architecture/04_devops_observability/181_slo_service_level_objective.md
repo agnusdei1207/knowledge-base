@@ -184,3 +184,14 @@ SLA (Service Level Agreement) 및 고객 신뢰 관리
 1. SLO는 "하루에 숙제를 몇 개까지 틀려도 괜찮은지"를 미리 정해 둔 약속이에요.
 2. 그래서 조금 실수해도 바로 혼나는 게 아니라, 남은 기회를 보면서 공부 계획을 고칠 수 있어요.
 3. 하지만 약속보다 많이 틀리기 시작하면 놀기보다 먼저 왜 자꾸 틀리는지부터 고쳐야 해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 180 / 371
+
+← **이전**: [[180_sli_service_level_indicator|180. SLI (Service Level Indicator, 서비스 수준 지표)]]
+**다음**: [[182_sla_service_level_agreement|182. SLA (Service Level Agreement, 서비스 수준 협약)]] →
+
+---

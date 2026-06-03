@@ -228,3 +228,14 @@ Java에서는 [[467_http2_stream_multiplexing_tcp_hol|Stream]] API를 통해 [[0
 1. 커링은 조각 케이크 만들기야 — "케이크(초코맛)(딸기 장식)(생크림)" 처럼 재료를 하나씩 추가하면서 원하는 케이크를 만들 수 있어.
 2. [[023_lazy_evaluation|지연 평가]]는 숙제를 "제출할 때" 하는 것과 같아 — 선생님이 검사하러 올 때(터미널 연산)만 실제로 계산하고, 그 전까지는 "나중에 할게" 라고 계획만 세워둬.
 3. Java Stream은 [[023_lazy_evaluation|지연 평가]] 덕분에 100억 개의 숫자에서 딱 10개만 필요하면 10개를 찾는 순간 멈춰서 나머지 99억 9999만 9990개는 아예 처리하지 않아 — 정말 필요한 것만 한다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 278 / 530
+
+← **이전**: [[216_monad_functional_pattern|216. 모나드 패턴 (Monad / Functional Programming Pattern)]]
+**다음**: [[218_immutable_object_pattern|218. 불변 객체 패턴 (Immutable Object Pattern)]] →
+
+---

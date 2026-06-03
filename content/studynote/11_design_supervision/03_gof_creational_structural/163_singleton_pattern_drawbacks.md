@@ -153,3 +153,14 @@ DI (Dependency Injection) · IoC 컨테이너
 1. [[253_singleton_pattern_single_instance|싱글톤]]은 반 친구들이 연필 한 자루를 같이 쓰는 것과 같아요.
 2. 그런데 누가 지우개를 떼어 가거나 부러뜨리면 모두가 같이 불편해져요.
 3. DI는 선생님이 연필을 맡아서 필요한 친구에게 빌려주는 방식이라서, 누가 무엇을 쓰는지 훨씬 잘 관리할 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 219 / 530
+
+← **이전**: [[162_god_class_blob|162. 갓 클래스/블랍 (God Class / Blob)]]
+**다음**: [[164_adapter_vs_facade|164. 어댑터 vs 퍼사드 (Adapter vs Facade)]] →
+
+---

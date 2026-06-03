@@ -138,3 +138,14 @@ DPO (Direct Preference Optimization) 시대 대관식 / 보상 모델 다 찢어
 1. **[[250_rlhf_human_feedback_reinforcement_alignment_cot|RLHF]]**는 [[231_ai_turing_test|인공지능]] 로봇이 엉뚱하거나 나쁜 말을 하지 못하도록, 사람 선생님이 "이 대답은 나빠! 저 대답이 착해!"라고 점수를 매겨주며 가르치는 훈련이에요.
 2. 로봇은 선생님한테 칭찬(보상 점수)을 많이 받으려고, 점점 나쁜 말은 숨기고 사람에게 도움이 되는 친절한 말만 하도록 자기 스스로 생각하는 방식을 싹 뜯어고친답니다.
 3. 이 무서운 점수 매기기 훈련 덕분에, 거대하고 무서웠던 로봇이 우리가 안전하게 쓸 수 있는 착한 심부름꾼(ChatGPT)으로 변신할 수 있었던 거예요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 148 / 258
+
+← **이전**: [[147_instruction_tuning_rlhf_alignment|147. 인스트럭션 튜닝 (Instruction Tuning) & RLHF]]
+**다음**: [[149_prompt_engineering_cot_few_shot|149. 프롬프트 엔지니어링 (Prompt Engineering) - CoT / Few-Shot]] →
+
+---

@@ -190,3 +190,14 @@ MMU는 이 [[073_bit|비트]]들의 조합을 통해 샌드박스를 완성한�
 1. 철수는 보물찾기 지도([[353_page_table|페이지 테이블]])를 가지고 있어요. 지도에는 보물이 숨겨진 100곳의 주소가 적혀 있죠.
 2. 하지만 이 지도는 조금 특별해요. 각 주소 옆에 O, X(Valid/Invalid) 표시가 쳐져 있어요. 
 3. O 표시(Valid)는 "여기 가면 당장 보물([[001_dikw_pyramid|데이터]])을 캘 수 있어!"라는 뜻이고, X 표시(Invalid)는 "여긴 함정이야! 진짜 보물은 땅속 깊은 창고(디스크)에 있으니까 아빠([[001_operating_system_purpose|운영체제]])한테 꺼내달라고 해!"라는 뜻이랍니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 721 / 800
+
+← **이전**: [[720_page_fault_isr|720. 페이지 폴트 (Page Fault) ISR]]
+**다음**: [[722_page_replacement_lru_principle|722. 페이지 교체 LRU 원리 (Page Replacement Lru Principle)]] →
+
+---

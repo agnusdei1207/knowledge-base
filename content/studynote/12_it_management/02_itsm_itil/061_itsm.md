@@ -129,3 +129,14 @@ tags:
 1. [[096_iso_iec_20000_itsm_certification|ITSM]] (IT [[090_service_kubernetes_network_load_balancing|Service]] [[372_management|Management]])는 모두가 같은 규칙으로 일하게 해 주는 반장 약속표예요.
 2. 약속만 적어 두는 것이 아니라 누가 지켰는지 확인하고 고치는 방법까지 함께 정해요.
 3. 그래서 일이 많아져도 서로 부딪히지 않고 더 안전하게 움직일 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 106 / 587
+
+← **이전**: [[061_bloomfilter|61. 블룸 필터 (Bloom Filter) - 확률적 집합 멤버십 검사]]
+**다음**: [[062_darkdata|62. 다크 데이터 (Dark Data)]] →
+
+---

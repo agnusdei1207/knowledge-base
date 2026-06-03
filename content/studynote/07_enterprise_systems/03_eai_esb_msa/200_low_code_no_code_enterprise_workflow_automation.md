@@ -146,3 +146,14 @@ CoE 기반 엔터프라이즈 자동화 거버넌스
 1. LC/NC는 블록을 조립해서 앱을 만드는 장난감 상자 같아요.
 2. 쉬운 블록은 누구나 빨리 만들 수 있고, 어려운 부분은 어른이 조금 더 붙여 줄 수 있어요.
 3. 하지만 모두가 안전하게 쓰려면 어떤 블록을 써도 되는지 규칙이 꼭 필요해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 200 / 482
+
+← **이전**: [[199_bpm_business_process_management_orchestrator|199. BPM (Business Process Management) 및 오케스트레이터 모델]]
+**다음**: [[201_enterprise_backup_cloud_storage_tiering|201. 엔터프라이즈 백업 아키텍처 클라우드 티어링 (Cloud Tiering)]] →
+
+---

@@ -171,3 +171,14 @@ tags:
 1. 대형 [[286_page_frame|페이지]] (Large [[286_page_frame|Page]] / Transparent Hugepage)의 [[381_virtual_memory|가상 메모리]] [[282_performance_tactics|성능]] 이점은 컴퓨터가 메모리를 더 크게 보이게 하고 부족함을 숨기는 방법이에요.
 2. 먼저 [[422_page_pinning_locking|페이지 고정]] ([[286_page_frame|Page]] Pinning / [[213_locking_mechanism_concurrency_control|Locking]])을 이해하면 대형 [[286_page_frame|페이지]] (Large [[286_page_frame|Page]] / Transparent Hugepage)의 [[381_virtual_memory|가상 메모리]] [[282_performance_tactics|성능]] 이점이 왜 필요한지 더 쉽게 보여요.
 3. 그래서 대형 [[286_page_frame|페이지]] (Large [[286_page_frame|Page]] / Transparent Hugepage)의 [[381_virtual_memory|가상 메모리]] [[282_performance_tactics|성능]] 이점을 잘 알면 나중에 ZRAM / [[022_kernel_role|커널]] 스왑 [[347_compaction|압축]] 기술도 훨씬 쉽게 배울 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 423 / 800
+
+← **이전**: [[422_page_pinning_locking|422. 페이지 고정 (Page Pinning / Locking) - I/O 대기 중인 페이지가 스왑아웃되지 않게 고정 (mlock)]]
+**다음**: [[424_zram_swap_compression|424. ZRAM / 커널 스왑 압축 기술 (Zram Swap Compression)]] →
+
+---

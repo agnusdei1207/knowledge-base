@@ -139,3 +139,14 @@ tags:
 1. [[059_pmo_project_management_office|PMO]] 역할 범위 자원 조달 통제는 복잡한 일을 순서대로 정리해 주는 큰 정리함이에요.
 2. 어디에 무엇을 넣을지 먼저 정해 두면, 나중에 찾거나 고칠 때 훨씬 쉬워져요.
 3. 그래서 일이 커질수록 먼저 기준을 만들고 같이 약속하는 것이 중요해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 348 / 482
+
+← **이전**: [[347_cmmi_maturity_spice|347. CMMI 성숙도 5단계 SPICE 비교 (CMMI Maturity Model SPICE)]]
+**다음**: [[349_delphi_method_expert_forecast|349. 델파이 기법 블라인드 합의 전문가 예측 (Delphi Method Expert Forecast)]] →
+
+---

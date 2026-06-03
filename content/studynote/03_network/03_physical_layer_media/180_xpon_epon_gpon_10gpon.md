@@ -180,3 +180,14 @@ PON (Passive Optical Network) 수동 분기
 1. xPON은 큰 물줄기 하나를 여러 집으로 나누어 보내는 똑똑한 광케이블 방법이에요.
 2. EPON, GPON, 10G-PON은 같은 길을 쓰지만 물을 나누는 규칙과 속도가 조금씩 달라요.
 3. 그래서 통신사는 우리 동네에 맞는 규칙을 골라 더 많은 집에 빠르게 인터넷을 보내준답니다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 301 / 1120
+
+← **이전**: [[179_plc_power_line_communication|179. 전력선 통신 (PLC, Power Line Communication)]]
+**다음**: [[181_data_link_layer_roles|181. 데이터 링크 계층의 역할: 프레이밍, 흐름 제어, 오류 제어, 회선 제어]] →
+
+---

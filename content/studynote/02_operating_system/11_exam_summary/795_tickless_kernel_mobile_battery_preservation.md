@@ -215,3 +215,14 @@ tags:
 1. 옛날 [[001_operating_system_purpose|운영체제]] 엄마는 아기(CPU)가 잘 자는지 확인하려고, 10분마다 알람을 켜고 방문을 열어서 "아기야 잘 자니?" 하고 물어봤어요. 아기는 밤새 푹 자지 못해 피곤했죠(배터리 낭비).
 2. 똑똑해진 틱리스(Tickless) 엄마는 이제 알람을 끄고 아기가 다음 날 아침(예약된 작업)까지 쭉 통잠을 자도록 내버려 둬요.
 3. 대신 아기가 배가 고파서 으앙! 하고 우는 소리([[016_interrupt_mechanism|인터럽트]])가 들릴 때만 즉시 달려가서 밥을 준답니다. 그래서 우리 폰 배터리가 밤새 하나도 안 닳는 거예요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 795 / 800
+
+← **이전**: [[794_page_coloring_cache_conflict_avoidance|794. 페이지 컬러링 캐시 경합 회피 물리 할당 (Page Coloring Cache Conflict Avoidance)]]
+**다음**: [[796_numa_local_remote_memory_latency|796. NUMA 로컬 메모리 원격 메모리 지연차 (NUMA Local Remote Memory Latency)]] →
+
+---

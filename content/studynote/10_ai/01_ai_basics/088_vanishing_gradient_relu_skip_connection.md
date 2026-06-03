@@ -130,3 +130,14 @@ tags:
 1. 100명의 친구가 길게 서서 귓속말로 [[389_mesh_topology|메시]]지를 전할 때, 점점 목소리가 작아져 앞사람은 못 듣는 현상이 '기울기 소실'이에요.
 2. `ReLU`는 목소리를 작게 줄이지 않고 확성기로 그대로 쩌렁쩌렁 전달해 주는 규칙이에요.
 3. `Skip Connection`은 중간 친구들을 거치지 않고 바로 앞사람에게 뛰어가는 지름길을 만들어 주는 거랍니다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 88 / 420
+
+← **이전**: [[087_weight_initialization_xavier_he_glorot|87. 가중치 초기화 (Weight Initialization) - Xavier와 He 초기화]]
+**다음**: [[089_exploding_gradient_clipping|89. 기울기 폭발 (Exploding Gradient) - 딥러닝 갱신폭 제어]] →
+
+---

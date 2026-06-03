@@ -105,3 +105,14 @@ tags:
 1. SOA는 **교환원([[146_esb_enterprise_service_bus_architecture|ESB]])**이 모든 전화를 연결해주는 거예요. 교환원이 바쁘면 전화가 안 돼요.
 2. MSA는 교환원 없이 **직접 전화**하는 거예요. 더 빠르지만 전화번호부([[303_service_discovery|Service Discovery]])가 필요해요.
 3. 요즘은 **직접 전화([[619_msa_traffic_hardware|MSA]])가 대세**지만, 옛날 전화기(레거시)는 교환원([[618_soa_hardware|SOA]])이 필요할 때도 있어요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 122 / 371
+
+← **이전**: [[122_msa_microservices_architecture|122. MSA (Microservices Architecture) - 서비스별 독립 배포·스케일링 아키텍처]]
+**다음**: [[124_api_gateway|124. API Gateway - MSA 외부 진입점·라우팅·인증·Rate Limiting]] →
+
+---

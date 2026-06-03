@@ -134,3 +134,14 @@ tags:
 1. [[211_recommendation_system|추천 시스템]]은 도서관 사서 선생님 같아요.
 2. 내가 그동안 빌려본 책들의 제목을 쓱 보시더니, 내가 묻기도 전에 "너 이 책도 엄청 좋아할걸?" 하고 딱 꺼내주신답니다.
 3. 선생님은 다른 친구들이 재미있게 읽은 책 정보까지 다 알고 계셔서, 나한테 딱 맞는 진짜 재미있는 책을 찾아주시는 거예요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 170 / 587
+
+← **이전**: [[093_itscm|93. IT 서비스 연속성 관리 (ITSCM, IT Service Continuity Management)]]
+**다음**: [[094_capacity_management|94. 용량 관리 (Capacity Management)]] →
+
+---

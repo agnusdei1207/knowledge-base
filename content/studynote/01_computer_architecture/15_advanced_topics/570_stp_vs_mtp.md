@@ -161,3 +161,14 @@ Domain-Specific Accelerator와 역할 분담
 1. STP는 힘센 친구 한 명이 어려운 문제를 아주 빨리 푸는 능력이에요.
 2. MTP는 여러 친구가 나눠서 숙제를 많이 끝내는 능력이에요.
 3. 어려운 문제 한 개는 힘센 친구가, 쉬운 문제 백 장은 여러 친구가 더 잘 해낸답니다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 570 / 803
+
+← **이전**: [[569_thermal_gradient_dark_silicon|569. 멀티코어 칩 온도 불균형 (Thermal Gradient)]]
+**다음**: [[571_instruction_prefetch_buffer|571. 명령어 프리패치 버퍼 (Instruction Prefetch Buffer)]] →
+
+---

@@ -139,3 +139,14 @@ tags:
 1. 스파크 인메모리 [[310_audit|RDD]] [[430_index_fast_full_scan|병렬]] 처리는 복잡한 일을 순서대로 정리해 주는 큰 정리함이에요.
 2. 어디에 무엇을 넣을지 먼저 정해 두면, 나중에 찾거나 고칠 때 훨씬 쉬워져요.
 3. 그래서 일이 커질수록 먼저 기준을 만들고 같이 약속하는 것이 중요해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 396 / 482
+
+← **이전**: [[395_hadoop_mapreduce_disk_bottleneck|395. 하둡 맵리듀스 디스크 병목 분산 처리 (Hadoop MapReduce)]]
+**다음**: [[397_kafka_distributed_streaming_cdc|397. 카프카 분산 큐 메시지 스트리밍 CDC (Apache Kafka)]] →
+
+---

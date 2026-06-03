@@ -130,3 +130,14 @@ OS [[001_operating_system_purpose|운영체제]] [[022_kernel_role|커널]]이 �
 1. 길을 가다 아주 가끔 똥을 밟을 [[130_probability|확률]](데드락)이 귀찮다고, 사계절 내내 장화와 우비를 입고(방어 오버헤드) 불편하게 다닐 건가요?
 2. 컴퓨터를 만든 천재들은 "그냥 가볍고 예쁜 운동화 신고 막 뛰어다녀! 똥 밟으면 냄새 나지만 한 번 화장실(재부팅) 가서 씻고 말지 뭐!"라고 결정했어요.
 3. 이처럼 일어날 [[130_probability|확률]]이 적은 큰일은 '가성비'를 위해 과감하게 무시해버리는 쿨한 성격이 바로 '타조 [[001_algorithm_definition|알고리즘]]'입니다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 291 / 800
+
+← **이전**: [[290_deadlock_handling_methods|290. 교착 상태 처리 방법 3가지 (Deadlock Handling Methods)]]
+**다음**: [[292_deadlock_prevention|292. 교착 상태 예방 (Deadlock Prevention) - 4조건 중 하나를 원천적 부정 (효율성 매우 낮음)]] →
+
+---

@@ -134,3 +134,14 @@ Reference Architecture
 1. [[002_database_definition|데이터베이스]] 마이그레이션 [[098_rollback_strategy_pipeline_error_threshold|롤백]] 자동화 스크립팅 [[123_pipe|파이프]]는 복잡한 일을 순서와 규칙으로 정리해서 실수하지 않게 도와주는 방법이에요.
 2. 출시 직전 수동 보안 점검 같은 친구들과 같이 움직여야 더 잘 작동해요.
 3. 그래서 문제가 생겨도 어디서 틀렸는지 빨리 찾고 다시 고치기 쉬워져요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 271 / 373
+
+← **이전**: [[270_kafka_avro_schema|270. 카프카(Kafka) 파이프라인 메시지 무결성 통제망 스키마 레지스트리 (Avro Schema 변이 하위 호환성 강제 방어)]]
+**다음**: [[272_ci_cache_poisoning_runner_ephemeral|272. CI 캐시 중독(Cache Poisoning) 및 러너(Runner) 인스턴스 침해 격리 보안망 구조 (일회성 Ephemeral]] →
+
+---

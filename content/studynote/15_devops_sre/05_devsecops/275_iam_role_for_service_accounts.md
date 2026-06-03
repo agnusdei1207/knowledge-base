@@ -134,3 +134,14 @@ Reference Architecture
 1. [[090_service_kubernetes_network_load_balancing|서비스]] 계정 최소 권한 [[537_oidc_openid_connect|OIDC]] 연합 토큰 증명은 복잡한 일을 순서와 규칙으로 정리해서 실수하지 않게 도와주는 방법이에요.
 2. [[537_oidc_openid_connect|OIDC]] 같은 친구들과 같이 움직여야 더 잘 작동해요.
 3. 그래서 문제가 생겨도 어디서 틀렸는지 빨리 찾고 다시 고치기 쉬워져요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 275 / 373
+
+← **이전**: [[274_waf_ingress|274. WAF (웹 애플리케이션 방화벽) 룰셋 인그레스(Ingress) 계층 통합 로직망]]
+**다음**: [[276_fido_webauthn|276. FIDO, WebAuthn 생체 기반 패스워드리스 인증 적용 체제 (FIDO / WebAuthn)]] →
+
+---

@@ -199,3 +199,14 @@ tags:
 3. **[[452_availability|가용성]]**은 놀이공원에서 **"언제든 입장 가능"**과 같다. 놀이시설이 고장나면 아무도 놀지 못한다.
 
 4. **[[303_authentication_authorization_patterns|인증]]**은 놀이공원에서 **"본인 [[396_validation|확인]]"**과 같다. 신분증을 제시하여 "진짜 Alice 맞구나"를 [[396_validation|확인]]하는 것과 같다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 585 / 800
+
+← **이전**: [[584_apparmor|584. AppArmor]]
+**다음**: [[586_trojan_horse_wrapper|586. 트로이 목마 (Trojan Horse) / 래퍼 (Wrapper)]] →
+
+---

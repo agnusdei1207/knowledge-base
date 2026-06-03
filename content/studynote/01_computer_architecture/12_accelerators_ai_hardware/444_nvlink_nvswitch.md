@@ -193,3 +193,14 @@ NCCL · GPUDirect RDMA 최적화
 1. 큰 숙제를 친구 8명이 나눠 하려면, 서로 답안을 빨리 주고받는 길이 넓어야 해요.
 2. NVLink는 친구들 책상 사이에 만든 빠른 통로이고, NVSwitch는 모두가 동시에 움직여도 안 막히게 해 주는 큰 복도예요.
 3. 그래서 아주 큰 숙제는 훨씬 빨리 끝나지만, 각자 따로 하는 작은 숙제라면 그렇게 큰 복도까지는 필요 없어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 445 / 803
+
+← **이전**: [[443_ucie|443. UCIe (Universal Chiplet Interconnect Express)]]
+**다음**: [[445_neuromorphic_computing|445. 뉴로모픽 컴퓨팅 (Neuromorphic Computing)]] →
+
+---

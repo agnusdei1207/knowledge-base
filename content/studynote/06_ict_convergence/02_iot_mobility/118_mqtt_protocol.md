@@ -119,3 +119,14 @@ MQTT는 AWS [[101_iot_concept|IoT]] Core·Azure [[101_iot_concept|IoT]] [[152_hu
 1. MQTT는 **우체국(Broker)** 시스템이에요. 센서가 편지([[001_dikw_pyramid|데이터]])를 우편함(Topic)에 넣어요.
 2. 서버는 원하는 우편함을 **구독**해서 편지가 오면 바로 읽어요.
 3. 편지 봉투(헤더)가 **아주 작아서(2바이트)** 작은 센서도 쉽게 보낼 수 있답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 118 / 552
+
+← **이전**: [[117_6lowpan_iot_ipv6|117. 6LoWPAN (IPv6 over Low-Power WPAN) - IoT IPv6 압축·적응 계층]]
+**다음**: [[119_mqtt_qos_levels|119. MQTT QoS 레벨 (QoS 0/1/2) - IoT 메시지 전달 보장 수준]] →
+
+---

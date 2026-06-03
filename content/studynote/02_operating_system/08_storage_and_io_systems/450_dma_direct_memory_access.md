@@ -182,3 +182,14 @@ DMA는 램(RAM)에 [[001_dikw_pyramid|데이터]]를 다이렉트로 꽂는다. 
 1. 직접 메모리 접근 ([[746_io_direct_memory_access_dma|DMA]], [[318_dma|Direct Memory Access]])은 컴퓨터가 디스크와 장치가 [[001_dikw_pyramid|데이터]]를 주고받는 길을 정리하는 방법이에요.
 2. 먼저 [[016_interrupt_mechanism|인터럽트]] 구동 I/O (Interrupt-driven I/O)을 이해하면 직접 메모리 접근 ([[746_io_direct_memory_access_dma|DMA]], [[318_dma|Direct Memory Access]])이 왜 필요한지 더 쉽게 보여요.
 3. 그래서 직접 메모리 접근 ([[746_io_direct_memory_access_dma|DMA]], [[318_dma|Direct Memory Access]])을 잘 알면 나중에 [[451_cycle_stealing|사이클 스틸링]] ([[451_cycle_stealing|Cycle Stealing]])도 훨씬 쉽게 배울 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 450 / 800
+
+← **이전**: [[449_interrupt_driven_io|449. 인터럽트 구동 I/O (Interrupt-driven I/O) - 완료 시 장치가 CPU에 인터럽트 발생]]
+**다음**: [[451_cycle_stealing|451. 사이클 스틸링 (Cycle Stealing) - DMA 컨트롤러가 CPU의 버스 사용을 일시 중지시키고 전송]] →
+
+---

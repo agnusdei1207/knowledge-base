@@ -125,3 +125,14 @@ tags:
 1. [[548_openid_connect|OpenID Connect]] (OIDC)는 컴퓨터끼리 인사하고 [[396_validation|확인]]하는 순서를 정한 약속이에요.
 2. 순서를 건너뛰면 나쁜 사람이 친구인 척할 수 있어요.
 3. 그래서 컴퓨터는 차례대로 묻고 답하면서 서로를 믿게 돼요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 593 / 1108
+
+← **이전**: [[536_idp_identity_provider|536. IdP (Identity Provider)]]
+**다음**: [[538_oidc_discovery|538. OIDC Discovery (OIDC Discovery)]] →
+
+---

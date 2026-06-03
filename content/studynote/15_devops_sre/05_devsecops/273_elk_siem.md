@@ -134,3 +134,14 @@ Reference Architecture
 1. [[199_cyber_kill_chain_mitre_attack|사이버 킬체인]] [[568_logs_distributed_logging_elk_fluentd|로그]] 관제 ELK/[[624_siem|SIEM]] [[123_pipe|파이프]]라인은 복잡한 일을 순서와 규칙으로 정리해서 실수하지 않게 도와주는 방법이에요.
 2. ELK 같은 친구들과 같이 움직여야 더 잘 작동해요.
 3. 그래서 문제가 생겨도 어디서 틀렸는지 빨리 찾고 다시 고치기 쉬워져요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 273 / 373
+
+← **이전**: [[272_ci_cache_poisoning_runner_ephemeral|272. CI 캐시 중독(Cache Poisoning) 및 러너(Runner) 인스턴스 침해 격리 보안망 구조 (일회성 Ephemeral]]
+**다음**: [[274_waf_ingress|274. WAF (웹 애플리케이션 방화벽) 룰셋 인그레스(Ingress) 계층 통합 로직망]] →
+
+---

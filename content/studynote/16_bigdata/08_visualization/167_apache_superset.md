@@ -218,3 +218,14 @@ Apache Superset은 **기술 팀 주도 [[001_dikw_pyramid|데이터]] 플랫폼 
 - Apache Superset은 **무료로 쓸 수 있는 강력한 [[001_dikw_pyramid|데이터]] 현미경**이에요: 돈 한 푼 안 내고도 전문 과학자([[001_dikw_pyramid|데이터]]팀)가 [[001_dikw_pyramid|데이터]]를 깊이 들여다볼 수 있어요.
 - SQL Lab은 **[[001_dikw_pyramid|데이터]] 과학자의 실험실 노트**예요: 원하는 [[298_qkv_attention|쿼리]]를 자유롭게 써보고, 결과를 바로 차트로 만들고, 좋은 [[298_qkv_attention|쿼리]]는 팀원과 공유할 수 있어요.
 - Superset은 전문가용, Metabase는 비전문가용이에요 — 요리사([[001_dikw_pyramid|데이터]]팀)에겐 Superset, 일반 손님(비즈니스 사용자)에겐 Metabase가 더 편해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 167 / 262
+
+← **이전**: [[166_looker|166. Looker / Looker Studio — LookML 시맨틱 레이어 BI]]
+**다음**: [[168_grafana|168. Grafana — 메트릭/로그/추적 통합 관측성 시각화]] →
+
+---

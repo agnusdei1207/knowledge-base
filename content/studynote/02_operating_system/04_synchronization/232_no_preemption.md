@@ -163,3 +163,14 @@ tags:
 1. [[285_no_preemption|비선점]] ([[285_no_preemption|No Preemption]])은 컴퓨터가 여러 친구가 동시에 만져도 부딪히지 않게 순서를 맞추는 규칙이에요.
 2. 먼저 [[699_mutex_lock_sleep_wait|뮤텍스 락]] ([[699_mutex_lock_sleep_wait|Mutex Lock]] / [[283_mutual_exclusion|Mutual Exclusion]] [[510_lock|Lock]])을 이해하면 [[285_no_preemption|비선점]] ([[285_no_preemption|No Preemption]])이 왜 필요한지 더 쉽게 보여요.
 3. 그래서 [[285_no_preemption|비선점]] ([[285_no_preemption|No Preemption]])을 잘 알면 나중에 [[222_spinlock|스핀락]] ([[222_spinlock|Spinlock]])도 훨씬 쉽게 배울 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 232 / 800
+
+← **이전**: [[231_hold_and_wait|231. 점유 대기 (Hold and Wait)]]
+**다음**: [[233_circular_wait|233. 스핀락 (Spinlock) - 바쁜 대기(Busy Waiting), 다중 코어에서 문맥 교환 오버헤드 없음]] →
+
+---

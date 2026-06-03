@@ -125,3 +125,14 @@ tags:
 1. [[988_digital_signature|전자 서명]] ([[675_digital_signature_process_asymmetric_key|Digital Signature]])는 학교 규칙표처럼 무엇을 준비하고 어떻게 확인할지 알려 주는 기준이에요.
 2. 규칙표만 붙여 두고 지키지 않으면 아무 소용이 없어요.
 3. 그래서 보안도 규칙과 실제 행동이 함께 맞아야 해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 1095 / 1108
+
+← **이전**: [[988_crypto_agility|988. Crypto Agility (암호 민첩성)]]
+**다음**: [[989_blockchain_security|989. 블록체인 보안 (Blockchain Security)]] →
+
+---

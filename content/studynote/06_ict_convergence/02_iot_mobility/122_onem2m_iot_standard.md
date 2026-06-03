@@ -108,3 +108,14 @@ oneM2M은 **[[101_iot_concept|IoT]] 플랫폼의 글로벌 표준**이며, [[612
 1. oneM2M은 IoT의 **안드로이드(공통 OS)**예요. 앱만 만들면 돼요.
 2. 디바이스 등록·[[001_dikw_pyramid|데이터]] 저장·알림 같은 **기본 기능을 미리 만들어 놨어요**.
 3. 덕분에 스마트홈·스마트시티 앱을 **빠르고 쉽게** 개발할 수 있답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 122 / 552
+
+← **이전**: [[121_lwm2m_lightweight_m2m|121. LwM2M (Lightweight M2M) - OMA 표준 IoT 디바이스 관리 프로토콜]]
+**다음**: [[123_ocf_open_connectivity_foundation|123. OCF (Open Connectivity Foundation) - IoT 상호운용성 표준]] →
+
+---

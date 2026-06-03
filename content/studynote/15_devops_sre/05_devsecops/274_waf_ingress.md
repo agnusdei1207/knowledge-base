@@ -134,3 +134,14 @@ Reference Architecture
 1. [[696_waf_web_application_firewall|WAF]] 룰셋 [[094_ingress_kubernetes_l7_routing_gateway|인그레스]] 계층 통합 로직망은 복잡한 일을 순서와 규칙으로 정리해서 실수하지 않게 도와주는 방법이에요.
 2. [[094_ingress_kubernetes_l7_routing_gateway|Ingress]] 같은 친구들과 같이 움직여야 더 잘 작동해요.
 3. 그래서 문제가 생겨도 어디서 틀렸는지 빨리 찾고 다시 고치기 쉬워져요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 274 / 373
+
+← **이전**: [[273_elk_siem|273. 사이버 킬체인 로그 관제 ELK/SIEM 파이프라인 (Security Information and Event Management)]]
+**다음**: [[275_iam_role_for_service_accounts|275. 서비스 계정 (IAM Role for Service Accounts, IRSA) 최소 권한 OIDC 연합 토큰 증명]] →
+
+---

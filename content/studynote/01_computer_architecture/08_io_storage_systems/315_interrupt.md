@@ -230,3 +230,14 @@ APIC · MSI (Message Signaled Interrupts) · MSI-X 기반 멀티코어/고속 I/
 1. [[016_interrupt_mechanism|인터럽트]]는 공부하던 로봇에게 "지금 문 앞에 손님이 왔어!" 하고 알려주는 초인종 같은 거예요.
 2. 로봇은 하던 책에 책갈피를 꽂고 잠깐 문을 열어 손님 일을 처리한 뒤, 다시 같은 자리로 돌아와 공부를 이어가요.
 3. 그래서 로봇은 계속 문만 쳐다보지 않고도 중요한 일이 생기면 바로바로 대응할 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 316 / 803
+
+← **이전**: [[314_interrupt_driven_io|314. 인터럽트 구동 I/O (Interrupt-driven I/O)]]
+**다음**: [[316_interrupt_vector|316. 인터럽트 벡터 (Interrupt Vector)]] →
+
+---

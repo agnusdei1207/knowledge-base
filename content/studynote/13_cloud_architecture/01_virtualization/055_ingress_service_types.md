@@ -125,3 +125,14 @@ Ingress Controller
 1. [[090_service_kubernetes_network_load_balancing|Service]] Type은 건물 문 종류예요.
 2. Ingress는 어디로 갈지 알려 주는 안내판이에요.
 3. 둘을 같이 써야 손님이 길을 잘 찾아와요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 54 / 371
+
+← **이전**: [[054_configmap_secret|54. ConfigMap과 Secret]]
+**다음**: [[056_helm_chart|56. Helm Chart - Kubernetes 패키지 매니저와 템플릿 배포]] →
+
+---

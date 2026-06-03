@@ -245,3 +245,14 @@ SPV 클라이언트(예: 모바일比特币지갑)는 전체 블록을 다운로
 - 각 섹션 끝에 📢 요약 비유 반드시 추가
 - 최소 800자/[[501_file_definition_logical_record|파일]]
 - [[501_file_definition_logical_record|파일]]명: 01_, 02_, 03_... 형식 (2자리 숫자)
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 8 / 552
+
+← **이전**: [[007_merkle_tree|7. 머클 트리 (Merkle Tree / Hash Tree) - 트랜잭션 무결성 검증을 위한 해시 트리]]
+**다음**: [[009_hash_pointer|9. 해시 포인터 (Hash Pointer) - 데이터의 위치와 무결성 정보를 동시에 지님]] →
+
+---

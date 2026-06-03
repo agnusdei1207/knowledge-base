@@ -130,3 +130,14 @@ tags:
 1. 레고 성의 빨간 기둥을 파란색으로 바꾸고 싶은데, 성을 무너뜨리기 싫어요.
 2. 먼저 파란 기둥을 **옆에 하나 더 세우고**, 사람들이 파란 기둥을 쓰게 한 다음에,
 3. 마지막에 쓸모없어진 빨간 기둥을 **조용히 빼내는** 아주 조심스러운 공사 방법이에요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 110 / 373
+
+← **이전**: [[109_sbom_extraction_pipeline|109. SBOM 추출 파이프라인 (Software Bill of Materials) - 공급망 보안 의무화]]
+**다음**: [[111_micro_frontends_deployment|111. 마이크로 프론트엔드 배포 (Micro Frontends Deployment) - 독립 배포·Module Federation]] →
+
+---

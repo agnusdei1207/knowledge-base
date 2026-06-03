@@ -178,3 +178,14 @@ I/O 완료 [[446_port_and_bus|포트]] (IOCP)는 1990년대 윈도우 NT [[022_k
 1. I/O 완료 [[446_port_and_bus|포트]] (IOCP, I/O Completion [[446_port_and_bus|Port]])은 컴퓨터가 디스크와 장치가 [[001_dikw_pyramid|데이터]]를 주고받는 길을 정리하는 방법이에요.
 2. 먼저 비동기 I/O (Asynchronous I/O, AIO)을 이해하면 I/O 완료 [[446_port_and_bus|포트]] (IOCP, I/O Completion [[446_port_and_bus|Port]])이 왜 필요한지 더 쉽게 보여요.
 3. 그래서 I/O 완료 [[446_port_and_bus|포트]] (IOCP, I/O Completion [[446_port_and_bus|Port]])을 잘 알면 나중에 epoll / kqueue도 훨씬 쉽게 배울 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 462 / 800
+
+← **이전**: [[461_asynchronous_io_aio|461. 비동기 I/O (Asynchronous I/O, AIO) - I/O 요청 후 즉시 작업 진행, 완료 시 시그널/콜백 알림]]
+**다음**: [[463_epoll_kqueue|463. epoll / kqueue (Epoll Kqueue)]] →
+
+---

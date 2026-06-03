@@ -104,3 +104,14 @@ SVM은 작은 [[001_dikw_pyramid|데이터]]셋이나 경계가 명확한 문제
 SVM은 두 무리를 가장 안전하게 나누는 선을 찾는 거예요.  
 가장 가까운 친구들만 보고 선을 정해요.  
 그래서 새 친구가 와도 덜 흔들려요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 58 / 420
+
+← **이전**: [[057_k_means_clustering_unsupervised_learning|57. K-Means 군집화 (K-Means Clustering) - 중심점 반복 이동으로 군집 찾기]]
+**다음**: [[059_kernel_trick_rbf_polynomial|59. 커널 트릭 (Kernel Trick) - 비선형 분류를 위한 고차원 암시적 매핑 (RBF, Polynomial)]] →
+
+---

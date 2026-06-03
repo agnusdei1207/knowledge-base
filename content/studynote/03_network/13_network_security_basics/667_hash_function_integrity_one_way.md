@@ -123,3 +123,14 @@ tags:
 1. 비밀 편지를 보낼 때는 자물쇠와 비밀번호가 필요해요.
 2. 이 개념은 누가 진짜 친구인지 [[396_validation|확인]]하고, 편지가 바뀌지 않았는지도 살펴봐요.
 3. 그래서 나쁜 사람이 중간에 훔쳐보거나 바꾸기 어려워져요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 788 / 1120
+
+← **이전**: [[666_diffie_hellman_key_exchange_mitm|666. 디피-헬만 상호 키 교환 (Diffie-Hellman Key Exchange) 원리 및 스니핑 취약점]]
+**다음**: [[668_md5_hash_collision_vulnerability|668. MD5 (취약성/충돌 노출) 회피 조치, SHA-1 차단]] →
+
+---

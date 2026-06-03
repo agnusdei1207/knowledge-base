@@ -177,3 +177,14 @@ tags:
 1. [[501_file_definition_logical_record|파일]]시스템 [[536_buffer_cache_page_cache|버퍼 캐시]]([[536_buffer_cache_page_cache|Buffer Cache]])와 [[381_virtual_memory|가상 메모리]] [[286_page_frame|페이지]] 캐시([[286_page_frame|Page]] Cache)의 통합 원리은 컴퓨터가 메모리를 더 크게 보이게 하고 부족함을 숨기는 방법이에요.
 2. 먼저 [[437_memory_encryption_virtualization|메모리 암호화 가상화]] (AMD SME/SEV, [[480_intel_sgx|Intel SGX]])을 이해하면 [[501_file_definition_logical_record|파일]]시스템 [[536_buffer_cache_page_cache|버퍼 캐시]]([[536_buffer_cache_page_cache|Buffer Cache]])와 [[381_virtual_memory|가상 메모리]] [[286_page_frame|페이지]] 캐시([[286_page_frame|Page]] Cache)의 통합 원리이 왜 필요한지 더 쉽게 보여요.
 3. 그래서 [[501_file_definition_logical_record|파일]]시스템 [[536_buffer_cache_page_cache|버퍼 캐시]]([[536_buffer_cache_page_cache|Buffer Cache]])와 [[381_virtual_memory|가상 메모리]] [[286_page_frame|페이지]] 캐시([[286_page_frame|Page]] Cache)의 통합 원리을 잘 알면 나중에 [[062_cgroups|Cgroups]] 메모리 서브시스템의 자원 제한 ([[439_cgroups_memory_limit|Memory Limit]]) 동작도 훨씬 쉽게 배울 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 438 / 800
+
+← **이전**: [[437_memory_encryption_virtualization|437. 메모리 암호화 가상화 (AMD SME/SEV, Intel SGX)]]
+**다음**: [[439_cgroups_memory_limit|439. Cgroups 메모리 서브시스템의 자원 제한 (Memory Limit) 동작]] →
+
+---

@@ -134,3 +134,14 @@ Reference Architecture
 1. [[305_saga|사가 패턴]] [[549_2pc_two_phase_commit_limitations_msa|2PC]] 한계 [[551_compensating_transaction_logical_rollback|보상 트랜잭션]] [[098_rollback_strategy_pipeline_error_threshold|롤백]]은 복잡한 일을 순서와 규칙으로 정리해서 실수하지 않게 도와주는 방법이에요.
 2. 출시 직전 수동 보안 점검 같은 친구들과 같이 움직여야 더 잘 작동해요.
 3. 그래서 문제가 생겨도 어디서 틀렸는지 빨리 찾고 다시 고치기 쉬워져요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 302 / 373
+
+← **이전**: [[301_process|301. 서킷 브레이커 장애 연쇄 확산 차단 폴백 (Process)]]
+**다음**: [[303_cqrs|303. CQRS 읽기·쓰기 분리 (Command Query Responsibility Segregation)]] →
+
+---

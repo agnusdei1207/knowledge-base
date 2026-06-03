@@ -132,3 +132,14 @@ tags:
 1. 비밀상자에 자물쇠를 달고 누가 열었는지 기록하는 일이에요.
 2. 상자를 잘 잠가도 열쇠를 아무나 주면 소용없어요.
 3. 그래서 잠그는 법과 보여 주는 법을 같이 정해야 해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 367 / 600
+
+← **이전**: [[366_column_block_encryption|366. 컬럼 레벨 암호화 / 블록 레벨 암호화]]
+**다음**: [[368_fpe_format_preserving_encryption|368. FPE (Format Preserving Encryption)]] →
+
+---

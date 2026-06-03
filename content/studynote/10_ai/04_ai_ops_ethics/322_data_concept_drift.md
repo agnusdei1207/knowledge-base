@@ -144,3 +144,14 @@ tags:
 1. **드리프트**는 AI가 배운 [[001_dikw_pyramid|데이터]]와 현실의 [[001_dikw_pyramid|데이터]]가 **서서히 달라지는 현상**이에요 — 코로나처럼 세상이 바뀌면 "예전 [[190_ai_llm_requirements_specification|AI]]"가 갑자기 엉터리가 돼요!
 2. **[[163_data_drift_statistical_distribution_shift|데이터 드리프트]]**는 고객 나이대가 바뀐 것, **[[164_concept_drift_target_mapping_change|컨셉 드리프트]]**는 같은 고객이 완전히 다르게 쇼핑하는 것으로, 후자가 더 발견하기 어려워요.
 3. 정기적으로 AI를 **건강검진**(드리프트 [[229_monitor|모니터]]링)하고, 이상이 발견되면 **자동으로 재학습**시키는 게 MLOps의 핵심이에요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 322 / 420
+
+← **이전**: [[321_mlops_pipeline|321. MLOps (Machine Learning Operations)]]
+**다음**: [[323_feature_store|323. 피처 스토어 (Feature Store)]] →
+
+---

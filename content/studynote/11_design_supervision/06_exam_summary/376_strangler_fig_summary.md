@@ -111,3 +111,14 @@ tags:
 1. [[310_strangler_fig_pattern|스트랭글러 피그]] 패턴 ([[308_strangler_fig_pattern|Strangler Fig Pattern]])은 큰 나무를 한 번에 베지 않고 덩굴처럼 조금씩 새 가지로 바꾸는 것처럼 약속을 먼저 정하는 거예요.
 2. 그러면 서로 다른 사람이 해도 같은 규칙으로 움직일 수 있어요.
 3. 그래서 규모가 커질수록 현행 시스템을 운영하면서 단계적으로 교체하는 일이 더 중요해져요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 454 / 530
+
+← **이전**: [[375_acl_legacy_buffer|375. 안티 코럽션 레이어 (Anti-Corruption Layer, ACL)]]
+**다음**: [[377_serverless_cold_start|377. 서버리스 콜드 스타트 (Serverless Cold Start)]] →
+
+---

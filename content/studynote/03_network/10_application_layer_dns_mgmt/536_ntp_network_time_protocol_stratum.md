@@ -230,3 +230,14 @@ NTP는 Syslog에서 출발해 현재 메커니즘을 정교화하고, 이후 [[5
 1. 세상의 수많은 컴퓨터가 함께 일하려면 서로의 시계가 1초도 안 틀리고 똑같아야 해요.
 2. NTP는 세상에서 제일 정확한 시계(원자시계)를 기준으로, 큰 시계탑이 작은 동네 시계들에게 차례대로 시간을 전달해주는 마법의 통신 규칙이에요.
 3. 만약 시계가 틀리면 은행 통장에서 돈이 빠져나간 순서가 엉켜버리기 때문에, 빠르고 가벼운 우편([[406_udp_user_datagram_protocol_connectionless_fast|UDP]])을 통해 끊임없이 시간을 서로 맞춰서 고장을 예방한답니다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 657 / 1120
+
+← **이전**: [[535_syslog_protocol_udp_514|535. Syslog (시스템 로그 프로토콜)]]
+**다음**: [[537_sntp_ptp_precision_time_protocol|537. SNTP (Simple NTP) / PTP (Precision Time Protocol, IEEE 1588]] →
+
+---

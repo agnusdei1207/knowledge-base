@@ -181,3 +181,14 @@ Porter 5 Forces → 산업 경쟁 분석 → 포지셔닝 전략
 1. [[102_isp_environmental_analysis_pest_5forces|PEST]] 분석은 소풍 전 날씨 [[396_validation|확인]]이다 — 비(정치), 더위(경제), 친구들 분위기(사회), 새 운동화(기술)를 모두 체크해야 즐거운 소풍이 된다.
 2. STEEP은 PEST에 환경 지킴이를 추가한 것이다 — 요즘은 탄소발자국(E)도 기업 성적표에 들어간다.
 3. [[102_isp_environmental_analysis_pest_5forces|PEST]]→SWOT 연계는 수능 모의고사다 — 외부 환경(시험 난이도)을 분석한 뒤, 내 강점·약점과 연결해 공부 [[268_strategy_pattern|전략]]을 세운다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 32 / 482
+
+← **이전**: [[031_3c_analysis|31. 3C 분석 — 고객·경쟁자·자사 전략 삼각형]]
+**다음**: [[033_mckinsey_7s_model|맥킨지 7S 모델 (McKinsey 7S Model)]] →
+
+---

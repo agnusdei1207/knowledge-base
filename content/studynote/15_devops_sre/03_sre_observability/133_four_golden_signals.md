@@ -65,3 +65,14 @@ Saturation: 리소스 포화도 (CPU·메모리·디스크)
 1. 4대 [[186_golden_signals_sre_monitoring|골든 시그널]]은 자동차의 **속도계·RPM·경고등·연료 게이지**예요.
 2. 이 **4가지만 보면** 차(시스템)가 잘 달리는지 알 수 있어요.
 3. 너무 많은 계기판을 보면 **혼란스러우니까**, 핵심 4개에 집중해요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 133 / 373
+
+← **이전**: [[132_metrics_monitoring|132. Metrics & 모니터링 심화 - Prometheus·Grafana 기반 메트릭 수집·시각화]]
+**다음**: [[134_use_method_resource_analysis|134. USE 메서드 (Utilization·Saturation·Errors) - 리소스 중심 분석]] →
+
+---

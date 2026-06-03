@@ -112,3 +112,14 @@ NodePort · LoadBalancer (외부 트래픽 유입)
 1. [[196_kubernetes_k8s_container_orchestration|쿠버네티스]] 마을에서는 심부름꾼([[085_pod_kubernetes_container_unit|파드]])들이 수시로 이사를 다녀서 집 주소(IP)가 자꾸 바뀌어요.
 2. 그래서 마을 이장님이 '우체통(서비스)'을 하나 튼튼하게 세워두고 절대 주소를 안 바꾸기로 했어요.
 3. 이제 편지를 무조건 우체통에 넣으면, 이장님이 알아서 현재 일하고 있는 심부름꾼에게 딱 맞춰 전해준답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 89 / 371
+
+← **이전**: [[089_daemonset_kubernetes_background_node_agent|89. 데몬셋 (DaemonSet) - K8s 전 노드 백그라운드 파드 배포]]
+**다음**: [[091_clusterip_kubernetes_internal_service_dns|91. ClusterIP - K8s 클러스터 내부 통신 전용 기본 서비스]] →
+
+---

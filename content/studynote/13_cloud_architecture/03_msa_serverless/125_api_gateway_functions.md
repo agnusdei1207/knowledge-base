@@ -104,3 +104,14 @@ tags:
 1. [[014_api_posix|API]] Gateway는 공항의 **보안 검색대**예요. 신분증([[303_authentication_authorization_patterns|인증]])을 확인하고 게이트([[090_service_kubernetes_network_load_balancing|서비스]])를 안내해요.
 2. 너무 많은 사람이 한꺼번에 오면 **줄 세우기([[520_rate_limiting|Rate Limiting]])**로 혼잡을 방지해요.
 3. 보안 검색대가 **공항 업무까지 하면 안 되듯**, Gateway는 **교통 정리만** 해야 해요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 124 / 371
+
+← **이전**: [[124_api_gateway|124. API Gateway - MSA 외부 진입점·라우팅·인증·Rate Limiting]]
+**다음**: [[126_bff|126. BFF (Backend For Frontend) - 클라이언트별 맞춤 API 레이어]] →
+
+---

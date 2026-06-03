@@ -195,3 +195,14 @@ Adam이 딥러닝 표준 [[163_optimizer_sql_execution_plan_generator|옵티마�
 1. Adam은 두 가지를 동시에 기억하는 아주 똑똑한 로봇이에요. 어느 방향으로 가야 하는지(1차 [[276_momentum_optimizer|모멘텀]])와 얼마나 빠르게 가야 하는지(2차 [[276_momentum_optimizer|모멘텀]])를 따로 기억해요.
 2. 처음엔 기억이 아직 불완전하니까 편향 보정으로 스스로 오차를 고쳐가면서 더 정확하게 움직여요.
 3. 덕분에 대부분의 [[231_ai_turing_test|인공지능]] 학습에서 "일단 Adam 쓰면 대충 잘 된다"는 게 실무의 표준이 됐어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 277 / 420
+
+← **이전**: [[276_momentum_optimizer|276. 모멘텀 (Momentum)]]
+**다음**: [[278_regularization_overview|278. 과적합 방지 기법 (Regularization Techniques) 모음]] →
+
+---

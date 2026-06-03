@@ -211,3 +211,14 @@ Looker는 **BI 거버넌스의 미래 표준**이다. [[001_dikw_pyramid|데이�
 - Looker의 LookML은 **표준 사전**이에요: 학교에서 모든 학생이 같은 사전을 쓰면 "사랑"이라는 단어의 의미가 같듯, LookML에 "매출"을 한 번 정의하면 모든 팀이 같은 "매출"을 써요.
 - Looker Studio는 **무료 스케치북**이에요: 복잡한 규칙 없이 빠르게 그림(차트)을 그릴 수 있어요 — [[233_precision_recall_f1_roc_auc_threshold|정밀도]]보다 속도가 중요할 때 써요.
 - Looker의 가장 큰 특징은 "[[001_dikw_pyramid|데이터]]를 복사하지 않는다"는 것이에요 — 원본 [[002_database_definition|데이터베이스]]에 직접 물어보기 때문에 항상 최신 정보를 볼 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 166 / 262
+
+← **이전**: [[165_power_bi|165. Power BI — Microsoft 생태계 통합 DAX 비즈니스 인텔리전스]]
+**다음**: [[167_apache_superset|167. Apache Superset — 오픈소스 엔터프라이즈 BI SQL Lab]] →
+
+---

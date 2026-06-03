@@ -151,3 +151,14 @@ ZKP는 [[004_blockchain|블록체인]]이 프라이버시와 [[395_verification_
 1. "나는 비밀번호를 알아요"라고 말하지 않고도 진짜로 알고 있다는 것을 증명하는 마법 같은 수학이에요.
 2. Zcash는 이 마법으로 돈을 보낼 때 얼마를 누구에게 보냈는지 아무도 모르게 할 수 있어요.
 3. zkRollup은 이 마법으로 100개의 거래를 증명서 하나로 묶어서 [[004_blockchain|블록체인]] 비용을 확 줄여줍니다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 479 / 552
+
+← **이전**: [[478_token_economy_ico_nft_rwa|478. 토큰 이코노미: ICO, NFT, RWA (Token Economy: ICO, NFT, RWA)]]
+**다음**: [[480_rollup_optimistic_zk_fraud_validity_proof|480. 롤업: 옵티미스틱과 ZK 사기/타당성 증명 (Rollup: Optimistic vs ZK Fraud/Validity Proof)]] →
+
+---

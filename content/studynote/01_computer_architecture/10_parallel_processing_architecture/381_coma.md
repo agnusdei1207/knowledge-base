@@ -186,3 +186,14 @@ OS 기반 Page Migration · NUMA Balancing · CXL Memory Pooling
 1. COMA는 책이 멀리 있는 책장에 가만히 있는 대신, 내가 자주 읽으면 내 옆 책상으로 옮겨 오는 도서관 같은 거예요.
 2. 그래서 책을 찾으러 멀리 안 가도 되어 빨라질 수 있어요.
 3. 하지만 누가 어떤 책을 갖고 있는지 계속 확인해야 해서, 관리가 너무 어려우면 오히려 더 복잡해질 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 382 / 803
+
+← **이전**: [[380_numa|380. NUMA (Non-Uniform Memory Access)]]
+**다음**: [[382_smp|382. 대칭형 다중 처리 (SMP, Symmetric Multiprocessing)]] →
+
+---

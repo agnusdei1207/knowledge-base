@@ -163,3 +163,14 @@ tags:
 1. 장난감을 만들 때 친구가 매번 공장에 직접 들어가 부품을 꺼내 오면 너무 복잡해져요.
 2. 그래서 누가 만들어 줄지, 세트로 만들지, 복사해서 만들지 정하는 규칙이 필요해요.
 3. [[252_creational_patterns_overview|생성 패턴]]은 장난감 만드는 방법을 똑똑하게 나누는 규칙이에요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 199 / 530
+
+← **이전**: [[142_gof_23_patterns_classification|142. GoF 23가지 패턴 분류 (GoF 23 Design Patterns Classification)]]
+**다음**: [[144_singleton_pattern|144. 싱글턴 패턴 (Singleton Pattern)]] →
+
+---

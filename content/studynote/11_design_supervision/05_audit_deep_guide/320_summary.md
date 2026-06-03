@@ -106,3 +106,14 @@ IT 감리 논술 답안 구조 총정리를 제대로 적용하면 [[025_baselin
 1. IT 감리 논술 답안 구조 총정리은 시험 답안의 목차를 먼저 그리는 것과 같아요.
 2. 무엇을 먼저 말할지 정하면 긴장해도 빠뜨리지 않아요.
 3. 그래서 아는 것을 더 또렷하게 보여 줄 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 398 / 530
+
+← **이전**: [[320_exam_essay_structure_map|320. IT 감리 논술 답안 구조 맵 (IT Audit Essay Structure Map)]]
+**다음**: [[321_audit|321. 정보시스템 감리 목적 3대 속성 (Three Objectives of Information System Audit)]] →
+
+---

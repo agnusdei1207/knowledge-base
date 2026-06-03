@@ -172,3 +172,14 @@ tags:
 1. 안테나는 전기를 공기 중 파도로 바꿔서 멀리 보내는 막대예요.
 2. 막대 길이가 파도 길이에 딱 맞으면 그네처럼 가장 잘 흔들려서 전파가 세게 나가요.
 3. 그래서 안테나는 아무 쇠막대가 아니라, 길이를 잘 맞춰 만든 특별한 도구랍니다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 292 / 1120
+
+← **이전**: [[170_diversity_system_equalizer|170. 다이버시티 시스템 (Diversity System) / 경로 이퀄라이저 (Equalizer)]]
+**다음**: [[172_omni_directional_vs_directional_antenna|172. 무지향성 안테나 (Omni-Directional Antenna) vs 지향성 안테나 (Directional Antenna)]] →
+
+---

@@ -157,3 +157,14 @@ Team topology and autonomous product flow
 1. 예전에는 생각하는 사람, 만드는 사람, 고치는 사람이 따로 떨어져 있었어요.
 2. 스쿼드는 그 사람들이 한 팀이 되어 같이 만들고 같이 돌보는 방식이에요.
 3. 그래서 기다리는 시간이 줄고, 문제가 생겨도 바로 고칠 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 231 / 482
+
+← **이전**: [[230_bimodal_it_gartner|230. 바이모달 IT (Bimodal IT)]]
+**다음**: [[232_project_charter_sponsor|232. 프로젝트 헌장 (Project Charter) 제정 및 스폰서 역할]] →
+
+---

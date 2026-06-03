@@ -129,3 +129,14 @@ tags:
 1. 아키텍처 리팩터링은 방을 쓰면서 조금씩 정리하는 것이에요 - 한꺼번에 다 치우지 않아요.
 2. 외부에서 보면 방이 똑같이 쓸 수 있지만, 내부는 훨씬 깔끔해져요.
 3. 꾸준히 정리하면 나중에 대청소를 할 필요가 없어요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 194 / 530
+
+← **이전**: [[137_space_based_architecture|137. 공간 기반 아키텍처 (Space-Based Architecture)]]
+**다음**: [[139_conceptual_integrity|139. 개념 무결성 (Conceptual Integrity)]] →
+
+---

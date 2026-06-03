@@ -139,3 +139,14 @@ tags:
 1. [[036_mvp|MVP]] 가설 캔버스 및 AB 테스팅 실험 [[268_strategy_pattern|전략]]는 복잡한 일을 순서대로 정리해 주는 큰 정리함이에요.
 2. 어디에 무엇을 넣을지 먼저 정해 두면, 나중에 찾거나 고칠 때 훨씬 쉬워져요.
 3. 그래서 일이 커질수록 먼저 기준을 만들고 같이 약속하는 것이 중요해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 245 / 482
+
+← **이전**: [[244_agile_user_story_invest_principle|244. 애자일 사용자 스토리 INVEST 원칙 (Agile User Story INVEST Principle)]]
+**다음**: [[246_data_governance_council_operation|246. 데이터 거버넌스 협의체 운영 (Data Governance Council)]] →
+
+---

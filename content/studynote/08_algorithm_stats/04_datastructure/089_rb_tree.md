@@ -162,3 +162,14 @@ Persistent Red-Black Tree는 함수형 프로그래밍에서 불변([[298_immuta
 1. Red-Black 트리는 빨간불 연속 금지 규칙으로 균형을 유지하는 트리예요!
 2. C++의 map과 Java의 TreeMap이 모두 Red-Black 트리를 사용해서 정렬과 검색을 O(log N)으로 해요!
 3. Linux [[022_kernel_role|커널]]도 이 트리로 프로세스 스케줄링을 공정하게 관리한답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 89 / 175
+
+← **이전**: [[088_avl_tree|31. AVL 트리 — 자가 균형 이진 탐색 트리]]
+**다음**: [[090_b_plus_tree|B+트리 (B+-Tree)]] →
+
+---

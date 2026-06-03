@@ -181,3 +181,14 @@ Streaming / Open Format Hybrid MDS
 1. Modern [[001_dikw_pyramid|Data]] Stack은 여러 장난감 도구를 한 상자에 잘 맞게 넣어 두고, 필요한 순서대로 꺼내 쓰는 놀이 세트와 같아요.
 2. 재료를 먼저 창고에 넣어 두고, 요리법(dbt)으로 나중에 바꾸니까 다시 만들거나 고치기가 쉬워요.
 3. 그래서 작은 팀도 빨리 멋진 [[001_dikw_pyramid|데이터]] 주방을 만들 수 있지만, 아주 빠른 요리가 필요하면 특별한 도구를 더 붙여야 해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 178 / 262
+
+← **이전**: [[177_bigdata_reference_architecture|177. 빅데이터 참조 아키텍처 (Big Data Reference Architecture)]]
+**다음**: [[179_unified_batch_streaming|179. 통합 배치/스트리밍 플랫폼 (Unified Batch/Streaming) — Spark/Flink 통합]] →
+
+---

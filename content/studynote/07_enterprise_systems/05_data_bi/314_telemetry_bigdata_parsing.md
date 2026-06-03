@@ -186,3 +186,14 @@ ML 기반 네트워크 이상 탐지 자동화
 1. OTel은 모든 선생님이 같은 양식의 출석부를 쓰는 것이에요. 어느 반이든 같은 방식으로 기록해요.
 2. 4 Golden Signals는 선생님이 매일 [[396_validation|확인]]하는 4가지 항목이에요: 수업 시간([[015_지연_데이터_관점|지연]]), 출석률(트래픽), 결석 사유(오류), 교실 혼잡도(포화도).
 3. Tail Sampling은 결석하거나 지각한 학생 기록만 자세히 남기는 거예요. 모든 학생 기록을 다 남기면 종이가 부족하니까요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 314 / 482
+
+← **이전**: [[313_htap_in_memory_architecture|313. HTAP 하이브리드 트랜잭션 분석 처리 인메모리 아키텍처 (HTAP In-Memory Architecture)]]
+**다음**: [[315_nosql_base_cap_theorem|315. NoSQL BASE 결과적 일관성 CAP 정리 트레이드오프 (NoSQL BASE CAP Theorem)]] →
+
+---

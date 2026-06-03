@@ -134,3 +134,14 @@ tags:
 1. 여러 상자에 있던 블록을 큰 정리장에 모아 보고 싶은 모양대로 다시 보는 거예요.
 2. 빨리 넣는 법과 빨리 보는 법은 다를 수 있어요.
 3. 그래서 창고를 어떻게 나누고 언제 정리할지 정해야 해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 385 / 600
+
+← **이전**: [[384_realtime_cdp_database_model|384. 실시간 커스터머 데이터 플랫폼 (CDP) 구성을 위한 DB 연계 모델]]
+**다음**: [[386_data_clean_room_sharing|386. 데이터 공유 (Data Sharing / Clean Room) 보안 파티션 교환 모델 (Snowflake Data Clean]] →
+
+---

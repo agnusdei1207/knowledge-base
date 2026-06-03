@@ -125,3 +125,14 @@ A06. 취약한 [[603_component_independent_deployment_unit|컴포넌트]] (Vulne
 1. A06. 취약한 [[603_component_independent_deployment_unit|컴포넌트]] (Vulnerable Components)는 누군가 규칙의 틈을 찾아 몰래 장난을 치는 방법이에요.
 2. 그래서 문을 단단히 잠그는 것뿐 아니라, 누가 이상하게 움직이는지도 바로 알아차려야 해요.
 3. 컴퓨터는 이상한 흔적을 빨리 보고 퍼지기 전에 멈추게 해야 안전해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 507 / 1108
+
+← **이전**: [[450_cors_misconfiguration|450. CORS 설정 오류 (CORS Misconfiguration)]]
+**다음**: [[452_log4shell|452. Log4Shell (CVE-2021-44228)]] →
+
+---

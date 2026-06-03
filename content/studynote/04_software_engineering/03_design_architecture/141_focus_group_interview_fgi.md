@@ -53,3 +53,14 @@ FGI는 **사용자 인식·태도 파악의 핵심 정성 기법**이며, 그룹
 1. FGI는 **토크쇼**예요. MC가 [[216_progress_in_synchronization|진행]]하고 **여러 사람이 의견**을 나눠요.
 2. 혼자 말할 때와 달리 **서로 이야기하면** 새로운 아이디어가 나와요.
 3. "아, 나도 그래!" 하면서 **숨겨진 생각**이 드러나요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 141 / 973
+
+← **이전**: [[140_shadowing_observation_technique|140. 쉐도잉 & 관찰 기법 (Shadowing/Observation) - 현장 기반 요구 도출]]
+**다음**: [[142_requirements_analysis_conflict_resolution|142. 요구 분석 & 갈등 해결 - 이해관계자 간 상충 요구 조정]] →
+
+---

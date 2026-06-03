@@ -192,3 +192,14 @@ Cloud-Native Zero Trust (2020s~)
 1. 이스트-웨스트는 건물 복도 — 현관(노스-사우스)만 지키고 복도는 무방비면 침입자가 자유롭게 돌아다녀.
 2. 마이크로 세그먼테이션은 모든 방에 잠금장치 — 허락받은 방만 열어서 침입자가 한 방에 갇히게 해.
 3. [[585_zero_skipping|Zero]] Trust는 복도에서 만나는 모든 사람에게 신분증 [[396_validation|확인]] — "내 직원이니까 괜찮다"는 믿음 없이 항상 [[396_validation|확인]].
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 50 / 1108
+
+← **이전**: [[049_micro_segmentation|049. 마이크로 세그먼테이션 — Micro-Segmentation]]
+**다음**: [[051_risk_transfer|051. 위험 전가 (Risk Transfer)]] →
+
+---

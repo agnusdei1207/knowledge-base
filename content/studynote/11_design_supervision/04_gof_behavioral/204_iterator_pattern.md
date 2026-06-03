@@ -254,3 +254,14 @@ Collection [[198_abstraction_control_data_process|추상화]] → [[397_process|
 1. 사탕 상자(컬렉션)에서 사탕을 꺼내는 방법이 상자마다 달라도, "다음 사탕 주세요"라는 말은 항상 같아요.
 2. Iterator는 상자 안을 들여다보지 않고도 하나씩 꺼낼 수 있게 해주는 마법이에요.
 3. Java의 `for-each`, Python의 `for` 루프가 바로 이 마법을 쓰고 있어요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 265 / 530
+
+← **이전**: [[203_visitor_pattern|203. 방문자 패턴 (Visitor Pattern)]]
+**다음**: [[205_memento_pattern|205. 메멘토 패턴 (Memento Pattern)]] →
+
+---

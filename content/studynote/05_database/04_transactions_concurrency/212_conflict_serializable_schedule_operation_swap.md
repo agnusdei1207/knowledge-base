@@ -127,3 +127,13 @@ tags:
 2. 이 약속을 잘 지키면 [[001_dikw_pyramid|데이터]]가 많아도 더 안전하고 빠르게 움직일 수 있어요.
 3. 그래서 언제 이 방법을 쓰고 언제 다른 방법을 써야 하는지 아는 것이 중요해요.
 
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 212 / 600
+
+← **이전**: [[211_serializable_schedule_concurrency_control_goal|211. 직렬 가능 스케줄 (Serializable Schedule)]]
+**다음**: [[213_locking_mechanism_concurrency_control|213. 락킹 기법 (Locking)]] →
+
+---

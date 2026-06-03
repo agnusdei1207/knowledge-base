@@ -128,3 +128,14 @@ Normalization
 열쇠 후보가 많아요.  
 꼭 필요한 것만 남겨요.  
 후보 키는 그런 진짜 열쇠예요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 69 / 600
+
+← **이전**: [[068_super_key_uniqueness|68. 슈퍼 키 (Super Key) - 유일성은 만족하나 최소성은 만족하지 않는 속성 집합]]
+**다음**: [[070_primary_key_alternate_key|70. 기본 키 (Primary Key, PK) - 후보 키 중 설계자가 선택한 메인 식별자 (NULL 불가)]] →
+
+---

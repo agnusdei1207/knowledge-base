@@ -139,3 +139,14 @@ tags:
 1. [[349_process|하이브리드 멀티 클라우드 록인 회피]] [[268_strategy_pattern|전략]]는 복잡한 일을 순서대로 정리해 주는 큰 정리함이에요.
 2. 어디에 무엇을 넣을지 먼저 정해 두면, 나중에 찾거나 고칠 때 훨씬 쉬워져요.
 3. 그래서 일이 커질수록 먼저 기준을 만들고 같이 약속하는 것이 중요해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 424 / 482
+
+← **이전**: [[423_iaas_paas_saas_baas_faas|423. IaaS PaaS SaaS BaaS FaaS 클라우드 서비스 모델 (Cloud Service Models)]]
+**다음**: [[425_hypervisor_type1_type2_container|425. 하이퍼바이저 Type 1/2 전반가상화 컨테이너 비교 (Hypervisor)]] →
+
+---

@@ -139,3 +139,14 @@ tags:
 1. [[080_cab|변경 통제 위원회]] [[025_baseline|기준선]] 갱신 절차는 복잡한 일을 순서대로 정리해 주는 큰 정리함이에요.
 2. 어디에 무엇을 넣을지 먼저 정해 두면, 나중에 찾거나 고칠 때 훨씬 쉬워져요.
 3. 그래서 일이 커질수록 먼저 기준을 만들고 같이 약속하는 것이 중요해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 239 / 482
+
+← **이전**: [[238_project_steering_committee|238. 프로젝트 통합 관리: 통제 위원회(Steering Committee) 구성]]
+**다음**: [[240_agile_scrum_limits_waterscrumfall_culture_conflict|240. 애자일 스크럼 도입 한계 및 워터스크럼폴 조직 문화 충돌 진단 (Agile Scrum / WaterScrumFall)]] →
+
+---

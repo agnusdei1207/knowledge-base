@@ -174,3 +174,14 @@ MVC 분리 → [[036_mvp|MVP]]/MVVM [[001_dikw_pyramid|데이터]] 바인딩 →
 1. MVP는 선생님(Presenter)이 학생([[151_sql_view_virtual_table|View]])에게 직접 "이렇게 써"라고 지시하는 거야.
 2. MVVM은 칠판(ViewModel)에 답을 쓰면 학생들이 자기 노트에 자동으로 따라 적는 거야.
 3. 두 방법 모두 학생이 스스로 생각하지 않아도 되니까, 시험(테스트)이 훨씬 쉬워져!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 293 / 530
+
+← **이전**: [[231_domain_event_outbox_pattern|231. 도메인 이벤트 아웃박스 패턴 (Domain Event Outbox Pattern)]]
+**다음**: [[233_view_helper_custom_tag|233. 뷰헬퍼 커스텀 태그 패턴 (View Helper Custom Tag Pattern)]] →
+
+---

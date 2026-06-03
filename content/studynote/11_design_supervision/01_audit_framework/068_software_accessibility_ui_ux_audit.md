@@ -134,3 +134,14 @@ User Experience
 모두가 들어올 수 있어야 해요.  
 눈, 손이 조금 달라도 쓸 수 있어야 해요.  
 [[292_accessibility_kwcag_wcag|접근성]]은 그런 친절함이에요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 105 / 530
+
+← **이전**: [[068_software_accessibility_audit|68. 소프트웨어 접근성 점검 (Software Accessibility Audit)]]
+**다음**: [[069_project_sponsor_steering_committee|69. 프로젝트 스폰서 및 추진 위원회 의사 결정 평가 (Project Sponsor and Steering Committee Assessment)]] →
+
+---

@@ -127,3 +127,14 @@ ACL의 가장 어려운 실무 과제는 외부 시스템이 자주 변경될 �
 1. ACL은 외국 음식(외부 [[001_dikw_pyramid|데이터]])을 우리 입맛(내부 모델)에 맞게 조리해주는 요리사예요.
 2. 외국 레시피(외부 [[014_api_posix|API]])가 바뀌어도 우리 메뉴(내부 [[064_relation_domain|도메인]])는 그대로 유지돼요.
 3. 이렇게 하면 외부 변화로부터 내부 시스템을 보호할 수 있어요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 189 / 530
+
+← **이전**: [[132_entity_value_object|132. 엔티티와 값 객체 (Entity and Value Object)]]
+**다음**: [[134_pipe_filter_pattern|134. 파이프-필터 패턴 (Pipe-Filter Pattern)]] →
+
+---

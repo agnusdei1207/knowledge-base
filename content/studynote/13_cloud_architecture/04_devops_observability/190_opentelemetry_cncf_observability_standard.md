@@ -187,3 +187,14 @@ OpenTelemetry (OTel): CNCF 표준
 ```
 2. 한 번 계측(plug-in)해두면 [[136_prometheus|Prometheus]], Jaeger, Datadog 어디에든 연결할 수 있어요.
 3. 덕분에 더 좋은 도구가 나와도 처음부터 다시 만들 필요 없이 쉽게 바꿀 수 있어요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 189 / 371
+
+← **이전**: [[189_trace_id_span_context_propagation|189. Trace ID / Span ID / Context Propagation]]
+**다음**: [[191_chaos_engineering_chaos_monkey|191. 카오스 엔지니어링 (Chaos Engineering)]] →
+
+---

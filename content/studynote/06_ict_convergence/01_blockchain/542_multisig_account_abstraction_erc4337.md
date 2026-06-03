@@ -145,3 +145,14 @@ DApp이 사용자 가스비를 대납하거나 [[072_erc_20_fungible_token_stand
 1. 멀티시그는 금고 열쇠를 여러 명이 나눠 가져서 과반수가 동의해야 열리는 안전한 방식이에요.
 2. [[087_account_abstraction_erc_4337|계정 추상화]]는 [[004_blockchain|블록체인]] 지갑을 스마트폰 앱처럼 만드는 것 — 지문으로 로그인하고, 친구가 비밀번호를 대신 찾아줄 수 있어요.
 3. 덕분에 더 많은 사람이 어렵지 않게 [[004_blockchain|블록체인]]을 사용할 수 있게 돼요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 542 / 552
+
+← **이전**: [[541_bare_metal_cloud_no_hypervisor|541. 베어메탈 클라우드 가상화 오버헤드 없는 서비스 (Bare Metal Cloud No Hypervisor)]]
+**다음**: [[543_sbt_soulbound_token_identity|543. SBT 소울바운드 토큰과 신원 인증 (SBT Soulbound Token Identity Credential)]] →
+
+---

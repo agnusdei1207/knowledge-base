@@ -53,3 +53,14 @@ Prometheus는 **K8s 환경의 [[342_routing_metric_hop_bandwidth_delay|메트릭
 1. Prometheus는 **우편배달부**예요. 각 [[090_service_kubernetes_network_load_balancing|서비스]](집)의 우편함(/[[567_metrics_time_series_prometheus_grafana|metrics]])에서 **편지를 수거**해요.
 2. 수거한 편지를 **정리(TSDB)**하고 **[[070_graph_datastructure|그래프]]([[168_grafana|Grafana]])**로 보여줘요.
 3. 위험한 편지(이상 지표)가 오면 **비상벨(Alertmanager)**을 울려요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 136 / 373
+
+← **이전**: [[135_red_method_service_analysis|135. RED 메서드 (Rate·Errors·Duration) - 서비스 중심 분석]]
+**다음**: [[137_grafana|137. Grafana - 통합 관측 가능성 시각화 플랫폼]] →
+
+---

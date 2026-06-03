@@ -146,3 +146,14 @@ CI 빌드/테스트
 1. 레고를 만들고 바로 바닥에 두면 잃어버리기 쉬워요.
 2. 번호가 붙은 상자에 넣어 두면 다음에도 같은 레고를 다시 꺼낼 수 있어요.
 3. [[075_artifact_management_nexus_docker_registry|아티팩트]] 리포지토리는 컴퓨터의 레고 상자예요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 76 / 373
+
+← **이전**: [[075_artifact_management_nexus_docker_registry|75. 아티팩트 (Artifact) - 파이프라인의 최종 빌드 산출물 보관]]
+**다음**: [[077_unit_testing_automation_junit_pytest_mocking|77. 단위 테스트 (Unit Test) 자동화 (JUnit, PyTest)]] →
+
+---

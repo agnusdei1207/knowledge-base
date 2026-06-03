@@ -125,3 +125,14 @@ tags:
 1. [[781_personal_information|개인정보]]보호법 (PIPA (Pipa Korea)는 학교 규칙표처럼 무엇을 준비하고 어떻게 확인할지 알려 주는 기준이에요.
 2. 규칙표만 붙여 두고 지키지 않으면 아무 소용이 없어요.
 3. 그래서 보안도 규칙과 실제 행동이 함께 맞아야 해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 857 / 1108
+
+← **이전**: [[782_sensitive_information|782. 민감정보 (Sensitive Information)]]
+**다음**: [[784_privacy_3_principles|784. 개인정보 3대 원칙 (Privacy 3 Principles)]] →
+
+---

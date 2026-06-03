@@ -138,3 +138,14 @@ Cloud-Agnostic 서버리스 → 멀티클라우드 이식성
 ```
 2. Knative는 모든 게임기에서 돌아가는 온라인 게임 — 어느 회사 기기에서도 같은 게임을 즐길 수 있어요.
 3. 자유롭게 게임기를 바꿀 수 있지만, 그러려면 온라인 게임 서버([[205_kubernetes_container_orchestration|Kubernetes]])를 직접 관리해야 해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 155 / 371
+
+← **이전**: [[155_event_trigger_serverless_architecture|155. 이벤트 트리거 기반 실행 (Event Trigger Serverless)]]
+**다음**: [[157_bdi_graphql_api_aggregation|157. BFF / GraphQL API 집계 (BFF Pattern / GraphQL)]] →
+
+---

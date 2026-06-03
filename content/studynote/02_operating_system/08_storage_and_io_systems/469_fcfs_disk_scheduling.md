@@ -171,3 +171,14 @@ FCFS가 [[282_performance_tactics|성능]] 쓰레기 취급을 받으면서도 �
 1. [[173_fcfs_scheduling|FCFS]] (First-Come, First-Served) [[208_schedule_history_transaction_execution_order|스케줄]]링은 컴퓨터가 디스크와 장치가 [[001_dikw_pyramid|데이터]]를 주고받는 길을 정리하는 방법이에요.
 2. 먼저 [[468_disk_scheduling_purpose|디스크 스케줄링]] ([[468_disk_scheduling_purpose|Disk Scheduling]]) 목적을 이해하면 [[173_fcfs_scheduling|FCFS]] (First-Come, First-Served) [[208_schedule_history_transaction_execution_order|스케줄]]링이 왜 필요한지 더 쉽게 보여요.
 3. 그래서 [[173_fcfs_scheduling|FCFS]] (First-Come, First-Served) [[208_schedule_history_transaction_execution_order|스케줄]]링을 잘 알면 나중에 [[470_sstf_disk_scheduling|SSTF]] (Shortest [[467_disk_access_time|Seek Time]] First)도 훨씬 쉽게 배울 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 469 / 800
+
+← **이전**: [[468_disk_scheduling_purpose|468. 디스크 스케줄링 (Disk Scheduling) 목적 - 탐색 시간 최소화, 처리량 극대화]]
+**다음**: [[470_sstf_disk_scheduling|470. SSTF (Shortest Seek Time First) - 현재 헤드 위치에서 가장 가까운 요청 처리 (기아 발생 가능)]] →
+
+---

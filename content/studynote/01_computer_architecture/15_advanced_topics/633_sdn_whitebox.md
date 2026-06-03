@@ -154,3 +154,14 @@ P4 · DPU · Intent-Based Fabric
 1. 예전 [[238_switch_operation_principles|스위치]]는 장난감 기차와 레일이 한 세트로 붙어 있어서 다른 부품을 섞기 어려웠어요.
 2. [[859_whitebox_switch_open_hardware_nos|화이트박스 스위치]]는 기차 몸체와 운전 규칙을 따로 골라서 더 큰 기차 도시를 만들 수 있게 해줘요.
 3. 대신 기차를 잘 굴리려면 우리가 직접 신호등과 정비 규칙도 똑똑하게 준비해야 해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 634 / 803
+
+← **이전**: [[632_sds|632. SDS (Software Defined Storage)]]
+**다음**: [[634_edge_ai_chip|634. 엣지 AI 칩 아키텍처]] →
+
+---

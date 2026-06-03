@@ -166,3 +166,14 @@ Confidential Serverless / 하드웨어 attestation
 1. [[206_serverless_cold_start|서버리스]]는 손님이 올 때마다 아주 빨리 작은 방을 만들어 주는 마법 호텔 같아요.
 2. 그런데 방이 빨리 생겨도 벽이 약하면 옆방 물건이 섞일 수 있으니, 아주 튼튼한 벽이 필요해요.
 3. 이 하드웨어 기술은 방을 빨리 만들면서도 서로 절대 넘나들지 못하게 해 주는 비밀 벽이에요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 620 / 803
+
+← **이전**: [[619_msa_traffic_hardware|619. MSA (Microservices) 트래픽 처리용 하드웨어]]
+**다음**: [[621_scale_up_system_bus|621. 스케일 업 (Scale-Up) 시스템 버스]] →
+
+---

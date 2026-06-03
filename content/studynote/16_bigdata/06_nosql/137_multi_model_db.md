@@ -260,3 +260,14 @@ Multi-Model DB는 Polyglot Persistence의 운영 복잡성을 근본적으로 �
 1. Multi-Model DB는 스위스 아미 나이프처럼 하나의 도구에 여러 기능이 있어요 — 칼(문서)·가위([[070_graph_datastructure|그래프]])·드라이버(KV)를 따로 챙길 필요가 없어요.
 2. 여러 DB를 쓰면 마치 학교·병원·은행 모두 따로 다녀야 하는 것처럼 번거롭지만, Multi-Model DB는 이 모두를 한 건물에서 처리할 수 있어요.
 3. 단, 아주 전문적인 수술(극한 [[282_performance_tactics|성능]])이 필요하면 종합병원보다 전문 병원(전용 DB)에 가는 게 나을 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 137 / 262
+
+← **이전**: [[136_search_engine_db|136. 검색 엔진 데이터베이스 (Search Engine DB) — Elasticsearch/OpenSearch]]
+**다음**: [[138_newsql|138. NewSQL — CockroachDB/TiDB/YugabyteDB SQL+수평확장+ACID]] →
+
+---

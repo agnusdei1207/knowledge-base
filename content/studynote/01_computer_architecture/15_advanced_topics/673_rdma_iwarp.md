@@ -160,3 +160,14 @@ SMB Direct / NVMe-oF (NVMe over Fabrics) 같은 저지연 원격 스토리지 �
 1. iWARP는 무거운 짐을 멀리 있는 친구 책상까지 빨리 보내 주는 특별한 택배길이에요.
 2. 길이 조금 울퉁불퉁해도 택배차가 스스로 다시 정리하고 안전하게 가져가요.
 3. 그래서 아주 매끈한 전용 도로가 없어도 빠른 배달을 시작하기 쉬워져요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 674 / 803
+
+← **이전**: [[672_spdk|672. SPDK (Storage Performance Development Kit)]]
+**다음**: [[674_storage_tiering|674. 스토리지 티어링 (Storage Tiering)]] →
+
+---

@@ -226,3 +226,14 @@ Redis는 현대 고성능 아키텍처에서 사실상 필수 구성 요소로 �
 1. Redis는 책상 위의 메모장 같아요. 필요한 내용을 적어두면 책장(DB)을 뒤지지 않고 바로 꺼낼 수 있어요.
 2. 중요한 메모는 사진도 찍어두고(RDB [[022_snapshot_backup_architecture|스냅샷]]) 언제 썼는지 일기도 쓰는(AOF [[568_logs_distributed_logging_elk_fluentd|로그]]) 이중 보관이 안전해요.
 3. [[542_redis|Redis]] 클러스터는 메모장을 여러 명이 나눠 가지는 것처럼, 한 명이 감당 못할 양의 메모를 팀원끼리 16384개 섹션으로 분담해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 128 / 262
+
+← **이전**: [[127_key_value_db|127. 키-값 데이터베이스 (Key-Value DB) — Redis/DynamoDB/Riak]]
+**다음**: [[129_document_db|129. 문서형 데이터베이스 (Document DB) — MongoDB/CouchDB/Firestore]] →
+
+---

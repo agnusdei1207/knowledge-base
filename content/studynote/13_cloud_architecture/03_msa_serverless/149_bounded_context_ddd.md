@@ -136,3 +136,14 @@ MSA 서비스 분할 기준 → API 계약
 ```
 2. [[221_bounded_context_ddd_msa_boundary|바운디드 컨텍스트]]는 그 '장소의 울타리'예요 — 울타리 안에서는 모두 같은 언어로 이야기해요.
 3. 울타리를 잘 치면, 학교와 병원이 서로 독립적으로 운영되면서도 필요할 때 연락해서 협력할 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 148 / 371
+
+← **이전**: [[148_ubiquitous_language|148. 보편적 언어 (Ubiquitous Language)]]
+**다음**: [[150_serverless_computing_faas|150. 서버리스 컴퓨팅 (Serverless Computing / FaaS)]] →
+
+---

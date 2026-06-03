@@ -318,3 +318,14 @@ COUNT vs NOT EXISTS 성능 비교
 1. 나눗셈은 "다 갖췄나?" 검사 — 필수 과목 목록 전부를 수강한 학생만 뽑는 것처럼, 조건 리스트를 전부 충족해야 결과에 포함돼요!
 2. 이중 NOT EXISTS는 이중 부정 — "없는 게 없다 = 다 있다"! [[369_logic_bomb|논리]]는 복잡하지만 결과는 정확해요.
 3. COUNT 방법이 더 쉬워요 — "필수과목 수 = 내가 들은 필수과목 수"면 합격! 실무에서는 이 방법을 더 자주 써요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 44 / 600
+
+← **이전**: [[043_relational_algebra_join|043. 관계 대수 — 조인 (Relational Algebra Join)]]
+**다음**: [[045_relational_calculus|045. 관계 해석 — Relational Calculus]] →
+
+---

@@ -125,3 +125,14 @@ Responsible AI를 제대로 이해하면 개념 하나를 외우는 데서 끝�
 1. Responsible AI는 내 이름표와 비밀 상자를 어떻게 안전하게 다룰지 정하는 약속이에요.
 2. 작은 조각 정보도 모이면 내가 누구인지 알 수 있어요.
 3. 그래서 꼭 필요한 것만 모으고, 다 쓰면 빨리 치워야 해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 1069 / 1108
+
+← **이전**: [[972_tee_based_ml|972. TEE 기반 ML (Trusted Execution Environment)]]
+**다음**: [[974_ai_incident_database|974. AI Incident Database (AI 사고 DB)]] →
+
+---

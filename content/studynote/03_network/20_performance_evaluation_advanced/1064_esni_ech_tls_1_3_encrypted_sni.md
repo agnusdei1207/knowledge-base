@@ -131,3 +131,14 @@ ESNI는 [[520_doh_dns_over_https|DoH]] / DoT에서 출발해 현재 메커니즘
 1. 달리기 시합에서 누가 얼마나 빨랐는지 재려면 초시계와 기록표가 필요해요.
 2. 이 개념은 네트워크가 어디서 느려졌는지 숫자로 찾아내는 도구예요.
 3. 그래서 막연히 고치는 대신 가장 중요한 곳부터 똑똑하게 손볼 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 170 / 1120
+
+← **이전**: [[1063_doh_dot_dns_over_https_tls_encryption|1063. DoH / DoT (웹/전송 보안 계층 DNS 암호화)]]
+**다음**: [[1065_http3_quic_congestion_control_recovery|1065. HTTP/3 QUIC 혼잡 윈도우 이식]] →
+
+---

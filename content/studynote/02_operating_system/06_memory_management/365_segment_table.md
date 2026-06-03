@@ -198,3 +198,14 @@ CPU가 뱉어낸 [[322_logical_virtual_address|논리 주소]] `<s, d>`가 물�
 1. 세그먼트 테이블 ([[407_tcp_segment_header_structure_20_60_bytes|Segment]] Table)은 컴퓨터가 메모리를 방처럼 나눠 쓰고 주소를 찾는 방법이에요.
 2. 먼저 [[364_segmentation|세그멘테이션]] ([[364_segmentation|Segmentation]])을 이해하면 세그먼트 테이블 ([[407_tcp_segment_header_structure_20_60_bytes|Segment]] Table)이 왜 필요한지 더 쉽게 보여요.
 3. 그래서 세그먼트 테이블 ([[407_tcp_segment_header_structure_20_60_bytes|Segment]] Table)을 잘 알면 나중에 [[366_segmentation_external_fragmentation|세그멘테이션과 외부 단편화]] ([[366_segmentation_external_fragmentation|가변 크기이므로 재발생]])도 훨씬 쉽게 배울 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 365 / 800
+
+← **이전**: [[364_segmentation|364. 세그멘테이션 (Segmentation) - 사용자 관점의 가변 크기 논리적 단위(함수, 객체) 분할]]
+**다음**: [[366_segmentation_external_fragmentation|366. 세그멘테이션과 외부 단편화 (가변 크기이므로 재발생) (Segmentation External Fragmentation)]] →
+
+---

@@ -125,3 +125,14 @@ PDCA (Plan-Do-Check-Act) 모델 (Plan-Do-Check-Act)를 제대로 이해하면 �
 1. PDCA (Plan-Do-Check-Act) 모델 (Plan-Do-Check-Act)는 학교 규칙표처럼 무엇을 준비하고 어떻게 확인할지 알려 주는 기준이에요.
 2. 규칙표만 붙여 두고 지키지 않으면 아무 소용이 없어요.
 3. 그래서 보안도 규칙과 실제 행동이 함께 맞아야 해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 912 / 1108
+
+← **이전**: [[837_isms_certification_process|837. ISMS 인증 절차 (Certification Process)]]
+**다음**: [[839_iso_27001_annex_a|839. ISO 27001 Annex A (보안 통제 항목)]] →
+
+---

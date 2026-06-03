@@ -123,3 +123,14 @@ tags:
 1. [[140_markov_chain|마르코프 체인]]은 **"오늘 맑으면 내일도 맑을 [[130_probability|확률]] 70%"**라는 간단한 규칙으로 날씨를 예측하는 거예요.
 2. 이 규칙대로 주사위를 계속 굴리면, 1년 중 **맑은 날이 57%, 비 오는 날이 43%**라는 답이 나와요.
 3. Google 검색 순위(PageRank)도 이 주사위 원리로 "어떤 [[286_page_frame|페이지]]가 중요한지" 결정한답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 111 / 258
+
+← **이전**: [[110_bias_variance_tradeoff|110. 편향-분산 트레이드오프 (Bias-Variance Tradeoff) - 과적합·과소적합과 최적 복잡도]]
+**다음**: [[112_robust_statistics_median_trimmed_mean|112. 로버스트 통계 (Robust Statistics) - 중앙값·절사 평균·이상치 저항 추정량]] →
+
+---

@@ -269,3 +269,14 @@ DNS 계층적 [[136_variance|분산]] 구조 (루트는 DASH에서 출발해 현
 1. 세상 사람 80억 명의 집 주소(IP)를 **동사무소 직원 아저씨 1명(옛날 통짜 [[501_file_definition_logical_record|파일]])**이 다 외워서 알려주려고 하면 머리가 쾅 터져버리겠죠? (인터넷 트래픽 뻗음 마비 폭파 💥).
 2. 그래서 대장님들이 똑똑한 **'다단계 다이어리 핑퐁 게임(DNS 3단 계층)'**을 만들었어요! 대빵(Root)한테 주소를 물어보면 "난 몰라! 한국 대빵(TLD)한테 가봐!", 한국 대빵은 "난 몰라! 강남구 대빵(SLD)한테 가봐!" 라며 책임을 밑으로 탁탁 패스(위임)해 넘겨버려요!
 3. 맨 밑에 있는 진짜 동네 이장님(SLD 네이버 서버)만이 "아 걔 주소 여기 있어 쓩!" 하고 알려준답니다. 한 사람이 짐을 다 들지 않고 1만 명이 조금씩 나눠 들어서 전 세계 인터넷이 1초도 안 멈추고 쌩쌩 [[148_5g_embb_urllc_mmtc|초고속]] 쾌속으로 굴러가는 신비로운 릴레이 마법이랍니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 632 / 1120
+
+← **이전**: [[510_dash_dynamic_adaptive_streaming_over_http|510. DASH (Dynamic Adaptive Streaming over HTTP)]]
+**다음**: [[512_recursive_iterative_dns_query|512. 재귀적 질의 (Recursive Query) vs 반복적 질의 (Iterative Query)]] →
+
+---

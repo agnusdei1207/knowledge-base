@@ -113,3 +113,14 @@ tags:
 1. [[164_concept_drift_target_mapping_change|컨셉 드리프트]] [[163_data_drift_statistical_distribution_shift|데이터 드리프트]] 모델 [[247_feature_label_variables|피처]] [[348_mlops|MLOps]] 모니터링는 사람이 많은 운동회에서 어디로 가야 하는지 알려 주는 안내판과 비슷해요.
 2. 규칙이 없으면 모두가 한곳에 몰려서 느려지고 다투지만, 길을 정해 두면 훨씬 부드럽게 움직일 수 있어요.
 3. 그래서 컴퓨터 세상에서도 [[164_concept_drift_target_mapping_change|컨셉 드리프트]] [[163_data_drift_statistical_distribution_shift|데이터 드리프트]] 모델 [[247_feature_label_variables|피처]] [[348_mlops|MLOps]] 모니터링를 쓰면 많은 팀과 [[090_service_kubernetes_network_load_balancing|서비스]]가 덜 부딪히고 더 빨리 움직일 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 352 / 371
+
+← **이전**: [[352_dora|352. DORA 메트릭스 조직 배포 속도 안정 측정 지표 (DORA)]]
+**다음**: [[354_process|354. 피처 스토어 머신러닝 변수 마트 팀간 공유 캐싱망 (Feature Store)]] →
+
+---

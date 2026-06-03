@@ -117,3 +117,14 @@ ATAM 평가 및 아키텍처 의사결정 문서화
 1. 게임 캐릭터를 키울 때 '힘'을 올리면 공격이 세지지만 속도가 느려지고, '민첩'을 올리면 빠르지만 공격이 약해져요.
 2. 여기서 올리고 내리는 '힘과 민첩 버튼'이 바로 민감도점이에요.
 3. 건축가는 괴물을 잡기 위해 이 버튼들을 얼마나씩 올릴지 가장 완벽한 비율을 찾아내는 게임 고수랍니다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 137 / 530
+
+← **이전**: [[093_atam_phases_initialization_evaluation_analysis_reporting|93. 아키텍처 평가 방법론 ATAM 4단계 페이즈 프로세스]]
+**다음**: [[095_tradeoff_point_architecture_evaluation_atam_conflict|95. 상충점 (Trade-off Point) - 성능 대 보안 아키텍처 결단]] →
+
+---

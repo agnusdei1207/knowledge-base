@@ -132,3 +132,14 @@ CDMA
 작은 글자를 넓게 퍼뜨려요.  
 같은 암호표로 다시 모아요.  
 DSSS는 그런 통신 방법이에요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 69 / 1120
+
+← **이전**: [[068_스펙트럼_확산_Spread_Spectrum|68. 스펙트럼 확산 (Spread Spectrum)]]
+**다음**: [[070_주파수_도약_확산_FHSS|70. 주파수 도약 확산 스펙트럼 (FHSS, Frequency Hopping Spread Spectrum)]] →
+
+---

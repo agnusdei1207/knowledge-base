@@ -126,3 +126,14 @@ Data Integrity
 바구니에는 아무거나 넣지 못해요.  
 도메인은 넣을 수 있는 것만 정해 주는 규칙이에요.  
 그래야 [[001_dikw_pyramid|데이터]]가 헷갈리지 않아요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 64 / 600
+
+← **이전**: [[063_relation_tuple_cardinality|63. 튜플 (Tuple / Row / Cardinality) - 릴레이션의 행 (카디널리티)]]
+**다음**: [[065_relation_characteristics|65. 릴레이션의 특징 - 튜플의 무순서, 속성의 무순서, 튜플의 유일성, 속성의 원자성]] →
+
+---

@@ -233,3 +233,14 @@ AI UX 디자인의 핵심 방법론으로
 1. [[040_design_thinking|디자인 씽킹]]은 의사처럼 증상(표면 문제) 뒤에 숨은 진짜 원인을 먼저 이해한 다음 해결책을 찾는 방법이에요.
 2. "어떻게 하면 우리가 ...할 수 있을까?" 질문으로 문제를 긍정적 도전으로 바꾸고, 종이 스케치처럼 빠르고 저렴한 시제품으로 먼저 테스트해요.
 3. IT 셀프서비스 포털을 만들 때 직원 인터뷰 없이 [[190_ai_llm_requirements_specification|AI]] 챗봇을 만들었다면 실패 — 실제 문제는 버튼 위치였을 수도 있으니까요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 69 / 587
+
+← **이전**: [[038_pivot_lean_startup|038. 피벗과 린 스타트업 (Pivot & Lean Startup)]]
+**다음**: [[039_okr_objectives_key_results|39. OKR (Objectives and Key Results)]] →
+
+---

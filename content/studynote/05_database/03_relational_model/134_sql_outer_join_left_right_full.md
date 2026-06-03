@@ -53,3 +53,14 @@ OUTER JOIN은 **비매칭 [[001_dikw_pyramid|데이터]] 분석의 핵심 연산
 1. LEFT JOIN은 **A반 전체 명단**이에요. B반에서 겹치는 사람은 표시하고 **안 겹치면 빈칸**이에요.
 2. "주문 안 한 고객"을 찾으려면 **빈칸(NULL)인 사람만** 뽑으면 돼요.
 3. 이 방법(Anti-[[521_join|Join]])은 **실무에서 정말 많이** 사용한답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 134 / 600
+
+← **이전**: [[133_sql_inner_join_intersection|133. SQL INNER JOIN - 교집합 결합의 기본]]
+**다음**: [[135_sql_non_equi_join|135. SQL Non-Equi JOIN & Self JOIN - 범위·자기 참조 결합]] →
+
+---

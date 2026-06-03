@@ -163,3 +163,14 @@ Open chiplet / open hardware platform
 1. 오픈 소스 IP 코어는 누구나 볼 수 있는 장난감 설계도 상자와 같아요.
 2. 그래서 내가 원하는 장난감을 만들 때, 처음부터 전부 새로 그리지 않고 좋은 설계도를 골라 조립할 수 있어요.
 3. 하지만 설계도가 공개되어 있어도 튼튼하게 만드는 책임은 여전히 만드는 사람에게 있답니다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 604 / 803
+
+← **이전**: [[603_software_defined_accelerator|603. 소프트웨어 정의 엑셀러레이터 (Software-Defined Accelerator)]]
+**다음**: [[605_high_level_synthesis|605. 고수준 합성 (HLS, High-Level Synthesis)]] →
+
+---

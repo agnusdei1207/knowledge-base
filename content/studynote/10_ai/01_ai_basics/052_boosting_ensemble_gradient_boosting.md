@@ -142,3 +142,14 @@ XGBoost / LightGBM / CatBoost
 1. [[127_boosting|부스팅]]은 틀린 문제만 계속 다시 푸는 공부법이에요.
 2. 첫 번째가 틀린 곳을 두 번째가 고치고, 두 번째가 틀린 곳을 세 번째가 또 고쳐요.
 3. 그래서 마지막에는 아주 정확한 답을 만들 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 52 / 420
+
+← **이전**: [[051_bagging_bootstrap_aggregating_random_forest|051. 배깅과 랜덤 포레스트 (Bagging & Random Forest)]]
+**다음**: [[053_stacking_meta_model_ensemble|53. 스태킹 메타 모델 앙상블 (Stacking Meta-Model Ensemble)]] →
+
+---

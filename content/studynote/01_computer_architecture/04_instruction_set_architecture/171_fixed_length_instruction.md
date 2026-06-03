@@ -180,3 +180,14 @@ tags:
 1. 고정 길이 [[158_instruction|명령어]]는 모든 장난감 상자를 똑같은 크기로 만드는 것과 같아요.
 2. 상자 크기가 같으면 로봇이 다음 상자를 바로 집을 수 있어서 더 빨리 움직여요.
 3. 대신 작은 장난감도 큰 상자에 담을 수 있어 공간이 조금 아까울 수 있답니다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 171 / 803
+
+← **이전**: [[170_instruction_format|170. 명령어 형식 (Instruction Format)]]
+**다음**: [[172_variable_length_instruction|172. 가변 길이 명령어 (Variable-Length Instruction)]] →
+
+---

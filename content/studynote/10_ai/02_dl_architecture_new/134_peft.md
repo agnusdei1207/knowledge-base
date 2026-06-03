@@ -54,3 +54,14 @@ PEFT는 **[[263_llm_large_language_model|LLM]] 시대의 필수 기술**이며, 
 1. PEFT는 **집 전체를 리모델링하지 않고 벽지만 바꾸는** 거예요.
 2. 벽지([[617_lora_lorawan_css_chirp_spread_spectrum|LoRA]])만 바꿔도 **분위기([[282_performance_tactics|성능]])가 완전히** 달라져요.
 3. 비용이 **100분의 1**로 줄어서 누구나 AI를 맞춤 제작할 수 있답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 134 / 420
+
+← **이전**: [[133_fine_tuning|133. Fine-tuning (미세 조정) - 사전 학습 모델의 도메인 적응]]
+**다음**: [[135_lora_low_rank_adaptation|135. LoRA (Low-Rank Adaptation) - 효율적 LLM 미세 조정의 표준]] →
+
+---

@@ -171,3 +171,14 @@ tags:
 1. 바쁜 대기 (Busy Waiting)은 컴퓨터가 여러 친구가 동시에 만져도 부딪히지 않게 순서를 맞추는 규칙이에요.
 2. 먼저 메모리 장벽 ([[416_memory_barrier|Memory Barrier]] / Memory Fence)을 이해하면 바쁜 대기 (Busy Waiting)이 왜 필요한지 더 쉽게 보여요.
 3. 그래서 바쁜 대기 (Busy Waiting)을 잘 알면 나중에 Test-and-Set [[158_instruction|명령어]]도 훨씬 쉽게 배울 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 227 / 800
+
+← **이전**: [[226_counting_semaphore|226. 카운팅 세마포어 (Counting Semaphore)]]
+**다음**: [[228_condition_variable|228. 조건 변수 (Condition Variable)]] →
+
+---

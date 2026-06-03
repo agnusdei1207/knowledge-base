@@ -150,3 +150,13 @@ Host-group automation / NVMe-oF access policy
 2. 남의 서랍이 안 보이면 실수로 남 장난감을 꺼내 망가뜨릴 일도 줄어들어요.
 3. LUN 마스킹은 창고 관리자가 "누구에게 어떤 서랍을 보여 줄지" 정해 주는 규칙이에요.
 
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 686 / 803
+
+← **이전**: [[684_thin_provisioning|684. 씬 프로비저닝 (Thin Provisioning)]]
+**다음**: [[686_multipath_io|686. 멀티패스 I/O (Multipath I/O)]] →
+
+---

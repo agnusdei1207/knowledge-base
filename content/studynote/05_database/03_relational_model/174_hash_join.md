@@ -161,3 +161,14 @@ Parallel hash join / Bloom filter optimization
 1. 먼저 작은 장난감 상자를 색깔별 칸에 나눠 넣어 두어요.
 2. 이제 큰 장난감 [[459_dummy_test_double|더미]]를 보면서 같은 색 칸만 바로 열어 보면 돼요.
 3. 그래서 모든 장난감을 처음부터 다시 찾지 않아도 빨리 짝을 맞출 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 174 / 600
+
+← **이전**: [[173_sort_merge_join|173. 소트 머지 조인 (Sort Merge Join)]]
+**다음**: [[175_driving_vs_driven_table|175. 드라이빙 테이블 (Driving Table / Outer Table) vs 드리븐 테이블 (Driven Table / Inner]] →
+
+---

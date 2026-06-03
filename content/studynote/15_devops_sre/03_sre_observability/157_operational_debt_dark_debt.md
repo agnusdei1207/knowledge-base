@@ -154,3 +154,14 @@ Dark Debt Exposure → SPOF Removal → Faster Recovery
 1. 운영 부채는 매일 손으로만 문을 열고 닫느라 힘든데, 자동문을 아직 안 단 상태와 비슷해요.
 2. 다크 데트는 열쇠 숨긴 곳을 한 사람만 알고 있는 것처럼, 평소엔 괜찮아 보여도 그 사람이 없으면 모두가 곤란해지는 문제예요.
 3. 그래서 기계로 자동화하고, 열쇠 위치를 모두가 알게 적어 두는 것이 운영 부채를 갚는 방법이에요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 157 / 373
+
+← **이전**: [[156_fallback_mechanism_cache_degraded|156. 폴백 (Fallback) 메커니즘]]
+**다음**: [[158_mtbf_mttr_optimization|158. MTBF/MTTR 최적화 (MTBF/MTTR Optimization)]] →
+
+---

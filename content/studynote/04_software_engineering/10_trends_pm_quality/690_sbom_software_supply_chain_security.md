@@ -150,3 +150,14 @@ SBOM을 성공적으로 구축하면 [[761_zero_day|제로데이]]([[597_zero_da
 1. 소프트웨어 자재 명세서 ([[890_sbom_cyclonedx_spdx|SBOM]]) [[374_supply_chain_security|공급망 보안]]은 레고 블록으로 성을 만들 때처럼, 규칙을 정하고 역할을 나누어 함께 작업하는 방법이에요.
 2. 혼자서 막 만들면 나중에 무너지거나 고치기 어렵지만, 약속을 지키면 누구나 쉽게 고치고 더 크게 만들 수 있어요.
 3. 그래서 [[001_software_engineering_definition|소프트웨어 공학]]은 프로그래머들이 좋은 프로그램을 빠르고 안전하게 만들 수 있게 도와주는 '규칙 모음집'이에요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 863 / 973
+
+← **이전**: [[689_rasp_runtime_application_self_protection|689. RASP 런타임 자체 보호]]
+**다음**: [[691_opensource_compliance_gpl_copyleft|691. 오픈소스 컴플라이언스 GPL 카피레프트]] →
+
+---

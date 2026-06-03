@@ -222,3 +222,14 @@ TFTP는 [[483_active_vs_passive_ftp|액티브]] [[482_ftp_file_transfer_protocol
 1. 일반 **[[482_ftp_file_transfer_protocol|FTP]]**가 우체국 아저씨가 신분증 검사 다 하고 무거운 짐을 집 안까지 튼튼한 수레([[405_tcp_transmission_control_protocol_connection_oriented|TCP]])로 옮겨주는 거라면요.
 2. **TFTP**는 이름 검사도 없이, 작은 삽(512바이트)으로 모래([[001_dikw_pyramid|데이터]])를 한 번 푸고 "받았어?(ACK)" [[396_validation|확인]]하면 다시 한 삽 푸는 **초간단 노가다([[406_udp_user_datagram_protocol_connectionless_fast|UDP]])**예요.
 3. 무식하게 느리지만 룰이 너무나 단순해서, 복잡한 생각을 할 수 없는 깡통 로봇(공장 [[459_quic_fec_forward_error_correction|초기]]화된 라우터)한테 처음으로 밥(OS 이미지)을 떠먹일 때 무조건 써야 하는 1등 공신이랍니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 605 / 1120
+
+← **이전**: [[483_active_vs_passive_ftp|483. 액티브(Active) FTP vs 패시브(Passive) FTP 동작 원리 차이]]
+**다음**: [[485_sftp_ssh_file_transfer|485. SFTP (SSH FTP)]] →
+
+---

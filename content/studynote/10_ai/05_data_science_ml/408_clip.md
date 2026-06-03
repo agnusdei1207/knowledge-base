@@ -128,3 +128,14 @@ CLIP의 등장은 컴퓨터 비전의 패러다임을 '[[104_classification_anal
 1. 그림책을 보면서 엄마가 "이건 사과야", "저건 바나나야"라고 읽어주는 것을 듣고 공부하는 것과 같아요.
 2. 나중에 엄마가 "빨갛고 동그란 과일 찾아봐"라고 하면, 처음 보는 그림이라도 척척 찾아낼 수 있답니다.
 3. 글자와 그림을 연결해서 생각하는 아주 똑똑한 눈을 가진 [[231_ai_turing_test|인공지능]]이에요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 408 / 420
+
+← **이전**: [[407_cosine_annealing|407. 코사인 어닐링 (Cosine Annealing Scheduler)]]
+**다음**: [[409_kmeans_elbow_silhouette|409. K-Means 최적 K 선택 (Kmeans Elbow Silhouette)]] →
+
+---

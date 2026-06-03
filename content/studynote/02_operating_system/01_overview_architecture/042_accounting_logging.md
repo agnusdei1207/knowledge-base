@@ -262,3 +262,14 @@ AIOps: 이상 탐지 자동화
 1. OS 회계는 직원(프로세스)이 회사(컴퓨터) 자원(CPU, 메모리)을 얼마나 썼는지 자동으로 기록하는 시스템이에요!
 2. 로깅은 컴퓨터가 하루 종일 일기를 쓰는 것 — "[[489_raid_10_hybrid|10]]:30 에러 발생, 원인: DB 연결 실패"처럼 무슨 일이 있었는지 타임스탬프와 함께 기록해요.
 3. 장애가 생기면 [[568_logs_distributed_logging_elk_fluentd|로그]]를 역추적해서 원인을 찾아요 — 마치 블랙박스 영상으로 교통사고 원인을 찾는 것처럼요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 42 / 800
+
+← **이전**: [[041_resource_allocation|041. 자원 할당 (Resource Allocation)]]
+**다음**: [[043_protection_security|043. 보호와 보안 (Protection & Security)]] →
+
+---

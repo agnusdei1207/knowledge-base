@@ -266,3 +266,14 @@ CRDT: 분산 시스템 방식
 1. 멀티 [[172_maas_mobility_as_a_service|마스]]터는 분반된 학급에서 모든 반이 수업을 동시에 [[216_progress_in_synchronization|진행]]하는 것 — 어느 반에 가도 수업을 받을 수 있어서 한 반이 쉬어도 괜찮아요.
 2. 충돌은 두 선생님이 같은 칠판에 동시에 다른 내용을 쓰는 것 — 나중에 쓴 것을 채택(LWW)하거나, 내용을 합쳐서(CRDT) 해결해요.
 3. [[545_dynamodb|DynamoDB]] Global Tables는 전 세계 편의점 체인처럼 — 어느 나라 지점에서 상품을 사도 재고가 자동으로 업데이트되고, 충돌 시 가장 최신 시각의 정보가 채택돼요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 141 / 262
+
+← **이전**: [[140_consistency_levels|140. 일관성 수준 선택 (Consistency Levels) — Strong/Eventual/Bounded Staleness]]
+**다음**: [[142_schemaless_design_patterns|142. 스키마리스 설계 패턴 (Schemaless Design Patterns) — 임베딩 vs 참조]] →
+
+---

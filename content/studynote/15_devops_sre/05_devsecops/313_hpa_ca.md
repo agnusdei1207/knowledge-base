@@ -139,3 +139,14 @@ Autoscaling
 
 > 🧒 **어린이 비유**
 > HPA는 바쁠 때 친구를 더 부르는 것, CA는 그 친구들이 앉을 의자를 구해오는 것, VPA는 한 친구에게 더 힘센 도구를 주는 거예요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 313 / 373
+
+← **이전**: [[312_process|Taint and Toleration]]
+**다음**: [[314_pv_pvc|PV PVC PersistentVolume]] →
+
+---

@@ -183,3 +183,14 @@ tags:
 1. TPS는 "피자 가게에서 한 시간에 몇 판을 만들 수 있는지"이고, [[138_response_time|응답 시간]]은 "주문하고 피자를 받을 때까지 얼마나 기다리는지"야.
 2. 손님이 너무 많아지면(동시 사용자 증가) 피자 굽는 속도는 그대로인데 기다리는 줄이 길어지면서 [[138_response_time|응답 시간]]이 급격히 늘어.
 3. P95는 "100명 중 95명이 이 시간 안에 피자를 받았다"는 뜻이야. 단 5명이 30분 기다려도 평균은 괜찮아 보일 수 있어서 P95가 더 정직한 기준이야.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 317 / 530
+
+← **이전**: [[255_data_integrity_migration_audit|255. 데이터 무결성 이행 감리 (Data Integrity Migration Audit)]]
+**다음**: [[257_littles_law_performance_audit|257. 리틀의 법칙 성능 진단 (Little's Law Performance Audit)]] →
+
+---

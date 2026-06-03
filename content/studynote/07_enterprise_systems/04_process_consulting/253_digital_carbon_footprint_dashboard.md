@@ -139,3 +139,14 @@ tags:
 1. 디지털 탄소 발자국 지표 대시보드는 복잡한 일을 순서대로 정리해 주는 큰 정리함이에요.
 2. 어디에 무엇을 넣을지 먼저 정해 두면, 나중에 찾거나 고칠 때 훨씬 쉬워져요.
 3. 그래서 일이 커질수록 먼저 기준을 만들고 같이 약속하는 것이 중요해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 253 / 482
+
+← **이전**: [[252_security_by_design_privacy_by_design|252. 보안·프라이버시 내재화 (Security by Design / Privacy by Design)]]
+**다음**: [[254_sustainable_it_architecture_server_efficiency|254. 지속 가능한 IT 아키텍처 서버 효율화 (Sustainable IT Architecture)]] →
+
+---

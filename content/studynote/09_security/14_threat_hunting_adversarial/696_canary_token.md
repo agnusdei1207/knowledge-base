@@ -125,3 +125,14 @@ tags:
 1. [[595_canary_stack_smashing_protector|카나리]] 토큰 ([[595_canary_stack_smashing_protector|Canary]] Token)는 컴퓨터끼리 인사하고 [[396_validation|확인]]하는 순서를 정한 약속이에요.
 2. 순서를 건너뛰면 나쁜 사람이 친구인 척할 수 있어요.
 3. 그래서 컴퓨터는 차례대로 묻고 답하면서 서로를 믿게 돼요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 764 / 1108
+
+← **이전**: [[695_honey_net|695. 허니넷 (Honey Net)]]
+**다음**: [[697_file_canary|697. 파일 카나리 (File Canary)]] →
+
+---

@@ -188,3 +188,14 @@ tags:
 1. 비밀번호를 그냥 저장하는 건 일기장에 "내 비밀번호는 1234야"라고 쓰는 것과 같아.
 2. [[671_password_hash_salt_pbkdf2_bcrypt_argon2|솔트]]는 음식에 소금을 넣듯 비밀번호에 랜덤 재료를 섞어서 같은 비밀번호도 완전히 다른 맛이 나게 하는 거야.
 3. BCrypt는 그 섞은 음식을 만 번 더 끓이는 것처럼, 해커가 맛을 알아내려면 엄청난 시간이 걸려서 포기하게 만들어.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 313 / 530
+
+← **이전**: [[251_secure_coding_sql_xss_csrf|251. 시큐어 코딩 SQL/XSS/CSRF 진단 (Secure Coding SQL/XSS/CSRF Audit)]]
+**다음**: [[253_exception_handling_info_leak|253. 예외 처리 정보 노출 감리 (Exception Handling Info Leak Audit)]] →
+
+---

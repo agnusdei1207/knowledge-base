@@ -139,3 +139,14 @@ tags:
 1. [[210_data_lakehouse_delta_lake|데이터 레이크하우스]]는 복잡한 일을 순서대로 정리해 주는 큰 정리함이에요.
 2. 어디에 무엇을 넣을지 먼저 정해 두면, 나중에 찾거나 고칠 때 훨씬 쉬워져요.
 3. 그래서 일이 커질수록 먼저 기준을 만들고 같이 약속하는 것이 중요해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 289 / 482
+
+← **이전**: [[288_data_swamp_metadata_management_absence|288. 데이터 늪 (Data Swamp) - 메타데이터 관리 부재 현상]]
+**다음**: [[290_data_catalog_integrated_metadata_repository|290. 데이터 카탈로그 (Data Catalog) - 통합 메타데이터 저장소]] →
+
+---

@@ -134,3 +134,14 @@ Java에서 [[391_strategy_pattern_summary|전략 패턴]]은 함수형 인터페
 1. [[391_strategy_pattern_summary|전략 패턴]]은 내비게이션처럼, 최단 경로·최소 요금·고속도로 우선 [[001_algorithm_definition|알고리즘]]을 선택하는 것이에요.
 2. [[001_algorithm_definition|알고리즘]]마다 별도 클래스로 만들고, 런타임에 원하는 것을 선택해요.
 3. 새 [[001_algorithm_definition|알고리즘]]을 추가할 때 기존 코드를 수정하지 않아도 돼요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 254 / 530
+
+← **이전**: [[192_observer_pattern|192. 옵저버 패턴 (Observer Pattern)]]
+**다음**: [[194_template_method_pattern|194. 템플릿 메서드 패턴 (Template Method Pattern)]] →
+
+---

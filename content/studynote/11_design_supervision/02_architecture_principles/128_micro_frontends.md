@@ -130,3 +130,14 @@ tags:
 1. [[239_micro_frontends_architecture|마이크로 프론트엔드]]는 큰 퍼즐(웹앱)을 여러 팀이 각각 다른 조각(MFE)을 만들어 맞추는 방법이에요.
 2. 각 팀이 자기 조각을 독립적으로 바꿔도 전체 퍼즐에 영향이 적어요.
 3. 하지만 조각들이 색깔(스타일)이 맞아야 하므로 공통 규칙(디자인 시스템)이 필요해요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 184 / 530
+
+← **이전**: [[127_serverless_faas_architecture|127. 서버리스·FaaS 아키텍처 (Serverless / FaaS Architecture)]]
+**다음**: [[129_ddd_domain_driven_design|129. 도메인 주도 설계 (DDD: Domain-Driven Design)]] →
+
+---

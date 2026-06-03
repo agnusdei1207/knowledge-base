@@ -234,3 +234,14 @@ Grafana는 **[[531_cloud_native_architecture|클라우드 네이티브]] 시대�
 - Grafana는 **병원 중환자실 [[229_monitor|모니터]]**예요: 환자(서버·[[090_service_kubernetes_network_load_balancing|서비스]])의 심장 박동(CPU), 혈압(메모리), 체온(오류율)이 실시간으로 표시되고, 이상이 생기면 경보가 울려요.
 - LGTM [[057_stack|스택]]은 **의료 검사 세트**예요: 혈액 검사([[342_routing_metric_hop_bandwidth_delay|메트릭]]), 의무기록([[568_logs_distributed_logging_elk_fluentd|로그]]), 내시경(추적) 세 가지가 함께 있어야 의사가 정확한 진단을 내릴 수 있어요.
 - PromQL은 **의료 [[001_dikw_pyramid|데이터]]를 묻는 질문 형식**이에요: "지난 5분간 심장 박동이 100을 넘었나?"처럼 복잡한 질문을 짧은 수식으로 표현해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 168 / 262
+
+← **이전**: [[167_apache_superset|167. Apache Superset — 오픈소스 엔터프라이즈 BI SQL Lab]]
+**다음**: [[169_kibana|169. Kibana — ELK Stack 시각화 로그 분석 도구]] →
+
+---

@@ -131,3 +131,14 @@ Network Resource Sharing
 한 길을 같이 써요.  
 규칙대로 나눠 가요.  
 다중화는 그런 방법이에요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 71 / 1120
+
+← **이전**: [[070_주파수_도약_확산_FHSS|70. 주파수 도약 확산 스펙트럼 (FHSS, Frequency Hopping Spread Spectrum)]]
+**다음**: [[072_공간_분할_다중화_SDM|72. 공간 분할 다중화 (SDM, Space Division Multiplexing)]] →
+
+---

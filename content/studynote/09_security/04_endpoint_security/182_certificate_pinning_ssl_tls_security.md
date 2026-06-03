@@ -170,3 +170,14 @@ Pinset(인증서 / SPKI / backup key) 추가 검증
 1. [[303_authentication_authorization_patterns|인증]]서 핀닝은 엄마가 "우리 집 열쇠 모양은 이것뿐이야" 하고 딱 기억해 두는 거예요.
 2. 나쁜 사람이 진짜처럼 보이는 열쇠를 가져와도, 모양이 다르면 문이 절대 안 열려요.
 3. 대신 새 열쇠로 바꿀 때는 미리 예비 열쇠도 준비해 둬야 우리 가족도 집에 들어갈 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 235 / 1108
+
+← **이전**: [[181_bridge_ca_cross_certification|181. 브릿지 CA (Bridge CA) — 교차 인증]]
+**다음**: [[183_hpkp_http_public_key_pinning_deprecated|183. HPKP (HTTP Public Key Pinning) — deprecated, 동적 핀닝 권장]] →
+
+---

@@ -180,3 +180,14 @@ tags:
 1. [[163_optimizer_sql_execution_plan_generator|옵티마이저]]는 산 정상(손실 최댓값)에서 계곡(최솟값)으로 내려가는 등산가예요.
 2. [[080_gradient_descent_learning_rate|학습률]]은 한 걸음의 크기인데, 너무 크게 걸으면 반대 산으로 튀어오르고 너무 작으면 평생 내려가도 계곡에 못 닿아요.
 3. [[080_gradient_descent_learning_rate|학습률]] [[079_kube_scheduler_pod_placement|스케줄러]]는 처음엔 조심조심 발 디디다가 익숙해지면 빠르게, 계곡 가까이선 다시 천천히 걷도록 안내하는 지도예요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 274 / 420
+
+← **이전**: [[273_mse_cross_entropy_loss|273. MSE / 크로스 엔트로피 (Cross-Entropy) 손실 함수]]
+**다음**: [[275_gradient_descent_sgd|275. 경사 하강법 (GD) / SGD (Stochastic Gradient Descent)]] →
+
+---

@@ -127,3 +127,13 @@ B+Tree [[154_database_index_b_tree_search_optimization|인덱스]] 스플릿 병
 2. 이 약속을 잘 지키면 [[001_dikw_pyramid|데이터]]가 많아도 더 안전하고 빠르게 움직일 수 있어요.
 3. 그래서 언제 이 방법을 쓰고 언제 다른 방법을 써야 하는지 아는 것이 중요해요.
 
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 526 / 600
+
+← **이전**: [[525_normalization|525. B+Tree 인덱스 스플릿 병합 오버헤드 (Normalization)]]
+**다음**: [[527_second_normal_form|527. 정규화의 역설 조인 비용 및 응답 지연 해결망 설계 (Second Normal Form)]] →
+
+---

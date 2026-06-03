@@ -230,3 +230,14 @@ Key-Value: O(1) 조회 · 초저지연
 ```
 2. Redis는 교실 앞 칠판이다. 자주 필요한 내용을 칠판(메모리)에 적어두면 교과서(DB)를 매번 찾을 필요가 없다. 단, 칠판 크기(메모리)는 정해져 있다.
 3. DynamoDB는 무제한 자동 창고다. 물건이 아무리 많아도 자동으로 공간이 늘어나고([[206_serverless_cold_start|서버리스]] 확장), 바코드(키)로 즉시 찾을 수 있지만, 바코드 [[104_classification_analysis|분류]] 체계(PK/SK 설계)를 잘 만들어야 한다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 235 / 371
+
+← **이전**: [[235_nosql_database_types_overview|235. 분산 NoSQL 데이터베이스 종류 개요]]
+**다음**: [[237_document_store_mongodb_elasticsearch|237. 도큐먼트 저장소 (Document Store) - MongoDB / Elasticsearch]] →
+
+---

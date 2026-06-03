@@ -132,3 +132,14 @@ tags:
 1. 여러 상자에 있던 블록을 큰 정리장에 모아 보고 싶은 모양대로 다시 보는 거예요.
 2. 빨리 넣는 법과 빨리 보는 법은 다를 수 있어요.
 3. 그래서 창고를 어떻게 나누고 언제 정리할지 정해야 해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 356 / 600
+
+← **이전**: [[355_pgvector_postgresql_vector_search|355. PGVector]]
+**다음**: [[357_separation_of_storage_and_compute|357. 스토리지와 컴퓨팅 분리 아키텍처 (Separation of Storage and Compute)]] →
+
+---

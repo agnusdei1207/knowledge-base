@@ -54,3 +54,14 @@ LoRA는 **[[263_llm_large_language_model|LLM]] Fine-tuning의 사실상 표준**
 1. LoRA는 **교과서에 포스트잇**을 붙이는 거예요. 교과서는 안 바꿔요.
 2. 포스트잇(저랭크 행렬)만 **새로 쓰면** 되니까 빠르고 저렴해요.
 3. 교과서(사전 학습)는 **그대로 보존**하면서 새 내용만 추가해요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 145 / 258
+
+← **이전**: [[144_fine_tuning_transfer_learning|144. Fine-tuning & Transfer Learning - 사전 학습 모델 적응]]
+**다음**: [[146_quantization_qlora_model_compression|146. 양자화 & QLoRA - 모델 압축과 효율적 학습]] →
+
+---

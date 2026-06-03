@@ -156,3 +156,14 @@ Dist.:  App -> DB1 + DB2 + MQ
 1. [[548_local_vs_distributed_transactions|로컬 트랜잭션]] ([[548_local_vs_distributed_transactions|Local Transaction]]) vs [[248_distributed_transaction_multiple_nodes|분산 트랜잭션]] ([[248_distributed_transaction_multiple_nodes|Distributed Transaction]])은 레고 블록으로 성을 만들 때처럼, 규칙을 정하고 역할을 나누어 함께 작업하는 방법이에요.
 2. 혼자서 막 만들면 나중에 무너지거나 고치기 어렵지만, 약속을 지키면 누구나 쉽게 고치고 더 크게 만들 수 있어요.
 3. 그래서 [[001_software_engineering_definition|소프트웨어 공학]]은 프로그래머들이 좋은 프로그램을 빠르고 안전하게 만들 수 있게 도와주는 '규칙 모음집'이에요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 687 / 973
+
+← **이전**: [[547_traffic_routing_and_canary_deployment_control|547. 트래픽 라우팅 및 카나리 배포 제어 (Service Mesh의 역할)]]
+**다음**: [[548_local_vs_distributed_transactions|548. 로컬 트랜잭션 (Local Transaction) vs 분산 트랜잭션 (Distributed Transaction)]] →
+
+---

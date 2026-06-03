@@ -127,3 +127,14 @@ steps:
 1. 설계도([[793_iac_idempotency_template|IaC]])에는 **방 3개**라고 써있는데, 누군가 몰래 **방 1개를 더 만들었어요** (드리프트).
 2. 나중에 설계도대로 리모델링하면 **몰래 만든 방이 없어져서** 사고가 나요.
 3. 드리프트 감지는 매일 설계도와 실제 건물을 **비교해서 다른 점을 찾아주는** 검사원이에요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 116 / 373
+
+← **이전**: [[115_atlantis_terraform_ci|115. Atlantis Terraform CI - PR 기반 IaC 자동 Plan·Apply 워크플로]]
+**다음**: [[117_textops_docops_automation|117. TextOps/DocOps 자동화 - 문서 파이프라인 CI/CD·Docs-as-Code]] →
+
+---

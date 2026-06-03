@@ -138,3 +138,14 @@ Log4Shell 대응 혼란      CI 통합 스캔                 AI 기반 취약�
 1. SCA는 마트에서 사온 음식 봉지의 유통기한과 알레르기 성분을 자동으로 [[396_validation|확인]]해주는 스캐너예요.
 2. 직접 만든 음식 재료뿐만 아니라, 함께 들어온 소스, 양념의 성분도 모두 [[396_validation|확인]]해요.
 3. 유통기한이 지난 재료([[409_cve_lifecycle|CVE]])나 금지된 성분(라이선스)이 있으면 즉시 알려줘요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 327 / 373
+
+← **이전**: [[326_sast_dast_iast|326. SAST DAST IAST 보안 테스트 비교 CI 파이프라인 배치 (SAST DAST IAST Security Testing]]
+**다음**: [[328_sbom|328. SBOM 소프트웨어 구성 자재 명세 공급망 방어 (Software Bill of Materials Supply Chain Defense]] →
+
+---

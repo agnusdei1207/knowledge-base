@@ -233,3 +233,14 @@ class EvaluateVisitor implements ExpressionVisitor {
 1. 동물원의 동물들(Element)은 우리 안에 있고, 수의사([[275_visitor_pattern|Visitor]])가 차례로 방문해요.
 2. 수의사마다 하는 일이 달라요: 예방접종 수의사, 치과 수의사, 건강검진 수의사!
 3. 동물들은 그냥 "들어오세요"(accept)만 하면 되고, 어떤 검사를 받는지는 수의사가 결정해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 264 / 530
+
+← **이전**: [[202_mediator_observer_combined|202. 미디에이터·옵저버 통합 설계 (Mediator and Observer Combined)]]
+**다음**: [[204_iterator_pattern|204. 이터레이터 패턴 (Iterator Pattern)]] →
+
+---

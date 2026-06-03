@@ -113,3 +113,14 @@ tags:
 1. [[159_gnn_graph_neural_network_message_passing|GNN]] 기반 이상 거래 탐지 - [[160_knowledge_graph_graphrag_integration|지식 그래프]]는 사람이 많은 운동회에서 어디로 가야 하는지 알려 주는 안내판과 비슷해요.
 2. 규칙이 없으면 모두가 한곳에 몰려서 느려지고 다투지만, 길을 정해 두면 훨씬 부드럽게 움직일 수 있어요.
 3. 그래서 컴퓨터 세상에서도 [[159_gnn_graph_neural_network_message_passing|GNN]] 기반 이상 거래 탐지 - [[160_knowledge_graph_graphrag_integration|지식 그래프]]를 쓰면 많은 팀과 [[090_service_kubernetes_network_load_balancing|서비스]]가 덜 부딪히고 더 빨리 움직일 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 266 / 371
+
+← **이전**: [[266_mydata_open_api_token_security|266. 마이데이터 오픈 API - 토큰 보안 인증 (MyData)]]
+**다음**: [[268_schema_drift_evolution_delta_lake|268. 스키마 드리프트 - Delta Lake 에볼루션 (Schema Drift)]] →
+
+---

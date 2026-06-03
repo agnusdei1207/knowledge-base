@@ -64,3 +64,14 @@ tags:
 1. 3DoF는 **의자에 앉아 고개만** 돌리는 거예요.
 2. 6DoF는 **일어나서 방 안을 걸어다니는** 거예요. 가상 물건에 **다가갈 수도** 있어요!
 3. 6DoF 덕분에 VR 게임에서 **진짜로 움직이는 것처럼** 느껴진답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 130 / 552
+
+← **이전**: [[129_spatial_computing_apple_vision_pro|129. 공간 컴퓨팅 & Apple Vision Pro - 차세대 인터페이스 패러다임]]
+**다음**: [[131_slam_simultaneous_localization_mapping|131. SLAM (동시 위치 추정과 지도 작성) - XR/자율주행의 공간 인식 핵심]] →
+
+---

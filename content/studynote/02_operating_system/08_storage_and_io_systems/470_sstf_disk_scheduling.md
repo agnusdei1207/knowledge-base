@@ -182,3 +182,14 @@ SSTF (Shortest [[467_disk_access_time|Seek Time]] First) 스케줄링은 "가장
 1. SSTF (Shortest [[467_disk_access_time|Seek Time]] First)은 컴퓨터가 디스크와 장치가 [[001_dikw_pyramid|데이터]]를 주고받는 길을 정리하는 방법이에요.
 2. 먼저 [[173_fcfs_scheduling|FCFS]] (First-Come, First-Served) 스케줄링을 이해하면 SSTF (Shortest [[467_disk_access_time|Seek Time]] First)이 왜 필요한지 더 쉽게 보여요.
 3. 그래서 SSTF (Shortest [[467_disk_access_time|Seek Time]] First)을 잘 알면 나중에 SCAN 스케줄링 ([[471_scan_elevator_scheduling|엘리베이터 알고리즘]])도 훨씬 쉽게 배울 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 470 / 800
+
+← **이전**: [[469_fcfs_disk_scheduling|469. FCFS (First-Come, First-Served) 스케줄링]]
+**다음**: [[471_scan_elevator_scheduling|471. SCAN 스케줄링 (엘리베이터 알고리즘) (Scan Elevator Scheduling)]] →
+
+---

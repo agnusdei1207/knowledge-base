@@ -136,3 +136,14 @@ RTO / RPO 검증
 불이 났을 때 다른 교실로 바로 옮겨 가는 연습이에요.  
 얼마나 빨리 옮기고, 얼마나 덜 잃는지 숫자로 확인해요.  
 그래야 진짜 사고 때도 당황하지 않아요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 92 / 530
+
+← **이전**: [[060_open_data_public_api_standards|60. 공공데이터 개방 (Open Data) 표준 규격 및 감리]]
+**다음**: [[062_backup_archiving_policy|62. 백업 및 아카이빙 정책 점검 (Backup and Archiving Policy Audit)]] →
+
+---

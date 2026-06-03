@@ -123,3 +123,14 @@ AI와 [[001_dikw_pyramid|데이터]] 분석이 모든 본원적 활동에 통합
 1. [[249_value_chain_competitive_analysis|가치 사슬]] 본원적 활동은 음식점 운영 5단계예요! 재료 입고 → 요리 → 서빙 → 홍보 → [[344_as_autonomous_system_asn|AS]] 순서예요.
 2. 각 단계를 더 잘하거나 더 싸게 할수록 경쟁자를 이길 수 있어요!
 3. 요즘은 [[190_ai_llm_requirements_specification|AI]]·IoT가 모든 단계를 자동화해서 더 빠르고 저렴하게 운영할 수 있는 디지털 [[249_value_chain_competitive_analysis|가치 사슬]]로 진화하고 있답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 27 / 482
+
+← **이전**: [[026_value_chain_analysis|26. 가치 사슬 분석 (Value Chain Analysis) — 포터의 경쟁 우위 원천 분석]]
+**다음**: [[028_value_chain_support_activities|28. 가치 사슬 지원 활동 (Value Chain Support Activities)]] →
+
+---

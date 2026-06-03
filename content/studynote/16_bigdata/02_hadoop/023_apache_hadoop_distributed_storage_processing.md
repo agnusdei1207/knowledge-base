@@ -86,3 +86,14 @@ tags:
 1. 세상의 모든 책을 도서관 사서 한 명이 전부 읽고 요약하려면 평생이 걸려도 모자랄 거예요. (기존 방식)
 2. [[843_hadoop_rack_awareness_data_replication_topology|하둡]]은 만 명의 친구들을 한꺼번에 불러서 책을 몇 장씩 나눠주고, 각자 읽고 요약해오라고 시키는 방법이랍니다.
 3. 중간에 한 친구가 아파서 집에 가더라도, 다른 친구에게 복사본을 줘서 대신 읽게 하니까 절대 실패하지 않아요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 23 / 262
+
+← **이전**: [[022_small_data_qualitative_analysis|22. 데이터 자산 평가 — 재무적 가치화, ISO/IEC 22123]]
+**다음**: [[024_hdfs_hadoop_distributed_file_system_block|02. HDFS (Hadoop Distributed File System) - 하둡 분산 파일 시스템]] →
+
+---

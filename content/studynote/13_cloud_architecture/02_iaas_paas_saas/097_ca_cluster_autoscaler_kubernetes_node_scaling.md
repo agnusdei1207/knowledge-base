@@ -124,3 +124,14 @@ Karpenter (차세대 그룹리스(Group-less) 노드 스케일러)
 1. CA는 레고 마을에서 일꾼([[085_pod_kubernetes_container_unit|파드]])들이 쉴 방이 부족해 길거리를 헤맬 때 나타나는 마법사예요.
 2. 길거리에 대기하는 일꾼을 한 명이라도 발견하면 즉시 마법을 부려 거대한 새 아파트(노드)를 지어주죠.
 3. 반대로 아파트가 텅 비면 월세를 아끼기 위해 아파트를 지워버리는 똑똑한 일꾼 관리자랍니다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 96 / 371
+
+← **이전**: [[096_vpa_vertical_pod_autoscaler_kubernetes|96. VPA (Vertical Pod Autoscaler) - 파드 수직 자원 자동 조절]]
+**다음**: [[098_kubernetes_storage_volume_pv_pvc|98. K8s 스토리지 관리 - 볼륨, PV, PVC (영구 스토리지)]] →
+
+---

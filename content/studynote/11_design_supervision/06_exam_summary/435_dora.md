@@ -120,3 +120,14 @@ tags:
 1. 장난감을 만들고 친구에게 건네주기까지 얼마나 걸리는지 재 보는 것이 [[085_lead_time_cycle_time|리드 타임]]이에요.
 2. 하루에 몇 번이나 새 장난감을 친구에게 보여 줄 수 있는지가 배포 빈도예요.
 3. 빨리 자주 보여 주되 고장 나면 바로 고칠 수 있어야 진짜 잘하는 거예요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 513 / 530
+
+← **이전**: [[434_pbs_api|434. 컴포저블 아키텍처 PBS API 조합 유연 모듈 (Composable Architecture with PBS API)]]
+**다음**: [[436_management|436. 클라우드 랜딩 존 하이브리드 거버넌스 (Cloud Landing Zone Hybrid Governance)]] →
+
+---

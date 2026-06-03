@@ -125,3 +125,14 @@ A03. [[480_injection|인젝션]] ([[480_injection|Injection]] Overview)를 제�
 1. A03. [[480_injection|인젝션]] ([[480_injection|Injection]] Overview)는 누군가 규칙의 틈을 찾아 몰래 장난을 치는 방법이에요.
 2. 그래서 문을 단단히 잠그는 것뿐 아니라, 누가 이상하게 움직이는지도 바로 알아차려야 해요.
 3. 컴퓨터는 이상한 흔적을 빨리 보고 퍼지기 전에 멈추게 해야 안전해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 484 / 1108
+
+← **이전**: [[427_certificate_pinning_bypass|427. Certificate Pinning 우회 (Certificate Pinning Bypass)]]
+**다음**: [[429_sql_injection_deep|429. SQL 인젝션 (Sql Injection Deep)]] →
+
+---

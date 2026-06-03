@@ -189,3 +189,14 @@ Order_Doc { UserInfo: {}, ProductInfo: [] }
 1. 서랍장([[002_database_definition|데이터베이스]])에 물건을 마구 쑤셔 넣으면 나중에 찾기 너무 힘들죠?
 2. [[083_relationship_in_er_model|관계]]형 [[014_data_model_components|데이터 모델]]은 물건을 엑셀 표(테이블)처럼 '이름', '종류', '위치' 칸에 맞춰 아주 깔끔하게 정리하는 완벽한 규칙이에요.
 3. 이렇게 표끼리 서로 연결(조인)해두면, 아무리 [[001_dikw_pyramid|데이터]]가 수백만 개로 많아져도 원하는 정보를 1초 만에 쏙 뽑아낼 수 있답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 17 / 600
+
+← **이전**: [[016_network_data_model|16. 망형 데이터 모델 (Network Model) - 그래프 구조 (N:M 허용)]]
+**다음**: [[018_object_oriented_relational_data_model|18. 객체지향 데이터 모델 (OODBMS) / 객체 관계형 데이터 모델 (ORDBMS)]] →
+
+---

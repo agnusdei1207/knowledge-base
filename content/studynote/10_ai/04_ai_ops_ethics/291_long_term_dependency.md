@@ -125,3 +125,14 @@ tags:
 1. 100명이 줄 서서 **귓속말을 전달**하면 맨 마지막에는 처음 말이 완전히 바뀌어버리는데, 이게 바로 **[[088_vanishing_gradient_relu_skip_connection|기울기 소실]]([[240_relu_vanishing_gradient_softmax_backprop_chain|Vanishing Gradient]])**이에요!
 2. 반대로 소리가 점점 커져서 **마지막에 확성기가 폭발**해버리면 그건 **[[089_exploding_gradient_clipping|기울기 폭발]]([[089_exploding_gradient_clipping|Exploding Gradient]])**이고요.
 3. LSTM은 귓속말 대신 **직통 전화(셀 상태)**를 개설해서, 1번 친구 말이 100번에게 **정확히 전달**될 수 있도록 만든 특별한 신경망이에요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 291 / 420
+
+← **이전**: [[290_rnn_recurrent|290. RNN (Recurrent Neural Network)]]
+**다음**: [[292_lstm|292. LSTM (Long Short-Term Memory)]] →
+
+---

@@ -139,3 +139,14 @@ Kaiming He [[459_quic_fec_forward_error_correction|초기]]화는 [[269_relu_act
 1. [[088_vanishing_gradient_relu_skip_connection|기울기 소실]]은 "전화 [[389_mesh_topology|메시]]지가 [[489_raid_10_hybrid|10]]명을 거치면 아무도 원래 말을 못 알아듣는" 상황이야.
 2. Kaiming [[459_quic_fec_forward_error_correction|초기]]화는 "마이크 볼륨을 처음부터 딱 맞게 [[009_config|설정]]해서 모든 방에 선명하게 들리게 하는 것"이야.
 3. 잔차 연결은 "중간 전화 연결을 생략하고 직통 전화선을 연결"하는 것처럼 기울기가 빠르게 전달되게 해줘.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 380 / 420
+
+← **이전**: [[379_ensemble_bias_variance_math|379. 앙상블 편향-분산 (Bias-Variance) 수식]]
+**다음**: [[381_scaled_dot_product_attention|381. 스케일드 닷 프로덕트 어텐션 (Scaled Dot-Product Attention)]] →
+
+---

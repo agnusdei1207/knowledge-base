@@ -209,3 +209,14 @@ Kernel Methods 연구 지속
 1. [[059_kernel_trick_rbf_polynomial|커널 트릭]]은 평면(2D)에서 섞여있는 점들을 3D 공간으로 올려서 쉽게 나눌 수 있게 만드는 마법이에요.
 2. 실제로 3D로 계산하지 않고 특별한 수식([[022_kernel_role|커널]] 함수)으로 같은 결과를 훨씬 빠르게 얻어요.
 3. 이 기술 덕분에 복잡한 패턴도 SVM이 정확하게 [[104_classification_analysis|분류]]할 수 있답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 37 / 420
+
+← **이전**: [[036_support_vector_machine|036. 서포트 벡터 머신 (Support Vector Machine, SVM)]]
+**다음**: [[038_knn|038. k-최근접 이웃 (k-NN, k-Nearest Neighbors)]] →
+
+---

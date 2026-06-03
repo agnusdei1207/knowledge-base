@@ -144,3 +144,14 @@ CQRS는 "읽기와 [[289_cqrs_db|쓰기]]는 서로 다른 세계"라는 통찰�
 1. 일기([[271_command_pattern|Command]])를 쓰는 것과 일기를 읽는 것(Query)은 서로 다른 목적이에요.
 2. CQRS는 [[289_cqrs_db|쓰기]] 쉬운 일기장과 찾아보기 쉬운 색인 카드를 따로 만드는 방법이에요.
 3. 일기를 많이 써도 색인 카드 검색이 느려지지 않아요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 177 / 530
+
+← **이전**: [[120_event_driven_architecture|120. 이벤트 주도 아키텍처 (EDA, Event-Driven Architecture)]]
+**다음**: [[122_event_sourcing|122. 이벤트 소싱 (Event Sourcing)]] →
+
+---

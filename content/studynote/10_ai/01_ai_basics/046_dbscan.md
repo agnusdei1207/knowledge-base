@@ -306,3 +306,14 @@ Ester et al., KDD 1996
 1. DBSCAN은 별자리 찾기 — 별이 많이 모여 있는 곳(밀도 높은 군집), 홀로 떨어진 별(Noise=[[076_outlier_detection_iqr_dbscan_isolation_forest|이상치]])을 자동으로 [[104_classification_analysis|분류]]해요!
 2. ε은 손 뻗는 거리 — "이 거리 안에 친구가 많으면(minPts) 핵심 점". ε 너무 좁으면 친구 0명, 너무 넓으면 모두 친구!
 3. HDBSCAN은 자동 배율 현미경 — DBSCAN은 배율 고정, HDBSCAN은 촘촘한 군집/느슨한 군집 모두 자동으로 적합한 배율로 찾아요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 46 / 420
+
+← **이전**: [[045_kmeans|045. K-평균 군집화 — K-Means Clustering]]
+**다음**: [[047_hierarchical_clustering|047. 계층적 군집화 — Hierarchical Clustering]] →
+
+---

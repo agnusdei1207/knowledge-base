@@ -138,3 +138,14 @@ Spring Boot, React의 useEffect, Node.js의 [[142_event_loop|이벤트 루프]] 
 1. 오디션을 보고 집에서 기다리면 제작사에서 "합격했어요, 내일 촬영 오세요"라고 연락이 와요.
 2. 배우(하위 [[192_module_independence|모듈]])가 매일 제작사에 전화해 "저 뽑혔나요?"라고 묻는 것은 할리우드 원칙 위반이에요.
 3. 위에서 부를 때까지 자기 역할을 준비하고 기다리는 것, 그것이 할리우드 원칙이에요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 164 / 530
+
+← **이전**: [[110_law_of_demeter_principle_of_least_knowledge|110. 최소 지식의 원칙 (Law of Demeter, Principle of Least Knowledge)]]
+**다음**: [[111_hollywood_principle|111. 할리우드 원칙 (Hollywood Principle)]] →
+
+---

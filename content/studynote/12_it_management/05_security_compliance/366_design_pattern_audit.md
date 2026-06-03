@@ -129,3 +129,14 @@ tags:
 1. [[251_design_patterns_gof_overview|디자인 패턴]] [[263_facade_pattern_simplified_interface|퍼사드]], [[268_strategy_pattern|전략]], [[606_observer_pattern_pub_sub|옵저버 패턴]] 강결합 해소 구조 [[606_auditing_linux_auditd|감사]]는 모두가 같은 규칙으로 일하게 해 주는 반장 약속표예요.
 2. 약속만 적어 두는 것이 아니라 누가 지켰는지 확인하고 고치는 방법까지 함께 정해요.
 3. 그래서 일이 많아져도 서로 부딪히지 않고 더 안전하게 움직일 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 573 / 587
+
+← **이전**: [[366_audit|366. 디자인 패턴 퍼사드, 전략, 옵저버 패턴 강결합 해소 구조 감사]]
+**다음**: [[367_mock_stub_100|367. 테스트 더블 (Mock, Stub) 단위 테스트 격리 커버리지 100% 검수]] →
+
+---

@@ -113,3 +113,14 @@ XOR 한계를 극복하기 위해 은닉층(Hidden Layer)을 추가한 [[266_mlp
 1. [[239_perceptron_mlp_hidden_layer_weight_activation_sigmoid|퍼셉트론]]은 "직선 한 줄로 빨간 공과 파란 공을 나누는 [[190_ai_llm_requirements_specification|AI]]"예요.
 2. 공들이 섞이지 않고 잘 구분되면(선형 분리 가능) 직선을 찾을 때까지 반복 학습해요.
 3. 하지만 체커보드처럼 뒤섞인 공은 직선 하나론 절대 못 나누어서, 여러 층을 쌓은 딥러닝이 탄생했어요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 352 / 420
+
+← **이전**: [[351_gini_entropy_information_gain|351. 지니 불순도 (Gini Impurity) 와 정보 획득량 (Information Gain)]]
+**다음**: [[353_logistic_regression_odds|353. 로지스틱 회귀 (Logistic Regression)]] →
+
+---

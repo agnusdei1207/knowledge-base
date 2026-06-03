@@ -131,3 +131,14 @@ OpenTelemetry 기반 통합 수집
 1. 축구 선수가 뛰는 동안 옆에서 기록 선생님이 몇 번 뛰었는지, 어디로 움직였는지 적어 주는 거예요.
 2. 선수는 공 차는 일만 하면 되고, 기록은 옆 친구가 대신 맡아요.
 3. 그래서 선수가 바뀌어도 기록 방법은 똑같이 맞출 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 248 / 530
+
+← **이전**: [[188_ambassador_pattern|188. 앰배서더 패턴 (Ambassador Pattern)]]
+**다음**: [[189_sidecar_logging_monitoring|189. 사이드카·로깅·모니터링 패턴 (Sidecar, Logging & Monitoring Pattern)]] →
+
+---

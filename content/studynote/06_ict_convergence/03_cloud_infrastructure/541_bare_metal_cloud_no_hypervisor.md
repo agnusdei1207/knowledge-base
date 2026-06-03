@@ -132,3 +132,14 @@ CaaS([[194_container_virtualization_docker_namespace|Container]] [[344_as_autono
 1. [[629_bare_metal_cloud|베어메탈 클라우드]]는 혼자만 쓰는 방이에요 — 옆방 소리(Noisy Neighbor)도 없고, 방 전체 공간을 혼자 다 쓸 수 있어요.
 2. VM은 여러 명이 칸막이로 나눠 쓰는 공간이에요 — 저렴하지만 옆 사람이 시끄러우면 나도 집중이 안 돼요.
 3. 베어메탈은 비싸지만 빠른 방이라서, 정말 빨라야 하는 작업(금융 거래, 과학 계산)에 딱 맞아요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 541 / 552
+
+← **이전**: [[540_sddc_hci_software_defined_appliance|540. SDDC와 HCI 소프트웨어 정의 데이터센터 (SDDC HCI Software-Defined Datacenter)]]
+**다음**: [[542_multisig_account_abstraction_erc4337|542. 멀티시그와 계정 추상화 (Multi-Sig and Account Abstraction ERC-4337)]] →
+
+---

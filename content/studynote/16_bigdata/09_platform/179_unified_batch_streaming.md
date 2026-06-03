@@ -170,3 +170,14 @@ Backfill + Realtime Serving + Lakehouse 연계
 1. 통합 배치/스트리밍은 큰 숙제도, 실시간 퀴즈도 같은 풀이법으로 해결하는 똑똑한 공부 방법이에요.
 2. 그래서 나중에 다시 풀어 봐도, 지금 바로 풀어 봐도 답이 크게 달라지지 않아요.
 3. 다만 아주 빨리 풀 문제와 아주 큰 문제는 같은 선생님이 맡아도 시간표를 잘 나눠야 해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 179 / 262
+
+← **이전**: [[178_modern_data_stack|178. 모던 데이터 스택 (Modern Data Stack, MDS) — Fivetran + Snowflake + dbt + Tableau]]
+**다음**: [[180_data_hub|180. 데이터 허브 (Data Hub) — 중앙 데이터 집계 및 배포 계층]] →
+
+---

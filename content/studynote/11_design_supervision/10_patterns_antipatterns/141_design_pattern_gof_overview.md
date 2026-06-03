@@ -161,3 +161,14 @@ GoF (Gang of Four) 이전에도 좋은 설계 관행은 있었지만, 문제는 
 1. [[251_design_patterns_gof_overview|디자인 패턴]]은 레고를 자주 만들다 보니 이럴 땐 이렇게 조립하면 잘 된다 하고 정리한 비법책이에요.
 2. 친구에게 여기 다리 만들 때 이 방법 쓰자라고 말하면 길게 설명하지 않아도 바로 알아들을 수 있어요.
 3. 그래서 더 튼튼하고 고치기 쉬운 장난감을 만들 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 197 / 530
+
+← **이전**: [[140_design_debt|140. 설계 부채 (Design Debt / Technical Debt)]]
+**다음**: [[142_gof_23_patterns_classification|142. GoF 23가지 패턴 분류 (GoF 23 Design Patterns Classification)]] →
+
+---

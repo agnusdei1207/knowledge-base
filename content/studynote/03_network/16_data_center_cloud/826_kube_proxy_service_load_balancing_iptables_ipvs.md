@@ -135,3 +135,14 @@ Kube-Proxy [[090_service_kubernetes_network_load_balancing|서비스]] 로드밸
 1. 큰 아파트에 사는 친구들이 층마다 다른 규칙으로 엘리베이터를 타면 복잡해져요.
 2. 이 개념은 어느 층에서 누구를 어떻게 연결할지 자동으로 정리해 주는 관리실과 같아요.
 3. 그래서 많은 컴퓨터가 한 건물 안에서 더 잘 협력할 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 947 / 1120
+
+← **이전**: [[825_cilium_ebpf_kubernetes_networking_security|825. Cilium (eBPF 네트워크 프레임워크)]]
+**다음**: [[827_ingress_egress_traffic_routing_l7_proxy|827. Ingress와 Egress 트래픽]] →
+
+---

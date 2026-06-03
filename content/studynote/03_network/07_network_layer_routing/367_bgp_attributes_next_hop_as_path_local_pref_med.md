@@ -154,3 +154,14 @@ eBGP로 남의 나라에서 엽서를 받아 [[366_ibgp_ebgp_split_horizon_rule|
 1. 여러 갈림길이 있는 미로에서 가장 좋은 길을 고르는 게임과 같아요.
 2. 이 개념은 길이 막히면 다른 길로 빨리 바꾸는 규칙도 알려줘요.
 3. 그래서 인터넷 길찾기가 덜 헤매고 더 똑똑해져요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 488 / 1120
+
+← **이전**: [[366_ibgp_ebgp_split_horizon_rule|366. iBGP (내부 맺음), eBGP (외부 맺음), BGP Split Horizon 룰]]
+**다음**: [[368_bgp_route_reflector_confederation|368. BGP Route Reflector / Confederation (iBGP 풀 메시 문제 해결)]] →
+
+---

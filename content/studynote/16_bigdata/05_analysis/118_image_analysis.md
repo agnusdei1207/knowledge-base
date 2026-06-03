@@ -156,3 +156,14 @@ ViT (Vision [[246_transformer_self_attention_parallel_positional_encoding|Transf
 - 이미지 분석은 컴퓨터에게 눈을 달아주는 기술이에요. "이 사진 속에 고양이가 있다!"를 스스로 알아내요.
 - CNN은 이미지를 여러 번 훑으면서 선→모서리→귀→얼굴 순서로 점점 더 복잡한 특징을 찾아요.
 - 공장에서 불량품 찾기, 의사가 X-레이 보기, CCTV에서 이상한 사람 찾기가 모두 이 기술을 써요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 118 / 262
+
+← **이전**: [[117_ner|114. 개체명 인식 (NER, Named Entity Recognition) — 인물/장소/조직 추출]]
+**다음**: [[119_log_analysis|116. 로그 분석 (Log Analysis) — 이상 감지/보안 이벤트/패턴 발견]] →
+
+---

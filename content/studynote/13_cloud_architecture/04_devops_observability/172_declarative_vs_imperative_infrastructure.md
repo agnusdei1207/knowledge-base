@@ -195,3 +195,14 @@ State ownership + safe re-apply + audited change management
 1. 선언형은 "방에 책상 하나가 있어야 해"라고 완성된 모습을 말하는 거예요.
 2. 명령형은 "책상 가져오고, 여기 놓고, 나사 조여"처럼 순서를 하나씩 말하는 거예요.
 3. 방을 오래 같은 모습으로 지키려면 목표 모양은 선언형으로 정하고, 특별한 심부름만 따로 시키는 게 좋아요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 171 / 371
+
+← **이전**: [[171_idempotency_iac_terraform|171. 멱등성 (Idempotency in IaC)]]
+**다음**: [[173_configuration_management_ansible_chef_puppet|173. 구성 관리 도구 (Configuration Management) — Ansible, Chef, Puppet]] →
+
+---

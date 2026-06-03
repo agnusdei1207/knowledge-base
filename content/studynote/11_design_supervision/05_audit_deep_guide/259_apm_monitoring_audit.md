@@ -104,3 +104,14 @@ tags:
 1. [[191_transaction_concept_states|트랜잭션]] 추적은 학교에서 준비물을 미리 챙기는 것처럼, 중요한 기준을 먼저 맞추는 일이야.
 2. 임계값 알림은 선생님이 수업 중간에 계속 확인하는 것처럼, 실제로 잘 되고 있는지 보는 과정이야.
 3. 평균 [[658_ir_recovery|복구]] 시간은 시험 결과표처럼, 정말 효과가 있었는지 나중에 다시 확인하게 해주는 증거야.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 320 / 530
+
+← **이전**: [[258_load_test_bottleneck_diagnosis|258. 부하 테스트 병목 진단 (Load Test Bottleneck Diagnosis)]]
+**다음**: [[260_db_optimizer_slow_query|260. DB 옵티마이저 슬로우 쿼리 진단 (DB Optimizer Slow Query Diagnosis)]] →
+
+---

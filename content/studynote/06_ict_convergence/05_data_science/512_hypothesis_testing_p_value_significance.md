@@ -130,3 +130,14 @@ tags:
 1. [[145_hypothesis_testing|가설 검정]]은 "이 약이 진짜 효과가 있나 없나"를 수학으로 확인하는 방법이야.
 2. p-값은 "약 효과가 전혀 없다고 가정했을 때, 이런 결과가 우연히 나올 [[130_probability|확률]]"이야 — 이 [[130_probability|확률]]이 5%보다 낮으면 "우연이 아니다!"라고 판단해.
 3. 하지만 수학적으로 의미 있다고 해서 실제로도 중요한 게 아닐 수 있으니, 효과 크기도 꼭 확인해야 해!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 512 / 552
+
+← **이전**: [[511_normal_distribution_clt_law_of_large_numbers|511. 정규 분포, 중심 극한 정리, 대수의 법칙 (Normal Distribution CLT Law of Large Numbers)]]
+**다음**: [[513_t_test_anova_chi_square_comparison|513. t-검정, ANOVA, 카이제곱 검정 비교 (t-Test ANOVA Chi-Square Test Comparison)]] →
+
+---

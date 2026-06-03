@@ -154,3 +154,14 @@ CMDB · 프로비저닝 · 가상화 인벤토리 연동
 1. 컴퓨터도 이름표와 준비물 목록이 있으면 누가 누구인지 빨리 알 수 있어.
 2. SMBIOS는 컴퓨터가 "나는 이런 이름이고, 이런 메모리를 갖고 있어"라고 적어 둔 소개 카드야.
 3. 그래서 선생님인 [[001_operating_system_purpose|운영체제]]와 관리 프로그램이 컴퓨터를 더 빨리 정리하고 도와줄 수 있어.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 709 / 803
+
+← **이전**: [[707_acpi|707. ACPI (Advanced Configuration and Power Interface)]]
+**다음**: [[709_ipmi|709. IPMI (Intelligent Platform Management Interface)]] →
+
+---

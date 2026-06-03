@@ -313,3 +313,14 @@ malware-drop.org    IN CNAME .          ; 혹은 강제로 응답하지 않음(N
 1. 해커라는 나쁜 늑대가 아기 돼지들(감염된 [[164_pc|PC]])에게 "비밀 숲속 아지트([[064_relation_domain|도메인]])로 모여라!"라고 명령을 내렸어요.
 2. 아기 돼지들이 길을 물어보러 우체국([[511_dns_hierarchical_distributed_architecture|DNS]] 서버)에 갔는데, 우체국장님이 미리 경찰(KISA)에게 받은 수배 전단을 보고 길을 가짜로 알려줬어요.
 3. 결국 아기 돼지들은 늑대의 아지트가 아니라 튼튼한 안전 가옥(싱크홀 서버)으로 들어가게 되어서, 늑대에게 정보를 뺏기지 않고 무사히 치료받을 수 있었답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 1057 / 1120
+
+← **이전**: [[935_rpki_bgp_hijacking_prevention|935. RPKI (Resource Public Key Infrastructure]]
+**다음**: [[937_hybrid_encryption|937. 하이브리드 암호 시스템]] →
+
+---

@@ -331,3 +331,14 @@ S3 API 통합
 1. [[493_san_storage_area_network|SAN]] = 스토리지 전용 고속도로 — 일반 도로(인터넷)와 분리된 전용 도로로 창고(스토리지) 연결. 서버가 창고를 자기 서랍처럼 쓸 수 있어요!
 2. [[696_fibre_channel_protocol|FC]] vs [[698_iscsi|iSCSI]] = KTX [[266_leased_line_basics_e1_t1_t3|전용선]] vs 일반도로 — [[696_fibre_channel_protocol|FC]]([[148_5g_embb_urllc_mmtc|초고속]] [[266_leased_line_basics_e1_t1_t3|전용선]], 비쌈) vs [[698_iscsi|iSCSI]](일반 도로, 저렴). 은행 DB는 KTX, [[501_file_definition_logical_record|파일]] 서버는 일반도로!
 3. [[685_lun_masking|LUN]] 마스킹 = 창고 열쇠 — 여러 서버가 공유 창고를 써도 각자 자기 칸([[685_lun_masking|LUN]])만 열 수 있어요. 남의 데이터에 못 접근!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 48 / 800
+
+← **이전**: [[047_dlm|047. DLM — 분산 잠금 관리자]]
+**다음**: [[049_client_server|049. 클라이언트-서버 — Client-Server Architecture]] →
+
+---

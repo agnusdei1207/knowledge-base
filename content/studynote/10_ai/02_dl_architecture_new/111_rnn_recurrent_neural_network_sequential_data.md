@@ -120,3 +120,14 @@ RNN은 시퀀스 [[001_dikw_pyramid|데이터]] 처리의 **역사적 토대**�
 1. RNN은 소설을 1장씩 읽으면서 **앞 내용을 기억**하고 다음 장을 이해하는 뇌예요.
 2. 문제는 소설이 너무 길면 **1장 내용을 잊어버리는 건망증([[088_vanishing_gradient_relu_skip_connection|기울기 소실]])**이 있어요.
 3. LSTM은 중요한 내용을 **금고에 넣어서 잊지 않게** 해주고, Transformer는 아예 소설 전체를 한눈에 보는 초능력이에요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 111 / 420
+
+← **이전**: [[110_semantic_vs_instance_segmentation_fcn_unet_mask_rcnn|110. Semantic vs Instance Segmentation - FCN·U-Net·Mask R-CNN·Panoptic 분할 체계]]
+**다음**: [[112_hidden_state_recurrent_loop_context_memory|112. 은닉 상태와 순환 루프 (Hidden State & Recurrent Loop) - RNN의 문맥 기억 메커니즘]] →
+
+---

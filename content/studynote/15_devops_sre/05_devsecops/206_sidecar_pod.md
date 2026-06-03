@@ -134,3 +134,14 @@ Reference Architecture
 1. [[182_sidecar_pattern_proxy_container|사이드카 패턴]]은 복잡한 일을 순서와 규칙으로 정리해서 실수하지 않게 도와주는 방법이에요.
 2. [[198_pod_kubernetes_minimum_deployment_unit|Pod]] 같은 친구들과 같이 움직여야 더 잘 작동해요.
 3. 그래서 문제가 생겨도 어디서 틀렸는지 빨리 찾고 다시 고치기 쉬워져요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 206 / 373
+
+← **이전**: [[205_service_mesh_l7_mtls_istio|205. 서비스 메시 (Service Mesh)]]
+**다음**: [[207_mtls_tls|207. mTLS (상호 TLS)]] →
+
+---

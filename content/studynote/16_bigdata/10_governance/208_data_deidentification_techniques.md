@@ -202,3 +202,14 @@ l=2 예시:
 - 비식별화는 **이름표를 가리는 것**이에요: 이름(직접 [[289_identification_flags_fragmentation_offset|식별자]])만 가리면 충분할 것 같지만, 나이+키+사는 동네 조합(준식별자)으로도 누구인지 알아낼 수 있어요.
 - [[185_k_anonymity_masking_data_pipeline|k-익명성]]은 "적어도 k명이 같은 특징을 공유해야 한다"는 규칙이에요 — 혼자만 가진 특징은 위험하니까 군중 속에 섞여야 안전해요.
 - 비식별화는 [[571_protection_vs_security|보호]] 강도와 [[001_dikw_pyramid|데이터]] 유용성의 균형이에요 — 너무 많이 가리면 쓸모없고, 너무 조금 가리면 위험해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 208 / 262
+
+← **이전**: [[207_gdpr_article_89|201. GDPR Article 89 — 과학적 연구 목적 빅데이터 처리 특례]]
+**다음**: [[209_differential_privacy|203. 차등 프라이버시 (Differential Privacy) — 통계 쿼리에 수학적 노이즈 추가]] →
+
+---

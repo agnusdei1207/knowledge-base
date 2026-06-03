@@ -299,3 +299,14 @@ tags:
 - 각 섹션 끝에 📢 요약 비유 반드시 추가
 - 최소 800자/[[501_file_definition_logical_record|파일]]
 - [[501_file_definition_logical_record|파일]]명: 01_, 02_... 형식
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 11 / 175
+
+← **이전**: [[010_backtracking|10. 백트래킹 (Backtracking) — 가지치기]]
+**다음**: [[012_approximation_algorithm|12. 근사 알고리즘 (Approximation Algorithm) — NP 문제]] →
+
+---

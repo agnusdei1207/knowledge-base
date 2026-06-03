@@ -198,3 +198,14 @@ Real-time geo analytics / digital twin / spatial decision support
 1. 지리공간 [[003_bigdata_7v|시각화]]는 주소가 적힌 긴 종이를 보는 대신, 지도 위에 색점과 선으로 어디가 붐비는지 보여 주는 거예요.
 2. 점이 너무 많으면 벌집 모양 칸으로 묶어서 어느 동네가 더 뜨거운지 쉽게 볼 수 있어요.
 3. 그래서 배달길이나 교통길을 한눈에 보고 어디가 막히는지 빨리 알 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 173 / 262
+
+← **이전**: [[172_network_visualization|172. 네트워크 시각화 (Network Visualization)]]
+**다음**: [[174_bigdata_visualization_challenges|174. 빅데이터 시각화 도전 (Big Data Visualization Challenges) — 집계/샘플링/렌더링 최적화]] →
+
+---

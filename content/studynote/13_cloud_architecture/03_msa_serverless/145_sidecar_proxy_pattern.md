@@ -56,3 +56,14 @@ K8s Pod:
 1. [[830_sidecar_proxy_architecture_envoy_decoupling|사이드카]]는 **오토바이 옆칸**이에요. 운전자(메인)는 **운전만** 해요.
 2. 옆칸([[264_proxy_pattern_surrogate_access_control|프록시]])이 **짐(통신) 처리·보안·기록**을 대신해요.
 3. 모든 오토바이에 **같은 옆칸**을 달면 규칙이 통일돼요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 144 / 371
+
+← **이전**: [[144_service_mesh|144. 서비스 메시 (Service Mesh) - 사이드카 기반 통신 인프라]]
+**다음**: [[146_mtls_mutual_tls|146. mTLS (Mutual TLS) - 서비스 간 상호 인증·암호화]] →
+
+---

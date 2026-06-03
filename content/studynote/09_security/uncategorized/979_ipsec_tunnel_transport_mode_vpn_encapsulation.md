@@ -125,3 +125,14 @@ tags:
 1. [[589_ipsec_offload|IPSec]] 터널/수송 모드 ([[589_ipsec_offload|Ipsec]] Tunnel Transport Mode [[983_vpn_virtual_private_network|VPN]] Encapsulation)는 컴퓨터끼리 인사하고 [[396_validation|확인]]하는 순서를 정한 약속이에요.
 2. 순서를 건너뛰면 나쁜 사람이 친구인 척할 수 있어요.
 3. 그래서 컴퓨터는 차례대로 묻고 답하면서 서로를 믿게 돼요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 1076 / 1108
+
+← **이전**: [[978_llm03_training_data_poisoning|978. LLM03: Training Data Poisoning (LLM03: Training Data Poisoning)]]
+**다음**: [[979_llm04_model_dos|979. LLM04: Model DoS (LLM04: Model DoS)]] →
+
+---

@@ -104,3 +104,14 @@ Structured Streaming은 DStream의 복잡성을 DataFrame API로 [[198_abstracti
 1. "수도꼭지에서 물이 계속 나오는 것처럼, 멈추지 않고 들어오는 [[001_dikw_pyramid|데이터]]를 바로바로 정리하는 기계예요."
 2. "예전에는 바가지로 물을 퍼 날랐다면(배치), 이제는 호스를 연결해서 물이 흐르는 대로 [[104_classification_analysis|분류]]하는 것과 같아요."
 3. "깜빡하고 늦게 들어온 [[001_dikw_pyramid|데이터]]도 제자리에 쏙쏙 끼워 넣어주는 아주 똑똑한 정리 대장이랍니다!"
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 61 / 262
+
+← **이전**: [[060_spark_streaming_dstream|Spark Streaming (DStream) 아키텍처]]
+**다음**: [[062_spark_mllib|스파크 엠엘립 (Spark MLlib) - 분산 머신러닝 라이브러리]] →
+
+---

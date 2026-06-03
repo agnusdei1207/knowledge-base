@@ -125,3 +125,14 @@ Kerberoasting (SPN Ticket Hash Extraction)를 제대로 이해하면 개념 하�
 1. Kerberoasting (SPN Ticket Hash Extraction)는 비밀 편지를 안전하게 잠그거나 진짜인지 확인하는 특별한 약속이에요.
 2. 하지만 자물쇠가 좋아도 열쇠를 아무 데나 두면 금방 들켜요.
 3. 그래서 암호는 만드는 방법과 열쇠를 지키는 방법을 같이 배워야 해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 779 / 1108
+
+← **이전**: [[705_sam_hive|705. SAM Hive 추출 (reg save)]]
+**다음**: [[706_oauth_saml|706. OAuth와 SAML (OAuth 2.0 & SAML 2.0)]] →
+
+---

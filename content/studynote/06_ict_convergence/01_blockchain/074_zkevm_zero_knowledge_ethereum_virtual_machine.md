@@ -123,3 +123,14 @@ Scalability / Privacy
 풀이를 숨겨요.  
 결과만 보여 줘요.  
 zkEVM은 그런 기술이에요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 74 / 552
+
+← **이전**: [[073_erc_1155_multi_token_standard|73. ERC-1155 (다중 토큰 표준 - NFT와 FT 동시 발행 가능, 게임 아이템에 유리)]]
+**다음**: [[075_distributed_storage_filecoin_arweave|75. 분산 스토리지 보상 시스템 (Filecoin, Arweave)]] →
+
+---

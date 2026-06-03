@@ -179,3 +179,14 @@ tags:
 1. [[501_file_definition_logical_record|파일]] I/O를 메모리 접근으로 변환, [[536_buffer_cache_page_cache|버퍼 캐시]] 활용, 프로세스 간 [[118_shared_memory|공유 메모리]]로 사용 가능 ([[749_memory_mapped_file_mmap|mmap]] [[118_shared_memory|Shared Memory]])은 컴퓨터가 메모리를 더 크게 보이게 하고 부족함을 숨기는 방법이에요.
 2. 먼저 [[418_memory_mapped_file_mmap|메모리 매핑 파일]] (Memory-Mapped Files, [[749_memory_mapped_file_mmap|mmap]])을 이해하면 [[501_file_definition_logical_record|파일]] I/O를 메모리 접근으로 변환, [[536_buffer_cache_page_cache|버퍼 캐시]] 활용, 프로세스 간 [[118_shared_memory|공유 메모리]]로 사용 가능 ([[749_memory_mapped_file_mmap|mmap]] [[118_shared_memory|Shared Memory]])이 왜 필요한지 더 쉽게 보여요.
 3. 그래서 [[501_file_definition_logical_record|파일]] I/O를 메모리 접근으로 변환, [[536_buffer_cache_page_cache|버퍼 캐시]] 활용, 프로세스 간 [[118_shared_memory|공유 메모리]]로 사용 가능 ([[749_memory_mapped_file_mmap|mmap]] [[118_shared_memory|Shared Memory]])을 잘 알면 나중에 메모리 맵 I/O (Memory-Mapped I/O)도 훨씬 쉽게 배울 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 419 / 800
+
+← **이전**: [[418_memory_mapped_file_mmap|418. 메모리 매핑 파일 (Memory-Mapped Files, mmap)]]
+**다음**: [[420_memory_mapped_io|420. 메모리 맵 I/O (Memory-Mapped I/O) - 디바이스 레지스터 매핑]] →
+
+---

@@ -265,3 +265,14 @@ AUC (Area Under Curve) = 0.5 (랜덤) ~ 1.0 (완벽)
 ```
 2. p-value는 "이 실험 결과가 그냥 운으로 나올 가능성"인데, 이 가능성이 5%보다 작으면 "이건 진짜 효과가 있다"고 판단한다.
 3. 1종 오류는 "정상인을 환자라고 부르는 실수"이고, 2종 오류는 "환자를 정상이라고 놓치는 실수"인데, 어느 실수가 더 위험한지는 상황마다 다르다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 227 / 258
+
+← **이전**: [[226_pearson_correlation_regression_r2_vif_multicollinearity|226. 피어슨 상관 (Pearson Correlation) 회귀 R² 결정계수 다중공선성 VIF]]
+**다음**: [[228_pca_lda_tsne_dimensionality_reduction|228. PCA (Principal Component Analysis) LDA t-SNE 차원 축소]] →
+
+---

@@ -129,3 +129,14 @@ tags:
 1. 환경 분석 (Environmental Analysis)는 모두가 같은 규칙으로 일하게 해 주는 반장 약속표예요.
 2. 약속만 적어 두는 것이 아니라 누가 지켰는지 확인하고 고치는 방법까지 함께 정해요.
 3. 그래서 일이 많아져도 서로 부딪히지 않고 더 안전하게 움직일 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 187 / 587
+
+← **이전**: [[101_isp_information_strategy_planning_4_steps|101. 정보화 전략 계획 (ISP) 수행 4단계 절차]]
+**다음**: [[102_isp_environmental_analysis_pest_5forces|102. 환경 분석 - 거시 환경(PEST), 산업 환경(5 Forces), 내부 역량]] →
+
+---

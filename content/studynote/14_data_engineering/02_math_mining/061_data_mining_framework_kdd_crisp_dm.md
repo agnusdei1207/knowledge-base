@@ -153,3 +153,14 @@ CRISP-DM
 [[001_dikw_pyramid|데이터]] 마이닝은 그냥 기계에 숫자를 넣는 게 아니에요.  
 무엇을 찾을지 정하고, 자료를 깨끗이 하고, 결과를 확인해야 해요.  
 그래야 진짜 쓸모 있는 답을 얻을 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 61 / 258
+
+← **이전**: [[060_dark_data_discovery_privacy_clean_room|60. 다크 데이터 (Dark Data) 발굴 및 프라이버시 클린 룸 (Privacy Clean Room)]]
+**다음**: [[062_eda_exploratory_data_analysis|62. 탐색적 데이터 분석 (EDA, Exploratory Data Analysis)]] →
+
+---

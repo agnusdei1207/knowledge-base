@@ -199,3 +199,14 @@ Atomic commit in Database
 1. 숙제를 끝냈다는 소식을 바로 친구에게 말하다가 넘어질 수 있으니, 먼저 집 게시판에 메모를 붙여 두는 거예요.
 2. 엄마가 그 메모를 보면 나중에라도 친구에게 꼭 전해 줄 수 있어서 소식이 사라지지 않아요.
 3. 혹시 같은 메모를 두 번 전해도 친구가 "이건 이미 들었어" 하고 한 번만 처리하면 안전해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 178 / 482
+
+← **이전**: [[177_orchestration_saga_controller|177. 오케스트레이션 사가 (Orchestration Saga) - 중앙 오케스트레이터(컨트롤러)가 전체 트랜잭션 흐름을 룰 엔진처럼]]
+**다음**: [[179_cqrs_pattern_command_query|179. CQRS (Command Query Responsibility Segregation) 패턴 - MSA의 복잡한 조인 조회 한계]] →
+
+---

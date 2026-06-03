@@ -166,3 +166,14 @@ AI와 [[236_quantum_computing_pqc|양자 컴퓨팅]]의 부상은 전통 보안 
 1. [[190_ai_llm_requirements_specification|AI]] 보안은 아주 똑똑한 로봇 경비원이지만, 눈에 보이지 않는 이상한 스티커([[942_adversarial_example|적대적 예제]])를 붙이면 친구를 도둑으로 오해하는 **약점**이 있어요!
 2. [[447_quantum_computer|양자 컴퓨터]]는 세상에서 가장 강력한 자물쇠 따개라서, 지금 사용하는 열쇠([[110_rsa|RSA]] 암호)로 잠근 금고를 순식간에 열 수 있다고 해요!
 3. 그래서 과학자들은 [[447_quantum_computer|양자 컴퓨터]]도 못 여는 마법의 새 자물쇠([[351_quantum_computing_pqc_transition|PQC]])를 미리 만들어두고, [[190_ai_llm_requirements_specification|AI]] 경비원이 헷갈리지 않도록 훈련시키고 있답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 19 / 1108
+
+← **이전**: [[018_iot_ot_ics_physical|18. IoT, OT, ICS 및 물리적 보안 (IoT, OT, ICS & Physical Security)]]
+**다음**: [[020_security_advanced_exam|20. 보안 심화 및 최신 위협 (Security Advanced & Emerging Threats)]] →
+
+---

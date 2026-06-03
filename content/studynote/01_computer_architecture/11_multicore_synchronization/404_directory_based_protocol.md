@@ -168,3 +168,14 @@ tags:
 1. [[506_directory_structure_symbol_table|디렉터리]] 기반 [[295_protocol_field_tcp_udp_icmp|프로토콜]]은 누가 같은 책을 빌려 갔는지 선생님 장부에 적어 두는 규칙이에요.
 2. 누군가 책 내용을 고치면 선생님이 장부를 보고 그 책을 가진 친구들에게만 "옛날 거 지워"라고 말해요.
 3. 그래서 친구가 엄청 많아져도 교실 전체가 시끄러워지지 않고, 필요한 친구만 정확히 움직일 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 405 / 803
+
+← **이전**: [[403_snooping_protocol|403. 스누핑 프로토콜 (Snooping Protocol)]]
+**다음**: [[405_write_invalidate|405. 무효화 정책 (Write-Invalidate)]] →
+
+---

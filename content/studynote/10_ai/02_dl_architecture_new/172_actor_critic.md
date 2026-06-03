@@ -175,3 +175,14 @@ Actor-Critic
 1. 액터는 로봇이 직접 움직이는 손발이고, 크리틱은 그 움직임이 잘됐는지 바로 알려 주는 선생님이에요.
 2. 로봇은 움직여 보고, 선생님은 "방금 선택이 좋았어" 또는 "조금 틀렸어"라고 바로 말해 줘요.
 3. 그래서 로봇은 게임이 다 끝날 때까지 기다리지 않고도 매번 더 똑똑하게 움직일 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 172 / 420
+
+← **이전**: [[171_policy_gradient|171. 정책 경사법 (Policy Gradient)]]
+**다음**: [[173_a3c_ppo|173. A3C (Asynchronous Advantage Actor-Critic) 및 PPO (Proximal Policy Optimization)]] →
+
+---

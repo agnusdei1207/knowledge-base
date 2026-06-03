@@ -123,3 +123,14 @@ Digitization → Digitalization → Transformation
 1. 디지털 전환은 숙제를 컴퓨터로만 하는 게 아니에요.
 2. 숙제하는 방법과 생각하는 방법도 바뀌어요.
 3. 그래서 더 빠르고 똑똑하게 할 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 98 / 587
+
+← **이전**: [[054_it_audit|54. IT 감사 (IT Audit)]]
+**다음**: [[056_omni_channel|56. 옴니채널 마케팅 전략 (Omni-Channel Marketing Strategy) - 고객 중심 통합 경험]] →
+
+---

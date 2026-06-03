@@ -113,3 +113,14 @@ DBSCAN은 K-Means가 실패하는 **비구형·노이즈 혼재 [[001_dikw_pyram
 1. K-Means는 "3개 그룹으로 나눠!"라고 **미리 정해**야 해요.
 2. DBSCAN은 사람이 **많이 모인 곳**을 자동으로 그룹으로 묶고, **혼자 있는 사람은 따로 빼요** (노이즈).
 3. 그래서 초승달 모양 같은 **이상한 모양의 그룹도 잘 찾아낼 수** 있답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 115 / 258
+
+← **이전**: [[114_gaussian_mixture_model|114. 가우시안 혼합 모델 (GMM, Gaussian Mixture Model) - EM 알고리즘·소프트 클러스터링]]
+**다음**: [[116_kernel_density_estimation|116. 커널 밀도 추정 (KDE, Kernel Density Estimation) - 비모수 확률 밀도 추정]] →
+
+---

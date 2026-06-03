@@ -115,3 +115,14 @@ tags:
 1. 롤링 업데이트는 놀이공원 관람차의 **좌석을 하나씩 새 것으로 바꾸는** 거예요.
 2. 관람차([[090_service_kubernetes_network_load_balancing|서비스]])는 **멈추지 않고 계속 돌아가면서** 한 칸씩 교체해요.
 3. 단, 새 좌석과 옛 좌석이 **잠깐 같이 있으니까**, 둘 다 잘 맞아야([[344_compatibility_usability|호환성]]) 해요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 117 / 973
+
+← **이전**: [[116_blue_green_deployment|116. 블루/그린 배포 (Blue/Green Deployment) - 무중단 전환과 즉시 롤백]]
+**다음**: [[118_shadow_deployment_traffic_mirroring|118. 섀도 배포 (Shadow Deployment) - 트래픽 미러링·무위험 프로덕션 검증]] →
+
+---

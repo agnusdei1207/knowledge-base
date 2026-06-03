@@ -123,3 +123,14 @@ tags:
 1. 쇼어 [[001_algorithm_definition|알고리즘]]은 어떤 자물쇠든 열 수 있는 마법 열쇠예요 — 지금 자물쇠([[110_rsa|RSA]])를 다 바꿔야 해요.
 2. 그로버 [[001_algorithm_definition|알고리즘]]은 비밀번호 찾기 속도를 훨씬 빠르게 만들어요 — 비밀번호(키)를 더 길게 써야 안전해요.
 3. 하베스팅 공격은 지금 잠긴 선물 상자를 훔쳐두고, 나중에 마법 열쇠가 생기면 열어보는 것처럼 — 지금 뺏겨도 나중에 위험할 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 508 / 552
+
+← **이전**: [[507_chaos_engineering_shadow_circuit_breaker|507. 카오스 엔지니어링, 섀도 배포, 서킷 브레이커 (Chaos Engineering Shadow Deployment Circuit]]
+**다음**: [[509_cxl_chiplet_memory_pooling_ucie|509. CXL, 칩렛, 메모리 풀링, UCIe (CXL Chiplet Memory Pooling UCIe)]] →
+
+---

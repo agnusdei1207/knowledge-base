@@ -85,3 +85,14 @@ Spark Streaming은 배치 중심 Spark에서 마이크로 배치와 DStream, Str
 1. 수도꼭지에서 계속 나오는 물(스트림)을 아주 작은 컵(마이크로 배치)에 1초마다 받아내는 거예요.
 2. 그 컵이 찰 때마다 정수기(스파크 엔진)로 가져가서 깨끗하게 걸러내는 방식이죠.
 3. 컵이 작을수록 물을 빨리 처리할 수 있고, 컵을 한 줄로 줄 세워 놓으면 물의 흐름을 놓치지 않는답니다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 60 / 262
+
+← **이전**: [[059_adaptive_query_execution_aqe|적응형 쿼리 실행 (Adaptive Query Execution, AQE)]]
+**다음**: [[061_structured_streaming|스파크 구조적 스트리밍 (Spark Structured Streaming)]] →
+
+---

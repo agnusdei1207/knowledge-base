@@ -125,3 +125,14 @@ Data Steward
 1. [[067_data_steward_data_quality|데이터 스튜어드]]는 책이 잘 꽂혀 있는지 보는 도우미예요.
 2. 이름이 틀리면 바로 고쳐 줘요.
 3. 그래서 모두가 같은 책을 같은 이름으로 찾을 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 96 / 587
+
+← **이전**: [[053_data_stewardship|53. 데이터 스튜어드십 (Data Stewardship)]]
+**다음**: [[054_it_audit|54. IT 감사 (IT Audit)]] →
+
+---

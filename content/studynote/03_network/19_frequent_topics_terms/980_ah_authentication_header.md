@@ -286,3 +286,14 @@ AH는 [[589_ipsec_offload|IPSec]] 터널/수송 모드에서 출발해 현재 �
 1. 편지를 보낼 때, 친구와 나만 아는 '마법의 비밀 도장([[381_ah_authentication_header_integrity_auth|AH]])'을 편지 봉투와 내용물에 꾹 찍어 보내는 규칙을 만들었어요.
 2. 중간에 나쁜 악당이 편지를 몰래 가로채서 글자를 지우거나 보낸 사람 이름을 자기 이름으로 고치면, 마법의 도장이 쩍 갈라지면서 깨져버려요.
 3. 친구는 도장이 깨진 편지를 받으면 "아하, 누군가 장난을 쳤구나!" 하고 바로 쓰레기통에 버릴 수 있어서, 절대 가짜 편지에 속지 않게 되는 원리랍니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 1101 / 1120
+
+← **이전**: [[979_ipsec_tunnel_transport_mode|979. IPSec 터널/수송 모드]]
+**다음**: [[981_esp_encapsulating_security_payload|981. ESP (Encapsulating Security Payload)]] →
+
+---

@@ -178,3 +178,14 @@ tags:
 1. [[301_opt_replacement|최적 교체]] [[001_algorithm_definition|알고리즘]] ([[724_optimal_page_replacement_unrealizable|OPT]], Optimal)은 컴퓨터가 메모리를 더 크게 보이게 하고 부족함을 숨기는 방법이에요.
 2. 먼저 [[401_page_replacement_algorithms|페이지 교체 알고리즘]] ([[401_page_replacement_algorithms|Page Replacement Algorithms]])을 이해하면 [[301_opt_replacement|최적 교체]] [[001_algorithm_definition|알고리즘]] ([[724_optimal_page_replacement_unrealizable|OPT]], Optimal)이 왜 필요한지 더 쉽게 보여요.
 3. 그래서 [[301_opt_replacement|최적 교체]] [[001_algorithm_definition|알고리즘]] ([[724_optimal_page_replacement_unrealizable|OPT]], Optimal)을 잘 알면 나중에 벨라디의 모순 (Belady's [[530_anomaly|Anomaly]])도 훨씬 쉽게 배울 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 402 / 800
+
+← **이전**: [[401_page_replacement_algorithms|401. 페이지 교체 알고리즘 (Page Replacement Algorithms)]]
+**다음**: [[403_beladys_anomaly|403. 벨라디의 모순 (Belady's Anomaly) - 프레임을 늘렸는데 오히려 페이지 부재가 증가하는 현상]] →
+
+---

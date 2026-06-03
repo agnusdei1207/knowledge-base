@@ -134,3 +134,14 @@ Reference Architecture
 1. [[215_serverless_architecture_faas_aws_lambda|서버리스 아키텍처]]는 복잡한 일을 순서와 규칙으로 정리해서 실수하지 않게 도와주는 방법이에요.
 2. [[216_lambda_kappa_architecture_batch_realtime|Lambda]] 같은 친구들과 같이 움직여야 더 잘 작동해요.
 3. 그래서 문제가 생겨도 어디서 틀렸는지 빨리 찾고 다시 고치기 쉬워져요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 215 / 373
+
+← **이전**: [[214_eda_event_driven_architecture_rest|214. 이벤트 주도 아키텍처 (EDA, Event-Driven Architecture)]]
+**다음**: [[216_cold_start|216. 콜드 스타트 (Cold Start)]] →
+
+---

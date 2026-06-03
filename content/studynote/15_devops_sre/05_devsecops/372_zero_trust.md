@@ -153,3 +153,14 @@ AI 기반 적응형 Zero Trust (동적 리스크 점수)
 1. [[585_zero_skipping|Zero]] Trust는 집에 들어왔다고 모든 방을 쓸 수 있는 게 아니라, 각 방마다 비밀번호를 입력해야 들어갈 수 있는 구조예요.
 2. ZTNA는 회사 건물 전체에 들어가는 열쇠([[983_vpn_virtual_private_network|VPN]]) 대신, 내가 갈 사무실(앱) 문만 딱 열어주는 개인 열쇠예요.
 3. SASE는 회사 경비 시스템이 클라우드로 이사 가서, 어디서든 내 신분증을 자동으로 [[396_validation|확인]]해주는 스마트 보안이에요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 372 / 373
+
+← **이전**: [[371_process|371. DevOps 클라우드 기술사 핵심 키워드 통합 요약 (DevOps Cloud PE Integrated Keyword Summary)]]
+**다음**: [[400_devops|400. 클라우드·DevOps·데이터·보안 차세대 통합 플랫폼 엔지니어링 최종 마스터 맵 (Integrated Platform Engineering]] →
+
+---

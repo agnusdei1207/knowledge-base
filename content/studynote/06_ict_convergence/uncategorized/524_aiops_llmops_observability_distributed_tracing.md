@@ -123,3 +123,14 @@ AIOps는 IT 운영팀이 이벤트 홍수 속에서 진짜 장애를 빠르게 �
 1. [[642_observability_telemetry|옵저버빌리티]]는 자동차 계기판처럼 속도·온도·연료를 동시에 보여주는 것이에요.
 2. [[569_distributed_tracing_opentelemetry_jaeger|분산 추적]]은 택배 운송장처럼 내 소포가 어느 창고를 거쳤는지 추적하는 거예요.
 3. AIOps는 이상한 소리가 나면 자동으로 수리하는 똑똑한 자동차 정비 로봇이에요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 524 / 552
+
+← **이전**: [[523_dataops_feature_flag_citizen_developer|523. DataOps, 피처 플래그, 시민 개발자 노코드 (DataOps Feature Flag Citizen Developer No-Code)]]
+**다음**: [[525_spatial_computing_micro_frontends_webassembly|525. 공간 컴퓨팅, 마이크로 프론트엔드, WebAssembly (Spatial Computing Micro Frontends WebAssembly)]] →
+
+---

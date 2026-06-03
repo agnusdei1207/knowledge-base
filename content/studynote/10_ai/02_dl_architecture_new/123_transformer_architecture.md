@@ -118,3 +118,14 @@ Transformer는 **현대 AI의 단일 기반 아키텍처**이며, NLP를 넘어 
 1. RNN은 **줄서기**예요. 앞 사람이 끝나야 다음 사람이 시작하니까 느려요.
 2. Transformer는 **회의**예요. 모든 사람이 **동시에 서로 이야기([[124_self_attention|Self-Attention]])**해서 빨라요.
 3. ChatGPT, [[301_bert_mlm|BERT]], Gemini 모두 **[[246_transformer_self_attention_parallel_positional_encoding|Transformer]]**로 만들어졌답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 123 / 420
+
+← **이전**: [[122_qkv_system|122. Q·K·V 시스템 (Query·Key·Value) - Attention의 핵심 연산 구조]]
+**다음**: [[124_self_attention|124. Self-Attention (자기 주의 메커니즘) - 시퀀스 내 모든 위치 상호 참조]] →
+
+---

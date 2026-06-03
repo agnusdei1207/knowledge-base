@@ -135,3 +135,14 @@ Reference Architecture
 1. [[090_configuration_item|CI]] 캐시 중독 및 러너 인스턴스 침해 격리 보안망 구조는 복잡한 일을 순서와 규칙으로 정리해서 실수하지 않게 도와주는 방법이에요.
 2. Cache Poisoning 같은 친구들과 같이 움직여야 더 잘 작동해요.
 3. 그래서 문제가 생겨도 어디서 틀렸는지 빨리 찾고 다시 고치기 쉬워져요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 272 / 373
+
+← **이전**: [[271_ddl_liquibase|271. 데이터베이스 마이그레이션(DDL) 롤백 자동화 스크립팅 파이프 (Liquibase 롤백 태그 연동망)]]
+**다음**: [[273_elk_siem|273. 사이버 킬체인 로그 관제 ELK/SIEM 파이프라인 (Security Information and Event Management)]] →
+
+---

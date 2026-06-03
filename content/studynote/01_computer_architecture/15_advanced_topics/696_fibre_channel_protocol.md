@@ -150,3 +150,14 @@ NVMe over FC and hybrid storage fabrics
 1. FC는 중요한 짐만 실어 나르는 특별한 택배길 같아요.
 2. 길이 따로 있어서 다른 차들 때문에 막히지 않고, 받을 준비가 된 만큼만 짐을 보내요.
 3. 그래서 비싸지만 꼭 늦으면 안 되는 중요한 물건을 보낼 때 아주 믿음직해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 697 / 803
+
+← **이전**: [[695_storage_topology|695. 스토리지 네트워크 토폴로지 (FC-AL, FC-SW)]]
+**다음**: [[697_fcoe|697. FCoE (Fibre Channel over Ethernet)]] →
+
+---

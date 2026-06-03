@@ -249,3 +249,14 @@ Quality Gate as Code
 1. [[001_dikw_pyramid|데이터]] 품질 진단은 식품 안전 검사처럼 — [[001_dikw_pyramid|데이터]]가 올바른지([[002_bigdata_5v|정확성]]), 빠진 것이 없는지(완전성), 기한이 지나지 않았는지(적시성) 검사해요.
 2. 품질이 나쁜 [[001_dikw_pyramid|데이터]]를 AI에 넣으면 잘못된 결과가 나와요 — "쓰레기 입력 → 쓰레기 출력(GIGO)" 법칙!
 3. [[001_dikw_pyramid|데이터]] 품질은 한 번 검사로 끝이 아니라 정기적으로 계속 모니터링해야 해요, 마치 건강검진처럼요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 58 / 530
+
+← **이전**: [[040_cloud_based_audit|40. 클라우드 기반 정보화 사업 감리 가이드 (Cloud-based Audit Guide)]]
+**다음**: [[041_data_quality_diagnosis|41. 데이터 품질 진단 (Data Quality Audit)]] →
+
+---

@@ -203,3 +203,14 @@ X-Frame-Options: DENY
 1. 프로그램이 오류 났을 때 내부 메시지를 그대로 보여주는 건 "넘어진 다음에 엑스레이 사진을 모두에게 보여주는 것"이야.
 2. 안전한 오류 처리는 "넘어졌을 때 '잠깐만요'라고만 말하고, 자세한 진단은 의사 선생님(서버 [[568_logs_distributed_logging_elk_fluentd|로그]])한테만 전달"하는 거야.
 3. 해커는 오류 메시지 하나에서 집 열쇠 위치를 알아낼 수 있으니까, 항상 "괜찮아요!"라고만 말하는 연습이 필요해.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 314 / 530
+
+← **이전**: [[252_encryption_hash_salt_audit|252. 암호화 해시 솔트 감리 (Encryption Hash Salt Audit)]]
+**다음**: [[254_obfuscation_reverse_engineering|254. 난독화 리버스 엔지니어링 방어 (Obfuscation & Reverse Engineering Defense)]] →
+
+---

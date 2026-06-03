@@ -145,3 +145,14 @@ VRF는 [[370_pim_rp_rendezvous_point_rpf_loop_prevention|RP]], RPF [[298_ip_clas
 1. 여러 갈림길이 있는 미로에서 가장 좋은 길을 고르는 게임과 같아요.
 2. 이 개념은 길이 막히면 다른 길로 빨리 바꾸는 규칙도 알려줘요.
 3. 그래서 인터넷 길찾기가 덜 헤매고 더 똑똑해져요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 492 / 1120
+
+← **이전**: [[370_pim_rp_rendezvous_point_rpf_loop_prevention|370. RP (Rendezvous Point, PIM-SM), RPF (Reverse Path Forwarding) 멀티캐스트 루프]]
+**다음**: [[372_policy_based_routing_pbr_route_map|372. Policy-Based Routing (PBR) / Route Map]] →
+
+---

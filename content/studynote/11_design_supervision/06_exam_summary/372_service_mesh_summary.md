@@ -111,3 +111,14 @@ tags:
 1. [[302_service_mesh_istio|서비스 메시]] ([[828_service_mesh_microservice_communication_infrastructure|Service Mesh]])은 교실 사이 복도를 선생님이 항상 지켜보며 규칙을 지키게 하는 것처럼 약속을 먼저 정하는 거예요.
 2. 그러면 서로 다른 사람이 해도 같은 규칙으로 움직일 수 있어요.
 3. 그래서 규모가 커질수록 [[090_service_kubernetes_network_load_balancing|서비스]] 간 통신 제어를 애플리케이션 밖으로 빼는 일이 더 중요해져요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 450 / 530
+
+← **이전**: [[371_api_gateway_summary|371. API 게이트웨이 (API Gateway)]]
+**다음**: [[373_saga_pattern_compensation|373. 사가 패턴과 보상 트랜잭션 (Saga Pattern and Compensating Transaction)]] →
+
+---

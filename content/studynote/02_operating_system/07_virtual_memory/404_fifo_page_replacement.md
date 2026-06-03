@@ -178,3 +178,14 @@ OS가 미쳐서 FIFO로 메모리를 교체한다면, [[055_array|배열]] 0번�
 1. [[261_fifo_page_replacement|FIFO]] (First-In, First-Out) 교체은 컴퓨터가 메모리를 더 크게 보이게 하고 부족함을 숨기는 방법이에요.
 2. 먼저 벨라디의 모순 (Belady's [[530_anomaly|Anomaly]])을 이해하면 [[261_fifo_page_replacement|FIFO]] (First-In, First-Out) 교체이 왜 필요한지 더 쉽게 보여요.
 3. 그래서 [[261_fifo_page_replacement|FIFO]] (First-In, First-Out) 교체을 잘 알면 나중에 [[262_lru_page_replacement|LRU]] ([[262_lru_page_replacement|Least Recently Used]]) 교체도 훨씬 쉽게 배울 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 404 / 800
+
+← **이전**: [[403_beladys_anomaly|403. 벨라디의 모순 (Belady's Anomaly) - 프레임을 늘렸는데 오히려 페이지 부재가 증가하는 현상]]
+**다음**: [[405_lru_page_replacement|405. LRU (Least Recently Used) 교체 - 가장 오랫동안 사용되지 않은 페이지 교체 (타임스탬프, 스택 하드웨어]] →
+
+---

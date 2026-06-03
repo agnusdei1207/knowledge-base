@@ -158,3 +158,14 @@ Auto Scaling & SnapStart 하이브리드 융합 (현재) / 24시간 켜두면 �
 1. **[[206_serverless_cold_start|서버리스]] 장난감 공장([[216_lambda_kappa_architecture_batch_realtime|람다]])**은 돈을 엄청 아끼기 위해서 평소에는 공장 불을 싹 다 끄고 알바생도 다 집에 보내서 **'전기세 0원'** 상태로 잠들어 있어요 💤.
 2. 근데 갑자기 손님이 "로봇 만들어줘!" 주문하면 ➔ 알바생들이 집에서 택시 타고 공장으로 뛰어와 불 켜고 기계 예열하느라 **3초([[559_serverless_cold_start_mitigation|콜드 스타트]] 부팅 랙 🥶) 동안 손님이 얼음! 하고 답답하게 기다려야만 하는 큰 고통**이 발생해요 ㅠ.
 3. 사장님이 이 3초 기다림을 없애려고 돈을 더 주고 알바생 3명한테 **"너희는 퇴근하지 말고 공장 따뜻하게(Warm) 보일러 켜놓고 문 앞에서 무조건 대기 타 쾅 🚀!"** 시킨 엄청난 작전이 바로 **'[[202_provisioned_concurrency_serverless_cold_start|프로비저닝된 동시성]]([[202_provisioned_concurrency_serverless_cold_start|Provisioned Concurrency]] ✨)'** 이랍니다! 손님이 오면 0.1초 컷으로 바로 로봇을 튀겨 서빙해 주는 빛의 속도 요술 방패예요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 152 / 371
+
+← **이전**: [[152_cold_start_latency_serverless|152. 콜드 스타트 지연 (Cold Start Latency) - 서버리스 영면과 부활의 페널티]]
+**다음**: [[154_stateless_serverless_external_storage|154. 서버리스 상태 비저장 제약 (Stateless Serverless) - 무한 스케일 아웃의 물리적 댓가]] →
+
+---

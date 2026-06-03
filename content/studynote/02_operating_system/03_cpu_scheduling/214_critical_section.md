@@ -189,3 +189,14 @@ tags:
 1. 임계 구역 (Critical Section)은 컴퓨터가 누가 먼저 CPU를 쓰면 좋은지 줄을 세우는 방법이에요.
 2. 먼저 윈도우 스케줄링을 이해하면 임계 구역 (Critical Section)이 왜 필요한지 더 쉽게 보여요.
 3. 그래서 임계 구역 (Critical Section)을 잘 알면 나중에 [[150_task|태스크]] 스케줄링의 [[402_cache_coherence|캐시 일관성]] ([[402_cache_coherence|Cache Coherence]]) 문제도 훨씬 쉽게 배울 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 214 / 800
+
+← **이전**: [[213_race_condition|213. 경쟁 조건 (Race Condition)]]
+**다음**: [[215_mutual_exclusion|215. 상호 배제 (Mutual Exclusion, Mutex)]] →
+
+---

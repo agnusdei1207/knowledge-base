@@ -136,3 +136,14 @@ CART (Classification and Regression Trees) 알고리즘 (지니 기반 이진 �
 1. 빨간 사탕과 파란 사탕이 섞인 상자에서 눈 감고 하나를 꺼낼 때, 무슨 색인지 맞히기 어려운 정도를 '지니 불순도'라고 해요.
 2. 사탕들이 골고루 섞여 있으면 맞히기 어려우니 "불순도가 높다"고 하고, 상자에 한 가지 색만 100% 들어있으면 "불순도가 0(순수하다)"이라고 해요.
 3. 똑똑한 로봇은 여러 상자를 계속 반씩 나누면서, 이 불순도를 0으로 만드는 아주 순수한 상자들만 남기는 게임을 하면서 배우는 거랍니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 108 / 258
+
+← **이전**: [[107_tensorflow_array_tensor|텐서플로우 배열 (TensorFlow Tensors: Scalar, Vector, Matrix, Tensor)]]
+**다음**: [[109_euclidean_vs_manhattan_distance|109. 유클리드 거리 vs 맨해튼 거리 (Euclidean vs Manhattan Distance)]] →
+
+---

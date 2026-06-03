@@ -125,3 +125,14 @@ LUKS (Linux Unified [[067_db_key_uniqueness_minimality|Key]] Setup)를 제대로
 1. LUKS (Linux Unified [[067_db_key_uniqueness_minimality|Key]] Setup)는 학교 규칙표처럼 무엇을 준비하고 어떻게 확인할지 알려 주는 기준이에요.
 2. 규칙표만 붙여 두고 지키지 않으면 아무 소용이 없어요.
 3. 그래서 보안도 규칙과 실제 행동이 함께 맞아야 해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 453 / 1108
+
+← **이전**: [[398_filevault_macos_fde|398. FileVault (macOS Full Disk Encryption)]]
+**다음**: [[400_veracrypt_cross_platform_disk_encryption|400. VeraCrypt (Cross-Platform Disk Encryption)]] →
+
+---

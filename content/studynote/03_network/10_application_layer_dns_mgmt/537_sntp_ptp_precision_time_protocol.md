@@ -199,3 +199,14 @@ SNTP / PTP ([[233_precision_recall_f1_roc_auc_threshold|Precision]] [[746_ti_thr
 1. 보통 시계(SNTP)는 "아 대충 지금 12시 5분이네~" 하고 넘어갈 수 있지만, 총알보다 빠른 로봇과 [[418_5g_embb_urllc_mmtc_slicing|5G]] 전파들은 100만 분의 1초만 틀려도 크게 부딪혀서 고장 나요.
 2. PTP는 편지(네트워크 선)가 중간 우체국([[238_switch_operation_principles|스위치]])에서 머문 시간까지 완벽하게 역추적 계산해서, 로봇들의 시계를 0.000001초 단위까지 정확하게 맞춰주는 초정밀 레이저 시계 맞추기 작전이에요.
 3. 이 똑똑한 PTP 덕분에 전 세계의 수만 대 공장 기계와 핸드폰 기지국 [[171_antenna_basic_dipole_resonance|안테나]]들이 단 한 번의 엉킴도 없이 오케스트라처럼 멋지게 동시에 춤을 출 수 있답니다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 658 / 1120
+
+← **이전**: [[536_ntp_network_time_protocol_stratum|536. NTP (Network Time Protocol)]]
+**다음**: [[538_ssh_vs_telnet_secure_remote|538. SSH (Secure Shell) 포트 22 / Telnet (원격 접속) 포트 23 비교]] →
+
+---

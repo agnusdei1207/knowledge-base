@@ -55,3 +55,14 @@ SUM(sal) OVER (PARTITION BY dept ORDER BY id)
 1. [[514_partition_slice_volume|PARTITION]] BY는 **반 나누기**예요. "1반, 2반, 3반"으로 나눠요.
 2. ORDER BY는 **석차 정하기**예요. 각 반에서 **점수 높은 순**으로 번호를 매겨요.
 3. 나누기([[514_partition_slice_volume|PARTITION]])와 정렬(ORDER)을 **합치면** 반별 석차가 나와요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 146 / 600
+
+← **이전**: [[145_sql_window_function_analytics|145. SQL Window Function 심화 - ROWS/RANGE Frame & 누적합]]
+**다음**: [[147_aggregate_function_group_by|147. 집계 함수 (Aggregate Function) - SUM, AVG, MAX, MIN, COUNT]] →
+
+---

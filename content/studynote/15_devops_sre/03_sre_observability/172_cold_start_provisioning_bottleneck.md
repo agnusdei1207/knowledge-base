@@ -185,3 +185,14 @@ SLO-aware cost and latency control
 1. [[559_serverless_cold_start_mitigation|콜드 스타트]]는 장난감을 꺼내기 전에 상자를 열고, 배터리를 넣고, 전원을 켜는 시간이 필요한 것과 같아요.
 2. 자주 쓰는 장난감은 미리 켜 두면 바로 놀 수 있지만, 계속 켜 두면 배터리가 더 빨리 닳아요.
 3. 그래서 어떤 장난감은 항상 준비해 두고, 어떤 장난감은 조금 기다려도 되게 나누어 생각해야 해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 172 / 373
+
+← **이전**: [[171_capacity_planning_load_testing|171. 용량 계획 및 부하 테스트 (Capacity Planning/Load Testing)]]
+**다음**: [[173_microburst_traffic_spike_detection|173. 마이크로버스트 트래픽 스파이크 탐지 (Microburst Traffic Spike Detection)]] →
+
+---

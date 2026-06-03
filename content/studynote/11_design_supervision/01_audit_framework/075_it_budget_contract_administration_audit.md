@@ -131,3 +131,14 @@ IT 프로젝트는 예산 항목이 먼저 잡히고, 계약 조항이 그 범�
 1. 돈은 먼저 허락받고 써야 해요.
 2. 일을 했으면 사진이나 서명 같은 증거가 필요해요.
 3. 증거가 맞아야만 계산대에서 돈을 받을 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 115 / 530
+
+← **이전**: [[074_penetration_testing_vulnerability_remediation_audit|74. 모의 침투 테스트 및 취약점 조치 감리]]
+**다음**: [[076_service_desk_incident_management_audit|76. 서비스 데스크 및 인시던트 관리 체계 확인 (Service Desk and Incident Management Audit)]] →
+
+---

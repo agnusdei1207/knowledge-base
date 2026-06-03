@@ -208,3 +208,14 @@ Pthreads의 올바른 사용은 멀티코어 CPU의 [[430_index_fast_full_scan|�
 1. Pthreads는 여러 요리사([[092_thread_lwp|스레드]])가 같은 주방([[118_shared_memory|공유 메모리]])을 쓸 때의 규칙책이에요.
 2. mutex는 "한 번에 한 명만 냉장고 사용" 규칙, [[228_condition_variable|조건 변수]]는 "재료가 오면 알려줄게요" 알림이에요.
 3. 배리어는 "모두 재료 손질이 끝나야 같이 요리 시작!" 집합 신호예요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 250 / 800
+
+← **이전**: [[249_java_synchronization|249. 자바 동기화 (Java Synchronization)]]
+**다음**: [[251_windows_synchronization|251. 윈도우 동기화 (Windows Synchronization)]] →
+
+---

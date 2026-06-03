@@ -132,3 +132,14 @@ tags:
 1. 여러 상자에 있던 블록을 큰 정리장에 모아 보고 싶은 모양대로 다시 보는 거예요.
 2. 빨리 넣는 법과 빨리 보는 법은 다를 수 있어요.
 3. 그래서 창고를 어떻게 나누고 언제 정리할지 정해야 해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 375 / 600
+
+← **이전**: [[374_quad_tree_spatial_index|374. 공간 인덱스 Quad-tree 알고리즘]]
+**다음**: [[376_nosql_hinted_handoff_merkle_tree|376. NoSQL 파티션 톨러런스 복구 (Hinted Handoff, Anti-entropy 매커니즘 / 머클 트리(Merkle Tree)]] →
+
+---

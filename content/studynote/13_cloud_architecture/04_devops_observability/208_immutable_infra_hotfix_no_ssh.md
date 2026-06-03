@@ -181,3 +181,14 @@ Kcattle, not Pets(소떼, 펫 아님):
 ```
 2. SSH로 서버를 직접 고치는 건 레고 블록에 매직펜으로 낙서하는 것과 같아. 나중에 뭐가 원본이고 뭐가 낙서인지 모르게 돼.
 3. 모든 변경은 새 레고 블록을 만드는 것(코드 → 이미지 빌드 → 배포)으로만 해야 해.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 207 / 371
+
+← **이전**: [[207_chatops_slack_bot_deployment|207. ChatOps (챗옵스)]]
+**다음**: [[209_resilience_reliability_redundancy|209. 시스템 신뢰성과 이중화 (Reliability, Resilience, Redundancy)]] →
+
+---

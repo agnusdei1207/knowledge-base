@@ -161,3 +161,14 @@ Ambassador Pattern
 1. 외국 친구에게 말하기 어려운 아이 옆에 통역 친구를 붙여 주는 것과 같아요.
 2. 아이는 자기 말만 하면 되고, 통역 친구가 번역하고 예의도 챙기고 기록도 남겨요.
 3. 그래서 아이는 숙제를 바꾸지 않아도 더 똑똑하게 이야기할 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 246 / 530
+
+← **이전**: [[187_lmax_disruptor_pattern|187. LMAX 디스럽터 패턴 (LMAX Disruptor Pattern)]]
+**다음**: [[188_ambassador_pattern|188. 앰배서더 패턴 (Ambassador Pattern)]] →
+
+---

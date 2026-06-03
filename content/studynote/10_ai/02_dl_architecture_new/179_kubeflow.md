@@ -175,3 +175,14 @@ Feature Store · Registry · Monitoring이 결합된 MLOps 플랫폼으로 확�
 1. [[167_kubeflow_kubernetes_ml_pipeline|쿠브플로우]]는 로봇을 만드는 공장에서 재료 준비, 조립, 검사, 포장을 순서대로 자동으로 해 주는 기계예요.
 2. 그래서 누가 버튼을 눌러도 같은 순서로 다시 만들 수 있어요.
 3. 하지만 공장이 큰 만큼 관리하는 어른도 잘 준비되어 있어야 멈추지 않아요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 179 / 420
+
+← **이전**: [[178_feature_store|178. 피처 스토어 (Feature Store)]]
+**다음**: [[180_mlflow|180. MLflow]] →
+
+---

@@ -129,3 +129,14 @@ Product Learning
 만든 걸 직접 보여 줘요.  
 본 사람이 의견을 말해 줘요.  
 [[067_sprint_timebox|스프린트]] 리뷰는 그런 시간이예요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 70 / 973
+
+← **이전**: [[069_daily_standup_scrum|69. 데일리 스탠드업 (Daily Scrum) - 진행 상황 공유, 장애 파악]]
+**다음**: [[071_sprint_retrospective|71. 스프린트 회고 (Sprint Retrospective) - 프로세스 개선]] →
+
+---

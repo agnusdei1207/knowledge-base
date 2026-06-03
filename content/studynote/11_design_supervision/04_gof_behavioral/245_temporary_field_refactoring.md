@@ -184,3 +184,14 @@ class RequestContext {
 1. 숙제할 때만 꺼내는 색연필을 책상 서랍이 아닌 거실 테이블 위에 두면 가족이 치워버릴 수 있다.
 2. "잠깐 쓰는 것"은 잠깐 쓰는 장소(지역 변수)에 두어야 하고, 항상 필요한 것만 책상 서랍(클래스 필드)에 둬야 한다.
 3. 임시 필드 제거는 바로 "잠깐 쓰는 것을 제자리에 치우는 정리 정돈"이다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 306 / 530
+
+← **이전**: [[244_data_clumps_refactoring|244. 데이터 클럼프 리팩토링 (Data Clumps Refactoring)]]
+**다음**: [[246_refused_bequest_lsp_violation|246. 상속 거부와 LSP 위반 (Refused Bequest & LSP Violation)]] →
+
+---

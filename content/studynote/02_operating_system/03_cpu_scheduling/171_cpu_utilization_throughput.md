@@ -176,3 +176,14 @@ busy time · idle time 측정
 1. CPU 이용률은 컴퓨터가 쉬지 않고 일한 시간이 얼마나 되는지 보는 숫자예요.
 2. [[139_throughput|처리량]]은 그 시간 동안 숙제를 몇 개 끝냈는지 세는 숫자예요.
 3. 오래 앉아만 있고 숙제를 많이 못 끝내면 열심히 한 것처럼 보여도 진짜 효율은 낮을 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 171 / 800
+
+← **이전**: [[170_scheduling_criteria|170. 스케줄링 기준 (Scheduling Criteria) - CPU 이용률, 처리량, 반환시간, 대기시간, 응답시간]]
+**다음**: [[172_turnaround_waiting_response_time|172. 반환 시간 (Turnaround Time) / 대기 시간 (Waiting Time) / 응답 시간 (Response Time)]] →
+
+---

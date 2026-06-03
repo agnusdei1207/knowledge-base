@@ -149,3 +149,14 @@ IaC를 내재화하면, 메인 서버가 랜섬웨어에 감염되어 파괴되�
 1. [[207_iac_terraform_immutable_infrastructure|인프라스트럭처 애즈 코드]] ([[793_iac_idempotency_template|IaC]]) [[195_terraform_hashicorp_agnostic_aws_gcp|테라폼]]은 레고 블록으로 성을 만들 때처럼, 규칙을 정하고 역할을 나누어 함께 작업하는 방법이에요.
 2. 혼자서 막 만들면 나중에 무너지거나 고치기 어렵지만, 약속을 지키면 누구나 쉽게 고치고 더 크게 만들 수 있어요.
 3. 그래서 [[001_software_engineering_definition|소프트웨어 공학]]은 프로그래머들이 좋은 프로그램을 빠르고 안전하게 만들 수 있게 도와주는 '규칙 모음집'이에요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 897 / 973
+
+← **이전**: [[723_cots_commercial_off_the_shelf_testing|723. COTS 상용 기성품 통합 테스팅]]
+**다음**: [[725_declarative_infrastructure_reconciliation_loop|725. 선언적 인프라 상태 일치 루프]] →
+
+---

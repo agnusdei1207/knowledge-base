@@ -232,3 +232,14 @@ DQ 도구는 **[[052_data_governance_framework|데이터 거버넌스]]를 자�
 - Great Expectations는 **[[435_checklist_based_testing|체크리스트]]를 자동으로 [[396_validation|확인]]하는 로봇**이에요: "이메일 빈칸 없어야 해, 나이는 0~150이어야 해" 같은 규칙을 코드로 쓰면 매번 자동으로 [[396_validation|확인]]해줘요.
 - Deequ는 **수십억 개 [[001_dikw_pyramid|데이터]]를 한 번에 검사하는 대형 품질 기계**예요: 소규모 검사는 Great Expectations로, 엄청나게 큰 [[001_dikw_pyramid|데이터]]는 Deequ로 빠르게 처리해요.
 - Soda Core는 **요리 레시피처럼 YAML로 쓰는 품질 검사 도구**예요: 코딩을 몰라도 "빈칸 없어야 해, 중복 없어야 해"라고 쉽게 쓸 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 202 / 262
+
+← **이전**: [[201_data_quality_dimensions|195. 데이터 품질 차원 (Data Quality Dimensions) — 완전성/정확성/일관성/적시성]]
+**다음**: [[203_metadata_management|197. 메타데이터 관리 (Metadata Management) — 비즈니스/기술/운영 메타데이터]] →
+
+---

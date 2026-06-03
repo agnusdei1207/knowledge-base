@@ -125,3 +125,14 @@ tags:
 1. [[496_dkim_domainkeys_identified_mail|DKIM]] ([[496_dkim_domainkeys_identified_mail|DomainKeys Identified Mail]])는 학교 규칙표처럼 무엇을 준비하고 어떻게 확인할지 알려 주는 기준이에요.
 2. 규칙표만 붙여 두고 지키지 않으면 아무 소용이 없어요.
 3. 그래서 보안도 규칙과 실제 행동이 함께 맞아야 해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 260 / 1108
+
+← **이전**: [[206_uefi_secure_boot_verification|206. UEFI Secure Boot (UEFI Secure Boot)]]
+**다음**: [[208_spf_sender_policy_framework|208. SPF (Sender Policy Framework)]] →
+
+---

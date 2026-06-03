@@ -193,3 +193,14 @@ PCIe (Peripheral Component Interconnect Express) · NoC (Network-on-Chip)
 1. [[001_dikw_pyramid|데이터]] [[344_bus|버스]]는 컴퓨터 안에서 진짜 물건을 옮기는 길이에요.
 2. 길이 넓고 자주 열리면 장난감 상자를 한꺼번에 빨리 옮길 수 있어요.
 3. 그래서 컴퓨터는 똑똑한 머리만큼이나, 물건을 실어 나르는 길도 튼튼하게 만들어야 해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 346 / 803
+
+← **이전**: [[344_bus|344. 버스 (Bus)]]
+**다음**: [[346_address_bus|346. 주소 버스 (Address Bus)]] →
+
+---

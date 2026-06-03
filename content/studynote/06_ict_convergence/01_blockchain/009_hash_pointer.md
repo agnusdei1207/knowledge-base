@@ -239,3 +239,14 @@ tags:
 - 각 섹션 끝에 📢 요약 비유 반드시 추가
 - 최소 800자/[[501_file_definition_logical_record|파일]]
 - [[501_file_definition_logical_record|파일]]명: 01_, 02_, 03_... 형식 (2자리 숫자)
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 9 / 552
+
+← **이전**: [[008_merkle_root|8. 머클 루트 (Merkle Root) - 모든 트랜잭션 해시를 묶은 최종 해시값]]
+**다음**: [[010_decentralization|10. 탈중앙화 (Decentralization) - 단일 장애점(SPOF) 제거 및 투명성 확보]] →
+
+---

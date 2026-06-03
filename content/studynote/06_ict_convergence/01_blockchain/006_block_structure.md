@@ -255,3 +255,14 @@ TX1, TX2, TX3, TX4, TX5, TX6, TX7, TX8
 - 각 섹션 끝에 📢 요약 비유 반드시 추가
 - 최소 800자/[[501_file_definition_logical_record|파일]]
 - [[501_file_definition_logical_record|파일]]명: 01_, 02_, 03_... 형식 (2자리 숫자)
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 6 / 552
+
+← **이전**: [[005_genesis_block|5. 제네시스 블록 (Genesis Block) - 블록체인의 첫 번째 블록]]
+**다음**: [[007_merkle_tree|7. 머클 트리 (Merkle Tree / Hash Tree) - 트랜잭션 무결성 검증을 위한 해시 트리]] →
+
+---

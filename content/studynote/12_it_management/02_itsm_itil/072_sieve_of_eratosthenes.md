@@ -123,3 +123,14 @@ Efficient Filtering
 배수를 지워요.  
 소수만 남아요.  
 체는 그런 방법이에요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 128 / 587
+
+← **이전**: [[072_service_desk|72. 서비스 데스크 (Service Desk)]]
+**다음**: [[073_goldbach_conjecture|73. 골드바흐 추측 (Goldbach's Conjecture)]] →
+
+---

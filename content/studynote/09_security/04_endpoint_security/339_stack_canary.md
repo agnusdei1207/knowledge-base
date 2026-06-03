@@ -125,3 +125,14 @@ tags:
 1. [[057_stack|스택]] [[595_canary_stack_smashing_protector|카나리]] ([[057_stack|Stack]] [[595_canary_stack_smashing_protector|Canary]])는 학교 규칙표처럼 무엇을 준비하고 어떻게 확인할지 알려 주는 기준이에요.
 2. 규칙표만 붙여 두고 지키지 않으면 아무 소용이 없어요.
 3. 그래서 보안도 규칙과 실제 행동이 함께 맞아야 해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 393 / 1108
+
+← **이전**: [[338_pie|338. PIE (Position Independent Executable)]]
+**다음**: [[340_ssp|340. SSP (Stack Smashing Protector)]] →
+
+---

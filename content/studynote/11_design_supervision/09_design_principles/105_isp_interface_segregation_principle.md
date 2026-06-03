@@ -137,3 +137,14 @@ SOLID 원칙 정립 - 로버트 C. 마틴에 의한 ISP (인터페이스 분리 
 1. 집 TV 리모컨에 복잡한 버튼이 100개나 있으면 할머니는 헷갈려서 전원 켜기도 너무 어려워하세요.
 2. 하지만 채널이랑 볼륨 올리는 버튼만 딱 4개 있는 '할머니 전용 미니 리모컨'을 드리면 아주 편하게 웃으며 쓰실 수 있죠.
 3. 이렇게 복잡한 기능은 숨기고 쓰는 사람한테 꼭 필요한 버튼(기능)만 따로 떼어서 얇게 만들어주는 설계법이 바로 ISP랍니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 153 / 530
+
+← **이전**: [[105_isp_interface_segregation_principle|105. 인터페이스 분리 원칙 (Interface Segregation Principle, ISP)]]
+**다음**: [[106_dip_dependency_inversion_principle|106. 의존성 역전 원칙 (DIP, Dependency Inversion Principle)]] →
+
+---

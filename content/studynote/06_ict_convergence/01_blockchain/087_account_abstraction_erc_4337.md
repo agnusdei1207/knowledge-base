@@ -138,3 +138,14 @@ Bundler / EntryPoint / Paymaster
     1. 예전 지갑은 열쇠만 맞으면 끝이었어요.
     2. 새 지갑은 숙제 제출, 급식비, 비밀번호를 스스로 정할 수 있어요.
     3. 그래서 필요한 사람만 들어오게 하고, 비용도 대신 내줄 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 87 / 552
+
+← **이전**: [[086_multisig_wallet_n_of_m|86. 지갑 멀티시그 (Multi-Sig, Multi-Signature) - 출금을 위해 N명 중 M명 이상의 서명이 필요한 보안 지갑]]
+**다음**: [[088_eoa_vs_89_ca_ethereum_accounts|88. EOA (Externally Owned Account) - 개인키로 통제되는 일반 사용자 계정]] →
+
+---

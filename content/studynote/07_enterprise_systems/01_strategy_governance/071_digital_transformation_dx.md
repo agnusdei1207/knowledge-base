@@ -133,3 +133,14 @@ Innovation
 새 도구만 넣는 게 아니에요.  
 일하는 방법도 바꿔요.  
 DX는 그런 큰 변화예요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 71 / 482
+
+← **이전**: [[070_master_data_management_mdm_ssot|70. 마스터 데이터 관리 (MDM, Master Data Management) - 전사 공통 기준정보 단일화 (Single Source]]
+**다음**: [[072_platform_business_two_sided_market|72. 플랫폼 비즈니스 (Platform Business) - 양면 시장 (Two-sided Market) 연결 구조]] →
+
+---

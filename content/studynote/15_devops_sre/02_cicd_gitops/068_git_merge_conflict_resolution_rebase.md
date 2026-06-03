@@ -130,3 +130,14 @@ Branch Policy
 같은 곳에 다른 글을 쓰면 겹쳐요.  
 누가 무엇을 남길지 다시 정해요.  
 병합 충돌은 그런 조정이에요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 68 / 373
+
+← **이전**: [[067_pull_request_pr_merge_request_code_review|67. Pull Request (PR) - 머지 리퀘스트 및 코드 리뷰 프로세스]]
+**다음**: [[069_commit_message_convention_feat_fix|69. 커밋 메시지 컨벤션 - feat, fix, docs 등 접두어 표준화]] →
+
+---

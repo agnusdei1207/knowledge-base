@@ -181,3 +181,14 @@ tags:
 1. 친구들이 같이 게임 규칙을 정할 때, 서로 다른 규칙이 부딪히면 게임을 시작할 수 없어요.
 2. 그래서 먼저 규칙들을 한데 모아 "같이 써도 되는지" [[396_validation|확인]]하는 게 [[194_consistency_database_integrity|일관성]] 검사예요.
 3. 이렇게 해야 나중에 싸우지 않고 같은 규칙으로 재미있게 게임할 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 171 / 973
+
+← **이전**: [[170_domain_analysis|170. 도메인 분석 (Domain Analysis)]]
+**다음**: [[172_business_case_roi_analysis|172. 비즈니스 케이스 (Business Case) 및 ROI 분석]] →
+
+---

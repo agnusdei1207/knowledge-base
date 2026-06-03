@@ -124,3 +124,14 @@ tags:
 1. 도화지에 복잡하게 그려진 고양이 사진 위에 마법의 셀로판지(필터)를 대어 보아요.
 2. 그러면 고양이의 색깔은 다 사라지고 뾰족한 수염과 귀 모양만 하얗게 빛나게 된답니다.
 3. 이렇게 찾아낸 [[167_sql_hint_optimizer_override|힌트]]들만 얇은 종이에 차곡차곡 모아놓은 요약본을 '특성 맵'이라고 불러요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 99 / 420
+
+← **이전**: [[098_padding_convolutional_neural_network_same_valid|98. 패딩 (Padding) - 이미지 크기 축소 방지와 가장자리 보존]]
+**다음**: [[100_pooling_layer_max_pooling_downsampling_cnn|100. 풀링 층 (Pooling Layer) - 해상도 압축과 불변성 확보]] →
+
+---

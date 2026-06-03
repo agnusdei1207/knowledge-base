@@ -310,3 +310,14 @@ LLM 기반 자연어 데이터 질의
 1. [[212_data_fabric_virtualization|데이터 패브릭]]은 스마트 도서관 — 여러 도서관(DB)의 책([[001_dikw_pyramid|데이터]])을 [[190_ai_llm_requirements_specification|AI]] 사서([[012_metadata|메타데이터]])가 자동으로 목록 만들고, "이 책 찾으면 저 책도 봐요" 추천!
 2. [[360_data_virtualization|데이터 가상화]]는 통합 앱 — 여러 은행 계좌를 하나의 앱으로! 실제 돈은 각 은행에 있지만 앱에서 통합 조회.
 3. [[211_data_mesh_domain_ownership|데이터 메시]] vs 패브릭 — [[389_mesh_topology|메시]]는 "각 팀이 자기 [[001_dikw_pyramid|데이터]] 관리", 패브릭은 "AI가 자동 통합". 둘 다 [[136_variance|분산]] [[001_dikw_pyramid|데이터]] 문제 해결, 방법이 달라요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 257 / 262
+
+← **이전**: [[256_data_mesh|044. 데이터 메시 — Data Mesh]]
+**다음**: [[258_data_lakehouse|046. 데이터 레이크하우스 — Data Lakehouse]] →
+
+---

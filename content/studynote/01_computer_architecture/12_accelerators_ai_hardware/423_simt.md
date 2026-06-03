@@ -172,3 +172,14 @@ SIMT (Single Instruction Multiple Threads)
 1. SIMT는 선생님이 32명에게 한 번에 같은 문제를 내주고, 아이들은 각자 자기 번호 문제를 푸는 방식이에요.
 2. 모두 같은 설명을 들을 때는 아주 빠르지만, 절반은 덧셈하고 절반은 뺄셈해야 하면 번갈아 시켜야 해서 느려져요.
 3. 그래서 GPU는 비슷한 일을 하는 아이들을 한 줄에 잘 세워 놓을수록 더 똑똑하게 빨라져요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 424 / 803
+
+← **이전**: [[422_thread_block_and_warp|422. 스레드 블록 (Thread Block)과 워프 (Warp)]]
+**다음**: [[424_npu|424. NPU (Neural Processing Unit)]] →
+
+---

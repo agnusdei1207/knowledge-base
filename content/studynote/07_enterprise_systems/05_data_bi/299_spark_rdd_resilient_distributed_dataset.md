@@ -119,3 +119,14 @@ Catalyst Optimizer + Tungsten 메모리 관리
 1. 거대한 퍼즐을 친구들이 나누어서 맞추고 있어요.
 2. 조각 하나를 잃어버려도, "어디서 온 조각인지" 적힌 설명서가 있어서 금방 새로 만들 수 있어요.
 3. 처음부터 퍼즐을 다시 다 맞출 필요가 없어서 아주 빠르게 완성할 수 있답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 299 / 482
+
+← **이전**: [[298_distributed_processing_framework_mapreduce_spark|298. 빅데이터 분산 처리 프레임워크 (MapReduce vs Spark)]]
+**다음**: [[300_realtime_data_streaming_kafka_cdc|300. 실시간 데이터 스트리밍 (Kafka + CDC)]] →
+
+---

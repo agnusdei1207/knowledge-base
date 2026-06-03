@@ -200,3 +200,14 @@ Team Topologies → Platform Engineering → 인지 부하 최소화
 1. 콘웨이의 법칙은 "같은 반 친구끼리 같은 팀이 되는 것"이다 — 매일 만나는 사람들이 자연스럽게 같은 코드를 담당하게 된다.
 2. 역 콘웨이 기동은 포지션을 먼저 그리고 선수를 고르는 것이다 — 원하는 시스템(포지션)을 먼저 정하고, 그에 맞는 팀(선수)을 배치한다.
 3. Platform Team은 학교 급식실이다 — 모든 반([[467_http2_stream_multiplexing_tcp_hol|Stream]]-aligned)이 직접 밥을 짓는 대신(인프라 관리), 급식실(Platform)에서 제공해 수업(개발)에 집중하게 한다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 33 / 373
+
+← **이전**: [[032_conways_law|콘웨이의 법칙 (Conway's Law)]]
+**다음**: [[034_devops_topology|DevOps 토폴로지 (DevOps Topology)]] →
+
+---

@@ -135,3 +135,14 @@ Service Mesh (Istio 등, 내부 통신의 암호화 및 트래픽 정밀 제어)
 1. 놀이공원([[196_kubernetes_k8s_container_orchestration|쿠버네티스]]) 안에서 직원들끼리 무전기(ClusterIP)로 연락을 주고받아요.
 2. 직원이 바뀌어서 새 직원이 와도, "청소팀 나와라!" 하고 이름([[511_dns_hierarchical_distributed_architecture|DNS]])만 부르면 알아서 연결이 돼요.
 3. 밖에서 온 손님들은 이 무전기 주파수를 절대 들을 수 없어서 직원들의 통신이 아주 안전하답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 90 / 371
+
+← **이전**: [[090_service_kubernetes_network_load_balancing|90. 서비스 (Service) - K8s 파드의 고정된 네트워크 진입점]]
+**다음**: [[092_nodeport_kubernetes_service_external_access|92. NodePort - 워커 노드의 특정 물리 포트 외부 노출]] →
+
+---

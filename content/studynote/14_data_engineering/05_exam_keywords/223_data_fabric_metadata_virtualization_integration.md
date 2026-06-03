@@ -216,3 +216,14 @@ Data Mesh와 상호 보완 관계
 ```
 2. 앱이 새 책을 자동으로 인식하고 장르·내용을 AI가 [[104_classification_analysis|분류]]해 주는 것이 능동 [[012_metadata|메타데이터]] 기능이다.
 3. 각 도서관의 규칙(거버넌스)은 그대로지만, 앱이 어느 책이 어린이용인지 성인용인지 자동으로 알아서 접근을 통제해준다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 223 / 258
+
+← **이전**: [[222_data_mesh_distributed_ownership_data_product|222. 데이터 메시 (Data Mesh) 분산 오너십 데이터 프로덕트]]
+**다음**: [[224_data_lineage_flow_catalog_tagging|224. 데이터 리니지 (Data Lineage) 흐름 족보 카탈로그 태그 거버넌스]] →
+
+---

@@ -150,3 +150,14 @@ Flink는 [[148_apache_iceberg|Apache Iceberg]]·Hudi·[[147_delta_lake|Delta Lak
 1. Apache Flink는 음식이 들어오자마자 바로 요리하는 [[148_5g_embb_urllc_mmtc|초고속]] 주방이에요 — 주문(이벤트)이 오면 1초도 안 돼 처리해요!
 2. 늦게 도착한 주문([[015_지연_데이터_관점|지연]] 이벤트)도 일정 시간([[085_watermark|워터마크]]) 기다려주고, 그다음에는 과감히 요리를 시작해요.
 3. 신용카드 사기 탐지, 실시간 게임 점수 집계처럼 0.1초도 늦으면 안 되는 곳에서 Flink가 활약한답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 24 / 258
+
+← **이전**: [[023_lazy_evaluation|23. 지연 평가 (Lazy Evaluation)]]
+**다음**: [[025_spark_rdd_resilient_distributed_dataset|25. Spark RDD (Resilient Distributed Dataset) — 내결함성 분산 데이터셋]] →
+
+---

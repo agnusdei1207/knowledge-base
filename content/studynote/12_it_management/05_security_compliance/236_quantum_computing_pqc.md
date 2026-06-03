@@ -129,3 +129,14 @@ tags:
 1. 양자 컴퓨팅 ([[690_round_robin_time_quantum|Quantum]] Computing) 보안 위협 방어용 [[351_quantum_computing_pqc_transition|PQC]] ([[183_post_quantum_cryptography_key_transition|양자 내성 암호]]) 로드맵 적용은 모두가 같은 규칙으로 일하게 해 주는 반장 약속표예요.
 2. 약속만 적어 두는 것이 아니라 누가 지켰는지 확인하고 고치는 방법까지 함께 정해요.
 3. 그래서 일이 많아져도 서로 부딪히지 않고 더 안전하게 움직일 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 350 / 587
+
+← **이전**: [[235_edge_computing_smart_factory|235. 엣지 컴퓨팅 (Edge Computing) 분산 지연(Latency) 단축 모델 (스마트팩토리 CPS)]]
+**다음**: [[237_digital_human_metaverse_cs|237. 디지털 휴먼 (Digital Human) 및 메타버스 CS(Customer Service) 채널 통합 구조]] →
+
+---

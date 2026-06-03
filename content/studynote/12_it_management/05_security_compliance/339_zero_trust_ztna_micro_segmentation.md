@@ -129,3 +129,14 @@ tags:
 1. [[667_zero_trust_runtime_integrity_measurement|제로 트러스트]] [[339_ztna|ZTNA]] [[1044_micro_segmentation_east_west_traffic_security|마이크로 세그멘테이션]] 감리는 모두가 같은 규칙으로 일하게 해 주는 반장 약속표예요.
 2. 약속만 적어 두는 것이 아니라 누가 지켰는지 확인하고 고치는 방법까지 함께 정해요.
 3. 그래서 일이 많아져도 서로 부딪히지 않고 더 안전하게 움직일 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 518 / 587
+
+← **이전**: [[338_isms_p_certification_audit|338. ISMS-P 인증 위험 통제 보안 심사망 연계]]
+**다음**: [[339_ztna|339. 제로 트러스트 ZTNA 마이크로 세그멘테이션 감리]] →
+
+---

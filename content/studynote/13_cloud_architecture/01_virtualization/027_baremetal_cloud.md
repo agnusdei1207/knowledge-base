@@ -137,3 +137,14 @@ tags:
 1. [[629_bare_metal_cloud|베어메탈 클라우드]]는 전세 [[344_bus|버스]]예요! 공동 [[344_bus|버스]]([[598_vm_migration_nic|VM]])와 달리 [[344_bus|버스]] 전체를 혼자 써서 이웃 소음(노이즈 네이버) 없이 최고 속도로 달려요.
 2. [[190_ai_llm_requirements_specification|AI]] 학습이나 대용량 DB처럼 엄청난 [[282_performance_tactics|성능]]이 필요할 때 베어메탈을 써요!
 3. 스마트 칩([[436_dpu|DPU]])을 달면 베어메탈도 VM처럼 유연하게 쓸 수 있는 기술이 나오고 있답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 26 / 371
+
+← **이전**: [[026_hci|26. HCI (Hyperconverged Infrastructure) — 하이퍼컨버지드 인프라]]
+**다음**: [[028_vpc|28. VPC — 가상 사설 클라우드 (Virtual Private Cloud)]] →
+
+---

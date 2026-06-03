@@ -111,3 +111,14 @@ XDR (External [[001_dikw_pyramid|Data]] Representation)은 프로세스와 스�
 1. XDR (External [[001_dikw_pyramid|Data]] Representation)은 컴퓨터가 여러 일을 나눠서 처리하고 서로 기다리게 하는 약속이에요.
 2. 먼저 [[126_rpc|RPC]] ([[126_rpc|Remote Procedure Call]])을 이해하면 XDR (External [[001_dikw_pyramid|Data]] Representation)이 왜 필요한지 더 쉽게 보여요.
 3. 그래서 XDR (External [[001_dikw_pyramid|Data]] Representation)을 잘 알면 나중에 [[128_marshalling_unmarshalling|마샬링]] ([[128_marshalling_unmarshalling|Marshalling]]) / 언마샬링 (Unmarshalling)도 훨씬 쉽게 배울 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 127 / 800
+
+← **이전**: [[126_rpc|126. RPC (Remote Procedure Call) - 분산 시스템 함수 호출]]
+**다음**: [[128_marshalling_unmarshalling|128. 마샬링 (Marshalling) / 언마샬링 (Unmarshalling)]] →
+
+---

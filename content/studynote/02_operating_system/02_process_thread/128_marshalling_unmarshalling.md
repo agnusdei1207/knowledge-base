@@ -111,3 +111,14 @@ tags:
 1. 마샬링 (Marshalling) / 언마샬링 (Unmarshalling)은 컴퓨터가 여러 일을 나눠서 처리하고 서로 기다리게 하는 약속이에요.
 2. 먼저 [[127_xdr_external_data_representation|XDR]] ([[127_xdr_external_data_representation|External Data Representation]])을 이해하면 마샬링 (Marshalling) / 언마샬링 (Unmarshalling)이 왜 필요한지 더 쉽게 보여요.
 3. 그래서 마샬링 (Marshalling) / 언마샬링 (Unmarshalling)을 잘 알면 나중에 [[129_lpc_alpc|로컬 프로시저 호출]] (LPC, Local Procedure [[189_subroutine_call_return|Call]]) / ALPC (Windows)도 훨씬 쉽게 배울 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 128 / 800
+
+← **이전**: [[127_xdr_external_data_representation|127. XDR (External Data Representation)]]
+**다음**: [[129_lpc_alpc|129. 로컬 프로시저 호출 (LPC, Local Procedure Call) / ALPC (Windows)]] →
+
+---

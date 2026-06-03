@@ -131,3 +131,14 @@ Sequence Control
 친구들이 동그랗게 서서 차례를 넘겨요.  
 한 번에 한 사람만 이름표를 들고 있어요.  
 링 [[059_counter|카운터]]는 이렇게 순서를 계속 돌리는 장치예요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 63 / 803
+
+← **이전**: [[062_up_down_counter|62. 업/다운 카운터 (Up/Down Counter)]]
+**다음**: [[064_johnson_counter|64. 존슨 카운터 (Johnson Counter)]] →
+
+---

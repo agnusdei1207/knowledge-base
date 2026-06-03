@@ -52,3 +52,14 @@ Kano: 기본(당연)·성능(비례)·매력(감동) 요구 분류
 1. 갈등 해결은 **예산 나누기**예요. 모든 걸 다 할 수는 없어요.
 2. MoSCoW로 **꼭 해야 할 것(Must)**과 **나중에 할 것(Won't)**을 나눠요.
 3. 먼저 중요한 것부터 하면 **예산(시간) 낭비**를 줄일 수 있어요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 142 / 973
+
+← **이전**: [[141_focus_group_interview_fgi|141. 포커스 그룹 인터뷰 (FGI) - 그룹 심층 인터뷰 기법]]
+**다음**: [[143_structured_analysis_dfd_dd_minispec|143. 구조적 분석 (Structured Analysis) - DFD·DD·Mini-Spec]] →
+
+---

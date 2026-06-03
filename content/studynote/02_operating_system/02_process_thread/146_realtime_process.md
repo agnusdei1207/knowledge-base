@@ -111,3 +111,14 @@ tags:
 1. 실시간 프로세스 (Real-time [[300_process|Process]])은 컴퓨터가 여러 일을 나눠서 처리하고 서로 기다리게 하는 약속이에요.
 2. 먼저 NUMA-인식 [[092_thread_lwp|스레드]] 스케줄링을 이해하면 실시간 프로세스 (Real-time [[300_process|Process]])이 왜 필요한지 더 쉽게 보여요.
 3. 그래서 실시간 프로세스 (Real-time [[300_process|Process]])을 잘 알면 나중에 [[147_thread_safe|스레드 안전]] ([[147_thread_safe|Thread-safe]]) 함수 및 [[336_library_vs_framework|라이브러리]]도 훨씬 쉽게 배울 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 146 / 800
+
+← **이전**: [[145_numa_thread_scheduling|145. NUMA-인식 스레드 스케줄링 (NUMA Thread Scheduling)]]
+**다음**: [[147_thread_safe|147. 스레드 안전 (Thread-safe) 함수 및 라이브러리]] →
+
+---

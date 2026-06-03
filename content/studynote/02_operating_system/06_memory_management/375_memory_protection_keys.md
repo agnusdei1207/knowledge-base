@@ -182,3 +182,14 @@ MPK는 [[353_page_table|페이지 테이블]](장부)과 CPU 코어(실행부)�
 1. [[307_memory_protection|메모리 보호]] 키 ([[307_memory_protection|Memory Protection]] Keys)은 컴퓨터가 메모리를 방처럼 나눠 쓰고 주소를 찾는 방법이에요.
 2. 먼저 주소 공간 무작위 배치 ([[374_aslr|ASLR]], Address Space Layout Randomization)을 이해하면 [[307_memory_protection|메모리 보호]] 키 ([[307_memory_protection|Memory Protection]] Keys)이 왜 필요한지 더 쉽게 보여요.
 3. 그래서 [[307_memory_protection|메모리 보호]] 키 ([[307_memory_protection|Memory Protection]] Keys)을 잘 알면 나중에 캐시 인식 [[001_dikw_pyramid|데이터]] 구조 ([[376_cache_aware_data_structures|Cache-aware Data Structures]])도 훨씬 쉽게 배울 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 375 / 800
+
+← **이전**: [[374_aslr|374. 주소 공간 무작위 배치 (ASLR, Address Space Layout Randomization)]]
+**다음**: [[376_cache_aware_data_structures|376. 캐시 인식 데이터 구조 (Cache-aware Data Structures)]] →
+
+---

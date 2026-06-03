@@ -207,3 +207,14 @@ Web 3.0 시대의 시맨틱 웹은 [[010_decentralization|탈중앙화]] 온톨�
 - 각 섹션 끝에 📢 요약 비유 반드시 추가
 - 최소 800자/[[501_file_definition_logical_record|파일]]
 - [[501_file_definition_logical_record|파일]]명: 01_, 02_, 03_... 형식 (2자리 숫자)
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 3 / 552
+
+← **이전**: [[002_web_3_0|2. Web 3.0 (Read-Write-Own) - 탈중앙화(Decentralization)와 개인 소유권 보장 웹]]
+**다음**: [[004_blockchain|4. 블록체인 (Blockchain) - 분산 원장 기술(DLT, Distributed Ledger Technology)]] →
+
+---

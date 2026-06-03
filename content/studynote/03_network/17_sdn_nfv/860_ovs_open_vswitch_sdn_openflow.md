@@ -133,3 +133,14 @@ OVS는 [[859_whitebox_switch_open_hardware_nos|화이트박스 스위치]]에서
 1. 장난감 차를 움직이는 조종기와 차체를 따로 생각하면 바꾸기 쉬워져요.
 2. 이 개념은 네트워크의 머리와 몸을 나눠 더 쉽게 프로그램하게 해줘요.
 3. 그래서 새 규칙을 더 빨리 넣고 바꿀 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 981 / 1120
+
+← **이전**: [[859_whitebox_switch_open_hardware_nos|859. 화이트박스 스위치]]
+**다음**: [[861_mininet_sdn_topology_network_emulator|861. 미니넷 (Mininet)]] →
+
+---

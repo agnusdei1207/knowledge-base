@@ -212,3 +212,14 @@ SMTPS, POP3S, IMAPS는 IMAP4에서 출발해 현재 메커니즘을 정교화하
 1. 일반 이메일([[489_pop3_post_office_protocol_v3|POP3]], IMAP)은 투명한 유리 [[123_pipe|파이프]]를 통해 편지를 보내는 거예요. 그래서 나쁜 해커가 [[123_pipe|파이프]] 옆에 서서 내 비밀번호를 다 읽을 수 있어요!
 2. 이 위험을 막기 위해 [[123_pipe|파이프]] 겉면에 **'절대 속이 안 보이는 까만색 튼튼한 테이프(SSL/[[694_thread_local_storage_tls|TLS]])'**를 칭칭 감아버린 것이 바로 **POP3S, IMAPS** 같은 보안 이메일이에요.
 3. 이제 해커가 [[123_pipe|파이프]]를 아무리 쳐다봐도 까만 테이프 때문에 내 비밀번호는 1도 보이지 않아서, 안심하고 밖에서 이메일을 열어볼 수 있게 된 거랍니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 612 / 1120
+
+← **이전**: [[490_imap4_internet_message_access_protocol|490. IMAP4 (Internet Message Access Protocol v4)]]
+**다음**: [[492_mime_multipurpose_internet_mail_extensions|492. MIME (Multipurpose Internet Mail Extensions)]] →
+
+---

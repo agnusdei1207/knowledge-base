@@ -133,3 +133,14 @@ SBA (Service Based Architecture) / 5G 코어망의 웹 기반 마이크로서비
 1. 4G([[752_lte_long_term_evolution_4g|LTE]]) 고속도로는 스마트폰(빠른 차)과 로봇(앰뷸런스), 수많은 센서(자전거)가 한 차선에서 뒤엉켜 달려서 매일 빵빵거리고 차가 막혔어요.
 2. 천재 발명가들이 만든 **'[[418_5g_embb_urllc_mmtc_slicing|5G]]'**는 이 도로를 절대 부딪히지 않는 마법의 3차선 전용 도로로 갈라놓았어요!
 3. 첫 번째 차선(**[[760_embb_enhanced_mobile_broadband_vr_ar|eMBB]]**)은 엄청난 짐을 실은 덤프트럭이, 두 번째 차선(**[[761_urllc_ultra_reliable_low_latency|uRLLC]]**)은 0.001초 만에 쌩 통과하는 앰뷸런스 하이패스가, 세 번째 갓길(**[[762_mmtc_massive_machine_type_communications|mMTC]]**)은 자전거 100만 대가 안전하게 달릴 수 있어서 기계들이 평화롭게 춤을 춘답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 148 / 552
+
+← **이전**: [[147_utm_unmanned_aircraft_system_traffic_management|147. UTM (Unmanned Aircraft System Traffic Management) - 무인 비행체 교통 관제 시스템]]
+**다음**: [[149_network_slicing_5g_architecture|149. 네트워크 슬라이싱 (Network Slicing) - 5G 융합 가상 격리 전용망]] →
+
+---

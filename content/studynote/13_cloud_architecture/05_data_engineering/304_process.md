@@ -113,3 +113,14 @@ tags:
 1. 블루/그린 배포 무중단 [[098_rollback_strategy_pipeline_error_threshold|롤백]] 용이는 사람이 많은 운동회에서 어디로 가야 하는지 알려 주는 안내판과 비슷해요.
 2. 규칙이 없으면 모두가 한곳에 몰려서 느려지고 다투지만, 길을 정해 두면 훨씬 부드럽게 움직일 수 있어요.
 3. 그래서 컴퓨터 세상에서도 블루/그린 배포 무중단 [[098_rollback_strategy_pipeline_error_threshold|롤백]] 용이를 쓰면 많은 팀과 [[090_service_kubernetes_network_load_balancing|서비스]]가 덜 부딪히고 더 빨리 움직일 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 303 / 371
+
+← **이전**: [[303_trace_id|303. 분산 추적 Trace ID 병목 파악 오픈텔레메트리 (Trace ID)]]
+**다음**: [[305_process|305. 카나리 배포 트래픽 점진 할당 리스크 최소화 (Canary Deployment)]] →
+
+---

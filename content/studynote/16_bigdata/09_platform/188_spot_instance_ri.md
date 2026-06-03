@@ -129,3 +129,14 @@ TCO와도 연결해 보면, 기술 선택은 결국 비용과 [[282_performance_
 1. 빅데이터 비용 최적화 ([[209_spot_instance_cloud_cost_optimization|Spot Instance]], 컴퓨팅-스토리지 분리, RI)은 일을 하기 전에 "어떤 규칙으로 할지" 먼저 정하는 거예요.
 2. 중간에 [[396_validation|확인]]표가 있어야 틀린 곳을 빨리 고칠 수 있어요.
 3. 그래서 끝까지 잘했다고 말하려면 증거와 순서가 같이 있어야 해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 188 / 262
+
+← **이전**: [[187_parquet_orc_iceberg_arrow|187. 컬럼 기반 파일 포맷 (Parquet, ORC, Iceberg, Arrow) 조회 최적화]]
+**다음**: [[189_egress|189. 데이터 이동 비용 (Egress 비용, 리전 내 데이터 로컬화)]] →
+
+---

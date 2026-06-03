@@ -129,3 +129,14 @@ OCP를 제대로 적용하면 시스템은 '수정'이라는 파괴적 행위 �
 1. 로봇 장난감의 팔을 드릴로 바꾸고 싶을 때, 로봇 배를 갈라서 전선을 새로 이어 붙이면 로봇이 고장 나기 쉬워요.
 2. 가장 좋은 로봇은 팔을 뺐다 꼈다 할 수 있는 튼튼한 '[[125_socket|소켓]](인터페이스)'이 있는 로봇이에요.
 3. 로봇 본체는 그대로 두고 [[125_socket|소켓]]에 새 드릴 팔만 끼우면 되는 것이 바로 [[746_ocp|OCP]] 원칙이랍니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 149 / 530
+
+← **이전**: [[103_ocp_open_closed_principle|103. 개방-폐쇄 원칙 (Open-Closed Principle, OCP)]]
+**다음**: [[104_lsp_liskov_substitution_principle|104. 리스코프 치환 원칙 (Liskov Substitution Principle, LSP)]] →
+
+---

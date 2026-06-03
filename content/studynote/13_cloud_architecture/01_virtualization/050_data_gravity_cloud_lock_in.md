@@ -193,3 +193,14 @@ AWS (컴퓨팅)  Azure (AI)  GCP (데이터)
 1. [[001_dikw_pyramid|데이터]] 중력은 짐이 많아 이사를 못 가는 것 — 창고(클라우드)에 짐([[001_dikw_pyramid|데이터]])이 너무 많으면 이사비가 엄청나게 들어.
 2. 멀티클라우드는 여러 창고에 나눠 저장 — 한 창고가 문제 생겨도 다른 곳에서 꺼낼 수 있어.
 3. [[191_oss_license_compliance|오픈소스]] 표준은 어느 창고에서도 쓸 수 있는 공통 규격 박스 — 창고 종류에 관계없이 똑같이 움직여.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 49 / 371
+
+← **이전**: [[049_shadow_it_risk_management|049. 클라우드 섀도 IT — Cloud Shadow IT]]
+**다음**: [[051_vendor_lock_in_cloud_computing|51. 벤더 종속 (Vendor Lock-in) - 클라우드 아키텍처의 함정]] →
+
+---

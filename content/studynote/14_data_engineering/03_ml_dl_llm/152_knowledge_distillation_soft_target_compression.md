@@ -168,3 +168,14 @@ On-Device Edge AI (온디바이스 엣지 초지능 제국 현재) ✨ / 클라�
 1. **[[252_knowledge_distillation_quantization_edge_slm_diffusion|지식 증류]]([[252_knowledge_distillation_quantization_edge_slm_diffusion|Knowledge Distillation]])**는 엄청 무겁고 똑똑한 아인슈타인 할아버지 로봇(거대 스승 모델)의 천재적인 생각 엑기스를 ➔ 작고 멍청한 꼬마 아기 로봇(제자 모델)의 뇌 속에 1초 만에 그대로 [[359_usb|USB]] 다운로드 복사 슝~ 이식시켜 버리는 **'천재 영혼 [[016_replication_factor|복제]] 텔레포트 마법'**이에요!
 2. 바보 꼬마 로봇한테 교과서 100권(정답 Hard Label)을 무작정 주고 혼자 외우라고 시키면 뇌가 터져버려서 고장 나 죽어버려요 ㅠ(일반 학습 멸망 💥).
 3. 그래서 할아버지 로봇이 "야 책 다 버려! 그냥 내 눈알([[130_probability|확률]] 뇌파 [[389_knowledge_distillation_soft_target|Soft Target]])만 똑바로 쳐다보고 내 느낌, 내 찍기 감각 뉘앙스 그대로 100% 거울 보듯 무지성 따라 해 쾅 🚀!!" 하고 족집게 세뇌 훈련(온도 조절 믹서기 ✨)을 시키니까 ➔ 꼬마 로봇이 한 달 만에 할아버지 로봇의 95% 천재 지능을 똑같이 따라 하며 스마트폰 뱃속 아주 좁은 방 안에서도 쌩쌩 잘 굴러가는 기적이 탄생한 거랍니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 152 / 258
+
+← **이전**: [[151_vector_database_embedding_ann_search|151. 벡터 데이터베이스 (Vector DB) 임베딩과 ANN (근사 최근접) 검색 알고리즘]]
+**다음**: [[153_diffusion_model_stable_diffusion_denoising|153. 디퓨전 모델 (Diffusion Model) - 파괴와 복원의 노이즈 예술, 생성형 AI의 제왕]] →
+
+---

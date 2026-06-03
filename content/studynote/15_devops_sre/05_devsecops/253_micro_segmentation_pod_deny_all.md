@@ -134,3 +134,14 @@ Reference Architecture
 1. 네트워크 [[1044_micro_segmentation_east_west_traffic_security|마이크로 세그멘테이션]]은 복잡한 일을 순서와 규칙으로 정리해서 실수하지 않게 도와주는 방법이에요.
 2. Network [[164_policy|Policy]] 같은 친구들과 같이 움직여야 더 잘 작동해요.
 3. 그래서 문제가 생겨도 어디서 틀렸는지 빨리 찾고 다시 고치기 쉬워져요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 253 / 373
+
+← **이전**: [[252_container_escape_vm_gvisor_kata|252. 컨테이너 이스케이프 (Container Escape) 방어]]
+**다음**: [[254_cspm_cloud_security_posture_management|254. 클라우드 보안 형상 관리 (CSPM, Cloud Security Posture Management)]] →
+
+---

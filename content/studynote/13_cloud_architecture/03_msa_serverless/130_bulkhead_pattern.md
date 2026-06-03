@@ -63,3 +63,14 @@ Bulkhead는 **[[304_circuit_breaker|Circuit Breaker]]·Fallback과 함께 [[619_
 1. Bulkhead는 잠수함의 **격벽**이에요. 한 칸에 물이 차도 **다른 칸은 안전**해요.
 2. 격벽이 없으면 물(장애)이 전체로 퍼져서 **잠수함(시스템) 전체가 침몰**해요.
 3. [[090_service_kubernetes_network_load_balancing|서비스]]마다 **벽을 세우면** 한쪽 문제가 다른 곳에 영향을 안 줘요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 129 / 371
+
+← **이전**: [[129_fallback|129. Fallback 패턴 - MSA 장애 시 대체 응답 전략]]
+**다음**: [[131_database_per_service|131. Database per Service - MSA 데이터 분리 패턴]] →
+
+---

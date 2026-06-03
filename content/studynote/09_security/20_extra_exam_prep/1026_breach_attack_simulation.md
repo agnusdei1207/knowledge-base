@@ -125,3 +125,14 @@ tags:
 1. 침해 시뮬레이션 (Breach & Attack Simulation (Breach Attack Simulation)는 누군가 규칙의 틈을 찾아 몰래 장난을 치는 방법이에요.
 2. 그래서 문을 단단히 잠그는 것뿐 아니라, 누가 이상하게 움직이는지도 바로 알아차려야 해요.
 3. 컴퓨터는 이상한 흔적을 빨리 보고 퍼지기 전에 멈추게 해야 안전해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 145 / 1108
+
+← **이전**: [[1025_security_chaos_engineering|1025. 보안 카오스 공학 (Security Chaos Engineering, SCE)]]
+**다음**: [[1026_smart_grid_ami_two_way_communication_energy|1026. 스마트 그리드 통신 인프라망 (Smart Grid Ami Two Way Communication Energy)]] →
+
+---

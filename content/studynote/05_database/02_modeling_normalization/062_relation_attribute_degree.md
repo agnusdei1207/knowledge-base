@@ -135,3 +135,14 @@ Relational Design
 [[082_attribute_types_er_model|속성]]은 표의 열 이름이에요.  
 열 이름이 정확해야 무엇을 적는지 알 수 있어요.  
 그래야 표가 깔끔해져요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 62 / 600
+
+← **이전**: [[061_relation_schema_instance|61. 릴레이션 (Relation) - 데이터를 2차원 표로 표현한 구조]]
+**다음**: [[063_relation_tuple_cardinality|63. 튜플 (Tuple / Row / Cardinality) - 릴레이션의 행 (카디널리티)]] →
+
+---

@@ -125,3 +125,14 @@ SL-CF ([[283_security_tactics|Security]] Level Capability)를 제대로 이해�
 1. SL-CF ([[283_security_tactics|Security]] Level Capability)는 컴퓨터 세상을 더 안전하게 만들기 위한 중요한 약속이나 도구예요.
 2. 겉으로는 어려워 보여도, 왜 필요한지와 어떻게 움직이는지를 알면 훨씬 쉬워져요.
 3. 그래서 이름만 외우지 말고 어디에 쓰이는지 같이 기억해야 해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 993 / 1108
+
+← **이전**: [[905_iec_62443_security_levels|905. ISA/IEC 62443 Security Levels (SL 0-4)]]
+**다음**: [[907_sl_tf_target|907. SL-TF (Security Level Target)]] →
+
+---

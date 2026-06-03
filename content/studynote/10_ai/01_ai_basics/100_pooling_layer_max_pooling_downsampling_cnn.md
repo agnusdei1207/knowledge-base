@@ -104,3 +104,14 @@ Strided Convolution · 풀링 계층 생략 및 정보 손실 방지
 1. 커다란 도화지에 그려진 그림을 작은 수첩에 옮겨 그리려면 가장 눈에 띄는 선들만 남기고 나머지는 지워야 해요.
 2. [[285_pooling_layer|풀링]]은 돋보기로 그림을 보면서 제일 진한 색칠 하나만 남기고 주변의 연한 색은 버리는 똑똑한 지우개랍니다.
 3. 이렇게 하면 수첩에도 그림이 다 들어가고, 친구 얼굴이 원래보다 조금 옆으로 치우쳐 그려져도 누구인지 똑같이 알아볼 수 있어요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 100 / 420
+
+← **이전**: [[099_feature_map_activation_map_cnn_output|99. 특성 맵 (Feature Map) - CNN 필터 압축 지도의 실체]]
+**다음**: [[101_max_pooling_average_pooling_global_average_pooling|101. 최대 풀링 (Max Pooling) / 평균 풀링 (Average Pooling) 비교]] →
+
+---

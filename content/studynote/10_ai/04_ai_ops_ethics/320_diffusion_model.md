@@ -133,3 +133,14 @@ tags:
 1. **[[153_diffusion_model_stable_diffusion_denoising|디퓨전 모델]]**은 완성된 그림을 지우개로 1000번 지워 빈 종이로 만들고, AI가 **역순으로 1000번 그려 복원**하는 법을 배우는 거예요!
 2. 다 배우면 **아무 노이즈(빈 종이)에서 출발**해서 "고양이 우주비행사"처럼 **텍스트 설명에 맞는 그림을 [[087_process_state_transition|생성]]**할 수 있어요.
 3. **Stable Diffusion, DALL-E 3, Midjourney**가 모두 이 원리로 만들어진 이미지 [[087_process_state_transition|생성]] AI예요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 320 / 420
+
+← **이전**: [[319_gan|319. GAN (Generative Adversarial Network)]]
+**다음**: [[321_mlops_pipeline|321. MLOps (Machine Learning Operations)]] →
+
+---

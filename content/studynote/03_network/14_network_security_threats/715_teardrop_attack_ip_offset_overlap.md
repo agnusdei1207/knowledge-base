@@ -129,3 +129,14 @@ TearDrop 공격는 Ping of Death 대형 패킷 [[291_fragmentation_and_reassembl
 1. 나쁜 친구가 놀이터 규칙을 깨뜨리면 바로 알아차리고 막아야 해요.
 2. 이 개념은 어떤 장난이 위험한지 미리 알고, 문제가 생기면 어떻게 다시 정리할지도 알려줘요.
 3. 그래서 놀이터를 더 안전하게 지킬 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 836 / 1120
+
+← **이전**: [[714_ping_of_death_fragmentation_buffer_overflow|714. Ping of Death 대형 패킷 단편화 버퍼 오버플로우 문제]]
+**다음**: [[716_udp_flood_null_christmas_tree_attack|716. UDP Flood 리소스 고갈 유도 / Null/Christmas Tree 플래그 비대칭공격 타격]] →
+
+---

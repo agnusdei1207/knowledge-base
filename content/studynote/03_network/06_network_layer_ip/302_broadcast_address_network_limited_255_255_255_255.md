@@ -145,3 +145,14 @@ tags:
 1. 택배를 보내려면 집 주소가 정확해야 길을 잃지 않아요.
 2. 이 개념은 인터넷 세상에서 주소를 정하고 다음 길을 찾는 지도와 같아요.
 3. 그래서 멀리 있는 친구 컴퓨터까지도 편지가 도착할 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 423 / 1120
+
+← **이전**: [[301_apipa_link_local_address_169_254|301. APIPA / 링크 로컬 주소 (169.254.x.x)]]
+**다음**: [[303_cidr_classless_inter_domain_routing|303. 클래스리스 (Classless) 라우팅 (CIDR, Classless Inter-Domain Routing)]] →
+
+---

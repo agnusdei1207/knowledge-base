@@ -165,3 +165,14 @@ UCT 공식은 이 두 가지의 [[267_weight_bias_activation|가중치]]를 계�
 ---
 <!-- [✅ Gemini 3.1 Pro Verified] -->
 > **🛡️ 3.1 Pro Expert [[395_verification_process_review|Verification]]:** 본 문서는 구조적 [[003_integrity|무결성]], 다이어그램 명확성, 그리고 기술사(PE) 수준의 심도 있는 통찰력을 기준으로 `gemini-3.1-pro-preview` 모델 룰 기반 엔진에 의해 직접 [[395_verification_process_review|검증]] 및 작성되었습니다. (Verified at: 2026-04-02)
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 21 / 420
+
+← **이전**: [[020_alpha_beta_pruning|20. 알파-베타 가지치기 (Alpha-Beta Pruning) - 미니맥스 트리에서 탐색할 필요가 없는 가지를 잘라내어 연산량 감소]]
+**다음**: [[022_mcts_four_stages|22. MCTS 4단계 - 선택(Selection) -> 확장(Expansion) -> 시뮬레이션(Simulation) -> 역전파(Backpropagation)]] →
+
+---

@@ -149,3 +149,14 @@ DAO는 [[004_blockchain|블록체인]] 기반의 새로운 조직 패러다임�
 1. DAO는 회장 없는 학생회 — 모든 회원이 토큰(투표권)을 가지고 의견을 낼 수 있어요.
 2. 투표로 결정된 일도 바로 실행하지 않고 2~7일 기다리는데, 그 사이 잘못된 결정이면 취소할 수 있어요.
 3. 2016년에 해킹으로 큰돈을 잃은 뒤, 지금은 코드를 꼭 검사하고 안전장치를 달아서 운영해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 484 / 552
+
+← **이전**: [[483_did_decentralized_identity_w3c_vc_vp|483. 탈중앙화 신원: DID, VC, VP W3C 표준 (Decentralized Identity: DID, VC, VP)]]
+**다음**: [[485_blockchain_attack_51_eclipse_sybil|485. 블록체인 공격: 51%, 이클립스, 시빌 (Blockchain Attacks: 51%, Eclipse, Sybil)]] →
+
+---

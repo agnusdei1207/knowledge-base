@@ -203,3 +203,14 @@ Interactive exploration and large-scale aggregation
 1. 네트워크 [[003_bigdata_7v|시각화]]는 친구들이 누구랑 친한지 선으로 이어서 보는 친구 지도예요.
 2. 친한 친구끼리 뭉치면 같은 색으로 보고, 모두를 이어 주는 친구는 더 크게 보여 줄 수 있어요.
 3. 친구가 너무 많으면 한 명씩 다 적지 말고, 모둠별로 묶어서 보면 더 쉽게 이해할 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 172 / 262
+
+← **이전**: [[171_plotly_dash|171. Plotly / Dash — Python 기반 인터랙티브 시각화 프레임워크]]
+**다음**: [[173_geospatial_visualization|173. 지리공간 시각화 (Geospatial Visualization) — Kepler.gl, Folium, Deck.gl]] →
+
+---

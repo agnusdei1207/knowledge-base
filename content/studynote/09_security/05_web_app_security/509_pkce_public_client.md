@@ -125,3 +125,14 @@ PKCE (Proof [[067_db_key_uniqueness_minimality|Key]] for [[082_process_memory_st
 1. PKCE (Proof [[067_db_key_uniqueness_minimality|Key]] for [[082_process_memory_structure|Code]] Exchange)는 비밀 편지를 안전하게 잠그거나 진짜인지 확인하는 특별한 약속이에요.
 2. 하지만 자물쇠가 좋아도 열쇠를 아무 데나 두면 금방 들켜요.
 3. 그래서 암호는 만드는 방법과 열쇠를 지키는 방법을 같이 배워야 해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 565 / 1108
+
+← **이전**: [[508_authorization_code_grant|508. Authorization Code Grant (권한 부여 코드 승인 방식)]]
+**다음**: [[510_open_redirect_oauth|510. Open Redirect (OAuth redirect_uri 우회)]] →
+
+---

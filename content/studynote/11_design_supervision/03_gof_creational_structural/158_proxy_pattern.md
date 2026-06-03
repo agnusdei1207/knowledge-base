@@ -166,3 +166,14 @@ AOP · ORM 지연 로딩 · 리버스 프록시 · 서비스 메시
 1. [[264_proxy_pattern_surrogate_access_control|프록시]]는 중요한 사람을 바로 만나기 전에 먼저 이야기해 주는 비서 같은 거예요.
 2. 비서는 아무나 들여보내지 않고, 준비가 되면 그때 진짜 사람에게 연결해 줘요.
 3. 그래서 사람들은 더 안전하고 편하게 일을 맡길 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 214 / 530
+
+← **이전**: [[157_flyweight_pattern|157. 플라이웨이트 (Flyweight) 패턴]]
+**다음**: [[159_proxy_pattern_types|159. 프록시 패턴 유형 (Proxy Pattern Types)]] →
+
+---

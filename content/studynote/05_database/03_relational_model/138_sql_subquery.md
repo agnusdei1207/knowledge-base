@@ -53,3 +53,14 @@ WHERE절: SELECT * FROM emp WHERE sal > (SELECT AVG(sal) FROM emp)
 1. 서브쿼리는 **질문 속의 질문**이에요. "평균이 얼마야?" → "평균보다 높은 사람은?"
 2. 먼저 **안쪽 질문에 답**하고, 그 답으로 **바깥 질문**에 답해요.
 3. 하지만 너무 많이 쓰면 **느려지니까** 다른 방법([[521_join|JOIN]])도 알아야 해요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 138 / 600
+
+← **이전**: [[137_sql_self_join_recursive|137. SQL Self JOIN & Recursive CTE - 자기 참조와 재귀 쿼리]]
+**다음**: [[139_window_function_analytics|139. Window Function (분석 함수) - ROW_NUMBER·RANK·LAG·LEAD]] →
+
+---

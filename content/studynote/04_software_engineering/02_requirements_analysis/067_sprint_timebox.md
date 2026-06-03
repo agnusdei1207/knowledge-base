@@ -134,3 +134,14 @@ Continuous Improvement
 짧게 달리는 시간이 있어요.  
 그 안에 끝낼 일을 정해요.  
 스프린트는 그런 짧은 달리기예요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 67 / 973
+
+← **이전**: [[066_product_backlog_grooming|66. 제품 백로그 (Product Backlog) - 요구사항 우선순위 목록]]
+**다음**: [[068_sprint_planning|68. 스프린트 계획 회의 (Sprint Planning)]] →
+
+---

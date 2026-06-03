@@ -174,3 +174,14 @@ eIBRS · hardware predictor isolation
 1. 나쁜 친구가 가짜 표지판을 세워도, 컴퓨터는 그 표지판을 보지 않고 비상계단으로 돌아가게 만들 수 있어요.
 2. 잘못 뛰어가려는 길은 빈 교실을 빙빙 도는 길로 바꿔 놓고, 진짜 길만 조용히 따로 가게 하는 거예요.
 3. 그래서 컴퓨터는 조금 돌아가더라도, 속아서 비밀방으로 들어갈 가능성을 크게 줄일 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 580 / 803
+
+← **이전**: [[579_ibpb|579. 간접 분기 추측 제어 (IBPB, Indirect Branch Predictor Barrier)]]
+**다음**: [[581_microcode_patch|581. 마이크로코드 보안 패치 원리 (Microcode Security Patch)]] →
+
+---

@@ -143,3 +143,14 @@ ChatOps + Runbook Automation
 ChatOps는 반 친구들이 메모를 따로 보내지 않고, 칠판 한 곳에서 같이 보는 거예요.  
 봇은 선생님 대신 심부름을 해 주는 도우미예요.  
 그래서 모두가 같은 상황을 빨리 알 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 60 / 373
+
+← **이전**: [[059_argocd_flux|59. Argo CD / Flux - GitOps 지속적 배포]]
+**다음**: [[061_helm_charts|61. Helm Charts (헬름 차트) - 쿠버네티스 패키징]] →
+
+---

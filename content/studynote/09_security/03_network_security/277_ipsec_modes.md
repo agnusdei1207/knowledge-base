@@ -125,3 +125,14 @@ tags:
 1. [[589_ipsec_offload|IPsec]] 모드 ([[589_ipsec_offload|Ipsec]] Modes)는 비밀 편지를 안전하게 잠그거나 진짜인지 확인하는 특별한 약속이에요.
 2. 하지만 자물쇠가 좋아도 열쇠를 아무 데나 두면 금방 들켜요.
 3. 그래서 암호는 만드는 방법과 열쇠를 지키는 방법을 같이 배워야 해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 331 / 1108
+
+← **이전**: [[276_ipsec_ah_esp|276. IPsec AH/ESP 프로토콜 (Ipsec Ah Esp)]]
+**다음**: [[278_ike_internet_key_exchange|278. IKE (Internet Key Exchange)]] →
+
+---

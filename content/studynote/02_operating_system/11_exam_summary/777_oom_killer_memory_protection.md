@@ -226,3 +226,14 @@ tags:
 1. 컴퓨터 배가 바다를 항해하는데, 배가 견딜 수 있는 무게(메모리)보다 사람들이 너무 많은 짐을 들고 타서 배가 가라앉으려고 해요! (메모리 고갈)
 2. 배가 아예 침몰하면 다 죽기 때문에, 선장님([[001_operating_system_purpose|운영체제]])은 가장 크고 무거운 쓸모없는 짐을 가진 사람(프로세스) 한 명을 강제로 골라요.
 3. 그리고 그 사람을 물 밖으로 던져버린답니다([[425_oom_killer_score|OOM Killer]] 발동). 불쌍하긴 하지만, 그 한 명 덕분에 배 전체와 나머지 사람들은 무사히 항해를 계속할 수 있는 거랍니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 777 / 800
+
+← **이전**: [[776_cloud_computing_resource_pooling|776. 클라우드 컴퓨팅 OS 자원 풀링 (Cloud Computing Resource Pooling)]]
+**다음**: [[778_process_affinity_scheduling_pinning|778. 프로세스 친화성 (Affinity) 스케줄링]] →
+
+---

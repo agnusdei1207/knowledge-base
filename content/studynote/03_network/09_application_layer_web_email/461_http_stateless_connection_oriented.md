@@ -209,3 +209,14 @@ HTTP 상태 비저장, 연결형/비연결형 특징는 패킷 손실 [[658_ir_r
 1. 이 기술은 마치 우리가 매일 사용하는 "스마트폰"과 같아요.
 2. 복잡한 기계 장치들이 숨어 있지만, 우리는 화면만 터치하면 쉽게 원하는 것을 할 수 있죠.
 3. 이처럼 보이지 않는 곳에서 시스템이 잘 돌아가도록 돕는 멋진 마법 같은 기술이랍니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 582 / 1120
+
+← **이전**: [[460_quic_packet_loss_recovery_unique_packet_number|460. 패킷 손실 복구 메커니즘 개선]]
+**다음**: [[462_http_methods_get_post_put_delete|462. HTTP 메서드 (GET, POST, PUT, DELETE, PATCH, OPTIONS, HEAD, TRACE)]] →
+
+---

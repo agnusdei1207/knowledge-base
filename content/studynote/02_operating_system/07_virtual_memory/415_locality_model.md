@@ -197,3 +197,14 @@ for (int j = 0; j < 1024; j++) {
 1. 지역성 모델 (Locality Model)은 컴퓨터가 메모리를 더 크게 보이게 하고 부족함을 숨기는 방법이에요.
 2. 먼저 [[414_cause_of_thrashing|스래싱 원인]]을 이해하면 지역성 모델 (Locality Model)이 왜 필요한지 더 쉽게 보여요.
 3. 그래서 지역성 모델 (Locality Model)을 잘 알면 나중에 [[416_working_set_model|워킹 셋 모델]] ([[416_working_set_model|Working-Set Model]])도 훨씬 쉽게 배울 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 415 / 800
+
+← **이전**: [[414_cause_of_thrashing|414. 스래싱 원인 (Cause Of Thrashing)]]
+**다음**: [[416_working_set_model|416. 워킹 셋 모델 (Working-Set Model) - 특정 시간 구간(윈도우) 동안 참조된 페이지 집합 보장]] →
+
+---

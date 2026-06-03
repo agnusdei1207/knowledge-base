@@ -113,3 +113,14 @@ tags:
 1. [[100_sre_site_reliability_engineering_error_budget|SRE]] 사이트 [[642_reliability_mtbf_mttr_mttf_availability|신뢰성]] 공학 [[101_error_budget_sre|에러 예산]] [[685_toil_automation_sre|토일]] 축소는 사람이 많은 운동회에서 어디로 가야 하는지 알려 주는 안내판과 비슷해요.
 2. 규칙이 없으면 모두가 한곳에 몰려서 느려지고 다투지만, 길을 정해 두면 훨씬 부드럽게 움직일 수 있어요.
 3. 그래서 컴퓨터 세상에서도 [[100_sre_site_reliability_engineering_error_budget|SRE]] 사이트 [[642_reliability_mtbf_mttr_mttf_availability|신뢰성]] 공학 [[101_error_budget_sre|에러 예산]] [[685_toil_automation_sre|토일]] 축소를 쓰면 많은 팀과 [[090_service_kubernetes_network_load_balancing|서비스]]가 덜 부딪히고 더 빨리 움직일 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 299 / 371
+
+← **이전**: [[299_devsecops|299. 데브섹옵스 시프트 레프트 초기 보안 (DevSecOps)]]
+**다음**: [[301_sli_slo_sla|301. SLI SLO SLA 서비스 레벨 지표 목표 협약 (SLI SLO SLA)]] →
+
+---

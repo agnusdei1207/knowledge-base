@@ -88,3 +88,14 @@ Ambari는 [[843_hadoop_rack_awareness_data_replication_topology|Hadoop]] 생태�
 1. **아파치 암바리**: 수백 명의 요리사(서버)가 일하는 거대한 주방의 '총주방장'님과 같아요.
 2. **이유**: 총주방장님이 컴퓨터 화면으로 "불을 켜세요!", "간을 맞추세요!"라고 명령하면 요리사들이 일제히 움직여서 맛있는 [[843_hadoop_rack_awareness_data_replication_topology|하둡]] 요리를 만드는 거예요.
 3. **결론**: 요리사 한 명 한 명을 찾아다니지 않고, 한 번에 명령해서 실수 없이 일을 끝낼 수 있게 돕는 대장 도구예요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 41 / 262
+
+← **이전**: [[040_apache_flume|18. 아파치 플룸 (Apache Flume) - 대규모 로그 수집 및 전송]]
+**다음**: [[042_cloudera_cdp_platform|Cloudera CDP (Cloudera Data Platform)]] →
+
+---

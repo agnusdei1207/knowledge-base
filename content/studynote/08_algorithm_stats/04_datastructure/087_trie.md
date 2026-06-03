@@ -184,3 +184,14 @@ def autocomplete(trie, prefix, max_results=5):
 1. 트라이는 도서관 [[104_classification_analysis|분류]] 시스템이에요 — 공통 시작 글자끼리 모여서 찾기 쉬워요!
 2. "[[089_contract_account_smart_contract|CA]]"로 시작하는 단어 모두 찾기(자동 완성)가 O(L)로 매우 빠르게 동작해요!
 3. 구글 검색창 자동 완성, 사전 앱, 네트워크 라우터가 모두 트라이를 사용해요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 87 / 175
+
+← **이전**: [[086_fenwick_tree|30. 펜윅 트리 (BIT) — 범위 합 쿼리의 효율적 구조]]
+**다음**: [[088_avl_tree|31. AVL 트리 — 자가 균형 이진 탐색 트리]] →
+
+---

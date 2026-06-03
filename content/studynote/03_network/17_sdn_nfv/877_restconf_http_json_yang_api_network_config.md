@@ -133,3 +133,14 @@ RESTCONF [[295_protocol_field_tcp_udp_icmp|프로토콜]]는 YANG (Yet Another N
 1. 장난감 차를 움직이는 조종기와 차체를 따로 생각하면 바꾸기 쉬워져요.
 2. 이 개념은 네트워크의 머리와 몸을 나눠 더 쉽게 프로그램하게 해줘요.
 3. 그래서 새 규칙을 더 빨리 넣고 바꿀 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 998 / 1120
+
+← **이전**: [[876_yang_yet_another_next_generation_data_modeling|876. YANG 데이터 모델링]]
+**다음**: [[878_openconfig_vendor_neutral_yang_model|878. 오픈컨피그 (OpenConfig)]] →
+
+---

@@ -139,3 +139,14 @@ tags:
 1. [[209_data_mart_kimball_star_schema|데이터 마트]] 개념 및 설계는 복잡한 일을 순서대로 정리해 주는 큰 정리함이에요.
 2. 어디에 무엇을 넣을지 먼저 정해 두면, 나중에 찾거나 고칠 때 훨씬 쉬워져요.
 3. 그래서 일이 커질수록 먼저 기준을 만들고 같이 약속하는 것이 중요해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 262 / 482
+
+← **이전**: [[261_data_warehouse_architecture|261. 데이터 웨어하우스 (Data Warehouse) 아키텍처]]
+**다음**: [[263_ods_operational_data_store|263. ODS (Operational Data Store) 운영 데이터 저장소]] →
+
+---

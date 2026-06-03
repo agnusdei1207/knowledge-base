@@ -124,3 +124,14 @@ Tensor Parallelism & Distributed Training (분산 가속 훈련)
 1. 스칼라는 '사과 한 개', 벡터는 '사과 한 줄', 매트릭스는 '사과 한 상자'예요.
 2. 텐서는 사과 상자들이 가득 들어있는 거대한 '창고' 같은 거예요.
 3. 텐서를 쓰면 점이든 상자든 똑같은 규칙으로 한 번에 통째로 계산할 수 있어서 컴퓨터가 아주 빨리 일할 수 있답니다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 107 / 258
+
+← **이전**: [[106_mahalanobis_distance|마할라노비스 거리 (Mahalanobis Distance)]]
+**다음**: [[108_gini_impurity|108. 지니 불순도 (Gini Impurity)]] →
+
+---

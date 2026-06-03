@@ -110,3 +110,14 @@ tags:
 1. [[388_qos_quality_of_service_best_effort_intserv_diffserv|QoS]] 0은 **엽서**예요. 보내면 끝이고 도착할지 모르지만 **가장 가벼워요**.
 2. [[388_qos_quality_of_service_best_effort_intserv_diffserv|QoS]] 1은 **등기우편**이에요. 배달 [[396_validation|확인]]을 받지만 **같은 편지가 2번** 올 수도 있어요.
 3. [[388_qos_quality_of_service_best_effort_intserv_diffserv|QoS]] 2는 **내용증명**이에요. 정확히 **1번만** 도착하지만 절차가 복잡해요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 119 / 552
+
+← **이전**: [[118_mqtt_protocol|118. MQTT 프로토콜 (Message Queuing Telemetry Transport) - IoT 경량 메시징]]
+**다음**: [[120_coap_constrained_application_protocol|120. CoAP (Constrained Application Protocol) - IoT 경량 RESTful 프로토콜]] →
+
+---

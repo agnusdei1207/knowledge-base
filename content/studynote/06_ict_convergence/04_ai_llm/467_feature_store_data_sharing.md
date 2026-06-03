@@ -117,3 +117,14 @@ DW나 [[208_data_lake_schema_on_read|데이터 레이크]]는 인간이 눈으�
 1. 요리사([[190_ai_llm_requirements_specification|AI]])들이 요리할 때마다 각자 도마에서 양파를 까고 썰려니까 너무 힘들고 귀찮았어요.
 2. 그래서 마을 한가운데에 '손질된 양파와 당근을 파는 마법의 반찬 가게([[165_feature_store_training_serving_consistency|피처 스토어]])'를 열었어요.
 3. 이제 요리사들은 반찬 가게에서 썰어놓은 재료를 1초 만에 사 와서 바로 요리만 하면 되니까, 맛있는 요리를 엄청나게 빨리 만들 수 있게 되었답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 467 / 552
+
+← **이전**: [[466_mlops_pipeline_ci_cd_ct|466. MLOps 파이프라인과 CI/CD/CT]]
+**다음**: [[468_model_drift_retraining|468. 모델 드리프트 (Model Drift)와 재학습 (Retraining)]] →
+
+---

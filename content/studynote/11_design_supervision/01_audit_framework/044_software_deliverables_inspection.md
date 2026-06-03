@@ -324,3 +324,14 @@ GitHub Copilot, CodeRabbit
 1. 산출물 검사는 단계별 음식 품질 검사 — 재료 검사(요구사항), 조리 중 맛 보기(코드 검토), 최종 시식(테스트). 일찍 발견할수록 고치기 쉬워요!
 2. Fagan [[161_inspection_formal_review|인스펙션]]은 역할 분리 교정 팀 — 기자(작성자), 교열(검사자), 편집장(진행자)이 각자 역할로 더 많은 오류를 잡아내요.
 3. 현대는 [[090_configuration_item|CI]]/CD 자동 품질 게이트 — [[079_sonarqube|SonarQube]], Snyk이 코드 공항 보안검색대. 기준 미달은 배포 자동 차단!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 65 / 530
+
+← **이전**: [[044_auditor_independence_objectivity|44. 감리인의 독립성 및 객관성 (Auditor Independence and Objectivity)]]
+**다음**: [[045_liquidated_damages_progress_verification|45. 사업자 지체상금 분쟁 예방을 위한 진척도 및 지연 사유 증빙 점검 (Liquidated Damages Progress Verification)]] →
+
+---

@@ -125,3 +125,14 @@ tags:
 1. 서명 타임스탬프 (Signature Timestamping [[192_time_stamping_authority_rfc3161_non_repudiation|Tsa]])는 학교 규칙표처럼 무엇을 준비하고 어떻게 확인할지 알려 주는 기준이에요.
 2. 규칙표만 붙여 두고 지키지 않으면 아무 소용이 없어요.
 3. 그래서 보안도 규칙과 실제 행동이 함께 맞아야 해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 244 / 1108
+
+← **이전**: [[190_apple_developer_id_code_signing_notarization|190. Apple Developer ID (Apple Developer ID)]]
+**다음**: [[192_time_stamping_authority_rfc3161_non_repudiation|192. TSA (Time Stamping Authority)와 RFC 3161 (Time Stamping Authority)]] →
+
+---

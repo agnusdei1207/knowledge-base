@@ -122,3 +122,14 @@ retrieval
 1. 이름 대신 지문으로 물건을 찾는 창고예요.
 2. 어떤 창고는 빌려 쓰고, 어떤 창고는 오래 보관해요.
 3. 그래서 넣기 전에 얼마나 오래 둘지 먼저 생각해야 해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 75 / 552
+
+← **이전**: [[074_zkevm_zero_knowledge_ethereum_virtual_machine|74. zkEVM (Zero-Knowledge Ethereum Virtual Machine)]]
+**다음**: [[076_permissionless_vs_permissioned_blockchain|76. 무허가형 (Permissionless) vs 허가형 (Permissioned) 블록체인]] →
+
+---

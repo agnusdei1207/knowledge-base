@@ -64,3 +64,14 @@ DB per Service는 **MSA의 [[004_data_independence|데이터 독립성]] 핵심 
 1. 공유 DB는 **공동 냉장고**예요. 한 사람이 정리하면 **다른 사람 물건이 밀려나요**.
 2. DB per Service는 **각자 냉장고**예요. 자기 냉장고를 **독립적으로 관리**해요.
 3. 대신 남의 냉장고 물건이 필요하면 **부탁([[014_api_posix|API]])**해야 한답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 130 / 371
+
+← **이전**: [[130_bulkhead_pattern|130. Bulkhead 패턴 - 격벽으로 장애 격리]]
+**다음**: [[132_polyglot_persistence|132. Polyglot Persistence - MSA 서비스별 최적 DB 선택]] →
+
+---

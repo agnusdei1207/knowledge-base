@@ -132,3 +132,14 @@ tags:
 1. 약속을 적은 공책을 순서대로 정리하는 방법이에요.
 2. 누가 먼저 읽고 쓰는지 규칙을 지켜야 헷갈리지 않아요.
 3. 규칙이 약하면 빠르지만 틀릴 수 있고, 너무 세면 느려질 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 387 / 600
+
+← **이전**: [[386_data_clean_room_sharing|386. 데이터 공유 (Data Sharing / Clean Room) 보안 파티션 교환 모델 (Snowflake Data Clean]]
+**다음**: [[388_spanner_truetime_clock_skew|388. 분산 노드 간 클럭 스큐(Clock Skew) 해결용 스패너(Spanner) 트루타임 원리]] →
+
+---

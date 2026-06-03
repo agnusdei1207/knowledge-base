@@ -182,3 +182,14 @@ ZFS와 Btrfs는 모두 [[112_checksum|체크섬]]과 [[542_cow_file_system|CoW]]
 1. 자가 치유 [[501_file_definition_logical_record|파일]]시스템은 책장이 글자가 바뀌었는지 스스로 검사하는 똑똑한 공책 같아요.
 2. 공책이 이상한 글자를 찾으면, 옆에 있는 같은 내용을 보고 맞는 글자로 다시 고칠 수 있어요.
 3. 그래서 오래 두었다가 다시 읽어도 내용이 조용히 틀려지는 일을 훨씬 줄일 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 170 / 373
+
+← **이전**: [[169_finops_cloud_cost_monitoring_sre|169. 클라우드 비용 모니터링 FinOps (Cloud Cost Monitoring)]]
+**다음**: [[171_capacity_planning_load_testing|171. 용량 계획 및 부하 테스트 (Capacity Planning/Load Testing)]] →
+
+---

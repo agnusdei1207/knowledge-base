@@ -55,3 +55,14 @@ ESB는 **[[618_soa_hardware|SOA]] 시대의 통합 표준**이지만, MSA에서�
 1. ESB는 **고속도로 인터체인지**예요. 여러 방향의 차를 **자동 안내**해요.
 2. 서울→부산, 대전→광주 차들이 **인터체인지에서 방향**을 바꿔요.
 3. 하지만 너무 **복잡해져서** 요즘은 [[179_kafka_flink_watermark_time_window|Kafka]](우편함)로 바꾸고 있어요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 146 / 482
+
+← **이전**: [[145_message_broker_sync_async|145. 메시지 브로커 (Message Broker) - 동기·비동기 통합]]
+**다음**: [[147_data_application_process_integration_etl_api_bpm|147. 데이터·애플리케이션·프로세스 통합 (ETL / API / BPM)]] →
+
+---

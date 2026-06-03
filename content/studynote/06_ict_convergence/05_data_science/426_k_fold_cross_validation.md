@@ -140,3 +140,14 @@ K-Fold [[250_cross_validation_kfold|교차 검증]]의 경계를 드러내려면
 1. 이 개념은 복잡한 일을 한눈에 보이게 정리해서 모두가 같은 규칙으로 움직이게 해 줘.
 2. 그래서 많은 기계나 사람, 프로그램이 함께 일해도 어디서 문제가 생겼는지 찾기 쉬워져.
 3. 한마디로 이 개념은 복잡한 일을 질서 있게 움직이게 만드는 안내판이야.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 426 / 552
+
+← **이전**: [[425_curse_of_dimensionality_pca|425. 차원의 저주 PCA 해결 (Curse OF Dimensionality PCA)]]
+**다음**: [[427_confusion_matrix_precision_recall_f1|427. 혼동 행렬 정밀도 재현율 F1 조화 (Confusion Matrix Precision Recall F1)]] →
+
+---

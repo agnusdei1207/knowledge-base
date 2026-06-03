@@ -88,3 +88,14 @@ YARN은 [[843_hadoop_rack_awareness_data_replication_topology|하둡]] 생태계
 - 학교 도서관에서 친구들이 각자 공부할 '책상(자원)'이 필요하다고 해보자.
 - YARN은 누가 어떤 책상을 얼마나 오래 쓸지 결정하고 나눠주는 '도서관 선생님'이야.
 - 선생님 덕분에 어떤 친구는 수학을 하고, 어떤 친구는 국어를 해도 서로 방해하지 않고 공부할 수 있단다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 35 / 262
+
+← **이전**: [[034_shuffle_and_sort_mechanism|셔플 및 정렬 (Shuffle & Sort): 분산 컴퓨팅의 네트워크 병목]]
+**다음**: [[036_apache_hive_sql_interface|Apache Hive: 하둡 기반의 SQL 온 하둡(SQL-on-Hadoop) 데이터 웨어하우스]] →
+
+---

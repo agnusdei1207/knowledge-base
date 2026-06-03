@@ -141,3 +141,14 @@ vLLM의 PagedAttention과 연속 배치는 [[263_llm_large_language_model|LLM]] 
 1. AI가 대화할 때 이전 내용을 기억하는 메모장(KV 캐시)을 낭비 없이 관리하는 것이 PagedAttention이에요.
 2. 메모장을 미리 왕창 예약하지 않고, 필요한 만큼만 조각조각 빌려 쓰는 방식이에요.
 3. 이 덕분에 같은 GPU로 훨씬 많은 사람과 동시에 대화할 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 528 / 552
+
+← **이전**: [[527_hbm_gpu_parallel_bandwidth_llm_bottleneck|527. HBM GPU 병렬 대역폭과 LLM 병목 완화 (HBM GPU Parallel Bandwidth LLM Bottleneck)]]
+**다음**: [[529_dspy_prompt_auto_optimization_compilation|529. DSPy 프롬프트 자동 최적화와 컴파일 (DSPy Prompt Auto-Optimization Compilation)]] →
+
+---

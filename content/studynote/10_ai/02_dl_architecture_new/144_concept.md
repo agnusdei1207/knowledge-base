@@ -54,3 +54,14 @@ RAG는 **[[263_llm_large_language_model|LLM]] [[275_react_framework|환각]] 해
 1. RAG는 **오픈북 시험**이에요. 교과서(문서)를 보면서 답을 써요.
 2. 교과서 없이 기억만으로 쓰면 **틀릴 수 있지만([[275_react_framework|환각]])**, 책을 보면 정확해요.
 3. AI도 **검색해서 [[396_validation|확인]]**하고 답하면 더 정확해요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 144 / 420
+
+← **이전**: [[143_prompt_engineering|143. 프롬프트 엔지니어링 (Prompt Engineering) - LLM 활용의 핵심]]
+**다음**: [[145_concept|145. RLHF (Reinforcement Learning from Human Feedback) - 인간 정렬]] →
+
+---

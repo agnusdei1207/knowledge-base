@@ -157,3 +157,14 @@ SBT는 [[231_did_decentralized_identity|DID]]/VC 시스템을 온체인화한 �
 1. SBT는 내 이름이 새겨진 올림픽 메달처럼 팔 수도, 빌려줄 수도 없는 진짜 내 것이에요.
 2. 학교 졸업장이나 자격증을 SBT로 만들면 누군가 위조하거나 빌릴 수 없어서 믿을 수 있어요.
 3. 하지만 병원 기록 같은 비밀 정보는 SBT로 만들면 모두가 볼 수 있어서 조심해야 해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 543 / 552
+
+← **이전**: [[542_multisig_account_abstraction_erc4337|542. 멀티시그와 계정 추상화 (Multi-Sig and Account Abstraction ERC-4337)]]
+**다음**: [[544_web3_decentralized_platform_economy|544. Web 3.0 탈중앙화 플랫폼 경제 (Web 3.0 Decentralized Platform Economy)]] →
+
+---

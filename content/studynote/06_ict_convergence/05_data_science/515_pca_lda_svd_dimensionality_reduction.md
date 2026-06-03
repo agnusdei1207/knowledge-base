@@ -147,3 +147,14 @@ tags:
 1. PCA는 사진을 찍을 때 가장 잘 보이는 각도를 찾아서 3D 물체를 2D 사진으로 담는 방법이야.
 2. LDA는 남자 얼굴과 여자 얼굴을 구별하는 특징을 찾아서 딱 그 방향으로 사진을 찍는 거야 — 목적이 [[104_classification_analysis|분류]]니까.
 3. SVD는 복잡한 퍼즐을 중요한 조각 순서로 분해한 다음, 가장 중요한 조각들만 모아 비슷한 그림을 만드는 방법이야!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 515 / 552
+
+← **이전**: [[514_regression_ols_vif_multicollinearity|514. 회귀 분석: OLS, VIF, 다중공선성 (Regression OLS VIF Multicollinearity)]]
+**다음**: [[516_markov_chain_absorbing_ergodic_transition|516. 마르코프 체인: 흡수, 에르고딕, 전이 상태 (Markov Chain Absorbing Ergodic Transition)]] →
+
+---

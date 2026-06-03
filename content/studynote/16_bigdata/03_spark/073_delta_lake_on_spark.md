@@ -212,3 +212,14 @@ Delta Lake는 [[208_data_lake_schema_on_read|데이터 레이크]]의 유연성�
 ### 👶 어린이를 위한 3줄 비유 설명
 
 [[208_data_lake_schema_on_read|데이터 레이크]]는 물건을 그냥 던져 넣는 창고인데, Delta Lake는 물건을 넣을 때마다 "언제, 무엇을, 왜 넣었는지" 일지에 적는 창고예요. 나중에 실수로 물건을 망가뜨려도 일지(타임 트래블)를 보고 예전 상태로 되돌릴 수 있고, 두 사람이 동시에 물건을 정리해도 서로 충돌(ACID)하지 않아요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 73 / 262
+
+← **이전**: [[072_spark_history_server|21. Spark History Server — 완료 작업 이력 조회]]
+**다음**: [[074_photon_engine|23. Photon Engine (Databricks) — 네이티브 벡터화 실행 엔진]] →
+
+---

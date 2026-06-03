@@ -165,3 +165,14 @@ UCB · Thompson Sampling · Intrinsic Motivation
 1. 게임 로봇이 맨날 같은 버튼만 누르면 더 좋은 비밀 기술을 못 찾을 수 있어요.
 2. 그래서 선생님이 "가끔은 다른 버튼도 눌러 봐"라고 작은 [[130_probability|확률]]의 모험 규칙을 넣어 줘요.
 3. 충분히 배운 뒤에는 그 모험을 줄여서, 이제는 가장 잘하는 기술을 자신 있게 쓰게 한답니다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 166 / 420
+
+← **이전**: [[165_exploration_vs_exploitation|165. 탐험 (Exploration) vs 활용 (Exploitation) 딜레마]]
+**다음**: [[167_q_learning|167. 큐-러닝 (Q-Learning)]] →
+
+---

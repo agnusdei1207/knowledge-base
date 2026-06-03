@@ -131,3 +131,14 @@ Reconfigurable Computing
 블록을 다시 끼워서 다른 모양을 만들 수 있어요.  
 회로도 그렇게 바꿀 수 있어요.  
 FPGA는 그런 특별한 칩이에요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 69 / 803
+
+← **이전**: [[068_mealy_machine|68. 밀리 머신 (Mealy Machine)]]
+**다음**: [[070_asic|70. ASIC (주문형 반도체)]] →
+
+---

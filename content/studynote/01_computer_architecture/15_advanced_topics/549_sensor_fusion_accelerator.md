@@ -152,3 +152,14 @@ Occupancy network · fail-operational perception
 1. 자동차에는 눈, 귀, 촉감처럼 서로 다른 센서들이 달려 있어요.
 2. [[139_sensor_fusion_camera_lidar_radar|센서 퓨전]] 가속기는 이 친구들 말을 한꺼번에 듣고 "앞에 정말 차가 있어!"라고 빠르게 정리해 주는 반장 같아요.
 3. 반장이 빨리 정확하게 정리해 줘야 자동차가 늦지 않게 브레이크를 밟을 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 549 / 803
+
+← **이전**: [[548_automotive_hpc|548. 자율주행용 고성능 컴퓨터 (HPC)]]
+**다음**: [[550_smart_factory_gateway|550. 스마트 팩토리 엣지 게이트웨이 HW]] →
+
+---

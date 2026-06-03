@@ -193,3 +193,14 @@ BaaS의 도입은 소프트웨어 스타트업 생태계를 근본적으로 바�
 1. 로봇 장난감을 만들 때, 겉모습은 내가 꾸미지만 몸속에 들어가는 복잡한 모터와 배터리 팩은 전문가가 다 만들어 놓은 걸 사다 끼우면 편하겠죠?
 2. BaaS는 핸드폰 앱을 만들 때 '로그인하기', '[[001_dikw_pyramid|데이터]] 저장하기' 같은 복잡하고 똑같은 기능들을 이미 다 완성된 부품으로 제공해 줘요.
 3. 그래서 우리는 골치 아픈 서버 컴퓨터를 만지지 않고도 예쁜 앱 화면 만들기(아이디어)에만 집중해서 뚝딱 [[090_service_kubernetes_network_load_balancing|서비스]]를 만들 수 있답니다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 4 / 371
+
+← **이전**: [[004_saas|4. SaaS (Software as a Service) - 브라우저 기반 완제품 소프트웨어 제공 (Google Workspace, Salesforce)]]
+**다음**: [[006_faas_serverless|6. FaaS (Function as a Service / Serverless) - 인프라 관리 없이 함수 코드 조각 단위로 배포/실행]] →
+
+---

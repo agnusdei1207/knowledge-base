@@ -58,3 +58,14 @@ Span은 **[[112_distributed_tracing_microservices|분산 트레이싱]]의 기�
 1. Span은 택배 추적의 **각 물류센터 기록**이에요.
 2. "서울 센터에서 **2시간 머물렀고**, 부산 센터로 보냈다"를 기록해요.
 3. 어디서 **오래 걸렸는지** 한눈에 알 수 있어요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 143 / 373
+
+← **이전**: [[142_trace_request_context|142. Trace·Span·Context Propagation - 분산 추적의 핵심 구성]]
+**다음**: [[144_context_propagation_trace_id|144. Context Propagation & Trace ID 전파 상세]] →
+
+---

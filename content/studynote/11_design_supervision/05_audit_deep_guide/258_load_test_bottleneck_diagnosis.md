@@ -183,3 +183,14 @@ $ netstat -s | grep retransmit      # TCP 재전송 수
 1. 컴퓨터가 느려질 때는 원인이 CPU(두뇌), 메모리(책상), 디스크(책장), 네트워크(도로) 중 하나인데, 어디가 막혔는지 정확히 찾아야 해.
 2. [[612_memory_leak_detection|메모리 누수]]는 "책을 계속 꺼내서 보고 다시 꽂지 않아서 책상이 꽉 차버리는 것"처럼 프로그램이 메모리를 쓰고 돌려주지 않는 거야.
 3. 병목을 잘못 진단해서 엉뚱한 곳을 고치면 돈만 쓰고 문제가 해결이 안 되니까, 정확한 진단이 치료보다 더 중요해.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 319 / 530
+
+← **이전**: [[257_littles_law_performance_audit|257. 리틀의 법칙 성능 진단 (Little's Law Performance Audit)]]
+**다음**: [[259_apm_monitoring_audit|259. APM 모니터링 감리 (APM Monitoring Audit)]] →
+
+---

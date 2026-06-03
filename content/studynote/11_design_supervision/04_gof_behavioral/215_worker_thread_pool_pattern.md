@@ -200,3 +200,14 @@ Virtual Thread를 사용해도 CPU 바운드 작업에서는 기존 Platform [[0
 1. 놀이공원에서 놀이기구 마다 안전요원이 항상 대기(Pool)해 있어서 줄 서는 손님(요청)이 오면 바로 운행(처리)할 수 있어.
 2. 안전요원을 손님 올 때마다 새로 뽑으면 시간이 많이 걸리니까, 미리 뽑아서 기다리게 해두는 것이 [[103_thread_pool|스레드 풀]]이야.
 3. 안전요원 수(maximumPoolSize)를 너무 많이 뽑으면 급여(메모리)가 너무 많이 들고, 너무 적게 뽑으면 손님이 기다리다 포기(RejectedExecution)하니 딱 적당하게 뽑는 것이 핵심이야.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 276 / 530
+
+← **이전**: [[214_half_sync_half_async_pattern|214. 하프-싱크/하프-어싱크 패턴 (Half-Sync/Half-Async Pattern)]]
+**다음**: [[216_monad_functional_pattern|216. 모나드 패턴 (Monad / Functional Programming Pattern)]] →
+
+---

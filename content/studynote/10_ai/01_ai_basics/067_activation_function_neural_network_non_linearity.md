@@ -131,3 +131,14 @@ Deep Learning
 그냥 더하기만 하면 단순해요.  
 중간에 꺾어 주는 함수가 필요해요.  
 [[129_activation_function|활성화 함수]]는 그런 꺾임이에요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 67 / 420
+
+← **이전**: [[066_weight_bias_linear_equation|66. 가중치 (Weight, W) / 편향 (Bias, b) - 선형 방정식의 파라미터 (y = Wx + b)]]
+**다음**: [[068_step_function_activation|68. 계단 함수 (Step Function) - 0 이하면 0, 0 이상이면 1 반환 (미분 불가)]] →
+
+---

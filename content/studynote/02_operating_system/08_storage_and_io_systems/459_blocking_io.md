@@ -181,3 +181,14 @@ OS [[022_kernel_role|커널]] 안에는 디스크 드라이버나 [[125_socket|�
 1. 블로킹 I/O ([[122_sync_async_communication|Blocking]] I/O)은 컴퓨터가 디스크와 장치가 [[001_dikw_pyramid|데이터]]를 주고받는 길을 정리하는 방법이에요.
 2. 먼저 예약 및 단독 장치 접근 제어을 이해하면 블로킹 I/O ([[122_sync_async_communication|Blocking]] I/O)이 왜 필요한지 더 쉽게 보여요.
 3. 그래서 블로킹 I/O ([[122_sync_async_communication|Blocking]] I/O)을 잘 알면 나중에 논블로킹 I/O (Non-[[122_sync_async_communication|blocking]] I/O)도 훨씬 쉽게 배울 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 459 / 800
+
+← **이전**: [[458_device_reservation_exclusive_access|458. 예약 및 단독 장치 접근 제어 (Device Reservation Exclusive Access)]]
+**다음**: [[460_non_blocking_io|460. 논블로킹 I/O (Non-blocking I/O) - 데이터가 없어도 즉시 반환 (오류/0 바이트 반환)]] →
+
+---

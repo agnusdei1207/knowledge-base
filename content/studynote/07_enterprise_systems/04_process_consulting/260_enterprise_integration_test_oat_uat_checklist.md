@@ -139,3 +139,14 @@ tags:
 1. 엔터프라이즈 [[400_integration_testing|통합 테스트]] [[707_oat_operational_acceptance_testing|OAT]]/UAT [[435_checklist_based_testing|체크리스트]]는 복잡한 일을 순서대로 정리해 주는 큰 정리함이에요.
 2. 어디에 무엇을 넣을지 먼저 정해 두면, 나중에 찾거나 고칠 때 훨씬 쉬워져요.
 3. 그래서 일이 커질수록 먼저 기준을 만들고 같이 약속하는 것이 중요해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 260 / 482
+
+← **이전**: [[259_is_migration_cutover_rollback_scenario|259. 정보시스템 마이그레이션 컷오버 롤백 시나리오 (IS Migration Cut-over / Rollback)]]
+**다음**: [[261_data_warehouse_architecture|261. 데이터 웨어하우스 (Data Warehouse) 아키텍처]] →
+
+---

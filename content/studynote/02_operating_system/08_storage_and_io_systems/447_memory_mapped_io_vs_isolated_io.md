@@ -171,3 +171,14 @@ CPU가 0x1000번지를 찔렀을 때, 이게 램 칩으로 갈지 그래픽카�
 1. 메모리 맵 I/O (Memory-mapped I/O) vs 분리된 I/O (Isolated I/O / [[446_port_and_bus|Port]] I/O)은 컴퓨터가 디스크와 장치가 데이터를 주고받는 길을 정리하는 방법이에요.
 2. 먼저 [[446_port_and_bus|포트]] ([[446_port_and_bus|Port]]) / [[344_bus|버스]] ([[344_bus|Bus]])을 이해하면 메모리 맵 I/O (Memory-mapped I/O) vs 분리된 I/O (Isolated I/O / [[446_port_and_bus|Port]] I/O)이 왜 필요한지 더 쉽게 보여요.
 3. 그래서 메모리 맵 I/O (Memory-mapped I/O) vs 분리된 I/O (Isolated I/O / [[446_port_and_bus|Port]] I/O)을 잘 알면 나중에 [[448_polling_programmed_io|폴링]] ([[747_io_polling_overhead|Polling]] / Programmed I/O)도 훨씬 쉽게 배울 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 447 / 800
+
+← **이전**: [[446_port_and_bus|446. 포트 (Port) / 버스 (Bus) - PCIe, USB, SATA, NVMe]]
+**다음**: [[448_polling_programmed_io|448. 폴링 (Polling / Programmed I/O) - 상태 비트를 지속적으로 호스트가 읽음 (바쁜 대기)]] →
+
+---

@@ -125,3 +125,14 @@ A04. [[481_insecure_design|안전하지 않은 설계]] (Insecure Design)를 제
 1. A04. [[481_insecure_design|안전하지 않은 설계]] (Insecure Design)는 비밀 편지를 안전하게 잠그거나 진짜인지 확인하는 특별한 약속이에요.
 2. 하지만 자물쇠가 좋아도 열쇠를 아무 데나 두면 금방 들켜요.
 3. 그래서 암호는 만드는 방법과 열쇠를 지키는 방법을 같이 배워야 해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 496 / 1108
+
+← **이전**: [[439_ssti|439. Template Injection (SSTI)]]
+**다음**: [[441_missing_threat_modeling|441. 위협 모델링 부재 (Missing Threat Modeling)]] →
+
+---

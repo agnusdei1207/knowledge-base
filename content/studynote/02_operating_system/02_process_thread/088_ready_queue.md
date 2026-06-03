@@ -123,3 +123,14 @@ CFS (Completely Fair Scheduler - Red-Black Tree 기반 대기열)
 1. 게임기(CPU)는 하나뿐인데 놀고 싶은 친구(프로세스)가 많을 때 서로 안 싸우게 줄을 세워야 해요.
 2. Ready Queue는 숙제도 다 끝내고 당장 게임기를 켤 준비가 완벽히 끝난 친구들이 모인 대기 줄이에요.
 3. [[001_operating_system_purpose|운영체제]] 선생님은 이 줄을 보고 가장 공평하고 빠른 순서대로 친구들에게 게임기를 넘겨준답니다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 88 / 800
+
+← **이전**: [[087_process_state_transition|87. 생성 (New) -> 준비 (Ready) -> 실행 (Running) -> 대기 (Waiting/Blocked) -> 종료 (Terminated)]]
+**다음**: [[089_wait_queue|89. 대기 큐 (Wait Queue / Device Queue)]] →
+
+---

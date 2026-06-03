@@ -154,3 +154,14 @@ Edge AI / On-device Inference / Low-latency Service
 1. 아주 똑똑한 큰 로봇이 문제를 푸는 비밀 요령을 작은 로봇에게 알려주는 것이 [[252_knowledge_distillation_quantization_edge_slm_diffusion|지식 증류]]예요.
 2. 작은 로봇은 정답만 외우는 게 아니라, 왜 다른 답이 비슷했는지도 같이 배워서 더 똑똑해져요.
 3. 그래서 몸집은 작아도 휴대폰 안에서 빠르게 움직이는 똑똑한 로봇이 될 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 157 / 420
+
+← **이전**: [[156_rlaif|156. RLAIF (AI 피드백 기반 강화학습)]]
+**다음**: [[158_quantization|158. 양자화 (Quantization)]] →
+
+---

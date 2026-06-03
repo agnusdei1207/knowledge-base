@@ -127,3 +127,14 @@ PWA는 브라우저 기반이지만 설치형 앱처럼 동작할 수 있도록 
 1. 자주 보는 그림책을 가방에 넣어 두면 인터넷이 없어도 볼 수 있어요.
 2. 새 그림이 생기면 나중에 다시 인터넷이 될 때 바꿔 넣으면 돼요.
 3. 그래서 PWA는 필요한 것을 미리 챙겨 두고, 나중에 연결되면 다시 맞춰 주는 똑똑한 가방 같아요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 516 / 530
+
+← **이전**: [[437_process|437. 엣지 네이티브 지연시간 단축 캐싱 분산 (Edge-Native Latency Reduction through Caching and]]
+**다음**: [[439_process|439. 웹어셈블리 브라우저 프런트엔드 가속 모듈 (WebAssembly Browser Front-End Acceleration Module)]] →
+
+---

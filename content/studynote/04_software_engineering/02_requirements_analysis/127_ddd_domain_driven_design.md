@@ -107,3 +107,14 @@ DDD는 **복잡한 비즈니스 [[064_relation_domain|도메인]]을 다루는 �
 1. DDD는 **레고 설명서**처럼 만들 물건([[064_relation_domain|도메인]])을 먼저 이해하고 설계하는 거예요.
 2. 만드는 사람(개발자)과 주문한 사람(고객)이 **같은 이름([[220_ubiquitous_language_ddd_communication|유비쿼터스 언어]])**으로 부르면 혼동이 없어요.
 3. 큰 레고를 **작은 묶음([[221_bounded_context_ddd_msa_boundary|Bounded Context]])**으로 나누면 여러 팀이 동시에 만들 수 있답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 127 / 973
+
+← **이전**: [[126_bdd_behavior_driven_development_given_when_then|126. BDD (Behavior-Driven Development) - Given/When/Then 행위 기반 개발]]
+**다음**: [[128_water_scrum_fall_anti_pattern|128. Water-Scrum-Fall (안티패턴) - 하이브리드 Agile의 함정]] →
+
+---

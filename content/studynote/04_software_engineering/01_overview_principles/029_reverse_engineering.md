@@ -143,3 +143,14 @@ tags:
 1. 역공학은 완성된 케이크를 분해해서 레시피를 알아내는 거예요! 소스코드 없이 프로그램이 어떻게 동작하는지 파악해요.
 2. Ghidra나 IDA Pro 같은 특별한 도구로 복잡한 프로그램 코드를 읽을 수 있는 형태로 변환해요!
 3. 요즘은 AI가 어려운 기계어 코드를 자연어로 설명해줘서 역공학이 훨씬 쉬워졌어요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 29 / 973
+
+← **이전**: [[028_software_reengineering|28. 소프트웨어 리엔지니어링 (Software Reengineering)]]
+**다음**: [[030_software_reuse_cbd|30. 소프트웨어 재사용과 CBD — Component Based Development]] →
+
+---

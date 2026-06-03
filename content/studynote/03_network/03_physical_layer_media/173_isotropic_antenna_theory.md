@@ -164,3 +164,14 @@ real coverage design
 1. 등방성 [[171_antenna_basic_dipole_resonance|안테나]]는 모든 방향으로 똑같이 빛을 비춘다고 상상한 가짜 손전등이에요.
 2. 진짜 손전등은 한쪽으로 더 밝게 비추니까, 우리는 그 가짜 손전등과 비교해서 얼마나 더 모였는지 재요.
 3. 그래서 등방성 [[171_antenna_basic_dipole_resonance|안테나]]는 실제로 쓰지 않아도 다른 [[171_antenna_basic_dipole_resonance|안테나]]를 비교하는 기준 자처럼 꼭 필요해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 294 / 1120
+
+← **이전**: [[172_omni_directional_vs_directional_antenna|172. 무지향성 안테나 (Omni-Directional Antenna) vs 지향성 안테나 (Directional Antenna)]]
+**다음**: [[174_antenna_gain_dbi_dbd|174. 안테나 이득 (Antenna Gain, dBi, dBd)]] →
+
+---

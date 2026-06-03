@@ -192,3 +192,14 @@ A 회사의 윈도우 코드와 B 회사의 윈도우 코드가 내용이 완전
 1. [[796_memory_encryption|메모리 암호화]] [[015_virtualization|가상화]] (AMD SME/SEV, [[480_intel_sgx|Intel SGX]])은 컴퓨터가 메모리를 더 크게 보이게 하고 부족함을 숨기는 방법이에요.
 2. 먼저 [[022_kernel_role|커널]] [[353_page_table|페이지 테이블]] 격리 ([[578_kpti|KPTI]], [[022_kernel_role|Kernel]] [[286_page_frame|Page]]-Table [[195_isolation_concurrency_control|Isolation]])을 이해하면 [[796_memory_encryption|메모리 암호화]] [[015_virtualization|가상화]] (AMD SME/SEV, [[480_intel_sgx|Intel SGX]])이 왜 필요한지 더 쉽게 보여요.
 3. 그래서 [[796_memory_encryption|메모리 암호화]] [[015_virtualization|가상화]] (AMD SME/SEV, [[480_intel_sgx|Intel SGX]])을 잘 알면 나중에 [[438_unified_buffer_cache_page_cache|파일시스템 버퍼 캐시]]([[536_buffer_cache_page_cache|Buffer Cache]])와 [[381_virtual_memory|가상 메모리]] [[286_page_frame|페이지]] 캐시([[286_page_frame|Page]] Cache)의 통합 원리도 훨씬 쉽게 배울 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 437 / 800
+
+← **이전**: [[436_kpti_kernel_page_table_isolation|436. 커널 페이지 테이블 격리 (KPTI, Kernel Page-Table Isolation) - Meltdown 취약점 대응망]]
+**다음**: [[438_unified_buffer_cache_page_cache|438. 파일시스템 버퍼 캐시(Buffer Cache)와 가상 메모리 페이지 캐시(Page Cache)의 통합 원리]] →
+
+---

@@ -112,3 +112,14 @@ Instance
 [[002_database_definition|데이터베이스]]는 책장에 꽂힌 책이에요.  
 인스턴스는 그 책을 읽고 정리하는 사서예요.  
 사서가 있어야 책이 실제로 쓰여요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 58 / 600
+
+← **이전**: [[057_shared_pool_oracle_sga|57. 공유 풀 (Shared Pool) - Oracle 인스턴스 구조]]
+**다음**: [[059_persistent_storage_data_log_control_file|59. 영구 저장소 (Persistent Storage) - 데이터 파일, 로그 파일, 제어 파일]] →
+
+---

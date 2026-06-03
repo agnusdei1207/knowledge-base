@@ -111,3 +111,14 @@ tags:
 1. [[259_adapter_pattern_interface_wrapper|어댑터]] 패턴 ([[151_adapter_pattern|Adapter Pattern]])은 콘센트 모양이 달라도 변환 플러그를 끼워 전기를 쓰는 것처럼 약속을 먼저 정하는 거예요.
 2. 그러면 서로 다른 사람이 해도 같은 규칙으로 움직일 수 있어요.
 3. 그래서 규모가 커질수록 호환되지 않는 계약을 연결하는 일이 더 중요해져요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 461 / 530
+
+← **이전**: [[382_singleton_summary|382. 싱글톤 패턴 (Singleton Pattern)]]
+**다음**: [[384_bridge_pattern_summary|384. 브리지 패턴 (Bridge Pattern)]] →
+
+---

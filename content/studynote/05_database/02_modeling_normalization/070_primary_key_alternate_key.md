@@ -123,3 +123,14 @@ Referential Integrity
 여러 후보 중 한 명을 뽑아요.  
 그 사람은 대표가 돼요.  
 기본 키는 그런 대표예요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 70 / 600
+
+← **이전**: [[069_candidate_key_uniqueness_minimality|69. 후보 키 (Candidate Key) - 유일성과 최소성을 모두 만족하는 키]]
+**다음**: [[071_alternate_key|71. 대체 키 (Alternate Key) - 후보 키 중 기본 키로 선택되지 않은 나머지 키]] →
+
+---

@@ -334,3 +334,14 @@ AI+BI 통합 플랫폼 수렴
 1. [[146_lakehouse|레이크하우스]]는 복합 쇼핑몰 — 재래시장(레이크: 뭐든 있지만 복잡)과 백화점(웨어하우스: 정갈하지만 비쌈)을 하나로 합쳤어요!
 2. 타임 트래블은 [[001_dikw_pyramid|데이터]] 되감기 — 어제 실수로 지운 [[001_dikw_pyramid|데이터]]? "어제 [[288_version_ihl_tos_total_length|버전]] 보여줘!" 한 줄로 [[658_ir_recovery|복구]]. [[001_dikw_pyramid|데이터]]에도 타임머신이 있어요!
 3. 오픈 포맷은 표준 [[359_usb|USB]] — [[147_delta_lake|Delta Lake]]/Iceberg/Hudi 모두 같은 [[178_parquet_rle_encoding_columnar_compression|파케이]] [[501_file_definition_logical_record|파일]]. 어떤 도구(Spark, Trino, Flink)로도 읽을 수 있는 표준 규격!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 258 / 262
+
+← **이전**: [[257_data_fabric|045. 데이터 패브릭 — Data Fabric]]
+**다음**: [[259_realtime_olap|047. 실시간 OLAP — ClickHouse·Druid·Pinot·StarRocks]] →
+
+---

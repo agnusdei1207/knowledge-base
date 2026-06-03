@@ -154,3 +154,14 @@ Memory Footprint Reduction + Scalable Rendering
 1. 같은 나무 그림을 천 번 그릴 때, 그림판을 천 개 만드는 대신 나무 도장 하나를 같이 쓰는 게 [[265_flyweight_pattern_instance_sharing|플라이웨이트]]예요.
 2. 어디에 찍을지, 얼마나 크게 찍을지만 그때그때 바꾸면 훨씬 덜 힘들어요.
 3. 그래서 많은 그림을 그려도 종이와 힘을 아낄 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 213 / 530
+
+← **이전**: [[156_facade_pattern|156. 파사드 패턴 (Facade Pattern)]]
+**다음**: [[158_proxy_pattern|158. 프록시 패턴 (Proxy Pattern)]] →
+
+---

@@ -111,3 +111,14 @@ SLA는 **[[090_service_kubernetes_network_load_balancing|서비스]] [[642_relia
 1. SLA는 식당의 **"30분 안에 안 나오면 무료!"** 같은 약속이에요.
 2. 약속([[085_sla|SLA]])을 못 지키면 **돈을 돌려줘야(크레딧)** 해요.
 3. 그래서 식당([[090_service_kubernetes_network_load_balancing|서비스]])은 **약속보다 더 빨리([[181_slo_service_level_objective|SLO]])** 음식을 내놓으려고 노력해요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 124 / 373
+
+← **이전**: [[123_slo_service_level_objective|123. SLO (Service Level Objective) - 서비스 수준 목표 설정과 Error Budget]]
+**다음**: [[125_error_budget|125. Error Budget (에러 예산) - 신뢰성과 혁신 속도의 균형 도구]] →
+
+---

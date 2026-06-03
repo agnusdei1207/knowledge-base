@@ -104,3 +104,14 @@ tags:
 1. [[551_compensating_transaction_logical_rollback|보상 트랜잭션]]은 학교에서 준비물을 미리 챙기는 것처럼, 중요한 기준을 먼저 맞추는 일이야.
 2. [[171_idempotency_iac_terraform|멱등성]]은 선생님이 수업 중간에 계속 확인하는 것처럼, 실제로 잘 되고 있는지 보는 과정이야.
 3. 메시지 순서 보장은 시험 결과표처럼, 정말 효과가 있었는지 나중에 다시 확인하게 해주는 증거야.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 350 / 530
+
+← **이전**: [[288_agile_sprint_audit_model|288. 애자일 스프린트 감리모델 (Agile Sprint Audit Model)]]
+**다음**: [[290_zero_downtime_canary_bluegreen|290. 무중단 배포 카나리 블루그린 감리 (Zero Downtime Canary Blue Green Audit)]] →
+
+---

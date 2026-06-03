@@ -132,3 +132,14 @@ tags:
 1. 블록 상자에 이름표와 규칙을 붙여 두는 것과 같아요.
 2. 어떤 칸에 어떤 블록이 들어가야 하는지 정해야 나중에 안 헷갈려요.
 3. 규칙이 분명하면 고치기도 쉬워져요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 417 / 600
+
+← **이전**: [[416_dml_insert_update_delete|416. DML (INSERT, UPDATE, DELETE 롤백 가능)]]
+**다음**: [[418_tcl_commit_rollback|418. TCL (COMMIT, ROLLBACK, SAVEPOINT)]] →
+
+---

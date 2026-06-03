@@ -54,3 +54,14 @@ Kafka: message header에 traceparent 포함
 1. [[033_context|Context]] Propagation은 **여권**이에요. 나라([[090_service_kubernetes_network_load_balancing|서비스]])마다 **도장(Span)**을 찍어요.
 2. 여권 번호([[303_trace_id|Trace ID]])로 **어디를 방문했는지** 한눈에 볼 수 있어요.
 3. [[146_opentelemetry_otel_observability_standard|OTel]] SDK가 **자동으로 여권을 넘겨줘서** 개발자가 편해요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 144 / 373
+
+← **이전**: [[143_span_service_operation_unit|143. Span 상세 - 서비스·오퍼레이션 단위 추적]]
+**다음**: [[145_jaeger_zipkin_distributed_tracing_backend|145. Jaeger & Zipkin - 분산 트레이싱 백엔드 비교]] →
+
+---

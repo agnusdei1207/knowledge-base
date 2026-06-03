@@ -185,3 +185,14 @@ MySQL의 InnoDB 스토리지 엔진은 단순한 LRU를 쓰지 않는다.
 1. [[260_page_replacement|페이지 교체]] [[001_algorithm_definition|알고리즘]] ([[260_page_replacement|Page Replacement]] Algorithms)은 컴퓨터가 메모리를 더 크게 보이게 하고 부족함을 숨기는 방법이에요.
 2. 먼저 [[400_local_replacement|지역 교체]] ([[400_local_replacement|Local Replacement]])을 이해하면 [[260_page_replacement|페이지 교체]] [[001_algorithm_definition|알고리즘]] ([[260_page_replacement|Page Replacement]] Algorithms)이 왜 필요한지 더 쉽게 보여요.
 3. 그래서 [[260_page_replacement|페이지 교체]] [[001_algorithm_definition|알고리즘]] ([[260_page_replacement|Page Replacement]] Algorithms)을 잘 알면 나중에 [[402_optimal_page_replacement|최적 교체 알고리즘]] ([[724_optimal_page_replacement_unrealizable|OPT]], Optimal)도 훨씬 쉽게 배울 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 401 / 800
+
+← **이전**: [[400_local_replacement|400. 지역 교체 (Local Replacement) - 자신의 프레임 풀 내에서만 교체]]
+**다음**: [[402_optimal_page_replacement|402. 최적 교체 알고리즘 (OPT, Optimal) - 앞으로 가장 오랫동안 안 쓸 페이지 교체 (구현 불가, 비교 기준)]] →
+
+---

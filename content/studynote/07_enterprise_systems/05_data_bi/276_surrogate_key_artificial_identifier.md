@@ -139,3 +139,14 @@ tags:
 1. 서로게이트 키는 복잡한 일을 순서대로 정리해 주는 큰 정리함이에요.
 2. 어디에 무엇을 넣을지 먼저 정해 두면, 나중에 찾거나 고칠 때 훨씬 쉬워져요.
 3. 그래서 일이 커질수록 먼저 기준을 만들고 같이 약속하는 것이 중요해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 276 / 482
+
+← **이전**: [[275_snowflake_schema_normalized_dimension|275. 스노우플레이크 스키마 (Snowflake Schema) - 차원 정규화 구조]]
+**다음**: [[277_scd_slowly_changing_dimension_modeling|277. SCD (Slowly Changing Dimension) 모델링 기법]] →
+
+---

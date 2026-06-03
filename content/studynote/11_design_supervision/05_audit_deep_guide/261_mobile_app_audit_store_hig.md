@@ -104,3 +104,14 @@ tags:
 1. 디자인 시스템은 학교에서 준비물을 미리 챙기는 것처럼, 중요한 기준을 먼저 맞추는 일이야.
 2. 탐색 [[194_consistency_database_integrity|일관성]]은 선생님이 수업 중간에 계속 확인하는 것처럼, 실제로 잘 되고 있는지 보는 과정이야.
 3. 스토어 심사 적합성은 시험 결과표처럼, 정말 효과가 있었는지 나중에 다시 확인하게 해주는 증거야.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 322 / 530
+
+← **이전**: [[260_db_optimizer_slow_query|260. DB 옵티마이저 슬로우 쿼리 진단 (DB Optimizer Slow Query Diagnosis)]]
+**다음**: [[262_ui_ux_heuristic_audit|262. UI/UX 휴리스틱 감리 (UI UX Heuristic Audit)]] →
+
+---

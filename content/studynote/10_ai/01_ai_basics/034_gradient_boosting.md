@@ -188,3 +188,14 @@ XGBoost → LightGBM → CatBoost → AutoML 기본 알고리즘
 1. 그래디언트 [[127_boosting|부스팅]]은 오답 교사다 — 첫 번째 선생님이 틀린 문제를 두 번째 선생님이 가르치고, 그것도 틀린 문제를 세 번째 선생님이 가르치는 방식이다.
 2. [[080_gradient_descent_learning_rate|학습률]]은 각 선생님의 영향력이다 — [[080_gradient_descent_learning_rate|학습률]]이 작으면(0.01) 각 선생님의 기여가 작아서 더 많은 선생님(트리)이 필요하지만, 최종 결과가 더 안정적이다.
 3. LightGBM이 XGBoost보다 빠른 이유는 히스토그램이다 — 모든 값을 정확히 기록(XGBoost) 대신, 범위로 묶어(히스토그램) 계산하면 계산량이 훨씬 줄어든다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 34 / 420
+
+← **이전**: [[033_random_forest|랜덤 포레스트 (Random Forest)]]
+**다음**: [[035_xgboost_lightgbm|035. XGBoost & LightGBM]] →
+
+---

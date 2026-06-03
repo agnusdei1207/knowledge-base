@@ -125,3 +125,14 @@ tags:
 1. 애플리케이션 게이트웨이 [[690_firewall_generation_evolution|방화벽]] ([[264_proxy_pattern_surrogate_access_control|Proxy]] [[690_firewall_generation_evolution|Firewall]])는 컴퓨터 세상을 더 안전하게 만들기 위한 중요한 약속이나 도구예요.
 2. 겉으로는 어려워 보여도, 왜 필요한지와 어떻게 움직이는지를 알면 훨씬 쉬워져요.
 3. 그래서 이름만 외우지 말고 어디에 쓰이는지 같이 기억해야 해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 268 / 1108
+
+← **이전**: [[214_stateful_inspection_firewall|214. 상태 검사 방화벽 (Stateful Inspection Firewall)]]
+**다음**: [[216_ngfw_next_generation_firewall_dpi|216. 차세대 방화벽 (NGFW: Next-Generation Firewall)]] →
+
+---

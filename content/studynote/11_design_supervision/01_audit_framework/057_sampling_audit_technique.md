@@ -118,3 +118,14 @@ tags:
 샘플링은 큰 냄비 국을 다 먹지 않고 한 숟갈 떠 보는 거예요.  
 한 숟갈이 맛있으면 전체도 비슷할 가능성이 높아요.  
 그래서 적당히 잘 떠 보는 게 중요해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 86 / 530
+
+← **이전**: [[057_data_migration_success_verification|57. 데이터 이행 성공 기준 검증 (Data Migration Success Verification)]]
+**다음**: [[058_auditor_independence_objectivity|58. 감리인의 독립성 (Independence) 및 객관성 원칙]] →
+
+---

@@ -184,3 +184,14 @@ Preventive care / safety service
 1. 몸에 붙은 작은 센서들은 몸속 이야기를 듣고 가까운 반장 시계에게 알려 주는 친구들이에요.
 2. 반장 시계는 중요한 소식만 골라서 엄마나 의사 선생님께 빨리 전해 줘요.
 3. 그래서 몸 가까운 친구들은 힘을 적게 쓰면서도 오래오래 우리를 지켜볼 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 176 / 552
+
+← **이전**: [[175_ambient_backscatter_communication|175. 백스캐터 통신 (Ambient Backscatter Communication) - 주변 전파를 활용하는 무전원 IoT]]
+**다음**: [[177_hmd_eye_tracking_foveated_rendering|177. HMD (Head Mounted Display) 시선 추적(Eye Tracking), 포비티드 렌더링 (Foveated Rendering]] →
+
+---

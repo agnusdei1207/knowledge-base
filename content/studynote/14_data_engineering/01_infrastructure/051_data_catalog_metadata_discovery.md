@@ -135,3 +135,14 @@ AI 기반 자동 태깅 · LLM 메타데이터 생성 (미래)
 1. [[213_data_catalog_metadata|데이터 카탈로그]]는 **'거대한 도서관의 검색 컴퓨터'** 예요. "공룡 책"을 검색하면 그 책이 3층 A구역 5번 선반에 있다고 바로 알려주는 시스템이에요!
 2. 로봇 사서(크롤러)가 매일 밤 새로 들어온 책을 자동으로 바코드 스캔해서 목록을 업데이트하고, 19금 딱지(보안 태그)도 자동으로 붙여줘요.
 3. [[394_catalog_metadata|카탈로그]]가 없으면 **100만 권의 책이 쌓인 창고에서 눈 감고 책 찾기**를 해야 해요. 그래서 [[394_catalog_metadata|카탈로그]]는 [[001_dikw_pyramid|데이터]]를 가치 있게 만드는 첫 번째 단계랍니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 51 / 258
+
+← **이전**: [[050_data_fabric_virtualization|데이터 패브릭 가상화 (Data Fabric Virtualization)]]
+**다음**: [[052_data_lineage_traceability_governance|52. 데이터 리니지 (Data Lineage)]] →
+
+---

@@ -300,3 +300,14 @@ FP와 병행 사용
 1. [[293_fp_function_point|FP]] = 이사 짐 포인트 — 가구(EI/EO/EQ/ILF/EIF) 종류마다 무게 점수. 총점이 이사 난이도. 언어/기술 상관없이 기능만!
 2. UFP×VAF = 기본 짐 × 층수 보정 — 5층(고성능 요구)이면 기본 짐보다 25% 더 힘듦(VAF=1.25). 0.65~1.35 사이 조정!
 3. [[293_fp_function_point|FP]] 활용 = 레시피 분량 계산 — FP당 소요 시간(생산성) × [[293_fp_function_point|FP]] 수 = 총 공수. 정부 SW 사업비 = [[293_fp_function_point|FP]] × 고시 단가!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 49 / 973
+
+← **이전**: [[048_cocomo_2_model|048. COCOMO II — 소프트웨어 비용 추정]]
+**다음**: [[050_fp_simple_vs_detailed|기능점수 간이법 vs 상세법 (FP Simple vs Detailed)]] →
+
+---

@@ -185,3 +185,14 @@ Azure Data Factory:
 1. Oozie는 복잡한 XML 설명서, Airflow는 읽기 쉬운 Python 코드로 [[645_data_pipeline_acceleration|데이터 파이프라인]]을 만들어요!
 2. Airflow UI에서 마치 지하철 노선도처럼 [[001_dikw_pyramid|데이터]]가 어디서 어디로 흐르는지 한눈에 볼 수 있어요!
 3. AI가 "매일 새벽 [[001_dikw_pyramid|데이터]] 가져와서 분석해줘"라는 말만으로 자동으로 파이프라인 코드를 만들어주는 시대가 오고 있어요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 31 / 258
+
+← **이전**: [[030_split_brain_quorum|30. 스플릿 브레인과 쿼럼 — 분산 시스템 합의 문제]]
+**다음**: [[032_cdc|CDC (Change Data Capture, 변경 데이터 캡처)]] →
+
+---

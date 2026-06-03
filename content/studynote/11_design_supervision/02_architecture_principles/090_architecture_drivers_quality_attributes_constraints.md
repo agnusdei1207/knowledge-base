@@ -129,3 +129,14 @@ tags:
 1. 장난감 로봇을 만들 때 "불빛이 난다"는 나중에 추가해도 되지만, "하늘을 난다"는 처음부터 날개와 모터를 넣어야 해요.
 2. 이렇게 로봇의 모양 전체를 처음부터 결정해버리는 가장 중요한 규칙을 '[[202_architecture_drivers_quality_attributes|아키텍처 드라이버]]'라고 불러요.
 3. 배터리는 작은데 하늘도 날고 레이저도 쏘게 할 수는 없어서, 가장 중요한 규칙 하나를 고르고 나머지는 조금 양보해야 한답니다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 133 / 530
+
+← **이전**: [[089_use_case_view_plus_one_view_actor_boundary|89. 유스케이스 뷰 (Use Case View / +1 View)]]
+**다음**: [[091_quality_attribute_scenario_architecture_evaluation|91. 품질 속성 시나리오 (Quality Attribute Scenario)]] →
+
+---

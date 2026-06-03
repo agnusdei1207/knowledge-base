@@ -139,3 +139,14 @@ tags:
 1. [[127_bpr_business_process_reengineering_radical_redesign|BPR]] [[009_process_innovation|PI]] 차이점 근본적 재설계 vs 점진적 혁신는 복잡한 일을 순서대로 정리해 주는 큰 정리함이에요.
 2. 어디에 무엇을 넣을지 먼저 정해 두면, 나중에 찾거나 고칠 때 훨씬 쉬워져요.
 3. 그래서 일이 커질수록 먼저 기준을 만들고 같이 약속하는 것이 중요해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 323 / 482
+
+← **이전**: [[322_ea_zachman_framework|322. EA 프레임워크 잭맨 6×6 매트릭스 (EA Zachman Framework)]]
+**다음**: [[324_kpi_csf_relationship|324. KPI와 CSF 연관 관계 (KPI Key Performance Indicator vs CSF Critical Success]] →
+
+---

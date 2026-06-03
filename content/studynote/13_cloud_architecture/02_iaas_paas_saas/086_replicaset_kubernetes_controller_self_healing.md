@@ -94,3 +94,14 @@ desired replicas → observe current replicas → reconcile → create/delete Po
 1. 장난감 기차에서 칸이 하나 빠지면, 다시 같은 칸을 붙여 넣는 것과 같다.
 2. 칸이 너무 많아도 맞추고, 부족해도 채워서 항상 같은 길이를 유지한다.
 3. 기차의 모양을 지키는 것이 ReplicaSet의 일이다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 85 / 371
+
+← **이전**: [[085_pod_kubernetes_container_unit|85. Pod (파드) - K8s의 최소 배포 및 스케일링 단위]]
+**다음**: [[087_deployment_kubernetes_workload_rolling_update|87. 디플로이먼트 (Deployment) - K8s 무중단 배포 사령관]] →
+
+---

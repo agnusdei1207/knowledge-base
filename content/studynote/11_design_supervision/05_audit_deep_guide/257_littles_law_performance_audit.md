@@ -209,3 +209,14 @@ spring:
 1. 리틀의 법칙은 "놀이공원에서 항상 몇 명이 줄 서 있는지는 1시간에 몇 명 태우는지와 1번 타는 데 걸리는 시간을 곱하면 나온다"는 거야.
 2. [[103_thread_pool|스레드 풀]] 크기는 "롤러코스터 직원이 몇 명 필요한가"와 같아서, 너무 적으면 손님이 기다리다 포기하고, 너무 많으면 직원만 놀아.
 3. 이 공식을 모르고 [[009_config|설정]]하는 건 "감으로 직원을 뽑는 것"이고, 리틀의 법칙을 쓰면 "정확한 계산으로 딱 맞는 직원 수를 구하는 것"이야.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 318 / 530
+
+← **이전**: [[256_performance_metrics_tps_rsp|256. 성능 진단 지표 TPS/응답시간 (Performance Metrics TPS/Response Time)]]
+**다음**: [[258_load_test_bottleneck_diagnosis|258. 부하 테스트 병목 진단 (Load Test Bottleneck Diagnosis)]] →
+
+---

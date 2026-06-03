@@ -125,3 +125,14 @@ IT GRC (Governance, [[096_risk_non_risk_architecture_evaluation_flaws|Risk]], [[
 1. IT GRC (Governance, [[096_risk_non_risk_architecture_evaluation_flaws|Risk]], [[058_it_compliance_sox_basel_gdpr_isms|Compliance]])는 학교 규칙표처럼 무엇을 준비하고 어떻게 확인할지 알려 주는 기준이에요.
 2. 규칙표만 붙여 두고 지키지 않으면 아무 소용이 없어요.
 3. 그래서 보안도 규칙과 실제 행동이 함께 맞아야 해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 960 / 1108
+
+← **이전**: [[872_fedramp_impact_levels|872. FedRAMP Impact Levels (Low/Moderate/High)]]
+**다음**: [[874_sabsa|874. SABSA (Sherwood Applied Business Security Architecture)]] →
+
+---

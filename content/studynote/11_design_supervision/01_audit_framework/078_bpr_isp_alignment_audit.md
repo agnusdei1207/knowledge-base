@@ -124,3 +124,14 @@ tags:
 1. [[127_bpr_business_process_reengineering_radical_redesign|BPR]]/[[101_isp_information_strategy_planning_4_steps|ISP]] 연계 사후 평가는 일을 잘했는지 [[396_validation|확인]]하는 [[435_checklist_based_testing|체크리스트]]를 만들고, 실제로 했다는 증거를 모으는 방법이에요.
 2. 약속한 대로 했는지, 빠진 것은 없는지, 고친 뒤 다시 [[396_validation|확인]]했는지를 차례대로 보는 거예요.
 3. 그래서 나중에 문제가 생겨도 누구 말이 맞는지 금방 알 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 120 / 530
+
+← **이전**: [[077_user_satisfaction_csat_remediation_audit|77. 사용자 만족도 조사 분석 및 개선 조치 (운영 이관 감리)]]
+**다음**: [[078_bpr_isp_integration|78. BPR/ISP 연계 - 구축된 시스템이 당초 전략적 목표(AS-IS 대비 TO-BE 효과)를 달성했는지 사후 평가]] →
+
+---

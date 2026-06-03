@@ -104,3 +104,14 @@ UI/UX [[210_heuristics_scheduling|휴리스틱]] 감리를 충실히 적용하�
 1. [[210_heuristics_scheduling|휴리스틱]] 평가는 학교에서 준비물을 미리 챙기는 것처럼, 중요한 기준을 먼저 맞추는 일이야.
 2. [[686_cognitive_load_team_topologies|인지 부하]]는 선생님이 수업 중간에 계속 확인하는 것처럼, 실제로 잘 되고 있는지 보는 과정이야.
 3. 과업 완료율은 시험 결과표처럼, 정말 효과가 있었는지 나중에 다시 확인하게 해주는 증거야.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 323 / 530
+
+← **이전**: [[261_mobile_app_audit_store_hig|261. 모바일 앱 감리 HIG와 Material Design (Mobile App Audit for HIG and Material Design)]]
+**다음**: [[263_web_compatibility_activex|263. 웹 호환성과 ActiveX 제거 감리 (Web Compatibility and ActiveX Removal Audit)]] →
+
+---

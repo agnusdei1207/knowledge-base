@@ -203,3 +203,14 @@ Advanced RAG: Self-RAG · Corrective RAG · Graph RAG
 ```
 2. RAG는 그 학생에게 시험 중에 도서관을 이용할 수 있게 해주는 거예요. 책에서 관련 내용을 찾아서 그걸 보고 답을 쓰니까 훨씬 정확해지죠.
 3. 벡터 DB는 그 도서관에서 "의미가 비슷한 책들"을 빠르게 찾아주는 똑똑한 사서예요. 제목이 달라도 내용이 비슷하면 딱 골라줘요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 251 / 258
+
+← **이전**: [[250_rlhf_human_feedback_reinforcement_alignment_cot|250. RLHF (Reinforcement Learning from Human Feedback) 정렬 CoT 프롬프트 심화]]
+**다음**: [[252_knowledge_distillation_quantization_edge_slm_diffusion|252. 지식 증류 (Knowledge Distillation) 양자화 (Quantization) 경량 SLM 디퓨전 생성]] →
+
+---

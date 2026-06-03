@@ -125,3 +125,14 @@ tags:
 1. [[554_ecc_circuit|ECC]] (Elliptic Curve [[652_cryptography_concept_encryption_decryption|Cryptography]])는 비밀 편지를 안전하게 잠그거나 진짜인지 확인하는 특별한 약속이에요.
 2. 하지만 자물쇠가 좋아도 열쇠를 아무 데나 두면 금방 들켜요.
 3. 그래서 암호는 만드는 방법과 열쇠를 지키는 방법을 같이 배워야 해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 172 / 1108
+
+← **이전**: [[118_crt_rsa|118. CRT (Chinese Remainder Theorem, 중국인의 나머지 정리)]]
+**다음**: [[120_elliptic_curve_equation|120. 타원곡선 (Elliptic Curve Equation)]] →
+
+---

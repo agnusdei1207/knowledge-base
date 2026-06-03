@@ -130,3 +130,14 @@ tags:
 1. [[685_toil_automation_sre|토일]]([[685_toil_automation_sre|Toil]])은 게임에서 매일 똑같은 몬스터를 천 번씩 클릭해서 잡아야 하는 엄청 지루한 '노가다 작업'이에요.
 2. 구글 최고 기술자들은 이렇게 지루한 클릭만 하다가는 사람들이 너무 지쳐버릴 거라고 생각했어요.
 3. 그래서 마우스 클릭하는 시간을 반으로 확 줄이고, 남은 시간 동안 '알아서 몬스터를 사냥해주는 자동 사냥 로봇(코드)'을 만들게 해서 모두를 행복하게 만들었답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 104 / 973
+
+← **이전**: [[103_sla_service_level_agreement_penalty|103. SLA (Service Level Agreement)]]
+**다음**: [[105_devsecops_shift_left_security|105. DevSecOps - 보안의 좌측 이동 (Shift-Left Security)]] →
+
+---

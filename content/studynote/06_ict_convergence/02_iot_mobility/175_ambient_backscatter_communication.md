@@ -186,3 +186,13 @@ tags:
 2. 그래서 건전지가 거의 없어도 아주 작은 [[130_signal|신호]]를 보낼 수 있어요.
 3. 대신 멀리 크게 말하는 건 어렵고, 가까운 친구가 잘 보고 들어줘야 해요.
 
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 175 / 552
+
+← **이전**: [[174_edge_ai_on_device_ai|174. 엣지 AI (Edge AI) 및 온디바이스 AI 아키텍처]]
+**다음**: [[176_wearable_device_wban|176. 웨어러블 디바이스 (Wearable Device) - 신체 부착형 기기 통신 체계 (WBAN, Wireless Body Area]] →
+
+---

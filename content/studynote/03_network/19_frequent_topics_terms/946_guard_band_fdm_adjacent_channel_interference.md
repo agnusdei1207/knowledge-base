@@ -119,3 +119,14 @@ FDM 가드 밴드는 [[945_ofdma_orthogonal_frequency_division_multiple_access_r
 1. 비슷한 이름의 장난감을 헷갈리지 않게 표를 붙이는 것과 같아요.
 2. 이 개념은 무엇이 어떻게 다른지 쉽게 구별하게 도와줘요.
 3. 그래서 시험에서도 실무에서도 말을 더 정확하게 쓸 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 1067 / 1120
+
+← **이전**: [[945_ofdma_orthogonal_frequency_division_multiple_access_resource_block|945. 직교주파수분할다중접속 (OFDMA)]]
+**다음**: [[947_cyclic_prefix_ofdm_guard_interval_isi_multipath|947. OFDM 사이클릭 프리픽스 (Cyclic Prefix, CP)]] →
+
+---

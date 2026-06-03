@@ -129,3 +129,14 @@ tags:
 1. [[125_asis_update_ea_maintenance_synchronization|현행화]] ([[125_asis_update_ea_maintenance_synchronization|As-Is Update]])는 모두가 같은 규칙으로 일하게 해 주는 반장 약속표예요.
 2. 약속만 적어 두는 것이 아니라 누가 지켰는지 확인하고 고치는 방법까지 함께 정해요.
 3. 그래서 일이 많아져도 서로 부딪히지 않고 더 안전하게 움직일 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 233 / 587
+
+← **이전**: [[124_eams_enterprise_architecture_management_system|124. EA 관리 시스템 (EAMS)]]
+**다음**: [[125_asis_update_ea_maintenance_synchronization|125. 현행화 (As-Is Update)]] →
+
+---

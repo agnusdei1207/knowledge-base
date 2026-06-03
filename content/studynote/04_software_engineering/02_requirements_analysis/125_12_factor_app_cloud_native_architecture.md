@@ -110,3 +110,14 @@ tags:
 1. 12 Factor는 클라우드 앱의 **건축 법규 12가지**예요.
 2. "비밀번호를 코드에 적지 마([[009_config|Config]])", "기억력에 의존하지 마([[239_stateless_redis|Stateless]])" 같은 규칙이에요.
 3. 이 규칙을 따르면 어떤 클라우드에서도 **안전하게 앱이 동작**한답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 125 / 973
+
+← **이전**: [[124_cloud_native_development_architecture|124. 클라우드 네이티브 아키텍처 - CNCF 기반 현대 소프트웨어 개발 패러다임]]
+**다음**: [[126_bdd_behavior_driven_development_given_when_then|126. BDD (Behavior-Driven Development) - Given/When/Then 행위 기반 개발]] →
+
+---

@@ -219,3 +219,14 @@ BOSH는 [[498_webhook_rest_api_reverse_callback|웹훅]]에서 출발해 현재 
 1. 친구한테 편지가 왔는지 궁금해서 매일 1시간마다 우체국에 달려가 "편지 왔어요?" 물어보고 빈손으로 터덜터덜 돌아오는 게 옛날 **'[[448_polling_programmed_io|폴링]]'** 방식이에요(엄청 힘들죠).
 2. **BOSH(롱 [[448_polling_programmed_io|폴링]])**는 내가 우체국에 간 김에, "편지 올 때까지 안 갈 거야!" 라며 30분 동안 우체국 바닥에 누워서 버티고 기다리다가(대기 모드) 편지가 딱 도착하는 순간 확 낚아채서 들고 오는 엄청난 꼼수예요!
 3. 지금은 아예 우체국 아저씨랑 나 사이에 전용 카카오톡 선(**[[975_websocket_full_duplex_realtime_http_upgrade|웹소켓]]**)을 연결해 둬서, 누워 버틸 필요 없이 편지가 오면 1초 만에 스마트폰 징~ 울리는 마법 같은 세상이 되었답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 620 / 1120
+
+← **이전**: [[498_webhook_rest_api_reverse_callback|498. 웹훅 (Webhook)]]
+**다음**: [[500_xmpp_extensible_messaging_presence_protocol|500. XMPP (Extensible Messaging and Presence Protocol)]] →
+
+---

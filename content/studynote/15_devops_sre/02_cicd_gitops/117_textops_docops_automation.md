@@ -122,3 +122,14 @@ Docs-[[344_as_autonomous_system_asn|as]]-Code는 GenAI와 결합하여 **코드 
 1. 옛날에는 제품(코드)과 설명서(문서)를 **따로따로** 만들어서, 설명서가 맨날 옛날 것이었어요.
 2. Docs-[[344_as_autonomous_system_asn|as]]-Code는 제품과 설명서를 **같은 공장(Git)**에서 만들어, 항상 최신 상태를 유지해요.
 3. 로봇([[090_configuration_item|CI]])이 설명서의 **맞춤법(lint)과 링크(linkchecker)를 자동 검사**해서 품질도 보장해요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 117 / 373
+
+← **이전**: [[116_infrastructure_drift_detection|116. 인프라 드리프트 감지 (Infrastructure Drift Detection) - IaC 상태 불일치 자동 탐지]]
+**다음**: [[118_ephemeral_ci_runner_isolation|118. 일회성 CI 러너 (Ephemeral CI Runner) - 격리·보안·클린 빌드 보장]] →
+
+---

@@ -176,3 +176,14 @@ Data-Centric Fabric / Composable Infrastructure
 1. [[383_data_centric_architecture|데이터 중심]] 패브릭은 친구마다 장난감을 따로 숨겨 두는 대신, 큰 공용 장난감 창고를 만드는 거예요.
 2. 필요한 친구가 그 창고 앞에 와서 로봇이나 블록을 빌려 쓰니까, 놀다가 남는 장난감이 줄어들어요.
 3. 하지만 공용 창고라서 누가 무엇을 쓰는지 잘 정리하고 지켜야 모두가 편하게 놀 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 599 / 803
+
+← **이전**: [[598_vm_migration_nic|598. VM (Virtual Machine) 마이그레이션 NIC (Network Interface Card)]]
+**다음**: [[600_exascale_node_board|600. 엑사스케일 컴퓨팅 노드 보드 (Exascale Node Board)]] →
+
+---

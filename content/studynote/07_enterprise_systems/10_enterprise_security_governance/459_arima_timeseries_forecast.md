@@ -139,3 +139,14 @@ tags:
 1. 시계열 [[342_arima_auto_regressive_integrated_moving_average|ARIMA]] 정상 [[001_dikw_pyramid|데이터]] 평활 예측 모델는 복잡한 일을 순서대로 정리해 주는 큰 정리함이에요.
 2. 어디에 무엇을 넣을지 먼저 정해 두면, 나중에 찾거나 고칠 때 훨씬 쉬워져요.
 3. 그래서 일이 커질수록 먼저 기준을 만들고 같이 약속하는 것이 중요해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 459 / 482
+
+← **이전**: [[458_oauth2_oidc_token_delegation|458. OAuth 2.0 / OIDC 토큰 위임 인증 인가 분산 (OAuth 2.0 / OpenID Connect)]]
+**다음**: [[460_ml_overfitting_ensemble_bagging|460. 머신러닝 과적합 앙상블 배깅 부스팅 모델 비교 (ML Overfitting, Ensemble, Bagging, Boosting)]] →
+
+---

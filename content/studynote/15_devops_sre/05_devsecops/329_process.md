@@ -137,3 +137,14 @@ Git 유출 사고           컨테이너 인스펙션 위험     동적 시크�
 1. [[514_secret_management_vault_kms|시크릿]](비밀번호)을 코드에 적어두는 건 집 열쇠를 현관문에 붙여두는 거예요.
 2. Vault는 열쇠를 금고에 보관하고, 필요할 때만 잠깐 빌려주는 시스템이에요.
 3. 빌려준 열쇠는 시간이 지나면 저절로 못 쓰게 되니까, 누군가 열쇠를 훔쳐도 곧 쓸모없어져요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 329 / 373
+
+← **이전**: [[328_sbom|328. SBOM 소프트웨어 구성 자재 명세 공급망 방어 (Software Bill of Materials Supply Chain Defense]]
+**다음**: [[330_process|330. 마이크로 세그멘테이션 제로 트러스트 네트워크 (Micro-segmentation ZTNA Zero Trust Network Access]] →
+
+---

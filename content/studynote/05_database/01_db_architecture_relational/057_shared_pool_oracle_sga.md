@@ -118,3 +118,14 @@ CPU 절감 / 성능 향상
 공유 풀은 자주 보는 책과 노트를 책상 위에 올려 두는 거예요.  
 그러면 같은 문제를 다시 풀 때 훨씬 빨라져요.  
 매번 책장까지 뛰어갈 필요가 없거든요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 57 / 600
+
+← **이전**: [[056_data_dictionary_cache|56. 데이터 사전 캐시 (Data Dictionary Cache)]]
+**다음**: [[058_database_instance_architecture|58. 데이터베이스 인스턴스 (Database Instance) - 메모리와 백그라운드 프로세스]] →
+
+---

@@ -189,3 +189,14 @@ Digital twin, AI analytics, closed-loop city operations
 1. 스마트 시티 플랫폼은 동네의 [[130_signal|신호]]등, 가로등, 카메라가 모두 같은 반 친구처럼 서로 소식을 나누는 거예요.
 2. 그래서 한곳에서 문제가 생기면 다른 친구들도 바로 알고 같이 도와줄 수 있어요.
 3. 선생님이 한 장의 큰 지도 위에서 모두를 움직이게 하는 것처럼 도시도 더 똑똑하게 움직여요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 171 / 552
+
+← **이전**: [[170_private_5g_network|170. 프라이빗 5G (Private 5G, 특화망 / 이음5G)]]
+**다음**: [[172_maas_mobility_as_a_service|172. 마스 (MaaS, Mobility as a Service)]] →
+
+---

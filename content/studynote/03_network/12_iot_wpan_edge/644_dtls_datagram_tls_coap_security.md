@@ -135,3 +135,14 @@ DTLS [[295_protocol_field_tcp_udp_icmp|프로토콜]] [[120_coap_constrained_app
 1. 작은 로봇 친구들이 배터리를 아껴가며 서로 메시지를 주고받는 장난감 마을과 같아요.
 2. 이 개념은 누가 가까운지, 누가 대신 알려줄지, 무엇을 현장에서 바로 처리할지를 정해줘요.
 3. 그래서 작은 기기들도 오래 버티면서 똑똑하게 협력할 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 765 / 1120
+
+← **이전**: [[643_mutual_authentication_p2p_certificate_distribution|643. 기기 간 상호인증체계 관리 기법 P2P 연결 인증서 배포 기술]]
+**다음**: [[645_ambient_backscatter_energy_harvesting|645. 소형 안테나 시스템/초소형 센서 백스캐터 통신 (Ambient Backscatter 통신, 에너지 하베스팅)]] →
+
+---

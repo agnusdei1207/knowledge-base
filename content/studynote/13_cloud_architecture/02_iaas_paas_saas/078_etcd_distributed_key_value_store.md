@@ -121,3 +121,14 @@ controllers react
 1. 반장 셋이 모두 도장 찍어야 공책 내용을 바꾸는 반 공책과 같다.
 2. 한 명만 마음대로 적으면 반 전체가 헷갈린다.
 3. 그래서 모두가 같은 공책을 보게 만드는 것이 중요하다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 77 / 371
+
+← **이전**: [[077_kube_api_server_k8s_hub|77. Kube-API Server - 모든 K8s 명령(kubectl)을 REST API로 수신하고 컴포넌트 간 통신을 중계하는 허브]]
+**다음**: [[079_kube_scheduler_pod_placement|79. Kube-Scheduler (스케줄러) - 새로 생성된 Pod가 자원 여유가 있는 어떤 워커 노드에 배치될지 결정]] →
+
+---

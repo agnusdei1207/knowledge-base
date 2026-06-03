@@ -112,3 +112,14 @@ SRE는 **"완벽한 [[452_availability|가용성]]은 잘못된 목표"**라는 
 1. SRE는 **용돈([[101_error_budget_sre|Error Budget]])**을 매달 받는 거예요. 장애가 나면 용돈이 줄어요.
 2. 용돈이 다 떨어지면 **새 장난감([[247_feature_label_variables|피처]]) 사는 건 잠시 멈추고** 안전(안정화)에 집중해요.
 3. 덕분에 **너무 많이 놀지도(장애), 너무 공부만 하지도(변경 회피) 않는** 균형을 유지해요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 121 / 373
+
+← **이전**: [[120_concept|120. DORA Metrics (DevOps Research & Assessment) - 소프트웨어 배포 성과 4대 지표]]
+**다음**: [[122_sli_service_level_indicator|122. SLI (Service Level Indicator) - 서비스 수준 측정 지표]] →
+
+---

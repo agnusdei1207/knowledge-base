@@ -117,3 +117,14 @@ LPWAN은 [[418_5g_embb_urllc_mmtc_slicing|5G]] mMTC와 위성 IoT로 확장되�
 1. LPWAN은 산꼭대기 센서가 편지 한 장(작은 [[001_dikw_pyramid|데이터]])을 비둘기에 묶어 수십 km 날려보내는 통신이에요.
 2. 비둘기는 모이 한 줌(배터리)으로 **5~10년**이나 살 수 있어서 전기 없는 곳에서도 써요!
 3. 대신 영상 통화는 못 하고, "온도 20도"처럼 아주 짧은 메시지만 보낼 수 있답니다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 109 / 552
+
+← **이전**: [[108_iot_wireless_networks_wpan_wlan_lpwan|108. IoT 무선 통신 기술 분류 (WPAN, WLAN, LPWAN)]]
+**다음**: [[110_unlicensed_lpwan_lorawan_sigfox|110. 비면허 LPWAN - LoRaWAN (CSS) vs Sigfox (UNB) 대역 확산 기술 비교]] →
+
+---

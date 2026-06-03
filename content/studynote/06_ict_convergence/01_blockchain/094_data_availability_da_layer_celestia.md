@@ -137,3 +137,14 @@ L2 롤업 등장 (CallData 저장 비용 폭발)
 1. 옛날에는 똑똑한 컴퓨터 하나가 계산도 하고 일기장([[001_dikw_pyramid|데이터]])도 다 혼자 적어서 너무 느렸어요.
 2. 그래서 똑똑한 애들은 계산만 하고, 크고 두꺼운 일기장만 전문으로 맡아서 보관해주는 '일기장 전용 창고'를 따로 만들었답니다.
 3. 이 일기장 창고가 바로 [[104_da_as_is_analysis|DA]] 계층이에요! 창고가 싸니까 우리가 내는 수수료도 엄청 싸졌어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 94 / 552
+
+← **이전**: [[093_smart_contract_formal_verification|93. 스마트 컨트랙트 정형 검증 (Formal Verification) - 수학적 모델링을 통해 컨트랙트 코드 무결성 증명]]
+**다음**: [[095_modular_blockchain_execution_da_consensus|95. 모듈러 블록체인 (Modular Blockchain) - 실행(Execution), 합의(Consensus), 정산(Settlement),]] →
+
+---

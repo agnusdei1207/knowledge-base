@@ -250,3 +250,14 @@ Anycast 기반 [[506_cdn_content_delivery_network_edge_caching|CDN]] 설계는 G
 1. 배가 고파서 피자를 시키려고([[001_dikw_pyramid|데이터]] 전송) 전단지를 봤는데 매장 번호가 100개나 적혀있으면 헷갈리죠? (기존 유니캐스트 방식 1:1).
 2. **애니캐스트(Anycast)**는 마법의 번호예요! 전국 100개 피자집이 똑같이 **'1588-0000(단일 IP 주소)'** 딱 한 개 번호만 쓰는 거예요!
 3. 내가 전화(접속)를 걸면, 똑똑한 통신사 전화국([[365_bgp_border_gateway_protocol_path_vector|BGP]] 라우터) 아저씨가 눈 감고 0.001초 만에 우리 집에서 '가장 가까운 골목 피자집 1곳'으로 바로 전화를 확 넘겨준답니다! 1초 만에 뜨끈한 꿀맛 피자를 먹을 수 있는 [[148_5g_embb_urllc_mmtc|초고속]] 블랙홀 주문망이죠!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 629 / 1120
+
+← **이전**: [[507_gslb_global_server_load_balancing_dns|507. GSLB (Global Server Load Balancing)]]
+**다음**: [[509_ocap_opencable_application_platform|509. OCAP (OpenCable Application Platform)]] →
+
+---

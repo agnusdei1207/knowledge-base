@@ -129,3 +129,14 @@ Trust Model
 한 사람이 여러 명인 척해요.  
 그러면 표가 많아 보여요.  
 시빌 공격은 그런 속임수예요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 70 / 552
+
+← **이전**: [[069_cryptojacking_malware_mining|69. 크립토재킹 (Cryptojacking) - 타인의 PC나 서버 리소스를 해킹하여 몰래 암호화폐를 채굴하는 공격]]
+**다음**: [[071_baas_blockchain_as_a_service|71. 블록체인 서비스형 (BaaS, Blockchain as a Service) - 클라우드 기반 블록체인 인프라 제공 서비스]] →
+
+---

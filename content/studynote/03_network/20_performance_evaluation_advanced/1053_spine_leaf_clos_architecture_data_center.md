@@ -129,3 +129,14 @@ Spine-Leaf 대용량 클로스 구조는 EVPN-VXLAN [[365_bgp_border_gateway_pro
 1. 달리기 시합에서 누가 얼마나 빨랐는지 재려면 초시계와 기록표가 필요해요.
 2. 이 개념은 네트워크가 어디서 느려졌는지 숫자로 찾아내는 도구예요.
 3. 그래서 막연히 고치는 대신 가장 중요한 곳부터 똑똑하게 손볼 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 158 / 1120
+
+← **이전**: [[1052_evpn_vxlan_bgp_control_plane_routing|1052. EVPN-VXLAN BGP 컨트롤 플레인 전이]]
+**다음**: [[1054_ibn_intent_based_networking_ai_automation|1054. IBN(의도기반망) 선행 AI 설계]] →
+
+---

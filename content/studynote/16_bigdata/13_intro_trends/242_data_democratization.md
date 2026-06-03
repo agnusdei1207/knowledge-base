@@ -159,3 +159,14 @@ GenAI 질의: "2024년 평균 매출이 얼마야?"
 1. [[010_data_democratization|데이터 민주화]]는 셀프 주유소예요 — 이제 누구나 직접 [[001_dikw_pyramid|데이터]]를 분석할 수 있어요!
 2. [[213_data_catalog_metadata|데이터 카탈로그]]는 도서관 검색 시스템이에요 — 어떤 [[001_dikw_pyramid|데이터]]가 어디 있는지 쉽게 찾을 수 있어요!
 3. [[190_ai_llm_requirements_specification|AI]] 덕분에 이제 "지난달 매출이 얼마야?"라고 자연어로 물어보면 AI가 분석해서 바로 알려줘요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 242 / 262
+
+← **이전**: [[241_monte_carlo_bigeye|236. 데이터 옵저버빌리티 (Monte Carlo, Bigeye) 데이터 파이프라인 신뢰성]]
+**다음**: [[243_data_economy|31. 데이터 경제 — 데이터가 자산이 되는 세계]] →
+
+---

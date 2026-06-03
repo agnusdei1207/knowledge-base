@@ -238,3 +238,14 @@ SBOM 법제화
 1. 상속된 위험은 친구가 만든 레고를 받아서 놀다가 친구 레고에 불량 부품이 있어서 나도 다치는 상황이에요.
 2. SBOM은 레고 세트의 부품 목록 — 어떤 부품이 들어있는지 알아야 나쁜 부품을 빨리 찾아 교체할 수 있어요.
 3. SolarWinds 해킹처럼 유명한 소프트웨어 업데이트 파일에 악성코드가 숨어있어서 수만 개 회사가 한꺼번에 해킹당한 것이 [[520_supply_chain_attack_and_ci_cd_security|공급망]] 공격이에요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 40 / 1108
+
+← **이전**: [[039_detected_vs_undetected_risk|039. 탐지 위험 vs 미탐지 위험 (Detected vs Undetected Risk)]]
+**다음**: [[041_zachman_framework|041. 자크만 프레임워크 (Zachman Framework) — 엔터프라이즈 아키텍처]] →
+
+---

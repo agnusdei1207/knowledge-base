@@ -93,3 +93,14 @@ GitOps는 사람의 실수 자체를 없애기보다, 실수가 생겨도 다시
 1. 레시피 노트를 보고 로봇이 요리하는 방식과 비슷하다.
 2. 노트가 같으면 어디서 요리해도 맛을 다시 낼 수 있다.
 3. 노트와 맛이 다르면, 다시 노트대로 맞추면 된다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 86 / 373
+
+← **이전**: [[085_canary_release_progressive_delivery_weight_routing|85. 카나리 배포 (Canary Release) - 1% 트래픽 점진적 무중단 배포]]
+**다음**: [[087_push_based_deployment_jenkins_ci_cd_security_risk|87. 푸시 기반(Push-based) 배포 - 기존 CI/CD 젠킨스의 보안 한계]] →
+
+---

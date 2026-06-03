@@ -155,3 +155,14 @@ rotate-through-carry · big integer 최적화
 1. 작은 상자에 구슬을 너무 많이 넣으면 한 알이 밖으로 튀어나오죠.
 2. 캐리 [[186_character_stuffing_dle_stx_etx|플래그]]는 그 튀어나온 구슬을 잃어버리지 않게 잠깐 잡아 두는 손이에요.
 3. 그래서 작은 상자 여러 개를 이어도 큰 숫자를 틀리지 않고 셀 수 있답니다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 169 / 803
+
+← **이전**: [[168_zero_flag|168. 제로 플래그 (Zero Flag)]]
+**다음**: [[170_instruction_format|170. 명령어 형식 (Instruction Format)]] →
+
+---

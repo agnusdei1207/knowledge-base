@@ -143,3 +143,14 @@ Consensus forecast and policy roadmap
 1. 델파이는 똑똑한 사람들에게 이름을 숨기고 같은 질문을 여러 번 물어보는 방법이에요.
 2. 다른 친구들이 왜 그렇게 생각하는지 조금씩 알려 주면, 모두가 답을 더 잘 고칠 수 있어요.
 3. 그래서 처음엔 제각각이던 생각이 나중엔 비슷한 답으로 모이게 돼요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 214 / 482
+
+← **이전**: [[213_swot_ahp_analytic_hierarchy_process_decision_making|213. SWOT-AHP (Analytic Hierarchy Process) 다기준 의사결정 분석법을 통한 IT 전략 가중치 우선순위]]
+**다음**: [[215_mece_mutually_exclusive_collectively_exhaustive_issue_tree|215. MECE (Mutually Exclusive, Collectively Exhaustive) - 이슈 트리 분석 원칙 (중복 없이]] →
+
+---

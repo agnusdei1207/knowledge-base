@@ -163,3 +163,14 @@ OPC UA over TSN · Edge Integration · Digital Twin
 1. 옛날에는 공장 기계들이 서로 다른 나라 말만 써서 대화하려면 통역사가 많이 필요했어요.
 2. OPC UA는 모두가 같은 말과 같은 서류를 쓰게 만들어서, 기계들이 쉽게 서로 이해하게 해 줘요.
 3. 그래서 공장 컴퓨터는 "이 숫자가 무슨 뜻인지"까지 헷갈리지 않고 똑똑하게 일할 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 169 / 552
+
+← **이전**: [[168_industrial_ethernet_tsn|168. 산업용 이더넷 및 TSN (Time-Sensitive Networking)]]
+**다음**: [[170_private_5g_network|170. 프라이빗 5G (Private 5G, 특화망 / 이음5G)]] →
+
+---

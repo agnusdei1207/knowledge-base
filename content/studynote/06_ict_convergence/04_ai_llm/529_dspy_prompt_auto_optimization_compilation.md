@@ -161,3 +161,14 @@ DSPy는 프롬프트 엔지니어링을 수동 예술에서 자동화된 엔지�
 1. AI에게 어떻게 질문해야 좋은 답이 나오는지 사람이 직접 고민하지 않고, 컴퓨터가 스스로 가장 좋은 질문법을 찾아주는 것이 DSPy예요.
 2. "질문 받아서 답 줘"라고만 선언하면, DSPy가 수백 번 실험해서 최적의 방법을 골라줘요.
 3. [[190_ai_llm_requirements_specification|AI]] 모델을 바꿔도 자동으로 다시 최적화해줘서 개발자가 매번 고칠 필요가 없어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 529 / 552
+
+← **이전**: [[528_vllm_paged_attention_kv_cache_optimization|528. vLLM과 PagedAttention KV 캐시 최적화 (vLLM PagedAttention KV Cache Optimization)]]
+**다음**: [[530_graph_rag|530. 지식 그래프 기반 검색 증강 생성 (GraphRAG)]] →
+
+---

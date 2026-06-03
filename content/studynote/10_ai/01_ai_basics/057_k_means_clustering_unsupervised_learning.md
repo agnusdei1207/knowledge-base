@@ -118,3 +118,14 @@ K개 군집 완성
 K-Means는 친구들을 비슷한 무리끼리 자동으로 모아 주는 거예요.  
 중심점이 먼저 잡히고, 친구들이 가까운 곳으로 계속 이동해요.  
 그러다 보면 비슷한 사람끼리 한 그룹이 돼요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 57 / 420
+
+← **이전**: [[056_knn_k_nearest_neighbors_lazy_learning|56. K-NN (K-Nearest Neighbors) - 새로운 데이터를 가장 가까운 K개 이웃의 클래스 중 다수결로 판별 (게으른]]
+**다음**: [[058_svm_support_vector_machine_margin_hyperplane|58. SVM (Support Vector Machine) - 마진(Margin)을 최대화하는 초평면(Hyperplane) 분할 모델]] →
+
+---

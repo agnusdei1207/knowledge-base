@@ -162,3 +162,14 @@ UI/UX, [[292_accessibility_kwcag_wcag|접근성]], 온보딩과 연결된다.
 1. [[286_usability_tactics|사용성]] 테스트 ([[286_usability_tactics|Usability]] Test)은 레고 블록으로 성을 만들 때처럼, 규칙을 정하고 역할을 나누어 함께 작업하는 방법이에요.
 2. 혼자서 막 만들면 나중에 무너지거나 고치기 어렵지만, 약속을 지키면 누구나 쉽게 고치고 더 크게 만들 수 있어요.
 3. 그래서 [[001_software_engineering_definition|소프트웨어 공학]]은 프로그래머들이 좋은 프로그램을 빠르고 안전하게 만들 수 있게 도와주는 '규칙 모음집'이에요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 493 / 973
+
+← **이전**: [[450_benchmark_test|450. 벤치마크 테스트 (BMT, Benchmark Test) - 동일한 환경에서 여러 제품의 성능을 비교]]
+**다음**: [[451_usability_test|451. 사용성 테스트 (Usability Test) - 사용자가 시스템을 얼마나 쉽게 다룰 수 있는지 UI/UX 관점 평가]] →
+
+---

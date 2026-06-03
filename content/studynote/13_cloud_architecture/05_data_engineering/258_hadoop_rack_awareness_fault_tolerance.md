@@ -113,3 +113,14 @@ tags:
 1. [[843_hadoop_rack_awareness_data_replication_topology|하둡]] 클러스터 [[017_rack_awareness|랙 인지]]는 사람이 많은 운동회에서 어디로 가야 하는지 알려 주는 안내판과 비슷해요.
 2. 규칙이 없으면 모두가 한곳에 몰려서 느려지고 다투지만, 길을 정해 두면 훨씬 부드럽게 움직일 수 있어요.
 3. 그래서 컴퓨터 세상에서도 [[843_hadoop_rack_awareness_data_replication_topology|하둡]] 클러스터 [[017_rack_awareness|랙 인지]]를 쓰면 많은 팀과 [[090_service_kubernetes_network_load_balancing|서비스]]가 덜 부딪히고 더 빨리 움직일 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 257 / 371
+
+← **이전**: [[257_olap_star_schema_fact_dimension_table|257. OLAP 스타 스키마 - 팩트/차원 테이블 (OLAP)]]
+**다음**: [[259_cassandra_anti_entropy_merkle_tree|259. 카산드라 안티 엔트로피 - 머클 트리 복구 (Cassandra Anti Entropy Merkle Tree)]] →
+
+---

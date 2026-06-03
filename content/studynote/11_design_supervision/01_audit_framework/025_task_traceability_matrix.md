@@ -136,3 +136,14 @@ REQ-003: 미구현 → 즉시 팀 공유 및 일정 조정 필요
 1. 추적 매트릭스는 요리 레시피 [[435_checklist_based_testing|체크리스트]]예요! 각 재료(요구사항)가 요리(코드)에 들어갔고, 맛 테스트(테스트)를 통과했는지 하나씩 [[396_validation|확인]]하는 표예요.
 2. [[435_checklist_based_testing|체크리스트]]가 있으면 어떤 재료를 빠뜨렸는지(미구현 요구사항) 즉시 알 수 있어요.
 3. 요즘은 JIRA 같은 도구가 자동으로 연결해줘서, 더 빠르고 정확하게 추적할 수 있답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 27 / 530
+
+← **이전**: [[024_risk_based_audit|24. 위험 기반 감리 (Risk-based Audit)]]
+**다음**: [[026_applications_system_area_audit|26. 응용 시스템 영역 감리 (Applications System Area Audit)]] →
+
+---

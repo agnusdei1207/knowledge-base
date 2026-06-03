@@ -122,3 +122,14 @@ XaaS는 모든 것을 [[090_service_kubernetes_network_load_balancing|서비스]
 구독 경제는 장난감을 사는 대신 빌려 쓰는 거예요.  
 필요한 동안만 쓰고, 계속 쓰고 싶으면 다음 달도 빌려요.  
 그래서 회사는 계속 잘해 줘야 해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 100 / 587
+
+← **이전**: [[056_omni_channel|56. 옴니채널 마케팅 전략 (Omni-Channel Marketing Strategy) - 고객 중심 통합 경험]]
+**다음**: [[058_data_literacy|58. 데이터 리터러시 (Data Literacy) - 전 임직원의 데이터 해석 및 활용 역량]] →
+
+---

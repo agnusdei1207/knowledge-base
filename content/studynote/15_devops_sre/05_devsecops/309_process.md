@@ -134,3 +134,14 @@ Reference Architecture
 1. [[198_pod_kubernetes_minimum_deployment_unit|포드]]·[[086_replicaset_kubernetes_controller_self_healing|레플리카셋]]·[[087_deployment_kubernetes_workload_rolling_update|디플로이먼트]]는 복잡한 일을 순서와 규칙으로 정리해서 실수하지 않게 도와주는 방법이에요.
 2. 출시 직전 수동 보안 점검 같은 친구들과 같이 움직여야 더 잘 작동해요.
 3. 그래서 문제가 생겨도 어디서 틀렸는지 빨리 찾고 다시 고치기 쉬워져요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 309 / 373
+
+← **이전**: [[308_process|308. 쿠버네티스 마스터·워커 컴포넌트 (Kubernetes Control Plane and Worker)]]
+**다음**: [[310_clusterip_nodeport_loadbalancer_ingress|310. ClusterIP·NodePort·LoadBalancer·Ingress (Kubernetes Service Exposure)]] →
+
+---

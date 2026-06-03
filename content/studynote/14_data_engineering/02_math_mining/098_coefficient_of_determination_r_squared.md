@@ -133,3 +133,14 @@ R-Squared는 전체 분산의 덩어리를 모델이 설명한 부분과 설명�
 1. 친구가 국어 점수를 100점 맞은 이유를 "학원에 다녀서 그래!"라고 내가 설명했어요.
 2. 만약 내 설명이 완벽하다면 결정 계수는 1점 만점에 가깝고, 내 설명이 틀렸다면 0점에 가까워져요.
 3. 결정 계수가 높다는 건 내가 복잡한 세상을 아주 똑똑하게 잘 설명해 냈다는 뜻이랍니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 98 / 258
+
+← **이전**: [[097_regression_metrics_mse_rmse_mae|회귀 분석 지표 (Regression Metrics) - MSE, RMSE, MAE]]
+**다음**: [[099_ab_testing_statistical_power|A/B 테스트 검정력 및 p-value 해킹 (A/B Testing Power & p-value Hacking)]] →
+
+---

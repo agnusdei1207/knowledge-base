@@ -185,3 +185,14 @@ tags:
 1. 마모 평준화 (Wear Leveling)은 컴퓨터가 디스크와 장치가 [[001_dikw_pyramid|데이터]]를 주고받는 길을 정리하는 방법이에요.
 2. 먼저 [[478_ftl_flash_translation_layer|FTL]] ([[478_ftl_flash_translation_layer|Flash Translation Layer]])을 이해하면 마모 평준화 (Wear Leveling)이 왜 필요한지 더 쉽게 보여요.
 3. 그래서 마모 평준화 (Wear Leveling)을 잘 알면 나중에 [[480_write_amplification|쓰기 증폭]] ([[480_write_amplification|Write Amplification]]) 현상도 훨씬 쉽게 배울 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 479 / 800
+
+← **이전**: [[478_ftl_flash_translation_layer|478. FTL (Flash Translation Layer) - LBA를 플래시의 물리 주소(PBA)로 매핑하는 펌웨어]]
+**다음**: [[480_write_amplification|480. 쓰기 증폭 (Write Amplification) 현상]] →
+
+---

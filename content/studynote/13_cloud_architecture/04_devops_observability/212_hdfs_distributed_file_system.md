@@ -191,3 +191,14 @@ HDFS: NameNode (메타데이터) + DataNode (블록 저장)
 ```
 2. 각 조각은 3곳에 복사해두어서 한 상자가 망가져도(노드 고장) 다른 상자에서 꺼낼 수 있어.
 3. NameNode는 "어떤 조각이 어느 상자에 있는지" 목록만 관리하는 도서관 사서야. 사서가 없으면 조각들을 못 찾아!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 211 / 371
+
+← **이전**: [[211_hadoop_ecosystem_mapreduce|211. 하둡 에코시스템 (Hadoop Ecosystem)]]
+**다음**: [[213_mapreduce_distributed_computation|213. 맵리듀스 (MapReduce)]] →
+
+---

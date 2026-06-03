@@ -120,3 +120,14 @@ Prometheus + Grafana
 
 > 🧒 **어린이 비유**
 > Prometheus는 학교 성적 기록부, Grafana는 그 성적을 예쁜 [[070_graph_datastructure|그래프]]로 그려주는 프로그램이에요. AlertManager는 성적이 떨어지면 부모님께 문자를 보내는 시스템이에요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 323 / 373
+
+← **이전**: [[322_cncf|OpenTelemetry CNCF]]
+**다음**: [[324_audit|Chaos Engineering]] →
+
+---

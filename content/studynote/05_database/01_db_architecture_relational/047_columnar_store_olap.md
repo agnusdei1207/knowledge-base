@@ -314,3 +314,14 @@ TiDB HTAP 통합
 1. 컬럼 저장은 세로 서랍 — "급여만 보고 싶어"라면 급여 서랍(컬럼) 하나만 열면 돼요. 가로 서랍(행 기반)은 모든 서랍 다 열어야 해요!
 2. 컬럼 [[347_compaction|압축]]은 반복 줄이기 — "부산부산부산" 대신 "부산×3"으로 저장([[099_rle|RLE]]). 같은 것이 많을수록 더 많이 [[347_compaction|압축]]!
 3. HTAP는 하이브리드 자동차 — [[327_hint_handoff|OLTP]](도심 전기)와 [[316_olap|OLAP]](고속도로 가솔린)을 하나의 DB에. 편리하지만 비용은 2배!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 47 / 600
+
+← **이전**: [[046_in_memory_db_imdb|046. 인메모리 데이터베이스 — IMDB (In-Memory Database)]]
+**다음**: [[048_row_oriented_store_oltp|048. 행 지향 저장소 — Row-Oriented Store & OLTP]] →
+
+---

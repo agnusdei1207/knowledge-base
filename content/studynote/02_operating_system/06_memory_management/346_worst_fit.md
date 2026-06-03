@@ -192,3 +192,14 @@ Worst-Fit [[001_algorithm_definition|알고리즘]]의 본질적 한계는 **'�
 1. 최악 적합 (Worst-Fit)은 컴퓨터가 메모리를 방처럼 나눠 쓰고 주소를 찾는 방법이에요.
 2. 먼저 [[345_best_fit|최적 적합]] ([[345_best_fit|Best-Fit]])을 이해하면 최악 적합 (Worst-Fit)이 왜 필요한지 더 쉽게 보여요.
 3. 그래서 최악 적합 (Worst-Fit)을 잘 알면 나중에 [[347_compaction|압축]] ([[347_compaction|Compaction]])도 훨씬 쉽게 배울 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 346 / 800
+
+← **이전**: [[345_best_fit|345. 최적 적합 (Best-Fit) - 가장 크기가 비슷한 공간 (자투리 최소화, 검색 시간 소요)]]
+**다음**: [[347_compaction|347. 압축 (Compaction) - 외부 단편화 해결, 동적 재배치 시에만 가능, 오버헤드 막심]] →
+
+---

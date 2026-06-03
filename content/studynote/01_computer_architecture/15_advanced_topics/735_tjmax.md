@@ -149,3 +149,14 @@ hotspot·상승률 반영 예측형 열 제어
 1. TjMax는 컴퓨터가 "여기보다 더 뜨거워지면 정말 위험해"라고 정해 둔 마지막 선이에요.
 2. 그 선에 가까워지면 컴퓨터는 스스로 속도를 줄여 몸을 식혀요.
 3. 그래도 너무 뜨거워지면 아예 전원을 꺼서 다치지 않게 해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 736 / 803
+
+← **이전**: [[734_pl1_pl2_power_limits|734. PL1, PL2 (Power Limit 1, 2)]]
+**다음**: [[736_ihs_integrated_heat_spreader|736. 히트스프레더 (IHS, Integrated Heat Spreader)]] →
+
+---

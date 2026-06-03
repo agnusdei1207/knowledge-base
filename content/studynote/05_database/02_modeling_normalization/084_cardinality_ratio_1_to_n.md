@@ -137,3 +137,14 @@ PK / FK / 연결 테이블 결정
 1. 한 부모가 여러 자녀를 돌볼 수 있어요.
 2. 하지만 자녀 한 명은 보통 한 집에만 속해요.
 3. 그래서 몇 대 몇인지 먼저 정해야 표가 헷갈리지 않아요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 84 / 600
+
+← **이전**: [[083_relationship_in_er_model|83. 관계 (Relationship) - 마름모, 개체 간 연관성]]
+**다음**: [[085_participation_constraint_total_partial|85. 참여 제약조건 (Participation Constraint) - 필수 참여(전체), 선택 참여(부분)]] →
+
+---

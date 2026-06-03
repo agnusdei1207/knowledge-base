@@ -108,3 +108,14 @@ Observability
 
 > 🧒 **어린이 비유**
 > 몸이 아플 때 체온계([[567_metrics_time_series_prometheus_grafana|Metrics]])·의사 일지([[568_logs_distributed_logging_elk_fluentd|Logs]])·혈액 이동 경로 사진(Traces), 이 세 가지가 있어야 정확한 진단이 가능해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 320 / 373
+
+← **이전**: [[319_process|Blameless Postmortem]]
+**다음**: [[321_trace_id|Distributed Tracing Trace ID]] →
+
+---

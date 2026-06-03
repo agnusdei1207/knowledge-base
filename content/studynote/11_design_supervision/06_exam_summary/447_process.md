@@ -142,3 +142,14 @@ tags:
 1. 여러 모양의 블록을 큰 상자에 먼저 모아 두는 거예요.
 2. 나중에 놀 때 필요한 규칙대로 이름표를 붙여서 꺼내 써요.
 3. 그래서 그림 그리기 블록도, 성 만들기 블록도 같은 상자에서 같이 찾을 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 525 / 530
+
+← **이전**: [[446_csap|446. 공공 클라우드 CSAP 보안 인증 점검 통제 (CSAP Security Certification Control for Public]]
+**다음**: [[448_ai_rag|448. AI 환각 방지 RAG 벡터 인덱싱 파이프 (AI Hallucination Mitigation RAG Vector Indexing]] →
+
+---

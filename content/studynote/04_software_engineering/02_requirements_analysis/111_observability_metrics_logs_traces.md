@@ -125,3 +125,14 @@ Observability는 [[190_ai_llm_requirements_specification|AI]] Ops와 결합하�
 1. **체온계(Monitoring)**는 "열이 났다!"만 알려주지만, **MRI([[642_observability_telemetry|Observability]])**는 "어디가 아픈지" 속까지 보여줘요.
 2. 서버도 마찬가지로, 숫자([[567_metrics_time_series_prometheus_grafana|Metrics]])·일기장([[568_logs_distributed_logging_elk_fluentd|Logs]])·발자국(Traces) 3가지를 모아야 "왜 느린지" 정확히 알 수 있어요.
 3. OpenTelemetry라는 마법 도구가 이 3가지를 한 번에 모아서, 의사 선생님([[100_sre_site_reliability_engineering_error_budget|SRE]])이 빨리 고칠 수 있게 도와준답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 111 / 973
+
+← **이전**: [[110_idp_internal_developer_platform_backstage|110. 내부 개발자 플랫폼 (IDP, Internal Developer Platform) - Backstage·셀프서비스 카탈로그]]
+**다음**: [[112_distributed_tracing_microservices|112. 분산 트레이싱 (Distributed Tracing) - Span·Trace ID·OpenTelemetry 추적 체계]] →
+
+---

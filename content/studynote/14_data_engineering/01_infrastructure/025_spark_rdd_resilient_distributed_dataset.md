@@ -173,3 +173,14 @@ Spark 3.x에서 RDD는 Adaptive Query Execution (AQE)과 직접 통합되지 않
 1. RDD는 [[136_variance|분산]]된 메모장이에요! 여러 컴퓨터(노드)에 나눠 저장하고, 한 컴퓨터가 고장나도 메모를 다시 만드는 방법(리니지)을 기억해요.
 2. 실제로 계산은 필요할 때만 해서([[015_지연_데이터_관점|지연]] 실행) 불필요한 낭비를 줄이고, 인메모리 처리로 디스크보다 100배 빠르게 처리해요.
 3. 요즘은 더 쉬운 DataFrame API를 주로 쓰지만, RDD는 Spark의 기초 엔진으로 여전히 중요하답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 25 / 258
+
+← **이전**: [[024_apache_flink_stream_processing|24. Apache Flink — 네이티브 실시간 스트림 처리 엔진]]
+**다음**: [[026_topic_partition|26. Kafka 토픽 파티션 (Topic Partition) — 분산 스트림 병렬 처리]] →
+
+---

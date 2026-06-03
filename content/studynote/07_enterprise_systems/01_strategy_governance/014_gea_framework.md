@@ -194,3 +194,14 @@ GEA의 가장 독특한 시너지는 IT 아키텍처가 재무/예산 통제와 
 1. 우리나라에는 경찰청, 소방청, 교육부 같은 여러 관공서가 있어요. 옛날에는 각자 자기들만의 방식대로 컴퓨터를 만들어서 서로 대화가 안 통했어요.
 2. 그래서 나라에서 "이제부터 컴퓨터 시스템을 만들 때는 무조건 이 5가지 똑같은 규격과 레고 블록만 써라!" 하고 규칙을 정했는데, 이게 바로 범정부 [[110_enterprise_architecture_ea|EA]]([[115_gea_government_ea_framework|GEA]])예요.
 3. 이 규칙 덕분에 관공서끼리 서로 정보를 쉽게 주고받을 수 있게 되어서, 우리가 서류를 한 번만 내도 모든 일이 척척 처리되는 마법 같은 전자정부가 만들어진 거랍니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 14 / 482
+
+← **이전**: [[013_togaf_framework|13. TOGAF (The Open Group Architecture Framework) - ADM(Architecture Development]]
+**다음**: [[015_ita_information_technology_architecture|15. ITA (Information Technology Architecture) - 과거 EA와 동의어로 쓰이던 용어 (법제화 명칭)]] →
+
+---

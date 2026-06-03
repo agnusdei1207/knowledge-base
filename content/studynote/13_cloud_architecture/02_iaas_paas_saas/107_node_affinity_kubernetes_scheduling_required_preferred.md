@@ -123,3 +123,14 @@ Custom Scheduler / Descheduler (동적 스케줄링 및 재배치 최적화)
 1. [[085_pod_kubernetes_container_unit|파드]](손님)가 [[196_kubernetes_k8s_container_orchestration|쿠버네티스]] 호텔에 와서 "저는 꼭 수영장이 있는 방으로 주세요!"라고 요구하는 게 노드 어피니티예요.
 2. "수영장 없으면 절대 안 자!"라고 떼쓰는 건 강제 조건(Required)이에요.
 3. "수영장 있으면 좋은데, 없으면 그냥 아무 방이나 주세요~" 하는 건 융통성 있는 선호 조건(Preferred)이랍니다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 106 / 371
+
+← **이전**: [[106_taint_toleration_kubernetes_node_scheduling_repel|106. 테인트(Taint)와 톨러레이션(Toleration) - K8s 스케줄링 제어]]
+**다음**: [[108_kubernetes_probes_liveness_readiness_startup_health_check|108. K8s 프로브(Probes) 생명주기 관리]] →
+
+---

@@ -140,3 +140,14 @@ Clean Room
 [[062_darkdata|다크 데이터]]는 창고에 묻혀 있는 장난감 상자예요.  
 AI는 상자 안 물건에 이름표를 붙여 정리해 줘요.  
 클린 룸은 서로 장난감을 보여 주지 않고도 개수만 같이 세는 비밀 방이에요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 60 / 258
+
+← **이전**: [[059_bloom_filter_false_positive_disk_io|59. 블룸 필터 (Bloom Filter) - 디스크 I/O 최적화 확률적 검색]]
+**다음**: [[061_data_mining_framework_kdd_crisp_dm|61. 데이터 마이닝 프레임워크 - KDD와 CRISP-DM]] →
+
+---

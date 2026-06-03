@@ -131,3 +131,14 @@ Security Backlog
 무서운 일을 숫자로 적어 보면 어떤 게 더 급한지 알 수 있어요.  
 사람이 많이 다칠수록 점수가 높아요.  
 DREAD는 그런 위험 점수표예요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 64 / 1108
+
+← **이전**: [[063_threat_modeling|063. 위협 모델링 (Threat Modeling)]]
+**다음**: [[065_stride_model|065. STRIDE 모델 — Spoofing/Tampering/Repudiation/Information Disclosure/DoS/Elevation]] →
+
+---

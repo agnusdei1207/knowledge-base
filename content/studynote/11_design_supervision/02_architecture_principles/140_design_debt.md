@@ -127,3 +127,14 @@ tags:
 1. [[100_technical_debt_monitoring_release_policy|기술 부채]]는 신용카드 빚처럼, 급할 때 빌려 쓰면(빠른 구현) 이자(추가 작업)가 생겨요.
 2. 이자가 너무 많이 쌓이면 나중에 갚기가 너무 힘들어져요 (개발 불가 상태).
 3. 부채를 목록으로 관리하고 조금씩 갚아나가는(리팩터링) 것이 건강한 개발이에요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 196 / 530
+
+← **이전**: [[139_conceptual_integrity|139. 개념 무결성 (Conceptual Integrity)]]
+**다음**: [[141_design_pattern_gof_overview|141. 디자인 패턴 개요 (Design Pattern Overview)]] →
+
+---

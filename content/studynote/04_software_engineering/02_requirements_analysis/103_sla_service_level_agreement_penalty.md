@@ -125,3 +125,14 @@ Error Budget (에러 예산) 연동 자동화 릴리즈 통제
 1. 피자 가게 아저씨가 "최대한 빨리 갈게요"라고 말만 하면 우리가 1시간을 기다려도 화낼 수가 없죠?
 2. 하지만 [[085_sla|SLA]]([[090_service_kubernetes_network_load_balancing|서비스]] 협약)는 아예 전단지에 "30분 넘으면 피자값을 100% 환불해 드립니다!"라고 도장을 쾅 찍어놓은 강력한 약속이에요.
 3. 이렇게 벌금(위약금)이라는 무서운 규칙을 정해두면, 컴퓨터 회사들이 서버가 고장 나지 않게 훨씬 더 열심히 조심해서 관리하게 된답니다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 103 / 973
+
+← **이전**: [[102_sli_slo_service_level_indicator_objective|102. SLI (Service Level Indicator) / SLO (Service Level Objective)]]
+**다음**: [[104_toil_automation_sre|104. 토일 (Toil) - SRE에서 줄여야 할 단순 반복적 운영 작업]] →
+
+---

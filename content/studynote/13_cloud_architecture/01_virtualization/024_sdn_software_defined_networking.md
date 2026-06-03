@@ -141,3 +141,14 @@ SDN은 [[782_o_ran_open_ran_white_box_interface|O-RAN]] (Open Radio Access Netwo
 1. SDN은 학교 모든 교실([[238_switch_operation_principles|스위치]])에 따로 선생님을 두는 대신, 교장선생님(컨트롤러) 한 명이 전체 학교를 소프트웨어로 관리하는 것이에요!
 2. 교장선생님이 한 번만 지시하면 모든 교실이 동시에 바뀌어서, 학교 규칙 변경이 훨씬 빠르고 쉬워져요.
 3. 클라우드 회사들이 수만 개의 서버 네트워크를 몇 분 만에 [[009_config|설정]]할 수 있는 이유가 바로 [[633_sdn_whitebox|SDN]] 덕분이랍니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 23 / 371
+
+← **이전**: [[023_sddc_software_defined_data_center|23. SDDC (Software-Defined Data Center) — 소프트웨어 정의 데이터센터]]
+**다음**: [[025_sds_software_defined_storage|25. SDS (Software Defined Storage) — 소프트웨어 정의 스토리지]] →
+
+---

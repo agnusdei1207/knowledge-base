@@ -176,3 +176,14 @@ characterization test → [[213_refactoring_cloud_native_rearchitecture|리팩�
 1. 체조 선수가 새 기술을 연습할 때 처음에는 스펀지 매트 위에서 한다 — 매트가 테스트고, 연습이 [[213_refactoring_cloud_native_rearchitecture|리팩토링]]이다.
 2. 매트(테스트)가 있으면 실수해도 다시 일어나 계속 연습할 수 있다.
 3. 테스트 없이 [[213_refactoring_cloud_native_rearchitecture|리팩토링]]하는 것은 딱딱한 바닥에서 새 기술을 처음 시도하는 것이다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 309 / 530
+
+← **이전**: [[247_clean_code_naming_philosophy|247. 클린 코드 네이밍 철학 (Clean Code Self-Documenting Naming)]]
+**다음**: [[249_legacy_design_debt_adr|249. 레거시 설계 부채와 ADR (Legacy Design Debt & Architecture Decision Record)]] →
+
+---

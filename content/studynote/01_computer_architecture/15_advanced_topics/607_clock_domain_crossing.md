@@ -165,3 +165,14 @@ GALS 기반 이종 칩 통합
 1. 빨리 뛰는 친구와 천천히 뛰는 친구가 쪽지를 주고받으려면 그냥 던지면 안 돼요.
 2. 먼저 안전한 바구니나 [[396_validation|확인]] [[130_signal|신호]]를 써서 "지금 받아도 돼"를 맞춰야 해요.
 3. CDC는 컴퓨터 안에서 서로 다른 박자의 친구들이 싸우지 않고 이야기하게 해 주는 약속이에요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 607 / 803
+
+← **이전**: [[606_dynamic_partial_reconfiguration|606. FPGA (Field-Programmable Gate Array) 동적 재구성 (Dynamic Reconfiguration)]]
+**다음**: [[608_async_fifo|608. 비동기식 FIFO (First-In First-Out) 버퍼]] →
+
+---

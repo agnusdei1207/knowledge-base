@@ -139,3 +139,14 @@ tags:
 1. [[297_soa_wsdl_uddi_soap|SOA WSDL UDDI SOAP]] 아키텍처는 복잡한 일을 순서대로 정리해 주는 큰 정리함이에요.
 2. 어디에 무엇을 넣을지 먼저 정해 두면, 나중에 찾거나 고칠 때 훨씬 쉬워져요.
 3. 그래서 일이 커질수록 먼저 기준을 만들고 같이 약속하는 것이 중요해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 362 / 482
+
+← **이전**: [[361_eai_hub_spoke_bus|361. EAI 허브 앤 스포크 버스 아키텍처 (EAI Enterprise Application Integration)]]
+**다음**: [[363_esb_message_bus_routing|363. ESB 메시지 버스 라우팅 변환 (Enterprise Service Bus)]] →
+
+---

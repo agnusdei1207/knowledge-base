@@ -132,3 +132,14 @@ Layer 2 스케일링 (ZK-Rollup, Optimistic Rollup)
 1. [[004_blockchain|블록체인]]은 수천 명이 같은 공책을 동시에 들고 있어서, 한 명이 내용을 바꾸면 나머지가 다 알아채는 마법 공책이에요.
 2. [[022_smart_contract|스마트 컨트랙트]]는 "조건을 달성하면 자동으로 보상을 준다"는 약속이 컴퓨터 코드로 이루어진 거예요.
 3. PBFT는 100명 중 33명이 거짓말을 해도 나머지 67명의 투표로 올바른 결정을 내릴 수 있는 투표 방식이에요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 369 / 373
+
+← **이전**: [[368_process|368. 침수 냉각 탄소 인식 컴퓨팅 그린옵스 (Immersion Cooling Carbon-Aware Computing PUE GreenOps)]]
+**다음**: [[370_did_zkp|370. DID 분산신원 ZKP 영지식증명 자기주권신원 (DID Decentralized Identity ZKP Self-Sovereign]] →
+
+---

@@ -128,3 +128,14 @@ FP-tree 구성
     1. 장바구니를 매번 처음부터 세지 말고, 비슷한 것끼리 묶어 보면 쉬워요.
     2. 공통된 길을 먼저 그려 두면, 숨은 패턴을 더 빨리 찾을 수 있어요.
     3. 그래서 FP-Growth는 같은 시작점을 모아 지도를 만드는 방법이에요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 87 / 258
+
+← **이전**: [[086_lift_association_rule_marketing|86. 향상도 (Lift) - 연관 규칙의 유의성 검증 지표]]
+**다음**: [[088_k_fold_cross_validation_overfitting_generalization|88. 머신러닝 교차 검증 (K-Fold Cross Validation) - 모델 일반화 성능 측정]] →
+
+---

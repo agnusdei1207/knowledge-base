@@ -115,3 +115,14 @@ TSDB는 센서, [[568_logs_distributed_logging_elk_fluentd|로그]], 금융 시�
 시계열 [[001_dikw_pyramid|데이터]]는 매일 찍는 사진이에요.  
 처음 사진은 자세히 남기고, 오래된 사진은 요약 앨범으로 바꿔요.  
 그래야 공간도 아끼고 필요한 순간은 빨리 찾을 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 57 / 258
+
+← **이전**: [[056_data_virtualization_federated_query_trino|56. 데이터 가상화 및 연방 쿼리 (Federated Query) - Trino와 Presto의 분산 SQL 엔진]]
+**다음**: [[058_newsql_google_spanner_truetime_distributed_transaction|58. 뉴에스큐엘 (NewSQL) - 분산 RDBMS와 구글 스패너(Spanner)]] →
+
+---

@@ -140,3 +140,14 @@ CQRS의 경계를 드러내려면 **단일 [[061_on_premise_legacy_infrastructur
 1. 이 개념은 복잡한 일을 한눈에 보이게 정리해서 모두가 같은 규칙으로 움직이게 해 줘.
 2. 그래서 많은 기계나 사람, 프로그램이 함께 일해도 어디서 문제가 생겼는지 찾기 쉬워져.
 3. 한마디로 이 개념은 복잡한 일을 질서 있게 움직이게 만드는 안내판이야.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 250 / 552
+
+← **이전**: [[249_event_sourcing_append_only_state_reconstruction|249. 이벤트 소싱 (Event Sourcing)]]
+**다음**: [[251_edge_native_architecture_distributed_ai_k3s|251. 엣지 네이티브 설계 패턴 (Edge Native)]] →
+
+---

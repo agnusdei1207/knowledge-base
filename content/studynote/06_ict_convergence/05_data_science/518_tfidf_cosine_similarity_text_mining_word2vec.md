@@ -154,3 +154,14 @@ $$\cos(\theta) = \frac{\vec{A} \cdot \vec{B}}{|\vec{A}||\vec{B}|}$$
 1. TF-IDF는 책에서 자주 나오는 특별한 단어가 무엇인지 찾아주는 거야 — "바나나"가 과일 책에만 자주 나오면 그게 그 책의 핵심 단어야.
 2. [[359_cosine_similarity|코사인 유사도]]는 두 문서가 같은 방향을 바라보는지 확인하는 거야 — 방향이 같으면 비슷한 내용이야.
 3. Word2Vec은 단어들을 지도 위에 올려놓는 거야 — 비슷한 뜻의 단어들은 지도에서 가까이 모여 있어!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 518 / 552
+
+← **이전**: [[517_time_series_arima_stationarity_smoothing|517. 시계열 ARIMA 정상성과 평활법 (Time Series ARIMA Stationarity Smoothing)]]
+**다음**: [[519_collaborative_filtering_cold_start_recommendation|519. 협업 필터링, 콜드 스타트, 추천 시스템 (Collaborative Filtering Cold Start Recommendation)]] →
+
+---

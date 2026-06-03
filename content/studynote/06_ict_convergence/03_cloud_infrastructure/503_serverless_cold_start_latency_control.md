@@ -127,3 +127,14 @@ tags:
 1. [[206_serverless_cold_start|서버리스]]는 필요할 때만 불을 켜는 전등이에요 — 아무도 없을 때는 전기를 아끼지만, 처음 켤 때 잠깐 기다려야 해요.
 2. [[559_serverless_cold_start_mitigation|콜드 스타트]]는 겨울에 차 시동 거는 것처럼, 처음엔 시간이 걸리지만 한 번 달궈지면 빨라요.
 3. 기억 없는 함수([[239_stateless_redis|Stateless]])는 매번 새로 태어나는 금붕어처럼, 이전에 뭘 했는지 노트(외부 DB)에 적어두지 않으면 잊어버려요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 503 / 552
+
+← **이전**: [[502_kubernetes_pod_orchestration_deployment|502. 쿠버네티스 Pod 오케스트레이션 배포 (Kubernetes Pod Orchestration Deployment)]]
+**다음**: [[504_iac_terraform_immutable_infrastructure|504. IaC 테라폼과 불변 인프라 선언 (IaC Terraform Immutable Infrastructure)]] →
+
+---

@@ -154,3 +154,14 @@ MTE (Memory Tagging Extension) · 통합 하드웨어 메모리 방어
 1. 컴퓨터는 중요한 주소표에 비밀 도장을 찍어 둬요.
 2. 나쁜 사람이 주소 숫자만 몰래 고쳐도, 비밀 도장이 맞지 않으면 컴퓨터가 바로 가짜라고 알아채요.
 3. 그래서 길을 빼앗아 다른 곳으로 데려가려는 장난을 훨씬 어렵게 만들 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 542 / 803
+
+← **이전**: [[541_stack_smashing_protector|541. 스택 스매싱 프로텍터 (Stack Smashing Protector)]]
+**다음**: [[543_pqc_accelerator|543. 양자 내성 암호 가속기 (PQC Accelerator)]] →
+
+---

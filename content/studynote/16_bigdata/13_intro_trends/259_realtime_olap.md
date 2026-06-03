@@ -321,3 +321,14 @@ AI 자연어 쿼리
 1. 실시간 [[316_olap|OLAP]] = 즉석 성적표 — 시험 끝나고 다음 날 성적 대신 즉시 결과! 광고, 게임, 금융에서 "지금 바로" 100억 개 계산!
 2. ClickHouse = [[148_5g_embb_urllc_mmtc|초고속]] 집계기 — 가격 컬럼만 뽑아(컬럼형) CPU 32개씩 더하기([[370_simd|SIMD]]). 100억 행도 5초!
 3. Druid [[042_rollup_l2_solution|Rollup]] = 미리 손질된 재료 — 500억 이벤트를 인제스트 시 2.5억 집계로 [[347_compaction|압축]]. [[298_qkv_attention|쿼리]] 시 가볍게 바로 답변!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 259 / 262
+
+← **이전**: [[258_data_lakehouse|046. 데이터 레이크하우스 — Data Lakehouse]]
+**다음**: [[260_vector_database|048. 벡터 데이터베이스 — Vector Database]] →
+
+---

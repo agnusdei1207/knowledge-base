@@ -130,3 +130,14 @@ Zachman Matrix
 1. [[243_zachman_framework_matrix|Zachman]] Framework는 장난감을 종류별로 정리하는 큰 표예요.
 2. 누가 보느냐에 따라 같은 장난감도 다르게 [[104_classification_analysis|분류]]해요.
 3. 그래서 빠진 걸 찾기 쉬워요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 55 / 973
+
+← **이전**: [[054_brooks_law|54. 브룩스의 법칙 (Brooks' Law)]]
+**다음**: [[056_togaf_ea_framework|56. TOGAF EA Framework]] →
+
+---

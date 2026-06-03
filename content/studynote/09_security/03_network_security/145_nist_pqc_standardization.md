@@ -125,3 +125,14 @@ NIST [[351_quantum_computing_pqc_transition|PQC]] 표준화 (Nist [[351_quantum_
 1. NIST [[351_quantum_computing_pqc_transition|PQC]] 표준화 (Nist [[351_quantum_computing_pqc_transition|Pqc]] Standardization)는 학교 규칙표처럼 무엇을 준비하고 어떻게 확인할지 알려 주는 기준이에요.
 2. 규칙표만 붙여 두고 지키지 않으면 아무 소용이 없어요.
 3. 그래서 보안도 규칙과 실제 행동이 함께 맞아야 해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 198 / 1108
+
+← **이전**: [[144_hkdf_tls_1_3|144. 키 파생 함수 (KDF)와 TLS 1.3의 HKDF (Hkdf TLS 1 3)]]
+**다음**: [[146_crystals_kyber_ml_kem|146. ML-KEM (구 CRYSTALS-Kyber)]] →
+
+---

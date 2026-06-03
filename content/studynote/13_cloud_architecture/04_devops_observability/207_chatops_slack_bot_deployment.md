@@ -228,3 +228,14 @@ ChatOps: Slack/Teams 봇으로 운영 명령 실행
 ```
 2. "/deploy 게임서버 v3"라고 입력하면 봇이 서버를 업데이트하고 결과를 채팅방에 알려줘. 모든 팀원이 동시에 볼 수 있어.
 3. 나중에 "우리가 언제 무슨 명령을 했는지" 채팅 기록만 보면 다 나와. 자동으로 일지가 쓰이는 거야.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 206 / 371
+
+← **이전**: [[206_postmortem_blameless_devops_culture|206. 포스트모템 / 비난 없는 회고 (Blameless Post-mortem)]]
+**다음**: [[208_immutable_infra_hotfix_no_ssh|208. 인프라 불변성 원칙과 핫픽스 금지 (Immutable Infrastructure)]] →
+
+---

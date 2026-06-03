@@ -128,3 +128,14 @@ Java [[561_container_based_deployment|컨테이너]]가 OOM의 주범인 이유:
 1. 식당에서 밥그릇(512MB) 1개만 먹으라고 했는데, 욕심쟁이 손님([[085_pod_kubernetes_container_unit|파드]])이 밥통을 통째로 먹으려 했어요.
 2. 경비원([[425_oom_killer_score|OOM Killer]])이 즉시 그 손님을 쫓아냈어요. 안 그러면 다른 100명의 손님이 굶어요!
 3. 해결법은 욕심쟁이 손님에게 "밥 1그릇만 먹는 체질(-Xmx)"로 바꿔주는 거랍니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 109 / 371
+
+← **이전**: [[109_multi_cluster_federation_karmada_cloud_bursting|109. K8s 멀티 클러스터 및 연합(Federation) - Karmada·클라우드 버스팅]]
+**다음**: [[111_container_runtime_sandboxing_gvisor_kata_containers|111. 컨테이너 런타임 샌드박싱 - gVisor·Kata Containers·런타임 보안 격리]] →
+
+---

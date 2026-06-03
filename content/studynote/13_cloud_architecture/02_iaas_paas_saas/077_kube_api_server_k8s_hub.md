@@ -117,3 +117,14 @@ Watch 기반 제어평면 반응
 1. 학교에서 모든 신청서는 먼저 행정실로 가요.
 2. 행정실이 [[396_validation|확인]]하고 기록한 뒤 필요한 반에 알려줘요.
 3. [[196_kubernetes_k8s_container_orchestration|쿠버네티스]]의 [[014_api_posix|API]] 서버도 그 행정실 같은 역할을 해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 76 / 371
+
+← **이전**: [[076_kubernetes_master_node_components|76. K8s 마스터 노드 컴포넌트 4가지]]
+**다음**: [[078_etcd_distributed_key_value_store|78. etcd (엣시디) - 클러스터의 모든 상태 정보(설정, 메타데이터)를 저장하는 고가용성 분산 Key-Value 저장소]] →
+
+---

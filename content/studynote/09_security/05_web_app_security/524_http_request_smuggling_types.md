@@ -125,3 +125,14 @@ tags:
 1. [[523_http_request_smuggling_concept|HTTP Request Smuggling]] 유형 (CL.[[361_ospf_traffic_engineering_te|TE]], [[361_ospf_traffic_engineering_te|TE]].CL, H2.CL)는 누군가 규칙의 틈을 찾아 몰래 장난을 치는 방법이에요.
 2. 그래서 문을 단단히 잠그는 것뿐 아니라, 누가 이상하게 움직이는지도 바로 알아차려야 해요.
 3. 컴퓨터는 이상한 흔적을 빨리 보고 퍼지기 전에 멈추게 해야 안전해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 580 / 1108
+
+← **이전**: [[523_http_request_smuggling_concept|523. HTTP Request Smuggling (개념 및 동기화 오류)]]
+**다음**: [[525_http_response_smuggling|525. HTTP Response Smuggling (응답 분할 및 가로채기)]] →
+
+---

@@ -135,3 +135,14 @@ Lineage / Catalog / Governance
 1. [[214_data_lineage_tracking|데이터 리니지]]는 "이 숫자가 어디서 왔어?"에 답해 주는 지도예요.
 2. 숫자가 이상하면 지도를 따라 거꾸로 올라가면 돼요.
 3. 그래서 문제를 빨리 찾고, 미리 망가질 곳도 알 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 52 / 258
+
+← **이전**: [[051_data_catalog_metadata_discovery|51. 데이터 카탈로그 (Data Catalog) - 메타데이터 검색 및 자산화]]
+**다음**: [[053_dataops_ci_cd_data_pipeline|53. DataOps CI/CD 데이터 파이프라인 (DataOps CI/CD Data Pipeline)]] →
+
+---

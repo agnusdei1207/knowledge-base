@@ -319,3 +319,14 @@ MLOps Level 2 — CI/CD/CT 완전 자동화
     ▼
 LLMOps — 프롬프트 관리 · RAG 파이프라인 · PEFT 스케줄링
 ```
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 161 / 258
+
+← **이전**: [[160_knowledge_graph_graphrag_integration|160. 지식 그래프 (Knowledge Graph) + GraphRAG 연동망]]
+**다음**: [[162_continuous_training_pipeline_model_retraining|162. CT (Continuous Training) 파이프라인 - 모델 성능 저하 시 자동 재학습]] →
+
+---

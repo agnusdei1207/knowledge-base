@@ -126,3 +126,14 @@ Progress Tracking
 일감이 줄어드는지 봐요.  
 끝난 일도 같이 봐요.  
 차트는 그런 그림이에요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 72 / 973
+
+← **이전**: [[071_sprint_retrospective|71. 스프린트 회고 (Sprint Retrospective) - 프로세스 개선]]
+**다음**: [[073_xp_extreme_programming|73. XP (e/Xtreme Programming) - 5가지 가치, 12가지 실천 방법]] →
+
+---

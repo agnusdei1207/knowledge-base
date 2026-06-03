@@ -135,3 +135,14 @@ Reference Architecture
 1. [[400_integration_testing|통합 테스트]] DB 연동 [[192_module_independence|모듈]] 조립망 [[352_defect_definition|결함]] 탐지는 복잡한 일을 순서와 규칙으로 정리해서 실수하지 않게 도와주는 방법이에요.
 2. Testcontainers 같은 친구들과 같이 움직여야 더 잘 작동해요.
 3. 그래서 문제가 생겨도 어디서 틀렸는지 빨리 찾고 다시 고치기 쉬워져요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 264 / 373
+
+← **이전**: [[263_unit_test_mocking_stubbing|263. 유닛 테스트 (Unit Test) 함수 격리망 프레임워크 모킹(Mocking), 스터빙(Stubbing) 더블 기법]]
+**다음**: [[265_e2e_end_to_ui_selenium|265. E2E (End-to-End) 테스트 / UI 테스트]] →
+
+---

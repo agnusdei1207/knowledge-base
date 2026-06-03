@@ -186,3 +186,14 @@ CQRS + 이벤트 소싱 — 도메인 이벤트 기반 아키텍처
 1. DDD는 **'개발자와 회사 전문가가 같은 단어로 이야기하는 방법'** 이에요. "주문"이 코드에도 "Order"로 나오고, 회의에서도 "Order"라고 부르면 서로 오해가 없어요!
 2. 회사를 "주문팀", "배송팀", "결제팀"으로 나누듯, 소프트웨어도 **경계([[221_bounded_context_ddd_msa_boundary|Bounded Context]])** 를 나눠서 각자 독립적으로 일할 수 있게 해요.
 3. [[532_microservices_decomposition_patterns|마이크로서비스]]를 어떻게 나눌지 모를 때 **DDD의 경계가 바로 [[090_service_kubernetes_network_load_balancing|서비스]] 분리 기준**이 되어서, 클라우드 시대의 핵심 설계 방법론이 됐어요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 146 / 371
+
+← **이전**: [[146_mtls_mutual_tls|146. mTLS (Mutual TLS) - 서비스 간 상호 인증·암호화]]
+**다음**: [[148_ubiquitous_language|148. 보편적 언어 (Ubiquitous Language)]] →
+
+---

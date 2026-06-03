@@ -140,3 +140,14 @@ AI-assisted DevOps (자율 장애 탐지·복구)
 1. DevOps는 요리사(개발자)와 웨이터(운영자)가 팀을 이뤄 손님에게 최고의 [[090_service_kubernetes_network_load_balancing|서비스]]를 빠르게 전달하는 방식이에요.
 2. SRE는 레스토랑이 얼마나 자주 문제가 생겨도 되는지(에러 버짓)를 숫자로 정해서 혁신과 안정성을 균형 있게 관리해요.
 3. [[642_observability_telemetry|옵저버빌리티]]는 주방 [[933_cctv|CCTV]]([[568_logs_distributed_logging_elk_fluentd|로그]]), 온도계([[342_routing_metric_hop_bandwidth_delay|메트릭]]), 배달 추적(추적)이 모두 있어야 음식이 왜 문제가 생겼는지 알 수 있는 것과 같아요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 371 / 373
+
+← **이전**: [[370_did_zkp|370. DID 분산신원 ZKP 영지식증명 자기주권신원 (DID Decentralized Identity ZKP Self-Sovereign]]
+**다음**: [[372_zero_trust|372. 제로 트러스트 아키텍처 신원 기반 접근 제어 (Zero Trust Architecture ZTNA SASE NIST SP 800-207)]] →
+
+---

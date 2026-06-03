@@ -183,3 +183,14 @@ uOp translation · uOp cache · hybrid front-end
 1. 가변 길이 [[158_instruction|명령어]]는 쉬운 심부름은 짧은 쪽지에, 어려운 심부름은 긴 쪽지에 적어 주는 방법이에요.
 2. 그래서 서랍에는 쪽지를 더 많이 넣을 수 있지만, 로봇은 다음 쪽지가 어디서 시작하는지 먼저 읽어봐야 해요.
 3. 컴퓨터는 이 불편함을 줄이려고 쪽지를 표준 작업 카드로 다시 바꿔서 빠르게 처리한답니다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 172 / 803
+
+← **이전**: [[171_fixed_length_instruction|171. 고정 길이 명령어 (Fixed-Length Instruction)]]
+**다음**: [[173_addressing_modes|173. 주소 지정 방식 (Addressing Modes)]] →
+
+---

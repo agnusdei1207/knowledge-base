@@ -134,3 +134,14 @@ AIOps 및 AI 기반 ITSM · 티켓 자동 분류 및 인프라 자가 치유 (Se
 1. 컴퓨터가 고장 났을 때 아무나 붙잡고 고쳐달라고 소리치면 아무도 도와주지 않아요.
 2. [[096_iso_iec_20000_itsm_certification|ITSM]] 도구는 "컴퓨터 수리 신청서"라는 번호표를 뽑는 마법의 창구예요.
 3. 번호표를 뽑으면 순서대로 전문가 아저씨가 배정되고, 언제 고쳐질지 친절하게 알려준답니다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 178 / 587
+
+← **이전**: [[097_itsm_tool_platform|97. ITSM 도구 플랫폼 (ServiceNow, Jira Service Management 등)]]
+**다음**: [[098_self_service_portal|98. 셀프 서비스 포털 (Self-Service Portal)]] →
+
+---

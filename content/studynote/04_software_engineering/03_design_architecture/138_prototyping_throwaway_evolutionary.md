@@ -53,3 +53,14 @@ tags:
 1. Throwaway는 **클레이 모형**이에요. [[396_validation|확인]]하고 **버려요**.
 2. Evolutionary는 **점토 조각**이에요. 계속 **다듬어서 완성**해요.
 3. 먼저 대충 만들어 보여주면 "이건 아니에요!" 를 **빨리** 알 수 있어요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 138 / 973
+
+← **이전**: [[137_persona_analysis_modeling|137. 페르소나 분석 & 모델링 - 사용자 중심 요구 도출]]
+**다음**: [[139_prototyping_fidelity_levels|139. 프로토타입 충실도 (Fidelity Levels) - Lo-Fi·Mid-Fi·Hi-Fi]] →
+
+---

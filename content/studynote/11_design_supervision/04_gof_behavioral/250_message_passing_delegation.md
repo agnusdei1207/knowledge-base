@@ -168,3 +168,14 @@ OrderService                  OrderService
 1. 숙제할 때 수학은 수학 선생님, 과학은 과학 선생님, 글짓기는 국어 선생님께 각각 도움을 청하는 것이 위임이다.
 2. "도와주세요"라고 말하는 것이 메시지 패싱이고, 선생님이 각자 방법으로 도와주는 것이 다형성이다.
 3. 위임을 잘 하면 혼자 모든 걸 알 필요 없이, 전문가에게 맡겨서 더 좋은 결과를 얻을 수 있다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 311 / 530
+
+← **이전**: [[249_legacy_design_debt_adr|249. 레거시 설계 부채와 ADR (Legacy Design Debt & Architecture Decision Record)]]
+**다음**: [[251_secure_coding_sql_xss_csrf|251. 시큐어 코딩 SQL/XSS/CSRF 진단 (Secure Coding SQL/XSS/CSRF Audit)]] →
+
+---

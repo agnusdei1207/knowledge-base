@@ -132,3 +132,14 @@ Robust Communication
 한곳에 몰아두지 않고 넓게 퍼뜨려요.  
 그래서 찾기 어렵고, 흔들려도 버텨요.  
 스펙트럼 확산은 그런 통신 방법이에요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 68 / 1120
+
+← **이전**: [[067_경사과부하_그래뉼러_잡음|67. 경사 과부하 잡음 (Slope Overload Noise) / 그래뉼러 잡음 (Granular Noise)]]
+**다음**: [[069_직접_수열_확산_DSSS|69. 직접 수열 확산 스펙트럼 (DSSS, Direct Sequence Spread Spectrum) - PN 시퀀스]] →
+
+---

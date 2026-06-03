@@ -140,3 +140,14 @@ MVC는 "UI 코드의 혼돈을 세 역할로 정리하는 가장 기본적인 �
 1. 게임에서 캐릭터 정보(Model)가 바뀌면 화면([[151_sql_view_virtual_table|View]])이 바뀌고, 조이스틱 입력(Controller)이 캐릭터를 움직여요.
 2. 조이스틱(Controller)은 직접 캐릭터를 그리지 않고, 화면([[151_sql_view_virtual_table|View]])은 직접 캐릭터를 움직이지 않아요.
 3. 각자의 역할을 지키면 그래픽을 바꿔도 조이스틱 코드를 건드릴 필요가 없어요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 175 / 530
+
+← **이전**: [[118_onion_architecture|118. 어니언 아키텍처 (Onion Architecture)]]
+**다음**: [[120_event_driven_architecture|120. 이벤트 주도 아키텍처 (EDA, Event-Driven Architecture)]] →
+
+---

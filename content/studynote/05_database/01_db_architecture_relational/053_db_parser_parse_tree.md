@@ -128,3 +128,14 @@ AST / 의미 분석
 1. 파서는 문장을 읽고 순서를 맞게 썼는지 [[396_validation|확인]]해요.
 2. 맞게 쓰면 나무처럼 가지를 뻗은 그림으로 바꿔요.
 3. 그 다음에야 실제로 일을 하게 시켜요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 53 / 600
+
+← **이전**: [[052_db_optimizer_rbo_cbo|52. 옵티마이저 (Optimizer) - 최적의 SQL 실행 계획 생성]]
+**다음**: [[054_data_dictionary_catalog_manager|54. 데이터 사전과 카탈로그 관리자 (Data Dictionary Catalog Manager)]] →
+
+---

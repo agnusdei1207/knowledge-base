@@ -220,3 +220,14 @@ tags:
 1. 컵(버퍼)에 물([[001_dikw_pyramid|데이터]])을 부을 때, 컵의 크기보다 더 많은 물을 부으면 물이 흘러넘쳐서 옆에 있던 중요한 숙제(리턴 주소)를 적셔버리는 게 '[[591_buffer_overflow|버퍼 오버플로우]]'예요.
 2. 나쁜 해커들은 일부러 물을 콸콸 부어서 숙제를 망가뜨리고, 그 자리에 '컴퓨터 조종 리모컨(쉘코드)'을 몰래 올려놔서 컴퓨터를 맘대로 조종해요.
 3. 그래서 똑똑한 컴퓨터 기술자들은 컵에 눈금을 긋고 선을 넘으면 물통을 잠가버리는 기술([[190_secure_coding_guideline|시큐어 코딩]], [[336_dep|DEP]])을 만들어서 컴퓨터를 안전하게 지키고 있답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 741 / 800
+
+← **이전**: [[740_protection_domain_least_privilege|740. 보호 도메인 최소 권한 원칙 (Protection Domain Least Privilege)]]
+**다음**: [[742_spoofing_backdoor_malware|742. 스푸핑, 백도어 악성코드 (Spoofing Backdoor Malware)]] →
+
+---

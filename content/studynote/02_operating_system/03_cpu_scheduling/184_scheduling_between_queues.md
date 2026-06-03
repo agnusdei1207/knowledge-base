@@ -172,3 +172,14 @@ Scheduling between queues
 1. 여러 줄이 서 있을 때 선생님이 어느 줄에 먼저 장난감을 줄지 정하는 규칙이 바로 큐 간 스케줄링이에요.
 2. 제일 급한 줄만 계속 먼저 주면 다른 줄은 너무 오래 기다릴 수 있어요.
 3. 그래서 어떤 때는 급한 줄을 더 많이 챙기면서도, 다른 줄에도 꼭 조금씩 나눠 주는 방법을 쓰는 거예요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 184 / 800
+
+← **이전**: [[183_multilevel_queue_scheduling|183. 다단계 큐 스케줄링 (Multilevel Queue Scheduling)]]
+**다음**: [[185_mlfq_scheduling|185. 다단계 피드백 큐 스케줄링 (Multilevel Feedback Queue, MLFQ) - 프로세스의 큐 이동 허용]] →
+
+---

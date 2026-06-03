@@ -145,3 +145,14 @@ CSAP는 도입 전 [[303_authentication_authorization_patterns|인증]] [[396_va
 1. 공공기관이 쓰는 클라우드는 먼저 안전 스티커를 받은 곳인지 [[396_validation|확인]]해야 해요.
 2. 그리고 누가 들어오고 나가는지, 문은 잘 잠겼는지 계속 기록해야 해요.
 3. 그래서 문제가 생겨도 어디서 잘못됐는지 바로 찾을 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 524 / 530
+
+← **이전**: [[445_audit|445. 레거시 현대화 스트랭글러 피그 변환 감리 (Strangler Fig Pattern for Legacy Modernization]]
+**다음**: [[447_process|447. 데이터 레이크하우스 스키마 온 리드 융합망 (Data Lakehouse Schema-on-Read Convergence Architecture)]] →
+
+---

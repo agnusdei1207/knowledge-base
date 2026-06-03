@@ -289,3 +289,14 @@ AQE (Adaptive Query Execution): 런타임 최적화
 ```
 2. Combiner는 "출발 전에 같은 선생님한테 갈 카드를 미리 묶어두는 것"이에요. 100장이 10묶음이 되면 훨씬 빠르게 전달할 수 있어요.
 3. YARN은 "여러 반 선생님들이 쓸 교실(자원)을 배정해주는 교무처"예요. 수학·영어·과학 수업이 동시에 이루어질 수 있도록 교실을 공평하게 나눠줘요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 205 / 258
+
+← **이전**: [[204_namenode_metadata_mapreduce_disk_bottleneck|204. NameNode 메타데이터와 MapReduce 디스크 병목 SPOF 극복]]
+**다음**: [[206_spark_inmemory_rdd_lazy_evaluation_lineage|206. 아파치 스파크 (Apache Spark) 인메모리 RDD 지연 평가 계보]] →
+
+---

@@ -326,3 +326,14 @@ Cassandra, TiKV 등 채택
 1. LSM은 빠른 우체통 — 편지([[289_cqrs_db|쓰기]])를 먼저 입구 트레이([[494_memtable_sstable_flush|MemTable]])에 쌓고, 나중에 한번에 정리. 줄 서기(랜덤 [[289_cqrs_db|쓰기]]) 없이 빠르게 넣어요!
 2. Compaction은 대청소 — 흩어진 서류(SSTable)를 주기적으로 합쳐서 정리. 안 하면 같은 [[501_file_definition_logical_record|파일]]이 곳곳에 분산돼 찾기 힘들어요!
 3. Bloom Filter는 빠른 목차 — "이 [[501_file_definition_logical_record|파일]]에 없어요"를 1초 만에 판단. 없는 [[001_dikw_pyramid|데이터]] 찾으러 30개 [[501_file_definition_logical_record|파일]] 다 열지 않아도 돼요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 46 / 258
+
+← **이전**: [[045_columnar_storage_format_parquet_orc|045. 컬럼형 저장 형식 — Parquet & ORC]]
+**다음**: [[047_compaction_and_tombstone|047. 컴팩션과 툼스톤 — Compaction & Tombstone]] →
+
+---

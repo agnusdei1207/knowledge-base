@@ -110,3 +110,14 @@ SLI는 **SRE의 모든 판단의 출발점**이며, 올바른 [[102_sli_slo_serv
 1. SLI는 학교 **시험 점수**예요. "우리 [[090_service_kubernetes_network_load_balancing|서비스]]가 몇 점인지" 알 수 있어요.
 2. SLO는 **합격 기준(90점)**이에요. 점수가 기준 이하면 **공부(안정화)에 집중**해야 해요.
 3. 중요한 건 **학생(사용자)이 느끼는** 점수이지, 선생님(서버) 기분이 아니에요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 122 / 373
+
+← **이전**: [[121_sre_philosophy|121. SRE 철학 (Site Reliability Engineering Philosophy) - 신뢰성 엔지니어링의 핵심 원칙]]
+**다음**: [[123_slo_service_level_objective|123. SLO (Service Level Objective) - 서비스 수준 목표 설정과 Error Budget]] →
+
+---

@@ -133,3 +133,14 @@ SubBytes → ShiftRows → MixColumns
 1. 비밀 편지를 여러 번 섞고 바꾸면 원래 모습이 잘 안 보여요.
 2. 그때마다 열쇠를 넣어야만 다시 읽을 수 있어요.
 3. 하지만 열쇠를 아무 데나 두면 아무리 섞어도 안전하지 않아요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 84 / 1108
+
+← **이전**: [[083_aes_advanced_encryption_standard|083. AES (Advanced Encryption Standard) — 128/192/256비트 키]]
+**다음**: [[085_aes_key_schedule|085. AES 키 스케줄 — 라운드 키 생성]] →
+
+---

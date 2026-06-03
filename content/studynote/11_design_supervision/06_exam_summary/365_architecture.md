@@ -111,3 +111,14 @@ tags:
 1. [[217_clean_architecture_dependency_rule|클린 아키텍처]] ([[217_clean_architecture_dependency_rule|Clean Architecture]])은 집 안쪽 방을 먼저 짓고 바깥 벽지와 가구는 나중에 고르는 것처럼 약속을 먼저 정하는 거예요.
 2. 그러면 서로 다른 사람이 해도 같은 규칙으로 움직일 수 있어요.
 3. 그래서 규모가 커질수록 비즈니스 규칙을 외부 기술로부터 보호하는 일이 더 중요해져요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 443 / 530
+
+← **이전**: [[364_architecture|364. 계층형 아키텍처 (Layered Architecture)]]
+**다음**: [[366_process|366. 헥사고날 아키텍처 (Hexagonal Architecture)]] →
+
+---

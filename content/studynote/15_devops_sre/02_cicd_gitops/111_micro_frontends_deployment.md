@@ -123,3 +123,14 @@ Host([[044_shell|Shell]]) 앱이 빌드 시점이 아닌 **런타임에** Remote
 1. 옛날에는 10명이 **1개 도화지**에 동시에 그림을 그려서 서로 부딪혔어요.
 2. [[239_micro_frontends_architecture|마이크로 프론트엔드]]는 각자 **자기 캔버스**에 그린 후 전시회에서 합치는 거예요.
 3. 덕분에 한 친구가 그림을 수정해도 **다른 친구 그림은 안 망가지고**, 전시회도 훨씬 빨리 열 수 있답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 111 / 373
+
+← **이전**: [[110_zero_downtime_db_schema_rollout|110. 무중단 DB 스키마 롤아웃 (Zero-Downtime) - Expand and Contract 패턴]]
+**다음**: [[112_serverless_framework_deployment|112. 서버리스 프레임워크 배포 (Serverless Framework Deployment) - FaaS IaC 자동화]] →
+
+---

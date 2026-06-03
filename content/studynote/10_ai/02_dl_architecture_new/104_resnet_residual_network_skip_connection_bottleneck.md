@@ -126,3 +126,14 @@ DenseNet (모든 층 연결) · Transformer (잔차 연결의 표준화)
 1. 딥러닝이라는 똑똑한 로봇을 만들려면 지식의 블록을 아주 높게 쌓아야 해요.
 2. 하지만 블록을 너무 높게 쌓으면 아래쪽에 있는 블록에는 명령이 잘 전달되지 않았어요.
 3. ResNet은 위층에서 아래층으로 명령을 바로 쏴주는 '직통 미끄럼틀'을 만들어 로봇을 엄청나게 똑똑하게 만들었답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 104 / 420
+
+← **이전**: [[103_cnn_architecture_evolution_lenet_alexnet_vgg_googlenet_resnet|103. CNN 주요 아키텍처의 발전 (AlexNet, VGG, ResNet 등)]]
+**다음**: [[105_one_by_one_convolution_bottleneck_dimension_reduction|105. 1x1 합성곱 (1x1 Convolution) - 병목 차원 축소와 파라미터 최적화]] →
+
+---

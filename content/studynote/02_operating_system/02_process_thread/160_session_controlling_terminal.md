@@ -146,3 +146,13 @@ setsid() / daemon / systemd 서비스
 2. 제어 터미널은 지금 누구 차례인지 알려 주는 마이크예요.
 3. 혼자 독립해서 일하는 데몬은 그 마이크와 떨어져서 계속 일할 수 있어요.
 
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 160 / 800
+
+← **이전**: [[159_process_group|159. 프로세스 그룹 (Process Group)]]
+**다음**: [[161_short_term_scheduler|161. 단기 스케줄러 (Short-term Scheduler) / CPU 스케줄러]] →
+
+---

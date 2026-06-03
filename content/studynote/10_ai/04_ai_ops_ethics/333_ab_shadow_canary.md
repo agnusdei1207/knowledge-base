@@ -139,3 +139,14 @@ A/B 테스팅·섀도우·[[115_canary_deployment_gradual_rollout|카나리 배�
 1. **[[575_shadow_deployment_traffic_mirroring|섀도우 배포]]**는 새 요리사가 주방에서 몰래 요리를 만들어보지만 **손님에게는 기존 요리사 것을 주는** 방법으로, 손님 피해 없이 새 요리를 테스트해요!
 2. **[[115_canary_deployment_gradual_rollout|카나리 배포]]**는 10명 중 1명([[595_canary_stack_smashing_protector|카나리]] 1%)에게만 새 요리를 주고 반응을 보는 것, **A/B 테스팅**은 절반에게 새 요리, 절반에게 기존 요리를 주고 어느 쪽을 더 좋아하는지 **통계로 비교**하는 거예요.
 3. "빠르고 안전하게 배포"라는 원칙으로 단계별로 [[395_verification_process_review|검증]]하며 새 AI를 [[090_service_kubernetes_network_load_balancing|서비스]]에 올리는 것이 **[[348_mlops|MLOps]] 배포의 정석**이에요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 333 / 420
+
+← **이전**: [[332_gnn|332. GNN (Graph Neural Network)]]
+**다음**: [[334_vram_zero_optimizer|334. GPU VRAM 부족과 ZeRO 옵티마이저 (Zero Redundancy Optimizer)]] →
+
+---

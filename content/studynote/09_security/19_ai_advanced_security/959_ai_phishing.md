@@ -125,3 +125,14 @@ tags:
 1. [[190_ai_llm_requirements_specification|AI]] 기반 [[752_phishing|피싱]] ([[190_ai_llm_requirements_specification|AI]] [[752_phishing|Phishing]])는 누군가 규칙의 틈을 찾아 몰래 장난을 치는 방법이에요.
 2. 그래서 문을 단단히 잠그는 것뿐 아니라, 누가 이상하게 움직이는지도 바로 알아차려야 해요.
 3. 컴퓨터는 이상한 흔적을 빨리 보고 퍼지기 전에 멈추게 해야 안전해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 1055 / 1108
+
+← **이전**: [[958_data_extraction|958. 데이터 추출 공격 (Data Extraction)]]
+**다음**: [[960_deepfake|960. Deepfake (딥페이크)]] →
+
+---

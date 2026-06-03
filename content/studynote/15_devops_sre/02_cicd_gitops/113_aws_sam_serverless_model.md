@@ -134,3 +134,14 @@ SAM은 AWS의 공식 [[206_serverless_cold_start|서버리스]] IaC로, CDK(Clou
 1. CloudFormation은 레시피를 **재료부터 조리법까지 전부 적어야** 하는 두꺼운 요리책이에요.
 2. SAM은 **"카레 세트"**라고만 쓰면 재료가 자동으로 준비되는 편리한 밀키트예요!
 3. `sam local`은 손님에게 내기 전 **주방에서 맛보기**하는 것처럼, 배포 전에 테스트할 수 있답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 113 / 373
+
+← **이전**: [[112_serverless_framework_deployment|112. 서버리스 프레임워크 배포 (Serverless Framework Deployment) - FaaS IaC 자동화]]
+**다음**: [[114_kayenta_canary_analysis|114. Kayenta 카나리 분석 (Kayenta Canary Analysis) - 자동 배포 판단·ACA]] →
+
+---

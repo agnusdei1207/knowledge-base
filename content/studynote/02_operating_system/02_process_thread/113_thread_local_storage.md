@@ -155,3 +155,14 @@ tags:
 1. TLS는 "학생 번호표"와 같아요. 같은 "번호"라도 각 학생이 자기만의 번호표를 가지고 있어서 섞이 볼 일이 없어요.
 2. 컴퓨터에서도 각 [[092_thread_lwp|스레드]](작업자)가 자기만의 번호표([[694_thread_local_storage_tls|TLS]])를 가지면, 서로 다른 사람 번호를 읽을 때 혼선이 생기지 않아요.
 3. 예를 들어 오류 번호(errno)를 저장할 때 TLS를 쓰면, 한 작업자의 오류가 다른 작업자의 화면에 뜨지 않아 안전하답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 113 / 800
+
+← **이전**: [[112_cancellation_point|112. 취소 점 (Cancellation Point)]]
+**다음**: [[114_scheduler_activation|114. 스케줄러 액티베이션 (Scheduler Activation) / 경량 프로세스(LWP)]] →
+
+---

@@ -229,3 +229,14 @@ tags:
 1. 철수는 맨날 무거운 일기장([[001_dikw_pyramid|데이터]])을 가방에 넣고 학교랑 집을 왔다 갔다 하느라 허리가 부러질 뻔했어요.
 2. 그래서 똑똑한 철수는 일기장을 튼튼한 '마을 중앙 창고([[543_nfs_network_file_system|NFS]] 서버)'에 딱 하나만 놔두고, 학교 책상 서랍이랑 집 책상 서랍을 '마법의 터널([[516_mount_mechanism|마운트]])'로 창고랑 몰래 연결했어요!
 3. 이제 철수는 학교든 집이든 빈 서랍을 쓱 열기만 하면 마법 터널을 통해 중앙 창고의 일기장이 바로 튀어나와서 아주 편하게 일기를 쓸 수 있게 된 거랍니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 774 / 800
+
+← **이전**: [[773_object_storage_metadata_decoupling|773. 오브젝트 스토리지 메타데이터 분리 (Object Storage Metadata Decoupling)]]
+**다음**: [[775_partition_mbr_gpt_size_limit|775. 파티션 MBR GPT 크기 제한 (Partition MBR GPT Size Limit)]] →
+
+---

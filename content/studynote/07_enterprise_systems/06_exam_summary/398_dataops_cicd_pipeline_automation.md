@@ -139,3 +139,14 @@ tags:
 1. [[196_dataops_dbt_ci_cd_data_testing|데이터옵스]] [[324_ci_cd|CI CD]] [[123_pipe|파이프]]라인 자동 테스팅는 복잡한 일을 순서대로 정리해 주는 큰 정리함이에요.
 2. 어디에 무엇을 넣을지 먼저 정해 두면, 나중에 찾거나 고칠 때 훨씬 쉬워져요.
 3. 그래서 일이 커질수록 먼저 기준을 만들고 같이 약속하는 것이 중요해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 398 / 482
+
+← **이전**: [[397_kafka_distributed_streaming_cdc|397. 카프카 분산 큐 메시지 스트리밍 CDC (Apache Kafka)]]
+**다음**: [[399_feature_store_ml_cache_mlops|399. 피처 스토어 머신러닝 변수 캐시 MLOps (Feature Store)]] →
+
+---

@@ -139,3 +139,14 @@ tags:
 1. [[196_dataops_dbt_ci_cd_data_testing|데이터옵스]] 자동 [[123_pipe|파이프]]라인 개발론는 복잡한 일을 순서대로 정리해 주는 큰 정리함이에요.
 2. 어디에 무엇을 넣을지 먼저 정해 두면, 나중에 찾거나 고칠 때 훨씬 쉬워져요.
 3. 그래서 일이 커질수록 먼저 기준을 만들고 같이 약속하는 것이 중요해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 249 / 482
+
+← **이전**: [[248_data_ownership_taxonomy_enterprise_classification|248. 데이터 오너십 및 전사 분류 체계 (Data Ownership / Enterprise Data Taxonomy)]]
+**다음**: [[250_regtech_internal_control_it_compliance_audit|250. 레그테크 활용 내부 통제 및 IT 컴플라이언스 상시 감사 (RegTech: Regulatory Technology)]] →
+
+---

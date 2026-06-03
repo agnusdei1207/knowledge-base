@@ -135,3 +135,14 @@ tags:
 1. [[105_exploratory_data_analysis|감성 분석]]은 [[231_ai_turing_test|인공지능]] 로봇이 사람들이 쓴 글이나 댓글을 읽고, 이 사람이 지금 **기분이 좋은지, 화가 났는지, 슬픈지 마음의 온도**를 재주는 '마음 청진기'예요.
 2. 옛날 로봇은 글씨만 읽을 줄 알아서 "참~ 친절하시네요"라고 비꼬는 댓글을 보고 "우와, 칭찬이다!" 하고 속아 넘어가는 바보였어요.
 3. 하지만 지금 똑똑해진 로봇([[301_bert_mlm|BERT]])은 문장의 앞뒤 분위기나 말투(문맥)를 완벽하게 눈치채서, 아무리 빙빙 돌려서 말해도 "이 사람 지금 엄청 삐쳐있어!"라고 0.1초 만에 딱 맞추는 천재 탐정이 되었답니다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 209 / 420
+
+← **이전**: [[208_mrc_machine_reading_comprehension|208. 기계 독해 (MRC, Machine Reading Comprehension)]]
+**다음**: [[210_ner_named_entity_recognition|210. 개체명 인식 (NER, Named Entity Recognition)]] →
+
+---

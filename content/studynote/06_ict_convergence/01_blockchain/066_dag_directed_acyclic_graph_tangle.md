@@ -129,3 +129,14 @@ Scalable Ledger
 한 줄로만 줄 서지 않아도 돼요.  
 서로 도와서 다음 사람을 확인해요.  
 DAG는 그런 그물망 같은 기록 방법이에요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 66 / 552
+
+← **이전**: [[065_consensus_finality_probabilistic_deterministic|65. 합의 완결성 (Finality) - 블록이 체인에 기록되어 뒤집히지 않음이 보장되는 상태 (PoW는 확률적 완결성, BFT는 즉각적]]
+**다음**: [[067_51_percent_attack_double_spending|67. 51% 공격 (51% Attack) - 악의적 노드가 전체 해시 파워의 51% 이상을 장악해 장부를 조작하는 공격]] →
+
+---

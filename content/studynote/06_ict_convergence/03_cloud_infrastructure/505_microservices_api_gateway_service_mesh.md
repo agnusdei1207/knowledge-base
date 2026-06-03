@@ -128,3 +128,14 @@ MSA에서 수십~수백 개의 [[090_service_kubernetes_network_load_balancing|�
 1. [[014_api_posix|API]] 게이트웨이는 학교 정문 경비원이에요 — 누가 들어오는지 확인하고, 어느 교실([[090_service_kubernetes_network_load_balancing|서비스]])로 가야 하는지 안내해줘요.
 2. [[302_service_mesh_istio|서비스 메시]]는 교실 간 우편 시스템이에요 — 편지(요청)가 암호화되어 전달되고, 전달 기록도 자동으로 남아요.
 3. [[307_circuit_breaker_pattern|서킷 브레이커]]는 과전류 차단기예요 — 한 교실에 전기가 너무 많이 흐르면 자동으로 끊어서 다른 교실을 지켜요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 505 / 552
+
+← **이전**: [[504_iac_terraform_immutable_infrastructure|504. IaC 테라폼과 불변 인프라 선언 (IaC Terraform Immutable Infrastructure)]]
+**다음**: [[506_cqrs_event_sourcing_saga_pattern|506. CQRS, 이벤트 소싱, 사가 패턴 (CQRS Event Sourcing Saga Pattern)]] →
+
+---

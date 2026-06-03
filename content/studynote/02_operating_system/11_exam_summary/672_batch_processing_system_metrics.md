@@ -228,3 +228,14 @@ tags:
 1. 식당에 손님이 와서 햄버거 1개를 시킬 때마다 바로바로 만들어 주는 것을 '대화형 시스템'이라고 해요. 속도는 빠르지만 주방장이 너무 바쁘죠.
 2. '일괄 처리 시스템'은 학교 급식실이에요! 학생들이 배고프다고 소리쳐도 바로 주지 않아요. 점심시간이 될 때까지 기다렸다가, 거대한 솥에 카레 500인분을 한꺼번에 끓인답니다.
 3. 내가 원할 때 바로 밥을 먹을 수 없어서 기다리는 시간([[172_turnaround_waiting_response_time|반환 시간]])은 길지만, 한 번에 500명을 먹일 수 있는 엄청난 요리량([[139_throughput|처리량]])을 자랑하는 최고의 시스템이에요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 672 / 800
+
+← **이전**: [[671_system_program_vs_application_program|671. 시스템 프로그램과 응용 프로그램의 차이 (System Program Vs Application Program)]]
+**다음**: [[673_multiprogramming_bottleneck_resource|673. 다중 프로그래밍 (Multiprogramming) 한계 자원]] →
+
+---

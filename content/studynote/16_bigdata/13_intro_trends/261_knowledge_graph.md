@@ -314,3 +314,14 @@ LLM + 지식 그래프
 1. [[160_knowledge_graph_graphrag_integration|지식 그래프]] = 세상 [[083_relationship_in_er_model|관계]]도 — "래리 [[286_page_frame|페이지]]→설립→구글", "구글→본사→마운틴뷰". 개체와 [[083_relationship_in_er_model|관계]]를 연결한 거대한 네트워크!
 2. KGE = 개체를 별자리에 배치 — 비슷한 것(서울, 도쿄)은 가깝게. V(서울)+V(수도)≈V(한국). 벡터 연산으로 [[083_relationship_in_er_model|관계]] 추론!
 3. [[530_graph_rag|Graph RAG]] = 지식 맵 안내원 — 벡터 검색(광범위 검색)으로 못 찾을 때 [[160_knowledge_graph_graphrag_integration|지식 그래프]]([[083_relationship_in_er_model|관계]] 지도)로 [[369_logic_bomb|논리]]적 탐색. 추론 경로 설명 가능!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 261 / 262
+
+← **이전**: [[260_vector_database|048. 벡터 데이터베이스 — Vector Database]]
+**다음**: [[262_stream_data_quality|스트리밍 데이터 품질 관리 (Streaming Data Quality Management)]] →
+
+---

@@ -247,3 +247,14 @@ Q5. 좋아요 수, 공유 수 (약간 오래된 값 허용)?
 1. [[194_consistency_database_integrity|일관성]] 수준은 정보의 신선도 기준 — "방금 막 나온 뉴스"(Strong)부터 "어제 뉴스도 OK"(Eventual)까지 얼마나 최신 정보가 필요한지에 따라 골라요.
 2. [[160_session_controlling_terminal|Session]] [[194_consistency_database_integrity|일관성]]은 "내가 방금 쓴 일기는 내가 바로 읽을 수 있지만, 다른 친구는 조금 후에 볼 수도 있어요" — 자신의 작업은 즉시 반영돼요.
 3. [[194_consistency_database_integrity|일관성]]을 강하게 할수록 DB가 모든 복사본에 [[396_validation|확인]]하느라 느려지는 것처럼, 세상에는 빠름과 정확함을 동시에 최대로 얻을 수 없는 트레이드오프가 항상 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 140 / 262
+
+← **이전**: [[139_inmemory_db|139. 인메모리 데이터베이스 (In-Memory DB) — Redis/Memcached/SAP HANA]]
+**다음**: [[141_multi_master_replication|141. 멀티 마스터 복제 (Multi-Master Replication) — CouchDB/DynamoDB Global Tables]] →
+
+---

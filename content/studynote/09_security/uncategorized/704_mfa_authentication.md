@@ -125,3 +125,14 @@ tags:
 1. 다요소 [[303_authentication_authorization_patterns|인증]] ([[552_mfa|Multi-Factor Authentication]], [[552_mfa|MFA]])는 학교 규칙표처럼 무엇을 준비하고 어떻게 확인할지 알려 주는 기준이에요.
 2. 규칙표만 붙여 두고 지키지 않으면 아무 소용이 없어요.
 3. 그래서 보안도 규칙과 실제 행동이 함께 맞아야 해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 776 / 1108
+
+← **이전**: [[704_lsass_dump|704. LSASS 메모리 추출 (Mimikatz, procdump)]]
+**다음**: [[705_kerberos_authentication|705. Kerberos 인증 (Kerberos Authentication)]] →
+
+---

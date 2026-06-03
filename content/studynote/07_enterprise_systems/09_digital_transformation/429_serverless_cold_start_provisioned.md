@@ -139,3 +139,14 @@ tags:
 1. [[377_serverless_cold_start|서버리스 콜드 스타트]] [[015_지연_데이터_관점|지연]] 해결 [[528_provisioning|프로비저닝]]는 복잡한 일을 순서대로 정리해 주는 큰 정리함이에요.
 2. 어디에 무엇을 넣을지 먼저 정해 두면, 나중에 찾거나 고칠 때 훨씬 쉬워져요.
 3. 그래서 일이 커질수록 먼저 기준을 만들고 같이 약속하는 것이 중요해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 429 / 482
+
+← **이전**: [[428_immutable_infrastructure_iac_terraform|428. 불변 인프라 IaC 테라폼 (IaC: Infrastructure as Code)]]
+**다음**: [[430_finops_cloud_cost_optimization|430. FinOps 핀옵스 재무 가시성 비용 최적화 (FinOps)]] →
+
+---

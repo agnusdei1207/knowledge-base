@@ -118,3 +118,14 @@ Kayenta는 [[190_ai_llm_requirements_specification|AI]] 기반 [[236_anomaly_bas
 1. 새 레시피(코드)를 만들었는데, 10명에게만 먼저 맛보게 해요 ([[595_canary_stack_smashing_protector|카나리]]).
 2. Kayenta는 10명의 **맛 평가 점수를 자동 채점**해서, 합격이면 전체 공개하고 불합격이면 취소해요.
 3. 사장님이 일일이 맛을 안 봐도(수동 관찰 불필요), **로봇이 알아서 판단**해준답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 114 / 373
+
+← **이전**: [[113_aws_sam_serverless_model|113. AWS SAM (Serverless Application Model) - CloudFormation 네이티브 FaaS 배포]]
+**다음**: [[115_atlantis_terraform_ci|115. Atlantis Terraform CI - PR 기반 IaC 자동 Plan·Apply 워크플로]] →
+
+---

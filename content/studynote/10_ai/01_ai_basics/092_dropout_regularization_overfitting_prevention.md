@@ -128,3 +128,14 @@ L1/L2 정규화 (Regularization) · 조기 종료 (Early Stopping)
 1. 딥러닝 모델은 시험 공부를 할 때 기출문제의 정답만 달달 외우려는 꼼수를 부리기 쉬워요.
 2. [[280_dropout|드롭아웃]]은 매일 무작위로 공부할 책의 절반을 뺏어서, 남은 정보만으로 억지로 정답을 유추하게 괴롭히는 훈련법이에요.
 3. 이렇게 훈련받은 모델은 어떤 어려운 실전 문제가 나와도 스스로 [[167_sql_hint_optimizer_override|힌트]]를 찾아내는 똑똑한 학생이 된답니다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 92 / 420
+
+← **이전**: [[091_l1_l2_regularization_weight_decay|91. L1/L2 규제 - 가중치 감쇠(Weight Decay)와 과적합 방지]]
+**다음**: [[093_early_stopping_overfitting_validation_loss|93. 조기 종료 (Early Stopping) - 과적합 방지와 학습 타이밍]] →
+
+---

@@ -178,3 +178,14 @@ SSD는 사실 OS를 속이고 있는 완벽한 사기꾼이다.
 1. 블록 장치 (Block Device)은 컴퓨터가 디스크와 장치가 [[001_dikw_pyramid|데이터]]를 주고받는 길을 정리하는 방법이에요.
 2. 먼저 I/O 장치의 [[104_classification_analysis|분류]]을 이해하면 블록 장치 (Block Device)이 왜 필요한지 더 쉽게 보여요.
 3. 그래서 블록 장치 (Block Device)을 잘 알면 나중에 [[443_character_device|문자 장치]]도 훨씬 쉽게 배울 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 442 / 800
+
+← **이전**: [[441_io_device_classification|441. I/O 장치의 분류 - 블록 장치 (Block Device) vs 문자 장치 (Character Device)]]
+**다음**: [[443_character_device|443. 문자 장치 (Character Device)]] →
+
+---

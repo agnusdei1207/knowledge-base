@@ -131,3 +131,14 @@ tags:
 1. **[[225_foundation_model_peft_lora|파운데이션 모델]]**은 마치 스마트폰의 **[[001_operating_system_purpose|운영체제]](OS)**처럼, 수많은 [[190_ai_llm_requirements_specification|AI]] 앱(번역기, 챗봇, 코딩 도우미)의 **기반**이 되는 아주 큰 AI예요!
 2. 이 거대한 AI를 처음에 **엄청난 양의 글과 정보**로 학습시켜 두면, 나중에 특정 분야(의료, 법률)에 **조금만 더 가르쳐서** 전문 AI로 만들 수 있어요.
 3. [[302_gpt_autoregressive|GPT]]-4, Claude, NAVER의 HyperCLOVA X 같은 것들이 **[[225_foundation_model_peft_lora|파운데이션 모델]]**이에요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 303 / 420
+
+← **이전**: [[302_gpt_autoregressive|302. GPT (Generative Pre-trained Transformer)]]
+**다음**: [[304_fine_tuning|304. 파인 튜닝 (Fine-Tuning)]] →
+
+---

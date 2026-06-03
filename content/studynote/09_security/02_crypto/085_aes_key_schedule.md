@@ -111,3 +111,14 @@ AES 라운드 암호화
 1. [[656_aes_advanced_encryption_standard_rijndael|AES]] 키 [[208_schedule_history_transaction_execution_order|스케줄]]은 요리사가 큰 반죽을 [[489_raid_10_hybrid|10]]~14개의 작은 반죽으로 나누는 일이에요.
 2. 작은 반죽마다 재료를 조금씩 바꾸면 맛이 반복되지 않아요.
 3. 그래서 도둑이 한 조각만 보고 전체 레시피를 훔치기 어려워져요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 85 / 1108
+
+← **이전**: [[084_aes_spn_structure|084. AES SPN 구조 — SubBytes/ShiftRows/MixColumns/AddRoundKey]]
+**다음**: [[086_des_data_encryption_standard|086. DES (Data Encryption Standard) — 56비트 키, 취약]] →
+
+---

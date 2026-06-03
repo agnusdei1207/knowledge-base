@@ -140,3 +140,14 @@ tags:
 1. 이 개념은 복잡한 일을 한눈에 보이게 정리해서 모두가 같은 규칙으로 움직이게 해 줘.
 2. 그래서 많은 기계나 사람, 프로그램이 함께 일해도 어디서 문제가 생겼는지 찾기 쉬워져.
 3. 한마디로 이 개념은 복잡한 일을 질서 있게 움직이게 만드는 안내판이야.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 409 / 552
+
+← **이전**: [[408_random_walk_martingale_probability|408. 랜덤 워크 마팅게일 공리 확률론 (Random WALK Martingale Probability)]]
+**다음**: [[410_ai_intellectual_property_data_sovereignty_data_act|410. AI 지적 재산권 데이터 주권 유럽 Data Act 법제 (Data Sovereignty)]] →
+
+---

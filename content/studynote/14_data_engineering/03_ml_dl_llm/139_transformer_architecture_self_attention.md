@@ -54,3 +54,14 @@ Transformer는 **현대 AI의 기반 아키텍처**이며, [[301_bert_mlm|BERT]]
 1. RNN은 **한 줄로 서서 순서대로** 이야기를 전달해요(느림).
 2. Transformer는 **모든 사람이 동시에 대화**해서 훨씬 빨라요([[430_index_fast_full_scan|병렬]]).
 3. ChatGPT, [[301_bert_mlm|BERT]], 번역기 등 **거의 모든 [[190_ai_llm_requirements_specification|AI]]**가 Transformer를 사용해요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 139 / 258
+
+← **이전**: [[138_attention_mechanism_dynamic_weight|138. Attention Mechanism - 동적 가중치로 핵심 정보에 집중]]
+**다음**: [[140_self_attention_multihead_positional_encoding|140. Self-Attention·Multi-Head·Positional Encoding 상세]] →
+
+---

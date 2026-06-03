@@ -105,3 +105,14 @@ tags:
 1. 호출 한계시간은 학교에서 준비물을 미리 챙기는 것처럼, 중요한 기준을 먼저 맞추는 일이야.
 2. 재시도 [[164_policy|정책]]은 선생님이 수업 중간에 계속 확인하는 것처럼, 실제로 잘 되고 있는지 보는 과정이야.
 3. 대체 경로는 시험 결과표처럼, 정말 효과가 있었는지 나중에 다시 확인하게 해주는 증거야.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 357 / 530
+
+← **이전**: [[295_batch_window_bottleneck_audit|295. 배치 윈도우 병목 감리 (Batch Window Bottleneck Audit)]]
+**다음**: [[297_backup_policy_offsite_media_recovery_test|297. 백업정책 소산보관 복구테스트 감리 (Backup Policy Offsite Storage and Recovery Test Audit)]] →
+
+---

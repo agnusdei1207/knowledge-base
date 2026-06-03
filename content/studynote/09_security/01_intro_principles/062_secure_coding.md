@@ -126,3 +126,14 @@ DevSecOps
 먹기 전에 음식이 안전한지 먼저 보는 거예요.  
 문자도 화면에 바로 보여 주지 말고 한 번 걸러야 해요.  
 그래야 나쁜 코드가 사고를 만들지 않아요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 62 / 1108
+
+← **이전**: [[061_secure_by_default|61. Secure by Default (기본값 안전)]]
+**다음**: [[063_threat_modeling|063. 위협 모델링 (Threat Modeling)]] →
+
+---

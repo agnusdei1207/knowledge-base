@@ -166,3 +166,14 @@ Hybrid edge-cloud intelligence
 1. 엣지 AI는 숙제를 풀 때마다 멀리 있는 선생님께 전화하지 않고, 내 옆에 있는 똑똑한 도우미가 바로 알려 주는 거예요.
 2. 그래서 인터넷이 잠깐 끊겨도 바로바로 대답할 수 있고, 비밀 일기도 밖으로 안 보내도 돼요.
 3. 아주 어려운 문제만 나중에 선생님께 물어보고, 쉬운 문제는 현장에서 바로 해결하는 거예요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 174 / 552
+
+← **이전**: [[173_c_its_cooperative_intelligent_transport_systems|173. C-ITS (Cooperative Intelligent Transport Systems, 협력형 지능형 교통 체계)]]
+**다음**: [[175_ambient_backscatter_communication|175. 백스캐터 통신 (Ambient Backscatter Communication) - 주변 전파를 활용하는 무전원 IoT]] →
+
+---

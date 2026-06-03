@@ -147,3 +147,14 @@ tags:
 1. [[041_resource_allocation|자원 할당]] [[070_graph_datastructure|그래프]]는 거대한 실뜨기 놀이나 미로 찾기 지도예요!
 2. 길을 따라 연필로 화살표 줄을 그으며 따라갔는데, 어라? 출발했던 자리로 빙글 돌아 원을 그려지며 갇혀 버렸네요.
 3. 이 원(사이클)을 발견하는 순간 "앗! 꼼짝 달싹도 못 하게 길이 꽉 막혔다([[281_deadlock_definition|교착 상태]])!"라는 범인을 정확히 찾아내는 명탐정 돋보기가 바로 [[041_resource_allocation|자원 할당]] [[070_graph_datastructure|그래프]]입니다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 287 / 800
+
+← **이전**: [[286_circular_wait|286. 순환 대기 (Circular Wait) - 대기 그래프가 사이클(Cycle)을 형성]]
+**다음**: [[288_single_instance_resource|288. 단일 인스턴스 자원 환경 (Single Instance Resource)]] →
+
+---

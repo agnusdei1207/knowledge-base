@@ -223,3 +223,14 @@ POSIX 표준은 "모든 [[092_thread_lwp|스레드]]는 같은 PID를 가져야 
 1. 전통적인 공장에서는 '자동차(프로세스)'를 만드는 기계랑 '자전거([[092_thread_lwp|스레드]])'를 만드는 기계가 따로 있어서 너무 돈이 많이 들었어요.
 2. 하지만 리눅스 공장은 '마법의 찰흙 기계(`clone`)' 딱 하나만 있어요!
 3. 기계에 "바퀴 4개, 뚜껑 씌워 줘"라고 [[238_switch_operation_principles|스위치]]([[186_character_stuffing_dle_stx_etx|플래그]])를 누르면 자동차가 나오고, "가볍게 뚜껑 빼고 2개만 달아"라고 누르면 자전거가 1초 만에 뿅 하고 나오는 엄청난 기계랍니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 785 / 800
+
+← **이전**: [[784_hyperthreading_smt_logical_core|784. 하이퍼스레딩 물리 코어 논리 코어 분할 구조 (Hyperthreading Smt Logical Core)]]
+**다음**: [[786_cgroups_memory_cpu_isolation_container|786. cgroups 메모리, CPU 자원 제한 격리 컨테이너 (Cgroups Memory CPU Isolation Container)]] →
+
+---

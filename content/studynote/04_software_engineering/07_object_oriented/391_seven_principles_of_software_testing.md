@@ -157,3 +157,14 @@ tags:
 1. 소프트웨어 테스팅의 7가지 원리 ([[352_defect_definition|결함]] 발견, 완벽한 테스트 불가능, 조기 테스트, [[352_defect_definition|결함]] 집중, [[392_pesticide_paradox_test_renewal|살충제 패러독스]], 정황 의존, [[393_absence_of_errors_fallacy|오류 부재의 궤변]])은 레고 블록으로 성을 만들 때처럼, 규칙을 정하고 역할을 나누어 함께 작업하는 방법이에요.
 2. 혼자서 막 만들면 나중에 무너지거나 고치기 어렵지만, 약속을 지키면 누구나 쉽게 고치고 더 크게 만들 수 있어요.
 3. 그래서 [[001_software_engineering_definition|소프트웨어 공학]]은 프로그래머들이 좋은 프로그램을 빠르고 안전하게 만들 수 있게 도와주는 '규칙 모음집'이에요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 391 / 973
+
+← **이전**: [[390_application_lifecycle_management|390. 애플리케이션 라이프사이클 관리 (ALM) 시스템 도입]]
+**다음**: [[392_pesticide_paradox_test_renewal|392. 살충제 패러독스 (Pesticide Paradox) 극복을 위한 테스트 케이스 주기적 갱신]] →
+
+---

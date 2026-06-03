@@ -121,3 +121,14 @@ Toil
 
 > 🧒 **어린이 비유**
 > Toil은 매일 같은 숙제를 손으로 쓰는 것이에요. 타자를 배우면(자동화) 그 시간에 더 재미있는 공부를 할 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 318 / 373
+
+← **이전**: [[317_sli_slo_sla|SLI SLO SLA Error Budget]]
+**다음**: [[319_process|Blameless Postmortem]] →
+
+---

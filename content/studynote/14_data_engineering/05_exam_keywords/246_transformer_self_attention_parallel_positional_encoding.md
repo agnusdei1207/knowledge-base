@@ -246,3 +246,14 @@ Encoder (BERT) / Decoder (GPT) / Enc-Dec (T5)
 ```
 2. 멀티헤드 어텐션은 같은 문장을 여러 명의 전문가(문법 선생님, 의미 분석가, 번역가)가 동시에 읽고 각자의 관점을 합치는 것이야.
 3. [[300_positional_encoding|포지셔널 인코딩]]은 순서를 모르는 어텐션에게 "이 단어는 세 번째야"라고 번호를 붙여주는 이름표야.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 246 / 258
+
+← **이전**: [[245_seq2seq_context_vector_attention_dynamic_weight|245. Seq2Seq (Sequence-to-Sequence) 컨텍스트 벡터 (Context Vector) 어텐션 동적 가중]]
+**다음**: [[247_foundation_model_llm_parameter_emergence_self_supervised|247. 파운데이션 모델 (Foundation Model) LLM 파라미터 창발성 (Emergence) 자기 지도 학습]] →
+
+---

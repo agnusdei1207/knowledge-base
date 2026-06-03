@@ -133,3 +133,14 @@ External Secrets Operator · KMS (Key Management Service) 연동
 1. 장난감 로봇(프로그램)을 만들 때, 건전지([[009_config|설정]]값)를 아예 로봇 안에 본드로 붙여버리면 나중에 고장이 나요.
 2. 컨피그맵은 로봇 등 뒤에 일반 건전지를 꽂는 '투명한 배터리 통'이에요.
 3. [[514_secret_management_vault_kms|시크릿]]은 아무나 열어볼 수 없게 자물쇠가 달린 '비밀 배터리 통'이랍니다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 101 / 371
+
+← **이전**: [[101_serviceaccount_rbac_kubernetes_authorization|101. K8s 보안 - 서비스 어카운트 (ServiceAccount) 및 RBAC 권한]]
+**다음**: [[103_helm_kubernetes_package_manager_chart_template|103. 헬름 (Helm) - 쿠버네티스 패키지 매니저 및 템플릿 엔진]] →
+
+---

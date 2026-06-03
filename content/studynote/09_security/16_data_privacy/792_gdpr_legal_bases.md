@@ -125,3 +125,14 @@ tags:
 1. [[791_gdpr_eu|GDPR]] 6 Legal Bases (GDPR의 6가지 처리 근거)는 학교 규칙표처럼 무엇을 준비하고 어떻게 확인할지 알려 주는 기준이에요.
 2. 규칙표만 붙여 두고 지키지 않으면 아무 소용이 없어요.
 3. 그래서 보안도 규칙과 실제 행동이 함께 맞아야 해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 866 / 1108
+
+← **이전**: [[791_gdpr_eu|791. GDPR (EU General Data Protection Regulation)]]
+**다음**: [[793_data_subject_rights|793. 정보 주체 권리 (Data Subject Rights)]] →
+
+---

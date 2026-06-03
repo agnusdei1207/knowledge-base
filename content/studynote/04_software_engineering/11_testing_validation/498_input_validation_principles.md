@@ -160,3 +160,14 @@ tags:
 1. 입력 [[001_dikw_pyramid|데이터]] [[395_verification_process_review|검증]] 및 표현 ([[601_input_validation|Input Validation]]) 원칙은 레고 블록으로 성을 만들 때처럼, 규칙을 정하고 역할을 나누어 함께 작업하는 방법이에요.
 2. 혼자서 막 만들면 나중에 무너지거나 고치기 어렵지만, 약속을 지키면 누구나 쉽게 고치고 더 크게 만들 수 있어요.
 3. 그래서 [[001_software_engineering_definition|소프트웨어 공학]]은 프로그래머들이 좋은 프로그램을 빠르고 안전하게 만들 수 있게 도와주는 '규칙 모음집'이에요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 588 / 973
+
+← **이전**: [[498_input_validation|498. 입력 데이터 검증 및 표현 (Input Validation) 원칙]]
+**다음**: [[499_sql_injection_defense|499. SQL 인젝션 방어 - Prepared Statement (파라미터화된 쿼리), ORM 프레임워크 사용]] →
+
+---

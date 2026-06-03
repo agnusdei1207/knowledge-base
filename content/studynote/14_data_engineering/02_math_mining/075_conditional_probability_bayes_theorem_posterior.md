@@ -120,3 +120,14 @@ posterior
 1. 하늘이 어두우면 우산 생각이 더 커져요.
 2. 새로운 단서를 보면 생각도 바뀌어요.
 3. 그래서 컴퓨터도 힌트를 보며 다시 계산해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 75 / 258
+
+← **이전**: [[074_law_of_large_numbers_lln_convergence_probability|74. 대수의 법칙 (LLN, Law of Large Numbers) - 수렴 확률]]
+**다음**: [[076_outlier_detection_iqr_dbscan_isolation_forest|76. 이상치 (Outlier) 탐지 - IQR, Z-Score, DBSCAN, Isolation Forest]] →
+
+---

@@ -149,3 +149,14 @@ C 클래스 네트워크 4개가 있다. 이들을 하나로 요약해 보자.
 1. 택배를 보내려면 집 주소가 정확해야 길을 잃지 않아요.
 2. 이 개념은 인터넷 세상에서 주소를 정하고 다음 길을 찾는 지도와 같아요.
 3. 그래서 멀리 있는 친구 컴퓨터까지도 편지가 도착할 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 426 / 1120
+
+← **이전**: [[304_subnetting_network_division_and_operation|304. 서브네팅 (Subnetting)]]
+**다음**: [[306_vlsm_variable_length_subnet_mask|306. VLSM (Variable Length Subnet Mask)]] →
+
+---

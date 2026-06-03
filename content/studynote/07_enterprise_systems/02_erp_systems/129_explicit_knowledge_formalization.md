@@ -140,3 +140,14 @@ RAG-enabled enterprise knowledge use
 1. 형식지는 잘하는 사람이 알고 있던 방법을 종이에 적어 두는 거예요.
 2. 그러면 다른 친구도 그 종이를 보고 같은 방법을 배울 수 있어요.
 3. 하지만 종이가 오래되면 틀릴 수 있어서, 자주 고쳐 줘야 해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 129 / 482
+
+← **이전**: [[128_tacit_vs_explicit_knowledge|128. 암묵지 vs 형식지 (Tacit vs Explicit Knowledge) - 지식 변환과 SECI 모델]]
+**다음**: [[130_seci_model_knowledge_creation|130. SECI 모델 - 노나카의 조직 지식 창조 이론]] →
+
+---

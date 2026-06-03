@@ -125,3 +125,14 @@ Orchestration Platform
 방을 나눠서 관리해요.  
 문도 자동으로 연결해요.  
 쿠버네티스는 그런 도구예요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 73 / 371
+
+← **이전**: [[073_container_orchestration_tools|73. 오케스트레이션 (Orchestration) 도구 - 수백~수만 개의 컨테이너를 자동 배치, 스케일링, 로드밸런싱, 장애 복구(Self-healing)하는]]
+**다음**: [[075_kubernetes_k8s_cluster_architecture|75. K8s 클러스터 아키텍처 - 1개 이상의 컨트롤 플레인(마스터 노드)과 여러 개의 데이터 플레인(워커 노드)으로 구성]] →
+
+---

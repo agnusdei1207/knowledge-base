@@ -177,3 +177,14 @@ Repository / DI / API-driven enterprise patterns
 1. J2EE 패턴은 큰 학교에서 정문 선생님, 담임 선생님, 창고 담당 선생님 일을 나눠 맡기는 규칙이에요.
 2. 누구나 자기 일만 잘하면 학교가 커져도 덜 헷갈리고 문제가 생겨도 어디를 고쳐야 할지 쉬워져요.
 3. 요즘 학교는 더 좋은 도구를 쓰지만, "역할을 나눠서 운영한다"는 생각은 그대로 중요해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 230 / 530
+
+← **이전**: [[173_creational_pattern_memory_efficiency|173. 생성 패턴 메모리 효율화 로직 비교 (Prototype vs Flyweight)]]
+**다음**: [[175_dto_data_transfer_object|175. DTO 패턴 (Data Transfer Object Pattern)]] →
+
+---

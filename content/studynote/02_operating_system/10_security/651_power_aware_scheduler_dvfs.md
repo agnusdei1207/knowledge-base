@@ -217,3 +217,14 @@ EAS(Energy Aware Scheduling)는 스마트폰(ARM)처럼 이종 코어([[273_hete
 1. 자동차(CPU)를 몰 때 언덕길이 나오면 엔진 힘을 높이고, 내리막길에서는 힘을 빼야 기름(전기)을 아낄 수 있어요. 이걸 DVFS라고 해요.
 2. 예전에는 내비게이션([[079_kube_scheduler_pod_placement|스케줄러]])과 엔진(주파수)이 따로 놀아서 엑셀을 너무 늦게 밟거나 불필요하게 기름을 낭비했어요.
 3. 지금의 똑똑한 [[001_operating_system_purpose|운영체제]](EAS)는 내비게이션과 엔진이 하나로 합쳐져 있어요! 내비게이션이 "앞에 무거운 짐(작업)이 있다!"고 미리 알려주면, 차가 스스로 가장 기름을 적게 먹는 최적의 속도로 변속을 해준답니다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 651 / 800
+
+← **이전**: [[650_ha_cluster_split_brain_stonith|650. 고가용성 클러스터 운영체제 하트비트/펜싱 (Fencing / STONITH) 뇌 분할(Split-Brain) 방어 메커니즘]]
+**다음**: [[652_mobile_os_low_memory_killer_lmk|652. 모바일 OS Out-Of-Memory (Low Memory Killer) 스코어 계산 알고리즘 및 앱 수명 주기 관리]] →
+
+---

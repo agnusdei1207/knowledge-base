@@ -176,3 +176,14 @@ tags:
 ---
 <!-- [✅ Gemini 3.1 Pro Verified] -->
 > **🛡️ 3.1 Pro Expert [[395_verification_process_review|Verification]]:** 본 문서는 구조적 [[003_integrity|무결성]], 다이어그램 명확성, 그리고 기술사(PE) 수준의 심도 있는 통찰력을 기준으로 `gemini-3.1-pro-preview` 모델 룰 기반 엔진에 의해 직접 [[395_verification_process_review|검증]] 및 작성되었습니다. (Verified at: 2026-04-05)
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 191 / 262
+
+← **이전**: [[190_management|190. 하이브리드 분석 (온프레미스 + 클라우드 버스팅)]]
+**다음**: [[192_datafabric|02. 데이터 패브릭 (Data Fabric) - 지능형 데이터 통합 아키텍처]] →
+
+---

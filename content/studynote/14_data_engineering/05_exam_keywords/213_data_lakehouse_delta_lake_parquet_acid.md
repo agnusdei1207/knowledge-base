@@ -253,3 +253,14 @@ Unity Catalog · Open Table Format 표준화
 ```
 2. [[178_parquet_rle_encoding_columnar_compression|Parquet]] [[501_file_definition_logical_record|파일]]은 블록을 종류별로 꽉꽉 눌러서 지퍼백에 담아 놓은 것 — 같은 종류끼리 있으니 공간도 적게 차지하고, 필요한 것만 꺼내기도 쉬워.
 3. 타임 트래블은 '되감기 버튼'이야 — 실수로 블록을 버렸어도 어제 창고 상태로 되돌릴 수 있으니 걱정 없어!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 213 / 258
+
+← **이전**: [[212_etl_elt_cloud_transformation_bottleneck|212. ETL vs ELT (Extract-Transform-Load vs Extract-Load-Transform) 클라우드 전이]]
+**다음**: [[214_kafka_pubsub_topic_partition_offset_broker|214. 아파치 카프카 (Apache Kafka) Pub-Sub 토픽 파티션 오프셋 브로커]] →
+
+---

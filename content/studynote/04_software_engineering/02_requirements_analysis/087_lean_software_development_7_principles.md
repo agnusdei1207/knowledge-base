@@ -128,3 +128,14 @@ Lean은 Scrum의 규칙보다 더 넓은 경영·프로세스 관점에서 작�
     1. 먹지 않는 간식은 책상에서 치워야 공부할 자리가 생겨요.
     2. 숙제도 한꺼번에 다 하기보다 조금씩 확인하면 덜 틀려요.
     3. 그래서 린은 낭비를 줄이고 빨리 배우는 공부법 같아요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 87 / 973
+
+← **이전**: [[086_cumulative_flow_diagram_cfd|86. 누적 흐름도 (CFD, Cumulative Flow Diagram)]]
+**다음**: [[088_value_stream_mapping_vsm|88. 가치 스트림 맵 (Value Stream Mapping)]] →
+
+---

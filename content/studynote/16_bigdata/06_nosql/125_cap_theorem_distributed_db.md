@@ -81,3 +81,14 @@ tags:
 - **[[086_CP_순환_전치_GI|CP]] 친구:** "중요한 얘기니까 나중에 전화 연결되면 다시 할게!" 하고 전화를 아예 안 받아요.
 - **[[572_ap_access_point_ds_distribution_system|AP]] 친구:** "아마도 어제 말한 그거일 거야!" 하고 일단 대답부터 해주고 끊어요.
 - **결론:** 정답이 중요한지, 대답이 빠른 게 중요한지 고르는 시합이랍니다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 125 / 262
+
+← **이전**: [[124_base_principles_nosql|BASE 원칙 (Basically Available, Soft State, Eventual Consistency)]]
+**다음**: [[126_pacelc_theorem_extended_cap|PACELC 정리 (PACELC Theorem)]] →
+
+---

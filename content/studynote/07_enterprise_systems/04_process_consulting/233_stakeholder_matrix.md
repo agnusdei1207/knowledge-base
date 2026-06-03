@@ -139,3 +139,14 @@ tags:
 1. [[173_stakeholder_identification_impact_matrix|이해관계자]] [[655_ir_detection_analysis|식별]] 매트릭스는 복잡한 일을 순서대로 정리해 주는 큰 정리함이에요.
 2. 어디에 무엇을 넣을지 먼저 정해 두면, 나중에 찾거나 고칠 때 훨씬 쉬워져요.
 3. 그래서 일이 커질수록 먼저 기준을 만들고 같이 약속하는 것이 중요해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 233 / 482
+
+← **이전**: [[232_project_charter_sponsor|232. 프로젝트 헌장 (Project Charter) 제정 및 스폰서 역할]]
+**다음**: [[234_communication_management_plan|234. 의사소통 관리 계획 수립 절차]] →
+
+---

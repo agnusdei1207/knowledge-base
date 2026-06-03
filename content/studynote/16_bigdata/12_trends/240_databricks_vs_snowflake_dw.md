@@ -126,3 +126,14 @@ DW와도 연결해 보면, 기술 선택은 결국 [[001_dikw_pyramid|데이터]
 1. [[074_photon_engine|Databricks]] vs [[541_cassandra|Snowflake]] ([[146_lakehouse|레이크하우스]] vs [[209_data_warehouse_schema_on_write|DW]] ([[208_data_warehouse_schema_on_write_inmon|Data Warehouse]]) 진영 경쟁)은 일을 하기 전에 "어떤 규칙으로 할지" 먼저 정하는 거예요.
 2. 중간에 [[396_validation|확인]]표가 있어야 틀린 곳을 빨리 고칠 수 있어요.
 3. 그래서 끝까지 잘했다고 말하려면 증거와 순서가 같이 있어야 해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 240 / 262
+
+← **이전**: [[239_architecture|234. 엣지 빅데이터 (엣지 집계 후 클라우드 전송, 대역폭 절감)]]
+**다음**: [[241_monte_carlo_bigeye|236. 데이터 옵저버빌리티 (Monte Carlo, Bigeye) 데이터 파이프라인 신뢰성]] →
+
+---

@@ -113,3 +113,14 @@ tags:
 1. [[215_etl_vs_elt_pipeline|ETL]] 적재 전 변환 vs [[034_elt|ELT]] 클라우드 내부 변환는 사람이 많은 운동회에서 어디로 가야 하는지 알려 주는 안내판과 비슷해요.
 2. 규칙이 없으면 모두가 한곳에 몰려서 느려지고 다투지만, 길을 정해 두면 훨씬 부드럽게 움직일 수 있어요.
 3. 그래서 컴퓨터 세상에서도 [[215_etl_vs_elt_pipeline|ETL]] 적재 전 변환 vs [[034_elt|ELT]] 클라우드 내부 변환를 쓰면 많은 팀과 [[090_service_kubernetes_network_load_balancing|서비스]]가 덜 부딪히고 더 빨리 움직일 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 313 / 371
+
+← **이전**: [[313_process|313. 데이터 레이크하우스 델타 레이크 트랜잭션 지원 (Cloud Architecture Concept)]]
+**다음**: [[315_pub_sub|315. 카프카 분산 메시징 Pub/Sub 파티션 컨슈머 그룹 (Pub/Sub)]] →
+
+---

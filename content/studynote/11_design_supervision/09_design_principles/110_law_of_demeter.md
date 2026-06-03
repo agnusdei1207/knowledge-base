@@ -101,3 +101,14 @@ Train Wreck 코드와 변경 파급 확대
 1. 친구 가방 안에서 필통 안 연필까지 직접 찾으면 친구 물건 배치가 바뀔 때마다 다시 헤매요.
 2. 그냥 친구에게 "연필 빌려 줘"라고 말하면 친구가 알아서 꺼내 줘요.
 3. 최소 지식의 원칙은 남의 속을 뒤지지 말고 필요한 일만 부탁하라고 알려 줘요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 162 / 530
+
+← **이전**: [[109_yagni_you_arent_gonna_need_it|109. 불필요한 기능 구현 금지 원칙 (YAGNI, You Aren't Gonna Need It)]]
+**다음**: [[110_law_of_demeter_principle_of_least_knowledge|110. 최소 지식의 원칙 (Law of Demeter, Principle of Least Knowledge)]] →
+
+---

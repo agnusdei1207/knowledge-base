@@ -338,3 +338,14 @@ else:
     ▼
 CT 트리거 발동 → 자동 재학습 → 평가 게이트 → 배포
 ```
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 163 / 258
+
+← **이전**: [[162_continuous_training_pipeline_model_retraining|162. CT (Continuous Training) 파이프라인 - 모델 성능 저하 시 자동 재학습]]
+**다음**: [[164_concept_drift_target_mapping_change|164. 컨셉 드리프트 (Concept Drift) - 정답 맵핑 규칙 변화]] →
+
+---

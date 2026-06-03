@@ -225,3 +225,14 @@ CPU 개입 없는 라인 속도 처리
 1. 오류 탐지는 편지를 보낼 때 마지막에 "이 편지 글자 수는 37개예요"라고 적는 것 — 받는 사람이 세어보고 다르면 뭔가 잘못된 거예요.
 2. CRC는 더 복잡한 수학 계산으로 만든 "비밀 잠금 번호"여서 [[001_dikw_pyramid|데이터]]가 조금이라도 바뀌면 번호가 달라져요.
 3. 오류를 발견했을 때 다시 보내달라고 하는 방법([[949_arq_automatic_repeat_request_go_back_n_selective|ARQ]])과, 처음부터 정답지를 같이 보내서 스스로 고치는 방법(FEC) 두 가지가 있어요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 40 / 800
+
+← **이전**: [[039_os_services|039. OS 서비스 (Operating System Services)]]
+**다음**: [[041_resource_allocation|041. 자원 할당 (Resource Allocation)]] →
+
+---

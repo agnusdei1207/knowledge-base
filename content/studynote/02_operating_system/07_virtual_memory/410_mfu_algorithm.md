@@ -172,3 +172,14 @@ MFU (Most Frequently Used) [[001_algorithm_definition|알고리즘]]은 "발상�
 1. MFU (Most Frequently Used) [[001_algorithm_definition|알고리즘]]은 컴퓨터가 메모리를 더 크게 보이게 하고 부족함을 숨기는 방법이에요.
 2. 먼저 [[263_lfu_page_replacement|LFU]] ([[263_lfu_page_replacement|Least Frequently Used]]) [[001_algorithm_definition|알고리즘]]을 이해하면 MFU (Most Frequently Used) [[001_algorithm_definition|알고리즘]]이 왜 필요한지 더 쉽게 보여요.
 3. 그래서 MFU (Most Frequently Used) [[001_algorithm_definition|알고리즘]]을 잘 알면 나중에 [[411_aging_algorithm|에이징]] ([[182_aging|Aging]]) 기반 [[260_page_replacement|페이지 교체]] 로직도 훨씬 쉽게 배울 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 410 / 800
+
+← **이전**: [[409_lfu_algorithm|409. LFU (Least Frequently Used) 알고리즘 - 참조 횟수가 가장 적은 페이지 교체]]
+**다음**: [[411_aging_algorithm|411. 에이징 (Aging) 기반 페이지 교체 로직]] →
+
+---

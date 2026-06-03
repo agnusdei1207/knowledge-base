@@ -139,3 +139,14 @@ tags:
 1. [[148_5g_embb_urllc_mmtc|5G eMBB uRLLC mMTC]] [[149_network_slicing_5g_architecture|네트워크 슬라이싱]]는 복잡한 일을 순서대로 정리해 주는 큰 정리함이에요.
 2. 어디에 무엇을 넣을지 먼저 정해 두면, 나중에 찾거나 고칠 때 훨씬 쉬워져요.
 3. 그래서 일이 커질수록 먼저 기준을 만들고 같이 약속하는 것이 중요해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 418 / 482
+
+← **이전**: [[417_v2x_cv2x_5g_vehicle_control|417. V2X C-V2X 5G 차량 제어 (V2X: Vehicle to Everything)]]
+**다음**: [[419_6g_ntn_thz_ris_next_gen|419. 6G NTN 위성 THz 메타표면 RIS 차세대 (6G)]] →
+
+---

@@ -182,3 +182,14 @@ OS가 피땀 흘려 0으로 닦아준 깨끗한 램을, JVM이 건네받자마�
 1. 수요 [[286_page_frame|페이지]] [[784_zeroization_circuit|제로화]] (Demand [[585_zero_skipping|Zero]] [[259_paging|Paging]])은 컴퓨터가 메모리를 더 크게 보이게 하고 부족함을 숨기는 방법이에요.
 2. 먼저 [[429_minor_vs_major_page_fault|마이너 페이지 폴트]] ([[429_minor_vs_major_page_fault|Minor Page Fault]]) vs 메이저 [[720_page_fault_isr|페이지 폴트]] (Major [[387_page_fault|Page Fault]] / 디스크 I/O 동반)을 이해하면 수요 [[286_page_frame|페이지]] [[784_zeroization_circuit|제로화]] (Demand [[585_zero_skipping|Zero]] [[259_paging|Paging]])이 왜 필요한지 더 쉽게 보여요.
 3. 그래서 수요 [[286_page_frame|페이지]] [[784_zeroization_circuit|제로화]] (Demand [[585_zero_skipping|Zero]] [[259_paging|Paging]])을 잘 알면 나중에 [[431_dirty_page_writeback|더티 페이지 쓰기]] ([[431_dirty_page_writeback|Dirty Page Writeback]]) 메커니즘 (pdflush / flusher [[092_thread_lwp|스레드]])도 훨씬 쉽게 배울 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 430 / 800
+
+← **이전**: [[429_minor_vs_major_page_fault|429. 마이너 페이지 폴트 (Minor Page Fault) vs 메이저 페이지 폴트 (Major Page Fault / 디스크 I/O]]
+**다음**: [[431_dirty_page_writeback|431. 더티 페이지 쓰기 (Dirty Page Writeback) 메커니즘 (pdflush / flusher 스레드)]] →
+
+---

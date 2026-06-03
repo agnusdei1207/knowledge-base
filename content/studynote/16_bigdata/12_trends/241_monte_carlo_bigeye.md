@@ -127,3 +127,14 @@ Monte Carlo와 Bigeye은 이 흐름을 보강하는 대표 축이다. 하나는 
 1. [[255_data_observability|데이터 옵저버빌리티]] (Monte Carlo, Bigeye) [[645_data_pipeline_acceleration|데이터 파이프라인]] [[642_reliability_mtbf_mttr_mttf_availability|신뢰성]]은 일을 하기 전에 "어떤 규칙으로 할지" 먼저 정하는 거예요.
 2. 중간에 [[396_validation|확인]]표가 있어야 틀린 곳을 빨리 고칠 수 있어요.
 3. 그래서 끝까지 잘했다고 말하려면 증거와 순서가 같이 있어야 해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 241 / 262
+
+← **이전**: [[240_databricks_vs_snowflake_dw|235. Databricks vs Snowflake (레이크하우스 vs DW 진영 경쟁)]]
+**다음**: [[242_data_democratization|30. 데이터 민주화 — 모든 사람을 위한 데이터 접근]] →
+
+---

@@ -113,3 +113,14 @@ GloVe는 전역 통계 활용이라는 강점으로 Word2Vec과 함께 2010년�
 1. GloVe는 "책 전체에서 같이 자주 나오는 단어들을 같은 방향의 벡터로 만드는 [[190_ai_llm_requirements_specification|AI]]"예요.
 2. "얼음"과 "차갑다"가 자주 같이 나오면 이 두 단어의 벡터가 가까워져요.
 3. 이렇게 학습된 벡터로 "왕 - 남자 + 여자 = 여왕" 같은 신기한 계산도 할 수 있어요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 365 / 420
+
+← **이전**: [[364_adagrad_rmsprop|364. Adagrad / RMSProp 옵티마이저 (Adagrad Rmsprop)]]
+**다음**: [[366_cooccurrence_matrix|366. 동시 등장 행렬 (Co-occurrence Matrix)]] →
+
+---

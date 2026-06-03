@@ -119,3 +119,14 @@ CNN은 이미지 처리에서 압도적인 연산 효율성과 높은 인식 정
 1. 도화지에 그려진 그림을 알아맞힐 때, 그림을 길게 한 줄로 오려버리면 뭔지 알 수 없어요.
 2. CNN은 그림을 자르지 않고 마법의 돋보기를 들고 이리저리 옮겨가며 특징을 찾아내요.
 3. 뾰족한 귀와 수염이라는 특징을 찾아내면 "이건 고양이구나!" 하고 똑똑하게 맞히는 기술이랍니다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 95 / 420
+
+← **이전**: [[094_batch_normalization_internal_covariate_shift|94. 배치 정규화 (Batch Normalization) - 미니배치 층간 정규화]]
+**다음**: [[096_convolution_layer_filter_stride_padding|96. 합성곱 층 (Convolution Layer) - 필터 스캐닝 특징 추출]] →
+
+---

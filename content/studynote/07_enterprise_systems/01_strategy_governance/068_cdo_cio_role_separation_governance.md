@@ -127,3 +127,14 @@ Governance Model
 한 사람은 내용, 한 사람은 기계를 챙겨요.  
 둘 다 중요하지만 역할은 달라요.  
 CDO와 CIO는 그런 [[083_relationship_in_er_model|관계]]예요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 68 / 482
+
+← **이전**: [[067_data_steward_data_quality|67. 데이터 스튜어드 (Data Steward) - 실무 부서 데이터 품질 관리 책임자]]
+**다음**: [[069_metadata_data_catalog|69. 메타데이터 (Metadata) 관리 / 데이터 카탈로그 (Data Catalog)]] →
+
+---

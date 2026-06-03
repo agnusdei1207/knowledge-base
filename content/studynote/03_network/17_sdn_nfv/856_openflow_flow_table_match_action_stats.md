@@ -136,3 +136,14 @@ tags:
 1. 장난감 차를 움직이는 조종기와 차체를 따로 생각하면 바꾸기 쉬워져요.
 2. 이 개념은 네트워크의 머리와 몸을 나눠 더 쉽게 프로그램하게 해줘요.
 3. 그래서 새 규칙을 더 빨리 넣고 바꿀 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 977 / 1120
+
+← **이전**: [[855_openflow_standard_protocol_sdn_southbound|855. OpenFlow (오픈 플로우 표준)]]
+**다음**: [[857_ibn_intent_based_networking_declarative_automation|857. IBN (인텐트 기반 네트워킹)]] →
+
+---

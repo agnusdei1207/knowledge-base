@@ -125,3 +125,14 @@ tags:
 1. [[151_entropy|엔트로피]] ([[151_entropy|Entropy]])는 컴퓨터 세상을 더 안전하게 만들기 위한 중요한 약속이나 도구예요.
 2. 겉으로는 어려워 보여도, 왜 필요한지와 어떻게 움직이는지를 알면 훨씬 쉬워져요.
 3. 그래서 이름만 외우지 말고 어디에 쓰이는지 같이 기억해야 해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 110 / 1108
+
+← **이전**: [[1000_cloud_native_network_cni_kubernetes_pod_overlay|1000. 클라우드 네이티브 네트워크 (Cloud Native Network Cni Kubernetes Pod Overlay)]]
+**다음**: [[1001_csprng_random_generator|1001. CSPRNG (Cryptographically Secure Pseudo-Random Number Generator)]] →
+
+---

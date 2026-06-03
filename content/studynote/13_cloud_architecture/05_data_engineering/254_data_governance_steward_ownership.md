@@ -113,3 +113,14 @@ tags:
 1. [[052_data_governance_framework|데이터 거버넌스]] / [[067_data_steward_data_quality|데이터 스튜어드]]는 사람이 많은 운동회에서 어디로 가야 하는지 알려 주는 안내판과 비슷해요.
 2. 규칙이 없으면 모두가 한곳에 몰려서 느려지고 다투지만, 길을 정해 두면 훨씬 부드럽게 움직일 수 있어요.
 3. 그래서 컴퓨터 세상에서도 [[052_data_governance_framework|데이터 거버넌스]] / [[067_data_steward_data_quality|데이터 스튜어드]]를 쓰면 많은 팀과 [[090_service_kubernetes_network_load_balancing|서비스]]가 덜 부딪히고 더 빨리 움직일 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 253 / 371
+
+← **이전**: [[253_differential_privacy_noise_injection|253. 차분 프라이버시 - 노이즈 주입 (Differential Privacy)]]
+**다음**: [[255_time_series_rollup_retention_compression|255. 시계열 DB 롤업 / 보존 정책 / 압축 (InfluxDB)]] →
+
+---

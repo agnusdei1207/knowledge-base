@@ -135,3 +135,14 @@ Reference Architecture
 1. [[014_api_posix|API]] First Design 및 Swagger/OpenAPI 명세 기반 컨트랙트 테스팅은 복잡한 일을 순서와 규칙으로 정리해서 실수하지 않게 도와주는 방법이에요.
 2. OpenAPI 같은 친구들과 같이 움직여야 더 잘 작동해요.
 3. 그래서 문제가 생겨도 어디서 틀렸는지 빨리 찾고 다시 고치기 쉬워져요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 233 / 373
+
+← **이전**: [[232_grpc_google_rpc_http_2|232. gRPC (Google RPC) 통신]]
+**다음**: [[234_multi_tenancy_saas_vs|234. 멀티 테넌시 (Multi-Tenancy) SaaS 데이터베이스 격리 스키마 아키텍처 (논리 격리 vs 물리 격리)]] →
+
+---

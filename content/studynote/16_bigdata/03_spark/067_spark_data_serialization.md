@@ -78,3 +78,14 @@ tags:
 - 커다란 레고 성(메모리 객체)을 다른 집으로 보낼 때, 그대로 보낼 수 없으니 다 분해해서 상자(바이너리)에 담는 과정이에요.
 - 상자에 담을 때 대충 담으면 상자가 너무 많아지는데(Java), 아주 꾹꾹 잘 눌러 담으면 상자 수를 줄일 수 있어요(Kryo).
 - 상자가 적을수록 트럭(네트워크)에 한 번에 많이 실을 수 있어서 이사 속도가 빨라진답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 67 / 262
+
+← **이전**: [[066_spark_shuffle_optimization|Spark Shuffle 최적화 (Shuffle Optimization)]]
+**다음**: [[068_spark_broadcast_join|Spark Broadcast Join]] →
+
+---

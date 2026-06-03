@@ -192,3 +192,14 @@ Chipkill ECC
 1. [[554_ecc_circuit|ECC]] 메모리는 공책에 글자를 쓰고 옆에 "맞는지 [[396_validation|확인]]하는 [[167_sql_hint_optimizer_override|힌트]]"를 같이 적어 두는 거예요.
 2. 그래서 글자 하나가 번져도 컴퓨터가 스스로 "아, 이 글자가 틀렸구나" 하고 바로잡을 수 있어요.
 3. 중요한 숙제를 하는 컴퓨터일수록 이런 [[396_validation|확인]] 장치가 꼭 필요해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 464 / 803
+
+← **이전**: [[462_soft_error_hard_error|462. 소프트 에러 (Soft Error)와 하드 에러 (Hard Error)]]
+**다음**: [[464_memory_mirroring|464. 메모리 미러링 (Memory Mirroring)]] →
+
+---

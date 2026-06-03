@@ -150,3 +150,14 @@ GitOps는 VCS(Git)를 인프라 선언적 [[009_config|설정]]의 단일 진실
 1. VCS는 글 [[289_cqrs_db|쓰기]] 앱의 "실행 취소" 버튼 무제한 [[288_version_ihl_tos_total_length|버전]]이에요! 언제든지 이전 [[288_version_ihl_tos_total_length|버전]]으로 돌아갈 수 있어요.
 2. Git은 모든 팀원이 전체 이력 사본을 가져서, 서버가 없어도 오프라인으로 작업하고 나중에 합칠 수 있어요.
 3. 요즘은 Git 커밋 하나로 코드 테스트부터 서버 배포까지 자동으로 되는 [[119_gitops_single_source_of_truth|GitOps]] 세상이 됐답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 26 / 973
+
+← **이전**: [[025_baseline|25. 기준선 (Baseline) — 형상 관리의 공식 참조점]]
+**다음**: [[027_change_management|27. 변경 관리 (Change Management) — 소프트웨어 변경의 체계적 통제]] →
+
+---

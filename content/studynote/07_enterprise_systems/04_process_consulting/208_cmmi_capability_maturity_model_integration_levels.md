@@ -142,3 +142,14 @@ Level 5 지속 개선 · 혁신
 1. 친구가 잘해서만 이기는 팀은 그 친구가 쉬면 약해져요.
 2. CMMI는 누구든 같은 방법으로 연습하고 경기할 수 있게 규칙을 만드는 일이에요.
 3. 단계가 올라갈수록 팀은 더 똑똑하게 기록하고, 잘못한 점을 고치게 돼요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 208 / 482
+
+← **이전**: [[207_model_enhancement_process_mining_simulation|207. 모델 향상 (Model Enhancement) - 프로세스 마이닝 기반 개선]]
+**다음**: [[209_it_organization_assessment_3p_people_process_technology|209. IT 조직 진단 3P (People, Process, Platform/Technology)]] →
+
+---

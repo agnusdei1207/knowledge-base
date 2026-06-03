@@ -132,3 +132,14 @@ XR과 SLAM은 [[594_metaverse_realtime_sync_rendering_offloading|메타버스]] 
 1. VR은 눈 가리개를 쓰고 게임하는 것, AR은 투명 안경으로 현실에 그림을 덧붙이는 것이에요.
 2. SLAM은 로봇이 처음 가는 미로를 스스로 지도 그리며 탈출하는 것이에요.
 3. [[594_metaverse_realtime_sync_rendering_offloading|메타버스]]는 인터넷 속에 만들어진 3D 세계로, 내 아바타가 친구 아바타를 만나고 물건도 살 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 492 / 552
+
+← **이전**: [[491_digital_twin_sync_simulation|491. 디지털 트윈 동기화와 시뮬레이션 (Digital Twin Synchronization and Simulation)]]
+**다음**: [[493_autonomous_driving_lidar_sensor_fusion|493. 자율주행 SAE 레벨과 센서 퓨전 (Autonomous Driving SAE Levels and Sensor Fusion)]] →
+
+---

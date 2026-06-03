@@ -197,3 +197,14 @@ tags:
 1. 장난감 상자(메모리)에 장난감을 3개만 넣을 수 있어요. 새 로봇을 넣으려면 안에 있는 장난감 하나를 버려야 해요([[260_page_replacement|페이지 교체]]).
 2. 철수는 상자를 열어보고 **"가장 오랫동안 안 가지고 놀아서 먼지가 뽀얗게 쌓인"** 낡은 팽이를 버렸어요. ([[262_lru_page_replacement|LRU]] 방식)
 3. 만약 제일 먼저 샀다는 이유로 어제도 가지고 놀았던 최애 인형을 버린다면([[261_fifo_page_replacement|FIFO]] 방식) 바보겠죠? 가장 오랫동안 안 쓴 걸 버리는 게 제일 똑똑한 정리 정돈이랍니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 722 / 800
+
+← **이전**: [[721_valid_invalid_bit_page_table|721. 유효/무효 비트 (Valid/Invalid)]]
+**다음**: [[723_fifo_beladys_anomaly|723. FIFO 벨라디의 모순 (FIFO Beladys Anomaly)]] →
+
+---

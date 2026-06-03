@@ -104,3 +104,14 @@ tags:
 1. 긴급 변경은 학교에서 준비물을 미리 챙기는 것처럼, 중요한 기준을 먼저 맞추는 일이야.
 2. [[025_baseline|기준선]] [[003_integrity|무결성]]은 선생님이 수업 중간에 계속 확인하는 것처럼, 실제로 잘 되고 있는지 보는 과정이야.
 3. 승인 추적은 시험 결과표처럼, 정말 효과가 있었는지 나중에 다시 확인하게 해주는 증거야.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 362 / 530
+
+← **이전**: [[300_functional_safety_fmea_audit|300. 기능안전과 FMEA 감리 (Functional Safety FMEA Audit)]]
+**다음**: [[302_audit|302. 감리 결과 공시와 책임조치 이행보증 (Audit Result Disclosure and Accountability Assurance)]] →
+
+---

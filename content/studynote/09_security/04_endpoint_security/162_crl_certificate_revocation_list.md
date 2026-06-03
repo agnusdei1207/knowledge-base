@@ -148,3 +148,14 @@ OCSP · OCSP 스테이플링
 1. 아직 날짜가 남은 학생증이라도 잃어버리면 학교는 그 번호를 더 이상 쓰면 안 된다고 알려야 해요.
 2. CRL은 그런 "쓰면 안 되는 학생증 번호 목록"을 모아 놓은 종이예요.
 3. 경비 아저씨가 그 목록을 보고 확인하면, 잃어버린 학생증으로 몰래 들어오는 걸 막을 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 215 / 1108
+
+← **이전**: [[161_ra_registration_authority|161. RA (Registration Authority) — 인증 요청 검증/승인]]
+**다음**: [[163_ocsp_online_certificate_status_protocol|163. OCSP (Online Certificate Status Protocol) — 실시간 인증서 상태 질의]] →
+
+---

@@ -121,3 +121,14 @@ SAM([[407_tcp_segment_header_structure_20_60_bytes|Segment]] Anything Model)의 
 1. **Semantic**은 양 떼를 전부 하얀색으로만 칠하는 거예요 (양이 몇 마리인지는 몰라요).
 2. **Instance**는 첫째 양은 빨강, 둘째 양은 파랑으로 각각 다르게 칠해서 몇 마리인지 세는 거예요.
 3. 어떤 기술을 쓸지는 "양이 어디 있는지만 알면 되는지, 몇 마리인지 세야 하는지"에 따라 달라요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 110 / 420
+
+← **이전**: [[109_image_segmentation_semantic_instance_u_net_pixel|109. 이미지 분할 (Image Segmentation) - Semantic·Instance·U-Net 픽셀 단위 추론]]
+**다음**: [[111_rnn_recurrent_neural_network_sequential_data|111. 순환 신경망 (RNN, Recurrent Neural Network) - 시퀀스 데이터와 기울기 소실]] →
+
+---

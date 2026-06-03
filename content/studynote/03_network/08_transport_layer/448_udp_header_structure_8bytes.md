@@ -144,3 +144,14 @@ UDP도 TCP와 마찬가지로, [[112_checksum|체크섬]]을 돌릴 때 멍청�
 1. 물건을 보낼 때 받는 사람이 너무 빨리 받으면 놓칠 수 있어요.
 2. 이 개념은 천천히 보낼지, 다시 보낼지, 길이 막히면 멈출지를 정해줘요.
 3. 그래서 멀리 보내도 덜 잃어버리고 더 안정적으로 도착해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 569 / 1120
+
+← **이전**: [[447_sctp_multi_stream_multi_homing_4way_handshake|447. SCTP (Stream Control Transmission Protocol)]]
+**다음**: [[449_broadcast_multicast_udp_only|449. 브로드캐스트 / 멀티캐스트 전송은 UDP만 가능]] →
+
+---

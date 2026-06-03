@@ -169,3 +169,14 @@ CT 모니터링 + CAA + HSTS + 자동 인증서 운영
 1. HPKP는 브라우저에게 "우리 집 열쇠 모양은 이것만 맞아" 하고 오래 기억하게 만드는 규칙이었어요.
 2. 그래서 가짜 열쇠는 잘 막았지만, 진짜 집주인이 열쇠를 바꿔도 브라우저가 예전 것만 믿어서 문을 안 열어 줄 수 있었어요.
 3. 그래서 지금은 열쇠를 억지로 기억시키기보다, 누가 이상한 열쇠를 만들었는지 모두가 볼 수 있는 기록장으로 감시하는 방법을 더 많이 써요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 236 / 1108
+
+← **이전**: [[182_certificate_pinning_ssl_tls_security|182. 인증서 핀닝 (Certificate Pinning) — 已知 인증서 목록 하드코딩]]
+**다음**: [[184_certificate_patrol_telemetry_firefox_pinning|184. Certificate Patrol / Security Telemetry — Firefox 브라우저 핀닝]] →
+
+---

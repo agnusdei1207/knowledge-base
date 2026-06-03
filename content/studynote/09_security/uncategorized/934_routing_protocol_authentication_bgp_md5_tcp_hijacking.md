@@ -125,3 +125,14 @@ tags:
 1. [[339_routing_overview_best_path_selection|라우팅]] [[295_protocol_field_tcp_udp_icmp|프로토콜]] [[303_authentication_authorization_patterns|인증]] 방어망 ([[339_routing_overview_best_path_selection|Routing]] [[295_protocol_field_tcp_udp_icmp|Protocol]] [[604_authentication_factors|Authentication]] [[365_bgp_border_gateway_protocol_path_vector|Bgp]] [[668_md5_hash_collision_vulnerability|MD5]] [[405_tcp_transmission_control_protocol_connection_oriented|Tcp]] Hijacking)는 학교 규칙표처럼 무엇을 준비하고 어떻게 확인할지 알려 주는 기준이에요.
 2. 규칙표만 붙여 두고 지키지 않으면 아무 소용이 없어요.
 3. 그래서 보안도 규칙과 실제 행동이 함께 맞아야 해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 1025 / 1108
+
+← **이전**: [[934_physical_access_control|934. 물리적 접근 제어 (Card/RFID/Biometrics)]]
+**다음**: [[935_mantrap|935. 맨트랩 (Mantrap)]] →
+
+---

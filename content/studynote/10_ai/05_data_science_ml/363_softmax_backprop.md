@@ -115,3 +115,14 @@ tags:
 1. [[270_softmax|소프트맥스]]는 "점수를 [[130_probability|확률]]로 바꿔주는 마법"이에요. 예: [3, 1, 0.5] → [0.7, 0.2, 0.1]
 2. [[272_backpropagation|역전파]] 때는 "예측 [[130_probability|확률]] - 정답"만 계산하면 되어서 아주 간단해요!
 3. 단, 큰 숫자가 들어오면 컴퓨터가 폭발(오버플로)할 수 있어서 최대값을 빼는 안전 장치가 필요해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 363 / 420
+
+← **이전**: [[362_roc_auc_math|362. ROC 곡선과 AUC (Receiver Operating Characteristic / Area Under Curve)]]
+**다음**: [[364_adagrad_rmsprop|364. Adagrad / RMSProp 옵티마이저 (Adagrad Rmsprop)]] →
+
+---

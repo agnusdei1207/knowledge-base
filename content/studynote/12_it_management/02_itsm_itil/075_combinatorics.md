@@ -122,3 +122,14 @@ return result
 1. 책장마다 요약 메모를 붙여 두면 찾기 쉬워요.
 2. 어느 칸이 바뀌면 그 근처 메모만 다시 쓰면 돼요.
 3. 그래서 큰 책장도 빨리 관리할 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 133 / 587
+
+← **이전**: [[074_permutation_combination|74. 순열과 조합 (Permutation and Combination)]]
+**다음**: [[075_incident_management|75. 인시던트 관리 (Incident Management)]] →
+
+---

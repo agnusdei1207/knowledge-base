@@ -129,3 +129,14 @@ tags:
 1. 영지식 증명 ([[354_did_decentralized_identity_zkp|ZKP]]) 활용 프라이버시 클린 룸 ([[305_data_clean_room|Data Clean Room]]) 기업 간 [[001_dikw_pyramid|데이터]] 연합은 모두가 같은 규칙으로 일하게 해 주는 반장 약속표예요.
 2. 약속만 적어 두는 것이 아니라 누가 지켰는지 확인하고 고치는 방법까지 함께 정해요.
 3. 그래서 일이 많아져도 서로 부딪히지 않고 더 안전하게 움직일 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 343 / 587
+
+← **이전**: [[228_blockchain_smart_contract_traceability|228. 블록체인 스마트 컨트랙트 기반 공급망 증빙(Traceability) 플랫폼 연동]]
+**다음**: [[230_web3_token_economics|230. 웹 3.0 (Web 3.0) 분산 경제 플랫폼 및 토큰 이코노믹스 비즈니스 접목]] →
+
+---

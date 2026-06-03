@@ -128,3 +128,14 @@ Leaky ReLU
 양수는 통과해요.  
 음수는 0이 돼요.  
 ReLU는 그런 [[238_switch_operation_principles|스위치]]예요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 71 / 420
+
+← **이전**: [[070_hyperbolic_tangent_tanh_activation|70. 하이퍼볼릭 탄젠트 (tanh) - -1~1 사이 반환, 중심이 0으로 수렴 (시그모이드보다 우수)]]
+**다음**: [[072_leaky_relu_elu_dying_relu_solution|72. Leaky ReLU / ELU - ReLU의 죽은 뉴런(Dying ReLU, 음수 입력 시 가중치 미갱신) 문제 해결 (음수 구간에]] →
+
+---

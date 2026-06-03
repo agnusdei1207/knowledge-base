@@ -144,3 +144,14 @@ T → 0: argmax P(xₜ | context) = argmax zᵢ
 1. 온도는 주사위의 공정함 조절기야. 낮추면 항상 같은 숫자가 나오고, 높이면 어떤 숫자든 골고루 나와.
 2. AI가 다음 단어를 고를 때 온도가 낮으면 "가장 그럴듯한 단어만" 고르고, 높으면 "어떤 단어든 도전"해.
 3. 정확한 답이 필요하면 온도를 낮추고, 재미있는 이야기를 짓고 싶으면 온도를 높여봐!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 386 / 420
+
+← **이전**: [[385_wordpiece_sentencepiece|385. WordPiece / SentencePiece 토크나이징 비교 (Wordpiece Sentencepiece)]]
+**다음**: [[387_topk_topp_sampling|387. Top-K / Top-P (Nucleus Sampling)]] →
+
+---

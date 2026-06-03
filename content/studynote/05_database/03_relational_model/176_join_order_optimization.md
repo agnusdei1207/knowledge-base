@@ -177,3 +177,14 @@ Adaptive re-optimization / feedback stats
 1. 친구 집 여러 곳을 들를 때 어디부터 갈지 잘 정하면 덜 걷고 더 빨리 끝나요.
 2. 컴퓨터도 표 여러 개를 합칠 때 먼저 작은 묶음을 만들면 힘을 훨씬 덜 써요.
 3. 그래서 똑똑한 [[002_database_definition|데이터베이스]]는 모든 길을 오래 계산하거나, 빨라 보이는 길부터 골라서 일을 시작해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 176 / 600
+
+← **이전**: [[175_driving_vs_driven_table|175. 드라이빙 테이블 (Driving Table / Outer Table) vs 드리븐 테이블 (Driven Table / Inner]]
+**다음**: [[177_view_merging_query_transformation|177. 뷰 머징 (View Merging) - 옵티마이저의 쿼리 변환 (인라인 뷰를 메인 쿼리에 병합)]] →
+
+---

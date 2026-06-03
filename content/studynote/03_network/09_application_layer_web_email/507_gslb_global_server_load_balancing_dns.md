@@ -237,3 +237,14 @@ GSLB는 CDN에서 출발해 현재 메커니즘을 정교화하고, 이후 Anyca
 1. 여러분이 전화를 걸 때([[064_relation_domain|도메인]] 주소 입력), 옛날 전화번호부(일반 [[511_dns_hierarchical_distributed_architecture|DNS]])는 친구가 자고 있든(서버 죽음) 바쁘든 그냥 무조건 집 번호를 알려줘서 전화를 안 받는 헛수고를 하게 만들어요.
 2. **GSLB**라는 똑똑한 비서(지능형 [[511_dns_hierarchical_distributed_architecture|DNS]])는 전화번호를 알려주기 전에 0.1초 만에 친구 3명 집에 똑똑 두드려보고(헬스 체크), **"지금 1번 친구는 바빠서 쓰러지기 직전이고, 3번 친구가 젤 한가하니까(트래픽 여유) 3번한테 연결해 줄게 쓩!"** 하고 완벽하게 길을 잡아주는 네비게이션이에요!
 3. 만약 한국에 있는 건물 통째로 불이 나버려도(대형 폭파), GSLB 비서가 1초 만에 알아채고 묻지도 따지지도 않고 **미국에 있는 똑같이 생긴 쌍둥이 건물 주소(IP)로 알아서 방향을 꺾어주니(장애 전환 Fail-over)** 우리는 365일 언제나 [[090_service_kubernetes_network_load_balancing|서비스]]를 즐길 수 있답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 628 / 1120
+
+← **이전**: [[506_cdn_content_delivery_network_edge_caching|506. CDN (Content Delivery/Distribution Network)]]
+**다음**: [[508_anycast_based_cdn_architecture|508. Anycast 기반 CDN 설계]] →
+
+---

@@ -203,3 +203,14 @@ tags:
 1. [[224_semaphore|세마포어]]는 내가 직접 열쇠로 문을 열고 들어가고, 나올 때 꼭 내가 문을 잠가야 하는 화장실이에요. 까먹으면 큰일 나죠!
 2. [[229_monitor|모니터]]([[229_monitor|Monitor]])는 센서가 달린 최신식 슬라이딩 자동문 화장실이에요! 내가 들어가면 문이 '알아서' 잠기고, 일 다 보고 나오면 '알아서' 풀리니까 실수할 일이 없어요.
 3. 화장실([[229_monitor|모니터]])에 들어갔는데 휴지가 없다면? 당황하지 않고 '휴지 기다리는 의자([[228_condition_variable|조건 변수]])'에 앉아서 잡니다! 누군가 밖에서 휴지를 넣어주며 깨워줄 때까지 화장실 문은 다른 사람을 위해 알아서 열려 있답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 702 / 800
+
+← **이전**: [[701_semaphore_p_v_operations|701. 세마포어 P, V 연산 (Semaphore P V Operations)]]
+**다음**: [[703_producer_consumer_bounded_buffer|703. 생산자 소비자 유한 버퍼 (Producer Consumer Bounded Buffer)]] →
+
+---

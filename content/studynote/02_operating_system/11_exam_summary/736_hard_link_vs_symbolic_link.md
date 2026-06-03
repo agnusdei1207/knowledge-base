@@ -199,3 +199,14 @@ tags:
 1. '[[001_dikw_pyramid|데이터]]'는 강아지 1마리예요. 강아지에게 '초코'라는 이름표를 달아줬어요.
 2. **[[511_hard_link|하드 링크]]**는 강아지 목줄에 '바둑이'라는 이름표를 하나 더 다는 거예요. 동생이 바둑이라고 부르든, 내가 초코라고 부르든 달려오는 강아지는 똑같아요! 이름표를 하나 떼어내도 강아지는 안 죽어요.
 3. **[[512_symbolic_link|심볼릭 링크]]**는 강아지 집 앞에 "이 강아지는 초코입니다"라고 쪽지를 써 붙이는 거예요. 쪽지를 보고 강아지인 줄 알 수 있지만, 만약 진짜 강아지가 딴 곳으로 이사 가버리면 쪽지만 보고 온 사람은 허탕을 치게 된답니다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 736 / 800
+
+← **이전**: [[735_inode_direct_indirect_pointer_index|735. i-node 직접/간접 포인터 인덱스 (Inode Direct Indirect Pointer Index)]]
+**다음**: [[737_vfs_virtual_file_system_abstraction|737. VFS 가상 파일 시스템 (VFS Virtual File System Abstraction)]] →
+
+---

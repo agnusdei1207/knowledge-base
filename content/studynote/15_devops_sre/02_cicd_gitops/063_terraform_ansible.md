@@ -130,3 +130,14 @@ GitOps / IaC
 Terraform은 새 집을 짓는 도구예요.  
 Ansible은 그 집 안을 깔끔하게 정리하는 도구예요.  
 둘을 같이 쓰면 집도 빠르고 예쁘게 완성돼요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 63 / 373
+
+← **이전**: [[062_infrastructure_as_code|62. 인프라스트럭처 애즈 코드 (Infrastructure as Code, IaC)]]
+**다음**: [[064_git_flow_branch_strategy_release|64. Git Flow - 5개 브랜치 전략과 릴리스 관리]] →
+
+---

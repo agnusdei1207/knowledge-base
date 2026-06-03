@@ -215,3 +215,14 @@ OS [[022_kernel_role|커널]]의 [[405_tcp_transmission_control_protocol_connect
 1. [[446_port_and_bus|포트]] 스캐닝은 아파트에 사는 수백 명의 이웃집 문([[446_port_and_bus|포트]])을 돌아다니며 손잡이를 돌려보고 "어느 집 문이 열려 있나~" 확인하는 빈집털이범의 행동이에요.
 2. 영리한 도둑은 경비원([[568_logs_distributed_logging_elk_fluentd|로그]] 기록)에게 들키지 않으려고, 초인종(SYN)을 눌러놓고 주인이 나오려 하면 재빨리 도망(RST)쳐서 기록을 안 남기는 꼼수를 써요.
 3. 이를 막으려면 우리 집을 튼튼한 성벽([[690_firewall_generation_evolution|방화벽]])으로 두르고 문을 두드려도 아예 대답조차 안 나오게(기본 차단 [[164_policy|정책]]) 만들어서 도둑이 포기하고 돌아가게 만들어야 한답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 600 / 800
+
+← **이전**: [[599_dos_ddos_attack|599. 서비스 거부 (DoS) 및 분산 서비스 거부 (DDoS) 네트워크 자원 고갈 공격]]
+**다음**: [[601_ids_ips_syscall_tracing|601. 침입 탐지 시스템 (IDS) / 침입 방지 시스템 (IPS) 시스템 콜 트레이싱 기반 이상 탐지]] →
+
+---

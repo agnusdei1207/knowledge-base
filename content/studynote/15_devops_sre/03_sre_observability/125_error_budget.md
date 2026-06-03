@@ -110,3 +110,14 @@ Error Budget은 **SRE의 가장 혁신적 도구**이며, 개발팀(속도)과 �
 1. Error Budget은 **매달 받는 용돈(43분)**이에요. 장애가 나면 용돈이 줄어요.
 2. 용돈이 다 떨어지면 **새 장난감([[247_feature_label_variables|피처]]) 금지! 저축(안정화)**에 집중해야 해요.
 3. 용돈이 빨리 줄면 **"조심해!"라는 알림(Burn Rate Alert)**이 울려요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 125 / 373
+
+← **이전**: [[124_sla_service_level_agreement|124. SLA (Service Level Agreement) - 서비스 수준 계약·위반 시 책임]]
+**다음**: [[126_toil_sre|126. Toil (수동 운영 작업) - SRE의 자동화 대상 반복 작업]] →
+
+---

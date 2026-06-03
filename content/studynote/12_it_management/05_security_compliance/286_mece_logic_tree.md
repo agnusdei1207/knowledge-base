@@ -129,3 +129,14 @@ tags:
 1. [[215_mece_mutually_exclusive_collectively_exhaustive_issue_tree|MECE]] [[369_logic_bomb|논리]] 트리 중복 누락 배제는 모두가 같은 규칙으로 일하게 해 주는 반장 약속표예요.
 2. 약속만 적어 두는 것이 아니라 누가 지켰는지 확인하고 고치는 방법까지 함께 정해요.
 3. 그래서 일이 많아져도 서로 부딪히지 않고 더 안전하게 움직일 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 419 / 587
+
+← **이전**: [[285_delphi_method|285. 델파이 기법 블라인드 합의]]
+**다음**: [[287_pmo_project_management_office|287. PMO 프로젝트 관리 오피스 역할]] →
+
+---

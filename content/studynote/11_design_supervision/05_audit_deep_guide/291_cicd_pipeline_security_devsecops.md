@@ -104,3 +104,14 @@ tags:
 1. 비밀정보 스캔은 학교에서 준비물을 미리 챙기는 것처럼, 중요한 기준을 먼저 맞추는 일이야.
 2. 산출물 [[003_integrity|무결성]]은 선생님이 수업 중간에 계속 확인하는 것처럼, 실제로 잘 되고 있는지 보는 과정이야.
 3. [[164_policy|정책]] 게이트는 시험 결과표처럼, 정말 효과가 있었는지 나중에 다시 확인하게 해주는 증거야.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 352 / 530
+
+← **이전**: [[290_zero_downtime_canary_bluegreen|290. 무중단 배포 카나리 블루그린 감리 (Zero Downtime Canary Blue Green Audit)]]
+**다음**: [[292_log_integrity_worm_forensics|292. 로그 무결성과 WORM 포렌식 감리 (Log Integrity WORM Forensics Audit)]] →
+
+---

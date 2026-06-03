@@ -58,3 +58,14 @@ Mini-Spec은 **[[144_dfd_data_flow_diagram|DFD]] 프로세스의 로직 명세 �
 1. Mini-Spec은 **요리 레시피**예요. "볶음밥" 만드는 **순서와 방법**을 적어요.
 2. "VIP면 20% 할인, 일반이면 5% 할인"처럼 **규칙을 정확히** 써요.
 3. DFD가 **큰 그림**이면, Mini-Spec은 **세부 설명**이에요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 145 / 973
+
+← **이전**: [[144_dfd_data_flow_diagram|144. DFD (Data Flow Diagram) - 데이터 흐름도 상세]]
+**다음**: [[146_ooa_object_oriented_analysis|146. OOA (객체지향 분석) - 객체·클래스·관계 중심 분석]] →
+
+---

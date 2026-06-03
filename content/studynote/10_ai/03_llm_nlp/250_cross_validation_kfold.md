@@ -217,3 +217,14 @@ K-Fold 교차 [[395_verification_process_review|검증]]은 [[241_machine_learni
 1. 교차 [[395_verification_process_review|검증]]은 시험을 여러 번 다르게 나눠서 보는 것이에요.
 2. 매번 다른 친구들이 시험 감독관이 되고 나머지는 시험을 보면서, 운 좋은 분할을 없애요.
 3. 5번의 시험 평균 점수가 1번 시험 점수보다 훨씬 더 실력에 가깝기 때문에, [[190_ai_llm_requirements_specification|AI]] 모델의 진짜 능력을 알 수 있어요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 250 / 420
+
+← **이전**: [[249_scaling_normalization_standardization|249. 스케일링 (Scaling Normalization Standardization)]]
+**다음**: [[251_grid_search_random_search|251. 그리드 서치 (Grid Search) / 랜덤 서치 (Random Search)]] →
+
+---

@@ -125,3 +125,14 @@ Reentrancy 공격 ([[022_smart_contract|Smart Contract]])를 제대로 이해하
 1. Reentrancy 공격 ([[022_smart_contract|Smart Contract]])는 누군가 규칙의 틈을 찾아 몰래 장난을 치는 방법이에요.
 2. 그래서 문을 단단히 잠그는 것뿐 아니라, 누가 이상하게 움직이는지도 바로 알아차려야 해요.
 3. 컴퓨터는 이상한 흔적을 빨리 보고 퍼지기 전에 멈추게 해야 안전해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 1099 / 1108
+
+← **이전**: [[990_botnet_cnc_zombie_pc_ddos_infrastructure|990. 봇넷 (Botnet) C&C (Botnet Cnc Zombie Pc Ddos Infrastructure)]]
+**다음**: [[991_arp_spoofing_man_in_the_middle_cache_poisoning|991. ARP 스푸핑 (Arp Spoofing Man In The Middle Cache Poisoning)]] →
+
+---

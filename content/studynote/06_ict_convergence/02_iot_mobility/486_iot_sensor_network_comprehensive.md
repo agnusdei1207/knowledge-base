@@ -136,3 +136,14 @@ tags:
 1. [[101_iot_concept|IoT]] [[103_wsn_sensor_network|센서 네트워크]]는 집 안 곳곳에 붙인 온도계 스티커들이 서로 대화해서 엄마 스마트폰으로 알려주는 것이에요.
 2. 배터리가 작아서 오래 써야 하니까, 꼭 필요할 때만 잠깐 말하고(전송) 나머지는 잠(슬립 모드)을 자요.
 3. 멀리 있는 온도계는 큰 소리로 외쳐야 하고([[109_lpwan_low_power_wide_area_network|LPWAN]]), 가까운 건 귓속말로 충분해요([[607_ble_bluetooth_low_energy_iot|BLE]]).
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 486 / 552
+
+← **이전**: [[485_blockchain_attack_51_eclipse_sybil|485. 블록체인 공격: 51%, 이클립스, 시빌 (Blockchain Attacks: 51%, Eclipse, Sybil)]]
+**다음**: [[487_edge_fog_computing_distributed_ai|487. 엣지·포그 컴퓨팅과 분산 AI 처리 (Edge-Fog Computing and Distributed AI)]] →
+
+---

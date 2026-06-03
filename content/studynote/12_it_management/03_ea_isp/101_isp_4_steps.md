@@ -129,3 +129,14 @@ tags:
 1. [[101_isp_information_strategy_planning_4_steps|정보화 전략 계획]] ([[101_isp_information_strategy_planning_4_steps|ISP]]) 수행 4단계는 모두가 같은 규칙으로 일하게 해 주는 반장 약속표예요.
 2. 약속만 적어 두는 것이 아니라 누가 지켰는지 확인하고 고치는 방법까지 함께 정해요.
 3. 그래서 일이 많아져도 서로 부딪히지 않고 더 안전하게 움직일 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 185 / 587
+
+← **이전**: [[100_technical_debt_release_policy|100. 기술 부채 (Technical Debt) 모니터링 연계 릴리스 정책]]
+**다음**: [[101_isp_information_strategy_planning_4_steps|101. 정보화 전략 계획 (ISP) 수행 4단계 절차]] →
+
+---

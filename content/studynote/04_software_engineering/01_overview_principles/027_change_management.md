@@ -132,3 +132,14 @@ tags:
 1. [[079_change_enablement|변경 관리]]는 건물 공사 허가 과정이에요! 마음대로 벽을 허물면 건물이 무너지니까(장애 발생), 반드시 설계→검토→허가→시공→검수 단계를 거쳐요.
 2. DevOps에서는 Git에 모든 변경이 기록되고, 자동 테스트가 허가 역할을 해줘요!
 3. AI는 과거 변경 기록을 학습해서 "이 변경은 장애가 날 것 같아요"라고 미리 경고해주기도 한답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 27 / 973
+
+← **이전**: [[026_version_control_system|26. VCS (Version Control System) — 형상 이력 관리 시스템]]
+**다음**: [[028_software_reengineering|28. 소프트웨어 리엔지니어링 (Software Reengineering)]] →
+
+---

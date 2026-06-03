@@ -185,3 +185,14 @@ BOHB · 다목적 AutoML · 메타러닝 Warm Start
 1. AutoML은 공부 방법을 많이 시험해 보되, 지난번에 점수가 잘 나온 방법을 기억해서 다음 계획을 더 똑똑하게 짜는 친구예요.
 2. 베이지안 탐색은 "이 방법은 잘 될 것 같고, 저 방법은 아직 잘 모르니 한 번 확인해 보자"라고 생각하며 실험 순서를 정해요.
 3. 그래서 무작정 다 해보는 것보다 적은 시간으로도 더 좋은 공부법을 찾을 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 176 / 258
+
+← **이전**: [[175_rlhf_ranking_reward_model_human_labeler|175. Reinforcement Learning from Human Feedback (RLHF) 기반 랭킹 선호 모델과 인간 라벨러]]
+**다음**: [[177_delta_lakehouse_time_travel_transaction|177. 델타 레이크하우스 (Delta Lakehouse) - Time Travel과 트랜잭션]] →
+
+---

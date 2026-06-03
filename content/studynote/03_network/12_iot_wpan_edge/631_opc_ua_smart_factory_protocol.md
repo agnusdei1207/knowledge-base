@@ -128,3 +128,14 @@ OPC UA는 [[630_industrial_ethernet_profinet_ethercat_modbus|산업용 이더넷
 1. 작은 로봇 친구들이 배터리를 아껴가며 서로 메시지를 주고받는 장난감 마을과 같아요.
 2. 이 개념은 누가 가까운지, 누가 대신 알려줄지, 무엇을 현장에서 바로 처리할지를 정해줘요.
 3. 그래서 작은 기기들도 오래 버티면서 똑똑하게 협력할 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 752 / 1120
+
+← **이전**: [[630_industrial_ethernet_profinet_ethercat_modbus|630. 산업용 이더넷 표준 (Industrial Ethernet)]]
+**다음**: [[632_tsn_time_sensitive_networking_ieee|632. TSN (Time-Sensitive Networking)]] →
+
+---

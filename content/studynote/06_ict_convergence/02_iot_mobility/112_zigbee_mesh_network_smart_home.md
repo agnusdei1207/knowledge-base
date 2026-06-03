@@ -115,3 +115,14 @@ Zigbee는 스마트 홈 WPAN의 선구자이지만, **[[612_matter_csa_smart_hom
 1. Zigbee는 마을 전체에 **무전기 네트워크**를 깐 거예요. 반장들이 릴레이로 소식을 전달해요.
 2. 반장 1명이 아파도 **다른 반장이 대신** 전달하니까 소식이 끊기지 않아요 ([[389_mesh_topology|메시]] 자가 치유).
 3. 지금은 **Matter라는 새로운 규칙**이 나와서 모든 무전기가 하나의 언어로 통일되고 있답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 112 / 552
+
+← **이전**: [[111_licensed_lpwan_nb_iot_lte_m|111. 면허 대역 LPWAN - NB-IoT vs LTE-M 3GPP 표준 IoT 통신]]
+**다음**: [[113_z_wave_smart_home_900mhz|113. Z-Wave 스마트 홈 (Z-Wave Smart Home) - 900MHz 서브 GHz 저간섭 WPAN]] →
+
+---

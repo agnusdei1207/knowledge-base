@@ -153,3 +153,14 @@ tags:
 1. 컴퓨터virus는 감기에 걸린 사람과 같다. 다른 사람과 손을 잡거나 기침을 하면 병이 옮겨가는 것처럼,virus도 감염된 [[501_file_definition_logical_record|파일]]을 다른 사람에게 전달하면 Spread(확산)된다.
 2.virus는virus防疫(방역) 프로그램(백신)이 없으면 컴퓨터 속에서 몰래 퍼져나가서 [[501_file_definition_logical_record|파일]]을 죽이거나 비밀을 훔쳐가는 나쁜 썩은 물건이다.
 3. 우리느 출처가 불명확한 [[501_file_definition_logical_record|파일]]을 함부로 열거나, immunization(면역)이 안 된 컴퓨터에다가 이상한 프로그램을 깔아주면 안 된다. 그것이virus를 막는 가장 좋은 방법이다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 589 / 800
+
+← **이전**: [[588_logic_bomb|588. 로직 밤 (Logic Bomb) / 타이머 밤]]
+**다음**: [[590_worm|590. 웜 (Worm) - 자가 복제 네트워크 전파 독자 실행]] →
+
+---

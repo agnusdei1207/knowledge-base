@@ -160,3 +160,14 @@ FinOps 대시보드 + 이상 탐지
 1. FinOps는 용돈을 어디에 얼마나 쓰는지 바로 볼 수 있는 똑똑한 용돈 노트예요.
 2. 그래서 안 쓰는 장난감에 돈이 새고 있으면 빨리 발견해서 멈출 수 있어요.
 3. 중요한 장난감은 계속 사되, 괜히 낭비되는 돈은 줄여 더 오래 알뜰하게 쓸 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 169 / 373
+
+← **이전**: [[168_event_sourcing_replay_monitoring|168. 이벤트 소싱 상태 복구 모니터링 (Event Sourcing Replay Monitoring)]]
+**다음**: [[170_self_healing_filesystem_zfs_btrfs|170. 하드웨어 에러 자가 치유 파일시스템 (Self-Healing Filesystem) — ZFS, Btrfs]] →
+
+---

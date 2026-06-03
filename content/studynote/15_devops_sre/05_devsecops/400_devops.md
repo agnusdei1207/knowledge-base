@@ -133,3 +133,15 @@ Integrated Platform Engineering + Continuous Feedback
 1. 큰 놀이터에 미끄럼틀, 그네, 자전거 길이 많아도 안내판이 없으면 모두가 헤매요.
 2. 통합 플랫폼은 놀이터를 더 쉽게 쓰게 도와주는 좋은 지도와 규칙이에요.
 3. 그래서 사람들은 덜 헷갈리고, 더 안전하게, 더 재미있게 놀 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 373 / 373
+
+← **이전**: [[372_zero_trust|372. 제로 트러스트 아키텍처 신원 기반 접근 제어 (Zero Trust Architecture ZTNA SASE NIST SP 800-207)]]
+
+✅ **마지막 글입니다.**
+
+---

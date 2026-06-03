@@ -151,3 +151,14 @@ K8s: requests/limits → QoS(Guaranteed · Burstable · BestEffort)
 ```
 2. 이러면 다른 친구들이 배가 고파 쓰러지겠죠? 그래서 호랑이 선생님(리눅스 [[022_kernel_role|커널]])이 나섰어요! "여기 각자 자기 이름이 적힌 접시에 고기 딱 10인분씩만 덜어 줄 테니, 다 먹었으면 더 이상 남의 고기 넘보지 마!" 
 3. 이렇게 아이들(프로세스)마다 먹을 수 있는 고기와 밥의 한계량(Limit)을 아주 엄격하게 딱딱 정해서 배분해 주고 통제하는 호랑이 선생님의 마법을 '[[062_cgroups|cgroups]](씨그룹스)'라고 한답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 63 / 371
+
+← **이전**: [[063_linux_namespace_isolation|63. 리눅스 네임스페이스 (Namespace) - PID, Net, Mount, User 등 자원 분리]]
+**다음**: [[065_docker_container_platform|65. 도커 (Docker) - 컨테이너 기술을 대중화시킨 오픈소스 플랫폼]] →
+
+---

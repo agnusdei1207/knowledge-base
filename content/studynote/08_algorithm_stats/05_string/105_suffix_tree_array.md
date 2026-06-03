@@ -89,3 +89,14 @@ Suffix Tree (Visual):         Suffix Array (Ordered Indices):
 1. "가나다라마"라는 책의 모든 [[286_page_frame|페이지]] 끝부분부터 시작하는 조각들을 다 모아서 가나다순으로 정리한 '슈퍼 [[154_database_index_b_tree_search_optimization|인덱스]]'예요.
 2. 트리는 거대한 가지를 뻗어 길을 찾는 지원군이고, [[055_array|배열]]은 번호표를 붙여 깔끔하게 줄을 세운 줄서기예요.
 3. 이 [[154_database_index_b_tree_search_optimization|인덱스]]만 있으면 두꺼운 책에서도 내가 찾고 싶은 말이 어디 있는지 단 몇 초 만에 찾아낼 수 있답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 105 / 175
+
+← **이전**: [[104_regex|11. 정규 표현식 (Regex, Regular Expression) — NFA/DFA, 패턴 매칭]]
+**다음**: [[106_p_class|001. P 클래스 (P Class) — 다항 시간 내 해결 가능한 문제]] →
+
+---

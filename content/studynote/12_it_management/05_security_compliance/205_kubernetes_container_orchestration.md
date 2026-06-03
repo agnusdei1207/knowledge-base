@@ -129,3 +129,14 @@ tags:
 1. [[561_container_based_deployment|컨테이너]] [[073_container_orchestration_tools|오케스트레이션]] (Kubernetes) 노드/[[198_pod_kubernetes_minimum_deployment_unit|포드]]([[198_pod_kubernetes_minimum_deployment_unit|Pod]]) 고가용성 설계는 모두가 같은 규칙으로 일하게 해 주는 반장 약속표예요.
 2. 약속만 적어 두는 것이 아니라 누가 지켰는지 확인하고 고치는 방법까지 함께 정해요.
 3. 그래서 일이 많아져도 서로 부딪히지 않고 더 안전하게 움직일 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 319 / 587
+
+← **이전**: [[204_cloud_native_architecture|204. 클라우드 네이티브 아키텍처 (Cloud Native Architecture) 구성 요소]]
+**다음**: [[206_serverless_cold_start|206. 서버리스 (Serverless) 함수 호출 및 콜드 스타트 극복 방안]] →
+
+---

@@ -120,3 +120,14 @@ tags:
     1. 숙제를 틀렸을 때 어디가 틀렸는지 알려 주는 점수표예요.
     2. 회귀는 얼마나 틀렸는지, [[104_classification_analysis|분류]]는 맞혔는지에 따라 다른 점수표를 써요.
     3. 그래서 컴퓨터도 문제에 맞는 점수 규칙이 필요해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 157 / 587
+
+← **이전**: [[086_ola|86. OLA (Operational Level Agreement)]]
+**다음**: [[087_underpinning_contract|87. UC (Underpinning Contract)]] →
+
+---

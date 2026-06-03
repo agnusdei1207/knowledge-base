@@ -139,3 +139,14 @@ MQTT와 CoAP는 [[101_iot_concept|IoT]] 생태계의 메시지 교환 표준으�
 1. MQTT는 학교 방송 시스템이에요. 선생님(Publisher)이 마이크(Broker)에 말하면 전교생(Subscriber)이 동시에 들을 수 있어요.
 2. CoAP는 학생증 조회기예요. 카드 대면(요청)하면 즉시 결과(응답)를 알려줘요. 따로 방송국이 없어도 돼요.
 3. QoS는 알림 설정이에요. 중요한 수업 알림([[388_qos_quality_of_service_best_effort_intserv_diffserv|QoS]] 2)은 반드시 읽음 [[396_validation|확인]], 날씨 알림([[388_qos_quality_of_service_best_effort_intserv_diffserv|QoS]] 0)은 그냥 와도 되고 없어져도 괜찮아요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 489 / 552
+
+← **이전**: [[488_lpwan_lora_nb_iot_licensed_unlicensed|488. LPWAN: LoRa, NB-IoT 면허/비면허 비교 (LPWAN: LoRa NB-IoT Licensed Unlicensed)]]
+**다음**: [[490_matter_smart_home_interoperability_standard|490. Matter 스마트홈 상호 운용성 표준 (Matter Smart Home Interoperability Standard)]] →
+
+---

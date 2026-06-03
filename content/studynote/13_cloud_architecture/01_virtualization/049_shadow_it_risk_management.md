@@ -297,3 +297,14 @@ Cloud Native Application Protection
 1. 클라우드 섀도 IT = 개인 사무실 차리기 — 신용카드로 5분에 AWS 계정 [[087_process_state_transition|생성]]. 회사 모르는 클라우드 = 보안·비용 사각지대!
 2. [[780_cspm_cloud_security_posture_management|CSPM]] = 자동 안전 감사원 — 매일 전체 클라우드 점검. 열린 S3(잠금 없는 창고), [[552_mfa|MFA]] 없는 계정 자동 탐지. 컴플라이언스 준수율 실시간!
 3. AWS Organizations = 도시 계획 — 계정(구역) 분리, [[747_scp|SCP]](건축 규제), 태깅(주소 등록). 무허가 건물(섀도 클라우드) 자동 발견!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 48 / 371
+
+← **이전**: [[048_msp_managed_service_provider_cloud|048. MSP — 클라우드 관리형 서비스 제공자]]
+**다음**: [[050_data_gravity_cloud_lock_in|데이터 중력과 클라우드 Lock-In (Data Gravity & Cloud Lock-In)]] →
+
+---

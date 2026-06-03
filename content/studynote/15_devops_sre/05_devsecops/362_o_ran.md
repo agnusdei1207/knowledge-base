@@ -135,3 +135,14 @@ AI-native O-RAN — Self-Optimizing Network (미래)
 1. 예전 기지국은 한 회사가 모든 부품을 만들어서 그 회사 제품만 써야 했어요.
 2. O-RAN은 레고처럼 여러 회사가 만든 부품을 맞춰 쓸 수 있게 표준 규격을 정한 거예요.
 3. RIC은 [[190_ai_llm_requirements_specification|AI]] 두뇌처럼 기지국을 실시간으로 조절해서 통화가 더 잘 되게 만들어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 362 / 373
+
+← **이전**: [[361_architecture|361. 컨웨이의 법칙 조직 구조 소프트웨어 반영 아키텍처 (Conway Law Organizational Structure Reflected]]
+**다음**: [[363_sdn_sddc_vxlan|363. SDN SDDC VXLAN 논리망 오버레이 통신 제어망 (SDN SDDC VXLAN Logical Network Overlay]] →
+
+---

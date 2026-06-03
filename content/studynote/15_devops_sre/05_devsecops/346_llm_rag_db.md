@@ -132,3 +132,14 @@ RAG with Evaluation / Citation / Guardrails
 1. RAG는 로봇이 혼자 기억해서 말하지 않고, 먼저 책장에서 관련 책을 찾아보고 답하는 거예요.
 2. 그래서 더 똑똑해 보이는 게 아니라, 더 근거 있게 말할 수 있어요.
 3. 하지만 잘못된 책을 찾으면 답도 틀리니, 책 정리와 찾는 방법이 아주 중요해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 346 / 373
+
+← **이전**: [[345_mlops|345. MLOps 피처 스토어·모델 드리프트·재학습 파이프라인 (Machine Learning Operations)]]
+**다음**: [[347_process|347. 프롬프트 인젝션 방어·탈옥 보호 (Prompt Injection Defense)]] →
+
+---

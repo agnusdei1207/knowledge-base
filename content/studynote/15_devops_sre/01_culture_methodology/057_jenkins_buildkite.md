@@ -121,3 +121,14 @@ CI 도구
 Jenkins는 커다란 공구 상자예요.  
 Buildkite는 여러 명의 작업자에게 일을 나눠 주는 배달 시스템 같아요.  
 어떤 게 좋을지는 작업장 모양에 따라 달라져요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 57 / 373
+
+← **이전**: [[056_cicd_pipeline|56. CI/CD 파이프라인 (Continuous Integration / Continuous Delivery) - 배포 자동화]]
+**다음**: [[058_dx_developer_experience|58. 개발자 경험 (DX, Developer Experience) 향상 전략]] →
+
+---

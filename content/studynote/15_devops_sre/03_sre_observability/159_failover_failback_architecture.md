@@ -153,3 +153,14 @@ RTO · RPO 정의
 1. 다리가 끊어지면 옆의 예비 다리로 바로 건너가는 것이 페일오버예요.
 2. 원래 다리를 고친 뒤 다시 안전하게 돌아오는 것이 페일백이에요.
 3. 예비 다리도 튼튼한지 미리 걸어 보고, 돌아올 때도 천천히 [[396_validation|확인]]해야 다치지 않아요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 159 / 373
+
+← **이전**: [[158_mtbf_mttr_optimization|158. MTBF/MTTR 최적화 (MTBF/MTTR Optimization)]]
+**다음**: [[160_health_check_probes_liveness_readiness|160. 헬스 체크/프로브 (Health Check/Probes)]] →
+
+---

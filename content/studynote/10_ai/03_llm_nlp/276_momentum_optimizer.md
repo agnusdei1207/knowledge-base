@@ -196,3 +196,14 @@ SGD (진동 심함)            Momentum (진동 감소)
 1. 모멘텀은 언덕에서 굴러내려가는 공처럼, 한번 방향이 정해지면 그 방향으로 점점 빠르게 달리는 것이에요.
 2. 작은 웅덩이([[083_local_minima_vs_global_minimum|지역 최솟값]])에 빠져도 속도가 붙어 있으면 그냥 넘어갈 수 있어요.
 3. 하지만 너무 빠르면 목표 지점을 지나쳐버리는 오버슈팅이 일어날 수 있으니, β 값으로 속도를 조절해야 해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 276 / 420
+
+← **이전**: [[275_gradient_descent_sgd|275. 경사 하강법 (GD) / SGD (Stochastic Gradient Descent)]]
+**다음**: [[277_adam_optimizer|277. Adam (Adaptive Moment Estimation)]] →
+
+---

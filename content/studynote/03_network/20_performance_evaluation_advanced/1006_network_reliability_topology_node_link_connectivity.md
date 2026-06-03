@@ -128,3 +128,14 @@ tags:
 1. 달리기 시합에서 누가 얼마나 빨랐는지 재려면 초시계와 기록표가 필요해요.
 2. 이 개념은 네트워크가 어디서 느려졌는지 숫자로 찾아내는 도구예요.
 3. 그래서 막연히 고치는 대신 가장 중요한 곳부터 똑똑하게 손볼 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 106 / 1120
+
+← **이전**: [[1005_blocking_probability_erlang_b_qos_call_drop|1005. 호손율 / 블로킹 확률 (Blocking Probability)]]
+**다음**: [[1007_mtbf_mean_time_between_failures_mttf_reliability|1007. MTBF (평균 무고장 시간) 통신망 생존성]] →
+
+---

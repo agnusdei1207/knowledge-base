@@ -133,3 +133,14 @@ K8s는 [[531_cloud_native_architecture|클라우드 네이티브]] 생태계의 
 1. [[196_kubernetes_k8s_container_orchestration|쿠버네티스]]는 로봇 장난감 공장 관리자예요 — 로봇([[561_container_based_deployment|컨테이너]])이 몇 개 있어야 하는지 계속 확인하고, 부서진 게 있으면 새 로봇을 바로 만들어요.
 2. [[014_api_posix|API]] 서버는 공장 정문이에요 — 모든 지시는 이 문을 통해서만 들어올 수 있어요.
 3. etcd는 공장 설계도 창고예요 — 이 창고가 불타면 공장 전체가 어떻게 돌아가야 할지 아무도 몰라요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 502 / 552
+
+← **이전**: [[501_docker_container_lightweight_os_isolation|501. 도커 컨테이너 경량 OS 격리 (Docker Container Lightweight OS Isolation)]]
+**다음**: [[503_serverless_cold_start_latency_control|503. 서버리스 콜드 스타트 지연 제어 (Serverless Cold Start Latency Control)]] →
+
+---

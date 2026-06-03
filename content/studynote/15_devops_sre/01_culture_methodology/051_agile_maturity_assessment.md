@@ -131,3 +131,14 @@ tags:
 1. [[004_agile_relation|애자일]] 성숙도 평가는 우리 팀이 게임에서 레벨 몇인지 알려주는 '상태 표시창'이에요.
 2. "우리 팀은 매일 아침 회의하니까 레벨 100이야!"라고 우기는 친구에게, 진짜로 빨리 달릴 수 있는 운동화(기술 자동화)가 있는지 팩트 체크를 해주는 거죠.
 3. 이 성적표를 받아보면 우리가 체력이 부족한지 장비가 부족한지 딱 알 수 있어서, 엉뚱한 곳에 힘을 빼지 않고 레벨 업을 할 수 있답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 51 / 373
+
+← **이전**: [[050_bizdevops_business_alignment|BizDevOps — 비즈니스 정렬 (BizDevOps Business Alignment)]]
+**다음**: [[052_git_branching_strategies|52. Git 브랜치 전략 (Git Branching Strategies)]] →
+
+---

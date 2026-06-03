@@ -134,3 +134,14 @@ SOAR는 침해 [[009_incident_response|사고 대응]] 체계 분석, 실시간 
 1. 나쁜 친구가 놀이터 규칙을 깨뜨리면 바로 알아차리고 막아야 해요.
 2. 이 개념은 어떤 장난이 위험한지 미리 알고, 문제가 생기면 어떻게 다시 정리할지도 알려줘요.
 3. 그래서 놀이터를 더 안전하게 지킬 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 866 / 1120
+
+← **이전**: [[744_incident_response_network_forensics_siem|744. 침해 사고 대응 체계 분석 (패킷 미러 포트, 네트워크 포렌식 (Network Forensics), 실시간 로그 (SIEM 인프라)]]
+**다음**: [[746_ti_threat_intelligence_ioc_stix_taxii|746. TI (Threat Intelligence) 융합 / STIX, TAXII 표준 지표 관리, IoC (침해지표) 반영]] →
+
+---

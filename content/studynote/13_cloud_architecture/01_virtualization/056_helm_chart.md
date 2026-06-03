@@ -124,3 +124,14 @@ install / upgrade / rollback
 Helm은 레고 상자에 설명서를 붙여 놓는 도구예요.  
 같은 상자라도 색깔과 모양을 조금씩 바꾸면 다른 집을 만들 수 있어요.  
 그리고 잘못 만들면 이전 집 모양으로 다시 돌아갈 수도 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 55 / 371
+
+← **이전**: [[055_ingress_service_types|55. Ingress와 Service Type]]
+**다음**: [[057_operator_pattern|57. 오퍼레이터 패턴 (Operator Pattern) - 쿠버네티스 상태형 워크로드 자동 운영]] →
+
+---

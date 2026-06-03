@@ -139,3 +139,14 @@ tags:
 1. [[277_scd_slowly_changing_dimension_modeling|SCD]] Type 2는 복잡한 일을 순서대로 정리해 주는 큰 정리함이에요.
 2. 어디에 무엇을 넣을지 먼저 정해 두면, 나중에 찾거나 고칠 때 훨씬 쉬워져요.
 3. 그래서 일이 커질수록 먼저 기준을 만들고 같이 약속하는 것이 중요해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 279 / 482
+
+← **이전**: [[278_scd_type1_overwrite_no_history|278. SCD Type 1 - 덮어쓰기 (과거 이력 삭제)]]
+**다음**: [[280_scd_type3_previous_column_limited_history|280. SCD Type 3 - 과거 컬럼 추가 제한적 이력 보존]] →
+
+---

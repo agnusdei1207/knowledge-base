@@ -193,3 +193,14 @@ ASLR (Address Space Layout Randomization) · 가상화 · 격리 강화
 1. [[322_logical_virtual_address|논리 주소]]는 내가 "내 장난감은 1번 서랍에 있어"라고 말하는 쉬운 이름표예요.
 2. [[323_physical_address|물리 주소]]는 엄마가 아는 진짜 위치, 예를 들면 "거실 책장 두 번째 칸 뒤쪽" 같은 정확한 자리예요.
 3. 그래서 나는 쉬운 이름만 기억하고, 엄마는 진짜 위치를 찾아 주니까 집이 어지러워도 장난감을 잘 찾을 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 283 / 803
+
+← **이전**: [[282_virtual_memory|282. 가상 메모리 (Virtual Memory)]]
+**다음**: [[284_mmu|284. MMU (Memory Management Unit)]] →
+
+---

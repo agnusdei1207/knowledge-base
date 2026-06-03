@@ -160,3 +160,14 @@ SDLC는 [[220_hdlc_frames_i_s_u|정보 프레임]], 감독/제어, 비번호에�
 1. 편지를 보낼 때 봉투를 제대로 닫고 틀린 글자가 없는지 [[396_validation|확인]]해야 해요.
 2. 이 개념은 편지가 깨지거나 사라졌을 때 다시 보내는 규칙까지 정해줘요.
 3. 그래서 중간에 흔들려도 중요한 내용이 더 안전하게 도착해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 342 / 1120
+
+← **이전**: [[220_hdlc_frames_i_s_u|220. 정보 프레임(I-Frame), 감독/제어(S-Frame / RR, RNR, REJ, SREJ), 비번호(U-Frame)]]
+**다음**: [[222_lapb_link_access_procedure_balanced|222. LAPB (Link Access Procedure Balanced)]] →
+
+---

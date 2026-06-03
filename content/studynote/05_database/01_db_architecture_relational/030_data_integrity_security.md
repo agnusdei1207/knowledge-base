@@ -158,3 +158,14 @@ DB 서버 레이어:
 1. [[001_dikw_pyramid|데이터]] [[003_integrity|무결성]]은 은행 장부가 항상 정확해야 하는 거예요 — 잘못된 금액 입력은 자동으로 차단돼요!
 2. [[001_dikw_pyramid|데이터]] 보안은 금고 [[387_access_control_pattern|접근 통제]]예요 — 허가된 사람만 [[001_dikw_pyramid|데이터]]에 접근할 수 있어요!
 3. 현대 DB는 여러 겹의 보안(양파 껍질)으로 [[003_integrity|무결성]]과 보안을 동시에 지켜요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 30 / 600
+
+← **이전**: [[029_file_system_problems|29. 파일 시스템의 문제점 (File System Problems)]]
+**다음**: [[031_client_server_dbms_architecture|31. 클라이언트-서버 DBMS 아키텍처 — DB 접근 구조]] →
+
+---

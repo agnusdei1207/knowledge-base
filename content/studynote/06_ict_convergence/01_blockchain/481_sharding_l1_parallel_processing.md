@@ -142,3 +142,14 @@ tags:
 1. 한 계산대에 줄이 너무 길면 계산대를 여러 개로 늘리는 것처럼, [[004_blockchain|블록체인]]도 여러 조각으로 나눠서 동시에 처리해요.
 2. 이더리움은 복잡한 계산은 [[042_rollup_l2_solution|롤업]]에게 맡기고, 자기는 '[[001_dikw_pyramid|데이터]] 보관'만 전문적으로 하기로 했어요.
 3. 덕분에 [[280_sharding|샤딩]]이 완성되면 이더리움이 아주 빠르고 저렴한 [[004_blockchain|블록체인]]이 될 거예요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 481 / 552
+
+← **이전**: [[480_rollup_optimistic_zk_fraud_validity_proof|480. 롤업: 옵티미스틱과 ZK 사기/타당성 증명 (Rollup: Optimistic vs ZK Fraud/Validity Proof)]]
+**다음**: [[482_blockchain_trilemma_scalability_decentralization_security|482. 블록체인 트릴레마: 확장성-탈중앙화-보안 (Blockchain Trilemma)]] →
+
+---

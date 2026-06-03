@@ -185,3 +185,14 @@ GraphRAG (Microsoft, 2024)
     ▼
 LLM + KG → 환각 감소 · 사실 기반 추론 강화
 ```
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 160 / 258
+
+← **이전**: [[159_gnn_graph_neural_network_message_passing|159. GNN (Graph Neural Network) 그래프 노드 메시지 패싱 네트워크]]
+**다음**: [[161_mlops_machine_learning_operations|161. MLOps (Machine Learning Operations) - AI 모델 개발~서빙 CI/CD 자동화]] →
+
+---

@@ -126,3 +126,14 @@ tags:
 1. 개념 [[003_integrity|무결성]]은 레고 세트처럼 같은 규칙의 블록으로 만들어야 모든 부분이 잘 맞아요.
 2. 여러 사람이 각자 다른 종류의 블록을 쓰면 조립이 안 돼요.
 3. 총 설계자(아키텍트)가 규칙을 정하고 지켜야 시스템이 [[194_consistency_database_integrity|일관성]] 있게 유지돼요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 195 / 530
+
+← **이전**: [[138_architectural_refactoring|138. 아키텍처 리팩터링 (Architectural Refactoring)]]
+**다음**: [[140_design_debt|140. 설계 부채 (Design Debt / Technical Debt)]] →
+
+---

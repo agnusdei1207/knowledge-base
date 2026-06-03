@@ -165,3 +165,14 @@ Knox Gateway:
 1. [[843_hadoop_rack_awareness_data_replication_topology|Hadoop]] 보안은 출입 카드([[545_kerberos_kdc_ticket_based_auth|Kerberos]]), 층별 권한(Ranger), 방문 기록부(Atlas) 3단계 시스템이에요!
 2. Ranger는 "마케팅팀은 마케팅 [[001_dikw_pyramid|데이터]]만, [[781_personal_information|개인정보]]는 자동으로 숨김"처럼 스마트하게 접근을 제어해요!
 3. Atlas는 "이 [[001_dikw_pyramid|데이터]]가 어디서 왔고 어디로 갔나" 식품 이력 추적처럼 모든 [[001_dikw_pyramid|데이터]] 흐름을 기록해요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 50 / 262
+
+← **이전**: [[049_data_serialization_avro_protobuf_thrift|27. 데이터 직렬화: Avro / Protobuf / Thrift]]
+**다음**: [[051_apache_oozie|29. Apache Oozie — Hadoop 워크플로 스케줄러]] →
+
+---

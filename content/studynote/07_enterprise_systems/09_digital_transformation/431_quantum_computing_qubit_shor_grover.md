@@ -139,3 +139,14 @@ tags:
 1. [[447_quantum_computer|양자 컴퓨터]] [[448_qubit|큐비트]] 쇼어/그로버 [[001_algorithm_definition|알고리즘]]는 복잡한 일을 순서대로 정리해 주는 큰 정리함이에요.
 2. 어디에 무엇을 넣을지 먼저 정해 두면, 나중에 찾거나 고칠 때 훨씬 쉬워져요.
 3. 그래서 일이 커질수록 먼저 기준을 만들고 같이 약속하는 것이 중요해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 431 / 482
+
+← **이전**: [[430_finops_cloud_cost_optimization|430. FinOps 핀옵스 재무 가시성 비용 최적화 (FinOps)]]
+**다음**: [[432_cxl_chiplet_memory_pooling|432. CXL 칩렛 메모리 풀링 아키텍처 (CXL: Compute Express Link)]] →
+
+---

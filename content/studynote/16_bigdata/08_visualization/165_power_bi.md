@@ -215,3 +215,14 @@ RLS는 사용자 역할에 따라 볼 수 있는 [[001_dikw_pyramid|데이터]] 
 - [[069_type_1_2_error_statistical_power|Power]] BI는 **Microsoft 레고 세트**예요: Excel이라는 기본 레고에서 시작해서, [[069_type_1_2_error_statistical_power|Power]] BI를 더하면 훨씬 멋진 집(대시보드)을 만들 수 있어요.
 - DAX의 CALCULATE는 "이 계산을 할 때 이 조건만 봐줘"라고 말하는 마법 주문이에요 — "서울 지역 매출만 계산해줘", "작년 같은 기간 매출을 계산해줘" 등이에요.
 - Microsoft Fabric은 "[[001_dikw_pyramid|데이터]] 수집·분석·[[003_bigdata_7v|시각화]]를 모두 한 곳에서 하는 통합 주방"이에요 — 여러 도구를 왔다 갔다 할 필요 없이 한 곳에서 모든 것을 처리할 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 165 / 262
+
+← **이전**: [[164_tableau|164. Tableau — 드래그앤드롭 VizQL 셀프서비스 시각화]]
+**다음**: [[166_looker|166. Looker / Looker Studio — LookML 시맨틱 레이어 BI]] →
+
+---

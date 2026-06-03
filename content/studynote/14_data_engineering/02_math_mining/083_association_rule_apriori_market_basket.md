@@ -129,3 +129,14 @@ Apriori / FP-Growth
 1. 마트 영수증을 모아 보면 "이 과자를 사는 사람은 저 음료도 자주 산다"는 힌트가 보여요.
 2. Apriori는 인기 없는 조합을 빨리 버리고, 정말 자주 같이 나오는 것만 남겨요.
 3. 그래서 점원은 더 잘 진열하고, 손님은 더 편하게 필요한 물건을 찾을 수 있답니다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 83 / 258
+
+← **이전**: [[082_lda_linear_discriminant_analysis_classification|82. 선형 판별 분석 (LDA: Linear Discriminant Analysis)]]
+**다음**: [[084_support_association_rule_transaction|84. 지지도 (Support) - 연관 규칙 평가 지표]] →
+
+---

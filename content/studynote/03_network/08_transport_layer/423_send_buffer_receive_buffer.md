@@ -145,3 +145,14 @@ tags:
 1. 물건을 보낼 때 받는 사람이 너무 빨리 받으면 놓칠 수 있어요.
 2. 이 개념은 천천히 보낼지, 다시 보낼지, 길이 막히면 멈출지를 정해줘요.
 3. 그래서 멀리 보내도 덜 잃어버리고 더 안정적으로 도착해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 544 / 1120
+
+← **이전**: [[422_tcp_window_scale_option|422. 윈도우 스케일옵션 (Window Scale Option)]]
+**다음**: [[424_silly_window_syndrome_problem|424. 어리석은 윈도우 증후군 (Silly Window Syndrome) 문제]] →
+
+---

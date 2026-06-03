@@ -120,3 +120,14 @@ Cross-Entropy Error
 1. 선생님이 "맞았니?"만 보는 게 아니라 "얼마나 자신 있었니?"도 같이 봐요.
 2. 틀린데 큰소리쳤으면 더 크게 혼나요.
 3. 그래서 컴퓨터는 [[130_probability|확률]]을 더 조심스럽게 배우게 돼요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 77 / 420
+
+← **이전**: [[076_mse_mean_squared_error_regression|76. MSE (Mean Squared Error) - 회귀 문제 핵심 손실 함수]]
+**다음**: [[078_backpropagation_chain_rule_gradient|78. 역전파 (Backpropagation) - 가중치 수정과 기울기 계산]] →
+
+---

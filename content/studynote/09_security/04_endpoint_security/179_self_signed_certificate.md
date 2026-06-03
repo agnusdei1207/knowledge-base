@@ -167,3 +167,14 @@ TLS 적용 필요 인식
 1. Self-signed [[303_authentication_authorization_patterns|인증]]서는 내가 내 이름표를 직접 만들어 붙이는 것과 비슷해요.
 2. 우리 가족끼리는 그 이름표를 믿을 수 있지만, 모르는 사람은 진짜인지 다시 [[396_validation|확인]]하고 싶어 해요.
 3. 그래서 작은 모임에서는 편하지만, 사람이 많아지면 선생님이나 관리실이 찍어 주는 공식 이름표가 더 좋아요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 232 / 1108
+
+← **이전**: [[178_ov_organization_validation_certificate|178. OV (Organization Validation) 인증서]]
+**다음**: [[180_certificate_chain_of_trust|180. 인증서 체인 검증 (Certificate Chain of Trust)]] →
+
+---

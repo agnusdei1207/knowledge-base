@@ -177,3 +177,14 @@ Saga, CQRS, read-model driven microservices
 1. 형, 동생, 누나가 각자 자기 공책에만 자기 비밀과 숙제를 적는 거예요.
 2. 다른 사람이 내용이 필요하면 공책을 몰래 보지 않고 물어보거나 쪽지를 받아요.
 3. 그래서 한 사람이 공책을 고쳐도 다른 사람 공책이 갑자기 망가지지 않아요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 173 / 482
+
+← **이전**: [[172_polyglot_persistence|172. 폴리글랏 퍼시스턴스 (Polyglot Persistence)]]
+**다음**: [[174_distributed_transaction_2pc_limit|174. 분산 트랜잭션 한계 및 2PC (Two-Phase Commit) 배제 이유 - 블로킹 오버헤드]] →
+
+---

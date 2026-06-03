@@ -53,3 +53,14 @@ C-V2X는 **[[141_v2x_vehicle_to_everything_communication|V2X]] 통신의 차세�
 1. C-V2X는 **스마트폰+워키토키**예요. 두 가지 방법으로 대화해요.
 2. 스마트폰(Uu)은 **멀리 있는 서버**와, 워키토키(PC5)는 **가까운 차**와 대화해요.
 3. [[418_5g_embb_urllc_mmtc_slicing|5G]] 덕분에 **0.001초 만에** 위험 알림을 보낼 수 있어요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 143 / 552
+
+← **이전**: [[142_wave_dsrc_autonomous_vehicle_communication|142. WAVE/DSRC - 자율주행 전용 단거리 통신 규격]]
+**다음**: [[144_platooning_autonomous_truck_convoy|144. 군집주행 (Platooning) - 자율주행 트럭 대열 주행]] →
+
+---

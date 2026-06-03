@@ -175,3 +175,14 @@ tags:
 1. [[022_kernel_role|커널]] 메모리 할당 방식 (kmalloc, vmalloc)은 컴퓨터가 메모리를 방처럼 나눠 쓰고 주소를 찾는 방법이에요.
 2. 먼저 [[367_paged_segmentation|세그멘테이션 기반 페이징]] ([[367_paged_segmentation|Paged Segmentation]])을 이해하면 [[022_kernel_role|커널]] 메모리 할당 방식 (kmalloc, vmalloc)이 왜 필요한지 더 쉽게 보여요.
 3. 그래서 [[022_kernel_role|커널]] 메모리 할당 방식 (kmalloc, vmalloc)을 잘 알면 나중에 [[369_memory_pool|메모리 풀]] ([[369_memory_pool|Memory Pool]]) 기법도 훨씬 쉽게 배울 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 368 / 800
+
+← **이전**: [[367_paged_segmentation|367. 세그멘테이션 기반 페이징 (Paged Segmentation) - 인텔 x86 아키텍처 (세그먼트를 다시 페이지로)]]
+**다음**: [[369_memory_pool|369. 메모리 풀 (Memory Pool) 기법]] →
+
+---

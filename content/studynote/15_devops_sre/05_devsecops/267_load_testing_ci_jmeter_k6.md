@@ -134,3 +134,14 @@ Reference Architecture
 1. [[446_load_test|부하 테스트]] 및 [[447_stress_test|스트레스 테스트]] [[090_configuration_item|CI]] [[123_pipe|파이프]]라인 임베드는 복잡한 일을 순서와 규칙으로 정리해서 실수하지 않게 도와주는 방법이에요.
 2. [[139_throughput|Throughput]] 같은 친구들과 같이 움직여야 더 잘 작동해요.
 3. 그래서 문제가 생겨도 어디서 틀렸는지 빨리 찾고 다시 고치기 쉬워져요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 267 / 373
+
+← **이전**: [[266_contract_testing_pact_msa_api|266. 계약 테스트 (Contract Testing / Pact)]]
+**다음**: [[268_canary_analysis_cpu_spinnaker_kayenta|268. 카나리 분석기 (Canary Analysis) 자동화]] →
+
+---

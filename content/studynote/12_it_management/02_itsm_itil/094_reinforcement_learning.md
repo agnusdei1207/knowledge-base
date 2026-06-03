@@ -128,3 +128,14 @@ RLHF (Reinforcement Learning from Human Feedback) (LLM 미세조정 융합)
 1. 강화학습은 강아지에게 원반 물어오기를 가르치는 것과 똑같아요.
 2. 강아지가 원반을 잘 물어오면 맛있는 간식(보상)을 주고, 실수하면 아무것도 안 줘요.
 3. 그러면 강아지는 어떻게 뛰어야 간식을 먹을 수 있는지 수없이 실패하면서 스스로 똑똑하게 배우게 된답니다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 172 / 587
+
+← **이전**: [[094_capacity_management|94. 용량 관리 (Capacity Management)]]
+**다음**: [[095_information_security_management|95. 정보 보안 관리 (Information Security Management)]] →
+
+---

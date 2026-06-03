@@ -193,3 +193,14 @@ WiMAX / 휴대인터넷 개요는 [[097_MIMO_다중_안테나_기술|MIMO]] 기�
 1. 아주 옛날엔 밖에서 빠른 인터넷을 하려면 카페에 들어가 와이파이를 잡거나, 엄청 느리고 비싼 전화기(3G)를 써야 해서 너무너무 답답했어요.
 2. 와이브로(WiMAX)라는 발명가가 나타나서 "내가 서울 전체를 달리는 자동차 안에서도 빵빵 터지는 커다란 와이파이([[148_5g_embb_urllc_mmtc|초고속]] 인터넷)로 만들어줄게!"라며 멋진 마법을 보여줬어요.
 3. 비록 나중에 더 인기 많은 '[[752_lte_long_term_evolution_4g|LTE]]'라는 괴물 친구한테 져서 사라지고 말았지만, 지금 우리가 쓰는 [[418_5g_embb_urllc_mmtc_slicing|5G]] 스마트폰의 빠른 속도 기술들은 모두 이 와이브로 아저씨가 처음 발명하고 물려준 소중한 유산이랍니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 691 / 1120
+
+← **이전**: [[569_mimo_spatial_multiplexing_v_blast|569. MIMO 기반 공간 다중화 체계 (V-BLAST 구조 등)]]
+**다음**: [[571_wlan_bss_ess_structure|571. 무선 LAN (WLAN) 구조 분산: BSS(Basic Service Set), ESS(Extended Service Set)]] →
+
+---

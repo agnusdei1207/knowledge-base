@@ -171,3 +171,14 @@ tags:
 1. 메모리 매핑 [[501_file_definition_logical_record|파일]] (Memory-Mapped Files, [[749_memory_mapped_file_mmap|mmap]])은 컴퓨터가 메모리를 더 크게 보이게 하고 부족함을 숨기는 방법이에요.
 2. 먼저 [[266_page_fault_frequency|페이지 부재 빈도]] ([[306_pff|PFF]], [[286_page_frame|Page]]-Fault Frequency) 모델을 이해하면 메모리 매핑 [[501_file_definition_logical_record|파일]] (Memory-Mapped Files, [[749_memory_mapped_file_mmap|mmap]])이 왜 필요한지 더 쉽게 보여요.
 3. 그래서 메모리 매핑 [[501_file_definition_logical_record|파일]] (Memory-Mapped Files, [[749_memory_mapped_file_mmap|mmap]])을 잘 알면 나중에 [[501_file_definition_logical_record|파일]] I/O를 메모리 접근으로 변환, [[536_buffer_cache_page_cache|버퍼 캐시]] 활용, 프로세스 간 [[118_shared_memory|공유 메모리]]로 사용 가능도 훨씬 쉽게 배울 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 418 / 800
+
+← **이전**: [[417_page_fault_frequency|417. 페이지 부재 빈도 (PFF, Page-Fault Frequency) 모델 - 상한/하한 설정하여 동적 프레임 할당 조절]]
+**다음**: [[419_mmap_shared_memory|419. 파일 I/O를 메모리 접근으로 변환, 버퍼 캐시 활용, 프로세스 간 공유 메모리로 사용 가능 (mmap Shared Memory)]] →
+
+---

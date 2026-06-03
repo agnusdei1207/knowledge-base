@@ -265,3 +265,14 @@ FinOps로 비용 최적화 강조
 1. 클라우드 이전 6R은 이사할 때 짐 처리 방법 — 버리기(Retire), 그냥 두기(Retain), 그대로 옮기기(Rehost), 일부 새걸로(Replatform), 새로 구매(Repurchase), 완전 새집 꾸미기([[213_refactoring_cloud_native_rearchitecture|Refactor]])!
 2. 대부분 기업은 빠른 이전을 위해 "그대로 옮기기(Rehost)"를 가장 많이 선택하지만, 진짜 클라우드 혜택은 "완전 새집 꾸미기([[213_refactoring_cloud_native_rearchitecture|Refactor]])"에서 나와요.
 3. 올바른 [[268_strategy_pattern|전략]]은 앱마다 달라요 — 중요한 앱은 시간이 걸려도 [[213_refactoring_cloud_native_rearchitecture|Refactor]], 간단한 앱은 빠른 Rehost로 먼저 이전!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 40 / 371
+
+← **이전**: [[040_cloud_native|040. 클라우드 네이티브 (Cloud Native)]]
+**다음**: [[042_rehost_lift_and_shift_migration|042. Rehost — Lift & Shift 마이그레이션]] →
+
+---

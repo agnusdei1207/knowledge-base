@@ -193,3 +193,14 @@ AI+ZKP: 추론 결과 무결성 증명
 1. [[229_zkp_data_clean_room|영지식 증명]]은 비밀을 말하지 않고 "내가 비밀을 알고 있다"는 것만 증명하는 마법 같은 수학이에요.
 2. 나이를 알려주지 않고 "나는 18살 이상이에요"를 증명할 수 있어서 [[781_personal_information|개인정보]]를 지킬 수 있어요.
 3. 이더리움 같은 [[004_blockchain|블록체인]]에서 수천 건 거래를 하나의 증명서로 묶어 처리 속도를 100배 올리는 데도 쓰여요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 37 / 552
+
+← **이전**: [[036_blockchain_oracle_problem|036. 블록체인 오라클 문제 (Blockchain Oracle Problem)]]
+**다음**: [[038_zk_snarks_non_interactive|038. zk-SNARK 비대화형 증명 (Non-Interactive Zero-Knowledge Proof)]] →
+
+---

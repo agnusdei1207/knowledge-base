@@ -141,3 +141,14 @@ IPv6가 IPv4와 가장 극명하게 대비되는 차세대 스위칭 기술의 �
 1. 택배를 보내려면 집 주소가 정확해야 길을 잃지 않아요.
 2. 이 개념은 인터넷 세상에서 주소를 정하고 다음 길을 찾는 지도와 같아요.
 3. 그래서 멀리 있는 친구 컴퓨터까지도 편지가 도착할 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 447 / 1120
+
+← **이전**: [[325_ipv6_simplified_header_40bytes_no_checksum_no_fragmentation|325. IPv6 단순화된 헤더]]
+**다음**: [[327_next_header_hop_limit_ipv6|327. Next Header, 홉 제한 (Hop Limit, TTL 대응)]] →
+
+---

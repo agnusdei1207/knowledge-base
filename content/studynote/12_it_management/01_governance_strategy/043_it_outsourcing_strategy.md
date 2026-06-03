@@ -136,3 +136,14 @@ IT 아웃소싱 [[268_strategy_pattern|전략]]의 핵심 원리는 입력 기�
 1. 이 개념은 큰 여행을 떠나기 전에 어디로 갈지 정하는 지도와 같아요.
 2. 지도가 있어야 길을 잃지 않고 필요한 준비물을 챙길 수 있어요.
 3. 그래서 모두가 같은 목적지를 보며 움직일 수 있답니다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 78 / 587
+
+← **이전**: [[043_it_outsourcing_ito_strategy|043. IT 아웃소싱 (ITO) 전략]]
+**다음**: [[044_bpo_business_process_outsourcing|44. BPO (Business Process Outsourcing)]] →
+
+---

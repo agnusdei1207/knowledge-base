@@ -116,3 +116,14 @@ tags:
 1. 반에서 키 평균을 구할 때 **NBA 선수 1명이 끼면** 평균 키가 190cm가 돼서 이상해져요.
 2. 중앙값(가운데 키)은 NBA 선수를 무시하고 **진짜 우리 반 키**를 알려줘요.
 3. 로버스트 통계는 이렇게 **이상한 값에 속지 않는 똑똑한 계산법**이랍니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 112 / 258
+
+← **이전**: [[111_markov_chain_transition_matrix|111. 마르코프 체인 (Markov Chain) - 전이 행렬과 상태 확률 수렴]]
+**다음**: [[113_manifold_hypothesis_dimensionality_reduction|113. 매니폴드 가설 (Manifold Hypothesis) - 고차원 데이터와 차원 축소의 수학적 근거]] →
+
+---

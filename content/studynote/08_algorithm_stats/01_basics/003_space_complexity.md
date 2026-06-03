@@ -267,3 +267,14 @@ tags:
 - 각 섹션 끝에 📢 요약 비유 반드시 추가
 - 최소 800자/[[501_file_definition_logical_record|파일]]
 - [[501_file_definition_logical_record|파일]]명: 01_, 02_... 형식
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 3 / 175
+
+← **이전**: [[002_time_complexity|2. 시간 복잡도 (Time Complexity) — Big-O / Ω / Θ 표기법]]
+**다음**: [[004_big_o_notation|4. O(1) / O(log n) / O(n) / O(n log n) / O(n²) / O(2ⁿ) / O(n!)]] →
+
+---

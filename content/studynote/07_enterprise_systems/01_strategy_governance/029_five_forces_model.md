@@ -138,3 +138,14 @@ tags:
 1. 5 Forces는 식당 창업 전 주변 조사예요! 경쟁 식당, 새 식당 오픈 비용, 배달앱 위협, 손님·식재료 업체 힘을 모두 분석해요.
 2. 플랫폼 기업은 이 5가지 힘을 모두 자기 유리하게 바꿔서 독점력을 키워요!
 3. [[190_ai_llm_requirements_specification|AI]] 시대에는 [[001_dikw_pyramid|데이터]]가 새로운 6번째 힘이 되고 있어요 — [[001_dikw_pyramid|데이터]] 많은 기업이 경쟁자가 뛰어넘기 어려운 벽을 쌓아요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 29 / 482
+
+← **이전**: [[028_value_chain_support_activities|28. 가치 사슬 지원 활동 (Value Chain Support Activities)]]
+**다음**: [[030_swot_analysis|30. SWOT 분석 — 전략 수립의 4분면 프레임워크]] →
+
+---

@@ -252,3 +252,13 @@ Requirements ──▶ Design ──▶ Code ──▶ Test ──▶ Release �
 2. 빠른 피드백은 [[352_defect_definition|결함]] 발견 시점을 당겨 수정 비용을 기하급수적으로 낮춘다.
 3. [[181_slo_service_level_objective|SLO]]/[[102_sli_slo_service_level_indicator_objective|SLI]] 기반 알람과 포스트모텀이 맞물릴 때 조직의 학습 속도가 극대화된다.
 
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 5 / 373
+
+← **이전**: [[004_agile_relation|4. 애자일 (Agile)과의 관계 - 애자일이 개발(기획~코딩)의 속도를 높인다면, DevOps는 애자일의 속도를 운영(배포~모니터링)까지]]
+**다음**: [[006_twelve_factor|6. 12 팩터 앱 (The Twelve-Factor App) - 클라우드 네이티브(SaaS) 애플리케이션 개발을 위한 12가지 베스트]] →
+
+---

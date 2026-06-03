@@ -107,3 +107,14 @@ MoE는 AI의 대중화를 이끌 '고효율 아키텍처'의 표준이 될 것�
 1. 밀집 모델: 수학 문제든 영어 문제든 모든 전교생이 다 같이 모여서 푸는 거예요. (너무 힘들겠죠?)
 2. MoE 모델: 수학 문제가 나오면 수학 천재들만 모여있는 동아리로 보내서 빨리 풀게 하는 거예요.
 3. 차이점: 모든 힘을 다 쓰지 않고, 꼭 필요한 똑똑이들만 골라서 일을 시키니까 훨씬 빠르고 힘도 덜 들어요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 535 / 552
+
+← **이전**: [[534_clip_multimodal_contrastive_alignment|534. CLIP 멀티모달 대조 학습 이미지-텍스트 정렬 (CLIP Multimodal Contrastive Image-Text Alignment)]]
+**다음**: [[536_agentic_ai_workflows|536. 에이전틱 AI 워크플로우 (Agentic AI Workflows)]] →
+
+---

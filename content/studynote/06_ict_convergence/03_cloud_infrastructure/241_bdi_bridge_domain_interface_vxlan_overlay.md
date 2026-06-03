@@ -140,3 +140,14 @@ BDI [[817_vxlan_virtual_extensible_lan_mac_in_udp|VXLAN]] [[815_overlay_network_
 1. 이 개념은 복잡한 일을 한눈에 보이게 정리해서 모두가 같은 규칙으로 움직이게 해 줘.
 2. 그래서 많은 기계나 사람, 프로그램이 함께 일해도 어디서 문제가 생겼는지 찾기 쉬워져.
 3. 한마디로 이 개념은 복잡한 일을 질서 있게 움직이게 만드는 안내판이야.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 241 / 552
+
+← **이전**: [[240_cloud_disaster_recovery_pilot_light_warm_standby|240. 클라우드 재해 복구 아키텍처 (파일럿 라이트 Pilot Light, 웜 스탠바이 Warm Standby 비교)]]
+**다음**: [[242_distributed_cloud_edge_computing_aws_outposts|242. 분산 클라우드 (Distributed Cloud)]] →
+
+---

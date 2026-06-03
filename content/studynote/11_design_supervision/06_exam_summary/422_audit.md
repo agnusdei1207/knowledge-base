@@ -137,3 +137,14 @@ APM · GC 로그 · 힙 덤프 확보
 1. 장난감 상자에서 장난감을 꺼내 썼으면 다시 넣어야 상자가 안 넘쳐요.
 2. 그런데 자꾸 밖에 두면 처음엔 괜찮아 보여도 나중엔 발 디딜 곳이 없어져요.
 3. 그래서 무엇이 안 치워지고 남는지 찾아서 제자리에 돌려놓는 게 [[612_memory_leak_detection|메모리 누수]] 진단이에요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 500 / 530
+
+← **이전**: [[421_process|421. 정적 분석 기반 사이클로매틱 복잡도 제어 (Static Analysis Cyclomatic Complexity Control)]]
+**다음**: [[423_architecture|423. 모킹 프레임워크 기반 격리 테스트 (Mocking Framework Isolation Testing)]] →
+
+---

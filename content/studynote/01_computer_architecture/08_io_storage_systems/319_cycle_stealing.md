@@ -150,3 +150,14 @@ DMA (Direct Memory Access)
 1. 컴퓨터 안에는 하나뿐인 길이 있어서 CPU와 DMA가 번갈아 지나가야 해요.
 2. [[451_cycle_stealing|사이클 스틸링]]은 DMA가 "잠깐만요, 상자 하나만 먼저 놓고 갈게요!" 하고 아주 짧게 길을 쓰는 방법이에요.
 3. 그래서 CPU는 완전히 멈추지 않고, DMA도 급한 짐을 제때 옮길 수 있답니다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 320 / 803
+
+← **이전**: [[318_dma|318. DMA (Direct Memory Access)]]
+**다음**: [[320_burst_mode|320. 버스트 모드 (Burst Mode)]] →
+
+---

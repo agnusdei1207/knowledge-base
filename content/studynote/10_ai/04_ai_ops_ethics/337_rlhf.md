@@ -171,3 +171,14 @@ KL 발산 ([[153_kl_divergence|KL Divergence]]) 을 패널티로 추가하지 �
 1. 📚 [[190_ai_llm_requirements_specification|AI]] 가 처음엔 책에서 배우고(SFT), 선생님이 좋은 답/나쁜 답을 골라주면([[403_rlhf_reward_model|Reward Model]]), 좋은 점수 받으려고 스스로 더 잘 말하는 방법을 연습해요([[395_ppo_clipping|PPO]]).
 2. ⚖️ 너무 이상하게 변하지 않도록 "원래 너답게 말해!" 라는 규칙(KL 패널티)도 있어요.
 3. 🤝 이렇게 훈련하면 ChatGPT 처럼 사람이 원하는 걸 잘 도와주는 [[190_ai_llm_requirements_specification|AI]] 가 돼요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 337 / 420
+
+← **이전**: [[336_tensor_core|336. 텐서 코어 (Tensor Core)]]
+**다음**: [[338_vllm_paged_attention|338. vLLM과 PagedAttention (페이지드 어텐션)]] →
+
+---

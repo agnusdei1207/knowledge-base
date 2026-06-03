@@ -152,3 +152,14 @@ Entity Embedding (Kaggle) → 연속 벡터 공간에서 범주 표현
 1. AI는 숫자만 읽을 수 있어서, **"사과, 바나나, 포도"라는 글자를 숫자로 바꿔줘야** 해요. 근데 사과=1, 바나나=2, 포도=3으로 하면 AI가 "포도가 사과보다 3배 비싸구나!"라고 멍청한 오해를 해요!
 2. 그래서 원-핫 인코딩은 **질문 카드를 만들어요**: "사과야? [예/아니오]", "바나나야? [예/아니오]", "포도야? [예/아니오]". 사과를 산 사람은 **[1, 0, 0]** 카드를 받아요!
 3. 하지만 과일이 10만 종류면 질문 카드가 10만 장이나 되어서 곤란해요. 그럴 때는 **[[278_instruction_tuning|임베딩]]**이라는 마법으로 10만 장을 3~4장으로 줄일 수 있답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 79 / 258
+
+← **이전**: [[078_data_scaling_normalization_min_max_standardization_z_score|78. 데이터 스케일링 - 정규화(Min-Max)와 표준화(Z-Score) 차이점]]
+**다음**: [[080_multicollinearity_vif_variance_inflation_factor_regression|80. 다중 공선성 (Multicollinearity) 및 VIF 지수]] →
+
+---

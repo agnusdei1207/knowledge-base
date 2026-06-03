@@ -143,3 +143,14 @@ BRMS 기반 규칙 작성 · 버전 관리
 1. 예전에는 계산대 아저씨가 할인 규칙을 모두 외워야 했어요.
 2. BRE는 "오늘 할인 규칙" 책을 따로 두고, 계산대가 그 책을 보고 답을 받게 만드는 거예요.
 3. 그래서 할인 규칙이 바뀌어도 계산대를 새로 만들지 않아도 돼요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 198 / 482
+
+← **이전**: [[197_data_mesh_decentralized_domain_ownership|197. 데이터 메시 (Data Mesh)]]
+**다음**: [[199_bpm_business_process_management_orchestrator|199. BPM (Business Process Management) 및 오케스트레이터 모델]] →
+
+---

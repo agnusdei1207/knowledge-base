@@ -206,3 +206,14 @@ S/MIME는 MIME에서 출발해 현재 메커니즘을 정교화하고, 이후 PG
 1. 보통 이메일을 보내는 건 투명한 비닐봉지에 편지를 담아 보내는 거라, 배달 아저씨(서버)가 마음만 먹으면 안의 글씨를 다 읽어볼 수 있어요.
 2. **S/[[492_mime_multipurpose_internet_mail_extensions|MIME]]**은 편지를 **절대 열리지 않는 티타늄 금고**에 넣고 내 친구만 갖고 있는 유일한 마법 열쇠로 찰칵 잠가버리는 거예요!
 3. 게다가 금고 겉면에는 **'내 지문([[675_digital_signature_process_asymmetric_key|전자서명]])'**을 딱 찍어둬서, "이건 내가 보낸 거 100% 확실하고 중간에 아무도 안 건드렸다!"라고 완벽하게 증명해 주는 특급 보안 택배랍니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 614 / 1120
+
+← **이전**: [[492_mime_multipurpose_internet_mail_extensions|492. MIME (Multipurpose Internet Mail Extensions)]]
+**다음**: [[494_pgp_pretty_good_privacy_web_of_trust|494. PGP (Pretty Good Privacy)]] →
+
+---

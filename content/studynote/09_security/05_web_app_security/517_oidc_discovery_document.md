@@ -125,3 +125,14 @@ Discovery Document를 제대로 이해하면 개념 하나를 외우는 데서 �
 1. Discovery Document는 컴퓨터끼리 인사하고 [[396_validation|확인]]하는 순서를 정한 약속이에요.
 2. 순서를 건너뛰면 나쁜 사람이 친구인 척할 수 있어요.
 3. 그래서 컴퓨터는 차례대로 묻고 답하면서 서로를 믿게 돼요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 573 / 1108
+
+← **이전**: [[516_id_token_vs_access_token|516. ID Token vs Access Token (용도 및 보안 경계 구분)]]
+**다음**: [[518_jwks_uri_endpoint|518. jwks_uri (JSON Web Key Set 엔드포인트)]] →
+
+---

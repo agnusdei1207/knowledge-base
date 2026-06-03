@@ -157,3 +157,14 @@ DLT는 [[004_blockchain|블록체인]]보다 넓은 개념이며, 사용 목적�
 1. 반 친구 모두가 같은 공유 노트를 가지고 있어서, 선생님 없이도 내용을 수정하려면 반 전체 동의가 필요합니다.
 2. [[004_blockchain|블록체인]]은 노트가 한 줄씩 이어지는 형태고, DAG는 여러 줄을 동시에 쓸 수 있는 형태예요.
 3. 중앙에서 혼자 관리하면 그 사람이 거짓말해도 모르지만, [[136_variance|분산]]하면 다 같이 [[396_validation|확인]]하니까 속이기 어렵습니다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 474 / 552
+
+← **이전**: [[473_blockchain_merkle_tree_hash_integrity|473. 블록체인 머클 트리와 해시 무결성 (Blockchain Merkle Tree and Hash Integrity)]]
+**다음**: [[475_pow_pos_proof_mechanisms_comparison|475. PoW와 PoS 합의 메커니즘 비교 (PoW vs PoS Consensus Mechanism)]] →
+
+---

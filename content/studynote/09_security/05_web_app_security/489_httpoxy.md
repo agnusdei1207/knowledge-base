@@ -125,3 +125,14 @@ httpoxy (CGI 환경변수 [[264_proxy_pattern_surrogate_access_control|Proxy]] M
 1. httpoxy (CGI 환경변수 [[264_proxy_pattern_surrogate_access_control|Proxy]] Manipulation)는 컴퓨터 세상을 더 안전하게 만들기 위한 중요한 약속이나 도구예요.
 2. 겉으로는 어려워 보여도, 왜 필요한지와 어떻게 움직이는지를 알면 훨씬 쉬워져요.
 3. 그래서 이름만 외우지 말고 어디에 쓰이는지 같이 기억해야 해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 545 / 1108
+
+← **이전**: [[488_nikto|488. Nikto (웹 서버 취약점 스캐너)]]
+**다음**: [[490_host_header_injection|490. Host Header Injection (Host 헤더 변조 및 우회)]] →
+
+---

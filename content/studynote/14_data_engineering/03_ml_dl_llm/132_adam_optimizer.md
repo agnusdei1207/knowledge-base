@@ -63,3 +63,14 @@ Adam = Momentum + RMSProp
 1. Adam은 **내비게이션**이에요. 방향과 속도를 **자동으로** 조절해줘요.
 2. SGD는 지도 없이 걷기(느림), Adam은 **내비 따라 운전하기(빠름)**예요.
 3. 거의 모든 [[190_ai_llm_requirements_specification|AI]] 학습에서 **Adam이 기본 [[009_config|설정]]**으로 쓰인답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 132 / 258
+
+← **이전**: [[131_loss_function_optimizer_gradient_descent|131. 손실 함수·옵티마이저·경사 하강법 - 딥러닝 학습의 3대 축]]
+**다음**: [[133_backpropagation_chain_rule|133. 역전파 & 연쇄 법칙 (Backpropagation & Chain Rule)]] →
+
+---

@@ -125,3 +125,14 @@ tags:
 1. [[104_unicode|Unicode]] [[093_normalization|Normalization]] ([[104_unicode|유니코드]] [[093_normalization|정규화]] 공격)는 누군가 규칙의 틈을 찾아 몰래 장난을 치는 방법이에요.
 2. 그래서 문을 단단히 잠그는 것뿐 아니라, 누가 이상하게 움직이는지도 바로 알아차려야 해요.
 3. 컴퓨터는 이상한 흔적을 빨리 보고 퍼지기 전에 멈추게 해야 안전해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 548 / 1108
+
+← **이전**: [[491_web_cache_deception|491. Web Cache Deception (웹 캐시 디셉션)]]
+**다음**: [[493_null_byte_injection|493. NULL Byte Injection (널 바이트 주입)]] →
+
+---

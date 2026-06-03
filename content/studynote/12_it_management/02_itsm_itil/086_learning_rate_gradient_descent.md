@@ -113,3 +113,14 @@ tags:
 1. 산을 내려갈 때 한 걸음 크기가 [[080_gradient_descent_learning_rate|학습률]]이에요.
 2. 한 번에 너무 멀리 가면 넘어지고, 너무 조금 가면 오래 걸려요.
 3. 그래서 컴퓨터는 상황에 맞게 걸음 크기를 바꾸며 내려간답니다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 155 / 587
+
+← **이전**: [[085_sla|85. SLA (Service Level Agreement)]]
+**다음**: [[086_ola|86. OLA (Operational Level Agreement)]] →
+
+---

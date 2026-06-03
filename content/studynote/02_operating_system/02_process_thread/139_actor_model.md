@@ -279,3 +279,14 @@ tags:
 3. 이렇게 하면 많은 사람들이 동시에 이야기해도 서로 방해하지 않고 잘 이야기할 수 있게 된단다.
 
 (End of [[501_file_definition_logical_record|file]] - total lines will be around 300)
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 139 / 800
+
+← **이전**: [[138_multithread_architecture_overhead|138. 멀티스레드 아키텍처 오버헤드 (락 경합 등) (Multithread Architecture Overhead)]]
+**다음**: [[140_goroutine|140. 고루틴 (Goroutine) - Go 언어의 경량 스레드 (M:N 모델)]] →
+
+---

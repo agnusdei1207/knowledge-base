@@ -152,3 +152,14 @@ VFS (Virtual [[501_file_definition_logical_record|File]] System)은 [[501_file_d
 1. 세상 컴퓨터들 눈에는 윈도우 전용 [[359_usb|USB]](NTFS 언어), 리눅스용 하드디스크(ext4 언어), 인터넷 외계 디스크 등 "외계어를 쓰는 엉망진창 디스크들([[501_file_definition_logical_record|파일]] 시스템 I/O 늪)" 이 엄청 많아요! 프로그램이 외계어를 다 배울 순 없죠.
 2. 그래서 똑똑한 리눅스 [[001_operating_system_purpose|운영체제]]는 컴퓨터 귓속에 **VFS(가상 [[501_file_definition_logical_record|파일]] 시스템 만능 똘똘이 통역기 렌더)** 라는 통역 마법사 껍데기를 딱 집어넣었어요! VFS 마법사는 이 수많은 외계어 디스크가 어떻게 생겼든 무조건! 프로그램에게는 "표준 한국말(표준 읽기, [[289_cqrs_db|쓰기]] [[014_api_posix|API]] 주문)" 로만 대답하게 척척 번역 통역 가림막을 쳐줍니다!
 3. 덕분에 우리가 짠 게임 껍데기 코드는, 단 1줄도 외계어 수정할 거 없이! "그냥 [[501_file_definition_logical_record|파일]] 읽어줘 저장 뿅 록백!" 한국말로 외치기만 하면 VFS 통역기가 찰떡같이 뒤에서 외계 디스크 드라이버를 조종해서 저장을 착착 무결로 수행해 버리는, 컴퓨터 속 가장 최고의 시스템 S/W 소통 인터페이스 번역 기적이랍니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 517 / 800
+
+← **이전**: [[516_mount_mechanism|516. 마운트 (Mount) 메커니즘 - 다른 파일 시스템을 디렉터리 트리의 특정 지점에 연결]]
+**다음**: [[518_vfs_objects_superblock_inode_dentry_file|518. VFS 객체 - 슈퍼블록 (Superblock), 아이노드 (inode), 덴트리 (dentry), 파일 객체 (file object)]] →
+
+---

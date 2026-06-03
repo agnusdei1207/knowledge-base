@@ -194,3 +194,14 @@ tags:
 1. 🌊 **"파도가 해변에 닿기 전에 사라지는 현상"**
 2. 시그모이드는 바다의 파도를 (0,1) 사이 높이로 눌러주는 "파도 [[347_compaction|압축]]기" — [[130_probability|확률]]로 볼 수 있어서 편해요.
 3. 그런데 10층 깊은 곳에서 시작한 파도는 각 층에서 1/4로 줄어들다가 맨 위 층에 도달할 때는 파도가 거의 없어져요 — 이게 [[088_vanishing_gradient_relu_skip_connection|기울기 소실]]이에요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 268 / 420
+
+← **이전**: [[267_weight_bias_activation|267. 가중치 (Weight) / 편향 (Bias) / 활성화 함수 (Activation Function)]]
+**다음**: [[269_relu_activation|269. ReLU (Rectified Linear Unit)]] →
+
+---

@@ -121,3 +121,14 @@ W3C WoT는 [[635_ietf_core_working_group_coap|IETF]] 산하 [[101_iot_concept|Io
 1. 작은 로봇 친구들이 배터리를 아껴가며 서로 메시지를 주고받는 장난감 마을과 같아요.
 2. 이 개념은 누가 가까운지, 누가 대신 알려줄지, 무엇을 현장에서 바로 처리할지를 정해줘요.
 3. 그래서 작은 기기들도 오래 버티면서 똑똑하게 협력할 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 757 / 1120
+
+← **이전**: [[635_ietf_core_working_group_coap|635. IETF (Internet Engineering Task Force) 산하 IoT CoRE 워킹그룹 동향]]
+**다음**: [[637_iiot_industrial_iot_qos_latency|637. IIoT (공업계 사물인터넷/산업용 IoT) 트래픽 관리 한계/QoS 이슈]] →
+
+---

@@ -111,3 +111,14 @@ tags:
 1. [[195_coupling_levels|결합도]]·[[193_cohesion_levels|응집도]] ([[195_coupling_levels|Coupling]] and [[193_cohesion_levels|Cohesion]])은 관련 있는 장난감만 같은 상자에 넣고 다른 상자는 분리하는 방법처럼 약속을 먼저 정하는 거예요.
 2. 그러면 서로 다른 사람이 해도 같은 규칙으로 움직일 수 있어요.
 3. 그래서 규모가 커질수록 [[192_module_independence|모듈]] 경계를 변화 축에 맞춰 배치하는 일이 더 중요해져요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 441 / 530
+
+← **이전**: [[362_yagni|362. 지금 필요하지 않은 기능 배제 (You Aren't Gonna Need It, YAGNI)]]
+**다음**: [[364_architecture|364. 계층형 아키텍처 (Layered Architecture)]] →
+
+---

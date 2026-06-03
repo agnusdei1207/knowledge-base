@@ -138,3 +138,14 @@ SBOM
 빌린 장난감마다 돌려주는 방법이 달라요.  
 어떤 건 이름만 적으면 되고, 어떤 건 같이 공개해야 해요.  
 라이선스 컴플라이언스는 그 규칙을 지키는 일이에요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 96 / 530
+
+← **이전**: [[063_software_license_compliance|63. 소프트웨어 라이선스 컴플라이언스 (Software License Compliance)]]
+**다음**: [[064_access_control_matrix_rbac_audit|64. 접근 통제 및 권한 관리 (RBAC) - 권한 오남용 감사]] →
+
+---

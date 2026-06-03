@@ -129,3 +129,14 @@ TRM (Technical [[116_reference_model|Reference Model]], 기술 [[116_reference_m
 1. TRM (Technical [[116_reference_model|Reference Model]], 기술 [[116_reference_model|참조 모델]])는 모두가 같은 규칙으로 일하게 해 주는 반장 약속표예요.
 2. 약속만 적어 두는 것이 아니라 누가 지켰는지 확인하고 고치는 방법까지 함께 정해요.
 3. 그래서 일이 많아져도 서로 부딪히지 않고 더 안전하게 움직일 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 223 / 587
+
+← **이전**: [[119_drm_data_reference_model_standard|119. DRM (Data Reference Model, 데이터 참조 모델)]]
+**다음**: [[120_trm_technical_reference_model_infrastructure_standards|120. TRM (Technical Reference Model, 기술 참조 모델)]] →
+
+---

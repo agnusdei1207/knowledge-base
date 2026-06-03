@@ -76,3 +76,14 @@ SwiGLU:  f(x) = Swish(xW₁)⊙xW₂ → LLM 최신
 1. 활성화 함수는 신경망의 **[[238_switch_operation_principles|스위치]]**예요. 켜야(비선형) 뇌가 **생각**할 수 있어요.
 2. 옛날 [[238_switch_operation_principles|스위치]]([[268_sigmoid_vanishing_gradient|Sigmoid]])는 **느렸지만**, 새 [[238_switch_operation_principles|스위치]]([[269_relu_activation|ReLU]])는 빠르고 강해요.
 3. 최신 [[238_switch_operation_principles|스위치]](SwiGLU)는 AI가 **더 똑똑하게 생각**할 수 있게 해줘요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 129 / 258
+
+← **이전**: [[128_ann_mlp|128. ANN & MLP (인공 신경망 & 다층 퍼셉트론) - 딥러닝의 기본 구조]]
+**다음**: [[130_relu_activation_function|130. ReLU 활성화 함수 - 딥러닝 르네상스를 연 비선형 변환]] →
+
+---

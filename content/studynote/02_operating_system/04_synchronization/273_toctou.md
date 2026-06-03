@@ -148,3 +148,14 @@ TOCTOU 취약점은 개발자가 정적(Static)인 코드의 논리만 맹신하
 1. TOCTOU(톡투)는 놀이공원 직원이 "표 보여주세요" 하고 검사(Check)한 뒤, 고개를 돌려 문을 열어주는(Use) 1초의 틈새를 노리는 거예요.
 2. 직원이 문을 여는 그 1초 사이에, 표를 낸 착한 친구를 밀쳐내고 나쁜 친구가 대신 쏙 들어가 버리는 얄미운 반칙(해킹)이죠.
 3. 이걸 막으려면 직원이 표를 검사하자마자, 그 친구의 손목을 꽉 쥔 채로 문안으로 밀어 넣어버리는(원자적 처리, [[510_lock|Lock]]) 수밖에 없답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 273 / 800
+
+← **이전**: [[272_double_checked_locking|272. 더블 체크드 락킹 (Double-Checked Locking) 안티패턴 및 해결 (volatile)]]
+**다음**: [[274_critical_section_minimization|274. 임계 구역 크기 최소화 기법 (Critical Section Minimization)]] →
+
+---

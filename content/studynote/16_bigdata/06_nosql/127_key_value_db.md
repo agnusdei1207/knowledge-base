@@ -223,3 +223,14 @@ Q. 키-값 DB 선택 기준은?
 1. 키-값 DB는 학교 사물함과 같아요. 번호([[067_db_key_uniqueness_minimality|Key]])를 알면 즉시 내 물건(Value)을 꺼낼 수 있어요.
 2. 사물함 번호를 모르면 전체를 다 열어봐야 해서 시간이 오래 걸려요 — 그래서 "키"가 매우 중요해요.
 3. Redis는 책상 위에 놓인 사물함(빠르지만 전기가 끊기면 잊어버림), DynamoDB는 학교 창고 사물함(느리지만 절대 잊어버리지 않음)이에요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 127 / 262
+
+← **이전**: [[126_pacelc_theorem_extended_cap|PACELC 정리 (PACELC Theorem)]]
+**다음**: [[128_redis|128. Redis (Remote Dictionary Server) — 인메모리 데이터 구조 서버]] →
+
+---

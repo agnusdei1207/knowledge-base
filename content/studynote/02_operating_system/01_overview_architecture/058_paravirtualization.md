@@ -109,3 +109,14 @@ Hypercall
 반가상화는 집 주인에게 직접 부탁하는 손님 같아요.  
 중간에서 통역만 하는 대신, 필요한 걸 바로 말해요.  
 그래서 더 빨리 일을 처리할 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 58 / 800
+
+← **이전**: [[057_full_virtualization|57. 전가상화 (Full Virtualization) - 이진 변환 (Binary Translation)]]
+**다음**: [[059_hardware_assisted_virtualization|59. 하드웨어 보조 가상화 (Intel VT-x, AMD-V)]] →
+
+---

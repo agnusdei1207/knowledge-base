@@ -153,3 +153,14 @@ PIM은 이름 그대로 "[[295_protocol_field_tcp_udp_icmp|Protocol]] Independen
 1. 여러 갈림길이 있는 미로에서 가장 좋은 길을 고르는 게임과 같아요.
 2. 이 개념은 길이 막히면 다른 길로 빨리 바꾸는 규칙도 알려줘요.
 3. 그래서 인터넷 길찾기가 덜 헤매고 더 똑똑해져요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 490 / 1120
+
+← **이전**: [[368_bgp_route_reflector_confederation|368. BGP Route Reflector / Confederation (iBGP 풀 메시 문제 해결)]]
+**다음**: [[370_pim_rp_rendezvous_point_rpf_loop_prevention|370. RP (Rendezvous Point, PIM-SM), RPF (Reverse Path Forwarding) 멀티캐스트 루프]] →
+
+---

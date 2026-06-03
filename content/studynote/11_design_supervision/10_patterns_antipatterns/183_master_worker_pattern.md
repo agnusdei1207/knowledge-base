@@ -174,3 +174,14 @@ Scale-Out + High Availability master 설계
 1. 마스터-워커는 반장이 큰 숙제를 여러 친구에게 나눠 주는 방식이에요.
 2. 친구 한 명이 늦거나 쉬어도 반장이 다른 친구에게 다시 맡길 수 있어요.
 3. 대신 반장이 너무 많은 일을 혼자 정리하려고 하면 오히려 더 느려질 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 239 / 530
+
+← **이전**: [[182_lazy_loading|182. 지연 로딩 (Lazy Loading)]]
+**다음**: [[184_event_bus_pubsub|184. 이벤트 버스와 퍼블리시-서브스크라이브 패턴 (Event Bus / Publish-Subscribe Pattern)]] →
+
+---

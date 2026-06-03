@@ -113,3 +113,14 @@ tags:
 1. [[035_nosql|NoSQL]] 키값 도큐먼트 컬럼 패밀리 [[070_graph_datastructure|그래프]] [[136_variance|분산]]는 사람이 많은 운동회에서 어디로 가야 하는지 알려 주는 안내판과 비슷해요.
 2. 규칙이 없으면 모두가 한곳에 몰려서 느려지고 다투지만, 길을 정해 두면 훨씬 부드럽게 움직일 수 있어요.
 3. 그래서 컴퓨터 세상에서도 [[035_nosql|NoSQL]] 키값 도큐먼트 컬럼 패밀리 [[070_graph_datastructure|그래프]] [[136_variance|분산]]를 쓰면 많은 팀과 [[090_service_kubernetes_network_load_balancing|서비스]]가 덜 부딪히고 더 빨리 움직일 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 338 / 371
+
+← **이전**: [[338_process|338. 컬럼 지향 데이터 포맷 파케이 읽기 압축 분석망 (Cloud Architecture Concept)]]
+**다음**: [[340_process|340. 시계열 DB 텔레메트리 타임스탬프 다운 샘플 보존 (Time-Series Database)]] →
+
+---

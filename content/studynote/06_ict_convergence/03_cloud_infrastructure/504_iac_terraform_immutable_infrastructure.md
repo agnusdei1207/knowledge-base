@@ -122,3 +122,14 @@ IaC는 단순한 도구가 아니라 **인프라 관리의 패러다임 전환**
 1. IaC는 서버 설치 설명서를 코드로 쓰는 것이에요 — 설명서만 있으면 똑같은 서버를 언제든 다시 만들 수 있어요.
 2. [[204_immutable_infrastructure_configuration_drift_prevention|불변 인프라]]는 낡은 장난감을 고치는 대신 새 것으로 교환하는 것처럼, 서버도 수리 대신 새 것으로 바꿔요.
 3. GitOps는 인프라 변경도 숙제처럼 선생님(팀원)한테 검사를 받아야 적용되는 방식이에요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 504 / 552
+
+← **이전**: [[503_serverless_cold_start_latency_control|503. 서버리스 콜드 스타트 지연 제어 (Serverless Cold Start Latency Control)]]
+**다음**: [[505_microservices_api_gateway_service_mesh|505. 마이크로서비스, API 게이트웨이, 서비스 메시 (MSA API Gateway Service Mesh)]] →
+
+---

@@ -125,3 +125,14 @@ DAO
 1. DAO는 규칙이 적힌 로봇 동아리예요.
 2. 친구들이 버튼을 누르면 규칙대로 바로 움직여요.
 3. 하지만 로봇이 이상하면 고치는 어른도 필요해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 54 / 552
+
+← **이전**: [[053_did_document_public_key|53. DID 문서와 공개키 (DID Document Public Key)]]
+**다음**: [[055_ipfs_interplanetary_file_system|55. IPFS (InterPlanetary File System)]] →
+
+---

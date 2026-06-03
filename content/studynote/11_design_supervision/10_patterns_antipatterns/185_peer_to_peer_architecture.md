@@ -165,3 +165,14 @@ WebRTC · IPFS · Blockchain 확장
 1. P2P는 한 친구만 간식을 나눠 주는 게 아니라, 친구들이 각자 조금씩 간식을 가져와 서로 나눠 먹는 방식이에요.
 2. 그래서 한 친구가 빠져도 모두가 완전히 굶지는 않아요.
 3. 하지만 누가 진짜 간식을 가져왔는지, 나쁜 간식은 없는지 잘 살펴보는 규칙이 꼭 필요해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 241 / 530
+
+← **이전**: [[184_event_bus_pubsub|184. 이벤트 버스와 퍼블리시-서브스크라이브 패턴 (Event Bus / Publish-Subscribe Pattern)]]
+**다음**: [[186_space_based_architecture|186. 스페이스 기반 아키텍처 (Space-Based Architecture)]] →
+
+---

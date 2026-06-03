@@ -134,3 +134,14 @@ ACID [[191_transaction_concept_states|트랜잭션]] 섀도우 [[259_paging|페�
 1. 약속을 적은 공책을 순서대로 정리하는 방법이에요.
 2. 누가 먼저 읽고 쓰는지 규칙을 지켜야 헷갈리지 않아요.
 3. 규칙이 약하면 빠르지만 틀릴 수 있고, 너무 세면 느려질 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 592 / 600
+
+← **이전**: [[591_mvcc_garbage_collection_vacuum|591. 가비지 컬렉터 (MVCC Undo/Redo 블록 회수 진공 프로세스 Vacuum) 데이터 정리]]
+**다음**: [[593_aries_recovery_algorithm|593. ARIES 복구 알고리즘 생존자 Analysis Redo Undo 3페이즈 시스템 복구 표준 원리]] →
+
+---

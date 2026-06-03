@@ -166,3 +166,14 @@ unikernel이 SYSGEN의 극한이다. 특정 애플리케이션 하나만을 위�
 1. SYSGEN은 맞춤 양복 제작이에요 — 내 컴퓨터 하드웨어에 딱 맞는 운영체제를 만드는 거예요!
 2. Linux를 직접 빌드하면 필요 없는 드라이버를 빼고 최적화된 버전을 만들 수 있어요!
 3. 현대에는 [[063_docker_architecture|Docker]] 이미지 빌드가 새로운 SYSGEN이에요 — 필요한 것만 담은 가벼운 [[561_container_based_deployment|컨테이너]]를 만들어요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 31 / 800
+
+← **이전**: [[030_uefi_vs_bios|30. UEFI vs BIOS — 현대 펌웨어 부팅 표준]]
+**다음**: [[032_firmware|펌웨어 (Firmware)]] →
+
+---

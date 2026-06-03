@@ -161,3 +161,14 @@ PBKDF2 (Password-Based [[067_db_key_uniqueness_minimality|Key]] Derivation Funct
 1. 비밀번호 저장 방식은 레고 블록으로 성을 만들 때처럼, 규칙을 정하고 역할을 나누어 함께 작업하는 방법이에요.
 2. 혼자서 막 만들면 나중에 무너지거나 고치기 어렵지만, 약속을 지키면 누구나 쉽게 고치고 더 크게 만들 수 있어요.
 3. 그래서 [[001_software_engineering_definition|소프트웨어 공학]]은 프로그래머들이 좋은 프로그램을 빠르고 안전하게 만들 수 있게 도와주는 '규칙 모음집'이에요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 601 / 973
+
+← **이전**: [[504_cryptography_algorithms_aes_rsa_sha|504. 암호화 알고리즘 (대칭키-AES, 비대칭키-RSA/ECC, 일방향-SHA) 적용 기준]]
+**다음**: [[505_password_storage_kdf_salt|505. 비밀번호 저장 방식 - KDF(Key Derivation Function) 활용 (PBKDF2, bcrypt, scrypt,]] →
+
+---

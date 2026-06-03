@@ -116,3 +116,14 @@ ROC/AUC는 [[104_classification_analysis|분류]] 모델의 글로벌 [[282_perf
 1. ROC 곡선은 "암 진단 기준을 느슨하게/엄격하게 바꿀 때 [[282_performance_tactics|성능]]이 어떻게 달라지는지" [[070_graph_datastructure|그래프]]예요.
 2. AUC는 이 [[070_graph_datastructure|그래프]] 아래 넓이로, 넓을수록(1에 가까울수록) AI가 더 잘 구분한다는 뜻이에요.
 3. AUC=0.5는 동전 던지기 수준, AUC=1.0은 완벽한 AI예요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 362 / 420
+
+← **이전**: [[361_multicollinearity_vif|361. 다중 공선성 (Multicollinearity) 과 VIF (Variance Inflation Factor)]]
+**다음**: [[363_softmax_backprop|363. 소프트맥스 역전파 (Softmax Backpropagation)]] →
+
+---

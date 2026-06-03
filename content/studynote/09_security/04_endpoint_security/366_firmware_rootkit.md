@@ -125,3 +125,14 @@ tags:
 1. [[032_firmware|펌웨어]] [[603_rootkit_syscall_hooking|루트킷]] ([[032_firmware|Firmware]] [[603_rootkit_syscall_hooking|Rootkit]])는 학교 규칙표처럼 무엇을 준비하고 어떻게 확인할지 알려 주는 기준이에요.
 2. 규칙표만 붙여 두고 지키지 않으면 아무 소용이 없어요.
 3. 그래서 보안도 규칙과 실제 행동이 함께 맞아야 해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 420 / 1108
+
+← **이전**: [[365_secure_boot_bypass|365. 시큐어 부트 우회 (Secure Boot Bypass)]]
+**다음**: [[367_keylogger|367. 키로거 (Keylogger)]] →
+
+---

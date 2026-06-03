@@ -121,3 +121,14 @@ Titan은 클라우드·모바일 환경에서 하드웨어 기반 신뢰를 현�
 1. 컴퓨터를 켜면 먼저 작은 경비 칩이 나와서 "이 부품들 진짜 맞아?"를 검사해요.
 2. 검사를 통과해야 큰 컴퓨터가 움직일 수 있어요.
 3. 그래서 나쁜 사람이 몰래 가짜 부품이나 나쁜 프로그램을 심어도 더 빨리 들킬 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 793 / 803
+
+← **이전**: [[791_apple_sep|791. 애플 Secure Enclave Processor (SEP)]]
+**다음**: [[793_microsoft_titan|793. Microsoft Titan 보안 칩 (Microsoft Titan Security Chip)]] →
+
+---

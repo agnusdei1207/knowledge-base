@@ -132,3 +132,14 @@ Data Governance
 책 정보가 있어야 찾을 수 있어요.  
 그 정보를 모아 놓은 곳이 있어요.  
 [[012_metadata|메타데이터]]와 [[213_data_catalog_metadata|데이터 카탈로그]]예요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 69 / 482
+
+← **이전**: [[068_cdo_cio_role_separation_governance|68. CDO (Chief Data Officer) / CIO (Chief Information Officer) 역할 분리]]
+**다음**: [[070_master_data_management_mdm_ssot|70. 마스터 데이터 관리 (MDM, Master Data Management) - 전사 공통 기준정보 단일화 (Single Source]] →
+
+---

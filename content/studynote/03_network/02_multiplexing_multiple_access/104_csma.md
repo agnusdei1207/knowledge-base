@@ -136,3 +136,14 @@ CSMA (Carrier Sense [[087_다중접속_Multiple_Access|Multiple Access]])는 공
 1. 알로하([[111_aloha_protocol|ALOHA]])는 수업 시간에 친구들이 손도 안 들고 자기 할 말만 아무 때나 마구 외치는 시끄러운 교실이에요.
 2. CSMA는 "친구가 말하고 있는지 조용히 귀 기울여보고, 아무도 말 안 할 때만 얘기하자"는 예의 바르고 멋진 규칙이에요.
 3. 하지만 멀리 앉은 친구 목소리가 내 귀에 들리기까지 아주 짧은 시간이 걸려서, 우연히 동시에 말해버려 소리가 섞이는 실수는 가끔 생길 수 있답니다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 154 / 1120
+
+← **이전**: [[1049_ntp_gps_network_time_synchronization|1049. NTP / GPS 동기화]]
+**다음**: [[1050_rdma_roce_remote_direct_memory_access_storage|1050. RDMA / RoCE 스토리지 서버 네트워킹]] →
+
+---

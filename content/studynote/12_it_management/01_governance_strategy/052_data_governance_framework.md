@@ -136,3 +136,14 @@ Data Owner / Steward
 1. [[001_dikw_pyramid|데이터]] 거버넌스는 책에 이름표를 붙이고, 누가 빌릴지 정하는 규칙이에요.
 2. 규칙이 없으면 책이 어디 갔는지 모르고 다 섞여 버려요.
 3. 규칙이 있으면 필요한 책을 빨리 찾을 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 94 / 587
+
+← **이전**: [[052_data_governance|52. 데이터 거버넌스 (Data Governance)]]
+**다음**: [[053_data_stewardship|53. 데이터 스튜어드십 (Data Stewardship)]] →
+
+---

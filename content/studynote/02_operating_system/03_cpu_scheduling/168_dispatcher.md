@@ -170,3 +170,14 @@ RTOS · ASID/PCID · Kernel Bypass
 1. 감독이 "다음 선수 들어가!"라고 말해도, 누군가는 진짜로 선수를 바꿔 줘야 해요.
 2. 컴퓨터에서는 그 일을 디스패처가 해서, 전에 뛰던 친구의 자리를 정리하고 새 친구를 무대에 올려요.
 3. 이 교대가 빨라야 모두가 기다리지 않고 매끄럽게 차례를 바꿔 가며 놀 수 있답니다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 168 / 800
+
+← **이전**: [[167_non_preemptive_scheduling|167. 비선점형 스케줄링 (Non-preemptive Scheduling)]]
+**다음**: [[169_dispatch_latency|169. 디스패치 지연 (Dispatch Latency)]] →
+
+---

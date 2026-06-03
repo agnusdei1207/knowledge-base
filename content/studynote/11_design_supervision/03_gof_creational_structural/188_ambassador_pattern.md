@@ -128,3 +128,14 @@ tags:
 1. 앰배서더는 외교관처럼, 애플리케이션을 대신해서 외부 [[090_service_kubernetes_network_load_balancing|서비스]]와의 복잡한 통신을 처리해요.
 2. 재시도, 보안, 모니터링 같은 복잡한 일을 앰배서더가 담당해요.
 3. [[302_service_mesh_istio|서비스 메시]]([[302_service_mesh_istio|Istio]])는 이 앰배서더를 자동으로 모든 [[090_service_kubernetes_network_load_balancing|서비스]]에 붙여주는 시스템이에요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 247 / 530
+
+← **이전**: [[188_ambassador_pattern|188. 앰배서더 패턴 (Ambassador Pattern)]]
+**다음**: [[189_sidecar_logging_monitoring|189. 사이드카 통합 로깅 및 모니터링 수집망 아키텍처 패턴 (Sidecar Integrated Logging and Monitoring]] →
+
+---

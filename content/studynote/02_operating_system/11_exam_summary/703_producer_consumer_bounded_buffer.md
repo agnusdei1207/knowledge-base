@@ -233,3 +233,14 @@ public synchronized int get() {
 1. 붕어빵 아저씨(생산자)는 붕어빵을 계속 굽고, 손님들(소비자)은 계속 붕어빵을 사가요. 그 사이에 붕어빵을 올려놓는 '10칸짜리 쟁반(유한 버퍼)'이 있어요.
 2. 아저씨는 쟁반 10칸이 꽉 차면 붕어빵이 바닥에 떨어질까 봐 굽는 걸 멈추고 낮잠을 잡니다.
 3. 손님은 쟁반에 붕어빵이 0개가 되면 먹을 게 없어서 텐트를 치고 잠을 잡니다. 둘은 빵이 생기거나 빈칸이 생길 때마다 서로를 콕콕 찔러서 깨워주며 완벽한 조화를 이룬답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 703 / 800
+
+← **이전**: [[702_monitor_synchronization_abstraction|702. 모니터 (Monitor) 동기화 추상화]]
+**다음**: [[704_dining_philosophers_problem_deadlock|704. 식사하는 철학자 교착 문제 (Dining Philosophers Problem Deadlock)]] →
+
+---

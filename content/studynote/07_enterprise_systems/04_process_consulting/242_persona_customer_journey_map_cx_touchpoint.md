@@ -139,3 +139,14 @@ tags:
 1. 페르소나 및 고객 여정 지도 CX 터치포인트 도출는 복잡한 일을 순서대로 정리해 주는 큰 정리함이에요.
 2. 어디에 무엇을 넣을지 먼저 정해 두면, 나중에 찾거나 고칠 때 훨씬 쉬워져요.
 3. 그래서 일이 커질수록 먼저 기준을 만들고 같이 약속하는 것이 중요해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 242 / 482
+
+← **이전**: [[241_design_thinking_5_stages_empathize_define_ideate_prototype_test|241. 디자인 씽킹 5단계 (Design Thinking: Empathize·Define·Ideate·Prototype·Test)]]
+**다음**: [[243_pain_point_discovery_workshop|243. 페인 포인트 발굴 워크숍 (Pain Point Discovery Workshop)]] →
+
+---

@@ -134,3 +134,14 @@ PGVector는 PostgreSQL RDBMS의 벡터 검색 확장 플러그인 [[192_module_i
 1. 여러 상자에 있던 블록을 큰 정리장에 모아 보고 싶은 모양대로 다시 보는 거예요.
 2. 빨리 넣는 법과 빨리 보는 법은 다를 수 있어요.
 3. 그래서 창고를 어떻게 나누고 언제 정리할지 정해야 해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 355 / 600
+
+← **이전**: [[354_vector_index_ivfflat|354. 벡터 인덱스 IVFFlat (Inverted File Flat)]]
+**다음**: [[356_cloud_data_warehouse_redshift_bigquery_snowflake|356. 클라우드 데이터 웨어하우스 솔루션]] →
+
+---

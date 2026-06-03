@@ -206,3 +206,14 @@ SSH [[446_port_and_bus|포트]] 22 / Telnet [[446_port_and_bus|포트]] 23…는
 1. 먼 옛날, 멀리 떨어진 컴퓨터와 통신하는 텔넷(Telnet)은 비밀번호를 엽서에 그냥 적어 보내는 것과 같아서 나쁜 아저씨들이 길목에서 쉽게 훔쳐볼 수 있었어요.
 2. 하지만 SSH(Secure [[044_shell|Shell]])는 누구도 열 수 없는 두꺼운 철제 금고에 비밀번호를 넣고, 열쇠구멍 모양도 그때그때 바뀌는 최첨단 자물쇠를 채워서 배달해요.
 3. 그래서 오늘날 전 세계의 컴퓨터 엔지니어들은 이 안전한 장갑차(SSH) 통로를 이용해서, 해커들이 득실거리는 위험한 인터넷 바다 위에서도 수만 대의 컴퓨터들을 마음 놓고 척척 조종한답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 659 / 1120
+
+← **이전**: [[537_sntp_ptp_precision_time_protocol|537. SNTP (Simple NTP) / PTP (Precision Time Protocol, IEEE 1588]]
+**다음**: [[539_netflow_sflow_traffic_monitoring|539. NetFlow (Cisco) / sFlow 트래픽 흐름 모니터링 분석 프로토콜]] →
+
+---

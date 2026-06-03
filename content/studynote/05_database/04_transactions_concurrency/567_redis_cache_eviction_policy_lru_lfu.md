@@ -132,3 +132,14 @@ tags:
 1. 큰 장난감 상자를 종류별로 빨리 꺼내려고 다른 방식으로 나누어 담는 거예요.
 2. 정리 방식은 자유롭지만 규칙이 느슨하면 찾는 법을 잘 정해야 해요.
 3. 많이 넣고 많이 꺼낼 때 어떤 칸막이가 좋은지 고르는 일이 중요해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 567 / 600
+
+← **이전**: [[566_cache_stampede_mutex_probabilistic_early_expiration|566. 캐시 스탬피드 뮤텍스 락 및 확률적 갱신(Probabilistic Early Expiration) 회피기법]]
+**다음**: [[568_mongodb_sharding_chunk_migration_balancing|568. 몽고DB 샤딩 청크 마이그레이션 백그라운드 밸런싱 모형 분석망]] →
+
+---

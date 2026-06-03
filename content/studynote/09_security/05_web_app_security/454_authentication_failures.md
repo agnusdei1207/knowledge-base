@@ -125,3 +125,14 @@ A07. [[303_authentication_authorization_patterns|인증]] 실패 ([[604_authenti
 1. A07. [[303_authentication_authorization_patterns|인증]] 실패 ([[604_authentication_factors|Authentication]] Failures)는 학교 규칙표처럼 무엇을 준비하고 어떻게 확인할지 알려 주는 기준이에요.
 2. 규칙표만 붙여 두고 지키지 않으면 아무 소용이 없어요.
 3. 그래서 보안도 규칙과 실제 행동이 함께 맞아야 해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 510 / 1108
+
+← **이전**: [[453_sca|453. 서드파티 라이브러리 취약점 (Sca)]]
+**다음**: [[455_credential_stuffing|455. 크리덴셜 스터핑 (Credential Stuffing)]] →
+
+---

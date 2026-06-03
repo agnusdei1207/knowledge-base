@@ -132,3 +132,14 @@ tags:
 1. 컴퓨터가 정보를 잘 정리하고 지키기 위해 쓰는 약속이에요.
 2. 약속마다 하는 일이 조금씩 달라요.
 3. 그래서 이름만 외우지 말고 언제 쓰는지 같이 알아야 해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 404 / 600
+
+← **이전**: [[403_deletion_anomaly|403. 삭제 이상 (Deletion Anomaly)]]
+**다음**: [[405_entity_integrity_primary_key|405. 개체 무결성 (Entity Integrity) 기본키 NULL 불가]] →
+
+---

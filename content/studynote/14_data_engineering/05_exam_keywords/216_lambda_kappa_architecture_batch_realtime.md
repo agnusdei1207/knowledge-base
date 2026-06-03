@@ -223,3 +223,14 @@ Lakehouse 패턴: Delta Lake 스트리밍 + 배치 통합
 ```
 2. [[235_kappa|Kappa]] 아키텍처는 '최신 고속 착즙기 하나'로 빠르고 정확하게 주스를 만들어서 두 대 기계가 필요 없는 가게야.
 3. 어떤 방식이 좋냐고? 오래된 레시피(레거시 배치)가 많으면 Lambda, 처음부터 최신 기계로 만들었다면 Kappa가 훨씬 편해!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 216 / 258
+
+← **이전**: [[215_flink_native_stream_watermark_window_time|215. 아파치 플링크 (Apache Flink) 네이티브 스트림 워터마크 윈도우]]
+**다음**: [[217_cdc_binlog_change_capture_debezium|217. CDC (Change Data Capture) 빈로그 데이터 변경 캡처 Debezium]] →
+
+---

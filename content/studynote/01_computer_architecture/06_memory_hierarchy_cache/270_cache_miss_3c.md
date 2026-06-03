@@ -167,3 +167,14 @@ AMAT (Average Memory Access Time) 최적화
 1. 장난감을 찾을 때 처음 꺼내는 장난감은 당연히 서랍에 없어서 한 번은 찾으러 가야 해요.
 2. 서랍이 너무 작으면 아까 넣어 둔 장난감도 금방 밖으로 밀려나서 또 찾으러 가야 해요.
 3. 서랍은 넓은데도 같은 칸에만 장난감이 몰리면 서로 자리 싸움을 해서 못 찾게 되는데, 그게 바로 3C예요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 270 / 803
+
+← **이전**: [[269_set_associative_mapping|269. 집합 연관 사상 (Set Associative Mapping)]]
+**다음**: [[271_replacement_policy|271. 캐시 교체 알고리즘 (Replacement Policy)]] →
+
+---

@@ -130,3 +130,14 @@ Ingress (인그레스) · L7 통합 라우팅으로 비용 및 효율성 극대�
 1. 학교 운동장에 텐트([[085_pod_kubernetes_container_unit|파드]])를 치고 친구들을 초대하려고 해요.
 2. 하지만 텐트가 어디 있는지 아무도 모르니까, 학교 정문(LoadBalancer)에 큰 간판을 세우고 안내원 아저씨를 불렀어요.
 3. 이제 밖에서 온 친구들은 텐트 주소를 몰라도 안내원 아저씨가 정확하게 안내해 준답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 92 / 371
+
+← **이전**: [[092_nodeport_kubernetes_service_external_access|92. NodePort - 워커 노드의 특정 물리 포트 외부 노출]]
+**다음**: [[094_ingress_kubernetes_l7_routing_gateway|94. 인그레스 (Ingress) - K8s L7 URL 라우팅 통합 게이트웨이]] →
+
+---

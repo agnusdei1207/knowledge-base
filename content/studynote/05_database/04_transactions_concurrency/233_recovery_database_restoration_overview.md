@@ -127,3 +127,13 @@ tags:
 2. 이 약속을 잘 지키면 [[001_dikw_pyramid|데이터]]가 많아도 더 안전하고 빠르게 움직일 수 있어요.
 3. 그래서 언제 이 방법을 쓰고 언제 다른 방법을 써야 하는지 아는 것이 중요해요.
 
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 233 / 600
+
+← **이전**: [[232_database_failure_types_transaction_system_media|232. 데이터베이스 장애 유형 (Database Failure Types Transaction System Media)]]
+**다음**: [[234_redo_roll_forward_durability_recovery|234. Redo (Redo Roll Forward Durability Recovery)]] →
+
+---

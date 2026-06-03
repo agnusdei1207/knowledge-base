@@ -172,3 +172,14 @@ Certificate Patrol + TOFU 기반 로컬 비교
 1. Certificate Patrol은 컴퓨터가 "이 집 열쇠 모양을 지난번에 봤어" 하고 기억해 두는 거예요.
 2. 다음에 다른 열쇠가 오면 진짜 집주인인지 한 번 더 의심해서 알려줘요.
 3. 지금은 한 집만 기억하는 대신, 많은 컴퓨터가 본 열쇠 정보를 모아 이상한 열쇠를 더 똑똑하게 찾아내요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 237 / 1108
+
+← **이전**: [[183_hpkp_http_public_key_pinning_deprecated|183. HPKP (HTTP Public Key Pinning) — deprecated, 동적 핀닝 권장]]
+**다음**: [[185_dynamic_pinning_ct_log_based|185. 동적 핀닝과 CT 로그 기반 방어 (Dynamic Pinning and CT Log-Based Defense)]] →
+
+---

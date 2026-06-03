@@ -183,3 +183,14 @@ Repository / DDD와의 역할 분화
 1. DAO는 선생님이 직접 창고에 들어가지 않고, 필요한 준비물을 맡아 가져다주는 창고 담당자예요.
 2. 그래서 선생님은 수업에만 집중하고, 창고 정리 방법이 바뀌어도 수업 방식은 크게 안 바뀌어요.
 3. 하지만 창고 담당자를 너무 많이 만들거나 쓸데없이 복잡하게 만들면 오히려 준비물이 더 늦게 올 수도 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 232 / 530
+
+← **이전**: [[175_dto_data_transfer_object|175. DTO 패턴 (Data Transfer Object Pattern)]]
+**다음**: [[177_front_controller_pattern|177. 프론트 컨트롤러 패턴 (Front Controller Pattern)]] →
+
+---

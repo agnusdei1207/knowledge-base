@@ -102,3 +102,14 @@ Physical Hardware
 전가상화는 다른 나라 말을 하는 손님을 대신 통역해 주는 호텔 같아요.  
 손님은 원래 하던 말을 그대로 하면 되고, 통역사가 알아서 기계와 이야기해요.  
 그래서 낡은 프로그램도 새 컴퓨터에서 그대로 돌아갈 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 57 / 800
+
+← **이전**: [[056_hosted_hypervisor|56. 호스트드 하이퍼바이저 (Hosted Hypervisor)]]
+**다음**: [[058_paravirtualization|58. 반가상화 (Paravirtualization) - 하이퍼콜 (Hypercall)]] →
+
+---

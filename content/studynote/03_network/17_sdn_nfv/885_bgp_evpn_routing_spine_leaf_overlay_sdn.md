@@ -128,3 +128,14 @@ tags:
 1. 장난감 차를 움직이는 조종기와 차체를 따로 생각하면 바꾸기 쉬워져요.
 2. 이 개념은 네트워크의 머리와 몸을 나눠 더 쉽게 프로그램하게 해줘요.
 3. 그래서 새 규칙을 더 빨리 넣고 바꿀 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 1006 / 1120
+
+← **이전**: [[884_onie_open_network_install_environment_bootloader|884. ONIE (오픈 네트워크 설치 환경)]]
+**다음**: [[886_vcpe_virtual_customer_premises_equipment_edge_vnf|886. 엣지 가상화 (vCPE)]] →
+
+---

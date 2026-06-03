@@ -207,3 +207,14 @@ ZooKeeper는 Zab [[295_protocol_field_tcp_udp_icmp|프로토콜]]을 통해 [[13
 
 ---
 > **🛡️ Expert [[395_verification_process_review|Verification]]:** 본 문서는 Apache ZooKeeper의 코디네이션 [[090_service_kubernetes_network_load_balancing|서비스]]로서의 역할, Zab [[295_protocol_field_tcp_udp_icmp|프로토콜]], 그리고 [[136_variance|분산]] 시스템에서의 활용 사례를 기준으로 기술적 [[002_bigdata_5v|정확성]]을 [[395_verification_process_review|검증]]하였습니다. (Verified at: 2026-04-05)
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 26 / 262
+
+← **이전**: [[025_namenode_metadata_spof_ha|03. 네임노드 (NameNode) - 메타데이터 관리와 고가용성]]
+**다음**: [[027_oozie_airflow|05. Apache Oozie와 Airflow - 워크플로우 오케스트레이션의 진화]] →
+
+---

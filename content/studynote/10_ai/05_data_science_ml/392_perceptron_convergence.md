@@ -144,3 +144,14 @@ cos(θ) ≤ 1 이므로:
 1. [[239_perceptron_mlp_hidden_layer_weight_activation_sigmoid|퍼셉트론]] 수렴 정리는 "빨간 공과 파란 공을 선으로 나눌 수 있다면, [[239_perceptron_mlp_hidden_layer_weight_activation_sigmoid|퍼셉트론]]은 반드시 그 선을 찾아낸다"는 보장이야.
 2. 마진이 클수록 빨리 찾아. 공들이 서로 멀리 떨어져 있을수록 선 찾기가 더 쉬워.
 3. XOR처럼 선으로 못 나누는 경우에는 수렴이 안 돼. 그래서 층을 여러 개 쌓은 MLP가 발명됐어.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 392 / 420
+
+← **이전**: [[391_diffusion_reverse_process|391. 디퓨전 역과정 (Reverse Diffusion Process)]]
+**다음**: [[393_tsne_umap|393. t-SNE / UMAP (TSNE UMAP)]] →
+
+---

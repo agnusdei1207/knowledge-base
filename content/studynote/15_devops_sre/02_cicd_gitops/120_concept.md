@@ -114,3 +114,14 @@ tags:
 1. DORA는 공장의 **4개 계기판**이에요. 속도·품질·불량률·수리 시간을 재요.
 2. **4개 모두 좋은** 공장이 최고 등급(Elite)이에요. 하나만 좋으면 안 돼요.
 3. 최고 공장(Elite)은 **하루에 여러 번** 제품을 내놓고, 문제가 생기면 **1시간 안에** 고친답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 120 / 373
+
+← **이전**: [[119_pre_commit_hook_linting|119. Pre-commit Hook 린팅 (Pre-commit Hook Linting) - 커밋 전 자동 코드 품질 검증]]
+**다음**: [[121_sre_philosophy|121. SRE 철학 (Site Reliability Engineering Philosophy) - 신뢰성 엔지니어링의 핵심 원칙]] →
+
+---

@@ -183,3 +183,14 @@ eIBRS · predictor domain partitioning
 1. 컴퓨터는 다음에 어디로 갈지 빨리 맞히려고 지난번 길을 기억해 둬요.
 2. 나쁜 사람이 그 기억을 몰래 바꿔 놓으면, 컴퓨터가 잠깐 엉뚱한 비밀방 앞을 지나가며 흔적을 남길 수 있어요.
 3. 그래서 이제는 길 안내 기억을 자주 지우고, 위험한 갈림길은 아예 다른 안전한 길로 돌아가게 만들어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 577 / 803
+
+← **이전**: [[576_aslr_hardware_defense|576. ASLR (Address Space Layout Randomization) 하드웨어 기반 우회 방어]]
+**다음**: [[578_kpti|578. 커널 페이지 테이블 격리 (KPTI, Kernel Page Table Isolation)]] →
+
+---

@@ -104,3 +104,14 @@ tags:
 1. 범위 [[025_baseline|기준선]]은 학교에서 준비물을 미리 챙기는 것처럼, 중요한 기준을 먼저 맞추는 일이야.
 2. 계수 규칙은 선생님이 수업 중간에 계속 확인하는 것처럼, 실제로 잘 되고 있는지 보는 과정이야.
 3. 정산 공정성은 시험 결과표처럼, 정말 효과가 있었는지 나중에 다시 확인하게 해주는 증거야.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 342 / 530
+
+← **이전**: [[280_inspection_peer_review_audit|280. 인스펙션 동료검토 감리 (Inspection and Peer Review Audit)]]
+**다음**: [[282_cocomo_ii_effort_estimation|282. COCOMO II 공수 산정 감리 (COCOMO II Effort Estimation Audit)]] →
+
+---

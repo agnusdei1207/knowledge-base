@@ -138,3 +138,14 @@ Root cause and action planning
 1. MECE는 장난감을 정리할 때 똑같은 장난감이 두 상자에 같이 들어가지 않게 하는 규칙이에요.
 2. 그리고 아무 장난감도 바닥에 남지 않게 모두 상자 안에 들어가야 해요.
 3. 그래서 나중에 찾을 때 헷갈리지 않고, 잃어버린 것도 바로 알 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 215 / 482
+
+← **이전**: [[214_delphi_method_expert_consensus_forecasting|214. 델파이 (Delphi) 기법 - 복수 전문가의 익명 반복 설문을 통한 예측 및 합의 도출]]
+**다음**: [[216_liss_logic|216. LISS (Linearly Independent, Spatially Spanning) 논리 원리]] →
+
+---

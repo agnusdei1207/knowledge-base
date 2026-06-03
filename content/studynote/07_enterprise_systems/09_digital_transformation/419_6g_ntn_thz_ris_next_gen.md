@@ -139,3 +139,14 @@ tags:
 1. 6G NTN 위성 [[157_terahertz_thz_6g|THz]] 메타표면 RIS 차세대는 복잡한 일을 순서대로 정리해 주는 큰 정리함이에요.
 2. 어디에 무엇을 넣을지 먼저 정해 두면, 나중에 찾거나 고칠 때 훨씬 쉬워져요.
 3. 그래서 일이 커질수록 먼저 기준을 만들고 같이 약속하는 것이 중요해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 419 / 482
+
+← **이전**: [[418_5g_embb_urllc_mmtc_slicing|418. 5G eMBB uRLLC mMTC 네트워크 슬라이싱 (5G)]]
+**다음**: [[420_oran_open_ran_basestation|420. O-RAN 기지국 분리 화이트박스 (O-RAN: Open Radio Access Network)]] →
+
+---

@@ -139,3 +139,14 @@ tags:
 1. [[040_design_thinking|디자인 씽킹]] 5단계는 복잡한 일을 순서대로 정리해 주는 큰 정리함이에요.
 2. 어디에 무엇을 넣을지 먼저 정해 두면, 나중에 찾거나 고칠 때 훨씬 쉬워져요.
 3. 그래서 일이 커질수록 먼저 기준을 만들고 같이 약속하는 것이 중요해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 241 / 482
+
+← **이전**: [[240_agile_scrum_limits_waterscrumfall_culture_conflict|240. 애자일 스크럼 도입 한계 및 워터스크럼폴 조직 문화 충돌 진단 (Agile Scrum / WaterScrumFall)]]
+**다음**: [[242_persona_customer_journey_map_cx_touchpoint|242. 페르소나 및 고객 여정 지도 CX 터치포인트 도출 (Persona / Customer Journey Map)]] →
+
+---

@@ -169,3 +169,14 @@ Zero Detector · Z-bit · lane skipping
 1. 장난감 상자 안에 텅 빈 상자가 많다면, 그 빈 상자를 굳이 하나씩 들고 옮길 필요는 없어요.
 2. zero-skipping은 컴퓨터가 "이 상자는 비었네!"를 미리 알아채고, 알맹이 있는 상자만 옮기게 하는 방법이에요.
 3. 그래서 힘도 덜 쓰고, 진짜 중요한 장난감을 더 빨리 정리할 수 있답니다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 585 / 803
+
+← **이전**: [[584_tensor_sparsity|584. 딥러닝 텐서 희소성 인코더 (Tensor Sparsity Encoder)]]
+**다음**: [[586_fpu_multiplier_pipeline|586. 부동소수점 곱셈기 파이프라인 (Floating-Point Multiplier Pipeline)]] →
+
+---

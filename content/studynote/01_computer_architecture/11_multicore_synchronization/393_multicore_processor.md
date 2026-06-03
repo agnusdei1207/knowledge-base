@@ -169,3 +169,14 @@ tags:
 1. 멀티코어는 똑똑한 한 명을 더 빨리 뛰게 하는 대신, 똑똑한 여러 명이 일을 나눠 하는 컴퓨터 두뇌예요.
 2. 그래서 게임, 음악, 다운로드를 동시에 해도 한 사람이 모든 일을 맡을 때보다 훨씬 덜 힘들어요.
 3. 하지만 여러 명이 같은 메모를 같이 볼 때는 서로 내용이 다르지 않게 계속 맞춰 봐야 해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 394 / 803
+
+← **이전**: [[392_multistage_interconnection_network|392. 다단 연결망 (MIN, Multistage Interconnection Network)]]
+**다음**: [[394_cmp|394. CMP (Chip Multi-Processor)]] →
+
+---

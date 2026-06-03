@@ -127,3 +127,14 @@ Kubernetes
 많은 악기를 지휘해요.  
 고장 나면 바꿔요.  
 오케스트레이션은 그런 도구예요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 72 / 371
+
+← **이전**: [[072_container_runtime_containerd_crio_runc|72. 컨테이너 런타임 (Container Runtime) - 실제 컨테이너를 구동하는 저수준 엔진 (containerd, CRI-O,]]
+**다음**: [[074_kubernetes_k8s_container_orchestration|74. 쿠버네티스 (Kubernetes, K8s) - 컨테이너 오케스트레이션 플랫폼]] →
+
+---

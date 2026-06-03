@@ -108,3 +108,14 @@ Multi-Head Attention은 **Transformer의 표현력을 결정**하는 핵심 구�
 1. 단일 Attention은 **1명의 탐정**이 사건을 조사하는 거예요.
 2. Multi-Head는 **8명의 전문 탐정**이 각자 다른 단서(문법·의미·위치)를 동시에 조사해요.
 3. 탐정이 많으면 **더 많은 단서를 찾아서** 사건(문장)을 정확히 이해할 수 있답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 125 / 420
+
+← **이전**: [[124_self_attention|124. Self-Attention (자기 주의 메커니즘) - 시퀀스 내 모든 위치 상호 참조]]
+**다음**: [[126_positional_encoding|126. Positional Encoding - Transformer에 순서 정보를 주입하는 기법]] →
+
+---

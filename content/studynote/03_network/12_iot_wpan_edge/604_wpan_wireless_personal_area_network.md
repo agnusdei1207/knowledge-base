@@ -131,3 +131,14 @@ WPAN는 [[103_wsn_sensor_network|센서 네트워크]] / 싱크 노드 구성에
 1. 작은 로봇 친구들이 배터리를 아껴가며 서로 메시지를 주고받는 장난감 마을과 같아요.
 2. 이 개념은 누가 가까운지, 누가 대신 알려줄지, 무엇을 현장에서 바로 처리할지를 정해줘요.
 3. 그래서 작은 기기들도 오래 버티면서 똑똑하게 협력할 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 725 / 1120
+
+← **이전**: [[603_wsn_wireless_sensor_network_sink_node|603. 센서 네트워크 (WSN, Wireless Sensor Network) / 싱크 노드 (Sink Node) 구성]]
+**다음**: [[605_bluetooth_ieee_802_15_1_piconet_scatternet|605. 블루투스 (Bluetooth)]] →
+
+---

@@ -125,3 +125,14 @@ tags:
 1. [[371_vrf_virtual_routing_and_forwarding|VRF]] (Virtual [[339_routing_overview_best_path_selection|Routing]] and Forwarding)는 학교 규칙표처럼 무엇을 준비하고 어떻게 확인할지 알려 주는 기준이에요.
 2. 규칙표만 붙여 두고 지키지 않으면 아무 소용이 없어요.
 3. 그래서 보안도 규칙과 실제 행동이 함께 맞아야 해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 278 / 1108
+
+← **이전**: [[224_vlan_virtual_lan_broadcast_domain|224. VLAN (Virtual LAN)]]
+**다음**: [[226_nac_network_access_control_ieee_802_1x|226. NAC (Network Access Control) 및 IEEE 802.1X (Network Access Control)]] →
+
+---

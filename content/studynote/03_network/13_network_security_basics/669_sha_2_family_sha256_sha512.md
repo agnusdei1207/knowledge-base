@@ -123,3 +123,14 @@ SHA-2 패밀리는 [[668_md5_hash_collision_vulnerability|MD5]] 회피 조치, S
 1. 비밀 편지를 보낼 때는 자물쇠와 비밀번호가 필요해요.
 2. 이 개념은 누가 진짜 친구인지 [[396_validation|확인]]하고, 편지가 바뀌지 않았는지도 살펴봐요.
 3. 그래서 나쁜 사람이 중간에 훔쳐보거나 바꾸기 어려워져요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 790 / 1120
+
+← **이전**: [[668_md5_hash_collision_vulnerability|668. MD5 (취약성/충돌 노출) 회피 조치, SHA-1 차단]]
+**다음**: [[670_sha_3_family_keccak_sponge_construction|670. SHA-3 패밀리]] →
+
+---

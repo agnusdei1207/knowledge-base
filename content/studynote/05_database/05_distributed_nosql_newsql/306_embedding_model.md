@@ -134,3 +134,14 @@ tags:
 1. 여러 창고에 장난감을 나눠 두고도 같은 물건처럼 써야 하는 상황이에요.
 2. 멀리 떨어진 창고끼리는 이야기하는 데 시간이 걸려요.
 3. 그래서 어디까지 맞춰 둘지와 얼마나 빨리 답할지를 함께 정해야 해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 306 / 600
+
+← **이전**: [[305_vector_db|305. 오라클 RAC (Real Application Clusters)]]
+**다음**: [[307_gsi_global_secondary_index_overhead|307. 글로벌 보조 인덱스 (GSI, Global Secondary Index) 분산 환경 오버헤드]] →
+
+---

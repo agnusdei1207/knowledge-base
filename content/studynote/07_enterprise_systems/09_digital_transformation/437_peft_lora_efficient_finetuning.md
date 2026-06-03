@@ -139,3 +139,14 @@ tags:
 1. [[306_peft_lora|PEFT LoRA]] 저차원 [[267_weight_bias_activation|가중치]] 효율적 파인튜닝는 복잡한 일을 순서대로 정리해 주는 큰 정리함이에요.
 2. 어디에 무엇을 넣을지 먼저 정해 두면, 나중에 찾거나 고칠 때 훨씬 쉬워져요.
 3. 그래서 일이 커질수록 먼저 기준을 만들고 같이 약속하는 것이 중요해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 437 / 482
+
+← **이전**: [[436_prompt_engineering_cot_tot|436. 프롬프트 엔지니어링 CoT ToT 퓨샷/제로샷 (Prompt Engineering)]]
+**다음**: [[438_mlops_drift_detection_retraining|438. MLOps 드리프트 탐지 재학습 파이프라인 자동화 (MLOps)]] →
+
+---

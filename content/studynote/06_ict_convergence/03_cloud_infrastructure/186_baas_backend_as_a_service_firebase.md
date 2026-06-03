@@ -163,3 +163,14 @@ Cloud Functions 기반 서버리스 보완
 1. BaaS는 앱을 만들 때 필요한 [[568_logs_distributed_logging_elk_fluentd|로그]]인 창고, 사진 보관함, 알림 스피커를 한꺼번에 빌려주는 큰 장난감 가게예요.
 2. 그래서 우리는 장난감을 어떻게 멋지게 보여 줄지만 생각하고, 뒤에서 물건 보관과 알림은 가게 아저씨가 도와줘요.
 3. 하지만 가게 규칙에 너무 많이 맞춰 놓으면 나중에 다른 가게로 옮길 때 짐을 다시 정리해야 해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 186 / 552
+
+← **이전**: [[185_saas_software_as_a_service|185. SaaS (Software as a Service) - 완제품 소프트웨어 제공]]
+**다음**: [[187_faas_function_as_a_service_serverless|187. FaaS (Function as a Service / Serverless)]] →
+
+---

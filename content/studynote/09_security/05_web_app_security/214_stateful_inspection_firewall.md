@@ -125,3 +125,14 @@ tags:
 1. 상태 검사 [[690_firewall_generation_evolution|방화벽]] ([[992_firewall_stateful_inspection|Stateful Inspection]] [[690_firewall_generation_evolution|Firewall]])는 컴퓨터 세상을 더 안전하게 만들기 위한 중요한 약속이나 도구예요.
 2. 겉으로는 어려워 보여도, 왜 필요한지와 어떻게 움직이는지를 알면 훨씬 쉬워져요.
 3. 그래서 이름만 외우지 말고 어디에 쓰이는지 같이 기억해야 해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 267 / 1108
+
+← **이전**: [[213_packet_filtering_firewall|213. 패킷 필터링 방화벽 (Packet Filtering Firewall)]]
+**다음**: [[215_application_gateway_proxy_firewall|215. 애플리케이션 게이트웨이 방화벽 (Proxy Firewall)]] →
+
+---

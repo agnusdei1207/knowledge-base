@@ -143,3 +143,14 @@ Hyperledger Fabric
 체인코드는 여러 사람이 같이 쓰는 공책에 자동으로 규칙을 적용하는 프로그램이에요.  
 아무 요청이나 받는 게 아니라, 먼저 약속된 도장을 확인해요.  
 그래서 기록도 남고, 나중에 누가 바꿨는지도 알 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 59 / 552
+
+← **이전**: [[058_hyperledger_fabric_private_blockchain|58. 하이퍼레저 패브릭 (Hyperledger Fabric) - 허가형 기업용 블록체인]]
+**다음**: [[060_hyperledger_architecture_peer_orderer_msp|60. 하이퍼레저 아키텍처 - 피어(Peer), 오더러(Orderer), MSP(Membership Service Provider)]] →
+
+---

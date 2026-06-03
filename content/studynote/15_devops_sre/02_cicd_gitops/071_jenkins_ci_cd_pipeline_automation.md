@@ -130,3 +130,14 @@ Automation
 반복 일을 대신해 줘요.  
 단계별로 알아서 움직여요.  
 젠킨스는 그런 자동화 도구예요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 71 / 373
+
+← **이전**: [[070_build_tools_maven_gradle_npm|70. 빌드 도구 (Build Tools) - Maven, Gradle (Java), npm (Node.js)]]
+**다음**: [[072_declarative_pipeline_jenkinsfile_as_code|72. 선언적 파이프라인 - Jenkinsfile (Pipeline as Code)]] →
+
+---

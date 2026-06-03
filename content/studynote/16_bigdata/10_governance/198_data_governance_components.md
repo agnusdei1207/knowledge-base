@@ -210,3 +210,14 @@ Step 5: 도구 도입 ─▶ 데이터 카탈로그, 품질 도구 도입
 1. 학교에서 선생님([[200_data_owner|Data Owner]]), 반장([[067_data_steward_data_quality|Data Steward]]), 청소 당번([[001_dikw_pyramid|Data]] Custodian)이 각자 역할을 정해두면 교실이 깨끗하게 유지되는 것처럼, 회사에서도 [[001_dikw_pyramid|데이터]]를 관리하는 역할을 나눠 정해.
 2. 규칙([[164_policy|정책]])은 "교실에서는 뛰지 말자"처럼 기본 원칙이고, 표준은 "책을 책꽂이 순서대로 꽂는 방법"처럼 일관된 방식이야.
 3. 이 다섯 가지([[164_policy|정책]]·표준·역할·절차·도구)가 모두 갖춰지면 "어디에 무슨 [[001_dikw_pyramid|데이터]]가 있고, 누가 책임지는지" 한눈에 알 수 있어.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 198 / 262
+
+← **이전**: [[197_data_governance_definition|191. 데이터 거버넌스 정의 (Data Governance Definition) — 데이터 소유·관리·사용 원칙 체계]]
+**다음**: [[199_data_steward|193. 데이터 스튜어드 (Data Steward) — 도메인 데이터 책임자]] →
+
+---

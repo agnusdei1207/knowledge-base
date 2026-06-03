@@ -124,3 +124,14 @@ tags:
 1. 클라우드 기반 정보화 사업 감리 가이드는 일을 잘했는지 [[396_validation|확인]]하는 [[435_checklist_based_testing|체크리스트]]를 만들고, 실제로 했다는 증거를 모으는 방법이에요.
 2. 약속한 대로 했는지, 빠진 것은 없는지, 고친 뒤 다시 [[396_validation|확인]]했는지를 차례대로 보는 거예요.
 3. 그래서 나중에 문제가 생겨도 누구 말이 맞는지 금방 알 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 57 / 530
+
+← **이전**: [[040_auditor_independence|040. 감리인 독립성 (Auditor Independence)]]
+**다음**: [[041_contractor_late_penalty|041. 데이터 품질 진단 (Data Quality Audit)]] →
+
+---

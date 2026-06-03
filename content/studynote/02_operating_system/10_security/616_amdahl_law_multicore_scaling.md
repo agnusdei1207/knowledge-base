@@ -301,3 +301,14 @@ CPU ìì ìê êì ìêíë ìììì(16->32->64->128...), ìì ëëì ììë ë�
 1. 멀티코어 확장성 병목 (Amdahl's Law) 및 [[022_kernel_role|커널]] [[275_lock_contention_monitoring|락 경합]] 진단은 컴퓨터가 누가 들어와도 되는지와 무엇을 막아야 하는지 정하는 문지기 규칙이에요.
 2. 먼저 [[615_ebpf|eBPF]] 네트워크/보안/모니터링 이벤트 [[022_kernel_role|커널]] 안전 훅 매커니즘을 이해하면 멀티코어 확장성 병목 (Amdahl's Law) 및 [[022_kernel_role|커널]] [[275_lock_contention_monitoring|락 경합]] 진단이 왜 필요한지 더 쉽게 보여요.
 3. 그래서 멀티코어 확장성 병목 (Amdahl's Law) 및 [[022_kernel_role|커널]] [[275_lock_contention_monitoring|락 경합]] 진단을 잘 알면 나중에 I/O [[282_performance_tactics|성능]] 병목 ([[617_io_bottleneck|Bottleneck]]) 탐색법 (iostat, vmstat)도 훨씬 쉽게 배울 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 616 / 800
+
+← **이전**: [[615_ebpf|615. eBPF 네트워크/보안/모니터링 이벤트 커널 안전 훅 매커니즘]]
+**다음**: [[617_io_bottleneck|617. I/O 성능 병목 (Bottleneck) 탐색법 (iostat, vmstat)]] →
+
+---

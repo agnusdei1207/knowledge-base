@@ -133,3 +133,14 @@ Deep Learning
 한 줄만으로는 못 나누는 문제가 있어요.  
 그래서 중간 층을 하나 더 넣어요.  
 MLP는 그렇게 더 똑똑하게 나누는 모델이에요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 64 / 420
+
+← **이전**: [[063_single_layer_perceptron_xor_problem|63. 단층 퍼셉트론 (Single-Layer Perceptron)과 XOR 문제]]
+**다음**: [[065_dnn_deep_neural_network|65. 심층 신경망 (DNN, Deep Neural Network) - 2개 이상의 은닉층을 가진 다층 퍼셉트론]] →
+
+---

@@ -108,3 +108,14 @@ Collector
 스트리밍 텔레메트리는 장난감이 스스로 상태를 보내는 거예요.  
 엄마가 계속 물어보지 않아도, 장난감이 계속 알려 줘요.  
 그래서 잠깐 생겼다 사라지는 문제도 찾기 쉬워요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 163 / 1120
+
+← **이전**: [[1057_netconf_yang_network_configuration_modeling|1057. NETCONF / YANG 모델링 규격체 - 차세대 네트워크 자동화]]
+**다음**: [[1059_digital_twin_network_management_simulation|1059. 디지털 트윈 및 관제 시스템 연동]] →
+
+---

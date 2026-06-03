@@ -139,3 +139,14 @@ tags:
 1. [[335_tdd_bdd|TDD BDD]] 행동 주도 개발 객체 지향 구현는 복잡한 일을 순서대로 정리해 주는 큰 정리함이에요.
 2. 어디에 무엇을 넣을지 먼저 정해 두면, 나중에 찾거나 고칠 때 훨씬 쉬워져요.
 3. 그래서 일이 커질수록 먼저 기준을 만들고 같이 약속하는 것이 중요해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 462 / 482
+
+← **이전**: [[461_v_model_inspection_oat|461. V-모델 인스펙션 정적 검증 OAT 인수 테스트 (V-Model, Inspection, OAT)]]
+**다음**: [[463_ddd_aggregate_bounded_context|463. DDD 애그리게이트 바운디드 컨텍스트 (DDD, Domain-Driven Design)]] →
+
+---

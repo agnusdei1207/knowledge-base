@@ -131,3 +131,14 @@ OR(A,B)  = NAND(NOT(A), NOT(B)) = NAND(NAND(A,A), NAND(B,B))
 1. [[369_logic_bomb|논리]] 게이트는 수학 문제 푸는 기계예요! AND는 "둘 다 YES일 때만 YES", OR는 "하나라도 YES면 YES"로 대답해요.
 2. NAND 게이트 하나만 있으면 모든 다른 게이트를 만들 수 있어요 — 스위스 군용 칼처럼요!
 3. XOR은 "두 값이 다르면 1"로 대답해요 — 짝수 맞추기 게임이나 덧셈 기계 만들 때 쓰인답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 27 / 803
+
+← **이전**: [[026_minterm_maxterm|26. 최소항·최대항 (Minterm / Maxterm) — 부울 함수 표준형]]
+**다음**: [[028_and_or_not|28. AND / OR / NOT 게이트 상세 (Boolean Expression & Circuit)]] →
+
+---

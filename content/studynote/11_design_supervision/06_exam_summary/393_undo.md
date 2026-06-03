@@ -111,3 +111,14 @@ tags:
 1. [[271_command_pattern|커맨드]] 패턴과 실행 취소 ([[271_command_pattern|Command Pattern]] and Undo)은 리모컨이 버튼마다 해야 할 일을 카드처럼 들고 있는 것처럼 약속을 먼저 정하는 거예요.
 2. 그러면 서로 다른 사람이 해도 같은 규칙으로 움직일 수 있어요.
 3. 그래서 규모가 커질수록 요청 자체를 독립 객체로 다루는 일이 더 중요해져요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 471 / 530
+
+← **이전**: [[392_process|392. 템플릿 메서드 패턴 (Template Method Pattern)]]
+**다음**: [[394_process|394. 상태 패턴 (State Pattern)]] →
+
+---

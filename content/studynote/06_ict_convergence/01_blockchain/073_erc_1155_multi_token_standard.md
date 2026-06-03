@@ -125,3 +125,14 @@ Game Assets
 장난감을 여러 종류 넣어요.  
 한 번에 같이 옮겨요.  
 ERC-1155는 그런 규칙이에요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 73 / 552
+
+← **이전**: [[072_erc_20_fungible_token_standard|72. ERC-20 (이더리움 대체 가능 토큰 표준)]]
+**다음**: [[074_zkevm_zero_knowledge_ethereum_virtual_machine|74. zkEVM (Zero-Knowledge Ethereum Virtual Machine)]] →
+
+---

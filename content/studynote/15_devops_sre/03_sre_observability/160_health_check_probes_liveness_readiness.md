@@ -145,3 +145,14 @@ Startup / Readiness / Liveness 분리
 1. Startup Probe는 아직 학교에 오는 중이니 조금만 기다려 달라는 [[130_signal|신호]]예요.
 2. Readiness Probe는 지금 발표할 준비가 됐는지 [[396_validation|확인]]하는 [[130_signal|신호]]예요.
 3. Liveness Probe는 정말 아파서 다시 쉬었다 와야 하는지 [[396_validation|확인]]하는 [[130_signal|신호]]예요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 160 / 373
+
+← **이전**: [[159_failover_failback_architecture|159. 페일오버/페일백 아키텍처 (Failover/Failback Architecture)]]
+**다음**: [[161_aiops_anomaly_detection_auto_remediation|161. AIOps (Artificial Intelligence for IT Operations)]] →
+
+---

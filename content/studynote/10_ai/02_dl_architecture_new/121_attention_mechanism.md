@@ -110,3 +110,14 @@ Attention은 **현대 AI의 가장 중요한 단일 아이디어**이며, [[246_
 1. Attention은 시험 중 **교과서 전체를 보면서** 문제와 관련된 [[286_page_frame|페이지]]에 **형광펜**을 치는 거예요.
 2. 관련 높은 [[286_page_frame|페이지]]는 **밝게**, 관련 낮은 [[286_page_frame|페이지]]는 **약하게** 칠해요.
 3. 이 아이디어가 너무 좋아서 **ChatGPT([[246_transformer_self_attention_parallel_positional_encoding|Transformer]])의 핵심 기술**이 되었답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 121 / 420
+
+← **이전**: [[120_context_vector|120. 컨텍스트 벡터 (Context Vector) - Seq2Seq 병목과 Attention의 동기]]
+**다음**: [[122_qkv_system|122. Q·K·V 시스템 (Query·Key·Value) - Attention의 핵심 연산 구조]] →
+
+---

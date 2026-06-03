@@ -131,3 +131,14 @@ AES는 [[655_block_cipher_des_3des_feistel|블록 암호]]에서 출발해 현�
 1. 비밀 편지를 보낼 때는 자물쇠와 비밀번호가 필요해요.
 2. 이 개념은 누가 진짜 친구인지 [[396_validation|확인]]하고, 편지가 바뀌지 않았는지도 살펴봐요.
 3. 그래서 나쁜 사람이 중간에 훔쳐보거나 바꾸기 어려워져요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 777 / 1120
+
+← **이전**: [[655_block_cipher_des_3des_feistel|655. 블록 암호 (Block Cipher)]]
+**다음**: [[657_seed_aria_lea_korean_cryptography|657. SEED, ARIA, LEA]] →
+
+---

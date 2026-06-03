@@ -155,3 +155,14 @@ tags:
 1. 예전에는 모든 장난감을 한 큰 상자에 넣고 한 명이 다 정리했어요.
 2. [[211_data_mesh_domain_ownership|데이터 메시]]는 자동차 장난감은 자동차 팀이, 블록은 블록 팀이 자기 상자를 직접 정리하게 하는 거예요.
 3. 대신 상자 이름표와 정리 규칙은 모두 같게 해서 누구나 쉽게 찾을 수 있게 만들어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 197 / 482
+
+← **이전**: [[196_serverless_architecture_baas_integration|196. 서버리스 아키텍처 - BaaS와 FaaS 기반 엔터프라이즈 통합]]
+**다음**: [[198_business_rule_engine_brm_logic_decoupling|198. 비즈니스 룰 엔진 (BRE, Business Rule Engine)]] →
+
+---

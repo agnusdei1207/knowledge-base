@@ -227,3 +227,14 @@ tags:
 1. 4명의 마트 캐셔(코어)가 있는데, 1번 캐셔 앞에만 손님이 100명 줄 서 있고 나머지 3명은 폰을 보며 놀고 있어요.
 2. 1번 줄 맨 뒤의 손님은 속이 터지겠죠? 이때 마트 매니저(OS [[079_kube_scheduler_pod_placement|스케줄러]])가 나타나서 "기다리는 손님들! 저기 노는 2번, 3번 캐셔한테 가세요!"라고 줄을 옮겨줘요(이주/Migration).
 3. 덕분에 노는 캐셔 없이 모두가 열심히 일하게 되어 마트 손님들이 엄청 빨리 계산을 마치고 집에 갈 수 있게 된 거랍니다! (이게 [[196_hard_soft_real_time|부하 균등화]]예요)
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 779 / 800
+
+← **이전**: [[778_process_affinity_scheduling_pinning|778. 프로세스 친화성 (Affinity) 스케줄링]]
+**다음**: [[780_ebpf_dynamic_kernel_tracing_performance|780. eBPF 동적 커널 트레이싱 프레임워크 성능 (Ebpf Dynamic Kernel Tracing Performance)]] →
+
+---

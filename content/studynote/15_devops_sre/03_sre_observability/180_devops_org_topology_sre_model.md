@@ -178,3 +178,14 @@ SRE 모델 도입 · Toil 측정
 1. [[652_devops_calms_culture|DevOps]] 조직은 누가 요리하고 누가 설거지하고 누가 불이 났을 때 달려갈지 미리 정해 둔 주방 규칙이에요.
 2. SRE는 불이 날 때만 뛰어다니는 사람이 아니라, 다음엔 덜 타게 만드는 안전 장치도 만드는 사람이에요.
 3. 그래서 모두가 자기 일만 바쁘게 하는 게 아니라, 주방 전체가 더 빨리 그리고 덜 망가지게 움직이게 돼요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 180 / 373
+
+← **이전**: [[179_timeseries_db_influxdb_tsdb|179. 시계열 DB (Time-Series Database)]]
+**다음**: [[181_sre_embedded_model|181. SRE (Site Reliability Engineering) 임베디드 운영 모델 (Embedded Model)]] →
+
+---

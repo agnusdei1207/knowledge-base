@@ -54,3 +54,14 @@ tags:
 1. 구독은 **넷플릭스**처럼 매달 돈을 내고 **계속 사용**하는 거예요.
 2. DVD를 사는 것(소유)보다 **필요할 때만 보고(구독)** 싫으면 해지해요.
 3. 회사는 **매달 꾸준한 수입**이 생겨서 안정적이에요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 140 / 482
+
+← **이전**: [[139_o2o_online_to_offline_platform|139. O2O (Online to Offline) 플랫폼 - 온·오프라인 연결 비즈니스]]
+**다음**: [[141_application_integration_architecture_overview|141. 애플리케이션 통합 아키텍처 개요 - P2P·Hub·ESB·MSA]] →
+
+---

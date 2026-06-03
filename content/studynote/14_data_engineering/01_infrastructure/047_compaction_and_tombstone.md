@@ -361,3 +361,14 @@ Universal, FIFO, Level
 1. 컴팩션은 대청소 — LSM은 쓸 때마다 새 노트(SSTable) [[087_process_state_transition|생성]]. 컴팩션이 주기적으로 노트를 합치고 최신 내용만 남겨요!
 2. [[300_schema_on_write_vs_read|툼스톤]]은 삭제 스티커 — 책(SSTable)에서 [[286_page_frame|페이지]] 직접 못 찢어요. "삭제됨" 스티커([[300_schema_on_write_vs_read|Tombstone]])를 붙이고, 책 재인쇄(컴팩션)할 때 진짜 제거!
 3. TWCS는 날짜별 정리 — [[101_iot_concept|IoT]] [[001_dikw_pyramid|데이터]]는 날짜별로 정리하면 만료된 날짜 묶음을 통째로 버릴 수 있어요. 묘비 쌓임 없이 깔끔!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 47 / 258
+
+← **이전**: [[046_lsm_tree_log_structured_merge|046. LSM 트리 — Log-Structured Merge-Tree]]
+**다음**: [[048_consistent_hashing_ring_structure|048. 일관 해싱 — Consistent Hashing & Ring]] →
+
+---

@@ -125,3 +125,14 @@ tags:
 1. [[153_crypto_agility|Crypto Agility]] (암호 민첩성)는 비밀 편지를 안전하게 잠그거나 진짜인지 확인하는 특별한 약속이에요.
 2. 하지만 자물쇠가 좋아도 열쇠를 아무 데나 두면 금방 들켜요.
 3. 그래서 암호는 만드는 방법과 열쇠를 지키는 방법을 같이 배워야 해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 1094 / 1108
+
+← **이전**: [[987_nist_pqc_standard|987. NIST PQC 표준 (Kyber, Dilithium, etc.)]]
+**다음**: [[988_digital_signature_non_repudiation_integrity_hash_private_key|988. 전자 서명 (Digital Signature)]] →
+
+---

@@ -134,3 +134,14 @@ Reference Architecture
 1. [[561_container_based_deployment|컨테이너]] 이미지 스캐닝은 복잡한 일을 순서와 규칙으로 정리해서 실수하지 않게 도와주는 방법이에요.
 2. Trivy 같은 친구들과 같이 움직여야 더 잘 작동해요.
 3. 그래서 문제가 생겨도 어디서 틀렸는지 빨리 찾고 다시 고치기 쉬워져요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 247 / 373
+
+← **이전**: [[246_sca_software_composition_analysis_cve|246. 소프트웨어 구성 분석 (SCA, Software Composition Analysis)]]
+**다음**: [[248_sbom_software_bill_of_materials|248. SBOM (Software Bill of Materials)]] →
+
+---

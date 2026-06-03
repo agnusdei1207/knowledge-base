@@ -175,3 +175,14 @@ tags:
 1. 선생님(감리인)이 지난번에 "이 수학 문제 다 틀렸으니 다시 풀어와!" 하고 숙제를 돌려줬었죠?
 2. 조치 결과 [[396_validation|확인]]은 학생이 다시 풀어온 공책을 보고, 진짜로 올바른 공식으로 제대로 고쳤는지 채점표에 마지막 동그라미를 쳐주는 시간이에요.
 3. 대충 숫자만 고쳐 쓴 건 아닌지 꼼꼼히 [[396_validation|확인]]해서, 완벽하게 다 맞았을 때만 "참 잘했어요!" 도장을 찍어준답니다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 22 / 530
+
+← **이전**: [[020_action_result_verification|020. 조치 결과 확인 및 시정 조치 검증 체계 (Action Result Verification)]]
+**다음**: [[021_isaca_global_standard|21. ISACA (Information Systems Audit and Control Association) - 정보시스템 감사 통제]] →
+
+---

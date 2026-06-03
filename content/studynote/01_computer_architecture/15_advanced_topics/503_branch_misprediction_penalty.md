@@ -153,3 +153,14 @@ Tagged Geometric History Length (TAGE) / perceptron / branchless mitigation
 1. 컴퓨터는 갈림길이 나오기 전에 "아마 이쪽일 거야" 하고 먼저 달려가요.
 2. 그런데 틀린 길이면 다시 돌아와야 해서 시간과 힘을 잃게 돼요.
 3. 그래서 컴퓨터는 갈림길 표지를 더 잘 읽고, 헷갈리는 길은 아예 줄이려고 노력한답니다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 503 / 803
+
+← **이전**: [[502_ooo_window|502. 비순차 실행 윈도우 (Out-of-Order Execution Window)]]
+**다음**: [[504_cache_way_prediction|504. 캐시 웨이 예측 (Cache Way Prediction)]] →
+
+---

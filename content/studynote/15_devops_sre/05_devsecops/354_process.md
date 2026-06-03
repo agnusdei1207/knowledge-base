@@ -132,3 +132,14 @@ Micro Frontend with Independent Delivery
 1. 큰 레고 성을 한 사람이 다 짓는 대신, 방마다 다른 친구가 맡아 짓는 게 [[239_micro_frontends_architecture|마이크로 프론트엔드]]예요.
 2. 그래서 더 빨리 만들 수 있지만, 문 크기와 길 모양은 같이 맞춰야 해요.
 3. 그래야 여러 조각을 붙여도 하나의 멋진 성처럼 보여요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 354 / 373
+
+← **이전**: [[353_grpc|353. gRPC 프로토콜 버퍼 직렬화 고속 통신 (gRPC and Protocol Buffers)]]
+**다음**: [[355_architecture|355. CXL 칩렛 메모리 풀 고성능 서버 아키텍처망 (CXL Chiplet Memory Pool)]] →
+
+---

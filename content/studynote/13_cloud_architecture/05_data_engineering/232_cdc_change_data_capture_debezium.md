@@ -228,3 +228,14 @@ CDC: 변경분만 캡처 (Log-based · Trigger-based)
 ```
 2. Debezium은 기록부를 읽는 비서다. 사서(DB)가 기록부에 쓰는 것을 지켜보다가, 새 내용이 생기면 즉시 공지 게시판([[179_kafka_flink_watermark_time_window|Kafka]])에 붙여준다.
 3. 덕분에 다른 도서관들([[209_data_warehouse_schema_on_write|DW]], 레이크, [[090_service_kubernetes_network_load_balancing|서비스]]들)은 게시판만 보면 원본 도서관 상황을 실시간으로 알 수 있어, 일일이 원본 도서관(운영 DB)에 전화하지 않아도 된다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 231 / 371
+
+← **이전**: [[231_kafka_topic_partition_consumer_group|231. 카프카 토픽 / 파티션 / 컨슈머 그룹]]
+**다음**: [[233_apache_airflow_dag_orchestration|233. 아파치 에어플로우 (Apache Airflow)]] →
+
+---

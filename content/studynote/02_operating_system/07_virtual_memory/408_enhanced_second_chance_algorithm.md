@@ -199,3 +199,14 @@ tags:
 1. 개선된 [[407_second_chance_algorithm|2차 기회 알고리즘]] (Enhanced [[407_second_chance_algorithm|Second Chance Algorithm]])은 컴퓨터가 메모리를 더 크게 보이게 하고 부족함을 숨기는 방법이에요.
 2. 먼저 [[407_second_chance_algorithm|2차 기회 알고리즘]] (Second-Chance / [[302_clock_algorithm|Clock Algorithm]])을 이해하면 개선된 [[407_second_chance_algorithm|2차 기회 알고리즘]] (Enhanced [[407_second_chance_algorithm|Second Chance Algorithm]])이 왜 필요한지 더 쉽게 보여요.
 3. 그래서 개선된 [[407_second_chance_algorithm|2차 기회 알고리즘]] (Enhanced [[407_second_chance_algorithm|Second Chance Algorithm]])을 잘 알면 나중에 [[263_lfu_page_replacement|LFU]] ([[263_lfu_page_replacement|Least Frequently Used]]) [[001_algorithm_definition|알고리즘]]도 훨씬 쉽게 배울 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 408 / 800
+
+← **이전**: [[407_second_chance_algorithm|407. 2차 기회 알고리즘 (Second-Chance / Clock Algorithm) - 참조 비트가 1이면 0으로 바꾸고 통과,]]
+**다음**: [[409_lfu_algorithm|409. LFU (Least Frequently Used) 알고리즘 - 참조 횟수가 가장 적은 페이지 교체]] →
+
+---

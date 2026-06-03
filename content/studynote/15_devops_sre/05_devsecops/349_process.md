@@ -133,3 +133,14 @@ Policy-driven Placement / DR / Lock-in Mitigation
 1. 장난감을 한 상자에만 넣으면 찾기 쉽지만, 상자가 망가지면 모두 곤란해져요.
 2. 그래서 중요한 장난감은 다른 상자에도 나눠 두기도 해요.
 3. 하지만 상자가 많아질수록 이름표와 정리 규칙이 꼭 필요해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 349 / 373
+
+← **이전**: [[348_finops_ri|348. FinOps 스팟 인스턴스·RI 클라우드 비용 효율 조직 (Cloud Financial Operations)]]
+**다음**: [[350_process|350. 엣지 컴퓨팅 분산 지연·스토리지 (Edge Computing)]] →
+
+---

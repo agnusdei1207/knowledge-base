@@ -224,3 +224,14 @@ Java에서 모나드를 이해하면 `Optional`, `Stream`, `CompletableFuture`�
 1. 모나드는 마법 상자야 — 상자 안에 선물(값)이 있는지 없는지 직접 열어보지 않아도, 상자에게 "이 선물을 리본(함수)으로 꾸며줘"라고 부탁하면 상자가 알아서 해줘.
 2. 상자 안에 상자가 또 있으면(중첩) flatMap이 그 상자들을 하나로 합쳐줘서 상자 안에 상자가 없어지게 해줘.
 3. Optional은 "선물이 있을 수도 없을 수도 있는 상자", Stream은 "선물이 여러 개 담긴 상자", CompletableFuture는 "나중에 배달될 예정인 상자"야.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 277 / 530
+
+← **이전**: [[215_worker_thread_pool_pattern|215. 워커 스레드/스레드 풀 패턴 (Worker Thread / Thread Pool Pattern)]]
+**다음**: [[217_currying_lazy_evaluation|217. 커링과 지연 평가 (Currying and Lazy Evaluation)]] →
+
+---

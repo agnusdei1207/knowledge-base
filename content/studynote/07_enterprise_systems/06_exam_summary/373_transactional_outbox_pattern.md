@@ -139,3 +139,14 @@ tags:
 1. [[314_transactional_outbox_pattern|트랜잭셔널 아웃박스]] 비동기 [[389_mesh_topology|메시]]지 보장는 복잡한 일을 순서대로 정리해 주는 큰 정리함이에요.
 2. 어디에 무엇을 넣을지 먼저 정해 두면, 나중에 찾거나 고칠 때 훨씬 쉬워져요.
 3. 그래서 일이 커질수록 먼저 기준을 만들고 같이 약속하는 것이 중요해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 373 / 482
+
+← **이전**: [[372_event_sourcing_immutable_history|372. 이벤트 소싱 상태 이력 불변 저장 (Event Sourcing Immutable History)]]
+**다음**: [[374_sidecar_pattern_cross_cutting|374. 사이드카 패턴 메인 로직 횡단 관심사 분리 (Sidecar Pattern)]] →
+
+---

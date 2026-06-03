@@ -207,3 +207,14 @@ Spark on K8s · Databricks Lakehouse
 ```
 2. [[228_batch_processing_hadoop_spark|배치 처리]]도, SQL [[298_qkv_attention|쿼리]]도, [[241_machine_learning_basics|머신러닝]]도, 실시간 분석도 모두 Spark 하나로 할 수 있어. 스위스 군용 칼처럼 다기능이야.
 3. 단, 책상이(메모리가) 작은데 너무 많은 책을 올리면 바닥에 쌓이게 되어(디스크 spill) 다시 느려지니까, 책상 크기에 맞게 조절해야 해.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 214 / 371
+
+← **이전**: [[214_yarn_resource_manager_hadoop|214. YARN (Yet Another Resource Negotiator)]]
+**다음**: [[216_rdd_resilient_distributed_dataset|216. RDD (Resilient Distributed Dataset)]] →
+
+---

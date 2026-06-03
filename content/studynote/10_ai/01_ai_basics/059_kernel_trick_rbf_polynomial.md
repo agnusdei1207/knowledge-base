@@ -136,3 +136,14 @@ Polynomial / RBF 커널
 [[022_kernel_role|커널]] 트릭은 못 가르던 모양을 다른 층으로 살짝 옮겨서 자르는 방법이에요.  
 그냥 옮기는 대신, 옮긴 것과 똑같은 결과만 계산해요.  
 그래서 복잡한 그림도 훨씬 쉽게 나눌 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 59 / 420
+
+← **이전**: [[058_svm_support_vector_machine_margin_hyperplane|58. SVM (Support Vector Machine) - 마진(Margin)을 최대화하는 초평면(Hyperplane) 분할 모델]]
+**다음**: [[060_naive_bayes_classifier_conditional_independence|60. 나이브 베이즈 분류기 (Naive Bayes) - 조건부 독립과 스팸 필터링]] →
+
+---

@@ -245,3 +245,14 @@ RAG, 기업 LLM 도입 붐
 1. [[001_dikw_pyramid|데이터]]에는 표처럼 깔끔한 [[002_structured_data|정형 데이터]](약 20%)와 사진·영상·글처럼 뒤죽박죽인 [[004_unstructured_data|비정형 데이터]](약 80%)가 있어요.
 2. 예전엔 [[004_unstructured_data|비정형 데이터]]는 컴퓨터가 이해 못 해서 창고에 쌓아두기만 했는데, [[190_ai_llm_requirements_specification|AI]] 덕분에 이 80%도 분석할 수 있게 됐어요.
 3. 고객 상담 녹음, 계약서 PDF, 소셜미디어 게시글 같은 [[004_unstructured_data|비정형 데이터]]를 분석하면 숨겨진 중요한 정보를 찾을 수 있어요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 252 / 262
+
+← **이전**: [[251_data_anonymization|039. 개인정보 비식별화 (Data Anonymization / k-Anonymity)]]
+**다음**: [[253_zettabyte_era|041. 제타바이트 시대 (Zettabyte Era)]] →
+
+---

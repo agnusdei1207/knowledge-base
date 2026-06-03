@@ -139,3 +139,14 @@ tags:
 1. [[843_hadoop_rack_awareness_data_replication_topology|하둡]] [[018_mapreduce|맵리듀스]] 디스크 병목 [[136_variance|분산]] 처리는 복잡한 일을 순서대로 정리해 주는 큰 정리함이에요.
 2. 어디에 무엇을 넣을지 먼저 정해 두면, 나중에 찾거나 고칠 때 훨씬 쉬워져요.
 3. 그래서 일이 커질수록 먼저 기준을 만들고 같이 약속하는 것이 중요해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 395 / 482
+
+← **이전**: [[394_data_virtualization_federated_query|394. 데이터 가상화 물리 통합 불필요 연방 쿼리 (Data Virtualization)]]
+**다음**: [[396_spark_in_memory_rdd_parallel|396. 스파크 인메모리 RDD 병렬 처리 (Apache Spark: RDD)]] →
+
+---

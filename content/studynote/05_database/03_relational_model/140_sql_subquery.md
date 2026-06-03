@@ -52,3 +52,14 @@ NOT IN 함정: NULL 포함 시 전체 제외 → NOT EXISTS 권장
 1. EXISTS는 **"이 명단에 이름이 있어? 있으면 OK!"** [[396_validation|확인]]하는 거예요.
 2. NOT IN은 **빈칸(NULL)**이 있으면 **모두 탈락**시키는 함정이 있어요.
 3. 그래서 **NOT [[435_exists_boolean_fast_search|EXISTS]]**를 쓰는 게 더 안전하답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 140 / 600
+
+← **이전**: [[139_window_function_analytics|139. Window Function (분석 함수) - ROW_NUMBER·RANK·LAG·LEAD]]
+**다음**: [[141_inline_view_subquery|141. 인라인 뷰 (Inline View) - FROM 절 서브쿼리]] →
+
+---

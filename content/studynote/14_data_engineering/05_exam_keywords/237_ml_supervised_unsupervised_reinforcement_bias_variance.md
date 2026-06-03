@@ -241,3 +241,14 @@ k-폴드 교차 검증 (k-Fold Cross-Validation), k=5:
 ```
 2. 편향이 크면 항상 같은 곳을 겨냥해 빗나가는 화살(규칙이 틀림), [[136_variance|분산]]이 크면 매번 다른 곳에 꽂히는 화살(기억력이 너무 좋아 암기만 함)이다.
 3. [[250_cross_validation_kfold|교차 검증]]은 한 번의 시험이 아니라 여러 번 시험 봐서 평균 점수를 재는 것이다—운으로 높은 점수를 받는 것을 막아준다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 237 / 258
+
+← **이전**: [[236_a_star_heuristic_minimax_mcts_monte_carlo|236. A* 휴리스틱 (Heuristic) 미니맥스 (Minimax) MCTS (Monte Carlo Tree Search)]]
+**다음**: [[238_svm_margin_kernel_trick_naive_bayes|238. SVM (Support Vector Machine) 마진 커널 트릭 나이브 베이즈 (Naive Bayes)]] →
+
+---

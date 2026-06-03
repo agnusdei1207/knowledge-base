@@ -139,3 +139,14 @@ tags:
 1. [[477_rest_api_architecture|REST API]] HATEOAS 성숙도 모델는 복잡한 일을 순서대로 정리해 주는 큰 정리함이에요.
 2. 어디에 무엇을 넣을지 먼저 정해 두면, 나중에 찾거나 고칠 때 훨씬 쉬워져요.
 3. 그래서 일이 커질수록 먼저 기준을 만들고 같이 약속하는 것이 중요해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 364 / 482
+
+← **이전**: [[363_esb_message_bus_routing|363. ESB 메시지 버스 라우팅 변환 (Enterprise Service Bus)]]
+**다음**: [[365_msa_microservice_architecture|365. 마이크로서비스 MSA 독립 배포 원칙 (Microservice Architecture)]] →
+
+---

@@ -111,3 +111,14 @@ tags:
 1. [[216_hexagonal_architecture_ports_and_adapters|헥사고날 아키텍처]] (Hexagonal [[319_architecture|Architecture]])은 같은 충전기에 여러 모양의 [[259_adapter_pattern_interface_wrapper|어댑터]]를 끼워 쓰는 것처럼 약속을 먼저 정하는 거예요.
 2. 그러면 서로 다른 사람이 해도 같은 규칙으로 움직일 수 있어요.
 3. 그래서 규모가 커질수록 애플리케이션 코어와 외부 채널을 명확히 분리하는 일이 더 중요해져요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 444 / 530
+
+← **이전**: [[365_architecture|365. 클린 아키텍처 (Clean Architecture)]]
+**다음**: [[367_architecture|367. 이벤트 주도 아키텍처 (Event-Driven Architecture, EDA)]] →
+
+---

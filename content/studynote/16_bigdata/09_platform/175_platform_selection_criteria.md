@@ -194,3 +194,14 @@ Phased adoption with exit strategy
 1. 빅데이터 플랫폼을 고르는 일은 우리 반에 맞는 교실을 고르는 것처럼 학생 수와 수업 방식에 맞춰야 해요.
 2. 큰 교실이 항상 좋은 것도 아니고, 작은 교실이 항상 싼 것도 아니에요. 관리비와 사용 방법까지 같이 봐야 해요.
 3. 그래서 지금 필요한 것뿐 아니라 앞으로 얼마나 커질지도 생각하고 고르는 거예요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 175 / 262
+
+← **이전**: [[174_bigdata_visualization_challenges|174. 빅데이터 시각화 도전 (Big Data Visualization Challenges) — 집계/샘플링/렌더링 최적화]]
+**다음**: [[176_onpremise_vs_cloud|176. 온프레미스 Hadoop vs 클라우드 빅데이터 비교]] →
+
+---

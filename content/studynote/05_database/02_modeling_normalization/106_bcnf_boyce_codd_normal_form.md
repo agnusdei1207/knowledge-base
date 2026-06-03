@@ -131,3 +131,14 @@ BCNF (Boyce-Codd Normal Form) · 후보 키가 아닌 결정자 완벽 제거
 1. BCNF는 모둠 활동에서 '대장(PK)'만이 규칙을 정할 수 있게 만드는 규칙이에요.
 2. 3NF까지 규칙을 잘 지킨 줄 알았는데, 가끔 평범한 친구(일반 [[082_attribute_types_er_model|속성]])가 대장인 척 규칙을 마음대로 정하는 문제(역하극상)가 남아있었어요.
 3. 그래서 규칙을 맘대로 정하고 싶어 하는 친구는 아예 다른 모둠의 진짜 대장으로 발령 내어 다투지 않게 정리하는 것이 BCNF랍니다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 106 / 600
+
+← **이전**: [[105_third_normal_form_3nf_transitive|105. 제3정규형 (3NF) - 2NF 만족 및 이행적 함수 종속 제거]]
+**다음**: [[107_multi_valued_dependency_mvd_4nf|107. 다치 종속성 (MVD, Multi-Valued Dependency) - X->>Y]] →
+
+---

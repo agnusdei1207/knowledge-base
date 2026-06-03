@@ -175,3 +175,14 @@ Unity Catalog는 [[074_photon_engine|Databricks]] 플랫폼 위에서 [[052_data
 1. Unity Catalog는 학교 도서관에서 학생마다 빌릴 수 있는 책이 다르게 정해진 도서관 카드 시스템이에요.
 2. 비밀 책(민감 컬럼)은 특별 카드를 가진 사람만 볼 수 있고, 누가 어느 책을 빌렸는지 모두 기록돼요.
 3. 다른 학교(외부 소비자)와 책을 나눌 때도 사진만 보내고 원본은 여기에 안전하게 보관된답니다(Delta Sharing).
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 150 / 262
+
+← **이전**: [[149_apache_hudi|149. Apache Hudi (Hadoop Upserts Deletes Incrementals) — CDC 지원 레이크]]
+**다음**: [[151_multi_tier_architecture|151. 다중 계층 아키텍처 (Multi-Tier Architecture) — Bronze/Silver/Gold]] →
+
+---

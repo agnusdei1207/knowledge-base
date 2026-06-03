@@ -175,3 +175,14 @@ Context Propagation: W3C Trace Context · B3 헤더
 ```
 2. Span ID는 각 구간(10km, 20km, 30km)에서 그 선수의 기록이에요.
 3. [[033_context|Context]] Propagation은 구간마다 "이 선수 번호는 X번이야"라고 이어서 알려주는 것이에요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 188 / 371
+
+← **이전**: [[188_distributed_tracing_opentelemetry|188. 분산 추적 (Distributed Tracing - OpenTelemetry, Jaeger)]]
+**다음**: [[190_opentelemetry_cncf_observability_standard|190. 오픈텔레메트리 (OpenTelemetry, CNCF 옵저버빌리티 표준)]] →
+
+---

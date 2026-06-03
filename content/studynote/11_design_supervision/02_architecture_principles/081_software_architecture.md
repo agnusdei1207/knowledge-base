@@ -124,3 +124,14 @@ tags:
 1. [[201_software_architecture_definition|소프트웨어 아키텍처]]는 블록을 아무 데나 쌓지 말고, 튼튼하게 버틸 모양으로 먼저 나누는 규칙이에요.
 2. 처음에 자리를 잘 정해 두면 새 블록을 붙일 때 무너지지 않아요.
 3. 그래서 나중에 바꾸거나 고칠 때도 훨씬 쉬워져요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 124 / 530
+
+← **이전**: [[080_cobit_process_evaluation_model|80. COBIT 프로세스 평가 (APO, BAI, DSS, MEA) 모델 연계 통제 진단 (COBIT)]]
+**다음**: [[082_ieee_1471_architecture_description_standard|82. IEEE 1471 (ISO/IEC 42010)]] →
+
+---

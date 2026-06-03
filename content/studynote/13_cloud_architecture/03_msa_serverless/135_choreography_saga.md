@@ -54,3 +54,14 @@ Choreography는 **소규모 MSA의 [[248_distributed_transaction_multiple_nodes|
 1. Choreography는 **재즈 즉흥**이에요. 지휘자 없이 **서로 듣고 맞춰** 연주해요.
 2. 각 [[090_service_kubernetes_network_load_balancing|서비스]]가 "나 끝났어!" **이벤트를 보내면** 다음 [[090_service_kubernetes_network_load_balancing|서비스]]가 시작해요.
 3. 연주자([[090_service_kubernetes_network_load_balancing|서비스]])가 적으면 좋지만, 많으면 **교향곡([[073_container_orchestration_tools|Orchestration]])**이 더 좋아요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 134 / 371
+
+← **이전**: [[134_saga_pattern|134. Saga 패턴 - MSA 분산 트랜잭션의 표준 솔루션]]
+**다음**: [[136_orchestration_saga|136. Orchestration Saga - 중앙 오케스트레이터 기반 분산 트랜잭션]] →
+
+---

@@ -55,3 +55,14 @@ Kafka: 분산 로그 (대용량, 순서 보장)
 1. [[389_mesh_topology|메시]]지 브로커는 **우체국**이에요. 편지([[389_mesh_topology|메시]]지)를 맡기면 **대신 배달**해요.
 2. 상대방이 부재(장애)여도 **우체국이 보관**했다가 나중에 전달해요.
 3. Kafka는 **대형 택배 센터**, RabbitMQ는 **동네 우체국**이에요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 145 / 482
+
+← **이전**: [[144_hub_and_spoke_architecture_eai|144. Hub-and-Spoke 아키텍처 심화 - EAI 중앙 통합]]
+**다음**: [[146_esb_enterprise_service_bus_architecture|146. ESB (Enterprise Service Bus) - 엔터프라이즈 서비스 버스]] →
+
+---

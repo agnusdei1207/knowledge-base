@@ -134,3 +134,14 @@ Reference Architecture
 1. 클라우드 마이그레이션 6R 전환 [[268_strategy_pattern|전략]]망은 복잡한 일을 순서와 규칙으로 정리해서 실수하지 않게 도와주는 방법이에요.
 2. Rehost 같은 친구들과 같이 움직여야 더 잘 작동해요.
 3. 그래서 문제가 생겨도 어디서 틀렸는지 빨리 찾고 다시 고치기 쉬워져요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 238 / 373
+
+← **이전**: [[237_opa_open_policy_agent_gatekeeper|237. OPA (Open Policy Agent) / Gatekeeper]]
+**다음**: [[239_stateless_redis|239. 무상태성 (Stateless) 설계]] →
+
+---

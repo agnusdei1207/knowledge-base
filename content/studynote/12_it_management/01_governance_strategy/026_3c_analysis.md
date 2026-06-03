@@ -142,3 +142,14 @@ Company:
 1. 3C 분석은 게임 [[268_strategy_pattern|전략]] 짜기와 같아요! 어떤 보상([[026_three_c_analysis|Customer]])을 원하는지, 다른 플레이어(Competitor)는 어떻게 하는지, 내 캐릭터(Company) 특기가 뭔지 삼각 분석해요.
 2. 다른 플레이어가 못하는 것 + 내가 잘하는 것 + 게임이 원하는 것 = 필승 [[268_strategy_pattern|전략]]의 교점이에요!
 3. 현대에는 AI가 실시간으로 이 세 가지를 분석해서 자동으로 [[268_strategy_pattern|전략]]을 추천해준답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 45 / 587
+
+← **이전**: [[025_pest_analysis_macro_environment|25. PEST 분석 — 거시 환경 분석 프레임워크]]
+**다음**: [[026_three_c_analysis|26. 3C 분석 (Customer)]] →
+
+---

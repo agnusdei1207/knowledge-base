@@ -95,3 +95,14 @@ Sequential Testing 및 Bayesian A/B 테스트 (실시간 의사결정 보완)
 1. 돋보기(A/B 테스트)로 아주 작은 개미(효과)를 찾으려고 할 때, 돋보기의 성능이 얼마나 좋은지가 바로 '검정력'이에요.
 2. 만약 돋보기가 너무 나쁘면(낮은 검정력) 개미가 지나가는데도 못 보고 밟을 수 있어요.
 3. 그렇다고 억지로 개미를 찾으려고 없는 점을 펜으로 그려 넣는 것([[337_p_value_significance|p-value]] 해킹)은 아주 정직하지 못한 행동이랍니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 99 / 258
+
+← **이전**: [[098_coefficient_of_determination_r_squared|결정 계수 (Coefficient of Determination) - R-Squared]]
+**다음**: [[100_k_means_clustering_elbow_silhouette|K-Means 군집화와 최적 K 도출 (K-Means Clustering & Optimal K)]] →
+
+---

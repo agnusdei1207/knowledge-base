@@ -114,3 +114,14 @@ tags:
 1. 라플라스 스무딩은 처음 보는 단어도 [[130_probability|확률]]이 0이 되지 않도록 "최소 점수 보장"을 해주는 규칙이에요.
 2. 예를 들어 "용"이라는 단어를 한 번도 학습하지 않았어도, 스무딩 덕분에 아주 작은 [[130_probability|확률]]을 가져요.
 3. 이렇게 하면 AI가 처음 보는 단어에 당황하지 않고 침착하게 [[104_classification_analysis|분류]]를 계속할 수 있어요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 350 / 420
+
+← **이전**: [[349_bayes_rule_likelihood|349. 우도와 사후 확률 (Likelihood & Posterior)]]
+**다음**: [[351_gini_entropy_information_gain|351. 지니 불순도 (Gini Impurity) 와 정보 획득량 (Information Gain)]] →
+
+---

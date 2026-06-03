@@ -171,3 +171,14 @@ DOCSIS 4.0 (Full Duplex ESD, 멀티기가빗 업스트림)
 1. 케이블 [[146_modem_modulator_demodulator|모뎀]]은 원래 TV 채널이 지나가는 큰 [[123_pipe|파이프]]([[127_coaxial_cable|동축 케이블]])에서 **TV [[130_signal|신호]] 옆 빈자리에 인터넷 [[001_dikw_pyramid|데이터]]를 몰래 태워 보내는 기술**이에요!
 2. 헤드엔드(방송국)에서 여러 집으로 연결된 [[127_coaxial_cable|동축 케이블]] [[123_pipe|파이프]]를 통해, 내 집 케이블 [[146_modem_modulator_demodulator|모뎀]]이 **인터넷 [[001_dikw_pyramid|데이터]]만 쏙 골라서 꺼내** 쓸 수 있어요.
 3. [[288_version_ihl_tos_total_length|버전]]이 올라갈수록(DOCSIS 3.1) 그 [[123_pipe|파이프]] 안에서 [[001_dikw_pyramid|데이터]]를 더 촘촘히 효율적으로 포장해서, 같은 [[123_pipe|파이프]]로도 **10배 더 많은 인터넷 [[001_dikw_pyramid|데이터]]**를 실어 나를 수 있게 됐답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 268 / 1120
+
+← **이전**: [[146_modem_modulator_demodulator|146. 모뎀 (Modem, Modulator/Demodulator)]]
+**다음**: [[148_adsl_vdsl_gfast|148. VDSL (Very high-bit-rate DSL) / ADSL (Asymmetric DSL) / G.fast]] →
+
+---

@@ -255,3 +255,14 @@ ISMP를 체계적으로 수립하고 이행하면 다음과 같은 효과를 기
 1. **개념**: ISMP는 '우리반 1학기 공부 계획표'와 같아요. 언어를 잘하려면([[101_isp_information_strategy_planning_4_steps|ISP]] 목표), 1학기에 영어 먼저 공부하고, 2학기에 수학을 공부하기로細日程을 세워요.
 2. **원리**: 계획표대로 하면 중간고사를 잘 볼 수 있지만, 급하게 더 많은 내용을 넣으면 표가 엉망이 될 수 있어요.
 3. **효과**: 미리 계획하면 엄마, 선생님이 만족하고, 시험도 잘 보겠답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 9 / 587
+
+← **이전**: [[006_isp_information_strategy_planning|006. ISP (Information Strategy Planning, 정보화 전략 계획)]]
+**다음**: [[007_ismp_information_system_master_plan|007. 정보시스템 마스터플랜 (ISMP, Information System Master Plan)]] →
+
+---

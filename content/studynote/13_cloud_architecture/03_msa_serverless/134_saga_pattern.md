@@ -54,3 +54,14 @@ Saga는 **[[619_msa_traffic_hardware|MSA]] [[248_distributed_transaction_multipl
 1. Saga는 **릴레이 달리기**예요. 각 선수가 자기 구간을 달리고 **바톤을 넘겨요**.
 2. 한 선수가 넘어지면(실패) **그 구간만 다시 달려요([[551_compensating_transaction_logical_rollback|보상 트랜잭션]])**.
 3. 전원이 동시에 출발하는 것([[549_2pc_two_phase_commit_limitations_msa|2PC]])보다 **빠르고 안전**하답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 133 / 371
+
+← **이전**: [[133_2pc_limitations|133. 2PC 한계와 MSA 분산 트랜잭션 - 왜 Saga가 필요한가]]
+**다음**: [[135_choreography_saga|135. Choreography Saga - 이벤트 기반 분산 트랜잭션]] →
+
+---

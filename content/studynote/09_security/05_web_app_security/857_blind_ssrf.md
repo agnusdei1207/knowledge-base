@@ -125,3 +125,14 @@ Blind [[468_ssrf|SSRF]] (Blind [[487_ssrf_server_side_request_forgery|Server-Sid
 1. Blind [[468_ssrf|SSRF]] (Blind [[487_ssrf_server_side_request_forgery|Server-Side Request Forgery]])는 누군가 규칙의 틈을 찾아 몰래 장난을 치는 방법이에요.
 2. 그래서 문을 단단히 잠그는 것뿐 아니라, 누가 이상하게 움직이는지도 바로 알아차려야 해요.
 3. 컴퓨터는 이상한 흔적을 빨리 보고 퍼지기 전에 멈추게 해야 안전해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 931 / 1108
+
+← **이전**: [[856_soc_2_trust_service_criteria|856. SOC 2 Trust Service Criteria (Security Operations Center)]]
+**다음**: [[857_soc_2_type_i_ii|857. SOC 2 Type I/II (Security Operations Center)]] →
+
+---

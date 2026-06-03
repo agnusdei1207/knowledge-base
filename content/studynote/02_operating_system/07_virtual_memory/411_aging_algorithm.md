@@ -178,3 +178,14 @@ tags:
 1. 에이징 ([[182_aging|Aging]]) 기반 [[260_page_replacement|페이지 교체]] 로직은 컴퓨터가 메모리를 더 크게 보이게 하고 부족함을 숨기는 방법이에요.
 2. 먼저 [[410_mfu_algorithm|MFU]] ([[410_mfu_algorithm|Most Frequently Used]]) [[001_algorithm_definition|알고리즘]]을 이해하면 에이징 ([[182_aging|Aging]]) 기반 [[260_page_replacement|페이지 교체]] 로직이 왜 필요한지 더 쉽게 보여요.
 3. 그래서 에이징 ([[182_aging|Aging]]) 기반 [[260_page_replacement|페이지 교체]] 로직을 잘 알면 나중에 [[257_thrashing|스래싱]] ([[257_thrashing|Thrashing]])도 훨씬 쉽게 배울 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 411 / 800
+
+← **이전**: [[410_mfu_algorithm|410. MFU (Most Frequently Used) 알고리즘]]
+**다음**: [[412_thrashing|412. 스래싱 (Thrashing) - 프로세스가 실제 실행보다 페이징(스와핑)에 더 많은 시간을 보내는 현상]] →
+
+---

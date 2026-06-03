@@ -139,3 +139,14 @@ tags:
 1. [[310_architecture|DDD]] [[222_aggregate_ddd_transaction_consistency|애그리게이트]] [[221_bounded_context_ddd_msa_boundary|바운디드 컨텍스트]]는 복잡한 일을 순서대로 정리해 주는 큰 정리함이에요.
 2. 어디에 무엇을 넣을지 먼저 정해 두면, 나중에 찾거나 고칠 때 훨씬 쉬워져요.
 3. 그래서 일이 커질수록 먼저 기준을 만들고 같이 약속하는 것이 중요해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 463 / 482
+
+← **이전**: [[462_tdd_bdd_behavior_driven|462. TDD BDD 행동 주도 개발 객체 지향 구현 (TDD, BDD, Behavior-Driven Development)]]
+**다음**: [[464_cap_pacelc_distributed_db|464. CAP 정리 PACELC 분산 DB 결과적 일관성 (CAP Theorem, PACELC, Eventual Consistency)]] →
+
+---

@@ -234,3 +234,14 @@ CAS ([[415_compare_and_swap|Compare-And-Swap]]) [[158_instruction|명령어]]는
 1. 서랍 속에 초콜릿 10개가 있는지 확인하고, 그 자리에 11개로 채워놓으려고 해요. 보통은 서랍을 열고 확인한 뒤에 다시 손을 뻗어 채워 넣죠.
 2. 그런데 손을 뻗는 0.1초 사이에 얄미운 동생이 초콜릿을 하나 훔쳐가면, 나는 9개가 된 줄도 모르고 바보처럼 11개를 넣어버리게 돼요([[001_dikw_pyramid|데이터]] 꼬임).
 3. CAS 마법은 "내 눈이 10개인 걸 확인하는 그 완벽한 찰나의 순간에 빛의 속도로 11개짜리 주머니와 싹 바꿔치기" 하는 기술이에요. 동생이 아예 손을 내밀 틈을 안 주는 엄청난 방어 기술이랍니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 768 / 800
+
+← **이전**: [[767_spinlock_smp_multiprocessor|767. 스핀락 멀티 프로세서 전용 활용 (Spinlock SMP Multiprocessor)]]
+**다음**: [[769_deadlock_victim_rollback_recovery|769. 데드락 희생자 롤백 복구망 (Deadlock Victim Rollback Recovery)]] →
+
+---

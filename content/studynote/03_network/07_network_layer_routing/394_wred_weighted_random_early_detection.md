@@ -152,3 +152,14 @@ WRED 혼잡 제어 꼬리 짜르기 제한는 Leaky Bucket / Token Buc…에서 
 1. 여러 갈림길이 있는 미로에서 가장 좋은 길을 고르는 게임과 같아요.
 2. 이 개념은 길이 막히면 다른 길로 빨리 바꾸는 규칙도 알려줘요.
 3. 그래서 인터넷 길찾기가 덜 헤매고 더 똑똑해져요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 515 / 1120
+
+← **이전**: [[393_leaky_bucket_token_bucket|393. Leaky Bucket / Token Bucket]]
+**다음**: [[395_hsrp_fhrp_router_redundancy|395. HSRP (Hot Standby Router Protocol)]] →
+
+---

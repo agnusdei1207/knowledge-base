@@ -139,3 +139,14 @@ tags:
 1. 클라크-윌슨 무결 [[191_transaction_concept_states|트랜잭션]] 접근 제어 모델는 복잡한 일을 순서대로 정리해 주는 큰 정리함이에요.
 2. 어디에 무엇을 넣을지 먼저 정해 두면, 나중에 찾거나 고칠 때 훨씬 쉬워져요.
 3. 그래서 일이 커질수록 먼저 기준을 만들고 같이 약속하는 것이 중요해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 441 / 482
+
+← **이전**: [[440_sase_sdwan_cloud_security|440. SASE SD-WAN 클라우드 보안 (SASE: Secure Access Service Edge)]]
+**다음**: [[442_oran_fronthaul_ecpri_split|442. O-RAN 프론트홀 eCPRI 분할 구조 전송망 (O-RAN Fronthaul eCPRI Split Architecture)]] →
+
+---

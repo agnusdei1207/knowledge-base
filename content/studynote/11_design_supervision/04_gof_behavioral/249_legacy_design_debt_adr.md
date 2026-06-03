@@ -177,3 +177,14 @@ project-root/
 1. 오래된 장난감 상자에 "왜 이 장난감을 샀는지" 메모가 없으면 엄마가 함부로 버릴 수 있다.
 2. ADR은 "이 장난감은 비가 올 때만 쓰는 거야"라고 적어두는 메모지다.
 3. 메모가 있으면 나중에 "이 장난감이 필요 없어졌나?"를 기준에 따라 결정할 수 있다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 310 / 530
+
+← **이전**: [[248_refactoring_tdd_safety_net|248. 리팩토링 TDD 안전망 (Refactoring TDD Safety Net)]]
+**다음**: [[250_message_passing_delegation|250. 메시지 패싱과 위임 (Message Passing & Delegation)]] →
+
+---

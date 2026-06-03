@@ -181,3 +181,14 @@ tags:
 1. 📞 [[268_sigmoid_vanishing_gradient|Sigmoid]] 는 전화 게임처럼 정보를 전달할 때마다 25% 만 남겨요. 10번 전달하면 거의 아무것도 안 남아요 ([[088_vanishing_gradient_relu_skip_connection|기울기 소실]])!
 2. 💡 [[269_relu_activation|ReLU]] 는 "양수면 그대로 전달, 음수면 0" 이라 100% 통과되는 대신, 한번 꺼진 뉴런은 다시 안 켜지는 단점이 있어요.
 3. 🔄 잔차 연결([[287_resnet_skip_connection|ResNet]])은 정보를 층층이 전달하는 것 외에 엘리베이터(스킵 연결)로 바로 아래층에도 보내줘서 이 문제를 해결해요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 344 / 420
+
+← **이전**: [[343_lagrange_multiplier_svm|343. 라그랑주 승수법 (Lagrange Multiplier)]]
+**다음**: [[345_backprop_chain_rule_math|345. 역전파 편미분 (Backpropagation)]] →
+
+---

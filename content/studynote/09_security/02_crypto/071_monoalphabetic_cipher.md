@@ -126,3 +126,14 @@ Frequency Analysis
 글자마다 다른 이름표를 붙여요.  
 그래도 흔적은 남아요.  
 단일 치환 암호는 그런 방식이에요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 71 / 1108
+
+← **이전**: [[070_caesar_cipher|070. 카이사르 암호 (Caesar Cipher) — 알파벳 3자리 이동]]
+**다음**: [[072_vigenere_cipher|072. 다중 치환 암호 (Vigenère Cipher) — 키워드 기반 복수 치환]] →
+
+---

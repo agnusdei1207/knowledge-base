@@ -125,3 +125,14 @@ Extended [[067_db_key_uniqueness_minimality|Key]] Usage (EKU)를 제대로 이�
 1. Extended [[067_db_key_uniqueness_minimality|Key]] Usage (EKU)는 학교 규칙표처럼 무엇을 준비하고 어떻게 확인할지 알려 주는 기준이에요.
 2. 규칙표만 붙여 두고 지키지 않으면 아무 소용이 없어요.
 3. 그래서 보안도 규칙과 실제 행동이 함께 맞아야 해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 252 / 1108
+
+← **이전**: [[198_key_usage_extension_digital_signature|198. Key Usage 확장 (Key Usage Extension Digital Signature)]]
+**다음**: [[200_name_constraints_ca_issuance_limit|200. nameConstraints (nameConstraints)]] →
+
+---

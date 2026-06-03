@@ -128,3 +128,14 @@ Security Review
 무서운 일이 어떤 종류인지 먼저 나눠 봐요.  
 도둑, 훼손, 유출 같은 이름표를 붙여요.  
 STRIDE는 그런 위협 [[104_classification_analysis|분류]]표예요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 65 / 1108
+
+← **이전**: [[064_dread_model|064. DREAD 모델 — Damage/Reproducibility/Exploitability/Affected Users discoverability]]
+**다음**: [[066_pasta_threat_modeling|066. PASTA (Process for Attack Simulation and Threat Analysis) — 7단계 위협 모델링]] →
+
+---

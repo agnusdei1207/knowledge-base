@@ -53,3 +53,14 @@ O2O는 **[[072_platform_business_two_sided_market|플랫폼 비즈니스]]의 �
 1. O2O는 **스마트폰(온라인)으로 주문하고 집(오프라인)에서 받는** 거예요.
 2. 배달앱으로 **음식을 주문**하면 식당에서 만들어 **집으로** 가져다줘요.
 3. 온라인과 오프라인을 **다리로 연결**해주는 [[090_service_kubernetes_network_load_balancing|서비스]]예요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 139 / 482
+
+← **이전**: [[138_digital_onboarding_automation_ux|138. 디지털 온보딩 자동화 - 고객·직원 경험 혁신]]
+**다음**: [[140_subscription_economy_xaas_business_model|140. 구독 경제 & XaaS 비즈니스 모델 - 소유에서 구독으로]] →
+
+---

@@ -176,3 +176,14 @@ Data Mesh (도메인 팀 분산 소유, DataOps 도메인 단위 적용)
 1. dbt는 요리 레시피 북이에요. 재료(원시 [[001_dikw_pyramid|데이터]])를 어떻게 손질하고 조리하는지 SQL로 적어두면, 컴퓨터가 자동으로 요리([[001_dikw_pyramid|데이터]] 변환)해줘요.
 2. [[324_dataops|DataOps]] [[090_configuration_item|CI]]/CD는 요리가 끝날 때마다 맛 검사(테스트)를 자동으로 해줘서, 맛없는 요리(나쁜 [[001_dikw_pyramid|데이터]])가 손님(대시보드, ML 모델)에게 나가지 않게 막아줘요.
 3. [[236_data_contract|데이터 계약]]은 주방과 홀 직원이 이 요리는 항상 이 모양, 이 크기로 나와야 해라고 약속하는 것처럼, [[001_dikw_pyramid|데이터]]를 주는 쪽과 받는 쪽이 서로 규칙을 코드로 약속하는 거예요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 356 / 373
+
+← **이전**: [[355_architecture|355. CXL 칩렛 메모리 풀 고성능 서버 아키텍처망 (CXL Chiplet Memory Pool)]]
+**다음**: [[357_oom_killed|357. OOM Killed 커널 자원 제한 종료 방어망 (OOM Killer Kubernetes QoS cgroup Memory Limits)]] →
+
+---

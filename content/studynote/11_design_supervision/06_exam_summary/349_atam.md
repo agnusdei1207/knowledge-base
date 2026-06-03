@@ -106,3 +106,14 @@ tags:
 1. [[229_atam_architecture_trade_off_analysis_method|ATAM]] 아키텍처 트레이드오프 평가은 집을 짓기 전에 방과 길을 먼저 그려 보는 것과 같아요.
 2. 어느 방을 크게 하고 어디를 튼튼하게 할지 미리 정해야 해요.
 3. 그래야 나중에 고칠 때도 왜 그렇게 만들었는지 알 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 427 / 530
+
+← **이전**: [[348_4_1_view|348. 4+1 뷰 아키텍처 (4+1 View Model)]]
+**다음**: [[350_cbam|350. CBAM 경제성 관점 확장 (Cost Benefit Analysis Method)]] →
+
+---

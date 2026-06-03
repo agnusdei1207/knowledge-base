@@ -142,3 +142,14 @@ B-ISDN이 복잡한 설계도를 고치고 앉아있을 때, 컴퓨터 엔지니
 1. 학교 우편함에 이름표가 붙어 있어야 편지가 엉뚱한 곳에 가지 않아요.
 2. 이 개념은 어느 교실로 보내야 할지 알아보는 [[104_classification_analysis|분류]] 규칙과 같아요.
 3. 그래서 같은 건물 안에서도 편지가 더 빠르고 질서 있게 움직여요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 400 / 1120
+
+← **이전**: [[278_virtual_circuit_transmission_connection_oriented_packet_switching|278. 가상 회선 전송 방식 (연결형 패킷 교환]]
+**다음**: [[280_local_loop_subscriber_line|280. 로컬 루프 (Local Loop, 가입자 선로)]] →
+
+---

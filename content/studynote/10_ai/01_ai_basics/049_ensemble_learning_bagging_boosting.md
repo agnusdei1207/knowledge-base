@@ -306,3 +306,14 @@ Leaf-wise, 카테고리 변수
 1. [[257_ensemble_learning|앙상블]] = 의사 그룹 진료 — 여러 의사가 각자 진단 후 다수결. 한 의사 실수를 다른 의사가 보완. 혼자보다 정확!
 2. [[259_bagging_random_forest|배깅]]([[353_random_forest|Random Forest]]) = 여론조사 집계 — 100개 독립 조사 평균. 과적합 방지, [[136_variance|분산]] 감소. 모두 같은 답 = 무의미하니 무작위 특성 추가!
 3. [[127_boosting|부스팅]](XGBoost) = 약점 집중 훈련 — 틀린 문제에 집중. 이전 오류(잔차)를 다음 모델이 공략. 100회 반복 → 최강 모델!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 49 / 420
+
+← **이전**: [[048_anomaly_detection|048. 이상 탐지 — Anomaly Detection]]
+**다음**: [[050_voting_hard_soft_ensemble|보팅 앙상블 — 하드/소프트 보팅 (Hard vs Soft Voting Ensemble)]] →
+
+---

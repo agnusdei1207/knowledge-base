@@ -125,3 +125,14 @@ ISMS (정보보호 관리체계) 인증 및 컴플라이언스 준수
 1. 중요한 비밀 일기장(자산)을 아무도 못 보게 자물쇠를 채우는 것이 [[002_confidentiality|기밀성]]이에요.
 2. 동생이 몰래 내 일기에 낙서를 못 하게 막는 것이 [[003_integrity|무결성]]이에요.
 3. 이 일기장을 책상, 금고, 마음속 약속으로 단단히 지키는 방법을 정하는 것이 [[095_information_security_management|정보 보안 관리]]랍니다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 174 / 587
+
+← **이전**: [[095_information_security_management|95. 정보 보안 관리 (Information Security Management)]]
+**다음**: [[096_iso_iec_20000|96. ISO/IEC 20000]] →
+
+---

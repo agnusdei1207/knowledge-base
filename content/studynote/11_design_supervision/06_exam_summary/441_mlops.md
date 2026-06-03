@@ -149,3 +149,14 @@ tags:
 1. AI는 처음 배운 문제는 잘 풀어도 세상이 바뀌면 점점 헷갈릴 수 있어요.
 2. 그래서 계속 시험을 보게 해서 예전보다 못 풀면 다시 공부하게 해 줘야 해요.
 3. 이 과정을 자동으로 챙겨주는 것이 [[348_mlops|MLOps]] 드리프트 모니터링이에요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 519 / 530
+
+← **이전**: [[440_dapp|440. 블록체인 스마트 컨트랙트 DApp 보안 (Blockchain Smart Contract DApp Security)]]
+**다음**: [[442_architecture|442. 인텐트 기반 IBN 아키텍처 자동 변환망 (Intent-Based Networking Architecture)]] →
+
+---

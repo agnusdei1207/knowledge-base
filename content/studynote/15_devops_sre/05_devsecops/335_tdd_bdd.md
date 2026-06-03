@@ -159,3 +159,14 @@ TDD의 핵심은 **"테스트가 설계를 주도한다"**는 것이다. 테스�
 1. TDD는 요리하기 전에 맛을 테스트할 방법을 먼저 정해두는 거예요. 이렇게 익으면 성공이라는 기준을 먼저 만들고 요리를 시작해요.
 2. BDD는 요리사(개발자), 손님(PO), 식품 검사관(QA)이 다 함께 이 음식이 어떤 맛이어야 합격인가를 미리 약속하는 거예요.
 3. Mock은 진짜 재료 대신 연습용 모형 재료로 조리 연습을 하는 거예요. 실제 재료 없이도 레시피를 완성할 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 335 / 373
+
+← **이전**: [[334_opa_gatekeeper_rego|334. Policy as Code OPA Gatekeeper Rego (OPA Open Policy Agent Gatekeeper Rego]]
+**다음**: [[336_msa_api|336. Contract Testing MSA API 소비자 주도 계약 테스트 (Contract Testing MSA Consumer-Driven]] →
+
+---

@@ -111,3 +111,14 @@ tags:
 1. 명령-조회 책임 분리 ([[271_command_pattern|Command]] Query Responsibility Segregation, [[306_cqrs|CQRS]])은 주문 쓰는 창구와 메뉴 보는 전광판을 따로 두는 식당처럼 약속을 먼저 정하는 거예요.
 2. 그러면 서로 다른 사람이 해도 같은 규칙으로 움직일 수 있어요.
 3. 그래서 규모가 커질수록 읽기와 [[289_cqrs_db|쓰기]]의 요구사항을 각각 최적화하는 일이 더 중요해져요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 446 / 530
+
+← **이전**: [[367_architecture|367. 이벤트 주도 아키텍처 (Event-Driven Architecture, EDA)]]
+**다음**: [[369_process|369. 이벤트 소싱 (Event Sourcing)]] →
+
+---

@@ -126,3 +126,14 @@ tags:
 1. [[576_feature_flag_ab_testing_rollout|피처 플래그]]는 극장 무대의 **조명 [[238_switch_operation_principles|스위치]]**예요. 배우(코드)는 이미 있지만, 불을 켜야 관객이 봐요.
 2. 새 공연이 걱정되면 **가족(사내 직원)에게만 먼저 보여주고**, 괜찮으면 모든 관객에게 공개해요.
 3. 만약 실수가 있으면 **조명만 끄면(1초)** 돼서, 무대를 부수고([[098_rollback_strategy_pipeline_error_threshold|롤백]]) 다시 만들 필요가 없답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 114 / 973
+
+← **이전**: [[113_chaos_engineering_chaos_monkey|113. 카오스 엔지니어링 (Chaos Engineering) - Chaos Monkey·정상 상태 가설·실험 설계]]
+**다음**: [[115_canary_deployment_gradual_rollout|115. 카나리 배포 (Canary Deployment) - 점진적 롤아웃과 트래픽 분배 전략]] →
+
+---

@@ -257,3 +257,14 @@ LLM 보안 위협 비즈니스 영향 분석
 1. SABSA는 회사 보안을 경영자(비즈니스)부터 기술자(시스템)까지 층층이 연결된 설계 도면으로 만드는 방법이에요!
 2. "왜 이 보안이 필요한가?"를 항상 비즈니스 이유로 설명할 수 있도록 — [[690_firewall_generation_evolution|방화벽]] 하나도 "어떤 비즈니스 [[096_risk_non_risk_architecture_evaluation_flaws|리스크]]를 막는가"를 추적할 수 있어요.
 3. [[041_zachman_framework|자크만 프레임워크]]를 보안에 특화한 것 — "6층 아키텍처 × 6가지 질문"의 36칸 체크리스트로 보안 구멍을 찾아요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 42 / 1108
+
+← **이전**: [[041_zachman_framework|041. 자크만 프레임워크 (Zachman Framework) — 엔터프라이즈 아키텍처]]
+**다음**: [[043_osa|043. OSA — 오픈 보안 아키텍처 (Open Security Architecture)]] →
+
+---

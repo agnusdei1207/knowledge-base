@@ -202,3 +202,14 @@ Spark 작업 완료 후 사후 분석은 History Server가 담당하며, 이벤�
 ### 👶 어린이를 위한 3줄 비유 설명
 
 Spark History Server는 학교 숙제 검사 일지 같은 것이에요. 숙제(Spark 작업)가 끝나면 선생님(History Server)이 "누가 얼마나 빠르게 풀었는지, 어디서 막혔는지" 일지에 적어두어요. 나중에 숙제가 왜 어려웠는지 [[396_validation|확인]]하고 싶을 때 이 일지를 보면 된답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 72 / 262
+
+← **이전**: [[071_checkpointing|20. 체크포인팅 (Checkpointing) — Lineage 단절 및 장애 복구]]
+**다음**: [[073_delta_lake_on_spark|22. Delta Lake on Spark — ACID 트랜잭션 지원 레이크하우스]] →
+
+---

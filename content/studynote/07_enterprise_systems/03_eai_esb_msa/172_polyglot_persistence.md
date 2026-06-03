@@ -189,3 +189,14 @@ Event / Outbox / Saga based integration
 1. 국은 냄비에 끓이고, 빵은 오븐에 굽고, 샐러드는 그릇에 담는 게 더 잘 어울려요.
 2. [[308_pgvector|폴리글랏 퍼시스턴스]]는 [[001_dikw_pyramid|데이터]]도 음식처럼 성격에 맞는 그릇을 따로 고르는 생각이에요.
 3. 하지만 그릇만 많고 정리 규칙이 없으면 부엌이 더 어지러워지니까 조심해야 해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 172 / 482
+
+← **이전**: [[171_fallback_resilience_pattern|171. 폴백 (Fallback) 회복탄력성 패턴]]
+**다음**: [[173_database_per_service|173. 데이터베이스 퍼 서비스 (Database per Service)]] →
+
+---

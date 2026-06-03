@@ -206,3 +206,14 @@ Lower intermediate result cost
 1. 큰 숙제를 여러 종이로 나눠 적어 두면 보기에는 편하지만, 풀 때는 관련 종이를 한곳에 모아야 빨라요.
 2. [[002_database_definition|데이터베이스]]도 표를 나눠 적은 뷰를 다시 합쳐 보면 더 쉬운 길을 찾을 수 있어요.
 3. 하지만 점수표처럼 순서를 꼭 지켜야 하는 종이는 함부로 섞으면 안 돼요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 177 / 600
+
+← **이전**: [[176_join_order_optimization|176. 조인 순서 (Join Order) 최적화 - 동적 계획법 (Dynamic Programming), 탐욕 알고리즘]]
+**다음**: [[178_condition_pushdown|178. 조건 푸시 다운 (Condition Pushdown) - WHERE 조건을 뷰 내부로 밀어 넣어 데이터 필터링 조기화]] →
+
+---

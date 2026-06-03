@@ -179,3 +179,14 @@ GAN과 [[239_minimax_alpha_beta_pruning|미니맥스]] [[075_loss_function_cost_
 1. GAN은 경찰(판별자)과 위조지폐범([[087_process_state_transition|생성]]자)의 게임이야. 경찰은 진짜와 가짜를 더 잘 구별하려 하고, 위조지폐범은 더 정교한 가짜를 만들려 해.
 2. 모드 붕괴는 위조지폐범이 "어차피 [[489_raid_10_hybrid|10]]0원짜리만 잘 만들면 경찰을 속일 수 있으니 500원짜리는 포기"하는 현상이야.
 3. WGAN은 위조지폐가 진짜와 얼마나 다른지 거리를 재는 공정한 심판을 추가해서, 게임이 더 오래 지속되고 다양한 지폐를 만들 수 있게 해.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 375 / 420
+
+← **이전**: [[374_vae_reparameterization|374. VAE (Variational Autoencoder) 재파라미터화 트릭 (Reparameterization Trick)]]
+**다음**: [[376_markov_chain|376. 마르코프 체인 (Markov Chain)]] →
+
+---

@@ -119,3 +119,14 @@ shared responsibility
 1. 장난감은 한 사람만 만지면 금방 막혀요.
 2. 누구나 고칠 수 있으면 더 빨리 좋아져요.
 3. 하지만 규칙 없이 만지면 금방 어질러져요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 75 / 973
+
+← **이전**: [[074_pair_programming_driver_navigator|74. 페어 프로그래밍 (Pair Programming) - Driver / Navigator]]
+**다음**: [[076_ci_continuous_integration|76. 지속적 통합 (CI, Continuous Integration)]] →
+
+---

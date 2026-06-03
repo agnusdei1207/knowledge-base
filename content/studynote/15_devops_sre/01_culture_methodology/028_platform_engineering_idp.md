@@ -147,3 +147,14 @@ Golden Path = 플랫폼이 권장하는 표준 개발·배포 경로
 1. [[109_platform_engineering_cognitive_load|플랫폼 엔지니어링]]은 개발자를 위한 자동 요리 키트 [[090_service_kubernetes_network_load_balancing|서비스]]예요! 복잡한 인프라를 준비해두면 개발자는 앱 만들기에만 집중할 수 있어요.
 2. Golden Path는 이케아 조립 설명서처럼 "이 순서대로 하면 누구나 성공할 수 있어요"라는 표준 경로예요!
 3. 미래에는 AI가 "어떤 [[090_service_kubernetes_network_load_balancing|서비스]] 만들어요?"라고 물어보고 자동으로 필요한 모든 인프라를 세팅해줄 거예요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 28 / 373
+
+← **이전**: [[027_space_framework|27. SPACE 프레임워크 — 개발자 생산성 5차원 측정]]
+**다음**: [[029_golden_path_value_stream|29. 골든 패스와 가치 흐름 (Golden Path & Value Stream)]] →
+
+---

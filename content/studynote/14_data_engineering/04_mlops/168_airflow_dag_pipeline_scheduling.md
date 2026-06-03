@@ -377,3 +377,14 @@ Airflow + Kubernetes Executor → 동적 Pod 스케일링
     ├─► Prefect: Pythonic, 클라우드 네이티브
     └─► Mage AI: 통합 데이터 파이프라인
 ```
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 168 / 258
+
+← **이전**: [[167_kubeflow_kubernetes_ml_pipeline|167. 쿠브플로우 (Kubeflow) - 쿠버네티스 기반 ML 파이프라인]]
+**다음**: [[169_model_serving_engine_triton_tensorflow_serving|169. 모델 서빙 엔진 (Model Serving Engine) - TensorFlow Serving, NVIDIA Triton]] →
+
+---

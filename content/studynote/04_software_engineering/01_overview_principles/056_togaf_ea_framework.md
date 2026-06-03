@@ -125,3 +125,14 @@ ADM
 1. TOGAF는 큰 집을 어떻게 지을지 정하는 책이에요.
 2. 어디부터 어떻게 할지 순서가 있어요.
 3. 그래서 큰 집도 헷갈리지 않고 지을 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 56 / 973
+
+← **이전**: [[055_zachman_framework|55. Zachman Framework]]
+**다음**: [[057_mda_model_driven_architecture|57. 모델 주도 아키텍처 (MDA, Model Driven Architecture) - PIM, PSM 매핑]] →
+
+---

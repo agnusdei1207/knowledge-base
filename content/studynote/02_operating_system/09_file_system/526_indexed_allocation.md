@@ -155,3 +155,14 @@ tags:
 1. 거대 컴퓨터 하드디스크 창고에 1만 개로 쪼개진 [[501_file_definition_logical_record|파일]]을 숨겨놓을 때! 옛날엔 조각마다 서로 "다음은 어디!" 꼬리표를 달아 헤매거나(연결 꼬리표 방식), 중앙 로비 벽면에 거대한 1개의 공용 우주 지도를 꽉 채워([[525_fat_file_allocation_table|FAT]] 방식) 너무 무겁게 컴퓨터 RAM에 과부하를 줬어요(메모리 랙 에러)!
 2. 똑똑한 엔지니어는 묘수 **"색인 할당([[154_database_index_b_tree_search_optimization|인덱스]] 1인 1장부 규칙)"** 을 발명했어요! 거대 장부에 몰아 쓰는 대신, **"야! 1번 게임 [[501_file_definition_logical_record|파일]]아 넌 네 주소만 관리하는 너만의 1장짜리 개인 지도([[154_database_index_b_tree_search_optimization|Index]] 장부)를 [[501_file_definition_logical_record|파일]]마다 각각 하나씩 가져 포팅 컷!"** 라며 독립 선언 장부를 만든 거죠!
 3. 내 [[501_file_definition_logical_record|파일]]의 [[154_database_index_b_tree_search_optimization|인덱스]] 장부 1장만 쏘옥 꺼내서 읽어보면(랜덤 액세스 $O(1)$ 스피드 타격), 게임 중간 스테이지인 500번째 조각이 어느 동굴 철판에 박혀 있는지 눈빛만 보고 바로 이동 순간이동 점프 록백을 해버려요! 단! 아주 작은 1바이트 먼지 메모 [[501_file_definition_logical_record|파일]]조차 무조건 1개의 [[154_database_index_b_tree_search_optimization|인덱스]] 장부를 강제로 헌납 낭비해야 하는 공간 슬픔 병목은 막을 수 없답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 526 / 800
+
+← **이전**: [[525_fat_file_allocation_table|525. FAT (File Allocation Table) - MS-DOS 기반, 포인터들을 별도의 테이블에 모아 캐싱하여 랜덤 접근]]
+**다음**: [[527_index_block_size_limits|527. 색인 블록 크기 한계 해결 - 연결 색인, 다중 수준 색인 (Multilevel Index)]] →
+
+---

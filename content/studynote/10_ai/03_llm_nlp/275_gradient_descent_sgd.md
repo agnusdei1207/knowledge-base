@@ -180,3 +180,14 @@ SGD([[241_optimizer_sgd_minibatch_adam_momentum_adaptive|Stochastic Gradient Des
 1. 경사 하강법은 눈을 가린 채 언덕에서 내려오는 것처럼, 발밑이 어느 쪽으로 기울어졌는지 느끼며 조금씩 내려오는 방법이에요.
 2. 전체 땅을 다 살펴보고 한 걸음 딛는 것(Batch GD)보다 조금씩 살펴보며 빠르게 걷는 것(SGD)이 실제로 더 빨리 도착해요.
 3. 가끔 흔들리는 게(노이즈) 오히려 함정([[083_local_minima_vs_global_minimum|지역 최솟값]])을 피하게 해줘서, 완벽하지 않아도 더 좋은 결과를 낼 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 275 / 420
+
+← **이전**: [[274_optimizer_learning_rate|274. 옵티마이저 (Optimizer)]]
+**다음**: [[276_momentum_optimizer|276. 모멘텀 (Momentum)]] →
+
+---

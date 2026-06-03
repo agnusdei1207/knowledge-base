@@ -126,3 +126,14 @@ Kubeflow는 **[[263_llm_large_language_model|LLM]] 시대의 [[304_fine_tuning|F
 1. Kubeflow는 공장의 **자동 컨베이어 벨트**예요. 재료([[001_dikw_pyramid|데이터]])를 넣으면 완제품([[190_ai_llm_requirements_specification|AI]] 모델)이 나와요.
 2. Katib라는 로봇은 **"소금 얼마, 설탕 얼마"를 수백 번 바꿔가며** 제일 맛있는 레시피를 찾아줘요.
 3. 다 만들어진 제품은 KServe라는 **택배 시스템**이 고객에게 배달(서빙)해준답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 112 / 371
+
+← **이전**: [[112_serverless_kubernetes_fargate|112. 서버리스 K8s (Serverless Kubernetes) - AWS Fargate·Azure ACI·Virtual Kubelet]]
+**다음**: [[114_argocd_gitops_cd|114. Argo CD (ArgoCD GitOps CD) - K8s 선언적 지속 배포·Git 단일 진실 원천]] →
+
+---

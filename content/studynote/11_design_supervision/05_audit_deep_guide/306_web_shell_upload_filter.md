@@ -104,3 +104,14 @@ tags:
 1. 확장자 검사는 학교에서 준비물을 미리 챙기는 것처럼, 중요한 기준을 먼저 맞추는 일이야.
 2. 마임 [[395_verification_process_review|검증]]은 선생님이 수업 중간에 계속 확인하는 것처럼, 실제로 잘 되고 있는지 보는 과정이야.
 3. 내용 기반 탐지는 시험 결과표처럼, 정말 효과가 있었는지 나중에 다시 확인하게 해주는 증거야.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 371 / 530
+
+← **이전**: [[306_web_shell|306. 웹셸 차단 업로드 필터 감리 (Web Shell Upload Filter Audit)]]
+**다음**: [[307_audit|307. 서버 인증서 만료 모니터링 감리 (Server Certificate Expiration Monitoring Audit)]] →
+
+---

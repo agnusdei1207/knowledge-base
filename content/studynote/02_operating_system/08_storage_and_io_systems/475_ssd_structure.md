@@ -184,3 +184,14 @@ QLC는 이 물의 높이를 무려 **16단계로 초정밀 측정**해야 한다
 1. 솔리드 [[272_state_pattern|스테이트]] 드라이브 ([[327_ssd|SSD]], [[327_ssd|Solid State Drive]]) 구조은 컴퓨터가 디스크와 장치가 [[001_dikw_pyramid|데이터]]를 주고받는 길을 정리하는 방법이에요.
 2. 먼저 리눅스 I/O [[079_kube_scheduler_pod_placement|스케줄러]]을 이해하면 솔리드 [[272_state_pattern|스테이트]] 드라이브 ([[327_ssd|SSD]], [[327_ssd|Solid State Drive]]) 구조이 왜 필요한지 더 쉽게 보여요.
 3. 그래서 솔리드 [[272_state_pattern|스테이트]] 드라이브 ([[327_ssd|SSD]], [[327_ssd|Solid State Drive]]) 구조을 잘 알면 나중에 [[256_flash_memory|플래시 메모리]] 한계도 훨씬 쉽게 배울 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 475 / 800
+
+← **이전**: [[474_linux_io_schedulers|474. 리눅스 I/O 스케줄러 - NOOP, CFQ(Completely Fair Queuing), Deadline, BFQ]]
+**다음**: [[476_flash_memory_limitations|476. 플래시 메모리 한계 - 덮어쓰기 불가(Erase-before-write), 쓰기 횟수 제한(Wear-out)]] →
+
+---

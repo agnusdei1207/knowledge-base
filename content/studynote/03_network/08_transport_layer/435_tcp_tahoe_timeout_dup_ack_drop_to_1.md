@@ -154,3 +154,14 @@ Tahoe의 문제는 3번째 무기인 '[[433_fast_retransmit_3_dup_ack|Fast Retra
 1. 물건을 보낼 때 받는 사람이 너무 빨리 받으면 놓칠 수 있어요.
 2. 이 개념은 천천히 보낼지, 다시 보낼지, 길이 막히면 멈출지를 정해줘요.
 3. 그래서 멀리 보내도 덜 잃어버리고 더 안정적으로 도착해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 556 / 1120
+
+← **이전**: [[434_fast_recovery_skip_slow_start|434. 빠른 회복 (Fast Recovery)]]
+**다음**: [[436_tcp_reno_fast_retransmit_recovery|436. TCP Reno (빠른 재전송/빠른 회복 지원) 모델]] →
+
+---

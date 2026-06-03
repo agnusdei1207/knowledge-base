@@ -140,3 +140,14 @@ KPI와 [[017_csf|CSF]] 연관 [[083_relationship_in_er_model|관계]]가 제대�
 1. KPI와 [[017_csf|CSF]] 연관 [[083_relationship_in_er_model|관계]]는 복잡한 일을 순서대로 정리해 주는 큰 정리함이에요.
 2. 어디에 무엇을 넣을지 먼저 정해 두면, 나중에 찾거나 고칠 때 훨씬 쉬워져요.
 3. 그래서 일이 커질수록 먼저 기준을 만들고 같이 약속하는 것이 중요해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 324 / 482
+
+← **이전**: [[323_bpr_pi_difference|323. BPR PI 차이점 근본적 재설계 vs 점진적 혁신 (BPR vs PI)]]
+**다음**: [[325_bsc_four_perspectives|325. BSC 균형 성과 4관점 재무 고객 프로세스 성장 (BSC Balanced Scorecard)]] →
+
+---

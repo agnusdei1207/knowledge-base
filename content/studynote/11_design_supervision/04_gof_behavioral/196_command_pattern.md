@@ -131,3 +131,14 @@ GUI 애플리케이션에서 버튼 클릭, 메뉴 선택, 키보드 단축키 �
 1. [[271_command_pattern|커맨드]] 패턴은 주문서처럼, 요청을 객체로 만들어 나중에 실행하거나 취소([[393_undo|Undo]])할 수 있어요.
 2. Ctrl+Z(되돌리기)가 바로 이 패턴을 사용해요.
 3. CQRS에서 [[271_command_pattern|Command]] 객체도 이 패턴의 아키텍처 버전이에요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 257 / 530
+
+← **이전**: [[195_factory_vs_template_method|195. 팩터리 메서드 vs 템플릿 메서드 (Factory Method vs Template Method)]]
+**다음**: [[197_state_pattern|197. 상태 패턴 (State Pattern)]] →
+
+---

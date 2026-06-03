@@ -104,3 +104,14 @@ tags:
 1. 규모 추정은 학교에서 준비물을 미리 챙기는 것처럼, 중요한 기준을 먼저 맞추는 일이야.
 2. 스케일 팩터는 선생님이 수업 중간에 계속 확인하는 것처럼, 실제로 잘 되고 있는지 보는 과정이야.
 3. [[144_vaf_value_adjustment_factor|보정 계수]]는 시험 결과표처럼, 정말 효과가 있었는지 나중에 다시 확인하게 해주는 증거야.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 343 / 530
+
+← **이전**: [[281_function_point_settlement|281. 기능점수 정산 감리 (Function Point Settlement Audit)]]
+**다음**: [[283_pmo_preventive_quality_plan|283. PMO 예방적 품질통제 계획 (PMO Preventive Quality Plan)]] →
+
+---

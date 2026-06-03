@@ -165,3 +165,14 @@ tags:
 1. [[004_blockchain|블록체인]] [[032_dapp_decentralized_application|DApp]] (Decentralized Application) 아키텍처은 레고 블록으로 성을 만들 때처럼, 규칙을 정하고 역할을 나누어 함께 작업하는 방법이에요.
 2. 혼자서 막 만들면 나중에 무너지거나 고치기 어렵지만, 약속을 지키면 누구나 쉽게 고치고 더 크게 만들 수 있어요.
 3. 그래서 [[001_software_engineering_definition|소프트웨어 공학]]은 프로그래머들이 좋은 프로그램을 빠르고 안전하게 만들 수 있게 도와주는 '규칙 모음집'이에요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 758 / 973
+
+← **이전**: [[591_quantum_computing_hybrid_architecture|591. 양자 컴퓨팅 (Quantum Computing) 알고리즘 (쇼어 알고리즘 등)에 대비한 하이브리드 아키텍처 연구]]
+**다음**: [[593_digital_twin_integration_architecture|593. 디지털 트윈 (Digital Twin) 소프트웨어 통합 통신 아키텍처]] →
+
+---

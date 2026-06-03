@@ -169,3 +169,14 @@ AWS Step Functions & Durable Functions 워크플로우 대통일 (현재) 🚀 /
 1. **상태([[272_state_pattern|State]])를 뱃속에 기억하는 옛날 로봇(Stateful 💥)**은 식당에서 손님 얼굴과 주문 메뉴를 자기 뇌(RAM)로만 똑똑하게 다 외워버렸어요! 근데 이 로봇이 화장실 가거나 뻗어 쓰러져 죽으면? ➔ 다른 새 로봇 알바생은 손님이 누군지 뭘 시켰는지 1도 몰라서 식당 주문이 다 취소되고 난장판 멸망(에러 파국 💀)이 터졌어요 ㅠ.
 2. 그래서 천재 사장님(아키텍트 대장 🪓)이 룰을 바꿨어요!! **"야 알바 로봇들아!! 하늘이 두 쪽 나도 손님 얼굴 절대 외우지 마 1초 만에 지우개로 까먹어 뇌 세척해 쾅(무상태 [[239_stateless_redis|Stateless]] 🚀)!!! 대신 손님 주문은 무조건 [[059_counter|카운터]] 한가운데 놔둔 커다란 [메모장 엑셀 장부(외부 DB 금고 텐트 ✨)] 에 무.조.건 다 적어서 볼펜 록온 박아놔 쾅!!!"** 
 3. 이 무상태([[239_stateless_redis|Stateless]]) 요술 덕분에 ➔ 손님이 100만 명 몰려와도 사장님이 1초 만에 알바 로봇 1만 대를 허공에서 펑펑! 무한 복사 스폰 소환([[202_scale_out_distributed_horizontal_expansion|Scale-out]] 증식) 시켜버릴 수 있어요 🚀! 새로 온 1만 명 알바 봇은 그냥 중앙 메모장 1장만 스윽 엑스레이 스캔 까보면 ➔ "아 5번 손님 짜장면 ㅋ 배달 출발 쓩!" 하고 100% 완벽 오차 없이 즉시 쾌속 일을 해낼 수 있는 절대 멈추지 않는 무결점 무적 생존 식당 꿀팁이랍니다 ✨!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 153 / 371
+
+← **이전**: [[153_provisioned_concurrency_warm_start|153. 프로비저닝된 동시성 / 웜 스타트 (Provisioned Concurrency / Warm Start) - 서버리스 콜드 스타트]]
+**다음**: [[155_event_trigger_serverless_architecture|155. 이벤트 트리거 기반 실행 (Event Trigger Serverless)]] →
+
+---

@@ -119,3 +119,14 @@ Blameless Postmortem
 
 > 🧒 **어린이 비유**
 > 모래성이 무너지면 "네가 잘못 쌓았어!" 하지 않고 "파도가 언제 치는지 몰랐구나, 다음엔 더 뒤에 짓자"라고 말하는 것이 Blameless예요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 319 / 373
+
+← **이전**: [[318_process|Toil SRE Automation]]
+**다음**: [[320_metric|Observability Metrics Logs Traces]] →
+
+---

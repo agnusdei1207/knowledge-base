@@ -103,3 +103,14 @@ ATAM 평가 및 상충점 (Trade-off) 조율
 1. 축구팀이 "우승"이라는 목표를 이루려면 막연히 열심히 뛰는 것만으론 안 되고 아주 구체적인 작전이 필요해요.
 2. 수비수를 한 명 더 늘리거나, 빠른 공격수로 교체하는 것처럼 특정 상황에 대응하는 작전 지시가 바로 아키텍처 전술이에요.
 3. 컴퓨터 프로그램도 무너지지 않고 빠르게 돌아가기 위해 감독(아키텍트)이 서버를 늘리거나 캐시를 쓰라는 세밀한 전술을 지시한답니다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 143 / 530
+
+← **이전**: [[099_adr_architecture_decision_record|99. ADR (Architecture Decision Record) - 아키텍처 설계 결정 기록]]
+**다음**: [[101_solid_object_oriented_design_principles|101. 객체 지향 설계 원칙 (SOLID, Object-Oriented Design Principles)]] →
+
+---

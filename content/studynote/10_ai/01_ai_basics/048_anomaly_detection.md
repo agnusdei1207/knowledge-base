@@ -342,3 +342,14 @@ Z-Score, Control Chart
 1. [[236_anomaly_based_detection_zero_day_false_positive|이상 탐지]] 유형 = 이상한 것 찾기 — 혼자 이상한 것(포인트), 상황에 따라 이상한 것(맥락적), 각각은 정상인데 모이면 이상한 것(집합적)!
 2. [[195_isolation_concurrency_control|Isolation]] Forest = 이상한 사람 빠르게 골라내기 — 정상 사람은 [[104_classification_analysis|분류]]하기 어렵고(많은 질문), 이상한 사람은 금방 골라냄(적은 질문)!
 3. Alert Fatigue = 소년의 외침 — "늑대다!" 너무 자주 외치면([[293_fp_function_point|FP]] 많음) 진짜 늑대(실제 위협)가 와도 무시. 정확한 탐지가 생명!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 48 / 420
+
+← **이전**: [[047_hierarchical_clustering|047. 계층적 군집화 — Hierarchical Clustering]]
+**다음**: [[049_ensemble_learning_bagging_boosting|049. 앙상블 학습 — Ensemble Learning]] →
+
+---

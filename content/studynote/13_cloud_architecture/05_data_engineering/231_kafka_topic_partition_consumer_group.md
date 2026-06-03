@@ -230,3 +230,14 @@ Rebalancing · Sticky Assignor → 안정적 파티션 할당
 ```
 2. [[191_consumer_group_kafka_partition_load_balancing|컨슈머 그룹]]은 택배 회사와 같다. CJ택배(그룹 A)와 한진택배(그룹 B)가 동시에 같은 벨트에서 각자 자기 택배만 가져간다. 두 회사가 서로 방해하지 않는다.
 3. 오프셋은 택배 추적 번호다. "나는 100번 택배까지 받았어요"라고 표시해두면, 다음에 다시 시작할 때 101번부터 받을 수 있고, 틀렸다면 95번으로 돌아가 다시 받을 수 있다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 230 / 371
+
+← **이전**: [[230_apache_kafka_distributed_messaging|230. 아파치 카프카 (Apache Kafka)]]
+**다음**: [[232_cdc_change_data_capture_debezium|232. CDC (Change Data Capture / 변경 데이터 캡처)]] →
+
+---

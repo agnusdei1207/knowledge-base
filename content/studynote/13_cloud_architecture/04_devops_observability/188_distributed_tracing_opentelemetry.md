@@ -151,3 +151,14 @@ OpenTelemetry: 벤더 중립 수집 표준
 ```
 2. Trace ID는 바통이고, 각 선수의 시간 기록이 Span이에요.
 3. 경주(요청)가 끝나면 어느 선수([[090_service_kubernetes_network_load_balancing|서비스]])가 가장 느렸는지 정확히 알 수 있어요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 187 / 371
+
+← **이전**: [[187_logging_elk_stack_centralized|187. 로그 및 ELK Stack (Logs, Centralized Logging)]]
+**다음**: [[189_trace_id_span_context_propagation|189. Trace ID / Span ID / Context Propagation]] →
+
+---

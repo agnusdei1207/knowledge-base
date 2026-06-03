@@ -152,3 +152,14 @@ UpdateService · EventService 기반 자동화
 1. 예전에는 서버를 움직이려면 어려운 비밀 암호를 외워야 했어요.
 2. Redfish는 그걸 쉬운 인터넷 주소와 정리된 표로 바꿔서, 컴퓨터가 알아듣기 쉽게 만들어 줬어요.
 3. 그래서 많은 서버도 같은 규칙으로 차례차례 관리할 수 있게 되었답니다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 712 / 803
+
+← **이전**: [[710_bmc|710. BMC (Baseboard Management Controller)]]
+**다음**: [[712_oob_management|712. 서버 대역외 관리 (OOB Management)]] →
+
+---

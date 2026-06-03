@@ -78,3 +78,14 @@ CD: Continuous Delivery → Continuous Deployment
 ```
 2. 다 만들고 나서 틀린 조각을 찾으려면 다 부숴야 하지만, 그때그때 확인하면 금방 고칠 수 있어요.
 3. 기계 선생님([[090_configuration_item|CI]] 서버)이 우리가 실수한 조각을 즉시 찾아주니 안심하고 조립할 수 있어요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 162 / 371
+
+← **이전**: [[162_calms_framework_devops_principles|CALMS 프레임워크 (CALMS Framework)]]
+**다음**: [[164_continuous_delivery|164. 지속적 제공 (Continuous Delivery)]] →
+
+---

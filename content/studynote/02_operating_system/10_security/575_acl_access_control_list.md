@@ -144,3 +144,14 @@ Windows 탐색기에서 [[501_file_definition_logical_record|파일]] 우클릭 
 2. **권한 회수**는 퇴사하는 직원이 작업한 모든 [[501_file_definition_logical_record|파일]]의 앞명부를 수정해야 하는 것과 같다. 만약 그가 100개의 [[501_file_definition_logical_record|파일]]에 접근했다면, 100개 모든 명부를 찾아 수정해야 한다.
 
 3. **[[549_acl_access_control_list|ACL]] vs Capability**는 "교실별 명부"와 "학생별 출입증"의 차이와 같다. 교실별 명부는 수정이 쉽지만, "이 학생은 어디 갈 수 있나"를 알려면 모든 명부를 뒤져야 한다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 575 / 800
+
+← **이전**: [[574_global_table|574. 전역 테이블 (Global Table) 방식 구현 (행렬 희소성 문제)]]
+**다음**: [[576_capability_list|576. 자격 증명 리스트 (Capability List / Ticket) - 주체 중심 (주체가 가진 권한 리스트 토큰 방식)]] →
+
+---

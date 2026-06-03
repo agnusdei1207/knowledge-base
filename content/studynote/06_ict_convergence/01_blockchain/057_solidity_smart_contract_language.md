@@ -112,3 +112,14 @@ Gas / 상태 저장
 솔리디티는 [[004_blockchain|블록체인]]에서 돌아가는 규칙 책이에요.  
 책에 적힌 대로만 움직이기 때문에, 처음부터 잘 써야 해요.  
 돈이 걸려 있어서 장난처럼 쓰면 안 돼요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 57 / 552
+
+← **이전**: [[056_smart_contract_vulnerability_reentrancy|56. 스마트 컨트랙트 보안 취약점 - 재진입 (Re-entrancy), 오버플로우/언더플로우, 권한 탈취]]
+**다음**: [[058_hyperledger_fabric_private_blockchain|58. 하이퍼레저 패브릭 (Hyperledger Fabric) - 허가형 기업용 블록체인]] →
+
+---

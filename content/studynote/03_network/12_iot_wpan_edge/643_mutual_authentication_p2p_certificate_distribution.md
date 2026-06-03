@@ -124,3 +124,14 @@ tags:
 1. 작은 로봇 친구들이 배터리를 아껴가며 서로 메시지를 주고받는 장난감 마을과 같아요.
 2. 이 개념은 누가 가까운지, 누가 대신 알려줄지, 무엇을 현장에서 바로 처리할지를 정해줘요.
 3. 그래서 작은 기기들도 오래 버티면서 똑똑하게 협력할 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 764 / 1120
+
+← **이전**: [[642_network_separation_zero_trust_security|642. 망분리 (Network Separation) 및 제로 트러스트 연결형 논리망 보안 정책]]
+**다음**: [[644_dtls_datagram_tls_coap_security|644. DTLS (Datagram TLS) 프로토콜 CoAP 결합]] →
+
+---

@@ -160,3 +160,14 @@ EVM과 [[024_gas|가스]] 시스템은 이더리움 생태계의 실행 엔진�
 1. [[022_smart_contract|스마트 컨트랙트]]는 조건을 만족하면 자동으로 실행되는 로봇 계약서예요.
 2. [[024_gas|가스]]([[024_gas|Gas]])는 이 로봇이 작동하는 데 필요한 연료인데, 연료가 떨어지면 작동을 멈춰 무한 루프를 막아요.
 3. 자판기처럼 동전 넣으면 음료가 나오듯, [[022_smart_contract|스마트 컨트랙트]]는 조건이 맞으면 자동으로 돈이나 토큰을 보냅니다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 477 / 552
+
+← **이전**: [[476_bft_byzantine_fault_tolerance_majority_defense|476. BFT 비잔틴 장애 허용과 다수결 방어 (Byzantine Fault Tolerance Majority Defense)]]
+**다음**: [[478_token_economy_ico_nft_rwa|478. 토큰 이코노미: ICO, NFT, RWA (Token Economy: ICO, NFT, RWA)]] →
+
+---

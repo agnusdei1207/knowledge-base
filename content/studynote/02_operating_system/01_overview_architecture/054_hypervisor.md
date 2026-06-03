@@ -130,3 +130,14 @@ Type 1은 하드웨어 위에서 직접 동작하고, Type 2는 호스트 OS 위
 1. 하이퍼바이저는 큰 방을 여러 칸으로 나눠 주는 아주 똑똑한 관리자예요.
 2. 각 칸은 자기만의 컴퓨터처럼 사용할 수 있어요.
 3. 그래서 한 칸이 고장 나도 다른 칸은 덜 흔들려요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 54 / 800
+
+← **이전**: [[053_virtualization_architecture|53. 가상화 아키텍처 (Virtualization Architecture)]]
+**다음**: [[055_bare_metal_hypervisor|55. 베어메탈 하이퍼바이저 (Bare Metal Hypervisor)]] →
+
+---

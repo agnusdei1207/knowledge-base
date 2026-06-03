@@ -131,3 +131,14 @@ tags:
 1. 팩터리 메서드는 '어떤 장난감을 만들지'를 각 공장(서브클래스)이 결정해요.
 2. [[269_template_method_pattern|템플릿 메서드]]는 '장난감 만드는 순서'를 본사(상위 클래스)가 정하고, 세부 단계를 공장이 구현해요.
 3. 스프링이 두 패턴을 같이 써서 IoC [[561_container_based_deployment|컨테이너]]를 초기화해요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 256 / 530
+
+← **이전**: [[194_template_method_pattern|194. 템플릿 메서드 패턴 (Template Method Pattern)]]
+**다음**: [[196_command_pattern|196. 커맨드 패턴 (Command Pattern)]] →
+
+---

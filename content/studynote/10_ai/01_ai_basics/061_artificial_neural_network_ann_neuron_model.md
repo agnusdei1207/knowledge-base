@@ -133,3 +133,14 @@ Deep Learning
 ANN은 작은 판단 로봇들이 줄지어 일하는 팀이에요.  
 앞사람이 정리한 정보를 다음 사람이 다시 보고 더 좋은 답을 만들어요.  
 그래서 복잡한 문제도 함께 풀 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 61 / 420
+
+← **이전**: [[060_naive_bayes_classifier_conditional_independence|60. 나이브 베이즈 분류기 (Naive Bayes) - 조건부 독립과 스팸 필터링]]
+**다음**: [[062_perceptron_rosenblatt_single_layer|62. 퍼셉트론 (Perceptron) - 단층 신경망]] →
+
+---

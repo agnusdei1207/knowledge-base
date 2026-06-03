@@ -143,3 +143,14 @@ MicroVM / Serverless
 VM은 집을 통째로 빌리는 것처럼 무겁지만 안전해요.  
 [[561_container_based_deployment|컨테이너]]는 방만 빌리는 것처럼 가볍고 빨라요.  
 둘을 잘 섞어 쓰면 빠르면서도 안전하게 만들 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 61 / 371
+
+← **이전**: [[061_container_lightweight_virtualization|61. 컨테이너 (Container) - 경량 가상화]]
+**다음**: [[063_linux_namespace_isolation|63. 리눅스 네임스페이스 (Namespace) - PID, Net, Mount, User 등 자원 분리]] →
+
+---

@@ -148,3 +148,14 @@ Microsegmentation 적용
 1. 학교에 들어왔다고 해서 모든 교실 문이 자동으로 열리면 위험해요.
 2. [[667_zero_trust_runtime_integrity_measurement|제로 트러스트]]는 들어올 때마다 다시 확인하고, 필요한 교실 문만 열어 주는 약속이에요.
 3. [[1044_micro_segmentation_east_west_traffic_security|마이크로 세그멘테이션]]은 교실마다 문과 열쇠를 따로 두어 이상한 사람이 다른 교실로 못 가게 막는 거예요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 507 / 530
+
+← **이전**: [[428_process|428. 정보보호 구현 기법 비교 (Delta, Encryption, Hash, Key Stretching, Obfuscation)]]
+**다음**: [[430_process|430. 서버리스 컨테이너 보안 이미지 스캔 (Serverless Container Image Security Scanning)]] →
+
+---

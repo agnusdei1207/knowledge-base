@@ -160,3 +160,14 @@ IDE는 지역 변수 스코프를 자동 분석해 매개변수·반환값을 �
 1. 긴 일기를 쓸 때 "학교 이야기", "점심 이야기", "놀이터 이야기"로 나눠 쓰는 것처럼, 긴 코드도 의미 있는 이름의 작은 조각으로 나눈다.
 2. 레고 블록처럼 작게 나뉜 코드는 다른 곳에서도 재사용할 수 있다.
 3. 이름이 잘 붙은 작은 메서드는 주석 없이도 무슨 일을 하는지 한눈에 알 수 있다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 302 / 530
+
+← **이전**: [[240_refactoring_conditional_to_polymorphism|240. 조건문을 다형성으로 전환 (Replace Conditional with Polymorphism)]]
+**다음**: [[242_introduce_parameter_object|242. 파라미터 객체화 (Introduce Parameter Object)]] →
+
+---

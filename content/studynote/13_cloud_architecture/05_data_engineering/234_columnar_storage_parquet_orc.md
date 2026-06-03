@@ -218,3 +218,14 @@ s3://bucket/orders/
 ```
 2. Parquet은 잘 정리된 서랍장이다. 각 서랍에 같은 종류의 물건이 빽빽이 정리되어([[347_compaction|압축]]), 필요한 서랍만 열어도(컬럼 선택) 원하는 걸 빠르게 찾을 수 있다.
 3. CSV는 모든 물건을 큰 상자에 섞어 넣은 것이다. 단순하지만, 연필을 찾으려면 상자 전체를 뒤져야 해서 시간이 오래 걸린다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 233 / 371
+
+← **이전**: [[233_apache_airflow_dag_orchestration|233. 아파치 에어플로우 (Apache Airflow)]]
+**다음**: [[235_nosql_database_types_overview|235. 분산 NoSQL 데이터베이스 종류 개요]] →
+
+---

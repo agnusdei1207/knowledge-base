@@ -106,3 +106,14 @@ tags:
 1. 마이그레이션 [[003_integrity|무결성]] 100% [[395_verification_process_review|검증]]은 체온계로 몸 상태를 재고 기록하는 것과 비슷해요.
 2. 숫자만 보는 게 아니라 왜 올라갔는지 같이 살펴야 해요.
 3. 그래야 다음에 무엇을 고칠지 바로 결정할 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 412 / 530
+
+← **이전**: [[333_metric|333. 데이터 품질 6대 지표 (Six Data Quality Metrics)]]
+**다음**: [[335_process|335. 형상 베이스라인 변경 심의 (Configuration Baseline Change Review)]] →
+
+---

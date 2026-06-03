@@ -189,3 +189,14 @@ C++에서 `std::shared_ptr` 같은 스마트 포인터는 안전하지만 내부
 1. 메모리 풀 (Memory Pool) 기법은 컴퓨터가 메모리를 방처럼 나눠 쓰고 주소를 찾는 방법이에요.
 2. 먼저 [[022_kernel_role|커널]] 메모리 할당 방식 (kmalloc, vmalloc)을 이해하면 메모리 풀 (Memory Pool) 기법이 왜 필요한지 더 쉽게 보여요.
 3. 그래서 메모리 풀 (Memory Pool) 기법을 잘 알면 나중에 파편화 관리 및 조각 모음도 훨씬 쉽게 배울 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 369 / 800
+
+← **이전**: [[368_kernel_memory_allocation|368. 커널 메모리 할당 방식 (kmalloc, vmalloc)]]
+**다음**: [[370_memory_compaction|370. 파편화 관리 및 조각 모음 - 리눅스 메모리 컴팩션 (Memory Compaction)]] →
+
+---

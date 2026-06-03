@@ -158,3 +158,14 @@ Spark MLlib의 FPGrowth, Python mlxtend [[336_library_vs_framework|라이브러�
 - 연관 규칙은 "친구들이 항상 같이 다니는 패턴"을 수학으로 찾아내는 것이에요.
 - Apriori는 모든 친구 조합을 하나씩 [[396_validation|확인]]하고, [[293_fp_function_point|FP]]-Growth는 친구 [[083_relationship_in_er_model|관계]]도를 먼저 그려서 더 빠르게 찾아요.
 - "치약을 사면 칫솔도 산다"처럼, [[001_dikw_pyramid|데이터]]가 사람 대신 유용한 [[167_sql_hint_optimizer_override|힌트]]를 알려주는 거예요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 106 / 262
+
+← **이전**: [[105_clustering_analysis|군집화 (Clustering) 분석]]
+**다음**: [[107_market_basket_analysis|104. 장바구니 분석 (Market Basket Analysis) — 구매 패턴 기반 교차 판매]] →
+
+---

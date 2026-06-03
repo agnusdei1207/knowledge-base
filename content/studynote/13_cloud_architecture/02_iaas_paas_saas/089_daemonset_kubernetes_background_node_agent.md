@@ -120,3 +120,14 @@ tags:
 1. 데몬셋은 호텔의 모든 층마다 청소부 로봇을 무조건 1대씩 배치하는 규칙이에요.
 2. 호텔이 10층에서 20층으로 높아지면, 알아서 새 층에도 로봇을 1대씩 놔줘요.
 3. 그래서 사장님이 매번 로봇을 직접 들고 올라가서 놓아줄 필요가 없답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 88 / 371
+
+← **이전**: [[088_statefulset_kubernetes_persistent_workload|88. 스테이트풀셋 (StatefulSet) - K8s 상태 저장 DB 배포]]
+**다음**: [[090_service_kubernetes_network_load_balancing|90. 서비스 (Service) - K8s 파드의 고정된 네트워크 진입점]] →
+
+---

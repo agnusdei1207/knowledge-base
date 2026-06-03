@@ -122,3 +122,14 @@ Key Constraint
 반장 말고도 잘하는 친구가 있어요.  
 그 친구들도 중요해요.  
 대체 키는 그런 친구예요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 71 / 600
+
+← **이전**: [[070_primary_key_alternate_key|70. 기본 키 (Primary Key, PK) - 후보 키 중 설계자가 선택한 메인 식별자 (NULL 불가)]]
+**다음**: [[072_foreign_key_fk|72. 외래 키 (Foreign Key, FK) - 다른 릴레이션의 기본 키를 참조하는 속성]] →
+
+---

@@ -136,3 +136,14 @@ Compliance
 일기장을 쓰면 나중에 무슨 일이 있었는지 알 수 있어요.  
 그 일기장을 못 고치게 보관해야 더 믿을 수 있어요.  
 [[606_auditing_linux_auditd|감사]] 추적은 그런 믿을 수 있는 기록이에요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 99 / 530
+
+← **이전**: [[064_access_control_rbac_audit|64. 접근 통제 및 권한 관리 감리 (Access Control and RBAC Audit)]]
+**다음**: [[066_password_encryption_hash_salt_audit|66. 비밀번호 암호화 저장 방식 (단방향 해시 및 솔팅) 감리]] →
+
+---

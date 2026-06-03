@@ -110,3 +110,14 @@ tags:
 1. [[014_api_posix|API]] Gateway는 호텔 **프런트 데스크**예요. 모든 손님이 프런트를 거쳐요.
 2. 프런트에서 **신분증 [[396_validation|확인]]([[303_authentication_authorization_patterns|인증]])**하고, 너무 많은 손님이 오면 **대기([[520_rate_limiting|Rate Limiting]])**시켜요.
 3. 프런트가 없으면 손님이 **직접 방을 찾아야 해서** 혼란스러워요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 123 / 371
+
+← **이전**: [[123_soa_vs_msa_comparison|123. SOA vs MSA 비교 - 서비스 지향 아키텍처의 진화]]
+**다음**: [[125_api_gateway_functions|125. API Gateway 핵심 기능 - 라우팅·인증·Rate Limiting·변환 상세]] →
+
+---

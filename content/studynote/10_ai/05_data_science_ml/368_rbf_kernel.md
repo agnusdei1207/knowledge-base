@@ -113,3 +113,14 @@ RBF [[022_kernel_role|커널]]은 SVM을 "비선형 [[104_classification_analysi
 1. RBF [[022_kernel_role|커널]]은 "2D 종이에 뒤섞인 점들을 3D 공간으로 들어올려 분리하는 마법"이에요.
 2. 3D 공간에서 평평한 판(초평면)으로 쉽게 나눌 수 있어요!
 3. γ가 크면 판이 구불구불해지고(과적합), 작으면 매끄러워져요(일반화) - 이 균형이 핵심이에요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 368 / 420
+
+← **이전**: [[367_svm_slack_variable|367. SVM 슬랙 변수 (Slack Variable)]]
+**다음**: [[369_cnn_batch_norm|369. 배치 정규화 (Batch Normalization) in CNN]] →
+
+---

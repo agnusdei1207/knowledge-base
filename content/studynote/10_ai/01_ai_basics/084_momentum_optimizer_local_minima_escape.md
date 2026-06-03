@@ -132,3 +132,14 @@ v_t = β v_(t-1) + (1 - β) g_t
 1. 밀어도 흔들리는 카트는 계속 왔다 갔다 해요.
 2. 이전 방향을 기억하면 같은 길로 더 잘 굴러가요.
 3. 하지만 너무 세게 밀면 벽에 부딪힐 수 있어서 힘 조절이 필요해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 84 / 420
+
+← **이전**: [[083_local_minima_vs_global_minimum|83. 지역 최솟값 (Local Minima) vs 전역 최솟값 (Global Minimum)]]
+**다음**: [[085_adaptive_learning_rate_adagrad_rmsprop|85. 적응형 학습률 - Adagrad와 RMSProp의 보폭 조절 마법]] →
+
+---

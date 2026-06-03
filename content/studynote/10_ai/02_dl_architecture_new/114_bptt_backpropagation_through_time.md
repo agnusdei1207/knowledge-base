@@ -107,3 +107,14 @@ BPTT는 [[244_rnn_time_series_lstm_cell_gate_long_term_dependency|RNN]] 학습�
 1. BPTT는 1000페이지 소설을 읽고 **처음부터 끝까지 형광펜**으로 중요한 부분을 표시하는 거예요.
 2. 하지만 너무 길면 힘들어서, **최근 20페이지만 표시**(Truncated)하는 방법을 써요.
 3. Transformer는 아예 소설 전체를 **한눈에 보는 초능력**이 있어서 형광펜이 필요 없답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 114 / 420
+
+← **이전**: [[113_long_term_dependency_rnn|113. 장기 의존성 문제 (Long-term Dependency in RNN) - 기울기 소실·폭발과 LSTM 해법]]
+**다음**: [[115_lstm_long_short_term_memory|115. LSTM (Long Short-Term Memory) - 게이트 메커니즘과 장기 기억 보호]] →
+
+---

@@ -184,3 +184,14 @@ Stable execution plan and join tuning
 1. 친구가 몇 명 안 되면 한 명씩 이름표를 보고 짝을 찾아도 금방 끝나요.
 2. 친구가 아주 많으면 작은 명단을 먼저 표로 만들어 놓고 큰 명단을 훑는 게 더 빨라요.
 3. 두 줄이 이미 번호순으로 서 있다면 앞에서부터 같이 걸어가며 맞추면 된다고 생각하면 돼요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 171 / 600
+
+← **이전**: [[170_selectivity_cardinality_distribution_tuning|170. 선택도 (Selectivity) / 기수성 (Cardinality) / 분포도 (Distribution)]]
+**다음**: [[172_nl_join_nested_loop|172. 중첩 루프 조인 (NL Join, Nested Loop Join)]] →
+
+---

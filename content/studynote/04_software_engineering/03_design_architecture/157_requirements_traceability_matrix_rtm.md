@@ -140,3 +140,14 @@ RTM (Requirements Traceability Matrix)
 1. RTM은 숙제 목록이 진짜 다 끝났는지 [[396_validation|확인]]하는 체크표예요.
 2. 문제마다 어떤 풀이를 했고, 맞았는지까지 이어서 적어 두면 빼먹은 숙제를 바로 찾을 수 있어요.
 3. 또 답안은 있는데 문제 번호가 없으면, 왜 풀었는지 모르는 엉뚱한 숙제라는 것도 알 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 157 / 973
+
+← **이전**: [[156_requirements_traceability_vertical_horizontal|156. 요구사항 추적성 (Traceability) - 수직적/수평적 추적성]]
+**다음**: [[158_requirements_management_change_control|158. 요구사항 관리 (Management) - 변경 통제, 버전 관리]] →
+
+---

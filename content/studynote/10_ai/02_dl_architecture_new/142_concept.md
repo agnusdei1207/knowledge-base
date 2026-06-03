@@ -55,3 +55,14 @@ Chinchilla: N과 D를 1:20 비율로 균형
 1. [[249_scaling_normalization_standardization|스케일링]]은 **연습할수록 실력이 올라가는** 법칙이에요.
 2. 어느 순간 **갑자기 새 기술(Emergence)**이 터져요! 자전거 갑자기 타는 것처럼.
 3. AI도 **충분히 크고 많이 배우면** 예상 못 한 능력이 나타나요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 142 / 420
+
+← **이전**: [[141_concept|141. LLM 핵심 개념 - 대규모 언어 모델의 원리와 구조]]
+**다음**: [[143_prompt_engineering|143. 프롬프트 엔지니어링 (Prompt Engineering) - LLM 활용의 핵심]] →
+
+---

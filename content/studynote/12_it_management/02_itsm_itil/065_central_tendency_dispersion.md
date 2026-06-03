@@ -132,3 +132,14 @@ Skew Optimization
 장난감을 방마다 다시 옮기면 시간이 오래 걸려요.  
 Spark의 셔플도 그런 옮기기예요.  
 그래서 옮기는 양을 줄이는 것이 중요해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 113 / 587
+
+← **이전**: [[064_service_strategy|64. 서비스 전략 (Service Strategy)]]
+**다음**: [[065_service_design|65. 서비스 설계 (Service Design)]] →
+
+---

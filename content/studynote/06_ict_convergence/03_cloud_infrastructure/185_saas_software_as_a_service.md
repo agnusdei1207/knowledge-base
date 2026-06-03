@@ -189,3 +189,14 @@ SaaS (Software as a Service)
 1. SaaS는 장난감을 직접 만들고 고치는 대신, 이미 잘 만들어진 장난감 놀이방에 가서 바로 쓰는 거예요.
 2. 그래서 우리는 장난감 수리보다 어떻게 재미있게 놀지를 더 빨리 시작할 수 있어요.
 3. 하지만 놀이방 규칙이 있으니, 우리만의 특별한 장난감이 꼭 필요하면 다른 방법을 생각해야 해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 185 / 552
+
+← **이전**: [[184_paas_platform_as_a_service|184. PaaS (Platform as a Service) - 애플리케이션 실행 플랫폼 제공]]
+**다음**: [[186_baas_backend_as_a_service_firebase|186. BaaS (Backend as a Service) - 모바일/웹 앱용 백엔드(데이터베이스 (Database, DB), 인증,]] →
+
+---

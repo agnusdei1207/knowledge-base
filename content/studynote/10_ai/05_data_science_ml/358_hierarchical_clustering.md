@@ -117,3 +117,14 @@ tags:
 1. 계층적 [[105_clustering_analysis|군집화]]는 "세상에서 가장 비슷한 친구 두 명을 먼저 짝지어주는 [[190_ai_llm_requirements_specification|AI]]"예요.
 2. 짝들을 계속 더 큰 그룹으로 묶어나가면 전체 연결 트리(덴드로그램)가 완성돼요.
 3. 이 트리를 원하는 높이에서 자르면 "3개 그룹", "5개 그룹"처럼 원하는 만큼 군집을 만들 수 있어요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 358 / 420
+
+← **이전**: [[357_dbscan|357. DBSCAN (Density-Based Spatial Clustering)]]
+**다음**: [[359_cosine_similarity_math|359. 코사인 유사도 (Cosine Similarity)]] →
+
+---

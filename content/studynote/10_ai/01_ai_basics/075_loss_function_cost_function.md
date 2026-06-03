@@ -124,3 +124,14 @@ next epoch
 1. 문제를 하나 틀리면 그 문제 점수만 깎여요.
 2. 모든 점수를 모아야 시험 전체 점수가 나와요.
 3. 컴퓨터도 이렇게 점수를 모아 공부해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 75 / 420
+
+← **이전**: [[074_forward_propagation_neural_network|74. 순전파 (Forward Propagation) - 신경망 계산 흐름]]
+**다음**: [[076_mse_mean_squared_error_regression|76. MSE (Mean Squared Error) - 회귀 문제 핵심 손실 함수]] →
+
+---

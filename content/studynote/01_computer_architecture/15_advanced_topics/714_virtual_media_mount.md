@@ -168,3 +168,14 @@ API (Application Programming Interface)-driven Bare-metal Provisioning + PXE
 1. 원격 미디어 [[516_mount_mechanism|마운트]]는 멀리 있는 컴퓨터에 USB를 직접 꽂으러 가지 않아도, 집에서 USB가 꽂힌 것처럼 만들어 주는 기술이에요.
 2. 그래서 컴퓨터가 비어 있거나 아파도 새 [[001_operating_system_purpose|운영체제]]를 넣어 줄 수 있어요.
 3. 하지만 한두 대를 고칠 때 특히 좋고, 아주 많은 컴퓨터를 한꺼번에 깔 때는 더 자동화된 방법이 필요해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 715 / 803
+
+← **이전**: [[713_kvm_over_ip|713. KVM (Keyboard, Video, Mouse) 오버 IP]]
+**다음**: [[715_hw_health_monitoring|715. 하드웨어 헬스 모니터링 (센서 레지스터)]] →
+
+---

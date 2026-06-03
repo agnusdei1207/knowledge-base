@@ -129,3 +129,14 @@ tags:
 1. [[236_quantum_computing_pqc|양자 컴퓨팅]] 쇼어 [[001_algorithm_definition|알고리즘]] [[183_post_quantum_cryptography_key_transition|양자 내성 암호]] ([[351_quantum_computing_pqc_transition|PQC]]) 전환 통제는 모두가 같은 규칙으로 일하게 해 주는 반장 약속표예요.
 2. 약속만 적어 두는 것이 아니라 누가 지켰는지 확인하고 고치는 방법까지 함께 정해요.
 3. 그래서 일이 많아져도 서로 부딪히지 않고 더 안전하게 움직일 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 542 / 587
+
+← **이전**: [[350_process|350. 연합 학습 엣지 분산 데이터 프라이버시 검열망]]
+**다음**: [[351_quantum_computing_pqc_transition|351. 양자 컴퓨팅 쇼어 알고리즘 양자 내성 암호 (PQC) 전환 통제]] →
+
+---

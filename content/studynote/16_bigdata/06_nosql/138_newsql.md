@@ -263,3 +263,14 @@ NewSQL은 "SQL 또는 확장성" 이분법을 극복한 현대 OLTP의 새 표�
 1. NewSQL은 슈퍼히어로 [[002_database_definition|데이터베이스]] — 기존 DB(RDBMS)의 정확함과 NoSQL의 힘을 동시에 가졌어요.
 2. [[259_raft_paxos|Raft]] 합의는 학급 반장 선거와 같아요. 과반수가 찬성하면 결정이 확정되고, 반장이 자리를 비우면 바로 새 반장을 뽑아요.
 3. TiDB는 [[327_hint_handoff|OLTP]](거래 처리)와 [[316_olap|OLAP]](통계 분석)을 같은 DB에서 동시에 할 수 있어서, 음식점에서 주문도 받고 매출 보고서도 실시간으로 뽑을 수 있는 것 같아요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 138 / 262
+
+← **이전**: [[137_multi_model_db|137. 다중 모델 데이터베이스 (Multi-Model DB) — ArangoDB/SurrealDB]]
+**다음**: [[139_inmemory_db|139. 인메모리 데이터베이스 (In-Memory DB) — Redis/Memcached/SAP HANA]] →
+
+---

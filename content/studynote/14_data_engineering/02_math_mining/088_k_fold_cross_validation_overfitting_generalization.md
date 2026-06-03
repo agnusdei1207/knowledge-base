@@ -136,3 +136,14 @@ Nested Cross Validation (튜닝과 평가의 완전한 분리)
 1. 학교에서 시험을 딱 한 번만 보면, 그날 배가 아프거나 운이 나빠서 실력이 안 나올 수 있어요.
 2. 하지만 과목별로 5번을 나누어서 번갈아 시험을 보고 그 평균을 내면 진짜 내 실력이 정확히 나오겠죠?
 3. [[250_cross_validation_kfold|교차 검증]](K-Fold)은 인공지능이 자기가 똑똑해진 게 운인지 진짜 실력인지, 여러 번 시험을 쳐서 [[396_validation|확인]]하는 방법이랍니다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 88 / 258
+
+← **이전**: [[087_fp_growth_algorithm_frequent_pattern_tree|87. FP-Growth 알고리즘 - 트리 기반의 고속 빈발 항목 추출]]
+**다음**: [[089_confusion_matrix_tp_fp_fn_tn|혼동 행렬 (Confusion Matrix): 분류 모델 평가의 기초]] →
+
+---

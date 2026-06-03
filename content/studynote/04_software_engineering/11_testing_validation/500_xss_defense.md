@@ -159,3 +159,14 @@ XSS를 막으면 [[160_session_controlling_terminal|세션]] [[571_protection_vs
 1. [[500_xss_defense_escaping_csp|크로스 사이트 스크립팅]] ([[726_xss_cross_site_scripting_types|XSS]]) 방어은 레고 블록으로 성을 만들 때처럼, 규칙을 정하고 역할을 나누어 함께 작업하는 방법이에요.
 2. 혼자서 막 만들면 나중에 무너지거나 고치기 어렵지만, 약속을 지키면 누구나 쉽게 고치고 더 크게 만들 수 있어요.
 3. 그래서 [[001_software_engineering_definition|소프트웨어 공학]]은 프로그래머들이 좋은 프로그램을 빠르고 안전하게 만들 수 있게 도와주는 '규칙 모음집'이에요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 591 / 973
+
+← **이전**: [[499_sql_injection_defense_prepared_statement_orm|499. SQL 인젝션 방어 - Prepared Statement, ORM]]
+**다음**: [[500_xss_defense_escaping_csp|500. 크로스 사이트 스크립팅 (XSS) 방어 - 입/출력값 인코딩, CSP(Content Security Policy) 헤더 설정]] →
+
+---

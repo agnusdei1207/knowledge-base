@@ -142,3 +142,14 @@ IntroSort = QuickSort + HeapSort + InsertionSort
 1. 힙 정렬은 반장 선출 반복 게임이에요! 가장 키 큰 사람(최댓값)을 뽑아 줄 세우고, 남은 중에서 또 반장 선출, 반복!
 2. 어떤 경우에도 O(n log n) 시간이 보장되는 안정적인 방법이에요 - 다만 CPU 캐시를 잘 활용하지 못해서 [[047_quick_sort|퀵 정렬]]보다 느릴 때도 있어요.
 3. 현대 컴퓨터에서는 힙 정렬보다 힙 자료구조 자체가 [[083_priority_queue|우선순위 큐]]·길 찾기 [[001_algorithm_definition|알고리즘]]에 더 많이 쓰인답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 80 / 175
+
+← **이전**: [[079_monotonic_stack|26. 단조 스택 (Monotonic Stack) — 다음 크거나 작은 원소 O(n) 탐색]]
+**다음**: [[081_sparse_table|27. 스파스 테이블 (Sparse Table) — 정적 RMQ 최적 자료구조]] →
+
+---

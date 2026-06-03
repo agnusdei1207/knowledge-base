@@ -143,3 +143,14 @@ tags:
 1. 일반 2D-[[243_cnn_stride_pooling_resnet_residual_yolo_object_detection|CNN]] 로봇은 **'네모난 평면 돋보기'**를 들고 도화지(사진) 위를 쓱쓱 밀고 다니며 고양이를 찾는 똑똑한 로봇이에요.
 2. 1D-[[243_cnn_stride_pooling_resnet_residual_yolo_object_detection|CNN]] 로봇은 돋보기를 **'얇은 일직선'**으로 자른 다음, 심박수 [[070_graph_datastructure|그래프]](선) 위를 줄타기하듯 빠르게 훑고 지나가며 병을 찾아내요.
 3. 3D-[[243_cnn_stride_pooling_resnet_residual_yolo_object_detection|CNN]] 로봇은 돋보기를 엄청 크고 두꺼운 **'마법의 정육면체 상자'**로 업그레이드했어요! 100장의 사진을 뚫고 지나가면서 "아하! 동영상 속 사람이 춤을 추고 있네!" 하고 움직임까지 완벽하게 잡아낸답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 228 / 420
+
+← **이전**: [[227_model_card_metadata_governance|227. 모델 스코어카드 (Model Card)]]
+**다음**: [[229_lidar_pointnet_autonomous_driving|229. 자율주행 LiDAR 3D 딥러닝 (PointNet)]] →
+
+---

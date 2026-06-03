@@ -147,3 +147,14 @@ Risk-controlled Operations
 1. 감리는 컴퓨터를 만드는 사람이 잘 만들고 있는지 옆에서 [[396_validation|확인]]해 주는 검사예요.
 2. 이상한 곳을 찾으면 그냥 말만 하는 게 아니라 고쳤는지도 다시 봐요.
 3. 그래서 큰 고장이 나기 전에 미리 막아 줄 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 220 / 482
+
+← **이전**: [[219_benchmarking_best_practice|219. 벤치마킹 (Benchmarking) - 업계 최고 수준(Best Practice) 타사와의 지표 비교 분석]]
+**다음**: [[221_isaca_cisa_framework|221. ISACA (정보시스템 감사 통제 협회) 및 CISA (국제 공인 정보시스템 감사사) 프레임워크]] →
+
+---

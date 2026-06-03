@@ -182,3 +182,14 @@ Dash Layout + Callback 연결
 1. Plotly는 숫자를 만지면 움직이는 신기한 [[070_graph_datastructure|그래프]]로 바꿔 주는 그림 도구예요.
 2. Dash는 그 [[070_graph_datastructure|그래프]]에 버튼과 슬라이더를 붙여서 직접 눌러 볼 수 있는 웹 놀이터를 만들어 줘요.
 3. 그래서 사람들이 그림을 보기만 하지 않고, 스스로 눌러 보면서 답을 찾을 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 171 / 262
+
+← **이전**: [[170_d3js|170. D3.js (Data-Driven Documents) — JavaScript 커스텀 인터랙티브 시각화]]
+**다음**: [[172_network_visualization|172. 네트워크 시각화 (Network Visualization)]] →
+
+---

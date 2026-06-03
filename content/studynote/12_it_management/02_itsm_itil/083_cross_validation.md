@@ -136,3 +136,14 @@ K-Fold Cross Validation
 1. 친구들 시험지를 한 번만 보지 않고 여러 번 섞어서 채점해요.
 2. 그래야 운이 좋은 날인지 진짜 실력인지 알 수 있어요.
 3. [[250_cross_validation_kfold|교차 검증]]은 시험 순서를 바꿔 가며 공정하게 보는 방법이에요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 149 / 587
+
+← **이전**: [[082_release_deployment_management|82. 릴리스 및 배포 관리 (Release and Deployment Management)]]
+**다음**: [[083_dml|83. DML (Definitive Media Library)]] →
+
+---

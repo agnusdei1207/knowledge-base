@@ -132,3 +132,14 @@ CBAM 연계 (비용 기반 최적 대안 선택)
 1. 장난감 로봇을 만들 때 "멋지고 빠르게 만들어줘!"라고 하면 서로 생각이 다를 수 있어요.
 2. ATAM은 "1미터 높이에서 떨어져도 안 부서지고, 리모컨을 누르면 1초 만에 움직여야 해"라고 정확한 규칙(시나리오)을 만드는 과정이에요.
 3. 이 규칙대로 로봇 설계도를 미리 검사해서, 나중에 로봇이 망가지는 것을 미리 막아주는 똑똑한 회의랍니다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 136 / 530
+
+← **이전**: [[092_atam_architecture_tradeoff_analysis_method|92. 아키텍처 평가 방법론 - ATAM (Architecture Trade-off Analysis Method)]]
+**다음**: [[094_sensitivity_point_architecture_tradeoff_control_knob|94. 민감도점 (Sensitivity Point) - 아키텍처 품질 속성 스위치]] →
+
+---

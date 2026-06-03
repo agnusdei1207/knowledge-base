@@ -197,3 +197,14 @@ print(f"품질 점수: {score}")  # 0-1 사이, 높을수록 좋음
 - [[818_synthetic_data|합성 데이터]]는 **모형 집**과 같아요: 실제 집(실제 [[001_dikw_pyramid|데이터]]) 대신 건축 설계도를 배운 AI가 만든 모형 집([[818_synthetic_data|합성 데이터]])은 구조는 비슷하지만 실제 사람이 살지 않아요([[781_personal_information|개인정보]] 없음).
 - 좋은 [[818_synthetic_data|합성 데이터]]는 "진짜 같아 보이고(Fidelity), 실제로 유용하며(Utility), 원본 정보를 노출하지 않는(Privacy)" 세 가지를 모두 만족해야 해요.
 - 이 기술 덕분에 병원이나 은행은 [[190_ai_llm_requirements_specification|AI]] 개발자에게 실제 환자·고객 정보 대신 [[818_synthetic_data|합성 데이터]]를 제공할 수 있어서, [[781_personal_information|개인정보]] 걱정 없이 [[190_ai_llm_requirements_specification|AI]] 개발이 가능해져요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 210 / 262
+
+← **이전**: [[209_differential_privacy|203. 차등 프라이버시 (Differential Privacy) — 통계 쿼리에 수학적 노이즈 추가]]
+**다음**: [[211_data_ethics|205. 데이터 윤리 (Data Ethics) — 알고리즘 편향/공정성/투명성]] →
+
+---

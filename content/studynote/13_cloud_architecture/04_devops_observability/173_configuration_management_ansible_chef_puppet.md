@@ -207,3 +207,14 @@ Immutable image / GitOps / policy as code coexistence
 1. [[089_configuration_management|구성 관리]] 도구는 학교의 모든 교실을 같은 규칙대로 꾸미는 [[435_checklist_based_testing|체크리스트]] 로봇이에요.
 2. Ansible은 선생님이 직접 교실을 돌며 확인하는 방식이고, Chef와 Puppet은 각 교실이 스스로 규칙을 다시 맞추는 방식이에요.
 3. 그래서 새 교실이 생겨도 같은 책상, 같은 시간표, 같은 규칙을 빠르게 맞출 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 172 / 371
+
+← **이전**: [[172_declarative_vs_imperative_infrastructure|172. 선언형 vs 명령형 인프라 접근 (Declarative vs Imperative Infrastructure)]]
+**다음**: [[174_devsecops_shift_left_security|174. 데브섹옵스 (DevSecOps, Shift-Left Security)]] →
+
+---

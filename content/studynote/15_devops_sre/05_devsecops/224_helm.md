@@ -134,3 +134,14 @@ Reference Architecture
 1. [[061_helm_charts|헬름 차트]] 템플릿 엔진 패키지 관리망은 복잡한 일을 순서와 규칙으로 정리해서 실수하지 않게 도와주는 방법이에요.
 2. Chart 같은 친구들과 같이 움직여야 더 잘 작동해요.
 3. 그래서 문제가 생겨도 어디서 틀렸는지 빨리 찾고 다시 고치기 쉬워져요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 224 / 373
+
+← **이전**: [[223_csi_container_storage_interface_pv|223. CSI (Container Storage Interface) 퍼시스턴트 볼륨(PV/PVC) 동적 스토리지 할당]]
+**다음**: [[225_micro_frontends_msa_ui|225. 마이크로 프론트엔드 (Micro Frontends) 아키텍처]] →
+
+---

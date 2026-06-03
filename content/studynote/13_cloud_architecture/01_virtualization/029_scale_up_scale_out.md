@@ -146,3 +146,14 @@ NewSQL (Google Spanner, TiDB):
 1. [[621_scale_up_system_bus|스케일 업]]은 배달원에게 전기 오토바이를 주는 것, [[202_scale_out_distributed_horizontal_expansion|스케일 아웃]]은 배달원을 10명으로 늘리는 거예요!
 2. Auto Scaling은 점심 시간에 아르바이트생을 자동 채용하고 저녁에 자동 퇴근시키는 스마트 시스템이에요!
 3. [[206_serverless_cold_start|서버리스]]는 요청이 올 때만 나타나는 마법 직원이에요 — 일한 만큼만 비용이 나와서 아주 경제적이랍니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 28 / 371
+
+← **이전**: [[028_vpc|28. VPC — 가상 사설 클라우드 (Virtual Private Cloud)]]
+**다음**: [[030_auto_scaling|30. 오토 스케일링 — 클라우드 자동 용량 조정]] →
+
+---

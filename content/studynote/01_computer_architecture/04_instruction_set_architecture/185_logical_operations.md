@@ -183,3 +183,14 @@ Bit Masking and Flag Control
 1. [[369_logic_bomb|논리]] 연산 [[158_instruction|명령어]]는 컴퓨터가 전구판에서 원하는 전구만 켜고 끄게 해 주는 [[238_switch_operation_principles|스위치]] 상자예요.
 2. 더하기처럼 옆칸까지 밀려 가지 않아서, 딱 고른 자리만 안전하게 바꿀 수 있어요.
 3. 그래서 컴퓨터는 이 [[238_switch_operation_principles|스위치]]로 비밀번호도 섞고, 인터넷 주소도 자르고, 장치 [[065_state_diagram|상태도]] 확인한답니다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 185 / 803
+
+← **이전**: [[184_arithmetic_instructions|184. 산술 연산 명령어 (Arithmetic Instructions)]]
+**다음**: [[186_control_flow_instructions|186. 제어 흐름 명령어 (Control Flow)]] →
+
+---

@@ -135,3 +135,14 @@ HDLC는 [[413_tcp_window_size_flow_control_16bit|윈도우 크기]], 송신/수�
 1. 편지를 보낼 때 봉투를 제대로 닫고 틀린 글자가 없는지 [[396_validation|확인]]해야 해요.
 2. 이 개념은 편지가 깨지거나 사라졌을 때 다시 보내는 규칙까지 정해줘요.
 3. 그래서 중간에 흔들려도 중요한 내용이 더 안전하게 도착해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 337 / 1120
+
+← **이전**: [[215_window_size_sender_receiver|215. 윈도우 크기 (Window Size), 송신/수신 윈도우]]
+**다음**: [[217_hdlc_frame_structure_flag_fcs|217. HDLC 프레임 구조]] →
+
+---

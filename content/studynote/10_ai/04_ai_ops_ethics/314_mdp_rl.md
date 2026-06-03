@@ -139,3 +139,14 @@ MDP는 이 과정을 수학적으로 표현한다:
 1. **[[463_markov_decision_process_mdp|MDP]]([[253_reinforcement_learning_mdp_policy_value_q_learning_dqn|강화 학습]]의 설계도)**는 로봇이 미로 탈출하는 법을 배울 때, **"어떤 상황(상태), 어떤 행동, 얼마나 좋은지(보상)"를 수학으로 정의**한 것이에요!
 2. 로봇은 직접 이리저리 움직여보며 **보상이 많은 길을 기억**하고, 나중에 막힘 없이 탈출하는 [[268_strategy_pattern|전략]]([[164_policy|정책]])을 스스로 찾아요.
 3. 체스(알파고), 게임 [[190_ai_llm_requirements_specification|AI]], 자율주행, **ChatGPT의 [[250_rlhf_human_feedback_reinforcement_alignment_cot|RLHF]]**까지 모두 이 [[463_markov_decision_process_mdp|MDP]] 방식으로 학습해요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 314 / 420
+
+← **이전**: [[313_slm|313. SLM (Small Language Model)]]
+**다음**: [[315_exploration_exploitation|315. 탐험(Exploration) vs 활용(Exploitation) 딜레마]] →
+
+---

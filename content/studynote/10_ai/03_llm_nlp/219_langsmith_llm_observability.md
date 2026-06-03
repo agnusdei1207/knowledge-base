@@ -147,3 +147,14 @@ LangSmith는 거대 언어 모델([[263_llm_large_language_model|LLM]])을 실�
 1. 아주 똑똑하지만 가끔 이상한 헛소리를 하는 '외계인 셰프([[263_llm_large_language_model|LLM]])'에게 요리를 맡겼어요. 근데 갑자기 소금 범벅 케이크를 만들어왔죠!
 2. 예전엔 왜 요리를 망쳤는지 외계인한테 물어볼 수가 없어서 답답했는데, **랭스미스(LangSmith)**라는 마법 CCTV를 주방에 달았어요.
 3. CCTV를 돌려보니 "아! 외계인이 3번째 순서에서 설탕 대신 소금을 집어 넣었구나!" 하고 정확히 실수를 찾아내서, 다음부턴 완벽한 케이크를 만들게 고쳐줄 수 있었답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 219 / 420
+
+← **이전**: [[218_rag_advanced_techniques|218. RAG 고도화 기법 (Advanced RAG)]]
+**다음**: [[220_dspy_prompt_optimization|220. DSPy 자동 프롬프트 컴파일 및 최적화 (DSPY Prompt Optimization)]] →
+
+---

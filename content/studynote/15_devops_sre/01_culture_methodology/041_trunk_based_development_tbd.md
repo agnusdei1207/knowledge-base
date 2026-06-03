@@ -274,3 +274,14 @@ TBD + 셀프서비스 배포 플랫폼
 1. TBD 고수들은 [[576_feature_flag_ab_testing_rollout|피처 플래그]]를 써서 아직 완성 안 된 기능도 메인 코드에 넣어두고, 버튼 하나로 켜고 끌 수 있어요!
 2. 작은 [[067_pull_request_pr_merge_request_code_review|PR]] 200줄 = 숙제 10페이지씩 나눠 제출 — 선생님(리뷰어)이 꼼꼼히 봐주고, 틀린 것도 빨리 발견해요.
 3. TBD + [[090_configuration_item|CI]]/CD는 매일 조금씩 배포하는 것 — Google·Netflix는 하루에도 수천 번 배포해요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 41 / 373
+
+← **이전**: [[040_trunk_based_development|040. 트렁크 기반 개발 (Trunk-Based Development)]]
+**다음**: [[042_ab_testing_hypothesis_validation|042. A/B 테스팅 가설 검증]] →
+
+---

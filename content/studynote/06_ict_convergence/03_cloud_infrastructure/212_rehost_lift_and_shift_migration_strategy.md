@@ -140,3 +140,14 @@ tags:
 1. 이 개념은 복잡한 일을 한눈에 보이게 정리해서 모두가 같은 규칙으로 움직이게 해 줘.
 2. 그래서 많은 기계나 사람, 프로그램이 함께 일해도 어디서 문제가 생겼는지 찾기 쉬워져.
 3. 한마디로 이 개념은 복잡한 일을 질서 있게 움직이게 만드는 안내판이야.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 212 / 552
+
+← **이전**: [[211_cloud_migration_strategies_6r_rehost_refactor|211. 클라우드 마이그레이션 전략 (Cloud Migration)]]
+**다음**: [[213_refactoring_cloud_native_rearchitecture|213. 리팩토링 (Refactor)]] →
+
+---

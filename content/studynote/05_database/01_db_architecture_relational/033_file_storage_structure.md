@@ -215,3 +215,14 @@ Salary: [50K, 60K, 55K]
 1. 힙 [[501_file_definition_logical_record|파일]]은 물건을 그냥 던져넣는 서랍이다 — 찾기 어렵지만 넣기는 빠르다.
 2. 열 지향 저장은 키·몸무게·나이를 각각 별도 리스트로 관리하는 것이다 — "모든 학생의 키 평균"을 구할 때 키 리스트만 읽으면 된다.
 3. 버퍼 풀은 책상 위 책 [[459_dummy_test_double|더미]]다 — 자주 읽는 책은 책상(메모리)에 두고, 오래 안 본 책은 책장(디스크)에 돌려놓는다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 33 / 600
+
+← **이전**: [[032_tp_monitor|TP 모니터 (Transaction Processing Monitor)]]
+**다음**: [[034_record_length|레코드 길이 · 파일 조직 방식 (Record Length & File Organization)]] →
+
+---

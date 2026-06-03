@@ -124,3 +124,14 @@ tags:
 1. [[070_configuration_management_git_ci_audit|형상 관리 저장소]] 및 [[090_configuration_item|CI]] 빌드 환경 평가는 일을 잘했는지 [[396_validation|확인]]하는 [[435_checklist_based_testing|체크리스트]]를 만들고, 실제로 했다는 증거를 모으는 방법이에요.
 2. 약속한 대로 했는지, 빠진 것은 없는지, 고친 뒤 다시 [[396_validation|확인]]했는지를 차례대로 보는 거예요.
 3. 그래서 나중에 문제가 생겨도 누구 말이 맞는지 금방 알 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 109 / 530
+
+← **이전**: [[070_configuration_management_git_ci_audit|70. 형상 관리 저장소 (Git, SVN) 및 지속적 통합(CI) 감리]]
+**다음**: [[071_source_code_obfuscation_audit|71. 소스코드 난독화 적용 여부 점검 - 금융/모바일 앱 보안]] →
+
+---

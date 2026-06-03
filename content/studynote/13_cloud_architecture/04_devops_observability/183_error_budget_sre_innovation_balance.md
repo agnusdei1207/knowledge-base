@@ -189,3 +189,14 @@ Error Budget 계산
 1. [[101_error_budget_sre|에러 예산]]은 한 달 동안 써도 되는 "실수 쿠폰" 같은 거예요.
 2. 쿠폰이 남아 있으면 새 장난감을 시험해 볼 수 있지만, 거의 다 쓰면 먼저 망가진 곳을 고쳐야 해요.
 3. 그래서 모두가 감으로 싸우지 않고 숫자를 보며 "지금은 모험할 때인지, 고칠 때인지"를 정할 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 182 / 371
+
+← **이전**: [[182_sla_service_level_agreement|182. SLA (Service Level Agreement, 서비스 수준 협약)]]
+**다음**: [[184_observability_three_pillars|184. 옵저버빌리티 3대 기둥 (Observability Three Pillars)]] →
+
+---

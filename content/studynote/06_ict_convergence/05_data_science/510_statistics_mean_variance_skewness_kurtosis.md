@@ -128,3 +128,14 @@ Anscombe이 만든 4개 [[001_dikw_pyramid|데이터]]셋은 **평균, [[136_var
 1. 반 친구들의 키를 조사할 때 평균 키는 "전체를 고르게 나눈 키"고, 중앙값은 "줄 세웠을 때 한가운데 친구의 키"야.
 2. [[136_variance|분산]]은 친구들의 키가 얼마나 들쭉날쭉한지를 나타내고, [[064_skewness_kurtosis_log_transformation|왜도]]는 키가 큰 쪽으로 몰렸는지 작은 쪽으로 몰렸는지를 알려줘.
 3. 첨도는 대부분 비슷한 키인데 갑자기 아주 크거나 작은 친구가 있는지 나타내는 거야!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 510 / 552
+
+← **이전**: [[509_cxl_chiplet_memory_pooling_ucie|509. CXL, 칩렛, 메모리 풀링, UCIe (CXL Chiplet Memory Pooling UCIe)]]
+**다음**: [[511_normal_distribution_clt_law_of_large_numbers|511. 정규 분포, 중심 극한 정리, 대수의 법칙 (Normal Distribution CLT Law of Large Numbers)]] →
+
+---

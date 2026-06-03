@@ -133,3 +133,14 @@ tags:
 1. 큰 장난감 도시를 여러 구역으로 나누고 필요한 규칙만 골라 쓰는 것과 같아요.
 2. 이 개념은 빠른 길, 안전한 길, 많은 사람이 쓰는 길을 각각 다르게 꾸미게 해줘요.
 3. 그래서 미래 통신망이 더 똑똑하고 유연해져요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 880 / 1120
+
+← **이전**: [[758_volte_voice_over_lte_sip_qos|758. VoLTE (Voice over LTE 음성 통화 올 IP 패킷망 진화 우선 제어 처리 SIP QOS 제어망 적용 구조 최적화)]]
+**다음**: [[760_embb_enhanced_mobile_broadband_vr_ar|760. eMBB (Enhanced Mobile Broadband 초고속 광대역 대용량 증강 기술 적용) AR/VR 기술 지원 파급 체계]] →
+
+---

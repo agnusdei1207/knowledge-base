@@ -136,3 +136,14 @@ Mock 드리프트 문제             소비자-공급자 분리 테스트       
 1. Contract Testing은 두 친구가 "내가 이렇게 부르면 너는 이렇게 대답해"라는 약속(계약)을 미리 정해두는 거예요.
 2. 약속이 바뀌면 컴퓨터가 자동으로 "이 약속이 맞는지" [[396_validation|확인]]해줘요.
 3. 덕분에 두 친구가 따로 연습해도 합창할 때 박자가 맞아요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 336 / 373
+
+← **이전**: [[335_tdd_bdd|335. TDD BDD 인수테스트 Mock 격리 (TDD BDD Acceptance Testing Mock Stub Spy Test Pyramid]]
+**다음**: [[337_audit|337. 뮤테이션 테스트 테스트 케이스 품질 평가 (Mutation Testing Mutant Survived PITest Stryker]] →
+
+---

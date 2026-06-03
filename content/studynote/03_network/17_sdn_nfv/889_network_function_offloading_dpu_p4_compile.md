@@ -130,3 +130,14 @@ tags:
 1. 장난감 차를 움직이는 조종기와 차체를 따로 생각하면 바꾸기 쉬워져요.
 2. 이 개념은 네트워크의 머리와 몸을 나눠 더 쉽게 프로그램하게 해줘요.
 3. 그래서 새 규칙을 더 빨리 넣고 바꿀 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 1010 / 1120
+
+← **이전**: [[888_multi_tenant_cloud_resource_isolation_noisy_neighbor|888. 멀티 테넌트 (Multi-Tenant)]]
+**다음**: [[890_optical_ethernet_carrier_ethernet_single_platform|890. 광통신 네트워크 이더넷]] →
+
+---

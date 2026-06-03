@@ -173,3 +173,14 @@ Bridge CA 허브 연결
 1. 여러 학교가 각자 다른 학생증을 쓰면 다른 학교 도서관에 들어가기 어려워요.
 2. 그래서 가운데 [[396_validation|확인]] 센터가 생겨서 "이 학교 학생증도 믿을 수 있어"라고 서로 연결해 줘요.
 3. 브릿지 CA는 학생증을 다시 만드는 사람이 아니라, 학교끼리 믿을 수 있게 다리를 놓는 선생님이에요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 234 / 1108
+
+← **이전**: [[180_certificate_chain_of_trust|180. 인증서 체인 검증 (Certificate Chain of Trust)]]
+**다음**: [[182_certificate_pinning_ssl_tls_security|182. 인증서 핀닝 (Certificate Pinning) — 已知 인증서 목록 하드코딩]] →
+
+---

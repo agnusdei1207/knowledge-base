@@ -64,3 +64,14 @@ Foundation Model은 **현대 AI의 패러다임**이며, 규모의 법칙(Scalin
 1. Foundation Model은 **대학 교양 교육**이에요. 많이 배우면 **뭐든 할 수 있는 기초**가 돼요.
 2. 교양(사전 학습) 후 **전공([[304_fine_tuning|Fine-tuning]])**을 선택하면 빠르게 전문가가 돼요.
 3. 정말 많이 배우면 **가르치지 않은 것도 알게 되는(창발)** 신기한 현상이 일어나요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 130 / 420
+
+← **이전**: [[129_position_wise_feed_forward_ffnn|129. Position-wise FFN - Transformer 내 2층 MLP 비선형 변환]]
+**다음**: [[131_self_supervised_learning|131. 자기 지도 학습 (Self-Supervised Learning) - 라벨 없이 학습하는 사전 훈련]] →
+
+---

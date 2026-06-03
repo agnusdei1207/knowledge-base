@@ -103,3 +103,14 @@ C-Commerce는 **[[520_supply_chain_attack_and_ci_cd_security|공급망]] 파트�
 1. B2B는 물건을 **사고파는** 거예요. C-Commerce는 **같이 요리(협업)**하는 거예요.
 2. 식당과 재료 가게가 **함께 다음 주 메뉴를 계획(CPFR)**하면 재료 낭비가 줄어요.
 3. 덕분에 **필요한 만큼만 준비**하고, 손님에게 더 빨리 음식을 낼 수 있답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 125 / 482
+
+← **이전**: [[124_bom_bill_of_materials|124. BOM (Bill of Materials) - 부품 구성 목록·제조업 데이터 핵심]]
+**다음**: [[126_scm_erp_mes_vertical_integration|126. SCM·ERP·MES 수직 통합 - 계획→실행→현장의 데이터 연속성]] →
+
+---

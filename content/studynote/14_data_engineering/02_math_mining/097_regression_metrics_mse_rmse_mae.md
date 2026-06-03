@@ -130,3 +130,14 @@ MSE는 수식적으로 부드러운 곡선을 띄어 경사하강법([[165_gradi
 1. 회귀 지표는 우리가 던진 다트가 과녁의 한가운데에서 몇 센티미터 떨어졌는지 재는 마법의 자예요.
 2. MSE와 RMSE 선생님은 조금이라도 더 멀리 빗나가면 점수를 엄청나게 많이 깎아서 혼을 내요.
 3. MAE 선생님은 빗나간 거리를 쿨하게 있는 그대로만 재서 "딱 이만큼 틀렸네"라고 알려준답니다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 97 / 258
+
+← **이전**: [[096_oversampling_smote|불균형 데이터 증강 (Oversampling) - SMOTE]]
+**다음**: [[098_coefficient_of_determination_r_squared|결정 계수 (Coefficient of Determination) - R-Squared]] →
+
+---

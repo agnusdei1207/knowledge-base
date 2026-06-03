@@ -132,3 +132,14 @@ tags:
 1. 도서관에서 책을 찾을 때 제목표를 먼저 보는 것과 비슷해요.
 2. 지름길을 잘 찾으면 빨리 찾지만, 표지가 엉뚱하면 더 돌아가요.
 3. 그래서 어떤 길이 빠른지 미리 계산하는 똑똑한 방법이 필요해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 586 / 600
+
+← **이전**: [[585_subquery_unnesting_optimizer_query_transformation|585. 서브쿼리 언네스팅 (Subquery Unnesting) 메인 쿼리 조인 변환 옵티마이저 룰]]
+**다음**: [[587_star_transformation_fact_dimension_bitmap_index|587. 스타 변환 (Star Transformation) 팩트/차원 조인 옵티마이저 스캔 효율화 기법]] →
+
+---

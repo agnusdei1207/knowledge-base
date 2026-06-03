@@ -170,3 +170,14 @@ tags:
 1. [[001_dikw_pyramid|데이터]] [[606_auditing_linux_auditd|감사]]는 식품 공장의 **품질 검사관**이에요 — 재료(원시 [[001_dikw_pyramid|데이터]])부터 완성품(보고서)까지 모든 과정을 꼼꼼히 [[396_validation|확인]]해요!
 2. "이 숫자가 왜 이렇게 됐나요?"라는 질문에, [[606_auditing_linux_auditd|감사]] 기록이 있으면 처음 들어온 [[001_dikw_pyramid|데이터]]부터 최종 결과까지 모든 과정을 딱딱 보여줄 수 있어요.
 3. 회사가 법([[783_pipa_korea|개인정보보호법]], [[791_gdpr_eu|GDPR]])을 잘 지켰는지 증명하는 도장 역할도 하니까, [[001_dikw_pyramid|데이터]]를 다루는 모든 조직에 꼭 필요한 도구랍니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 213 / 262
+
+← **이전**: [[212_bigdata_disputes|206. 빅데이터 분쟁 (Big Data Legal Disputes) — 데이터 소유권/수집 동의/목적 외 사용]]
+**다음**: [[214_finance_bigdata|209. 금융 빅데이터 (Financial Big Data) — 신용평가/이상거래탐지/알고트레이딩]] →
+
+---

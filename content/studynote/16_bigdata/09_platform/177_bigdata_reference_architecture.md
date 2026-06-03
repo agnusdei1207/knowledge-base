@@ -171,3 +171,14 @@ Federated Governance + Self-Service Analytics
 1. 빅데이터 [[316_reference_pattern_nosql|참조]] 아키텍처는 큰 공장에서 재료를 받고, 정리하고, 가공하고, 손님에게 보내는 길을 미리 그려 놓은 설계도예요.
 2. 길이 정해져 있으면 새 재료가 와도 어디로 보내야 할지 바로 알 수 있어요.
 3. 그래서 나중에 기계를 바꾸거나 사람이 바뀌어도 공장이 계속 잘 돌아가요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 177 / 262
+
+← **이전**: [[176_onpremise_vs_cloud|176. 온프레미스 Hadoop vs 클라우드 빅데이터 비교]]
+**다음**: [[178_modern_data_stack|178. 모던 데이터 스택 (Modern Data Stack, MDS) — Fivetran + Snowflake + dbt + Tableau]] →
+
+---

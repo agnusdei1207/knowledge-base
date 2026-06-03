@@ -149,3 +149,14 @@ ALE 높은 순서로 보안 투자 우선순위 결정
 1. ARO는 "1년에 몇 번 사고가 날까?" 예측이에요 — 0.1이면 10년에 한 번이에요!
 2. ARO × 피해액(SLE) = 연간 예상 손실([[032_ale_annual_loss_expectancy|ALE]])로 보안 투자 가치를 계산해요!
 3. Verizon DBIR 같은 통계 자료를 보면 실제 해킹 사고가 얼마나 자주 발생하는지 알 수 있어요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 31 / 1108
+
+← **이전**: [[030_sle_single_loss_expectancy|30. SLE·ALE — 단일·연간 손실 기대값]]
+**다음**: [[032_ale_annual_loss_expectancy|ALE (Annual Loss Expectancy, 연간 예상 손실)]] →
+
+---

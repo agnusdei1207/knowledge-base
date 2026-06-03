@@ -131,3 +131,14 @@ PoC
 [[004_blockchain|블록체인]]을 빌려 쓰는 거예요.  
 직접 만들지 않아도 돼요.  
 BaaS는 그런 [[090_service_kubernetes_network_load_balancing|서비스]]예요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 71 / 552
+
+← **이전**: [[070_sybil_attack_fake_nodes|70. 시빌 공격 (Sybil Attack) - 한 명이 여러 개의 가짜 노드(신분)를 생성하여 투표율/합의를 조작하는 공격]]
+**다음**: [[072_erc_20_fungible_token_standard|72. ERC-20 (이더리움 대체 가능 토큰 표준)]] →
+
+---

@@ -139,3 +139,14 @@ tags:
 1. [[196_kubernetes_k8s_container_orchestration|쿠버네티스]] [[198_pod_kubernetes_minimum_deployment_unit|Pod]] [[073_container_orchestration_tools|오케스트레이션]] 노드 관리는 복잡한 일을 순서대로 정리해 주는 큰 정리함이에요.
 2. 어디에 무엇을 넣을지 먼저 정해 두면, 나중에 찾거나 고칠 때 훨씬 쉬워져요.
 3. 그래서 일이 커질수록 먼저 기준을 만들고 같이 약속하는 것이 중요해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 426 / 482
+
+← **이전**: [[425_hypervisor_type1_type2_container|425. 하이퍼바이저 Type 1/2 전반가상화 컨테이너 비교 (Hypervisor)]]
+**다음**: [[427_12factor_app_cloud_native|427. 12 Factor App 클라우드 네이티브 설계 원칙 (12-Factor App)]] →
+
+---

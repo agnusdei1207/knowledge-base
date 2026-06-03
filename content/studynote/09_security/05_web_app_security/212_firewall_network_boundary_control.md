@@ -125,3 +125,14 @@ tags:
 1. [[690_firewall_generation_evolution|방화벽]] ([[690_firewall_generation_evolution|Firewall]])는 컴퓨터 세상을 더 안전하게 만들기 위한 중요한 약속이나 도구예요.
 2. 겉으로는 어려워 보여도, 왜 필요한지와 어떻게 움직이는지를 알면 훨씬 쉬워져요.
 3. 그래서 이름만 외우지 말고 어디에 쓰이는지 같이 기억해야 해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 265 / 1108
+
+← **이전**: [[211_network_security_segmentation_integrity|211. 네트워크 보안 3대 영역 (Network Security Segmentation Integrity)]]
+**다음**: [[213_packet_filtering_firewall|213. 패킷 필터링 방화벽 (Packet Filtering Firewall)]] →
+
+---

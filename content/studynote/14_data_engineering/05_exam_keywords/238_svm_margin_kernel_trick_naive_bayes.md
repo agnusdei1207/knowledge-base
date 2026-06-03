@@ -248,3 +248,14 @@ SVM: 최대 마진 초평면 + 커널 트릭 (비선형 매핑)
 ```
 2. [[059_kernel_trick_rbf_polynomial|커널 트릭]]은 평평한 종이에 섞인 점을 분리하기 어려울 때 종이를 3D로 구겨 올리면 선을 그을 수 있게 되는 마법이다.
 3. [[264_naive_bayes|나이브 베이즈]]는 "무료"라는 단어가 스팸 메일에 많이 나온다는 과거 통계를 보고 새 메일이 스팸인지 빠르게 판단하는 [[130_probability|확률]] 계산기다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 238 / 258
+
+← **이전**: [[237_ml_supervised_unsupervised_reinforcement_bias_variance|237. 머신러닝 지도·비지도·강화학습 편향-분산 오류 종합]]
+**다음**: [[239_perceptron_mlp_hidden_layer_weight_activation_sigmoid|239. 퍼셉트론 (Perceptron) MLP 은닉층 가중치 활성화 시그모이드 (Sigmoid)]] →
+
+---

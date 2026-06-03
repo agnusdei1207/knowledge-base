@@ -143,3 +143,14 @@ TO-BE 정착 · 자동화 · 지속 개선
 1. 학교 운동장이 어디서 막히는지 보는 것은 문제를 찾는 단계예요.
 2. 모델 향상은 아이들이 덜 부딪히게 길을 다시 그리고, 필요한 곳에 [[130_signal|신호]]등을 놓는 일이에요.
 3. 그리고 정말 잘 움직이는지 쉬는 시간 전에 미리 연습해 보는 것이 시뮬레이션이에요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 207 / 482
+
+← **이전**: [[206_conformance_checking_process_mining_deviation_audit|206. 적합성 검사 (Conformance Checking)]]
+**다음**: [[208_cmmi_capability_maturity_model_integration_levels|208. CMMI (Capability Maturity Model Integration) - 성숙도 수준 평가]] →
+
+---

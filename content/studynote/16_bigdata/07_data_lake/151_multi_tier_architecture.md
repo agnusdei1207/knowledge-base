@@ -182,3 +182,14 @@ Multi-Tier Architecture는 현대 [[210_data_lakehouse_delta_lake|데이터 레�
 1. Bronze는 슈퍼에서 사온 야채 그대로, Silver는 씻고 잘라놓은 재료, Gold는 다 만든 요리예요.
 2. 요리(Gold)가 맛없을 때 재료(Bronze)를 다시 보면 어디서 문제가 생겼는지 알 수 있어요.
 3. 각 단계가 분리되어 있어서 재료 손질(Silver)을 잘못해도 슈퍼에서 사온 야채(Bronze)는 그대로 보존돼요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 151 / 262
+
+← **이전**: [[150_unity_catalog|150. Unity Catalog (Databricks) — 레이크하우스 통합 거버넌스]]
+**다음**: [[152_medallion_architecture|152. 메달리온 아키텍처 (Medallion Architecture) — Delta Lake 기반 3계층]] →
+
+---

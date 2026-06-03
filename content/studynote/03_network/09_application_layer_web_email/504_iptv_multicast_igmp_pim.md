@@ -217,3 +217,14 @@ IPTV [[298_ip_classes_a_b_c_d_multicast_e_experimental|멀티캐스트]] 전송�
 1. 피자(동영상) 1만 판을 시킨 동네 사람 1만 명에게 **오토바이 1만 대가 길을 막고 한 판씩 따로 배달(유니캐스트 1:1)**하면 도로가 꽉 막혀서 모두가 굶어 죽어요!
 2. **[[298_ip_classes_a_b_c_d_multicast_e_experimental|멀티캐스트]](1:N)**는 거대한 대형 트럭 1대가 피자 1만 판을 싣고 고속도로를 뻥 뚫고 시원하게 달려온 다음, 동네 아파트 입구(라우터)에서만 피자를 1만 개로 복사해서 예쁘게 찢어 나눠주는 마법 배달이에요!
 3. 이때 아파트 경비 아저씨가 "우리 아파트에 피자 먹을 사람 손들어!" 하고 물어보는 걸 **[[333_igmp_internet_group_management_protocol_multicast|IGMP]]**라고 하고, 서울 빵집에서 우리 동네까지 막히지 않는 가장 빠른 고속도로 길을 뚫어주는 걸 **[[430_pim|PIM]]**이라고 한답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 625 / 1120
+
+← **이전**: [[503_ip_pbx_private_branch_exchange|503. IP PBX]]
+**다음**: [[505_webrtc_web_real_time_communication|505. WebRTC (Web Real-Time Communication)]] →
+
+---

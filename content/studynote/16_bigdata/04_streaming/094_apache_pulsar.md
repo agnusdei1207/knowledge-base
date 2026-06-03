@@ -209,3 +209,14 @@ Apache Pulsar는 Kafka의 [[139_throughput|처리량]]과 전통 MQ의 유연성
 ### 👶 어린이를 위한 3줄 비유 설명
 
 Kafka는 "배달부(브로커)가 직접 창고도 가진 구조"이고, Pulsar는 "배달부(브로커)와 창고업체(BookKeeper)가 분리된 구조"예요. 배달부가 아파도(브로커 장애) 창고는 멀쩡하니까 다른 배달부가 즉시 가서 물건을 가져올 수 있어요. 창고를 더 늘리고 싶으면 창고만(BookKeeper) 추가하고, 배달부를 더 늘리고 싶으면 배달부만 추가하면 되니까 각각 독립적으로 키울 수 있어요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 94 / 262
+
+← **이전**: [[093_azure_event_hubs|18. Azure Event Hubs — Kafka 호환 이벤트 스트리밍]]
+**다음**: [[095_lambda_architecture|20. 람다 아키텍처 (Lambda Architecture) — 배치+실시간 이중 처리]] →
+
+---

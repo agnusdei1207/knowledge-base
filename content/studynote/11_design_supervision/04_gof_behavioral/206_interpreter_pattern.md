@@ -227,3 +227,14 @@ Spring의 SpEL (Spring Expression Language)은 [[277_interpreter_pattern|Interpr
 1. "빨강 3개 더하기 파랑 2개" 같은 말을 컴퓨터가 이해하게 만드는 게 [[400_process|해석자 패턴]]이에요.
 2. 각 단어(숫자, 더하기)가 하나의 클래스(Expression)가 돼서 함께 계산해요.
 3. 이렇게 만들면 "나누기"나 "빼기"도 새 클래스만 추가하면 바로 쓸 수 있어요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 267 / 530
+
+← **이전**: [[205_memento_pattern|205. 메멘토 패턴 (Memento Pattern)]]
+**다음**: [[207_null_object_pattern|207. 널 객체 패턴 (Null Object Pattern)]] →
+
+---

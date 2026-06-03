@@ -139,3 +139,14 @@ tags:
 1. [[014_api_posix|API]] 게이트웨이 [[303_authentication_authorization_patterns|인증]] 스로틀링 집계는 복잡한 일을 순서대로 정리해 주는 큰 정리함이에요.
 2. 어디에 무엇을 넣을지 먼저 정해 두면, 나중에 찾거나 고칠 때 훨씬 쉬워져요.
 3. 그래서 일이 커질수록 먼저 기준을 만들고 같이 약속하는 것이 중요해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 366 / 482
+
+← **이전**: [[365_msa_microservice_architecture|365. 마이크로서비스 MSA 독립 배포 원칙 (Microservice Architecture)]]
+**다음**: [[367_service_discovery_eureka_consul|367. 서비스 디스커버리 Eureka Consul (Service Discovery)]] →
+
+---

@@ -140,3 +140,14 @@ Lead Time 단축 / Flow 개선
 1. 소풍길 지도를 보면 어디서 오래 멈추는지 알 수 있어요.
 2. 길만 빠르면 소풍이 빨라지는 건 아니에요.
 3. VSM은 전체 길을 그려서 막힌 곳을 찾는 지도예요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 76 / 482
+
+← **이전**: [[075_agile_pmo_project_management_office|75. 애자일 PMO (Project Management Office) - 폭포수 통제를 넘어 애자일 지원 조직으로의 전환]]
+**다음**: [[077_enterprise_portal_eip|77. 엔터프라이즈 포털 (EP / EIP) - 기업 내 분산된 정보를 단일 창구로 통합 웹 제공]] →
+
+---

@@ -108,3 +108,14 @@ BDD는 **"살아있는 문서(Living [[378_software_documentation|Documentation]
 1. BDD는 연극 **대본(시나리오)**이에요. "만약 이러면, 이렇게 하면, 이런 결과가 나와야 해!"
 2. 감독(PO)·배우(개발자)·관객(QA) **모두가 같은 대본**을 보고 이해해요.
 3. 대본대로 연습(테스트)하면 **진짜 공연(배포) 때 실수가 없어요!**
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 126 / 973
+
+← **이전**: [[125_12_factor_app_cloud_native_architecture|125. 12 Factor App - 클라우드 네이티브 애플리케이션 설계 12원칙]]
+**다음**: [[127_ddd_domain_driven_design|127. DDD (Domain-Driven Design) - 도메인 중심 소프트웨어 설계]] →
+
+---

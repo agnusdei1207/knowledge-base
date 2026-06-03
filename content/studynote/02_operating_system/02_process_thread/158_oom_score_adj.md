@@ -149,3 +149,13 @@ cgroup 정책 · systemd · Kubernetes QoS와 결합한 생존 우선순위 설�
 2. `oom_score_adj`는 “이 친구는 중요해요” 또는 “이 친구는 먼저 나가도 돼요”라고 붙이는 스티커예요.
 3. 하지만 방이 너무 좁은 문제까지 없어지는 건 아니어서, 원래부터 방 크기와 사람 수를 잘 맞춰야 해요.
 
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 158 / 800
+
+← **이전**: [[157_oom_killer|157. OOM (Out Of Memory) Killer 프로세스 종료 정책]]
+**다음**: [[159_process_group|159. 프로세스 그룹 (Process Group)]] →
+
+---

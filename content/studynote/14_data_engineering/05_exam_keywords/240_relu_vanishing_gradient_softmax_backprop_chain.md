@@ -191,3 +191,14 @@ Softmax (출력층): 다중 클래스 확률 분포
 ```
 2. ReLU는 **양수면 그대로 전달하고, 음수면 0으로 만드는 간단한 규칙**이야. 이 덕분에 신호가 소리치듯 전달돼.
 3. [[270_softmax|소프트맥스]]는 **시험 점수를 퍼센트로 바꾸는 것**이야. 모든 답의 [[130_probability|확률]]을 더하면 100%가 되니까 "이게 고양이일 [[130_probability|확률]]이 70%야"라고 말할 수 있어.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 240 / 258
+
+← **이전**: [[239_perceptron_mlp_hidden_layer_weight_activation_sigmoid|239. 퍼셉트론 (Perceptron) MLP 은닉층 가중치 활성화 시그모이드 (Sigmoid)]]
+**다음**: [[241_optimizer_sgd_minibatch_adam_momentum_adaptive|241. 옵티마이저 SGD (Stochastic Gradient Descent) 미니배치 Adam 모멘텀 적응 학습률]] →
+
+---

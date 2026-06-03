@@ -62,3 +62,14 @@ INNER JOIN은 **SQL의 가장 기본 연산**이며, [[154_database_index_b_tree
 1. INNER JOIN은 **양쪽 명단에 모두 있는 사람만** 뽑아요.
 2. A반 명단과 B반 명단에서 **겹치는 사람만** 결과에 나와요.
 3. 안 겹치는 사람은 **자동으로 빠지니** 결과에 빈칸(NULL)이 없어요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 133 / 600
+
+← **이전**: [[132_sql_join_types_overview|132. SQL JOIN 유형 총정리 - INNER·LEFT·RIGHT·FULL·CROSS·SELF]]
+**다음**: [[134_sql_outer_join_left_right_full|134. SQL OUTER JOIN (LEFT·RIGHT·FULL) - 비매칭 행도 포함하는 결합]] →
+
+---

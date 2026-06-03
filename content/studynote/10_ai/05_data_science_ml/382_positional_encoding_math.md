@@ -141,3 +141,14 @@ Attention score = QKᵀ/√dₖ - m·|pos_q - pos_k|  (m: 헤드별 기울기)
 1. [[246_transformer_self_attention_parallel_positional_encoding|트랜스포머]]는 단어들을 동시에 보는데, 어떤 단어가 몇 번째인지 모르니까 번호표([[300_positional_encoding|포지셔널 인코딩]])를 달아줘야 해.
 2. 삼각함수 PE는 위치마다 다른 주파수의 음악 코드를 부여해서, 어떤 두 위치든 고유하게 구별할 수 있게 해.
 3. RoPE는 각 위치마다 시계를 다른 각도로 돌려서, 두 단어의 거리(상대 위치)를 자동으로 계산할 수 있게 하는 더 똑똑한 번호표야.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 382 / 420
+
+← **이전**: [[381_scaled_dot_product_attention|381. 스케일드 닷 프로덕트 어텐션 (Scaled Dot-Product Attention)]]
+**다음**: [[383_llm_autoregressive_math|383. LLM 자기 회귀 (Auto-Regressive) 언어 모델 우도 수식]] →
+
+---

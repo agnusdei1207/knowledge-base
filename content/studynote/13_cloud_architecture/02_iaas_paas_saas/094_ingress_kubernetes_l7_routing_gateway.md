@@ -137,3 +137,14 @@ Gateway API (차세대 표준)
 1. 놀이공원([[196_kubernetes_k8s_container_orchestration|쿠버네티스]])에 롤러코스터, 회전목마 같은 여러 놀이기구([[090_service_kubernetes_network_load_balancing|서비스]])가 있어요.
 2. 예전엔 놀이기구마다 매표소를 따로 만들어서 돈이 너무 많이 들었어요.
 3. 그래서 커다란 중앙 정문(인그레스)을 하나 만들고, 안내원 아저씨가 표를 확인한 뒤 가고 싶은 놀이기구 길로 쏙쏙 안내해 주는 거랍니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 93 / 371
+
+← **이전**: [[093_loadbalancer_kubernetes_service_cloud_provider|93. LoadBalancer - 퍼블릭 클라우드 연동 K8s 외부 진입점]]
+**다음**: [[095_hpa_horizontal_pod_autoscaler_kubernetes|95. HPA (Horizontal Pod Autoscaler) - CPU 기반 파드 자동 스케일링]] →
+
+---

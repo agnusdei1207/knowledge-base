@@ -129,3 +129,14 @@ tags:
 1. [[004_blockchain|블록체인]] [[022_smart_contract|스마트 컨트랙트]] 기반 [[520_supply_chain_attack_and_ci_cd_security|공급망]] 증빙(Traceability) 플랫폼 연동은 모두가 같은 규칙으로 일하게 해 주는 반장 약속표예요.
 2. 약속만 적어 두는 것이 아니라 누가 지켰는지 확인하고 고치는 방법까지 함께 정해요.
 3. 그래서 일이 많아져도 서로 부딪히지 않고 더 안전하게 움직일 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 342 / 587
+
+← **이전**: [[227_xai_explainable_ai_lime_shap|227. 설명 가능한 AI (XAI) 도입]]
+**다음**: [[229_zkp_data_clean_room|229. 영지식 증명 (ZKP) 활용 프라이버시 클린 룸 (Data Clean Room) 기업 간 데이터 연합]] →
+
+---

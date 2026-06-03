@@ -129,3 +129,14 @@ BRM (Business [[116_reference_model|Reference Model]], 업무 [[116_reference_mo
 1. BRM은 학교 물건을 교과목별 서랍에 나눠 넣는 정리표예요.
 2. 같은 물건을 여러 서랍에 중복으로 넣지 않게 막아 줘요.
 3. 그래서 필요한 걸 더 빨리 찾고, 새 물건도 뭘 사야 할지 쉽게 정할 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 217 / 587
+
+← **이전**: [[116_reference_model_brm_drm_srm_trm|116. 참조 모델 (Reference Model)]]
+**다음**: [[117_brm_business_reference_model_function|117. BRM (Business Reference Model, 업무 참조 모델)]] →
+
+---

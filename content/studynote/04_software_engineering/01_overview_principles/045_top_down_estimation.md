@@ -276,3 +276,14 @@ Velocity 기반 예측
 1. 하향식 산정은 전체에서 나누기 — "집 짓는 데 총 5억" 먼저 잡고 방별 예산 나눠요. 정확하진 않지만 빨라요!
 2. [[214_delphi_method_expert_consensus_forecasting|델파이]]는 전문가 투표 — 여러 전문가가 몰래 예상하고, 공유하고, 다시 예상. 극단 의견 빼고 중간값 합의!
 3. 하향식 + 상향식 이중 [[395_verification_process_review|검증]] — 위에서 내려다보고(하향식), 아래서 쌓아올려(상향식) 두 값이 비슷하면 믿을 수 있어요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 45 / 973
+
+← **이전**: [[044_software_cost_estimation_overview|044. 소프트웨어 비용 산정 개요]]
+**다음**: [[046_bottom_up_estimation_loc|046. 상향식 비용 산정 / LOC — Bottom-Up & LOC Estimation]] →
+
+---

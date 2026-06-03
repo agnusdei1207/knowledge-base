@@ -109,3 +109,14 @@ tags:
 1. 옛날에는 남의 가게 손님 명부([[385_third_party_cookie_deprecation_cdw|3rd Party]] [[475_cookie_local_state|쿠키]])를 몰래 볼 수 있었어요.
 2. 이제는 그게 금지돼서, **우리 가게에 온 손님의 정보([[279_cdp_first_party|1st Party]])**만 쓸 수 있어요.
 3. 그래서 "우리 가게 손님 명부를 얼마나 잘 관리하느냐"가 **장사의 핵심**이 된 거랍니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 116 / 482
+
+← **이전**: [[115_cdp_customer_data_platform_single_view|115. CDP (Customer Data Platform) - 통합 고객 프로파일·Single Customer View]]
+**다음**: [[117_martech_marketing_technology_convergence|117. 마테크 (MarTech, Marketing Technology) - 마케팅·기술 융합 생태계]] →
+
+---

@@ -171,3 +171,14 @@ PCIe는 1차선 도로가 아니라 각 장비가 [[238_switch_operation_princip
 1. 사이클 스틸링 (Cycle Stealing)은 컴퓨터가 디스크와 장치가 [[001_dikw_pyramid|데이터]]를 주고받는 길을 정리하는 방법이에요.
 2. 먼저 [[450_dma_direct_memory_access|직접 메모리 접근]] ([[746_io_direct_memory_access_dma|DMA]], [[318_dma|Direct Memory Access]])을 이해하면 사이클 스틸링 (Cycle Stealing)이 왜 필요한지 더 쉽게 보여요.
 3. 그래서 사이클 스틸링 (Cycle Stealing)을 잘 알면 나중에 [[746_io_direct_memory_access_dma|DMA]] 산란-수집 ([[452_dma_scatter_gather|Scatter-Gather]])도 훨씬 쉽게 배울 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 451 / 800
+
+← **이전**: [[450_dma_direct_memory_access|450. 직접 메모리 접근 (DMA, Direct Memory Access) - CPU 개입 없이 장치와 메모리 간 직접 데이터 전송]]
+**다음**: [[452_dma_scatter_gather|452. DMA 산란-수집 (Scatter-Gather) - 불연속적 물리 메모리 블록을 한 번의 DMA로 전송]] →
+
+---

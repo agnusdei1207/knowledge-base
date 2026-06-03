@@ -127,3 +127,14 @@ Aurora Serverless
 [[206_serverless_cold_start|서버리스]] DB는 손님이 올 때만 계산대를 늘리는 가게예요.  
 손님이 없으면 계산대를 줄여서 돈을 아껴요.  
 그래서 왔다 갔다 하는 손님이 많은 곳에 잘 맞아요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 60 / 600
+
+← **이전**: [[059_persistent_storage_data_log_control_file|59. 영구 저장소 (Persistent Storage) - 데이터 파일, 로그 파일, 제어 파일]]
+**다음**: [[061_relation_schema_instance|61. 릴레이션 (Relation) - 데이터를 2차원 표로 표현한 구조]] →
+
+---

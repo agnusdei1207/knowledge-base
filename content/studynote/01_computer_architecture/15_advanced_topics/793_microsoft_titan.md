@@ -121,3 +121,14 @@ Microsoft Titan은 대규모 클라우드에서 [[032_firmware|펌웨어]] 침�
 1. 컴퓨터 안에 고장 난 문을 살피는 경비 아저씨가 있다고 생각해 보세요.
 2. 나쁜 글씨가 적힌 문서를 발견하면 그냥 못 쓰게 하는 데서 끝나지 않고, 깨끗한 새 문서로 바꿔 줘요.
 3. 그래서 큰 컴퓨터가 다시 안전하게 일을 시작할 수 있답니다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 794 / 803
+
+← **이전**: [[792_google_titan|792. Google Titan 보안 칩 (Google Titan Security Chip)]]
+**다음**: [[794_aws_nitro_enclaves|794. AWS Nitro Enclaves (AWS Nitro Enclaves)]] →
+
+---

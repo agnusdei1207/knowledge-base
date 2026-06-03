@@ -334,3 +334,14 @@ Point-in-Time Correct 조인 → 데이터 누수 방지
     ▼
 피처 플랫폼: Feast · Tecton · Hopsworks · SageMaker FS
 ```
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 165 / 258
+
+← **이전**: [[164_concept_drift_target_mapping_change|164. 컨셉 드리프트 (Concept Drift) - 정답 맵핑 규칙 변화]]
+**다음**: [[166_model_registry_versioning_mlflow|166. 모델 레지스트리 (Model Registry) - 버전 관리 MLflow]] →
+
+---

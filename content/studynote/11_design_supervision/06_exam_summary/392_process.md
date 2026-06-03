@@ -111,3 +111,14 @@ tags:
 1. [[269_template_method_pattern|템플릿 메서드]] 패턴 ([[269_template_method_pattern|Template Method Pattern]])은 요리 레시피는 같고 마지막 양념만 집마다 다르게 넣는 것처럼 약속을 먼저 정하는 거예요.
 2. 그러면 서로 다른 사람이 해도 같은 규칙으로 움직일 수 있어요.
 3. 그래서 규모가 커질수록 고정된 처리 순서와 변경 가능한 단계를 구분하는 일이 더 중요해져요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 470 / 530
+
+← **이전**: [[391_strategy_pattern_summary|391. 전략 패턴 (Strategy Pattern)]]
+**다음**: [[393_undo|393. 커맨드 패턴과 실행 취소 (Command Pattern and Undo)]] →
+
+---

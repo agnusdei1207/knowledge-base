@@ -126,3 +126,14 @@ Meta Learner + OOF
 1. 스태킹은 친구들 답을 모아 선생님이 다시 정리하는 거예요.
 2. 같은 답만 모으면 별로 도움이 안 돼요.
 3. 다른 생각을 가진 친구들이 많을수록 더 똑똑해질 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 53 / 420
+
+← **이전**: [[052_boosting_ensemble_gradient_boosting|52. 부스팅 (Boosting) - AdaBoost, GBM, XGBoost, LightGBM]]
+**다음**: [[054_decision_tree_impurity_entropy_gini|54. 의사결정나무의 불순도 (Decision Tree Impurity: Entropy/Gini)]] →
+
+---

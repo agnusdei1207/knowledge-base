@@ -132,3 +132,14 @@ Trusted Data
 정리하는 사람이 따로 있어요.  
 그 사람이 물건을 바로잡아요.  
 [[001_dikw_pyramid|데이터]] 스튜어드는 그런 사람예요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 67 / 482
+
+← **이전**: [[066_data_governance_framework|66. 데이터 거버넌스 (Data Governance) - 데이터 품질, 보안, 프라이버시 전사 관리 체계]]
+**다음**: [[068_cdo_cio_role_separation_governance|68. CDO (Chief Data Officer) / CIO (Chief Information Officer) 역할 분리]] →
+
+---

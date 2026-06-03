@@ -164,3 +164,14 @@ TC2 (A=F, B=T) 의 전체 덩어리 결과 $\rightarrow$ `False OR True` = **결
 1. 조건 커버리지 (Condition Coverage)은 레고 블록으로 성을 만들 때처럼, 규칙을 정하고 역할을 나누어 함께 작업하는 방법이에요.
 2. 혼자서 막 만들면 나중에 무너지거나 고치기 어렵지만, 약속을 지키면 누구나 쉽게 고치고 더 크게 만들 수 있어요.
 3. 그래서 [[001_software_engineering_definition|소프트웨어 공학]]은 프로그래머들이 좋은 프로그램을 빠르고 안전하게 만들 수 있게 도와주는 '규칙 모음집'이에요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 439 / 973
+
+← **이전**: [[423_decision_coverage|423. 결정 커버리지 (Decision Coverage / 분기 커버리지) - 분기문(If, While 등)의 참/거짓을 최소 한 번씩]]
+**다음**: [[424_condition_coverage|424. 조건 커버리지 (Condition Coverage) - 분기문 내의 각 개별 조건식이 참/거짓을 한 번씩 가짐]] →
+
+---

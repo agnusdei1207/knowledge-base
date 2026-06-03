@@ -54,3 +54,14 @@ NSP는 **문장 [[083_relationship_in_er_model|관계]] 학습의 [[459_quic_fec
 1. NSP는 **퍼즐 조각 맞추기**예요. 두 조각이 **원래 붙어있었는지** [[396_validation|확인]]해요.
 2. "비가 온다" 다음에 "우산을 쓴다"는 **맞지만(IsNext)**, "피자를 먹다"는 **안 맞아요(NotNext)**.
 3. 나중에 연구해보니 **이 훈련이 없어도** 잘 해서, 요즘은 안 [[289_cqrs_db|쓰기]]도 해요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 139 / 420
+
+← **이전**: [[138_mlm_learning|138. MLM (Masked Language Model) - BERT의 핵심 사전 학습 기법]]
+**다음**: [[140_gpt|140. GPT (Generative Pre-trained Transformer) - 자기회귀 언어 모델]] →
+
+---

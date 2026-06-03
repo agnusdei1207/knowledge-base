@@ -127,3 +127,14 @@ IPFS는 에지 보안 [[740_sase_secure_access_service_edge_sdwan_cloud|SASE]] �
 1. 엄청 빠른 빛 자동차와 똑똑한 로봇 교통정리원이 함께 일하는 미래 도시와 같아요.
 2. 이 개념은 빛처럼 빠르게 보내면서도 스스로 상태를 보고 길을 고치게 해줘요.
 3. 그래서 더 큰 인터넷도 사람 손을 덜 타고 잘 움직일 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 1033 / 1120
+
+← **이전**: [[911_sse_security_service_edge_sase_evolution|911. SSE (에지 보안 서비스)]]
+**다음**: [[913_v2i_rsu_road_side_unit_mec_autonomous_driving|913. V2I 노변 기지국 (RSU)]] →
+
+---

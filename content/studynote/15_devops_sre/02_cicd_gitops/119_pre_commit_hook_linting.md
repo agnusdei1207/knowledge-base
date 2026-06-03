@@ -127,3 +127,14 @@ Pre-commit Hook은 **Shift Left의 가장 극단적 구현**이며, 비용 대�
 1. Pre-commit Hook은 **공항 보안 검색대**예요. 짐(코드)에 위험물(에러)이 있으면 비행기(커밋)에 못 타요.
 2. 보안 검색은 **몇 초만에 끝나서** 공항([[090_configuration_item|CI]])까지 가지 않아도 바로 알 수 있어요.
 3. 덕분에 나쁜 코드가 **리포지토리에 들어가는 것을 원천 차단**할 수 있답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 119 / 373
+
+← **이전**: [[118_ephemeral_ci_runner_isolation|118. 일회성 CI 러너 (Ephemeral CI Runner) - 격리·보안·클린 빌드 보장]]
+**다음**: [[120_concept|120. DORA Metrics (DevOps Research & Assessment) - 소프트웨어 배포 성과 4대 지표]] →
+
+---

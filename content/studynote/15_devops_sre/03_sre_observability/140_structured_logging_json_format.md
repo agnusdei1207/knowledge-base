@@ -56,3 +56,14 @@ tags:
 1. 비구조화 [[568_logs_distributed_logging_elk_fluentd|로그]]는 **자유 형식 메모**예요. 찾기 어려워요.
 2. 구조화 [[568_logs_distributed_logging_elk_fluentd|로그]]는 **엑셀 표**예요. 칸(필드)마다 정리되어 **검색이 쉬워요**.
 3. "에러인 것 중 사용자 123번"처럼 **정확히 필터**할 수 있어요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 140 / 373
+
+← **이전**: [[139_distributed_logging_efk_elk_stack|139. 분산 로깅 (EFK/ELK Stack) - 중앙 집중 로그 관리]]
+**다음**: [[141_distributed_tracing_msa_request_flow|141. 분산 트레이싱 (Distributed Tracing) - MSA 요청 흐름 추적]] →
+
+---

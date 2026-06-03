@@ -142,3 +142,14 @@ tags:
 1. 바닷속에서는 무전기 소리가 멀리 잘 안 가서, 컴퓨터가 소리 파동으로 이야기해요.
 2. 그래서 잠수함이나 바닷속 로봇은 북소리처럼 천천히 [[130_signal|신호]]를 주고받아요.
 3. 조금 느리지만 멀리까지 들을 수 있어서 바닷속에서는 아주 중요한 방법이에요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 280 / 1120
+
+← **이전**: [[158_vlc_lifi_visible_light|158. 가시광 통신 (VLC, Visible Light Communication) / Li-Fi]]
+**다음**: [[160_radio_propagation_ground_sky_space|160. 지상파 (Ground Wave) / 천파 (Sky Wave) / 공간파 (Space Wave)]] →
+
+---

@@ -129,3 +129,14 @@ tags:
 1. [[090_service_kubernetes_network_load_balancing|서비스]] 수준 관리 ([[313_slm|SLM]], [[090_service_kubernetes_network_load_balancing|Service]] Level [[372_management|Management]])는 모두가 같은 규칙으로 일하게 해 주는 반장 약속표예요.
 2. 약속만 적어 두는 것이 아니라 누가 지켰는지 확인하고 고치는 방법까지 함께 정해요.
 3. 그래서 일이 많아져도 서로 부딪히지 않고 더 안전하게 움직일 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 152 / 587
+
+← **이전**: [[084_model_selection|84. Apache Kafka — 내구성 있는 메시지 큐, 스트리밍 기반]]
+**다음**: [[085_hyperparameter_tuning|85. Kafka 파티셔닝 전략 — 키 기반 / 라운드로빈 / 커스텀]] →
+
+---

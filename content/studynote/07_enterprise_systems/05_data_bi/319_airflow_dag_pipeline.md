@@ -134,3 +134,14 @@ Prefect · Dagster (현대적 데이터 자산 중심 오케스트레이터)
 1. Airflow는 레시피 관리 앱이에요. 요리 순서([[401_bayesian_network_dag_causality|DAG]])를 정해두면 각 단계를 정시에 자동으로 실행해줘요.
 2. 한 단계가 실패하면 자동으로 다시 시도하고, 계속 실패하면 요리사(운영자)에게 알림을 보내요.
 3. 모든 요리 기록(실행 [[568_logs_distributed_logging_elk_fluentd|로그]])이 남아서 "어제 몇 시에 어떤 요리가 실패했는지" 바로 [[396_validation|확인]]할 수 있어요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 319 / 482
+
+← **이전**: [[318_sql_injection_defense|318. SQL 인젝션 (SQL Injection) 방어 전략]]
+**다음**: [[320_gnn_vector_db_recommendation|320. GNN + 벡터 DB (Milvus) 기반 추천 시스템]] →
+
+---

@@ -181,3 +181,14 @@ Safe sharing / readable construction / domain consistency
 1. [[256_builder_pattern_step_by_step_creation|빌더]]는 장난감을 조립하는 작업판이라서, 만들 때는 부품을 붙였다 떼었다 할 수 있어요.
 2. 다 만들고 나면 본드로 딱 붙여서 더 이상 모양이 바뀌지 않는 불변 장난감이 돼요.
 3. 그래서 친구들이 같이 가지고 놀아도 누가 몰래 부품을 바꿔 버릴 걱정을 덜 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 228 / 530
+
+← **이전**: [[171_mvc_composite_design_pattern|171. MVC와 복합 디자인 패턴 (MVC Composite Design Pattern)]]
+**다음**: [[173_creational_pattern_memory_efficiency|173. 생성 패턴 메모리 효율화 로직 비교 (Prototype vs Flyweight)]] →
+
+---

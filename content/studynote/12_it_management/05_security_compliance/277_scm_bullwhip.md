@@ -129,3 +129,14 @@ tags:
 1. [[167_scm_software_configuration_management|SCM]] [[520_supply_chain_attack_and_ci_cd_security|공급망]] 관리 채찍 효과는 모두가 같은 규칙으로 일하게 해 주는 반장 약속표예요.
 2. 약속만 적어 두는 것이 아니라 누가 지켰는지 확인하고 고치는 방법까지 함께 정해요.
 3. 그래서 일이 많아져도 서로 부딪히지 않고 더 안전하게 움직일 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 402 / 587
+
+← **이전**: [[276_erp_enterprise_resource_planning|276. ERP 전사적 자원 관리]]
+**다음**: [[277_scm_bullwhip_effect|277. SCM 공급망 관리 채찍 효과]] →
+
+---

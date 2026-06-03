@@ -134,3 +134,14 @@ Reference Architecture
 1. [[196_kubernetes_k8s_container_orchestration|쿠버네티스]] [[172_maas_mobility_as_a_service|마스]]터·워커 [[603_component_independent_deployment_unit|컴포넌트]]는 복잡한 일을 순서와 규칙으로 정리해서 실수하지 않게 도와주는 방법이에요.
 2. 출시 직전 수동 보안 점검 같은 친구들과 같이 움직여야 더 잘 작동해요.
 3. 그래서 문제가 생겨도 어디서 틀렸는지 빨리 찾고 다시 고치기 쉬워져요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 308 / 373
+
+← **이전**: [[307_cgroups|307. 네임스페이스와 cgroups (Namespaces and cgroups)]]
+**다음**: [[309_process|309. 포드·레플리카셋·디플로이먼트 (Pod, ReplicaSet, Deployment)]] →
+
+---

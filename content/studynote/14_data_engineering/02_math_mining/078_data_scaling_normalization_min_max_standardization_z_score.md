@@ -118,3 +118,14 @@ Min-Max는 값의 상대 위치를 보존하면서 고정 범위로 압축하는
 1. 서로 다른 자로 잰 길이를 같은 자로 다시 맞추는 것과 같다.
 2. 그래야 누가 더 긴지 공평하게 비교할 수 있다.
 3. 컴퓨터도 숫자 크기를 먼저 맞춰야 공부를 잘한다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 78 / 258
+
+← **이전**: [[077_missing_value_imputation_mice_knn_dropna|77. 결측치 처리 - MICE 다중 대치법과 KNN 대치 보간]]
+**다음**: [[079_one_hot_encoding_categorical_dummy_variable|79. 원-핫 인코딩 (One-hot Encoding) - 범주형 변수의 더미 변수화]] →
+
+---

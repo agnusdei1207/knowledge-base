@@ -63,3 +63,14 @@ tags:
 1. [[075_loss_function_cost_function|손실 함수]]는 **시험 채점**이에요. 틀린 게 많으면 점수(손실)가 높아요.
 2. [[275_gradient_descent_sgd|경사 하강법]]은 **"어떻게 공부하면 점수가 오를까"** 방향을 알려줘요.
 3. [[163_optimizer_sql_execution_plan_generator|옵티마이저]]([[277_adam_optimizer|Adam]])는 **가장 효율적인 공부법**이라 시험 점수가 빨리 올라요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 131 / 258
+
+← **이전**: [[130_relu_activation_function|130. ReLU 활성화 함수 - 딥러닝 르네상스를 연 비선형 변환]]
+**다음**: [[132_adam_optimizer|132. Adam 옵티마이저 - 적응형 학습률의 사실상 표준]] →
+
+---

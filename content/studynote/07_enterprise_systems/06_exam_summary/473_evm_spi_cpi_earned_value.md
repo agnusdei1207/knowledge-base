@@ -139,3 +139,14 @@ tags:
 1. [[152_evm_earned_value_management|EVM]] [[159_spi_schedule_performance_index|SPI]] [[158_cpi_cost_performance_index|CPI]] 진척 통계는 복잡한 일을 순서대로 정리해 주는 큰 정리함이에요.
 2. 어디에 무엇을 넣을지 먼저 정해 두면, 나중에 찾거나 고칠 때 훨씬 쉬워져요.
 3. 그래서 일이 커질수록 먼저 기준을 만들고 같이 약속하는 것이 중요해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 473 / 482
+
+← **이전**: [[472_pert_cpm_critical_path|472. IT 프로젝트 관리 PERT CPM 주경로 여유 계산 (PERT/CPM, Critical Path Method)]]
+**다음**: [[474_iso27001_isms_p_certification|474. ISO 27001 ISMS-P 인증 위험 통제 보안 규격 (ISO 27001 / ISMS-P)]] →
+
+---

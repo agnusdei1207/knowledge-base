@@ -125,3 +125,14 @@ Linux 게스트에서 SEV-ES 지원 [[396_validation|확인]] (Sev Es)를 제대
 1. Linux 게스트에서 SEV-ES 지원 [[396_validation|확인]] (Sev Es)는 학교 규칙표처럼 무엇을 준비하고 어떻게 [[396_validation|확인]]할지 알려 주는 기준이에요.
 2. 규칙표만 붙여 두고 지키지 않으면 아무 소용이 없어요.
 3. 그래서 보안도 규칙과 실제 행동이 함께 맞아야 해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 446 / 1108
+
+← **이전**: [[391_amd_sev|391. AMD SEV (Secure Encrypted Virtualization)]]
+**다음**: [[393_memory_encryption_engine|393. Memory Encryption Engine (메모리 암호화 엔진)]] →
+
+---

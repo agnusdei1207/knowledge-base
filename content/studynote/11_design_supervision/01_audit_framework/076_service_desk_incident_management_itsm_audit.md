@@ -149,3 +149,14 @@ SLA 준수와 감사 추적
 1. 학교에서 문제가 생기면 아무나 교실로 뛰어들지 않아요.
 2. 먼저 안내실에 말하면 번호표를 받고 차례대로 도와줘요.
 3. [[072_service_desk|서비스 데스크]]는 컴퓨터 문제를 받는 안내실이에요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 117 / 530
+
+← **이전**: [[076_service_desk_incident_management_audit|76. 서비스 데스크 및 인시던트 관리 체계 확인 (Service Desk and Incident Management Audit)]]
+**다음**: [[077_user_satisfaction_csat_audit|77. 사용자 만족도 조사 결과 분석 및 개선 조치 (User Satisfaction and CSAT Audit)]] →
+
+---

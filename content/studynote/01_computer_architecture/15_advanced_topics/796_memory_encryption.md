@@ -117,3 +117,14 @@ tags:
 1. 컴퓨터는 중요한 내용을 자기 머리 안에서만 평문으로 보고, 바깥 기억장치에는 암호문으로 적어 둔다고 생각하면 돼요.
 2. 그래서 누가 기억장치를 몰래 떼어 가도 바로 읽기 어려워요.
 3. 이런 습관 덕분에 큰 컴퓨터도 비밀을 더 잘 지킬 수 있답니다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 797 / 803
+
+← **이전**: [[795_confidential_computing|795. Confidential Computing (기밀 컴퓨팅)]]
+**다음**: [[797_dynamic_memory_encryption|797. 동적 메모리 암호화 (Dynamic Memory Encryption)]] →
+
+---

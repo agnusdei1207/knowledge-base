@@ -62,3 +62,14 @@ tags:
 1. [[272_backpropagation|역전파]]는 시험에서 **"왜 틀렸지?" 거꾸로 추적**하는 거예요.
 2. 정답(출력)→풀이(은닉층)→공식([[267_weight_bias_activation|가중치]]) 순으로 **원인을 찾아요**.
 3. 원인을 알면 **공식([[267_weight_bias_activation|가중치]])을 고쳐서** 다음 시험에 점수가 올라요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 133 / 258
+
+← **이전**: [[132_adam_optimizer|132. Adam 옵티마이저 - 적응형 학습률의 사실상 표준]]
+**다음**: [[134_regularization_dropout_batch_norm|134. 정규화 기법 (Regularization) - Dropout·BatchNorm·L1/L2]] →
+
+---

@@ -152,3 +152,14 @@ HBM과 [[427_tensor_core|텐서 코어]]의 발전은 [[263_llm_large_language_m
 1. [[190_ai_llm_requirements_specification|AI]] 두뇌([[418_gpu|GPU]])가 아무리 빨라도 정보를 담은 기억창고([[495_hbm|HBM]])에서 꺼내는 속도가 느리면 기다려야 해요.
 2. HBM은 기억창고를 여러 층으로 쌓아 문을 엄청 크게 만든 것이에요 — 한 번에 많은 정보를 꺼낼 수 있어요.
 3. H100은 A100보다 이 문이 1.67배 더 크고, [[190_ai_llm_requirements_specification|AI]] 두뇌도 3배 더 강해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 527 / 552
+
+← **이전**: [[526_dpu_smartnic_infrastructure_offloading|526. DPU SmartNIC 인프라 오프로딩 가속 (DPU SmartNIC Infrastructure Offloading Acceleration)]]
+**다음**: [[528_vllm_paged_attention_kv_cache_optimization|528. vLLM과 PagedAttention KV 캐시 최적화 (vLLM PagedAttention KV Cache Optimization)]] →
+
+---

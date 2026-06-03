@@ -132,3 +132,14 @@ OT IDS + 자산 가시성 (이상 탐지 고도화)
 1. Purdue 모델은 공장을 층별로 나눠서 각 층이 허락 없이 다른 층에 마음대로 들어가지 못하게 만든 보안 구조예요.
 2. [[001_dikw_pyramid|데이터]] [[011_diode|다이오드]]는 공장 [[001_dikw_pyramid|데이터]]가 밖으로만 나갈 수 있고, 바깥에서 공장 안으로는 절대 못 들어오게 하는 물리적 잠금장치예요.
 3. [[891_ot_operational_technology|OT]] 보안에서는 공장이 멈추지 않는 게 가장 중요해서, 아파도 수술(패치)을 바로 못 하고 방역(격리)으로 버티는 방식을 써요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 366 / 373
+
+← **이전**: [[365_c_v2x_5g|365. C-V2X 자율주행 모빌리티 5G 엣지 레이턴시 제어 (C-V2X Cellular Vehicle-to-Everything 5G]]
+**다음**: [[367_dpu_smartnic|367. DPU SmartNIC 인프라 오프로딩 데이터 처리 장치 (DPU SmartNIC Infrastructure Offloading]] →
+
+---

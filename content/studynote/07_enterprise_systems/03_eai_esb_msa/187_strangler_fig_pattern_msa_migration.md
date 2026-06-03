@@ -147,3 +147,14 @@ API 게이트웨이 / 퍼사드 배치
 1. 오래된 가게를 하루 만에 새 가게로 바꾸면 손님이 길을 잃을 수 있어요.
 2. 그래서 새 방을 하나씩 만들고 안내판을 조금씩 바꿔 손님을 천천히 옮겨요.
 3. 나중에는 모두 새 가게로 들어가고, 아무도 안 쓰는 옛 가게만 조용히 닫으면 돼요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 187 / 482
+
+← **이전**: [[186_distributed_tracing_zipkin_jaeger|186. 분산 추적 (Distributed Tracing) 인프라 - 다수 서비스를 거치는 응용 프로그램 프로그래밍 인터페이스 (Application]]
+**다음**: [[188_anti_corruption_layer_acl_pattern|188. 부패 방지 계층 (Anti-Corruption Layer, ACL) 패턴 - 레거시 의미 오염 차단]] →
+
+---

@@ -203,3 +203,14 @@ Unified LLMOps: prompt + knowledge + adapter + observability
 1. LLMOps는 AI에게 어떻게 말할지, 어디서 책을 찾게 할지, 무엇을 새로 가르칠지를 따로따로 관리하는 방법이에요.
 2. 질문하는 방법이 문제면 말투를 바꾸고, 정보가 오래됐으면 책장을 바꾸고, 습관을 바꾸려면 다시 훈련시켜요.
 3. 이렇게 나누어 관리하면 더 빨리 고치고, 실수했을 때도 쉽게 되돌릴 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 174 / 258
+
+← **이전**: [[173_tensor_core_hbm_mixed_precision_training|173. Tensor Core·HBM 기반 혼합 정밀도 학습 (Mixed Precision Training)]]
+**다음**: [[175_rlhf_ranking_reward_model_human_labeler|175. Reinforcement Learning from Human Feedback (RLHF) 기반 랭킹 선호 모델과 인간 라벨러]] →
+
+---

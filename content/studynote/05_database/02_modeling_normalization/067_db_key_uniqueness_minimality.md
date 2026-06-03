@@ -131,3 +131,14 @@ Normalization
 사람을 구분하는 번호가 필요해요.  
 딱 필요한 것만 있어야 해요.  
 키는 그런 [[289_identification_flags_fragmentation_offset|식별자]]예요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 67 / 600
+
+← **이전**: [[066_null_value_three_valued_logic|66. NULL 값 - 아직 알려지지 않거나 해당 없는 값 (0이나 공백과 다름)]]
+**다음**: [[068_super_key_uniqueness|68. 슈퍼 키 (Super Key) - 유일성은 만족하나 최소성은 만족하지 않는 속성 집합]] →
+
+---

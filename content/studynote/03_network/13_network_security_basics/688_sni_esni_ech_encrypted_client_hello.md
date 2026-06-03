@@ -123,3 +123,14 @@ SNI 개요 와 [[1064_esni_ech_tls_1_3_encrypted_sni|ESNI]] / ECH 검열 우…�
 1. 비밀 편지를 보낼 때는 자물쇠와 비밀번호가 필요해요.
 2. 이 개념은 누가 진짜 친구인지 [[396_validation|확인]]하고, 편지가 바뀌지 않았는지도 살펴봐요.
 3. 그래서 나쁜 사람이 중간에 훔쳐보거나 바꾸기 어려워져요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 809 / 1120
+
+← **이전**: [[687_tls_session_resumption_ticket|687. 세션 재개 (Session Resumption / TLS Ticket) 기능 구성]]
+**다음**: [[689_pqc_post_quantum_cryptography|689. 양자 내성 암호 (PQC, Post-Quantum Cryptography) 체계 및 통신망 교환 표준 (Shor's Algorithm]] →
+
+---

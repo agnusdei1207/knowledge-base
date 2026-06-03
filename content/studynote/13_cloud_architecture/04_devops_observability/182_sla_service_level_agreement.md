@@ -197,3 +197,14 @@ Tiered service credit and customer trust management
 1. SLA는 장난감 가게가 "일주일 안에 고장 나면 바꿔 줄게"라고 적어 둔 약속이에요.
 2. 그냥 "좋은 장난감이에요"라고 말하는 것보다, 언제 어떻게 책임질지 적혀 있어야 믿을 수 있어요.
 3. 그래서 가게는 그 약속을 지키려고 장난감을 더 튼튼하게 만들고, 문제 생기면 바로 알려 주게 돼요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 181 / 371
+
+← **이전**: [[181_slo_service_level_objective|181. SLO (Service Level Objective, 서비스 수준 목표)]]
+**다음**: [[183_error_budget_sre_innovation_balance|183. 에러 예산 (Error Budget) - 혁신 속도와 신뢰성의 운영 균형]] →
+
+---

@@ -297,3 +297,14 @@ FinOps + 지속적 최적화
 1. Re-platform은 집 리모델링 — 집 구조(앱 로직)는 그대로이지만, 낡은 보일러(DB)를 관리 편한 지역난방(RDS)으로 교체해요!
 2. RDS는 DB를 전문 관리 회사에 맡기는 것 — [[555_backup_and_restore_strategy|백업]], 보안 패치, 이중화를 AWS가 자동으로 해줘서 [[025_dba_database_administrator|DBA]] 걱정이 줄어요.
 3. 단계적으로 [[216_progress_in_synchronization|진행]] — 한 번에 모든 것을 바꾸면 위험하니까, 하나씩 천천히 교체해야 안전해요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 42 / 371
+
+← **이전**: [[042_rehost_lift_and_shift_migration|042. Rehost — Lift & Shift 마이그레이션]]
+**다음**: [[044_refactor_re_architect_cloud_native_msa|044. Re-factor & Re-architect — 클라우드 네이티브 MSA]] →
+
+---

@@ -199,3 +199,14 @@ tags:
 1. 모니터 (Monitor)은 컴퓨터가 여러 친구가 동시에 만져도 부딪히지 않게 순서를 맞추는 규칙이에요.
 2. 먼저 Test-and-Set [[158_instruction|명령어]]을 이해하면 모니터 (Monitor)이 왜 필요한지 더 쉽게 보여요.
 3. 그래서 모니터 (Monitor)을 잘 알면 나중에 원자적 변수 (Atomic Variable)도 훨씬 쉽게 배울 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 229 / 800
+
+← **이전**: [[228_condition_variable|228. 조건 변수 (Condition Variable)]]
+**다음**: [[230_deadlock|230. 교착 상태 (Deadlock)]] →
+
+---

@@ -124,3 +124,14 @@ CAB / ECAB 승인
 1. CAB는 방을 고치기 전에 어른들이 모여서 안전한지 보는 회의예요.
 2. 급한 경우도 있지만, 그때도 꼭 다시 [[396_validation|확인]]해요.
 3. 그래서 집이 망가지지 않게 할 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 54 / 482
+
+← **이전**: [[053_problem_management_rca|53. 문제 관리와 근본 원인 분석 (Problem Management RCA)]]
+**다음**: [[055_release_and_deployment_management|55. 릴리스와 배포 관리 (Release and Deployment Management)]] →
+
+---

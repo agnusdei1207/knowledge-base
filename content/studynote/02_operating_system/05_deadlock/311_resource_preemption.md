@@ -125,3 +125,14 @@ tags:
 1. 두 친구가 닌텐도 [[238_switch_operation_principles|스위치]] 1대를 잡고 서로 자기가 하겠다고 양보 없이 버티는 '데드락' 상황이에요.
 2. "강제 종료(Termination)"는 선생님이 와서 두 친구 모두 엉덩이를 걷어차서 거실 밖으로 내쫓아 게임판을 엎어버리는 거고요!
 3. "자원 선점(Preemption)"은 살살 달래서 한 친구 귀걸이(자원 [[238_switch_operation_principles|스위치]])만 뺏은 뒤, "넌 세이브포인트(과거 [[098_rollback_strategy_pipeline_error_threshold|롤백]])로 돌아가서 5분만 대기해!" 라며 평화롭게 한 명만 양보시키고 둘 다 팅기지 않게 살려내는 멋진 작전이죠!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 311 / 800
+
+← **이전**: [[310_victim_selection|310. 종료 대상 선택 (희생자 선택) 기준 (Victim Selection)]]
+**다음**: [[312_victim_selection_cost|312. 희생자 선택 (Victim Selection) 최소 비용 기준]] →
+
+---

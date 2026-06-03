@@ -146,3 +146,14 @@ TF-IDF와 [[359_cosine_similarity|코사인 유사도]]는 비정형 [[001_dikw_
 1. **[[232_tfidf_cosine_similarity_text_embedding_confusion_matrix|TF-IDF]]**: 글 속에서 '그리고', '하지만'처럼 흔한 단어는 무시하고, 그 글에서만 유독 반짝이는 '특별한 보석 단어'에 높은 점수를 주는 채점표예요.
 2. **[[359_cosine_similarity|코사인 유사도]]**: 두 친구가 '로봇'과 '우주선'을 좋아하는 마음의 방향이 얼마나 일치하는지 각도기로 재서, 마음이 통하는 짝꿍을 찾아주는 방법이에요.
 3. **결론**: 글의 겉모습이나 길이가 달라도, 그 안에 담긴 진짜 중요한 핵심 단어들의 비율이 똑같으면 "둘은 비슷한 이야기네!"라고 컴퓨터가 알아채게 해주는 마법의 공식이랍니다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 105 / 258
+
+← **이전**: [[104_svm_support_vector_machine|서포트 벡터 머신 (SVM, Support Vector Machine)]]
+**다음**: [[106_mahalanobis_distance|마할라노비스 거리 (Mahalanobis Distance)]] →
+
+---

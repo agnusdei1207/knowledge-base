@@ -139,3 +139,14 @@ HDLC가 [[001_dikw_pyramid|데이터]]를 쏠 때 포장하는 박스의 생김�
 1. 편지를 보낼 때 봉투를 제대로 닫고 틀린 글자가 없는지 [[396_validation|확인]]해야 해요.
 2. 이 개념은 편지가 깨지거나 사라졌을 때 다시 보내는 규칙까지 정해줘요.
 3. 그래서 중간에 흔들려도 중요한 내용이 더 안전하게 도착해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 338 / 1120
+
+← **이전**: [[216_hdlc_high_level_data_link_control|216. HDLC (High-Level Data Link Control)]]
+**다음**: [[218_hdlc_station_primary_secondary|218. HDLC 국(Station) 종류]] →
+
+---

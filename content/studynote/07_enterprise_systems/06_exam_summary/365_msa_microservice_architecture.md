@@ -139,3 +139,14 @@ tags:
 1. [[532_microservices_decomposition_patterns|마이크로서비스]] [[619_msa_traffic_hardware|MSA]] 독립 배포 원칙는 복잡한 일을 순서대로 정리해 주는 큰 정리함이에요.
 2. 어디에 무엇을 넣을지 먼저 정해 두면, 나중에 찾거나 고칠 때 훨씬 쉬워져요.
 3. 그래서 일이 커질수록 먼저 기준을 만들고 같이 약속하는 것이 중요해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 365 / 482
+
+← **이전**: [[364_rest_api_hateoas_maturity|364. REST API HATEOAS 성숙도 모델 (REST API Richardson Maturity Model)]]
+**다음**: [[366_api_gateway_auth_throttling|366. API 게이트웨이 인증 스로틀링 집계 (API Gateway Auth Throttling)]] →
+
+---

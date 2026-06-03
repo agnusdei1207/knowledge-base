@@ -206,3 +206,14 @@ tags:
 1. 철수는 심부름을 할 때 무조건 **"지금 내가 있는 곳에서 제일 가까운 심부름([[470_sstf_disk_scheduling|SSTF]])"**만 먼저 하기로 했어요.
 2. 거실에 있는데, 계속 거실(가운데 트랙)에서만 동생이 심부름을 시켰어요. 철수는 거실에서만 100번 넘게 심부름을 했죠.
 3. 그런데 저기 멀리 화장실(가장자리 트랙)에 있던 아빠는, 철수가 화장실 근처로 아예 오질 않아서 하루 종일 수건을 못 받고 갇혀 있어야 했답니다! 이걸 '기아 현상'이라고 불러요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 729 / 800
+
+← **이전**: [[728_c_scan_circular_elevator|728. C-SCAN 단방향 회전 (C Scan Circular Elevator)]]
+**다음**: [[730_raid_levels_performance_reliability|730. RAID 0, 1, 5, 6 성능 신뢰성 (RAID Levels Performance Reliability)]] →
+
+---

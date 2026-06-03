@@ -135,3 +135,14 @@ ISL과 정밀 [[556_handover_handoff_types_concept|핸드오버]] 기술의 완�
 1. 위성들은 우주에서 너무 빨리 날아다녀서 5분만 지나면 우리 집 지붕 위에서 사라져요.
 2. 그래서 지붕 위 안테나가 위성이 사라지기 직전에 눈을 빨리 돌려 다음 위성으로 재빨리 갈아타는 기술이 '위성 [[556_handover_handoff_types_concept|핸드오버]]'예요.
 3. 또 우주에 뜬 위성들끼리 레이저 광선검을 쏴서 편지를 주고받는 기술([[249_isl_inter_switch_link_cisco|ISL]]) 덕분에, 바다 한가운데서도 전 세계와 대화할 수 있답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 125 / 1120
+
+← **이전**: [[1022_leo_satellite_network|1022. 저궤도 위성망 (LEO)과 스타링크]]
+**다음**: [[1024_v2x_vehicle_to_everything|1024. V2X (Vehicle-to-Everything)]] →
+
+---

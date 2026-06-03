@@ -106,3 +106,14 @@ tags:
 1. [[090_service_kubernetes_network_load_balancing|Service]] Discovery는 **전화번호부**예요. 친구([[090_service_kubernetes_network_load_balancing|서비스]])가 이사해도 **새 주소**를 찾을 수 있어요.
 2. 전화번호부가 없으면 친구가 이사할 때마다 **직접 물어봐야** 해서 불편해요.
 3. [[196_kubernetes_k8s_container_orchestration|쿠버네티스]](K8s)는 전화번호부를 **자동으로 업데이트**해줘서 편리하답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 126 / 371
+
+← **이전**: [[126_bff|126. BFF (Backend For Frontend) - 클라이언트별 맞춤 API 레이어]]
+**다음**: [[128_circuit_breaker|128. Circuit Breaker - MSA 장애 전파 차단 패턴]] →
+
+---

@@ -134,3 +134,14 @@ Reference Architecture
 1. [[456_mutation_testing|뮤테이션 테스팅]]은 복잡한 일을 순서와 규칙으로 정리해서 실수하지 않게 도와주는 방법이에요.
 2. Killed Mutant 같은 친구들과 같이 움직여야 더 잘 작동해요.
 3. 그래서 문제가 생겨도 어디서 틀렸는지 빨리 찾고 다시 고치기 쉬워져요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 269 / 373
+
+← **이전**: [[268_canary_analysis_cpu_spinnaker_kayenta|268. 카나리 분석기 (Canary Analysis) 자동화]]
+**다음**: [[270_kafka_avro_schema|270. 카프카(Kafka) 파이프라인 메시지 무결성 통제망 스키마 레지스트리 (Avro Schema 변이 하위 호환성 강제 방어)]] →
+
+---

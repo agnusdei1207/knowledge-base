@@ -175,3 +175,14 @@ C++이나 Python에서 [[092_thread_lwp|스레드]]([[092_thread_lwp|Thread]])�
 1. [[257_thrashing|스래싱]] 원인 (Cause Of [[257_thrashing|Thrashing]])은 컴퓨터가 메모리를 더 크게 보이게 하고 부족함을 숨기는 방법이에요.
 2. 먼저 [[258_degree_of_multiprogramming|다중 프로그래밍 정도]] ([[258_degree_of_multiprogramming|Degree of Multiprogramming]])와 CPU 이용률 [[083_relationship_in_er_model|관계]] [[070_graph_datastructure|그래프]]을 이해하면 [[257_thrashing|스래싱]] 원인 (Cause Of [[257_thrashing|Thrashing]])이 왜 필요한지 더 쉽게 보여요.
 3. 그래서 [[257_thrashing|스래싱]] 원인 (Cause Of [[257_thrashing|Thrashing]])을 잘 알면 나중에 [[415_locality_model|지역성 모델]] ([[415_locality_model|Locality Model]])도 훨씬 쉽게 배울 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 414 / 800
+
+← **이전**: [[413_degree_of_multiprogramming_cpu_utilization|413. 다중 프로그래밍 정도 (Degree of Multiprogramming)와 CPU 이용률 관계 그래프]]
+**다음**: [[415_locality_model|415. 지역성 모델 (Locality Model) - 시간적, 공간적 지역성]] →
+
+---

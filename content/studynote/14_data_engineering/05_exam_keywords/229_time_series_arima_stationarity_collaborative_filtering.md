@@ -271,3 +271,14 @@ Prophet (Facebook) · DeepAR (Amazon) · Temporal Fusion Transformer
 ```
 2. [[345_collaborative_filtering|협업 필터링]] 추천은 "나와 같은 책을 읽은 사람들이 다음에 읽은 책을 나에게 추천"하는 것으로, 직접 물어보지 않아도 취향을 알 수 있다.
 3. [[559_serverless_cold_start_mitigation|콜드 스타트]] 문제는 "아직 아무 책도 읽지 않은 신규 회원에게 추천하기 어렵다"는 것이고, 이를 해결하려면 처음에 좋아하는 장르를 물어보는 방법을 쓴다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 229 / 258
+
+← **이전**: [[228_pca_lda_tsne_dimensionality_reduction|228. PCA (Principal Component Analysis) LDA t-SNE 차원 축소]]
+**다음**: [[230_svd_matrix_factorization_random_forest_xgboost_boosting|230. SVD (Singular Value Decomposition) 행렬 분해 랜덤 포레스트 XGBoost 부스팅]] →
+
+---

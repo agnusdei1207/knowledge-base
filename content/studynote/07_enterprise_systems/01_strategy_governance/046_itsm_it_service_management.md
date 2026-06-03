@@ -329,3 +329,14 @@ AIOps (이상 자동 탐지)
 1. ITSM은 IT를 [[090_service_kubernetes_network_load_balancing|서비스]]업으로 — 단순 기술 관리가 아니라 사용자(고객)에게 [[090_service_kubernetes_network_load_balancing|서비스]]를 제공한다는 마음가짐. 호텔처럼 투숙객 만족이 목표!
 2. FCR은 첫 전화 해결 — "AS기사 한 번만 오면 끝!" 비율. 높을수록 사용자 만족, IT 비용 절감!
 3. [[096_iso_iec_20000_itsm_certification|ITSM]]+DevOps는 빠른 배달+안전 검사 — 자동화로 빠르게 배포하면서, 위험한 변경만 검토. 속도와 안정성 둘 다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 46 / 482
+
+← **이전**: [[045_itil_itsm_framework|045. ITIL과 ITSM 프레임워크 — ITIL & ITSM]]
+**다음**: [[047_sla_service_level_agreement|047. SLA 심화 — 계약 구조와 거버넌스]] →
+
+---

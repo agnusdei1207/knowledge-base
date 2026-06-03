@@ -139,3 +139,14 @@ BCP [[212_bia_business_impact_analysis_rto_rpo_dr|BIA]] [[176_rto_recovery_time_
 1. BCP [[212_bia_business_impact_analysis_rto_rpo_dr|BIA]] [[176_rto_recovery_time_objective|RTO]] [[379_dr_architecture|재해 복구]] 비즈니스 파급 분석는 복잡한 일을 순서대로 정리해 주는 큰 정리함이에요.
 2. 어디에 무엇을 넣을지 먼저 정해 두면, 나중에 찾거나 고칠 때 훨씬 쉬워져요.
 3. 그래서 일이 커질수록 먼저 기준을 만들고 같이 약속하는 것이 중요해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 448 / 482
+
+← **이전**: [[447_k_anonymity_privacy_design|447. 데이터 익명성 K-익명화 프라이버시 설계 (K-Anonymity & Privacy by Design)]]
+**다음**: [[449_blue_green_canary_deployment|449. 블루/그린 카나리 배포 롤링 다운타임 제로 전략 (Blue/Green, Canary, Rolling Deployment)]] →
+
+---

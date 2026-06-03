@@ -231,3 +231,14 @@ ZFS의 [[542_cow_file_system|Copy-On-Write]] 기반 [[022_snapshot_backup_archit
 1. 기존 컴퓨터는 칠판(디스크)에 글씨를 쓰다가 틀리면 지우개로 빡빡 지우고 새로 썼어요. 쓰다가 정전이 나면 칠판이 엉망이 되죠.
 2. ZFS는 마법의 스케치북이에요. 절대 지우개를 쓰지 않고, 무조건 새 도화지를 찢어와서 거기에만 새로 글씨를 쓴 다음 맨 앞장 차례표(Uberblock)만 살짝 고쳐요. (이걸 COW라고 해요)
 3. 만약 어제 쓴 글을 보존하고 싶으면([[022_snapshot_backup_architecture|스냅샷]]), 차례표에 "어제 차례표 버리지 마!"라고 포스트잇 하나만 붙이면 끝나요. 그래서 1초 만에 [[555_backup_and_restore_strategy|백업]]이 된답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 637 / 800
+
+← **이전**: [[636_multipath_io_kernel_module|636. 다중 경로 I/O (Multipath I/O) 커널 모듈 아키텍처]]
+**다음**: [[638_btrfs_subvolume_compression|638. Btrfs 서브볼륨 및 압축/암호화 통합 커널 파일 시스템 동향 (Btrfs Subvolume Compression)]] →
+
+---

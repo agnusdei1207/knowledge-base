@@ -114,3 +114,14 @@ tags:
 1. [[213_data_catalog_metadata|데이터 카탈로그]] 및 [[012_metadata|메타데이터]] - \"어디에 무슨 [[001_dikw_pyramid|데이터]]가 있는지\" 검색/발견하고 [[781_personal_information|개인정보]] 태깅을 통한 [[001_dikw_pyramid|데이터]] 통제/활용 [[152_hub_dummy_switching_intelligent|허브]]는 사람이 많은 운동회에서 어디로 가야 하는지 알려 주는 안내판과 비슷해요.
 2. 규칙이 없으면 모두가 한곳에 몰려서 느려지고 다투지만, 길을 정해 두면 훨씬 부드럽게 움직일 수 있어요.
 3. 그래서 컴퓨터 세상에서도 [[213_data_catalog_metadata|데이터 카탈로그]] 및 [[012_metadata|메타데이터]] - \"어디에 무슨 [[001_dikw_pyramid|데이터]]가 있는지\" 검색/발견하고 [[781_personal_information|개인정보]] 태깅을 통한 [[001_dikw_pyramid|데이터]] 통제/활용 [[152_hub_dummy_switching_intelligent|허브]]를 쓰면 많은 팀과 [[090_service_kubernetes_network_load_balancing|서비스]]가 덜 부딪히고 더 빨리 움직일 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 248 / 371
+
+← **이전**: [[248_data_catalog_metadata_discovery|248. 데이터 카탈로그 및 메타데이터 (Data Catalog)]]
+**다음**: [[250_dataops_devops_etl_ci_cd|250. 데이터 옵스 - 데브옵스 사상을 데이터 엔지니어링 파이프라인에 접목, 버전 관리/테스트/CI·CD를 도입해 데이터 품질과 배포]] →
+
+---

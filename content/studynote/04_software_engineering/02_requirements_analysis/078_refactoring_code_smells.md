@@ -118,3 +118,14 @@ CI 통과 후 반영
 1. 장난감을 버리지 않고 상자만 정리하는 것과 같다.
 2. 같은 장난감이 여러 상자에 있으면 찾기 힘들어서 먼저 모아둔다.
 3. 정리할 때마다 이름표를 붙이면 다음에는 더 빨리 찾을 수 있다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 78 / 973
+
+← **이전**: [[077_tdd_test_driven_development|77. 테스트 주도 개발 (TDD, Test Driven Development) - Red-Green-Refactor]]
+**다음**: [[079_metaphor_xp_practice|079. 메타포 (Metaphor - XP Practice)]] →
+
+---

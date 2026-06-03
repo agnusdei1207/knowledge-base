@@ -136,3 +136,14 @@ AV/에이전트 중심        Falco 오픈소스 등장             Cilium + Fal
 1. CWPP는 [[561_container_based_deployment|컨테이너]] 안에서 일어나는 모든 행동을 지켜보는 CCTV예요. 이상한 행동을 하면 바로 경보가 울려요.
 2. seccomp은 [[561_container_based_deployment|컨테이너]]에게 이것만 할 수 있어라는 면허증이에요. 면허에 없는 것은 아예 시도조차 할 수 없어요.
 3. eBPF는 건물 바닥에 내장된 센서예요. 위층에서 무슨 일이 일어나도 바닥 진동으로 즉시 감지할 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 332 / 373
+
+← **이전**: [[331_cspm|331. CSPM 클라우드 보안 형상 관리 (CSPM Cloud Security Posture Management CIS Benchmark]]
+**다음**: [[333_cnapp|333. CNAPP 클라우드 통합 보안 플랫폼 (CNAPP Cloud Native Application Protection Platform]] →
+
+---

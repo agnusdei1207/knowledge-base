@@ -121,3 +121,14 @@ TRNG는 PRNG나 DRBG (Deterministic Random [[086_fenwick_tree|Bit]] Generator)�
 1. 컴퓨터는 원래 규칙대로 움직여서 혼자서는 진짜 엉뚱한 숫자를 만들기 어려워요.
 2. 그래서 칩 안에서 생기는 아주 작은 떨림과 잡음을 모아 진짜 무작위 재료를 얻어요.
 3. 그 재료로 비밀번호를 만들면 도둑이 다음 숫자를 미리 맞히기 훨씬 어려워진답니다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 787 / 803
+
+← **이전**: [[785_secure_key_erasure|785. 보안 키 소거 (Secure Key Erasure)]]
+**다음**: [[787_ring_oscillator_trng|787. 링 오실레이터 (Ring Oscillator) TRNG]] →
+
+---

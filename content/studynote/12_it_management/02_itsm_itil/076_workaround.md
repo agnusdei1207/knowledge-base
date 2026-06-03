@@ -129,3 +129,14 @@ tags:
 1. [[076_workaround_temporary_fix_incident|워크어라운드]] ([[076_workaround_temporary_fix_incident|Workaround]])는 모두가 같은 규칙으로 일하게 해 주는 반장 약속표예요.
 2. 약속만 적어 두는 것이 아니라 누가 지켰는지 확인하고 고치는 방법까지 함께 정해요.
 3. 그래서 일이 많아져도 서로 부딪히지 않고 더 안전하게 움직일 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 135 / 587
+
+← **이전**: [[075_incident_management|75. 인시던트 관리 (Incident Management)]]
+**다음**: [[076_workaround_temporary_fix_incident|76. 워크어라운드 (Workaround) - 서비스 재개 임시 우회 조치]] →
+
+---

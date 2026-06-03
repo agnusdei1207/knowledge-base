@@ -120,3 +120,14 @@ Ephemeral Runner는 **[[090_configuration_item|CI]]/CD 보안의 기본 원칙**
 1. 영구 러너는 **같은 접시를 계속 쓰는** 거예요. 이전 음식 찌꺼기가 남아있을 수 있어요 ⚠️
 2. 일회성 러너는 **매번 새 일회용 접시**를 사용해서 항상 깨끗해요! 🧹
 3. 덕분에 이전 빌드의 나쁜 것이 **다음 빌드에 절대 영향을 주지 않아서** 안전하답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 118 / 373
+
+← **이전**: [[117_textops_docops_automation|117. TextOps/DocOps 자동화 - 문서 파이프라인 CI/CD·Docs-as-Code]]
+**다음**: [[119_pre_commit_hook_linting|119. Pre-commit Hook 린팅 (Pre-commit Hook Linting) - 커밋 전 자동 코드 품질 검증]] →
+
+---

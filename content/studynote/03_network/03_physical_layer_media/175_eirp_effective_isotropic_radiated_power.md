@@ -186,3 +186,13 @@ received power / coverage / legal compliance
 2. 기계 힘만 보는 게 아니라 줄에서 새는 힘과 [[171_antenna_basic_dipole_resonance|안테나]]가 한쪽으로 모아 주는 힘까지 같이 계산해요.
 3. 그래서 [[171_antenna_basic_dipole_resonance|안테나]]를 바꾸면 숫자도 달라지고, 법에서 정한 한도를 넘지 않는지도 꼭 봐야 해요.
 
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 296 / 1120
+
+← **이전**: [[174_antenna_gain_dbi_dbd|174. 안테나 이득 (Antenna Gain, dBi, dBd)]]
+**다음**: [[176_antenna_yagi_parabolic_patch|176. 야기우다 안테나, 파라볼라 안테나 (Parabolic), 패치 안테나]] →
+
+---

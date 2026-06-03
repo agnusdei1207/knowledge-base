@@ -249,3 +249,14 @@ Apple/Google 적용 (2014~)
 1. [[781_personal_information|개인정보]] 비식별화는 학생 성적표에서 이름을 지우고 나이를 "10대"로 바꾸어서 특정 학생이 누구인지 알 수 없게 만드는 방법이에요.
 2. [[185_k_anonymity_masking_data_pipeline|k-익명성]]은 같은 조건(나이, 지역)을 가진 사람이 최소 k명 이상이어야 해서 한 사람을 찾아낼 수 없게 하는 기법이에요.
 3. [[209_differential_privacy|차등 프라이버시]]는 응답에 작은 오차(노이즈)를 의도적으로 섞어서 개인 정보는 숨기면서도 전체 통계는 정확하게 유지하는 가장 현대적인 방법이에요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 251 / 262
+
+← **이전**: [[250_data_sovereignty|038. 데이터 주권 (Data Sovereignty)]]
+**다음**: [[252_data_structured_ratio|040. 데이터 정형화 비율 (Structured vs Unstructured Data Ratio)]] →
+
+---

@@ -134,3 +134,14 @@ Reference Architecture
 1. [[831_mtls_mutual_tls_microservices_zero_trust|mTLS]] 상호 [[303_authentication_authorization_patterns|인증]] [[667_zero_trust_runtime_integrity_measurement|제로 트러스트]]는 복잡한 일을 순서와 규칙으로 정리해서 실수하지 않게 도와주는 방법이에요.
 2. [[159_pki_public_key_infrastructure|PKI]] 같은 친구들과 같이 움직여야 더 잘 작동해요.
 3. 그래서 문제가 생겨도 어디서 틀렸는지 빨리 찾고 다시 고치기 쉬워져요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 299 / 373
+
+← **이전**: [[298_istio|298. 서비스 메시 Istio 사이드카 트래픽 보안 (Istio)]]
+**다음**: [[300_process|300. 서비스 디스커버리 동적 IP 라우팅 (Process)]] →
+
+---

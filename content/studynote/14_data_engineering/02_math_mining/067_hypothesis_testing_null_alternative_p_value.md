@@ -134,3 +134,14 @@ Statistical Decision
 정말 우연인지 물어보는 거예요.  
 기준선을 넘으면 기각해요.  
 가설 검정은 그런 판정이에요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 67 / 258
+
+← **이전**: [[066_spearman_rank_correlation_nonparametric_robustness|66. 스피어만 순위 상관 계수 (Spearman Rank Correlation)]]
+**다음**: [[068_significance_level_alpha_p_value_hypothesis|68. 유의 수준(Alpha)과 유의 확률(p-value) - 귀무 가설 기각의 마지노선]] →
+
+---

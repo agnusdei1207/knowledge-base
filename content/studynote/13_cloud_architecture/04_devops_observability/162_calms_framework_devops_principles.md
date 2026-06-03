@@ -87,3 +87,14 @@ CALMS: Culture · Automation · Lean · Measurement · Sharing
 
 2. 경기가 끝나고 우리가 몇 골을 넣었는지 기록(측정)해서 부족한 점을 찾아요.
 3. 불필요한 행동을 줄이고(린) 다 같이 힘을 합쳐야 최고의 팀이 될 수 있다는 약속이에요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 161 / 371
+
+← **이전**: [[161_devops_culture_automation_collaboration|데브옵스 (DevOps: Culture, Automation, Collaboration)]]
+**다음**: [[163_continuous_integration_ci_automated_build_test|지속적 통합 (CI, Continuous Integration)]] →
+
+---

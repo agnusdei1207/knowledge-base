@@ -152,3 +152,13 @@ PAC + BTI + MTE + speculation barrier
 2. 그런데 PACMAN은 문이 완전히 닫히기 전에 바닥 발자국을 보고 "이 도장이 맞는가?"를 몰래 알아내는 도둑이에요.
 3. 그래서 이제는 도장만 확인할 게 아니라, 발자국이 남지 않게 복도까지 더 조심해서 만들어야 해요.
 
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 771 / 803
+
+← **이전**: [[769_plundervolt|769. 플런더버그 (Plundervolt)]]
+**다음**: [[771_voltage_glitching|771. 볼티지 글리칭 (Voltage Glitching)]] →
+
+---

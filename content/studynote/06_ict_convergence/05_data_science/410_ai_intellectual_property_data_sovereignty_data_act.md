@@ -140,3 +140,14 @@ tags:
 1. 이 개념은 복잡한 일을 한눈에 보이게 정리해서 모두가 같은 규칙으로 움직이게 해 줘.
 2. 그래서 많은 기계나 사람, 프로그램이 함께 일해도 어디서 문제가 생겼는지 찾기 쉬워져.
 3. 한마디로 이 개념은 복잡한 일을 질서 있게 움직이게 만드는 안내판이야.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 410 / 552
+
+← **이전**: [[409_model_quantization_error_penalty|409. 모델 양자화 오차 최소화 패널티 연산망 (Model Quantization Error Penalty)]]
+**다음**: [[411_ontology_knowledge_representation_owl_rdf|411. 지식 정보 시스템 온톨로지 (OWL, RDF 규격 표현)]] →
+
+---

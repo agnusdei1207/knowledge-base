@@ -179,3 +179,14 @@ S-G DMA는 치명적인 보안 리스크가 있다. 랜카드가 리스트를 �
 1. [[746_io_direct_memory_access_dma|DMA]] [[164_scattering_reflection_radio_waves|산란]]-수집 (Scatter-Gather)은 컴퓨터가 디스크와 장치가 [[001_dikw_pyramid|데이터]]를 주고받는 길을 정리하는 방법이에요.
 2. 먼저 [[451_cycle_stealing|사이클 스틸링]] ([[451_cycle_stealing|Cycle Stealing]])을 이해하면 [[746_io_direct_memory_access_dma|DMA]] [[164_scattering_reflection_radio_waves|산란]]-수집 (Scatter-Gather)이 왜 필요한지 더 쉽게 보여요.
 3. 그래서 [[746_io_direct_memory_access_dma|DMA]] [[164_scattering_reflection_radio_waves|산란]]-수집 (Scatter-Gather)을 잘 알면 나중에 I/O 서브시스템의 [[022_kernel_role|커널]] [[090_service_kubernetes_network_load_balancing|서비스]]도 훨씬 쉽게 배울 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 452 / 800
+
+← **이전**: [[451_cycle_stealing|451. 사이클 스틸링 (Cycle Stealing) - DMA 컨트롤러가 CPU의 버스 사용을 일시 중지시키고 전송]]
+**다음**: [[453_io_subsystem_kernel_services|453. I/O 서브시스템의 커널 서비스 (I/O Subsystem Kernel Services)]] →
+
+---

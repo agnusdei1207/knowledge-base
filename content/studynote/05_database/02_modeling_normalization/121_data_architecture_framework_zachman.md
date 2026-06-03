@@ -103,3 +103,14 @@ tags:
 1. Zachman은 **큰 서랍장**이에요. 가로 칸에는 "무엇·어떻게·어디서·누가·언제·왜"가 있어요.
 2. 세로 칸에는 "사장님·설계사·건축가" 등 **보는 사람**이 달라요.
 3. 같은 건물(시스템)이라도 **보는 사람마다 다르게 정리**하면 빠뜨리는 게 없답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 121 / 600
+
+← **이전**: [[120_data_reverse_engineering|120. 데이터 역공학 (Data Reverse Engineering) - 기존 DB에서 ERD·모델 복원]]
+**다음**: [[122_master_data_management_db_perspective|122. 마스터 데이터 관리 (MDM, Master Data Management) - 데이터 품질·일관성의 근간]] →
+
+---

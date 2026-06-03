@@ -224,3 +224,14 @@ Serverless, eBPF, Service Mesh 발전
 1. [[531_cloud_native_architecture|클라우드 네이티브]]는 물고기가 물속에 맞게 설계된 것처럼, 앱이 클라우드에 맞게 처음부터 설계된 방식이에요.
 2. 레고 블록처럼 각 기능을 독립적으로 만들어서 한 블록이 망가져도 전체가 무너지지 않게 하는 것이 [[532_microservices_decomposition_patterns|마이크로서비스]]예요.
 3. [[196_kubernetes_k8s_container_orchestration|쿠버네티스]]는 레고 자동 조립 로봇 — 필요할 때 블록을 더 붙이고(자동 확장), 부서진 블록은 바로 교체해줘요(자가 치유)!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 39 / 371
+
+← **이전**: [[039_kvm_ovf|039. KVM과 OVF (Kernel-based Virtual Machine & Open Virtualization Format)]]
+**다음**: [[041_cloud_migration_6r_strategies|041. 클라우드 마이그레이션 6R 전략 (Cloud Migration 6R)]] →
+
+---

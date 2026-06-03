@@ -180,3 +180,14 @@ TiDB/SingleStore - 분산 HTAP 클라우드 네이티브
 1. HTAP은 주문을 받으면서 동시에 "오늘 어떤 음식이 많이 팔렸는지" 바로 알 수 있는 스마트 식당이에요.
 2. 일반 식당(기존 시스템)은 하루가 끝나야 판매 기록을 정리해요.
 3. 비용이 비싸서 정말 빠른 분석이 필요한 곳(은행, 재고 관리)에서 써요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 313 / 482
+
+← **이전**: [[312_hash_sharding_directory_sharding|312. 해시 샤딩 및 디렉토리 샤딩 분산 DB 스케일 아웃 (Hash Sharding vs Directory Sharding)]]
+**다음**: [[314_telemetry_bigdata_parsing|314. 텔레메트리 빅데이터 파싱 수집 엔진 (Telemetry Big Data Parsing)]] →
+
+---

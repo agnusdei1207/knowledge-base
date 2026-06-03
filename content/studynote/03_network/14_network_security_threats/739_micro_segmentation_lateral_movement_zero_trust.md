@@ -124,3 +124,14 @@ tags:
 1. 나쁜 친구가 놀이터 규칙을 깨뜨리면 바로 알아차리고 막아야 해요.
 2. 이 개념은 어떤 장난이 위험한지 미리 알고, 문제가 생기면 어떻게 다시 정리할지도 알려줘요.
 3. 그래서 놀이터를 더 안전하게 지킬 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 860 / 1120
+
+← **이전**: [[738_zero_trust_architecture_least_privilege|738. 제로 트러스트 보안 (Zero Trust Architecture, 내부망도 검증, 최소 권한 원칙 지속 검토 적용 프레임워크]]
+**다음**: [[740_sase_secure_access_service_edge_sdwan_cloud|740. SASE (Secure Access Service Edge 브랜치 사무소 단말 네트워크 엣지 클라우드 보안 통합체계/ SD-WAN]] →
+
+---

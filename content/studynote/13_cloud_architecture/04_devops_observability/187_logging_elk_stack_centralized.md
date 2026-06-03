@@ -158,3 +158,14 @@ AIOps: 로그 패턴 자동 분석 · 이상 탐지
 ```
 2. ELK Stack은 전국 모든 지점의 일기장을 한 곳에 모아서 쉽게 검색하는 시스템이에요.
 3. 문제가 생기면 "14시 32분에 무슨 일이 있었나?" 한 번 검색으로 원인을 바로 찾을 수 있어요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 186 / 371
+
+← **이전**: [[186_golden_signals_sre_monitoring|186. 골든 시그널 (4 Golden Signals - SRE 모니터링)]]
+**다음**: [[188_distributed_tracing_opentelemetry|188. 분산 추적 (Distributed Tracing - OpenTelemetry, Jaeger)]] →
+
+---

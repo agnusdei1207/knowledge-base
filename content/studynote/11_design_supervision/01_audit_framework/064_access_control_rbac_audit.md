@@ -124,3 +124,14 @@ tags:
 1. [[387_access_control_pattern|접근 통제]] 및 권한 관리 감리는 일을 잘했는지 [[396_validation|확인]]하는 [[435_checklist_based_testing|체크리스트]]를 만들고, 실제로 했다는 증거를 모으는 방법이에요.
 2. 약속한 대로 했는지, 빠진 것은 없는지, 고친 뒤 다시 [[396_validation|확인]]했는지를 차례대로 보는 거예요.
 3. 그래서 나중에 문제가 생겨도 누구 말이 맞는지 금방 알 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 98 / 530
+
+← **이전**: [[064_access_control_matrix_rbac_audit|64. 접근 통제 및 권한 관리 (RBAC) - 권한 오남용 감사]]
+**다음**: [[065_audit_trail_worm_storage_compliance|65. 로그 및 감사 추적 (Audit Trail) - 위변조 방지 컴플라이언스 점검]] →
+
+---

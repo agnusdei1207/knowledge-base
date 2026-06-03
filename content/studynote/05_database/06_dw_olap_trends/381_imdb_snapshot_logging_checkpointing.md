@@ -132,3 +132,14 @@ tags:
 1. 약속을 적은 공책을 순서대로 정리하는 방법이에요.
 2. 누가 먼저 읽고 쓰는지 규칙을 지켜야 헷갈리지 않아요.
 3. 규칙이 약하면 빠르지만 틀릴 수 있고, 너무 세면 느려질 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 381 / 600
+
+← **이전**: [[380_sequence_vs_auto_increment|380. 시퀀스 데이터베이스 객체 특징 (Auto Increment vs Sequence)]]
+**다음**: [[382_neuromorphic_ai_database_trends|382. 뉴모픽(Neuromorphic) 인프라 연동형 AI 데이터베이스 기술 동향]] →
+
+---

@@ -129,3 +129,14 @@ CCTV나 드론 등 컴퓨팅 자원이 부족한 엣지 디바이스에서는 �
 1. [[288_object_detection_yolo_rcnn|객체 탐지]]는 사진 속 친구들 얼굴에 똑확하게 '네모난 빨간 박스'를 쳐주는 마법 카메라예요.
 2. 예전에는 사진을 천천히 하나씩 잘라서 보느라 너무 느렸어요. (R-[[243_cnn_stride_pooling_resnet_residual_yolo_object_detection|CNN]])
 3. 지금은 사진을 딱 한 번만 휙! 보고 순식간에 박스를 모두 그려내는 기술이 생겨서 자율주행차가 눈을 떴답니다! (YOLO)
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 106 / 420
+
+← **이전**: [[105_one_by_one_convolution_bottleneck_dimension_reduction|105. 1x1 합성곱 (1x1 Convolution) - 병목 차원 축소와 파라미터 최적화]]
+**다음**: [[107_rcnn_fast_faster_region_proposal_network|107. R-CNN, Fast R-CNN, Faster R-CNN (2-Stage 탐지기) 진화]] →
+
+---

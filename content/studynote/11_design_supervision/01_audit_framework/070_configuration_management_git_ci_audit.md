@@ -131,3 +131,14 @@ Audit Evidence
 고친 기록을 남겨요.  
 잘 되는지도 자동으로 [[396_validation|확인]]해요.  
 [[020_software_configuration_management|형상 관리]]와 CI는 그런 약속이에요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 108 / 530
+
+← **이전**: [[069_project_sponsor_steering_committee_decision|69. 프로젝트 스폰서 및 추진 위원회 (Steering Committee) 의사 결정]]
+**다음**: [[070_configuration_management_git_svn_ci_audit|70. 형상 관리 저장소 및 CI 빌드 환경 평가 (Configuration Management and CI Audit)]] →
+
+---

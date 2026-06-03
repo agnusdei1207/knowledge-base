@@ -124,3 +124,14 @@ tags:
 1. 개발자 클린룸 [[182_network_separation_model|망분리]](VDI) 환경 및 보안 이동 경로 점검은 일을 잘했는지 [[396_validation|확인]]하는 [[435_checklist_based_testing|체크리스트]]를 만들고, 실제로 했다는 증거를 모으는 방법이에요.
 2. 약속한 대로 했는지, 빠진 것은 없는지, 고친 뒤 다시 [[396_validation|확인]]했는지를 차례대로 보는 거예요.
 3. 그래서 나중에 문제가 생겨도 누구 말이 맞는지 금방 알 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 122 / 530
+
+← **이전**: [[078_bpr_isp_integration|78. BPR/ISP 연계 - 구축된 시스템이 당초 전략적 목표(AS-IS 대비 TO-BE 효과)를 달성했는지 사후 평가]]
+**다음**: [[080_cobit_process_evaluation_model|80. COBIT 프로세스 평가 (APO, BAI, DSS, MEA) 모델 연계 통제 진단 (COBIT)]] →
+
+---

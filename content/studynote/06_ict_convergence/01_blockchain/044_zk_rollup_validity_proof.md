@@ -296,3 +296,14 @@ ZK 증명 하드웨어 가속기 등장
 1. ZK-Rollup은 수학 도장 — 수천 건 거래를 모아서 "다 맞아요!"라는 수학 증명 도장 하나만 이더리움에 찍어요. 훨씬 저렴하고 빨라요!
 2. [[229_zkp_data_clean_room|영지식 증명]]은 비밀 없는 증명 — "나 이 문제 풀었어" 라고 풀이 없이 증명하는 것. 비밀은 지키면서 신뢰는 얻을 수 있어요!
 3. SNARK는 작고 STARK는 투명 — SNARK는 납작한 증명서(작지만 사전 준비 필요), STARK는 큰 공개 증명서(크지만 누구나 믿을 수 있음).
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 44 / 552
+
+← **이전**: [[043_optimistic_rollup_fraud_proof|043. 옵티미스틱 롤업 & 사기 증명 (Optimistic Rollup & Fraud Proof)]]
+**다음**: [[045_sidechain_bridge_polygon|045. 사이드체인과 브릿지 — Sidechain & Bridge (Polygon)]] →
+
+---

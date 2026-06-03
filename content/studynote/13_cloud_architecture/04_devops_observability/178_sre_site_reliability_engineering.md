@@ -187,3 +187,14 @@ Toil 자동화 · Platform Engineering
 1. SRE는 컴퓨터 [[090_service_kubernetes_network_load_balancing|서비스]]를 지켜보는 경비원이라기보다, 고장 나기 쉬운 부분을 미리 자동으로 고쳐 놓는 발명가예요.
 2. 얼마나 잘 작동해야 하는지 숫자로 정해 두고, 그 숫자가 나빠지면 새 기능보다 수리를 먼저 해요.
 3. 그래서 밤새 사람이 붙어 있지 않아도 [[090_service_kubernetes_network_load_balancing|서비스]]가 더 오래, 더 안전하게 움직일 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 177 / 371
+
+← **이전**: [[177_secrets_management_vault_kubernetes|177. 시크릿 관리 (Secrets Management) - Vault와 Kubernetes Secret]]
+**다음**: [[179_toil_sre_operational_work|179. 토일 (Toil - SRE 운영 노동)]] →
+
+---

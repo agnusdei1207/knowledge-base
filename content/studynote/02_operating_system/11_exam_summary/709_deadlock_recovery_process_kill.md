@@ -197,3 +197,14 @@ tags:
 1. 4명의 친구가 좁은 골목에서 서로 비키라고 싸우면서 한 발짝도 못 움직이고 있어요(데드락).
 2. 선생님(OS)이 와서 보더니, 이대로 두면 오늘내로 집에 못 갈 것 같았어요. 그래서 4명 중 제일 짐이 가벼운 막내(희생자)를 번쩍 들어서 골목 밖으로 빼버렸어요(프로세스 킬).
 3. 막내가 빠지니까 공간이 생겨서 나머지 3명은 무사히 지나갔어요. 밖으로 쫓겨난 막내는 억울하지만 나중에 다시 길을 지나가면 된답니다(재시도)!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 709 / 800
+
+← **이전**: [[708_deadlock_ignorance_ostrich_algorithm|708. 교착 상태 무시 (타조 알고리즘) (Deadlock Ignorance Ostrich Algorithm)]]
+**다음**: [[710_address_binding_compile_load_execution|710. 주소 바인딩 컴파일/로드/실행 (Address Binding Compile Load Execution)]] →
+
+---

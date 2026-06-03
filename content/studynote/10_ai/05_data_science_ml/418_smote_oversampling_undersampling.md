@@ -147,3 +147,14 @@ SMOTE는 ADASYN, Borderline-[[231_smote_oversampling_class_imbalance_augmentatio
 1. 조용한 친구가 너무 적으면 선생님이 그 친구 말을 잘 못 듣게 돼요.
 2. 그래서 조용한 친구 발표를 더 시키거나, 비슷한 생각을 가진 새 예시를 만들어 연습해 보는 거예요.
 3. 그러면 컴퓨터가 중요한 드문 경우도 더 잘 배우게 돼요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 418 / 420
+
+← **이전**: [[417_bm25_document_length_normalization|417. BM25 정보 검색 모델 (Best Matching 25)]]
+**다음**: [[419_fuzzy_membership_defuzzification|419. 퍼지 소속 함수·퍼지 추론·디퍼지피케이션 (Fuzzy Membership, Inference, Defuzzification)]] →
+
+---

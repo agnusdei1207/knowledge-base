@@ -220,3 +220,14 @@ Feature Store, Data Contract 등장
 1. [[041_contractor_late_penalty|데이터 품질 진단]]은 정보가 정확한지, 빠진 것은 없는지, 두 곳에서 다르게 저장되지 않았는지 검사하는 거예요.
 2. 나쁜 [[001_dikw_pyramid|데이터]]로 AI를 가르치면 나쁜 AI가 되니까, [[001_dikw_pyramid|데이터]] 청소가 [[190_ai_llm_requirements_specification|AI]] 개발의 첫 번째 단계예요.
 3. 은행이나 병원처럼 중요한 곳에서는 [[001_dikw_pyramid|데이터]] 품질이 사람의 생활에 직접 영향을 주기 때문에 법으로 관리해요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 50 / 530
+
+← **이전**: [[036_cloud_based_audit|036. 클라우드 기반 감리 (Cloud-Based Audit)]]
+**다음**: [[037_pmo_project_management_office|37. PMO (Project Management Office)]] →
+
+---

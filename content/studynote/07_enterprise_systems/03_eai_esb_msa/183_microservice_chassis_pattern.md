@@ -199,3 +199,14 @@ tags:
 1. [[532_microservices_decomposition_patterns|마이크로서비스]] 샤시는 새 장난감 가게를 열 때마다 계산대와 전등, 안내판을 미리 갖춰 둔 기본 가게 틀과 같아요.
 2. 그래서 가게 주인은 어떤 장난감을 팔지만 정하면 되고, 기본 준비는 다시 하지 않아도 돼요.
 3. 하지만 필요 없는 물건까지 기본 틀에 너무 많이 넣으면 가게가 무겁고 복잡해져요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 183 / 482
+
+← **이전**: [[182_sidecar_pattern_proxy_container|182. 사이드카 패턴 (Sidecar Pattern) - MSA 프록시 컨테이너]]
+**다음**: [[184_externalized_configuration_server|184. 외부화된 설정 서버 (Externalized Configuration Server)]] →
+
+---

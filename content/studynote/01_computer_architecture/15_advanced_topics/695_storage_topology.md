@@ -146,3 +146,14 @@ Converged or hybrid storage networking
 1. [[696_fibre_channel_protocol|FC]]-AL은 친구들이 한 줄로 서서 돌아가며 미끄럼틀을 타는 놀이터 같아요.
 2. [[696_fibre_channel_protocol|FC]]-SW는 미끄럼틀이 여러 개라서 친구들이 동시에 더 빨리 놀 수 있는 놀이터예요.
 3. 그래서 큰 놀이터일수록 한 줄 대기보다 여러 길로 나뉜 구조가 훨씬 편해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 696 / 803
+
+← **이전**: [[694_optical_disc_jukebox|694. 광 디스크 주크박스]]
+**다음**: [[696_fibre_channel_protocol|696. Fibre Channel (FC) 프로토콜]] →
+
+---

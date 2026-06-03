@@ -129,3 +129,14 @@ tags:
 1. [[362_lock_in_portability|서드파티 락인]] ([[362_lock_in_portability|Lock-in]]) [[202_multi_cloud_hybrid_cloud_governance|멀티 클라우드]] 전환 [[561_container_based_deployment|컨테이너]] 이식성(Portability) 확보 전략은 모두가 같은 규칙으로 일하게 해 주는 반장 약속표예요.
 2. 약속만 적어 두는 것이 아니라 누가 지켰는지 확인하고 고치는 방법까지 함께 정해요.
 3. 그래서 일이 많아져도 서로 부딪히지 않고 더 안전하게 움직일 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 565 / 587
+
+← **이전**: [[362_lock_in_portability|362. 서드파티 락인 (Lock-in) 멀티 클라우드 전환 컨테이너 이식성(Portability) 확보 전략]]
+**다음**: [[363_audit|363. 마이크로 프론트엔드 배포 독립성 컴포넌트 결합망 진단]] →
+
+---

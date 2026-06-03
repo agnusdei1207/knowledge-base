@@ -183,3 +183,14 @@ tags:
 1. [[163_data_drift_statistical_distribution_shift|데이터 드리프트]]는 로봇이 봄 사진만 배우고 나서 갑자기 겨울 풍경을 많이 보게 되는 것과 비슷해요.
 2. 로봇이 고장 난 건 아니지만, 익숙한 모습이 달라져서 예전보다 헷갈릴 수 있어요.
 3. 그래서 어른들은 로봇이 보는 세상이 얼마나 달라졌는지 계속 [[396_validation|확인]]하고, 필요하면 새 사진으로 다시 연습시켜 준답니다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 175 / 420
+
+← **이전**: [[174_mlops|174. MLOps (Machine Learning Operations)]]
+**다음**: [[176_concept_drift|176. 컨셉 드리프트 (Concept Drift)]] →
+
+---

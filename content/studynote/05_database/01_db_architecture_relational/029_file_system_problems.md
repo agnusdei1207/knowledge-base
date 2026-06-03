@@ -151,3 +151,14 @@ CSV 기반 데이터 교환:
 1. [[501_file_definition_logical_record|파일]] 시스템 문제는 각 부서가 따로 포스트잇을 쓸 때 생기는 혼란이에요! DB는 모두가 공유하는 화이트보드예요.
 2. DB는 중복·불일치·[[003_integrity|무결성]] 문제를 자동으로 해결해줘서 [[001_dikw_pyramid|데이터]]를 항상 최신·정확하게 유지해요!
 3. 요즘 [[532_microservices_decomposition_patterns|마이크로서비스]]에서도 똑같은 문제가 재발해서 [[249_event_sourcing_append_only_state_reconstruction|이벤트 소싱]]이나 공유 DB 같은 해결책이 필요하답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 29 / 600
+
+← **이전**: [[028_database_users|28. 데이터베이스 사용자 유형 (Database Users)]]
+**다음**: [[030_data_integrity_security|30. 데이터 무결성과 보안 — 데이터베이스 안전의 두 축]] →
+
+---

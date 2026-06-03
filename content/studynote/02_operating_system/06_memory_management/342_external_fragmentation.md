@@ -202,3 +202,14 @@ tags:
 1. 외부 [[291_fragmentation_and_reassembly_process|단편화]] (External [[291_fragmentation_and_reassembly_process|Fragmentation]])은 컴퓨터가 메모리를 방처럼 나눠 쓰고 주소를 찾는 방법이에요.
 2. 먼저 [[341_internal_fragmentation|내부 단편화]] ([[341_internal_fragmentation|Internal Fragmentation]])을 이해하면 외부 [[291_fragmentation_and_reassembly_process|단편화]] (External [[291_fragmentation_and_reassembly_process|Fragmentation]])이 왜 필요한지 더 쉽게 보여요.
 3. 그래서 외부 [[291_fragmentation_and_reassembly_process|단편화]] (External [[291_fragmentation_and_reassembly_process|Fragmentation]])을 잘 알면 나중에 동적 메모리 할당 문제 (가변 분할 배치 [[001_algorithm_definition|알고리즘]])도 훨씬 쉽게 배울 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 342 / 800
+
+← **이전**: [[341_internal_fragmentation|341. 내부 단편화 (Internal Fragmentation) - 할당된 공간 내 남는 공간]]
+**다음**: [[343_dynamic_storage_allocation_problem|343. 동적 메모리 할당 문제 (가변 분할 배치 알고리즘) (Dynamic Storage Allocation Problem)]] →
+
+---

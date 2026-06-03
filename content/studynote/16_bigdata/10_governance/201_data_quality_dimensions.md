@@ -235,3 +235,14 @@ FROM customers;
 1. [[001_dikw_pyramid|데이터]] 품질 6차원은 숙제 검사표와 같아 — 빠진 게 없는지(완전성), 맞는지([[002_bigdata_5v|정확성]]), 예쁘게 썼는지(유효성), 제시간에 냈는지(적시성), 똑같은 답을 두 번 쓰지 않았는지(유일성), 모든 책에서 같은 답이 나오는지([[194_consistency_database_integrity|일관성]]).
 2. 이 중 하나라도 통과 못 하면 선생님(시스템)이 그 [[001_dikw_pyramid|데이터]]를 믿지 못해서 틀린 결정을 내릴 수 있어.
 3. "쓰레기를 넣으면 쓰레기가 나온다(Garbage In, Garbage Out)"는 말처럼, 나쁜 [[001_dikw_pyramid|데이터]]로 만든 AI는 나쁜 답변을 내놔.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 201 / 262
+
+← **이전**: [[200_data_owner|194. 데이터 소유자 (Data Owner) — 비즈니스 책임자와 접근 승인]]
+**다음**: [[202_data_quality_tools|196. 데이터 품질 관리 도구 (Data Quality Tools) — Great Expectations/Deequ/Soda Core]] →
+
+---

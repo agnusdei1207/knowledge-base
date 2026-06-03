@@ -183,3 +183,14 @@ edge [[339_routing_overview_best_path_selection|routing]] → 게이트웨이 [[
 1. 놀이공원 입구([[014_api_posix|API]] 게이트웨이)에서 표를 [[396_validation|확인]]하고([[303_authentication_authorization_patterns|인증]]), 어떤 놀이기구([[090_service_kubernetes_network_load_balancing|서비스]])로 갈지 안내해 줘.
 2. 입구가 하나라서, 어떤 놀이기구가 어디 있는지 손님은 몰라도 돼—입구가 다 알아서 안내해!
 3. 놀이기구 하나가 고장 나도([[090_service_kubernetes_network_load_balancing|서비스]] 장애) 입구에서 미리 알고 다른 데로 안내([[304_circuit_breaker|Circuit Breaker]])해 줄 수 있어.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 300 / 530
+
+← **이전**: [[238_class_table_inheritance|238. 클래스 테이블 상속 (Class Table Inheritance)]]
+**다음**: [[240_refactoring_conditional_to_polymorphism|240. 조건문을 다형성으로 전환 (Replace Conditional with Polymorphism)]] →
+
+---

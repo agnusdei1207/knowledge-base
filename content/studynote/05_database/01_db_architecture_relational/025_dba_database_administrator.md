@@ -153,3 +153,14 @@ CREATE INDEX idx_orders_cust_date ON orders(customer_id, order_date DESC);
 1. DBA는 도서관 사서처럼, 수백만 권의 책([[001_dikw_pyramid|데이터]])을 빠르게 찾을 수 있도록 정리하고 관리하는 전문가예요!
 2. 책이 너무 많아서 느려지면 목록([[154_database_index_b_tree_search_optimization|인덱스]])을 만들고, 중요한 책이 없어지지 않도록 복사본([[555_backup_and_restore_strategy|백업]])을 만들어요.
 3. 요즘은 클라우드가 많은 것을 자동으로 해주지만, 어떻게 구성하고 최적화할지 결정하는 전문 지식은 여전히 DBA가 필요하답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 25 / 600
+
+← **이전**: [[024_procedural_vs_non_procedural_dml|24. 절차적 DML vs 비절차적 DML — 네비게이션 vs 선언형]]
+**다음**: [[026_da_data_administrator|26. DA (Data Administrator) — 데이터 관리자]] →
+
+---

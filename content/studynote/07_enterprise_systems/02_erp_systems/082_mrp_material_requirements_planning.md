@@ -142,3 +142,14 @@ APS / Demand-driven planning / Intelligent planning
 1. MRP는 장난감 자동차를 만들기 전에 바퀴와 나사를 언제 사야 하는지 계산해 주는 도우미예요.
 2. 자동차 완성 날짜를 먼저 보고, 필요한 부품 날짜를 거꾸로 세요.
 3. 그래서 너무 많이 사 두지도 않고, 만들 때 모자라지도 않게 도와줘요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 82 / 482
+
+← **이전**: [[081_erp_enterprise_resource_planning|81. ERP (Enterprise Resource Planning)]]
+**다음**: [[083_mrp_2_manufacturing_resource_planning|83. MRP II (Manufacturing Resource Planning) - 자재뿐 아니라 설비, 인력 등 생산 자원 전체 포괄]] →
+
+---

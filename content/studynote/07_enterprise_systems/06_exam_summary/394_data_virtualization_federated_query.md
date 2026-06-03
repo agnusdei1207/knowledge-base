@@ -139,3 +139,14 @@ tags:
 1. [[360_data_virtualization|데이터 가상화]] 물리 통합 불필요 [[195_federated_query_data_fabric_distributed_join|연방 쿼리]]는 복잡한 일을 순서대로 정리해 주는 큰 정리함이에요.
 2. 어디에 무엇을 넣을지 먼저 정해 두면, 나중에 찾거나 고칠 때 훨씬 쉬워져요.
 3. 그래서 일이 커질수록 먼저 기준을 만들고 같이 약속하는 것이 중요해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 394 / 482
+
+← **이전**: [[393_data_fabric_virtual_metadata_intelligence|393. 데이터 패브릭 가상화 메타 지능 연결 (Data Fabric)]]
+**다음**: [[395_hadoop_mapreduce_disk_bottleneck|395. 하둡 맵리듀스 디스크 병목 분산 처리 (Hadoop MapReduce)]] →
+
+---

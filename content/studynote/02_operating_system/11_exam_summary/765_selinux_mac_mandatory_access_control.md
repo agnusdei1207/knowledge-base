@@ -240,3 +240,14 @@ SELinux는 독자적으로 돌지 않고, 리눅스 [[022_kernel_role|커널]]�
 1. 기존의 컴퓨터 세상(DAC)은 아파트 주인이 열쇠를 친구한테 마음대로 복사해 줄 수 있어서, 친구가 나쁜 마음을 먹으면 집이 다 털렸어요.
 2. 하지만 [[583_selinux|SELinux]] 세상([[673_mac_message_authentication_code|MAC]])은 아파트의 모든 문을 '초정밀 지문 인식기'로 바꿨어요. 집주인이라도 미리 등록된 약속된 행동 외에는 절대 문이 열리지 않죠.
 3. 그래서 도둑이 몰래 집주인 행세를 하며 들어와도, 시스템이 "넌 원래 이 방에 들어갈 권한(라벨)이 없잖아!"라며 강제로 막아버리기 때문에 컴퓨터가 아주 안전하게 지켜진답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 765 / 800
+
+← **이전**: [[764_aslr_memory_layout_randomization|764. ASLR 메모리 레이아웃 난수화 (ASLR Memory Layout Randomization)]]
+**다음**: [[766_realtime_scheduling_deadline|766. 실시간 스케줄링 마감 시간 (Deadline)]] →
+
+---

@@ -206,3 +206,14 @@ PCB([[090_pcb_tcb|프로세스 제어 블록]])는 [[001_operating_system_purpos
 1. [[001_operating_system_purpose|운영체제]] 선생님이 100명의 학생(프로그램)을 가르치려면 누가 어디까지 공부했는지 다 외울 수가 없어요.
 2. 그래서 선생님은 학생 1명당 1개씩 '비밀 수첩(PCB)'을 만들어 두었어요!
 3. 학생이 공부를 멈추고 화장실에 갈 때, 선생님은 수첩에 "철수는 35페이지 덧셈을 풀다 말았고, 지우개는 2개 빌려감"이라고 꼼꼼히 적어(저장) 둡니다. 나중에 철수가 돌아오면 수첩을 보고 곧바로 35페이지부터 가르쳐 줄 수 있답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 683 / 800
+
+← **이전**: [[682_process_address_space_isolation|682. 프로세스 주소 공간 분리 (Process Address Space Isolation)]]
+**다음**: [[684_context_switch_tlb_flush_asid|684. 문맥 교환 TLB 플러시 (Context Switch TLB Flush ASID)]] →
+
+---

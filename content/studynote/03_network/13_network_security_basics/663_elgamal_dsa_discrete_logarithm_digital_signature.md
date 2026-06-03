@@ -135,3 +135,14 @@ ElGamal 및 DSA 시스템는 [[110_rsa|RSA]] [[001_algorithm_definition|알고�
 1. 비밀 편지를 보낼 때는 자물쇠와 비밀번호가 필요해요.
 2. 이 개념은 누가 진짜 친구인지 [[396_validation|확인]]하고, 편지가 바뀌지 않았는지도 살펴봐요.
 3. 그래서 나쁜 사람이 중간에 훔쳐보거나 바꾸기 어려워져요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 784 / 1120
+
+← **이전**: [[662_rsa_algorithm_integer_factorization_2048|662. RSA 알고리즘]]
+**다음**: [[664_ecc_elliptical_curve_cryptography_mobile|664. ECC (Elliptical Curve Cryptography, 타원 곡선 통신망 적용)]] →
+
+---

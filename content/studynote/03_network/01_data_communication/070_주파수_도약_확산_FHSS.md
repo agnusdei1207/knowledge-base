@@ -130,3 +130,14 @@ Wireless Robustness
 길을 자꾸 바꿔서 가요.  
 그래서 막기 어려워요.  
 FHSS는 그런 통신 방법이에요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 70 / 1120
+
+← **이전**: [[069_직접_수열_확산_DSSS|69. 직접 수열 확산 스펙트럼 (DSSS, Direct Sequence Spread Spectrum) - PN 시퀀스]]
+**다음**: [[071_다중화_Multiplexing|71. 다중화 (Multiplexing) 개념 및 특징]] →
+
+---

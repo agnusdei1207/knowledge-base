@@ -209,3 +209,14 @@ SPL을 내재화한 조직은 품질(Quality)과 속도(Speed)라는 소프트�
 1. 자동차 공장에서 매번 바퀴부터 새로 만들면 자동차 한 대를 만드는 데 너무 오랜 시간이 걸려요.
 2. 그래서 똑같은 '기본 뼈대와 엔진'을 엄청 많이 만들어 두고, 어떤 차는 스포츠카 뚜껑을 덮고, 어떤 차는 트럭 짐칸을 덮어서 조립하는 거예요.
 3. 이렇게 뼈대(공통)를 재사용하면서 필요한 옵션(가변)만 갈아 끼우면, 멋지고 다양한 자동차를 아주 빠르고 싸게 만들 수 있는 마법이 바로 SPL이랍니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 19 / 973
+
+← **이전**: [[018_psp_tsp|18. PSP (Personal Software Process) / TSP (Team Software Process)]]
+**다음**: [[020_software_configuration_management|20. 형상 관리 (SCM, Software Configuration Management)]] →
+
+---

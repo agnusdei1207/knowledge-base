@@ -178,3 +178,14 @@ tags:
 1. [[292_deadlock_prevention|교착 상태 예방]] ([[292_deadlock_prevention|Deadlock Prevention]])은 컴퓨터가 여러 친구가 동시에 만져도 부딪히지 않게 순서를 맞추는 규칙이에요.
 2. 먼저 [[222_spinlock|스핀락]] ([[222_spinlock|Spinlock]])을 이해하면 [[292_deadlock_prevention|교착 상태 예방]] ([[292_deadlock_prevention|Deadlock Prevention]])이 왜 필요한지 더 쉽게 보여요.
 3. 그래서 [[292_deadlock_prevention|교착 상태 예방]] ([[292_deadlock_prevention|Deadlock Prevention]])을 잘 알면 나중에 [[225_binary_semaphore|이진 세마포어]] ([[225_binary_semaphore|Binary Semaphore]]) = 뮤텍스와 유사도 훨씬 쉽게 배울 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 234 / 800
+
+← **이전**: [[233_circular_wait|233. 스핀락 (Spinlock) - 바쁜 대기(Busy Waiting), 다중 코어에서 문맥 교환 오버헤드 없음]]
+**다음**: [[235_deadlock_avoidance|235. 교착 상태 회피 (Deadlock Avoidance)]] →
+
+---

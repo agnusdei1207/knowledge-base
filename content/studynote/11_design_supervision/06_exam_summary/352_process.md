@@ -106,3 +106,14 @@ tags:
 1. 품질 [[082_attribute_types_er_model|속성]] 시나리오은 집을 짓기 전에 방과 길을 먼저 그려 보는 것과 같아요.
 2. 어느 방을 크게 하고 어디를 튼튼하게 할지 미리 정해야 해요.
 3. 그래야 나중에 고칠 때도 왜 그렇게 만들었는지 알 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 430 / 530
+
+← **이전**: [[351_process|351. 민감도 상충점 리스크 (Sensitivity Point and Tradeoff Risk)]]
+**다음**: [[353_architecture|353. ADR 아키텍처 결정 기록 (Architecture Decision Record)]] →
+
+---

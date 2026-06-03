@@ -204,3 +204,14 @@ tags:
 1. 게임기가 하나뿐인데 친구 10명이 모였어요. '[[161_short_term_scheduler|단기 스케줄러]]'는 "철수 끝났어? 다음은 영희가 해!"라고 누구 차례인지 재빨리 결정하는 심판이에요.
 2. '[[168_dispatcher|디스패처]]'는 심판의 말을 듣고, 철수의 손에서 조이패드를 강제로 뺏어서 영희 손에 딱 쥐여주고 게임을 다시 켜주는 [[216_progress_in_synchronization|진행]] 요원이죠.
 3. 이 [[216_progress_in_synchronization|진행]] 요원이 패드를 뺏고 넘겨주는 동작이 너무 느리면([[169_dispatch_latency|디스패치 지연]]), 정작 게임할 시간이 다 날아가 버리기 때문에 엄청나게 날렵하게 움직여야 한답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 685 / 800
+
+← **이전**: [[684_context_switch_tlb_flush_asid|684. 문맥 교환 TLB 플러시 (Context Switch TLB Flush ASID)]]
+**다음**: [[686_cpu_bound_vs_io_bound_workload|686. CPU 바운드 vs I/O 바운드 (CPU Bound Vs I/O Bound Workload)]] →
+
+---

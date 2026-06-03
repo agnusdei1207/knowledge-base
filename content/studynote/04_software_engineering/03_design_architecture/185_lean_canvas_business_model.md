@@ -169,3 +169,14 @@ Experiment learning -> pivot or persevere
 1. 린 캔버스는 가게를 열기 전에 "누가 올까, 뭘 좋아할까, 돈은 어떻게 벌까"를 한 장 종이에 적어 보는 거예요.
 2. 이렇게 하면 긴 계획서를 다 [[289_cqrs_db|쓰기]] 전에 진짜 손님이 좋아할지 빨리 시험해 볼 수 있어요.
 3. 시험해 보니 틀렸다면 종이 한 칸만 고쳐서 더 좋은 아이디어로 바꿀 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 185 / 973
+
+← **이전**: [[184_theme_agile_requirements|184. 테마 (Theme) - 에픽들의 상위 카테고리]]
+**다음**: [[186_value_proposition_canvas|186. 가치 제안 캔버스 (Value Proposition Canvas)]] →
+
+---

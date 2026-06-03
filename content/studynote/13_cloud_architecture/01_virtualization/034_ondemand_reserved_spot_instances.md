@@ -169,3 +169,14 @@ EC2 인스턴스 구매 옵션
 1. 온디맨드는 편의점이고, 예약 인스턴스는 마트 월정액이다 — 편의점(온디맨드)은 비싸지만 바로 살 수 있고, 마트 월정액(예약)은 싸지만 약정 기간이 있다.
 2. [[209_spot_instance_cloud_cost_optimization|스팟 인스턴스]]는 대기 좌석 항공권이다 — 아주 싸게 살 수 있지만, 비행기 자리가 없으면(AWS가 자원 회수) 내려야 한다.
 3. Savings Plans는 통합 교통 정기권이다 — 지하철과 [[344_bus|버스]]를 모두 쓸 수 있는 정기권처럼, EC2와 [[216_lambda_kappa_architecture_batch_realtime|Lambda]] 모두에 할인이 적용된다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 33 / 371
+
+← **이전**: [[033_cdn|CDN (Content Delivery Network, 콘텐츠 전달 네트워크)]]
+**다음**: [[035_finops_over_provisioning|035. FinOps — 오버 프로비저닝 최적화]] →
+
+---

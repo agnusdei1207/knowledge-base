@@ -135,3 +135,14 @@ L2 규제 / Dropout 결합 최적화 (Regularization Synergy)
 1. [[281_early_stopping|조기 종료]]는 밥을 먹을 때 배가 꽉 찼다고 뇌가 알려주면 숟가락을 놓는 것과 같아요.
 2. 배가 부른데도 계속 먹으면 체해서 오히려 몸이 아프게 되잖아요?
 3. 그래서 컴퓨터도 제일 똑똑해진 순간을 딱 포착해서 스스로 공부를 멈추고 쉬게 만드는 거랍니다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 93 / 420
+
+← **이전**: [[092_dropout_regularization_overfitting_prevention|92. 드롭아웃 (Dropout) - 딥러닝 앙상블 효과와 과적합 억제]]
+**다음**: [[094_batch_normalization_internal_covariate_shift|94. 배치 정규화 (Batch Normalization) - 미니배치 층간 정규화]] →
+
+---

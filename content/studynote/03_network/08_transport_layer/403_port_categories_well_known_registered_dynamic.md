@@ -156,3 +156,14 @@ Well-Known [[446_port_and_bus|포트]], Registere…는 [[402_port_number_16bit_
 1. 물건을 보낼 때 받는 사람이 너무 빨리 받으면 놓칠 수 있어요.
 2. 이 개념은 천천히 보낼지, 다시 보낼지, 길이 막히면 멈출지를 정해줘요.
 3. 그래서 멀리 보내도 덜 잃어버리고 더 안정적으로 도착해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 524 / 1120
+
+← **이전**: [[402_port_number_16bit_application_process_identification|402. 포트 번호 (Port Number)]]
+**다음**: [[404_socket_address_ip_port_combination|404. 소켓 주소 (Socket Address) = IP 주소 + 포트 번호]] →
+
+---

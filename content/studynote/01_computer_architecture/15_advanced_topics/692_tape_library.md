@@ -152,3 +152,14 @@ Hybrid cloud archive with deep tape tier
 1. 자주 보는 장난감은 방에 두지만, 오래 간직할 보물은 창고에 넣어 두어요.
 2. 테이프 [[336_library_vs_framework|라이브러리]]는 로봇이 그 창고에서 필요한 상자를 찾아다 주는 큰 보관함이에요.
 3. 바로 꺼내 [[289_cqrs_db|쓰기]]는 느리지만, 오래 안전하게 지키는 데는 아주 잘해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 693 / 803
+
+← **이전**: [[691_maid_storage|691. MAID (Massive Array of Idle Disks)]]
+**다음**: [[693_worm_storage|693. WORM (Write Once Read Many) 스토리지]] →
+
+---

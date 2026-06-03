@@ -146,3 +146,14 @@ Liquid metal / package-level solder for high heat flux
 1. 컴퓨터 뇌와 선풍기 금속판 사이에는 눈에 안 보이는 작은 틈이 있어요.
 2. 서멀 페이스트는 그 틈에 들어가서 공기를 밀어내고 열이 건너가게 도와줘요.
 3. 그래서 컴퓨터가 덜 뜨거워지고 더 오래 빠르게 일할 수 있답니다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 738 / 803
+
+← **이전**: [[736_ihs_integrated_heat_spreader|736. 히트스프레더 (IHS, Integrated Heat Spreader)]]
+**다음**: [[738_vapor_chamber|738. 베이퍼 체임버 (Vapor Chamber)]] →
+
+---

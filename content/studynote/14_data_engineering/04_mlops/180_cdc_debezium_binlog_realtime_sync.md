@@ -186,3 +186,14 @@ Kafka Topic 축적 · 재전송
 1. CDC는 책장에서 책이 빠지거나 새로 들어올 때마다 바로 기록하는 똑똑한 사서 메모장이에요.
 2. Debezium은 그 메모장을 읽고 "이 책이 옮겨졌어!"라고 다른 방 친구들에게 바로 알려 주는 전달자예요.
 3. 그래서 모두가 밤까지 기다리지 않고도 같은 책장 상태를 거의 바로 알 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 180 / 258
+
+← **이전**: [[179_kafka_flink_watermark_time_window|179. 카프카 (Kafka) + 플링크 (Flink) 시간 창 (Time Window) 워터마크 (Watermark)]]
+**다음**: [[181_federated_learning_privacy_distributed_training|181. 연방 학습 (Federated Learning) - 분산 엣지 노드 가중치 로컬 전송]] →
+
+---

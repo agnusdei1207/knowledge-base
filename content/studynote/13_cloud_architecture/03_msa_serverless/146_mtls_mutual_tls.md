@@ -54,3 +54,14 @@ mTLS는 **[[667_zero_trust_runtime_integrity_measurement|Zero Trust]]·[[302_ser
 1. TLS는 **가게(서버)만 신분증**을 보여주는 거예요.
 2. mTLS는 **손님(클라이언트)도 신분증**을 보여야 들어갈 수 있어요.
 3. 이렇게 하면 **가짜 손님**이 못 들어와서 안전해요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 145 / 371
+
+← **이전**: [[145_sidecar_proxy_pattern|145. 사이드카 프록시 패턴 (Sidecar Proxy) - Envoy 기반]]
+**다음**: [[147_ddd_domain_driven_design|147. DDD (Domain-Driven Design) - 도메인 주도 설계]] →
+
+---

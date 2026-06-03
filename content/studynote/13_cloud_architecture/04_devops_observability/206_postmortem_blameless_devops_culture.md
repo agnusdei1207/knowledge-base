@@ -171,3 +171,14 @@ Blameless Postmortem: 사람이 아닌 시스템 개선
 ```
 2. "5 Whys"는 "왜 졌어?" → "수비가 약해서" → "왜 약했어?" → "훈련이 부족해서" → "왜 훈련이 부족했어?" → 계속 파고들어.
 3. 결국 선수 탓이 아니라 훈련 방법이나 팀 시스템의 문제를 찾아서 고치는 게 목표야.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 205 / 371
+
+← **이전**: [[205_kustomize_helm_opa_gatekeeper_security|205. Policy as Code / OPA Gatekeeper (쿠버네티스 정책 자동 검증)]]
+**다음**: [[207_chatops_slack_bot_deployment|207. ChatOps (챗옵스)]] →
+
+---

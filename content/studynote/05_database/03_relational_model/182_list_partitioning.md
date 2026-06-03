@@ -184,3 +184,14 @@ PARTITION BY LIST (region_code) (
 1. 리스트 [[179_table_partitioning_concept|파티셔닝]]은 장난감을 "자동차 상자", "인형 상자", "기타 상자"처럼 이름표 붙은 상자에 넣는 방법이에요.
 2. 그래서 자동차만 찾고 싶으면 자동차 상자만 열어보면 되고, 다른 상자는 안 뒤져도 돼요.
 3. 하지만 새 장난감 종류가 생기면 기타 상자에만 쌓이지 않게 이름표를 다시 정리해야 해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 182 / 600
+
+← **이전**: [[181_hash_partitioning|181. 해시 파티셔닝 (Hash Partitioning) - 해시 함수 기반 균등 분산]]
+**다음**: [[183_composite_partitioning|183. 컴포지트 파티셔닝 (Composite Partitioning) - 복합 (Range + Hash 등)]] →
+
+---

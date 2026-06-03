@@ -111,3 +111,14 @@ tags:
 1. [[305_saga|사가 패턴]]과 [[551_compensating_transaction_logical_rollback|보상 트랜잭션]] ([[305_saga_pattern|Saga Pattern]] and [[551_compensating_transaction_logical_rollback|Compensating Transaction]])은 친구들과 릴레이 심부름을 하다가 누가 못 하면 앞사람부터 차례로 되돌리는 것처럼 약속을 먼저 정하는 거예요.
 2. 그러면 서로 다른 사람이 해도 같은 규칙으로 움직일 수 있어요.
 3. 그래서 규모가 커질수록 [[136_variance|분산]] 업무 흐름을 보상 가능하게 설계하는 일이 더 중요해져요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 451 / 530
+
+← **이전**: [[372_service_mesh_summary|372. 서비스 메시 (Service Mesh)]]
+**다음**: [[374_ddd_bounded_context_aggregate|374. DDD의 바운디드 컨텍스트와 애그리게이트 (Domain-Driven Design Bounded Context and Aggregate)]] →
+
+---

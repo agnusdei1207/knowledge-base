@@ -130,3 +130,14 @@ CA의 업무 과부하를 막기 위해 고객을 최일선에서 직접 대면�
 1. 비밀 편지를 보낼 때는 자물쇠와 비밀번호가 필요해요.
 2. 이 개념은 누가 진짜 친구인지 [[396_validation|확인]]하고, 편지가 바뀌지 않았는지도 살펴봐요.
 3. 그래서 나쁜 사람이 중간에 훔쳐보거나 바꾸기 어려워져요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 798 / 1120
+
+← **이전**: [[676_pki_public_key_infrastructure|676. 공개키 기반 구조 (PKI, Public Key Infrastructure) 아키텍처 보안 증명 시스템]]
+**다음**: [[678_crl_certificate_revocation_list|678. CRL (Certificate Revocation List) 스펙 및 폐기 문제 및 배포 지연 약점 완화 체계]] →
+
+---

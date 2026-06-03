@@ -193,3 +193,14 @@ MESIF / Directory-based Coherence / many-core 확장
 1. MOESI는 친구 한 명이 고쳐 쓴 숙제 답을 선생님 책상에 바로 놓지 않아도, 다른 친구들에게 먼저 보여줄 수 있게 한 규칙이에요.
 2. 대신 "최신 답은 내가 책임질게" 하고 한 친구가 꼭 원본 담당자를 맡아요.
 3. 그래서 매번 선생님 책상까지 뛰어가지 않아도 빨리 같이 볼 수 있지만, 모두가 동시에 고치면 여전히 복잡해져요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 409 / 803
+
+← **이전**: [[407_mesi_protocol|407. MESI 프로토콜 (Modified, Exclusive, Shared, Invalid)]]
+**다음**: [[409_false_sharing|409. 거짓 공유 (False Sharing)]] →
+
+---

@@ -203,3 +203,14 @@ LDAP는 [[542_tacacs_plus_terminal_access_control_cisco|TACACS]]+에서 출발�
 1. 학교에 교실이 100개가 넘는데, 학생이 교실을 옮길 때마다 100명의 선생님께 일일이 이름을 등록하고 비밀번호를 알려주면 너무 힘들겠죠?
 2. LDAP은 학교 중앙 로비에 세워진 거대한 '전교생 명부'예요. 어떤 교실에 가든 선생님은 학생에게 이름을 묻지 않고 중앙 명부만 쓱 보고 "아, 우리 학교 학생 맞네. 들어와!" 하고 [[396_validation|확인]]해 줍니다.
 3. 그래서 학생이 전학을 가면, 선생님 100명에게 말할 필요 없이 중앙 로비의 명부에서 이름 하나만 지우면 모든 교실의 출입이 안전하게 차단되는 아주 똑똑한 시스템이랍니다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 664 / 1120
+
+← **이전**: [[542_tacacs_plus_terminal_access_control_cisco|542. TACACS+ (Terminal Access Controller Access Control System Plus)]]
+**다음**: [[544_aaa_security_model_auth_authz_acct|544. AAA 보안 모델 (Authentication 인증, Authorization 인가, Accounting 과금/로깅)]] →
+
+---

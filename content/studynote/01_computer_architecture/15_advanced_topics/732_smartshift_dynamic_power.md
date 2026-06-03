@@ -156,3 +156,14 @@ SmartShift
 1. SmartShift는 컴퓨터가 CPU와 GPU라는 두 친구에게 힘을 나눠 주는 방법을 바꿔 주는 기능이에요.
 2. 게임할 때는 그림을 그리는 GPU에게 더 힘을 주고, 계산할 때는 CPU에게 더 힘을 줘요.
 3. 그래서 같은 노트북이어도, 지금 제일 바쁜 친구가 더 잘 일할 수 있게 도와준답니다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 733 / 803
+
+← **이전**: [[731_amd_precision_boost|731. AMD 프리시전 부스트 (Precision Boost)]]
+**다음**: [[733_tvb|733. 동적 주파수 한계 (Thermal Velocity Boost)]] →
+
+---

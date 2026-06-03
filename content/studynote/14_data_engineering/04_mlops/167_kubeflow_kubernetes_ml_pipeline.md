@@ -387,3 +387,14 @@ SageMaker Pipelines · Vertex AI Pipelines (클라우드 관리형)
     ▼
 LLMOps 파이프라인: 프롬프트 관리 · RAG · PEFT 스케줄링
 ```
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 167 / 258
+
+← **이전**: [[166_model_registry_versioning_mlflow|166. 모델 레지스트리 (Model Registry) - 버전 관리 MLflow]]
+**다음**: [[168_airflow_dag_pipeline_scheduling|168. 데이터 파이프라인 워크플로우 DAG 제어 (Apache Airflow) 자동화]] →
+
+---

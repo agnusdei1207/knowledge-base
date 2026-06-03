@@ -163,3 +163,14 @@ CT 모니터링 + CAA + 자동 대응
 1. 옛날 방식은 컴퓨터가 "진짜 열쇠 모양"을 외워 두었다가 조금만 달라도 문을 안 열어 주는 거였어요.
 2. 지금은 새 열쇠를 만들 때마다 모두가 보는 게시판에 꼭 올리게 해서 이상한 열쇠가 나오면 바로 찾을 수 있어요.
 3. 그래서 실수로 진짜 열쇠를 바꿔도 덜 위험하고, 나쁜 사람이 몰래 가짜 열쇠를 만드는 것도 숨기기 어려워졌어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 238 / 1108
+
+← **이전**: [[184_certificate_patrol_telemetry_firefox_pinning|184. Certificate Patrol / Security Telemetry — Firefox 브라우저 핀닝]]
+**다음**: [[186_ocsp_stapling_tls_handshake_optimization|186. Stapling of OCSP (Online Certificate Status Protocol) Response — TLS (Transport]] →
+
+---

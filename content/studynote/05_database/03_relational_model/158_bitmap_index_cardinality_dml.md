@@ -149,3 +149,14 @@ Star Schema / Data Warehouse optimization
 1. [[073_bit|비트]]맵 [[154_database_index_b_tree_search_optimization|인덱스]]는 친구들 이름을 한 줄씩 읽는 대신, 조건마다 불이 켜지는 전구판을 만드는 거예요.
 2. 그래서 "모자 쓰고, 안경 쓰고, 빨간 옷 입은 친구"를 전구 겹치기만으로 금방 찾을 수 있어요.
 3. 하지만 친구들이 자꾸 자리를 바꾸면 전구판도 계속 고쳐야 해서, 자주 움직이는 곳에서는 힘들어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 158 / 600
+
+← **이전**: [[157_hash_index_equal_search|157. 해시 인덱스 (Hash Index) - 동등(=) 검색에 빠름, 범위(Range) 검색 불가]]
+**다음**: [[159_clustered_index_physical_sort|159. 클러스터드 인덱스 (Clustered Index) - 물리적 데이터 정렬 기준, 테이블당 1개 (보통 PK)]] →
+
+---

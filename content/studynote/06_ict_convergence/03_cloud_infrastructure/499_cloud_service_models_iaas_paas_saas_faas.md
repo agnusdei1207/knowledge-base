@@ -123,3 +123,14 @@ FaaS는 요청이 없을 때 비용이 발생하지 않는 **이벤트 드리븐
 1. 레고 블록([[183_iaas_infrastructure_as_a_service|IaaS]])을 직접 조립하거나, 반쯤 완성된 세트([[184_paas_platform_as_a_service|PaaS]])를 사거나, 완성된 장난감([[309_saas|SaaS]])을 살 수 있어요.
 2. 버튼 한 번에 동작하는 자판기 음식([[342_faas|FaaS]])은 기다리지 않아도 되지만, 내 입맛대로 바꾸기는 어려워요.
 3. 편할수록 내가 조절할 수 있는 건 줄어들지만, 신경 써야 할 것도 함께 줄어든답니다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 499 / 552
+
+← **이전**: [[498_smart_factory_cps_microgrid_integration|498. 스마트 팩토리, CPS, 마이크로그리드 통합 (Smart Factory CPS Microgrid Integration)]]
+**다음**: [[500_multi_cloud_vendor_lock_in_avoidance|500. 멀티 클라우드 전략과 벤더 종속성 회피 (Multi-Cloud Strategy and Vendor Lock-in Avoidance)]] →
+
+---

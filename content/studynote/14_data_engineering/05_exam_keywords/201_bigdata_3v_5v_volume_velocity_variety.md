@@ -228,3 +228,14 @@ V-기술 매핑 아키텍처
 ```
 2. **Veracity(진실성)**는 잘못 인쇄된 책을 걸러내는 품질 검사관이고, **Value(가치)**는 그 많은 책들로 결국 유용한 지식을 얻는 것이에요.
 3. 빅데이터 시스템은 이 다섯 가지 문제를 모두 해결하는 "슈퍼 도서관 관리 시스템"이에요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 201 / 258
+
+← **이전**: [[200_autonomous_driving_imitation_learning_digital_twin|200. 자율주행 모방 학습 (Imitation Learning) 시뮬레이터 디지털 트윈 합성 데이터 생성]]
+**다음**: [[202_scale_out_distributed_horizontal_expansion|202. 스케일 아웃 (Scale-Out) 분산 수평 확장]] →
+
+---

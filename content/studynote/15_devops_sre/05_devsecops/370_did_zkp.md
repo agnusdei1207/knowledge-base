@@ -136,3 +136,14 @@ MyData + FIDO2 통합 자기주권 신원 생태계
 1. DID는 내가 직접 들고 다니는 디지털 신분증이에요. 회사(구글, 정부)가 보관하지 않고 내 폰에 저장해요.
 2. ZKP는 나이가 몇 살인지 알려주지 않고 "성인이 맞다"는 것만 수학으로 증명하는 마법이에요.
 3. MyData는 내 은행 통장 정보를 내가 원하는 앱에 직접 보내줄 수 있는 [[001_dikw_pyramid|데이터]] 이동 권리예요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 370 / 373
+
+← **이전**: [[369_dlt_bft|369. 블록체인 분산원장 스마트계약 BFT 합의 (Blockchain DLT Smart Contract BFT PBFT Consensus)]]
+**다음**: [[371_process|371. DevOps 클라우드 기술사 핵심 키워드 통합 요약 (DevOps Cloud PE Integrated Keyword Summary)]] →
+
+---

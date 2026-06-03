@@ -117,3 +117,14 @@ Sequential Circuit
 그림으로 보는 것도 좋지만 표로 적으면 더 정확해요.  
 어떤 경우에 어디로 가는지 한 줄씩 적어요.  
 상태표는 그런 약속표예요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 66 / 803
+
+← **이전**: [[065_state_diagram|65. 상태도 (State Diagram)]]
+**다음**: [[067_moore_machine|67. 무어 머신 (Moore Machine)]] →
+
+---

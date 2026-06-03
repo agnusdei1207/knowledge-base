@@ -130,3 +130,14 @@ CLT와 [[074_law_of_large_numbers_lln_convergence_probability|대수의 법칙]]
 1. 주사위를 많이 던질수록 각 숫자가 나오는 횟수가 점점 똑같아져 — 이게 [[074_law_of_large_numbers_lln_convergence_probability|대수의 법칙]]이야.
 2. 그리고 주사위 여러 개를 동시에 던져서 평균을 내면, 그 평균은 항상 종 모양 분포가 돼 — 이게 [[139_clt|중심 극한 정리]]야.
 3. [[138_normal_distribution|정규 분포]]는 그 종 모양의 공식 이름이고, 중간이 가장 많고 양 끝으로 갈수록 드물어지는 모양이야!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 511 / 552
+
+← **이전**: [[510_statistics_mean_variance_skewness_kurtosis|510. 통계 기초: 평균, 분산, 왜도, 첨도 (Statistics Basics Mean Variance Skewness Kurtosis)]]
+**다음**: [[512_hypothesis_testing_p_value_significance|512. 가설 검정과 유의 수준 P-Value (Hypothesis Testing P-Value Significance Level)]] →
+
+---

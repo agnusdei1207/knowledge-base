@@ -198,3 +198,14 @@ GC의 가장 크고 어두운 그림자다.
 1. 가비지 컬렉션 (Garbage Collection) 기초은 컴퓨터가 메모리를 방처럼 나눠 쓰고 주소를 찾는 방법이에요.
 2. 먼저 [[379_cache_coloring|캐시 컬러링]] ([[379_cache_coloring|Cache Coloring]]) / [[286_page_frame|페이지]] 컬러링을 이해하면 가비지 컬렉션 (Garbage Collection) 기초이 왜 필요한지 더 쉽게 보여요.
 3. 그래서 가비지 컬렉션 (Garbage Collection) 기초을 잘 알면 나중에 [[381_virtual_memory|가상 메모리]] ([[381_virtual_memory|Virtual Memory]]) 개념도 훨씬 쉽게 배울 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 380 / 800
+
+← **이전**: [[379_cache_coloring|379. 캐시 컬러링 (Cache Coloring) / 페이지 컬러링]]
+**다음**: [[381_virtual_memory|381. 가상 메모리 (Virtual Memory) 개념 - 물리 메모리보다 큰 프로그램 실행 가능]] →
+
+---

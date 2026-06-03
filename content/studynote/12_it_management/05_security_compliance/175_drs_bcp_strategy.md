@@ -182,3 +182,14 @@ Mirror · Hot · Warm · Cold 전략 선택
 1. BCP는 비가 오거나 길이 막혀도 소풍을 계속할 수 있게 미리 다른 계획을 세워 두는 거예요.
 2. DRS는 도시락이 망가졌을 때 바로 다른 도시락을 꺼내 먹을 수 있게 준비해 두는 장치예요.
 3. 그리고 진짜 중요한 건 준비물만 쌓아 두는 게 아니라, 친구들과 선생님이 실제로 어떻게 움직일지 연습해 보는 거랍니다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 289 / 587
+
+← **이전**: [[174_privacy_impact_assessment|174. 개인정보 영향평가 (Privacy Impact Assessment, PIA)]]
+**다음**: [[176_rto_recovery_time_objective|176. RTO (Recovery Time Objective)]] →
+
+---

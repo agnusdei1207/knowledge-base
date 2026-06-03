@@ -157,3 +157,14 @@ Progressive Delivery + 자동 판단 (Argo Rollouts)
 ```
 2. 블루-그린은 새 버스를 완전히 만들어 놓고 "자, 모두 옮겨 타세요!" 하고 한 번에 이동하는 것이야.
 3. 카나리는 몇 명의 친구한테만 새 버스를 먼저 태워봐서 안전한지 확인한 다음 모두를 옮기는 방법이야.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 191 / 371
+
+← **이전**: [[191_chaos_engineering_chaos_monkey|191. 카오스 엔지니어링 (Chaos Engineering)]]
+**다음**: [[193_rolling_update_deployment_kubernetes|193. 롤링 배포 (Rolling Update Deployment)]] →
+
+---

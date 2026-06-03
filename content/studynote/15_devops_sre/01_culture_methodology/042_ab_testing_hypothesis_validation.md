@@ -279,3 +279,14 @@ MAB + DRL (딥 강화학습)
 1. A/B 테스팅은 두 가지 간판 비교 — 절반 손님에게는 빨간 간판 가게, 나머지에게는 파란 간판 가게를 보여주고 어느 쪽이 더 잘 팔리는지 [[396_validation|확인]]해요!
 2. p-value는 우연히 이런 결과가 나올 [[130_probability|확률]] — 5% 이하이면 우연이 아니라 진짜 차이라고 믿어요.
 3. Multi-armed Bandit은 영리한 슬롯머신 — 어떤 레버가 잘 나오는지 자동으로 학습해서 좋은 레버를 더 자주 당겨줘요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 42 / 373
+
+← **이전**: [[041_trunk_based_development_tbd|041. TBD 심화: CI/CD 통합 및 코드 리뷰 (Trunk-Based Development Advanced)]]
+**다음**: [[043_dark_launching_shadow_traffic|043. 다크 런칭 & 섀도우 트래픽]] →
+
+---

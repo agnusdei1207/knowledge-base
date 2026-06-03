@@ -274,3 +274,14 @@ Post-Quantum 암호 연구
 1. 유클리드 호제법은 땅 측량 — 48m×18m 땅을 정사각형으로 채울 때 가장 큰 정사각형 크기 찾기. 나머지로 반복하면 답!
 2. 확장 유클리드는 암호 열쇠 — [[663_macos_ios_gcd_grand_central_dispatch|GCD]] 계산하면서 동시에 [[110_rsa|RSA]] 개인키를 계산. 고대 수학이 인터넷 보안의 기반!
 3. LCM은 [[344_bus|버스]] 출발 — 4분 간격 A, 6분 간격 B [[344_bus|버스]]가 동시 출발하는 주기 = LCM(4,6) = 12분. [[208_schedule_history_transaction_execution_order|스케줄]] 계산에 활용!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 120 / 175
+
+← **이전**: [[119_quantum_complexity|014. 양자 복잡도 — BQP, QMA]]
+**다음**: [[121_sieve_of_eratosthenes|002. 에라토스테네스의 체 — Sieve of Eratosthenes]] →
+
+---

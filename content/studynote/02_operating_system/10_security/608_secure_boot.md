@@ -265,3 +265,14 @@ Linux 환경에서는 shim.efi + MOK(Machine Owner [[067_db_key_uniqueness_minim
 1. 보안 부팅 (Secure Boot) [[303_authentication_authorization_patterns|인증]]서 체인 로딩 [[395_verification_process_review|검증]]은 컴퓨터가 누가 들어와도 되는지와 무엇을 막아야 하는지 정하는 문지기 규칙이에요.
 2. 먼저 물리적 보안 및 [[475_hsm|하드웨어 보안 모듈]] ([[476_tpm|TPM]], [[476_tpm|Trusted Platform Module]])을 이해하면 보안 부팅 (Secure Boot) [[303_authentication_authorization_patterns|인증]]서 체인 로딩 [[395_verification_process_review|검증]]이 왜 필요한지 더 쉽게 보여요.
 3. 그래서 보안 부팅 (Secure Boot) [[303_authentication_authorization_patterns|인증]]서 체인 로딩 [[395_verification_process_review|검증]]을 잘 알면 나중에 [[609_performance_monitoring|성능 모니터링]] ([[609_performance_monitoring|Performance Monitoring]]) 및 튜닝 방법론도 훨씬 쉽게 배울 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 608 / 800
+
+← **이전**: [[607_tpm_physical_security|607. 물리적 보안 및 하드웨어 보안 모듈 (TPM, Trusted Platform Module)]]
+**다음**: [[609_performance_monitoring|609. 성능 모니터링 (Performance Monitoring) 및 튜닝 방법론]] →
+
+---

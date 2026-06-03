@@ -245,3 +245,14 @@ fs.readFile('file.txt', 'utf8', (err, data) => {
 1. 콜백은 피자 배달 주문 — "피자 다 되면 전화(콜백)해줘" 하고 전화번호(콜백 함수)를 알려주면, 완성됐을 때 전화가 온다.
 2. 콜백 지옥은 "피자 오면 콜라 주문하고, 콜라 오면 아이스크림 주문하고, 아이스크림 오면 케이크 주문해" 처럼 주문이 주문을 낳아서 종이가 삐뚤빼뚤해지는 것이야.
 3. Promise와 async/await는 콜백 지옥을 없애줘서 "피자, 콜라, 아이스크림, 케이크를 차례로 기다리자" 처럼 깔끔하게 쓸 수 있게 해줘.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 281 / 530
+
+← **이전**: [[219_object_pool_pattern|219. 객체 풀 패턴 (Object Pool Pattern)]]
+**다음**: [[221_promise_future_async|221. Promise/Future 비동기 패턴 (Promise/Future Async Pattern)]] →
+
+---

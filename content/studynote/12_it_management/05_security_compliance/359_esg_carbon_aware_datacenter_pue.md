@@ -129,3 +129,14 @@ ESG 경영 탄소 인지 ([[359_esg_carbon_aware_pue|Carbon-Aware]]) [[801_data_
 1. ESG 경영 탄소 인지 ([[359_esg_carbon_aware_pue|Carbon-Aware]]) [[801_data_center_3_tier_architecture_core_aggregation_access|데이터센터]] [[237_pue_power_usage_effectiveness_datacenter_metric|PUE]] 에너지 평가는 모두가 같은 규칙으로 일하게 해 주는 반장 약속표예요.
 2. 약속만 적어 두는 것이 아니라 누가 지켰는지 확인하고 고치는 방법까지 함께 정해요.
 3. 그래서 일이 많아져도 서로 부딪히지 않고 더 안전하게 움직일 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 558 / 587
+
+← **이전**: [[358_smart_factory_tsn_deterministic_timing|358. 스마트 팩토리 산업 이더넷 TSN 결정론적 시간 보장 진단]]
+**다음**: [[359_esg_carbon_aware_pue|359. ESG 경영 탄소 인지 (Carbon-Aware) 데이터센터 PUE 에너지 평가]] →
+
+---

@@ -316,3 +316,14 @@ eBPF 기반 고성능 정책
 1. 전통 [[690_firewall_generation_evolution|방화벽]] = 성벽 — 성문([[690_firewall_generation_evolution|방화벽]]) 통과하면 내부 자유. 마이크로 세그먼테이션은 건물마다 별도 출입증!
 2. K8s NetworkPolicy = 아파트 인터폰 통제 — "앱 [[085_pod_kubernetes_container_unit|파드]](302호)만 DB [[085_pod_kubernetes_container_unit|파드]](101호) 전화 가능". 나머지 자동 차단!
 3. 금융 적용 결과 = 방화 구역 — [[730_ransomware|랜섬웨어]] 침투해도 1대만 격리. 기존 4시간 전사 확산 차단!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 49 / 1108
+
+← **이전**: [[048_sdp|048. SDP — 소프트웨어 정의 경계]]
+**다음**: [[050_east_west_traffic|이스트-웨스트 트래픽 보안 (East-West Traffic Security)]] →
+
+---

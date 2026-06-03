@@ -130,3 +130,14 @@ Mask R-CNN (객체의 픽셀 단위 픽셀 윤곽선까지 따내는 분할로 �
 1. R-CNN은 숨은그림찾기 책을 2,000조각으로 가위로 잘라서 하나씩 돋보기로 보는 답답한 친구예요.
 2. Fast R-CNN은 책 전체를 사진 한 장으로 찰칵 찍은 뒤, 화면 안에서 네모칸만 치는 똑똑한 친구죠.
 3. Faster R-CNN은 아예 [[231_ai_turing_test|인공지능]] 비서가 "여기, 여기, 여기를 보세요!" 하고 네모칸까지 알아서 쳐주는 마법 안경이랍니다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 107 / 420
+
+← **이전**: [[106_object_detection_bounding_box_yolo_rcnn_iou|106. 객체 탐지 (Object Detection) - 위치 좌표 바운딩 박스 판별]]
+**다음**: [[108_yolo_ssd_1_stage_object_detection_real_time|108. YOLO와 SSD (1-Stage 객체 탐지)]] →
+
+---

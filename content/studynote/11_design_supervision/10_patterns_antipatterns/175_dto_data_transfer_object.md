@@ -182,3 +182,14 @@ Mapper / Assembler
 1. DTO는 선생님이 집에 보내는 알림장처럼 필요한 내용만 담아 전달하는 종이예요.
 2. 알림장에는 꼭 알려 줄 것만 적고, 교실 안의 모든 비밀을 다 쓰지는 않아요.
 3. 그리고 알림장이 숙제를 대신 풀지는 않듯이, DTO도 [[001_dikw_pyramid|데이터]]를 옮기기만 하고 중요한 판단은 하지 않아요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 231 / 530
+
+← **이전**: [[174_j2ee_framework_patterns|174. J2EE 프레임워크 패턴 (J2EE Framework Patterns)]]
+**다음**: [[176_dao_pattern|176. DAO 패턴 (Data Access Object Pattern)]] →
+
+---

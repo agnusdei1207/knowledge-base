@@ -205,3 +205,14 @@ Flashbots, 샌드위치 공격, 거버넌스 공격
 1. 플래시 론은 "지금 당장 갚겠다"는 약속만 있으면 담보 없이도 큰돈을 빌릴 수 있는 마법이에요.
 2. 갚지 못하면 거래 자체가 없었던 일이 되니까 은행도 손해가 없어요.
 3. 착한 사람은 이걸로 싸게 사고 비싸게 팔아 돈을 벌지만, 나쁜 사람은 가격을 조작하는 데 쓰기도 해요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 35 / 552
+
+← **이전**: [[034_uniswap_amm_automated_market_maker|유니스왑·AMM (Automated Market Maker, 자동화 시장 조성자)]]
+**다음**: [[036_blockchain_oracle_problem|036. 블록체인 오라클 문제 (Blockchain Oracle Problem)]] →
+
+---

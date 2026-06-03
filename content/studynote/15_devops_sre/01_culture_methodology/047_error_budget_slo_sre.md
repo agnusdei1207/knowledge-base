@@ -328,3 +328,14 @@ ML 기반 이상 탐지
 1. Error Budget은 월 용돈 — 99.9% [[181_slo_service_level_objective|SLO]] = 한 달 43분 용돈. 장애마다 용돈 줄어요. 다 쓰면 새 기능 개발 중단!
 2. [[101_error_budget_sre|Error Budget]] Policy는 지출 규칙 — 용돈 75% 쓰면 사치품(고위험 배포) 금지, 다 쓰면 완전 중단. 팀이 미리 약속한 규칙!
 3. [[186_golden_signals_sre_monitoring|골든 시그널]]은 건강 진단 — [[015_지연_데이터_관점|지연]](맥박), 트래픽(호흡), 에러(체온), 포화도(혈압). 네 가지 정상 = [[090_service_kubernetes_network_load_balancing|서비스]] 건강!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 47 / 373
+
+← **이전**: [[046_chatops_bot_collaboration|046. ChatOps — 봇 기반 협업 운영]]
+**다음**: [[048_mlops_machine_learning_operations|048. MLOps — 머신러닝 운영]] →
+
+---

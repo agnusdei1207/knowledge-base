@@ -113,3 +113,14 @@ tags:
 1. [[235_immersion_cooling_datacenter|액침 냉각]] [[237_pue_power_usage_effectiveness_datacenter_metric|PUE]] 탄소 배출 저감 쿨링 [[801_data_center_3_tier_architecture_core_aggregation_access|데이터센터]] 혁신는 사람이 많은 운동회에서 어디로 가야 하는지 알려 주는 안내판과 비슷해요.
 2. 규칙이 없으면 모두가 한곳에 몰려서 느려지고 다투지만, 길을 정해 두면 훨씬 부드럽게 움직일 수 있어요.
 3. 그래서 컴퓨터 세상에서도 [[235_immersion_cooling_datacenter|액침 냉각]] [[237_pue_power_usage_effectiveness_datacenter_metric|PUE]] 탄소 배출 저감 쿨링 [[801_data_center_3_tier_architecture_core_aggregation_access|데이터센터]] 혁신를 쓰면 많은 팀과 [[090_service_kubernetes_network_load_balancing|서비스]]가 덜 부딪히고 더 빨리 움직일 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 349 / 371
+
+← **이전**: [[349_dpu_smartnic_cpu|349. DPU SmartNIC 인프라 보안 네트워크 CPU 오프로딩 가속 (DPU SmartNIC CPU)]]
+**다음**: [[351_audit|351. 카오스 엔지니어링 의도적 장애 주입 복원력 선제 확인망 (Chaos Engineering)]] →
+
+---

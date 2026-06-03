@@ -200,3 +200,14 @@ tags:
 1. 스왑 아웃 (Swap out) / 스왑 인 (Swap in)은 컴퓨터가 메모리를 방처럼 나눠 쓰고 주소를 찾는 방법이에요.
 2. 먼저 [[335_swapping|스와핑]] ([[335_swapping|Swapping]])을 이해하면 스왑 아웃 (Swap out) / 스왑 인 (Swap in)이 왜 필요한지 더 쉽게 보여요.
 3. 그래서 스왑 아웃 (Swap out) / 스왑 인 (Swap in)을 잘 알면 나중에 [[337_standard_vs_paging_swapping|표준 스와핑]] ([[337_standard_vs_paging_swapping|전체 프로세스]]) vs [[259_paging|페이징]] 시스템 [[335_swapping|스와핑]] ([[286_page_frame|페이지]] 단위)도 훨씬 쉽게 배울 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 336 / 800
+
+← **이전**: [[335_swapping|335. 스와핑 (Swapping) - 메모리 부족 시 프로세스를 디스크 백킹 스토어(Backing Store)로 쫓아냄]]
+**다음**: [[337_standard_vs_paging_swapping|337. 표준 스와핑 (전체 프로세스) vs 페이징 시스템 스와핑 (페이지 단위) (Standard Vs Paging Swapping)]] →
+
+---

@@ -130,3 +130,14 @@ GitOps Integration (ArgoCD / FluxCD와 연동한 자동화된 상태 동기화)
 1. [[196_kubernetes_k8s_container_orchestration|쿠버네티스]]에 멋진 프로그램을 깔려면 엄청나게 많은 종이(YAML)에 규칙을 빼곡히 적어야 해요.
 2. [[207_helm_kubernetes_package_manager_chart|헬름]]([[207_helm_kubernetes_package_manager_chart|Helm]])은 이 규칙들을 미리 다 적어놓은 '요리책(차트)'과 같아요.
 3. 우리는 요리책에 "매운맛 3단계(Values)"라고 딱 한 줄만 포스트잇에 써서 붙여주면, [[207_helm_kubernetes_package_manager_chart|헬름]]이 알아서 완벽한 요리를 만들어 클러스터 식탁에 올려준답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 92 / 373
+
+← **이전**: [[091_kustomize_kubernetes_declarative_overlay_manifest|91. Kustomize (커스터마이즈) - K8s 오버레이 선언적 템플릿 관리]]
+**다음**: [[093_spinnaker_multi_cloud_cd_canary_analysis|93. 스핀네이커 (Spinnaker)]] →
+
+---

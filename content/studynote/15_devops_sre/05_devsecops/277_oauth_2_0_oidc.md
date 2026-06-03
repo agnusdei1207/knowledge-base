@@ -134,3 +134,14 @@ OAuth 2.0 [[537_oidc_openid_connect|OIDC]] 토큰 권한 위임 체계 [[532_mic
 1. OAuth 2.0 [[537_oidc_openid_connect|OIDC]] 토큰 권한 위임 체계 [[532_microservices_decomposition_patterns|마이크로서비스]] 연동은 복잡한 일을 순서와 규칙으로 정리해서 실수하지 않게 도와주는 방법이에요.
 2. Access Token 같은 친구들과 같이 움직여야 더 잘 작동해요.
 3. 그래서 문제가 생겨도 어디서 틀렸는지 빨리 찾고 다시 고치기 쉬워져요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 277 / 373
+
+← **이전**: [[276_fido_webauthn|276. FIDO, WebAuthn 생체 기반 패스워드리스 인증 적용 체제 (FIDO / WebAuthn)]]
+**다음**: [[278_process|278. 개인정보 데이터 마스킹 자동 필터(DLP 파이프라인 전송망 감시)]] →
+
+---

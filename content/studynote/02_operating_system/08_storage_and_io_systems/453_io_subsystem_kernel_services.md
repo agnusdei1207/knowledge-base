@@ -190,3 +190,14 @@ I/O 서브시스템의 [[022_kernel_role|커널]] [[090_service_kubernetes_netwo
 1. I/O 서브시스템의 [[022_kernel_role|커널]] [[090_service_kubernetes_network_load_balancing|서비스]] (I/O Subsystem [[022_kernel_role|Kernel]] Services)은 컴퓨터가 디스크와 장치가 [[001_dikw_pyramid|데이터]]를 주고받는 길을 정리하는 방법이에요.
 2. 먼저 [[746_io_direct_memory_access_dma|DMA]] 산란-수집 ([[452_dma_scatter_gather|Scatter-Gather]])을 이해하면 I/O 서브시스템의 [[022_kernel_role|커널]] [[090_service_kubernetes_network_load_balancing|서비스]] (I/O Subsystem [[022_kernel_role|Kernel]] Services)이 왜 필요한지 더 쉽게 보여요.
 3. 그래서 I/O 서브시스템의 [[022_kernel_role|커널]] [[090_service_kubernetes_network_load_balancing|서비스]] (I/O Subsystem [[022_kernel_role|Kernel]] Services)을 잘 알면 나중에 [[454_buffering|버퍼링]] ([[454_buffering|Buffering]])도 훨씬 쉽게 배울 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 453 / 800
+
+← **이전**: [[452_dma_scatter_gather|452. DMA 산란-수집 (Scatter-Gather) - 불연속적 물리 메모리 블록을 한 번의 DMA로 전송]]
+**다음**: [[454_buffering|454. 버퍼링 (Buffering) - 송수신자 간 데이터 전송 속도 차이, 전송 단위 차이 극복]] →
+
+---

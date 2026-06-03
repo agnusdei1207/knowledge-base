@@ -132,3 +132,14 @@ tags:
 1. 블록 상자에 이름표와 규칙을 붙여 두는 것과 같아요.
 2. 어떤 칸에 어떤 블록이 들어가야 하는지 정해야 나중에 안 헷갈려요.
 3. 규칙이 분명하면 고치기도 쉬워져요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 580 / 600
+
+← **이전**: [[579_referential_integrity_cascade_restrict_set_null|579. 무결성 제약 조건 CASCADE, RESTRICT, SET NULL 연쇄 업데이트 삭제 설정]]
+**다음**: [[581_tablespace_system_capacity_management_datafiles|581. 테이블 스페이스 시스템 용량 분산 관리 물리 파일 그룹핑 구성 정책]] →
+
+---

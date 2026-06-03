@@ -113,3 +113,14 @@ tags:
 1. [[561_container_based_deployment|컨테이너]] 이미지는 **도시락 상자**예요. 안에 뭐가 들었는지 확인해야 해요.
 2. 보안 스캐닝은 도시락을 **X-ray로 검사**해서 상한 음식(취약점)이 있으면 학교에 못 가져가게 해요.
 3. SBOM은 **성분표**처럼 "이 도시락에 뭐가 들었는지" 목록을 만들어서 문제가 생기면 빠르게 찾아요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 115 / 371
+
+← **이전**: [[115_terraform_infrastructure_provisioning|115. Terraform 인프라 프로비저닝 - IaC 선언적 다중 클라우드 관리]]
+**다음**: [[117_kubernetes_network_policy_micro_segmentation|117. K8s Network Policy 마이크로 세그멘테이션 - Pod 간 트래픽 격리·제로 트러스트]] →
+
+---

@@ -152,3 +152,14 @@ SOA가 실패하면서 그 반성으로 등장한 것이 현대의 **[[619_msa_t
 1. [[212_soa_service_oriented_architecture_esb|서비스 지향 아키텍처]]([[618_soa_hardware|SOA]]) [[146_esb_enterprise_service_bus_architecture|ESB]] [[282_performance_tactics|성능]] 병목 한계은 레고 블록으로 성을 만들 때처럼, 규칙을 정하고 역할을 나누어 함께 작업하는 방법이에요.
 2. 혼자서 막 만들면 나중에 무너지거나 고치기 어렵지만, 약속을 지키면 누구나 쉽게 고치고 더 크게 만들 수 있어요.
 3. 그래서 [[001_software_engineering_definition|소프트웨어 공학]]은 프로그래머들이 좋은 프로그램을 빠르고 안전하게 만들 수 있게 도와주는 '규칙 모음집'이에요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 964 / 973
+
+← **이전**: [[790_event_bus_kafka_asynchronous|790. 이벤트 버스 카프카(Kafka) 비동기 내결함성 설계]]
+**다음**: [[792_api_gateway_authentication_routing|792. API 게이트웨이 인증 및 라우팅 병목 관리망]] →
+
+---

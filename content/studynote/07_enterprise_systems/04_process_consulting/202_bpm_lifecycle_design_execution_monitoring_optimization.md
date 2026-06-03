@@ -135,3 +135,14 @@ Hyperautomation · Continuous Improvement
 1. 회사 일도 줄 서서 움직이는 놀이기구처럼 순서가 있어요.
 2. [[199_bpm_business_process_management_orchestrator|BPM]] 라이프사이클은 사람들이 어디서 오래 기다리는지 보고, 다음 날 줄 서는 방법을 다시 바꾸는 거예요.
 3. 그래서 회사는 같은 일을 할수록 더 빨라지고 덜 헷갈리게 돼요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 202 / 482
+
+← **이전**: [[201_enterprise_backup_cloud_storage_tiering|201. 엔터프라이즈 백업 아키텍처 클라우드 티어링 (Cloud Tiering)]]
+**다음**: [[203_bpmn_business_process_model_and_notation|203. BPMN (Business Process Model and Notation)]] →
+
+---

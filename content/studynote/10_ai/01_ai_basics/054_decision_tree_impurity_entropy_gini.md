@@ -127,3 +127,14 @@ Entropy / Gini 계산
 1. [[151_entropy|엔트로피]]와 지니는 상자 안 사탕이 얼마나 섞였는지 보는 거예요.
 2. 덜 섞인 상자를 고르면 정리하기 쉬워요.
 3. 그래서 나무가 더 똑똑하게 질문할 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 54 / 420
+
+← **이전**: [[053_stacking_meta_model_ensemble|53. 스태킹 메타 모델 앙상블 (Stacking Meta-Model Ensemble)]]
+**다음**: [[055_logistic_regression_sigmoid_binary_classification|55. 로지스틱 회귀와 시그모이드 이진 분류 (Logistic Regression / Sigmoid Binary Classification)]] →
+
+---

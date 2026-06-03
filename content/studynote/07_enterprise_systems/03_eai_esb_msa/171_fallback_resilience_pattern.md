@@ -177,3 +177,14 @@ Graceful degradation with observability
 1. 친구가 준비한 특별 간식이 없으면 냉장고에 있는 안전한 간식으로 대신 주는 게 폴백이에요.
 2. 그래서 모두가 배고프다고 울지 않고 수업을 계속할 수 있어요.
 3. 하지만 돈을 내야 하는 가게에서는 없는 물건을 있다고 속이면 안 되기 때문에 폴백도 함부로 쓰면 안 돼요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 171 / 482
+
+← **이전**: [[170_circuit_breaker_pattern|170. 서킷 브레이커 (Circuit Breaker) 패턴]]
+**다음**: [[172_polyglot_persistence|172. 폴리글랏 퍼시스턴스 (Polyglot Persistence)]] →
+
+---

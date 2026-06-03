@@ -124,3 +124,14 @@ SGD ([[241_optimizer_sgd_minibatch_adam_momentum_adaptive|Stochastic Gradient De
 1. Adagrad는 자주 쓰는 페달은 점점 덜 밟고, 드문 페달은 더 세게 밟는 자동차 같아요.
 2. RMSProp은 너무 오래된 길은 조금씩 잊고, 지금 길 상태를 더 중요하게 봐요.
 3. 그래서 컴퓨터는 문제마다 다른 속도로 배우게 된답니다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 85 / 420
+
+← **이전**: [[084_momentum_optimizer_local_minima_escape|84. 모멘텀 (Momentum) 옵티마이저 - 관성 활용 최적화]]
+**다음**: [[086_adam_optimizer_momentum_rmsprop|86. Adam (Adaptive Moment Estimation) - 최강의 결합 옵티마이저]] →
+
+---

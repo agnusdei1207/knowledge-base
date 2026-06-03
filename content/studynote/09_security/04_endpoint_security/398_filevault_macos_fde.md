@@ -125,3 +125,14 @@ FileVault (macOS Full Disk Encryption)를 제대로 이해하면 개념 하나�
 1. FileVault (macOS Full Disk Encryption)는 학교 규칙표처럼 무엇을 준비하고 어떻게 확인할지 알려 주는 기준이에요.
 2. 규칙표만 붙여 두고 지키지 않으면 아무 소용이 없어요.
 3. 그래서 보안도 규칙과 실제 행동이 함께 맞아야 해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 452 / 1108
+
+← **이전**: [[397_bitlocker_windows_fde|397. BitLocker (Windows Full Disk Encryption)]]
+**다음**: [[399_luks_linux_unified_key_setup|399. LUKS (Linux Unified Key Setup)]] →
+
+---

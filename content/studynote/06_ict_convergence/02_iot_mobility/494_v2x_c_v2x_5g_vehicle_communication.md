@@ -137,3 +137,14 @@ V2X는 자율주행 레벨 4 이상 실현을 위한 필수 보완 인프라다.
 1. V2X는 차들이 서로 대화하는 것이에요. "나 급브레이크 밟는다!" 고 미리 알려주면 사고를 막을 수 있어요.
 2. [[143_c_v2x_cellular_based_communication|C-V2X]] 모드 4는 직접 대화(무전기), 모드 3은 기지국을 통한 전화예요.
 3. [[141_v2x_vehicle_to_everything_communication|V2X]] 보안 [[303_authentication_authorization_patterns|인증]]서는 마스크 바꾸기예요. 내 차가 누구인지 증명하되, 너무 오래 쓰면 위치가 추적되니까 주기적으로 바꿔요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 494 / 552
+
+← **이전**: [[493_autonomous_driving_lidar_sensor_fusion|493. 자율주행 SAE 레벨과 센서 퓨전 (Autonomous Driving SAE Levels and Sensor Fusion)]]
+**다음**: [[495_5g_embb_urllc_mmtc_network_slicing|495. 5G 3대 특성과 네트워크 슬라이싱 (5G eMBB uRLLC mMTC Network Slicing)]] →
+
+---

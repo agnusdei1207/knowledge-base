@@ -321,3 +321,14 @@ Aurora, Cloud Spanner
 1. 행 지향 = 서랍 한 칸에 한 사람 정보 — 서랍 열면 이름+연봉+부서 한꺼번에. 한 명 찾을 때([[327_hint_handoff|OLTP]]) 빠르고, 전체 연봉 합산([[316_olap|OLAP]])엔 느려요!
 2. 버퍼 풀 = 책상 위 자주 쓰는 서류 — 자주 꺼내는 서랍([[286_page_frame|페이지]])을 책상(메모리)에 올려두기. 99% 히트율 = 창고 안 가도 됨!
 3. [[154_database_index_b_tree_search_optimization|인덱스]] = 목차 — 5천만 [[286_page_frame|페이지]] 책에서 목차 없이 찾기(풀 스캔: 200ms) vs 목차로 찾기([[154_database_index_b_tree_search_optimization|인덱스]]: 8ms). 25배 빠름!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 48 / 600
+
+← **이전**: [[047_columnar_store_olap|047. 컬럼 기반 스토리지 — Columnar Store & OLAP]]
+**다음**: [[049_storage_engine_innodb_myisam|049. 스토리지 엔진 — InnoDB vs MyISAM]] →
+
+---

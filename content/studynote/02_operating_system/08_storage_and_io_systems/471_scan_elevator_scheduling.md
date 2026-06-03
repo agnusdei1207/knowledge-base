@@ -174,3 +174,14 @@ SCAN 스케줄링 (엘리베이터 [[001_algorithm_definition|알고리즘]])은
 1. SCAN 스케줄링 (엘리베이터 [[001_algorithm_definition|알고리즘]]) (Scan Elevator Scheduling)은 컴퓨터가 디스크와 장치가 [[001_dikw_pyramid|데이터]]를 주고받는 길을 정리하는 방법이에요.
 2. 먼저 [[470_sstf_disk_scheduling|SSTF]] (Shortest [[467_disk_access_time|Seek Time]] First)을 이해하면 SCAN 스케줄링 (엘리베이터 [[001_algorithm_definition|알고리즘]]) (Scan Elevator Scheduling)이 왜 필요한지 더 쉽게 보여요.
 3. 그래서 SCAN 스케줄링 (엘리베이터 [[001_algorithm_definition|알고리즘]]) (Scan Elevator Scheduling)을 잘 알면 나중에 [[472_c_scan_scheduling|C-SCAN]] ([[472_c_scan_scheduling|Circular SCAN]])도 훨씬 쉽게 배울 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 471 / 800
+
+← **이전**: [[470_sstf_disk_scheduling|470. SSTF (Shortest Seek Time First) - 현재 헤드 위치에서 가장 가까운 요청 처리 (기아 발생 가능)]]
+**다음**: [[472_c_scan_scheduling|472. C-SCAN (Circular SCAN) - 한 방향으로만 처리하고 끝에 도달하면 시작점으로 빠르게 복귀 (대기 시간 균등화)]] →
+
+---

@@ -160,3 +160,14 @@ tags:
 1. [[100_technical_debt_monitoring_release_policy|기술 부채]] ([[100_technical_debt_monitoring_release_policy|Technical Debt]])의 관리 및 상환 [[268_strategy_pattern|전략]]은 레고 블록으로 성을 만들 때처럼, 규칙을 정하고 역할을 나누어 함께 작업하는 방법이에요.
 2. 혼자서 막 만들면 나중에 무너지거나 고치기 어렵지만, 약속을 지키면 누구나 쉽게 고치고 더 크게 만들 수 있어요.
 3. 그래서 [[001_software_engineering_definition|소프트웨어 공학]]은 프로그래머들이 좋은 프로그램을 빠르고 안전하게 만들 수 있게 도와주는 '규칙 모음집'이에요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 335 / 973
+
+← **이전**: [[334_clean_code_principles|334. 클린 코드 (Clean Code) 원칙 - 의미 있는 이름, 작고 단일 역할의 함수, 주석의 최소화]]
+**다음**: [[336_library_vs_framework|336. 라이브러리 (Library) vs 프레임워크 (Framework) - 제어의 역전 (IoC, Inversion of Control)]] →
+
+---

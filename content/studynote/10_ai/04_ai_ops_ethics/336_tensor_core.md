@@ -187,3 +187,14 @@ for batch in dataloader:
 1. 🔢 [[427_tensor_core|텐서 코어]]는 "수학 숙제를 한 문제씩 푸는 대신, 4×4 표 전체를 한 번에 푸는 [[148_5g_embb_urllc_mmtc|초고속]] 수학 기계"예요.
 2. 💡 FP16 은 더 빠르지만 소수점이 덜 정확해서, 중요한 결과만 FP32 로 꼼꼼히 보관해요.
 3. 🚀 이 덕분에 같은 [[418_gpu|GPU]] 로 2~3배 빠르게, 메모리도 절반만 써서 [[190_ai_llm_requirements_specification|AI]] 를 학습할 수 있어요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 336 / 420
+
+← **이전**: [[335_autoencoder|335. 오토인코더 (Autoencoder)]]
+**다음**: [[337_rlhf|337. RLHF (Reinforcement Learning from Human Feedback)]] →
+
+---

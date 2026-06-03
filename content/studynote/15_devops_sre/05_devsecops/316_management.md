@@ -120,3 +120,14 @@ SRE
 
 > 🧒 **어린이 비유**
 > SRE는 놀이공원 안전 관리자예요. 고장 나도 괜찮은 시간([[101_error_budget_sre|Error Budget]])을 미리 정해두고, 그 이상 고장나면 새로운 놀이기구 도입을 잠깐 멈추는 규칙을 지켜요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 316 / 373
+
+← **이전**: [[315_process|Helm Package Manager]]
+**다음**: [[317_sli_slo_sla|SLI SLO SLA Error Budget]] →
+
+---

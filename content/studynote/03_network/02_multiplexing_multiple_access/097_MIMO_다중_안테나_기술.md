@@ -133,3 +133,14 @@ Massive MIMO (안테나 수백 개) 및 RIS (6G 지능형 반사 표면)
 1. 짐을 옮길 때 배달부 한 명만 쓰면 속도도 느리고 중간에 길을 잃을 위험이 커요.
 2. MIMO는 한 번에 여러 명의 배달부([[171_antenna_basic_dipole_resonance|안테나]])를 고용해서 짐을 찢어서 빨리 나르거나, 잃어버리지 않게 다 같이 들고 뛰는 마법이에요.
 3. 그래서 복잡하고 막힌 길일수록 배달부들이 흩어져서 오히려 짐을 더 빠르고 안전하게 도착시킨답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 97 / 1120
+
+← **이전**: [[096_공간_분할_다중_접속_SDMA|96. 공간 분할 다중 접속 (SDMA, Space Division Multiple Access)]]
+**다음**: [[098_SU_MIMO_vs_MU_MIMO|98. SU-MIMO (Single User MIMO) vs MU-MIMO (Multi-User MIMO)]] →
+
+---

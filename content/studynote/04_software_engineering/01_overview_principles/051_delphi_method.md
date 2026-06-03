@@ -140,3 +140,14 @@ Monte Carlo 기반 예측 정교화
 1. [[214_delphi_method_expert_consensus_forecasting|델파이]]는 어려운 문제를 혼자 맞히지 않고, 똑똑한 친구 여러 명이 따로따로 생각해 보는 방법이에요.
 2. 친구들은 다른 친구 답을 이름 없이 보고 다시 생각해서 답을 조금씩 고쳐요.
 3. 그러면 처음보다 더 비슷하고 믿을 만한 답에 가까워져요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 51 / 973
+
+← **이전**: [[050_fp_simple_vs_detailed|기능점수 간이법 vs 상세법 (FP Simple vs Detailed)]]
+**다음**: [[052_wideband_delphi|52. 와이드밴드 델파이 (Wideband Delphi)]] →
+
+---

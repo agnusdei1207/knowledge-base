@@ -125,3 +125,14 @@ CORS [[009_config|설정]] 오류 (CORS Misconfiguration)를 제대로 이해하
 1. CORS [[009_config|설정]] 오류 (CORS Misconfiguration)는 컴퓨터 세상을 더 안전하게 만들기 위한 중요한 약속이나 도구예요.
 2. 겉으로는 어려워 보여도, 왜 필요한지와 어떻게 움직이는지를 알면 훨씬 쉬워져요.
 3. 그래서 이름만 외우지 말고 어디에 쓰이는지 같이 기억해야 해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 506 / 1108
+
+← **이전**: [[449_debug_mode_exposure|449. 개발 모드 및 디버그 페이지 노출 (Debug Mode & Exposed Debug Pages)]]
+**다음**: [[451_vulnerable_components|451. A06. 취약한 컴포넌트 (Vulnerable Components)]] →
+
+---

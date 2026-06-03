@@ -175,3 +175,14 @@ SC의 가장 큰 효과는 [[430_index_fast_full_scan|병렬]] 실행의 의미�
 1. 순차적 [[194_consistency_database_integrity|일관성]]은 여러 친구가 한 칠판에 차례대로 줄을 서서 글을 쓰는 규칙이에요.
 2. 누가 먼저 쓴 글인지 모두가 똑같이 볼 수 있어서 싸우지 않고 이해하기 쉬워요.
 3. 하지만 너무 엄격해서 빨리 끝낼 수 있는 친구도 자기 차례가 올 때까지 꼭 기다려야 해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 412 / 803
+
+← **이전**: [[410_memory_consistency_model|410. 메모리 일관성 모델 (Memory Consistency Model)]]
+**다음**: [[412_relaxed_consistency|412. 완화된 일관성 (Relaxed Consistency)]] →
+
+---

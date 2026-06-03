@@ -187,3 +187,14 @@ tags:
 1. [[222_spinlock|스핀락]] ([[222_spinlock|Spinlock]])은 컴퓨터가 여러 친구가 동시에 만져도 부딪히지 않게 순서를 맞추는 규칙이에요.
 2. 먼저 acquire() / release() 함수을 이해하면 [[222_spinlock|스핀락]] ([[222_spinlock|Spinlock]])이 왜 필요한지 더 쉽게 보여요.
 3. 그래서 [[222_spinlock|스핀락]] ([[222_spinlock|Spinlock]])을 잘 알면 나중에 [[224_semaphore|세마포어]] ([[224_semaphore|Semaphore]])도 훨씬 쉽게 배울 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 233 / 800
+
+← **이전**: [[232_no_preemption|232. 비선점 (No Preemption)]]
+**다음**: [[234_deadlock_prevention|234. 교착 상태 예방 (Deadlock Prevention)]] →
+
+---

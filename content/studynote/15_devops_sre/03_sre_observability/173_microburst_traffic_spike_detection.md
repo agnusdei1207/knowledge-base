@@ -185,3 +185,14 @@ Jitter + pacing + queueing + congestion signaling
 1. 마이크로버스트는 평소에는 조용한 복도에 쉬는 종이 울리는 순간 모두가 한꺼번에 뛰어나오는 것과 같아요.
 2. 복도의 하루 평균 사람 수는 적어 보여도, 그 짧은 순간에는 서로 부딪히고 넘어질 수 있어요.
 3. 그래서 사람들을 조금씩 나가게 하거나 줄을 나눠 서게 하면 훨씬 안전해져요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 173 / 373
+
+← **이전**: [[172_cold_start_provisioning_bottleneck|172. 프로비저닝 병목 (Cold Start) 관측 지표]]
+**다음**: [[174_runbook_playbook_incident_management|174. 런북/플레이북 (Runbook/Playbook)]] →
+
+---

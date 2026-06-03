@@ -163,3 +163,14 @@ tags:
 1. 거대 [[501_file_definition_logical_record|파일]] 우주를 다스리는 컴퓨터 [[001_operating_system_purpose|운영체제]] 마법사([[517_virtual_file_system_vfs|VFS]]) 뇌 속에는 **"4개의 완전 다른 전담 비서(4대 객체) 부서 구조"** 가 세밀하게 찢어져서 살고 있어요. 
 2. 1번 비서는 디스크 전체 우주 크기를 체크하는 **슈퍼블록(대장님)**! 2번 비서는 [[501_file_definition_logical_record|파일]]의 찐 육체와 주인님이 누군지 아는 **아이노드(실체)**! 3번 비서는 [[501_file_definition_logical_record|파일]]이 어느 방 폴더에 짱박혀 있는지 길을 아는 안내판 **덴트리(이름표)**! 4번 비서는 지금 어떤 사람이 몇 번째 줄을 읽고 있는지 커서를 감시하는 **[[501_file_definition_logical_record|파일]] 객체(대출증)** 랍니다!
 3. 이 4명이 따로따로 일해주니까 만약 10명의 친구가 1개의 게임(아이노드 육체 1개)에 동시 접속해도, 컴퓨터는 육체를 10번 무겁게 복사 폭발하지 않고 "[[501_file_definition_logical_record|파일]] 대출증 커서 장부" 만 10개로 찢어 가볍게 들고(램 메모리 100배 단축 절약!) 똑똑하게 쾌적 게임을 우주 구동시켜 줄 수 있는 극강 연산 구조 [[571_protection_vs_security|보호]]막의 마법이지요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 518 / 800
+
+← **이전**: [[517_virtual_file_system_vfs|517. VFS (Virtual File System) - 다양한 파일 시스템(ext4, NTFS, FAT)을 추상화하는 공통 인터페이스]]
+**다음**: [[519_on_disk_structures|519. 디스크 상의 구조 (On Disk Structures)]] →
+
+---

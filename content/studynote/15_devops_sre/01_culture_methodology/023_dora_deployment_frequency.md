@@ -163,3 +163,14 @@ tags:
 1. [[523_dhcp_dora_process|DORA]] 배포 빈도는 **앱 업데이트 버튼**을 얼마나 자주 누를 수 있는지 재는 척도예요!
 2. 업데이트가 많을수록 버그가 빨리 고쳐지고 새 기능이 빨리 생기는 것처럼, 개발팀이 자주 배포할수록 [[090_service_kubernetes_network_load_balancing|서비스]]가 점점 더 좋아진답니다.
 3. 단, 업데이트가 많아도 품질 검사(자동화 테스트)를 잘 해야 망가진 앱이 배달되지 않아요 — 속도와 품질이 함께 가야 해요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 23 / 373
+
+← **이전**: [[022_continuous_feedback_telemetry|22. 지속적 피드백 (Continuous Feedback)]]
+**다음**: [[024_lead_time_for_changes|24. Lead Time for Changes — 변경 리드 타임]] →
+
+---

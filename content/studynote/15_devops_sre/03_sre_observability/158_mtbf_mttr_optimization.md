@@ -162,3 +162,14 @@ tags:
 1. MTBF는 장난감이 얼마나 오래 안 고장 나는지 알려 주는 시간이에요.
 2. MTTR은 고장 났을 때 얼마나 빨리 다시 가지고 놀 수 있는지 알려 주는 시간이에요.
 3. 좋은 [[090_service_kubernetes_network_load_balancing|서비스]]는 잘 안 고장 나기도 하지만, 고장 나도 금방 다시 움직인답니다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 158 / 373
+
+← **이전**: [[157_operational_debt_dark_debt|157. 다크 부채 (Dark Debt) / 운영 부채 (Operational Debt) 청산 전략]]
+**다음**: [[159_failover_failback_architecture|159. 페일오버/페일백 아키텍처 (Failover/Failback Architecture)]] →
+
+---

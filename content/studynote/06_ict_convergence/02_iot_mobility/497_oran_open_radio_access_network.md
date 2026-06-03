@@ -136,3 +136,14 @@ O-RAN은 이동통신 산업의 구조적 혁신을 이끄는 핵심 트렌드�
 1. O-RAN은 레고처럼 다른 회사 부품을 조합해서 기지국을 만드는 것이에요.
 2. xApp은 스마트폰 앱처럼 기지국에 새 기능을 설치하는 것이에요. 외부 개발자도 앱을 만들 수 있어요.
 3. 단점은 창문이 여러 개 열려 있는 것처럼 외부에서 들어올 구멍이 많다는 거예요. 보안 관리를 더 잘해야 해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 497 / 552
+
+← **이전**: [[496_6g_terahertz_ntn_ris_satellite|496. 6G 테라헤르츠, NTN, RIS 기술 (6G Terahertz NTN RIS Satellite Communication)]]
+**다음**: [[498_smart_factory_cps_microgrid_integration|498. 스마트 팩토리, CPS, 마이크로그리드 통합 (Smart Factory CPS Microgrid Integration)]] →
+
+---

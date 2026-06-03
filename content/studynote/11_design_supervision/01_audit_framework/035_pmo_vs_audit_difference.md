@@ -194,3 +194,14 @@ PMO vs 감리
 1. PMO는 학교 선생님처럼 공부를 잘할 수 있도록 도와주는 역할이에요.
 2. 감리는 시험 감독관처럼 규칙을 제대로 지키는지 [[396_validation|확인]]하는 역할이에요.
 3. 선생님과 감독관이 모두 있어야 공정하고 좋은 공부 환경이 만들어지죠!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 46 / 530
+
+← **이전**: [[034_sw_secure_coding_diagnosis|34. SW 개발보안 진단 (Secure Coding Diagnosis)]]
+**다음**: [[035_web_accessibility_compatibility_diagnosis|35. 웹 접근성 및 호환성 진단 (Web Accessibility and Compatibility Diagnosis)]] →
+
+---

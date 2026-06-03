@@ -146,3 +146,14 @@ tags:
 1. [[166_smart_factory|스마트 팩토리]]는 로봇과 컴퓨터가 팀을 이뤄 자동으로 물건을 만드는 공장이에요.
 2. CPS는 디지털 지도(컴퓨터)와 실제 공장(물리)이 실시간으로 대화하는 것이에요. 공장이 아프면 컴퓨터가 바로 알고 고쳐줘요.
 3. [[163_microgrid_island_mode|마이크로그리드]]는 공장이 태양광 패널로 전기를 직접 만들어 쓰는 것이에요. 전기가 끊겨도 혼자 버틸 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 498 / 552
+
+← **이전**: [[497_oran_open_radio_access_network|497. O-RAN 오픈 무선 접속 네트워크 (O-RAN Open Radio Access Network)]]
+**다음**: [[499_cloud_service_models_iaas_paas_saas_faas|499. 클라우드 서비스 모델 통합: IaaS~FaaS (Cloud Service Models IaaS PaaS SaaS FaaS)]] →
+
+---

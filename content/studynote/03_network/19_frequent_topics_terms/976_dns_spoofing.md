@@ -277,3 +277,14 @@ tags:
 1. 길을 잃어서 경찰 아저씨([[511_dns_hierarchical_distributed_architecture|DNS]])에게 "우리 집이 어딘가요?"라고 물어봤어요.
 2. 그런데 경찰 아저씨가 대답하기도 전에, 옆에 숨어있던 나쁜 도둑이 경찰 목소리를 흉내 내며 "저기 으슥한 골목으로 가렴!" 하고 먼저 대답을 가로채는 나쁜 장난이에요.
 3. 이 장난을 막기 위해 경찰 아저씨만 보여줄 수 있는 '홀로그램 경찰 배지([[518_dnssec_dns_security_extensions|DNSSEC]])'를 [[396_validation|확인]]하거나, 다른 사람은 절대 못 듣는 '비밀 무전기([[520_doh_dns_over_https|DoH]])'로 대화하는 기술을 만든 거랍니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 1097 / 1120
+
+← **이전**: [[975_websocket_full_duplex_realtime_http_upgrade|975. 웹소켓 (WebSocket)]]
+**다음**: [[977_dhcp_relay_agent_broadcast_unicast_ip_helper|977. DHCP 릴레이 에이전트]] →
+
+---

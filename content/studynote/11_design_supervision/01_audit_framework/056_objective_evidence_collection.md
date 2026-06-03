@@ -118,3 +118,14 @@ tags:
 객관적 증거는 "내가 봤어"를 "모두가 다시 봐도 같아"로 바꾸는 거예요.  
 그림책 한 장보다, 직접 해 본 결과가 더 믿을 만해요.  
 그래서 감리에서는 말보다 [[396_validation|확인]]한 흔적이 더 중요해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 84 / 530
+
+← **이전**: [[056_hardware_sizing_verification|56. 하드웨어 Sizing 검증 (Hardware Sizing Verification)]]
+**다음**: [[057_data_migration_success_verification|57. 데이터 이행 성공 기준 검증 (Data Migration Success Verification)]] →
+
+---

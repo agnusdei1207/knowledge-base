@@ -165,3 +165,14 @@ Velocity / Burndown Chart
 1. 친구들이 동시에 숫자 카드를 보여 주면 서로 따라 쓰지 않아요.
 2. 그래서 각자 생각이 얼마나 다른지 바로 알 수 있어요.
 3. Planning Poker는 같이 약속을 정하는 똑똑한 카드 놀이예요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 83 / 973
+
+← **이전**: [[082_story_point_velocity|82. 스토리 포인트 (Story Point) - 상대적 규모 산정]]
+**다음**: [[084_kanban_board_wip_limit|84. 칸반 (Kanban) - 워크플로우 시각화, WIP(Work In Progress) 제한]] →
+
+---

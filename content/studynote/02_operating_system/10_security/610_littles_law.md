@@ -318,3 +318,14 @@ tags:
 1. 리틀의 법칙 (Little's Law)은 컴퓨터가 누가 들어와도 되는지와 무엇을 막아야 하는지 정하는 문지기 규칙이에요.
 2. 먼저 [[609_performance_monitoring|성능 모니터링]] ([[609_performance_monitoring|Performance Monitoring]]) 및 튜닝 방법론을 이해하면 리틀의 법칙 (Little's Law)이 왜 필요한지 더 쉽게 보여요.
 3. 그래서 리틀의 법칙 (Little's Law)을 잘 알면 나중에 CPU 유휴 ([[611_cpu_idle_wait_optimization|Idle]]) 대기 루프 최적화도 훨씬 쉽게 배울 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 610 / 800
+
+← **이전**: [[609_performance_monitoring|609. 성능 모니터링 (Performance Monitoring) 및 튜닝 방법론]]
+**다음**: [[611_cpu_idle_wait_optimization|611. CPU 유휴 (Idle) 대기 루프 최적화]] →
+
+---

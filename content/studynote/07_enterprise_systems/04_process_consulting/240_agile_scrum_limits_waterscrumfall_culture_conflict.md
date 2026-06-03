@@ -139,3 +139,14 @@ tags:
 1. [[658_agile_scrum_roles|애자일 스크럼]] 도입 한계 및 [[038_water_scrum_fall|워터스크럼폴]] 조직 문화 충돌 진단는 복잡한 일을 순서대로 정리해 주는 큰 정리함이에요.
 2. 어디에 무엇을 넣을지 먼저 정해 두면, 나중에 찾거나 고칠 때 훨씬 쉬워져요.
 3. 그래서 일이 커질수록 먼저 기준을 만들고 같이 약속하는 것이 중요해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 240 / 482
+
+← **이전**: [[239_ccb_change_control_board_baseline|239. 변경 통제 위원회 기준선 갱신 절차 (CCB, Change Control Board)]]
+**다음**: [[241_design_thinking_5_stages_empathize_define_ideate_prototype_test|241. 디자인 씽킹 5단계 (Design Thinking: Empathize·Define·Ideate·Prototype·Test)]] →
+
+---

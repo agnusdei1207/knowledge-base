@@ -143,3 +143,14 @@ TLS 세션 키 + 대용량 데이터 보호
 1. 같은 열쇠로 잠그고 열 수 있는 상자가 있어요.
 2. 상자를 여는 속도는 빠르지만 열쇠를 잘 지켜야 해요.
 3. 대칭키 암호는 빠른 비밀 상자예요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 76 / 1108
+
+← **이전**: [[075_computational_infeasibility|75. 현대 암호학 기본 가정 — computationally infeasible]]
+**다음**: [[077_asymmetric_encryption|77. 비대칭키 암호 (Asymmetric Encryption) — 공개키/비밀키 쌍]] →
+
+---

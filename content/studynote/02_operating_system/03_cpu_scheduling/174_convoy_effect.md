@@ -181,3 +181,13 @@ preemption · class separation · MLFQ
 2. 토끼들은 금방 갈 수 있는데도 코끼리 차례가 끝날 때까지 기다리느라 답답해져요.
 3. 그래서 길을 나누거나 잠깐씩 번갈아 가게 해야 모두가 더 빨리 움직일 수 있어요.
 
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 174 / 800
+
+← **이전**: [[173_fcfs_scheduling|173. FCFS (First-Come, First-Served) 스케줄링 - 비선점]]
+**다음**: [[175_sjf_scheduling|175. SJF (Shortest Job First) 스케줄링 - 최적의 평균 대기 시간]] →
+
+---

@@ -215,3 +215,14 @@ composite_key = f"user_001_{salt}"   # 10개 파티션에 분산
 ### 👶 어린이를 위한 3줄 비유 설명
 
 [[179_kafka_flink_watermark_time_window|Kafka]] [[514_partition_slice_volume|파티션]]은 마트 계산대예요. 고객들을 어느 계산대로 보내느냐가 [[179_table_partitioning_concept|파티셔닝]] [[268_strategy_pattern|전략]]이에요. "이름 순서로 줄 세우기(키 기반)"는 같은 이름 고객이 항상 같은 줄에 서서 순서가 지켜지고, "그냥 빈 줄로 보내기(라운드로빈)"는 모든 계산대가 바쁘게 돌아가요. 계산대 수([[514_partition_slice_volume|파티션]] 수)를 처음부터 충분히 만들어야 나중에 손님이 늘어도 줄이 막히지 않아요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 88 / 262
+
+← **이전**: [[087_exactly_once_semantics|12. 정확히 한 번 (Exactly-Once Semantics) — 2PC + Idempotent Sink]]
+**다음**: [[089_consumer_lag|14. Consumer Lag — Kafka 소비 지연 모니터링]] →
+
+---

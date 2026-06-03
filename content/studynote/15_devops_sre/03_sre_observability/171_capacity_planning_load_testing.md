@@ -186,3 +186,14 @@ Scale Strategy · Tuning · 재검증
 1. 용량 계획은 운동장에 몇 명이 몰려올지 미리 세어 보고 문을 몇 개 열지 정하는 일이에요.
 2. [[446_load_test|부하 테스트]]는 친구들을 미리 불러서 진짜로 줄을 세워 보고 어디가 막히는지 [[396_validation|확인]]하는 일이에요.
 3. 그래서 행사 날 사람이 많이 와도 다 같이 덜 밀리고 더 안전하게 들어갈 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 171 / 373
+
+← **이전**: [[170_self_healing_filesystem_zfs_btrfs|170. 하드웨어 에러 자가 치유 파일시스템 (Self-Healing Filesystem) — ZFS, Btrfs]]
+**다음**: [[172_cold_start_provisioning_bottleneck|172. 프로비저닝 병목 (Cold Start) 관측 지표]] →
+
+---

@@ -125,3 +125,14 @@ tags:
 1. [[001_dikw_pyramid|데이터]] 주권 ([[410_ai_intellectual_property_data_sovereignty_data_act|Data Sovereignty]])는 내 이름표와 비밀 상자를 어떻게 안전하게 다룰지 정하는 약속이에요.
 2. 작은 조각 정보도 모이면 내가 누구인지 알 수 있어요.
 3. 그래서 꼭 필요한 것만 모으고, 다 쓰면 빨리 치워야 해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 883 / 1108
+
+← **이전**: [[808_data_classification|808. 데이터 분류 (Data Classification)]]
+**다음**: [[810_data_localization|810. 데이터 국외 이동 제약 (Data Localization)]] →
+
+---

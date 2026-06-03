@@ -322,3 +322,14 @@ Feast, Tecton
 1. [[348_mlops|MLOps]] = ML 공장 자동화 — 연구원([[001_dikw_pyramid|데이터]] 사이언티스트)이 레시피 개발, 공장([[348_mlops|MLOps]])이 재료→생산→출하→불량 탐지 자동화!
 2. [[163_data_drift_statistical_distribution_shift|데이터 드리프트]] = 낡은 지도 — 2019년 지도로 2023년 운전하면 길 안내 오류. 드리프트 감지 = 지도 갱신 필요 [[130_signal|신호]]!
 3. [[165_feature_store_training_serving_consistency|Feature Store]] = 표준 재료 창고 — 여러 팀이 같은 재료를 따로 만들면 낭비+불일치. 창고([[165_feature_store_training_serving_consistency|Feature Store]])에서 표준 재료 공유!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 48 / 373
+
+← **이전**: [[047_error_budget_slo_sre|047. Error Budget — 오류 예산과 SLO]]
+**다음**: [[049_dataops_data_operations|049. DataOps — 데이터 운영]] →
+
+---

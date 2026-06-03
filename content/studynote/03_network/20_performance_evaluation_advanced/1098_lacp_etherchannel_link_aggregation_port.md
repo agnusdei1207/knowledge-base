@@ -129,3 +129,14 @@ LACP [[263_etherchannel_link_aggregation_lacp|이더채널]] [[446_port_and_bus|
 1. 달리기 시합에서 누가 얼마나 빨랐는지 재려면 초시계와 기록표가 필요해요.
 2. 이 개념은 네트워크가 어디서 느려졌는지 숫자로 찾아내는 도구예요.
 3. 그래서 막연히 고치는 대신 가장 중요한 곳부터 똑똑하게 손볼 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 207 / 1120
+
+← **이전**: [[1097_broadcast_storm_switching_loop_stp|1097. 브로드캐스트 스톰 (루프 발생)]]
+**다음**: [[1099_inter_vlan_routing_router_on_a_stick|1099. VLAN 간 라우팅]] →
+
+---

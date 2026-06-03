@@ -144,3 +144,14 @@ CHECK / DEFAULT / 코드 테이블
 1. 색연필 상자에는 색연필만 들어가야 해요.
 2. 연필이나 지우개가 들어오면 정리가 어려워져요.
 3. [[064_relation_domain|도메인]] [[003_integrity|무결성]]은 상자 입구에서 물건을 가려내는 규칙이에요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 76 / 600
+
+← **이전**: [[075_referential_integrity_foreign_key_cascade|75. 참조 무결성 (Referential Integrity) - 외래 키 값은 참조하는 릴레이션의 기본키 값이거나 NULL이어야 함]]
+**다음**: [[077_user_defined_integrity_check_trigger|77. 사용자 정의 무결성 (User-defined Integrity) - 업무 규칙에 따른 제약 (CHECK 제약조건 등)]] →
+
+---

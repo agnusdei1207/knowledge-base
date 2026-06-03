@@ -132,3 +132,14 @@ ADR 상태 관리 (Superseded 처리)를 통한 설계 진화 내역 추적
 1. 게임을 하면서 "왜 여기서 튼튼한 방패 대신 무거운 칼을 골랐지?"라고 나중에 궁금해할 때가 있죠?
 2. ADR은 그때 "보스 몬스터가 너무 빠르기 때문에 방어보다 공격이 중요했어"라고 일기장에 그 이유를 적어두는 거예요.
 3. 이렇게 적어두면 다음번에 게임을 이어서 하거나 친구가 대신할 때, 왜 그런 선택을 했는지 바로 이해하고 똑같은 고민을 하지 않아도 된답니다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 142 / 530
+
+← **이전**: [[098_saam_software_architecture_analysis_method|98. SAAM (Software Architecture Analysis Method) - 소프트웨어 아키텍처 평가법의 시초]]
+**다음**: [[100_architecture_tactics_quality_attributes|100. 아키텍처 전술 (Architecture Tactics) - 품질 속성 달성을 위한 설계 전략]] →
+
+---

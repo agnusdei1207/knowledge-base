@@ -171,3 +171,14 @@ DataOps 플랫폼 (데이터 파이프라인 자동화 표준화)
 1. dbt는 요리 레시피북이에요. 재료(원천 [[001_dikw_pyramid|데이터]])를 어떻게 손질하고(staging) 조합해서(intermediate) 요리(mart)를 만드는지 단계별로 적혀 있어요.
 2. [[090_configuration_item|CI]]/CD는 요리를 내보내기 전에 자동으로 맛을 보는 로봇이에요. 맛이 이상하면 손님(비즈니스)에게 안 내보내요.
 3. [[001_dikw_pyramid|Data]] Lineage는 어떤 재료가 어떤 요리에 들어갔는지 추적하는 기록부예요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 302 / 482
+
+← **이전**: [[301_kafka_topic_partition_consumer_group|301. 카프카 토픽 파티셔닝 기반 컨슈머 그룹 부하 분산 (Kafka Topic Partition Consumer Group)]]
+**다음**: [[303_mlops_feature_store|303. MLOps 피처 스토어 데이터마트 연동 (MLOps Feature Store)]] →
+
+---

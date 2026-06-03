@@ -191,3 +191,14 @@ OWASP Top 10 → 43개 약점 → CVSS 점수 → 조치 우선순위
 1. SW 보안 진단은 자동차 출고 전 안전 검사다 — 도로에 나가기 전에 브레이크([[503_security_features_design|보안 기능]])가 제대로 작동하는지 확인한다.
 2. SAST는 시험지를 제출 전에 선생님이 미리 검사하는 것이다 — 오답을 미리 찾아서 고칠 수 있다.
 3. DevSecOps는 음식 만들면서 맛을 보는 것이다 — 다 만들고 맛보는 것보다 중간중간 확인하면 훨씬 맛있는 요리가 나온다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 41 / 530
+
+← **이전**: [[032_audit_automation_tools|32. 감리 자동화 도구 (Audit Automation Tools)]]
+**다음**: [[033_function_point_verification|33. 기능점수 검증 (Function Point Verification)]] →
+
+---

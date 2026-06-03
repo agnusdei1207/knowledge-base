@@ -156,3 +156,14 @@ Assurance / Telemetry / Self-Healing
 1. 예전에는 네트워크를 고치려면 기계를 하나씩 직접 만져야 했어요.
 2. IBN은 "빠르고 안전하게 연결해 줘"라고 말하면 알아서 방법을 찾는 똑똑한 도우미예요.
 3. 그리고 잘 되고 있는지도 계속 확인해서 틀어지면 다시 맞춰 줘요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 520 / 530
+
+← **이전**: [[441_mlops|441. MLOps 드리프트 파이프라인 모니터링 (MLOps Drift Pipeline Monitoring)]]
+**다음**: [[443_process|443. 지식 그래프 시맨틱 웹 온톨로지망 (Knowledge Graph Semantic Web Ontology)]] →
+
+---

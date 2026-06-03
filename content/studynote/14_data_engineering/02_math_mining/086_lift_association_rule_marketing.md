@@ -86,3 +86,14 @@ Lift는 같이 자주 보이는 것과 정말 의미 있게 연결된 것을 구
 1. 쿠키를 사는 사람 옆에 우유가 자주 보이면 둘이 같이 잘 팔리는지 보는 일과 같다.
 2. 그냥 인기 있는 물건인지, 정말 연관이 있는지는 따로 봐야 한다.
 3. Lift는 우연보다 더 붙어 다니는지 알려 준다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 86 / 258
+
+← **이전**: [[085_confidence_association_rule_conditional_probability|85. 신뢰도 (Confidence) - 연관 규칙 조건부 확률]]
+**다음**: [[087_fp_growth_algorithm_frequent_pattern_tree|87. FP-Growth 알고리즘 - 트리 기반의 고속 빈발 항목 추출]] →
+
+---

@@ -136,3 +136,14 @@ LB 트래픽 스위치
 1. 같은 놀이터를 두 개 준비해 두면 옮기기가 쉬워요.
 2. 먼저 새 놀이터를 살펴보고 괜찮을 때만 이동해요.
 3. 문제가 생기면 다시 원래 놀이터로 바로 돌아갈 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 84 / 373
+
+← **이전**: [[083_rolling_update_deployment_zero_downtime_version_inconsistency|83. 롤링 배포 (Rolling Update) - K8s 기본 점진적 무중단 배포]]
+**다음**: [[085_canary_release_progressive_delivery_weight_routing|85. 카나리 배포 (Canary Release) - 1% 트래픽 점진적 무중단 배포]] →
+
+---

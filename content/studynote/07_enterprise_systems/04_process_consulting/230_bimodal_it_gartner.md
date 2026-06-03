@@ -159,3 +159,14 @@ Enterprise-wide agile modernization
 1. 어떤 일은 천천히 아주 조심해서 해야 하고, 어떤 일은 빨리 해 보며 배워야 해요.
 2. 바이모달 IT는 그 두 가지 일을 같은 회사 안에서 따로 잘하게 만드는 방법이에요.
 3. 대신 둘이 부딪히지 않도록 사이에 약속된 문과 규칙을 꼭 만들어야 해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 230 / 482
+
+← **이전**: [[229_it_ppm_portfolio_management|229. IT 포트폴리오 관리 (IT Project Portfolio Management)]]
+**다음**: [[231_bizdevops_squad_agile|231. BizDevOps 스쿼드 조직 (BizDevOps Squad Agile)]] →
+
+---

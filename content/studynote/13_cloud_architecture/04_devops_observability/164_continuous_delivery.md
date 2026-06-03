@@ -71,3 +71,14 @@ GitOps · Progressive Delivery (Canary · Blue-Green)
 ```
 - "이제 가게로 보내도 좋아요!"라고 공장장님이 사인을 보내기만 기다리는 거죠.
 - 언제든 사인만 나면 바로 트럭에 실어서 출발할 수 있게 준비를 다 마친 상태랍니다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 163 / 371
+
+← **이전**: [[163_continuous_integration_ci_automated_build_test|지속적 통합 (CI, Continuous Integration)]]
+**다음**: [[165_continuous_deployment|165. 지속적 배포 (Continuous Deployment)]] →
+
+---

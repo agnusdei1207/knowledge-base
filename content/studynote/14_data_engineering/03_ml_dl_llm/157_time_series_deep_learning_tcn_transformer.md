@@ -168,3 +168,14 @@ Transformer 기반 시계열
     ▼
 Foundation Model for Time Series (TimesFM, Chronos)
 ```
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 157 / 258
+
+← **이전**: [[156_recommendation_system_deepfm_collaborative_filtering|156. 추천 시스템 DeepFM (Deep Factorization Machine) 협업 필터링]]
+**다음**: [[158_multimodal_clip_vision_audio_encoding|158. 멀티모달 (Multimodal) 비전/오디오 동시 인코딩 CLIP]] →
+
+---

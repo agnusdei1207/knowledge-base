@@ -138,3 +138,14 @@ GSLB + Active-Active — 글로벌 제로다운타임
 1. 멀티클러스터는 여러 나라에 지점이 있는 편의점 체인이에요. 한 지점이 닫혀도 옆 지점에서 물건을 살 수 있어요.
 2. Argo CD는 본사에서 신메뉴를 만들면 자동으로 모든 지점에 알려주는 통합 관리 시스템이에요.
 3. Submariner는 각 지점이 땅 아래 비밀 통로로 연결되어 있어서 서로 [[001_dikw_pyramid|데이터]]를 주고받을 수 있는 거예요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 364 / 373
+
+← **이전**: [[363_sdn_sddc_vxlan|363. SDN SDDC VXLAN 논리망 오버레이 통신 제어망 (SDN SDDC VXLAN Logical Network Overlay]]
+**다음**: [[365_c_v2x_5g|365. C-V2X 자율주행 모빌리티 5G 엣지 레이턴시 제어 (C-V2X Cellular Vehicle-to-Everything 5G]] →
+
+---

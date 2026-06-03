@@ -113,3 +113,14 @@ DataOps는 [[001_dikw_pyramid|데이터]] 파이프라인의 [[642_reliability_m
 1. DataOps는 요리 재료([[001_dikw_pyramid|데이터]])가 신선한지 매번 [[396_validation|확인]]하는 주방 점검 시스템이에요.
 2. [[576_feature_flag_ab_testing_rollout|피처 플래그]]는 케이크를 구워두고 생일날에만 꺼내는 비밀 서랍이에요.
 3. 노코드는 레고처럼 조각을 맞추기만 하면 앱을 만들 수 있게 해주는 도구예요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 523 / 552
+
+← **이전**: [[522_dark_data_clean_room_mydata|522. 다크 데이터, 클린 룸, 마이데이터 (Dark Data Clean Room MyData)]]
+**다음**: [[524_aiops_llmops_observability_distributed_tracing|524. AIOps, LLMOps, 옵저버빌리티, 분산 추적 (AIOps LLMOps Observability Distributed Tracing)]] →
+
+---

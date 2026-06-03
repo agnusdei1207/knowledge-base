@@ -127,3 +127,14 @@ Ordered Map
 길게 돌아가지 않아도 되는 지름길이 있어요.  
 여러 층으로 올라가며 빨리 찾아가요.  
 스킵 리스트는 그런 지름길 목록이에요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 118 / 587
+
+← **이전**: [[067_service_operation|67. 서비스 운영 (Service Operation)]]
+**다음**: [[068_csi|68. 지속적 서비스 개선 (CSI, Continual Service Improvement)]] →
+
+---

@@ -265,3 +265,14 @@ WAF는 [[690_firewall_generation_evolution|방화벽]]에서 출발해 현재 �
 1. [[696_waf_web_application_firewall|WAF]](웹 [[690_firewall_generation_evolution|방화벽]])는 우리 집(웹사이트) 우편함에 도착한 편지들을 하나하나 뜯어서 꼼꼼히 읽어보는 아주 꼼꼼한 탐정 보안관이에요.
 2. 겉보기엔 멀쩡한 편지 봉투(일반 네트워크 패킷)라도, 그 안에 우리 집 비밀번호 금고를 열어버리려는 도둑의 사기 편지(해커의 악성 스크립트)가 숨어있을 수 있거든요.
 3. 탐정 보안관은 외계어처럼 꼬아놓은 글씨(인코딩)도 척척 해독해서 나쁜 글이 보이면 즉시 편지를 찢어버림으로써 우리 집 금고([[002_database_definition|데이터베이스]])를 안전하게 지켜준답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 1114 / 1120
+
+← **이전**: [[992_firewall_stateful_inspection|992. 방화벽 (Stateful Inspection)]]
+**다음**: [[994_ids_ips_detection|994. IDS / IPS 탐지 차단율]] →
+
+---

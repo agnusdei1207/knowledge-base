@@ -114,3 +114,14 @@ tags:
 1. 베이즈 룰은 "[[167_sql_hint_optimizer_override|힌트]]를 얻을수록 정답에 가까워지는 스무고개 게임"이에요.
 2. 처음엔 "동물일 [[130_probability|확률]] 50%"에서 시작해, [[167_sql_hint_optimizer_override|힌트]](날개 있음, 물속 삶)를 들을수록 "펭귄 [[130_probability|확률]] 90%"로 업데이트돼요.
 3. AI는 이 방법으로 새 [[001_dikw_pyramid|데이터]]를 볼 때마다 자신의 믿음을 계속 갱신하며 점점 똑똑해져요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 349 / 420
+
+← **이전**: [[348_mle|348. 최대 우도 추정 (MLE, Maximum Likelihood Estimation)]]
+**다음**: [[350_laplace_smoothing|350. 라플라스 스무딩 (Laplace Smoothing)]] →
+
+---

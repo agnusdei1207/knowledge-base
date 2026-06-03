@@ -125,3 +125,14 @@ tags:
 1. 동의 방식 (Opt-in / Opt-out, Explicit Consent)는 내 이름표와 비밀 상자를 어떻게 안전하게 다룰지 정하는 약속이에요.
 2. 작은 조각 정보도 모이면 내가 누구인지 알 수 있어요.
 3. 그래서 꼭 필요한 것만 모으고, 다 쓰면 빨리 치워야 해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 864 / 1108
+
+← **이전**: [[789_terms_of_use|789. 이용약관 (Terms of Use)]]
+**다음**: [[791_gdpr_eu|791. GDPR (EU General Data Protection Regulation)]] →
+
+---

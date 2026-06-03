@@ -151,3 +151,14 @@ NoC · CXL 기반 다중 outstanding 패브릭
 1. 분리 [[191_transaction_concept_states|트랜잭션]]은 음식을 주문하고 진동벨을 받은 뒤 자리에서 기다리는 것과 같아요.
 2. 내가 기다리는 동안 다른 친구들도 카운터에서 계속 주문할 수 있어서 가게가 덜 막혀요.
 3. 벨이 울리면 그때 내 음식만 찾아오면 되니까, 기다리는 시간도 낭비가 덜 된답니다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 563 / 803
+
+← **이전**: [[562_burst_bus_transaction|562. 버스트 버스 트랜잭션 (Burst Bus Transaction)]]
+**다음**: [[564_asynchronous_bus_handshake|564. 비동기 버스 핸드셰이크 프로토콜 (Asynchronous Bus Handshake Protocol)]] →
+
+---

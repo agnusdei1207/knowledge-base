@@ -124,3 +124,14 @@ tags:
 1. 소프트웨어 라이선스 컴플라이언스는 일을 잘했는지 [[396_validation|확인]]하는 [[435_checklist_based_testing|체크리스트]]를 만들고, 실제로 했다는 증거를 모으는 방법이에요.
 2. 약속한 대로 했는지, 빠진 것은 없는지, 고친 뒤 다시 [[396_validation|확인]]했는지를 차례대로 보는 거예요.
 3. 그래서 나중에 문제가 생겨도 누구 말이 맞는지 금방 알 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 95 / 530
+
+← **이전**: [[062_backup_archiving_policy_full_incremental|62. 백업 및 아카이빙 정책 - Full/Incremental/Differential 점검]]
+**다음**: [[063_software_license_compliance_gpl_mit|63. 소프트웨어 라이선스 컴플라이언스 (Software License Compliance)]] →
+
+---

@@ -134,3 +134,14 @@ mTLS를 잘 적용하면 취약점 발견 시점을 앞당기고, [[164_policy|�
 1. mTLS는 복잡한 일을 순서와 규칙으로 정리해서 실수하지 않게 도와주는 방법이에요.
 2. [[159_pki_public_key_infrastructure|PKI]] 같은 친구들과 같이 움직여야 더 잘 작동해요.
 3. 그래서 문제가 생겨도 어디서 틀렸는지 빨리 찾고 다시 고치기 쉬워져요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 207 / 373
+
+← **이전**: [[206_sidecar_pod|206. 사이드카 (Sidecar) 패턴]]
+**다음**: [[208_cqrs_command_query_responsibility_segregation|208. CQRS (Command Query Responsibility Segregation)]] →
+
+---

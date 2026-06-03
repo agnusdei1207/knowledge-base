@@ -244,3 +244,14 @@ Fine-Tuning · Prompt Engineering · In-Context Learning
 ```
 2. [[265_emergent_abilities|창발성]]은 레고 블록과 같아. 블록 몇 개로는 별로 못 만들지만, 아주 많이 모이면 갑자기 성이나 로켓 같은 것을 만들 수 있게 되는 마법 같은 일이야.
 3. 제로샷 학습은 설명서 없이 새 게임을 켰는데 이전에 비슷한 게임을 많이 해봐서 바로 잘 하는 것이야.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 247 / 258
+
+← **이전**: [[246_transformer_self_attention_parallel_positional_encoding|246. 트랜스포머 (Transformer) 셀프 어텐션 병렬 처리 포지셔널 인코딩]]
+**다음**: [[248_bert_encoder_mlm_gpt_decoder_autoregressive_comparison|248. BERT 인코더 MLM vs GPT 디코더 자동 회귀 (Autoregressive) 심화 비교]] →
+
+---

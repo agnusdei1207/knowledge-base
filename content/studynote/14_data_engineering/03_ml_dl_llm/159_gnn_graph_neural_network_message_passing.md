@@ -147,3 +147,14 @@ GNN 변형
     ▼
 GraphRAG — 지식 그래프 + LLM 결합
 ```
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 159 / 258
+
+← **이전**: [[158_multimodal_clip_vision_audio_encoding|158. 멀티모달 (Multimodal) 비전/오디오 동시 인코딩 CLIP]]
+**다음**: [[160_knowledge_graph_graphrag_integration|160. 지식 그래프 (Knowledge Graph) + GraphRAG 연동망]] →
+
+---

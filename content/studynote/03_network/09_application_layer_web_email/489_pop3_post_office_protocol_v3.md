@@ -214,3 +214,14 @@ POP3는 SMTP에서 출발해 현재 메커니즘을 정교화하고, 이후 IMAP
 1. 친구가 나한테 이메일을 보내면, 내 컴퓨터로 바로 날아오는 게 아니라 동네 우체통(서버)에 임시로 쌓여있어요.
 2. **POP3**는 내가 직접 우체통에 가서 **편지들을 몽땅 내 가방(컴퓨터)에 쓸어 담아 오고 우체통은 텅 비게 치워버리는 규칙**이에요.
 3. 내 컴퓨터에서는 언제든 편지를 볼 수 있지만, 나중에 내 스마트폰으로 우체통을 열어보면 편지가 이미 치워지고 없어서 "어? 내 편지 다 어디 갔지?" 하고 멘붕에 빠지기 쉬운 옛날 방식이랍니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 610 / 1120
+
+← **이전**: [[488_smtp_simple_mail_transfer_protocol|488. SMTP (Simple Mail Transfer Protocol)]]
+**다음**: [[490_imap4_internet_message_access_protocol|490. IMAP4 (Internet Message Access Protocol v4)]] →
+
+---

@@ -242,3 +242,14 @@ Promise/Future 패턴은 콜백 지옥을 해결하고 비동기 코드의 가�
 1. Promise는 은행 대기표 — "아직 처리 중(Pending)", "처리 완료(Fulfilled)", "처리 불가(Rejected)" 세 가지 상태가 있고, 완료되면 다음 할 일(.then())을 알아서 실행해줘.
 2. async/await는 마법 일시정지 버튼 — `await` 앞에서 잠깐 멈추고 결과를 받을 때까지 기다리지만, 다른 친구들(다른 코드)은 계속 놀게 해줘.
 3. `Promise.all()`은 모든 친구가 준비될 때까지 기다렸다가 같이 출발하는 것이고, `Promise.race()`는 제일 빨리 준비된 친구를 따라가는 것이야.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 282 / 530
+
+← **이전**: [[220_callback_pattern|220. 콜백 패턴 (Callback Pattern)]]
+**다음**: [[222_mocking_unit_test_stub|222. 모킹과 단위 테스트 (Mocking / Unit Test / Test Double)]] →
+
+---

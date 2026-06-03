@@ -119,3 +119,14 @@ tags:
 1. 작년에 "겨울에는 사람들이 [[098_padding_convolutional_neural_network_same_valid|패딩]]을 좋아해"라고 배운 똘똘한 점원 로봇이 있어요.
 2. 그런데 지금은 8월 한여름인데(세상의 변화, 드리프트), 로봇은 옛날 기억만 믿고 들어오는 손님마다 땀을 뻘뻘 흘리는데도 털 [[098_padding_convolutional_neural_network_same_valid|패딩]]을 추천해요!
 3. 그래서 사장님이 "지금은 여름이야, 반팔을 추천해야지!"라고 오늘 날씨(최신 [[001_dikw_pyramid|데이터]])를 다시 가르쳐주는 것(재학습)이 꼭 필요하답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 468 / 552
+
+← **이전**: [[467_feature_store_data_sharing|467. 피처 스토어 (Feature Store)와 특징 변수 공유]]
+**다음**: [[469_xai_lime_shap_local_global_attribution|469. XAI, LIME, SHAP: 국소/전역 기여도 해석 (XAI LIME SHAP Local Global Attribution)]] →
+
+---

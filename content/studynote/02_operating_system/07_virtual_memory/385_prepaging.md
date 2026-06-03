@@ -198,3 +198,14 @@ C++ 리눅스 백엔드 서버를 짤 때, 개발자는 `madvise()` 시스템 �
 1. 선행 [[259_paging|페이징]] (Prepaging)은 컴퓨터가 메모리를 더 크게 보이게 하고 부족함을 숨기는 방법이에요.
 2. 먼저 [[384_pure_demand_paging|순수 요구 페이징]] ([[384_pure_demand_paging|Pure Demand Paging]])을 이해하면 선행 [[259_paging|페이징]] (Prepaging)이 왜 필요한지 더 쉽게 보여요.
 3. 그래서 선행 [[259_paging|페이징]] (Prepaging)을 잘 알면 나중에 [[386_valid_invalid_bit|유효-무효 비트]] ([[355_paging_memory_protection|Valid-Invalid Bit]])도 훨씬 쉽게 배울 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 385 / 800
+
+← **이전**: [[384_pure_demand_paging|384. 순수 요구 페이징 (Pure Demand Paging) - 시작할 때 아무것도 안 올림]]
+**다음**: [[386_valid_invalid_bit|386. 유효-무효 비트 (Valid-Invalid Bit) - 적재 여부 표시]] →
+
+---

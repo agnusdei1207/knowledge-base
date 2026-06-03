@@ -264,3 +264,14 @@ private volatile static Singleton instance;
 1. `synchronized`는 화장실 문 자물쇠 — 들어갈 때 잠그고, 나올 때(예외가 나도!) 자동으로 열려요.
 2. `wait()`는 "줄이 너무 길면 잠깐 대기실로 가세요", `notify()`는 "이제 들어오세요!" 신호예요.
 3. `ReentrantLock`은 더 똑똑한 자물쇠 — "5초 기다려도 안 열리면 포기"나 "키 가진 사람 순서대로" 같은 세밀한 규칙도 설정할 수 있어요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 249 / 800
+
+← **이전**: [[248_dining_philosophers_problem|248. 식사하는 철학자 문제 (Dining-Philosophers Problem) - 교착상태 및 기아 상태 예방]]
+**다음**: [[250_pthreads_synchronization|250. Pthreads 동기화 (Pthreads Synchronization)]] →
+
+---

@@ -197,3 +197,14 @@ Windows [[022_kernel_role|커널]]의 DPC(Deferred Procedure [[189_subroutine_ca
 1. 피자 가게에 전화 주문([[016_interrupt_mechanism|인터럽트]])이 미친 듯이 쏟아져요. 전화를 받으면서 피자까지 만들면 전화기가 터져버릴 거예요.
 2. 그래서 사장님은 일단 전화([[020_isr|ISR]])만 1초 만에 받고 영수증을 바구니에 휙 던져놔요. 그리고 짬이 날 때마다 요리사(DPC)가 바구니에서 영수증을 꺼내 피자를 만들죠.
 3. 피자가 다 구워지면 배달부(APC) 오토바이에 실어 보내요. 배달부는 손님([[092_thread_lwp|스레드]])이 문을 열어줄 때(Alertable)까지 기다렸다가 피자를 완벽하게 전달한답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 664 / 800
+
+← **이전**: [[663_macos_ios_gcd_grand_central_dispatch|663. macOS/iOS Grand Central Dispatch (GCD) 블록 및 디스패치 큐 기반 동시성 구조]]
+**다음**: [[665_windows_registry_configuration_manager|665. 시스템 레지스트리 (Windows Registry) 및 구성 데이터베이스 관리 구조]] →
+
+---

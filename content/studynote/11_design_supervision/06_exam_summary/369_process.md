@@ -111,3 +111,14 @@ tags:
 1. [[249_event_sourcing_append_only_state_reconstruction|이벤트 소싱]] ([[307_event_sourcing|Event Sourcing]])은 오늘 점수만 적는 대신 경기 기록을 매번 남겨 다시 볼 수 있게 하는 것처럼 약속을 먼저 정하는 거예요.
 2. 그러면 서로 다른 사람이 해도 같은 규칙으로 움직일 수 있어요.
 3. 그래서 규모가 커질수록 상태 변화 자체를 원본 사실로 보존하는 일이 더 중요해져요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 447 / 530
+
+← **이전**: [[368_cqrs|368. 명령-조회 책임 분리 (Command Query Responsibility Segregation, CQRS)]]
+**다음**: [[370_process|370. 마이크로서비스 아키텍처 (Microservice Architecture, MSA)]] →
+
+---

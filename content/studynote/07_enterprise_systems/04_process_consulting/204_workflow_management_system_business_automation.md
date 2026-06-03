@@ -135,3 +135,14 @@ Low-Code Workflow · Hyperautomation
 1. WfMS는 일을 다음 사람에게 자동으로 넘겨 주는 똑똑한 줄 서기 기계예요.
 2. 누가 아직 안 했는지도 알려 주고, 다 끝나면 다음 칸으로 바로 보내 줘요.
 3. 그래서 회사 일이 잊히지 않고 차례대로 잘 흘러가요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 204 / 482
+
+← **이전**: [[203_bpmn_business_process_model_and_notation|203. BPMN (Business Process Model and Notation)]]
+**다음**: [[205_process_mining_event_log_discovery_conformance|205. 프로세스 마이닝 (Process Mining)]] →
+
+---

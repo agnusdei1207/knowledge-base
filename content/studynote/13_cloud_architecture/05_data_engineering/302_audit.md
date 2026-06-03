@@ -113,3 +113,14 @@ tags:
 1. [[642_observability_telemetry|옵저버빌리티]] 관측성 [[568_logs_distributed_logging_elk_fluentd|로그]] [[342_routing_metric_hop_bandwidth_delay|메트릭]] [[569_distributed_tracing_opentelemetry_jaeger|분산 추적]]는 사람이 많은 운동회에서 어디로 가야 하는지 알려 주는 안내판과 비슷해요.
 2. 규칙이 없으면 모두가 한곳에 몰려서 느려지고 다투지만, 길을 정해 두면 훨씬 부드럽게 움직일 수 있어요.
 3. 그래서 컴퓨터 세상에서도 [[642_observability_telemetry|옵저버빌리티]] 관측성 [[568_logs_distributed_logging_elk_fluentd|로그]] [[342_routing_metric_hop_bandwidth_delay|메트릭]] [[569_distributed_tracing_opentelemetry_jaeger|분산 추적]]를 쓰면 많은 팀과 [[090_service_kubernetes_network_load_balancing|서비스]]가 덜 부딪히고 더 빨리 움직일 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 301 / 371
+
+← **이전**: [[301_sli_slo_sla|301. SLI SLO SLA 서비스 레벨 지표 목표 협약 (SLI SLO SLA)]]
+**다음**: [[303_trace_id|303. 분산 추적 Trace ID 병목 파악 오픈텔레메트리 (Trace ID)]] →
+
+---

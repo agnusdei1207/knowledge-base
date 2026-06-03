@@ -64,3 +64,14 @@ Prompt Tuning: 프롬프트 벡터만 학습 (가장 경량)
 1. Fine-tuning은 **대학 졸업생이 회사에서 실무를 배우는** 거예요.
 2. LoRA는 **핵심 과목만 추가 수강**하는 효율적인 방법이에요.
 3. [[404_qlora|QLoRA]] 덕분에 **작은 컴퓨터**로도 AI를 맞춤 교육할 수 있답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 133 / 420
+
+← **이전**: [[132_transfer_learning|132. Transfer Learning (전이 학습) - 사전 학습 모델의 재활용]]
+**다음**: [[134_peft|134. PEFT (Parameter-Efficient Fine-Tuning) - 소수 파라미터만 학습하는 효율적 미세 조정]] →
+
+---

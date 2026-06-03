@@ -167,3 +167,14 @@ spring:
 1. 클라이언트-서버 DB는 식당 주문 시스템이에요 — 손님(클라이언트)이 주문하면 주방(DB 서버)에서 처리해요!
 2. 커넥션 풀은 택시 대기소예요 — 미리 연결을 만들어둬서 요청이 오면 즉시 [[090_service_kubernetes_network_load_balancing|서비스]]해요!
 3. 현대 앱은 3-Tier로 브라우저→앱서버→DB 서버 구조로 동작해요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 31 / 600
+
+← **이전**: [[030_data_integrity_security|30. 데이터 무결성과 보안 — 데이터베이스 안전의 두 축]]
+**다음**: [[032_tp_monitor|TP 모니터 (Transaction Processing Monitor)]] →
+
+---

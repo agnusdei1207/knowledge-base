@@ -139,3 +139,14 @@ tags:
 1. [[067_data_steward_data_quality|데이터 스튜어드]] 품질 오너십는 복잡한 일을 순서대로 정리해 주는 큰 정리함이에요.
 2. 어디에 무엇을 넣을지 먼저 정해 두면, 나중에 찾거나 고칠 때 훨씬 쉬워져요.
 3. 그래서 일이 커질수록 먼저 기준을 만들고 같이 약속하는 것이 중요해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 341 / 482
+
+← **이전**: [[340_shadow_it_casb|340. 섀도우 IT CASB 솔루션 통제 (Shadow IT CASB)]]
+**다음**: [[342_mdm_master_data_golden_record|342. MDM 마스터 데이터 골든 레코드 (Master Data Management Golden Record)]] →
+
+---

@@ -125,3 +125,14 @@ LLM08: Autonomous Agent Risk를 제대로 이해하면 개념 하나를 외우�
 1. LLM08: Autonomous Agent Risk는 컴퓨터 세상을 더 안전하게 만들기 위한 중요한 약속이나 도구예요.
 2. 겉으로는 어려워 보여도, 왜 필요한지와 어떻게 움직이는지를 알면 훨씬 쉬워져요.
 3. 그래서 이름만 외우지 말고 어디에 쓰이는지 같이 기억해야 해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 1084 / 1108
+
+← **이전**: [[982_ssl_tls_handshake_session_key_exchange_https|982. SSL/TLS 핸드셰이크 (Ssl TLS Handshake Session Key Exchange Https)]]
+**다음**: [[983_vpn_virtual_private_network_tunneling_encryption|983. VPN (가상 사설망)]] →
+
+---

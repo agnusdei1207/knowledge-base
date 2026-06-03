@@ -163,3 +163,14 @@ OS [[022_kernel_role|커널]]이 데드락을 무시한다는 것은, **데드�
 1. 길을 가다가 1년에 한 번쯤 떨어지는 벼락(데드락)을 맞을까 봐, 매일 무거운 강철 헬멧과 갑옷(예방 [[001_algorithm_definition|알고리즘]])을 입고 다니면 너무 힘들어서 뛰어놀 수가 없어요.
 2. **[[291_ostrich_algorithm|타조 알고리즘]]**은 "에이, 벼락 맞을 [[130_probability|확률]] 거의 없는데 그냥 평상복 입고 신나게 뛰어놀자!"라고 쿨하게 무시해 버리는 방법이에요.
 3. 아주아주 가끔 진짜 벼락(데드락)을 맞아서 컴퓨터가 멈추면, 그냥 "어이쿠 재수 없네" 하고 전원 버튼을 눌러 껐다 켜면 다시 새것처럼 놀 수 있답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 240 / 800
+
+← **이전**: [[239_resource_allocation_graph|239. 자원 할당 그래프 (Resource Allocation Graph, RAG)]]
+**다음**: [[241_bankers_algorithm_data_structures|241. 은행원 알고리즘의 4대 자료구조 (Max, Allocation, Need, Available)]] →
+
+---

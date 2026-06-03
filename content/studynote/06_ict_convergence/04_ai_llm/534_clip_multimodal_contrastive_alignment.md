@@ -159,3 +159,14 @@ CLIP은 이미지와 언어를 통합한 [[158_multimodal_clip_vision_audio_enco
 1. "귀여운 고양이 사진"이라는 문장과 실제 고양이 사진을 같은 언어로 번역해 나란히 놓는 훈련이 CLIP이에요.
 2. 이 덕분에 "새로운 동물 이름"을 가르쳐주지 않아도 AI가 사진만 보고 무엇인지 맞힐 수 있어요.
 3. 하지만 인터넷에서 배웠기 때문에 사람들의 편견도 함께 배웠다는 문제가 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 534 / 552
+
+← **이전**: [[533_ldm_latent_diffusion_model_optimization|533. LDM 잠재 디퓨전 모델과 생성 최적화 (LDM Latent Diffusion Model Generation Optimization)]]
+**다음**: [[535_moe_mixture_of_experts|535. 전문가 혼합 모델 (Mixture of Experts, MoE)]] →
+
+---

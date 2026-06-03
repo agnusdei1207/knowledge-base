@@ -256,3 +256,14 @@ Boolean Parser [[277_interpreter_pattern|Interpreter]] 패턴은 비즈니스 �
 1. 인터프리터는 번역기 — "나이 >= 18 그리고 회원등급 = VIP" 같은 조건문(DSL)을 컴퓨터가 이해하는 true/false로 번역해줘.
 2. 번역하는 순서는 먼저 단어로 쪼개고(Lexer), 그다음 문장 구조를 파악하고(Parser → AST), 마지막으로 실제로 계산해서(Evaluator) 답을 내.
 3. 이 방법 덕분에 "접속 허용 규칙"을 개발자가 코드를 바꾸지 않아도 비개발자가 텍스트로 수정할 수 있어 — 마치 법률 조항을 바꾸는 것처럼.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 288 / 530
+
+← **이전**: [[226_leaky_bucket_traffic_shaping|226. 리키 버킷 트래픽 쉐이핑 (Leaky Bucket Traffic Shaping)]]
+**다음**: [[228_context_map_acl_pattern|228. 컨텍스트 맵과 ACL 패턴 (Context Map / Anti-Corruption Layer Pattern)]] →
+
+---

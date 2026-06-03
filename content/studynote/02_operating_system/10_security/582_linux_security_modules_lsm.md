@@ -179,3 +179,14 @@ SELinux는 LSM의 **기본 구현(security_ops)**으로 등록되어 있다.
 2. **[[583_selinux|SELinux]]**는 놀이공원의 **"[[766_nsa_non_standalone_5g_lte_core|NSA]] [[303_authentication_authorization_patterns|인증]] 경비 회사"**이고, **[[584_apparmor|AppArmor]]**는 **"SUSE 경비 회사"**이다. 둘 다 Hook에 연결할 수 있지만, 동시에 두 개의 경비 회사를 고용하는 것은 불가능하다.
 
 3. **Enforcing vs Permissive**는 경비 회사의 **"적용 모드"**와 같다. Enforcing은 규칙을 위반하면 입장 차단하고, Permissive는Violations(위반)을 기록만 하고 입장은 허용한다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 582 / 800
+
+← **이전**: [[581_biba_model|581. 비바 모델 (Biba Model) - 무결성 위주 정책 (No Read Down, No Write Up)]]
+**다음**: [[583_selinux|583. SELinux]] →
+
+---

@@ -253,3 +253,14 @@ DKL(P||Q) = Σ P(x) log(P(x)/Q(x))
 1. ⚖️ **"다른 게임은 다른 점수판"**
 2. 다트 게임(회귀)은 과녁 중심에서 얼마나 멀었는지([[076_mse_mean_squared_error_regression|MSE]])로 점수를 매겨요 — 멀수록 큰 감점이에요.
 3. OX 퀴즈([[104_classification_analysis|분류]])는 맞았냐 틀렸냐 + 얼마나 확신했냐([[154_cross_entropy|크로스 엔트로피]])로 채점해요 — "맞다고 100% 확신했는데 틀리면" 엄청 큰 패널티!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 273 / 420
+
+← **이전**: [[272_backpropagation|272. 역전파 (Backpropagation)]]
+**다음**: [[274_optimizer_learning_rate|274. 옵티마이저 (Optimizer)]] →
+
+---

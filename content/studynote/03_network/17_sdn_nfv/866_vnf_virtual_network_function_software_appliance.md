@@ -127,3 +127,14 @@ VNF는 NFV에서 출발해 현재 메커니즘을 정교화하고, 이후 NFVI�
 1. 장난감 차를 움직이는 조종기와 차체를 따로 생각하면 바꾸기 쉬워져요.
 2. 이 개념은 네트워크의 머리와 몸을 나눠 더 쉽게 프로그램하게 해줘요.
 3. 그래서 새 규칙을 더 빨리 넣고 바꿀 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 987 / 1120
+
+← **이전**: [[865_nfv_network_functions_virtualization_architecture|865. NFV (네트워크 기능 가상화)]]
+**다음**: [[867_nfvi_nfv_infrastructure_physical_virtual_resources|867. NFVI (NFV 인프라)]] →
+
+---

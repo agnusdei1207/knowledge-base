@@ -133,3 +133,14 @@ tags:
 1. SPACE는 개발자 건강 종합 검진이에요! 만족도, 성과, 활동량, 협업, 집중도 다섯 가지를 동시에 측정해요.
 2. 커밋 수(활동)만 재면 바쁜 척하는 개발자가 높은 점수를 받아요 — SPACE는 진짜 실력(성과)과 행복(만족도)도 함께 봐요!
 3. [[190_ai_llm_requirements_specification|AI]] 코딩 도구(GitHub Copilot)가 활동량을 늘려주면 SPACE 점수가 어떻게 변하는지도 측정할 수 있답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 27 / 373
+
+← **이전**: [[026_mttr|26. MTTR (Mean Time to Recover) — 평균 복구 시간]]
+**다음**: [[028_platform_engineering_idp|28. 플랫폼 엔지니어링과 IDP (Platform Engineering & Internal Developer Platform)]] →
+
+---

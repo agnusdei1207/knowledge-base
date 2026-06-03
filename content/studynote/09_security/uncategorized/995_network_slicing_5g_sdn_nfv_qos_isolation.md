@@ -125,3 +125,14 @@ tags:
 1. [[149_network_slicing_5g_architecture|네트워크 슬라이싱]] ([[149_network_slicing_5g_architecture|Network Slicing]])는 학교 규칙표처럼 무엇을 준비하고 어떻게 확인할지 알려 주는 기준이에요.
 2. 규칙표만 붙여 두고 지키지 않으면 아무 소용이 없어요.
 3. 그래서 보안도 규칙과 실제 행동이 함께 맞아야 해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 1104 / 1108
+
+← **이전**: [[994_ids_ips_intrusion_detection_prevention_false_positive|994. IDS / IPS (Intrusion Detection System)]]
+**다음**: [[996_nfv_vnf_virtual_network_function_cnf|996. NFV 기반 가상화 (VNF)]] →
+
+---

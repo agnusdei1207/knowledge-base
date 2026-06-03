@@ -191,3 +191,14 @@ tags:
 1. 정형 [[001_dikw_pyramid|데이터]]는 칸막이가 나누어진 필통과 같아서, 연필( [[001_dikw_pyramid|데이터]] )마다 정해진 칸이 있어 바로 찾을 수 있어요.
 2. 하지만 칸에 맞는 연필만 넣을 수 있어서 크레파스( [[004_unstructured_data|비정형 데이터]] )는 넣을 수 없어요.
 3. 그래서 [[001_dikw_pyramid|데이터]] 세계에서는 연필도 크레파스도 모두 넣을 수 있는 서랍장( [[208_data_lake_schema_on_read|Data Lake]] )도 함께 필요해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 2 / 258
+
+← **이전**: [[001_bigdata_3v_5v|1. 빅데이터 3V / 5V - 볼륨(Volume), 속도(Velocity), 다양성(Variety), + 진실성(Veracity),]]
+**다음**: [[003_semi_structured_data|3. 반정형 데이터 (Semi-structured Data) - 데이터 내부(태그)에 구조(메타데이터)를 포함 (XML, JSON, 로그)]] →
+
+---

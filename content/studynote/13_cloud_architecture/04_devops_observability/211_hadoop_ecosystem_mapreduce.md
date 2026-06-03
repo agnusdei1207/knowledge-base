@@ -183,3 +183,14 @@ Hadoop 3.0: Erasure Coding + GPU 지원 → 클라우드 최적화
 ```
 2. HDFS는 레고 조각을 여러 상자에 나눠 담고 목록을 관리하는 것이고, YARN은 어느 상자에서 누가 일할지 배정하는 담당자야.
 3. 혼자(단일 서버) 할 수 없는 일을 여럿([[136_variance|분산]] 서버)이 나눠서 하는 게 핵심이야.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 210 / 371
+
+← **이전**: [[210_hadoop_ecosystem_overview|210. 빅데이터 3V/5V와 클라우드 데이터 아키텍처]]
+**다음**: [[212_hdfs_distributed_file_system|212. HDFS (Hadoop Distributed File System)]] →
+
+---

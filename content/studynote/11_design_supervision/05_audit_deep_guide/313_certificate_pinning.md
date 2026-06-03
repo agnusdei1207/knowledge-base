@@ -106,3 +106,14 @@ tags:
 1. 모바일 통신 구간 [[182_certificate_pinning_ssl_tls_security|인증서 핀닝]]은 집 문을 잠그고 누가 드나드는지 기록하는 것과 비슷해요.
 2. 문이 잠겼는지뿐 아니라 열쇠를 누가 갖고 있는지도 같이 봐야 해요.
 3. 그래야 나쁜 사람이 들어왔을 때 바로 막고 다시 고칠 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 384 / 530
+
+← **이전**: [[312_network_firmware_backdoor_monitoring|312. 네트워크 장비 펌웨어 백도어 모니터링 (Network Firmware Backdoor Monitoring Audit)]]
+**다음**: [[314_audit|314. IoT 디바이스 변조 저항성 진단 (IoT Device Tamper Resistance Audit)]] →
+
+---

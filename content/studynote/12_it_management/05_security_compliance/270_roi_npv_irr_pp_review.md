@@ -129,3 +129,14 @@ tags:
 1. [[012_roi_return_on_investment|ROI]], [[013_npv|NPV]], [[014_irr_internal_rate_of_return|IRR]], [[015_payback_period|PP]] 타당성 분석 지표는 모두가 같은 규칙으로 일하게 해 주는 반장 약속표예요.
 2. 약속만 적어 두는 것이 아니라 누가 지켰는지 확인하고 고치는 방법까지 함께 정해요.
 3. 그래서 일이 많아져도 서로 부딪히지 않고 더 안전하게 움직일 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 390 / 587
+
+← **이전**: [[270_investment_analysis_roi_npv|270. ROI, NPV, IRR, PP 타당성 분석 지표]]
+**다음**: [[271_tco_review|271. TCO 총 소유 비용]] →
+
+---

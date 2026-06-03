@@ -151,3 +151,14 @@ Personalized Federated Learning · Hierarchical Federated Learning · Edge AI ec
 1. [[256_federated_learning_privacy_model_security|연합 학습]]은 친구들이 자기 집 공책은 안 보여주고, 공부 잘한 비법만 선생님께 알려주는 거예요.
 2. 선생님은 그 비법들을 모아 더 좋은 요약 노트를 만들고 다시 친구들에게 나눠줘요.
 3. 그래서 비밀은 지키면서도 모두가 조금씩 더 똑똑해질 수 있답니다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 637 / 803
+
+← **이전**: [[635_on_device_ai|635. 온디바이스 AI (On-Device AI)]]
+**다음**: [[637_tinyml_hardware|637. TinyML 하드웨어 제약]] →
+
+---

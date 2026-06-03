@@ -108,3 +108,14 @@ Blameless Postmortem은 **[[100_sre_site_reliability_engineering_error_budget|SR
 1. Blameless Postmortem은 **"누가 틀렸어?"가 아니라 "왜 틀렸어?"**를 찾는 거예요.
 2. 사람을 혼내면 다음에 **실수를 숨기게** 되니까, 시스템을 고쳐요.
 3. 비행기 사고 조사처럼 **원인을 찾아 고치면** 같은 사고가 다시 안 일어나요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 128 / 373
+
+← **이전**: [[127_on_call_management|127. 온콜 관리 (On-Call Management) - SRE 장애 대응 당번 체계]]
+**다음**: [[129_observability_vs_monitoring|129. 관측 가능성 vs 모니터링 (Observability vs Monitoring)]] →
+
+---

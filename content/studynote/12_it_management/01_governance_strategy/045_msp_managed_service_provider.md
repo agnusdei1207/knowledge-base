@@ -136,3 +136,14 @@ tags:
 1. 이 개념은 큰 여행을 떠나기 전에 어디로 갈지 정하는 지도와 같아요.
 2. 지도가 있어야 길을 잃지 않고 필요한 준비물을 챙길 수 있어요.
 3. 그래서 모두가 같은 목적지를 보며 움직일 수 있답니다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 82 / 587
+
+← **이전**: [[045_msp_cloud_managed_service_provider|045. 클라우드 MSP — Cloud Managed Service Provider]]
+**다음**: [[046_sla_service_level_agreement|46. SLA (Service Level Agreement, 서비스 수준 협약서)]] →
+
+---

@@ -122,3 +122,14 @@ RO TRNG는 온칩 난수 공급을 저비용으로 실현해 [[608_secure_boot|�
 1. 전등 스위치를 아주 빠르게 켜고 끄면 항상 똑같을 것 같지만, 실제로는 아주 조금씩 박자가 달라져요.
 2. 컴퓨터는 그 미세한 박자 차이를 모아서 아무도 예측하기 어려운 숫자를 만들어요.
 3. 하지만 한 개만 믿지 않고 여러 개를 섞어야 더 안전한 비밀 번호가 된답니다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 788 / 803
+
+← **이전**: [[786_trng_entropy_source|786. TRNG (True Random Number Generator) 엔트로피 소스]]
+**다음**: [[788_sram_puf|788. SRAM PUF (Physical Unclonable Function)]] →
+
+---

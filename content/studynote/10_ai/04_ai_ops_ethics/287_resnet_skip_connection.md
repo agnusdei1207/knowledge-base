@@ -249,3 +249,14 @@ Faster R-[[243_cnn_stride_pooling_resnet_residual_yolo_object_detection|CNN]] (R
 1. ResNet은 계단을 오를 때 '손잡이(스킵 연결)'를 잡을 수 있는 구조야. 발걸음(일반 층)이 미끄러져도 손잡이를 잡으면 넘어지지 않아.
 2. 각 층은 '전체를 새로 배우는 게 아니라, 이전 것에서 달라진 점(잔차)만 배워'. 그래서 152층이나 되어도 잘 배울 수 있어.
 3. 덕분에 의사 선생님도, 자동차 운전 AI도 ResNet으로 배운 기초 실력을 그대로 가져와서 자기 분야에 맞게 다듬을 수 있어.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 287 / 420
+
+← **이전**: [[286_1x1_convolution|286. 1×1 합성곱 (1x1 Convolution)]]
+**다음**: [[288_object_detection_yolo_rcnn|288. 객체 탐지 (Object Detection)]] →
+
+---

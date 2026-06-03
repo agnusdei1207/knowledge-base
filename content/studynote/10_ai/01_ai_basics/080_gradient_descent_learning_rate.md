@@ -132,3 +132,14 @@ tags:
 1. 학습률은 안대를 쓴 채 산꼭대기에서 가장 깊은 골짜기(정답)를 찾아 내려가는 로봇의 '보폭 크기'예요.
 2. 보폭을 1mm로 너무 작게 하면 1년이 지나도 산을 못 내려오고, 보폭을 100m로 엄청 크게 하면 골짜기를 훌쩍 넘어서 옆 산으로 날아가 버리며 박살이 나요.
 3. 그래서 똑똑한 과학자들은 "처음엔 넓게 성큼성큼 뛰다가, 바닥에 다 와가면 아기처럼 종종걸음으로 미세하게 걸어라!"라고 브레이크([[208_schedule_history_transaction_execution_order|스케줄]]링)를 달아주었답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 80 / 420
+
+← **이전**: [[079_optimizer_gradient_descent|079. 옵티마이저와 경사 하강법 (Optimizer & Gradient Descent)]]
+**다음**: [[081_stochastic_gradient_descent_sgd|81. 확률적 경사 하강법 (SGD, Stochastic Gradient Descent)]] →
+
+---

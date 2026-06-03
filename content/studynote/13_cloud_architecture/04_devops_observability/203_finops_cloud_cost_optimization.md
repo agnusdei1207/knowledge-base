@@ -188,3 +188,14 @@ Unit Economics: 비용 / 사용자 · 트랜잭션 기반 측정
 ```
 2. 먼저 어디서 돈이 나가는지 보고(Inform), 안 쓰는 장치 끄고(Optimize), 매달 계속 확인하는(Operate) 3단계야.
 3. 빠르게 개발하면서도 비용 낭비 없이 지내는 게 목표야. 빠르다고 무조건 돈을 많이 써야 하는 건 아니니까!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 202 / 371
+
+← **이전**: [[202_space_framework_agile_performance|202. SPACE 프레임워크 (SPACE Framework)]]
+**다음**: [[204_pod_security_psa_psp_kubernetes|204. 컨테이너 보안 / Pod 시큐리티 (PSA/PSP)]] →
+
+---

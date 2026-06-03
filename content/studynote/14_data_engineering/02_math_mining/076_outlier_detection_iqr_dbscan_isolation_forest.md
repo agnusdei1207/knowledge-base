@@ -147,3 +147,14 @@ IQR과 Z-score는 통계적 규칙이 명확하고 설명하기 쉽다. 반면 D
 1. 친구들 사이에서 너무 멀리 떨어진 사람은 눈에 띄어요.
 2. 그 사람이 그냥 혼자인지, 진짜 문제가 있는지 봐야 해요.
 3. [[397_outlier_mahalanobis|이상치 탐지]]는 튀는 점을 찾아서 어떻게 할지 정하는 일이에요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 76 / 258
+
+← **이전**: [[075_conditional_probability_bayes_theorem_posterior|75. 조건부 확률(Conditional Probability)과 베이즈 정리(Bayes)]]
+**다음**: [[077_missing_value_imputation_mice_knn_dropna|77. 결측치 처리 - MICE 다중 대치법과 KNN 대치 보간]] →
+
+---

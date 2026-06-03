@@ -168,3 +168,14 @@ trusted_df = raw_df.dropna(subset=["sensor_value"]) \
 1. 3V는 장난감 상자에 온갖 블록이 산처럼 쌓이고 계속 쏟아지는 상태예요.
 2. 하지만 부서진 블록이나 먼지 묻은 블록으로는 멋진 성을 만들 수 없죠. 그래서 깨끗한 진짜 블록만 골라내는 과정이 바로 'Veracity(정확성)'예요.
 3. 그렇게 골라낸 완벽한 블록으로 모두가 깜짝 놀랄 만큼 크고 멋진 성을 완성해 사람들에게 즐거움을 주는 것이 바로 'Value(가치)'랍니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 2 / 262
+
+← **이전**: [[001_bigdata_definition|1. 빅데이터 정의 — 3V: Volume(양) / Velocity(속도) / Variety(다양성) (Laney, 2001)]]
+**다음**: [[003_bigdata_7v|3. 7V — 5V + Visualization(시각화) + Variability(가변성)]] →
+
+---

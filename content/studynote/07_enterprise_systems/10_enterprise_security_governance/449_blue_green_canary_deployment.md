@@ -139,3 +139,14 @@ tags:
 1. 블루/그린 [[115_canary_deployment_gradual_rollout|카나리 배포]] 롤링 다운타임 제로 [[268_strategy_pattern|전략]]는 복잡한 일을 순서대로 정리해 주는 큰 정리함이에요.
 2. 어디에 무엇을 넣을지 먼저 정해 두면, 나중에 찾거나 고칠 때 훨씬 쉬워져요.
 3. 그래서 일이 커질수록 먼저 기준을 만들고 같이 약속하는 것이 중요해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 449 / 482
+
+← **이전**: [[448_bcp_bia_rto_disaster_recovery|448. BCP BIA RTO 재해 복구 비즈니스 파급 분석 (BCP, BIA, RTO/RPO)]]
+**다음**: [[450_pwa_progressive_web_app|450. PWA 프로그레시브 오프라인 캐시 (PWA, Progressive Web App)]] →
+
+---

@@ -135,3 +135,14 @@ Secret Rotation & OIDC/SPIFFE (비밀번호 없는 자격 증명 연동)
 1. 학교 게시판(Git)에 친구에게 줄 비밀 쪽지([[514_secret_management_vault_kms|Secret]])를 그냥 붙이면 나쁜 친구들이 다 읽어버려요.
 2. Sealed Secrets는 비밀 쪽지를 '마법의 암호 상자'에 넣어서 게시판에 붙이게 도와주는 규칙이에요.
 3. 이 상자는 오직 쪽지를 받을 진짜 친구(클러스터 컨트롤러)만이 가진 열쇠로만 찰칵! 하고 열 수 있답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 96 / 373
+
+← **이전**: [[095_secret_manager_hashicorp_vault_aws|95. 시크릿 매니저 (Secret Manager)]]
+**다음**: [[097_deployment_approval_gate_automation|97. 배포 승인 게이트 (Approval Gate) - 배포 통제 및 자동화]] →
+
+---

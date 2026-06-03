@@ -149,3 +149,14 @@ tags:
 1. 프로세스 그룹은 컴퓨터가 여러 프로그램을 한 팀으로 묶어 두는 방법이에요.
 2. 그래서 `Ctrl+C`를 누르면 팀 전체가 함께 멈출 수 있어요.
 3. 한 명씩 부르는 게 아니라 팀 이름으로 불러서 더 쉽게 관리하는 거예요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 159 / 800
+
+← **이전**: [[158_oom_score_adj|158. oom_score_adj - OOM 킬러 우선순위 조정]]
+**다음**: [[160_session_controlling_terminal|160. 세션 (Session) 및 제어 터미널 (Controlling Terminal)]] →
+
+---

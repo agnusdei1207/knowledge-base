@@ -146,3 +146,14 @@ Redirect 메시지는 Echo Request/Reply / Sou…에서 출발해 현재 메커�
 1. 택배를 보내려면 집 주소가 정확해야 길을 잃지 않아요.
 2. 이 개념은 인터넷 세상에서 주소를 정하고 다음 길을 찾는 지도와 같아요.
 3. 그래서 멀리 있는 친구 컴퓨터까지도 편지가 도착할 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 444 / 1120
+
+← **이전**: [[322_echo_request_reply_ping_source_quench|322. Echo Request/Reply (Ping 원리) / Source Quench (혼잡 제어, 구형)]]
+**다음**: [[324_ipv6_128bit_next_generation_address|324. IPv6 (Internet Protocol Version 6)]] →
+
+---

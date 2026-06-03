@@ -211,3 +211,14 @@ tags:
 1. 동적 적재 (Dynamic Loading)은 컴퓨터가 메모리를 방처럼 나눠 쓰고 주소를 찾는 방법이에요.
 2. 먼저 [[330_limit_register|한계 레지스터]] ([[330_limit_register|Limit Register]])을 이해하면 동적 적재 (Dynamic Loading)이 왜 필요한지 더 쉽게 보여요.
 3. 그래서 동적 적재 (Dynamic Loading)을 잘 알면 나중에 [[332_dynamic_linking|동적 연결]] ([[332_dynamic_linking|Dynamic Linking]])도 훨씬 쉽게 배울 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 331 / 800
+
+← **이전**: [[330_limit_register|330. 한계 레지스터 (Limit Register) - 메모리 보호, 주소 범위 검사]]
+**다음**: [[332_dynamic_linking|332. 동적 연결 (Dynamic Linking) - 실행 시점에 라이브러리 연결 (.dll, .so)]] →
+
+---

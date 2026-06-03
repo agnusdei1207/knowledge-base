@@ -176,3 +176,14 @@ tags:
 1. [[286_page_frame|페이지]] 고정 ([[286_page_frame|Page]] Pinning / [[213_locking_mechanism_concurrency_control|Locking]])은 컴퓨터가 메모리를 더 크게 보이게 하고 부족함을 숨기는 방법이에요.
 2. 먼저 [[022_kernel_role|커널]] 메모리 할당의 특징을 이해하면 [[286_page_frame|페이지]] 고정 ([[286_page_frame|Page]] Pinning / [[213_locking_mechanism_concurrency_control|Locking]])이 왜 필요한지 더 쉽게 보여요.
 3. 그래서 [[286_page_frame|페이지]] 고정 ([[286_page_frame|Page]] Pinning / [[213_locking_mechanism_concurrency_control|Locking]])을 잘 알면 나중에 [[423_large_page_performance|대형 페이지]] (Large [[286_page_frame|Page]] / Transparent Hugepage)의 [[381_virtual_memory|가상 메모리]] [[282_performance_tactics|성능]] 이점도 훨씬 쉽게 배울 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 422 / 800
+
+← **이전**: [[421_kernel_memory_allocation_characteristics|421. 커널 메모리 할당의 특징 (Kernel Memory Allocation Characteristics)]]
+**다음**: [[423_large_page_performance|423. 대형 페이지 (Large Page / Transparent Hugepage)의 가상 메모리 성능 이점]] →
+
+---

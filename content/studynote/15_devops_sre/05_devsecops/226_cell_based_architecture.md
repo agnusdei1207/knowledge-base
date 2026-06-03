@@ -134,3 +134,14 @@ Reference Architecture
 1. 셀 기반 아키텍처는 복잡한 일을 순서와 규칙으로 정리해서 실수하지 않게 도와주는 방법이에요.
 2. Blast [[541_radius_remote_authentication_aaa|Radius]] 같은 친구들과 같이 움직여야 더 잘 작동해요.
 3. 그래서 문제가 생겨도 어디서 틀렸는지 빨리 찾고 다시 고치기 쉬워져요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 226 / 373
+
+← **이전**: [[225_micro_frontends_msa_ui|225. 마이크로 프론트엔드 (Micro Frontends) 아키텍처]]
+**다음**: [[227_multi_cloud_landing_zone|227. 멀티 클라우드 (Multi-Cloud) / 하이브리드 클라우드 랜딩 존 (Landing Zone) 설계 네트워크 통제]] →
+
+---

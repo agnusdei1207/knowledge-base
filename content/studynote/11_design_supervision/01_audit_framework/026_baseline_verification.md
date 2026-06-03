@@ -130,3 +130,14 @@ Jira, Git, ALM 도구 등과 융합하여 요구사항~소스코드 간의 100% 
 1. [[159_baseline_requirements_configuration_management|베이스라인]]은 블록 장난감을 조립할 때, 1단계(자동차 바퀴)를 다 만들고 나서 "여기엔 절대 손대지 않겠음!"이라고 일기장에 도장을 쾅 찍고 약속하는 거예요.
 2. 만약 동생이 나중에 "바퀴를 네모 모양으로 바꿔줘!"라고 떼를 써도, "이미 도장 찍었어([[159_baseline_requirements_configuration_management|베이스라인]])! 바꾸려면 용돈(예산)을 더 내야 해!"라고 방어할 수 있죠.
 3. [[159_baseline_requirements_configuration_management|베이스라인]] [[395_verification_process_review|검증]]은 이렇게 미리 약속한 도장 찍은 도면대로 정말 똑같이 바퀴를 달았는지, 아빠(감리원)가 아주 깐깐하게 하나씩 비교해 보는 검사 시간이에요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 29 / 530
+
+← **이전**: [[026_applications_system_area_audit|26. 응용 시스템 영역 감리 (Applications System Area Audit)]]
+**다음**: [[027_database_area_audit|27. 데이터베이스 영역 감리 (Database Area Audit)]] →
+
+---

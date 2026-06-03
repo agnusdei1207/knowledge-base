@@ -139,3 +139,14 @@ tags:
 1. [[702_pwa_progressive_web_app_service_worker|PWA]] 프로그레시브 오프라인 캐시는 복잡한 일을 순서대로 정리해 주는 큰 정리함이에요.
 2. 어디에 무엇을 넣을지 먼저 정해 두면, 나중에 찾거나 고칠 때 훨씬 쉬워져요.
 3. 그래서 일이 커질수록 먼저 기준을 만들고 같이 약속하는 것이 중요해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 450 / 482
+
+← **이전**: [[449_blue_green_canary_deployment|449. 블루/그린 카나리 배포 롤링 다운타임 제로 전략 (Blue/Green, Canary, Rolling Deployment)]]
+**다음**: [[451_secure_coding_sast_dast|451. 시큐어 코딩 SAST DAST 정적/동적 분석 체계 (Secure Coding, SAST, DAST)]] →
+
+---

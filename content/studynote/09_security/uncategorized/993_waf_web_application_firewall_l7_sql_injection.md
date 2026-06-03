@@ -125,3 +125,14 @@ tags:
 1. [[696_waf_web_application_firewall|WAF]] ([[993_waf_web_application_firewall|웹 방화벽]])는 누군가 규칙의 틈을 찾아 몰래 장난을 치는 방법이에요.
 2. 그래서 문을 단단히 잠그는 것뿐 아니라, 누가 이상하게 움직이는지도 바로 알아차려야 해요.
 3. 컴퓨터는 이상한 흔적을 빨리 보고 퍼지기 전에 멈추게 해야 안전해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 1102 / 1108
+
+← **이전**: [[992_stateful_inspection_firewall_session_state_table|992. 방화벽 (Stateful Inspection)]]
+**다음**: [[994_ids_ips_intrusion_detection_prevention_false_positive|994. IDS / IPS (Intrusion Detection System)]] →
+
+---

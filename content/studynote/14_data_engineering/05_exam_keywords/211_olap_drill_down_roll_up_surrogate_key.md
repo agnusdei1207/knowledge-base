@@ -248,3 +248,14 @@ Surrogate Key: 비즈니스 키 대체 인조키 (SCD 연동)
 ```
 2. 드릴다운은 전국 매출에서 서울, 서울에서 강남, 강남에서 특정 매장으로 점점 깊이 파고드는 거야 — 마치 지도 줌인처럼!
 3. [[276_surrogate_key_artificial_identifier|서로게이트 키]]는 고객 번호가 바뀌어도 변하지 않는 '도서관 등록 번호'야 — 이름이 바뀌거나 주소가 바뀌어도 도서관 카드 번호는 그대로지.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 211 / 258
+
+← **이전**: [[210_fact_dimension_table_snowflake_schema|210. 팩트 테이블 (Fact Table)·차원 테이블 (Dimension Table)·스노우플레이크 스키마 (Snowflake Schema)]]
+**다음**: [[212_etl_elt_cloud_transformation_bottleneck|212. ETL vs ELT (Extract-Transform-Load vs Extract-Load-Transform) 클라우드 전이]] →
+
+---

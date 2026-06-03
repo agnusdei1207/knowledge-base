@@ -111,3 +111,14 @@ tags:
 1. [[273_mediator_pattern|중재자]] 패턴 ([[273_mediator_pattern|Mediator Pattern]])은 친구들끼리 모두에게 말하는 대신 반장이 대신 전달해 주는 것처럼 약속을 먼저 정하는 거예요.
 2. 그러면 서로 다른 사람이 해도 같은 규칙으로 움직일 수 있어요.
 3. 그래서 규모가 커질수록 객체 간 [[100_many_to_many_model|다대다]] 통신을 중앙 조정하는 일이 더 중요해져요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 474 / 530
+
+← **이전**: [[395_process|395. 책임 연쇄 패턴 (Chain of Responsibility Pattern)]]
+**다음**: [[397_process|397. 이터레이터 패턴 (Iterator Pattern)]] →
+
+---

@@ -193,3 +193,14 @@ SRE의 신뢰성 개선 시간 확보
 1. [[685_toil_automation_sre|토일]]은 매일 똑같은 버튼을 사람이 대신 눌러 주는 귀찮은 일이에요.
 2. 버튼 누르는 규칙이 똑같다면 기계가 대신 누르게 만드는 게 더 좋아요.
 3. 그러면 사람은 버튼만 누르지 않고, 기계를 더 똑똑하게 만드는 일을 할 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 178 / 371
+
+← **이전**: [[178_sre_site_reliability_engineering|178. SRE (Site Reliability Engineering, 사이트 신뢰성 공학)]]
+**다음**: [[180_sli_service_level_indicator|180. SLI (Service Level Indicator, 서비스 수준 지표)]] →
+
+---

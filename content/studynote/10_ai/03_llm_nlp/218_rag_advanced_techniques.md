@@ -140,3 +140,14 @@ tags:
 1. 챗봇 로봇에게 두꺼운 백과사전을 주고 정답을 찾으라고 하면, 머리가 아파서 엉뚱한 거짓말([[251_hallucination_rag_augmented_retrieval_vector_db|할루시네이션]])을 막 지어내곤 해요.
 2. 그래서 똑똑한 비서([[276_fine_tuning|RAG]] 고도화 기술)를 고용해서, 백과사전을 예쁘게 찢어(청킹) 서랍에 넣고, 눈치 빠른 탐정과 돋보기를 든 탐정 두 명이 힘을 합쳐(하이브리드) [[167_sql_hint_optimizer_override|힌트]] 종이 100장을 빨리 찾아내게 시켰어요.
 3. 마지막으로 최고 똑똑한 깐깐한 대장(재랭킹)이 그 100장을 다시 검사해서 진짜 정답이 들어간 완벽한 종이 딱 5장만 로봇 책상에 올려주니까, 로봇이 100% 맞는 팩트 대답만 척척 해내는 천재가 되었답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 218 / 420
+
+← **이전**: [[217_llm_semantic_cache|217. LLM 캐싱 (Semantic Cache) 인프라]]
+**다음**: [[219_langsmith_llm_observability|219. LangSmith 로그 평가 프롬프트 디버깅 (Langsmith Observability)]] →
+
+---

@@ -197,3 +197,14 @@ tags:
 1. 정적 연결 (Static Linking)은 컴퓨터가 메모리를 방처럼 나눠 쓰고 주소를 찾는 방법이에요.
 2. 먼저 [[333_shared_library|공유 라이브러리]] ([[333_shared_library|Shared Library]]) 스터브 ([[460_stub_test_double|Stub]]) 코드을 이해하면 정적 연결 (Static Linking)이 왜 필요한지 더 쉽게 보여요.
 3. 그래서 정적 연결 (Static Linking)을 잘 알면 나중에 [[335_swapping|스와핑]] ([[335_swapping|Swapping]])도 훨씬 쉽게 배울 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 334 / 800
+
+← **이전**: [[333_shared_library|333. 공유 라이브러리 (Shared Library) 스터브 (Stub) 코드]]
+**다음**: [[335_swapping|335. 스와핑 (Swapping) - 메모리 부족 시 프로세스를 디스크 백킹 스토어(Backing Store)로 쫓아냄]] →
+
+---

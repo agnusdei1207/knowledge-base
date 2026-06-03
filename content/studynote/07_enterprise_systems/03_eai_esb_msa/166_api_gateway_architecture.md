@@ -174,3 +174,14 @@ BFF · 서비스 메시 · 제로 트러스트 경계 강화
 1. [[014_api_posix|API]] 게이트웨이는 가게 입구에서 손님을 맞아 주는 안내원이에요.
 2. 손님은 안내원에게 한 번만 말하면, 안내원이 주문실과 계산실로 알아서 연결해 줘요.
 3. 그래서 손님은 덜 헷갈리고, 가게는 규칙을 한곳에서 쉽게 지킬 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 166 / 482
+
+← **이전**: [[165_soa_vs_msa_architecture|165. SOA vs MSA 차이점 - SOA는 전사적 재사용과 ESB 중앙 파이프 집중 (Smart Pipe, Dumb Endpoint),]]
+**다음**: [[167_bff_backend_for_frontend|167. BFF (Backend For Frontend)]] →
+
+---

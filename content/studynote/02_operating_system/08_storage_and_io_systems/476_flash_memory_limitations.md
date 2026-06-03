@@ -189,3 +189,14 @@ tags:
 1. [[256_flash_memory|플래시 메모리]] 한계은 컴퓨터가 디스크와 장치가 [[001_dikw_pyramid|데이터]]를 주고받는 길을 정리하는 방법이에요.
 2. 먼저 [[475_ssd_structure|솔리드 스테이트 드라이브]] ([[327_ssd|SSD]], [[327_ssd|Solid State Drive]]) 구조을 이해하면 [[256_flash_memory|플래시 메모리]] 한계이 왜 필요한지 더 쉽게 보여요.
 3. 그래서 [[256_flash_memory|플래시 메모리]] 한계을 잘 알면 나중에 [[380_garbage_collection|가비지 컬렉션]] ([[380_garbage_collection|Garbage Collection]] in [[327_ssd|SSD]])도 훨씬 쉽게 배울 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 476 / 800
+
+← **이전**: [[475_ssd_structure|475. 솔리드 스테이트 드라이브 (SSD, Solid State Drive) 구조 - NAND 플래시, 페이지(Page), 블록(Block)]]
+**다음**: [[477_ssd_garbage_collection|477. 가비지 컬렉션 (Garbage Collection in SSD) - 유효 페이지 복사 후 블록 전체 지우기]] →
+
+---

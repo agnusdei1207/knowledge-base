@@ -135,3 +135,14 @@ LIME은 [[227_xai_explainable_ai_lime_shap|XAI]] 도구 중 구현이 가장 직
 1. **LIME**은 복잡한 AI가 "왜 이 결정을 했는지"를 알기 위해, **주변의 비슷한 예시들을 많이 만들어보고** 간단한 규칙으로 설명하는 방법이에요!
 2. "이 리뷰가 부정적" 이유를 알고 싶으면 **단어를 하나씩 지워가며** "어떤 단어가 없어지면 예측이 바뀌나?" 관찰해서 핵심 단어를 찾아요.
 3. 딥러닝·[[353_random_forest|랜덤 포레스트]] 등 **어떤 AI에도 쓸 수 있는** 범용 설명 도구라서, [[190_ai_llm_requirements_specification|AI]] 개발 현장에서 빠른 디버깅에 많이 활용돼요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 326 / 420
+
+← **이전**: [[325_xai|325. 설명 가능한 AI (XAI, eXplainable AI)]]
+**다음**: [[327_shap|327. SHAP (SHapley Additive exPlanations)]] →
+
+---

@@ -139,3 +139,14 @@ tags:
 1. [[231_did_decentralized_identity|DID]] 탈중앙 신원 증명는 복잡한 일을 순서대로 정리해 주는 큰 정리함이에요.
 2. 어디에 무엇을 넣을지 먼저 정해 두면, 나중에 찾거나 고칠 때 훨씬 쉬워져요.
 3. 그래서 일이 커질수록 먼저 기준을 만들고 같이 약속하는 것이 중요해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 410 / 482
+
+← **이전**: [[409_blockchain_trilemma_sharding|409. 블록체인 트릴레마 샤딩 분할 확장 (Blockchain Trilemma)]]
+**다음**: [[411_iot_edge_fog_computing|411. IoT 엣지/포그 컴퓨팅 아키텍처 (IoT: Internet of Things)]] →
+
+---

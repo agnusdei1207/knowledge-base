@@ -128,3 +128,14 @@ IT 기술의 급격한 발전 및 예산 폭증 (전산실의 블랙박스화)
 1. [[003_corporate_governance_it_governance|기업 거버넌스]]는 아빠가 "우리 가족, 이번 주말에 바다로 놀러 가자!"라고 큰 목표를 정하는 거예요.
 2. IT 거버넌스는 큰형이 "바다로 가려면 우리 집 자동차(IT) 기름을 꽉 채우고 네비게이션을 켜야 해!"라고 아빠의 목표에 맞춰 기계를 준비하는 거랍니다.
 3. 아빠는 바다로 가자고 했는데, 큰형이 자기 마음대로 자동차를 산속으로 몰고 가면(거버넌스 붕괴) 온 가족의 주말 휴가가 망쳐버리기 때문에 둘은 꼭 한마음이어야 해요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 4 / 587
+
+← **이전**: [[003_corporate_governance_it_governance|3. 기업 거버넌스 (Corporate Governance) 와의 관계]]
+**다음**: [[004_cobit|4. COBIT (Control Objectives for Information and Related Technologies) - ISACA]] →
+
+---

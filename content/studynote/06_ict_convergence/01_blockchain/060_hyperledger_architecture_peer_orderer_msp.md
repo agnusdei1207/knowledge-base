@@ -131,3 +131,14 @@ MSP / Peer / Orderer 분리
 하이퍼레저는 회사에서 역할을 나눠 일하는 [[004_blockchain|블록체인]]이에요.  
 신분 확인하는 사람, 장부를 쓰는 사람, 순서를 정하는 사람이 따로 있어요.  
 그래서 더 빠르고 더 안전하게 기록할 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 60 / 552
+
+← **이전**: [[059_chaincode_smart_contract|59. 체인코드 (Chaincode) - 하이퍼레저의 스마트 컨트랙트]]
+**다음**: [[061_cbdc_central_bank_digital_currency|61. CBDC (Central Bank Digital Currency) - 중앙은행 디지털 화폐]] →
+
+---

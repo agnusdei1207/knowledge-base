@@ -125,3 +125,14 @@ AMD SEV (Secure Encrypted [[190_virtualization_computing_architecture_cloud|Virt
 1. AMD SEV (Secure Encrypted [[190_virtualization_computing_architecture_cloud|Virtualization]])는 학교 규칙표처럼 무엇을 준비하고 어떻게 확인할지 알려 주는 기준이에요.
 2. 규칙표만 붙여 두고 지키지 않으면 아무 소용이 없어요.
 3. 그래서 보안도 규칙과 실제 행동이 함께 맞아야 해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 445 / 1108
+
+← **이전**: [[390_enclave|390. enclave (enclave)]]
+**다음**: [[392_sev_es|392. Linux 게스트에서 SEV-ES 지원 확인 (Sev Es)]] →
+
+---

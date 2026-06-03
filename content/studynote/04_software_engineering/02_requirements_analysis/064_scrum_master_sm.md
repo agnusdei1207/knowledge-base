@@ -126,3 +126,14 @@ Team Improvement
 팀이 뛰려면 길이 막히면 안 돼요.  
 [[062_scrum_framework_overview|스크럼]] 마스터는 막힌 길을 치워 주는 사람이에요.  
 그래서 팀이 스스로 잘 움직일 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 64 / 973
+
+← **이전**: [[063_product_owner_po|63. 제품 책임자 (Product Owner, PO)]]
+**다음**: [[065_development_team_scrum|65. 개발 팀 (Development Team) - 자기 조직화, 다기능 팀]] →
+
+---

@@ -181,3 +181,14 @@ LRU가 위대한 또 다른 이유는, 아무리 램 프레임 개수를 늘려�
 1. [[262_lru_page_replacement|LRU]] ([[262_lru_page_replacement|Least Recently Used]]) 교체은 컴퓨터가 메모리를 더 크게 보이게 하고 부족함을 숨기는 방법이에요.
 2. 먼저 [[261_fifo_page_replacement|FIFO]] (First-In, First-Out) 교체을 이해하면 [[262_lru_page_replacement|LRU]] ([[262_lru_page_replacement|Least Recently Used]]) 교체이 왜 필요한지 더 쉽게 보여요.
 3. 그래서 [[262_lru_page_replacement|LRU]] ([[262_lru_page_replacement|Least Recently Used]]) 교체을 잘 알면 나중에 [[262_lru_page_replacement|LRU]] [[012_approximation_algorithm|근사 알고리즘]] ([[406_lru_approximation|LRU Approximation]])도 훨씬 쉽게 배울 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 405 / 800
+
+← **이전**: [[404_fifo_page_replacement|404. FIFO (First-In, First-Out) 교체 - 가장 먼저 들어온 페이지 교체 (벨라디 모순 발생)]]
+**다음**: [[406_lru_approximation|406. LRU 근사 알고리즘 (LRU Approximation) - 참조 비트 (Reference Bit) 사용]] →
+
+---

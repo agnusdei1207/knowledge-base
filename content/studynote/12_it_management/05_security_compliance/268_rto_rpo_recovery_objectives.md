@@ -129,3 +129,14 @@ tags:
 1. [[176_rto_recovery_time_objective|RTO]] [[658_ir_recovery|복구]] 시간 [[177_rpo_recovery_point_objective|RPO]] [[658_ir_recovery|복구]] 시점은 모두가 같은 규칙으로 일하게 해 주는 반장 약속표예요.
 2. 약속만 적어 두는 것이 아니라 누가 지켰는지 확인하고 고치는 방법까지 함께 정해요.
 3. 그래서 일이 많아져도 서로 부딪히지 않고 더 안전하게 움직일 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 386 / 587
+
+← **이전**: [[268_rto_rpo_objectives|268. RTO 복구 시간 RPO 복구 시점]]
+**다음**: [[269_dr_site_types|269. DR 센터 (미러, 핫, 웜, 콜드)]] →
+
+---

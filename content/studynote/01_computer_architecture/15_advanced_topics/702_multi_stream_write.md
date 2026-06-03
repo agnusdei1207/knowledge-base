@@ -142,3 +142,14 @@ GC 증가 · WAF 상승
 1. 금방 버릴 장난감 종이와 오래 보관할 그림책을 한 상자에 넣으면 정리할 때 힘들어.
 2. 그래서 비슷한 것끼리 다른 상자에 넣어 두면 버릴 때 한 상자만 치우면 돼.
 3. [[560_multi_stream_file_fork_ads|다중 스트림]] [[289_cqrs_db|쓰기]]는 컴퓨터가 이런 상자 [[104_classification_analysis|분류]]표를 SSD에게 알려 주는 방법이야.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 703 / 803
+
+← **이전**: [[701_nvme_reservation|701. NVMe 서브시스템]]
+**다음**: [[703_zns_ssd|703. ZNS (Zoned Namespace) SSD]] →
+
+---

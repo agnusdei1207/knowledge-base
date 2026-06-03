@@ -208,3 +208,14 @@ tags:
 - [[245_public_bigdata|공공 빅데이터]]는 "시청이 온 도시에 설치한 엄청 많은 귀와 눈"이다.
 - 교통 AI는 "길이 막히기 전에 [[130_signal|신호]]등이 먼저 길을 열어주는 친절한 안내원"이다.
 - 복지 발굴 시스템은 "혼자 힘들어도 말 못하는 이웃을 [[001_dikw_pyramid|데이터]]로 먼저 찾아가는 다정한 사회"다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 216 / 262
+
+← **이전**: [[215_healthcare_bigdata|210. 의료 빅데이터 (Healthcare Big Data) — EMR/유전체 분석/임상 예측]]
+**다음**: [[217_manufacturing_bigdata|212. 제조 빅데이터 (Manufacturing Big Data) — 예지정비/불량감지/에너지최적화]] →
+
+---

@@ -87,3 +87,14 @@ tags:
 1. 트리 자료구조는 거꾸로 세워진 나무 모양과 같아요.
 2. 각 나뭇가지가 딱 두 개씩만 뻗어 나가는 규칙이 있는 나무랍니다.
 3. 뿌리(Root)에서 시작해 잎(Leaf)까지 길을 찾아가는 보물찾기 지도 같아요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 60 / 175
+
+← **이전**: [[059_deque|덱 (Deque, Double-Ended Queue)]]
+**다음**: [[061_binary_search_tree_bst|이진 탐색 트리 (Binary Search Tree, BST)]] →
+
+---

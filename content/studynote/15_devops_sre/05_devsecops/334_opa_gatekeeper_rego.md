@@ -157,3 +157,14 @@ spec:
 1. [[164_policy|Policy]] [[344_as_autonomous_system_asn|as]] Code는 규칙을 말로 설명하는 대신 컴퓨터가 자동으로 검사하게 만드는 거예요.
 2. Gatekeeper는 학교 입구에서 교복을 입었는지 [[396_validation|확인]]하는 자동문이에요. 교복([[164_policy|정책]])을 안 입으면 자동으로 문이 안 열려요.
 3. Rego는 그 자동문에게 무엇을 검사해야 하는지 알려주는 설명서예요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 334 / 373
+
+← **이전**: [[333_cnapp|333. CNAPP 클라우드 통합 보안 플랫폼 (CNAPP Cloud Native Application Protection Platform]]
+**다음**: [[335_tdd_bdd|335. TDD BDD 인수테스트 Mock 격리 (TDD BDD Acceptance Testing Mock Stub Spy Test Pyramid]] →
+
+---

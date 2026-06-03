@@ -104,3 +104,14 @@ tags:
 1. [[501_file_definition_logical_record|파일]] [[395_verification_process_review|검증]]은 학교에서 준비물을 미리 챙기는 것처럼, 중요한 기준을 먼저 맞추는 일이야.
 2. 실행 차단은 선생님이 수업 중간에 계속 확인하는 것처럼, 실제로 잘 되고 있는지 보는 과정이야.
 3. 저장소 분리는 시험 결과표처럼, 정말 효과가 있었는지 나중에 다시 확인하게 해주는 증거야.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 370 / 530
+
+← **이전**: [[305_four_plus_one_view_traceability_gap|305. 4+1 뷰 미비와 유지보수 추적 단절 (4 Plus 1 View Traceability Gap Audit)]]
+**다음**: [[306_web_shell_upload_filter|306. 웹셸 업로드 필터 다중방어 감리 (Web Shell Upload Filter Defense Audit)]] →
+
+---

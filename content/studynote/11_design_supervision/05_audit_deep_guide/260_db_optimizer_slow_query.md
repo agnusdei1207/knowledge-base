@@ -104,3 +104,14 @@ DB [[163_optimizer_sql_execution_plan_generator|옵티마이저]] 슬로우 [[29
 1. [[166_execution_plan_optimizer_navigation_tree|실행 계획]]은 학교에서 준비물을 미리 챙기는 것처럼, 중요한 기준을 먼저 맞추는 일이야.
 2. 통계 정보는 선생님이 수업 중간에 계속 확인하는 것처럼, 실제로 잘 되고 있는지 보는 과정이야.
 3. [[154_database_index_b_tree_search_optimization|인덱스]] 튜닝은 시험 결과표처럼, 정말 효과가 있었는지 나중에 다시 확인하게 해주는 증거야.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 321 / 530
+
+← **이전**: [[259_apm_monitoring_audit|259. APM 모니터링 감리 (APM Monitoring Audit)]]
+**다음**: [[261_mobile_app_audit_store_hig|261. 모바일 앱 감리 HIG와 Material Design (Mobile App Audit for HIG and Material Design)]] →
+
+---

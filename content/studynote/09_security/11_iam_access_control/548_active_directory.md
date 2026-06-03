@@ -125,3 +125,14 @@ tags:
 1. [[483_active_vs_passive_ftp|Active]] Directory는 컴퓨터 세상을 더 안전하게 만들기 위한 중요한 약속이나 도구예요.
 2. 겉으로는 어려워 보여도, 왜 필요한지와 어떻게 움직이는지를 알면 훨씬 쉬워져요.
 3. 그래서 이름만 외우지 말고 어디에 쓰이는지 같이 기억해야 해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 604 / 1108
+
+← **이전**: [[547_ldap|547. LDAP 기반 인증/조회 (LDAP)]]
+**다음**: [[549_azure_ad_entra_id|549. Azure AD / Microsoft Entra ID (Azure AD / Microsoft Entra ID)]] →
+
+---

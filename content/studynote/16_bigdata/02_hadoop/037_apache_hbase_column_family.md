@@ -93,3 +93,14 @@ HBase는 [[843_hadoop_rack_awareness_data_replication_topology|하둡]] 생태�
 - 아주아주 큰 도서관에 매일 수만 권의 책이 새로 들어온다고 해보자.
 - HBase는 책을 하나하나 예쁘게 꽂는 대신, 일단 상자에 담아두고(메모리) 나중에 한꺼번에 서가에 정리해(디스크).
 - 덕분에 책을 아주 빨리 받을 수 있고, 나중에 "그 책 어디 있어?"라고 물어봐도 금방 찾아줄 수 있단다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 37 / 262
+
+← **이전**: [[036_apache_hive_sql_interface|Apache Hive: 하둡 기반의 SQL 온 하둡(SQL-on-Hadoop) 데이터 웨어하우스]]
+**다음**: [[038_apache_pig|16. 아파치 피그 (Apache Pig) - 하둡 데이터 흐름 스크립팅]] →
+
+---

@@ -203,3 +203,14 @@ AI-driven Auto Indexing (AI 자율 주행 인덱스 현재/미래) ✨ / 인간 
 1. 100만 [[286_page_frame|페이지]]짜리 엄청 두껍고 글씨 빽빽한 마법 백과사전에서 '해리포터'가 나오는 내용을 찾으려면, 1페이지부터 100만 [[286_page_frame|페이지]]까지 며칠 밤새워 침 발라 종이를 넘겨야 해서 눈알이 빠지고 기절하겠죠? (이게 바로 **'풀스캔(Full Scan) 뻗음 💥'** 지옥이에요!)
 2. **인덱스(Index)**는 백과사전 맨 뒤 얇은 종이에 예쁘게 달린 **'찾아보기(색인 가나다순 요약 장부 ✨)'** [[286_page_frame|페이지]]예요. 'ㅎ' 단어만 쏙 모아둔 얇은 종이를 스윽 보면 ➔ "해리포터 ➔ 진짜 내용은 5,000페이지에 있음 팩트 록온 쾅!" 이라고 1초 컷 만에 찐 정답 주소를 딱 알려줘요.
 3. 그러면 우리는 쓸데없는 1~4999 앞 [[286_page_frame|페이지]] 종이를 넘길 필요 단 1도 0% 없이 ➔ 걍 한방에 다이렉트 미사일로 5,000페이지로 슝~ 점프 텔레포트 뛰어서(3단 [[064_b_tree|B-Tree]] 점프 🚀) 원하는 꿀잼 내용을 즉시 읽을 수 있는, [[002_database_definition|데이터베이스]] 서버가 1초 만에 정답을 뱉어내는 가장 위대한 마법 지름길이랍니다 🚀!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 154 / 600
+
+← **이전**: [[153_materialized_view_mview_data_warehouse|153. 구체화된 뷰 (MVIEW, Materialized View) - OLAP 캐싱 박제 마법]]
+**다음**: [[155_database_index_overhead_dml_performance_degradation|155. 인덱스의 단점 (Database Index Overhead DML Performance Degradation)]] →
+
+---

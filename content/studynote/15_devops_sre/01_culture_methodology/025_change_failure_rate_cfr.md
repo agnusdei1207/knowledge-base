@@ -177,3 +177,14 @@ def calculate_cfr(deployments, incidents):
 1. CFR은 학교 발표에서 실수한 비율이에요! 100번 발표 중 몇 번 말을 틀렸는지(실패 배포)를 측정해요.
 2. 발표 연습(자동화 테스트)을 많이 하고, 처음엔 소수 친구들 앞에서만 발표([[595_canary_stack_smashing_protector|Canary]] 배포)하면 실수가 줄어들어요.
 3. 목표는 실수 비율을 15% 이하로 낮추면서도 발표 횟수(배포 빈도)는 줄이지 않는 거랍니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 25 / 373
+
+← **이전**: [[024_lead_time_for_changes|24. Lead Time for Changes — 변경 리드 타임]]
+**다음**: [[026_mttr|26. MTTR (Mean Time to Recover) — 평균 복구 시간]] →
+
+---

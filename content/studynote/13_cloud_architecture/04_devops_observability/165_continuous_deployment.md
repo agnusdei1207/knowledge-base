@@ -69,3 +69,14 @@ Progressive Delivery + Observability 기반 자동 판단
 ```
 - 사람이 사인을 해줄 필요도 없이, 기계가 "이 장난감은 안전해요!"라고 확인하면 바로 가게로 가는 거죠.
 - 세상에서 가장 빠른 속도로 장난감을 배달하는 마법 같은 시스템이랍니다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 164 / 371
+
+← **이전**: [[164_continuous_delivery|164. 지속적 제공 (Continuous Delivery)]]
+**다음**: [[166_cicd_pipeline_tools|166. CI/CD 파이프라인 도구 (Jenkins, GitLab CI, GitHub Actions)]] →
+
+---

@@ -140,3 +140,14 @@ Level 3 ─ HATEOAS 기반 동적 탐색
 1. 처음에는 선생님에게 하고 싶은 일을 전부 말로만 부탁하는 단계가 있어요.
 2. 그다음에는 숙제함, 출석함처럼 상자가 나뉘고, 각 상자에 넣는 방법도 정해져요.
 3. 마지막에는 다음에 어디로 가야 하는지도 안내문이 같이 나와서, 처음 온 친구도 길을 쉽게 찾을 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 157 / 482
+
+← **이전**: [[156_rest_representational_state_transfer|156. REST (Representational State Transfer)]]
+**다음**: [[158_rest_level_0_rpc_style|158. Level 0 - 단일 URI, 단일 POST 메서드만 사용 (RPC 스타일)]] →
+
+---

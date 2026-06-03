@@ -156,3 +156,14 @@ RR / Priority / CFS
 1. 컴퓨터 안에는 먼저 일하고 싶어 하는 작은 일거리들이 줄을 서 있어요.
 2. 단기 [[079_kube_scheduler_pod_placement|스케줄러]]는 그중에서 지금 누구 차례인지 아주 빨리 정해 주는 반장이에요.
 3. 반장이 똑똑해야 모두가 오래 기다리지 않고 차례대로 잘 일할 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 161 / 800
+
+← **이전**: [[160_session_controlling_terminal|160. 세션 (Session) 및 제어 터미널 (Controlling Terminal)]]
+**다음**: [[162_medium_term_scheduler_swapping|162. 중기 스케줄러 (Medium-term Scheduler) - 스와핑 (Swapping)]] →
+
+---

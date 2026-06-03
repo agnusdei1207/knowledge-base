@@ -130,3 +130,14 @@ NOMA (비직교 다중 접속 융합) 및 5G Flexible Numerology 확장
 1. 옛날 통신은 큰 운동장에서 수십 명이 섞여서 동시에 대화하니까 조금만 늘어나도 너무 시끄러웠어요 ([[957_cdma_code_division_multiple_access_dsss_orthogonality|CDMA]]).
 2. **[[945_ofdma_orthogonal_frequency_division_multiple_access_resource_block|OFDMA]]**는 이 운동장에 수천 개의 좁고 투명한 방음 칸막이([[085_부반송파_Subcarrier|부반송파]])를 치고, 기지국 선생님이 "넌 1번 칸, 넌 2번 칸!" 하고 정확히 시간을 정해 자리를 나눠주는 방식이에요.
 3. 벽이 아주 튼튼해서 옆 사람 소리가 안 들리기 때문에([[083_직교성_Orthogonality|직교성]]), 스마트폰으로 영화를 아주 빠르게 끊김 없이 볼 수 있게 된 거랍니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 94 / 1120
+
+← **이전**: [[093_셀_호흡_현상|93. 셀 호흡 (Cell Breathing) 현상]]
+**다음**: [[095_NOMA_비직교_다중_접속|95. NOMA (Non-Orthogonal Multiple Access) - 비직교 다중 접속 (5G/6G 기술)]] →
+
+---

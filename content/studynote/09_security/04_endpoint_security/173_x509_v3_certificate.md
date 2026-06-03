@@ -195,3 +195,14 @@ v3 확장 필드 도입
 1. X.509 v3 [[303_authentication_authorization_patterns|인증]]서는 "이 열쇠는 누구 것이고 어디에 써도 되는지"를 적어 둔 디지털 신분증이에요.
 2. SAN은 이 신분증이 어떤 이름들까지 대신할 수 있는지 적어 두는 칸이고, [[067_db_key_uniqueness_minimality|Key]] Usage는 어떤 일까지 해도 되는지 알려 주는 규칙이에요.
 3. 맨 아래에는 발급 기관의 도장이 있어서, 누가 몰래 글자를 바꾸면 바로 가짜라고 들통난답니다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 226 / 1108
+
+← **이전**: [[172_der_pem_encoding|172. DER / PEM 인코딩 — 인증서 인코딩 형식]]
+**다음**: [[174_san_subject_alternative_name|174. SAN (Subject Alternative Name) — 인증서 다중 이름 확장]] →
+
+---

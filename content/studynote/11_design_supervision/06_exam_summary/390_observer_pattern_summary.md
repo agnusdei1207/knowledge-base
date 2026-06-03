@@ -111,3 +111,14 @@ tags:
 1. [[606_observer_pattern_pub_sub|옵저버 패턴]] ([[267_observer_pattern|Observer Pattern]])은 학교 종이 울리면 여러 반이 동시에 움직이는 것처럼 약속을 먼저 정하는 거예요.
 2. 그러면 서로 다른 사람이 해도 같은 규칙으로 움직일 수 있어요.
 3. 그래서 규모가 커질수록 상태 변화 전파를 느슨하게 연결하는 일이 더 중요해져요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 468 / 530
+
+← **이전**: [[389_proxy_pattern_summary|389. 프록시 패턴 (Proxy Pattern)]]
+**다음**: [[391_strategy_pattern_summary|391. 전략 패턴 (Strategy Pattern)]] →
+
+---

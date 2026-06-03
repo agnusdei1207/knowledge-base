@@ -133,3 +133,14 @@ SSOT
 같은 이름표를 모두 하나로 맞춰요.  
 그래야 헷갈리지 않아요.  
 MDM은 그런 정리예요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 70 / 482
+
+← **이전**: [[069_metadata_data_catalog|69. 메타데이터 (Metadata) 관리 / 데이터 카탈로그 (Data Catalog)]]
+**다음**: [[071_digital_transformation_dx|71. 디지털 트랜스포메이션 (DX / DT, Digital Transformation) - AI, 클라우드, 빅데이터로 비즈니스 모델]] →
+
+---

@@ -190,3 +190,14 @@ ASID (Address-Space [[088_identifier_in_er_model|Identifier]])는 단 몇 [[073_
 1. ASID (Address-Space [[088_identifier_in_er_model|Identifier]])은 컴퓨터가 메모리를 방처럼 나눠 쓰고 주소를 찾는 방법이에요.
 2. 먼저 [[357_tlb|TLB]] [[264_hit_ratio|적중률]] ([[359_effective_access_time|Hit Ratio]]) / 실질 메모리 접근 시간 (EAT, [[359_effective_access_time|Effective Access Time]])을 이해하면 ASID (Address-Space [[088_identifier_in_er_model|Identifier]])이 왜 필요한지 더 쉽게 보여요.
 3. 그래서 ASID (Address-Space [[088_identifier_in_er_model|Identifier]])을 잘 알면 나중에 [[361_hierarchical_paging|다단계 페이징]] ([[361_hierarchical_paging|Hierarchical Paging]])도 훨씬 쉽게 배울 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 360 / 800
+
+← **이전**: [[359_effective_access_time|359. TLB 적중률 (Hit Ratio) / 실질 메모리 접근 시간 (EAT, Effective Access Time)]]
+**다음**: [[361_hierarchical_paging|361. 다단계 페이징 (Hierarchical Paging) - 페이지 테이블 크기 문제 해결 (2단계, 3단계...)]] →
+
+---

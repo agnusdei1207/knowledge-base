@@ -135,3 +135,14 @@ P2P는 [[915_lte_m_maritime_communication_e_navigation|해상 통신망]] [[621_
 1. 엄청 빠른 빛 자동차와 똑똑한 로봇 교통정리원이 함께 일하는 미래 도시와 같아요.
 2. 이 개념은 빛처럼 빠르게 보내면서도 스스로 상태를 보고 길을 고치게 해줘요.
 3. 그래서 더 큰 인터넷도 사람 손을 덜 타고 잘 움직일 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 1037 / 1120
+
+← **이전**: [[915_lte_m_maritime_communication_e_navigation|915. 해상 통신망 (LTE-M)]]
+**다음**: [[917_bittorrent_choke_unchoke_p2p_incentive_algorithm|917. 비트토렌트 (BitTorrent) 초크/언초크 리치 통신 대역폭 인센티브 알고리즘망 파편화 전송 구성/다운 최적 효율망 동적]] →
+
+---

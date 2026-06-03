@@ -382,3 +382,14 @@ AI 강화 데이터 카탈로그 기능
 ```
 2. [[001_dikw_pyramid|데이터]] 계보는 음식 원산지 추적이에요. 내 접시에 올라온 음식이 어느 농장 재료로, 어느 공장에서 만들어졌는지 역방향으로 따라갈 수 있죠.
 3. [[791_gdpr_eu|GDPR]] 삭제권에 계보를 연계하면, 한 사람의 정보를 삭제할 때 그 정보가 복사된 모든 곳(10개 창고)을 자동으로 찾아 동시에 지울 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 197 / 258
+
+← **이전**: [[196_dataops_dbt_ci_cd_data_testing|196. 데이터옵스 (DataOps) CI/CD dbt 데이터 검증 테스트 코드]]
+**다음**: [[198_knowledge_distillation_soft_target_probability|198. 지식 증류 (Knowledge Distillation) 소프트 타겟 확률 분포 모방]] →
+
+---

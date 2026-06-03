@@ -134,3 +134,14 @@ Shared Architecture
 온프레미스는 내 장난감을 내 방에 두는 거예요.  
 그래서 내가 다 직접 돌볼 수 있어요.  
 대신 방이 좁으면 더 빨리 넓히기 어렵다는 점은 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 61 / 482
+
+← **이전**: [[060_cloud_msp_managed_service_provider|60. 클라우드 MSP (Managed Service Provider) - 클라우드 운영 대행 아웃소싱]]
+**다음**: [[062_colocation_data_center_leasing|62. 코로케이션 (Colocation) - 데이터센터 공간 임대 서비스]] →
+
+---

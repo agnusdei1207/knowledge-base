@@ -131,3 +131,14 @@ Decision Making
 큰 방향을 정하는 사람이 있어요.  
 돈과 허락을 챙겨 줘요.  
 스폰서와 위원회는 그런 역할이에요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 107 / 530
+
+← **이전**: [[069_project_sponsor_steering_committee|69. 프로젝트 스폰서 및 추진 위원회 의사 결정 평가 (Project Sponsor and Steering Committee Assessment)]]
+**다음**: [[070_configuration_management_git_ci_audit|70. 형상 관리 저장소 (Git, SVN) 및 지속적 통합(CI) 감리]] →
+
+---

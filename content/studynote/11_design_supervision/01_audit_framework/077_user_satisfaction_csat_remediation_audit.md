@@ -122,3 +122,14 @@ remediation 계획과 실행
 1. 숙제를 다 했어도 친구가 [[289_cqrs_db|쓰기]] 불편하면 다시 고쳐야 해요.
 2. 그래서 "어떤 부분이 불편했는지"를 물어보고 고칩니다.
 3. 고친 뒤 다시 물어봐서 진짜 좋아졌는지 확인해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 119 / 530
+
+← **이전**: [[077_user_satisfaction_csat_audit|77. 사용자 만족도 조사 결과 분석 및 개선 조치 (User Satisfaction and CSAT Audit)]]
+**다음**: [[078_bpr_isp_alignment_audit|78. BPR/ISP 연계 사후 평가 (BPR/ISP Alignment Audit)]] →
+
+---

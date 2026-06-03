@@ -111,3 +111,14 @@ ORM은 **[[004_impedance|임피던스]] 불일치를 해소하는 핵심 기술*
 1. [[004_impedance|임피던스]] 불일치는 **미터법과 인치법의 차이**예요. 서로 단위가 달라 혼동돼요.
 2. ORM은 **자동 단위 변환기**예요. 센티미터를 인치로 **자동 변환**해줘요.
 3. 덕분에 프로그래머가 **단위(SQL) 걱정 없이** 코드를 작성할 수 있답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 129 / 600
+
+← **이전**: [[128_logical_data_independence_view|128. 논리적 데이터 독립성 & 뷰 (Logical Data Independence & View)]]
+**다음**: [[130_erd_notation_ie_barker_idef1x|130. ERD 표기법 비교 (IE·Barker·IDEF1X)]] →
+
+---

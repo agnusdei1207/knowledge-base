@@ -134,3 +134,14 @@ Cloud Transformation
 이사할 때 다 가져갈 필요는 없어요.  
 어떤 건 고치고, 어떤 건 버리고, 어떤 건 새로 살 수 있어요.  
 6R은 그 선택을 도와주는 표예요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 64 / 482
+
+← **이전**: [[063_cloud_vendor_lock_in_avoidance|63. 클라우드 벤더 락인 (Cloud Vendor Lock-in) 회피 전략]]
+**다음**: [[065_shadow_data_cloud_security|65. 섀도우 데이터 (Shadow Data) - 통제받지 않은 클라우드 내 산재된 기업 민감 데이터]] →
+
+---

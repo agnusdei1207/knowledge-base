@@ -139,3 +139,14 @@ tags:
 1. [[039_okr_objectives_key_results|OKR]] vs [[025_mbo_management_by_objectives|MBO]] 성과 평가 패러다임 차이는 복잡한 일을 순서대로 정리해 주는 큰 정리함이에요.
 2. 어디에 무엇을 넣을지 먼저 정해 두면, 나중에 찾거나 고칠 때 훨씬 쉬워져요.
 3. 그래서 일이 커질수록 먼저 기준을 만들고 같이 약속하는 것이 중요해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 326 / 482
+
+← **이전**: [[325_bsc_four_perspectives|325. BSC 균형 성과 4관점 재무 고객 프로세스 성장 (BSC Balanced Scorecard)]]
+**다음**: [[327_value_chain_porter|327. 가치 사슬 마이클 포터 분석 (Value Chain Michael Porter)]] →
+
+---

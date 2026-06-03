@@ -129,3 +129,14 @@ tags:
 1. 엣지 컴퓨팅 (Edge Computing) [[136_variance|분산]] [[015_지연_데이터_관점|지연]]([[141_latency|Latency]]) 단축 모델 (스마트팩토리 [[167_cps_cyber_physical_system|CPS]])는 모두가 같은 규칙으로 일하게 해 주는 반장 약속표예요.
 2. 약속만 적어 두는 것이 아니라 누가 지켰는지 확인하고 고치는 방법까지 함께 정해요.
 3. 그래서 일이 많아져도 서로 부딪히지 않고 더 안전하게 움직일 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 349 / 587
+
+← **이전**: [[234_esg_carbon_aware_computing|234. 지속 가능한 IT / ESG 경영 탄소 인지 (Carbon-aware) 컴퓨팅 클라우드 스케줄링]]
+**다음**: [[236_quantum_computing_pqc|236. 양자 컴퓨팅 (Quantum Computing) 보안 위협 방어용 PQC (양자 내성 암호) 로드맵 적용]] →
+
+---

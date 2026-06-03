@@ -182,3 +182,14 @@ template helper → 뷰헬퍼 커스텀 태그 패턴 → [[603_component_indepe
 1. 도장 찍는 것처럼, 자주 쓰는 예쁜 그림(UI 조각)을 미리 만들어 두는 거야.
 2. `<날짜보여줘 />` 태그 하나만 쓰면, 날짜를 예쁘게 정리하는 복잡한 코드가 자동으로 실행돼.
 3. 나중에 날짜 모양을 바꾸고 싶으면 도장 하나만 바꾸면 모든 곳이 다 바뀌어!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 294 / 530
+
+← **이전**: [[232_mvp_mvvm_data_binding|232. MVP/MVVM 데이터 바인딩 (MVP/MVVM Data Binding)]]
+**다음**: [[234_front_controller_vs_page_controller|234. 프론트 컨트롤러 vs 페이지 컨트롤러 (Front Controller vs Page Controller)]] →
+
+---

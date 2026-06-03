@@ -140,3 +140,14 @@ tags:
 1. 이 개념은 복잡한 일을 한눈에 보이게 정리해서 모두가 같은 규칙으로 움직이게 해 줘.
 2. 그래서 많은 기계나 사람, 프로그램이 함께 일해도 어디서 문제가 생겼는지 찾기 쉬워져.
 3. 한마디로 이 개념은 복잡한 일을 질서 있게 움직이게 만드는 안내판이야.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 114 / 552
+
+← **이전**: [[113_z_wave_smart_home_900mhz|113. Z-Wave 스마트 홈 (Z-Wave Smart Home) - 900MHz 서브 GHz 저간섭 WPAN]]
+**다음**: [[115_thread_protocol_ipv6_smart_home|115. Thread 프로토콜 (Thread Protocol) - IPv6 기반 저전력 메시·Matter 핵심 전송 계층]] →
+
+---

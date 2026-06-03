@@ -125,3 +125,14 @@ NB-IoT와 [[752_lte_long_term_evolution_4g|LTE]]-M은 [[418_5g_embb_urllc_mmtc_s
 1. NB-IoT는 집에 고정된 **수도 계량기**가 매달 숫자를 보내는 통신이에요.
 2. [[752_lte_long_term_evolution_4g|LTE]]-M은 할머니 팔찌(웨어러블)가 **움직이면서도** 위치와 건강 정보를 보내는 통신이에요.
 3. 둘 다 전화회사(통신사)가 관리하니까 **안정적**이고, 전기(배터리)를 아주 적게 써요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 111 / 552
+
+← **이전**: [[110_unlicensed_lpwan_lorawan_sigfox|110. 비면허 LPWAN - LoRaWAN (CSS) vs Sigfox (UNB) 대역 확산 기술 비교]]
+**다음**: [[112_zigbee_mesh_network_smart_home|112. Zigbee 메시 네트워크 (Zigbee Mesh Network) - IEEE 802.15.4 스마트 홈 WPAN]] →
+
+---

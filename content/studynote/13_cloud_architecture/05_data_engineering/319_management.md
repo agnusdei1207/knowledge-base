@@ -113,3 +113,14 @@ tags:
 1. [[213_data_catalog_metadata|데이터 카탈로그]] 자산 검색 거버넌스는 사람이 많은 운동회에서 어디로 가야 하는지 알려 주는 안내판과 비슷해요.
 2. 규칙이 없으면 모두가 한곳에 몰려서 느려지고 다투지만, 길을 정해 두면 훨씬 부드럽게 움직일 수 있어요.
 3. 그래서 컴퓨터 세상에서도 [[213_data_catalog_metadata|데이터 카탈로그]] 자산 검색 거버넌스를 쓰면 많은 팀과 [[090_service_kubernetes_network_load_balancing|서비스]]가 덜 부딪히고 더 빨리 움직일 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 318 / 371
+
+← **이전**: [[318_process|318. 데이터 패브릭 가상화 메타 기반 융합 (Cloud Architecture Concept)]]
+**다음**: [[320_process|320. 프라이버시 클린 룸 데이터 안전 연합 연산 (Cloud Architecture Concept)]] →
+
+---

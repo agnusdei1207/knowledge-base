@@ -177,3 +177,14 @@ tags:
 1. [[258_degree_of_multiprogramming|다중 프로그래밍 정도]] ([[258_degree_of_multiprogramming|Degree of Multiprogramming]])와 CPU 이용률 [[083_relationship_in_er_model|관계]] 그래프은 컴퓨터가 메모리를 더 크게 보이게 하고 부족함을 숨기는 방법이에요.
 2. 먼저 [[257_thrashing|스래싱]] ([[257_thrashing|Thrashing]])을 이해하면 [[258_degree_of_multiprogramming|다중 프로그래밍 정도]] ([[258_degree_of_multiprogramming|Degree of Multiprogramming]])와 CPU 이용률 [[083_relationship_in_er_model|관계]] 그래프이 왜 필요한지 더 쉽게 보여요.
 3. 그래서 [[258_degree_of_multiprogramming|다중 프로그래밍 정도]] ([[258_degree_of_multiprogramming|Degree of Multiprogramming]])와 CPU 이용률 [[083_relationship_in_er_model|관계]] 그래프을 잘 알면 나중에 [[414_cause_of_thrashing|스래싱 원인]]도 훨씬 쉽게 배울 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 413 / 800
+
+← **이전**: [[412_thrashing|412. 스래싱 (Thrashing) - 프로세스가 실제 실행보다 페이징(스와핑)에 더 많은 시간을 보내는 현상]]
+**다음**: [[414_cause_of_thrashing|414. 스래싱 원인 (Cause Of Thrashing)]] →
+
+---

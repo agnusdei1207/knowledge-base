@@ -190,3 +190,14 @@ OV / EV (Extended Validation)
 1. [[154_ev_earned_value|EV]] [[303_authentication_authorization_patterns|인증]]서는 그냥 자물쇠를 다는 것이 아니라, 그 가게가 진짜 누구 가게인지 서류까지 [[396_validation|확인]]하고 붙여 주는 특별한 표지예요.
 2. 그래서 은행이나 중요한 회사는 "우리 진짜 맞아요"를 더 잘 보여 줄 수 있어요.
 3. 하지만 표지만 믿으면 안 되고, 가짜 간판과 편지도 같이 조심해야 정말 안전하답니다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 229 / 1108
+
+← **이전**: [[175_wildcard_certificate|175. 와일드카드 인증서 (Wildcard Certificate)]]
+**다음**: [[177_dv_domain_validation_certificate|177. DV (Domain Validation) 인증서]] →
+
+---

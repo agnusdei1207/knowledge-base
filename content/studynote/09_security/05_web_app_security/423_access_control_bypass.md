@@ -125,3 +125,14 @@ tags:
 1. 접근 제어 회피 ([[547_access_control_rwx|Access Control]] Bypass)는 누군가 규칙의 틈을 찾아 몰래 장난을 치는 방법이에요.
 2. 그래서 문을 단단히 잠그는 것뿐 아니라, 누가 이상하게 움직이는지도 바로 알아차려야 해요.
 3. 컴퓨터는 이상한 흔적을 빨리 보고 퍼지기 전에 멈추게 해야 안전해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 479 / 1108
+
+← **이전**: [[422_remote_file_inclusion_rfi|422. 원격 파일 포함 (RFI, Remote File Inclusion)]]
+**다음**: [[424_cryptographic_failures|424. A02. 암호화 실패 (Cryptographic Failures)]] →
+
+---

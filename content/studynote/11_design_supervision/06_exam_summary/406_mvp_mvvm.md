@@ -111,3 +111,14 @@ tags:
 1. [[036_mvp|MVP]]·MVVM 패턴 ([[211_mvp_mvvm_architecture_frontend|Model-View-Presenter]] and Model-View-ViewModel)은 칠판에 직접 쓰는 대신 반장이 정리하거나 전광판이 자동으로 바뀌게 하는 것처럼 약속을 먼저 정하는 거예요.
 2. 그러면 서로 다른 사람이 해도 같은 규칙으로 움직일 수 있어요.
 3. 그래서 규모가 커질수록 UI 로직과 상태 [[212_synchronization_mechanisms|동기화]] 책임을 분리하는 일이 더 중요해져요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 484 / 530
+
+← **이전**: [[405_mvc_m_v_c|405. MVC 패턴 (Model-View-Controller)]]
+**다음**: [[407_process|407. 백오프 리트라이와 서킷 브레이커 (Backoff Retry and Circuit Breaker)]] →
+
+---

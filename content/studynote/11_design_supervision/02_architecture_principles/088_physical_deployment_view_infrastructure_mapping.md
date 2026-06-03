@@ -129,3 +129,14 @@ IaC (Infrastructure as Code) 연동 자동화
 1. 게임을 만들었는데, 그 게임을 스마트폰에 깔지, 거실 컴퓨터에 깔지 정하는 지도가 필요해요.
 2. 물리/배포 뷰는 우리의 프로그램 덩어리들을 어떤 기계 방에 넣을지, 선은 어떻게 연결할지 보여주는 설계도예요.
 3. 이 지도가 있어야 해커 침입을 막을 방패([[690_firewall_generation_evolution|방화벽]])를 어디에 세울지, 길이 막힐 때 어디를 넓힐지 알 수 있답니다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 131 / 530
+
+← **이전**: [[087_implementation_view_component_diagram_packaging|87. 구현 뷰 (Implementation View) - 소프트웨어 모듈 컴포넌트 설계]]
+**다음**: [[089_use_case_view_plus_one_view_actor_boundary|89. 유스케이스 뷰 (Use Case View / +1 View)]] →
+
+---

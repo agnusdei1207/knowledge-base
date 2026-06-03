@@ -193,3 +193,14 @@ tags:
 1. 유한 버퍼는 편의점 냉장고에요 — 냉장고가 가득 차면 납품업자(생산자)는 기다리고, 비면 손님(소비자)이 기다려요.
 2. 독자-저자는 도서관 규칙 — 여러 명이 같은 책을 동시에 읽을 수 있지만, 책을 수정하려면 독점해야 해요.
 3. 식사하는 철학자는 젓가락 나눠 [[289_cqrs_db|쓰기]] 게임 — 몇 가지 규칙만 지키면 아무도 굶지 않아요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 245 / 800
+
+← **이전**: [[244_priority_ceiling_protocol|244. 우선순위 올림 (Priority Ceiling Protocol)]]
+**다음**: [[246_bounded_buffer_producer_consumer|246. 유한 버퍼 문제 (Bounded-Buffer Problem) / 생산자-소비자 (Producer-Consumer) 문제]] →
+
+---

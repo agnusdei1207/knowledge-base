@@ -125,3 +125,14 @@ Event/Log → Detection Rule → Alert → Investigation
 1. 탐지 통제는 집에 누가 들어왔는지 알려 주는 초인종이에요.
 2. 빨리 알수록 더 빨리 대처할 수 있어요.
 3. 그래서 큰일이 나기 전에 막을 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 54 / 1108
+
+← **이전**: [[053_preventive_controls|53. 예방 통제 (Preventive Controls)]]
+**다음**: [[055_corrective_controls|55. 교정 통제 (Corrective Controls)]] →
+
+---

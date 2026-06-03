@@ -163,3 +163,14 @@ tags:
 1. 스트랭글러 피그 (Strangler Fig) 패턴은 레고 블록으로 성을 만들 때처럼, 규칙을 정하고 역할을 나누어 함께 작업하는 방법이에요.
 2. 혼자서 막 만들면 나중에 무너지거나 고치기 어렵지만, 약속을 지키면 누구나 쉽게 고치고 더 크게 만들 수 있어요.
 3. 그래서 [[001_software_engineering_definition|소프트웨어 공학]]은 프로그래머들이 좋은 프로그램을 빠르고 안전하게 만들 수 있게 도와주는 '규칙 모음집'이에요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 310 / 973
+
+← **이전**: [[309_bff_backend_for_frontend_pattern|309. 백엔드 포 프론트엔드 (BFF, Backend For Frontend) 패턴]]
+**다음**: [[311_database_per_service_pattern|311. 데이터베이스 퍼 서비스 (Database per Service) 패턴]] →
+
+---

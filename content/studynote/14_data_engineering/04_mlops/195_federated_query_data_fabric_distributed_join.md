@@ -350,3 +350,14 @@ AI 강화 데이터 패브릭 (미래)
 ```
 2. [[212_data_fabric_virtualization|데이터 패브릭]]은 여러 나라를 연결하는 번역기 겸 지도예요. 어느 나라 [[001_dikw_pyramid|데이터]]든 같은 언어(SQL)로 대화할 수 있게 해줘요.
 3. CBO(비용 기반 최적화기)는 네비게이션이에요. 가장 빠른 길([[166_execution_plan_optimizer_navigation_tree|실행 계획]])을 찾아주는데, 교통 정보(통계)가 없으면 엉뚱한 길을 안내할 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 195 / 258
+
+← **이전**: [[194_medallion_architecture_bronze_silver_gold|194. 메달리온 아키텍처 (Medallion Architecture) Bronze/Silver/Gold 테이블 정제 적재]]
+**다음**: [[196_dataops_dbt_ci_cd_data_testing|196. 데이터옵스 (DataOps) CI/CD dbt 데이터 검증 테스트 코드]] →
+
+---

@@ -129,3 +129,14 @@ tags:
 1. 멀티 클라우드 (Multi-Cloud) 및 [[009_hybrid_cloud|하이브리드 클라우드]] ([[009_hybrid_cloud|Hybrid Cloud]]) [[001_dikw_pyramid|데이터]] 거버넌스는 모두가 같은 규칙으로 일하게 해 주는 반장 약속표예요.
 2. 약속만 적어 두는 것이 아니라 누가 지켰는지 확인하고 고치는 방법까지 함께 정해요.
 3. 그래서 일이 많아져도 서로 부딪히지 않고 더 안전하게 움직일 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 316 / 587
+
+← **이전**: [[201_cloud_service_models_iaas_paas_saas|201. 클라우드 서비스 모델 (IaaS, PaaS, SaaS, BaaS, FaaS) 엔터프라이즈 도입 전략]]
+**다음**: [[203_cloud_migration_6r|203. 클라우드 마이그레이션 6R 기법]] →
+
+---

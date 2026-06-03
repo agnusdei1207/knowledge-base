@@ -157,3 +157,14 @@ EIP-4337(Account [[198_abstraction_control_data_process|Abstraction]])은 [[022_
 1. 니모닉 12단어는 모든 암호화폐 지갑의 만능 마스터 비밀번호예요!
 2. BIP-44 파생 경로로 비트코인·이더리움·솔라나 주소를 하나의 시드에서 만들 수 있어요!
 3. 패스프레이즈를 추가하면 도둑이 12단어를 알아도 진짜 지갑에 접근할 수 없어요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 31 / 552
+
+← **이전**: [[030_crypto_wallet_mnemonic|30. 암호화폐 지갑과 니모닉 — 키 관리의 핵심]]
+**다음**: [[032_dapp_decentralized_application|DApp (Decentralized Application, 분산 애플리케이션)]] →
+
+---

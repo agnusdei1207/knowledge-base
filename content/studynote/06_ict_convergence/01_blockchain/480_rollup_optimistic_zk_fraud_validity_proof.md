@@ -153,3 +153,14 @@ ZK-EVM은 이더리움 Opcode를 ZK 회로(Circuit)로 변환해야 한다. 일�
 1. [[042_rollup_l2_solution|롤업]]은 반 아이들의 숙제를 반장이 모아서 선생님께 한꺼번에 제출하는 것이에요.
 2. 옵티미스틱은 "일단 믿고 일주일 안에 이상하면 신고해요", ZK는 "숙제마다 정답 증명서를 붙여서 바로 검사해요".
 3. 덕분에 이더리움이 훨씬 빠르고 저렴하게 많은 거래를 처리할 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 480 / 552
+
+← **이전**: [[479_zero_knowledge_proof_zkp_privacy|479. 영지식 증명 ZKP와 프라이버시 보호 (ZKP Zero-Knowledge Proof Privacy)]]
+**다음**: [[481_sharding_l1_parallel_processing|481. 샤딩과 L1 병렬 처리 (Sharding and L1 Parallel Transaction Processing)]] →
+
+---

@@ -256,3 +256,14 @@ SQL + 분산 + 강한 일관성 시도
 1. CAP은 인터넷이 끊겼을 때 어떻게 할지 규칙이었는데, PACELC는 "평소에도" 빠른 응답(L) vs 정확함(C) 중 하나를 골라야 한다고 알려줘요!
 2. [[545_dynamodb|DynamoDB]]·Cassandra는 PA/EL — "좀 틀려도 괜찮으니까 빠르게!", [[543_hbase|HBase]]·Spanner는 [[164_pc|PC]]/EC — "느려도 정확하게!"를 선택했어요.
 3. 쇼핑몰에서 상품 목록(빠르면 됨, PA/EL)과 결제(틀리면 큰일, [[164_pc|PC]]/EC)에 다른 DB를 쓰는 것처럼 목적에 맞게 선택해야 해요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 41 / 258
+
+← **이전**: [[040_cap_theorem_consistency_availability_partition|040. CAP 정리 (CAP Theorem)]]
+**다음**: [[042_base_characteristics_nosql_eventual_consistency|042. BASE 특성 — NoSQL 일관성 모델]] →
+
+---

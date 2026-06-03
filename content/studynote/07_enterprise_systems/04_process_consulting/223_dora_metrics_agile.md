@@ -159,3 +159,14 @@ Fast and safe software delivery
 1. DORA는 프로그램을 얼마나 자주 잘 보내는지 재는 점수판이에요.
 2. 빨리 보내는 것만 아니라, 문제가 생기면 얼마나 빨리 고치는지도 같이 봐요.
 3. 그래서 서두르다 망치는 팀이 아니라 빠르고 튼튼한 팀을 찾을 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 223 / 482
+
+← **이전**: [[222_cobit_2019_governance|222. COBIT 2019 거버넌스 (COBIT 2019 Governance)]]
+**다음**: [[224_vsm_value_stream_mapping|224. 가치 흐름 매핑 (Value Stream Mapping)]] →
+
+---

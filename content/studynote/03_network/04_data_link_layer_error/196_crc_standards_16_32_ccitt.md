@@ -134,3 +134,14 @@ tags:
 1. 편지를 보낼 때 봉투를 제대로 닫고 틀린 글자가 없는지 [[396_validation|확인]]해야 해요.
 2. 이 개념은 편지가 깨지거나 사라졌을 때 다시 보내는 규칙까지 정해줘요.
 3. 그래서 중간에 흔들려도 중요한 내용이 더 안전하게 도착해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 317 / 1120
+
+← **이전**: [[195_polynomial_generator_crc|195. 다항식(Polynomial) 연산 / 생성 다항식 (Generator Polynomial)]]
+**다음**: [[197_burst_error_detection_crc|197. 버스트 에러 (Burst Error) 검출 능력 유지]] →
+
+---

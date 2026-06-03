@@ -129,3 +129,14 @@ tags:
 1. [[133_cmmi_capability_maturity_model_integration_levels|CMMI]] 레벨 2 (Managed, 관리됨)는 모두가 같은 규칙으로 일하게 해 주는 반장 약속표예요.
 2. 약속만 적어 두는 것이 아니라 누가 지켰는지 확인하고 고치는 방법까지 함께 정해요.
 3. 그래서 일이 많아져도 서로 부딪히지 않고 더 안전하게 움직일 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 249 / 587
+
+← **이전**: [[134_cmmi_level_1_initial|134. CMMI 레벨 1 (Initial, 초기)]]
+**다음**: [[136_cmmi_level_3_defined|136. CMMI 레벨 3 (Defined, 정의됨)]] →
+
+---

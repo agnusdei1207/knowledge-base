@@ -173,3 +173,14 @@ Elite · High · Medium · Low 성숙도 등급
 ```
 2. 엘리트 팀은 하루에 여러 번 배포해도 실수가 5%도 안 돼. 빠르면서 정확한 거야.
 3. 점수가 낮다고 절망하지 말고, 어떤 과목(지표)이 낮은지 찾아서 그것만 집중 개선하면 돼.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 200 / 371
+
+← **이전**: [[200_internal_developer_platform_backstage|200. IDP / Backstage (Internal Developer Platform)]]
+**다음**: [[202_space_framework_agile_performance|202. SPACE 프레임워크 (SPACE Framework)]] →
+
+---

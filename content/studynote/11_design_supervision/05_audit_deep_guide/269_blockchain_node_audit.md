@@ -104,3 +104,14 @@ tags:
 1. 합의 노드는 학교에서 준비물을 미리 챙기는 것처럼, 중요한 기준을 먼저 맞추는 일이야.
 2. 키 관리는 선생님이 수업 중간에 계속 확인하는 것처럼, 실제로 잘 되고 있는지 보는 과정이야.
 3. 최종성은 시험 결과표처럼, 정말 효과가 있었는지 나중에 다시 확인하게 해주는 증거야.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 330 / 530
+
+← **이전**: [[268_paas_lockin_k8s_portability|268. PaaS 락인 방지와 Kubernetes 이식성 (PaaS Lock in Prevention and Kubernetes Portability)]]
+**다음**: [[270_iot_dtls_protocol_audit|270. IoT DTLS 프로토콜 감리 (IoT DTLS Protocol Audit)]] →
+
+---

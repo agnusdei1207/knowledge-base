@@ -161,3 +161,14 @@ DAMA-DMBOK 기반 거버넌스 성숙도 모델 적용
 1. [[052_data_governance_framework|데이터 거버넌스]]는 도서관 운영 규칙이에요. 어떤 책이 어디 있는지, 누가 관리하는지, 빌리는 규칙은 뭔지 정해두는 거예요.
 2. CDO는 도서관장이고, [[001_dikw_pyramid|Data]] Steward는 각 서가를 담당하는 사서예요.
 3. [[213_data_catalog_metadata|데이터 카탈로그]]는 컴퓨터 검색 시스템이에요. 원하는 [[001_dikw_pyramid|데이터]]를 검색하면 어디 있는지, 누가 만들었는지 바로 알 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 306 / 482
+
+← **이전**: [[305_data_clean_room|305. 프라이버시 클린 룸 기업간 익명 조인 (Data Clean Room)]]
+**다음**: [[307_molap_rolap_holap|307. 다차원 큐브 MOLAP ROLAP HOLAP 성능 튜닝 (Multidimensional OLAP)]] →
+
+---

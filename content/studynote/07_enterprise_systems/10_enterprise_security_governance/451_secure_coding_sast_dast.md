@@ -139,3 +139,14 @@ tags:
 1. [[190_secure_coding_guideline|시큐어 코딩]] [[192_sast_dast_security_analysis|SAST DAST]] 정적/[[332_dynamic_analysis|동적 분석]] 체계는 복잡한 일을 순서대로 정리해 주는 큰 정리함이에요.
 2. 어디에 무엇을 넣을지 먼저 정해 두면, 나중에 찾거나 고칠 때 훨씬 쉬워져요.
 3. 그래서 일이 커질수록 먼저 기준을 만들고 같이 약속하는 것이 중요해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 451 / 482
+
+← **이전**: [[450_pwa_progressive_web_app|450. PWA 프로그레시브 오프라인 캐시 (PWA, Progressive Web App)]]
+**다음**: [[452_sbom_software_supply_chain|452. SBOM 오픈소스 공급망 검증 (SBOM, Software Bill of Materials)]] →
+
+---

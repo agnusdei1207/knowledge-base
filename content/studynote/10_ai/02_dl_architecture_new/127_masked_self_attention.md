@@ -110,3 +110,14 @@ Masked Self-Attention은 **[[302_gpt_autoregressive|GPT]]·Llama 등 자기 회�
 1. Masked Self-Attention은 시험에서 **다음 문제의 답을 가리는** 거예요.
 2. 답을 미리 보면 **진짜 실력**을 측정할 수 없으니까요.
 3. GPT가 **앞 단어만 보고 다음 단어를 예측**할 수 있는 건 이 [[172_maas_mobility_as_a_service|마스]]킹 덕분이에요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 127 / 420
+
+← **이전**: [[126_positional_encoding|126. Positional Encoding - Transformer에 순서 정보를 주입하는 기법]]
+**다음**: [[128_cross_attention|128. Cross-Attention - 인코더→디코더 참조 메커니즘]] →
+
+---

@@ -124,3 +124,14 @@ tags:
 1. 프로젝트 스폰서 및 추진 위원회 의사 결정 평가는 일을 잘했는지 [[396_validation|확인]]하는 [[435_checklist_based_testing|체크리스트]]를 만들고, 실제로 했다는 증거를 모으는 방법이에요.
 2. 약속한 대로 했는지, 빠진 것은 없는지, 고친 뒤 다시 [[396_validation|확인]]했는지를 차례대로 보는 거예요.
 3. 그래서 나중에 문제가 생겨도 누구 말이 맞는지 금방 알 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 106 / 530
+
+← **이전**: [[068_software_accessibility_ui_ux_audit|68. 소프트웨어 접근성 (Software Accessibility) 점검]]
+**다음**: [[069_project_sponsor_steering_committee_decision|69. 프로젝트 스폰서 및 추진 위원회 (Steering Committee) 의사 결정]] →
+
+---

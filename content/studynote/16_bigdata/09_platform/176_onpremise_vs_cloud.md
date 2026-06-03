@@ -171,3 +171,14 @@ Hybrid Data Platform · Federated Governance
 1. [[061_on_premise_legacy_infrastructure|온프레미스]]는 우리 집 창고에 장난감과 책상을 다 두고 노는 방법이라서, 마음대로 정리할 수 있어요.
 2. 클라우드는 큰 장난감 창고를 빌려 쓰는 방법이라서, 필요할 때 많이 쓰고 끝나면 줄일 수 있어요.
 3. 그래서 매일 많이 쓰면 우리 집 방식이 좋고, 가끔 크게 놀면 빌려 쓰는 방식이 더 편해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 176 / 262
+
+← **이전**: [[175_platform_selection_criteria|175. 빅데이터 플랫폼 선택 기준 (Big Data Platform Selection Criteria)]]
+**다음**: [[177_bigdata_reference_architecture|177. 빅데이터 참조 아키텍처 (Big Data Reference Architecture)]] →
+
+---

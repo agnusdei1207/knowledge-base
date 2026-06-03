@@ -111,3 +111,14 @@ tags:
 1. [[260_bridge_pattern_abstraction_implementation|브리지]] 패턴 ([[153_bridge_pattern|Bridge Pattern]])은 손잡이와 우산 천을 따로 고를 수 있는 우산 만들기처럼 약속을 먼저 정하는 거예요.
 2. 그러면 서로 다른 사람이 해도 같은 규칙으로 움직일 수 있어요.
 3. 그래서 규모가 커질수록 두 개의 변화 축을 분리하는 일이 더 중요해져요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 462 / 530
+
+← **이전**: [[383_adapter_pattern_summary|383. 어댑터 패턴 (Adapter Pattern)]]
+**다음**: [[385_composite_pattern_summary|385. 컴포지트 패턴 (Composite Pattern)]] →
+
+---

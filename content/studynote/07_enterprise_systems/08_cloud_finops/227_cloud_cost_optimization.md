@@ -160,3 +160,14 @@ Spot-aware / serverless cloud-native optimization
 1. 클라우드 비용 절감은 안 쓰는 방 불을 끄고, 큰 냉장고 대신 필요한 크기만 쓰는 것과 비슷해요.
 2. 자주 안 보는 물건은 창고에 두고, 꼭 필요할 때만 꺼내 쓰면 돈이 덜 들어요.
 3. 그래서 컴퓨터도 일이 많을 때만 크게 쓰고, 일이 없을 때는 작게 쓰거나 쉬게 해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 227 / 482
+
+← **이전**: [[226_finops_cloud_financial_management|226. FinOps (Cloud Financial Management)]]
+**다음**: [[228_it_service_catalog|228. IT 서비스 카탈로그 (IT Service Catalog)]] →
+
+---

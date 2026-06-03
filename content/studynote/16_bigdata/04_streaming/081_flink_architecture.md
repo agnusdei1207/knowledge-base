@@ -206,3 +206,14 @@ Flink 아키텍처의 핵심은 **JobManager의 중앙 조율 + TaskManager의 [
 ### 👶 어린이를 위한 3줄 비유 설명
 
 Flink 클러스터는 큰 공장 같아요. 사장님(JobManager)이 공장 전체 일정을 관리하고, 각 작업 팀장(TaskManager)이 팀원들(TaskSlot)을 이끌며 실제 물건을 만들어요. 공장이 쓰러지지 않도록 부사장님(Standby JobManager)이 항상 대기하고, 매 10초마다 [[216_progress_in_synchronization|진행]] 상황을 창고([[013_hdfs|HDFS]])에 저장해 두어서 정전이 나도 다시 시작할 수 있어요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 81 / 262
+
+← **이전**: [[080_streaming_necessity|05. 스트리밍 처리 필요성 — 실시간 의사결정의 한계 극복]]
+**다음**: [[082_datastream_api_table_api|07. DataStream API / Table API & SQL — Flink 두 계층 처리]] →
+
+---

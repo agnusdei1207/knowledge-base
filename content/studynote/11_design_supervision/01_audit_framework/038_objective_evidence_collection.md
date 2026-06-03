@@ -218,3 +218,14 @@ AI 기반 이상 탐지 증거 활용
 1. [[056_objective_evidence_collection|객관적 증거]]는 재판에서 "제 생각에는..."이 아니라 [[933_cctv|CCTV]], 지문, 목격자 진술처럼 누구나 [[396_validation|확인]]할 수 있는 사실이에요.
 2. 감리사는 인터뷰(물어보기), 문서 검토(기록 [[396_validation|확인]]), 현장 관찰(직접 보기) 세 가지로 증거를 모아 서로 맞는지 [[396_validation|확인]]해요.
 3. 세 가지 방법이 모두 같은 문제를 가리키면 증거로서 힘이 훨씬 강해져서 누구도 반박하기 어려워요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 52 / 530
+
+← **이전**: [[037_pmo_project_management_office|37. PMO (Project Management Office)]]
+**다음**: [[038_pmo_vs_audit_difference|38. PMO와 감리의 차이 (PMO vs Audit)]] →
+
+---

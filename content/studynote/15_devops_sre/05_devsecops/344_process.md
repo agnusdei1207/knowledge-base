@@ -132,3 +132,14 @@ Data Fabric with Policy Automation
 1. [[212_data_fabric_virtualization|데이터 패브릭]]은 여러 서랍에 흩어진 장난감을 한곳에 모으지 않아도, 어디에 있는지 알려 주는 똑똑한 지도예요.
 2. 누가 써도 되는지, 조심해야 하는 장난감은 무엇인지도 함께 적어 줘요.
 3. 그래서 집이 커져도 길을 잃지 않고 필요한 것을 빨리 찾을 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 344 / 373
+
+← **이전**: [[343_process|343. 데이터 메시 도메인 프로덕트 분산 (Data Mesh)]]
+**다음**: [[345_mlops|345. MLOps 피처 스토어·모델 드리프트·재학습 파이프라인 (Machine Learning Operations)]] →
+
+---

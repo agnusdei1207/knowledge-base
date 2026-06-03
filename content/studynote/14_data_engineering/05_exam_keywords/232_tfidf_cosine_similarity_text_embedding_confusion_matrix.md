@@ -223,3 +223,14 @@ BERT Embedding · Sentence Transformer → 코사인 유사도
 ```
 2. [[359_cosine_similarity|코사인 유사도]]는 두 책이 가리키는 방향이 얼마나 비슷한지 각도로 재는 것—방향이 같을수록(각도 0도) 비슷한 책이다.
 3. [[089_confusion_matrix_tp_fp_fn_tn|혼동 행렬]]은 AI가 정답을 맞혔는지 틀렸는지 4가지 상자(TP, TN, [[293_fp_function_point|FP]], FN)에 나눠 세어보는 성적표다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 232 / 258
+
+← **이전**: [[231_smote_oversampling_class_imbalance_augmentation|231. SMOTE (Synthetic Minority Over-sampling Technique) 불균형 데이터 증강]]
+**다음**: [[233_precision_recall_f1_roc_auc_threshold|233. 정밀도(Precision) 재현율(Recall) F1 스코어 ROC AUC 임계 곡선]] →
+
+---

@@ -132,3 +132,14 @@ Merge Workflow
 숙제를 바로 내지 않아요.  
 먼저 친구와 선생님이 [[396_validation|확인]]해요.  
 PR은 그런 [[396_validation|확인]] 과정이에요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 67 / 373
+
+← **이전**: [[066_gitlab_flow_environment_branch_strategy|66. GitLab Flow - 환경(Environment) 기반 분기 및 배포 전략]]
+**다음**: [[068_git_merge_conflict_resolution_rebase|68. 병합 충돌 (Merge Conflict) 및 해결 방안 (Rebase vs Merge)]] →
+
+---

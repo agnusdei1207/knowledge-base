@@ -132,3 +132,14 @@ NIDS 공격는 [[692_stateful_inspection_firewall_principle|상태 기반 감시
 1. 비밀 편지를 보낼 때는 자물쇠와 비밀번호가 필요해요.
 2. 이 개념은 누가 진짜 친구인지 [[396_validation|확인]]하고, 편지가 바뀌지 않았는지도 살펴봐요.
 3. 그래서 나쁜 사람이 중간에 훔쳐보거나 바꾸기 어려워져요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 814 / 1120
+
+← **이전**: [[692_stateful_inspection_firewall_principle|692. 상태 기반 감시 (Stateful Inspection / 세션 테이블 체크 메모리) 기술의 원리]]
+**다음**: [[694_snort_suricata_misuse_anomaly_detection|694. 스노트 (Snort), Suricata (병렬 룰 지원) 와 오용 탐지(Misuse) vs 이상 탐지(Anomaly) 엔진]] →
+
+---

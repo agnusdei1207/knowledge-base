@@ -192,3 +192,14 @@ SLA (Service Level Agreement) 및 배포 정책 의사결정
 1. SLI는 "오늘 놀이터 미끄럼틀이 몇 번 잘 작동했는지"를 세는 점수판이에요.
 2. 점수판이 있어야 "오늘은 너무 자주 고장 났네"라고 정확하게 말할 수 있어요.
 3. 그래서 어른들은 기계 안쪽 소리만 듣지 않고, 아이들이 정말 잘 놀았는지를 숫자로 확인한답니다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 179 / 371
+
+← **이전**: [[179_toil_sre_operational_work|179. 토일 (Toil - SRE 운영 노동)]]
+**다음**: [[181_slo_service_level_objective|181. SLO (Service Level Objective, 서비스 수준 목표)]] →
+
+---

@@ -171,3 +171,14 @@ Full Rollout 또는 Multi-Armed Bandit 최적화
 1. Shadow는 새 로봇이 손님 몰래 뒤에서 연습만 해 보는 단계예요.
 2. Canary는 손님 중 아주 조금만 새 로봇 음식을 먹어 보고 괜찮은지 보는 단계예요.
 3. A/B는 두 로봇이 만든 음식을 나눠 주고 어느 쪽을 사람들이 더 좋아하는지 공평하게 비교하는 단계예요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 184 / 420
+
+← **이전**: [[183_automl_nas|183. 하이퍼파라미터 오토튜닝과 NAS (AutoML)]]
+**다음**: [[185_tensor_core_gpu|185. GPU 아키텍처 기반 텐서 코어 (Tensor Core GPU Architecture)]] →
+
+---

@@ -189,3 +189,14 @@ Incident.io, Blameless.com 등 SaaS 도구
 1. Blameless Postmortem은 실수한 사람을 벌주는 대신, 왜 실수가 생겼는지 함께 공부하는 시간이에요.
 2. 비행기 사고가 나면 조종사를 혼내는 게 아니라, 비행기 어디가 문제였는지 찾는 것과 같아요.
 3. 실수를 숨기지 않고 나눌 수 있어야, 같은 실수가 반복되지 않거든요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 35 / 373
+
+← **이전**: [[034_devops_topology|DevOps 토폴로지 (DevOps Topology)]]
+**다음**: [[036_psychological_safety|036. 심리적 안전 (Psychological Safety)]] →
+
+---

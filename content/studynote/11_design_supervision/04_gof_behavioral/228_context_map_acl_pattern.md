@@ -230,3 +230,14 @@ ACL 변환: OrderPlacedEvent { customer: Customer{...}, lineItems: [...] }
 1. ACL은 다른 나라(외부 시스템) 말을 우리말로 통역해주는 통역사 — 외국어(레거시 모델)가 우리 방(내부 [[064_relation_domain|도메인]])에 직접 들어오지 못하게 막아줘.
 2. 레거시 시스템의 이상한 약어(`CUST_NM`, `STAT_FLG`)를 우리가 이해하기 쉬운 말(`name`, `status`)로 바꿔주는 역할이 ACL이야.
 3. [[033_context|컨텍스트]] 맵은 우리 회사 부서들 사이의 협업 [[083_relationship_in_er_model|관계]]도 — "배송팀은 결제팀 시스템을 ACL로 번역해서 쓴다"처럼 각 팀이 어떻게 협업하는지 그림으로 보여줘.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 289 / 530
+
+← **이전**: [[227_boolean_parser_interpreter|227. 불리언 파서 인터프리터 (Boolean Parser Interpreter)]]
+**다음**: [[229_double_dispatch_visitor|229. 더블 디스패치와 방문자 패턴 (Double Dispatch / Visitor Pattern)]] →
+
+---

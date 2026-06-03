@@ -104,3 +104,14 @@ tags:
 1. 심각도 기준은 학교에서 준비물을 미리 챙기는 것처럼, 중요한 기준을 먼저 맞추는 일이야.
 2. 시정 계획은 선생님이 수업 중간에 계속 확인하는 것처럼, 실제로 잘 되고 있는지 보는 과정이야.
 3. 종결 증적은 시험 결과표처럼, 정말 효과가 있었는지 나중에 다시 확인하게 해주는 증거야.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 325 / 530
+
+← **이전**: [[263_web_compatibility_activex|263. 웹 호환성과 ActiveX 제거 감리 (Web Compatibility and ActiveX Removal Audit)]]
+**다음**: [[265_audit_dispute_mediation|265. 감리 이견 조율 및 중재 (Audit Dispute Mediation)]] →
+
+---

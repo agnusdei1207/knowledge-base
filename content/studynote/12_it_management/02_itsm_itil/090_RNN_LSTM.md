@@ -136,3 +136,14 @@ RNN과 LSTM은 독립된 점으로 존재하던 [[001_dikw_pyramid|데이터]]�
 1. RNN은 옛날이야기를 들을 때 "아까 호랑이가 나왔지!" 하고 방금 전 내용을 기억하는 똑똑한 머리예요.
 2. 하지만 이야기가 너무 길어지면 처음에 나온 토끼를 까먹어버리는 약점이 있었어요.
 3. 그래서 LSTM은 중요한 토끼 이야기를 절대 까먹지 않게 '비밀 수첩'에 따로 적어가며 이야기를 듣는 발명품이랍니다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 163 / 587
+
+← **이전**: [[089_configuration_management|89. 구성 관리 (Configuration Management)]]
+**다음**: [[090_configuration_item|90. CI (Configuration Item)]] →
+
+---

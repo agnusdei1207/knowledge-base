@@ -166,3 +166,14 @@ LBA/PBA 분리 + FTL 매핑
 1. SSD는 같은 종이 한 칸만 계속 지우고 쓰면 그 칸이 먼저 찢어져요.
 2. 그래서 똑똑한 관리자가 "이번엔 다른 칸에 쓰자" 하고 자리를 자꾸 바꿔 줘요.
 3. 덕분에 모든 칸이 조금씩만 닳아서 SSD를 훨씬 오래 쓸 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 330 / 803
+
+← **이전**: [[328_ssd_garbage_collection|328. 가비지 컬렉션 (Garbage Collection in SSD)]]
+**다음**: [[330_ftl|330. FTL (Flash Translation Layer)]] →
+
+---

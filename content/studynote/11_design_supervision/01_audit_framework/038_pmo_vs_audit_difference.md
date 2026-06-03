@@ -124,3 +124,14 @@ PMO와 감리의 차이를 제대로 적용하면 품질 편차를 앞단에서 
 1. PMO와 감리의 차이는 일을 잘했는지 [[396_validation|확인]]하는 [[435_checklist_based_testing|체크리스트]]를 만들고, 실제로 했다는 증거를 모으는 방법이에요.
 2. 약속한 대로 했는지, 빠진 것은 없는지, 고친 뒤 다시 [[396_validation|확인]]했는지를 차례대로 보는 거예요.
 3. 그래서 나중에 문제가 생겨도 누구 말이 맞는지 금방 알 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 53 / 530
+
+← **이전**: [[038_objective_evidence_collection|038. 객관적 증거 수집 (Objective Evidence Collection)]]
+**다음**: [[039_egovframe_architecture_audit|39. 전자정부 표준 프레임워크 아키텍처 및 적용 기준 점검 (eGovFrame Architecture Audit)]] →
+
+---

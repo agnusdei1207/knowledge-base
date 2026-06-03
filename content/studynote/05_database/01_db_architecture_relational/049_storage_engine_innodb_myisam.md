@@ -299,3 +299,14 @@ RocksDB: 대용량 쓰기 최적화
 1. InnoDB = 은행 금고 — 거래([[191_transaction_concept_states|트랜잭션]]) 안전하게. 개인 칸막이(행 잠금). 사고 나도 자동 [[658_ir_recovery|복구]]. 새 프로젝트 필수!
 2. MyISAM = 도서관 열람실 — 책([[001_dikw_pyramid|데이터]])과 카드 목록([[154_database_index_b_tree_search_optimization|인덱스]]) 분리. 읽기 빠르고 COUNT 빠름. 수정 중엔 전체 입장 금지!
 3. 마이그레이션 = 구형→디지털 금고 교체 — ALTER TABLE ENGINE=InnoDB. 대규모는 pt-osc로 무중단. [[282_performance_tactics|성능]] 3배 향상!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 49 / 600
+
+← **이전**: [[048_row_oriented_store_oltp|048. 행 지향 저장소 — Row-Oriented Store & OLTP]]
+**다음**: [[050_buffer_pool_manager|버퍼 풀 매니저 (Buffer Pool Manager)]] →
+
+---

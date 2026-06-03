@@ -135,3 +135,14 @@ FHSS는 [[954_spread_spectrum_communication_anti_jamming_cdma|확산 스펙트�
 1. 비슷한 이름의 장난감을 헷갈리지 않게 표를 붙이는 것과 같아요.
 2. 이 개념은 무엇이 어떻게 다른지 쉽게 구별하게 도와줘요.
 3. 그래서 시험에서도 실무에서도 말을 더 정확하게 쓸 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 1076 / 1120
+
+← **이전**: [[954_spread_spectrum_communication_anti_jamming_cdma|954. 확산 스펙트럼 (Spread Spectrum)]]
+**다음**: [[956_dsss_direct_sequence_spread_spectrum_chipping_code|956. DSSS (직접 확산)]] →
+
+---

@@ -198,3 +198,14 @@ tags:
 1. 철수가 보물찾기를 하는데 "다음 보물은 2번 나무 밑, 그다음은 5번 바위 밑..." 이렇게 땅을 파봐야만 다음 장소를 알 수 있었어요 (기존 [[524_linked_allocation|연결 할당]]). 땅 파느라 너무 힘들었죠.
 2. 그래서 마을 촌장님이 아예 종이 한 장에 "1번 다음은 2번, 2번 다음은 5번"이라는 **마스터 지도([[525_fat_file_allocation_table|FAT]] 테이블)**를 싹 그려서 철수에게 줬어요!
 3. 철수는 이제 삽질을 10번 할 필요 없이, 지도만 눈으로 쓱 훑어보고 마지막 보물이 있는 100번 나무로 바로 뛰어가서 땅을 한 번만 파면 된답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 734 / 800
+
+← **이전**: [[733_file_system_allocation_contiguous_linked_indexed|733. 파일 시스템 연속, 연결, 색인 할당 (File System Allocation Contiguous Linked Indexed)]]
+**다음**: [[735_inode_direct_indirect_pointer_index|735. i-node 직접/간접 포인터 인덱스 (Inode Direct Indirect Pointer Index)]] →
+
+---

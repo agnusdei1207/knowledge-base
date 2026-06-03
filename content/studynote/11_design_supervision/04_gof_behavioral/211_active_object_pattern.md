@@ -239,3 +239,14 @@ CompletableFuture<Report> future = reportService.generateReport(123L);
 1. 레스토랑에서 주문하면 번호표(Future)를 주고, 음식이 준비되면 불러줘요.
 2. 손님([[003_audit_stakeholders|Client]])은 번호표 받고 자리에서 대화를 나눌 수 있어요 — 기다리는 동안 멈추지 않아요!
 3. 주방(Servant)은 주문 목록(ActivationQueue)에서 순서대로 요리해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 272 / 530
+
+← **이전**: [[210_monitor_object_pattern|210. 모니터 객체 패턴 (Monitor Object Pattern)]]
+**다음**: [[212_reactor_pattern|212. 리액터 패턴 (Reactor Pattern)]] →
+
+---

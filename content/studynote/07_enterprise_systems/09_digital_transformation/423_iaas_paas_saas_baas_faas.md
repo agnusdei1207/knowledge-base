@@ -139,3 +139,14 @@ tags:
 1. [[201_cloud_service_models_iaas_paas_saas|IaaS PaaS SaaS BaaS FaaS]] [[201_cloud_service_models_iaas_paas_saas|클라우드 서비스 모델]]는 복잡한 일을 순서대로 정리해 주는 큰 정리함이에요.
 2. 어디에 무엇을 넣을지 먼저 정해 두면, 나중에 찾거나 고칠 때 훨씬 쉬워져요.
 3. 그래서 일이 커질수록 먼저 기준을 만들고 같이 약속하는 것이 중요해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 423 / 482
+
+← **이전**: [[422_smart_factory_cps_automation|422. 스마트 팩토리 CPS 자동 제어 (Smart Factory / CPS)]]
+**다음**: [[424_hybrid_multicloud_lock_in|424. 하이브리드 멀티 클라우드 록인 회피 전략 (Hybrid Multi-Cloud)]] →
+
+---

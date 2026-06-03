@@ -142,3 +142,14 @@ BCG 매트릭스는 50년이 지났지만 여전히 [[268_strategy_pattern|전�
 1. BCG 매트릭스는 회사의 사업들을 별, 젖소, 강아지, 물음표로 분류해요!
 2. 젖소(Cash [[542_cow_file_system|Cow]])가 버는 돈으로 별(Star)을 키우고, 강아지(Dog)는 정리해요!
 3. 스마트폰처럼 빠르게 변하는 세상에서는 이 분류가 빨리 바뀌니 자주 업데이트해야 해요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 49 / 587
+
+← **이전**: [[027_seven_s_model|27. 7S 모델 (맥킨지)]]
+**다음**: [[029_it_portfolio_management|29. IT 포트폴리오 관리 (IT Portfolio Management)]] →
+
+---

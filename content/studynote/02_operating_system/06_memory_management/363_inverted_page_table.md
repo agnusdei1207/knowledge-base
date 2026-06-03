@@ -193,3 +193,14 @@ tags:
 1. 역 [[353_page_table|페이지 테이블]] (Inverted [[353_page_table|Page Table]])은 컴퓨터가 메모리를 방처럼 나눠 쓰고 주소를 찾는 방법이에요.
 2. 먼저 [[362_hashed_page_table|해시 페이지 테이블]] ([[362_hashed_page_table|Hashed Page Table]])을 이해하면 역 [[353_page_table|페이지 테이블]] (Inverted [[353_page_table|Page Table]])이 왜 필요한지 더 쉽게 보여요.
 3. 그래서 역 [[353_page_table|페이지 테이블]] (Inverted [[353_page_table|Page Table]])을 잘 알면 나중에 [[364_segmentation|세그멘테이션]] ([[364_segmentation|Segmentation]])도 훨씬 쉽게 배울 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 363 / 800
+
+← **이전**: [[362_hashed_page_table|362. 해시 페이지 테이블 (Hashed Page Table) - 주소 공간이 64비트 이상일 때 사용]]
+**다음**: [[364_segmentation|364. 세그멘테이션 (Segmentation) - 사용자 관점의 가변 크기 논리적 단위(함수, 객체) 분할]] →
+
+---

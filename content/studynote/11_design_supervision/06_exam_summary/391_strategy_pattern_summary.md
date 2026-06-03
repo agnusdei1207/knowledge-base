@@ -111,3 +111,14 @@ tags:
 1. [[268_strategy_pattern|전략]] 패턴 ([[268_strategy_pattern|Strategy Pattern]])은 같은 게임도 공격법 카드를 바꿔 끼우며 다르게 플레이하는 것처럼 약속을 먼저 정하는 거예요.
 2. 그러면 서로 다른 사람이 해도 같은 규칙으로 움직일 수 있어요.
 3. 그래서 규모가 커질수록 [[001_algorithm_definition|알고리즘]] 변화를 독립 교체 가능하게 만드는 일이 더 중요해져요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 469 / 530
+
+← **이전**: [[390_observer_pattern_summary|390. 옵저버 패턴 (Observer Pattern)]]
+**다음**: [[392_process|392. 템플릿 메서드 패턴 (Template Method Pattern)]] →
+
+---

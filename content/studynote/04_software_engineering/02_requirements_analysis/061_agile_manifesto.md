@@ -133,3 +133,14 @@ DevOps
 [[004_agile_relation|애자일]]은 한 번에 다 끝내려 하지 않고 조금씩 해 보면서 고치는 방법이에요.  
 친구와 자주 얘기해서 더 좋은 방법을 빨리 찾는 거예요.  
 그래서 더 잘 배우고 더 빨리 좋아질 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 61 / 973
+
+← **이전**: [[060_brainstorming_4_principles|60. 브레인스토밍 4원칙 (Brainstorming 4 Principles)]]
+**다음**: [[062_scrum_framework_overview|62. 스크럼 (Scrum) 프레임워크 - 역할, 이벤트, 산출물]] →
+
+---

@@ -53,3 +53,14 @@ P2P는 **소규모에서만 유효**하며, 시스템 증가 시 [[152_hub_dummy
 1. P2P는 **모든 친구와 직접 전화**하는 거예요. 친구가 적으면 괜찮아요.
 2. 하지만 친구가 **10명이면 45개 전화선**이 필요해요! 엉켜요!
 3. 그래서 **전화 교환대([[152_hub_dummy_switching_intelligent|Hub]]/[[146_esb_enterprise_service_bus_architecture|ESB]])**를 만들어 정리하는 거예요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 142 / 482
+
+← **이전**: [[141_application_integration_architecture_overview|141. 애플리케이션 통합 아키텍처 개요 - P2P·Hub·ESB·MSA]]
+**다음**: [[143_eai_enterprise_application_integration_hub|143. EAI (Enterprise Application Integration) - Hub-and-Spoke]] →
+
+---

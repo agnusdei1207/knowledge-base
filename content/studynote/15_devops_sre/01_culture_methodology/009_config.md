@@ -285,3 +285,14 @@ Level 5: 설정 sebagai 코드
 ```
 
 설정 관리는 수동 서버 설정에서 [[020_software_configuration_management|형상 관리]], [[793_iac_idempotency_template|IaC]], [[119_gitops_single_source_of_truth|GitOps]], 자동 [[658_ir_recovery|복구]]로 진화한 흐름이다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 9 / 373
+
+← **이전**: [[008_dependencies|8. 종속성 (Dependencies) 격리 - 모든 종속성은 명시적으로 선언(package.json, pom.xml 등)]]
+**다음**: [[010_backend_services|10. 백엔드 서비스 (Backing Services) - DB, 큐, 캐시 등을 네트워크로 연결된 자원(Attached Resource)으로]] →
+
+---

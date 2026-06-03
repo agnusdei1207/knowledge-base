@@ -125,3 +125,14 @@ tags:
 1. [[485_sftp_ssh_file_transfer|SFTP]] 접속 ([[485_sftp_ssh_file_transfer|Sftp]])는 컴퓨터끼리 인사하고 [[396_validation|확인]]하는 순서를 정한 약속이에요.
 2. 순서를 건너뛰면 나쁜 사람이 친구인 척할 수 있어요.
 3. 그래서 컴퓨터는 차례대로 묻고 답하면서 서로를 믿게 돼요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 364 / 1108
+
+← **이전**: [[309_ssh_agent_forwarding|309. SSH 에이전트 포워딩 (SSH Agent Forwarding)]]
+**다음**: [[311_scp|311. SCP (SCP)]] →
+
+---

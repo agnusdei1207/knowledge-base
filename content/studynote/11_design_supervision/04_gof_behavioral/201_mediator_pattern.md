@@ -129,3 +129,14 @@ GUI 애플리케이션에서 버튼·체크박스·텍스트필드가 서로 직
 1. 미디에이터 패턴은 채팅방처럼, 모든 참여자가 채팅방(미디에이터)을 통해 소통해요.
 2. 참여자들이 서로 직접 연락처를 알 필요가 없어요.
 3. 항공 관제탑, MVC Controller, [[306_cqrs|CQRS]] MediatR이 모두 이 패턴이에요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 262 / 530
+
+← **이전**: [[200_chain_of_responsibility_pros_cons|200. 책임 연쇄 패턴 장단점 (Chain of Responsibility Pros and Cons)]]
+**다음**: [[202_mediator_observer_combined|202. 미디에이터·옵저버 통합 설계 (Mediator and Observer Combined)]] →
+
+---

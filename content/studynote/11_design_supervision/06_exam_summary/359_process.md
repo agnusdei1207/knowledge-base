@@ -111,3 +111,14 @@ tags:
 1. 의존 역전 원칙 ([[247_dip_dependency_inversion_principle|Dependency Inversion Principle]], [[247_dip_dependency_inversion_principle|DIP]])은 집의 설계도를 먼저 정하고 가전제품은 나중에 끼우는 방식처럼 약속을 먼저 정하는 거예요.
 2. 그러면 서로 다른 사람이 해도 같은 규칙으로 움직일 수 있어요.
 3. 그래서 규모가 커질수록 의존 방향을 [[164_policy|정책]] 중심으로 뒤집는 일이 더 중요해져요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 437 / 530
+
+← **이전**: [[358_architecture|358. 인터페이스 분리 원칙 (Interface Segregation Principle, ISP)]]
+**다음**: [[360_process|360. 데메테르 법칙 (Law of Demeter, LoD)]] →
+
+---

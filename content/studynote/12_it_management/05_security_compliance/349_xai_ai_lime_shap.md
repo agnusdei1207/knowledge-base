@@ -129,3 +129,14 @@ tags:
 1. [[227_xai_explainable_ai_lime_shap|XAI]] 설명 가능한 [[190_ai_llm_requirements_specification|AI]] 판단 로직 ([[326_lime|LIME]]/[[327_shap|SHAP]]) 근거 증빙은 모두가 같은 규칙으로 일하게 해 주는 반장 약속표예요.
 2. 약속만 적어 두는 것이 아니라 누가 지켰는지 확인하고 고치는 방법까지 함께 정해요.
 3. 그래서 일이 많아져도 서로 부딪히지 않고 더 안전하게 움직일 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 538 / 587
+
+← **이전**: [[348_mlops_drift_detection_pipeline|348. MLOps 드리프트 탐지 파이프라인 모니터링 감사]]
+**다음**: [[349_xai_explainable_ai_lime_shap|349. XAI 설명 가능한 AI 판단 로직 (LIME/SHAP) 근거 증빙]] →
+
+---

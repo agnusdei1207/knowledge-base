@@ -150,3 +150,14 @@ SJF와의 관계도 중요하다. SJF는 평균 대기 시간을 줄이지만 �
 1. 줄을 오래 선 친구는 조금씩 앞으로 보내 주는 규칙이 바로 노화예요.
 2. 그래서 처음에는 뒤에 있었어도 오래 기다리면 결국 차례를 받을 수 있어요.
 3. 컴퓨터는 이 방법으로 어떤 프로그램도 영원히 밥을 못 먹듯 굶지 않게 해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 182 / 800
+
+← **이전**: [[181_starvation_indefinite_blocking|181. 기아 상태 (Starvation / Indefinite Blocking)]]
+**다음**: [[183_multilevel_queue_scheduling|183. 다단계 큐 스케줄링 (Multilevel Queue Scheduling)]] →
+
+---

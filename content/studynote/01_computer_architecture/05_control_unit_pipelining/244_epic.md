@@ -172,3 +172,14 @@ EPIC (Explicitly Parallel Instruction Computing)
 1. 보통 컴퓨터는 선생님이 아이들을 보며 "지금은 누가 먼저 숙제할지"를 그때그때 정해 줘요.
 2. EPIC은 반장이 미리 "이 세 명은 같이 해도 되고, 저 친구는 나중에 해"라고 시간표를 써 오는 방법이에요.
 3. 시간표가 잘 맞으면 빨라지지만, 친구들이 갑자기 딴짓하면 미리 짠 계획이 금방 어긋난답니다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 244 / 803
+
+← **이전**: [[243_vliw|243. VLIW (Very Long Instruction Word)]]
+**다음**: [[245_memory_hierarchy|245. 메모리 계층 구조 (Memory Hierarchy)]] →
+
+---

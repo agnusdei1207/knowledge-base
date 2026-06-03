@@ -154,3 +154,14 @@ Compliance archive / ransomware recovery vault
 1. WORM은 한 번 적으면 지우개로 못 지우는 특별한 일기장 같아요.
 2. 나쁜 사람이 와서 글씨를 바꾸려 해도, 이미 쓴 페이지는 잠겨 있어서 손댈 수 없어요.
 3. 그래서 중요한 약속이나 기록을 오래 믿고 보관할 때 아주 유용해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 694 / 803
+
+← **이전**: [[692_tape_library|692. 테이프 라이브러리 (Tape Library)]]
+**다음**: [[694_optical_disc_jukebox|694. 광 디스크 주크박스]] →
+
+---

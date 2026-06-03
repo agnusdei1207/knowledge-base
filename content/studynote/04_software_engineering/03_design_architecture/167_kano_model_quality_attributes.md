@@ -199,3 +199,14 @@ MVP · 실험 · 반복 개선
 1. 어떤 장난감은 바퀴가 꼭 있어야 하고, 어떤 장난감은 빨리 달릴수록 더 좋아요.
 2. 또 어떤 장난감은 없어도 괜찮지만, 반짝 불빛이 나오면 갑자기 "우와!" 하고 더 좋아하게 돼요.
 3. 카노 모델은 이런 차이를 찾아서 무엇을 먼저 만들어야 할지 알려주는 방법이에요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 167 / 973
+
+← **이전**: [[166_moscow_prioritization_technique|166. MoSCoW 기법 - Must, Should, Could, Won't 우선순위 결정]]
+**다음**: [[168_qfd_quality_function_deployment|168. 품질 기능 전개 (QFD, Quality Function Deployment)]] →
+
+---

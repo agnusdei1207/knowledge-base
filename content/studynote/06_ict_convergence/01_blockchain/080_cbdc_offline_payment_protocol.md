@@ -129,3 +129,14 @@ tags:
 1. 오프라인 [[061_cbdc_central_bank_digital_currency|CBDC]] 결제는 인터넷이 뚝 끊긴 무인도에서도 스마트폰 두 대를 딱 부딪히기만 하면 돈을 줄 수 있는 마법이에요.
 2. 예전 폰은 은행 서버에 전화를 걸어야 돈을 옮길 수 있었는데, 이건 폰 안에 튼튼한 '강철 미니 금고(SE)'가 들어있어서 직접 동전을 넘겨주죠.
 3. 폰 안의 금고는 절대로 복사기(해커)로 돈을 뻥튀기할 수 없게 만들어져서, 나중에 인터넷이 터질 때 은행이 검사해 봐도 1원 하나 틀리지 않게 딱 맞는답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 80 / 552
+
+← **이전**: [[079_mydata_system_blockchain_receipt|079. 마이데이터 체계와 블록체인 데이터 영수증 (MyData & Blockchain Receipt)]]
+**다음**: [[081_blockchain_scalability_tps_latency|81. 블록체인 확장성 지표 (Blockchain Scalability TPS Latency)]] →
+
+---

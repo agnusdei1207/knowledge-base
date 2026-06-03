@@ -128,3 +128,14 @@ Statistical Inference
 조각을 많이 모아요.  
 가운데 모양이 예뻐져요.  
 CLT는 그런 법칙이에요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 73 / 258
+
+← **이전**: [[072_chi_square_test_categorical_independence_goodness_of_fit|72. 카이제곱 검정 (Chi-square Test) - 범주형 데이터 독립성/적합성]]
+**다음**: [[074_law_of_large_numbers_lln_convergence_probability|74. 대수의 법칙 (LLN, Law of Large Numbers) - 수렴 확률]] →
+
+---

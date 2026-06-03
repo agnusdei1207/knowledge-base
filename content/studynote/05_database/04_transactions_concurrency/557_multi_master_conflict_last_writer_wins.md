@@ -132,3 +132,14 @@ tags:
 1. 컴퓨터가 정보를 잘 정리하고 지키기 위해 쓰는 약속이에요.
 2. 약속마다 하는 일이 조금씩 달라요.
 3. 그래서 이름만 외우지 말고 언제 쓰는지 같이 알아야 해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 557 / 600
+
+← **이전**: [[556_master_slave_replication_lag_inconsistency|556. 마스터 슬레이브 지연(Replication Lag) 읽기 불일치 이슈 극복망]]
+**다음**: [[558_vector_data_ann_indexing_tuning|558. 벡터 데이터 ANN 인덱싱 파라미터(M, efConstruction) 성능/리콜 튜닝]] →
+
+---

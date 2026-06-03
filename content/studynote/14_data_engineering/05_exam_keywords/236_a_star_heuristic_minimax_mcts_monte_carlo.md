@@ -251,3 +251,14 @@ AlphaGo: MCTS + 딥러닝 정책/가치 네트워크
 ```
 2. [[239_minimax_alpha_beta_pruning|미니맥스]]는 두 사람이 번갈아 두는 보드게임에서 "상대방은 나쁜 수를 두지 않는다"고 가정하고 내가 가장 유리한 수를 계산하는 방법이다.
 3. MCTS는 바둑에서 "이 자리에 두면 어떻게 될까"를 수천 번 상상으로 빠르게 대국해보고 가장 많이 이긴 자리에 두는 방법이다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 236 / 258
+
+← **이전**: [[235_ai_turing_test_expert_system_fuzzy_logic|235. AI 튜링 테스트 (Turing Test) 전문가 시스템 (Expert System) 퍼지 논리 (Fuzzy Logic)]]
+**다음**: [[237_ml_supervised_unsupervised_reinforcement_bias_variance|237. 머신러닝 지도·비지도·강화학습 편향-분산 오류 종합]] →
+
+---

@@ -131,3 +131,14 @@ Interoperability
 모두 같은 규격을 써요.  
 그래야 서로 잘 맞아요.  
 OCI는 그런 약속이에요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 70 / 371
+
+← **이전**: [[070_container_registry_docker_hub_ecr|70. 컨테이너 레지스트리 (Container Registry) - 이미지를 저장, 공유, 배포하는 중앙 저장소 (Docker Hub,]]
+**다음**: [[072_container_runtime_containerd_crio_runc|72. 컨테이너 런타임 (Container Runtime) - 실제 컨테이너를 구동하는 저수준 엔진 (containerd, CRI-O,]] →
+
+---

@@ -147,3 +147,14 @@ RSTP는 [[259_portfast_and_bpdu_guard_cisco|포트 패스트]] / [[254_bpdu_brid
 1. 학교 우편함에 이름표가 붙어 있어야 편지가 엉뚱한 곳에 가지 않아요.
 2. 이 개념은 어느 교실로 보내야 할지 알아보는 [[104_classification_analysis|분류]] 규칙과 같아요.
 3. 그래서 같은 건물 안에서도 편지가 더 빠르고 질서 있게 움직여요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 381 / 1120
+
+← **이전**: [[259_portfast_and_bpdu_guard_cisco|259. 포트 패스트 (PortFast) / BPDU Guard (Cisco 확장)]]
+**다음**: [[261_rstp_backup_port_and_alternate_port|261. 백업 포트 (Backup Port), 대체 포트 (Alternate Port) 추가]] →
+
+---

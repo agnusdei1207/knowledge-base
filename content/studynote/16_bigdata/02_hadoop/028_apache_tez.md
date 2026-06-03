@@ -166,3 +166,14 @@ Apache Tez는 2010년대 붕괴 위기에 처했던 코끼리 제국([[843_hadoo
 ```
 
 이 흐름도는 MapReduce의 한계를 DAG와 Apache Tez가 개선해 실시간 처리로 나아가는 흐름을 보여준다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 28 / 262
+
+← **이전**: [[027_oozie_airflow|05. Apache Oozie와 Airflow - 워크플로우 오케스트레이션의 진화]]
+**다음**: [[029_datanode_block_storage_heartbeat|07. 데이터노드 (DataNode) - HDFS 분산 저장의 워커 노드 및 블록 관리]] →
+
+---

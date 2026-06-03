@@ -135,3 +135,14 @@ Composable ERP / Postmodern ERP (비즈니스 모듈별로 다양한 SaaS를 조
 1. 아주 큰 장난감 회사(본사)는 로봇을 만드는 복잡한 큰 기계(구축형 [[081_erp_enterprise_resource_planning|ERP]])가 필요해요.
 2. 하지만 동네 장난감 가게(지사)들은 그 큰 기계 대신, 태블릿으로 주문만 받는 가벼운 앱([[309_saas|SaaS]] [[081_erp_enterprise_resource_planning|ERP]])이 훨씬 [[289_cqrs_db|쓰기]] 편하죠.
 3. 이렇게 대장과 꼬마들이 각자 자기 몸집에 딱 맞는 장부를 따로 쓰면서도, 저녁에는 계산을 딱 맞추는 똑똑한 방법을 '2-Tier 구조'라고 불러요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 88 / 482
+
+← **이전**: [[087_erp_package_advantages_best_practice|87. ERP 패키지의 장점 - 베스트 프랙티스(Best Practice) 내재화, 통합 데이터베이스 구축, 유지보수 용이]]
+**다음**: [[089_postmodern_erp_best_of_breed|89. 포스트 모던 ERP (Postmodern ERP) - 거대하고 무거운 단일 모놀리식 벤더 중심에서 벗어나, 코어 ERP와 각 부문별]] →
+
+---

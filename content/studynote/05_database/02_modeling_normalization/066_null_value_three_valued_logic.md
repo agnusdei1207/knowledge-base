@@ -129,3 +129,14 @@ Query Semantics
 아직 모르는 답이 있을 수 있어요.  
 그건 0이 아니라 모른다는 표시예요.  
 NULL은 그런 특별한 표시예요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 66 / 600
+
+← **이전**: [[065_relation_characteristics|65. 릴레이션의 특징 - 튜플의 무순서, 속성의 무순서, 튜플의 유일성, 속성의 원자성]]
+**다음**: [[067_db_key_uniqueness_minimality|67. 키 (Key)의 개념 - 유일성(Uniqueness), 최소성(Minimality)]] →
+
+---

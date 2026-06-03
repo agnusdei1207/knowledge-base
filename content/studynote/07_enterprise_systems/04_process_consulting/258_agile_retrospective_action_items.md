@@ -139,3 +139,14 @@ tags:
 1. [[004_agile_relation|애자일]] 레트로스펙티브 액션 아이템 도출는 복잡한 일을 순서대로 정리해 주는 큰 정리함이에요.
 2. 어디에 무엇을 넣을지 먼저 정해 두면, 나중에 찾거나 고칠 때 훨씬 쉬워져요.
 3. 그래서 일이 커질수록 먼저 기준을 만들고 같이 약속하는 것이 중요해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 258 / 482
+
+← **이전**: [[257_digital_transformation_success_leadership_culture_data|257. 디지털 트랜스포메이션 성공 3요소 (DX Success: Leadership / Culture / Data-Driven)]]
+**다음**: [[259_is_migration_cutover_rollback_scenario|259. 정보시스템 마이그레이션 컷오버 롤백 시나리오 (IS Migration Cut-over / Rollback)]] →
+
+---

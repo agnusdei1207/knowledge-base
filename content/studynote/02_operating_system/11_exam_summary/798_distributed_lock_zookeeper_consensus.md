@@ -227,3 +227,14 @@ tags:
 1. 100명의 친구들이 동시에 보물 상자([[001_dikw_pyramid|데이터]])를 열려고 덤벼들면 쿵 부딪혀서 보물이 다 부서져 버려요! ([[136_variance|분산]] [[001_dikw_pyramid|데이터]] 꼬임)
 2. 그래서 마을 중앙에 '주키퍼 아저씨들(3명)'을 모셔뒀어요. 친구들은 보물에 손대기 전에 아저씨들한테 가서 "저 먼저요!" 하고 번호표를 뽑아야 해요.
 3. 아저씨들 중 2명 이상(과반수)이 "그래, 네가 1번이야!"라고 도장을 찍어준 딱 1명만 보물 상자를 열 수 있어서, 아무도 안 다치고 안전하게 보물을 나눌 수 있답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 798 / 800
+
+← **이전**: [[797_unikernel_security_fast_boot_edge|797. 유니커널 보안과 가벼운 부팅 특성 망 적용 (Unikernel Security Fast Boot Edge)]]
+**다음**: [[799_lamport_timestamp_happens_before_causality|799. 람포트 타임스탬프 인과 관계 정렬 (Lamport Timestamp Happens Before Causality)]] →
+
+---

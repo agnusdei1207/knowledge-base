@@ -214,3 +214,14 @@ Google Pub/Sub는 GCP 생태계에서 **운영 부담이 최소화된 완전 관
 ### 👶 어린이를 위한 3줄 비유 설명
 
 Google Pub/Sub는 학교 방송부(토픽)와 같아요. 방송부(Publisher)가 마이크에 대고 말하면([[389_mesh_topology|메시]]지 발행), 귀를 기울이고 있는 친구들(Subscriber)이 모두 듣는 구독 시스템이에요. 듣는 친구가 10명이든 1000명이든 방송부는 마이크 하나로 충분하고, 방송 시스템(GCP)이 알아서 [[130_signal|신호]]를 전달해줘요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 92 / 262
+
+← **이전**: [[091_amazon_kinesis|16. Amazon Kinesis Data Streams — AWS 관리형 스트리밍]]
+**다음**: [[093_azure_event_hubs|18. Azure Event Hubs — Kafka 호환 이벤트 스트리밍]] →
+
+---

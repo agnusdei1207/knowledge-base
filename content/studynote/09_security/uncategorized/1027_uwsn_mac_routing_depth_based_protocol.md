@@ -125,3 +125,14 @@ tags:
 1. [[1027_underwater_acoustic_network|수중 음파 통신망]] [[339_routing_overview_best_path_selection|라우팅]]/[[673_mac_message_authentication_code|MAC]] ([[928_uwsn_underwater_acoustic_sensor_network_ofdm|Uwsn]] [[673_mac_message_authentication_code|Mac]] [[339_routing_overview_best_path_selection|Routing]] Depth Based [[295_protocol_field_tcp_udp_icmp|Protocol]])는 컴퓨터 세상을 더 안전하게 만들기 위한 중요한 약속이나 도구예요.
 2. 겉으로는 어려워 보여도, 왜 필요한지와 어떻게 움직이는지를 알면 훨씬 쉬워져요.
 3. 그래서 이름만 외우지 말고 어디에 쓰이는지 같이 기억해야 해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 148 / 1108
+
+← **이전**: [[1027_cyber_insurance|1027. 사이버 보험 (Cyber Insurance)]]
+**다음**: [[1028_bug_bounty|1028. Bug Bounty (버그 바운티)]] →
+
+---

@@ -209,3 +209,14 @@ Spark SQL: SQL 인터페이스 + Predicate Pushdown
 ```
 2. 트랜스포메이션은 레시피 적기(아직 안 만들었어), 액션은 실제 요리 시작이야. 손님 주문이 와야(액션) 요리를 시작해.
 3. 자주 쓰는 결과는 cache()로 저장해두면, 매번 처음부터 만들 필요 없이 이미 만들어진 것을 바로 꺼내 쓸 수 있어.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 215 / 371
+
+← **이전**: [[215_apache_spark_in_memory_processing|215. 아파치 스파크 (Apache Spark)]]
+**다음**: [[217_lazy_evaluation_spark_optimization|217. 지연 평가 / DAG 최적화 (Lazy Evaluation)]] →
+
+---

@@ -169,3 +169,14 @@ OS 프로세스 [[079_kube_scheduler_pod_placement|스케줄러]]([[180_priority
 1. 힙은 항상 가장 중요한 것(최솟값/최댓값)이 맨 앞에 있는 특별한 줄이에요!
 2. 새 사람이 들어오면 자동으로 자기 위치(우선순위 순서)를 찾아가고, 가장 앞 사람이 나가면 뒤의 사람이 자동으로 재정렬돼요.
 3. OS의 작업 [[079_kube_scheduler_pod_placement|스케줄러]]부터 네비게이션 앱까지, 우선순위가 필요한 거의 모든 곳에서 힙이 사용된답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 78 / 175
+
+← **이전**: [[077_union_find_disjoint_set|25. Union-Find (Disjoint Set) — 분리 집합 자료구조]]
+**다음**: [[079_monotonic_stack|26. 단조 스택 (Monotonic Stack) — 다음 크거나 작은 원소 O(n) 탐색]] →
+
+---

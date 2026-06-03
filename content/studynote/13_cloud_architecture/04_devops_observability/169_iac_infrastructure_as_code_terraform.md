@@ -126,3 +126,14 @@ Policy as Code (OPA · Sentinel) → GitOps 연동
 ```
 2. 예전에는 손으로 하나하나 클릭해서 서버를 만들었지만, 이제는 코드로 한 번에 뚝딱 만들어요.
 3. 설명서(코드)가 있으면 실수로 성이 무너져도 똑같이 다시 만들 수 있어서 걱정이 없어요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 168 / 371
+
+← **이전**: [[168_gitops_push_vs_pull_deployment|168. 푸시 vs 풀 기반 배포 (GitOps Push vs Pull Deployment)]]
+**다음**: [[170_immutable_infrastructure_mutable_vs_immutable|170. 가변 인프라 (Mutable Infrastructure) vs 불변 인프라 (Immutable Infrastructure)]] →
+
+---

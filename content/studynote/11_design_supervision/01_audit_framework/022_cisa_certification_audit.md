@@ -173,3 +173,14 @@ IT 시스템의 불투명성을 CISA 5대 [[064_relation_domain|도메인]]이 [
 ---
 <!-- [✅ Gemini 3.1 Pro Verified] -->
 > **🛡️ 3.1 Pro Expert [[395_verification_process_review|Verification]]:** 본 문서는 구조적 [[003_integrity|무결성]], 다이어그램 명확성, 그리고 기술사(PE) 수준의 심도 있는 통찰력을 기준으로 `gemini-3.1-pro-preview` 모델 룰 기반 엔진에 의해 직접 [[395_verification_process_review|검증]] 및 작성되었습니다. (Verified at: 2026-04-02)
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 24 / 530
+
+← **이전**: [[021_isaca_global_standard|21. ISACA (Information Systems Audit and Control Association) - 정보시스템 감사 통제]]
+**다음**: [[023_ea_based_audit|23. EA 기반 감리 (EA-based Information System Audit)]] →
+
+---

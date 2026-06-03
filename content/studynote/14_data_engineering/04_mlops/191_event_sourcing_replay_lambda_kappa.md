@@ -347,3 +347,14 @@ CQRS: 쓰기 모델(Command)과 읽기 모델(Query) 분리
 ```
 2. [[095_lambda_architecture|람다 아키텍처]]는 두 개의 창구가 있는 은행이에요. 빠른 창구(스트림)와 정확한 창구(배치) 두 곳에서 결과를 합쳐요.
 3. [[096_kappa_architecture|카파 아키텍처]]는 스트리밍 서비스처럼 한 곳에서 모든 영상을 보여주는데, 필요하면 처음부터 다시 재생해서 새로운 자막(로직)도 입힐 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 191 / 258
+
+← **이전**: [[190_split_brain_zookeeper_fencing_quorum|190. 스플릿 브레인 (Split Brain) 방어 주키퍼 (ZooKeeper) 펜싱 합의 코디 연계망]]
+**다음**: [[192_edge_ai_onnx_tensorrt_model_serialization|192. 엣지 AI 컴파일러 (Edge AI - ONNX, TensorRT) 모델 직렬화 패키징 배포망]] →
+
+---

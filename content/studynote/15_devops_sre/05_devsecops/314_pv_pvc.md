@@ -138,3 +138,14 @@ Persistent Storage
 
 > 🧒 **어린이 비유**
 > PV는 학교 사물함, PVC는 "사물함 하나 주세요" 신청서예요. StorageClass는 작은 사물함이냐 큰 사물함이냐를 결정하는 규칙이에요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 314 / 373
+
+← **이전**: [[313_hpa_ca|HPA CA Autoscaling]]
+**다음**: [[315_process|Helm Package Manager]] →
+
+---

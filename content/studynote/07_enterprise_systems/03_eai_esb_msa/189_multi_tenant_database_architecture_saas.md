@@ -144,3 +144,14 @@ RLS · 쿼터 · 감사 로그로 격리 강화
 1. 한 학교에 많은 반이 같이 있어도, 사물함은 반마다 다르게 써야 해요.
 2. 선생님은 누가 어느 반인지 알고 숙제와 공지도 헷갈리지 않게 나눠 줘야 해요.
 3. 그래야 학교를 크게 운영하면서도 다른 반 물건이 섞이지 않아요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 189 / 482
+
+← **이전**: [[188_anti_corruption_layer_acl_pattern|188. 부패 방지 계층 (Anti-Corruption Layer, ACL) 패턴 - 레거시 의미 오염 차단]]
+**다음**: [[190_event_driven_architecture_eda_pubsub|190. 이벤트 기반 아키텍처 (Event-Driven Architecture, EDA) - 비동기 Publish/Subscribe]] →
+
+---

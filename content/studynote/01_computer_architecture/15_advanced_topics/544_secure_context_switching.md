@@ -161,3 +161,14 @@ Spectre · Meltdown 이후 predictor barrier · buffer flush
 1. 컴퓨터는 여러 친구가 한 책상을 돌려 쓸 때, 앞 친구의 비밀 메모가 남지 않게 정리해야 해요.
 2. 그냥 의자만 바꾸면 되는 게 아니라, 책상 위 종이와 가루와 힌트까지 치워야 다음 친구가 몰래 보지 못해요.
 3. 그래서 안전한 [[034_context_switch|컨텍스트 스위칭]]은 "자리 바꾸기"가 아니라 "비밀 청소까지 포함한 자리 바꾸기"예요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 544 / 803
+
+← **이전**: [[543_pqc_accelerator|543. 양자 내성 암호 가속기 (PQC Accelerator)]]
+**다음**: [[545_interrupt_latency|545. 인터럽트 지연 시간 (Interrupt Latency) 최소화]] →
+
+---

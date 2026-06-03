@@ -178,3 +178,14 @@ tags:
 1. 하드 디스크 드라이브 (HDD) 구조은 컴퓨터가 디스크와 장치가 [[001_dikw_pyramid|데이터]]를 주고받는 길을 정리하는 방법이에요.
 2. 먼저 io_uring을 이해하면 하드 디스크 드라이브 (HDD) 구조이 왜 필요한지 더 쉽게 보여요.
 3. 그래서 하드 디스크 드라이브 (HDD) 구조을 잘 알면 나중에 [[466_logical_block_address_lba|논리적 블록 주소]] (LBA, Logical Block Address)도 훨씬 쉽게 배울 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 465 / 800
+
+← **이전**: [[464_io_uring|464. io_uring (I/O Uring)]]
+**다음**: [[466_logical_block_address_lba|466. 논리적 블록 주소 (LBA, Logical Block Address) - 1차원 배열로 매핑]] →
+
+---

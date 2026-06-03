@@ -114,3 +114,14 @@ Adagrad → RMSProp → Adam으로 이어지는 적응적 [[080_gradient_descent
 1. Adagrad는 "자주 쓰는 도구는 조금씩, 새 도구는 많이" 업데이트하는 똑똑한 AI예요.
 2. 하지만 시간이 지나면 모든 도구를 너무 조금씩 업데이트해서 AI가 성장을 멈추는 문제가 있어요.
 3. RMSProp은 이를 고쳐서 "최근에 쓴 것만 기억"하게 해서 AI가 계속 성장할 수 있게 했어요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 364 / 420
+
+← **이전**: [[363_softmax_backprop|363. 소프트맥스 역전파 (Softmax Backpropagation)]]
+**다음**: [[365_glove_word_embedding|365. GloVe (Global Vectors for Word Representation)]] →
+
+---

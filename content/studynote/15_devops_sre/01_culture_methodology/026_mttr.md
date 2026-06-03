@@ -136,3 +136,14 @@ MTTF (Mean Time to Failure)  : 최초 가동 ~ 첫 장애까지
 1. MTTR은 게임에서 다시 살아나는 데 걸리는 시간이에요! 빠를수록 좋고, 방법을 알아야 빠르게 살아날 수 있어요.
 2. 화재 탐지기 → 소방차 출동 → 불 위치 파악 → 진화처럼, 장애도 탐지→대응→진단→[[658_ir_recovery|복구]] 4단계로 줄여야 해요.
 3. AI가 알아서 불을 탐지하고 자동으로 진압하는 세상([[099_aiops_chatbot_itsm_automation|AIOps]])이 되면 MTTR이 몇 초로 줄어든답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 26 / 373
+
+← **이전**: [[025_change_failure_rate_cfr|25. CFR (Change Failure Rate) — 변경 실패율]]
+**다음**: [[027_space_framework|27. SPACE 프레임워크 — 개발자 생산성 5차원 측정]] →
+
+---

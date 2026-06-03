@@ -134,3 +134,14 @@ RCA · Internal Control Improvement
 1. 적합성 검사는 약속한 순서대로 정말 했는지 [[396_validation|확인]]하는 검사예요.
 2. 중간 단계를 빼먹었거나 순서를 바꾸면 컴퓨터가 바로 찾아내요.
 3. 그래서 회사는 규칙을 더 잘 지키고 실수도 빨리 고칠 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 206 / 482
+
+← **이전**: [[205_process_mining_event_log_discovery_conformance|205. 프로세스 마이닝 (Process Mining)]]
+**다음**: [[207_model_enhancement_process_mining_simulation|207. 모델 향상 (Model Enhancement) - 프로세스 마이닝 기반 개선]] →
+
+---

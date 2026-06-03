@@ -136,3 +136,14 @@ CDC (Content-Defined Chunking)
 1. 똑같은 그림책이 백 권 있으면, 한 권만 두고 나머지는 “이 책은 저기 있어”라고 표시하는 게 [[546_data_deduplication|데이터 중복 제거]]예요.
 2. 그래서 책장에는 진짜 책이 조금만 있어도, 많은 친구가 함께 볼 수 있어요.
 3. 대신 어느 책이 어디 있는지 적어 둔 목록을 아주 똑똑하게 관리해야 해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 683 / 803
+
+← **이전**: [[681_erasure_coding|681. Erasure Coding (삭제 코딩) HW 연산]]
+**다음**: [[683_inline_compression|683. 인라인 압축 (Inline Compression)]] →
+
+---

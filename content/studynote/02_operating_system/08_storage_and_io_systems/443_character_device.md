@@ -178,3 +178,14 @@ tags:
 1. 문자 장치 (Character Device)은 컴퓨터가 디스크와 장치가 [[001_dikw_pyramid|데이터]]를 주고받는 길을 정리하는 방법이에요.
 2. 먼저 [[442_block_device|블록 장치]]을 이해하면 문자 장치 (Character Device)이 왜 필요한지 더 쉽게 보여요.
 3. 그래서 문자 장치 (Character Device)을 잘 알면 나중에 [[444_network_device|네트워크 장치]] ([[444_network_device|소켓 인터페이스]])도 훨씬 쉽게 배울 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 443 / 800
+
+← **이전**: [[442_block_device|442. 블록 장치 (Block Device)]]
+**다음**: [[444_network_device|444. 네트워크 장치 (소켓 인터페이스) (Network Device)]] →
+
+---

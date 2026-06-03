@@ -122,3 +122,14 @@ CI/CD
 장난감을 방마다 옮겨요.  
 어느 방에 있는지 라벨을 붙여요.  
 GitLab Flow는 그런 환경별 배치 방법이에요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 66 / 373
+
+← **이전**: [[065_github_flow_branch_strategy|65. GitHub Flow - 극단적 단순화 브랜치 전략과 CD]]
+**다음**: [[067_pull_request_pr_merge_request_code_review|67. Pull Request (PR) - 머지 리퀘스트 및 코드 리뷰 프로세스]] →
+
+---

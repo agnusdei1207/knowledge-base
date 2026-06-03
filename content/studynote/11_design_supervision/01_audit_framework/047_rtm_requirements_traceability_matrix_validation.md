@@ -321,3 +321,14 @@ NLP 요구사항 분석
 1. RTM은 연결 지도 — "요구사항 001번이 어느 코드(지점 A), 어느 테스트(검사소 B)에 있나?" 지도. 없으면 길을 잃어요!
 2. 양방향 추적 — 앞으로(요구사항→테스트: 테스트 빠진 것 찾기), 뒤로(테스트→요구사항: 불필요 테스트 찾기). 양방향 [[396_validation|확인]]!
 3. 의료 기기 RTM은 안전 인증서 — 혈당 경고 기능이 코드+테스트로 증명돼야 FDA 통과. RTM이 없으면 의료 기기 판매 금지!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 71 / 530
+
+← **이전**: [[047_rtm_bidirectional_traceability_validation|47. 요구사항 추적 매트릭스 양방향 추적성 검증 (RTM Bidirectional Traceability Validation)]]
+**다음**: [[048_software_deliverables_verification|048. 소프트웨어 산출물 검증 — Deliverables Verification]] →
+
+---

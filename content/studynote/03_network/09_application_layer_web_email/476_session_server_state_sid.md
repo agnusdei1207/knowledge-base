@@ -236,3 +236,14 @@ tags:
 1. [[475_cookie_local_state|쿠키]]가 내 이마에 '나는 착한 아이'라고 직접 써붙이고 다니는 거라면, [[160_session_controlling_terminal|세션]]은 놀이공원 매표소 금고에 내 정보를 꽁꽁 숨겨두는 거예요.
 2. 매표소 직원은 내 정보를 안전하게 금고(서버)에 넣고, 저한테는 의미 없는 **플라스틱 팔찌 열쇠([[160_session_controlling_terminal|세션]] ID)**만 하나 채워줍니다.
 3. 제가 놀이기구를 탈 때마다 팔찌를 내밀면, 직원이 금고를 열어 제 신분을 확인해요. 팔찌에 정보가 안 쓰여 있어서 도둑이 팔찌를 훔쳐봐도 제가 누군지 절대 알 수 없답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 597 / 1120
+
+← **이전**: [[475_cookie_local_state|475. 쿠키 (Cookie)]]
+**다음**: [[477_rest_api_architecture|477. REST API (Representational State Transfer)]] →
+
+---

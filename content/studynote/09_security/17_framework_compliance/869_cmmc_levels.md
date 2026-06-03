@@ -125,3 +125,14 @@ tags:
 1. [[194_cmmc_cybersecurity_maturity|CMMC]] 2.0 Levels (Level 1-3)는 학교 규칙표처럼 무엇을 준비하고 어떻게 확인할지 알려 주는 기준이에요.
 2. 규칙표만 붙여 두고 지키지 않으면 아무 소용이 없어요.
 3. 그래서 보안도 규칙과 실제 행동이 함께 맞아야 해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 955 / 1108
+
+← **이전**: [[868_http_response_splitting|868. HTTP Response Splitting (HTTP 응답 분할)]]
+**다음**: [[869_subdomain_takeover|869. Subdomain Takeover (서브도메인 탈취)]] →
+
+---

@@ -125,3 +125,14 @@ SCADA (Supervisory Control and [[001_dikw_pyramid|Data]] [[042_aarrr_funnel|Acqu
 1. SCADA (Supervisory Control and [[001_dikw_pyramid|Data]] [[042_aarrr_funnel|Acquisition]])는 학교 규칙표처럼 무엇을 준비하고 어떻게 확인할지 알려 주는 기준이에요.
 2. 규칙표만 붙여 두고 지키지 않으면 아무 소용이 없어요.
 3. 그래서 보안도 규칙과 실제 행동이 함께 맞아야 해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 981 / 1108
+
+← **이전**: [[893_ics_industrial_control_system|893. ICS (Industrial Control System)]]
+**다음**: [[895_dcs_distributed_control_system|895. DCS (Distributed Control System)]] →
+
+---

@@ -64,3 +64,14 @@ Three Pillars의 **[[325_correlation_analysis_pearson_spearman|상관 분석]](C
 1. Metrics는 **체온계**(숫자), Logs는 **진료 기록**(텍스트), Traces는 **혈류 추적**(경로)이에요.
 2. 체온계만 보면 "열이 난다"만 알지, **왜 아프고 어디가 아픈지** 몰라요.
 3. 셋 다 연결해서 보면 **정확한 병(장애 원인)**을 찾을 수 있답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 131 / 373
+
+← **이전**: [[130_monitoring_vs_observability|130. 모니터링 vs 관측 가능성 심화 - MELT와 OpenTelemetry]]
+**다음**: [[132_metrics_monitoring|132. Metrics & 모니터링 심화 - Prometheus·Grafana 기반 메트릭 수집·시각화]] →
+
+---

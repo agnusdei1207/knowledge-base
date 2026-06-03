@@ -170,3 +170,14 @@ NewSQL (CockroachDB, Spanner) - ACID + 수평 확장
 1. CAP는 "맛있고 빠르고 저렴한 식당"처럼 세 가지를 동시에 다 가질 수 없다는 법칙이에요.
 2. ACID는 은행 금고처럼 느리지만 확실한 것, BASE는 소문처럼 빠르지만 잠깐 틀릴 수 있는 것이에요.
 3. Eventual Consistency는 "나중엔 다 같아져요"라는 약속이에요. 지금 당장은 달라도 괜찮아요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 315 / 482
+
+← **이전**: [[314_telemetry_bigdata_parsing|314. 텔레메트리 빅데이터 파싱 수집 엔진 (Telemetry Big Data Parsing)]]
+**다음**: [[316_redis_thundering_herd|316. Redis 캐시와 Thundering Herd 장애 회피 전략]] →
+
+---

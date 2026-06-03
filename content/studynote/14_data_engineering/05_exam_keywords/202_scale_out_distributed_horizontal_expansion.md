@@ -265,3 +265,14 @@ Scale-Out: 수평 분산 (노드 추가)
 ```
 2. 슈퍼 셰프는 한 명이라 몸이 아프면 레스토랑 전체가 멈추지만, 100명 중 한 명이 아파도 나머지 99명이 계속 요리해요.
 3. 그래서 빅데이터처럼 엄청난 주문이 오는 곳에서는 "평범한 요리사 100명 [[268_strategy_pattern|전략]]"인 스케일 아웃을 써요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 202 / 258
+
+← **이전**: [[201_bigdata_3v_5v_volume_velocity_variety|201. 빅데이터 3V·5V 특성 (Big Data 3V·5V Characteristics)]]
+**다음**: [[203_hadoop_hdfs_block_replication_fault_tolerance|203. 하둡 HDFS (Hadoop Distributed File System) 블록 복제 내결함성]] →
+
+---

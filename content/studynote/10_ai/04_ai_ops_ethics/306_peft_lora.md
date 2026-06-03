@@ -134,3 +134,14 @@ PEFT/LoRA는 [[263_llm_large_language_model|LLM]] [[304_fine_tuning|파인 튜�
 1. **[[617_lora_lorawan_css_chirp_spread_spectrum|LoRA]]**는 엄청 큰 [[190_ai_llm_requirements_specification|AI]](175B 파라미터)를 가르칠 때, **전체 대신 핵심 부분 1%만 바꿔서** 거의 같은 효과를 내는 똑똑한 절약법이에요!
 2. 큰 [[267_weight_bias_activation|가중치]] 행렬 ΔW를 두 개의 **작은 행렬 A×B의 곱**으로 대신 표현해서 배워야 하는 숫자를 99% 줄이는 수학 마법이에요.
 3. 덕분에 집에 있는 게임용 GPU로도 **거대한 ChatGPT급 모델을 내 용도에 맞게 학습**시킬 수 있게 됐어요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 306 / 420
+
+← **이전**: [[305_prompt_engineering|305. 프롬프트 엔지니어링 (Prompt Engineering)]]
+**다음**: [[307_hallucination|307. 할루시네이션 (Hallucination)]] →
+
+---

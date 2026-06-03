@@ -129,3 +129,14 @@ DPU는 서버 아키텍처를 "하나의 CPU가 모든 것을 처리"에서 "전
 1. DPU는 학교에서 선생님(CPU) 대신 청소, 급식 나눠주기, 출결 [[396_validation|확인]]을 해주는 보조 선생님이에요.
 2. 보조 선생님이 잡일을 다 해주면 선생님은 수업(앱 처리)에만 집중할 수 있어요.
 3. SmartNIC은 한 가지만 잘 하는 도우미, DPU는 무엇이든 할 수 있는 만능 도우미예요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 526 / 552
+
+← **이전**: [[525_spatial_computing_micro_frontends_webassembly|525. 공간 컴퓨팅, 마이크로 프론트엔드, WebAssembly (Spatial Computing Micro Frontends WebAssembly)]]
+**다음**: [[527_hbm_gpu_parallel_bandwidth_llm_bottleneck|527. HBM GPU 병렬 대역폭과 LLM 병목 완화 (HBM GPU Parallel Bandwidth LLM Bottleneck)]] →
+
+---

@@ -320,3 +320,14 @@ HRW (Highest Random Weight)
 1. 전통 해싱 문제 = 사물함 번호 규칙 변경 — 사물함 [[489_raid_10_hybrid|10]]→11개로 늘릴 때 거의 모든 학생이 새 사물함으로 이사. 일관 해싱은 [[489_raid_10_hybrid|10]]%만!
 2. 링 구조 = 원형 시계 사물함 — 학생이 자기 번호에서 시계 방향 첫 사물함 이용. 새 사물함 추가 시 그 구간만 이사!
 3. 가상 노드 = 4교대 균등 배치 — 사물함 3개가 불균등한 위치라면 4개씩 복사 배치. 어디서나 고르게 [[136_variance|분산]]!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 48 / 258
+
+← **이전**: [[047_compaction_and_tombstone|047. 컴팩션과 툼스톤 — Compaction & Tombstone]]
+**다음**: [[049_data_mesh_distributed_ownership|049. 데이터 메시 — Data Mesh Distributed Ownership]] →
+
+---

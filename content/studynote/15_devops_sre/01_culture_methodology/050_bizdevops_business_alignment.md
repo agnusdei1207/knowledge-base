@@ -203,3 +203,14 @@ AI-Driven BizDevOps (현재~)
 1. BizDevOps는 식당의 요리사(개발), 홀 직원(운영), 메뉴 기획자(비즈니스)가 한 팀 — 모두 "맛있는 음식 빠르게"라는 같은 목표를 가져.
 2. OKR은 팀 모두가 공유하는 성적표 — "이번 달 손님 만족도 올리기"라는 같은 목표로 각자 역할을 맡는 거야.
 3. Feature Flag는 새 메뉴를 일부 손님에게만 먼저 시식시키는 것 — 반응이 좋으면 전체에 내고, 별로면 빼면 돼.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 50 / 373
+
+← **이전**: [[049_dataops_data_operations|049. DataOps — 데이터 운영]]
+**다음**: [[051_agile_maturity_assessment|051. 애자일 성숙도 평가 (Agile Maturity Assessment)]] →
+
+---

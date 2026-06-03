@@ -158,3 +158,14 @@ DPU (Data Processing Unit) / SmartNIC (Smart Network Interface Card)와 결합�
 1. 예전에는 손님이 올 때마다 가게 주인이 벨 소리를 듣고 문을 열었어요.
 2. DPDK는 문 앞에 전담 직원을 세워 두고 손님을 바로바로 안내하게 만든 거예요.
 3. 그래서 손님이 몰려도 훨씬 빠르지만, 그 직원은 늘 그 일만 해야 해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 672 / 803
+
+← **이전**: [[670_xdp|670. XDP (eXpress Data Path)]]
+**다음**: [[672_spdk|672. SPDK (Storage Performance Development Kit)]] →
+
+---

@@ -267,3 +267,14 @@ with DAG(
 
 ---
 > **🛡️ Expert [[395_verification_process_review|Verification]]:** 본 문서는 Apache Oozie와 Airflow의 아키텍처 차이와 각 도구의 적합한 활용 시나리오를 기준으로 기술적 [[002_bigdata_5v|정확성]]을 [[395_verification_process_review|검증]]하였습니다. (Verified at: 2026-04-05)
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 27 / 262
+
+← **이전**: [[026_apache_zookeeper|04. Apache ZooKeeper - 분산 코디네이션의 간호사]]
+**다음**: [[028_apache_tez|06. Apache Tez]] →
+
+---

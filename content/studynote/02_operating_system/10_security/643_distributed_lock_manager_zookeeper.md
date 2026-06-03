@@ -206,3 +206,14 @@ ZooKeeper는 [[501_file_definition_logical_record|파일]] 시스템과 비슷�
 1. 전국에 있는 100명의 친구들이 하나의 곰 인형(공유 [[001_dikw_pyramid|데이터]])을 가지고 놀고 싶어 해요. 한 번에 여러 명이 인형을 잡으면 찢어지겠죠?
 2. 그래서 '동물원 관리자([[798_distributed_lock_zookeeper_consensus|ZooKeeper]])'를 두었어요. 관리자에게 먼저 전화한 사람에게 임시 번호표(락)를 주고 인형을 줍니다.
 3. 인형을 가지고 놀던 친구가 잠들거나 전화를 끊으면(장애), 관리자는 즉시 인형을 뺏어서 다음 번호표를 가진 친구에게 문자를 보내(Watch) 차례를 알려줘요. 그래서 인형이 절대 찢어지지 않는답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 643 / 800
+
+← **이전**: [[642_lamport_logical_clocks|642. 람포트 논리적 시계 (Lamport's Logical Clocks) 분산 환경 동기화 정렬]]
+**다음**: [[644_microservice_resource_limits_cgroups|644. 마이크로서비스 커널 자원 제약 (Pod / Container 자원 오버커밋 킬링 정책)]] →
+
+---

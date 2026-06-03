@@ -113,3 +113,14 @@ tags:
 1. [[385_third_party_cookie_deprecation_cdw|서드파티]] [[014_api_posix|API]] 장애 전파 방어 격벽 [[171_fallback_resilience_pattern|폴백]] 서킷 디자인는 사람이 많은 운동회에서 어디로 가야 하는지 알려 주는 안내판과 비슷해요.
 2. 규칙이 없으면 모두가 한곳에 몰려서 느려지고 다투지만, 길을 정해 두면 훨씬 부드럽게 움직일 수 있어요.
 3. 그래서 컴퓨터 세상에서도 [[385_third_party_cookie_deprecation_cdw|서드파티]] [[014_api_posix|API]] 장애 전파 방어 격벽 [[171_fallback_resilience_pattern|폴백]] 서킷 디자인를 쓰면 많은 팀과 [[090_service_kubernetes_network_load_balancing|서비스]]가 덜 부딪히고 더 빨리 움직일 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 366 / 371
+
+← **이전**: [[366_architecture|366. 클라우드 앰배서더 레거시-클라우드 완충 프록시 통신 패턴 (Cloud Ambassador Pattern)]]
+**다음**: [[368_k_uam|368. K-UAM 자율 교통 메타버스 디지털 트윈 데이터 패브릭 관제 (K-UAM)]] →
+
+---

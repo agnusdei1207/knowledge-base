@@ -129,3 +129,14 @@ tags:
 1. 정보시스템 감리 (Information System [[363_audit|Audit]])는 모두가 같은 규칙으로 일하게 해 주는 반장 약속표예요.
 2. 약속만 적어 두는 것이 아니라 누가 지켰는지 확인하고 고치는 방법까지 함께 정해요.
 3. 그래서 일이 많아져도 서로 부딪히지 않고 더 안전하게 움직일 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 301 / 587
+
+← **이전**: [[186_dlp_data_loss_prevention|186. 데이터 유출 방지 (DLP, Data Loss Prevention) 시스템]]
+**다음**: [[188_audit_framework_3_perspectives|188. 감리 프레임워크 3대 관점]] →
+
+---

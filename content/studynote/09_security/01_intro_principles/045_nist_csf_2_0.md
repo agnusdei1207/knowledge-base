@@ -279,3 +279,14 @@ GOVERN 기능 추가
 1. CSF는 보안 체력 진단표 — 우리 회사가 [[655_ir_detection_analysis|식별]], [[571_protection_vs_security|보호]], 탐지, 대응, [[658_ir_recovery|복구]]를 얼마나 잘 하는지 점수 매기고 개선해요!
 2. GOVERN은 새로 추가된 "대장 역할" — 보안을 경영진이 직접 챙기고 책임지는 체계. 기술만이 아닌 경영 [[096_risk_non_risk_architecture_evaluation_flaws|리스크]]로!
 3. Tier는 운전 레벨 — 초보(Tier 1)→기본(Tier 2)→안전(Tier 3)→전문가(Tier 4). 필요한 레벨까지만 올리면 돼요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 45 / 1108
+
+← **이전**: [[044_togaf|044. TOGAF — 엔터프라이즈 아키텍처 프레임워크]]
+**다음**: [[046_zero_trust|046. 제로 트러스트 — Zero Trust Security]] →
+
+---

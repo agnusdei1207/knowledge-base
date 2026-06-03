@@ -133,3 +133,14 @@ tags:
 1. **온디바이스 [[190_ai_llm_requirements_specification|AI]]**는 AI가 인터넷 서버가 아닌 **스마트폰이나 자동차 안에서** 바로 동작하는 거예요!
 2. 덕분에 **인터넷 없어도 AI가 작동**하고, 개인 정보가 서버로 나가지 않아 **프라이버시도 [[571_protection_vs_security|보호]]**돼요.
 3. **Apple Intelligence, Galaxy [[190_ai_llm_requirements_specification|AI]]**처럼 요즘 폰에 탑재되는 [[190_ai_llm_requirements_specification|AI]] 기능이 모두 **[[424_npu|NPU]] 칩 위에서 돌아가는** 온디바이스 AI예요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 329 / 420
+
+← **이전**: [[328_federated_learning|328. 연합 학습 (Federated Learning)]]
+**다음**: [[330_ai_ethics|330. AI 윤리 (AI Ethics)]] →
+
+---

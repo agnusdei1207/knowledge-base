@@ -139,3 +139,14 @@ tags:
 1. [[120_coap_constrained_application_protocol|CoAP]] [[406_udp_user_datagram_protocol_connectionless_fast|UDP]] RESTful [[916_p2p_peer_to_peer_networking_super_node_gnutella|P2P]] [[101_iot_concept|IoT]] 경량 [[295_protocol_field_tcp_udp_icmp|프로토콜]]는 복잡한 일을 순서대로 정리해 주는 큰 정리함이에요.
 2. 어디에 무엇을 넣을지 먼저 정해 두면, 나중에 찾거나 고칠 때 훨씬 쉬워져요.
 3. 그래서 일이 커질수록 먼저 기준을 만들고 같이 약속하는 것이 중요해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 414 / 482
+
+← **이전**: [[413_mqtt_pubsub_broker_iot|413. MQTT Pub/Sub 브로커 기반 경량 IoT 프로토콜 (MQTT)]]
+**다음**: [[415_metaverse_digital_twin_sensor_sync|415. 메타버스 디지털 트윈 센서 동기화 (Metaverse & Digital Twin)]] →
+
+---

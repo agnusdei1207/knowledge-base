@@ -171,3 +171,14 @@ HTML5 Console + API (Application Programming Interface)-driven Bare-metal Ops
 1. KVM 오버 IP는 멀리 있는 컴퓨터의 화면을 집에서 보고, 내 키보드로 대신 눌러 주는 마법 리모컨이에요.
 2. 컴퓨터가 아파서 평소 길([[001_operating_system_purpose|운영체제]])이 막혀도, 비밀 통로([[710_bmc|BMC]])로 들어가서 다시 깨울 수 있어요.
 3. 그래서 서버실에 직접 뛰어가지 않아도 고장 난 컴퓨터를 살릴 수 있답니다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 714 / 803
+
+← **이전**: [[712_oob_management|712. 서버 대역외 관리 (OOB Management)]]
+**다음**: [[714_virtual_media_mount|714. 원격 미디어 마운트]] →
+
+---

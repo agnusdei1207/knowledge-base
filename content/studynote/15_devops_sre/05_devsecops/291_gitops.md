@@ -134,3 +134,14 @@ Reference Architecture
 1. [[119_gitops_single_source_of_truth|GitOps]] 선언형 [[212_synchronization_mechanisms|동기화]] 푸시 풀 배포 차이는 복잡한 일을 순서와 규칙으로 정리해서 실수하지 않게 도와주는 방법이에요.
 2. [[080_kube_controller_manager_desired_state|Desired State]] 같은 친구들과 같이 움직여야 더 잘 작동해요.
 3. 그래서 문제가 생겨도 어디서 틀렸는지 빨리 찾고 다시 고치기 쉬워져요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 291 / 373
+
+← **이전**: [[290_process|290. 피처 플래그 토글 동적 분기 트렁크 개발 (Process)]]
+**다음**: [[292_process|292. IaC 테라폼 멱등성 (Infrastructure as Code Terraform Idempotency)]] →
+
+---

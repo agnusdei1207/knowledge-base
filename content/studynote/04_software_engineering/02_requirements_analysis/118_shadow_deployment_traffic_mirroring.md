@@ -125,3 +125,14 @@ spec:
 1. 섀도 배포는 신인 배우(v2)가 **무대 뒤에서 같이 연기**하지만 관객은 못 보는 거예요.
 2. 연기 결과만 비교해서 "신인이 더 잘하면" 다음에 무대에 올려요.
 3. 관객(사용자)은 **아무 영향 없이** 베테랑(v1) 공연만 보니까 안전하답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 118 / 973
+
+← **이전**: [[117_rolling_update_deployment|117. 롤링 업데이트 (Rolling Update Deployment) - K8s 기본 무중단 배포 전략]]
+**다음**: [[119_gitops_single_source_of_truth|119. GitOps (Single Source of Truth) - Git을 단일 진실 원천으로 한 선언적 운영]] →
+
+---

@@ -148,3 +148,14 @@ LTC는 DORA의 SPACE 프레임워크(Satisfaction·[[282_performance_tactics|Per
 1. LTC는 피자 가게에서 주문을 받은 후 피자가 완성되어 배달되기까지의 총 시간이에요!
 2. 오븐(코드 빌드) 시간보다 주문 받기([[067_pull_request_pr_merge_request_code_review|PR]] 리뷰)와 품질 [[396_validation|확인]](QA) 기다리는 시간이 더 길어서 전체가 느려지는 경우가 많아요.
 3. 세계 최고 IT 기업들은 코드를 짜고 1시간 안에 수억 명의 사용자에게 배포할 수 있답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 24 / 373
+
+← **이전**: [[023_dora_deployment_frequency|23. DORA 배포 빈도 (DORA Deployment Frequency)]]
+**다음**: [[025_change_failure_rate_cfr|25. CFR (Change Failure Rate) — 변경 실패율]] →
+
+---

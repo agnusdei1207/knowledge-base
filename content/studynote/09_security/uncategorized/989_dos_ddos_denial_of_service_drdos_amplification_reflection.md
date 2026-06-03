@@ -125,3 +125,14 @@ tags:
 1. [[989_dos_denial_of_service|서비스 거부 공격]] ([[599_dos_ddos_attack|DoS]]/DDoS)는 누군가 규칙의 틈을 찾아 몰래 장난을 치는 방법이에요.
 2. 그래서 문을 단단히 잠그는 것뿐 아니라, 누가 이상하게 움직이는지도 바로 알아차려야 해요.
 3. 컴퓨터는 이상한 흔적을 빨리 보고 퍼지기 전에 멈추게 해야 안전해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 1097 / 1108
+
+← **이전**: [[989_blockchain_security|989. 블록체인 보안 (Blockchain Security)]]
+**다음**: [[990_botnet_cnc_zombie_pc_ddos_infrastructure|990. 봇넷 (Botnet) C&C (Botnet Cnc Zombie Pc Ddos Infrastructure)]] →
+
+---

@@ -104,3 +104,14 @@ UAT 고객 서명 인수인계 감리를 충실히 적용하면 프로젝트 변
 1. 수용 기준은 학교에서 준비물을 미리 챙기는 것처럼, 중요한 기준을 먼저 맞추는 일이야.
 2. [[352_defect_definition|결함]] 유예는 선생님이 수업 중간에 계속 확인하는 것처럼, 실제로 잘 되고 있는지 보는 과정이야.
 3. 서명 완료는 시험 결과표처럼, 정말 효과가 있었는지 나중에 다시 확인하게 해주는 증거야.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 359 / 530
+
+← **이전**: [[297_backup_policy_offsite_media_recovery_test|297. 백업정책 소산보관 복구테스트 감리 (Backup Policy Offsite Storage and Recovery Test Audit)]]
+**다음**: [[299_isms_p_mock_audit_architecture_consistency|299. ISMS-P 모의심사 아키텍처 정합성 감리 (ISMS P Mock Audit Architecture Consistency)]] →
+
+---

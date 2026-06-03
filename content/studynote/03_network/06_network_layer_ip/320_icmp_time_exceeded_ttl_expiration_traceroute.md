@@ -147,3 +147,14 @@ Time Exceeded는 [[318_icmp_internet_control_message_protocol_diagnostics|ICMP]]
 1. 택배를 보내려면 집 주소가 정확해야 길을 잃지 않아요.
 2. 이 개념은 인터넷 세상에서 주소를 정하고 다음 길을 찾는 지도와 같아요.
 3. 그래서 멀리 있는 친구 컴퓨터까지도 편지가 도착할 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 441 / 1120
+
+← **이전**: [[319_icmp_message_types_query_error_reporting|319. ICMP 메시지 종류]]
+**다음**: [[321_destination_unreachable_port_host_prohibited|321. Destination Unreachable (목적지 도달 불가]] →
+
+---

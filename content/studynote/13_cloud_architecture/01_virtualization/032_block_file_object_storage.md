@@ -189,3 +189,14 @@ Web App ──→ EFS (공유 정적 파일)
 1. 블록 스토리지는 개인 SSD다 — 혼자 빠르게 쓰는 데는 최고지만 친구와 나누기 어렵다.
 2. [[501_file_definition_logical_record|파일]] 스토리지는 학교 공용 사물함이다 — 여러 명이 같은 [[501_file_definition_logical_record|파일]]을 꺼내 볼 수 있다.
 3. [[494_object_storage|오브젝트 스토리지]]는 구글 드라이브다 — 인터넷만 있으면 어디서든 [[501_file_definition_logical_record|파일]]을 올리고 내려받고, 용량은 거의 무한하다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 31 / 371
+
+← **이전**: [[031_load_balancer|31. 로드 밸런서 — 트래픽 분산의 핵심 기술]]
+**다음**: [[033_cdn|CDN (Content Delivery Network, 콘텐츠 전달 네트워크)]] →
+
+---

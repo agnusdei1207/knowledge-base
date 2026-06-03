@@ -179,3 +179,14 @@ ZRAM 및 [[022_kernel_role|커널]] 스왑 [[347_compaction|압축]] 기술은 "
 1. ZRAM / [[022_kernel_role|커널]] 스왑 [[347_compaction|압축]] 기술 (Zram Swap [[159_compression|Compression]])은 컴퓨터가 메모리를 더 크게 보이게 하고 부족함을 숨기는 방법이에요.
 2. 먼저 [[423_large_page_performance|대형 페이지]] (Large [[286_page_frame|Page]] / Transparent Hugepage)의 [[381_virtual_memory|가상 메모리]] [[282_performance_tactics|성능]] 이점을 이해하면 ZRAM / [[022_kernel_role|커널]] 스왑 [[347_compaction|압축]] 기술 (Zram Swap [[159_compression|Compression]])이 왜 필요한지 더 쉽게 보여요.
 3. 그래서 ZRAM / [[022_kernel_role|커널]] 스왑 [[347_compaction|압축]] 기술 (Zram Swap [[159_compression|Compression]])을 잘 알면 나중에 [[425_oom_killer_score|OOM Killer]] ([[425_oom_killer_score|Out-of-Memory]]) 작동 우선순위 점수 (oom_score) 매커니즘도 훨씬 쉽게 배울 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 424 / 800
+
+← **이전**: [[423_large_page_performance|423. 대형 페이지 (Large Page / Transparent Hugepage)의 가상 메모리 성능 이점]]
+**다음**: [[425_oom_killer_score|425. OOM Killer (Out-of-Memory) 작동 우선순위 점수 (oom_score) 매커니즘]] →
+
+---

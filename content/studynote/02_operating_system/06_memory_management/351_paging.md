@@ -198,3 +198,14 @@ CPU가 뱉어내는 32비트(또는 64비트)의 긴 이진수 [[322_logical_vir
 1. [[259_paging|페이징]] ([[259_paging|Paging]])은 컴퓨터가 메모리를 방처럼 나눠 쓰고 주소를 찾는 방법이에요.
 2. 먼저 [[350_non_contiguous_memory_allocation|비연속 메모리 할당]] ([[350_non_contiguous_memory_allocation|Non-contiguous Memory Allocation]])을 이해하면 [[259_paging|페이징]] ([[259_paging|Paging]])이 왜 필요한지 더 쉽게 보여요.
 3. 그래서 [[259_paging|페이징]] ([[259_paging|Paging]])을 잘 알면 나중에 [[352_page_size|페이지 크기]] ([[352_page_size|Page Size]])도 훨씬 쉽게 배울 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 351 / 800
+
+← **이전**: [[350_non_contiguous_memory_allocation|350. 비연속 메모리 할당 (Non-contiguous Memory Allocation)]]
+**다음**: [[352_page_size|352. 페이지 크기 (Page Size) - 주로 4KB. 커지면 내부 단편화 증가, 테이블 크기 감소]] →
+
+---

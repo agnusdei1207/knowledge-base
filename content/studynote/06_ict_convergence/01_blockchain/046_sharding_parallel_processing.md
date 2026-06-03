@@ -297,3 +297,14 @@ PeerDAS, 1,600만 TPS (L2 포함)
 1. [[280_sharding|샤딩]]은 계산대 여러 개 — 슈퍼마켓에 계산원 1명(단일 체인) → 계산대 10개(10개 샤드)로 동시에 계산. TPS 10배!
 2. 1% 공격 위험 — 소규모 그룹(샤드)은 더 쉽게 공격당해요. 주기적 랜덤 배치(셔플)로 공격자가 누구와 한 팀인지 모르게!
 3. Ethereum의 선택 — 직접 실행 [[280_sharding|샤딩]] 대신, L2 [[042_rollup_l2_solution|롤업]]이 실행하고 이더리움은 [[001_dikw_pyramid|데이터]] 저장만. Blob [[001_dikw_pyramid|데이터]]로 [[042_rollup_l2_solution|롤업]] 수수료 100배 절감!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 46 / 552
+
+← **이전**: [[045_sidechain_bridge_polygon|045. 사이드체인과 브릿지 — Sidechain & Bridge (Polygon)]]
+**다음**: [[047_hard_fork_chain_split|047. 하드 포크 — Hard Fork & Chain Split]] →
+
+---

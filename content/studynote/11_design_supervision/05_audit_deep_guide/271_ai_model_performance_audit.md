@@ -104,3 +104,14 @@ tags:
 1. 정확도는 학교에서 준비물을 미리 챙기는 것처럼, 중요한 기준을 먼저 맞추는 일이야.
 2. 추론 [[015_지연_데이터_관점|지연]]시간은 선생님이 수업 중간에 계속 확인하는 것처럼, 실제로 잘 되고 있는지 보는 과정이야.
 3. [[468_model_drift_retraining|모델 드리프트]]는 시험 결과표처럼, 정말 효과가 있었는지 나중에 다시 확인하게 해주는 증거야.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 332 / 530
+
+← **이전**: [[270_iot_dtls_protocol_audit|270. IoT DTLS 프로토콜 감리 (IoT DTLS Protocol Audit)]]
+**다음**: [[272_cisa_domain_knowledge|272. CISA 도메인 지식 응용 (CISA Domain Knowledge Application)]] →
+
+---

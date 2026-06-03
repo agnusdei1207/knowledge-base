@@ -183,3 +183,14 @@ tags:
 1. 지역 교체 (Local Replacement)은 컴퓨터가 메모리를 더 크게 보이게 하고 부족함을 숨기는 방법이에요.
 2. 먼저 [[399_global_replacement|전역 교체]] ([[399_global_replacement|Global Replacement]])을 이해하면 지역 교체 (Local Replacement)이 왜 필요한지 더 쉽게 보여요.
 3. 그래서 지역 교체 (Local Replacement)을 잘 알면 나중에 [[401_page_replacement_algorithms|페이지 교체 알고리즘]] ([[401_page_replacement_algorithms|Page Replacement Algorithms]])도 훨씬 쉽게 배울 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 400 / 800
+
+← **이전**: [[399_global_replacement|399. 전역 교체 (Global Replacement) - 전체 프로세스 프레임 대상 (처리량 높음, 주로 사용)]]
+**다음**: [[401_page_replacement_algorithms|401. 페이지 교체 알고리즘 (Page Replacement Algorithms)]] →
+
+---

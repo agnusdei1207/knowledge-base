@@ -249,3 +249,14 @@ class OrderServiceTest {
 1. Mock은 영화 촬영에서 진짜 폭발 대신 쓰는 가짜 폭발 효과 — 진짜(DB, 외부 [[014_api_posix|API]]) 없이도 실제처럼 테스트할 수 있어.
 2. Stub은 "이 번호로 전화하면 항상 '안녕하세요'라고 대답하는 녹음 안내" — 미리 답변을 정해두고 테스트할 수 있어.
 3. Mock은 "감독이 배우가 대본대로 말했는지 [[396_validation|확인]]하는 것" — 단순히 결과만 보는 게 아니라 어떻게 실행됐는지(verify)도 [[395_verification_process_review|검증]]한다는 점이 Stub과 달라.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 283 / 530
+
+← **이전**: [[221_promise_future_async|221. Promise/Future 비동기 패턴 (Promise/Future Async Pattern)]]
+**다음**: [[223_circuit_breaker_pattern|223. 서킷 브레이커 패턴 (Circuit Breaker Pattern)]] →
+
+---

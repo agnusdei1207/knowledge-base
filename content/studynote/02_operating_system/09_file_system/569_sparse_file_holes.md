@@ -146,3 +146,14 @@ tags:
 1. 멍청한 엄마(일반 무식한 공간 물리 할당 [[517_virtual_file_system_vfs|VFS]] 늪!)는 집 빈 공터(하드웨어 스토리지 볼륨 빔!)에 거대한 100층 높이의 책장(새로운 [[501_file_definition_logical_record|파일]] 레이아웃!) 을 살 때, 꼭 실제로 나무판자(디스크 0 [[074_byte|바이트]] Null [[001_dikw_pyramid|데이터]] 떡칠 랙!) 100층어치 10톤을 목수에게 무조건 다 미리 돈 주고 짜라고 시켜 통장을 거덜 내는 파산(Time I/O Waste 멸망 랙!)을 야기했어요 덜덜 에러!
 2. 그래서 똑똑한 최신 아키텍트 건축가 로봇이 **"스파스 폴더 빔! 유령 중간 허공 [[501_file_definition_logical_record|파일]] 마법 홀로그램!(Sparse [[501_file_definition_logical_record|File]] Hole 통치 록백!)"** 마법을 결속해 줬어요! 엄마가 또 100층 책장 사와! 명령합니다! 건축가 로봇은 나무(설치 디스크 소모)로 1층 바닥과 100층 꼭대기 딸랑 지붕 두 개만 지어요. 그리고 2층~99층 사이에는 "여기는 빈 수납 공간입니다(i-node 장부 허공 레이블 스피드!)" 라는 투명 [[275_react_framework|환각]] 팻말만 달아둬요! 돈(디스크 소모율 컷!) 한 푼도 안 쓰고 거대한 수납장 껍데기를 창조해요 도출!
 3. 치명적 슬픔 이사 갈 때 멍청한 복사 기계의 대참사 폭발 발생! 앗! 이 영원한 책장 [[275_react_framework|환각]] 마법에도 끔찍한 모순 단점이 있어요. 이사 갈 때([[501_file_definition_logical_record|파일]] 복사 [[555_backup_and_restore_strategy|Backup]] [[555_backup_and_restore_strategy|백업]] 타격!) 멍청한 포장 로봇(`cp`, 옛날 `tar` 봇 늪!) 이 오면 저 [[275_react_framework|환각]] 팻말을 이해 못 하고 "오? 2층이 분명 공기 공간(Null 0) 인데? 똑같이 공기를 새 집에 넣어줘야지!" 라며 시중에 있는 [모든 투명 아크릴판 99층어치 쓰레기 분량]을 돈 주고 사와 [[555_backup_and_restore_strategy|백업]] 새 하드에 꽉꽉 처넣어서(거대 뻥튀기 뚱뚱이 복사 Disk Full 멸망 파단!) 1초 만에 [[555_backup_and_restore_strategy|백업]] 기계를 파산시키는 도스 사기(Trade-off 지옥 결사 파단!)를 영원히 감당해야 하는 마법의 [[123_pipe|파이프]] 튜브랍니다. 진화 랙!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 569 / 800
+
+← **이전**: [[568_mandatory_advisory_lock|568. 강제적 잠금 (Mandatory Lock) vs 권고적 잠금 (Advisory Lock)]]
+**다음**: [[570_inotify_file_monitoring|570. 리눅스 inotify 시스템 (Inotify File Monitoring)]] →
+
+---

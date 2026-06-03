@@ -153,3 +153,14 @@ Level 3
 1. Level 2는 장난감 상자에 이름표만 붙이는 게 아니라, 꺼내기·넣기·고치기 규칙까지 정해 놓는 거예요.
 2. 그래서 친구도 어떤 행동을 해야 하는지 쉽게 이해할 수 있어요.
 3. 모두가 같은 규칙을 쓰면 실수도 줄고, 정리도 더 쉬워져요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 160 / 482
+
+← **이전**: [[159_rest_level_1_resources|159. Level 1 - 리소스별 고유 URI 할당]]
+**다음**: [[161_rest_level_3_hateoas|161. Level 3 - HATEOAS (Hypermedia As The Engine Of Application State), 응답에]] →
+
+---

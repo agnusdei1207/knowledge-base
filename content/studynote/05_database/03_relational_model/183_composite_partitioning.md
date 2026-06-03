@@ -192,3 +192,14 @@ SUBPARTITIONS 8 (
 1. [[261_composite_pattern_tree_structure|컴포지트]] [[179_table_partitioning_concept|파티셔닝]]은 큰 장난감장을 먼저 월별 칸으로 나누고, 그 안을 다시 친구 이름표나 종류별 상자로 나누는 방법이에요.
 2. 그래서 지난달 장난감은 칸째로 정리하기 쉽고, 이번 달 장난감도 한곳에만 몰리지 않아요.
 3. 하지만 작은 상자를 너무 많이 만들면 오히려 정리할 칸이 너무 많아져서 관리가 힘들어져요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 183 / 600
+
+← **이전**: [[182_list_partitioning|182. 리스트 파티셔닝 (List Partitioning) - 명시적 특정 값(지역명 등) 기준]]
+**다음**: [[184_partition_pruning|184. 파티션 프루닝 (Partition Pruning)]] →
+
+---

@@ -55,3 +55,14 @@ UAM은 **도심 교통의 3D 혁신**이며, eVTOL [[303_authentication_authoriz
 1. UAM은 **하늘을 나는 택시**예요! 차가 막히면 **하늘로** 가요.
 2. 전기로 움직여서 **조용하고 친환경**이에요.
 3. 빌딩 옥상(버티포트)에서 **타고 내려요**. 공항까지 안 가도 돼요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 145 / 552
+
+← **이전**: [[144_platooning_autonomous_truck_convoy|144. 군집주행 (Platooning) - 자율주행 트럭 대열 주행]]
+**다음**: [[146_k_uam_grand_challenge_corridor|146. K-UAM 그랜드 챌린지 & 회랑(Corridor) - 한국 UAM 실증]] →
+
+---

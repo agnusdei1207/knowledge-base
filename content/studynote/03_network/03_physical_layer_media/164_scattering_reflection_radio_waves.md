@@ -154,3 +154,14 @@ tags:
 1. 전파는 공처럼 날아가다가 매끈한 벽을 만나면 한쪽으로 튕겨요.
 2. 하지만 비나 나뭇잎처럼 작은 것들을 많이 만나면 힘이 여러 방향으로 흩어져요.
 3. 그래서 휴대폰 신호를 잘 보내려면 길이 튕기는지, 흩어지는지 먼저 살펴봐야 해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 285 / 1120
+
+← **이전**: [[163_penetration_diffraction_radio_waves|163. 투과율 (Penetration) / 회절 (Diffraction)]]
+**다음**: [[165_fresnel_zone_clearance|165. 프레넬 영역 (Fresnel Zone)]] →
+
+---

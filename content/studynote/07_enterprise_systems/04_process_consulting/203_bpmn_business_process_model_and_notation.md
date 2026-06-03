@@ -138,3 +138,14 @@ BPMN + DMN + Mining 연계
 1. BPMN은 회사 일이 어떻게 흘러가는지 그리는 특별한 그림 약속이에요.
 2. 동그라미는 시작, 네모는 할 일, 갈림길 표시는 어느 길로 갈지 정하는 곳이에요.
 3. 그래서 사람들도 이해하고 컴퓨터도 따라 하기 쉬워져요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 203 / 482
+
+← **이전**: [[202_bpm_lifecycle_design_execution_monitoring_optimization|202. BPM 라이프사이클 (Business Process Management Lifecycle)]]
+**다음**: [[204_workflow_management_system_business_automation|204. 워크플로우 관리 시스템 (Workflow Management System)]] →
+
+---

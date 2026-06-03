@@ -54,3 +54,14 @@ CNN은 **컴퓨터 비전의 기본 아키텍처**이며, ResNet의 Skip Connect
 1. CNN은 **돋보기로 그림의 부분**을 하나씩 살펴보는 거예요.
 2. 먼저 **선(엣지)**을 찾고, 다음에 **모양(형태)**, 마지막에 **물체(고양이!)**를 인식해요.
 3. 사진 인식·얼굴 인식 등 **눈(비전) 관련 [[190_ai_llm_requirements_specification|AI]]**의 핵심이에요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 135 / 258
+
+← **이전**: [[134_regularization_dropout_batch_norm|134. 정규화 기법 (Regularization) - Dropout·BatchNorm·L1/L2]]
+**다음**: [[136_rnn_recurrent_neural_network|136. RNN (Recurrent Neural Network) - 순환 신경망과 시퀀스 처리]] →
+
+---

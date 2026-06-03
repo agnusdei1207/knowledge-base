@@ -174,3 +174,14 @@ Restore drill and cloud backup-restore evolution
 1. 콜드 사이트는 비가 오면 잠시 들어갈 수 있게 미리 빌려 둔 빈 집이에요.
 2. 집 안에는 전기와 인터넷만 있고 침대나 책상은 없어서 나중에 가져와야 해요.
 3. 그래서 돈은 적게 들지만, 다시 살 준비를 하는 데 시간이 오래 걸려요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 295 / 587
+
+← **이전**: [[180_warm_site_dr|180. 웜 사이트 (Warm Site)]]
+**다음**: [[182_network_separation_model|182. 망분리 (Network Separation) 모델]] →
+
+---

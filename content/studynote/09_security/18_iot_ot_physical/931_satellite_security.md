@@ -125,3 +125,14 @@ tags:
 1. [[592_satellite_communication_characteristics|위성 통신]] 보안 (Satellite [[283_security_tactics|Security]])는 컴퓨터 세상을 더 안전하게 만들기 위한 중요한 약속이나 도구예요.
 2. 겉으로는 어려워 보여도, 왜 필요한지와 어떻게 움직이는지를 알면 훨씬 쉬워져요.
 3. 그래서 이름만 외우지 말고 어디에 쓰이는지 같이 기억해야 해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 1019 / 1108
+
+← **이전**: [[931_emp_protection_faraday_cage_optical_fiber_shielding|931. EMP 방호 통신망 (전자기 펄스 쉴딩 시스템)]]
+**다음**: [[932_physical_security_elements|932. 물리적 보안 3대 요소 (Deterrence, Delay, Detection)]] →
+
+---

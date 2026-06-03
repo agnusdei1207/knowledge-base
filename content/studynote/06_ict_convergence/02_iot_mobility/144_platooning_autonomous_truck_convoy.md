@@ -53,3 +53,14 @@ Platooning: 선두 → 후속1 → 후속2 → 후속3
 1. 군집주행은 **기러기 V자 비행**이에요. 선두가 바람을 막아줘요.
 2. 뒤따르는 트럭은 **바람 [[003_resistance|저항]]이 적어** 기름을 덜 써요(15%↓).
 3. 무전(V2V)으로 **"나 감속한다!"** 알려서 동시에 움직여요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 144 / 552
+
+← **이전**: [[143_c_v2x_cellular_based_communication|143. C-V2X (Cellular V2X) - 5G 셀룰러 기반 차량 통신]]
+**다음**: [[145_uam_urban_air_mobility_evtol|145. UAM (Urban Air Mobility) - 도심 항공 모빌리티 & eVTOL]] →
+
+---

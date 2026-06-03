@@ -104,3 +104,14 @@ tags:
 1. 유발 지표는 학교에서 준비물을 미리 챙기는 것처럼, 중요한 기준을 먼저 맞추는 일이야.
 2. 위험 소유자는 선생님이 수업 중간에 계속 확인하는 것처럼, 실제로 잘 되고 있는지 보는 과정이야.
 3. 대응 추적은 시험 결과표처럼, 정말 효과가 있었는지 나중에 다시 확인하게 해주는 증거야.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 345 / 530
+
+← **이전**: [[283_pmo_preventive_quality_plan|283. PMO 예방적 품질통제 계획 (PMO Preventive Quality Plan)]]
+**다음**: [[285_evm_schedule_performance|285. EVM 일정성과 감리 (EVM Schedule Performance Audit)]] →
+
+---

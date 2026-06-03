@@ -129,3 +129,14 @@ Argo CD / Flux
 Argo CD와 Flux는 공책에 적어 둔 약속대로 방을 정리하는 로봇이에요.  
 공책과 방이 다르면 바로 알려 주고 맞춰 줘요.  
 그래서 늘 같은 상태를 유지하기 쉬워요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 59 / 373
+
+← **이전**: [[058_dx_developer_experience|58. 개발자 경험 (DX, Developer Experience) 향상 전략]]
+**다음**: [[060_chatops|60. ChatOps (Chat + Operations) 협업 운영 모델]] →
+
+---

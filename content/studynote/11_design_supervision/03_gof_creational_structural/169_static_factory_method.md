@@ -151,3 +151,14 @@ tags:
 1. 정적 [[254_factory_method_pattern_subclass_creation|팩토리 메서드]]는 장난감을 직접 만들지 않고, 원하는 이름을 말하면 가게가 알맞은 장난감을 꺼내 주는 거예요.
 2. 같은 장난감이 이미 있으면 새로 만들지 않고, 있는 것을 다시 줄 수도 있어요.
 3. 그래서 우리는 만드는 방법보다 "무엇을 원하느냐"에 더 집중할 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 225 / 530
+
+← **이전**: [[168_template_method_factory_method_combo|168. 템플릿 메서드와 팩토리 메서드 결합 (Template Method + Factory Method)]]
+**다음**: [[170_module_pattern|170. 모듈 패턴 (Module Pattern)]] →
+
+---

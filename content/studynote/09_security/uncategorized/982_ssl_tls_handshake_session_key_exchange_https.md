@@ -125,3 +125,14 @@ SSL/[[694_thread_local_storage_tls|TLS]] 핸드셰이크 ([[982_ssl_tls_handshak
 1. SSL/[[694_thread_local_storage_tls|TLS]] 핸드셰이크 ([[982_ssl_tls_handshake|Ssl TLS Handshake]] [[140_session_key|Session Key]] Exchange [[471_https_http_over_tls|Https]])는 학교 규칙표처럼 무엇을 준비하고 어떻게 확인할지 알려 주는 기준이에요.
 2. 규칙표만 붙여 두고 지키지 않으면 아무 소용이 없어요.
 3. 그래서 보안도 규칙과 실제 행동이 함께 맞아야 해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 1083 / 1108
+
+← **이전**: [[982_llm07_plugin_abuse|982. LLM07: Plugin Abuse (LLM07: Plugin Abuse)]]
+**다음**: [[983_llm08_autonomous_agent_risk|983. LLM08: Autonomous Agent Risk (LLM08: Autonomous Agent Risk)]] →
+
+---

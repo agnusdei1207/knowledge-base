@@ -192,3 +192,14 @@ struct {
 1. 캐시 인식 [[001_dikw_pyramid|데이터]] 구조 (Cache-aware [[001_dikw_pyramid|Data]] Structures)은 컴퓨터가 메모리를 방처럼 나눠 쓰고 주소를 찾는 방법이에요.
 2. 먼저 [[375_memory_protection_keys|메모리 보호 키]] ([[375_memory_protection_keys|Memory Protection Keys]])을 이해하면 캐시 인식 [[001_dikw_pyramid|데이터]] 구조 (Cache-aware [[001_dikw_pyramid|Data]] Structures)이 왜 필요한지 더 쉽게 보여요.
 3. 그래서 캐시 인식 [[001_dikw_pyramid|데이터]] 구조 (Cache-aware [[001_dikw_pyramid|Data]] Structures)을 잘 알면 나중에 [[377_numa_allocation|NUMA]] ([[377_numa_allocation|Non-Uniform Memory Access]]) 아키텍처와 메모리 할당 [[164_policy|정책]]도 훨씬 쉽게 배울 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 376 / 800
+
+← **이전**: [[375_memory_protection_keys|375. 메모리 보호 키 (Memory Protection Keys)]]
+**다음**: [[377_numa_allocation|377. NUMA (Non-Uniform Memory Access) 아키텍처와 메모리 할당 정책]] →
+
+---

@@ -137,3 +137,14 @@ tags:
 1. **[[149_prompt_engineering_cot_few_shot|프롬프트 엔지니어링]]**은 천재 AI에게 **어떻게 질문하면 더 좋은 답을 얻는지** 연구하는 것이에요 — AI를 바꾸는 게 아니라 **질문을 바꾸는** 거예요!
 2. **퓨샷(Few-Shot)**은 "이렇게 2~3개 예시를 먼저 보여주면 AI가 패턴을 파악해" 더 잘 해요, **[[146_chain_of_thought_cot|CoT]]**는 "풀이 과정을 한 줄씩 써보면서" 수학 문제를 더 정확히 풀게 하는 기법이에요.
 3. 좋은 프롬프트 하나로 **[[190_ai_llm_requirements_specification|AI]] [[282_performance_tactics|성능]]이 수배 좋아질** 수 있어서, [[149_prompt_engineering_cot_few_shot|프롬프트 엔지니어링]]이 21세기 최고의 스킬이 됐어요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 305 / 420
+
+← **이전**: [[304_fine_tuning|304. 파인 튜닝 (Fine-Tuning)]]
+**다음**: [[306_peft_lora|306. PEFT (Parameter-Efficient Fine-Tuning) / LoRA (Low-Rank Adaptation)]] →
+
+---

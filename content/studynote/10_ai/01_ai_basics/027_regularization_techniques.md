@@ -137,3 +137,14 @@ tags:
 1. 규제화는 시험 공부 방법이에요! 기출 문제만 외우면(과적합) 처음 보는 문제에서 틀리니까, 개념을 이해(일반화)하도록 도와줘요.
 2. Dropout은 축구 훈련에서 무작위로 선수를 빼는 것이에요 — 어떤 조합으로도 이기는 팀을 만들기 위해서요!
 3. AI가 스스로 가장 좋은 규제화 방법을 자동으로 찾아주는 [[176_automl_hyperparameter_optimization_bayesian|AutoML]] 시대가 됐답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 27 / 420
+
+← **이전**: [[026_overfitting_underfitting|26. 과적합·과소적합 (Overfitting / Underfitting) — 모델 일반화의 두 극단]]
+**다음**: [[028_l1_l2_regularization|28. L1/L2 규제화 상세 (L1/L2 Regularization)]] →
+
+---

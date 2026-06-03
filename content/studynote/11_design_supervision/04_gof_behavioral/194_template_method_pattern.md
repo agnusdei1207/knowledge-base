@@ -130,3 +130,14 @@ JUnit의 `TestCase` 클래스도 [[392_process|템플릿 메서드 패턴]] 구�
 1. [[269_template_method_pattern|템플릿 메서드]]는 레시피처럼, 기본 단계(재료 준비→조리→담기)는 고정이지만 조리 방법만 바꿀 수 있어요.
 2. 스프링의 JdbcTemplate이 바로 이 패턴을 사용해요 - DB 연결·해제는 공통, [[298_qkv_attention|쿼리]] 결과 처리만 개발자가 구현해요.
 3. 공통 [[001_algorithm_definition|알고리즘]]을 한 곳에 모아서 코드 중복을 없애요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 255 / 530
+
+← **이전**: [[193_strategy_pattern|193. 전략 패턴 (Strategy Pattern)]]
+**다음**: [[195_factory_vs_template_method|195. 팩터리 메서드 vs 템플릿 메서드 (Factory Method vs Template Method)]] →
+
+---

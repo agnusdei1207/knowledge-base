@@ -127,3 +127,14 @@ ML 학습와 LLM은 이 흐름을 보강하는 대표 축이다. 하나는 기�
 1. [[190_ai_llm_requirements_specification|AI]] + 빅데이터 융합 (대규모 ML 학습, [[263_llm_large_language_model|LLM]] ([[263_llm_large_language_model|Large Language Model]]) 기반 [[001_dikw_pyramid|데이터]] 분석)은 일을 하기 전에 "어떤 규칙으로 할지" 먼저 정하는 거예요.
 2. 중간에 [[396_validation|확인]]표가 있어야 틀린 곳을 빨리 고칠 수 있어요.
 3. 그래서 끝까지 잘했다고 말하려면 증거와 순서가 같이 있어야 해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 233 / 262
+
+← **이전**: [[232_olap_druid_pinot_clickhouse_starrocks|227. 실시간 OLAP 성장 (Druid, Pinot, ClickHouse, StarRocks)]]
+**다음**: [[234_text_to_sql_on_bigdata|229. Text-to-SQL on BigData (LLM으로 자연어 쿼리 자동 생성)]] →
+
+---

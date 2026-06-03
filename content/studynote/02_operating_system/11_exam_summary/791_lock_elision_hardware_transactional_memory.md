@@ -216,3 +216,14 @@ Intel TSX는 기존 락 코드를 건드리지 않고 접두사(Prefix) [[158_in
 1. 칠판(공유 변수)에 64명의 아이들이 글씨를 써야 해요. 옛날에는 선생님([[510_lock|Lock]])이 "한 명씩 나와서 쓰고 들어가!"라고 해서 시간이 엄청 오래 걸렸어요.
 2. '[[270_lock_elision|락 엘리전]]'은 선생님 몰래 64명이 칠판으로 다 같이 우르르 달려가서([[191_transaction_concept_states|트랜잭션]] 시작) 일단 자기 자리에 미친 듯이 글씨를 쓰는 마법이에요!
 3. 만약 운 좋게 서로 팔이 안 부딪히면 1초 만에 64명 분량이 끝나요(성공). 우연히 팔이 쾅 부딪힌 2명만 선생님(하드웨어)이 멱살을 잡고 "너희 둘은 다시 제자리로 돌아가서([[098_rollback_strategy_pipeline_error_threshold|롤백]]) 원래대로 한 명씩 기다렸다가 해!"라고 정리해 준답니다. 속도가 엄청 빠르겠죠?
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 791 / 800
+
+← **이전**: [[790_posix_threads_pthreads_standard_api|790. POSIX 스레드 (pthreads) 표준 API]]
+**다음**: [[792_rcu_read_copy_update_lock_free|792. RCU 다중 독자 락 프리 고성능 기법 (Rcu Read Copy Update Lock Free)]] →
+
+---

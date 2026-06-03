@@ -55,3 +55,14 @@ DFD 4대 구성요소:
 1. DFD는 **수도관 배관도**예요. 물([[001_dikw_pyramid|데이터]])이 **어디서 어디로** 흐르는지 보여줘요.
 2. [[769_architecture|DD]]([[393_data_dictionary|데이터 사전]])는 **단어장**이에요. "주문"이 뭔지 **정확히** 정의해요.
 3. Mini-Spec은 **요리 레시피**예요. 프로세스가 **무엇을 하는지** 자세히 설명해요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 143 / 973
+
+← **이전**: [[142_requirements_analysis_conflict_resolution|142. 요구 분석 & 갈등 해결 - 이해관계자 간 상충 요구 조정]]
+**다음**: [[144_dfd_data_flow_diagram|144. DFD (Data Flow Diagram) - 데이터 흐름도 상세]] →
+
+---

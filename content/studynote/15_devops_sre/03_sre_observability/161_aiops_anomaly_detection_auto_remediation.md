@@ -160,3 +160,14 @@ APM · RUM · 합성 모니터링 데이터 결합
 1. AIOps는 학교에서 여러 경고음을 듣고 어떤 일이 같은 문제 때문인지 먼저 알려주는 똑똑한 선생님 같아요.
 2. 누가 아픈지, 어디가 고장 났는지, 무엇을 먼저 봐야 하는지를 빨리 정리해 줘요.
 3. 하지만 중요한 버튼은 아무 때나 누르면 안 되니까, 꼭 안전한 규칙 안에서만 자동으로 도와줘야 해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 161 / 373
+
+← **이전**: [[160_health_check_probes_liveness_readiness|160. 헬스 체크/프로브 (Health Check/Probes)]]
+**다음**: [[162_apm_application_performance_management|162. APM (Application Performance Management)]] →
+
+---

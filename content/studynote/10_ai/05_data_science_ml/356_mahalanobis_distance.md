@@ -113,3 +113,14 @@ tags:
 1. 유클리드 거리는 "직선 거리"고 [[106_mahalanobis_distance|마할라노비스 거리]]는 "이 점이 얼마나 특이한가"를 재는 특별한 자예요.
 2. 키와 몸무게처럼 서로 관련된 숫자들의 상관관계까지 고려해서 거리를 측정해요.
 3. 이 거리가 너무 크면 "이상한 점"([[076_outlier_detection_iqr_dbscan_isolation_forest|이상치]])으로 찾아내는 데 사용할 수 있어요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 356 / 420
+
+← **이전**: [[355_random_forest_feature_importance|355. 랜덤 포레스트 변수 중요도 (Feature Importance)]]
+**다음**: [[357_dbscan|357. DBSCAN (Density-Based Spatial Clustering)]] →
+
+---

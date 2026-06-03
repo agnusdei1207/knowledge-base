@@ -120,3 +120,14 @@ EKS에 Fargate Profile을 [[009_config|설정]]하면, 해당 네임스페이스
 1. 기존 K8s는 **자기 집(서버)을 직접 관리**해야 해서, 청소·수리를 다 해야 돼요.
 2. [[206_serverless_cold_start|서버리스]] K8s는 **호텔**처럼 방([[085_pod_kubernetes_container_unit|파드]])만 예약하면 청소·수리를 호텔(클라우드)이 다 해줘요!
 3. 대신 호텔비가 좀 비싸니까, **여행(버스트 트래픽)** 때만 호텔을 쓰고 평소에는 집에서 사는 게 좋답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 111 / 371
+
+← **이전**: [[111_container_runtime_sandboxing_gvisor_kata_containers|111. 컨테이너 런타임 샌드박싱 - gVisor·Kata Containers·런타임 보안 격리]]
+**다음**: [[113_kubeflow_mlops_orchestration|113. Kubeflow MLOps 오케스트레이션 - K8s 네이티브 ML 파이프라인·실험 관리]] →
+
+---

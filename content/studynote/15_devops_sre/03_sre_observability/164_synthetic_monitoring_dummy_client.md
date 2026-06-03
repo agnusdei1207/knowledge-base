@@ -163,3 +163,14 @@ RUM · 트레이스와 결합한 종합 관측성
 1. 합성 [[229_monitor|모니터]]링은 로봇 손님이 가게에 들어와 주문부터 계산까지 해 보는 연습이에요.
 2. 진짜 손님이 없을 때도 로봇 손님이 계속 [[396_validation|확인]]해서 문제를 빨리 알려줘요.
 3. 그래서 가게 주인은 손님이 오기 전에 고장 난 곳을 먼저 고칠 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 164 / 373
+
+← **이전**: [[163_rum_real_user_monitoring|163. RUM (Real User Monitoring)]]
+**다음**: [[165_service_mesh_telemetry_sidecar|165. 서비스 메시 기반 텔레메트리 (Service Mesh Telemetry)]] →
+
+---

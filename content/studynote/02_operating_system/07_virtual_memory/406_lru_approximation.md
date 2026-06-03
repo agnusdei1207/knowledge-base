@@ -184,3 +184,14 @@ tags:
 1. [[262_lru_page_replacement|LRU]] [[012_approximation_algorithm|근사 알고리즘]] ([[262_lru_page_replacement|LRU]] Approximation)은 컴퓨터가 메모리를 더 크게 보이게 하고 부족함을 숨기는 방법이에요.
 2. 먼저 [[262_lru_page_replacement|LRU]] ([[262_lru_page_replacement|Least Recently Used]]) 교체을 이해하면 [[262_lru_page_replacement|LRU]] [[012_approximation_algorithm|근사 알고리즘]] ([[262_lru_page_replacement|LRU]] Approximation)이 왜 필요한지 더 쉽게 보여요.
 3. 그래서 [[262_lru_page_replacement|LRU]] [[012_approximation_algorithm|근사 알고리즘]] ([[262_lru_page_replacement|LRU]] Approximation)을 잘 알면 나중에 [[407_second_chance_algorithm|2차 기회 알고리즘]] (Second-Chance / [[302_clock_algorithm|Clock Algorithm]])도 훨씬 쉽게 배울 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 406 / 800
+
+← **이전**: [[405_lru_page_replacement|405. LRU (Least Recently Used) 교체 - 가장 오랫동안 사용되지 않은 페이지 교체 (타임스탬프, 스택 하드웨어]]
+**다음**: [[407_second_chance_algorithm|407. 2차 기회 알고리즘 (Second-Chance / Clock Algorithm) - 참조 비트가 1이면 0으로 바꾸고 통과,]] →
+
+---

@@ -208,3 +208,14 @@ A 방식([[843_hadoop_rack_awareness_data_replication_topology|하둡]] [[018_ma
 1. 세상의 모든 책([[001_dikw_pyramid|데이터]])을 다 모으고 싶은데 우리 집 책장(하나의 컴퓨터)에는 자리가 없어요.
 2. 그래서 전 세계 친구들 수천 명의 방에 책을 조금씩 나누어 보관하고([[013_hdfs|HDFS]]), 특정 단어가 몇 개 있는지 찾고 싶을 땐 친구들이 각자 자기 방에서 찾은 다음 결과를 합쳐서 알려주게([[018_mapreduce|MapReduce]]) 했어요.
 3. 이렇게 여러 컴퓨터가 똘똘 뭉쳐서 어마어마하게 큰 [[001_dikw_pyramid|데이터]]를 보관하고 똑똑하게 처리하는 마법 같은 시스템을 '아파치 [[843_hadoop_rack_awareness_data_replication_topology|하둡]]'이라고 부른답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 12 / 258
+
+← **이전**: [[011_distributed_computing_scale_out|11. 분산 컴퓨팅 스케일 아웃 (Scale-out) - 저가형 범용 x86 서버(Commodity Hardware) 대수를 늘려 성능]]
+**다음**: [[013_hdfs|13. HDFS (Hadoop Distributed File System) - 거대 파일을 기본 128MB 블록 단위로 쪼개 수많은 데이터노드에]] →
+
+---

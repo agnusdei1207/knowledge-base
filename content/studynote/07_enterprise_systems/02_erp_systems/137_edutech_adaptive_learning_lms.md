@@ -53,3 +53,14 @@ LXP: 추천·소셜·맞춤 경로 (학습자 중심)
 1. 적응형 학습은 **맞춤복**이에요. 내 수준에 **딱 맞는 문제**를 줘요.
 2. 쉬운 문제는 건너뛰고, **어려운 부분만 집중**해서 공부해요.
 3. [[190_ai_llm_requirements_specification|AI]] 선생님이 **내가 뭘 모르는지** 알아서 알려준답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 137 / 482
+
+← **이전**: [[136_proptech_property_technology_real_estate|136. PropTech (부동산 기술) - 디지털 부동산 혁신]]
+**다음**: [[138_digital_onboarding_automation_ux|138. 디지털 온보딩 자동화 - 고객·직원 경험 혁신]] →
+
+---

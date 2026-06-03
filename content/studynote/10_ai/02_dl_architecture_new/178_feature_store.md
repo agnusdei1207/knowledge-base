@@ -185,3 +185,14 @@ Model Registry · Monitoring과 연결된 MLOps 고도화
 1. [[165_feature_store_training_serving_consistency|피처 스토어]]는 로봇 요리사가 먹을 재료를 미리 같은 크기로 잘라 놓는 똑똑한 냉장고예요.
 2. 그래서 연습할 때 쓰던 재료와 진짜 손님에게 줄 때 쓰는 재료가 똑같아져요.
 3. 여러 로봇이 같은 재료를 같이 쓰니까 더 빨리 배우고 덜 헷갈린답니다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 178 / 420
+
+← **이전**: [[177_mlops_pipeline_components|177. MLOps 파이프라인 구성 요소 (MLOps Pipeline Components)]]
+**다음**: [[179_kubeflow|179. 쿠브플로우 (Kubeflow)]] →
+
+---

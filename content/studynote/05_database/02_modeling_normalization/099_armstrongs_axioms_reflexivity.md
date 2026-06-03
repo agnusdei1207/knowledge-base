@@ -115,3 +115,14 @@ tags:
 1. 내가 사과를 가지면 당연히 사과 껍질도 내 거라는 게 '반사의 공리'예요.
 2. 내가 너보다 힘이 센데, 우리 둘 다 칼을 한 자루씩 쥐어도 여전히 내가 세다는 게 '첨가의 공리'예요.
 3. 내가 철수를 이기고 철수가 영희를 이기면, 나는 당연히 영희를 이긴다는 게 '이행의 공리'랍니다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 99 / 600
+
+← **이전**: [[098_transitive_functional_dependency|98. 이행적 함수적 종속 (Transitive Functional Dependency) - X->Y, Y->Z 일 때 X->Z 종속]]
+**다음**: [[100_normalization_decomposition|100. 정규화 (Normalization) - 이상 현상 방지를 위해 릴레이션을 분해(Decomposition)하는 과정]] →
+
+---

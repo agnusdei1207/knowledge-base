@@ -123,3 +123,14 @@ SNMPv1, v2c는 SMI에서 출발해 현재 메커니즘을 정교화하고, 이�
 1. 친구 이름을 전화번호부에서 찾는 것처럼 컴퓨터도 이름과 번호를 연결해요.
 2. 이 개념은 누가 아픈지 살펴보는 건강검진표와 운영일지 역할도 해요.
 3. 그래서 문제가 나도 빨리 찾고 고칠 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 652 / 1120
+
+← **이전**: [[530_smi_structure_of_management_information|530. SMI (Structure of Management Information)]]
+**다음**: [[532_snmp_v3_security_authentication_encryption|532. SNMPv3 (사용자 기반 인증, 메시지 암호화 지원 DES/AES)]] →
+
+---

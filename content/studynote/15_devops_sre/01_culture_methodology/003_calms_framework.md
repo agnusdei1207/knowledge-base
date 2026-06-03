@@ -250,3 +250,13 @@ CALMS와 [[224_vsm_value_stream_mapping|가치 흐름 매핑]]([[030_value_strea
 
 이 흐름도는 [[162_calms_framework_devops_principles|CALMS Framework]] ([[652_devops_calms_culture|DevOps]] Framework)에서 출발해 Culture (문화), Automation (자동화), [[087_lean_software_development_7_principles|Lean]] (린), Measurement (측정), Sharing (공유)으로 확장되는 [[652_devops_calms_culture|데브옵스]] 성숙도 축의 순서를 보여준다.
 
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 3 / 373
+
+← **이전**: [[002_silo_hyeonhyung|2. 사일로 (Silo) 현상 타파 - 부서 간 장벽을 허물고 공동의 목표(빠른 배포와 시스템 안정성) 달성]]
+**다음**: [[004_agile_relation|4. 애자일 (Agile)과의 관계 - 애자일이 개발(기획~코딩)의 속도를 높인다면, DevOps는 애자일의 속도를 운영(배포~모니터링)까지]] →
+
+---

@@ -115,3 +115,14 @@ tags:
 1. 명령형은 "에어컨 켜, 온도 25도로 맞춰"라고 **하나하나 지시**하는 거예요.
 2. 선언적은 "방 온도 25도 유지해"라고 **목표만 말하면** 항온기(K8s)가 알아서 조절해요.
 3. 온도가 올라가면 **자동으로 에어컨을 켜서** 다시 25도로 맞춰주니까 편리하답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 118 / 371
+
+← **이전**: [[118_oci_image_registry_tag_vulnerability|118. OCI 이미지 레지스트리 보안 (Image Registry Security) - 태그 불변성·서명·취약점 정책]]
+**다음**: [[120_pod_eviction_qos_class_kubernetes|120. Pod Eviction과 QoS Class (K8s 리소스 관리) - Guaranteed·Burstable·BestEffort]] →
+
+---

@@ -154,3 +154,14 @@ Modern Standby · hotplug · 서버 전력 최적화
 1. 컴퓨터 안에는 누가 자고 누가 일할지 정해야 전기를 아낄 수 있어.
 2. ACPI는 "램프는 잠깐 쉬고, 선풍기는 조금만 돌고, 중요한 친구는 계속 일해"라고 알려 주는 규칙표야.
 3. 그래서 컴퓨터가 덜 뜨겁고 덜 배고프면서도 필요한 일은 계속할 수 있어.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 708 / 803
+
+← **이전**: [[706_uefi|706. UEFI (Unified Extensible Firmware Interface)]]
+**다음**: [[708_nvme_queue_management|708. SMBIOS (System Management BIOS)]] →
+
+---

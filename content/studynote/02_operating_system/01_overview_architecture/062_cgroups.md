@@ -133,3 +133,14 @@ Kubernetes Limits
 누가 전기를 너무 많이 쓰면 건물 전체가 위험해져요.  
 그래서 방마다 전기 사용량을 정해 두는 거예요.  
 그 규칙이 cgroups예요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 62 / 800
+
+← **이전**: [[061_namespace|61. 네임스페이스 (Namespace) - 자원 격리]]
+**다음**: [[063_docker_architecture|63. 도커 (Docker) 아키텍처]] →
+
+---

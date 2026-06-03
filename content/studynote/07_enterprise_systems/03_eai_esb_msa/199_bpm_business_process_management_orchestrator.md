@@ -142,3 +142,14 @@ BAM 모니터링 · 병목 개선 · 지속적 프로세스 혁신
 1. BPM은 학교에서 숙제를 누가 먼저 하고 누구에게 넘길지 적어 둔 순서표예요.
 2. 선생님이 그 순서표를 보며 다음 친구에게 "이제 네 차례야" 하고 알려 주는 것과 같아요.
 3. 그래서 숙제가 어디서 멈췄는지 금방 찾고 다시 움직일 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 199 / 482
+
+← **이전**: [[198_business_rule_engine_brm_logic_decoupling|198. 비즈니스 룰 엔진 (BRE, Business Rule Engine)]]
+**다음**: [[200_low_code_no_code_enterprise_workflow_automation|200. 로우코드 / 노코드 (LC/NC) 기반 엔터프라이즈 워크플로우 자동화]] →
+
+---

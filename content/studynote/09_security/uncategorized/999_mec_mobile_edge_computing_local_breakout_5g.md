@@ -125,3 +125,15 @@ tags:
 1. [[627_mec_multi_access_edge_computing_5g|MEC]] ([[999_mec_mobile_edge_computing|모바일 엣지 컴퓨팅]])는 컴퓨터 세상을 더 안전하게 만들기 위한 중요한 약속이나 도구예요.
 2. 겉으로는 어려워 보여도, 왜 필요한지와 어떻게 움직이는지를 알면 훨씬 쉬워져요.
 3. 그래서 이름만 외우지 말고 어디에 쓰이는지 같이 기억해야 해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 1108 / 1108
+
+← **이전**: [[998_openflow_protocol_sdn_southbound_flow_table|998. OpenFlow 프로토콜 (Openflow Protocol Sdn Southbound Flow Table)]]
+
+✅ **마지막 글입니다.**
+
+---

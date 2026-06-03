@@ -139,3 +139,14 @@ tags:
 1. [[001_dikw_pyramid|데이터]] 늪는 복잡한 일을 순서대로 정리해 주는 큰 정리함이에요.
 2. 어디에 무엇을 넣을지 먼저 정해 두면, 나중에 찾거나 고칠 때 훨씬 쉬워져요.
 3. 그래서 일이 커질수록 먼저 기준을 만들고 같이 약속하는 것이 중요해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 288 / 482
+
+← **이전**: [[287_schema_on_write_rdb_dw_approach|287. 스키마 온 라이트 (Schema on Write) - RDB/DW 방식]]
+**다음**: [[289_data_lakehouse_lake_dw_hybrid_architecture|289. 데이터 레이크하우스 (Data Lakehouse) - 레이크+DW 융합 아키텍처]] →
+
+---

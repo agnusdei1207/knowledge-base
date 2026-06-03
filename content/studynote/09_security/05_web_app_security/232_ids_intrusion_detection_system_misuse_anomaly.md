@@ -125,3 +125,14 @@ tags:
 1. [[601_ids_ips_syscall_tracing|IDS]] ([[994_ids_ips_intrusion_detection_prevention_false_positive|Intrusion Detection System]], [[601_ids_ips_syscall_tracing|침입 탐지 시스템]])는 컴퓨터 세상을 더 안전하게 만들기 위한 중요한 약속이나 도구예요.
 2. 겉으로는 어려워 보여도, 왜 필요한지와 어떻게 움직이는지를 알면 훨씬 쉬워져요.
 3. 그래서 이름만 외우지 말고 어디에 쓰이는지 같이 기억해야 해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 285 / 1108
+
+← **이전**: [[231_mac_address_filtering_spoofing_vulnerability|231. MAC 주소 필터링 (MAC Address Filtering)]]
+**다음**: [[233_ids_deployment_architecture_in_band_out_of_band|233. IDS 배치 (Intrusion Detection System)]] →
+
+---

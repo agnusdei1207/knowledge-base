@@ -193,3 +193,14 @@ IaC + GitOps + 오토스케일링 기반 플랫폼 운영
 1. 가변 인프라는 장난감 자동차가 고장 날 때마다 테이프를 붙여 계속 쓰는 방법이에요.
 2. [[204_immutable_infrastructure_configuration_drift_prevention|불변 인프라]]는 새로 만든 똑같은 자동차로 바로 바꾸는 방법이라서 항상 상태를 예측하기 쉬워요.
 3. 그래서 친구들이 여러 대를 같이 써도 "왜 이 차만 이상하지?" 같은 일이 훨씬 적어져요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 169 / 371
+
+← **이전**: [[169_iac_infrastructure_as_code_terraform|169. 인프라스트럭처 애즈 코드 (IaC, Infrastructure as Code)]]
+**다음**: [[171_idempotency_iac_terraform|171. 멱등성 (Idempotency in IaC)]] →
+
+---

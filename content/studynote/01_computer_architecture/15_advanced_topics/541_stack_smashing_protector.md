@@ -156,3 +156,14 @@ Shadow Stack · PAC (Pointer Authentication Code)
 1. 컴퓨터는 중요한 길목 앞에 작은 경보 방울을 하나 달아 둬요.
 2. 나쁜 [[001_dikw_pyramid|데이터]]가 너무 많이 밀려 들어와서 안쪽 문까지 가려면, 먼저 그 방울을 건드릴 수밖에 없어요.
 3. 그래서 컴퓨터는 문이 망가지기 전에 "누가 건드렸어!" 하고 먼저 멈춰 버릴 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 541 / 803
+
+← **이전**: [[540_intel_cet|540. 버퍼 오버플로우 하드웨어 방어 (Intel CET 등)]]
+**다음**: [[542_pointer_authentication|542. 포인터 인증 (Pointer Authentication, ARM PAC)]] →
+
+---

@@ -129,3 +129,14 @@ L1/L2 규제를 도입하면 훈련 [[001_dikw_pyramid|데이터]]에 대한 정
 1. [[190_ai_llm_requirements_specification|AI]] 모델이 문제를 풀 때, 쓸데없는 [[167_sql_hint_optimizer_override|힌트]](배경색, 먼지)까지 전부 외우려고 하는 나쁜 버릇이 있어요.
 2. 그래서 선생님이 "복잡하게 생각하면 벌점을 줄 거야!"라고 규칙을 바꿨어요.
 3. 벌점을 받지 않으려고 모델이 가장 중요한 특징(강아지의 귀 모양)만 부드럽게 기억하게 되는 마법이 바로 규제([[134_regularization_dropout_batch_norm|Regularization]])랍니다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 91 / 420
+
+← **이전**: [[090_regularization_overfitting_prevention|90. 정규화 (Regularization) - 과적합 방지 및 L1/L2 규제]]
+**다음**: [[092_dropout_regularization_overfitting_prevention|92. 드롭아웃 (Dropout) - 딥러닝 앙상블 효과와 과적합 억제]] →
+
+---

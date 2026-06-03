@@ -202,3 +202,14 @@ tags:
 1. 내부 [[291_fragmentation_and_reassembly_process|단편화]] (Internal [[291_fragmentation_and_reassembly_process|Fragmentation]])은 컴퓨터가 메모리를 방처럼 나눠 쓰고 주소를 찾는 방법이에요.
 2. 먼저 [[340_variable_partition|가변 분할 방식]] ([[340_variable_partition|Variable Partition]])을 이해하면 내부 [[291_fragmentation_and_reassembly_process|단편화]] (Internal [[291_fragmentation_and_reassembly_process|Fragmentation]])이 왜 필요한지 더 쉽게 보여요.
 3. 그래서 내부 [[291_fragmentation_and_reassembly_process|단편화]] (Internal [[291_fragmentation_and_reassembly_process|Fragmentation]])을 잘 알면 나중에 [[342_external_fragmentation|외부 단편화]] ([[342_external_fragmentation|External Fragmentation]])도 훨씬 쉽게 배울 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 341 / 800
+
+← **이전**: [[340_variable_partition|340. 가변 분할 방식 (Variable Partition)]]
+**다음**: [[342_external_fragmentation|342. 외부 단편화 (External Fragmentation) - 가용 공간은 충분하나 불연속적이라 할당 불가]] →
+
+---

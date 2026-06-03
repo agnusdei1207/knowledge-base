@@ -125,3 +125,14 @@ tags:
 1. [[150_usb_ieee1394_firewire|Firewire]] 공격 (IEEE 1394 [[746_io_direct_memory_access_dma|DMA]] 활용)는 누군가 규칙의 틈을 찾아 몰래 장난을 치는 방법이에요.
 2. 그래서 문을 단단히 잠그는 것뿐 아니라, 누가 이상하게 움직이는지도 바로 알아차려야 해요.
 3. 컴퓨터는 이상한 흔적을 빨리 보고 퍼지기 전에 멈추게 해야 안전해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 102 / 1108
+
+← **이전**: [[0993_dma_attack|993. DMA 공격 (Direct Memory Access Attack)]]
+**다음**: [[0995_thunderbolt_security|995. Thunderbolt Security (DMA 방어 레벨)]] →
+
+---

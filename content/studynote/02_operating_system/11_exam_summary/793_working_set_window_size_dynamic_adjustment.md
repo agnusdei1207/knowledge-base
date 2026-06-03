@@ -226,3 +226,14 @@ tags:
 1. 철수가 책상(메모리)에서 레고를 조립할 때, 수만 개의 레고 블록 중 지금 당장 만들고 있는 '자동차 바퀴 부품 10개'가 있어요. 이걸 '[[265_working_set|워킹 셋]]'이라고 불러요.
 2. 멍청한 엄마(구형 OS)는 철수가 바퀴를 조립하는데 뜬금없이 성벽 부품을 책상에 쏟아놓고 바퀴 부품을 상자에 치워버려서, 철수가 부품 찾느라 울고불고 난리가 났죠([[257_thrashing|스래싱]]).
 3. 똑똑한 엄마([[265_working_set|워킹 셋]] 관리자)는 철수가 최근 5분([[413_tcp_window_size_flow_control_16bit|윈도우 크기]]) 동안 계속 만지작거린 부품 10개를 딱 파악하고, 그 10개만큼은 절대 서랍에 넣지 않고 눈앞에 잘 챙겨줘서 철수가 자동차를 1초 만에 완성하게 도와준답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 793 / 800
+
+← **이전**: [[792_rcu_read_copy_update_lock_free|792. RCU 다중 독자 락 프리 고성능 기법 (Rcu Read Copy Update Lock Free)]]
+**다음**: [[794_page_coloring_cache_conflict_avoidance|794. 페이지 컬러링 캐시 경합 회피 물리 할당 (Page Coloring Cache Conflict Avoidance)]] →
+
+---

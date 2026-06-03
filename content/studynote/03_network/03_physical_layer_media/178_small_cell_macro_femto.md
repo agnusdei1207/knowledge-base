@@ -187,3 +187,14 @@ small-cell densification
 1. 매크로셀은 운동장 전체를 밝히는 큰 조명이고, 스몰셀은 사람이 많은 곳만 더 환하게 비추는 작은 조명이에요.
 2. 펨토셀은 집 안처럼 아주 작은 곳을 밝히는 미니 조명이라서 방 안 신호를 더 잘 잡게 도와줘요.
 3. 그래서 요즘 통신망은 큰 조명 하나만 쓰지 않고, 큰 조명과 작은 조명을 같이 써서 구석구석 밝히는 거예요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 299 / 1120
+
+← **이전**: [[177_smart_antenna_phased_array|177. 스마트 안테나 (Smart Antenna) / 위상 배열 안테나 (Phased Array)]]
+**다음**: [[179_plc_power_line_communication|179. 전력선 통신 (PLC, Power Line Communication)]] →
+
+---

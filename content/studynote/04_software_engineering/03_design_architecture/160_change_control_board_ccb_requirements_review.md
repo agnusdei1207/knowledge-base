@@ -149,3 +149,13 @@ CCB가 제대로 작동하면 프로젝트는 변경을 두려워하지 않으�
 2. 작은 변경처럼 보여도 돈과 시간과 다시 해야 할 일이 많을 수 있어서 먼저 따져 봐요.
 3. 그래서 마음대로 고치지 않고, 바꿀 때마다 이유와 책임을 남겨요.
 
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 160 / 973
+
+← **이전**: [[159_baseline_requirements_configuration_management|159. 베이스라인 (Baseline) 설정 및 관리]]
+**다음**: [[161_scope_creep_requirements_inflation_prevention|161. 범위 크리프 (Scope Creep) - 무분별한 요구사항 확장 방지]] →
+
+---

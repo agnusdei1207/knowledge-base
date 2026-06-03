@@ -162,3 +162,14 @@ Timsort and parallel merge based optimizations
 1. 카드가 너무 많으면 반으로 나눠서 작은 더미부터 먼저 줄을 세워요.
 2. 정리된 두 더미는 맨 앞 카드끼리만 비교하면서 하나로 합쳐요.
 3. 이렇게 계속 합치면 큰 카드 더미도 예쁘게 순서대로 정리돼요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 173 / 175
+
+← **이전**: [[172_bipartite_matching|172. 이분 매칭 (Bipartite Matching)]]
+**다음**: [[174_quick_sort|퀵 정렬 (Quick Sort)]] →
+
+---

@@ -139,3 +139,14 @@ Transformer (RNN 제거, 100% 병렬 Self-Attention)
 1. 옛날 AI는 책을 읽을 때 글자를 손가락으로 짚어가며 하나하나 순서대로 읽어서 시간이 오래 걸렸어요.
 2. [[246_transformer_self_attention_parallel_positional_encoding|트랜스포머]]([[246_transformer_self_attention_parallel_positional_encoding|Transformer]])는 책의 한 페이지를 카메라로 찰칵 찍어서 전체 단어들이 서로 무슨 뜻으로 연결되었는지 한 번에 알아채는 똑똑한 방법이에요.
 3. 그중에서도 버트([[301_bert_mlm|BERT]])는 문장에 뚫린 빈칸을 기가 막히게 잘 맞추는 훈련을 받아서, 글의 진짜 의미를 가장 잘 이해하는 반장 같은 모델이랍니다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 165 / 587
+
+← **이전**: [[090_configuration_item|90. CI (Configuration Item)]]
+**다음**: [[091_cmdb|91. CMDB (Configuration Management Database)]] →
+
+---

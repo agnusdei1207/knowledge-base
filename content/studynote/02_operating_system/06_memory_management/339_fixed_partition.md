@@ -194,3 +194,14 @@ tags:
 1. 고정 분할 방식 (Fixed [[514_partition_slice_volume|Partition]])은 컴퓨터가 메모리를 방처럼 나눠 쓰고 주소를 찾는 방법이에요.
 2. 먼저 [[338_contiguous_memory_allocation|연속 메모리 할당]] ([[338_contiguous_memory_allocation|Contiguous Memory Allocation]])을 이해하면 고정 분할 방식 (Fixed [[514_partition_slice_volume|Partition]])이 왜 필요한지 더 쉽게 보여요.
 3. 그래서 고정 분할 방식 (Fixed [[514_partition_slice_volume|Partition]])을 잘 알면 나중에 [[340_variable_partition|가변 분할 방식]] ([[340_variable_partition|Variable Partition]])도 훨씬 쉽게 배울 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 339 / 800
+
+← **이전**: [[338_contiguous_memory_allocation|338. 연속 메모리 할당 (Contiguous Memory Allocation)]]
+**다음**: [[340_variable_partition|340. 가변 분할 방식 (Variable Partition)]] →
+
+---

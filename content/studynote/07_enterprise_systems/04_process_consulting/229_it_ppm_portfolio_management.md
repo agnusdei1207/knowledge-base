@@ -162,3 +162,14 @@ Lean PPM and value-stream funding
 1. 용돈이 한정되어 있으면 장난감을 다 살 수 없어서 중요한 것부터 골라야 해요.
 2. 지금 꼭 필요한 것, 더 잘하게 도와주는 것, 미래에 도전해 볼 것을 나눠 생각해야 해요.
 3. PPM은 회사가 돈과 사람을 그렇게 똑똑하게 나눠 쓰게 도와주는 방법이에요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 229 / 482
+
+← **이전**: [[228_it_service_catalog|228. IT 서비스 카탈로그 (IT Service Catalog)]]
+**다음**: [[230_bimodal_it_gartner|230. 바이모달 IT (Bimodal IT)]] →
+
+---

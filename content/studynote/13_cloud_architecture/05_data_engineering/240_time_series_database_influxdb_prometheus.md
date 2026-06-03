@@ -134,3 +134,14 @@ K8s 환경의 Prometheus (Pull), IoT 환경의 InfluxDB (Push)로 클라우드/A
 1. [[057_tsdb_downsampling_retention_policy|시계열 데이터베이스]](TSDB)는 1초마다 변하는 온도계 눈금이나 자동차 속도처럼, 쉴 새 없이 쏟아지는 숫자들을 아주 빠르게 빈 공책에 차곡차곡 적어두는 '시간 기록장'이에요.
 2. 예전에 적어둔 숫자가 틀렸다고 지우개로 지우거나 고치는 건 절대 안 돼요! 오직 맨 뒤에 새로운 숫자를 미친 듯이 빨리 이어 적는 것에만 집중하죠.
 3. 그리고 옛날 일기장 너무 무거워지면, "작년 5월은 대체로 따뜻했음"이라고 한 줄로 줄여버려서([[347_compaction|압축]]) 책가방(컴퓨터 용량)이 터지지 않게 관리해 주는 똑똑한 친구랍니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 239 / 371
+
+← **이전**: [[239_graph_database_neo4j_neptune|239. 그래프 데이터베이스 (Neo4j, AWS Neptune)]]
+**다음**: [[241_cap_theorem_distributed_systems|241. CAP 정리 (CAP Theorem in Distributed Systems)]] →
+
+---

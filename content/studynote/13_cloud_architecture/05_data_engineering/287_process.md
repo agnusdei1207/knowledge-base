@@ -113,3 +113,14 @@ tags:
 1. [[307_circuit_breaker_pattern|서킷 브레이커]] 장애 차단 연쇄 전파 방어 [[171_fallback_resilience_pattern|폴백]]는 사람이 많은 운동회에서 어디로 가야 하는지 알려 주는 안내판과 비슷해요.
 2. 규칙이 없으면 모두가 한곳에 몰려서 느려지고 다투지만, 길을 정해 두면 훨씬 부드럽게 움직일 수 있어요.
 3. 그래서 컴퓨터 세상에서도 [[307_circuit_breaker_pattern|서킷 브레이커]] 장애 차단 연쇄 전파 방어 [[171_fallback_resilience_pattern|폴백]]를 쓰면 많은 팀과 [[090_service_kubernetes_network_load_balancing|서비스]]가 덜 부딪히고 더 빨리 움직일 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 286 / 371
+
+← **이전**: [[286_process|286. 서비스 디스커버리 동적 IP 탐색 유레카 (Service Discovery)]]
+**다음**: [[288_saga_2pc|288. 사가 패턴 보상 트랜잭션 2PC 대안 (Saga)]] →
+
+---

@@ -159,3 +159,14 @@ Retention Policy + CQ (Continuous Query) 자동화
 1. 시계열 DB는 매초 사진을 찍는 카메라예요. 오래된 사진은 자동으로 작은 썸네일로 [[347_compaction|압축]]돼요.
 2. 다운샘플링은 1분치 사진 60장을 1장의 평균 사진으로 만드는 거예요.
 3. Tag는 서랍 라벨, Field는 서랍 안 물건이에요. 라벨이 너무 많으면 서랍장이 꽉 차서 못 열어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 309 / 482
+
+← **이전**: [[308_ai_bi_augmented_analytics|308. AI BI 증강 분석 자동화 (Augmented Analytics)]]
+**다음**: [[310_neo4j_fraud_detection|310. 그래프 데이터베이스 Neo4j 사기 탐지 최단 경로 (Neo4j Fraud Detection)]] →
+
+---

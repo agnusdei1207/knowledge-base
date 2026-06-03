@@ -139,3 +139,14 @@ tags:
 1. [[208_data_lake_schema_on_read|데이터 레이크]]는 복잡한 일을 순서대로 정리해 주는 큰 정리함이에요.
 2. 어디에 무엇을 넣을지 먼저 정해 두면, 나중에 찾거나 고칠 때 훨씬 쉬워져요.
 3. 그래서 일이 커질수록 먼저 기준을 만들고 같이 약속하는 것이 중요해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 285 / 482
+
+← **이전**: [[284_data_mining_association_classification_clustering_crisp_dm|284. 데이터 마이닝 (Data Mining) 연관 분석/분류/군집 CRISP-DM]]
+**다음**: [[286_schema_on_read_data_lake_approach|286. 스키마 온 리드 (Schema on Read) - 데이터 레이크 방식]] →
+
+---

@@ -54,3 +54,14 @@ Attention은 **현대 AI의 가장 중요한 메커니즘**이며, [[246_transfo
 1. Attention은 **시험 문제(Query)**에 맞는 **교과서 [[286_page_frame|페이지]]([[067_db_key_uniqueness_minimality|Key]])**를 찾아요.
 2. 관련 있는 [[286_page_frame|페이지]]의 **내용(Value)**에 집중하고 나머지는 무시해요.
 3. 긴 문장에서도 **중요한 단어만 골라** 이해할 수 있어요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 138 / 258
+
+← **이전**: [[137_lstm_gru_long_short_term_memory|137. LSTM & GRU - 장기 의존성을 해결한 순환 신경망]]
+**다음**: [[139_transformer_architecture_self_attention|139. Transformer 아키텍처 - Self-Attention 기반 병렬 처리]] →
+
+---

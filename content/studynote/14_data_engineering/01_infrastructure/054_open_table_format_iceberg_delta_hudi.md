@@ -123,3 +123,14 @@ Data Files + Metadata Log → Table Snapshot → Query Engine
 1. 오픈 테이블 포맷은 상자 [[459_dummy_test_double|더미]]에 번호표를 붙이는 거예요.
 2. 그래서 언제 넣고 뺐는지 알 수 있어요.
 3. [[501_file_definition_logical_record|파일]]이 많아도 테이블처럼 관리할 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 54 / 258
+
+← **이전**: [[053_dataops_ci_cd_data_pipeline|53. DataOps CI/CD 데이터 파이프라인 (DataOps CI/CD Data Pipeline)]]
+**다음**: [[055_separation_of_compute_and_storage_cloud_dw|55. 컴퓨트와 스토리지 분리 (Separation of Compute and Storage / Cloud DW)]] →
+
+---

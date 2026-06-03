@@ -123,3 +123,14 @@ Runner
 코드 저장소에서 바로 일해요.  
 줄을 정해 자동으로 움직여요.  
 GitLab [[090_configuration_item|CI]]/CD는 그런 시스템이에요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 74 / 373
+
+← **이전**: [[073_github_actions_ci_cd_workflow|073. GitHub Actions 기반 CI/CD 워크플로우 (GitHub Actions CI/CD)]]
+**다음**: [[075_artifact_management_nexus_docker_registry|75. 아티팩트 (Artifact) - 파이프라인의 최종 빌드 산출물 보관]] →
+
+---

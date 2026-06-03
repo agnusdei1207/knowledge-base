@@ -173,3 +173,14 @@ CA 중심의 폐쇄적 발급 신뢰
 1. SCT는 인증서를 만들 때 "이건 마을 게시판에도 올렸어요" 하고 받는 [[396_validation|확인]]표예요.
 2. 그래서 누가 몰래 이상한 인증서를 만들어도, 사람들은 게시판을 보고 더 빨리 눈치챌 수 있어요.
 3. 하지만 [[396_validation|확인]]표가 있다고 해서 그 인증서가 영원히 안전한 것은 아니어서, 다른 검사도 같이 해야 해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 220 / 1108
+
+← **이전**: [[166_ct_log_server|166. CT 로그 서버 — Google/Rustproof 등 다수 운영]]
+**다음**: [[168_caa_certification_authority_authorization|168. CAA (Certification Authority Authorization) — 허용된 CA DNS 레코드]] →
+
+---

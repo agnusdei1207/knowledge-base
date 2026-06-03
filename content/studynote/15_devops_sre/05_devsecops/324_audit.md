@@ -106,3 +106,14 @@ Chaos Engineering
 
 > 🧒 **어린이 비유**
 > [[751_chaos_engineering|카오스 엔지니어링]]은 레고 성이 얼마나 튼튼한지 보려고 일부러 블록 하나를 빼보는 것이에요. 그래도 성이 무너지지 않으면 합격!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 324 / 373
+
+← **이전**: [[323_process|Prometheus Grafana Monitoring]]
+**다음**: [[325_audit|325. DevSecOps 시프트 레프트 보안 조기 점검 (DevSecOps Shift-Left Security STRIDE Threat]] →
+
+---

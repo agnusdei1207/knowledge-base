@@ -138,3 +138,14 @@ functions:
 1. 옛날에는 레고를 만들 때 **설명서 없이 100조각**을 혼자 맞춰야 했어요.
 2. [[206_serverless_cold_start|Serverless]] Framework는 **설명서(YAML)**를 주면 로봇이 자동으로 조립해줘요!
 3. 덕분에 개발자는 레고 디자인(코드)에만 집중하고, 조립(배포)은 로봇에게 맡길 수 있답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 112 / 373
+
+← **이전**: [[111_micro_frontends_deployment|111. 마이크로 프론트엔드 배포 (Micro Frontends Deployment) - 독립 배포·Module Federation]]
+**다음**: [[113_aws_sam_serverless_model|113. AWS SAM (Serverless Application Model) - CloudFormation 네이티브 FaaS 배포]] →
+
+---

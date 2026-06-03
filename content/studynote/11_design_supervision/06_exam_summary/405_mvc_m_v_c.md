@@ -111,3 +111,14 @@ MVC 패턴 (Model-View-Controller)의 기대효과는 분명하다. UI 변경과
 1. MVC 패턴 (Model-View-Controller)은 배우, 무대, 감독이 각자 맡은 일만 하는 공연처럼 약속을 먼저 정하는 거예요.
 2. 그러면 서로 다른 사람이 해도 같은 규칙으로 움직일 수 있어요.
 3. 그래서 규모가 커질수록 화면 표현과 사용자 입력 흐름을 분리하는 일이 더 중요해져요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 483 / 530
+
+← **이전**: [[404_process|404. 테스트 더블 (Test Double)]]
+**다음**: [[406_mvp_mvvm|406. MVP·MVVM 패턴 (Model-View-Presenter and Model-View-ViewModel)]] →
+
+---

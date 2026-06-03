@@ -113,3 +113,14 @@ tags:
 1. [[217_cdc_binlog_change_capture_debezium|CDC]] [[191_transaction_concept_states|트랜잭션]] [[568_logs_distributed_logging_elk_fluentd|로그]] 기반 [[001_dikw_pyramid|데이터]] 실시간 변경 캡처는 사람이 많은 운동회에서 어디로 가야 하는지 알려 주는 안내판과 비슷해요.
 2. 규칙이 없으면 모두가 한곳에 몰려서 느려지고 다투지만, 길을 정해 두면 훨씬 부드럽게 움직일 수 있어요.
 3. 그래서 컴퓨터 세상에서도 [[217_cdc_binlog_change_capture_debezium|CDC]] [[191_transaction_concept_states|트랜잭션]] [[568_logs_distributed_logging_elk_fluentd|로그]] 기반 [[001_dikw_pyramid|데이터]] 실시간 변경 캡처를 쓰면 많은 팀과 [[090_service_kubernetes_network_load_balancing|서비스]]가 덜 부딪히고 더 빨리 움직일 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 315 / 371
+
+← **이전**: [[315_pub_sub|315. 카프카 분산 메시징 Pub/Sub 파티션 컨슈머 그룹 (Pub/Sub)]]
+**다음**: [[317_process|317. 데이터 메시 도메인 주도 분산 데이터 프로덕트 (Cloud Architecture Concept)]] →
+
+---

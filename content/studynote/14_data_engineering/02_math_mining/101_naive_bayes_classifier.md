@@ -133,3 +133,14 @@ Zero Probability 에러 발생
 1. [[264_naive_bayes|나이브 베이즈]]는 친구들의 특징을 하나하나 따로 점수 매겨서 범인을 찾는 탐정 놀이예요.
 2. 만약 안경을 쓴 범인을 한 번도 본 적이 없다고 해서 무조건 "안경 쓴 사람은 범인이 아니야!"라고 우기면 안 되겠죠?
 3. 그래서 [[350_laplace_smoothing|라플라스 스무딩]]은 "혹시 모르니 모든 단서에 기본 점수 1점씩 줘두자!"라고 정하는 안전장치랍니다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 101 / 258
+
+← **이전**: [[100_k_means_clustering_elbow_silhouette|K-Means 군집화와 최적 K 도출 (K-Means Clustering & Optimal K)]]
+**다음**: [[102_lasso_ridge_regression_regularization|회귀 라쏘 (Lasso) 및 릿지 (Ridge) 규제 (Regularization)]] →
+
+---

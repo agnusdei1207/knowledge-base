@@ -162,3 +162,14 @@ GitOps · Progressive Delivery · DevSecOps
 1. 친구들이 만든 레고를 매일 조금씩 합쳐 보고 바로 흔들어 보면 어디가 잘못됐는지 빨리 알 수 있어요.
 2. [[090_configuration_item|CI]]/CD는 레고를 다 만든 뒤 창고에만 두지 않고, 검사까지 끝내서 바로 전시장에 가져갈 수 있게 준비해 두는 거예요.
 3. 그래서 큰 실수는 줄고, 고쳐야 할 부분도 작은 조각 단위로 금방 찾을 수 있답니다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 280 / 587
+
+← **이전**: [[165_bdd_behavior_driven_development|165. BDD (Behavior Driven Development, 행위 주도 개발)]]
+**다음**: [[167_scm_software_configuration_management|167. SCM (Software Configuration Management, 소프트웨어 형상 관리)]] →
+
+---

@@ -90,3 +90,14 @@ tags:
 1. **전통적 DB(RDBMS)가 칸막이가 쳐진 꼼꼼한 서류철이라면, NoSQL은 물건을 모양 상관없이 쑥쑥 넣을 수 있는 마법의 상자**예요.
 2. 손님이 너무 많이 올 때, **계산대를 하나만 크고 좋게 만드는 게 아니라([[621_scale_up_system_bus|Scale-up]]), 작은 계산대 여러 개를 넓게 쫙 깔아놓는 방식([[202_scale_out_distributed_horizontal_expansion|Scale-out]])**이랍니다.
 3. 복잡한 표를 그리지 않아도 **사진, 메모장, 동영상 정보를 그냥 하나의 상자([[037_document|Document]])에 담아 보관**할 수 있어서 아주 빠르고 편해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 123 / 262
+
+← **이전**: [[122_causal_inference|26. 인과 추론 (Causal Inference) — 상관관계를 넘어 인과관계 규명]]
+**다음**: [[124_base_principles_nosql|BASE 원칙 (Basically Available, Soft State, Eventual Consistency)]] →
+
+---

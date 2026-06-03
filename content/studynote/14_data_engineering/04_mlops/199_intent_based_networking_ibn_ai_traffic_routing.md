@@ -351,3 +351,14 @@ AI 기반 트래픽 라우팅
 ```
 2. IBN의 3단계는 요리사의 작업과 같아요. 레시피 이해(변환) → 요리 실행(활성화) → 맛 [[396_validation|확인]](보증)이 계속 반복되고, 맛이 이상하면 자동으로 조리법을 수정해요.
 3. [[418_5g_embb_urllc_mmtc_slicing|5G]] 슬라이싱 + IBN은 고속도로 자동 차선 배정이에요. 응급차에는 항상 비어있는 차선을, 일반 차량에는 빈 차선을 자동으로 배정해 모두가 목적지에 빠르게 도달하게 해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 199 / 258
+
+← **이전**: [[198_knowledge_distillation_soft_target_probability|198. 지식 증류 (Knowledge Distillation) 소프트 타겟 확률 분포 모방]]
+**다음**: [[200_autonomous_driving_imitation_learning_digital_twin|200. 자율주행 모방 학습 (Imitation Learning) 시뮬레이터 디지털 트윈 합성 데이터 생성]] →
+
+---

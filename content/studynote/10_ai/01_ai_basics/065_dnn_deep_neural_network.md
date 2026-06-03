@@ -135,3 +135,14 @@ Deep Learning
 한 겹만 있는 그림보다 여러 겹이 더 자세해요.  
 DNN은 그런 식으로 여러 층을 쌓아요.  
 그래서 더 복잡한 문제를 풀 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 65 / 420
+
+← **이전**: [[064_mlp_multi_layer_perceptron_hidden_layer|64. 다층 퍼셉트론 (MLP, Multi-Layer Perceptron) - 은닉층(Hidden Layer) 도입으로 비선형 문제 해결]]
+**다음**: [[066_weight_bias_linear_equation|66. 가중치 (Weight, W) / 편향 (Bias, b) - 선형 방정식의 파라미터 (y = Wx + b)]] →
+
+---

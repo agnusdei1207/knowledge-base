@@ -174,3 +174,14 @@ int daysSinceLastModification;
 1. 서랍에 "물건들"이라고 적는 것보다 "양말", "속옷", "티셔츠"라고 적으면 열어보지 않아도 뭐가 있는지 안다.
 2. 좋은 이름은 스티커 메모(주석)가 없어도 서랍 내용을 설명한다.
 3. 코드도 이름만 잘 지으면 다른 사람이 코드를 "읽는" 게 아니라 "이해"하게 된다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 308 / 530
+
+← **이전**: [[246_refused_bequest_lsp_violation|246. 상속 거부와 LSP 위반 (Refused Bequest & LSP Violation)]]
+**다음**: [[248_refactoring_tdd_safety_net|248. 리팩토링 TDD 안전망 (Refactoring TDD Safety Net)]] →
+
+---

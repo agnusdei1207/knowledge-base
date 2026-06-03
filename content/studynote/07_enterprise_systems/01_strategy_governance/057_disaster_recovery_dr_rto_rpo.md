@@ -122,3 +122,14 @@ Mirror / Hot / Warm / Cold site
 [[379_dr_architecture|재해 복구]]는 가게가 무너지면 어디서 다시 열지 정하는 거예요.  
 언제까지 다시 열어야 하는지, 얼마나 잃어도 되는지도 미리 정해요.  
 그래야 진짜 위기 때 덜 당황해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 57 / 482
+
+← **이전**: [[056_bcp_business_continuity_plan_bia|56. 비즈니스 연속성 계획 (BCP, Business Continuity Plan) - 재난/재해 시 핵심 업무 기능 유지 지침]]
+**다음**: [[058_it_compliance_sox_basel_gdpr_isms|58. IT 컴플라이언스 (Compliance) - SOX, Basel, GDPR, ISMS]] →
+
+---

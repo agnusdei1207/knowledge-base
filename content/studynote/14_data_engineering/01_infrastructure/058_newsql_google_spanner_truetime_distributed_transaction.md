@@ -114,3 +114,14 @@ TrueTime / 합의 / 샤딩
 NewSQL은 여러 장난감 상자를 한꺼번에 관리하면서도 하나의 규칙을 지키는 거예요.  
 멀리 떨어진 상자라도 같은 시계로 맞춰서 정리해요.  
 그래서 커져도 헷갈리지 않게 관리할 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 58 / 258
+
+← **이전**: [[057_tsdb_downsampling_retention_policy|57. 시계열 데이터베이스 (Time-Series Database, TSDB) - 다운샘플링과 보존 정책]]
+**다음**: [[059_bloom_filter_false_positive_disk_io|59. 블룸 필터 (Bloom Filter) - 디스크 I/O 최적화 확률적 검색]] →
+
+---

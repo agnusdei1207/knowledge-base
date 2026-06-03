@@ -139,3 +139,14 @@ tags:
 1. [[204_immutable_infrastructure_configuration_drift_prevention|불변 인프라]] [[793_iac_idempotency_template|IaC]] [[195_terraform_hashicorp_agnostic_aws_gcp|테라폼]]는 복잡한 일을 순서대로 정리해 주는 큰 정리함이에요.
 2. 어디에 무엇을 넣을지 먼저 정해 두면, 나중에 찾거나 고칠 때 훨씬 쉬워져요.
 3. 그래서 일이 커질수록 먼저 기준을 만들고 같이 약속하는 것이 중요해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 428 / 482
+
+← **이전**: [[427_12factor_app_cloud_native|427. 12 Factor App 클라우드 네이티브 설계 원칙 (12-Factor App)]]
+**다음**: [[429_serverless_cold_start_provisioned|429. 서버리스 콜드 스타트 지연 해결 프로비저닝 (Serverless Cold Start)]] →
+
+---

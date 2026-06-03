@@ -132,3 +132,14 @@ Homomorphic Encryption-assisted Privacy Analytics
 1. [[1019_homomorphic_encryption|동형 암호]]는 보물상자를 열지 않고도 안에 든 구슬 개수를 세는 마법 같은 기술이에요.
 2. 그래서 남에게 보물을 보여 주지 않고도 같이 계산할 수 있어요.
 3. 하지만 마법이 어려워서, 아무 계산이나 빠르게 할 수 있는 건 아니에요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 352 / 373
+
+← **이전**: [[351_process|351. 양자 컴퓨팅 쇼어 알고리즘·양자 내성 암호 적용 (Quantum Computing and Post-Quantum Cryptography)]]
+**다음**: [[353_grpc|353. gRPC 프로토콜 버퍼 직렬화 고속 통신 (gRPC and Protocol Buffers)]] →
+
+---

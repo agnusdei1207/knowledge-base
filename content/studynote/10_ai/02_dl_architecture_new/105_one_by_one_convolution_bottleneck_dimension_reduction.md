@@ -135,3 +135,14 @@ MobileNet (Depthwise Separable Conv) - 1x1(Pointwise) 연산을 경량 엣지 AI
 1. 햄버거에 고기 패티가 256장이나 들어있어서 한입에 먹기 너무 힘들어요.
 2. 1x1 [[228_cnn_1d_2d_3d_video_medical|합성곱]]은 이 256장의 고기를 꽉 눌러서 맛은 완전히 똑같지만 얇은 패티 64장 두께로 팍 찌그러뜨려 주는 마법의 프레스 기계예요.
 3. 덕분에 입이 작은 사람(컴퓨터)도 턱이 빠지지 않고 엄청나게 큰 햄버거를 쑥쑥 맛있게 먹을 수 있답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 105 / 420
+
+← **이전**: [[104_resnet_residual_network_skip_connection_bottleneck|104. ResNet (Residual Network) - 잔차 연결 152층 기울기 소실 돌파]]
+**다음**: [[106_object_detection_bounding_box_yolo_rcnn_iou|106. 객체 탐지 (Object Detection) - 위치 좌표 바운딩 박스 판별]] →
+
+---

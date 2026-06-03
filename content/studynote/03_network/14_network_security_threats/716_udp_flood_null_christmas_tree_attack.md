@@ -137,3 +137,14 @@ tags:
 1. 나쁜 친구가 놀이터 규칙을 깨뜨리면 바로 알아차리고 막아야 해요.
 2. 이 개념은 어떤 장난이 위험한지 미리 알고, 문제가 생기면 어떻게 다시 정리할지도 알려줘요.
 3. 그래서 놀이터를 더 안전하게 지킬 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 837 / 1120
+
+← **이전**: [[715_teardrop_attack_ip_offset_overlap|715. TearDrop 공격 (IP 헤더 오프셋 중복/오류 단편화 무한 재조립 오류 기만 다운)]]
+**다음**: [[717_drdos_amplification_reflection_attack|717. 반사 증폭 공격 (Amplification Attack / DRDoS)]] →
+
+---

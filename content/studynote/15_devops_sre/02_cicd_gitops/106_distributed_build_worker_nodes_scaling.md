@@ -122,3 +122,14 @@ tags:
 1. 학교 숙제 100문제를 혼자 풀면 밤을 새워야 해서 너무 힘들어요.
 2. 그래서 똑똑한 반장([[172_maas_mobility_as_a_service|마스]]터)이 친구 10명(워커 노드)을 불러서 숙제를 10문제씩 나눠 주었어요.
 3. 10명이 동시에 문제를 푸니까 1시간 만에 숙제가 전부 끝나버렸고, 도와준 친구들은 바로 집으로 돌아갔답니다(동적 [[249_scaling_normalization_standardization|스케일링]])!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 106 / 373
+
+← **이전**: [[105_build_caching_optimization_docker_layer|빌드 캐싱 최적화: CI/CD 병목을 뚫는 레이어 전략]]
+**다음**: [[107_nightly_build_scheduled_cron_pipeline|나이트 빌드: 예약된 크론(Cron) 기반의 정적/동적 정기 점검]] →
+
+---

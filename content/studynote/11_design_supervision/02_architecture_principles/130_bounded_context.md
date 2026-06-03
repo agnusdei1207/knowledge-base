@@ -126,3 +126,14 @@ tags:
 1. [[221_bounded_context_ddd_msa_boundary|바운디드 컨텍스트]]는 나라(경계)마다 같은 단어가 다른 뜻을 가질 수 있다는 걸 인정해요.
 2. 예를 들어 '고객'이란 단어가 주문 시스템과 마케팅 시스템에서 다른 의미를 가질 수 있어요.
 3. 경계를 명확히 하면 한 팀의 변경이 다른 팀에 영향을 주지 않아요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 186 / 530
+
+← **이전**: [[129_ddd_domain_driven_design|129. 도메인 주도 설계 (DDD: Domain-Driven Design)]]
+**다음**: [[131_aggregate_root|131. 에그리게이트 루트 (Aggregate Root)]] →
+
+---

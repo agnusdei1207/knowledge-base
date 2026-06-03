@@ -130,3 +130,14 @@ Tx → Signature → Block → Hash Chain → Consensus → Ledger
 1. [[004_blockchain|블록체인]]은 줄줄이 연결된 공책이에요.
 2. 한 장을 몰래 바꾸면 앞뒤가 이상해져요.
 3. 그래서 누가 언제 썼는지 살펴보기 쉬워요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 80 / 530
+
+← **이전**: [[052_pmo_audit_difference|52. PMO와 감리의 차이 (PMO vs Audit)]]
+**다음**: [[054_itil_itsm_audit|54. ITIL/ITSM 감사 (ITIL ITSM Audit)]] →
+
+---

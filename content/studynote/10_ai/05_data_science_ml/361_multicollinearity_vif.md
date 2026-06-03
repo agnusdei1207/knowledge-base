@@ -108,3 +108,14 @@ Ridge 회귀(L2 [[093_normalization|정규화]]): 비용 함수에 ||β||² 페�
 1. [[080_multicollinearity_vif_variance_inflation_factor_regression|다중 공선성]]은 "두 친구가 항상 붙어다니는 상황"이에요. AI가 "A가 문제야? B가 문제야?"를 구분 못해요.
 2. VIF는 "얼마나 붙어다니는지" 측정하는 온도계예요. VIF > 10이면 너무 붙어다녀 문제가 생겨요.
 3. Ridge [[093_normalization|정규화]]나 PCA로 이 문제를 해결하거나, 트리 AI처럼 애초에 이 문제가 없는 방법을 쓰면 돼요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 361 / 420
+
+← **이전**: [[360_gmm_em_algorithm|360. GMM (Gaussian Mixture Model) 과 EM 알고리즘]]
+**다음**: [[362_roc_auc_math|362. ROC 곡선과 AUC (Receiver Operating Characteristic / Area Under Curve)]] →
+
+---

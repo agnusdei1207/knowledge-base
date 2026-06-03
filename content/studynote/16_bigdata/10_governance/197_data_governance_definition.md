@@ -217,3 +217,14 @@ tags:
 1. 학교에서 도서관 책을 누가 빌릴 수 있고, 어떻게 빌리고, 얼마나 보관해야 하는지 규칙을 정한 것처럼, 회사에서는 [[052_data_governance_framework|데이터 거버넌스]]가 그 역할을 해.
 2. "규칙 없이 쓰는 [[001_dikw_pyramid|데이터]]"는 아무나 낙서하는 공책 같아서 나중에 뭐가 맞는지 아무도 모르게 돼.
 3. [[052_data_governance_framework|데이터 거버넌스]] 덕분에 "이 숫자가 진짜 맞아?" 하는 걱정 없이 중요한 결정을 내릴 수 있어.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 197 / 262
+
+← **이전**: [[196_opentableformat|06. 오픈 테이블 포맷 (Open Table Format) - 레이크하우스의 핵심 기반 기술]]
+**다음**: [[198_data_governance_components|192. 데이터 거버넌스 구성 요소 (Data Governance Components) — 정책/표준/역할/프로세스/도구]] →
+
+---

@@ -128,3 +128,14 @@ CDMA는 앞서 배운 **[[956_dsss_direct_sequence_spread_spectrum_chipping_code
 1. 비슷한 이름의 장난감을 헷갈리지 않게 표를 붙이는 것과 같아요.
 2. 이 개념은 무엇이 어떻게 다른지 쉽게 구별하게 도와줘요.
 3. 그래서 시험에서도 실무에서도 말을 더 정확하게 쓸 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 1078 / 1120
+
+← **이전**: [[956_dsss_direct_sequence_spread_spectrum_chipping_code|956. DSSS (직접 확산)]]
+**다음**: [[958_vlan_trunking_ieee_802_1q_tagging|958. VLAN 트렁킹 (IEEE 802.1Q 태그)]] →
+
+---

@@ -114,3 +114,14 @@ ClusterIP NodePort LoadBalancer [[094_ingress_kubernetes_l7_routing_gateway|Ingr
 1. ClusterIP NodePort LoadBalancer [[094_ingress_kubernetes_l7_routing_gateway|Ingress]] [[339_routing_overview_best_path_selection|라우팅]]는 사람이 많은 운동회에서 어디로 가야 하는지 알려 주는 안내판과 비슷해요.
 2. 규칙이 없으면 모두가 한곳에 몰려서 느려지고 다투지만, 길을 정해 두면 훨씬 부드럽게 움직일 수 있어요.
 3. 그래서 컴퓨터 세상에서도 ClusterIP NodePort LoadBalancer [[094_ingress_kubernetes_l7_routing_gateway|Ingress]] [[339_routing_overview_best_path_selection|라우팅]]를 쓰면 많은 팀과 [[090_service_kubernetes_network_load_balancing|서비스]]가 덜 부딪히고 더 빨리 움직일 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 280 / 371
+
+← **이전**: [[280_process|280. 디플로이먼트 롤링 업데이트 배포 (Deployment Rolling Update)]]
+**다음**: [[282_hpa_ca|282. 오토스케일링 HPA (파드 증설) CA (노드 증설) (HPA CA)]] →
+
+---

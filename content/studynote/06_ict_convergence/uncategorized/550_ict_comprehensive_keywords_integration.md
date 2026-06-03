@@ -115,3 +115,14 @@ ICT 신기술을 5대 축과 교차 관계로 통합 이해하면, 처음 보는
 1. ICT 신기술 맵은 여러 과목이 나오는 학교 시간표처럼, 각 과목을 따로 공부하지만 서로 연결된다는 걸 알아야 해요.
 2. 기술사 논술은 "왜?"를 5번 물어보는 것처럼, 기술의 이유와 한계를 깊이 파고들어야 해요.
 3. 최신 트렌드는 뉴스처럼 계속 바뀌지만, 기본 원리는 수학처럼 변하지 않아요—원리가 기초예요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 550 / 552
+
+← **이전**: [[549_llm_context_window_extension_long_context|549. LLM 컨텍스트 윈도우 확장과 긴 문맥 처리 (LLM Context Window Extension Long Context)]]
+**다음**: [[551_ict_convergence_mega_trend_synthesis|551. ICT 융합 메가트렌드 종합 프레임워크 (ICT Convergence Mega-Trend Synthesis Framework)]] →
+
+---

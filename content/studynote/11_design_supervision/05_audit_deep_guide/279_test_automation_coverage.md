@@ -104,3 +104,14 @@ tags:
 1. 위험기반 커버리지는 학교에서 준비물을 미리 챙기는 것처럼, 중요한 기준을 먼저 맞추는 일이야.
 2. [[400_integration_testing|통합 테스트]]는 선생님이 수업 중간에 계속 [[396_validation|확인]]하는 것처럼, 실제로 잘 되고 있는지 보는 과정이야.
 3. 플래키 테스트는 시험 결과표처럼, 정말 효과가 있었는지 나중에 다시 [[396_validation|확인]]하게 해주는 증거야.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 340 / 530
+
+← **이전**: [[278_sla_mttr_measurement|278. SLA와 MTTR 측정 감리 (SLA and MTTR Measurement Audit)]]
+**다음**: [[280_inspection_peer_review_audit|280. 인스펙션 동료검토 감리 (Inspection and Peer Review Audit)]] →
+
+---

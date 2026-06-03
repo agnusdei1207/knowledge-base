@@ -125,3 +125,14 @@ tags:
 1. 교착상태와 [[315_livelock_vs_deadlock|라이브락]] ([[281_deadlock_definition|Deadlock]] / [[315_livelock_vs_deadlock|Livelock]])는 학교 규칙표처럼 무엇을 준비하고 어떻게 확인할지 알려 주는 기준이에요.
 2. 규칙표만 붙여 두고 지키지 않으면 아무 소용이 없어요.
 3. 그래서 보안도 규칙과 실제 행동이 함께 맞아야 해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 408 / 1108
+
+← **이전**: [[353_race_condition|353. 경쟁 조건 (Race Condition)]]
+**다음**: [[355_toctou|355. TOCTOU (Time-of-Check to Time-of-Use)]] →
+
+---

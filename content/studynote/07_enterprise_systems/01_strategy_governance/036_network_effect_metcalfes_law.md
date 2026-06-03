@@ -180,3 +180,14 @@ GAFA 독점 구조의 핵심 원인
 1. [[253_network_effect_metcalfe|네트워크 효과]]는 참여자가 많아질수록 모두에게 더 유용해지는 마법이에요.
 2. 카카오톡이 친구들이 많아질수록 더 쓸모있어지는 게 바로 그 예예요.
 3. 메칼프의 법칙에 따르면 사람이 2배 늘면 가치는 4배가 된답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 36 / 482
+
+← **이전**: [[035_long_tail_theory|035. 롱테일 이론 (Long Tail Theory)]]
+**다음**: [[037_disruptive_innovation|037. 파괴적 혁신 (Disruptive Innovation)]] →
+
+---

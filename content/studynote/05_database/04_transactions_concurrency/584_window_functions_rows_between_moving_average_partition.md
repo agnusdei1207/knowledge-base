@@ -132,3 +132,14 @@ tags:
 1. 여러 창고에 장난감을 나눠 두고도 같은 물건처럼 써야 하는 상황이에요.
 2. 멀리 떨어진 창고끼리는 이야기하는 데 시간이 걸려요.
 3. 그래서 어디까지 맞춰 둘지와 얼마나 빨리 답할지를 함께 정해야 해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 584 / 600
+
+← **이전**: [[583_parameter_sniffing_execution_plan_cache_pollution|583. 프로시저 플랜 캐시 스니핑 (Parameter Sniffing) 캐시 오염 실행 계획 악화]]
+**다음**: [[585_subquery_unnesting_optimizer_query_transformation|585. 서브쿼리 언네스팅 (Subquery Unnesting) 메인 쿼리 조인 변환 옵티마이저 룰]] →
+
+---

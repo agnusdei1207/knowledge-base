@@ -156,3 +156,14 @@ ORDER BY 최적화 · 커버링 인덱스
 1. 결합 [[154_database_index_b_tree_search_optimization|인덱스]]는 서랍에 이름표를 하나만 붙이는 게 아니라, "반-번호-이름"처럼 차례대로 붙여 두는 거예요.
 2. 그래서 첫 번째 이름표부터 말하면 금방 찾지만, 중간 이름표만 말하면 선생님이 여러 서랍을 다시 열어 봐야 해요.
 3. 즉 결합 [[154_database_index_b_tree_search_optimization|인덱스]]는 많이 적는 게 중요한 게 아니라, **어떤 순서로 적어 두느냐**가 더 중요해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 161 / 600
+
+← **이전**: [[160_non_clustered_index_secondary|160. 넌클러스터드 인덱스 (Non-Clustered Index / 보조 인덱스) - 리프 노드가 실제 데이터 포인터 보유, 여러 개]]
+**다음**: [[162_fbi_function_based_index|162. 함수 기반 인덱스 (FBI, Function Based Index) - 산술식이나 함수가 적용된 결과 기준 인덱싱]] →
+
+---

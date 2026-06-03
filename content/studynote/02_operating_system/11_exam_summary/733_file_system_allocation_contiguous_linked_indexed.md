@@ -187,3 +187,14 @@ tags:
 1. 일기장을 쓸 때, 1페이지부터 10페이지까지 **쭉 이어서([[523_contiguous_allocation|연속 할당]])** 쓰면 읽기 편하지만, 중간에 내용을 추가하고 싶을 땐 자리가 없어서 지우고 다시 써야 해요.
 2. 그래서 오늘 1페이지 쓰고, 내일은 50페이지에 쓰면서 "다음 일기는 50페이지에 있음!"이라고 **꼬리표([[524_linked_allocation|연결 할당]])**를 달았어요. 자리는 안 모자라지만, 5번째 일기를 찾으려면 1페이지부터 꼬리표를 계속 따라가야 해서 너무 힘들어요.
 3. 아하! 그래서 공책 맨 앞장에 **'목차([[526_indexed_allocation|색인 할당]])'**를 만들었어요. 목차에 "1일차: 1p, 2일차: 50p, 5일차: 30p"라고 다 적어두니까, 일기를 아무 데나 써도 목차만 보면 한 번에 찾을 수 있게 되었답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 733 / 800
+
+← **이전**: [[732_garbage_collection_block_erase|732. 가비지 컬렉션 블록 지우기 (Garbage Collection Block Erase)]]
+**다음**: [[734_fat_file_allocation_table_optimization|734. FAT 방식 연결 할당 최적화 (Fat File Allocation Table Optimization)]] →
+
+---

@@ -211,3 +211,14 @@ Blue (현재 운영) ↔ Green (대기 환경)
 ```
 2. 새 무대에 문제가 생기면 5초 만에 다시 옛날 무대로 돌아갈 수 있어서 관객은 거의 눈치채지 못해.
 3. 대신 무대 두 개를 동시에 준비해야 하니까, 잠깐 비용이 2배가 돼. 하지만 그게 안전을 보장하는 값어치야.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 193 / 371
+
+← **이전**: [[193_rolling_update_deployment_kubernetes|193. 롤링 배포 (Rolling Update Deployment)]]
+**다음**: [[195_canary_release_deployment|195. 카나리 배포 (Canary Release)]] →
+
+---

@@ -132,3 +132,14 @@ SWOT 분석 및 전략 방향 (Cross-SWOT) 도출
 1. [[102_environmental_analysis_pest_5forces_value_chain|환경 분석]]은 게임을 시작하기 전에 작전을 짜는 시간이에요.
 2. 비가 올지 안 올지(PEST), 상대 팀이 얼마나 강한지(5 Forces), 내 캐릭터 무기가 좋은지([[249_value_chain_competitive_analysis|Value Chain]])를 꼼꼼히 따져봐요.
 3. 이렇게 미리 조사를 다 하고 싸우러 나가면 절대 지지 않는 챔피언이 될 수 있답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 188 / 587
+
+← **이전**: [[102_environmental_analysis_pest_5forces_value_chain|102. 환경 분석 (Environmental Analysis)]]
+**다음**: [[103_ba_as_is_analysis|103. 비즈니스 아키텍처 (BA) 현황 분석]] →
+
+---

@@ -120,3 +120,14 @@ Collaborative Coding
 한 명은 글을 써요.  
 한 명은 길을 봐요.  
 페어 프로그래밍은 같이 하는 코딩이에요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 74 / 973
+
+← **이전**: [[073_xp_extreme_programming|73. XP (e/Xtreme Programming) - 5가지 가치, 12가지 실천 방법]]
+**다음**: [[075_collective_code_ownership|75. 공동 코드 소유 (Collective Code Ownership)]] →
+
+---

@@ -174,3 +174,14 @@ tags:
 1. [[259_paging|페이징]]에서의 공유 [[286_page_frame|페이지]] (Shared Pages)은 컴퓨터가 메모리를 방처럼 나눠 쓰고 주소를 찾는 방법이에요.
 2. 먼저 [[259_paging|페이징]]의 [[307_memory_protection|메모리 보호]]을 이해하면 [[259_paging|페이징]]에서의 공유 [[286_page_frame|페이지]] (Shared Pages)이 왜 필요한지 더 쉽게 보여요.
 3. 그래서 [[259_paging|페이징]]에서의 공유 [[286_page_frame|페이지]] (Shared Pages)을 잘 알면 나중에 [[357_tlb|TLB]] ([[357_tlb|Translation Look-aside Buffer]])도 훨씬 쉽게 배울 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 356 / 800
+
+← **이전**: [[355_paging_memory_protection|355. 페이징의 메모리 보호 - 유효-무효 비트 (Valid-Invalid Bit)]]
+**다음**: [[357_tlb|357. TLB (Translation Look-aside Buffer) - 주소 변환 캐시(SRAM 연관 메모리 하드웨어)]] →
+
+---

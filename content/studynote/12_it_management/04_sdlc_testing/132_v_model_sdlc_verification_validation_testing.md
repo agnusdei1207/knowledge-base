@@ -129,3 +129,14 @@ V 모델 (V-Model)가 정착되면 조직은 속도와 통제를 동시에 관�
 1. V 모델 (V-Model)는 모두가 같은 규칙으로 일하게 해 주는 반장 약속표예요.
 2. 약속만 적어 두는 것이 아니라 누가 지켰는지 [[396_validation|확인]]하고 고치는 방법까지 함께 정해요.
 3. 그래서 일이 많아져도 서로 부딪히지 않고 더 안전하게 움직일 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 246 / 587
+
+← **이전**: [[131_sdlc_system_development_life_cycle_waterfall_agile|131. 시스템 개발 생명주기 (SDLC) 프로세스 관리]]
+**다음**: [[133_cmmi_capability_maturity_model_integration_levels|133. CMMI (Capability Maturity Model Integration) 5단계 모델]] →
+
+---

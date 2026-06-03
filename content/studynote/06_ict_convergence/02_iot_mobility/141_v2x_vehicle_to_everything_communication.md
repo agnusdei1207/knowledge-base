@@ -53,3 +53,14 @@ V2X는 **자율주행의 비가시 정보 보완 핵심**이며, [[143_c_v2x_cel
 1. V2X는 차의 **무전기**예요. 다른 차·신호등과 **대화**해요.
 2. 눈(센서)으로 못 보는 **커브 뒤 사고**도 무전으로 미리 알 수 있어요.
 3. 차들이 서로 **"나 지금 급정거해!"** 알려주면 사고가 줄어요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 141 / 552
+
+← **이전**: [[140_lidar_light_detection_and_ranging_tof|140. LiDAR (Light Detection and Ranging) - ToF 기반 3D 거리 측정]]
+**다음**: [[142_wave_dsrc_autonomous_vehicle_communication|142. WAVE/DSRC - 자율주행 전용 단거리 통신 규격]] →
+
+---

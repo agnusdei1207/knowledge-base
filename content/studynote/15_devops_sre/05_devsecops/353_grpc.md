@@ -132,3 +132,14 @@ Streaming / Service Mesh / OpenTelemetry Integration
 1. gRPC는 친구들끼리 약속된 비밀 양식으로 아주 빠르게 편지를 주고받는 방법이에요.
 2. 모두 같은 양식을 쓰니 오해가 적고 빨라요.
 3. 하지만 처음 보는 손님에게는 쉬운 말로 적힌 안내문이 더 필요할 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 353 / 373
+
+← **이전**: [[352_process|352. 동형 암호 데이터 프라이버시 클린 룸 (Homomorphic Encryption)]]
+**다음**: [[354_process|354. 마이크로 프론트엔드 UI 컴포넌트 독립 배포망 (Micro Frontend)]] →
+
+---

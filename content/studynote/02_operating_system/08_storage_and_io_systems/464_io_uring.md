@@ -180,3 +180,14 @@ tags:
 1. io_uring (I/O Uring)은 컴퓨터가 디스크와 장치가 데이터를 주고받는 길을 정리하는 방법이에요.
 2. 먼저 epoll / kqueue을 이해하면 io_uring (I/O Uring)이 왜 필요한지 더 쉽게 보여요.
 3. 그래서 io_uring (I/O Uring)을 잘 알면 나중에 [[465_hdd_structure|하드 디스크 드라이브]] ([[465_hdd_structure|HDD]]) 구조도 훨씬 쉽게 배울 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 464 / 800
+
+← **이전**: [[463_epoll_kqueue|463. epoll / kqueue (Epoll Kqueue)]]
+**다음**: [[465_hdd_structure|465. 하드 디스크 드라이브 (HDD) 구조 - 플래터, 트랙, 실린더, 섹터, 헤드]] →
+
+---

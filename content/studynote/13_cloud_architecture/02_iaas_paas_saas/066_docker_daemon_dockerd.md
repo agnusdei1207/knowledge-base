@@ -136,3 +136,14 @@ Runtime Control
 주문을 받는 본부가 있어야 일이 시작돼요.  
 [[063_docker_architecture|도커]] 데몬이 그 본부예요.  
 그래서 [[561_container_based_deployment|컨테이너]]를 만들고 멈추는 일을 관리해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 65 / 371
+
+← **이전**: [[065_docker_container_platform|65. 도커 (Docker) - 컨테이너 기술을 대중화시킨 오픈소스 플랫폼]]
+**다음**: [[067_dockerfile_container_image_build_script|67. 도커 파일 (Dockerfile) - 컨테이너 이미지를 생성(빌드)하기 위한 명령어 명세 스크립트 (IaC 성격)]] →
+
+---

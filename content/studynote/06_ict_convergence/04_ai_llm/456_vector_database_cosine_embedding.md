@@ -140,3 +140,14 @@ tags:
 1. 이 개념은 복잡한 일을 한눈에 보이게 정리해서 모두가 같은 규칙으로 움직이게 해 줘.
 2. 그래서 많은 기계나 사람, 프로그램이 함께 일해도 어디서 문제가 생겼는지 찾기 쉬워져.
 3. 한마디로 이 개념은 복잡한 일을 질서 있게 움직이게 만드는 안내판이야.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 456 / 552
+
+← **이전**: [[455_rag_retrieval_augmented_generation|455. RAG 검색 증강 외부 주입 (RAG Retrieval Augmented Generation)]]
+**다음**: [[457_peft_lora_low_rank_adaptation|457. PEFT LoRA 저차원 파인튜닝 (PEFT LORA LOW RANK Adaptation)]] →
+
+---

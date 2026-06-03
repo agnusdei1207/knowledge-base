@@ -163,3 +163,14 @@ FMEA (Failure Mode and Effects Analysis)
 1. FMEA는 장난감을 만들기 전에 "바퀴가 빠지면? 건전지가 닳으면? 버튼이 안 눌리면?"을 미리 적어 보는 거예요.
 2. 그리고 어떤 문제가 가장 위험한지 순서를 정해서 먼저 고쳐요.
 3. 그래서 장난감이 나온 뒤에 큰 고장이 나는 일을 줄일 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 753 / 803
+
+← **이전**: [[751_chaos_engineering|751. 카오스 엔지니어링 (Chaos Engineering) HW 모의]]
+**다음**: [[753_fta|753. FTA (Fault Tree Analysis)]] →
+
+---

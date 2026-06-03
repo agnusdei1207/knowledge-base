@@ -338,3 +338,14 @@ AI 기반 SLA 예측 관리
 1. SLA는 약속 증서 — "이만큼 잘 해드릴게요!" 서면 계약. 못 지키면 돈(크레딧) 드려요. 집 계약서처럼 모든 조건을 명시!
 2. [[085_sla|SLA]] 협상은 균형 찾기 — 공급업체는 달성 가능한 약속, 고객은 강한 [[571_protection_vs_security|보호]] 요구. 양쪽이 Win-Win하는 균형점 찾기!
 3. [[202_multi_cloud_hybrid_cloud_governance|멀티 클라우드]] [[085_sla|SLA]] 함정 — 99.9%짜리 [[090_service_kubernetes_network_load_balancing|서비스]] 3개 연결하면 전체 99.7%로 떨어져요. 체인은 가장 약한 고리가 결정!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 47 / 482
+
+← **이전**: [[046_itsm_it_service_management|046. IT 서비스 관리 — ITSM 심화]]
+**다음**: [[048_slm_ola_uc|048. SLM·OLA·UC — 서비스 수준 관리 체계]] →
+
+---

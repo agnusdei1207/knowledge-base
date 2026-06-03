@@ -178,3 +178,14 @@ CBO (Cost Based Optimizer)
 1. CBO는 장난감을 찾을 때 어디부터 보면 제일 빨리 찾을지 먼저 계산해 주는 똑똑한 도우미예요.
 2. 조금만 찾으면 서랍을 열고, 많이 찾아야 하면 상자를 통째로 뒤지는 게 더 빠를 수도 있어요.
 3. 그래서 컴퓨터는 무조건 한 방법만 쓰지 않고, 그때그때 가장 덜 힘든 방법을 고른답니다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 165 / 600
+
+← **이전**: [[164_rbo_rule_based_optimizer|164. 규칙 기반 옵티마이저 (RBO, Rule Based Optimizer) - 정해진 우선순위 규칙에 따라 계획 수립 (구형)]]
+**다음**: [[166_execution_plan_optimizer_navigation_tree|166. 실행 계획 (Execution Plan) - 옵티마이저가 생성한 네비게이션 트리]] →
+
+---

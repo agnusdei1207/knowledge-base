@@ -104,3 +104,14 @@ BCP/DRP 모의훈련 감리를 충실히 적용하면 위기 상황에서 [[090_
 1. 훈련 시나리오는 학교에서 준비물을 미리 챙기는 것처럼, 중요한 기준을 먼저 맞추는 일이야.
 2. [[658_ir_recovery|복구]] 목표 시점·시간은 선생님이 수업 중간에 계속 확인하는 것처럼, 실제로 잘 되고 있는지 보는 과정이야.
 3. [[658_ir_recovery|복구]] 증적은 시험 결과표처럼, 정말 효과가 있었는지 나중에 다시 확인하게 해주는 증거야.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 334 / 530
+
+← **이전**: [[272_cisa_domain_knowledge|272. CISA 도메인 지식 응용 (CISA Domain Knowledge Application)]]
+**다음**: [[274_least_privilege_access_control|274. 최소 권한 접근통제 감리 (Least Privilege Access Control Audit)]] →
+
+---

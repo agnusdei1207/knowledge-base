@@ -180,3 +180,14 @@ ALE (Annualized Loss Expectancy) = SLE × ARO
 1. 위험 경감은 위험이 발생할 가능성이나 피해를 줄이기 위해 미리 대비하는 거예요.
 2. 안전벨트, [[933_cctv|CCTV]], 소화기처럼 막고·보고·고치는 세 가지 방법을 모두 써야 해요.
 3. 통제에 드는 비용이 예상 피해보다 적을 때 적용하는 게 스마트한 보안이에요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 36 / 1108
+
+← **이전**: [[035_risk_transfer|035. 위험 전가 (Risk Transfer)]]
+**다음**: [[037_risk_acceptance|037. 위험 수용 (Risk Acceptance)]] →
+
+---

@@ -115,3 +115,14 @@ tags:
 1. [[190_ai_llm_requirements_specification|AI]] 네이티브는 모든 전자제품에 두뇌([[190_ai_llm_requirements_specification|AI]])가 내장되는 세상이에요.
 2. [[010_decentralization|탈중앙화]]는 반장 없이 학급 규칙을 모두가 같이 정하는 민주주의 학교예요.
 3. 공간화는 책상 위 공기 중에 칠판이 떠다니며 공부할 수 있는 미래 교실이에요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 551 / 552
+
+← **이전**: [[550_ict_comprehensive_keywords_integration|550. 정보통신기술사 ICT 신기술 통합 정리 (PE ICT Emerging Technologies Comprehensive Review)]]
+**다음**: [[800_ict_ai_native_web3_zta|800. 최신 ICT 융합 메가트렌드 (AI-Native, Web3, ZTA, Quantum) 구조 프레임워크 총합 망 완성]] →
+
+---

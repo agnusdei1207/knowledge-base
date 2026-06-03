@@ -184,3 +184,14 @@ Java Spring 서버를 띄우자마자 무지성으로 유저 트래픽 1만 명�
 1. [[286_page_frame|페이지]] 부재 ([[286_page_frame|Page]] Fault)은 컴퓨터가 메모리를 더 크게 보이게 하고 부족함을 숨기는 방법이에요.
 2. 먼저 [[386_valid_invalid_bit|유효-무효 비트]] ([[355_paging_memory_protection|Valid-Invalid Bit]])을 이해하면 [[286_page_frame|페이지]] 부재 ([[286_page_frame|Page]] Fault)이 왜 필요한지 더 쉽게 보여요.
 3. 그래서 [[286_page_frame|페이지]] 부재 ([[286_page_frame|Page]] Fault)을 잘 알면 나중에 [[286_page_frame|페이지]] 부재 처리 과정 6단계 (OS [[677_trap_based_system_call_implementation|트랩]], [[057_register|레지스터]] 저장, 디스크 읽기, 문맥교환 등)도 훨씬 쉽게 배울 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 387 / 800
+
+← **이전**: [[386_valid_invalid_bit|386. 유효-무효 비트 (Valid-Invalid Bit) - 적재 여부 표시]]
+**다음**: [[388_page_fault_handling_6_steps|388. 페이지 부재 처리 과정 6단계 (OS 트랩, 레지스터 저장, 디스크 읽기, 문맥교환 등)]] →
+
+---

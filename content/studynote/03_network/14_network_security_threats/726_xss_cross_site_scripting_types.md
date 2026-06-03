@@ -133,3 +133,14 @@ XSS 개요와 3대 기법는 [[725_port_scanning_full_open_vs_stealth_half_open|
 1. 나쁜 친구가 놀이터 규칙을 깨뜨리면 바로 알아차리고 막아야 해요.
 2. 이 개념은 어떤 장난이 위험한지 미리 알고, 문제가 생기면 어떻게 다시 정리할지도 알려줘요.
 3. 그래서 놀이터를 더 안전하게 지킬 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 847 / 1120
+
+← **이전**: [[725_port_scanning_full_open_vs_stealth_half_open|725. 스키밍 (Skimming) 공격]]
+**다음**: [[727_httponly_cookie_xss_defense|727. XSS 방어 HttpOnly 쿠키 속성 설정 원리 스크립트 접근 차단]] →
+
+---

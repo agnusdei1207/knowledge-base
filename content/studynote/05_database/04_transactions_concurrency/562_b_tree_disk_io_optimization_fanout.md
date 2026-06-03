@@ -132,3 +132,14 @@ tags:
 1. 도서관에서 책을 찾을 때 제목표를 먼저 보는 것과 비슷해요.
 2. 지름길을 잘 찾으면 빨리 찾지만, 표지가 엉뚱하면 더 돌아가요.
 3. 그래서 어떤 길이 빠른지 미리 계산하는 똑똑한 방법이 필요해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 562 / 600
+
+← **이전**: [[561_cloud_db_high_availability_multi_az_failover|561. 클라우드 DB 고가용성 멀티 AZ 자동 페일오버 (Failover) 프로토콜]]
+**다음**: [[563_hash_collision_chaining_linear_probing|563. 해시 충돌(Collision) 체이닝 방식 및 선형 탐사 성능 오버헤드 DB 매핑]] →
+
+---

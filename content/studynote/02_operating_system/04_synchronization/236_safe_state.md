@@ -185,3 +185,14 @@ tags:
 1. [[298_safe_state|안전 상태]] ([[298_safe_state|Safe State]])은 컴퓨터가 여러 친구가 동시에 만져도 부딪히지 않게 순서를 맞추는 규칙이에요.
 2. 먼저 [[225_binary_semaphore|이진 세마포어]] ([[225_binary_semaphore|Binary Semaphore]]) = 뮤텍스와 유사을 이해하면 [[298_safe_state|안전 상태]] ([[298_safe_state|Safe State]])이 왜 필요한지 더 쉽게 보여요.
 3. 그래서 [[298_safe_state|안전 상태]] ([[298_safe_state|Safe State]])을 잘 알면 나중에 블로킹 [[224_semaphore|세마포어]]도 훨씬 쉽게 배울 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 236 / 800
+
+← **이전**: [[235_deadlock_avoidance|235. 교착 상태 회피 (Deadlock Avoidance)]]
+**다음**: [[237_unsafe_state|237. 불안전 상태 (Unsafe State)]] →
+
+---

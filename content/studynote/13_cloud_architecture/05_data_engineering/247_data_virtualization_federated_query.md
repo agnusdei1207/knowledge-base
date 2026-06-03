@@ -113,3 +113,14 @@ tags:
 1. [[360_data_virtualization|데이터 가상화]] - [[195_federated_query_data_fabric_distributed_join|연방 쿼리]]는 사람이 많은 운동회에서 어디로 가야 하는지 알려 주는 안내판과 비슷해요.
 2. 규칙이 없으면 모두가 한곳에 몰려서 느려지고 다투지만, 길을 정해 두면 훨씬 부드럽게 움직일 수 있어요.
 3. 그래서 컴퓨터 세상에서도 [[360_data_virtualization|데이터 가상화]] - [[195_federated_query_data_fabric_distributed_join|연방 쿼리]]를 쓰면 많은 팀과 [[090_service_kubernetes_network_load_balancing|서비스]]가 덜 부딪히고 더 빨리 움직일 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 246 / 371
+
+← **이전**: [[246_data_fabric_ai_metadata_integration|246. 데이터 패브릭 (Data Fabric)]]
+**다음**: [[248_data_catalog_metadata_discovery|248. 데이터 카탈로그 및 메타데이터 (Data Catalog)]] →
+
+---

@@ -158,3 +158,14 @@ HATEOAS (Hypermedia As The Engine Of Application State)
 1. Level 3 API는 답만 주는 게 아니라, 다음에 누를 수 있는 버튼도 같이 알려 주는 컴퓨터예요.
 2. 그래서 사용자는 길을 외우지 않고, 화면에 나온 안내를 따라가면 돼요.
 3. 즉 HATEOAS는 "다음에 어디로 갈지"를 서버가 친절하게 알려 주는 약속이에요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 161 / 482
+
+← **이전**: [[160_rest_level_2_http_verbs|160. Level 2 - HTTP 메서드의 적절한 분리 사용 (가장 대중적 단계)]]
+**다음**: [[162_rest_statelessness|162. 무상태성 (Statelessness) - REST의 핵심, 서버에 세션 상태를 저장하지 않고 요청 자체만으로 완벽히 문맥 이해]] →
+
+---

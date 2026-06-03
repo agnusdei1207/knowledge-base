@@ -161,3 +161,14 @@ WordPiece와 SentencePiece는 BPE의 발전 형태로, 각각 BERT와 T5/LLaMA �
 1. WordPiece는 단어를 먼저 나누고 그 안에서 조각을 찾는데, 조각 앞에 ## 표시를 달아서 "이건 단어 안에 있는 조각이야"라고 알려줘.
 2. SentencePiece는 공백도 특별한 기호(▁)로 바꿔서 처리하니까 한국어처럼 공백 규칙이 다른 언어도 잘 다뤄.
 3. 둘 다 모르는 단어가 나와도 당황하지 않아. 이미 알고 있는 조각들로 쪼개면 되니까!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 385 / 420
+
+← **이전**: [[384_tokenizer_bpe|384. 토크나이저 BPE (Byte Pair Encoding)]]
+**다음**: [[386_llm_temperature|386. LLM 온도 (Temperature) 파라미터]] →
+
+---

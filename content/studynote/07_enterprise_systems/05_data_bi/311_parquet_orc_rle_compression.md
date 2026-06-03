@@ -159,3 +159,14 @@ Delta Lake/Iceberg - 오픈 테이블 포맷으로 진화
 1. Parquet는 색깔별로 구슬을 통에 모아 담은 것이에요. 빨간 구슬만 필요하면 빨간 통만 열어요.
 2. RLE는 "빨강 100개"를 "빨강×100"으로 짧게 쓰는 방법이에요.
 3. Predicate Pushdown은 "서울 사람만 필요해"라고 미리 말하면 서울 통만 열어주는 스마트 창고 직원이에요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 311 / 482
+
+← **이전**: [[310_neo4j_fraud_detection|310. 그래프 데이터베이스 Neo4j 사기 탐지 최단 경로 (Neo4j Fraud Detection)]]
+**다음**: [[312_hash_sharding_directory_sharding|312. 해시 샤딩 및 디렉토리 샤딩 분산 DB 스케일 아웃 (Hash Sharding vs Directory Sharding)]] →
+
+---

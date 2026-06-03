@@ -192,3 +192,14 @@ ACME + DNS 자동화
 1. 와일드카드는 같은 동네에 있는 여러 집을 한 장의 공용 출입증으로 드나들게 해 주는 카드예요.
 2. 그래서 새 집이 생겨도 카드 다시 만들 일이 줄어들지만, 카드 하나를 잃어버리면 여러 집이 함께 위험해져요.
 3. 그래서 정말 같은 구역만 한 카드로 묶고, 중요한 방은 따로 열쇠를 두는 게 안전하답니다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 228 / 1108
+
+← **이전**: [[174_san_subject_alternative_name|174. SAN (Subject Alternative Name) — 인증서 다중 이름 확장]]
+**다음**: [[176_ev_extended_validation_certificate|176. EV (Extended Validation) 인증서]] →
+
+---

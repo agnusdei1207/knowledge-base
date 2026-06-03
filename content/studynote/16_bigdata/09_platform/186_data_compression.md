@@ -185,3 +185,14 @@ Level 20-22: 최고 압축률 (Cold Storage)
 1. [[159_compression|데이터 압축]]은 여행 가방 짐을 [[347_compaction|압축]] 봉투에 넣어 작게 만드는 것처럼, 같은 [[001_dikw_pyramid|데이터]]를 더 작게 저장해서 공간을 아껴요.
 2. 빨리 꺼내야 하면 LZ4처럼 느슨하게 넣고, 오래 보관할 거면 Gzip처럼 꼭꼭 눌러 넣어요.
 3. [[178_parquet_rle_encoding_columnar_compression|Parquet]] [[501_file_definition_logical_record|파일]]은 같은 종류의 물건끼리 모아 넣어서 [[347_compaction|압축]]이 훨씬 잘 되는 특수한 가방이에요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 186 / 262
+
+← **이전**: [[185_scalability_design|185. 확장성 설계 (Scalability Design) — 수평 확장/샤딩/파티셔닝/자동 확장]]
+**다음**: [[187_parquet_orc_iceberg_arrow|187. 컬럼 기반 파일 포맷 (Parquet, ORC, Iceberg, Arrow) 조회 최적화]] →
+
+---

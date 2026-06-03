@@ -195,3 +195,14 @@ tags:
 1. 텔레비전 채널 1번 방송국이 서울에도 있고 부산에도 있으면, 서로 너무 멀어서 전파가 부딪히지 않기 때문에 각자 재미있게 방송할 수 있죠?
 2. 주파수 재사용(Frequency Reuse)은 이 원리를 이용해, 서울 안에서도 강남과 강북처럼 멀리 떨어진 곳의 [[171_antenna_basic_dipole_resonance|안테나]]들이 똑같은 전파(채널)를 또 쓰게 만드는 마법이에요.
 3. 우리가 쓰는 전파(차선)는 몇 개 안 되지만, [[171_antenna_basic_dipole_resonance|안테나]]들이 멀찍이 떨어져서 목소리를 작게 낮춘 채 전파를 계속 '재활용'하기 때문에 전 국민이 끊김 없이 통화할 수 있는 거랍니다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 675 / 1120
+
+← **이전**: [[553_macro_micro_pico_femto_cell_topology|553. 매크로 뷰 (Macro Cell) 토폴로지 / 피코 셀(Pico)/마이크로 셀(Micro)]]
+**다음**: [[555_co_channel_adjacent_interference|555. Co-channel Interference (동일 채널 간섭) / Adjacent Channel Interference (인접]] →
+
+---

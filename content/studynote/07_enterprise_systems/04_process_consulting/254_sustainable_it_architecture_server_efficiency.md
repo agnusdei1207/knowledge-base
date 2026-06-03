@@ -139,3 +139,14 @@ tags:
 1. 지속 가능한 IT 아키텍처 서버 효율화는 복잡한 일을 순서대로 정리해 주는 큰 정리함이에요.
 2. 어디에 무엇을 넣을지 먼저 정해 두면, 나중에 찾거나 고칠 때 훨씬 쉬워져요.
 3. 그래서 일이 커질수록 먼저 기준을 만들고 같이 약속하는 것이 중요해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 254 / 482
+
+← **이전**: [[253_digital_carbon_footprint_dashboard|253. 디지털 탄소 발자국 지표 대시보드 (Digital Carbon Footprint Dashboard)]]
+**다음**: [[255_datacenter_pue_cooling_infrastructure_economics|255. 데이터센터 PUE 하락을 위한 쿨링 인프라 도입 경제성 (Datacenter PUE Cooling Infrastructure]] →
+
+---

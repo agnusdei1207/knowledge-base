@@ -213,3 +213,14 @@ TACACS+는 RADIUS에서 출발해 현재 메커니즘을 정교화하고, 이후
 1. 집에 들어오는 문(네트워크)을 열어주는 건 일반 경비원 아저씨([[541_radius_remote_authentication_aaa|RADIUS]])가 잘하지만, 집 안에서 어떤 물건을 만져도 되는지 감시하는 데는 한계가 있어요.
 2. TACACS+는 집 안에 들어온 사람이 냉장고 문을 열 때마다, 혹은 TV를 켤 때마다 본부의 보안 대장님께 "이 사람이 이거 만져도 돼요?"라고 실시간으로 물어보는 무서운 감시 카메라예요.
 3. 그래서 신입 사원이 실수로 인터넷을 통째로 끄는 위험한 버튼([[158_instruction|명령어]])을 누르려고 해도, TACACS+가 "안 돼, 넌 그 버튼 누를 자격이 없어!" 하고 딱 막아주는 든든한 방패랍니다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 663 / 1120
+
+← **이전**: [[541_radius_remote_authentication_aaa|541. RADIUS (Remote Authentication Dial-In User Service)]]
+**다음**: [[543_ldap_lightweight_directory_access_protocol|543. LDAP (Lightweight Directory Access Protocol)]] →
+
+---

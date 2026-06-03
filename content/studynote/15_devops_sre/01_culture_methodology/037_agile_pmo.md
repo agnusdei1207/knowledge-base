@@ -195,3 +195,14 @@ OKR + Flow Metrics 통합 대시보드
 1. [[004_agile_relation|애자일]] PMO는 팀을 감시하는 감독관이 아니라 팀이 잘 달릴 수 있도록 장애물을 치워주는 코치예요.
 2. 옛날 PMO가 "계획대로 했냐?"를 감시했다면, [[004_agile_relation|애자일]] PMO는 "고객에게 가치를 전달했냐?"를 중시해요.
 3. 60개 팀이 각자 열심히 하지만 방향이 다르면 회사 목표를 이룰 수 없어서, [[004_agile_relation|애자일]] PMO가 모두를 같은 방향으로 정렬시켜줘요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 37 / 373
+
+← **이전**: [[036_psychological_safety|036. 심리적 안전 (Psychological Safety)]]
+**다음**: [[038_water_scrum_fall|038. 워터스크럼폴 (WaterScrumFall) — 애자일 실패 패턴]] →
+
+---

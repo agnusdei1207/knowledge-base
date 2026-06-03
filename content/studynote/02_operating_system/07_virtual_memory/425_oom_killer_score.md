@@ -181,3 +181,14 @@ tags:
 1. [[157_oom_killer|OOM]] Killer (Out-of-Memory) 작동 우선순위 점수 (oom_score) 매커니즘은 컴퓨터가 메모리를 더 크게 보이게 하고 부족함을 숨기는 방법이에요.
 2. 먼저 ZRAM / [[022_kernel_role|커널]] 스왑 [[347_compaction|압축]] 기술을 이해하면 [[157_oom_killer|OOM]] Killer (Out-of-Memory) 작동 우선순위 점수 (oom_score) 매커니즘이 왜 필요한지 더 쉽게 보여요.
 3. 그래서 [[157_oom_killer|OOM]] Killer (Out-of-Memory) 작동 우선순위 점수 (oom_score) 매커니즘을 잘 알면 나중에 [[377_numa_allocation|NUMA]] 환경의 [[381_virtual_memory|가상 메모리]] 스케줄링 ([[377_numa_allocation|NUMA]] 노드 별 [[286_page_frame|페이지]] 할당 / numactl)도 훨씬 쉽게 배울 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 425 / 800
+
+← **이전**: [[424_zram_swap_compression|424. ZRAM / 커널 스왑 압축 기술 (Zram Swap Compression)]]
+**다음**: [[426_numa_virtual_memory_scheduling|426. NUMA 환경의 가상 메모리 스케줄링 (NUMA 노드 별 페이지 할당 / numactl)]] →
+
+---

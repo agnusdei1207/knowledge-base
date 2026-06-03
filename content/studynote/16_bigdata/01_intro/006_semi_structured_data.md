@@ -199,3 +199,14 @@ except json.JSONDecodeError as e:
 1. [[002_structured_data|정형 데이터]]는 칸이 딱 정해진 표 같다.
 2. [[003_semi_structured_data|반정형 데이터]]는 태그가 붙은 블록 장난감처럼 유연하다.
 3. 빅데이터 처리는 이런 여러 형태를 함께 다룬다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 6 / 262
+
+← **이전**: [[005_unstructured_data|5. 비정형 데이터 유형 — 텍스트/이미지/동영상/음성/로그/SNS/IoT 센서]]
+**다음**: [[007_big_data_ecosystem|7. 빅데이터 생태계 — 수집→저장→처리→분석→시각화→활용]] →
+
+---

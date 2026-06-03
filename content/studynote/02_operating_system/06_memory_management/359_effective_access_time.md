@@ -190,3 +190,14 @@ TLB의 세계에서는 "겨우 1% 떨어졌네?"가 통하지 않는다. 99%와 
 1. [[357_tlb|TLB]] [[264_hit_ratio|적중률]] ([[263_cache_hit_miss|Hit]] Ratio) / 실질 메모리 접근 시간 (EAT, Effective Access Time)은 컴퓨터가 메모리를 방처럼 나눠 쓰고 주소를 찾는 방법이에요.
 2. 먼저 [[357_tlb|TLB]] 적중 ([[358_tlb_hit_miss|TLB Hit]]) / [[357_tlb|TLB]] 미스 ([[357_tlb|TLB]] Miss)을 이해하면 [[357_tlb|TLB]] [[264_hit_ratio|적중률]] ([[263_cache_hit_miss|Hit]] Ratio) / 실질 메모리 접근 시간 (EAT, Effective Access Time)이 왜 필요한지 더 쉽게 보여요.
 3. 그래서 [[357_tlb|TLB]] [[264_hit_ratio|적중률]] ([[263_cache_hit_miss|Hit]] Ratio) / 실질 메모리 접근 시간 (EAT, Effective Access Time)을 잘 알면 나중에 [[360_asid|ASID]] ([[360_asid|Address-Space Identifier]])도 훨씬 쉽게 배울 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 359 / 800
+
+← **이전**: [[358_tlb_hit_miss|358. TLB 적중 (TLB Hit) / TLB 미스 (TLB Miss)]]
+**다음**: [[360_asid|360. ASID (Address-Space Identifier) - TLB 내 프로세스 식별, 플러시(Flush) 최소화]] →
+
+---

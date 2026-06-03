@@ -137,3 +137,14 @@ Microcode + TCB Recovery + secure deployment policy
 1. 컴퓨터 안에는 아무도 못 열 거라고 믿었던 비밀 금고와 비밀 우편관이 있었어요.
 2. SGAxe는 금고 도장을 훔쳐서 가짜 출입증을 만들었고, CrossTalk는 멀리 있는 다른 방의 우편관을 몰래 들여다봤어요.
 3. 그래서 이제는 금고 비밀번호만 바꾸는 게 아니라, 도장도 새로 만들고 우편관도 한 사람씩만 쓰게 바꿔야 해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 769 / 803
+
+← **이전**: [[767_zombieload_attack|767. 좀비로드 (ZombieLoad)]]
+**다음**: [[769_plundervolt|769. 플런더버그 (Plundervolt)]] →
+
+---

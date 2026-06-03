@@ -161,3 +161,14 @@ Apache Iceberg는 2024년 이후 AWS Athena, [[541_cassandra|Snowflake]], Spark 
 1. Iceberg는 스마트 도서관이에요. 책([[001_dikw_pyramid|데이터]])이 어느 방([[514_partition_slice_volume|파티션]])에 있는지 알아서 찾아줘서 직접 돌아다닐 필요가 없어요.
 2. 도서관 구조([[514_partition_slice_volume|파티션]])를 바꿔도 이미 있는 책들을 다시 옮길 필요가 없고, 새 책만 새 구조에 따라 놓으면 돼요.
 3. 어떤 도서관 로봇(엔진)을 써도 같은 방식으로 책을 찾을 수 있어서 누구나 편리하게 이용할 수 있답니다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 148 / 262
+
+← **이전**: [[147_delta_lake|147. Delta Lake — ACID 트랜잭션 지원 오픈 테이블 포맷]]
+**다음**: [[149_apache_hudi|149. Apache Hudi (Hadoop Upserts Deletes Incrementals) — CDC 지원 레이크]] →
+
+---

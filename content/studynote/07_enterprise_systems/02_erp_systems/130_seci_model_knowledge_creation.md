@@ -66,3 +66,14 @@ SECI 모델은 **[[127_kms_knowledge_management_system|KMS]]·[[347_cop|CoP]]·�
 1. SECI는 지식의 **4계절**이에요. 봄(배우기)→여름([[289_cqrs_db|쓰기]])→가을(모으기)→겨울(체화) 순환해요.
 2. 계절이 돌 때마다 **나무(지식)가 더 크게** 자라요.
 3. AI가 여름(외부화)을 도와서 **지식이 더 빨리** 자라게 돼요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 130 / 482
+
+← **이전**: [[129_explicit_knowledge_formalization|129. 형식지 (Explicit Knowledge)]]
+**다음**: [[131_groupware_enterprise_2_0_collaboration|131. 그룹웨어 & Enterprise 2.0 협업 - 기업 협업 플랫폼의 진화]] →
+
+---

@@ -125,3 +125,14 @@ LLM03: [[588_mlops_pipeline_automation|Training]] [[001_dikw_pyramid|Data]] Pois
 1. LLM03: [[588_mlops_pipeline_automation|Training]] [[001_dikw_pyramid|Data]] Poisoning는 학교 규칙표처럼 무엇을 준비하고 어떻게 확인할지 알려 주는 기준이에요.
 2. 규칙표만 붙여 두고 지키지 않으면 아무 소용이 없어요.
 3. 그래서 보안도 규칙과 실제 행동이 함께 맞아야 해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 1075 / 1108
+
+← **이전**: [[977_llm02_insecure_output|977. LLM02: Insecure Output (LLM02: Insecure Output)]]
+**다음**: [[979_ipsec_tunnel_transport_mode_vpn_encapsulation|979. IPSec 터널/수송 모드 (Ipsec Tunnel Transport Mode VPN Encapsulation)]] →
+
+---

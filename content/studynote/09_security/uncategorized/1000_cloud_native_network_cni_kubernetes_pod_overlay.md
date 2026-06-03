@@ -125,3 +125,14 @@ tags:
 1. [[1000_cni_cloud_native_network|클라우드 네이티브 네트워크]] ([[199_cloud_native_architecture_msa_cicd_devops|Cloud Native]] Network [[822_cni_container_network_interface_kubernetes|Cni]] [[205_kubernetes_container_orchestration|Kubernetes]] [[198_pod_kubernetes_minimum_deployment_unit|Pod]] Overlay)는 컴퓨터 세상을 더 안전하게 만들기 위한 중요한 약속이나 도구예요.
 2. 겉으로는 어려워 보여도, 왜 필요한지와 어떻게 움직이는지를 알면 훨씬 쉬워져요.
 3. 그래서 이름만 외우지 말고 어디에 쓰이는지 같이 기억해야 해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 109 / 1108
+
+← **이전**: [[099_sha_1|099. SHA-1 — 160비트, SHA-1 충돌 발견 (2017, SHAttered)]]
+**다음**: [[1000_entropy|1000. 엔트로피 (Entropy)]] →
+
+---

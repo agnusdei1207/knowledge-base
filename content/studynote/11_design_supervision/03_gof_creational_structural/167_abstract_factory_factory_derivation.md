@@ -177,3 +177,14 @@ DI (Dependency Injection) · 플러그인형 아키텍처
 1. [[255_abstract_factory_pattern_object_families|추상 팩토리]]는 같은 [[184_theme_agile_requirements|테마]] 장난감을 한 상자에 넣어 주는 장난감 공장이에요.
 2. 우주 [[184_theme_agile_requirements|테마]] 상자를 고르면 우주 버튼, 우주 문, 우주 메뉴가 함께 나오고, 바다 [[184_theme_agile_requirements|테마]] 상자를 고르면 바다 세트가 함께 나와요.
 3. 그래서 서로 안 어울리는 장난감이 섞이지 않고, 상자만 바꾸면 분위기가 통째로 바뀌어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 223 / 530
+
+← **이전**: [[166_decorator_vs_proxy|166. 데코레이터 vs 프록시 (Decorator vs Proxy)]]
+**다음**: [[168_template_method_factory_method_combo|168. 템플릿 메서드와 팩토리 메서드 결합 (Template Method + Factory Method)]] →
+
+---

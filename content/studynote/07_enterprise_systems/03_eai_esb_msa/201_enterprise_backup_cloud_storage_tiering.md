@@ -143,3 +143,14 @@ tags:
 1. 자주 쓰는 장난감은 방 안 가까운 상자에 두고, 잘 안 쓰는 장난감은 창고에 넣어 두는 것과 같아요.
 2. 클라우드 티어링은 컴퓨터가 알아서 어떤 상자에 넣을지 정해 주는 정리 방법이에요.
 3. 그래서 방은 덜 복잡해지고, 필요할 때는 다시 꺼내 쓸 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 201 / 482
+
+← **이전**: [[200_low_code_no_code_enterprise_workflow_automation|200. 로우코드 / 노코드 (LC/NC) 기반 엔터프라이즈 워크플로우 자동화]]
+**다음**: [[202_bpm_lifecycle_design_execution_monitoring_optimization|202. BPM 라이프사이클 (Business Process Management Lifecycle)]] →
+
+---

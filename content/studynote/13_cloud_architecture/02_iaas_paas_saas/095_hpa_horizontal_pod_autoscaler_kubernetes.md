@@ -128,3 +128,14 @@ CA (Cluster Autoscaler)와의 유기적 연동 (서버 자동 증설)
 1. HPA는 [[196_kubernetes_k8s_container_orchestration|쿠버네티스]] 성을 지키는 마법사 점장님이에요.
 2. 성에 몬스터(트래픽)가 많이 쳐들어와서 병사 한 명([[085_pod_kubernetes_container_unit|파드]])이 힘들어하면, 뿅 하고 똑같은 병사들을 여러 명 복제해서 도와줘요.
 3. 몬스터가 다 도망가면 복제된 병사들을 다시 돌려보내서 식량(클라우드 비용)을 아껴준답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 94 / 371
+
+← **이전**: [[094_ingress_kubernetes_l7_routing_gateway|94. 인그레스 (Ingress) - K8s L7 URL 라우팅 통합 게이트웨이]]
+**다음**: [[096_vpa_vertical_pod_autoscaler_kubernetes|96. VPA (Vertical Pod Autoscaler) - 파드 수직 자원 자동 조절]] →
+
+---

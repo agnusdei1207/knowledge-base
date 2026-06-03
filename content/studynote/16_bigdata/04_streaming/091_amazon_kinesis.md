@@ -207,3 +207,14 @@ Amazon Kinesis [[001_dikw_pyramid|Data]] Streams는 **AWS 생태계 내 스트�
 ### 👶 어린이를 위한 3줄 비유 설명
 
 Amazon Kinesis는 AWS가 운영하는 컨베이어 벨트예요. 공장(여러분의 앱)에서 물건([[001_dikw_pyramid|데이터]])을 올려놓으면 벨트가 알아서 다음 장소([[216_lambda_kappa_architecture_batch_realtime|Lambda]], S3)로 이동시켜 줘요. 직접 벨트를 만들고 수리할([[179_kafka_flink_watermark_time_window|Kafka]] 운영) 필요 없이 AWS에 빌리면 되니까 처음 시작하기 훨씬 쉬워요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 91 / 262
+
+← **이전**: [[090_kafka_mirrormaker2|15. Kafka MirrorMaker 2 — 클러스터 간 복제 및 DR]]
+**다음**: [[092_google_pubsub|17. Google Pub/Sub — GCP 글로벌 분산 메시지 서비스]] →
+
+---

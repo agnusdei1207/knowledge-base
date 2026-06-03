@@ -229,3 +229,14 @@ Tripwire, OSSEC 등 [[003_integrity|무결성]] 감시 도구(FIM, [[501_file_de
 1. 아주 똑똑한 도둑([[603_rootkit_syscall_hooking|루트킷]])이 미술관에 몰래 숨어들어와서, 경비원 아저씨의 [[933_cctv|CCTV]] 카메라 렌즈에 '아무도 없는 복도 사진'을 찰싹 붙여놨어요.
 2. 경비원 아저씨는 화면만 보고 "아무 일도 없네!"라고 믿어버리죠. 화면(기본 [[158_instruction|명령어]])을 완전히 조작당한 거예요.
 3. 그래서 깐깐한 미술관장님은 화면을 안 믿고, 매일 자정마다 직접 레이저 스캐너([[003_integrity|무결성]] 검사기)를 들고 나가서 어제 바닥에 남겨둔 비밀 암호(해시값)가 지워지진 않았는지 확인해서 도둑을 기어코 잡아낸답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 763 / 800
+
+← **이전**: [[762_interrupt_top_bottom_half|762. 인터럽트 처리 상프/하프 메커니즘 (Interrupt Top Bottom Half)]]
+**다음**: [[764_aslr_memory_layout_randomization|764. ASLR 메모리 레이아웃 난수화 (ASLR Memory Layout Randomization)]] →
+
+---

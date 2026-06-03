@@ -213,3 +213,14 @@ Discovery Kanban, Design Thinking과 통합
 1. [[035_lean_startup|린 스타트업]]은 큰 요리를 만들기 전에 작은 시식 요리([[036_mvp|MVP]])로 사람들의 반응을 먼저 확인하는 방법이에요.
 2. [[037_pivot|피벗]]은 요리 방향이 틀렸을 때 재료(핵심 기술)는 살리면서 레시피(방향)를 바꾸는 전략적 결정이에요.
 3. Slack이 게임 회사 내부 채팅 도구에서 전 세계 업무용 메신저로 바뀐 것이 역사상 가장 유명한 [[037_pivot|피벗]] 중 하나예요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 68 / 587
+
+← **이전**: [[038_ambidextrous_organization|38. 양손잡이 조직 (Ambidextrous Organization)]]
+**다음**: [[039_design_thinking|039. 디자인 씽킹 (Design Thinking)]] →
+
+---

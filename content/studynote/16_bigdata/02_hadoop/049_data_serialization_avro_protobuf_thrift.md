@@ -153,3 +153,14 @@ Consumer ← [Avro 역직렬화] ← Kafka 토픽
 1. [[149_serial_communication_rs232_rs485|직렬]]화는 [[001_dikw_pyramid|데이터]]를 택배 상자에 포장하는 방법이에요! JSON은 큰 종이 박스, Avro/Protobuf는 진공 포장 — 훨씬 작고 빠르게 전달돼요!
 2. Kafka에서는 Avro+[[505_schema|Schema]] Registry가 표준, [[532_microservices_decomposition_patterns|마이크로서비스]]에서는 Protobuf+gRPC가 표준이에요!
 3. Apache Arrow는 분석 전용 [[148_5g_embb_urllc_mmtc|초고속]] 포장재예요 — 컬럼 단위로 정렬해서 수십 배 빠른 분석이 가능하답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 49 / 262
+
+← **이전**: [[048_hdfs_viewfs|26. HDFS ViewFS — Hadoop 연합 네임스페이스 통합 뷰]]
+**다음**: [[050_hadoop_security_kerberos_ranger_atlas|28. Hadoop 보안 — Kerberos, Ranger, Atlas]] →
+
+---

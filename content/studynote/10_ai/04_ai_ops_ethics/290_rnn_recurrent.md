@@ -123,3 +123,14 @@ RNN의 핵심 수식은 단순하다. 현재 은닉 상태 h_t는 이전 은닉 
 1. 일반 신경망이 "오늘 날씨만 보고 내일을 예측"한다면, **[[244_rnn_time_series_lstm_cell_gate_long_term_dependency|RNN]]([[111_rnn_recurrent_neural_network_sequential_data|순환 신경망]])**은 **"오늘까지 1주일 날씨 기록을 다 기억하면서"** 내일을 예측하는 더 똑똑한 신경망이에요!
 2. 문장에서 "나는 학교에 **간다**"를 이해하려면 앞에 "나는"이 있다는 걸 기억해야 하는데, RNN은 **앞 단어를 메모(은닉 상태)**해두면서 뒤를 읽어요.
 3. 하지만 아주 긴 소설을 읽으면 **맨 처음 문장이 뭐였는지 까먹어버리는 문제**가 있어서, 더 좋은 LSTM이 그 문제를 해결하러 나왔어요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 290 / 420
+
+← **이전**: [[289_image_segmentation|289. 이미지 분할 (Image Segmentation)]]
+**다음**: [[291_long_term_dependency|291. 장기 의존성 (Long-term Dependency)]] →
+
+---

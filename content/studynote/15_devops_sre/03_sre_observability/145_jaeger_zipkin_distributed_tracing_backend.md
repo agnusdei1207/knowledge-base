@@ -55,3 +55,14 @@ Jaeger는 **K8s 트레이싱의 [[190_cncf_landscape_observability|CNCF]] 표준
 1. Jaeger/Zipkin은 **비행 관제탑**이에요. 모든 비행기(요청) 경로를 봐요.
 2. "이 비행기는 **서울 공항에서 2시간 [[015_지연_데이터_관점|지연]]됐네!**" → 병목 발견!
 3. OTel로 계측하면 **관제탑(백엔드)을 자유롭게** 바꿀 수 있어요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 145 / 373
+
+← **이전**: [[144_context_propagation_trace_id|144. Context Propagation & Trace ID 전파 상세]]
+**다음**: [[146_opentelemetry_otel_observability_standard|146. OpenTelemetry (OTel) - 관측 가능성 통합 표준]] →
+
+---

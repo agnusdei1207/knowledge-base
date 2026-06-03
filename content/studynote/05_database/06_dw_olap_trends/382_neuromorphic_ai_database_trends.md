@@ -132,3 +132,14 @@ tags:
 1. 여러 창고에 장난감을 나눠 두고도 같은 물건처럼 써야 하는 상황이에요.
 2. 멀리 떨어진 창고끼리는 이야기하는 데 시간이 걸려요.
 3. 그래서 어디까지 맞춰 둘지와 얼마나 빨리 답할지를 함께 정해야 해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 382 / 600
+
+← **이전**: [[381_imdb_snapshot_logging_checkpointing|381. 메인 메모리 DB의 스냅샷 로깅 (Checkpointing in IMDB)]]
+**다음**: [[383_graph_data_analysis_pagerank_bfs|383. 그래프 데이터 분석 알고리즘 (PageRank, BFS 최단경로 매핑 DB 엔진 연산)]] →
+
+---

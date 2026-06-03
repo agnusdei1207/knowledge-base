@@ -201,3 +201,14 @@ C코드에서 `__thread int my_id;` 라고 치면 어떻게 각 [[092_thread_lwp
 1. 반 친구들 30명이 칠판(전역 변수) 하나에 동시에 그림을 그리려고 하면, 서로 부딪히고 남의 그림을 망쳐서 싸움([[213_race_condition|경쟁 조건]])이 나요.
 2. 싸움을 말리려면 한 명씩 줄을 서서(락, [[510_lock|Lock]]) 그려야 하는데 그러면 너무 오래 걸리죠.
 3. 그래서 선생님이 아예 친구들 각자에게 개인용 '작은 스케치북([[092_thread_lwp|스레드]] 로컬 스토리지)'을 하나씩 나눠줬어요! 이제 싸우지 않고도 30명이 동시에 [[148_5g_embb_urllc_mmtc|초고속]]으로 그림을 그릴 수 있게 되었답니다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 694 / 800
+
+← **이전**: [[693_multithread_user_mode_kernel_mode|693. 멀티스레드 유저모드 커널모드 (Multithread User Mode Kernel Mode)]]
+**다음**: [[695_thread_synchronization_mutual_exclusion|695. 스레드 동기화 상호 배제 (Thread Synchronization Mutual Exclusion)]] →
+
+---

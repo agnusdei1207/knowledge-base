@@ -134,3 +134,14 @@ HRM        → AI 채용 (HireVue) + 피플 어낼리틱스
 1. 지원 활동은 무대 뒤의 스태프예요! 배우(본원 활동)가 공연하려면 조명·의상·음향팀이 완벽히 준비해야 해요.
 2. [[190_ai_llm_requirements_specification|AI]] 시대에는 [[190_ai_llm_requirements_specification|AI]] 인프라와 [[001_dikw_pyramid|데이터]] 플랫폼이 가장 중요한 지원 활동이 됐어요!
 3. 지원 활동이 강한 기업이 더 빠르고 저렴하게 제품을 만들어 경쟁에서 이길 수 있답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 28 / 482
+
+← **이전**: [[027_value_chain_primary_activities|27. 가치 사슬 본원적 활동 (Value Chain Primary Activities)]]
+**다음**: [[029_five_forces_model|29. 포터의 5 Forces 모델 (Porter Five Forces)]] →
+
+---

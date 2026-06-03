@@ -136,3 +136,14 @@ Robust Statistics
 친구들 키의 가운데가 어디인지 보는 게 중심이에요.  
 키 차이가 얼마나 큰지 보는 게 산포예요.  
 둘을 같이 봐야 반 분위기를 알 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 63 / 258
+
+← **이전**: [[062_eda_exploratory_data_analysis|62. 탐색적 데이터 분석 (EDA, Exploratory Data Analysis)]]
+**다음**: [[064_skewness_kurtosis_log_transformation|64. 왜도 (Skewness)와 첨도 (Kurtosis) - 데이터 분포 분석]] →
+
+---

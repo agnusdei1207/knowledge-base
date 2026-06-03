@@ -132,3 +132,14 @@ Deterministic Finality
 블록에 들어갔다고 아직 끝난 건 아니에요.  
 다시 바뀌지 않게 확정되는 게 더 중요해요.  
 그걸 완결성이라고 불러요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 65 / 552
+
+← **이전**: [[064_bft_pbft_consensus_3_phases|64. BFT 합의의 3단계 - Pre-prepare, Prepare, Commit]]
+**다음**: [[066_dag_directed_acyclic_graph_tangle|66. 지향성 비순환 그래프 (DAG, Directed Acyclic Graph) - 블록체인 대신 트랜잭션들이 거미줄처럼 서로를 증명하는]] →
+
+---

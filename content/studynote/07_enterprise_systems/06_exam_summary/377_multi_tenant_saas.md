@@ -139,3 +139,14 @@ tags:
 1. [[888_multi_tenant_cloud_resource_isolation_noisy_neighbor|멀티 테넌트]] [[309_saas|SaaS]] 인스턴스 공유망는 복잡한 일을 순서대로 정리해 주는 큰 정리함이에요.
 2. 어디에 무엇을 넣을지 먼저 정해 두면, 나중에 찾거나 고칠 때 훨씬 쉬워져요.
 3. 그래서 일이 커질수록 먼저 기준을 만들고 같이 약속하는 것이 중요해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 377 / 482
+
+← **이전**: [[376_strangler_fig_pattern|376. 스트랭글러 패턴 레거시 점진적 이관 (Strangler Fig Pattern)]]
+**다음**: [[378_grpc_protocol_buffers|378. gRPC 프로토콜 버퍼 직렬화 통신 (gRPC Protocol Buffers)]] →
+
+---

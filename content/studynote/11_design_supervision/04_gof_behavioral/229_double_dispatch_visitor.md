@@ -253,3 +253,14 @@ single dispatch → 더블 디스패치와 [[399_architecture|방문자 패턴]]
 1. 더블 디스패치는 두 번 [[396_validation|확인]]하는 것 — "너는 어떤 도형이야?(1번: accept)" → "그럼 내가 너에게 맞는 방법으로 처리할게(2번: visit(Circle))"처럼 두 번 [[396_validation|확인]] 후 행동해.
 2. [[275_visitor_pattern|Visitor]] 패턴 덕분에 새로운 행동(연산)을 추가할 때 기존 도형 클래스를 건드리지 않고 새 [[275_visitor_pattern|방문자]]([[275_visitor_pattern|Visitor]])만 만들면 되니까 기존 코드가 안전해.
 3. 단, 새 도형 종류를 추가하면 모든 [[275_visitor_pattern|방문자]]에 그 도형 처리를 추가해야 하니 — 도형 종류는 거의 안 바뀌고 처리 방법이 자주 늘어나는 경우에 Visitor가 최선이야.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 290 / 530
+
+← **이전**: [[228_context_map_acl_pattern|228. 컨텍스트 맵과 ACL 패턴 (Context Map / Anti-Corruption Layer Pattern)]]
+**다음**: [[230_modular_monolith|230. 모듈형 모놀리스 (Modular Monolith)]] →
+
+---

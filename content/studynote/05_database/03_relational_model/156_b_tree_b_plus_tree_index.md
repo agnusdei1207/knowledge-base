@@ -126,3 +126,13 @@ tags:
 2. 이 약속을 잘 지키면 [[001_dikw_pyramid|데이터]]가 많아도 더 안전하고 빠르게 움직일 수 있어요.
 3. 그래서 언제 이 방법을 쓰고 언제 다른 방법을 써야 하는지 아는 것이 중요해요.
 
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 156 / 600
+
+← **이전**: [[155_database_index_overhead_dml_performance_degradation|155. 인덱스의 단점 (Database Index Overhead DML Performance Degradation)]]
+**다음**: [[157_hash_index_equal_search|157. 해시 인덱스 (Hash Index) - 동등(=) 검색에 빠름, 범위(Range) 검색 불가]] →
+
+---

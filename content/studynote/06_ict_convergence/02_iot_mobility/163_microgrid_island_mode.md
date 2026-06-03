@@ -157,3 +157,14 @@ ESS · V2G · 자율 에너지 운영
 1. 마이크로그리드는 동네 안에 작은 발전소와 큰 배터리를 함께 둔 전기 마을이에요.
 2. 평소에는 큰 전깃줄에서 도움을 받지만, 밖의 전기가 끊기면 동네끼리 문을 닫고 스스로 버텨요.
 3. 그래서 병원이나 중요한 건물은 깜깜해지지 않도록 먼저 전기를 나눠 줄 수 있답니다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 163 / 552
+
+← **이전**: [[162_ami_advanced_metering_infrastructure|162. AMI (Advanced Metering Infrastructure) - 지능형 원격 검침 인프라]]
+**다음**: [[164_ess_energy_storage_system|164. ESS (Energy Storage System)]] →
+
+---

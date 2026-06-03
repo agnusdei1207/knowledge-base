@@ -158,3 +158,14 @@ Heap Table
 1. 클러스터드 [[154_database_index_b_tree_search_optimization|인덱스]]는 친구 이름표만 붙이는 게 아니라, 친구들을 이름순으로 줄 세워 앉히는 거예요.
 2. 그래서 비슷한 이름 친구들을 한꺼번에 찾기는 쉬워져요.
 3. 하지만 중간에 새 친구가 오면 자리를 다시 옮겨야 해서 정리 비용이 들어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 159 / 600
+
+← **이전**: [[158_bitmap_index_cardinality_dml|158. 비트맵 인덱스 (Bitmap Index) - 분포도(Cardinality)가 나쁜(성별 등) 컬럼에 적합, DML 성능 저하]]
+**다음**: [[160_non_clustered_index_secondary|160. 넌클러스터드 인덱스 (Non-Clustered Index / 보조 인덱스) - 리프 노드가 실제 데이터 포인터 보유, 여러 개]] →
+
+---

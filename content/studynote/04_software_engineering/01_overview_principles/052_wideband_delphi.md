@@ -134,3 +134,14 @@ WBS · 스토리 포인트 · 리스크 조정
 1. 와이드밴드 [[214_delphi_method_expert_consensus_forecasting|델파이]]는 친구들이 문제를 먼저 같이 읽고, 각자 답을 써 보는 방법이에요.
 2. 답이 다르면 왜 다른지 이야기하고 다시 한 번 써요.
 3. 그래서 처음보다 더 비슷하고 더 믿을 만한 답이 나와요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 52 / 973
+
+← **이전**: [[051_delphi_method|51. 델파이 기법 (Delphi Method)]]
+**다음**: [[053_backfiring_technique|053. 백파이어링 기법 (Backfiring Technique)]] →
+
+---

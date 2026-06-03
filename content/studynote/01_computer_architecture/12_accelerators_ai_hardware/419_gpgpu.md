@@ -220,3 +220,14 @@ GPGPU (General-Purpose GPU)
 1. GPGPU는 그림을 잘 그리는 사람들을 모아 두고, 같은 숫자 계산도 같이 시키는 방법이에요.
 2. 모두가 똑같은 계산을 많이 해야 할 때는 한 사람보다 수천 명이 동시에 하는 편이 훨씬 빨라요.
 3. 하지만 사람마다 다른 문제를 풀어야 하면, 이런 큰 팀보다 똑똑한 한 명의 선생님(CPU)이 더 잘할 수도 있답니다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 420 / 803
+
+← **이전**: [[418_gpu|418. GPU (Graphics Processing Unit)]]
+**다음**: [[420_cuda|420. CUDA (Compute Unified Device Architecture)]] →
+
+---

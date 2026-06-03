@@ -56,3 +56,14 @@ Recursive CTE는 **계층·[[070_graph_datastructure|그래프]] [[001_dikw_pyra
 1. Self JOIN은 **같은 가족사진에서 부모와 자식**을 찾는 거예요.
 2. Recursive CTE는 **가계도를 위에서 아래로** 쭉 따라가는 거예요.
 3. 시조(할아버지)부터 시작해서 **자손을 계속 찾아** 내려가요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 137 / 600
+
+← **이전**: [[136_cross_join_cartesian_product|136. CROSS JOIN & Cartesian Product - 카테시안 곱 결합]]
+**다음**: [[138_sql_subquery|138. SQL 서브쿼리 (Subquery) - 쿼리 안의 쿼리]] →
+
+---

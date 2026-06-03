@@ -214,3 +214,14 @@ Consumer Lag는 [[179_kafka_flink_watermark_time_window|Kafka]] 기반 스트리
 ### 👶 어린이를 위한 3줄 비유 설명
 
 카카오톡 [[389_mesh_topology|메시]]지를 받았지만 아직 읽지 않은 것처럼, Consumer Lag는 "Kafka에 [[389_mesh_topology|메시]]지가 왔는데 아직 처리 못한 개수"예요. 읽지 않은 [[389_mesh_topology|메시]]지가 0개면 실시간 처리, 1000개면 1000개 뒤처진 것이에요. [[389_mesh_topology|메시]]지가 계속 쌓이면(Lag 증가) 더 많은 처리자(Consumer)를 투입하거나 읽는 속도를 높여야 해요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 89 / 262
+
+← **이전**: [[088_kafka_partitioning|13. Kafka 파티셔닝 전략 (Kafka Partitioning Strategy)]]
+**다음**: [[090_kafka_mirrormaker2|15. Kafka MirrorMaker 2 — 클러스터 간 복제 및 DR]] →
+
+---

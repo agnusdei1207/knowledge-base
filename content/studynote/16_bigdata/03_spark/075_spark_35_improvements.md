@@ -151,3 +151,14 @@ Spark 4.0은 Python-first 설계로 Scala API와 동등한 Python API를 목표�
 1. Spark 3.5는 슈퍼컴퓨터(클러스터)에 노트북(Spark Connect)으로 원격 접속해 쓸 수 있게 업그레이드된 것이에요!
 2. Python으로 수십억 개의 [[001_dikw_pyramid|데이터]]를 처리하는 함수(UDTF)를 쉽게 만들 수 있고, SQL도 더 표준에 맞게 바뀌었어요.
 3. 이 업그레이드 덕분에 [[001_dikw_pyramid|데이터]] 엔지니어들이 더 빠르고 편하게 빅데이터를 처리할 수 있답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 75 / 262
+
+← **이전**: [[074_photon_engine|23. Photon Engine (Databricks) — 네이티브 벡터화 실행 엔진]]
+**다음**: [[076_apache_flink|01. Apache Flink - 상태 기반 스트리밍処理의 完成形]] →
+
+---

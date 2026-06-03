@@ -269,3 +269,14 @@ eBPF: 커널 내 보안 프로그램 실행
 1. [[571_protection_vs_security|보호]]는 내부 자물쇠, 보안은 외벽 경비원 — 집 안에서 방마다 잠금([[571_protection_vs_security|보호]]), 집 전체를 지키는 경비원(보안)처럼 서로 역할이 달라요!
 2. 링 구조는 군대 계급 — Ring 0은 사령관(모든 명령 가능), Ring 3은 일반 병사. 사령관 명령을 병사가 내리면 즉시 경고!
 3. SELinux는 초엄격 출입증 시스템 — root 계정을 가져도 출입증([[583_selinux|SELinux]] [[033_context|컨텍스트]])이 없으면 들어갈 수 없어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 43 / 800
+
+← **이전**: [[042_accounting_logging|042. 회계 및 로깅 (Accounting and Logging)]]
+**다음**: [[044_shell|044. 셸 — Shell]] →
+
+---

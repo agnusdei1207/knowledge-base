@@ -127,3 +127,14 @@ tags:
 1. 장난감 차를 움직이는 조종기와 차체를 따로 생각하면 바꾸기 쉬워져요.
 2. 이 개념은 네트워크의 머리와 몸을 나눠 더 쉽게 프로그램하게 해줘요.
 3. 그래서 새 규칙을 더 빨리 넣고 바꿀 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 985 / 1120
+
+← **이전**: [[863_sdn_controller_split_brain_ha_cluster_raft|863. SDN 분산 컨트롤러 이중화]]
+**다음**: [[865_nfv_network_functions_virtualization_architecture|865. NFV (네트워크 기능 가상화)]] →
+
+---

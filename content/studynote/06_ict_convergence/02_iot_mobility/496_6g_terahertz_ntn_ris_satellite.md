@@ -146,3 +146,14 @@ tags:
 1. THz는 엄청 빠른 빛 [[130_signal|신호]]예요. 너무 빠른 대신 비 오면 막히고 멀리 못 가는 단점이 있어요.
 2. NTN 위성은 우주에서 [[130_signal|신호]]를 뿌리는 것이에요. 바다 한가운데나 깊은 산속도 커버할 수 있어요.
 3. RIS는 스마트 거울 벽이에요. [[130_signal|신호]]가 건물에 막혀도 거울이 [[130_signal|신호]]를 받아서 내 스마트폰 방향으로 튕겨줘요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 496 / 552
+
+← **이전**: [[495_5g_embb_urllc_mmtc_network_slicing|495. 5G 3대 특성과 네트워크 슬라이싱 (5G eMBB uRLLC mMTC Network Slicing)]]
+**다음**: [[497_oran_open_radio_access_network|497. O-RAN 오픈 무선 접속 네트워크 (O-RAN Open Radio Access Network)]] →
+
+---

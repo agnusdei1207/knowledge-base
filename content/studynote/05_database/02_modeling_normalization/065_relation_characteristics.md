@@ -126,3 +126,14 @@ Normalization
 카드 더미는 순서가 중요하지 않아요.  
 같은 카드는 두 번 있으면 안 돼요.  
 [[061_relation_schema_instance|릴레이션]]도 그런 규칙을 지켜야 해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 65 / 600
+
+← **이전**: [[064_relation_domain|64. 도메인 (Domain) - 속성이 가질 수 있는 원자값(Atomic Value)들의 집합]]
+**다음**: [[066_null_value_three_valued_logic|66. NULL 값 - 아직 알려지지 않거나 해당 없는 값 (0이나 공백과 다름)]] →
+
+---

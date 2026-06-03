@@ -124,3 +124,14 @@ AOP·트랜잭션·환경 분리까지 통합 관리
 1. 장난감 로봇을 만들 때 필요한 팔, 다리, 배터리를 조립 선생님이 알아서 넣어 주는 거예요.
 2. 로봇은 언제 켜고, 언제 검사하고, 언제 정리할지도 선생님이 순서대로 챙겨 줘요.
 3. 그래서 우리는 로봇이 무슨 일을 할지만 생각하면 돼요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 251 / 530
+
+← **이전**: [[190_di_framework_spring_bean_lifecycle|190. DI 프레임워크와 스프링 빈 생명주기 (DI Framework & Spring Bean Lifecycle)]]
+**다음**: [[191_behavioral_patterns_overview|191. 행위 패턴 개요 (Behavioral Patterns Overview)]] →
+
+---

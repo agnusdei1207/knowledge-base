@@ -121,3 +121,14 @@ Nitro Enclaves는 별도 [[475_hsm|HSM]] 없이도 많은 기밀 워크로드를
 1. 큰 컴퓨터 집 안에 아주 작은 금고 방을 하나 더 만든다고 생각해 보세요.
 2. 중요한 계산은 그 금고 방 안에서만 하고, 결과만 작은 창문으로 내보내요.
 3. 그래서 집 주인도 금고 방 안 비밀은 마음대로 보기가 훨씬 어려워져요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 795 / 803
+
+← **이전**: [[793_microsoft_titan|793. Microsoft Titan 보안 칩 (Microsoft Titan Security Chip)]]
+**다음**: [[795_confidential_computing|795. Confidential Computing (기밀 컴퓨팅)]] →
+
+---

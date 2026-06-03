@@ -139,3 +139,14 @@ tags:
 1. [[183_post_quantum_cryptography_key_transition|양자 내성 암호]] 격자 기반는 복잡한 일을 순서대로 정리해 주는 큰 정리함이에요.
 2. 어디에 무엇을 넣을지 먼저 정해 두면, 나중에 찾거나 고칠 때 훨씬 쉬워져요.
 3. 그래서 일이 커질수록 먼저 기준을 만들고 같이 약속하는 것이 중요해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 467 / 482
+
+← **이전**: [[466_delta_encoding_parquet_column|466. 델타 인코딩 압축 파케이 컬럼 스토리지 (Delta Encoding, Parquet, Columnar Storage)]]
+**다음**: [[468_fhe_fully_homomorphic_encryption|468. 동형 암호 암호문 연산 (FHE, Fully Homomorphic Encryption)]] →
+
+---

@@ -120,3 +120,14 @@ tags:
 1. [[154_database_index_b_tree_search_optimization|인덱스]]는 교과서 맨 뒤 **색인**이에요. "광합성"을 찾으려면 색인에서 페이지를 찾아 바로 가요.
 2. [[179_table_partitioning_concept|파티셔닝]]은 도서관 **서가를 주제별로 나누는** 거예요. 수학 책은 수학 서가에만 있으니 찾기 쉽죠.
 3. [[111_denormalization_performance_tradeoff|역정규화]]는 자주 쓰는 정보를 **가까이에 복사해 놓는** 거예요. 빨리 찾지만 정리가 좀 지저분해져요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 117 / 600
+
+← **이전**: [[116_mapping_rule_erd_to_relation|116. 매핑 규칙 (ERD→릴레이션 매핑) - 엔터티·관계·속성의 체계적 변환]]
+**다음**: [[118_dimensional_modeling_star_schema|118. 차원 모델링 (Dimensional Modeling) - 스타 스키마·스노우플레이크·팩트/디멘전]] →
+
+---

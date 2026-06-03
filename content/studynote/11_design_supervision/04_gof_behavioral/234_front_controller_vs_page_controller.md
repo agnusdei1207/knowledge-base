@@ -166,3 +166,14 @@ Spring의 `DispatcherServlet`은 [[177_front_controller_pattern|프론트 컨트
 1. [[286_page_frame|페이지]] 컨트롤러는 각 교실마다 선생님이 출석도 부르고 수업도 하는 거야.
 2. 프론트 컨트롤러는 교장 선생님(Front Controller)이 학교 입구에서 모든 학생을 체크하고 교실로 안내하는 거야.
 3. 교장이 한 명이니까, 규칙이 바뀌면 교장 선생님만 알려주면 모든 교실에 자동으로 적용돼!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 295 / 530
+
+← **이전**: [[233_view_helper_custom_tag|233. 뷰헬퍼 커스텀 태그 패턴 (View Helper Custom Tag Pattern)]]
+**다음**: [[235_active_record_orm_pattern|235. 액티브 레코드 ORM 패턴 (Active Record ORM Pattern)]] →
+
+---

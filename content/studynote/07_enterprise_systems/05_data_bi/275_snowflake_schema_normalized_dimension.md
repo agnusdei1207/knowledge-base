@@ -139,3 +139,14 @@ tags:
 1. [[335_snowflake_schema|스노우플레이크 스키마]]는 복잡한 일을 순서대로 정리해 주는 큰 정리함이에요.
 2. 어디에 무엇을 넣을지 먼저 정해 두면, 나중에 찾거나 고칠 때 훨씬 쉬워져요.
 3. 그래서 일이 커질수록 먼저 기준을 만들고 같이 약속하는 것이 중요해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 275 / 482
+
+← **이전**: [[274_star_schema_fact_centric_radial_structure|274. 스타 스키마 (Star Schema) - 팩트 중심 방사형 구조]]
+**다음**: [[276_surrogate_key_artificial_identifier|276. 서로게이트 키 (Surrogate Key) - PK 충돌 방지 인조 식별자]] →
+
+---

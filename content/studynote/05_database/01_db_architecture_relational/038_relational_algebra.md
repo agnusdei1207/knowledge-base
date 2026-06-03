@@ -206,3 +206,14 @@ Catalyst Optimizer, Velox
 1. [[083_relationship_in_er_model|관계]] 대수는 [[002_database_definition|데이터베이스]] 표를 가지고 할 수 있는 기본 연산들 — 행 고르기(선택), 열 고르기(사영), 두 표 결합하기(조인)예요.
 2. SQL의 WHERE, [[520_select|SELECT]], JOIN이 모두 이 수학 연산을 쉽게 쓸 수 있게 만든 거예요.
 3. 컴퓨터가 SQL을 실행할 때 먼저 [[001_dikw_pyramid|데이터]]를 많이 줄여놓고(선택 먼저) 합치는(조인 나중) 순서로 최적화해서 빠르게 처리해요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 38 / 600
+
+← **이전**: [[037_b_plus_tree|037. B+트리 (B+ Tree) — 데이터베이스 인덱스 표준]]
+**다음**: [[039_general_set_operators|039. 일반 집합 연산 (General Set Operators)]] →
+
+---

@@ -186,3 +186,14 @@ Modern closure-based hooks and service wrappers
 1. [[192_module_independence|모듈]] 패턴은 장난감을 넣어 두는 상자를 만들고, 밖에는 손잡이만 남겨 두는 것과 같아요.
 2. 그래서 친구는 손잡이를 잡고 필요한 기능만 쓸 수 있고, 상자 안 물건을 함부로 뒤지지는 못해요.
 3. 이렇게 하면 안에 무엇을 바꿔도 밖에서 쓰는 방법은 크게 안 바뀌어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 226 / 530
+
+← **이전**: [[169_static_factory_method|169. 정적 팩토리 메서드 (Static Factory Method)]]
+**다음**: [[171_mvc_composite_design_pattern|171. MVC와 복합 디자인 패턴 (MVC Composite Design Pattern)]] →
+
+---

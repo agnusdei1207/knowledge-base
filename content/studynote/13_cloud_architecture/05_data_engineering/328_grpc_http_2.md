@@ -113,3 +113,14 @@ tags:
 1. [[479_grpc_protobuf_http2|gRPC]] [[295_protocol_field_tcp_udp_icmp|프로토콜]] 버퍼 [[461_http_stateless_connection_oriented|HTTP]]/2 양방향 스트리밍 고속는 사람이 많은 운동회에서 어디로 가야 하는지 알려 주는 안내판과 비슷해요.
 2. 규칙이 없으면 모두가 한곳에 몰려서 느려지고 다투지만, 길을 정해 두면 훨씬 부드럽게 움직일 수 있어요.
 3. 그래서 컴퓨터 세상에서도 [[479_grpc_protobuf_http2|gRPC]] [[295_protocol_field_tcp_udp_icmp|프로토콜]] 버퍼 [[461_http_stateless_connection_oriented|HTTP]]/2 양방향 스트리밍 고속를 쓰면 많은 팀과 [[090_service_kubernetes_network_load_balancing|서비스]]가 덜 부딪히고 더 빨리 움직일 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 327 / 371
+
+← **이전**: [[327_finops|327. FinOps 클라우드 재무 가시성 최적화 부서 협력 (FinOps)]]
+**다음**: [[329_graphql|329. GraphQL 오버패칭 언더패칭 해결 선택 쿼리 (GraphQL)]] →
+
+---

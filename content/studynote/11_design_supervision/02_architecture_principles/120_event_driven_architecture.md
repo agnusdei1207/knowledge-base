@@ -139,3 +139,14 @@ EDA는 "[[090_service_kubernetes_network_load_balancing|서비스]]가 서로를
 1. 학교 안내 방송(이벤트)이 나오면 각 교실(Consumer)에서 각자 알아서 준비해요.
 2. 방송국(Producer)은 어느 교실이 듣는지 일일이 확인하지 않아요.
 3. 새 교실([[090_service_kubernetes_network_load_balancing|서비스]])이 추가되어도 방송 시스템을 바꿀 필요 없이 스피커(구독)만 달면 돼요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 176 / 530
+
+← **이전**: [[119_mvc_architecture|119. 모델-뷰-컨트롤러 아키텍처 (MVC, Model-View-Controller)]]
+**다음**: [[121_cqrs_pattern|121. CQRS 패턴 (Command Query Responsibility Segregation)]] →
+
+---

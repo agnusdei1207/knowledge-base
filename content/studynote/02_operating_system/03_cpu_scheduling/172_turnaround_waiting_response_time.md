@@ -186,3 +186,14 @@ process completion
 1. [[138_response_time|응답 시간]]은 네가 게임 시작 버튼을 눌렀을 때 화면이 처음 반짝하는 데 걸린 시간이에요.
 2. 대기 시간은 네 차례가 오기까지 줄에서 기다린 시간들을 모두 더한 거예요.
 3. 반환 시간은 게임을 시작해서 끝내고 결과 화면을 볼 때까지 걸린 전체 시간이에요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 172 / 800
+
+← **이전**: [[171_cpu_utilization_throughput|171. CPU 이용률 (CPU Utilization) / 처리량 (Throughput)]]
+**다음**: [[173_fcfs_scheduling|173. FCFS (First-Come, First-Served) 스케줄링 - 비선점]] →
+
+---

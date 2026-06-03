@@ -166,3 +166,14 @@ data_augmentation = tf.keras.Sequential([
 1. 과소적합은 공부를 너무 조금 해서 시험에서 틀리는 것이고, 과적합은 답을 외워서 비슷한 문제도 못 푸는 것이에요!
 2. 좋은 [[190_ai_llm_requirements_specification|AI]] 모델은 원리를 이해해서 새로운 문제도 풀 수 있어야 해요(일반화).
 3. L2 [[093_normalization|정규화]], [[280_dropout|드롭아웃]], [[281_early_stopping|조기 종료]] 같은 기법들이 AI가 답을 암기하지 않고 진짜로 학습하도록 도와준답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 26 / 420
+
+← **이전**: [[025_bias_variance_tradeoff|25. 편향-분산 트레이드오프 (Bias-Variance Tradeoff)]]
+**다음**: [[027_regularization_techniques|27. 규제화 기법 (Regularization Techniques) — 과적합 방지 핵심 전략]] →
+
+---

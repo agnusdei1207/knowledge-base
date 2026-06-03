@@ -220,3 +220,14 @@ public record Money(long amount, Currency currency) {
 1. 불변 객체는 박제된 나비 표본처럼 — 아무리 많은 친구가 구경해도 나비는 변하지 않고, 나비가 필요하면 새 표본을 만든다.
 2. Java의 String "Hello"는 한번 만들어지면 절대 바뀌지 않아 — `.toUpperCase()`를 해도 원래 "Hello"는 그대로고 새 "HELLO"가 생겨나.
 3. 여러 사람이 동시에 같은 책(불변 객체)을 읽어도 내용이 바뀌지 않으니까 싸울 필요가 없어 — 이것이 [[147_thread_safe|스레드 안전]]성이야.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 279 / 530
+
+← **이전**: [[217_currying_lazy_evaluation|217. 커링과 지연 평가 (Currying and Lazy Evaluation)]]
+**다음**: [[219_object_pool_pattern|219. 객체 풀 패턴 (Object Pool Pattern)]] →
+
+---

@@ -147,3 +147,14 @@ MTU 1500에서 IP 헤더(20)와 [[405_tcp_transmission_control_protocol_connecti
 1. 택배를 보내려면 집 주소가 정확해야 길을 잃지 않아요.
 2. 이 개념은 인터넷 세상에서 주소를 정하고 다음 길을 찾는 지도와 같아요.
 3. 그래서 멀리 있는 친구 컴퓨터까지도 편지가 도착할 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 413 / 1120
+
+← **이전**: [[291_fragmentation_and_reassembly_process|291. 단편화 (Fragmentation) 및 재조립 (Reassembly)]]
+**다음**: [[293_pmtu_path_mtu_discovery|293. PMTU (Path MTU Discovery)]] →
+
+---

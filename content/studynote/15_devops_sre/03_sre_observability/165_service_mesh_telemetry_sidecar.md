@@ -160,3 +160,14 @@ OTel 연계 · eBPF 기반 경량 관측 · Ambient Mesh
 1. [[302_service_mesh_istio|서비스 메시]] 텔레메트리는 모든 집 사이에 오가는 편지를 문 앞 도우미가 대신 기록해 주는 거예요.
 2. 그래서 집주인이 특별히 메모하지 않아도 누가 누구에게 얼마나 빨리 편지를 보냈는지 알 수 있어요.
 3. 하지만 편지 안에 왜 그런 말을 썼는지까지 알려면 집 안 이야기까지 따로 봐야 한답니다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 165 / 373
+
+← **이전**: [[164_synthetic_monitoring_dummy_client|164. 합성 모니터링 (Synthetic Monitoring)]]
+**다음**: [[166_distributed_lock_bottleneck_observability|166. 분산 락 병목 관측 (Distributed Lock Observability)]] →
+
+---

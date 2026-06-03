@@ -214,3 +214,14 @@ tags:
 1. 방 안을 환하게 하려고 큰 전등을 켜면 불빛이 벽에도 맞고 천장에도 맞아서 전기가 엄청나게 낭비되죠? 옛날 기지국 [[171_antenna_basic_dipole_resonance|안테나]]가 딱 그랬어요.
 2. [[177_smart_antenna_phased_array|스마트 안테나]]는 천장에 달린 똑똑한 '[[231_ai_turing_test|인공지능]] 핀 조명'이에요! 내가 방구석으로 가면 조명이 휙 꺾여서 내 얼굴만 환하게 비춰주고, 동생이 다른 구석에 있으면 동생 얼굴만 따로 비춰줘요.
 3. 빛을 낭비하지 않고 필요한 사람에게만 집중해서 레이저처럼 쏴주니까, 전기도 덜 들고 인터넷 속도는 우주선처럼 뻥튀기되는 대단한 마법의 [[171_antenna_basic_dipole_resonance|안테나]]랍니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 688 / 1120
+
+← **이전**: [[566_equalizer_isi_inter_symbol_interference|566. 등화기 (Equalizer)]]
+**다음**: [[568_switched_beam_vs_adaptive_array|568. 스위칭 빔 (Switched Beam) vs 적응형 어레이 (Adaptive Array 안테나)]] →
+
+---

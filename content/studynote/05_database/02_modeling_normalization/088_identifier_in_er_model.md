@@ -133,3 +133,14 @@ tags:
 1. 도서관에 같은 이름의 책이 여러 권 있으면 찾기 힘들겠죠?
 2. 그래서 책마다 바코드가 그려진 '고유 번호표'를 붙여둬요.
 3. [[289_identification_flags_fragmentation_offset|식별자]]는 수많은 [[001_dikw_pyramid|데이터]] 중에서 "바로 이거야!"라고 딱 집어낼 수 있게 해주는 마법의 번호랍니다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 88 / 600
+
+← **이전**: [[087_identifying_vs_non_identifying_relationship|87. 식별 관계 (Identifying) vs 비식별 관계 (Non-identifying)]]
+**다음**: [[089_eer_enhanced_er_model_specialization|89. 확장 ER 모델 (EER) - 서브클래스, 슈퍼클래스, 상속(일반화/특수화) 개념 추가]] →
+
+---

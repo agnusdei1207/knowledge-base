@@ -103,3 +103,14 @@ tags:
 1. Level 1은 **종이에 직접 기록**하는 옛날 공장이에요.
 2. Level 3은 **화면에서 공장 상태를 실시간**으로 볼 수 있어요.
 3. Level 4는 **AI가 알아서 문제를 미리 예측하고 해결**하는 미래 공장이에요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 121 / 482
+
+← **이전**: [[120_pop_point_of_production|120. POP (Point of Production) - 생산 현장 실적 수집 시스템]]
+**다음**: [[122_plm_product_lifecycle_management|122. PLM (Product Lifecycle Management) - 제품 전주기 관리 시스템]] →
+
+---

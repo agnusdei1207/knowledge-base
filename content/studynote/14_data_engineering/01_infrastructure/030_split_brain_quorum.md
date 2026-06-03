@@ -162,3 +162,14 @@ Sentinel 쿼럼:
 1. [[190_split_brain_zookeeper_fencing_quorum|스플릿 브레인]]은 전화가 끊긴 두 지사가 각자 독립적으로 결정하는 혼란 상황이에요!
 2. 쿼럼은 "과반수 동의가 없으면 결정하지 않는다"는 규칙으로 혼란을 막아요!
 3. 현대 [[136_variance|분산]] DB와 Kubernetes는 모두 쿼럼 원칙으로 안정적으로 운영돼요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 30 / 258
+
+← **이전**: [[029_apache_zookeeper|29. Apache ZooKeeper]]
+**다음**: [[031_apache_oozie_airflow|31. Oozie vs Airflow — 워크플로 스케줄러 비교]] →
+
+---

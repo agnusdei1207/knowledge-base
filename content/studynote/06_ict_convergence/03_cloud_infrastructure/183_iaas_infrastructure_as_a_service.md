@@ -198,3 +198,14 @@ IaaS (Infrastructure as a Service)
 1. IaaS는 거대한 장난감 창고에서 필요한 블록과 책상, 전선을 바로 빌려 주는 가게와 비슷해요.
 2. 그래서 장난감 방을 새로 꾸밀 때 오래 기다리지 않고 바로 만들 수 있어요.
 3. 하지만 빌린 블록으로 무엇을 만들고 어떻게 정리할지는 여전히 우리가 직접 해야 해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 183 / 552
+
+← **이전**: [[182_cloud_service_models_overview|182. 클라우드 서비스 모델 (Cloud Service Models) 개요]]
+**다음**: [[184_paas_platform_as_a_service|184. PaaS (Platform as a Service) - 애플리케이션 실행 플랫폼 제공]] →
+
+---

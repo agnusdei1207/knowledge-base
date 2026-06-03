@@ -183,3 +183,14 @@ SSD (Solid State Drive) · NVMe (Non-Volatile Memory Express)
 1. 탐색 시간은 큰 책장 앞에서 로봇 팔이 내가 원하는 칸까지 움직여 가는 시간이야.
 2. 책을 읽는 시간보다, 먼저 그 칸까지 가는 시간이 더 오래 걸릴 때가 많아.
 3. 그래서 컴퓨터는 로봇 팔이 덜 움직이게 책을 가까이 모아 두거나, 아예 바로 꺼낼 수 있는 더 빠른 상자를 쓰는 거야.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 325 / 803
+
+← **이전**: [[323_track_sector_cylinder|323. 트랙, 섹터, 실린더]]
+**다음**: [[325_rotational_latency|325. 회전 지연 (Rotational Latency)]] →
+
+---

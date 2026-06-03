@@ -125,3 +125,14 @@ Storage Layer ←→ Compute Layer → Query / Transform
 1. 컴퓨트는 일하는 사람, 스토리지는 물건을 넣는 창고예요.
 2. 둘을 나누면 더 편하게 늘릴 수 있어요.
 3. 그래서 필요할 때만 계산 일을 더 시킬 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 55 / 258
+
+← **이전**: [[054_open_table_format_iceberg_delta_hudi|54. 오픈 테이블 포맷 (Open Table Format: Iceberg/Delta/Hudi)]]
+**다음**: [[056_data_virtualization_federated_query_trino|56. 데이터 가상화 및 연방 쿼리 (Federated Query) - Trino와 Presto의 분산 SQL 엔진]] →
+
+---

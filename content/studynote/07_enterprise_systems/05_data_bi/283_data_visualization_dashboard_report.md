@@ -139,3 +139,14 @@ tags:
 1. [[001_dikw_pyramid|데이터]] [[003_bigdata_7v|시각화]] 대시보드 및 리포트는 복잡한 일을 순서대로 정리해 주는 큰 정리함이에요.
 2. 어디에 무엇을 넣을지 먼저 정해 두면, 나중에 찾거나 고칠 때 훨씬 쉬워져요.
 3. 그래서 일이 커질수록 먼저 기준을 만들고 같이 약속하는 것이 중요해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 283 / 482
+
+← **이전**: [[282_business_intelligence_bi_technology_framework|282. 비즈니스 인텔리전스 (BI, Business Intelligence) 기술 체계]]
+**다음**: [[284_data_mining_association_classification_clustering_crisp_dm|284. 데이터 마이닝 (Data Mining) 연관 분석/분류/군집 CRISP-DM]] →
+
+---

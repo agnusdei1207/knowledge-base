@@ -130,3 +130,14 @@ CXL은 메모리 병목을, [[497_chiplet|칩렛]] 아키텍처는 제조 한계
 1. CXL은 CPU와 메모리, GPU가 하나의 팀이 되어 같은 노트(캐시)를 공유하는 방법이에요 — 누가 무슨 내용을 썼는지 즉시 서로 알 수 있어요.
 2. [[497_chiplet|칩렛]]은 레고처럼 각 부품을 따로 만들어 조립하는 반도체예요 — 작은 블록이라 불량품도 적고 가격도 저렴해요.
 3. DPU는 심부름꾼이에요 — CPU(주인공) 대신 네트워크, 저장소 심부름을 도맡아 처리해서 주인공이 더 중요한 일에 집중하게 해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 509 / 552
+
+← **이전**: [[508_quantum_computing_security_shor_grover_threat|508. 양자 컴퓨팅과 암호 보안 위협 (Quantum Computing Security Shor Grover Threat)]]
+**다음**: [[510_statistics_mean_variance_skewness_kurtosis|510. 통계 기초: 평균, 분산, 왜도, 첨도 (Statistics Basics Mean Variance Skewness Kurtosis)]] →
+
+---

@@ -104,3 +104,14 @@ tags:
 1. 공유책임모델은 학교에서 준비물을 미리 챙기는 것처럼, 중요한 기준을 먼저 맞추는 일이야.
 2. 보안 통제는 선생님이 수업 중간에 계속 확인하는 것처럼, 실제로 잘 되고 있는지 보는 과정이야.
 3. 증적 패키지는 시험 결과표처럼, 정말 효과가 있었는지 나중에 다시 확인하게 해주는 증거야.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 328 / 530
+
+← **이전**: [[266_data_governance_metadata_standard|266. 데이터 거버넌스 메타데이터 표준 감리 (Data Governance Metadata Standard Audit)]]
+**다음**: [[268_paas_lockin_k8s_portability|268. PaaS 락인 방지와 Kubernetes 이식성 (PaaS Lock in Prevention and Kubernetes Portability)]] →
+
+---

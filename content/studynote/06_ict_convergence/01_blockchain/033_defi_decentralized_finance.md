@@ -175,3 +175,14 @@ DeFi 레고(Composability) → TVL 성장 → 규제 강화
 1. DeFi는 직원 없는 자동 환전소다 — 코드([[022_smart_contract|스마트 컨트랙트]])가 24시간 자동으로 환전·대출·이자 지급을 처리한다.
 2. AMM 유동성 풀은 저울이다 — 한쪽에 이더리움, 다른 쪽에 달러를 올려두고 저울이 항상 균형을 맞추도록 자동으로 가격이 바뀐다.
 3. DeFi 레고는 금융 블록 조합이다 — 빌리는 블록, 교환 블록, 예금 블록을 코드로 연결하면 복잡한 금융 [[268_strategy_pattern|전략]]이 자동으로 실행된다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 33 / 552
+
+← **이전**: [[032_dapp_decentralized_application|DApp (Decentralized Application, 분산 애플리케이션)]]
+**다음**: [[034_uniswap_amm_automated_market_maker|유니스왑·AMM (Automated Market Maker, 자동화 시장 조성자)]] →
+
+---

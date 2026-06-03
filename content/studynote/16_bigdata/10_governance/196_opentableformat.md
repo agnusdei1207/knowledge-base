@@ -197,3 +197,14 @@ Apache Parquet은 효율적인 列指向(컬럼 기반) [[347_compaction|압축]
 ---
 <!-- [✅ Gemini 3.1 Pro Verified] -->
 > **🛡️ 3.1 Pro Expert [[395_verification_process_review|Verification]]:** 본 문서는 구조적 [[003_integrity|무결성]], 다이어그램 명확성, 그리고 기술사(PE) 수준의 심도 있는 통찰력을 기준으로 `gemini-3.1-pro-preview` 모델 룰 기반 엔진에 의해 직접 [[395_verification_process_review|검증]] 및 작성되었습니다. (Verified at: 2026-04-05)
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 196 / 262
+
+← **이전**: [[195_dataops|05. 데이터옵스 (DataOps) - 데이터 파이프라인의 데브옵스화]]
+**다음**: [[197_data_governance_definition|191. 데이터 거버넌스 정의 (Data Governance Definition) — 데이터 소유·관리·사용 원칙 체계]] →
+
+---

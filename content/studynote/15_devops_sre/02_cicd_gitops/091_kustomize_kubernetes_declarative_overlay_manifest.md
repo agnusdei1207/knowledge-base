@@ -139,3 +139,14 @@ Post-Rendering 전술 (Helm 패키징 위에 Kustomize 패칭을 덮어쓰기)
 1. 똑같은 로봇 장난감(Base)을 여러 개 샀어요.
 2. 장난감을 부수고 개조하는 게 아니라, 하나에는 소방관 옷(Dev 오버레이)을 입히고 하나에는 경찰관 옷(Prod 오버레이)을 입혀요.
 3. 옷만 덮어씌워서 역할을 바꾸는 똑똑한 장난감 변신 방법이랍니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 91 / 373
+
+← **이전**: [[090_fluxcd_gitops_pull_based_kubernetes_deployment|90. FluxCD - ArgoCD 경쟁 GitOps CD 도구]]
+**다음**: [[092_helm_kubernetes_package_manager_chart_template|92. Helm (헬름) - 쿠버네티스 패키지 매니저 차트 템플릿]] →
+
+---

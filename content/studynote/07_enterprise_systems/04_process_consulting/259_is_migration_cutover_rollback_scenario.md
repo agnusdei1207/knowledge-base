@@ -139,3 +139,14 @@ tags:
 1. 정보시스템 마이그레이션 컷오버 [[098_rollback_strategy_pipeline_error_threshold|롤백]] 시나리오는 복잡한 일을 순서대로 정리해 주는 큰 정리함이에요.
 2. 어디에 무엇을 넣을지 먼저 정해 두면, 나중에 찾거나 고칠 때 훨씬 쉬워져요.
 3. 그래서 일이 커질수록 먼저 기준을 만들고 같이 약속하는 것이 중요해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 259 / 482
+
+← **이전**: [[258_agile_retrospective_action_items|258. 애자일 레트로스펙티브 액션 아이템 도출 (Agile Retrospective Action Items)]]
+**다음**: [[260_enterprise_integration_test_oat_uat_checklist|260. 엔터프라이즈 통합 테스트 OAT/UAT 체크리스트 (Enterprise Integration Test: OAT / UAT)]] →
+
+---

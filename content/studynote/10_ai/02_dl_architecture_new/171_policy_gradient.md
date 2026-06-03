@@ -180,3 +180,14 @@ PPO · continuous control · RLHF
 1. [[318_policy_gradient_actor_critic|정책 경사]]법은 로봇이 "이럴 때는 이런 행동을 해 볼 [[130_probability|확률]]"을 몸으로 배우는 연습이에요.
 2. 잘된 행동은 다음에 더 자주 하도록 하고, 잘못된 행동은 덜 하도록 습관을 조금씩 고쳐요.
 3. 그래서 정답표를 외우지 않아도, 비슷한 상황이 오면 몸이 자연스럽게 좋은 선택을 하게 돼요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 171 / 420
+
+← **이전**: [[170_target_network|170. 타겟 네트워크 (Target Network)]]
+**다음**: [[172_actor_critic|172. 액터-크리틱 (Actor-Critic) 모델]] →
+
+---

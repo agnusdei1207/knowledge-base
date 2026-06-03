@@ -212,3 +212,14 @@ Article 36: **고위험 처리(High-[[096_risk_non_risk_architecture_evaluation_
 - [[791_gdpr_eu|GDPR]] Article 89는 "원래 허락 없이 쓰면 안 되는 [[001_dikw_pyramid|데이터]]를, 연구 목적이면 이름을 가리고 쓸 수 있어요"라는 특별 규칙이에요.
 - 단, 이름을 정말 잘 가려야 하고(가명처리), 꼭 필요한 정보만 써야 하며(최소화), 연구가 끝나면 지워야 해요 — 이 조건을 지켜야만 허용돼요.
 - 이 규칙 덕분에 코로나 연구자들이 수백만 명의 의료 기록을 안전하게 분석해서 백신과 치료법을 빠르게 개발할 수 있었어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 207 / 262
+
+← **이전**: [[206_pipa_bigdata_exception|200. 개인정보보호법 빅데이터 특례 (PIPA Big Data Exception) — 가명처리 허용 데이터 3법]]
+**다음**: [[208_data_deidentification_techniques|202. 데이터 비식별화 기법 (Data De-identification Techniques) — 마스킹/가명화/집계화]] →
+
+---

@@ -127,3 +127,14 @@ ReLU
 값을 0과 1 사이로 눌러요.  
 부드럽지만 끝에서는 힘이 약해요.  
 [[268_sigmoid_vanishing_gradient|시그모이드]]는 그런 함수예요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 69 / 420
+
+← **이전**: [[068_step_function_activation|68. 계단 함수 (Step Function) - 0 이하면 0, 0 이상이면 1 반환 (미분 불가)]]
+**다음**: [[070_hyperbolic_tangent_tanh_activation|70. 하이퍼볼릭 탄젠트 (tanh) - -1~1 사이 반환, 중심이 0으로 수렴 (시그모이드보다 우수)]] →
+
+---

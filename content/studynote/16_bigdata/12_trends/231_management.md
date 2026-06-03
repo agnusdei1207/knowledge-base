@@ -124,3 +124,14 @@ tags:
 1. [[211_data_mesh_domain_ownership|데이터 메시]] 확산 ([[064_relation_domain|도메인]] 소유권, 자율 [[154_data_product|데이터 제품]])은 일을 하기 전에 "어떤 규칙으로 할지" 먼저 정하는 거예요.
 2. 중간에 [[396_validation|확인]]표가 있어야 틀린 곳을 빨리 고칠 수 있어요.
 3. 그래서 끝까지 잘했다고 말하려면 증거와 순서가 같이 있어야 해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 231 / 262
+
+← **이전**: [[230_delta_iceberg_hudi|225. 레이크하우스 주류화 (Delta, Iceberg, Hudi) 개방형 포맷 경쟁]]
+**다음**: [[232_olap_druid_pinot_clickhouse_starrocks|227. 실시간 OLAP 성장 (Druid, Pinot, ClickHouse, StarRocks)]] →
+
+---

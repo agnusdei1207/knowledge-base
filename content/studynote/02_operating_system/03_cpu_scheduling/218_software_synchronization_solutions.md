@@ -181,3 +181,14 @@ tags:
 1. 소프트웨어적 [[212_synchronization_mechanisms|동기화]] 해결책 (Software [[212_synchronization_mechanisms|Synchronization]] Solutions)은 컴퓨터가 누가 먼저 CPU를 쓰면 좋은지 줄을 세우는 방법이에요.
 2. 먼저 코-스케줄링 (Co-scheduling / Gang Scheduling)을 이해하면 소프트웨어적 [[212_synchronization_mechanisms|동기화]] 해결책 (Software [[212_synchronization_mechanisms|Synchronization]] Solutions)이 왜 필요한지 더 쉽게 보여요.
 3. 그래서 소프트웨어적 [[212_synchronization_mechanisms|동기화]] 해결책 (Software [[212_synchronization_mechanisms|Synchronization]] Solutions)을 잘 알면 나중에 실시간 리눅스 ([[654_preempt_rt_linux_spinlock_mutex|PREEMPT_RT]] 패치)도 훨씬 쉽게 배울 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 218 / 800
+
+← **이전**: [[217_bounded_waiting|217. 한정된 대기 (Bounded Waiting)]]
+**다음**: [[219_dekkers_algorithm|219. 데커의 알고리즘 (Dekker's Algorithm)]] →
+
+---

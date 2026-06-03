@@ -208,3 +208,14 @@ GAP → FC(softmax) → 클래스 예측
 1. 풀링은 '큰 그림 보기'야. 4개 칸 중에서 가장 중요한 숫자([[101_max_pooling_average_pooling_global_average_pooling|최대 풀링]]) 하나만 골라서, 그림을 절반 크기로 작게 만드는 거야.
 2. 고양이 사진이 왼쪽에 있든 오른쪽에 있든 풀링 덕분에 컴퓨터는 "어쨌든 고양이네!"라고 알 수 있어.
 3. 전역 평균 풀링(GAP)은 반 전체 점수를 평균 내서 번호표 하나로 정리하는 것처럼, 큰 특징 지도를 숫자 하나로 [[347_compaction|압축]]하는 마법이야.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 285 / 420
+
+← **이전**: [[284_convolution_stride_padding|284. 합성곱 연산 (Convolution)]]
+**다음**: [[286_1x1_convolution|286. 1×1 합성곱 (1x1 Convolution)]] →
+
+---

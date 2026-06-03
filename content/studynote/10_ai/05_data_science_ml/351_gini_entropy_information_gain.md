@@ -114,3 +114,14 @@ tags:
 1. [[108_gini_impurity|지니 불순도]]는 "사탕통에 빨간 사탕과 파란 사탕이 얼마나 섞여있는지"를 측정하는 숫자예요.
 2. 한 가지 사탕만 있으면 지니=0 (완전 순수!), 반씩 섞여있으면 지니=0.5 (최대 혼탁!)이에요.
 3. [[190_ai_llm_requirements_specification|AI]] 나무(결정 트리)는 이 혼탁도를 가장 많이 줄여주는 질문을 찾아서 [[001_dikw_pyramid|데이터]]를 나눠요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 351 / 420
+
+← **이전**: [[350_laplace_smoothing|350. 라플라스 스무딩 (Laplace Smoothing)]]
+**다음**: [[352_perceptron_linear_separability|352. 퍼셉트론 (Perceptron)]] →
+
+---

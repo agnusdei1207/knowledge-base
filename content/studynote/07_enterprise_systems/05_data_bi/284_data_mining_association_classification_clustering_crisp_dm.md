@@ -139,3 +139,14 @@ tags:
 1. [[001_dikw_pyramid|데이터]] 마이닝 연관 분석/[[104_classification_analysis|분류]]/군집 CRISP-DM는 복잡한 일을 순서대로 정리해 주는 큰 정리함이에요.
 2. 어디에 무엇을 넣을지 먼저 정해 두면, 나중에 찾거나 고칠 때 훨씬 쉬워져요.
 3. 그래서 일이 커질수록 먼저 기준을 만들고 같이 약속하는 것이 중요해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 284 / 482
+
+← **이전**: [[283_data_visualization_dashboard_report|283. 데이터 시각화 (Data Visualization) 대시보드 및 리포트]]
+**다음**: [[285_data_lake_raw_unstructured_storage|285. 데이터 레이크 (Data Lake) - 원시 비정형 데이터 무한 저장소]] →
+
+---

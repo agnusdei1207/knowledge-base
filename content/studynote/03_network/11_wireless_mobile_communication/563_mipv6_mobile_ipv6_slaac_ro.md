@@ -214,3 +214,14 @@ MIPv6는 MIPv4에서 출발해 현재 메커니즘을 정교화하고, 이후 [[
 1. [[562_mipv4_mobile_ipv4_ha_fa_triangular|MIPv4]](옛날 방식)는 휴가를 가서 친구한테 택배를 받을 때, 무조건 우리 집(HA)을 거쳐서 오느라 택배가 며칠씩 지각하고(세모 [[339_routing_overview_best_path_selection|라우팅]]), 동사무소(FA)에 가서 서류도 써야 했어요.
 2. MIPv6(최신 방식)는 휴가지에 도착하자마자 나 혼자 스마트폰으로 즉석 주소([[331_slaac_stateless_address_autoconfiguration_ndp|SLAAC]])를 만들고, 친구(서버)에게 바로 직통 주소를 쏴버려서 택배를 1초 만에 직행으로 받아내요(경로 최적화).
 3. 굳이 우리 집을 안 거치니까 인터넷 속도가 미친 듯이 빨라지고 거추장스러운 동사무소 장비도 다 없어져서, 달리는 자동차나 드론에서도 4K 유튜브가 절대 안 끊기는 요술을 부린답니다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 684 / 1120
+
+← **이전**: [[562_mipv4_mobile_ipv4_ha_fa_triangular|562. MIPv4 (Mobile IPv4)]]
+**다음**: [[564_diversity_system_spatial_frequency_time|564. 다이버시티 시스템(Diversity System)]] →
+
+---

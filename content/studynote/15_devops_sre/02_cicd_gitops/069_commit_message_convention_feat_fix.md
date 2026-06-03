@@ -129,3 +129,14 @@ Automation
 상자에 이름을 써야 해요.  
 그래야 나중에 찾기 쉬워요.  
 커밋 [[389_mesh_topology|메시]]지도 그런 이름표예요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 69 / 373
+
+← **이전**: [[068_git_merge_conflict_resolution_rebase|68. 병합 충돌 (Merge Conflict) 및 해결 방안 (Rebase vs Merge)]]
+**다음**: [[070_build_tools_maven_gradle_npm|70. 빌드 도구 (Build Tools) - Maven, Gradle (Java), npm (Node.js)]] →
+
+---

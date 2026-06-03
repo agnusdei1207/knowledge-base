@@ -129,3 +129,14 @@ BERT는 "사전 학습(Pre-[[588_mlops_pipeline_automation|training]]) + [[304_f
 1. **BERT**는 문장에서 몇 개 단어를 **[MASK]로 가리고** "앞뒤 문맥을 다 보면서 빈칸에 뭐가 들어갈지 맞춰봐!"를 수십억 번 하면서 언어를 배운 AI에요!
 2. 앞**만** 보거나 뒤**만** 보는 게 아니라, **양쪽 동시에** 보면서 빈칸을 추측하니까 언어 이해력이 훨씬 깊어요.
 3. 다 배우고 나면 **어떤 NLP 문제든** (번역, 감정 분석, 질문 답변 등) **조금만 추가 학습**으로 잘 해결할 수 있어요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 301 / 420
+
+← **이전**: [[300_positional_encoding|300. 포지셔널 인코딩 (Positional Encoding)]]
+**다음**: [[302_gpt_autoregressive|302. GPT (Generative Pre-trained Transformer)]] →
+
+---

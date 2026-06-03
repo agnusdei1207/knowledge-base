@@ -139,3 +139,14 @@ tags:
 1. [[004_blockchain|블록체인]] [[919_dlt_distributed_ledger_technology_consensus_bottleneck|DLT]] [[007_merkle_tree|머클 트리]] [[136_variance|분산]] 원장는 복잡한 일을 순서대로 정리해 주는 큰 정리함이에요.
 2. 어디에 무엇을 넣을지 먼저 정해 두면, 나중에 찾거나 고칠 때 훨씬 쉬워져요.
 3. 그래서 일이 커질수록 먼저 기준을 만들고 같이 약속하는 것이 중요해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 402 / 482
+
+← **이전**: [[401_web3_decentralized_ownership|401. Web 3.0 탈중앙화 소유권 경제 (Web 3.0)]]
+**다음**: [[403_consensus_pow_pos_bft|403. 분산 합의 PoW PoS BFT 알고리즘 (Distributed Consensus)]] →
+
+---

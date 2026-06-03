@@ -166,3 +166,14 @@ tags:
 1. 51% 공격은 반 투표에서 절반 이상 표를 혼자 가져서 원하는 결과를 만드는 것이에요.
 2. [[068_eclipse_attack_p2p_isolation|이클립스 공격]]은 친구를 왕따시켜 나쁜 정보만 듣게 만드는 것이고, 시빌은 가짜 친구를 대량으로 만들어 반을 장악하는 거예요.
 3. 이 공격들이 어렵게 하려면 '비용을 많이 들게' 설계하면 돼요 — 공격이 이익보다 비싸면 아무도 공격 안 하거든요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 485 / 552
+
+← **이전**: [[484_dao_decentralized_autonomous_organization|484. DAO 탈중앙화 자율 조직 (DAO, Decentralized Autonomous Organization)]]
+**다음**: [[486_iot_sensor_network_comprehensive|486. IoT 센서 네트워크 종합 (IoT Sensor Network Comprehensive)]] →
+
+---

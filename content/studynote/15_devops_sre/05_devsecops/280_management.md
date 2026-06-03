@@ -134,3 +134,14 @@ Reference Architecture
 1. [[183_post_quantum_cryptography_key_transition|양자 내성 암호]] 마이그레이션 클라우드 인프라 키 관리 체계는 복잡한 일을 순서와 규칙으로 정리해서 실수하지 않게 도와주는 방법이에요.
 2. NIST [[351_quantum_computing_pqc_transition|PQC]] 같은 친구들과 같이 움직여야 더 잘 작동해요.
 3. 그래서 문제가 생겨도 어디서 틀렸는지 빨리 찾고 다시 고치기 쉬워져요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 280 / 373
+
+← **이전**: [[279_obfuscation|279. 난독화 (Obfuscation) 안티 디버깅 모바일 빌드 파이프라인 주입]]
+**다음**: [[281_calms|281. 데브옵스 CALMS (문화 자동화 린 측정 공유)]] →
+
+---

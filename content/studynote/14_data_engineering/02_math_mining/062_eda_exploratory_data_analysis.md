@@ -146,3 +146,14 @@ Data Observability
 레고 상자를 열기 전에 부품이 다 있는지 먼저 봐야 해요.  
 어떤 부품은 너무 많고 어떤 부품은 빠져 있을 수 있어요.  
 EDA는 조립하기 전에 상자를 꼼꼼히 살펴보는 일이에요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 62 / 258
+
+← **이전**: [[061_data_mining_framework_kdd_crisp_dm|61. 데이터 마이닝 프레임워크 - KDD와 CRISP-DM]]
+**다음**: [[063_central_tendency_dispersion_variance_iqr|63. 중심 경향도 (평균, 중앙값) 및 산포도 (분산, IQR) 분석]] →
+
+---

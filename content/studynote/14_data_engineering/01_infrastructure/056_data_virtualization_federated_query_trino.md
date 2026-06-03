@@ -125,3 +125,14 @@ Connector / Coordinator / Worker
 [[195_federated_query_data_fabric_distributed_join|연방 쿼리]]는 여러 도서관에 있는 책을 다 옮기지 않고, 필요한 질문만 보내는 거예요.  
 각 도서관이 답을 보내 주면, 가운데 컴퓨터가 한 번에 정리해 줘요.  
 그래서 책은 그대로 있는데도 한 번에 찾을 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 56 / 258
+
+← **이전**: [[055_separation_of_compute_and_storage_cloud_dw|55. 컴퓨트와 스토리지 분리 (Separation of Compute and Storage / Cloud DW)]]
+**다음**: [[057_tsdb_downsampling_retention_policy|57. 시계열 데이터베이스 (Time-Series Database, TSDB) - 다운샘플링과 보존 정책]] →
+
+---

@@ -174,3 +174,14 @@ Patreon, Substack, 독립 구독 모델
 1. 인터넷 서점은 공간이 무한해서 아무도 안 사는 희귀한 책도 진열할 수 있어요.
 2. 그 희귀한 책들이 조금씩이라도 팔리면, 전체 합계가 베스트셀러보다 더 많아질 수 있어요.
 3. [[190_ai_llm_requirements_specification|AI]] 추천이 숨어있던 책을 찾아줘서, 예전엔 못 팔던 것들도 이제는 잘 팔린답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 35 / 482
+
+← **이전**: [[034_bcg_matrix_portfolio|BCG 매트릭스 (BCG Matrix) / 포트폴리오 전략]]
+**다음**: [[036_network_effect_metcalfes_law|036. 네트워크 효과 & 메칼프의 법칙]] →
+
+---

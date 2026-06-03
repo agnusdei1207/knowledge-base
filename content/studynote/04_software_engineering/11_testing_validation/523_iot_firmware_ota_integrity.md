@@ -159,3 +159,14 @@ IoT 기기 펌웨어 무결성 검증망 및 OTA 안전 배포 개념 정립
 1. [[101_iot_concept|IoT]] 기기 [[032_firmware|펌웨어]] [[003_integrity|무결성]] [[395_verification_process_review|검증]]망 및 OTA 안전 배포은 레고 블록으로 성을 만들 때처럼, 규칙을 정하고 역할을 나누어 함께 작업하는 방법이에요.
 2. 혼자서 막 만들면 나중에 무너지거나 고치기 어렵지만, 약속을 지키면 누구나 쉽게 고치고 더 크게 만들 수 있어요.
 3. 그래서 [[001_software_engineering_definition|소프트웨어 공학]]은 프로그래머들이 좋은 프로그램을 빠르고 안전하게 만들 수 있게 도와주는 '규칙 모음집'이에요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 637 / 973
+
+← **이전**: [[522_smart_contract_security_audit|522. 블록체인/스마트 컨트랙트 (Smart Contract) 보안 감사 (Reentrancy 공격 방어 등)]]
+**다음**: [[523_iot_firmware_ota_security|523. IoT 기기 펌웨어 무결성 검증망 및 OTA (Over-The-Air) 안전 배포]] →
+
+---

@@ -167,3 +167,14 @@ Latency-tolerant clustered OoO cores
 1. [[238_out_of_order_execution|비순차 실행]] 윈도우는 요리사가 한꺼번에 펼쳐 보는 주문서 더미예요.
 2. 주문서를 많이 볼 수 있으면 1번 요리가 늦어도 2번, 3번 중 바로 할 수 있는 일을 먼저 시작할 수 있어요.
 3. 하지만 너무 많이 펼치면 정리하기 힘들어서, 딱 알맞게 넓은 책상이 필요하답니다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 502 / 803
+
+← **이전**: [[501_superscalar_issue_queue|501. 수퍼스칼라 발급 큐 (Superscalar Issue Queue)]]
+**다음**: [[503_branch_misprediction_penalty|503. 분기 예측 실패 페널티 (Branch Misprediction Penalty)]] →
+
+---

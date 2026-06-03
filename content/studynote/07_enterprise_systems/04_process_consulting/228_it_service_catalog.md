@@ -161,3 +161,14 @@ Self-service and zero-touch fulfillment
 1. [[088_service_catalog|서비스 카탈로그]]는 회사 컴퓨터 일을 모아 둔 메뉴판이에요.
 2. 필요한 걸 고르면 누구에게 부탁해야 하는지 헤매지 않아도 돼요.
 3. 좋은 메뉴판은 주문만 받는 게 아니라, 뒤에서 바로 준비까지 시작하게 해 줘요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 228 / 482
+
+← **이전**: [[227_cloud_cost_optimization|227. 클라우드 비용 최적화 (Cloud Cost Optimization)]]
+**다음**: [[229_it_ppm_portfolio_management|229. IT 포트폴리오 관리 (IT Project Portfolio Management)]] →
+
+---

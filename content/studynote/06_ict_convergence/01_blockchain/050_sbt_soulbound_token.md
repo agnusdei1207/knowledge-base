@@ -187,3 +187,14 @@ Web3 탈중앙 신원 생태계 (미래)
 1. SBT는 내 이름이 새겨진 훈장처럼 — 다른 사람에게 팔거나 줄 수 없어.
 2. 학교, 회사, 병원이 내 지갑에 직접 "졸업", "취업", "검진 완료" 도장을 찍어줘.
 3. ZKP를 쓰면 "졸업했냐?"는 질문에 "예"라고만 대답하고 어느 학교인지는 비밀로 할 수 있어.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 50 / 552
+
+← **이전**: [[049_cross_chain_bridge|049. 크로스체인 브릿지 — Cross-Chain Bridge]]
+**다음**: [[051_did_decentralized_identity_ssi|051. DID와 SSI (Decentralized Identity & Self-Sovereign Identity)]] →
+
+---

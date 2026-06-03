@@ -141,3 +141,14 @@ DR tiering and recovery drill
 1. BIA는 집에 정전이 왔을 때 냉장고, 조명, 게임기 중 무엇을 먼저 다시 켜야 하는지 정하는 종이예요.
 2. 우유가 상하기 전에 냉장고를 켜야 하듯이, 회사도 빨리 살려야 하는 일이 따로 있어요.
 3. 그래서 BIA는 "무엇을 먼저, 얼마나 빨리" 고쳐야 하는지 알려주는 순서표예요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 212 / 482
+
+← **이전**: [[211_desktop_analytics_task_mining_rpa_discovery|211. 데스크톱 애널리틱스 (Desktop Analytics) / 작업 마이닝 (Task Mining)]]
+**다음**: [[213_swot_ahp_analytic_hierarchy_process_decision_making|213. SWOT-AHP (Analytic Hierarchy Process) 다기준 의사결정 분석법을 통한 IT 전략 가중치 우선순위]] →
+
+---

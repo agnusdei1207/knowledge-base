@@ -115,3 +115,14 @@ AI 기반 자율형 공급망 (Cognitive SCM & Digital Twin)
 1. 소풍 갈 때 "내일 비가 올까? 김밥은 몇 줄 쌀까? [[344_bus|버스]] 뒷자리에 탈까?" 미리 머릿속으로 꼼꼼하게 계획을 짜는 게 SCP예요.
 2. 그리고 다음 날 계획대로 가방을 메고 [[344_bus|버스]]에 올라타서 출발하는 몸의 움직임이 SCE랍니다.
 3. 똑똑한 [[747_scp|SCP]] 뇌를 가진 회사는 물건을 모자라지도 남지도 않게 딱 맞춰서 준비할 수 있어요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 95 / 482
+
+← **이전**: [[094_bullwhip_effect_mitigation_pos_vmi|94. 채찍 효과 억제 (Bullwhip Effect Mitigation) - POS 데이터 공유와 VMI]]
+**다음**: [[096_sce_supply_chain_execution_oms|96. SCE (Supply Chain Execution) - 공급망 실행 (주문 처리, 물류/창고 제어)]] →
+
+---

@@ -200,3 +200,14 @@ tags:
 1. [[260_page_replacement|페이지 교체]] ([[260_page_replacement|Page Replacement]])의 필요성은 컴퓨터가 메모리를 더 크게 보이게 하고 부족함을 숨기는 방법이에요.
 2. 먼저 [[394_vfork|vfork]]()을 이해하면 [[260_page_replacement|페이지 교체]] ([[260_page_replacement|Page Replacement]])의 필요성이 왜 필요한지 더 쉽게 보여요.
 3. 그래서 [[260_page_replacement|페이지 교체]] ([[260_page_replacement|Page Replacement]])의 필요성을 잘 알면 나중에 [[396_dirty_bit|변경 비트]] (Modify [[086_fenwick_tree|Bit]] / [[396_dirty_bit|Dirty Bit]])도 훨씬 쉽게 배울 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 395 / 800
+
+← **이전**: [[394_vfork|394. vfork()]]
+**다음**: [[396_dirty_bit|396. 변경 비트 (Modify Bit / Dirty Bit) - 교체 시 디스크 기록 여부 결정, 디스크 I/O 최적화]] →
+
+---

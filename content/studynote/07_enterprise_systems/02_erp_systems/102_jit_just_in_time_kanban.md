@@ -115,3 +115,14 @@ JIT (Just In Time) 및 칸반 (Kanban) 도입
 1. 햄버거 가게에서 손님이 오기도 전에 미리 햄버거 100개를 만들어 쌓아두면 다 식어서 맛이 없겠죠?
 2. JIT는 손님이 "불고기버거 주세요!"라고 주문표([[084_kanban_board_wip_limit|칸반]])를 낼 때만 고기를 구워서 바로 주는 멋진 방법이에요.
 3. 이렇게 하면 버리는 햄버거가 하나도 없어서 쓰레기도 줄고 돈도 많이 아낄 수 있답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 102 / 482
+
+← **이전**: [[101_3pl_third_party_logistics_4pl|101. 3PL (Third Party Logistics) / 4PL - 제3자/제4자 물류 아웃소싱 (컨설팅 포함 여부)]]
+**다음**: [[103_snop_sales_and_operations_planning|103. S&OP (Sales and Operations Planning) - 영업 및 생산 운영 계획의 주별/월별 전사 통합 조정 회의체]] →
+
+---

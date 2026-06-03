@@ -140,3 +140,14 @@ OLS의 가정 검토와 VIF 진단을 체계적으로 수행하면 예측 [[282_
 1. 회귀 분석은 점들이 찍힌 종이에서 가장 잘 맞는 선을 긋는 거야 — OLS는 모든 점과 선의 거리 제곱합이 가장 작은 선을 찾아줘.
 2. 다중공선성은 여러 [[167_sql_hint_optimizer_override|힌트]] 중에 완전히 똑같은 [[167_sql_hint_optimizer_override|힌트]]가 있으면 정답을 맞히기 어려운 것처럼, 비슷한 변수들이 겹치면 모델이 헷갈려.
 3. VIF는 이 겹침이 얼마나 심한지 알려주는 숫자야 — 10보다 크면 "이건 너무 겹쳐!"라는 경고야!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 514 / 552
+
+← **이전**: [[513_t_test_anova_chi_square_comparison|513. t-검정, ANOVA, 카이제곱 검정 비교 (t-Test ANOVA Chi-Square Test Comparison)]]
+**다음**: [[515_pca_lda_svd_dimensionality_reduction|515. PCA, LDA, SVD 차원 축소 행렬 분해 (PCA LDA SVD Dimensionality Reduction)]] →
+
+---

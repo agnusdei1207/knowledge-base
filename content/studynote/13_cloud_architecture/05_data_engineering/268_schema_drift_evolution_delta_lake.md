@@ -113,3 +113,14 @@ tags:
 1. [[005_schema|스키마]] 드리프트 - [[147_delta_lake|Delta Lake]] 에볼루션는 사람이 많은 운동회에서 어디로 가야 하는지 알려 주는 안내판과 비슷해요.
 2. 규칙이 없으면 모두가 한곳에 몰려서 느려지고 다투지만, 길을 정해 두면 훨씬 부드럽게 움직일 수 있어요.
 3. 그래서 컴퓨터 세상에서도 [[005_schema|스키마]] 드리프트 - [[147_delta_lake|Delta Lake]] 에볼루션를 쓰면 많은 팀과 [[090_service_kubernetes_network_load_balancing|서비스]]가 덜 부딪히고 더 빨리 움직일 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 267 / 371
+
+← **이전**: [[267_gnn_fraud_detection_knowledge_graph|267. GNN 기반 이상 거래 탐지 - 지식 그래프 (FDS)]]
+**다음**: [[269_small_file_problem_data_lakehouse|269. 소형 파일 문제 - 레이크하우스 최적화 (Small File Problem)]] →
+
+---

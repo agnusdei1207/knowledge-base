@@ -129,3 +129,14 @@ tags:
 1. 구성 관리 (Configuration [[372_management|Management]])는 모두가 같은 규칙으로 일하게 해 주는 반장 약속표예요.
 2. 약속만 적어 두는 것이 아니라 누가 지켰는지 확인하고 고치는 방법까지 함께 정해요.
 3. 그래서 일이 많아져도 서로 부딪히지 않고 더 안전하게 움직일 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 162 / 587
+
+← **이전**: [[089_CNN_Convolutional|89. 합성곱 신경망 (Convolutional Neural Network) - 공간 패턴 인식자]]
+**다음**: [[090_RNN_LSTM|90. Azure Event Hubs — Kafka 호환 API, AMQP 지원]] →
+
+---

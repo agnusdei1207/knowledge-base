@@ -184,3 +184,14 @@ Change Advisory Board -> Feature Toggle
 1. ECAB는 IT 시스템에 문제가 생겼을 때 빨리 고치기 위한 긴급 회의 그룹이에요.
 2. 일반 회의는 시간이 걸리니까, 소수 전문가가 빠르게 결정하고 바로 고쳐요.
 3. 단, 나중에 반드시 보고서를 써서 기록으로 남겨야 해요 — 책임감 있는 응급처치!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 61 / 587
+
+← **이전**: [[034_platform_business_model|플랫폼 비즈니스 모델 (Platform Business Model)]]
+**다음**: [[035_lean_startup|35. 린 스타트업 (Lean Startup)]] →
+
+---

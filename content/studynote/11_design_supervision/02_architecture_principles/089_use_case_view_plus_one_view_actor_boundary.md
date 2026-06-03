@@ -131,3 +131,14 @@ Include / Extend 관계를 통한 시나리오 정교화
 1. 건물을 지을 때 수도관 설계도, 전기 설계도 등 여러 복잡한 도면이 있어요.
 2. 하지만 가장 중요한 건 "이 건물에서 사람들이 밥 먹고 잠자는 게 편한가?"를 그린 그림(유스케이스 뷰)이에요.
 3. 이 그림이 나머지 복잡한 도면들이 제대로 그려졌는지 검사하는 대장 역할을 한답니다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 132 / 530
+
+← **이전**: [[088_physical_deployment_view_infrastructure_mapping|88. 물리/배포 뷰 (Physical/Deployment View) - 시스템 하드웨어 매핑]]
+**다음**: [[090_architecture_drivers_quality_attributes_constraints|90. 아키텍처 드라이버 (Architecture Drivers) - 시스템 설계 핵심 요구사항]] →
+
+---

@@ -177,3 +177,14 @@ tags:
 1. 순수 [[255_demand_paging|요구 페이징]] (Pure [[255_demand_paging|Demand Paging]])은 컴퓨터가 메모리를 더 크게 보이게 하고 부족함을 숨기는 방법이에요.
 2. 먼저 [[255_demand_paging|요구 페이징]] ([[255_demand_paging|Demand Paging]])을 이해하면 순수 [[255_demand_paging|요구 페이징]] (Pure [[255_demand_paging|Demand Paging]])이 왜 필요한지 더 쉽게 보여요.
 3. 그래서 순수 [[255_demand_paging|요구 페이징]] (Pure [[255_demand_paging|Demand Paging]])을 잘 알면 나중에 [[385_prepaging|선행 페이징]] ([[385_prepaging|Prepaging]])도 훨씬 쉽게 배울 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 384 / 800
+
+← **이전**: [[383_demand_paging|383. 요구 페이징 (Demand Paging) - 필요한 페이지만 메모리에 적재]]
+**다음**: [[385_prepaging|385. 선행 페이징 (Prepaging) - 페이지 부재 감소를 위해 미리 묶어 올림]] →
+
+---

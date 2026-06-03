@@ -230,3 +230,14 @@ GoF (Gang of Four) 패턴과의 연결:
 1. "강아지면 짖고, 고양이면 야옹하고, 새면 짹짹해"라고 매번 [[396_validation|확인]]하는 대신, 동물에게 직접 "소리내봐!"라고 시키는 거야.
 2. 새 동물(새 타입)이 생겨도 기존 코드는 바꾸지 않고, 그 동물만 "소리내봐" 방법을 알면 돼!
 3. 이게 바로 다형성(Polymorphism)이야—"뭐야?"가 아니라 "해봐!"가 핵심이야.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 301 / 530
+
+← **이전**: [[239_gateway_msa_entry_pattern|239. 게이트웨이 MSA 진입점 패턴 (Gateway MSA Entry Pattern)]]
+**다음**: [[241_extract_method_refactoring|241. 메서드 분리 리팩토링 (Extract Method Refactoring)]] →
+
+---

@@ -154,3 +154,14 @@ SNA는 개인이 아닌 [[083_relationship_in_er_model|관계]]가 가치를 만
 - SNA는 반 친구들의 사이좋은 [[083_relationship_in_er_model|관계]]를 선으로 그려서 누가 제일 인기 많고, 어떤 무리가 있는지 알아내는 거예요.
 - 매개 중심성이 높은 친구는 여러 무리 사이를 연결해주는 다리 역할을 하는 중요한 친구예요.
 - 페이스북 같은 SNS에서 수억 명의 친구 [[083_relationship_in_er_model|관계]]를 이런 방식으로 분석해서 바이럴이나 사기를 탐지해요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 110 / 262
+
+← **이전**: [[109_text_mining|106. 텍스트 마이닝 (Text Mining) — TF-IDF/Word2Vec/BERT 기반 텍스트 분석]]
+**다음**: [[111_anomaly_detection|108. 이상 탐지 (Anomaly Detection) — 통계/ML/딥러닝 기반 이상치 감지]] →
+
+---

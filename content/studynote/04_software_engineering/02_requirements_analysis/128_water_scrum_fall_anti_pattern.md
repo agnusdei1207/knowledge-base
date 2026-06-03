@@ -106,3 +106,14 @@ Water-[[658_agile_scrum_roles|Scrum]]-Fall은 **"[[004_agile_relation|Agile]] �
 1. Water-[[658_agile_scrum_roles|Scrum]]-Fall은 **고속도로 양쪽에 비포장 도로**를 붙인 거예요.
 2. 고속도로([[658_agile_scrum_roles|Scrum]])에서 빨리 달려도 비포장(Water·Fall)에서 **막혀서** 의미 없어요.
 3. 전체 도로를 **다 포장([[004_agile_relation|Agile]] 전환)**해야 빠르게 갈 수 있답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 128 / 973
+
+← **이전**: [[127_ddd_domain_driven_design|127. DDD (Domain-Driven Design) - 도메인 중심 소프트웨어 설계]]
+**다음**: [[129_spike_agile_technical_investigation|129. Spike (스파이크) - Agile 기술 불확실성 해소 탐구]] →
+
+---

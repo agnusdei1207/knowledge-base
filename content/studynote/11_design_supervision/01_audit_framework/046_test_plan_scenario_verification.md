@@ -329,3 +329,14 @@ AI 기반 테스트 케이스 자동 생성
 1. 테스트 계획서는 검사 일정표 — "언제, 무엇을, 어떻게 검사할까?" 미리 쓴 표. 없으면 검사가 엉망이 돼요!
 2. V&V는 레시피+손님 만족 — 레시피(설계서)대로 만들었나([[395_verification_process_review|Verification]]) + 손님이 맛있다고 하나([[396_validation|Validation]]). 둘 다 OK여야 성공!
 3. 테스트 커버리지는 [[435_checklist_based_testing|체크리스트]] 달성률 — 100개 항목 중 80개 검사(80% 커버리지). 더 많이 검사할수록 더 안전하지만 시간도 더 걸려요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 69 / 530
+
+← **이전**: [[046_test_plan_scenario_result_verification|46. 테스트 계획·시나리오·결과서 완결성 대조 확인 (Test Plan, Scenario and Result Verification)]]
+**다음**: [[047_rtm_bidirectional_traceability_validation|47. 요구사항 추적 매트릭스 양방향 추적성 검증 (RTM Bidirectional Traceability Validation)]] →
+
+---

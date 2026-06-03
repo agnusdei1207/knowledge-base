@@ -129,3 +129,14 @@ DUAL [[001_algorithm_definition|알고리즘]]이 미리 계산해 두는 1등 �
 1. 달리기 시합에서 누가 얼마나 빨랐는지 재려면 초시계와 기록표가 필요해요.
 2. 이 개념은 네트워크가 어디서 느려졌는지 숫자로 찾아내는 도구예요.
 3. 그래서 막연히 고치는 대신 가장 중요한 곳부터 똑똑하게 손볼 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 205 / 1120
+
+← **이전**: [[1095_bgp_attributes_local_pref_med_as_path|1095. BGP 속성 (Local Pref, MED, AS-path 구성비)]]
+**다음**: [[1097_broadcast_storm_switching_loop_stp|1097. 브로드캐스트 스톰 (루프 발생)]] →
+
+---

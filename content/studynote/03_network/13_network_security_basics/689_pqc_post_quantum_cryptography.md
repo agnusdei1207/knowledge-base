@@ -121,3 +121,14 @@ tags:
 1. 비밀 편지를 보낼 때는 자물쇠와 비밀번호가 필요해요.
 2. 이 개념은 누가 진짜 친구인지 [[396_validation|확인]]하고, 편지가 바뀌지 않았는지도 살펴봐요.
 3. 그래서 나쁜 사람이 중간에 훔쳐보거나 바꾸기 어려워져요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 810 / 1120
+
+← **이전**: [[688_sni_esni_ech_encrypted_client_hello|688. SNI (Server Name Indication) 개요 와 ESNI / ECH (Encrypted Client Hello)]]
+**다음**: [[690_firewall_generation_evolution|690. 방화벽 (Firewall) 필터링 1,2,3 세대 진화]] →
+
+---

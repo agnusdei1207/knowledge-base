@@ -157,3 +157,14 @@ Saga / outbox / idempotent recovery patterns
 1. 친구들이 같이 보물상자를 열 때, 모두가 "준비됐어!"라고 말해야만 뚜껑을 여는 규칙이 2PC예요.
 2. 그런데 한 친구가 대답을 늦게 하면 다른 친구들은 손을 잡은 채 계속 기다려야 해요.
 3. 그래서 요즘은 각자 먼저 움직이고, 문제가 생기면 다시 정리하는 다른 방법도 많이 써요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 174 / 482
+
+← **이전**: [[173_database_per_service|173. 데이터베이스 퍼 서비스 (Database per Service)]]
+**다음**: [[175_saga_pattern_eventual_consistency|175. 사가 패턴 (Saga Pattern) - 로컬 트랜잭션 연쇄와 보상 트랜잭션으로 최종적 일관성 보장]] →
+
+---

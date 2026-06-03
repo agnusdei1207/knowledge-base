@@ -214,3 +214,14 @@ for i in range(w.shape[0]):
 1. 🎯 [[272_backpropagation|역전파]]는 "축구 시합에서 진 이유를 찾을 때, 최종 결과(패배)에서 거꾸로 각 선수(파라미터)의 잘못을 계산하는" 방법이에요.
 2. ⛓️ 연쇄 법칙은 "A 가 B 를 움직이고, B 가 C 를 움직이면, A 가 C 에 미치는 영향 = A→B 영향 × B→C 영향" 이에요.
 3. 🤖 PyTorch 는 이걸 자동으로 해줘서, 우리가 직접 계산하지 않아도 돼요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 345 / 420
+
+← **이전**: [[344_activation_derivative_sigmoid|344. 활성화 함수 도함수 (Activation Derivative Sigmoid)]]
+**다음**: [[346_batch_size_generalization|346. 배치 사이즈 (Batch Size) 와 일반화 성능]] →
+
+---

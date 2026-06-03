@@ -185,3 +185,14 @@ Star Schema · Kimball 차원 모델링
 ```
 2. [[334_star_schema|스타 스키마]]는 **별 모양 조직도**야. 가운데 별(팩트)이 "우리가 분석할 것"이고, 주변 행성들(차원)이 "어떤 각도에서 볼지"를 나타내.
 3. 같은 날짜 기준을 모든 반이 쓰면 **"이번 달"이 다 같은 의미**가 돼. 그게 콘포밍 차원이야.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 209 / 258
+
+← **이전**: [[208_data_warehouse_schema_on_write_inmon|208. 데이터 웨어하우스 (Data Warehouse) 스키마 온 라이트 Inmon 설계]]
+**다음**: [[210_fact_dimension_table_snowflake_schema|210. 팩트 테이블 (Fact Table)·차원 테이블 (Dimension Table)·스노우플레이크 스키마 (Snowflake Schema)]] →
+
+---

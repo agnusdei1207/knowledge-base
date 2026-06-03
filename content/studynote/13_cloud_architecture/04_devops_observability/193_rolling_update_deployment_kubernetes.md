@@ -178,3 +178,14 @@ Rolling Update: 기존 Pod 종료 → 신규 Pod 생성 (순차)
 ```
 2. 한 번에 다 바꾸면 손님이 앉을 의자가 없으니까, 하나 바꾸고→하나 돌아오고→또 하나 바꾸고 반복해.
 3. `maxSurge`는 "의자를 최대 몇 개까지 동시에 밖에 내보낼 수 있는지", `maxUnavailable`은 "동시에 몇 개 자리를 비울 수 있는지"야.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 192 / 371
+
+← **이전**: [[192_zero_downtime_deployment_strategies|192. 무중단 배포 전략 3총사 (Zero Downtime Deployment Strategies)]]
+**다음**: [[194_blue_green_deployment_strategy|194. 블루-그린 배포 (Blue-Green Deployment)]] →
+
+---

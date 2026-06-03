@@ -129,3 +129,14 @@ RDBMS의 JOIN 연산 폭발로 인한 복잡한 관계 탐색 한계 (성능 병
 1. [[039_graph_db|그래프 데이터베이스]]는 [[001_dikw_pyramid|데이터]]를 네모난 '표'에 가두지 않고, 도화지 위에 점(노드)을 찍고 선(엣지)으로 연결해서 그리는 마법의 그림판이에요.
 2. 예전 DB(RDBMS)는 내 친구의 친구를 찾으려면 두꺼운 주소록 책을 5번이나 넘기며 고생해야 했어요.
 3. 하지만 [[070_graph_datastructure|그래프]] DB는 친구들끼리 이미 손(엣지)을 꽉 잡고 있어서, 내 손을 잡은 친구의 팔만 쭉쭉 따라가면 눈 깜짝할 새에 수백 명의 친구를 다 찾아낼 수 있답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 238 / 371
+
+← **이전**: [[238_wide_column_cassandra_hbase_lsm|238. 와이드 컬럼 저장소 (Wide-Column Store) - Cassandra / HBase]]
+**다음**: [[240_time_series_database_influxdb_prometheus|240. 시계열 데이터베이스 (TSDB: InfluxDB, Prometheus)]] →
+
+---

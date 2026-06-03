@@ -234,3 +234,14 @@ ELT: Extract → Load → Transform (DW 내부 변환)
 ```
 2. ELT는 책을 일단 도서관에 다 가져다 넣고, 도서관 안에 있는 빠른 기계로 분류하는 방식이야.
 3. 어느 게 더 좋냐고? 도서관(클라우드)이 크고 빠르다면 ELT가 훨씬 편리해 — 책을 기다리게 하지 않아도 되거든!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 212 / 258
+
+← **이전**: [[211_olap_drill_down_roll_up_surrogate_key|211. OLAP (Online Analytical Processing) 드릴다운·롤업·서로게이트 키]]
+**다음**: [[213_data_lakehouse_delta_lake_parquet_acid|213. 데이터 레이크하우스 (Data Lakehouse) Delta Lake 파케이 ACID]] →
+
+---

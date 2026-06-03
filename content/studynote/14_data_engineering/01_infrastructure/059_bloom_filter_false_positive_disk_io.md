@@ -132,3 +132,14 @@ LSM 기반 읽기 최적화
 [[061_bloomfilter|블룸 필터]]는 친구가 왔는지 빠르게 확인하는 명부예요.  
 없다고 나오면 진짜 없다고 믿어도 돼요.  
 하지만 있다고 나와도 한 번 더 확인해야 할 때가 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 59 / 258
+
+← **이전**: [[058_newsql_google_spanner_truetime_distributed_transaction|58. 뉴에스큐엘 (NewSQL) - 분산 RDBMS와 구글 스패너(Spanner)]]
+**다음**: [[060_dark_data_discovery_privacy_clean_room|60. 다크 데이터 (Dark Data) 발굴 및 프라이버시 클린 룸 (Privacy Clean Room)]] →
+
+---

@@ -85,3 +85,14 @@ Progressive Delivery: Argo Rollouts · Flagger
 ```
 2. 만약 누군가 몰래 피자 조각을 훔쳐 가면, 로봇이 요리책과 다르다는 걸 알고 다시 피자를 채워 넣는답니다.
 3. 요리책 내용만 잘 적어두면 언제든 똑같은 피자를 맛볼 수 있어요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 166 / 371
+
+← **이전**: [[166_cicd_pipeline_tools|166. CI/CD 파이프라인 도구 (Jenkins, GitLab CI, GitHub Actions)]]
+**다음**: [[168_gitops_push_vs_pull_deployment|168. 푸시 vs 풀 기반 배포 (GitOps Push vs Pull Deployment)]] →
+
+---

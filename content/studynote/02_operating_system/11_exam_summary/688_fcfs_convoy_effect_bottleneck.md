@@ -198,3 +198,14 @@ FCFS의 [[174_convoy_effect|호위 효과]]([[174_convoy_effect|Convoy Effect]])
 1. 슈퍼마켓 계산대에 한 줄 서기([[173_fcfs_scheduling|FCFS]])를 하고 있어요. 내 앞에는 카트 5개에 물건을 꽉 채운 아저씨가 계산을 시작했어요.
 2. 나는 아이스크림 딱 1개만 사면 되는데, 아저씨 계산이 30분 넘게 걸려서 꼼짝없이 뒤에 갇혀서 기다려야 해요.
 3. 이렇게 뚱뚱한 작업 1개 때문에 작고 날쌘 작업 수백 개가 뒤에 갇혀서 꼼짝 못 하고 줄 서 있는 끔찍한 상황을 '[[174_convoy_effect|호위 효과]]'라고 부른답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 688 / 800
+
+← **이전**: [[687_preemptive_vs_non_preemptive_scheduling|687. 선점 / 비선점 스케줄링 차이 (Preemptive Vs Non Preemptive Scheduling)]]
+**다음**: [[689_sjf_starvation_and_aging|689. SJF 기아 (Starvation) 발생]] →
+
+---

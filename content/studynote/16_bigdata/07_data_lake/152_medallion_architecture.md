@@ -187,3 +187,14 @@ WHEN NOT MATCHED THEN
 1. 메달리온은 그림 대회의 예선→본선→결선처럼, [[001_dikw_pyramid|데이터]]가 단계별로 더 좋아지는 여정이에요.
 2. AutoLoader는 우편함을 자동으로 [[396_validation|확인]]해서 새 편지가 오면 바로 Bronze 방에 넣어주는 로봇이에요.
 3. 각 단계에서 품질 검사([[919_dlt_distributed_ledger_technology_consensus_bottleneck|DLT]] Expectations)를 통과해야만 다음 단계로 올라갈 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 152 / 262
+
+← **이전**: [[151_multi_tier_architecture|151. 다중 계층 아키텍처 (Multi-Tier Architecture) — Bronze/Silver/Gold]]
+**다음**: [[153_data_mesh_in_lake|153. 데이터 메시 관점의 레이크하우스 (Data Mesh on Lakehouse)]] →
+
+---

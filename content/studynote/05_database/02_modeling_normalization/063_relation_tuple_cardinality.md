@@ -134,3 +134,14 @@ Relational Model
 도시락 한 칸 한 칸이 [[082_attribute_types_er_model|속성]]이에요.  
 도시락 한 줄이 튜플이에요.  
 도시락이 몇 줄 있는지가 카디널리티예요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 63 / 600
+
+← **이전**: [[062_relation_attribute_degree|62. 속성 (Attribute / Column / Degree) - 릴레이션의 열 (차수)]]
+**다음**: [[064_relation_domain|64. 도메인 (Domain) - 속성이 가질 수 있는 원자값(Atomic Value)들의 집합]] →
+
+---

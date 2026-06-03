@@ -244,3 +244,14 @@ CNN: Conv + Pooling + Stride → 공간 특징 추출
 ```
 2. ResNet의 잔차 연결은 계단을 오르면서도 엘리베이터로 원래 모습을 꼭대기로 바로 보내는 것이야. 올라가면서 배운 것과 원래 모습을 합쳐서 더 잘 볼 수 있어.
 3. YOLO는 그림 전체를 한 번만 보고 "여기 고양이, 저기 자동차"라고 동시에 말하는 것이야. 조각조각 따로 보는 것보다 훨씬 빠르게 모든 물체를 찾을 수 있어.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 243 / 258
+
+← **이전**: [[242_regularization_dropout_early_stopping_l1_l2_lasso_ridge|242. 규제 드롭아웃 (Dropout) 조기 종료 L1 L2 라쏘 릿지 종합]]
+**다음**: [[244_rnn_time_series_lstm_cell_gate_long_term_dependency|244. RNN (Recurrent Neural Network) 시계열 LSTM 셀 게이트 장기 의존성 극복]] →
+
+---

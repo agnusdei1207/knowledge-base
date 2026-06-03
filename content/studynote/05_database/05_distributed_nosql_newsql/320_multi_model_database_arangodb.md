@@ -134,3 +134,14 @@ tags:
 1. 여러 창고에 장난감을 나눠 두고도 같은 물건처럼 써야 하는 상황이에요.
 2. 멀리 떨어진 창고끼리는 이야기하는 데 시간이 걸려요.
 3. 그래서 어디까지 맞춰 둘지와 얼마나 빨리 답할지를 함께 정해야 해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 320 / 600
+
+← **이전**: [[319_blockchain_tamper_evident_ledger_amazon_qldb|319. 블록체인 기반 변조 방지 원장 데이터베이스 (Amazon QLDB)]]
+**다음**: [[321_data_warehouse_inmon_model|321. 데이터 웨어하우스 (Data Warehouse, DW)]] →
+
+---

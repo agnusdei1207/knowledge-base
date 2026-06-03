@@ -128,3 +128,14 @@ tags:
 1. [[696_fibre_channel_protocol|FC]] Layer는 퍼즐 조각을 다 모아서 "이건 사자 그림이야!"라고 정답을 외치는 친구예요.
 2. 퍼즐을 일렬로 길게 펴놓고 하나씩 [[396_validation|확인]]해야 해서 시간이 조금 걸려요.
 3. 정보가 너무 많으면 헷갈리기 때문에 가끔 눈을 반쯤 가리고([[280_dropout|드롭아웃]]) 생각하는 게 더 정답을 잘 맞춘답니다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 102 / 420
+
+← **이전**: [[101_max_pooling_average_pooling_global_average_pooling|101. 최대 풀링 (Max Pooling) / 평균 풀링 (Average Pooling) 비교]]
+**다음**: [[103_cnn_architecture_evolution_lenet_alexnet_vgg_googlenet_resnet|103. CNN 주요 아키텍처의 발전 (AlexNet, VGG, ResNet 등)]] →
+
+---

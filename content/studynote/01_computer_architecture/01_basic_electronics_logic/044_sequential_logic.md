@@ -315,3 +315,14 @@ GHz 클록, 딥 파이프라인
 1. 순서 [[369_logic_bomb|논리]]는 "기억하는 [[238_switch_operation_principles|스위치]]" — 조합 [[369_logic_bomb|논리]]가 지금만 보는 [[238_switch_operation_principles|스위치]]라면, 순서 [[369_logic_bomb|논리]]는 전 [[065_state_diagram|상태도]] 기억해서 다음을 결정하는 [[238_switch_operation_principles|스위치]]!
 2. [[051_flip_flop|플립플롭]]은 한 [[073_bit|비트]] 메모장 — 클록이 울릴 때마다 입력 값을 "탁!" 저장하고, 다음 클록까지 그 값을 유지해요.
 3. CPU의 파이프라인은 순서 [[369_logic_bomb|논리]]의 집합체 — 각 단계 사이에 D [[051_flip_flop|플립플롭]]이 대기해서 클록마다 데이터를 다음 단계로 전달해요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 44 / 803
+
+← **이전**: [[043_comparator|043. 비교기 (Comparator)]]
+**다음**: [[045_clock|045. 클럭 — Clock Signal]] →
+
+---

@@ -146,3 +146,14 @@ tags:
 1. [[106_association_rules|연관 규칙]]은 편의점에서 "라면을 사는 사람은 달걀도 같이 사는 경우가 많다"는 패턴을 찾는 거야.
 2. [[084_support_association_rule_transaction|지지도]]는 얼마나 자주 같이 사는지, [[085_confidence_association_rule_conditional_probability|신뢰도]]는 라면 산 사람 중 달걀도 산 비율, [[086_lift_association_rule_marketing|향상도]]는 "그냥 달걀 사는 것보다 얼마나 더 자주 같이 사는지"야.
 3. [[086_lift_association_rule_marketing|향상도]]가 1보다 커야 진짜 유용한 규칙이야 — 그냥 인기 많은 물건은 어디서나 잘 팔리니까!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 520 / 552
+
+← **이전**: [[519_collaborative_filtering_cold_start_recommendation|519. 협업 필터링, 콜드 스타트, 추천 시스템 (Collaborative Filtering Cold Start Recommendation)]]
+**다음**: [[521_homomorphic_encryption_post_quantum_crypto|521. 동형 암호와 양자 내성 암호 전환 (Homomorphic Encryption Post-Quantum Cryptography)]] →
+
+---

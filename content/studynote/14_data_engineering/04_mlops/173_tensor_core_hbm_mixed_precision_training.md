@@ -240,3 +240,14 @@ FP8 / Transformer Engine / larger-scale model training
 1. Tensor Core는 곱셈을 아주 잘하는 전용 계산기이고, HBM은 그 계산기에 문제지를 빨리 나르는 [[148_5g_embb_urllc_mmtc|초고속]] 선반이에요.
 2. 혼합 [[233_precision_recall_f1_roc_auc_threshold|정밀도]] 학습은 연습장은 가벼운 연필로 빨리 쓰고, 중요한 답은 진한 펜으로 다시 적는 방법이에요.
 3. 그래서 컴퓨터는 더 많은 문제를 더 빨리 풀면서도 정답을 틀리지 않게 도와줄 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 173 / 258
+
+← **이전**: [[172_distributed_training_data_model_parallelism|172. GPU 인프라 분산 학습 (Data Parallelism vs Model Parallelism)]]
+**다음**: [[174_llmops_prompt_template_rag_pipeline|174. LLMOps (Large Language Model Operations) - 프롬프트 템플릿 관리, RAG 벡터 DB 동기화,]] →
+
+---

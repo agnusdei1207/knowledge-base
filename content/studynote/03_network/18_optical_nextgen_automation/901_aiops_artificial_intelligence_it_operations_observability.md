@@ -131,3 +131,14 @@ AIOps는 [[900_fso_free_space_optics_hybrid_rf_backup|무선 광통신]] 대기�
 1. 엄청 빠른 빛 자동차와 똑똑한 로봇 교통정리원이 함께 일하는 미래 도시와 같아요.
 2. 이 개념은 빛처럼 빠르게 보내면서도 스스로 상태를 보고 길을 고치게 해줘요.
 3. 그래서 더 큰 인터넷도 사람 손을 덜 타고 잘 움직일 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 1022 / 1120
+
+← **이전**: [[900_fso_free_space_optics_hybrid_rf_backup|900. 무선 광통신 (FSO)]]
+**다음**: [[902_adn_autonomous_driving_network_level5_zero_touch|902. 자율-구동 네트워크 (ADN)]] →
+
+---

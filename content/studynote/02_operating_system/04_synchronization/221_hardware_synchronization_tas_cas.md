@@ -184,3 +184,14 @@ CAS가 아무리 완벽해 보여도 "값만 비교한다"는 맹점이 있다.
 1. 하드웨어적 [[212_synchronization_mechanisms|동기화]] (TAS, [[768_cas_compare_and_swap_lock_free|CAS]])은 컴퓨터가 여러 친구가 동시에 만져도 부딪히지 않게 순서를 맞추는 규칙이에요.
 2. 먼저 무중단 [[629_live_migration_pre_copy|라이브 마이그레이션]] 스케줄링 고려사항을 이해하면 하드웨어적 [[212_synchronization_mechanisms|동기화]] (TAS, [[768_cas_compare_and_swap_lock_free|CAS]])이 왜 필요한지 더 쉽게 보여요.
 3. 그래서 하드웨어적 [[212_synchronization_mechanisms|동기화]] (TAS, [[768_cas_compare_and_swap_lock_free|CAS]])을 잘 알면 나중에 [[214_critical_section|임계 구역]] ([[214_critical_section|Critical Section]])도 훨씬 쉽게 배울 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 221 / 800
+
+← **이전**: [[220_petersons_algorithm|220. 피터슨 알고리즘 (Peterson's Algorithm)]]
+**다음**: [[222_spinlock|222. 스핀락 (Spinlock)]] →
+
+---

@@ -103,3 +103,14 @@ tags:
 1. [[531_cloud_native_architecture|클라우드 네이티브]]는 처음부터 **바다(클라우드)에서 살도록 태어난 물고기**예요.
 2. 옛날 방식은 **육지 동물을 바다에 던지는([[086_lift_association_rule_marketing|Lift]] & Shift)** 거라 잘 못 수영해요.
 3. 물고기처럼 설계하면 **파도(트래픽)가 커도 자유롭게** 헤엄칠 수 있답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 124 / 973
+
+← **이전**: [[123_serverless_faas_aws_lambda|123. 서버리스 & FaaS (Serverless / AWS Lambda) - 인프라 없는 함수 단위 컴퓨팅]]
+**다음**: [[125_12_factor_app_cloud_native_architecture|125. 12 Factor App - 클라우드 네이티브 애플리케이션 설계 12원칙]] →
+
+---

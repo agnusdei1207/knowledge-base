@@ -252,3 +252,14 @@ Cypher는 [[070_graph_datastructure|그래프]] 패턴 매칭에 특화된 선�
 1. Cypher는 [[083_relationship_in_er_model|관계]]를 화살표로 그림처럼 표현하는 언어 — `(홍길동)-[알아요]->(이몽룡)`처럼 쓰면 두 사람의 [[083_relationship_in_er_model|관계]]를 딱 표현할 수 있어요.
 2. `*1..3`은 "최대 3번 연결된 친구까지 찾아줘"라는 뜻 — 친구, 친구의 친구, 친구의 친구의 친구를 한 번에 검색해요.
 3. `MERGE`는 "있으면 그걸 써, 없으면 만들어줘"라는 스마트한 명령 — 중복 없이 안전하게 [[001_dikw_pyramid|데이터]]를 넣을 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 134 / 262
+
+← **이전**: [[133_graph_db|133. 그래프 데이터베이스 (Graph DB) — Neo4j/Amazon Neptune/Memgraph]]
+**다음**: [[135_time_series_db|135. 시계열 데이터베이스 (Time Series DB) — InfluxDB/TimescaleDB/QuestDB]] →
+
+---

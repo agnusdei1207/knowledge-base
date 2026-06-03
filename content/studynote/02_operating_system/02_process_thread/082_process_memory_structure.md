@@ -197,3 +197,14 @@ Heap과 Stack은 프로세스 실행 중에 크기가 변하므로 서로 충돌
 1. 프로세스 메모리 구조은 컴퓨터가 여러 일을 나눠서 처리하고 서로 기다리게 하는 약속이에요.
 2. 먼저 프로그램 (Program) vs 프로세스 ([[300_process|Process]])을 이해하면 프로세스 메모리 구조이 왜 필요한지 더 쉽게 보여요.
 3. 그래서 프로세스 메모리 구조을 잘 알면 나중에 [[083_bss_segment|BSS]] (Block Started by Symbol) 영역도 훨씬 쉽게 배울 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 82 / 800
+
+← **이전**: [[081_program_vs_process|081. 프로그램 vs 프로세스 (Program vs. Process)]]
+**다음**: [[083_bss_segment|83. BSS (Block Started by Symbol) 영역 - 초기화되지 않은 전역 변수]] →
+
+---

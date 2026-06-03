@@ -147,3 +147,14 @@ CAM 테이블(하드웨어 메모리)을 업데이트하는 작업 자체는 [[2
 1. 학교 우편함에 이름표가 붙어 있어야 편지가 엉뚱한 곳에 가지 않아요.
 2. 이 개념은 어느 교실로 보내야 할지 알아보는 [[104_classification_analysis|분류]] 규칙과 같아요.
 3. 그래서 같은 건물 안에서도 편지가 더 빠르고 질서 있게 움직여요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 373 / 1120
+
+← **이전**: [[251_looping_broadcast_storm|251. 루프 문제 (Looping)]]
+**다음**: [[253_spanning_tree_protocol_stp_ieee_802_1d|253. 스패닝 트리 프로토콜 (STP, Spanning Tree Protocol)]] →
+
+---

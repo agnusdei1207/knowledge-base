@@ -179,3 +179,14 @@ THP가 램 조각 512개를 모아서 2MB 거대 블록을 만들려는데, 연�
 1. [[377_numa_allocation|NUMA]] 환경의 [[381_virtual_memory|가상 메모리]] 스케줄링 ([[377_numa_allocation|NUMA]] 노드 별 [[286_page_frame|페이지]] 할당 / numactl)은 컴퓨터가 메모리를 더 크게 보이게 하고 부족함을 숨기는 방법이에요.
 2. 먼저 [[425_oom_killer_score|OOM Killer]] ([[425_oom_killer_score|Out-of-Memory]]) 작동 우선순위 점수 (oom_score) 매커니즘을 이해하면 [[377_numa_allocation|NUMA]] 환경의 [[381_virtual_memory|가상 메모리]] 스케줄링 ([[377_numa_allocation|NUMA]] 노드 별 [[286_page_frame|페이지]] 할당 / numactl)이 왜 필요한지 더 쉽게 보여요.
 3. 그래서 [[377_numa_allocation|NUMA]] 환경의 [[381_virtual_memory|가상 메모리]] 스케줄링 ([[377_numa_allocation|NUMA]] 노드 별 [[286_page_frame|페이지]] 할당 / numactl)을 잘 알면 나중에 캐시 친화적 [[381_virtual_memory|가상 메모리]] 관리 배치도 훨씬 쉽게 배울 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 426 / 800
+
+← **이전**: [[425_oom_killer_score|425. OOM Killer (Out-of-Memory) 작동 우선순위 점수 (oom_score) 매커니즘]]
+**다음**: [[427_cache_friendly_virtual_memory|427. 캐시 친화적 가상 메모리 관리 배치 (Cache Friendly Virtual Memory)]] →
+
+---

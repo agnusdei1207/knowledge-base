@@ -178,3 +178,14 @@ SSD는 [[256_flash_memory|플래시 메모리]] 소자가 닳아 없어지는 �
 1. [[369_logic_bomb|논리]]적 블록 주소 (LBA, Logical Block Address)은 컴퓨터가 디스크와 장치가 [[001_dikw_pyramid|데이터]]를 주고받는 길을 정리하는 방법이에요.
 2. 먼저 [[465_hdd_structure|하드 디스크 드라이브]] ([[465_hdd_structure|HDD]]) 구조을 이해하면 [[369_logic_bomb|논리]]적 블록 주소 (LBA, Logical Block Address)이 왜 필요한지 더 쉽게 보여요.
 3. 그래서 [[369_logic_bomb|논리]]적 블록 주소 (LBA, Logical Block Address)을 잘 알면 나중에 디스크 접근 시간 = [[324_seek_time|탐색 시간]]([[467_disk_access_time|Seek Time]]) + [[325_rotational_latency|회전 지연]]([[325_rotational_latency|Rotational Latency]]) + [[326_transfer_time|전송 시간]]([[326_transfer_time|Transfer Time]])도 훨씬 쉽게 배울 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 466 / 800
+
+← **이전**: [[465_hdd_structure|465. 하드 디스크 드라이브 (HDD) 구조 - 플래터, 트랙, 실린더, 섹터, 헤드]]
+**다음**: [[467_disk_access_time|467. 디스크 접근 시간 = 탐색 시간(Seek Time) + 회전 지연(Rotational Latency) + 전송 시간(Transfer]] →
+
+---

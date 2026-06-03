@@ -139,3 +139,14 @@ tags:
 1. [[379_delta_encoding_gorilla_compression|델타 인코딩]] [[347_compaction|압축]] [[178_parquet_rle_encoding_columnar_compression|파케이]] 컬럼 스토리지는 복잡한 일을 순서대로 정리해 주는 큰 정리함이에요.
 2. 어디에 무엇을 넣을지 먼저 정해 두면, 나중에 찾거나 고칠 때 훨씬 쉬워져요.
 3. 그래서 일이 커질수록 먼저 기준을 만들고 같이 약속하는 것이 중요해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 466 / 482
+
+← **이전**: [[465_optimizer_cbo_hash_join_plan|465. 옵티마이저 CBO 해시 조인 네스티드 루프 실행 계획 (CBO, Hash Join, Query Optimizer)]]
+**다음**: [[467_pqc_lattice_post_quantum_crypto|467. 양자 내성 암호 격자 기반 (PQC, Post-Quantum Cryptography)]] →
+
+---

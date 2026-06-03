@@ -177,3 +177,14 @@ C언어 프로그래머들이 가장 환장하는 버그다.
 1. 버퍼링 (Buffering)은 컴퓨터가 디스크와 장치가 [[001_dikw_pyramid|데이터]]를 주고받는 길을 정리하는 방법이에요.
 2. 먼저 I/O 서브시스템의 [[022_kernel_role|커널]] [[090_service_kubernetes_network_load_balancing|서비스]]을 이해하면 버퍼링 (Buffering)이 왜 필요한지 더 쉽게 보여요.
 3. 그래서 버퍼링 (Buffering)을 잘 알면 나중에 [[455_double_buffering|이중 버퍼링]] ([[455_double_buffering|Double Buffering]])도 훨씬 쉽게 배울 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 454 / 800
+
+← **이전**: [[453_io_subsystem_kernel_services|453. I/O 서브시스템의 커널 서비스 (I/O Subsystem Kernel Services)]]
+**다음**: [[455_double_buffering|455. 이중 버퍼링 (Double Buffering)]] →
+
+---

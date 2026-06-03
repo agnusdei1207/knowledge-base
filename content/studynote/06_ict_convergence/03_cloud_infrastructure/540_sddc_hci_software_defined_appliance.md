@@ -131,3 +131,14 @@ tags:
 1. SDDC는 집의 모든 가전제품을 하나의 스마트홈 앱으로 제어하는 것처럼, 서버·저장소·네트워크를 소프트웨어 하나로 관리해요.
 2. HCI는 컴퓨터, 저장소, 네트워크를 한 박스에 넣은 것 — 블록처럼 쌓을수록 [[282_performance_tactics|성능]]이 커져요.
 3. 기존 방식은 엔진, 바퀴, 핸들을 따로 사서 조립하는 것, HCI는 완성된 자동차를 바로 구매하는 것이에요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 540 / 552
+
+← **이전**: [[539_cloud_migration_6r_strategy|539. 클라우드 마이그레이션 6R 전략 (Cloud Migration 6R Strategy)]]
+**다음**: [[541_bare_metal_cloud_no_hypervisor|541. 베어메탈 클라우드 가상화 오버헤드 없는 서비스 (Bare Metal Cloud No Hypervisor)]] →
+
+---

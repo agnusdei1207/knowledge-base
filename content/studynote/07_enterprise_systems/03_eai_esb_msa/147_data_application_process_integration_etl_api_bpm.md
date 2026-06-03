@@ -189,3 +189,14 @@ EDA (Event-Driven Architecture) / Data Mesh (차세대)
 1. 회사에는 영업팀, 창고팀, 재무팀이 각자 다른 컴퓨터 프로그램(시스템)을 써요. **[[215_etl_vs_elt_pipeline|ETL]]**은 각 팀의 [[001_dikw_pyramid|데이터]]를 모아 하나의 큰 보고서로 만드는 것, **[[014_api_posix|API]]**는 팀끼리 실시간으로 연락하는 것, **[[199_bpm_business_process_management_orchestrator|BPM]]**은 "주문 → [[396_validation|확인]] → 배송 → 결제" 과정을 자동으로 처리하는 규칙이에요!
 2. 예전에는 모든 팀이 직접 전화([[916_p2p_peer_to_peer_networking_super_node_gnutella|P2P]] 통합)를 걸었는데, 선이 너무 복잡해져서 지금은 **교환기([[146_esb_enterprise_service_bus_architecture|ESB]]/[[542_api_gateway|API Gateway]])** 를 통해 체계적으로 연결해요.
 3. 세 가지가 모두 갖춰지면 **회사 전체가 하나의 로봇처럼** 움직여요 — 고객이 주문하면 자동으로 재고가 줄고, 배송이 시작되고, 영수증이 발행됩니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 147 / 482
+
+← **이전**: [[146_esb_enterprise_service_bus_architecture|146. ESB (Enterprise Service Bus) - 엔터프라이즈 서비스 버스]]
+**다음**: [[148_soa_service_oriented_architecture|148. SOA (Service Oriented Architecture) - 서비스 지향 아키텍처 (2000년대 후반 엔터프라이즈 표준)]] →
+
+---

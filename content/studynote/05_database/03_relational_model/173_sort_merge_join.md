@@ -170,3 +170,14 @@ Reuse ordered result for group/order analytics
 1. 두 카드 [[459_dummy_test_double|더미]]를 숫자 순서대로 먼저 예쁘게 줄 세워요.
 2. 그다음 맨 앞 카드끼리만 비교하면서 작은 쪽을 앞으로 넘겨요.
 3. 그래서 이리저리 다시 찾지 않아도 끝까지 한 번에 짝을 맞출 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 173 / 600
+
+← **이전**: [[172_nl_join_nested_loop|172. 중첩 루프 조인 (NL Join, Nested Loop Join)]]
+**다음**: [[174_hash_join|174. 해시 조인 (Hash Join) - 작은 테이블로 해시 맵 생성 후 큰 테이블 탐색, 대량 데이터/동등(=) 조인 전용, 성능]] →
+
+---

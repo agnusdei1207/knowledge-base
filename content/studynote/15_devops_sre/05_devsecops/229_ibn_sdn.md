@@ -134,3 +134,14 @@ Reference Architecture
 1. [[199_intent_based_networking_ibn_ai_traffic_routing|인텐트 기반 네트워킹]]은 복잡한 일을 순서와 규칙으로 정리해서 실수하지 않게 도와주는 방법이에요.
 2. Controller 같은 친구들과 같이 움직여야 더 잘 작동해요.
 3. 그래서 문제가 생겨도 어디서 틀렸는지 빨리 찾고 다시 고치기 쉬워져요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 229 / 373
+
+← **이전**: [[228_sddc_sdn_vxlan|228. SDDC (소프트웨어 정의 데이터센터) SDN 기반 클라우드 가상 스위치 VXLAN]]
+**다음**: [[230_finops_ri|230. 클라우드 비용 효율 FinOps 프레임워크 최적화 (RI, 스팟 인스턴스, 핫-콜드 스토리지 티어링)]] →
+
+---

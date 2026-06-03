@@ -132,3 +132,14 @@ Slowly Changing Dimension ([[277_scd_slowly_changing_dimension_modeling|SCD]] Ty
 1. 여러 상자에 있던 블록을 큰 정리장에 모아 보고 싶은 모양대로 다시 보는 거예요.
 2. 빨리 넣는 법과 빨리 보는 법은 다를 수 있어요.
 3. 그래서 창고를 어떻게 나누고 언제 정리할지 정해야 해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 575 / 600
+
+← **이전**: [[574_conformed_dimension|574. 데이터 마트 콘포밍 차원 (Conformed Dimension) 킴볼 버스 구조]]
+**다음**: [[576_factless_fact_table_event_tracking_coverage|576. 팩트리스 팩트 테이블 (Factless Fact Table) 이벤트 추적 차원 교차망 모델]] →
+
+---

@@ -115,3 +115,14 @@ OpenTelemetry
 
 > 🧒 **어린이 비유**
 > OTel은 모든 가전제품의 리모컨을 하나로 통합하는 만능 리모컨이에요. 어떤 TV(백엔드)에도 같은 버튼(SDK)으로 조종할 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 322 / 373
+
+← **이전**: [[321_trace_id|Distributed Tracing Trace ID]]
+**다음**: [[323_process|Prometheus Grafana Monitoring]] →
+
+---

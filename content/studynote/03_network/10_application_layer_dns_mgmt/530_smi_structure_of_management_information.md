@@ -126,3 +126,14 @@ SMI는 [[529_mib_oid_snmp_architecture|MIB]] / OID에서 출발해 현재 메커
 1. 친구 이름을 전화번호부에서 찾는 것처럼 컴퓨터도 이름과 번호를 연결해요.
 2. 이 개념은 누가 아픈지 살펴보는 건강검진표와 운영일지 역할도 해요.
 3. 그래서 문제가 나도 빨리 찾고 고칠 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 651 / 1120
+
+← **이전**: [[529_mib_oid_snmp_architecture|529. MIB (Management Information Base) / OID (Object Identifier)]]
+**다음**: [[531_snmp_v1_v2c_community_string|531. SNMPv1, v2c (Community String 노출 단점)]] →
+
+---

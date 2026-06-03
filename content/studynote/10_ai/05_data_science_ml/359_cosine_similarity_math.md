@@ -113,3 +113,14 @@ PPMI(Positive Pointwise [[152_mutual_information|Mutual Information]], 양의 �
 1. [[359_cosine_similarity|코사인 유사도]]는 "두 사람이 같은 방향을 바라보고 있는가"를 측정하는 거예요.
 2. 얼마나 멀리 있는지(거리)가 아니라, 같은 곳을 향하고 있는지(방향)만 보는 게 핵심이에요.
 3. 검색 AI가 "이 질문과 가장 관련 있는 문서"를 찾을 때 이 방법으로 수십억 개 중 1초 만에 찾아요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 359 / 420
+
+← **이전**: [[358_hierarchical_clustering|358. 계층적 군집화 (Hierarchical Clustering)]]
+**다음**: [[360_gmm_em_algorithm|360. GMM (Gaussian Mixture Model) 과 EM 알고리즘]] →
+
+---

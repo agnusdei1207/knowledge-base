@@ -186,3 +186,14 @@ POUR 원칙 → WCAG 2.1 → KWCAG 2.1 → WA 인증
 1. 웹 [[292_accessibility_kwcag_wcag|접근성]]은 모든 사람을 위한 계단 없는 건물이다 — 휠체어를 탄 사람도 경사로로 들어갈 수 있도록 처음부터 설계한다.
 2. 대체 텍스트는 그림책의 설명이다 — 눈이 보이지 않는 친구에게 그림 대신 "귀여운 강아지가 달리고 있어요"라고 읽어준다.
 3. 키보드 [[292_accessibility_kwcag_wcag|접근성]]은 마우스 없이 탭 키로만 웹을 쓸 수 있는 것이다 — 손을 못 쓰는 사람도 키보드만으로 모든 기능을 사용할 수 있어야 한다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 43 / 530
+
+← **이전**: [[033_function_point_verification|33. 기능점수 검증 (Function Point Verification)]]
+**다음**: [[034_audit_quality_management|감리 품질 관리 (Audit Quality Management)]] →
+
+---

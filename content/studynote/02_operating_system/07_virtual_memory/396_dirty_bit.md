@@ -172,3 +172,14 @@ OS는 희생양을 고를 때 이 두 [[073_bit|비트]]를 섞어서 4개의 �
 1. 변경 [[073_bit|비트]] (Modify [[086_fenwick_tree|Bit]] / Dirty [[086_fenwick_tree|Bit]])은 컴퓨터가 메모리를 더 크게 보이게 하고 부족함을 숨기는 방법이에요.
 2. 먼저 [[260_page_replacement|페이지 교체]] ([[260_page_replacement|Page Replacement]])의 필요성을 이해하면 변경 [[073_bit|비트]] (Modify [[086_fenwick_tree|Bit]] / Dirty [[086_fenwick_tree|Bit]])이 왜 필요한지 더 쉽게 보여요.
 3. 그래서 변경 [[073_bit|비트]] (Modify [[086_fenwick_tree|Bit]] / Dirty [[086_fenwick_tree|Bit]])을 잘 알면 나중에 [[397_frame_allocation|프레임 할당]] ([[397_frame_allocation|Frame Allocation]]) [[001_algorithm_definition|알고리즘]]도 훨씬 쉽게 배울 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 396 / 800
+
+← **이전**: [[395_page_replacement_algorithm|395. 페이지 교체 (Page Replacement)의 필요성 - 프레임 가용 공간 부족 시 (Over-allocation)]]
+**다음**: [[397_frame_allocation|397. 프레임 할당 (Frame Allocation) 알고리즘]] →
+
+---

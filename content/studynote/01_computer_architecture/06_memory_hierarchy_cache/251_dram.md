@@ -175,3 +175,14 @@ HBM (High Bandwidth Memory) · CXL (Compute Express Link) 메모리 확장
 1. DRAM은 물을 담아 두는 아주 작은 컵이 엄청 많이 모인 큰 창고예요.
 2. 그런데 컵의 물이 조금씩 새서, 컴퓨터가 잊어버리지 않게 계속 다시 채워 줘야 해요.
 3. 그래도 컵이 작고 싸서 아주 많은 기억을 넣을 수 있으니, 컴퓨터는 큰 창고 역할을 DRAM에게 맡기는 거예요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 251 / 803
+
+← **이전**: [[250_sram|250. SRAM (Static RAM)]]
+**다음**: [[252_sdram|252. SDRAM (Synchronous DRAM)]] →
+
+---

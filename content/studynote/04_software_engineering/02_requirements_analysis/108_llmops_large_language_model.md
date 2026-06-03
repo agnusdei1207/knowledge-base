@@ -133,3 +133,14 @@ LLMOps 통합 아키텍처 (프롬프트 형상 관리, RAG 파이프라인, 평
 1. LLMOps는 똑똑하지만 가끔 말도 안 되는 헛소리를 지어내는 외계인 친구([[190_ai_llm_requirements_specification|AI]])를 우리 학교 반장으로 만드는 훈련 시스템이에요.
 2. 외계인이 헛소리를 못 하게, 질문을 받으면 무조건 '우리 학교 교칙 책([[276_fine_tuning|RAG]])'을 먼저 찾아보고 거기 있는 말만 요약해서 대답하라고 단단히 훈련시켜요.
 3. 또 외계인이 밥([[014_api_posix|API]] 비용)을 너무 많이 먹지 않게, 똑같은 질문을 받으면 예전에 썼던 답을 그대로 복사해서 쓰도록 가계부도 꼼꼼히 관리해 준답니다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 108 / 973
+
+← **이전**: [[107_mlops_machine_learning_lifecycle|107. MLOps - 머신러닝 생명주기 관리]]
+**다음**: [[109_platform_engineering_cognitive_load|109. 플랫폼 엔지니어링 (Platform Engineering) - 개발자 인지 부하 해소와 IDP 셀프서비스]] →
+
+---

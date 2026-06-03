@@ -149,3 +149,14 @@ Modern Data Design
 릴레이션은 여러 정보를 칸칸이 나눠 적은 표예요.  
 표의 모양은 [[005_schema|스키마]]이고, 실제 적힌 내용은 인스턴스예요.  
 그래서 [[001_dikw_pyramid|데이터]]가 헷갈리지 않게 정리할 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 61 / 600
+
+← **이전**: [[060_serverless_database_aurora|60. 서버리스 데이터베이스 (Serverless DB) - Amazon Aurora Serverless 등 자동 확장 아키텍처]]
+**다음**: [[062_relation_attribute_degree|62. 속성 (Attribute / Column / Degree) - 릴레이션의 열 (차수)]] →
+
+---

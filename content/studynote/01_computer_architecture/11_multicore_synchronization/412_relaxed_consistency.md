@@ -176,3 +176,14 @@ tags:
 1. 완화된 [[194_consistency_database_integrity|일관성]]은 여러 친구가 장난감을 정리할 때, 꼭 번호 순서대로 하지 않고 빨리 끝나는 것부터 먼저 치우는 방법이에요.
 2. 그래서 방은 더 빨리 정리되지만, 다른 친구는 "저 장난감은 아직 안 치웠네?" 하고 헷갈릴 수 있어요.
 3. 그래서 정말 중요한 순간에는 "이 상자는 다 정리한 뒤에만 문을 닫자!" 같은 약속표가 꼭 필요하답니다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 413 / 803
+
+← **이전**: [[411_sequential_consistency|411. 순차적 일관성 (Sequential Consistency)]]
+**다음**: [[413_hardware_synchronization|413. 하드웨어 동기화 (Hardware Synchronization)]] →
+
+---

@@ -104,3 +104,14 @@ tags:
 1. 사실 근거는 학교에서 준비물을 미리 챙기는 것처럼, 중요한 기준을 먼저 맞추는 일이야.
 2. [[173_stakeholder_identification_impact_matrix|이해관계자]] 정렬은 선생님이 수업 중간에 계속 확인하는 것처럼, 실제로 잘 되고 있는지 보는 과정이야.
 3. 에스컬레이션은 시험 결과표처럼, 정말 효과가 있었는지 나중에 다시 확인하게 해주는 증거야.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 326 / 530
+
+← **이전**: [[264_audit_corrective_action_major_minor|264. 감리 시정조치 Major/Minor 분리 (Audit Corrective Action Major Minor Classification)]]
+**다음**: [[266_data_governance_metadata_standard|266. 데이터 거버넌스 메타데이터 표준 감리 (Data Governance Metadata Standard Audit)]] →
+
+---

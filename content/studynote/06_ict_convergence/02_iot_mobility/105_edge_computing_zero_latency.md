@@ -127,3 +127,14 @@ MEC (Multi-access Edge Computing) · 5G 인프라와 엣지의 결합
 1. 숙제를 하다가 모르는 게 생겼을 때, 미국에 있는 선생님(클라우드)에게 편지를 보내서 답을 받으려면 한 달이 걸려요.
 2. [[235_edge_computing_smart_factory|엣지 컴퓨팅]]은 내 방에 똑똑한 '미니 [[231_ai_turing_test|인공지능]] 로봇(엣지)'을 두는 거랑 똑같아요.
 3. 이제는 모르는 게 생기면 방에 있는 미니 로봇에게 바로 물어봐서 1초 만에 숙제를 끝낼 수 있고, 로봇이 진짜 모르는 어려운 것만 미국 선생님에게 물어본답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 105 / 552
+
+← **이전**: [[104_tinyos_riot_freertos_micro_os|104. 초소형 운영체제 (TinyOS, RIOT, FreeRTOS)]]
+**다음**: [[106_fog_computing_cisco_architecture|106. 포그 컴퓨팅 (Fog Computing) - 시스코 제안, 클라우드와 엣지 사이의 지역 노드(게이트웨이) 단에서 분산 처리]] →
+
+---

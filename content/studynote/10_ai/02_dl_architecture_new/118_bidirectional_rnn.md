@@ -109,3 +109,14 @@ Bi-RNN은 **BERT가 양방향 [[246_transformer_self_attention_parallel_position
 1. [[008_단방향_반이중_전이중|단방향]] RNN은 소설을 **앞에서부터만** 읽어서, 뒤에 나올 내용을 모르고 판단해요.
 2. 양방향 RNN은 **앞뒤를 동시에** 읽어서 "이 단어는 뒤의 내용을 보면 이런 뜻이야!"라고 정확히 이해해요.
 3. BERT는 이 아이디어를 **더 똑똑하게 발전**시킨 모델이에요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 118 / 420
+
+← **이전**: [[117_gru|117. GRU (Gated Recurrent Unit) - LSTM 간소화·Reset Gate·Update Gate]]
+**다음**: [[119_seq2seq_model|119. Seq2Seq 모델 (Sequence-to-Sequence) - 인코더-디코더 시퀀스 변환 아키텍처]] →
+
+---

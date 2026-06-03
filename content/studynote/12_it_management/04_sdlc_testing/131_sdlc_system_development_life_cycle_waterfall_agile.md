@@ -129,3 +129,14 @@ tags:
 1. 시스템 개발 생명주기 (SDLC) 프로세스 관리는 모두가 같은 규칙으로 일하게 해 주는 반장 약속표예요.
 2. 약속만 적어 두는 것이 아니라 누가 지켰는지 확인하고 고치는 방법까지 함께 정해요.
 3. 그래서 일이 많아져도 서로 부딪히지 않고 더 안전하게 움직일 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 245 / 587
+
+← **이전**: [[130_digital_business_transformation_monolithic_to_msa_strangler_fig|130. 디지털 비즈니스 혁신 (Digital Business Transformation) 아키텍처 전환망 설계 (모놀리식 -> 클라우드/MSA]]
+**다음**: [[132_v_model_sdlc_verification_validation_testing|132. V 모델 (V-Model)]] →
+
+---

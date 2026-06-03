@@ -205,3 +205,14 @@ tags:
 1. 이중 [[454_buffering|버퍼링]] (Double [[454_buffering|Buffering]])은 컴퓨터가 디스크와 장치가 데이터를 주고받는 길을 정리하는 방법이에요.
 2. 먼저 [[454_buffering|버퍼링]] ([[454_buffering|Buffering]])을 이해하면 이중 [[454_buffering|버퍼링]] (Double [[454_buffering|Buffering]])이 왜 필요한지 더 쉽게 보여요.
 3. 그래서 이중 [[454_buffering|버퍼링]] (Double [[454_buffering|Buffering]])을 잘 알면 나중에 [[456_caching|캐싱]] ([[456_caching|Caching]])도 훨씬 쉽게 배울 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 455 / 800
+
+← **이전**: [[454_buffering|454. 버퍼링 (Buffering) - 송수신자 간 데이터 전송 속도 차이, 전송 단위 차이 극복]]
+**다음**: [[456_caching|456. 캐싱 (Caching) - 자주 사용하는 데이터 복사본 유지 (속도 빠른 메모리 활용)]] →
+
+---

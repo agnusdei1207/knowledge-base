@@ -175,3 +175,14 @@ One-Class SVM (이상 탐지)
 1. SVM은 빨간 공과 파란 공을 나누는 선을 그을 때, 두 무리 사이에 가장 넓은 통로를 만드는 [[001_algorithm_definition|알고리즘]]이에요.
 2. 직선으로 나눌 수 없을 때는 [[022_kernel_role|커널]]이라는 마법으로 공들을 더 높은 차원으로 올려 직선으로 나눠요.
 3. [[001_dikw_pyramid|데이터]]가 많지 않고 특성이 복잡한 의학·보안 분야에서 지금도 자주 쓰인답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 36 / 420
+
+← **이전**: [[035_xgboost_lightgbm|035. XGBoost & LightGBM]]
+**다음**: [[037_svm_kernel_trick|037. SVM 커널 트릭 (Kernel Trick)]] →
+
+---

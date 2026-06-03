@@ -134,3 +134,14 @@ Reference Architecture
 1. [[179_kafka_flink_watermark_time_window|카프카]] [[123_pipe|파이프]]라인 [[389_mesh_topology|메시]]지 [[003_integrity|무결성]] 통제망 [[005_schema|스키마]] [[235_registry_immutable_tag|레지스트리]]는 복잡한 일을 순서와 규칙으로 정리해서 실수하지 않게 도와주는 방법이에요.
 2. Topic 같은 친구들과 같이 움직여야 더 잘 작동해요.
 3. 그래서 문제가 생겨도 어디서 틀렸는지 빨리 찾고 다시 고치기 쉬워져요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 270 / 373
+
+← **이전**: [[269_mutation_testing_kill|269. 뮤테이션 테스팅 (Mutation Testing / 돌연변이 테스트)]]
+**다음**: [[271_ddl_liquibase|271. 데이터베이스 마이그레이션(DDL) 롤백 자동화 스크립팅 파이프 (Liquibase 롤백 태그 연동망)]] →
+
+---

@@ -114,3 +114,14 @@ Cell State는 행렬 곱셈이 아닌 **원소별 곱(Hadamard Product)**으로 
 1. 100명이 한 줄로 서서 **소문(기울기)을 전달**하면, 마지막 사람은 원래 이야기를 잊어버려요 (소실).
 2. LSTM은 중요한 이야기를 **금고(Cell [[272_state_pattern|State]])**에 넣어서, 100번째 사람도 정확히 기억하게 해줘요.
 3. Transformer는 아예 **첫 번째 사람에게 직접 물어볼 수** 있어서 전달할 필요조차 없답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 113 / 420
+
+← **이전**: [[112_hidden_state_recurrent_loop_context_memory|112. 은닉 상태와 순환 루프 (Hidden State & Recurrent Loop) - RNN의 문맥 기억 메커니즘]]
+**다음**: [[114_bptt_backpropagation_through_time|114. BPTT (Backpropagation Through Time) - 시간 축 역전파와 Truncated BPTT]] →
+
+---

@@ -138,3 +138,14 @@ tags:
 1. 비밀 편지를 보낼 때는 자물쇠와 비밀번호가 필요해요.
 2. 이 개념은 누가 진짜 친구인지 [[396_validation|확인]]하고, 편지가 바뀌지 않았는지도 살펴봐요.
 3. 그래서 나쁜 사람이 중간에 훔쳐보거나 바꾸기 어려워져요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 803 / 1120
+
+← **이전**: [[681_ssl_tls_secure_socket_layer|681. SSL/TLS (Secure Socket Layer / Transport Layer Security) 통신 모델 개요]]
+**다음**: [[683_cipher_suite_notation|683. Cipher Suite 모델 표기방식 예시 (TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) 이해 방식]] →
+
+---

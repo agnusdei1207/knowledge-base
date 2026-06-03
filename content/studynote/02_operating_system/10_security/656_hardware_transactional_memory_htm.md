@@ -220,3 +220,14 @@ HLE([[566_hardware_lock_elision|Hardware Lock Elision]])는 프로그래머가 �
 1. 방 안에 장난감 상자([[001_dikw_pyramid|데이터]])가 있어요. 원래는 한 명씩 열쇠([[510_lock|Lock]])를 받아 들어가서 장난감을 꺼내야 해서 줄이 엄청 길었어요.
 2. '하드웨어 [[191_transaction_concept_states|트랜잭션]]'은 아이들이 유령처럼 벽을 통과해서 동시에 상자에 손을 넣을 수 있게 해주는 마법이에요!
 3. 다들 겹치지 않게 서로 다른 장난감을 집으면 그대로 성공! 하지만 우연히 두 명이 똑같은 로봇을 집으려고 손이 부딪히면, 마법사가 "삑!" 호루라기를 불어 두 명을 방 밖으로 쫓아내고 다시 줄을 서게 한답니다. 줄 서는 시간이 확 줄어들겠죠?
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 656 / 800
+
+← **이전**: [[655_cpu_cache_coherence_mesi_pingpong|655. CPU 캐시 일관성 정책 (MESI 프로토콜) 이 커널 락(Lock)에 미치는 캐시라인 핑퐁(Ping-pong) 문제]]
+**다음**: [[657_vfio_virtual_function_io_passthrough|657. 가상화 I/O 패스스루 (Passthrough) VFIO 프레임워크]] →
+
+---

@@ -166,3 +166,14 @@ DMA (Direct Memory Access)
 1. [[448_polling_programmed_io|폴링]]은 친구가 왔는지 궁금해서 초인종을 기다리지 않고 문을 계속 열어보는 거예요.
 2. 그래서 친구를 빨리 볼 수는 있지만, 그동안 숙제나 놀이를 못 하고 계속 문만 보게 돼요.
 3. 컴퓨터도 아주 빨리 [[396_validation|확인]]해야 할 때만 이렇게 하고, 보통은 장치가 먼저 알려주게 만들어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 314 / 803
+
+← **이전**: [[312_programmed_io|312. 프로그램 제어 I/O (Programmed I/O)]]
+**다음**: [[314_interrupt_driven_io|314. 인터럽트 구동 I/O (Interrupt-driven I/O)]] →
+
+---

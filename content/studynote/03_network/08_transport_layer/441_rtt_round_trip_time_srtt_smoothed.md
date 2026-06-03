@@ -145,3 +145,14 @@ RTT, SRTT는 [[176_rto_recovery_time_objective|RTO]] 측정 방식에서 출발�
 1. 물건을 보낼 때 받는 사람이 너무 빨리 받으면 놓칠 수 있어요.
 2. 이 개념은 천천히 보낼지, 다시 보낼지, 길이 막히면 멈출지를 정해줘요.
 3. 그래서 멀리 보내도 덜 잃어버리고 더 안정적으로 도착해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 562 / 1120
+
+← **이전**: [[440_rto_retransmission_timeout_measurement|440. RTO (Retransmission TimeOut) 측정 방식]]
+**다음**: [[442_karns_algorithm_exclude_retransmitted_rtt|442. 칸 알고리즘 (Karn's Algorithm)]] →
+
+---

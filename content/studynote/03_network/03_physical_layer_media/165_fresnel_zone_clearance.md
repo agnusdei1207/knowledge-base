@@ -154,3 +154,14 @@ LOS 확인
 1. 전파는 실 한 가닥처럼 가는 게 아니라, 통통한 풍선 길처럼 넓게 지나가요.
 2. 그래서 가운데 줄만 비어 있어도 풍선 몸통이 나무에 닿으면 힘이 약해질 수 있어요.
 3. 무선 엔지니어는 그 풍선 길이 안전하게 지나가도록 탑 높이와 길을 미리 계산한답니다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 286 / 1120
+
+← **이전**: [[164_scattering_reflection_radio_waves|164. 산란 (Scattering) / 반사 (Reflection)]]
+**다음**: [[166_fspl_free_space_path_loss|166. 자유 공간 경로 손실 (FSPL, Free Space Path Loss)]] →
+
+---

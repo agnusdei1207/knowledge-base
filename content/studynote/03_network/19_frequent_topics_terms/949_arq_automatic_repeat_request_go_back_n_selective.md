@@ -135,3 +135,14 @@ Go-Back-N의 무식한 낭비를 박살 냅니다.
 1. 비슷한 이름의 장난감을 헷갈리지 않게 표를 붙이는 것과 같아요.
 2. 이 개념은 무엇이 어떻게 다른지 쉽게 구별하게 도와줘요.
 3. 그래서 시험에서도 실무에서도 말을 더 정확하게 쓸 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 1070 / 1120
+
+← **이전**: [[948_hamming_distance_error_detection_correction_code|948. 해밍 거리 (Hamming Distance)]]
+**다음**: [[950_hdlc_bit_stuffing_data_transparency_flag|950. HDLC 비트 스터핑 (Bit Stuffing)]] →
+
+---

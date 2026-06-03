@@ -130,3 +130,14 @@ Statistical Decision
 넘어야 할 [[025_baseline|기준선]]이 있어요.  
 실제 점수와 비교해요.  
 유의 수준과 p-value는 그런 규칙이에요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 68 / 258
+
+← **이전**: [[067_hypothesis_testing_null_alternative_p_value|67. 가설 검정 - 귀무 가설(H0) vs 대립 가설(H1)]]
+**다음**: [[069_type_1_2_error_statistical_power|69. 1종 오류와 2종 오류, 검정력(Power) - 오판의 리스크 관리]] →
+
+---

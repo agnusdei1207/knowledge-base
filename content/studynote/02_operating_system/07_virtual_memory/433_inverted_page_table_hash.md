@@ -179,3 +179,14 @@ tags:
 1. [[363_inverted_page_table|역 페이지 테이블]] 탐색 최적화 [[667_hash_function_integrity_one_way|해시 함수]] ([[363_inverted_page_table|Inverted Page Table]] Hash)은 컴퓨터가 메모리를 더 크게 보이게 하고 부족함을 숨기는 방법이에요.
 2. 먼저 [[379_cache_coloring|캐시 컬러링]] ([[379_cache_coloring|Cache Coloring]])에 의한 [[286_page_frame|페이지]] 매핑 최적화을 이해하면 [[363_inverted_page_table|역 페이지 테이블]] 탐색 최적화 [[667_hash_function_integrity_one_way|해시 함수]] ([[363_inverted_page_table|Inverted Page Table]] Hash)이 왜 필요한지 더 쉽게 보여요.
 3. 그래서 [[363_inverted_page_table|역 페이지 테이블]] 탐색 최적화 [[667_hash_function_integrity_one_way|해시 함수]] ([[363_inverted_page_table|Inverted Page Table]] Hash)을 잘 알면 나중에 [[434_asynchronous_page_fault|비동기식 페이지 폴트]] ([[434_asynchronous_page_fault|Asynchronous Page Faults]]) 핸들링도 훨씬 쉽게 배울 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 433 / 800
+
+← **이전**: [[432_cache_coloring_optimization|432. 캐시 컬러링 (Cache Coloring)에 의한 페이지 매핑 최적화]]
+**다음**: [[434_asynchronous_page_fault|434. 비동기식 페이지 폴트 (Asynchronous Page Faults) 핸들링]] →
+
+---

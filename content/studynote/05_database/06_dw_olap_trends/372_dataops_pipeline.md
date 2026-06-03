@@ -132,3 +132,14 @@ tags:
 1. 여러 상자에 있던 블록을 큰 정리장에 모아 보고 싶은 모양대로 다시 보는 거예요.
 2. 빨리 넣는 법과 빨리 보는 법은 다를 수 있어요.
 3. 그래서 창고를 어떻게 나누고 언제 정리할지 정해야 해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 372 / 600
+
+← **이전**: [[371_sql_injection_defense|371. SQL 인젝션 (SQL Injection) 공격 및 방어 수단 (Prepared Statement / 바인드 파라미터)]]
+**다음**: [[373_cold_hot_data_tiering|373. 콜드 데이터 (Cold Data) vs 핫 데이터 (Hot Data) 계층화(Tiering) 스토리지 아키텍처]] →
+
+---

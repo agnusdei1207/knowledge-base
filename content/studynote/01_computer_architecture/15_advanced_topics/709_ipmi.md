@@ -145,3 +145,14 @@ Redfish · HTTPS 기반 표준 자동화
 1. IPMI는 컴퓨터가 아파서 말을 못 해도, 옆방에 있는 관리 로봇에게 대신 물어볼 수 있는 비상 전화예요.
 2. 그래서 컴퓨터 화면이 멈춰도 전원을 껐다 켜거나 열이 너무 높은지 [[396_validation|확인]]할 수 있어요.
 3. 다만 오래된 비상 전화라서, 요즘은 더 안전하고 편한 Redfish라는 새 전화도 함께 쓰고 있답니다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 710 / 803
+
+← **이전**: [[708_nvme_queue_management|708. SMBIOS (System Management BIOS)]]
+**다음**: [[710_bmc|710. BMC (Baseboard Management Controller)]] →
+
+---

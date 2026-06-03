@@ -180,3 +180,14 @@ ZTNA + Micro-Segmentation + Continuous Telemetry
 1. [[667_zero_trust_runtime_integrity_measurement|제로 트러스트]]는 학교 안에 들어왔다고 해서 아무 교실이나 들어가게 하지 않는 규칙이에요.
 2. 문을 열 때마다 누구인지, 어떤 준비물을 가졌는지, 지금 들어가도 되는지 다시 확인해요.
 3. 그래서 나쁜 사람이 한 번 안으로 들어와도 다른 방으로 쉽게 돌아다니지 못해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 298 / 587
+
+← **이전**: [[183_network_linkage_system|183. 망연계 시스템 (Network Linkage System)]]
+**다음**: [[185_access_control_mac_dac_rbac_abac|185. 접근 제어 메커니즘 (Access Control: MAC, DAC, RBAC, ABAC)]] →
+
+---

@@ -137,3 +137,14 @@ tags:
 1. [[341_process|CAP]] 정리는 "완벽하게 예쁘고(C), 절대 고장 안 나고(A), 아무 데서나 쓸 수 있는(P)" 3가지 소원을 들어주는 지니는 세상에 없다는 법칙이에요.
 2. 인터넷이 끊어지는 상황(P)은 무조건 일어나기 때문에, 우리는 "좀 틀려도 계속 돌아가는 장난감([[572_ap_access_point_ds_distribution_system|AP]])"을 고를지, "틀릴 바엔 아예 멈춰버리는 장난감([[086_CP_순환_전치_GI|CP]])"을 고를지 딱 2개 중에 하나만 선택해야 해요.
 3. 은행처럼 돈이 틀리면 큰일 나는 곳은 멈추는 걸([[086_CP_순환_전치_GI|CP]]) 고르고, 유튜브처럼 댓글 하나 늦게 보여도 괜찮은 곳은 안 멈추는 걸([[572_ap_access_point_ds_distribution_system|AP]]) 고르는 똑똑한 포기 방법이랍니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 240 / 371
+
+← **이전**: [[240_time_series_database_influxdb_prometheus|240. 시계열 데이터베이스 (TSDB: InfluxDB, Prometheus)]]
+**다음**: [[242_pacelc_theorem_distributed_tradeoffs|242. PACELC 정리 (PACELC)]] →
+
+---

@@ -151,3 +151,14 @@ tags:
 1. 보안 절차 매뉴얼은 소방 훈련 교본이에요! 화재 시 어떤 순서로, 누가, 무엇을 해야 하는지 하나하나 적혀 있어요.
 2. 매뉴얼이 있으면 위기 상황에서 누구나 같은 방식으로 행동해서 실수가 줄어들어요.
 3. 요즘은 SOAR라는 로봇이 이 매뉴얼을 자동으로 실행해줘서, 사람보다 훨씬 빠르게 보안 사고에 대응할 수 있답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 25 / 1108
+
+← **이전**: [[024_security_guidelines_implementation|24. 정보보안 지침 구현 (Security Guidelines Implementation)]]
+**다음**: [[026_risk_management_process|26. 위험 관리 프로세스 (Risk Management Process) — 정보보안 위험 식별·평가·처리 체계]] →
+
+---

@@ -137,3 +137,14 @@ Agentic Workflow
 RPA는 귀찮은 숙제를 대신 써 주는 똑똑한 로봇이에요.  
 [[240_hyperautomation_hybrid_workforce|초자동화]]는 숙제만이 아니라, 어떤 숙제를 먼저 해야 하는지도 같이 정해 주는 팀이에요.  
 그래서 사람은 더 중요한 생각을 할 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 104 / 587
+
+← **이전**: [[059_bimodal_it_mode1_mode2_strategy|59. 바이모달 IT (Bimodal IT) - Mode 1 / Mode 2 전략]]
+**다음**: [[061_bloomfilter|61. 블룸 필터 (Bloom Filter) - 확률적 집합 멤버십 검사]] →
+
+---

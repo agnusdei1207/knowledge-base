@@ -209,3 +209,14 @@ print(next(result_gen))  # 이 줄에서 비로소 첫 번째 값만 연산
 
 ---
 > **🛡️ Expert [[395_verification_process_review|Verification]]:** 본 문서는 [[380_computational_graph_lazy_eager_execution|Lazy]] Evaluation의 [[324_functional_programming_core|함수형 프로그래밍]] 이론적 기반과 Apache Spark에서의 실습적 구현을 모두 [[395_verification_process_review|검증]]하였습니다. (Verified at: 2026-04-05)
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 54 / 262
+
+← **이전**: [[053_rdd|02. RDD (Resilient Distributed Dataset) — 불변 분산 데이터셋]]
+**다음**: [[055_spark_sql_dataframe|04. Spark SQL & DataFrame — 정형 데이터 처리 및 최적화]] →
+
+---

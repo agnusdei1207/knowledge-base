@@ -176,3 +176,14 @@ tags:
 1. 익명 메모리 (Anonymous Memory)은 컴퓨터가 메모리를 더 크게 보이게 하고 부족함을 숨기는 방법이에요.
 2. 먼저 [[390_swap_space|스왑 공간]] ([[390_swap_space|Swap Space]]) / 베이킹 스토어 (Backing Store)을 이해하면 익명 메모리 (Anonymous Memory)이 왜 필요한지 더 쉽게 보여요.
 3. 그래서 익명 메모리 (Anonymous Memory)을 잘 알면 나중에 [[392_file_backed_memory|파일 지원 메모리]] ([[392_file_backed_memory|File-backed Memory]])도 훨씬 쉽게 배울 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 391 / 800
+
+← **이전**: [[390_swap_space|390. 스왑 공간 (Swap Space) / 베이킹 스토어 (Backing Store)]]
+**다음**: [[392_file_backed_memory|392. 파일 지원 메모리 (File-backed Memory) - 실행 파일, 공유 라이브러리]] →
+
+---

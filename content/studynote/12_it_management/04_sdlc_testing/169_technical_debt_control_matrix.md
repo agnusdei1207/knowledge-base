@@ -156,3 +156,14 @@ tags:
 1. [[100_technical_debt_monitoring_release_policy|기술 부채]]는 방을 빨리 치우려고 물건을 아무 데나 넣어 두는 것과 비슷해요.
 2. 통제 매트릭스는 어떤 물건은 지금 치워야 하고, 어떤 것은 나중에 정리해도 되는지 알려주는 표예요.
 3. 그래서 중요한 문제부터 고치면 방도 빨리 깨끗해지고, 다시 어지러워지는 것도 줄일 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 283 / 587
+
+← **이전**: [[168_risk_response_strategies|168. 프로젝트 리스크 대응 전략 (Risk Response Strategies)]]
+**다음**: [[170_procurement_contract_types|170. 조달 계약 방식 (Procurement Contract Types)]] →
+
+---

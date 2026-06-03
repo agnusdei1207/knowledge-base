@@ -135,3 +135,14 @@ GitHub Actions는 [[090_configuration_item|CI]]/CD라는 거대하고 무거운 
 1. GitHub Actions는 우리가 만든 레고 조각(코드)을 조립 설명서(YAML)와 함께 마법 상자에 넣어두면 켜지는 요술 공장이에요.
 2. 예전에는 내가 직접 레고를 조립하고 페인트를 칠해서 전시장에 갖다 놔야 해서 너무 힘들고 실수도 많았죠.
 3. 이제는 상자에 레고를 던져넣기만 하면, 공장의 요정들이 순식간에 나타나 조립하고 튼튼한지 검사한 다음 예쁘게 포장해서 백화점(서버) 진열대까지 알아서 올려놓는답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 73 / 373
+
+← **이전**: [[072_declarative_pipeline_jenkinsfile_as_code|72. 선언적 파이프라인 - Jenkinsfile (Pipeline as Code)]]
+**다음**: [[074_gitlab_ci_cd_pipeline_automation|74. GitLab CI/CD - 파이프라인 자동화]] →
+
+---

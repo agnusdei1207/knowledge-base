@@ -134,3 +134,14 @@ tags:
 1. [[206_serverless_cold_start|서버리스]]는 불을 켤 때만 전기 요금을 내는 것처럼, 함수가 실행될 때만 비용이 발생해요.
 2. 서버를 직접 관리하지 않아도 되니까 개발자는 코드 작성에만 집중할 수 있어요.
 3. 하지만 처음 불을 켤 때 약간의 준비 시간([[559_serverless_cold_start_mitigation|콜드 스타트]])이 필요해요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 183 / 530
+
+← **이전**: [[126_strangler_fig_pattern|126. 스트랭글러 피그 패턴 (Strangler Fig Pattern)]]
+**다음**: [[128_micro_frontends|128. 마이크로 프론트엔드 (Micro Frontends)]] →
+
+---

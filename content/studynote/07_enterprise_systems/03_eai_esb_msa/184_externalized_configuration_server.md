@@ -197,3 +197,14 @@ tags:
 1. 외부화된 [[009_config|설정]] 서버는 같은 장난감 자동차를 집과 놀이터에서 다르게 움직이게 하려고, 바깥에서 바퀴와 배터리 [[009_config|설정]]을 바꿔 주는 상자예요.
 2. 그래서 자동차를 새로 만들지 않아도 장소에 맞게 바로 쓸 수 있어요.
 3. 하지만 중요한 열쇠는 따로 안전한 상자에 넣고, 아무 버튼이나 함부로 바꾸면 안 돼요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 184 / 482
+
+← **이전**: [[183_microservice_chassis_pattern|183. 마이크로서비스 샤시 (Microservice Chassis) - 공통 뼈대 패턴]]
+**다음**: [[185_log_aggregation_fluentd_elasticsearch|185. 로그 수집 통합 (Log Aggregation) 아키텍처 - Fluentd -> Elasticsearch 파이프라인]] →
+
+---

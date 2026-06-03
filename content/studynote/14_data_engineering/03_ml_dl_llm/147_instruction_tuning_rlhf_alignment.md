@@ -193,3 +193,14 @@ Self-Play / 자율 정렬 (미래)
 1. AI가 처음 공부할 때(사전 학습)는 엄청 많은 책을 읽고 다음 단어를 맞히는 훈련만 해요. 하지만 **인스트럭션 튜닝**을 하면 "요약해줘", "번역해줘" 같은 **선생님 역할을 하는 방법**을 배워요!
 2. **[[250_rlhf_human_feedback_reinforcement_alignment_cot|RLHF]]**는 AI가 여러 답을 내면 사람이 "이 답이 더 좋아!"라고 알려줘서, AI가 사람이 좋아하는 방식으로 대답하도록 **피드백으로 교정**하는 과정이에요.
 3. ChatGPT·Claude·Gemini 모두 이 두 과정을 거쳐서 **단순 자동완성 로봇에서 대화 [[190_ai_llm_requirements_specification|AI]] 어시스턴트로 변신**했어요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 147 / 258
+
+← **이전**: [[146_quantization_qlora_model_compression|146. 양자화 & QLoRA - 모델 압축과 효율적 학습]]
+**다음**: [[148_rlhf_human_feedback_reinforcement|148. RLHF (인간 피드백 기반 강화학습) - 인간 피드백 정렬]] →
+
+---

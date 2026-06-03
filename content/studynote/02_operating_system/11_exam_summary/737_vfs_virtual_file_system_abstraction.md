@@ -200,3 +200,14 @@ C언어로 짜인 리눅스 [[022_kernel_role|커널]]이 완벽한 '객체 지�
 1. 철수네 식당에는 프랑스인, 중국인, 일본인 요리사(실제 [[501_file_definition_logical_record|파일]] 시스템)가 각자 자기 나라 말로만 주문을 받아요.
 2. 철수(앱)가 프랑스어나 중국어를 배워서 주문(C언어 코딩)하려면 너무 머리가 아프겠죠?
 3. 그래서 주방장([[517_virtual_file_system_vfs|VFS]] 가상 [[501_file_definition_logical_record|파일]] 시스템)을 고용했어요! 철수가 한국어로 "김치찌개 줘!"라고 주방장에게 말하면, 주방장이 알아서 요리사 나라에 맞는 언어로 통역해서 주문을 넣어줘요. 철수는 한국어만 알아도 전 세계 요리를 다 시킬 수 있답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 737 / 800
+
+← **이전**: [[736_hard_link_vs_symbolic_link|736. 하드 링크 / 심볼릭 링크 차이 (Hard Link Vs Symbolic Link)]]
+**다음**: [[738_buffer_cache_file_io_delayed_write|738. 버퍼 캐시 파일 입출력 지연 (Buffer Cache File I/O Delayed Write)]] →
+
+---

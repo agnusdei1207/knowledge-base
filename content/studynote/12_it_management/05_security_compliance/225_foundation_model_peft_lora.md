@@ -130,3 +130,14 @@ tags:
 1. 파운데이션 모델 (Foundation Model) [[132_transfer_learning|전이 학습]] 및 파라미터 효율적 [[133_fine_tuning|미세 조정]] ([[306_peft_lora|PEFT]] / [[617_lora_lorawan_css_chirp_spread_spectrum|LoRA]] 기법) 도입 경제성 검토는 모두가 같은 규칙으로 일하게 해 주는 반장 약속표예요.
 2. 약속만 적어 두는 것이 아니라 누가 지켰는지 확인하고 고치는 방법까지 함께 정해요.
 3. 그래서 일이 많아져도 서로 부딪히지 않고 더 안전하게 움직일 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 339 / 587
+
+← **이전**: [[224_prompt_engineering_guideline|224. 팩트 기반 프롬프트 엔지니어링 (Prompt Engineering) 가이드라인 제정]]
+**다음**: [[226_ai_ethics_governance_eu_ai_act|226. AI 거버넌스 및 윤리 (AI Ethics & Governance) 가이드라인 제정]] →
+
+---

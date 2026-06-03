@@ -111,3 +111,14 @@ tags:
 1. [[001_dikw_pyramid|데이터]] 전송 객체 ([[001_dikw_pyramid|Data]] Transfer Object, DTO)은 선생님께 전달할 메모를 공책 전체가 아니라 필요한 내용만 적어 보내는 것처럼 약속을 먼저 정하는 거예요.
 2. 그러면 서로 다른 사람이 해도 같은 규칙으로 움직일 수 있어요.
 3. 그래서 규모가 커질수록 전달용 [[001_dikw_pyramid|데이터]] 형태를 별도로 정의하는 일이 더 중요해져요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 479 / 530
+
+← **이전**: [[400_process|400. 해석자 패턴 (Interpreter Pattern)]]
+**다음**: [[402_process|402. 데이터 접근 객체 (Data Access Object, DAO)]] →
+
+---

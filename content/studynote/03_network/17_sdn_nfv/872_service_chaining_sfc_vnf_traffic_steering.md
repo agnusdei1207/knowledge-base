@@ -125,3 +125,14 @@ tags:
 1. 장난감 차를 움직이는 조종기와 차체를 따로 생각하면 바꾸기 쉬워져요.
 2. 이 개념은 네트워크의 머리와 몸을 나눠 더 쉽게 프로그램하게 해줘요.
 3. 그래서 새 규칙을 더 빨리 넣고 바꿀 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 993 / 1120
+
+← **이전**: [[871_vim_virtualised_infrastructure_manager_openstack_k8s|871. VIM (가상화 인프라 관리자)]]
+**다음**: [[873_nsh_network_service_header_sfc_metadata|873. 네트워크 서비스 헤더 (NSH)]] →
+
+---

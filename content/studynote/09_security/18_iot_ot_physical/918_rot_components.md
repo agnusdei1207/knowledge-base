@@ -125,3 +125,14 @@ RoT 구성要素 (Rot Components)를 제대로 이해하면 개념 하나를 외
 1. RoT 구성要素 (Rot Components)는 컴퓨터 세상을 더 안전하게 만들기 위한 중요한 약속이나 도구예요.
 2. 겉으로는 어려워 보여도, 왜 필요한지와 어떻게 움직이는지를 알면 훨씬 쉬워져요.
 3. 그래서 이름만 외우지 말고 어디에 쓰이는지 같이 기억해야 해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 1005 / 1108
+
+← **이전**: [[917_root_of_trust|917. rantai-root-of-trust (rantai-root-of-trust)]]
+**다음**: [[919_measured_boot|919. Measured Boot (TPM utilization)]] →
+
+---

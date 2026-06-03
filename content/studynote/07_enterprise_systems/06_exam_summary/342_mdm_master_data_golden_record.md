@@ -139,3 +139,14 @@ tags:
 1. [[539_mdm_master_data_management|MDM]] [[539_mdm_master_data_management|마스터 데이터]] 골든 레코드는 복잡한 일을 순서대로 정리해 주는 큰 정리함이에요.
 2. 어디에 무엇을 넣을지 먼저 정해 두면, 나중에 찾거나 고칠 때 훨씬 쉬워져요.
 3. 그래서 일이 커질수록 먼저 기준을 만들고 같이 약속하는 것이 중요해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 342 / 482
+
+← **이전**: [[341_data_steward_quality_ownership|341. 데이터 스튜어드 품질 오너십 (Data Steward Quality Ownership)]]
+**다음**: [[343_platform_business_two_sided_market|343. 플랫폼 비즈니스 양면 시장 (Platform Business Two-sided Market)]] →
+
+---

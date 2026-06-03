@@ -173,3 +173,14 @@ ASLR이 완벽하게 동작하려면 OS의 노력만으로는 안 된다. **컴�
 1. 주소 공간 무작위 배치 (ASLR, Address Space Layout Randomization)은 컴퓨터가 메모리를 방처럼 나눠 쓰고 주소를 찾는 방법이에요.
 2. 먼저 ARM / x86의 메모리 매핑 아키텍처 차이을 이해하면 주소 공간 무작위 배치 (ASLR, Address Space Layout Randomization)이 왜 필요한지 더 쉽게 보여요.
 3. 그래서 주소 공간 무작위 배치 (ASLR, Address Space Layout Randomization)을 잘 알면 나중에 [[375_memory_protection_keys|메모리 보호 키]] ([[375_memory_protection_keys|Memory Protection Keys]])도 훨씬 쉽게 배울 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 374 / 800
+
+← **이전**: [[373_arm_x86_memory_mapping|373. ARM / x86의 메모리 매핑 아키텍처 차이 (Arm X86 Memory Mapping)]]
+**다음**: [[375_memory_protection_keys|375. 메모리 보호 키 (Memory Protection Keys)]] →
+
+---

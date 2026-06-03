@@ -264,3 +264,14 @@ Graph Neural Network으로 TSP 근사
 1. NP-Hard는 "세상에서 가장 어려운 문제들의 집합" — NP-완전보다 더 넓어서, 답이 맞는지 빠르게 [[396_validation|확인]]하는 것조차 어려운 문제도 포함돼요!
 2. 공장 작업 [[208_schedule_history_transaction_execution_order|스케줄]] 짜기, 물류 경로 최적화 같은 현실 문제가 NP-Hard이기 때문에 완벽한 답 대신 "충분히 좋은 답"을 빠르게 찾는 알고리즘을 써요.
 3. NP-Complete는 NP-Hard의 부분집합 — NP-Hard는 NP-Complete를 포함하는 더 큰 "어려운 문제들의 우주"예요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 109 / 175
+
+← **이전**: [[108_np_complete|003. NP-완전 (NP-Complete)]]
+**다음**: [[110_p_equals_np|005. P = NP 문제]] →
+
+---

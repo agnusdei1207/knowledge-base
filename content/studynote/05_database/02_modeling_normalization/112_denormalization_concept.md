@@ -120,3 +120,14 @@ tags:
 1. [[093_normalization|정규화]]는 **모든 장난감을 종류별 상자에 깔끔하게 정리**하는 거예요.
 2. [[111_denormalization_performance_tradeoff|역정규화]]는 자주 쓰는 장난감을 **책상 위에도 하나 더 꺼내놓는** 거예요.
 3. 깔끔함([[003_integrity|무결성]])은 조금 포기하지만, 놀 때(조회) **훨씬 빨리 찾을 수 있답니다!**
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 112 / 600
+
+← **이전**: [[111_denormalization_performance_tradeoff|111. 역정규화 (Denormalization) - 정규화 vs 성능 트레이드오프와 설계 전략]]
+**다음**: [[113_denormalization_techniques_merge_split|113. 역정규화 기법 (Denormalization Techniques) - 테이블 병합·분할·중복 컬럼]] →
+
+---

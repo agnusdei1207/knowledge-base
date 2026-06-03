@@ -104,3 +104,14 @@ tags:
 1. 역할 설계는 학교에서 준비물을 미리 챙기는 것처럼, 중요한 기준을 먼저 맞추는 일이야.
 2. 직무분리는 선생님이 수업 중간에 계속 확인하는 것처럼, 실제로 잘 되고 있는지 보는 과정이야.
 3. 권한 검토는 시험 결과표처럼, 정말 효과가 있었는지 나중에 다시 확인하게 해주는 증거야.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 335 / 530
+
+← **이전**: [[273_bcp_drp_mock_drill|273. BCP/DRP 모의훈련 감리 (BCP DRP Mock Drill Audit)]]
+**다음**: [[275_digital_signature_privacy_law|275. 전자서명과 개인정보보호법 감리 (Digital Signature and Privacy Law Audit)]] →
+
+---

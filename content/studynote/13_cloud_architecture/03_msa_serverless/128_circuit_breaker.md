@@ -111,3 +111,14 @@ Circuit Breaker는 **[[619_msa_traffic_hardware|MSA]] 복원력의 가장 기본
 1. Circuit Breaker는 전기의 **차단기(브레이커)**예요.
 2. 과전류(장애)가 흐르면 **자동으로 끊어서** 화재(연쇄 장애)를 막아요.
 3. 잠시 기다렸다가 **살짝 켜보고(Half-Open)**, 안전하면 다시 정상으로 돌아가요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 127 / 371
+
+← **이전**: [[127_service_discovery|127. Service Discovery - MSA 서비스 자동 등록·탐색 메커니즘]]
+**다음**: [[129_fallback|129. Fallback 패턴 - MSA 장애 시 대체 응답 전략]] →
+
+---

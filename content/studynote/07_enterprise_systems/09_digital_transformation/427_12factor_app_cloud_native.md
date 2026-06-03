@@ -139,3 +139,14 @@ tags:
 1. 12 Factor App [[283_architecture|클라우드 네이티브 설계 원칙]]는 복잡한 일을 순서대로 정리해 주는 큰 정리함이에요.
 2. 어디에 무엇을 넣을지 먼저 정해 두면, 나중에 찾거나 고칠 때 훨씬 쉬워져요.
 3. 그래서 일이 커질수록 먼저 기준을 만들고 같이 약속하는 것이 중요해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 427 / 482
+
+← **이전**: [[426_kubernetes_pod_orchestration|426. 쿠버네티스 Pod 오케스트레이션 노드 관리 (Kubernetes)]]
+**다음**: [[428_immutable_infrastructure_iac_terraform|428. 불변 인프라 IaC 테라폼 (IaC: Infrastructure as Code)]] →
+
+---

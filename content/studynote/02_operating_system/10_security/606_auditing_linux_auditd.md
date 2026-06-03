@@ -230,3 +230,14 @@ Auditd는 시스템 [[527_security_audit_trail|보안 감사]]([[058_it_complian
 1. 컴퓨터 안에서 벌어지는 일들을 그냥 일기장(일반 [[568_logs_distributed_logging_elk_fluentd|로그]])에 쓰라고 하면, 나쁜 해커가 몰래 들어와 일기장을 찢어버리거나 안 적고 도망갈 수 있어요.
 2. 그래서 컴퓨터 시스템의 심장부([[022_kernel_role|커널]])에 **투명 망토를 입은 속기사(Auditd)** 를 몰래 배치했어요.
 3. 이 속기사는 누가 어떤 방문을 열었는지, 어떤 서류를 만졌는지 1초도 쉬지 않고 몽땅 적어서 절대로 지울 수 없는 강철 금고([[568_logs_distributed_logging_elk_fluentd|로그]] 서버)에 실시간으로 보낸답니다! 해커가 아무리 거짓말을 해도 이 기록을 보면 범인을 바로 잡을 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 606 / 800
+
+← **이전**: [[605_password_salting_hash|605. 비밀번호 솔팅 (Salting) 기반 해시 처리 방어 구조]]
+**다음**: [[607_tpm_physical_security|607. 물리적 보안 및 하드웨어 보안 모듈 (TPM, Trusted Platform Module)]] →
+
+---

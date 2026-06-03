@@ -83,3 +83,14 @@ MapReduce는 단일 서버 한계를 넘어 Map, Shuffle/Sort, Reduce로 [[136_v
 1. 학교 운동장에 흩어진 1만 개의 공을 색깔별로 세어야 한다고 해봐요.
 2. [[018_mapreduce|맵리듀스]]는 전교생에게 운동장에 나가서 "각자 앞에 있는 공들만 세어와!(Map)"라고 시키는 거예요.
 3. 그런 다음 반장들이 각 색깔별 숫자를 다 더해서(Reduce) 최종 숫자를 알아내는 아주 빠른 방법이랍니다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 31 / 262
+
+← **이전**: [[030_rack_awareness_fault_tolerance_topology|08. 랙 인지 (Rack Awareness) - 물리적 장애 격리를 위한 데이터 복제 전략]]
+**다음**: [[032_map_function_key_value_output|Map 함수: MapReduce 분산 처리의 시작]] →
+
+---

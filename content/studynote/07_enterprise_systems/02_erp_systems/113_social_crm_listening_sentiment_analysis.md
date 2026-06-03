@@ -116,3 +116,14 @@ tags:
 1. 소셜 CRM은 인터넷에서 "우리 가게" 이야기를 하는 사람을 **실시간으로 찾아내는** 로봇이에요.
 2. "맛있다!"라고 하면 **[[606_auditing_linux_auditd|감사]] 인사**를 보내고, "맛없다!"라고 하면 즉시 달려가 **사과하고 쿠폰**을 줘요.
 3. 덕분에 나쁜 소문이 퍼지기 전에 **미리 막을 수** 있답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 113 / 482
+
+← **이전**: [[112_collaborative_crm_omnichannel|112. 협업 CRM (Collaborative CRM) - 옴니채널 통합과 고객 접점 일관성]]
+**다음**: [[114_ai_based_crm_salesforce_einstein|114. AI 기반 CRM (AI-Powered CRM) - Salesforce Einstein·예측 분석·생성형 AI]] →
+
+---

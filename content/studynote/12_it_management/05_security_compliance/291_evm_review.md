@@ -129,3 +129,14 @@ tags:
 1. [[152_evm_earned_value_management|EVM]] 획득 가치 ([[153_pv_planned_value|PV]], [[154_ev_earned_value|EV]], [[155_ac_actual_cost|AC]], [[159_spi_schedule_performance_index|SPI]], [[158_cpi_cost_performance_index|CPI]])는 모두가 같은 규칙으로 일하게 해 주는 반장 약속표예요.
 2. 약속만 적어 두는 것이 아니라 누가 지켰는지 확인하고 고치는 방법까지 함께 정해요.
 3. 그래서 일이 많아져도 서로 부딪히지 않고 더 안전하게 움직일 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 428 / 587
+
+← **이전**: [[291_evm_earned_value_management|291. EVM 획득 가치 (PV, EV, AC, SPI, CPI)]]
+**다음**: [[292_cmmi_5_levels|292. CMMI 성숙도 5단계 (초기, 관리, 정의, 정량, 최적화)]] →
+
+---

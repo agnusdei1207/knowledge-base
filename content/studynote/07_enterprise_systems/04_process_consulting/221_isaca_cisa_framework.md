@@ -149,3 +149,14 @@ Governance and Assurance Maturity
 1. ISACA는 컴퓨터를 잘 검사하는 규칙을 모아 둔 큰 학교 같아요.
 2. CISA는 그 규칙으로 어디가 위험한지 살펴보는 검사 방법이에요.
 3. 그래서 컴퓨터가 아프기 전에 미리 조심할 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 221 / 482
+
+← **이전**: [[220_it_audit_overview|220. 정보 시스템 감리 (IT Audit) 개요 - 효과성, 효율성, 안전성 검증]]
+**다음**: [[222_cobit_2019_governance|222. COBIT 2019 거버넌스 (COBIT 2019 Governance)]] →
+
+---

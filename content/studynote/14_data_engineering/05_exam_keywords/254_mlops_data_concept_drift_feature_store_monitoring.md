@@ -239,3 +239,14 @@ LLMOps · AIOps: 차세대 운영 자동화
 ```
 2. [[163_data_drift_statistical_distribution_shift|데이터 드리프트]]는 "환자가 바뀌었는데 옛날 처방전을 그대로 쓰는 것"이고, [[164_concept_drift_target_mapping_change|컨셉 드리프트]]는 "환자는 같은데 병의 특성이 바뀐 것"이에요—둘 다 새 처방(재훈련)이 필요해요.
 3. [[165_feature_store_training_serving_consistency|피처 스토어]]는 학교 공용 실험실 재료 창고예요. 모든 반이 같은 재료를 따로 준비하는 낭비 없이 한 곳에서 꺼내 쓰니까 시간이 훨씬 절약돼요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 254 / 258
+
+← **이전**: [[253_reinforcement_learning_mdp_policy_value_q_learning_dqn|253. 강화 학습 (Reinforcement Learning) MDP 정책 가치 Q러닝 DQN]]
+**다음**: [[255_xai_lime_shap_explainable_contribution|255. XAI (Explainable AI) 설명 가능 AI LIME SHAP 기여도 분할]] →
+
+---

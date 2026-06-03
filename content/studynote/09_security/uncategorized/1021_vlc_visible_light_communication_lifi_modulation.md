@@ -125,3 +125,14 @@ tags:
 1. [[158_vlc_lifi_visible_light|가시광 통신]] ([[1021_vlc_lifi|VLC]]) 라이파이 (Li-Fi)는 컴퓨터 세상을 더 안전하게 만들기 위한 중요한 약속이나 도구예요.
 2. 겉으로는 어려워 보여도, 왜 필요한지와 어떻게 움직이는지를 알면 훨씬 쉬워져요.
 3. 그래서 이름만 외우지 말고 어디에 쓰이는지 같이 기억해야 해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 136 / 1108
+
+← **이전**: [[1021_searchable_encryption|1021. Searchable Encryption (검색 가능 암호)]]
+**다음**: [[1022_anti_tamper_hardware|1022. 방변조 하드웨어 (Anti-tamper Hardware (Anti Tamper Hardware)]] →
+
+---

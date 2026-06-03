@@ -140,3 +140,14 @@ A* 허용 [[210_heuristics_scheduling|휴리스틱]]의 경계를 드러내려�
 1. 이 개념은 복잡한 일을 한눈에 보이게 정리해서 모두가 같은 규칙으로 움직이게 해 줘.
 2. 그래서 많은 기계나 사람, 프로그램이 함께 일해도 어디서 문제가 생겼는지 찾기 쉬워져.
 3. 한마디로 이 개념은 복잡한 일을 질서 있게 움직이게 만드는 안내판이야.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 422 / 552
+
+← **이전**: [[421_turing_test_machine_intelligence|421. 튜링 테스트 기계 지능 평가 (Turing TEST Machine Intelligence)]]
+**다음**: [[423_mcts_monte_carlo_tree_search|423. MCTS 알파고 시뮬 트리 탐색 (MCTS Monte Carlo TREE Search)]] →
+
+---

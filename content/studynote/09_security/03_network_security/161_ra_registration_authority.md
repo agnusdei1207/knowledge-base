@@ -157,3 +157,14 @@ CA (Certification Authority) 서명
 1. RA는 [[303_authentication_authorization_patterns|인증]]서 도장을 찍기 전에 "정말 이 사람이 맞는지" 먼저 [[396_validation|확인]]하는 선생님이에요.
 2. 선생님이 [[396_validation|확인]]해 줘야 도장을 가진 원장님이 안심하고 도장을 찍을 수 있어요.
 3. 그래서 RA가 꼼꼼해야 가짜 사람이 진짜 도장을 받지 못해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 214 / 1108
+
+← **이전**: [[160_ca_certification_authority|160. CA (Certification Authority) — 인증서 발급/관리]]
+**다음**: [[162_crl_certificate_revocation_list|162. CRL (Certificate Revocation List) — 폐지 인증서 목록]] →
+
+---

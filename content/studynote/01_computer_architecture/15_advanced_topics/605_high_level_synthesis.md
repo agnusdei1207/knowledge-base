@@ -180,3 +180,14 @@ FPGA 가속기 설계 공간 탐색
 1. 예전에는 장난감 공장을 만들려면 기계 나사 하나까지 사람이 직접 그려야 했어요.
 2. HLS는 "이 장난감은 이렇게 움직여"라고 설명하면, 기계 배치를 자동으로 짜 주는 똑똑한 설계 도우미예요.
 3. 하지만 재료 창고와 길을 잘못 잡으면 자동으로 지어도 느린 공장이 되니, 똑똑한 계획은 여전히 사람이 세워야 해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 605 / 803
+
+← **이전**: [[604_open_source_ip_core|604. 오픈 소스 IP 코어 (Open Source IP Core)]]
+**다음**: [[606_dynamic_partial_reconfiguration|606. FPGA (Field-Programmable Gate Array) 동적 재구성 (Dynamic Reconfiguration)]] →
+
+---

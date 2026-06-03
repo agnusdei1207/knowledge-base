@@ -163,3 +163,14 @@ LLM(대규모 언어 모델) 기반 코드 생성 지원 도구 (GitHub Copilot,
 1. [[263_llm_large_language_model|LLM]](대규모 언어 모델) 기반 코드 [[087_process_state_transition|생성]] 지원 도구 (GitHub Copilot, Cursor 등)은 레고 블록으로 성을 만들 때처럼, 규칙을 정하고 역할을 나누어 함께 작업하는 방법이에요.
 2. 혼자서 막 만들면 나중에 무너지거나 고치기 어렵지만, 약속을 지키면 누구나 쉽게 고치고 더 크게 만들 수 있어요.
 3. 그래서 [[001_software_engineering_definition|소프트웨어 공학]]은 프로그래머들이 좋은 프로그램을 빠르고 안전하게 만들 수 있게 도와주는 '규칙 모음집'이에요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 748 / 973
+
+← **이전**: [[581_ai4se_ai_software_engineering_paradigm|581. AI4SE (AI for Software Engineering) - AI를 활용한 SW 엔지니어링 패러다임 변화]]
+**다음**: [[583_ai_code_license_security_threats|583. AI 어시스턴트 코드 산출물의 라이선스 충돌(저작권) 이슈 및 보안 위협 (Hallucination 버그)]] →
+
+---

@@ -195,3 +195,14 @@ DApp (Decentralized Application)
 1. DApp은 주인 없는 자판기다 — 규칙([[022_smart_contract|스마트 컨트랙트]])에 따라 자동으로 작동하고, 아무도 임의로 규칙을 바꿀 수 없다.
 2. 지갑(MetaMask)은 비밀번호 대신 열쇠다 — 열쇠를 가진 사람만 자기 돈을 쓸 수 있고, 열쇠를 잃으면 돈도 잃는다.
 3. DeFi는 은행 없는 은행이다 — 직원도 본사도 없지만 이자를 주고받고 대출도 된다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 32 / 552
+
+← **이전**: [[031_mnemonic_seed_phrase|31. 니모닉 시드 구문 심화 — BIP-39 보안과 파생]]
+**다음**: [[033_defi_decentralized_finance|DeFi (Decentralized Finance, 탈중앙화 금융)]] →
+
+---

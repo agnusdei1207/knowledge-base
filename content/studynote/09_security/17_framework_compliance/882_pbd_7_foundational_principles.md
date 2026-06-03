@@ -125,3 +125,14 @@ tags:
 1. [[060_privacy_by_design|PbD]] 7대 기본 원칙 (7 Foundational Principles)는 학교 규칙표처럼 무엇을 준비하고 어떻게 확인할지 알려 주는 기준이에요.
 2. 규칙표만 붙여 두고 지키지 않으면 아무 소용이 없어요.
 3. 그래서 보안도 규칙과 실제 행동이 함께 맞아야 해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 969 / 1108
+
+← **이전**: [[881_privacy_by_design|881. Privacy by Design (Privacy by Design)]]
+**다음**: [[883_common_criteria_iso_15408|883. CC (Common Criteria) / ISO 15408 (Common Criteria)]] →
+
+---

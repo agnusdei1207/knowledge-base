@@ -252,3 +252,14 @@ TPM의 핵심 메커니즘은 **신뢰 체인(Chain of Trust)**을 통한 **원�
 1. 물리적 보안 및 [[475_hsm|하드웨어 보안 모듈]] ([[476_tpm|TPM]], [[476_tpm|Trusted Platform Module]])은 컴퓨터가 누가 들어와도 되는지와 무엇을 막아야 하는지 정하는 문지기 규칙이에요.
 2. 먼저 [[606_auditing_linux_auditd|감사]] ([[606_auditing_linux_auditd|Auditing]]) 로깅 프레임워크 (Linux Auditd)을 이해하면 물리적 보안 및 [[475_hsm|하드웨어 보안 모듈]] ([[476_tpm|TPM]], [[476_tpm|Trusted Platform Module]])이 왜 필요한지 더 쉽게 보여요.
 3. 그래서 물리적 보안 및 [[475_hsm|하드웨어 보안 모듈]] ([[476_tpm|TPM]], [[476_tpm|Trusted Platform Module]])을 잘 알면 나중에 [[608_secure_boot|보안 부팅]] ([[608_secure_boot|Secure Boot]]) [[303_authentication_authorization_patterns|인증]]서 체인 로딩 [[395_verification_process_review|검증]]도 훨씬 쉽게 배울 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 607 / 800
+
+← **이전**: [[606_auditing_linux_auditd|606. 감사 (Auditing) 로깅 프레임워크 (Linux Auditd)]]
+**다음**: [[608_secure_boot|608. 보안 부팅 (Secure Boot) 인증서 체인 로딩 검증]] →
+
+---

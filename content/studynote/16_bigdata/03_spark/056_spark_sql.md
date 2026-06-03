@@ -217,3 +217,14 @@ Spark 3.0+부터 `spark.sql.ansi.enabled=true` [[009_config|설정]] 시 표준 
 ### 👶 어린이를 위한 3줄 비유 설명
 
 Spark SQL은 도서관([[001_dikw_pyramid|데이터]])에서 원하는 책을 찾아주는 **스마트 사서**예요. 사서한테 "2020년 이후 출판된 과학책 제목 알려줘" 라고 말(SQL)만 하면, 사서가 가장 빠른 방법으로 책장을 뒤져서 목록을 만들어줘요. 직접 책장을 하나하나 뒤질([[310_audit|RDD]]) 필요가 없답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 56 / 262
+
+← **이전**: [[055_spark_sql_dataframe|04. Spark SQL & DataFrame — 정형 데이터 처리 및 최적화]]
+**다음**: [[057_catalyst_optimizer|Catalyst Optimizer]] →
+
+---

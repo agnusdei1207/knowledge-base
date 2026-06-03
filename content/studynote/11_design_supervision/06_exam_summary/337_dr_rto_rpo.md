@@ -106,3 +106,14 @@ tags:
 1. [[360_ospf_dr_bdr_designated_router_lsa_flooding|DR]]·[[176_rto_recovery_time_objective|RTO]]·[[177_rpo_recovery_point_objective|RPO]] 모의 훈련은 숙제 계획표와 [[396_validation|확인]] 도장을 같이 챙기는 것과 같아요.
 2. 누가 무엇을 했는지 적어 두면 다음 사람도 헷갈리지 않아요.
 3. 끝났다고 말하려면 정말 끝났는지 [[396_validation|확인]]표가 있어야 해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 415 / 530
+
+← **이전**: [[336_process|336. 고가용성 모의 페일오버 테스트 (High Availability Failover Test)]]
+**다음**: [[338_apm_tps|338. 성능 APM·TPS 튜닝 (APM TPS Performance Tuning)]] →
+
+---

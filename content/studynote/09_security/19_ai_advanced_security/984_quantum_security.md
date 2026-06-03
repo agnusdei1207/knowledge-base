@@ -125,3 +125,14 @@ tags:
 1. [[236_quantum_computing_pqc|양자 컴퓨팅]] 보안 ([[690_round_robin_time_quantum|Quantum]] [[283_security_tactics|Security]])는 컴퓨터 세상을 더 안전하게 만들기 위한 중요한 약속이나 도구예요.
 2. 겉으로는 어려워 보여도, 왜 필요한지와 어떻게 움직이는지를 알면 훨씬 쉬워져요.
 3. 그래서 이름만 외우지 말고 어디에 쓰이는지 같이 기억해야 해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 1087 / 1108
+
+← **이전**: [[984_pki_public_key_infrastructure_ca_ra_certificate|984. PKI 공개키 인프라 (Public Key Infrastructure)]]
+**다음**: [[985_quantum_threat_shor|985. 양자 위협 (Shor's Algorithm impact)]] →
+
+---

@@ -421,3 +421,14 @@ Observability: Monte Carlo · Bigeye → 데이터 이상 자동 감지
 ```
 2. dbt는 레고 설명서예요. 각 레고 블록(SQL 모델)이 어떻게 연결되는지 그려주고, 완성된 모습(문서)과 품질 검사(테스트)도 함께 제공해요.
 3. [[236_data_contract|데이터 계약]]은 식당 메뉴판이에요. "피자는 30분 안에, 반드시 뜨겁게, 토핑은 이것들"처럼 소비자가 기대하는 것을 명확히 약속하고, 지키지 않으면 알림이 와요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 196 / 258
+
+← **이전**: [[195_federated_query_data_fabric_distributed_join|195. 연방 쿼리 (Federated Query) 데이터 패브릭 분산 메타 통계망 조인]]
+**다음**: [[197_data_catalog_lineage_visualization_security|197. 데이터 카탈로그 (Data Catalog) 계보 (Lineage) 시각화 보안 정책 연계망]] →
+
+---

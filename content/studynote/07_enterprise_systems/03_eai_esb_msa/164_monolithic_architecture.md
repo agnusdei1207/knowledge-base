@@ -173,3 +173,14 @@ MSA (Microservice Architecture) · 단계적 분리
 1. 모놀리식은 장난감 상자 하나에 블록, 자동차, 인형이 다 같이 들어 있는 것과 비슷해요.
 2. 처음에는 찾기 쉽고 정리도 간단하지만, 장난감이 많아지면 서로 뒤엉켜 꺼내기 어려워져요.
 3. 그래서 처음엔 같이 두더라도, 나중에는 종류별로 칸을 나눠 두는 게 더 편해진답니다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 164 / 482
+
+← **이전**: [[163_microservices_architecture_msa|163. 마이크로서비스 아키텍처 (MSA, Microservices Architecture) - 거대한 모놀리식(Monolithic)]]
+**다음**: [[165_soa_vs_msa_architecture|165. SOA vs MSA 차이점 - SOA는 전사적 재사용과 ESB 중앙 파이프 집중 (Smart Pipe, Dumb Endpoint),]] →
+
+---

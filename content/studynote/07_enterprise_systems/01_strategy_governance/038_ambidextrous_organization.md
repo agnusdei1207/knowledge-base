@@ -197,3 +197,14 @@ AI를 Mode 2가 아닌 전사 기본값으로
 1. 양손잡이 IT 조직은 안전하게 지금 [[090_service_kubernetes_network_load_balancing|서비스]]를 운영하는 팀과 새로운 기술을 빠르게 실험하는 팀을 동시에 갖추는 구조예요.
 2. 두 팀을 완전히 분리해두되, [[001_dikw_pyramid|데이터]]와 [[268_strategy_pattern|전략]]은 함께 공유해서 혁신 결과가 실제 사업에 연결되게 해요.
 3. 은행이 핀테크 앱은 스타트업처럼 만들면서 계좌 시스템은 안전하게 유지하는 것이 전형적인 양손잡이 IT예요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 38 / 482
+
+← **이전**: [[037_disruptive_innovation|037. 파괴적 혁신 (Disruptive Innovation)]]
+**다음**: [[039_lean_startup_bml_loop|039. BML 루프 심화 — 린 스타트업 측정 지표]] →
+
+---

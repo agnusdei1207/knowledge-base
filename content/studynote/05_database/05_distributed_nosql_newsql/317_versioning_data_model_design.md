@@ -132,3 +132,14 @@ tags:
 1. 여러 창고에 장난감을 나눠 두고도 같은 물건처럼 써야 하는 상황이에요.
 2. 멀리 떨어진 창고끼리는 이야기하는 데 시간이 걸려요.
 3. 그래서 어디까지 맞춰 둘지와 얼마나 빨리 답할지를 함께 정해야 해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 317 / 600
+
+← **이전**: [[316_reference_pattern_nosql|316. 참조 (Reference) 패턴]]
+**다음**: [[318_tree_structure_nosql_materialized_path|318. 트리 구조 저장을 위한 NoSQL 모델 (Materialized Path, Nested Sets)]] →
+
+---

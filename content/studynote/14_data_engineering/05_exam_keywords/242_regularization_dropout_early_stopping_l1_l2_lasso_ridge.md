@@ -259,3 +259,14 @@ for epoch in range(max_epochs):
 ```
 2. [[280_dropout|드롭아웃]]은 팀 스포츠 훈련에서 매번 다른 선수를 쉬게 해서 아무도 혼자 게임을 이길 수 없게 만드는 훈련법이야.
 3. [[281_early_stopping|조기 종료]]는 시험 공부할 때 "딱 이 성적이면 충분해, 더 하면 오히려 헷갈려!"라며 적당한 순간에 멈추는 지혜야.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 242 / 258
+
+← **이전**: [[241_optimizer_sgd_minibatch_adam_momentum_adaptive|241. 옵티마이저 SGD (Stochastic Gradient Descent) 미니배치 Adam 모멘텀 적응 학습률]]
+**다음**: [[243_cnn_stride_pooling_resnet_residual_yolo_object_detection|243. CNN (Convolutional Neural Network) 스트라이드 풀링 ResNet 잔차 연결 YOLO 객체 탐지]] →
+
+---

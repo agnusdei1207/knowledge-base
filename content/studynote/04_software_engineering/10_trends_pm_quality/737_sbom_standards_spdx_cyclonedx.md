@@ -151,3 +151,14 @@ SBOM 규격 SPDX CycloneDX 개념 정립
 1. [[890_sbom_cyclonedx_spdx|SBOM]] 규격 SPDX CycloneDX은 레고 블록으로 성을 만들 때처럼, 규칙을 정하고 역할을 나누어 함께 작업하는 방법이에요.
 2. 혼자서 막 만들면 나중에 무너지거나 고치기 어렵지만, 약속을 지키면 누구나 쉽게 고치고 더 크게 만들 수 있어요.
 3. 그래서 [[001_software_engineering_definition|소프트웨어 공학]]은 프로그래머들이 좋은 프로그램을 빠르고 안전하게 만들 수 있게 도와주는 '규칙 모음집'이에요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 910 / 973
+
+← **이전**: [[736_log_6w1h_worm_storage_integrity|736. 로그 6하 원칙 WORM 스토리지 무결성]]
+**다음**: [[738_container_image_scanning_rbac|738. 컨테이너 이미지 스캐닝 권한 통제]] →
+
+---

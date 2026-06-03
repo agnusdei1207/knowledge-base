@@ -149,3 +149,14 @@ tags:
 1. API가 응답을 안 할 때 계속 두드리면 서버가 더 힘들어져요. 그래서 기다리는 시간을 점점 늘려요(지수 백오프).
 2. 지터는 여러 친구가 동시에 문을 두드리지 않도록 각자 다른 시간에 두드리게 하는 거예요.
 3. [[307_circuit_breaker_pattern|서킷 브레이커]]는 "이 문은 고장났어"라고 판단하면 아예 두드리지 않고 다른 길을 찾는 현명한 결정이에요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 358 / 373
+
+← **이전**: [[357_oom_killed|357. OOM Killed 커널 자원 제한 종료 방어망 (OOM Killer Kubernetes QoS cgroup Memory Limits)]]
+**다음**: [[359_metric|359. 시맨틱 캐시 RAG 비용 응답 단축 계층 (Semantic Cache for RAG Cost and Latency Reduction)]] →
+
+---

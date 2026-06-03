@@ -106,3 +106,14 @@ POP은 [[119_mes_manufacturing_execution_system|MES]]·ERP의 **[[001_dikw_pyram
 1. POP은 마트의 **바코드 스캐너(POS)**의 공장 [[288_version_ihl_tos_total_length|버전]]이에요.
 2. 제품을 만들 때마다 **바코드를 찍으면** 자동으로 "몇 개 만들었는지" 기록돼요.
 3. 덕분에 공장 사장님이 **실시간으로 생산 현황**을 볼 수 있답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 120 / 482
+
+← **이전**: [[119_mes_manufacturing_execution_system|119. MES (Manufacturing Execution System) - 제조 실행 시스템·스마트 팩토리 핵심]]
+**다음**: [[121_smart_factory_4_levels|121. 스마트 팩토리 4단계 (Smart Factory Maturity Levels) - Industry 4.0 성숙도 모델]] →
+
+---

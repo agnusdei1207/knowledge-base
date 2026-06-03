@@ -55,3 +55,14 @@ BERT 입력: [CLS] 문장A [SEP] 문장B [SEP]
 1. BERT는 **독해 시험 달인**이에요. 지문의 **앞뒤를 다 이해**해요.
 2. [CLS] 토큰은 **전체 요약 점수**예요. 이걸로 [[104_classification_analysis|분류]]·비교를 해요.
 3. 적은 연습([[304_fine_tuning|Fine-tuning]])만으로도 **다양한 시험**을 잘 볼 수 있어요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 141 / 258
+
+← **이전**: [[140_self_attention_multihead_positional_encoding|140. Self-Attention·Multi-Head·Positional Encoding 상세]]
+**다음**: [[142_gpt_decoder_autoregressive_generation|142. GPT Decoder - 자기회귀 생성 모델 상세]] →
+
+---

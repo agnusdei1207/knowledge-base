@@ -129,3 +129,14 @@ FinOps / Governance
 MSP는 클라우드 이사를 도와주는 전문가예요.  
 서버를 옮기고, 고장 나면 살피고, 돈도 아껴 주려고 해요.  
 그래서 클라우드를 더 편하게 쓸 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 60 / 482
+
+← **이전**: [[059_it_outsourcing_ito_bpo|59. 정보기술 아웃소싱 (ITO, IT Outsourcing) / BPO (비즈니스 프로세스 아웃소싱)]]
+**다음**: [[061_on_premise_legacy_infrastructure|61. 온프레미스 (On-Premise) 프라이빗 IT 인프라]] →
+
+---

@@ -235,3 +235,14 @@ AdamW · LAMB · 스케줄러 (Cosine · Warmup)
 ```
 2. [[277_adam_optimizer|Adam]] [[163_optimizer_sql_execution_plan_generator|옵티마이저]]는 "어디로 가던 중이었지?"([[276_momentum_optimizer|모멘텀]])와 "이 길이 얼마나 가파르지?"(RMSProp)를 동시에 기억하는 똑똑한 탐험가야.
 3. [[080_gradient_descent_learning_rate|학습률]] 스케줄링은 처음엔 천천히 주변을 살피고, 익숙해지면 빠르게 달리다가, 목적지 근처에서 다시 천천히 걷는 여행 계획이야.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 241 / 258
+
+← **이전**: [[240_relu_vanishing_gradient_softmax_backprop_chain|240. ReLU 기울기 소실 (Vanishing Gradient) 복원 소프트맥스 역전파 연쇄 법칙]]
+**다음**: [[242_regularization_dropout_early_stopping_l1_l2_lasso_ridge|242. 규제 드롭아웃 (Dropout) 조기 종료 L1 L2 라쏘 릿지 종합]] →
+
+---

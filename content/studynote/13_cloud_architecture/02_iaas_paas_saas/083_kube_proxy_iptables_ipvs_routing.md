@@ -128,3 +128,14 @@ Kube-proxy Watch
 1. 아파트에는 방 번호가 자주 바뀌는 주민들이 살고 있어요.
 2. Kube-proxy는 로비에서 "몇 호가 어디 있는지"를 바로 알려 주는 안내원이에요.
 3. 손님은 같은 주소만 기억하면 되고, 안내원이 그날그날 실제 방으로 데려다 준답니다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 82 / 371
+
+← **이전**: [[082_kubelet_node_agent|82. Kubelet (큐블렛) - 마스터 노드의 명령을 받아 파드(Pod)를 생성/관리하고 헬스체크 결과를 보고하는 노드별 에이전트]]
+**다음**: [[084_container_runtime_containerd_runc_cri|84. 컨테이너 런타임 (Container Runtime) - 파드 구동의 심장 containerd]] →
+
+---

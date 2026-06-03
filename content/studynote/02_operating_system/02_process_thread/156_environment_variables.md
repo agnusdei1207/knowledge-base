@@ -375,3 +375,14 @@ LD_PRELOAD 공격 방어 레이어
 1. 환경 변수 ([[066_gitlab_flow_environment_branch_strategy|Environment]] Variables) [[234_uml_class_relationships_generalization_dependency|상속]]은 컴퓨터가 여러 일을 나눠서 처리하고 서로 기다리게 하는 약속이에요.
 2. 먼저 [[155_dynamic_linking_process|동적 링킹 프로세스]] (ld.so) 로딩 과정을 이해하면 환경 변수 ([[066_gitlab_flow_environment_branch_strategy|Environment]] Variables) [[234_uml_class_relationships_generalization_dependency|상속]]이 왜 필요한지 더 쉽게 보여요.
 3. 그래서 환경 변수 ([[066_gitlab_flow_environment_branch_strategy|Environment]] Variables) [[234_uml_class_relationships_generalization_dependency|상속]]을 잘 알면 나중에 [[157_oom_killer|OOM]] ([[157_oom_killer|Out Of Memory]]) Killer [[107_process_termination|프로세스 종료]] [[164_policy|정책]]도 훨씬 쉽게 배울 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 156 / 800
+
+← **이전**: [[155_dynamic_linking_process|155. 동적 링킹 프로세스 (ld.so) 로딩 과정 - 파일 공유를 찢어발긴 메모리 텔레포트 융합술]]
+**다음**: [[157_oom_killer|157. OOM (Out Of Memory) Killer 프로세스 종료 정책]] →
+
+---

@@ -161,3 +161,14 @@ measured boot · 대규모 서버 fleet 제어
 1. 컴퓨터도 아침에 일어나면 먼저 불을 켜고 가방을 챙기는 준비 시간이 필요해.
 2. Coreboot는 딱 필요한 준비만 빠르게 끝내 주는 도우미이고, LinuxBoot는 준비가 끝나자마자 체크리스트를 들고 점검해 주는 선생님이야.
 3. 그래서 컴퓨터가 더 빨리, 더 똑똑하게, 그리고 무슨 일이 있었는지 알기 쉽게 출발할 수 있어.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 706 / 803
+
+← **이전**: [[704_host_memory_buffer|704. 호스트 메모리 버퍼 (HMB, Host Memory Buffer)]]
+**다음**: [[706_uefi|706. UEFI (Unified Extensible Firmware Interface)]] →
+
+---

@@ -149,3 +149,14 @@ TMR · Fail-operational 시스템
 1. 컴퓨터 안에서는 가끔 아주 작은 충격 때문에 숫자가 잠깐 헷갈릴 수 있어요.
 2. 그래서 똑똑한 컴퓨터는 이상한 숫자를 보면 바로 다시 확인하거나, 조금 전의 안전한 상태로 되돌아가요.
 3. 덕분에 실수 한 번 때문에 컴퓨터 전체가 크게 망가지지 않고 다시 제대로 일할 수 있답니다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 556 / 803
+
+← **이전**: [[555_memory_scrubbing|555. 메모리 스크러빙 (Memory Scrubbing)]]
+**다음**: [[557_ota_hardware_support|557. 펌웨어 OTA 하드웨어 지원 (Firmware Over-The-Air Hardware Support)]] →
+
+---

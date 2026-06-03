@@ -127,3 +127,14 @@ tags:
 1. 컬럼 기반 [[501_file_definition_logical_record|파일]] 포맷 ([[178_parquet_rle_encoding_columnar_compression|Parquet]], ORC, Iceberg, Arrow) 조회 최적화은 일을 하기 전에 "어떤 규칙으로 할지" 먼저 정하는 거예요.
 2. 중간에 [[396_validation|확인]]표가 있어야 틀린 곳을 빨리 고칠 수 있어요.
 3. 그래서 끝까지 잘했다고 말하려면 증거와 순서가 같이 있어야 해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 187 / 262
+
+← **이전**: [[186_data_compression|186. 데이터 컴프레션 전략 (Data Compression Strategy) — Snappy/Zstd/Gzip]]
+**다음**: [[188_spot_instance_ri|188. 빅데이터 비용 최적화 (Spot Instance, 컴퓨팅-스토리지 분리, RI)]] →
+
+---

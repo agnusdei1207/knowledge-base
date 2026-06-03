@@ -188,3 +188,14 @@ EV · CT 모니터링 · 브랜드 보호 · mTLS 정책으로 확장
 1. OV [[303_authentication_authorization_patterns|인증]]서는 인터넷 문에 자물쇠를 다는 것뿐 아니라, 그 문이 진짜 회사 문인지 이름표도 같이 [[396_validation|확인]]해 주는 증명서예요.
 2. 그래서 큰 회사끼리 거래할 때는 "누가 이 문을 쓰는지" 더 믿기 쉬워져요.
 3. 하지만 겉에서 바로 반짝반짝 보이는 표시는 아니라서, 꼭 필요한 곳에서 써야 더 값어치가 커진답니다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 231 / 1108
+
+← **이전**: [[177_dv_domain_validation_certificate|177. DV (Domain Validation) 인증서]]
+**다음**: [[179_self_signed_certificate|179. Self-signed 인증서 — 자체 발급 인증서, 내부용]] →
+
+---

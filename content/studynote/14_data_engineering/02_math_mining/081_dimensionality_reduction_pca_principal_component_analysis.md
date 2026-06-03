@@ -108,3 +108,14 @@ PCA는 원본 [[001_dikw_pyramid|데이터]]의 **공분산 행렬(Covariance Ma
     ▼
 딥러닝 임베딩 → VAE / Diffusion → 잠재 공간 표현 학습
 ```
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 81 / 258
+
+← **이전**: [[080_multicollinearity_vif_variance_inflation_factor_regression|80. 다중 공선성 (Multicollinearity) 및 VIF 지수]]
+**다음**: [[082_lda_linear_discriminant_analysis_classification|82. 선형 판별 분석 (LDA: Linear Discriminant Analysis)]] →
+
+---

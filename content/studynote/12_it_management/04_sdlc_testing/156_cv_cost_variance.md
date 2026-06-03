@@ -129,3 +129,14 @@ CV (Cost [[136_variance|Variance]]) = EV가 정착되면 조직은 속도와 통
 1. CV (Cost [[136_variance|Variance]]) = EV는 모두가 같은 규칙으로 일하게 해 주는 반장 약속표예요.
 2. 약속만 적어 두는 것이 아니라 누가 지켰는지 확인하고 고치는 방법까지 함께 정해요.
 3. 그래서 일이 많아져도 서로 부딪히지 않고 더 안전하게 움직일 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 270 / 587
+
+← **이전**: [[155_ac_actual_cost|155. AC (Actual Cost)]]
+**다음**: [[157_sv_schedule_variance|157. SV (Schedule Variance, 일정 차이)]] →
+
+---

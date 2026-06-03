@@ -125,3 +125,14 @@ Data Quality
 규칙을 정해요.  
 틀린 값은 막아요.  
 제약조건은 그런 약속이에요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 73 / 600
+
+← **이전**: [[072_foreign_key_fk|72. 외래 키 (Foreign Key, FK) - 다른 릴레이션의 기본 키를 참조하는 속성]]
+**다음**: [[074_entity_integrity_primary_key|74. 개체 무결성 (Entity Integrity) / 기본 키 (Primary Key)]] →
+
+---

@@ -125,3 +125,14 @@ tags:
 1. 방변조 하드웨어 ([[783_anti_tamper_mesh|Anti-tamper]] Hardware (Anti Tamper Hardware)는 컴퓨터 세상을 더 안전하게 만들기 위한 중요한 약속이나 도구예요.
 2. 겉으로는 어려워 보여도, 왜 필요한지와 어떻게 움직이는지를 알면 훨씬 쉬워져요.
 3. 그래서 이름만 외우지 말고 어디에 쓰이는지 같이 기억해야 해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 137 / 1108
+
+← **이전**: [[1021_vlc_visible_light_communication_lifi_modulation|1021. 가시광 통신 (VLC) 라이파이 (Li-Fi)]]
+**다음**: [[1022_leo_satellite_starlink_mega_constellation_6g|1022. 저궤도 위성망 (LEO) 스타링크 (Leo Satellite Starlink Mega Constellation 6G)]] →
+
+---

@@ -282,3 +282,14 @@ tags:
 - 각 섹션 끝에 📢 요약 비유 반드시 추가
 - 최소 800자/[[501_file_definition_logical_record|파일]]
 - [[501_file_definition_logical_record|파일]]명: 01_, 02_... 형식
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 12 / 175
+
+← **이전**: [[011_branch_and_bound|11. 분기 한정 (Branch and Bound) — 최적화 탐색]]
+**다음**: [[013_randomized_algorithm|13. 랜덤화 알고리즘 (Randomized Algorithm) — Las Vegas / Monte Carlo]] →
+
+---

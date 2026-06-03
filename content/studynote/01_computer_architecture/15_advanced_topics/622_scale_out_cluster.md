@@ -140,3 +140,14 @@ RDMA 기반 AI/HPC 초대형 클러스터
 1. [[202_scale_out_distributed_horizontal_expansion|스케일 아웃]] 클러스터 망은 작은 컴퓨터 친구들을 많이 모아 한 팀으로 뛰게 만드는 운동장 규칙이에요.
 2. 친구가 늘어날수록 서로 부딪히지 않게 길과 순서를 잘 정해야 해요.
 3. 그래서 큰 팀일수록 제일 중요한 건 힘센 친구 한 명보다 모두를 연결하는 좋은 길이랍니다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 622 / 803
+
+← **이전**: [[621_scale_up_system_bus|621. 스케일 업 (Scale-Up) 시스템 버스]]
+**다음**: [[623_datacenter_pue|623. 데이터센터 PUE (Power Usage Effectiveness)]] →
+
+---

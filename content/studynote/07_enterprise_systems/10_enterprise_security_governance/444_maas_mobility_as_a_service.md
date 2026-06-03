@@ -139,3 +139,14 @@ MaaS 모빌리티 융합 통합 [[090_service_kubernetes_network_load_balancing|
 1. MaaS 모빌리티 융합 통합 [[090_service_kubernetes_network_load_balancing|서비스]]는 복잡한 일을 순서대로 정리해 주는 큰 정리함이에요.
 2. 어디에 무엇을 넣을지 먼저 정해 두면, 나중에 찾거나 고칠 때 훨씬 쉬워져요.
 3. 그래서 일이 커질수록 먼저 기준을 만들고 같이 약속하는 것이 중요해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 444 / 482
+
+← **이전**: [[443_intelligent_edge_offloading_dpu|443. 지능형 엣지 오프로딩 DPU SmartNIC (Data Processing Unit / Smart Network Interface]]
+**다음**: [[445_c_its_cooperative_transport|445. C-ITS 협력 지능형 교통 시스템 (C-ITS, Cooperative Intelligent Transport System)]] →
+
+---

@@ -125,3 +125,14 @@ tags:
 1. [[690_firewall_generation_evolution|방화벽]] ([[992_firewall_stateful_inspection|Stateful Inspection]])는 컴퓨터 세상을 더 안전하게 만들기 위한 중요한 약속이나 도구예요.
 2. 겉으로는 어려워 보여도, 왜 필요한지와 어떻게 움직이는지를 알면 훨씬 쉬워져요.
 3. 그래서 이름만 외우지 말고 어디에 쓰이는지 같이 기억해야 해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 1101 / 1108
+
+← **이전**: [[991_arp_spoofing_man_in_the_middle_cache_poisoning|991. ARP 스푸핑 (Arp Spoofing Man In The Middle Cache Poisoning)]]
+**다음**: [[993_waf_web_application_firewall_l7_sql_injection|993. WAF (웹 방화벽)]] →
+
+---

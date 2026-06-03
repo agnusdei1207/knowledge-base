@@ -142,3 +142,14 @@ tags:
 1. 예측 분석은 미래의 날씨를 예보하는 것처럼, 과거 [[001_dikw_pyramid|데이터]]를 보고 앞으로 무슨 일이 생길지 숫자로 예측하는 기술이에요!
 2. 공장 기계가 고장 나기 전에 미리 알려주거나, 온라인 쇼핑몰에서 다음 달 인기 상품을 예측할 때 사용해요.
 3. [[001_dikw_pyramid|데이터]]가 많을수록, 특징을 잘 뽑을수록 더 정확하게 미래를 예측할 수 있답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 46 / 262
+
+← **이전**: [[045_recommendation_system_algorithms|23. 추천 시스템 알고리즘 (Recommendation System Algorithms)]]
+**다음**: [[047_prescriptive_analytics|25. 처방 분석 (Prescriptive Analytics) — 최적 행동 처방]] →
+
+---

@@ -177,3 +177,14 @@ PUF 기반 칩별 활성화
 1. 장난감 로봇 안에 비밀 장치가 있는데, 진짜 비밀번호를 모르면 로봇이 이상하게만 움직여요.
 2. 그래서 누가 겉모양을 똑같이 따라 만들어도, 진짜 주인처럼 제대로 쓰지는 못해요.
 3. 하드웨어 [[528_obfuscation_anti_debugging_mobile|난독화]]는 로봇의 비밀 움직임을 주인만 알게 숨겨 두는 방법이랍니다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 582 / 803
+
+← **이전**: [[581_microcode_patch|581. 마이크로코드 보안 패치 원리 (Microcode Security Patch)]]
+**다음**: [[583_bandwidth_compression|583. 데이터 대역폭 압축 인코딩 (Bandwidth Compression Encoding)]] →
+
+---

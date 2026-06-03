@@ -125,3 +125,14 @@ tags:
 1. [[022_kernel_role|커널]] [[603_rootkit_syscall_hooking|루트킷]] ([[022_kernel_role|Kernel]] [[603_rootkit_syscall_hooking|Rootkit]])는 학교 규칙표처럼 무엇을 준비하고 어떻게 확인할지 알려 주는 기준이에요.
 2. 규칙표만 붙여 두고 지키지 않으면 아무 소용이 없어요.
 3. 그래서 보안도 규칙과 실제 행동이 함께 맞아야 해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 414 / 1108
+
+← **이전**: [[359_rootkit|359. 루트킷 (Rootkit)]]
+**다음**: [[361_user_mode_rootkit|361. 사용자 모드 루트킷 (User-Mode Rootkit)]] →
+
+---

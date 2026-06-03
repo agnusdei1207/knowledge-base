@@ -134,3 +134,14 @@ tags:
 1. 달리기 시합에서 누가 얼마나 빨랐는지 재려면 초시계와 기록표가 필요해요.
 2. 이 개념은 네트워크가 어디서 느려졌는지 숫자로 찾아내는 도구예요.
 3. 그래서 막연히 고치는 대신 가장 중요한 곳부터 똑똑하게 손볼 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 141 / 1120
+
+← **이전**: [[1037_ons_object_name_service_rfid_dns|1037. ONS (Object Name Service)]]
+**다음**: [[1039_coap_constrained_application_protocol_rest|1039. CoAP 프로토콜 및 REST]] →
+
+---

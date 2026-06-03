@@ -331,3 +331,14 @@ FinOps + 7R (Relocate 추가)
 1. Retire는 이사할 때 버리기 — 10년 된 쓰지 않는 전자레인지(레거시 앱) 굳이 옮길 필요 없이 버려요. 이사 비용 0, 공간 확보!
 2. Retain은 어떤 짐은 남겨두기 — 가족 사진 앨범(규제 [[001_dikw_pyramid|데이터]])은 이사해도 원래 집([[061_on_premise_legacy_infrastructure|온프레미스]])에 보관. 클라우드에 보내면 안 되는 것도 있어요!
 3. 6R [[268_strategy_pattern|전략]]은 이삿짐 [[104_classification_analysis|분류]] — 모든 것을 클라우드로 옮기는 게 아니라 버릴 것, 그대로 옮길 것, 새로 살 것을 나눠서 최적 결정!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 45 / 371
+
+← **이전**: [[045_migration_repurchase_saas|045. 클라우드 이전 전략 — Repurchase & SaaS Migration]]
+**다음**: [[047_cloud_service_brokerage_csb|047. CSB — 클라우드 서비스 브로커리지]] →
+
+---

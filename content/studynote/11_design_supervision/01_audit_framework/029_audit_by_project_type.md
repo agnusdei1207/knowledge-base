@@ -149,3 +149,14 @@ tags:
 1. 프로젝트 유형마다 다른 검사가 필요해요! 새 건물(신규 개발), 리모델링(패키지), 이사(클라우드 전환) 때 각각 다른 안전 검사를 해요.
 2. 클라우드 감리는 "집주인([[475_csp|CSP]])과 세입자(고객)의 책임 경계"를 명확히 [[396_validation|확인]]해야 해요!
 3. [[190_ai_llm_requirements_specification|AI]] 시스템은 편향·설명·[[275_react_framework|환각]]이라는 새로운 감리 항목이 생겼어요 — [[190_ai_llm_requirements_specification|AI]] 의사 면허 시험처럼 [[395_verification_process_review|검증]]이 필요하답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 34 / 530
+
+← **이전**: [[028_system_architecture_security_audit|28. 시스템 아키텍처 보안 감리 (System Architecture Security Audit)]]
+**다음**: [[029_database_area_audit|29. 데이터베이스 영역 감리 (Database Area Audit)]] →
+
+---

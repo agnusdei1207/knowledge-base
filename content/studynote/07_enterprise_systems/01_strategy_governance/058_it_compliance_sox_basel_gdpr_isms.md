@@ -104,3 +104,14 @@ tags:
 IT 컴플라이언스는 규칙을 지키게 하는 안전벨트예요.  
 기록과 잠금 장치가 있어야 나중에 "잘 지켰다"라고 말할 수 있어요.  
 그래서 시스템 안에 규칙을 넣어 두는 게 중요해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 58 / 482
+
+← **이전**: [[057_disaster_recovery_dr_rto_rpo|57. 재해 복구 (Disaster Recovery, DR) - BIA와 RTO/RPO 설계]]
+**다음**: [[059_it_outsourcing_ito_bpo|59. 정보기술 아웃소싱 (ITO, IT Outsourcing) / BPO (비즈니스 프로세스 아웃소싱)]] →
+
+---

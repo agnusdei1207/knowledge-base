@@ -195,3 +195,14 @@ tags:
 1. [[528_obfuscation_anti_debugging_mobile|난독화]]는 "레시피 책을 암호로 써두는 것"처럼 내 요리 비법을 다른 사람이 읽어도 이해 못하게 만드는 거야.
 2. 루트 감지는 "경비원이 변장한 도둑을 알아보는 것"처럼, 수상한 기기에서 실행되면 앱이 스스로 멈추는 거야.
 3. [[003_integrity|무결성]] [[395_verification_process_review|검증]]은 "과자 봉지 봉인 스티커"처럼, 누군가 앱을 몰래 수정했다면 실행하자마자 알아채고 꺼버리는 거야.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 315 / 530
+
+← **이전**: [[253_exception_handling_info_leak|253. 예외 처리 정보 노출 감리 (Exception Handling Info Leak Audit)]]
+**다음**: [[255_data_integrity_migration_audit|255. 데이터 무결성 이행 감리 (Data Integrity Migration Audit)]] →
+
+---

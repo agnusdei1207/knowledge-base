@@ -125,3 +125,14 @@ tags:
 1. [[014_api_posix|API]] [[317_versioning_data_model_design|Versioning]] ([[014_api_posix|API]] [[288_version_ihl_tos_total_length|버전]] 관리와 보안)는 컴퓨터 세상을 더 안전하게 만들기 위한 중요한 약속이나 도구예요.
 2. 겉으로는 어려워 보여도, 왜 필요한지와 어떻게 움직이는지를 알면 훨씬 쉬워져요.
 3. 그래서 이름만 외우지 말고 어디에 쓰이는지 같이 기억해야 해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 555 / 1108
+
+← **이전**: [[498_rest_api_security|498. REST API 보안 (REST API Security)]]
+**다음**: [[500_jwt_json_web_token|500. JWT (JSON Web Token)]] →
+
+---

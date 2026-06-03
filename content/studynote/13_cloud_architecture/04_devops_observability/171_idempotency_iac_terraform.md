@@ -183,3 +183,14 @@ Drift Detection · Safe Retry · GitOps Reconciliation
 1. 멱등성은 장난감 상자에 "자동차 한 대만 넣어"라고 여러 번 말해도 자동차가 딱 한 대만 있게 하는 규칙이에요.
 2. 이미 자동차가 있으면 더 넣지 않고, 없을 때만 한 대를 넣어요.
 3. 그래서 컴퓨터가 같은 명령을 다시 해도 방이 엉망이 되지 않아요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 170 / 371
+
+← **이전**: [[170_immutable_infrastructure_mutable_vs_immutable|170. 가변 인프라 (Mutable Infrastructure) vs 불변 인프라 (Immutable Infrastructure)]]
+**다음**: [[172_declarative_vs_imperative_infrastructure|172. 선언형 vs 명령형 인프라 접근 (Declarative vs Imperative Infrastructure)]] →
+
+---

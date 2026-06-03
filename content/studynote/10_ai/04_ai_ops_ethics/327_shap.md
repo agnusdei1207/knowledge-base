@@ -135,3 +135,14 @@ SHAP은 [[227_xai_explainable_ai_lime_shap|XAI]] 방법론 중 가장 수학적�
 1. **SHAP**은 팀이 같이 일해서 성과를 냈을 때, **각 팀원이 얼마나 기여했는지 공정하게 계산**하는 수학 방법을 [[190_ai_llm_requirements_specification|AI]] 설명에 쓴 거예요!
 2. "당신의 신용 점수는 소득(+20점), 연체 이력(-15점), 직업(+5점)"처럼 **각 요소의 기여도 합이 전체 점수 변화와 정확히 일치**해요(가산성).
 3. 이 엄격한 수학적 공정성 덕분에 **금융·의료 규제 [[606_auditing_linux_auditd|감사]]**에서 [[190_ai_llm_requirements_specification|AI]] 설명의 국제 표준으로 자리잡고 있어요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 327 / 420
+
+← **이전**: [[326_lime|326. LIME (Local Interpretable Model-agnostic Explanations)]]
+**다음**: [[328_federated_learning|328. 연합 학습 (Federated Learning)]] →
+
+---

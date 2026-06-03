@@ -125,3 +125,14 @@ tags:
 1. [[549_jwt_json_web_token|JWT]] 유출 및 [[726_xss_cross_site_scripting_types|XSS]] 방어 ([[549_jwt_json_web_token|JSON Web Token]])는 컴퓨터 세상을 더 안전하게 만들기 위한 중요한 약속이나 도구예요.
 2. 겉으로는 어려워 보여도, 왜 필요한지와 어떻게 움직이는지를 알면 훨씬 쉬워져요.
 3. 그래서 이름만 외우지 말고 어디에 쓰이는지 같이 기억해야 해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 560 / 1108
+
+← **이전**: [[503_hs256_vs_rs256_jwt_signing|503. HS256 vs RS256 (JWT 서명 방식 비교)]]
+**다음**: [[505_refresh_token|505. Refresh Token (액세스 토큰 재발급)]] →
+
+---

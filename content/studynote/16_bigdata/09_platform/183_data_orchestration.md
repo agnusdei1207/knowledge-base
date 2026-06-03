@@ -181,3 +181,14 @@ Asset 중심 계보 · 품질 관리
 1. [[001_dikw_pyramid|데이터]] [[073_container_orchestration_tools|오케스트레이션]]은 여러 친구가 하는 숙제를 누가 먼저 하고 누가 다음에 해야 하는지 정해 주는 반장 같아요.
 2. 어떤 친구가 실수하면 다시 하게 하고, 아직 안 끝났으면 다음 친구를 잠깐 기다리게도 해요.
 3. 그래서 모두가 제멋대로 움직이지 않고, 큰 숙제도 순서대로 안전하게 끝낼 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 183 / 262
+
+← **이전**: [[182_serverless_bigdata|182. 서버리스 빅데이터 (Serverless Big Data) — Amazon Athena/Google BigQuery/Amazon]]
+**다음**: [[184_data_catalog_integration|184. 데이터 카탈로그 통합 (Data Catalog Integration) - Glue · DataHub · OpenMetadata]] →
+
+---

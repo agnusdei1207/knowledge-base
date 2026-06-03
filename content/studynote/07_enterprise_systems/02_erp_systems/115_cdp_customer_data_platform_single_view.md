@@ -114,3 +114,14 @@ CDP는 [[190_ai_llm_requirements_specification|AI]] 기반 자동 세분화·예
 1. 국어 선생님은 "김철수 발표 잘함", 수학 선생님은 "김철수 계산 빠름"이라고 **따로따로** 적어요.
 2. CDP는 이 평가들을 **한 장의 생활기록부**로 합쳐서, 담임 선생님이 김철수를 **전부 이해**할 수 있게 해요.
 3. 덕분에 "김철수는 발표에 자신감 있으니까 수학 발표 대회에 추천하자!"처럼 **똑똑한 결정**을 할 수 있답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 115 / 482
+
+← **이전**: [[114_ai_based_crm_salesforce_einstein|114. AI 기반 CRM (AI-Powered CRM) - Salesforce Einstein·예측 분석·생성형 AI]]
+**다음**: [[116_first_party_data_cookie_less_strategy|116. 1st Party Data 전략 (Cookie-less Marketing) - 쿠키 폐지 후 데이터 주권 확보]] →
+
+---

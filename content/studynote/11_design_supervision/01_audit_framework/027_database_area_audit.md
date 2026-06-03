@@ -133,3 +133,14 @@ tags:
 1. DB 감리는 도서관 검사예요! 책([[001_dikw_pyramid|데이터]])이 올바른 위치에 있는지, 잠겨야 할 책([[781_personal_information|개인정보]])이 암호화됐는지 [[396_validation|확인]]해요.
 2. 주민번호 같은 [[781_personal_information|개인정보]]가 암호화 없이 저장되면 즉시 고쳐야 해요 — 법으로 의무화돼있어요!
 3. AI가 수천 개 테이블을 자동으로 분석해서 문제점을 즉시 찾아주는 시대가 됐답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 30 / 530
+
+← **이전**: [[026_baseline_verification|026. 베이스라인 검증 (Baseline Verification)]]
+**다음**: [[027_pm_area_audit|27. 사업 관리 영역 감리 (Project Management Area Audit)]] →
+
+---

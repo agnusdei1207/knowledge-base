@@ -336,3 +336,14 @@ ANN-SNN 변환 · 뉴로모픽 학습 알고리즘 (STDP)
 ```
 2. SNN의 [[129_spike_agile_technical_investigation|스파이크]]는 심장이 뛰는 박동과 같아요. 박동이 있을 때만 피(정보)가 흐르고, 박동 사이에는 에너지를 쓰지 않아요.
 3. 일반 GPU가 항상 켜진 슈퍼컴퓨터라면, 뉴로모픽 칩은 필요할 때만 깨어나는 스마트 워치예요. 훨씬 작고 배터리가 오래 가죠.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 193 / 258
+
+← **이전**: [[192_edge_ai_onnx_tensorrt_model_serialization|192. 엣지 AI 컴파일러 (Edge AI - ONNX, TensorRT) 모델 직렬화 패키징 배포망]]
+**다음**: [[194_medallion_architecture_bronze_silver_gold|194. 메달리온 아키텍처 (Medallion Architecture) Bronze/Silver/Gold 테이블 정제 적재]] →
+
+---

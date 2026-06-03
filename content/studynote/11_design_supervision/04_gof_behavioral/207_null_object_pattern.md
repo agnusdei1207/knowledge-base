@@ -259,3 +259,14 @@ Null Object (널 객체) 패턴은 [[382_defensive_programming|방어적 프로�
 1. 음악을 끄면 소리가 나지 않아요. 에러가 나는 게 아니라 그냥 조용해지는 거죠.
 2. 널 객체 패턴은 "없는 것"을 "아무것도 안 하는 것"으로 표현하는 방법이에요.
 3. 리모컨에 음소거 버튼이 있듯이, 코드에도 "아무것도 안 하는 객체"가 있을 수 있어요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 268 / 530
+
+← **이전**: [[206_interpreter_pattern|206. 해석자 패턴 (Interpreter Pattern)]]
+**다음**: [[208_guarded_suspension_pattern|208. 가드 서스펜션 패턴 (Guarded Suspension Pattern)]] →
+
+---

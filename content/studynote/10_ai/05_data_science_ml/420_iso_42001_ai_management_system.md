@@ -140,3 +140,15 @@ ISO/IEC 42001을 적용하면 [[190_ai_llm_requirements_specification|AI]] 운�
 1. 똑똑한 로봇을 만든 뒤에도, 누가 쓰고 어떻게 점검할지 규칙이 있어야 해요.
 2. ISO/IEC 42001은 그런 규칙을 정리한 큰 운영 노트예요.
 3. 그래서 로봇이 똑똑할 뿐 아니라, 안전하고 책임 있게 일하도록 도와줘요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 420 / 420
+
+← **이전**: [[419_fuzzy_membership_defuzzification|419. 퍼지 소속 함수·퍼지 추론·디퍼지피케이션 (Fuzzy Membership, Inference, Defuzzification)]]
+
+✅ **마지막 글입니다.**
+
+---

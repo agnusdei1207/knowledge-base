@@ -143,3 +143,14 @@ Follower Partition: ISR (In-Sync Replicas) — 복제본
 1. [[179_kafka_flink_watermark_time_window|Kafka]] [[514_partition_slice_volume|파티션]]은 고속도로 여러 차선이에요! 차선이 많을수록 더 많은 차(메시지)가 동시에 달릴 수 있어요.
 2. 같은 차 번호판(키)을 가진 차는 항상 같은 차선([[514_partition_slice_volume|파티션]])으로 가서, 순서가 뒤섞이지 않아요!
 3. 블랙박스(Offset) 덕분에 과거 어느 시점으로도 돌아가서 메시지를 다시 읽을 수 있답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 26 / 258
+
+← **이전**: [[025_spark_rdd_resilient_distributed_dataset|25. Spark RDD (Resilient Distributed Dataset) — 내결함성 분산 데이터셋]]
+**다음**: [[027_offset_consumer_group|27. Kafka 오프셋 & 컨슈머 그룹 (Offset & Consumer Group)]] →
+
+---

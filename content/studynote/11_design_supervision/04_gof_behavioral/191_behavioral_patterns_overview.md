@@ -140,3 +140,14 @@ GoF [[266_behavioral_patterns_overview|행위 패턴]]을 이해하면 복잡한
 1. [[266_behavioral_patterns_overview|행위 패턴]]은 사람들(객체)이 어떻게 소통하고 협력하는지에 관한 규칙이에요.
 2. 이메일([[267_observer_pattern|옵저버]]), 회의(미디에이터), 업무 지시([[271_command_pattern|커맨드]])처럼 상황에 맞는 소통 방식이 있어요.
 3. 적절한 패턴을 선택하면 복잡한 협력도 질서 있게 이루어질 수 있어요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 252 / 530
+
+← **이전**: [[190_enterprise_di_framework_lifecycle|190. 엔터프라이즈 모듈 분리 의존성 주입(DI) 프레임워크 생명주기 관리 구조 (Spring Bean Lifecycle)]]
+**다음**: [[192_observer_pattern|192. 옵저버 패턴 (Observer Pattern)]] →
+
+---

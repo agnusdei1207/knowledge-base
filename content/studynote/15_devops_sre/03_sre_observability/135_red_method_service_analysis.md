@@ -54,3 +54,14 @@ RED는 **[[532_microservices_decomposition_patterns|마이크로서비스]] [[22
 1. RED는 식당의 **3대 [[018_kpi|KPI]]**예요. 손님 수(Rate), 실수율(Errors), 음식 속도(Duration)!
 2. 이 **3가지만 보면** 식당이 잘 운영되는지 알 수 있어요.
 3. USE(주방 장비 상태)와 함께 보면 **더 완벽하게** 파악할 수 있답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 135 / 373
+
+← **이전**: [[134_use_method_resource_analysis|134. USE 메서드 (Utilization·Saturation·Errors) - 리소스 중심 분석]]
+**다음**: [[136_prometheus|136. Prometheus - 클라우드 네이티브 메트릭 수집·저장 엔진]] →
+
+---

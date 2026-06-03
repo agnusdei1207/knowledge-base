@@ -242,3 +242,14 @@ I/O 연산이 완료될 때까지 [[092_thread_lwp|스레드]]를 차단하지 �
 1. 이벤트 루프 (Event Loop) 기반 비동기 처리 (Node.js)은 컴퓨터가 여러 일을 나눠서 처리하고 서로 기다리게 하는 약속이에요.
 2. 먼저 [[141_coroutine|코루틴]] ([[141_coroutine|Coroutine]])을 이해하면 이벤트 루프 (Event Loop) 기반 비동기 처리 (Node.js)이 왜 필요한지 더 쉽게 보여요.
 3. 그래서 이벤트 루프 (Event Loop) 기반 비동기 처리 (Node.js)을 잘 알면 나중에 [[034_context_switch|컨텍스트 스위칭]] 최소화를 위한 [[092_thread_lwp|스레드]] 고정 ([[092_thread_lwp|Thread]] [[778_process_affinity_scheduling_pinning|Affinity]]/Pinning)도 훨씬 쉽게 배울 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 142 / 800
+
+← **이전**: [[141_coroutine|141. 코루틴 (Coroutine)]]
+**다음**: [[143_thread_affinity_pinning|143. 컨텍스트 스위칭 최소화를 위한 스레드 고정 (Thread Affinity/Pinning)]] →
+
+---

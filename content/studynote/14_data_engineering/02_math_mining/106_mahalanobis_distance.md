@@ -123,3 +123,14 @@ tags:
 1. 하늘을 나는 새가 우리 집에서 친구 집까지 일직선으로 날아가는 길이를 '유클리드 거리'라고 해요.
 2. 하지만 실제로는 산을 넘고 구불구불한 골목길([[001_dikw_pyramid|데이터]]의 쏠림과 굴곡)을 뚫고 가야 해서 훨씬 힘들 수도 있어요.
 3. 마할라노비스 거리는 단순히 길이를 재는 게 아니라, 길이 얼마나 막히고 꼬불꼬불한지까지 다 계산해서 "진짜 얼마나 멀게 느껴지는지"를 알려주는 똑똑한 내비게이션이에요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 106 / 258
+
+← **이전**: [[105_tf_idf_cosine_similarity|TF-IDF 및 코사인 유사도 (TF-IDF & Cosine Similarity)]]
+**다음**: [[107_tensorflow_array_tensor|텐서플로우 배열 (TensorFlow Tensors: Scalar, Vector, Matrix, Tensor)]] →
+
+---

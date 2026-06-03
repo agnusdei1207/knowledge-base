@@ -276,3 +276,14 @@ Airflow: DAG 기반 워크플로 오케스트레이션
 ```
 2. DAG는 집 짓기 공정표다. 기초 공사를 해야 벽을 세울 수 있고, 벽이 있어야 지붕을 올릴 수 있는 것처럼, 각 단계([[150_task|Task]])가 순서대로 이루어진다.
 3. 만약 어느 공정이 실패하면(벽 공사 실패), Airflow는 자동으로 다시 시도하고, 실패 원인을 기록해 나중에 [[396_validation|확인]]할 수 있게 해준다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 232 / 371
+
+← **이전**: [[232_cdc_change_data_capture_debezium|232. CDC (Change Data Capture / 변경 데이터 캡처)]]
+**다음**: [[234_columnar_storage_parquet_orc|234. 컬럼 지향 스토리지 (Columnar Storage) - Parquet / ORC]] →
+
+---

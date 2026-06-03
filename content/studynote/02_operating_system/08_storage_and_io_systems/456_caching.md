@@ -178,3 +178,14 @@ DB에 사용자 닉네임을 "철수"에서 "영희"로 바꿨는데(Write), 앞
 1. 캐싱 (Caching)은 컴퓨터가 디스크와 장치가 [[001_dikw_pyramid|데이터]]를 주고받는 길을 정리하는 방법이에요.
 2. 먼저 [[455_double_buffering|이중 버퍼링]] ([[455_double_buffering|Double Buffering]])을 이해하면 캐싱 (Caching)이 왜 필요한지 더 쉽게 보여요.
 3. 그래서 캐싱 (Caching)을 잘 알면 나중에 [[457_spooling|스풀링]] ([[457_spooling|Spooling]], Simultaneous Peripheral [[329_delta_encoding|Operation]] On-Line)도 훨씬 쉽게 배울 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 456 / 800
+
+← **이전**: [[455_double_buffering|455. 이중 버퍼링 (Double Buffering)]]
+**다음**: [[457_spooling|457. 스풀링 (Spooling, Simultaneous Peripheral Operation On-Line) - 디스크를 대형 버퍼로]] →
+
+---

@@ -181,3 +181,14 @@ TSN linkage · edge AI · smart factory orchestration
 1. 프라이빗 5G는 우리 학교 운동장 안에만 있는 전용 무전기 길을 만드는 거예요.
 2. 그래서 뛰어다니는 로봇 친구들도 끊기지 않고 선생님 말을 빨리 들을 수 있어요.
 3. 또 중요한 이야기들이 학교 밖 큰 길로 나가지 않고 안에서만 오가게 할 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 170 / 552
+
+← **이전**: [[169_opc_ua_industrial_automation|169. OPC UA - 스마트 팩토리 산업 자동화 표준 프로토콜]]
+**다음**: [[171_smart_city_platform_architecture|171. 스마트 시티 (Smart City) 플랫폼 아키텍처]] →
+
+---

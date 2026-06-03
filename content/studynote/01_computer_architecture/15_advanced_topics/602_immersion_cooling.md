@@ -164,3 +164,14 @@ Two-phase Boiling / Condensation
 1. 이머전 쿨링은 컴퓨터를 시원한 물이 아니라 전기가 통하지 않는 특별한 액체 수영장에 넣어 주는 거예요.
 2. 그러면 컴퓨터 몸 전체가 한꺼번에 시원해져서 선풍기를 세게 돌리지 않아도 돼요.
 3. 대신 수영장에서 꺼내어 닦고 다시 넣는 규칙을 잘 지켜야 오래오래 안전하게 쓸 수 있답니다.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 602 / 803
+
+← **이전**: [[601_liquid_cooling|601. 액체 냉각 시스템 (Liquid Cooling)]]
+**다음**: [[603_software_defined_accelerator|603. 소프트웨어 정의 엑셀러레이터 (Software-Defined Accelerator)]] →
+
+---

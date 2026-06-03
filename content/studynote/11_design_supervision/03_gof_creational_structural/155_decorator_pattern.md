@@ -136,3 +136,14 @@ InputStream is = new GZIPInputStream(
 1. [[262_decorator_pattern_dynamic_wrapper|데코레이터]]는 아이스크림에 토핑을 올리는 것처럼, 원래 아이스크림을 바꾸지 않고 기능을 추가해요.
 2. 초콜릿·견과류·크림을 순서대로 올릴 수 있고, 어떤 조합이든 자유롭게 만들 수 있어요.
 3. Java IO Stream이 바로 이 패턴을 사용해요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 211 / 530
+
+← **이전**: [[154_composite_pattern|154. 구조 패턴: 컴포지트 (Composite Pattern) - 트리 쇳덩이를 단일 껍데기로 압살 융합한 마트료시카 마법]]
+**다음**: [[156_facade_pattern|156. 파사드 패턴 (Facade Pattern)]] →
+
+---

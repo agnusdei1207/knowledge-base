@@ -355,3 +355,14 @@ Container 셸 (Alpine sh)
 1. 셸은 번역관 — 사람의 말(ls -la)을 컴퓨터 [[022_kernel_role|커널]] 언어(시스템 콜)로 번역해주는 통역사예요!
 2. 셸 스크립트는 자동 요리 레시피 — 재료 준비→가열→담기 순서를 스크립트로 써두면 버튼 하나로 자동으로 실행!
 3. bash vs zsh — bash는 기본 잘 되는 도구, zsh는 자동완성이 뛰어난 스마트 도구. macOS는 zsh로 업그레이드했어요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 44 / 800
+
+← **이전**: [[043_protection_security|043. 보호와 보안 (Protection & Security)]]
+**다음**: [[045_cluster_system|045. 클러스터 시스템 — Cluster System]] →
+
+---

@@ -205,3 +205,14 @@ Optuna 최적화 + SHAP 피처 중요도
 1. XGBoost와 LightGBM은 여러 약한 예측기(나무)를 합쳐 강한 예측기를 만드는 팀워크 [[001_algorithm_definition|알고리즘]]이에요.
 2. 각 나무는 이전 나무가 틀린 부분을 집중적으로 고치면서 점점 똑똑해져요.
 3. 표 형태의 [[001_dikw_pyramid|데이터]] 분석에서는 딥러닝보다 더 빠르고 정확할 때가 많답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 35 / 420
+
+← **이전**: [[034_gradient_boosting|그래디언트 부스팅 (Gradient Boosting)]]
+**다음**: [[036_support_vector_machine|036. 서포트 벡터 머신 (Support Vector Machine, SVM)]] →
+
+---

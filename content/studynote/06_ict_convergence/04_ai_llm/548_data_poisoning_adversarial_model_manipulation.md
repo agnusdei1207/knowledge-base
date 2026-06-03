@@ -149,3 +149,14 @@ tags:
 1. [[190_ai_llm_requirements_specification|AI]] 학교에 나쁜 학생이 몰래 틀린 정보를 가르치면 AI가 잘못 배워요 — 이게 [[947_data_poisoning|데이터 포이즈닝]]이에요.
 2. 멤버십 추론은 "이 학생이 시험에 나온 문제를 미리 봤는지" 알아내려는 꼼수예요.
 3. 이런 공격을 막으려면 공부 재료를 꼼꼼히 검사하고, 정보를 조금 흐릿하게 배우게([[396_differential_privacy|차분 프라이버시]]) 해야 해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 548 / 552
+
+← **이전**: [[547_autoencoder_vae_latent_dimensionality_reduction|547. 오토인코더와 VAE 잠재 벡터 차원 축소 (Autoencoder VAE Latent Vector Dimensionality Reduction)]]
+**다음**: [[549_llm_context_window_extension_long_context|549. LLM 컨텍스트 윈도우 확장과 긴 문맥 처리 (LLM Context Window Extension Long Context)]] →
+
+---

@@ -164,3 +164,14 @@ LMAX Disruptor
 1. 여러 친구가 장난감을 한 줄로 돌려 쓰는데, 서로 손을 붙잡고 기다리면 너무 느려져요.
 2. 그래서 번호가 붙은 원형 칸에 장난감을 올리고, 자기 번호가 오면 바로 가져가게 만들어요.
 3. 디스럽터는 이렇게 기다리는 시간을 아주 많이 줄여 주는 방법이에요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 245 / 530
+
+← **이전**: [[187_lmax_disruptor_architecture|187. LMAX 디스럽터 아키텍처 (LMAX Disruptor Architecture)]]
+**다음**: [[188_ambassador_pattern|188. 앰배서더 패턴 (Ambassador Pattern)]] →
+
+---

@@ -274,3 +274,14 @@ OAuth 2.0는 [[545_kerberos_kdc_ticket_based_auth|커버로스]]에서 출발해
 1. 친구 이름을 전화번호부에서 찾는 것처럼 컴퓨터도 이름과 번호를 연결해요.
 2. 이 개념은 누가 아픈지 살펴보는 건강검진표와 운영일지 역할도 해요.
 3. 그래서 문제가 나도 빨리 찾고 고칠 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 667 / 1120
+
+← **이전**: [[545_kerberos_kdc_ticket_based_auth|545. 커버로스 (Kerberos)]]
+**다음**: [[547_saml_2_0_security_assertion_markup_language|547. SAML 2.0 (Security Assertion Markup Language)]] →
+
+---

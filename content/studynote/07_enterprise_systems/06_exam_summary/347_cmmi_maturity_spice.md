@@ -139,3 +139,14 @@ tags:
 1. [[133_cmmi_capability_maturity_model_integration_levels|CMMI]] 성숙도 5단계 [[139_spice_iso_iec_15504_process_assessment|SPICE]] 비교는 복잡한 일을 순서대로 정리해 주는 큰 정리함이에요.
 2. 어디에 무엇을 넣을지 먼저 정해 두면, 나중에 찾거나 고칠 때 훨씬 쉬워져요.
 3. 그래서 일이 커질수록 먼저 기준을 만들고 같이 약속하는 것이 중요해요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 347 / 482
+
+← **이전**: [[346_process_mining_event_log|346. 프로세스 마이닝 이벤트 로그 분석 (Process Mining Event Log Analysis)]]
+**다음**: [[348_pmo_project_management_office|348. PMO 역할 범위 자원 조달 통제 (Project Management Office)]] →
+
+---

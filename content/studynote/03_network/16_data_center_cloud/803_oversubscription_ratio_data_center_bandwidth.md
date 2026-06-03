@@ -123,3 +123,14 @@ tags:
 1. 큰 아파트에 사는 친구들이 층마다 다른 규칙으로 엘리베이터를 타면 복잡해져요.
 2. 이 개념은 어느 층에서 누구를 어떻게 연결할지 자동으로 정리해 주는 관리실과 같아요.
 3. 그래서 많은 컴퓨터가 한 건물 안에서 더 잘 협력할 수 있어요.
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 924 / 1120
+
+← **이전**: [[802_spine_leaf_architecture_data_center_east_west|802. 데이터센터 Spine-Leaf 아키텍처]]
+**다음**: [[804_ecmp_equal_cost_multi_path_routing_load_balancing|804. ECMP (Equal-Cost Multi-Path) 스파인-리프 병렬 라우팅 경로 활성화]] →
+
+---

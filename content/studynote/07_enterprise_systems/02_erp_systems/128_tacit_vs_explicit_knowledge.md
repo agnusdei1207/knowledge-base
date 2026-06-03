@@ -103,3 +103,14 @@ tags:
 1. 암묵지는 할머니의 **손맛(경험)**이에요. 말로 설명하기 어려워요.
 2. [[129_explicit_knowledge_formalization|형식지]]는 **레시피(문서)**예요. 누구나 보고 따라할 수 있어요.
 3. 손맛을 레시피로 바꾸면(외부화) 할머니가 안 계셔도 **맛있는 음식**을 만들 수 있어요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 128 / 482
+
+← **이전**: [[127_kms_knowledge_management_system|127. KMS (Knowledge Management System) - 조직 지식 관리 시스템]]
+**다음**: [[129_explicit_knowledge_formalization|129. 형식지 (Explicit Knowledge)]] →
+
+---

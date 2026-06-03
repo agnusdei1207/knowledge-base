@@ -64,3 +64,14 @@ OpenTelemetry는 **[[051_vendor_lock_in_cloud_computing|벤더 종속]] 없는 [
 1. OpenTelemetry는 **만능 충전기([[359_usb|USB]]-C)**예요. 어떤 벤더(기기)든 **하나로 연결**돼요.
 2. 예전에는 [[342_routing_metric_hop_bandwidth_delay|메트릭]]·[[568_logs_distributed_logging_elk_fluentd|로그]]·트레이스마다 **다른 충전기**가 필요했어요.
 3. [[146_opentelemetry_otel_observability_standard|OTel]] 덕분에 **하나의 도구**로 모든 관측 [[001_dikw_pyramid|데이터]]를 모을 수 있답니다!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 130 / 373
+
+← **이전**: [[129_observability_vs_monitoring|129. 관측 가능성 vs 모니터링 (Observability vs Monitoring)]]
+**다음**: [[131_observability_three_pillars|131. 관측 가능성 Three Pillars - Metrics·Logs·Traces 심층 분석]] →
+
+---

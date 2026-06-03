@@ -184,3 +184,14 @@ DAMA는 PRMA에서 출발해 현재 메커니즘을 정교화하고, 이후 PAMA
 1. [[592_satellite_communication_characteristics|위성 통신]]은 우주에 있는 비싼 기지국을 빌려 쓰는 거라 요금이 엄청 비싸요.
 2. 모두에게 항상 자기 자리를 지정해 주면 비어 있는 시간 동안 돈이 너무 아까워요.
 3. 그래서 DAMA는 통화하고 싶을 때만 손을 번쩍 들어 빈자리를 빌려 쓰고, 끝나면 바로 돌려줘서 아주 많은 사람이 아껴 쓸 수 있게 만든 마법의 대여 시스템이에요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 238 / 1120
+
+← **이전**: [[116_prma|116. PRMA (Packet Reservation Multiple Access)]]
+**다음**: [[118_pama|118. PAMA (Pre-Assigned Multiple Access)]] →
+
+---

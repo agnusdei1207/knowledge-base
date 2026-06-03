@@ -111,3 +111,14 @@ BN은 2015년 도입 이후 깊은 신경망 훈련의 표준 도구가 됐다. 
 1. [[282_batch_normalization|배치 정규화]]는 "각 층에서 [[001_dikw_pyramid|데이터]]의 키를 평균 170cm, 표준편차 10cm로 조정하는 마법"이에요.
 2. 이렇게 하면 AI가 각 층을 통과할 때 [[130_signal|신호]]가 너무 크거나 작아지지 않아요.
 3. 덕분에 100층 이상의 아주 깊은 AI도 안정적으로 학습할 수 있어요!
+
+---
+
+## 🔗 이전/다음 글 (Navigation)
+
+**진행 상황**: 369 / 420
+
+← **이전**: [[368_rbf_kernel|368. RBF 커널 (Radial Basis Function Kernel)]]
+**다음**: [[370_bptt|370. BPTT (Backpropagation Through Time)]] →
+
+---
