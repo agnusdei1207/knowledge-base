@@ -17,7 +17,8 @@ graph TD
 
     Hub --> Work[🏢 기업 업무 허브<br/>Work Workspace]
     Hub --> Personal[🏠 개인 서재 & 로그<br/>Personal Workspace]
-    Hub --> Study[🎓 학습 허브<br/>Study Workspace]
+    Hub --> Study[🎓 일반 학습 허브<br/>Study Workspace]
+    Hub --> StudyNote[🏆 기술사 스터디<br/>Study Note Workspace]
     Hub --> RD[🔬 연구 개발 허브<br/>R&D Workspace]
 
     Work --> W1[사업 기획 & GTM]
@@ -30,8 +31,10 @@ graph TD
     Personal --> P3[개인 자산 & 재정]
     Personal --> P4[취미 및 독서 기록]
 
-    Study --> S1[기술사 16과목 노트]
-    Study --> S2[학습 일지 및 아카이브]
+    Study --> S1[학습 일지 및 아카이브]
+    Study --> S2[학습 보조 자료]
+
+    StudyNote --> SN1[기술사 16과목 노트]
 
     RD --> R1[R&D 가설 및 실험]
     RD --> R2[연구 개발 로드맵]
@@ -42,12 +45,13 @@ graph TD
     style Work fill:#383228,stroke:#A65B32,color:#F2ECE4
     style Personal fill:#383228,stroke:#A65B32,color:#F2ECE4
     style Study fill:#383228,stroke:#A65B32,color:#F2ECE4
+    style StudyNote fill:#383228,stroke:#A65B32,color:#F2ECE4
     style RD fill:#2D2A27,stroke:#73826F,color:#F2ECE4
 ```
 
 ---
 
-## ⚡ 4대 영역 바로가기
+## ⚡ 5대 영역 바로가기
 
 ### 🏢 **[[work/index|Work (기업 업무 허브)]]**
 *   **목적:** 회사 비즈니스, 프로젝트 관리, 개발 스택 및 시스템 인프라 아키이빙.
@@ -58,9 +62,13 @@ graph TD
 *   **목적:** 지극히 개인적인 일상, 성장 기록, 취미, 재정 계획을 관리하는 안식처.
 *   **주요 문서:** `[[journal|데일리저널]]`, `[[life-goals|인생목표]]`, `[[finances|자산플래너]]`, `[[hobby|취미&독서]]`.
 
-### 🎓 **[[study/index|Study (학습 허브)]]**
-*   **목적:** 방대한 스터디 노트를 마스터하는 **읽기 중심** 공간.
-*   **주요 문서:** `[[study/index]]`.
+### 🎓 **[[study/index|Study (일반 학습 허브)]]**
+*   **목적:** 일반적인 학습 일지 및 학습 보조 지식 보관소.
+*   **주요 문서:** `[[tarball|tarball 아카이브]]`.
+
+### 🏆 **[[studynote/index|Study Note (기술사 스터디)]]**
+*   **목적:** 정보통신기술사 및 컴퓨터응용시스템기술사 합격을 위한 16과목 심층 스터디 노트.
+*   **주요 문서:** `[[studynote/index|기술사 16과목 목록]]`.
 
 ### 🔬 **[[r-and-d/index|R&D (연구 개발 허브)]]**
 *   **목적:** 검색, RAG, 문서 자동화, 에이전트 협업 등 **연구개발 가설과 실험**을 다루는 **쓰기 중심** 공간.
@@ -71,7 +79,7 @@ graph TD
 ## 📥 아이디어 보관함 (`Inbox`)
 
 어디로 분류해야 할지 모르는 임시 메모, 갑자기 떠오른 비즈니스 아이디어, 오늘 배운 팁 등은 우선 **[[inbox|아이디어 보관함]]**에 자유롭게 던져 두세요.
-정기적으로 이 공간을 비우며 적절한 카테고리(Work, Personal, Study, R&D)로 이동시키면 지식베이스의 신선함이 유지됩니다.
+정기적으로 이 공간을 비우며 적절한 카테고리(Work, Personal, Study, StudyNote, R&D)로 이동시키면 지식베이스의 신선함이 유지됩니다.
 
 ---
 
