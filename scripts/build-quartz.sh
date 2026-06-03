@@ -38,4 +38,8 @@ mkdir -p "$OUTPUT_DIR"
 rm -rf "$OUTPUT_DIR"/*
 cp -R "$TMP_DIR/public/." "$OUTPUT_DIR/"
 
+if [ -d "$ROOT_DIR/static" ]; then
+  cp -R "$ROOT_DIR/static/." "$OUTPUT_DIR/"
+fi
+
 echo "Built site into $OUTPUT_DIR"

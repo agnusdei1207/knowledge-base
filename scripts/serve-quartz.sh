@@ -26,4 +26,16 @@ echo "Starting Quartz preview on port ${PORT}..."
 export npm_config_cache="$BUILD_DIR/.npm-cache"
 npm ci
 npx quartz plugin install --from-config --concurrency 1
+
+if [ -d "$WORKSPACE/static" ]; then
+  (
+    while true; do
+      if [ -d "$BUILD_DIR/public" ]; then
+        cp -R "$WORKSPACE/static/." "$BUILD_DIR/public/"
+      fi
+      sleep 2
+    done
+  ) &
+fi
+
 npx quartz build --serve --port "$PORT" --wsPort "$WS_PORT" --baseDir "$BASE_DIR"

@@ -7,6 +7,9 @@ Decap CMS는 정적 사이트용 웹 편집기입니다. 더 정확히 말하면
 - [[hermes-pipeline]]
 - [[quartz-deployment]]
 
+현재 편집기 경로:
+- `https://agnusdei1207.github.io/knowledge-base/admin/`
+
 ---
 
 ## 1. 한 줄 정의
@@ -130,7 +133,27 @@ Decap CMS는 자체 DB를 주 저장소로 두지 않습니다.
 
 ---
 
-## 9. 그래서 결론은 무엇인가
+## 9. 지금 배포 상태
+
+현재 저장소에는 실제 Decap CMS 정적 파일이 포함되어 있어 `/admin/` 경로로 접근할 수 있습니다.
+
+다만 중요한 제한이 있습니다.
+
+- 편집기 화면 배포: 완료
+- GitHub Pages에서 로그인/저장: 추가 인증 구성 필요
+
+공식 문서 기준으로 GitHub backend는 인증용 서버가 필요합니다.
+즉, GitHub Pages만으로는 로그인까지 끝나지 않습니다.
+
+실제로 쓰려면 아래 중 하나가 더 필요합니다.
+
+- Netlify Identity + Git Gateway
+- 별도 OAuth handler/server
+- 나중에 Forgejo/Gitea로 옮겨 PKCE 기반으로 직접 로그인
+
+---
+
+## 10. 그래서 결론은 무엇인가
 
 Decap CMS는 "웹에서 문서를 쉽게 고치게 해주는 Git 기반 편집 계층"입니다.
 

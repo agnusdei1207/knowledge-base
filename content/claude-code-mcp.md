@@ -160,6 +160,9 @@ Claude Code와 MCP만 붙이면 AI는 강해지지만, 비개발자 편집 UX는
 
 특히 Decap CMS의 `editorial_workflow`를 쓰면 초안과 승인 흐름을 PR 기반으로 강제할 수 있습니다.
 
+현재 `/admin/` 경로는 배포되어 있지만, GitHub Pages만으로는 로그인 저장이 끝나지 않습니다.
+GitHub backend를 실제로 쓰려면 인증 서버가 추가로 필요합니다.
+
 ---
 
 ## 8. 권장 운영 단계

@@ -1,0 +1,59 @@
+backend:
+  name: github
+  repo: agnusdei1207/knowledge-base
+  branch: main
+  open_authoring: true
+
+publish_mode: editorial_workflow
+site_url: https://agnusdei1207.github.io/knowledge-base
+display_url: https://agnusdei1207.github.io/knowledge-base
+logo_url: https://agnusdei1207.github.io/knowledge-base/icon.png
+
+media_folder: content/assets/uploads
+public_folder: /knowledge-base/assets/uploads
+
+slug:
+  encoding: ascii
+  clean_accents: true
+  sanitize_replacement: "-"
+
+collections:
+  - name: docs
+    label: Documents
+    label_singular: Document
+    folder: content
+    create: true
+    extension: md
+    format: yaml-frontmatter
+    preview_path: "{{slug}}"
+    identifier_field: title
+    summary: "{{title}}"
+    editor:
+      preview: true
+    sortable_fields:
+      - title
+      - commit_date
+      - update_date
+    fields:
+      - { label: Title, name: title, widget: string, required: false, hint: "기존 문서는 H1만 써도 되지만, 새 문서는 title frontmatter를 넣는 편이 안전합니다." }
+      - label: Tags
+        name: tags
+        widget: list
+        required: false
+        collapsed: false
+      - label: Department
+        name: department
+        widget: select
+        required: false
+        options:
+          - Business
+          - R&D
+          - Development
+          - Operations
+          - Sales
+      - label: Draft
+        name: draft
+        widget: boolean
+        required: false
+        default: false
+      - { label: Body, name: body, widget: markdown }

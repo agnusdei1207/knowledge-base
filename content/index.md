@@ -58,6 +58,7 @@
 ### 13. 웹 편집 계층 (`Decap CMS`)
 *   Decap CMS가 정확히 무엇이고, 왜 Quartz 단독 대신 같이 검토할 가치가 있는지 설명합니다.
 *   👉 **[[decap-cms]]**
+*   실제 편집기 주소: `/admin/`
 
 ### 14. Claude Code + MCP (`AI Ops`)
 *   20명 규모에서 Claude Code와 MCP를 이용해 이 지식베이스를 공용 AI 컨텍스트로 운영하는 방안을 정리합니다.
