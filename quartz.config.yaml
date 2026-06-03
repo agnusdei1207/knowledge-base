@@ -58,7 +58,7 @@ plugins:
         dark: github-dark
       keepBackground: false
     order: 20
-  - source: github:quartz-community/obsidian-flavored-markdown
+  - source: ./plugins/obsidian-flavored-markdown
     enabled: true
     options:
       enableInHtmlEmbed: false
@@ -129,7 +129,7 @@ plugins:
     enabled: true
   - source: github:quartz-community/tag-page
     enabled: true
-  - source: github:quartz-community/explorer
+  - source: ./plugins/explorer
     enabled: true
     layout:
       position: left
