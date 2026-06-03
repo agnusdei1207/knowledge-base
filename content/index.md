@@ -1,12 +1,7 @@
 ---
-title: 🌌 종합 지식 포털 (Unified Hub)
+title: knowledge-base
 tags:
 - general
----
-
-이곳은 **업무(Work)**, **개인(Personal)**, **학습(Study)**, **연구개발(R&D)** 영역을 모두 아우르는 통합 지식 허브입니다.
-하나의 저장소 안에서 각 공간의 경계를 유지하며, 유기적으로 연결된 지식을 관리하고 확장해 보세요.
-
 ---
 
 ## 🗺️ 지식 지도 (Workspace Map)

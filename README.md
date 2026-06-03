@@ -8,11 +8,10 @@
 
 1. [전체 아키텍처](#1-전체-아키텍처)
 2. [콘텐츠 구조](#2-콘텐츠-구조)
-3. [로컬 실행 (Docker)](#3-로컬-실행-docker)
-4. [GitHub Pages 배포](#4-github-pages-배포)
-5. [배포 트러블슈팅](#5-배포-트러블슈팅)
-6. [MCP 서버 (AI 에이전트 연동)](#6-mcp-서버-ai-에이전트-연동)
-7. [설정 파일 설명](#7-설정-파일-설명)
+3. [GitHub Pages 배포](#3-github-pages-배포)
+4. [배포 트러블슈팅](#4-배포-트러블슈팅)
+5. [MCP 서버 (AI 에이전트 연동)](#5-mcp-서버-ai-에이전트-연동)
+6. [설정 파일 설명](#6-설정-파일-설명)
 
 ---
 
@@ -22,21 +21,16 @@
           ┌────────────────────────────────────────────┐
           │            GitHub Repository                │
           │   (content/*.md + quartz.config.yaml)      │
-          └──────┬──────────────────────────┬──────────┘
-                 │ git push (main)           │ ro mount
-                 ▼                           ▼
-     ┌───────────────────┐       ┌────────────────────┐
-     │  GitHub Actions   │       │   로컬 Docker       │
-     │  (deploy.yml)     │       │  docker compose up  │
-     │                   │       │                     │
-     │  Quartz v5 빌드   │       │  Quartz v5 serve    │
-     │  → GitHub Pages   │       │  :8080 (웹 UI)      │
-     └───────────────────┘       │  MCP Server :8090   │
-                                 └────────────────────┘
-                                          │
-                                          ▼
-                                  [ AI 에이전트 ]
-                            (search_docs / get_doc)
+          └──────────────────┬─────────────────────────┘
+                             │ git push (main)
+                             ▼
+                 ┌───────────────────┐
+                 │  GitHub Actions   │
+                 │  (deploy.yml)     │
+                 │                   │
+                 │  Quartz v5 빌드   │
+                 │  → GitHub Pages   │
+                 └───────────────────┘
 ```
 
 ---
@@ -69,48 +63,7 @@ content/
 
 ---
 
-## 3. 로컬 실행 (Docker)
-
-### 사전 준비
-
-| 항목 | 최소 버전 |
-|------|----------|
-| Docker Desktop | 4.x 이상 |
-| Docker Compose | v2 (CLI: `docker compose`) |
-
-### 전체 서비스 시작
-
-```bash
-# 저장소 클론
-git clone https://github.com/agnusdei1207/knowledge-base.git
-cd knowledge-base
-
-# 모든 서비스 백그라운드 실행
-docker compose up -d
-```
-
-| 서비스 | 포트 | 역할 |
-|--------|------|------|
-| Quartz 웹서버 | http://localhost:8080 | 지식 위키 UI (라이브 리로드) |
-| MCP 서버 | http://localhost:8090 | AI 에이전트 API |
-
-> **첫 실행**: `npm ci` + `npx quartz build` 때문에 **2~3분** 소요됩니다. 이후는 캐시로 빠릅니다.
-
-### 서비스 중지 / 재시작
-
-```bash
-docker compose down          # 중지
-docker compose restart       # 재시작 (코드 변경 후)
-docker compose logs -f       # 실시간 로그 확인
-```
-
-### 콘텐츠 수정 반영
-
-콘텐츠(`content/`)를 수정하면 Quartz serve 모드가 자동으로 감지해서 리빌드합니다. 브라우저에서 새로고침하면 바로 보입니다.
-
----
-
-## 4. GitHub Pages 배포
+## 3. GitHub Pages 배포
 
 ### 저장소 설정 (최초 1회)
 
@@ -150,7 +103,7 @@ GitHub Actions (deploy.yml)
 
 ---
 
-## 5. 배포 트러블슈팅
+## 4. 배포 트러블슈팅
 
 ### ❌ 빌드가 30분 이상 걸린다
 
@@ -182,7 +135,7 @@ GitHub Actions (deploy.yml)
 **확인**:
 ```bash
 # 로컬에서 먼저 테스트
-USE_DOCKER=false bash scripts/build-quartz.sh /tmp/test-build
+bash scripts/build-quartz.sh /tmp/test-build
 ```
 
 **원인 2**: GitHub API 레이트 리밋 (플러그인을 `github:quartz-community/...`에서 받아오는 경우)
@@ -190,18 +143,6 @@ USE_DOCKER=false bash scripts/build-quartz.sh /tmp/test-build
 **해결**: 재시도하면 보통 해결됩니다. 반복적이면 Actions Secrets에 `GH_TOKEN`을 추가하세요.
 
 ---
-
-### ❌ Docker `quartz-server` 컨테이너가 바로 죽는다
-
-```bash
-# 로그 확인
-docker compose logs quartz-server
-
-# 대부분 원인: npm ci 중 메모리 부족
-# docker-compose.yml에 메모리 제한이 없는지 확인
-# 또는 NODE_OPTIONS를 늘려서 재시작
-NODE_OPTIONS=--max-old-space-size=8192 docker compose up quartz-server
-```
 
 ---
 
@@ -247,10 +188,8 @@ draft: true
 **확인**:
 ```bash
 # 필수 파일 존재 확인
-ls quartz.config.yaml docker-compose.yml \
-   scripts/build-quartz.sh scripts/serve-quartz.sh \
-   scripts/knowledgebase_mcp_server.py \
-   docker/knowledgebase-mcp.Dockerfile \
+ls quartz.config.yaml \
+   scripts/build-quartz.sh \
    content/index.md
 
 # YAML 문법 검사
@@ -262,7 +201,7 @@ bash -n scripts/build-quartz.sh && echo OK
 
 ---
 
-## 6. MCP 서버 (AI 에이전트 연동)
+## 5. MCP 서버 (AI 에이전트 연동)
 
 ### 연결 설정 예시 (Claude Desktop / Cursor 등)
 
@@ -292,16 +231,12 @@ bash -n scripts/build-quartz.sh && echo OK
 
 ---
 
-## 7. 설정 파일 설명
+## 6. 설정 파일 설명
 
 | 파일 | 역할 |
 |------|------|
 | `quartz.config.yaml` | Quartz v5 전체 설정 (테마, 플러그인, baseUrl) |
-| `docker-compose.yml` | 로컬 개발 환경 (Quartz 웹서버 + MCP 서버) |
-| `docker/knowledgebase-mcp.Dockerfile` | MCP 서버 Python 컨테이너 이미지 |
 | `scripts/build-quartz.sh` | CI/CD 및 로컬 정적 빌드 스크립트 |
-| `scripts/serve-quartz.sh` | 로컬 라이브 서버 스크립트 (Docker entrypoint) |
 | `scripts/knowledgebase_mcp_server.py` | MCP HTTP 서버 (FastMCP/Starlette) |
 | `AGENTS.md` | AI 에이전트 행동 규칙 |
 | `.github/workflows/deploy.yml` | GitHub Pages 자동 배포 |
-| `.github/workflows/test.yml` | PR/push 구조 검증 (YAML·sh 문법, 필수 파일) |
