@@ -1,7 +1,7 @@
 services:
   quartz-server:
     image: node:24-alpine
-    container_name: quartz-local-wiki
+    container_name: knowledgebase-quartz
     ports:
       - "8080:8080"
       - "3001:3001"
@@ -13,9 +13,7 @@ services:
       - WS_PORT=3001
       - BASE_DIR=/
       - WORKSPACE=/workspace
-    entrypoint:
-      - /bin/sh
-      - /workspace/scripts/serve-quartz.sh
+    entrypoint: ["/bin/sh", "/workspace/scripts/serve-quartz.sh"]
     restart: unless-stopped
 
   knowledgebase-mcp:
@@ -26,10 +24,9 @@ services:
     ports:
       - "8090:8090"
     volumes:
-      - ./:/workspace:ro
+      - ./content:/workspace/content:ro
     environment:
       - CONTENT_DIR=/workspace/content
       - MCP_HOST=0.0.0.0
       - MCP_PORT=8090
-      - KB_BASE_URL=http://localhost:8080
     restart: unless-stopped

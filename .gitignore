@@ -7,12 +7,14 @@ Thumbs.db
 *~
 *.log
 
-# Local dependencies
+# Node / Quartz build
 node_modules/
-.quartz/
-.quartz-build/
 public/
+.quartz-build/
+.quartz-src/
 .cache/
-.parcel-cache/
 __pycache__/
 *.pyc
+
+# Quartz plugin cache
+.quartz/

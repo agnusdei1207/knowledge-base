@@ -20,46 +20,43 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          fetch-depth: 0
+          fetch-depth: 0  # git 타임스탬프 사용 위해 전체 히스토리 필요
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
+      - uses: actions/setup-node@v4
         with:
           node-version: 24
 
-      # Quartz 소스 캐시 (tarball 재다운로드 방지)
-      - name: Cache Quartz source
-        id: cache-quartz-src
+      - name: Cache npm dependencies
         uses: actions/cache@v4
         with:
-          path: .quartz-src
-          key: quartz-src-v5-${{ hashFiles('quartz.config.yaml') }}
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json') }}
           restore-keys: |
-            quartz-src-v5-
+            ${{ runner.os }}-node-
 
-      # npm 패키지 캐시 (node_modules 재설치 방지)
-      - name: Cache npm packages
+      - name: Cache Quartz plugins
         uses: actions/cache@v4
         with:
-          path: .quartz-src/.npm-cache
-          key: quartz-npm-v5-${{ hashFiles('.quartz-src/package-lock.json') }}
+          path: .quartz/plugins
+          key: ${{ runner.os }}-plugins-${{ hashFiles('quartz.lock.json') }}
           restore-keys: |
-            quartz-npm-v5-
+            ${{ runner.os }}-plugins-
 
-      - name: Build Quartz
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install Quartz plugins
+        run: npx quartz plugin install
+
+      - name: Build
+        run: npx quartz build
         env:
-          BASE_DIR: /knowledge-base
-          USE_DOCKER: "false"
           NODE_OPTIONS: "--max-old-space-size=4096"
-          QUARTZ_SRC_CACHE: ".quartz-src"
-          NPM_CACHE_DIR: ".quartz-src/.npm-cache"
-          QUARTZ_SRC_CACHED: ${{ steps.cache-quartz-src.outputs.cache-hit }}
-        run: bash scripts/build-quartz.sh .quartz-build/public
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: .quartz-build/public
+          path: public
 
   deploy:
     needs: build

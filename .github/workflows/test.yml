@@ -12,17 +12,17 @@ jobs:
   validate:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      # ── 1. 필수 파일 존재 확인 ──────────────────────────────────────────
       - name: Check required files exist
         run: |
           required=(
+            "package.json"
+            "package-lock.json"
             "quartz.config.yaml"
+            "quartz.lock.json"
             "docker-compose.yml"
             "docker/knowledgebase-mcp.Dockerfile"
-            "scripts/build-quartz.sh"
             "scripts/serve-quartz.sh"
             "scripts/knowledgebase_mcp_server.py"
             "content/index.md"
@@ -36,48 +36,29 @@ jobs:
               echo "✅ Found:   $f"
             fi
           done
-          [ "$missing" -eq 0 ] || { echo "Required files are missing!"; exit 1; }
+          [ "$missing" -eq 0 ] || exit 1
 
-      # ── 2. 셸 스크립트 문법 검사 ────────────────────────────────────────
-      - name: Validate shell scripts syntax
+      - name: Validate shell scripts
         run: |
           find scripts -name "*.sh" | while read -r f; do
-            bash -n "$f" && echo "✅ Syntax OK: $f" || { echo "❌ Syntax error: $f"; exit 1; }
+            bash -n "$f" && echo "✅ $f" || { echo "❌ $f"; exit 1; }
           done
 
-      # ── 3. YAML 문법 검사 ───────────────────────────────────────────────
       - name: Validate YAML files
         run: |
           pip install --quiet pyyaml
-          python3 - <<'EOF'
+          python3 -c "
           import yaml, sys, pathlib
-
-          targets = [
-              "quartz.config.yaml",
-              "docker-compose.yml",
-          ]
-          targets += [str(p) for p in pathlib.Path(".github/workflows").glob("*.yml")]
-
-          errors = []
-          for path in targets:
+          files = ['quartz.config.yaml', 'docker-compose.yml']
+          files += [str(p) for p in pathlib.Path('.github/workflows').glob('*.yml')]
+          errs = []
+          for f in files:
               try:
-                  yaml.safe_load(open(path))
-                  print(f"✅ Valid YAML: {path}")
+                  yaml.safe_load(open(f)); print(f'✅ {f}')
               except Exception as e:
-                  print(f"❌ Invalid YAML: {path}: {e}")
-                  errors.append(path)
+                  print(f'❌ {f}: {e}'); errs.append(f)
+          sys.exit(len(errs))
+          "
 
-          if errors:
-              print(f"\n{len(errors)} YAML file(s) have errors!")
-              sys.exit(1)
-          EOF
-
-      # ── 4. Python MCP 서버 문법 검사 ────────────────────────────────────
-      - name: Validate Python MCP server syntax
-        run: |
-          python3 -m py_compile scripts/knowledgebase_mcp_server.py \
-            && echo "✅ Python syntax OK: knowledgebase_mcp_server.py" \
-            || { echo "❌ Python syntax error"; exit 1; }
-
-      - name: All checks passed
-        run: echo "🎉 Repository structure is valid!"
+      - name: Validate Python syntax
+        run: python3 -m py_compile scripts/knowledgebase_mcp_server.py && echo "✅ MCP server"
