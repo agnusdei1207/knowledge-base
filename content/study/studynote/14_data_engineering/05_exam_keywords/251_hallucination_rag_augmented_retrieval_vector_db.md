@@ -7,29 +7,29 @@ categories = "studynote-data-engineering"
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: LLM(Large Language Model)은 훈련 데이터 범위 밖이나 최신 정보에 대해 그럴듯하지만 틀린 답변(Hallucination)을 생성한다.
-> 2. **가치**: RAG(Retrieval Augmented Generation)는 외부 지식 베이스에서 관련 문서를 실시간 검색하여 컨텍스트로 주입함으로써 할루시네이션을 근본적으로 억제한다.
-> 3. **판단 포인트**: 벡터 DB(Vector Database) 선택(Pinecone·Weaviate·Milvus)과 임베딩(Embedding) 품질이 RAG 시스템의 전체 정확도를 결정짓는 핵심 변수이다.
+> 1. **본질**: [[263_llm_large_language_model|LLM]]([[263_llm_large_language_model|Large Language Model]])은 훈련 [[001_dikw_pyramid|데이터]] 범위 밖이나 최신 정보에 대해 그럴듯하지만 틀린 답변([[345_llm_foundation_model_hallucination|Hallucination]])을 [[087_process_state_transition|생성]]한다.
+> 2. **가치**: [[276_fine_tuning|RAG]](Retrieval Augmented Generation)는 외부 지식 베이스에서 관련 문서를 실시간 검색하여 [[033_context|컨텍스트]]로 주입함으로써 할루시네이션을 근본적으로 억제한다.
+> 3. **판단 포인트**: 벡터 DB([[223_vector_database_embedding|Vector Database]]) 선택(Pinecone·Weaviate·[[320_gnn_vector_db_recommendation|Milvus]])과 [[278_instruction_tuning|임베딩]]([[278_instruction_tuning|Embedding]]) 품질이 [[276_fine_tuning|RAG]] 시스템의 전체 정확도를 결정짓는 핵심 변수이다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-### 1.1 LLM 할루시네이션(Hallucination) 이란?
+### 1.1 [[263_llm_large_language_model|LLM]] 할루시네이션([[345_llm_foundation_model_hallucination|Hallucination]]) 이란?
 
-LLM은 다음 토큰(Token)을 예측하는 확률적 생성 모델이다. 따라서 사실 여부와 무관하게 통계적으로 그럴듯한 텍스트를 생성한다. 이 현상을 **할루시네이션(Hallucination)**이라 한다.
+LLM은 다음 토큰(Token)을 예측하는 [[130_probability|확률]]적 [[087_process_state_transition|생성]] 모델이다. 따라서 사실 여부와 무관하게 통계적으로 그럴듯한 텍스트를 [[087_process_state_transition|생성]]한다. 이 현상을 **할루시네이션([[345_llm_foundation_model_hallucination|Hallucination]])**이라 한다.
 
-| 원인 분류 | 상세 설명 |
+| 원인 [[104_classification_analysis|분류]] | 상세 설명 |
 |:---|:---|
-| **훈련 데이터 컷오프(Cutoff)** | 특정 날짜 이후 정보는 모델 가중치에 없음 |
-| **확률적 생성** | 토큰 예측이 사실 DB 조회가 아니라 확률 샘플링 |
-| **편향된 학습 코퍼스(Corpus)** | 인터넷 데이터의 오류·편향 그대로 학습 |
-| **긴 컨텍스트 소실** | 긴 문서 처리 시 초반 정보 주의가 약해짐 |
-| **지식 공백** | 희귀하거나 도메인 특화 지식 부재 |
+| **훈련 [[001_dikw_pyramid|데이터]] 컷오프(Cutoff)** | 특정 날짜 이후 정보는 모델 가중치에 없음 |
+| **[[130_probability|확률]]적 [[087_process_state_transition|생성]]** | 토큰 예측이 사실 DB 조회가 아니라 [[130_probability|확률]] 샘플링 |
+| **편향된 학습 코퍼스(Corpus)** | 인터넷 [[001_dikw_pyramid|데이터]]의 오류·편향 그대로 학습 |
+| **긴 [[033_context|컨텍스트]] 소실** | 긴 문서 처리 시 초반 정보 주의가 약해짐 |
+| **지식 공백** | 희귀하거나 [[064_relation_domain|도메인]] 특화 지식 부재 |
 
 ### 1.2 할루시네이션이 문제인 이유
 
-의료 진단, 법률 자문, 금융 분석 등 정확성이 요구되는 도메인에서 LLM이 오답을 자신 있게 제시하면 치명적 결과로 이어진다. 예를 들어 존재하지 않는 판례를 인용하거나, 신약 부작용을 잘못 설명할 수 있다.
+의료 진단, 법률 자문, 금융 분석 등 정확성이 요구되는 [[064_relation_domain|도메인]]에서 LLM이 오답을 자신 있게 제시하면 치명적 결과로 이어진다. 예를 들어 존재하지 않는 판례를 인용하거나, 신약 부작용을 잘못 설명할 수 있다.
 
 📢 **섹션 요약 비유**: LLM은 기억력 좋은 대학생과 같다. 배운 범위 내에서는 정확하지만, 모르는 문제를 만나면 외운 패턴으로 그럴듯한 오답을 써낸다. 답안지에 "모름"이라고 쓰지 않고 자신감 넘치게 오답을 제출하는 것이 할루시네이션이다.
 
@@ -37,9 +37,9 @@ LLM은 다음 토큰(Token)을 예측하는 확률적 생성 모델이다. 따�
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### 2.1 RAG(Retrieval Augmented Generation) 구조
+### 2.1 [[276_fine_tuning|RAG]](Retrieval Augmented Generation) 구조
 
-RAG는 세 단계로 구성된다: **검색(Retrieval) → 증강(Augmentation) → 생성(Generation)**.
+RAG는 세 단계로 구성된다: **검색(Retrieval) → 증강(Augmentation) → [[087_process_state_transition|생성]](Generation)**.
 
 ```
 ┌─────────────────────────────────────────────────────────────────┐
@@ -76,50 +76,50 @@ RAG는 세 단계로 구성된다: **검색(Retrieval) → 증강(Augmentation) 
 └─────────────────────────────────────────────────────────────────┘
 ```
 
-### 2.2 벡터 DB(Vector Database) 핵심 개념
+### 2.2 벡터 DB([[223_vector_database_embedding|Vector Database]]) 핵심 개념
 
-**임베딩(Embedding)**: 텍스트를 고차원 벡터로 변환하는 과정. 의미적으로 유사한 텍스트는 벡터 공간에서 가까운 거리에 위치한다.
+**[[278_instruction_tuning|임베딩]]([[278_instruction_tuning|Embedding]])**: 텍스트를 고차원 벡터로 변환하는 과정. 의미적으로 유사한 텍스트는 벡터 공간에서 가까운 거리에 위치한다.
 
 | 벡터 DB | 특징 | 적합 사용 사례 |
 |:---|:---|:---|
-| **Pinecone** | 완전 관리형 SaaS, 빠른 시작 | 프로토타입, 중소규모 |
-| **Weaviate** | 오픈소스, GraphQL API, 멀티모달 | 하이브리드 검색 |
-| **Milvus** | 오픈소스, 대규모 확장성, GPU 지원 | 기업 대규모 배포 |
-| **Chroma** | 로컬 임베딩, Python 친화적 | 개발/테스트 환경 |
-| **Qdrant** | 러스트(Rust) 기반 고성능 | 지연 시간 민감 서비스 |
+| **Pinecone** | 완전 관리형 [[309_saas|SaaS]], 빠른 시작 | [[257_prototype_pattern_object_cloning|프로토타입]], 중소규모 |
+| **Weaviate** | [[191_oss_license_compliance|오픈소스]], [[246_graphql_query_language_overfetching_solution|GraphQL]] [[014_api_posix|API]], [[158_multimodal_clip_vision_audio_encoding|멀티모달]] | [[279_rlhf_reinforcement_learning_human_feedback|하이브리드 검색]] |
+| **[[320_gnn_vector_db_recommendation|Milvus]]** | [[191_oss_license_compliance|오픈소스]], 대규모 확장성, [[418_gpu|GPU]] 지원 | 기업 대규모 배포 |
+| **Chroma** | 로컬 [[278_instruction_tuning|임베딩]], Python 친화적 | 개발/테스트 환경 |
+| **Qdrant** | 러스트([[782_memory_safety_rust_compiler_verification|Rust]]) 기반 고성능 | [[141_latency|지연 시간]] 민감 [[090_service_kubernetes_network_load_balancing|서비스]] |
 
-### 2.3 유사도 검색 알고리즘(Similarity Search)
+### 2.3 [[348_similarity_search|유사도 검색]] [[001_algorithm_definition|알고리즘]]([[348_similarity_search|Similarity Search]])
 
-- **코사인 유사도(Cosine Similarity)**: 두 벡터 간 각도 측정, 방향성 중심
-- **HNSW(Hierarchical Navigable Small World)**: 근사 최근접 이웃(ANN, Approximate Nearest Neighbor) 알고리즘, O(log N) 검색 복잡도
-- **IVF(Inverted File Index)**: 클러스터 기반 색인, 대규모 데이터 효율적 검색
+- **[[359_cosine_similarity|코사인 유사도]]([[359_cosine_similarity|Cosine Similarity]])**: 두 벡터 간 각도 측정, 방향성 중심
+- **[[351_hnsw|HNSW]](Hierarchical Navigable Small World)**: 근사 최근접 이웃([[350_ann|ANN]], [[351_hnsw|Approximate Nearest Neighbor]]) [[001_algorithm_definition|알고리즘]], O(log N) 검색 복잡도
+- **IVF(Inverted [[501_file_definition_logical_record|File]] [[154_database_index_b_tree_search_optimization|Index]])**: 클러스터 기반 색인, 대규모 [[001_dikw_pyramid|데이터]] 효율적 검색
 
-📢 **섹션 요약 비유**: 벡터 DB는 도서관의 의미 지도(Semantic Map)다. 책 제목이 아니라 "내용의 의미"로 분류해두기 때문에 "당뇨 치료"를 검색하면 "인슐린 분비 조절"이라는 제목의 책도 찾아준다. 전통 도서관(키워드 검색)과 달리 의미 기반으로 동의어와 유의어까지 포괄한다.
+📢 **섹션 요약 비유**: 벡터 DB는 도서관의 의미 지도(Semantic Map)다. 책 제목이 아니라 "내용의 의미"로 [[104_classification_analysis|분류]]해두기 때문에 "당뇨 치료"를 검색하면 "인슐린 분비 조절"이라는 제목의 책도 찾아준다. 전통 도서관(키워드 검색)과 달리 의미 기반으로 동의어와 유의어까지 포괄한다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-### 3.1 RAG vs Fine-tuning vs Prompt Engineering 비교
+### 3.1 [[276_fine_tuning|RAG]] vs [[304_fine_tuning|Fine-tuning]] vs [[224_prompt_engineering_guideline|Prompt Engineering]] 비교
 
 | 기법 | 지식 갱신 | 비용 | 정확도 | 적합 시나리오 |
 |:---|:---|:---|:---|:---|
-| **프롬프트 엔지니어링(Prompt Engineering)** | 불가 | 최저 | 낮음 | 단순 태스크 |
-| **RAG** | 실시간 | 중간 | 높음 | 최신 정보 필요 |
-| **파인튜닝(Fine-tuning)** | 배치성 | 고비용 | 도메인 특화 | 특정 스타일/언어 |
-| **RAG + Fine-tuning** | 실시간 + 배치 | 최고 | 최고 | 엔터프라이즈 |
+| **[[149_prompt_engineering_cot_few_shot|프롬프트 엔지니어링]]([[224_prompt_engineering_guideline|Prompt Engineering]])** | 불가 | 최저 | 낮음 | 단순 [[150_task|태스크]] |
+| **[[276_fine_tuning|RAG]]** | 실시간 | 중간 | 높음 | 최신 정보 필요 |
+| **파인튜닝([[304_fine_tuning|Fine-tuning]])** | 배치성 | 고비용 | [[064_relation_domain|도메인]] 특화 | 특정 스타일/언어 |
+| **[[276_fine_tuning|RAG]] + [[304_fine_tuning|Fine-tuning]]** | 실시간 + 배치 | 최고 | 최고 | 엔터프라이즈 |
 
-### 3.2 Advanced RAG 기법
+### 3.2 [[218_rag_advanced_techniques|Advanced RAG]] 기법
 
 기본 RAG의 한계(청크 경계 손실, 다중 홉 추론 어려움 등)를 극복하는 고도화 기법:
 
 | 기법 | 설명 | 효과 |
 |:---|:---|:---|
-| **HyDE(Hypothetical Document Embeddings)** | 질의로 가상 답변 생성 후 이를 검색 쿼리로 사용 | 검색 정확도 향상 |
-| **Multi-query Retrieval** | 동일 질의를 여러 방식으로 변형하여 다중 검색 | 재현율(Recall) 향상 |
-| **Re-ranking** | 검색된 문서를 크로스 인코더(Cross-Encoder)로 재정렬 | 관련성 개선 |
-| **Self-RAG** | LLM이 검색 필요 여부 스스로 판단 | 불필요 검색 감소 |
-| **Corrective RAG(CRAG)** | 검색 결과 품질 평가 후 웹 검색 폴백(Fallback) | 신뢰도 향상 |
+| **HyDE(Hypothetical [[037_document|Document]] Embeddings)** | 질의로 가상 답변 [[087_process_state_transition|생성]] 후 이를 검색 쿼리로 사용 | 검색 정확도 향상 |
+| **Multi-query Retrieval** | 동일 질의를 여러 방식으로 변형하여 다중 검색 | [[092_recall_sensitivity_hit_rate|재현율]]([[254_recall_sensitivity|Recall]]) 향상 |
+| **Re-ranking** | 검색된 문서를 크로스 [[040_encoder|인코더]](Cross-Encoder)로 재정렬 | 관련성 개선 |
+| **Self-[[276_fine_tuning|RAG]]** | LLM이 검색 필요 여부 스스로 판단 | 불필요 검색 감소 |
+| **[[380_maintenance_types|Corrective]] [[276_fine_tuning|RAG]](CRAG)** | 검색 결과 품질 평가 후 웹 검색 [[171_fallback_resilience_pattern|폴백]]([[129_fallback|Fallback]]) | [[085_confidence_association_rule_conditional_probability|신뢰도]] 향상 |
 
 📢 **섹션 요약 비유**: 기본 RAG가 도서관 사서에게 한 번 질문하는 것이라면, Advanced RAG는 사서에게 여러 방식으로 질문하고, 찾아온 책을 다시 품질 검사하고, 필요하면 인터넷까지 뒤지는 베테랑 연구원의 방식이다.
 
@@ -127,15 +127,15 @@ RAG는 세 단계로 구성된다: **검색(Retrieval) → 증강(Augmentation) 
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### 4.1 기업 RAG 시스템 설계 체크리스트
+### 4.1 기업 [[276_fine_tuning|RAG]] 시스템 설계 [[435_checklist_based_testing|체크리스트]]
 
-1. **데이터 수집 및 전처리**: PDF·HTML·DB 문서를 청크(Chunk)로 분할 (512~1024 토큰 권장)
-2. **임베딩 모델 선택**: OpenAI `text-embedding-3-large`, `bge-m3`(한국어 강점) 등
-3. **벡터 DB 운영 전략**: 메타데이터 필터(날짜·출처·카테고리)로 검색 범위 한정
-4. **컨텍스트 창(Context Window) 관리**: 검색 결과가 LLM 컨텍스트 한도 초과 방지
-5. **평가 지표**: RAGAS(RAG Assessment) 프레임워크 — Faithfulness, Answer Relevancy, Context Recall
+1. **[[001_dikw_pyramid|데이터]] 수집 및 전처리**: PDF·HTML·DB 문서를 청크(Chunk)로 분할 (512~1024 토큰 권장)
+2. **[[278_instruction_tuning|임베딩]] 모델 선택**: OpenAI `text-embedding-3-large`, `bge-m3`(한국어 강점) 등
+3. **벡터 DB 운영 [[268_strategy_pattern|전략]]**: [[012_metadata|메타데이터]] 필터(날짜·출처·카테고리)로 검색 범위 한정
+4. **[[033_context|컨텍스트]] 창([[033_context|Context]] Window) 관리**: 검색 결과가 [[263_llm_large_language_model|LLM]] [[033_context|컨텍스트]] 한도 초과 방지
+5. **평가 지표**: [[225_rag_evaluation_ragas|RAGAS]]([[276_fine_tuning|RAG]] Assessment) 프레임워크 — Faithfulness, Answer Relevancy, [[033_context|Context]] [[254_recall_sensitivity|Recall]]
 
-### 4.2 할루시네이션 감지 및 방어 전략
+### 4.2 할루시네이션 감지 및 방어 [[268_strategy_pattern|전략]]
 
 ```
 ┌────────────────────────────────────────────────────────┐
@@ -149,13 +149,13 @@ RAG는 세 단계로 구성된다: **검색(Retrieval) → 증강(Augmentation) 
 └────────────┴──────────────────────────────────────────┘
 ```
 
-📢 **섹션 요약 비유**: RAG는 오픈북 시험(Open Book Exam)으로 바꾸는 것이다. 모든 것을 외워야 했던 기존 방식 대신, 시험장에 자료집(외부 DB)을 들고 들어가 참조하며 답변한다. 자료집의 품질(벡터 DB)과 빠르게 찾는 능력(임베딩 검색)이 좋아야 좋은 점수를 받는다.
+📢 **섹션 요약 비유**: RAG는 오픈북 시험(Open Book Exam)으로 바꾸는 것이다. 모든 것을 외워야 했던 기존 방식 대신, 시험장에 자료집(외부 DB)을 들고 들어가 참조하며 답변한다. 자료집의 품질(벡터 DB)과 빠르게 찾는 능력([[278_instruction_tuning|임베딩]] 검색)이 좋아야 좋은 점수를 받는다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-### 5.1 RAG 도입 효과 요약
+### 5.1 [[276_fine_tuning|RAG]] 도입 효과 요약
 
 | 기대효과 | 정량적 지표 |
 |:---|:---|
@@ -163,11 +163,11 @@ RAG는 세 단계로 구성된다: **검색(Retrieval) → 증강(Augmentation) 
 | 최신성(Freshness) | 실시간 지식 반영 (파인튜닝 없이) |
 | 비용 효율 | 대규모 재훈련 불필요 |
 | 투명성 | 출처 문서 인용 가능 |
-| 컴플라이언스 | GDPR 등 규제 준수 (특정 문서 제거 가능) |
+| 컴플라이언스 | [[791_gdpr_eu|GDPR]] 등 규제 준수 (특정 문서 제거 가능) |
 
 ### 5.2 기술 발전 방향
 
-RAG는 단순 문서 검색에서 **에이전틱 RAG(Agentic RAG)**로 진화 중이다. AI 에이전트(Agent)가 멀티스텝 추론을 수행하며 도구(Tool) 호출과 반복 검색을 자율적으로 조합한다. 나아가 **그래프 RAG(Graph RAG)**는 지식 그래프(Knowledge Graph)와 결합하여 개념 간 관계 추론 능력을 대폭 향상시킨다.
+RAG는 단순 문서 검색에서 **에이전틱 [[276_fine_tuning|RAG]](Agentic [[276_fine_tuning|RAG]])**로 진화 중이다. [[190_ai_llm_requirements_specification|AI]] 에이전트(Agent)가 멀티스텝 추론을 수행하며 도구(Tool) 호출과 반복 검색을 자율적으로 조합한다. 나아가 **[[070_graph_datastructure|그래프]] [[276_fine_tuning|RAG]]([[530_graph_rag|Graph RAG]])**는 [[160_knowledge_graph_graphrag_integration|지식 그래프]]([[160_knowledge_graph_graphrag_integration|Knowledge Graph]])와 결합하여 개념 간 [[083_relationship_in_er_model|관계]] 추론 능력을 대폭 향상시킨다.
 
 📢 **섹션 요약 비유**: RAG는 인터넷이 등장했을 때와 같은 혁명이다. 기존 LLM이 "내 머릿속에 있는 것만 말할 수 있는 백과사전"이었다면, RAG는 "구글 검색을 한 후 답하는 전문가"다. 검색 기술이 발전할수록 전문가의 답변 품질도 함께 올라간다.
 
@@ -175,16 +175,16 @@ RAG는 단순 문서 검색에서 **에이전틱 RAG(Agentic RAG)**로 진화 �
 
 ### 📌 관련 개념 맵
 
-| 관계 | 개념 | 설명 |
+| [[083_relationship_in_er_model|관계]] | 개념 | 설명 |
 |:---|:---|:---|
-| 문제 | 할루시네이션(Hallucination) | LLM이 사실과 다른 그럴듯한 답변 생성 |
-| 해결책 | RAG(Retrieval Augmented Generation) | 외부 문서 검색 후 컨텍스트 주입 |
-| 핵심 컴포넌트 | 벡터 DB(Vector Database) | 임베딩 벡터 저장·검색 특화 DB |
-| 핵심 기술 | 임베딩(Embedding) | 텍스트→고차원 벡터 변환 |
-| 유사도 알고리즘 | HNSW | 근사 최근접 이웃 검색, O(log N) |
-| 고도화 기법 | Advanced RAG | HyDE, Multi-query, Re-ranking |
-| 평가 프레임워크 | RAGAS | Faithfulness·Relevancy·Recall 측정 |
-| 미래 방향 | Agentic RAG | 멀티스텝 자율 검색 및 추론 |
+| 문제 | 할루시네이션([[345_llm_foundation_model_hallucination|Hallucination]]) | LLM이 사실과 다른 그럴듯한 답변 [[087_process_state_transition|생성]] |
+| 해결책 | [[276_fine_tuning|RAG]](Retrieval Augmented Generation) | 외부 문서 검색 후 [[033_context|컨텍스트]] 주입 |
+| 핵심 [[603_component_independent_deployment_unit|컴포넌트]] | 벡터 DB([[223_vector_database_embedding|Vector Database]]) | [[278_instruction_tuning|임베딩]] 벡터 저장·검색 특화 DB |
+| 핵심 기술 | [[278_instruction_tuning|임베딩]]([[278_instruction_tuning|Embedding]]) | 텍스트→고차원 벡터 변환 |
+| 유사도 [[001_algorithm_definition|알고리즘]] | [[351_hnsw|HNSW]] | 근사 최근접 이웃 검색, O(log N) |
+| 고도화 기법 | [[218_rag_advanced_techniques|Advanced RAG]] | HyDE, Multi-query, Re-ranking |
+| 평가 프레임워크 | [[225_rag_evaluation_ragas|RAGAS]] | Faithfulness·Relevancy·[[254_recall_sensitivity|Recall]] 측정 |
+| 미래 방향 | Agentic [[276_fine_tuning|RAG]] | 멀티스텝 자율 검색 및 추론 |
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. LLM은 아주 많이 공부한 학생인데, 가끔 잘 모르는 문제를 마치 아는 것처럼 틀린 답을 자신 있게 써버려요. 이게 할루시네이션이에요.

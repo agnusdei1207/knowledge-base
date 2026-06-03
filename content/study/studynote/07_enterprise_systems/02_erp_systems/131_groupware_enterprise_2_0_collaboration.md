@@ -9,7 +9,7 @@ categories = "studynote-enterprise-systems"
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 그룹웨어는 **전자결재·일정·게시판 등 업무 협업 SW**이고, Enterprise 2.0은 **위키·블로그·SNS 등 Web 2.0 기술을 기업에 적용**하여 수평적·자발적 협업을 실현하는 패러다임이다.
 > 2. **가치**: 전통 그룹웨어는 결재 중심의 **수직적 소통**이지만, Enterprise 2.0은 Slack·Teams·Notion 같은 **실시간·수평적·비정형 협업**으로 혁신 속도를 가속한다.
-> 3. **판단 포인트**: 현재는 그룹웨어+Enterprise 2.0이 통합되어 **Digital Workplace** 플랫폼(MS 365·Google Workspace)으로 진화하고 있으며, AI 어시스턴트(Copilot)가 협업의 새 패러다임이다.
+> 3. **판단 포인트**: 현재는 그룹웨어+Enterprise 2.0이 통합되어 **Digital Workplace** 플랫폼(MS 365·Google Workspace)으로 진화하고 있으며, [[190_ai_llm_requirements_specification|AI]] 어시스턴트(Copilot)가 협업의 새 패러다임이다.
 
 ---
 
@@ -37,7 +37,7 @@ Enterprise 2.0: 위키, 블로그, SNS, 태깅 (수평)
 
 ## Ⅲ~Ⅴ. 결론
 
-Digital Workplace는 **그룹웨어+Enterprise 2.0+AI 어시스턴트의 통합 형태**이며, Copilot이 협업 생산성의 차세대 핵심이다.
+Digital Workplace는 **그룹웨어+Enterprise 2.0+[[190_ai_llm_requirements_specification|AI]] 어시스턴트의 통합 형태**이며, Copilot이 협업 생산성의 차세대 핵심이다.
 
 ---
 
@@ -49,7 +49,7 @@ Digital Workplace는 **그룹웨어+Enterprise 2.0+AI 어시스턴트의 통합 
 | **Enterprise 2.0** | 위키·SNS (수평) |
 | **Digital Workplace** | 통합 협업 플랫폼 |
 | **Slack/Teams** | Enterprise 2.0 실현 |
-| **Copilot** | AI 협업 어시스턴트 |
+| **Copilot** | [[190_ai_llm_requirements_specification|AI]] 협업 어시스턴트 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -62,4 +62,4 @@ Digital Workplace는 **그룹웨어+Enterprise 2.0+AI 어시스턴트의 통합 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 그룹웨어는 **우편함**이에요. 공문(결재)을 넣고 꺼내요.
 2. Enterprise 2.0은 **카톡 그룹채팅**이에요. 실시간으로 **자유롭게 소통**해요.
-3. 지금은 AI 비서(Copilot)가 **회의 요약·자료 정리**까지 도와준답니다!
+3. 지금은 [[190_ai_llm_requirements_specification|AI]] 비서(Copilot)가 **회의 요약·자료 정리**까지 도와준답니다!

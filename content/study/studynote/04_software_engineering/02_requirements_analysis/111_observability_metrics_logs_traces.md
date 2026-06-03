@@ -7,15 +7,15 @@ categories = "studynote-software-engineering"
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: 관측 가능성(Observability)은 시스템의 **외부 출력(Metrics·Logs·Traces)만으로 내부 상태를 추론**할 수 있는 능력이며, 기존 모니터링(알려진 문제 감시)을 넘어 **"몰랐던 문제(Unknown Unknowns)"까지 진단**하는 패러다임이다.
-> 2. **가치**: 3대 신호(Metrics=수치, Logs=이벤트, Traces=요청 경로)를 상호 연결(Correlation)하여, MSA 환경에서 **장애의 근본 원인(Root Cause)을 수분 내 특정 서비스·함수·라인**까지 추적한다.
-> 3. **판단 포인트**: OpenTelemetry(OTel)가 CNCF 통합 표준으로 수렴하며, **벤더 종속 없는 계측(Instrumentation)**이 가능해졌다. SRE의 SLI/SLO 체계와 결합하여 장애 대응 자동화의 토대가 된다.
+> 1. **본질**: 관측 가능성([[642_observability_telemetry|Observability]])은 시스템의 **외부 출력([[567_metrics_time_series_prometheus_grafana|Metrics]]·[[568_logs_distributed_logging_elk_fluentd|Logs]]·Traces)만으로 내부 상태를 추론**할 수 있는 능력이며, 기존 모니터링(알려진 문제 감시)을 넘어 **"몰랐던 문제(Unknown Unknowns)"까지 진단**하는 패러다임이다.
+> 2. **가치**: 3대 [[130_signal|신호]]([[567_metrics_time_series_prometheus_grafana|Metrics]]=수치, [[568_logs_distributed_logging_elk_fluentd|Logs]]=이벤트, Traces=요청 경로)를 상호 연결(Correlation)하여, [[619_msa_traffic_hardware|MSA]] 환경에서 **장애의 근본 원인(Root Cause)을 수분 내 특정 [[090_service_kubernetes_network_load_balancing|서비스]]·함수·라인**까지 추적한다.
+> 3. **판단 포인트**: [[146_opentelemetry_otel_observability_standard|OpenTelemetry]]([[146_opentelemetry_otel_observability_standard|OTel]])가 [[190_cncf_landscape_observability|CNCF]] 통합 표준으로 수렴하며, **[[051_vendor_lock_in_cloud_computing|벤더 종속]] 없는 계측(Instrumentation)**이 가능해졌다. SRE의 [[102_sli_slo_service_level_indicator_objective|SLI]]/[[181_slo_service_level_objective|SLO]] 체계와 결합하여 장애 대응 자동화의 토대가 된다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-모놀리스 시대에는 서버 1대의 CPU·메모리만 보면 됐다. MSA에서는 100개 서비스가 그물망처럼 호출하므로, "어디가 느린지" 찾는 것 자체가 난제다.
+모놀리스 시대에는 서버 1대의 CPU·메모리만 보면 됐다. MSA에서는 100개 [[090_service_kubernetes_network_load_balancing|서비스]]가 그물망처럼 호출하므로, "어디가 느린지" 찾는 것 자체가 난제다.
 
 ```text
 ┌───────────────────────────────────────────────────────┐
@@ -42,17 +42,17 @@ categories = "studynote-software-engineering"
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### 3대 신호 상세
+### 3대 [[130_signal|신호]] 상세
 
-| 신호 | 정의 | 대표 도구 | 질문 |
+| [[130_signal|신호]] | 정의 | 대표 도구 | 질문 |
 |:---|:---|:---|:---|
-| **Metrics** | 시계열 수치 (CPU, 레이턴시, 에러율) | Prometheus, Datadog | "얼마나 나쁜가?" |
-| **Logs** | 이벤트 텍스트 (에러 스택트레이스) | Loki, ELK | "무엇이 일어났는가?" |
-| **Traces** | 분산 요청 경로 (Span 트리) | Jaeger, Tempo | "어디서 병목인가?" |
+| **[[567_metrics_time_series_prometheus_grafana|Metrics]]** | 시계열 수치 (CPU, 레이턴시, 에러율) | [[136_prometheus|Prometheus]], Datadog | "얼마나 나쁜가?" |
+| **[[568_logs_distributed_logging_elk_fluentd|Logs]]** | 이벤트 텍스트 (에러 스택트레이스) | Loki, ELK | "무엇이 일어났는가?" |
+| **Traces** | [[136_variance|분산]] 요청 경로 (Span 트리) | Jaeger, Tempo | "어디서 병목인가?" |
 
-### OpenTelemetry (OTel)
+### [[146_opentelemetry_otel_observability_standard|OpenTelemetry]] ([[146_opentelemetry_otel_observability_standard|OTel]])
 
-CNCF가 주도하는 **벤더 중립 계측 표준**. SDK 하나로 Metrics·Logs·Traces를 동시에 수집하고, 백엔드(Prometheus·Jaeger·Datadog)를 자유롭게 교체할 수 있다.
+CNCF가 주도하는 **벤더 중립 계측 표준**. SDK 하나로 [[567_metrics_time_series_prometheus_grafana|Metrics]]·[[568_logs_distributed_logging_elk_fluentd|Logs]]·Traces를 동시에 수집하고, 백엔드([[136_prometheus|Prometheus]]·Jaeger·Datadog)를 자유롭게 교체할 수 있다.
 
 - **📢 섹션 요약 비유**: OTel은 USB-C 충전기다. 삼성이든 애플이든 같은 케이블(SDK)로 충전(계측)할 수 있다.
 
@@ -60,25 +60,25 @@ CNCF가 주도하는 **벤더 중립 계측 표준**. SDK 하나로 Metrics·Log
 
 ## Ⅲ. 비교 및 연결
 
-| 비교 | Monitoring | Observability |
+| 비교 | Monitoring | [[642_observability_telemetry|Observability]] |
 |:---|:---|:---|
 | **범위** | 알려진 문제 감시 | 미지의 문제까지 진단 |
 | **방식** | 사전 정의 대시보드 | 탐색적 질의 (Ad-hoc) |
-| **MSA 대응** | 서비스별 개별 대시보드 | 분산 트레이싱으로 전체 경로 추적 |
-| **도구** | Nagios, Zabbix | Prometheus+Jaeger+Loki+OTel |
+| **[[619_msa_traffic_hardware|MSA]] 대응** | [[090_service_kubernetes_network_load_balancing|서비스]]별 개별 대시보드 | [[136_variance|분산]] 트레이싱으로 전체 경로 추적 |
+| **도구** | Nagios, Zabbix | [[136_prometheus|Prometheus]]+Jaeger+Loki+[[146_opentelemetry_otel_observability_standard|OTel]] |
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### 관측 가능성 성숙도 체크리스트
-1. **Level 1**: 서비스별 Metrics 대시보드 (Grafana).
-2. **Level 2**: 중앙 집중 Logs 수집 (ELK/Loki).
-3. **Level 3**: 분산 Traces + Metrics 상관 연결.
-4. **Level 4**: OTel 통합 + SLI/SLO 기반 자동 알림.
+### 관측 가능성 성숙도 [[435_checklist_based_testing|체크리스트]]
+1. **Level 1**: [[090_service_kubernetes_network_load_balancing|서비스]]별 [[567_metrics_time_series_prometheus_grafana|Metrics]] 대시보드 ([[168_grafana|Grafana]]).
+2. **Level 2**: 중앙 집중 [[568_logs_distributed_logging_elk_fluentd|Logs]] 수집 (ELK/Loki).
+3. **Level 3**: [[136_variance|분산]] Traces + [[567_metrics_time_series_prometheus_grafana|Metrics]] 상관 연결.
+4. **Level 4**: [[146_opentelemetry_otel_observability_standard|OTel]] 통합 + [[102_sli_slo_service_level_indicator_objective|SLI]]/[[181_slo_service_level_objective|SLO]] 기반 자동 알림.
 
-### 안티패턴
-- **Logs만 수집하고 Traces 미도입**: "에러가 났다"는 알지만 "어느 서비스에서 시작됐는지" 모름.
+### [[128_water_scrum_fall_anti_pattern|안티패턴]]
+- **Logs만 수집하고 Traces 미도입**: "에러가 났다"는 알지만 "어느 [[090_service_kubernetes_network_load_balancing|서비스]]에서 시작됐는지" 모름.
 
 ---
 
@@ -88,9 +88,9 @@ CNCF가 주도하는 **벤더 중립 계측 표준**. SDK 하나로 Metrics·Log
 |:---|:---|:---|:---|
 | 장애 원인 특정 시간 | 수시간 | **수분** | 90% 단축 |
 | Unknown Unknowns | 감지 불가 | **탐색적 진단** | 신규 역량 |
-| 벤더 종속 | 높음 (전용 에이전트) | **OTel로 중립** | 자유도 확보 |
+| [[051_vendor_lock_in_cloud_computing|벤더 종속]] | 높음 (전용 에이전트) | **OTel로 중립** | 자유도 확보 |
 
-Observability는 AI Ops와 결합하여 "이상 징후 자동 감지 → 근본 원인 자동 추론 → 자동 복구"의 자율 운영(Autonomous Operations) 시대를 여는 핵심 기반이다.
+Observability는 [[190_ai_llm_requirements_specification|AI]] Ops와 결합하여 "이상 징후 자동 감지 → 근본 원인 자동 추론 → 자동 [[658_ir_recovery|복구]]"의 자율 운영(Autonomous Operations) 시대를 여는 핵심 기반이다.
 
 ---
 
@@ -98,11 +98,11 @@ Observability는 AI Ops와 결합하여 "이상 징후 자동 감지 → 근본 
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **Metrics** | 시계열 수치 데이터, Prometheus 수집 |
-| **Logs** | 이벤트 텍스트, ELK/Loki 수집 |
-| **Traces** | 분산 요청 경로, Jaeger/Tempo |
-| **OpenTelemetry** | 벤더 중립 계측 표준 (CNCF) |
-| **SLI/SLO (SRE)** | 관측 데이터를 기반으로 서비스 수준 관리 |
+| **[[567_metrics_time_series_prometheus_grafana|Metrics]]** | 시계열 수치 [[001_dikw_pyramid|데이터]], [[136_prometheus|Prometheus]] 수집 |
+| **[[568_logs_distributed_logging_elk_fluentd|Logs]]** | 이벤트 텍스트, ELK/Loki 수집 |
+| **Traces** | [[136_variance|분산]] 요청 경로, Jaeger/Tempo |
+| **[[146_opentelemetry_otel_observability_standard|OpenTelemetry]]** | 벤더 중립 계측 표준 ([[190_cncf_landscape_observability|CNCF]]) |
+| **[[102_sli_slo_service_level_indicator_objective|SLI]]/[[181_slo_service_level_objective|SLO]] ([[100_sre_site_reliability_engineering_error_budget|SRE]])** | 관측 [[001_dikw_pyramid|데이터]]를 기반으로 [[084_service_level_management|서비스 수준 관리]] |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -123,6 +123,6 @@ Observability는 AI Ops와 결합하여 "이상 징후 자동 감지 → 근본 
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
-1. **체온계(Monitoring)**는 "열이 났다!"만 알려주지만, **MRI(Observability)**는 "어디가 아픈지" 속까지 보여줘요.
-2. 서버도 마찬가지로, 숫자(Metrics)·일기장(Logs)·발자국(Traces) 3가지를 모아야 "왜 느린지" 정확히 알 수 있어요.
-3. OpenTelemetry라는 마법 도구가 이 3가지를 한 번에 모아서, 의사 선생님(SRE)이 빨리 고칠 수 있게 도와준답니다!
+1. **체온계(Monitoring)**는 "열이 났다!"만 알려주지만, **MRI([[642_observability_telemetry|Observability]])**는 "어디가 아픈지" 속까지 보여줘요.
+2. 서버도 마찬가지로, 숫자([[567_metrics_time_series_prometheus_grafana|Metrics]])·일기장([[568_logs_distributed_logging_elk_fluentd|Logs]])·발자국(Traces) 3가지를 모아야 "왜 느린지" 정확히 알 수 있어요.
+3. OpenTelemetry라는 마법 도구가 이 3가지를 한 번에 모아서, 의사 선생님([[100_sre_site_reliability_engineering_error_budget|SRE]])이 빨리 고칠 수 있게 도와준답니다!

@@ -56,7 +56,7 @@ Ciphertext
 
 | 약점 | 설명 |
 | :-- | :-- |
-| Repeating Key | 키 반복 |
+| Repeating [[067_db_key_uniqueness_minimality|Key]] | 키 반복 |
 | Periodicity | 주기 노출 |
 
 비즈네르는 고전 암호 발전의 중요한 단계지만, 현대적 안전성은 부족하다.
@@ -67,7 +67,7 @@ Ciphertext
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### 체크리스트
+### [[435_checklist_based_testing|체크리스트]]
 
 1. 다중 치환임을 아는가?
 2. 키 반복의 약점을 아는가?
@@ -75,7 +75,7 @@ Ciphertext
 4. Kasiski/Friedman 공격을 설명할 수 있는가?
 5. 현대 암호와 구분하는가?
 
-### 안티패턴
+### [[128_water_scrum_fall_anti_pattern|안티패턴]]
 
 - 고전 암호를 실무 보안으로 쓰는 설계
 - 키 반복 취약성을 모르는 설계

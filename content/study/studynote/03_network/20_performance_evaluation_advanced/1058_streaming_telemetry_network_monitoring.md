@@ -6,14 +6,14 @@ weight = 1058
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 스트리밍 텔레메트리는 장비가 상태를 능동적으로 보내는 Push 기반 실시간 관측 방식이다.
-> 2. **가치**: SNMP (Simple Network Management Protocol) 폴링의 한계를 넘어 마이크로버스트 같은 짧은 폭주 현상을 잡아낸다.
+> 2. **가치**: [[528_snmp_simple_network_management_protocol|SNMP]] (Simple Network [[372_management|Management]] [[295_protocol_field_tcp_udp_icmp|Protocol]]) [[448_polling_programmed_io|폴링]]의 한계를 넘어 마이크로버스트 같은 짧은 폭주 현상을 잡아낸다.
 > 3. **판단 포인트**: YANG 모델, 가벼운 직렬화 포맷, 수집기 구조, 실시간 분석 파이프라인이 핵심이다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-기존 SNMP 폴링은 장비에게 주기적으로 물어보는 방식이라, 짧게 폭발했다 사라지는 장애를 놓치기 쉽다.
+기존 [[528_snmp_simple_network_management_protocol|SNMP]] [[448_polling_programmed_io|폴링]]은 장비에게 주기적으로 물어보는 방식이라, 짧게 폭발했다 사라지는 장애를 놓치기 쉽다.
 
 스트리밍 텔레메트리는 장비가 스스로 상태를 계속 보내기 때문에 실시간에 가까운 가시성을 얻을 수 있다.
 
@@ -39,15 +39,15 @@ Collector
 
 ---
 
-## Ⅲ. 데이터 모델과 전송 방식
+## Ⅲ. [[001_dikw_pyramid|데이터]] 모델과 전송 방식
 
-스트리밍 텔레메트리는 장비 데이터의 구조를 먼저 정의하고, 그 구조에 맞는 형식으로 흘려보낸다.
+스트리밍 텔레메트리는 장비 [[001_dikw_pyramid|데이터]]의 구조를 먼저 정의하고, 그 구조에 맞는 형식으로 흘려보낸다.
 
 - **YANG**: 어떤 상태를 어떻게 표현할지 정의한다.
-- **Protocol Buffers (Protobuf)**: 가벼운 직렬화 포맷이다.
-- **gRPC (Google Remote Procedure Call)**: 효율적인 스트리밍 전송에 자주 쓰인다.
+- **[[535_sync_communication_rest_grpc|Protocol Buffers]] (Protobuf)**: 가벼운 직렬화 포맷이다.
+- **[[479_grpc_protobuf_http2|gRPC]] (Google [[126_rpc|Remote Procedure Call]])**: 효율적인 스트리밍 전송에 자주 쓰인다.
 
-이 조합 덕분에 많은 장비가 빠르게, 적은 오버헤드로 데이터를 보낼 수 있다.
+이 조합 덕분에 많은 장비가 빠르게, 적은 오버헤드로 [[001_dikw_pyramid|데이터]]를 보낼 수 있다.
 
 - **📢 섹션 요약 비유**: 내용은 도면으로 정하고, 전달은 가벼운 택배 박스로 보내는 방식이다.
 
@@ -60,9 +60,9 @@ Collector
 - 마이크로버스트 탐지
 - 큐 혼잡 관찰
 - 패킷 드롭 추적
-- 실시간 이상 탐지
+- 실시간 [[236_anomaly_based_detection_zero_day_false_positive|이상 탐지]]
 
-실시간 데이터가 쌓이면 인공지능 기반 분석으로 예측 관제도 가능해진다.
+실시간 [[001_dikw_pyramid|데이터]]가 쌓이면 [[231_ai_turing_test|인공지능]] 기반 분석으로 예측 관제도 가능해진다.
 
 - **📢 섹션 요약 비유**: 순간적으로 번쩍였다 사라지는 번개를 계속 찍어 두는 고속 카메라다.
 
@@ -70,9 +70,9 @@ Collector
 
 ## Ⅴ. 운영 적용과 비교
 
-스트리밍 텔레메트리는 IBN (Intent-Based Networking)이나 자동화 관제와 잘 맞는다. 네트워크 상태를 더 촘촘히 보아야 자동 조치도 정확해진다.
+스트리밍 텔레메트리는 [[857_ibn_intent_based_networking_declarative_automation|IBN]] (Intent-Based Networking)이나 자동화 관제와 잘 맞는다. 네트워크 상태를 더 촘촘히 보아야 자동 조치도 정확해진다.
 
-SNMP 폴링과 비교하면 더 실시간이고 더 촘촘하지만, 데이터량과 분석 파이프라인 설계가 중요하다.
+[[528_snmp_simple_network_management_protocol|SNMP]] [[448_polling_programmed_io|폴링]]과 비교하면 더 실시간이고 더 촘촘하지만, [[001_dikw_pyramid|데이터]]량과 분석 파이프라인 설계가 중요하다.
 
 - **📢 섹션 요약 비유**: 큰 화면 CCTV는 더 많이 보이지만, 그만큼 녹화 장치도 튼튼해야 한다.
 
@@ -94,11 +94,11 @@ Collector
 
 ## 관련 키워드 및 발전 흐름도
 
-1. SNMP 폴링 → 주기적 상태 조회
+1. [[528_snmp_simple_network_management_protocol|SNMP]] [[448_polling_programmed_io|폴링]] → 주기적 상태 조회
 2. Push 기반 스트리밍 → 실시간 가시성 확보
 3. YANG + Protobuf → 모델과 전송의 분리
 4. 마이크로버스트 탐지 → 짧은 폭주 대응
-5. IBN / 자동 관제 → 관측과 자동화의 결합
+5. [[857_ibn_intent_based_networking_declarative_automation|IBN]] / 자동 관제 → 관측과 자동화의 결합
 
 ---
 

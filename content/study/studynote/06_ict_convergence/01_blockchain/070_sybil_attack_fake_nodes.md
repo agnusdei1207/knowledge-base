@@ -6,8 +6,8 @@ weight = 70
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 시빌 공격은 한 공격자가 다수의 가짜 신분을 만들어 네트워크 의사결정을 왜곡하는 공격이다.
-> 2. **가치**: P2P, 블록체인, 평판 시스템에서 신원 기반 신뢰를 무너뜨린다.
-> 3. **판단**: 가짜 노드 수가 많아질수록 합의와 투표가 왜곡되므로 신원 검증이 중요하다.
+> 2. **가치**: [[916_p2p_peer_to_peer_networking_super_node_gnutella|P2P]], [[004_blockchain|블록체인]], 평판 시스템에서 신원 기반 신뢰를 무너뜨린다.
+> 3. **판단**: 가짜 노드 수가 많아질수록 합의와 투표가 왜곡되므로 신원 [[395_verification_process_review|검증]]이 중요하다.
 
 ---
 
@@ -34,7 +34,7 @@ Manipulated Consensus
 | 요소 | 의미 |
 | :-- | :-- |
 | Identity | 노드 신원 |
-| Fake Node | 가짜 참여자 |
+| [[463_fake_test_double|Fake]] Node | 가짜 참여자 |
 | Consensus | 합의 왜곡 |
 
 시빌 공격은 노드 수가 많아 보이면 신뢰가 올라가는 시스템의 약점을 이용한다.
@@ -47,16 +47,16 @@ Manipulated Consensus
 
 | 공격 | 특징 | 차이 |
 | :-- | :-- | :-- |
-| Sybil | 신원 다중화 | 수량 기반 왜곡 |
+| Sybil | 신원 [[071_다중화_Multiplexing|다중화]] | 수량 기반 왜곡 |
 | Eclipse | 연결 고립 | 특정 노드 포위 |
 | 51% | 과반 장악 | 자원 기반 |
 
 | 방어 | 의미 |
 | :-- | :-- |
-| Identity Verification | 신원 검증 |
+| Identity [[395_verification_process_review|Verification]] | 신원 [[395_verification_process_review|검증]] |
 | Cost to Create Identity | 비용 장벽 |
 
-시빌 공격은 신원 자체를 믿기 어려운 분산 환경에서 특히 중요하다.
+시빌 공격은 신원 자체를 믿기 어려운 [[136_variance|분산]] 환경에서 특히 중요하다.
 
 - **📢 섹션 요약 비유**: 사람 수를 속이면 투표판도 속는다.
 
@@ -64,19 +64,19 @@ Manipulated Consensus
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### 체크리스트
+### [[435_checklist_based_testing|체크리스트]]
 
-1. 신원 검증이 있는가?
-2. 가짜 계정 생성 비용이 있는가?
+1. 신원 [[395_verification_process_review|검증]]이 있는가?
+2. 가짜 계정 [[087_process_state_transition|생성]] 비용이 있는가?
 3. 평판/투표 가중치를 조정하는가?
 4. 합의와 신원을 분리해서 보는가?
 5. 방어 메커니즘을 설계했는가?
 
-### 안티패턴
+### [[128_water_scrum_fall_anti_pattern|안티패턴]]
 
 - 계정 수만 세는 설계
-- 신원 검증 없이 합의하는 설계
-- 저비용 다중 계정 생성을 허용하는 설계
+- 신원 [[395_verification_process_review|검증]] 없이 합의하는 설계
+- 저비용 다중 계정 [[087_process_state_transition|생성]]을 허용하는 설계
 - Sybil, Eclipse, 51%를 혼동하는 설계
 
 기술사 관점에서는 시빌 공격을 "신원 기반 합의 왜곡"으로 설명해야 한다.
@@ -87,7 +87,7 @@ Manipulated Consensus
 
 ## Ⅴ. 기대효과 및 결론
 
-시빌 공격을 이해하면 분산 시스템의 신뢰 모델을 더 정확히 설계할 수 있다.
+시빌 공격을 이해하면 [[136_variance|분산]] 시스템의 신뢰 모델을 더 정확히 설계할 수 있다.
 
 결론적으로 시빌 공격은 다수의 가짜 신분으로 합의와 투표를 조작하는 공격이다.
 

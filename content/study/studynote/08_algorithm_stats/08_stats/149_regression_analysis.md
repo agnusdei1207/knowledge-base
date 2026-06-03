@@ -8,9 +8,9 @@ categories = "studynote-algorithm"
 
 ## 핵심 인사이트
 
-> 회귀 분석(Regression Analysis)의 본질은 변수 간 함수 관계를 추정하는 것으로, OLS(Ordinary Least Squares, 최소 제곱법)는 잔차(Residual)의 제곱합을 최소화해 가장 잘 맞는 선(최적 적합선)을 찾는다.
-> 로지스틱 회귀(Logistic Regression)는 이름과 달리 분류(Classification) 알고리즘이며, 선형 결합을 시그모이드(Sigmoid) 함수로 변환해 확률로 해석할 수 있게 한다 — 딥러닝 분류 레이어의 직접 조상이다.
-> 릿지(Ridge)와 라쏘(Lasso) 정규화는 과적합(Overfitting) 방지와 변수 선택의 도구이며, 베이즈 관점에서는 각각 가우시안 사전(Gaussian Prior)과 라플라스 사전(Laplace Prior)에 해당한다.
+> 회귀 분석(Regression Analysis)의 본질은 변수 간 함수 [[083_relationship_in_er_model|관계]]를 추정하는 것으로, OLS(Ordinary Least Squares, [[327_ordinary_least_squares_ols|최소 제곱법]])는 잔차(Residual)의 제곱합을 최소화해 가장 잘 맞는 선(최적 적합선)을 찾는다.
+> [[227_logistic_regression_clt_pvalue_type_error|로지스틱 회귀]]([[227_logistic_regression_clt_pvalue_type_error|Logistic Regression]])는 이름과 달리 [[104_classification_analysis|분류]]([[107_classification|Classification]]) 알고리즘이며, 선형 결합을 [[268_sigmoid_vanishing_gradient|시그모이드]]([[268_sigmoid_vanishing_gradient|Sigmoid]]) 함수로 변환해 [[130_probability|확률]]로 해석할 수 있게 한다 — 딥러닝 [[104_classification_analysis|분류]] 레이어의 직접 조상이다.
+> 릿지(Ridge)와 라쏘([[102_lasso_ridge_regression_regularization|Lasso]]) [[093_normalization|정규화]]는 과적합([[245_overfitting_variance|Overfitting]]) 방지와 변수 선택의 도구이며, 베이즈 관점에서는 각각 가우시안 사전(Gaussian Prior)과 라플라스 사전(Laplace Prior)에 해당한다.
 
 ---
 
@@ -26,7 +26,7 @@ y = β₀ + β₁x + ε
 ε ~ N(0, σ²): 오차항 (Error Term)
 ```
 
-**OLS(Ordinary Least Squares, 최소 제곱법) 추정량**:
+**OLS(Ordinary Least Squares, [[327_ordinary_least_squares_ols|최소 제곱법]]) 추정량**:
 
 ```
 최소화: Σᵢ εᵢ² = Σᵢ (yᵢ - β₀ - β₁xᵢ)²
@@ -35,7 +35,7 @@ y = β₀ + β₁x + ε
 β̂₀ = ȳ - β̂₁x̄
 ```
 
-**회귀선과 잔차 시각화**:
+**회귀선과 잔차 [[003_bigdata_7v|시각화]]**:
 
 ```
    y
@@ -50,7 +50,7 @@ y = β₀ + β₁x + ε
      OLS = 모든 잔차 제곱합 최소화
 ```
 
-**결정 계수 (R², Coefficient of Determination)**:
+**[[098_coefficient_of_determination_r_squared|결정 계수]] (R², [[098_coefficient_of_determination_r_squared|Coefficient of Determination]])**:
 
 ```
 R² = 1 - SS_Res / SS_Tot = SS_Reg / SS_Tot
@@ -78,9 +78,9 @@ OLS: β̂ = (XᵀX)⁻¹Xᵀy   (XᵀX 역행렬 존재 시)
 - R²은 변수를 추가할수록 단조 증가 (과적합 위험)
 - 수정 R² = 1 - [(1-R²)(n-1)/(n-p-1)]: 불필요한 변수 추가 시 감소
 
-**다중공선성 (Multicollinearity)**: 독립 변수들 간 높은 상관관계
+**다중공선성 ([[080_multicollinearity_vif_variance_inflation_factor_regression|Multicollinearity]])**: 독립 변수들 간 높은 상관관계
 
-**VIF (Variance Inflation Factor, 분산 팽창 인수)**:
+**VIF ([[136_variance|Variance]] Inflation Factor, [[136_variance|분산]] 팽창 인수)**:
 
 ```
 VIF_j = 1 / (1 - R²_j)
@@ -92,16 +92,16 @@ R²_j: j번째 변수를 나머지 변수들로 회귀했을 때의 R²
 |:---:|:---|
 | 1 | 다중공선성 없음 |
 | 1~5 | 경미한 다중공선성 |
-| 5~10 | 중간 수준, 주의 필요 |
-| > 10 | 심각한 다중공선성 → 제거 or Ridge 적용 |
+| 5~[[489_raid_10_hybrid|10]] | 중간 수준, 주의 필요 |
+| > [[489_raid_10_hybrid|10]] | 심각한 다중공선성 → 제거 or Ridge 적용 |
 
 📢 **섹션 요약 비유**: 다중공선성은 "두 목격자가 똑같은 진술"을 하는 것과 같다. 두 증인이 완전히 동일한 말을 한다면, 한 명은 법정(모델)에 불필요하다 — 오히려 판사(모델)가 혼란스러워진다.
 
 ---
 
-## Ⅲ. 로지스틱 회귀
+## Ⅲ. [[227_logistic_regression_clt_pvalue_type_error|로지스틱 회귀]]
 
-**로지스틱 회귀 (Logistic Regression)**: 이진 분류를 위한 선형 모델
+**[[227_logistic_regression_clt_pvalue_type_error|로지스틱 회귀]] ([[227_logistic_regression_clt_pvalue_type_error|Logistic Regression]])**: 이진 [[104_classification_analysis|분류]]를 위한 선형 모델
 
 ```
 log-odds = logit(p) = log(p/(1-p)) = β₀ + β₁x₁ + ... + βₚxₚ = Xβ
@@ -109,34 +109,34 @@ log-odds = logit(p) = log(p/(1-p)) = β₀ + β₁x₁ + ... + βₚxₚ = Xβ
 확률로 변환: p = σ(Xβ) = 1 / (1 + e^(-Xβ))
 ```
 
-**시그모이드 함수 (Sigmoid Function)**: σ(z) = 1/(1+e^(-z))
-- 출력 범위: (0, 1) → 확률로 해석 가능
+**[[069_sigmoid_function_vanishing_gradient|시그모이드 함수]] ([[268_sigmoid_vanishing_gradient|Sigmoid]] Function)**: σ(z) = 1/(1+e^(-z))
+- 출력 범위: (0, 1) → [[130_probability|확률]]로 해석 가능
 - 결정 경계 (Decision Boundary): p = 0.5 일 때, Xβ = 0
 
-**학습**: MLE(Maximum Likelihood Estimation)로 파라미터 추정
+**학습**: [[143_mle|MLE]](Maximum Likelihood Estimation)로 파라미터 추정
 
 ```
 ℓ(β) = Σᵢ [yᵢ log σ(xᵢᵀβ) + (1-yᵢ) log(1-σ(xᵢᵀβ))]
      = -Binary Cross-Entropy (이진 교차 엔트로피)
 ```
 
-경사 하강법(Gradient Descent)으로 최적화 (닫힌 형식 해 없음).
+[[275_gradient_descent_sgd|경사 하강법]]([[165_gradient_descent|Gradient Descent]])으로 최적화 (닫힌 형식 해 없음).
 
-**다중 분류**: Softmax 함수로 확장
+**다중 [[104_classification_analysis|분류]]**: [[270_softmax|Softmax]] 함수로 확장
 
 ```
 P(y=k|x) = exp(Xβ_k) / Σ_j exp(Xβ_j)
 ```
 
-📢 **섹션 요약 비유**: 로지스틱 회귀는 "이메일이 스팸일 가능성을 0~100%로 평가하는 점수판"이다. 여러 단서(단어 빈도)를 선형 결합해 점수를 매기고, 시그모이드로 확률로 변환 후 50% 기준으로 스팸/정상을 분류한다.
+📢 **섹션 요약 비유**: [[227_logistic_regression_clt_pvalue_type_error|로지스틱 회귀]]는 "이메일이 스팸일 가능성을 0~100%로 평가하는 점수판"이다. 여러 단서(단어 빈도)를 선형 결합해 점수를 매기고, [[268_sigmoid_vanishing_gradient|시그모이드]]로 [[130_probability|확률]]로 변환 후 50% 기준으로 스팸/정상을 [[104_classification_analysis|분류]]한다.
 
 ---
 
-## Ⅳ. 정규화: Ridge와 Lasso
+## Ⅳ. [[093_normalization|정규화]]: Ridge와 [[102_lasso_ridge_regression_regularization|Lasso]]
 
-**과적합 문제**: 변수가 많으면 학습 데이터에 과도하게 맞아 일반화 성능 저하.
+**과적합 문제**: 변수가 많으면 학습 데이터에 과도하게 맞아 일반화 [[282_performance_tactics|성능]] 저하.
 
-**Ridge 회귀 (L2 정규화)**:
+**Ridge 회귀 (L2 [[093_normalization|정규화]])**:
 
 ```
 최소화: Σ(yᵢ - ŷᵢ)² + λ Σ βⱼ²
@@ -148,15 +148,15 @@ P(y=k|x) = exp(Xβ_k) / Σ_j exp(Xβ_j)
 - 계수를 0에 가깝게 수축(Shrinkage)하지만 완전히 0이 되지는 않음
 - 다중공선성 해결에 효과적
 
-**Lasso 회귀 (L1 정규화, Least Absolute Shrinkage and Selection Operator)**:
+**[[102_lasso_ridge_regression_regularization|Lasso]] 회귀 (L1 [[093_normalization|정규화]], Least Absolute Shrinkage and [[022_mcts_four_stages|Selection]] [[565_operator_pattern_kubernetes_automation|Operator]])**:
 
 ```
 최소화: Σ(yᵢ - ŷᵢ)² + λ Σ |βⱼ|
                           ↑ L1 페널티
 ```
 
-- 일부 계수를 정확히 0으로 만듦 → **자동 변수 선택(Feature Selection)**
-- 희소 모델(Sparse Model) 생성
+- 일부 계수를 정확히 0으로 만듦 → **자동 변수 선택(Feature [[022_mcts_four_stages|Selection]])**
+- 희소 모델(Sparse Model) [[087_process_state_transition|생성]]
 
 ```
 ┌────────────────────────────────────────────────────┐
@@ -172,8 +172,8 @@ P(y=k|x) = exp(Xβ_k) / Σ_j exp(Xβ_j)
 └──────────────────────┴─────────────────────────────┘
 ```
 
-**Elastic Net**: Ridge + Lasso 결합: λ₁||β||₁ + λ₂||β||₂²  
-변수 선택 + 상관 변수 함께 선택(Group Selection).
+**[[374_elastic_net_regression|Elastic Net]]**: Ridge + [[102_lasso_ridge_regression_regularization|Lasso]] 결합: λ₁||β||₁ + λ₂||β||₂²  
+변수 선택 + 상관 변수 함께 선택(Group [[022_mcts_four_stages|Selection]]).
 
 📢 **섹션 요약 비유**: Ridge는 "모든 직원 급여를 조금씩 삭감", Lasso는 "성과 없는 직원은 해고"와 같다. Ridge는 모든 변수를 유지하며 작게 만들고, Lasso는 중요하지 않은 변수를 완전히 제거한다.
 
@@ -183,13 +183,13 @@ P(y=k|x) = exp(Xβ_k) / Σ_j exp(Xβ_j)
 
 **선형 회귀의 4가지 가정 (LINE)**:
 1. **선형성 (Linearity)**: E[y|X] = Xβ — 비선형 패턴 시 변수 변환 필요
-2. **독립성 (Independence)**: 잔차들이 서로 독립 — 시계열 데이터에서 자기상관(Autocorrelation) 위반 주의
-3. **등분산성 (Homoscedasticity)**: 잔차 분산이 X에 관계없이 일정 — 위반 시 분산 안정화 변환(log, √) 필요
-4. **정규성 (Normality)**: 잔차 ~ N(0, σ²) — 소표본에서 추론(검정, CI)에 필요
+2. **독립성 ([[133_independence|Independence]])**: 잔차들이 서로 독립 — 시계열 데이터에서 자기상관(Autocorrelation) 위반 주의
+3. **등분산성 (Homoscedasticity)**: 잔차 [[136_variance|분산]]이 X에 [[083_relationship_in_er_model|관계]]없이 일정 — 위반 시 [[136_variance|분산]] 안정화 변환(log, √) 필요
+4. **정규성 (Normality)**: 잔차 ~ N(0, σ²) — 소표본에서 추론(검정, [[090_configuration_item|CI]])에 필요
 
 **진단 플롯 (Diagnostic Plots)**:
 
-| 플롯 이름 | 확인 가정 | 이상 패턴 |
+| 플롯 이름 | [[396_validation|확인]] 가정 | 이상 패턴 |
 |:---|:---:|:---|
 | Residuals vs Fitted | 선형성, 등분산성 | 곡선 패턴, 깔때기 모양 |
 | Normal Q-Q | 정규성 | 점들이 대각선에서 이탈 |
@@ -211,20 +211,20 @@ P(y=k|x) = exp(Xβ_k) / Σ_j exp(Xβ_j)
 └───────────┴──────────┴──────────┴────────────────────┘
 ```
 
-📢 **섹션 요약 비유**: 회귀 진단 플롯은 "자동차 계기판"과 같다. 엔진이 잘 돌아가도(모델 적합) 계기판(진단 플롯)을 확인해야 "등분산성 경고등(깔때기 패턴)", "정규성 경고등(Q-Q 이탈)"을 발견할 수 있다.
+📢 **섹션 요약 비유**: 회귀 진단 플롯은 "자동차 계기판"과 같다. 엔진이 잘 돌아가도(모델 적합) 계기판(진단 플롯)을 [[396_validation|확인]]해야 "등분산성 경고등(깔때기 패턴)", "정규성 경고등(Q-Q 이탈)"을 발견할 수 있다.
 
 ---
 
 ### 📌 관련 개념 맵
 
-| 개념 | 연결 개념 | 관계 |
+| 개념 | 연결 개념 | [[083_relationship_in_er_model|관계]] |
 |:---|:---|:---|
-| OLS | 최소 제곱법 | 잔차 제곱합 최소화 |
-| R² | 결정 계수 | 모델 설명력 측정 |
+| OLS | [[327_ordinary_least_squares_ols|최소 제곱법]] | 잔차 제곱합 최소화 |
+| R² | [[098_coefficient_of_determination_r_squared|결정 계수]] | 모델 설명력 측정 |
 | 다중공선성 | VIF | 진단 지표 |
-| 로지스틱 회귀 | 시그모이드 | 이진 분류 변환 |
-| Ridge | L2 정규화 / 가우시안 사전 | 수축 추정 |
-| Lasso | L1 정규화 / 라플라스 사전 | 변수 선택 |
+| [[227_logistic_regression_clt_pvalue_type_error|로지스틱 회귀]] | [[268_sigmoid_vanishing_gradient|시그모이드]] | 이진 [[104_classification_analysis|분류]] 변환 |
+| Ridge | L2 [[093_normalization|정규화]] / 가우시안 사전 | 수축 추정 |
+| [[102_lasso_ridge_regression_regularization|Lasso]] | L1 [[093_normalization|정규화]] / 라플라스 사전 | 변수 선택 |
 | 잔차 분석 | 회귀 가정 | 모델 진단 방법 |
 
 ---
@@ -246,10 +246,10 @@ P(y=k|x) = exp(Xβ_k) / Σ_j exp(Xβ_j)
     ▼
 [비선형·ML 회귀 (GBM / SVR / DNN) — 복잡 패턴 학습]
 ```
-단순 선형 회귀에서 다중 회귀로 확장하고, 정규화 기법으로 과적합을 방어한 뒤 머신러닝 회귀 모델로 진화하는 것이 실무 분석의 표준 흐름이다.
+단순 선형 회귀에서 다중 회귀로 확장하고, [[093_normalization|정규화]] 기법으로 과적합을 방어한 뒤 [[241_machine_learning_basics|머신러닝]] 회귀 모델로 진화하는 것이 실무 분석의 표준 흐름이다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
 회귀 분석은 "산점도의 점들을 가장 잘 관통하는 선 긋기"야 — 그 선으로 새 데이터의 값을 예측할 수 있어!
-로지스틱 회귀는 "이메일이 스팸일 확률 계산기"야 — "돈 벌기", "클릭하세요" 같은 단어가 많을수록 스팸 확률이 100%에 가까워져.
-릿지(Ridge)는 "모든 변수를 조금씩 줄이기", 라쏘(Lasso)는 "중요하지 않은 변수는 완전히 없애기"야 — 둘 다 모델이 과도하게 복잡해지는 걸 막아줘!
+[[227_logistic_regression_clt_pvalue_type_error|로지스틱 회귀]]는 "이메일이 스팸일 [[130_probability|확률]] 계산기"야 — "돈 벌기", "클릭하세요" 같은 단어가 많을수록 스팸 [[130_probability|확률]]이 100%에 가까워져.
+릿지(Ridge)는 "모든 변수를 조금씩 줄이기", 라쏘([[102_lasso_ridge_regression_regularization|Lasso]])는 "중요하지 않은 변수는 완전히 없애기"야 — 둘 다 모델이 과도하게 복잡해지는 걸 막아줘!

@@ -8,30 +8,30 @@ categories = "studynote-ict-convergence"
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: DAO(Decentralized Autonomous Organization, 탈중앙화 자율 조직)는 스마트 컨트랙트가 조직의 규칙을 코드화하여, **CEO 없이 토큰 홀더의 투표로 의사결정**이 이루어지는 새로운 조직 형태다.
-> 2. **가치**: 거버넌스 토큰(Governance Token)과 타임락(Timelock) 메커니즘이 결합되어 악의적 프로포절을 차단하고, 위임 투표(Delegate Voting)로 일반 홀더도 의사결정에 참여할 수 있다.
-> 3. **판단 포인트**: The DAO 해킹(2016, $6000만 손실)이 보여주듯 스마트 컨트랙트 취약점이 거버넌스 공격 벡터가 되므로, 보안 감사(Audit)와 타임락이 모든 DAO의 필수 요건이다.
+> 1. **본질**: [[054_dao_decentralized_autonomous_organization|DAO]]([[054_dao_decentralized_autonomous_organization|Decentralized Autonomous Organization]], [[010_decentralization|탈중앙화]] 자율 조직)는 [[022_smart_contract|스마트 컨트랙트]]가 조직의 규칙을 코드화하여, **CEO 없이 토큰 홀더의 투표로 의사결정**이 이루어지는 새로운 조직 형태다.
+> 2. **가치**: 거버넌스 토큰(Governance Token)과 타임락(Timelock) 메커니즘이 결합되어 악의적 프로포절을 차단하고, 위임 투표(Delegate [[258_voting_ensemble|Voting]])로 일반 홀더도 의사결정에 참여할 수 있다.
+> 3. **판단 포인트**: The [[054_dao_decentralized_autonomous_organization|DAO]] 해킹(2016, $6000만 손실)이 보여주듯 [[022_smart_contract|스마트 컨트랙트]] 취약점이 거버넌스 공격 벡터가 되므로, [[527_security_audit_trail|보안 감사]]([[363_audit|Audit]])와 타임락이 모든 DAO의 필수 요건이다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-### 전통 조직 vs DAO
+### 전통 조직 vs [[054_dao_decentralized_autonomous_organization|DAO]]
 
-전통 기업: CEO → 이사회 → 직원 계층적 의사결정, 주주는 연 1회 투표. DAO는 스마트 컨트랙트에 규칙이 코드화되어 **24/7 온체인 투표**로 실시간 의사결정이 가능하다.
+전통 기업: CEO → 이사회 → 직원 계층적 의사결정, 주주는 연 1회 투표. DAO는 [[022_smart_contract|스마트 컨트랙트]]에 규칙이 코드화되어 **24/7 온체인 투표**로 실시간 의사결정이 가능하다.
 
 **DAO가 필요한 이유**:
-- 프로토콜 파라미터 변경(이자율, 수수료) → 커뮤니티 합의 필요
+- [[295_protocol_field_tcp_udp_icmp|프로토콜]] 파라미터 변경(이자율, 수수료) → 커뮤니티 합의 필요
 - 트레저리(Treasury) 자금 집행 → 투명한 거버넌스
-- 프로토콜 업그레이드 → 코드 변경의 민주적 승인
+- [[295_protocol_field_tcp_udp_icmp|프로토콜]] 업그레이드 → 코드 변경의 민주적 승인
 
-- **📢 섹션 요약 비유**: — "DAO는 사장 없는 회사 — 직원(토큰 홀더) 모두가 주주이자 의결권자이고, 회사 규칙(스마트 컨트랙트)이 자동으로 집행된다.
+- **📢 섹션 요약 비유**: — "DAO는 사장 없는 회사 — 직원(토큰 홀더) 모두가 주주이자 의결권자이고, 회사 규칙([[022_smart_contract|스마트 컨트랙트]])이 자동으로 집행된다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### DAO 거버넌스 프로세스
+### [[054_dao_decentralized_autonomous_organization|DAO]] 거버넌스 프로세스
 
 ```
 ┌─────────────────────────────────────────────────────┐
@@ -57,14 +57,14 @@ categories = "studynote-ict-convergence"
 └─────────────────────────────────────────────────────┘
 ```
 
-### 주요 DAO 거버넌스 비교
+### 주요 [[054_dao_decentralized_autonomous_organization|DAO]] 거버넌스 비교
 
-| DAO | 거버넌스 토큰 | 쿼럼 | 타임락 | 특징 |
+| [[054_dao_decentralized_autonomous_organization|DAO]] | 거버넌스 토큰 | 쿼럼 | 타임락 | 특징 |
 |:---|:---:|:---:|:---:|:---|
-| **Uniswap** | UNI | 4% | 2일 | 프로토콜 수수료 ON/OFF |
+| **Uniswap** | UNI | 4% | 2일 | [[295_protocol_field_tcp_udp_icmp|프로토콜]] 수수료 ON/OFF |
 | **MakerDAO** | MKR | 다양 | 48시간 | DAI 안정화 파라미터 |
-| **Compound** | COMP | 4% | 2일 | 대출 이자율 조정 |
-| **Aave** | AAVE | 다양 | 1일 | 리스크 파라미터 |
+| **Compound** | [[1013_comp_coordinated_multipoint_transmission|COMP]] | 4% | 2일 | 대출 이자율 조정 |
+| **Aave** | AAVE | 다양 | 1일 | [[096_risk_non_risk_architecture_evaluation_flaws|리스크]] 파라미터 |
 
 - **📢 섹션 요약 비유**: — "타임락은 투표로 통과된 법안을 즉시 시행하지 않고 2일 공포 기간을 두는 것 — 악의적 법안을 취소할 마지막 기회다.
 
@@ -72,7 +72,7 @@ categories = "studynote-ict-convergence"
 
 ## Ⅲ. 비교 및 연결
 
-### The DAO 해킹 사건 (2016)
+### The [[054_dao_decentralized_autonomous_organization|DAO]] 해킹 사건 (2016)
 
 ```
 취약 컨트랙트: splitDAO() 함수
@@ -86,31 +86,31 @@ categories = "studynote-ict-convergence"
 
 | 공격 유형 | 방법 | 방어 방법 |
 |:---|:---|:---|
-| **플래시론 거버넌스 공격** | 거대 토큰 임시 확보 → 투표 조작 | 스냅샷 투표 (보유 기간 기준) |
+| **플래시론 거버넌스 공격** | 거대 토큰 임시 확보 → 투표 조작 | [[022_snapshot_backup_architecture|스냅샷]] 투표 (보유 기간 기준) |
 | **매수 공격(Bribery)** | 투표권 외부 매수 | 위임 투표 분산화 |
 | **저쿼럼 통과** | 참여율 낮을 때 소수로 통과 | 쿼럼 최소 요건 높이기 |
 | **악의적 업그레이드** | 코드 변경으로 자산 탈취 | 타임락 + Guardian |
 
-- **📢 섹션 요약 비유**: — "DAO 거버넌스 공격은 주주총회에서 가짜 주주가 대거 참여해 불리한 안건을 통과시키는 것 — 타임락이 '잠깐, 다시 확인하자'의 안전장치다.
+- **📢 섹션 요약 비유**: — "[[054_dao_decentralized_autonomous_organization|DAO]] 거버넌스 공격은 주주총회에서 가짜 주주가 대거 참여해 불리한 안건을 통과시키는 것 — 타임락이 '잠깐, 다시 확인하자'의 안전장치다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### DAO 설계 핵심 파라미터
+### [[054_dao_decentralized_autonomous_organization|DAO]] 설계 핵심 파라미터
 
 1. **제안 임계값(Proposal Threshold)**: 너무 낮으면 스팸, 너무 높으면 과두화
-2. **쿼럼(Quorum)**: 4%~10% 일반적, 낮으면 소수 지배
+2. **쿼럼(Quorum)**: 4%~[[489_raid_10_hybrid|10]]% 일반적, 낮으면 소수 지배
 3. **타임락 기간**: 2~7일 일반, 위급 상황 대응 비용
 4. **위임 구조**: 전문 위임자(Delegate) 생태계 활성화 필요
 
 ### 기술사 핵심 판단
-- DAO는 법인격이 없어 법적 보호가 없음 → Wyoming DAO LLC 등 법적 구조 연구 필요
-- 투표 참여율(Voter Apathy) 문제: Compound COMP 투표 참여율 2~5% 수준
+- DAO는 법인격이 없어 법적 보호가 없음 → Wyoming [[054_dao_decentralized_autonomous_organization|DAO]] [[744_load_line_calibration|LLC]] 등 법적 구조 연구 필요
+- 투표 참여율(Voter Apathy) 문제: Compound [[1013_comp_coordinated_multipoint_transmission|COMP]] 투표 참여율 2~5% 수준
 - **프로그래밍 가능한 규칙의 한계**: 정성적 판단이 필요한 사안은 코드화 어려움
-- **멀티시그(Multi-Sig) 병용**: 긴급 대응을 위한 Gnosis Safe 기반 관리자 키
+- **멀티시그(Multi-Sig) 병용**: 긴급 대응을 위한 Gnosis [[093_safe_scaled_agile_framework_art_pi|Safe]] 기반 관리자 키
 
-- **📢 섹션 요약 비유**: — "DAO의 이상(理想)은 완전 자율 조직이지만, 현실은 스마트 컨트랙트가 모든 경우를 처리 못하므로 '반자율' 수준에서 운영된다.
+- **📢 섹션 요약 비유**: — "DAO의 이상(理想)은 완전 자율 조직이지만, 현실은 [[022_smart_contract|스마트 컨트랙트]]가 모든 경우를 처리 못하므로 '반자율' 수준에서 운영된다.
 
 ---
 
@@ -120,10 +120,10 @@ categories = "studynote-ict-convergence"
 |:---|:---|
 | **투명한 의사결정** | 모든 투표·실행이 온체인 기록 |
 | **글로벌 참여** | 국경 없이 누구나 거버넌스 참여 |
-| **인센티브 정렬** | 토큰 홀더 = 이해관계자 = 의결권자 |
-| **새 조직 형태** | 협동조합·오픈소스·크라우드펀딩의 Web3 버전 |
+| **인센티브 정렬** | 토큰 홀더 = [[173_stakeholder_identification_impact_matrix|이해관계자]] = 의결권자 |
+| **새 조직 형태** | 협동조합·[[191_oss_license_compliance|오픈소스]]·크라우드펀딩의 Web3 [[288_version_ihl_tos_total_length|버전]] |
 
-DAO는 블록체인 기반의 새로운 조직 패러다임이다. 코드화된 규칙과 토큰 인센티브로 국경·법인격 없이 글로벌 협력이 가능하지만, 스마트 컨트랙트 취약점·저참여율·법적 불명확성 등 해결 과제도 존재한다.
+DAO는 [[004_blockchain|블록체인]] 기반의 새로운 조직 패러다임이다. 코드화된 규칙과 토큰 인센티브로 국경·법인격 없이 글로벌 협력이 가능하지만, [[022_smart_contract|스마트 컨트랙트]] 취약점·저참여율·법적 불명확성 등 해결 과제도 존재한다.
 
 - **📢 섹션 요약 비유**: — "DAO는 인터넷 시대의 협동조합 — 출자자(토큰 홀더)가 곧 운영자이고, 규칙은 계약서가 아닌 코드로 자동 실행된다.
 
@@ -133,11 +133,11 @@ DAO는 블록체인 기반의 새로운 조직 패러다임이다. 코드화된 
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| 연결 개념 | 관계 설명 |
-| 거버넌스 토큰 | DAO 의결권 수단 |
+| 연결 개념 | [[083_relationship_in_er_model|관계]] 설명 |
+| 거버넌스 토큰 | [[054_dao_decentralized_autonomous_organization|DAO]] 의결권 수단 |
 | 타임락 | 악의적 제안 차단 안전장치 |
-| The DAO 해킹 | DAO 역사의 중요 보안 교훈 |
-| 스마트 컨트랙트 | DAO 규칙 집행 자동화 기반 |
+| The [[054_dao_decentralized_autonomous_organization|DAO]] 해킹 | [[054_dao_decentralized_autonomous_organization|DAO]] 역사의 중요 보안 [[659_ir_lessons_learned|교훈]] |
+| [[022_smart_contract|스마트 컨트랙트]] | [[054_dao_decentralized_autonomous_organization|DAO]] 규칙 집행 자동화 기반 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 

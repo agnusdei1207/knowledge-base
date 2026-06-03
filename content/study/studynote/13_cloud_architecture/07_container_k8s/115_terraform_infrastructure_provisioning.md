@@ -7,9 +7,9 @@ categories = "studynote-cloud-architecture"
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: Terraform은 HashiCorp가 개발한 **선언적 IaC(Infrastructure as Code)** 도구로, HCL(HashiCorp Configuration Language)로 인프라를 정의하면 `terraform apply`로 AWS·Azure·GCP 등 **다중 클라우드에 자동 프로비저닝**한다.
-> 2. **가치**: AWS 콘솔 클릭으로 인프라를 생성하면 재현 불가·추적 불가·리뷰 불가이지만, Terraform은 인프라를 **코드로 Git에 관리**하여 변경 이력·코드 리뷰·자동 배포가 가능하다.
-> 3. **판단 포인트**: State 파일 관리(원격 백엔드 S3+DynamoDB Lock)·모듈 재사용·Plan/Apply 분리가 Terraform 운영의 핵심이며, OpenTofu(OSS Fork)와의 라이선스 관계를 이해해야 한다.
+> 1. **본질**: Terraform은 HashiCorp가 개발한 **선언적 [[793_iac_idempotency_template|IaC]]([[062_infrastructure_as_code|Infrastructure as Code]])** 도구로, HCL(HashiCorp Configuration Language)로 인프라를 정의하면 `terraform apply`로 AWS·Azure·GCP 등 **다중 클라우드에 자동 [[528_provisioning|프로비저닝]]**한다.
+> 2. **가치**: AWS 콘솔 클릭으로 인프라를 [[087_process_state_transition|생성]]하면 재현 불가·추적 불가·리뷰 불가이지만, Terraform은 인프라를 **코드로 Git에 관리**하여 변경 이력·[[330_code_review|코드 리뷰]]·자동 배포가 가능하다.
+> 3. **판단 포인트**: [[272_state_pattern|State]] [[501_file_definition_logical_record|파일]] 관리(원격 백엔드 S3+[[545_dynamodb|DynamoDB]] [[510_lock|Lock]])·[[192_module_independence|모듈]] 재사용·Plan/Apply 분리가 [[195_terraform_hashicorp_agnostic_aws_gcp|Terraform]] 운영의 핵심이며, OpenTofu([[191_oss_license_compliance|OSS]] Fork)와의 라이선스 관계를 이해해야 한다.
 
 ---
 
@@ -31,7 +31,7 @@ categories = "studynote-cloud-architecture"
 └───────────────────────────────────────────────────────┘
 ```
 
-- **📢 섹션 요약 비유**: Terraform은 건축 설계도(HCL)를 주면 로봇(Provider)이 자동으로 건물(인프라)을 짓는 시스템이다. Plan은 시뮬레이션, Apply는 실제 시공.
+- **📢 섹션 요약 비유**: Terraform은 건축 설계도(HCL)를 주면 로봇([[150_soa_triangle_architecture|Provider]])이 자동으로 건물(인프라)을 짓는 시스템이다. Plan은 시뮬레이션, Apply는 실제 시공.
 
 ---
 
@@ -41,19 +41,19 @@ categories = "studynote-cloud-architecture"
 
 | 개념 | 설명 |
 |:---|:---|
-| **Provider** | AWS/Azure/GCP 등 클라우드 API 연결 플러그인 |
-| **Resource** | 생성할 인프라 단위 (EC2, VPC, RDS 등) |
-| **Module** | 재사용 가능한 리소스 묶음 |
-| **State** | 현재 인프라 상태 기록 파일 |
+| **[[150_soa_triangle_architecture|Provider]]** | AWS/Azure/GCP 등 클라우드 [[014_api_posix|API]] 연결 플러그인 |
+| **Resource** | [[087_process_state_transition|생성]]할 인프라 단위 (EC2, [[836_vpc_virtual_private_cloud_subnet_isolation|VPC]], RDS 등) |
+| **[[192_module_independence|Module]]** | 재사용 가능한 리소스 묶음 |
+| **[[272_state_pattern|State]]** | 현재 인프라 상태 기록 [[501_file_definition_logical_record|파일]] |
 | **Plan/Apply** | 변경 미리보기 → 실제 적용 2단계 |
 
-### State 관리 Best Practice
+### [[272_state_pattern|State]] 관리 [[087_erp_package_advantages_best_practice|Best Practice]]
 
 | 방식 | 적합 | 위험 |
 |:---|:---|:---|
-| 로컬 파일 | 개인 프로젝트 | 팀 충돌, 유실 |
-| **S3 + DynamoDB Lock** | **프로덕션** | 없음 (표준) |
-| Terraform Cloud | SaaS 선호 팀 | 비용 |
+| 로컬 [[501_file_definition_logical_record|파일]] | 개인 프로젝트 | 팀 충돌, 유실 |
+| **S3 + [[545_dynamodb|DynamoDB]] [[510_lock|Lock]]** | **프로덕션** | 없음 (표준) |
+| [[195_terraform_hashicorp_agnostic_aws_gcp|Terraform]] Cloud | [[309_saas|SaaS]] 선호 팀 | 비용 |
 
 - **📢 섹션 요약 비유**: State는 건축 대장(현재 건물 상태 기록)이다. 대장을 잃어버리면 Terraform이 "이 건물이 내가 지은 건지 모르겠다"며 혼란에 빠진다.
 
@@ -61,18 +61,18 @@ categories = "studynote-cloud-architecture"
 
 ## Ⅲ. 비교 및 연결
 
-| 비교 | Terraform | CloudFormation | Pulumi |
+| 비교 | [[195_terraform_hashicorp_agnostic_aws_gcp|Terraform]] | CloudFormation | Pulumi |
 |:---|:---|:---|:---|
 | **클라우드** | **멀티** | AWS 전용 | 멀티 |
-| **언어** | HCL | YAML/JSON | TypeScript/Python |
-| **State** | 파일 기반 | AWS 관리 | 파일/SaaS |
+| **언어** | HCL | YAML/[[343_json|JSON]] | TypeScript/Python |
+| **[[272_state_pattern|State]]** | [[501_file_definition_logical_record|파일]] 기반 | AWS 관리 | [[501_file_definition_logical_record|파일]]/[[309_saas|SaaS]] |
 | **라이선스** | BSL (1.6+) | 무료 | Apache 2.0 |
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### 모듈 구조 예시
+### [[192_module_independence|모듈]] 구조 예시
 ```
 infra/
 ├── modules/
@@ -85,20 +85,20 @@ infra/
 │   └── prod/
 ```
 
-### 안티패턴
-- **State 로컬 보관 + 팀 작업**: 동시 수정 시 State 충돌 → S3 원격 백엔드 필수.
+### [[128_water_scrum_fall_anti_pattern|안티패턴]]
+- **[[272_state_pattern|State]] 로컬 보관 + 팀 작업**: 동시 수정 시 [[272_state_pattern|State]] 충돌 → S3 원격 백엔드 필수.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-| 지표 | 콘솔 수동 | Terraform | 개선 |
+| 지표 | 콘솔 수동 | [[195_terraform_hashicorp_agnostic_aws_gcp|Terraform]] | 개선 |
 |:---|:---|:---|:---|
 | 인프라 재현성 | 불가 | **100%** | 코드로 보장 |
-| 변경 추적 | 불가 | **Git 이력** | 감사 가능 |
-| 프로비저닝 | 시간 단위 | **분 단위** | 자동화 |
+| 변경 추적 | 불가 | **Git 이력** | [[606_auditing_linux_auditd|감사]] 가능 |
+| [[528_provisioning|프로비저닝]] | 시간 단위 | **분 단위** | 자동화 |
 
-Terraform은 OpenTofu(OSS Fork)와의 생태계 분화가 진행 중이며, Terraform CDK(TypeScript/Python으로 HCL 생성)로 프로그래밍 언어 생태계와 통합되고 있다.
+Terraform은 OpenTofu([[191_oss_license_compliance|OSS]] Fork)와의 생태계 분화가 [[216_progress_in_synchronization|진행]] 중이며, [[195_terraform_hashicorp_agnostic_aws_gcp|Terraform]] CDK(TypeScript/Python으로 HCL [[087_process_state_transition|생성]])로 프로그래밍 언어 생태계와 통합되고 있다.
 
 ---
 
@@ -106,11 +106,11 @@ Terraform은 OpenTofu(OSS Fork)와의 생태계 분화가 진행 중이며, Terr
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **IaC** | Terraform이 구현하는 인프라 코드화 패러다임 |
-| **HCL** | Terraform의 선언적 설정 언어 |
-| **State** | 현재 인프라 상태 추적 파일 |
-| **Provider** | 클라우드 API 플러그인 생태계 |
-| **OpenTofu** | Terraform의 OSS Fork (라이선스 분화) |
+| **[[793_iac_idempotency_template|IaC]]** | Terraform이 구현하는 인프라 코드화 패러다임 |
+| **HCL** | Terraform의 선언적 [[009_config|설정]] 언어 |
+| **[[272_state_pattern|State]]** | 현재 인프라 상태 추적 [[501_file_definition_logical_record|파일]] |
+| **[[150_soa_triangle_architecture|Provider]]** | 클라우드 [[014_api_posix|API]] 플러그인 생태계 |
+| **OpenTofu** | Terraform의 [[191_oss_license_compliance|OSS]] Fork (라이선스 분화) |
 
 ### 📈 관련 키워드 및 발전 흐름도
 

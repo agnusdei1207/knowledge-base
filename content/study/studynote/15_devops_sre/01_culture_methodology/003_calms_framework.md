@@ -7,22 +7,22 @@ tags = ["CALMS", "데브옵스", "프레임워크", "문화", "자동화"]
 categories = ["15_devops_sre"]
 +++
 
-# CALMS 프레임워크
+# [[281_calms|CALMS]] 프레임워크
 
 #### 핵심 인사이트 (3줄 요약)
-> 1. **본질**: CALMS는 데브옵스를 성공적으로 도입하고 운영하기 위한 5대 핵심 가치인 문화(Culture), 자동화(Automation), 린(Lean), 측정(Measurement), 공유(Sharing)의 머리글자이다.
+> 1. **본질**: CALMS는 [[652_devops_calms_culture|데브옵스]]를 성공적으로 도입하고 운영하기 위한 5대 핵심 가치인 문화(Culture), 자동화(Automation), 린([[087_lean_software_development_7_principles|Lean]]), 측정(Measurement), 공유(Sharing)의 머리글자이다.
 > 2. **가치**: 기술(도구) 도입만으로는 충분하지 않으며, 반드시 문화적 기반(문화+공유)이 전제되어야 자동화와 린, 측정가 실효성을 발휘한다.
-> 3. **융합**: 사일로 현상 타파와 밀접하며, CALMS의 5가지 축이 동시에 균형을 이루어야 데브옵스 성숙도가 극대화된다.
+> 3. **융합**: [[002_silo_hyeonhyung|사일로]] 현상 타파와 밀접하며, CALMS의 5가지 축이 동시에 균형을 이루어야 [[652_devops_calms_culture|데브옵스]] 성숙도가 극대화된다.
 
 ---
 
-### Ⅰ. 개요 및 필요성 (Context & Necessity)
+### Ⅰ. 개요 및 필요성 ([[033_context|Context]] & Necessity)
 
-CALMS 프레임워크는 2010년대에 데브옵스 컨설턴트이자 작가인 딘 쉬플러(Dean Shibli)가 제시한 데브옵스 도입을 위한 조직 평가 및 추진 프레임워크이다. CALMS는 Customer (고객), Alignment (정렬), Learning (학습), Measurements (측정), Sharing (공유)의 머리글자라는 설명과 달리, 현재는 Culture (문화), Automation (자동화), Lean (린), Measurement (측정), Sharing (공유)의 5가지를 핵심으로 한다.
+[[281_calms|CALMS]] 프레임워크는 2010년대에 [[652_devops_calms_culture|데브옵스]] 컨설턴트이자 작가인 딘 쉬플러(Dean Shibli)가 제시한 [[652_devops_calms_culture|데브옵스]] 도입을 위한 조직 평가 및 추진 프레임워크이다. CALMS는 [[026_three_c_analysis|Customer]] (고객), Alignment (정렬), [[240_switch_learning_forwarding_flooding|Learning]] (학습), Measurements (측정), Sharing (공유)의 머리글자라는 설명과 달리, 현재는 Culture (문화), Automation (자동화), [[087_lean_software_development_7_principles|Lean]] (린), Measurement (측정), Sharing (공유)의 5가지를 핵심으로 한다.
 
-과거 많은 기업이 "데브옵스 = CI/CD 도구 도입"이라는 오해를 하고 Jenkins나 GitLab CI를 설치만 하면 완료된다고 생각했다. 그러나 이러한 기술 중심 접근법은 실패로 돌아가는 경우가 대부분이었다. 왜냐하면 도구 없이도 협업이良好的인 팀이 도구를 도입하면 시너지를 발휘하지만, 문화적으로 사일로가 존재하는 조직에서는 아무리 좋은 도구를 도입해도 활용도가 낮기 때문이다. CALMS는 이러한問題を包括적으로 다루어, 기술적 측면과 인적 측면의 균형을 강조한다.
+과거 많은 기업이 "[[652_devops_calms_culture|데브옵스]] = [[090_configuration_item|CI]]/CD 도구 도입"이라는 오해를 하고 Jenkins나 GitLab CI를 설치만 하면 완료된다고 생각했다. 그러나 이러한 기술 중심 접근법은 실패로 돌아가는 경우가 대부분이었다. 왜냐하면 도구 없이도 협업이良好的인 팀이 도구를 도입하면 시너지를 발휘하지만, 문화적으로 [[002_silo_hyeonhyung|사일로]]가 존재하는 조직에서는 아무리 좋은 도구를 도입해도 활용도가 낮기 때문이다. CALMS는 이러한問題を包括적으로 다루어, 기술적 측면과 인적 측면의 균형을 강조한다.
 
-아래 다이어그램은 CALMS의 5대 축과 그 상호 연결 관계를 보여준다.
+아래 다이어그램은 CALMS의 5대 축과 그 상호 연결 [[083_relationship_in_er_model|관계]]를 보여준다.
 
 ```text
 [CALMS 프레임워크 5대 축]
@@ -57,9 +57,9 @@ CALMS 프레임워크는 2010년대에 데브옵스 컨설턴트이자 작가인
             └─────────────────┘
 ```
 
-이 그림의 핵심은 CALMS가 순환 구조而非선형적层级이라는 점이다. 문화가 기반이 되어 자동화, 린, 공유, 측정이 가능하고, 측정된 결과가 다시 문화(인식 전환)를 변화시키는 긍정적 피드백 루프를形成한다. 한 축만 추진하면 다른 축의 부족함이 병목으로 작용하여 전체 효과가 제한된다. 예를 들어 자동화만 되고 측정이 없으면 개선 효과가立証되기 어렵고, 측정만 되고 공유가 없으면 learnings가組織内に留まり活用されない.
+이 그림의 핵심은 CALMS가 순환 구조而非선형적层级이라는 점이다. 문화가 기반이 되어 자동화, 린, 공유, 측정이 가능하고, 측정된 결과가 다시 문화(인식 전환)를 변화시키는 긍정적 [[005_feedback_loop|피드백 루프]]를形成한다. 한 축만 추진하면 다른 축의 부족함이 병목으로 작용하여 전체 효과가 제한된다. 예를 들어 자동화만 되고 측정이 없으면 개선 효과가立証되기 어렵고, 측정만 되고 공유가 없으면 learnings가組織内に留まり活用されない.
 
-> 📢 **섹션 요약 비유**: 헬스 트레이닝을 예로 들면, CALMS의 文化는 "건강해지고 싶다"는 마음의 준비이고, 自動화는 gym通了自动化会员권开设처럼 운동 루틴이制度화されている状態, 린은 불필요한補語運動を省いて効率的运动のみを行うこと, 測定은 체성분 측정기로 효과를 확인하는 것, 공유는 친구와 운동 성과를 공유하며 동기부여를 높이는 것이다. 이 다섯 가지가 모두揃져야 비로소 지속적 건강 개선이 가능하다.
+> 📢 **섹션 요약 비유**: 헬스 트레이닝을 예로 들면, CALMS의 文化는 "건강해지고 싶다"는 마음의 준비이고, 自動화는 gym通了自动化会员권开设처럼 운동 루틴이制度화されている状態, 린은 불필요한補語運動を省いて効率的运动のみを行うこと, 測定은 체성분 측정기로 효과를 [[396_validation|확인]]하는 것, 공유는 친구와 운동 성과를 공유하며 동기부여를 높이는 것이다. 이 다섯 가지가 모두揃져야 비로소 지속적 건강 개선이 가능하다.
 
 ---
 
@@ -67,15 +67,15 @@ CALMS 프레임워크는 2010년대에 데브옵스 컨설턴트이자 작가인
 
 CALMS의 각 구성 요소는 단순한 개념이 아니라, 구체적인 실무 행동으로分解되어야 하며, 이를 측정 가능한指標로変換해야 한다.
 
-| CALMS 요소 | 핵심 원칙 | 구체적 실천 행동 | 측정 지표 |
+| [[281_calms|CALMS]] 요소 | 핵심 원칙 | 구체적 실천 행동 | 측정 지표 |
 |:---|:---|:---|:---|
-| **Culture (문화)** | 심리적 안전감, 사일로 제거, 공동 책임 | 무비판적 포스트모템,跨부서 협업 미팅, 공유된 목표 설정 | 직원 설문 조사 (심리적 안전감 점수) |
-| **Automation (자동화)** | 수동 작업의 제거, 일관된 프로세스 | CI/CD 파이프라인 구축, 테스트 자동화, 인프라 코드화 | 배포 프로세스 자동화율 (%) |
-| **Lean (린)** | 가치 흐름 최적화, 낭비(메다) 제거 | 가치 흐름 매핑, 배치 크기 최소화, WIP 제한 | 리드 타임, 사이클 타임 |
-| **Measurement (측정)** | 데이터 기반 의사결정,継続적 개선 | DORA 메트릭스 모니터링, 대시보드 운영 | 배포 빈도, 변경 실패율, 평균 복구 시간 |
-| **Sharing (공유)** | 지식 공유, transparency,相互支援 | 기술 공유 발표, 협업 문서화,跨팀 멘토링 | 지식 공유 활동 횟수, 문서 접근성 |
+| **Culture (문화)** | [[036_psychological_safety|심리적 안전]]감, [[002_silo_hyeonhyung|사일로]] 제거, 공동 책임 | 무비판적 포스트모템,跨부서 협업 미팅, 공유된 목표 [[009_config|설정]] | 직원 설문 조사 ([[036_psychological_safety|심리적 안전]]감 점수) |
+| **Automation (자동화)** | 수동 작업의 제거, 일관된 프로세스 | [[090_configuration_item|CI]]/CD [[123_pipe|파이프]]라인 구축, 테스트 자동화, [[793_iac_idempotency_template|인프라 코드]]화 | 배포 프로세스 자동화율 (%) |
+| **[[087_lean_software_development_7_principles|Lean]] (린)** | 가치 흐름 최적화, 낭비(메다) 제거 | [[224_vsm_value_stream_mapping|가치 흐름 매핑]], 배치 크기 최소화, WIP 제한 | [[085_lead_time_cycle_time|리드 타임]], 사이클 타임 |
+| **Measurement (측정)** | [[001_dikw_pyramid|데이터]] 기반 의사결정,継続적 개선 | [[523_dhcp_dora_process|DORA]] [[342_routing_metric_hop_bandwidth_delay|메트릭]]스 [[229_monitor|모니터]]링, 대시보드 운영 | 배포 빈도, 변경 실패율, 평균 [[658_ir_recovery|복구]] 시간 |
+| **Sharing (공유)** | 지식 공유, transparency,相互支援 | 기술 공유 발표, 협업 문서화,跨팀 멘토링 | 지식 공유 활동 횟수, 문서 [[292_accessibility_kwcag_wcag|접근성]] |
 
-아래는 CALMS 프레임워크를 조직에 적용할 때의 단계적 발전 단계를 보여주는 ASCII 다이어그램이다.
+아래는 [[281_calms|CALMS]] 프레임워크를 조직에 적용할 때의 단계적 발전 단계를 보여주는 [[103_ascii|ASCII]] 다이어그램이다.
 
 ```text
 [CALMS 성숙도 단계 모델]
@@ -125,17 +125,17 @@ Level 4: 최적화 (Optimizing)
 
 ### Ⅲ. 융합 비교 및 다각도 분석 (Comparison & Synergy)
 
-CALMS 프레임워크는 다른 데브옵스 관련框架나 방법론과 상호 보완적 관계에 있으며, 각각의位置付け을 명확히 이해하면 체계적인 도입이 가능하다.
+[[281_calms|CALMS]] 프레임워크는 다른 [[652_devops_calms_culture|데브옵스]] 관련框架나 방법론과 상호 보완적 [[083_relationship_in_er_model|관계]]에 있으며, 각각의位置付け을 명확히 이해하면 체계적인 도입이 가능하다.
 
-| 관련 개념 | CALMS와의 관계 | 차이점 | 시너지 효과 |
+| 관련 개념 | CALMS와의 [[083_relationship_in_er_model|관계]] | 차이점 | 시너지 효과 |
 |:---|:---|:---|:---|
-| **DORA 메트릭스** | Measurement에 해당 | CALMS는 5대 영역, DORA는 4가지 측정 지표 | DORA 지표로 Measurement 성숙도 측정 |
-| **사일로 현상 타파** | Culture에 해당 | CALMS는文化建设用具, 사일로 타파는 문화 목표 | 사일로 제거를 통해 文化 기반 구축 |
-| **敏捷開發 (애자일)** | Lean과 Alignment 관련 | 애자일은 개발 방법론, CALMS는 조직 전반 | 애자일 스프린트 + CALMS로 프로세스 개선 |
-| **SRE (사이트 신뢰성 공학)** | Automation + Measurement | SRE는 운영하는 방법론, CALMS는導入框架 | SRE 관행(토일 제거, SLO)을 CALMS에 녹임 |
-| **ISE (인사이트 기반 엔지니어링)** | Measurement + Sharing | ISE는 통찰력 기반 엔지니어링, CALMS는それより広い框架 | 측정 데이터 기반의 가설 수립과 공유 |
+| **[[523_dhcp_dora_process|DORA]] [[342_routing_metric_hop_bandwidth_delay|메트릭]]스** | Measurement에 해당 | CALMS는 5대 영역, DORA는 4가지 측정 지표 | [[523_dhcp_dora_process|DORA]] 지표로 Measurement 성숙도 측정 |
+| **[[002_silo_hyeonhyung|사일로]] 현상 타파** | Culture에 해당 | CALMS는文化建设用具, [[002_silo_hyeonhyung|사일로]] 타파는 문화 목표 | [[002_silo_hyeonhyung|사일로]] 제거를 통해 文化 기반 구축 |
+| **敏捷開發 ([[004_agile_relation|애자일]])** | Lean과 Alignment 관련 | [[004_agile_relation|애자일]]은 개발 방법론, CALMS는 조직 전반 | [[004_agile_relation|애자일]] [[067_sprint_timebox|스프린트]] + CALMS로 프로세스 개선 |
+| **[[100_sre_site_reliability_engineering_error_budget|SRE]] (사이트 [[642_reliability_mtbf_mttr_mttf_availability|신뢰성]] 공학)** | Automation + Measurement | SRE는 운영하는 방법론, CALMS는導入框架 | [[100_sre_site_reliability_engineering_error_budget|SRE]] 관행([[685_toil_automation_sre|토일]] 제거, [[181_slo_service_level_objective|SLO]])을 CALMS에 녹임 |
+| **ISE (인사이트 기반 엔지니어링)** | Measurement + Sharing | ISE는 통찰력 기반 엔지니어링, CALMS는それより広い框架 | 측정 [[001_dikw_pyramid|데이터]] 기반의 가설 수립과 공유 |
 
-CALMS와 가치 흐름 매핑(VSM)의 관계도 주목할 만하다. VSM은 Lean 영역의 핵심 도구로, 아이디어가 고객에게 가치로 전환되기까지의 전체 흐름에서 낭비(Muda)를 식별하는 기술이다. CALMS의 Lean 축을 실천할 때, VSM이具体的な改善対象를 발견하는 도구로 활용된다.
+CALMS와 [[224_vsm_value_stream_mapping|가치 흐름 매핑]]([[030_value_stream_mapping|VSM]])의 [[083_relationship_in_er_model|관계]]도 주목할 만하다. VSM은 [[087_lean_software_development_7_principles|Lean]] 영역의 핵심 도구로, 아이디어가 고객에게 가치로 전환되기까지의 전체 흐름에서 낭비(Muda)를 [[655_ir_detection_analysis|식별]]하는 기술이다. CALMS의 [[087_lean_software_development_7_principles|Lean]] 축을 실천할 때, VSM이具体的な改善対象를 발견하는 도구로 활용된다.
 
 ```text
 [CALMS와 다른 방법론의 관계 맵]
@@ -160,24 +160,24 @@ CALMS와 가치 흐름 매핑(VSM)의 관계도 주목할 만하다. VSM은 Lean
               └───────────────┘
 ```
 
-이 관계 맵의 핵심은 CALMS가 其他 모든 방법론과 framework를包括적으로 조직에導入할 때의"umbrella" 역할 을 한다는 점이다. CALMS가 없으면 조직은片々적으로 도구와 방법론을 도입하게 되고, 서로 다른倡议 사이의整合性が失われる.
+이 [[083_relationship_in_er_model|관계]] 맵의 핵심은 CALMS가 其他 모든 방법론과 framework를包括적으로 조직에導入할 때의"umbrella" 역할 을 한다는 점이다. CALMS가 없으면 조직은片々적으로 도구와 방법론을 도입하게 되고, 서로 다른倡议 사이의整合性が失われる.
 
 > 📢 **섹션 요약 비유**: CALMS는优质な料理 만들기 위한 전체 주방 관리 시스템이다. 文化는 위생과 안전 규정遵守이고, 自動化는 조리 과정의 기계화(오븐, 믹서 등)이며, リーン는 식재료 낭비 최소화 및 레시피 표준화, 測定은 온도계나 저울로 맛/성분을 정밀하게測定하고, 공유는 다른 셰프와 기술과 레시피를 공유하여 전체 조리 실력을 높이는 것이다.
 
 ---
 
-### Ⅳ. 실무 적용 및 기술사적 판단 (Strategy & Decision)
+### Ⅳ. 실무 적용 및 기술사적 판단 ([[268_strategy_pattern|Strategy]] & Decision)
 
-CALMS 프레임워크를 조직에導入할 때는 한 번에 모든 축을 추진하기보다, 현재 조직의 가장 큰 병목을 파악하고そこ부터 집중함으로써 효과를立証하고 조직의 지원을 확보하는 것이 효과적이다.
+[[281_calms|CALMS]] 프레임워크를 조직에導入할 때는 한 번에 모든 축을 추진하기보다, 현재 조직의 가장 큰 병목을 파악하고そこ부터 집중함으로써 효과를立証하고 조직의 지원을 확보하는 것이 효과적이다.
 
 **1. 실무 의사결정 시나리오**
-- **시나리오 A: CALMS 중 가장 효과적인 추진 포인트가 불분명할 때**
-  - **상황**: 팀이 CALMS 도입을 결정했으나, 文化, 自動化, リーン, 測定, 공유 중 어디서 시작해야 할지 모호함.
-  - **판단**: 먼저 현재 조직의 DORA 메트릭스를 측정하여 가장 낮은 성숙도를 가진 영역을 파악한다. 대체로 文化(심리적 안전감)가 가장 낮은 경우가 많으며, 이 경우 자동화를 먼저 추진하면 사일로가 없는 조직에서도 효과적이다. 그러나 문화가 미성숙한 상태에서 자동화를 추진하면 "툴옵스"에 그칠 위험이 높다.
+- **시나리오 A: [[281_calms|CALMS]] 중 가장 효과적인 추진 포인트가 불분명할 때**
+  - **상황**: 팀이 [[281_calms|CALMS]] 도입을 결정했으나, 文化, 自動化, リーン, 測定, 공유 중 어디서 시작해야 할지 모호함.
+  - **판단**: 먼저 현재 조직의 [[523_dhcp_dora_process|DORA]] [[342_routing_metric_hop_bandwidth_delay|메트릭]]스를 측정하여 가장 낮은 성숙도를 가진 영역을 파악한다. 대체로 文化([[036_psychological_safety|심리적 안전]]감)가 가장 낮은 경우가 많으며, 이 경우 자동화를 먼저 추진하면 [[002_silo_hyeonhyung|사일로]]가 없는 조직에서도 효과적이다. 그러나 문화가 미성숙한 상태에서 자동화를 추진하면 "툴옵스"에 그칠 위험이 높다.
 
 - **시나리오 B: 자동화는 되었으나改善効果가 미미할 때**
-  - **상황**: CI/CD 파이프라인은 구축되었으나, 배포 빈도나 평균 복구 시간이 개선되지 않음.
-  - **판단**: 자동화와 함께 Measurement와 Sharing이 병목일 수 있다. 먼저 대시보드를 구축하여 모든 사람이 현재 상태를 볼 수 있게 하고, 정기적인 공유 미팅을 통해 개선 아이디어를 brainstorm하면, 자동화의潜能在籍が解放される。
+  - **상황**: [[090_configuration_item|CI]]/CD [[123_pipe|파이프]]라인은 구축되었으나, 배포 빈도나 평균 [[658_ir_recovery|복구]] 시간이 개선되지 않음.
+  - **판단**: 자동화와 함께 Measurement와 Sharing이 병목일 수 있다. 먼저 대시보드를 구축하여 모든 사람이 [[178_as_is_to_be_analysis|현재 상태]]를 볼 수 있게 하고, 정기적인 공유 미팅을 통해 개선 아이디어를 brainstorm하면, 자동화의潜能在籍が解放される。
 
 ```text
 [시나리오별 CALMS 추진 전략]
@@ -201,18 +201,18 @@ CALMS 프레임워크를 조직에導入할 때는 한 번에 모든 축을 추�
 
 ### Ⅴ. 기대효과 및 결론 (Future & Standard)
 
-CALMS 프레임워크의 성공적 내재화는 조직의 데브옵스 성숙도를質적으로的高度させ, 그것 자체가持続可能な競争優位로機能한다.
+[[281_calms|CALMS]] 프레임워크의 성공적 내재화는 조직의 [[652_devops_calms_culture|데브옵스]] 성숙도를質적으로的高度させ, 그것 자체가持続可能な競争優位로機能한다.
 
-| 관점 | 도입 전 (AS-IS) | 도입 후 (TO-BE) | 핵심 성과 지표 |
+| 관점 | 도입 전 ([[178_as_is_to_be_analysis|AS-IS]]) | 도입 후 (TO-BE) | [[018_kpi|핵심 성과 지표]] |
 |:---|:---|:---|:---|
-| **문화 (Culture)** | 부서 간 의심과 책임 회피 | 공유된 목표, 심리적 안전감 | 직원 참여도 설문 20% 향상 |
-| **자동화 (Automation)** | 수동 배포, 스크립트 미비 | 완전한 CI/CD, 테스트 자동화 | 배포 시간 80% 단축 |
-| **린 (Lean)** | 대규모 배치, 낭비 인정 안 함 | 작은批次, 가치 흐름 최적화 | 리드 타임 50% 단축 |
-| **측정 (Measurement)** | 측정 안 함 또는 부정확 | DORA 4대 지표 실시간 모니터링 | 의사결정 속도 30% 향상 |
+| **문화 (Culture)** | 부서 간 의심과 책임 회피 | 공유된 목표, [[036_psychological_safety|심리적 안전]]감 | 직원 참여도 설문 20% 향상 |
+| **자동화 (Automation)** | 수동 배포, 스크립트 미비 | 완전한 [[090_configuration_item|CI]]/CD, 테스트 자동화 | 배포 시간 80% 단축 |
+| **린 ([[087_lean_software_development_7_principles|Lean]])** | 대규모 배치, 낭비 인정 안 함 | 작은批次, 가치 흐름 최적화 | [[085_lead_time_cycle_time|리드 타임]] 50% 단축 |
+| **측정 (Measurement)** | 측정 안 함 또는 부정확 | [[523_dhcp_dora_process|DORA]] 4대 지표 실시간 [[229_monitor|모니터]]링 | 의사결정 속도 30% 향상 |
 | **공유 (Sharing)** | 지식 사적 보유 | 조직 전체 기술 공유 문화 | 고립 팀 비율 60% 감소 |
 
 **미래 전망 및 결론**:
-CALMS 프레임워크는 시간이経っても 그妥当性は変わらない. 그러나 각 구성 요소의실천 방법은 진화하고 있다. 예를 들어, Automation는 이제 CI/CD를 넘어 IDP(내부 개발자 포털)를 통한 셀프 서비스로 확장되고 있으며, Measurement는 AI 기반 예측 분석으로高度化되고 있다. Sharingはにより効果的な形での知識转移已成为可能です.
+[[281_calms|CALMS]] 프레임워크는 시간이経っても 그妥当性は変わらない. 그러나 각 구성 요소의실천 방법은 진화하고 있다. 예를 들어, Automation는 이제 [[090_configuration_item|CI]]/CD를 넘어 [[536_idp_identity_provider|IDP]](내부 개발자 포털)를 통한 셀프 [[090_service_kubernetes_network_load_balancing|서비스]]로 확장되고 있으며, Measurement는 [[190_ai_llm_requirements_specification|AI]] 기반 [[046_predictive_analytics|예측 분석]]으로高度化되고 있다. Sharingはにより効果的な形での知識转移已成为可能です.
 
 조직은 CALMS를 일회적 프로젝트가 아닌 지속적인 여정으로捉え, 정기적으로자신들의 성숙도를再評価하고改善 활동에 착수해야 한다. CALMS의 궁극적 목적은"고객에게 더 빠르고 안정적으로 가치를 전달하는 조직"를 만드는 것이며, 이것은すべての企業에게永恒적 과제이다.
 
@@ -220,12 +220,12 @@ CALMS 프레임워크는 시간이経っても 그妥当性は変わらない. �
 
 ---
 
-### 📌 관련 개념 맵 (Knowledge Graph)
+### 📌 관련 개념 맵 ([[160_knowledge_graph_graphrag_integration|Knowledge Graph]])
 
-- 문화 (Culture) | 심리적 안전감, 사일로 제거, 공동 책임의 기반
-- 자동화 (Automation) | CI/CD 파이프라인, 테스트 자동화, 인프라 코드화
-- 린 (Lean) | 낭비 제거, 가치 흐름 최적화, 작은 배치
-- 측정 (Measurement) | DORA 메트릭스, 대시보드, 피드백 루프
+- 문화 (Culture) | [[036_psychological_safety|심리적 안전]]감, [[002_silo_hyeonhyung|사일로]] 제거, 공동 책임의 기반
+- 자동화 (Automation) | [[090_configuration_item|CI]]/CD [[123_pipe|파이프]]라인, 테스트 자동화, [[793_iac_idempotency_template|인프라 코드]]화
+- 린 ([[087_lean_software_development_7_principles|Lean]]) | 낭비 제거, 가치 흐름 최적화, 작은 배치
+- 측정 (Measurement) | [[523_dhcp_dora_process|DORA]] [[342_routing_metric_hop_bandwidth_delay|메트릭]]스, 대시보드, [[005_feedback_loop|피드백 루프]]
 - 공유 (Sharing) | 지식 전파, 협업 문서화, 크로스팀 학습
 
 ### 📈 관련 키워드 및 발전 흐름도
@@ -249,5 +249,5 @@ CALMS 프레임워크는 시간이経っても 그妥当性は変わらない. �
 [Sharing (공유)]
 ```
 
-이 흐름도는 CALMS Framework (DevOps Framework)에서 출발해 Culture (문화), Automation (자동화), Lean (린), Measurement (측정), Sharing (공유)으로 확장되는 데브옵스 성숙도 축의 순서를 보여준다.
+이 흐름도는 [[162_calms_framework_devops_principles|CALMS Framework]] ([[652_devops_calms_culture|DevOps]] Framework)에서 출발해 Culture (문화), Automation (자동화), [[087_lean_software_development_7_principles|Lean]] (린), Measurement (측정), Sharing (공유)으로 확장되는 [[652_devops_calms_culture|데브옵스]] 성숙도 축의 순서를 보여준다.
 

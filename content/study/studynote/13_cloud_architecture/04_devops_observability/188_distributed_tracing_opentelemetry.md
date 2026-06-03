@@ -7,27 +7,27 @@ categories = "studynote-cloud-architecture"
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: 분산 추적(Distributed Tracing)은 마이크로서비스 환경에서 하나의 사용자 요청이 수십 개 서비스를 연쇄 호출할 때, 고유 Trace ID로 전체 흐름을 추적하여 병목 구간과 장애 서비스를 정확히 파악하는 옵저버빌리티의 세 번째 기둥이다.
-> 2. **가치**: "응답이 느리다"는 증상에서 "Service-C의 DB 쿼리가 180ms를 차지한다"처럼 정확한 병목 위치와 소요 시간 분해가 가능해져 성능 최적화와 장애 진단이 근본적으로 달라진다.
-> 3. **판단 포인트**: OpenTelemetry(OTel)가 계측 표준으로 사실상 확정되었으며, Jaeger나 Zipkin이 백엔드 오픈소스 선택지이고, 상용은 Datadog APM, Honeycomb이 주류다.
+> 1. **본질**: [[569_distributed_tracing_opentelemetry_jaeger|분산 추적]]([[569_distributed_tracing_opentelemetry_jaeger|Distributed Tracing]])은 [[532_microservices_decomposition_patterns|마이크로서비스]] 환경에서 하나의 사용자 요청이 수십 개 [[090_service_kubernetes_network_load_balancing|서비스]]를 연쇄 호출할 때, 고유 Trace ID로 전체 흐름을 추적하여 병목 구간과 장애 [[090_service_kubernetes_network_load_balancing|서비스]]를 정확히 파악하는 [[642_observability_telemetry|옵저버빌리티]]의 세 번째 기둥이다.
+> 2. **가치**: "응답이 느리다"는 증상에서 "Service-C의 DB [[298_qkv_attention|쿼리]]가 180ms를 차지한다"처럼 정확한 병목 위치와 소요 시간 분해가 가능해져 [[282_performance_tactics|성능]] 최적화와 장애 진단이 근본적으로 달라진다.
+> 3. **판단 포인트**: [[146_opentelemetry_otel_observability_standard|OpenTelemetry]]([[146_opentelemetry_otel_observability_standard|OTel]])가 계측 표준으로 사실상 확정되었으며, Jaeger나 Zipkin이 백엔드 [[191_oss_license_compliance|오픈소스]] 선택지이고, 상용은 Datadog [[162_apm_application_performance_management|APM]], Honeycomb이 주류다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-모놀리식 애플리케이션에서는 하나의 느린 함수 호출을 프로파일러로 찾을 수 있었다. 그러나 마이크로서비스 환경에서 사용자 결제 요청은 인증 서비스 → 재고 서비스 → 결제 서비스 → 알림 서비스 → 배송 서비스를 연쇄 호출할 수 있다. 응답이 2초 걸렸다면 어느 서비스가 늦은 걸까? 로그만으로는 파악이 어렵다.
+모놀리식 애플리케이션에서는 하나의 느린 함수 호출을 프로파일러로 찾을 수 있었다. 그러나 [[532_microservices_decomposition_patterns|마이크로서비스]] 환경에서 사용자 결제 요청은 [[303_authentication_authorization_patterns|인증]] [[090_service_kubernetes_network_load_balancing|서비스]] → 재고 [[090_service_kubernetes_network_load_balancing|서비스]] → 결제 [[090_service_kubernetes_network_load_balancing|서비스]] → 알림 [[090_service_kubernetes_network_load_balancing|서비스]] → 배송 [[090_service_kubernetes_network_load_balancing|서비스]]를 연쇄 호출할 수 있다. 응답이 2초 걸렸다면 어느 [[090_service_kubernetes_network_load_balancing|서비스]]가 늦은 걸까? [[568_logs_distributed_logging_elk_fluentd|로그]]만으로는 파악이 어렵다.
 
-분산 추적은 요청의 첫 진입점에서 고유 Trace ID를 생성하고, 각 서비스가 이 ID를 HTTP 헤더로 전파하면서 자신이 처리한 시간(Span)을 기록한다. 최종적으로 모든 Span을 모으면 전체 요청의 타임라인이 완성된다.
+[[569_distributed_tracing_opentelemetry_jaeger|분산 추적]]은 요청의 첫 진입점에서 고유 Trace ID를 생성하고, 각 [[090_service_kubernetes_network_load_balancing|서비스]]가 이 ID를 [[461_http_stateless_connection_oriented|HTTP]] 헤더로 전파하면서 자신이 처리한 시간(Span)을 기록한다. 최종적으로 모든 Span을 모으면 전체 요청의 타임라인이 완성된다.
 
-2021년 이후 OpenTelemetry(OTel)가 CNCF 졸업 프로젝트로 성숙하면서, 계측 표준화가 이루어졌다. 이전에는 Jaeger SDK, Zipkin SDK가 서로 달라 도구를 바꾸면 코드도 바꿔야 했지만, OTel로 한 번 계측하면 백엔드는 자유롭게 교체 가능하다.
+2021년 이후 [[146_opentelemetry_otel_observability_standard|OpenTelemetry]]([[146_opentelemetry_otel_observability_standard|OTel]])가 [[190_cncf_landscape_observability|CNCF]] 졸업 프로젝트로 성숙하면서, 계측 표준화가 이루어졌다. 이전에는 Jaeger SDK, Zipkin SDK가 서로 달라 도구를 바꾸면 코드도 바꿔야 했지만, OTel로 한 번 계측하면 백엔드는 자유롭게 교체 가능하다.
 
-📢 **섹션 요약 비유**: 분산 추적은 택배 배송 추적 시스템이다. 하나의 택배(요청)가 발송 센터 → 분류 센터 → 배달 센터 → 고객 집을 거치며 각 단계의 시간이 기록된다. 어느 단계에서 가장 오래 걸렸는지 한눈에 확인한다.
+📢 **섹션 요약 비유**: [[569_distributed_tracing_opentelemetry_jaeger|분산 추적]]은 택배 배송 추적 시스템이다. 하나의 택배(요청)가 발송 센터 → [[104_classification_analysis|분류]] 센터 → 배달 센터 → 고객 집을 거치며 각 단계의 시간이 기록된다. 어느 단계에서 가장 오래 걸렸는지 한눈에 [[396_validation|확인]]한다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### 분산 추적 흐름
+### [[569_distributed_tracing_opentelemetry_jaeger|분산 추적]] 흐름
 
 ```
 [사용자 결제 요청 추적]
@@ -51,11 +51,11 @@ Trace X001 재구성:
 
 | 개념 | 설명 |
 |:---|:---|
-| Trace | 하나의 요청 전체 흐름 (고유 Trace ID) |
-| Span | 하나의 서비스가 처리한 구간 (시작~종료 시간) |
-| Parent Span | 호출한 서비스의 Span |
-| Child Span | 호출받은 서비스의 Span |
-| Context Propagation | Trace ID를 다음 서비스로 전달 |
+| Trace | 하나의 요청 전체 흐름 (고유 [[303_trace_id|Trace ID]]) |
+| Span | 하나의 [[090_service_kubernetes_network_load_balancing|서비스]]가 처리한 구간 (시작~종료 시간) |
+| Parent Span | 호출한 [[090_service_kubernetes_network_load_balancing|서비스]]의 Span |
+| Child Span | 호출받은 [[090_service_kubernetes_network_load_balancing|서비스]]의 Span |
+| [[570_trace_id_span_id_context_propagation|Context Propagation]] | Trace ID를 다음 [[090_service_kubernetes_network_load_balancing|서비스]]로 전달 |
 
 📢 **섹션 요약 비유**: Trace는 여행 일정표, Span은 각 구간의 체류 시간이다. 서울→부산 여행(Trace)에서 기차(Span 1), 택시(Span 2), 체크인(Span 3) 각각 얼마나 걸렸는지 기록한다.
 
@@ -63,30 +63,30 @@ Trace X001 재구성:
 
 ## Ⅲ. 비교 및 연결
 
-### 분산 추적 도구 비교
+### [[569_distributed_tracing_opentelemetry_jaeger|분산 추적]] 도구 비교
 
-| 도구 | 분류 | 특징 | 적합 환경 |
+| 도구 | [[104_classification_analysis|분류]] | 특징 | 적합 환경 |
 |:---|:---|:---|:---|
-| Jaeger | OSS 백엔드 | Uber 개발, CNCF 졸업, Cassandra/ES 저장 | 대규모 OSS 환경 |
-| Zipkin | OSS 백엔드 | Twitter 개발, 단순, 빠른 시작 | 소규모 초기 도입 |
-| Tempo | OSS 백엔드 | Grafana 개발, 비용 효율 (오브젝트 스토리지) | Grafana 스택 |
-| Datadog APM | SaaS | 메트릭·로그·트레이스 통합, AI 분석 | 엔터프라이즈 |
-| Honeycomb | SaaS | 고 카디널리티 특화, 쿼리 강력 | 복잡한 MSA |
+| Jaeger | [[191_oss_license_compliance|OSS]] 백엔드 | Uber 개발, [[190_cncf_landscape_observability|CNCF]] 졸업, [[541_cassandra|Cassandra]]/ES 저장 | 대규모 [[191_oss_license_compliance|OSS]] 환경 |
+| Zipkin | [[191_oss_license_compliance|OSS]] 백엔드 | Twitter 개발, 단순, 빠른 시작 | 소규모 [[459_quic_fec_forward_error_correction|초기]] 도입 |
+| Tempo | [[191_oss_license_compliance|OSS]] 백엔드 | [[168_grafana|Grafana]] 개발, 비용 효율 ([[494_object_storage|오브젝트 스토리지]]) | [[168_grafana|Grafana]] [[057_stack|스택]] |
+| Datadog [[162_apm_application_performance_management|APM]] | [[309_saas|SaaS]] | [[342_routing_metric_hop_bandwidth_delay|메트릭]]·[[568_logs_distributed_logging_elk_fluentd|로그]]·트레이스 통합, [[190_ai_llm_requirements_specification|AI]] 분석 | 엔터프라이즈 |
+| Honeycomb | [[309_saas|SaaS]] | 고 카디널리티 특화, [[298_qkv_attention|쿼리]] 강력 | 복잡한 [[619_msa_traffic_hardware|MSA]] |
 
-**샘플링 전략:**
-| 전략 | 설명 | 적합 상황 |
+**샘플링 [[268_strategy_pattern|전략]]:**
+| [[268_strategy_pattern|전략]] | 설명 | 적합 상황 |
 |:---|:---|:---|
 | 헤드 기반 샘플링 | 요청 시작 시 무작위 샘플링 | 저비용, 빠름 |
 | 테일 기반 샘플링 | 완료 후 오류/느린 요청만 보존 | 중요 트레이스 놓치지 않음 |
 | 100% 수집 | 모든 요청 추적 | 개발 환경, 저트래픽 |
 
-📢 **섹션 요약 비유**: 샘플링은 여론 조사 방법 선택이다. 모든 국민(100%)에게 물어볼 수 없으니, 통계적으로 대표성 있는 표본(1~10%)을 선별하되 "중요한 경우"(오류, 느린 응답)는 반드시 포함시킨다.
+📢 **섹션 요약 비유**: 샘플링은 여론 조사 방법 선택이다. 모든 국민(100%)에게 물어볼 수 없으니, 통계적으로 대표성 있는 표본(1~[[489_raid_10_hybrid|10]]%)을 선별하되 "중요한 경우"(오류, 느린 응답)는 반드시 포함시킨다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-**OpenTelemetry Java 계측 예시 (자동 계측):**
+**[[146_opentelemetry_otel_observability_standard|OpenTelemetry]] Java 계측 예시 (자동 계측):**
 ```bash
 # Java 에이전트로 자동 계측 (코드 수정 없음)
 java -javaagent:opentelemetry-javaagent.jar \
@@ -95,7 +95,7 @@ java -javaagent:opentelemetry-javaagent.jar \
      -jar payment-service.jar
 ```
 
-**OTel Collector 역할:**
+**[[146_opentelemetry_otel_observability_standard|OTel]] Collector 역할:**
 ```
 앱 SDK → OTel Collector → Jaeger (트레이스)
                         → Prometheus (메트릭)
@@ -104,38 +104,38 @@ java -javaagent:opentelemetry-javaagent.jar \
 ```
 
 **실무 트러블슈팅 워크플로:**
-1. Grafana 대시보드에서 p99 레이턴시 급등 감지
+1. [[168_grafana|Grafana]] 대시보드에서 p99 레이턴시 급등 감지
 2. Jaeger에서 해당 시간대 느린 Trace 검색
-3. Trace에서 병목 Span 식별 (가장 긴 Child Span)
-4. 해당 서비스 로그 확인 (Trace ID 검색)
+3. Trace에서 병목 Span [[655_ir_detection_analysis|식별]] (가장 긴 Child Span)
+4. 해당 [[090_service_kubernetes_network_load_balancing|서비스]] [[568_logs_distributed_logging_elk_fluentd|로그]] [[396_validation|확인]] ([[303_trace_id|Trace ID]] 검색)
 5. 근본 원인 파악 및 수정
 
-📢 **섹션 요약 비유**: OTel Collector는 물류 허브다. 전국 각지(서비스)에서 보낸 물건(텔레메트리 데이터)을 받아 각 목적지(Jaeger, Prometheus, Loki)로 자동 분류하여 발송한다.
+📢 **섹션 요약 비유**: [[146_opentelemetry_otel_observability_standard|OTel]] Collector는 물류 허브다. 전국 각지([[090_service_kubernetes_network_load_balancing|서비스]])에서 보낸 물건(텔레메트리 [[001_dikw_pyramid|데이터]])을 받아 각 목적지(Jaeger, [[136_prometheus|Prometheus]], Loki)로 자동 [[104_classification_analysis|분류]]하여 발송한다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-분산 추적 도입으로 "서비스 A가 느린데 원인이 뭔지 모른다"는 블랙박스 상황이 해소된다. 병목 서비스를 정확히 찾아 최적화 투자를 집중할 수 있어 성능 개선 효과가 극대화된다.
+[[569_distributed_tracing_opentelemetry_jaeger|분산 추적]] 도입으로 "[[090_service_kubernetes_network_load_balancing|서비스]] A가 느린데 원인이 뭔지 모른다"는 블랙박스 상황이 해소된다. 병목 [[090_service_kubernetes_network_load_balancing|서비스]]를 정확히 찾아 최적화 투자를 집중할 수 있어 [[282_performance_tactics|성능]] 개선 효과가 극대화된다.
 
-초기 계측 오버헤드가 우려되지만, 잘 구성된 샘플링과 비동기 내보내기를 사용하면 성능 영향이 2~5% 수준이다. OpenTelemetry 자동 계측을 활용하면 코드 수정 없이 계측을 추가할 수 있어 도입 장벽도 낮다.
+[[459_quic_fec_forward_error_correction|초기]] 계측 오버헤드가 우려되지만, 잘 구성된 샘플링과 비동기 내보내기를 사용하면 [[282_performance_tactics|성능]] 영향이 2~5% 수준이다. [[146_opentelemetry_otel_observability_standard|OpenTelemetry]] 자동 계측을 활용하면 코드 수정 없이 계측을 추가할 수 있어 도입 장벽도 낮다.
 
-📢 **섹션 요약 비유**: 분산 추적은 공장 생산 라인의 CCTV다. 제품(요청)이 어느 공정(서비스)에서 얼마나 머무르는지 한눈에 보여주어, 생산성 저하 구간을 즉시 찾아낼 수 있다.
+📢 **섹션 요약 비유**: [[569_distributed_tracing_opentelemetry_jaeger|분산 추적]]은 공장 생산 라인의 CCTV다. 제품(요청)이 어느 공정([[090_service_kubernetes_network_load_balancing|서비스]])에서 얼마나 머무르는지 한눈에 보여주어, 생산성 저하 구간을 즉시 찾아낼 수 있다.
 
 ---
 
 ### 📌 관련 개념 맵
 | 개념 | 연결 포인트 |
 |:---|:---|
-| 옵저버빌리티 | 트레이스는 3대 기둥 중 세 번째 |
-| Trace ID / Span | 분산 추적의 핵심 데이터 단위 |
-| OpenTelemetry | 분산 추적 표준 계측 프레임워크 |
-| Context Propagation | 서비스 간 Trace ID 전파 메커니즘 |
-| Jaeger / Zipkin | OSS 트레이스 백엔드 저장·시각화 |
-| 샘플링 | 비용 관리와 신뢰성 사이의 균형 |
+| [[642_observability_telemetry|옵저버빌리티]] | 트레이스는 3대 기둥 중 세 번째 |
+| [[303_trace_id|Trace ID]] / Span | [[569_distributed_tracing_opentelemetry_jaeger|분산 추적]]의 핵심 [[001_dikw_pyramid|데이터]] 단위 |
+| [[146_opentelemetry_otel_observability_standard|OpenTelemetry]] | [[569_distributed_tracing_opentelemetry_jaeger|분산 추적]] 표준 계측 프레임워크 |
+| [[570_trace_id_span_id_context_propagation|Context Propagation]] | [[090_service_kubernetes_network_load_balancing|서비스]] 간 [[303_trace_id|Trace ID]] 전파 메커니즘 |
+| Jaeger / Zipkin | [[191_oss_license_compliance|OSS]] 트레이스 백엔드 저장·[[003_bigdata_7v|시각화]] |
+| 샘플링 | 비용 관리와 [[642_reliability_mtbf_mttr_mttf_availability|신뢰성]] 사이의 균형 |
 
 ### 👶 어린이를 위한 3줄 비유 설명
-1. 분산 추적은 릴레이 경주에서 각 선수가 바통을 넘기며 각자의 시간을 기록하는 것이에요.
+1. [[569_distributed_tracing_opentelemetry_jaeger|분산 추적]]은 릴레이 경주에서 각 선수가 바통을 넘기며 각자의 시간을 기록하는 것이에요.
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -151,4 +151,4 @@ java -javaagent:opentelemetry-javaagent.jar \
 OpenTelemetry: 벤더 중립 수집 표준
 ```
 2. Trace ID는 바통이고, 각 선수의 시간 기록이 Span이에요.
-3. 경주(요청)가 끝나면 어느 선수(서비스)가 가장 느렸는지 정확히 알 수 있어요!
+3. 경주(요청)가 끝나면 어느 선수([[090_service_kubernetes_network_load_balancing|서비스]])가 가장 느렸는지 정확히 알 수 있어요!

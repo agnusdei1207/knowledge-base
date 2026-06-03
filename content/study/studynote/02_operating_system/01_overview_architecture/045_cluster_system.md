@@ -7,9 +7,9 @@ categories = "studynote-operating-system"
 +++
 
 > **핵심 인사이트**
-> 1. 클러스터 시스템(Cluster System)은 여러 독립 컴퓨터(노드)를 고속 네트워크로 연결해 하나의 단일 시스템처럼 동작시키는 아키텍처 — 단일 고성능 컴퓨터(SMP, Scale-Up)의 비용과 한계를 극복하기 위해 상용 하드웨어(Scale-Out)를 활용한다.
-> 2. 클러스터의 두 핵심 목표는 고가용성(HA, High Availability)과 고성능(HP, High Performance) — HA 클러스터는 노드 장애 시 자동 페일오버(Failover)로 서비스 무중단을 보장하고, HP 클러스터는 작업을 병렬 분산해 처리량(Throughput)을 극대화한다.
-> 3. 클러스터 vs SMP vs NUMA — SMP는 공유 메모리 멀티프로세서(하나의 OS), NUMA는 분산 메모리이지만 단일 이미지 OS, 클러스터는 각 노드가 독립 OS를 가진 분산 시스템으로 확장성이 가장 크지만 프로그래밍이 복잡하다.
+> 1. 클러스터 시스템(Cluster System)은 여러 독립 컴퓨터(노드)를 고속 네트워크로 연결해 하나의 단일 시스템처럼 동작시키는 아키텍처 — 단일 고성능 컴퓨터([[195_real_time_scheduling|SMP]], [[621_scale_up_system_bus|Scale-Up]])의 비용과 한계를 극복하기 위해 상용 하드웨어([[202_scale_out_distributed_horizontal_expansion|Scale-Out]])를 활용한다.
+> 2. 클러스터의 두 핵심 목표는 고가용성(HA, High [[452_availability|Availability]])과 고성능(HP, High [[282_performance_tactics|Performance]]) — HA 클러스터는 노드 장애 시 자동 페일오버([[300_failover_architecture|Failover]])로 [[090_service_kubernetes_network_load_balancing|서비스]] 무중단을 보장하고, HP 클러스터는 작업을 [[430_index_fast_full_scan|병렬]] [[136_variance|분산]]해 [[139_throughput|처리량]]([[139_throughput|Throughput]])을 극대화한다.
+> 3. 클러스터 vs [[195_real_time_scheduling|SMP]] vs [[377_numa_allocation|NUMA]] — SMP는 [[118_shared_memory|공유 메모리]] 멀티프로세서(하나의 OS), NUMA는 [[136_variance|분산]] 메모리이지만 단일 이미지 OS, 클러스터는 각 노드가 독립 OS를 가진 [[136_variance|분산]] 시스템으로 확장성이 가장 크지만 프로그래밍이 복잡하다.
 
 ---
 
@@ -89,11 +89,11 @@ HA 소프트웨어:
   오픈소스: Keepalived (L4 레벨 VIP 관리)
 ```
 
-> 📢 **섹션 요약 비유**: HA 클러스터는 이중화 전원 — 메인 전원(Active)이 끊기면 자동으로 예비 전원(Standby)으로 전환. Split-Brain은 두 전원이 동시에 켜지는 쇼트 방지!
+> 📢 **섹션 요약 비유**: HA 클러스터는 [[456_dual_redundancy|이중화]] 전원 — 메인 전원([[483_active_vs_passive_ftp|Active]])이 끊기면 자동으로 예비 전원(Standby)으로 전환. Split-Brain은 두 전원이 동시에 켜지는 쇼트 방지!
 
 ---
 
-## Ⅲ. HPC 클러스터 — 고성능 컴퓨팅
+## Ⅲ. [[548_automotive_hpc|HPC]] 클러스터 — 고성능 컴퓨팅
 
 ```
 HPC 클러스터 (High-Performance Computing):
@@ -131,11 +131,11 @@ HPC 클러스터 (High-Performance Computing):
   Top500 슈퍼컴퓨터 = 초대형 HPC 클러스터
 ```
 
-> 📢 **섹션 요약 비유**: HPC 클러스터는 수학 마라톤 팀 — 복잡한 계산(마라톤)을 여러 팀원(컴퓨트 노드)이 구간 나눠 달리고(병렬), 결과를 합쳐 빠른 답을 내요!
+> 📢 **섹션 요약 비유**: [[548_automotive_hpc|HPC]] 클러스터는 수학 마라톤 팀 — 복잡한 계산(마라톤)을 여러 팀원(컴퓨트 노드)이 구간 나눠 달리고([[430_index_fast_full_scan|병렬]]), 결과를 합쳐 빠른 답을 내요!
 
 ---
 
-## Ⅳ. SMP vs NUMA vs 클러스터
+## Ⅳ. [[195_real_time_scheduling|SMP]] vs [[377_numa_allocation|NUMA]] vs 클러스터
 
 ```
 비교: SMP, NUMA, 클러스터
@@ -257,6 +257,6 @@ Kubernetes: 컨테이너 오케스트레이션
 
 ## 👶 어린이를 위한 3줄 비유 설명
 
-1. 클러스터는 팀 작업 — 어려운 숙제(계산/서비스)를 혼자(단일 서버) 하는 대신 친구들과(노드들) 나눠서 해요!
-2. HA 클러스터는 팀장 교체 — 팀장(Active 노드)이 아프면 부팀장(Standby)이 자동으로 팀을 이끌어요. 일이 멈추지 않아요!
-3. HPC 클러스터는 수학 릴레이 — 어마어마한 계산을 수천 명(노드)이 동시에 나눠서 빠르게 풀어요!
+1. 클러스터는 팀 작업 — 어려운 숙제(계산/[[090_service_kubernetes_network_load_balancing|서비스]])를 혼자(단일 서버) 하는 대신 친구들과(노드들) 나눠서 해요!
+2. HA 클러스터는 팀장 교체 — 팀장([[483_active_vs_passive_ftp|Active]] 노드)이 아프면 부팀장(Standby)이 자동으로 팀을 이끌어요. 일이 멈추지 않아요!
+3. [[548_automotive_hpc|HPC]] 클러스터는 수학 릴레이 — 어마어마한 계산을 수천 명(노드)이 동시에 나눠서 빠르게 풀어요!

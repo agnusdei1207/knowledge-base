@@ -8,37 +8,37 @@ categories = "studynote-cloud-architecture"
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: RDD(Resilient Distributed Dataset)는 Spark의 핵심 추상화로, 클러스터 전체에 분산된 '불변(Immutable)' 데이터 모음이며, 장애 시 계보(Lineage)를 역추적하여 잃어버린 파티션을 자동으로 재계산하는 내결함성 메커니즘을 내장한다.
-> 2. **가치**: 데이터를 직접 복제하지 않고 "어떻게 생성됐는지"(변환 계보)를 기록하는 방식으로 내결함성을 구현하여, HDFS의 3벌 복제 대비 저장 오버헤드 없이 분산 데이터를 보호한다.
+> 1. **본질**: [[310_audit|RDD]]([[025_spark_rdd_resilient_distributed_dataset|Resilient Distributed Dataset]])는 Spark의 핵심 추상화로, 클러스터 전체에 [[136_variance|분산]]된 '불변([[298_immutable|Immutable]])' [[001_dikw_pyramid|데이터]] 모음이며, 장애 시 계보(Lineage)를 역추적하여 잃어버린 [[514_partition_slice_volume|파티션]]을 자동으로 재계산하는 내결함성 메커니즘을 내장한다.
+> 2. **가치**: [[001_dikw_pyramid|데이터]]를 직접 [[016_replication_factor|복제]]하지 않고 "어떻게 [[087_process_state_transition|생성]]됐는지"(변환 계보)를 기록하는 방식으로 내결함성을 구현하여, HDFS의 3벌 [[016_replication_factor|복제]] 대비 저장 오버헤드 없이 [[136_variance|분산]] [[001_dikw_pyramid|데이터]]를 보호한다.
 > 3. **판단 포인트**: RDD는 저수준 API로 유연하지만 최적화가 어렵다. 현대 Spark에서는 DataFrame/Dataset API를 우선 사용하고, 세밀한 제어가 필요할 때만 RDD를 직접 사용하는 것이 권장된다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-Spark를 설계할 때 Matei Zaharia가 직면한 문제는 두 가지였다: 1) 메모리에 데이터를 유지하는 것은 빠르지만 **메모리는 휘발성**이라 장애 시 데이터가 사라진다. 2) 기존 공유 메모리 시스템은 세밀한 업데이트를 지원하지만 **분산 환경에서 내결함성 구현이 복잡**하다.
+Spark를 설계할 때 Matei Zaharia가 직면한 문제는 두 가지였다: 1) 메모리에 [[001_dikw_pyramid|데이터]]를 유지하는 것은 빠르지만 **메모리는 휘발성**이라 장애 시 [[001_dikw_pyramid|데이터]]가 사라진다. 2) 기존 [[118_shared_memory|공유 메모리]] 시스템은 세밀한 업데이트를 지원하지만 **[[136_variance|분산]] 환경에서 내결함성 구현이 복잡**하다.
 
-RDD는 이 두 문제에 대한 우아한 해결책이다: **데이터를 복제하는 대신 변환 과정을 기록한다.** RDD A에서 map() 연산으로 RDD B가 생성됐다면, 이 관계(Lineage)를 DAG(Directed Acyclic Graph)로 기록한다. 노드 장애로 RDD B의 일부가 유실되면, Lineage를 따라 원본 RDD A에서 해당 파티션만 재계산한다.
+RDD는 이 두 문제에 대한 우아한 해결책이다: **[[001_dikw_pyramid|데이터]]를 [[016_replication_factor|복제]]하는 대신 변환 과정을 기록한다.** [[310_audit|RDD]] A에서 map() 연산으로 [[310_audit|RDD]] B가 [[087_process_state_transition|생성]]됐다면, 이 [[083_relationship_in_er_model|관계]](Lineage)를 [[401_bayesian_network_dag_causality|DAG]]([[255_apache_airflow_dag|Directed Acyclic Graph]])로 기록한다. 노드 장애로 [[310_audit|RDD]] B의 일부가 유실되면, Lineage를 따라 원본 [[310_audit|RDD]] A에서 해당 [[514_partition_slice_volume|파티션]]만 재계산한다.
 
-RDD라는 이름은 세 가지 특성에서 왔다: **Resilient**(탄력적: 장애 시 자동 복구), **Distributed**(분산: 클러스터 전체에 파티션 분산), **Dataset**(데이터셋: 실제 데이터의 컬렉션).
+RDD라는 이름은 세 가지 특성에서 왔다: **Resilient**(탄력적: 장애 시 자동 [[658_ir_recovery|복구]]), **Distributed**([[136_variance|분산]]: 클러스터 전체에 [[514_partition_slice_volume|파티션]] [[136_variance|분산]]), **Dataset**([[001_dikw_pyramid|데이터]]셋: 실제 [[001_dikw_pyramid|데이터]]의 컬렉션).
 
-📢 **섹션 요약 비유**: RDD의 Lineage 기반 복구는 레시피를 기억하는 것과 같다. 완성된 케이크(RDD B)가 엎질러지면, 레시피(Lineage)를 보고 재료(원본 RDD A)부터 다시 만들 수 있다. 케이크를 여러 개 복사해두는 것(3벌 복제)보다 레시피 한 장이 더 경제적이다.
+📢 **섹션 요약 비유**: RDD의 Lineage 기반 [[658_ir_recovery|복구]]는 레시피를 기억하는 것과 같다. 완성된 케이크([[310_audit|RDD]] B)가 엎질러지면, 레시피(Lineage)를 보고 재료(원본 [[310_audit|RDD]] A)부터 다시 만들 수 있다. 케이크를 여러 개 복사해두는 것(3벌 [[016_replication_factor|복제]])보다 레시피 한 장이 더 경제적이다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### RDD 주요 특성
+### [[310_audit|RDD]] 주요 특성
 
 | 특성 | 설명 |
 |:---|:---|
-| **Immutable** (불변) | 생성 후 수정 불가, 변환 시 새 RDD 생성 |
-| **Distributed** (분산) | 클러스터 여러 노드에 파티션으로 분산 |
-| **Lazy Evaluation** | 액션 호출 전까지 변환 연산 실행 안 됨 |
+| **[[298_immutable|Immutable]]** (불변) | [[087_process_state_transition|생성]] 후 수정 불가, 변환 시 새 [[310_audit|RDD]] [[087_process_state_transition|생성]] |
+| **Distributed** ([[136_variance|분산]]) | 클러스터 여러 노드에 [[514_partition_slice_volume|파티션]]으로 [[136_variance|분산]] |
+| **[[023_lazy_evaluation|Lazy Evaluation]]** | 액션 호출 전까지 변환 연산 실행 안 됨 |
 | **Fault Tolerant** | Lineage DAG로 장애 시 자동 재계산 |
-| **In-Memory** | 기본적으로 메모리에 유지 (성능 핵심) |
+| **In-Memory** | 기본적으로 메모리에 유지 ([[282_performance_tactics|성능]] 핵심) |
 
-### RDD 연산 유형
+### [[310_audit|RDD]] 연산 유형
 
 ```
 RDD 연산 두 가지:
@@ -65,7 +65,7 @@ RDD 연산 두 가지:
    └─────────────────────────────────────────────────────┘
 ```
 
-### Lineage DAG 예시
+### Lineage [[401_bayesian_network_dag_causality|DAG]] 예시
 
 ```
   textFile("input.txt")     ← RDD[String] (원본)
@@ -82,7 +82,7 @@ RDD 연산 두 가지:
          ▼ saveAsTextFile()  ← 액션! 이 시점에 전체 DAG 실행
 ```
 
-### RDD Python 코드 예시
+### [[310_audit|RDD]] Python 코드 예시
 
 ```python
 sc = spark.sparkContext
@@ -105,31 +105,31 @@ counts.count()  # 첫 액션 시 캐시에 저장
 counts.count()  # 두 번째 호출은 캐시에서 즉시 반환
 ```
 
-📢 **섹션 요약 비유**: RDD의 트랜스포메이션과 액션은 요리 주문과 조리의 관계다. 트랜스포메이션은 레시피 작성(재료 준비, 조리 순서 계획)이고, 액션은 실제 요리 시작이다. 주문이 들어오기(액션) 전까지는 준비만 하고 실제 조리는 하지 않는다(Lazy).
+📢 **섹션 요약 비유**: RDD의 트랜스포메이션과 액션은 요리 주문과 조리의 [[083_relationship_in_er_model|관계]]다. 트랜스포메이션은 레시피 작성(재료 준비, 조리 순서 계획)이고, 액션은 실제 요리 시작이다. 주문이 들어오기(액션) 전까지는 준비만 하고 실제 조리는 하지 않는다([[380_computational_graph_lazy_eager_execution|Lazy]]).
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-### RDD vs DataFrame vs Dataset
+### [[310_audit|RDD]] vs DataFrame vs Dataset
 
-| 항목 | RDD | DataFrame | Dataset |
+| 항목 | [[310_audit|RDD]] | DataFrame | Dataset |
 |:---|:---|:---|:---|
-| Spark 버전 | 1.x | 2.x | 2.x |
+| Spark [[288_version_ihl_tos_total_length|버전]] | 1.x | 2.x | 2.x |
 | 언어 | Python/Scala/Java | Python/Scala/Java | Scala/Java 전용 |
-| 스키마 | 없음 (비정형) | ✅ (컬럼명+타입) | ✅ (타입 안전) |
+| [[005_schema|스키마]] | 없음 (비정형) | ✅ (컬럼명+타입) | ✅ (타입 안전) |
 | Catalyst 최적화 | ❌ | ✅ | ✅ |
 | Tungsten 메모리 | ❌ | ✅ | ✅ |
-| 성능 | 낮음 | 높음 | 높음 |
-| 사용 권장 | 저수준 제어 필요 시 | 구조화 데이터 | 타입 안전 필요 시 |
+| [[282_performance_tactics|성능]] | 낮음 | 높음 | 높음 |
+| 사용 권장 | 저수준 제어 필요 시 | 구조화 [[001_dikw_pyramid|데이터]] | 타입 안전 필요 시 |
 
-📢 **섹션 요약 비유**: RDD→DataFrame→Dataset의 진화는 메모 지→엑셀 스프레드시트→데이터베이스 테이블의 진화와 같다. 메모지는 자유롭지만 검색이 어렵고, 엑셀은 컬럼이 있어 분석이 쉬우며, DB는 타입 검증까지 된다.
+📢 **섹션 요약 비유**: [[310_audit|RDD]]→DataFrame→Dataset의 진화는 메모 지→엑셀 스프레드시트→[[002_database_definition|데이터베이스]] 테이블의 진화와 같다. 메모지는 자유롭지만 검색이 어렵고, 엑셀은 컬럼이 있어 분석이 쉬우며, DB는 타입 검증까지 된다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-**RDD 직접 사용이 필요한 상황**:
+**[[310_audit|RDD]] 직접 사용이 필요한 상황**:
 ```python
 # 1. 비구조화 데이터 처리
 rdd = sc.textFile("s3://raw-logs/*.log")
@@ -147,7 +147,7 @@ rdd.mapPartitions(lambda records:
 rdd.checkpoint()  # Lineage가 너무 길어질 때 중간 저장
 ```
 
-**DataFrame API 우선 사용 권장**:
+**DataFrame [[014_api_posix|API]] 우선 사용 권장**:
 ```python
 # DataFrame API: Catalyst 옵티마이저가 자동 최적화
 df = spark.read.parquet("s3://mybucket/data/")
@@ -160,7 +160,7 @@ result.show()
 
 **기술사 판단 포인트**:
 - Lineage가 매우 길어지면(수십 단계의 트랜스포메이션) 장애 시 재계산 시간이 길어진다. `checkpoint()`로 중간 결과를 디스크에 저장하여 Lineage를 절단한다.
-- `collect()`는 전체 RDD를 드라이버 메모리로 가져오므로, 대용량 데이터에 사용 시 OutOfMemoryError 발생. 결과가 큰 경우 `take(n)` 또는 `saveAsTextFile()` 사용.
+- `collect()`는 전체 RDD를 드라이버 메모리로 가져오므로, 대용량 [[001_dikw_pyramid|데이터]]에 사용 시 OutOfMemoryError 발생. 결과가 큰 경우 `take(n)` 또는 `saveAsTextFile()` 사용.
 - Spark 3.x에서 DataFrame과 Dataset은 내부적으로 동일 (Dataset[Row] = DataFrame).
 
 📢 **섹션 요약 비유**: checkpoint()는 긴 게임 세이브 포인트와 같다. 너무 오래 진행하다가 죽으면 처음부터 다시 해야 하므로(Lineage 재계산), 중간에 세이브(checkpoint)해두면 그 지점부터 다시 시작할 수 있다.
@@ -171,12 +171,12 @@ result.show()
 
 | 기대효과 | 설명 |
 |:---|:---|
-| 내결함성 | Lineage 기반 자동 복구, 복제 비용 없음 |
-| 유연성 | 모든 데이터 타입, 커스텀 로직 처리 가능 |
-| 분산 처리 | 수천 노드에 자동 파티션 분배 |
+| 내결함성 | Lineage 기반 자동 [[658_ir_recovery|복구]], [[016_replication_factor|복제]] 비용 없음 |
+| 유연성 | 모든 [[001_dikw_pyramid|데이터]] 타입, 커스텀 로직 처리 가능 |
+| [[136_variance|분산]] 처리 | 수천 노드에 자동 [[514_partition_slice_volume|파티션]] 분배 |
 | 메모리 최적화 | cache()/persist()로 반복 처리 최적화 |
 
-RDD는 Spark의 철학을 가장 순수하게 담은 추상화다. "불변 + 변환 계보"라는 두 원칙이 분산 시스템의 복잡한 내결함성 문제를 우아하게 해결한다. DataFrame/Dataset이 대부분의 경우를 커버하지만, RDD의 원리를 이해해야 Spark의 본질을 파악할 수 있다.
+RDD는 Spark의 철학을 가장 순수하게 담은 추상화다. "불변 + 변환 계보"라는 두 원칙이 [[136_variance|분산]] 시스템의 복잡한 내결함성 문제를 우아하게 해결한다. DataFrame/Dataset이 대부분의 경우를 커버하지만, RDD의 원리를 이해해야 Spark의 본질을 파악할 수 있다.
 
 📢 **섹션 요약 비유**: RDD는 Spark의 DNA다. 눈에 보이는 것은 DataFrame이지만, 그 안에는 RDD의 원리가 흐른다. DataFrame을 잘 쓰려면 RDD를 이해해야 한다.
 
@@ -186,16 +186,16 @@ RDD는 Spark의 철학을 가장 순수하게 담은 추상화다. "불변 + 변
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| Lineage (계보) | RDD 내결함성의 핵심 메커니즘 |
-| 지연 평가 (Lazy Evaluation) | 트랜스포메이션이 즉시 실행되지 않는 이유 |
-| DataFrame / Dataset | RDD를 기반으로 한 고수준 스키마 기반 API |
-| DAG (Directed Acyclic Graph) | Spark가 실행 계획을 표현하는 방식 |
-| checkpoint() | 긴 Lineage를 절단하여 복구 시간 단축 |
-| Catalyst Optimizer | DataFrame이 RDD보다 빠른 이유 (자동 최적화) |
+| Lineage (계보) | [[310_audit|RDD]] 내결함성의 핵심 메커니즘 |
+| [[023_lazy_evaluation|지연 평가]] ([[023_lazy_evaluation|Lazy Evaluation]]) | 트랜스포메이션이 즉시 실행되지 않는 이유 |
+| DataFrame / Dataset | RDD를 기반으로 한 고수준 [[005_schema|스키마]] 기반 [[014_api_posix|API]] |
+| [[401_bayesian_network_dag_causality|DAG]] ([[255_apache_airflow_dag|Directed Acyclic Graph]]) | Spark가 실행 계획을 표현하는 방식 |
+| checkpoint() | 긴 Lineage를 절단하여 [[658_ir_recovery|복구]] 시간 단축 |
+| [[057_catalyst_optimizer|Catalyst Optimizer]] | DataFrame이 RDD보다 빠른 이유 (자동 최적화) |
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. RDD는 레시피를 기억하는 요리책처럼, 데이터가 어떻게 만들어졌는지 기록해둬서 잃어버려도 다시 만들 수 있어.
+1. RDD는 레시피를 기억하는 요리책처럼, [[001_dikw_pyramid|데이터]]가 어떻게 만들어졌는지 기록해둬서 잃어버려도 다시 만들 수 있어.
 
 ### 📈 관련 키워드 및 발전 흐름도
 

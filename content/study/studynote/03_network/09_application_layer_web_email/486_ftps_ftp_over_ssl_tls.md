@@ -9,23 +9,23 @@ categories = "studynote-network"
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: FTPS는 응용 계층과 웹/메일에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.
-> 2. **가치**: FTPS를 이해하면 응답 시간과 호환성 사이의 균형을 더 정확히 볼 수 있다.
+> 2. **가치**: FTPS를 이해하면 응답 시간과 [[344_compatibility_usability|호환성]] 사이의 균형을 더 정확히 볼 수 있다.
 > 3. **판단 포인트**: 설계 시에는 개념 자체보다 적용 조건, 운영 복잡도, 인접 기술과의 경계를 함께 판단해야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: FTPS(File Transfer Protocol Secure)는 HTTP에 SSL을 얹어 HTTPS가 된 것처럼, 고전적인 FTP에 SSL/TLS 암호화 계층을 씌워 파일 전송 간 기밀성과 서버 무결성(인증서)을 보장하는 프로토콜이다.
+- **개념**: FTPS([[482_ftp_file_transfer_protocol|File Transfer Protocol]] Secure)는 HTTP에 SSL을 얹어 HTTPS가 된 것처럼, 고전적인 FTP에 SSL/[[694_thread_local_storage_tls|TLS]] 암호화 계층을 씌워 [[501_file_definition_logical_record|파일]] 전송 간 기밀성과 서버 [[003_integrity|무결성]]([[303_authentication_authorization_patterns|인증]]서)을 보장하는 [[295_protocol_field_tcp_udp_icmp|프로토콜]]이다.
 
-- **필요성**: 1990년대 후반, 인터넷 상에 Wireshark 같은 패킷 스니핑 도구가 보급되면서 평문으로 통신하던 FTP는 발가벗겨진 채 길거리를 걷는 것과 같았다. 비밀번호가 털리고 기업의 기밀문서가 도청되었다. 하지만 이미 전 세계의 수많은 데몬(vsftpd, proftpd)과 클라이언트(알FTP)가 FTP 생태계에 깊게 뿌리내리고 있었다. "기존 FTP의 명령어(USER, PASS, STOR) 구조와 프로그램들은 그대로 살리되, 그 아래로 흐르는 텍스트만 몰래 암호화할 수 없을까?"라는 레거시 인프라의 타협점이 FTPS를 탄생시켰다.
+- **필요성**: 1990년대 후반, 인터넷 상에 Wireshark 같은 [[272_packet_sniffing|패킷 스니핑]] 도구가 보급되면서 평문으로 통신하던 FTP는 발가벗겨진 채 길거리를 걷는 것과 같았다. 비밀번호가 털리고 기업의 기밀문서가 [[701_sniffing_eavesdropping_promiscuous|도청]]되었다. 하지만 이미 전 세계의 수많은 데몬(vsftpd, proftpd)과 클라이언트(알FTP)가 [[482_ftp_file_transfer_protocol|FTP]] 생태계에 깊게 뿌리내리고 있었다. "기존 FTP의 [[158_instruction|명령어]](USER, PASS, STOR) 구조와 프로그램들은 그대로 살리되, 그 아래로 흐르는 텍스트만 몰래 암호화할 수 없을까?"라는 레거시 인프라의 타협점이 FTPS를 탄생시켰다.
 
-- **💡 비유**: **고전 FTP**가 투명한 유리 파이프를 통해 물건을 보내는 것이라면, **FTPS**는 그 유리 파이프 겉면에 두꺼운 검은색 시트지(SSL/TLS)를 발라서 밖에서 안을 들여다볼 수 없게 만든 것입니다. 파이프를 2개(제어, 데이터) 써야 하고 설치가 복잡한 근본적인 뼈대는 그대로지만, 남이 쳐다보지 못하게 가리는 데는 성공했습니다.
+- **💡 비유**: **고전 [[482_ftp_file_transfer_protocol|FTP]]**가 투명한 유리 [[123_pipe|파이프]]를 통해 물건을 보내는 것이라면, **FTPS**는 그 유리 [[123_pipe|파이프]] 겉면에 두꺼운 검은색 시트지(SSL/[[694_thread_local_storage_tls|TLS]])를 발라서 밖에서 안을 들여다볼 수 없게 만든 것입니다. [[123_pipe|파이프]]를 2개(제어, [[001_dikw_pyramid|데이터]]) 써야 하고 설치가 복잡한 근본적인 뼈대는 그대로지만, 남이 쳐다보지 못하게 가리는 데는 성공했습니다.
 
 - **등장 배경**:
-  1. **평문 전송의 종말**: 비밀번호 탈취 사고가 속출하며 평문 프로토콜(Telnet, FTP, HTTP)들의 전면적인 암호화 퇴출 요구가 거세어졌다.
-  2. **Netscape의 SSL 발명**: 1994년 넷스케이프가 만든 SSL 기술이 웹(HTTPS)에서 대성공을 거두자, IETF는 이를 다른 프로토콜에도 적용하기 시작했다.
-  3. **RFC 2228 제정**: 1997년, 기존 FTP 명령어에 보안 관련 명령어(`AUTH TLS`, `PROT P`)를 추가하는 스펙이 제정되며 FTPS가 공식 표준으로 자리 잡았다.
+  1. **평문 전송의 종말**: 비밀번호 탈취 사고가 속출하며 평문 [[295_protocol_field_tcp_udp_icmp|프로토콜]](Telnet, [[482_ftp_file_transfer_protocol|FTP]], [[461_http_stateless_connection_oriented|HTTP]])들의 전면적인 암호화 퇴출 요구가 거세어졌다.
+  2. **Netscape의 SSL 발명**: 1994년 넷스케이프가 만든 SSL 기술이 웹([[471_https_http_over_tls|HTTPS]])에서 대성공을 거두자, IETF는 이를 다른 [[295_protocol_field_tcp_udp_icmp|프로토콜]]에도 적용하기 시작했다.
+  3. **RFC 2228 제정**: 1997년, 기존 [[482_ftp_file_transfer_protocol|FTP]] [[158_instruction|명령어]]에 보안 관련 [[158_instruction|명령어]](`AUTH TLS`, `PROT P`)를 추가하는 스펙이 제정되며 FTPS가 공식 표준으로 자리 잡았다.
 
 ```text
 ┌─────────────────────────────────────────────────────────────┐
@@ -59,30 +59,30 @@ categories = "studynote-network"
 └─────────────────────────────────────────────────────────────┘
 ```
 
-**[다이어그램 해설]** FTPS 구축 시 서버 관리자를 헷갈리게 하는 첫 번째 관문이다. Explicit(명시적) 모드는 우아한 타협안이다. 클라이언트가 21번 포트로 똑같이 들어와서, 서버가 TLS를 지원하면 암호화 통신으로 진화(Upgrade)하고, 지원 안 하면 그냥 평문 FTP로 쓰거나 접속을 끊는다(호환성 극대화). 반면 Implicit(묵시적) 모드는 990번이라는 별도 포트를 파서 "여긴 무조건 암호화만 들어와"라고 벽을 친 방식이다. IETF는 표준 스펙에서 990번 묵시적 모드를 공식 폐기(Deprecated)하고, 명시적 모드(AUTH TLS)만을 진정한 FTPS 스펙으로 인정하고 있다.
+**[다이어그램 해설]** FTPS 구축 시 서버 관리자를 헷갈리게 하는 첫 번째 관문이다. Explicit(명시적) 모드는 우아한 타협안이다. 클라이언트가 21번 [[446_port_and_bus|포트]]로 똑같이 들어와서, 서버가 TLS를 지원하면 암호화 통신으로 진화(Upgrade)하고, 지원 안 하면 그냥 평문 FTP로 쓰거나 접속을 끊는다([[344_compatibility_usability|호환성]] 극대화). 반면 Implicit(묵시적) 모드는 990번이라는 별도 [[446_port_and_bus|포트]]를 파서 "여긴 무조건 암호화만 들어와"라고 벽을 친 방식이다. IETF는 표준 스펙에서 990번 묵시적 모드를 공식 폐기(Deprecated)하고, 명시적 모드(AUTH [[694_thread_local_storage_tls|TLS]])만을 진정한 FTPS 스펙으로 인정하고 있다.
 
-- **📢 섹션 요약 비유**: 명시적(Explicit) 모드는 식당(21번)에 들어가서 "저 VIP 룸으로 주세요(AUTH TLS)"라고 말해서 프라이빗한 방으로 자리를 옮기는 것이고, 묵시적(Implicit) 모드는 처음부터 문이 굳게 닫힌 VIP 전용 별관(990번)으로 들어가는 것입니다.
+- **📢 섹션 요약 비유**: 명시적(Explicit) 모드는 식당(21번)에 들어가서 "저 VIP 룸으로 주세요(AUTH [[694_thread_local_storage_tls|TLS]])"라고 말해서 프라이빗한 방으로 자리를 옮기는 것이고, 묵시적(Implicit) 모드는 처음부터 문이 굳게 닫힌 VIP 전용 별관(990번)으로 들어가는 것입니다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### 제어 채널과 데이터 채널의 독립적 암호화 통제
+### 제어 채널과 [[001_dikw_pyramid|데이터]] 채널의 독립적 암호화 통제
 
-FTPS가 일반적인 암호화 프로토콜(HTTPS, SSH)과 달리 극도로 까다로운 이유는 파이프가 2개(제어용 21번, 데이터용 랜덤 포트)이기 때문이다. 관리자는 이 2개의 파이프를 각각 암호화할지 말지 결정할 수 있다.
+FTPS가 일반적인 암호화 [[295_protocol_field_tcp_udp_icmp|프로토콜]]([[471_https_http_over_tls|HTTPS]], [[538_ssh_vs_telnet_secure_remote|SSH]])과 달리 극도로 까다로운 이유는 [[123_pipe|파이프]]가 2개(제어용 21번, [[001_dikw_pyramid|데이터]]용 랜덤 [[446_port_and_bus|포트]])이기 때문이다. 관리자는 이 2개의 [[123_pipe|파이프]]를 각각 암호화할지 말지 결정할 수 있다.
 
-| 제어 명령어 | 적용 대상 채널 | 기능 설명 | 비유 |
+| 제어 [[158_instruction|명령어]] | 적용 대상 채널 | 기능 설명 | 비유 |
 |:---|:---|:---|:---|
-| **`AUTH TLS`** | **Control Channel (제어 채널)** | 21번 포트의 통신을 평문에서 TLS로 업그레이드. (아이디, 비번 도청 방지) | 내선 전화기 도청 방지기 켜기 |
-| **`PROT C`** (Clear) | **Data Channel (데이터 채널)** | 데이터 채널은 암호화하지 않고 평문으로 전송. (파일 본문은 그냥 보냄) | 짐은 그냥 투명 박스에 담기 |
-| **`PROT P`** (Private)| **Data Channel (데이터 채널)** | 데이터 채널까지 완벽하게 TLS로 암호화 전송. (기밀문서 완벽 보호) | 짐도 강철 코팅 박스에 담기 |
+| **`AUTH TLS`** | **Control Channel (제어 채널)** | 21번 [[446_port_and_bus|포트]]의 통신을 평문에서 TLS로 업그레이드. (아이디, 비번 [[701_sniffing_eavesdropping_promiscuous|도청]] 방지) | 내선 전화기 [[701_sniffing_eavesdropping_promiscuous|도청]] 방지기 켜기 |
+| **`PROT C`** (Clear) | **[[001_dikw_pyramid|Data]] Channel ([[001_dikw_pyramid|데이터]] 채널)** | [[001_dikw_pyramid|데이터]] 채널은 암호화하지 않고 평문으로 전송. ([[501_file_definition_logical_record|파일]] 본문은 그냥 보냄) | 짐은 그냥 투명 박스에 담기 |
+| **`PROT P`** (Private)| **[[001_dikw_pyramid|Data]] Channel ([[001_dikw_pyramid|데이터]] 채널)** | [[001_dikw_pyramid|데이터]] 채널까지 완벽하게 TLS로 암호화 전송. (기밀문서 완벽 [[571_protection_vs_security|보호]]) | 짐도 강철 코팅 박스에 담기 |
 
-실무에서는 당연히 제어 채널(`AUTH TLS`)과 데이터 채널(`PROT P`)을 모두 암호화하는 것이 기본이지만, 넷플릭스 영화처럼 해킹당해도 상관없는 거대한 대용량 미디어 파일을 전송할 때는 CPU 암호화 부하를 아끼기 위해 제어 채널(인증)만 암호화하고 데이터 채널은 평문(`PROT C`)으로 열어두는 기괴한 하이브리드 아키텍처 설계도 가능하다.
+실무에서는 당연히 제어 채널(`AUTH TLS`)과 [[001_dikw_pyramid|데이터]] 채널(`PROT P`)을 모두 암호화하는 것이 기본이지만, 넷플릭스 영화처럼 해킹당해도 상관없는 거대한 대용량 미디어 [[501_file_definition_logical_record|파일]]을 전송할 때는 CPU 암호화 부하를 아끼기 위해 제어 채널([[303_authentication_authorization_patterns|인증]])만 암호화하고 [[001_dikw_pyramid|데이터]] 채널은 평문(`PROT C`)으로 열어두는 기괴한 하이브리드 아키텍처 설계도 가능하다.
 
-### 치명적 한계: 공유기(NAT) ALG와의 파멸적 충돌
+### 치명적 한계: 공유기([[307_nat_network_address_translation_router_principles|NAT]]) ALG와의 파멸적 충돌
 
-고전 FTP가 Passive 모드 랜덤 포트 때문에 방화벽에서 튕길 때, 똑똑한 공유기(NAT)가 패킷 내부 텍스트를 몰래 읽고 공인 IP로 고쳐주어 구원해 주던 기능이 **ALG (Application Layer Gateway)**다.
-그런데 FTPS를 쓰는 순간, 텍스트가 TLS로 꽁꽁 암호화되므로 공유기(ALG)가 텍스트 안의 `PORT 192.168.x.x` 글자를 읽지 못한다! 결국 공유기는 수정을 포기하고 패킷을 그대로 던지게 되고, 사설 IP가 인터넷으로 노출되면서 **FTPS의 데이터 채널은 클라이언트단 방화벽/공유기 환경에서 100% 무조건 접속 타임아웃**이라는 파멸을 맞이하게 된다. 이를 해결하려면 서버와 클라이언트 양쪽의 방화벽과 NAT 설정을 영혼까지 끌어모아 튜닝해야 하는 지옥이 열린다.
+고전 FTP가 Passive 모드 랜덤 [[446_port_and_bus|포트]] 때문에 [[690_firewall_generation_evolution|방화벽]]에서 튕길 때, 똑똑한 공유기([[307_nat_network_address_translation_router_principles|NAT]])가 패킷 내부 텍스트를 몰래 읽고 공인 IP로 고쳐주어 구원해 주던 기능이 **[[310_alg_application_layer_gateway_nat_traversal|ALG]] ([[310_alg_application_layer_gateway_nat_traversal|Application Layer Gateway]])**다.
+그런데 FTPS를 쓰는 순간, 텍스트가 TLS로 꽁꽁 암호화되므로 공유기([[310_alg_application_layer_gateway_nat_traversal|ALG]])가 텍스트 안의 `PORT 192.168.x.x` 글자를 읽지 못한다! 결국 공유기는 수정을 포기하고 패킷을 그대로 던지게 되고, 사설 IP가 인터넷으로 노출되면서 **FTPS의 [[001_dikw_pyramid|데이터]] 채널은 클라이언트단 [[690_firewall_generation_evolution|방화벽]]/공유기 환경에서 100% 무조건 접속 [[573_timeout_retry_backoff_strategy|타임아웃]]**이라는 파멸을 맞이하게 된다. 이를 해결하려면 서버와 클라이언트 양쪽의 [[690_firewall_generation_evolution|방화벽]]과 [[307_nat_network_address_translation_router_principles|NAT]] 설정을 영혼까지 끌어모아 튜닝해야 하는 지옥이 열린다.
 
 ```text
 [SFTP]
@@ -93,28 +93,28 @@ FTPS가 일반적인 암호화 프로토콜(HTTPS, SSH)과 달리 극도로 까�
     └──▶ [이메일 아키텍처]
 ```
 
-- **📢 섹션 요약 비유**: 택배(데이터)를 무사히 보내려면 중간에 경비 아저씨(NAT)가 주소 오타를 몰래 고쳐줘야 하는데, 편지봉투 전체를 강철 자물쇠(TLS)로 잠가버려서 경비 아저씨가 주소를 고쳐줄 수 없게 되어 결국 택배가 미아가 되는 비극입니다.
+- **📢 섹션 요약 비유**: 택배([[001_dikw_pyramid|데이터]])를 무사히 보내려면 중간에 경비 아저씨([[307_nat_network_address_translation_router_principles|NAT]])가 주소 오타를 몰래 고쳐줘야 하는데, 편지봉투 전체를 강철 자물쇠([[694_thread_local_storage_tls|TLS]])로 잠가버려서 경비 아저씨가 주소를 고쳐줄 수 없게 되어 결국 택배가 미아가 되는 비극입니다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-주니어 엔지니어들이 가장 많이 혼동하는 아키텍처 개념이다. 이름에 'FTP'와 'S'가 들어간다는 것 빼고는 공통점이 단 하나도 없다.
+주니어 엔지니어들이 가장 많이 혼동하는 아키텍처 개념이다. 이름에 '[[482_ftp_file_transfer_protocol|FTP]]'와 'S'가 들어간다는 것 빼고는 공통점이 단 하나도 없다.
 
-| 항목 | FTPS (FTP over SSL/TLS) | SFTP (SSH File Transfer Protocol) | 아키텍처 승자 |
+| 항목 | FTPS ([[482_ftp_file_transfer_protocol|FTP]] over SSL/[[694_thread_local_storage_tls|TLS]]) | [[485_sftp_ssh_file_transfer|SFTP]] ([[538_ssh_vs_telnet_secure_remote|SSH]] [[482_ftp_file_transfer_protocol|File Transfer Protocol]]) | 아키텍처 승자 |
 |:---|:---|:---|:---|
-| **근본 뿌리** | FTP 기반 (RFC 959 확장) | SSH 기반 (완전히 새로운 프로토콜) | - |
-| **암호화 기술** | **SSL / TLS** (인증서 `.crt` 필요) | **SSH** (비대칭 키페어 `.pem` 필요) | - |
-| **포트 사용** | **21번 (제어) + N만 개의 랜덤 포트 (데이터)** | **22번 단일 포트 (모든 통신 통합)** | **SFTP 압승** (방화벽 관리의 신) |
-| **데몬(서버) 설치**| `vsftpd`, `proftpd` 등 별도 데몬 설치 및 세팅 | 리눅스 깔면 `sshd`에 100% 기본 내장 | **SFTP 압승** (설치 공수 Zero) |
-| **NAT/방화벽 통과**| 데이터 포트와 암호화 충돌로 NAT 통과 지옥 | 단일 터널이라 NAT/방화벽 무사 통과 | **SFTP 압승** (고객 민원 Zero) |
+| **근본 뿌리** | [[482_ftp_file_transfer_protocol|FTP]] 기반 (RFC 959 확장) | [[538_ssh_vs_telnet_secure_remote|SSH]] 기반 (완전히 새로운 [[295_protocol_field_tcp_udp_icmp|프로토콜]]) | - |
+| **암호화 기술** | **SSL / [[694_thread_local_storage_tls|TLS]]** ([[303_authentication_authorization_patterns|인증]]서 `.crt` 필요) | **[[538_ssh_vs_telnet_secure_remote|SSH]]** (비대칭 키페어 `.pem` 필요) | - |
+| **[[446_port_and_bus|포트]] 사용** | **21번 (제어) + N만 개의 랜덤 [[446_port_and_bus|포트]] ([[001_dikw_pyramid|데이터]])** | **22번 단일 [[446_port_and_bus|포트]] (모든 통신 통합)** | **[[485_sftp_ssh_file_transfer|SFTP]] 압승** ([[690_firewall_generation_evolution|방화벽]] 관리의 신) |
+| **데몬(서버) 설치**| `vsftpd`, `proftpd` 등 별도 데몬 설치 및 세팅 | 리눅스 깔면 `sshd`에 100% 기본 내장 | **[[485_sftp_ssh_file_transfer|SFTP]] 압승** (설치 공수 [[585_zero_skipping|Zero]]) |
+| **[[307_nat_network_address_translation_router_principles|NAT]]/[[690_firewall_generation_evolution|방화벽]] 통과**| [[001_dikw_pyramid|데이터]] [[446_port_and_bus|포트]]와 암호화 충돌로 [[307_nat_network_address_translation_router_principles|NAT]] 통과 지옥 | 단일 터널이라 [[307_nat_network_address_translation_router_principles|NAT]]/[[690_firewall_generation_evolution|방화벽]] 무사 통과 | **[[485_sftp_ssh_file_transfer|SFTP]] 압승** (고객 민원 [[585_zero_skipping|Zero]]) |
 
-오늘날 클라우드 및 엔터프라이즈 환경에서 파일 전송 아키텍처의 **사실상 표준(De facto)**은 SFTP다. FTPS는 기존 FTP 인프라를 버릴 수 없는 보수적인 조직(금융권 일부 레거시)이 억지로 수명을 연장하기 위해 쓰는 산소호흡기일 뿐이다.
+오늘날 클라우드 및 엔터프라이즈 환경에서 [[501_file_definition_logical_record|파일]] 전송 아키텍처의 **사실상 표준(De facto)**은 SFTP다. FTPS는 기존 [[482_ftp_file_transfer_protocol|FTP]] 인프라를 버릴 수 없는 보수적인 조직(금융권 일부 레거시)이 억지로 수명을 연장하기 위해 쓰는 산소호흡기일 뿐이다.
 
 ### 과목 융합 관점
 
-- **보안 (Security)**: FTPS는 웹 브라우저(HTTPS)와 마찬가지로 공인된 **CA(Certificate Authority)**로부터 발급받은 X.509 인증서가 필요하다. 만약 서버에 자체 서명 인증서(Self-Signed Certificate)를 대충 박아넣으면, FileZilla 클라이언트로 접속할 때 "알 수 없는 인증서입니다. 신뢰하시겠습니까?"라는 끔찍한 빨간색 팝업 경고창이 떠서 대고객 서비스 신뢰도를 바닥으로 꽂아버린다.
-- **클라우드 인프라 (AWS)**: AWS ALB(Application Load Balancer)는 HTTP/HTTPS 전용 L7 스위치이므로 FTPS의 21번 포트와 랜덤 데이터 포트를 로드밸런싱할 수 없다. FTPS 서버 3대를 묶으려면 반드시 L4 수준의 NLB(Network Load Balancer)를 앞에 세워야 하며, Passive 랜덤 포트 수천 개를 NLB의 Target Group과 EC2 Security Group에 1:1로 전부 매핑해서 뚫어줘야 하는 끔찍한 인프라 구성 빚을 떠안게 된다.
+- **보안 ([[283_security_tactics|Security]])**: FTPS는 웹 브라우저([[471_https_http_over_tls|HTTPS]])와 마찬가지로 공인된 **[[089_contract_account_smart_contract|CA]](Certificate Authority)**로부터 발급받은 X.509 [[303_authentication_authorization_patterns|인증]]서가 필요하다. 만약 서버에 자체 서명 [[303_authentication_authorization_patterns|인증]]서(Self-Signed Certificate)를 대충 박아넣으면, FileZilla 클라이언트로 접속할 때 "알 수 없는 [[303_authentication_authorization_patterns|인증]]서입니다. 신뢰하시겠습니까?"라는 끔찍한 빨간색 팝업 경고창이 떠서 대고객 [[090_service_kubernetes_network_load_balancing|서비스]] [[085_confidence_association_rule_conditional_probability|신뢰도]]를 바닥으로 꽂아버린다.
+- **클라우드 인프라 (AWS)**: AWS ALB(Application [[031_load_balancer|Load Balancer]])는 [[461_http_stateless_connection_oriented|HTTP]]/[[471_https_http_over_tls|HTTPS]] 전용 L7 스위치이므로 FTPS의 21번 [[446_port_and_bus|포트]]와 랜덤 [[001_dikw_pyramid|데이터]] [[446_port_and_bus|포트]]를 로드밸런싱할 수 없다. FTPS 서버 3대를 묶으려면 반드시 L4 수준의 NLB(Network [[031_load_balancer|Load Balancer]])를 앞에 세워야 하며, Passive 랜덤 [[446_port_and_bus|포트]] 수천 개를 NLB의 Target Group과 EC2 [[283_security_tactics|Security]] Group에 1:1로 전부 매핑해서 뚫어줘야 하는 끔찍한 인프라 구성 빚을 떠안게 된다.
 
 - **📢 섹션 요약 비유**: FTPS가 '옛날 재래식 엔진 차에 비싼 껍데기(보안)만 씌운 차'라면, SFTP는 '애초에 설계부터 전기차(단일 터널)로 완전히 새로 뽑은 테슬라'입니다. 유지보수와 편리함에서 게임이 안 됩니다.
 
@@ -122,11 +122,11 @@ FTPS가 일반적인 암호화 프로토콜(HTTPS, SSH)과 달리 극도로 까�
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-1. **시나리오 — 구형 사내망 FTP의 보안 규제 (ISMS) 대응**: 보안 감사에서 "사내 인사팀 폴더 연동 시 평문 FTP 21번을 사용 중이므로 중대한 결함"이라는 지적이 나왔다. 인사팀 서버는 15년 된 Windows Server 2008로 IIS(인터넷 정보 서비스) FTP 데몬이 돌고 있어 리눅스의 SFTP(SSH)로 넘어가기엔 OS 교체 비용이 컸다.
-   - **판단**: 이런 전형적인 레거시 OS 종속 환경에서는 FTPS 명시적 모드(Explicit) 도입이 정답이다. 기존 방화벽 포트(21) 룰을 건드리지 않고, IIS 설정에서 인증서 `.pfx` 파일만 밀어 넣고 "SSL 연결 강제 허용(AUTH TLS)" 체크박스만 켜면 10분 만에 규제 컴플라이언스를 완벽히 준수하는 암호화 통신으로 둔갑할 수 있다. 하위 호환성이 빛을 발하는 순간이다.
+1. **시나리오 — 구형 사내망 FTP의 보안 규제 ([[836_iso_27001_isms|ISMS]]) 대응**: 보안 감사에서 "사내 인사팀 폴더 연동 시 평문 [[482_ftp_file_transfer_protocol|FTP]] 21번을 사용 중이므로 중대한 [[352_defect_definition|결함]]"이라는 지적이 나왔다. 인사팀 서버는 15년 된 Windows Server 2008로 IIS(인터넷 정보 [[090_service_kubernetes_network_load_balancing|서비스]]) [[482_ftp_file_transfer_protocol|FTP]] 데몬이 돌고 있어 리눅스의 [[485_sftp_ssh_file_transfer|SFTP]]([[538_ssh_vs_telnet_secure_remote|SSH]])로 넘어가기엔 OS 교체 비용이 컸다.
+   - **판단**: 이런 전형적인 레거시 OS 종속 환경에서는 FTPS 명시적 모드(Explicit) 도입이 정답이다. 기존 [[690_firewall_generation_evolution|방화벽]] [[446_port_and_bus|포트]](21) 룰을 건드리지 않고, IIS 설정에서 [[303_authentication_authorization_patterns|인증]]서 `.pfx` [[501_file_definition_logical_record|파일]]만 밀어 넣고 "SSL 연결 강제 허용(AUTH [[694_thread_local_storage_tls|TLS]])" 체크박스만 켜면 10분 만에 규제 컴플라이언스를 완벽히 준수하는 암호화 통신으로 둔갑할 수 있다. 하위 [[344_compatibility_usability|호환성]]이 빛을 발하는 순간이다.
 
-2. **시나리오 — FTPS 연동 협력사의 방화벽 데이터 채널 붕괴**: 협력사가 FTPS(Explicit) 환경을 구축했다고 해서 우리 회사의 Java 배치 스크립트(Apache Commons Net 라이브러리)로 붙었다. 로그인은 잘 되는데 데이터 전송 직전에 `425 Failed to establish connection`이 뜨며 터졌다.
-   - **판단**: 협력사의 방화벽 엔지니어가 21번 포트만 열어놓고 데이터(Passive) 포트를 안 열었거나, 우리 쪽 NAT가 암호화된 `PASV` 명령어를 읽지 못해 패킷이 미아가 된 것이다. 실무 팁: 자바 코드 단에서 `.execPBSZ(0)`와 `.execPROT("P")` 메서드를 명확히 순서대로 호출해 데이터 채널 암호화를 협상하고, `enterLocalPassiveMode()`를 켜서 클라이언트가 밖으로 나가도록 튜닝해야 간신히 통신이 수립된다. 그래도 안 되면 결국 협력사 인프라 팀을 갈궈서 Passive 방화벽 범위를 넓게 타공하라고 압박하는 수밖에 없다.
+2. **시나리오 — FTPS 연동 협력사의 [[690_firewall_generation_evolution|방화벽]] [[001_dikw_pyramid|데이터]] 채널 붕괴**: 협력사가 FTPS(Explicit) 환경을 구축했다고 해서 우리 회사의 Java 배치 스크립트(Apache Commons Net [[336_library_vs_framework|라이브러리]])로 붙었다. 로그인은 잘 되는데 [[001_dikw_pyramid|데이터]] 전송 직전에 `425 Failed to establish connection`이 뜨며 터졌다.
+   - **판단**: 협력사의 [[690_firewall_generation_evolution|방화벽]] 엔지니어가 21번 [[446_port_and_bus|포트]]만 열어놓고 [[001_dikw_pyramid|데이터]](Passive) [[446_port_and_bus|포트]]를 안 열었거나, 우리 쪽 NAT가 암호화된 `PASV` [[158_instruction|명령어]]를 읽지 못해 패킷이 미아가 된 것이다. 실무 팁: 자바 코드 단에서 `.execPBSZ(0)`와 `.execPROT("P")` 메서드를 명확히 순서대로 호출해 [[001_dikw_pyramid|데이터]] 채널 암호화를 협상하고, `enterLocalPassiveMode()`를 켜서 클라이언트가 밖으로 나가도록 튜닝해야 간신히 통신이 수립된다. 그래도 안 되면 결국 협력사 인프라 팀을 갈궈서 Passive [[690_firewall_generation_evolution|방화벽]] 범위를 넓게 타공하라고 압박하는 수밖에 없다.
 
 ```text
   ┌─────────────────────────────────────────────────────────────┐
@@ -154,38 +154,38 @@ FTPS가 일반적인 암호화 프로토콜(HTTPS, SSH)과 달리 극도로 까�
 └─────────────────────────────────────────────────────────────┘
 ```
 
-**[다이어그램 해설]** 리눅스 `vsftpd` 환경에서 FTPS를 강제하는 모범 아키텍처 설정이다. `ssl_enable=YES`만 켜두면 평문 접속과 암호화 접속 양다리를 걸치게 되어 해커의 다운그레이드 공격에 당할 수 있다. 반드시 로긴(`force_local_logins_ssl`)과 데이터(`force_local_data_ssl`) 모두 SSL을 강제(YES)해야 진정한 보안이 완성된다. 와이어샤크로 까봤을 때 오직 `AUTH TLS`라는 명시적 선언 명령어 딱 한 줄만 사람 눈에 보이고, 그 직후부터는 완벽한 우주어(이진 암호 스트림)로 바뀌어 날아가는 희열을 맛볼 수 있다.
+**[다이어그램 해설]** 리눅스 `vsftpd` 환경에서 FTPS를 강제하는 모범 아키텍처 설정이다. `ssl_enable=YES`만 켜두면 평문 접속과 암호화 접속 양다리를 걸치게 되어 해커의 다운그레이드 공격에 당할 수 있다. 반드시 로긴(`force_local_logins_ssl`)과 [[001_dikw_pyramid|데이터]](`force_local_data_ssl`) 모두 SSL을 강제(YES)해야 진정한 보안이 완성된다. 와이어샤크로 까봤을 때 오직 `AUTH TLS`라는 명시적 선언 [[158_instruction|명령어]] 딱 한 줄만 사람 눈에 보이고, 그 직후부터는 완벽한 우주어(이진 암호 스트림)로 바뀌어 날아가는 희열을 맛볼 수 있다.
 
-### 도입 체크리스트
-- **기술적**: FTPS 데이터 채널 통신을 위해 클라우드 방화벽(AWS SG 등)에 임의의 포트 범위(예: 50000-50500) 인바운드 룰을 500개나 뚫어 두었는데, 이 포트 대역이 사내 보안팀의 외부 포트스캔 위험 정책(Compliance)에 위반되지 않는지 예외 승인을 받았는가?
-- **운영·보안적**: 발급받은 SSL 인증서(X.509)의 만료일(보통 1년 또는 90일)을 모니터링 체계에 연동했는가? (인증서가 만료되면 쉘 스크립트 백그라운드 배치가 일제히 `Certificate has expired` 에러를 뿜으며 전사 파일 연동이 셧다운된다).
+### 도입 [[435_checklist_based_testing|체크리스트]]
+- **기술적**: FTPS [[001_dikw_pyramid|데이터]] 채널 통신을 위해 클라우드 [[690_firewall_generation_evolution|방화벽]](AWS SG 등)에 임의의 [[446_port_and_bus|포트]] 범위(예: 50000-50500) 인바운드 룰을 500개나 뚫어 두었는데, 이 [[446_port_and_bus|포트]] 대역이 사내 보안팀의 외부 [[446_port_and_bus|포트]]스캔 위험 [[164_policy|정책]]([[058_it_compliance_sox_basel_gdpr_isms|Compliance]])에 위반되지 않는지 예외 승인을 받았는가?
+- **운영·보안적**: 발급받은 SSL [[303_authentication_authorization_patterns|인증]]서(X.509)의 만료일(보통 1년 또는 90일)을 모니터링 체계에 연동했는가? ([[303_authentication_authorization_patterns|인증]]서가 만료되면 쉘 스크립트 백그라운드 배치가 일제히 `Certificate has expired` 에러를 뿜으며 전사 [[501_file_definition_logical_record|파일]] 연동이 셧다운된다).
 
-### 안티패턴
-- **TLS 없이 방화벽만 믿기**: "우리 FTP 서버는 인터넷에 안 열려있고 사내망(VPN, VPC) 안에서만 끼리끼리 통신하니까 암호화(FTPS) 필요 없고 그냥 평문 FTP 21번 쓸래"라는 안일한 인프라 철학. 현대 제로 트러스트(Zero Trust) 아키텍처에서는 내부망도 신뢰하지 않는다. 내부망 스위치가 감염(ARP 스푸핑)되면 사내망이 오히려 해커의 가장 달콤한 도청 뷔페가 된다. 사내망이라도 반드시 FTPS나 SFTP로 암호화 캡슐을 씌워야 한다.
+### [[128_water_scrum_fall_anti_pattern|안티패턴]]
+- **[[694_thread_local_storage_tls|TLS]] 없이 [[690_firewall_generation_evolution|방화벽]]만 믿기**: "우리 [[482_ftp_file_transfer_protocol|FTP]] 서버는 인터넷에 안 열려있고 사내망([[983_vpn_virtual_private_network|VPN]], [[836_vpc_virtual_private_cloud_subnet_isolation|VPC]]) 안에서만 끼리끼리 통신하니까 암호화(FTPS) 필요 없고 그냥 평문 [[482_ftp_file_transfer_protocol|FTP]] 21번 쓸래"라는 안일한 인프라 철학. 현대 [[667_zero_trust_runtime_integrity_measurement|제로 트러스트]]([[667_zero_trust_runtime_integrity_measurement|Zero Trust]]) 아키텍처에서는 내부망도 신뢰하지 않는다. 내부망 스위치가 감염([[312_arp_address_resolution_protocol_ip_to_mac|ARP]] [[598_spoofing|스푸핑]])되면 사내망이 오히려 해커의 가장 달콤한 [[701_sniffing_eavesdropping_promiscuous|도청]] 뷔페가 된다. 사내망이라도 반드시 FTPS나 SFTP로 암호화 캡슐을 씌워야 한다.
 
-- **📢 섹션 요약 비유**: 아무리 집 안(사내망)이라고 해도 발가벗고(평문 FTP) 돌아다니는 것은 위험합니다. 집에 혹시라도 도둑이나 쥐가 들어왔을 때를 대비해, 최소한의 두꺼운 잠옷(FTPS 암호화)은 항상 입고 자는 것이 제로 트러스트 보안의 기본입니다.
+- **📢 섹션 요약 비유**: 아무리 집 안(사내망)이라고 해도 발가벗고(평문 [[482_ftp_file_transfer_protocol|FTP]]) 돌아다니는 것은 위험합니다. 집에 혹시라도 도둑이나 쥐가 들어왔을 때를 대비해, 최소한의 두꺼운 잠옷(FTPS 암호화)은 항상 입고 자는 것이 [[667_zero_trust_runtime_integrity_measurement|제로 트러스트]] 보안의 기본입니다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-| 구분 | 고전 FTP (평문) 환경 | 명시적(Explicit) FTPS 전환 후 | 개선 효과 |
+| 구분 | 고전 [[482_ftp_file_transfer_protocol|FTP]] (평문) 환경 | 명시적(Explicit) FTPS 전환 후 | 개선 효과 |
 |:---|:---|:---|:---|
-| **정량** | 패킷 도청 방어율 0% | AES-256 등 대칭키 암호화 터널 통과 | 패스워드 및 기밀 파일 유출 위험 **0% 차단** |
-| **정량** | 레거시 OS 인프라 교체 비용 발생 | 기존 데몬/아키텍처에 설정만 덧씌움 | 프로토콜 마이그레이션 공수 및 비용 **최소화** |
-| **정성** | 보안 감사의 치명적 지적 대상 | 국제 TLS 보안 표준 컴플라이언스 만족 | 엔터프라이즈 레벨의 IT 인프라 신뢰도(Trust) 충족 |
+| **정량** | 패킷 [[701_sniffing_eavesdropping_promiscuous|도청]] 방어율 0% | AES-256 등 [[653_symmetric_key_cryptography_fast_speed|대칭키 암호화]] 터널 통과 | 패스워드 및 기밀 [[501_file_definition_logical_record|파일]] 유출 위험 **0% 차단** |
+| **정량** | 레거시 OS 인프라 교체 비용 발생 | 기존 데몬/아키텍처에 설정만 덧씌움 | [[295_protocol_field_tcp_udp_icmp|프로토콜]] 마이그레이션 공수 및 비용 **최소화** |
+| **정성** | 보안 감사의 치명적 지적 대상 | 국제 [[694_thread_local_storage_tls|TLS]] 보안 표준 컴플라이언스 만족 | 엔터프라이즈 레벨의 IT 인프라 [[085_confidence_association_rule_conditional_probability|신뢰도]](Trust) 충족 |
 
 ### 미래 전망
-- **엔터프라이즈 환경에서의 계륵**: FTPS는 철저히 과도기적 기술이다. 레거시 메인프레임이나 낡은 Windows Server 생태계(IIS FTP)에서는 어쩔 수 없이 쓰이지만, 새로 짓는 클라우드 네이티브 환경(Linux, Container)에서 굳이 포트 타공 지옥을 겪으며 FTPS를 구축하는 설계자는 없다. 100% SFTP(포트 22)로 설계하거나, 아예 S3(HTTPS REST) 오브젝트 스토리지로 데이터 레이크를 파버린다.
+- **엔터프라이즈 환경에서의 계륵**: FTPS는 철저히 과도기적 기술이다. 레거시 메인프레임이나 낡은 Windows Server 생태계(IIS [[482_ftp_file_transfer_protocol|FTP]])에서는 어쩔 수 없이 쓰이지만, 새로 짓는 [[531_cloud_native_architecture|클라우드 네이티브]] 환경(Linux, [[194_container_virtualization_docker_namespace|Container]])에서 굳이 [[446_port_and_bus|포트]] 타공 지옥을 겪으며 FTPS를 구축하는 설계자는 없다. 100% [[485_sftp_ssh_file_transfer|SFTP]]([[446_port_and_bus|포트]] 22)로 설계하거나, 아예 S3([[471_https_http_over_tls|HTTPS]] [[156_rest_representational_state_transfer|REST]]) 오브젝트 스토리지로 [[001_dikw_pyramid|데이터]] 레이크를 파버린다.
 - **브라우저의 퇴출 완료**: 구글 크롬, 모질라 등 모든 모던 웹 브라우저에서 FTP와 FTPS 접속 지원 코드가 완전히 삭제되었다. 오직 FileZilla나 WinSCP 같은 전용 터미널 클라이언트, 그리고 백엔드 배치(Batch) 자바 모듈들만이 이 늙은 규약을 유지하고 있을 뿐이다.
 
 ### 참고 표준
-- **RFC 2228**: FTP Security Extensions (FTPS의 근간 스펙)
-- **RFC 4217**: Securing FTP with TLS (IPv6 및 최신 보안 보강 규격)
+- **RFC 2228**: [[482_ftp_file_transfer_protocol|FTP]] [[283_security_tactics|Security]] Extensions (FTPS의 근간 스펙)
+- **RFC 4217**: Securing [[482_ftp_file_transfer_protocol|FTP]] with [[694_thread_local_storage_tls|TLS]] ([[324_ipv6_128bit_next_generation_address|IPv6]] 및 최신 보안 보강 규격)
 
-FTPS는 "낡은 집을 부수지 않고 어떻게든 최신 방범창을 달아보려는 눈물겨운 노력"의 결정체다. 그 뼈대가 가진 '이원화된 채널 구조'의 결함 때문에 방화벽이라는 현대 인프라의 벽에 부딪혀 피투성이가 되었지만, 평문 통신의 야만성을 타파하고 엔터프라이즈 파일 통신에 최소한의 안전벨트를 채워준 위대한 응급처치였다. 아키텍트는 FTPS를 새로 구축하려 해선 안 되지만, 이 구조가 안고 있는 네트워크의 모순(NAT와 암호화의 충돌)을 이해함으로써 TCP/IP 보안 아키텍처의 가장 깊은 깨달음을 얻을 수 있다.
+FTPS는 "낡은 집을 부수지 않고 어떻게든 최신 방범창을 달아보려는 눈물겨운 노력"의 결정체다. 그 뼈대가 가진 '이원화된 채널 구조'의 [[352_defect_definition|결함]] 때문에 [[690_firewall_generation_evolution|방화벽]]이라는 현대 인프라의 벽에 부딪혀 피투성이가 되었지만, 평문 통신의 야만성을 타파하고 엔터프라이즈 [[501_file_definition_logical_record|파일]] 통신에 최소한의 안전벨트를 채워준 위대한 응급처치였다. 아키텍트는 FTPS를 새로 구축하려 해선 안 되지만, 이 구조가 안고 있는 네트워크의 모순(NAT와 암호화의 충돌)을 이해함으로써 [[405_tcp_transmission_control_protocol_connection_oriented|TCP]]/IP 보안 아키텍처의 가장 깊은 깨달음을 얻을 수 있다.
 
-- **📢 섹션 요약 비유**: FTPS는 오래된 한옥(FTP) 지붕 위에 억지로 최신형 태양광 패널(TLS)을 얹은 것과 같습니다. 전기는 들어오고 안전해졌지만 비가 새거나 기둥(방화벽)이 흔들리는 뼈대의 고질병은 고칠 수 없어서, 결국엔 튼튼한 콘크리트 빌딩(SFTP)으로 이사 가는 것이 순리입니다.
+- **📢 섹션 요약 비유**: FTPS는 오래된 한옥([[482_ftp_file_transfer_protocol|FTP]]) 지붕 위에 억지로 최신형 태양광 패널([[694_thread_local_storage_tls|TLS]])을 얹은 것과 같습니다. 전기는 들어오고 안전해졌지만 비가 새거나 기둥([[690_firewall_generation_evolution|방화벽]])이 흔들리는 뼈대의 고질병은 고칠 수 없어서, 결국엔 튼튼한 콘크리트 빌딩([[485_sftp_ssh_file_transfer|SFTP]])으로 이사 가는 것이 순리입니다.
 
 ---
 
@@ -193,10 +193,10 @@ FTPS는 "낡은 집을 부수지 않고 어떻게든 최신 방범창을 달아�
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| SFTP | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
-| 세션 (Session) | 사용자 상태 유지와 요청 흐름을 묶는다. |
+| [[485_sftp_ssh_file_transfer|SFTP]] | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
+| [[160_session_controlling_terminal|세션]] ([[160_session_controlling_terminal|Session]]) | 사용자 상태 유지와 요청 흐름을 묶는다. |
 | 캐시 (Cache) | 응답 속도와 백엔드 부하에 직접 영향을 준다. |
-| 이메일 아키텍처 | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
+| [[487_email_architecture_mua_mta_mda|이메일 아키텍처]] | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -210,10 +210,10 @@ FTPS는 "낡은 집을 부수지 않고 어떻게든 최신 방범창을 달아�
     └──▶ [확장 B: 지능형 애플리케이션 전달]
 ```
 
-FTPS는 SFTP에서 출발해 현재 메커니즘을 정교화하고, 이후 이메일 아키텍처와 지능형 애플리케이션 전달 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
+FTPS는 SFTP에서 출발해 현재 메커니즘을 정교화하고, 이후 [[487_email_architecture_mua_mta_mda|이메일 아키텍처]]와 지능형 애플리케이션 전달 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. 옛날 **FTP**는 투명한 비닐봉지에 물건을 담아 택배를 보내서 남들이 다 쳐다보는 위험한 시스템이었어요.
-2. **FTPS**는 똑같은 오토바이와 트럭(포트 21, 20)을 쓰지만, 비닐봉지 대신 **까만색 안전 코팅(TLS 암호화)**을 덧발라서 절대 안을 훔쳐보지 못하게 만든 응급처치예요!
-3. 하지만 짐 트럭이 들어올 큰 대문(랜덤 포트)을 여전히 여러 개 뚫어야 하는 단점이 남아서, 결국 문을 딱 1개만 써도 되는 튼튼한 장갑차(SFTP)에게 밀려나고 말았답니다.
+1. 옛날 **[[482_ftp_file_transfer_protocol|FTP]]**는 투명한 비닐봉지에 물건을 담아 택배를 보내서 남들이 다 쳐다보는 위험한 시스템이었어요.
+2. **FTPS**는 똑같은 오토바이와 트럭([[446_port_and_bus|포트]] 21, 20)을 쓰지만, 비닐봉지 대신 **까만색 안전 코팅([[694_thread_local_storage_tls|TLS]] 암호화)**을 덧발라서 절대 안을 훔쳐보지 못하게 만든 응급처치예요!
+3. 하지만 짐 트럭이 들어올 큰 대문(랜덤 [[446_port_and_bus|포트]])을 여전히 여러 개 뚫어야 하는 단점이 남아서, 결국 문을 딱 1개만 써도 되는 튼튼한 장갑차([[485_sftp_ssh_file_transfer|SFTP]])에게 밀려나고 말았답니다.

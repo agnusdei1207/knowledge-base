@@ -6,15 +6,15 @@ categories = "studynote-security"
 +++
 
 > **핵심 인사이트 3줄**
-> 1. 위험 대응 전략은 회피(Avoid)·전가(Transfer)·완화(Mitigate)·수용(Accept) 4가지로, 위험의 크기·비용·조직 특성에 따라 최적 조합을 선택한다.
-> 2. 잔여 위험(Residual Risk)은 대응 후에도 남는 위험으로, 최고 경영진(CISO·이사회)의 명시적 수용 승인이 필요한 핵심 거버넌스 포인트다.
-> 3. NIST RMF·ISO 31000·ISO 27005 기반의 지속적 위험 관리 사이클(식별→분석→평가→대응→모니터링)이 정보보안 거버넌스의 표준 프레임워크다.
+> 1. 위험 대응 [[268_strategy_pattern|전략]]은 회피(Avoid)·전가(Transfer)·완화(Mitigate)·수용(Accept) 4가지로, 위험의 크기·비용·조직 특성에 따라 최적 조합을 선택한다.
+> 2. [[038_residual_risk|잔여 위험]]([[038_residual_risk|Residual Risk]])은 대응 후에도 남는 위험으로, 최고 경영진([[173_ciso_role_and_responsibility|CISO]]·이사회)의 명시적 수용 승인이 필요한 핵심 거버넌스 포인트다.
+> 3. NIST RMF·ISO 31000·ISO 27005 기반의 지속적 위험 관리 사이클([[655_ir_detection_analysis|식별]]→분석→평가→대응→모니터링)이 정보보안 거버넌스의 표준 프레임워크다.
 
 ---
 
-## Ⅰ. 위험 대응 전략 4가지
+## Ⅰ. 위험 대응 [[268_strategy_pattern|전략]] 4가지
 
-위험 대응(Risk Response)은 **위험 평가 후 각 위험에 대해 취할 행동 방침**이다.
+위험 대응([[042_risk_response_strategies|Risk Response]])은 **위험 평가 후 각 위험에 대해 취할 행동 방침**이다.
 
 ```
 위험 평가 (위험 = 위협 × 취약점 × 자산 가치)
@@ -26,22 +26,22 @@ categories = "studynote-security"
   [회피] [전가] [완화] [수용]
 ```
 
-| 전략       | 정의                          | 예시                         |
+| [[268_strategy_pattern|전략]]       | 정의                          | 예시                         |
 |----------|------------------------------|------------------------------|
 | 회피 (Avoid)  | 위험 발생 원인 제거·사업 포기 | 위험 국가 진출 취소           |
-| 전가 (Transfer) | 위험을 제3자에게 이전        | 사이버 보험, 아웃소싱          |
-| 완화 (Mitigate) | 위험 발생 가능성·영향 감소   | 방화벽·암호화·패치 적용        |
-| 수용 (Accept) | 위험 인식하고 감수            | 소액 위험, ROI 음수 대응 불필요|
+| 전가 (Transfer) | 위험을 제3자에게 이전        | [[1027_cyber_insurance|사이버 보험]], 아웃소싱          |
+| 완화 (Mitigate) | 위험 발생 가능성·영향 감소   | [[690_firewall_generation_evolution|방화벽]]·암호화·패치 적용        |
+| 수용 (Accept) | 위험 인식하고 감수            | 소액 위험, [[012_roi_return_on_investment|ROI]] 음수 대응 불필요|
 
 📢 **섹션 요약 비유**: 위험 대응은 비행 전 기상 결정이다 — 폭풍이면 취소(회피), 보험 가입(전가), 경로 우회(완화), 약한 비에 그냥 비행(수용).
 
 ---
 
-## Ⅱ. 위험 완화 (Mitigation) 심화
+## Ⅱ. [[052_risk_mitigation|위험 완화]] ([[605_golden_silver_ticket_mitigation|Mitigation]]) 심화
 
-완화는 가장 많이 사용되는 전략으로, 예방적·탐지적·교정적 통제를 층위별로 적용한다.
+완화는 가장 많이 사용되는 [[268_strategy_pattern|전략]]으로, 예방적·탐지적·교정적 통제를 층위별로 적용한다.
 
-### 심층 방어 (Defense in Depth)
+### 심층 방어 ([[012_defense_in_depth|Defense in Depth]])
 
 ```
 외부 인터넷
@@ -57,15 +57,15 @@ categories = "studynote-security"
 
 | 유형    | 설명                    | 예시                      |
 |-------|------------------------|--------------------------|
-| 예방적  | 위험 발생 전 차단        | 방화벽, 접근 제어           |
-| 탐지적  | 위험 발생 중 감지        | IDS, SIEM, 감사 로그       |
-| 교정적  | 위험 발생 후 복구        | 백업, 패치, 격리            |
+| 예방적  | 위험 발생 전 차단        | [[690_firewall_generation_evolution|방화벽]], 접근 제어           |
+| 탐지적  | 위험 발생 중 감지        | [[601_ids_ips_syscall_tracing|IDS]], [[624_siem|SIEM]], [[606_auditing_linux_auditd|감사]] [[568_logs_distributed_logging_elk_fluentd|로그]]       |
+| 교정적  | 위험 발생 후 [[658_ir_recovery|복구]]        | [[555_backup_and_restore_strategy|백업]], 패치, 격리            |
 
 📢 **섹션 요약 비유**: 심층 방어는 양파 껍질이다 — 겉껍질이 뚫려도 다음 껍질이 막아주고, 공격자는 층마다 새 장벽을 만난다.
 
 ---
 
-## Ⅲ. 잔여 위험 (Residual Risk) 관리
+## Ⅲ. [[038_residual_risk|잔여 위험]] ([[038_residual_risk|Residual Risk]]) 관리
 
 ```
 총 위험 (Inherent Risk)
@@ -77,29 +77,29 @@ categories = "studynote-security"
       NO  → 추가 통제 적용 → 재평가
 ```
 
-### 위험 허용 기준 (Risk Appetite vs Risk Tolerance)
+### 위험 허용 기준 ([[096_risk_non_risk_architecture_evaluation_flaws|Risk]] Appetite vs [[096_risk_non_risk_architecture_evaluation_flaws|Risk]] Tolerance)
 
 | 개념             | 정의                              |
 |---------------|----------------------------------|
-| Risk Appetite | 목표 달성을 위해 기꺼이 수용하는 전체 위험 수준 |
-| Risk Tolerance | 허용 가능한 위험의 구체적 범위     |
-| Risk Threshold | 즉각 대응이 필요한 위험 임계값     |
+| [[096_risk_non_risk_architecture_evaluation_flaws|Risk]] Appetite | 목표 달성을 위해 기꺼이 수용하는 전체 위험 수준 |
+| [[096_risk_non_risk_architecture_evaluation_flaws|Risk]] Tolerance | 허용 가능한 위험의 구체적 범위     |
+| [[096_risk_non_risk_architecture_evaluation_flaws|Risk]] Threshold | 즉각 대응이 필요한 위험 임계값     |
 
-📢 **섹션 요약 비유**: 잔여 위험 수용은 운전면허 취득과 같다 — 아무리 안전 교육(통제)을 받아도 교통사고 위험은 0이 안 되고, 운전을 하기로 결정(수용)한다는 것은 남은 위험을 인정하는 것이다.
+📢 **섹션 요약 비유**: [[038_residual_risk|잔여 위험]] 수용은 운전면허 취득과 같다 — 아무리 안전 교육(통제)을 받아도 교통사고 위험은 0이 안 되고, 운전을 하기로 결정(수용)한다는 것은 남은 위험을 인정하는 것이다.
 
 ---
 
-## Ⅳ. 사이버 보험 — 위험 전가 실무
+## Ⅳ. [[1027_cyber_insurance|사이버 보험]] — [[051_risk_transfer|위험 전가]] 실무
 
-### 사이버 보험 커버리지 범위
+### [[1027_cyber_insurance|사이버 보험]] 커버리지 범위
 
 | 항목            | 내용                             |
 |--------------|----------------------------------|
-| 1차 손실      | 사고 대응 비용·복구 비용           |
+| 1차 손실      | [[009_incident_response|사고 대응]] 비용·[[658_ir_recovery|복구]] 비용           |
 | 2차 손실      | 비즈니스 중단 손실·법적 비용       |
-| 3차 책임      | 개인정보 유출로 인한 피해자 보상    |
+| 3차 책임      | [[781_personal_information|개인정보]] 유출로 인한 피해자 보상    |
 
-### 사이버 보험 인수 요건 (2024 기준)
+### [[1027_cyber_insurance|사이버 보험]] 인수 요건 (2024 기준)
 
 ```
 보험사 요구 사항:
@@ -110,7 +110,7 @@ categories = "studynote-security"
 ✅ 직원 보안 교육
 ```
 
-📢 **섹션 요약 비유**: 사이버 보험은 집 화재보험이다 — 화재(사이버 사고) 예방은 직접 해야 하지만, 발생 시 금전 손실은 보험사(전가)가 보전한다.
+📢 **섹션 요약 비유**: [[1027_cyber_insurance|사이버 보험]]은 집 화재보험이다 — 화재(사이버 사고) 예방은 직접 해야 하지만, 발생 시 금전 손실은 보험사(전가)가 보전한다.
 
 ---
 
@@ -135,10 +135,10 @@ categories = "studynote-security"
 |-------------|-------------------------------|
 | ISO 31000   | 일반 위험 관리 원칙·지침        |
 | ISO 27005   | 정보보안 위험 관리              |
-| NIST SP 800-30 | IT 위험 평가 지침            |
-| FAIR         | 정량적 위험 분석 모델           |
+| NIST [[166_sp|SP]] 800-30 | IT 위험 평가 지침            |
+| FAIR         | [[028_quantitative_risk_analysis|정량적 위험 분석]] 모델           |
 
-📢 **섹션 요약 비유**: NIST RMF는 자동차 안전 인증 과정이다 — 설계(분류)→사양 결정(선택)→조립(구현)→안전 테스트(평가)→출고 승인(ATO)→사후 리콜 모니터링.
+📢 **섹션 요약 비유**: NIST RMF는 자동차 안전 [[303_authentication_authorization_patterns|인증]] 과정이다 — 설계([[104_classification_analysis|분류]])→사양 결정(선택)→조립(구현)→안전 테스트(평가)→출고 승인(ATO)→사후 리콜 모니터링.
 
 ---
 
@@ -193,4 +193,4 @@ categories = "studynote-security"
 
 1. 위험 대응 4가지는 폭풍 대응 선택과 같다 — 취소(회피), 보험 가입(전가), 대피 준비(완화), 그냥 있기(수용).
 2. 심층 방어는 성 방어처럼 겹겹이 성벽을 쌓는 것이다 — 해자, 성벽, 탑 순서로 뚫어야 하므로 공격자가 지쳐 포기한다.
-3. 잔여 위험 수용은 우산을 써도 비를 조금 맞는 것처럼 당연히 받아들이는 것이다 — 0%는 불가능하고, 그 나머지를 감수한다는 결정이다.
+3. [[038_residual_risk|잔여 위험]] 수용은 우산을 써도 비를 조금 맞는 것처럼 당연히 받아들이는 것이다 — 0%는 불가능하고, 그 나머지를 감수한다는 결정이다.

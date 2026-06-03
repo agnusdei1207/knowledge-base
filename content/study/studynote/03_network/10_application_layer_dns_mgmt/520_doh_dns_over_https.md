@@ -16,8 +16,8 @@ categories = "studynote-network"
 
 ## Ⅰ. 개요 및 필요성
 
-DoH는 평문으로 전송되던 DNS 질의를 암호화된 HTTPS 프로토콜 내부에 캡슐화하여 전송하는 국제 표준(RFC 8484) 기술입니다. 
-DNS 질의가 일반적인 웹 서핑 트래픽과 완벽하게 동일하게 보이므로, 인터넷 서비스 제공자(ISP)나 기업의 방화벽이 사용자의 DNS 조회 내역을 엿보거나 특정 사이트 접속을 차단(검열)하는 것을 불가능하게 만듭니다.
+DoH는 평문으로 전송되던 [[511_dns_hierarchical_distributed_architecture|DNS]] 질의를 암호화된 [[471_https_http_over_tls|HTTPS]] [[295_protocol_field_tcp_udp_icmp|프로토콜]] 내부에 캡슐화하여 전송하는 국제 표준(RFC 8484) 기술입니다. 
+[[511_dns_hierarchical_distributed_architecture|DNS]] 질의가 일반적인 웹 서핑 트래픽과 완벽하게 동일하게 보이므로, 인터넷 [[090_service_kubernetes_network_load_balancing|서비스]] 제공자([[101_isp_information_strategy_planning_4_steps|ISP]])나 기업의 방화벽이 사용자의 [[511_dns_hierarchical_distributed_architecture|DNS]] 조회 내역을 엿보거나 특정 사이트 접속을 차단(검열)하는 것을 불가능하게 만듭니다.
 
 ```text
 [DoT]
@@ -28,17 +28,17 @@ DNS 질의가 일반적인 웹 서핑 트래픽과 완벽하게 동일하게 보
     └──▶ [mDNS / LMNR]
 ```
 
-- **📢 섹션 요약 비유**: DoH는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 선택도 쉬워진다.
+- **📢 섹션 요약 비유**: DoH는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [[170_selectivity_cardinality_distribution_tuning|선택도]] 쉬워진다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-| 구분 | DoT (DNS over TLS) | DoH (DNS over HTTPS) |
+| 구분 | [[519_dot_dns_over_tls|DoT]] ([[519_dot_dns_over_tls|DNS over TLS]]) | DoH ([[511_dns_hierarchical_distributed_architecture|DNS]] over [[471_https_http_over_tls|HTTPS]]) |
 |:---|:---|:---|
-| **포트** | TCP 853 (전용 포트) | **TCP 443** (일반 HTTPS 포트) |
-| **은닉성** | 암호화는 되지만 "DNS 통신을 하고 있다"는 사실은 노출됨 | 완벽한 은닉 (웹 서핑인지 DNS 질의인지 구분 불가) |
-| **차단 난이도**| 방화벽에서 853 포트를 막으면 쉽게 차단됨 | 443 포트를 막으면 인터넷 전체가 먹통이 되므로 차단 불가 |
+| **[[446_port_and_bus|포트]]** | [[405_tcp_transmission_control_protocol_connection_oriented|TCP]] 853 (전용 [[446_port_and_bus|포트]]) | **[[405_tcp_transmission_control_protocol_connection_oriented|TCP]] 443** (일반 [[471_https_http_over_tls|HTTPS]] [[446_port_and_bus|포트]]) |
+| **은닉성** | 암호화는 되지만 "[[511_dns_hierarchical_distributed_architecture|DNS]] 통신을 하고 있다"는 사실은 노출됨 | 완벽한 은닉 (웹 서핑인지 [[511_dns_hierarchical_distributed_architecture|DNS]] 질의인지 구분 불가) |
+| **차단 난이도**| 방화벽에서 853 [[446_port_and_bus|포트]]를 막으면 쉽게 차단됨 | 443 [[446_port_and_bus|포트]]를 막으면 인터넷 전체가 먹통이 되므로 차단 불가 |
 | **주요 주체** | OS 수준 지원 (Android 등) | 브라우저 수준 지원 (Chrome, Firefox 등) |
 
 ```text
@@ -56,18 +56,18 @@ DNS 질의가 일반적인 웹 서핑 트래픽과 완벽하게 동일하게 보
 
 ## Ⅲ. 비교 및 연결
 
-1. **HTTPS 연결 설정**: 브라우저(클라이언트)가 DoH를 지원하는 DNS 서버(예: 구글 8.8.8.8, 클라우드플레어 1.1.1.1)와 HTTPS 연결을 맺습니다.
-2. **HTTP 요청 내 캡슐화**: DNS 질의 데이터(예: `www.example.com`의 IP는?)를 HTTP `GET` 또는 `POST` 메서드의 페이로드에 담아 전송합니다.
+1. **[[471_https_http_over_tls|HTTPS]] 연결 [[009_config|설정]]**: 브라우저(클라이언트)가 DoH를 지원하는 [[511_dns_hierarchical_distributed_architecture|DNS]] 서버(예: 구글 8.8.8.8, 클라우드플레어 1.1.1.1)와 [[471_https_http_over_tls|HTTPS]] 연결을 맺습니다.
+2. **[[461_http_stateless_connection_oriented|HTTP]] 요청 내 캡슐화**: [[511_dns_hierarchical_distributed_architecture|DNS]] 질의 [[001_dikw_pyramid|데이터]](예: `www.example.com`의 IP는?)를 [[461_http_stateless_connection_oriented|HTTP]] `GET` 또는 `POST` 메서드의 페이로드에 담아 전송합니다.
    - 예: `GET /dns-query?dns=Base64로_인코딩된_DNS질의`
-3. **HTTP 응답**: DNS 서버는 HTTP `200 OK` 응답 바디에 암호화된 DNS 결과를 담아 반환합니다.
+3. **[[461_http_stateless_connection_oriented|HTTP]] 응답**: [[511_dns_hierarchical_distributed_architecture|DNS]] 서버는 [[461_http_stateless_connection_oriented|HTTP]] `200 OK` 응답 바디에 암호화된 [[511_dns_hierarchical_distributed_architecture|DNS]] 결과를 담아 반환합니다.
 
-DoH를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. DoT가 기반 조건을 만든다면, DoH는 그 위에서 핵심 메커니즘을 구현하고, mDNS / LMNR는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 가시성과 관리 자동화에 어떤 차이를 만드는지 비교하는 것이 중요하다.
+DoH를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. DoT가 기반 조건을 만든다면, DoH는 그 위에서 핵심 메커니즘을 구현하고, [[521_mdns_multicast_dns_llmnr|mDNS]] / LMNR는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 가시성과 관리 자동화에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
 | 관점 | 선행 개념 | 현재 개념 | 확장 개념 |
 |:---|:---|:---|:---|
-| 초점 | DoT의 기반 정리 | DoH의 핵심 동작 | mDNS / LMNR의 확장 적용 |
+| 초점 | DoT의 기반 정리 | DoH의 핵심 동작 | [[521_mdns_multicast_dns_llmnr|mDNS]] / LMNR의 확장 적용 |
 | 자원 관점 | 기본 조건 확보 | 가시성 최적화 | 규모와 범위 확대 |
-| 판단 포인트 | 도입 가능성 확인 | 현재 메커니즘의 적합성 판단 | 운영·확장 전략 연결 |
+| 판단 포인트 | 도입 가능성 [[396_validation|확인]] | 현재 메커니즘의 적합성 판단 | 운영·확장 [[268_strategy_pattern|전략]] 연결 |
 
 - **📢 섹션 요약 비유**: DoH는 비슷한 기술들 사이의 차선을 구분하는 분기점과 같다. 어디서 갈라지는지 알아야 헷갈리지 않는다.
 
@@ -76,21 +76,21 @@ DoH를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 �
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 - **프라이버시 강화 (장점)**: 공공 와이파이나 독재 국가 등에서 중간자가 사용자의 접속 사이트를 수집하고 검열하는 것을 완벽히 방어합니다.
-- **보안 통제 무력화 (단점)**: 기업이나 학교 방화벽에서 악성코드(C&C 서버) 통신이나 유해 사이트 접속을 DNS 단에서 차단해왔는데, DoH를 사용하면 이러한 **엔터프라이즈 보안 정책이 무력화**됩니다.
+- **보안 통제 무력화 (단점)**: 기업이나 학교 방화벽에서 악성코드(C&C 서버) 통신이나 유해 사이트 접속을 [[511_dns_hierarchical_distributed_architecture|DNS]] 단에서 차단해왔는데, DoH를 사용하면 이러한 **엔터프라이즈 보안 정책이 무력화**됩니다.
 
-### 실무 체크리스트
+### 실무 [[435_checklist_based_testing|체크리스트]]
 
 1. 요구사항과 병목 지점을 먼저 수치화한다.
 2. 운영 복잡도와 도입 효과를 함께 검증한다.
 3. 인접 기술과의 연계를 배포 전에 점검한다.
 
-- **📢 섹션 요약 비유**: DoT가 투명한 비닐봉지 대신 까만 '보안 봉투'에 편지를 담아 우체국에 보내는 것이라면, DoH는 그 보안 봉투를 수만 장의 흔한 '쿠팡 택배 상자(HTTPS)'들 사이에 몰래 끼워 넣어서, 택배기사가 이게 편지인지 물건인지조차 모르게 배달하는 완벽한 위장술입니다.
+- **📢 섹션 요약 비유**: DoT가 투명한 비닐봉지 대신 까만 '보안 봉투'에 편지를 담아 우체국에 보내는 것이라면, DoH는 그 보안 봉투를 수만 장의 흔한 '쿠팡 택배 상자([[471_https_http_over_tls|HTTPS]])'들 사이에 몰래 끼워 넣어서, 택배기사가 이게 편지인지 물건인지조차 모르게 배달하는 완벽한 위장술입니다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-DoH는 이름 해석과 네트워크 관리를 이해할 때 핵심 축을 잡아 주는 개념이다. 올바르게 적용하면 가시성 개선과 구조적 단순화에 기여하지만, 조건을 잘못 잡으면 오히려 복잡도와 운영 부담이 커질 수 있다. 앞으로는 mDNS / LMNR, 자율 운영 네트워크, 자동화 운영과의 결합을 통해 더 정교하게 발전할 가능성이 크다. 따라서 이 개념은 정의 자체보다 “언제 쓰고 언제 다른 방법으로 넘길 것인가”의 관점으로 기억하는 것이 좋다. 향후에는 자율 운영 네트워크 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
+DoH는 이름 해석과 네트워크 관리를 이해할 때 핵심 축을 잡아 주는 개념이다. 올바르게 적용하면 가시성 개선과 구조적 단순화에 기여하지만, 조건을 잘못 잡으면 오히려 복잡도와 운영 부담이 커질 수 있다. 앞으로는 [[521_mdns_multicast_dns_llmnr|mDNS]] / LMNR, 자율 운영 네트워크, 자동화 운영과의 결합을 통해 더 정교하게 발전할 가능성이 크다. 따라서 이 개념은 정의 자체보다 “언제 쓰고 언제 다른 방법으로 넘길 것인가”의 관점으로 기억하는 것이 좋다. 향후에는 자율 운영 네트워크 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
 
 - **📢 섹션 요약 비유**: DoH는 큰 흐름 속에서 기억해야 오래 남는다. 지금의 장점과 다음 확장 방향을 같이 보면 전체 그림이 선명해진다.
 
@@ -100,10 +100,10 @@ DoH는 이름 해석과 네트워크 관리를 이해할 때 핵심 축을 잡�
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| DoT | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
-| DNS (Domain Name System) | 이름과 주소를 연결해 서비스 접근성을 만든다. |
+| [[519_dot_dns_over_tls|DoT]] | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
+| [[511_dns_hierarchical_distributed_architecture|DNS]] ([[511_dns_hierarchical_distributed_architecture|Domain Name System]]) | 이름과 주소를 연결해 [[090_service_kubernetes_network_load_balancing|서비스]] 접근성을 만든다. |
 | 모니터링 (Monitoring) | 장애 징후를 조기에 발견하기 위한 기초다. |
-| mDNS / LMNR | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
+| [[521_mdns_multicast_dns_llmnr|mDNS]] / LMNR | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -117,7 +117,7 @@ DoH는 이름 해석과 네트워크 관리를 이해할 때 핵심 축을 잡�
     └──▶ [확장 B: 자율 운영 네트워크]
 ```
 
-DoH는 DoT에서 출발해 현재 메커니즘을 정교화하고, 이후 mDNS / LMNR와 자율 운영 네트워크 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
+DoH는 DoT에서 출발해 현재 메커니즘을 정교화하고, 이후 [[521_mdns_multicast_dns_llmnr|mDNS]] / LMNR와 자율 운영 네트워크 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

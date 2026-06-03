@@ -8,15 +8,15 @@ categories = "studynote-ict-convergence"
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: DPO(Direct Preference Optimization)는 RLHF(Reinforcement Learning from Human Feedback)에서 필요하던 별도 보상 모델과 PPO 강화학습을 제거하고, 선호/비선호 응답 쌍으로 LLM을 직접 분류 손실로 최적화한다.
-> 2. **가치**: RLHF의 불안정한 강화학습 훈련을 표준 지도 학습(Supervised Learning) 파이프라인으로 대체해 구현 복잡도를 크게 낮추면서 유사한 정렬(Alignment) 성능을 달성한다.
-> 3. **판단 포인트**: DPO는 데이터 효율적이고 안정적이지만, 분포 외(Out-of-Distribution) 응답에 대한 보상 과적합 위험이 있으며 매우 복잡한 인간 선호 반영에는 RLHF 품질이 우세할 수 있다.
+> 1. **본질**: [[270_embedding_model|DPO]]([[270_embedding_model|Direct Preference Optimization]])는 [[250_rlhf_human_feedback_reinforcement_alignment_cot|RLHF]]([[094_reinforcement_learning|Reinforcement Learning]] from Human Feedback)에서 필요하던 별도 보상 모델과 [[395_ppo_clipping|PPO]] 강화학습을 제거하고, 선호/비선호 응답 쌍으로 LLM을 직접 [[104_classification_analysis|분류]] 손실로 최적화한다.
+> 2. **가치**: RLHF의 불안정한 강화학습 훈련을 표준 [[121_supervised_learning|지도 학습]]([[121_supervised_learning|Supervised Learning]]) 파이프라인으로 대체해 구현 복잡도를 크게 낮추면서 유사한 정렬(Alignment) [[282_performance_tactics|성능]]을 달성한다.
+> 3. **판단 포인트**: DPO는 [[001_dikw_pyramid|데이터]] 효율적이고 안정적이지만, 분포 외(Out-of-Distribution) 응답에 대한 보상 과적합 위험이 있으며 매우 복잡한 인간 선호 반영에는 [[250_rlhf_human_feedback_reinforcement_alignment_cot|RLHF]] 품질이 우세할 수 있다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-ChatGPT·Claude·Gemini 등 인간 친화적 LLM은 단순 언어 모델링 훈련만으로는 유해·거짓·부적절한 응답을 생성한다. 이를 방지하기 위해 **인간 선호에 정렬(Alignment)**하는 훈련이 필요하다.
+ChatGPT·Claude·Gemini 등 인간 친화적 LLM은 단순 언어 모델링 훈련만으로는 유해·거짓·부적절한 응답을 [[087_process_state_transition|생성]]한다. 이를 방지하기 위해 **인간 선호에 정렬(Alignment)**하는 훈련이 필요하다.
 
 **RLHF의 복잡성 문제**
 
@@ -27,9 +27,9 @@ RLHF 3단계:
 3. PPO 강화학습: 보상 모델 피드백으로 LLM 업데이트
 ```
 
-PPO(Proximal Policy Optimization)는 하이퍼파라미터 민감성, 분산 훈련 필요, 불안정한 수렴 등 엔지니어링 난이도가 매우 높다.
+[[395_ppo_clipping|PPO]]([[395_ppo_clipping|Proximal Policy Optimization]])는 하이퍼파라미터 민감성, [[136_variance|분산]] 훈련 필요, 불안정한 수렴 등 엔지니어링 난이도가 매우 높다.
 
-- **📢 섹션 요약 비유**: RLHF는 심사위원(보상 모델)을 따로 훈련시키고, 선수(LLM)가 매번 점수를 받으며 훈련하는 방식. DPO는 심사위원 없이 "이 답변이 저 답변보다 좋다"는 기준만으로 선수를 직접 훈련시킨다.
+- **📢 섹션 요약 비유**: RLHF는 심사위원(보상 모델)을 따로 훈련시키고, 선수([[263_llm_large_language_model|LLM]])가 매번 점수를 받으며 훈련하는 방식. DPO는 심사위원 없이 "이 답변이 저 답변보다 좋다"는 기준만으로 선수를 직접 훈련시킨다.
 
 ---
 
@@ -56,16 +56,16 @@ PPO(Proximal Policy Optimization)는 하이퍼파라미터 민감성, 분산 훈
 └─────────────────────────────────────────────────────────┘
 ```
 
-**DPO 핵심 수식**
+**[[270_embedding_model|DPO]] 핵심 수식**
 
-DPO 손실함수는 Bradley-Terry 보상 모델을 LLM 로그 확률로 표현:
+[[270_embedding_model|DPO]] 손실함수는 Bradley-Terry 보상 모델을 [[263_llm_large_language_model|LLM]] [[568_logs_distributed_logging_elk_fluentd|로그]] [[130_probability|확률]]로 표현:
 
-$$\mathcal{L}_{DPO} = -\mathbb{E}\left[\log\sigma\left(\beta\log\frac{\pi_\theta(y_w|x)}{\pi_{ref}(y_w|x)} - \beta\log\frac{\pi_\theta(y_l|x)}{\pi_{ref}(y_l|x)}\right)\right]$$
+$$\mathcal{L}_{[[270_embedding_model|DPO]]} = -\mathbb{E}\left[\log\sigma\left(\beta\log\frac{\pi_\theta(y_w|x)}{\pi_{ref}(y_w|x)} - \beta\log\frac{\pi_\theta(y_l|x)}{\pi_{ref}(y_l|x)}\right)\right]$$
 
 - y_w: 선호(Chosen) 응답, y_l: 비선호(Rejected) 응답
-- π_ref: 참조 모델(SFT 모델), β: KL 발산 제어 계수
+- π_ref: [[116_reference_model|참조 모델]](SFT 모델), β: KL 발산 제어 계수
 
-### DPO 학습 데이터 형식
+### [[270_embedding_model|DPO]] 학습 [[001_dikw_pyramid|데이터]] 형식
 
 | 필드 | 설명 |
 |:---:|:---|
@@ -79,22 +79,22 @@ $$\mathcal{L}_{DPO} = -\mathbb{E}\left[\log\sigma\left(\beta\log\frac{\pi_\theta
 
 ## Ⅲ. 비교 및 연결
 
-### DPO 후속 변형
+### [[270_embedding_model|DPO]] 후속 변형
 
 | 방법 | 특징 | 개선점 |
 |:---:|:---:|:---|
-| DPO | 기본, 참조 모델 필요 | - |
-| SimPO | 참조 모델 불필요 | 메모리 절약, 더 단순 |
-| ORPO | SFT + DPO 단일 단계 | 훈련 단계 통합 |
-| IPO | 과적합 방지 정규화 | 분포 외 안정성 향상 |
-| KTO | Binary 피드백 지원 | 쌍 데이터 불필요 |
+| [[270_embedding_model|DPO]] | 기본, [[116_reference_model|참조 모델]] 필요 | - |
+| SimPO | [[116_reference_model|참조 모델]] 불필요 | 메모리 절약, 더 단순 |
+| ORPO | SFT + [[270_embedding_model|DPO]] 단일 단계 | 훈련 단계 통합 |
+| IPO | 과적합 방지 [[093_normalization|정규화]] | 분포 외 안정성 향상 |
+| KTO | Binary 피드백 지원 | 쌍 [[001_dikw_pyramid|데이터]] 불필요 |
 
-### RLHF vs DPO 비교
+### [[250_rlhf_human_feedback_reinforcement_alignment_cot|RLHF]] vs [[270_embedding_model|DPO]] 비교
 
-| 항목 | RLHF(PPO) | DPO |
+| 항목 | [[250_rlhf_human_feedback_reinforcement_alignment_cot|RLHF]]([[395_ppo_clipping|PPO]]) | [[270_embedding_model|DPO]] |
 |:---:|:---:|:---:|
 | 보상 모델 | 필요 | 불필요 |
-| 훈련 안정성 | 낮음(PPO 민감) | 높음(CE Loss) |
+| 훈련 안정성 | 낮음([[395_ppo_clipping|PPO]] 민감) | 높음(CE Loss) |
 | 구현 복잡도 | 높음 | 낮음 |
 | 컴퓨팅 비용 | 매우 높음 | 낮음 |
 | 복잡한 선호 반영 | 우수 | 중간 |
@@ -108,32 +108,32 @@ $$\mathcal{L}_{DPO} = -\mathbb{E}\left[\log\sigma\left(\beta\log\frac{\pi_\theta
 
 **실제 적용 사례**
 
-- **Llama 3 Instruct**: DPO로 선호 정렬, SFT → DPO 2단계 파이프라인
+- **Llama 3 Instruct**: DPO로 선호 정렬, SFT → [[270_embedding_model|DPO]] 2단계 파이프라인
 - **Mistral Instruct**: SimPO 변형으로 효율적 정렬
-- **Zephyr-7B**: ULTRA Feedback 데이터셋 + DPO → 소형 모델 정렬 성공 사례
+- **Zephyr-7B**: ULTRA Feedback [[001_dikw_pyramid|데이터]]셋 + [[270_embedding_model|DPO]] → 소형 모델 정렬 성공 사례
 
-**학습 데이터 확보 전략**
+**학습 [[001_dikw_pyramid|데이터]] 확보 [[268_strategy_pattern|전략]]**
 
 1. **크라우드소싱**: Prolific/MTurk로 선호 쌍 수집 (비용 高)
-2. **AI 피드백(RLAIF)**: GPT-4로 선호 레이블 자동 생성 — Constitutional AI
-3. **Reject Sampling**: SFT 모델로 다수 응답 생성 → 자동 선별
+2. **[[190_ai_llm_requirements_specification|AI]] 피드백([[269_vector_database|RLAIF]])**: GPT-4로 선호 레이블 자동 [[087_process_state_transition|생성]] — [[966_constitutional_ai|Constitutional AI]]
+3. **Reject [[056_표본화_Sampling|Sampling]]**: SFT 모델로 다수 응답 [[087_process_state_transition|생성]] → 자동 선별
 
 **기술사 판단 포인트**
 
-1. **β 값 튜닝**: β 낮으면 참조 모델 이탈 위험, 높으면 정렬 효과 감소
-2. **데이터 품질 > 양**: 노이즈 있는 선호 데이터 → 성능 역전 가능
+1. **β 값 튜닝**: β 낮으면 [[116_reference_model|참조 모델]] 이탈 위험, 높으면 정렬 효과 감소
+2. **[[001_dikw_pyramid|데이터]] 품질 > 양**: 노이즈 있는 선호 [[001_dikw_pyramid|데이터]] → [[282_performance_tactics|성능]] 역전 가능
 3. **평가 지표**: MT-Bench, AlpacaEval 2.0으로 정렬 품질 측정
-4. **안전 정렬**: DPO만으로는 탈옥(Jailbreak) 방어 불충분 → Constitutional AI 보완 권장
+4. **안전 정렬**: DPO만으로는 탈옥(Jailbreak) 방어 불충분 → [[966_constitutional_ai|Constitutional AI]] 보완 권장
 
-- **📢 섹션 요약 비유**: DPO 데이터 품질은 요리 재료의 신선도 — 좋은 재료(선호 쌍)가 없으면 최고 레시피도 소용없다.
+- **📢 섹션 요약 비유**: [[270_embedding_model|DPO]] [[001_dikw_pyramid|데이터]] 품질은 요리 재료의 신선도 — 좋은 재료(선호 쌍)가 없으면 최고 레시피도 소용없다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-DPO는 LLM 정렬 훈련의 접근성을 민주화했다. 보상 모델 없이 표준 파인튜닝 인프라만으로 ChatGPT 수준의 대화형 LLM 구축이 가능해졌다. SimPO·ORPO 등 변형의 발전으로 단일 GPU에서도 7B 모델 정렬이 가능하다. 향후 멀티모달 선호 정렬과 자동화된 AI 피드백 생성이 핵심 연구 방향이다.
+DPO는 [[263_llm_large_language_model|LLM]] 정렬 훈련의 접근성을 민주화했다. 보상 모델 없이 표준 파인튜닝 인프라만으로 ChatGPT 수준의 대화형 [[263_llm_large_language_model|LLM]] 구축이 가능해졌다. SimPO·ORPO 등 변형의 발전으로 단일 GPU에서도 7B 모델 정렬이 가능하다. 향후 [[158_multimodal_clip_vision_audio_encoding|멀티모달]] 선호 정렬과 자동화된 [[190_ai_llm_requirements_specification|AI]] 피드백 [[087_process_state_transition|생성]]이 핵심 연구 방향이다.
 
-- **📢 섹션 요약 비유**: DPO는 AI 예절 교육을 간단하게 만든 혁신 — 복잡한 시험 대신 "이게 더 좋아, 저게 더 나빠"만 보여주면 된다.
+- **📢 섹션 요약 비유**: DPO는 [[190_ai_llm_requirements_specification|AI]] 예절 교육을 간단하게 만든 혁신 — 복잡한 시험 대신 "이게 더 좋아, 저게 더 나빠"만 보여주면 된다.
 
 ---
 
@@ -141,10 +141,10 @@ DPO는 LLM 정렬 훈련의 접근성을 민주화했다. 보상 모델 없이 �
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| RLHF | 비교 대상 · 보상 모델 + PPO 정렬 |
-| Bradley-Terry | DPO 기반 · 쌍 비교 확률 모델 |
-| SimPO | DPO 변형 · 참조 모델 불필요 |
-| ORPO | DPO 변형 · SFT+정렬 단일화 |
+| [[250_rlhf_human_feedback_reinforcement_alignment_cot|RLHF]] | 비교 대상 · 보상 모델 + [[395_ppo_clipping|PPO]] 정렬 |
+| Bradley-Terry | [[270_embedding_model|DPO]] 기반 · 쌍 비교 [[130_probability|확률]] 모델 |
+| SimPO | [[270_embedding_model|DPO]] 변형 · [[116_reference_model|참조 모델]] 불필요 |
+| ORPO | [[270_embedding_model|DPO]] 변형 · SFT+정렬 단일화 |
 | MT-Bench | 평가 지표 · 정렬 품질 벤치마크 |
 
 ### 📈 관련 키워드 및 발전 흐름도
@@ -156,5 +156,5 @@ DPO는 LLM 정렬 훈련의 접근성을 민주화했다. 보상 모델 없이 �
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. AI에게 "이 대답이 저 대답보다 좋아"라는 비교만 보여주면 스스로 좋은 말투를 배우는 것이 DPO예요.
-2. 예전 방법(RLHF)은 채점 선생님(보상 모델)도 따로 훈련시켜야 해서 복잡했는데, DPO는 그 과정을 없앴어요.
+2. 예전 방법([[250_rlhf_human_feedback_reinforcement_alignment_cot|RLHF]])은 채점 선생님(보상 모델)도 따로 훈련시켜야 해서 복잡했는데, DPO는 그 과정을 없앴어요.
 3. 덕분에 더 쉽고 빠르게 예의 바르고 도움이 되는 AI를 만들 수 있어요.

@@ -8,17 +8,17 @@ categories = "studynote-operating-system"
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 락-프리 (Lock-Free) 자료구조는 뮤텍스 없이 CAS (Compare-And-Swap) 같은 하드웨어 원자적 명령어만으로 동시성을 제어하여, 스레드 중 최소 하나는 항상 전진한다는 Live 보장을 제공한다.
-> 2. **가치**: 뮤텍스의 스케줄러 암전(Preemption Under Lock), 우선순위 역전, 데드락 문제를 완전히 제거하며, 멀티코어 확장성이 극도로 높아 고성능 시스템에서 핵심 알고리즘으로 사용된다.
-> 3. **융합**: Java의 `ConcurrentLinkedQueue`, `LongAdder`, Linux 커널의 `ring buffer`, Go runtime의 goroutine 채널 내부, Rust std의 `Mutex`-free 타입들이 락-프리 알고리즘 기반이다.
+> 1. **본질**: 락-프리 ([[510_lock|Lock]]-Free) 자료구조는 뮤텍스 없이 [[768_cas_compare_and_swap_lock_free|CAS]] ([[415_compare_and_swap|Compare-And-Swap]]) 같은 하드웨어 원자적 명령어만으로 [[014_concurrency|동시성]]을 제어하여, [[092_thread_lwp|스레드]] 중 최소 하나는 항상 전진한다는 Live 보장을 제공한다.
+> 2. **가치**: 뮤텍스의 [[079_kube_scheduler_pod_placement|스케줄러]] 암전(Preemption Under [[510_lock|Lock]]), [[205_priority_inversion|우선순위 역전]], 데드락 문제를 완전히 제거하며, 멀티코어 확장성이 극도로 높아 고성능 시스템에서 핵심 [[001_algorithm_definition|알고리즘]]으로 사용된다.
+> 3. **융합**: Java의 `ConcurrentLinkedQueue`, `LongAdder`, Linux 커널의 `ring buffer`, Go runtime의 [[140_goroutine|goroutine]] 채널 내부, [[782_memory_safety_rust_compiler_verification|Rust]] std의 `Mutex`-free 타입들이 락-프리 [[001_algorithm_definition|알고리즘]] 기반이다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-전통적인 뮤텍스 기반 동기화의 핵심 문제는 **스케줄러 암전 (Preemption Under Lock)** 이다. 뮤텍스를 보유한 스레드가 선점당하면, 뮤텍스를 기다리는 모든 스레드가 선점된 스레드가 재실행될 때까지 차단된다. 이로 인해 최악의 경우 스레드 100개가 1개 스레드가 재실행되기를 기다리는 병목이 발생한다.
+전통적인 뮤텍스 기반 [[212_synchronization_mechanisms|동기화]]의 핵심 문제는 **[[079_kube_scheduler_pod_placement|스케줄러]] 암전 (Preemption Under [[510_lock|Lock]])** 이다. 뮤텍스를 보유한 [[092_thread_lwp|스레드]]가 선점당하면, 뮤텍스를 기다리는 모든 [[092_thread_lwp|스레드]]가 선점된 [[092_thread_lwp|스레드]]가 재실행될 때까지 차단된다. 이로 인해 최악의 경우 [[092_thread_lwp|스레드]] 100개가 1개 [[092_thread_lwp|스레드]]가 재실행되기를 기다리는 병목이 발생한다.
 
-락-프리 알고리즘은 뮤텍스를 사용하지 않고 **CAS (Compare-And-Swap) 루프**로 갱신을 시도한다. 실패하면 재시도하므로, 하나의 스레드가 전진을 방해받아도 다른 스레드는 계속 진행한다.
+락-프리 [[001_algorithm_definition|알고리즘]]은 뮤텍스를 사용하지 않고 **[[768_cas_compare_and_swap_lock_free|CAS]] ([[415_compare_and_swap|Compare-And-Swap]]) 루프**로 갱신을 시도한다. 실패하면 재시도하므로, 하나의 [[092_thread_lwp|스레드]]가 전진을 방해받아도 다른 [[092_thread_lwp|스레드]]는 계속 진행한다.
 
 **💡 비유**: 뮤텍스는 창구 줄서기 — 앞 사람이 느리면 모두 기다려야 한다. 락-프리는 팝업 스토어 재고 선점 — 빠른 사람이 먼저 가져가고, 늦은 사람은 재시도한다.
 
@@ -50,7 +50,7 @@ categories = "studynote-operating-system"
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### CAS 루프 기반 카운터
+### [[768_cas_compare_and_swap_lock_free|CAS]] 루프 기반 [[059_counter|카운터]]
 
 ```c
 // C/C++ 원자적 카운터 (락 없음)
@@ -68,7 +68,7 @@ bool success = atomic_compare_exchange_strong(&counter, &expected, desired);
 // counter != 5 이면 실패, expected에 실제 값 저장 → false 반환
 ```
 
-### 락-프리 스택 구현
+### 락-프리 [[057_stack|스택]] 구현
 
 ```text
 ┌──────────────────────────────────────────────────────────────┐
@@ -99,7 +99,7 @@ bool success = atomic_compare_exchange_strong(&counter, &expected, desired);
 └──────────────────────────────────────────────────────────────┘
 ```
 
-**[다이어그램 해설]** CAS 루프의 핵심은 "내가 읽은 값이 아직도 그대로인가"를 원자적으로 확인한 후 수정하는 것이다. T2가 실패했을 때 T1은 이미 성공했으므로 시스템 전체는 전진한다 — 이것이 락-프리의 Live 보장이다. 단, T2는 재시도해야 하므로 개별 스레드의 완료를 보장하지는 않는다 (Wait-free는 아님).
+**[다이어그램 해설]** [[768_cas_compare_and_swap_lock_free|CAS]] 루프의 핵심은 "내가 읽은 값이 아직도 그대로인가"를 원자적으로 확인한 후 수정하는 것이다. T2가 실패했을 때 T1은 이미 성공했으므로 시스템 전체는 전진한다 — 이것이 락-프리의 Live 보장이다. 단, T2는 재시도해야 하므로 개별 [[092_thread_lwp|스레드]]의 완료를 보장하지는 않는다 (Wait-free는 아님).
 
 ### ABA 문제 — 락-프리의 핵심 함정
 
@@ -126,7 +126,7 @@ bool success = atomic_compare_exchange_strong(&counter, &expected, desired);
 └──────────────────────────────────────────────────────────┘
 ```
 
-**[다이어그램 해설]** ABA 문제는 값이 A→B→A로 바뀌었지만 CAS가 이 변화를 감지하지 못하는 현상이다. 해결법은 포인터와 함께 변경 카운터(tag)를 유지하는 Tagged Pointer 기법으로, 포인터 하위 비트(정렬 보장 영역)나 128비트 CAS(`cmpxchg16b`)를 활용한다. Java의 `AtomicStampedReference`가 이 패턴의 표준 구현이다.
+**[다이어그램 해설]** ABA 문제는 값이 A→B→A로 바뀌었지만 CAS가 이 변화를 감지하지 못하는 현상이다. 해결법은 포인터와 함께 변경 [[059_counter|카운터]](tag)를 유지하는 Tagged Pointer 기법으로, 포인터 하위 [[073_bit|비트]](정렬 보장 영역)나 128비트 [[768_cas_compare_and_swap_lock_free|CAS]](`cmpxchg16b`)를 활용한다. Java의 `AtomicStampedReference`가 이 패턴의 표준 구현이다.
 
 **📢 섹션 요약 비유**: ABA 문제는 친구가 지갑을 빌렸다가 돌려줬는데, 그 사이에 내용이 바뀐 것을 모르고 "지갑이 그대로네"라고 착각하는 상황입니다.
 
@@ -134,7 +134,7 @@ bool success = atomic_compare_exchange_strong(&counter, &expected, desired);
 
 ## Ⅲ. 비교 및 연결
 
-### 동시성 보장 수준 비교
+### [[014_concurrency|동시성]] 보장 수준 비교
 
 ```text
 ┌──────────────────┬──────────────┬──────────────┬───────────────┐
@@ -149,9 +149,9 @@ bool success = atomic_compare_exchange_strong(&counter, &expected, desired);
 ```
 
 ### 실무 적용 사례
-- **Java LongAdder**: `AtomicLong`보다 높은 처리량을 위해 내부적으로 셀 배열에 분산하여 CAS 충돌을 줄이는 락-프리 설계.
-- **Linux kernel ring buffer**: `kfifo`는 단일 생산자-소비자 환경에서 락 없이 동작하는 lock-free FIFO.
-- **Go channel 내부**: goroutine 간 채널 통신의 기저가 CAS 기반 링 버퍼.
+- **Java LongAdder**: `AtomicLong`보다 높은 [[139_throughput|처리량]]을 위해 내부적으로 셀 배열에 분산하여 [[768_cas_compare_and_swap_lock_free|CAS]] 충돌을 줄이는 락-프리 설계.
+- **Linux [[022_kernel_role|kernel]] ring buffer**: `kfifo`는 단일 생산자-소비자 환경에서 락 없이 동작하는 [[510_lock|lock]]-free [[261_fifo_page_replacement|FIFO]].
+- **Go channel 내부**: [[140_goroutine|goroutine]] 간 채널 통신의 기저가 [[768_cas_compare_and_swap_lock_free|CAS]] 기반 링 버퍼.
 
 **📢 섹션 요약 비유**: 락-프리는 고속도로 요금소에서 하이패스 차선 — 멈추지 않고 통과하되, 충돌이 나면 재시도하는 시스템입니다.
 
@@ -160,25 +160,25 @@ bool success = atomic_compare_exchange_strong(&counter, &expected, desired);
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 ### 실무 시나리오
-1. **고처리량 메시지 큐**: 뮤텍스 기반 큐는 생산자-소비자 수 증가 시 락 경합으로 처리량 감소. `ConcurrentLinkedQueue`(락-프리)는 코어 수 증가에 선형 확장.
-2. **실시간 로그 수집**: 락 없는 링 버퍼로 인터럽트 핸들러(생산자)와 로그 수집 스레드(소비자)가 뮤텍스 없이 통신, 지연 보장.
+1. **고처리량 메시지 큐**: 뮤텍스 기반 큐는 생산자-소비자 수 증가 시 락 경합으로 [[139_throughput|처리량]] 감소. `ConcurrentLinkedQueue`(락-프리)는 코어 수 증가에 선형 확장.
+2. **실시간 [[626_log_collection|로그 수집]]**: 락 없는 링 버퍼로 [[021_interrupt_handler|인터럽트 핸들러]](생산자)와 [[626_log_collection|로그 수집]] [[092_thread_lwp|스레드]](소비자)가 뮤텍스 없이 통신, [[015_지연_데이터_관점|지연]] 보장.
 
-### 안티패턴
-- **ABA 무시**: 포인터 재사용이 있는 환경에서 Tagged Pointer 없이 CAS 사용 → 희귀하지만 치명적 메모리 오류.
-- **과도한 재시도 스핀**: 극심한 경쟁 환경에서 CAS 루프가 계속 실패하면 CPU 낭비(라이브락). 백오프(Backoff) 전략 필요.
+### [[128_water_scrum_fall_anti_pattern|안티패턴]]
+- **ABA 무시**: 포인터 재사용이 있는 환경에서 Tagged Pointer 없이 [[768_cas_compare_and_swap_lock_free|CAS]] 사용 → 희귀하지만 치명적 메모리 오류.
+- **과도한 재시도 스핀**: 극심한 경쟁 환경에서 [[768_cas_compare_and_swap_lock_free|CAS]] 루프가 계속 실패하면 CPU 낭비([[315_livelock_vs_deadlock|라이브락]]). 백오프(Backoff) [[268_strategy_pattern|전략]] 필요.
 
-**📢 섹션 요약 비유**: 락-프리의 CAS 재시도 과도함은 마치 마트에서 계산대 자리를 잡으려고 계속 뛰어다니는 것 — 가끔 잠깐 쉬어가는(backoff) 전략이 오히려 전체 효율을 높입니다.
+**📢 섹션 요약 비유**: 락-프리의 [[768_cas_compare_and_swap_lock_free|CAS]] 재시도 과도함은 마치 마트에서 계산대 자리를 잡으려고 계속 뛰어다니는 것 — 가끔 잠깐 쉬어가는(backoff) [[268_strategy_pattern|전략]]이 오히려 전체 효율을 높입니다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-| 구분 | 뮤텍스 | 락-프리 CAS |
+| 구분 | 뮤텍스 | 락-프리 [[768_cas_compare_and_swap_lock_free|CAS]] |
 |:---|:---|:---|
 | 데드락 위험 | 있음 | 없음 |
 | 코어 확장성 | 경합 급증 | 선형 확장 |
 | 구현 난이도 | 낮음 | 높음 (ABA 등 함정) |
-| 최적 환경 | 일반 동기화 | 고성능 생산자-소비자 |
+| 최적 환경 | 일반 [[212_synchronization_mechanisms|동기화]] | 고성능 생산자-소비자 |
 
 - **📢 섹션 요약 비유**: 도구의 장점만 외우는 것이 아니라 어디까지 믿고 어디서 보완해야 하는지 기억하는 정리 노트와 같다.
 
@@ -188,10 +188,10 @@ bool success = atomic_compare_exchange_strong(&counter, &expected, desired);
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| RCU (Read-Copy-Update) | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
+| [[254_rcu_read_copy_update|RCU]] ([[254_rcu_read_copy_update|Read-Copy-Update]]) | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
 | SeqLock (순차 락) | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
-| 웨이트-프리 (Wait-free) 알고리즘 | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
-| 스케줄러 일드 (sched_yield) | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
+| 웨이트-프리 (Wait-free) [[001_algorithm_definition|알고리즘]] | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
+| [[079_kube_scheduler_pod_placement|스케줄러]] 일드 (sched_yield) | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 

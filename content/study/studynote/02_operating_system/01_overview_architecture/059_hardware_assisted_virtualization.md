@@ -8,17 +8,17 @@ categories = "studynote-operating-system"
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 하드웨어 보조 가상화는 CPU가 가상 머신 전용 실행 모드와 제어 구조를 제공해 하이퍼바이저의 개입 비용을 줄이는 기술이다.
-> 2. **가치**: 특권 명령 처리와 메모리 주소 변환을 하드웨어가 직접 맡아 가상화 오버헤드를 크게 낮춘다.
-> 3. **판단 포인트**: VM Exit/Entry, EPT(RVI), VMCS(VMCB), VPID(ASID)의 역할을 구분해야 성능과 보안 판단이 가능하다.
+> 1. **본질**: [[527_hardware_assisted_virtualization|하드웨어 보조]] [[015_virtualization|가상화]]는 CPU가 가상 머신 전용 실행 모드와 제어 구조를 제공해 [[054_hypervisor|하이퍼바이저]]의 개입 비용을 줄이는 기술이다.
+> 2. **가치**: 특권 명령 처리와 메모리 주소 변환을 하드웨어가 직접 맡아 [[015_virtualization|가상화]] 오버헤드를 크게 낮춘다.
+> 3. **판단 포인트**: [[598_vm_migration_nic|VM]] Exit/Entry, EPT(RVI), [[529_vmcs|VMCS]](VMCB), VPID([[360_asid|ASID]])의 역할을 구분해야 [[282_performance_tactics|성능]]과 보안 판단이 가능하다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-x86 계열은 원래 가상화 친화적이지 않았다. 민감한 명령이 예외를 일으키지 않는 경우가 있어, 소프트웨어만으로는 게스트 OS를 깔끔하게 통제하기 어려웠다.
+x86 계열은 원래 [[015_virtualization|가상화]] 친화적이지 않았다. 민감한 명령이 예외를 일으키지 않는 경우가 있어, 소프트웨어만으로는 게스트 OS를 깔끔하게 통제하기 어려웠다.
 
-이 문제를 풀기 위해 Intel은 VT-x, AMD는 AMD-V를 넣었다. 목표는 OS를 수정하지 않고도 여러 운영체제를 안전하게 돌리고, 트랩-에뮬레이션 비용을 줄이는 것이다.
+이 문제를 풀기 위해 Intel은 VT-x, AMD는 AMD-V를 넣었다. 목표는 OS를 수정하지 않고도 여러 [[001_operating_system_purpose|운영체제]]를 안전하게 돌리고, 트랩-에뮬레이션 비용을 줄이는 것이다.
 
 - **📢 섹션 요약 비유**: 가게마다 따로 보안요원을 두는 대신, 건물 자체에 출입통제 시스템을 심어 둔 것과 같다.
 
@@ -26,7 +26,7 @@ x86 계열은 원래 가상화 친화적이지 않았다. 민감한 명령이 �
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-하드웨어 보조 가상화의 중심은 실행 모드 분리와 상태 저장/복구다. 하이퍼바이저는 Root 모드에서, 게스트는 Non-Root 모드에서 돌아간다.
+[[527_hardware_assisted_virtualization|하드웨어 보조]] [[015_virtualization|가상화]]의 중심은 실행 모드 분리와 상태 저장/복구다. [[054_hypervisor|하이퍼바이저]]는 Root 모드에서, 게스트는 Non-Root 모드에서 돌아간다.
 
 ```text
 하이퍼바이저(Root)
@@ -39,12 +39,12 @@ x86 계열은 원래 가상화 친화적이지 않았다. 민감한 명령이 �
 
 | 구성 요소 | 역할 |
 | :-- | :-- |
-| VMCS / VMCB | VM 상태, 제어 비트, Exit 원인을 저장 |
-| EPT / NPT(RVI) | 2단계 주소 변환으로 메모리 가상화 가속 |
-| VPID / ASID | TLB Flush를 줄여 VM 전환 비용 완화 |
-| APICv | 인터럽트 전달을 하드웨어로 일부 오프로드 |
+| [[529_vmcs|VMCS]] / VMCB | [[598_vm_migration_nic|VM]] 상태, 제어 [[073_bit|비트]], Exit 원인을 저장 |
+| EPT / NPT(RVI) | 2단계 주소 변환으로 메모리 [[015_virtualization|가상화]] 가속 |
+| VPID / [[360_asid|ASID]] | [[357_tlb|TLB]] Flush를 줄여 [[598_vm_migration_nic|VM]] 전환 비용 완화 |
+| APICv | [[016_interrupt_mechanism|인터럽트]] 전달을 하드웨어로 일부 오프로드 |
 
-VM Exit는 게스트가 처리할 수 없는 동작이 발생했을 때 하드웨어가 제어권을 돌려주는 이벤트다. VM Entry는 하이퍼바이저가 다시 게스트를 재개하는 순간이다.
+[[598_vm_migration_nic|VM]] Exit는 게스트가 처리할 수 없는 동작이 발생했을 때 하드웨어가 제어권을 돌려주는 이벤트다. [[598_vm_migration_nic|VM]] Entry는 [[054_hypervisor|하이퍼바이저]]가 다시 게스트를 재개하는 순간이다.
 
 - **📢 섹션 요약 비유**: 무대가 바뀔 때마다 감독이 직접 소품을 옮기지 않고, 무대장치가 자동으로 세트와 조명을 바꿔 주는 시스템이다.
 
@@ -52,13 +52,13 @@ VM Exit는 게스트가 처리할 수 없는 동작이 발생했을 때 하드�
 
 ## Ⅲ. 비교 및 연결
 
-가상화 방식은 소프트웨어 전가상화, 반가상화, 하드웨어 보조 가상화로 나눌 수 있다.
+[[015_virtualization|가상화]] 방식은 소프트웨어 [[057_full_virtualization|전가상화]], [[058_paravirtualization|반가상화]], [[527_hardware_assisted_virtualization|하드웨어 보조]] [[015_virtualization|가상화]]로 나눌 수 있다.
 
 | 방식 | 장점 | 한계 |
 | :-- | :-- | :-- |
-| 소프트웨어 전가상화 | 구형 CPU에서도 가능 | Binary Translation 비용 큼 |
-| 반가상화 | 게스트와 하이퍼바이저 협력으로 효율적 | OS 수정이 필요 |
-| 하드웨어 보조 가상화 | OS 수정 없이 고성능 | CPU 기능 지원이 필수 |
+| 소프트웨어 [[057_full_virtualization|전가상화]] | 구형 CPU에서도 가능 | Binary Translation 비용 큼 |
+| [[058_paravirtualization|반가상화]] | 게스트와 [[054_hypervisor|하이퍼바이저]] 협력으로 효율적 | OS 수정이 필요 |
+| [[527_hardware_assisted_virtualization|하드웨어 보조]] [[015_virtualization|가상화]] | OS 수정 없이 고성능 | CPU 기능 지원이 필수 |
 
 Intel VT-x와 AMD-V는 동작 철학이 비슷하지만, 제어 구조체 이름과 세부 가속 기능이 다르다. Intel은 VMCS와 EPT를, AMD는 VMCB와 NPT(RVI)를 대표적으로 쓴다.
 
@@ -68,23 +68,23 @@ Intel VT-x와 AMD-V는 동작 철학이 비슷하지만, 제어 구조체 이름
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서는 하드웨어 보조 가상화가 켜져 있는지보다, 어떤 워크로드에 어떤 보조 기능을 붙일지가 더 중요하다.
+실무에서는 [[527_hardware_assisted_virtualization|하드웨어 보조]] [[015_virtualization|가상화]]가 켜져 있는지보다, 어떤 워크로드에 어떤 보조 기능을 붙일지가 더 중요하다.
 
-### 체크리스트
+### [[435_checklist_based_testing|체크리스트]]
 
 1. BIOS/UEFI에서 VT-x 또는 AMD-V가 활성화되어 있는가?
 2. EPT/NPT와 같은 SLAT(Second Level Address Translation)을 지원하는가?
-3. 반복적인 VM 전환이 많다면 VPID/ASID 이점이 있는가?
+3. 반복적인 [[598_vm_migration_nic|VM]] 전환이 많다면 VPID/[[360_asid|ASID]] 이점이 있는가?
 
 ### 실무 시나리오
 
-- KVM, ESXi, Hyper-V 같은 하이퍼바이저의 기본 성능 기반
-- Nested Virtualization이 필요한 테스트/CI 환경
+- [[713_kvm_over_ip|KVM]], ESXi, Hyper-V 같은 [[054_hypervisor|하이퍼바이저]]의 기본 [[282_performance_tactics|성능]] 기반
+- Nested Virtualization이 필요한 테스트/[[090_configuration_item|CI]] 환경
 - 가상 머신 탈출 방지, 권한 격리 강화
 
-### 안티패턴
+### [[128_water_scrum_fall_anti_pattern|안티패턴]]
 
-- 하드웨어 기능 미지원 서버에 무리하게 가상화 계층을 얹는 설계
+- 하드웨어 기능 미지원 서버에 무리하게 [[015_virtualization|가상화]] 계층을 얹는 설계
 - 메모리 가속(EPT/NPT) 없이 CPU 오버헤드만 기대하는 설계
 
 - **📢 섹션 요약 비유**: 엔진만 좋은 차가 아니라, 도로와 변속기까지 맞춰야 진짜 빨라진다.
@@ -93,9 +93,9 @@ Intel VT-x와 AMD-V는 동작 철학이 비슷하지만, 제어 구조체 이름
 
 ## Ⅴ. 기대효과 및 결론
 
-하드웨어 보조 가상화는 가상화의 비용 구조를 바꿨다. 덕분에 운영체제 수정 없이도 서버 자원을 더 잘 쪼개고, 클라우드와 컨테이너 인프라의 기반을 만들 수 있었다.
+[[527_hardware_assisted_virtualization|하드웨어 보조]] [[015_virtualization|가상화]]는 [[015_virtualization|가상화]]의 비용 구조를 바꿨다. 덕분에 [[001_operating_system_purpose|운영체제]] 수정 없이도 서버 자원을 더 잘 쪼개고, 클라우드와 [[561_container_based_deployment|컨테이너]] 인프라의 기반을 만들 수 있었다.
 
-다만 기능이 많아도 모든 문제를 자동으로 풀어주지는 않는다. NUMA, 메모리 배치, I/O 병목까지 같이 봐야 실제 성능이 나온다.
+다만 기능이 많아도 모든 문제를 자동으로 풀어주지는 않는다. [[377_numa_allocation|NUMA]], 메모리 배치, I/O 병목까지 같이 봐야 실제 [[282_performance_tactics|성능]]이 나온다.
 
 - **📢 섹션 요약 비유**: 집 안에 엘리베이터를 넣으면 편하지만, 층 구조와 동선까지 같이 설계해야 진짜 효율이 난다.
 
@@ -133,6 +133,6 @@ Nested Virtualization
 
 ## 어린이를 위한 3줄 비유 설명
 
-하드웨어 보조 가상화는 컴퓨터 안에 가상세계 전용 문지기를 넣는 거예요.  
+[[527_hardware_assisted_virtualization|하드웨어 보조]] [[015_virtualization|가상화]]는 컴퓨터 안에 가상세계 전용 문지기를 넣는 거예요.  
 예전에는 선생님이 모든 방을 직접 돌봤지만, 이제는 문지기가 먼저 보고 중요한 일만 선생님께 알려 줘요.  
 그래서 여러 컴퓨터를 더 빠르고 안전하게 돌릴 수 있어요.

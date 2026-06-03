@@ -7,9 +7,9 @@ categories = "studynote-cloud-architecture"
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: Transactional Outbox는 **비즈니스 데이터와 이벤트를 같은 DB 트랜잭션으로 저장(Outbox 테이블)**한 후, 별도 프로세스(CDC·Polling)가 Outbox에서 이벤트를 읽어 메시지 브로커로 발행하는 패턴이다.
-> 2. **가치**: "주문 저장 + Kafka 발행"을 별도로 하면 **DB 저장 성공·Kafka 발행 실패** 시 불일치가 발생하지만, Outbox는 **단일 트랜잭션으로 원자성을 보장**한다.
-> 3. **판단 포인트**: Debezium(CDC 기반)이 Outbox 이벤트를 실시간 캡처하여 Kafka로 전달하는 것이 표준 구현이며, Polling 방식은 지연이 있다.
+> 1. **본질**: Transactional Outbox는 **비즈니스 [[001_dikw_pyramid|데이터]]와 이벤트를 같은 DB 트랜잭션으로 저장(Outbox 테이블)**한 후, 별도 프로세스([[217_cdc_binlog_change_capture_debezium|CDC]]·[[747_io_polling_overhead|Polling]])가 Outbox에서 이벤트를 읽어 메시지 브로커로 발행하는 패턴이다.
+> 2. **가치**: "주문 저장 + [[179_kafka_flink_watermark_time_window|Kafka]] 발행"을 별도로 하면 **DB 저장 성공·[[179_kafka_flink_watermark_time_window|Kafka]] 발행 실패** 시 불일치가 발생하지만, Outbox는 **단일 트랜잭션으로 [[193_atomicity_all_or_nothing|원자성]]을 보장**한다.
+> 3. **판단 포인트**: Debezium([[217_cdc_binlog_change_capture_debezium|CDC]] 기반)이 Outbox 이벤트를 실시간 캡처하여 Kafka로 전달하는 것이 표준 구현이며, [[747_io_polling_overhead|Polling]] 방식은 지연이 있다.
 
 ---
 
@@ -28,7 +28,7 @@ categories = "studynote-cloud-architecture"
 
 ## Ⅱ~Ⅴ. 결론
 
-Transactional Outbox는 **MSA 이벤트 발행의 원자성 보장 표준 패턴**이며, Debezium+Kafka가 핵심 구현이다.
+Transactional Outbox는 **[[619_msa_traffic_hardware|MSA]] 이벤트 발행의 [[193_atomicity_all_or_nothing|원자성]] 보장 표준 패턴**이며, Debezium+Kafka가 핵심 구현이다.
 
 ---
 
@@ -36,11 +36,11 @@ Transactional Outbox는 **MSA 이벤트 발행의 원자성 보장 표준 패턴
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **Outbox** | 이벤트 원자성 보장 |
-| **CDC** | 변경 데이터 캡처 |
-| **Debezium** | CDC 오픈소스 |
-| **Kafka** | 이벤트 브로커 |
-| **Saga** | Outbox와 함께 사용 |
+| **Outbox** | 이벤트 [[193_atomicity_all_or_nothing|원자성]] 보장 |
+| **[[217_cdc_binlog_change_capture_debezium|CDC]]** | [[218_cdc_change_data_capture|변경 데이터 캡처]] |
+| **Debezium** | [[217_cdc_binlog_change_capture_debezium|CDC]] [[191_oss_license_compliance|오픈소스]] |
+| **[[179_kafka_flink_watermark_time_window|Kafka]]** | 이벤트 브로커 |
+| **[[305_saga|Saga]]** | Outbox와 함께 사용 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -53,5 +53,5 @@ Transactional Outbox는 **MSA 이벤트 발행의 원자성 보장 표준 패턴
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. Outbox는 **보내야 할 편지를 우편함에 넣는** 거예요.
-2. 편지와 일기(비즈니스 데이터)를 **동시에 저장**해서 빠뜨리지 않아요.
+2. 편지와 일기(비즈니스 [[001_dikw_pyramid|데이터]])를 **동시에 저장**해서 빠뜨리지 않아요.
 3. 우체부(Debezium)가 우편함을 확인하고 **확실히 배달**해요!

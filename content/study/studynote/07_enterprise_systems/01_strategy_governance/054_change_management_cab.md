@@ -8,25 +8,25 @@ categories = "studynote-enterprise-systems"
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 변경 관리 (Change Management)는 서비스 변경의 위험을 통제하는 ITSM (IT Service Management) 절차다.
-> 2. **가치**: CAB (Change Advisory Board)는 변경의 영향, 우선순위, 승인 여부를 검토한다.
+> 1. **본질**: [[079_change_enablement|변경 관리]] ([[027_change_management|Change Management]])는 [[090_service_kubernetes_network_load_balancing|서비스]] 변경의 위험을 통제하는 [[096_iso_iec_20000_itsm_certification|ITSM]] ([[061_itsm|IT Service Management]]) 절차다.
+> 2. **가치**: [[080_cab|CAB]] (Change Advisory Board)는 변경의 영향, 우선순위, 승인 여부를 검토한다.
 > 3. **판단 포인트**: 표준 변경, 정상 변경, 긴급 변경을 구분해야 승인 흐름이 명확해진다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-서비스 운영에서는 모든 변경이 위험이다. 패치, 설정 변경, 배포, 인프라 수정은 고객 영향으로 이어질 수 있다.
+[[067_service_operation|서비스 운영]]에서는 모든 변경이 위험이다. 패치, [[009_config|설정]] 변경, 배포, 인프라 수정은 고객 영향으로 이어질 수 있다.
 
-변경 관리는 이런 위험을 미리 검토하고, 누가 승인할지 정하는 절차다.
+[[079_change_enablement|변경 관리]]는 이런 위험을 미리 검토하고, 누가 승인할지 정하는 절차다.
 
-- **📢 섹션 요약 비유**: 변경 관리는 공사 전에 안전 점검표를 보는 일이다.
+- **📢 섹션 요약 비유**: [[079_change_enablement|변경 관리]]는 공사 전에 안전 점검표를 보는 일이다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-변경은 보통 요청 → 평가 → 승인 → 실행 → 검토 순서로 흐른다. CAB는 이 과정에서 영향도와 리스크를 판단한다.
+변경은 보통 요청 → 평가 → 승인 → 실행 → 검토 순서로 흐른다. CAB는 이 과정에서 영향도와 [[096_risk_non_risk_architecture_evaluation_flaws|리스크]]를 판단한다.
 
 ```text
 Change Request → Impact/Risk Review → CAB Approval → Implementation → Review
@@ -35,8 +35,8 @@ Change Request → Impact/Risk Review → CAB Approval → Implementation → Re
 | 유형 | 의미 | 승인 흐름 |
 | :--- | :--- | :--- |
 | Standard Change | 반복적 저위험 | 사전 승인 |
-| Normal Change | 일반 변경 | CAB 검토 |
-| Emergency Change | 긴급 복구 | ECAB/신속 승인 |
+| Normal Change | 일반 변경 | [[080_cab|CAB]] 검토 |
+| Emergency Change | 긴급 [[658_ir_recovery|복구]] | [[081_feature_engineering|ECAB]]/신속 승인 |
 
 핵심은 변경을 막는 것이 아니라, 안전하게 통과시키는 것이다. CAB는 모든 변경을 사람 감으로 승인하는 조직이 아니라, 기준과 증거를 보는 위원회다.
 
@@ -46,50 +46,50 @@ Change Request → Impact/Risk Review → CAB Approval → Implementation → Re
 
 ## Ⅲ. 비교 및 연결
 
-변경 관리는 Incident/Problem Management와 연결된다. 장애를 복구하는 것과, 변경을 승인해 배포하는 것은 다른 절차다.
+[[079_change_enablement|변경 관리]]는 Incident/Problem Management와 연결된다. 장애를 [[658_ir_recovery|복구]]하는 것과, 변경을 승인해 배포하는 것은 다른 절차다.
 
-| 항목 | 변경 관리 | 장애 관리 |
+| 항목 | [[079_change_enablement|변경 관리]] | 장애 관리 |
 | :--- | :--- | :--- |
-| 목적 | 안전한 변경 | 빠른 복구 |
+| 목적 | 안전한 변경 | 빠른 [[658_ir_recovery|복구]] |
 | 핵심 질문 | 바꿔도 되는가 | 지금 어떻게 살릴까 |
-| 결과 | 승인/거부 | 복구/우회 |
+| 결과 | 승인/거부 | [[658_ir_recovery|복구]]/우회 |
 
-CAB는 서비스 안정성, 보안, 규정 준수를 동시에 고려해야 한다. 그래서 변경 일정, 유지보수 창, 롤백 계획이 중요하다.
+CAB는 [[090_service_kubernetes_network_load_balancing|서비스]] 안정성, 보안, 규정 준수를 동시에 고려해야 한다. 그래서 변경 일정, 유지보수 창, [[098_rollback_strategy_pipeline_error_threshold|롤백]] 계획이 중요하다.
 
-- **📢 섹션 요약 비유**: 변경 관리는 문을 열어 줄지 말지 보는 경비실, 장애 관리는 불 난 건물에서 사람을 꺼내는 소방대다.
+- **📢 섹션 요약 비유**: [[079_change_enablement|변경 관리]]는 문을 열어 줄지 말지 보는 경비실, 장애 관리는 불 난 건물에서 사람을 꺼내는 소방대다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서는 변경 요청서, 영향도 분석, 테스트 결과, 롤백 계획, 승인 기록을 남겨야 한다. 긴급 변경도 사후 검토가 필요하다.
+실무에서는 변경 요청서, 영향도 분석, 테스트 결과, [[098_rollback_strategy_pipeline_error_threshold|롤백]] 계획, 승인 기록을 남겨야 한다. 긴급 변경도 사후 검토가 필요하다.
 
-### 체크리스트
+### [[435_checklist_based_testing|체크리스트]]
 
-1. 변경 유형이 분류되는가?
-2. 영향도와 리스크가 문서화되는가?
-3. 롤백 계획이 있는가?
-4. CAB/ECAB 승인 기록이 남는가?
+1. 변경 유형이 [[104_classification_analysis|분류]]되는가?
+2. 영향도와 [[096_risk_non_risk_architecture_evaluation_flaws|리스크]]가 문서화되는가?
+3. [[098_rollback_strategy_pipeline_error_threshold|롤백]] 계획이 있는가?
+4. [[080_cab|CAB]]/[[081_feature_engineering|ECAB]] 승인 기록이 남는가?
 
-### 안티패턴
+### [[128_water_scrum_fall_anti_pattern|안티패턴]]
 
 - 모든 변경을 긴급처럼 처리하는 경우
 - 승인 없이 운영 배포를 강행하는 경우
 - 사후 검토 없이 변경만 누적하는 경우
 
-기술사 관점에서는 CAB가 단순 결재 조직이 아니라 서비스 리스크를 관리하는 통제 포인트라는 점을 설명해야 한다.
+기술사 관점에서는 CAB가 단순 결재 조직이 아니라 [[090_service_kubernetes_network_load_balancing|서비스]] [[096_risk_non_risk_architecture_evaluation_flaws|리스크]]를 관리하는 통제 포인트라는 점을 설명해야 한다.
 
-- **📢 섹션 요약 비유**: CAB는 차가 들어오기 전에 신호등 색을 바꾸는 교통 관제실이다.
+- **📢 섹션 요약 비유**: CAB는 차가 들어오기 전에 [[130_signal|신호]]등 색을 바꾸는 교통 관제실이다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-변경 관리는 장애를 줄이고, 변경 이력을 남기며, 운영 안정성을 높인다. CAB는 그 결정을 체계화하는 장치다.
+[[079_change_enablement|변경 관리]]는 장애를 줄이고, 변경 이력을 남기며, 운영 안정성을 높인다. CAB는 그 결정을 체계화하는 장치다.
 
-정리하면, 잘 된 변경 관리는 서비스의 안전벨트다.
+정리하면, 잘 된 [[079_change_enablement|변경 관리]]는 [[090_service_kubernetes_network_load_balancing|서비스]]의 안전벨트다.
 
-- **📢 섹션 요약 비유**: 변경 관리는 가구를 옮기기 전에 문폭을 재는 습관이다.
+- **📢 섹션 요약 비유**: [[079_change_enablement|변경 관리]]는 가구를 옮기기 전에 문폭을 재는 습관이다.
 
 ---
 
@@ -97,11 +97,11 @@ CAB는 서비스 안정성, 보안, 규정 준수를 동시에 고려해야 한�
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| CAB | 변경 심의 |
-| ECAB | 긴급 심의 |
+| [[080_cab|CAB]] | 변경 심의 |
+| [[081_feature_engineering|ECAB]] | 긴급 심의 |
 | Standard Change | 사전 승인 |
-| Risk Assessment | 영향 평가 |
-| Rollback | 복구 계획 |
+| [[096_risk_non_risk_architecture_evaluation_flaws|Risk]] Assessment | 영향 평가 |
+| [[313_rollback|Rollback]] | [[658_ir_recovery|복구]] 계획 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -118,10 +118,10 @@ CAB / ECAB 승인
 실행 / 검토
 ```
 
-이 흐름은 서비스 변경이 통제된 절차를 통해 운영되는 과정을 보여준다.
+이 흐름은 [[090_service_kubernetes_network_load_balancing|서비스]] 변경이 통제된 절차를 통해 운영되는 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. CAB는 방을 고치기 전에 어른들이 모여서 안전한지 보는 회의예요.
-2. 급한 경우도 있지만, 그때도 꼭 다시 확인해요.
+2. 급한 경우도 있지만, 그때도 꼭 다시 [[396_validation|확인]]해요.
 3. 그래서 집이 망가지지 않게 할 수 있어요.

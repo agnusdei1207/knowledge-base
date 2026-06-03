@@ -7,9 +7,9 @@ categories = "studynote-ict-convergence"
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: VR(가상현실)·AR(증강현실)·MR(혼합현실)·XR(확장현실)은 **현실-가상 연속체(Reality-Virtuality Continuum)**에서 가상 콘텐츠와 현실의 결합 정도에 따라 구분되는 기술 스펙트럼이며, 공간 컴퓨팅은 이를 포괄하는 차세대 패러다임이다.
+> 1. **본질**: VR(가상현실)·AR(증강현실)·MR(혼합현실)·XR(확장현실)은 **현실-가상 연속체(Reality-Virtuality Continuum)**에서 가상 콘텐츠와 현실의 결합 정도에 따라 구분되는 기술 스펙트럼이며, [[232_spatial_computing_digital_twin|공간 컴퓨팅]]은 이를 포괄하는 차세대 패러다임이다.
 > 2. **가치**: VR은 완전 몰입(게임·시뮬레이션), AR은 현실 위 정보 오버레이(네비·매뉴얼), MR은 현실과 가상 객체 상호작용(설계·의료)을 제공하며, 각각 다른 사용자 경험과 산업 적용 영역을 갖는다.
-> 3. **판단 포인트**: Apple Vision Pro(2024)의 등장으로 **공간 컴퓨팅(Spatial Computing)**이 새 패러다임으로 부상하며, 기존 XR에 **공간 인식·자연 상호작용·환경 이해**가 추가되었다.
+> 3. **판단 포인트**: Apple Vision Pro(2024)의 등장으로 **[[232_spatial_computing_digital_twin|공간 컴퓨팅]]([[232_spatial_computing_digital_twin|Spatial Computing]])**이 새 패러다임으로 부상하며, 기존 XR에 **공간 인식·자연 상호작용·환경 이해**가 추가되었다.
 
 ---
 
@@ -39,7 +39,7 @@ categories = "studynote-ict-convergence"
 |:---|:---|:---|:---|
 | **현실** | 차단 | **보존** | 보존 |
 | **가상** | 100% | 정보 오버레이 | **상호작용** |
-| **디바이스** | HMD | 스마트폰/글래스 | HoloLens/VP |
+| **디바이스** | [[177_hmd_eye_tracking_foveated_rendering|HMD]] | 스마트폰/글래스 | HoloLens/VP |
 | **예** | 게임·시뮬 | 포켓몬GO | 홀로그램 설계 |
 
 - **📢 섹션 요약 비유**: VR은 영화관(현실 차단), AR은 자막 안경(현실 위 정보), MR은 홀로그램 회의(가상과 현실 상호작용).
@@ -48,7 +48,7 @@ categories = "studynote-ict-convergence"
 
 ## Ⅲ. 비교 및 연결
 
-| 비교 | 2D 화면 | XR | 공간 컴퓨팅 |
+| 비교 | 2D 화면 | XR | [[232_spatial_computing_digital_twin|공간 컴퓨팅]] |
 |:---|:---|:---|:---|
 | **입력** | 키보드·마우스 | 컨트롤러 | **손·눈·음성** |
 | **공간** | 평면 | 3DOF/6DOF | **환경 인식** |
@@ -62,13 +62,13 @@ categories = "studynote-ict-convergence"
 - **VR**: 안전 교육·비행 시뮬레이션.
 - **AR**: 현장 매뉴얼·네비게이션.
 - **MR**: 원격 협업·의료 수술 가이드.
-- **공간 컴퓨팅**: 차세대 작업 환경 (Vision Pro).
+- **[[232_spatial_computing_digital_twin|공간 컴퓨팅]]**: 차세대 작업 환경 (Vision Pro).
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-XR/공간 컴퓨팅은 **"화면 너머 3차원 공간에서 컴퓨팅"하는 차세대 인터페이스**이며, Apple Vision Pro가 시장을 재정의하고 있다.
+XR/[[232_spatial_computing_digital_twin|공간 컴퓨팅]]은 **"화면 너머 3차원 공간에서 컴퓨팅"하는 차세대 인터페이스**이며, Apple Vision Pro가 시장을 재정의하고 있다.
 
 ---
 
@@ -80,7 +80,7 @@ XR/공간 컴퓨팅은 **"화면 너머 3차원 공간에서 컴퓨팅"하는 �
 | **AR** | 현실 위 정보 오버레이 |
 | **MR** | 현실+가상 상호작용 |
 | **XR** | VR+AR+MR 통칭 |
-| **공간 컴퓨팅** | XR + 공간 인식 + 자연 UI |
+| **[[232_spatial_computing_digital_twin|공간 컴퓨팅]]** | XR + 공간 인식 + 자연 UI |
 
 ### 📈 관련 키워드 및 발전 흐름도
 

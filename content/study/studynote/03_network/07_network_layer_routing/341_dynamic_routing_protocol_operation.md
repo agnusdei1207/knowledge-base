@@ -8,20 +8,20 @@ categories = "studynote-network"
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 동적 라우팅은 라우팅과 경로 제어에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.
-> 2. **가치**: 동적 라우팅을 이해하면 수렴 속도과 확장성 사이의 균형을 더 정확히 볼 수 있다.
+> 1. **본질**: 동적 [[339_routing_overview_best_path_selection|라우팅]]은 [[339_routing_overview_best_path_selection|라우팅]]과 경로 제어에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.
+> 2. **가치**: 동적 [[339_routing_overview_best_path_selection|라우팅]]을 이해하면 수렴 속도과 확장성 사이의 균형을 더 정확히 볼 수 있다.
 > 3. **판단 포인트**: 설계 시에는 개념 자체보다 적용 조건, 운영 복잡도, 인접 기술과의 경계를 함께 판단해야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 라우팅 프로토콜(OSPF, BGP 등)을 사용하여 네트워크 상태 변화를 실시간으로 감지하고 라우팅 테이블(RIB)을 자동으로 구축 및 갱신하는 기법.
-- **필요성**: 전국에 라우터가 100대 있다고 치자. 서울에서 부산 가는 길이 10갈래인데, 중간에 대전 라우터 전원이 퍽 하고 나갔다. Static Routing(정적 라우팅) 시절에는 네트워크 관리자가 새벽 2시에 일어나서 대전으로 가는 룰을 싹 다 지우고 대구로 가는 룰을 수동으로 타이핑해야 인터넷이 복구되었다. "이걸 사람이 어떻게 매번 해? 기계들끼리 알아서 길이 막혔는지 뚫렸는지 통신하고, 알아서 우회로로 내비게이션을 다시 찍게 만들자!"라는 절박함에서 동적 라우팅이 탄생했다.
+- **개념**: [[339_routing_overview_best_path_selection|라우팅]] [[295_protocol_field_tcp_udp_icmp|프로토콜]]([[357_ospf_open_shortest_path_first_overview|OSPF]], [[365_bgp_border_gateway_protocol_path_vector|BGP]] 등)을 사용하여 네트워크 상태 변화를 실시간으로 감지하고 [[339_routing_overview_best_path_selection|라우팅]] 테이블(RIB)을 자동으로 구축 및 갱신하는 기법.
+- **필요성**: 전국에 라우터가 100대 있다고 치자. 서울에서 부산 가는 길이 10갈래인데, 중간에 대전 라우터 전원이 퍽 하고 나갔다. [[340_static_routing_default_route_0_0_0_0|Static Routing]]([[340_static_routing_default_route_0_0_0_0|정적 라우팅]]) 시절에는 네트워크 관리자가 새벽 2시에 일어나서 대전으로 가는 룰을 싹 다 지우고 대구로 가는 룰을 수동으로 타이핑해야 인터넷이 복구되었다. "이걸 사람이 어떻게 매번 해? 기계들끼리 알아서 길이 막혔는지 뚫렸는지 통신하고, 알아서 우회로로 내비게이션을 다시 찍게 만들자!"라는 절박함에서 동적 [[339_routing_overview_best_path_selection|라우팅]]이 탄생했다.
 
 - **💡 비유**: 
-  - **정적 라우팅**: 표지판에 페인트로 **"부산은 무조건 직진"**이라고 칠해놓은 것. 앞 도로가 싱크홀로 무너져도 차들은 직진하다가 다 빠져 죽습니다.
-  - **동적 라우팅**: 스마트폰의 **"T맵이나 카카오내비"**입니다. 앞 도로에 사고가 나면 실시간으로 중앙 서버(라우터 간 통신)와 통신해서 "전방 1km 사고 발생, 2분 빠른 우회 경로로 안내합니다"라며 지도를 즉석에서 다시 그려줍니다.
+  - **[[340_static_routing_default_route_0_0_0_0|정적 라우팅]]**: 표지판에 페인트로 **"부산은 무조건 직진"**이라고 칠해놓은 것. 앞 도로가 싱크홀로 무너져도 차들은 직진하다가 다 빠져 죽습니다.
+  - **동적 [[339_routing_overview_best_path_selection|라우팅]]**: 스마트폰의 **"T맵이나 카카오내비"**입니다. 앞 도로에 사고가 나면 실시간으로 중앙 서버(라우터 간 통신)와 통신해서 "전방 1km 사고 발생, 2분 빠른 우회 경로로 안내합니다"라며 지도를 즉석에서 다시 그려줍니다.
 
 ```text
 [정적 라우팅]
@@ -32,27 +32,27 @@ categories = "studynote-network"
     └──▶ [메트릭]
 ```
 
-- **📢 섹션 요약 비유**: ** 동적 라우팅은 인간의 개입 없이, 길목에 선 파수꾼(라우터)들이 서로 봉화와 비둘기(패킷)를 주고받으며 **"동문이 막혔으니 서문으로 돌아가라!"라고 동네방네 소문을 퍼뜨리는 자율적 생존 네트워크**입니다.
+- **📢 섹션 요약 비유**: ** 동적 [[339_routing_overview_best_path_selection|라우팅]]은 인간의 개입 없이, 길목에 선 파수꾼(라우터)들이 서로 봉화와 비둘기(패킷)를 주고받으며 **"동문이 막혔으니 서문으로 돌아가라!"라고 동네방네 소문을 퍼뜨리는 자율적 생존 네트워크**입니다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### 1. 동적 라우팅의 4단계 동작 시퀀스
-1. **인사하기 (Hello / Discovery)**: 라우터를 켜고 랜선을 꽂으면, 라우터는 옆에 꽂힌 다른 라우터에게 "안녕! 나 OSPF 쓰는 A라우터야. 너도 OSPF 쓰니? 우리 친구(Neighbor) 할래?"라고 인사를 건넨다.
-2. **정보 교환 (Exchange)**: 친구 맺기에 성공하면, 서로가 아는 지도를 교환한다. "나는 192.168.1.0 동네랑 친해!", "나는 10.0.0.0 동네랑 친해!"
-3. **경로 계산 (Calculation)**: 받은 정보들을 다 모아서 다익스트라(Dijkstra) 같은 수학 공식을 팽팽 돌려 **"최적의 지름길(Best Path)"** 1등을 뽑아낸다.
-4. **유지와 갱신 (Maintenance)**: 평소엔 조용히 있다가 10초에 한 번씩 "살아있니?" 하고 생사 확인만 한다. 그러다 갑자기 선이 끊어지면 "비상! 1번 길 폭파됨! 내가 아까 계산해 둔 2등 길(우회로)로 당장 갈아타!"라고 지도를 갱신(Convergence)한다.
+### 1. 동적 [[339_routing_overview_best_path_selection|라우팅]]의 4단계 동작 시퀀스
+1. **인사하기 (Hello / Discovery)**: 라우터를 켜고 랜선을 꽂으면, 라우터는 옆에 꽂힌 다른 라우터에게 "안녕! 나 [[357_ospf_open_shortest_path_first_overview|OSPF]] 쓰는 A라우터야. 너도 [[357_ospf_open_shortest_path_first_overview|OSPF]] 쓰니? 우리 친구(Neighbor) 할래?"라고 인사를 건넨다.
+2. **정보 교환 (Exchange)**: 친구 맺기에 성공하면, 서로가 아는 지도를 교환한다. "나는 192.168.1.0 동네랑 친해!", "나는 [[489_raid_10_hybrid|10]].0.0.0 동네랑 친해!"
+3. **경로 계산 (Calculation)**: 받은 정보들을 다 모아서 [[036_dijkstra|다익스트라]]([[036_dijkstra|Dijkstra]]) 같은 수학 공식을 팽팽 돌려 **"최적의 지름길(Best Path)"** 1등을 뽑아낸다.
+4. **유지와 갱신 (Maintenance)**: 평소엔 조용히 있다가 10초에 한 번씩 "살아있니?" 하고 생사 [[396_validation|확인]]만 한다. 그러다 갑자기 선이 끊어지면 "비상! 1번 길 폭파됨! 내가 아까 계산해 둔 2등 길(우회로)로 당장 갈아타!"라고 지도를 갱신(Convergence)한다.
 
-### 2. 내부냐 외부냐에 따른 분류 (IGP vs EGP)
-전 세계 인터넷망을 하나의 프로토콜로 묶는 것은 불가능하다. 그래서 통신망을 회사 단위(AS, 자율 시스템)로 쪼갠 뒤 프로토콜을 나누었다.
-- **IGP (Interior Gateway Protocol)**: 하나의 회사(AS) '내부'에서 지도를 그릴 때 쓴다. (예: KT 내부, 삼성전자 내부). 길을 빠르고 정교하게 찾는 데(속도) 미쳐있는 프로토콜들이다. **(RIP, OSPF, EIGRP)**
-- **EGP (Exterior Gateway Protocol)**: 회사와 회사(AS와 AS) '사이'를 연결할 때 쓴다. (예: KT와 SKT를 연결). 여기선 속도보다 "저 회사로는 우리 비밀 트래픽을 절대 안 보낼 거야" 같은 '정치적인 정책(Policy)'이 훨씬 중요하다. **(BGP가 유일무이하다)**
+### 2. 내부냐 외부냐에 따른 [[104_classification_analysis|분류]] ([[345_igp_interior_gateway_protocol_rip_ospf|IGP]] vs [[346_egp_exterior_gateway_protocol_bgp|EGP]])
+전 세계 인터넷망을 하나의 [[295_protocol_field_tcp_udp_icmp|프로토콜]]로 묶는 것은 불가능하다. 그래서 통신망을 회사 단위([[344_as_autonomous_system_asn|AS]], 자율 시스템)로 쪼갠 뒤 [[295_protocol_field_tcp_udp_icmp|프로토콜]]을 나누었다.
+- **[[345_igp_interior_gateway_protocol_rip_ospf|IGP]] ([[345_igp_interior_gateway_protocol_rip_ospf|Interior Gateway Protocol]])**: 하나의 회사([[344_as_autonomous_system_asn|AS]]) '내부'에서 지도를 그릴 때 쓴다. (예: KT 내부, 삼성전자 내부). 길을 빠르고 정교하게 찾는 데(속도) 미쳐있는 [[295_protocol_field_tcp_udp_icmp|프로토콜]]들이다. **([[351_rip_routing_information_protocol_distance_vector_hop|RIP]], [[357_ospf_open_shortest_path_first_overview|OSPF]], [[355_eigrp_enhanced_igrp_dual_algorithm|EIGRP]])**
+- **[[346_egp_exterior_gateway_protocol_bgp|EGP]] ([[346_egp_exterior_gateway_protocol_bgp|Exterior Gateway Protocol]])**: 회사와 회사(AS와 [[344_as_autonomous_system_asn|AS]]) '사이'를 연결할 때 쓴다. (예: KT와 SKT를 연결). 여기선 속도보다 "저 회사로는 우리 비밀 트래픽을 절대 안 보낼 거야" 같은 '정치적인 [[164_policy|정책]]([[164_policy|Policy]])'이 훨씬 중요하다. **(BGP가 유일무이하다)**
 
-### 3. 길을 찾는 방식에 따른 분류 (Distance Vector vs Link State)
-이건 IGP(회사 내부망) 안에서 길을 찾는 두 가지 알고리즘 철학이다.
-- **거리 벡터 (Distance Vector)**: "옆집 라우터가 여기가 빠르대! 그럼 나도 그런 줄 알아야지!" 하고 남의 말을 무비판적으로 믿고 소문을 퍼뜨리는 방식. (시야가 좁음). **(RIP, EIGRP)**
-- **링크 상태 (Link State)**: "남의 말 안 믿어! 내가 우리 동네 전체 지도(토폴로지)를 직접 다 그려보고, 내가 직접 수학 공식(SPF) 돌려서 길을 찾을 거야!" 하는 똑똑하지만 계산이 복잡한 방식. **(OSPF, IS-IS)**
+### 3. 길을 찾는 방식에 따른 [[104_classification_analysis|분류]] ([[347_distance_vector_routing_bellman_ford|Distance Vector]] vs [[348_link_state_routing_dijkstra_spf|Link State]])
+이건 [[345_igp_interior_gateway_protocol_rip_ospf|IGP]](회사 내부망) 안에서 길을 찾는 두 가지 [[001_algorithm_definition|알고리즘]] 철학이다.
+- **[[347_distance_vector_routing_bellman_ford|거리 벡터]] ([[347_distance_vector_routing_bellman_ford|Distance Vector]])**: "옆집 라우터가 여기가 빠르대! 그럼 나도 그런 줄 알아야지!" 하고 남의 말을 무비판적으로 믿고 소문을 퍼뜨리는 방식. (시야가 좁음). **([[351_rip_routing_information_protocol_distance_vector_hop|RIP]], [[355_eigrp_enhanced_igrp_dual_algorithm|EIGRP]])**
+- **[[348_link_state_routing_dijkstra_spf|링크 상태]] ([[348_link_state_routing_dijkstra_spf|Link State]])**: "남의 말 안 믿어! 내가 우리 동네 전체 지도(토폴로지)를 직접 다 그려보고, 내가 직접 수학 공식([[495_spf_sender_policy_framework|SPF]]) 돌려서 길을 찾을 거야!" 하는 똑똑하지만 계산이 복잡한 방식. **([[357_ospf_open_shortest_path_first_overview|OSPF]], [[363_is_is_intermediate_system_clnp_telecom|IS-IS]])**
 
 ```text
  ┌─────────────────────────────────────────────────────────────┐
@@ -70,48 +70,48 @@ categories = "studynote-network"
  └─────────────────────────────────────────────────────────────┘
 ```
 
-- **📢 섹션 요약 비유**: ** 라우터들은 서로 **"우리 동네 뒷산에 지름길 하나 뚫렸대!"**라고 쉴 새 없이 카톡을 주고받으며 수다를 떠는 마을 아주머니들과 같습니다. 이 수다(동적 라우팅) 덕분에 온 동네 배달원들은 길이 막힐 때마다 가장 빠른 우회로를 귀신같이 찾아냅니다.
+- **📢 섹션 요약 비유**: ** 라우터들은 서로 **"우리 동네 뒷산에 지름길 하나 뚫렸대!"**라고 쉴 새 없이 카톡을 주고받으며 수다를 떠는 마을 아주머니들과 같습니다. 이 수다(동적 [[339_routing_overview_best_path_selection|라우팅]]) 덕분에 온 동네 배달원들은 길이 막힐 때마다 가장 빠른 우회로를 귀신같이 찾아냅니다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-동적 라우팅을 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. 정적 라우팅이 기반 조건을 만든다면, 동적 라우팅은 그 위에서 핵심 메커니즘을 구현하고, 메트릭은 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 수렴 속도과 확장성에 어떤 차이를 만드는지 비교하는 것이 중요하다.
+동적 [[339_routing_overview_best_path_selection|라우팅]]을 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [[340_static_routing_default_route_0_0_0_0|정적 라우팅]]이 기반 조건을 만든다면, 동적 [[339_routing_overview_best_path_selection|라우팅]]은 그 위에서 핵심 메커니즘을 구현하고, [[342_routing_metric_hop_bandwidth_delay|메트릭]]은 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 수렴 속도과 확장성에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
 | 관점 | 선행 개념 | 현재 개념 | 확장 개념 |
 |:---|:---|:---|:---|
-| 초점 | 정적 라우팅의 기반 정리 | 동적 라우팅의 핵심 동작 | 메트릭의 확장 적용 |
+| 초점 | [[340_static_routing_default_route_0_0_0_0|정적 라우팅]]의 기반 정리 | 동적 [[339_routing_overview_best_path_selection|라우팅]]의 핵심 동작 | [[342_routing_metric_hop_bandwidth_delay|메트릭]]의 확장 적용 |
 | 자원 관점 | 기본 조건 확보 | 수렴 속도 최적화 | 규모와 범위 확대 |
-| 판단 포인트 | 도입 가능성 확인 | 현재 메커니즘의 적합성 판단 | 운영·확장 전략 연결 |
+| 판단 포인트 | 도입 가능성 [[396_validation|확인]] | 현재 메커니즘의 적합성 판단 | 운영·확장 [[268_strategy_pattern|전략]] 연결 |
 
-- **📢 섹션 요약 비유**: 동적 라우팅은 비슷한 기술들 사이의 차선을 구분하는 분기점과 같다. 어디서 갈라지는지 알아야 헷갈리지 않는다.
+- **📢 섹션 요약 비유**: 동적 [[339_routing_overview_best_path_selection|라우팅]]은 비슷한 기술들 사이의 차선을 구분하는 분기점과 같다. 어디서 갈라지는지 알아야 헷갈리지 않는다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서는 동적 라우팅을 단독 개념으로 외우기보다 어떤 병목을 줄이기 위한 선택인지 먼저 따져야 한다. 특히 정적 라우팅 수준의 기본 대책으로 충분한지, 아니면 동적 라우팅이 제공하는 메커니즘이 실제로 필요한지 구분해야 한다. 이후 확장 단계에서는 메트릭와 같은 후속 기술, 자동화 체계, 표준 호환성까지 함께 검토해야 한다.
+실무에서는 동적 [[339_routing_overview_best_path_selection|라우팅]]을 단독 개념으로 외우기보다 어떤 병목을 줄이기 위한 선택인지 먼저 따져야 한다. 특히 [[340_static_routing_default_route_0_0_0_0|정적 라우팅]] 수준의 기본 대책으로 충분한지, 아니면 동적 [[339_routing_overview_best_path_selection|라우팅]]이 제공하는 메커니즘이 실제로 필요한지 구분해야 한다. 이후 확장 단계에서는 [[342_routing_metric_hop_bandwidth_delay|메트릭]]와 같은 후속 기술, 자동화 체계, 표준 호환성까지 함께 검토해야 한다.
 
-### 실무 체크리스트
+### 실무 [[435_checklist_based_testing|체크리스트]]
 
 1. 현재 문제의 핵심이 수렴 속도 부족인지, 확장성 악화인지 먼저 분리한다.
-2. 동적 라우팅가 추가하는 복잡도와 운영 이득이 균형을 이루는지 확인한다.
-3. 도입 후에는 인접 기술인 메트릭와의 연계 방식을 함께 검증한다.
+2. 동적 [[339_routing_overview_best_path_selection|라우팅]]가 추가하는 복잡도와 운영 이득이 균형을 이루는지 [[396_validation|확인]]한다.
+3. 도입 후에는 인접 기술인 [[342_routing_metric_hop_bandwidth_delay|메트릭]]와의 연계 방식을 함께 검증한다.
 
-### 안티패턴
+### [[128_water_scrum_fall_anti_pattern|안티패턴]]
 
-- 동적 라우팅의 장점만 보고 트래픽 패턴이나 운영 비용을 무시한 채 과도 도입하는 설계
-- 정적 라우팅와의 경계를 정리하지 않아 중복 투자나 정책 충돌을 만드는 설계
+- 동적 [[339_routing_overview_best_path_selection|라우팅]]의 장점만 보고 트래픽 패턴이나 운영 비용을 무시한 채 과도 도입하는 설계
+- [[340_static_routing_default_route_0_0_0_0|정적 라우팅]]와의 경계를 정리하지 않아 중복 투자나 [[164_policy|정책]] 충돌을 만드는 설계
 
-- **📢 섹션 요약 비유**: 동적 라우팅을 실제로 쓰는 판단은 도구 상자를 고르는 일과 비슷하다. 좋아 보이는 도구보다 지금 문제에 맞는 도구가 중요하다.
+- **📢 섹션 요약 비유**: 동적 [[339_routing_overview_best_path_selection|라우팅]]을 실제로 쓰는 판단은 도구 상자를 고르는 일과 비슷하다. 좋아 보이는 도구보다 지금 문제에 맞는 도구가 중요하다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-동적 라우팅은 라우팅과 경로 제어를 이해할 때 핵심 축을 잡아 주는 개념이다. 올바르게 적용하면 수렴 속도 개선과 구조적 단순화에 기여하지만, 조건을 잘못 잡으면 오히려 복잡도와 운영 부담이 커질 수 있다. 앞으로는 메트릭, 의도 기반 라우팅, 자동화 운영과의 결합을 통해 더 정교하게 발전할 가능성이 크다. 따라서 이 개념은 정의 자체보다 “언제 쓰고 언제 다른 방법으로 넘길 것인가”의 관점으로 기억하는 것이 좋다. 향후에는 의도 기반 라우팅 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
+동적 [[339_routing_overview_best_path_selection|라우팅]]은 [[339_routing_overview_best_path_selection|라우팅]]과 경로 제어를 이해할 때 핵심 축을 잡아 주는 개념이다. 올바르게 적용하면 수렴 속도 개선과 구조적 단순화에 기여하지만, 조건을 잘못 잡으면 오히려 복잡도와 운영 부담이 커질 수 있다. 앞으로는 [[342_routing_metric_hop_bandwidth_delay|메트릭]], 의도 기반 [[339_routing_overview_best_path_selection|라우팅]], 자동화 운영과의 결합을 통해 더 정교하게 발전할 가능성이 크다. 따라서 이 개념은 정의 자체보다 “언제 쓰고 언제 다른 방법으로 넘길 것인가”의 관점으로 기억하는 것이 좋다. 향후에는 의도 기반 [[339_routing_overview_best_path_selection|라우팅]] 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
 
-- **📢 섹션 요약 비유**: 동적 라우팅은 큰 흐름 속에서 기억해야 오래 남는다. 지금의 장점과 다음 확장 방향을 같이 보면 전체 그림이 선명해진다.
+- **📢 섹션 요약 비유**: 동적 [[339_routing_overview_best_path_selection|라우팅]]은 큰 흐름 속에서 기억해야 오래 남는다. 지금의 장점과 다음 확장 방향을 같이 보면 전체 그림이 선명해진다.
 
 ---
 
@@ -119,10 +119,10 @@ categories = "studynote-network"
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| 정적 라우팅 | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
-| 라우팅 테이블 (Routing Table) | 패킷 전달 의사결정의 기준이 된다. |
-| 메트릭 (Metric) | 최적 경로를 선택하는 비교 척도다. |
-| 메트릭 | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
+| [[340_static_routing_default_route_0_0_0_0|정적 라우팅]] | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
+| [[339_routing_overview_best_path_selection|라우팅]] 테이블 ([[339_routing_overview_best_path_selection|Routing]] Table) | 패킷 전달 의사결정의 기준이 된다. |
+| [[342_routing_metric_hop_bandwidth_delay|메트릭]] ([[342_routing_metric_hop_bandwidth_delay|Metric]]) | 최적 경로를 선택하는 비교 척도다. |
+| [[342_routing_metric_hop_bandwidth_delay|메트릭]] | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -136,7 +136,7 @@ categories = "studynote-network"
     └──▶ [확장 B: 의도 기반 라우팅]
 ```
 
-동적 라우팅는 정적 라우팅에서 출발해 현재 메커니즘을 정교화하고, 이후 메트릭와 의도 기반 라우팅 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
+동적 [[339_routing_overview_best_path_selection|라우팅]]는 [[340_static_routing_default_route_0_0_0_0|정적 라우팅]]에서 출발해 현재 메커니즘을 정교화하고, 이후 [[342_routing_metric_hop_bandwidth_delay|메트릭]]와 의도 기반 [[339_routing_overview_best_path_selection|라우팅]] 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

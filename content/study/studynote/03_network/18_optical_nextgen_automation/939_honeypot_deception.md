@@ -8,23 +8,23 @@ categories = "studynote-network"
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 포니팟 허니넷 유인 분리망 분석 시스템 /…는 광통신·차세대·자동화에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.
-> 2. **가치**: 포니팟 허니넷 유인 분리망 분석 시스템 /…를 이해하면 전송 용량과 자동 제어성 사이의 균형을 더 정확히 볼 수 있다.
+> 1. **본질**: 포니팟 [[695_honey_net|허니넷]] 유인 분리망 분석 시스템 /…는 광통신·차세대·자동화에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.
+> 2. **가치**: 포니팟 [[695_honey_net|허니넷]] 유인 분리망 분석 시스템 /…를 이해하면 전송 용량과 자동 제어성 사이의 균형을 더 정확히 볼 수 있다.
 > 3. **판단 포인트**: 설계 시에는 개념 자체보다 적용 조건, 운영 복잡도, 인접 기술과의 경계를 함께 판단해야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 허니팟 (Honeypot)은 의도적으로 취약점을 노출시켜 공격자의 침입을 유도하는 가짜 시스템이며, 허니넷 (Honeynet)은 다수의 허니팟을 연동하여 구성한 가상의 기만 네트워크다. 이를 포괄하는 사이버 기만 기술 (Deception Technology)은 공격자가 식별할 수 없는 가짜 식별자(Decoy, Breadcrumb 등)를 분산 배치하여 공격 표적을 교란하고 위협 인텔리전스(CTI, Cyber Threat Intelligence)를 확보하는 시스템 설계 방법론이다.
+- **개념**: [[694_honey_pot|허니팟]] (Honeypot)은 의도적으로 취약점을 노출시켜 공격자의 침입을 유도하는 가짜 시스템이며, [[695_honey_net|허니넷]] (Honeynet)은 다수의 [[694_honey_pot|허니팟]]을 연동하여 구성한 가상의 기만 네트워크다. 이를 포괄하는 사이버 [[693_deception_technology|기만 기술]] ([[693_deception_technology|Deception Technology]])은 공격자가 [[655_ir_detection_analysis|식별]]할 수 없는 가짜 [[289_identification_flags_fragmentation_offset|식별자]](Decoy, Breadcrumb 등)를 [[136_variance|분산]] 배치하여 공격 표적을 교란하고 위협 인텔리전스(CTI, Cyber [[746_ti_threat_intelligence_ioc_stix_taxii|Threat Intelligence]])를 확보하는 시스템 설계 방법론이다.
 
-- **필요성**: 전통적인 경계 방어(Perimeter Defense) 모델인 방화벽 (Firewall)이나 IDS (Intrusion Detection System)는 이미 내부망에 침투한 공격자의 측면 이동(Lateral Movement)을 탐지하기 어렵다. 공격자가 일단 권한을 탈취하면 합법적인 사용자로 위장하기 때문이다. 따라서 방어자는 공격자가 필연적으로 수행해야 하는 '탐색 및 스캐닝' 단계에서 가짜 정보를 제공하여 공격을 낭비시키고, 침해 지표 (IoC, Indicator of Compromise)를 조기에 확보할 수 있는 지능형 유인 분리망이 필요해졌다.
+- **필요성**: 전통적인 경계 방어(Perimeter Defense) 모델인 [[690_firewall_generation_evolution|방화벽]] ([[690_firewall_generation_evolution|Firewall]])이나 [[601_ids_ips_syscall_tracing|IDS]] ([[994_ids_ips_intrusion_detection_prevention_false_positive|Intrusion Detection System]])는 이미 내부망에 침투한 공격자의 측면 이동(Lateral Movement)을 탐지하기 어렵다. 공격자가 일단 권한을 탈취하면 합법적인 사용자로 위장하기 때문이다. 따라서 방어자는 공격자가 필연적으로 수행해야 하는 '탐색 및 스캐닝' 단계에서 가짜 정보를 제공하여 공격을 낭비시키고, 침해 지표 (IoC, Indicator of Compromise)를 조기에 확보할 수 있는 지능형 유인 분리망이 필요해졌다.
 
 - **💡 비유**: 마치 은행에 진짜 금고 외에 정교한 가짜 금고들을 여러 개 만들어두고, 도둑이 가짜 금고의 잠금장치를 해제하느라 시간을 허비하는 동안 경찰이 출동하여 도둑의 수법을 채증하는 것과 같습니다.
 
-- **등장 배경 및 발전 과정**: 기존 방어 체계는 수많은 오탐 (False Positive) 경고 속에서 진짜 위협을 찾기 위한 리소스 낭비가 심했다. 허니팟의 알람은 일반 사용자가 접근할 이유가 없는 시스템에서 발생하므로 '오탐률 0%'에 수렴하는 고신뢰 경고(High-Fidelity Alert)를 제공한다. 초기에는 단일 서버 형태의 저상호작용(Low-Interaction) 허니팟에 불과했으나, 가상화 기술의 발전과 함께 고상호작용(High-Interaction) 시스템으로 발전했으며, 현재는 SDN (Software Defined Networking) 컨트롤러와 연동되어 공격자의 트래픽을 실시간으로 격리망(Quarantine Network)으로 리다이렉션하는 지능형 통제 모델로 진화했다.
+- **등장 배경 및 발전 과정**: 기존 방어 체계는 수많은 오탐 (False Positive) 경고 속에서 진짜 위협을 찾기 위한 리소스 낭비가 심했다. [[694_honey_pot|허니팟]]의 알람은 일반 사용자가 접근할 이유가 없는 시스템에서 발생하므로 '오탐률 0%'에 수렴하는 고신뢰 경고(High-Fidelity Alert)를 제공한다. [[459_quic_fec_forward_error_correction|초기]]에는 단일 서버 형태의 저상호작용(Low-Interaction) [[694_honey_pot|허니팟]]에 불과했으나, [[015_virtualization|가상화]] 기술의 발전과 함께 고상호작용(High-Interaction) 시스템으로 발전했으며, 현재는 [[633_sdn_whitebox|SDN]] ([[215_sdn_software_defined_networking_openflow|Software Defined Networking]]) 컨트롤러와 연동되어 공격자의 트래픽을 실시간으로 격리망(Quarantine Network)으로 리다이렉션하는 지능형 통제 모델로 진화했다.
 
-기존 경계 보안 모델의 한계와 사이버 기만 기술이 개입하는 지점을 킬체인 (Kill Chain) 관점에서 시각화하면 다음과 같다. 공격자가 내부망에 진입한 후의 정찰 단계에서 기만 기술이 어떻게 작동하는지 확인할 수 있다.
+기존 경계 보안 모델의 한계와 사이버 [[693_deception_technology|기만 기술]]이 개입하는 지점을 킬체인 (Kill Chain) 관점에서 시각화하면 다음과 같다. 공격자가 내부망에 진입한 후의 정찰 단계에서 [[693_deception_technology|기만 기술]]이 어떻게 작동하는지 확인할 수 있다.
 
 ```text
   ┌─────────────────────────────────────────────────────────────┐
@@ -54,9 +54,9 @@ categories = "studynote-network"
   └─────────────────────────────────────────────────────────────┘
 ```
 
-**[다이어그램 해설]** 전통적인 방어는 킬체인의 앞단인 외부 침투 차단(1, 2단계)에 집중하지만, 제로데이 위협이나 사회공학적 기법 앞에서는 결국 돌파당하기 마련이다. 사이버 기만 기술은 공격자가 내부망에 들어왔음을 가정하고(Assume Breach), 내부 정찰 단계(3단계)에서 가짜 정보(Breadcrumb)와 가짜 자산(Honeypot)을 제공한다. 정상적인 내부 직원은 숨겨진 가짜 서버에 접근할 이유가 없으므로, 허니팟에 대한 접근 시도는 그 자체로 악의적 행위의 확정적 증거(True Positive)가 되며 즉각적인 격리 조치로 이어진다.
+**[다이어그램 해설]** 전통적인 방어는 킬체인의 앞단인 외부 침투 차단(1, 2단계)에 집중하지만, [[761_zero_day|제로데이]] 위협이나 사회공학적 기법 앞에서는 결국 돌파당하기 마련이다. 사이버 [[693_deception_technology|기만 기술]]은 공격자가 내부망에 들어왔음을 가정하고(Assume Breach), 내부 정찰 단계(3단계)에서 가짜 정보(Breadcrumb)와 가짜 자산(Honeypot)을 제공한다. 정상적인 내부 직원은 숨겨진 가짜 서버에 접근할 이유가 없으므로, [[694_honey_pot|허니팟]]에 대한 접근 시도는 그 자체로 악의적 행위의 확정적 증거(True Positive)가 되며 즉각적인 격리 조치로 이어진다.
 
-- **📢 섹션 요약 비유**: 도둑이 집에 들어오는 것을 막는 두꺼운 철문(방화벽) 대신, 집 안에 들어온 도둑이 진짜 보석 대신 가짜 보석함을 열도록 유도하는 투명한 함정(기만 기술)과 같습니다.
+- **📢 섹션 요약 비유**: 도둑이 집에 들어오는 것을 막는 두꺼운 철문([[690_firewall_generation_evolution|방화벽]]) 대신, 집 안에 들어온 도둑이 진짜 보석 대신 가짜 보석함을 열도록 유도하는 투명한 함정([[693_deception_technology|기만 기술]])과 같습니다.
 
 ---
 
@@ -66,13 +66,13 @@ categories = "studynote-network"
 
 | 요소명 | 역할 | 내부 동작 | 관련 기술 | 비유 |
 |:---|:---|:---|:---|:---|
-| **브레드크럼 (Breadcrumb)** | 공격자를 유인하는 가짜 단서 | 엔드포인트 메모리, 레지스트리, 파일시스템에 캐시된 가짜 자격증명 삽입 | LSASS 인젝션, 미끼 파일 | 헨젤과 그레텔의 빵 부스러기 |
-| **디코이 (Decoy) / 허니팟** | 실제 시스템으로 위장한 함정 | 열린 포트, 취약한 서비스(SMB, RDP) 에뮬레이션 | 고/저 상호작용 에뮬레이터 | 진짜처럼 보이는 가짜 금고 |
-| **허니넷 컨트롤러 (Honeynet Controller)** | 트래픽 제어 및 분석 | 허니팟으로 향하는 트래픽 캡처, NAT 리다이렉션, 세션 모니터링 | SDN (Software Defined Networking), pcap | 감시 카메라 통제실 |
-| **유인망 (Quarantine/Decoy Network)** | 실제 망과 분리된 격리 환경 | 공격자 트래픽을 실제 망과 물리적/논리적으로 완벽히 차단 (VLAN 분리) | VLAN (Virtual LAN), 마이크로세그멘테이션 | 감옥으로 이어지는 가짜 복도 |
-| **CTI (Cyber Threat Intelligence) 엔진** | 공격자 TTPs 분석 | 캡처된 페이로드, 키스트로크, 드롭퍼 등을 분석하여 IoC 생성 | 샌드박스 (Sandbox), MITRE ATT&CK | 지문 및 족적 분석 장비 |
+| **브레드크럼 (Breadcrumb)** | 공격자를 유인하는 가짜 단서 | 엔드포인트 메모리, [[235_registry_immutable_tag|레지스트리]], [[501_file_definition_logical_record|파일]]시스템에 캐시된 가짜 자격증명 삽입 | LSASS [[480_injection|인젝션]], 미끼 [[501_file_definition_logical_record|파일]] | 헨젤과 그레텔의 빵 부스러기 |
+| **디코이 (Decoy) / [[694_honey_pot|허니팟]]** | 실제 시스템으로 위장한 함정 | 열린 [[446_port_and_bus|포트]], 취약한 [[090_service_kubernetes_network_load_balancing|서비스]](SMB, RDP) 에뮬레이션 | 고/저 상호작용 에뮬레이터 | 진짜처럼 보이는 가짜 금고 |
+| **[[695_honey_net|허니넷]] 컨트롤러 (Honeynet Controller)** | 트래픽 제어 및 분석 | [[694_honey_pot|허니팟]]으로 향하는 트래픽 캡처, [[307_nat_network_address_translation_router_principles|NAT]] 리다이렉션, [[160_session_controlling_terminal|세션]] 모니터링 | [[633_sdn_whitebox|SDN]] ([[215_sdn_software_defined_networking_openflow|Software Defined Networking]]), pcap | 감시 카메라 통제실 |
+| **유인망 (Quarantine/Decoy Network)** | 실제 망과 분리된 격리 환경 | 공격자 트래픽을 실제 망과 물리적/논리적으로 완벽히 차단 ([[224_vlan_virtual_lan_broadcast_domain|VLAN]] 분리) | [[224_vlan_virtual_lan_broadcast_domain|VLAN]] ([[224_vlan_virtual_lan_broadcast_domain|Virtual LAN]]), 마이크로세그멘테이션 | 감옥으로 이어지는 가짜 복도 |
+| **CTI (Cyber [[746_ti_threat_intelligence_ioc_stix_taxii|Threat Intelligence]]) 엔진** | 공격자 TTPs 분석 | 캡처된 페이로드, 키스트로크, [[728_dropper|드롭퍼]] 등을 분석하여 IoC [[087_process_state_transition|생성]] | 샌드박스 (Sandbox), [[642_mitre_attack|MITRE ATT&CK]] | 지문 및 족적 분석 장비 |
 
-현대 허니넷은 단순히 정적 서버를 열어두는 것을 넘어, SDN (Software Defined Networking) 기반으로 공격자의 스캐닝 행위를 감지하는 순간 동적으로 가짜 IP와 토폴로지를 생성하여 공격자를 격리망으로 투명하게 리다이렉트 (Redirect) 시킨다.
+현대 [[695_honey_net|허니넷]]은 단순히 정적 서버를 열어두는 것을 넘어, [[633_sdn_whitebox|SDN]] ([[215_sdn_software_defined_networking_openflow|Software Defined Networking]]) 기반으로 공격자의 스캐닝 행위를 감지하는 순간 동적으로 가짜 IP와 토폴로지를 [[087_process_state_transition|생성]]하여 공격자를 격리망으로 투명하게 리다이렉트 (Redirect) 시킨다.
 
 ```text
   ┌───────────────────────────────────────────────────────────────────┐
@@ -108,35 +108,35 @@ categories = "studynote-network"
   └───────────────────────────────────────────────────────────────────┘
 ```
 
-**[다이어그램 해설]** 이 아키텍처의 핵심은 "투명한 리다이렉션 (Transparent Redirection)"이다. 과거의 허니팟은 공격자가 직접 해당 IP로 찾아와야 했지만, 지능형 모델에서는 SDN 스위치가 데이터 평면(Data Plane)에서 공격자의 패킷을 실시간 검사한다. 만약 패킷이 사전에 심어둔 브레드크럼(가짜 자격증명이나 허위 DB 연결 문자열)을 사용하거나 미사용 IP 대역을 스캔하는 경우, SDN 컨트롤러는 즉시 흐름(Flow) 규칙을 수정하여 공격자의 트래픽을 실제 프로덕션 망이 아닌 격리된 유인망 (Decoy Network)으로 보낸다. 공격자는 벤도, 핑 지연, MAC 주소 등에서 차이를 느끼지 못하므로 자신이 성공적으로 실제 망을 해킹하고 있다고 착각하게 되며, 이 과정에서 제로데이 익스플로잇이나 C&C 서버 주소 같은 핵심 인텔리전스가 방어자에게 고스란히 노출된다.
+**[다이어그램 해설]** 이 아키텍처의 핵심은 "투명한 리다이렉션 (Transparent Redirection)"이다. 과거의 [[694_honey_pot|허니팟]]은 공격자가 직접 해당 IP로 찾아와야 했지만, 지능형 모델에서는 [[633_sdn_whitebox|SDN]] 스위치가 [[001_dikw_pyramid|데이터]] 평면([[001_dikw_pyramid|Data]] Plane)에서 공격자의 패킷을 실시간 검사한다. 만약 패킷이 사전에 심어둔 브레드크럼(가짜 자격증명이나 허위 DB 연결 문자열)을 사용하거나 미사용 IP 대역을 스캔하는 경우, [[633_sdn_whitebox|SDN]] 컨트롤러는 즉시 흐름(Flow) 규칙을 수정하여 공격자의 트래픽을 실제 프로덕션 망이 아닌 격리된 유인망 (Decoy Network)으로 보낸다. 공격자는 벤도, 핑 [[015_지연_데이터_관점|지연]], [[673_mac_message_authentication_code|MAC]] 주소 등에서 차이를 느끼지 못하므로 자신이 성공적으로 실제 망을 해킹하고 있다고 착각하게 되며, 이 과정에서 [[761_zero_day|제로데이]] 익스플로잇이나 C&C 서버 주소 같은 핵심 인텔리전스가 방어자에게 고스란히 노출된다.
 
 ### 심층 동작 원리: 고상호작용 vs 저상호작용
 
-허니팟은 공격자와 상호작용하는 수준에 따라 저상호작용 (Low-Interaction)과 고상호작용 (High-Interaction)으로 나뉜다.
+[[694_honey_pot|허니팟]]은 공격자와 상호작용하는 수준에 따라 저상호작용 (Low-Interaction)과 고상호작용 (High-Interaction)으로 나뉜다.
 
-1. **저상호작용 허니팟 (Low-Interaction)**: 실제 운영체제를 구동하지 않고, 파이썬 등으로 특정 프로토콜(예: SSH, FTP, Telnet)의 네트워크 스택과 응답 메시지만 에뮬레이션한다.
+1. **저상호작용 [[694_honey_pot|허니팟]] (Low-Interaction)**: 실제 운영체제를 구동하지 않고, 파이썬 등으로 특정 [[295_protocol_field_tcp_udp_icmp|프로토콜]](예: [[538_ssh_vs_telnet_secure_remote|SSH]], [[482_ftp_file_transfer_protocol|FTP]], Telnet)의 네트워크 스택과 응답 메시지만 에뮬레이션한다.
    - *동작*: 공격자가 `SSH root@ip`로 접속하면 비밀번호 프롬프트를 띄우고, 어떤 패스워드를 입력하든 'Access Denied'를 반환하며 입력된 패스워드 사전만 로깅한다.
    - *특징*: 자원 소모가 매우 적어 수천 개를 배포할 수 있지만, 복잡한 페이로드를 실행하려는 해커에게는 즉각 가짜임이 발각된다.
 
-2. **고상호작용 허니팟 (High-Interaction)**: 가상 머신 (VM) 기반으로 실제 OS와 애플리케이션(예: Windows Server, Oracle DB)을 완벽하게 구동한다.
-   - *동작*: 공격자가 익스플로잇에 성공하면 실제 쉘(Shell)을 획득하고 루트 권한을 얻는다. 시스템 내부에는 가짜 기밀 문서, 가짜 고객 DB가 들어있다. 공격자가 악성코드를 다운로드하여 실행하면, 하이퍼바이저 단에서 VMI (Virtual Machine Introspection) 기술을 이용해 메모리 덤프와 시스템 콜을 외부로 은밀히 추출한다.
-   - *특징*: 제로데이 악성코드 채증에 필수적이나, 공격자가 허니팟을 좀비 PC로 활용하여 다른 외부 시스템을 공격(Outbound Attack)할 위험이 있으므로 엄격한 아웃바운드 방화벽 통제가 동반되어야 한다.
+2. **고상호작용 [[694_honey_pot|허니팟]] (High-Interaction)**: 가상 머신 ([[598_vm_migration_nic|VM]]) 기반으로 실제 OS와 애플리케이션(예: Windows Server, [[188_pl_sql_t_sql_procedural|Oracle]] DB)을 완벽하게 구동한다.
+   - *동작*: 공격자가 익스플로잇에 성공하면 실제 쉘([[044_shell|Shell]])을 획득하고 루트 권한을 얻는다. 시스템 내부에는 가짜 기밀 문서, 가짜 고객 DB가 들어있다. 공격자가 악성코드를 다운로드하여 실행하면, [[054_hypervisor|하이퍼바이저]] 단에서 [[099_vmi_vendor_managed_inventory|VMI]] ([[598_vm_migration_nic|Virtual Machine]] [[496_graphql_introspection|Introspection]]) 기술을 이용해 메모리 덤프와 시스템 콜을 외부로 은밀히 추출한다.
+   - *특징*: [[761_zero_day|제로데이]] 악성코드 채증에 필수적이나, 공격자가 [[694_honey_pot|허니팟]]을 좀비 PC로 활용하여 다른 외부 시스템을 공격(Outbound Attack)할 위험이 있으므로 엄격한 아웃바운드 [[690_firewall_generation_evolution|방화벽]] 통제가 동반되어야 한다.
 
-- **📢 섹션 요약 비유**: 저상호작용 허니팟이 적의 총알만 받아내는 짚단 허수아비라면, 고상호작용 허니팟은 피가 흐르고 대화도 가능한 고도화된 안드로이드 스파이와 같습니다.
+- **📢 섹션 요약 비유**: 저상호작용 [[694_honey_pot|허니팟]]이 적의 총알만 받아내는 짚단 허수아비라면, 고상호작용 [[694_honey_pot|허니팟]]은 피가 흐르고 대화도 가능한 고도화된 안드로이드 스파이와 같습니다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-| 비교 항목 | IDS/IPS (침입 탐지/방지 시스템) | Deception Technology (사이버 기만 기술) | 판단 포인트 |
+| 비교 항목 | [[601_ids_ips_syscall_tracing|IDS]]/[[695_ips_network_intrusion_prevention_system|IPS]] (침입 탐지/방지 시스템) | [[693_deception_technology|Deception Technology]] (사이버 [[693_deception_technology|기만 기술]]) | 판단 포인트 |
 |:---|:---|:---|:---|
-| **탐지 원리** | 시그니처 (Signature) 및 이상 행위 기반 | 침투 후 접근 유도 (Breadcrumb/Decoy) | 제로데이 탐지 능력 |
+| **탐지 원리** | 시그니처 (Signature) 및 이상 행위 기반 | 침투 후 접근 유도 (Breadcrumb/Decoy) | [[761_zero_day|제로데이]] 탐지 능력 |
 | **오탐률 (False Positive)** | 높음 (정상 트래픽을 공격으로 오인) | **매우 낮음 (접근 자체가 100% 비정상)** | 관제 요원 피로도 (Alert Fatigue) |
 | **탐지 시점** | 경계망 진입 시점 | 내부망 체류 및 횡적 이동 시점 | 방어 종심의 깊이 |
 | **공격자 방해 효과** | 연결 차단 (공격자가 즉시 인지하여 우회) | 시간 낭비, 위협 정보 노출 유도 (은밀함) | 방어자의 정보 우위 확보 |
-| **자원 소모** | 네트워크 트래픽 전체 딥 패킷 인스펙션(DPI) | 분산형 에이전트 및 유휴 IP 공간 활용 | 시스템 부하 (Overhead) |
+| **자원 소모** | 네트워크 트래픽 전체 딥 패킷 [[161_inspection_formal_review|인스펙션]](DPI) | [[136_variance|분산]]형 에이전트 및 유휴 IP 공간 활용 | 시스템 부하 (Overhead) |
 
-기존의 탐지 시스템이 "아는 공격(Known Threat)"을 걸러내는 거름망이라면, 기만 기술은 "모르는 공격(Unknown Threat)"을 유인하는 자석이다. IDS는 대용량 트래픽을 실시간으로 분석해야 하므로 병목이 발생하지만, 기만 기술은 가짜 자산으로 향하는 트래픽만 모니터링하므로 시스템 부하가 혁신적으로 낮다.
+기존의 탐지 시스템이 "아는 공격(Known Threat)"을 걸러내는 거름망이라면, [[693_deception_technology|기만 기술]]은 "모르는 공격(Unknown Threat)"을 유인하는 자석이다. IDS는 대용량 트래픽을 실시간으로 분석해야 하므로 병목이 발생하지만, [[693_deception_technology|기만 기술]]은 가짜 자산으로 향하는 트래픽만 모니터링하므로 시스템 부하가 혁신적으로 낮다.
 
 ```text
   ┌───────────────────────────────────────────────────────────────────┐
@@ -159,19 +159,19 @@ categories = "studynote-network"
   └───────────────────────────────────────────────────────────────────┘
 ```
 
-**[다이어그램 해설]** 저상호작용 허니팟은 시스템 리소스(RAM, CPU)를 거의 차지하지 않아 IP 주소 수만 개를 한 대의 서버로 커버할 수 있을 정도로 확장성이 뛰어나다. 주로 포트 스캔을 수행하는 자동화된 웜(Worm)이나 스크립트 키디를 조기 탐지하는 레이더 역할을 한다. 반면 고상호작용 허니팟은 실제 운영체제를 할당해야 하므로 리소스 비용이 크고, 해커가 시스템을 완전히 장악할 수 있어 다른 곳을 공격하는 발판(Pivot)으로 악용될 리스크가 있다. 따라서 실무에서는 네트워크 경계나 광범위한 서브넷에는 저상호작용 센서를 깔아 경보를 발생시키고, 해커가 더 깊이 침투하려 할 때만 고상호작용 허니넷으로 트래픽을 넘겨주는 하이브리드 (Hybrid) 아키텍처를 채택한다.
+**[다이어그램 해설]** 저상호작용 [[694_honey_pot|허니팟]]은 시스템 리소스(RAM, CPU)를 거의 차지하지 않아 IP 주소 수만 개를 한 대의 서버로 커버할 수 있을 정도로 확장성이 뛰어나다. 주로 [[446_port_and_bus|포트]] 스캔을 수행하는 자동화된 웜([[590_worm|Worm]])이나 스크립트 키디를 조기 탐지하는 레이더 역할을 한다. 반면 고상호작용 [[694_honey_pot|허니팟]]은 실제 운영체제를 할당해야 하므로 리소스 비용이 크고, 해커가 시스템을 완전히 장악할 수 있어 다른 곳을 공격하는 발판([[037_pivot|Pivot]])으로 악용될 [[096_risk_non_risk_architecture_evaluation_flaws|리스크]]가 있다. 따라서 실무에서는 네트워크 경계나 광범위한 서브넷에는 저상호작용 센서를 깔아 경보를 발생시키고, 해커가 더 깊이 침투하려 할 때만 고상호작용 [[695_honey_net|허니넷]]으로 트래픽을 넘겨주는 하이브리드 (Hybrid) 아키텍처를 채택한다.
 
-- **📢 섹션 요약 비유**: IDS가 쏟아지는 모래 속에서 바늘(시그니처)을 찾는 체라면, 기만 기술은 강력한 자석(유인물)을 놓아두고 바늘이 스스로 들러붙게 만드는 역발상과 같습니다.
+- **📢 섹션 요약 비유**: IDS가 쏟아지는 모래 속에서 바늘(시그니처)을 찾는 체라면, [[693_deception_technology|기만 기술]]은 강력한 자석(유인물)을 놓아두고 바늘이 스스로 들러붙게 만드는 역발상과 같습니다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-1. **시나리오 — 랜섬웨어의 횡적 이동(Lateral Movement) 조기 차단**: 최근 랜섬웨어는 AD (Active Directory) 서버를 장악하여 전체 사내망에 악성코드를 일괄 배포하는 방식을 쓴다. 아키텍트는 임직원 PC의 브라우저 쿠키나 레지스트리에 가짜 AD 관리자 계정(Breadcrumb)을 심어둔다. 랜섬웨어가 PC를 감염시키고 자격증명을 덤프하여(mimikatz 등 사용) 가짜 AD 계정으로 접속을 시도하는 순간, 100% 확정적 침해 지표(True Positive) 알람이 울리며 해당 PC의 네트워크 포트가 NAC (Network Access Control)에 의해 즉각 차단된다.
+1. **시나리오 — 랜섬웨어의 횡적 이동(Lateral Movement) 조기 차단**: 최근 랜섬웨어는 AD ([[548_active_directory|Active Directory]]) 서버를 장악하여 전체 사내망에 악성코드를 일괄 배포하는 방식을 쓴다. 아키텍트는 임직원 PC의 브라우저 쿠키나 [[235_registry_immutable_tag|레지스트리]]에 가짜 AD 관리자 계정(Breadcrumb)을 심어둔다. 랜섬웨어가 PC를 감염시키고 자격증명을 덤프하여([[602_mimikatz|mimikatz]] 등 사용) 가짜 AD 계정으로 접속을 시도하는 순간, 100% 확정적 침해 지표(True Positive) 알람이 울리며 해당 PC의 네트워크 [[446_port_and_bus|포트]]가 [[700_nac_network_access_control|NAC]] ([[226_nac_network_access_control_ieee_802_1x|Network Access Control]])에 의해 즉각 차단된다.
 
-2. **시나리오 — 하이브리드 클라우드 환경의 컨테이너 허니팟 배치**: 온프레미스와 AWS (Amazon Web Services)가 혼재된 환경에서 공격자는 클라우드 메타데이터 API 서비스를 노려 임시 크리덴셜을 탈취하려 한다. 방어자는 쿠버네티스(Kubernetes) 클러스터 내부에 가짜 파드(Pod)를 생성하고, 이 파드 내부의 환경변수에 가짜 AWS IAM Access Key를 노출시킨다. 해커가 이 가짜 키를 사용해 AWS 리소스에 접근하려 하면, AWS CloudTrail에 즉시 경고가 기록되고 공격자의 IP가 WAF에 자동 차단 등록된다.
+2. **시나리오 — [[009_hybrid_cloud|하이브리드 클라우드]] 환경의 [[561_container_based_deployment|컨테이너]] [[694_honey_pot|허니팟]] 배치**: 온프레미스와 AWS (Amazon Web Services)가 혼재된 환경에서 공격자는 클라우드 [[012_metadata|메타데이터]] [[014_api_posix|API]] [[090_service_kubernetes_network_load_balancing|서비스]]를 노려 임시 크리덴셜을 탈취하려 한다. 방어자는 [[196_kubernetes_k8s_container_orchestration|쿠버네티스]]([[205_kubernetes_container_orchestration|Kubernetes]]) 클러스터 내부에 가짜 [[085_pod_kubernetes_container_unit|파드]]([[198_pod_kubernetes_minimum_deployment_unit|Pod]])를 [[087_process_state_transition|생성]]하고, 이 [[085_pod_kubernetes_container_unit|파드]] 내부의 환경변수에 가짜 AWS [[526_iam|IAM]] Access Key를 노출시킨다. 해커가 이 가짜 키를 사용해 AWS 리소스에 접근하려 하면, AWS CloudTrail에 즉시 경고가 기록되고 공격자의 IP가 WAF에 자동 차단 등록된다.
 
-허니팟 구축 시 가장 주의해야 할 리스크 관리 및 의사결정 플로우를 시각화하면 다음과 같다. 공격자가 허니팟을 역이용하는 것을 막는 데이터 제어 (Data Control)가 핵심이다.
+[[694_honey_pot|허니팟]] 구축 시 가장 주의해야 할 [[096_risk_non_risk_architecture_evaluation_flaws|리스크]] 관리 및 의사결정 플로우를 시각화하면 다음과 같다. 공격자가 [[694_honey_pot|허니팟]]을 역이용하는 것을 막는 [[001_dikw_pyramid|데이터]] 제어 ([[001_dikw_pyramid|Data]] Control)가 핵심이다.
 
 ```text
   ┌───────────────────────────────────────────────────────────────────┐
@@ -202,14 +202,14 @@ categories = "studynote-network"
   └───────────────────────────────────────────────────────────────────┘
 ```
 
-**[다이어그램 해설]** 고상호작용 허니팟에서 가장 치명적인 사고는 '허니팟이 실제 공격의 경유지(Proxy)'가 되는 법적, 윤리적 문제다. 이를 막기 위해 허니넷과 외부망 사이에는 허니월 (Honeywall)이라는 특수 방화벽/IPS가 존재한다. 허니월은 인바운드 공격은 모두 허용하지만, 아웃바운드 트래픽은 극도로 정교하게 제어해야 한다. 공격자가 봇넷(Botnet) 마스터 서버와 소량의 명령을 주고받는 것은 위협 인텔리전스 수집을 위해 은밀히 통과시켜 주어야 하지만, 대량의 DDoS 공격 패킷을 쏘거나 내부의 진짜 데이터베이스로 핑(Ping)을 날리는 행위는 철저히 차단해야 한다. 이 "차단하되 해커가 눈치채지 못하게 조작하는 기술(예: 가짜 응답 생성)"이 고급 허니넷 엔지니어링의 핵심이다.
+**[다이어그램 해설]** 고상호작용 [[694_honey_pot|허니팟]]에서 가장 치명적인 사고는 '[[694_honey_pot|허니팟]]이 실제 공격의 경유지([[264_proxy_pattern_surrogate_access_control|Proxy]])'가 되는 법적, 윤리적 문제다. 이를 막기 위해 [[695_honey_net|허니넷]]과 외부망 사이에는 허니월 (Honeywall)이라는 특수 [[690_firewall_generation_evolution|방화벽]]/IPS가 존재한다. 허니월은 인바운드 공격은 모두 허용하지만, 아웃바운드 트래픽은 극도로 정교하게 제어해야 한다. 공격자가 [[990_botnet_cnc|봇넷]]([[990_botnet_cnc|Botnet]]) 마스터 서버와 소량의 명령을 주고받는 것은 위협 인텔리전스 수집을 위해 은밀히 통과시켜 주어야 하지만, 대량의 DDoS 공격 패킷을 쏘거나 내부의 진짜 [[001_dikw_pyramid|데이터]]베이스로 핑(Ping)을 날리는 행위는 철저히 차단해야 한다. 이 "차단하되 해커가 눈치채지 못하게 조작하는 기술(예: 가짜 응답 [[087_process_state_transition|생성]])"이 고급 [[695_honey_net|허니넷]] 엔지니어링의 핵심이다.
 
-### 도입 체크리스트
-- **기술적**: 허니팟의 MAC 주소, 호스트명, 핑 응답 패턴이 가상 머신(VMware, VirtualBox)의 기본값을 띄어 핑거프린팅(Fingerprinting)에 노출되지 않는가? (예: VBox 하드웨어 식별자 난독화 필요)
-- **운영·보안적**: 브레드크럼(가짜 자격증명)이 너무 많아 오히려 시스템 관리 도구(예: SCCM, Ansible)와 충돌하거나 관리 혼선을 초래하지 않는가? 알람 발생 시 격리망으로 리다이렉트하는 자동화 플레이북(SOAR)이 구현되어 있는가?
+### 도입 [[435_checklist_based_testing|체크리스트]]
+- **기술적**: [[694_honey_pot|허니팟]]의 [[673_mac_message_authentication_code|MAC]] 주소, 호스트명, 핑 응답 패턴이 가상 머신(VMware, VirtualBox)의 기본값을 띄어 핑거프린팅(Fingerprinting)에 노출되지 않는가? (예: VBox 하드웨어 [[289_identification_flags_fragmentation_offset|식별자]] [[528_obfuscation_anti_debugging_mobile|난독화]] 필요)
+- **운영·보안적**: 브레드크럼(가짜 자격증명)이 너무 많아 오히려 시스템 관리 도구(예: SCCM, [[198_ansible_os_configuration_management_ssh|Ansible]])와 충돌하거나 관리 혼선을 초래하지 않는가? 알람 발생 시 격리망으로 리다이렉트하는 자동화 [[637_playbook|플레이북]]([[745_soar_security_orchestration_automation_response|SOAR]])이 구현되어 있는가?
 
-### 안티패턴
-- **운영망과 동일한 VLAN에 고상호작용 허니팟 배치**: VLAN 태깅 실수나 하이퍼바이저 취약점 (VM Escape)을 통해 공격자가 허니팟에서 탈출하여 실제 운영망으로 넘어오는 치명적 보안 사고를 유발한다. 반드시 물리적으로 분리된 스위치나 엄격한 마이크로세그멘테이션 정책이 적용된 오버레이 네트워크 (Overlay Network)에 배치해야 한다.
+### [[128_water_scrum_fall_anti_pattern|안티패턴]]
+- **운영망과 동일한 VLAN에 고상호작용 [[694_honey_pot|허니팟]] 배치**: [[224_vlan_virtual_lan_broadcast_domain|VLAN]] 태깅 실수나 [[054_hypervisor|하이퍼바이저]] 취약점 ([[598_vm_migration_nic|VM]] Escape)을 통해 공격자가 [[694_honey_pot|허니팟]]에서 탈출하여 실제 운영망으로 넘어오는 치명적 보안 사고를 유발한다. 반드시 물리적으로 분리된 스위치나 엄격한 마이크로세그멘테이션 정책이 적용된 [[815_overlay_network_virtualization_l2_extension|오버레이 네트워크]] ([[815_overlay_network_virtualization_l2_extension|Overlay Network]])에 배치해야 한다.
 
 - **📢 섹션 요약 비유**: 미끼를 문 물고기가 바늘을 뱉지 않게 하면서도 낚싯줄이 끊어지지 않도록, 적당히 풀어주고 당기는 밀당(트래픽 제어)의 기술이 실무의 성패를 가릅니다.
 
@@ -217,21 +217,21 @@ categories = "studynote-network"
 
 ## Ⅴ. 기대효과 및 결론
 
-| 구분 | 도입 전 (전통적 보안) | 도입 후 (기만 기술) | 개선 효과 |
+| 구분 | 도입 전 (전통적 보안) | 도입 후 ([[693_deception_technology|기만 기술]]) | 개선 효과 |
 |:---|:---|:---|:---|
-| **정량** | 내부 침해 식별 시간 (Dwell Time) | 수개월 ~ 1년 (평균 200일) | **수 분 ~ 수 시간 (실시간 탐지)** |
+| **정량** | 내부 침해 [[655_ir_detection_analysis|식별]] 시간 (Dwell Time) | 수개월 ~ 1년 (평균 200일) | **수 분 ~ 수 시간 (실시간 탐지)** |
 | **정량** | 보안 관제 경보 오탐률 (False Positive) | 60% 이상 (경보 피로도 극심) | **0%에 수렴 (모든 접근이 비정상)** |
-| **정성** | APT 및 제로데이 공격 대응력 | 패턴 업데이트 전까지 무방비 | 샌드박스 없이도 행위 및 목적 식별 가능 |
+| **정성** | [[748_apt|APT]] 및 [[761_zero_day|제로데이]] 공격 대응력 | 패턴 업데이트 전까지 무방비 | 샌드박스 없이도 행위 및 목적 [[655_ir_detection_analysis|식별]] 가능 |
 
 ### 미래 전망
-- **AI 기반 동적 디셉션 (AI-Driven Dynamic Deception)**: 정적인 가짜 서버를 배포하는 것을 넘어, 머신러닝(ML) 알고리즘이 기업의 실제 네트워크 트래픽과 디렉토리 구조를 지속적으로 학습하여, 공격자의 스캔 행위가 탐지되는 순간 실시간으로 가장 '진짜 같은' 가상 네트워크 토폴로지와 가짜 데이터를 온디맨드(On-Demand)로 생성하는 기술로 발전하고 있다.
-- **클라우드 네이티브 및 IoT 기만망**: 서버리스 (Serverless) 함수 형태의 마이크로 허니팟이나, SCADA/ICS 망의 PLC(Programmable Logic Controller)를 정밀하게 에뮬레이션하는 산업용 프로토콜(Modbus, DNP3) 특화 디셉션 기술이 차세대 표준으로 자리 잡을 것이다.
+- **[[190_ai_llm_requirements_specification|AI]] 기반 동적 디셉션 ([[190_ai_llm_requirements_specification|AI]]-Driven Dynamic Deception)**: 정적인 가짜 서버를 배포하는 것을 넘어, [[241_machine_learning_basics|머신러닝]](ML) 알고리즘이 기업의 실제 네트워크 트래픽과 디렉토리 구조를 지속적으로 학습하여, 공격자의 스캔 행위가 탐지되는 순간 실시간으로 가장 '진짜 같은' 가상 네트워크 토폴로지와 가짜 [[001_dikw_pyramid|데이터]]를 온디맨드(On-Demand)로 [[087_process_state_transition|생성]]하는 기술로 발전하고 있다.
+- **[[531_cloud_native_architecture|클라우드 네이티브]] 및 [[101_iot_concept|IoT]] 기만망**: [[206_serverless_cold_start|서버리스]] ([[206_serverless_cold_start|Serverless]]) 함수 형태의 마이크로 [[694_honey_pot|허니팟]]이나, [[894_scada|SCADA]]/[[893_ics_industrial_control_system|ICS]] 망의 [[896_plc_programmable_logic_controller|PLC]]([[896_plc_programmable_logic_controller|Programmable Logic Controller]])를 정밀하게 에뮬레이션하는 산업용 [[295_protocol_field_tcp_udp_icmp|프로토콜]](Modbus, [[899_dnp3_distributed_network_protocol|DNP3]]) 특화 디셉션 기술이 차세대 표준으로 자리 잡을 것이다.
 
 ### 참고 표준
-- **MITRE Engage**: MITRE ATT&CK 프레임워크를 방어 및 기만 기술 관점으로 확장한 매트릭스로, 공격자를 유도하고 조종하기 위한 전략적 기만 행동 표준을 제공한다.
-- **NIST SP 800-160 Vol. 2**: 사이버 복원력(Cyber Resiliency) 엔지니어링 관점에서 디셉션(Deception)을 핵심 방어 기법 중 하나로 권고하고 있다.
+- **[[692_mitre_engage|MITRE Engage]]**: [[642_mitre_attack|MITRE ATT&CK]] 프레임워크를 방어 및 [[693_deception_technology|기만 기술]] 관점으로 확장한 매트릭스로, 공격자를 유도하고 조종하기 위한 전략적 기만 행동 표준을 제공한다.
+- **NIST [[166_sp|SP]] 800-160 Vol. 2**: 사이버 복원력(Cyber [[571_resiliency_fault_tolerance_patterns|Resiliency]]) 엔지니어링 관점에서 디셉션(Deception)을 핵심 방어 기법 중 하나로 권고하고 있다.
 
-결론적으로, 사이버 기만 기술(Deception Technology)은 방어자가 항상 수세에 몰려있던 비대칭적인 사이버 전장의 룰을 바꾸는 게임 체인저(Game Changer)다. 적의 완벽한 1회의 공격 성공을 막기 위해 10,000번을 방어해야 했던 과거에서 벗어나, 적이 1번의 가짜 자산을 건드리는 순간 전체 공격 캠페 বাস্তবায়을 무력화할 수 있는 강력한 '액티브 디펜스 (Active Defense)' 전략으로 진화하고 있다.
+결론적으로, 사이버 [[693_deception_technology|기만 기술]]([[693_deception_technology|Deception Technology]])은 방어자가 항상 수세에 몰려있던 비대칭적인 사이버 전장의 룰을 바꾸는 게임 체인저(Game Changer)다. 적의 완벽한 1회의 공격 성공을 막기 위해 [[489_raid_10_hybrid|10]],000번을 방어해야 했던 과거에서 벗어나, 적이 1번의 가짜 자산을 건드리는 순간 전체 공격 캠페 বাস্তবায়을 무력화할 수 있는 강력한 '[[483_active_vs_passive_ftp|액티브]] 디펜스 ([[483_active_vs_passive_ftp|Active]] Defense)' 전략으로 진화하고 있다.
 
 ```text
   ┌──────────────────────────────────────────────────────────────────┐
@@ -248,9 +248,9 @@ categories = "studynote-network"
   └──────────────────────────────────────────────────────────────────┘
 ```
 
-**[다이어그램 해설]** 초기 1세대 허니팟은 단순히 포트를 열어두고 어떤 공격이 들어오는지 연구하는 학술적 목적(증거 수집)이 강했다. 2세대 허니넷은 이를 네트워크 레벨로 확장하여 허니월(Honeywall)이라는 트래픽 통제 개념을 도입했다. 3세대부터 본격적인 기업용 '기만 기술(Deception)' 명칭이 사용되었으며, 엔드포인트에 브레드크럼을 흩뿌려 선제적으로 공격자를 덫으로 이끄는 구조를 완성했다. 현재와 미래의 4세대는 AI가 사내망의 구조와 트래픽 패턴을 학습해, 평소에는 존재하지 않다가 해커가 탐색을 시도하는 순간에만 동적으로 가짜 환경을 프로비저닝하여 클라우드 자원 비용을 최소화하고 핑거프린팅을 완벽히 회피하는 방향으로 진화하고 있다.
+**[다이어그램 해설]** [[459_quic_fec_forward_error_correction|초기]] 1세대 [[694_honey_pot|허니팟]]은 단순히 [[446_port_and_bus|포트]]를 열어두고 어떤 공격이 들어오는지 연구하는 학술적 목적(증거 수집)이 강했다. 2세대 [[695_honey_net|허니넷]]은 이를 네트워크 레벨로 확장하여 허니월(Honeywall)이라는 트래픽 통제 개념을 도입했다. 3세대부터 본격적인 기업용 '[[693_deception_technology|기만 기술]](Deception)' 명칭이 사용되었으며, 엔드포인트에 브레드크럼을 흩뿌려 선제적으로 공격자를 덫으로 이끄는 구조를 완성했다. 현재와 미래의 4세대는 AI가 사내망의 구조와 트래픽 패턴을 학습해, 평소에는 존재하지 않다가 해커가 탐색을 시도하는 순간에만 동적으로 가짜 환경을 프로비저닝하여 클라우드 자원 비용을 최소화하고 핑거프린팅을 완벽히 회피하는 방향으로 진화하고 있다.
 
-- **📢 섹션 요약 비유**: 수비수가 슛을 막기 위해 골대 앞을 막아선 것이 기존의 방어라면, 기만 기술은 공격수가 차기 직전 보이지 않는 가짜 골대를 하나 더 만들어 헛발질을 유도하는 최첨단 전술과 같습니다.
+- **📢 섹션 요약 비유**: 수비수가 슛을 막기 위해 골대 앞을 막아선 것이 기존의 방어라면, [[693_deception_technology|기만 기술]]은 공격수가 차기 직전 보이지 않는 가짜 골대를 하나 더 만들어 헛발질을 유도하는 최첨단 전술과 같습니다.
 
 ---
 
@@ -258,10 +258,10 @@ categories = "studynote-network"
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| 파일 카빙 | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
-| 광 전송 (Optical Transport) | 초고속 백본의 기본 전달 수단이다. |
+| [[938_file_carving|파일 카빙]] | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
+| 광 전송 (Optical Transport) | [[148_5g_embb_urllc_mmtc|초고속]] 백본의 기본 전달 수단이다. |
 | 텔레메트리 (Telemetry) | 실시간 상태 측정과 제어 피드백을 가능하게 한다. |
-| 기저대역 선로 부호 | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
+| [[940_baseband_line_coding_nrz_rz_manchester|기저대역]] 선로 부호 | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -275,10 +275,10 @@ categories = "studynote-network"
     └──▶ [확장 B: 의미 기반 통신 최적화]
 ```
 
-포니팟 허니넷 유인 분리망 분석 시스템 /…는 파일 카빙에서 출발해 현재 메커니즘을 정교화하고, 이후 기저대역 선로 부호와 의미 기반 통신 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
+포니팟 [[695_honey_net|허니넷]] 유인 분리망 분석 시스템 /…는 [[938_file_carving|파일 카빙]]에서 출발해 현재 메커니즘을 정교화하고, 이후 [[940_baseband_line_coding_nrz_rz_manchester|기저대역]] 선로 부호와 의미 기반 통신 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. 집에 도둑이 들어오는 것을 완벽하게 막기 어렵다면, 집 안에 가짜 보석함을 만들어 두는 거예요. 이 보석함을 열면 즉시 경찰서에 알람이 울려요!
 2. 진짜 가족들은 가짜 보석함이 어디 있는지 알고 절대 건드리지 않지만, 집 구조를 모르는 도둑은 진짜인 줄 알고 보석함을 열면서 시간을 낭비하게 됩니다.
-3. 이렇게 나쁜 사람들을 속여서 가짜 시스템(허니팟)으로 유도하고, 그들이 어떤 수법을 쓰는지 몰래 관찰하여 더 안전하게 방어하는 마법 같은 보안 기술이랍니다.
+3. 이렇게 나쁜 사람들을 속여서 가짜 시스템([[694_honey_pot|허니팟]])으로 유도하고, 그들이 어떤 수법을 쓰는지 몰래 관찰하여 더 안전하게 방어하는 마법 같은 보안 기술이랍니다.

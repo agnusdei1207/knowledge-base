@@ -8,8 +8,8 @@ categories = "studynote-ict-convergence"
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 비교 대상 집단 수(2개 vs 3개 이상)와 데이터 유형(연속형 vs 범주형)에 따라 t-검정, ANOVA, 카이제곱 검정 중 적절한 도구를 선택해야 한다.
-> 2. **가치**: ANOVA(Analysis of Variance)는 F-통계량으로 집단 간 분산/집단 내 분산 비를 계산해, 다중 비교 문제 없이 3개 이상 집단을 한 번에 비교한다.
+> 1. **본질**: 비교 대상 집단 수(2개 vs 3개 이상)와 [[001_dikw_pyramid|데이터]] 유형(연속형 vs 범주형)에 따라 [[070_t_test_independent_paired_mean_difference|t-검정]], [[071_anova_analysis_of_variance_f_value_post_hoc|ANOVA]], [[147_chi_square_test|카이제곱 검정]] 중 적절한 도구를 선택해야 한다.
+> 2. **가치**: [[071_anova_analysis_of_variance_f_value_post_hoc|ANOVA]](Analysis of [[136_variance|Variance]])는 F-통계량으로 집단 간 [[136_variance|분산]]/집단 내 [[136_variance|분산]] 비를 계산해, 다중 비교 문제 없이 3개 이상 집단을 한 번에 비교한다.
 > 3. **판단 포인트**: 정규성·등분산성 가정이 위배되면 비모수 대안(Kruskal-Wallis, Mann-Whitney)으로 전환하고, 사후 검정(Post-hoc)으로 어느 집단 쌍이 다른지 특정한다.
 
 ---
@@ -20,15 +20,15 @@ categories = "studynote-ict-convergence"
 
 ### 검정 선택 기준
 
-| 데이터 유형 | 집단 수 | 대응 여부 | 검정 방법 |
+| [[001_dikw_pyramid|데이터]] 유형 | 집단 수 | 대응 여부 | 검정 방법 |
 |:---|:---|:---|:---|
-| 연속형 | 2 | 독립 | 독립 표본 t-검정 |
-| 연속형 | 2 | 대응 | 대응 표본 t-검정 (Paired) |
-| 연속형 | 3+ | 독립 | One-way ANOVA |
-| 범주형 | - | - | 카이제곱 검정 (Chi-Square) |
+| 연속형 | 2 | 독립 | 독립 표본 [[070_t_test_independent_paired_mean_difference|t-검정]] |
+| 연속형 | 2 | 대응 | 대응 표본 [[070_t_test_independent_paired_mean_difference|t-검정]] (Paired) |
+| 연속형 | 3+ | 독립 | One-way [[071_anova_analysis_of_variance_f_value_post_hoc|ANOVA]] |
+| 범주형 | - | - | [[147_chi_square_test|카이제곱 검정]] (Chi-Square) |
 | 연속형 (비모수) | 3+ | 독립 | Kruskal-Wallis |
 
-- **📢 섹션 요약 비유**: 검정 방법은 도구 선택과 같아. 나사를 조일 때 드라이버 종류(일자, 십자, 육각)를 맞춰야 하듯, 데이터 종류와 집단 수에 맞는 검정을 골라야 해.
+- **📢 섹션 요약 비유**: 검정 방법은 도구 선택과 같아. 나사를 조일 때 드라이버 종류(일자, 십자, 육각)를 맞춰야 하듯, [[001_dikw_pyramid|데이터]] 종류와 집단 수에 맞는 검정을 골라야 해.
 
 ---
 
@@ -46,16 +46,16 @@ categories = "studynote-ict-convergence"
     └─ 범주형 ─────────────→ χ² = Σ(O-E)²/E (Chi-Square)
 ```
 
-### ANOVA F-통계량
+### [[071_anova_analysis_of_variance_f_value_post_hoc|ANOVA]] F-통계량
 
 - **집단 간 평균 제곱 (MS_between)**: 집단 평균들이 전체 평균에서 얼마나 떨어졌는가.
-- **집단 내 평균 제곱 (MS_within)**: 각 집단 내부의 분산.
+- **집단 내 평균 제곱 (MS_within)**: 각 집단 내부의 [[136_variance|분산]].
 - **F = MS_between / MS_within**: 이 비가 클수록 집단 간 차이가 집단 내 변동보다 크다 → H₀ 기각.
 
 | 검정 | 통계량 | 귀무가설 |
 |:---|:---|:---|
-| t-검정 | t 통계량 | 두 집단 평균 동일 |
-| ANOVA | F 통계량 | 모든 집단 평균 동일 |
+| [[070_t_test_independent_paired_mean_difference|t-검정]] | t 통계량 | 두 집단 평균 동일 |
+| [[071_anova_analysis_of_variance_f_value_post_hoc|ANOVA]] | F 통계량 | 모든 집단 평균 동일 |
 | 카이제곱 | χ² 통계량 | 두 변수 독립 (기대빈도 vs 관측빈도) |
 
 - **📢 섹션 요약 비유**: ANOVA는 여러 식당의 음식 맛을 비교할 때, 각 식당 안에서 메뉴별 맛 차이 대비 식당 간 맛 차이가 크면 "식당마다 다르다"고 결론 내리는 방식이야.
@@ -74,25 +74,25 @@ ANOVA가 "적어도 하나의 집단 평균이 다르다"는 것만 알려주면
 | Bonferroni | 보수적(α 분할) | 적은 비교 수 |
 | Scheffé | 가장 보수적 | 불균형 집단 |
 
-### 카이제곱 검정 적용 조건
+### [[147_chi_square_test|카이제곱 검정]] 적용 조건
 
 - 기대빈도(Expected Frequency) ≥ 5 (셀 당) — 미충족 시 Fisher's Exact Test 사용.
 - 독립성 검정 외에도 **적합도 검정(Goodness of Fit)**: 관측 분포가 이론 분포와 일치하는지 검정.
 
-- **📢 섹션 요약 비유**: ANOVA 사후 검정은 반에서 국어 점수가 다 같지 않다는 것(ANOVA)을 확인한 후, 어느 조가 어느 조보다 높은지(사후 검정)를 구체적으로 확인하는 두 번째 단계야.
+- **📢 섹션 요약 비유**: [[071_anova_analysis_of_variance_f_value_post_hoc|ANOVA]] 사후 검정은 반에서 국어 점수가 다 같지 않다는 것([[071_anova_analysis_of_variance_f_value_post_hoc|ANOVA]])을 [[396_validation|확인]]한 후, 어느 조가 어느 조보다 높은지(사후 검정)를 구체적으로 [[396_validation|확인]]하는 두 번째 단계야.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-**시나리오 1 - 마케팅 채널 비교 (t-검정)**:
-- 이메일 vs SNS 광고의 클릭률(CTR) 차이 검정.
-- Levene's Test로 등분산성 확인 → 분산 동일하지 않으면 Welch's t-test 적용.
+**시나리오 1 - 마케팅 채널 비교 ([[070_t_test_independent_paired_mean_difference|t-검정]])**:
+- 이메일 vs SNS 광고의 클릭률([[090_ctr_mode|CTR]]) 차이 검정.
+- Levene's Test로 등분산성 [[396_validation|확인]] → [[136_variance|분산]] 동일하지 않으면 Welch's [[070_t_test_independent_paired_mean_difference|t-test]] 적용.
 - p = 0.02 < 0.05 → SNS 광고 CTR이 통계적으로 유의미하게 높음.
 
-**시나리오 2 - 처리법 비교 (ANOVA)**:
+**시나리오 2 - 처리법 비교 ([[071_anova_analysis_of_variance_f_value_post_hoc|ANOVA]])**:
 - A/B/C 3가지 UI 디자인의 체류 시간 비교.
-- One-way ANOVA: F=6.3, p=0.003 → H₀ 기각.
+- One-way [[071_anova_analysis_of_variance_f_value_post_hoc|ANOVA]]: F=6.3, p=0.003 → H₀ 기각.
 - Tukey HSD: A-C 간 유의미한 차이 (p=0.002), B-C 차이 없음.
 
 **시나리오 3 - 성별 × 구매 여부 (카이제곱)**:
@@ -101,21 +101,21 @@ ANOVA가 "적어도 하나의 집단 평균이 다르다"는 것만 알려주면
 
 **기술사 판단 포인트**:
 - 정규성 검정: Shapiro-Wilk Test (n<50) 또는 Kolmogorov-Smirnov (n≥50).
-- 비모수 대안: Kruskal-Wallis(ANOVA 대응), Mann-Whitney U(독립 t-검정 대응).
+- 비모수 대안: Kruskal-Wallis([[071_anova_analysis_of_variance_f_value_post_hoc|ANOVA]] 대응), Mann-Whitney U(독립 [[070_t_test_independent_paired_mean_difference|t-검정]] 대응).
 
-- **📢 섹션 요약 비유**: 카이제곱 검정은 "남성이 아이스크림을 더 많이 사는 건 우연인가, 아니면 진짜 선호도 차이인가?"를 확인하는 것처럼, 범주형 변수 간 관계가 우연인지 판단해.
+- **📢 섹션 요약 비유**: [[147_chi_square_test|카이제곱 검정]]은 "남성이 아이스크림을 더 많이 사는 건 우연인가, 아니면 진짜 선호도 차이인가?"를 [[396_validation|확인]]하는 것처럼, 범주형 변수 간 [[083_relationship_in_er_model|관계]]가 우연인지 판단해.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-집단 비교 검정을 올바르게 선택하고 가정 조건을 확인하면 데이터 기반 의사 결정의 오류를 최소화한다.
+집단 비교 검정을 올바르게 선택하고 가정 조건을 [[396_validation|확인]]하면 [[001_dikw_pyramid|데이터]] 기반 의사 결정의 오류를 최소화한다.
 
-- **의사 결정 신뢰성**: 다중 비교 문제를 사후 검정으로 적절히 통제.
+- **의사 결정 [[642_reliability_mtbf_mttr_mttf_availability|신뢰성]]**: 다중 비교 문제를 사후 검정으로 적절히 통제.
 - **실험 설계 최적화**: 올바른 검정 선택으로 표본 크기와 비용 최소화.
 - **가정 위배 대응**: 비모수 방법으로 정규성 가정 없이도 유효한 추론.
 
-- **📢 섹션 요약 비유**: t-검정은 두 선수 실력 비교, ANOVA는 리그 전체 팀 실력 비교, 카이제곱은 팬 취향과 지역 간의 관계 분석이야 — 질문에 맞는 도구를 쓰는 게 핵심이야.
+- **📢 섹션 요약 비유**: [[070_t_test_independent_paired_mean_difference|t-검정]]은 두 선수 실력 비교, ANOVA는 리그 전체 팀 실력 비교, 카이제곱은 팬 취향과 지역 간의 [[083_relationship_in_er_model|관계]] 분석이야 — 질문에 맞는 도구를 쓰는 게 핵심이야.
 
 ---
 
@@ -123,11 +123,11 @@ ANOVA가 "적어도 하나의 집단 평균이 다르다"는 것만 알려주면
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| t-검정 | t-분포, Welch's t · 2집단 평균 비교 |
-| ANOVA | F-분포, 사후 검정 · 3+ 집단 비교 |
+| [[070_t_test_independent_paired_mean_difference|t-검정]] | t-분포, Welch's t · 2집단 평균 비교 |
+| [[071_anova_analysis_of_variance_f_value_post_hoc|ANOVA]] | F-분포, 사후 검정 · 3+ 집단 비교 |
 | 카이제곱 | 기대빈도, Fisher's Test · 범주형 독립성 |
-| Kruskal-Wallis | 비모수, 순위 기반 · ANOVA 비모수 대안 |
-| Tukey HSD | 사후 검정, FWER 통제 · ANOVA 후 쌍 비교 |
+| Kruskal-Wallis | 비모수, 순위 기반 · [[071_anova_analysis_of_variance_f_value_post_hoc|ANOVA]] 비모수 대안 |
+| Tukey HSD | 사후 검정, FWER 통제 · [[071_anova_analysis_of_variance_f_value_post_hoc|ANOVA]] 후 쌍 비교 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -137,6 +137,6 @@ ANOVA가 "적어도 하나의 집단 평균이 다르다"는 것만 알려주면
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. t-검정은 두 반의 평균 점수가 다른지 비교하는 거고, ANOVA는 세 반 이상을 한 번에 비교하는 방법이야.
-2. 카이제곱 검정은 숫자가 아니라 종류(색깔, 성별, 예/아니오)로 나뉜 데이터들이 서로 관련 있는지 알아보는 거야.
-3. 가장 중요한 건 데이터 종류와 집단 수에 맞는 도구를 골라 쓰는 것이야!
+1. [[070_t_test_independent_paired_mean_difference|t-검정]]은 두 반의 평균 점수가 다른지 비교하는 거고, ANOVA는 세 반 이상을 한 번에 비교하는 방법이야.
+2. [[147_chi_square_test|카이제곱 검정]]은 숫자가 아니라 종류(색깔, 성별, 예/아니오)로 나뉜 [[001_dikw_pyramid|데이터]]들이 서로 관련 있는지 알아보는 거야.
+3. 가장 중요한 건 [[001_dikw_pyramid|데이터]] 종류와 집단 수에 맞는 도구를 골라 쓰는 것이야!

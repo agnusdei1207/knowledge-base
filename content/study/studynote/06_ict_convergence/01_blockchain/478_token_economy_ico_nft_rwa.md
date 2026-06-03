@@ -8,21 +8,21 @@ categories = "studynote-ict-convergence"
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 토큰 이코노미(Token Economy)는 FT(Fungible Token, 대체 가능 토큰)와 NFT(Non-Fungible Token, 대체 불가 토큰)로 디지털·실물 자산을 블록체인에 올려 **프로그래머블 자산**으로 만드는 생태계다.
-> 2. **가치**: ICO(Initial Coin Offering)→STO(Security Token Offering)→RWA(Real World Asset) 토큰화로 진화하면서 자본 시장의 **유동성 민주화**와 분산 투자가 가능해졌다.
-> 3. **판단 포인트**: ERC-20(동질 토큰)과 ERC-721(NFT) 표준의 차이가 토큰 유용성을 결정하며, 인센티브 설계(Incentive Design) 실패가 토큰 생태계 붕괴의 핵심 원인이다.
+> 1. **본질**: [[026_token_economy|토큰 이코노미]]([[026_token_economy|Token Economy]])는 FT(Fungible Token, 대체 가능 토큰)와 NFT([[029_nft_non_fungible_token|Non-Fungible Token]], 대체 불가 토큰)로 디지털·실물 자산을 [[004_blockchain|블록체인]]에 올려 **프로그래머블 자산**으로 만드는 생태계다.
+> 2. **가치**: ICO(Initial Coin Offering)→STO([[283_security_tactics|Security]] Token Offering)→RWA(Real World Asset) [[820_tokenization|토큰화]]로 진화하면서 자본 시장의 **유동성 민주화**와 [[136_variance|분산]] 투자가 가능해졌다.
+> 3. **판단 포인트**: [[072_erc_20_fungible_token_standard|ERC-20]](동질 토큰)과 ERC-721(NFT) 표준의 차이가 토큰 유용성을 결정하며, 인센티브 설계(Incentive Design) 실패가 토큰 생태계 붕괴의 핵심 원인이다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-### 토큰화의 의미
+### [[820_tokenization|토큰화]]의 의미
 
-전통 자산(주식·채권·부동산·예술품)은 분할 소유·즉시 이전·글로벌 거래가 어렵다. 블록체인 토큰화는 이 자산들을 24시간 365일 글로벌 P2P 거래가 가능한 디지털 자산으로 변환한다.
+전통 자산(주식·채권·부동산·예술품)은 분할 소유·즉시 이전·글로벌 거래가 어렵다. [[004_blockchain|블록체인]] [[820_tokenization|토큰화]]는 이 자산들을 24시간 365일 글로벌 [[916_p2p_peer_to_peer_networking_super_node_gnutella|P2P]] 거래가 가능한 디지털 자산으로 변환한다.
 
-- **FT(ERC-20)**: 1 ETH = 1 ETH (완전 대체 가능) → 화폐·유틸리티·거버넌스 토큰
+- **FT([[072_erc_20_fungible_token_standard|ERC-20]])**: 1 [[118_eth|ETH]] = 1 [[118_eth|ETH]] (완전 대체 가능) → 화폐·유틸리티·거버넌스 토큰
 - **NFT(ERC-721)**: 각 토큰이 고유 ID를 보유 → 예술·게임 아이템·자격증
-- **SFT(ERC-1155)**: FT+NFT 혼합 → 게임 아이템 다량 발행 최적화
+- **SFT([[073_erc_1155_multi_token_standard|ERC-1155]])**: FT+NFT 혼합 → 게임 아이템 다량 발행 최적화
 
 - **📢 섹션 요약 비유**: — "FT는 현금(모든 1만원권이 동일), NFT는 희귀 우표(하나하나 고유), RWA는 부동산 지분 증서(실물이 뒷받침)다.
 
@@ -54,12 +54,12 @@ categories = "studynote-ict-convergence"
 
 ### ICO / STO / IEO / RWA 비교
 
-| 방식 | 설명 | 규제 | 투자자 보호 |
+| 방식 | 설명 | 규제 | 투자자 [[571_protection_vs_security|보호]] |
 |:---|:---|:---:|:---:|
 | **ICO** | 화이트페이퍼 기반 토큰 공개 판매 | 없음 | 낮음 |
 | **STO** | 증권법 적용, 투자 계약 증권 토큰 | 엄격 | 높음 |
 | **IEO** | 거래소 주관 토큰 세일 | 중간 | 중간 |
-| **RWA** | 부동산·채권 등 실물 자산 토큰화 | 발전 중 | 자산 뒷받침 |
+| **RWA** | 부동산·채권 등 실물 자산 [[820_tokenization|토큰화]] | 발전 중 | 자산 뒷받침 |
 
 - **📢 섹션 요약 비유**: — "ICO는 아이디어만 있는 킥스타터 펀딩, STO는 금융위원회 승인 받은 주식 공모, RWA는 실제 건물의 지분 증서 발행이다.
 
@@ -80,7 +80,7 @@ categories = "studynote-ict-convergence"
 ```
 
 **실패 사례**: 토큰 발행 → 가격 펌핑 → 창업자 Exit → 생태계 붕괴 (Rug Pull)
-**성공 사례**: Uniswap UNI, Compound COMP → 실사용 가치 + 거버넌스 권한 결합
+**성공 사례**: Uniswap UNI, Compound [[1013_comp_coordinated_multipoint_transmission|COMP]] → 실사용 가치 + 거버넌스 권한 결합
 
 ### NFT 활용 영역
 
@@ -89,26 +89,26 @@ categories = "studynote-ict-convergence"
 | **디지털 예술** | CryptoPunks, BAYC | ERC-721 |
 | **게임 아이템** | Axie Infinity | ERC-721/1155 |
 | **실물 증명** | 학위증명, 티켓팅 | ERC-721 |
-| **부동산 분할** | RWA 부동산 지분 | ERC-20 + 법적 구조 |
+| **부동산 분할** | RWA 부동산 지분 | [[072_erc_20_fungible_token_standard|ERC-20]] + 법적 구조 |
 
-- **📢 섹션 요약 비유**: — "NFT는 디지털 세계의 등기부등본 — 소유권은 블록체인에, 실물은 현실에 있다.
+- **📢 섹션 요약 비유**: — "NFT는 디지털 세계의 등기부등본 — 소유권은 [[004_blockchain|블록체인]]에, 실물은 현실에 있다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### RWA 토큰화 프로세스
+### RWA [[820_tokenization|토큰화]] 프로세스
 
 1. **법적 구조화**: SPV(Special Purpose Vehicle) 설립, 자산 신탁
-2. **스마트 컨트랙트 발행**: ERC-20 또는 ERC-1400(증권 토큰 표준)
+2. **[[022_smart_contract|스마트 컨트랙트]] 발행**: [[072_erc_20_fungible_token_standard|ERC-20]] 또는 ERC-1400(증권 토큰 표준)
 3. **오라클 연동**: 자산 가치를 온체인에 반영 (Chainlink 등)
 4. **규제 준수**: KYC/AML, 투자자 화이트리스트
 
 ### 기술사 핵심 판단
-- **토큰 유형 선택**: 화폐성(ERC-20) vs 고유성(ERC-721) vs 혼합(ERC-1155)
-- **규제 리스크**: ICO는 대부분 국가에서 미등록 증권 가능성, STO 필요
-- **스마트 컨트랙트 보안**: 토큰 로직 감사(Audit) 필수 (OpenZeppelin 표준 사용)
-- **유동성 풀**: AMM(Automated Market Maker)과 토큰 경제 연결성 확인
+- **토큰 유형 선택**: 화폐성([[072_erc_20_fungible_token_standard|ERC-20]]) vs 고유성(ERC-721) vs 혼합([[073_erc_1155_multi_token_standard|ERC-1155]])
+- **규제 [[096_risk_non_risk_architecture_evaluation_flaws|리스크]]**: ICO는 대부분 국가에서 미등록 증권 가능성, STO 필요
+- **[[022_smart_contract|스마트 컨트랙트]] 보안**: 토큰 로직 [[606_auditing_linux_auditd|감사]]([[363_audit|Audit]]) 필수 (OpenZeppelin 표준 사용)
+- **유동성 풀**: AMM(Automated Market Maker)과 토큰 경제 연결성 [[396_validation|확인]]
 
 - **📢 섹션 요약 비유**: — "토큰 설계는 게임 화폐 시스템 설계와 같다 — 인플레이션, 소각, 유통량을 잘못 설계하면 게임 경제가 붕괴된다.
 
@@ -119,13 +119,13 @@ categories = "studynote-ict-convergence"
 | 효과 항목 | 내용 |
 |:---|:---|
 | **유동성 확대** | 비유동 자산(부동산·예술품)을 분할 거래 가능 |
-| **글로벌 접근성** | 인터넷만 있으면 전 세계 자산 투자 |
-| **투명한 소유권** | 블록체인 기록으로 위변조 불가 이력 관리 |
+| **글로벌 [[292_accessibility_kwcag_wcag|접근성]]** | 인터넷만 있으면 전 세계 자산 투자 |
+| **투명한 소유권** | [[004_blockchain|블록체인]] 기록으로 위변조 불가 이력 관리 |
 | **새 수익 모델** | 크리에이터가 NFT 2차 판매 로열티 자동 수령 |
 
-토큰 이코노미는 디지털·실물 자산의 경계를 허무는 금융 혁신이다. FT·NFT·RWA 각 토큰 유형의 특성과 인센티브 설계 원칙을 이해하는 것이 Web3 금융 시스템 설계의 핵심이다.
+[[026_token_economy|토큰 이코노미]]는 디지털·실물 자산의 경계를 허무는 금융 혁신이다. FT·NFT·RWA 각 토큰 유형의 특성과 인센티브 설계 원칙을 이해하는 것이 Web3 금융 시스템 설계의 핵심이다.
 
-- **📢 섹션 요약 비유**: — "토큰 이코노미는 새로운 나라의 화폐 시스템 설계 — 발행량·용도·소각 정책을 잘못 설계하면 나라 경제가 흔들린다.
+- **📢 섹션 요약 비유**: — "[[026_token_economy|토큰 이코노미]]는 새로운 나라의 화폐 시스템 설계 — 발행량·용도·소각 정책을 잘못 설계하면 나라 경제가 흔들린다.
 
 ---
 
@@ -133,11 +133,11 @@ categories = "studynote-ict-convergence"
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| 연결 개념 | 관계 설명 |
-| ERC-20 | FT 표준, DeFi 핵심 자산 |
+| 연결 개념 | [[083_relationship_in_er_model|관계]] 설명 |
+| [[072_erc_20_fungible_token_standard|ERC-20]] | FT 표준, [[033_defi_decentralized_finance|DeFi]] 핵심 자산 |
 | ERC-721 | NFT 표준, 고유 자산 |
-| RWA | 실물 자산 토큰화, DeFi 진화 |
-| DeFi | 토큰 이코노미 최대 활용 도메인 |
+| RWA | 실물 자산 [[820_tokenization|토큰화]], [[033_defi_decentralized_finance|DeFi]] 진화 |
+| [[033_defi_decentralized_finance|DeFi]] | [[026_token_economy|토큰 이코노미]] 최대 활용 [[064_relation_domain|도메인]] |
 
 ### 📈 관련 키워드 및 발전 흐름도
 

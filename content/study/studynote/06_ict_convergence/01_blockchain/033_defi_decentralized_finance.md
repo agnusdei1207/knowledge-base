@@ -6,26 +6,26 @@ categories = "studynote-ict-convergence"
 +++
 
 > **핵심 인사이트 3줄**
-> 1. DeFi(Decentralized Finance)는 스마트 컨트랙트를 기반으로 은행·거래소·보험 등 전통 금융 서비스를 탈중앙·무허가·투명한 방식으로 제공하는 블록체인 금융 생태계다.
+> 1. DeFi(Decentralized Finance)는 [[022_smart_contract|스마트 컨트랙트]]를 기반으로 은행·거래소·보험 등 전통 금융 [[090_service_kubernetes_network_load_balancing|서비스]]를 탈중앙·무허가·투명한 방식으로 제공하는 [[004_blockchain|블록체인]] 금융 생태계다.
 > 2. AMM(Automated Market Maker)·유동성 풀·수익 농업(Yield Farming)·담보 대출이 DeFi의 핵심 메커니즘으로, 코드가 규칙이고 알고리즘이 은행원 역할을 한다.
-> 3. DeFi는 금융 포용성(Unbanked 20억 명 접근 가능)과 24/7 무중단 서비스를 제공하지만, 스마트 컨트랙트 버그·플래시론 공격·규제 불확실성이 주요 위험이다.
+> 3. DeFi는 금융 포용성(Unbanked 20억 명 접근 가능)과 24/7 무중단 [[090_service_kubernetes_network_load_balancing|서비스]]를 제공하지만, [[022_smart_contract|스마트 컨트랙트]] 버그·플래시론 공격·규제 불확실성이 주요 위험이다.
 
 ---
 
 ## Ⅰ. DeFi의 정의와 TradFi 비교
 
-DeFi(Decentralized Finance, 탈중앙화 금융)는 **블록체인 스마트 컨트랙트로 구현한 탈중앙 금융 프로토콜 생태계**다.
+DeFi(Decentralized Finance, [[010_decentralization|탈중앙화]] 금융)는 **[[004_blockchain|블록체인]] [[022_smart_contract|스마트 컨트랙트]]로 구현한 탈중앙 금융 [[295_protocol_field_tcp_udp_icmp|프로토콜]] 생태계**다.
 
 | 특성          | TradFi (전통 금융)     | DeFi                     |
 |-------------|----------------------|--------------------------|
-| 서비스 주체   | 은행·증권사·보험사    | 스마트 컨트랙트 코드       |
-| 접근성       | 계좌 개설, KYC 필요  | 지갑만 있으면 누구나       |
+| [[090_service_kubernetes_network_load_balancing|서비스]] 주체   | 은행·증권사·보험사    | [[022_smart_contract|스마트 컨트랙트]] 코드       |
+| [[292_accessibility_kwcag_wcag|접근성]]       | 계좌 개설, KYC 필요  | 지갑만 있으면 누구나       |
 | 운영 시간    | 영업일 09:00-16:00   | 24/7/365 무중단            |
-| 투명성       | 블랙박스 (내부 불공개) | 코드 공개·온체인 검증      |
+| 투명성       | 블랙박스 (내부 불공개) | 코드 공개·온체인 [[395_verification_process_review|검증]]      |
 | 수탁        | 은행이 자산 보관      | 사용자 개인키로 자기 수탁  |
 | 규제        | 감독기관 통제 하에    | 퍼미션리스, 규제 불확실    |
 
-📢 **섹션 요약 비유**: DeFi는 직원 없는 은행이다 — ATM(스마트 컨트랙트)이 모든 업무를 처리하고, 운영시간도 없으며, 전 세계 누구나 이용할 수 있다.
+📢 **섹션 요약 비유**: DeFi는 직원 없는 은행이다 — [[272_atm_asynchronous_transfer_mode_53byte_cell|ATM]]([[022_smart_contract|스마트 컨트랙트]])이 모든 업무를 처리하고, 운영시간도 없으며, 전 세계 누구나 이용할 수 있다.
 
 ---
 
@@ -44,7 +44,7 @@ ETH 1개 구매 시:
   → 실효 가격: 2,020 USDC/ETH (슬리피지 발생)
 ```
 
-### 유동성 공급자 (LP, Liquidity Provider)
+### 유동성 공급자 (LP, Liquidity [[150_soa_triangle_architecture|Provider]])
 
 - LP가 두 토큰을 1:1 비율로 풀에 예치
 - 거래 수수료 0.3% 수익 (Uniswap v2 기준)
@@ -54,15 +54,15 @@ ETH 1개 구매 시:
 
 ---
 
-## Ⅲ. DeFi 핵심 프로토콜
+## Ⅲ. DeFi 핵심 [[295_protocol_field_tcp_udp_icmp|프로토콜]]
 
-| 카테고리   | 프로토콜          | 기능                        | TVL (2024 기준) |
+| 카테고리   | [[295_protocol_field_tcp_udp_icmp|프로토콜]]          | 기능                        | TVL (2024 기준) |
 |----------|-----------------|----------------------------|---------------|
 | DEX      | Uniswap, Curve  | 토큰 교환 (AMM 기반)         | $5B+          |
 | 대출     | Aave, Compound  | 담보 예치 → 대출 (초과 담보) | $10B+         |
-| 스테이블  | MakerDAO (DAI)  | ETH 담보 → DAI 발행          | $4B+          |
-| 수익 최적 | Yearn Finance   | DeFi 전략 자동화             | $500M+        |
-| 보험     | Nexus Mutual    | 스마트 컨트랙트 위험 보장     | $300M+        |
+| 스테이블  | MakerDAO (DAI)  | [[118_eth|ETH]] 담보 → DAI 발행          | $4B+          |
+| 수익 최적 | Yearn Finance   | DeFi [[268_strategy_pattern|전략]] 자동화             | $500M+        |
+| 보험     | Nexus Mutual    | [[022_smart_contract|스마트 컨트랙트]] 위험 보장     | $300M+        |
 
 ### DeFi 레고 블록 조합 (Composability)
 
@@ -71,9 +71,9 @@ Aave에서 ETH 담보 대출 → Curve DEX에서 스왑 →
 Yearn Vault에 예치 → 복리 수익 자동 재투자
 ```
 
-**"Money Lego"**: DeFi 프로토콜들이 API처럼 조합 가능
+**"Money Lego"**: DeFi [[295_protocol_field_tcp_udp_icmp|프로토콜]]들이 API처럼 조합 가능
 
-📢 **섹션 요약 비유**: DeFi 레고는 금융 API 조합이다 — 빌리고(Aave), 바꾸고(Uniswap), 예치(Yearn)하는 과정을 코드 한 줄로 원스톱 처리할 수 있다.
+📢 **섹션 요약 비유**: DeFi 레고는 금융 [[014_api_posix|API]] 조합이다 — 빌리고(Aave), 바꾸고(Uniswap), 예치(Yearn)하는 과정을 코드 한 줄로 원스톱 처리할 수 있다.
 
 ---
 
@@ -84,8 +84,8 @@ Yearn Vault에 예치 → 복리 수익 자동 재투자
 | 공격          | 원리                             | 사례                  |
 |-------------|----------------------------------|----------------------|
 | 플래시론     | 같은 TX에서 무담보 대출→조작→상환 | bZx, Euler ($197M)   |
-| 재진입 공격  | 콜백 함수 악용해 반복 출금        | DAO Hack (2016, $60M)|
-| 오라클 조작  | 가격 데이터 조작 → 청산 트리거    | Mango Markets ($117M)|
+| 재진입 공격  | 콜백 함수 악용해 반복 출금        | [[054_dao_decentralized_autonomous_organization|DAO]] Hack (2016, $60M)|
+| 오라클 조작  | 가격 [[001_dikw_pyramid|데이터]] 조작 → 청산 [[507_acid_properties|트리거]]    | Mango Markets ($117M)|
 | 러그풀       | 개발자가 유동성 전액 인출         | Squid Game Token     |
 
 ### 비영구적 손실 (Impermanent Loss)
@@ -96,7 +96,7 @@ LP로 ETH/USDC 예치 후 ETH 가격 2배 상승 시:
   → "비영구적" 손실 (풀 철수 시 확정)
 ```
 
-📢 **섹션 요약 비유**: 플래시론 공격은 빈 수표다 — 잠깐 빌려서 사기치고 돌려주는 건데, 은행이 같은 날 입출금을 확인 안 한 빈틈을 이용한다.
+📢 **섹션 요약 비유**: 플래시론 공격은 빈 수표다 — 잠깐 빌려서 사기치고 돌려주는 건데, 은행이 같은 날 입출금을 [[396_validation|확인]] 안 한 빈틈을 이용한다.
 
 ---
 
@@ -104,8 +104,8 @@ LP로 ETH/USDC 예치 후 ETH 가격 2배 상승 시:
 
 ### DeFi 2.0 개선 사항
 
-- **프로토콜 소유 유동성 (POL)**: Olympus DAO 모델
-- **실물자산 토큰화 (RWA)**: 채권·부동산의 온체인 표현
+- **[[295_protocol_field_tcp_udp_icmp|프로토콜]] 소유 유동성 (POL)**: Olympus [[054_dao_decentralized_autonomous_organization|DAO]] 모델
+- **실물자산 [[820_tokenization|토큰화]] (RWA)**: 채권·부동산의 온체인 표현
 - **L2 DeFi**: Arbitrum·Optimism 위 가스비 99% 절감
 - **크로스체인 DeFi**: LayerZero·Axelar 브릿지
 
@@ -172,6 +172,6 @@ DeFi 레고(Composability) → TVL 성장 → 규제 강화
 
 ## 👶 어린이를 위한 3줄 비유 설명
 
-1. DeFi는 직원 없는 자동 환전소다 — 코드(스마트 컨트랙트)가 24시간 자동으로 환전·대출·이자 지급을 처리한다.
+1. DeFi는 직원 없는 자동 환전소다 — 코드([[022_smart_contract|스마트 컨트랙트]])가 24시간 자동으로 환전·대출·이자 지급을 처리한다.
 2. AMM 유동성 풀은 저울이다 — 한쪽에 이더리움, 다른 쪽에 달러를 올려두고 저울이 항상 균형을 맞추도록 자동으로 가격이 바뀐다.
-3. DeFi 레고는 금융 블록 조합이다 — 빌리는 블록, 교환 블록, 예금 블록을 코드로 연결하면 복잡한 금융 전략이 자동으로 실행된다.
+3. DeFi 레고는 금융 블록 조합이다 — 빌리는 블록, 교환 블록, 예금 블록을 코드로 연결하면 복잡한 금융 [[268_strategy_pattern|전략]]이 자동으로 실행된다.

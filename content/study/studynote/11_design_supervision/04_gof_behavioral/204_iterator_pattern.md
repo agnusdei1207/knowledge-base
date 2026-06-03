@@ -8,7 +8,7 @@ categories = "studynote-design-supervision"
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: Iterator (이터레이터, 반복자) 패턴은 컬렉션(Collection)의 내부 구현(배열인지, 링크드리스트인지, 트리인지)을 완전히 숨긴 채 원소들을 순차적으로 접근하는 통일된 인터페이스를 제공한다.
+> 1. **본질**: [[270_iterator_pattern|Iterator]] ([[270_iterator_pattern|이터레이터]], 반복자) 패턴은 컬렉션(Collection)의 내부 구현(배열인지, 링크드리스트인지, 트리인지)을 완전히 숨긴 채 원소들을 순차적으로 접근하는 통일된 인터페이스를 제공한다.
 > 2. **가치**: `hasNext()` + `next()` 인터페이스 하나로 모든 종류의 컬렉션을 동일하게 순회할 수 있어, 알고리즘과 자료구조를 완전히 분리한다.
 > 3. **판단 포인트**: 컬렉션 구조를 바꾸더라도 순회 코드를 수정할 필요가 없어야 할 때, 또는 여러 순회 방식(깊이 우선, 너비 우선)을 동시에 지원해야 할 때 적용한다.
 
@@ -47,7 +47,7 @@ while (it.hasNext()) {
 
 Collection이 배열이든, 링크드리스트든, 트리든 **순회 코드는 동일**하다.
 
-| 언어 | Iterator 인터페이스 | for-each 지원 |
+| 언어 | [[270_iterator_pattern|Iterator]] 인터페이스 | for-each 지원 |
 |:---|:---|:---|
 | Java | `Iterator<T>`: `hasNext()`, `next()` | `Iterable<T>` 구현 시 |
 | Python | `__iter__()`, `__next__()` | `for x in obj:` |
@@ -60,7 +60,7 @@ Collection이 배열이든, 링크드리스트든, 트리든 **순회 코드는 
 └──────────────┘    └──────────────┘    └──────────────┘
 ```
 
-- **📢 섹션 요약 비유**: TV 리모컨 채널 버튼(Iterator) — 아날로그인지 디지털인지, 케이블인지 IPTV인지 몰라도 "다음 채널" 버튼은 항상 같은 방식으로 동작한다.
+- **📢 섹션 요약 비유**: TV 리모컨 채널 버튼([[270_iterator_pattern|Iterator]]) — 아날로그인지 디지털인지, 케이블인지 IPTV인지 몰라도 "다음 채널" 버튼은 항상 같은 방식으로 동작한다.
 
 ---
 
@@ -134,7 +134,7 @@ Collection이 배열이든, 링크드리스트든, 트리든 **순회 코드는 
 |:---|:---|:---|
 | 핵심 역할 | 입력·상태·출력을 분리하는 책임 경계 | 구현보다 경계를 먼저 본다. |
 | 제어 지점 | 조건, 이벤트, 정책이 만나는 곳 | 병목과 결합이 생기는 곳이다. |
-| 검증 포인트 | 테스트·로그·모니터링으로 확인할 지점 | 운영 가능성이 설계 품질을 결정한다. |
+| [[395_verification_process_review|검증]] 포인트 | 테스트·[[568_logs_distributed_logging_elk_fluentd|로그]]·모니터링으로 확인할 지점 | 운영 가능성이 설계 품질을 결정한다. |
 
 ```text
 ┌──────────────┐    ┌──────────────┐    ┌──────────────┐
@@ -142,26 +142,26 @@ Collection이 배열이든, 링크드리스트든, 트리든 **순회 코드는 
 └──────────────┘    └──────────────┘    └──────────────┘
 ```
 
-- **📢 섹션 요약 비유**: 도서관 책 목록(Collection)을 검색할 때, 사서가 책장 어떻게 정리했는지 몰라도 "다음 책 주세요"라고 하면 된다 — 그것이 Iterator.
+- **📢 섹션 요약 비유**: 도서관 책 목록(Collection)을 검색할 때, 사서가 책장 어떻게 정리했는지 몰라도 "다음 책 주세요"라고 하면 된다 — 그것이 [[270_iterator_pattern|Iterator]].
 
 ---
 
 ## Ⅲ. 비교 및 연결
-| 항목 | 외부 이터레이터 | 내부 이터레이터 |
+| 항목 | 외부 [[270_iterator_pattern|이터레이터]] | 내부 [[270_iterator_pattern|이터레이터]] |
 |:---|:---|:---|
-| **제어권** | 클라이언트 | 컬렉션/람다 |
+| **제어권** | 클라이언트 | 컬렉션/[[216_lambda_kappa_architecture_batch_realtime|람다]] |
 | **중간 탈출** | `break` 가능 | `anyMatch()` 등으로 제한적 |
-| **병렬 처리** | 어려움 | `parallelStream()` 용이 |
+| **[[430_index_fast_full_scan|병렬]] 처리** | 어려움 | `parallelStream()` 용이 |
 | **코드 간결성** | 낮음 | 높음 |
-| **상태 저장** | Iterator 객체에 | 없음 (Stateless) |
+| **상태 저장** | [[270_iterator_pattern|Iterator]] 객체에 | 없음 ([[239_stateless_redis|Stateless]]) |
 | **대표 사례** | Java `Iterator`, Python `for` | Java `Stream`, Python 컴프리헨션 |
 
-| 패턴 | Iterator와의 관계 |
+| 패턴 | Iterator와의 [[083_relationship_in_er_model|관계]] |
 |:---|:---|
-| Composite (컴포지트) | Iterator가 순회하는 트리 구조 |
-| Visitor (방문자) | Iterator로 순회하며 각 요소에 Visitor 적용 |
-| Factory Method (팩토리 메서드) | `iterator()` 메서드가 ConcreteIterator를 생성 |
-| Memento (메멘토) | Iterator 상태 저장 후 복원 가능 |
+| [[261_composite_pattern_tree_structure|Composite]] ([[261_composite_pattern_tree_structure|컴포지트]]) | Iterator가 순회하는 트리 구조 |
+| [[275_visitor_pattern|Visitor]] ([[275_visitor_pattern|방문자]]) | Iterator로 순회하며 각 요소에 [[275_visitor_pattern|Visitor]] 적용 |
+| [[254_factory_method_pattern_subclass_creation|Factory Method]] ([[254_factory_method_pattern_subclass_creation|팩토리 메서드]]) | `iterator()` 메서드가 ConcreteIterator를 [[087_process_state_transition|생성]] |
+| [[274_memento_pattern|Memento]] ([[274_memento_pattern|메멘토]]) | [[270_iterator_pattern|Iterator]] 상태 저장 후 복원 가능 |
 
 - **📢 섹션 요약 비유**: Iterator는 "컨베이어 벨트 위의 상품 스캐너" — 상품이 박스에 담겼든 낱개든, 스캐너는 동일하게 바코드를 읽는다.
 
@@ -205,14 +205,14 @@ for _ in range(10):
 
 Generator는 무한 수열을 메모리 효율적으로 구현하는 Iterator의 변형이다.
 
-- Iterator 패턴이 **컬렉션 추상화**의 핵심 메커니즘임을 명시
+- [[270_iterator_pattern|Iterator]] 패턴이 **컬렉션 [[198_abstraction_control_data_process|추상화]]**의 핵심 메커니즘임을 명시
 - Java `for-each` 루프가 내부적으로 `Iterable.iterator()`를 호출함 언급
-- 외부/내부 이터레이터의 **트레이드오프** 비교 제시
+- 외부/내부 [[270_iterator_pattern|이터레이터]]의 **트레이드오프** 비교 제시
 
-### 판단 체크리스트
+### 판단 [[435_checklist_based_testing|체크리스트]]
 1. 해결하려는 변화 축이 분명한가?
-2. 추상화 비용보다 변경 절감 효과가 큰가?
-3. 테스트·로그·운영 가시성이 확보되는가?
+2. [[198_abstraction_control_data_process|추상화]] 비용보다 변경 절감 효과가 큰가?
+3. 테스트·[[568_logs_distributed_logging_elk_fluentd|로그]]·운영 가시성이 확보되는가?
 4. 팀이 이 구조를 일관되게 유지할 수 있는가?
 
 - **📢 섹션 요약 비유**: Iterator는 "만능 자동 계산기" — 어떤 나라 화폐든 넣으면 원화로 환산해 준다. 화폐 종류(컬렉션 구현)에 상관없이 같은 버튼(hasNext/next)으로 작동한다.
@@ -222,34 +222,34 @@ Generator는 무한 수열을 메모리 효율적으로 구현하는 Iterator의
 ## Ⅴ. 기대효과 및 결론
 | 효과 | 설명 |
 |:---|:---|
-| 컬렉션-알고리즘 분리 | 데이터 구조 변경 시 순회 코드 무수정 |
-| 다중 순회 지원 | 동일 컬렉션에 DFS, BFS 등 여러 Iterator |
-| SRP 달성 | 컬렉션은 저장, Iterator는 순회 책임 분리 |
-| 지연 평가 가능 | Generator로 메모리 효율적 처리 |
+| 컬렉션-알고리즘 분리 | [[001_dikw_pyramid|데이터]] 구조 변경 시 순회 코드 무수정 |
+| 다중 순회 지원 | 동일 컬렉션에 [[034_dfs|DFS]], [[035_bfs|BFS]] 등 여러 [[270_iterator_pattern|Iterator]] |
+| [[243_srp_single_responsibility_principle|SRP]] 달성 | 컬렉션은 저장, Iterator는 순회 책임 분리 |
+| [[023_lazy_evaluation|지연 평가]] 가능 | Generator로 메모리 효율적 처리 |
 
-- Iterator 상태를 외부에서 관리하므로 **멀티스레드 환경 동기화** 주의 필요
+- [[270_iterator_pattern|Iterator]] 상태를 외부에서 관리하므로 **멀티스레드 환경 [[212_synchronization_mechanisms|동기화]]** 주의 필요
 - 컬렉션 수정 중 순회 시 `ConcurrentModificationException` 위험
 
-Iterator (이터레이터) 패턴은 현대 프로그래밍 언어의 `for-each`, Stream, Generator 등 모든 순회 추상화의 이론적 기반이다. 알고리즘과 자료구조를 분리하는 가장 근본적인 수단으로, 언어 내장 지원으로 자연스럽게 일상화된 패턴이다.
+[[270_iterator_pattern|Iterator]] ([[270_iterator_pattern|이터레이터]]) 패턴은 현대 프로그래밍 언어의 `for-each`, [[467_http2_stream_multiplexing_tcp_hol|Stream]], Generator 등 모든 순회 [[198_abstraction_control_data_process|추상화]]의 이론적 기반이다. 알고리즘과 자료구조를 분리하는 가장 근본적인 수단으로, 언어 내장 지원으로 자연스럽게 일상화된 패턴이다.
 
-확장 방향은 ① 선언형 API와의 결합, ② 관측 가능성(Observability) 내장, ③ 분산 환경에 맞는 변형 패턴 적용이다.
+확장 방향은 ① 선언형 API와의 결합, ② [[111_observability_metrics_logs_traces|관측 가능성]]([[642_observability_telemetry|Observability]]) 내장, ③ [[136_variance|분산]] 환경에 맞는 변형 패턴 적용이다.
 
-- **📢 섹션 요약 비유**: Iterator는 "지하철 개찰구" — 타는 사람이 학생인지 어른인지, 서울인지 부산인지 관계없이 하나씩 통과시키는 통일된 메커니즘이다.
+- **📢 섹션 요약 비유**: Iterator는 "지하철 개찰구" — 타는 사람이 학생인지 어른인지, 서울인지 부산인지 [[083_relationship_in_er_model|관계]]없이 하나씩 통과시키는 통일된 메커니즘이다.
 
 ---
 
 ### 📌 관련 개념 맵
-| 관계 | 개념 | 설명 |
+| [[083_relationship_in_er_model|관계]] | 개념 | 설명 |
 |:---|:---|:---|
 | 상위 개념 | GoF Behavioral Pattern | 행동 패턴 그룹 |
 | 하위 개념 | ConcreteIterator | 구체적 순회 구현 |
-| 연관 개념 | Composite Pattern | Iterator가 순회하는 트리 구조 |
-| 연관 개념 | Java Stream API | Iterator의 현대적 진화 |
-| 연관 개념 | Python Generator | 지연 평가 Iterator |
-| 연관 개념 | Visitor Pattern | Iterator로 순회하며 Visitor 적용 |
+| 연관 개념 | [[154_composite_pattern|Composite Pattern]] | Iterator가 순회하는 트리 구조 |
+| 연관 개념 | Java [[467_http2_stream_multiplexing_tcp_hol|Stream]] [[014_api_posix|API]] | Iterator의 현대적 진화 |
+| 연관 개념 | Python Generator | [[023_lazy_evaluation|지연 평가]] [[270_iterator_pattern|Iterator]] |
+| 연관 개념 | [[275_visitor_pattern|Visitor Pattern]] | Iterator로 순회하며 [[275_visitor_pattern|Visitor]] 적용 |
 
 ### 📈 관련 키워드 및 발전 흐름도
-Collection 추상화 → 이터레이터 패턴 → Stream/파이프라인
+Collection [[198_abstraction_control_data_process|추상화]] → [[397_process|이터레이터 패턴]] → [[467_http2_stream_multiplexing_tcp_hol|Stream]]/파이프라인
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 사탕 상자(컬렉션)에서 사탕을 꺼내는 방법이 상자마다 달라도, "다음 사탕 주세요"라는 말은 항상 같아요.

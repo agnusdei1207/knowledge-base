@@ -8,15 +8,15 @@ categories = "studynote-bigdata"
 
 ## 핵심 인사이트 (3줄 요약)
 
-- **본질**: Delta Lake는 Parquet 기반 저장소 위에 트랜잭션 로그(`_delta_log`)를 추가하여 ACID 트랜잭션, 스키마 강제(Schema Enforcement), 타임 트래블(Time Travel), MERGE/UPDATE/DELETE 연산을 Spark에서 사용할 수 있게 하는 오픈 소스 스토리지 레이어다.
-- **가치**: 기존 데이터 레이크는 "쓰고 잊어버리는(Write-once)" 구조라 잘못 쓴 데이터를 수정하거나 두 스트림이 동시에 같은 테이블에 쓸 때 데이터 무결성을 보장할 수 없었는데, Delta Lake는 이 문제를 Data Warehouse 수준의 ACID 보장으로 해결한다.
-- **판단 포인트**: Delta Lake의 타임 트래블(버전별 스냅샷)은 감사(Audit), 재처리(Reprocessing), 실수 롤백에 매우 유용하지만, 트랜잭션 로그와 다중 버전 파일이 축적되어 스토리지를 소모하므로 주기적 `VACUUM` 명령으로 오래된 버전을 정리해야 한다.
+- **본질**: Delta Lake는 [[178_parquet_rle_encoding_columnar_compression|Parquet]] 기반 저장소 위에 [[191_transaction_concept_states|트랜잭션]] [[568_logs_distributed_logging_elk_fluentd|로그]](`_delta_log`)를 추가하여 ACID [[191_transaction_concept_states|트랜잭션]], [[005_schema|스키마]] 강제([[505_schema|Schema]] Enforcement), 타임 트래블(Time Travel), MERGE/UPDATE/DELETE 연산을 Spark에서 사용할 수 있게 하는 오픈 소스 스토리지 레이어다.
+- **가치**: 기존 [[208_data_lake_schema_on_read|데이터 레이크]]는 "쓰고 잊어버리는(Write-once)" 구조라 잘못 쓴 [[001_dikw_pyramid|데이터]]를 수정하거나 두 스트림이 동시에 같은 테이블에 쓸 때 [[001_dikw_pyramid|데이터]] [[003_integrity|무결성]]을 보장할 수 없었는데, Delta Lake는 이 문제를 [[208_data_warehouse_schema_on_write_inmon|Data Warehouse]] 수준의 ACID 보장으로 해결한다.
+- **판단 포인트**: Delta Lake의 타임 트래블([[288_version_ihl_tos_total_length|버전]]별 [[022_snapshot_backup_architecture|스냅샷]])은 [[606_auditing_linux_auditd|감사]]([[363_audit|Audit]]), 재처리(Reprocessing), 실수 [[098_rollback_strategy_pipeline_error_threshold|롤백]]에 매우 유용하지만, [[191_transaction_concept_states|트랜잭션]] [[568_logs_distributed_logging_elk_fluentd|로그]]와 다중 [[288_version_ihl_tos_total_length|버전]] [[501_file_definition_logical_record|파일]]이 축적되어 스토리지를 소모하므로 주기적 `VACUUM` 명령으로 오래된 [[288_version_ihl_tos_total_length|버전]]을 정리해야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-### 1. 전통적 데이터 레이크의 한계
+### 1. 전통적 [[208_data_lake_schema_on_read|데이터 레이크]]의 한계
 
 ```
 문제 1: 데이터 수정 어려움
@@ -36,16 +36,16 @@ categories = "studynote-bigdata"
 
 ### 2. Delta Lake의 해결책
 
-이 모든 문제는 트랜잭션 로그(`_delta_log/`) 하나로 해결된다. 모든 쓰기 작업이 로그에 기록되고, 원자적으로 커밋되므로 ACID 보장이 가능해진다.
+이 모든 문제는 [[191_transaction_concept_states|트랜잭션]] [[568_logs_distributed_logging_elk_fluentd|로그]](`_delta_log/`) 하나로 해결된다. 모든 [[289_cqrs_db|쓰기]] 작업이 [[568_logs_distributed_logging_elk_fluentd|로그]]에 기록되고, 원자적으로 커밋되므로 ACID 보장이 가능해진다.
 
 **📢 섹션 요약 비유**
-> 기존 데이터 레이크는 "책상 위 메모지 더미"다 — 누가 언제 추가했는지 기억이 없다. Delta Lake는 "공증 사무실의 거래 장부" — 모든 변경이 날짜·서명과 함께 순서대로 기록된다.
+> 기존 [[208_data_lake_schema_on_read|데이터 레이크]]는 "책상 위 메모지 [[459_dummy_test_double|더미]]"다 — 누가 언제 추가했는지 기억이 없다. Delta Lake는 "공증 사무실의 거래 장부" — 모든 변경이 날짜·서명과 함께 순서대로 기록된다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### 1. Delta Lake 디렉토리 구조
+### 1. [[147_delta_lake|Delta Lake]] 디렉토리 구조
 
 ```
 /delta/table/
@@ -62,11 +62,11 @@ categories = "studynote-bigdata"
 
 ### 2. Delta Lake의 4가지 핵심 기능
 
-| 기능 | 설명 | Spark API |
+| 기능 | 설명 | Spark [[014_api_posix|API]] |
 |:---|:---|:---|
-| ACID 트랜잭션 | 원자적 읽기/쓰기, 동시 쓰기 충돌 방지 | `df.write.format("delta")` |
-| 스키마 강제 | 스키마 불일치 시 쓰기 실패 (실수 방지) | 기본 활성화 |
-| 타임 트래블 | 과거 버전 데이터 조회 및 롤백 | `VERSION AS OF N`, `TIMESTAMP AS OF` |
+| ACID [[191_transaction_concept_states|트랜잭션]] | 원자적 읽기/[[289_cqrs_db|쓰기]], [[276_write_through|동시 쓰기]] 충돌 방지 | `df.write.format("delta")` |
+| [[005_schema|스키마]] 강제 | [[005_schema|스키마]] 불일치 시 [[289_cqrs_db|쓰기]] 실패 (실수 방지) | 기본 활성화 |
+| 타임 트래블 | 과거 [[288_version_ihl_tos_total_length|버전]] [[001_dikw_pyramid|데이터]] 조회 및 [[098_rollback_strategy_pipeline_error_threshold|롤백]] | `VERSION AS OF N`, `TIMESTAMP AS OF` |
 | MERGE INTO | Upsert(Insert+Update+Delete) 단일 연산 | `DeltaTable.merge()` |
 
 ### 3. 타임 트래블 활용
@@ -106,32 +106,32 @@ WHEN NOT MATCHED THEN INSERT *;
 ```
 
 **📢 섹션 요약 비유**
-> Delta Lake의 MERGE INTO는 "엑셀 시트 vs 데이터베이스"의 차이다. 엑셀(기존 레이크)은 복사·붙여넣기로 수정하지만, 데이터베이스(Delta Lake)는 UPDATE/INSERT/DELETE를 원자적으로 처리한다.
+> Delta Lake의 MERGE INTO는 "엑셀 시트 vs [[002_database_definition|데이터베이스]]"의 차이다. 엑셀(기존 레이크)은 복사·붙여넣기로 수정하지만, [[002_database_definition|데이터베이스]]([[147_delta_lake|Delta Lake]])는 UPDATE/INSERT/DELETE를 원자적으로 처리한다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-### 1. Delta Lake vs Apache Iceberg vs Apache Hudi
+### 1. [[147_delta_lake|Delta Lake]] vs [[148_apache_iceberg|Apache Iceberg]] vs [[149_apache_hudi|Apache Hudi]]
 
-| 비교 항목 | Delta Lake | Apache Iceberg | Apache Hudi |
+| 비교 항목 | [[147_delta_lake|Delta Lake]] | [[148_apache_iceberg|Apache Iceberg]] | [[149_apache_hudi|Apache Hudi]] |
 |:---|:---|:---|:---|
-| 개발사 | Databricks (오픈소스) | Netflix/Apple | Uber |
-| 트랜잭션 | ACID | ACID | ACID |
-| 타임 트래블 | ✅ (버전/타임스탬프) | ✅ (스냅샷) | ✅ (커밋 시간) |
-| 파티션 진화 | ✅ | ✅ (히든 파티셔닝) | ✅ |
+| 개발사 | [[074_photon_engine|Databricks]] ([[191_oss_license_compliance|오픈소스]]) | Netflix/Apple | Uber |
+| [[191_transaction_concept_states|트랜잭션]] | ACID | ACID | ACID |
+| 타임 트래블 | ✅ ([[288_version_ihl_tos_total_length|버전]]/타임스탬프) | ✅ ([[022_snapshot_backup_architecture|스냅샷]]) | ✅ (커밋 시간) |
+| [[514_partition_slice_volume|파티션]] 진화 | ✅ | ✅ (히든 [[179_table_partitioning_concept|파티셔닝]]) | ✅ |
 | Spark 통합 | 최고 | 우수 | 우수 |
-| 스트리밍 CDC | ✅ | ✅ | ✅ (DeltaStreamer) |
-| 커뮤니티 생태계 | Databricks 중심 | 멀티 엔진 강점 | Hive/Flink 강점 |
+| 스트리밍 [[217_cdc_binlog_change_capture_debezium|CDC]] | ✅ | ✅ | ✅ (DeltaStreamer) |
+| 커뮤니티 생태계 | [[074_photon_engine|Databricks]] 중심 | 멀티 엔진 강점 | [[544_hive|Hive]]/Flink 강점 |
 
 **📢 섹션 요약 비유**
-> Delta Lake, Iceberg, Hudi는 "같은 문제를 푸는 다른 브랜드의 볼트-너트 조합"이다. 기능은 비슷하지만 생태계(Databricks vs 멀티 엔진)와 성숙도가 다르다. 환경에 맞는 선택이 중요하다.
+> [[147_delta_lake|Delta Lake]], Iceberg, Hudi는 "같은 문제를 푸는 다른 브랜드의 [[236_vault_dynamic_secrets_ttl|볼트]]-너트 조합"이다. 기능은 비슷하지만 생태계([[074_photon_engine|Databricks]] vs 멀티 엔진)와 성숙도가 다르다. 환경에 맞는 선택이 중요하다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### 1. Delta Lake 운영 명령어
+### 1. [[147_delta_lake|Delta Lake]] 운영 [[158_instruction|명령어]]
 
 ```sql
 -- 테이블 히스토리 조회
@@ -147,16 +147,16 @@ OPTIMIZE orders ZORDER BY (user_id, order_date);  -- 데이터 레이아웃 최�
 DESCRIBE TABLE EXTENDED orders;
 ```
 
-### 2. 도입 체크리스트
+### 2. 도입 [[435_checklist_based_testing|체크리스트]]
 
-- [ ] Spark에 Delta Lake 라이브러리 추가 (`delta-core`)
-- [ ] 기존 Parquet 테이블을 Delta로 변환: `CONVERT TO DELTA parquet.'/path'`
-- [ ] VACUUM 주기 설정 (7일 이상 유지 권장 — 롤백 가능 기간)
-- [ ] Schema Evolution 정책 수립 (`mergeSchema` 옵션 사용 여부)
-- [ ] MERGE INTO 성능 튜닝: OPTIMIZE + Z-Ordering 적용
+- [ ] Spark에 [[147_delta_lake|Delta Lake]] [[336_library_vs_framework|라이브러리]] 추가 (`delta-core`)
+- [ ] 기존 [[178_parquet_rle_encoding_columnar_compression|Parquet]] 테이블을 Delta로 변환: `CONVERT TO DELTA parquet.'/path'`
+- [ ] VACUUM 주기 [[009_config|설정]] (7일 이상 유지 권장 — [[098_rollback_strategy_pipeline_error_threshold|롤백]] 가능 기간)
+- [ ] [[505_schema|Schema]] Evolution [[164_policy|정책]] 수립 (`mergeSchema` 옵션 사용 여부)
+- [ ] MERGE INTO [[282_performance_tactics|성능]] 튜닝: OPTIMIZE + Z-[[277_semaphore_ordering|Ordering]] 적용
 
 **📢 섹션 요약 비유**
-> VACUUM 없이 Delta Lake를 운영하는 것은 "폐기 서류를 절대 버리지 않는 사무실"과 같다. 모든 과거 버전이 쌓이면 스토리지 비용이 폭발한다. 정기 VACUUM은 필수 정리 루틴이다.
+> VACUUM 없이 Delta Lake를 운영하는 것은 "폐기 서류를 절대 버리지 않는 사무실"과 같다. 모든 과거 [[288_version_ihl_tos_total_length|버전]]이 쌓이면 스토리지 비용이 폭발한다. 정기 VACUUM은 필수 정리 루틴이다.
 
 ---
 
@@ -166,30 +166,30 @@ DESCRIBE TABLE EXTENDED orders;
 
 | 효과 | 설명 |
 |:---|:---|
-| 데이터 신뢰성 향상 | ACID로 중복·손상 데이터 방지 |
-| 개발 생산성 | MERGE/UPDATE/DELETE로 복잡한 ETL 단순화 |
-| 운영 안전성 | 타임 트래블로 실수 즉시 롤백 |
-| 감사 (Audit) | 테이블 히스토리로 누가 무엇을 언제 변경했는지 추적 |
+| [[001_dikw_pyramid|데이터]] [[642_reliability_mtbf_mttr_mttf_availability|신뢰성]] 향상 | ACID로 중복·손상 [[001_dikw_pyramid|데이터]] 방지 |
+| 개발 생산성 | MERGE/UPDATE/DELETE로 복잡한 [[215_etl_vs_elt_pipeline|ETL]] 단순화 |
+| 운영 안전성 | 타임 트래블로 실수 즉시 [[098_rollback_strategy_pipeline_error_threshold|롤백]] |
+| [[606_auditing_linux_auditd|감사]] ([[363_audit|Audit]]) | 테이블 히스토리로 누가 무엇을 언제 변경했는지 추적 |
 
 ### 2. 결론
 
-Delta Lake는 데이터 레이크의 유연성과 데이터 웨어하우스의 안정성을 결합한 **레이크하우스 아키텍처의 핵심 스토리지 레이어**다. Databricks 환경에서는 기본이며, 오픈소스 버전으로 Spark 클러스터에도 적용 가능하다. 기술사 답안에서는 기존 레이크의 한계 → Delta Lake의 트랜잭션 로그 기반 해결책 → ACID + 타임 트래블의 가치를 순서대로 서술하는 것이 핵심이다.
+Delta Lake는 [[208_data_lake_schema_on_read|데이터 레이크]]의 유연성과 [[209_data_warehouse_schema_on_write|데이터 웨어하우스]]의 안정성을 결합한 **[[146_lakehouse|레이크하우스]] 아키텍처의 핵심 스토리지 레이어**다. [[074_photon_engine|Databricks]] 환경에서는 기본이며, [[191_oss_license_compliance|오픈소스]] [[288_version_ihl_tos_total_length|버전]]으로 Spark 클러스터에도 적용 가능하다. 기술사 답안에서는 기존 레이크의 한계 → Delta Lake의 [[191_transaction_concept_states|트랜잭션]] [[568_logs_distributed_logging_elk_fluentd|로그]] 기반 해결책 → ACID + 타임 트래블의 가치를 순서대로 서술하는 것이 핵심이다.
 
 **📢 섹션 요약 비유**
-> Delta Lake는 데이터 레이크에 "법적 효력을 가진 계약 시스템"을 도입한 것이다. 어떤 변경도 장부에 기록되고, 잘못된 거래는 취소(롤백)할 수 있으며, 언제나 특정 시점의 장부(타임 트래블)를 열람할 수 있다.
+> Delta Lake는 [[208_data_lake_schema_on_read|데이터 레이크]]에 "법적 효력을 가진 계약 시스템"을 도입한 것이다. 어떤 변경도 장부에 기록되고, 잘못된 거래는 취소([[098_rollback_strategy_pipeline_error_threshold|롤백]])할 수 있으며, 언제나 특정 시점의 장부(타임 트래블)를 열람할 수 있다.
 
 ---
 
 ### 📌 관련 개념 맵
 
-| 개념 | 관계 | 설명 |
+| 개념 | [[083_relationship_in_er_model|관계]] | 설명 |
 |:---|:---|:---|
-| Apache Iceberg | 경쟁 기술 | 멀티 엔진 지원이 강한 유사 오픈 테이블 포맷 |
-| Apache Hudi | 경쟁 기술 | CDC 처리에 강한 유사 오픈 테이블 포맷 |
-| Spark SQL | 실행 엔진 | Delta Lake 연산의 실행 환경 |
-| 레이크하우스 (Lakehouse) | 상위 아키텍처 | Delta Lake가 구현하는 아키텍처 패턴 |
-| VACUUM | 운영 도구 | 오래된 버전 파일 정리 |
-| Z-Ordering | 최적화 기술 | 쿼리 자주 쓰는 컬럼 기준 데이터 클러스터링 |
+| [[148_apache_iceberg|Apache Iceberg]] | 경쟁 기술 | 멀티 엔진 지원이 강한 유사 [[054_open_table_format_iceberg_delta_hudi|오픈 테이블 포맷]] |
+| [[149_apache_hudi|Apache Hudi]] | 경쟁 기술 | [[217_cdc_binlog_change_capture_debezium|CDC]] 처리에 강한 유사 [[054_open_table_format_iceberg_delta_hudi|오픈 테이블 포맷]] |
+| [[056_spark_sql|Spark SQL]] | 실행 엔진 | [[147_delta_lake|Delta Lake]] 연산의 실행 환경 |
+| [[146_lakehouse|레이크하우스]] ([[146_lakehouse|Lakehouse]]) | 상위 아키텍처 | Delta Lake가 구현하는 아키텍처 패턴 |
+| VACUUM | 운영 도구 | 오래된 [[288_version_ihl_tos_total_length|버전]] [[501_file_definition_logical_record|파일]] 정리 |
+| Z-[[277_semaphore_ordering|Ordering]] | 최적화 기술 | [[298_qkv_attention|쿼리]] 자주 쓰는 컬럼 기준 [[001_dikw_pyramid|데이터]] 클러스터링 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -208,8 +208,8 @@ Delta Lake는 데이터 레이크의 유연성과 데이터 웨어하우스의 �
     ▼
 [Lakehouse 아키텍처 — DW 신뢰성 + Data Lake 유연성 통합]
 ```
-단순 파일 저장소인 Data Lake에 트랜잭션 로그를 더해 ACID 정합성과 타임 트래블을 제공하는 Delta Lake가 Lakehouse 아키텍처의 표준으로 자리잡는 흐름이다.
+단순 [[501_file_definition_logical_record|파일]] 저장소인 [[001_dikw_pyramid|Data]] Lake에 [[191_transaction_concept_states|트랜잭션]] [[568_logs_distributed_logging_elk_fluentd|로그]]를 더해 ACID 정합성과 타임 트래블을 제공하는 Delta Lake가 [[146_lakehouse|Lakehouse]] 아키텍처의 표준으로 자리잡는 흐름이다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-데이터 레이크는 물건을 그냥 던져 넣는 창고인데, Delta Lake는 물건을 넣을 때마다 "언제, 무엇을, 왜 넣었는지" 일지에 적는 창고예요. 나중에 실수로 물건을 망가뜨려도 일지(타임 트래블)를 보고 예전 상태로 되돌릴 수 있고, 두 사람이 동시에 물건을 정리해도 서로 충돌(ACID)하지 않아요!
+[[208_data_lake_schema_on_read|데이터 레이크]]는 물건을 그냥 던져 넣는 창고인데, Delta Lake는 물건을 넣을 때마다 "언제, 무엇을, 왜 넣었는지" 일지에 적는 창고예요. 나중에 실수로 물건을 망가뜨려도 일지(타임 트래블)를 보고 예전 상태로 되돌릴 수 있고, 두 사람이 동시에 물건을 정리해도 서로 충돌(ACID)하지 않아요!

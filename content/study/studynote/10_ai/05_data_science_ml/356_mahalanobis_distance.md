@@ -8,15 +8,15 @@ categories = "studynote-ai"
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 마할라노비스 거리(Mahalanobis Distance)는 공분산 행렬(Covariance Matrix)의 역행렬로 데이터 분포의 상관관계와 스케일 차이를 보정한 뒤 계산하는 다차원 거리이며, 이상치(Outlier) 탐지와 다변량 분류의 기준 거리다.
+> 1. **본질**: [[106_mahalanobis_distance|마할라노비스 거리]]([[106_mahalanobis_distance|Mahalanobis Distance]])는 공분산 행렬(Covariance Matrix)의 역행렬로 [[001_dikw_pyramid|데이터]] 분포의 상관관계와 스케일 차이를 보정한 뒤 계산하는 다차원 거리이며, [[076_outlier_detection_iqr_dbscan_isolation_forest|이상치]]([[076_outlier_detection_iqr_dbscan_isolation_forest|Outlier]]) 탐지와 다변량 [[104_classification_analysis|분류]]의 기준 거리다.
 > 2. **가치**: 키(cm)와 몸무게(kg)처럼 단위가 다르거나 상관관계가 있는 변수들 사이의 거리를 공정하게 측정해, 유클리드 거리(Euclidean Distance)가 놓치는 "통계적 비정상"을 정확히 탐지한다.
-> 3. **판단 포인트**: D_M(x) = √((x-μ)ᵀ Σ⁻¹ (x-μ)) 수식에서 Σ⁻¹이 공분산을 정규화하며, 데이터가 다변량 정규 분포(Multivariate Normal Distribution)를 따를 때 D_M²은 카이제곱 분포(Chi-squared Distribution)를 따른다.
+> 3. **판단 포인트**: D_M(x) = √((x-μ)ᵀ Σ⁻¹ (x-μ)) 수식에서 Σ⁻¹이 공분산을 [[093_normalization|정규화]]하며, [[001_dikw_pyramid|데이터]]가 다변량 [[138_normal_distribution|정규 분포]](Multivariate [[138_normal_distribution|Normal Distribution]])를 따를 때 D_M²은 카이제곱 분포(Chi-squared Distribution)를 따른다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-키 170cm, 몸무게 65kg인 사람이 "평균(키 170, 몸무게 70)"과 유클리드 거리로는 5 단위 차이다. 그런데 "키 145, 몸무게 70"인 사람도 유클리드 거리로 25 단위 차이다. 하지만 키 145cm는 통계적으로 매우 드문(이상치) 반면, 몸무게 65는 정상 범위다. 유클리드 거리는 단위와 분산 차이를 무시해 "이상함"을 제대로 측정 못한다. 마할라노비스 거리는 각 변수의 표준 편차로 정규화하고, 변수 간 상관관계를 제거(de-correlation)하여 통계적 이상 정도를 정확히 측정한다.
+키 170cm, 몸무게 65kg인 사람이 "평균(키 170, 몸무게 70)"과 유클리드 거리로는 5 단위 차이다. 그런데 "키 145, 몸무게 70"인 사람도 유클리드 거리로 25 단위 차이다. 하지만 키 145cm는 통계적으로 매우 드문([[076_outlier_detection_iqr_dbscan_isolation_forest|이상치]]) 반면, 몸무게 65는 정상 범위다. 유클리드 거리는 단위와 [[136_variance|분산]] 차이를 무시해 "이상함"을 제대로 측정 못한다. [[106_mahalanobis_distance|마할라노비스 거리]]는 각 변수의 표준 편차로 [[093_normalization|정규화]]하고, 변수 간 상관관계를 제거(de-correlation)하여 통계적 이상 정도를 정확히 측정한다.
 
 ```text
 ┌──────────────────────────────────────────────┐
@@ -27,7 +27,7 @@ categories = "studynote-ai"
 └──────────────────────────────────────────────┘
 ```
 
-- **📢 섹션 요약 비유**: 유클리드 거리는 "직선 줄자"고 마할라노비스 거리는 "통계적 이상함 측정기"다. 직선 줄자는 단위를 모르니 cm와 kg을 같이 더하는 실수를 한다. 마할라노비스는 "이 값이 전체 분포에서 얼마나 특이한가?"를 σ 단위로 측정한다.
+- **📢 섹션 요약 비유**: 유클리드 거리는 "직선 줄자"고 [[106_mahalanobis_distance|마할라노비스 거리]]는 "통계적 이상함 측정기"다. 직선 줄자는 단위를 모르니 cm와 kg을 같이 더하는 실수를 한다. 마할라노비스는 "이 값이 전체 분포에서 얼마나 특이한가?"를 σ 단위로 측정한다.
 
 ---
 
@@ -66,31 +66,31 @@ categories = "studynote-ai"
 
 ## Ⅲ. 비교 및 연결
 
-이상치 탐지 시 D_M² > χ²(p, 0.975) (97.5% 신뢰구간)를 임계값으로 사용한다. 예를 들어 2차원 데이터에서 χ²(2, 0.975) ≈ 7.38이므로 D_M > 2.72인 점은 이상치로 분류한다. QDA(Quadratic Discriminant Analysis, 이차 판별 분석)는 마할라노비스 거리를 분류 결정 경계로 사용하는 확률적 분류기다.
+[[397_outlier_mahalanobis|이상치 탐지]] 시 D_M² > χ²(p, 0.975) (97.5% 신뢰구간)를 임계값으로 사용한다. 예를 들어 2차원 [[001_dikw_pyramid|데이터]]에서 χ²(2, 0.975) ≈ 7.38이므로 D_M > 2.72인 점은 [[076_outlier_detection_iqr_dbscan_isolation_forest|이상치]]로 [[104_classification_analysis|분류]]한다. QDA(Quadratic Discriminant Analysis, 이차 판별 분석)는 [[106_mahalanobis_distance|마할라노비스 거리]]를 [[104_classification_analysis|분류]] 결정 경계로 사용하는 [[130_probability|확률]]적 [[104_classification_analysis|분류]]기다.
 
 | 구분 | 핵심 초점 | 적용 상황 |
 |:---|:---|:---|
-| 기초 접근 | 원리 이해와 기준 설정 | 작은 규모, 개념 학습 |
-| 마할라노비스 거리 (Mahalanobis Distance) | 성능과 실용성의 균형 | 대표적인 실무 적용 |
-| 확장 접근 | 자동화·대규모 최적화 | 서비스 고도화 단계 |
+| 기초 접근 | 원리 이해와 기준 [[009_config|설정]] | 작은 규모, 개념 학습 |
+| [[106_mahalanobis_distance|마할라노비스 거리]] ([[106_mahalanobis_distance|Mahalanobis Distance]]) | [[282_performance_tactics|성능]]과 실용성의 균형 | 대표적인 실무 적용 |
+| 확장 접근 | 자동화·대규모 최적화 | [[090_service_kubernetes_network_load_balancing|서비스]] 고도화 단계 |
 
-- **📢 섹션 요약 비유**: 마할라노비스 거리의 이상치 탐지는 "인체 건강 검진"이다. 키와 몸무게가 같이 변해야 하는 상관관계를 고려해, 키는 크고 몸무게가 극단적으로 낮다면 통계적 이상(이상치)으로 탐지한다.
+- **📢 섹션 요약 비유**: [[106_mahalanobis_distance|마할라노비스 거리]]의 [[397_outlier_mahalanobis|이상치 탐지]]는 "인체 건강 검진"이다. 키와 몸무게가 같이 변해야 하는 상관관계를 고려해, 키는 크고 몸무게가 극단적으로 낮다면 통계적 이상([[076_outlier_detection_iqr_dbscan_isolation_forest|이상치]])으로 탐지한다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-금융 사기 탐지에서 거래 금액, 빈도, 위치 등 다변량 특성의 마할라노비스 거리를 실시간 계산해 임계값 초과 거래를 즉시 차단한다. Minimum Covariance Determinant(MCD) 추정으로 이상치에 강건(Robust)한 공분산 행렬을 사용하면 이상치가 많은 데이터에서도 안정적이다. 차원이 높을수록 Σ⁻¹ 계산의 수치적 불안정성이 증가하므로 PCA로 차원 축소 후 적용을 권장한다.
+금융 사기 탐지에서 거래 금액, 빈도, 위치 등 다변량 특성의 [[106_mahalanobis_distance|마할라노비스 거리]]를 실시간 계산해 임계값 초과 거래를 즉시 차단한다. Minimum Covariance [[095_determinant_dependent|Determinant]](MCD) 추정으로 [[076_outlier_detection_iqr_dbscan_isolation_forest|이상치]]에 강건(Robust)한 공분산 행렬을 사용하면 [[076_outlier_detection_iqr_dbscan_isolation_forest|이상치]]가 많은 [[001_dikw_pyramid|데이터]]에서도 안정적이다. 차원이 높을수록 Σ⁻¹ 계산의 수치적 불안정성이 증가하므로 PCA로 [[081_dimensionality_reduction_pca_principal_component_analysis|차원 축소]] 후 적용을 권장한다.
 
-- **📢 섹션 요약 비유**: MCD 추정은 "이상치를 제외하고 정상 데이터만으로 평균과 공분산을 추정"하는 방법이다. 사기 거래(이상치)가 섞인 데이터로 공분산을 추정하면 정상 패턴이 왜곡되므로, 정상치 중심의 MCD로 더 정확한 기준을 잡는다.
+- **📢 섹션 요약 비유**: MCD 추정은 "[[076_outlier_detection_iqr_dbscan_isolation_forest|이상치]]를 제외하고 정상 [[001_dikw_pyramid|데이터]]만으로 평균과 공분산을 추정"하는 방법이다. 사기 거래([[076_outlier_detection_iqr_dbscan_isolation_forest|이상치]])가 섞인 [[001_dikw_pyramid|데이터]]로 공분산을 추정하면 정상 패턴이 왜곡되므로, 정상치 중심의 MCD로 더 정확한 기준을 잡는다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-마할라노비스 거리는 다변량 이상치 탐지, 패턴 인식, 클러스터 분류에서 유클리드 거리의 근본적 한계(단위 의존, 상관 무시)를 극복하는 통계적으로 우월한 거리 척도다. 기술사 시험에서 D_M 수식의 Σ⁻¹ 역할(스케일 정규화 + 탈상관)과 D_M² ~ χ² 분포 관계를 명확히 서술하면 높은 점수를 받을 수 있다.
+[[106_mahalanobis_distance|마할라노비스 거리]]는 다변량 [[397_outlier_mahalanobis|이상치 탐지]], 패턴 인식, 클러스터 [[104_classification_analysis|분류]]에서 유클리드 거리의 근본적 한계(단위 의존, 상관 무시)를 극복하는 통계적으로 우월한 거리 척도다. 기술사 시험에서 D_M 수식의 Σ⁻¹ 역할(스케일 [[093_normalization|정규화]] + 탈상관)과 D_M² ~ χ² 분포 [[083_relationship_in_er_model|관계]]를 명확히 서술하면 높은 점수를 받을 수 있다.
 
-- **📢 섹션 요약 비유**: 마할라노비스 거리는 "문화권을 고려한 키 측정"이다. 평균 키가 190cm인 나라에서 180cm는 '작은 편'이지만, 평균 160cm인 나라에서 180cm는 '큰 편'이다. 마할라노비스는 각 데이터의 분포(공분산)를 기준으로 얼마나 특이한지를 측정한다.
+- **📢 섹션 요약 비유**: [[106_mahalanobis_distance|마할라노비스 거리]]는 "문화권을 고려한 키 측정"이다. 평균 키가 190cm인 나라에서 180cm는 '작은 편'이지만, 평균 160cm인 나라에서 180cm는 '큰 편'이다. 마할라노비스는 각 [[001_dikw_pyramid|데이터]]의 분포(공분산)를 기준으로 얼마나 특이한지를 측정한다.
 
 ---
 
@@ -98,9 +98,9 @@ categories = "studynote-ai"
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| 공분산 행렬 (Covariance Matrix) | PCA / Σ⁻¹의 기반 |
-| 이상치 탐지 (Anomaly Detection) | 금융 사기, 제조 불량 / 마할라노비스 거리 주요 응용 |
-| QDA (Quadratic Discriminant Analysis) | 확률적 분류 / 마할라노비스 거리 기반 분류 |
+| 공분산 행렬 (Covariance Matrix) | [[163_pca|PCA]] / Σ⁻¹의 기반 |
+| [[397_outlier_mahalanobis|이상치 탐지]] ([[111_anomaly_detection|Anomaly Detection]]) | 금융 사기, 제조 불량 / [[106_mahalanobis_distance|마할라노비스 거리]] 주요 응용 |
+| QDA (Quadratic Discriminant Analysis) | [[130_probability|확률]]적 [[104_classification_analysis|분류]] / [[106_mahalanobis_distance|마할라노비스 거리]] 기반 [[104_classification_analysis|분류]] |
 | 카이제곱 분포 (Chi-squared) | 통계 검정 / D_M² 분포 |
 
 ### 📈 관련 키워드 및 발전 흐름도
@@ -111,6 +111,6 @@ categories = "studynote-ai"
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. 유클리드 거리는 "직선 거리"고 마할라노비스 거리는 "이 점이 얼마나 특이한가"를 재는 특별한 자예요.
+1. 유클리드 거리는 "직선 거리"고 [[106_mahalanobis_distance|마할라노비스 거리]]는 "이 점이 얼마나 특이한가"를 재는 특별한 자예요.
 2. 키와 몸무게처럼 서로 관련된 숫자들의 상관관계까지 고려해서 거리를 측정해요.
-3. 이 거리가 너무 크면 "이상한 점"(이상치)으로 찾아내는 데 사용할 수 있어요!
+3. 이 거리가 너무 크면 "이상한 점"([[076_outlier_detection_iqr_dbscan_isolation_forest|이상치]])으로 찾아내는 데 사용할 수 있어요!

@@ -8,19 +8,19 @@ categories = "studynote-operating-system"
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 성능 모니터링(Performance Monitoring)은 운영체제(OS)의 CPU, 메모리, 디스크 I/O, 네트워크 등 핵심 자원의 사용률(Utilization), 처리량(Throughput), 지연 시간(Latency)을 지속적으로 측정하고 분석하여, 병목 현상(Bottleneck)을 식별하고 최적화하는 체계적 방법론이다.
-> 2. **가치**: USE 방법론(Utilization-Saturation-Errors)과 같은 구조적 접근법을 적용하면, 수십 개의 성능 지표 중 "지금 가장 시급한 문제가 무엇인가?"를 체계적으로 파악하여, 직관에 의존하지 않는 데이터 기반 성능 튜닝(Data-Driven Performance Tuning)이 가능하다.
-> 3. **융합**: 성능 모니터링은 운영체제의 커널 통계(Perf Events, /proc 파일시스템), 하드웨어 성능 카운터(PMU, Performance Monitoring Unit), 그리고 분산 시스템의 observability 프레임워크(Prometheus, OpenTelemetry)가 융합된 다계층 측정 아키텍처다.
+> 1. **본질**: [[282_performance_tactics|성능]] 모니터링([[282_performance_tactics|Performance]] Monitoring)은 [[001_operating_system_purpose|운영체제]](OS)의 CPU, 메모리, 디스크 I/O, 네트워크 등 핵심 자원의 사용률(Utilization), [[139_throughput|처리량]]([[139_throughput|Throughput]]), [[141_latency|지연 시간]]([[141_latency|Latency]])을 지속적으로 측정하고 분석하여, 병목 현상([[617_io_bottleneck|Bottleneck]])을 [[655_ir_detection_analysis|식별]]하고 최적화하는 체계적 방법론이다.
+> 2. **가치**: USE 방법론(Utilization-Saturation-Errors)과 같은 구조적 접근법을 적용하면, 수십 개의 [[282_performance_tactics|성능]] 지표 중 "지금 가장 시급한 문제가 무엇인가?"를 체계적으로 파악하여, 직관에 의존하지 않는 [[001_dikw_pyramid|데이터]] 기반 [[282_performance_tactics|성능]] 튜닝(Data-Driven [[282_performance_tactics|Performance]] Tuning)이 가능하다.
+> 3. **융합**: [[282_performance_tactics|성능]] 모니터링은 [[001_operating_system_purpose|운영체제]]의 [[022_kernel_role|커널]] 통계(Perf Events, /proc 파일시스템), 하드웨어 [[282_performance_tactics|성능]] [[059_counter|카운터]](PMU, [[282_performance_tactics|Performance]] Monitoring Unit), 그리고 [[136_variance|분산]] 시스템의 [[642_observability_telemetry|observability]] 프레임워크([[136_prometheus|Prometheus]], [[146_opentelemetry_otel_observability_standard|OpenTelemetry]])가 융합된 다계층 측정 아키텍처다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
 **개념 및 정의**
-성능 모니터링(Performance Monitoring)은 시스템의 동작 상태를 정량적 지표(Metrics)로 지속 측정하고 기록하는 활동이며, 성능 튜닝(Performance Tuning)은 측정 결과를 바탕으로 시스템 매개변수(Parameter)를 조정하여 성능 목표(응답 시간, 처리량, 자원 효율)를 달성하는 최적화 과정이다. 이 둘은 "측정(Measure) → 분석(Analyze) → 조정(Tune) → 검증(Verify)"의 반복적 사이클(PDCA, Plan-Do-Check-Act)로 수행된다.
+[[282_performance_tactics|성능]] 모니터링([[282_performance_tactics|Performance]] Monitoring)은 시스템의 동작 상태를 정량적 지표([[567_metrics_time_series_prometheus_grafana|Metrics]])로 지속 측정하고 기록하는 활동이며, [[282_performance_tactics|성능]] 튜닝([[282_performance_tactics|Performance]] Tuning)은 측정 결과를 바탕으로 시스템 매개변수(Parameter)를 조정하여 [[282_performance_tactics|성능]] 목표([[138_response_time|응답 시간]], [[139_throughput|처리량]], 자원 효율)를 달성하는 최적화 과정이다. 이 둘은 "측정(Measure) → 분석(Analyze) → 조정(Tune) → [[395_verification_process_review|검증]](Verify)"의 반복적 사이클([[838_pdca_model|PDCA]], [[838_pdca_model|Plan-Do-Check-Act]])로 수행된다.
 
 **필요성 및 등장 배경**
-현대 시스템은 마이크로서비스 아키텍처(MSA), 컨테이너 오케스트레이션(Kubernetes), 분산 데이터베이스 등으로 고도화되면서, 어느 하나의 컴포넌트에서 발생한 병목(Bottleneck)이 전체 시스템의 연쇄 장애(Cascading Failure)로 이어질 수 있다. 예를 들어, 데이터베이스의 디스크 I/O 지연이 10ms에서 100ms로 증가하면, 이를 호출하는 API 서버의 응답 시간이 10배 증가하고, 연쇄적으로 프론트엔드의 타임아웃이 발생하여 전체 서비스가 마비될 수 있다. 이러한 문제를 사전에 감지하고 해결하기 위해 체계적인 성능 모니터링이 필수적이다.
+현대 시스템은 [[213_msa_microservices_architecture|마이크로서비스 아키텍처]]([[619_msa_traffic_hardware|MSA]]), [[205_kubernetes_container_orchestration|컨테이너 오케스트레이션]]([[205_kubernetes_container_orchestration|Kubernetes]]), [[136_variance|분산]] [[002_database_definition|데이터베이스]] 등으로 고도화되면서, 어느 하나의 컴포넌트에서 발생한 병목([[617_io_bottleneck|Bottleneck]])이 전체 시스템의 연쇄 장애(Cascading Failure)로 이어질 수 있다. 예를 들어, [[002_database_definition|데이터베이스]]의 디스크 I/O [[015_지연_데이터_관점|지연]]이 10ms에서 100ms로 증가하면, 이를 호출하는 [[014_api_posix|API]] 서버의 [[138_response_time|응답 시간]]이 10배 증가하고, 연쇄적으로 프론트엔드의 타임아웃이 발생하여 전체 [[090_service_kubernetes_network_load_balancing|서비스]]가 마비될 수 있다. 이러한 문제를 사전에 감지하고 해결하기 위해 체계적인 [[282_performance_tactics|성능]] 모니터링이 필수적이다.
 
 ```text
 ┌────────────────────────────────────────────────────────────────┐
@@ -48,30 +48,30 @@ categories = "studynote-operating-system"
 └────────────────────────────────────────────────────────────────┘
 ```
 
-**[다이어그램 해설]** 이 다이어그램은 단일 컴포넌트의 성능 저하가 전체 시스템에 미치는 연쇄 효과를 보여준다. 데이터베이스 서버의 디스크 I/O 지연이 증가하면, 이를 호출하는 API 서버의 응답 시간이 길어지고, API 서버의 스레드 풀(Thread Pool)이 고갈되면 웹 서버의 연결 대기열이 길어지며, 최종적으로 클라이언트 요청이 타임아웃되어 서비스 장애로 이어진다. 성능 모니터링은 이러한 연쇄 장애를 "DB 응답 시간이 점진적으로 증가하고 있다"는 미세한 신호(Early Warning)로 사전에 감지하는 역할을 수행한다.
+**[다이어그램 해설]** 이 다이어그램은 단일 컴포넌트의 [[282_performance_tactics|성능]] 저하가 전체 시스템에 미치는 연쇄 효과를 보여준다. [[002_database_definition|데이터베이스]] 서버의 디스크 I/O [[015_지연_데이터_관점|지연]]이 증가하면, 이를 호출하는 [[014_api_posix|API]] 서버의 [[138_response_time|응답 시간]]이 길어지고, [[014_api_posix|API]] 서버의 [[103_thread_pool|스레드 풀]]([[103_thread_pool|Thread Pool]])이 고갈되면 웹 서버의 연결 대기열이 길어지며, 최종적으로 클라이언트 요청이 타임아웃되어 [[090_service_kubernetes_network_load_balancing|서비스]] 장애로 이어진다. [[282_performance_tactics|성능]] 모니터링은 이러한 연쇄 장애를 "DB [[138_response_time|응답 시간]]이 점진적으로 증가하고 있다"는 미세한 [[130_signal|신호]](Early Warning)로 사전에 감지하는 역할을 수행한다.
 
-- **📢 섹션 요약 비유**: 병원에서 환자의 체온, 혈압, 맥박을 실시간으로 모니터링하는 것과 같습니다. 혈압이 조금씩 올라가는 것(지연 시간 증가)을 일찍 발견하면 약을 먹여(튜닝) 위험한 상태(장애)를 예방할 수 있지만, 모니터링이 없으면 환자가 쓰러진 뒤(서비스 장애)에야 알게 됩니다.
+- **📢 섹션 요약 비유**: 병원에서 환자의 체온, 혈압, 맥박을 실시간으로 모니터링하는 것과 같습니다. 혈압이 조금씩 올라가는 것([[141_latency|지연 시간]] 증가)을 일찍 발견하면 약을 먹여(튜닝) 위험한 상태(장애)를 예방할 수 있지만, 모니터링이 없으면 환자가 쓰러진 뒤([[090_service_kubernetes_network_load_balancing|서비스]] 장애)에야 알게 됩니다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### 핵심 성능 지표(Metrics) 분류
+### 핵심 [[282_performance_tactics|성능]] 지표([[567_metrics_time_series_prometheus_grafana|Metrics]]) [[104_classification_analysis|분류]]
 
 | 자원 유형 | 핵심 지표 | 측정 도구 | 의미 |
 |:---|:---|:---|:---|
-| **CPU** | %user, %system, %iowait, %idle | top, vmstat, mpstat | CPU 시간 분배 상태 |
+| **CPU** | %user, %system, %iowait, %[[611_cpu_idle_wait_optimization|idle]] | top, vmstat, mpstat | CPU 시간 분배 상태 |
 | **메모리** | used, free, cached, swap | free, vmstat, /proc/meminfo | 메모리 압박(Memory Pressure) |
-| **디스크 I/O** | IOPS, throughput(MB/s), await(ms) | iostat, iotop, blktrace | 스토리지 병목 |
-| **네트워크** | bandwidth, packet loss, retransmit | sar, nethogs, tcpdump | 네트워크 지연 |
-| **커널** | context switches, interrupts, run queue | vmstat, perf, /proc/stat | 커널 오버헤드 |
+| **디스크 I/O** | IOPS, [[139_throughput|throughput]](MB/s), await(ms) | iostat, iotop, blktrace | 스토리지 병목 |
+| **네트워크** | [[140_bandwidth|bandwidth]], packet loss, retransmit | sar, nethogs, tcpdump | [[1002_network_delay_rtt_oneway_delay_components|네트워크 지연]] |
+| **[[022_kernel_role|커널]]** | [[033_context|context]] switches, interrupts, run [[058_queue|queue]] | vmstat, perf, /proc/stat | [[022_kernel_role|커널]] 오버헤드 |
 
 ### USE 방법론 (Utilization-Saturation-Errors)
 
-Brendan Gregg가 제안한 USE 방법론은 모든 자원 유형에 대해 세 가지 질문을 순차적으로 던지는 체계적 성능 분석 프레임워크다.
+Brendan Gregg가 제안한 USE 방법론은 모든 자원 유형에 대해 세 가지 질문을 순차적으로 던지는 체계적 [[282_performance_tactics|성능]] 분석 프레임워크다.
 
 1. **Utilization(사용률)**: 자원이 실제로 작업을 수행하느라 바쁜 비율(%)
-2. **Saturation(포화도)**: 자원이 처리할 수 있는 한계를 넘어 대기 중인 작업의 정도(Queue Length)
+2. **Saturation(포화도)**: 자원이 처리할 수 있는 한계를 넘어 대기 중인 작업의 정도([[058_queue|Queue]] Length)
 3. **Errors(오류)**: 자원 접근 시 발생한 오류의 수(Error Count)
 
 ```text
@@ -104,7 +104,7 @@ Brendan Gregg가 제안한 USE 방법론은 모든 자원 유형에 대해 세 �
 └────────────────────────────────────────────────────────────────┘
 ```
 
-**[다이어그램 해설]** USE 매트릭스는 각 자원 유형(CPU, 메모리, 디스크, 네트워크)에 대해 Utilization → Saturation → Errors 순서로 검사하는 체계적 접근법을 제공한다. 가장 먼저 Errors를 확인하는 것이 좋은데, 오류는 명확한 문제 신호이기 때문이다. 그 다음 Utilization이 높은 자원을 식별하고, 마지막으로 Saturation(대기열 길이, 지연 시간)을 확인하여 실제 사용자 경험에 영향을 미치는 병목을 파악한다.
+**[다이어그램 해설]** USE 매트릭스는 각 자원 유형(CPU, 메모리, 디스크, 네트워크)에 대해 Utilization → Saturation → Errors 순서로 검사하는 체계적 접근법을 제공한다. 가장 먼저 Errors를 [[396_validation|확인]]하는 것이 좋은데, 오류는 명확한 문제 [[130_signal|신호]]이기 때문이다. 그 다음 Utilization이 높은 자원을 [[655_ir_detection_analysis|식별]]하고, 마지막으로 Saturation(대기열 길이, [[141_latency|지연 시간]])을 [[396_validation|확인]]하여 실제 사용자 경험에 영향을 미치는 병목을 파악한다.
 
 ### Linux 핵심 모니터링 도구 체계
 
@@ -139,25 +139,25 @@ Brendan Gregg가 제안한 USE 방법론은 모든 자원 유형에 대해 세 �
 └────────────────────────────────────────────────────────────────┘
 ```
 
-**[다이어그램 해설]** 이 계층도는 Linux 성능 모니터링 도구를 6계층으로 분류한다. Layer 0(데이터 소스)은 커널의 /proc 파일시스템과 하드웨어 성능 카운터(PMU)로, 모든 모니터링의 근원이다. 상위 계층으로 갈수록 분석 능력이 강력해지지만 오버헤드도 증가한다. 실무에서는 Layer 1-2로 실시간 상태를 파악하고, Layer 3-4로 심층 분석을 수행하며, Layer 5로 장기 추세를 모니터링하는 방식으로 계층별 도구를 조합하여 사용한다.
+**[다이어그램 해설]** 이 계층도는 Linux [[282_performance_tactics|성능]] 모니터링 도구를 6계층으로 [[104_classification_analysis|분류]]한다. Layer 0([[001_dikw_pyramid|데이터]] 소스)은 [[022_kernel_role|커널]]의 /proc 파일시스템과 하드웨어 [[282_performance_tactics|성능]] [[059_counter|카운터]](PMU)로, 모든 모니터링의 근원이다. 상위 계층으로 갈수록 분석 능력이 강력해지지만 오버헤드도 증가한다. 실무에서는 Layer 1-2로 실시간 상태를 파악하고, Layer 3-4로 심층 분석을 수행하며, Layer 5로 장기 추세를 모니터링하는 방식으로 계층별 도구를 조합하여 사용한다.
 
-- **📢 섹션 요약 비유**: 병원 검사도 초진(Layer 1: 체온/혈압) → 기본 검사(Layer 2: 혈액검사) → 전문 검사(Layer 3: CT/MRI) → 종합 판독(Layer 5: AI 진단)으로 단계적입니다. 처음부터 CT를 찍는 것은 비효율적이므로, 기본 검사에서 이상이 발견되면 심층 검사로 넘어가는 체계적인 접근이 필요합니다.
+- **📢 섹션 요약 비유**: 병원 검사도 초진(Layer 1: 체온/혈압) → 기본 검사(Layer 2: 혈액검사) → 전문 검사(Layer 3: [[162_continuous_training_pipeline_model_retraining|CT]]/MRI) → 종합 판독(Layer 5: [[190_ai_llm_requirements_specification|AI]] 진단)으로 단계적입니다. 처음부터 CT를 찍는 것은 비효율적이므로, 기본 검사에서 이상이 발견되면 심층 검사로 넘어가는 체계적인 접근이 필요합니다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-### 성능 튜닝 접근법 비교
+### [[282_performance_tactics|성능]] 튜닝 접근법 비교
 
 | 접근법 | 장점 | 단점 | 적용 시나리오 |
 |:---|:---|:---|:---|
 | **직관 기반(Intuition)** | 빠른 대응 | 경험 의존, 편향 위험 | 익숙한 시스템의 긴급 대응 |
-| **USE 방법론** | 체계적, 재현 가능 | 자원별 반복 분석 필요 | 일반적 병목 식별 |
-| **부하 테스트(Load Test)** | 실제 한계 탐지 | 환경 구성 비용 | 출시 전 용량 산정 |
-| **프로파일링(Profiling)** | 함수 수준 원인 파악 | 오버헤드, 분석 난이도 | CPU/메모리 핫스팟 탐지 |
-| **AIOps / ML 기반** | 이상 탐지 자동화 | 학습 데이터 필요 | 대규모 분산 시스템 |
+| **USE 방법론** | 체계적, 재현 가능 | 자원별 반복 분석 필요 | 일반적 병목 [[655_ir_detection_analysis|식별]] |
+| **[[446_load_test|부하 테스트]]([[446_load_test|Load Test]])** | 실제 한계 탐지 | 환경 구성 비용 | 출시 전 용량 산정 |
+| **[[613_profiling_gprof|프로파일링]]([[613_profiling_gprof|Profiling]])** | 함수 수준 원인 파악 | 오버헤드, 분석 난이도 | CPU/메모리 핫스팟 탐지 |
+| **[[099_aiops_chatbot_itsm_automation|AIOps]] / ML 기반** | [[236_anomaly_based_detection_zero_day_false_positive|이상 탐지]] 자동화 | 학습 [[001_dikw_pyramid|데이터]] 필요 | 대규모 [[136_variance|분산]] 시스템 |
 
-### 핵심 성능 튜닝 매개변수 (Linux Kernel)
+### 핵심 [[282_performance_tactics|성능]] 튜닝 매개변수 (Linux [[022_kernel_role|Kernel]])
 
 ```text
 ┌────────────────────────────────────────────────────────────────┐
@@ -189,9 +189,9 @@ Brendan Gregg가 제안한 USE 방법론은 모든 자원 유형에 대해 세 �
 └────────────────────────────────────────────────────────────────┘
 ```
 
-**[다이어그램 해설]** 이 표는 Linux 커널의 주요 성능 튜닝 매개변수를 자원 유형별로 정리한다. 튜닝은 항상 "현재 상태 측정 → 병목 식별 → 매개변수 조정 → 효과 검증"의 사이클로 수행해야 한다. 임의로 매개변수를 조정하면 오히려 성능이 악화될 수 있으므로, USE 방법론으로 병목을 정확히 식별한 후에만 해당 매개변수를 조정해야 한다.
+**[다이어그램 해설]** 이 표는 Linux [[022_kernel_role|커널]]의 주요 [[282_performance_tactics|성능]] 튜닝 매개변수를 자원 유형별로 정리한다. 튜닝은 항상 "[[178_as_is_to_be_analysis|현재 상태]] 측정 → 병목 [[655_ir_detection_analysis|식별]] → 매개변수 조정 → 효과 [[395_verification_process_review|검증]]"의 사이클로 수행해야 한다. 임의로 매개변수를 조정하면 오히려 [[282_performance_tactics|성능]]이 악화될 수 있으므로, USE 방법론으로 병목을 정확히 [[655_ir_detection_analysis|식별]]한 후에만 해당 매개변수를 조정해야 한다.
 
-- **📢 섹션 요약 비유**: 자동차 튜닝과 같습니다. 엔진 소리만 듣고 "타이어 공기를 빼자"라고 하면 안 됩니다. 먼저 계기판(모니터링)으로 어느 부분이 문제인지 확인하고, 타이어 문제면 타이어를, 엔진 문제면 엔진을 정비하는 체계적인 접근이 필요합니다.
+- **📢 섹션 요약 비유**: 자동차 튜닝과 같습니다. 엔진 소리만 듣고 "타이어 공기를 빼자"라고 하면 안 됩니다. 먼저 계기판(모니터링)으로 어느 부분이 문제인지 [[396_validation|확인]]하고, 타이어 문제면 타이어를, 엔진 문제면 엔진을 정비하는 체계적인 접근이 필요합니다.
 
 ---
 
@@ -199,23 +199,23 @@ Brendan Gregg가 제안한 USE 방법론은 모든 자원 유형에 대해 세 �
 
 ### 실무 적용 시나리오 및 의사결정
 
-**시나리오 1: 웹 서비스 응답 시간 저하 원인 분석**
-- 1단계: top/vmstat으로 전체 자원 사용률 확인 → CPU 90% 사용률 발견.
+**시나리오 1: 웹 [[090_service_kubernetes_network_load_balancing|서비스]] [[138_response_time|응답 시간]] 저하 원인 분석**
+- 1단계: top/vmstat으로 전체 자원 사용률 [[396_validation|확인]] → CPU 90% 사용률 발견.
 - 2단계: pidstat -p [PID]로 프로세스별 CPU 상세 분석 → 특정 워커 프로세스가 CPU 독점.
-- 3단계: perf top으로 해당 프로세스의 핫스팟(Hotspot) 함수 식별 → JSON 파싱 함수가 40% 차지.
-- 4단계: JSON 파싱 라이브러리를 simdjson으로 교체 → CPU 사용률 45% 감소, 응답 시간 60% 개선.
+- 3단계: perf top으로 해당 프로세스의 핫스팟(Hotspot) 함수 [[655_ir_detection_analysis|식별]] → [[343_json|JSON]] 파싱 함수가 40% 차지.
+- 4단계: [[343_json|JSON]] 파싱 라이브러리를 simdjson으로 교체 → CPU 사용률 45% 감소, [[138_response_time|응답 시간]] 60% 개선.
 
-**시나리오 2: 데이터베이스 쿼리 지연 원인 분석**
-- 1단계: iostat -x 1로 디스크 I/O 상태 확인 → %util 95%, await 80ms (심각한 I/O 병목).
-- 2단계: /proc/meminfo로 캐시 적중률 확인 → Cached 메모리 부족으로 디스크 읽기 빈번.
-- 3단계: vm.swappiness를 10으로 조정 + shared_buffers 증설.
-- 4단계: 쿼리 실행 계획(EXPLAIN)으로 풀 테이블 스캔 쿼리 식별 → 인덱스 추가.
-- 5단계: iostat 재측정 → %util 40%, await 5ms로 개선 확인.
+**시나리오 2: [[002_database_definition|데이터베이스]] [[298_qkv_attention|쿼리]] [[015_지연_데이터_관점|지연]] 원인 분석**
+- 1단계: iostat -x 1로 디스크 I/O 상태 [[396_validation|확인]] → %util 95%, await 80ms (심각한 I/O 병목).
+- 2단계: /proc/meminfo로 캐시 [[264_hit_ratio|적중률]] [[396_validation|확인]] → Cached 메모리 부족으로 디스크 읽기 빈번.
+- 3단계: [[598_vm_migration_nic|vm]].swappiness를 10으로 조정 + shared_buffers 증설.
+- 4단계: [[298_qkv_attention|쿼리]] [[166_execution_plan_optimizer_navigation_tree|실행 계획]](EXPLAIN)으로 풀 테이블 스캔 [[298_qkv_attention|쿼리]] [[655_ir_detection_analysis|식별]] → [[154_database_index_b_tree_search_optimization|인덱스]] 추가.
+- 5단계: iostat 재측정 → %util 40%, await 5ms로 개선 [[396_validation|확인]].
 
-**시나리오 3: 컨테이너 환경의 자원 경합(Resource Contention)**
-- Kubernetes 클러스터에서 특정 Pod의 응답 시간이 간헐적으로 급증.
-- kubectl top + Prometheus 메트릭으로 분석 → 동일 노드의 다른 Pod가 CPU Burst.
-- 해결: CPU Limits/Limits 조정, 노드 어피니티(Anti-Affinity) 설정으로 분산 배치.
+**시나리오 3: [[561_container_based_deployment|컨테이너]] 환경의 자원 경합(Resource Contention)**
+- [[205_kubernetes_container_orchestration|Kubernetes]] 클러스터에서 특정 Pod의 [[138_response_time|응답 시간]]이 간헐적으로 급증.
+- [[077_kube_api_server_k8s_hub|kubectl]] top + [[136_prometheus|Prometheus]] 메트릭으로 분석 → 동일 노드의 다른 Pod가 CPU Burst.
+- 해결: CPU Limits/Limits 조정, [[107_node_affinity_kubernetes_scheduling_required_preferred|노드 어피니티]](Anti-Affinity) 설정으로 [[136_variance|분산]] 배치.
 
 ```text
 ┌────────────────────────────────────────────────────────────────┐
@@ -246,19 +246,19 @@ Brendan Gregg가 제안한 USE 방법론은 모든 자원 유형에 대해 세 �
 └────────────────────────────────────────────────────────────────┘
 ```
 
-**[다이어그램 해설]** 이 흐름도는 성능 이슈 발생 시 USE 방법론과 계층별 도구를 조합하여 원인을 식별하고 해결하는 의사결정 과정을 보여준다. 핵심은 "측정 없이 튜닝하지 않는다"는 원칙이다. 직관이나 경험에만 의존하여 매개변수를 조정하면, 실제 병목이 아닌 곳을 튜닝하게 되어 오히려 전체 성능이 악화될 수 있다.
+**[다이어그램 해설]** 이 흐름도는 [[282_performance_tactics|성능]] 이슈 발생 시 USE 방법론과 계층별 도구를 조합하여 원인을 [[655_ir_detection_analysis|식별]]하고 해결하는 의사결정 과정을 보여준다. 핵심은 "측정 없이 튜닝하지 않는다"는 원칙이다. 직관이나 경험에만 의존하여 매개변수를 조정하면, 실제 병목이 아닌 곳을 튜닝하게 되어 오히려 전체 [[282_performance_tactics|성능]]이 악화될 수 있다.
 
-- **📢 섹션 요약 비유**: 의사가 환자를 진료할 때, "아프다고 하니 수술합시다"가 아니라, 체온 재고(Layer 1), 혈액 검사(Layer 2), CT 촬영(Layer 3)으로 정확한 원인을 찾은 뒤에 치료(튜닝)하고, 치료 후 재검진(검증)으로 효과를 확인하는 과정과 같습니다.
+- **📢 섹션 요약 비유**: 의사가 환자를 진료할 때, "아프다고 하니 수술합시다"가 아니라, 체온 재고(Layer 1), 혈액 검사(Layer 2), [[162_continuous_training_pipeline_model_retraining|CT]] 촬영(Layer 3)으로 정확한 원인을 찾은 뒤에 치료(튜닝)하고, 치료 후 재검진([[395_verification_process_review|검증]])으로 효과를 [[396_validation|확인]]하는 과정과 같습니다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-성능 모니터링과 튜닝은 운영체제의 안정적 운영과 서비스 품질 보장을 위한 필수 활동이다. USE 방법론은 "Utilization(사용률) → Saturation(포화도) → Errors(오류)"의 체계적 분석 프레임워크를 제공하여, 직관에 의존하지 않는 데이터 기반 성능 분석을 가능하게 한다.
+[[282_performance_tactics|성능]] 모니터링과 튜닝은 [[001_operating_system_purpose|운영체제]]의 안정적 운영과 [[090_service_kubernetes_network_load_balancing|서비스]] 품질 보장을 위한 필수 활동이다. USE 방법론은 "Utilization(사용률) → Saturation(포화도) → Errors(오류)"의 체계적 분석 프레임워크를 제공하여, 직관에 의존하지 않는 [[001_dikw_pyramid|데이터]] 기반 [[282_performance_tactics|성능]] 분석을 가능하게 한다.
 
-Linux의 풍부한 모니터링 도구 생태계(/proc, perf, eBPF)는 6계층(Layer 0~5)으로 체계적으로 구성되어 있으며, 실무에서는 계층별 도구를 조합하여 실시간 상태 파악(Layer 1-2), 심층 분석(Layer 3-4), 장기 추세 관찰(Layer 5)의 다차원적 모니터링을 수행한다.
+Linux의 풍부한 모니터링 도구 생태계(/proc, perf, [[615_ebpf|eBPF]])는 6계층(Layer 0~5)으로 체계적으로 구성되어 있으며, 실무에서는 계층별 도구를 조합하여 실시간 상태 파악(Layer 1-2), 심층 분석(Layer 3-4), 장기 추세 관찰(Layer 5)의 다차원적 모니터링을 수행한다.
 
-성능 튜닝은 항상 "측정 → 분석 → 조정 → 검증"의 반복 사이클로 수행되어야 하며, 커널 매개변수 조정 시에는 변경 전후의 정량적 비교와 충분한 안정성 관측이 필수적이다. 앞으로 eBPF 기반의 제로 오버헤드 모니터링과 AIOps의 자동 이상 탐지가 결합되어, 인간의 개입 없이도 실시간으로 병목을 식별하고 자동 튜닝하는 자율 성능 관리(Autonomous Performance Management)로 발전할 것이다.
+[[282_performance_tactics|성능]] 튜닝은 항상 "측정 → 분석 → 조정 → [[395_verification_process_review|검증]]"의 반복 사이클로 수행되어야 하며, [[022_kernel_role|커널]] 매개변수 조정 시에는 변경 전후의 정량적 비교와 충분한 안정성 관측이 필수적이다. 앞으로 [[615_ebpf|eBPF]] 기반의 제로 오버헤드 모니터링과 AIOps의 자동 [[236_anomaly_based_detection_zero_day_false_positive|이상 탐지]]가 결합되어, 인간의 개입 없이도 실시간으로 병목을 [[655_ir_detection_analysis|식별]]하고 자동 튜닝하는 자율 [[282_performance_tactics|성능]] 관리(Autonomous [[282_performance_tactics|Performance]] [[372_management|Management]])로 발전할 것이다.
 
 ---
 
@@ -272,10 +272,10 @@ Linux의 풍부한 모니터링 도구 생태계(/proc, perf, eBPF)는 6계층(L
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| 물리적 보안 및 하드웨어 보안 모듈 (TPM, Trusted Platform Module) | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
-| 보안 부팅 (Secure Boot) 인증서 체인 로딩 검증 | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
+| 물리적 보안 및 [[475_hsm|하드웨어 보안 모듈]] ([[476_tpm|TPM]], [[476_tpm|Trusted Platform Module]]) | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
+| [[608_secure_boot|보안 부팅]] ([[608_secure_boot|Secure Boot]]) 인증서 체인 로딩 [[395_verification_process_review|검증]] | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
 | 리틀의 법칙 (Little's Law) | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
-| CPU 유휴 (Idle) 대기 루프 최적화 | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
+| CPU 유휴 ([[611_cpu_idle_wait_optimization|Idle]]) 대기 루프 최적화 | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -293,6 +293,6 @@ Linux의 풍부한 모니터링 도구 생태계(/proc, perf, eBPF)는 6계층(L
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. 성능 모니터링 (Performance Monitoring) 및 튜닝 방법론은 컴퓨터가 누가 들어와도 되는지와 무엇을 막아야 하는지 정하는 문지기 규칙이에요.
-2. 먼저 보안 부팅 (Secure Boot) 인증서 체인 로딩 검증을 이해하면 성능 모니터링 (Performance Monitoring) 및 튜닝 방법론이 왜 필요한지 더 쉽게 보여요.
-3. 그래서 성능 모니터링 (Performance Monitoring) 및 튜닝 방법론을 잘 알면 나중에 리틀의 법칙 (Little's Law)도 훨씬 쉽게 배울 수 있어요.
+1. [[282_performance_tactics|성능]] 모니터링 ([[282_performance_tactics|Performance]] Monitoring) 및 튜닝 방법론은 컴퓨터가 누가 들어와도 되는지와 무엇을 막아야 하는지 정하는 문지기 규칙이에요.
+2. 먼저 [[608_secure_boot|보안 부팅]] ([[608_secure_boot|Secure Boot]]) 인증서 체인 로딩 [[395_verification_process_review|검증]]을 이해하면 [[282_performance_tactics|성능]] 모니터링 ([[282_performance_tactics|Performance]] Monitoring) 및 튜닝 방법론이 왜 필요한지 더 쉽게 보여요.
+3. 그래서 [[282_performance_tactics|성능]] 모니터링 ([[282_performance_tactics|Performance]] Monitoring) 및 튜닝 방법론을 잘 알면 나중에 리틀의 법칙 (Little's Law)도 훨씬 쉽게 배울 수 있어요.

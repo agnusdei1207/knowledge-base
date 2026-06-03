@@ -8,15 +8,15 @@ categories = "studynote-cloud"
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: OCI는 컨테이너 이미지와 런타임의 표준 규격을 정의한 개방형 프로젝트다.
-> 2. **가치**: 벤더 종속성을 줄이고 서로 다른 컨테이너 도구 간 호환성을 높인다.
+> 1. **본질**: OCI는 [[561_container_based_deployment|컨테이너]] 이미지와 런타임의 표준 규격을 정의한 개방형 프로젝트다.
+> 2. **가치**: 벤더 종속성을 줄이고 서로 다른 [[561_container_based_deployment|컨테이너]] 도구 간 [[344_compatibility_usability|호환성]]을 높인다.
 > 3. **판단**: 이미지 포맷과 런타임 표준을 구분해서 이해해야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-컨테이너가 널리 쓰이면서 한 회사의 방식에만 묶이지 않는 표준이 필요해졌다.
+[[561_container_based_deployment|컨테이너]]가 널리 쓰이면서 한 회사의 방식에만 묶이지 않는 표준이 필요해졌다.
 
 OCI는 그 표준을 제공한다.
 
@@ -36,11 +36,11 @@ OCI
 
 | 요소 | 의미 |
 | :-- | :-- |
-| Image Specification | 이미지 포맷 |
-| Runtime Specification | 실행 규격 |
-| Standardization | 호환성 |
+| Image [[148_requirements_specification_formal_informal|Specification]] | 이미지 포맷 |
+| Runtime [[148_requirements_specification_formal_informal|Specification]] | 실행 규격 |
+| Standardization | [[344_compatibility_usability|호환성]] |
 
-OCI는 컨테이너 이미지와 실행 환경의 공통 규격을 정해 도구 간 호환성을 높인다.
+OCI는 [[561_container_based_deployment|컨테이너]] 이미지와 실행 환경의 공통 규격을 정해 도구 간 [[344_compatibility_usability|호환성]]을 높인다.
 
 - **📢 섹션 요약 비유**: 모두 같은 규격의 상자와 문을 쓰게 만드는 것이다.
 
@@ -50,16 +50,16 @@ OCI는 컨테이너 이미지와 실행 환경의 공통 규격을 정해 도구
 
 | 개념 | 역할 | 차이 |
 | :-- | :-- | :-- |
-| Docker | 구현체 | 도구 |
-| OCI | 표준 | 규격 |
+| [[063_docker_architecture|Docker]] | 구현체 | 도구 |
+| [[333_process|OCI]] | 표준 | 규격 |
 | Runtime | 실행 | 실제 동작 |
 
 | 효과 | 의미 |
 | :-- | :-- |
 | Portability | 이식성 |
-| Interoperability | 상호 운용 |
+| [[084_blockchain_interoperability_polkadot_cosmos|Interoperability]] | 상호 운용 |
 
-OCI 덕분에 컨테이너 생태계는 특정 도구에만 묶이지 않게 되었다.
+[[333_process|OCI]] 덕분에 [[561_container_based_deployment|컨테이너]] 생태계는 특정 도구에만 묶이지 않게 되었다.
 
 - **📢 섹션 요약 비유**: 상자 규격이 같으면 운송회사가 달라도 옮길 수 있다.
 
@@ -67,22 +67,22 @@ OCI 덕분에 컨테이너 생태계는 특정 도구에만 묶이지 않게 되
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### 체크리스트
+### [[435_checklist_based_testing|체크리스트]]
 
 1. 이미지와 런타임 표준을 구분하는가?
 2. 도구 종속성을 줄이는가?
-3. 호환성을 고려하는가?
+3. [[344_compatibility_usability|호환성]]을 고려하는가?
 4. 배포/실행 환경을 일치시키는가?
-5. OCI 기반인지 확인하는가?
+5. [[333_process|OCI]] 기반인지 확인하는가?
 
-### 안티패턴
+### [[128_water_scrum_fall_anti_pattern|안티패턴]]
 
 - Docker와 OCI를 혼동하는 설계
 - 표준보다 특정 도구만 보는 설계
-- 호환성 검증 없이 배포하는 설계
+- [[344_compatibility_usability|호환성]] [[395_verification_process_review|검증]] 없이 배포하는 설계
 - 이미지/런타임 구분이 없는 설계
 
-기술사 관점에서는 OCI를 "컨테이너 생태계의 공통 표준"으로 설명해야 한다.
+기술사 관점에서는 OCI를 "[[561_container_based_deployment|컨테이너]] 생태계의 공통 표준"으로 설명해야 한다.
 
 - **📢 섹션 요약 비유**: 다른 공장에서 만든 상자도 같은 문으로 지나가게 한다.
 
@@ -90,9 +90,9 @@ OCI 덕분에 컨테이너 생태계는 특정 도구에만 묶이지 않게 되
 
 ## Ⅴ. 기대효과 및 결론
 
-OCI는 컨테이너 기술의 상호 운용성과 이식성을 높인다.
+OCI는 [[561_container_based_deployment|컨테이너]] 기술의 상호 운용성과 이식성을 높인다.
 
-결론적으로 OCI는 컨테이너 이미지와 런타임의 표준 규격이다.
+결론적으로 OCI는 [[561_container_based_deployment|컨테이너]] 이미지와 런타임의 표준 규격이다.
 
 - **📢 섹션 요약 비유**: 공통 규격이 있어야 모두 함께 쓸 수 있다.
 

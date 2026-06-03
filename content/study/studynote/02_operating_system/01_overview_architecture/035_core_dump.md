@@ -6,13 +6,13 @@ categories = "studynote-operating-system"
 +++
 
 > **핵심 인사이트**
-> 1. Core Dump는 프로세스가 비정상 종료(SIGSEGV, SIGABRT 등) 시 해당 시점의 메모리, 레지스터, 스택 상태를 디스크에 저장한 스냅샷으로 사후 디버깅(Post-mortem Debugging)의 핵심 도구다.
-> 2. 덤프 파일에는 프로세스의 가상 주소 공간(코드·데이터·힙·스택), CPU 레지스터 상태, 열린 파일 디스크립터가 포함된다.
-> 3. 프로덕션 환경에서는 보안상 코어 덤프를 비활성화하거나 제한하고, 대신 크래시 리포팅 서비스(Sentry, Crashpad)를 활용한다.
+> 1. Core Dump는 프로세스가 비정상 종료(SIGSEGV, SIGABRT 등) 시 해당 시점의 메모리, [[057_register|레지스터]], [[057_stack|스택]] 상태를 디스크에 저장한 스냅샷으로 사후 디버깅(Post-mortem Debugging)의 핵심 도구다.
+> 2. 덤프 [[501_file_definition_logical_record|파일]]에는 프로세스의 [[382_virtual_address_space|가상 주소 공간]](코드·[[001_dikw_pyramid|데이터]]·힙·[[057_stack|스택]]), CPU [[057_register|레지스터]] 상태, 열린 [[501_file_definition_logical_record|파일]] 디스크립터가 포함된다.
+> 3. 프로덕션 환경에서는 보안상 코어 덤프를 비활성화하거나 제한하고, 대신 크래시 리포팅 [[090_service_kubernetes_network_load_balancing|서비스]](Sentry, Crashpad)를 활용한다.
 
 ---
 
-## I. 코어 덤프 생성 조건
+## I. 코어 덤프 [[087_process_state_transition|생성]] 조건
 
 ```
 프로세스 실행 중
@@ -37,7 +37,7 @@ categories = "studynote-operating-system"
 
 ---
 
-## II. 코어 덤프 파일 구조
+## II. 코어 덤프 [[501_file_definition_logical_record|파일]] 구조
 
 ```
 ELF Core File (ET_CORE)
@@ -71,7 +71,7 @@ gdb ./myprogram core.12345
 
 | 명령            | 설명                     |
 |----------------|--------------------------|
-| bt (backtrace) | 함수 호출 스택 출력       |
+| bt (backtrace) | [[294_function_calling_tool_use|함수 호출]] [[057_stack|스택]] 출력       |
 | info locals    | 현재 프레임 지역 변수     |
 | print var      | 변수 값 출력              |
 
@@ -79,7 +79,7 @@ gdb ./myprogram core.12345
 
 ---
 
-## IV. 프로덕션 환경 처리 전략
+## [[288_version_ihl_tos_total_length|IV]]. 프로덕션 환경 처리 [[268_strategy_pattern|전략]]
 
 ```
 프로덕션 서버
@@ -103,12 +103,12 @@ gdb ./myprogram core.12345
 
 | 단계 | 행동                                     |
 |------|------------------------------------------|
-| 1    | 로그에서 OOM Killer 시그널 확인          |
-| 2    | systemctl status로 종료 코드 확인        |
+| 1    | 로그에서 [[425_oom_killer_score|OOM Killer]] 시그널 [[396_validation|확인]]          |
+| 2    | systemctl status로 종료 코드 [[396_validation|확인]]        |
 | 3    | coredumpctl list (systemd 환경)          |
 | 4    | coredumpctl gdb로 백트레이스 추출        |
-| 5    | 스택·레지스터로 크래시 지점 특정         |
-| 6    | ASAN으로 재현 검증                       |
+| 5    | [[057_stack|스택]]·[[057_register|레지스터]]로 크래시 지점 특정         |
+| 6    | ASAN으로 재현 [[395_verification_process_review|검증]]                       |
 
 > 📢 **섹션 요약 비유**: 장애 보고서 없이 서버를 고치는 건 블랙박스 없이 비행기 사고를 조사하는 것.
 

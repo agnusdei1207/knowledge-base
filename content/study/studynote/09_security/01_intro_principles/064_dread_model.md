@@ -10,7 +10,7 @@ categories = "studynote-security"
 
 > 1. **본질**: DREAD는 위협의 위험도를 Damage, Reproducibility, Exploitability, Affected Users, Discoverability 다섯 축으로 점수화하는 위험 평가 모델이다.
 > 2. **가치**: 정성적인 위협 목록을 정량 점수로 바꾸면 우선순위가 명확해지고, 보안 개선 순서도 정리된다.
-> 3. **판단**: DREAD는 STRIDE 같은 분류 도구와 함께 써야 하고, 점수는 절대값이 아니라 비교용 지표로 봐야 한다.
+> 3. **판단**: DREAD는 [[097_stride_convolutional_neural_network_downsampling|STRIDE]] 같은 [[104_classification_analysis|분류]] 도구와 함께 써야 하고, 점수는 절대값이 아니라 비교용 지표로 봐야 한다.
 
 ---
 
@@ -46,7 +46,7 @@ Mitigation
 | Affected Users | 영향 받는 사용자 수 |
 | Discoverability | 발견 가능성 |
 
-각 항목을 1~10 정도의 점수로 평가하고 평균 또는 가중치로 우선순위를 정한다. 핵심은 "느낌"이 아니라 "같은 기준"이다.
+각 항목을 1~[[489_raid_10_hybrid|10]] 정도의 점수로 평가하고 평균 또는 가중치로 우선순위를 정한다. 핵심은 "느낌"이 아니라 "같은 기준"이다.
 
 - **📢 섹션 요약 비유**: 위험한 문제를 색깔 대신 숫자로 표시해 놓는 메모장이다.
 
@@ -56,9 +56,9 @@ Mitigation
 
 | 프레임 | 역할 | 강점 | 주의점 |
 | :-- | :-- | :-- | :-- |
-| STRIDE | 위협 분류 | 공격 유형 구분 | 정량화 약함 |
+| [[097_stride_convolutional_neural_network_downsampling|STRIDE]] | 위협 [[104_classification_analysis|분류]] | 공격 유형 구분 | 정량화 약함 |
 | DREAD | 위험 점수화 | 우선순위화 | 점수 주관성 |
-| MITRE ATT&CK | 공격 전술/기법 | 실제 공격자 관점 | 설계 초기에 과할 수 있음 |
+| [[642_mitre_attack|MITRE ATT&CK]] | 공격 전술/기법 | 실제 공격자 관점 | 설계 초기에 과할 수 있음 |
 
 DREAD는 위협을 "많다/적다"가 아니라 "먼저/나중"으로 바꾸는 데 유용하다. 그래서 설계 검토와 보안 백로그 정리에 잘 맞는다.
 
@@ -68,7 +68,7 @@ DREAD는 위협을 "많다/적다"가 아니라 "먼저/나중"으로 바꾸는 
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### 체크리스트
+### [[435_checklist_based_testing|체크리스트]]
 
 1. 점수 기준을 팀에서 합의했는가?
 2. 점수 결과를 실제 우선순위와 연결했는가?
@@ -76,7 +76,7 @@ DREAD는 위협을 "많다/적다"가 아니라 "먼저/나중"으로 바꾸는 
 4. 정량 점수를 절대값처럼 오해하지 않았는가?
 5. 반복 평가로 점수 기준을 보정하는가?
 
-### 안티패턴
+### [[128_water_scrum_fall_anti_pattern|안티패턴]]
 
 - 점수만 매기고 아무 조치도 하지 않는 설계
 - 모든 항목을 똑같이 중요하다고 두는 설계

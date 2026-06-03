@@ -8,27 +8,27 @@ categories = "studynote-ai"
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: ResNet (Residual Network, He et al., 2015)은 잔차 블록(Residual Block)의 스킵 연결(Skip Connection)을 통해 **기울기 소실(Vanishing Gradient) 없이 152층 이상의 초심층 네트워크**를 학습 가능하게 한 혁신적 아키텍처다.
-> 2. **가치**: H(x) = F(x) + x 공식에서 네트워크는 완전한 변환 H(x) 대신 잔차(Residual) F(x) = H(x) - x만 학습하면 되므로, 최적해가 항등 함수(Identity Mapping)에 가까울 때 F(x)≈0으로 수렴하는 것이 훨씬 쉽다.
-> 3. **판단 포인트**: 시험에서는 스킵 연결이 기울기 소실을 방지하는 수학적 원리, 보틀넥(Bottleneck)과 기본(Basic) 잔차 블록의 차이, Wide ResNet·ResNeXt 등 변형과의 비교를 묻는다.
+> 1. **본질**: ResNet (Residual Network, He et al., 2015)은 잔차 블록(Residual Block)의 스킵 연결(Skip Connection)을 통해 **[[088_vanishing_gradient_relu_skip_connection|기울기 소실]]([[240_relu_vanishing_gradient_softmax_backprop_chain|Vanishing Gradient]]) 없이 152층 이상의 초심층 네트워크**를 학습 가능하게 한 혁신적 아키텍처다.
+> 2. **가치**: H(x) = F(x) + x 공식에서 네트워크는 완전한 변환 H(x) 대신 잔차(Residual) F(x) = H(x) - x만 학습하면 되므로, 최적해가 항등 함수(Identity [[010_schema_mapping|Mapping]])에 가까울 때 F(x)≈0으로 수렴하는 것이 훨씬 쉽다.
+> 3. **판단 포인트**: 시험에서는 스킵 연결이 [[088_vanishing_gradient_relu_skip_connection|기울기 소실]]을 방지하는 수학적 원리, 보틀넥([[617_io_bottleneck|Bottleneck]])과 기본(Basic) 잔차 블록의 차이, Wide ResNet·ResNeXt 등 변형과의 비교를 묻는다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-### 깊이와 성능의 역설
+### 깊이와 [[282_performance_tactics|성능]]의 역설
 
-직관적으로는 네트워크가 깊을수록 표현력이 높아져 성능이 좋아야 한다. 그러나 2015년 이전의 20층 이상 일반 CNN (Plain CNN)에서는 오히려 **성능 저하(Degradation Problem)**가 나타났다. 이는 기울기 소실(Vanishing Gradient)이 주원인이다.
+직관적으로는 네트워크가 깊을수록 표현력이 높아져 [[282_performance_tactics|성능]]이 좋아야 한다. 그러나 2015년 이전의 20층 이상 일반 [[243_cnn_stride_pooling_resnet_residual_yolo_object_detection|CNN]] (Plain [[243_cnn_stride_pooling_resnet_residual_yolo_object_detection|CNN]])에서는 오히려 **[[282_performance_tactics|성능]] 저하(Degradation Problem)**가 나타났다. 이는 [[088_vanishing_gradient_relu_skip_connection|기울기 소실]]([[240_relu_vanishing_gradient_softmax_backprop_chain|Vanishing Gradient]])이 주원인이다.
 
-역전파(Backpropagation) 시 기울기가 층을 거칠 때마다 시그모이드(Sigmoid) 등의 포화(Saturation) 영역에서 거의 0에 가까워지고, 수십 층을 지나면 앞쪽 층은 사실상 학습이 되지 않는다.
+[[272_backpropagation|역전파]]([[272_backpropagation|Backpropagation]]) 시 기울기가 층을 거칠 때마다 [[268_sigmoid_vanishing_gradient|시그모이드]]([[268_sigmoid_vanishing_gradient|Sigmoid]]) 등의 포화(Saturation) 영역에서 거의 0에 가까워지고, 수십 층을 지나면 앞쪽 층은 사실상 학습이 되지 않는다.
 
 | 모델 | 깊이 | Top-5 오류율 (ImageNet) | 비고 |
 |:---|:---:|:---:|:---|
 | VGGNet | 19층 | 7.3% | 깊이 증가의 한계 |
-| GoogLeNet (Inception) | 22층 | 6.7% | 병렬 구조로 해결 |
+| GoogLeNet (Inception) | 22층 | 6.7% | [[430_index_fast_full_scan|병렬]] 구조로 해결 |
 | ResNet-152 | 152층 | **3.57%** | 잔차 연결로 돌파구 |
 
-### 핵심 아이디어: 잔차 학습 (Residual Learning)
+### 핵심 아이디어: 잔차 학습 (Residual [[240_switch_learning_forwarding_flooding|Learning]])
 
 목표 변환 H(x)를 직접 학습하는 대신, 잔차(Residual) **F(x) = H(x) - x** 를 학습한다:
 
@@ -109,9 +109,9 @@ $$H(x) = F(x) + x$$
               H(x) = F(x) + x
 ```
 
-### 기울기 소실 방지 메커니즘
+### [[088_vanishing_gradient_relu_skip_connection|기울기 소실]] 방지 메커니즘
 
-스킵 연결은 역전파 시 기울기가 **가산 경로(Additive Path)**를 통해 직접 앞쪽 층으로 흐를 수 있게 한다:
+스킵 연결은 [[272_backpropagation|역전파]] 시 기울기가 **가산 경로(Additive Path)**를 통해 직접 앞쪽 층으로 흐를 수 있게 한다:
 
 $$\frac{\partial L}{\partial x_l} = \frac{\partial L}{\partial x_L} \cdot \left(1 + \frac{\partial F}{\partial x_l}\right)$$
 
@@ -123,9 +123,9 @@ $$\frac{\partial L}{\partial x_l} = \frac{\partial L}{\partial x_L} \cdot \left(
 |:---|:---|:---:|:---:|:---:|
 | ResNet-18 | Basic | 18 | 11M | 69.8% |
 | ResNet-34 | Basic | 34 | 21M | 73.3% |
-| ResNet-50 | Bottleneck | 50 | 25M | 76.1% |
-| ResNet-101 | Bottleneck | 101 | 44M | 77.4% |
-| ResNet-152 | Bottleneck | 152 | 60M | 78.3% |
+| ResNet-50 | [[617_io_bottleneck|Bottleneck]] | 50 | 25M | 76.1% |
+| ResNet-101 | [[617_io_bottleneck|Bottleneck]] | 101 | 44M | 77.4% |
+| ResNet-152 | [[617_io_bottleneck|Bottleneck]] | 152 | 60M | 78.3% |
 
 - **📢 섹션 요약 비유**: 스킵 연결은 '고속도로'다. 일반 도로(각 층의 변환)가 막혀도 고속도로(스킵 연결)로 직접 목적지까지 달릴 수 있다. 기울기(정보)도 마찬가지로 고속도로를 타고 소멸 없이 앞쪽 층까지 전달된다.
 
@@ -137,11 +137,11 @@ $$\frac{\partial L}{\partial x_l} = \frac{\partial L}{\partial x_L} \cdot \left(
 
 | 모델 | 핵심 변경점 | 특징 |
 |:---|:---|:---|
-| Pre-Activation ResNet | BN-ReLU-Conv 순서 변경 | 수렴 안정성 향상 |
+| Pre-Activation ResNet | BN-[[269_relu_activation|ReLU]]-Conv 순서 변경 | 수렴 안정성 향상 |
 | Wide ResNet (WRN) | 채널 수 확장, 층 수 감소 | 정확도↑, 학습 속도↑ |
-| ResNeXt | 그룹 합성곱 도입 (Cardinality) | 동일 파라미터로 정확도 향상 |
+| ResNeXt | 그룹 [[228_cnn_1d_2d_3d_video_medical|합성곱]] 도입 (Cardinality) | 동일 파라미터로 정확도 향상 |
 | DenseNet | 모든 이전 층과 연결 | 특징 재사용 극대화 |
-| SENet | 채널 어텐션 (SE Block) 추가 | 채널 중요도 가중치 학습 |
+| SENet | 채널 어텐션 (SE Block) 추가 | 채널 중요도 [[267_weight_bias_activation|가중치]] 학습 |
 
 ### VGGNet vs ResNet
 
@@ -159,7 +159,7 @@ x → [Conv] → [Conv] → y    x → [Conv] → [Conv] → y
 | 비교 항목 | ResNet | DenseNet |
 |:---|:---|:---|
 | 연결 방식 | 덧셈 (Addition, F+x) | 연결 (Concatenation) |
-| 이전 층 참조 | 직전 블록만 | 모든 이전 층 |
+| 이전 층 [[316_reference_pattern_nosql|참조]] | 직전 블록만 | 모든 이전 층 |
 | 파라미터 효율 | 보통 | 높음 |
 | 특징 재사용 | 제한적 | 최대 |
 
@@ -171,11 +171,11 @@ x → [Conv] → [Conv] → y    x → [Conv] → [Conv] → y
 
 ### 사전 학습 (Pre-trained) ResNet 활용
 
-ResNet은 ImageNet으로 사전 학습된 가중치를 전이 학습(Transfer Learning)의 백본(Backbone)으로 활용한다. 의료 영상, 자율주행, 산업 결함 검출 등 다양한 도메인에서 fine-tuning 기반으로 높은 성능을 보인다.
+ResNet은 ImageNet으로 사전 학습된 [[267_weight_bias_activation|가중치]]를 [[132_transfer_learning|전이 학습]]([[132_transfer_learning|Transfer Learning]])의 백본(Backbone)으로 활용한다. 의료 영상, 자율주행, 산업 [[352_defect_definition|결함]] 검출 등 다양한 [[064_relation_domain|도메인]]에서 [[304_fine_tuning|fine-tuning]] 기반으로 높은 [[282_performance_tactics|성능]]을 보인다.
 
-### 객체 탐지·분할에서의 역할
+### [[288_object_detection_yolo_rcnn|객체 탐지]]·분할에서의 역할
 
-Faster R-CNN (Region-based CNN), Mask R-CNN, Feature Pyramid Network (FPN)에서 ResNet은 공통적으로 **특징 추출 백본(Feature Extraction Backbone)**으로 사용된다.
+Faster R-[[243_cnn_stride_pooling_resnet_residual_yolo_object_detection|CNN]] (Region-based [[243_cnn_stride_pooling_resnet_residual_yolo_object_detection|CNN]]), Mask R-[[243_cnn_stride_pooling_resnet_residual_yolo_object_detection|CNN]], Feature Pyramid Network (FPN)에서 ResNet은 공통적으로 **특징 추출 백본(Feature Extraction Backbone)**으로 사용된다.
 
 ```
 입력 이미지
@@ -193,9 +193,9 @@ Faster R-CNN (Region-based CNN), Mask R-CNN, Feature Pyramid Network (FPN)에서
 
 ### 기술사 서술 포인트
 
-> "ResNet은 스킵 연결을 통한 잔차 학습으로 기울기 소실 문제를 해결하고, 152층 이상의 초심층 네트워크를 가능하게 했다. H(x)=F(x)+x 수식은 학습 목표를 전체 변환에서 잔차로 단순화하며, 이는 최적해가 항등 함수에 근접할 때 특히 효과적이다. 사전 학습된 ResNet은 다양한 컴퓨터 비전 태스크의 백본으로 광범위하게 활용된다."
+> "ResNet은 스킵 연결을 통한 잔차 학습으로 [[088_vanishing_gradient_relu_skip_connection|기울기 소실]] 문제를 해결하고, 152층 이상의 초심층 네트워크를 가능하게 했다. H(x)=F(x)+x 수식은 학습 목표를 전체 변환에서 잔차로 단순화하며, 이는 최적해가 항등 함수에 근접할 때 특히 효과적이다. 사전 학습된 ResNet은 다양한 컴퓨터 비전 [[150_task|태스크]]의 백본으로 광범위하게 활용된다."
 
-- **📢 섹션 요약 비유**: ResNet 백본은 '만능 밑바탕'이다. ImageNet에서 수백만 장의 사진으로 훈련받은 '특징 감지 전문가'가 의료 영상이든 자율주행이든 어디서든 초기 특징을 잘 뽑아준다.
+- **📢 섹션 요약 비유**: ResNet 백본은 '만능 밑바탕'이다. ImageNet에서 수백만 장의 사진으로 훈련받은 '특징 감지 전문가'가 의료 영상이든 자율주행이든 어디서든 [[459_quic_fec_forward_error_correction|초기]] 특징을 잘 뽑아준다.
 
 ---
 
@@ -203,9 +203,9 @@ Faster R-CNN (Region-based CNN), Mask R-CNN, Feature Pyramid Network (FPN)에서
 
 ### ResNet의 3대 혁신
 
-1. **깊이의 한계 돌파**: 기울기 소실 없이 수백 층 학습 가능
-2. **앙상블 효과**: 서로 다른 깊이의 경로가 공존하는 암묵적 앙상블
-3. **이식 가능성**: Pre-trained 가중치의 전이 학습으로 모든 컴퓨터 비전 분야에 적용
+1. **깊이의 한계 돌파**: [[088_vanishing_gradient_relu_skip_connection|기울기 소실]] 없이 수백 층 학습 가능
+2. **[[257_ensemble_learning|앙상블]] 효과**: 서로 다른 깊이의 경로가 공존하는 암묵적 [[257_ensemble_learning|앙상블]]
+3. **이식 가능성**: Pre-trained [[267_weight_bias_activation|가중치]]의 [[132_transfer_learning|전이 학습]]으로 모든 컴퓨터 비전 분야에 적용
 
 ### 잔차 연결의 수학적 정리
 
@@ -224,7 +224,7 @@ Faster R-CNN (Region-based CNN), Mask R-CNN, Feature Pyramid Network (FPN)에서
 └────────────────────────────────────────────────────┘
 ```
 
-- **📢 섹션 요약 비유**: ResNet은 'GPS가 달린 택배 시스템'이다. 중간에 길이 막혀도(기울기 소실) 고속도로(스킵 연결)를 타고 택배(기울기)가 항상 출발지까지 정확히 되돌아간다. 덕분에 어느 택배 기사(층)도 올바른 피드백을 받아 일을 제대로 배울 수 있다.
+- **📢 섹션 요약 비유**: ResNet은 'GPS가 달린 택배 시스템'이다. 중간에 길이 막혀도([[088_vanishing_gradient_relu_skip_connection|기울기 소실]]) 고속도로(스킵 연결)를 타고 택배(기울기)가 항상 출발지까지 정확히 되돌아간다. 덕분에 어느 택배 기사(층)도 올바른 피드백을 받아 일을 제대로 배울 수 있다.
 
 ---
 
@@ -232,11 +232,11 @@ Faster R-CNN (Region-based CNN), Mask R-CNN, Feature Pyramid Network (FPN)에서
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| 스킵 연결 (Skip Connection) | 잔차 블록, 기울기 소실 / ResNet의 핵심 메커니즘 |
-| 기울기 소실 (Vanishing Gradient) | 역전파, 깊은 네트워크 / 스킵 연결로 해결 |
-| 보틀넥 (Bottleneck) | 1×1 합성곱, 채널 축소 / ResNet-50 이상에서 사용 |
+| 스킵 연결 (Skip Connection) | 잔차 블록, [[088_vanishing_gradient_relu_skip_connection|기울기 소실]] / ResNet의 핵심 메커니즘 |
+| [[088_vanishing_gradient_relu_skip_connection|기울기 소실]] ([[240_relu_vanishing_gradient_softmax_backprop_chain|Vanishing Gradient]]) | [[272_backpropagation|역전파]], 깊은 네트워크 / 스킵 연결로 해결 |
+| 보틀넥 ([[617_io_bottleneck|Bottleneck]]) | 1×1 [[228_cnn_1d_2d_3d_video_medical|합성곱]], 채널 축소 / ResNet-50 이상에서 사용 |
 | Wide ResNet | 채널 확장, 정확도 / 깊이 대신 폭 확장 변형 |
-| ResNeXt | 그룹 합성곱, Cardinality / 연산 효율+정확도 향상 |
+| ResNeXt | 그룹 [[228_cnn_1d_2d_3d_video_medical|합성곱]], Cardinality / 연산 효율+정확도 향상 |
 | DenseNet | Concatenation, 특징 재사용 / ResNet의 연결 방식 확장 |
 
 ### 📈 관련 키워드 및 발전 흐름도

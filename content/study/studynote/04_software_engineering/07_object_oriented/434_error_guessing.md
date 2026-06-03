@@ -8,21 +8,21 @@ categories = "studynote-software-engineering"
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 오류 추정 (Error Guessing) - 테스터의 경험을 바탕으로 결함이 발생할 만한 곳을 추정하여 테스트은(는) 소프트웨어 공학의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.
-> 2. **가치**: 이 개념을 올바르게 적용하면 소프트웨어의 품질·유지보수성·재사용성이 향상되고, 개발 생산성과 팀 협업 효율이 높아진다.
+> 1. **본질**: 오류 추정 (Error Guessing) - 테스터의 경험을 바탕으로 [[352_defect_definition|결함]]이 발생할 만한 곳을 추정하여 테스트은(는) [[001_software_engineering_definition|소프트웨어 공학]]의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.
+> 2. **가치**: 이 개념을 올바르게 적용하면 소프트웨어의 품질·[[346_maintainability_portability|유지보수성]]·재사용성이 향상되고, 개발 생산성과 팀 협업 효율이 높아진다.
 > 3. **판단 포인트**: 도입 시에는 비용·복잡도·조직 성숙도를 함께 고려해야 하며, 맹목적 적용보다 프로젝트 특성에 맞는 선택적 적용이 핵심이다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 오류 추정은 테스터가既往の 경험, 類似 시스템에서의 문제 발생 데이터, 直感등을 활용하여 "여기서 문제가 발생할 것 같다"라는 예상으로 테스트 케이스를 설계하는 기법이다. 이는명세서나 코드 분석이 아닌, 테스터의 주관적判断에 의존한다.
+- **개념**: 오류 추정은 테스터가既往の 경험, 類似 시스템에서의 문제 발생 [[001_dikw_pyramid|데이터]], 直感등을 활용하여 "여기서 문제가 발생할 것 같다"라는 예상으로 테스트 케이스를 설계하는 기법이다. 이는명세서나 코드 분석이 아닌, 테스터의 주관적判断에 의존한다.
 
-- **필요성**: 체계적인 테스트 기법(동등 분할, 경계값 분석, 상태 전이 등)은事前に定義된 규칙에 따라 테스트 케이스를 도출하지만, 이러한 규칙으로捕捉되지 않는 예외적인 상황이 있을 수 있다. 오류 추정은 이러한 사각지대를補完하여 결함 발견 효과를 향상시킨다.
+- **필요성**: 체계적인 테스트 기법([[630_equivalence_partitioning_boundary_value_analysis|동등 분할]], [[414_boundary_value_analysis|경계값 분석]], [[632_state_transition_diagram_testing|상태 전이]] 등)은事前に定義된 규칙에 따라 테스트 케이스를 도출하지만, 이러한 규칙으로捕捉되지 않는 예외적인 상황이 있을 수 있다. 오류 추정은 이러한 사각지대를補完하여 [[352_defect_definition|결함]] 발견 효과를 향상시킨다.
 
 - **오류 추정과 관련된概念**:
   - **경험 기반 테스트**: 테스터의 경험을 기반으로 테스트
-  - **Heuristic**: 경험적法則으로 테스트 추측의根拠를 提供
+  - **[[236_a_star_heuristic_minimax_mcts_monte_carlo|Heuristic]]**: 경험적法則으로 테스트 추측의根拠를 提供
   - **直感**: 특별한 근거 없이問題발생을 예감
 
 - **비유**: 오류 추정은 **'의사의임상적 판단'**と 같다. 의사는 Patients의症状,既往症, 검사 결과 등의データ(체계적 테스트)에基づいて진찰하지만,長年の 경험에서 나오는 "이 환자는何か있다"는直感적判断(오류 추정)도 중요하다. Softwareでも 마찬가지로 테스터의 경험에서 나오는 "여기 문제있을 것"이라는 예감이 중요한 발견으로 이어질 수 있다.
@@ -63,12 +63,12 @@ categories = "studynote-software-engineering"
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-오류 추정 (Error Guessing) - 테스터의 경험을 바탕으로 결함이 발생할 만한 곳을 추정하여 테스트의 핵심 원리와 구성 요소를 이해하기 위해 다음 구조를 살펴본다.
+오류 추정 (Error Guessing) - 테스터의 경험을 바탕으로 [[352_defect_definition|결함]]이 발생할 만한 곳을 추정하여 테스트의 핵심 원리와 구성 요소를 이해하기 위해 다음 구조를 살펴본다.
 
 | 구성 요소 | 역할 | 적용 기준 |
 | :--- | :--- | :--- |
-| 개념 정의 | 핵심 용어와 범위를 명확히 설정 | 용어 혼용·오해 방지 |
-| 원칙 및 규칙 | 적용 시 따라야 할 기본 방향 | 일관성·품질 기준 |
+| 개념 정의 | 핵심 용어와 범위를 명확히 [[009_config|설정]] | 용어 혼용·오해 방지 |
+| 원칙 및 규칙 | 적용 시 따라야 할 기본 방향 | [[194_consistency_database_integrity|일관성]]·품질 기준 |
 | 기법 및 도구 | 실질적 구현 방법과 지원 도구 | 생산성·자동화 |
 | 측정 지표 | 결과물의 품질을 정량화하는 지표 | 의사결정 근거 |
 
@@ -93,7 +93,7 @@ categories = "studynote-software-engineering"
 | 조직 요건 | 팀 전체의 공통 이해와 훈련 필요 | 개인 역량 의존 |
 | 측정 가능성 | 정량적 지표로 성과 측정 가능 | 주관적 판단에 의존 |
 
-다른 소프트웨어 공학 개념과의 연결을 보면, 오류 추정 (Error Guessing)은(는) 요구공학·설계·테스트·형상관리 전반에 걸쳐 영향을 미친다. 특히 품질 보증(QA, Quality Assurance)과 형상 관리(SCM, Software Configuration Management)와 긴밀하게 연계된다.
+다른 [[001_software_engineering_definition|소프트웨어 공학]] 개념과의 연결을 보면, 오류 추정 (Error Guessing)은(는) 요구공학·설계·테스트·형상관리 전반에 걸쳐 영향을 미친다. 특히 품질 보증(QA, Quality Assurance)과 [[020_software_configuration_management|형상 관리]]([[167_scm_software_configuration_management|SCM]], [[020_software_configuration_management|Software Configuration Management]])와 긴밀하게 연계된다.
 
 - **📢 섹션 요약 비유**: 오류 추정 (Error Guessing)과 유사 대안의 차이는 지도를 가지고 산에 오르는 것과 감으로만 오르는 차이와 같다. 지도(체계적 방법)가 있으면 정상까지 최단 경로를 찾을 수 있지만, 없으면 같은 곳을 맴돌거나 낭떠러지에 빠질 수 있다.
 
@@ -115,21 +115,21 @@ categories = "studynote-software-engineering"
 
 ## Ⅴ. 기대효과 및 결론
 
-오류 추정 (Error Guessing)을(를) 올바르게 적용하면 소프트웨어 품질·유지보수성·팀 생산성이 동시에 향상된다. 그러나 도입에는 학습 비용과 초기 투자가 필요하며, 조직 전체의 공감과 훈련이 선행되어야 한다.
+오류 추정 (Error Guessing)을(를) 올바르게 적용하면 [[339_software_quality_definition|소프트웨어 품질]]·[[346_maintainability_portability|유지보수성]]·팀 생산성이 동시에 향상된다. 그러나 도입에는 학습 비용과 [[459_quic_fec_forward_error_correction|초기]] 투자가 필요하며, 조직 전체의 공감과 훈련이 선행되어야 한다.
 
 **한계와 전제 조건**:
 - 소규모 프로젝트에서는 오버헤드가 발생할 수 있다
 - 팀 전체의 충분한 교육과 실습 기간이 필요하다
-- 도구 지원 환경 구축에 초기 비용이 발생한다
+- 도구 지원 환경 구축에 [[459_quic_fec_forward_error_correction|초기]] 비용이 발생한다
 
 **미래 발전 방향**:
-- AI·LLM 기반 자동화 도구와의 통합으로 적용 효율 향상
-- 클라우드 네이티브·DevOps 환경에서의 진화적 적용
+- [[190_ai_llm_requirements_specification|AI]]·[[263_llm_large_language_model|LLM]] 기반 자동화 도구와의 통합으로 적용 효율 향상
+- [[531_cloud_native_architecture|클라우드 네이티브]]·[[652_devops_calms_culture|DevOps]] 환경에서의 진화적 적용
 - 정량적 측정 체계의 고도화를 통한 의사결정 지원 강화
 
 오류 추정 (Error Guessing)은 '어떻게 빠르게 짜는가'가 아니라 '어떻게 오래 유지할 수 있는 소프트웨어를 짜는가'에 대한 답이다. 단기 속도보다 장기 지속 가능성을 추구하는 관점으로 기억해야 한다.
 
-- **📢 섹션 요약 비유**: 오류 추정 (Error Guessing)의 기대효과는 마라톤 훈련과 같다. 처음에는 느리고 고통스럽지만, 올바른 훈련 원칙을 지킨 선수만이 결승선에서 최고의 기록을 낼 수 있다. 소프트웨어 공학의 원칙도 단기 편의보다 장기 완성도를 위한 투자다.
+- **📢 섹션 요약 비유**: 오류 추정 (Error Guessing)의 기대효과는 마라톤 훈련과 같다. 처음에는 느리고 고통스럽지만, 올바른 훈련 원칙을 지킨 선수만이 결승선에서 최고의 기록을 낼 수 있다. [[001_software_engineering_definition|소프트웨어 공학]]의 원칙도 단기 편의보다 장기 완성도를 위한 투자다.
 
 ---
 
@@ -141,10 +141,10 @@ categories = "studynote-software-engineering"
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| 소프트웨어 공학 (Software Engineering) | 오류 추정 (Error Guessing)의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
-| 소프트웨어 생명주기 (SDLC, Software Development Life Cycle) | 오류 추정 (Error Guessing)은 SDLC의 특정 단계에서 핵심적으로 적용된다 |
+| [[001_software_engineering_definition|소프트웨어 공학]] ([[001_software_engineering_definition|Software Engineering]]) | 오류 추정 (Error Guessing)의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
+| [[003_sdlc|소프트웨어 생명주기]] ([[131_sdlc_system_development_life_cycle_waterfall_agile|SDLC]], Software Development Life Cycle) | 오류 추정 (Error Guessing)은 SDLC의 특정 단계에서 핵심적으로 적용된다 |
 | 품질 보증 (QA, Quality Assurance) | 오류 추정 (Error Guessing) 적용 결과는 QA 활동을 통해 검증되고 측정된다 |
-| 형상 관리 (SCM, Software Configuration Management) | 오류 추정 (Error Guessing)에서 생성된 산출물은 SCM을 통해 체계적으로 관리된다 |
+| [[020_software_configuration_management|형상 관리]] ([[167_scm_software_configuration_management|SCM]], [[020_software_configuration_management|Software Configuration Management]]) | 오류 추정 (Error Guessing)에서 생성된 산출물은 SCM을 통해 체계적으로 관리된다 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -164,10 +164,10 @@ categories = "studynote-software-engineering"
 지속적 개선 및 DevOps·MLOps 통합
 ```
 
-이 흐름은 소프트웨어 위기 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
+이 흐름은 [[002_software_crisis|소프트웨어 위기]] 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. 오류 추정 (Error Guessing)은 레고 블록으로 성을 만들 때처럼, 규칙을 정하고 역할을 나누어 함께 작업하는 방법이에요.
 2. 혼자서 막 만들면 나중에 무너지거나 고치기 어렵지만, 약속을 지키면 누구나 쉽게 고치고 더 크게 만들 수 있어요.
-3. 그래서 소프트웨어 공학은 프로그래머들이 좋은 프로그램을 빠르고 안전하게 만들 수 있게 도와주는 '규칙 모음집'이에요.
+3. 그래서 [[001_software_engineering_definition|소프트웨어 공학]]은 프로그래머들이 좋은 프로그램을 빠르고 안전하게 만들 수 있게 도와주는 '규칙 모음집'이에요.

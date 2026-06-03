@@ -8,12 +8,12 @@ date = 2026-03-26
 categories = ["studynote-software-engineering"]
 +++
 
-# 보안 거버넌스 (Security Governance)
+# 보안 거버넌스 ([[283_security_tactics|Security]] Governance)
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: 보안 거버넌스는 조직의 정보보안을 전략적으로 관리하고, 경영진의責任下에서 보안 목표와 정책을设定하여 운영하는 체계다. 기술적 보안措施的羅列이 아니라 business goal과 연계된組織体系이다.
-> 2. **가치**: 보안 거버넌스가 부재하면 보안 투자가 산발적이고 효과적이지 못하며, 규제 요건 충족과 이해관계자 신뢰 확보가 어렵다. 체계적 거버넌스는 보안의 ROI를最大化하고 조직의 장기적 생존력을 보장한다.
-> 3. **융합**: ISO 27001, NIST CSF, COBIT 등의 internationally recognized 거버넌스 프레임워크가 있으며, 조직은 자체 환경에 맞는 프레임워크를 선택하거나 조합하여 적용한다.
+> 1. **본질**: 보안 거버넌스는 조직의 정보보안을 [[268_strategy_pattern|전략]]적으로 관리하고, 경영진의責任下에서 보안 목표와 [[164_policy|정책]]을设定하여 운영하는 체계다. 기술적 보안措施的羅列이 아니라 business goal과 연계된組織体系이다.
+> 2. **가치**: 보안 거버넌스가 부재하면 보안 투자가 산발적이고 효과적이지 못하며, 규제 요건 충족과 [[173_stakeholder_identification_impact_matrix|이해관계자]] 신뢰 확보가 어렵다. 체계적 거버넌스는 보안의 ROI를最大化하고 조직의 장기적 생존력을 보장한다.
+> 3. **융합**: ISO 27001, NIST [[017_csf|CSF]], [[004_cobit|COBIT]] 등의 internationally recognized 거버넌스 프레임워크가 있으며, 조직은 자체 환경에 맞는 프레임워크를 선택하거나 조합하여 적용한다.
 
 ---
 
@@ -21,7 +21,7 @@ categories = ["studynote-software-engineering"]
 
 ### 개념 정의
 
-보안 거버넌스는 조직이 정보보안과 관련된 의사결정을 내리고, 이를的执行며,監督하는 전체적인 체계와 프로세스를 말한다. 이는 단순히 보안팀만의 문제가 아니라 경영진을 포함한 조직 전체의 경영-governance 일부다. 보안 거버넌스의 핵심 요소에는 전략적 정렬 (Security Strategy Alignment),风险管理 (Risk Management), 자원 배분 (Resource Allocation), 성과 측정 (Performance Measurement), 규제 준수 (Compliance) 등이 있다.
+보안 거버넌스는 조직이 정보보안과 관련된 의사결정을 내리고, 이를的执行며,監督하는 전체적인 체계와 프로세스를 말한다. 이는 단순히 보안팀만의 문제가 아니라 경영진을 포함한 조직 전체의 경영-governance 일부다. 보안 거버넌스의 핵심 요소에는 [[268_strategy_pattern|전략]]적 정렬 ([[283_security_tactics|Security]] [[268_strategy_pattern|Strategy]] Alignment),风险管理 ([[841_iso_27005_risk_management|Risk Management]]), 자원 배분 ([[041_resource_allocation|Resource Allocation]]), 성과 측정 ([[282_performance_tactics|Performance]] Measurement), 규제 준수 ([[058_it_compliance_sox_basel_gdpr_isms|Compliance]]) 등이 있다.
 
 ### 필요성
 
@@ -29,7 +29,7 @@ categories = ["studynote-software-engineering"]
 
 ### 비유
 
-보안 거버넌스는 도시의 종합 urban planning과 같다. 도시 계획을 세울 때 교통, 치안, 주거, 상업 지역을 종합적으로 고려하여統一된 비전下에 개발하는 것처럼, 조직도 보안,的业务, IT 전략을 통합하여管理해야 한다.保安の、都市計画担当は市の全体の見通しを持って調整家伙と、보안 거버넌스도 경영진이组织领导하여組織 전체를，统筹的に管理하는 것이다.
+보안 거버넌스는 도시의 종합 urban planning과 같다. 도시 계획을 세울 때 교통, 치안, 주거, 상업 지역을 종합적으로 고려하여統一된 비전下에 개발하는 것처럼, 조직도 보안,的业务, IT [[268_strategy_pattern|전략]]을 통합하여管理해야 한다.保安の、都市計画担当は市の全体の見通しを持って調整家伙と、보안 거버넌스도 경영진이组织领导하여組織 전체를，统筹的に管理하는 것이다.
 
 ### 등장 배경
 
@@ -61,7 +61,7 @@ categories = ["studynote-software-engineering"]
   └──────────────────────────────────────────────────────────────┘
 ```
 
-**[다이어</think> 해설]** 보안 거버넌스의 핵심은 "하향식 접근 (Top-Down Approach)"이다. 이사회는 보안의 중요성과 위험을 인식하고 경영진에 대한 감독 책임을지는顶层設計자이며, 경영진은 이를 바탕으로 구체적인 정책과 자원 배분을 결정한다. 보안 팀은 이 경영 의사결정을執行하는 Implementation자다. 만약 어느 한 층이라도 부재하거나 역할이 불분명하면 거버넌스 체계가 제대로 작동하지 않는다. 예를 들어, 이사회가 보안 투자를قبل하지 않으면 보안 팀이 아무리 우수해도 충분한 자원 없이 효과적인 방어가 어렵다.
+**[다이어</think> 해설]** 보안 거버넌스의 핵심은 "하향식 접근 ([[402_top_down_integration|Top-Down]] Approach)"이다. 이사회는 보안의 중요성과 위험을 인식하고 경영진에 대한 감독 책임을지는顶层設計자이며, 경영진은 이를 바탕으로 구체적인 [[164_policy|정책]]과 자원 배분을 결정한다. 보안 팀은 이 경영 의사결정을執行하는 Implementation자다. 만약 어느 한 층이라도 부재하거나 역할이 불분명하면 거버넌스 체계가 제대로 작동하지 않는다. 예를 들어, 이사회가 보안 투자를قبل하지 않으면 보안 팀이 아무리 우수해도 충분한 자원 없이 효과적인 방어가 어렵다.
 
 ---
 
@@ -69,24 +69,24 @@ categories = ["studynote-software-engineering"]
 
 ### 보안 거버넌스 프레임워크 핵심 요소
 
-보안 거버넌스는通常 다음 요소들로 구성된다. **보안 전략 (Security Strategy)**은 조직의 목표와 연계된 보안의方向性이며, **조직 구조 (Organizational Structure)**는 보안 책임을分工하는 체계다. **정책 및 표준 (Policies & Standards)**은 보안 활동을 규범하는 규칙이고, **프로세스 (Processes)**는 이러한 정책을 실행하는 구체적 절차다. **사람 (People)**은 보안을 수행하는 인력이며, **기술 (Technology)**은 보안을 지원하는 기술적 도구다.
+보안 거버넌스는通常 다음 요소들로 구성된다. **보안 [[268_strategy_pattern|전략]] ([[283_security_tactics|Security]] [[268_strategy_pattern|Strategy]])**은 조직의 목표와 연계된 보안의方向性이며, **조직 구조 (Organizational Structure)**는 보안 책임을分工하는 체계다. **[[164_policy|정책]] 및 표준 (Policies & Standards)**은 보안 활동을 규범하는 규칙이고, **프로세스 (Processes)**는 이러한 [[164_policy|정책]]을 실행하는 구체적 절차다. **사람 (People)**은 보안을 수행하는 인력이며, **기술 (Technology)**은 보안을 지원하는 기술적 도구다.
 
 | 요소 | 설명 | 주요 활동 |
 |:---|:---|:---|
-| **전략** | 비즈니스 목표와 연계된 보안 방향 | 보안 목표 설정, 우선순위 정의, 투자 전략 |
-| **조직 구조** | 보안 책임의 정의와 분리 | CISO 임명, 보안 팀 구성, 역할 분담 |
-| **정책/표준** | 보안 활동의 규범적 기준 | 보안 정책문서, 표준, 지침 관리 |
-| **프로세스** | 정책 실행을 위한 운영 절차 | 접근 검토, 사고 대응, 변경 관리 |
+| **[[268_strategy_pattern|전략]]** | 비즈니스 목표와 연계된 보안 방향 | 보안 목표 [[009_config|설정]], 우선순위 정의, 투자 [[268_strategy_pattern|전략]] |
+| **조직 구조** | 보안 책임의 정의와 분리 | [[173_ciso_role_and_responsibility|CISO]] 임명, 보안 팀 구성, 역할 분담 |
+| **[[164_policy|정책]]/표준** | 보안 활동의 규범적 기준 | 보안 [[164_policy|정책]]문서, 표준, 지침 관리 |
+| **프로세스** | [[164_policy|정책]] 실행을 위한 운영 절차 | [[580_access_review|접근 검토]], [[009_incident_response|사고 대응]], [[079_change_enablement|변경 관리]] |
 | **사람** | 보안 역량을 가진 인력 | 교육, 인식 프로그램, 전문성 개발 |
 | **기술** | 보안을 지원하는 기술적 도구 | 보안 솔루션 도입, 운영, 고도화 |
 
 ### 주요 보안 거버넌스 프레임워크
 
-**ISO 27001**은 정보보안 관리 시스템 (ISMS: Information Security Management System)의国際標準으로, Plan-Do-Check-Act (PDCA) 사이클을 기반으로 한 보안 거버넌스 프레임워크다. 인증을 통해 조직의 보안 관리 수준을外部에 증명할 수 있다.
+**ISO 27001**은 정보보안 관리 시스템 ([[836_iso_27001_isms|ISMS]]: [[095_information_security_management|Information Security Management]] System)의国際標準으로, [[838_pdca_model|Plan-Do-Check-Act]] ([[838_pdca_model|PDCA]]) 사이클을 기반으로 한 보안 거버넌스 프레임워크다. 인증을 통해 조직의 보안 관리 수준을外部에 증명할 수 있다.
 
-**NIST Cybersecurity Framework (CSF)**는 미국 NIST가 개발한 보안 거버넌스 프레임워크로, Identify, Protect, Detect, Respond, Recover의 5개 기능에 security controls을 매핑한다. 규제 요건이 아닌自愿적 framework로, 다양한 규모의 조직에 적용 가능한灵活性がある。
+**NIST Cybersecurity Framework ([[017_csf|CSF]])**는 미국 NIST가 개발한 보안 거버넌스 프레임워크로, Identify, Protect, Detect, Respond, Recover의 5개 기능에 [[283_security_tactics|security]] controls을 매핑한다. 규제 요건이 아닌自愿적 framework로, 다양한 규모의 조직에 적용 가능한灵活性がある。
 
-**COBIT (Control Objectives for Information Technologies)**는 IT 거버넌스 및 관리에 대한 comprehensive framework로, 비즈니스 목표와 IT 목표를 연결하고, 정보보안을 포함한 IT 관리 영역을体系적으로 다룬다.
+**[[004_cobit|COBIT]] (Control Objectives for Information Technologies)**는 IT 거버넌스 및 관리에 대한 comprehensive framework로, 비즈니스 목표와 IT 목표를 연결하고, 정보보안을 포함한 IT 관리 영역을体系적으로 다룬다.
 
 ```text
   ┌──────────────────────────────────────────────────────────────┐
@@ -125,21 +125,21 @@ categories = ["studynote-software-engineering"]
 
 ### 보안 거버넌스成熟度 모델
 
-조직의 보안 거버넌스 수준을 평가하는 대표적 모델로 CMM (Capability Maturity Model)을 보안 거버넌스에 적용한 것이 있다.
+조직의 보안 거버넌스 수준을 평가하는 대표적 모델로 CMM (Capability [[011_maturity_model|Maturity Model]])을 보안 거버넌스에 적용한 것이 있다.
 
 |成熟度 단계 | 수준 | 특성 | 조직 비율 |
 |:---|:---|:---|:---|
-| **Level 1** | 초기 (Initial) | 암묵적, 개인 역량에 의존 | ~30% |
+| **Level 1** | [[459_quic_fec_forward_error_correction|초기]] (Initial) | 암묵적, 개인 역량에 의존 | ~30% |
 | **Level 2** | 관리 (Managed) |基本的な 프로세스 문서화 | ~30% |
 | **Level 3** | 정의됨 (Defined) | 표준화된 프로세스, 조직 차원 적용 | ~25% |
-| **Level 4** | 관리됨 (Quantitatively Managed) | 정량적 관리, 측정 기반 개선 | ~10% |
+| **Level 4** | 관리됨 (Quantitatively Managed) | 정량적 관리, 측정 기반 개선 | ~[[489_raid_10_hybrid|10]]% |
 | **Level 5** | 최적화 (Optimizing) | 지속적 개선, 자동화 | ~5% |
 
 ### 과목 융합 관점
 
-- **기업 지배구조 (Corporate Governance)**: 보안 거버넌스는 기업 지배구조의 일부로서, 이사회와 경영진의 受托 책임 (Fiduciary Duty)에 포함된다.
-- **리스크 관리 (Enterprise Risk Management)**: 정보보안 위험은企业风险管理体系의 일부이며, 보안 거버넌스는 ERM 프레임워크와 통합되어 운영된다.
-- **컴플라이언스 (Compliance)**: GDPR, PCI DSS, HIPAA 등 다양한 규제에서 보안 거버넌스의 특정 요소들을 요구하며, 이는保安 거버넌스 구축의外部적 동기가 된다.
+- **기업 지배구조 ([[003_corporate_governance_it_governance|Corporate Governance]])**: 보안 거버넌스는 기업 지배구조의 일부로서, 이사회와 경영진의 受托 책임 (Fiduciary Duty)에 포함된다.
+- **[[096_risk_non_risk_architecture_evaluation_flaws|리스크]] 관리 (Enterprise [[841_iso_27005_risk_management|Risk Management]])**: 정보보안 위험은企业风险管理体系의 일부이며, 보안 거버넌스는 ERM 프레임워크와 통합되어 운영된다.
+- **컴플라이언스 ([[058_it_compliance_sox_basel_gdpr_isms|Compliance]])**: [[791_gdpr_eu|GDPR]], [[355_pci|PCI]] DSS, [[863_hipaa|HIPAA]] 등 다양한 규제에서 보안 거버넌스의 특정 요소들을 요구하며, 이는保安 거버넌스 구축의外部적 동기가 된다.
 
 ---
 
@@ -147,9 +147,9 @@ categories = ["studynote-software-engineering"]
 
 ### 실무 시나리오
 
-1. **시나리오 — CISO의 경영진 통합**: CSO/CISO가 이사회에 보안 현황을 정기 보고하고, 보안 투자가 биз니스价值에 어떻게 기여하는지를説明해야 한다. 아키텍트는 보안 목표를 KPIs (Key Performance Indicators)로 변환하여 경영진이 이해할 수 있는言語로 전달해야 한다. 예를 들어, "MFA 적용률 95% 달성"보다 "MFA 적용으로 계정 탈취 사고 70% 감소, 예상 방지 비용 5억 원"이 경영진에게 설득력이 있다.
+1. **시나리오 — CISO의 경영진 통합**: CSO/CISO가 이사회에 보안 현황을 정기 보고하고, 보안 투자가 биз니스价值에 어떻게 기여하는지를説明해야 한다. 아키텍트는 보안 목표를 KPIs ([[067_db_key_uniqueness_minimality|Key]] [[282_performance_tactics|Performance]] Indicators)로 변환하여 경영진이 이해할 수 있는言語로 전달해야 한다. 예를 들어, "[[552_mfa|MFA]] 적용률 95% 달성"보다 "[[552_mfa|MFA]] 적용으로 계정 탈취 사고 70% 감소, 예상 방지 비용 5억 원"이 경영진에게 설득력이 있다.
 
-2. **시나리오 — 보안 거버넌스 도입 실패 사례**: CFO为主导하여 비용削減目标達成을 위해 보안 팀을 감편한 사례. 단기적으로 인건비가 절감되었으나, 보안 사고 발생 시 복구 비용이当初 절감액의 10배 이상 소요되고, 규제 당국으로부터 과태료 처분을 받는 상황이 발생했다. 보안 거버넌스 부재로 경영진이 보안의 실제 비용과 가치를正しく 이해하지 못한 경우다.
+2. **시나리오 — 보안 거버넌스 도입 실패 사례**: CFO为主导하여 비용削減目标達成을 위해 보안 팀을 감편한 사례. 단기적으로 인건비가 절감되었으나, 보안 사고 발생 시 [[658_ir_recovery|복구]] 비용이当初 절감액의 10배 이상 소요되고, 규제 당국으로부터 과태료 처분을 받는 상황이 발생했다. 보안 거버넌스 부재로 경영진이 보안의 실제 비용과 가치를正しく 이해하지 못한 경우다.
 
 ```text
   ┌──────────────────────────────────────────────────────────────┐
@@ -183,18 +183,18 @@ categories = ["studynote-software-engineering"]
   └──────────────────────────────────────────────────────────────┘
 ```
 
-**[다이어그램 해설]** 효과적인 보안 거버넌스는 측정 가능한 KPIs에 기반해야 한다. 그러나 중요한 것은 "측정하는 것"만이 아니라 "올바른 것을 측정하는 것"이다. 운영 KPIs (패치 시간, 대응 시간)는 보안 팀의日常 활동에 유용하지만, 경영진에게는管理 KPIs (MFA 적용률, 교육 이수율)와 전략 KPIs (사고 감소율, ROI)가 더 Relevantsms이다. 이 비율을 통해 보안 투자가 실제로 бизнес价值에 기여하는지를 보여줄 수 있다. NIST CSF는 이런 KPIs와 측정 방법을定義하는 데 도움 되는 프레임워크다.
+**[다이어그램 해설]** 효과적인 보안 거버넌스는 측정 가능한 KPIs에 기반해야 한다. 그러나 중요한 것은 "측정하는 것"만이 아니라 "올바른 것을 측정하는 것"이다. 운영 KPIs (패치 시간, 대응 시간)는 보안 팀의日常 활동에 유용하지만, 경영진에게는管理 KPIs ([[552_mfa|MFA]] 적용률, 교육 이수율)와 [[268_strategy_pattern|전략]] KPIs (사고 감소율, [[012_roi_return_on_investment|ROI]])가 더 Relevantsms이다. 이 비율을 통해 보안 투자가 실제로 бизнес价值에 기여하는지를 보여줄 수 있다. NIST CSF는 이런 KPIs와 측정 방법을定義하는 데 도움 되는 프레임워크다.
 
-### 도입 체크리스트
+### 도입 [[435_checklist_based_testing|체크리스트]]
 
-- **기술적**: 보안 정책문이 정기적으로review 및 업데이트되고 있는가? 보안 역할과 책임이明確히 정의되어 있는가?
+- **기술적**: 보안 [[164_policy|정책]]문이 정기적으로review 및 업데이트되고 있는가? 보안 역할과 책임이明確히 정의되어 있는가?
 - **운영·보안적**: 이사회/경영진에게 보안 현황이 정기적으로 보고되고 있는가? 보안 성과와 비즈니成果가 연계되어 측정되고 있는가?
 
-### 안티패턴
+### [[128_water_scrum_fall_anti_pattern|안티패턴]]
 
 - **보안 = IT 부서 책임**: 경영진이 보안을 순수 IT 문제로 인식하고 직접적인 책임하지 않는 것. 보안 거버넌스는 경영 거버넌스의 일부이며, 경영진의 적극적인 참여가 필수적이다.
 - **기술 중심 사고**: 최신 보안 도구 도입만으로 보안을 충분히 했다고 믿는 것. 도구만 있고 사람과 프로세스가 뒷받침되지 않으면 효과적이지 못하다.
-- **문서화만 된 정책**: 정책은 있지만 실제로執行되지 않고, 정기적인 검토도 이루어지지 않는 것. 이는 허구한 security governance에 불리한다.
+- **문서화만 된 [[164_policy|정책]]**: [[164_policy|정책]]은 있지만 실제로執行되지 않고, 정기적인 검토도 이루어지지 않는 것. 이는 허구한 [[283_security_tactics|security]] governance에 불리한다.
 
 ---
 
@@ -204,34 +204,34 @@ categories = ["studynote-software-engineering"]
 
 | 구분 | 거버넌스 부재 시 | 체계적 거버넌스 적용 시 | 개선 효과 |
 |:---|:---|:---|:---|
-| **정량** | 보안 사고 시 복구 비용 10억 원+ | 사전预防으로 사고 최소화 | 비용 **60% 절감** |
-| **정성** | 규제 감사 빈번한 지적 | 프로액티브Compliance | 기업 평판 **보호** |
+| **정량** | 보안 사고 시 [[658_ir_recovery|복구]] 비용 10억 원+ | 사전预防으로 사고 최소화 | 비용 **60% 절감** |
+| **정성** | 규제 [[606_auditing_linux_auditd|감사]] 빈번한 지적 | 프로액티브Compliance | 기업 평판 **[[571_protection_vs_security|보호]]** |
 
 ### 미래 전망
 
-- **보안 거버넌스의 자동화**: GRC (Governance, Risk, and Compliance) 도구의 발전으로 보안 거버넌스 활동의 일부가 자동화되고 있다. 예를 들어, 접근 검토, 정책 위반 탐지, 규제 준수 여부 확인 등이 자동화된다.
+- **보안 거버넌스의 자동화**: GRC (Governance, [[096_risk_non_risk_architecture_evaluation_flaws|Risk]], and [[058_it_compliance_sox_basel_gdpr_isms|Compliance]]) 도구의 발전으로 보안 거버넌스 활동의 일부가 자동화되고 있다. 예를 들어, [[580_access_review|접근 검토]], [[164_policy|정책]] 위반 탐지, 규제 준수 여부 [[396_validation|확인]] 등이 자동화된다.
 - **ESG와 보안 거버넌스**: 환경·사회·지배구조 (ESG) 프레임워크에서 정보보안이 중요한 지배구조 요소로 인식되고 있다. 이사회 차원의 보안 감독이 더욱 강화될 전망이다.
 
 ---
 
-## 📌 관련 개념 맵 (Knowledge Graph)
+## 📌 관련 개념 맵 ([[160_knowledge_graph_graphrag_integration|Knowledge Graph]])
 
-| 개념 명칭 | 관계 및 시너지 설명 |
+| 개념 명칭 | [[083_relationship_in_er_model|관계]] 및 시너지 설명 |
 |:---|:---|
-| **ISMS (Information Security Management System)** | 조직의 정보보안을体系적으로管理하는 시스템으로, ISO 27001의 기반이 된다. |
-| **CISO / CSO** | 조직의 정보보안에 대한 최종 책임자로, 보안 거버넌스의 핵심 경영진 역할이다. |
-| **NIST CSF** | 미국 NIST의 사이버보안 프레임워크로, 보안 거버넌스의 자발적 표준으로 널리 사용된다. |
-| **GRC (Governance, Risk, and Compliance)** | 거버넌스, 위험관리, 컴플라이언스를 통합 관리하는 분야로, 보안 거버넌스의技术적 구현이다. |
-| **KRI (Key Risk Indicator)** | 보안 위험을 조기에 탐지하기 위한 지표로, 보안 거버넌스에서 중요한 측정 도구다. |
-| **ISACA** | IT 거버넌스, 보안, 감사 전문가의 국제 조직으로, COBIT 등을 开发 및 보급한다. |
+| **[[836_iso_27001_isms|ISMS]] ([[095_information_security_management|Information Security Management]] System)** | 조직의 정보보안을体系적으로管理하는 시스템으로, ISO 27001의 기반이 된다. |
+| **[[173_ciso_role_and_responsibility|CISO]] / CSO** | 조직의 정보보안에 대한 최종 책임자로, 보안 거버넌스의 핵심 경영진 역할이다. |
+| **NIST [[017_csf|CSF]]** | 미국 NIST의 사이버보안 프레임워크로, 보안 거버넌스의 자발적 표준으로 널리 사용된다. |
+| **GRC (Governance, [[096_risk_non_risk_architecture_evaluation_flaws|Risk]], and [[058_it_compliance_sox_basel_gdpr_isms|Compliance]])** | 거버넌스, 위험관리, 컴플라이언스를 통합 관리하는 분야로, 보안 거버넌스의技术적 구현이다. |
+| **KRI ([[067_db_key_uniqueness_minimality|Key]] [[096_risk_non_risk_architecture_evaluation_flaws|Risk]] Indicator)** | 보안 위험을 조기에 탐지하기 위한 지표로, 보안 거버넌스에서 중요한 측정 도구다. |
+| **[[021_isaca_global_standard|ISACA]]** | IT 거버넌스, 보안, [[606_auditing_linux_auditd|감사]] 전문가의 국제 조직으로, [[004_cobit|COBIT]] 등을 开发 및 보급한다. |
 
 ---
 
 ## 👶 어린이를 위한 3줄 비유 설명
 
-1. 보안 거버넌스는一所تمع장과 같은 거야. 교장선생님 (경영진)이 whole 학교의 규칙을 세우고, 선생님들 (보안 팀)이 그것을 지키는지 확인하며, 문제생기면 교장선생님에게報告하는 것이지.
+1. 보안 거버넌스는一所تمع장과 같은 거야. 교장선생님 (경영진)이 whole 학교의 규칙을 세우고, 선생님들 (보안 팀)이 그것을 지키는지 [[396_validation|확인]]하며, 문제생기면 교장선생님에게報告하는 것이지.
 2. 만약 교장선생님이 관심 없으면 학교는 엉망이 되듯이, 경영진이 보안을 등한시하면 조직 전체가 위험에 빠질 수 있어.
-3. 그래서 우리도 학교 규칙을 지킴으로써 서로를 보호하는 것처럼, 조직 구성원 모두는 보안 거버넌스의 часть으로서 각각の役割을 다해야 해!
+3. 그래서 우리도 학교 규칙을 지킴으로써 서로를 [[571_protection_vs_security|보호]]하는 것처럼, 조직 구성원 모두는 보안 거버넌스의 часть으로서 각각の役割을 다해야 해!
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -248,4 +248,4 @@ categories = ["studynote-software-engineering"]
 [컴플라이언스 (Compliance)]
 ```
 
-이 흐름도는 위험 관리가 보안 정책과 보안 거버넌스를 거쳐 컴플라이언스로 정착되는 과정을 보여준다.
+이 흐름도는 위험 관리가 보안 [[164_policy|정책]]과 보안 거버넌스를 거쳐 컴플라이언스로 정착되는 과정을 보여준다.

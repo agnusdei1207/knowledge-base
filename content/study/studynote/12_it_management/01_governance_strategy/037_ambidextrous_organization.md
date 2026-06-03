@@ -6,7 +6,7 @@ categories = "studynote-it-management"
 +++
 
 > **핵심 인사이트**
-> 1. 양손잡이 조직(Ambidextrous Organization)은 기존 사업의 효율적 운영(활용, Exploitation)과 혁신적 신사업 탐색(탐색, Exploration)을 동시에 수행할 수 있는 이중 역량을 가진 조직 구조를 말한다.
+> 1. 양손잡이 조직(Ambidextrous Organization)은 기존 사업의 효율적 운영(활용, Exploitation)과 혁신적 신사업 탐색(탐색, [[315_exploration_exploitation|Exploration]])을 동시에 수행할 수 있는 이중 역량을 가진 조직 구조를 말한다.
 > 2. 대부분의 기업 실패는 탐색 없는 활용(과거 성공에 안주)이나 활용 없는 탐색(수익 없는 혁신)에서 비롯된다 — 두 역량의 균형이 장기 생존의 핵심이다.
 > 3. 구조적(Structural) 양손잡이성은 분리된 조직 단위에서 각각 활용/탐색을 수행하고, 맥락적(Contextual) 양손잡이성은 개인이 상황에 따라 두 활동을 전환하는 방식으로, AWS의 Day-1 문화가 후자의 대표 사례다.
 
@@ -99,7 +99,7 @@ categories = "studynote-it-management"
 
 ---
 
-## IV. 혁신 포트폴리오 3H 모델
+## [[288_version_ihl_tos_total_length|IV]]. 혁신 포트폴리오 3H 모델
 
 ```
 McKinsey 3 Horizons 모델:
@@ -123,7 +123,7 @@ Horizon 3 (H3): 미래 옵션 탐색
   예: AI 신기술 PoC, 스타트업 투자
 ```
 
-> 📢 **섹션 요약 비유**: 70:20:10 법칙 — 현재 밥벌이에 70%, 성장하는 사업에 20%, 미래 씨앗에 10% 투자.
+> 📢 **섹션 요약 비유**: 70:20:[[489_raid_10_hybrid|10]] 법칙 — 현재 밥벌이에 70%, 성장하는 사업에 20%, 미래 씨앗에 [[489_raid_10_hybrid|10]]% 투자.
 
 ---
 
@@ -151,7 +151,7 @@ Horizon 3 (H3): 미래 옵션 탐색
   동시에 코어뱅킹 안정성 유지
 ```
 
-> 📢 **섹션 요약 비유**: 기존 뱅킹 팀은 안전한 금고, 디지털 팀은 빠른 ATM 앱 — 두 팀이 각자 잘하는 것에 집중하면서 API로 연결.
+> 📢 **섹션 요약 비유**: 기존 뱅킹 팀은 안전한 금고, 디지털 팀은 빠른 [[272_atm_asynchronous_transfer_mode_53byte_cell|ATM]] 앱 — 두 팀이 각자 잘하는 것에 집중하면서 API로 연결.
 
 ---
 

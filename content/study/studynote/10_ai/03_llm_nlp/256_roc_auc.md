@@ -8,22 +8,22 @@ categories = "studynote-ai"
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: ROC 곡선(ROC Curve, Receiver Operating Characteristic)은 임계값(Threshold)을 변화시키면서 TPR(재현율)과 FPR의 트레이드오프를 시각화한 곡선이다.
-> 2. **가치**: AUC(Area Under the Curve) 값이 0.5이면 랜덤 예측, 1.0이면 완벽한 분류기로, 단일 숫자로 모델을 서로 비교할 수 있다.
-> 3. **판단 포인트**: 불균형 데이터에서는 ROC-AUC보다 PR-AUC(Precision-Recall AUC)가 더 신뢰할 수 있는 지표임을 구분해야 한다.
+> 1. **본질**: ROC 곡선(ROC Curve, Receiver Operating Characteristic)은 임계값(Threshold)을 변화시키면서 TPR([[092_recall_sensitivity_hit_rate|재현율]])과 FPR의 트레이드오프를 [[003_bigdata_7v|시각화]]한 곡선이다.
+> 2. **가치**: AUC(Area Under the Curve) 값이 0.5이면 랜덤 예측, 1.0이면 완벽한 [[104_classification_analysis|분류]]기로, 단일 숫자로 모델을 서로 비교할 수 있다.
+> 3. **판단 포인트**: 불균형 [[001_dikw_pyramid|데이터]]에서는 ROC-AUC보다 [[067_pull_request_pr_merge_request_code_review|PR]]-AUC([[233_precision_recall_f1_roc_auc_threshold|Precision]]-[[254_recall_sensitivity|Recall]] AUC)가 더 신뢰할 수 있는 지표임을 구분해야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-이진 분류기(Binary Classifier)는 내부적으로 0~1 사이의 확률값을 출력하고, 특정 임계값(Threshold)을 기준으로 Positive/Negative를 결정한다. 임계값을 0.1부터 0.9까지 변화시키면 각 점에서의 TPR(True Positive Rate)과 FPR(False Positive Rate)이 달라진다.
+이진 [[104_classification_analysis|분류]]기(Binary Classifier)는 내부적으로 0~1 사이의 [[130_probability|확률]]값을 출력하고, 특정 임계값(Threshold)을 기준으로 Positive/Negative를 결정한다. 임계값을 0.1부터 0.9까지 변화시키면 각 점에서의 TPR(True Positive Rate)과 FPR(False Positive Rate)이 달라진다.
 
 **ROC 곡선**은 이 모든 임계값에서의 (FPR, TPR) 쌍을 연결한 궤적이다.
 
-- **TPR (True Positive Rate)** = Recall = Sensitivity = TP / (TP + FN)
-- **FPR (False Positive Rate)** = 1 - Specificity = FP / (FP + TN)
+- **TPR (True Positive Rate)** = [[254_recall_sensitivity|Recall]] = Sensitivity = TP / (TP + FN)
+- **FPR (False Positive Rate)** = 1 - Specificity = [[293_fp_function_point|FP]] / ([[293_fp_function_point|FP]] + TN)
 
-**AUC(Area Under the Curve)**는 ROC 곡선 아래의 넓이로, 분류기가 임의로 선택한 양성 샘플을 음성 샘플보다 높게 순위 매길 확률과 동일하다.
+**AUC(Area Under the Curve)**는 ROC 곡선 아래의 넓이로, [[104_classification_analysis|분류]]기가 임의로 선택한 양성 샘플을 음성 샘플보다 높게 순위 매길 [[130_probability|확률]]과 동일하다.
 
 ```text
 ┌──────────────────────────────────────────────┐
@@ -34,7 +34,7 @@ categories = "studynote-ai"
 └──────────────────────────────────────────────┘
 ```
 
-- **📢 섹션 요약 비유**: ROC 곡선은 "의심 수준을 어느 정도로 설정하느냐에 따라 탐지율과 오경보율이 어떻게 변하는지" 보여주는 지도다. AUC는 그 지도의 품질 점수다.
+- **📢 섹션 요약 비유**: ROC 곡선은 "의심 수준을 어느 정도로 [[009_config|설정]]하느냐에 따라 탐지율과 오경보율이 어떻게 변하는지" 보여주는 지도다. AUC는 그 지도의 품질 점수다.
 
 ---
 
@@ -66,13 +66,13 @@ categories = "studynote-ai"
 
 | AUC 값 | 해석 |
 |:---:|:---|
-| 1.0 | 완벽한 분류 (실제론 과적합 의심) |
+| 1.0 | 완벽한 [[104_classification_analysis|분류]] (실제론 과적합 의심) |
 | 0.9 ~ 1.0 | 우수 (Excellent) |
 | 0.8 ~ 0.9 | 양호 (Good) |
 | 0.7 ~ 0.8 | 보통 (Fair) |
 | 0.6 ~ 0.7 | 미흡 (Poor) |
 | 0.5 | 랜덤 예측 (무의미) |
-| < 0.5 | 역방향 분류 (레이블 반전 필요) |
+| < 0.5 | 역방향 [[104_classification_analysis|분류]] (레이블 반전 필요) |
 
 ### 임계값 변화와 곡선 이동
 
@@ -84,14 +84,14 @@ categories = "studynote-ai"
   (유덴 지수, Youden's J = Sensitivity + Specificity - 1 최대화)
 ```
 
-### PR 곡선(Precision-Recall Curve)과 비교
+### [[067_pull_request_pr_merge_request_code_review|PR]] 곡선([[233_precision_recall_f1_roc_auc_threshold|Precision]]-[[254_recall_sensitivity|Recall]] Curve)과 비교
 
-| 특성 | ROC 곡선 | PR 곡선 |
+| 특성 | ROC 곡선 | [[067_pull_request_pr_merge_request_code_review|PR]] 곡선 |
 |:---|:---|:---|
-| 축 | FPR vs TPR | Recall vs Precision |
-| 불균형 데이터 | TN이 많으면 FPR이 낮아 왜곡 가능 | TN 미사용, 불균형에 강함 |
+| 축 | FPR vs TPR | [[254_recall_sensitivity|Recall]] vs [[233_precision_recall_f1_roc_auc_threshold|Precision]] |
+| 불균형 [[001_dikw_pyramid|데이터]] | TN이 많으면 FPR이 낮아 왜곡 가능 | TN 미사용, 불균형에 강함 |
 | 적합 상황 | 클래스 균형이 비교적 맞을 때 | 소수 양성 클래스가 중요할 때 |
-| 랜덤 기준선 | 대각선 (y=x) | 양성 클래스 비율 수평선 |
+| 랜덤 [[025_baseline|기준선]] | 대각선 (y=x) | 양성 클래스 비율 수평선 |
 
 - **📢 섹션 요약 비유**: ROC 곡선은 "세관 검색대의 엄격함 수준별 탐지율 vs 오탐율 지도"다. AUC가 높을수록 적은 오탐으로 많은 밀수품을 잡는 우수한 검색대다.
 
@@ -99,17 +99,17 @@ categories = "studynote-ai"
 
 ## Ⅲ. 비교 및 연결
 
-### AUC의 확률적 해석
+### AUC의 [[130_probability|확률]]적 해석
 
 AUC = P(양성 샘플의 예측 점수 > 음성 샘플의 예측 점수)
 
-즉, 무작위로 양성 샘플 하나, 음성 샘플 하나를 뽑았을 때 모델이 양성 샘플에 더 높은 점수를 줄 확률이 AUC다. 이 해석 덕분에 AUC는 임계값에 독립적인 지표가 된다.
+즉, 무작위로 양성 샘플 하나, 음성 샘플 하나를 뽑았을 때 모델이 양성 샘플에 더 높은 점수를 줄 [[130_probability|확률]]이 AUC다. 이 해석 덕분에 AUC는 임계값에 독립적인 지표가 된다.
 
 ### 다중 클래스 AUC
 
 | 방식 | 설명 |
 |:---|:---|
-| OvR (One-vs-Rest) | 각 클래스 vs 나머지 AUC 평균 |
+| OvR (One-vs-[[156_rest_representational_state_transfer|Rest]]) | 각 클래스 vs 나머지 AUC 평균 |
 | OvO (One-vs-One) | 모든 클래스 쌍의 AUC 평균 |
 
 ### ROC 곡선 vs 다른 평가 지표 통합
@@ -134,13 +134,13 @@ AUC = P(양성 샘플의 예측 점수 > 음성 샘플의 예측 점수)
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### ROC 곡선 기반 임계값 결정 전략
+### ROC 곡선 기반 임계값 결정 [[268_strategy_pattern|전략]]
 
 1. **유덴 지수 최대화**: Sensitivity + Specificity - 1이 최대인 지점 → 의학 진단
-2. **비용 함수 최소화**: FP 비용과 FN 비용을 고려한 가중 오류율 최소화 → 금융
-3. **목표 Recall 고정**: 특정 재현율(예: 0.95) 달성 시 FPR 최소화 → 보안 시스템
+2. **비용 함수 최소화**: [[293_fp_function_point|FP]] 비용과 FN 비용을 고려한 가중 오류율 최소화 → 금융
+3. **목표 [[254_recall_sensitivity|Recall]] 고정**: 특정 [[092_recall_sensitivity_hit_rate|재현율]](예: 0.95) 달성 시 FPR 최소화 → 보안 시스템
 
-### 불균형 데이터에서의 주의점
+### 불균형 [[001_dikw_pyramid|데이터]]에서의 주의점
 
 ```
   극단적 불균형 예시 (양성 1%, 음성 99%)
@@ -157,8 +157,8 @@ AUC = P(양성 샘플의 예측 점수 > 음성 샘플의 예측 점수)
 
 - **ROC 곡선의 수학적 의미**: 임계값 θ ∈ [0,1]에 대한 매개변수 곡선 (FPR(θ), TPR(θ))
 - **AUC 계산법**: 사다리꼴 공식(Trapezoidal Rule) 또는 Mann-Whitney U 통계량
-- **모델 비교 방법**: AUC가 높은 모델이 임계값 선택과 무관하게 더 좋은 분류기
-- **교차 검증에서 AUC**: `roc_auc_score`를 `cross_val_score` 지표로 사용
+- **모델 비교 방법**: AUC가 높은 모델이 임계값 선택과 무관하게 더 좋은 [[104_classification_analysis|분류]]기
+- **[[250_cross_validation_kfold|교차 검증]]에서 AUC**: `roc_auc_score`를 `cross_val_score` 지표로 사용
 
 - **📢 섹션 요약 비유**: AUC는 레스토랑 평점처럼 "어떤 날 가도(어떤 임계값에서도) 평균적으로 좋은 식당인가"를 나타낸다. 특정 날 하루만 잘 하는 식당보다 항상 안정적인 식당이 AUC가 높다.
 
@@ -168,12 +168,12 @@ AUC = P(양성 샘플의 예측 점수 > 음성 샘플의 예측 점수)
 
 ROC 곡선과 AUC를 올바르게 활용하면:
 
-1. **임계값 독립적 모델 비교**: 여러 알고리즘을 공정하게 비교하는 단일 기준 제공
+1. **임계값 독립적 모델 비교**: 여러 [[001_algorithm_definition|알고리즘]]을 공정하게 비교하는 단일 기준 제공
 2. **최적 임계값 결정 근거**: 비즈니스 비용 구조에 맞는 운영 임계값 선정
-3. **모델 개선 방향 파악**: AUC 곡선 형태로 어떤 영역에서 성능이 부족한지 진단
-4. **표준화된 성능 보고**: 학술 논문 및 기업 AI 시스템 성능 보고서의 표준 지표
+3. **모델 개선 방향 파악**: AUC 곡선 형태로 어떤 영역에서 [[282_performance_tactics|성능]]이 부족한지 진단
+4. **표준화된 [[282_performance_tactics|성능]] 보고**: 학술 논문 및 기업 [[190_ai_llm_requirements_specification|AI]] 시스템 [[282_performance_tactics|성능]] 보고서의 표준 지표
 
-기술사 시험에서 ROC/AUC는 **혼동 행렬 → TPR/FPR 정의 → 곡선 그리기 → AUC 해석 → 불균형 데이터 주의사항** 순서로 완성도 있게 서술해야 한다.
+기술사 시험에서 ROC/AUC는 **[[089_confusion_matrix_tp_fp_fn_tn|혼동 행렬]] → TPR/FPR 정의 → 곡선 그리기 → AUC 해석 → 불균형 [[001_dikw_pyramid|데이터]] 주의사항** 순서로 완성도 있게 서술해야 한다.
 
 - **📢 섹션 요약 비유**: AUC는 마치 육상 선수의 "모든 날씨·조건에서의 평균 기록"과 같다. 좋은 날만 잘하는 선수보다 어떤 조건에서도 안정적인 선수가 진짜 실력자다.
 
@@ -183,11 +183,11 @@ ROC 곡선과 AUC를 올바르게 활용하면:
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| ROC 곡선 (ROC Curve) | TPR, FPR, 임계값(Threshold) / 분류 성능 시각화 |
-| AUC (Area Under Curve) | 면적, 확률 해석 / ROC 곡선 요약 지표 |
-| TPR (True Positive Rate) | 재현율(Recall), 민감도(Sensitivity) / ROC y축 |
+| ROC 곡선 (ROC Curve) | TPR, FPR, 임계값(Threshold) / [[104_classification_analysis|분류]] [[282_performance_tactics|성능]] [[003_bigdata_7v|시각화]] |
+| AUC (Area Under Curve) | 면적, [[130_probability|확률]] 해석 / ROC 곡선 요약 지표 |
+| TPR (True Positive Rate) | [[092_recall_sensitivity_hit_rate|재현율]]([[254_recall_sensitivity|Recall]]), 민감도(Sensitivity) / ROC y축 |
 | FPR (False Positive Rate) | 1-특이도(Specificity) / ROC x축 |
-| PR 곡선 (PR Curve) | Precision, Recall, AUC-PR / 불균형 데이터 대안 |
+| [[067_pull_request_pr_merge_request_code_review|PR]] 곡선 ([[067_pull_request_pr_merge_request_code_review|PR]] Curve) | [[233_precision_recall_f1_roc_auc_threshold|Precision]], [[254_recall_sensitivity|Recall]], AUC-[[067_pull_request_pr_merge_request_code_review|PR]] / 불균형 [[001_dikw_pyramid|데이터]] 대안 |
 | 유덴 지수 (Youden's J) | 최적 임계값, Sensitivity+Specificity-1 / 최적 운영점 탐색 |
 
 ### 📈 관련 키워드 및 발전 흐름도

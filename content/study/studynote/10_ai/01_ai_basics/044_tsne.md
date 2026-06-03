@@ -7,9 +7,9 @@ categories = "studynote-ai"
 +++
 
 > **핵심 인사이트**
-> 1. t-SNE(t-distributed Stochastic Neighbor Embedding)는 고차원 데이터의 국소적 구조(Local Structure)를 2~3차원으로 시각화하는 비선형 차원 축소 기법으로 — 유사한 데이터 포인트를 가깝게, 상이한 포인트를 멀리 배치하여 클러스터 구조를 직관적으로 드러낸다.
+> 1. t-SNE(t-distributed Stochastic Neighbor [[278_instruction_tuning|Embedding]])는 고차원 [[001_dikw_pyramid|데이터]]의 국소적 구조(Local Structure)를 2~3차원으로 [[003_bigdata_7v|시각화]]하는 비선형 [[081_dimensionality_reduction_pca_principal_component_analysis|차원 축소]] 기법으로 — 유사한 [[001_dikw_pyramid|데이터]] 포인트를 가깝게, 상이한 포인트를 멀리 배치하여 클러스터 구조를 직관적으로 드러낸다.
 > 2. t-SNE의 핵심은 고차원 공간의 가우시안 분포 유사도와 저차원 공간의 t-분포(자유도 1, 코시 분포) 유사도 사이의 KL Divergence를 최소화하는 것으로 — t-분포의 두꺼운 꼬리(Heavy Tail)가 "군집 붕괴 문제(Crowding Problem)"를 해결하는 핵심이다.
-> 3. t-SNE는 탐색적 데이터 분석(EDA)과 모델 디버깅에는 강력하지만 — 퍼플렉시티(Perplexity) 하이퍼파라미터에 민감하고 전역 구조 보존이 약하며 계산량이 O(n²)이라 대규모 데이터에 직접 적용이 어려워, UMAP이 실용적 대안으로 부상하고 있다.
+> 3. t-SNE는 [[062_eda_exploratory_data_analysis|탐색적 데이터 분석]]([[064_eda|EDA]])과 모델 디버깅에는 강력하지만 — 퍼플렉시티(Perplexity) 하이퍼파라미터에 민감하고 전역 구조 보존이 약하며 계산량이 O(n²)이라 대규모 [[001_dikw_pyramid|데이터]]에 직접 적용이 어려워, UMAP이 실용적 대안으로 부상하고 있다.
 
 ---
 
@@ -51,7 +51,7 @@ t-SNE 개선:
 
 ---
 
-## Ⅱ. t-SNE 알고리즘
+## Ⅱ. t-SNE [[001_algorithm_definition|알고리즘]]
 
 ```
 t-SNE 알고리즘 상세:
@@ -95,11 +95,11 @@ t-SNE 알고리즘 상세:
   → 10만 개 이상 데이터에는 별도 최적화 필요
 ```
 
-> 📢 **섹션 요약 비유**: t-SNE KL Divergence 최소화는 지그소 퍼즐 맞추기 — 원본 사진(고차원 P)과 만들어진 퍼즐(저차원 Q)이 최대한 일치하도록 조각 위치를 조금씩 조정.
+> 📢 **섹션 요약 비유**: t-SNE [[153_kl_divergence|KL Divergence]] 최소화는 지그소 퍼즐 맞추기 — 원본 사진(고차원 P)과 만들어진 퍼즐(저차원 Q)이 최대한 일치하도록 조각 위치를 조금씩 조정.
 
 ---
 
-## Ⅲ. t-SNE vs PCA vs UMAP
+## Ⅲ. t-SNE vs [[163_pca|PCA]] vs UMAP
 
 ```
 차원 축소 기법 비교:
@@ -145,7 +145,7 @@ UMAP (Uniform Manifold Approximation and Projection):
 대규모 데이터| 가능  | 어려움 | 가능
 ```
 
-> 📢 **섹션 요약 비유**: PCA vs t-SNE vs UMAP은 지도 만들기 방법 — PCA는 직선 도로만, t-SNE는 구불구불한 마을 골목까지, UMAP은 골목도 잡으면서 더 빨리 그려요.
+> 📢 **섹션 요약 비유**: [[163_pca|PCA]] vs t-SNE vs UMAP은 지도 만들기 방법 — PCA는 직선 도로만, t-SNE는 구불구불한 마을 골목까지, UMAP은 골목도 잡으면서 더 빨리 그려요.
 
 ---
 
@@ -187,7 +187,7 @@ t-SNE 오용 패턴:
 
 ---
 
-## Ⅴ. 실무 시나리오 — 텍스트 임베딩 시각화
+## Ⅴ. 실무 시나리오 — 텍스트 [[278_instruction_tuning|임베딩]] [[003_bigdata_7v|시각화]]
 
 ```
 BERT 텍스트 임베딩 t-SNE 시각화:
@@ -242,7 +242,7 @@ t-SNE 적용:
   200,000건: UMAP 권장 (5분 내 처리)
 ```
 
-> 📢 **섹션 요약 비유**: BERT 임베딩 t-SNE 시각화는 언어의 지도 — 각 뉴스가 2D 지도에 찍히는데, 같은 카테고리끼리 동네를 이루면 "좋은 임베딩!", 섞이면 "모델 개선 필요!".
+> 📢 **섹션 요약 비유**: [[301_bert_mlm|BERT]] [[278_instruction_tuning|임베딩]] t-SNE [[003_bigdata_7v|시각화]]는 언어의 지도 — 각 뉴스가 2D 지도에 찍히는데, 같은 카테고리끼리 동네를 이루면 "좋은 [[278_instruction_tuning|임베딩]]!", 섞이면 "모델 개선 필요!".
 
 ---
 
@@ -299,6 +299,6 @@ TensorBoard Embedding Projector
 
 ## 👶 어린이를 위한 3줄 비유 설명
 
-1. t-SNE는 3D 지도를 2D로 압축 — 수백 개의 특징(차원)을 가진 데이터를 평면에 찍어서 "비슷한 것끼리 뭉치게" 표현해요!
+1. t-SNE는 3D 지도를 2D로 [[347_compaction|압축]] — 수백 개의 특징(차원)을 가진 [[001_dikw_pyramid|데이터]]를 평면에 찍어서 "비슷한 것끼리 뭉치게" 표현해요!
 2. t-분포의 두꺼운 꼬리가 핵심 — 멀리 있는 그룹들을 더 확실히 떼어놓는 것이 t-SNE의 비법이에요. 인근 동네는 붙이고, 먼 도시는 확실히 분리!
 3. 클러스터 간 거리는 무시해요 — t-SNE는 "동네 내부 구조"를 잘 보여주지만, "도시 간 실제 거리"는 믿으면 안 돼요!

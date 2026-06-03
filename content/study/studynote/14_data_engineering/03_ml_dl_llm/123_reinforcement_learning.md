@@ -7,9 +7,9 @@ categories = "studynote-dataengineering"
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: 강화 학습은 **에이전트(Agent)가 환경(Environment)과 상호작용하면서 보상(Reward)을 최대화하는 행동 정책(Policy)을 학습**하는 ML 패러다임이며, 별도의 정답 라벨 없이 **시행착오(Trial and Error)**를 통해 학습한다.
-> 2. **가치**: 바둑(AlphaGo)·로봇 제어·게임·추천 시스템·LLM 정렬(RLHF)에서 **최적 행동 전략을 자동으로 발견**할 수 있으며, 지도 학습처럼 정답 라벨이 필요 없다.
-> 3. **판단 포인트**: 탐색(Exploration) vs 활용(Exploitation) 딜레마가 핵심이며, Q-Learning(Value 기반)·Policy Gradient(Policy 기반)·Actor-Critic(하이브리드)의 3대 접근법을 구분해야 한다.
+> 1. **본질**: [[253_reinforcement_learning_mdp_policy_value_q_learning_dqn|강화 학습]]은 **에이전트(Agent)가 환경([[066_gitlab_flow_environment_branch_strategy|Environment]])과 상호작용하면서 보상(Reward)을 최대화하는 행동 [[164_policy|정책]]([[164_policy|Policy]])을 학습**하는 ML 패러다임이며, 별도의 정답 라벨 없이 **시행착오(Trial and Error)**를 통해 학습한다.
+> 2. **가치**: 바둑(AlphaGo)·로봇 제어·게임·[[211_recommendation_system|추천 시스템]]·[[263_llm_large_language_model|LLM]] 정렬([[250_rlhf_human_feedback_reinforcement_alignment_cot|RLHF]])에서 **최적 행동 [[268_strategy_pattern|전략]]을 자동으로 발견**할 수 있으며, 지도 학습처럼 정답 라벨이 필요 없다.
+> 3. **판단 포인트**: 탐색([[315_exploration_exploitation|Exploration]]) vs 활용(Exploitation) 딜레마가 핵심이며, [[316_q_learning|Q-Learning]](Value 기반)·[[318_policy_gradient_actor_critic|Policy Gradient]]([[164_policy|Policy]] 기반)·[[172_actor_critic|Actor-Critic]](하이브리드)의 3대 접근법을 구분해야 한다.
 
 ---
 
@@ -32,7 +32,7 @@ categories = "studynote-dataengineering"
 └───────────────────────────────────────────────────────┘
 ```
 
-- **📢 섹션 요약 비유**: 강화 학습은 게임을 처음 하는 아이가 **점수(보상)**를 올리기 위해 여러 버튼을 눌러보면서(시행착오) 최적 전략을 스스로 터득하는 것이다.
+- **📢 섹션 요약 비유**: [[253_reinforcement_learning_mdp_policy_value_q_learning_dqn|강화 학습]]은 게임을 처음 하는 아이가 **점수(보상)**를 올리기 위해 여러 버튼을 눌러보면서(시행착오) 최적 [[268_strategy_pattern|전략]]을 스스로 터득하는 것이다.
 
 ---
 
@@ -42,14 +42,14 @@ categories = "studynote-dataengineering"
 
 | 접근법 | 학습 대상 | 대표 | 특징 |
 |:---|:---|:---|:---|
-| **Value 기반** | Q(s,a) 가치 함수 | **DQN** | 이산 행동 |
-| **Policy 기반** | π(a\|s) 직접 | **REINFORCE** | 연속 행동 |
-| **Actor-Critic** | 둘 다 | **PPO, A3C** | **실용 표준** |
+| **Value 기반** | Q(s,a) [[163_value_function|가치 함수]] | **[[465_dqn_deep_q_network|DQN]]** | 이산 행동 |
+| **[[164_policy|Policy]] 기반** | π(a\|s) 직접 | **REINFORCE** | 연속 행동 |
+| **[[172_actor_critic|Actor-Critic]]** | 둘 다 | **[[395_ppo_clipping|PPO]], [[173_a3c_ppo|A3C]]** | **실용 표준** |
 
-### RLHF (강화 학습 + 인간 피드백)
-LLM(GPT)을 인간 선호도 피드백으로 정렬하는 기법. **ChatGPT의 핵심 학습 방법**이다.
+### [[250_rlhf_human_feedback_reinforcement_alignment_cot|RLHF]] ([[253_reinforcement_learning_mdp_policy_value_q_learning_dqn|강화 학습]] + 인간 피드백)
+[[263_llm_large_language_model|LLM]]([[302_gpt_autoregressive|GPT]])을 인간 선호도 피드백으로 정렬하는 기법. **ChatGPT의 핵심 학습 방법**이다.
 
-- **📢 섹션 요약 비유**: RLHF는 작문 선생님(인간)이 학생(LLM)의 글에 "이 답변이 더 좋아"라고 **피드백(보상)**하면서 글쓰기를 가르치는 것이다.
+- **📢 섹션 요약 비유**: RLHF는 작문 선생님(인간)이 학생([[263_llm_large_language_model|LLM]])의 글에 "이 답변이 더 좋아"라고 **피드백(보상)**하면서 글쓰기를 가르치는 것이다.
 
 ---
 
@@ -59,23 +59,23 @@ LLM(GPT)을 인간 선호도 피드백으로 정렬하는 기법. **ChatGPT의 �
 |:---|:---|:---|:---|
 | **피드백** | 정답 라벨 | 없음 | **보상** |
 | **목표** | 예측 | 구조 발견 | **행동 최적화** |
-| **대표** | XGBoost | K-Means | **PPO, DQN** |
+| **대표** | XGBoost | K-Means | **[[395_ppo_clipping|PPO]], [[465_dqn_deep_q_network|DQN]]** |
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 ### 적용 분야
-1. **게임**: AlphaGo(바둑), Atari(DQN).
+1. **게임**: AlphaGo(바둑), Atari([[465_dqn_deep_q_network|DQN]]).
 2. **로봇**: 보행·조작 제어.
-3. **LLM**: RLHF (GPT 정렬).
+3. **[[263_llm_large_language_model|LLM]]**: [[250_rlhf_human_feedback_reinforcement_alignment_cot|RLHF]] ([[302_gpt_autoregressive|GPT]] 정렬).
 4. **추천**: 장기 사용자 만족도 최적화.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-강화 학습은 **"정답이 없는 순차적 의사결정 문제"의 유일한 해법**이며, RLHF를 통해 LLM 정렬의 핵심 기술로 자리잡았다.
+[[253_reinforcement_learning_mdp_policy_value_q_learning_dqn|강화 학습]]은 **"정답이 없는 순차적 의사결정 문제"의 유일한 해법**이며, RLHF를 통해 [[263_llm_large_language_model|LLM]] 정렬의 핵심 기술로 자리잡았다.
 
 ---
 
@@ -84,10 +84,10 @@ LLM(GPT)을 인간 선호도 피드백으로 정렬하는 기법. **ChatGPT의 �
 | 개념 | 연결 포인트 |
 |:---|:---|
 | **Agent** | 행동을 선택하는 학습 주체 |
-| **Reward** | 행동의 좋고 나쁨을 알려주는 신호 |
-| **Policy** | 상태→행동 매핑 전략 |
-| **RLHF** | 강화 학습 + 인간 피드백 (GPT) |
-| **PPO** | 실용적 Policy Gradient 알고리즘 |
+| **Reward** | 행동의 좋고 나쁨을 알려주는 [[130_signal|신호]] |
+| **[[164_policy|Policy]]** | 상태→행동 매핑 [[268_strategy_pattern|전략]] |
+| **[[250_rlhf_human_feedback_reinforcement_alignment_cot|RLHF]]** | [[253_reinforcement_learning_mdp_policy_value_q_learning_dqn|강화 학습]] + 인간 피드백 ([[302_gpt_autoregressive|GPT]]) |
+| **[[395_ppo_clipping|PPO]]** | 실용적 [[318_policy_gradient_actor_critic|Policy Gradient]] [[001_algorithm_definition|알고리즘]] |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -108,6 +108,6 @@ LLM(GPT)을 인간 선호도 피드백으로 정렬하는 기법. **ChatGPT의 �
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
-1. 강화 학습은 **게임을 처음 하면서** 점수(보상)를 올리는 방법을 배우는 거예요.
+1. [[253_reinforcement_learning_mdp_policy_value_q_learning_dqn|강화 학습]]은 **게임을 처음 하면서** 점수(보상)를 올리는 방법을 배우는 거예요.
 2. 좋은 행동(높은 점수)은 **더 많이 하고**, 나쁜 행동(낮은 점수)은 **줄여요**.
 3. AlphaGo도 이 방법으로 바둑을 배워서 **세계 챔피언**을 이겼답니다!

@@ -8,15 +8,15 @@ categories = "studynote-ai"
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: BPTT(Backpropagation Through Time, 시간 역전파)는 순환 신경망(RNN, Recurrent Neural Network)에서 시퀀스를 시간 축으로 펼친(unroll) 후 일반 역전파를 적용하는 알고리즘으로, 동일한 가중치 행렬 W_h가 모든 시간 단계에서 공유되어 그래디언트가 T번 곱해진다.
-> 2. **가치**: 시퀀스 데이터(텍스트, 시계열)에서 현재 출력이 과거 입력에 의존하는 장기 의존성(Long-term Dependency)을 학습하는 유일한 방법이지만, 기울기 소실/폭발 문제로 실용적 길이에 제약이 있다.
-> 3. **판단 포인트**: 기울기 ∂L/∂W = Σₜ ∂Lₜ/∂W의 각 항이 Πₖ (W_h · diag(tanh'(hₖ)))를 포함하므로, |eigenvalue(W_h)| < 1이면 소실, > 1이면 폭발한다.
+> 1. **본질**: [[114_bptt_backpropagation_through_time|BPTT]]([[114_bptt_backpropagation_through_time|Backpropagation Through Time]], 시간 [[272_backpropagation|역전파]])는 [[111_rnn_recurrent_neural_network_sequential_data|순환 신경망]]([[244_rnn_time_series_lstm_cell_gate_long_term_dependency|RNN]], [[244_rnn_time_series_lstm_cell_gate_long_term_dependency|Recurrent Neural Network]])에서 시퀀스를 시간 축으로 펼친(unroll) 후 일반 [[272_backpropagation|역전파]]를 적용하는 [[001_algorithm_definition|알고리즘]]으로, 동일한 [[267_weight_bias_activation|가중치]] 행렬 W_h가 모든 시간 단계에서 공유되어 그래디언트가 T번 곱해진다.
+> 2. **가치**: 시퀀스 [[001_dikw_pyramid|데이터]](텍스트, 시계열)에서 현재 출력이 과거 입력에 의존하는 [[291_long_term_dependency|장기 의존성]]([[291_long_term_dependency|Long-term Dependency]])을 학습하는 유일한 방법이지만, [[088_vanishing_gradient_relu_skip_connection|기울기 소실]]/폭발 문제로 실용적 길이에 제약이 있다.
+> 3. **판단 포인트**: 기울기 ∂L/∂W = Σₜ ∂Lₜ/∂W의 각 항이 Πₖ (W_h · diag([[070_hyperbolic_tangent_tanh_activation|tanh]]'(hₖ)))를 포함하므로, |eigenvalue(W_h)| < 1이면 소실, > 1이면 폭발한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-RNN은 h_t = tanh(W_h·h_{t-1} + W_x·x_t + b)로 이전 은닉 상태를 재귀적으로 사용한다. 이를 T 시간 단계로 펼치면 T개의 층을 가진 깊은 네트워크가 된다. BPTT는 이 펼쳐진 네트워크에서 각 시간 단계의 그래디언트를 체인 룰로 계산하고, W_h가 공유되므로 모든 시간 단계의 그래디언트를 합산한다.
+RNN은 h_t = [[070_hyperbolic_tangent_tanh_activation|tanh]](W_h·h_{t-1} + W_x·x_t + b)로 이전 은닉 상태를 [[014_recursion|재귀]]적으로 사용한다. 이를 T 시간 단계로 펼치면 T개의 층을 가진 깊은 네트워크가 된다. BPTT는 이 펼쳐진 네트워크에서 각 시간 단계의 그래디언트를 체인 룰로 계산하고, W_h가 공유되므로 모든 시간 단계의 그래디언트를 합산한다.
 
 ```text
 ┌──────────────────────────────────────────────┐
@@ -27,7 +27,7 @@ RNN은 h_t = tanh(W_h·h_{t-1} + W_x·x_t + b)로 이전 은닉 상태를 재귀
 └──────────────────────────────────────────────┘
 ```
 
-- **📢 섹션 요약 비유**: BPTT는 "긴 전화 게임의 책임 역추적"이다. 100명이 릴레이로 메시지를 전달했을 때 오류가 생기면, 오류 신호를 100명 → 99명 → ... → 1번으로 거슬러 올라가며 각자의 잘못(그래디언트)을 계산한다.
+- **📢 섹션 요약 비유**: BPTT는 "긴 전화 게임의 책임 역추적"이다. 100명이 릴레이로 [[389_mesh_topology|메시]]지를 전달했을 때 오류가 생기면, 오류 [[130_signal|신호]]를 100명 → 99명 → ... → 1번으로 거슬러 올라가며 각자의 잘못(그래디언트)을 계산한다.
 
 ---
 
@@ -55,24 +55,24 @@ RNN은 h_t = tanh(W_h·h_{t-1} + W_x·x_t + b)로 이전 은닉 상태를 재귀
 
 | 문제 | 조건 | 증상 | 해결책 |
 |:---|:---|:---|:---|
-| 기울기 소실 | \|W_h\| < 1 | 먼 과거 정보 손실 | LSTM, GRU |
-| 기울기 폭발 | \|W_h\| > 1 | NaN 발생 | Gradient Clipping |
+| [[088_vanishing_gradient_relu_skip_connection|기울기 소실]] | \|W_h\| < 1 | 먼 과거 정보 손실 | [[292_lstm|LSTM]], [[294_gru|GRU]] |
+| [[089_exploding_gradient_clipping|기울기 폭발]] | \|W_h\| > 1 | [[097_nan|NaN]] 발생 | Gradient [[389_ppo_proximal_policy_optimization|Clipping]] |
 
-- **📢 섹션 요약 비유**: 기울기 소실은 "100년 전 역사가 현재에 미치는 영향"과 같다. 각 세대를 거칠수록 원래 사건의 영향이 희미해진다. W_h가 작으면 1000세대 뒤에는 완전히 잊혀진다(소실). W_h가 크면 영향이 기하급수적으로 폭발한다.
+- **📢 섹션 요약 비유**: [[088_vanishing_gradient_relu_skip_connection|기울기 소실]]은 "100년 전 역사가 현재에 미치는 영향"과 같다. 각 세대를 거칠수록 원래 사건의 영향이 희미해진다. W_h가 작으면 1000세대 뒤에는 완전히 잊혀진다(소실). W_h가 크면 영향이 기하급수적으로 폭발한다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-그래디언트 클리핑(Gradient Clipping): ||g|| > threshold이면 g = g·(threshold/||g||)로 정규화하여 폭발을 방지한다. PyTorch의 nn.utils.clip_grad_norm_(parameters, max_norm)으로 구현. LSTM은 셀 상태(Cell State)를 통한 덧셈 구조로 기울기 소실을 구조적으로 해결한다. 시간적 병렬화가 불가능한 BPTT의 순차적 특성이 Transformer가 Self-Attention으로 대체한 핵심 이유다.
+그래디언트 클리핑(Gradient [[389_ppo_proximal_policy_optimization|Clipping]]): ||g|| > threshold이면 g = g·(threshold/||g||)로 [[093_normalization|정규화]]하여 폭발을 방지한다. PyTorch의 nn.utils.clip_grad_norm_(parameters, max_norm)으로 구현. LSTM은 셀 상태(Cell [[272_state_pattern|State]])를 통한 덧셈 구조로 [[088_vanishing_gradient_relu_skip_connection|기울기 소실]]을 구조적으로 해결한다. 시간적 [[430_index_fast_full_scan|병렬]]화가 불가능한 BPTT의 순차적 특성이 Transformer가 Self-Attention으로 대체한 핵심 이유다.
 
-- **📢 섹션 요약 비유**: Transformer가 RNN을 대체한 이유는 "릴레이 경주 → 동시 달리기"다. RNN의 BPTT는 100명이 순서대로 달리는 릴레이(순차 처리). Transformer의 Self-Attention은 100명이 동시에 달리는 경주(병렬 처리). 동시 달리기가 훨씬 빠르다.
+- **📢 섹션 요약 비유**: Transformer가 RNN을 대체한 이유는 "릴레이 경주 → 동시 달리기"다. RNN의 BPTT는 100명이 순서대로 달리는 릴레이(순차 처리). Transformer의 Self-Attention은 100명이 동시에 달리는 경주([[430_index_fast_full_scan|병렬]] 처리). 동시 달리기가 훨씬 빠르다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-Truncated BPTT: 시퀀스를 길이 T_bptt(예: 35)의 청크로 나눠 각 청크에 BPTT 적용. 언어 모델 훈련의 실용적 표준. 초기화 방법: 단위 행렬 초기화(identity initialization) + ReLU로 기울기 소실을 줄이는 IRNN(Identity RNN) 기법. 현대 실무에서는 RNN 대신 Transformer/LSTM을 사용하지만, 임베디드 엣지 디바이스 등 계산 제약 환경에서는 RNN이 여전히 사용된다.
+Truncated [[114_bptt_backpropagation_through_time|BPTT]]: 시퀀스를 길이 T_bptt(예: 35)의 청크로 나눠 각 청크에 [[114_bptt_backpropagation_through_time|BPTT]] 적용. 언어 모델 훈련의 실용적 표준. [[459_quic_fec_forward_error_correction|초기]]화 방법: 단위 행렬 [[459_quic_fec_forward_error_correction|초기]]화(identity initialization) + ReLU로 [[088_vanishing_gradient_relu_skip_connection|기울기 소실]]을 줄이는 IRNN(Identity [[244_rnn_time_series_lstm_cell_gate_long_term_dependency|RNN]]) 기법. 현대 실무에서는 [[244_rnn_time_series_lstm_cell_gate_long_term_dependency|RNN]] 대신 [[246_transformer_self_attention_parallel_positional_encoding|Transformer]]/LSTM을 사용하지만, 임베디드 엣지 디바이스 등 계산 제약 환경에서는 RNN이 여전히 사용된다.
 
 - **📢 섹션 요약 비유**: Truncated BPTT는 "독서 클럽에서 매 35페이지마다 내용 정리"하는 방법이다. 책 전체(전체 시퀀스)를 한 번에 읽고 토론하면 너무 오래 걸린다. 35페이지씩 끊어 정리하면 시간도 절약하고 핵심도 잘 잡힌다.
 
@@ -80,7 +80,7 @@ Truncated BPTT: 시퀀스를 길이 T_bptt(예: 35)의 청크로 나눠 각 청�
 
 ## Ⅴ. 기대효과 및 결론
 
-BPTT는 시퀀스 모델링의 핵심 알고리즘으로, 기울기 소실/폭발 문제를 이해하는 것이 LSTM, GRU, Transformer가 왜 필요한지를 설명하는 토대가 된다. 기술사 시험에서 기울기 소실 수식(고유값 조건), Truncated BPTT 의미, LSTM의 구조적 해결책을 연결하여 서술하면 완성도 높은 답안이 된다.
+BPTT는 시퀀스 모델링의 핵심 [[001_algorithm_definition|알고리즘]]으로, [[088_vanishing_gradient_relu_skip_connection|기울기 소실]]/폭발 문제를 이해하는 것이 [[292_lstm|LSTM]], [[294_gru|GRU]], Transformer가 왜 필요한지를 설명하는 토대가 된다. 기술사 시험에서 [[088_vanishing_gradient_relu_skip_connection|기울기 소실]] 수식(고유값 조건), Truncated [[114_bptt_backpropagation_through_time|BPTT]] 의미, LSTM의 구조적 해결책을 연결하여 서술하면 완성도 높은 답안이 된다.
 
 - **📢 섹션 요약 비유**: BPTT는 RNN의 "시간 여행 학습기"다. 과거로 거슬러 올라가며 "100 시간 전 결정이 현재 오류에 얼마나 책임이 있는가"를 계산한다. 하지만 너무 먼 과거(소실)나 지나치게 큰 책임(폭발)을 다루기 어려워 LSTM이 탄생했다.
 
@@ -90,10 +90,10 @@ BPTT는 시퀀스 모델링의 핵심 알고리즘으로, 기울기 소실/폭�
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| LSTM (Long Short-Term Memory) | 셀 상태, 게이트 / BPTT 기울기 소실 해결 |
-| Gradient Clipping | 그래디언트 정규화 / 폭발 문제 해결 |
-| Transformer | Self-Attention / RNN 순차 한계 극복 |
-| Truncated BPTT | 청크 분할 / 실용적 BPTT 구현 |
+| [[292_lstm|LSTM]] ([[292_lstm|Long Short-Term Memory]]) | 셀 상태, 게이트 / [[114_bptt_backpropagation_through_time|BPTT]] [[088_vanishing_gradient_relu_skip_connection|기울기 소실]] 해결 |
+| Gradient [[389_ppo_proximal_policy_optimization|Clipping]] | 그래디언트 [[093_normalization|정규화]] / 폭발 문제 해결 |
+| [[246_transformer_self_attention_parallel_positional_encoding|Transformer]] | [[124_self_attention|Self-Attention]] / [[244_rnn_time_series_lstm_cell_gate_long_term_dependency|RNN]] 순차 한계 극복 |
+| Truncated [[114_bptt_backpropagation_through_time|BPTT]] | 청크 분할 / 실용적 [[114_bptt_backpropagation_through_time|BPTT]] 구현 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 

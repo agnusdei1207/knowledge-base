@@ -5,31 +5,31 @@ weight = 100
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 양자 내성 암호 (PQC, Post-Quantum Cryptography) 기반 블록체인 전환은 양자 컴퓨터의 쇼어(Shor) 알고리즘에 의해 기존 타원곡선 서명체계가 무력화되는 위협을 방어하기 위한 암호 알고리즘 교체 작업이다.
-> 2. **가치**: 기존의 소인수 분해나 이산대수 문제가 아닌, 격자(Lattice), 다변수(Multivariate), 해시(Hash) 등 양자 중첩으로도 풀 수 없는 수학적 난제를 적용하여 블록체인의 원장 무결성을 지켜낸다.
-> 3. **판단 포인트**: 단순히 암호 알고리즘만 교체하면 되는 것이 아니라, 거대한 하드 포크(Hard Fork)와 블록 크기 증가, 휴면 지갑(동면 계좌)의 보호 등 생태계 전체의 전환 시나리오를 종합적으로 설계해야 한다.
+> 1. **본질**: [[183_post_quantum_cryptography_key_transition|양자 내성 암호]] ([[351_quantum_computing_pqc_transition|PQC]], [[183_post_quantum_cryptography_key_transition|Post-Quantum Cryptography]]) 기반 [[004_blockchain|블록체인]] 전환은 [[447_quantum_computer|양자 컴퓨터]]의 쇼어(Shor) [[001_algorithm_definition|알고리즘]]에 의해 기존 [[120_elliptic_curve_equation|타원곡선]] 서명체계가 무력화되는 위협을 방어하기 위한 암호 [[001_algorithm_definition|알고리즘]] 교체 작업이다.
+> 2. **가치**: 기존의 소인수 분해나 이산대수 문제가 아닌, 격자(Lattice), 다변수(Multivariate), 해시(Hash) 등 [[219_quantum_superposition_qubit|양자 중첩]]으로도 풀 수 없는 수학적 난제를 적용하여 [[004_blockchain|블록체인]]의 원장 무결성을 지켜낸다.
+> 3. **판단 포인트**: 단순히 암호 [[001_algorithm_definition|알고리즘]]만 교체하면 되는 것이 아니라, 거대한 하드 포크(Hard Fork)와 블록 크기 증가, 휴면 지갑(동면 계좌)의 [[571_protection_vs_security|보호]] 등 생태계 전체의 전환 시나리오를 종합적으로 설계해야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-현존하는 비트코인이나 이더리움 등 대다수 블록체인은 ECDSA (Elliptic Curve Digital Signature Algorithm)와 같은 공개키 암호화 방식에 신뢰의 근간을 두고 있다. 이들은 현재의 슈퍼컴퓨터로 비밀키를 역산하려면 우주의 나이만큼 시간이 걸려 안전성을 보장받는다. 
+현존하는 비트코인이나 이더리움 등 대다수 [[004_blockchain|블록체인]]은 [[097_ecdsa_schnorr_signature_bitcoin|ECDSA]] (Elliptic Curve [[675_digital_signature_process_asymmetric_key|Digital Signature]] [[001_algorithm_definition|Algorithm]])와 같은 공개키 암호화 방식에 신뢰의 근간을 두고 있다. 이들은 현재의 슈퍼컴퓨터로 비밀키를 역산하려면 우주의 나이만큼 시간이 걸려 안전성을 보장받는다. 
 
-그러나 양자 컴퓨터(Quantum Computer)가 상용화되고 큐비트 수가 증가하면서 상황이 급변했다. 피터 쇼어(Peter Shor)가 고안한 쇼어 알고리즘은 양자 중첩(Quantum Superposition)을 활용하여 이산대수 문제를 다항식 시간 내에 풀어버린다. 즉, 구글이나 IBM의 강력 양자 컴퓨터가 등장하는 날(Q-Day), 공개키만으로 개인키를 단 몇 분 만에 알아내어 자산을 탈취할 수 있는 치명적 위협이 도래한 것이다. 블록체인의 붕괴를 막기 위해 양자 컴퓨터로도 풀기 어려운 새로운 수학적 난제인 양자 내성 암호(PQC)로의 전환이 시급해졌다.
+그러나 [[447_quantum_computer|양자 컴퓨터]]([[447_quantum_computer|Quantum Computer]])가 상용화되고 [[448_qubit|큐비트]] 수가 증가하면서 상황이 급변했다. 피터 쇼어(Peter Shor)가 고안한 쇼어 [[001_algorithm_definition|알고리즘]]은 [[219_quantum_superposition_qubit|양자 중첩]]([[690_round_robin_time_quantum|Quantum]] [[219_quantum_superposition_qubit|Superposition]])을 활용하여 이산대수 문제를 [[195_polynomial_generator_crc|다항식]] 시간 내에 풀어버린다. 즉, 구글이나 IBM의 강력 [[447_quantum_computer|양자 컴퓨터]]가 등장하는 날([[151_quantum_computing_threats|Q-Day]]), 공개키만으로 개인키를 단 몇 분 만에 알아내어 자산을 탈취할 수 있는 치명적 위협이 도래한 것이다. [[004_blockchain|블록체인]]의 붕괴를 막기 위해 [[447_quantum_computer|양자 컴퓨터]]로도 풀기 어려운 새로운 수학적 난제인 [[183_post_quantum_cryptography_key_transition|양자 내성 암호]]([[351_quantum_computing_pqc_transition|PQC]])로의 전환이 시급해졌다.
 
-- **📢 섹션 요약 비유**: 지금까지 블록체인은 "모래사장에서 바늘 찾기"라는 문제로 해커를 막아왔습니다. 하지만 양자 컴퓨터라는 "초강력 거대 자석"이 발명되면 순식간에 바늘을 찾을 수 있으므로, 자석에 붙지 않는 플라스틱 바늘(양자 내성 암호)로 시스템을 서둘러 교체해야 하는 상황입니다.
+- **📢 섹션 요약 비유**: 지금까지 [[004_blockchain|블록체인]]은 "모래사장에서 바늘 찾기"라는 문제로 해커를 막아왔습니다. 하지만 [[447_quantum_computer|양자 컴퓨터]]라는 "초강력 거대 자석"이 발명되면 순식간에 바늘을 찾을 수 있으므로, 자석에 붙지 않는 플라스틱 바늘([[183_post_quantum_cryptography_key_transition|양자 내성 암호]])로 시스템을 서둘러 교체해야 하는 상황입니다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-양자 내성 암호 (PQC)는 쇼어 알고리즘이 통하지 않는 완전히 다른 수학 구조를 활용한다. NIST(미국 국립표준기술연구소) 주도로 여러 알고리즘이 표준화 경쟁을 펼치고 있으며, 크게 세 가지 방식으로 분류된다.
+[[183_post_quantum_cryptography_key_transition|양자 내성 암호]] ([[351_quantum_computing_pqc_transition|PQC]])는 쇼어 [[001_algorithm_definition|알고리즘]]이 통하지 않는 완전히 다른 수학 구조를 활용한다. NIST(미국 국립표준기술연구소) 주도로 여러 [[001_algorithm_definition|알고리즘]]이 표준화 경쟁을 펼치고 있으며, 크게 세 가지 방식으로 분류된다.
 
-| PQC 알고리즘 유형 | 핵심 원리 및 난제 | 블록체인 적용 특징 (장단점) |
+| [[351_quantum_computing_pqc_transition|PQC]] [[001_algorithm_definition|알고리즘]] 유형 | 핵심 원리 및 난제 | [[004_blockchain|블록체인]] 적용 특징 (장단점) |
 |:---|:---|:---|
 | **격자 기반 (Lattice-based)** | 다차원 격자 공간에서 가장 가까운 벡터(CVP) 찾기의 어려움 | 서명 크기와 연산 속도 밸런스가 좋아 가장 유력한 대세 표준 (예: Dilithium) |
-| **다변수 다항식 (Multivariate)** | 수십 개의 변수가 얽힌 2차 연립방정식 풀이의 어려움 | 서명 생성/검증은 빠르지만, 공개키 크기가 기형적으로 커서 블록 용량 부담 증가 |
-| **해시 기반 (Hash-based)** | 해시 함수의 일방향성(역산 불가능) 원리를 서명에 직접 활용 | 수학적 역산이 불가능해 안정성이 가장 높으나, 서명 크기가 너무 커서 실시간 트랜잭션에 불리함 |
+| **다변수 [[195_polynomial_generator_crc|다항식]] (Multivariate)** | 수십 개의 변수가 얽힌 2차 연립방정식 풀이의 어려움 | 서명 [[087_process_state_transition|생성]]/[[395_verification_process_review|검증]]은 빠르지만, 공개키 크기가 기형적으로 커서 블록 용량 부담 증가 |
+| **해시 기반 (Hash-based)** | 해시 함수의 일방향성(역산 불가능) 원리를 서명에 직접 활용 | 수학적 역산이 불가능해 안정성이 가장 높으나, 서명 크기가 너무 커서 실시간 [[191_transaction_concept_states|트랜잭션]]에 불리함 |
 
 ```text
 ┌──────────────────────────────────────────────────────────────┐
@@ -46,41 +46,41 @@ weight = 100
 └──────────────────────────────────────────────────────────────┘
 ```
 
-이 그림은 기존 암호가 수학적 "주기"를 가져 양자 알고리즘에 뚫리는 반면, 격자 기반 암호는 패턴이 없어 양자 컴퓨터의 가속 능력을 무력화시키는 원리를 보여준다.
+이 그림은 기존 암호가 수학적 "주기"를 가져 양자 [[001_algorithm_definition|알고리즘]]에 뚫리는 반면, 격자 기반 암호는 패턴이 없어 [[447_quantum_computer|양자 컴퓨터]]의 가속 능력을 무력화시키는 원리를 보여준다.
 
-- **📢 섹션 요약 비유**: 기존 암호는 패턴이 있는 복잡한 퍼즐이라 천재(양자 컴퓨터)가 공식을 찾아 한 번에 풀어버립니다. 양자 내성 암호는 애초에 공식이 없고 모든 길을 다 걸어봐야만 출구를 알 수 있는 완전 무작위 미로를 만드는 것입니다.
+- **📢 섹션 요약 비유**: 기존 암호는 패턴이 있는 복잡한 퍼즐이라 천재([[447_quantum_computer|양자 컴퓨터]])가 공식을 찾아 한 번에 풀어버립니다. [[183_post_quantum_cryptography_key_transition|양자 내성 암호]]는 애초에 공식이 없고 모든 길을 다 걸어봐야만 출구를 알 수 있는 완전 무작위 미로를 만드는 것입니다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-블록체인 관점에서 기존 서명 알고리즘(ECDSA)과 양자 내성 서명 알고리즘(PQC)은 보안성과 자원 소모량(용량) 측면에서 극단적인 트레이드오프를 가진다.
+[[004_blockchain|블록체인]] 관점에서 기존 서명 [[001_algorithm_definition|알고리즘]]([[097_ecdsa_schnorr_signature_bitcoin|ECDSA]])과 양자 내성 서명 [[001_algorithm_definition|알고리즘]]([[351_quantum_computing_pqc_transition|PQC]])은 보안성과 자원 소모량(용량) 측면에서 극단적인 트레이드오프를 가진다.
 
-| 항목 | 기존 타원곡선 암호 (ECDSA, Schnorr) | 양자 내성 암호 (PQC) |
+| 항목 | 기존 [[120_elliptic_curve_equation|타원곡선]] 암호 ([[097_ecdsa_schnorr_signature_bitcoin|ECDSA]], Schnorr) | [[183_post_quantum_cryptography_key_transition|양자 내성 암호]] ([[351_quantum_computing_pqc_transition|PQC]]) |
 |:---|:---|:---|
-| **안전성** | 클래식 컴퓨터에 안전, 양자 컴퓨터에 취약 | 양자 컴퓨터 공격에도 안전 (Shor 방어) |
-| **키/서명 크기** | 매우 작음 (수십 바이트 수준) | 매우 큼 (수 킬로바이트 ~ 수 십 킬로바이트) |
-| **블록체인 부하** | 가벼워서 초당 트랜잭션(TPS) 처리 용이 | 블록 크기 급증 및 네트워크 대역폭 부담 |
+| **안전성** | 클래식 컴퓨터에 안전, [[447_quantum_computer|양자 컴퓨터]]에 취약 | [[447_quantum_computer|양자 컴퓨터]] 공격에도 안전 (Shor 방어) |
+| **키/서명 크기** | 매우 작음 (수십 [[074_byte|바이트]] 수준) | 매우 큼 (수 킬로바이트 ~ 수 십 킬로바이트) |
+| **[[004_blockchain|블록체인]] 부하** | 가벼워서 초당 [[191_transaction_concept_states|트랜잭션]](TPS) 처리 용이 | 블록 크기 급증 및 네트워크 [[140_bandwidth|대역폭]] 부담 |
 | **네트워크 적용** | 현재 메인넷의 기본 표준 | 전면적인 하드 포크를 통한 구조 변경 필요 |
 
-이러한 차이로 인해, PQC 도입 시 단순히 서명 검증 코드를 바꾸는 것을 넘어 블록 크기 확장(Block Size Increase) 논쟁과 레이어 2(Layer 2)를 활용한 데이터 압축 기술 적용이 필수적으로 연결된다.
+이러한 차이로 인해, [[351_quantum_computing_pqc_transition|PQC]] 도입 시 단순히 서명 [[395_verification_process_review|검증]] 코드를 바꾸는 것을 넘어 블록 크기 확장(Block Size Increase) 논쟁과 레이어 2(Layer 2)를 활용한 [[159_compression|데이터 압축]] 기술 적용이 필수적으로 연결된다.
 
-- **📢 섹션 요약 비유**: 기존 암호가 가볍고 튼튼한 일반 헬멧이라면, 양자 내성 암호는 미사일도 막아내는 강철 벙커입니다. 안전하지만 너무 무거워서 들고 달리기(트랜잭션 속도)가 훨씬 버거워집니다.
+- **📢 섹션 요약 비유**: 기존 암호가 가볍고 튼튼한 일반 헬멧이라면, [[183_post_quantum_cryptography_key_transition|양자 내성 암호]]는 미사일도 막아내는 강철 벙커입니다. 안전하지만 너무 무거워서 들고 달리기([[191_transaction_concept_states|트랜잭션]] 속도)가 훨씬 버거워집니다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-PQC로의 블록체인 전환은 실무적으로 엄청난 혼란을 초래하는 마이그레이션 프로젝트다. 기술사적 관점에서 다음과 같은 시나리오와 대응책을 세워야 한다.
+PQC로의 [[004_blockchain|블록체인]] 전환은 실무적으로 엄청난 혼란을 초래하는 마이그레이션 프로젝트다. 기술사적 관점에서 다음과 같은 시나리오와 대응책을 세워야 한다.
 
-### 체크리스트 및 대응 시나리오
+### [[435_checklist_based_testing|체크리스트]] 및 대응 시나리오
 
 1. **하드 포크 (Hard Fork) 시기 판단**
-   - 기존 노드와의 호환성이 완전히 끊기므로 커뮤니티 합의가 필수적이다. 양자 컴퓨터 발전 속도(Q-Day)를 모니터링하며 선제적으로 테스트넷 검증을 마쳐야 한다.
-2. **동면 계좌 (Dormant Account) 보호 문제**
-   - 사토시 나카모토의 지갑처럼 수년간 움직이지 않는 지갑들은 소유자가 직접 PQC 공개키로 갱신 서명을 할 수 없다. 하드 포크 이후 이 지갑들의 트랜잭션을 일괄 동결시키거나, 하이브리드 서명 기간을 두어 양자 해킹의 타겟이 되는 것을 방지하는 정책이 필요하다.
+   - 기존 노드와의 호환성이 완전히 끊기므로 커뮤니티 합의가 필수적이다. [[447_quantum_computer|양자 컴퓨터]] 발전 속도([[151_quantum_computing_threats|Q-Day]])를 모니터링하며 선제적으로 테스트넷 [[395_verification_process_review|검증]]을 마쳐야 한다.
+2. **동면 계좌 (Dormant Account) [[571_protection_vs_security|보호]] 문제**
+   - 사토시 나카모토의 지갑처럼 수년간 움직이지 않는 지갑들은 소유자가 직접 [[351_quantum_computing_pqc_transition|PQC]] 공개키로 갱신 서명을 할 수 없다. 하드 포크 이후 이 지갑들의 [[191_transaction_concept_states|트랜잭션]]을 일괄 동결시키거나, 하이브리드 서명 기간을 두어 양자 해킹의 타겟이 되는 것을 방지하는 정책이 필요하다.
 3. **용량 팽창 대응**
-   - 서명 크기가 100배 커지면 블록체인 원장이 기하급수적으로 뚱뚱해진다. 영지식 증명(ZKP, Zero-Knowledge Proof) 등을 활용해 서명 데이터를 롤업(Rollup) 단에서 검증하고, 메인넷에는 압축된 결과만 올리는 설계가 필수적이다.
+   - 서명 크기가 100배 커지면 [[004_blockchain|블록체인]] 원장이 기하급수적으로 뚱뚱해진다. [[229_zkp_data_clean_room|영지식 증명]]([[354_did_decentralized_identity_zkp|ZKP]], [[037_zero_knowledge_proof_zkp|Zero-Knowledge Proof]]) 등을 활용해 서명 [[001_dikw_pyramid|데이터]]를 [[042_rollup_l2_solution|롤업]]([[042_rollup_l2_solution|Rollup]]) 단에서 [[395_verification_process_review|검증]]하고, 메인넷에는 [[347_compaction|압축]]된 결과만 올리는 설계가 필수적이다.
 
 - **📢 섹션 요약 비유**: 은행 금고 다이얼(암호)을 일제히 교체하는 작업입니다. 주기적으로 찾아오는 고객은 바뀐 번호를 주면 되지만, 10년째 연락 끊긴 고객(동면 계좌)의 금고는 도둑이 노리기 딱 좋으니, 은행장이 미리 철창을 쳐서 막아두는 정책을 짜야 합니다.
 
@@ -88,11 +88,11 @@ PQC로의 블록체인 전환은 실무적으로 엄청난 혼란을 초래하�
 
 ## Ⅴ. 기대효과 및 결론
 
-양자 내성 블록체인으로의 성공적인 체계 전환은 Q-Day라는 전 지구적 보안 재앙으로부터 분산 원장의 신뢰성을 영구적으로 수호하는 유일한 길이다.
+양자 내성 [[004_blockchain|블록체인]]으로의 성공적인 체계 전환은 Q-Day라는 전 지구적 보안 재앙으로부터 [[136_variance|분산]] 원장의 신뢰성을 영구적으로 수호하는 유일한 길이다.
 
-하지만 그 대가로 네트워크는 더 무거워지고, 수많은 노드들의 파편화(포크 분열) 리스크를 감수해야 한다. 미래의 블록체인은 양자 내성 알고리즘의 무거운 데이터 부하를 처리하기 위해, 합의 알고리즘 최적화 및 레이어 2 확장 솔루션과 더 끈끈하게 결합하는 형태로 진화할 것이다. 결국 PQC 전환은 "암호학적 업그레이드"를 넘어 "블록체인 아키텍처의 전면 재설계"로 기억되어야 한다.
+하지만 그 대가로 네트워크는 더 무거워지고, 수많은 노드들의 파편화(포크 분열) 리스크를 감수해야 한다. 미래의 [[004_blockchain|블록체인]]은 양자 내성 [[001_algorithm_definition|알고리즘]]의 무거운 [[001_dikw_pyramid|데이터]] 부하를 처리하기 위해, [[011_consensus_algorithm|합의 알고리즘]] 최적화 및 레이어 2 확장 솔루션과 더 끈끈하게 결합하는 형태로 진화할 것이다. 결국 [[351_quantum_computing_pqc_transition|PQC]] 전환은 "암호학적 업그레이드"를 넘어 "[[004_blockchain|블록체인]] 아키텍처의 전면 재설계"로 기억되어야 한다.
 
-- **📢 섹션 요약 비유**: 낡은 성벽에 다이너마이트(양자 컴퓨터)가 발명되었다면, 성벽을 티타늄으로 두껍게 새로 짓는(PQC 전환) 수밖에 없습니다. 성문이 무거워져 드나들기는 힘들어졌지만, 성 안의 평화는 완벽하게 지켜집니다.
+- **📢 섹션 요약 비유**: 낡은 성벽에 다이너마이트([[447_quantum_computer|양자 컴퓨터]])가 발명되었다면, 성벽을 티타늄으로 두껍게 새로 짓는([[351_quantum_computing_pqc_transition|PQC]] 전환) 수밖에 없습니다. 성문이 무거워져 드나들기는 힘들어졌지만, 성 안의 평화는 완벽하게 지켜집니다.
 
 ---
 
@@ -100,9 +100,9 @@ PQC로의 블록체인 전환은 실무적으로 엄청난 혼란을 초래하�
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| 쇼어 알고리즘 (Shor's Algorithm) | 양자 컴퓨터가 소인수 분해 및 이산대수를 붕괴시키는 파괴적 알고리즘 |
-| 하드 포크 (Hard Fork) | 알고리즘 교체 시 이전 규칙과 호환되지 않아 블록체인이 두 갈래로 나뉘는 분기 |
-| 영지식 증명 (ZKP) | 커진 PQC 서명의 검증 부담을 메인넷에서 오프체인으로 덜어내기 위한 압축 검증 기술 |
+| 쇼어 [[001_algorithm_definition|알고리즘]] (Shor's [[001_algorithm_definition|Algorithm]]) | [[447_quantum_computer|양자 컴퓨터]]가 소인수 분해 및 이산대수를 붕괴시키는 파괴적 [[001_algorithm_definition|알고리즘]] |
+| 하드 포크 (Hard Fork) | [[001_algorithm_definition|알고리즘]] 교체 시 이전 규칙과 호환되지 않아 [[004_blockchain|블록체인]]이 두 갈래로 나뉘는 분기 |
+| [[229_zkp_data_clean_room|영지식 증명]] ([[354_did_decentralized_identity_zkp|ZKP]]) | 커진 [[351_quantum_computing_pqc_transition|PQC]] 서명의 [[395_verification_process_review|검증]] 부담을 메인넷에서 오프체인으로 덜어내기 위한 [[347_compaction|압축]] [[395_verification_process_review|검증]] 기술 |
 | 격자 암호 (Lattice-based Crypto) | 가장 유력한 양자 내성 서명 표준 (NIST 권고안 주축) |
 
 ### 📈 관련 키워드 및 발전 흐름도
@@ -128,5 +128,5 @@ NIST 표준화 및 양자 내성 암호(PQC) 연구 (격자, 다변수, 해시)
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. 도둑이 세상의 모든 자물쇠를 단 1초 만에 따버리는 '만능 양자 마법 열쇠'를 만들고 있어요.
-2. 그래서 컴퓨터 박사님들은 마법 열쇠를 구멍에 넣어도 절대 돌아가지 않는 '새로운 미로 자물쇠(양자 내성 암호)'를 발명했어요.
-3. 이 자물쇠로 전 세계 비트코인 금고 문을 튼튼하게 바꾸는 대작전이 바로 양자 내성 블록체인 전환이랍니다.
+2. 그래서 컴퓨터 박사님들은 마법 열쇠를 구멍에 넣어도 절대 돌아가지 않는 '새로운 미로 자물쇠([[183_post_quantum_cryptography_key_transition|양자 내성 암호]])'를 발명했어요.
+3. 이 자물쇠로 전 세계 비트코인 금고 문을 튼튼하게 바꾸는 대작전이 바로 양자 내성 [[004_blockchain|블록체인]] 전환이랍니다.

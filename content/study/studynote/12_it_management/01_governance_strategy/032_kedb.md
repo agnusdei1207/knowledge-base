@@ -6,15 +6,15 @@ categories = "studynote-it-management"
 +++
 
 > **핵심 인사이트 3줄**
-> 1. KEDB(Known Error Database)는 IT 서비스 운영 중 발생한 근본 원인이 확인된 오류와 임시 조치(Workaround)를 저장한 ITIL 문제 관리 데이터베이스다.
-> 2. 인시던트 발생 시 KEDB를 먼저 조회해 임시 해결책을 즉시 적용함으로써 MTTR(Mean Time To Repair)을 단축하는 것이 핵심 가치다.
-> 3. KEDB는 서비스 데스크·변경 관리·릴리즈 관리와 연계해 조직 지식 자산으로 관리되어야 한다.
+> 1. [[078_kedb|KEDB]]([[078_kedb|Known Error Database]])는 IT [[067_service_operation|서비스 운영]] 중 발생한 근본 원인이 확인된 오류와 임시 조치([[076_workaround_temporary_fix_incident|Workaround]])를 저장한 [[062_itil|ITIL]] [[077_problem_management|문제 관리]] [[002_database_definition|데이터베이스]]다.
+> 2. 인시던트 발생 시 KEDB를 먼저 조회해 임시 해결책을 즉시 적용함으로써 [[451_mttr|MTTR]](Mean Time To Repair)을 단축하는 것이 핵심 가치다.
+> 3. KEDB는 [[072_service_desk|서비스 데스크]]·[[079_change_enablement|변경 관리]]·릴리즈 관리와 연계해 조직 지식 자산으로 관리되어야 한다.
 
 ---
 
-## Ⅰ. KEDB의 정의와 ITIL 프로세스 위치
+## Ⅰ. KEDB의 정의와 [[062_itil|ITIL]] 프로세스 위치
 
-KEDB(Known Error Database, 기지 오류 데이터베이스)는 **ITIL 문제 관리(Problem Management) 프로세스**의 산출물로, 근본 원인(Root Cause)이 파악된 문제와 임시 조치 방법을 기록한다.
+[[078_kedb|KEDB]]([[078_kedb|Known Error Database]], 기지 오류 [[002_database_definition|데이터베이스]])는 **[[062_itil|ITIL]] [[077_problem_management|문제 관리]]([[077_problem_management|Problem Management]]) 프로세스**의 산출물로, 근본 원인(Root Cause)이 파악된 문제와 임시 조치 방법을 기록한다.
 
 ```
 인시던트 관리
@@ -26,40 +26,40 @@ KEDB(Known Error Database, 기지 오류 데이터베이스)는 **ITIL 문제 �
 서비스 데스크: 동일 인시던트 발생 시 KEDB 조회
 ```
 
-### ITIL 핵심 용어
+### [[062_itil|ITIL]] 핵심 용어
 
 | 용어           | 정의                                    |
 |--------------|----------------------------------------|
-| 인시던트       | 서비스 중단·품질 저하 사건               |
+| 인시던트       | [[090_service_kubernetes_network_load_balancing|서비스]] 중단·품질 저하 사건               |
 | 문제 (Problem) | 1개 이상 인시던트의 알려지지 않은 근본 원인 |
 | 기지 오류     | 근본 원인이 파악된 문제                  |
-| 임시 조치     | 영구 해결 전 서비스 복구 방법            |
+| 임시 조치     | 영구 해결 전 [[090_service_kubernetes_network_load_balancing|서비스]] [[658_ir_recovery|복구]] 방법            |
 
 📢 **섹션 요약 비유**: KEDB는 병원 증례 기록부다 — 이전에 치료한 환자 병력(근본 원인)과 응급 처치법(임시 조치)을 기록해두면 다음 환자에게 빠르게 적용할 수 있다.
 
 ---
 
-## Ⅱ. KEDB 레코드 구조
+## Ⅱ. [[078_kedb|KEDB]] 레코드 구조
 
-### KEDB 레코드 필수 항목
+### [[078_kedb|KEDB]] 레코드 필수 항목
 
 | 필드             | 설명                              |
 |---------------|-----------------------------------|
-| KE 번호        | 기지 오류 식별자 (KE-2024-001)    |
+| KE 번호        | 기지 오류 [[289_identification_flags_fragmentation_offset|식별자]] (KE-2024-001)    |
 | 제목           | 오류 요약                          |
 | 근본 원인      | RCA(Root Cause Analysis) 결과     |
 | 증상           | 인시던트 발생 시 나타나는 현상     |
-| 영향           | 영향받는 서비스·CI(구성 항목)     |
-| 임시 조치      | 서비스 복구 절차 (단계별)          |
+| 영향           | 영향받는 [[090_service_kubernetes_network_load_balancing|서비스]]·[[090_configuration_item|CI]](구성 항목)     |
+| 임시 조치      | [[090_service_kubernetes_network_load_balancing|서비스]] [[658_ir_recovery|복구]] 절차 (단계별)          |
 | 영구 해결책    | 영구 수정 솔루션 (있는 경우)       |
 | 상태           | 오픈/해결 중/완료                  |
 | 관련 변경 요청  | RFC 번호 (영구 해결 연계)          |
 
-📢 **섹션 요약 비유**: KEDB 레코드는 요리 레시피카드다 — 어떤 오류(재료), 원인(조리법 오류), 임시 조치(응급 대체 방법)가 카드 하나에 정리되어 있다.
+📢 **섹션 요약 비유**: [[078_kedb|KEDB]] 레코드는 요리 레시피카드다 — 어떤 오류(재료), 원인(조리법 오류), 임시 조치(응급 대체 방법)가 카드 하나에 정리되어 있다.
 
 ---
 
-## Ⅲ. KEDB 활용 — 인시던트 해결 시간 단축
+## Ⅲ. [[078_kedb|KEDB]] 활용 — 인시던트 해결 시간 단축
 
 ```
 인시던트 접수
@@ -73,9 +73,9 @@ KEDB 검색 (증상 키워드 매칭)
 문제 조사 → RCA → 신규 KEDB 등록
 ```
 
-### MTTR 개선 효과 (사례)
+### [[451_mttr|MTTR]] 개선 효과 (사례)
 
-| 상황               | KEDB 없음 | KEDB 있음 |
+| 상황               | [[078_kedb|KEDB]] 없음 | [[078_kedb|KEDB]] 있음 |
 |------------------|---------|---------|
 | 유사 인시던트 해결  | 4시간   | 30분    |
 | 지식 전수          | 담당자 의존 | 문서화된 절차 |
@@ -85,18 +85,18 @@ KEDB 검색 (증상 키워드 매칭)
 
 ---
 
-## Ⅳ. KEDB 관리와 품질 유지
+## Ⅳ. [[078_kedb|KEDB]] 관리와 품질 유지
 
-### KEDB 품질 저하 원인
+### [[078_kedb|KEDB]] 품질 저하 원인
 
 | 원인             | 결과                    |
 |----------------|------------------------|
-| 미등록            | 재발 시 KEDB 조회 효과 없음 |
+| 미등록            | 재발 시 [[078_kedb|KEDB]] 조회 효과 없음 |
 | 불완전한 임시 조치 | 현장 적용 불가            |
 | 구식 정보 방치    | 잘못된 조치로 피해 확대    |
 | 검색 키워드 부족  | 조회 실패율 증가           |
 
-### KEDB 유지 관리 프로세스
+### [[078_kedb|KEDB]] 유지 [[018_admin_processes|관리 프로세스]]
 
 ```
 등록 → 검토 (정확성 확인) → 발행 (서비스 데스크 공개)
@@ -104,21 +104,21 @@ KEDB 검색 (증상 키워드 매칭)
 정기 리뷰 ← 폐기 (영구 해결 완료 시)
 ```
 
-📢 **섹션 요약 비유**: KEDB 관리는 냉장고 정리와 같다 — 넣기만 하고 정리를 안 하면 유통기한 지난 음식(구식 정보)이 가득 차 필요한 것을 찾기가 더 어려워진다.
+📢 **섹션 요약 비유**: [[078_kedb|KEDB]] 관리는 냉장고 정리와 같다 — 넣기만 하고 정리를 안 하면 유통기한 지난 음식(구식 정보)이 가득 차 필요한 것을 찾기가 더 어려워진다.
 
 ---
 
-## Ⅴ. 현대적 통합 — ITSM 도구와 AI 연계
+## Ⅴ. 현대적 통합 — [[096_iso_iec_20000_itsm_certification|ITSM]] 도구와 [[190_ai_llm_requirements_specification|AI]] 연계
 
-### ITSM 도구 통합
+### [[096_iso_iec_20000_itsm_certification|ITSM]] 도구 통합
 
-| 도구           | KEDB 기능                              |
+| 도구           | [[078_kedb|KEDB]] 기능                              |
 |-------------|---------------------------------------|
-| ServiceNow  | AI 검색, 인시던트-KEDB 자동 연계       |
-| Jira Service Mgmt | 코드베이스 KEDB, GitOps 연동       |
-| BMC Remedy  | 엔터프라이즈 KEDB, CMDB 연계           |
+| ServiceNow  | [[190_ai_llm_requirements_specification|AI]] 검색, 인시던트-[[078_kedb|KEDB]] 자동 연계       |
+| Jira [[090_service_kubernetes_network_load_balancing|Service]] Mgmt | [[007_codebase|코드베이스]] [[078_kedb|KEDB]], [[119_gitops_single_source_of_truth|GitOps]] 연동       |
+| [[710_bmc|BMC]] Remedy  | 엔터프라이즈 [[078_kedb|KEDB]], [[091_cmdb|CMDB]] 연계           |
 
-### AI 기반 KEDB 혁신
+### [[190_ai_llm_requirements_specification|AI]] 기반 [[078_kedb|KEDB]] 혁신
 
 ```
 인시던트 로그 → NLP 분석 → 유사 KEDB 자동 추천
@@ -126,7 +126,7 @@ KEDB 검색 (증상 키워드 매칭)
                          → 임시 조치 효과성 평가
 ```
 
-📢 **섹션 요약 비유**: AI 연계 KEDB는 스마트 검색 엔진이다 — 정확한 키워드 없이도 "비슷한 증상"만 입력하면 가장 관련 높은 해결책을 추천해준다.
+📢 **섹션 요약 비유**: [[190_ai_llm_requirements_specification|AI]] 연계 KEDB는 스마트 검색 엔진이다 — 정확한 키워드 없이도 "비슷한 증상"만 입력하면 가장 관련 높은 해결책을 추천해준다.
 
 ---
 

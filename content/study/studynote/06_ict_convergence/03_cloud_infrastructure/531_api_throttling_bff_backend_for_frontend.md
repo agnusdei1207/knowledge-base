@@ -8,20 +8,20 @@ categories = "studynote-ict-convergence"
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: API 스로틀링(API Throttling)은 서비스 과부하와 남용을 막는 보호 메커니즘이고, BFF(Backend for Frontend)는 각 클라이언트에 최적화된 API 계층을 분리하여 오버패칭(Overfetching)과 언더패칭(Underfetching)을 해결한다.
-> 2. **가치**: 토큰 버킷(Token Bucket), 리키 버킷(Leaky Bucket), 슬라이딩 윈도(Sliding Window) 알고리즘은 각각 버스트 허용, 균일 속도, 시간 정확성의 트레이드오프를 가진다.
-> 3. **판단 포인트**: BFF 패턴은 클라이언트 종류가 다양(모바일/웹/IoT)하고 각각의 API 요구사항이 다를 때 효과적이며, 그렇지 않으면 GraphQL이 더 단순한 대안이다.
+> 1. **본질**: [[014_api_posix|API]] 스로틀링([[014_api_posix|API]] Throttling)은 [[090_service_kubernetes_network_load_balancing|서비스]] 과부하와 남용을 막는 [[571_protection_vs_security|보호]] 메커니즘이고, [[543_bff_backend_for_frontend|BFF]]([[543_bff_backend_for_frontend|Backend for Frontend]])는 각 클라이언트에 최적화된 [[014_api_posix|API]] 계층을 분리하여 오버패칭(Overfetching)과 언더패칭(Underfetching)을 해결한다.
+> 2. **가치**: 토큰 버킷(Token Bucket), 리키 버킷(Leaky Bucket), 슬라이딩 윈도(Sliding Window) [[001_algorithm_definition|알고리즘]]은 각각 버스트 허용, 균일 속도, 시간 [[002_bigdata_5v|정확성]]의 트레이드오프를 가진다.
+> 3. **판단 포인트**: [[543_bff_backend_for_frontend|BFF]] 패턴은 클라이언트 종류가 다양(모바일/웹/[[101_iot_concept|IoT]])하고 각각의 [[014_api_posix|API]] 요구사항이 다를 때 효과적이며, 그렇지 않으면 GraphQL이 더 단순한 대안이다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-**API 스로틀링 필요성**: 공개 API나 내부 MSA API 모두 무제한 요청을 허용하면 서버 과부하, DDOS(Distributed Denial of Service), 특정 클라이언트의 자원 독점이 발생한다. Rate Limiting(속도 제한)은 단위 시간당 요청 수를 제한하여 공정한 자원 배분과 서비스 안정성을 동시에 확보한다.
+**[[014_api_posix|API]] 스로틀링 필요성**: 공개 API나 내부 [[336_msa_api|MSA API]] 모두 무제한 요청을 허용하면 서버 과부하, DDOS(Distributed Denial of [[090_service_kubernetes_network_load_balancing|Service]]), 특정 클라이언트의 자원 독점이 발생한다. [[520_rate_limiting|Rate Limiting]](속도 제한)은 단위 시간당 요청 수를 제한하여 공정한 자원 배분과 [[090_service_kubernetes_network_load_balancing|서비스]] 안정성을 동시에 확보한다.
 
-**BFF 필요성**: 하나의 범용 API가 모바일, 웹, IoT, TV 등 모든 클라이언트를 지원하려 하면:
-- **오버패칭(Overfetching)**: 필요 없는 데이터까지 받아 대역폭 낭비
-- **언더패칭(Underfetching)**: 필요한 데이터를 얻기 위해 여러 번 API 호출
-- 클라이언트별 최적화가 불가능하여 모바일 성능 저하
+**[[543_bff_backend_for_frontend|BFF]] 필요성**: 하나의 범용 API가 모바일, 웹, [[101_iot_concept|IoT]], TV 등 모든 클라이언트를 지원하려 하면:
+- **오버패칭(Overfetching)**: 필요 없는 [[001_dikw_pyramid|데이터]]까지 받아 [[140_bandwidth|대역폭]] 낭비
+- **언더패칭(Underfetching)**: 필요한 [[001_dikw_pyramid|데이터]]를 얻기 위해 여러 번 [[014_api_posix|API]] 호출
+- 클라이언트별 최적화가 불가능하여 모바일 [[282_performance_tactics|성능]] 저하
 
 - **📢 섹션 요약 비유**: 스로틀링은 수도꼭지 조절 밸브이고, BFF는 각 방에 맞는 수압과 온도를 따로 설정하는 전용 배관이다.
 
@@ -29,7 +29,7 @@ categories = "studynote-ict-convergence"
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-**Rate Limiting 알고리즘 비교**:
+**[[520_rate_limiting|Rate Limiting]] [[001_algorithm_definition|알고리즘]] 비교**:
 
 ```
 [토큰 버킷 (Token Bucket)]
@@ -45,14 +45,14 @@ categories = "studynote-ict-convergence"
 고정 윈도의 경계 문제 해결 → 정확한 제한
 ```
 
-| 알고리즘 | 버스트 허용 | 구현 복잡도 | 정확성 | 적합 사례 |
+| [[001_algorithm_definition|알고리즘]] | 버스트 허용 | 구현 복잡도 | [[002_bigdata_5v|정확성]] | 적합 사례 |
 |:---|:---:|:---:|:---:|:---|
-| 토큰 버킷 (Token Bucket) | ✓ | 낮음 | 중간 | API 게이트웨이 기본값 |
-| 리키 버킷 (Leaky Bucket) | ✗ | 낮음 | 중간 | 균일한 업스트림 보호 |
-| 슬라이딩 윈도 (Sliding Window) | 부분 | 높음 | 높음 | 정밀한 SLA 제어 |
+| 토큰 버킷 (Token Bucket) | ✓ | 낮음 | 중간 | [[014_api_posix|API]] 게이트웨이 기본값 |
+| 리키 버킷 (Leaky Bucket) | ✗ | 낮음 | 중간 | 균일한 업스트림 [[571_protection_vs_security|보호]] |
+| 슬라이딩 윈도 (Sliding Window) | 부분 | 높음 | 높음 | 정밀한 [[085_sla|SLA]] 제어 |
 | 고정 윈도 (Fixed Window) | 부분 | 매우 낮음 | 낮음 | 단순 구현 필요 시 |
 
-**BFF(Backend for Frontend) 아키텍처**:
+**[[543_bff_backend_for_frontend|BFF]]([[543_bff_backend_for_frontend|Backend for Frontend]]) 아키텍처**:
 
 ```
 클라이언트        BFF 계층               마이크로서비스
@@ -75,19 +75,19 @@ categories = "studynote-ict-convergence"
 
 ## Ⅲ. 비교 및 연결
 
-**BFF vs GraphQL**:
+**[[543_bff_backend_for_frontend|BFF]] vs [[246_graphql_query_language_overfetching_solution|GraphQL]]**:
 
-| 구분 | BFF | GraphQL |
+| 구분 | [[543_bff_backend_for_frontend|BFF]] | [[246_graphql_query_language_overfetching_solution|GraphQL]] |
 |:---|:---|:---|
-| 유연성 | 클라이언트별 완전 최적화 | 단일 스키마로 유연한 쿼리 |
-| 서버 복잡성 | BFF 서비스 수만큼 증가 | 단일 서비스 유지 |
-| 타입 안전성 | 언어 종속 | SDL 스키마로 타입 보장 |
+| 유연성 | 클라이언트별 완전 최적화 | 단일 [[005_schema|스키마]]로 유연한 [[298_qkv_attention|쿼리]] |
+| 서버 복잡성 | [[543_bff_backend_for_frontend|BFF]] [[090_service_kubernetes_network_load_balancing|서비스]] 수만큼 증가 | 단일 [[090_service_kubernetes_network_load_balancing|서비스]] 유지 |
+| 타입 안전성 | 언어 종속 | SDL [[005_schema|스키마]]로 타입 보장 |
 | N+1 문제 | BFF에서 사전 집계로 해결 | DataLoader 패턴 필요 |
 | 적합 상황 | 클라이언트 종류 다양, 팀 분리 | 다양한 클라이언트, 중앙 집중 선호 |
 
-**API 버저닝 전략**:
-- URI 버저닝: `/v1/users`, `/v2/users` — 명확하지만 URL 중복
-- 헤더 버저닝: `API-Version: 2` — URL 깔끔하지만 캐싱 복잡
+**[[014_api_posix|API]] [[317_versioning_data_model_design|버저닝]] [[268_strategy_pattern|전략]]**:
+- URI [[317_versioning_data_model_design|버저닝]]: `/v1/users`, `/v2/users` — 명확하지만 URL 중복
+- 헤더 [[317_versioning_data_model_design|버저닝]]: `API-Version: 2` — URL 깔끔하지만 [[456_caching|캐싱]] 복잡
 - 콘텐츠 협상: `Accept: application/vnd.api+json;version=2` — RESTful하지만 구현 복잡
 
 - **📢 섹션 요약 비유**: GraphQL은 뷔페처럼 먹고 싶은 것을 원하는 만큼 가져올 수 있지만, BFF는 각 손님의 입맛을 미리 파악해 최적 정식을 차려주는 방식이다.
@@ -97,27 +97,27 @@ categories = "studynote-ict-convergence"
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 **기술사 시험 판단 포인트**:
-1. 세 가지 Rate Limiting 알고리즘의 트레이드오프(버스트 허용, 구현 복잡도, 정확성)를 표로 비교한다.
-2. BFF 도입 근거를 "오버패칭/언더패칭"과 "클라이언트별 팀 독립 개발"로 정당화한다.
-3. Redis를 이용한 분산 Rate Limiting 구현(슬라이딩 윈도, Lua 스크립트 원자 연산)을 언급하면 깊이를 인정받는다.
+1. 세 가지 [[520_rate_limiting|Rate Limiting]] [[001_algorithm_definition|알고리즘]]의 트레이드오프(버스트 허용, 구현 복잡도, [[002_bigdata_5v|정확성]])를 표로 비교한다.
+2. [[543_bff_backend_for_frontend|BFF]] 도입 근거를 "오버패칭/언더패칭"과 "클라이언트별 팀 독립 개발"로 정당화한다.
+3. Redis를 이용한 [[136_variance|분산]] [[520_rate_limiting|Rate Limiting]] 구현(슬라이딩 윈도, Lua 스크립트 원자 연산)을 언급하면 깊이를 인정받는다.
 
-**실무 시나리오**: 이커머스 모바일 앱 — 상품 목록 화면에서 상품 기본 정보 + 리뷰 수 + 재고 여부를 하나의 API로 제공해야 할 때, 범용 API는 3개 서비스를 각각 호출해야 하지만, Mobile BFF가 서버 측에서 집계하여 단일 최적화 응답 반환. 모바일 네트워크 요청 수 66% 감소.
+**실무 시나리오**: 이커머스 모바일 앱 — 상품 목록 화면에서 상품 기본 정보 + 리뷰 수 + 재고 여부를 하나의 API로 제공해야 할 때, 범용 API는 3개 [[090_service_kubernetes_network_load_balancing|서비스]]를 각각 호출해야 하지만, Mobile BFF가 서버 측에서 집계하여 단일 최적화 응답 반환. 모바일 네트워크 요청 수 66% 감소.
 
-- **📢 섹션 요약 비유**: BFF 집계는 배달 대행 서비스가 여러 식당에서 음식을 대신 픽업해 한 번에 배달하는 것이다 — 손님은 한 번만 문을 열면 된다.
+- **📢 섹션 요약 비유**: [[543_bff_backend_for_frontend|BFF]] 집계는 배달 대행 [[090_service_kubernetes_network_load_balancing|서비스]]가 여러 식당에서 음식을 대신 픽업해 한 번에 배달하는 것이다 — 손님은 한 번만 문을 열면 된다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-API 스로틀링과 BFF 패턴을 적용하면:
-- **서비스 안정성**: Rate Limiting으로 과부하, 남용, DDOS 부분 방어
-- **클라이언트 성능**: BFF로 오버패칭 제거, 모바일 데이터 사용량 감소
+[[014_api_posix|API]] 스로틀링과 [[543_bff_backend_for_frontend|BFF]] 패턴을 적용하면:
+- **[[090_service_kubernetes_network_load_balancing|서비스]] 안정성**: Rate Limiting으로 과부하, 남용, DDOS 부분 방어
+- **클라이언트 [[282_performance_tactics|성능]]**: BFF로 오버패칭 제거, 모바일 [[001_dikw_pyramid|데이터]] 사용량 감소
 - **팀 독립성**: 각 클라이언트 팀이 자체 BFF를 소유하여 독립 배포
-- **API 수명**: 버저닝 전략으로 하위 호환성 유지하며 점진적 발전
+- **[[014_api_posix|API]] 수명**: [[317_versioning_data_model_design|버저닝]] [[268_strategy_pattern|전략]]으로 하위 [[344_compatibility_usability|호환성]] 유지하며 점진적 발전
 
-API 설계는 기능 구현만큼이나 **클라이언트 경험과 서비스 보호**를 함께 고려해야 한다.
+[[014_api_posix|API]] 설계는 기능 구현만큼이나 **클라이언트 경험과 [[090_service_kubernetes_network_load_balancing|서비스]] [[571_protection_vs_security|보호]]**를 함께 고려해야 한다.
 
-- **📢 섹션 요약 비유**: 스로틀링과 BFF는 고속도로 설계의 두 축이다 — 스로틀링은 과속 방지 카메라(보호), BFF는 클라이언트별 맞춤 출구 램프(최적화)다.
+- **📢 섹션 요약 비유**: 스로틀링과 BFF는 고속도로 설계의 두 축이다 — 스로틀링은 과속 방지 카메라([[571_protection_vs_security|보호]]), BFF는 클라이언트별 맞춤 출구 램프(최적화)다.
 
 ---
 
@@ -125,11 +125,11 @@ API 설계는 기능 구현만큼이나 **클라이언트 경험과 서비스 �
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| API Gateway | 인증/인가, 라우팅, 로드밸런싱 · 505 |
-| GraphQL | 스키마, 리졸버, N+1 문제 · 505 |
-| Redis | 분산 캐시, 슬라이딩 윈도 카운터 · 506 |
-| MSA (Microservice Architecture) | 서비스 집계, 팀 독립 · 505 |
-| DDOS (분산 서비스 거부 공격) | Rate Limiting, WAF, CDN · 508 |
+| [[542_api_gateway|API Gateway]] | [[303_authentication_authorization_patterns|인증]]/[[509_authorization_models_rbac_abac|인가]], [[339_routing_overview_best_path_selection|라우팅]], 로드밸런싱 · 505 |
+| [[246_graphql_query_language_overfetching_solution|GraphQL]] | [[005_schema|스키마]], 리졸버, N+1 문제 · 505 |
+| [[542_redis|Redis]] | [[136_variance|분산]] 캐시, 슬라이딩 윈도 [[059_counter|카운터]] · 506 |
+| [[619_msa_traffic_hardware|MSA]] ([[365_msa_microservice_architecture|Microservice Architecture]]) | [[090_service_kubernetes_network_load_balancing|서비스]] 집계, 팀 독립 · 505 |
+| DDOS ([[136_variance|분산]] [[989_dos_denial_of_service|서비스 거부 공격]]) | [[520_rate_limiting|Rate Limiting]], [[696_waf_web_application_firewall|WAF]], [[506_cdn_content_delivery_network_edge_caching|CDN]] · 508 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -139,6 +139,6 @@ API 설계는 기능 구현만큼이나 **클라이언트 경험과 서비스 �
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. API 스로틀링은 놀이공원 입장 줄처럼, 한 번에 너무 많은 사람이 들어오면 잠깐 기다리게 해서 놀이기구(서버)가 고장 나지 않게 해요.
+1. [[014_api_posix|API]] 스로틀링은 놀이공원 입장 줄처럼, 한 번에 너무 많은 사람이 들어오면 잠깐 기다리게 해서 놀이기구(서버)가 고장 나지 않게 해요.
 2. BFF는 각 반마다 다른 급식 메뉴를 제공하는 급식 담당 선생님이에요 — 운동부는 많이, 다이어트 반은 적게.
-3. 오버패칭은 도시락에 필요 없는 음식이 가득 담긴 것처럼, BFF가 딱 맞는 양만 담아주면 배낭(대역폭)이 가벼워져요.
+3. 오버패칭은 도시락에 필요 없는 음식이 가득 담긴 것처럼, BFF가 딱 맞는 양만 담아주면 배낭([[140_bandwidth|대역폭]])이 가벼워져요.

@@ -9,8 +9,8 @@ categories = "studynote-security"
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 탐지 통제 (Detective Controls)는 발생한 이상이나 공격을 빠르게 발견하는 보안 통제다.
-> 2. **가치**: 로그, IDS (Intrusion Detection System), SIEM (Security Information and Event Management), 감사 추적이 대표적이다.
-> 3. **판단 포인트**: 예방 통제와 결합해야 의미가 있다. 탐지만 있고 대응이 없으면 소용이 작다.
+> 2. **가치**: [[568_logs_distributed_logging_elk_fluentd|로그]], [[601_ids_ips_syscall_tracing|IDS]] ([[994_ids_ips_intrusion_detection_prevention_false_positive|Intrusion Detection System]]), [[624_siem|SIEM]] ([[283_security_tactics|Security]] Information and [[074_event_management|Event Management]]), [[606_auditing_linux_auditd|감사]] 추적이 대표적이다.
+> 3. **판단 포인트**: [[053_preventive_controls|예방 통제]]와 결합해야 의미가 있다. 탐지만 있고 대응이 없으면 소용이 작다.
 
 ---
 
@@ -26,7 +26,7 @@ categories = "studynote-security"
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-탐지 통제는 로그 수집, 패턴 탐지, 상관 분석, 경보로 이어진다. 정상과 다른 행동을 알아차리는 것이 핵심이다.
+탐지 통제는 [[626_log_collection|로그 수집]], 패턴 탐지, [[325_correlation_analysis_pearson_spearman|상관 분석]], 경보로 이어진다. 정상과 다른 행동을 알아차리는 것이 핵심이다.
 
 ```text
 Event/Log → Detection Rule → Alert → Investigation
@@ -34,10 +34,10 @@ Event/Log → Detection Rule → Alert → Investigation
 
 | 수단 | 역할 | 예시 |
 | :--- | :--- | :--- |
-| Log | 기록 | 접근 로그 |
-| IDS | 침입 탐지 | 패킷 이상 |
-| SIEM | 통합 분석 | 경보 상관분석 |
-| Audit Trail | 추적 | 변경 이력 |
+| Log | 기록 | 접근 [[568_logs_distributed_logging_elk_fluentd|로그]] |
+| [[601_ids_ips_syscall_tracing|IDS]] | 침입 탐지 | 패킷 이상 |
+| [[624_siem|SIEM]] | 통합 분석 | 경보 상관분석 |
+| [[065_audit_trail_worm_storage_compliance|Audit Trail]] | 추적 | 변경 이력 |
 
 핵심은 "발생 여부"를 눈치채는 것이다. 탐지 통제가 있어야 사고의 규모와 원인을 파악할 수 있다.
 
@@ -47,13 +47,13 @@ Event/Log → Detection Rule → Alert → Investigation
 
 ## Ⅲ. 비교 및 연결
 
-탐지 통제는 예방 통제, 교정 통제, 억제 통제와 함께 본다. 예방이 못 막은 것을 발견하고, 교정이 뒤를 받친다.
+탐지 통제는 [[053_preventive_controls|예방 통제]], [[055_corrective_controls|교정 통제]], [[656_ir_containment|억제]] 통제와 함께 본다. 예방이 못 막은 것을 발견하고, 교정이 뒤를 받친다.
 
 | 통제 유형 | 역할 |
 | :--- | :--- |
 | Preventive | 막기 |
 | Detective | 찾기 |
-| Corrective | 고치기 |
+| [[380_maintenance_types|Corrective]] | 고치기 |
 
 탐지 통제는 평균 탐지 시간(MTTD)과 경보 품질이 중요하다. 너무 많은 오탐은 운영 피로를 만든다.
 
@@ -63,18 +63,18 @@ Event/Log → Detection Rule → Alert → Investigation
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서는 중요한 이벤트를 로그로 남기고, 중앙 수집과 분석을 한다. 탐지 규칙은 공격기법과 운영 이상 모두를 잡아야 한다.
+실무에서는 중요한 이벤트를 [[568_logs_distributed_logging_elk_fluentd|로그]]로 남기고, 중앙 수집과 분석을 한다. 탐지 규칙은 공격기법과 운영 이상 모두를 잡아야 한다.
 
-### 체크리스트
+### [[435_checklist_based_testing|체크리스트]]
 
-1. 중요한 이벤트가 로그로 남는가?
+1. 중요한 이벤트가 [[568_logs_distributed_logging_elk_fluentd|로그]]로 남는가?
 2. 경보가 운영자가 처리 가능한 수준인가?
-3. 감사 추적이 변경/접속을 다루는가?
+3. [[606_auditing_linux_auditd|감사]] 추적이 변경/접속을 다루는가?
 4. MTTD와 대응 절차가 정의되는가?
 
-### 안티패턴
+### [[128_water_scrum_fall_anti_pattern|안티패턴]]
 
-- 로그는 많지만 보지 않는 경우
+- [[568_logs_distributed_logging_elk_fluentd|로그]]는 많지만 보지 않는 경우
 - 오탐이 너무 많아 경보가 무시되는 경우
 - 탐지 후 대응 절차가 없는 경우
 
@@ -98,10 +98,10 @@ Event/Log → Detection Rule → Alert → Investigation
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| 로그 | 증적 |
-| IDS | 침입 탐지 |
-| SIEM | 통합 분석 |
-| Audit Trail | 추적 |
+| [[568_logs_distributed_logging_elk_fluentd|로그]] | 증적 |
+| [[601_ids_ips_syscall_tracing|IDS]] | 침입 탐지 |
+| [[624_siem|SIEM]] | 통합 분석 |
+| [[065_audit_trail_worm_storage_compliance|Audit Trail]] | 추적 |
 | MTTD | 탐지 속도 |
 
 ### 📈 관련 키워드 및 발전 흐름도

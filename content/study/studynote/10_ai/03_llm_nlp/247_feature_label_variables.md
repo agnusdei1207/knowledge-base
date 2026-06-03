@@ -9,30 +9,30 @@ categories = "studynote-ai"
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 독립 변수(Independent Variable) 또는 피처(Feature)는 모델의 입력이고, 종속 변수(Dependent Variable) 또는 라벨(Label)/타깃(Target)은 예측해야 할 출력이다.
-> 2. **가치**: 피처의 품질이 모델 성능을 결정하며, 피처 공학(Feature Engineering)은 도메인 지식을 머신러닝 모델에 주입하는 핵심 프로세스다.
-> 3. **판단 포인트**: PCA(Principal Component Analysis, 주성분 분석)는 차원 축소(Dimensionality Reduction)를 통해 불필요한 특성을 제거하면서 정보 손실을 최소화하는 대표적 피처 처리 기법이다.
+> 2. **가치**: 피처의 품질이 모델 [[282_performance_tactics|성능]]을 결정하며, 피처 공학([[081_feature_engineering|Feature Engineering]])은 [[064_relation_domain|도메인]] 지식을 [[241_machine_learning_basics|머신러닝]] 모델에 주입하는 핵심 프로세스다.
+> 3. **판단 포인트**: [[163_pca|PCA]]([[163_pca|Principal Component Analysis]], [[338_pca_principal_component_analysis|주성분 분석]])는 [[081_dimensionality_reduction_pca_principal_component_analysis|차원 축소]]([[079_dimensionality_reduction|Dimensionality Reduction]])를 통해 불필요한 특성을 제거하면서 정보 손실을 최소화하는 대표적 피처 처리 기법이다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
 ### 1.1 기본 개념 정의
-머신러닝 모델은 입력 데이터(피처)를 받아 출력(라벨)을 예측한다. 이 두 변수 유형은 통계학, 데이터 과학, 머신러닝에 걸쳐 다양한 명칭으로 불린다.
+[[241_machine_learning_basics|머신러닝]] 모델은 입력 [[001_dikw_pyramid|데이터]](피처)를 받아 출력(라벨)을 예측한다. 이 두 변수 유형은 통계학, [[001_dikw_pyramid|데이터]] 과학, [[241_machine_learning_basics|머신러닝]]에 걸쳐 다양한 명칭으로 불린다.
 
 | ML 용어 | 통계학 용어 | 수학 표기 | 역할 |
 |:---|:---|:---|:---|
 | 피처(Feature) | 독립 변수(Independent Variable) | X | 모델 입력 |
 | 라벨(Label) / 타깃(Target) | 종속 변수(Dependent Variable) | y | 모델 출력 (예측 대상) |
-| 훈련 데이터 | 표본(Sample) | (X, y) | 학습에 사용되는 쌍 |
+| 훈련 [[001_dikw_pyramid|데이터]] | 표본(Sample) | (X, y) | 학습에 사용되는 쌍 |
 
 ### 1.2 피처와 라벨의 실제 예시
 
 | 문제 | 피처 (X) | 라벨 (y) |
 |:---|:---|:---|
 | 주택 가격 예측 | 면적, 방 수, 위치, 층수 | 가격(만원) |
-| 이메일 스팸 분류 | 단어 빈도, 발신자, 링크 수 | 스팸 여부 (0/1) |
+| 이메일 스팸 [[104_classification_analysis|분류]] | 단어 빈도, 발신자, 링크 수 | 스팸 여부 (0/1) |
 | 의료 진단 | 혈압, 혈당, 나이, BMI | 질병 여부 |
-| 영화 평점 예측 | 장르, 감독, 배우, 개봉연도 | 평점 (1~10) |
+| 영화 평점 예측 | 장르, 감독, 배우, 개봉연도 | 평점 (1~[[489_raid_10_hybrid|10]]) |
 
 ### 1.3 입력 공간 (Input Space)
 피처 벡터 X = (x₁, x₂, ..., xₙ)가 존재하는 n차원 공간을 **입력 공간(Input Space)** 또는 **특성 공간(Feature Space)**이라 한다.
@@ -52,7 +52,7 @@ categories = "studynote-ai"
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### 2.1 피처 처리 파이프라인
+### 2.1 피처 처리 [[123_pipe|파이프]]라인
 
 ```
 ┌─────────────────────────────────────────────────────────┐
@@ -73,16 +73,16 @@ categories = "studynote-ai"
 └─────────────────────────────────────────────────────────┘
 ```
 
-### 2.2 피처 공학 (Feature Engineering) 유형
+### 2.2 피처 공학 ([[081_feature_engineering|Feature Engineering]]) 유형
 
 | 유형 | 기법 | 예시 |
 |:---|:---|:---|
-| **특성 선택(Feature Selection)** | 불필요한 피처 제거 | 상관관계 분석, RFE |
-| **특성 추출(Feature Extraction)** | 기존 피처에서 새 피처 생성 | PCA, t-SNE, 오토인코더 |
-| **특성 변환(Feature Transformation)** | 스케일링, 인코딩 | 정규화, 원-핫 인코딩 |
-| **파생 특성(Derived Feature)** | 도메인 지식 기반 신규 생성 | 나이/수입 비율, BMI 계산 |
+| **특성 선택(Feature [[022_mcts_four_stages|Selection]])** | 불필요한 피처 제거 | 상관관계 분석, RFE |
+| **특성 추출(Feature Extraction)** | 기존 피처에서 새 피처 [[087_process_state_transition|생성]] | [[163_pca|PCA]], t-SNE, [[335_autoencoder|오토인코더]] |
+| **특성 변환(Feature Transformation)** | [[249_scaling_normalization_standardization|스케일링]], 인코딩 | [[093_normalization|정규화]], [[079_one_hot_encoding_categorical_dummy_variable|원-핫 인코딩]] |
+| **파생 특성(Derived Feature)** | [[064_relation_domain|도메인]] 지식 기반 신규 [[087_process_state_transition|생성]] | 나이/수입 비율, BMI 계산 |
 
-### 2.3 PCA (Principal Component Analysis, 주성분 분석)
+### 2.3 [[163_pca|PCA]] ([[163_pca|Principal Component Analysis]], [[338_pca_principal_component_analysis|주성분 분석]])
 
 ```
       고차원 특성 공간         →        저차원 주성분 공간
@@ -93,19 +93,19 @@ categories = "studynote-ai"
   n차원                             k차원 (k < n)
 ```
 
-PCA는 데이터의 분산이 최대가 되는 방향(주성분)으로 투영하여 차원을 줄이는 기법이다. 공분산 행렬(Covariance Matrix)의 고유벡터(Eigenvector)가 주성분이 된다.
+PCA는 [[001_dikw_pyramid|데이터]]의 [[136_variance|분산]]이 최대가 되는 방향(주성분)으로 투영하여 차원을 줄이는 기법이다. 공분산 행렬(Covariance Matrix)의 고유벡터(Eigenvector)가 주성분이 된다.
 
-### 2.4 레이블 인코딩 (Label Encoding) vs 원-핫 인코딩 (One-Hot Encoding)
+### 2.4 레이블 인코딩 (Label Encoding) vs [[079_one_hot_encoding_categorical_dummy_variable|원-핫 인코딩]] ([[079_one_hot_encoding_categorical_dummy_variable|One-Hot Encoding]])
 
-| 구분 | 레이블 인코딩 | 원-핫 인코딩 |
+| 구분 | 레이블 인코딩 | [[079_one_hot_encoding_categorical_dummy_variable|원-핫 인코딩]] |
 |:---|:---|:---|
-| 방법 | 범주에 정수 부여 | 범주별 이진 열 생성 |
+| 방법 | 범주에 정수 부여 | 범주별 이진 열 [[087_process_state_transition|생성]] |
 | 예시 | 빨강=0, 초록=1, 파랑=2 | [1,0,0], [0,1,0], [0,0,1] |
 | 장점 | 차원 유지, 단순 | 순서 가정 없음 |
-| 단점 | 순서 관계 오해 가능 | 고차원화 |
+| 단점 | 순서 [[083_relationship_in_er_model|관계]] 오해 가능 | 고차원화 |
 | 적합 모델 | 트리 기반 모델 | 선형 모델, 신경망 |
 
-- **📢 섹션 요약 비유**: PCA는 사진 파일을 압축하는 것과 같다. 눈에 중요한 정보(분산이 큰 방향)는 남기고, 거의 안 보이는 세부 내용(분산이 작은 방향)은 버려서 파일 크기를 줄이지만 사진의 핵심은 유지한다.
+- **📢 섹션 요약 비유**: PCA는 사진 [[501_file_definition_logical_record|파일]]을 [[347_compaction|압축]]하는 것과 같다. 눈에 중요한 정보([[136_variance|분산]]이 큰 방향)는 남기고, 거의 안 보이는 세부 내용([[136_variance|분산]]이 작은 방향)은 버려서 [[501_file_definition_logical_record|파일]] 크기를 줄이지만 사진의 핵심은 유지한다.
 
 ---
 
@@ -113,24 +113,24 @@ PCA는 데이터의 분산이 최대가 되는 방향(주성분)으로 투영하
 
 ### 3.1 피처 선택 vs 피처 추출
 
-| 구분 | 피처 선택(Feature Selection) | 피처 추출(Feature Extraction) |
+| 구분 | 피처 선택(Feature [[022_mcts_four_stages|Selection]]) | 피처 추출(Feature Extraction) |
 |:---|:---|:---|
-| 원리 | 기존 피처 중 중요한 것만 선택 | 기존 피처를 변환하여 새 피처 생성 |
+| 원리 | 기존 피처 중 중요한 것만 선택 | 기존 피처를 변환하여 새 피처 [[087_process_state_transition|생성]] |
 | 해석 가능성 | 높음 (원본 피처 유지) | 낮음 (변환된 피처는 추상적) |
-| 방법 | 분산 임계값, 상관관계, RFE | PCA, t-SNE, 오토인코더 |
-| 차원 축소 | 불필요한 피처 제거 | 압축된 표현으로 재구성 |
+| 방법 | [[136_variance|분산]] 임계값, 상관관계, RFE | [[163_pca|PCA]], t-SNE, [[335_autoencoder|오토인코더]] |
+| [[081_dimensionality_reduction_pca_principal_component_analysis|차원 축소]] | 불필요한 피처 제거 | [[347_compaction|압축]]된 표현으로 재구성 |
 
-### 3.2 피처 중요도 (Feature Importance) 측정
+### 3.2 피처 중요도 ([[355_random_forest_feature_importance|Feature Importance]]) 측정
 
 | 방법 | 원리 | 모델 의존성 |
 |:---|:---|:---|
-| 피어슨 상관계수 | 선형 관계 강도 측정 | 모델 독립 |
-| 랜덤 포레스트 중요도 | 불순도 감소 기여도 | 트리 기반 |
-| SHAP (SHapley Additive exPlanation) | 게임 이론 기반 기여도 | 모델 독립 |
-| 퍼뮤테이션 중요도 | 피처 섞었을 때 성능 변화 | 모델 독립 |
+| [[226_pearson_correlation_regression_r2_vif_multicollinearity|피어슨 상관]]계수 | 선형 [[083_relationship_in_er_model|관계]] 강도 측정 | 모델 독립 |
+| [[353_random_forest|랜덤 포레스트]] 중요도 | 불순도 감소 기여도 | 트리 기반 |
+| [[327_shap|SHAP]] (SHapley Additive exPlanation) | 게임 이론 기반 기여도 | 모델 독립 |
+| 퍼뮤테이션 중요도 | 피처 섞었을 때 [[282_performance_tactics|성능]] 변화 | 모델 독립 |
 
-### 3.3 차원의 저주 (Curse of Dimensionality)
-피처 수가 너무 많아지면 데이터 공간이 희소(Sparse)해져 모델 학습이 어려워지는 현상. 차원 축소(PCA 등)로 완화한다.
+### 3.3 차원의 저주 ([[080_curse_of_dimensionality|Curse of Dimensionality]])
+피처 수가 너무 많아지면 [[001_dikw_pyramid|데이터]] 공간이 희소(Sparse)해져 모델 학습이 어려워지는 현상. [[081_dimensionality_reduction_pca_principal_component_analysis|차원 축소]]([[163_pca|PCA]] 등)로 완화한다.
 
 - **📢 섹션 요약 비유**: 피처가 너무 많으면 큰 창고에 물건이 너무 드문드문 흩어져 있어 패턴을 찾기 어려운 것과 같다. PCA는 창고를 작게 만들되 핵심 물건은 모아두는 창고 재배치 작업이다.
 
@@ -139,17 +139,17 @@ PCA는 데이터의 분산이 최대가 되는 방향(주성분)으로 투영하
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 ### 4.1 피처 엔지니어링 실무 워크플로우
-1. **탐색적 데이터 분석(EDA)**: 분포, 결측치, 이상치 확인
-2. **상관관계 분석**: 피처 간 다중공선성(Multicollinearity) 점검
+1. **[[062_eda_exploratory_data_analysis|탐색적 데이터 분석]]([[064_eda|EDA]])**: 분포, 결측치, [[076_outlier_detection_iqr_dbscan_isolation_forest|이상치]] [[396_validation|확인]]
+2. **상관관계 분석**: 피처 간 다중공선성([[080_multicollinearity_vif_variance_inflation_factor_regression|Multicollinearity]]) 점검
 3. **인코딩**: 범주형 변수 수치화 (레이블/원-핫 선택)
-4. **스케일링**: 수치형 변수 정규화/표준화
-5. **차원 축소**: PCA 또는 도메인 기반 피처 선택
-6. **파생 특성 생성**: 비즈니스 인사이트 반영
+4. **[[249_scaling_normalization_standardization|스케일링]]**: 수치형 변수 [[093_normalization|정규화]]/표준화
+5. **[[081_dimensionality_reduction_pca_principal_component_analysis|차원 축소]]**: [[163_pca|PCA]] 또는 [[064_relation_domain|도메인]] 기반 피처 선택
+6. **파생 특성 [[087_process_state_transition|생성]]**: 비즈니스 인사이트 반영
 
 ### 4.2 기술사 핵심 판단 포인트
-- **데이터 누수(Data Leakage)**: 라벨 정보가 피처에 포함되지 않도록 주의
-- **피처 중요도 해석**: 모델 설명 가능성(XAI, Explainable AI) 요구 시 SHAP 활용
-- **PCA 적용 시기**: 고차원 데이터(100차원 이상), 시각화 필요 시, 다중공선성 제거 시
+- **[[001_dikw_pyramid|데이터]] 누수([[001_dikw_pyramid|Data]] Leakage)**: 라벨 정보가 피처에 포함되지 않도록 주의
+- **피처 중요도 해석**: 모델 설명 가능성([[227_xai_explainable_ai_lime_shap|XAI]], [[255_xai_lime_shap_explainable_contribution|Explainable AI]]) 요구 시 [[327_shap|SHAP]] 활용
+- **[[163_pca|PCA]] 적용 시기**: 고차원 [[001_dikw_pyramid|데이터]](100차원 이상), [[003_bigdata_7v|시각화]] 필요 시, 다중공선성 제거 시
 - **인코딩 선택 기준**: 트리 모델 → 레이블 인코딩 가능, 선형/신경망 → 원-핫 필요
 
 ### 4.3 실무 예시: 고객 이탈 예측
@@ -157,11 +157,11 @@ PCA는 데이터의 분산이 최대가 되는 방향(주성분)으로 투영하
 | 피처 유형 | 피처 예시 | 전처리 |
 |:---|:---|:---|
 | 수치형 | 가입 기간, 월 사용료 | 표준화 (Z-Score) |
-| 범주형 | 요금제 유형 (A/B/C) | 원-핫 인코딩 |
+| 범주형 | 요금제 유형 (A/B/C) | [[079_one_hot_encoding_categorical_dummy_variable|원-핫 인코딩]] |
 | 순서형 | 만족도 (1~5) | 레이블 인코딩 |
-| 파생형 | 월 사용료 / 가입 기간 | 도메인 지식 반영 |
+| 파생형 | 월 사용료 / 가입 기간 | [[064_relation_domain|도메인]] 지식 반영 |
 
-- **📢 섹션 요약 비유**: 피처 공학은 재료 손질이다. 아무리 좋은 셰프(모델)도 씻지 않고 썰지 않은 재료(원시 피처)로는 맛있는 요리를 못 만든다. 재료를 어떻게 다듬느냐(인코딩, 스케일링, PCA)가 최종 맛(성능)을 좌우한다.
+- **📢 섹션 요약 비유**: 피처 공학은 재료 손질이다. 아무리 좋은 셰프(모델)도 씻지 않고 썰지 않은 재료(원시 피처)로는 맛있는 요리를 못 만든다. 재료를 어떻게 다듬느냐(인코딩, [[249_scaling_normalization_standardization|스케일링]], [[163_pca|PCA]])가 최종 맛([[282_performance_tactics|성능]])을 좌우한다.
 
 ---
 
@@ -169,14 +169,14 @@ PCA는 데이터의 분산이 최대가 되는 방향(주성분)으로 투영하
 
 ### 5.1 품질 좋은 피처의 효과
 - 모델 학습 속도 향상
-- 예측 성능 개선 (단순한 모델로도 높은 정확도)
+- 예측 [[282_performance_tactics|성능]] 개선 (단순한 모델로도 높은 정확도)
 - 모델 해석 가능성 향상
-- 과대적합(Overfitting) 위험 감소
+- 과대적합([[245_overfitting_variance|Overfitting]]) 위험 감소
 
 ### 5.2 결론
-피처(독립 변수)와 라벨(종속 변수)의 명확한 구분은 머신러닝 프로젝트의 출발점이다. 피처 공학은 도메인 지식과 통계적 방법을 결합하여 모델 성능을 극대화하는 핵심 기술이며, PCA를 포함한 차원 축소 기법은 고차원 데이터의 정보를 효율적으로 압축한다. 기술사 시험에서는 피처-라벨 관계, PCA 원리, 인코딩 기법 선택 기준을 명확히 서술할 수 있어야 한다.
+피처(독립 변수)와 라벨(종속 변수)의 명확한 구분은 [[241_machine_learning_basics|머신러닝]] 프로젝트의 출발점이다. 피처 공학은 [[064_relation_domain|도메인]] 지식과 통계적 방법을 결합하여 모델 [[282_performance_tactics|성능]]을 극대화하는 핵심 기술이며, PCA를 포함한 [[081_dimensionality_reduction_pca_principal_component_analysis|차원 축소]] 기법은 고차원 [[001_dikw_pyramid|데이터]]의 정보를 효율적으로 [[347_compaction|압축]]한다. 기술사 시험에서는 피처-라벨 [[083_relationship_in_er_model|관계]], [[163_pca|PCA]] 원리, 인코딩 기법 선택 기준을 명확히 서술할 수 있어야 한다.
 
-- **📢 섹션 요약 비유**: 독립 변수와 종속 변수의 관계는 원인과 결과의 관계다. 피처 공학은 그 원인들을 가장 명확하게 드러내도록 정제하는 작업이고, PCA는 수많은 원인을 몇 가지 핵심 원인으로 압축하는 지혜다.
+- **📢 섹션 요약 비유**: 독립 변수와 종속 변수의 [[083_relationship_in_er_model|관계]]는 원인과 결과의 [[083_relationship_in_er_model|관계]]다. 피처 공학은 그 원인들을 가장 명확하게 드러내도록 정제하는 작업이고, PCA는 수많은 원인을 몇 가지 핵심 원인으로 [[347_compaction|압축]]하는 지혜다.
 
 ---
 
@@ -186,10 +186,10 @@ PCA는 데이터의 분산이 최대가 되는 방향(주성분)으로 투영하
 |:---|:---|
 | 피처(Feature) | 독립 변수, 입력 공간 / 모델의 학습 재료 |
 | 라벨(Label) | 종속 변수, 타깃, 정답 / 모델의 예측 목표 |
-| PCA | 주성분, 고유값, 차원 축소 / 피처 추출 기법 |
+| [[163_pca|PCA]] | 주성분, 고유값, [[081_dimensionality_reduction_pca_principal_component_analysis|차원 축소]] / 피처 추출 기법 |
 | 레이블 인코딩 | 정수 매핑, 순서 가정 / 범주형 → 수치형 변환 |
-| 원-핫 인코딩 | 이진 벡터, 다중공선성 / 범주형 → 이진 행렬 |
-| 피처 중요도 | SHAP, RFE, 상관계수 / 피처 선택 기준 |
+| [[079_one_hot_encoding_categorical_dummy_variable|원-핫 인코딩]] | 이진 벡터, 다중공선성 / 범주형 → 이진 행렬 |
+| 피처 중요도 | [[327_shap|SHAP]], RFE, 상관계수 / 피처 선택 기준 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 

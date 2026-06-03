@@ -8,7 +8,7 @@ categories = "studynote-computer-architecture"
 > **핵심 인사이트**
 > 1. 감산기(Subtractor)는 두 이진수를 빼는 회로로, 반감산기(Half Subtractor)는 Borrow 입력 없이, 전감산기(Full Subtractor)는 이전 단계 Borrow를 포함해 3비트를 처리한다.
 > 2. 디지털 시스템에서는 감산기를 독립 회로로 구현하지 않고 2의 보수(Two's Complement) 방식을 통해 가산기로 뺄셈을 처리한다 — A - B = A + (-B) = A + (~B + 1).
-> 3. ALU(Arithmetic Logic Unit)는 하나의 가산기 + Carry-In 제어 + 부호 비트 제어로 덧셈과 뺄셈을 모두 구현하는데, 이것이 하드웨어 설계의 핵심 최적화다.
+> 3. [[117_alu|ALU]]([[117_alu|Arithmetic Logic Unit]])는 하나의 가산기 + Carry-In 제어 + 부호 [[073_bit|비트]] 제어로 덧셈과 뺄셈을 모두 구현하는데, 이것이 하드웨어 설계의 핵심 최적화다.
 
 ---
 
@@ -54,7 +54,7 @@ categories = "studynote-computer-architecture"
 |---------|------------------|----------------------|
 | 입력     | 2개 (A, B)        | 3개 (A, B, Borrow_in)|
 | 출력     | 차(D), Borrow_out | 차(D), Borrow_out     |
-| 용도     | 단독 사용 드뭄     | 다비트 병렬 뺄셈        |
+| 용도     | 단독 사용 드뭄     | 다비트 [[430_index_fast_full_scan|병렬]] 뺄셈        |
 
 > 📢 **섹션 요약 비유**: 전감산기는 "빌린 것"까지 계산에 포함하는 뺄셈 — 이전 자리에서 빌려온 것을 고려해야 한다.
 
@@ -85,7 +85,7 @@ categories = "studynote-computer-architecture"
 
 ---
 
-## IV. ALU에서의 감산기 통합
+## [[288_version_ihl_tos_total_length|IV]]. ALU에서의 감산기 통합
 
 ```
 가산기/감산기 공용 회로:
@@ -108,7 +108,7 @@ SUB=1: A + ~B + 1 = A - B (뺄셈, Carry-In=1)
 
 ---
 
-## V. 실무 시나리오 — RISC-V SUB 명령어
+## V. 실무 시나리오 — [[200_riscv|RISC-V]] SUB [[158_instruction|명령어]]
 
 ```
 RISC-V SUB rd, rs1, rs2:

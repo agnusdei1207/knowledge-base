@@ -7,13 +7,13 @@ categories = "studynote-enterprise-systems"
 +++
 
 > **핵심 인사이트**
-> 1. ITIL(IT Infrastructure Library)은 IT 서비스 관리(ITSM)의 사실상 표준 프레임워크 — 영국 정부 CCTA가 1980년대 개발하고 현재 Axelos가 관리하며, IT 서비스를 비즈니스 관점에서 제공·지원·개선하는 모범 사례(Best Practice) 집합이다.
-> 2. ITIL 4(2019)의 핵심은 서비스 가치 시스템(SVS)과 4차원 모델 — 기존 프로세스 중심에서 Agile·DevOps·Lean을 통합한 가치 공동 창출 관점으로 진화하며, 34개 관리 관행(Practice)으로 구성된다.
-> 3. ITSM 구현의 핵심 도전은 도구(Tool) 도입보다 문화(Culture) 변화 — ServiceNow 같은 ITSM 플랫폼만 도입한다고 ITIL이 작동하지 않으며, 인시던트 → 변경 → 문제 관리의 프로세스 규율이 필요하다.
+> 1. [[062_itil|ITIL]]([[062_itil|IT Infrastructure Library]])은 IT [[090_service_kubernetes_network_load_balancing|서비스]] 관리([[096_iso_iec_20000_itsm_certification|ITSM]])의 사실상 표준 프레임워크 — 영국 정부 CCTA가 1980년대 개발하고 현재 Axelos가 관리하며, IT [[090_service_kubernetes_network_load_balancing|서비스]]를 비즈니스 관점에서 제공·지원·개선하는 모범 사례([[087_erp_package_advantages_best_practice|Best Practice]]) 집합이다.
+> 2. [[062_itil|ITIL]] 4(2019)의 핵심은 [[090_service_kubernetes_network_load_balancing|서비스]] 가치 시스템(SVS)과 [[071_four_dimensions|4차원 모델]] — 기존 프로세스 중심에서 [[004_agile_relation|Agile]]·[[652_devops_calms_culture|DevOps]]·Lean을 통합한 가치 공동 창출 관점으로 진화하며, 34개 관리 관행(Practice)으로 구성된다.
+> 3. [[096_iso_iec_20000_itsm_certification|ITSM]] 구현의 핵심 도전은 도구(Tool) 도입보다 문화(Culture) 변화 — ServiceNow 같은 [[096_iso_iec_20000_itsm_certification|ITSM]] 플랫폼만 도입한다고 ITIL이 작동하지 않으며, 인시던트 → 변경 → [[077_problem_management|문제 관리]]의 프로세스 규율이 필요하다.
 
 ---
 
-## Ⅰ. ITIL 역사와 구조
+## Ⅰ. [[062_itil|ITIL]] 역사와 구조
 
 ```
 ITIL 발전 역사:
@@ -53,11 +53,11 @@ ITIL 4 구조:
   4. 가치 흐름 및 프로세스
 ```
 
-> 📢 **섹션 요약 비유**: ITIL은 IT 서비스 레시피북 — 수십 년간 쌓인 IT 운영 모범 사례를 책으로 정리. ITIL 4는 "요즘 트렌드(애자일·DevOps) 반영 개정판"!
+> 📢 **섹션 요약 비유**: ITIL은 IT [[090_service_kubernetes_network_load_balancing|서비스]] 레시피북 — 수십 년간 쌓인 IT 운영 모범 사례를 책으로 정리. [[062_itil|ITIL]] 4는 "요즘 트렌드([[004_agile_relation|애자일]]·[[652_devops_calms_culture|DevOps]]) 반영 개정판"!
 
 ---
 
-## Ⅱ. 핵심 관리 관행 (Key Practices)
+## Ⅱ. 핵심 관리 관행 ([[067_db_key_uniqueness_minimality|Key]] Practices)
 
 ```
 ITIL 4 주요 관리 관행:
@@ -103,7 +103,7 @@ ITIL 4 주요 관리 관행:
   → 변경 영향 분석 기반
 ```
 
-> 📢 **섹션 요약 비유**: ITIL 관행들은 병원 운영 — 서비스 데스크(응급실 접수), 인시던트(응급 처치), 문제 관리(병원균 박멸), 변경 관리(수술 계획 승인)!
+> 📢 **섹션 요약 비유**: [[062_itil|ITIL]] 관행들은 병원 운영 — [[072_service_desk|서비스 데스크]](응급실 접수), 인시던트(응급 처치), [[077_problem_management|문제 관리]](병원균 박멸), [[079_change_enablement|변경 관리]](수술 계획 승인)!
 
 ---
 
@@ -145,11 +145,11 @@ ITIL 4 안내 원칙 (Guiding Principles):
   원칙 5: 엔드투엔드 서비스 맵핑
 ```
 
-> 📢 **섹션 요약 비유**: 7원칙은 IT팀 팀워크 규칙 — "가치 집중, 지금부터 시작, 조금씩 개선, 함께 공유, 전체 시각, 복잡하지 않게, 자동화!" 팀이 이 원칙으로 움직이면 ITSM 성공!
+> 📢 **섹션 요약 비유**: 7원칙은 IT팀 팀워크 규칙 — "가치 집중, 지금부터 시작, 조금씩 개선, 함께 공유, 전체 시각, 복잡하지 않게, 자동화!" 팀이 이 원칙으로 움직이면 [[096_iso_iec_20000_itsm_certification|ITSM]] 성공!
 
 ---
 
-## Ⅳ. ITSM 도구 — ServiceNow
+## Ⅳ. [[096_iso_iec_20000_itsm_certification|ITSM]] 도구 — ServiceNow
 
 ```
 ITSM 플랫폼 대표: ServiceNow
@@ -199,11 +199,11 @@ CMDB 활용:
   Zendesk (IT 응용)
 ```
 
-> 📢 **섹션 요약 비유**: ServiceNow는 IT팀 ERP — 인시던트(고장 신고), 변경(수리 계획), CMDB(부품 목록) 모두 한 시스템에서 관리. ITIL 프로세스를 디지털화!
+> 📢 **섹션 요약 비유**: ServiceNow는 IT팀 [[081_erp_enterprise_resource_planning|ERP]] — 인시던트(고장 신고), 변경(수리 계획), [[091_cmdb|CMDB]](부품 목록) 모두 한 시스템에서 관리. [[062_itil|ITIL]] 프로세스를 디지털화!
 
 ---
 
-## Ⅴ. 실무 시나리오 — 대기업 ITSM 도입
+## Ⅴ. 실무 시나리오 — 대기업 [[096_iso_iec_20000_itsm_certification|ITSM]] 도입
 
 ```
 금융그룹 ITSM 혁신 프로젝트:
@@ -243,7 +243,7 @@ Phase 3 (5-6개월): 자동화
   CMDB 정확도 유지가 지속 과제
 ```
 
-> 📢 **섹션 요약 비유**: 금융그룹 ITSM은 소방서 체계화 — 불 나면(인시던트) 빨리 끄고(해결), 왜 났는지(문제 관리) 분석, 건물 공사(변경) 전 심사(CAB). 체계가 없으면 매번 같은 불!
+> 📢 **섹션 요약 비유**: 금융그룹 ITSM은 소방서 체계화 — 불 나면(인시던트) 빨리 끄고(해결), 왜 났는지([[077_problem_management|문제 관리]]) 분석, 건물 공사(변경) 전 심사([[080_cab|CAB]]). 체계가 없으면 매번 같은 불!
 
 ---
 
@@ -298,6 +298,6 @@ SRE와 ITSM 융합
 
 ## 👶 어린이를 위한 3줄 비유 설명
 
-1. ITIL은 IT팀 운영 교과서 — 수십 년간 전 세계 IT팀이 쌓은 경험을 책으로 정리한 것. 이 교과서대로 하면 IT 서비스가 잘 돌아가요!
-2. 인시던트는 응급실, 문제 관리는 예방 접종 — 불 났을 때(인시던트) 빠르게 끄고, 왜 불이 났는지(문제) 찾아서 다시 안 나게 해요!
-3. CMDB는 IT 지도 — 서버, 앱, DB가 어떻게 연결됐는지 지도(CMDB). 뭔가 바꿀 때(변경) 지도 보고 영향 확인!
+1. ITIL은 IT팀 운영 교과서 — 수십 년간 전 세계 IT팀이 쌓은 경험을 책으로 정리한 것. 이 교과서대로 하면 IT [[090_service_kubernetes_network_load_balancing|서비스]]가 잘 돌아가요!
+2. 인시던트는 응급실, [[077_problem_management|문제 관리]]는 예방 접종 — 불 났을 때(인시던트) 빠르게 끄고, 왜 불이 났는지(문제) 찾아서 다시 안 나게 해요!
+3. CMDB는 IT 지도 — 서버, 앱, DB가 어떻게 연결됐는지 지도([[091_cmdb|CMDB]]). 뭔가 바꿀 때(변경) 지도 보고 영향 [[396_validation|확인]]!

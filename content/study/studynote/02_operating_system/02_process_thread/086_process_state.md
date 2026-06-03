@@ -8,9 +8,9 @@ categories = "studynote-operating-system"
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 프로세스 상태(Process State)는 프로세스가 생성부터 종료까지 어떤 단계에 있는지 보여 준다.
-> 2. **가치**: Ready, Running, Waiting, Terminated를 이해하면 Scheduler, Dispatcher, Context Switch가 연결된다.
-> 3. **판단 포인트**: PCB (Process Control Block)와 대기 큐를 같이 봐야 상태 전이가 정확해진다.
+> 1. **본질**: 프로세스 상태([[300_process|Process]] [[272_state_pattern|State]])는 프로세스가 [[087_process_state_transition|생성]]부터 종료까지 어떤 단계에 있는지 보여 준다.
+> 2. **가치**: Ready, Running, Waiting, Terminated를 이해하면 Scheduler, [[168_dispatcher|Dispatcher]], [[033_context|Context]] Switch가 연결된다.
+> 3. **판단 포인트**: PCB ([[300_process|Process]] Control Block)와 대기 큐를 같이 봐야 [[632_state_transition_diagram_testing|상태 전이]]가 정확해진다.
 
 ---
 
@@ -23,16 +23,16 @@ categories = "studynote-operating-system"
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
-| 상태 | 의미 | 전이 트리거 |
+| 상태 | 의미 | 전이 [[507_acid_properties|트리거]] |
 |:---|:---|:---|
-| New | 생성 직후 | admit |
+| [[087_process_state_transition|New]] | [[087_process_state_transition|생성]] 직후 | admit |
 | Ready | CPU를 받을 준비 | dispatch 대기 |
 | Running | CPU를 점유 중 | preempt, wait, exit |
 | Waiting | 입출력 대기 | I/O 완료 |
 | Terminated | 종료 완료 | 자원 회수 |
 
 ┌──────┐ admit  ┌───────┐ dispatch ┌────────┐
-│ New  │──────▶│ Ready │──────▶│ Running│
+│ [[087_process_state_transition|New]]  │──────▶│ Ready │──────▶│ Running│
 └──────┘       └──┬────┘       └──┬─────┘
                  │               │ exit
                  │ wait I/O      │ preempt
@@ -41,7 +41,7 @@ categories = "studynote-operating-system"
             │Waiting │◀────│ Terminated │
             └──┬─────┘ I/O  └────────────┘
                └──────── complete
-- **📢 섹션 요약 비유**: 상태 전이는 스케줄링 사건으로 바뀐다.
+- **📢 섹션 요약 비유**: [[632_state_transition_diagram_testing|상태 전이]]는 스케줄링 사건으로 바뀐다.
 
 ---
 
@@ -49,7 +49,7 @@ categories = "studynote-operating-system"
 | 비교 항목 | Ready | Running | Waiting | Terminated |
 |:---|:---|:---|:---|:---|
 | CPU 점유 | 없음 | 있음 | 없음 | 없음 |
-| 큐 위치 | ready queue | 실행 중 | wait queue | 없음 |
+| 큐 위치 | [[088_ready_queue|ready queue]] | 실행 중 | [[089_wait_queue|wait queue]] | 없음 |
 | 핵심 판단 | 언제 CPU를 받을까 | 지금 무엇을 실행하나 | 언제 깨어날까 | 자원 회수 여부 |
 
 상태 이름보다 상태를 바꾸는 사건을 함께 봐야 정확하다.
@@ -59,13 +59,13 @@ categories = "studynote-operating-system"
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 - [ ] Ready와 Waiting을 혼동하지 않는다.
-- [ ] Context Switch가 비용이 드는 전환임을 이해한다.
+- [ ] [[033_context|Context]] Switch가 비용이 드는 전환임을 이해한다.
 - [ ] PCB에 레지스터와 프로그램 카운터가 저장된다는 점을 설명한다.
 - [ ] 선점형과 비선점형 스케줄링을 구분한다.
 
 - ❌ Waiting을 단순히 쉬는 상태로만 설명하는 것
 - ❌ Scheduler와 Dispatcher를 같은 것으로 보는 것
-- ❌ 상태 전이 없이 프로세스 실행을 설명하는 것
+- ❌ [[632_state_transition_diagram_testing|상태 전이]] 없이 프로세스 실행을 설명하는 것
 - **📢 섹션 요약 비유**: 문맥 교환과 PCB를 함께 봐야 한다.
 
 ---
@@ -83,8 +83,8 @@ categories = "studynote-operating-system"
 | Ready | CPU를 기다리는 줄이다. |
 | Running | 실제로 CPU를 쓰는 순간이다. |
 | Waiting | 입출력 결과를 기다리는 줄이다. |
-| PCB (Process Control Block) | 상태를 기억하는 노트다. |
-| Dispatcher | 준비된 일을 CPU 위에 올린다. |
+| PCB ([[300_process|Process]] Control Block) | 상태를 기억하는 노트다. |
+| [[168_dispatcher|Dispatcher]] | 준비된 일을 CPU 위에 올린다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 

@@ -4,17 +4,17 @@ weight = 28
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: Apache Tez는 초기 하둡(Hadoop) 생태계의 뼈대였던 맵리듀스(MapReduce) 엔진의 극악한 속도와 멍청한 입출력 한계를 박살 내기 위해 탄생한, **DAG (Directed Acyclic Graph, 방향성 비순환 그래프) 기반의 차세대 고성능 분산 데이터 처리 엔진**이다.
-> 2. **가치**: 기존 맵리듀스는 작은 연산 하나를 끝낼 때마다 꼬박꼬박 느려터진 하드디스크(HDFS)에 임시 결과를 적고 다시 읽어오는 바보짓을 반복했다. Tez는 수십 개의 복잡한 SQL 연산(Hive/Pig)을 하나의 논리적 흐름(DAG)으로 묶어 메모리 위에서 중간 디스크 I/O 없이 미끄러지듯 한 방에 파이프라인 처리를 갈겨버림으로써 쿼리 속도를 10배~100배 이상 폭발적으로 끌어올린다.
-> 3. **융합**: Tez 자체는 개발자가 직접 코딩해서 쓰는 도구가 아니다. Hortonworks(현 Cloudera) 주도로 개발되어, 느려 터진 고전 하둡 쿼리 엔진인 **Hive와 Pig의 뱃속(Back-end Engine)에 들어가 기존의 MapReduce 엔진을 완벽히 교체/융합**하는 마법의 심장(Accelerator) 역할을 수행하며 인터랙티브(Interactive) 쿼리 시대를 열었다.
+> 1. **본질**: Apache Tez는 [[459_quic_fec_forward_error_correction|초기]] [[843_hadoop_rack_awareness_data_replication_topology|하둡]]([[843_hadoop_rack_awareness_data_replication_topology|Hadoop]]) 생태계의 뼈대였던 [[018_mapreduce|맵리듀스]]([[018_mapreduce|MapReduce]]) 엔진의 극악한 속도와 멍청한 입출력 한계를 박살 내기 위해 탄생한, **[[401_bayesian_network_dag_causality|DAG]] ([[255_apache_airflow_dag|Directed Acyclic Graph]], 방향성 비순환 [[070_graph_datastructure|그래프]]) 기반의 차세대 고성능 [[136_variance|분산]] [[001_dikw_pyramid|데이터]] 처리 엔진**이다.
+> 2. **가치**: 기존 [[018_mapreduce|맵리듀스]]는 작은 연산 하나를 끝낼 때마다 꼬박꼬박 느려터진 하드디스크([[013_hdfs|HDFS]])에 임시 결과를 적고 다시 읽어오는 바보짓을 반복했다. Tez는 수십 개의 복잡한 SQL 연산([[544_hive|Hive]]/Pig)을 하나의 [[369_logic_bomb|논리]]적 흐름([[401_bayesian_network_dag_causality|DAG]])으로 묶어 메모리 위에서 중간 디스크 I/O 없이 미끄러지듯 한 방에 [[123_pipe|파이프]]라인 처리를 갈겨버림으로써 [[298_qkv_attention|쿼리]] 속도를 10배~100배 이상 폭발적으로 끌어올린다.
+> 3. **융합**: Tez 자체는 개발자가 직접 코딩해서 쓰는 도구가 아니다. Hortonworks(현 Cloudera) 주도로 개발되어, 느려 터진 고전 [[843_hadoop_rack_awareness_data_replication_topology|하둡]] [[298_qkv_attention|쿼리]] 엔진인 **Hive와 Pig의 뱃속(Back-end Engine)에 들어가 기존의 [[018_mapreduce|MapReduce]] 엔진을 완벽히 교체/융합**하는 마법의 심장(Accelerator) 역할을 수행하며 인터랙티브(Interactive) [[298_qkv_attention|쿼리]] 시대를 열었다.
 
 ---
 
-## Ⅰ. 개요 및 필요성 (Context & Necessity)
+## Ⅰ. 개요 및 필요성 ([[033_context|Context]] & Necessity)
 
-- **개념**: Tez는 힌디어로 '빠름(Speed)'을 뜻한다. 기존 MapReduce가 `Map -> (디스크 쓰기) -> Reduce -> (디스크 쓰기)` 의 뚝뚝 끊기는 분절적 실행 구조를 가졌다면, Tez는 데이터가 어떻게 흘러갈지 전체 작업의 지도(DAG)를 먼저 쫙 그린 다음에, 중간에 디스크에 짐을 내려놓지 않고 끝까지 메모리 위에서 한 호흡으로 달려가는 차세대 엔진 프레임워크다.
-- **필요성**: 2010년대 기업들은 하둡(HDFS)에 데이터를 쌓아놓고 Hive(SQL)로 쿼리를 날렸다. "강남구의 월별 매출 합계를 구해줘"라는 간단한 `GROUP BY` 쿼리조차 내부적으로 수십 개의 맵리듀스 잡(Job)으로 쪼개졌다. 1번 Job이 끝나면 하드디스크에 결과를 썼다가, 2번 Job이 그 디스크를 뒤적거려 읽어오는 짓(Overhead)을 무한 반복하다 보니 쿼리 한 번에 10분, 1시간이 걸렸다. 분석가들은 복장 터져 죽기 직전이었다. 스파크(Spark)가 나타나 인메모리로 속도를 위협하자, 하둡 진영은 기존 Hive 코드를 그대로 유지하면서 속도만 끌어올릴 "디스크 I/O 파괴자"가 절실히 필요했고, 그 구원 투수로 Tez가 탄생했다.
-- **💡 비유**: MapReduce가 요리를 할 때 채소를 썰고(Map) 무조건 냄비(Disk)에 넣은 뒤, 냄비에서 다시 꺼내서 볶고(Reduce) 또 냄비에 넣는 바보 같은 요리사라면, Tez는 도마 위에서 썰자마자 공중으로 던져서 후라이팬으로 바로 볶아(메모리 파이프라이닝) 그릇에 즉시 담아내는, 중간 낭비 시간(Disk I/O)이 1도 없는 완벽한 원패스(One-pass) 셰프다.
+- **개념**: Tez는 힌디어로 '빠름(Speed)'을 뜻한다. 기존 MapReduce가 `Map -> (디스크 쓰기) -> Reduce -> (디스크 쓰기)` 의 뚝뚝 끊기는 분절적 실행 구조를 가졌다면, Tez는 [[001_dikw_pyramid|데이터]]가 어떻게 흘러갈지 전체 작업의 지도([[401_bayesian_network_dag_causality|DAG]])를 먼저 쫙 그린 다음에, 중간에 디스크에 짐을 내려놓지 않고 끝까지 메모리 위에서 한 호흡으로 달려가는 차세대 엔진 프레임워크다.
+- **필요성**: 2010년대 기업들은 [[843_hadoop_rack_awareness_data_replication_topology|하둡]]([[013_hdfs|HDFS]])에 [[001_dikw_pyramid|데이터]]를 쌓아놓고 [[544_hive|Hive]](SQL)로 [[298_qkv_attention|쿼리]]를 날렸다. "강남구의 월별 매출 합계를 구해줘"라는 간단한 `GROUP BY` [[298_qkv_attention|쿼리]]조차 내부적으로 수십 개의 [[018_mapreduce|맵리듀스]] 잡(Job)으로 쪼개졌다. 1번 Job이 끝나면 하드디스크에 결과를 썼다가, 2번 Job이 그 디스크를 뒤적거려 읽어오는 짓(Overhead)을 무한 반복하다 보니 [[298_qkv_attention|쿼리]] 한 번에 10분, 1시간이 걸렸다. 분석가들은 복장 터져 죽기 직전이었다. 스파크(Spark)가 나타나 인메모리로 속도를 위협하자, [[843_hadoop_rack_awareness_data_replication_topology|하둡]] 진영은 기존 [[544_hive|Hive]] 코드를 그대로 유지하면서 속도만 끌어올릴 "디스크 I/O 파괴자"가 절실히 필요했고, 그 구원 투수로 Tez가 탄생했다.
+- **💡 비유**: MapReduce가 요리를 할 때 채소를 썰고(Map) 무조건 냄비(Disk)에 넣은 뒤, 냄비에서 다시 꺼내서 볶고(Reduce) 또 냄비에 넣는 바보 같은 요리사라면, Tez는 도마 위에서 썰자마자 공중으로 던져서 후라이팬으로 바로 볶아(메모리 [[123_pipe|파이프]]라이닝) 그릇에 즉시 담아내는, 중간 낭비 시간(Disk I/O)이 1도 없는 완벽한 원패스(One-pass) 셰프다.
 
 - **📢 섹션 요약 비유**: 서울에서 부산까지 택배를 보낼 때, MapReduce는 대전, 대구 톨게이트마다 트럭에서 짐을 바닥(디스크)에 완전히 내려놨다가 다음 트럭에 다시 싣는 미친 환승 방식입니다. Tez는 부산까지 짐을 단 한 번도 땅에 닿게 하지 않고 논스톱 하이패스로 쏘아 보내는 기적의 물류 최적화 엔진입니다.
 
@@ -22,9 +22,9 @@ weight = 28
 
 ## Ⅱ. 아키텍처 및 핵심 원리 (Deep Dive)
 
-### MapReduce vs Tez 엔진의 실행 파이프라인 아키텍처
+### [[018_mapreduce|MapReduce]] vs Tez 엔진의 실행 [[123_pipe|파이프]]라인 아키텍처
 
-왜 Tez가 빠른지, 두 엔진이 3단계의 복잡한 쿼리를 처리할 때의 아키텍처 차이를 통해 증명한다.
+왜 Tez가 빠른지, 두 엔진이 3단계의 복잡한 [[298_qkv_attention|쿼리]]를 처리할 때의 아키텍처 차이를 통해 증명한다.
 
 ```text
   ┌───────────────────────────────────────────────────────────────────┐
@@ -64,17 +64,17 @@ weight = 28
   └───────────────────────────────────────────────────────────────────┘
 ```
 
-**[다이어그램 해설]** 복잡한 `JOIN`이나 멀티 `GROUP BY`가 들어간 SQL을 처리하려면 여러 단계의 연산이 필수다. MapReduce는 무조건 M-R이라는 한 쌍의 구속복을 입고, 단계가 끝날 때마다 하드디스크(HDFS)에 임시 데이터를 쿵쿵 내려찍었다(물리적 지연 발생).
-반면 Tez는 **DAG(방향성 비순환 그래프)** 기술을 써서 "어차피 Reduce 1번의 결과가 Map 2번으로 갈 거면, 왜 디스크에 쓰니? 그냥 RAM 메모리 버퍼를 통해서 파이프라인으로 한 번에 밀어 넣어!"라고 구조를 혁신했다. 거기다 MapReduce가 작업 1개마다 컨테이너(JVM)를 새로 부팅하느라 10초씩 버리던 시간을 없애고, 미리 띄워둔 핫 컨테이너(Session)를 재사용함으로써 초기 구동 딜레이조차 싹 다 소멸시켰다.
+**[다이어그램 해설]** 복잡한 `JOIN`이나 멀티 `GROUP BY`가 들어간 SQL을 처리하려면 여러 단계의 연산이 필수다. MapReduce는 무조건 M-R이라는 한 쌍의 구속복을 입고, 단계가 끝날 때마다 하드디스크([[013_hdfs|HDFS]])에 임시 [[001_dikw_pyramid|데이터]]를 쿵쿵 내려찍었다(물리적 [[015_지연_데이터_관점|지연]] 발생).
+반면 Tez는 **[[401_bayesian_network_dag_causality|DAG]](방향성 비순환 [[070_graph_datastructure|그래프]])** 기술을 써서 "어차피 Reduce 1번의 결과가 Map 2번으로 갈 거면, 왜 디스크에 쓰니? 그냥 RAM 메모리 버퍼를 통해서 [[123_pipe|파이프]]라인으로 한 번에 밀어 넣어!"라고 구조를 혁신했다. 거기다 MapReduce가 작업 1개마다 [[561_container_based_deployment|컨테이너]](JVM)를 새로 부팅하느라 10초씩 버리던 시간을 없애고, 미리 띄워둔 핫 [[561_container_based_deployment|컨테이너]]([[160_session_controlling_terminal|Session]])를 재사용함으로써 [[459_quic_fec_forward_error_correction|초기]] 구동 딜레이조차 싹 다 소멸시켰다.
 
 ---
 
-### Tez를 움직이는 두 개의 바퀴: YARN과 DAG
+### Tez를 움직이는 두 개의 바퀴: YARN과 [[401_bayesian_network_dag_causality|DAG]]
 
-Tez는 독자적인 자원 관리자가 없다. 철저하게 **하둡 YARN (Yet Another Resource Negotiator)** 생태계 위에 기생(?)하여 작동하는 순종 하둡 모듈이다.
+Tez는 독자적인 자원 관리자가 없다. 철저하게 **[[843_hadoop_rack_awareness_data_replication_topology|하둡]] [[020_yarn|YARN]] ([[020_yarn|Yet Another Resource Negotiator]])** 생태계 위에 기생(?)하여 작동하는 순종 [[843_hadoop_rack_awareness_data_replication_topology|하둡]] [[192_module_independence|모듈]]이다.
 
-1. **YARN 통합**: Tez는 YARN에게 "나 메모리 100GB랑 CPU 50개 필요해"라고 자원만 빌려 온다. 하둡 스토리지(HDFS) 옆에서 돌아가기 때문에, 별도의 거대한 스파크 클러스터를 짓지 않고도 기존 하둡 자산을 그대로 100% 활용할 수 있는 미친 가성비를 자랑한다.
-2. **DAG (Directed Acyclic Graph)**: 개발자가 짠 Hive SQL을 수백 개의 잘게 쪼개진 노드와 엣지(데이터가 흘러가는 길)로 이루어진 한 폭의 거대한 지도(DAG)로 번역한다. 이 지도는 "뒤로 뺑뺑 도는 루프(Cycle)"가 절대 없어서(Acyclic), 물이 위에서 아래로 흐르듯 막힘없이 데이터가 폭포수처럼 쏟아져 내리게 스케줄링을 완벽히 조율해 낸다.
+1. **[[020_yarn|YARN]] 통합**: Tez는 YARN에게 "나 메모리 100GB랑 CPU 50개 필요해"라고 자원만 빌려 온다. [[843_hadoop_rack_awareness_data_replication_topology|하둡]] 스토리지([[013_hdfs|HDFS]]) 옆에서 돌아가기 때문에, 별도의 거대한 스파크 클러스터를 짓지 않고도 기존 [[843_hadoop_rack_awareness_data_replication_topology|하둡]] 자산을 그대로 100% 활용할 수 있는 미친 가성비를 자랑한다.
+2. **[[401_bayesian_network_dag_causality|DAG]] ([[255_apache_airflow_dag|Directed Acyclic Graph]])**: 개발자가 짠 [[544_hive|Hive]] SQL을 수백 개의 잘게 쪼개진 노드와 엣지([[001_dikw_pyramid|데이터]]가 흘러가는 길)로 이루어진 한 폭의 거대한 지도([[401_bayesian_network_dag_causality|DAG]])로 번역한다. 이 지도는 "뒤로 뺑뺑 도는 루프(Cycle)"가 절대 없어서(Acyclic), 물이 위에서 아래로 흐르듯 막힘없이 [[001_dikw_pyramid|데이터]]가 폭포수처럼 쏟아져 내리게 [[208_schedule_history_transaction_execution_order|스케줄]]링을 완벽히 조율해 낸다.
 
 - **📢 섹션 요약 비유**: MapReduce가 한 블록 갈 때마다 시동을 끄고 내렸다가 다시 시동 걸고 타야 하는 '시내버스'라면, Tez는 YARN이라는 고속도로 위에 올려지자마자 목적지까지 브레이크 한 번 밟지 않고 RAM(메모리)이라는 연료만 태우며 질주하는 KTX 논스톱 특급 열차입니다.
 
@@ -82,21 +82,21 @@ Tez는 독자적인 자원 관리자가 없다. 철저하게 **하둡 YARN (Yet 
 
 ## Ⅲ. 융합 비교 및 다각도 분석
 
-### 빅데이터 쿼리 엔진 3파전: MapReduce vs Tez vs Spark
+### 빅데이터 [[298_qkv_attention|쿼리]] 엔진 3파전: [[018_mapreduce|MapReduce]] vs Tez vs Spark
 
-100TB의 데이터를 처리할 때 어떤 엔진을 태워야 할까? 이것은 데이터 엔지니어의 가장 거대한 아키텍처 결단이다.
+100TB의 [[001_dikw_pyramid|데이터]]를 처리할 때 어떤 엔진을 태워야 할까? 이것은 [[001_dikw_pyramid|데이터]] 엔지니어의 가장 거대한 아키텍처 결단이다.
 
-| 비교 항목 | MapReduce (구석기) | Apache Tez (하둡의 부활) | Apache Spark (현대 제왕) |
+| 비교 항목 | [[018_mapreduce|MapReduce]] (구석기) | Apache Tez ([[843_hadoop_rack_awareness_data_replication_topology|하둡]]의 부활) | [[206_spark_inmemory_rdd_lazy_evaluation_lineage|Apache Spark]] (현대 제왕) |
 |:---|:---|:---|:---|
-| **기반 아키텍처** | Map ➔ Reduce의 강제 고정 | 유연한 **DAG 기반** 메모리 중계 | **RDD/DataFrame** 인메모리 분산 |
+| **기반 아키텍처** | Map ➔ Reduce의 강제 고정 | 유연한 **[[401_bayesian_network_dag_causality|DAG]] 기반** 메모리 중계 | **[[310_audit|RDD]]/DataFrame** 인메모리 [[136_variance|분산]] |
 | **처리 속도** | **최악** (디스크 I/O의 지옥) | **매우 빠름** (MapReduce의 10배~100배) | **압도적** (하지만 Tez와 SQL 처리 속도는 엎치락뒤치락함) |
-| **주요 사용 툴** | 초기 Hive, 구형 Pig | **현대 Hive 2.x/3.x 의 기본(Default) 백엔드 엔진** | Spark SQL, PySpark, MLlib |
+| **주요 사용 툴** | [[459_quic_fec_forward_error_correction|초기]] [[544_hive|Hive]], 구형 Pig | **현대 [[544_hive|Hive]] 2.x/3.x 의 기본(Default) 백엔드 엔진** | [[056_spark_sql|Spark SQL]], PySpark, MLlib |
 | **메모리 의존도** | 디스크 위주 (메모리 뻑 안 남) | 중간 (디스크+메모리 유연한 타협) | **메모리 포식자** (RAM 꽉 차면 OOM으로 자주 죽음) |
-| **최적의 롤(Role)** | 역사 속으로 은퇴 중 | **초대용량 배치 SQL (안정성+속도 타협점)** | **머신러닝, 실시간 스트리밍, 복잡한 ETL** |
+| **최적의 롤(Role)** | 역사 속으로 은퇴 중 | **초대용량 배치 SQL (안정성+속도 타협점)** | **[[241_machine_learning_basics|머신러닝]], 실시간 스트리밍, 복잡한 [[215_etl_vs_elt_pipeline|ETL]]** |
 
-Tez와 Spark를 헷갈려선 안 된다. Spark는 자기가 스스로 코딩도 할 수 있고(Python/Scala) 머신러닝도 하는 '독립된 거대 생태계'다. 반면 Tez는 철저하게 흑막(Background)이다. 데이터 분석가가 Hive 화면 창에 `SELECT * FROM ...` 을 쳤을 때, 분석가는 뒤에서 Tez가 도는지 MapReduce가 도는지 모른다. 그저 "어? 옛날보다 쿼리가 엄청 빨리 떨어지네?"라고 느낄 뿐이다. **Tez는 철저하게 SQL 엔진(Hive)의 속도를 부스팅하기 위해 갈아 끼운 V8 엔진**이다.
+Tez와 Spark를 헷갈려선 안 된다. Spark는 자기가 스스로 코딩도 할 수 있고(Python/Scala) [[241_machine_learning_basics|머신러닝]]도 하는 '독립된 거대 생태계'다. 반면 Tez는 철저하게 흑막(Background)이다. [[001_dikw_pyramid|데이터]] 분석가가 [[544_hive|Hive]] 화면 창에 `SELECT * FROM ...` 을 쳤을 때, 분석가는 뒤에서 Tez가 도는지 MapReduce가 도는지 모른다. 그저 "어? 옛날보다 [[298_qkv_attention|쿼리]]가 엄청 빨리 떨어지네?"라고 느낄 뿐이다. **Tez는 철저하게 SQL 엔진([[544_hive|Hive]])의 속도를 [[127_boosting|부스팅]]하기 위해 갈아 끼운 V8 엔진**이다.
 
-- **📢 섹션 요약 비유**: MapReduce는 느리지만 무거운 돌(100TB)을 확실하게 옮기는 소달구지입니다. Spark는 날아다니는 페라리지만 짐을 너무 많이 실으면 바퀴가 터집니다(OOM). Tez는 기존 하둡 소달구지의 바퀴를 무한궤도로 바꾸고 로켓 모터를 달아, 안 죽고 엄청난 짐을 빠르게 실어 나르는 최강의 개조 트럭입니다.
+- **📢 섹션 요약 비유**: MapReduce는 느리지만 무거운 돌(100TB)을 확실하게 옮기는 소달구지입니다. Spark는 날아다니는 페라리지만 짐을 너무 많이 실으면 바퀴가 터집니다([[157_oom_killer|OOM]]). Tez는 기존 [[843_hadoop_rack_awareness_data_replication_topology|하둡]] 소달구지의 바퀴를 무한궤도로 바꾸고 로켓 모터를 달아, 안 죽고 엄청난 짐을 빠르게 실어 나르는 최강의 개조 트럭입니다.
 
 ---
 
@@ -104,49 +104,49 @@ Tez와 Spark를 헷갈려선 안 된다. Spark는 자기가 스스로 코딩도 
 
 ### 실무 시나리오
 
-1. **시나리오 — Hive 기반 데이터 마트(Data Mart) 생성 주간 배치의 지연 사태**: 사내 전산망에서 주말 내내 하둡 서버 200대를 돌려(MapReduce 엔진) 월간 리포트 테이블을 굽는 Hive 쿼리가 있다. 데이터가 폭증하면서 월요일 아침 출근 시간 전까지 배치가 안 돌아서 경영진 대시보드가 하얗게 비어버리는 사태가 발생했다.
-   - **기술사적 판단**: 쿼리 튜닝(Join 순서 변경 등)으로는 이 지옥을 벗어날 수 없다. 아키텍트는 즉시 하둡 클러스터 환경 설정(`hive-site.xml`)에서 실행 엔진을 `hive.execution.engine=tez` 단 한 줄로 덮어치기(Switch) 해야 한다. 이 한 줄의 아키텍처적 결단만으로 기존에 수천 번 발생하던 HDFS 디스크 Read/Write 병목이 메모리 파이프라인(DAG)으로 승화되어, 48시간 걸리던 배치가 단 5시간 이내에 컷다운(Cut-down)되는 기적 같은 TCO(시간) 절감을 이뤄낼 수 있다.
+1. **시나리오 — [[544_hive|Hive]] 기반 [[209_data_mart_kimball_star_schema|데이터 마트]]([[209_data_mart_kimball_star_schema|Data Mart]]) [[087_process_state_transition|생성]] 주간 배치의 [[015_지연_데이터_관점|지연]] 사태**: 사내 전산망에서 주말 내내 [[843_hadoop_rack_awareness_data_replication_topology|하둡]] 서버 200대를 돌려([[018_mapreduce|MapReduce]] 엔진) 월간 리포트 테이블을 굽는 [[544_hive|Hive]] [[298_qkv_attention|쿼리]]가 있다. [[001_dikw_pyramid|데이터]]가 폭증하면서 월요일 아침 출근 시간 전까지 배치가 안 돌아서 경영진 대시보드가 하얗게 비어버리는 사태가 발생했다.
+   - **기술사적 판단**: [[298_qkv_attention|쿼리]] 튜닝([[521_join|Join]] 순서 변경 등)으로는 이 지옥을 벗어날 수 없다. 아키텍트는 즉시 [[843_hadoop_rack_awareness_data_replication_topology|하둡]] 클러스터 환경 [[009_config|설정]](`hive-site.xml`)에서 실행 엔진을 `hive.execution.engine=tez` 단 한 줄로 덮어치기([[238_switch_operation_principles|Switch]]) 해야 한다. 이 한 줄의 아키텍처적 결단만으로 기존에 수천 번 발생하던 [[013_hdfs|HDFS]] 디스크 Read/Write 병목이 메모리 [[123_pipe|파이프]]라인([[401_bayesian_network_dag_causality|DAG]])으로 승화되어, 48시간 걸리던 배치가 단 5시간 이내에 컷다운(Cut-down)되는 기적 같은 [[016_tco|TCO]](시간) 절감을 이뤄낼 수 있다.
 
-2. **시나리오 — 대용량 SQL 분석 시 Spark OOM(Out of Memory) 회피 전략**: 500TB가 넘는 통신사 로그 데이터를 이리저리 엮어 복잡한 Group By 집계를 내려 한다. 스파크(Spark) 클러스터로 돌렸더니, 셔플링(Shuffle) 단계에서 RAM 용량을 초과해 Executor 노드들이 줄죽이 OOM 에러를 토하며 장렬히 산화했다.
-   - **기술사적 판단**: 맹목적인 스파크 만능주의가 부른 참사다. 500TB급 무식한 배치 SQL은 순수 인메모리에 집착하는 스파크로는 하드웨어 비용을 감당하기 어렵다. 이럴 때는 **Hive on Tez 아키텍처로 롤백(회귀)하는 전략**이 오히려 정답이다. Tez는 메모리가 부족하면 스마트하게 디스크(Spill)를 융통성 있게 활용하면서도 MapReduce의 멍청한 반복 I/O는 제거한 엔진이다. 속도는 스파크보다 10~20% 느릴지라도, 중간에 절대 죽지 않고 끈질기게 쿼리를 끝마치는 "안정성과 속도의 황금 밸런스"를 제공한다.
+2. **시나리오 — 대용량 SQL 분석 시 Spark [[157_oom_killer|OOM]]([[157_oom_killer|Out of Memory]]) 회피 [[268_strategy_pattern|전략]]**: 500TB가 넘는 통신사 [[568_logs_distributed_logging_elk_fluentd|로그]] [[001_dikw_pyramid|데이터]]를 이리저리 엮어 복잡한 [[522_group_by|Group By]] 집계를 내려 한다. 스파크(Spark) 클러스터로 돌렸더니, 셔플링(Shuffle) 단계에서 RAM 용량을 초과해 Executor 노드들이 줄죽이 [[157_oom_killer|OOM]] 에러를 토하며 장렬히 산화했다.
+   - **기술사적 판단**: 맹목적인 스파크 만능주의가 부른 참사다. 500TB급 무식한 배치 SQL은 순수 인메모리에 집착하는 스파크로는 하드웨어 비용을 감당하기 어렵다. 이럴 때는 **[[544_hive|Hive]] on Tez 아키텍처로 [[098_rollback_strategy_pipeline_error_threshold|롤백]](회귀)하는 [[268_strategy_pattern|전략]]**이 오히려 정답이다. Tez는 메모리가 부족하면 스마트하게 디스크(Spill)를 융통성 있게 활용하면서도 MapReduce의 멍청한 반복 I/O는 제거한 엔진이다. 속도는 스파크보다 [[489_raid_10_hybrid|10]]~20% 느릴지라도, 중간에 절대 죽지 않고 끈질기게 [[298_qkv_attention|쿼리]]를 끝마치는 "안정성과 속도의 황금 밸런스"를 제공한다.
 
-### Tez 도입 시 아키텍트 체크리스트 (Hive 튜닝)
-- **컨테이너 재사용 (Container Reuse)**: Tez의 최대 강점인 Session 기능이 켜져 있는가? 쿼리마다 JVM을 새로 띄우지 않고 띄워진 JVM 컨테이너를 재활용(`tez.am.container.reuse.enabled=true`)하여 쿼리 레이턴시를 획기적으로 찢어발겼는가?
-- **동적 자원 조절 (Dynamic Resource Allocation)**: YARN 위에서 도는 Tez가 스파크나 다른 작업과 자원 싸움(Resource Contention)을 하지 않도록, 큐(Queue)와 메모리 풀 설정을 정밀하게 튜닝했는가?
+### Tez 도입 시 아키텍트 [[435_checklist_based_testing|체크리스트]] ([[544_hive|Hive]] 튜닝)
+- **[[561_container_based_deployment|컨테이너]] 재사용 ([[194_container_virtualization_docker_namespace|Container]] Reuse)**: Tez의 최대 강점인 [[160_session_controlling_terminal|Session]] 기능이 켜져 있는가? [[298_qkv_attention|쿼리]]마다 JVM을 새로 띄우지 않고 띄워진 JVM [[561_container_based_deployment|컨테이너]]를 재활용(`tez.am.container.reuse.enabled=true`)하여 [[298_qkv_attention|쿼리]] 레이턴시를 획기적으로 찢어발겼는가?
+- **동적 자원 조절 (Dynamic [[041_resource_allocation|Resource Allocation]])**: [[020_yarn|YARN]] 위에서 도는 Tez가 스파크나 다른 작업과 자원 싸움(Resource Contention)을 하지 않도록, 큐([[058_queue|Queue]])와 [[369_memory_pool|메모리 풀]] [[009_config|설정]]을 정밀하게 튜닝했는가?
 
-- **📢 섹션 요약 비유**: 빅데이터 세계에서 무조건 제일 빠른 페라리(Spark)만 몰고 오프로드(수백 TB)를 달리다간 차축이 부서집니다. 적당히 빠르면서도 어떤 진흙탕이든 바퀴가 빠지지 않고 짐을 끝까지 나르는 사륜구동 지프차(Hive on Tez)를 선택하는 것이 진짜 고수 엔지니어의 통찰력입니다.
+- **📢 섹션 요약 비유**: 빅데이터 세계에서 무조건 제일 빠른 페라리(Spark)만 몰고 오프로드(수백 TB)를 달리다간 차축이 부서집니다. 적당히 빠르면서도 어떤 진흙탕이든 바퀴가 빠지지 않고 짐을 끝까지 나르는 사륜구동 지프차([[544_hive|Hive]] on Tez)를 선택하는 것이 진짜 고수 엔지니어의 통찰력입니다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
 ### 기대효과
-- **인터랙티브 쿼리 (Interactive Query)의 부활**: 배치 처리만 가능하던 낡은 하둡에 "클릭하면 수초~수분 내에 결과가 떨어지는" 대화형 분석의 숨결을 불어넣어 데이터 분석가의 생산성을 100배 끌어올린다.
-- **레거시 코드 100% 보존 (No Code Rewrite)**: 스파크(Spark)로 이사 가려면 수만 줄의 기존 Hive SQL 코드를 스칼라(Scala)나 파이프라인으로 다시 다 짜야(Refactor) 한다. Tez는 단지 뒷단 엔진 껍데기만 갈아 끼우는 것이므로, 소스코드 수정 0줄로 극강의 속도 업그레이드를 달성하는 압도적 가성비를 제공한다.
+- **인터랙티브 [[298_qkv_attention|쿼리]] (Interactive Query)의 부활**: [[228_batch_processing_hadoop_spark|배치 처리]]만 가능하던 낡은 [[843_hadoop_rack_awareness_data_replication_topology|하둡]]에 "클릭하면 수초~수분 내에 결과가 떨어지는" 대화형 분석의 숨결을 불어넣어 [[001_dikw_pyramid|데이터]] 분석가의 생산성을 100배 끌어올린다.
+- **레거시 코드 100% 보존 (No [[082_process_memory_structure|Code]] Rewrite)**: 스파크(Spark)로 이사 가려면 수만 줄의 기존 [[544_hive|Hive]] SQL 코드를 스칼라(Scala)나 [[123_pipe|파이프]]라인으로 다시 다 짜야([[213_refactoring_cloud_native_rearchitecture|Refactor]]) 한다. Tez는 단지 뒷단 엔진 껍데기만 갈아 끼우는 것이므로, 소스코드 수정 0줄로 극강의 속도 업그레이드를 달성하는 압도적 가성비를 제공한다.
 
-### 한계와 미래 전망 (클라우드 네이티브의 위협)
-과거의 Tez는 온프레미스 하둡 세상의 절대적인 영웅이었다. 하지만 시대가 훌쩍 뛰어넘어 Snowflake, BigQuery 같은 클라우드 관리형(SaaS) 데이터 웨어하우스 시대로 접어들었다. 데이터 덩어리를 S3 객체 저장소에 분리해두고, 클라우드 분산 SQL 엔진(Trino, Presto)이 빛의 속도로 쿼리를 갈겨버리는 현대 아키텍처 앞에서, 무거운 YARN 스케줄러에 종속된 Tez는 서서히 엔터프라이즈 레거시의 유산으로 역사의 뒤안길을 준비하고 있다.
+### 한계와 미래 전망 ([[531_cloud_native_architecture|클라우드 네이티브]]의 위협)
+과거의 Tez는 [[061_on_premise_legacy_infrastructure|온프레미스]] [[843_hadoop_rack_awareness_data_replication_topology|하둡]] 세상의 절대적인 영웅이었다. 하지만 시대가 훌쩍 뛰어넘어 [[541_cassandra|Snowflake]], [[263_storage_compute_separation_bigquery|BigQuery]] 같은 클라우드 관리형([[309_saas|SaaS]]) [[209_data_warehouse_schema_on_write|데이터 웨어하우스]] 시대로 접어들었다. [[001_dikw_pyramid|데이터]] 덩어리를 S3 객체 저장소에 분리해두고, 클라우드 [[136_variance|분산]] SQL 엔진(Trino, Presto)이 빛의 속도로 [[298_qkv_attention|쿼리]]를 갈겨버리는 현대 아키텍처 앞에서, 무거운 [[020_yarn|YARN]] [[079_kube_scheduler_pod_placement|스케줄러]]에 종속된 Tez는 서서히 엔터프라이즈 레거시의 유산으로 역사의 뒤안길을 준비하고 있다.
 
 ### 결론
-Apache Tez는 2010년대 붕괴 위기에 처했던 코끼리 제국(Hadoop)에 인공호흡기를 달아준 가장 위대한 심장 이식 수술이었다. MapReduce가 닦아놓은 분산 처리의 안전성에, DAG라는 수학적 그래프가 뿜어내는 스마트한 메모리 우회 차선(Bypass)을 뚫어냄으로써, 우리는 더 이상 디스크의 물리적 회전 속도에 빅데이터 분석을 볼모 잡히지 않게 되었다. IT 아키텍트는 Tez의 엔진을 공부하며, 화려한 프론트엔드나 문법(SQL)을 고치는 것보다 보이지 않는 뒷단 아키텍처(DAG 메모리 파이프라이닝)의 혁신 단 하나가 시스템 전체의 운명을 어떻게 뒤바꾸는지 뼈저리게 체득해야 한다.
+Apache Tez는 2010년대 붕괴 위기에 처했던 코끼리 제국([[843_hadoop_rack_awareness_data_replication_topology|Hadoop]])에 인공호흡기를 달아준 가장 위대한 심장 이식 수술이었다. MapReduce가 닦아놓은 [[136_variance|분산]] 처리의 안전성에, DAG라는 수학적 [[070_graph_datastructure|그래프]]가 뿜어내는 스마트한 메모리 우회 차선(Bypass)을 뚫어냄으로써, 우리는 더 이상 디스크의 물리적 회전 속도에 빅데이터 분석을 볼모 잡히지 않게 되었다. IT 아키텍트는 Tez의 엔진을 공부하며, 화려한 프론트엔드나 문법(SQL)을 고치는 것보다 보이지 않는 뒷단 아키텍처([[401_bayesian_network_dag_causality|DAG]] 메모리 [[123_pipe|파이프]]라이닝)의 혁신 단 하나가 시스템 전체의 운명을 어떻게 뒤바꾸는지 뼈저리게 체득해야 한다.
 
 ---
 
-## 📌 관련 개념 맵 (Knowledge Graph)
+## 📌 관련 개념 맵 ([[160_knowledge_graph_graphrag_integration|Knowledge Graph]])
 
-| 개념 명칭 | 관계 및 시너지 설명 |
+| 개념 명칭 | [[083_relationship_in_er_model|관계]] 및 시너지 설명 |
 |:---|:---|
-| **Hive (아파치 하이브)** | 하둡 위에 올려진 SQL 번역기로, 구식 MapReduce 엔진을 버리고 현대에는 Tez를 100% 기본 심장으로 품어 초고속 분석 툴로 환골탈태했다. |
-| **MapReduce (맵리듀스)** | 분산 컴퓨팅의 아버지이자 구시대의 유물로, 잦은 디스크 I/O로 인한 속도 지연이라는 치명적 약점을 남기며 Tez가 탄생하는 완벽한 반면교사가 되었다. |
-| **DAG (Directed Acyclic Graph)** | 연산의 순서와 방향을 뒤로 꼬이지 않게 일방통행으로 그려놓은 수학적 방향 그래프로, Tez와 Spark가 중간 삽질(디스크 쓰기) 없이 원패스로 쿼리를 뚫어버리는 핵심 논리 엔진이다. |
-| **YARN (하둡 자원 관리자)** | 수백 대의 하둡 서버 CPU와 메모리를 스케줄링하는 OS 역할로, Tez는 이 YARN의 자원을 뜯어먹고 돌아가는 철저한 하둡 생태계 종속 모듈이다. |
-| **Apache Spark** | Tez의 영원한 라이벌이자 넥스트 제너레이션. Tez가 하둡 SQL(Hive)의 속도를 올리기 위해 태어난 부품이라면, Spark는 아예 메모리 위에서 모든 걸 다 해치우려 태어난 거대한 독립 우주다. |
+| **[[544_hive|Hive]] (아파치 하이브)** | [[843_hadoop_rack_awareness_data_replication_topology|하둡]] 위에 올려진 SQL 번역기로, 구식 [[018_mapreduce|MapReduce]] 엔진을 버리고 현대에는 Tez를 100% 기본 심장으로 품어 [[148_5g_embb_urllc_mmtc|초고속]] 분석 툴로 환골탈태했다. |
+| **[[018_mapreduce|MapReduce]] ([[018_mapreduce|맵리듀스]])** | [[136_variance|분산]] 컴퓨팅의 아버지이자 구시대의 유물로, 잦은 디스크 I/O로 인한 속도 [[015_지연_데이터_관점|지연]]이라는 치명적 약점을 남기며 Tez가 탄생하는 완벽한 반면교사가 되었다. |
+| **[[401_bayesian_network_dag_causality|DAG]] ([[255_apache_airflow_dag|Directed Acyclic Graph]])** | 연산의 순서와 방향을 뒤로 꼬이지 않게 일방통행으로 그려놓은 수학적 방향 [[070_graph_datastructure|그래프]]로, Tez와 Spark가 중간 삽질(디스크 [[289_cqrs_db|쓰기]]) 없이 원패스로 [[298_qkv_attention|쿼리]]를 뚫어버리는 핵심 [[369_logic_bomb|논리]] 엔진이다. |
+| **[[020_yarn|YARN]] ([[843_hadoop_rack_awareness_data_replication_topology|하둡]] 자원 관리자)** | 수백 대의 [[843_hadoop_rack_awareness_data_replication_topology|하둡]] 서버 CPU와 메모리를 [[208_schedule_history_transaction_execution_order|스케줄]]링하는 OS 역할로, Tez는 이 YARN의 자원을 뜯어먹고 돌아가는 철저한 [[843_hadoop_rack_awareness_data_replication_topology|하둡]] 생태계 종속 [[192_module_independence|모듈]]이다. |
+| **[[206_spark_inmemory_rdd_lazy_evaluation_lineage|Apache Spark]]** | Tez의 영원한 라이벌이자 넥스트 제너레이션. Tez가 [[843_hadoop_rack_awareness_data_replication_topology|하둡]] SQL([[544_hive|Hive]])의 속도를 올리기 위해 태어난 부품이라면, Spark는 아예 메모리 위에서 모든 걸 다 해치우려 태어난 거대한 독립 우주다. |
 
 ---
 
 ## 👶 어린이를 위한 3줄 비유 설명
-1. MapReduce 요리사는 당근을 썰면 일단 냄비에 담아놓고, 고기를 썰면 또 냄비에 담아놓고 나서야 프라이팬에 굽기 시작하는 아주 답답한 요리 방식이에요.
-2. 하지만 Tez 요리사는 'DAG'라는 엄청 똑똑한 요리 지도를 머릿속에 다 그려놔서, 도마에서 썬 당근과 고기를 냄비에 내려놓지도 않고 공중에서 바로 프라이팬으로 휙휙 던져서 10배 빨리 요리를 끝내요!
+1. [[018_mapreduce|MapReduce]] 요리사는 당근을 썰면 일단 냄비에 담아놓고, 고기를 썰면 또 냄비에 담아놓고 나서야 프라이팬에 굽기 시작하는 아주 답답한 요리 방식이에요.
+2. 하지만 Tez 요리사는 '[[401_bayesian_network_dag_causality|DAG]]'라는 엄청 똑똑한 요리 지도를 머릿속에 다 그려놔서, 도마에서 썬 당근과 고기를 냄비에 내려놓지도 않고 공중에서 바로 프라이팬으로 휙휙 던져서 10배 빨리 요리를 끝내요!
 3. 덕분에 수많은 요리 주문(빅데이터 분석)이 밀려와도 옛날처럼 1시간씩 기다릴 필요 없이, 요리사만 Tez로 살짝 바꾸면 몇 분 만에 아주 맛있고 빠른 볶음밥(SQL 결과)이 뚝딱 나온답니다!
 
 ### 📈 관련 키워드 및 발전 흐름도

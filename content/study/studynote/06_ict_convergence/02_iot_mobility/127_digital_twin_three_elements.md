@@ -7,9 +7,9 @@ categories = "studynote-ict-convergence"
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: 디지털 트윈의 3요소는 **①물리적 개체(Physical Entity)**, **②가상 모델(Virtual Model)**, **③연결(Connection)**이며, 이 삼각 구조가 디지털 트윈의 정의 그 자체이다.
-> 2. **가치**: 물리 개체만 있으면 단순 설비이고, 가상 모델만 있으면 단순 시뮬레이션이지만, **실시간 양방향 연결**이 있어야 비로소 디지털 트윈이 되어 **예측·최적화·자율 제어**가 가능하다.
-> 3. **판단 포인트**: 연결의 핵심은 **IoT 센서(물리→디지털)**와 **액추에이터(디지털→물리)**의 **양방향 피드백 루프**이며, 5G·Edge Computing이 실시간성을 보장한다.
+> 1. **본질**: [[126_digital_twin_concept|디지털 트윈]]의 3요소는 **①물리적 개체(Physical Entity)**, **②가상 모델(Virtual Model)**, **③연결(Connection)**이며, 이 삼각 구조가 [[126_digital_twin_concept|디지털 트윈]]의 정의 그 자체이다.
+> 2. **가치**: 물리 개체만 있으면 단순 설비이고, 가상 모델만 있으면 단순 시뮬레이션이지만, **실시간 양방향 연결**이 있어야 비로소 [[126_digital_twin_concept|디지털 트윈]]이 되어 **예측·최적화·자율 제어**가 가능하다.
+> 3. **판단 포인트**: 연결의 핵심은 **[[101_iot_concept|IoT]] 센서(물리→디지털)**와 **액추에이터(디지털→물리)**의 **양방향 [[005_feedback_loop|피드백 루프]]**이며, [[418_5g_embb_urllc_mmtc_slicing|5G]]·Edge Computing이 실시간성을 보장한다.
 
 ---
 
@@ -40,45 +40,45 @@ categories = "studynote-ict-convergence"
 
 | 요소 | 설명 | 기술 |
 |:---|:---|:---|
-| **물리 개체** | 실제 설비·공간 | 센서·PLC |
-| **가상 모델** | 물리의 디지털 복제 | 3D·FEM·AI |
-| **연결** | 양방향 실시간 | **IoT·5G·Edge** |
+| **물리 개체** | 실제 설비·공간 | 센서·[[896_plc_programmable_logic_controller|PLC]] |
+| **가상 모델** | 물리의 디지털 [[016_replication_factor|복제]] | 3D·FEM·[[190_ai_llm_requirements_specification|AI]] |
+| **연결** | 양방향 실시간 | **[[101_iot_concept|IoT]]·[[418_5g_embb_urllc_mmtc_slicing|5G]]·Edge** |
 
-### 디지털 트윈 성숙도
+### [[126_digital_twin_concept|디지털 트윈]] 성숙도
 
 | 수준 | 설명 |
 |:---|:---|
-| Level 1 | 모니터링 (단방향, 물리→디지털) |
+| Level 1 | 모니터링 ([[008_단방향_반이중_전이중|단방향]], 물리→디지털) |
 | Level 2 | 시뮬레이션 (What-if 분석) |
-| Level 3 | **예측 (AI 기반 고장 예측)** |
+| Level 3 | **예측 ([[190_ai_llm_requirements_specification|AI]] 기반 고장 예측)** |
 | Level 4 | **자율 (디지털→물리 자동 제어)** |
 
-- **📢 섹션 요약 비유**: Level 1은 CCTV(감시만), Level 4는 자율주행(스스로 판단·행동)이다.
+- **📢 섹션 요약 비유**: Level 1은 [[933_cctv|CCTV]](감시만), Level 4는 자율주행(스스로 판단·행동)이다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-| 비교 | 3D 모델 | 시뮬레이션 | 디지털 트윈 |
+| 비교 | 3D 모델 | 시뮬레이션 | [[126_digital_twin_concept|디지털 트윈]] |
 |:---|:---|:---|:---|
 | **물리 연결** | 없음 | 없음 | **실시간** |
-| **AI 예측** | 없음 | 제한적 | **있음** |
+| **[[190_ai_llm_requirements_specification|AI]] 예측** | 없음 | 제한적 | **있음** |
 | **양방향** | 없음 | 없음 | **있음** |
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### 3요소 구현 기술 스택
-- 물리: PLC·SCADA·IoT 센서.
-- 가상: Unity/Unreal(3D)·MATLAB(수학)·PyTorch(AI).
-- 연결: MQTT·OPC UA·5G·Edge Computing.
+### 3요소 구현 기술 [[057_stack|스택]]
+- 물리: [[896_plc_programmable_logic_controller|PLC]]·[[894_scada|SCADA]]·[[101_iot_concept|IoT]] 센서.
+- 가상: Unity/Unreal(3D)·MATLAB(수학)·PyTorch([[190_ai_llm_requirements_specification|AI]]).
+- 연결: [[622_mqtt_publish_subscribe_qos|MQTT]]·[[631_opc_ua_smart_factory_protocol|OPC UA]]·[[418_5g_embb_urllc_mmtc_slicing|5G]]·[[235_edge_computing_smart_factory|Edge Computing]].
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-3요소의 **양방향 실시간 연결**이 디지털 트윈의 핵심이며, 5G·Edge·AI의 발전으로 Level 4(자율)까지 진화하고 있다.
+3요소의 **양방향 실시간 연결**이 [[126_digital_twin_concept|디지털 트윈]]의 핵심이며, [[418_5g_embb_urllc_mmtc_slicing|5G]]·Edge·AI의 발전으로 Level 4(자율)까지 진화하고 있다.
 
 ---
 
@@ -86,11 +86,11 @@ categories = "studynote-ict-convergence"
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **물리 개체** | 디지털 트윈의 원본 |
-| **가상 모델** | 디지털 트윈의 복제본 |
-| **연결** | IoT·5G·Edge (양방향) |
-| **CPS** | 디지털 트윈의 이론적 기반 |
-| **OPC UA** | 산업용 표준 통신 프로토콜 |
+| **물리 개체** | [[126_digital_twin_concept|디지털 트윈]]의 원본 |
+| **가상 모델** | [[126_digital_twin_concept|디지털 트윈]]의 [[016_replication_factor|복제]]본 |
+| **연결** | [[101_iot_concept|IoT]]·[[418_5g_embb_urllc_mmtc_slicing|5G]]·Edge (양방향) |
+| **[[167_cps_cyber_physical_system|CPS]]** | [[126_digital_twin_concept|디지털 트윈]]의 이론적 기반 |
+| **[[631_opc_ua_smart_factory_protocol|OPC UA]]** | 산업용 표준 통신 [[295_protocol_field_tcp_udp_icmp|프로토콜]] |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -111,6 +111,6 @@ categories = "studynote-ict-convergence"
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
-1. 디지털 트윈은 **거울(가상)·사람(물리)·빛(연결)** 3가지가 필요해요.
+1. [[126_digital_twin_concept|디지털 트윈]]은 **거울(가상)·사람(물리)·빛(연결)** 3가지가 필요해요.
 2. 빛(연결)이 없으면 거울에 **아무것도 안 비쳐요**.
-3. 3가지가 모두 있어야 거울 속 내 모습(디지털 트윈)이 **실시간으로 움직여요!**
+3. 3가지가 모두 있어야 거울 속 내 모습([[126_digital_twin_concept|디지털 트윈]])이 **실시간으로 움직여요!**

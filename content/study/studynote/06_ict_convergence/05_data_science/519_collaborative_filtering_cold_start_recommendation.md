@@ -8,32 +8,32 @@ categories = "studynote-ict-convergence"
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 협업 필터링(Collaborative Filtering)은 "비슷한 취향의 사용자들이 비슷한 아이템을 좋아할 것"이라는 가정으로 작동하며, 행렬 분해(Matrix Factorization)로 희소 평점 행렬(Sparse Rating Matrix)의 잠재 요인을 학습한다.
-> 2. **가치**: 콜드 스타트(Cold Start) — 신규 유저/아이템에 대한 이력 데이터 부족 — 는 콘텐츠 기반 필터링(Content-Based Filtering) 또는 인기도 기반으로 보완하고, 장기적으로 하이브리드 방식으로 해결한다.
-> 3. **판단 포인트**: 평가 지표 선택이 핵심 — 정렬 품질(NDCG, MAP@K)은 추천 순위를 반영하고, 클릭률(CTR)·구매 전환율은 실무 비즈니스 지표와 직결된다.
+> 1. **본질**: [[345_collaborative_filtering|협업 필터링]]([[186_graph_db_recommendation_collaborative_filtering_cold_start|Collaborative Filtering]])은 "비슷한 취향의 사용자들이 비슷한 아이템을 좋아할 것"이라는 가정으로 작동하며, [[161_matrix_decomposition|행렬 분해]]([[348_matrix_factorization|Matrix Factorization]])로 희소 평점 행렬(Sparse Rating Matrix)의 잠재 요인을 학습한다.
+> 2. **가치**: [[559_serverless_cold_start_mitigation|콜드 스타트]]([[347_cold_start_problem|Cold Start]]) — 신규 유저/아이템에 대한 이력 [[001_dikw_pyramid|데이터]] 부족 — 는 [[346_content_based_filtering|콘텐츠 기반 필터링]]([[346_content_based_filtering|Content-Based Filtering]]) 또는 인기도 기반으로 보완하고, 장기적으로 하이브리드 방식으로 해결한다.
+> 3. **판단 포인트**: 평가 지표 선택이 핵심 — 정렬 품질(NDCG, MAP@K)은 추천 순위를 반영하고, 클릭률([[090_ctr_mode|CTR]])·구매 전환율은 실무 비즈니스 지표와 직결된다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-추천 시스템(Recommendation System)은 사용자가 직접 탐색하지 않아도 관심 있는 콘텐츠·상품을 발견하게 돕는다. 넷플릭스, 유튜브, 쿠팡 매출의 35~40%가 추천 시스템에 의해 발생한다.
+[[211_recommendation_system|추천 시스템]]([[093_recommendation_system|Recommendation System]])은 사용자가 직접 탐색하지 않아도 관심 있는 콘텐츠·상품을 발견하게 돕는다. 넷플릭스, 유튜브, 쿠팡 매출의 35~40%가 [[211_recommendation_system|추천 시스템]]에 의해 발생한다.
 
-### 추천 시스템 주요 접근법
+### [[211_recommendation_system|추천 시스템]] 주요 접근법
 
-| 방법 | 원리 | 데이터 필요 | 콜드 스타트 |
+| 방법 | 원리 | [[001_dikw_pyramid|데이터]] 필요 | [[559_serverless_cold_start_mitigation|콜드 스타트]] |
 |:---|:---|:---|:---|
-| 협업 필터링 (CF) | 유사 사용자/아이템 | 평점·행동 이력 | 취약 |
-| 콘텐츠 기반 필터링 | 아이템 속성 분석 | 아이템 메타데이터 | 강건 |
+| [[345_collaborative_filtering|협업 필터링]] (CF) | 유사 사용자/아이템 | 평점·행동 이력 | 취약 |
+| [[346_content_based_filtering|콘텐츠 기반 필터링]] | 아이템 [[082_attribute_types_er_model|속성]] 분석 | 아이템 [[012_metadata|메타데이터]] | 강건 |
 | 하이브리드 | CF + 콘텐츠 결합 | 둘 다 | 보통 |
-| 딥러닝 기반 | NCF, Transformer | 풍부한 데이터 | 보통 |
+| 딥러닝 기반 | NCF, [[246_transformer_self_attention_parallel_positional_encoding|Transformer]] | 풍부한 [[001_dikw_pyramid|데이터]] | 보통 |
 
-- **📢 섹션 요약 비유**: 협업 필터링은 친구들의 영화 평점을 모아서 "내 친구들이 좋아한 영화를 나도 좋아할 것"이라고 추천하는 것이고, 콘텐츠 기반은 "내가 SF 영화를 좋아하니까 다른 SF 영화를 추천"하는 방식이야.
+- **📢 섹션 요약 비유**: [[345_collaborative_filtering|협업 필터링]]은 친구들의 영화 평점을 모아서 "내 친구들이 좋아한 영화를 나도 좋아할 것"이라고 추천하는 것이고, 콘텐츠 기반은 "내가 SF 영화를 좋아하니까 다른 SF 영화를 추천"하는 방식이야.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### 행렬 분해 (Matrix Factorization)
+### [[161_matrix_decomposition|행렬 분해]] ([[348_matrix_factorization|Matrix Factorization]])
 
 ```
 사용자-아이템 평점 행렬 R (희소 행렬)
@@ -50,69 +50,69 @@ categories = "studynote-ict-convergence"
     목표: ?로 표시된 빈 셀 예측
 ```
 
-- **SGD (Stochastic Gradient Descent)**: 관측된 평점 오차를 최소화하며 P, Q 학습.
-- **ALS (Alternating Least Squares)**: P 고정 후 Q 최적화, Q 고정 후 P 최적화를 반복 — 분산 처리에 적합 (Spark MLlib).
-- **정규화 항**: λ(‖P‖² + ‖Q‖²) 추가로 과적합 방지.
+- **SGD ([[241_optimizer_sgd_minibatch_adam_momentum_adaptive|Stochastic Gradient Descent]])**: 관측된 평점 오차를 최소화하며 P, Q 학습.
+- **ALS ([[349_svd_als_recommendation|Alternating Least Squares]])**: P 고정 후 Q 최적화, Q 고정 후 P 최적화를 반복 — [[136_variance|분산]] 처리에 적합 ([[062_spark_mllib|Spark MLlib]]).
+- **[[093_normalization|정규화]] 항**: λ(‖P‖² + ‖Q‖²) 추가로 과적합 방지.
 
 | 방법 | 특징 | 활용 |
 |:---|:---|:---|
-| SVD | 정확하지만 희소 처리 어려움 | 소규모 시스템 |
-| ALS | 병렬 처리 용이 | 대규모 분산 환경 |
-| BPR (Bayesian Personalized Ranking) | 암묵적 피드백(클릭, 구매) 최적화 | CTR 최적화 |
+| [[230_svd_matrix_factorization_random_forest_xgboost_boosting|SVD]] | 정확하지만 희소 처리 어려움 | 소규모 시스템 |
+| ALS | [[430_index_fast_full_scan|병렬]] 처리 용이 | 대규모 [[136_variance|분산]] 환경 |
+| [[127_bpr_business_process_reengineering_radical_redesign|BPR]] (Bayesian Personalized Ranking) | 암묵적 피드백(클릭, 구매) 최적화 | [[090_ctr_mode|CTR]] 최적화 |
 
-- **📢 섹션 요약 비유**: 행렬 분해는 유저의 취향(장르, 속도, 감동 등 k개 잠재 요인)과 아이템의 특성을 수백 개의 숫자로 압축하는 거야. 두 벡터가 비슷하면 "이 유저는 이 영화를 좋아할 것"이라고 예측해.
+- **📢 섹션 요약 비유**: [[161_matrix_decomposition|행렬 분해]]는 유저의 취향(장르, 속도, 감동 등 k개 잠재 요인)과 아이템의 특성을 수백 개의 숫자로 압축하는 거야. 두 벡터가 비슷하면 "이 유저는 이 영화를 좋아할 것"이라고 예측해.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-### 콜드 스타트 대응 전략
+### [[559_serverless_cold_start_mitigation|콜드 스타트]] 대응 [[268_strategy_pattern|전략]]
 
-| 유형 | 문제 | 대응 전략 |
+| 유형 | 문제 | 대응 [[268_strategy_pattern|전략]] |
 |:---|:---|:---|
-| 신규 유저 | 이력 데이터 없음 | 인기도 기반, 온보딩 설문, 콘텐츠 기반 |
-| 신규 아이템 | 평점 없음 | 아이템 속성 기반, 유사 아이템 전이 |
-| 신규 시스템 | 전체 데이터 없음 | 인구통계 기반, 외부 데이터 활용 |
+| 신규 유저 | 이력 [[001_dikw_pyramid|데이터]] 없음 | 인기도 기반, 온보딩 설문, 콘텐츠 기반 |
+| 신규 아이템 | 평점 없음 | 아이템 [[082_attribute_types_er_model|속성]] 기반, 유사 아이템 전이 |
+| 신규 시스템 | 전체 [[001_dikw_pyramid|데이터]] 없음 | 인구통계 기반, 외부 [[001_dikw_pyramid|데이터]] 활용 |
 
 ### 딥러닝 추천 모델
 
-- **NCF (Neural Collaborative Filtering)**: MF의 내적(Inner Product)을 DNN으로 대체 → 비선형 상호작용 학습.
-- **Two-Tower 모델**: 유저 타워 + 아이템 타워 → 각각 임베딩, ANN 검색으로 수백만 아이템 중 후보 추출.
-- **Session-based Recommendation**: GRU, Transformer로 현재 세션 내 순차적 클릭 패턴 학습.
+- **NCF (Neural [[186_graph_db_recommendation_collaborative_filtering_cold_start|Collaborative Filtering]])**: MF의 내적(Inner Product)을 DNN으로 대체 → 비선형 상호작용 학습.
+- **Two-Tower 모델**: 유저 타워 + 아이템 타워 → 각각 [[278_instruction_tuning|임베딩]], [[350_ann|ANN]] 검색으로 수백만 아이템 중 후보 추출.
+- **Session-based Recommendation**: [[294_gru|GRU]], Transformer로 현재 [[160_session_controlling_terminal|세션]] 내 순차적 클릭 패턴 학습.
 
-- **📢 섹션 요약 비유**: 콜드 스타트는 새 학생이 전학 온 첫날처럼 아무것도 모르는 상황이야. 일단 인기 있는 친구들(인기도 기반)에게 소개시켜주고, 자기 취미(콘텐츠 기반)로 맞는 친구를 찾아가는 거야.
+- **📢 섹션 요약 비유**: [[559_serverless_cold_start_mitigation|콜드 스타트]]는 새 학생이 전학 온 첫날처럼 아무것도 모르는 상황이야. 일단 인기 있는 친구들(인기도 기반)에게 소개시켜주고, 자기 취미(콘텐츠 기반)로 맞는 친구를 찾아가는 거야.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-**시나리오 - OTT 플랫폼 추천 시스템**:
-- 데이터: 100만 유저, 10만 아이템, 5억 건 시청 이력.
+**시나리오 - OTT 플랫폼 [[211_recommendation_system|추천 시스템]]**:
+- [[001_dikw_pyramid|데이터]]: 100만 유저, 10만 아이템, 5억 건 시청 이력.
 - Two-Tower 모델로 실시간 후보 추출(Retrieval) 단계: 유저당 상위 1,000개.
 - 두 번째 단계(Ranking): LightGBM으로 1,000개 중 최종 10개 재정렬.
-- 평가: NDCG@10 = 0.73, A/B 테스트 시청 완료율 +12%.
+- 평가: NDCG@[[489_raid_10_hybrid|10]] = 0.73, A/B 테스트 시청 완료율 +12%.
 
-**콜드 스타트 대응**:
+**[[559_serverless_cold_start_mitigation|콜드 스타트]] 대응**:
 - 신규 유저: 첫 3편 시청 후 클러스터 배정 → 해당 클러스터의 인기 콘텐츠 추천.
 - 신규 아이템: 출시 48시간은 장르·배우 기반 콘텐츠 필터링 → 임계 평점(100건) 도달 후 CF 전환.
 
 **기술사 판단 포인트**:
 - 암묵적 피드백(Implicit Feedback): 클릭·시청 시간은 긍정/부정을 직접 알 수 없음 → BPR이나 WRMF(Weighted Regularized MF) 적용.
-- 탐험-활용 트레이드오프(Exploration-Exploitation): 인기 아이템만 추천하면 다양성(Diversity) 저하 → ε-greedy 또는 Multi-Armed Bandit 적용.
+- [[315_exploration_exploitation|탐험]]-활용 트레이드오프(Exploration-Exploitation): 인기 아이템만 추천하면 다양성(Diversity) 저하 → ε-greedy 또는 Multi-Armed Bandit 적용.
 
-- **📢 섹션 요약 비유**: 좋은 추천 시스템은 좋은 DJ처럼, 지금 분위기(세션 기반)를 파악하면서 내가 좋아할 곡(협업 필터링)을 틀고, 아무도 몰랐던 새 곡(탐험)도 가끔 섞어줘야 해.
+- **📢 섹션 요약 비유**: 좋은 [[211_recommendation_system|추천 시스템]]은 좋은 DJ처럼, 지금 분위기([[160_session_controlling_terminal|세션]] 기반)를 파악하면서 내가 좋아할 곡([[345_collaborative_filtering|협업 필터링]])을 틀고, 아무도 몰랐던 새 곡([[315_exploration_exploitation|탐험]])도 가끔 섞어줘야 해.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-추천 시스템의 전략적 설계는 플랫폼 매출 증대, 사용자 체류 시간 증가, 콘텐츠 발견 확률 향상으로 직결된다.
+[[211_recommendation_system|추천 시스템]]의 [[268_strategy_pattern|전략]]적 설계는 플랫폼 매출 증대, 사용자 체류 시간 증가, 콘텐츠 발견 [[130_probability|확률]] 향상으로 직결된다.
 
-- **비즈니스 가치**: 아마존의 35%+ 매출이 추천 시스템에서 발생.
+- **비즈니스 가치**: 아마존의 35%+ 매출이 [[211_recommendation_system|추천 시스템]]에서 발생.
 - **사용자 경험**: 긴 탐색 없이 적합한 콘텐츠 빠른 발견.
-- **데이터 선순환**: 추천 → 소비 → 데이터 축적 → 더 나은 추천.
+- **[[001_dikw_pyramid|데이터]] 선순환**: 추천 → 소비 → [[001_dikw_pyramid|데이터]] 축적 → 더 나은 추천.
 
-- **📢 섹션 요약 비유**: 추천 시스템은 유튜브 알고리즘이야. 내가 고양이 영상을 보면 더 많은 고양이 영상을 추천하고, 새 영상(콜드 스타트)은 처음엔 비슷한 채널의 팬들에게 보여줘서 반응을 확인해.
+- **📢 섹션 요약 비유**: [[211_recommendation_system|추천 시스템]]은 유튜브 알고리즘이야. 내가 고양이 영상을 보면 더 많은 고양이 영상을 추천하고, 새 영상([[559_serverless_cold_start_mitigation|콜드 스타트]])은 처음엔 비슷한 채널의 팬들에게 보여줘서 반응을 확인해.
 
 ---
 
@@ -120,11 +120,11 @@ categories = "studynote-ict-convergence"
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| 협업 필터링 | 행렬 분해, ALS, NCF · 유저-아이템 추천 |
-| 콜드 스타트 | 콘텐츠 기반, 하이브리드 · 신규 유저/아이템 |
+| [[345_collaborative_filtering|협업 필터링]] | [[161_matrix_decomposition|행렬 분해]], ALS, NCF · 유저-아이템 추천 |
+| [[559_serverless_cold_start_mitigation|콜드 스타트]] | 콘텐츠 기반, 하이브리드 · 신규 유저/아이템 |
 | NDCG / MAP@K | 순위 기반 평가 지표 · 추천 품질 측정 |
-| Two-Tower | 대규모 검색, ANN · 실시간 추천 |
-| 탐험-활용 | Bandit, ε-greedy · 다양성 vs 정확도 |
+| Two-Tower | 대규모 검색, [[350_ann|ANN]] · 실시간 추천 |
+| [[315_exploration_exploitation|탐험]]-활용 | Bandit, ε-greedy · 다양성 vs 정확도 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -134,6 +134,6 @@ categories = "studynote-ict-convergence"
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. 협업 필터링은 친구들이 좋아하는 게임을 나도 좋아할 것이라고 추천하는 방식이야 — 취향이 비슷한 친구들의 의견을 모으는 거야.
-2. 콜드 스타트는 새 학생이 전학 왔을 때처럼 아무것도 모를 때 일단 인기 있는 것을 추천하는 거야.
+1. [[345_collaborative_filtering|협업 필터링]]은 친구들이 좋아하는 게임을 나도 좋아할 것이라고 추천하는 방식이야 — 취향이 비슷한 친구들의 의견을 모으는 거야.
+2. [[559_serverless_cold_start_mitigation|콜드 스타트]]는 새 학생이 전학 왔을 때처럼 아무것도 모를 때 일단 인기 있는 것을 추천하는 거야.
 3. NDCG는 추천 목록에서 좋아할 것이 앞에 나올수록 점수가 높아지는 성적표야!

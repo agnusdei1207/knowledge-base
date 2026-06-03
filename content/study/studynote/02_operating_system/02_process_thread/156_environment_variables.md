@@ -8,9 +8,9 @@ categories = "studynote-operating-system"
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 환경 변수 (Environment Variables) 상속은 프로세스와 스레드의 생성·실행·협력에서 핵심 흐름을 결정하는 개념으로, 시스템이 무엇을 먼저 관리하고 어떤 순서로 제어할지를 분명하게 만든다.
-> 2. **가치**: 이 개념을 이해하면 자원 효율, 응답 시간, 안정성 사이의 균형을 더 정확하게 설명할 수 있고, OOM (Out Of Memory) Killer 프로세스 종료 정책로 이어지는 이유도 자연스럽게 파악된다.
-> 3. **판단 포인트**: 동적 링킹 프로세스 (ld.so) 로딩 과정과의 관계를 함께 봐야 환경 변수 (Environment Variables) 상속을 단순 정의가 아니라 실제 설계·운영 판단 기준으로 사용할 수 있다.
+> 1. **본질**: 환경 변수 ([[066_gitlab_flow_environment_branch_strategy|Environment]] Variables) [[234_uml_class_relationships_generalization_dependency|상속]]은 프로세스와 [[092_thread_lwp|스레드]]의 [[087_process_state_transition|생성]]·실행·협력에서 핵심 흐름을 결정하는 개념으로, 시스템이 무엇을 먼저 관리하고 어떤 순서로 제어할지를 분명하게 만든다.
+> 2. **가치**: 이 개념을 이해하면 자원 효율, [[138_response_time|응답 시간]], 안정성 사이의 균형을 더 정확하게 설명할 수 있고, [[157_oom_killer|OOM]] ([[157_oom_killer|Out Of Memory]]) Killer [[107_process_termination|프로세스 종료]] [[164_policy|정책]]로 이어지는 이유도 자연스럽게 파악된다.
+> 3. **판단 포인트**: [[155_dynamic_linking_process|동적 링킹 프로세스]] (ld.so) 로딩 과정과의 관계를 함께 봐야 환경 변수 ([[066_gitlab_flow_environment_branch_strategy|Environment]] Variables) [[234_uml_class_relationships_generalization_dependency|상속]]을 단순 정의가 아니라 실제 설계·운영 판단 기준으로 사용할 수 있다.
 
 ---
 
@@ -18,7 +18,7 @@ categories = "studynote-operating-system"
 
 ### 1. 정의
 
-환경 변수(Environment Variable)는 운영체제에서 프로세스가 실행될 때 참조할 수 있는 키-값(Key-Value) 쌍으로 이루어진 문자열이다. 프로세스는 부모 프로세스(Parent Process)로부터 환경 변수를 상속(Inherit)받으며, 이를 통해 실행 환경 설정을 자식 프로세스(Child Process)에 전달한다.
+환경 변수([[066_gitlab_flow_environment_branch_strategy|Environment]] Variable)는 운영체제에서 프로세스가 실행될 때 참조할 수 있는 키-값(Key-Value) 쌍으로 이루어진 문자열이다. 프로세스는 [[105_parent_child_process|부모 프로세스]]([[105_parent_child_process|Parent Process]])로부터 환경 변수를 [[234_uml_class_relationships_generalization_dependency|상속]](Inherit)받으며, 이를 통해 실행 환경 [[009_config|설정]]을 자식 프로세스(Child [[300_process|Process]])에 전달한다.
 
 > **비유**: 환경 변수는 "가족의 전통 레시피"다. 부모가 아이에게 전달하며, 아이는 그대로 사용하거나 자신만의 재료를 추가할 수 있다.
 
@@ -69,20 +69,20 @@ Low Address
 
 | 환경 변수 | 설명 | 예시 |
 |-----------|------|------|
-| **PATH** | 실행 파일 검색 경로 | `/usr/bin:/bin:/usr/local/bin` |
+| **PATH** | 실행 [[501_file_definition_logical_record|파일]] 검색 경로 | `/usr/bin:/bin:/usr/local/bin` |
 | **HOME** | 사용자 홈 디렉토리 | `/home/user` |
-| **LANG** | 로케일 및 언어 설정 | `ko_KR.UTF-8` |
-| **SHELL** | 로그인 셸 경로 | `/bin/bash` |
+| **LANG** | 로케일 및 언어 [[009_config|설정]] | `ko_KR.UTF-8` |
+| **[[044_shell|SHELL]]** | 로그인 셸 경로 | `/bin/bash` |
 | **TERM** | 터미널 유형 | `xterm-256color` |
 | **USER** | 현재 사용자 이름 | `ubuntu` |
 | **PWD** | 현재 작업 디렉토리 | `/home/user/project` |
-| **LD_LIBRARY_PATH** | 동적 라이브러리 검색 경로 | `/opt/oracle/lib` |
-| **LD_PRELOAD** | 사전 로드할 라이브러리 | `/tmp/malloc_hook.so` |
-| **TMPDIR** | 임시 파일 디렉토리 | `/tmp` |
+| **LD_LIBRARY_PATH** | 동적 [[336_library_vs_framework|라이브러리]] 검색 경로 | `/opt/oracle/lib` |
+| **LD_PRELOAD** | 사전 로드할 [[336_library_vs_framework|라이브러리]] | `/tmp/malloc_hook.so` |
+| **TMPDIR** | 임시 [[501_file_definition_logical_record|파일]] 디렉토리 | `/tmp` |
 
 ### 2. PATH 환경 변수
 
-- **PATH** (Path): 셸이 명령어를 입력받았을 때 실행 파일을 검색하는 디렉토리 목록이다. 콜론(`:`)으로 구분되며, 왼쪽부터 순서대로 검색한다.
+- **PATH** (Path): 셸이 명령어를 입력받았을 때 실행 [[501_file_definition_logical_record|파일]]을 검색하는 디렉토리 목록이다. 콜론(`:`)으로 구분되며, 왼쪽부터 순서대로 검색한다.
 
 ```bash
 $ echo $PATH
@@ -92,7 +92,7 @@ $ echo $PATH
 $ export PATH=.:$PATH   # 위험: 현재 디렉토리의 악성 파일 실행 가능
 ```
 
-### 3. 환경 변수 설정 방법
+### 3. 환경 변수 [[009_config|설정]] 방법
 
 ```bash
 # 임시 설정 (현재 셸만)
@@ -114,13 +114,13 @@ unset MY_VAR
 
 ## Ⅲ. 비교 및 연결
 
-### 1. C 표준 라이브러리 함수
+### 1. C 표준 [[336_library_vs_framework|라이브러리]] 함수
 
 | 함수 | 원형 | 설명 |
 |------|------|------|
 | **getenv()** | `char *getenv(const char *name)` | 환경 변수 값 조회 |
-| **setenv()** | `int setenv(const char *name, const char *value, int overwrite)` | 환경 변수 설정 (overwrite=1이면 덮어씀) |
-| **putenv()** | `int putenv(char *string)` | "NAME=VALUE" 형식 문자열로 설정 (버퍼 소유권 이전) |
+| **setenv()** | `int setenv(const char *name, const char *value, int overwrite)` | 환경 변수 [[009_config|설정]] (overwrite=1이면 덮어씀) |
+| **putenv()** | `int putenv(char *string)` | "NAME=VALUE" 형식 문자열로 [[009_config|설정]] (버퍼 소유권 이전) |
 | **unsetenv()** | `int unsetenv(const char *name)` | 환경 변수 제거 |
 | **environ** | `extern char **environ` | 전체 환경 변수 배열에 대한 전역 포인터 |
 
@@ -190,7 +190,7 @@ environ 배열에서 "KEY=" 검색
 
 ### 1. fork() 시 환경 변수 복사
 
-`fork()` 시스템 콜은 부모 프로세스의 환경 변수 블록(Environ Block)을 자식 프로세스로 **복사(Copy)**한다. 부모와 자식은 독립적인 복사본을 가지므로, 한쪽에서 `setenv()`를 호출해도 다른 쪽에 영향을 주지 않는다.
+`fork()` 시스템 콜은 [[105_parent_child_process|부모 프로세스]]의 환경 변수 블록(Environ Block)을 자식 프로세스로 **복사(Copy)**한다. 부모와 자식은 독립적인 복사본을 가지므로, 한쪽에서 `setenv()`를 호출해도 다른 쪽에 영향을 주지 않는다.
 
 ```
 fork() 시 환경 변수 복사
@@ -246,7 +246,7 @@ exec() 계열의 환경 변수 처리
 
 ### 1. LD_PRELOAD의 동작 원리
 
-- **LD_PRELOAD**: 동적 링커가 다른 모든 라이브러리보다 먼저 로드하는 라이브러리 경로를 지정하는 환경 변수이다. 이를 이용해 표준 라이브러리 함수를 가로채거나(Hooking) 대체할 수 있다.
+- **LD_PRELOAD**: 동적 링커가 다른 모든 [[336_library_vs_framework|라이브러리]]보다 먼저 로드하는 [[336_library_vs_framework|라이브러리]] 경로를 지정하는 환경 변수이다. 이를 이용해 표준 [[336_library_vs_framework|라이브러리]] 함수를 가로채거나(Hooking) 대체할 수 있다.
 
 ### 2. 공격 시나리오
 
@@ -297,7 +297,7 @@ LD_PRELOAD 공격 방어 레이어
 
 ---
 
-### 지식 그래프
+### [[160_knowledge_graph_graphrag_integration|지식 그래프]]
 
 ```
 환경 변수 상속
@@ -338,9 +338,9 @@ LD_PRELOAD 공격 방어 레이어
 | 약어 | Full Name |
 |------|-----------|
 | PATH | Pathname Variable |
-| HOME | Home Directory |
+| HOME | Home [[506_directory_structure_symbol_table|Directory]] |
 | LANG | Language and Locale |
-| API | Application Programming Interface |
+| [[014_api_posix|API]] | [[014_api_posix|Application Programming Interface]] |
 | SUID | Set Owner User ID |
 | SGID | Set Group ID |
 
@@ -352,9 +352,9 @@ LD_PRELOAD 공격 방어 레이어
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| 스레드 스택 오버플로우 방지 (Guard Page) | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
-| 동적 링킹 프로세스 (ld.so) 로딩 과정 | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
-| OOM (Out Of Memory) Killer 프로세스 종료 정책 | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
+| [[092_thread_lwp|스레드]] [[057_stack|스택]] [[095_overflow|오버플로우]] 방지 ([[154_thread_stack_overflow_prevention|Guard Page]]) | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
+| [[155_dynamic_linking_process|동적 링킹 프로세스]] (ld.so) 로딩 과정 | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
+| [[157_oom_killer|OOM]] ([[157_oom_killer|Out Of Memory]]) Killer [[107_process_termination|프로세스 종료]] [[164_policy|정책]] | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
 | oom_score_adj | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
@@ -373,6 +373,6 @@ LD_PRELOAD 공격 방어 레이어
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. 환경 변수 (Environment Variables) 상속은 컴퓨터가 여러 일을 나눠서 처리하고 서로 기다리게 하는 약속이에요.
-2. 먼저 동적 링킹 프로세스 (ld.so) 로딩 과정을 이해하면 환경 변수 (Environment Variables) 상속이 왜 필요한지 더 쉽게 보여요.
-3. 그래서 환경 변수 (Environment Variables) 상속을 잘 알면 나중에 OOM (Out Of Memory) Killer 프로세스 종료 정책도 훨씬 쉽게 배울 수 있어요.
+1. 환경 변수 ([[066_gitlab_flow_environment_branch_strategy|Environment]] Variables) [[234_uml_class_relationships_generalization_dependency|상속]]은 컴퓨터가 여러 일을 나눠서 처리하고 서로 기다리게 하는 약속이에요.
+2. 먼저 [[155_dynamic_linking_process|동적 링킹 프로세스]] (ld.so) 로딩 과정을 이해하면 환경 변수 ([[066_gitlab_flow_environment_branch_strategy|Environment]] Variables) [[234_uml_class_relationships_generalization_dependency|상속]]이 왜 필요한지 더 쉽게 보여요.
+3. 그래서 환경 변수 ([[066_gitlab_flow_environment_branch_strategy|Environment]] Variables) [[234_uml_class_relationships_generalization_dependency|상속]]을 잘 알면 나중에 [[157_oom_killer|OOM]] ([[157_oom_killer|Out Of Memory]]) Killer [[107_process_termination|프로세스 종료]] [[164_policy|정책]]도 훨씬 쉽게 배울 수 있어요.

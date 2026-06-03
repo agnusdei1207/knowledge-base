@@ -8,14 +8,14 @@ categories = "studynote-ai"
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: Adam (Adaptive Moment Estimation)은 Momentum과 RMSProp을 합쳐 방향과 스케일을 함께 추적하는 옵티마이저다.
-> 2. **가치**: 파라미터별 학습률을 자동 조절해 빠르고 안정적인 수렴을 돕는다.
-> 3. **판단 포인트**: bias correction, 학습률, β1/β2 설정을 같이 봐야 Adam의 장점이 살아난다.
+> 1. **본질**: [[277_adam_optimizer|Adam]] ([[277_adam_optimizer|Adaptive Moment Estimation]])은 Momentum과 RMSProp을 합쳐 방향과 스케일을 함께 추적하는 [[163_optimizer_sql_execution_plan_generator|옵티마이저]]다.
+> 2. **가치**: 파라미터별 [[080_gradient_descent_learning_rate|학습률]]을 자동 조절해 빠르고 안정적인 수렴을 돕는다.
+> 3. **판단 포인트**: [[094_bias|bias]] correction, [[080_gradient_descent_learning_rate|학습률]], β1/β2 [[009_config|설정]]을 같이 봐야 Adam의 장점이 살아난다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
-기본적인 Stochastic Gradient Descent (SGD)는 모든 파라미터에 같은 학습률을 써서 진동이 크다. Adam은 기울기의 평균 방향과 분산 크기를 함께 기억해 이런 문제를 줄인다.
+기본적인 [[241_optimizer_sgd_minibatch_adam_momentum_adaptive|Stochastic Gradient Descent]] (SGD)는 모든 파라미터에 같은 [[080_gradient_descent_learning_rate|학습률]]을 써서 진동이 크다. Adam은 기울기의 평균 방향과 [[136_variance|분산]] 크기를 함께 기억해 이런 문제를 줄인다.
 
 그래서 희소한 그래디언트나 노이즈가 큰 문제에서 특히 강한 기본값으로 쓰인다.
 - **📢 섹션 요약 비유**: 앞으로 가는 힘과 흔들림을 함께 본다.
@@ -29,7 +29,7 @@ categories = "studynote-ai"
   | m_t | 1차 모멘트 | 방향 기억 |
   | v_t | 2차 모멘트 | 크기 조절 |
   | β1 | 1차 감쇠율 | 관성 강도 |
-  | β2 | 2차 감쇠율 | 분산 추적 |
+  | β2 | 2차 감쇠율 | [[569_distributed_tracing_opentelemetry_jaeger|분산 추적]] |
   | ε | 안정화 상수 | 0 나눔 방지 |
 
   ┌──────── g_t ────────┐
@@ -52,34 +52,34 @@ categories = "studynote-ai"
 ---
 
 ## Ⅲ. 비교 및 연결
-| 비교 항목 | SGD | Momentum | RMSProp | Adam |
+| 비교 항목 | SGD | [[276_momentum_optimizer|Momentum]] | RMSProp | [[277_adam_optimizer|Adam]] |
 |:---|:---|:---|:---|:---|
 | 방향 기억 | 없음 | 있음 | 있음 | 있음 |
 | 크기 적응 | 없음 | 제한적 | 강함 | 강함 |
 | 초반 수렴 | 느릴 수 있음 | 개선 | 개선 | 빠른 편 |
 | 대표 위험 | 진동 | 과도한 관성 | 스케일 불안정 | 과신, 튜닝 실패 |
 
-Adam은 Momentum의 방향 기억과 RMSProp의 적응형 스케일링을 함께 가져온다.
+Adam은 Momentum의 방향 기억과 RMSProp의 적응형 [[249_scaling_normalization_standardization|스케일링]]을 함께 가져온다.
 - **📢 섹션 요약 비유**: SGD보다 빠르고, RMSProp보다 균형적이다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 - [ ] 기본값으로 β1=0.9, β2=0.999, ε=1e-8을 시작점으로 잡는다.
-- [ ] 데이터 스케일과 배치 크기가 바뀌면 학습률도 재조정한다.
-- [ ] 초반 몇 스텝에서 bias correction이 적용되는지 확인한다.
-- [ ] 과적합이 보이면 정규화와 조기 종료를 같이 본다.
+- [ ] [[001_dikw_pyramid|데이터]] 스케일과 배치 크기가 바뀌면 [[080_gradient_descent_learning_rate|학습률]]도 재조정한다.
+- [ ] 초반 몇 스텝에서 [[094_bias|bias]] correction이 적용되는지 [[396_validation|확인]]한다.
+- [ ] 과적합이 보이면 [[093_normalization|정규화]]와 [[281_early_stopping|조기 종료]]를 같이 본다.
 
 - ❌ Adam이면 무조건 더 잘 학습된다고 믿는 태도
-- ❌ 너무 큰 학습률로 발산을 만든 뒤 옵티마이저 탓을 하는 것
-- ❌ bias correction을 무시하고 초반만 보고 판단하는 것
-- **📢 섹션 요약 비유**: 기본값만 믿지 말고 보정과 스케줄을 같이 봐야 한다.
+- ❌ 너무 큰 [[080_gradient_descent_learning_rate|학습률]]로 발산을 만든 뒤 [[163_optimizer_sql_execution_plan_generator|옵티마이저]] 탓을 하는 것
+- ❌ [[094_bias|bias]] correction을 무시하고 초반만 보고 판단하는 것
+- **📢 섹션 요약 비유**: 기본값만 믿지 말고 보정과 [[208_schedule_history_transaction_execution_order|스케줄]]을 같이 봐야 한다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
-Adam은 학습률을 자동화한 것이 아니라, 방향성과 크기를 분리해 다루는 방식이다. 그래서 문제에 맞는 설정이 중요하다.
-- **📢 섹션 요약 비유**: 좋은 기본기지만, 설정이 맞아야 빛난다.
+Adam은 [[080_gradient_descent_learning_rate|학습률]]을 자동화한 것이 아니라, 방향성과 크기를 분리해 다루는 방식이다. 그래서 문제에 맞는 [[009_config|설정]]이 중요하다.
+- **📢 섹션 요약 비유**: 좋은 기본기지만, [[009_config|설정]]이 맞아야 빛난다.
 
 ---
 
@@ -87,11 +87,11 @@ Adam은 학습률을 자동화한 것이 아니라, 방향성과 크기를 분�
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| Adam | 1차·2차 모멘트를 함께 쓴다. |
-| Momentum | 누적 방향을 기억한다. |
+| [[277_adam_optimizer|Adam]] | 1차·2차 모멘트를 함께 쓴다. |
+| [[276_momentum_optimizer|Momentum]] | 누적 방향을 기억한다. |
 | RMSProp | 최근 기울기 크기에 적응한다. |
-| SGD (Stochastic Gradient Descent) | 단순 기준선이다. |
-| bias correction | 초기 편향을 줄인다. |
+| SGD ([[241_optimizer_sgd_minibatch_adam_momentum_adaptive|Stochastic Gradient Descent]]) | 단순 [[025_baseline|기준선]]이다. |
+| [[094_bias|bias]] correction | [[459_quic_fec_forward_error_correction|초기]] 편향을 줄인다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -103,4 +103,4 @@ Adam은 학습률을 자동화한 것이 아니라, 방향성과 크기를 분�
 
 1. 자전거에 방향 감지와 충격 흡수가 같이 있는 보조장치 같다.
 2. 한쪽으로만 밀지 않고, 흔들림도 같이 줄여 준다.
-3. 그래서 빨리 가면서도 넘어질 확률이 줄어든다.
+3. 그래서 빨리 가면서도 넘어질 [[130_probability|확률]]이 줄어든다.

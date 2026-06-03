@@ -7,9 +7,9 @@ categories = "studynote-database"
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: Self JOIN은 같은 테이블을 **별칭(Alias)을 달리하여 자기 자신과 조인**하는 것이고, Recursive CTE(Common Table Expression)는 **WITH RECURSIVE로 계층·트리 구조를 재귀 탐색**하는 SQL:1999 표준 문법이다.
-> 2. **가치**: 조직도(직원-상사)·부품 BOM(Part-SubPart)·카테고리 계층 등 **트리 구조 데이터를 SQL로 탐색**하는 데 필수이며, Oracle의 CONNECT BY보다 Recursive CTE가 표준이다.
-> 3. **판단 포인트**: 무한 루프 방지를 위해 **MAX RECURSION DEPTH** 설정이 필수이며, PostgreSQL·MySQL 8+·SQL Server 모두 지원한다.
+> 1. **본질**: Self JOIN은 같은 테이블을 **별칭(Alias)을 달리하여 자기 자신과 조인**하는 것이고, Recursive CTE([[513_cte_with_recursive_tree|Common Table Expression]])는 **WITH RECURSIVE로 계층·트리 구조를 [[014_recursion|재귀]] 탐색**하는 SQL:1999 표준 문법이다.
+> 2. **가치**: 조직도(직원-상사)·부품 [[124_bom_bill_of_materials|BOM]](Part-SubPart)·카테고리 계층 등 **트리 구조 [[001_dikw_pyramid|데이터]]를 SQL로 탐색**하는 데 필수이며, Oracle의 CONNECT BY보다 Recursive CTE가 표준이다.
+> 3. **판단 포인트**: 무한 루프 방지를 위해 **MAX [[014_recursion|RECURSION]] DEPTH** [[009_config|설정]]이 필수이며, PostgreSQL·MySQL 8+·SQL Server 모두 지원한다.
 
 ---
 
@@ -24,13 +24,13 @@ Recursive CTE:
   ) SELECT * FROM org;
 ```
 
-- **📢 섹션 요약 비유**: Recursive CTE는 **가계도 탐색**이다. 시조(Anchor)부터 시작하여 자손을 재귀적으로 찾는다.
+- **📢 섹션 요약 비유**: Recursive CTE는 **가계도 탐색**이다. 시조(Anchor)부터 시작하여 자손을 [[014_recursion|재귀]]적으로 찾는다.
 
 ---
 
 ## Ⅱ~Ⅴ. 결론
 
-Recursive CTE는 **계층·그래프 데이터 탐색의 SQL 표준**이며, CONNECT BY(Oracle 전용)를 대체한다.
+Recursive CTE는 **계층·[[070_graph_datastructure|그래프]] [[001_dikw_pyramid|데이터]] 탐색의 SQL 표준**이며, CONNECT BY([[188_pl_sql_t_sql_procedural|Oracle]] 전용)를 대체한다.
 
 ---
 
@@ -38,11 +38,11 @@ Recursive CTE는 **계층·그래프 데이터 탐색의 SQL 표준**이며, CON
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **Self JOIN** | 자기 참조 |
-| **Recursive CTE** | 재귀 계층 탐색 |
-| **Anchor** | 재귀 시작점 |
-| **CONNECT BY** | Oracle 전용 (비표준) |
-| **BOM** | 부품 계층 구조 |
+| **Self [[521_join|JOIN]]** | 자기 [[316_reference_pattern_nosql|참조]] |
+| **Recursive CTE** | [[014_recursion|재귀]] 계층 탐색 |
+| **Anchor** | [[014_recursion|재귀]] 시작점 |
+| **CONNECT BY** | [[188_pl_sql_t_sql_procedural|Oracle]] 전용 (비표준) |
+| **[[124_bom_bill_of_materials|BOM]]** | 부품 계층 구조 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 

@@ -8,36 +8,36 @@ categories = "studynote-cloud-architecture"
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 운영 환경에 의도적 장애를 주입하여 시스템의 실제 복원력을 *선제적*으로 검증하는 실험 과학이다.
-> 2. **가치**: "장애는 반드시 발생한다"는 전제 하에, 취약점을 고객보다 먼저 발견하여 서킷 브레이커·이중화가 실전에서 작동함을 증명한다.
-> 3. **판단 포인트**: Steady State Hypothesis(안정 상태 가설) 정의 → 최소 폭발 반경 실험 → 자동화된 지속 실험으로 신뢰 누적이 핵심 순서다.
+> 1. **본질**: 운영 환경에 의도적 장애를 주입하여 시스템의 실제 복원력을 *선제적*으로 [[395_verification_process_review|검증]]하는 실험 과학이다.
+> 2. **가치**: "장애는 반드시 발생한다"는 전제 하에, 취약점을 고객보다 먼저 발견하여 [[307_circuit_breaker_pattern|서킷 브레이커]]·이중화가 실전에서 작동함을 증명한다.
+> 3. **판단 포인트**: [[151_steady_state_hypothesis_validation|Steady State Hypothesis]](안정 상태 가설) 정의 → 최소 폭발 반경 실험 → 자동화된 지속 실험으로 신뢰 누적이 핵심 순서다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-분산 시스템은 수십~수천 개의 마이크로서비스와 네트워크 홉으로 구성되어, 임의 지점의 고장이 언제든 발생할 수 있다. 전통적 QA 테스트는 예상된 실패 경로만 검증하지만, 운영 환경에서는 예상 밖 조합이 장애를 유발한다. 카오스 엔지니어링은 이 간극을 메우기 위해 **프로덕션 환경 자체를 실험실**로 삼는 규율이다.
+[[136_variance|분산]] 시스템은 수십~수천 개의 마이크로서비스와 네트워크 홉으로 구성되어, 임의 지점의 고장이 언제든 발생할 수 있다. 전통적 QA 테스트는 예상된 실패 경로만 [[395_verification_process_review|검증]]하지만, 운영 환경에서는 예상 밖 조합이 장애를 유발한다. [[751_chaos_engineering|카오스 엔지니어링]]은 이 간극을 메우기 위해 **프로덕션 환경 자체를 실험실**로 삼는 규율이다.
 
-넷플릭스는 2010년 AWS EC2 클라우드로 이전하면서 데이터센터 장애 내성 확보를 위해 **Chaos Monkey**를 만들었다. Chaos Monkey는 프로덕션 EC2 인스턴스를 무작위로 종료하여 엔지니어들이 단일 인스턴스에 의존하지 않도록 강제했다. 이후 Chaos Gorilla(가용영역 전체 비활성화), Chaos Kong(리전 전체 비활성화), Latency Monkey(지연 주입) 등으로 확장되어 **Simian Army** 생태계를 형성했다.
+넷플릭스는 2010년 AWS EC2 클라우드로 이전하면서 [[801_data_center_3_tier_architecture_core_aggregation_access|데이터센터]] 장애 내성 확보를 위해 **[[149_chaos_monkey_chaos_mesh|Chaos Monkey]]**를 만들었다. Chaos Monkey는 프로덕션 EC2 인스턴스를 무작위로 종료하여 엔지니어들이 단일 인스턴스에 의존하지 않도록 강제했다. 이후 Chaos Gorilla(가용영역 전체 비활성화), Chaos Kong(리전 전체 비활성화), [[141_latency|Latency]] Monkey([[015_지연_데이터_관점|지연]] 주입) 등으로 확장되어 **Simian Army** 생태계를 형성했다.
 
-카오스 엔지니어링은 단순한 "서버를 죽이는 행위"가 아니라, **과학적 실험 방법론**이다. 실험 전 Steady State(안정 상태 가설: "p99 응답시간 < 200ms, 에러율 < 0.1%")를 정의하고, 실험 후 이 지표가 유지되는지 검증한다. 유지되면 시스템의 복원력이 증명되고, 벗어나면 취약점이 발견된 것이다.
+[[751_chaos_engineering|카오스 엔지니어링]]은 단순한 "서버를 죽이는 행위"가 아니라, **과학적 실험 방법론**이다. 실험 전 Steady [[272_state_pattern|State]](안정 상태 가설: "p99 응답시간 < 200ms, 에러율 < 0.1%")를 정의하고, 실험 후 이 지표가 유지되는지 [[395_verification_process_review|검증]]한다. 유지되면 시스템의 복원력이 증명되고, 벗어나면 취약점이 발견된 것이다.
 
-📢 **섹션 요약 비유**: 카오스 엔지니어링은 소방관이 화재 발생 전에 일부러 건물에 작은 불을 질러 방화문·스프링클러가 실제 작동하는지 훈련하는 것과 같다. 연습 때 실패를 발견해야 진짜 화재 때 살 수 있다.
+📢 **섹션 요약 비유**: [[751_chaos_engineering|카오스 엔지니어링]]은 소방관이 화재 발생 전에 일부러 건물에 작은 불을 질러 방화문·스프링클러가 실제 작동하는지 훈련하는 것과 같다. 연습 때 실패를 발견해야 진짜 화재 때 살 수 있다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### 카오스 엔지니어링 실험 절차
+### [[751_chaos_engineering|카오스 엔지니어링]] 실험 절차
 
 | 단계 | 설명 |
 |:---|:---|
-| 1. Steady State 정의 | 시스템이 정상인 상태를 측정 가능한 지표로 명확히 정의 |
+| 1. Steady [[272_state_pattern|State]] 정의 | 시스템이 정상인 상태를 측정 가능한 지표로 명확히 정의 |
 | 2. 가설 수립 | "이 장애를 주입해도 Steady State가 유지될 것이다" |
-| 3. 실험 설계 | 최소 폭발 반경(Blast Radius) 최소화, 단계적 확대 |
-| 4. 실험 실행 | 자동화 도구(Chaos Monkey, LitmusChaos, Gremlin)로 주입 |
-| 5. 결과 분석 | Steady State 이탈 여부 확인 및 근본 원인 파악 |
-| 6. 개선 반영 | 취약점 보강 후 재실험으로 확인 |
+| 3. 실험 설계 | 최소 폭발 반경(Blast [[541_radius_remote_authentication_aaa|Radius]]) 최소화, 단계적 확대 |
+| 4. 실험 실행 | 자동화 도구([[149_chaos_monkey_chaos_mesh|Chaos Monkey]], LitmusChaos, Gremlin)로 주입 |
+| 5. 결과 분석 | Steady [[272_state_pattern|State]] 이탈 여부 [[396_validation|확인]] 및 근본 원인 파악 |
+| 6. 개선 반영 | 취약점 보강 후 재실험으로 [[396_validation|확인]] |
 
 ### 장애 주입 유형
 
@@ -81,33 +81,33 @@ categories = "studynote-cloud-architecture"
 
 ## Ⅲ. 비교 및 연결
 
-| 항목 | 카오스 엔지니어링 | 전통 재해복구(DR) 훈련 | 부하 테스트 |
+| 항목 | [[751_chaos_engineering|카오스 엔지니어링]] | 전통 재해복구([[360_ospf_dr_bdr_designated_router_lsa_flooding|DR]]) 훈련 | [[446_load_test|부하 테스트]] |
 |:---|:---|:---|:---|
-| 환경 | 프로덕션 우선 | 스테이징/DR 사이트 | 스테이징 |
+| 환경 | 프로덕션 우선 | 스테이징/[[360_ospf_dr_bdr_designated_router_lsa_flooding|DR]] 사이트 | 스테이징 |
 | 장애 유형 | 임의적·다양 | 시나리오 기반 | 트래픽 과부하 |
-| 목적 | 미지의 취약점 발견 | 절차 검증 | 성능 한계 확인 |
+| 목적 | 미지의 취약점 발견 | 절차 [[395_verification_process_review|검증]] | [[282_performance_tactics|성능]] 한계 [[396_validation|확인]] |
 | 빈도 | 지속적 자동화 | 연 1~2회 | 릴리즈 전 |
-| 핵심 도구 | Chaos Monkey, LitmusChaos, Gremlin | DR 플레이북 | JMeter, Gatling |
+| 핵심 도구 | [[149_chaos_monkey_chaos_mesh|Chaos Monkey]], LitmusChaos, Gremlin | [[360_ospf_dr_bdr_designated_router_lsa_flooding|DR]] [[637_playbook|플레이북]] | JMeter, Gatling |
 
-### CNCF 도구 비교
+### [[190_cncf_landscape_observability|CNCF]] 도구 비교
 
 | 도구 | 특징 | K8s 통합 |
 |:---|:---|:---:|
-| LitmusChaos | CNCF Sandbox, K8s 네이티브 | ✅ |
-| Chaos Mesh | CNCF Incubating, 시각화 UI | ✅ |
-| Gremlin | SaaS, 엔터프라이즈 지원 | ✅ |
-| AWS FIS | AWS Fault Injection Simulator | AWS 전용 |
+| LitmusChaos | [[190_cncf_landscape_observability|CNCF]] Sandbox, K8s 네이티브 | ✅ |
+| Chaos [[389_mesh_topology|Mesh]] | [[190_cncf_landscape_observability|CNCF]] Incubating, [[003_bigdata_7v|시각화]] UI | ✅ |
+| Gremlin | [[309_saas|SaaS]], 엔터프라이즈 지원 | ✅ |
+| AWS FIS | AWS [[670_fault_injection_chaos_testing_kernel|Fault Injection]] Simulator | AWS 전용 |
 
-📢 **섹션 요약 비유**: 전통 DR 훈련이 "대본이 있는 연극 리허설"이라면, 카오스 엔지니어링은 "대본 없이 무작위 상황을 던지는 즉흥극"이다. 실전은 항상 즉흥극이다.
+📢 **섹션 요약 비유**: 전통 [[360_ospf_dr_bdr_designated_router_lsa_flooding|DR]] 훈련이 "대본이 있는 연극 리허설"이라면, [[751_chaos_engineering|카오스 엔지니어링]]은 "대본 없이 무작위 상황을 던지는 즉흥극"이다. 실전은 항상 즉흥극이다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-**게임 데이(Game Day)**: 팀 전체가 함께 카오스 실험을 수행하는 이벤트. 엔지니어링·SRE·비즈니스가 함께 참여해 인식을 일치시키고 학습한다.
+**게임 데이(Game Day)**: 팀 전체가 함께 카오스 실험을 수행하는 이벤트. 엔지니어링·[[100_sre_site_reliability_engineering_error_budget|SRE]]·비즈니스가 함께 참여해 인식을 일치시키고 학습한다.
 
 **점진적 확대 원칙**:
-1. 단일 컨테이너 Pod Kill → 2. 특정 서비스 전체 종료 → 3. 가용 영역(AZ) 장애 → 4. 리전 전체 Failover
+1. 단일 [[561_container_based_deployment|컨테이너]] [[198_pod_kubernetes_minimum_deployment_unit|Pod]] Kill → 2. 특정 [[090_service_kubernetes_network_load_balancing|서비스]] 전체 종료 → 3. 가용 영역(AZ) 장애 → 4. 리전 전체 [[300_failover_architecture|Failover]]
 
 **K8s 환경 카오스 실험 예시 (LitmusChaos)**:
 ```yaml
@@ -126,9 +126,9 @@ spec:
 ```
 
 **기술사 판단 포인트**:
-- 카오스 실험은 반드시 **Steady State 정의 → 가설 → 실험 → 검증** 순서를 지켜야 한다.
-- 폭발 반경(Blast Radius)을 최소화하고 단계적으로 확대한다.
-- 서킷 브레이커, 리트라이 로직, 그레이스풀 디그레이드션이 없으면 카오스 실험 전에 먼저 구현해야 한다.
+- 카오스 실험은 반드시 **Steady [[272_state_pattern|State]] 정의 → 가설 → 실험 → [[395_verification_process_review|검증]]** 순서를 지켜야 한다.
+- 폭발 반경(Blast [[541_radius_remote_authentication_aaa|Radius]])을 최소화하고 단계적으로 확대한다.
+- [[307_circuit_breaker_pattern|서킷 브레이커]], 리트라이 로직, 그레이스풀 디그레이드션이 없으면 카오스 실험 전에 먼저 구현해야 한다.
 
 📢 **섹션 요약 비유**: 카오스 실험을 고층 건물에서 바로 낙하산 점프로 시작하면 안 된다. 낮은 높이에서 장비를 점검하고, 확신이 생겨야 더 높이 올라가는 것이 실무 원칙이다.
 
@@ -143,11 +143,11 @@ spec:
 | 장애 대응 역량 강화 | 반복 훈련을 통한 근육 기억(Muscle Memory) 형성 |
 | 아키텍처 개선 동인 | 실험 결과가 인프라·코드 개선의 우선순위를 결정 |
 
-**한계**: 프로덕션 실험은 항상 위험을 수반한다. 충분한 관찰성(Observability)과 빠른 롤백 메커니즘 없이 시작하면 고객 피해가 발생한다. 또한 경영진·사업부의 이해와 동의 없이는 조직 문화적 저항이 크다.
+**한계**: 프로덕션 실험은 항상 위험을 수반한다. 충분한 관찰성([[642_observability_telemetry|Observability]])과 빠른 [[098_rollback_strategy_pipeline_error_threshold|롤백]] 메커니즘 없이 시작하면 고객 피해가 발생한다. 또한 경영진·사업부의 이해와 동의 없이는 조직 문화적 저항이 크다.
 
-카오스 엔지니어링은 "시스템을 부수는 행위"가 아닌 **"신뢰를 구축하는 과학"**이다. 넷플릭스가 연간 수억 명의 트래픽을 안정적으로 처리할 수 있는 근저에는 수십만 번의 카오스 실험이 있었다.
+[[751_chaos_engineering|카오스 엔지니어링]]은 "시스템을 부수는 행위"가 아닌 **"신뢰를 구축하는 과학"**이다. 넷플릭스가 연간 수억 명의 트래픽을 안정적으로 처리할 수 있는 근저에는 수십만 번의 카오스 실험이 있었다.
 
-📢 **섹션 요약 비유**: 카오스 엔지니어링의 목표는 시스템을 망가뜨리는 것이 아니라, 망가지지 않는다는 *증거*를 쌓는 것이다. 의사가 백신을 투여해 면역을 키우듯, 소량의 고장으로 시스템의 면역력을 높인다.
+📢 **섹션 요약 비유**: [[751_chaos_engineering|카오스 엔지니어링]]의 목표는 시스템을 망가뜨리는 것이 아니라, 망가지지 않는다는 *증거*를 쌓는 것이다. 의사가 백신을 투여해 면역을 키우듯, 소량의 고장으로 시스템의 면역력을 높인다.
 
 ---
 
@@ -155,16 +155,16 @@ spec:
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| 서킷 브레이커 (Circuit Breaker) | 카오스 실험으로 실제 동작 여부를 검증하는 핵심 대상 |
-| Observability (관찰성) | Steady State 측정과 이탈 감지를 위한 필수 인프라 |
-| SRE Error Budget | 카오스 실험 허용 범위를 Error Budget으로 관리 |
-| LitmusChaos / Chaos Mesh | K8s 환경의 CNCF 공인 카오스 엔지니어링 도구 |
+| [[307_circuit_breaker_pattern|서킷 브레이커]] ([[304_circuit_breaker|Circuit Breaker]]) | 카오스 실험으로 실제 동작 여부를 [[395_verification_process_review|검증]]하는 핵심 대상 |
+| [[642_observability_telemetry|Observability]] (관찰성) | Steady [[272_state_pattern|State]] 측정과 이탈 감지를 위한 필수 인프라 |
+| [[100_sre_site_reliability_engineering_error_budget|SRE]] [[101_error_budget_sre|Error Budget]] | 카오스 실험 허용 범위를 Error Budget으로 관리 |
+| LitmusChaos / Chaos [[389_mesh_topology|Mesh]] | K8s 환경의 [[190_cncf_landscape_observability|CNCF]] 공인 [[751_chaos_engineering|카오스 엔지니어링]] 도구 |
 | GameDay | 팀 전체가 참여하는 카오스 실험 이벤트 |
-| 폭발 반경 (Blast Radius) | 실험 영향 범위를 최소화하는 설계 원칙 |
+| 폭발 반경 (Blast [[541_radius_remote_authentication_aaa|Radius]]) | 실험 영향 범위를 최소화하는 설계 원칙 |
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. 레고 탑이 얼마나 튼튼한지 보려고 일부러 한 조각을 빼보는 것처럼, 카오스 엔지니어링은 서버를 일부러 꺼봐서 나머지가 잘 버티는지 확인해.
+1. 레고 탑이 얼마나 튼튼한지 보려고 일부러 한 조각을 빼보는 것처럼, [[751_chaos_engineering|카오스 엔지니어링]]은 서버를 일부러 꺼봐서 나머지가 잘 버티는지 [[396_validation|확인]]해.
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -180,5 +180,5 @@ Chaos Engineering: 사전 실험 (Proactive)
     ▼
 Steady State 가설 → 실험 → 관찰 → 개선
 ```
-2. 만약 한 조각 없어도 탑이 안 무너지면 "이 탑은 튼튼해!"라고 확인한 거야.
+2. 만약 한 조각 없어도 탑이 안 무너지면 "이 탑은 튼튼해!"라고 [[396_validation|확인]]한 거야.
 3. 이렇게 미리미리 약한 곳을 찾아서 고치면, 갑자기 진짜 고장 났을 때도 괜찮아.

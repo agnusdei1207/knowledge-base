@@ -48,9 +48,9 @@ MoE는 다수의 전문가 층(Experts)과 이들을 제어하는 게이팅 네�
          Output (Token)
 ```
 
-1. **Gating/Routing**: 입력 토큰이 들어오면 게이팅 네트워크가 각 전문가의 적합도를 계산하고, 가장 높은 점수를 받은 Top-K(보통 1~2개) 전문가에게 데이터를 전달한다.
+1. **Gating/[[339_routing_overview_best_path_selection|Routing]]**: 입력 토큰이 들어오면 게이팅 네트워크가 각 전문가의 적합도를 계산하고, 가장 높은 점수를 받은 [[414_llm_decoder_top_k_temperature|Top-K]](보통 1~2개) 전문가에게 데이터를 전달한다.
 2. **Experts (FFN)**: 각 전문가는 특화된 지식을 학습한 피드포워드 신경망(FFN)이다. 예를 들어, 수학 전문가, 코드 전문가, 인문학 전문가 등으로 자연스럽게 역할이 분담된다.
-3. **Sparsity**: 비활성화된 전문가는 연산에 참여하지 않으므로 GPU 사용량과 에너지를 대폭 절감한다.
+3. **Sparsity**: 비활성화된 전문가는 연산에 참여하지 않으므로 [[418_gpu|GPU]] 사용량과 에너지를 대폭 절감한다.
 
 - **📢 섹션 요약 비유**: 설계도와 배관도를 함께 보는 것처럼 내부 연결을 알아야 병목과 핵심 원리를 이해할 수 있다.
 
@@ -62,9 +62,9 @@ MoE는 다수의 전문가 층(Experts)과 이들을 제어하는 게이팅 네�
 | :--- | :--- | :--- |
 | **연산 방식** | 모든 파라미터 활성화 | 필요한 전문가만 선택적 활성화 |
 | **확장성** | 연산 비용이 모델 크기에 비례 | 모델 크기 대비 연산 비용 저렴 |
-| **학습 난이도** | 상대적으로 쉬움 | 전문가 불균형(Load Balancing) 해결 필요 |
+| **학습 난이도** | 상대적으로 쉬움 | 전문가 불균형([[196_hard_soft_real_time|Load Balancing]]) 해결 필요 |
 | **추론 속도** | 파라미터 증가 시 급격히 저하 | 대규모 파라미터 대비 매우 빠름 |
-| **대표 사례** | GPT-3, Llama-2 | GPT-4, Mixtral-8x7B, Switch Transformer |
+| **대표 사례** | GPT-3, Llama-2 | GPT-4, Mixtral-8x7B, [[238_switch_operation_principles|Switch]] [[246_transformer_self_attention_parallel_positional_encoding|Transformer]] |
 
 - **📢 섹션 요약 비유**: 비슷한 공구도 쓰임새가 다르듯, 비교를 해야 이 개념의 경계와 강점이 또렷해진다.
 
@@ -72,10 +72,10 @@ MoE는 다수의 전문가 층(Experts)과 이들을 제어하는 게이팅 네�
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-기술사로서의 판단으로는, MoE는 초거대 AI의 **'경제적 지속 가능성'**을 담보하는 핵심 기술이다.
-1. **로드 밸런싱(Load Balancing)**: 특정 전문가에게만 업무가 쏠리는 현상을 방지하기 위해 'Auxiliary Loss'를 도입하여 모든 전문가가 고르게 학습되도록 설계해야 한다.
-2. **인프라 전략**: 전문가들이 여러 GPU에 분산 배치되므로, 노드 간 통신 병목을 줄이기 위한 **Expert Parallelism**과 고속 인터커넥트(NVLink) 환경이 필수적이다.
-3. **메모리 문제**: 연산은 적지만 전체 파라미터를 메모리에 올려야 하므로, VRAM 용량 확보를 위해 **양자화(Quantization)** 기술과의 결합이 권장된다.
+기술사로서의 판단으로는, MoE는 초거대 AI의 **'경제적 [[386_sustainability_green_coding|지속 가능성]]'**을 담보하는 핵심 기술이다.
+1. **[[833_load_balancing_l4_l7_switch_traffic_distribution|로드 밸런싱]]([[196_hard_soft_real_time|Load Balancing]])**: 특정 전문가에게만 업무가 쏠리는 현상을 방지하기 위해 'Auxiliary Loss'를 도입하여 모든 전문가가 고르게 학습되도록 설계해야 한다.
+2. **인프라 [[268_strategy_pattern|전략]]**: 전문가들이 여러 GPU에 [[136_variance|분산]] 배치되므로, 노드 간 통신 병목을 줄이기 위한 **Expert Parallelism**과 고속 인터커넥트(NVLink) 환경이 필수적이다.
+3. **메모리 문제**: 연산은 적지만 전체 파라미터를 메모리에 올려야 하므로, VRAM 용량 확보를 위해 **[[434_quantization|양자화]]([[434_quantization|Quantization]])** 기술과의 결합이 권장된다.
 
 - **📢 섹션 요약 비유**: 현장 체크리스트처럼 조건을 짚어야 기술이 장점이 아니라 실제 성과로 이어진다.
 
@@ -93,9 +93,9 @@ MoE는 AI의 대중화를 이끌 '고효율 아키텍처'의 표준이 될 것�
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| 부모 개념 | Deep Learning Architecture, Transformer |
-| 연관 개념 | Sparsity, Gating Network, Load Balancing, Expert Parallelism |
-| 파생 기술 | Switch Transformer, Mixtral, Sparse Upcycling |
+| 부모 개념 | Deep [[240_switch_learning_forwarding_flooding|Learning]] [[319_architecture|Architecture]], [[246_transformer_self_attention_parallel_positional_encoding|Transformer]] |
+| 연관 개념 | Sparsity, Gating Network, [[196_hard_soft_real_time|Load Balancing]], Expert Parallelism |
+| 파생 기술 | [[238_switch_operation_principles|Switch]] [[246_transformer_self_attention_parallel_positional_encoding|Transformer]], Mixtral, Sparse Upcycling |
 
 ### 📈 관련 키워드 및 발전 흐름도
 

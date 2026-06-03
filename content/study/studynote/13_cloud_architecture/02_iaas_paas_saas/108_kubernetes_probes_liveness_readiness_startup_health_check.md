@@ -7,31 +7,31 @@ categories = "studynote-cloud-architecture"
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: 쿠버네티스의 프로브(Probes)는 파드(Pod) 내부의 컨테이너가 단순히 '실행 중(Running)'인지 여부를 넘어, 실제 애플리케이션이 트래픽을 처리할 준비가 되었는지, 혹은 교착 상태(Deadlock)에 빠지지 않았는지를 주기적으로 찔러 확인하는 자가 진단 및 치유(Auto-Healing) 메커니즘이다.
-> 2. **가치**: 이 3가지 프로브(Startup, Readiness, Liveness)를 완벽히 조합하면, 새 버전 배포 시 발생하는 다운타임(502 에러)을 0으로 만드는 무중단 배포(Zero Downtime)와 운영 중 발생한 메모리 누수 좀비 파드의 자동 암살 및 재생성을 구현할 수 있다.
+> 1. **본질**: [[196_kubernetes_k8s_container_orchestration|쿠버네티스]]의 프로브(Probes)는 [[085_pod_kubernetes_container_unit|파드]]([[198_pod_kubernetes_minimum_deployment_unit|Pod]]) 내부의 [[561_container_based_deployment|컨테이너]]가 단순히 '실행 중(Running)'인지 여부를 넘어, 실제 애플리케이션이 트래픽을 처리할 준비가 되었는지, 혹은 [[281_deadlock_definition|교착 상태]]([[281_deadlock_definition|Deadlock]])에 빠지지 않았는지를 주기적으로 찔러 [[396_validation|확인]]하는 자가 진단 및 치유(Auto-Healing) 메커니즘이다.
+> 2. **가치**: 이 3가지 프로브(Startup, Readiness, Liveness)를 완벽히 조합하면, 새 [[288_version_ihl_tos_total_length|버전]] 배포 시 발생하는 다운타임(502 에러)을 0으로 만드는 [[082_zero_downtime_deployment_rolling_blue_green_canary|무중단 배포]]([[585_zero_skipping|Zero]] Downtime)와 운영 중 발생한 [[612_memory_leak_detection|메모리 누수]] 좀비 [[085_pod_kubernetes_container_unit|파드]]의 자동 암살 및 재생성을 구현할 수 있다.
 > 3. **판단 포인트**: 구형 레거시 앱처럼 부팅이 오래 걸리는 경우 무작정 Liveness를 걸면 무한 재부팅 지옥에 빠지므로, 반드시 Startup Probe로 방어막을 쳐주고 Readiness로 트래픽을 통제하는 섬세한 생명주기 설계가 필수적이다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-과거 물리 서버 환경에서는 서버(프로세스)가 켜졌다고 해서 바로 고객을 받지 않았다. 관리자가 로그를 보며 데이터베이스 커넥션이 맺어지는 것을 확인하고, 수동으로 L4 스위치에 IP를 붙여주었다. 하지만 쿠버네티스(K8s)와 같은 자동화된 오케스트레이션 환경에서는 이 '사람의 확인' 과정이 생략된다.
+과거 물리 서버 환경에서는 서버(프로세스)가 켜졌다고 해서 바로 고객을 받지 않았다. 관리자가 로그를 보며 [[002_database_definition|데이터베이스]] 커넥션이 맺어지는 것을 [[396_validation|확인]]하고, 수동으로 L4 스위치에 IP를 붙여주었다. 하지만 [[196_kubernetes_k8s_container_orchestration|쿠버네티스]](K8s)와 같은 자동화된 [[073_container_orchestration_tools|오케스트레이션]] 환경에서는 이 '사람의 [[396_validation|확인]]' 과정이 생략된다.
 
-자바(Spring) 애플리케이션이 K8s에서 켜지면 0.1초 만에 컨테이너 상태는 `Running`이 된다. 바보 같은 로드밸런서(Service)는 이를 보고 "서버 떴다!"라며 트래픽 1만 명을 쏟아붓는다. 하지만 정작 톰캣 뱃속의 스프링 프레임워크는 로딩하는 데 15초가 더 걸리기 때문에, 그 15초 동안 들어온 고객들은 모두 500 에러를 맞고 이탈한다. 더 무서운 것은 운영 중에 코딩 버그로 무한 루프에 빠진 '좀비 파드'다. 컨테이너 프로세스가 죽지 않았으니 K8s는 계속 초록불을 켜두고 손님을 밀어 넣는 대참사가 벌어진다. 이를 기계적으로 완벽하게 통제하고 자가 치유하기 위해 등장한 것이 바로 3단계 건강 검진, 프로브(Probes)다.
+자바(Spring) 애플리케이션이 K8s에서 켜지면 0.1초 만에 [[561_container_based_deployment|컨테이너]] 상태는 `Running`이 된다. 바보 같은 로드밸런서([[090_service_kubernetes_network_load_balancing|Service]])는 이를 보고 "서버 떴다!"라며 트래픽 1만 명을 쏟아붓는다. 하지만 정작 톰캣 뱃속의 스프링 프레임워크는 로딩하는 데 15초가 더 걸리기 때문에, 그 15초 동안 들어온 고객들은 모두 500 에러를 맞고 이탈한다. 더 무서운 것은 운영 중에 코딩 버그로 무한 루프에 빠진 '좀비 [[085_pod_kubernetes_container_unit|파드]]'다. [[561_container_based_deployment|컨테이너]] 프로세스가 죽지 않았으니 K8s는 계속 초록불을 켜두고 손님을 밀어 넣는 대참사가 벌어진다. 이를 기계적으로 완벽하게 통제하고 자가 치유하기 위해 등장한 것이 바로 3단계 건강 검진, 프로브(Probes)다.
 
-- **📢 섹션 요약 비유**: 식당 간판 불을 켰다고(Running) 무작정 손님을 들이밀면 주방장이 도마 닦는 걸 보며 손님들이 짜증(500 에러)을 냅니다. K8s 프로브는 주방장이 찌개를 다 끓였는지 깐깐하게 찔러보고 확인한 뒤에야 손님을 입장시키고, 일하다 기절한 요리사는 즉시 앰뷸런스에 싣고 새 요리사를 투입하는 피도 눈물도 없는 완벽한 매니저입니다.
+- **📢 섹션 요약 비유**: 식당 간판 불을 켰다고(Running) 무작정 손님을 들이밀면 주방장이 도마 닦는 걸 보며 손님들이 짜증(500 에러)을 냅니다. K8s 프로브는 주방장이 찌개를 다 끓였는지 깐깐하게 찔러보고 [[396_validation|확인]]한 뒤에야 손님을 입장시키고, 일하다 기절한 요리사는 즉시 앰뷸런스에 싣고 새 요리사를 투입하는 피도 눈물도 없는 완벽한 매니저입니다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-쿠버네티스의 뇌 역할을 하는 각 노드의 에이전트(Kubelet)가 파드를 직접 찔러보는 3가지 역할을 수행한다.
+[[196_kubernetes_k8s_container_orchestration|쿠버네티스]]의 뇌 역할을 하는 각 노드의 에이전트([[082_kubelet_node_agent|Kubelet]])가 [[085_pod_kubernetes_container_unit|파드]]를 직접 찔러보는 3가지 역할을 수행한다.
 
 | 프로브 종류 | 역할 및 목적 | 실패 시 액션 (Kubelet의 행동) |
 | :--- | :--- | :--- |
-| **Startup Probe** | "부팅(로딩) 다 끝났어?" 무겁고 오래 걸리는 앱의 초기 로딩 시간을 보장해 주는 방패. | 한 번이라도 성공할 때까지 뒤의 두 프로브를 작동 중지시킴. 끝내 실패 시 파드 죽이고 재시작. |
-| **Readiness Probe** | "이제 손님 받아도 돼?" 서비스(Service)의 엔드포인트에 파드 IP를 넣을지 뺄지 결정하는 신호등. | **(격리)** 실패 시 파드를 죽이지 않고, 로드밸런서에서 제외하여 트래픽만 차단함. |
-| **Liveness Probe** | "너 아직 안 죽고 숨 쉬어?" 운영 중인 파드가 데드락, 메모리 누수로 멈췄는지 감시하는 좀비 암살자. | **(사살)** 실패 시 파드를 가차 없이 죽여버리고(Kill) 새 파드로 띄움(Restart). |
+| **Startup Probe** | "부팅(로딩) 다 끝났어?" 무겁고 오래 걸리는 앱의 [[459_quic_fec_forward_error_correction|초기]] 로딩 시간을 보장해 주는 방패. | 한 번이라도 성공할 때까지 뒤의 두 프로브를 작동 중지시킴. 끝내 실패 시 [[085_pod_kubernetes_container_unit|파드]] 죽이고 재시작. |
+| **Readiness Probe** | "이제 손님 받아도 돼?" [[090_service_kubernetes_network_load_balancing|서비스]]([[090_service_kubernetes_network_load_balancing|Service]])의 엔드포인트에 [[085_pod_kubernetes_container_unit|파드]] IP를 넣을지 뺄지 결정하는 신호등. | **(격리)** 실패 시 [[085_pod_kubernetes_container_unit|파드]]를 죽이지 않고, 로드밸런서에서 제외하여 트래픽만 차단함. |
+| **Liveness Probe** | "너 아직 안 죽고 숨 쉬어?" 운영 중인 [[085_pod_kubernetes_container_unit|파드]]가 데드락, [[612_memory_leak_detection|메모리 누수]]로 멈췄는지 감시하는 좀비 암살자. | **(사살)** 실패 시 [[085_pod_kubernetes_container_unit|파드]]를 가차 없이 죽여버리고(Kill) 새 [[085_pod_kubernetes_container_unit|파드]]로 띄움(Restart). |
 
 ```text
 ┌──────────────────────────────────────────────────────────────┐
@@ -55,7 +55,7 @@ categories = "studynote-cloud-architecture"
 └──────────────────────────────────────────────────────────────┘
 ```
 
-이 다이어그램의 핵심은 '역할의 분리'다. 손님을 막는 역할(Readiness)과 뇌사 상태의 직원을 잘라버리는 역할(Liveness)이 분리되어야 서비스가 안전하게 굴러간다.
+이 다이어그램의 핵심은 '역할의 분리'다. 손님을 막는 역할(Readiness)과 뇌사 상태의 직원을 잘라버리는 역할(Liveness)이 분리되어야 [[090_service_kubernetes_network_load_balancing|서비스]]가 안전하게 굴러간다.
 
 - **📢 섹션 요약 비유**: Startup은 "컴퓨터 부팅 중이니 건들지 마" 팻말이고, Readiness는 "준비 완료, 문 열어!"라는 영업 시작 알림판이며, Liveness는 "졸면 죽는다"라며 5분마다 옆구리를 찌르는 악덕 감시관입니다.
 
@@ -67,11 +67,11 @@ categories = "studynote-cloud-architecture"
 
 | 비교 항목 | Liveness Probe | Readiness Probe |
 | :--- | :--- | :--- |
-| **타겟 문제** | 내부 로직 오류, 데드락, 메모리 누수로 앱이 뻗은 경우 | DB 일시 접속 불량, 과도한 트래픽으로 잠시 응답이 지연된 경우 |
-| **K8s의 처벌 방식** | 파드를 **재시작(Restart)** 시켜버림 (전원 플러그 뽑기) | 파드 IP를 잠시 **제거(Remove)** 함 (트래픽 차단 후 대기) |
-| **적용 결과** | 무인 자가 치유(Auto-Healing) 달성 | 배포 중 500 에러 없는 무중단 배포 달성 |
+| **타겟 문제** | 내부 로직 오류, 데드락, [[612_memory_leak_detection|메모리 누수]]로 앱이 뻗은 경우 | DB 일시 접속 불량, 과도한 트래픽으로 잠시 응답이 지연된 경우 |
+| **K8s의 처벌 방식** | [[085_pod_kubernetes_container_unit|파드]]를 **재시작(Restart)** 시켜버림 (전원 플러그 뽑기) | [[085_pod_kubernetes_container_unit|파드]] IP를 잠시 **제거(Remove)** 함 (트래픽 차단 후 대기) |
+| **적용 결과** | 무인 자가 치유(Auto-Healing) 달성 | 배포 중 500 에러 없는 [[082_zero_downtime_deployment_rolling_blue_green_canary|무중단 배포]] 달성 |
 
-만약 무거운 배치 작업을 하느라 DB 응답이 10초 밀린 파드가 있다고 치자. 이 파드에 Liveness만 걸어두면 K8s는 "오류 났네, 죽여!"라며 파드를 계속 재부팅 시켜 서비스가 영원히 마비된다. 이때 Readiness를 걸어두면 파드를 죽이는 대신 "일단 얘는 트래픽 주지 말고 옆 파드로 넘겨. 얘 일 다 끝나면 다시 트래픽 주자"라며 유연하게 회피(격리)할 수 있다.
+만약 무거운 배치 작업을 하느라 DB 응답이 10초 밀린 [[085_pod_kubernetes_container_unit|파드]]가 있다고 치자. 이 [[085_pod_kubernetes_container_unit|파드]]에 Liveness만 걸어두면 K8s는 "오류 났네, 죽여!"라며 [[085_pod_kubernetes_container_unit|파드]]를 계속 재부팅 시켜 [[090_service_kubernetes_network_load_balancing|서비스]]가 영원히 마비된다. 이때 Readiness를 걸어두면 [[085_pod_kubernetes_container_unit|파드]]를 죽이는 대신 "일단 얘는 트래픽 주지 말고 옆 [[085_pod_kubernetes_container_unit|파드]]로 넘겨. 얘 일 다 끝나면 다시 트래픽 주자"라며 유연하게 회피(격리)할 수 있다.
 
 - **📢 섹션 요약 비유**: 요리사가 너무 바빠서 땀을 뻘뻘 흘릴 때, Liveness(사신)는 "느리네? 죽어라!" 하고 요리사를 해고(재시작)해 버립니다. 하지만 Readiness(매니저)는 요리사를 죽이는 대신 "주문 잠깐 스톱! 이쪽 테이블은 안 받습니다"라며 트래픽만 차단하고 숨을 고르게 해주는 지능적인 방어 체계입니다.
 
@@ -81,24 +81,24 @@ categories = "studynote-cloud-architecture"
 
 K8s 아키텍처 설계 시 프로브 설정은 선택이 아닌 필수 감리 대상이다.
 
-### 체크리스트
+### [[435_checklist_based_testing|체크리스트]]
 
-1. **프로브 엔드포인트 분리**: 개발자가 `/health` API 하나만 만들고 Liveness와 Readiness에 똑같이 걸어두지 않았는가? (안티패턴) Readiness는 DB 연동까지 체크하는 깊은 API를, Liveness는 얕은 HTTP 200만 뱉는 가벼운 API를 걸어두어 과부하를 막아야 한다.
+1. **프로브 엔드포인트 분리**: 개발자가 `/health` [[014_api_posix|API]] 하나만 만들고 Liveness와 Readiness에 똑같이 걸어두지 않았는가? ([[128_water_scrum_fall_anti_pattern|안티패턴]]) Readiness는 DB 연동까지 체크하는 깊은 API를, Liveness는 얕은 [[461_http_stateless_connection_oriented|HTTP]] 200만 뱉는 가벼운 API를 걸어두어 과부하를 막아야 한다.
 2. **Startup Probe의 누락**: 기동에 3분이 걸리는 레거시 앱에 Liveness를 걸어 무한 CrashLoopBackOff 지옥에 빠뜨리지 않았는가? 반드시 Startup Probe의 `failureThreshold * periodSeconds`를 충분히 길게 설정하여 면책 기간을 부여해야 한다.
 
-### 안티패턴
+### [[128_water_scrum_fall_anti_pattern|안티패턴]]
 
-- **외부 API 의존성 찌르기**: Liveness Probe가 우리 앱이 아니라 '외부 결제사 API'가 살아있는지를 체크하게 짜놓은 경우. 결제사 서버가 5분 점검을 시작하면, K8s는 우리 서버가 고장 난 줄 알고 멀쩡한 우리 파드 수백 개를 모조리 전기톱으로 썰어버리는 대학살이 벌어진다. Liveness는 절대 외부 의존성을 찌르면 안 된다.
+- **외부 [[014_api_posix|API]] 의존성 찌르기**: Liveness Probe가 우리 앱이 아니라 '외부 결제사 [[014_api_posix|API]]'가 살아있는지를 체크하게 짜놓은 경우. 결제사 서버가 5분 점검을 시작하면, K8s는 우리 서버가 고장 난 줄 알고 멀쩡한 우리 [[085_pod_kubernetes_container_unit|파드]] 수백 개를 모조리 전기톱으로 썰어버리는 대학살이 벌어진다. Liveness는 절대 외부 의존성을 찌르면 안 된다.
 
-- **📢 섹션 요약 비유**: 우리 직원(파드)의 옆구리를 찔러야 하는데, 실수로 옆집 사장님(외부 API)의 건강 상태를 찔러보도록 설정해 놓으면 옆집이 문을 닫았을 때 우리 직원들을 몽땅 해고해 버리는 황당한 팀킬 참사가 벌어집니다.
+- **📢 섹션 요약 비유**: 우리 직원([[085_pod_kubernetes_container_unit|파드]])의 옆구리를 찔러야 하는데, 실수로 옆집 사장님(외부 [[014_api_posix|API]])의 건강 상태를 찔러보도록 설정해 놓으면 옆집이 문을 닫았을 때 우리 직원들을 몽땅 해고해 버리는 황당한 팀킬 참사가 벌어집니다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-3가지 프로브를 적재적소에 배치한 쿠버네티스 클러스터는 새벽 3시에 서버가 메모리 누수로 터져도 관리자의 단잠을 깨우지 않는다. 사신(Liveness)이 좀비 파드를 조용히 암살하고, 방패(Startup)가 새 파드를 안전하게 띄운 뒤, 매니저(Readiness)가 트래픽을 완벽히 넘겨주기 때문이다.
+3가지 프로브를 적재적소에 배치한 [[196_kubernetes_k8s_container_orchestration|쿠버네티스]] 클러스터는 새벽 3시에 서버가 [[612_memory_leak_detection|메모리 누수]]로 터져도 관리자의 단잠을 깨우지 않는다. 사신(Liveness)이 좀비 [[085_pod_kubernetes_container_unit|파드]]를 조용히 암살하고, 방패(Startup)가 새 [[085_pod_kubernetes_container_unit|파드]]를 안전하게 띄운 뒤, 매니저(Readiness)가 트래픽을 완벽히 넘겨주기 때문이다.
 
-결론적으로 프로브(Probes)는 단순한 헬스체크 핑(Ping) 테스트를 넘어, 오케스트레이션 도구가 인간의 개입 없이 '무중단 배포'와 '자가 치유(Self-Healing)'라는 클라우드 네이티브(Cloud-Native)의 이상향을 완성하게 해주는 가장 위대한 발명품이다. 기술사는 K8s 도입 시 인프라 구축에만 매몰되지 말고, 앱 개발팀이 이 3가지 프로브에 맞는 상태 API를 정확히 구현하도록 강제하는 아키텍트 역할을 수행해야 한다.
+결론적으로 프로브(Probes)는 단순한 헬스체크 핑(Ping) 테스트를 넘어, [[073_container_orchestration_tools|오케스트레이션]] 도구가 인간의 개입 없이 '[[082_zero_downtime_deployment_rolling_blue_green_canary|무중단 배포]]'와 '자가 치유(Self-Healing)'라는 [[531_cloud_native_architecture|클라우드 네이티브]](Cloud-Native)의 이상향을 완성하게 해주는 가장 위대한 발명품이다. 기술사는 K8s 도입 시 인프라 구축에만 매몰되지 말고, 앱 개발팀이 이 3가지 프로브에 맞는 상태 API를 정확히 구현하도록 강제하는 아키텍트 역할을 수행해야 한다.
 
 - **📢 섹션 요약 비유**: 프로브는 우주정거장에 있는 자동 수리 로봇입니다. 부품이 고장 나면 알아서 우주 밖으로 버리고 새 부품을 끼운 뒤, 나사를 완벽히 조이기 전까지는 전기를 통하지 않게 하는 완벽한 무인 시스템을 만들어줍니다.
 
@@ -108,10 +108,10 @@ K8s 아키텍처 설계 시 프로브 설정은 선택이 아닌 필수 감리 �
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| **Kubelet** | K8s의 각 워커 노드에 찰싹 붙어서, 컨테이너를 실행하고 프로브로 찔러보며 감시하는 현장 소장(Agent). |
-| **Service (로드밸런서)** | Readiness Probe가 "합격(200 OK)" 판정을 내린 파드의 IP만 쏙쏙 골라 Endpoints 리스트에 넣고 트래픽을 분산해 주는 접수원. |
-| **CrashLoopBackOff** | Liveness Probe에 찔려 죽고 재시작하기를 끝없이 반복하는 지옥의 굴레. 파드 기동 실패의 가장 흔한 에러 메시지. |
-| **Zero Downtime (무중단 배포)** | 롤링 업데이트 시 구버전 파드를 끄기 전에, 신버전 파드의 Readiness Probe가 성공할 때까지 기다려 단 1건의 고객 트래픽도 유실되지 않게 하는 배포 기법. |
+| **[[082_kubelet_node_agent|Kubelet]]** | K8s의 각 워커 노드에 찰싹 붙어서, [[561_container_based_deployment|컨테이너]]를 실행하고 프로브로 찔러보며 감시하는 현장 소장(Agent). |
+| **[[090_service_kubernetes_network_load_balancing|Service]] (로드밸런서)** | Readiness Probe가 "합격(200 OK)" 판정을 내린 [[085_pod_kubernetes_container_unit|파드]]의 IP만 쏙쏙 골라 Endpoints 리스트에 넣고 트래픽을 분산해 주는 접수원. |
+| **CrashLoopBackOff** | Liveness Probe에 찔려 죽고 재시작하기를 끝없이 반복하는 지옥의 굴레. [[085_pod_kubernetes_container_unit|파드]] 기동 실패의 가장 흔한 에러 메시지. |
+| **[[585_zero_skipping|Zero]] Downtime ([[082_zero_downtime_deployment_rolling_blue_green_canary|무중단 배포]])** | [[117_rolling_update_deployment|롤링 업데이트]] 시 구버전 [[085_pod_kubernetes_container_unit|파드]]를 끄기 전에, 신버전 [[085_pod_kubernetes_container_unit|파드]]의 Readiness Probe가 성공할 때까지 기다려 단 1건의 고객 트래픽도 유실되지 않게 하는 배포 기법. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 

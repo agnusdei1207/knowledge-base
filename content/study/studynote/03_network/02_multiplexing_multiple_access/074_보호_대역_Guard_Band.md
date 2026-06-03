@@ -34,7 +34,7 @@ Channel A | Guard Band | Channel B
 
 | 요소 | 의미 |
 | :-- | :-- |
-| Guard Band | 보호 대역 |
+| [[946_guard_band_fdm_adjacent_channel_interference|Guard Band]] | [[571_protection_vs_security|보호]] 대역 |
 | Interference | 간섭 |
 | Separation | 분리 |
 
@@ -49,7 +49,7 @@ Guard Band는 주파수 경계를 안전하게 유지하는 역할을 한다.
 | 개념 | 역할 |
 | :-- | :-- |
 | FDM | 주파수 분할 |
-| Guard Band | 간섭 방지 |
+| [[946_guard_band_fdm_adjacent_channel_interference|Guard Band]] | 간섭 방지 |
 | Efficiency | 대역 손실 |
 
 | 트레이드오프 | 의미 |
@@ -64,17 +64,17 @@ Guard Band는 자원을 조금 쓰더라도 통신 안정성을 보장한다.
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### 체크리스트
+### [[435_checklist_based_testing|체크리스트]]
 
 1. 간섭을 줄이는 목적을 아는가?
 2. 대역 손실을 이해하는가?
 3. FDM과 연결하는가?
-4. 보호 대역의 필요성을 설명할 수 있는가?
+4. [[571_protection_vs_security|보호]] 대역의 필요성을 설명할 수 있는가?
 5. 효율과 안정성을 비교하는가?
 
-### 안티패턴
+### [[128_water_scrum_fall_anti_pattern|안티패턴]]
 
-- 보호 대역 없이 채널을 붙이는 설계
+- [[571_protection_vs_security|보호]] 대역 없이 채널을 붙이는 설계
 - 효율만 보고 안정성을 무시하는 설계
 - 간섭을 고려하지 않는 설계
 - FDM 구조를 이해하지 못하는 설계
@@ -89,7 +89,7 @@ Guard Band는 자원을 조금 쓰더라도 통신 안정성을 보장한다.
 
 Guard Band는 통신 안정성을 높인다.
 
-결론적으로 보호 대역은 인접 채널 간 간섭을 막는 빈 주파수 구간이다.
+결론적으로 [[571_protection_vs_security|보호]] 대역은 인접 채널 간 간섭을 막는 빈 주파수 구간이다.
 
 - **📢 섹션 요약 비유**: 빈 공간이 안전을 만든다.
 
@@ -123,4 +123,4 @@ Interference Reduction
 
 사이 공간을 비워요.  
 그래야 부딪히지 않아요.  
-보호 대역은 그런 공간이에요.
+[[571_protection_vs_security|보호]] 대역은 그런 공간이에요.

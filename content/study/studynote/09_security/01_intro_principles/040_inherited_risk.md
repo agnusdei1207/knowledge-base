@@ -7,9 +7,9 @@ categories = "studynote-security"
 +++
 
 > **핵심 인사이트**
-> 1. 상속된 위험(Inherited Risk)은 조직이 직접 통제할 수 없는 외부 요소(공급망, 클라우드 서비스, 오픈소스 라이브러리, 인수합병된 기업)로부터 이전(移轉)되어 오는 위험으로, 현대 IT 환경에서 전체 위험의 상당 부분을 차지한다.
-> 2. 고유 위험(Inherent Risk) → 통제(Control) 적용 → 잔존 위험(Residual Risk) 체계에서, 상속된 위험은 통제 전 원시 위험 상태가 외부에서 유입되는 특수 형태이며, SolarWinds·Log4Shell 같은 공급망 공격이 대표적 사례다.
-> 3. 상속된 위험 관리의 핵심은 공급업체 위험 관리(Third-Party Risk Management, TPRM)와 소프트웨어 자재 명세서(SBOM, Software Bill of Materials)로, SBOM 의무화는 미국 행정명령(EO 14028, 2021)과 EU CRA(사이버복원력법)의 핵심 요구사항이 됐다.
+> 1. 상속된 위험(Inherited [[096_risk_non_risk_architecture_evaluation_flaws|Risk]])은 조직이 직접 통제할 수 없는 외부 요소([[520_supply_chain_attack_and_ci_cd_security|공급망]], 클라우드 [[090_service_kubernetes_network_load_balancing|서비스]], [[191_oss_license_compliance|오픈소스]] [[336_library_vs_framework|라이브러리]], 인수합병된 기업)로부터 이전(移轉)되어 오는 위험으로, 현대 IT 환경에서 전체 위험의 상당 부분을 차지한다.
+> 2. 고유 위험(Inherent [[096_risk_non_risk_architecture_evaluation_flaws|Risk]]) → 통제(Control) 적용 → 잔존 위험([[038_residual_risk|Residual Risk]]) 체계에서, 상속된 위험은 통제 전 원시 위험 상태가 외부에서 유입되는 특수 형태이며, SolarWinds·[[452_log4shell|Log4Shell]] 같은 [[520_supply_chain_attack_and_ci_cd_security|공급망]] 공격이 대표적 사례다.
+> 3. 상속된 위험 관리의 핵심은 공급업체 위험 관리(Third-Party [[841_iso_27005_risk_management|Risk Management]], TPRM)와 [[690_sbom_software_supply_chain_security|소프트웨어 자재 명세서]]([[890_sbom_cyclonedx_spdx|SBOM]], Software [[124_bom_bill_of_materials|Bill of Materials]])로, [[890_sbom_cyclonedx_spdx|SBOM]] 의무화는 미국 행정명령(EO 14028, [[477_owasp_top_10_2021|2021]])과 EU CRA(사이버복원력법)의 핵심 요구사항이 됐다.
 
 ---
 
@@ -71,7 +71,7 @@ categories = "studynote-security"
    통합 전 보안 실사(Due Diligence) 필수
 ```
 
-> 📢 **섹션 요약 비유**: 오픈소스 의존성 위험은 식재료 공급업체 문제 — 내 식당이 아무 잘못 없어도 재료에 문제가 있으면 고객이 탈이 난다.
+> 📢 **섹션 요약 비유**: [[191_oss_license_compliance|오픈소스]] 의존성 위험은 식재료 공급업체 문제 — 내 식당이 아무 잘못 없어도 재료에 문제가 있으면 고객이 탈이 난다.
 
 ---
 
@@ -111,7 +111,7 @@ TPRM (Third-Party Risk Management):
 
 ---
 
-## Ⅳ. SBOM (소프트웨어 자재 명세서)
+## Ⅳ. [[890_sbom_cyclonedx_spdx|SBOM]] ([[690_sbom_software_supply_chain_security|소프트웨어 자재 명세서]])
 
 ```
 SBOM (Software Bill of Materials):
@@ -146,7 +146,7 @@ SBOM 포함 정보:
 
 ---
 
-## Ⅴ. 실무 시나리오 — 금융기관 공급망 보안
+## Ⅴ. 실무 시나리오 — 금융기관 [[374_supply_chain_security|공급망 보안]]
 
 ```
 금융기관 A사 공급망 보안 강화 사례:
@@ -175,7 +175,7 @@ SBOM 포함 정보:
   공급망 보안 내부통제 기준 수립
 ```
 
-> 📢 **섹션 요약 비유**: 금융기관 공급망 보안은 금고 열쇠를 외부 업체에 맡기는 것 — 업체 신뢰성을 계속 검증하고 계약서에 책임을 명시해야 한다.
+> 📢 **섹션 요약 비유**: 금융기관 [[374_supply_chain_security|공급망 보안]]은 금고 열쇠를 외부 업체에 맡기는 것 — 업체 신뢰성을 계속 검증하고 계약서에 책임을 명시해야 한다.
 
 ---
 
@@ -238,4 +238,4 @@ SBOM 법제화
 
 1. 상속된 위험은 친구가 만든 레고를 받아서 놀다가 친구 레고에 불량 부품이 있어서 나도 다치는 상황이에요.
 2. SBOM은 레고 세트의 부품 목록 — 어떤 부품이 들어있는지 알아야 나쁜 부품을 빨리 찾아 교체할 수 있어요.
-3. SolarWinds 해킹처럼 유명한 소프트웨어 업데이트 파일에 악성코드가 숨어있어서 수만 개 회사가 한꺼번에 해킹당한 것이 공급망 공격이에요!
+3. SolarWinds 해킹처럼 유명한 소프트웨어 업데이트 파일에 악성코드가 숨어있어서 수만 개 회사가 한꺼번에 해킹당한 것이 [[520_supply_chain_attack_and_ci_cd_security|공급망]] 공격이에요!

@@ -8,9 +8,9 @@ categories = "studynote-design-supervision"
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: Guarded Suspension (가드 서스펜션) 패턴은 특정 가드 조건(Guard Condition)이 충족될 때까지 요청 스레드를 **일시 중단(suspend)**시키고, 조건이 만족되면 재개하는 동시성 제어 패턴이다.
+> 1. **본질**: Guarded Suspension (가드 서스펜션) 패턴은 특정 가드 조건(Guard Condition)이 충족될 때까지 요청 [[092_thread_lwp|스레드]]를 **일시 중단(suspend)**시키고, 조건이 만족되면 재개하는 [[014_concurrency|동시성]] 제어 패턴이다.
 > 2. **가치**: 생산자-소비자(Producer-Consumer) 패턴의 핵심 메커니즘으로, 빈 큐에서 소비하거나 가득 찬 큐에 넣으려는 시도를 CPU를 낭비하지 않고(busy-waiting 없이) 대기시킨다.
-> 3. **판단 포인트**: 조건이 곧 만족될 것이 예상될 때 사용한다. 조건이 절대 만족되지 않을 위험이 있다면 타임아웃(Timeout)과 함께 사용한다.
+> 3. **판단 포인트**: 조건이 곧 만족될 것이 예상될 때 사용한다. 조건이 절대 만족되지 않을 위험이 있다면 [[573_timeout_retry_backoff_strategy|타임아웃]]([[319_timeout_prevention|Timeout]])과 함께 사용한다.
 
 ---
 
@@ -25,7 +25,7 @@ while (queue.isEmpty()) {
 T item = queue.poll();
 ```
 
-이는 CPU 사이클을 낭비하고 다른 스레드 실행 기회를 빼앗는다.
+이는 CPU 사이클을 낭비하고 다른 [[092_thread_lwp|스레드]] 실행 기회를 빼앗는다.
 
 ```java
 // ✅ Guarded Suspension (wait/notify 기반)
@@ -58,7 +58,7 @@ synchronized (lock) {
   └─────────────────────────────────────────────┘
 ```
 
-- **📢 섹션 요약 비유**: 식당의 주문 대기표 — 테이블이 없을 때 손님(Consumer 스레드)이 쇼파에 앉아 기다린다. 직원이 "6번 테이블 준비됐습니다"라고 부를 때까지(notify) 무작정 서서 기다리지 않는다.
+- **📢 섹션 요약 비유**: 식당의 주문 대기표 — 테이블이 없을 때 손님(Consumer [[092_thread_lwp|스레드]])이 쇼파에 앉아 기다린다. 직원이 "6번 테이블 준비됐습니다"라고 부를 때까지(notify) 무작정 서서 기다리지 않는다.
 
 ---
 
@@ -132,8 +132,8 @@ public class SimpleBlockingQueue<T> {
 | 항목 | 설명 | 포인트 |
 |:---|:---|:---|
 | 핵심 역할 | 입력·상태·출력을 분리하는 책임 경계 | 구현보다 경계를 먼저 본다. |
-| 제어 지점 | 조건, 이벤트, 정책이 만나는 곳 | 병목과 결합이 생기는 곳이다. |
-| 검증 포인트 | 테스트·로그·모니터링으로 확인할 지점 | 운영 가능성이 설계 품질을 결정한다. |
+| 제어 지점 | 조건, 이벤트, [[164_policy|정책]]이 만나는 곳 | 병목과 결합이 생기는 곳이다. |
+| [[395_verification_process_review|검증]] 포인트 | 테스트·[[568_logs_distributed_logging_elk_fluentd|로그]]·모니터링으로 확인할 지점 | 운영 가능성이 설계 품질을 결정한다. |
 
 - **📢 섹션 요약 비유**: 신호등의 초록불(Guard Condition) — 빨간불일 때 차들이 줄지어 기다리고(wait), 초록불이 켜지면(notifyAll) 한꺼번에 출발한다.
 
@@ -144,8 +144,8 @@ public class SimpleBlockingQueue<T> {
 |:---|:---|:---|:---|:---|
 | **Busy-Waiting** | 100% | 즉시 | 낮음 | ❌ 거의 사용 안 함 |
 | **Guarded Suspension** | 0% (대기 중) | notify 시 | 중간 | 생산자-소비자 |
-| **Timed Waiting** | 0% (대기 중) | 타임아웃 or notify | 중간 | 외부 이벤트 대기 |
-| **Polling with sleep** | 낮음 | sleep 주기 | 낮음 | 단순 폴링 |
+| **Timed Waiting** | 0% (대기 중) | [[573_timeout_retry_backoff_strategy|타임아웃]] or notify | 중간 | 외부 이벤트 대기 |
+| **[[747_io_polling_overhead|Polling]] with sleep** | 낮음 | sleep 주기 | 낮음 | 단순 [[448_polling_programmed_io|폴링]] |
 
 ```
   데드락 발생 시나리오:
@@ -195,12 +195,12 @@ Executors.newFixedThreadPool(4).submit(() -> {
 - Guarded Suspension의 핵심: **Guard Condition + wait() + notifyAll()** 3요소
 - `if` 대신 `while`을 사용하는 이유: **Spurious Wakeup (허위 깨움)** 방지
 - `notify()` vs `notifyAll()` 차이: `notify()`는 임의 하나만 깨움 → `notifyAll()` 권장
-- 실무에서는 `java.util.concurrent.BlockingQueue`로 추상화 활용
+- 실무에서는 `java.util.concurrent.BlockingQueue`로 [[198_abstraction_control_data_process|추상화]] 활용
 
-### 판단 체크리스트
+### 판단 [[435_checklist_based_testing|체크리스트]]
 1. 해결하려는 변화 축이 분명한가?
-2. 추상화 비용보다 변경 절감 효과가 큰가?
-3. 테스트·로그·운영 가시성이 확보되는가?
+2. [[198_abstraction_control_data_process|추상화]] 비용보다 변경 절감 효과가 큰가?
+3. 테스트·[[568_logs_distributed_logging_elk_fluentd|로그]]·운영 가시성이 확보되는가?
 4. 팀이 이 구조를 일관되게 유지할 수 있는가?
 
 - **📢 섹션 요약 비유**: 응급실 대기 — 의사(Consumer)가 없을 때 환자(요청)는 대기실에서 기다린다. 의사가 준비되면(조건 충족) 호출받아 진료를 시작한다.
@@ -211,31 +211,31 @@ Executors.newFixedThreadPool(4).submit(() -> {
 | 효과 | 설명 |
 |:---|:---|
 | CPU 효율성 | busy-waiting 대비 CPU 사용률 제거 |
-| 동기화 보장 | 조건 기반 안전한 공유 자원 접근 |
+| [[212_synchronization_mechanisms|동기화]] 보장 | 조건 기반 안전한 공유 자원 접근 |
 | 확장성 | 생산자·소비자 수를 독립적으로 조절 가능 |
 | 배압(Back-Pressure) 구현 | 큐가 가득 차면 생산자 자동 제어 |
 
-- **Deadlock**: notifyAll() 누락 시 영원한 대기 위험
+- **[[281_deadlock_definition|Deadlock]]**: notifyAll() 누락 시 영원한 대기 위험
 - **Spurious Wakeup**: `if` 대신 `while`로 조건 재확인 필수
-- **Starvation (기아)**: 특정 스레드가 항상 대기하는 상황 방지 → 공정성(Fairness) 정책
+- **[[314_starvation_prevention|Starvation]] (기아)**: 특정 [[092_thread_lwp|스레드]]가 항상 대기하는 상황 방지 → 공정성(Fairness) [[164_policy|정책]]
 
-Guarded Suspension (가드 서스펜션)은 멀티스레드 프로그래밍의 핵심 기법이다. Java의 `wait/notify`, `Condition.await/signal`, `BlockingQueue` 모두 이 패턴을 구현한 것이다. 생산자-소비자 아키텍처의 근간으로, 동시성과 효율성을 동시에 달성하는 방법이다.
+Guarded Suspension (가드 서스펜션)은 멀티스레드 프로그래밍의 핵심 기법이다. Java의 `wait/notify`, `Condition.await/signal`, `BlockingQueue` 모두 이 패턴을 구현한 것이다. 생산자-소비자 아키텍처의 근간으로, [[014_concurrency|동시성]]과 효율성을 동시에 달성하는 방법이다.
 
-확장 방향은 ① 선언형 API와의 결합, ② 관측 가능성(Observability) 내장, ③ 분산 환경에 맞는 변형 패턴 적용이다.
+확장 방향은 ① 선언형 API와의 결합, ② [[111_observability_metrics_logs_traces|관측 가능성]]([[642_observability_telemetry|Observability]]) 내장, ③ [[136_variance|분산]] 환경에 맞는 변형 패턴 적용이다.
 
 - **📢 섹션 요약 비유**: Guarded Suspension은 "스마트한 대기" — 조건이 맞을 때까지 잠들어(wait) CPU를 낭비하지 않고, 조건이 충족되면 깨워달라고(notify) 요청하는 효율적인 대기 방식.
 
 ---
 
 ### 📌 관련 개념 맵
-| 관계 | 개념 | 설명 |
+| [[083_relationship_in_er_model|관계]] | 개념 | 설명 |
 |:---|:---|:---|
-| 상위 개념 | 동시성 패턴 (Concurrency Pattern) | 병렬 처리 설계 패턴 그룹 |
+| 상위 개념 | [[278_concurrency_patterns|동시성 패턴]] ([[266_other_transparency|Concurrency]] Pattern) | [[430_index_fast_full_scan|병렬]] 처리 설계 패턴 그룹 |
 | 연관 개념 | Producer-Consumer Pattern | Guarded Suspension의 주요 적용 사례 |
 | 연관 개념 | BlockingQueue (Java) | Guarded Suspension의 실용적 구현 |
-| 연관 개념 | Condition Variable | POSIX 스레딩의 동일 개념 |
-| 연관 개념 | Deadlock | 잘못 구현 시 발생하는 위험 |
-| 연관 개념 | Monitor Object Pattern | Guarded Suspension의 상위 패턴 |
+| 연관 개념 | [[228_condition_variable|Condition Variable]] | POSIX 스레딩의 동일 개념 |
+| 연관 개념 | [[281_deadlock_definition|Deadlock]] | 잘못 구현 시 발생하는 위험 |
+| 연관 개념 | [[210_monitor_object_pattern|Monitor Object Pattern]] | Guarded Suspension의 상위 패턴 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 조건 대기 → 가드 서스펜션 패턴 → Producer-Consumer

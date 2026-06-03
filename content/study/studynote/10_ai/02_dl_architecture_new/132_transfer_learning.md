@@ -7,9 +7,9 @@ categories = "studynote-ai"
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: Transfer Learning은 **대규모 데이터로 사전 학습된 모델의 지식을 새로운 작업에 전이(재활용)**하는 학습 기법이며, Foundation Model 시대의 핵심 패러다임이다.
-> 2. **가치**: 처음부터 학습하면 GPU·데이터·시간이 막대하지만, 사전 학습 모델을 전이하면 **소량 데이터로도 높은 성능**을 달성(Few-shot)할 수 있다.
-> 3. **판단 포인트**: Feature Extraction(동결)·Fine-tuning(미세 조정)·LoRA(효율적 미세 조정)를 구분하고, 도메인 유사도에 따라 전략을 선택한다.
+> 1. **본질**: Transfer Learning은 **대규모 [[001_dikw_pyramid|데이터]]로 사전 학습된 모델의 지식을 새로운 작업에 전이(재활용)**하는 학습 기법이며, [[225_foundation_model_peft_lora|Foundation Model]] 시대의 핵심 패러다임이다.
+> 2. **가치**: 처음부터 학습하면 [[418_gpu|GPU]]·[[001_dikw_pyramid|데이터]]·시간이 막대하지만, 사전 학습 모델을 전이하면 **소량 [[001_dikw_pyramid|데이터]]로도 높은 [[282_performance_tactics|성능]]**을 달성(Few-shot)할 수 있다.
+> 3. **판단 포인트**: Feature Extraction(동결)·[[304_fine_tuning|Fine-tuning]]([[133_fine_tuning|미세 조정]])·[[617_lora_lorawan_css_chirp_spread_spectrum|LoRA]](효율적 [[133_fine_tuning|미세 조정]])를 구분하고, [[064_relation_domain|도메인]] 유사도에 따라 [[268_strategy_pattern|전략]]을 선택한다.
 
 ---
 
@@ -21,23 +21,23 @@ categories = "studynote-ai"
   소량 데이터로도 높은 성능!
 ```
 
-- **📢 섹션 요약 비유**: Transfer Learning은 **대학 교양(사전 학습) 후 전공(Fine-tuning) 선택**이다. 교양을 건너뛰면 전공도 어렵다.
+- **📢 섹션 요약 비유**: Transfer Learning은 **대학 교양(사전 학습) 후 전공([[304_fine_tuning|Fine-tuning]]) 선택**이다. 교양을 건너뛰면 전공도 어렵다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-| 방식 | 설명 | 데이터량 |
+| 방식 | 설명 | [[001_dikw_pyramid|데이터]]량 |
 |:---|:---|:---|
 | **Feature Extraction** | 모델 동결, 마지막 층만 | 극소량 |
-| **Fine-tuning** | 전체/일부 층 재학습 | 중간 |
-| **LoRA/QLoRA** | 저랭크 행렬만 학습 | **효율적** |
+| **[[304_fine_tuning|Fine-tuning]]** | 전체/일부 층 재학습 | 중간 |
+| **[[617_lora_lorawan_css_chirp_spread_spectrum|LoRA]]/[[404_qlora|QLoRA]]** | 저랭크 행렬만 학습 | **효율적** |
 
 ---
 
 ## Ⅲ~Ⅴ. 결론
 
-Transfer Learning은 **현대 AI의 기본 패러다임**이며, LoRA/QLoRA로 소규모 팀도 LLM을 커스텀할 수 있다.
+Transfer Learning은 **현대 AI의 기본 패러다임**이며, [[617_lora_lorawan_css_chirp_spread_spectrum|LoRA]]/QLoRA로 소규모 팀도 LLM을 커스텀할 수 있다.
 
 ---
 
@@ -45,11 +45,11 @@ Transfer Learning은 **현대 AI의 기본 패러다임**이며, LoRA/QLoRA로 �
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **Transfer Learning** | 지식 전이 |
-| **Fine-tuning** | 전체 모델 미세 조정 |
-| **LoRA** | 효율적 파라미터 미세 조정 |
-| **Foundation Model** | 전이의 원천 |
-| **Domain Adaptation** | 도메인 차이 극복 |
+| **Transfer [[240_switch_learning_forwarding_flooding|Learning]]** | 지식 전이 |
+| **[[304_fine_tuning|Fine-tuning]]** | 전체 모델 [[133_fine_tuning|미세 조정]] |
+| **[[617_lora_lorawan_css_chirp_spread_spectrum|LoRA]]** | 효율적 파라미터 [[133_fine_tuning|미세 조정]] |
+| **[[225_foundation_model_peft_lora|Foundation Model]]** | 전이의 원천 |
+| **[[064_relation_domain|Domain]] Adaptation** | [[064_relation_domain|도메인]] 차이 극복 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -61,6 +61,6 @@ Transfer Learning은 **현대 AI의 기본 패러다임**이며, LoRA/QLoRA로 �
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
-1. Transfer Learning은 **대학 교양(사전 학습)** 후 **전공(Fine-tuning)**을 고르는 거예요.
+1. Transfer Learning은 **대학 교양(사전 학습)** 후 **전공([[304_fine_tuning|Fine-tuning]])**을 고르는 거예요.
 2. 교양을 열심히 하면 **어떤 전공이든 빨리** 배울 수 있어요.
 3. LoRA는 **전공 한두 과목만** 추가로 듣는 효율적인 방법이에요!

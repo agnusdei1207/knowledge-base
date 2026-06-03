@@ -7,29 +7,29 @@ categories = "studynote-data-engineering"
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: IBN(Intent-Based Networking)은 비즈니스 의도(Intent)를 자연어 또는 정책으로 입력하면 AI/ML이 자동으로 네트워크 구성을 생성·검증·운영하는 자율 네트워킹 패러다임이다.
+> 1. **본질**: [[857_ibn_intent_based_networking_declarative_automation|IBN]]([[416_prompt_injection_semantic_routing|Intent]]-Based Networking)은 비즈니스 의도([[416_prompt_injection_semantic_routing|Intent]])를 자연어 또는 [[164_policy|정책]]으로 입력하면 [[190_ai_llm_requirements_specification|AI]]/ML이 자동으로 네트워크 구성을 [[087_process_state_transition|생성]]·[[395_verification_process_review|검증]]·운영하는 자율 네트워킹 패러다임이다.
 > 2. **가치**: 변환(Translation) → 활성화(Activation) → 보증(Assurance) 3단계 루프로 네트워크가 항상 의도된 상태를 유지하며, 이상 감지 시 자동 자가 치유(Self-Healing)한다.
-> 3. **판단 포인트**: IBN은 SDN(Software-Defined Networking) 위에 AI/ML 정책 엔진을 추가한 상위 개념이며, 5G 네트워크 슬라이싱과 결합하면 서비스별 동적 네트워크 보장이 가능하다.
+> 3. **판단 포인트**: IBN은 [[633_sdn_whitebox|SDN]](Software-Defined Networking) 위에 [[190_ai_llm_requirements_specification|AI]]/ML [[164_policy|정책]] 엔진을 추가한 상위 개념이며, [[418_5g_embb_urllc_mmtc_slicing|5G]] [[149_network_slicing_5g_architecture|네트워크 슬라이싱]]과 결합하면 [[090_service_kubernetes_network_load_balancing|서비스]]별 동적 네트워크 보장이 가능하다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-### 1.1 IBN (Intent-Based Networking) 정의
+### 1.1 [[857_ibn_intent_based_networking_declarative_automation|IBN]] ([[416_prompt_injection_semantic_routing|Intent]]-Based Networking) 정의
 
 IBN은 Gartner(2017)가 제안한 개념으로, 네트워크 관리자가 "무엇을(What)" 원하는지 비즈니스 의도를 표현하면, 시스템이 자동으로 "어떻게(How)" 네트워크를 구성할지 결정한다.
 
 ### 1.2 전통 네트워킹의 한계
 
-| 단계 | 전통 네트워킹 | IBN |
+| 단계 | 전통 네트워킹 | [[857_ibn_intent_based_networking_declarative_automation|IBN]] |
 |:---|:---|:---|
-| 정책 설정 | CLI 명령어 수동 입력 | 비즈니스 의도 입력 |
-| 구성 적용 | 장비별 수동 설정 | 자동 변환·배포 |
-| 검증 | 수동 핑 테스트 | 지속적 자동 검증 |
+| [[164_policy|정책]] [[009_config|설정]] | CLI [[158_instruction|명령어]] 수동 입력 | 비즈니스 의도 입력 |
+| 구성 적용 | 장비별 수동 [[009_config|설정]] | 자동 변환·배포 |
+| [[395_verification_process_review|검증]] | 수동 핑 테스트 | 지속적 자동 [[395_verification_process_review|검증]] |
 | 장애 대응 | 수동 트러블슈팅 | 자동 자가 치유 |
-| 규모 확장 | 선형적 관리 비용 | 정책 재사용 |
+| 규모 확장 | 선형적 관리 비용 | [[164_policy|정책]] 재사용 |
 
-### 1.3 IBN 동작 개요
+### 1.3 [[857_ibn_intent_based_networking_declarative_automation|IBN]] 동작 개요
 
 ```
 비즈니스 의도 입력 예시:
@@ -52,7 +52,7 @@ IBN은 Gartner(2017)가 제안한 개념으로, 네트워크 관리자가 "무�
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### 2.1 IBN 3단계 루프 아키텍처
+### 2.1 [[857_ibn_intent_based_networking_declarative_automation|IBN]] 3단계 루프 아키텍처
 
 ```
 ┌────────────────────────────────────────────────────────────┐
@@ -83,17 +83,17 @@ IBN은 Gartner(2017)가 제안한 개념으로, 네트워크 관리자가 "무�
 └────────────────────────────────────────────────────────────┘
 ```
 
-### 2.2 IBN 구성요소 상세
+### 2.2 [[857_ibn_intent_based_networking_declarative_automation|IBN]] 구성요소 상세
 
 | 구성요소 | 역할 | 기술 구현 |
 |:---|:---|:---|
-| Intent Engine (의도 엔진) | 의도 → 정책 변환 | NLP, ML, 규칙 기반 |
-| Network Controller (네트워크 컨트롤러) | 정책 → 장비 설정 배포 | ONOS, OpenDaylight, Cisco DNA |
+| [[416_prompt_injection_semantic_routing|Intent]] Engine (의도 엔진) | 의도 → [[164_policy|정책]] 변환 | NLP, ML, 규칙 기반 |
+| Network Controller (네트워크 컨트롤러) | [[164_policy|정책]] → 장비 [[009_config|설정]] 배포 | ONOS, OpenDaylight, [[539_netflow_sflow_traffic_monitoring|Cisco]] DNA |
 | Network Analytics (네트워크 분석) | 실시간 상태 수집·분석 | Streaming Analytics, ML |
-| Policy Repository (정책 저장소) | 의도·정책 버전 관리 | Git 기반 |
-| Simulation Engine (시뮬레이션) | 변경 전 사전 검증 | Digital Twin |
+| [[164_policy|Policy]] Repository ([[164_policy|정책]] 저장소) | 의도·[[164_policy|정책]] [[288_version_ihl_tos_total_length|버전]] 관리 | Git 기반 |
+| Simulation Engine (시뮬레이션) | 변경 전 사전 [[395_verification_process_review|검증]] | [[126_digital_twin_concept|Digital Twin]] |
 
-### 2.3 AI/ML 활용 영역
+### 2.3 [[190_ai_llm_requirements_specification|AI]]/ML 활용 영역
 
 ```
 IBN에서 AI/ML 활용
@@ -114,35 +114,35 @@ IBN에서 AI/ML 활용
    장비 성능 지표 분석 → 장애 발생 전 예방 조치
 ```
 
-### 2.4 주요 IBN 제품 비교
+### 2.4 주요 [[857_ibn_intent_based_networking_declarative_automation|IBN]] 제품 비교
 
 | 제품 | 개발사 | 특징 |
 |:---|:---|:---|
-| Cisco DNA Center | Cisco | 엔터프라이즈 최다 채택, AI Network Analytics |
-| Juniper Apstra | Juniper Networks | 멀티벤더 지원, 데이터센터 특화 |
-| VMware NSX-T | VMware | 소프트웨어 정의 네트워킹, 마이크로세그멘테이션 |
+| [[539_netflow_sflow_traffic_monitoring|Cisco]] DNA Center | [[539_netflow_sflow_traffic_monitoring|Cisco]] | 엔터프라이즈 최다 채택, [[190_ai_llm_requirements_specification|AI]] Network Analytics |
+| Juniper Apstra | Juniper Networks | 멀티벤더 지원, [[801_data_center_3_tier_architecture_core_aggregation_access|데이터센터]] 특화 |
+| VMware NSX-T | VMware | [[850_sdn_software_defined_networking_concept|소프트웨어 정의 네트워킹]], 마이크로세그멘테이션 |
 | AWS Network Manager | AWS | 클라우드 WAN 자동화 |
-| ONAP | Linux Foundation | 통신사 NFV/SDN 자동화 |
+| ONAP | Linux Foundation | 통신사 [[865_nfv_network_functions_virtualization_architecture|NFV]]/[[633_sdn_whitebox|SDN]] 자동화 |
 
-📢 **섹션 요약 비유**: IBN의 3단계 루프는 자동 온도 조절기(스마트 서모스탯)와 같다. "22도 유지"(의도 입력) → 보일러·에어컨 가동(활성화) → 온도 센서 확인(보증) → 목표 달성 안되면 재조정(피드백)이 자동으로 반복된다.
+📢 **섹션 요약 비유**: IBN의 3단계 루프는 자동 온도 조절기(스마트 서모스탯)와 같다. "22도 유지"(의도 입력) → 보일러·에어컨 가동(활성화) → 온도 센서 [[396_validation|확인]](보증) → 목표 달성 안되면 재조정(피드백)이 자동으로 반복된다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-### 3.1 IBN vs SDN vs 전통 네트워킹 비교
+### 3.1 [[857_ibn_intent_based_networking_declarative_automation|IBN]] vs [[633_sdn_whitebox|SDN]] vs 전통 네트워킹 비교
 
-| 항목 | 전통 네트워킹 | SDN | IBN |
+| 항목 | 전통 네트워킹 | [[633_sdn_whitebox|SDN]] | [[857_ibn_intent_based_networking_declarative_automation|IBN]] |
 |:---|:---|:---|:---|
-| 추상화 수준 | 하드웨어/CLI | 제어·데이터 평면 분리 | 비즈니스 의도 수준 |
-| 설정 방법 | 장비별 CLI | 중앙 컨트롤러 API | 자연어/정책 |
+| [[198_abstraction_control_data_process|추상화]] 수준 | 하드웨어/CLI | 제어·[[001_dikw_pyramid|데이터]] 평면 분리 | 비즈니스 의도 수준 |
+| [[009_config|설정]] 방법 | 장비별 CLI | 중앙 컨트롤러 [[014_api_posix|API]] | 자연어/[[164_policy|정책]] |
 | 자동화 | 없음 | 부분 자동화 | 완전 자동화 |
-| AI 활용 | 없음 | 제한적 | 핵심 |
+| [[190_ai_llm_requirements_specification|AI]] 활용 | 없음 | 제한적 | 핵심 |
 | 자가 치유 | 없음 | 제한적 | 포함 |
-| 정책 검증 | 수동 | 제한적 | 자동 |
-| 적합 환경 | 소규모 | 데이터센터 | 대규모 엔터프라이즈 |
+| [[164_policy|정책]] [[395_verification_process_review|검증]] | 수동 | 제한적 | 자동 |
+| 적합 환경 | 소규모 | [[801_data_center_3_tier_architecture_core_aggregation_access|데이터센터]] | 대규모 엔터프라이즈 |
 
-### 3.2 5G 네트워크 슬라이싱(Network Slicing)과 IBN 연계
+### 3.2 [[418_5g_embb_urllc_mmtc_slicing|5G]] [[149_network_slicing_5g_architecture|네트워크 슬라이싱]]([[149_network_slicing_5g_architecture|Network Slicing]])과 [[857_ibn_intent_based_networking_declarative_automation|IBN]] 연계
 
 ```
 5G 슬라이싱 + IBN 아키텍처
@@ -170,7 +170,7 @@ IBN이 각 슬라이스 SLA(Service Level Agreement) 자동 모니터링
 위반 시 리소스 자동 재할당
 ```
 
-### 3.3 IBN 정책 언어 예시
+### 3.3 [[857_ibn_intent_based_networking_declarative_automation|IBN]] [[164_policy|정책]] 언어 예시
 
 ```yaml
 # IBN 정책 정의 예시 (YAML 기반 의도 표현)
@@ -199,22 +199,22 @@ intent:
   priority: "HIGH"
 ```
 
-📢 **섹션 요약 비유**: IBN의 5G 슬라이싱 연계는 고속도로의 차선 관리와 같다. 응급차(자율주행, URLLC)에는 항상 비어있는 응급 차선을, 일반 차량(스트리밍, eMBB)에는 일반 차선을, 자전거(IoT, mMTC)에는 자전거 도로를 자동으로 할당한다.
+📢 **섹션 요약 비유**: IBN의 [[418_5g_embb_urllc_mmtc_slicing|5G]] 슬라이싱 연계는 고속도로의 차선 관리와 같다. 응급차(자율주행, [[761_urllc_ultra_reliable_low_latency|URLLC]])에는 항상 비어있는 응급 차선을, 일반 차량(스트리밍, [[760_embb_enhanced_mobile_broadband_vr_ar|eMBB]])에는 일반 차선을, 자전거([[101_iot_concept|IoT]], [[762_mmtc_massive_machine_type_communications|mMTC]])에는 자전거 도로를 자동으로 할당한다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### 4.1 IBN 도입 시나리오
+### 4.1 [[857_ibn_intent_based_networking_declarative_automation|IBN]] 도입 시나리오
 
-| 시나리오 | IBN 적용 방법 | 기대효과 |
+| 시나리오 | [[857_ibn_intent_based_networking_declarative_automation|IBN]] 적용 방법 | 기대효과 |
 |:---|:---|:---|
-| 제로 트러스트 보안 | 사용자 역할 기반 자동 세그멘테이션 | 공격 반경 최소화 |
-| 멀티클라우드 연결 | 클라우드 간 WAN 정책 자동 최적화 | 비용 30% 절감 |
-| 재택근무 확대 | SD-WAN + IBN으로 VPN 품질 자동 보장 | 사용자 경험 향상 |
-| 공장 자동화 | OT(운영 기술) 네트워크 격리 자동화 | 보안 사고 예방 |
+| [[738_zero_trust_architecture_least_privilege|제로 트러스트 보안]] | 사용자 역할 기반 자동 [[364_segmentation|세그멘테이션]] | 공격 반경 최소화 |
+| 멀티클라우드 연결 | 클라우드 간 WAN [[164_policy|정책]] 자동 최적화 | 비용 30% 절감 |
+| 재택근무 확대 | [[849_sd_wan_software_defined_wide_area_network|SD-WAN]] + IBN으로 [[983_vpn_virtual_private_network|VPN]] 품질 자동 보장 | 사용자 경험 향상 |
+| 공장 자동화 | [[891_ot_operational_technology|OT]](운영 기술) 네트워크 격리 자동화 | 보안 사고 예방 |
 
-### 4.2 Cisco DNA Center IBN 구현
+### 4.2 [[539_netflow_sflow_traffic_monitoring|Cisco]] DNA Center [[857_ibn_intent_based_networking_declarative_automation|IBN]] 구현
 
 ```
 Cisco DNA Center 적용 예시
@@ -239,7 +239,7 @@ Cisco DNA Center 적용 예시
    VLAN 충돌 감지 → 자동 재구성
 ```
 
-### 4.3 IBN 도입 성숙도 모델
+### 4.3 [[857_ibn_intent_based_networking_declarative_automation|IBN]] 도입 성숙도 모델
 
 ```
 IBN 도입 단계
@@ -264,10 +264,10 @@ IBN 도입 단계
 
 | 논점 | 핵심 내용 |
 |:---|:---|
-| IBN vs SDN 차이 | SDN은 제어 분리, IBN은 의도 기반 자동화 추가 |
-| AI/ML 역할 | 의도 해석 + 이상 감지 + 자율 최적화 3가지 |
-| 5G 슬라이싱 연계 | 서비스별 SLA 자동 보장 (URLLC/eMBB/mMTC) |
-| 보증(Assurance) 핵심 | 지속적 상태 검증으로 의도-현실 간격 제로화 |
+| [[857_ibn_intent_based_networking_declarative_automation|IBN]] vs [[633_sdn_whitebox|SDN]] 차이 | SDN은 제어 분리, IBN은 의도 기반 자동화 추가 |
+| [[190_ai_llm_requirements_specification|AI]]/ML 역할 | 의도 해석 + 이상 감지 + 자율 최적화 3가지 |
+| [[418_5g_embb_urllc_mmtc_slicing|5G]] 슬라이싱 연계 | [[090_service_kubernetes_network_load_balancing|서비스]]별 [[085_sla|SLA]] 자동 보장 ([[761_urllc_ultra_reliable_low_latency|URLLC]]/[[760_embb_enhanced_mobile_broadband_vr_ar|eMBB]]/[[762_mmtc_massive_machine_type_communications|mMTC]]) |
+| 보증(Assurance) 핵심 | 지속적 상태 [[395_verification_process_review|검증]]으로 의도-현실 간격 [[784_zeroization_circuit|제로화]] |
 
 📢 **섹션 요약 비유**: IBN의 보증(Assurance) 단계는 비행기의 자동 항법 장치(오토파일럿)와 같다. 목적지(의도)를 입력하면 시스템이 기상 변화(네트워크 이상)에 맞춰 경로를 자동 조정하고, 조종사(관리자)는 전체 상황만 모니터링한다.
 
@@ -275,17 +275,17 @@ IBN 도입 단계
 
 ## Ⅴ. 기대효과 및 결론
 
-### 5.1 IBN 도입 기대효과
+### 5.1 [[857_ibn_intent_based_networking_declarative_automation|IBN]] 도입 기대효과
 
 | 효과 | 정량 지표 |
 |:---|:---|
 | 운영 비용 절감 | 수동 작업 70~80% 자동화 |
-| 장애 평균 복구 시간(MTTR) | 4시간 → 15분 (75% 감소) |
-| 설정 오류 감소 | 인적 오류 90% 감소 |
-| 보안 정책 일관성 | 100% 정책 준수 보장 |
-| 신규 서비스 배포 | 3주 → 1일 (93% 단축) |
+| 장애 평균 [[658_ir_recovery|복구]] 시간([[451_mttr|MTTR]]) | 4시간 → 15분 (75% 감소) |
+| [[009_config|설정]] 오류 감소 | 인적 오류 90% 감소 |
+| [[007_security_policy|보안 정책]] [[194_consistency_database_integrity|일관성]] | 100% [[164_policy|정책]] 준수 보장 |
+| 신규 [[090_service_kubernetes_network_load_balancing|서비스]] 배포 | 3주 → 1일 (93% 단축) |
 
-### 5.2 IBN 미래 발전 방향
+### 5.2 [[857_ibn_intent_based_networking_declarative_automation|IBN]] 미래 발전 방향
 
 ```
 IBN 진화 방향
@@ -307,25 +307,25 @@ IBN 진화 방향
 
 ### 5.3 결론 요약
 
-IBN은 복잡한 네트워크 운영을 비즈니스 의도 중심으로 단순화하고, AI/ML로 자율 최적화·자가 치유를 실현하는 차세대 네트워킹 패러다임이다. 기술사 관점에서는 **IBN vs SDN의 추상화 수준 차이, 변환-활성화-보증 3단계 루프, 5G 슬라이싱과의 결합**을 명확히 이해해야 한다.
+IBN은 복잡한 네트워크 운영을 비즈니스 의도 중심으로 단순화하고, [[190_ai_llm_requirements_specification|AI]]/ML로 자율 최적화·자가 치유를 실현하는 차세대 네트워킹 패러다임이다. 기술사 관점에서는 **[[857_ibn_intent_based_networking_declarative_automation|IBN]] vs SDN의 [[198_abstraction_control_data_process|추상화]] 수준 차이, 변환-활성화-보증 3단계 루프, [[418_5g_embb_urllc_mmtc_slicing|5G]] 슬라이싱과의 결합**을 명확히 이해해야 한다.
 
-📢 **섹션 요약 비유**: IBN은 네트워크 운영의 "자율 주행 자동차"다. 목적지(비즈니스 의도)를 입력하면 센서(모니터링)로 주변 상황을 파악하고, AI(정책 엔진)가 최적 경로(네트워크 구성)를 실시간으로 조정하며 안전하게 목적지에 도달한다.
+📢 **섹션 요약 비유**: IBN은 네트워크 운영의 "자율 주행 자동차"다. 목적지(비즈니스 의도)를 입력하면 센서(모니터링)로 주변 상황을 파악하고, [[190_ai_llm_requirements_specification|AI]]([[164_policy|정책]] 엔진)가 최적 경로(네트워크 구성)를 실시간으로 조정하며 안전하게 목적지에 도달한다.
 
 ---
 
 ### 📌 관련 개념 맵
 
-| 관계 | 개념 | 설명 |
+| [[083_relationship_in_er_model|관계]] | 개념 | 설명 |
 |:---|:---|:---|
-| 핵심 기술 | IBN (Intent-Based Networking) | 의도 기반 자율 네트워킹 |
-| 3단계 루프 | Translation (변환) | 의도 → 네트워크 정책 변환 |
-| 3단계 루프 | Activation (활성화) | 정책 → 장비 설정 배포 |
-| 3단계 루프 | Assurance (보증) | 지속적 의도 상태 검증 |
-| 기반 기술 | SDN (Software-Defined Networking) | 제어·데이터 평면 분리 |
-| 연계 기술 | 5G Network Slicing (네트워크 슬라이싱) | 서비스별 논리 네트워크 분리 |
-| 제품 | Cisco DNA Center | 엔터프라이즈 IBN 플랫폼 |
-| AI 기능 | Anomaly Detection (이상 감지) | 트래픽 이상 자동 감지 |
-| 보안 | Zero Trust (제로 트러스트) | IBN 기반 자동 세그멘테이션 |
+| 핵심 기술 | [[857_ibn_intent_based_networking_declarative_automation|IBN]] ([[416_prompt_injection_semantic_routing|Intent]]-Based Networking) | 의도 기반 자율 네트워킹 |
+| 3단계 루프 | Translation (변환) | 의도 → 네트워크 [[164_policy|정책]] 변환 |
+| 3단계 루프 | Activation (활성화) | [[164_policy|정책]] → 장비 [[009_config|설정]] 배포 |
+| 3단계 루프 | Assurance (보증) | 지속적 의도 상태 [[395_verification_process_review|검증]] |
+| 기반 기술 | [[633_sdn_whitebox|SDN]] (Software-Defined Networking) | 제어·[[001_dikw_pyramid|데이터]] 평면 분리 |
+| 연계 기술 | [[418_5g_embb_urllc_mmtc_slicing|5G]] [[149_network_slicing_5g_architecture|Network Slicing]] ([[149_network_slicing_5g_architecture|네트워크 슬라이싱]]) | [[090_service_kubernetes_network_load_balancing|서비스]]별 [[369_logic_bomb|논리]] 네트워크 분리 |
+| 제품 | [[539_netflow_sflow_traffic_monitoring|Cisco]] DNA Center | 엔터프라이즈 [[857_ibn_intent_based_networking_declarative_automation|IBN]] 플랫폼 |
+| [[190_ai_llm_requirements_specification|AI]] 기능 | [[111_anomaly_detection|Anomaly Detection]] (이상 감지) | 트래픽 이상 자동 감지 |
+| 보안 | [[667_zero_trust_runtime_integrity_measurement|Zero Trust]] ([[667_zero_trust_runtime_integrity_measurement|제로 트러스트]]) | [[857_ibn_intent_based_networking_declarative_automation|IBN]] 기반 자동 [[364_segmentation|세그멘테이션]] |
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -350,5 +350,5 @@ AI 기반 트래픽 라우팅
     ├─► 트래픽 예측 · 경로 최적화
     └─► 자가 치유 (Self-Healing) 네트워크
 ```
-2. IBN의 3단계는 요리사의 작업과 같아요. 레시피 이해(변환) → 요리 실행(활성화) → 맛 확인(보증)이 계속 반복되고, 맛이 이상하면 자동으로 조리법을 수정해요.
-3. 5G 슬라이싱 + IBN은 고속도로 자동 차선 배정이에요. 응급차에는 항상 비어있는 차선을, 일반 차량에는 빈 차선을 자동으로 배정해 모두가 목적지에 빠르게 도달하게 해요.
+2. IBN의 3단계는 요리사의 작업과 같아요. 레시피 이해(변환) → 요리 실행(활성화) → 맛 [[396_validation|확인]](보증)이 계속 반복되고, 맛이 이상하면 자동으로 조리법을 수정해요.
+3. [[418_5g_embb_urllc_mmtc_slicing|5G]] 슬라이싱 + IBN은 고속도로 자동 차선 배정이에요. 응급차에는 항상 비어있는 차선을, 일반 차량에는 빈 차선을 자동으로 배정해 모두가 목적지에 빠르게 도달하게 해요.

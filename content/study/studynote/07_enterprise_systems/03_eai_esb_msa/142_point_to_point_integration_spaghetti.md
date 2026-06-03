@@ -7,9 +7,9 @@ categories = "studynote-enterprise-systems"
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: P2P 통합은 **시스템 간 1:1로 직접 연결(인터페이스)**하는 가장 단순한 통합 방식이며, N개 시스템이면 **최대 N(N-1)/2개 인터페이스**가 필요하다.
+> 1. **본질**: [[916_p2p_peer_to_peer_networking_super_node_gnutella|P2P]] 통합은 **시스템 간 1:1로 직접 연결(인터페이스)**하는 가장 단순한 통합 방식이며, N개 시스템이면 **최대 N(N-1)/2개 인터페이스**가 필요하다.
 > 2. **가치**: 2~3개 시스템이면 P2P가 빠르고 간단하지만, 10개 이상이면 **45개+ 인터페이스 → 스파게티 아키텍처**가 되어 변경·장애 전파·유지보수가 극도로 어려워진다.
-> 3. **판단 포인트**: P2P의 한계가 **Hub-and-Spoke·ESB·이벤트 기반 아키텍처**의 등장 배경이며, 시스템 수가 5개 이상이면 중앙 통합을 고려해야 한다.
+> 3. **판단 포인트**: P2P의 한계가 **[[152_hub_dummy_switching_intelligent|Hub]]-and-Spoke·[[146_esb_enterprise_service_bus_architecture|ESB]]·[[538_event_driven_architecture_eda|이벤트 기반 아키텍처]]**의 등장 배경이며, 시스템 수가 5개 이상이면 중앙 통합을 고려해야 한다.
 
 ---
 
@@ -28,7 +28,7 @@ P2P: A↔B, A↔C, B↔C, A↔D, B↔D, C↔D
 
 ## Ⅱ~Ⅴ. 결론
 
-P2P는 **소규모에서만 유효**하며, 시스템 증가 시 Hub·ESB·이벤트 기반으로 전환해야 한다.
+P2P는 **소규모에서만 유효**하며, 시스템 증가 시 [[152_hub_dummy_switching_intelligent|Hub]]·[[146_esb_enterprise_service_bus_architecture|ESB]]·이벤트 기반으로 전환해야 한다.
 
 ---
 
@@ -36,10 +36,10 @@ P2P는 **소규모에서만 유효**하며, 시스템 증가 시 Hub·ESB·이�
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **P2P** | 1:1 직접 연결 |
+| **[[916_p2p_peer_to_peer_networking_super_node_gnutella|P2P]]** | 1:1 직접 연결 |
 | **스파게티** | N(N-1)/2 복잡도 |
-| **Hub** | 중앙 집중 대안 |
-| **ESB** | 표준 버스 대안 |
+| **[[152_hub_dummy_switching_intelligent|Hub]]** | 중앙 집중 대안 |
+| **[[146_esb_enterprise_service_bus_architecture|ESB]]** | 표준 [[344_bus|버스]] 대안 |
 | **변경 전파** | P2P의 핵심 문제 |
 
 ### 📈 관련 키워드 및 발전 흐름도
@@ -53,4 +53,4 @@ P2P는 **소규모에서만 유효**하며, 시스템 증가 시 Hub·ESB·이�
 ### 👶 어린이를 위한 3줄 비유 설명
 1. P2P는 **모든 친구와 직접 전화**하는 거예요. 친구가 적으면 괜찮아요.
 2. 하지만 친구가 **10명이면 45개 전화선**이 필요해요! 엉켜요!
-3. 그래서 **전화 교환대(Hub/ESB)**를 만들어 정리하는 거예요!
+3. 그래서 **전화 교환대([[152_hub_dummy_switching_intelligent|Hub]]/[[146_esb_enterprise_service_bus_architecture|ESB]])**를 만들어 정리하는 거예요!

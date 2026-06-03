@@ -8,17 +8,17 @@ categories = "studynote-design-supervision"
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 에그리게이트 루트 (Aggregate Root)는 DDD의 전술적 패턴으로, 관련 도메인 객체들의 클러스터(에그리게이트)를 대표하는 단일 진입점 엔티티이며, 에그리게이트 내부 일관성을 보장하고 외부로부터 내부 객체에 대한 직접 접근을 차단하는 '일관성 경계'를 형성한다.
-> 2. **가치**: 에그리게이트 루트를 통해서만 에그리게이트 내 모든 변경이 이루어지므로, 단일 트랜잭션 내 데이터 일관성이 자동으로 보장되고 불변 조건(Invariant) 위반이 방지된다.
-> 3. **판단 포인트**: 에그리게이트 경계는 트랜잭션 일관성 요구사항에 기반해야 하며, '무엇이 항상 함께 변경되어야 하는가?'를 기준으로 결정해야 한다.
+> 1. **본질**: 에그리게이트 루트 ([[222_aggregate_ddd_transaction_consistency|Aggregate]] Root)는 DDD의 전술적 패턴으로, 관련 [[064_relation_domain|도메인]] 객체들의 클러스터(에그리게이트)를 대표하는 단일 진입점 엔티티이며, 에그리게이트 내부 [[194_consistency_database_integrity|일관성]]을 보장하고 외부로부터 내부 객체에 대한 직접 접근을 차단하는 '[[194_consistency_database_integrity|일관성]] 경계'를 형성한다.
+> 2. **가치**: 에그리게이트 루트를 통해서만 에그리게이트 내 모든 변경이 이루어지므로, 단일 [[191_transaction_concept_states|트랜잭션]] 내 [[001_dikw_pyramid|데이터]] [[194_consistency_database_integrity|일관성]]이 자동으로 보장되고 불변 조건(Invariant) 위반이 방지된다.
+> 3. **판단 포인트**: 에그리게이트 경계는 [[191_transaction_concept_states|트랜잭션]] [[194_consistency_database_integrity|일관성]] 요구사항에 기반해야 하며, '무엇이 항상 함께 변경되어야 하는가?'를 기준으로 결정해야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-에그리게이트(Aggregate)는 하나의 트랜잭션 내에서 함께 변경되어야 하는 관련 도메인 객체들의 묶음이다. 예를 들어 '주문(Order)'과 '주문 항목(OrderItem)'은 하나의 에그리게이트를 형성한다. 주문 항목은 주문 없이 존재할 수 없고, 주문 항목의 변경은 항상 주문 전체의 일관성(총액, 수량 합계)에 영향을 미치기 때문이다.
+에그리게이트([[222_aggregate_ddd_transaction_consistency|Aggregate]])는 하나의 [[191_transaction_concept_states|트랜잭션]] 내에서 함께 변경되어야 하는 관련 [[064_relation_domain|도메인]] 객체들의 묶음이다. 예를 들어 '주문(Order)'과 '주문 항목(OrderItem)'은 하나의 에그리게이트를 형성한다. 주문 항목은 주문 없이 존재할 수 없고, 주문 항목의 변경은 항상 주문 전체의 [[194_consistency_database_integrity|일관성]](총액, 수량 합계)에 영향을 미치기 때문이다.
 
-에그리게이트 루트는 이 에그리게이트의 진입점 역할을 하는 엔티티다. 외부에서는 에그리게이트 루트(Order)만 참조할 수 있고, 내부의 OrderItem에는 Order를 통해서만 접근한다.
+에그리게이트 루트는 이 에그리게이트의 진입점 역할을 하는 엔티티다. 외부에서는 에그리게이트 루트(Order)만 [[316_reference_pattern_nosql|참조]]할 수 있고, 내부의 OrderItem에는 Order를 통해서만 접근한다.
 
 ```text
 ┌─────────────────────────────────────────────────────────────┐
@@ -45,12 +45,12 @@ categories = "studynote-design-supervision"
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-에그리게이트 설계의 핵심 원칙: ① 에그리게이트 루트만 외부 참조 가능, ② 한 트랜잭션에서 하나의 에그리게이트만 변경, ③ 에그리게이트 간 이벤트로 최종 일관성 달성, ④ 에그리게이트는 작게 유지.
+에그리게이트 설계의 핵심 원칙: ① 에그리게이트 루트만 외부 [[316_reference_pattern_nosql|참조]] 가능, ② 한 [[191_transaction_concept_states|트랜잭션]]에서 하나의 에그리게이트만 변경, ③ 에그리게이트 간 이벤트로 최종 [[194_consistency_database_integrity|일관성]] 달성, ④ 에그리게이트는 작게 유지.
 
 | 항목 | 설명 | 포인트 |
 |:---|:---|:---|
-| 항상 함께 변경 | 일관성 유지 위해 단일 트랜잭션 필요 | Order + OrderItem |
-| 비즈니스 불변 조건 | 에그리게이트 내에서만 검증 가능한 규칙 | 주문 총액 = 항목 합계 |
+| 항상 함께 변경 | [[194_consistency_database_integrity|일관성]] 유지 위해 단일 [[191_transaction_concept_states|트랜잭션]] 필요 | Order + OrderItem |
+| 비즈니스 불변 조건 | 에그리게이트 내에서만 [[395_verification_process_review|검증]] 가능한 규칙 | 주문 총액 = 항목 합계 |
 | 독립적 생존 불가 | 부모 없이 존재 불가한 객체 | OrderItem은 Order 없이 불가 |
 
 ```text
@@ -70,37 +70,37 @@ categories = "studynote-design-supervision"
 ---
 ## Ⅲ. 비교 및 연결
 
-에그리게이트 크기 결정은 '얼마나 자주 함께 잠기는가(lock contention)'를 고려해야 한다. 에그리게이트가 너무 크면 동시 수정 시 충돌이 잦아 성능 저하가 발생한다.
+에그리게이트 크기 결정은 '얼마나 자주 함께 잠기는가([[275_lock_contention_monitoring|lock contention]])'를 고려해야 한다. 에그리게이트가 너무 크면 동시 수정 시 충돌이 잦아 [[282_performance_tactics|성능]] 저하가 발생한다.
 
 | 비교 축 | A | B |
 |:---|:---|:---|
-| 트랜잭션 범위 | 좁음 → 충돌 적음 | 넓음 → 충돌 많음 |
-| 일관성 | 에그리게이트 간 최종 일관성 | 에그리게이트 내 즉시 일관성 |
+| [[191_transaction_concept_states|트랜잭션]] 범위 | 좁음 → 충돌 적음 | 넓음 → 충돌 많음 |
+| [[194_consistency_database_integrity|일관성]] | 에그리게이트 간 최종 [[194_consistency_database_integrity|일관성]] | 에그리게이트 내 즉시 [[194_consistency_database_integrity|일관성]] |
 | 확장성 | 높음 | 낮음 |
 
-- **📢 섹션 요약 비유**: 에그리게이트 크기를 결정할 때는 '이 비즈니스 규칙이 동시에 일관성이 보장되어야 하는가?'를 먼저 묻는다.
+- **📢 섹션 요약 비유**: 에그리게이트 크기를 결정할 때는 '이 비즈니스 규칙이 동시에 [[194_consistency_database_integrity|일관성]]이 보장되어야 하는가?'를 먼저 묻는다.
 
 ---
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-에그리게이트 루트를 통한 일관성 경계 설계로 데이터 무결성이 보장되고 도메인 불변 조건이 항상 유지된다. 에그리게이트 간 독립성 덕분에 성능 최적화(캐싱, 샤딩)도 용이해진다.
+에그리게이트 루트를 통한 [[194_consistency_database_integrity|일관성]] 경계 설계로 [[001_dikw_pyramid|데이터]] 무결성이 보장되고 [[064_relation_domain|도메인]] 불변 조건이 항상 유지된다. 에그리게이트 간 독립성 덕분에 [[282_performance_tactics|성능]] 최적화([[456_caching|캐싱]], [[280_sharding|샤딩]])도 용이해진다.
 
-### 판단 체크리스트
-1. 에그리게이트 루트가 외부 참조의 유일한 진입점인가?
+### 판단 [[435_checklist_based_testing|체크리스트]]
+1. 에그리게이트 루트가 외부 [[316_reference_pattern_nosql|참조]]의 유일한 진입점인가?
 2. 에그리게이트 경계가 비즈니스 불변 조건(Invariant)을 기준으로 정의되어 있는가?
 3. 에그리게이트가 작게 유지되어 잠금 충돌이 최소화되어 있는가?
-4. 에그리게이트 간 통신이 도메인 이벤트를 통해 이루어지고 있는가?
-5. 단일 트랜잭션에서 하나의 에그리게이트만 변경하는 원칙을 지키고 있는가?
+4. 에그리게이트 간 통신이 [[064_relation_domain|도메인]] 이벤트를 통해 이루어지고 있는가?
+5. 단일 [[191_transaction_concept_states|트랜잭션]]에서 하나의 에그리게이트만 변경하는 원칙을 지키고 있는가?
 
-- **📢 섹션 요약 비유**: 에그리게이트 루트는 팀장과 같아서, 팀원(내부 객체)의 모든 변경사항을 팀장이 알고 승인해야 팀 전체의 일관성이 유지된다.
+- **📢 섹션 요약 비유**: 에그리게이트 루트는 팀장과 같아서, 팀원(내부 객체)의 모든 변경사항을 팀장이 알고 승인해야 팀 전체의 [[194_consistency_database_integrity|일관성]]이 유지된다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-에그리게이트 루트를 통한 일관성 경계 설계로 데이터 무결성이 보장되고 도메인 불변 조건이 항상 유지된다. Event Sourcing과 에그리게이트의 자연스러운 통합(에그리게이트 상태 = 이벤트 시퀀스), CQRS와 결합한 에그리게이트 쓰기 최적화가 미래 방향이다.
+에그리게이트 루트를 통한 [[194_consistency_database_integrity|일관성]] 경계 설계로 [[001_dikw_pyramid|데이터]] 무결성이 보장되고 [[064_relation_domain|도메인]] 불변 조건이 항상 유지된다. Event Sourcing과 에그리게이트의 자연스러운 통합(에그리게이트 상태 = 이벤트 시퀀스), CQRS와 결합한 에그리게이트 [[289_cqrs_db|쓰기]] 최적화가 미래 방향이다.
 
-한계는 에그리게이트 경계 설정이 어렵고, 잘못된 경계는 트랜잭션 복잡성이나 성능 저하를 유발한다. 에그리게이트 간 최종 일관성(eventual consistency)을 받아들여야 하는 비즈니스 교육이 필요하다.
+한계는 에그리게이트 경계 설정이 어렵고, 잘못된 경계는 [[191_transaction_concept_states|트랜잭션]] 복잡성이나 [[282_performance_tactics|성능]] 저하를 유발한다. 에그리게이트 간 최종 [[194_consistency_database_integrity|일관성]]([[650_eventual_consistency|eventual consistency]])을 받아들여야 하는 비즈니스 교육이 필요하다.
 
 - **📢 섹션 요약 비유**: 에그리게이트는 레스토랑에서 하나의 주문서(루트)가 모든 메뉴 항목(내부 객체)을 관리하는 것과 같다.
 
@@ -108,18 +108,18 @@ categories = "studynote-design-supervision"
 
 ### 📌 관련 개념 맵
 
-[DDD 전술적 설계] → [에그리게이트 루트] → [일관성 경계] → [도메인 이벤트] → [CQRS+Event Sourcing]
+[[[310_architecture|DDD]] 전술적 설계] → [에그리게이트 루트] → [일관성 경계] → [도메인 이벤트] → [[[306_cqrs|CQRS]]+[[307_event_sourcing|Event Sourcing]]]
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| 엔티티 (Entity) | 에그리게이트 내 고유 식별자를 가진 도메인 객체 |
-| 값 객체 (Value Object) | 식별자 없이 속성만으로 정의되는 불변 객체 |
-| 도메인 이벤트 | 에그리게이트 간 최종 일관성 달성 수단 |
+| 엔티티 (Entity) | 에그리게이트 내 고유 [[289_identification_flags_fragmentation_offset|식별자]]를 가진 [[064_relation_domain|도메인]] 객체 |
+| 값 객체 (Value Object) | [[289_identification_flags_fragmentation_offset|식별자]] 없이 속성만으로 정의되는 불변 객체 |
+| [[064_relation_domain|도메인]] 이벤트 | 에그리게이트 간 최종 [[194_consistency_database_integrity|일관성]] 달성 수단 |
 | 리포지토리 (Repository) | 에그리게이트 루트 단위로 영속화하는 저장소 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-[객체지향 설계 한계] → [DDD 전술 패턴] → [에그리게이트·루트] → [Event Sourcing 통합] → [CQRS 쓰기 모델] → [AI 경계 추천]
+[객체지향 설계 한계] → [[[310_architecture|DDD]] 전술 패턴] → [에그리게이트·루트] → [[[307_event_sourcing|Event Sourcing]] 통합] → [[[306_cqrs|CQRS]] [[289_cqrs_db|쓰기]] 모델] → [[[190_ai_llm_requirements_specification|AI]] 경계 추천]
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

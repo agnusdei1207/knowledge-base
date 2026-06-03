@@ -8,32 +8,32 @@ categories = "studynote-devops-sre"
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 양자 컴퓨팅(Quantum Computing)은 중첩과 얽힘을 이용해 특정 문제를 고전 컴퓨터와 다른 방식으로 풀며, 특히 쇼어 알고리즘(Shor's Algorithm)은 대수적 구조를 이용하는 기존 공개키 암호를 위협한다.
-> 2. **가치**: 이 변화는 단순한 연구 주제가 아니라, 장기 보관 데이터와 PKI(Public Key Infrastructure) 체계 전반을 양자 내성 암호(PQC, Post-Quantum Cryptography)로 점진 전환해야 하는 실무 과제로 이어진다.
-> 3. **판단 포인트**: 지금 당장 모든 시스템을 교체하는 것보다, 암호 자산 인벤토리·Crypto Agility·하이브리드 전환 전략을 먼저 갖추는 것이 현실적이다.
+> 1. **본질**: [[236_quantum_computing_pqc|양자 컴퓨팅]]([[236_quantum_computing_pqc|Quantum Computing]])은 중첩과 얽힘을 이용해 특정 문제를 고전 컴퓨터와 다른 방식으로 풀며, 특히 쇼어 [[001_algorithm_definition|알고리즘]](Shor's [[001_algorithm_definition|Algorithm]])은 대수적 구조를 이용하는 기존 공개키 암호를 위협한다.
+> 2. **가치**: 이 변화는 단순한 연구 주제가 아니라, 장기 보관 [[001_dikw_pyramid|데이터]]와 [[159_pki_public_key_infrastructure|PKI]]([[984_pki_public_key_infrastructure_ca_ra_certificate|Public Key Infrastructure]]) 체계 전반을 [[183_post_quantum_cryptography_key_transition|양자 내성 암호]]([[351_quantum_computing_pqc_transition|PQC]], [[183_post_quantum_cryptography_key_transition|Post-Quantum Cryptography]])로 점진 전환해야 하는 실무 과제로 이어진다.
+> 3. **판단 포인트**: 지금 당장 모든 시스템을 교체하는 것보다, 암호 자산 인벤토리·[[153_crypto_agility|Crypto Agility]]·하이브리드 전환 [[268_strategy_pattern|전략]]을 먼저 갖추는 것이 현실적이다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-양자 컴퓨팅은 모든 문제를 빠르게 푸는 만능 기술이 아니다. 그러나 소인수분해와 이산로그처럼 현재 공개키 암호의 기반이 되는 특정 문제에 대해서는, 충분히 큰 오류 보정 양자 컴퓨터가 등장할 경우 기존 RSA, ECC 체계를 흔들 수 있다. 특히 오늘 수집한 암호문을 미래에 해독하는 “Harvest Now, Decrypt Later” 시나리오는 이미 보안 실무의 현실적인 위험으로 논의된다.
+[[236_quantum_computing_pqc|양자 컴퓨팅]]은 모든 문제를 빠르게 푸는 만능 기술이 아니다. 그러나 소인수분해와 이산로그처럼 현재 공개키 암호의 기반이 되는 특정 문제에 대해서는, 충분히 큰 오류 보정 [[447_quantum_computer|양자 컴퓨터]]가 등장할 경우 기존 [[110_rsa|RSA]], [[554_ecc_circuit|ECC]] 체계를 흔들 수 있다. 특히 오늘 수집한 암호문을 미래에 해독하는 “Harvest Now, Decrypt Later” 시나리오는 이미 보안 실무의 현실적인 위험으로 논의된다.
 
-따라서 DevSecOps 관점에서 중요한 질문은 “언제 양자 컴퓨터가 완성되는가”보다 “장기 보호가 필요한 자산이 무엇이며, 암호 교체를 얼마나 유연하게 할 수 있는가”다. PQC는 미래 대비용 연구 주제가 아니라, 인증서·키 교환·펌웨어 서명·VPN·코드 서명 체계를 점검하게 만드는 촉매다.
+따라서 [[653_devsecops_shift_left|DevSecOps]] 관점에서 중요한 질문은 “언제 [[447_quantum_computer|양자 컴퓨터]]가 완성되는가”보다 “장기 [[571_protection_vs_security|보호]]가 필요한 자산이 무엇이며, 암호 교체를 얼마나 유연하게 할 수 있는가”다. PQC는 미래 대비용 연구 주제가 아니라, [[303_authentication_authorization_patterns|인증]]서·키 교환·[[032_firmware|펌웨어]] 서명·[[983_vpn_virtual_private_network|VPN]]·[[188_code_signing_software_authentication|코드 서명]] 체계를 점검하게 만드는 촉매다.
 
-- **📢 섹션 요약 비유**: 지금 튼튼한 자물쇠를 쓰고 있어도, 몇 년 뒤 그 열쇠를 쉽게 복제하는 기술이 나온다면 미리 문 구조를 바꿀 준비를 해야 하는 것과 같다.
+- **📢 섹션 요약 비유**: 지금 튼튼한 자물쇠를 쓰고 있어도, 몇 년 뒤 그 열쇠를 쉽게 [[016_replication_factor|복제]]하는 기술이 나온다면 미리 문 구조를 바꿀 준비를 해야 하는 것과 같다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-양자 위협 대응의 핵심은 `암호 자산 식별 → 위험 분류 → PQC 후보 적용 → 하이브리드 검증 → 점진 전환`이다. 실제 전환은 알고리즘 교체만이 아니라, 인증서 체인, HSM(Hardware Security Module), KMS(Key Management Service), 라이브러리, 프로토콜 호환성까지 함께 봐야 한다.
+양자 위협 대응의 핵심은 `암호 자산 식별 → 위험 분류 → PQC 후보 적용 → 하이브리드 검증 → 점진 전환`이다. 실제 전환은 [[001_algorithm_definition|알고리즘]] 교체만이 아니라, [[303_authentication_authorization_patterns|인증]]서 체인, [[475_hsm|HSM]]([[157_hsm_hardware_security_module|Hardware Security Module]]), [[127_kms_knowledge_management_system|KMS]]([[067_db_key_uniqueness_minimality|Key]] [[372_management|Management]] [[090_service_kubernetes_network_load_balancing|Service]]), [[336_library_vs_framework|라이브러리]], [[295_protocol_field_tcp_udp_icmp|프로토콜]] [[344_compatibility_usability|호환성]]까지 함께 봐야 한다.
 
 | 구성 요소 | 역할 | 설계 포인트 |
 | :--- | :--- | :--- |
-| Crypto Inventory | 사용 중인 암호 자산 파악 | TLS, VPN, code signing, PKI |
-| Crypto Agility Layer | 알고리즘 교체 유연성 | 설정 기반 전환, 라이브러리 표준화 |
-| PQC Algorithms | 양자 내성 후보 | Kyber, Dilithium, Falcon 등 |
-| Hybrid Deployment | 기존+신규 병행 검증 | 호환성, 성능, 키 크기 |
+| Crypto Inventory | 사용 중인 암호 자산 파악 | [[694_thread_local_storage_tls|TLS]], [[983_vpn_virtual_private_network|VPN]], [[188_code_signing_software_authentication|code signing]], [[159_pki_public_key_infrastructure|PKI]] |
+| [[153_crypto_agility|Crypto Agility]] Layer | [[001_algorithm_definition|알고리즘]] 교체 유연성 | [[009_config|설정]] 기반 전환, [[336_library_vs_framework|라이브러리]] 표준화 |
+| [[351_quantum_computing_pqc_transition|PQC]] Algorithms | 양자 내성 후보 | Kyber, Dilithium, Falcon 등 |
+| Hybrid [[087_deployment_kubernetes_workload_rolling_update|Deployment]] | 기존+신규 병행 [[395_verification_process_review|검증]] | [[344_compatibility_usability|호환성]], [[282_performance_tactics|성능]], 키 크기 |
 
 ```text
 ┌──────────────┐   identify   ┌──────────────┐   classify   ┌──────────────┐
@@ -47,7 +47,7 @@ categories = "studynote-devops-sre"
 └──────────────┘              └──────────────┘              └──────────────┘
 ```
 
-핵심 원리는 기존 공개키 체계가 유지되는 동안에도 교체 가능성을 내장하는 Crypto Agility다. 예를 들어 TLS에서 하이브리드 키 교환을 시험하거나, 코드 서명 체계에 PQC 호환성 검증을 추가하는 식이다. 양자 내성 암호는 키/서명 크기가 커지고 성능 특성이 달라질 수 있으므로, 단순 보안성만 아니라 네트워크와 저장 비용까지 함께 평가해야 한다.
+핵심 원리는 기존 공개키 체계가 유지되는 동안에도 교체 가능성을 내장하는 Crypto Agility다. 예를 들어 TLS에서 하이브리드 키 교환을 시험하거나, [[188_code_signing_software_authentication|코드 서명]] 체계에 [[351_quantum_computing_pqc_transition|PQC]] [[344_compatibility_usability|호환성]] [[395_verification_process_review|검증]]을 추가하는 식이다. [[183_post_quantum_cryptography_key_transition|양자 내성 암호]]는 키/서명 크기가 커지고 [[282_performance_tactics|성능]] 특성이 달라질 수 있으므로, 단순 [[283_security_tactics|보안성]]만 아니라 네트워크와 저장 비용까지 함께 평가해야 한다.
 
 - **📢 섹션 요약 비유**: 비 오는 날을 대비해 우산만 사는 게 아니라, 현관에 우산꽂이와 장화를 놓을 공간까지 미리 준비하는 것과 같다.
 
@@ -55,15 +55,15 @@ categories = "studynote-devops-sre"
 
 ## Ⅲ. 비교 및 연결
 
-고전 암호와 PQC의 차이는 단순히 알고리즘 이름이 아니다. 수학적 안전성 기반과 운영 특성이 함께 달라진다.
+고전 암호와 PQC의 차이는 단순히 [[001_algorithm_definition|알고리즘]] 이름이 아니다. 수학적 안전성 기반과 운영 특성이 함께 달라진다.
 
-| 항목 | 기존 공개키 암호 | 양자 내성 암호 |
+| 항목 | 기존 공개키 암호 | [[183_post_quantum_cryptography_key_transition|양자 내성 암호]] |
 | :--- | :--- | :--- |
 | 대표 기반 | 소인수분해, 이산로그 | 격자, 해시, 코드 기반 문제 |
 | 양자 위협 | Shor에 취약 | 상대적으로 안전성 목표 |
-| 운영 영향 | 성숙한 생태계 | 큰 키/서명, 초기 호환성 이슈 |
+| 운영 영향 | 성숙한 생태계 | 큰 키/서명, [[459_quic_fec_forward_error_correction|초기]] [[344_compatibility_usability|호환성]] 이슈 |
 
-또한 이 주제는 PKI, HSM/KMS, DevSecOps 공급망 서명, 장기 보관 데이터 보호와 연결된다. 즉 PQC는 암호 알고리즘 하나가 아니라, 인증서와 키 수명주기 전체의 재설계를 요구한다.
+또한 이 주제는 [[159_pki_public_key_infrastructure|PKI]], [[475_hsm|HSM]]/[[127_kms_knowledge_management_system|KMS]], [[653_devsecops_shift_left|DevSecOps]] [[520_supply_chain_attack_and_ci_cd_security|공급망]] 서명, 장기 보관 [[001_dikw_pyramid|데이터]] [[571_protection_vs_security|보호]]와 연결된다. 즉 PQC는 암호 [[001_algorithm_definition|알고리즘]] 하나가 아니라, [[303_authentication_authorization_patterns|인증]]서와 키 수명주기 전체의 재설계를 요구한다.
 
 - **📢 섹션 요약 비유**: 기존 열쇠가 금속 열쇠라면, PQC는 디지털 번호키로 바꾸는 수준의 변화라 문틀과 사용 습관까지 달라진다.
 
@@ -71,22 +71,22 @@ categories = "studynote-devops-sre"
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서는 “양자 컴퓨터가 아직 멀었다”는 이유로 준비를 미루기 쉽다. 그러나 장기 비밀 유지가 필요한 정부·금융·헬스케어 데이터, 펌웨어 서명, 코드 서명 체계는 미리 인벤토리를 만들고 시험 환경을 준비해야 한다. 특히 외부 라이브러리와 네트워크 장비, HSM 지원 여부는 애플리케이션 코드보다 더 큰 병목이 될 수 있다.
+실무에서는 “[[447_quantum_computer|양자 컴퓨터]]가 아직 멀었다”는 이유로 준비를 미루기 쉽다. 그러나 장기 비밀 유지가 필요한 정부·금융·헬스케어 [[001_dikw_pyramid|데이터]], [[032_firmware|펌웨어]] 서명, [[188_code_signing_software_authentication|코드 서명]] 체계는 미리 인벤토리를 만들고 시험 환경을 준비해야 한다. 특히 외부 [[336_library_vs_framework|라이브러리]]와 네트워크 장비, [[475_hsm|HSM]] 지원 여부는 애플리케이션 코드보다 더 큰 병목이 될 수 있다.
 
-### 체크리스트
+### [[435_checklist_based_testing|체크리스트]]
 
 1. 조직 내 공개키 사용 지점을 인벤토리화했는가?
-2. 장기 보호가 필요한 데이터와 단기 세션 키를 구분해 우선순위를 세웠는가?
-3. 하이브리드 TLS, 코드 서명, VPN, PKI 체인에 대한 파일럿 검증이 있는가?
-4. 공급업체와 오픈소스 의존성이 PQC 지원 로드맵을 갖고 있는가?
+2. 장기 [[571_protection_vs_security|보호]]가 필요한 [[001_dikw_pyramid|데이터]]와 단기 [[140_session_key|세션 키]]를 구분해 우선순위를 세웠는가?
+3. 하이브리드 [[694_thread_local_storage_tls|TLS]], [[188_code_signing_software_authentication|코드 서명]], [[983_vpn_virtual_private_network|VPN]], [[159_pki_public_key_infrastructure|PKI]] 체인에 대한 [[501_file_definition_logical_record|파일]]럿 [[395_verification_process_review|검증]]이 있는가?
+4. 공급업체와 [[191_oss_license_compliance|오픈소스]] 의존성이 [[351_quantum_computing_pqc_transition|PQC]] 지원 로드맵을 갖고 있는가?
 
-### 안티패턴
+### [[128_water_scrum_fall_anti_pattern|안티패턴]]
 
-- 양자 위협을 “아직 먼 미래”로만 보고 장기 데이터 보호 전략을 세우지 않는 경우
-- PQC 알고리즘을 단일 정답처럼 결정해 Crypto Agility 없이 고정하는 경우
-- 키/서명 크기 증가와 성능 영향을 무시하고 기존 시스템에 그대로 끼워 넣는 경우
+- 양자 위협을 “아직 먼 미래”로만 보고 장기 [[001_dikw_pyramid|데이터]] [[571_protection_vs_security|보호]] [[268_strategy_pattern|전략]]을 세우지 않는 경우
+- [[351_quantum_computing_pqc_transition|PQC]] [[001_algorithm_definition|알고리즘]]을 단일 정답처럼 결정해 [[153_crypto_agility|Crypto Agility]] 없이 고정하는 경우
+- 키/서명 크기 증가와 [[282_performance_tactics|성능]] 영향을 무시하고 기존 시스템에 그대로 끼워 넣는 경우
 
-기술사 답안에서는 알고리즘 이름 암기보다 “인벤토리-우선순위-하이브리드 전환”의 운영 로드맵을 제시하는 것이 중요하다.
+기술사 답안에서는 [[001_algorithm_definition|알고리즘]] 이름 암기보다 “인벤토리-우선순위-하이브리드 전환”의 운영 로드맵을 제시하는 것이 중요하다.
 
 - **📢 섹션 요약 비유**: 홍수가 오늘 안 와도 배수로를 미리 점검해야 하듯, 양자 대응은 재난 직전이 아니라 평시에 준비해야 한다.
 
@@ -96,7 +96,7 @@ categories = "studynote-devops-sre"
 
 양자 대비 체계를 갖추면 장기 보안 자산의 불확실성을 줄이고, 규제 변화나 표준 전환이 올 때 더 빠르게 대응할 수 있다. 또한 암호 자산 인벤토리와 교체 유연성을 확보하는 과정 자체가 현재 보안 운영 성숙도를 끌어올린다.
 
-반대로 PQC 도입을 단번에 끝낼 수 있는 프로젝트로 보면 실패한다. 알고리즘 표준, 제품 지원, 성능 검증이 계속 바뀌기 때문이다. 따라서 이 주제는 “양자 컴퓨터의 미래”가 아니라 “암호 민첩성을 갖춘 현재 시스템 운영”으로 기억해야 한다.
+반대로 [[351_quantum_computing_pqc_transition|PQC]] 도입을 단번에 끝낼 수 있는 프로젝트로 보면 실패한다. [[001_algorithm_definition|알고리즘]] 표준, 제품 지원, [[282_performance_tactics|성능]] [[395_verification_process_review|검증]]이 계속 바뀌기 때문이다. 따라서 이 주제는 “[[447_quantum_computer|양자 컴퓨터]]의 미래”가 아니라 “[[988_crypto_agility|암호 민첩성]]을 갖춘 현재 시스템 운영”으로 기억해야 한다.
 
 - **📢 섹션 요약 비유**: 튼튼한 집은 태풍이 올 때 급히 지붕을 올리는 것이 아니라, 평소에 보강재와 배수로를 준비해 두는 집이다.
 
@@ -106,10 +106,10 @@ categories = "studynote-devops-sre"
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| Shor's Algorithm | 기존 공개키 암호에 대한 대표적 양자 위협 |
-| PQC | 양자 공격을 견디도록 설계된 암호군 |
-| Crypto Agility | 알고리즘을 유연하게 교체하는 설계 원칙 |
-| PKI | 인증서와 신뢰 체계 전환의 핵심 기반 |
+| Shor's [[001_algorithm_definition|Algorithm]] | 기존 공개키 암호에 대한 대표적 양자 위협 |
+| [[351_quantum_computing_pqc_transition|PQC]] | 양자 공격을 견디도록 설계된 암호군 |
+| [[153_crypto_agility|Crypto Agility]] | [[001_algorithm_definition|알고리즘]]을 유연하게 교체하는 설계 원칙 |
+| [[159_pki_public_key_infrastructure|PKI]] | [[303_authentication_authorization_patterns|인증]]서와 신뢰 체계 전환의 핵심 기반 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -126,7 +126,7 @@ PQC Standardization
 Crypto Agility + Hybrid Migration
 ```
 
-이 흐름은 “기존 공개키 의존 → 양자 위험 인식 → PQC 표준화 → 운영 전환”으로 보안 전략이 성숙하는 방향을 보여준다.
+이 흐름은 “기존 공개키 의존 → 양자 위험 인식 → [[351_quantum_computing_pqc_transition|PQC]] 표준화 → 운영 전환”으로 보안 [[268_strategy_pattern|전략]]이 성숙하는 방향을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

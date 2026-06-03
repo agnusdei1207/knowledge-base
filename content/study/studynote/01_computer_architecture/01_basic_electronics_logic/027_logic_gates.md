@@ -7,9 +7,9 @@ categories = "studynote-computer-architecture"
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: 논리 게이트(Logic Gate)는 불 대수(Boolean Algebra)를 전자 회로로 구현한 기본 소자로, 0(Low)·1(High) 두 상태의 입력을 받아 논리 연산(AND, OR, NOT, NAND, NOR, XOR, XNOR)을 수행하여 출력한다.
-> 2. **가치**: 모든 디지털 회로(CPU, 메모리, 가산기)는 논리 게이트의 조합으로 구성된다. NAND와 NOR은 각각 "기능적 완전성(Functional Completeness)"을 가져 이 두 게이트만으로 모든 논리 회로를 구성할 수 있다.
-> 3. **판단 포인트**: 실제 CMOS 회로에서는 AND/OR보다 NAND/NOR이 더 적은 트랜지스터(NAND=4T, AND=6T)로 구현되어 집적도·전력 면에서 유리하다. 따라서 현대 CMOS 설계에서는 NAND 기반 설계가 표준이다.
+> 1. **본질**: [[369_logic_bomb|논리]] 게이트(Logic Gate)는 불 대수([[022_boolean_algebra|Boolean Algebra]])를 전자 회로로 구현한 기본 소자로, 0(Low)·1(High) 두 상태의 입력을 받아 [[369_logic_bomb|논리]] 연산(AND, OR, NOT, NAND, NOR, XOR, XNOR)을 수행하여 출력한다.
+> 2. **가치**: 모든 디지털 회로(CPU, 메모리, 가산기)는 [[369_logic_bomb|논리]] 게이트의 조합으로 구성된다. NAND와 NOR은 각각 "기능적 완전성(Functional Completeness)"을 가져 이 두 게이트만으로 모든 [[369_logic_bomb|논리]] 회로를 구성할 수 있다.
+> 3. **판단 포인트**: 실제 [[018_cmos|CMOS]] 회로에서는 AND/OR보다 NAND/NOR이 더 적은 [[014_transistor|트랜지스터]](NAND=4T, AND=6T)로 구현되어 집적도·전력 면에서 유리하다. 따라서 현대 [[018_cmos|CMOS]] 설계에서는 NAND 기반 설계가 표준이다.
 
 ---
 
@@ -29,13 +29,13 @@ categories = "studynote-computer-architecture"
 └──────────────────────────────────────────────────────┘
 ```
 
-- **📢 섹션 요약 비유**: 논리 게이트는 디지털 세계의 레고 블록이다. 7종류 블록을 조합하면 계산기, 게임기, 스마트폰 CPU까지 모두 만들 수 있다.
+- **📢 섹션 요약 비유**: [[369_logic_bomb|논리]] 게이트는 디지털 세계의 레고 블록이다. 7종류 블록을 조합하면 계산기, 게임기, 스마트폰 CPU까지 모두 만들 수 있다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### 기본 게이트 진리표
+### 기본 게이트 [[024_truth_table|진리표]]
 
 | 게이트 | A=0,B=0 | A=0,B=1 | A=1,B=0 | A=1,B=1 |
 |:---|:---:|:---:|:---:|:---:|
@@ -62,24 +62,24 @@ OR(A,B)  = NAND(NOT(A), NOT(B)) = NAND(NAND(A,A), NAND(B,B))
 
 | 비교 | AND/OR | NAND/NOR |
 |:---|:---|:---|
-| CMOS 트랜지스터 수 | AND=6T, OR=6T | NAND=4T, NOR=4T |
+| [[018_cmos|CMOS]] [[014_transistor|트랜지스터]] 수 | AND=6T, OR=6T | NAND=4T, NOR=4T |
 | 기능 완전성 | 없음 | 있음 |
-| 실무 설계 | 논리 설계 단계 | 물리 게이트 단계 |
+| 실무 설계 | [[369_logic_bomb|논리]] 설계 단계 | 물리 게이트 단계 |
 
-- **📢 섹션 요약 비유**: AND/OR은 설계 도면이고 NAND/NOR은 실제 시공이다. 건축가는 AND/OR로 설계하지만, 시공사(반도체 공정)는 NAND/NOR로 더 효율적으로 실현한다.
+- **📢 섹션 요약 비유**: AND/OR은 설계 도면이고 NAND/NOR은 실제 시공이다. 건축가는 AND/OR로 설계하지만, 시공사([[009_semiconductor|반도체]] 공정)는 NAND/NOR로 더 효율적으로 실현한다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 ### XOR의 응용
-- **패리티 비트**: 데이터 비트들의 XOR = 홀수/짝수 패리티.
-- **덧셈기(Half Adder)**: 합(Sum) = A XOR B, 올림수(Carry) = A AND B.
-- **암호화(XOR 암호)**: plaintext XOR key = ciphertext. 단순하지만 동일 키 재사용 시 취약.
+- **[[107_parity_bit|패리티 비트]]**: [[001_dikw_pyramid|데이터]] [[073_bit|비트]]들의 XOR = 홀수/[[108_even_parity|짝수 패리티]].
+- **덧셈기([[033_half_adder|Half Adder]])**: 합(Sum) = A XOR B, 올림수(Carry) = A AND B.
+- **암호화(XOR 암호)**: plaintext XOR [[067_db_key_uniqueness_minimality|key]] = ciphertext. 단순하지만 동일 키 재사용 시 취약.
 
-### 실제 CMOS 회로 구현
-- CMOS NAND 2-input: pMOS 2개 병렬 + nMOS 2개 직렬 = 4 트랜지스터.
-- CMOS AND: NAND + NOT(Inverter) = 4T + 2T = 6T. NAND가 더 경제적.
+### 실제 [[018_cmos|CMOS]] 회로 구현
+- [[018_cmos|CMOS]] NAND 2-input: pMOS 2개 [[430_index_fast_full_scan|병렬]] + nMOS 2개 [[149_serial_communication_rs232_rs485|직렬]] = 4 [[014_transistor|트랜지스터]].
+- [[018_cmos|CMOS]] AND: NAND + NOT(Inverter) = 4T + 2T = 6T. NAND가 더 경제적.
 
 - **📢 섹션 요약 비유**: XOR 패리티는 물건 개수 홀짝 확인이다. 택배 상자 개수가 홀수인지 짝수인지 한 번만 확인해서 배송 오류를 탐지한다.
 
@@ -89,13 +89,13 @@ OR(A,B)  = NAND(NOT(A), NOT(B)) = NAND(NAND(A,A), NAND(B,B))
 
 | 기대효과 | 내용 |
 |:---|:---|
-| **회로 최소화** | NAND 기반 설계로 트랜지스터 수 최소화 |
-| **저전력 설계** | CMOS 정적 전류 0에 근접 |
-| **신뢰성** | 단순한 게이트 조합으로 검증 용이 |
+| **회로 최소화** | NAND 기반 설계로 [[014_transistor|트랜지스터]] 수 최소화 |
+| **저전력 설계** | [[018_cmos|CMOS]] 정적 [[002_current|전류]] 0에 근접 |
+| **[[642_reliability_mtbf_mttr_mttf_availability|신뢰성]]** | 단순한 게이트 조합으로 [[395_verification_process_review|검증]] 용이 |
 
-3nm 이하 공정에서 양자 효과(Quantum Tunneling)가 현실화되면서, 전통 논리 게이트를 대체하는 양자 게이트(Quantum Gate)와 신경망 아날로그 컴퓨팅이 연구되고 있다.
+3nm 이하 공정에서 양자 효과([[690_round_robin_time_quantum|Quantum]] [[377_tunneling_mechanism_overview|Tunneling]])가 현실화되면서, 전통 [[369_logic_bomb|논리]] 게이트를 대체하는 양자 게이트([[690_round_robin_time_quantum|Quantum]] Gate)와 신경망 아날로그 컴퓨팅이 연구되고 있다.
 
-- **📢 섹션 요약 비유**: 양자 게이트는 0과 1뿐 아니라 0과 1의 중첩 상태도 다룰 수 있는 게이트다. 전통 디지털 게이트가 흑백 사진이라면, 양자 게이트는 모든 색을 동시에 표현하는 HDR 사진이다.
+- **📢 섹션 요약 비유**: 양자 게이트는 0과 1뿐 아니라 0과 1의 중첩 [[065_state_diagram|상태도]] 다룰 수 있는 게이트다. 전통 디지털 게이트가 흑백 사진이라면, 양자 게이트는 모든 색을 동시에 표현하는 HDR 사진이다.
 
 ---
 
@@ -103,11 +103,11 @@ OR(A,B)  = NAND(NOT(A), NOT(B)) = NAND(NAND(A,A), NAND(B,B))
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **불 대수** | 논리 게이트의 수학적 기반 |
+| **불 대수** | [[369_logic_bomb|논리]] 게이트의 수학적 기반 |
 | **드 모르간 법칙** | NAND/NOR ↔ AND/OR 변환 규칙 |
-| **CMOS** | 논리 게이트의 물리적 구현 기술 |
-| **반가산기** | XOR + AND 게이트 조합 |
-| **패리티 비트** | XOR 게이트의 오류 탐지 응용 |
+| **[[018_cmos|CMOS]]** | [[369_logic_bomb|논리]] 게이트의 물리적 구현 기술 |
+| **[[033_half_adder|반가산기]]** | XOR + AND 게이트 조합 |
+| **[[107_parity_bit|패리티 비트]]** | XOR 게이트의 [[040_error_detection|오류 탐지]] 응용 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -129,6 +129,6 @@ OR(A,B)  = NAND(NOT(A), NOT(B)) = NAND(NAND(A,A), NAND(B,B))
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. 논리 게이트는 수학 문제 푸는 기계예요! AND는 "둘 다 YES일 때만 YES", OR는 "하나라도 YES면 YES"로 대답해요.
+1. [[369_logic_bomb|논리]] 게이트는 수학 문제 푸는 기계예요! AND는 "둘 다 YES일 때만 YES", OR는 "하나라도 YES면 YES"로 대답해요.
 2. NAND 게이트 하나만 있으면 모든 다른 게이트를 만들 수 있어요 — 스위스 군용 칼처럼요!
 3. XOR은 "두 값이 다르면 1"로 대답해요 — 짝수 맞추기 게임이나 덧셈 기계 만들 때 쓰인답니다!

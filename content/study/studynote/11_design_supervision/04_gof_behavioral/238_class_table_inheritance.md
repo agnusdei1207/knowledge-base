@@ -8,18 +8,18 @@ categories = "studynote-design-supervision"
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: CTI (Class Table Inheritance, 클래스 테이블 상속) 는 부모 클래스와 각 자식 클래스가 별도 테이블을 갖고, 자식 테이블의 PK (Primary Key) 가 부모 테이블의 FK (Foreign Key) 를 겸해 조인으로 연결된다.
-> 2. **가치**: NULL 컬럼이 없어 데이터 정합성이 높고, NOT NULL 등 DB 제약을 제대로 활용할 수 있으며, 각 클래스의 관계가 테이블 구조에 명확히 반영된다.
-> 3. **판단 포인트**: 하위 클래스별 고유 속성이 많고 DB 정합성이 중요한 경우 CTI가 적합하지만, 다형 쿼리(전체 부모 조회) 시 조인 비용이 STI (Single Table Inheritance) 보다 크다.
+> 1. **본질**: CTI (Class Table Inheritance, 클래스 테이블 [[234_uml_class_relationships_generalization_dependency|상속]]) 는 부모 클래스와 각 자식 클래스가 별도 테이블을 갖고, 자식 테이블의 PK (Primary [[067_db_key_uniqueness_minimality|Key]]) 가 부모 테이블의 FK (Foreign [[067_db_key_uniqueness_minimality|Key]]) 를 겸해 조인으로 연결된다.
+> 2. **가치**: NULL 컬럼이 없어 [[001_dikw_pyramid|데이터]] 정합성이 높고, NOT NULL 등 DB 제약을 제대로 활용할 수 있으며, 각 클래스의 [[083_relationship_in_er_model|관계]]가 테이블 구조에 명확히 반영된다.
+> 3. **판단 포인트**: 하위 클래스별 고유 속성이 많고 DB 정합성이 중요한 경우 CTI가 적합하지만, 다형 [[298_qkv_attention|쿼리]](전체 부모 조회) 시 조인 비용이 STI ([[237_single_table_inheritance|Single Table Inheritance]]) 보다 크다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
-ORM (Object-Relational Mapping) 의 상속 매핑 전략 중 CTI (Class Table Inheritance) 는 가장 **관계형 데이터베이스 친화적인** 방식이다. 객체 세계의 클래스 계층을 그대로 테이블 계층으로 반영한다.
+ORM (Object-Relational [[010_schema_mapping|Mapping]]) 의 [[234_uml_class_relationships_generalization_dependency|상속]] 매핑 [[268_strategy_pattern|전략]] 중 CTI (Class Table Inheritance) 는 가장 **[[083_relationship_in_er_model|관계]]형 [[002_database_definition|데이터베이스]] 친화적인** 방식이다. 객체 세계의 클래스 계층을 그대로 테이블 계층으로 반영한다.
 
-STI (Single Table Inheritance) 가 "하나의 서랍에 모두 넣기"라면, CTI는 "각 서랍에 해당 서류만 넣고 서랍끼리 공통 번호로 연결하기"다.
+STI ([[237_single_table_inheritance|Single Table Inheritance]]) 가 "하나의 서랍에 모두 넣기"라면, CTI는 "각 서랍에 해당 서류만 넣고 서랍끼리 공통 번호로 연결하기"다.
 
-JPA (Java Persistence API) 에서는 `@Inheritance(strategy = InheritanceType.JOINED)` 로 설정하며, 마틴 파울러의 PEAA (Patterns of Enterprise Application Architecture) 에서 Class Table Inheritance라는 이름으로 정의되었다.
+JPA (Java Persistence [[014_api_posix|API]]) 에서는 `@Inheritance(strategy = InheritanceType.JOINED)` 로 [[009_config|설정]]하며, 마틴 파울러의 PEAA (Patterns of Enterprise Application [[319_architecture|Architecture]]) 에서 Class Table Inheritance라는 이름으로 정의되었다.
 
 ```
 Vehicle (추상 부모)
@@ -99,9 +99,9 @@ public class Truck extends Vehicle {
 | 테이블 수 | 부모 + 자식 수 | 1개 |
 | NULL 컬럼 | 없음 | 많음 |
 | NOT NULL 제약 | 가능 | 불가 (서브타입 컬럼) |
-| 단일 객체 조회 | JOIN 필요 | 단순 SELECT |
-| 다형 쿼리 전체 | 여러 JOIN | 단순 SELECT |
-| 스키마 정규화 | 높음 | 낮음 |
+| 단일 객체 조회 | [[521_join|JOIN]] 필요 | 단순 [[520_select|SELECT]] |
+| 다형 [[298_qkv_attention|쿼리]] 전체 | 여러 [[521_join|JOIN]] | 단순 [[520_select|SELECT]] |
+| [[005_schema|스키마]] [[093_normalization|정규화]] | 높음 | 낮음 |
 
 - **📢 섹션 요약 비유**: 레고로 기본 자동차 몸체(부모 테이블)를 만들고, 종류별 전용 파츠(자식 테이블)를 조립 번호(FK)로 연결하는 구조다.
 
@@ -111,12 +111,12 @@ public class Truck extends Vehicle {
 | 항목 | STI (SINGLE_TABLE) | CTI (JOINED) | Concrete (TABLE_PER_CLASS) |
 |:---|:---:|:---:|:---:|
 | 테이블 수 | 1 | N+1 | N |
-| 조인 | 없음 | 있음 | 없음 (단형 쿼리) |
+| 조인 | 없음 | 있음 | 없음 (단형 [[298_qkv_attention|쿼리]]) |
 | NULL 컬럼 | 많음 | 없음 | 없음 |
-| DB 정규화 | 낮음 | 높음 | 중간 |
-| 다형 쿼리 성능 | ✅ 최고 | 중간 | ❌ 느림 (UNION) |
+| DB [[093_normalization|정규화]] | 낮음 | 높음 | 중간 |
+| 다형 [[298_qkv_attention|쿼리]] [[282_performance_tactics|성능]] | ✅ 최고 | 중간 | ❌ 느림 (UNION) |
 | NOT NULL 사용 | ❌ | ✅ | ✅ |
-| 권장 사용 | 서브타입 단순 | 정합성 중요 | 다형 쿼리 없을 때 |
+| 권장 사용 | 서브타입 단순 | 정합성 중요 | 다형 [[298_qkv_attention|쿼리]] 없을 때 |
 
 ```
 선택 기준:
@@ -131,15 +131,15 @@ public class Truck extends Vehicle {
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
-CTI의 가장 큰 단점은 조인 비용이다. 대응 전략:
+CTI의 가장 큰 단점은 조인 비용이다. 대응 [[268_strategy_pattern|전략]]:
 
-1. **인덱스 설정**: 자식 테이블 FK 컬럼에 인덱스 필수
-2. **Fetch Type 주의**: JPA `@ManyToOne(fetch = LAZY)` 로 N+1 쿼리 방지
-3. **쿼리 최적화**: 특정 서브타입만 조회할 경우 자식 테이블 직접 쿼리
+1. **[[154_database_index_b_tree_search_optimization|인덱스]] [[009_config|설정]]**: 자식 테이블 FK 컬럼에 [[154_database_index_b_tree_search_optimization|인덱스]] 필수
+2. **Fetch Type 주의**: JPA `@ManyToOne(fetch = LAZY)` 로 N+1 [[298_qkv_attention|쿼리]] 방지
+3. **[[298_qkv_attention|쿼리]] 최적화**: 특정 서브타입만 조회할 경우 자식 테이블 직접 [[298_qkv_attention|쿼리]]
 
-- **스키마 변경 비용**: 부모 테이블 컬럼 추가는 모든 자식에 영향
-- **ORM 복잡성**: Hibernate의 JOINED 전략은 SQL 생성이 복잡해 디버깅 어려움
-- **마이그레이션**: 서브타입 추가 시 새 테이블 생성 + FK 제약 추가 필요
+- **[[005_schema|스키마]] 변경 비용**: 부모 테이블 컬럼 추가는 모든 자식에 영향
+- **ORM 복잡성**: Hibernate의 JOINED [[268_strategy_pattern|전략]]은 SQL [[087_process_state_transition|생성]]이 복잡해 디버깅 어려움
+- **마이그레이션**: 서브타입 추가 시 새 테이블 [[087_process_state_transition|생성]] + FK 제약 추가 필요
 
 ```java
 // 다형 쿼리: 모든 Vehicle 조회 (자식 테이블 JOIN)
@@ -149,10 +149,10 @@ List<Vehicle> vehicles = vehicleRepository.findAll();
 List<Car> cars = carRepository.findByDoorsGreaterThan(2);
 ```
 
-### 판단 체크리스트
+### 판단 [[435_checklist_based_testing|체크리스트]]
 1. 해결하려는 변화 축이 분명한가?
-2. 추상화 비용보다 변경 절감 효과가 큰가?
-3. 테스트·로그·운영 가시성이 확보되는가?
+2. [[198_abstraction_control_data_process|추상화]] 비용보다 변경 절감 효과가 큰가?
+3. 테스트·[[568_logs_distributed_logging_elk_fluentd|로그]]·운영 가시성이 확보되는가?
 4. 팀이 이 구조를 일관되게 유지할 수 있는가?
 
 - **📢 섹션 요약 비유**: CTI는 전문의(자식 테이블)가 기본 병원 기록(부모 테이블)을 공유하는 병원 시스템이다. 전문의 기록은 풍부하지만, 전체 환자 현황을 보려면 모든 과의 기록을 합쳐봐야 한다.
@@ -163,34 +163,34 @@ List<Car> cars = carRepository.findByDoorsGreaterThan(2);
 CTI 패턴의 실무 적용 판단:
 
 **장점 요약**:
-- 정규화된 스키마 → 데이터 무결성 최고
+- [[093_normalization|정규화]]된 [[005_schema|스키마]] → [[001_dikw_pyramid|데이터]] [[003_integrity|무결성]] 최고
 - 서브타입별 NOT NULL, CHECK 제약 적용 가능
 - 새 서브타입 추가가 기존 테이블에 영향 없음
 
 **단점 요약**:
 - 다형 조회 시 조인 비용 발생
-- ORM 설정과 디버깅 복잡도 증가
+- ORM [[009_config|설정]]과 디버깅 복잡도 증가
 
-기술사 논점: **"정규화와 성능 사이의 균형"** 이다. CTI는 데이터 모델링 원칙에 충실하지만, 고트래픽 환경에서는 STI의 단순함이 더 실용적일 수 있다. 시스템의 조회 패턴과 데이터 정합성 요구사항을 분석해 선택 근거를 명확히 서술해야 한다.
+기술사 논점: **"[[093_normalization|정규화]]와 [[282_performance_tactics|성능]] 사이의 균형"** 이다. CTI는 [[001_dikw_pyramid|데이터]] 모델링 원칙에 충실하지만, 고트래픽 환경에서는 STI의 단순함이 더 실용적일 수 있다. 시스템의 조회 패턴과 [[001_dikw_pyramid|데이터]] 정합성 요구사항을 분석해 선택 근거를 명확히 서술해야 한다.
 
-확장 방향은 ① 선언형 API와의 결합, ② 관측 가능성(Observability) 내장, ③ 분산 환경에 맞는 변형 패턴 적용이다.
+확장 방향은 ① 선언형 API와의 결합, ② [[111_observability_metrics_logs_traces|관측 가능성]]([[642_observability_telemetry|Observability]]) 내장, ③ [[136_variance|분산]] 환경에 맞는 변형 패턴 적용이다.
 
 - **📢 섹션 요약 비유**: CTI는 정리정돈이 잘 된 서재다. 책마다 제자리가 있어 찾기 쉽지만, 여러 책을 한 번에 꺼내려면 여러 선반을 돌아다녀야 한다.
 
 ---
 
 ### 📌 관련 개념 맵
-| 관계 | 개념 | 설명 |
+| [[083_relationship_in_er_model|관계]] | 개념 | 설명 |
 |:---|:---|:---|
-| 상위 개념 | ORM 상속 전략 | SINGLE_TABLE / JOINED / TABLE_PER_CLASS |
-| 대조 개념 | STI (Single Table Inheritance) | 단일 테이블, NULL 다수 |
+| 상위 개념 | ORM [[234_uml_class_relationships_generalization_dependency|상속]] [[268_strategy_pattern|전략]] | SINGLE_TABLE / JOINED / TABLE_PER_CLASS |
+| 대조 개념 | STI ([[237_single_table_inheritance|Single Table Inheritance]]) | 단일 테이블, NULL 다수 |
 | 대조 개념 | Concrete Table Inheritance | 자식별 완전 독립 테이블 |
-| 하위 개념 | PrimaryKeyJoinColumn | 자식 PK = 부모 FK 설정 |
-| 연관 개념 | 데이터 정규화 (Database Normalization) | CTI가 지향하는 설계 원칙 |
+| 하위 개념 | PrimaryKeyJoinColumn | 자식 PK = 부모 FK [[009_config|설정]] |
+| 연관 개념 | [[001_dikw_pyramid|데이터]] [[093_normalization|정규화]] ([[501_database|Database]] [[093_normalization|Normalization]]) | CTI가 지향하는 설계 원칙 |
 | 연관 개념 | JPA @Inheritance(JOINED) | Java 구현 어노테이션 |
 
 ### 📈 관련 키워드 및 발전 흐름도
-상속 매핑 → 클래스 테이블 상속 → joined inheritance tuning
+[[234_uml_class_relationships_generalization_dependency|상속]] 매핑 → 클래스 테이블 [[234_uml_class_relationships_generalization_dependency|상속]] → joined inheritance tuning
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 학교 기록부(부모 테이블)에는 이름·학번만 쓰고, 각 동아리(자식 테이블)마다 자기 활동 기록을 따로 써.

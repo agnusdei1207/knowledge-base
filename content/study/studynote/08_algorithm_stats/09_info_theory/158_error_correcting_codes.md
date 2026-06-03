@@ -8,19 +8,19 @@ categories = "studynote-algorithm"
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: ECC (Error Correcting Codes, 오류 정정 부호) 는 *잉여(redundancy) 비트를 추가해 전송·저장 중 발생한 오류를 자동 검출/정정*하는 체계다.
-> 2. **가치**: 최소 해밍 거리 (Minimum Hamming Distance) d_min이 t-비트 정정 조건 d_min ≥ 2t+1을 결정하며, 코드 설계는 이 트레이드오프(정정 능력 vs 오버헤드)의 최적화다.
-> 3. **판단 포인트**: 메모리 ECC(해밍·SECDED), 저장 장치 LDPC, 디스크 Reed-Solomon, 5G 폴라·LDPC — 각 적용 영역마다 채택 코드가 다른 이유를 오류 특성과 연결하라.
+> 1. **본질**: [[554_ecc_circuit|ECC]] (Error Correcting Codes, 오류 정정 부호) 는 *잉여(redundancy) [[073_bit|비트]]를 추가해 전송·저장 중 발생한 오류를 자동 검출/정정*하는 체계다.
+> 2. **가치**: 최소 [[110_hamming_distance|해밍 거리]] (Minimum [[110_hamming_distance|Hamming Distance]]) d_min이 t-[[073_bit|비트]] 정정 조건 d_min ≥ 2t+1을 결정하며, 코드 설계는 이 트레이드오프(정정 능력 vs 오버헤드)의 최적화다.
+> 3. **판단 포인트**: 메모리 [[554_ecc_circuit|ECC]](해밍·SECDED), 저장 장치 [[203_ldpc_low_density_parity_check|LDPC]], 디스크 Reed-Solomon, [[418_5g_embb_urllc_mmtc_slicing|5G]] 폴라·[[203_ldpc_low_density_parity_check|LDPC]] — 각 적용 영역마다 채택 코드가 다른 이유를 오류 특성과 연결하라.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-디지털 시스템에서 오류는 피할 수 없다 — 우주 방사선, 열 잡음, 자기 간섭, 노화. ECC는 이를 수학적 구조로 극복한다.
+디지털 시스템에서 오류는 피할 수 없다 — 우주 방사선, 열 잡음, 자기 간섭, [[182_aging|노화]]. ECC는 이를 수학적 구조로 극복한다.
 
-### 해밍 거리 (Hamming Distance)
+### [[110_hamming_distance|해밍 거리]] ([[110_hamming_distance|Hamming Distance]])
 
-두 코드워드 u, v 사이의 다른 비트 수:
+두 코드워드 u, v 사이의 다른 [[073_bit|비트]] 수:
 
 ```
 d_H(u, v) = 해밍 무게(u XOR v)
@@ -29,17 +29,17 @@ d_H(u, v) = 해밍 무게(u XOR v)
     u XOR v = 0111 → d_H = 3
 ```
 
-**최소 해밍 거리 d_min**:
-- d_min ≥ t+1: t-비트 오류 **검출** 가능
-- d_min ≥ 2t+1: t-비트 오류 **정정** 가능
+**최소 [[110_hamming_distance|해밍 거리]] d_min**:
+- d_min ≥ t+1: t-[[073_bit|비트]] 오류 **검출** 가능
+- d_min ≥ 2t+1: t-[[073_bit|비트]] 오류 **정정** 가능
 
-📢 **섹션 요약 비유**: 해밍 거리는 "단어 사이 오타 수"와 같다 — "cat"과 "bat"는 1개 다르고(d=1), "cat"과 "dog"는 3개 다르다(d=3). 코드워드 간 거리가 멀수록 오류가 생겨도 원본을 찾기 쉽다.
+📢 **섹션 요약 비유**: [[110_hamming_distance|해밍 거리]]는 "단어 사이 오타 수"와 같다 — "cat"과 "bat"는 1개 다르고(d=1), "cat"과 "dog"는 3개 다르다(d=3). 코드워드 간 거리가 멀수록 오류가 생겨도 원본을 찾기 쉽다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### 해밍 코드 (7, 4) 구조
+### [[111_hamming_code|해밍 코드]] (7, 4) 구조
 
 4비트 정보 + 3비트 패리티 = 7비트 코드워드
 
@@ -61,7 +61,7 @@ d_H(u, v) = 해밍 무게(u XOR v)
 | 4 | 1비트 정정 + 2비트 검출 | SECDED(Hamming + 전체 패리티) |
 | 5+ | 2비트 정정 | Reed-Solomon, BCH |
 
-### 선형 블록 코드 분류
+### 선형 블록 코드 [[104_classification_analysis|분류]]
 
 ```
 선형 블록 코드 (Linear Block Code)
@@ -79,45 +79,45 @@ d_H(u, v) = 해밍 무게(u XOR v)
 
 ### Reed-Solomon (RS) 코드 — 버스트 오류 강함
 
-- 심볼(바이트) 단위 코드 — 비트 오류보다 심볼 오류 정정
+- 심볼([[074_byte|바이트]]) 단위 코드 — [[073_bit|비트]] 오류보다 심볼 오류 정정
 - RS(255, 223): 32심볼까지 오류 정정 가능 (버스트 오류에 강함)
 - CD/DVD: RS + 인터리빙 → 스크래치 같은 연속 오류 극복
 - QR 코드: 네 가지 오류 정정 레벨 (L/M/Q/H)
 
-📢 **섹션 요약 비유**: Reed-Solomon 코드는 "낱말 단위 맞춤법 교정기"다 — 알파벳(비트)이 아닌 단어(심볼) 단위로 오류를 처리하므로 연속 오류(긁힌 CD)에 더 강하다.
+📢 **섹션 요약 비유**: Reed-Solomon 코드는 "낱말 단위 맞춤법 교정기"다 — 알파벳([[073_bit|비트]])이 아닌 단어(심볼) 단위로 오류를 처리하므로 연속 오류(긁힌 CD)에 더 강하다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-### 주요 ECC 비교표
+### 주요 [[554_ecc_circuit|ECC]] 비교표
 
 | 코드 | 유형 | 정정 능력 | 디코딩 복잡도 | 주요 응용 |
 |:---|:---|:---|:---|:---|
-| 해밍 코드 | 선형 블록 | 1비트 | O(n) | 메모리 ECC |
+| [[111_hamming_code|해밍 코드]] | 선형 블록 | 1비트 | O(n) | 메모리 [[554_ecc_circuit|ECC]] |
 | SECDED | 해밍 확장 | 1비트 정정+2비트 검출 | O(n) | DDR 메모리 |
-| BCH | 선형 블록 | t비트 | 중간 | NAND Flash |
-| Reed-Solomon | 다항식 기반 | t심볼 | 중간 | CD/DVD, QR |
-| 합성곱 코드 | 스트리밍 | 연속 오류 | 비터비 O(2^k·n) | 이전 세대 무선 |
-| 터보 코드 | 병렬 합성곱 연접 | 섀넌 한계 근접 | 반복, 높음 | 3G/4G/위성 |
-| LDPC | 희소 패리티 행렬 | 섀넌 한계 근접 | 신뢰 전파, 병렬 | 5G, Wi-Fi, SSD |
-| 폴라 코드 | 채널 분극 | 섀넌 한계 달성 | SCL 디코더 | 5G 제어 채널 |
+| BCH | 선형 블록 | t비트 | 중간 | [[257_nand_flash|NAND Flash]] |
+| Reed-Solomon | [[195_polynomial_generator_crc|다항식]] 기반 | t심볼 | 중간 | CD/DVD, QR |
+| [[228_cnn_1d_2d_3d_video_medical|합성곱]] 코드 | 스트리밍 | 연속 오류 | 비터비 O(2^k·n) | 이전 세대 무선 |
+| [[202_turbo_code_shannon_limit|터보 코드]] | [[430_index_fast_full_scan|병렬]] [[228_cnn_1d_2d_3d_video_medical|합성곱]] 연접 | 섀넌 한계 근접 | 반복, 높음 | 3G/4G/위성 |
+| [[203_ldpc_low_density_parity_check|LDPC]] | 희소 패리티 행렬 | 섀넌 한계 근접 | 신뢰 전파, [[430_index_fast_full_scan|병렬]] | [[418_5g_embb_urllc_mmtc_slicing|5G]], Wi-Fi, [[327_ssd|SSD]] |
+| [[204_polar_code_5g_control_channel|폴라 코드]] | 채널 분극 | 섀넌 한계 달성 | SCL [[039_decoder|디코더]] | [[418_5g_embb_urllc_mmtc_slicing|5G]] 제어 채널 |
 
-### RAID와 ECC — 스토리지 오류 정정
+### RAID와 [[554_ecc_circuit|ECC]] — 스토리지 오류 정정
 
-| RAID 레벨 | 패리티 방식 | 오류 허용 |
+| [[483_raid_overview|RAID]] 레벨 | 패리티 방식 | 오류 허용 |
 |:---:|:---|:---|
-| RAID 1 | 전체 미러링 | 1개 디스크 완전 고장 |
-| RAID 5 | 분산 패리티 1개 | 1개 디스크 고장 |
-| RAID 6 | 분산 패리티 2개 (Reed-Solomon) | 2개 디스크 고장 |
+| [[485_raid_1_mirroring|RAID 1]] | 전체 [[333_raid_1|미러링]] | 1개 디스크 완전 고장 |
+| [[487_raid_5_distributed_parity|RAID 5]] | [[334_raid_5|분산 패리티]] 1개 | 1개 디스크 고장 |
+| [[488_raid_6_dual_parity|RAID 6]] | [[334_raid_5|분산 패리티]] 2개 (Reed-Solomon) | 2개 디스크 고장 |
 
-📢 **섹션 요약 비유**: RAID 6가 Reed-Solomon을 사용하는 것은 "두 권의 부록 노트"와 같다 — 본책 2권이 없어져도 부록 2권으로 복원할 수 있는 수학적 구조.
+📢 **섹션 요약 비유**: [[483_raid_overview|RAID]] 6가 Reed-Solomon을 사용하는 것은 "두 권의 부록 노트"와 같다 — 본책 2권이 없어져도 부록 2권으로 복원할 수 있는 수학적 구조.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### 메모리 ECC — SECDED (Single Error Correct, Double Error Detect)
+### 메모리 [[554_ecc_circuit|ECC]] — SECDED (Single Error Correct, Double Error Detect)
 
 서버 메모리에서 거의 표준:
 
@@ -128,22 +128,22 @@ d_H(u, v) = 해밍 무게(u XOR v)
 → 2비트 오류: 검출 후 패닉 (데이터 변조 방지)
 ```
 
-### SSD NAND Flash ECC 요구사항
+### [[327_ssd|SSD]] [[257_nand_flash|NAND Flash]] [[554_ecc_circuit|ECC]] 요구사항
 
-| NAND 유형 | 비트 오류율 | 필요 정정 강도 |
+| NAND 유형 | [[073_bit|비트]] 오류율 | 필요 정정 강도 |
 |:---:|:---|:---|
-| SLC (1비트/셀) | ~10⁻⁶ | BCH t=4 |
-| MLC (2비트/셀) | ~10⁻⁴ | BCH t=24 |
-| TLC (3비트/셀) | ~10⁻³ | LDPC 필수 |
-| QLC (4비트/셀) | ~10⁻² | 강력한 LDPC |
+| [[597_slc_caching|SLC]] (1비트/셀) | ~[[489_raid_10_hybrid|10]]⁻⁶ | BCH t=4 |
+| MLC (2비트/셀) | ~[[489_raid_10_hybrid|10]]⁻⁴ | BCH t=24 |
+| TLC (3비트/셀) | ~[[489_raid_10_hybrid|10]]⁻³ | [[203_ldpc_low_density_parity_check|LDPC]] 필수 |
+| QLC (4비트/셀) | ~[[489_raid_10_hybrid|10]]⁻² | 강력한 [[203_ldpc_low_density_parity_check|LDPC]] |
 
 TLC/QLC는 셀당 오류율이 높아 LDPC가 필수 — BCH로는 부족.
 
 ### 기술사 판단 포인트
 
-1. **"메모리 ECC 코드는?"** → 해밍 기반 SECDED (64+8=72비트)
-2. **"CD 표면 긁혔을 때 데이터 복원 코드는?"** → Reed-Solomon + 인터리빙
-3. **"5G에서 데이터/제어 채널 부호가 다른 이유는?"** → 블록 길이와 오류 특성 차이 (LDPC vs 폴라)
+1. **"메모리 [[554_ecc_circuit|ECC]] 코드는?"** → 해밍 기반 SECDED (64+8=72비트)
+2. **"CD 표면 긁혔을 때 [[001_dikw_pyramid|데이터]] 복원 코드는?"** → Reed-Solomon + 인터리빙
+3. **"5G에서 [[001_dikw_pyramid|데이터]]/제어 채널 부호가 다른 이유는?"** → 블록 길이와 오류 특성 차이 ([[203_ldpc_low_density_parity_check|LDPC]] vs 폴라)
 
 📢 **섹션 요약 비유**: SSD의 TLC가 LDPC를 필수로 쓰는 것은 "더 많이 쓸수록 더 강한 지우개가 필요하다"는 것과 같다 — 셀에 더 많은 정보를 쓸수록 오류가 많아져 더 강력한 ECC가 필요하다.
 
@@ -151,13 +151,13 @@ TLC/QLC는 셀당 오류율이 높아 LDPC가 필수 — BCH로는 부족.
 
 ## Ⅴ. 기대효과 및 결론
 
-ECC는 **신뢰성 있는 디지털 인프라의 보이지 않는 기반**이다. 서버 메모리, SSD, 네트워크 통신, 위성 — 모든 곳에서 오류를 자동으로 정정하며 데이터 무결성을 지킨다.
+ECC는 **[[642_reliability_mtbf_mttr_mttf_availability|신뢰성]] 있는 디지털 인프라의 보이지 않는 기반**이다. 서버 메모리, [[327_ssd|SSD]], 네트워크 통신, 위성 — 모든 곳에서 오류를 자동으로 정정하며 [[001_dikw_pyramid|데이터]] 무결성을 지킨다.
 
 코딩 이론의 발전 방향:
-- **양자 오류 정정 코드 (Quantum ECC)**: 양자 컴퓨터의 큐비트 오류 정정 (토릭 코드, 표면 코드)
-- **기계학습 기반 디코딩**: 신경망 디코더가 기존 알고리즘 성능 능가 가능성 탐구
+- **양자 오류 정정 코드 ([[690_round_robin_time_quantum|Quantum]] [[554_ecc_circuit|ECC]])**: 양자 컴퓨터의 [[448_qubit|큐비트]] 오류 정정 (토릭 코드, 표면 코드)
+- **기계학습 기반 디코딩**: 신경망 [[039_decoder|디코더]]가 기존 [[001_algorithm_definition|알고리즘]] [[282_performance_tactics|성능]] 능가 가능성 탐구
 
-📢 **섹션 요약 비유**: ECC는 "디지털 세계의 보험"이다 — 평소엔 보이지 않지만, 오류가 발생하는 순간 데이터를 완벽히 복원해주는 수학적 안전망이다.
+📢 **섹션 요약 비유**: ECC는 "디지털 세계의 보험"이다 — 평소엔 보이지 않지만, 오류가 발생하는 순간 [[001_dikw_pyramid|데이터]]를 완벽히 복원해주는 수학적 안전망이다.
 
 ---
 
@@ -165,12 +165,12 @@ ECC는 **신뢰성 있는 디지털 인프라의 보이지 않는 기반**이다
 
 | 개념 | 수식/조건 | 응용 |
 |:---|:---|:---|
-| 해밍 거리 d_H | 다른 비트 수 | 정정 능력 기준 |
+| [[110_hamming_distance|해밍 거리]] d_H | 다른 [[073_bit|비트]] 수 | 정정 능력 기준 |
 | 최소 거리 d_min | ≥ 2t+1 → t비트 정정 | 코드 설계 |
-| 해밍(7,4) | k=4, n=7, R=4/7 | 메모리 ECC 원형 |
-| Reed-Solomon | 심볼 단위, GF 산술 | CD/DVD/RAID 6 |
-| LDPC | 희소 패리티, 신뢰 전파 | 5G, SSD TLC/QLC |
-| 폴라 코드 | 채널 분극 | 5G 제어 채널 |
+| 해밍(7,4) | k=4, n=7, R=4/7 | 메모리 [[554_ecc_circuit|ECC]] 원형 |
+| Reed-Solomon | 심볼 단위, GF 산술 | CD/DVD/[[488_raid_6_dual_parity|RAID 6]] |
+| [[203_ldpc_low_density_parity_check|LDPC]] | 희소 패리티, 신뢰 전파 | [[418_5g_embb_urllc_mmtc_slicing|5G]], [[327_ssd|SSD]] TLC/QLC |
+| [[204_polar_code_5g_control_channel|폴라 코드]] | 채널 분극 | [[418_5g_embb_urllc_mmtc_slicing|5G]] 제어 채널 |
 
 ---
 
@@ -192,10 +192,10 @@ ECC는 **신뢰성 있는 디지털 인프라의 보이지 않는 기반**이다
 [현대 통신/RAID 응용]
 ```
 
-오류 정정 코드는 패리티에서 해밍 코드와 BCH, Reed-Solomon으로 발전해 통신과 RAID를 지탱한다.
+오류 정정 코드는 패리티에서 [[111_hamming_code|해밍 코드]]와 BCH, Reed-Solomon으로 발전해 통신과 RAID를 지탱한다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. **ECC는 "받아쓰기 채점 선생님"**: 틀린 곳을 알아서 고쳐주는 수학적 검사기.
-2. **해밍 거리는 "단어 사이 오타 수"**: cat과 bat는 1개 다르고(거리=1), cat과 dog는 3개 다르다(거리=3).
+2. **[[110_hamming_distance|해밍 거리]]는 "단어 사이 오타 수"**: cat과 bat는 1개 다르고(거리=1), cat과 dog는 3개 다르다(거리=3).
 3. **Reed-Solomon은 "QR코드 마법"**: QR코드의 30%가 가려져도 내용을 읽을 수 있는 것이 바로 RS 코드 덕분.

@@ -6,13 +6,13 @@ categories = "studynote-it-management"
 +++
 
 > **핵심 인사이트**
-> 1. 디자인 씽킹(Design Thinking)은 인간 중심(Human-Centered) 문제 해결 접근법으로, 기술 가능성(Feasibility)·사업 타당성(Viability)보다 사람의 요구(Desirability)를 먼저 이해하고, 빠른 프로토타이핑과 테스트로 해결책을 반복 개선한다.
-> 2. IDEO/Stanford d.school의 5단계(Empathize→Define→Ideate→Prototype→Test)는 선형 프로세스가 아닌 반복 루프 — 테스트 결과가 초기 공감 단계로 되돌아가는 것이 올바른 디자인 씽킹이다.
-> 3. IT 제품 개발에서 디자인 씽킹의 실질적 가치는 '올바른 문제를 정의하는 것' — 개발팀이 생각한 문제와 사용자가 실제로 겪는 문제가 다른 경우(Product-Solution Fit 실패)를 방지하는 전략적 도구다.
+> 1. [[040_design_thinking|디자인 씽킹]]([[040_design_thinking|Design Thinking]])은 인간 중심(Human-Centered) 문제 해결 접근법으로, 기술 가능성(Feasibility)·사업 타당성(Viability)보다 사람의 요구(Desirability)를 먼저 이해하고, 빠른 프로토타이핑과 테스트로 해결책을 반복 개선한다.
+> 2. IDEO/Stanford d.school의 5단계(Empathize→Define→Ideate→[[257_prototype_pattern_object_cloning|Prototype]]→Test)는 선형 프로세스가 아닌 반복 루프 — 테스트 결과가 [[459_quic_fec_forward_error_correction|초기]] 공감 단계로 되돌아가는 것이 올바른 [[040_design_thinking|디자인 씽킹]]이다.
+> 3. IT 제품 개발에서 [[040_design_thinking|디자인 씽킹]]의 실질적 가치는 '올바른 문제를 정의하는 것' — 개발팀이 생각한 문제와 사용자가 실제로 겪는 문제가 다른 경우(Product-Solution Fit 실패)를 방지하는 전략적 도구다.
 
 ---
 
-## I. 디자인 씽킹 5단계
+## I. [[241_design_thinking_5_stages_empathize_define_ideate_prototype_test|디자인 씽킹 5단계]]
 
 ```
 IDEO/Stanford d.school 프레임워크:
@@ -112,7 +112,7 @@ HMW 아이디어:
 
 ---
 
-## IV. 프로토타이핑 원칙
+## [[288_version_ihl_tos_total_length|IV]]. 프로토타이핑 원칙
 
 ```
 프로토타입 충실도 단계:
@@ -142,7 +142,7 @@ HMW 아이디어:
   (Jakob Nielsen 연구)
 ```
 
-> 📢 **섹션 요약 비유**: 종이 집 설계도로 가족 의견 받기 → 모형으로 확인 → 진짜 집 짓기 — 단계적으로 충실도 높이며 리스크 감소.
+> 📢 **섹션 요약 비유**: 종이 집 설계도로 가족 의견 받기 → 모형으로 [[396_validation|확인]] → 진짜 집 짓기 — 단계적으로 충실도 높이며 [[096_risk_non_risk_architecture_evaluation_flaws|리스크]] 감소.
 
 ---
 
@@ -178,7 +178,7 @@ HMW: "어떻게 하면 직원 스스로 일반 IT 문제를
   평균 해결 시간: 3일 -> 15분
 ```
 
-> 📢 **섹션 요약 비유**: 직원 인터뷰 없이 "최첨단 AI 챗봇"을 만들었다면 실패 — 실제 문제는 버튼 위치였음. 공감 없이는 올바른 해결 불가.
+> 📢 **섹션 요약 비유**: 직원 인터뷰 없이 "최첨단 [[190_ai_llm_requirements_specification|AI]] 챗봇"을 만들었다면 실패 — 실제 문제는 버튼 위치였음. 공감 없이는 올바른 해결 불가.
 
 ---
 
@@ -230,6 +230,6 @@ AI UX 디자인의 핵심 방법론으로
 
 ## 👶 어린이를 위한 3줄 비유 설명
 
-1. 디자인 씽킹은 의사처럼 증상(표면 문제) 뒤에 숨은 진짜 원인을 먼저 이해한 다음 해결책을 찾는 방법이에요.
+1. [[040_design_thinking|디자인 씽킹]]은 의사처럼 증상(표면 문제) 뒤에 숨은 진짜 원인을 먼저 이해한 다음 해결책을 찾는 방법이에요.
 2. "어떻게 하면 우리가 ...할 수 있을까?" 질문으로 문제를 긍정적 도전으로 바꾸고, 종이 스케치처럼 빠르고 저렴한 시제품으로 먼저 테스트해요.
-3. IT 셀프서비스 포털을 만들 때 직원 인터뷰 없이 AI 챗봇을 만들었다면 실패 — 실제 문제는 버튼 위치였을 수도 있으니까요!
+3. IT 셀프서비스 포털을 만들 때 직원 인터뷰 없이 [[190_ai_llm_requirements_specification|AI]] 챗봇을 만들었다면 실패 — 실제 문제는 버튼 위치였을 수도 있으니까요!

@@ -7,9 +7,9 @@ categories = "studynote-dataengineering"
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: 교차 엔트로피(Cross-Entropy)는 **모델의 예측 분포 Q가 실제 분포 P를 얼마나 잘 표현하는지** 측정하는 손실 함수이며, 분류 문제의 **사실상 표준 손실 함수**다.
-> 2. **가치**: $H(P, Q) = H(P) + D_{KL}(P \| Q)$이므로, 교차 엔트로피를 최소화하는 것은 **KL 발산(P와 Q 사이의 정보 차이)**을 최소화하는 것과 동치이며, 이것이 "모델이 실제 분포를 학습한다"는 것의 수학적 의미다.
-> 3. **판단 포인트**: Binary CE(이진 분류)·Categorical CE(다중 분류)·Focal Loss(클래스 불균형 보정)를 구분하고, Label Smoothing(소프트 라벨)이 과적합을 완화하는 원리를 이해해야 한다.
+> 1. **본질**: 교차 [[151_entropy|엔트로피]]([[154_cross_entropy|Cross-Entropy]])는 **모델의 예측 분포 Q가 실제 분포 P를 얼마나 잘 표현하는지** 측정하는 [[075_loss_function_cost_function|손실 함수]]이며, [[104_classification_analysis|분류]] 문제의 **사실상 표준 [[075_loss_function_cost_function|손실 함수]]**다.
+> 2. **가치**: $H(P, Q) = H(P) + D_{KL}(P \| Q)$이므로, 교차 [[151_entropy|엔트로피]]를 최소화하는 것은 **KL 발산(P와 Q 사이의 정보 차이)**을 최소화하는 것과 동치이며, 이것이 "모델이 실제 분포를 학습한다"는 것의 수학적 의미다.
+> 3. **판단 포인트**: Binary CE(이진 [[104_classification_analysis|분류]])·Categorical CE(다중 [[104_classification_analysis|분류]])·Focal Loss(클래스 불균형 보정)를 구분하고, Label Smoothing(소프트 라벨)이 과적합을 완화하는 원리를 이해해야 한다.
 
 ---
 
@@ -28,19 +28,19 @@ categories = "studynote-dataengineering"
 └───────────────────────────────────────────────────────┘
 ```
 
-- **📢 섹션 요약 비유**: 교차 엔트로피는 "정답(P) 기준으로 모델(Q)의 답이 얼마나 틀렸는지"를 재는 자이고, KL 발산은 "정답과 모델의 순수한 차이"이다.
+- **📢 섹션 요약 비유**: 교차 [[151_entropy|엔트로피]]는 "정답(P) 기준으로 모델(Q)의 답이 얼마나 틀렸는지"를 재는 자이고, KL 발산은 "정답과 모델의 순수한 차이"이다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### 손실 함수 유형
+### [[075_loss_function_cost_function|손실 함수]] 유형
 
 | 유형 | 수식 | 용도 |
 |:---|:---|:---|
-| **Binary CE** | $-[y\log\hat{y} + (1-y)\log(1-\hat{y})]$ | 이진 분류 |
-| **Categorical CE** | $-\sum_c y_c \log \hat{y}_c$ | 다중 분류 |
-| **Focal Loss** | $-\alpha(1-\hat{y})^\gamma \log\hat{y}$ | 클래스 불균형 |
+| **Binary CE** | $-[y\log\hat{y} + (1-y)\log(1-\hat{y})]$ | 이진 [[104_classification_analysis|분류]] |
+| **Categorical CE** | $-\sum_c y_c \log \hat{y}_c$ | 다중 [[104_classification_analysis|분류]] |
+| **Focal Loss** | $-\[[068_significance_level_alpha_p_value_hypothesis|alpha]](1-\hat{y})^\gamma \log\hat{y}$ | 클래스 불균형 |
 | **Label Smoothing** | $y' = (1-\epsilon)y + \epsilon/K$ | 과적합 완화 |
 
 - **📢 섹션 요약 비유**: Binary CE는 "맞다/틀리다" 시험이고, Categorical CE는 "5지선다" 시험이며, Focal Loss는 "쉬운 문제 배점 ↓, 어려운 문제 배점 ↑"인 시험이다.
@@ -49,11 +49,11 @@ categories = "studynote-dataengineering"
 
 ## Ⅲ. 비교 및 연결
 
-| 비교 | MSE | Cross-Entropy |
+| 비교 | [[076_mse_mean_squared_error_regression|MSE]] | [[154_cross_entropy|Cross-Entropy]] |
 |:---|:---|:---|
-| **용도** | 회귀 | **분류** |
+| **용도** | 회귀 | **[[104_classification_analysis|분류]]** |
 | **기울기** | 포화 시 작음 | **포화 시에도 큼** |
-| **확률 해석** | 없음 | **MLE와 동치** |
+| **[[130_probability|확률]] 해석** | 없음 | **MLE와 동치** |
 
 ---
 
@@ -67,7 +67,7 @@ categories = "studynote-dataengineering"
 
 ## Ⅴ. 기대효과 및 결론
 
-교차 엔트로피는 **분류 모델 학습의 수학적 토대**이며, KL 발산은 VAE·GAN·Distillation 등 생성 모델과 지식 증류의 핵심 최적화 목표이다.
+교차 [[151_entropy|엔트로피]]는 **[[104_classification_analysis|분류]] 모델 학습의 수학적 토대**이며, KL 발산은 [[315_autoencoder_vae|VAE]]·[[154_gan_generative_adversarial_network|GAN]]·Distillation 등 [[087_process_state_transition|생성]] 모델과 지식 증류의 핵심 최적화 목표이다.
 
 ---
 
@@ -75,9 +75,9 @@ categories = "studynote-dataengineering"
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **엔트로피** | 분포의 불확실성 측정 |
+| **[[151_entropy|엔트로피]]** | 분포의 불확실성 측정 |
 | **KL 발산** | 두 분포의 차이 측정 |
-| **교차 엔트로피** | H(P) + KL(P\|\|Q), 분류 손실 |
+| **교차 [[151_entropy|엔트로피]]** | H(P) + KL(P\|\|Q), [[104_classification_analysis|분류]] 손실 |
 | **Focal Loss** | 클래스 불균형 보정 CE 변형 |
 | **Label Smoothing** | 소프트 라벨로 과적합 완화 |
 
@@ -100,6 +100,6 @@ categories = "studynote-dataengineering"
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
-1. 교차 엔트로피는 **시험 채점표**예요. 정답과 내 답이 얼마나 다른지 점수를 매겨요.
+1. 교차 [[151_entropy|엔트로피]]는 **시험 채점표**예요. 정답과 내 답이 얼마나 다른지 점수를 매겨요.
 2. KL 발산은 **정답과 내 답의 순수한 차이**예요. 이 차이를 줄이는 게 학습이에요.
 3. AI는 이 점수를 줄이려고 열심히 공부해서 **정답에 점점 가까워진답니다!**

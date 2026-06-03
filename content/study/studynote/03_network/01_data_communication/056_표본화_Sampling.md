@@ -10,13 +10,13 @@ categories = "studynote-network"
 
 > 1. **본질**: 표본화는 연속 신호를 일정한 시간 간격으로 샘플링해 이산 신호로 바꾸는 과정이다.
 > 2. **가치**: Nyquist (나이퀴스트) 조건을 만족해야 원신호 복원이 가능하다.
-> 3. **판단 포인트**: 샘플링 주파수가 낮으면 aliasing (에일리어싱)이 발생한다.
+> 3. **판단 포인트**: 샘플링 주파수가 낮으면 [[057_에일리어싱_Aliasing|aliasing]] ([[057_에일리어싱_Aliasing|에일리어싱]])이 발생한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-아날로그 신호를 디지털로 바꾸려면 먼저 표본을 떠야 한다. 표본화는 PCM (Pulse Code Modulation)의 첫 단계다.
+아날로그 신호를 디지털로 바꾸려면 먼저 표본을 떠야 한다. 표본화는 [[943_pcm_pulse_code_modulation_sampling_quantization|PCM]] (Pulse [[082_process_memory_structure|Code]] Modulation)의 첫 단계다.
 
 음성, 영상, 센서 신호를 디지털 시스템으로 처리하려면 필수다.
 
@@ -36,7 +36,7 @@ Analog Signal → Sampling → Discrete-Time Samples
 | :--- | :--- | :--- |
 | Sampling Rate | 초당 샘플 수 | Hz |
 | Nyquist Rate | 최소 조건 | 2fmax |
-| Anti-aliasing Filter | 사전 필터 | 고주파 제거 |
+| Anti-[[057_에일리어싱_Aliasing|aliasing]] Filter | 사전 필터 | 고주파 제거 |
 
 핵심은 충분히 빠르게 샘플링해야 원신호 정보가 겹치지 않는다는 점이다.
 
@@ -51,7 +51,7 @@ Analog Signal → Sampling → Discrete-Time Samples
 | 단계 | 무엇을 이산화하나 |
 | :--- | :--- |
 | Sampling | 시간 |
-| Quantization | 진폭 |
+| [[434_quantization|Quantization]] | 진폭 |
 | Encoding | 비트화 |
 
 Nyquist 조건을 넘기지 못하면 aliasing으로 인해 저주파처럼 잘못 보이게 된다.
@@ -64,14 +64,14 @@ Nyquist 조건을 넘기지 못하면 aliasing으로 인해 저주파처럼 잘�
 
 실무에서는 센서, 음성, 이미지 처리에서 샘플링 주파수와 필터를 맞춘다. 디지털 신호처리(DSP) 설계에서 기본이다.
 
-### 체크리스트
+### [[435_checklist_based_testing|체크리스트]]
 
 1. 샘플링 주파수가 충분한가?
-2. anti-aliasing filter가 있는가?
+2. anti-[[057_에일리어싱_Aliasing|aliasing]] filter가 있는가?
 3. 복원 조건을 만족하는가?
 4. 시간축과 진폭축을 구분하는가?
 
-### 안티패턴
+### [[128_water_scrum_fall_anti_pattern|안티패턴]]
 
 - 너무 낮은 샘플링 주파수
 - 필터 없이 직접 샘플링
@@ -99,9 +99,9 @@ Nyquist 조건을 넘기지 못하면 aliasing으로 인해 저주파처럼 잘�
 | :--- | :--- |
 | Sampling Rate | 주기 |
 | Nyquist | 복원 조건 |
-| Anti-aliasing | 사전 필터 |
-| Quantization | 다음 단계 |
-| PCM | 디지털화 |
+| Anti-[[057_에일리어싱_Aliasing|aliasing]] | 사전 필터 |
+| [[434_quantization|Quantization]] | 다음 단계 |
+| [[943_pcm_pulse_code_modulation_sampling_quantization|PCM]] | 디지털화 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 

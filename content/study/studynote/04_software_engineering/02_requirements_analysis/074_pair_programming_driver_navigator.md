@@ -49,7 +49,7 @@ Driver가 타이핑하고 Navigator가 큰 그림과 오류를 본다.
 | 효과 | 의미 |
 | :-- | :-- |
 | Knowledge Sharing | 지식 공유 |
-| Defect Reduction | 결함 감소 |
+| [[352_defect_definition|Defect]] Reduction | [[352_defect_definition|결함]] 감소 |
 
 페어 프로그래밍은 실시간 리뷰와 학습 효과가 크다.
 
@@ -59,7 +59,7 @@ Driver가 타이핑하고 Navigator가 큰 그림과 오류를 본다.
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### 체크리스트
+### [[435_checklist_based_testing|체크리스트]]
 
 1. 역할을 교대하는가?
 2. 리뷰와 작성이 분리되는가?
@@ -67,7 +67,7 @@ Driver가 타이핑하고 Navigator가 큰 그림과 오류를 본다.
 4. 품질 향상에 도움이 되는가?
 5. 과도한 비용을 고려하는가?
 
-### 안티패턴
+### [[128_water_scrum_fall_anti_pattern|안티패턴]]
 
 - 한 명만 계속 치는 설계
 - Navigator가 방관하는 설계

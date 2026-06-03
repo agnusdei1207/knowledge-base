@@ -8,21 +8,21 @@ categories = "studynote-operating-system"
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 트로이 목마는 **"정상 프로그램으로 위장"**하여 사용자로 하여금 자발적으로 실행하게 만들고, 실행 후에는 백그라운드에서 악의적인 작업(데이터 탈취, 시스템 장악 등)을 수행하는 악성 소프트웨어이다.
-> 2. **가치**: 트로이 목마는 **자체 복제 능력이 없는 반면**, 래퍼(Wrapper) 도구를 통해 악성 코드를 정상 코드에 포장하여 배포되므로, 의심 없는 사용자가 오피스 프로그램, 게임, 유틸리티 등에 포함된 트로이 목마를 실행하게 된다.
-> 3. **한계**: 트로이 목마는 정상 프로그램이므로 **백신의 시그니처 기반 탐지가 어려우며**, 특히 래퍼로 포장된 다형성(Polymorphic) 트로이 목마는 매번 형태가 달라 기존 탐지 방법을 우회한다.
+> 1. **본질**: 트로이 목마는 **"정상 프로그램으로 위장"**하여 사용자로 하여금 자발적으로 실행하게 만들고, 실행 후에는 백그라운드에서 악의적인 작업([[001_dikw_pyramid|데이터]] 탈취, 시스템 장악 등)을 수행하는 악성 소프트웨어이다.
+> 2. **가치**: 트로이 목마는 **자체 [[016_replication_factor|복제]] 능력이 없는 반면**, 래퍼(Wrapper) 도구를 통해 악성 코드를 정상 코드에 포장하여 배포되므로, 의심 없는 사용자가 오피스 프로그램, 게임, 유틸리티 등에 포함된 트로이 목마를 실행하게 된다.
+> 3. **한계**: 트로이 목마는 정상 프로그램이므로 **백신의 [[235_signature_based_detection_misuse_known_attacks|시그니처 기반 탐지]]가 어려우며**, 특히 래퍼로 포장된 다형성(Polymorphic) 트로이 목마는 매번 형태가 달라 기존 탐지 방법을 우회한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-### 1.1 바이러스, 웜, 트로이 목마의 차이
+### 1.1 [[589_virus|바이러스]], 웜, 트로이 목마의 차이
 
-| 특성 | 바이러스 | 웜 | 트로이 목마 |
+| 특성 | [[589_virus|바이러스]] | 웜 | 트로이 목마 |
 |:---|:---|:---|:---|
-| **자기 복제** | 예 | 예 | 아니오 |
-| **침투 방식** | 파일 감염 | 네트워크 전파 | 정상 프로그램 위장 |
-| **실행 방식** | 숙주 파일 실행 시 | 자율적 실행 | 사용자가 직접 실행 |
+| **자기 [[016_replication_factor|복제]]** | 예 | 예 | 아니오 |
+| **침투 방식** | [[501_file_definition_logical_record|파일]] 감염 | 네트워크 전파 | 정상 프로그램 위장 |
+| **실행 방식** | 숙주 [[501_file_definition_logical_record|파일]] 실행 시 | 자율적 실행 | 사용자가 직접 실행 |
 | **확산 속도** | 중간 | 매우 빠름 | 느림 (사용자 의존) |
 
 ### 1.2 트로이 목마의命名由来
@@ -50,8 +50,8 @@ categories = "studynote-operating-system"
 | 유형 | 설명 | 예시 |
 |:---|:---|:---|
 | **Remote Access Trojan (RAT)** | 원격에서 시스템 제어 | njRAT, DarkComet |
-| **Data Stealing Trojan** | 데이터 탈취 | 비밀번호 훔치기, 키로거 |
-| **Destructive Trojan** | 시스템 파괴 | 파일 삭제,硬盘(하드) 포맷 |
+| **[[001_dikw_pyramid|Data]] Stealing Trojan** | [[001_dikw_pyramid|데이터]] 탈취 | 비밀번호 훔치기, [[740_keylogger|키로거]] |
+| **Destructive Trojan** | 시스템 파괴 | [[501_file_definition_logical_record|파일]] 삭제,硬盘(하드) 포맷 |
 
 - **📢 섹션 요약 비유**: 공장 컨베이어벨트가 어떤 순서로 부품을 받아 가공하고 내보내는지 설계도를 펼쳐 보는 것과 같다.
 
@@ -69,13 +69,13 @@ malware.exe + game.exe → wrapper.exe (정상 게임으로 위장)
 ```
 
 **사용되는 기법**:
-- 코드 주입 (Code Injection)
-- 파일 합체 (File Binding)
-- 런처 생성 (Launcher Creation)
+- 코드 주입 ([[082_process_memory_structure|Code]] [[480_injection|Injection]])
+- [[501_file_definition_logical_record|파일]] 합체 ([[501_file_definition_logical_record|File]] Binding)
+- 런처 [[087_process_state_transition|생성]] (Launcher Creation)
 
 ### 3.2 폴리모orphic (다형성) 기법
 
-매 실행 시 악성 코드를 변형하여 **시그니처 기반 탐지를 우회**:
+매 실행 시 악성 코드를 변형하여 **[[235_signature_based_detection_misuse_known_attacks|시그니처 기반 탐지]]를 우회**:
 
 ```text
 [ 기존 ] malware.exe (고정 시그니처) → 탐지 가능
@@ -92,15 +92,15 @@ malware.exe + game.exe → wrapper.exe (정상 게임으로 위장)
 
 | 구분 | 방법 | 설명 |
 |:---|:---|:---|
-| **행위 기반 탐지** | EDR, HIDS | 악성 행위 패턴 탐지 |
-| **시그니처 기반 탐지** | 안티바이러스 | 알려진 트로이 목마 식별 |
+| **[[324_behavior_based_detection|행위 기반 탐지]]** | [[325_edr|EDR]], HIDS | 악성 [[266_behavioral_patterns_overview|행위 패턴]] 탐지 |
+| **[[235_signature_based_detection_misuse_known_attacks|시그니처 기반 탐지]]** | 안티바이러스 | 알려진 트로이 목마 [[655_ir_detection_analysis|식별]] |
 | **Application Control** | 화이트리스트 | 허용된 프로그램만 실행 |
 | ** sandbox** | 샌드박스 | 격리 환경에서 실행 분석 |
 
 ### 4.2 사용자 교육
 
-- **불분명한 출처의 파일 열지 않기**
-- **첨부 파일 실행 전 확인**
+- **불분명한 출처의 [[501_file_definition_logical_record|파일]] 열지 않기**
+- **첨부 [[501_file_definition_logical_record|파일]] 실행 전 [[396_validation|확인]]**
 - **소프트웨어는 공식 채널에서 다운로드**
 
 - **📢 섹션 요약 비유**: 운전자가 도로 상황에 따라 기어와 브레이크를 다르게 선택하는 것처럼 조건별 판단이 중요하다.
@@ -109,7 +109,7 @@ malware.exe + game.exe → wrapper.exe (정상 게임으로 위장)
 
 ## Ⅴ. 기대효과 및 결론
 
-- **위협 인식**: 트로이 목마의 특성과 동작 원리를 이해하여初期(초기) 탐지 가능
+- **위협 인식**: 트로이 목마의 특성과 동작 원리를 이해하여初期([[459_quic_fec_forward_error_correction|초기]]) 탐지 가능
 - **多层 방어**: 기술적 대응과 사용자 인식을 결합한 방어 체계 구축
 - **지속적警惕**: 새로운 변종이 지속적으로 등장하므로 지속적인 보안 업데이트 필요
 
@@ -121,10 +121,10 @@ malware.exe + game.exe → wrapper.exe (정상 게임으로 위장)
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| AppArmor | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
+| [[584_apparmor|AppArmor]] | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
 | 시스템 보안 위협 유형 | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
-| 트랩 도어 (Trap Door / Backdoor) | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
-| 로직 밤 (Logic Bomb) / 타이머 밤 | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
+| [[587_backdoor_trapdoor|트랩 도어]] ([[677_trap_based_system_call_implementation|Trap]] Door / [[727_backdoor|Backdoor]]) | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
+| [[588_logic_bomb|로직 밤]] ([[588_logic_bomb|Logic Bomb]]) / 타이머 밤 | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 

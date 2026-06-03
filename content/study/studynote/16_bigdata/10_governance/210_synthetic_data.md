@@ -8,33 +8,33 @@ categories = "studynote-bigdata"
 
 ## 핵심 인사이트 (3줄 요약)
 
-- **본질**: 합성 데이터(Synthetic Data)는 실제 데이터의 통계적 특성·패턴을 학습하여 원본 개인정보를 포함하지 않으면서 통계적으로 동등한 가상 데이터를 생성하는 기술로, GAN·VAE·통계적 방법론이 주요 생성 기법이다.
-- **가치**: GDPR/PIPA 준수 하에 ML 훈련 데이터 확보, 소프트웨어 테스트 환경의 현실적 데이터 공급, 희귀 사례(Rare Event) 증강, 조직 간 데이터 공유 등 다양한 활용이 가능하다.
-- **판단 포인트**: 합성 데이터 품질은 Fidelity(원본과의 통계적 유사성)·Utility(ML 모델 성능 동등성)·Privacy(멤버십 추론 공격 저항성)의 3중 평가 체계로 검증해야 하며, 세 지표 간 트레이드오프가 설계 핵심이다.
+- **본질**: [[818_synthetic_data|합성 데이터]]([[818_synthetic_data|Synthetic Data]])는 실제 [[001_dikw_pyramid|데이터]]의 통계적 특성·패턴을 학습하여 원본 [[781_personal_information|개인정보]]를 포함하지 않으면서 통계적으로 동등한 가상 [[001_dikw_pyramid|데이터]]를 [[087_process_state_transition|생성]]하는 기술로, [[154_gan_generative_adversarial_network|GAN]]·[[315_autoencoder_vae|VAE]]·통계적 방법론이 주요 [[087_process_state_transition|생성]] 기법이다.
+- **가치**: [[791_gdpr_eu|GDPR]]/PIPA 준수 하에 ML 훈련 [[001_dikw_pyramid|데이터]] 확보, 소프트웨어 테스트 환경의 현실적 [[001_dikw_pyramid|데이터]] 공급, 희귀 사례(Rare Event) 증강, 조직 간 [[386_data_clean_room_sharing|데이터 공유]] 등 다양한 활용이 가능하다.
+- **판단 포인트**: [[818_synthetic_data|합성 데이터]] 품질은 Fidelity(원본과의 통계적 유사성)·Utility(ML 모델 [[282_performance_tactics|성능]] 동등성)·Privacy([[952_membership_inference|멤버십 추론 공격]] [[003_resistance|저항]]성)의 3중 평가 체계로 [[395_verification_process_review|검증]]해야 하며, 세 지표 간 트레이드오프가 설계 핵심이다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-### 합성 데이터가 필요한 상황
+### [[818_synthetic_data|합성 데이터]]가 필요한 상황
 
-현실에서 데이터 활용을 막는 주요 장벽들:
+현실에서 [[001_dikw_pyramid|데이터]] 활용을 막는 주요 장벽들:
 
-| 장벽 | 내용 | 합성 데이터 해결 방안 |
+| 장벽 | 내용 | [[818_synthetic_data|합성 데이터]] 해결 방안 |
 |:---|:---|:---|
-| **개인정보 보호** | GDPR/PIPA로 원본 공유 불가 | 원본 없는 합성본 생성·공유 |
-| **희귀 사례 부족** | 사기 거래, 희귀 질환 등 데이터 극소 | 합성으로 소수 클래스 증강 |
-| **테스트 환경** | 개발자에게 실제 고객 데이터 접근 불가 | 현실적 합성 데이터로 대체 |
-| **조직 간 협업** | 법인 간 원본 데이터 교환 불가 | 합성 데이터로 모델 협력 개발 |
-| **신규 시나리오** | 아직 발생하지 않은 사례 데이터 없음 | 시뮬레이션 기반 합성 생성 |
+| **[[781_personal_information|개인정보]] [[571_protection_vs_security|보호]]** | [[791_gdpr_eu|GDPR]]/PIPA로 원본 공유 불가 | 원본 없는 합성본 [[087_process_state_transition|생성]]·공유 |
+| **희귀 사례 부족** | 사기 거래, 희귀 질환 등 [[001_dikw_pyramid|데이터]] 극소 | 합성으로 소수 클래스 증강 |
+| **테스트 환경** | 개발자에게 실제 고객 [[001_dikw_pyramid|데이터]] 접근 불가 | 현실적 [[818_synthetic_data|합성 데이터]]로 대체 |
+| **조직 간 협업** | 법인 간 원본 [[001_dikw_pyramid|데이터]] 교환 불가 | [[818_synthetic_data|합성 데이터]]로 모델 협력 개발 |
+| **신규 시나리오** | 아직 발생하지 않은 사례 [[001_dikw_pyramid|데이터]] 없음 | 시뮬레이션 기반 합성 [[087_process_state_transition|생성]] |
 
-**📢 섹션 요약 비유**: 합성 데이터는 **스턴트 배우**와 같다. 위험한 장면(개인정보 처리)에 실제 배우(실제 데이터) 대신 스턴트 배우(합성 데이터)를 쓰되, 외모와 동작(통계적 특성)은 거의 동일하게 유지한다.
+**📢 섹션 요약 비유**: [[818_synthetic_data|합성 데이터]]는 **스턴트 배우**와 같다. 위험한 장면([[781_personal_information|개인정보]] 처리)에 실제 배우(실제 [[001_dikw_pyramid|데이터]]) 대신 스턴트 배우([[818_synthetic_data|합성 데이터]])를 쓰되, 외모와 동작(통계적 특성)은 거의 동일하게 유지한다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### 합성 데이터 생성 방법론 3종
+### [[818_synthetic_data|합성 데이터]] [[087_process_state_transition|생성]] 방법론 3종
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
@@ -70,41 +70,41 @@ categories = "studynote-bigdata"
 └─────────────────────────────────────────────────────────────┘
 ```
 
-### 합성 데이터 품질 3중 평가 체계
+### [[818_synthetic_data|합성 데이터]] 품질 3중 평가 체계
 
 | 평가 축 | 의미 | 측정 방법 |
 |:---|:---|:---|
 | **Fidelity (충실도)** | 원본과 통계적으로 얼마나 유사한가? | 컬럼별 분포 비교, 상관계수 비교, KS 검정 |
-| **Utility (유용성)** | ML 모델 성능이 실제 데이터와 얼마나 같은가? | TSTR (Train Synthetic, Test Real): 합성으로 학습, 실제로 평가 |
-| **Privacy (프라이버시)** | 재식별 위험이 얼마나 낮은가? | 멤버십 추론 공격(MIA) 저항성, 가장 가까운 실제 레코드 거리 |
+| **Utility (유용성)** | ML 모델 [[282_performance_tactics|성능]]이 실제 [[001_dikw_pyramid|데이터]]와 얼마나 같은가? | TSTR (Train Synthetic, Test Real): 합성으로 학습, 실제로 평가 |
+| **Privacy (프라이버시)** | 재식별 위험이 얼마나 낮은가? | [[952_membership_inference|멤버십 추론 공격]](MIA) [[003_resistance|저항]]성, 가장 가까운 실제 레코드 거리 |
 
-**📢 섹션 요약 비유**: 합성 데이터의 3중 평가는 **모조품 평가 기준**과 같다. 진품과 얼마나 비슷한지(Fidelity), 실제로 쓸 수 있는지(Utility), 진품 정보를 누출하지 않는지(Privacy) — 세 기준을 모두 통과해야 좋은 모조품이다.
+**📢 섹션 요약 비유**: [[818_synthetic_data|합성 데이터]]의 3중 평가는 **모조품 평가 기준**과 같다. 진품과 얼마나 비슷한지(Fidelity), 실제로 쓸 수 있는지(Utility), 진품 정보를 누출하지 않는지(Privacy) — 세 기준을 모두 통과해야 좋은 모조품이다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-### 합성 데이터 vs 전통적 비식별화
+### [[818_synthetic_data|합성 데이터]] vs 전통적 비식별화
 
-| 차원 | 합성 데이터 | 가명처리/마스킹 |
+| 차원 | [[818_synthetic_data|합성 데이터]] | 가명처리/[[172_maas_mobility_as_a_service|마스]]킹 |
 |:---|:---|:---|
 | **원본 레코드 존재** | 없음 (완전 가상) | 있음 (원본 변형) |
 | **통계 보존** | 높음 (학습 기반) | 보통 |
-| **관계 보존** | CTGAN 등으로 가능 | 어려움 |
+| **[[083_relationship_in_er_model|관계]] 보존** | CTGAN 등으로 가능 | 어려움 |
 | **재식별 위험** | 낮음 (원본 없음) | 중간 (원본 변형) |
-| **생성 복잡도** | 높음 | 낮음 |
-| **GDPR 상태** | 개인정보 아님 (진정한 합성 시) | 가명정보 |
+| **[[087_process_state_transition|생성]] 복잡도** | 높음 | 낮음 |
+| **[[791_gdpr_eu|GDPR]] 상태** | [[781_personal_information|개인정보]] 아님 (진정한 합성 시) | 가명정보 |
 
-### 합성 데이터 생성 도구 비교
+### [[818_synthetic_data|합성 데이터]] [[087_process_state_transition|생성]] 도구 비교
 
 | 도구 | 특징 | 강점 |
 |:---|:---|:---|
-| **SDV (Python)** | 오픈소스, 다중 테이블 지원, CTGAN·TVAE·HMA | 무료, Pandas 통합 |
-| **Gretel.ai** | 클라우드 기반 상용+오픈소스, LLM 합성 | 사용 편의, 다양한 데이터 타입 |
-| **Mostly AI** | 엔터프라이즈 전용, 시계열 지원 | 규제 산업 특화 |
-| **Syntho** | EU 프라이버시 준수 특화 | GDPR 컴플라이언스 |
+| **SDV (Python)** | [[191_oss_license_compliance|오픈소스]], 다중 테이블 지원, CTGAN·TVAE·HMA | 무료, Pandas 통합 |
+| **Gretel.[[190_ai_llm_requirements_specification|ai]]** | 클라우드 기반 상용+[[191_oss_license_compliance|오픈소스]], [[263_llm_large_language_model|LLM]] 합성 | 사용 편의, 다양한 [[001_dikw_pyramid|데이터]] 타입 |
+| **Mostly [[190_ai_llm_requirements_specification|AI]]** | 엔터프라이즈 전용, 시계열 지원 | 규제 산업 특화 |
+| **Syntho** | EU 프라이버시 준수 특화 | [[791_gdpr_eu|GDPR]] 컴플라이언스 |
 
-**📢 섹션 요약 비유**: CTGAN은 **미술 복원가**와 같다. 원본 그림(실제 데이터)의 스타일·색상·구도(통계 특성)를 학습하여 원본을 보지 않고도 유사한 새 그림(합성 데이터)을 그릴 수 있다.
+**📢 섹션 요약 비유**: CTGAN은 **미술 복원가**와 같다. 원본 그림(실제 [[001_dikw_pyramid|데이터]])의 스타일·색상·구도(통계 특성)를 학습하여 원본을 보지 않고도 유사한 새 그림([[818_synthetic_data|합성 데이터]])을 그릴 수 있다.
 
 ---
 
@@ -128,15 +128,15 @@ score = evaluate(synthetic_data, real_data)
 print(f"품질 점수: {score}")  # 0-1 사이, 높을수록 좋음
 ```
 
-### 합성 데이터 활용 단계별 전략
+### [[818_synthetic_data|합성 데이터]] 활용 단계별 [[268_strategy_pattern|전략]]
 
 | 단계 | 활용 방식 |
 |:---|:---|
-| **개발·테스트** | 실제 고객 데이터 대신 합성 데이터로 API·UI 개발 |
-| **ML 모델 개발** | 합성 데이터로 초기 모델 개발 후 실제 데이터로 파인튜닝 |
-| **데이터 공유** | 파트너사와 합성 데이터 공유로 공동 분석 |
-| **소수 클래스 증강** | SMOTE·CTGAN으로 불균형 데이터셋 보완 |
-| **시나리오 테스트** | 극단적 시나리오(블랙 스완) 합성 생성 |
+| **개발·테스트** | 실제 고객 [[001_dikw_pyramid|데이터]] 대신 [[818_synthetic_data|합성 데이터]]로 [[014_api_posix|API]]·UI 개발 |
+| **ML 모델 개발** | [[818_synthetic_data|합성 데이터]]로 [[459_quic_fec_forward_error_correction|초기]] 모델 개발 후 실제 [[001_dikw_pyramid|데이터]]로 파인튜닝 |
+| **[[386_data_clean_room_sharing|데이터 공유]]** | 파트너사와 [[818_synthetic_data|합성 데이터]] 공유로 공동 분석 |
+| **소수 클래스 증강** | [[231_smote_oversampling_class_imbalance_augmentation|SMOTE]]·CTGAN으로 불균형 [[001_dikw_pyramid|데이터]]셋 보완 |
+| **시나리오 테스트** | 극단적 시나리오(블랙 스완) 합성 [[087_process_state_transition|생성]] |
 
 **📢 섹션 요약 비유**: 소수 클래스 증강은 **의학 시뮬레이션**과 같다. 실제 희귀 질환 환자(소수 클래스)가 부족할 때 의학 지식 기반 시뮬레이션 환자를 만들어 의료진 교육(ML 훈련)에 활용하는 것이다.
 
@@ -144,35 +144,35 @@ print(f"품질 점수: {score}")  # 0-1 사이, 높을수록 좋음
 
 ## Ⅴ. 기대효과 및 결론
 
-### 합성 데이터 도입 효과
+### [[818_synthetic_data|합성 데이터]] 도입 효과
 
 | 영역 | 효과 |
 |:---|:---|
-| **AI 학습 데이터** | GDPR 준수하에 충분한 ML 훈련 데이터 확보 |
-| **테스트 환경** | 프로덕션 데이터 유출 위험 없는 현실적 테스트 |
-| **개발 속도** | 데이터 접근 승인 대기 없이 즉시 개발 가능 |
-| **소수 클래스** | 희귀 사기·질환 사례 증강으로 모델 성능 향상 |
-| **국제 협업** | 국가 간 데이터 이전 규제 우회 가능 |
+| **[[190_ai_llm_requirements_specification|AI]] 학습 [[001_dikw_pyramid|데이터]]** | [[791_gdpr_eu|GDPR]] 준수하에 충분한 ML 훈련 [[001_dikw_pyramid|데이터]] 확보 |
+| **테스트 환경** | 프로덕션 [[001_dikw_pyramid|데이터]] 유출 위험 없는 현실적 테스트 |
+| **개발 속도** | [[001_dikw_pyramid|데이터]] 접근 승인 대기 없이 즉시 개발 가능 |
+| **소수 클래스** | 희귀 사기·질환 사례 증강으로 모델 [[282_performance_tactics|성능]] 향상 |
+| **국제 협업** | 국가 간 [[001_dikw_pyramid|데이터]] 이전 규제 우회 가능 |
 
 ### 결론
 
-합성 데이터는 **데이터 프라이버시 패러독스의 실용적 해법**이다. 프라이버시와 데이터 유용성이 상충하는 문제를, 통계적 동등성을 유지하는 가상 데이터 생성으로 해결한다. 그러나 완벽한 해법은 아니다: GAN의 훈련 불안정성, Mode Collapse(일부 패턴만 반복 생성), 원본 특이값 노출 위험 등 기술적 한계가 존재한다. 정보통신기술사는 합성 데이터를 "프라이버시 만능 해결책"이 아닌, 구체적인 활용 목적과 품질 검증 기준을 갖춘 **설계 아이템**으로 접근해야 한다.
+[[818_synthetic_data|합성 데이터]]는 **[[001_dikw_pyramid|데이터]] 프라이버시 패러독스의 실용적 해법**이다. 프라이버시와 [[001_dikw_pyramid|데이터]] 유용성이 상충하는 문제를, 통계적 동등성을 유지하는 가상 [[001_dikw_pyramid|데이터]] [[087_process_state_transition|생성]]으로 해결한다. 그러나 완벽한 해법은 아니다: GAN의 훈련 불안정성, Mode Collapse(일부 패턴만 반복 [[087_process_state_transition|생성]]), 원본 특이값 노출 위험 등 기술적 한계가 존재한다. 정보통신기술사는 [[818_synthetic_data|합성 데이터]]를 "프라이버시 만능 해결책"이 아닌, 구체적인 활용 목적과 품질 [[395_verification_process_review|검증]] 기준을 갖춘 **설계 아이템**으로 접근해야 한다.
 
-**📢 섹션 요약 비유**: 합성 데이터는 **드라마 세트장**과 같다. 실제 공항(실제 데이터)에서 촬영하면 개인정보 문제가 생기지만, 똑같이 만든 세트장(합성 데이터)에서 촬영하면 훨씬 자유롭게 작업할 수 있다.
+**📢 섹션 요약 비유**: [[818_synthetic_data|합성 데이터]]는 **드라마 세트장**과 같다. 실제 공항(실제 [[001_dikw_pyramid|데이터]])에서 촬영하면 [[781_personal_information|개인정보]] 문제가 생기지만, 똑같이 만든 세트장([[818_synthetic_data|합성 데이터]])에서 촬영하면 훨씬 자유롭게 작업할 수 있다.
 
 ---
 
 ### 📌 관련 개념 맵
 
-| 개념 | 관계 | 설명 |
+| 개념 | [[083_relationship_in_er_model|관계]] | 설명 |
 |:---|:---|:---|
-| CTGAN | 생성 모델 | 조건부 표 형식 GAN — 범주형+수치형 혼합 처리 |
-| TVAE | 생성 모델 | 표 형식 VAE — 연속적 분포 재현 |
-| SDV | Python 라이브러리 | 다중 테이블 합성 데이터 생성 통합 프레임워크 |
+| CTGAN | [[087_process_state_transition|생성]] 모델 | 조건부 표 형식 [[154_gan_generative_adversarial_network|GAN]] — 범주형+수치형 혼합 처리 |
+| TVAE | [[087_process_state_transition|생성]] 모델 | 표 형식 [[315_autoencoder_vae|VAE]] — 연속적 분포 재현 |
+| SDV | Python [[336_library_vs_framework|라이브러리]] | 다중 테이블 [[818_synthetic_data|합성 데이터]] [[087_process_state_transition|생성]] 통합 프레임워크 |
 | Fidelity | 품질 평가 축 | 원본과 합성의 통계적 유사성 |
-| Utility | 품질 평가 축 | ML 모델 성능 동등성 (TSTR) |
-| Privacy | 품질 평가 축 | 멤버십 추론 공격 저항성 |
-| 멤버십 추론 공격 | 프라이버시 위협 | 합성 데이터에서 원본 포함 여부를 역추론하는 공격 |
+| Utility | 품질 평가 축 | ML 모델 [[282_performance_tactics|성능]] 동등성 (TSTR) |
+| Privacy | 품질 평가 축 | [[952_membership_inference|멤버십 추론 공격]] [[003_resistance|저항]]성 |
+| [[952_membership_inference|멤버십 추론 공격]] | 프라이버시 위협 | [[818_synthetic_data|합성 데이터]]에서 원본 포함 여부를 역추론하는 공격 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -191,10 +191,10 @@ print(f"품질 점수: {score}")  # 0-1 사이, 높을수록 좋음
     ▼
 [AI 모델 학습·테스트 활용 — 데이터 부족·편향·규제 장벽 극복]
 ```
-실 데이터의 수집·공유 한계를 데이터 증강으로 보완하고, GAN/VAE 기반 합성 데이터 생성으로 개인정보 규제와 데이터 부족 문제를 동시에 해결한다.
+실 [[001_dikw_pyramid|데이터]]의 수집·공유 한계를 [[001_dikw_pyramid|데이터]] 증강으로 보완하고, [[154_gan_generative_adversarial_network|GAN]]/[[315_autoencoder_vae|VAE]] 기반 [[818_synthetic_data|합성 데이터]] [[087_process_state_transition|생성]]으로 [[781_personal_information|개인정보]] 규제와 [[001_dikw_pyramid|데이터]] 부족 문제를 동시에 해결한다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-- 합성 데이터는 **모형 집**과 같아요: 실제 집(실제 데이터) 대신 건축 설계도를 배운 AI가 만든 모형 집(합성 데이터)은 구조는 비슷하지만 실제 사람이 살지 않아요(개인정보 없음).
-- 좋은 합성 데이터는 "진짜 같아 보이고(Fidelity), 실제로 유용하며(Utility), 원본 정보를 노출하지 않는(Privacy)" 세 가지를 모두 만족해야 해요.
-- 이 기술 덕분에 병원이나 은행은 AI 개발자에게 실제 환자·고객 정보 대신 합성 데이터를 제공할 수 있어서, 개인정보 걱정 없이 AI 개발이 가능해져요.
+- [[818_synthetic_data|합성 데이터]]는 **모형 집**과 같아요: 실제 집(실제 [[001_dikw_pyramid|데이터]]) 대신 건축 설계도를 배운 AI가 만든 모형 집([[818_synthetic_data|합성 데이터]])은 구조는 비슷하지만 실제 사람이 살지 않아요([[781_personal_information|개인정보]] 없음).
+- 좋은 [[818_synthetic_data|합성 데이터]]는 "진짜 같아 보이고(Fidelity), 실제로 유용하며(Utility), 원본 정보를 노출하지 않는(Privacy)" 세 가지를 모두 만족해야 해요.
+- 이 기술 덕분에 병원이나 은행은 [[190_ai_llm_requirements_specification|AI]] 개발자에게 실제 환자·고객 정보 대신 [[818_synthetic_data|합성 데이터]]를 제공할 수 있어서, [[781_personal_information|개인정보]] 걱정 없이 [[190_ai_llm_requirements_specification|AI]] 개발이 가능해져요.

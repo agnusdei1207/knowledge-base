@@ -7,9 +7,9 @@ categories = "studynote-enterprise-systems"
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: PLM은 제품의 **기획→설계→제조→서비스→폐기까지 전 생명주기에 걸친 데이터·프로세스·사람을 통합 관리**하는 엔터프라이즈 시스템이다.
-> 2. **가치**: CAD 도면·BOM(부품 목록)·변경 이력·품질 데이터가 부서별로 분산되면 **설계 변경 누락·부품 불일치·품질 사고**가 발생하지만, PLM이 **단일 제품 데이터 허브**를 제공하여 전사 협업을 보장한다.
-> 3. **판단 포인트**: PLM은 ERP(생산·재무)·MES(제조 실행)·SCM(공급망)과 통합되어 **제품 중심 디지털 스레드(Digital Thread)**를 구성하며, 디지털 트윈의 데이터 원천이 된다.
+> 1. **본질**: PLM은 제품의 **기획→설계→제조→[[090_service_kubernetes_network_load_balancing|서비스]]→폐기까지 전 생명주기에 걸친 [[001_dikw_pyramid|데이터]]·프로세스·사람을 통합 관리**하는 [[_keyword_list|엔터프라이즈 시스템]]이다.
+> 2. **가치**: CAD 도면·[[124_bom_bill_of_materials|BOM]](부품 목록)·변경 이력·품질 [[001_dikw_pyramid|데이터]]가 부서별로 [[136_variance|분산]]되면 **설계 변경 누락·부품 불일치·품질 사고**가 발생하지만, PLM이 **단일 제품 [[180_data_hub|데이터 허브]]**를 제공하여 전사 협업을 보장한다.
+> 3. **판단 포인트**: PLM은 [[081_erp_enterprise_resource_planning|ERP]](생산·재무)·[[119_mes_manufacturing_execution_system|MES]](제조 실행)·[[167_scm_software_configuration_management|SCM]]([[520_supply_chain_attack_and_ci_cd_security|공급망]])과 통합되어 **제품 중심 디지털 [[092_thread_lwp|스레드]](Digital [[092_thread_lwp|Thread]])**를 구성하며, [[126_digital_twin_concept|디지털 트윈]]의 [[001_dikw_pyramid|데이터]] 원천이 된다.
 
 ---
 
@@ -40,11 +40,11 @@ categories = "studynote-enterprise-systems"
 
 | 기능 | 설명 |
 |:---|:---|
-| **CAD 관리** | 도면·3D 모델 버전 관리 |
-| **BOM 관리** | 부품 구성 트리, E-BOM/M-BOM |
-| **변경 관리** | ECR→ECO→ECN 워크플로 |
+| **CAD 관리** | 도면·3D 모델 [[288_version_ihl_tos_total_length|버전]] 관리 |
+| **[[124_bom_bill_of_materials|BOM]] 관리** | 부품 구성 트리, E-[[124_bom_bill_of_materials|BOM]]/M-[[124_bom_bill_of_materials|BOM]] |
+| **[[079_change_enablement|변경 관리]]** | ECR→ECO→ECN 워크플로 |
 | **프로젝트 관리** | 제품 개발 일정·마일스톤 |
-| **품질 관리** | FMEA·CAPA 연동 |
+| **품질 관리** | [[752_fmea|FMEA]]·CAPA 연동 |
 
 - **📢 섹션 요약 비유**: BOM은 요리 레시피(재료 목록)이고, ECO는 레시피 변경 승인 절차다.
 
@@ -52,24 +52,24 @@ categories = "studynote-enterprise-systems"
 
 ## Ⅲ. 비교 및 연결
 
-| 비교 | PLM | ERP | MES |
+| 비교 | PLM | [[081_erp_enterprise_resource_planning|ERP]] | [[119_mes_manufacturing_execution_system|MES]] |
 |:---|:---|:---|:---|
-| **관점** | **제품 데이터** | 경영·재무 | 제조 실행 |
+| **관점** | **제품 [[001_dikw_pyramid|데이터]]** | 경영·재무 | 제조 실행 |
 | **단계** | 설계~폐기 | 계획~재무 | 생산 현장 |
-| **데이터** | CAD·BOM·ECO | 주문·재고·원가 | 실적·품질 |
+| **[[001_dikw_pyramid|데이터]]** | CAD·[[124_bom_bill_of_materials|BOM]]·ECO | 주문·재고·원가 | 실적·품질 |
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### Digital Thread
-PLM→ERP→MES→서비스를 관통하는 제품 데이터의 연속적 흐름으로, 설계 변경이 제조·서비스에 즉시 반영된다.
+### Digital [[092_thread_lwp|Thread]]
+PLM→[[081_erp_enterprise_resource_planning|ERP]]→[[119_mes_manufacturing_execution_system|MES]]→[[090_service_kubernetes_network_load_balancing|서비스]]를 관통하는 제품 [[001_dikw_pyramid|데이터]]의 연속적 흐름으로, 설계 변경이 제조·[[090_service_kubernetes_network_load_balancing|서비스]]에 즉시 반영된다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-PLM은 **제조업 DX(디지털 전환)의 핵심 축**이며, 디지털 트윈·AI 시뮬레이션과 결합하여 제품 개발 기간을 30~50% 단축하고 있다.
+PLM은 **제조업 [[726_platform_engineering_idp_dx|DX]]([[055_digital_transformation|디지털 전환]])의 핵심 축**이며, [[126_digital_twin_concept|디지털 트윈]]·[[190_ai_llm_requirements_specification|AI]] 시뮬레이션과 결합하여 제품 개발 기간을 30~50% 단축하고 있다.
 
 ---
 
@@ -77,10 +77,10 @@ PLM은 **제조업 DX(디지털 전환)의 핵심 축**이며, 디지털 트윈�
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **BOM** | 부품 구성 목록 (PLM 핵심 데이터) |
-| **ECO** | 설계 변경 관리 |
-| **Digital Thread** | PLM→ERP→MES 데이터 연속성 |
-| **디지털 트윈** | PLM 데이터 기반 가상 모델 |
+| **[[124_bom_bill_of_materials|BOM]]** | 부품 구성 목록 (PLM 핵심 [[001_dikw_pyramid|데이터]]) |
+| **ECO** | 설계 [[079_change_enablement|변경 관리]] |
+| **Digital [[092_thread_lwp|Thread]]** | PLM→[[081_erp_enterprise_resource_planning|ERP]]→[[119_mes_manufacturing_execution_system|MES]] [[001_dikw_pyramid|데이터]] 연속성 |
+| **[[126_digital_twin_concept|디지털 트윈]]** | PLM [[001_dikw_pyramid|데이터]] 기반 가상 모델 |
 | **CAD/CAE/CAM** | PLM이 관리하는 설계 도구 산출물 |
 
 ### 📈 관련 키워드 및 발전 흐름도
@@ -103,5 +103,5 @@ PLM은 **제조업 DX(디지털 전환)의 핵심 축**이며, 디지털 트윈�
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. PLM은 제품의 **출생(기획)부터 은퇴(폐기)**까지의 모든 기록을 관리하는 시스템이에요.
-2. 레시피(BOM)를 바꾸려면 **승인(ECO)**을 받아야 해서 실수가 줄어요.
+2. 레시피([[124_bom_bill_of_materials|BOM]])를 바꾸려면 **승인(ECO)**을 받아야 해서 실수가 줄어요.
 3. 덕분에 자동차·비행기 같은 복잡한 제품도 **체계적으로 개발**할 수 있답니다!

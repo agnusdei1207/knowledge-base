@@ -8,8 +8,8 @@ categories = "studynote-software-engineering"
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: API 게이트웨이 인증 및 라우팅 병목 관리망은(는) 소프트웨어 공학의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.
-> 2. **가치**: 이 개념을 올바르게 적용하면 소프트웨어의 품질·유지보수성·재사용성이 향상되고, 개발 생산성과 팀 협업 효율이 높아진다.
+> 1. **본질**: [[014_api_posix|API]] 게이트웨이 [[303_authentication_authorization_patterns|인증]] 및 [[339_routing_overview_best_path_selection|라우팅]] 병목 관리망은(는) [[001_software_engineering_definition|소프트웨어 공학]]의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.
+> 2. **가치**: 이 개념을 올바르게 적용하면 소프트웨어의 품질·[[346_maintainability_portability|유지보수성]]·재사용성이 향상되고, 개발 생산성과 팀 협업 효율이 높아진다.
 > 3. **판단 포인트**: 도입 시에는 비용·복잡도·조직 성숙도를 함께 고려해야 하며, 맹목적 적용보다 프로젝트 특성에 맞는 선택적 적용이 핵심이다.
 
 ---
@@ -17,20 +17,20 @@ categories = "studynote-software-engineering"
 ## Ⅰ. 개요 및 필요성
 
 모놀리식 시절에는 서버가 딱 1대였으므로, 앱(클라이언트)은 `api.shop.com` 하나만 호출하면 됐다.
-그런데 MSA 시대가 되자 서버가 '주문 서버', '결제 서버', '리뷰 서버'로 100개 이상 쪼개졌다.
+그런데 [[619_msa_traffic_hardware|MSA]] 시대가 되자 서버가 '주문 서버', '결제 서버', '리뷰 서버'로 100개 이상 쪼개졌다.
 
-만약 클라이언트(모바일 앱)가 이 100개의 주소를 다 외우고 직접 통신(Direct Client-to-Microservice)한다면?
+만약 클라이언트(모바일 앱)가 이 100개의 주소를 다 외우고 [[120_direct_communication|직접 통신]]([[176_direct_addressing|Direct]] Client-to-Microservice)한다면?
 - 리뷰 서버의 IP가 바뀌면 모바일 앱을 통째로 다시 배포해야 한다.
 - 100개의 서버가 각자 "이 유저가 로그인한 유저 맞나?"를 100번 검사해야 한다.
 - 해커가 뒷단에 숨어있어야 할 결제 서버를 직접 공격할 수 있게 된다.
 
-이 끔찍한 복잡성을 해결하기 위해 등장한 것이 **API 게이트웨이(API Gateway)**다. **"앱은 나(게이트웨이)한테만 요청해! 내가 알아서 뒤에 있는 100개의 서버 중 맞는 곳으로 배달해 줄게!"**라는 퍼사드(Facade) 패턴의 완벽한 아키텍처 구현체다.
+이 끔찍한 복잡성을 해결하기 위해 등장한 것이 **[[014_api_posix|API]] 게이트웨이([[542_api_gateway|API Gateway]])**다. **"앱은 나(게이트웨이)한테만 요청해! 내가 알아서 뒤에 있는 100개의 서버 중 맞는 곳으로 배달해 줄게!"**라는 [[263_facade_pattern_simplified_interface|퍼사드]]([[263_facade_pattern_simplified_interface|Facade]]) 패턴의 완벽한 아키텍처 구현체다.
 
-- **📢 섹션 요약 비유**: 대형 병원에 갔을 때, 환자가 100명의 의사 진료실을 직접 찾아다니는 건 불가능하다. 입구에 있는 '원무과 데스크(API 게이트웨이)'에서 환자의 신분을 확인하고(인증), "내과 3번 방으로 가세요"라고 안내(라우팅)해 주는 시스템이다.
+- **📢 섹션 요약 비유**: 대형 병원에 갔을 때, 환자가 100명의 의사 진료실을 직접 찾아다니는 건 불가능하다. 입구에 있는 '원무과 데스크([[014_api_posix|API]] 게이트웨이)'에서 환자의 신분을 [[396_validation|확인]]하고([[303_authentication_authorization_patterns|인증]]), "내과 3번 방으로 가세요"라고 안내([[339_routing_overview_best_path_selection|라우팅]])해 주는 시스템이다.
 
 ---
 
-다음은 API 게이트웨이 인증 및 라우팅 병의 핵심 구조와 흐름을 보여주는 다이어그램이다.
+다음은 [[014_api_posix|API]] 게이트웨이 [[303_authentication_authorization_patterns|인증]] 및 [[339_routing_overview_best_path_selection|라우팅]] 병의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
 ```text
 ┌─────────────────────────────────────────────────────────────┐
@@ -45,7 +45,7 @@ categories = "studynote-software-engineering"
 └─────────────────────────────────────────────────────────────┘
 ```
 
-이 다이어그램은 API 게이트웨이 인증 및 라우팅 병가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
+이 다이어그램은 [[014_api_posix|API]] 게이트웨이 [[303_authentication_authorization_patterns|인증]] 및 [[339_routing_overview_best_path_selection|라우팅]] 병가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
 ---
 
@@ -55,13 +55,13 @@ categories = "studynote-software-engineering"
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-API 게이트웨이는 시스템의 최전방에서 다음과 같은 막강한 공통 기능(Cross-Cutting Concerns)을 수행한다.
+[[014_api_posix|API]] 게이트웨이는 시스템의 최전방에서 다음과 같은 막강한 공통 기능(Cross-Cutting Concerns)을 수행한다.
 
-- **📢 섹션 요약 비유**: API 게이트웨이 인증 및 라우팅 병목 관리망은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
+- **📢 섹션 요약 비유**: [[014_api_posix|API]] 게이트웨이 [[303_authentication_authorization_patterns|인증]] 및 [[339_routing_overview_best_path_selection|라우팅]] 병목 관리망은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
 | 항목 | 설명 | 비고 |
 | :--- | :--- | :--- |
-| 핵심 특성 | API 게이트웨이 인증 및 라우팅 병목 관리망의 핵심 특성과 동작 방식 | 필수 이해 요소 |
+| 핵심 특성 | [[014_api_posix|API]] 게이트웨이 [[303_authentication_authorization_patterns|인증]] 및 [[339_routing_overview_best_path_selection|라우팅]] 병목 관리망의 핵심 특성과 동작 방식 | 필수 이해 요소 |
 | 적용 범위 | 어떤 프로젝트·상황에서 활용하는지 | 선택 기준 |
 | 제약 조건 | 적용 시 주의해야 할 전제·한계 | 트레이드오프 |
 
@@ -73,18 +73,18 @@ API 게이트웨이는 시스템의 최전방에서 다음과 같은 막강한 �
 
 ## Ⅲ. 비교 및 연결
 
-API 게이트웨이는 상황에 따라 중앙 집중형으로 쓸 수도 있고, 프론트엔드 맞춤형(BFF)으로 쪼개 쓸 수도 있다.
+[[014_api_posix|API]] 게이트웨이는 상황에 따라 중앙 집중형으로 쓸 수도 있고, 프론트엔드 맞춤형([[543_bff_backend_for_frontend|BFF]])으로 쪼개 쓸 수도 있다.
 
-| 비교 항목 | 중앙 집중형 API Gateway (Global) | BFF (Backend for Frontend) 패턴 |
+| 비교 항목 | 중앙 집중형 [[542_api_gateway|API Gateway]] (Global) | [[543_bff_backend_for_frontend|BFF]] ([[543_bff_backend_for_frontend|Backend for Frontend]]) 패턴 |
 |:---|:---|:---|
 | **설치 위치** | 전사 시스템 가장 앞단에 1개 | 각 플랫폼(Web, iOS, Android) 앞단에 여러 개 |
-| **핵심 목적** | 공통 기능(인증, 라우팅)의 중앙 통제 | 특정 화면에 딱 맞는 데이터 뭉치기(Aggregation) |
+| **핵심 목적** | 공통 기능([[303_authentication_authorization_patterns|인증]], [[339_routing_overview_best_path_selection|라우팅]])의 중앙 통제 | 특정 화면에 딱 맞는 [[001_dikw_pyramid|데이터]] 뭉치기(Aggregation) |
 | **관리 주체** | **인프라/플랫폼 팀** | **프론트엔드 개발팀** |
-| **장점** | 관리가 편하고 모든 보안 통제 가능 | 모바일 화면용 데이터를 모아주어 앱 로딩이 극도로 빠름 |
+| **장점** | 관리가 편하고 모든 보안 통제 가능 | 모바일 화면용 [[001_dikw_pyramid|데이터]]를 모아주어 앱 로딩이 극도로 빠름 |
 
-실무에서는 **"가장 앞단에 Global API Gateway를 두고, 그 바로 뒤에 모바일용 BFF와 웹용 BFF를 따로 두는 이중 구조"**가 대세로 자리 잡았다.
+실무에서는 **"가장 앞단에 Global [[014_api_posix|API]] Gateway를 두고, 그 바로 뒤에 모바일용 BFF와 웹용 BFF를 따로 두는 이중 구조"**가 대세로 자리 잡았다.
 
-- **📢 섹션 요약 비유**: 글로벌 게이트웨이는 건물 입구의 '메인 경비실(신분 확인)'이고, BFF는 각 층마다 있는 '부서별 안내데스크(맞춤형 데이터 조합)'다. 역할이 다르므로 둘 다 있으면 좋다.
+- **📢 섹션 요약 비유**: 글로벌 게이트웨이는 건물 입구의 '메인 경비실(신분 [[396_validation|확인]])'이고, BFF는 각 층마다 있는 '부서별 안내데스크(맞춤형 [[001_dikw_pyramid|데이터]] 조합)'다. 역할이 다르므로 둘 다 있으면 좋다.
 
 ---
 
@@ -96,9 +96,9 @@ API 게이트웨이는 상황에 따라 중앙 집중형으로 쓸 수도 있고
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-API 게이트웨이는 트래픽이 모이는 목구멍(Choke point)이므로, 자칫하면 회사 전체를 마비시키는 **단일 장애점(SPOF)**이 될 수 있다.
+[[014_api_posix|API]] 게이트웨이는 트래픽이 모이는 목구멍(Choke point)이므로, 자칫하면 회사 전체를 마비시키는 **[[454_spof|단일 장애점]]([[454_spof|SPOF]])**이 될 수 있다.
 
-- **📢 섹션 요약 비유**: API 게이트웨이 인증 및 라우팅 병목 관리망은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
+- **📢 섹션 요약 비유**: [[014_api_posix|API]] 게이트웨이 [[303_authentication_authorization_patterns|인증]] 및 [[339_routing_overview_best_path_selection|라우팅]] 병목 관리망은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
 ---
 
@@ -108,11 +108,11 @@ API 게이트웨이는 트래픽이 모이는 목구멍(Choke point)이므로, �
 
 ## Ⅴ. 기대효과 및 결론
 
-API 게이트웨이를 제대로 구축하면 개발자들은 "이 API에 권한 체크 로직 넣었어?"라는 소모적인 코드 리뷰를 할 필요가 없어진다. 인프라 계층에서 이미 100% 검증된 상태로 깨끗한 트래픽만 들어오기 때문이다. 또한 구형 서버(A)를 신형 서버(B)로 무중단 교체(카나리 배포)할 때도, 게이트웨이의 라우팅 비율만 9:1에서 0:10으로 서서히 돌려주면 끝이다.
+[[014_api_posix|API]] 게이트웨이를 제대로 구축하면 개발자들은 "이 API에 권한 체크 로직 넣었어?"라는 소모적인 코드 리뷰를 할 필요가 없어진다. 인프라 계층에서 이미 100% 검증된 상태로 깨끗한 트래픽만 들어오기 때문이다. 또한 구형 서버(A)를 신형 서버(B)로 무중단 교체([[115_canary_deployment_gradual_rollout|카나리 배포]])할 때도, 게이트웨이의 [[339_routing_overview_best_path_selection|라우팅]] 비율만 9:1에서 0:10으로 서서히 돌려주면 끝이다.
 
-결론적으로 API 게이트웨이는 수백 개의 파편화된 마이크로서비스를 **외부(고객)에게는 '하나의 거대하고 깔끔한 시스템'으로 보이게 만들어주는 거대한 마술 망토**다. 기술 리더는 뒷단이 아무리 복잡하게 찢어져 있더라도, 이 망토(게이트웨이)를 통해 보안과 확장성을 완벽하게 중앙 통제해야 한다.
+결론적으로 [[014_api_posix|API]] 게이트웨이는 수백 개의 파편화된 마이크로서비스를 **외부(고객)에게는 '하나의 거대하고 깔끔한 시스템'으로 보이게 만들어주는 거대한 마술 망토**다. 기술 리더는 뒷단이 아무리 복잡하게 찢어져 있더라도, 이 망토(게이트웨이)를 통해 보안과 확장성을 완벽하게 중앙 통제해야 한다.
 
-- **📢 섹션 요약 비유**: 고객은 식당 주방(MSA)에 요리사가 100명인지 1명인지 관심 없다. 고객은 오직 깔끔한 유니폼을 입은 매니저(API 게이트웨이)에게 주문하고 음식을 받는다. 주방이 아무리 전쟁터라도, 매니저만 완벽하면 손님은 최고급 레스토랑의 서비스를 경험한다.
+- **📢 섹션 요약 비유**: 고객은 식당 주방([[619_msa_traffic_hardware|MSA]])에 요리사가 100명인지 1명인지 관심 없다. 고객은 오직 깔끔한 유니폼을 입은 매니저([[014_api_posix|API]] 게이트웨이)에게 주문하고 음식을 받는다. 주방이 아무리 전쟁터라도, 매니저만 완벽하면 손님은 최고급 레스토랑의 서비스를 경험한다.
 
 ---
 
@@ -126,10 +126,10 @@ API 게이트웨이를 제대로 구축하면 개발자들은 "이 API에 권한
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| 소프트웨어 공학 (Software Engineering) | API 게이트웨이 인증 및 라우팅 병목 관리망의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
-| 소프트웨어 생명주기 (SDLC, Software Development Life Cycle) | API 게이트웨이 인증 및 라우팅 병목 관리망은 SDLC의 특정 단계에서 핵심적으로 적용된다 |
-| 품질 보증 (QA, Quality Assurance) | API 게이트웨이 인증 및 라우팅 병목 관리망 적용 결과는 QA 활동을 통해 검증되고 측정된다 |
-| 형상 관리 (SCM, Software Configuration Management) | API 게이트웨이 인증 및 라우팅 병목 관리망에서 생성된 산출물은 SCM을 통해 체계적으로 관리된다 |
+| [[001_software_engineering_definition|소프트웨어 공학]] ([[001_software_engineering_definition|Software Engineering]]) | [[014_api_posix|API]] 게이트웨이 [[303_authentication_authorization_patterns|인증]] 및 [[339_routing_overview_best_path_selection|라우팅]] 병목 관리망의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
+| [[003_sdlc|소프트웨어 생명주기]] ([[131_sdlc_system_development_life_cycle_waterfall_agile|SDLC]], Software Development Life Cycle) | [[014_api_posix|API]] 게이트웨이 [[303_authentication_authorization_patterns|인증]] 및 [[339_routing_overview_best_path_selection|라우팅]] 병목 관리망은 SDLC의 특정 단계에서 핵심적으로 적용된다 |
+| 품질 보증 (QA, Quality Assurance) | [[014_api_posix|API]] 게이트웨이 [[303_authentication_authorization_patterns|인증]] 및 [[339_routing_overview_best_path_selection|라우팅]] 병목 관리망 적용 결과는 QA 활동을 통해 검증되고 측정된다 |
+| [[020_software_configuration_management|형상 관리]] ([[167_scm_software_configuration_management|SCM]], [[020_software_configuration_management|Software Configuration Management]]) | [[014_api_posix|API]] 게이트웨이 [[303_authentication_authorization_patterns|인증]] 및 [[339_routing_overview_best_path_selection|라우팅]] 병목 관리망에서 생성된 산출물은 SCM을 통해 체계적으로 관리된다 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -149,10 +149,10 @@ API 게이트웨이 인증 및 라우팅 병목 관리망 개념 정립
 지속적 개선 및 DevOps·MLOps 통합
 ```
 
-이 흐름은 소프트웨어 위기 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
+이 흐름은 [[002_software_crisis|소프트웨어 위기]] 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. API 게이트웨이 인증 및 라우팅 병목 관리망은 레고 블록으로 성을 만들 때처럼, 규칙을 정하고 역할을 나누어 함께 작업하는 방법이에요.
+1. [[014_api_posix|API]] 게이트웨이 [[303_authentication_authorization_patterns|인증]] 및 [[339_routing_overview_best_path_selection|라우팅]] 병목 관리망은 레고 블록으로 성을 만들 때처럼, 규칙을 정하고 역할을 나누어 함께 작업하는 방법이에요.
 2. 혼자서 막 만들면 나중에 무너지거나 고치기 어렵지만, 약속을 지키면 누구나 쉽게 고치고 더 크게 만들 수 있어요.
-3. 그래서 소프트웨어 공학은 프로그래머들이 좋은 프로그램을 빠르고 안전하게 만들 수 있게 도와주는 '규칙 모음집'이에요.
+3. 그래서 [[001_software_engineering_definition|소프트웨어 공학]]은 프로그래머들이 좋은 프로그램을 빠르고 안전하게 만들 수 있게 도와주는 '규칙 모음집'이에요.

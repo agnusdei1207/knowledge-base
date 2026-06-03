@@ -7,8 +7,8 @@ categories = "studynote-enterprise-systems"
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: PropTech(Property Technology)는 **부동산 산업에 AI·빅데이터·IoT·블록체인을 적용**하여 거래·관리·투자·건설을 혁신하는 기술 분야이다.
-> 2. **가치**: 전통 부동산은 정보 비대칭·불투명 거래·비효율 관리가 문제이며, PropTech는 **AI 시세 예측·VR 모델하우스·스마트 빌딩·토큰 증권(STO) 투자**로 혁신한다.
+> 1. **본질**: PropTech(Property Technology)는 **부동산 산업에 [[190_ai_llm_requirements_specification|AI]]·빅데이터·[[101_iot_concept|IoT]]·[[004_blockchain|블록체인]]을 적용**하여 거래·관리·투자·건설을 혁신하는 기술 분야이다.
+> 2. **가치**: 전통 부동산은 정보 비대칭·불투명 거래·비효율 관리가 문제이며, PropTech는 **[[190_ai_llm_requirements_specification|AI]] 시세 예측·VR 모델하우스·스마트 빌딩·토큰 증권(STO) 투자**로 혁신한다.
 > 3. **판단 포인트**: Construction Tech(건설)·Smart Building(관리)·Real Estate Marketplace(거래)·RE STO(투자)가 PropTech의 4대 영역이다.
 
 ---
@@ -29,7 +29,7 @@ PropTech 4대 영역:
 
 ## Ⅱ~Ⅴ. 결론
 
-PropTech는 **부동산 산업의 디지털 전환**이며, AI 시세 예측·스마트 빌딩·STO가 핵심 트렌드이다.
+PropTech는 **부동산 산업의 [[055_digital_transformation|디지털 전환]]**이며, [[190_ai_llm_requirements_specification|AI]] 시세 예측·스마트 빌딩·STO가 핵심 트렌드이다.
 
 ---
 
@@ -39,9 +39,9 @@ PropTech는 **부동산 산업의 디지털 전환**이며, AI 시세 예측·�
 |:---|:---|
 | **PropTech** | 부동산 기술 |
 | **BIM** | 건축 정보 모델링 |
-| **스마트 빌딩** | IoT 빌딩 관리 |
+| **스마트 빌딩** | [[101_iot_concept|IoT]] 빌딩 관리 |
 | **STO** | 부동산 토큰 증권 |
-| **디지털 트윈** | 건물 디지털 복제 |
+| **[[126_digital_twin_concept|디지털 트윈]]** | 건물 디지털 [[016_replication_factor|복제]] |
 
 ### 📈 관련 키워드 및 발전 흐름도
 

@@ -8,29 +8,29 @@ categories = "studynote-operating-system"
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 고전적 동기화 문제는 실제 운영체제와 병렬 시스템에서 반복적으로 등장하는 경쟁 조건·교착 상태·기아 상태 패턴을 추상화한 교과서적 벤치마크 세트다.
-> 2. **가치**: 유한 버퍼, 독자-저자, 식사하는 철학자 문제는 세마포어·모니터·조건 변수의 올바른 사용법을 검증하는 표준 시험대이며, 잘못 설계하면 데드락·기아가 발생하는 생생한 시뮬레이터다.
-> 3. **융합**: 각 문제는 생산자-소비자(메시지 큐), 데이터베이스 읽기-쓰기 잠금, 분산 자원 할당 등 실무 시스템 설계의 직접적인 원형(Archetype)이다.
+> 1. **본질**: 고전적 [[212_synchronization_mechanisms|동기화]] 문제는 실제 [[001_operating_system_purpose|운영체제]]와 [[430_index_fast_full_scan|병렬]] 시스템에서 반복적으로 등장하는 [[213_race_condition|경쟁 조건]]·[[281_deadlock_definition|교착 상태]]·[[314_starvation_prevention|기아 상태]] 패턴을 추상화한 교과서적 벤치마크 세트다.
+> 2. **가치**: 유한 버퍼, 독자-저자, [[248_dining_philosophers_problem|식사하는 철학자 문제]]는 [[224_semaphore|세마포어]]·[[229_monitor|모니터]]·조건 변수의 올바른 사용법을 검증하는 표준 시험대이며, 잘못 설계하면 데드락·기아가 발생하는 생생한 시뮬레이터다.
+> 3. **융합**: 각 문제는 생산자-소비자(메시지 큐), [[002_database_definition|데이터베이스]] 읽기-[[289_cqrs_db|쓰기]] 잠금, [[136_variance|분산]] [[041_resource_allocation|자원 할당]] 등 실무 시스템 설계의 직접적인 원형(Archetype)이다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-병행 프로그래밍에서 발생하는 문제들은 놀랍도록 반복적인 구조를 가진다. E.W. 다익스트라 (Edsger W. Dijkstra)와 C.A.R. 호어 (C.A.R. Hoare)가 정립한 고전적 동기화 문제 세 가지는 운영체제, 데이터베이스, 네트워크 스택 등 어디서나 나타나는 패턴을 추상화한 것이다.
+병행 프로그래밍에서 발생하는 문제들은 놀랍도록 반복적인 구조를 가진다. E.W. [[036_dijkstra|다익스트라]] (Edsger W. [[036_dijkstra|Dijkstra]])와 C.A.R. 호어 (C.A.R. Hoare)가 정립한 고전적 [[212_synchronization_mechanisms|동기화]] 문제 세 가지는 [[001_operating_system_purpose|운영체제]], [[002_database_definition|데이터베이스]], 네트워크 [[057_stack|스택]] 등 어디서나 나타나는 패턴을 추상화한 것이다.
 
-- **유한 버퍼 문제**: 생산 속도와 소비 속도가 다를 때 버퍼가 가득 차거나 비워질 때 어떻게 대기하고 깨울 것인가?
-- **독자-저자 문제**: 여러 독자는 동시 읽기 가능, 단 한 명의 저자는 단독 쓰기 요구 — 기아 없이 해결할 수 있는가?
-- **식사하는 철학자 문제**: 여러 프로세스가 여러 자원을 집기 위해 경쟁할 때 교착과 기아를 동시에 예방할 수 있는가?
+- **[[246_bounded_buffer_producer_consumer|유한 버퍼 문제]]**: 생산 속도와 소비 속도가 다를 때 버퍼가 가득 차거나 비워질 때 어떻게 대기하고 깨울 것인가?
+- **[[247_readers_writers_problem|독자-저자 문제]]**: 여러 독자는 동시 읽기 가능, 단 한 명의 저자는 단독 [[289_cqrs_db|쓰기]] 요구 — 기아 없이 해결할 수 있는가?
+- **[[248_dining_philosophers_problem|식사하는 철학자 문제]]**: 여러 프로세스가 여러 자원을 집기 위해 경쟁할 때 교착과 기아를 동시에 예방할 수 있는가?
 
-**💡 비유**: 이 세 문제는 마치 의대생이 수술 전 반드시 통과해야 하는 표준 시뮬레이션과 같다. 이 상황을 해결할 수 없으면, 실제 운영체제 코드는 더 복잡한 버전의 같은 버그를 만든다.
+**💡 비유**: 이 세 문제는 마치 의대생이 수술 전 반드시 통과해야 하는 표준 시뮬레이션과 같다. 이 상황을 해결할 수 없으면, 실제 [[001_operating_system_purpose|운영체제]] 코드는 더 복잡한 버전의 같은 버그를 만든다.
 
-**📢 섹션 요약 비유**: 세 문제는 동기화의 세 가지 '패턴 언어' — 생산·소비의 협력, 읽기·쓰기의 경쟁, 자원 할당의 순환 — 를 각각 대표하는 압축된 교본입니다.
+**📢 섹션 요약 비유**: 세 문제는 [[212_synchronization_mechanisms|동기화]]의 세 가지 '패턴 언어' — 생산·소비의 협력, 읽기·[[289_cqrs_db|쓰기]]의 경쟁, [[041_resource_allocation|자원 할당]]의 순환 — 를 각각 대표하는 압축된 교본입니다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### 유한 버퍼 문제 (Bounded-Buffer Problem) — Producer-Consumer
+### [[246_bounded_buffer_producer_consumer|유한 버퍼 문제]] ([[246_bounded_buffer_producer_consumer|Bounded-Buffer Problem]]) — Producer-Consumer
 
 ```text
 ┌─────────────────────────────────────────────────────────┐
@@ -56,15 +56,15 @@ categories = "studynote-operating-system"
 └─────────────────────────────────────────────────────────┘
 ```
 
-**[다이어그램 해설]** 핵심은 `wait(mutex)`보다 `wait(empty)`를 먼저 수행하는 순서다. 만약 mutex를 먼저 잡고 empty를 기다리면, 소비자가 mutex를 획득하지 못해 영원히 대기하는 교착 상태가 발생한다. 이 순서 실수가 실무에서 매우 흔한 안티패턴이다.
+**[다이어그램 해설]** 핵심은 `wait(mutex)`보다 `wait(empty)`를 먼저 수행하는 순서다. 만약 mutex를 먼저 잡고 empty를 기다리면, 소비자가 mutex를 획득하지 못해 영원히 대기하는 [[281_deadlock_definition|교착 상태]]가 발생한다. 이 순서 실수가 실무에서 매우 흔한 [[128_water_scrum_fall_anti_pattern|안티패턴]]이다.
 
-### 독자-저자 문제 (Readers-Writers Problem)
+### [[247_readers_writers_problem|독자-저자 문제]] ([[247_readers_writers_problem|Readers-Writers Problem]])
 
-| 유형 | 정책 | 문제점 |
+| 유형 | [[164_policy|정책]] | 문제점 |
 |:---|:---|:---|
-| **제1유형 (독자 우선)** | 독자가 있으면 새 독자 즉시 진입 허용 | 저자 기아 (Writer Starvation) |
-| **제2유형 (저자 우선)** | 저자 대기 중이면 새 독자 진입 차단 | 독자 기아 (Reader Starvation) |
-| **공정 해결 (Fair)** | 대기 순서 기반 큐로 기아 방지 | 처리량 감소 |
+| **제1유형 (독자 우선)** | 독자가 있으면 새 독자 즉시 진입 허용 | 저자 기아 (Writer [[314_starvation_prevention|Starvation]]) |
+| **제2유형 (저자 우선)** | 저자 대기 중이면 새 독자 진입 차단 | 독자 기아 (Reader [[314_starvation_prevention|Starvation]]) |
+| **공정 해결 (Fair)** | 대기 순서 기반 큐로 기아 방지 | [[139_throughput|처리량]] 감소 |
 
 ```text
 ┌──────────────────────────────────────────────────────────┐
@@ -86,9 +86,9 @@ categories = "studynote-operating-system"
 └──────────────────────────────────────────────────────────┘
 ```
 
-**[다이어그램 해설]** read_count 변수를 mutex_r로 보호하면서 첫 번째 독자만 rw_mutex를 획득하고 마지막 독자가 반납하는 구조다. 독자가 연속으로 들어오면 저자는 영원히 기다리는 저자 기아가 발생한다. 실무(데이터베이스 읽기 잠금 등)에서는 타임아웃이나 우선순위 카운터로 기아를 방지한다.
+**[다이어그램 해설]** read_count 변수를 mutex_r로 보호하면서 첫 번째 독자만 rw_mutex를 획득하고 마지막 독자가 반납하는 구조다. 독자가 연속으로 들어오면 저자는 영원히 기다리는 저자 기아가 발생한다. 실무([[002_database_definition|데이터베이스]] 읽기 잠금 등)에서는 타임아웃이나 우선순위 카운터로 기아를 방지한다.
 
-### 식사하는 철학자 문제 (Dining-Philosophers Problem)
+### [[248_dining_philosophers_problem|식사하는 철학자 문제]] ([[248_dining_philosophers_problem|Dining-Philosophers Problem]])
 
 5명의 철학자가 원형 테이블에 앉아 있고, 각자 양쪽에 젓가락 1개씩 공유한다. 식사하려면 양쪽 젓가락을 모두 집어야 한다.
 
@@ -117,9 +117,9 @@ categories = "studynote-operating-system"
 └──────────────────────────────────────────────────────────┘
 ```
 
-**[다이어그램 해설]** 교착 상태 발생 조건은 4가지 필요 조건(상호 배제, 점유 대기, 비선점, 순환 대기)을 모두 충족한다. 해결책 2(비대칭 집기)는 순환 대기를 깨뜨린다. 해결책 3(모니터 방식)은 두 젓가락이 모두 사용 가능할 때만 집으므로 점유 대기를 방지한다.
+**[다이어그램 해설]** [[281_deadlock_definition|교착 상태]] 발생 조건은 4가지 필요 조건([[283_mutual_exclusion|상호 배제]], [[231_hold_and_wait|점유 대기]], [[285_no_preemption|비선점]], [[286_circular_wait|순환 대기]])을 모두 충족한다. 해결책 2(비대칭 집기)는 [[286_circular_wait|순환 대기]]를 깨뜨린다. 해결책 3([[229_monitor|모니터]] 방식)은 두 젓가락이 모두 사용 가능할 때만 집으므로 [[231_hold_and_wait|점유 대기]]를 방지한다.
 
-**📢 섹션 요약 비유**: 세 문제는 동기화의 세 가지 근본 난관 — 속도 불일치, 접근 패턴 비대칭, 자원 순환 경쟁 — 을 각각 가장 단순한 형태로 보여주는 압축판입니다.
+**📢 섹션 요약 비유**: 세 문제는 [[212_synchronization_mechanisms|동기화]]의 세 가지 근본 난관 — 속도 불일치, 접근 패턴 비대칭, 자원 순환 경쟁 — 을 각각 가장 단순한 형태로 보여주는 압축판입니다.
 
 ---
 
@@ -146,23 +146,23 @@ categories = "studynote-operating-system"
 
 ### 실무 시나리오
 
-1. **메시지 큐 시스템**: Kafka, RabbitMQ는 유한 버퍼 패턴의 직접 구현. 프로듀서가 너무 빠르면 backpressure(배압) 메커니즘이 empty 세마포어 역할을 한다.
-2. **데이터베이스 MVCC**: PostgreSQL의 MVCC (Multi-Version Concurrency Control)는 독자-저자 문제에서 독자가 저자를 차단하지 않도록 스냅샷 읽기를 제공하는 산업적 해법이다.
-3. **리소스 풀**: 커넥션 풀, 스레드 풀에서 최대 동시 사용자를 제한하는 것은 식사 철학자 문제의 '최대 4명 착석' 해결책과 동일한 패턴이다.
+1. **메시지 큐 시스템**: [[179_kafka_flink_watermark_time_window|Kafka]], RabbitMQ는 유한 버퍼 패턴의 직접 구현. 프로듀서가 너무 빠르면 backpressure(배압) 메커니즘이 empty [[224_semaphore|세마포어]] 역할을 한다.
+2. **[[002_database_definition|데이터베이스]] [[449_mvcc|MVCC]]**: PostgreSQL의 [[449_mvcc|MVCC]] (Multi-Version [[508_concurrency_control|Concurrency Control]])는 [[247_readers_writers_problem|독자-저자 문제]]에서 독자가 저자를 차단하지 않도록 [[022_snapshot_backup_architecture|스냅샷]] 읽기를 제공하는 산업적 해법이다.
+3. **리소스 풀**: 커넥션 풀, [[092_thread_lwp|스레드]] 풀에서 최대 동시 사용자를 제한하는 것은 식사 철학자 문제의 '최대 4명 착석' 해결책과 동일한 패턴이다.
 
-### 안티패턴
-- **wait 순서 역전**: 유한 버퍼에서 mutex를 먼저 잡고 empty를 기다리면 즉시 교착 상태.
-- **저자 기아 무시**: 독자 우선 구현에서 저자 대기 시간 상한을 설정하지 않으면 실무에서 데이터 불일치가 누적됨.
+### [[128_water_scrum_fall_anti_pattern|안티패턴]]
+- **wait 순서 역전**: 유한 버퍼에서 mutex를 먼저 잡고 empty를 기다리면 즉시 [[281_deadlock_definition|교착 상태]].
+- **저자 기아 무시**: 독자 우선 구현에서 저자 대기 시간 상한을 설정하지 않으면 실무에서 [[001_dikw_pyramid|데이터]] 불일치가 누적됨.
 
-**📢 섹션 요약 비유**: 고전 문제를 실수 없이 구현하는 것은 마치 의사의 손 씻기 프로토콜 — 단순해 보이지만, 무시하면 치명적 결과를 낳는 기본기입니다.
+**📢 섹션 요약 비유**: 고전 문제를 실수 없이 구현하는 것은 마치 의사의 손 씻기 [[295_protocol_field_tcp_udp_icmp|프로토콜]] — 단순해 보이지만, 무시하면 치명적 결과를 낳는 기본기입니다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-세 고전 문제를 올바르게 이해하면 실무에서 세마포어·모니터·조건 변수를 올바르게 선택하고 배치하는 직관이 생긴다. 특히 교착 상태와 기아 상태는 별개의 문제로 각각 설계 단계에서 제어해야 한다. 미래의 병렬 프로그래밍 프레임워크(Kotlin Coroutines, Go goroutine, Rust async)도 내부적으로는 이 세 패턴의 안전한 추상화를 목표로 한다.
+세 고전 문제를 올바르게 이해하면 실무에서 [[224_semaphore|세마포어]]·[[229_monitor|모니터]]·조건 변수를 올바르게 선택하고 배치하는 직관이 생긴다. 특히 [[281_deadlock_definition|교착 상태]]와 [[314_starvation_prevention|기아 상태]]는 별개의 문제로 각각 설계 단계에서 제어해야 한다. 미래의 [[430_index_fast_full_scan|병렬]] 프로그래밍 프레임워크(Kotlin Coroutines, Go [[140_goroutine|goroutine]], [[782_memory_safety_rust_compiler_verification|Rust]] async)도 내부적으로는 이 세 패턴의 안전한 추상화를 목표로 한다.
 
-**📢 섹션 요약 비유**: 고전 문제들은 동기화의 '원소주기율표'처럼, 이 기초 위에서 모든 실무 병행 설계가 조합됩니다.
+**📢 섹션 요약 비유**: 고전 문제들은 [[212_synchronization_mechanisms|동기화]]의 '원소주기율표'처럼, 이 기초 위에서 모든 실무 병행 설계가 조합됩니다.
 
 ---
 
@@ -170,10 +170,10 @@ categories = "studynote-operating-system"
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| 우선순위 상속 (Priority Inheritance Protocol) | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
-| 우선순위 올림 (Priority Ceiling Protocol) | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
-| 유한 버퍼 문제 (Bounded-Buffer Problem) / 생산자-소비자 (Producer-Consumer) 문제 | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
-| 독자-저자 문제 (Readers-Writers Problem) | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
+| 우선순위 [[234_uml_class_relationships_generalization_dependency|상속]] ([[206_priority_inheritance|Priority Inheritance]] [[295_protocol_field_tcp_udp_icmp|Protocol]]) | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
+| [[244_priority_ceiling_protocol|우선순위 올림]] ([[244_priority_ceiling_protocol|Priority Ceiling Protocol]]) | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
+| [[246_bounded_buffer_producer_consumer|유한 버퍼 문제]] ([[246_bounded_buffer_producer_consumer|Bounded-Buffer Problem]]) / 생산자-소비자 (Producer-Consumer) 문제 | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
+| [[247_readers_writers_problem|독자-저자 문제]] ([[247_readers_writers_problem|Readers-Writers Problem]]) | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -193,4 +193,4 @@ categories = "studynote-operating-system"
 
 1. 유한 버퍼는 편의점 냉장고에요 — 냉장고가 가득 차면 납품업자(생산자)는 기다리고, 비면 손님(소비자)이 기다려요.
 2. 독자-저자는 도서관 규칙 — 여러 명이 같은 책을 동시에 읽을 수 있지만, 책을 수정하려면 독점해야 해요.
-3. 식사하는 철학자는 젓가락 나눠 쓰기 게임 — 몇 가지 규칙만 지키면 아무도 굶지 않아요!
+3. 식사하는 철학자는 젓가락 나눠 [[289_cqrs_db|쓰기]] 게임 — 몇 가지 규칙만 지키면 아무도 굶지 않아요!

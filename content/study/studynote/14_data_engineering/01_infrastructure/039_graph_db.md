@@ -6,13 +6,13 @@ categories = "studynote-data-engineering"
 +++
 
 > **핵심 인사이트**
-> 1. 그래프 DB는 데이터를 노드(Node)·엣지(Edge)·속성(Property)으로 표현하여 관계(Relationship)가 일급 시민(First-Class Citizen)인 데이터 모델로, SNS·추천 시스템·사기 탐지처럼 연결성이 핵심인 문제에서 관계형 DB의 다단계 JOIN을 그래프 탐색으로 대체하여 수십~수백 배 빠른 성능을 제공한다.
-> 2. 프로퍼티 그래프(Property Graph, Neo4j)와 RDF 그래프(Triple Store, Ontology) 두 가지 모델이 주류 — 프로퍼티 그래프는 애플리케이션 개발에, RDF/SPARQL은 시맨틱 웹과 지식 그래프에 적합하다.
-> 3. Cypher 쿼리 언어의 핵심 패턴: `(a)-[r]->(b)` — 노드와 관계를 ASCII 아트처럼 직관적으로 표현하여 "6단계 친분 찾기" 같은 복잡한 그래프 탐색을 간단한 쿼리로 작성할 수 있다.
+> 1. [[070_graph_datastructure|그래프]] DB는 [[001_dikw_pyramid|데이터]]를 노드(Node)·엣지(Edge)·[[082_attribute_types_er_model|속성]](Property)으로 표현하여 [[083_relationship_in_er_model|관계]]([[083_relationship_in_er_model|Relationship]])가 일급 시민(First-Class Citizen)인 [[001_dikw_pyramid|데이터]] 모델로, SNS·[[211_recommendation_system|추천 시스템]]·사기 탐지처럼 연결성이 핵심인 문제에서 [[083_relationship_in_er_model|관계]]형 DB의 다단계 JOIN을 [[070_graph_datastructure|그래프]] 탐색으로 대체하여 수십~수백 배 빠른 성능을 제공한다.
+> 2. 프로퍼티 [[070_graph_datastructure|그래프]](Property [[104_graph|Graph]], Neo4j)와 RDF [[070_graph_datastructure|그래프]](Triple Store, Ontology) 두 가지 모델이 주류 — 프로퍼티 [[070_graph_datastructure|그래프]]는 애플리케이션 개발에, RDF/SPARQL은 시맨틱 웹과 지식 [[070_graph_datastructure|그래프]]에 적합하다.
+> 3. Cypher [[298_qkv_attention|쿼리]] 언어의 핵심 패턴: `(a)-[r]->(b)` — 노드와 [[083_relationship_in_er_model|관계]]를 [[103_ascii|ASCII]] 아트처럼 직관적으로 표현하여 "6단계 친분 찾기" 같은 복잡한 [[070_graph_datastructure|그래프]] 탐색을 간단한 [[298_qkv_attention|쿼리]]로 작성할 수 있다.
 
 ---
 
-## I. 그래프 모델 기본
+## I. [[070_graph_datastructure|그래프]] 모델 기본
 
 ```
 프로퍼티 그래프 (Property Graph):
@@ -42,11 +42,11 @@ categories = "studynote-data-engineering"
   그래프 탐색 -> 깊이에 관계없이 일정
 ```
 
-> 📢 **섹션 요약 비유**: 관계형 DB는 여러 층 계단 오르기(JOIN), 그래프 DB는 줄 따라가기(엣지 탐색) — 관계가 많을수록 줄 따라가기가 훨씬 빠름.
+> 📢 **섹션 요약 비유**: [[083_relationship_in_er_model|관계]]형 DB는 여러 층 계단 오르기([[521_join|JOIN]]), [[070_graph_datastructure|그래프]] DB는 줄 따라가기(엣지 탐색) — [[083_relationship_in_er_model|관계]]가 많을수록 줄 따라가기가 훨씬 빠름.
 
 ---
 
-## II. Cypher 쿼리 언어
+## II. Cypher [[298_qkv_attention|쿼리]] 언어
 
 ```
 Cypher (Neo4j):
@@ -82,11 +82,11 @@ Page Rank:
   ORDER BY score DESC LIMIT 10
 ```
 
-> 📢 **섹션 요약 비유**: Cypher는 그래프를 그림처럼 쓰는 쿼리 언어 — `(나)-[친구]->(친구)` 이렇게 쓰면 "내 친구의 친구를 찾아라"는 뜻.
+> 📢 **섹션 요약 비유**: Cypher는 [[070_graph_datastructure|그래프]]를 그림처럼 쓰는 [[298_qkv_attention|쿼리]] 언어 — `(나)-[친구]->(친구)` 이렇게 쓰면 "내 친구의 친구를 찾아라"는 뜻.
 
 ---
 
-## III. 그래프 DB 유스케이스
+## III. [[070_graph_datastructure|그래프]] DB 유스케이스
 
 ```
 1. SNS 소셜 그래프:
@@ -114,11 +114,11 @@ Page Rank:
    "어떤 서비스가 영향받는가?"
 ```
 
-> 📢 **섹션 요약 비유**: 사기 탐지에서 "동일 기기를 쓰는 계좌들" 연결 — 그래프가 이상한 연결 패턴을 시각적으로 드러냄.
+> 📢 **섹션 요약 비유**: 사기 탐지에서 "동일 기기를 쓰는 계좌들" 연결 — [[070_graph_datastructure|그래프]]가 이상한 연결 패턴을 시각적으로 드러냄.
 
 ---
 
-## IV. 관계형 DB vs 그래프 DB
+## [[288_version_ihl_tos_total_length|IV]]. [[083_relationship_in_er_model|관계]]형 DB vs [[070_graph_datastructure|그래프]] DB
 
 ```
 관계형 DB 한계 (연결 데이터):
@@ -148,7 +148,7 @@ Page Rank:
   - 팀의 SQL 역량 높음
 ```
 
-> 📢 **섹션 요약 비유**: 전화번호부(관계형)는 이름으로 번호 찾기엔 완벽, 연락망 탐색(그래프)에는 연결고리 따라가기가 훨씬 빠름.
+> 📢 **섹션 요약 비유**: 전화번호부([[083_relationship_in_er_model|관계]]형)는 이름으로 번호 찾기엔 완벽, 연락망 탐색([[070_graph_datastructure|그래프]])에는 연결고리 따라가기가 훨씬 빠름.
 
 ---
 
@@ -185,7 +185,7 @@ Page Rank:
   의심 패턴 발견 시 거래 보류
 ```
 
-> 📢 **섹션 요약 비유**: 사기범들은 연결망으로 감추지만, 그래프 DB는 그 연결망 전체를 한 번에 보는 눈 — "공통 기기" 하나가 10개 계좌를 연결하는 패턴 즉시 발견.
+> 📢 **섹션 요약 비유**: 사기범들은 연결망으로 감추지만, [[070_graph_datastructure|그래프]] DB는 그 연결망 전체를 한 번에 보는 눈 — "공통 기기" 하나가 10개 계좌를 연결하는 패턴 즉시 발견.
 
 ---
 
@@ -238,6 +238,6 @@ AI + 지식 그래프 통합 (LLM + KG)
 
 ## 👶 어린이를 위한 3줄 비유 설명
 
-1. 그래프 DB는 사람들의 관계를 점(사람)과 선(관계)으로 저장하는 데이터베이스로, SNS에서 "친구의 친구의 친구" 찾기에 완벽해요.
-2. 관계형 DB로 여러 단계 연결을 찾으려면 여러 번 테이블을 합쳐야 해서 느리지만, 그래프 DB는 선을 따라가면 되니까 훨씬 빠르고 간단해요.
-3. 사기꾼들이 여러 계좌를 하나의 기기로 나누어 쓰는 패턴을 그래프 DB가 즉시 발견해서 금융 사기 탐지에 핵심적으로 쓰여요!
+1. [[070_graph_datastructure|그래프]] DB는 사람들의 [[083_relationship_in_er_model|관계]]를 점(사람)과 선([[083_relationship_in_er_model|관계]])으로 저장하는 [[001_dikw_pyramid|데이터]]베이스로, SNS에서 "친구의 친구의 친구" 찾기에 완벽해요.
+2. [[083_relationship_in_er_model|관계]]형 DB로 여러 단계 연결을 찾으려면 여러 번 테이블을 합쳐야 해서 느리지만, [[070_graph_datastructure|그래프]] DB는 선을 따라가면 되니까 훨씬 빠르고 간단해요.
+3. 사기꾼들이 여러 계좌를 하나의 기기로 나누어 쓰는 패턴을 [[070_graph_datastructure|그래프]] DB가 즉시 발견해서 금융 사기 탐지에 핵심적으로 쓰여요!

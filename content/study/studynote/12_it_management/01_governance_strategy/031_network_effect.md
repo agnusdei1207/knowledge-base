@@ -7,9 +7,9 @@ categories = "studynote-it-management"
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: 네트워크 효과(Network Effect)는 제품·서비스의 가치가 사용자 수가 증가할수록 기하급수적으로 커지는 현상이다. 메트칼프 법칙(Metcalfe's Law)은 네트워크 가치가 사용자 수(N)의 제곱(N²)에 비례한다고 주장한다.
-> 2. **가치**: 네트워크 효과가 강한 플랫폼은 임계 질량(Critical Mass) 이후 자기 강화(Self-reinforcing) 성장을 한다. 초기 선점이 장기 경쟁 우위가 되는 이유다(Winner-take-all/most 시장).
-> 3. **판단 포인트**: 직접 네트워크 효과(같은 사용자끼리 가치↑)와 간접 네트워크 효과(공급자↑ → 소비자 가치↑)를 구별해야 한다. 양면 플랫폼(카카오택시: 승객×기사)은 간접 네트워크 효과가 핵심이다.
+> 1. **본질**: [[253_network_effect_metcalfe|네트워크 효과]]([[032_network_effect|Network Effect]])는 제품·[[090_service_kubernetes_network_load_balancing|서비스]]의 가치가 사용자 수가 증가할수록 기하급수적으로 커지는 현상이다. [[253_network_effect_metcalfe|메트칼프]] 법칙(Metcalfe's Law)은 네트워크 가치가 사용자 수(N)의 제곱(N²)에 비례한다고 주장한다.
+> 2. **가치**: [[253_network_effect_metcalfe|네트워크 효과]]가 강한 플랫폼은 임계 질량(Critical Mass) 이후 자기 강화(Self-reinforcing) 성장을 한다. [[459_quic_fec_forward_error_correction|초기]] 선점이 장기 경쟁 우위가 되는 이유다(Winner-take-all/most 시장).
+> 3. **판단 포인트**: 직접 [[253_network_effect_metcalfe|네트워크 효과]](같은 사용자끼리 가치↑)와 간접 [[253_network_effect_metcalfe|네트워크 효과]](공급자↑ → 소비자 가치↑)를 구별해야 한다. 양면 플랫폼(카카오택시: 승객×기사)은 간접 [[253_network_effect_metcalfe|네트워크 효과]]가 핵심이다.
 
 ---
 
@@ -31,19 +31,19 @@ categories = "studynote-it-management"
 예: 카카오톡 1억명 → 4조 9,500억개 가능한 연결
 ```
 
-- **📢 섹션 요약 비유**: 네트워크 효과는 팩스기 가치다. 팩스가 세상에 1대만 있으면 가치 없음. 2대면 1개 연결, 100대면 4,950개 연결 가능. 사용자가 늘수록 가치가 기하급수적으로 커진다.
+- **📢 섹션 요약 비유**: [[253_network_effect_metcalfe|네트워크 효과]]는 팩스기 가치다. 팩스가 세상에 1대만 있으면 가치 없음. 2대면 1개 연결, 100대면 4,950개 연결 가능. 사용자가 늘수록 가치가 기하급수적으로 커진다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### 네트워크 효과 유형
+### [[253_network_effect_metcalfe|네트워크 효과]] 유형
 
 | 유형 | 설명 | 예시 |
 |:---|:---|:---|
 | **직접 (동일면)** | 같은 사용자 간 가치 증대 | 카카오톡, 링크드인 |
 | **간접 (양면)** | 한쪽 증가 → 반대편 가치↑ | 카카오택시, 앱스토어 |
-| **데이터 피드백** | 사용자↑ → 데이터↑ → AI↑ → 서비스↑ | 유튜브 추천, 네이버 |
+| **[[001_dikw_pyramid|데이터]] 피드백** | 사용자↑ → [[001_dikw_pyramid|데이터]]↑ → [[190_ai_llm_requirements_specification|AI]]↑ → [[090_service_kubernetes_network_load_balancing|서비스]]↑ | 유튜브 추천, 네이버 |
 | **사회적** | 커뮤니티 규범·신뢰 형성 | 레딧, 나무위키 |
 
 ### 임계 질량과 팁핑 포인트
@@ -65,26 +65,26 @@ categories = "studynote-it-management"
 임계 질량 이후: 네트워크 효과 자기 강화
 ```
 
-- **📢 섹션 요약 비유**: 임계 질량은 나무 불 지피기다. 처음에는 불씨(임계 질량)를 만드는 게 어렵지만, 불이 붙으면 스스로 퍼져나간다(자기 강화 성장). 플랫폼도 초기 사용자 확보가 가장 어렵다.
+- **📢 섹션 요약 비유**: 임계 질량은 나무 불 지피기다. 처음에는 불씨(임계 질량)를 만드는 게 어렵지만, 불이 붙으면 스스로 퍼져나간다(자기 강화 성장). 플랫폼도 [[459_quic_fec_forward_error_correction|초기]] 사용자 확보가 가장 어렵다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-| 비교 | 직접 네트워크 | 간접 네트워크 | 데이터 피드백 |
+| 비교 | 직접 네트워크 | 간접 네트워크 | [[001_dikw_pyramid|데이터]] 피드백 |
 |:---|:---|:---|:---|
-| 연결 방향 | 동일 사용자 | 공급자↔소비자 | 사용자→데이터→AI |
-| 예시 | SNS | 플랫폼 | AI 서비스 |
+| 연결 방향 | 동일 사용자 | 공급자↔소비자 | 사용자→[[001_dikw_pyramid|데이터]]→[[190_ai_llm_requirements_specification|AI]] |
+| 예시 | SNS | 플랫폼 | [[190_ai_llm_requirements_specification|AI]] [[090_service_kubernetes_network_load_balancing|서비스]] |
 | 전환 장벽 | 중간 | 높음 | 매우 높음 |
-| 규모 효과 | N² | 양쪽 곱 | 누적 데이터 |
+| 규모 효과 | N² | 양쪽 곱 | 누적 [[001_dikw_pyramid|데이터]] |
 
-- **📢 섹션 요약 비유**: 세 네트워크 효과는 인맥 확장 방식이다. 직접(친구들끼리), 간접(플랫폼으로 공급자·소비자 연결), 데이터(AI가 학습할수록 더 좋은 추천)로 각각 다른 가치 증폭 메커니즘이다.
+- **📢 섹션 요약 비유**: 세 [[253_network_effect_metcalfe|네트워크 효과]]는 인맥 확장 방식이다. 직접(친구들끼리), 간접(플랫폼으로 공급자·소비자 연결), [[001_dikw_pyramid|데이터]](AI가 학습할수록 더 좋은 추천)로 각각 다른 가치 증폭 메커니즘이다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### 플랫폼 전략: 닭-달걀 문제 해결
+### 플랫폼 [[268_strategy_pattern|전략]]: 닭-달걀 문제 해결
 
 ```text
 문제: 공급자 없으면 소비자 안 오고,
@@ -97,7 +97,7 @@ categories = "studynote-it-management"
   4. 스탠드얼론 가치 (Excel: 연결 없어도 유용)
 ```
 
-### 네트워크 효과 측정 지표
+### [[253_network_effect_metcalfe|네트워크 효과]] 측정 지표
 
 ```text
 DAU/MAU 비율:         일간/월간 활성 사용자 비율
@@ -116,11 +116,11 @@ NPS (Net Promoter Score): 추천 의향
 |:---|:---|
 | **Winner-take-all** | 선점 플랫폼의 지속적 시장 지배 |
 | **전환 장벽** | 높은 스위칭 비용 (잠금 효과) |
-| **투자 유치** | 네트워크 효과 성장 잠재력 증명 |
+| **투자 유치** | [[253_network_effect_metcalfe|네트워크 효과]] 성장 잠재력 증명 |
 
-AI 데이터 네트워크 효과가 새로운 경쟁 우위다. 사용자가 늘면 데이터가 늘고, 데이터로 AI 모델이 개선되고, 개선된 AI가 더 많은 사용자를 유치하는 AI 플라이휠(AI Flywheel)이 Google·Netflix·TikTok의 핵심 경쟁 우위다.
+[[190_ai_llm_requirements_specification|AI]] [[001_dikw_pyramid|데이터]] [[253_network_effect_metcalfe|네트워크 효과]]가 새로운 경쟁 우위다. 사용자가 늘면 [[001_dikw_pyramid|데이터]]가 늘고, [[001_dikw_pyramid|데이터]]로 [[190_ai_llm_requirements_specification|AI]] 모델이 개선되고, 개선된 AI가 더 많은 사용자를 유치하는 [[190_ai_llm_requirements_specification|AI]] 플라이휠([[190_ai_llm_requirements_specification|AI]] Flywheel)이 Google·Netflix·TikTok의 핵심 경쟁 우위다.
 
-- **📢 섹션 요약 비유**: AI 플라이휠은 복리 이자다. 초기에는 작은 데이터·AI, 사용자 증가로 데이터 누적, AI 개선, 더 많은 사용자 유치의 복리 효과로 시간이 갈수록 격차가 기하급수적으로 벌어진다.
+- **📢 섹션 요약 비유**: [[190_ai_llm_requirements_specification|AI]] 플라이휠은 복리 이자다. [[459_quic_fec_forward_error_correction|초기]]에는 작은 [[001_dikw_pyramid|데이터]]·[[190_ai_llm_requirements_specification|AI]], 사용자 증가로 [[001_dikw_pyramid|데이터]] 누적, [[190_ai_llm_requirements_specification|AI]] 개선, 더 많은 사용자 유치의 복리 효과로 시간이 갈수록 격차가 기하급수적으로 벌어진다.
 
 ---
 
@@ -128,11 +128,11 @@ AI 데이터 네트워크 효과가 새로운 경쟁 우위다. 사용자가 늘
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **메트칼프 법칙** | 네트워크 가치 N² 이론 |
+| **[[253_network_effect_metcalfe|메트칼프]] 법칙** | 네트워크 가치 N² 이론 |
 | **임계 질량** | 자기 강화 성장의 전환점 |
-| **양면 플랫폼** | 간접 네트워크 효과 비즈니스 |
-| **AI 플라이휠** | 데이터 기반 네트워크 효과 |
-| **Winner-take-all** | 네트워크 효과 경쟁 결과 |
+| **양면 플랫폼** | 간접 [[253_network_effect_metcalfe|네트워크 효과]] 비즈니스 |
+| **[[190_ai_llm_requirements_specification|AI]] 플라이휠** | [[001_dikw_pyramid|데이터]] 기반 [[253_network_effect_metcalfe|네트워크 효과]] |
+| **Winner-take-all** | [[253_network_effect_metcalfe|네트워크 효과]] 경쟁 결과 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -154,6 +154,6 @@ AI 데이터 네트워크 효과가 새로운 경쟁 우위다. 사용자가 늘
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. 네트워크 효과는 팩스처럼 친구가 많을수록 가치가 커지는 것이에요!
-2. 카카오톡이 이미 1억명을 가진 이유로 새 메신저 앱이 이기기 어려워요 — 이게 네트워크 효과의 힘!
-3. AI는 사용자가 늘수록 더 똑똑해지는 AI 플라이휠 효과로 네트워크 효과가 점점 강해져요!
+1. [[253_network_effect_metcalfe|네트워크 효과]]는 팩스처럼 친구가 많을수록 가치가 커지는 것이에요!
+2. 카카오톡이 이미 1억명을 가진 이유로 새 메신저 앱이 이기기 어려워요 — 이게 [[253_network_effect_metcalfe|네트워크 효과]]의 힘!
+3. AI는 사용자가 늘수록 더 똑똑해지는 [[190_ai_llm_requirements_specification|AI]] 플라이휠 효과로 [[253_network_effect_metcalfe|네트워크 효과]]가 점점 강해져요!

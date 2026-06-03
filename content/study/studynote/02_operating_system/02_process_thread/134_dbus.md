@@ -8,18 +8,18 @@ categories = "studynote-operating-system"
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: D-Bus (Desktop Bus)은 프로세스와 스레드의 생성·실행·협력에서 핵심 흐름을 결정하는 개념으로, 시스템이 무엇을 먼저 관리하고 어떤 순서로 제어할지를 분명하게 만든다.
-> 2. **가치**: 이 개념을 이해하면 자원 효율, 응답 시간, 안정성 사이의 균형을 더 정확하게 설명할 수 있고, 안드로이드 바인더 (Android Binder)로 이어지는 이유도 자연스럽게 파악된다.
-> 3. **판단 포인트**: POSIX IPC과의 관계를 함께 봐야 D-Bus (Desktop Bus)을 단순 정의가 아니라 실제 설계·운영 판단 기준으로 사용할 수 있다.
+> 1. **본질**: D-[[344_bus|Bus]] (Desktop [[344_bus|Bus]])은 프로세스와 [[092_thread_lwp|스레드]]의 [[087_process_state_transition|생성]]·실행·협력에서 핵심 흐름을 결정하는 개념으로, 시스템이 무엇을 먼저 관리하고 어떤 순서로 제어할지를 분명하게 만든다.
+> 2. **가치**: 이 개념을 이해하면 자원 효율, [[138_response_time|응답 시간]], 안정성 사이의 균형을 더 정확하게 설명할 수 있고, [[135_android_binder|안드로이드 바인더]] ([[135_android_binder|Android Binder]])로 이어지는 이유도 자연스럽게 파악된다.
+> 3. **판단 포인트**: POSIX IPC과의 관계를 함께 봐야 D-[[344_bus|Bus]] (Desktop [[344_bus|Bus]])을 단순 정의가 아니라 실제 설계·운영 판단 기준으로 사용할 수 있다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: D-Bus는 소켓 (Socket) 기반의 IPC 시스템으로, 중앙 버스 데몬이 모든 메시지를 중계(Relay)하는 허브 앤 스포크 (Hub-and-Spoke) 토폴로지 (Topology)를 사용한다. 각 프로세스는 버스 데몬에 연결하여 메서드 호출(Method Call), 시그널 방송(Signal Emission), 속성 접근(Property Access)의 세 가지 통신 유형을 수행한다.
-- **필요성**: 초기 Linux 데스크탑 환경에서는 CORBA, DCOP, X11 IPC 등 중복된 IPC 메커니즘이 혼재하여 호환성 문제가 심각했다. D-Bus는 단일 통합 IPC 버스를 제공하여, 하드웨어 이벤트 알림, 애플리케이션 간 서비스 호출, 설정 관리 등 데스크탑 환경의 모든 통신을 하나의 표준 프로토콜로 통합했다.
+- **개념**: D-Bus는 [[125_socket|소켓]] ([[125_socket|Socket]]) 기반의 [[117_ipc|IPC]] 시스템으로, 중앙 [[344_bus|버스]] 데몬이 모든 메시지를 중계(Relay)하는 [[152_hub_dummy_switching_intelligent|허브]] 앤 스포크 (Hub-and-Spoke) 토폴로지 (Topology)를 사용한다. 각 프로세스는 [[344_bus|버스]] 데몬에 연결하여 메서드 호출(Method [[189_subroutine_call_return|Call]]), 시그널 방송([[130_signal|Signal]] Emission), [[082_attribute_types_er_model|속성]] 접근(Property Access)의 세 가지 통신 유형을 수행한다.
+- **필요성**: [[459_quic_fec_forward_error_correction|초기]] Linux 데스크탑 환경에서는 CORBA, DCOP, X11 [[117_ipc|IPC]] 등 중복된 [[117_ipc|IPC]] 메커니즘이 혼재하여 [[344_compatibility_usability|호환성]] 문제가 심각했다. D-Bus는 단일 통합 [[117_ipc|IPC]] [[344_bus|버스]]를 제공하여, 하드웨어 이벤트 알림, 애플리케이션 간 [[090_service_kubernetes_network_load_balancing|서비스]] 호출, [[009_config|설정]] 관리 등 데스크탑 환경의 모든 통신을 하나의 표준 프로토콜로 통합했다.
 
-D-Bus의 허브 앤 스포크 토폴로지와 두 가지 버스 계층을 아키텍처 다이어그램으로 확인할 수 있다.
+D-Bus의 [[152_hub_dummy_switching_intelligent|허브]] 앤 스포크 토폴로지와 두 가지 [[344_bus|버스]] 계층을 아키텍처 다이어그램으로 확인할 수 있다.
 
 ```text
 ┌────────────────────────────────────────────────────────────────────┐
@@ -55,24 +55,24 @@ D-Bus의 허브 앤 스포크 토폴로지와 두 가지 버스 계층을 아키
             /run/user/{UID}/bus)
 ```
 
-**[다이어그램 해설]** 이 도식의 핵심은 D-Bus가 두 개의 독립적인 버스 계층으로 운영된다는 점이다. 시스템 버스 (System Bus)는 부팅 시 단일 인스턴스로 시작되며, 네트워크 관리자, udev, systemd 같은 시스템 수준 서비스가 연결된다. 세션 버스 (Session Bus)는 사용자가 로그인할 때마다 개별 세션별로 생성되며, 해당 사용자의 데스크탑 애플리케이션들이 연결된다. 두 버스는 물리적으로 분리된 Unix Domain Socket을 사용하므로, 세션 버스의 메시지가 시스템 버스로 유출되지 않아 보안 격리가 보장된다. 버스 데몬은 모든 메시지를 중계하는 라우터(Router) 역할을 하므로, 송신자는 수신자의 프로세스 ID나 소켓 주소를 알 필요 없이 버스 이름(예: `org.freedesktop.NetworkManager`)만으로 통신할 수 있다.
+**[다이어그램 해설]** 이 도식의 핵심은 D-Bus가 두 개의 독립적인 [[344_bus|버스]] 계층으로 운영된다는 점이다. [[127_system_bus|시스템 버스]] ([[127_system_bus|System Bus]])는 부팅 시 단일 인스턴스로 시작되며, 네트워크 관리자, udev, systemd 같은 시스템 수준 [[090_service_kubernetes_network_load_balancing|서비스]]가 연결된다. [[160_session_controlling_terminal|세션]] [[344_bus|버스]] ([[160_session_controlling_terminal|Session]] [[344_bus|Bus]])는 사용자가 로그인할 때마다 개별 [[160_session_controlling_terminal|세션]]별로 [[087_process_state_transition|생성]]되며, 해당 사용자의 데스크탑 애플리케이션들이 연결된다. 두 [[344_bus|버스]]는 물리적으로 분리된 Unix [[064_relation_domain|Domain]] Socket을 사용하므로, [[160_session_controlling_terminal|세션]] [[344_bus|버스]]의 메시지가 [[127_system_bus|시스템 버스]]로 유출되지 않아 보안 격리가 보장된다. [[344_bus|버스]] 데몬은 모든 메시지를 중계하는 라우터(Router) 역할을 하므로, 송신자는 수신자의 프로세스 ID나 [[125_socket|소켓]] 주소를 알 필요 없이 [[344_bus|버스]] 이름(예: `org.freedesktop.NetworkManager`)만으로 통신할 수 있다.
 
-- **📢 섹션 요약 비유**: D-Bus는 사내용 내선 전화(세션 버스)와 공중 전화망(시스템 버스)이 분리된 통신망과 같습니다. 사내 전화로 직원들끼리 업무를 나누고, 공중 전화로 관공서(udev, systemd)에 민원을 넣을 수 있어요.
+- **📢 섹션 요약 비유**: D-Bus는 사내용 내선 전화([[160_session_controlling_terminal|세션]] [[344_bus|버스]])와 공중 전화망([[127_system_bus|시스템 버스]])이 분리된 통신망과 같습니다. 사내 전화로 직원들끼리 업무를 나누고, 공중 전화로 관공서(udev, systemd)에 민원을 넣을 수 있어요.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-D-Bus의 객체 모델은 소프트웨어 공학의 객체 지향 패러다임을 IPC 계층까지 확장한다.
+D-Bus의 객체 모델은 소프트웨어 공학의 객체 지향 패러다임을 [[117_ipc|IPC]] 계층까지 확장한다.
 
 | 구성 요소 | 역할 | 내부 동작 | 관련 개념 | 비유 |
 |:---|:---|:---|:---|:---|
-| **버스 이름 (Bus Name)** | 버스에 연결된 프로세스의 식별자 | 잘 알려진 이름(Well-known Name)과 고유 이름(Unique Name)으로 구성 | DNS, Java RMI | 회사명 |
-| **객체 경로 (Object Path)** | 프로세스 내부의 객체 주소 | `/org/freedesktop/NetworkManager` 형식의 계층적 경로 | 파일 시스템 경로, URL | 부서명+자리번호 |
-| **인터페이스 (Interface)** | 객체가 제공하는 메서드와 시그널의 명세 | `org.freedesktop.DBus.Properties` 형식의 역순 도메인 명 | Java Interface, IDL | 업무 규정서 |
-| **메시지 유형** | 통신의 의미론 정의 | Method Call, Method Return, Signal, Error의 4가지 타입 | HTTP 메서드, SOAP | 전화 유형(일반, 긴급, 방송) |
+| **[[344_bus|버스]] 이름 ([[344_bus|Bus]] Name)** | [[344_bus|버스]]에 연결된 프로세스의 [[289_identification_flags_fragmentation_offset|식별자]] | 잘 알려진 이름(Well-known Name)과 고유 이름(Unique Name)으로 구성 | [[511_dns_hierarchical_distributed_architecture|DNS]], Java RMI | 회사명 |
+| **객체 경로 (Object Path)** | 프로세스 내부의 객체 주소 | `/org/freedesktop/NetworkManager` 형식의 계층적 경로 | [[501_file_definition_logical_record|파일]] 시스템 경로, URL | 부서명+자리번호 |
+| **인터페이스 (Interface)** | 객체가 제공하는 메서드와 시그널의 명세 | `org.freedesktop.DBus.Properties` 형식의 역순 [[064_relation_domain|도메인]] 명 | Java Interface, IDL | 업무 규정서 |
+| **메시지 유형** | 통신의 의미론 정의 | Method [[189_subroutine_call_return|Call]], Method Return, [[130_signal|Signal]], Error의 4가지 타입 | [[461_http_stateless_connection_oriented|HTTP]] 메서드, [[153_soap_simple_object_access_protocol|SOAP]] | 전화 유형(일반, 긴급, 방송) |
 
-D-Bus의 메서드 호출 RPC 흐름을 타이밍 다이어그램으로 시각화할 수 있다.
+D-Bus의 메서드 호출 [[126_rpc|RPC]] 흐름을 타이밍 다이어그램으로 시각화할 수 있다.
 
 ```text
   클라이언트                 버스 데몬              서비스 (NetworkManager)
@@ -99,25 +99,25 @@ D-Bus의 메서드 호출 RPC 흐름을 타이밍 다이어그램으로 시각�
      │    전달)                │                           │
 ```
 
-**[다이어그램 해설]** 이 흐름도는 D-Bus가 단순한 메시지 큐가 아니라 완전한 RPC (Remote Procedure Call) 프레임워크라는 점을 보여준다. 클라이언트는 수신자의 소켓 주소를 알 필요 없이, 목적지 버스 이름(`org.freedesktop.NetworkManager`)과 객체 경로(`/org/freedesktop/NetworkManager`)를 지정하여 메서드를 호출한다. 버스 데몬은 이 메시지를 해당 이름을 소유한 서비스 프로세스로 라우팅(Routing)한다. 서비스는 메서드를 실행하고 결과를 버스 데몬을 통해 클라이언트에게 반환한다. 이 과정에서 버스 데몬은 단순한 중계자(Relay) 역할만 수행하므로 메시지 내용을 검사하거나 수정하지 않는다. 시그널(Signal)의 경우에는 특정 수신자가 아닌 버스에 연결된 모든 프로세스(또는 특정 규칙을 일치하는 수신자)에게 브로드캐스트(Broadcast)된다.
+**[다이어그램 해설]** 이 흐름도는 D-Bus가 단순한 메시지 큐가 아니라 완전한 [[126_rpc|RPC]] ([[126_rpc|Remote Procedure Call]]) 프레임워크라는 점을 보여준다. 클라이언트는 수신자의 [[125_socket|소켓]] 주소를 알 필요 없이, 목적지 [[344_bus|버스]] 이름(`org.freedesktop.NetworkManager`)과 객체 경로(`/org/freedesktop/NetworkManager`)를 지정하여 메서드를 호출한다. [[344_bus|버스]] 데몬은 이 메시지를 해당 이름을 소유한 [[090_service_kubernetes_network_load_balancing|서비스]] 프로세스로 [[339_routing_overview_best_path_selection|라우팅]]([[339_routing_overview_best_path_selection|Routing]])한다. [[090_service_kubernetes_network_load_balancing|서비스]]는 메서드를 실행하고 결과를 [[344_bus|버스]] 데몬을 통해 클라이언트에게 반환한다. 이 과정에서 [[344_bus|버스]] 데몬은 단순한 중계자(Relay) 역할만 수행하므로 메시지 내용을 검사하거나 수정하지 않는다. 시그널([[130_signal|Signal]])의 경우에는 특정 수신자가 아닌 [[344_bus|버스]]에 연결된 모든 프로세스(또는 특정 규칙을 일치하는 수신자)에게 브로드캐스트(Broadcast)된다.
 
-- **📢 섹션 요약 비유**: D-Bus 메서드 호출은 은행 창구(버스 데몬)를 통한 계좌 이체와 같습니다. 고객(클라이언트)은 은행원에게 수취인 계좌번호(버스 이름+객체 경로)를 말하고, 은행원이 해당 지점(서비스)으로 전달한 뒤 결과를 받아옵니다.
+- **📢 섹션 요약 비유**: D-[[344_bus|Bus]] 메서드 호출은 은행 창구([[344_bus|버스]] 데몬)를 통한 계좌 이체와 같습니다. 고객(클라이언트)은 은행원에게 수취인 계좌번호([[344_bus|버스]] 이름+객체 경로)를 말하고, 은행원이 해당 지점([[090_service_kubernetes_network_load_balancing|서비스]])으로 전달한 뒤 결과를 받아옵니다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-D-Bus는 다른 IPC 메커니즘과 달리 '버스 중개' 구조를 채택한 점이 결정적 차이다.
+D-Bus는 다른 [[117_ipc|IPC]] 메커니즘과 달리 '[[344_bus|버스]] 중개' 구조를 채택한 점이 결정적 차이다.
 
-| 항목 | D-Bus | POSIX IPC | Unix Domain Socket |
+| 항목 | D-[[344_bus|Bus]] | [[133_posix_ipc|POSIX IPC]] | Unix [[064_relation_domain|Domain]] [[125_socket|Socket]] |
 |:---|:---|:---|:---|
-| **통신 토폴로지** | 허브 앤 스포크 (데몬 중계) | 점대점 (Peer-to-Peer) | 점대점 (Peer-to-Peer) |
-| **RPC 의미론** | 네이티브 지원 | 미지원 (데이터 교환만) | 애플리케이션 단에서 구현 |
-| **서비스 발견** | 버스 이름 기반 자동 | 불가 (경로를 사전 알아야 함) | 불가 (소켓 경로 사전 필요) |
+| **통신 토폴로지** | [[152_hub_dummy_switching_intelligent|허브]] 앤 스포크 (데몬 중계) | 점대점 ([[916_p2p_peer_to_peer_networking_super_node_gnutella|Peer-to-Peer]]) | 점대점 ([[916_p2p_peer_to_peer_networking_super_node_gnutella|Peer-to-Peer]]) |
+| **[[126_rpc|RPC]] 의미론** | 네이티브 지원 | 미지원 ([[001_dikw_pyramid|데이터]] 교환만) | 애플리케이션 단에서 구현 |
+| **[[090_service_kubernetes_network_load_balancing|서비스]] 발견** | [[344_bus|버스]] 이름 기반 자동 | 불가 (경로를 사전 알아야 함) | 불가 ([[125_socket|소켓]] 경로 사전 필요) |
 | **브로드캐스팅** | 시그널 네이티브 지원 | 불가 | `sendto()` + UNIX_DGRAM |
 | **오버헤드** | 데몬 경유로 높음 | 직통으로 낮음 | 직통으로 낮음 |
 
-D-Bus와 직통 IPC의 메시지 경로를 비교하면 성능 트레이드오프 (Trade-off)가 명확해진다.
+D-Bus와 직통 IPC의 메시지 경로를 비교하면 [[282_performance_tactics|성능]] 트레이드오프 (Trade-off)가 명확해진다.
 
 ```text
   [직통 IPC (POSIX shm / Unix Socket)]     [D-Bus (버스 데몬 경유)]
@@ -130,11 +130,11 @@ D-Bus와 직통 IPC의 메시지 경로를 비교하면 성능 트레이드오�
   복잡도: 낮음                             복잡도: 중간~높음
 ```
 
-**[다이어그램 해설]** 이 비교는 D-Bus의 핵심 트레이드오프를 보여준다. 직통 IPC는 두 프로세스 간에 1홉으로 데이터를 교환하므로 마이크로초 단위의 지연을 달성하지만, 서비스 발견이나 RPC 의미론은 개발자가 직접 구현해야 한다. 반면 D-Bus는 버스 데몬을 경유하는 2홉 구조이므로 지연이 10~50배 증가하지만, 서비스 이름 기반 라우팅, 시그널 브로드캐스팅, 인터페이스 명세, 타입 시스템(Type System) 등 풍부한 미들웨어 기능을 기본 제공한다. 따라서 마이크로초급 저지연이 필수적인 영상 처리에는 POSIX 공유 메모리를, 서비스 간 유연한 통신이 필요한 데스크탑 환경에는 D-Bus를 선택하는 것이 아키텍처적으로 올바른 의사결정이다.
+**[다이어그램 해설]** 이 비교는 D-Bus의 핵심 트레이드오프를 보여준다. 직통 IPC는 두 프로세스 간에 1홉으로 [[001_dikw_pyramid|데이터]]를 교환하므로 마이크로초 단위의 [[015_지연_데이터_관점|지연]]을 달성하지만, [[090_service_kubernetes_network_load_balancing|서비스]] 발견이나 [[126_rpc|RPC]] 의미론은 개발자가 직접 구현해야 한다. 반면 D-Bus는 [[344_bus|버스]] 데몬을 경유하는 2홉 구조이므로 [[015_지연_데이터_관점|지연]]이 [[489_raid_10_hybrid|10]]~50배 증가하지만, [[090_service_kubernetes_network_load_balancing|서비스]] 이름 기반 [[339_routing_overview_best_path_selection|라우팅]], 시그널 브로드캐스팅, 인터페이스 명세, 타입 시스템(Type System) 등 풍부한 미들웨어 기능을 기본 제공한다. 따라서 마이크로초급 저지연이 필수적인 영상 처리에는 POSIX 공유 메모리를, [[090_service_kubernetes_network_load_balancing|서비스]] 간 유연한 통신이 필요한 데스크탑 환경에는 D-Bus를 선택하는 것이 아키텍처적으로 올바른 의사결정이다.
 
-- **정보보안 (IS, Information Security) 관점**: D-Bus 버스 데몬은 메시지에 대한 접근 제어(ACL, Access Control List)를 수행한다. `/etc/dbus-1/system.conf` 설정 파일을 통해 특정 버스 이름에 대한 메서드 호출 권한을 사용자 그룹 단위로 제어할 수 있다. 예를 들어 `org.freedesktop.NetworkManager`의 설정 변경 메서드는 `root` 또는 `netdev` 그룹에만 허용하도록 정책을 구성할 수 있다.
+- **정보보안 (IS, Information [[283_security_tactics|Security]]) 관점**: D-[[344_bus|Bus]] [[344_bus|버스]] 데몬은 메시지에 대한 접근 제어([[549_acl_access_control_list|ACL]], [[549_acl_access_control_list|Access Control List]])를 수행한다. `/etc/dbus-1/system.conf` [[009_config|설정]] [[501_file_definition_logical_record|파일]]을 통해 특정 [[344_bus|버스]] 이름에 대한 메서드 호출 권한을 사용자 그룹 단위로 제어할 수 있다. 예를 들어 `org.freedesktop.NetworkManager`의 [[009_config|설정]] 변경 메서드는 `root` 또는 `netdev` 그룹에만 허용하도록 [[164_policy|정책]]을 구성할 수 있다.
 
-- **📢 섹션 요약 비유**: 직통 전화(POSIX IPC)는 빠르지만 번호를 알아야 걸 수 있고, 교환대(D-Bus)를 거치면 전화 연결이 느려지지만 부서 이름만 말하면 교환원이 알아서 연결해 주고, 전체 방송도 해줍니다.
+- **📢 섹션 요약 비유**: 직통 전화([[133_posix_ipc|POSIX IPC]])는 빠르지만 번호를 알아야 걸 수 있고, 교환대(D-[[344_bus|Bus]])를 거치면 전화 연결이 느려지지만 부서 이름만 말하면 교환원이 알아서 연결해 주고, 전체 방송도 해줍니다.
 
 ---
 
@@ -142,13 +142,13 @@ D-Bus와 직통 IPC의 메시지 경로를 비교하면 성능 트레이드오�
 
 D-Bus는 systemd 생태계와 긴밀하게 통합되어 있어 서버 운영에서도 핵심적인 역할을 수행한다.
 
-**실무 시나리오 1. systemd 서비스 상태 모니터링**:
-`systemctl` 명령어는 사실 D-Bus를 통해 systemd와 통신한다. 사용자가 `systemctl status nginx`를 실행하면, `systemctl`은 시스템 버스에 `org.freedesktop.systemd1` 서비스의 `GetUnit` 메서드를 호출하여 Nginx 서비스의 상태를 조회한다. 이 메커니즘을 활용하면 커스텀 모니터링 스크립트에서 `busctl` 또는 `gdbus` 명령어로 D-Bus를 직접 호출하여 서비스 상태를 프로그래밍 방식으로 감시할 수 있다.
+**실무 시나리오 1. systemd [[090_service_kubernetes_network_load_balancing|서비스]] 상태 모니터링**:
+`systemctl` 명령어는 사실 D-Bus를 통해 systemd와 통신한다. 사용자가 `systemctl status nginx`를 실행하면, `systemctl`은 [[127_system_bus|시스템 버스]]에 `org.freedesktop.systemd1` [[090_service_kubernetes_network_load_balancing|서비스]]의 `GetUnit` 메서드를 호출하여 Nginx [[090_service_kubernetes_network_load_balancing|서비스]]의 상태를 조회한다. 이 메커니즘을 활용하면 커스텀 모니터링 스크립트에서 `busctl` 또는 `gdbus` 명령어로 D-Bus를 직접 호출하여 [[090_service_kubernetes_network_load_balancing|서비스]] 상태를 프로그래밍 방식으로 감시할 수 있다.
 
-**실무 시나리오 2. 버스 데몬 장애로 인한 전체 데스크탑 응답 불가**:
-D-Bus 세션 버스 데몬이 크래시하면, 해당 세션의 모든 데스크탑 애플리케이션이 메시지 교환을 할 수 없어 창 관리자, 설정 앱, 파일 관리자 전체가 응답 불가 상태가 된다. 이는 허브 앤 스포크 토폴로지의 단일 장애점(SPOF, Single Point of Failure) 문제다. systemd는 버스 데몬을 자체적으로 관리하며, 크래시 시 자동 재시작하여 복구 시간을 최소화한다.
+**실무 시나리오 2. [[344_bus|버스]] 데몬 장애로 인한 전체 데스크탑 응답 불가**:
+D-[[344_bus|Bus]] [[160_session_controlling_terminal|세션]] [[344_bus|버스]] 데몬이 크래시하면, 해당 [[160_session_controlling_terminal|세션]]의 모든 데스크탑 애플리케이션이 메시지 교환을 할 수 없어 창 관리자, [[009_config|설정]] 앱, [[501_file_definition_logical_record|파일]] 관리자 전체가 응답 불가 상태가 된다. 이는 [[152_hub_dummy_switching_intelligent|허브]] 앤 스포크 토폴로지의 [[454_spof|단일 장애점]]([[454_spof|SPOF]], Single Point of Failure) 문제다. systemd는 [[344_bus|버스]] 데몬을 자체적으로 관리하며, 크래시 시 자동 재시작하여 [[658_ir_recovery|복구]] 시간을 최소화한다.
 
-아키텍트는 D-Bus 도입 적합성을 평가하기 위한 기준을 수립해야 한다.
+아키텍트는 D-[[344_bus|Bus]] 도입 적합성을 평가하기 위한 기준을 수립해야 한다.
 
 ```text
    [ D-Bus 도입 적합성 판단 기준 ]
@@ -169,14 +169,14 @@ D-Bus 세션 버스 데몬이 크래시하면, 해당 세션의 모든 데스크
                                                      (지연 최소화 우선)
 ```
 
-**[다이어그램 해설]** 이 의사결정 트리는 D-Bus의 고유한 강점(서비스 발견, 브로드캐스팅, RPC)이 실제로 필요한지를 먼저 평가하도록 안내한다. D-Bus는 기능이 풍부하지만 데몬 경유로 인한 오버헤드가 존재하므로, 고정된 피어 간의 고성능 데이터 교환에는 부적합하다. 반대로 여러 서비스가 동적으로 등록/해제되는 환경에서 서비스 이름 기반 통신이 필요하거나, 시스템 이벤트를 여러 수신자에게 동시에 알려야 하는 경우에는 D-Bus가 유일한 합리적 선택이다.
+**[다이어그램 해설]** 이 의사결정 트리는 D-Bus의 고유한 강점([[090_service_kubernetes_network_load_balancing|서비스]] 발견, 브로드캐스팅, [[126_rpc|RPC]])이 실제로 필요한지를 먼저 평가하도록 안내한다. D-Bus는 기능이 풍부하지만 데몬 경유로 인한 오버헤드가 존재하므로, 고정된 피어 간의 고성능 [[001_dikw_pyramid|데이터]] 교환에는 부적합하다. 반대로 여러 [[090_service_kubernetes_network_load_balancing|서비스]]가 동적으로 등록/해제되는 환경에서 [[090_service_kubernetes_network_load_balancing|서비스]] 이름 기반 통신이 필요하거나, 시스템 이벤트를 여러 수신자에게 동시에 알려야 하는 경우에는 D-Bus가 유일한 합리적 선택이다.
 
-**도입 체크리스트**:
-- D-Bus 서비스의 `.service` 파일이 올바른 버스 이름과 실행 경로를 지정하고 있는가?
-- 민감한 메서드에 대한 D-Bus 접근 제어 정책(ACL)이 구성되었는가?
-- 버스 데몬 장애 시 애플리케이션의 장애 격리(Fail-Safe) 동작이 정의되어 있는가?
+**도입 [[435_checklist_based_testing|체크리스트]]**:
+- D-[[344_bus|Bus]] [[090_service_kubernetes_network_load_balancing|서비스]]의 `.service` [[501_file_definition_logical_record|파일]]이 올바른 [[344_bus|버스]] 이름과 실행 경로를 지정하고 있는가?
+- 민감한 메서드에 대한 D-[[344_bus|Bus]] 접근 제어 [[164_policy|정책]]([[549_acl_access_control_list|ACL]])이 구성되었는가?
+- [[344_bus|버스]] 데몬 장애 시 애플리케이션의 장애 격리([[459_fail_safe|Fail-Safe]]) 동작이 정의되어 있는가?
 
-- **📢 섹션 요약 비유**: D-Bus는 우체국(버스 데몬)을 거치는 우편 시스템과 같습니다. 당근 배달소까지 직접 달려가면(직통 IPC) 빠르지만, 누가 당근을 파는지 모를 때는 우체국에 "당근 가게"라는 이름만 적어서 물어보면(D-Bus 서비스 발견) 알아서 연결해 줍니다.
+- **📢 섹션 요약 비유**: D-Bus는 우체국([[344_bus|버스]] 데몬)을 거치는 우편 시스템과 같습니다. 당근 배달소까지 직접 달려가면(직통 [[117_ipc|IPC]]) 빠르지만, 누가 당근을 파는지 모를 때는 우체국에 "당근 가게"라는 이름만 적어서 물어보면(D-[[344_bus|Bus]] [[090_service_kubernetes_network_load_balancing|서비스]] 발견) 알아서 연결해 줍니다.
 
 ---
 
@@ -184,24 +184,24 @@ D-Bus 세션 버스 데몬이 크래시하면, 해당 세션의 모든 데스크
 
 D-Bus는 Linux 데스크탑 및 systemd 생태계의 표준 통신 인프라로 확고히 자리 잡았다.
 
-| 구분 | 직통 IPC (Socket/SHM) | D-Bus | 비즈니스 파급 효과 |
+| 구분 | 직통 [[117_ipc|IPC]] ([[125_socket|Socket]]/SHM) | D-[[344_bus|Bus]] | 비즈니스 파급 효과 |
 |:---|:---|:---|:---|
-| **서비스 발견** | 사전 지식 필요 | 버스 이름으로 자동 해결 | 마이크로서비스 동적 구성 가능 |
-| **브로드캐스팅** | 수동 구현 | 시그널 네이티브 지원 | 이벤트 기반 아키텍처 실현 |
-| **지연 시간** | ~1 us (직통) | ~10~50 us (데몬 경유) | 고성능 I/O에는 부적합 |
-| **표준화** | POSIX 표준 | freedesktop.org 표준 | 데스크탑 생태계 호환성 보장 |
+| **[[090_service_kubernetes_network_load_balancing|서비스]] 발견** | 사전 지식 필요 | [[344_bus|버스]] 이름으로 자동 해결 | [[532_microservices_decomposition_patterns|마이크로서비스]] 동적 구성 가능 |
+| **브로드캐스팅** | 수동 구현 | 시그널 네이티브 지원 | [[538_event_driven_architecture_eda|이벤트 기반 아키텍처]] 실현 |
+| **[[141_latency|지연 시간]]** | ~1 us (직통) | ~[[489_raid_10_hybrid|10]]~50 us (데몬 경유) | 고성능 I/O에는 부적합 |
+| **표준화** | POSIX 표준 | freedesktop.org 표준 | 데스크탑 생태계 [[344_compatibility_usability|호환성]] 보장 |
 
 **미래 전망**:
-D-Bus는 기존의 UNIX Domain Socket 기반에서 DBus-Broker (Rust로 구현된 고성능 데몬)로 교체되는 추세에 있다. DBus-Broker는 기존 `dbus-daemon` 대비 메시지 처리량이 약 4배 향상되고 메모리 사용량이 절반으로 감소한다. 또한 D-Bus의 설계 철학은 Kubernetes의 gRPC 기반 통신, Flatpak의 포털(Portal) 시스템, Avahi의 mDNS 서비스 발견 등에도 영향을 미치며, Linux 생태계 전반의 통신 기반으로 확장하고 있다.
+D-Bus는 기존의 UNIX [[064_relation_domain|Domain]] [[125_socket|Socket]] 기반에서 DBus-Broker (Rust로 구현된 고성능 데몬)로 교체되는 추세에 있다. DBus-Broker는 기존 `dbus-daemon` 대비 메시지 처리량이 약 4배 향상되고 메모리 사용량이 절반으로 감소한다. 또한 D-Bus의 설계 철학은 Kubernetes의 [[479_grpc_protobuf_http2|gRPC]] 기반 통신, Flatpak의 포털(Portal) 시스템, Avahi의 [[521_mdns_multicast_dns_llmnr|mDNS]] [[090_service_kubernetes_network_load_balancing|서비스]] 발견 등에도 영향을 미치며, Linux 생태계 전반의 통신 기반으로 확장하고 있다.
 
-- **📢 섹션 요약 비유**: D-Bus는 도시의 중앙 교통 관제소와 같습니다. 모든 버스가 관제소를 거치므로 한 번에 느려질 수 있지만, 새로운 버스 노선(서비스)이 언제든 추가되고, 전체 도시에 공지(시그널)를 보낼 수 있는 유연한 시스템입니다.
+- **📢 섹션 요약 비유**: D-Bus는 도시의 중앙 교통 관제소와 같습니다. 모든 [[344_bus|버스]]가 관제소를 거치므로 한 번에 느려질 수 있지만, 새로운 [[344_bus|버스]] 노선([[090_service_kubernetes_network_load_balancing|서비스]])이 언제든 추가되고, 전체 도시에 공지(시그널)를 보낼 수 있는 유연한 시스템입니다.
 
 ---
 
 #### 핵심 인사이트 (3줄 요약)
-> 1. **본질**: D-Bus (Desktop Bus)는 freedesktop.org가 표준화한 프로세스 간 통신(IPC, Inter-Process Communication) 메커니즘으로, 버스 데몬 (Bus Daemon, `dbus-daemon`)을 중심으로 메시지 라우팅 (Message Routing), 객체 모델 (Object Model), 시그널(Signal) 브로드캐스팅(Broadcasting)을 통합적으로 제공하는 고수준 IPC 시스템이다.
-> 2. **가치**: 시스템 버스 (System Bus)와 세션 버스 (Session Bus)의 두 계층으로 분리 운영되어, 시스템 수준 하드웨어 이벤트(네트워크 연결, 전원 관리)와 사용자 세션 수준 애플리케이션 이벤트를 격리하여 관리할 수 있으며, 원격 프로시저 호출 (RPC, Remote Procedure Call) 의미론을 네이티브하게 지원한다.
-> 3. **융합**: GLib 기반의 `GDBus` 라이브러리, Qt의 `QDBus`, Python의 `pydbus` 등 다양한 언어 바인딩 (Binding)을 통해 데스크탑 환경(Linux, GNOME, KDE)의 핵심 통신 인프라로 동작하며, HAL (Hardware Abstraction Layer) 및 systemd의 `dbus` 유닛 통신에서도 핵심 역할을 수행한다.
+> 1. **본질**: D-[[344_bus|Bus]] (Desktop [[344_bus|Bus]])는 freedesktop.org가 표준화한 [[117_ipc|프로세스 간 통신]]([[117_ipc|IPC]], Inter-Process Communication) 메커니즘으로, [[344_bus|버스]] 데몬 ([[344_bus|Bus]] Daemon, `dbus-daemon`)을 중심으로 메시지 [[339_routing_overview_best_path_selection|라우팅]] (Message [[339_routing_overview_best_path_selection|Routing]]), 객체 모델 (Object Model), 시그널([[130_signal|Signal]]) 브로드캐스팅(Broadcasting)을 통합적으로 제공하는 고수준 [[117_ipc|IPC]] 시스템이다.
+> 2. **가치**: [[127_system_bus|시스템 버스]] ([[127_system_bus|System Bus]])와 [[160_session_controlling_terminal|세션]] [[344_bus|버스]] ([[160_session_controlling_terminal|Session]] [[344_bus|Bus]])의 두 계층으로 분리 운영되어, 시스템 수준 하드웨어 이벤트(네트워크 연결, 전원 관리)와 사용자 [[160_session_controlling_terminal|세션]] 수준 애플리케이션 이벤트를 격리하여 관리할 수 있으며, 원격 프로시저 호출 ([[126_rpc|RPC]], [[126_rpc|Remote Procedure Call]]) 의미론을 네이티브하게 지원한다.
+> 3. **융합**: GLib 기반의 `GDBus` [[336_library_vs_framework|라이브러리]], Qt의 `QDBus`, Python의 `pydbus` 등 다양한 언어 바인딩 (Binding)을 통해 데스크탑 환경(Linux, GNOME, KDE)의 핵심 통신 인프라로 동작하며, [[070_hal|HAL]] (Hardware [[198_abstraction_control_data_process|Abstraction]] Layer) 및 systemd의 `dbus` 유닛 통신에서도 핵심 역할을 수행한다.
 
 ---
 
@@ -209,10 +209,10 @@ D-Bus는 기존의 UNIX Domain Socket 기반에서 DBus-Broker (Rust로 구현�
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| 시스템 V IPC | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
-| POSIX IPC | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
-| 안드로이드 바인더 (Android Binder) | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
-| 좀비 스레드 (Zombie Thread) | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
+| 시스템 V [[117_ipc|IPC]] | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
+| [[133_posix_ipc|POSIX IPC]] | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
+| [[135_android_binder|안드로이드 바인더]] ([[135_android_binder|Android Binder]]) | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
+| [[136_zombie_thread|좀비 스레드]] ([[136_zombie_thread|Zombie Thread]]) | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -230,6 +230,6 @@ D-Bus는 기존의 UNIX Domain Socket 기반에서 DBus-Broker (Rust로 구현�
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. D-Bus는 학교의 중앙 방송실(버스 데몬)과 같아요. 선생님(프로세스)들이 방송실에 전화를 걸어(메서드 호출) 다른 반에 연락하거나, 전교에 방송(시그널)할 수 있어요.
-2. 선생님들은 상대방 전화번호를 몰라도 "음악 선생님"이라고 방송실에 말하면(버스 이름) 알아서 연결해 주니까 아주 편리해요.
+1. D-Bus는 학교의 중앙 방송실([[344_bus|버스]] 데몬)과 같아요. 선생님(프로세스)들이 방송실에 전화를 걸어(메서드 호출) 다른 반에 연락하거나, 전교에 방송(시그널)할 수 있어요.
+2. 선생님들은 상대방 전화번호를 몰라도 "음악 선생님"이라고 방송실에 말하면([[344_bus|버스]] 이름) 알아서 연결해 주니까 아주 편리해요.
 3. 하지만 모든 연락이 방송실을 거쳐야 하니까, 옆 자리 친구에게 말할 때도 방송실을 거치면(불필요한 오버헤드) 시간이 좀 걸릴 수 있어요!

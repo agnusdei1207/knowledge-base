@@ -7,25 +7,25 @@ categories = "studynote-bigdata"
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: 토픽 모델링 (Topic Modeling)은 레이블 없는 대규모 문서 집합에서 숨겨진 주제 (Topic) 구조를 자동으로 발굴하는 비지도 NLP 기법으로, LDA (Latent Dirichlet Allocation)가 확률적 생성 모델로 30년간 표준으로 자리잡아 왔다.
+> 1. **본질**: 토픽 모델링 (Topic Modeling)은 레이블 없는 대규모 문서 집합에서 숨겨진 주제 (Topic) 구조를 자동으로 발굴하는 비지도 NLP 기법으로, LDA (Latent Dirichlet Allocation)가 [[130_probability|확률]]적 [[087_process_state_transition|생성]] 모델로 30년간 표준으로 자리잡아 왔다.
 > 2. **가치**: 수십만 건의 고객 리뷰, SNS 포스트, 뉴스 기사, 논문 초록에서 인간이 사전 정의 없이 주제 구조를 발견할 수 있어, 탐색적 분석과 트렌드 감지에 특히 강력하다.
-> 3. **판단 포인트**: LDA는 소규모 도메인 특화 분석에 적합하고, BERTopic은 BERT 임베딩으로 의미적 군집화를 수행하여 현대 빅데이터 환경에서 더 정확하며, NMF (Non-negative Matrix Factorization)는 결정론적이고 빠른 처리가 필요할 때 선택한다.
+> 3. **판단 포인트**: LDA는 소규모 [[064_relation_domain|도메인]] 특화 분석에 적합하고, BERTopic은 [[301_bert_mlm|BERT]] [[278_instruction_tuning|임베딩]]으로 의미적 [[105_clustering_analysis|군집화]]를 수행하여 현대 빅데이터 환경에서 더 정확하며, NMF (Non-negative [[348_matrix_factorization|Matrix Factorization]])는 결정론적이고 빠른 처리가 필요할 때 선택한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-구글 트렌드 분석, 학술 문헌 지형 파악, 소셜 미디어 여론 분석—이 모두는 "이 수많은 문서들이 어떤 주제들에 대해 이야기하고 있는가?"라는 질문에서 출발한다. 토픽 모델링은 사람이 직접 주제를 정의하지 않고도 데이터 스스로 주제를 드러내게 만드는 기술이다.
+구글 트렌드 분석, 학술 문헌 지형 파악, 소셜 미디어 여론 분석—이 모두는 "이 수많은 문서들이 어떤 주제들에 대해 이야기하고 있는가?"라는 질문에서 출발한다. 토픽 모델링은 사람이 직접 주제를 정의하지 않고도 [[001_dikw_pyramid|데이터]] 스스로 주제를 드러내게 만드는 기술이다.
 
 빅데이터 시대의 토픽 모델링은 단순 키워드 분석을 넘어, 시간에 따른 주제 변화 추적 (Dynamic Topic Modeling), 다국어 주제 비교, 실시간 소셜 트렌드 감지로 확장됐다.
 
-- **📢 섹션 요약 비유**: 토픽 모델링은 도서관의 모든 책을 읽고 "이 도서관에는 어떤 분야들이 있나요?"를 스스로 알아내는 사서다. 분야 분류표가 없어도 책의 내용만으로 자동 분류한다.
+- **📢 섹션 요약 비유**: 토픽 모델링은 도서관의 모든 책을 읽고 "이 도서관에는 어떤 분야들이 있나요?"를 스스로 알아내는 사서다. 분야 [[104_classification_analysis|분류]]표가 없어도 책의 내용만으로 자동 [[104_classification_analysis|분류]]한다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### LDA 생성 모델
+### LDA [[087_process_state_transition|생성]] 모델
 
 ```text
 ┌────────────────────────────────────────────────────────────────────┐
@@ -50,18 +50,18 @@ categories = "studynote-bigdata"
 └────────────────────────────────────────────────────────────────────┘
 ```
 
-### 주요 알고리즘 비교
+### 주요 [[001_algorithm_definition|알고리즘]] 비교
 
-| 알고리즘 | 원리 | 장점 | 단점 | 권장 상황 |
+| [[001_algorithm_definition|알고리즘]] | 원리 | 장점 | 단점 | 권장 상황 |
 |:---|:---|:---|:---|:---|
-| **LDA** | 확률적 생성 모델, 디리클레 분포 | 수학적 명료함, 해석 용이 | 하이퍼파라미터 튜닝, 단어 순서 무시 | 도메인 특화, 소규모 |
-| **BERTopic** | BERT 임베딩 + UMAP + HDBSCAN | 의미적 군집화, 최신 성능 | 높은 연산 비용 | 대규모, 고품질 필요 |
-| **NMF** | 비음수 행렬 분해 | 결정론적, 빠름 | 확률 해석 불가 | 재현 가능성 필요 |
-| **CTM (Contextualized Topic Model)** | 사전학습 임베딩 + LDA 결합 | 다국어, 단문 | 복잡도 높음 | 짧은 텍스트, 다국어 |
+| **LDA** | [[130_probability|확률]]적 [[087_process_state_transition|생성]] 모델, 디리클레 분포 | 수학적 명료함, 해석 용이 | [[041_bagging_boosting|하이퍼파라미터 튜닝]], 단어 순서 무시 | [[064_relation_domain|도메인]] 특화, 소규모 |
+| **BERTopic** | [[301_bert_mlm|BERT]] [[278_instruction_tuning|임베딩]] + UMAP + HDBSCAN | 의미적 [[105_clustering_analysis|군집화]], 최신 [[282_performance_tactics|성능]] | 높은 연산 비용 | 대규모, 고품질 필요 |
+| **NMF** | 비음수 [[161_matrix_decomposition|행렬 분해]] | 결정론적, 빠름 | [[130_probability|확률]] 해석 불가 | 재현 가능성 필요 |
+| **CTM (Contextualized Topic Model)** | 사전학습 [[278_instruction_tuning|임베딩]] + LDA 결합 | 다국어, 단문 | 복잡도 높음 | 짧은 텍스트, 다국어 |
 
-### 모델 평가: 일관성 점수 (Coherence Score)
+### 모델 평가: [[194_consistency_database_integrity|일관성]] 점수 (Coherence Score)
 
-- C_V: 단어 간 공동 출현 확률 기반, 높을수록 좋음
+- C_V: 단어 간 공동 출현 [[130_probability|확률]] 기반, 높을수록 좋음
 - 인간 판단과 가장 상관관계 높은 지표
 - Perplexity (LDA 전통 지표)는 낮을수록 좋지만 인간 해석과 다를 수 있음
 
@@ -73,16 +73,16 @@ categories = "studynote-bigdata"
 
 | 항목 | LDA | BERTopic |
 |:---|:---|:---|
-| **텍스트 표현** | BOW (Bag-of-Words) | BERT 문장 임베딩 |
+| **텍스트 표현** | BOW (Bag-of-Words) | [[301_bert_mlm|BERT]] 문장 [[278_instruction_tuning|임베딩]] |
 | **단어 순서** | 무시 | 반영 (문맥 이해) |
-| **짧은 텍스트 처리** | 어려움 | 강함 (임베딩 보상) |
-| **주제 수 지정** | 필요 (K 사전 설정) | 자동 추정 (HDBSCAN) |
-| **계산 비용** | 낮음 | 높음 (GPU 권장) |
+| **짧은 텍스트 처리** | 어려움 | 강함 ([[278_instruction_tuning|임베딩]] 보상) |
+| **주제 수 지정** | 필요 (K 사전 [[009_config|설정]]) | 자동 추정 (HDBSCAN) |
+| **계산 비용** | 낮음 | 높음 ([[418_gpu|GPU]] 권장) |
 | **노이즈 처리** | 없음 | HDBSCAN "-1" 클러스터 |
 
-토픽 모델링은 감성 분석, 개체명 인식 (NER)과 결합할 때 더 강력하다. "어떤 주제에 대해 어떤 감성을 가지는가" (Aspect-Based Sentiment)를 측정할 수 있다.
+토픽 모델링은 [[105_exploratory_data_analysis|감성 분석]], [[117_ner|개체명 인식]] ([[117_ner|NER]])과 결합할 때 더 강력하다. "어떤 주제에 대해 어떤 감성을 가지는가" (Aspect-Based Sentiment)를 측정할 수 있다.
 
-- **📢 섹션 요약 비유**: LDA는 도서관에서 주제 분류표를 K개 만들어 놓고 책을 분류하는 것이고, BERTopic은 책들의 의미를 이해해서 자연스럽게 뭉치는 그룹을 발견하는 것이다.
+- **📢 섹션 요약 비유**: LDA는 도서관에서 주제 [[104_classification_analysis|분류]]표를 K개 만들어 놓고 책을 [[104_classification_analysis|분류]]하는 것이고, BERTopic은 책들의 의미를 이해해서 자연스럽게 뭉치는 그룹을 발견하는 것이다.
 
 ---
 
@@ -91,19 +91,19 @@ categories = "studynote-bigdata"
 ### 적용 시나리오
 
 1. **소셜 미디어 트렌드 분석**: 트위터/인스타 포스트 LDA 분석 → 이슈 주제 자동 탐지
-2. **고객 피드백 분류**: 수만 건 CS 상담 내용 BERTopic 군집화 → 문제 유형 자동 분류
-3. **학술 트렌드 맵핑**: 10년간 논문 초록 LDA → 연구 분야별 관심도 변화 시각화
-4. **정책 문서 분석**: 법령·공시문서 NMF 토픽 추출 → 정책 방향 자동 모니터링
+2. **고객 피드백 [[104_classification_analysis|분류]]**: 수만 건 CS 상담 내용 BERTopic [[105_clustering_analysis|군집화]] → 문제 유형 자동 [[104_classification_analysis|분류]]
+3. **학술 트렌드 맵핑**: 10년간 논문 초록 LDA → 연구 분야별 관심도 변화 [[003_bigdata_7v|시각화]]
+4. **[[164_policy|정책]] 문서 분석**: 법령·공시문서 NMF 토픽 추출 → [[164_policy|정책]] 방향 자동 [[229_monitor|모니터]]링
 
-### 기술사 체크리스트
+### 기술사 [[435_checklist_based_testing|체크리스트]]
 
-1. 최적 주제 수 K를 일관성 점수 (Coherence) 그래프로 결정했는가?
+1. 최적 주제 수 K를 [[194_consistency_database_integrity|일관성]] 점수 (Coherence) [[070_graph_datastructure|그래프]]로 결정했는가?
 2. 불용어·저빈도 단어·고빈도 단어 (너무 흔한 단어)를 전처리로 제거했는가?
 3. 한국어의 경우 명사 추출 후 LDA를 적용했는가? (형태소 분석 선행 필수)
-4. 동적 토픽 모델링 (DTM, Dynamic Topic Modeling)이 필요한 시간 변화 분석인가?
+4. 동적 토픽 모델링 ([[532_dynamic_thermal_management|DTM]], Dynamic Topic Modeling)이 필요한 시간 변화 분석인가?
 5. 주제 해석 가능성: 각 주제의 상위 10단어를 보고 비즈니스 담당자가 이름을 붙일 수 있는가?
 
-- **📢 섹션 요약 비유**: 토픽 수 K를 너무 작게 잡으면 "모든 것"이라는 큰 주제들만 나오고, 너무 크면 거의 같은 주제들이 분리돼 해석이 어렵다. 적절한 K는 데이터가 알려준다 — 일관성 점수가 최대인 지점이다.
+- **📢 섹션 요약 비유**: 토픽 수 K를 너무 작게 잡으면 "모든 것"이라는 큰 주제들만 나오고, 너무 크면 거의 같은 주제들이 분리돼 해석이 어렵다. 적절한 K는 [[001_dikw_pyramid|데이터]]가 알려준다 — [[194_consistency_database_integrity|일관성]] 점수가 최대인 지점이다.
 
 ---
 
@@ -112,12 +112,12 @@ categories = "studynote-bigdata"
 | 효과 | 내용 |
 |:---|:---|
 | 탐색적 인사이트 | 사전 지식 없이 대규모 텍스트의 주제 지형 파악 |
-| 자동 문서 분류 | K개 주제로 신규 문서 자동 태깅 |
+| 자동 문서 [[104_classification_analysis|분류]] | K개 주제로 신규 문서 자동 태깅 |
 | 트렌드 조기 감지 | 특정 주제의 증가 추세 → 비즈니스 기회·위험 감지 |
 | 연구 방향 수립 | 학술 문헌 지형에서 연구 공백 영역 발견 |
 | 콘텐츠 추천 | 문서의 주제 분포 기반 유사 문서 추천 |
 
-토픽 모델링은 "데이터가 스스로 말하게 하는" 탐색적 분석의 핵심 도구다. LDA의 통계적 엄밀함부터 BERTopic의 의미적 군집화까지, 데이터의 크기와 품질 요구사항에 따라 최적 방법을 선택하는 판단이 실무에서 중요하다. 대형 언어 모델 (LLM)의 등장으로 이제는 토픽 모델링 결과에 LLM이 자동으로 주제 이름을 붙이는 워크플로우가 표준화되고 있다.
+토픽 모델링은 "[[001_dikw_pyramid|데이터]]가 스스로 말하게 하는" 탐색적 분석의 핵심 도구다. LDA의 통계적 엄밀함부터 BERTopic의 의미적 [[105_clustering_analysis|군집화]]까지, [[001_dikw_pyramid|데이터]]의 크기와 품질 요구사항에 따라 최적 방법을 선택하는 판단이 실무에서 중요하다. 대형 언어 모델 ([[263_llm_large_language_model|LLM]])의 등장으로 이제는 토픽 모델링 결과에 LLM이 자동으로 주제 이름을 붙이는 워크플로우가 표준화되고 있다.
 
 - **📢 섹션 요약 비유**: 토픽 모델링은 큰 책장을 보고 "이 책들을 가장 잘 설명하는 카테고리를 몇 개 만들까?"를 자동으로 답해주는 지능형 사서다. 사람이 카테고리를 정하지 않아도 된다.
 
@@ -125,15 +125,15 @@ categories = "studynote-bigdata"
 
 ### 📌 관련 개념 맵
 
-| 개념 | 관계 |
+| 개념 | [[083_relationship_in_er_model|관계]] |
 |:---|:---|
-| LDA (Latent Dirichlet Allocation) | 확률적 생성 모델 기반 토픽 모델링의 표준 |
-| BERTopic | BERT + UMAP + HDBSCAN 기반 현대적 토픽 모델링 |
-| NMF (Non-negative Matrix Factorization) | 결정론적, 빠른 토픽 분해 |
-| 일관성 점수 (Coherence Score) | 토픽 모델 품질의 자동 평가 지표 |
-| UMAP (Uniform Manifold Approximation and Projection) | 고차원 임베딩의 2D/3D 차원 축소 |
-| HDBSCAN | 밀도 기반 계층적 군집화 알고리즘 |
-| 동적 토픽 모델링 (DTM, Dynamic Topic Modeling) | 시간에 따른 주제 변화 추적 |
+| LDA (Latent Dirichlet Allocation) | [[130_probability|확률]]적 [[087_process_state_transition|생성]] 모델 기반 토픽 모델링의 표준 |
+| BERTopic | [[301_bert_mlm|BERT]] + UMAP + HDBSCAN 기반 현대적 토픽 모델링 |
+| NMF (Non-negative [[348_matrix_factorization|Matrix Factorization]]) | 결정론적, 빠른 토픽 분해 |
+| [[194_consistency_database_integrity|일관성]] 점수 (Coherence Score) | 토픽 모델 품질의 자동 평가 지표 |
+| UMAP (Uniform Manifold Approximation and Projection) | 고차원 [[278_instruction_tuning|임베딩]]의 2D/3D [[081_dimensionality_reduction_pca_principal_component_analysis|차원 축소]] |
+| HDBSCAN | 밀도 기반 [[358_hierarchical_clustering|계층적 군집화]] [[001_algorithm_definition|알고리즘]] |
+| 동적 토픽 모델링 ([[532_dynamic_thermal_management|DTM]], Dynamic Topic Modeling) | 시간에 따른 주제 변화 추적 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -155,9 +155,9 @@ categories = "studynote-bigdata"
     ▼
 [동적 토픽 모델 (Dynamic Topic Model) — 시간 흐름에 따른 토픽 진화 추적]
 ```
-이 흐름은 단어 빈도 통계에서 출발하여 행렬 분해와 확률 생성 모델로 발전하고, 대규모 언어 모델 임베딩을 활용한 맥락 기반 토픽 발견으로 수렴하는 자연어 처리 주제 모델링의 진화를 보여준다.
+이 흐름은 단어 빈도 통계에서 출발하여 [[161_matrix_decomposition|행렬 분해]]와 [[130_probability|확률]] [[087_process_state_transition|생성]] 모델로 발전하고, [[582_llm_based_code_generation_tools|대규모 언어 모델]] [[278_instruction_tuning|임베딩]]을 활용한 맥락 기반 토픽 발견으로 수렴하는 자연어 처리 주제 모델링의 진화를 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 - 토픽 모델링은 도서관의 수만 권의 책을 읽고 "이 도서관에는 어떤 종류의 책들이 있나요?"를 자동으로 알아내는 거예요.
 - LDA는 각 책이 여러 주제를 조금씩 섞어서 쓰여 있다고 보고, 그 비율을 수학으로 계산해요.
-- "이 달에는 AI 주제 글이 급증했다"처럼 트렌드 변화도 추적할 수 있어요!
+- "이 달에는 [[190_ai_llm_requirements_specification|AI]] 주제 글이 급증했다"처럼 트렌드 변화도 추적할 수 있어요!

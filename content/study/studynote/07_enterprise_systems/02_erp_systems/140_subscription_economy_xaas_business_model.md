@@ -7,9 +7,9 @@ categories = "studynote-enterprise-systems"
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: 구독 경제(Subscription Economy)는 **제품을 소유하는 대신 정기적으로 비용을 지불하고 서비스를 이용**하는 비즈니스 모델이며, SaaS·XaaS(Everything as a Service)가 기술 기반이다.
-> 2. **가치**: 일회성 판매 대비 **예측 가능한 반복 수익(ARR·MRR)**과 **높은 고객 생애 가치(LTV)**를 제공하며, 넷플릭스·Adobe·AWS가 대표이다.
-> 3. **판단 포인트**: CAC(고객 획득 비용) < LTV가 핵심 지표이며, Churn Rate(이탈률) 관리가 구독 비즈니스의 생존을 결정한다.
+> 1. **본질**: [[057_subscription_economy_xaas|구독 경제]]([[057_subscription_economy_xaas|Subscription Economy]])는 **제품을 소유하는 대신 정기적으로 비용을 지불하고 [[090_service_kubernetes_network_load_balancing|서비스]]를 이용**하는 비즈니스 모델이며, [[309_saas|SaaS]]·XaaS(Everything [[344_as_autonomous_system_asn|as]] a [[090_service_kubernetes_network_load_balancing|Service]])가 기술 기반이다.
+> 2. **가치**: 일회성 판매 대비 **예측 가능한 반복 수익(ARR·MRR)**과 **높은 [[108_ltv_life_time_value|고객 생애 가치]]([[108_ltv_life_time_value|LTV]])**를 제공하며, 넷플릭스·Adobe·AWS가 대표이다.
+> 3. **판단 포인트**: CAC([[109_cac_customer_acquisition_cost|고객 획득 비용]]) < LTV가 핵심 지표이며, Churn Rate(이탈률) 관리가 구독 비즈니스의 생존을 결정한다.
 
 ---
 
@@ -28,7 +28,7 @@ categories = "studynote-enterprise-systems"
 
 ## Ⅱ~Ⅴ. 결론
 
-구독 경제는 **현대 비즈니스의 핵심 모델**이며, LTV/CAC와 Churn Rate 관리가 성패를 결정한다.
+[[057_subscription_economy_xaas|구독 경제]]는 **현대 비즈니스의 핵심 모델**이며, [[108_ltv_life_time_value|LTV]]/CAC와 Churn Rate 관리가 성패를 결정한다.
 
 ---
 
@@ -36,11 +36,11 @@ categories = "studynote-enterprise-systems"
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **구독 경제** | 정기 결제 모델 |
+| **[[057_subscription_economy_xaas|구독 경제]]** | 정기 결제 모델 |
 | **MRR/ARR** | 반복 수익 |
-| **LTV** | 고객 생애 가치 |
+| **[[108_ltv_life_time_value|LTV]]** | [[108_ltv_life_time_value|고객 생애 가치]] |
 | **Churn** | 이탈률 |
-| **XaaS** | 모든 것의 서비스화 |
+| **XaaS** | 모든 것의 [[090_service_kubernetes_network_load_balancing|서비스]]화 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 

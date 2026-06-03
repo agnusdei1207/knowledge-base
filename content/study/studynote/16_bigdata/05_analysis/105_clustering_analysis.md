@@ -7,17 +7,17 @@ categories = "studynote-bigdata"
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-- **비지도 학습(Unsupervised):** 정답(Label)이 없는 상태에서 데이터 간의 유사성(Similarity/Distance)만을 기준으로 그룹을 나누는 탐색적 기법.
-- **응집도와 분리도:** 같은 군집 내의 데이터는 가깝게(Intra-cluster), 서로 다른 군집 간의 데이터는 멀게(Inter-cluster) 배치하는 것이 핵심 목표임.
-- **도메인 통찰:** 고객 세분화나 이미지 분할처럼 대규모 데이터 내에 숨겨진 구조와 패턴을 발견하는 데 탁월함.
+- **[[122_unsupervised_learning|비지도 학습]](Unsupervised):** 정답(Label)이 없는 상태에서 [[001_dikw_pyramid|데이터]] 간의 유사성(Similarity/Distance)만을 기준으로 그룹을 나누는 탐색적 기법.
+- **[[193_cohesion_levels|응집도]]와 분리도:** 같은 군집 내의 [[001_dikw_pyramid|데이터]]는 가깝게(Intra-cluster), 서로 다른 군집 간의 [[001_dikw_pyramid|데이터]]는 멀게(Inter-cluster) 배치하는 것이 핵심 목표임.
+- **[[064_relation_domain|도메인]] 통찰:** 고객 세분화나 [[289_image_segmentation|이미지 분할]]처럼 대규모 [[001_dikw_pyramid|데이터]] 내에 숨겨진 구조와 패턴을 발견하는 데 탁월함.
 
-### Ⅰ. 개요 (Context & Background)
-- **정의:** 데이터 포인트들 간의 거리를 계산하여 유사한 속성을 가진 개체들을 하나의 집단(Cluster)으로 묶는 분석 방법론임.
-- **활용 동기:** 데이터의 특징이 너무 많거나 정답이 명확하지 않을 때, 우선적으로 데이터의 성질을 파악하기 위한 전처리 단계로 활용됨.
+### Ⅰ. 개요 ([[033_context|Context]] & Background)
+- **정의:** [[001_dikw_pyramid|데이터]] 포인트들 간의 거리를 계산하여 유사한 [[082_attribute_types_er_model|속성]]을 가진 개체들을 하나의 집단(Cluster)으로 묶는 분석 방법론임.
+- **활용 동기:** [[001_dikw_pyramid|데이터]]의 특징이 너무 많거나 정답이 명확하지 않을 때, 우선적으로 [[001_dikw_pyramid|데이터]]의 성질을 파악하기 위한 전처리 단계로 활용됨.
 
 ### Ⅱ. 아키텍처 및 핵심 원리 (Deep Dive)
-- **거리 측정 방식:** Euclidean, Manhattan, Cosine Similarity 등.
-- **Bilingual ASCII Diagram:**
+- **거리 측정 방식:** Euclidean, Manhattan, [[359_cosine_similarity|Cosine Similarity]] 등.
+- **Bilingual [[103_ascii|ASCII]] Diagram:**
 ```text
 [Clustering Process & Results / 군집화 프로세스 및 결과]
 
@@ -36,32 +36,32 @@ categories = "studynote-bigdata"
 3. DBSCAN: Density-based (High density vs Noise)
 4. Gaussian Mixture (GMM): Probability-based (Normal Dist.)
 ```
-- **최적의 K 찾기:** Elbow Method (SSE 감소폭), Silhouette Score (응집도/분리도 지수).
+- **최적의 K 찾기:** Elbow Method ([[481_sse_server_sent_events|SSE]] 감소폭), [[350_kmeans_elbow_silhouette|Silhouette Score]] ([[193_cohesion_levels|응집도]]/분리도 지수).
 
 ### Ⅲ. 융합 비교 및 다각도 분석 (Comparison & Synergy)
 
-| 비교 항목 (Criteria) | K-Means 군집화 | DBSCAN (밀도 기반) | 계층적 군집화 |
+| 비교 항목 (Criteria) | K-Means 군집화 | [[351_dbscan_density_based_clustering|DBSCAN]] (밀도 기반) | [[358_hierarchical_clustering|계층적 군집화]] |
 | :--- | :--- | :--- | :--- |
-| **군집 형성 방식** | 중심점(Centroid) 기준 | 데이터 밀도 기준 | 계층적 트리 구조 |
+| **군집 형성 방식** | 중심점(Centroid) 기준 | [[001_dikw_pyramid|데이터]] 밀도 기준 | 계층적 트리 구조 |
 | **장점 (Pros)** | 연산이 매우 빠름 | 비정형 모양(Crescent) 가능 | 군집 수를 미리 정할 필요 없음 |
-| **단점 (Cons)** | K값을 미리 정해야 함 | 파라미터(eps) 설정 민감 | 대용량 데이터 시 연산 부하 |
-| **이상치(Outlier) 처리** | 취약 (평균 왜곡) | 강함 (Noise로 자동 분류) | 중간 |
+| **단점 (Cons)** | K값을 미리 정해야 함 | 파라미터(eps) [[009_config|설정]] 민감 | 대용량 [[001_dikw_pyramid|데이터]] 시 연산 부하 |
+| **[[076_outlier_detection_iqr_dbscan_isolation_forest|이상치]]([[076_outlier_detection_iqr_dbscan_isolation_forest|Outlier]]) 처리** | 취약 (평균 왜곡) | 강함 (Noise로 자동 [[104_classification_analysis|분류]]) | 중간 |
 | **비유 (Analogy)** | 반장 선거하기 | 사람들 모여있는 곳 찾기 | 가족 족보 그리기 |
 
-### Ⅳ. 실무 적용 및 기술사적 판단 (Strategy & Decision)
-- **군집 타당성(Validation) 평가:** 지도 학습과 달리 정답이 없으므로 **실루엣 계수**가 0.5 이상인지 확인하고, 각 군집의 비즈니스적 의미(예: VIP 고객, 이탈 위험군)를 해석하는 과정이 필수적임.
-- **차원의 저주(Curse of Dimensionality):** 변수가 너무 많으면 거리 계산의 의미가 사라지므로, 군집화 전 **PCA**나 **t-SNE**를 통한 차원 축소 전처리가 기술사적 권고 사항임.
-- **하이브리드 전략:** 군집화 결과를 새로운 변수(Label)로 사용하여 지도 학습 모델에 입력값으로 넣는 파이프라인(Stacking) 구성도 효과적임.
+### Ⅳ. 실무 적용 및 기술사적 판단 ([[268_strategy_pattern|Strategy]] & Decision)
+- **군집 타당성([[396_validation|Validation]]) 평가:** [[121_supervised_learning|지도 학습]]과 달리 정답이 없으므로 **실루엣 계수**가 0.5 이상인지 [[396_validation|확인]]하고, 각 군집의 비즈니스적 의미(예: VIP 고객, 이탈 위험군)를 해석하는 과정이 필수적임.
+- **차원의 저주([[080_curse_of_dimensionality|Curse of Dimensionality]]):** 변수가 너무 많으면 거리 계산의 의미가 사라지므로, 군집화 전 **[[163_pca|PCA]]**나 **t-SNE**를 통한 [[081_dimensionality_reduction_pca_principal_component_analysis|차원 축소]] 전처리가 기술사적 권고 사항임.
+- **하이브리드 [[268_strategy_pattern|전략]]:** 군집화 결과를 새로운 변수(Label)로 사용하여 [[121_supervised_learning|지도 학습]] 모델에 입력값으로 넣는 [[123_pipe|파이프]]라인(Stacking) 구성도 효과적임.
 
 ### Ⅴ. 기대효과 및 결론 (Future & Standard)
-- **초개인화 서비스:** 타겟 마케팅이나 추천 시스템의 기초가 되어 고객 만족도를 극대화함.
-- **데이터 품질 향상:** 이상치 탐지를 통해 데이터 정제(Cleaning)의 정확도를 높임.
-- **결론:** 군집화는 빅데이터 분석의 출발점이며, 최근에는 딥러닝 임베딩 벡터와 결합하여 비정형 데이터(이미지, 텍스트)의 고차원 군집화로 발전하고 있음.
+- **초개인화 [[090_service_kubernetes_network_load_balancing|서비스]]:** 타겟 마케팅이나 [[211_recommendation_system|추천 시스템]]의 기초가 되어 고객 만족도를 극대화함.
+- **[[001_dikw_pyramid|데이터]] 품질 향상:** [[397_outlier_mahalanobis|이상치 탐지]]를 통해 [[266_data_cleansing|데이터 정제]](Cleaning)의 정확도를 높임.
+- **결론:** 군집화는 빅데이터 분석의 출발점이며, 최근에는 딥러닝 [[278_instruction_tuning|임베딩]] 벡터와 결합하여 [[004_unstructured_data|비정형 데이터]](이미지, 텍스트)의 고차원 군집화로 발전하고 있음.
 
-### 📌 관련 개념 맵 (Knowledge Graph)
-- **상위 개념:** Unsupervised Learning, Data Mining
-- **하위 개념:** K-Means++, Dendrogram, Silhouette Score
-- **연관 기술:** PCA (Dimensionality Reduction), Mahalanobis Distance, Customer Segmentation
+### 📌 관련 개념 맵 ([[160_knowledge_graph_graphrag_integration|Knowledge Graph]])
+- **상위 개념:** [[122_unsupervised_learning|Unsupervised Learning]], [[284_data_mining_association_classification_clustering_crisp_dm|Data Mining]]
+- **하위 개념:** K-Means++, Dendrogram, [[350_kmeans_elbow_silhouette|Silhouette Score]]
+- **연관 기술:** [[163_pca|PCA]] ([[079_dimensionality_reduction|Dimensionality Reduction]]), [[106_mahalanobis_distance|Mahalanobis Distance]], [[026_three_c_analysis|Customer]] [[364_segmentation|Segmentation]]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -78,7 +78,7 @@ categories = "studynote-bigdata"
 [실루엣 계수 (Silhouette Score)]
 ```
 
-이 흐름도는 비지도 학습에서 클러스터링과 K-평균, 실루엣 계수로 평가가 이어지는 흐름을 보여준다.
+이 흐름도는 [[122_unsupervised_learning|비지도 학습]]에서 클러스터링과 K-평균, 실루엣 계수로 평가가 이어지는 흐름을 보여준다.
 ### 👶 어린이를 위한 3줄 비유 설명
 1. **장난감 정리 비유:** 뒤섞인 블록들을 색깔별로 모으거나, 크기가 비슷한 인형끼리 모아서 정리 상자에 담는 거예요.
 2. **운동장 비유:** 운동장에 모인 학생들 중에서 친한 친구들끼리 동그랗게 모여 보라고 하는 것과 같아요.

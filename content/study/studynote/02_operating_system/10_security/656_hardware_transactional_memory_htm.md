@@ -8,33 +8,33 @@ categories = "studynote-operating-system"
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 하드웨어 트랜잭셔널 메모리(HTM, 예: Intel TSX)는 데이터베이스의 트랜잭션(ACID) 개념을 CPU 캐시 하드웨어 레벨로 가져와, 멀티코어 환경에서 락(Lock) 없이 여러 변수를 원자적으로 수정하고 실패 시 롤백(Rollback)해 주는 혁신적인 기술이다.
-> 2. **메커니즘 (Lock Elision)**: 기존의 뮤텍스(Mutex) 코드를 지우지 않고도, CPU가 락 획득 과정을 무시(Elision)하고 낙관적으로 임계 구역(Critical Section)을 동시 실행한다. 만약 두 코어가 같은 데이터를 건드려 충돌(Conflict)이 나면 하드웨어가 상태를 롤백시키고 전통적인 락 방식으로 재시도하게 만든다.
-> 3. **가치**: 복잡하고 버그가 나기 쉬운 소프트웨어 Lock-Free 알고리즘(CAS 기반)을 직접 짤 필요 없이, 기존의 투박한 락(Coarse-grained Lock) 기반 자료구조에 HTM을 적용하는 것만으로 **수십 배의 Lock-Free 급 동시성 확장 성능**을 공짜로 얻어낼 수 있다.
+> 1. **본질**: [[269_htm_intel_tsx|하드웨어 트랜잭셔널 메모리]]([[513_htm|HTM]], 예: Intel TSX)는 [[001_dikw_pyramid|데이터]]베이스의 [[191_transaction_concept_states|트랜잭션]](ACID) 개념을 CPU 캐시 하드웨어 레벨로 가져와, 멀티코어 환경에서 락([[510_lock|Lock]]) 없이 여러 변수를 원자적으로 수정하고 실패 시 [[098_rollback_strategy_pipeline_error_threshold|롤백]]([[313_rollback|Rollback]])해 주는 혁신적인 기술이다.
+> 2. **메커니즘 ([[270_lock_elision|Lock Elision]])**: 기존의 뮤텍스([[223_mutex|Mutex]]) 코드를 지우지 않고도, CPU가 락 획득 과정을 무시(Elision)하고 낙관적으로 [[214_critical_section|임계 구역]]([[214_critical_section|Critical Section]])을 동시 실행한다. 만약 두 코어가 같은 [[001_dikw_pyramid|데이터]]를 건드려 충돌(Conflict)이 나면 하드웨어가 상태를 [[098_rollback_strategy_pipeline_error_threshold|롤백]]시키고 전통적인 락 방식으로 재시도하게 만든다.
+> 3. **가치**: 복잡하고 버그가 나기 쉬운 소프트웨어 [[256_lock_free_data_structures|Lock-Free]] [[001_algorithm_definition|알고리즘]]([[768_cas_compare_and_swap_lock_free|CAS]] 기반)을 직접 짤 필요 없이, 기존의 투박한 락([[398_coarse_grained_multithreading|Coarse-grained]] [[510_lock|Lock]]) 기반 자료구조에 HTM을 적용하는 것만으로 **수십 배의 [[256_lock_free_data_structures|Lock-Free]] 급 [[014_concurrency|동시성]] 확장 [[282_performance_tactics|성능]]**을 공짜로 얻어낼 수 있다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
 - **개념**: 
-  - **트랜잭셔널 메모리 (TM)**: 메모리 읽기/쓰기 작업 묶음을 하나의 트랜잭션(원자적 연산)으로 묶어, 도중에 남이 끼어들면 취소하고 다시 시작하는 동시성 제어 모델.
-  - **HTM (Hardware Transactional Memory)**: 이 TM 기능을 소프트웨어가 아닌 CPU 칩 내부의 L1/L2 캐시 컨트롤러가 직접 하드웨어 속도로 수행하는 기술. (대표적으로 Intel의 TSX - Transactional Synchronization Extensions)
+  - **[[513_htm|트랜잭셔널 메모리]] (TM)**: 메모리 읽기/[[289_cqrs_db|쓰기]] 작업 묶음을 하나의 [[191_transaction_concept_states|트랜잭션]](원자적 연산)으로 묶어, 도중에 남이 끼어들면 취소하고 다시 시작하는 [[014_concurrency|동시성]] 제어 모델.
+  - **[[513_htm|HTM]] (Hardware Transactional Memory)**: 이 TM 기능을 소프트웨어가 아닌 CPU 칩 내부의 L1/L2 캐시 컨트롤러가 직접 하드웨어 속도로 수행하는 기술. (대표적으로 Intel의 TSX - Transactional [[212_synchronization_mechanisms|Synchronization]] Extensions)
 
-- **필요성 (Lock과 Lock-Free의 딜레마 극복)**: 
-  - 멀티코어 성능을 높이려면 **Lock-Free 자료구조**를 써야 한다. 하지만 포인터가 3~4개씩 얽혀 있는 복잡한 트리(Tree)나 해시맵을 소프트웨어 CAS(Compare-and-Swap)만으로 Lock-Free 하게 짜는 것은 박사급 엔지니어도 수개월이 걸리는 극악의 난이도다. (ABA 문제, 메모리 해제 문제 등)
-  - 반대로 **락(Lock)**을 쓰면 코딩은 쉽지만 성능이 박살 나고 캐시 핑퐁이 발생한다.
-  - **해결책**: "코딩은 락처럼 쉽게 하고, 실행은 락 프리처럼 빠르게 할 수 없을까?"라는 꿈을 이루기 위해, CPU가 "일단 락을 안 잡고 병렬로 막 실행해 보다가, 진짜 충돌이 나면 그때만 취소시켜 줄게"라고 지원하는 HTM이 등장했다.
+- **필요성 (Lock과 [[510_lock|Lock]]-Free의 딜레마 극복)**: 
+  - 멀티코어 [[282_performance_tactics|성능]]을 높이려면 **[[256_lock_free_data_structures|Lock-Free]] 자료구조**를 써야 한다. 하지만 포인터가 3~4개씩 얽혀 있는 복잡한 트리(Tree)나 해시맵을 소프트웨어 [[768_cas_compare_and_swap_lock_free|CAS]]([[415_compare_and_swap|Compare-and-Swap]])만으로 [[256_lock_free_data_structures|Lock-Free]] 하게 짜는 것은 박사급 엔지니어도 수개월이 걸리는 극악의 난이도다. (ABA 문제, 메모리 해제 문제 등)
+  - 반대로 **락([[510_lock|Lock]])**을 쓰면 코딩은 쉽지만 [[282_performance_tactics|성능]]이 박살 나고 캐시 핑퐁이 발생한다.
+  - **해결책**: "코딩은 락처럼 쉽게 하고, 실행은 락 프리처럼 빠르게 할 수 없을까?"라는 꿈을 이루기 위해, CPU가 "일단 락을 안 잡고 [[430_index_fast_full_scan|병렬]]로 막 실행해 보다가, 진짜 충돌이 나면 그때만 취소시켜 줄게"라고 지원하는 HTM이 등장했다.
 
-  - **기존 (Lock)**: 여러 명이 회의실(공유 데이터)을 쓸 때, 무조건 한 명씩 열쇠를 받아 문을 잠그고 들어가서 작업한다. (안전하지만 너무 느림)
-  - **소프트웨어 Lock-Free**: 문을 없앴다. 대신 사람들이 동시에 들어가서 각자 책상 위에 종이를 던지다가, 손이 부딪히면 잽싸게 종이를 줍고 다시 던지는 눈치 게임을 한다. (빠르지만 규칙이 너무 복잡함)
-  - **HTM (하드웨어 트랜잭션)**: 문은 그대로 둔다. 하지만 사람들은 열쇠를 안 받고 그냥 '유체이탈'을 해서 벽을 통과해 방에 들어간다(낙관적 실행). 다들 자기 할 일을 하다가, 우연히 두 명의 유체가 같은 서랍(같은 메모리)을 여는 순간! 경비원(CPU)이 호루라기를 불어 두 유체를 방 밖으로 쫓아낸다(롤백). 쫓겨난 사람은 그때서야 진짜 열쇠(Lock)를 받고 정상적으로 문을 열고 들어간다.
+  - **기존 ([[510_lock|Lock]])**: 여러 명이 회의실(공유 [[001_dikw_pyramid|데이터]])을 쓸 때, 무조건 한 명씩 열쇠를 받아 문을 잠그고 들어가서 작업한다. (안전하지만 너무 느림)
+  - **소프트웨어 [[256_lock_free_data_structures|Lock-Free]]**: 문을 없앴다. 대신 사람들이 동시에 들어가서 각자 책상 위에 종이를 던지다가, 손이 부딪히면 잽싸게 종이를 줍고 다시 던지는 눈치 게임을 한다. (빠르지만 규칙이 너무 복잡함)
+  - **[[513_htm|HTM]] (하드웨어 [[191_transaction_concept_states|트랜잭션]])**: 문은 그대로 둔다. 하지만 사람들은 열쇠를 안 받고 그냥 '유체이탈'을 해서 벽을 통과해 방에 들어간다(낙관적 실행). 다들 자기 할 일을 하다가, 우연히 두 명의 유체가 같은 서랍(같은 메모리)을 여는 순간! 경비원(CPU)이 호루라기를 불어 두 유체를 방 밖으로 쫓아낸다([[098_rollback_strategy_pipeline_error_threshold|롤백]]). 쫓겨난 사람은 그때서야 진짜 열쇠([[510_lock|Lock]])를 받고 정상적으로 문을 열고 들어간다.
 
 - **발전 과정**:
-  1. **STM (Software TM)**: 2000년대 초반 컴파일러와 런타임 라이브러리가 메모리 버전을 추적. 너무 무거워서 실패.
+  1. **[[268_software_transactional_memory|STM]] (Software TM)**: 2000년대 초반 컴파일러와 런타임 [[336_library_vs_framework|라이브러리]]가 메모리 버전을 추적. 너무 무거워서 실패.
   2. **Intel TSX 도입 (Haswell, 2013)**: CPU 캐시를 이용해 최초로 상용 HTM을 도입. (이후 보안 이슈로 비활성화/수정을 반복함)
-  3. **Lock Elision 표준화**: glibc의 pthreads 뮤텍스 등에 TSX 코드가 내장되어, 일반 C/C++ 프로그램이 재컴파일 없이 HTM의 혜택을 받음.
+  3. **[[270_lock_elision|Lock Elision]] 표준화**: glibc의 [[790_posix_threads_pthreads_standard_api|pthreads]] 뮤텍스 등에 TSX 코드가 내장되어, 일반 C/C++ 프로그램이 재컴파일 없이 HTM의 혜택을 받음.
 
-- **📢 섹션 요약 비유**: 복잡한 사거리에서 경찰(소프트웨어 락)을 없애면 사고가 날까 두려웠는데, 신호등 카메라(CPU 하드웨어)가 사고 직전의 시간을 1초 전으로 되돌려주는(롤백) 마법을 부려 모든 차가 브레이크 없이 달리게 만든 것입니다.
+- **📢 섹션 요약 비유**: 복잡한 사거리에서 경찰(소프트웨어 락)을 없애면 사고가 날까 두려웠는데, 신호등 카메라(CPU 하드웨어)가 사고 직전의 시간을 1초 전으로 되돌려주는([[098_rollback_strategy_pipeline_error_threshold|롤백]]) 마법을 부려 모든 차가 브레이크 없이 달리게 만든 것입니다.
 
 ---
 
@@ -42,16 +42,16 @@ categories = "studynote-operating-system"
 
 ### HTM의 두 가지 실행 모드 (Intel TSX 기준)
 
-Intel TSX는 개발자에게 두 가지 API(명령어 셋)를 제공한다.
+Intel TSX는 개발자에게 두 가지 [[014_api_posix|API]]([[158_instruction|명령어]] 셋)를 제공한다.
 
-1. **HLE (Hardware Lock Elision)**: 기존 락 코드를 100% 그대로 둔 채, 어셈블리 명령어 접두사(`XACQUIRE`, `XRELEASE`)만 살짝 붙이는 방식. 하위 호환성이 완벽하다.
-2. **RTM (Restricted Transactional Memory)**: 프로그래머가 명시적으로 트랜잭션의 시작과 끝을 코딩하는 방식.
+1. **HLE ([[566_hardware_lock_elision|Hardware Lock Elision]])**: 기존 락 코드를 100% 그대로 둔 채, 어셈블리 [[158_instruction|명령어]] 접두사(`XACQUIRE`, `XRELEASE`)만 살짝 붙이는 방식. 하위 호환성이 완벽하다.
+2. **[[667_requirements_traceability_matrix|RTM]] (Restricted Transactional Memory)**: 프로그래머가 명시적으로 [[191_transaction_concept_states|트랜잭션]]의 시작과 끝을 코딩하는 방식.
 
 ---
 
-### RTM 기반의 동작 메커니즘 (XBEGIN / XEND / XABORT)
+### [[667_requirements_traceability_matrix|RTM]] 기반의 동작 메커니즘 (XBEGIN / XEND / XABORT)
 
-HTM이 내부적으로 트랜잭션을 처리하고 충돌을 감지하는 과정이다.
+HTM이 내부적으로 [[191_transaction_concept_states|트랜잭션]]을 처리하고 충돌을 감지하는 과정이다.
 
 ```text
   ┌───────────────────────────────────────────────────────────────────┐
@@ -87,37 +87,37 @@ HTM이 내부적으로 트랜잭션을 처리하고 충돌을 감지하는 과�
   └───────────────────────────────────────────────────────────────────┘
 ```
 
-**[다이어그램 해설]** HTM은 캐시 메모리(L1/L2)를 일종의 임시 작업장으로 쓴다. 코어가 메모리를 읽으면 'Read Set', 쓰면 'Write Set'이라는 숨겨진 하드웨어 비트가 켜진다. 멀티코어 환경에서는 항상 MESI 프로토콜에 의해 "나 이거 수정할게"라는 브로드캐스트가 날아다닌다. 만약 내 Read Set이나 Write Set에 포함된 주소를 남이 건드리려고 한다는 MESI 신호를 내 캐시 컨트롤러가 엿듣게 되면, 하드웨어는 즉시 내 작업을 취소(Abort)하고 레지스터를 `_xbegin()` 직전 상태로 완벽히 되돌려 놓는다. 만약 아무도 안 건드렸다면 `_xend()`를 통해 임시 작업장의 내용을 진짜로 인정(Commit)한다.
+**[다이어그램 해설]** HTM은 [[259_cache_memory|캐시 메모리]](L1/L2)를 일종의 임시 작업장으로 쓴다. 코어가 메모리를 읽으면 'Read Set', 쓰면 'Write Set'이라는 숨겨진 하드웨어 비트가 켜진다. 멀티코어 환경에서는 항상 MESI [[295_protocol_field_tcp_udp_icmp|프로토콜]]에 의해 "나 이거 수정할게"라는 브로드캐스트가 날아다닌다. 만약 내 Read Set이나 Write Set에 포함된 주소를 남이 건드리려고 한다는 MESI 신호를 내 캐시 컨트롤러가 엿듣게 되면, 하드웨어는 즉시 내 작업을 취소(Abort)하고 레지스터를 `_xbegin()` 직전 상태로 완벽히 되돌려 놓는다. 만약 아무도 안 건드렸다면 `_xend()`를 통해 임시 작업장의 내용을 진짜로 인정(Commit)한다.
 
 ---
 
-### Lock Elision (락 생략) 원리
+### [[270_lock_elision|Lock Elision]] (락 생략) 원리
 
-HLE(Hardware Lock Elision)는 프로그래머가 아무것도 안 해도 알아서 동작한다.
-1. 스레드가 `pthread_mutex_lock()`을 호출한다.
-2. CPU는 이 락 변수를 **진짜로 잠그지 않고 읽기만 한 뒤(생략, Elision)**, 트랜잭션 모드로 임계 구역을 실행한다.
-3. 락이 안 잠겨있으므로, 다른 스레드들도 `pthread_mutex_lock()`을 통과하여 임계 구역에 동시에 들어온다!
-4. **결과**: 분명히 코드는 '락'으로 짜여 있는데, 실제 하드웨어에서는 **'락 프리(Lock-Free)'**로 수십 개의 스레드가 동시에 병렬 실행되는 기적이 일어난다. (서로 다른 데이터를 건드릴 때만)
+HLE([[566_hardware_lock_elision|Hardware Lock Elision]])는 프로그래머가 아무것도 안 해도 알아서 동작한다.
+1. [[092_thread_lwp|스레드]]가 `pthread_mutex_lock()`을 호출한다.
+2. CPU는 이 락 변수를 **진짜로 잠그지 않고 읽기만 한 뒤(생략, Elision)**, [[191_transaction_concept_states|트랜잭션]] 모드로 [[214_critical_section|임계 구역]]을 실행한다.
+3. 락이 안 잠겨있으므로, 다른 [[092_thread_lwp|스레드]]들도 `pthread_mutex_lock()`을 통과하여 [[214_critical_section|임계 구역]]에 동시에 들어온다!
+4. **결과**: 분명히 코드는 '락'으로 짜여 있는데, 실제 하드웨어에서는 **'락 프리([[256_lock_free_data_structures|Lock-Free]])'**로 수십 개의 [[092_thread_lwp|스레드]]가 동시에 [[430_index_fast_full_scan|병렬]] 실행되는 기적이 일어난다. (서로 다른 [[001_dikw_pyramid|데이터]]를 건드릴 때만)
 
-- **📢 섹션 요약 비유**: Lock Elision은 놀이공원의 '프리패스 팔찌'입니다. 표(Lock)를 사려고 매표소에 줄을 서지 않고 그냥 통과해서 놀이기구를 탑니다. 만약 우연히 다른 사람과 같은 자리에 앉게 되면(충돌), 그때만 쫓겨나서 다시 매표소 줄(Fallback Lock)을 서면 됩니다.
+- **📢 섹션 요약 비유**: [[510_lock|Lock]] Elision은 놀이공원의 '프리패스 팔찌'입니다. 표([[510_lock|Lock]])를 사려고 매표소에 줄을 서지 않고 그냥 통과해서 놀이기구를 탑니다. 만약 우연히 다른 사람과 같은 자리에 앉게 되면(충돌), 그때만 쫓겨나서 다시 매표소 줄([[129_fallback|Fallback]] [[510_lock|Lock]])을 서면 됩니다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-### 동시성 프로그래밍 패러다임 비교
+### [[014_concurrency|동시성]] 프로그래밍 패러다임 비교
 
-| 기법 | 동시성 (병렬 처리율) | 개발 난이도 | 특징 및 한계 |
+| 기법 | [[014_concurrency|동시성]] ([[430_index_fast_full_scan|병렬]] 처리율) | 개발 난이도 | 특징 및 한계 |
 |:---|:---|:---|:---|
-| **Coarse-Grained Lock (통 락)** | 최악 (모두 직렬화 됨) | 매우 쉬움 | 자료구조 전체를 뮤텍스 하나로 잠금. 스케일링 불가. |
-| **Fine-Grained Lock (미세 락)** | 보통 ~ 좋음 | 매우 어려움 | 노드마다 락을 달아서 잠금. 데드락 위험 극상. |
-| **Software Lock-Free (CAS)**| 최상 | **극악 (학술적 영역)** | ABA 문제, 메모리 누수 제어(Hazard Pointer) 필수. |
-| **HTM (Lock Elision)** | **최상 (Lock-Free 급)** | **매우 쉬움 (통 락 재활용)** | 하드웨어 종속성(TSX 지원 CPU). 트랜잭션 크기 한계. |
+| **[[398_coarse_grained_multithreading|Coarse-Grained]] [[510_lock|Lock]] (통 락)** | 최악 (모두 직렬화 됨) | 매우 쉬움 | 자료구조 전체를 뮤텍스 하나로 잠금. [[249_scaling_normalization_standardization|스케일링]] 불가. |
+| **[[399_fine_grained_multithreading|Fine-Grained]] [[510_lock|Lock]] (미세 락)** | 보통 ~ 좋음 | 매우 어려움 | 노드마다 락을 달아서 잠금. 데드락 위험 극상. |
+| **Software [[256_lock_free_data_structures|Lock-Free]] ([[768_cas_compare_and_swap_lock_free|CAS]])**| 최상 | **극악 (학술적 영역)** | ABA 문제, [[612_memory_leak_detection|메모리 누수]] 제어(Hazard Pointer) 필수. |
+| **[[513_htm|HTM]] ([[270_lock_elision|Lock Elision]])** | **최상 ([[256_lock_free_data_structures|Lock-Free]] 급)** | **매우 쉬움 (통 락 재활용)** | 하드웨어 [[008_dependencies|종속성]](TSX 지원 CPU). [[191_transaction_concept_states|트랜잭션]] 크기 한계. |
 
 ### 과목 융합 관점
 
-- **컴퓨터구조 (CA)**: HTM의 치명적 한계는 **'용량 제한(Capacity Limit)'**이다. 트랜잭션 중에 건드리는 데이터는 모두 L1/L2 캐시 안에 들어가야 한다. 만약 임계 구역 안에서 수십 MB짜리 배열을 복사하려고 하면, 캐시가 꽉 차서(Cache Eviction) 무조건 트랜잭션이 Abort(실패)된다.
-- **운영체제 (OS)**: HTM 트랜잭션 도중에 타이머 인터럽트나 컨텍스트 스위치, 페이지 폴트(Page Fault)가 발생하면 CPU는 즉시 트랜잭션을 강제 취소(Abort)시킨다. 즉, 트랜잭션 블록 안에서는 절대로 `sleep()`, `malloc()`, I/O 같은 OS 시스템 콜을 부르면 안 된다는 엄격한 제약이 있다.
+- **컴퓨터구조 ([[089_contract_account_smart_contract|CA]])**: HTM의 치명적 한계는 **'용량 제한(Capacity Limit)'**이다. [[191_transaction_concept_states|트랜잭션]] 중에 건드리는 [[001_dikw_pyramid|데이터]]는 모두 L1/L2 캐시 안에 들어가야 한다. 만약 [[214_critical_section|임계 구역]] 안에서 수십 MB짜리 배열을 복사하려고 하면, 캐시가 꽉 차서(Cache Eviction) 무조건 [[191_transaction_concept_states|트랜잭션]]이 Abort(실패)된다.
+- **[[001_operating_system_purpose|운영체제]] (OS)**: [[513_htm|HTM]] [[191_transaction_concept_states|트랜잭션]] 도중에 타이머 인터럽트나 [[033_context|컨텍스트]] [[238_switch_operation_principles|스위치]], [[720_page_fault_isr|페이지 폴트]]([[387_page_fault|Page Fault]])가 발생하면 CPU는 즉시 [[191_transaction_concept_states|트랜잭션]]을 강제 취소(Abort)시킨다. 즉, [[191_transaction_concept_states|트랜잭션]] 블록 안에서는 절대로 `sleep()`, `malloc()`, I/O 같은 OS 시스템 콜을 부르면 안 된다는 엄격한 제약이 있다.
 
 - **📢 섹션 요약 비유**: HTM은 100m 달리기 전력 질주와 같습니다. 짧은 거리(캐시 용량 내)를 무호흡(시스템 콜 없음)으로 뛰면 세계 신기록을 낼 수 있지만, 숨을 쉬거나 마라톤을 뛰려 하면 도중에 쓰러져서(Abort) 결국 걸어가는 것(전통적 락)만 못하게 됩니다.
 
@@ -127,13 +127,13 @@ HLE(Hardware Lock Elision)는 프로그래머가 아무것도 안 해도 알아�
 
 ### 실무 시나리오
 
-1. **시나리오 — 인메모리 DB(SAP HANA, Redis)의 인덱스 트리 동시성 병목**: B+ 트리나 레드-블랙 트리에 수백 개의 스레드가 동시에 Insert를 한다. 루트 노드에 락을 걸면 동시성이 0이 되고, 소프트웨어 Lock-Free 트리를 짜려니 논리가 너무 복잡해 3년이 걸린다.
-   - **아키텍처 적용 (HTM 도입)**: 트리의 구조 변경 코드는 기존의 Coarse-grained Lock(가장 단순한 뮤텍스)으로 그대로 둔다. 대신 컴파일할 때 glibc의 **TSX 지원 pthreads 라이브러리**를 링킹한다.
-   - **결과**: 스레드 100개가 동시에 트리에 Insert 하러 들어온다. HTM 덕분에 락이 생략된다. 90개의 스레드는 트리의 서로 다른 말단 노드(Leaf)를 수정하므로 아무 충돌 없이 Lock-Free처럼 동시에 Insert가 완료된다. 우연히 같은 노드를 건드린 10개의 스레드만 Abort 되어 순차적으로 락을 잡고 처리된다. 개발 공수 0으로 성능이 수십 배 향상된다.
+1. **시나리오 — 인메모리 DB(SAP HANA, [[542_redis|Redis]])의 [[154_database_index_b_tree_search_optimization|인덱스]] 트리 [[014_concurrency|동시성]] 병목**: B+ 트리나 레드-블랙 트리에 수백 개의 [[092_thread_lwp|스레드]]가 동시에 Insert를 한다. 루트 노드에 락을 걸면 [[014_concurrency|동시성]]이 0이 되고, 소프트웨어 [[256_lock_free_data_structures|Lock-Free]] 트리를 짜려니 논리가 너무 복잡해 3년이 걸린다.
+   - **아키텍처 적용 ([[513_htm|HTM]] 도입)**: 트리의 구조 변경 코드는 기존의 [[398_coarse_grained_multithreading|Coarse-grained]] [[510_lock|Lock]](가장 단순한 뮤텍스)으로 그대로 둔다. 대신 컴파일할 때 glibc의 **TSX 지원 [[790_posix_threads_pthreads_standard_api|pthreads]] [[336_library_vs_framework|라이브러리]]**를 링킹한다.
+   - **결과**: [[092_thread_lwp|스레드]] 100개가 동시에 트리에 Insert 하러 들어온다. [[513_htm|HTM]] 덕분에 락이 생략된다. 90개의 [[092_thread_lwp|스레드]]는 트리의 서로 다른 말단 노드(Leaf)를 수정하므로 아무 충돌 없이 [[510_lock|Lock]]-Free처럼 동시에 Insert가 완료된다. 우연히 같은 노드를 건드린 10개의 [[092_thread_lwp|스레드]]만 Abort 되어 순차적으로 락을 잡고 처리된다. 개발 공수 0으로 [[282_performance_tactics|성능]]이 수십 배 향상된다.
 
-2. **시나리오 — 무분별한 HTM 적용으로 인한 성능 폭락 (Abort 폭풍)**: 개발자가 HTM이 마법인 줄 알고, 임계 구역(Critical Section) 안에서 화면에 로그를 찍는 `printf()`를 넣고 TSX로 돌렸다.
-   - **원인 분석**: `printf`는 내부적으로 화면 출력을 위해 OS에 시스템 콜을 날리고 커널 버퍼 락을 건드린다. 시스템 콜이 불리는 순간 CPU는 트랜잭션을 100% Abort 시킨다. 1만 번을 시도해도 1만 번 실패하고, 결국 Fallback Lock으로 떨어지느라 엄청난 CPU 낭비(Overhead)만 발생했다.
-   - **대응 (기술사적 가이드)**: HTM이 적용되는 트랜잭션 블록 안은 철저하게 **"메모리 연산(연결 리스트 포인터 조작, 정수 덧셈)"**만 존재해야 한다. I/O 작업이나 동적 할당(`new/malloc`)은 트랜잭션 밖으로 빼내는(Hoisting) 소프트웨어 리팩토링이 반드시 병행되어야 한다.
+2. **시나리오 — 무분별한 [[513_htm|HTM]] 적용으로 인한 [[282_performance_tactics|성능]] 폭락 (Abort 폭풍)**: 개발자가 HTM이 마법인 줄 알고, [[214_critical_section|임계 구역]]([[214_critical_section|Critical Section]]) 안에서 화면에 로그를 찍는 `printf()`를 넣고 TSX로 돌렸다.
+   - **원인 분석**: `printf`는 내부적으로 화면 출력을 위해 OS에 시스템 콜을 날리고 [[022_kernel_role|커널]] 버퍼 락을 건드린다. 시스템 콜이 불리는 순간 CPU는 [[191_transaction_concept_states|트랜잭션]]을 100% Abort 시킨다. 1만 번을 시도해도 1만 번 실패하고, 결국 [[129_fallback|Fallback]] Lock으로 떨어지느라 엄청난 CPU 낭비(Overhead)만 발생했다.
+   - **대응 (기술사적 가이드)**: HTM이 적용되는 [[191_transaction_concept_states|트랜잭션]] 블록 안은 철저하게 **"메모리 연산([[056_linked_list|연결 리스트]] 포인터 조작, 정수 덧셈)"**만 존재해야 한다. I/O 작업이나 동적 할당(`new/malloc`)은 [[191_transaction_concept_states|트랜잭션]] 밖으로 빼내는(Hoisting) 소프트웨어 [[213_refactoring_cloud_native_rearchitecture|리팩토링]]이 반드시 병행되어야 한다.
 
 ### 의사결정 및 튜닝 플로우
 
@@ -161,13 +161,13 @@ HLE(Hardware Lock Elision)는 프로그래머가 아무것도 안 해도 알아�
   └───────────────────────────────────────────────────────────────────┘
 ```
 
-**[다이어그램 해설]** HTM은 만병통치약이 아니다. "충돌이 거의 안 날 것 같은데, 혹시 몰라서 락을 크게 걸어둔 곳(Low Contention, Coarse-grained Lock)"에서 가장 빛을 발한다. 반대로 "모두가 하나의 변수를 놓고 싸우는 곳(High Contention)"에서는 HTM을 켜면 롤백 오버헤드 때문에 전통적 스핀락보다 성능이 3배 이상 느려지는 대참사가 발생한다. (이를 방지하기 위해 glibc는 Abort가 일정 횟수 이상 터지면 스스로 HTM 시도를 포기하고 일반 락 모드로 다운그레이드하는 적응형 백오프 로직을 갖고 있다.)
+**[다이어그램 해설]** HTM은 만병통치약이 아니다. "충돌이 거의 안 날 것 같은데, 혹시 몰라서 락을 크게 걸어둔 곳(Low Contention, [[398_coarse_grained_multithreading|Coarse-grained]] [[510_lock|Lock]])"에서 가장 빛을 발한다. 반대로 "모두가 하나의 변수를 놓고 싸우는 곳(High Contention)"에서는 HTM을 켜면 [[098_rollback_strategy_pipeline_error_threshold|롤백]] 오버헤드 때문에 전통적 스핀락보다 [[282_performance_tactics|성능]]이 3배 이상 느려지는 대참사가 발생한다. (이를 방지하기 위해 glibc는 Abort가 일정 횟수 이상 터지면 스스로 [[513_htm|HTM]] 시도를 포기하고 일반 락 모드로 다운그레이드하는 적응형 백오프 로직을 갖고 있다.)
 
-### 도입 체크리스트
-- **하드웨어 취약점(보안) 확인**: Intel TSX 기술은 과거 TAA(TSX Asynchronous Abort)와 같은 부채널(Side-channel) 해킹 취약점이 발견되어, 최신 마이크로코드 업데이트에서 강제로 비활성화된 경우가 많다. 클라우드나 온프레미스 장비의 CPU 플래그(`lscpu | grep rtm`)에 RTM/HLE 플래그가 살아있는지 선결 확인이 필요하다.
-- **가짜 충돌 (False Sharing) 방지**: HTM은 캐시 라인(64Byte) 단위로 충돌을 감지한다. 내 스레드는 0번 바이트를 고치고 남의 스레드는 60번 바이트를 고쳤더라도(실제 충돌 아님), 캐시 하드웨어는 "충돌이다!"라며 트랜잭션을 엎어버린다(Capacity/False Abort). 패딩(Padding)을 통한 데이터 분리 설계가 여전히 요구된다.
+### 도입 [[435_checklist_based_testing|체크리스트]]
+- **하드웨어 취약점(보안) [[396_validation|확인]]**: Intel TSX 기술은 과거 TAA(TSX Asynchronous Abort)와 같은 부채널(Side-channel) 해킹 취약점이 발견되어, 최신 마이크로코드 업데이트에서 강제로 비활성화된 경우가 많다. 클라우드나 [[061_on_premise_legacy_infrastructure|온프레미스]] 장비의 CPU [[186_character_stuffing_dle_stx_etx|플래그]](`lscpu | grep rtm`)에 [[667_requirements_traceability_matrix|RTM]]/HLE [[186_character_stuffing_dle_stx_etx|플래그]]가 살아있는지 선결 [[396_validation|확인]]이 필요하다.
+- **가짜 충돌 ([[409_false_sharing|False Sharing]]) 방지**: HTM은 캐시 라인(64Byte) 단위로 충돌을 감지한다. 내 [[092_thread_lwp|스레드]]는 0번 바이트를 고치고 남의 [[092_thread_lwp|스레드]]는 60번 바이트를 고쳤더라도(실제 충돌 아님), 캐시 하드웨어는 "충돌이다!"라며 [[191_transaction_concept_states|트랜잭션]]을 엎어버린다(Capacity/False Abort). [[098_padding_convolutional_neural_network_same_valid|패딩]]([[098_padding_convolutional_neural_network_same_valid|Padding]])을 통한 [[001_dikw_pyramid|데이터]] 분리 설계가 여전히 요구된다.
 
-- **📢 섹션 요약 비유**: HTM은 자율주행 모드와 같습니다. 고속도로(순수 메모리 연산, 낮은 충돌)에서는 운전대(락)를 놓고 눈을 감아도 완벽하게 달리지만, 복잡한 골목길이나 장애물(I/O, 잦은 충돌)이 나오면 바로 경고음(Abort)을 내며 사람이 수동으로 운전(Fallback Lock)하게 만듭니다.
+- **📢 섹션 요약 비유**: HTM은 자율주행 모드와 같습니다. 고속도로(순수 메모리 연산, 낮은 충돌)에서는 운전대(락)를 놓고 눈을 감아도 완벽하게 달리지만, 복잡한 골목길이나 장애물(I/O, 잦은 충돌)이 나오면 바로 경고음(Abort)을 내며 사람이 수동으로 운전([[129_fallback|Fallback]] [[510_lock|Lock]])하게 만듭니다.
 
 ---
 
@@ -175,20 +175,20 @@ HLE(Hardware Lock Elision)는 프로그래머가 아무것도 안 해도 알아�
 
 ### 정량/정성 기대효과
 
-| 구분 | 소프트웨어 Lock-Free (CAS) | HTM 기반 Lock Elision 적용 | 개선 효과 |
+| 구분 | 소프트웨어 [[256_lock_free_data_structures|Lock-Free]] ([[768_cas_compare_and_swap_lock_free|CAS]]) | [[513_htm|HTM]] 기반 [[270_lock_elision|Lock Elision]] 적용 | 개선 효과 |
 |:---|:---|:---|:---|
-| **정성 (개발 생산성)**| 알고리즘 설계에 수 개월 소요 | 기존 Mutex 코드 그대로 활용 | 리팩토링 공수 없이 즉각적인 성능 향상 |
-| **정성 (안정성)** | ABA 문제 등 치명적 버그 발생 위험 | 하드웨어가 완벽한 원자성(ACID) 보장 | 메모리 오염 버그 제로(0)화 |
-| **정량 (확장성)** | 포인터 복잡도에 따라 성능 하락 | 코어 수에 비례하는 완벽한 스케일 아웃 | 거대 자료구조(Tree/Graph) 병렬 탐색 속도 **수 배 ~ 수십 배 향상** |
+| **정성 (개발 생산성)**| [[001_algorithm_definition|알고리즘]] 설계에 수 개월 소요 | 기존 [[223_mutex|Mutex]] 코드 그대로 활용 | [[213_refactoring_cloud_native_rearchitecture|리팩토링]] 공수 없이 즉각적인 [[282_performance_tactics|성능]] 향상 |
+| **정성 (안정성)** | ABA 문제 등 치명적 버그 발생 위험 | 하드웨어가 완벽한 [[193_atomicity_all_or_nothing|원자성]](ACID) 보장 | 메모리 오염 버그 제로(0)화 |
+| **정량 (확장성)** | 포인터 복잡도에 따라 [[282_performance_tactics|성능]] 하락 | 코어 수에 비례하는 완벽한 [[202_scale_out_distributed_horizontal_expansion|스케일 아웃]] | 거대 자료구조(Tree/[[104_graph|Graph]]) [[430_index_fast_full_scan|병렬]] 탐색 속도 **수 배 ~ 수십 배 향상** |
 
 ### 미래 전망
-- **Arm 아키텍처의 TME 도입**: 인텔의 독점기였던 HTM 기술이 최근 ARMv9 아키텍처의 TME(Transactional Memory Extension)로 표준화되면서, 미래의 애플 실리콘(Mac)과 모바일 기기에서도 범용적인 하드웨어 락프리 프로그래밍이 가능해질 전망이다.
-- **NVRAM과 HTM의 결합**: 비휘발성 메모리(Optane 등)가 램(RAM) 자리를 차지하면서, 시스템 전원이 나가도 데이터가 보존되는 환경에서 HTM을 이용해 파일 시스템이나 DB의 크래시 복구(Crash Consistency)를 락 없이 초고속으로 달성하려는 파일 시스템(PMEM FS) 연구가 폭발적으로 진행 중이다.
+- **Arm 아키텍처의 TME 도입**: 인텔의 독점기였던 [[513_htm|HTM]] 기술이 최근 ARMv9 아키텍처의 TME(Transactional Memory Extension)로 표준화되면서, 미래의 애플 실리콘([[673_mac_message_authentication_code|Mac]])과 모바일 기기에서도 범용적인 하드웨어 락프리 프로그래밍이 가능해질 전망이다.
+- **NVRAM과 HTM의 결합**: 비휘발성 메모리(Optane 등)가 램(RAM) 자리를 차지하면서, 시스템 전원이 나가도 [[001_dikw_pyramid|데이터]]가 보존되는 환경에서 HTM을 이용해 [[501_file_definition_logical_record|파일]] 시스템이나 DB의 크래시 [[658_ir_recovery|복구]](Crash [[194_consistency_database_integrity|Consistency]])를 락 없이 초고속으로 달성하려는 [[501_file_definition_logical_record|파일]] 시스템(PMEM FS) 연구가 폭발적으로 [[216_progress_in_synchronization|진행]] 중이다.
 
 ### 결론
-하드웨어 트랜잭셔널 메모리(HTM)는 "소프트웨어가 하기 힘든 더러운 일(동기화와 롤백)을 하드웨어(CPU 캐시)에 통째로 떠넘긴다"는 컴퓨터 구조학의 대담한 승부수다. 복잡한 Lock-Free 논문을 읽지 않아도, 누구나 쉽게 뮤텍스(Mutex)를 걸고 HTM 컴파일러 플래그 하나만 켜면 CPU가 마법처럼 병렬화의 축복을 내려준다. 보안 취약점이라는 암초를 만나 잠시 주춤하긴 했지만, 무한 멀티코어 시대에 진입한 현 인류가 '락 경합(Lock Contention)'이라는 병목을 부수기 위해 쥐고 있는 가장 강력하고 궁극적인 하드웨어 열쇠임은 틀림없다.
+[[269_htm_intel_tsx|하드웨어 트랜잭셔널 메모리]]([[513_htm|HTM]])는 "소프트웨어가 하기 힘든 더러운 일(동기화와 [[098_rollback_strategy_pipeline_error_threshold|롤백]])을 하드웨어(CPU 캐시)에 통째로 떠넘긴다"는 컴퓨터 구조학의 대담한 승부수다. 복잡한 [[256_lock_free_data_structures|Lock-Free]] 논문을 읽지 않아도, 누구나 쉽게 뮤텍스([[223_mutex|Mutex]])를 걸고 [[513_htm|HTM]] 컴파일러 [[186_character_stuffing_dle_stx_etx|플래그]] 하나만 켜면 CPU가 마법처럼 [[430_index_fast_full_scan|병렬]]화의 축복을 내려준다. 보안 취약점이라는 암초를 만나 잠시 주춤하긴 했지만, 무한 멀티코어 시대에 진입한 현 인류가 '[[275_lock_contention_monitoring|락 경합]]([[275_lock_contention_monitoring|Lock Contention]])'이라는 병목을 부수기 위해 쥐고 있는 가장 강력하고 궁극적인 하드웨어 열쇠임은 틀림없다.
 
-- **📢 섹션 요약 비유**: 인간(개발자)이 수동으로 수천 개의 톱니바퀴가 엉키지 않게 핀셋으로 조립하던(SW Lock-Free) 고통에서 벗어나, 알아서 부딪히면 튕겨내고 빈자리로 찾아 들어가는 자성(하드웨어 트랜잭션)을 톱니바퀴 자체에 부여한 엔지니어링의 해방입니다.
+- **📢 섹션 요약 비유**: 인간(개발자)이 수동으로 수천 개의 톱니바퀴가 엉키지 않게 핀셋으로 조립하던(SW [[256_lock_free_data_structures|Lock-Free]]) 고통에서 벗어나, 알아서 부딪히면 튕겨내고 빈자리로 찾아 들어가는 자성(하드웨어 [[191_transaction_concept_states|트랜잭션]])을 톱니바퀴 자체에 부여한 엔지니어링의 해방입니다.
 
 ---
 
@@ -196,9 +196,9 @@ HLE(Hardware Lock Elision)는 프로그래머가 아무것도 안 해도 알아�
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| 리얼타임 리눅스 (PREEMPT_RT) 커널 스핀락을 뮤텍스로 변환하는 선점 허용 구조 개요 | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
-| CPU 캐시 일관성 정책 (MESI 프로토콜) 이 커널 락(Lock)에 미치는 캐시라인 핑퐁(Ping-pong) 문제 | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
-| 가상화 I/O 패스스루 (Passthrough) VFIO 프레임워크 | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
+| [[654_preempt_rt_linux_spinlock_mutex|리얼타임 리눅스]] ([[654_preempt_rt_linux_spinlock_mutex|PREEMPT_RT]]) [[022_kernel_role|커널]] 스핀락을 뮤텍스로 변환하는 선점 허용 구조 개요 | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
+| CPU [[402_cache_coherence|캐시 일관성]] [[164_policy|정책]] (MESI [[295_protocol_field_tcp_udp_icmp|프로토콜]]) 이 [[022_kernel_role|커널]] 락([[510_lock|Lock]])에 미치는 캐시라인 핑퐁(Ping-pong) 문제 | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
+| [[015_virtualization|가상화]] I/O 패스스루 ([[657_vfio_virtual_function_io_passthrough|Passthrough]]) VFIO 프레임워크 | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
 | Virtio | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
@@ -217,6 +217,6 @@ HLE(Hardware Lock Elision)는 프로그래머가 아무것도 안 해도 알아�
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. 방 안에 장난감 상자(데이터)가 있어요. 원래는 한 명씩 열쇠(Lock)를 받아 들어가서 장난감을 꺼내야 해서 줄이 엄청 길었어요.
-2. '하드웨어 트랜잭션'은 아이들이 유령처럼 벽을 통과해서 동시에 상자에 손을 넣을 수 있게 해주는 마법이에요!
+1. 방 안에 장난감 상자([[001_dikw_pyramid|데이터]])가 있어요. 원래는 한 명씩 열쇠([[510_lock|Lock]])를 받아 들어가서 장난감을 꺼내야 해서 줄이 엄청 길었어요.
+2. '하드웨어 [[191_transaction_concept_states|트랜잭션]]'은 아이들이 유령처럼 벽을 통과해서 동시에 상자에 손을 넣을 수 있게 해주는 마법이에요!
 3. 다들 겹치지 않게 서로 다른 장난감을 집으면 그대로 성공! 하지만 우연히 두 명이 똑같은 로봇을 집으려고 손이 부딪히면, 마법사가 "삑!" 호루라기를 불어 두 명을 방 밖으로 쫓아내고 다시 줄을 서게 한답니다. 줄 서는 시간이 확 줄어들겠죠?

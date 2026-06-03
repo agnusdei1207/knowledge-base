@@ -12,16 +12,16 @@ categories = ["Security"]
 
 #### 핵심 인사이트 (3줄 요약)
 > 1. **본질**: '완벽한 단일 보안 솔루션은 존재하지 않는다'는 전제하에, 물리적·기술적·관리적 통제를 양파 껍질처럼 다중으로 겹쳐 방어망을 구축하는 아키텍처 철학이다.
-> 2. **가치**: 공격자의 침투 시간을 지연(Delay)시키고, 그 사이에 탐지(Detection) 및 대응(Response)할 수 있는 골든타임을 확보하여 최종 자산 탈취를 무력화한다.
-> 3. **융합**: 제로 트러스트(Zero Trust) 모델의 확산과 함께, 전통적인 네트워크 경계 기반 방어를 넘어 신원(Identity), 엔드포인트(EDR), 데이터(DRM) 레벨의 마이크로 심층 방어로 진화하고 있다.
+> 2. **가치**: 공격자의 침투 시간을 [[015_지연_데이터_관점|지연]](Delay)시키고, 그 사이에 탐지([[961_deepfake_detection|Detection]]) 및 대응(Response)할 수 있는 골든타임을 확보하여 최종 자산 탈취를 무력화한다.
+> 3. **융합**: [[667_zero_trust_runtime_integrity_measurement|제로 트러스트]]([[667_zero_trust_runtime_integrity_measurement|Zero Trust]]) 모델의 확산과 함께, 전통적인 네트워크 경계 기반 방어를 넘어 신원(Identity), 엔드포인트([[325_edr|EDR]]), [[001_dikw_pyramid|데이터]]([[119_drm_data_reference_model_standard|DRM]]) 레벨의 마이크로 심층 방어로 진화하고 있다.
 
 ---
 
-### Ⅰ. 개요 및 필요성 (Context & Necessity)
+### Ⅰ. 개요 및 필요성 ([[033_context|Context]] & Necessity)
 
-심층 방어 원칙(Defense in Depth, DiD)은 군사 전략에서 유래한 개념으로, 적의 진격을 늦추기 위해 여러 겹의 방어선을 구축하는 것을 정보보안에 적용한 것이다. 단일 보안 통제(예: 방화벽)에만 의존할 경우, 해당 통제가 우회되거나 제로데이 취약점으로 무력화되면 내부의 모든 자산이 무방비로 노출되는 치명적인 위험이 존재한다. 
+심층 방어 원칙(Defense in Depth, [[231_did_decentralized_identity|DiD]])은 군사 전략에서 유래한 개념으로, 적의 진격을 늦추기 위해 여러 겹의 방어선을 구축하는 것을 정보보안에 적용한 것이다. 단일 보안 통제(예: [[690_firewall_generation_evolution|방화벽]])에만 의존할 경우, 해당 통제가 우회되거나 [[761_zero_day|제로데이]] 취약점으로 무력화되면 내부의 모든 자산이 무방비로 노출되는 치명적인 위험이 존재한다. 
 
-과거에는 강력한 성벽(방화벽)만 쌓으면 안전하다는 '경계망 보안(Perimeter Security)'이 주류였으나, 모바일, 클라우드 환경의 도래와 지능형 지속 위협(APT)의 발전으로 인해 성벽 내부로 진입하는 것을 100% 막는 것은 불가능해졌다. 따라서 침투가 발생하더라도 다음 계층에서 공격을 차단하고 격리할 수 있는 다중 안전장치가 필수적이 되었다.
+과거에는 강력한 성벽([[690_firewall_generation_evolution|방화벽]])만 쌓으면 안전하다는 '경계망 보안([[936_perimeter_security|Perimeter Security]])'이 주류였으나, 모바일, 클라우드 환경의 도래와 [[374_apt|지능형 지속 위협]]([[748_apt|APT]])의 발전으로 인해 성벽 내부로 진입하는 것을 100% 막는 것은 불가능해졌다. 따라서 침투가 발생하더라도 다음 계층에서 공격을 차단하고 격리할 수 있는 다중 안전장치가 필수적이 되었다.
 
 💡 **비유하자면**, 중세 시대 성을 지킬 때 해자(물웅덩이)를 파고, 그 뒤에 높은 성벽을 쌓고, 성문을 두껍게 만들고, 성 안에도 내성을 따로 두어 적이 한 곳을 뚫더라도 다음 장애물에 부딪히게 만드는 것과 같습니다.
 
@@ -39,7 +39,7 @@ categories = ["Security"]
                                    └─(우회)──> [DB 암호화(데이터 해독 불가)]
 ```
 
-이 흐름도는 방어 계층이 겹겹이 쌓여 있을 때 공격자가 각 단계를 돌파하기 위해 더 많은 비용과 시간을 소모해야 함을 직관적으로 보여준다. 이러한 배치는 공격자가 내뿜는 '노이즈(로그)'를 여러 구간에서 수집할 수 있게 해주며, 따라서 방어자는 선제적으로 공격을 탐지하고 차단할 기회를 얻는다. 실무에서는 이러한 방어선이 서로 다른 제조사나 다른 방식의 기술로 구성되어야(다양성) 효과가 극대화된다.
+이 흐름도는 방어 계층이 겹겹이 쌓여 있을 때 공격자가 각 단계를 돌파하기 위해 더 많은 비용과 시간을 소모해야 함을 직관적으로 보여준다. 이러한 배치는 공격자가 내뿜는 '노이즈([[568_logs_distributed_logging_elk_fluentd|로그]])'를 여러 구간에서 수집할 수 있게 해주며, 따라서 방어자는 선제적으로 공격을 탐지하고 차단할 기회를 얻는다. 실무에서는 이러한 방어선이 서로 다른 제조사나 다른 방식의 기술로 구성되어야(다양성) 효과가 극대화된다.
 
 📢 **섹션 요약 비유**: 집에 도둑이 들지 않도록 담장에 철조망을 치고, 현관문에 도어락을 달고, 집 안에 CCTV를 설치하고, 귀중품은 금고에 넣는 4중 보안과 같습니다.
 
@@ -51,11 +51,11 @@ categories = ["Security"]
 
 | 방어 계층 (Layer) | 주요 통제 기술 | 핵심 목적 및 원리 | 비유 |
 |:---|:---|:---|:---|
-| **물리적 보안** | 출입 통제, CCTV, 생체 인식 | 데이터센터나 서버실에 대한 물리적 접근 차단 | 성문 경비병 |
-| **네트워크 보안** | NGFW, IDS/IPS, 네트워크 세그멘테이션 | 패킷 스니핑 방지, 악성 트래픽 필터링 및 횡적 이동 차단 | 성곽 및 해자 |
-| **호스트/엔드포인트** | EDR, 안티바이러스, 패치 관리 | 악성코드 실행 방지, 메모리 보호, 프로세스 행위 분석 | 병사들의 갑옷 |
-| **애플리케이션 보안** | WAF, 시큐어 코딩, SAST/DAST | SQL 인젝션, XSS 등 소프트웨어 취약점 악용 차단 | 독극물 검사기 |
-| **데이터 보안** | DB 암호화, DLP, 접근 제어, 해싱 | 최종 목표 자산의 기밀성과 무결성 보장 | 강철 금고 |
+| **물리적 보안** | 출입 통제, [[933_cctv|CCTV]], 생체 인식 | [[001_dikw_pyramid|데이터]]센터나 서버실에 대한 물리적 접근 차단 | 성문 경비병 |
+| **[[1117_network_security_zero_trust_policy|네트워크 보안]]** | [[698_ngfw_next_generation_firewall|NGFW]], [[601_ids_ips_syscall_tracing|IDS]]/[[695_ips_network_intrusion_prevention_system|IPS]], [[223_network_segmentation_vlan_vrf_isolation|네트워크 세그멘테이션]] | [[272_packet_sniffing|패킷 스니핑]] 방지, 악성 트래픽 필터링 및 횡적 이동 차단 | 성곽 및 해자 |
+| **호스트/엔드포인트** | [[325_edr|EDR]], 안티바이러스, [[406_patch_management|패치 관리]] | 악성코드 실행 방지, [[307_memory_protection|메모리 보호]], 프로세스 행위 분석 | 병사들의 갑옷 |
+| **애플리케이션 보안** | [[696_waf_web_application_firewall|WAF]], [[190_secure_coding_guideline|시큐어 코딩]], [[491_sast_static_analysis|SAST]]/[[492_dast_dynamic_analysis|DAST]] | SQL [[480_injection|인젝션]], [[726_xss_cross_site_scripting_types|XSS]] 등 소프트웨어 취약점 악용 차단 | 독극물 검사기 |
+| **[[001_dikw_pyramid|데이터]] 보안** | DB 암호화, [[386_dlp|DLP]], 접근 제어, 해싱 | 최종 목표 자산의 기밀성과 [[442_consistency_integrity|무결성 보장]] | 강철 금고 |
 
 ```text
 [심층 방어의 양파 껍질 (Onion) 아키텍처]
@@ -80,9 +80,9 @@ categories = ["Security"]
        └───────────────────────────────────────────────────┘
 ```
 
-이 양파 껍질 구조도의 핵심은 데이터라는 가장 중요한 자산을 보호하기 위해, 외곽에서부터 독립된 제어 장치들이 데이터를 감싸고 있다는 점이다. 특히 주목할 부분은 맨 바깥을 둘러싼 '정책 및 절차'이다. 아무리 기술적 통제가 훌륭해도 관리적 통제(비밀번호 정책, 보안 교육)가 무너지면 내부자를 통해 가장 안쪽의 데이터가 쉽게 뚫릴 수 있기 때문이다. 실무에서는 각 계층 간의 상호 의존성을 최소화하여, 한 계층이 손상되더라도 다른 계층이 영향을 받지 않도록 설계해야 한다.
+이 양파 껍질 구조도의 핵심은 [[001_dikw_pyramid|데이터]]라는 가장 중요한 자산을 [[571_protection_vs_security|보호]]하기 위해, 외곽에서부터 독립된 제어 장치들이 [[001_dikw_pyramid|데이터]]를 감싸고 있다는 점이다. 특히 주목할 부분은 맨 바깥을 둘러싼 '[[164_policy|정책]] 및 절차'이다. 아무리 기술적 통제가 훌륭해도 관리적 통제(비밀번호 [[164_policy|정책]], 보안 교육)가 무너지면 내부자를 통해 가장 안쪽의 [[001_dikw_pyramid|데이터]]가 쉽게 뚫릴 수 있기 때문이다. 실무에서는 각 계층 간의 상호 의존성을 최소화하여, 한 계층이 손상되더라도 다른 계층이 영향을 받지 않도록 설계해야 한다.
 
-심층 방어의 심층 동작 원리는 지연(Delay)과 탐지(Detection)의 미학이다. 공격자가 네트워크를 뚫기 위해 익스플로잇을 시도할 때 IPS가 이를 방해(Delay)하고, 우회하여 엔드포인트에 랜섬웨어를 떨어뜨렸을 때 EDR이 행위를 탐지(Detection)하여 실행을 차단한다. 최종적으로 데이터가 유출되려 할 때 DLP가 반출을 막는 식으로, 각 단계가 독립된 상태 머신(State Machine)처럼 작동한다.
+심층 방어의 심층 동작 원리는 [[015_지연_데이터_관점|지연]](Delay)과 탐지([[961_deepfake_detection|Detection]])의 미학이다. 공격자가 네트워크를 뚫기 위해 익스플로잇을 시도할 때 IPS가 이를 방해(Delay)하고, 우회하여 엔드포인트에 [[730_ransomware|랜섬웨어]]를 떨어뜨렸을 때 EDR이 행위를 탐지([[961_deepfake_detection|Detection]])하여 실행을 차단한다. 최종적으로 [[001_dikw_pyramid|데이터]]가 유출되려 할 때 DLP가 반출을 막는 식으로, 각 단계가 독립된 상태 머신([[272_state_pattern|State]] Machine)처럼 작동한다.
 
 📢 **섹션 요약 비유**: 여러 겹의 방탄복을 입는 것과 같습니다. 첫 번째 옷이 찢어져도 두 번째, 세 번째 옷이 총알의 속도를 줄여 치명상을 막아냅니다.
 
@@ -90,14 +90,14 @@ categories = ["Security"]
 
 ### Ⅲ. 융합 비교 및 다각도 분석 (Comparison & Synergy)
 
-최근에는 전통적인 심층 방어의 한계를 극복하기 위해 제로 트러스트 아키텍처(Zero Trust Architecture)가 대두되었다. 두 개념은 경쟁 관계가 아니라 상호 보완적인 융합 관계다.
+최근에는 전통적인 심층 방어의 한계를 극복하기 위해 [[184_zero_trust_architecture|제로 트러스트 아키텍처]]([[184_zero_trust_architecture|Zero Trust Architecture]])가 대두되었다. 두 개념은 경쟁 관계가 아니라 상호 보완적인 융합 관계다.
 
-| 비교 항목 | 전통적 심층 방어 (Defense in Depth) | 제로 트러스트 (Zero Trust) | 융합 시너지 포인트 |
+| 비교 항목 | 전통적 심층 방어 (Defense in Depth) | [[667_zero_trust_runtime_integrity_measurement|제로 트러스트]] ([[667_zero_trust_runtime_integrity_measurement|Zero Trust]]) | 융합 시너지 포인트 |
 |:---|:---|:---|:---|
-| **기본 전제** | 방어선을 여러 겹 두면 안전해질 것이다 | 모든 방어선은 뚫릴 수 있으니 아무도 믿지 마라 | 다중 방어선(DiD) 위에서 매 요청마다 검증(ZTA) 수행 |
-| **방어의 초점** | 경계 중심(Perimeter-centric)의 인프라 보호 | 신원 및 데이터 중심(Identity/Data-centric) 보호 | 네트워크 통제와 논리적 신원 통제의 결합 |
+| **기본 전제** | 방어선을 여러 겹 두면 안전해질 것이다 | 모든 방어선은 뚫릴 수 있으니 아무도 믿지 마라 | 다중 방어선([[231_did_decentralized_identity|DiD]]) 위에서 매 요청마다 [[395_verification_process_review|검증]]([[047_zta|ZTA]]) 수행 |
+| **방어의 초점** | 경계 중심(Perimeter-centric)의 인프라 [[571_protection_vs_security|보호]] | 신원 및 [[383_data_centric_architecture|데이터 중심]](Identity/[[383_data_centric_architecture|Data-centric]]) [[571_protection_vs_security|보호]] | 네트워크 통제와 논리적 신원 통제의 결합 |
 | **신뢰 모델** | 내부망에 들어오면 일정 수준 신뢰 (Trust but Verify) | 내부망이라도 절대 신뢰 불가 (Never Trust, Always Verify) | ZTA를 심층 방어의 가장 강력한 내부 계층으로 편입 |
-| **핵심 기술** | 방화벽, IPS, 망 분리 | MFA, 마이크로 세그멘테이션, 동적 권한 제어 | 방화벽으로 노이즈를 줄이고, ZTA로 정밀 타격 방어 |
+| **핵심 기술** | [[690_firewall_generation_evolution|방화벽]], [[695_ips_network_intrusion_prevention_system|IPS]], 망 분리 | [[552_mfa|MFA]], [[1044_micro_segmentation_east_west_traffic_security|마이크로 세그멘테이션]], 동적 권한 제어 | [[690_firewall_generation_evolution|방화벽]]으로 노이즈를 줄이고, ZTA로 정밀 타격 방어 |
 
 ```text
 [DiD와 ZTA의 상호 보완적 아키텍처 매트릭스]
@@ -113,24 +113,24 @@ categories = ["Security"]
 └───────────────────┴───────────────┴──────────────┴─────────────┘
 ```
 
-이 매트릭스는 전통적인 물리/네트워크 인프라 계층(DiD)에 제로 트러스트의 동적 신원 검증(ZTA)이 어떻게 씨줄과 날줄로 엮이는지를 보여준다. 이 방식은 DiD의 '다중 계층'이라는 장점을 살리면서도 DiD의 고질적인 약점인 '한 번 뚫린 후의 내부 횡적 이동(Lateral Movement)'을 완벽하게 통제한다. 반면 제로 트러스트만 단독으로 구축할 경우, 검증해야 할 트래픽이 폭주하여 인증 서버가 마비될 수 있다. 따라서 DiD로 무가치한 트래픽을 사전에 필터링하고 핵심 트래픽만 ZTA로 넘기는 것이 실무의 정석이다.
+이 매트릭스는 전통적인 물리/네트워크 인프라 계층([[231_did_decentralized_identity|DiD]])에 [[667_zero_trust_runtime_integrity_measurement|제로 트러스트]]의 동적 신원 [[395_verification_process_review|검증]]([[047_zta|ZTA]])이 어떻게 씨줄과 날줄로 엮이는지를 보여준다. 이 방식은 DiD의 '다중 계층'이라는 장점을 살리면서도 DiD의 고질적인 약점인 '한 번 뚫린 후의 내부 횡적 이동(Lateral Movement)'을 완벽하게 통제한다. 반면 [[667_zero_trust_runtime_integrity_measurement|제로 트러스트]]만 단독으로 구축할 경우, [[395_verification_process_review|검증]]해야 할 트래픽이 폭주하여 [[303_authentication_authorization_patterns|인증]] 서버가 마비될 수 있다. 따라서 DiD로 무가치한 트래픽을 사전에 필터링하고 핵심 트래픽만 ZTA로 넘기는 것이 실무의 정석이다.
 
-📢 **섹션 요약 비유**: 성벽과 해자(심층 방어)를 유지하면서도, 성 안의 모든 방문객에게 매번 새로운 출입증을 요구(제로 트러스트)하여 안전을 극대화하는 것입니다.
+📢 **섹션 요약 비유**: 성벽과 해자(심층 방어)를 유지하면서도, 성 안의 모든 방문객에게 매번 새로운 출입증을 요구([[667_zero_trust_runtime_integrity_measurement|제로 트러스트]])하여 안전을 극대화하는 것입니다.
 
 ---
 
-### Ⅳ. 실무 적용 및 기술사적 판단 (Strategy & Decision)
+### Ⅳ. 실무 적용 및 기술사적 판단 ([[268_strategy_pattern|Strategy]] & Decision)
 
-실무에서 심층 방어를 맹목적으로 도입하면, 너무 많은 보안 장비가 도입되어 운영 복잡도가 폭증하고 비용이 낭비되는 안티패턴에 빠지기 쉽다.
+실무에서 심층 방어를 맹목적으로 도입하면, 너무 많은 보안 장비가 도입되어 운영 복잡도가 폭증하고 비용이 낭비되는 [[128_water_scrum_fall_anti_pattern|안티패턴]]에 빠지기 쉽다.
 
 #### 1. 실무 시나리오 및 의사결정
-- **랜섬웨어 방어 시나리오**: 랜섬웨어는 이메일 유입 → 내부 전파 → 파일 암호화의 단계를 거친다. 따라서 (1) 이메일 APT 솔루션으로 악성 첨부를 차단하고, (2) EDR로 이상 프로세스를 탐지하며, (3) 내부망 세그멘테이션으로 전파를 막고, 마지막으로 (4) 불변성 백업(Immutable Backup)을 두어 최악의 경우 복구할 수 있는 DiD 체계를 구축한다.
-- **공급업체 다양성(Vendor Diversity) 결정**: 방화벽, IPS, EDR을 모두 동일한 A사의 제품으로 통일할 것인가? 관리의 편의성은 높지만, A사의 엔진에 제로데이 취약점이 발생하면 전 계층이 동시에 뚫린다. 따라서 핵심 방어벽(예: 외부 방화벽과 내부 WAF)은 서로 다른 제조사의 제품을 교차 배치하는 이기종(Heterogeneous) 심층 방어를 채택한다.
-- **클라우드 네이티브 전환**: AWS 등 퍼블릭 클라우드에서는 물리적 보안(AWS 책임)을 제외하고, 논리적 심층 방어에 집중한다. AWS WAF(앱 계층), Security Group(네트워크 계층), IAM(신원 계층), KMS(데이터 암호화)를 조합하여 설계한다.
+- **[[730_ransomware|랜섬웨어]] 방어 시나리오**: [[730_ransomware|랜섬웨어]]는 이메일 유입 → 내부 전파 → [[501_file_definition_logical_record|파일]] 암호화의 단계를 거친다. 따라서 (1) 이메일 [[748_apt|APT]] 솔루션으로 악성 첨부를 차단하고, (2) EDR로 이상 프로세스를 탐지하며, (3) 내부망 [[364_segmentation|세그멘테이션]]으로 전파를 막고, 마지막으로 (4) 불변성 [[555_backup_and_restore_strategy|백업]]([[298_immutable|Immutable]] [[555_backup_and_restore_strategy|Backup]])을 두어 최악의 경우 복구할 수 있는 [[231_did_decentralized_identity|DiD]] 체계를 구축한다.
+- **공급업체 다양성(Vendor Diversity) 결정**: [[690_firewall_generation_evolution|방화벽]], [[695_ips_network_intrusion_prevention_system|IPS]], EDR을 모두 동일한 A사의 제품으로 통일할 것인가? 관리의 편의성은 높지만, A사의 엔진에 [[761_zero_day|제로데이]] 취약점이 발생하면 전 계층이 동시에 뚫린다. 따라서 핵심 방어벽(예: 외부 [[690_firewall_generation_evolution|방화벽]]과 내부 [[696_waf_web_application_firewall|WAF]])은 서로 다른 제조사의 제품을 교차 배치하는 이기종([[273_heterogeneous_db|Heterogeneous]]) 심층 방어를 채택한다.
+- **[[531_cloud_native_architecture|클라우드 네이티브]] 전환**: AWS 등 퍼블릭 클라우드에서는 물리적 보안(AWS 책임)을 제외하고, 논리적 심층 방어에 집중한다. AWS [[696_waf_web_application_firewall|WAF]](앱 계층), [[283_security_tactics|Security]] Group(네트워크 계층), [[526_iam|IAM]](신원 계층), [[127_kms_knowledge_management_system|KMS]]([[001_dikw_pyramid|데이터]] 암호화)를 조합하여 설계한다.
 
-#### 2. 도입 안티패턴 및 실패 사례
-- **Alert Fatigue (경고 피로)**: 너무 많은 계층에서 동일한 이벤트에 대한 알람을 발생시켜, 보안 관제 요원(SOC)이 피로감에 빠져 정작 중요한 경고를 무시하는 현상. SIEM을 도입하여 다중 계층의 로그를 정규화하고 상관 분석(Correlation)하는 체계가 필수적이다.
-- **복잡성 증가로 인한 장애**: 트래픽이 방화벽 → IPS → WAF → 프록시 등 너무 많은 인라인(In-line) 장비를 거치면서 레이턴시(지연 시간)가 기하급수적으로 증가하거나 정당한 비즈니스 트래픽이 차단되는 현상.
+#### 2. 도입 [[128_water_scrum_fall_anti_pattern|안티패턴]] 및 실패 사례
+- **Alert Fatigue (경고 피로)**: 너무 많은 계층에서 동일한 이벤트에 대한 알람을 발생시켜, 보안 관제 요원([[131_soc|SOC]])이 피로감에 빠져 정작 중요한 경고를 무시하는 현상. SIEM을 도입하여 다중 계층의 [[568_logs_distributed_logging_elk_fluentd|로그]]를 정규화하고 [[325_correlation_analysis_pearson_spearman|상관 분석]](Correlation)하는 체계가 필수적이다.
+- **복잡성 증가로 인한 장애**: 트래픽이 [[690_firewall_generation_evolution|방화벽]] → [[695_ips_network_intrusion_prevention_system|IPS]] → [[696_waf_web_application_firewall|WAF]] → [[264_proxy_pattern_surrogate_access_control|프록시]] 등 너무 많은 인라인(In-line) 장비를 거치면서 레이턴시([[141_latency|지연 시간]])가 기하급수적으로 증가하거나 정당한 비즈니스 트래픽이 차단되는 현상.
 
 ```text
 [심층 방어에서의 사고 대응 타이밍 타이밍도]
@@ -144,7 +144,7 @@ categories = ["Security"]
 * 승리 조건: T1(보호 지연 시간) + T2(탐지 시간) < T_Attack(공격자의 목표 달성 시간)
 ```
 
-이 타이밍 그래프의 핵심은 심층 방어의 목표가 단순한 '차단'이 아니라 '시간 싸움'이라는 점이다. 완벽한 보호(Protection)가 불가능하다면, 방어 계층들이 공격자를 최대한 지연(T1 증가)시키는 동안 탐지(T2 감소)와 대응 역량을 결합하여 공격이 완료되기 전에 프로세스를 끊어내야 한다. 따라서 실무에서는 방어 장비의 갯수만 늘리는 것이 아니라 탐지 가시성(Visibility)과 대응 자동화(SOAR)를 병행해야 심층 방어가 완성된다.
+이 타이밍 그래프의 핵심은 심층 방어의 목표가 단순한 '차단'이 아니라 '시간 싸움'이라는 점이다. 완벽한 [[571_protection_vs_security|보호]]([[571_protection_vs_security|Protection]])가 불가능하다면, 방어 계층들이 공격자를 최대한 [[015_지연_데이터_관점|지연]](T1 증가)시키는 동안 탐지(T2 감소)와 대응 역량을 결합하여 공격이 완료되기 전에 프로세스를 끊어내야 한다. 따라서 실무에서는 방어 장비의 갯수만 늘리는 것이 아니라 탐지 가시성(Visibility)과 대응 자동화([[745_soar_security_orchestration_automation_response|SOAR]])를 병행해야 심층 방어가 완성된다.
 
 📢 **섹션 요약 비유**: 미로를 복잡하게 만들어 괴물이 헤매는 시간을 늘리고, 그 사이에 경비원을 출동시켜 괴물을 잡아내는 전략입니다.
 
@@ -152,27 +152,27 @@ categories = ["Security"]
 
 ### Ⅴ. 기대효과 및 결론 (Future & Standard)
 
-심층 방어 원칙은 모든 정보보안 프레임워크(NIST CSF, ISO 27001 등)의 기저에 깔린 핵심 철학이다. 
+심층 방어 원칙은 모든 정보보안 프레임워크(NIST [[017_csf|CSF]], ISO 27001 등)의 기저에 깔린 핵심 철학이다. 
 
 | 도입 전 | 도입 후 (기대 효과) |
 |:---|:---|
 | 경계 방어 실패 시 전사적 침해 사고로 직결 | 단일 통제 실패 시에도 다른 계층이 공격을 방어 (복원력 증가) |
-| 공격자의 침투 경로 추적 및 포렌식 불가 | 다중 계층의 교차 로그 분석을 통한 정밀한 타임라인 구성 가능 |
-| 신종/변종 공격(제로데이)에 무방비 노출 | 다중 필터링을 통해 미지의 공격에 대한 성공 확률 급감 |
+| 공격자의 침투 경로 추적 및 포렌식 불가 | 다중 계층의 교차 [[568_logs_distributed_logging_elk_fluentd|로그]] 분석을 통한 정밀한 타임라인 구성 가능 |
+| 신종/변종 공격([[761_zero_day|제로데이]])에 무방비 노출 | 다중 필터링을 통해 미지의 공격에 대한 성공 [[130_probability|확률]] 급감 |
 
-미래의 심층 방어는 정적이고 수동적인 방패의 나열에서, AI와 머신러닝이 결합된 **동적 심층 방어(Dynamic Defense in Depth)**로 진화할 것이다. 공격의 컨텍스트를 인지하여 실시간으로 방화벽 룰을 변경하고 EDR의 민감도를 조절하는 SOAR(보안 오케스트레이션 및 자동화) 기반의 유기적인 방어망이 차세대 사이버 보안의 표준이 되고 있다.
+미래의 심층 방어는 정적이고 수동적인 방패의 나열에서, AI와 머신러닝이 결합된 **동적 심층 방어(Dynamic Defense in Depth)**로 진화할 것이다. 공격의 컨텍스트를 인지하여 실시간으로 [[690_firewall_generation_evolution|방화벽]] 룰을 변경하고 EDR의 민감도를 조절하는 [[745_soar_security_orchestration_automation_response|SOAR]](보안 [[073_container_orchestration_tools|오케스트레이션]] 및 자동화) 기반의 유기적인 방어망이 차세대 사이버 보안의 표준이 되고 있다.
 
 📢 **섹션 요약 비유**: 튼튼한 성벽, 깊은 해자, 정예 병사들이 유기적으로 협력하여 어떠한 형태의 적 공격도 분산시키고 무력화하는 난공불락의 요새를 구축하는 것입니다.
 
 ---
 
-### 📌 관련 개념 맵 (Knowledge Graph)
+### 📌 관련 개념 맵 ([[160_knowledge_graph_graphrag_integration|Knowledge Graph]])
 
-- **Zero Trust (제로 트러스트)** | 경계를 신뢰하지 않고 모든 접근을 검증하는 최신 보안 모델로 DiD를 보완함
-- **SIEM (Security Information and Event Management)** | 여러 방어 계층에서 발생하는 로그를 수집하고 상관 분석하여 위협을 가시화하는 시스템
-- **Network Segmentation (네트워크 망분리)** | 내부망을 여러 구역으로 나누어 공격자의 횡적 이동(Lateral Movement)을 차단하는 기술적 통제
-- **Kill Chain (사이버 킬체인)** | 공격자의 침투 단계를 모델링한 것으로, DiD는 킬체인의 각 단계를 끊어내는 데 목적이 있음
-- **SPOF (단일 장애점)** | 시스템 구성 요소 중 하나가 고장나면 전체 시스템이 중단되는 지점으로, DiD는 보안의 SPOF를 제거함
+- **[[667_zero_trust_runtime_integrity_measurement|Zero Trust]] ([[667_zero_trust_runtime_integrity_measurement|제로 트러스트]])** | 경계를 신뢰하지 않고 모든 접근을 [[395_verification_process_review|검증]]하는 최신 보안 모델로 DiD를 보완함
+- **[[624_siem|SIEM]] ([[283_security_tactics|Security]] Information and [[074_event_management|Event Management]])** | 여러 방어 계층에서 발생하는 [[568_logs_distributed_logging_elk_fluentd|로그]]를 수집하고 [[325_correlation_analysis_pearson_spearman|상관 분석]]하여 위협을 가시화하는 시스템
+- **Network [[364_segmentation|Segmentation]] (네트워크 [[182_network_separation_model|망분리]])** | 내부망을 여러 구역으로 나누어 공격자의 횡적 이동(Lateral Movement)을 차단하는 기술적 통제
+- **Kill Chain ([[199_cyber_kill_chain_mitre_attack|사이버 킬체인]])** | 공격자의 침투 단계를 모델링한 것으로, DiD는 킬체인의 각 단계를 끊어내는 데 목적이 있음
+- **[[454_spof|SPOF]] ([[454_spof|단일 장애점]])** | 시스템 구성 요소 중 하나가 고장나면 전체 시스템이 중단되는 지점으로, DiD는 보안의 SPOF를 제거함
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -192,7 +192,7 @@ categories = ["Security"]
 [SASE (Secure Access Service Edge) — 클라우드 통합 보안]
 ```
 
-이 흐름은 외곽 한 줄 방어에서 시작해, 여러 겹의 방어층과 제로 트러스트를 거쳐 클라우드 중심의 통합 보안으로 진화하는 흐름을 보여준다.
+이 흐름은 외곽 한 줄 방어에서 시작해, 여러 겹의 방어층과 [[667_zero_trust_runtime_integrity_measurement|제로 트러스트]]를 거쳐 클라우드 중심의 통합 보안으로 진화하는 흐름을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 소중한 보물을 지키기 위해 상자에 넣고 자물쇠를 채우는 것만으로는 부족할 수 있어요.

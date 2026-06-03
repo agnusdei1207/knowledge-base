@@ -7,9 +7,9 @@ categories = "studynote-ict-convergence"
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: 센서 퓨전은 **카메라(시각)·LiDAR(3D 거리)·레이더(속도·거리)·초음파 등 이종 센서 데이터를 통합**하여 단일 센서보다 정확하고 강건한 환경 인지를 달성하는 기술이다.
+> 1. **본질**: 센서 퓨전은 **카메라(시각)·[[140_lidar_light_detection_and_ranging_tof|LiDAR]](3D 거리)·레이더(속도·거리)·초음파 등 이종 센서 데이터를 통합**하여 단일 센서보다 정확하고 강건한 환경 인지를 달성하는 기술이다.
 > 2. **가치**: 카메라는 색상·텍스트 인식에 강하지만 야간·역광에 약하고, LiDAR는 정밀 거리 측정에 강하지만 비용이 높으며, 퓨전으로 **각 센서의 단점을 보완**한다.
-> 3. **판단 포인트**: Early Fusion(센서 레벨)·Late Fusion(결정 레벨)·Mid Fusion(특징 레벨)으로 구분하며, Tesla(카메라 Only)와 Waymo(LiDAR+카메라) 논쟁이 업계 핵심이다.
+> 3. **판단 포인트**: Early Fusion(센서 레벨)·Late Fusion(결정 레벨)·Mid Fusion(특징 레벨)으로 구분하며, Tesla(카메라 Only)와 Waymo([[140_lidar_light_detection_and_ranging_tof|LiDAR]]+카메라) 논쟁이 업계 핵심이다.
 
 ---
 
@@ -18,7 +18,7 @@ categories = "studynote-ict-convergence"
 | 센서 | 강점 | 약점 |
 |:---|:---|:---|
 | **카메라** | 색상·표지판 | 야간·역광 |
-| **LiDAR** | 3D 정밀 거리 | 고비용·악천후 |
+| **[[140_lidar_light_detection_and_ranging_tof|LiDAR]]** | 3D 정밀 거리 | 고비용·악천후 |
 | **레이더** | 속도·악천후 강건 | 저해상도 |
 
 - **📢 섹션 요약 비유**: 센서 퓨전은 **시각+청각+촉각을 합치는** 것이다. 눈만으로 판단하는 것보다 더 정확하다.
@@ -27,7 +27,7 @@ categories = "studynote-ict-convergence"
 
 ## Ⅱ~Ⅴ. 결론
 
-센서 퓨전은 **자율주행 안전성의 핵심**이며, AI 기반 Mid-Level Fusion이 현재 주류이다.
+센서 퓨전은 **자율주행 안전성의 핵심**이며, [[190_ai_llm_requirements_specification|AI]] 기반 Mid-Level Fusion이 현재 주류이다.
 
 ---
 
@@ -37,7 +37,7 @@ categories = "studynote-ict-convergence"
 |:---|:---|
 | **센서 퓨전** | 이종 센서 통합 |
 | **카메라** | 2D 시각 인지 |
-| **LiDAR** | 3D 포인트 클라우드 |
+| **[[140_lidar_light_detection_and_ranging_tof|LiDAR]]** | 3D 포인트 클라우드 |
 | **레이더** | 속도·거리 감지 |
 | **Tesla vs Waymo** | Camera Only vs 퓨전 |
 
@@ -50,6 +50,6 @@ categories = "studynote-ict-convergence"
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
-1. 센서 퓨전은 **눈(카메라)+귀(레이더)+손(LiDAR)**을 합치는 거예요.
+1. 센서 퓨전은 **눈(카메라)+귀(레이더)+손([[140_lidar_light_detection_and_ranging_tof|LiDAR]])**을 합치는 거예요.
 2. 눈만으로 판단하면 **어두울 때 실수**하지만, 귀와 손도 쓰면 정확해요.
 3. 자율주행차가 **안전하게 달리려면** 여러 감각을 합쳐야 해요!

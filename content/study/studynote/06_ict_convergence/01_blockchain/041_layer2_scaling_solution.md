@@ -7,13 +7,13 @@ categories = "studynote-ict-convergence"
 +++
 
 > **핵심 인사이트**
-> 1. 레이어 2(L2) 솔루션은 블록체인 트릴레마를 우회하는 핵심 전략으로, 메인체인(L1) 밖에서 트랜잭션을 처리하고 최종 결과만 L1에 기록하여 L1의 보안성을 상속하면서 확장성을 수십~수천 배 향상시킨다.
-> 2. Optimistic Rollup(낙관적 롤업)과 ZK-Rollup(영지식 롤업)이 L2의 양대 주류로, Optimistic은 구현이 간단하지만 7일 분쟁 기간이 있고, ZK-Rollup은 즉시 검증 가능하지만 영지식 증명 생성 비용이 높아 복잡한 연산에는 한계가 있다.
-> 3. 2024년 기준 Arbitrum·Optimism(Optimistic Rollup)과 zkSync·StarkNet(ZK-Rollup)이 이더리움 L2 TVL(Total Value Locked)의 90% 이상을 차지하며, L2가 블록체인 생태계의 새로운 전장이 됐다.
+> 1. 레이어 2(L2) 솔루션은 [[004_blockchain|블록체인]] 트릴레마를 우회하는 핵심 전략으로, 메인체인(L1) 밖에서 트랜잭션을 처리하고 최종 결과만 L1에 기록하여 L1의 보안성을 상속하면서 확장성을 수십~수천 배 향상시킨다.
+> 2. Optimistic [[042_rollup_l2_solution|Rollup]](낙관적 [[042_rollup_l2_solution|롤업]])과 ZK-[[042_rollup_l2_solution|Rollup]](영지식 [[042_rollup_l2_solution|롤업]])이 L2의 양대 주류로, Optimistic은 구현이 간단하지만 7일 분쟁 기간이 있고, ZK-Rollup은 즉시 [[395_verification_process_review|검증]] 가능하지만 [[229_zkp_data_clean_room|영지식 증명]] [[087_process_state_transition|생성]] 비용이 높아 복잡한 연산에는 한계가 있다.
+> 3. 2024년 기준 Arbitrum·Optimism(Optimistic [[042_rollup_l2_solution|Rollup]])과 zkSync·StarkNet(ZK-[[042_rollup_l2_solution|Rollup]])이 이더리움 L2 TVL(Total Value Locked)의 90% 이상을 차지하며, L2가 [[004_blockchain|블록체인]] 생태계의 새로운 전장이 됐다.
 
 ---
 
-## Ⅰ. L2 솔루션 분류
+## Ⅰ. L2 솔루션 [[104_classification_analysis|분류]]
 
 ```
 레이어 2 스케일링 전략:
@@ -47,7 +47,7 @@ categories = "studynote-ict-convergence"
 
 ---
 
-## Ⅱ. Optimistic Rollup
+## Ⅱ. Optimistic [[042_rollup_l2_solution|Rollup]]
 
 ```
 Optimistic Rollup 동작:
@@ -76,11 +76,11 @@ Optimistic Rollup 동작:
   Optimism (OP Stack, Coinbase Base 기반)
 ```
 
-> 📢 **섹션 요약 비유**: Optimistic Rollup은 온라인 경매 7일 환불 정책 — 판매자는 즉시 결제 수령, 구매자는 7일 내 사기 신고 가능.
+> 📢 **섹션 요약 비유**: Optimistic Rollup은 온라인 경매 7일 환불 [[164_policy|정책]] — 판매자는 즉시 결제 수령, 구매자는 7일 내 사기 신고 가능.
 
 ---
 
-## Ⅲ. ZK-Rollup
+## Ⅲ. ZK-[[042_rollup_l2_solution|Rollup]]
 
 ```
 ZK-Rollup (Zero-Knowledge Rollup):
@@ -114,11 +114,11 @@ ZK 증명 유형:
   Linea (Consensys)
 ```
 
-> 📢 **섹션 요약 비유**: ZK-Rollup은 수학 시험 답안지 + 채점 기준표 동시 제출 — 선생님이 즉시 맞는지 확인 가능, 7일 기다림 없음.
+> 📢 **섹션 요약 비유**: ZK-Rollup은 수학 시험 답안지 + 채점 기준표 동시 제출 — 선생님이 즉시 맞는지 [[396_validation|확인]] 가능, 7일 기다림 없음.
 
 ---
 
-## Ⅳ. State Channel
+## Ⅳ. [[272_state_pattern|State]] Channel
 
 ```
 State Channel (상태 채널):
@@ -145,11 +145,11 @@ Lightning Network (비트코인):
   IoT 기기 간 마이크로 결제
 ```
 
-> 📢 **섹션 요약 비유**: State Channel은 친구와 술집 외상 — 매번 카드 긁지 않고 나갈 때 총 한 번 계산.
+> 📢 **섹션 요약 비유**: [[272_state_pattern|State]] Channel은 친구와 술집 외상 — 매번 카드 긁지 않고 나갈 때 총 한 번 계산.
 
 ---
 
-## Ⅴ. 실무 시나리오 — DeFi L2 선택
+## Ⅴ. 실무 시나리오 — [[033_defi_decentralized_finance|DeFi]] L2 선택
 
 ```
 DeFi 프로토콜 L2 선택 기준 (2024):
@@ -181,7 +181,7 @@ L2 상호운용성 문제:
   더 높은 처리량, 더 낮은 비용
 ```
 
-> 📢 **섹션 요약 비유**: DeFi L2 선택은 물류 창고 위치 결정 — 비용(가스비), 속도(처리량), 안전(보안) 중 무엇이 가장 중요한지에 따라 결정.
+> 📢 **섹션 요약 비유**: [[033_defi_decentralized_finance|DeFi]] L2 선택은 물류 창고 위치 결정 — 비용(가스비), 속도([[139_throughput|처리량]]), 안전(보안) 중 무엇이 가장 중요한지에 따라 결정.
 
 ---
 
@@ -241,5 +241,5 @@ L3 (앱 체인) 등장
 ## 👶 어린이를 위한 3줄 비유 설명
 
 1. L2는 바쁜 고속도로(이더리움) 옆에 하이패스 전용 차선을 만드는 것 — 빠르고 저렴하게 통과하고, 최종 결과만 고속도로에 기록해요.
-2. Optimistic Rollup은 "일단 OK, 7일 내 이의 제기 가능"이고, ZK-Rollup은 "수학 증명으로 즉시 OK 확인"이에요.
+2. Optimistic Rollup은 "일단 OK, 7일 내 이의 제기 가능"이고, ZK-Rollup은 "수학 증명으로 즉시 OK [[396_validation|확인]]"이에요.
 3. 덕분에 이더리움에서 1달러 거래 수수료가 0.01달러로 줄어들어서 소액 결제도 가능해졌어요!

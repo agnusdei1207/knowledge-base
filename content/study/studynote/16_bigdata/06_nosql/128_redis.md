@@ -7,29 +7,29 @@ categories = "studynote-bigdata"
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-- **본질**: Redis는 단순한 캐시를 넘어 String·List·Hash·Set·Sorted Set 등 풍부한 자료구조를 인메모리로 제공하는 데이터 구조 서버로, 초당 수십만 연산의 성능이 핵심 강점이다.
-- **가치**: RDB(Redis Database) 스냅샷과 AOF(Append-Only File) 결합으로 인메모리의 속도와 디스크의 내구성을 동시에 달성하며, Redis Cluster로 수평 확장까지 지원한다.
-- **판단 포인트**: Pub/Sub 메시징·분산 잠금·실시간 순위표·세션 관리 등 패턴별로 Redis의 특정 자료구조를 매핑하여 설계해야 최적 성능이 나온다.
+- **본질**: Redis는 단순한 캐시를 넘어 String·List·Hash·Set·Sorted Set 등 풍부한 자료구조를 인메모리로 제공하는 [[001_dikw_pyramid|데이터]] 구조 서버로, 초당 수십만 연산의 [[282_performance_tactics|성능]]이 핵심 강점이다.
+- **가치**: RDB([[542_redis|Redis]] [[501_database|Database]]) [[022_snapshot_backup_architecture|스냅샷]]과 AOF(Append-Only [[501_file_definition_logical_record|File]]) 결합으로 인메모리의 속도와 디스크의 내구성을 동시에 달성하며, [[542_redis|Redis]] Cluster로 수평 확장까지 지원한다.
+- **판단 포인트**: Pub/Sub [[389_mesh_topology|메시]]징·[[136_variance|분산]] 잠금·실시간 순위표·[[507_session_management_security|세션 관리]] 등 패턴별로 Redis의 특정 자료구조를 매핑하여 설계해야 최적 [[282_performance_tactics|성능]]이 나온다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-### Redis 탄생 배경
-2009년 살바토레 산필리포(Salvatore Sanfilippo)가 실시간 로그 분석 성능 문제를 해결하기 위해 개발. "단순히 키-값을 넘어 값 자체를 조작할 수 있는 서버 측 자료구조"라는 개념이 혁신이었다.
+### [[542_redis|Redis]] 탄생 배경
+2009년 살바토레 산필리포(Salvatore Sanfilippo)가 실시간 [[119_log_analysis|로그 분석]] [[282_performance_tactics|성능]] 문제를 해결하기 위해 개발. "단순히 키-값을 넘어 값 자체를 조작할 수 있는 서버 측 자료구조"라는 개념이 혁신이었다.
 
 ### 핵심 자료구조 총람
 
-| 자료구조 | 명령어(예) | 시간 복잡도 | 주요 용도 |
+| 자료구조 | [[158_instruction|명령어]](예) | [[002_time_complexity|시간 복잡도]] | 주요 용도 |
 |:---:|:---:|:---:|:---|
-| **String** | SET/GET/INCR | O(1) | 캐시, 카운터, 세션 토큰 |
+| **String** | SET/GET/INCR | O(1) | 캐시, [[059_counter|카운터]], [[160_session_controlling_terminal|세션]] 토큰 |
 | **List** | LPUSH/RPOP/LRANGE | O(1)/O(N) | 작업 큐, 활동 피드 |
 | **Hash** | HSET/HGET/HMGET | O(1) | 객체 저장(사용자 프로필) |
-| **Set** | SADD/SISMEMBER | O(1) | 고유 방문자, 태그 |
+| **Set** | SADD/SISMEMBER | O(1) | 고유 [[275_visitor_pattern|방문자]], 태그 |
 | **Sorted Set (ZSet)** | ZADD/ZRANGE/ZRANK | O(log N) | 실시간 리더보드, 순위 |
 | **Bitmap** | SETBIT/BITCOUNT | O(1)/O(N) | 일별 출석 체크 |
 | **HyperLogLog** | PFADD/PFCOUNT | O(1) | 근사 카디널리티(UV 측정) |
-| **Stream** | XADD/XREAD | O(1) | 이벤트 로그, Kafka 대체 |
+| **[[467_http2_stream_multiplexing_tcp_hol|Stream]]** | XADD/XREAD | O(1) | 이벤트 [[568_logs_distributed_logging_elk_fluentd|로그]], [[179_kafka_flink_watermark_time_window|Kafka]] 대체 |
 
 📢 **섹션 요약 비유**
 > Redis는 스위스 아미 나이프와 같다. 단순한 캐시(칼날)를 기본으로, 상황에 따라 큐(가위)·순위표(톱)·Pub/Sub(코르크 오프너) 등 다양한 도구를 꺼내 쓸 수 있다. 하지만 모든 도구를 동시에 쓰려 하면 오히려 복잡해진다.
@@ -38,7 +38,7 @@ categories = "studynote-bigdata"
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### Redis 단일 스레드 이벤트 루프
+### [[542_redis|Redis]] 단일 [[092_thread_lwp|스레드]] [[142_event_loop|이벤트 루프]]
 
 ```text
 ┌─────────────────────────────────────────────────────────┐
@@ -54,7 +54,7 @@ categories = "studynote-bigdata"
 └─────────────────────────────────────────────────────────┘
 ```
 
-### 영속성(Persistence) 전략
+### [[196_durability_permanent_storage|영속성]](Persistence) [[268_strategy_pattern|전략]]
 
 ```text
 ┌───────────────────────────────────────────────────────────┐
@@ -80,7 +80,7 @@ categories = "studynote-bigdata"
 └───────────────────────────────────────────────────────────┘
 ```
 
-### Redis Cluster 구조
+### [[542_redis|Redis]] Cluster 구조
 
 ```text
 ┌──────────────────────────────────────────────────────────┐
@@ -100,35 +100,35 @@ categories = "studynote-bigdata"
 └──────────────────────────────────────────────────────────┘
 ```
 
-### 트랜잭션: MULTI/EXEC
+### [[191_transaction_concept_states|트랜잭션]]: MULTI/EXEC
 
 | 명령 | 동작 |
 |:---:|:---|
-| `MULTI` | 트랜잭션 시작, 이후 명령은 큐에 저장 |
+| `MULTI` | [[191_transaction_concept_states|트랜잭션]] 시작, 이후 명령은 큐에 저장 |
 | `EXEC` | 큐의 모든 명령을 원자적으로 실행 |
-| `DISCARD` | 트랜잭션 취소, 큐 초기화 |
-| `WATCH key` | 낙관적 잠금(Optimistic Lock), 변경 시 EXEC 실패 |
+| `DISCARD` | [[191_transaction_concept_states|트랜잭션]] 취소, 큐 [[459_quic_fec_forward_error_correction|초기]]화 |
+| `WATCH key` | 낙관적 잠금(Optimistic [[510_lock|Lock]]), 변경 시 EXEC 실패 |
 
 📢 **섹션 요약 비유**
-> Redis Cluster의 해시 슬롯은 선거구 분할과 같다. 총 16384개 선거구를 여러 마스터가 나눠 담당하고, 투표(데이터)는 CRC16 계산으로 자동으로 올바른 선거구로 배정된다. 노드가 추가되면 선거구 일부를 재배분하면 끝이다.
+> [[542_redis|Redis]] Cluster의 해시 슬롯은 선거구 분할과 같다. 총 16384개 선거구를 여러 [[172_maas_mobility_as_a_service|마스]]터가 나눠 담당하고, 투표([[001_dikw_pyramid|데이터]])는 CRC16 계산으로 자동으로 올바른 선거구로 배정된다. 노드가 추가되면 선거구 일부를 재배분하면 끝이다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-### Redis vs Memcached
+### [[542_redis|Redis]] vs Memcached
 
-| 항목 | Redis | Memcached |
+| 항목 | [[542_redis|Redis]] | Memcached |
 |:---:|:---:|:---:|
 | 자료구조 | 다양(8가지+) | String만 |
-| 영속성 | RDB + AOF | 없음(순수 캐시) |
-| 클러스터 | 내장 지원 | 클라이언트 사이드 샤딩 |
-| 복제 | 마스터-레플리카 | 없음 |
+| [[196_durability_permanent_storage|영속성]] | RDB + AOF | 없음(순수 캐시) |
+| 클러스터 | 내장 지원 | 클라이언트 사이드 [[280_sharding|샤딩]] |
+| [[016_replication_factor|복제]] | [[172_maas_mobility_as_a_service|마스]]터-레플리카 | 없음 |
 | Pub/Sub | 지원 | 미지원 |
-| 멀티스레드 | I/O 스레드(v6+) | 완전 멀티스레드 |
+| 멀티스레드 | I/O [[092_thread_lwp|스레드]](v6+) | 완전 멀티스레드 |
 | 적합 | 복잡 워크로드 | 단순 캐시 |
 
-### Pub/Sub 메시징 패턴
+### Pub/Sub [[389_mesh_topology|메시]]징 패턴
 
 ```text
 Publisher ──→ Channel "news:sports" ──→ Subscriber A
@@ -140,24 +140,24 @@ Publisher ──→ Channel "news:sports" ──→ Subscriber A
 ```
 
 📢 **섹션 요약 비유**
-> Redis와 Memcached의 차이는 만능 슈퍼마켓(Redis)과 편의점(Memcached)의 차이와 같다. 편의점은 빠르고 단순하지만 취급 품목이 한정적이다. 슈퍼마켓은 거의 모든 것을 구할 수 있지만, 단순한 우유 한 팩만 사러 가기에는 약간 과한 느낌이다.
+> Redis와 Memcached의 차이는 만능 슈퍼마켓([[542_redis|Redis]])과 편의점(Memcached)의 차이와 같다. 편의점은 빠르고 단순하지만 취급 품목이 한정적이다. 슈퍼마켓은 거의 모든 것을 구할 수 있지만, 단순한 우유 한 팩만 사러 가기에는 약간 과한 느낌이다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### 패턴별 Redis 자료구조 매핑
+### 패턴별 [[542_redis|Redis]] 자료구조 매핑
 
-| 실무 패턴 | Redis 자료구조 | 핵심 명령어 |
+| 실무 패턴 | [[542_redis|Redis]] 자료구조 | 핵심 [[158_instruction|명령어]] |
 |:---:|:---:|:---:|
-| 세션 저장 | String + EXPIRE | SET/GET/TTL |
+| [[160_session_controlling_terminal|세션]] 저장 | String + EXPIRE | SET/GET/[[294_ttl_time_to_live_looping_prevention|TTL]] |
 | 실시간 리더보드 | Sorted Set | ZADD/ZREVRANGE |
-| 분산 잠금 | String + NX + PX | SET lock NX PX 30000 |
+| [[136_variance|분산]] 잠금 | String + NX + PX | SET [[510_lock|lock]] NX PX 30000 |
 | 중복 요청 방지 | Set/Bitmap | SADD/SETBIT |
 | 작업 큐 | List | LPUSH/BRPOP |
-| 이벤트 스트림 | Stream | XADD/XREADGROUP |
+| 이벤트 스트림 | [[467_http2_stream_multiplexing_tcp_hol|Stream]] | XADD/XREADGROUP |
 
-### 성능 최적화 포인트
+### [[282_performance_tactics|성능]] 최적화 포인트
 
 ```text
 ⚠️ Redis 운영 시 주의 사항:
@@ -174,38 +174,38 @@ Publisher ──→ Channel "news:sports" ──→ Subscriber A
 ```
 
 📢 **섹션 요약 비유**
-> Redis의 `KEYS *` 명령은 도서관 사서가 모든 책을 하나하나 확인하느라 다른 손님을 못 받는 것과 같다. `SCAN`은 조금씩 나눠서 확인하니 다른 손님도 동시에 서비스할 수 있다. 실무에서 `KEYS *`는 절대 금지어다.
+> Redis의 `KEYS *` 명령은 도서관 사서가 모든 책을 하나하나 [[396_validation|확인]]하느라 다른 손님을 못 받는 것과 같다. `SCAN`은 조금씩 나눠서 [[396_validation|확인]]하니 다른 손님도 동시에 [[090_service_kubernetes_network_load_balancing|서비스]]할 수 있다. 실무에서 `KEYS *`는 절대 금지어다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-### 도입 전/후 성능 비교 (e-커머스 실사례 기준)
+### 도입 전/후 [[282_performance_tactics|성능]] 비교 (e-커머스 실사례 기준)
 
-| 항목 | DB Only | Redis 캐시 추가 |
+| 항목 | DB Only | [[542_redis|Redis]] 캐시 추가 |
 |:---:|:---:|:---:|
 | 상품 상세 응답시간 | 120ms | 2ms |
 | DB CPU | 85% | 15% |
-| 캐시 히트율 | — | 94% |
+| [[263_cache_hit_miss|캐시 히트]]율 | — | 94% |
 | TPS | 3,000 | 180,000 |
 
 ### 결론
-Redis는 현대 고성능 아키텍처에서 사실상 필수 구성 요소로 자리잡았다. 단순 캐시 레이어를 넘어 실시간 분석·메시징·세션 관리·분산 잠금·이벤트 스트리밍까지 단일 인프라로 처리할 수 있다. 기술사 시험에서는 **자료구조 선택 근거**, **영속성 정책 결정 기준**, **클러스터 슬롯 분배 원리**가 핵심 논점이다.
+Redis는 현대 고성능 아키텍처에서 사실상 필수 구성 요소로 자리잡았다. 단순 캐시 레이어를 넘어 실시간 분석·[[389_mesh_topology|메시]]징·[[507_session_management_security|세션 관리]]·[[136_variance|분산]] 잠금·이벤트 스트리밍까지 단일 인프라로 처리할 수 있다. 기술사 시험에서는 **자료구조 선택 근거**, **[[196_durability_permanent_storage|영속성]] [[164_policy|정책]] 결정 기준**, **클러스터 슬롯 분배 원리**가 핵심 논점이다.
 
 📢 **섹션 요약 비유**
-> Redis를 도입한 아키텍처는 도서관 앞에 짧은 대출 기간의 회전서가를 설치한 것과 같다. 자주 빌리는 책(인기 데이터)은 회전서가(Redis)에서 즉시 집어가고, 오래된 자료(원본 데이터)만 깊숙한 창고(RDBMS)에서 꺼낸다. 덕분에 대부분의 방문객(요청)이 창고까지 가지 않아도 된다.
+> Redis를 도입한 아키텍처는 도서관 앞에 짧은 대출 기간의 회전서가를 설치한 것과 같다. 자주 빌리는 책(인기 [[001_dikw_pyramid|데이터]])은 회전서가([[542_redis|Redis]])에서 즉시 집어가고, 오래된 자료(원본 [[001_dikw_pyramid|데이터]])만 깊숙한 창고(RDBMS)에서 꺼낸다. 덕분에 대부분의 방문객(요청)이 창고까지 가지 않아도 된다.
 
 ---
 
 ### 📌 관련 개념 맵
 
-| 개념 | 관계 | 설명 |
+| 개념 | [[083_relationship_in_er_model|관계]] | 설명 |
 |:---:|:---:|:---|
-| 일관된 해싱 | 클러스터 기반 | 해시 슬롯 0~16383 분배 |
-| AOF (Append-Only File) | 영속성 메커니즘 | 명령 로그 기반 복구 |
-| RDB (Redis Database) | 영속성 메커니즘 | 스냅샷 기반 복구 |
-| Pub/Sub | 메시징 패턴 | 채널 기반 메시지 브로드캐스트 |
-| CRDT | 분산 데이터 타입 | Redis CRDT (엔터프라이즈) |
+| [[283_reference_pattern|일관된 해싱]] | 클러스터 기반 | 해시 슬롯 0~16383 분배 |
+| AOF (Append-Only [[501_file_definition_logical_record|File]]) | [[196_durability_permanent_storage|영속성]] 메커니즘 | 명령 [[568_logs_distributed_logging_elk_fluentd|로그]] 기반 [[658_ir_recovery|복구]] |
+| RDB ([[542_redis|Redis]] [[501_database|Database]]) | [[196_durability_permanent_storage|영속성]] 메커니즘 | [[022_snapshot_backup_architecture|스냅샷]] 기반 [[658_ir_recovery|복구]] |
+| Pub/Sub | [[389_mesh_topology|메시]]징 패턴 | 채널 기반 [[389_mesh_topology|메시]]지 브로드캐스트 |
+| CRDT | [[136_variance|분산]] [[001_dikw_pyramid|데이터]] 타입 | [[542_redis|Redis]] CRDT (엔터프라이즈) |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -222,8 +222,8 @@ Redis는 현대 고성능 아키텍처에서 사실상 필수 구성 요소로 �
 [캐싱 (Caching)]
 ```
 
-이 흐름도는 인메모리 특성이 Redis의 키-값 저장소와 캐싱 구조로 이어지는 흐름을 보여준다.
+이 흐름도는 인메모리 특성이 Redis의 [[036_key_value|키-값 저장소]]와 [[456_caching|캐싱]] 구조로 이어지는 흐름을 보여준다.
 ### 👶 어린이를 위한 3줄 비유 설명
 1. Redis는 책상 위의 메모장 같아요. 필요한 내용을 적어두면 책장(DB)을 뒤지지 않고 바로 꺼낼 수 있어요.
-2. 중요한 메모는 사진도 찍어두고(RDB 스냅샷) 언제 썼는지 일기도 쓰는(AOF 로그) 이중 보관이 안전해요.
-3. Redis 클러스터는 메모장을 여러 명이 나눠 가지는 것처럼, 한 명이 감당 못할 양의 메모를 팀원끼리 16384개 섹션으로 분담해요.
+2. 중요한 메모는 사진도 찍어두고(RDB [[022_snapshot_backup_architecture|스냅샷]]) 언제 썼는지 일기도 쓰는(AOF [[568_logs_distributed_logging_elk_fluentd|로그]]) 이중 보관이 안전해요.
+3. [[542_redis|Redis]] 클러스터는 메모장을 여러 명이 나눠 가지는 것처럼, 한 명이 감당 못할 양의 메모를 팀원끼리 16384개 섹션으로 분담해요.

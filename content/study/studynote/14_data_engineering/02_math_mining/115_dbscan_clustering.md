@@ -7,9 +7,9 @@ categories = "studynote-dataengineering"
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: DBSCAN(Density-Based Spatial Clustering of Applications with Noise)은 **데이터 밀도가 높은 영역을 클러스터로 묶고**, 밀도가 낮은 영역의 데이터를 **노이즈(이상치)**로 자동 분리하는 밀도 기반 클러스터링 알고리즘이다.
+> 1. **본질**: [[351_dbscan_density_based_clustering|DBSCAN]]([[357_dbscan|Density-Based Spatial Clustering]] of Applications with Noise)은 **[[001_dikw_pyramid|데이터]] 밀도가 높은 영역을 클러스터로 묶고**, 밀도가 낮은 영역의 [[001_dikw_pyramid|데이터]]를 **노이즈([[076_outlier_detection_iqr_dbscan_isolation_forest|이상치]])**로 자동 분리하는 밀도 기반 클러스터링 알고리즘이다.
 > 2. **가치**: K-Means가 K(클러스터 수)를 사전 지정해야 하고 원형 클러스터만 탐지하는 반면, DBSCAN은 **K를 자동 결정**하고 **비구형(초승달·고리 형태) 클러스터**도 탐지하며 **노이즈를 자동 분리**한다.
-> 3. **판단 포인트**: 두 파라미터 **ε(epsilon, 반경)**과 **MinPts(최소 이웃 수)**가 결과를 결정하며, ε이 너무 크면 모든 데이터가 1개 클러스터, 너무 작으면 모두 노이즈가 되는 민감성이 있다.
+> 3. **판단 포인트**: 두 파라미터 **ε(epsilon, 반경)**과 **MinPts(최소 이웃 수)**가 결과를 결정하며, ε이 너무 크면 모든 [[001_dikw_pyramid|데이터]]가 1개 클러스터, 너무 작으면 모두 노이즈가 되는 민감성이 있다.
 
 ---
 
@@ -39,9 +39,9 @@ categories = "studynote-dataengineering"
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### DBSCAN vs K-Means
+### [[351_dbscan_density_based_clustering|DBSCAN]] vs K-Means
 
-| 비교 | K-Means | DBSCAN |
+| 비교 | K-Means | [[351_dbscan_density_based_clustering|DBSCAN]] |
 |:---|:---|:---|
 | **K 지정** | 필수 | **자동 결정** |
 | **클러스터 형태** | 원형 | **비구형 (자유 형태)** |
@@ -55,7 +55,7 @@ categories = "studynote-dataengineering"
 
 ## Ⅲ. 비교 및 연결
 
-| 비교 | K-Means | DBSCAN | HDBSCAN |
+| 비교 | K-Means | [[351_dbscan_density_based_clustering|DBSCAN]] | HDBSCAN |
 |:---|:---|:---|:---|
 | **K 지정** | 필수 | 불필요 | 불필요 |
 | **밀도 변화** | 대응 불가 | **대응 불가** | **대응 가능** |
@@ -66,19 +66,19 @@ categories = "studynote-dataengineering"
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### ε·MinPts 설정 가이드
+### ε·MinPts [[009_config|설정]] 가이드
 - **ε**: k-distance 그래프의 "팔꿈치(elbow)" 지점.
 - **MinPts**: 일반적으로 `2 × 차원 수`. 2D → MinPts=4.
 
 ### 활용 시나리오
 1. **지리적 클러스터링**: GPS 좌표로 상점 밀집 지역 탐지.
-2. **이상 탐지**: 네트워크 트래픽에서 정상 패턴 밖 접근 = 노이즈(공격).
+2. **[[236_anomaly_based_detection_zero_day_false_positive|이상 탐지]]**: 네트워크 트래픽에서 정상 패턴 밖 접근 = 노이즈(공격).
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-DBSCAN은 K-Means가 실패하는 **비구형·노이즈 혼재 데이터**에서 강력하며, HDBSCAN으로 확장하면 밀도 변화까지 대응 가능하다.
+DBSCAN은 K-Means가 실패하는 **비구형·노이즈 혼재 [[001_dikw_pyramid|데이터]]**에서 강력하며, HDBSCAN으로 확장하면 밀도 변화까지 대응 가능하다.
 
 ---
 
@@ -87,7 +87,7 @@ DBSCAN은 K-Means가 실패하는 **비구형·노이즈 혼재 데이터**에�
 | 개념 | 연결 포인트 |
 |:---|:---|
 | **Core Point** | ε 내 MinPts 이상 이웃을 가진 핵심 점 |
-| **Noise** | 어떤 클러스터에도 속하지 않는 이상치 |
+| **Noise** | 어떤 클러스터에도 속하지 않는 [[076_outlier_detection_iqr_dbscan_isolation_forest|이상치]] |
 | **ε (epsilon)** | 이웃 탐색 반경, 민감 파라미터 |
 | **HDBSCAN** | DBSCAN의 밀도 변화 대응 확장 |
 | **K-Means** | 원형·K 지정 클러스터링 (비교 대상) |

@@ -8,8 +8,8 @@ categories = "studynote-cloud-architecture"
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: Strangler Fig는 **기존 모놀리스 시스템을 한 번에 교체하지 않고, 새 기능을 MSA로 만들어 점진적으로 모놀리스를 교살(Strangle)**하여 최종적으로 대체하는 마이그레이션 패턴이다(Martin Fowler).
-> 2. **가치**: 빅뱅 교체(Big Bang Rewrite)는 **고위험·장기간·실패 확률 높음**이지만, Strangler Fig는 **점진적·저위험**으로 운영 중인 시스템을 중단 없이 전환한다.
-> 3. **판단 포인트**: API Gateway/Proxy가 라우팅을 담당하여 **기능별로 새 서비스→모놀리스 트래픽을 점진 전환**하며, Anti-corruption Layer(ACL)로 신·구 시스템 간 데이터 변환을 처리한다.
+> 2. **가치**: 빅뱅 교체(Big Bang Rewrite)는 **고위험·장기간·실패 [[130_probability|확률]] 높음**이지만, Strangler Fig는 **점진적·저위험**으로 운영 중인 시스템을 중단 없이 전환한다.
+> 3. **판단 포인트**: [[542_api_gateway|API Gateway]]/Proxy가 [[339_routing_overview_best_path_selection|라우팅]]을 담당하여 **기능별로 새 [[090_service_kubernetes_network_load_balancing|서비스]]→모놀리스 트래픽을 점진 전환**하며, Anti-corruption Layer([[549_acl_access_control_list|ACL]])로 신·구 시스템 간 [[001_dikw_pyramid|데이터]] 변환을 처리한다.
 
 ---
 
@@ -28,7 +28,7 @@ categories = "studynote-cloud-architecture"
 
 ## Ⅱ~Ⅴ. 결론
 
-Strangler Fig는 **모놀리스→MSA 전환의 사실상 표준 전략**이며, API Gateway와 ACL이 핵심 인프라이다.
+Strangler Fig는 **모놀리스→[[619_msa_traffic_hardware|MSA]] 전환의 사실상 표준 [[268_strategy_pattern|전략]]**이며, [[014_api_posix|API]] Gateway와 ACL이 핵심 인프라이다.
 
 ---
 
@@ -36,9 +36,9 @@ Strangler Fig는 **모놀리스→MSA 전환의 사실상 표준 전략**이며,
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **Strangler Fig** | 점진적 교체 |
-| **API Gateway** | 라우팅 전환 |
-| **ACL** | 신·구 변환 레이어 |
+| **[[310_strangler_fig_pattern|Strangler Fig]]** | 점진적 교체 |
+| **[[542_api_gateway|API Gateway]]** | [[339_routing_overview_best_path_selection|라우팅]] 전환 |
+| **[[549_acl_access_control_list|ACL]]** | 신·구 변환 레이어 |
 | **Big Bang** | 위험한 대안 |
 | **Feature Toggle** | 점진 전환 제어 |
 
@@ -53,4 +53,4 @@ Strangler Fig는 **모놀리스→MSA 전환의 사실상 표준 전략**이며,
 ### 👶 어린이를 위한 3줄 비유 설명
 1. Strangler Fig는 **덩굴이 큰 나무를 감싸** 천천히 대체하는 거예요.
 2. 한 번에 바꾸면 **위험하니까** 조금씩 새것으로 바꿔요.
-3. 결국 큰 나무(모놀리스)는 사라지고 **덩굴(MSA)만** 남아요!
+3. 결국 큰 나무(모놀리스)는 사라지고 **덩굴([[619_msa_traffic_hardware|MSA]])만** 남아요!

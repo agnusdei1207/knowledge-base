@@ -7,9 +7,9 @@ categories = "studynote-software-engineering"
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: 요구사항은 **기능 요구사항(FR, 시스템이 해야 하는 것)**·**비기능 요구사항(NFR, 성능·보안·가용성 등 품질 속성)**·**제약사항(Constraints, 기술·법적 제한)**의 3가지로 분류된다.
-> 2. **가치**: FR만 정의하면 "로그인은 되는데 3초 걸리고 해킹에 취약한" 시스템이 되며, NFR이 **시스템의 품질 수준**을 결정한다. 기술사 시험에서 NFR 누락이 가장 흔한 감점 포인트이다.
-> 3. **판단 포인트**: NFR은 ISO 25010 품질 모델(기능성·신뢰성·사용성·효율성·유지보수성·이식성·보안·호환성)로 체계적으로 도출하며, **측정 가능한 수치**로 명세해야 한다.
+> 1. **본질**: 요구사항은 **기능 요구사항(FR, 시스템이 해야 하는 것)**·**[[133_non_functional_requirements|비기능 요구사항]]([[133_non_functional_requirements|NFR]], [[282_performance_tactics|성능]]·보안·[[452_availability|가용성]] 등 품질 [[082_attribute_types_er_model|속성]])**·**제약사항(Constraints, 기술·법적 제한)**의 3가지로 분류된다.
+> 2. **가치**: FR만 정의하면 "로그인은 되는데 3초 걸리고 해킹에 취약한" 시스템이 되며, NFR이 **시스템의 품질 수준**을 결정한다. 기술사 시험에서 [[133_non_functional_requirements|NFR]] 누락이 가장 흔한 감점 포인트이다.
+> 3. **판단 포인트**: NFR은 ISO 25010 품질 모델(기능성·[[642_reliability_mtbf_mttr_mttf_availability|신뢰성]]·[[286_usability_tactics|사용성]]·효율성·[[346_maintainability_portability|유지보수성]]·이식성·보안·[[344_compatibility_usability|호환성]])로 체계적으로 도출하며, **측정 가능한 수치**로 명세해야 한다.
 
 ---
 
@@ -32,14 +32,14 @@ Constraints: "Java 17 사용", "GDPR 준수"
 | 유형 | 질문 | 예 |
 |:---|:---|:---|
 | **FR** | What? | 로그인, 결제, 검색 |
-| **NFR** | How well? | 응답 2초, 가용 99.9% |
-| **Constraints** | What limits? | Java, AWS, GDPR |
+| **[[133_non_functional_requirements|NFR]]** | How well? | 응답 2초, 가용 99.9% |
+| **Constraints** | What limits? | Java, AWS, [[791_gdpr_eu|GDPR]] |
 
 ---
 
 ## Ⅲ~Ⅴ. 결론
 
-NFR은 **아키텍처를 결정하는 핵심 동인(Architecture Driver)**이며, 측정 가능한 수치로 명세하지 않으면 검증이 불가능하다.
+NFR은 **아키텍처를 결정하는 핵심 동인([[319_architecture|Architecture]] Driver)**이며, 측정 가능한 수치로 명세하지 않으면 검증이 불가능하다.
 
 ---
 
@@ -48,10 +48,10 @@ NFR은 **아키텍처를 결정하는 핵심 동인(Architecture Driver)**이며
 | 개념 | 연결 포인트 |
 |:---|:---|
 | **FR** | 기능 요구사항 (What) |
-| **NFR** | 비기능 요구사항 (How well) |
+| **[[133_non_functional_requirements|NFR]]** | [[133_non_functional_requirements|비기능 요구사항]] (How well) |
 | **ISO 25010** | 품질 모델 (8대 특성) |
-| **QAW** | 품질 속성 워크숍 |
-| **ATAM** | 아키텍처 트레이드오프 분석 |
+| **QAW** | 품질 [[082_attribute_types_er_model|속성]] 워크숍 |
+| **[[229_atam_architecture_trade_off_analysis_method|ATAM]]** | 아키텍처 트레이드오프 분석 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 

@@ -6,13 +6,13 @@ categories = "studynote-bigdata"
 +++
 
 > **핵심 인사이트**
-> 1. 유럽 데이터 전략(European Data Strategy, 2020)은 개인 데이터 주권과 산업 데이터 공유를 동시에 실현하는 "데이터 공간(Data Spaces)" 생태계 구축을 핵심으로 하며, GAIA-X 클라우드 연합이 인프라를 제공한다.
-> 2. 데이터 공간은 참여자 간 데이터 주권을 유지하면서 안전하게 데이터를 교환하는 분산 아키텍처로, 중앙집중식 데이터 저장소 없이 커넥터(IDS Connector) 기반 P2P 교환을 사용한다.
-> 3. 데이터 거버넌스 법(Data Governance Act, 2022)·데이터 법(Data Act, 2024)·AI 법(AI Act, 2024)이 연동되어 EU 디지털 단일 시장의 데이터 규제 트리플 축을 형성하고 있다.
+> 1. 유럽 [[001_dikw_pyramid|데이터]] [[268_strategy_pattern|전략]](European [[001_dikw_pyramid|Data]] [[268_strategy_pattern|Strategy]], 2020)은 개인 [[809_data_sovereignty|데이터 주권]]과 산업 [[386_data_clean_room_sharing|데이터 공유]]를 동시에 실현하는 "[[001_dikw_pyramid|데이터]] 공간([[001_dikw_pyramid|Data]] Spaces)" 생태계 구축을 핵심으로 하며, GAIA-X 클라우드 연합이 인프라를 제공한다.
+> 2. [[001_dikw_pyramid|데이터]] 공간은 참여자 간 [[809_data_sovereignty|데이터 주권]]을 유지하면서 안전하게 [[001_dikw_pyramid|데이터]]를 교환하는 [[136_variance|분산]] 아키텍처로, 중앙집중식 [[001_dikw_pyramid|데이터]] 저장소 없이 커넥터([[601_ids_ips_syscall_tracing|IDS]] Connector) 기반 [[916_p2p_peer_to_peer_networking_super_node_gnutella|P2P]] 교환을 사용한다.
+> 3. [[052_data_governance_framework|데이터 거버넌스]] 법([[052_data_governance_framework|Data Governance]] Act, 2022)·[[001_dikw_pyramid|데이터]] 법([[001_dikw_pyramid|Data]] Act, 2024)·[[190_ai_llm_requirements_specification|AI]] 법([[190_ai_llm_requirements_specification|AI]] Act, 2024)이 연동되어 EU 디지털 단일 시장의 [[001_dikw_pyramid|데이터]] 규제 트리플 축을 형성하고 있다.
 
 ---
 
-## I. 유럽 데이터 전략 배경
+## I. 유럽 [[001_dikw_pyramid|데이터]] [[268_strategy_pattern|전략]] 배경
 
 ```
 배경: 미국·중국의 빅테크 데이터 독점에 대한 유럽의 대응
@@ -29,18 +29,18 @@ categories = "studynote-bigdata"
   + 지속 가능성 (Sustainability)
 ```
 
-| 핵심 정책 문서          | 발표 연도 | 핵심 내용                         |
+| 핵심 [[164_policy|정책]] 문서          | 발표 연도 | 핵심 내용                         |
 |-------------------|---------|---------------------------------|
-| European Data Strategy | 2020 | 데이터 공간 9개 분야 구축 계획      |
-| Data Governance Act    | 2022 | 데이터 중개자·이타적 공유 프레임워크 |
-| Data Act               | 2024 | IoT 데이터 접근권·기업 간 공유     |
-| AI Act                 | 2024 | AI 시스템 리스크 기반 규제         |
+| European [[001_dikw_pyramid|Data]] [[268_strategy_pattern|Strategy]] | 2020 | [[001_dikw_pyramid|데이터]] 공간 9개 분야 구축 계획      |
+| [[052_data_governance_framework|Data Governance]] Act    | 2022 | [[001_dikw_pyramid|데이터]] 중개자·이타적 공유 프레임워크 |
+| [[001_dikw_pyramid|Data]] Act               | 2024 | [[101_iot_concept|IoT]] [[001_dikw_pyramid|데이터]] 접근권·기업 간 공유     |
+| [[190_ai_llm_requirements_specification|AI]] Act                 | 2024 | [[190_ai_llm_requirements_specification|AI]] 시스템 [[096_risk_non_risk_architecture_evaluation_flaws|리스크]] 기반 규제         |
 
-> 📢 **섹션 요약 비유**: 미국·중국이 대형 마트로 데이터를 독점한다면, 유럽은 공정 거래 규칙이 있는 시장 광장 — 모두가 공정하게 참여하고 주권을 유지한다.
+> 📢 **섹션 요약 비유**: 미국·중국이 대형 마트로 [[001_dikw_pyramid|데이터]]를 독점한다면, 유럽은 공정 거래 규칙이 있는 시장 광장 — 모두가 공정하게 참여하고 주권을 유지한다.
 
 ---
 
-## II. 데이터 공간 (Data Spaces) 아키텍처
+## II. [[001_dikw_pyramid|데이터]] 공간 ([[001_dikw_pyramid|Data]] Spaces) 아키텍처
 
 ```
 데이터 공간 핵심 원칙:
@@ -66,7 +66,7 @@ categories = "studynote-bigdata"
                (신뢰 레이어 + 카탈로그)
 ```
 
-> 📢 **섹션 요약 비유**: 물건은 집에 두고, 서로 신뢰 인증된 우편 시스템으로만 교환하는 것 — 중앙 창고가 없어서 한 곳에 독점이나 침해가 생기지 않는다.
+> 📢 **섹션 요약 비유**: 물건은 집에 두고, 서로 신뢰 [[303_authentication_authorization_patterns|인증]]된 우편 시스템으로만 교환하는 것 — 중앙 창고가 없어서 한 곳에 독점이나 침해가 생기지 않는다.
 
 ---
 
@@ -96,11 +96,11 @@ GAIA-X (2019, 독일·프랑스 주도):
   실제 유스케이스: CATENA-X (자동차), EHDSi (의료)
 ```
 
-> 📢 **섹션 요약 비유**: 미국 빅테크 클라우드에 유럽 데이터를 맡기는 것이 불편한 유럽이, 유럽인이 운영하고 유럽 법이 적용되는 공동 클라우드를 만든 것.
+> 📢 **섹션 요약 비유**: 미국 빅테크 클라우드에 유럽 [[001_dikw_pyramid|데이터]]를 맡기는 것이 불편한 유럽이, 유럽인이 운영하고 유럽 법이 적용되는 공동 클라우드를 만든 것.
 
 ---
 
-## IV. 9개 산업 데이터 공간
+## [[288_version_ihl_tos_total_length|IV]]. 9개 산업 [[001_dikw_pyramid|데이터]] 공간
 
 ```
 EU 데이터 전략 9대 데이터 공간:
@@ -116,17 +116,17 @@ EU 데이터 전략 9대 데이터 공간:
 9. Skills                 교육·직업 훈련 데이터
 ```
 
-| 데이터 공간        | 대표 프로젝트        | 주요 참여자                 |
+| [[001_dikw_pyramid|데이터]] 공간        | 대표 프로젝트        | 주요 참여자                 |
 |----------------|-------------------|--------------------------|
-| CATENA-X       | 자동차 공급망       | BMW, VW, Siemens, SAP    |
-| EHDS           | 유럽 의료 데이터    | 27개 EU 회원국 보건부       |
+| CATENA-X       | 자동차 [[520_supply_chain_attack_and_ci_cd_security|공급망]]       | BMW, VW, Siemens, SAP    |
+| EHDS           | 유럽 의료 [[001_dikw_pyramid|데이터]]    | 27개 EU 회원국 보건부       |
 | Green Deal     | 탄소 추적          | Airbus, Schneider Electric|
 
-> 📢 **섹션 요약 비유**: 각 산업별로 전용 데이터 시장을 만든 것 — 의료 데이터는 의료 시장에서만, 자동차 데이터는 자동차 시장에서만 안전하게 거래.
+> 📢 **섹션 요약 비유**: 각 산업별로 전용 [[001_dikw_pyramid|데이터]] 시장을 만든 것 — 의료 [[001_dikw_pyramid|데이터]]는 의료 시장에서만, 자동차 [[001_dikw_pyramid|데이터]]는 자동차 시장에서만 안전하게 거래.
 
 ---
 
-## V. 실무 시나리오 — CATENA-X (자동차 공급망)
+## V. 실무 시나리오 — CATENA-X (자동차 [[520_supply_chain_attack_and_ci_cd_security|공급망]])
 
 ```
 문제:
@@ -145,7 +145,7 @@ CATENA-X 솔루션:
   GAIA-X 신뢰 레이어
 ```
 
-> 📢 **섹션 요약 비유**: 자동차 한 대의 "탄소 여권" — 어디서 채굴된 배터리, 어느 공장에서 만든 부품인지 공급망 전체가 투명하게 추적되는 것.
+> 📢 **섹션 요약 비유**: 자동차 한 대의 "탄소 여권" — 어디서 채굴된 배터리, 어느 공장에서 만든 부품인지 [[520_supply_chain_attack_and_ci_cd_security|공급망]] 전체가 투명하게 추적되는 것.
 
 ---
 
@@ -203,6 +203,6 @@ EU AI 시스템 규제 강화
 
 ## 👶 어린이를 위한 3줄 비유 설명
 
-1. 유럽은 구글·아마존 같은 미국 회사들이 유럽 데이터를 다 가져가는 게 싫어서, 유럽만의 데이터 공유 규칙을 만들었어요.
-2. 데이터 공간은 물건을 창고에 모아두지 않고, 각자 집에 보관하면서 필요할 때만 안전하게 빌려주는 시스템이에요.
+1. 유럽은 구글·아마존 같은 미국 회사들이 유럽 [[001_dikw_pyramid|데이터]]를 다 가져가는 게 싫어서, 유럽만의 [[386_data_clean_room_sharing|데이터 공유]] 규칙을 만들었어요.
+2. [[001_dikw_pyramid|데이터]] 공간은 물건을 창고에 모아두지 않고, 각자 집에 보관하면서 필요할 때만 안전하게 빌려주는 시스템이에요.
 3. 자동차 회사들이 공급업체 부품의 탄소 발자국을 투명하게 추적하는 것이 좋은 예예요!

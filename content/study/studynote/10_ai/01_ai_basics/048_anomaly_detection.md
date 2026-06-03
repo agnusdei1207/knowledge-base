@@ -7,13 +7,13 @@ categories = "studynote-ai"
 +++
 
 > **핵심 인사이트**
-> 1. 이상 탐지(Anomaly Detection)는 정상 패턴에서 크게 벗어나는 데이터 포인트를 찾는 기법 — 레이블된 이상 데이터가 극도로 희소한 현실(보안 위협, 제조 불량, 의료 이상)에서 "정상 분포를 모델링하고 벗어남을 이상으로 판단"하는 방식이 주로 사용된다.
-> 2. 이상 탐지의 3가지 유형 — 포인트 이상(Point Anomaly: 단일 값이 이상), 맥락적 이상(Contextual: 맥락상 이상), 집합적 이상(Collective: 개별은 정상이지만 패턴이 이상)으로 구분되며, 각각 다른 알고리즘이 필요하다.
-> 3. False Positive 비율이 운영 비용을 결정 — 이상 탐지는 과탐(False Positive)과 미탐(False Negative) 사이의 트레이드오프이며, 보안 SOC에서 "경보 피로(Alert Fatigue)"가 실제 위협 대응을 방해하는 가장 큰 운영 문제다.
+> 1. [[236_anomaly_based_detection_zero_day_false_positive|이상 탐지]]([[111_anomaly_detection|Anomaly Detection]])는 정상 패턴에서 크게 벗어나는 [[001_dikw_pyramid|데이터]] 포인트를 찾는 기법 — 레이블된 이상 [[001_dikw_pyramid|데이터]]가 극도로 희소한 현실(보안 위협, 제조 불량, 의료 이상)에서 "정상 분포를 모델링하고 벗어남을 이상으로 판단"하는 방식이 주로 사용된다.
+> 2. [[236_anomaly_based_detection_zero_day_false_positive|이상 탐지]]의 3가지 유형 — 포인트 이상(Point [[530_anomaly|Anomaly]]: 단일 값이 이상), 맥락적 이상(Contextual: 맥락상 이상), 집합적 이상(Collective: 개별은 정상이지만 패턴이 이상)으로 구분되며, 각각 다른 [[001_algorithm_definition|알고리즘]]이 필요하다.
+> 3. False Positive 비율이 운영 비용을 결정 — [[236_anomaly_based_detection_zero_day_false_positive|이상 탐지]]는 과탐(False Positive)과 미탐(False Negative) 사이의 트레이드오프이며, 보안 SOC에서 "경보 피로(Alert Fatigue)"가 실제 위협 대응을 방해하는 가장 큰 운영 문제다.
 
 ---
 
-## Ⅰ. 이상 탐지 유형
+## Ⅰ. [[236_anomaly_based_detection_zero_day_false_positive|이상 탐지]] 유형
 
 ```
 이상(Anomaly) 정의:
@@ -57,11 +57,11 @@ categories = "studynote-ai"
   딥러닝: Autoencoder, LSTM
 ```
 
-> 📢 **섹션 요약 비유**: 이상 탐지 유형 = 이상한 수학 문제 유형 — 포인트 이상(답이 틀림), 맥락적 이상(문제는 맞는데 이 시험에서 틀림), 집합적 이상(각 문제는 맞는데 순서가 이상)!
+> 📢 **섹션 요약 비유**: [[236_anomaly_based_detection_zero_day_false_positive|이상 탐지]] 유형 = 이상한 수학 문제 유형 — 포인트 이상(답이 틀림), 맥락적 이상(문제는 맞는데 이 시험에서 틀림), 집합적 이상(각 문제는 맞는데 순서가 이상)!
 
 ---
 
-## Ⅱ. 주요 알고리즘
+## Ⅱ. 주요 [[001_algorithm_definition|알고리즘]]
 
 ```
 1. 통계 기반:
@@ -120,11 +120,11 @@ LSTM Autoencoder:
   예측 오류 큰 구간 = 이상
 ```
 
-> 📢 **섹션 요약 비유**: 이상 탐지 알고리즘 선택 — Z-Score(키 차이 확인: 단순), LOF(반 친구들과 키 비교: 지역 기준), Isolation Forest(빠른 분리 게임), Autoencoder(정상 패턴 외운 후 다른 것 감지)!
+> 📢 **섹션 요약 비유**: [[236_anomaly_based_detection_zero_day_false_positive|이상 탐지]] [[001_algorithm_definition|알고리즘]] 선택 — Z-Score(키 차이 [[396_validation|확인]]: 단순), LOF(반 친구들과 키 비교: 지역 기준), [[195_isolation_concurrency_control|Isolation]] Forest(빠른 분리 게임), [[335_autoencoder|Autoencoder]](정상 패턴 외운 후 다른 것 감지)!
 
 ---
 
-## Ⅲ. 시계열 이상 탐지
+## Ⅲ. 시계열 [[236_anomaly_based_detection_zero_day_false_positive|이상 탐지]]
 
 ```
 시계열 이상 탐지:
@@ -175,7 +175,7 @@ LSTM Autoencoder:
   Azure Monitor (ML 기반 기준선)
 ```
 
-> 📢 **섹션 요약 비유**: 시계열 이상 탐지 = 체온 변화 추적 — 매일 같은 시간 체온 기록(정상 패턴). 갑자기 높아지면(이상). 단, 여름엔 기준값이 달라야(동적 임계값) 함!
+> 📢 **섹션 요약 비유**: 시계열 [[236_anomaly_based_detection_zero_day_false_positive|이상 탐지]] = 체온 변화 추적 — 매일 같은 시간 체온 기록(정상 패턴). 갑자기 높아지면(이상). 단, 여름엔 기준값이 달라야(동적 임계값) 함!
 
 ---
 
@@ -223,7 +223,7 @@ Precision-Recall 트레이드오프:
   제조 품질검사: 높은 Precision 선호 (과탐 비용 > 미탐 비용)
 ```
 
-> 📢 **섹션 요약 비유**: FP 관리 = 화재 경보기 감도 — 너무 예민하면(낮은 임계값) 밥 태울 때마다 경보. 너무 둔감하면(높은 임계값) 진짜 불 못 잡음. 문맥(연기+온도+불꽃)을 조합해야 정확!
+> 📢 **섹션 요약 비유**: [[293_fp_function_point|FP]] 관리 = 화재 경보기 감도 — 너무 예민하면(낮은 임계값) 밥 태울 때마다 경보. 너무 둔감하면(높은 임계값) 진짜 불 못 잡음. 문맥(연기+온도+불꽃)을 조합해야 정확!
 
 ---
 
@@ -280,7 +280,7 @@ Precision-Recall 트레이드오프:
   시스템 운영 비용 2억원 → 순 ROI 6배
 ```
 
-> 📢 **섹션 요약 비유**: 금융 FDS = 카드 이상 탐지 — Isolation Forest+LSTM+규칙 앙상블로 72% 탐지. FPR 0.8%로 고객 불편 최소화. 월 12억 사기 예방, 운영 2억 → ROI 6배!
+> 📢 **섹션 요약 비유**: 금융 [[267_gnn_fraud_detection_knowledge_graph|FDS]] = 카드 [[236_anomaly_based_detection_zero_day_false_positive|이상 탐지]] — [[195_isolation_concurrency_control|Isolation]] Forest+[[292_lstm|LSTM]]+규칙 [[257_ensemble_learning|앙상블]]로 72% 탐지. FPR 0.8%로 고객 불편 최소화. 월 12억 사기 예방, 운영 2억 → [[012_roi_return_on_investment|ROI]] 6배!
 
 ---
 
@@ -340,6 +340,6 @@ Z-Score, Control Chart
 
 ## 👶 어린이를 위한 3줄 비유 설명
 
-1. 이상 탐지 유형 = 이상한 것 찾기 — 혼자 이상한 것(포인트), 상황에 따라 이상한 것(맥락적), 각각은 정상인데 모이면 이상한 것(집합적)!
-2. Isolation Forest = 이상한 사람 빠르게 골라내기 — 정상 사람은 분류하기 어렵고(많은 질문), 이상한 사람은 금방 골라냄(적은 질문)!
-3. Alert Fatigue = 소년의 외침 — "늑대다!" 너무 자주 외치면(FP 많음) 진짜 늑대(실제 위협)가 와도 무시. 정확한 탐지가 생명!
+1. [[236_anomaly_based_detection_zero_day_false_positive|이상 탐지]] 유형 = 이상한 것 찾기 — 혼자 이상한 것(포인트), 상황에 따라 이상한 것(맥락적), 각각은 정상인데 모이면 이상한 것(집합적)!
+2. [[195_isolation_concurrency_control|Isolation]] Forest = 이상한 사람 빠르게 골라내기 — 정상 사람은 [[104_classification_analysis|분류]]하기 어렵고(많은 질문), 이상한 사람은 금방 골라냄(적은 질문)!
+3. Alert Fatigue = 소년의 외침 — "늑대다!" 너무 자주 외치면([[293_fp_function_point|FP]] 많음) 진짜 늑대(실제 위협)가 와도 무시. 정확한 탐지가 생명!

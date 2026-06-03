@@ -8,17 +8,17 @@ categories = "studynote-design-supervision"
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: DRY (Don't Repeat Yourself, 반복 금지 원칙)는 "모든 지식은 시스템 안에서 단 하나의 명확하고 권위 있는 표현을 가져야 한다"는 원칙으로, 코드뿐 아니라 데이터·로직·문서까지 포함하는 광의의 중복 방지 철학이다.
-> 2. **가치**: 중복된 코드는 하나를 수정할 때 나머지를 모두 찾아 동기화해야 하는 산탄총 수술(Shotgun Surgery) 문제를 유발하며, DRY는 이 유지보수 비용을 단일 수정 지점으로 압축한다.
+> 1. **본질**: DRY (Don't Repeat Yourself, 반복 금지 원칙)는 "모든 지식은 시스템 안에서 단 하나의 명확하고 권위 있는 표현을 가져야 한다"는 원칙으로, 코드뿐 아니라 [[001_dikw_pyramid|데이터]]·로직·문서까지 포함하는 광의의 중복 방지 철학이다.
+> 2. **가치**: 중복된 코드는 하나를 수정할 때 나머지를 모두 찾아 [[212_synchronization_mechanisms|동기화]]해야 하는 산탄총 수술(Shotgun Surgery) 문제를 유발하며, DRY는 이 유지보수 비용을 단일 수정 지점으로 압축한다.
 > 3. **판단 포인트**: 외견상 같아 보이는 코드라도 서로 다른 변경 이유를 가진다면 중복이 아니라 우연의 일치(coincidental duplication)이며, 무조건 합치면 오히려 결합도가 높아지는 역효과가 생긴다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-DRY는 앤드루 헌트(Andrew Hunt)와 데이비드 토마스(David Thomas)가 "실용주의 프로그래머(The Pragmatic Programmer)"에서 제시한 원칙이다. 코드베이스에서 중복이 발생하는 주요 원인은 세 가지다. 첫째, 시간 압박에 의한 복사-붙여넣기 프로그래밍, 둘째, 팀 간 소통 부재로 동일 로직이 각자 구현, 셋째, 리팩토링 없이 기능을 덧대는 점진적 퇴행이다.
+DRY는 앤드루 헌트(Andrew Hunt)와 데이비드 토마스(David Thomas)가 "실용주의 프로그래머(The Pragmatic Programmer)"에서 제시한 원칙이다. [[007_codebase|코드베이스]]에서 중복이 발생하는 주요 원인은 세 가지다. 첫째, 시간 압박에 의한 복사-붙여넣기 프로그래밍, 둘째, 팀 간 소통 부재로 동일 로직이 각자 구현, 셋째, [[213_refactoring_cloud_native_rearchitecture|리팩토링]] 없이 기능을 덧대는 점진적 퇴행이다.
 
-중복이 쌓이면 버그 수정 한 건이 5군데에서 같은 작업을 반복해야 하는 상황이 만들어진다. 그중 한 곳이라도 빠지면 데이터 불일치나 보안 취약점이 생긴다. DRY는 이 위험을 단일 진실 공급원(Single Source of Truth)으로 봉쇄한다.
+중복이 쌓이면 버그 수정 한 건이 5군데에서 같은 작업을 반복해야 하는 상황이 만들어진다. 그중 한 곳이라도 빠지면 [[001_dikw_pyramid|데이터]] 불일치나 보안 취약점이 생긴다. DRY는 이 위험을 단일 진실 공급원(Single Source of Truth)으로 봉쇄한다.
 
 ```text
 ┌─────────────────────────────────────────────────────────────┐
@@ -34,22 +34,22 @@ DRY는 앤드루 헌트(Andrew Hunt)와 데이비드 토마스(David Thomas)가 
 └─────────────────────────────────────────────────────────────┘
 ```
 
-DRY를 적용하지 않으면 코드베이스의 크기만 커지고 응집도는 낮아진다. 요구사항 변경이 여러 파일에 흩어진 중복을 모두 찾아 수정하는 고통스러운 작업으로 이어지기 때문이다.
+DRY를 적용하지 않으면 [[007_codebase|코드베이스]]의 크기만 커지고 응집도는 낮아진다. 요구사항 변경이 여러 파일에 흩어진 중복을 모두 찾아 수정하는 고통스러운 작업으로 이어지기 때문이다.
 
-- **📢 섹션 요약 비유**: 같은 법조문이 여러 법전에 다르게 적혀 있으면 법원마다 판결이 달라진다. 법 조항은 단 한 곳에 정의되고 모두가 그것을 참조해야 한다.
+- **📢 섹션 요약 비유**: 같은 법조문이 여러 법전에 다르게 적혀 있으면 법원마다 판결이 달라진다. 법 조항은 단 한 곳에 정의되고 모두가 그것을 [[316_reference_pattern_nosql|참조]]해야 한다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-DRY를 실현하는 핵심 메커니즘은 추출(Extract)과 참조(Reference)다. 중복 코드를 발견하면 공통 로직을 별도 함수·클래스·모듈로 추출하고, 기존 위치는 추출된 단위를 참조하도록 변경한다. 이 과정은 리팩토링(Refactoring)의 핵심 기법 중 하나인 "메서드 추출(Extract Method)"로 자동화된다.
+DRY를 실현하는 핵심 메커니즘은 추출(Extract)과 [[316_reference_pattern_nosql|참조]]([[316_reference_pattern_nosql|Reference]])다. 중복 코드를 발견하면 공통 로직을 별도 함수·클래스·[[192_module_independence|모듈]]로 추출하고, 기존 위치는 추출된 단위를 [[316_reference_pattern_nosql|참조]]하도록 변경한다. 이 과정은 [[213_refactoring_cloud_native_rearchitecture|리팩토링]]([[078_refactoring_code_smells|Refactoring]])의 핵심 기법 중 하나인 "메서드 추출(Extract Method)"로 자동화된다.
 
 | 항목 | 설명 | 포인트 |
 |:---|:---|:---|
-| 코드 중복 | 복사-붙여넣기 | 함수/클래스 추출, 상속/컴포지션 |
-| 데이터 중복 | 동일 정보 여러 저장소 | 정규화(Normalization), 단일 DB 뷰 |
-| 로직 중복 | 팀 간 소통 부재 | 공통 라이브러리, 내부 패키지화 |
-| 문서 중복 | 코드-문서 불일치 | 자동 문서 생성(JavaDoc, Swagger) |
+| 코드 중복 | 복사-붙여넣기 | 함수/클래스 추출, [[234_uml_class_relationships_generalization_dependency|상속]]/컴포지션 |
+| [[001_dikw_pyramid|데이터]] 중복 | 동일 정보 여러 저장소 | [[093_normalization|정규화]]([[093_normalization|Normalization]]), 단일 DB 뷰 |
+| 로직 중복 | 팀 간 소통 부재 | 공통 [[336_library_vs_framework|라이브러리]], 내부 패키지화 |
+| 문서 중복 | 코드-문서 불일치 | 자동 문서 [[087_process_state_transition|생성]](JavaDoc, Swagger) |
 
 ```text
 ┌─────────────────────────────────────────────────────────────┐
@@ -68,20 +68,20 @@ DRY를 실현하는 핵심 메커니즘은 추출(Extract)과 참조(Reference)�
 └─────────────────────────────────────────────────────────────┘
 ```
 
-데이터베이스 영역에서 DRY는 정규화(Normalization)로 표현된다. 같은 데이터를 여러 테이블에 중복 저장하면 업데이트 이상(Update Anomaly)이 발생하므로, 3정규형(3NF, Third Normal Form)까지 적용해 데이터의 단일 진실 공급원을 보장한다.
+[[002_database_definition|데이터베이스]] 영역에서 DRY는 [[093_normalization|정규화]]([[093_normalization|Normalization]])로 표현된다. 같은 [[001_dikw_pyramid|데이터]]를 여러 테이블에 중복 저장하면 업데이트 이상([[093_update_anomaly|Update Anomaly]])이 발생하므로, 3정규형([[105_third_normal_form_3nf_transitive|3NF]], [[528_third_normal_form|Third Normal Form]])까지 적용해 [[001_dikw_pyramid|데이터]]의 단일 진실 공급원을 보장한다.
 
 - **📢 섹션 요약 비유**: 회사의 대표 전화번호가 명함, 웹사이트, 팸플릿에 각각 다르게 적혀 있으면 번호가 바뀔 때마다 세 곳을 모두 수정해야 한다. 중앙 디렉토리 하나만 바꾸면 모두 자동 갱신되는 구조가 DRY다.
 
 ---
 ## Ⅲ. 비교 및 연결
 
-DRY와 자주 혼동되는 원칙이 SSOT (Single Source of Truth, 단일 진실 공급원)와 AHA (Avoid Hasty Abstractions, 성급한 추상화 금지)다. 이 세 원칙은 적용 대상과 경계가 다르다.
+DRY와 자주 혼동되는 원칙이 SSOT (Single Source of Truth, 단일 진실 공급원)와 AHA (Avoid Hasty Abstractions, 성급한 [[198_abstraction_control_data_process|추상화]] 금지)다. 이 세 원칙은 적용 대상과 경계가 다르다.
 
 | 비교 축 | A | B |
 |:---|:---|:---|
-| **핵심 대상** | 코드·로직·문서의 중복 | 데이터의 유일한 원천 / 추상화 시점 판단 |
-| **강조점** | 중복 코드 제거 | 데이터 일관성 / 조기 추상화 경계 |
-| **실패 시 문제** | 버그 동기화 실패 | 데이터 불일치 / 잘못된 추상화로 복잡도 증가 |
+| **핵심 대상** | 코드·로직·문서의 중복 | [[001_dikw_pyramid|데이터]]의 유일한 원천 / [[198_abstraction_control_data_process|추상화]] 시점 판단 |
+| **강조점** | 중복 코드 제거 | [[001_dikw_pyramid|데이터]] [[194_consistency_database_integrity|일관성]] / 조기 [[198_abstraction_control_data_process|추상화]] 경계 |
+| **실패 시 문제** | 버그 [[212_synchronization_mechanisms|동기화]] 실패 | [[001_dikw_pyramid|데이터]] 불일치 / 잘못된 [[198_abstraction_control_data_process|추상화]]로 복잡도 증가 |
 
 DRY를 지나치게 적용하면 오히려 WET (Write Everything Twice, 또는 Wasteful Excessive Typing) 문제가 우연의 일치(coincidental duplication)로 분류되어야 할 코드까지 합쳐버리는 오류를 범한다. 예를 들어 `UserValidator`와 `ProductValidator`가 현재 같은 유효성 검사 규칙을 공유하더라도, 각각 독립적으로 진화할 가능성이 있다면 분리된 상태를 유지하는 것이 올바르다.
 
@@ -90,28 +90,28 @@ DRY를 지나치게 적용하면 오히려 WET (Write Everything Twice, 또는 W
 ---
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-DRY 적용의 가장 현실적인 도구는 정적 분석(static analysis) 도구다. SonarQube 같은 도구는 중복 코드 비율(Code Duplication Ratio)을 측정하여 품질 게이트(Quality Gate)로 관리한다. 기술사 시험에서는 코드 중복을 방치했을 때의 유지보수 비용과 감리 관점의 소프트웨어 품질 지표로 DRY를 연결하는 서술이 효과적이다.
+DRY 적용의 가장 현실적인 도구는 [[331_static_analysis|정적 분석]]([[331_static_analysis|static analysis]]) 도구다. [[079_sonarqube|SonarQube]] 같은 도구는 중복 코드 비율([[082_process_memory_structure|Code]] Duplication Ratio)을 측정하여 품질 게이트(Quality Gate)로 관리한다. 기술사 시험에서는 코드 중복을 방치했을 때의 유지보수 비용과 감리 관점의 [[339_software_quality_definition|소프트웨어 품질]] 지표로 DRY를 연결하는 서술이 효과적이다.
 
-### 판단 체크리스트
-1. 동일 비즈니스 규칙이 코드베이스의 두 곳 이상에 존재하는가?
+### 판단 [[435_checklist_based_testing|체크리스트]]
+1. 동일 비즈니스 규칙이 [[007_codebase|코드베이스]]의 두 곳 이상에 존재하는가?
 2. 하나를 수정할 때 다른 곳도 반드시 수정해야 하는 관계인가?
 3. 두 코드가 서로 다른 이유로 바뀔 가능성이 있는가? (있다면 분리 유지)
-4. 공통 모듈 추출이 팀 내 재사용성을 실질적으로 높이는가?
-5. 데이터 모델에서 동일 정보가 여러 테이블에 중복 저장되고 있는가?
+4. 공통 [[192_module_independence|모듈]] 추출이 팀 내 재사용성을 실질적으로 높이는가?
+5. [[001_dikw_pyramid|데이터]] 모델에서 동일 정보가 여러 테이블에 중복 저장되고 있는가?
 
-- **📢 섹션 요약 비유**: 건물 설계도가 시공사·전기 업체·인테리어 업체에 서로 다른 버전으로 배포되면 각각의 공사가 어긋난다. 마스터 설계도(공통 모듈) 하나를 모두가 참조해야 건물이 제대로 서게 된다.
+- **📢 섹션 요약 비유**: 건물 설계도가 시공사·전기 업체·인테리어 업체에 서로 다른 버전으로 배포되면 각각의 공사가 어긋난다. 마스터 설계도(공통 [[192_module_independence|모듈]]) 하나를 모두가 [[316_reference_pattern_nosql|참조]]해야 건물이 제대로 서게 된다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-DRY를 지속적으로 적용하면 변경 비용이 예측 가능해지고, 버그 수정의 파급 범위가 단일 지점으로 한정된다. 코드베이스 크기가 실질적으로 줄어들어 빌드 시간과 인지 부하(cognitive load)도 함께 감소한다.
+DRY를 지속적으로 적용하면 변경 비용이 예측 가능해지고, 버그 수정의 파급 범위가 단일 지점으로 한정된다. [[007_codebase|코드베이스]] 크기가 실질적으로 줄어들어 빌드 시간과 [[686_cognitive_load_team_topologies|인지 부하]]([[686_cognitive_load_team_topologies|cognitive load]])도 함께 감소한다.
 
-한계는 과도한 추상화로 인한 "추상화의 지옥"이다. 모든 공통점을 즉시 추출하면 코드의 의도가 흐려지고, 하나의 공통 모듈을 수정했을 때 연쇄적으로 영향을 받는 범위가 오히려 커질 수 있다. AHA 원칙처럼 세 번의 반복(Rule of Three)이 확인된 후 추출하는 전략이 이 한계를 완화한다.
+한계는 과도한 [[198_abstraction_control_data_process|추상화]]로 인한 "[[198_abstraction_control_data_process|추상화]]의 지옥"이다. 모든 공통점을 즉시 추출하면 코드의 의도가 흐려지고, 하나의 공통 [[192_module_independence|모듈]]을 수정했을 때 연쇄적으로 영향을 받는 범위가 오히려 커질 수 있다. AHA 원칙처럼 세 번의 반복(Rule of Three)이 확인된 후 추출하는 [[268_strategy_pattern|전략]]이 이 한계를 완화한다.
 
-미래 방향으로는 ① AI 기반 자동 중복 탐지 및 리팩토링 제안, ② 마이크로서비스 환경에서의 공유 라이브러리 vs. 서비스 복제 트레이드오프 관리, ③ Infrastructure as Code(IaC)에서의 DRY 원칙 적용이 주목받고 있다.
+미래 방향으로는 ① [[190_ai_llm_requirements_specification|AI]] 기반 자동 중복 탐지 및 [[213_refactoring_cloud_native_rearchitecture|리팩토링]] 제안, ② [[532_microservices_decomposition_patterns|마이크로서비스]] 환경에서의 [[333_shared_library|공유 라이브러리]] vs. [[090_service_kubernetes_network_load_balancing|서비스]] [[016_replication_factor|복제]] 트레이드오프 관리, ③ [[062_infrastructure_as_code|Infrastructure as Code]]([[793_iac_idempotency_template|IaC]])에서의 DRY 원칙 적용이 주목받고 있다.
 
-DRY는 단순히 "코드 줄이기"가 아니라 "지식의 단일 표현을 보장하여 시스템의 일관성과 신뢰성을 높이는 설계 철학"으로 기억해야 한다.
+DRY는 단순히 "코드 줄이기"가 아니라 "지식의 단일 표현을 보장하여 시스템의 [[194_consistency_database_integrity|일관성]]과 신뢰성을 높이는 설계 철학"으로 기억해야 한다.
 
 - **📢 섹션 요약 비유**: 모든 국가 통계가 단 하나의 국가 통계 포털에서 집계되어야 신뢰할 수 있다. 각 부처가 제각각 집계하면 숫자가 달라지고 아무도 믿을 수 없게 된다.
 
@@ -119,18 +119,18 @@ DRY는 단순히 "코드 줄이기"가 아니라 "지식의 단일 표현을 보
 
 ### 📌 관련 개념 맵
 
-[코드 품질] → [DRY] → [리팩토링(Extract Method)] → [공통 라이브러리] → [데이터 정규화(SSOT)]
+[코드 품질] → [DRY] → [리팩토링(Extract Method)] → [공통 라이브러리] → [데이터 [[093_normalization|정규화]](SSOT)]
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| SSOT (Single Source of Truth) | DRY의 데이터 계층 적용 형태 |
-| SRP (Single Responsibility Principle) | 단일 책임이 명확한 모듈이 DRY 적용의 자연스러운 결과 |
-| 리팩토링 | DRY를 코드 수준에서 실현하는 구체적 기법 집합 |
-| 정규화 (Normalization) | 데이터베이스 영역의 DRY 적용 원칙 |
+| SSOT (Single Source of Truth) | DRY의 [[001_dikw_pyramid|데이터]] 계층 적용 형태 |
+| [[243_srp_single_responsibility_principle|SRP]] ([[243_srp_single_responsibility_principle|Single Responsibility Principle]]) | 단일 책임이 명확한 [[192_module_independence|모듈]]이 DRY 적용의 자연스러운 결과 |
+| [[213_refactoring_cloud_native_rearchitecture|리팩토링]] | DRY를 코드 수준에서 실현하는 구체적 기법 집합 |
+| [[093_normalization|정규화]] ([[093_normalization|Normalization]]) | [[002_database_definition|데이터베이스]] 영역의 DRY 적용 원칙 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-[복사-붙여넣기 프로그래밍] → [코드 중복 문제 인식] → [DRY 원칙 정립] → [Extract Method 리팩토링] → [공통 라이브러리·내부 패키지] → [모노레포(Monorepo) 전략] → [마이크로서비스 공유 모듈 관리]
+[복사-붙여넣기 프로그래밍] → [코드 중복 문제 인식] → [DRY 원칙 정립] → [Extract Method 리팩토링] → [공통 [[336_library_vs_framework|라이브러리]]·내부 패키지] → [모노레포(Monorepo) 전략] → [마이크로서비스 공유 [[192_module_independence|모듈]] 관리]
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

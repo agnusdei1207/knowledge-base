@@ -7,9 +7,9 @@ categories = "studynote-data-engineering"
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: 강화 학습(Reinforcement Learning)은 시행착오(Trial-and-Error)를 통해 누적 보상(Cumulative Reward)을 최대화하는 정책(Policy)을 스스로 학습하는 패러다임이다.
-> 2. **가치**: MDP(Markov Decision Process) 수학적 프레임워크와 Q러닝(Q-Learning)·DQN(Deep Q-Network)은 게임·로봇 제어·금융 트레이딩 등 순차적 의사결정 문제를 자동화한다.
-> 3. **판단 포인트**: 탐색(Exploration)과 활용(Exploitation)의 균형, 보상 설계(Reward Shaping)의 품질, 샘플 효율성(Sample Efficiency)이 강화 학습 시스템의 성패를 가른다.
+> 1. **본질**: 강화 학습([[094_reinforcement_learning|Reinforcement Learning]])은 시행착오(Trial-and-Error)를 통해 누적 보상(Cumulative Reward)을 최대화하는 [[164_policy|정책]]([[164_policy|Policy]])을 스스로 학습하는 패러다임이다.
+> 2. **가치**: [[463_markov_decision_process_mdp|MDP]]([[314_mdp_rl|Markov Decision Process]]) 수학적 프레임워크와 Q러닝([[316_q_learning|Q-Learning]])·[[465_dqn_deep_q_network|DQN]]([[465_dqn_deep_q_network|Deep Q-Network]])은 게임·로봇 제어·금융 트레이딩 등 순차적 의사결정 문제를 자동화한다.
+> 3. **판단 포인트**: 탐색([[315_exploration_exploitation|Exploration]])과 활용(Exploitation)의 균형, 보상 설계(Reward Shaping)의 품질, 샘플 효율성(Sample Efficiency)이 강화 학습 시스템의 성패를 가른다.
 
 ---
 
@@ -17,20 +17,20 @@ categories = "studynote-data-engineering"
 
 ### 1.1 강화 학습의 세 가지 핵심 구성요소
 
-강화 학습은 지도 학습(Supervised Learning)과 달리 정답 레이블(Label)이 없다. 대신 환경(Environment)과 상호작용하며 보상 신호(Reward Signal)를 통해 학습한다.
+강화 학습은 [[121_supervised_learning|지도 학습]]([[121_supervised_learning|Supervised Learning]])과 달리 정답 레이블(Label)이 없다. 대신 환경([[066_gitlab_flow_environment_branch_strategy|Environment]])과 상호작용하며 보상 [[130_signal|신호]](Reward [[130_signal|Signal]])를 통해 학습한다.
 
 | 요소 | 설명 | 예시(자율주행) |
 |:---|:---|:---|
-| **에이전트(Agent)** | 행동을 결정하는 학습 주체 | 자율주행 AI |
-| **환경(Environment)** | 에이전트가 상호작용하는 세계 | 도로·교통 상황 |
-| **상태(State, S)** | 현재 환경 관찰 정보 | 차량 위치·속도·주변 차량 |
+| **에이전트(Agent)** | 행동을 결정하는 학습 주체 | 자율주행 [[190_ai_llm_requirements_specification|AI]] |
+| **환경([[066_gitlab_flow_environment_branch_strategy|Environment]])** | 에이전트가 상호작용하는 세계 | 도로·교통 상황 |
+| **상태([[272_state_pattern|State]], S)** | 현재 환경 관찰 정보 | 차량 위치·속도·주변 차량 |
 | **행동(Action, A)** | 에이전트의 선택 | 가속·감속·조향 |
-| **보상(Reward, R)** | 행동 결과의 피드백 | +1(안전), -10(충돌) |
-| **정책(Policy, π)** | 상태→행동 매핑 함수 | "이 상황에서 무엇을 할지" |
+| **보상(Reward, R)** | 행동 결과의 피드백 | +1(안전), -[[489_raid_10_hybrid|10]](충돌) |
+| **[[164_policy|정책]]([[164_policy|Policy]], π)** | 상태→행동 매핑 함수 | "이 상황에서 무엇을 할지" |
 
 ### 1.2 강화 학습이 필요한 이유
 
-정답 데이터를 수집하기 어렵거나 탐색 공간이 너무 큰 문제(바둑 경우의 수 10^170)에서 강화 학습은 유일한 해답이다. 알파고(AlphaGo)는 자기 자신과 대국(셀프 플레이, Self-play)하며 인간 최고수를 넘어섰다.
+정답 데이터를 수집하기 어렵거나 탐색 공간이 너무 큰 문제(바둑 경우의 수 [[489_raid_10_hybrid|10]]^170)에서 강화 학습은 유일한 해답이다. 알파고(AlphaGo)는 자기 자신과 대국(셀프 플레이, Self-play)하며 인간 최고수를 넘어섰다.
 
 📢 **섹션 요약 비유**: 강화 학습은 아이가 자전거 타는 법을 배우는 방식이다. 넘어지면(마이너스 보상), 잘 달리면(플러스 보상) — 아무도 "이렇게 핸들을 잡아야 해"라고 가르쳐주지 않아도 수백 번의 시행착오로 스스로 익힌다.
 
@@ -38,21 +38,21 @@ categories = "studynote-data-engineering"
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### 2.1 MDP(Markov Decision Process) 수학적 정의
+### 2.1 [[463_markov_decision_process_mdp|MDP]]([[314_mdp_rl|Markov Decision Process]]) 수학적 정의
 
 MDP는 (S, A, P, R, γ) 다섯 요소의 튜플로 정의된다.
 
 | 기호 | 의미 | 설명 |
 |:---|:---|:---|
-| **S** | 상태 공간(State Space) | 가능한 모든 상태 집합 |
+| **S** | 상태 공간([[272_state_pattern|State]] Space) | 가능한 모든 상태 집합 |
 | **A** | 행동 공간(Action Space) | 가능한 모든 행동 집합 |
-| **P(s'│s,a)** | 전이 확률(Transition Probability) | 상태 s에서 a 수행 후 s'로 이동할 확률 |
+| **P(s'│s,a)** | 전이 [[130_probability|확률]](Transition [[130_probability|Probability]]) | 상태 s에서 a 수행 후 s'로 이동할 [[130_probability|확률]] |
 | **R(s,a)** | 보상 함수(Reward Function) | 상태 s에서 a 수행 시 즉각 보상 |
-| **γ** | 할인율(Discount Factor, 0~1) | 미래 보상의 현재 가치 가중치 |
+| **γ** | 할인율(Discount Factor, 0~1) | 미래 보상의 현재 가치 [[267_weight_bias_activation|가중치]] |
 
-**마르코프 성질(Markov Property)**: 현재 상태만으로 미래를 예측하는데 충분하다. P(S_{t+1}|S_t, A_t) = P(S_{t+1}|S_0, ..., S_t, A_t)
+**[[141_markov_property|마르코프 성질]]([[141_markov_property|Markov Property]])**: 현재 상태만으로 미래를 예측하는데 충분하다. P(S_{t+1}|S_t, A_t) = P(S_{t+1}|S_0, ..., S_t, A_t)
 
-### 2.2 가치 함수(Value Function)와 Q함수
+### 2.2 [[163_value_function|가치 함수]]([[163_value_function|Value Function]])와 Q함수
 
 ```
 ┌─────────────────────────────────────────────────────────────────┐
@@ -76,7 +76,7 @@ MDP는 (S, A, P, R, γ) 다섯 요소의 튜플로 정의된다.
 └─────────────────────────────────────────────────────────────────┘
 ```
 
-### 2.3 DQN(Deep Q-Network) 구조
+### 2.3 [[465_dqn_deep_q_network|DQN]]([[465_dqn_deep_q_network|Deep Q-Network]]) 구조
 
 ```
 ┌─────────────────────────────────────────────────────────────────┐
@@ -117,25 +117,25 @@ MDP는 (S, A, P, R, γ) 다섯 요소의 튜플로 정의된다.
 
 | 기법 | 문제 | 해결 방법 |
 |:---|:---|:---|
-| **경험 재생(Experience Replay)** | 연속된 경험은 상관관계가 높아 학습 불안정 | 경험을 버퍼에 저장 후 랜덤 샘플링 |
-| **타겟 네트워크(Target Network)** | Q 업데이트 목표가 계속 변해 발산 | 별도 고정 타겟 네트워크로 안정화 |
+| **[[169_experience_replay|경험 재생]]([[169_experience_replay|Experience Replay]])** | 연속된 경험은 상관관계가 높아 학습 불안정 | 경험을 버퍼에 저장 후 랜덤 샘플링 |
+| **[[170_target_network|타겟 네트워크]]([[170_target_network|Target Network]])** | Q 업데이트 목표가 계속 변해 발산 | 별도 고정 [[170_target_network|타겟 네트워크]]로 안정화 |
 
-📢 **섹션 요약 비유**: DQN은 비디오 게임을 연습하는 선수와 같다. 과거 경기 녹화본(경험 재생 버퍼)을 무작위로 다시 보며 편향 없이 연습하고, "이 정도면 합격"하는 명확한 기준점(타겟 네트워크)을 고정해두어 목표가 흔들리지 않게 한다.
+📢 **섹션 요약 비유**: DQN은 비디오 게임을 연습하는 선수와 같다. 과거 경기 녹화본([[169_experience_replay|경험 재생]] 버퍼)을 무작위로 다시 보며 편향 없이 연습하고, "이 정도면 합격"하는 명확한 기준점([[170_target_network|타겟 네트워크]])을 고정해두어 목표가 흔들리지 않게 한다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-### 3.1 강화 학습 알고리즘 계보
+### 3.1 강화 학습 [[001_algorithm_definition|알고리즘]] 계보
 
-| 분류 | 알고리즘 | 특징 | 대표 적용 |
+| [[104_classification_analysis|분류]] | [[001_algorithm_definition|알고리즘]] | 특징 | 대표 적용 |
 |:---|:---|:---|:---|
-| **모델 프리(Model-Free) 가치 기반** | Q-Learning, DQN | Q함수 직접 학습 | Atari 게임 |
-| **모델 프리 정책 기반** | REINFORCE, A3C | 정책 직접 최적화 | 로봇 제어 |
-| **액터-크리틱(Actor-Critic)** | PPO, SAC | 가치+정책 결합 | 범용 RL |
+| **모델 프리(Model-Free) 가치 기반** | [[316_q_learning|Q-Learning]], [[465_dqn_deep_q_network|DQN]] | Q함수 직접 학습 | Atari 게임 |
+| **모델 프리 [[164_policy|정책]] 기반** | REINFORCE, [[173_a3c_ppo|A3C]] | [[164_policy|정책]] 직접 최적화 | 로봇 제어 |
+| **[[172_actor_critic|액터-크리틱]]([[172_actor_critic|Actor-Critic]])** | [[395_ppo_clipping|PPO]], SAC | 가치+[[164_policy|정책]] 결합 | 범용 RL |
 | **모델 기반(Model-Based)** | AlphaZero, Dreamer | 환경 모델 학습 후 계획 | 보드게임 |
 
-### 3.2 탐색-활용 딜레마(Exploration-Exploitation Tradeoff)
+### 3.2 탐색-활용 딜레마([[315_exploration_exploitation|Exploration]]-Exploitation Tradeoff)
 
 ```
 ε-탐욕(ε-greedy) 전략:
@@ -149,7 +149,7 @@ UCB (Upper Confidence Bound):
   c: 탐색 강도, N: 총 스텝, n(a): a 선택 횟수
 ```
 
-📢 **섹션 요약 비유**: 탐색-활용 딜레마는 단골 식당과 새 식당 사이의 선택이다. 항상 단골 식당만 가면(활용) 더 맛있는 식당을 발견 못 하고, 항상 새 식당만 가면(탐색) 맛없는 집에서 식사를 자주 한다. ε-탐욕 전략은 90%는 검증된 맛집, 10%는 새 식당 시도하는 균형잡힌 식도락가 전략이다.
+📢 **섹션 요약 비유**: 탐색-활용 딜레마는 단골 식당과 새 식당 사이의 선택이다. 항상 단골 식당만 가면(활용) 더 맛있는 식당을 발견 못 하고, 항상 새 식당만 가면(탐색) 맛없는 집에서 식사를 자주 한다. ε-탐욕 [[268_strategy_pattern|전략]]은 90%는 검증된 맛집, [[489_raid_10_hybrid|10]]%는 새 식당 시도하는 균형잡힌 식도락가 [[268_strategy_pattern|전략]]이다.
 
 ---
 
@@ -174,20 +174,20 @@ AlphaGo 학습 파이프라인:
 
 ### 4.2 산업 적용 사례별 보상 설계
 
-| 도메인 | 에이전트 | 보상 설계 |
+| [[064_relation_domain|도메인]] | 에이전트 | 보상 설계 |
 |:---|:---|:---|
-| 자율주행 | 자동차 AI | +1(안전 주행), -100(충돌), -0.1(급제동) |
-| 데이터센터 냉각 | Google DeepMind | 에너지 효율 40% 개선 보상 |
-| 금융 트레이딩 | 매매 AI | 샤프 비율(Sharpe Ratio) 최대화 |
+| 자율주행 | 자동차 [[190_ai_llm_requirements_specification|AI]] | +1(안전 주행), -100(충돌), -0.1(급제동) |
+| [[801_data_center_3_tier_architecture_core_aggregation_access|데이터센터]] 냉각 | Google DeepMind | 에너지 효율 40% 개선 보상 |
+| 금융 트레이딩 | 매매 [[190_ai_llm_requirements_specification|AI]] | 샤프 비율(Sharpe Ratio) 최대화 |
 | 로보틱스 | 조립 로봇 | 조립 성공/실패 바이너리 보상 |
 
 ### 4.3 기술사 논술 핵심
 
 - **샘플 효율성(Sample Efficiency)**: 실세계 로봇은 실험 비용이 높아 가상 환경(Sim-to-Real) 선행 학습 필수
 - **보상 해킹(Reward Hacking)**: 잘못 설계된 보상 함수를 에이전트가 예상치 못한 방식으로 달성
-- **안전 강화 학습(Safe RL)**: 학습 과정에서 위험 행동을 제한하는 제약 조건(Constraint) 추가
+- **안전 강화 학습([[093_safe_scaled_agile_framework_art_pi|Safe]] RL)**: 학습 과정에서 위험 행동을 제한하는 제약 조건(Constraint) 추가
 
-📢 **섹션 요약 비유**: 강화 학습의 보상 설계는 회사 KPI 설정과 같다. KPI를 잘못 설정하면(예: "매출만 극대화") 직원들이 고객 만족을 포기하고 매출만 올린다. RL 에이전트도 잘못된 보상 함수를 발견하면 우리가 원하지 않는 방식으로 목표를 달성해버린다.
+📢 **섹션 요약 비유**: 강화 학습의 보상 설계는 회사 [[018_kpi|KPI]] 설정과 같다. KPI를 잘못 설정하면(예: "매출만 극대화") 직원들이 고객 만족을 포기하고 매출만 올린다. RL 에이전트도 잘못된 보상 함수를 발견하면 우리가 원하지 않는 방식으로 목표를 달성해버린다.
 
 ---
 
@@ -199,12 +199,12 @@ AlphaGo 학습 파이프라인:
 |:---|:---|:---|
 | **오프라인 RL(Offline RL)** | 온라인 탐색 없이 데이터만으로 학습 | 위험한 환경 안전 학습 |
 | **계층적 RL(Hierarchical RL)** | 서브 목표(Sub-goal) 분해 | 장기 계획 수립 |
-| **멀티 에이전트 RL(MARL)** | 협력·경쟁 에이전트 군 | 스마트 그리드·교통 최적화 |
-| **RLHF(RL from Human Feedback)** | 인간 선호도 보상 신호 | ChatGPT 등 LLM 정렬(Alignment) |
+| **멀티 에이전트 RL(MARL)** | 협력·경쟁 에이전트 군 | [[161_smart_grid_architecture|스마트 그리드]]·교통 최적화 |
+| **[[250_rlhf_human_feedback_reinforcement_alignment_cot|RLHF]](RL from Human Feedback)** | 인간 선호도 보상 [[130_signal|신호]] | ChatGPT 등 [[263_llm_large_language_model|LLM]] 정렬(Alignment) |
 
 ### 5.2 결론
 
-강화 학습은 MDP 프레임워크와 벨만 방정식이라는 수학적 기반 위에 딥러닝(Deep Learning)을 결합한 DQN으로 복잡한 현실 문제에 적용 가능해졌다. RLHF(Reinforcement Learning from Human Feedback)는 ChatGPT와 같은 LLM 정렬(Alignment)에 핵심적으로 사용되며, 강화 학습은 이제 단순 게임 AI를 넘어 AI 안전성의 핵심 기술로 자리 잡았다.
+강화 학습은 [[463_markov_decision_process_mdp|MDP]] 프레임워크와 [[372_bellman_equation|벨만 방정식]]이라는 수학적 기반 위에 딥러닝(Deep [[240_switch_learning_forwarding_flooding|Learning]])을 결합한 DQN으로 복잡한 현실 문제에 적용 가능해졌다. [[250_rlhf_human_feedback_reinforcement_alignment_cot|RLHF]]([[094_reinforcement_learning|Reinforcement Learning]] from Human Feedback)는 ChatGPT와 같은 [[263_llm_large_language_model|LLM]] 정렬(Alignment)에 핵심적으로 사용되며, 강화 학습은 이제 단순 게임 AI를 넘어 [[190_ai_llm_requirements_specification|AI]] 안전성의 핵심 기술로 자리 잡았다.
 
 📢 **섹션 요약 비유**: 강화 학습은 인류의 진화 방식을 압축한 것이다. 수백만 년의 시행착오 대신, 컴퓨터 시뮬레이션 안에서 수백만 번의 경험을 압축하여 며칠 안에 전문가 수준에 도달한다. 알파고가 바둑 역사를 하룻밤에 배운 것처럼.
 
@@ -212,16 +212,16 @@ AlphaGo 학습 파이프라인:
 
 ### 📌 관련 개념 맵
 
-| 관계 | 개념 | 설명 |
+| [[083_relationship_in_er_model|관계]] | 개념 | 설명 |
 |:---|:---|:---|
-| 수학적 프레임워크 | MDP(Markov Decision Process) | 순차 의사결정 수학 모델 |
-| 핵심 함수 | Q함수(Action-Value Function) | 상태-행동 쌍의 기대 누적 보상 |
-| 학습 알고리즘 | Q러닝(Q-Learning) | 벨만 방정식 기반 가치 업데이트 |
-| 딥러닝 결합 | DQN(Deep Q-Network) | CNN + Q러닝, 경험 재생 |
-| 학습 안정화 | 경험 재생(Experience Replay) | 상관 관계 제거, 랜덤 샘플링 |
-| 학습 안정화 | 타겟 네트워크(Target Network) | TD 에러 발산 방지 |
-| 탐색 전략 | ε-탐욕(ε-greedy) | 탐색-활용 균형 |
-| LLM 연계 | RLHF | 인간 피드백 기반 모델 정렬 |
+| 수학적 프레임워크 | [[463_markov_decision_process_mdp|MDP]]([[314_mdp_rl|Markov Decision Process]]) | 순차 의사결정 수학 모델 |
+| 핵심 함수 | Q함수(Action-[[163_value_function|Value Function]]) | 상태-행동 쌍의 기대 누적 보상 |
+| 학습 [[001_algorithm_definition|알고리즘]] | Q러닝([[316_q_learning|Q-Learning]]) | [[372_bellman_equation|벨만 방정식]] 기반 가치 업데이트 |
+| 딥러닝 결합 | [[465_dqn_deep_q_network|DQN]]([[465_dqn_deep_q_network|Deep Q-Network]]) | [[243_cnn_stride_pooling_resnet_residual_yolo_object_detection|CNN]] + Q러닝, [[169_experience_replay|경험 재생]] |
+| 학습 안정화 | [[169_experience_replay|경험 재생]]([[169_experience_replay|Experience Replay]]) | 상관 [[083_relationship_in_er_model|관계]] 제거, 랜덤 샘플링 |
+| 학습 안정화 | [[170_target_network|타겟 네트워크]]([[170_target_network|Target Network]]) | TD 에러 발산 방지 |
+| 탐색 [[268_strategy_pattern|전략]] | ε-탐욕(ε-greedy) | 탐색-활용 균형 |
+| [[263_llm_large_language_model|LLM]] 연계 | [[250_rlhf_human_feedback_reinforcement_alignment_cot|RLHF]] | 인간 피드백 기반 모델 정렬 |
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 강화 학습은 게임을 하다가 점수가 올라가면 "잘 했네!" 하고 계속하고, 떨어지면 "아 이건 나쁜 방법이구나" 깨닫는 것처럼 스스로 배우는 AI예요.
@@ -241,5 +241,5 @@ MDP: 상태(S) · 행동(A) · 보상(R) · 전이(T)
     ▼
 응용: 게임 AI · 로봇 · RLHF (LLM 정렬)
 ```
-2. Q러닝은 각 상황에서 어떤 선택이 미래에 제일 많은 점수를 줄지 표를 만들어 기억하는 것이고, DQN은 그 표가 너무 커질 때 신경망(AI 두뇌)으로 대신 계산하는 방법이에요.
+2. Q러닝은 각 상황에서 어떤 선택이 미래에 제일 많은 점수를 줄지 표를 만들어 기억하는 것이고, DQN은 그 표가 너무 커질 때 신경망([[190_ai_llm_requirements_specification|AI]] 두뇌)으로 대신 계산하는 방법이에요.
 3. 알파고는 이 방법으로 사람과 수백만 번 바둑을 두면서 세계 챔피언보다 강해졌어요—인간이 5000년 동안 쌓은 바둑 지식을 단 몇 달 만에 배운 거예요.

@@ -8,22 +8,22 @@ tags = ["AS-IS", "TO-BE", "Gap Analysis", "프로세스 모델링", "ISP"]
 categories = ["studynote-enterprise"]
 +++
 
-# AS-IS 분석과 TO-BE 모델링
+# [[178_as_is_to_be_analysis|AS-IS]] 분석과 TO-BE 모델링
 
 #### 핵심 인사이트 (3줄 요약)
-> 1. **본질**: 조직의 '현재 상태(AS-IS)'를 객관적으로 파악하고, IT 전략 및 비즈니스 목표가 반영된 '미래 상태(TO-BE)'를 설계한 뒤, 이 둘 사이의 차이(Gap)를 분석해 이행 전략을 수립하는 프레임워크다.
-> 2. **가치**: 정보화 전략 계획(ISP)이나 엔터프라이즈 아키텍처(EA) 수립 시, 목적지 없는 맹목적인 시스템 구축을 방지하고 명확한 요구사항과 ROI(투자 대비 효과)의 근거를 제시한다.
-> 3. **융합**: 단순한 업무 흐름도 작성을 넘어 데이터 아키텍처, 시스템 인프라, 조직 구조까지 다각도로 분석되며, 최근에는 프로세스 마이닝을 통해 AS-IS 도출이 실시간 자동화되는 추세다.
+> 1. **본질**: 조직의 '[[178_as_is_to_be_analysis|현재 상태]]([[178_as_is_to_be_analysis|AS-IS]])'를 객관적으로 파악하고, IT [[268_strategy_pattern|전략]] 및 비즈니스 목표가 반영된 '미래 상태(TO-BE)'를 설계한 뒤, 이 둘 사이의 차이(Gap)를 분석해 이행 [[268_strategy_pattern|전략]]을 수립하는 프레임워크다.
+> 2. **가치**: [[101_isp_information_strategy_planning_4_steps|정보화 전략 계획]]([[101_isp_information_strategy_planning_4_steps|ISP]])이나 엔터프라이즈 아키텍처([[110_enterprise_architecture_ea|EA]]) 수립 시, 목적지 없는 맹목적인 시스템 구축을 방지하고 명확한 요구사항과 [[012_roi_return_on_investment|ROI]](투자 대비 효과)의 근거를 제시한다.
+> 3. **융합**: 단순한 업무 흐름도 작성을 넘어 [[104_da_as_is_analysis|데이터 아키텍처]], 시스템 인프라, 조직 구조까지 다각도로 분석되며, 최근에는 [[129_process_mining_bpr_event_log_bottleneck_analysis|프로세스 마이닝]]을 통해 [[178_as_is_to_be_analysis|AS-IS]] 도출이 실시간 자동화되는 추세다.
 
 ---
 
-### Ⅰ. 개요 및 필요성 (Context & Necessity)
+### Ⅰ. 개요 및 필요성 ([[033_context|Context]] & Necessity)
 
-**AS-IS 분석**은 현재 기업이 어떻게 업무를 수행하고 있으며 시스템 구조는 어떠한지를 있는 그대로 투명하게 진단하는 과정이다. 반면 **TO-BE 모델링**은 BPR(업무 재설계)이나 새로운 IT 시스템 도입을 통해 달성하고자 하는 미래의 최적화된 업무 프로세스와 시스템 청사진을 그리는 과정이다. 이 두 가지는 동전의 양면처럼 항상 함께 쓰이며, ISP(정보화 전략 계획)의 가장 뼈대가 되는 단계다.
+**[[178_as_is_to_be_analysis|AS-IS]] 분석**은 현재 기업이 어떻게 업무를 수행하고 있으며 시스템 구조는 어떠한지를 있는 그대로 투명하게 진단하는 과정이다. 반면 **TO-BE 모델링**은 [[127_bpr_business_process_reengineering_radical_redesign|BPR]](업무 재설계)이나 새로운 IT 시스템 도입을 통해 달성하고자 하는 미래의 최적화된 업무 프로세스와 시스템 청사진을 그리는 과정이다. 이 두 가지는 동전의 양면처럼 항상 함께 쓰이며, [[101_isp_information_strategy_planning_4_steps|ISP]]([[101_isp_information_strategy_planning_4_steps|정보화 전략 계획]])의 가장 뼈대가 되는 단계다.
 
-이러한 접근법이 필요한 이유는, 내비게이션 시스템과 동일하다. 우리가 목적지(TO-BE)에 도달하기 위해서는, 현재 내 위치(AS-IS)를 정확히 알아야만 최적의 경로(Transition Strategy, 이행 계획)를 그릴 수 있다. 현재의 병목, 비효율, 중복된 데이터가 어디에 있는지 모른 채 신기술만 도입하면, 최신 IT 인프라 위에서 구시대적인 쓰레기 프로세스가 돌아가는 'Garbage In, Garbage Out' 현상을 면치 못한다.
+이러한 접근법이 필요한 이유는, 내비게이션 시스템과 동일하다. 우리가 목적지(TO-BE)에 도달하기 위해서는, 현재 내 위치([[178_as_is_to_be_analysis|AS-IS]])를 정확히 알아야만 최적의 경로(Transition [[268_strategy_pattern|Strategy]], 이행 계획)를 그릴 수 있다. 현재의 병목, 비효율, 중복된 [[001_dikw_pyramid|데이터]]가 어디에 있는지 모른 채 신기술만 도입하면, 최신 IT 인프라 위에서 구시대적인 쓰레기 프로세스가 돌아가는 'Garbage In, Garbage Out' 현상을 면치 못한다.
 
-다음 도식은 AS-IS에서 TO-BE로 나아가는 전반적인 갭 분석(Gap Analysis) 프레임워크의 흐름을 보여준다. 
+다음 도식은 [[344_as_autonomous_system_asn|AS]]-IS에서 TO-BE로 나아가는 전반적인 갭 분석([[107_gap_analysis_task_identification|Gap Analysis]]) 프레임워크의 흐름을 보여준다. 
 
 ```text
 [ 갭 분석 (Gap Analysis) 기반 전환 메커니즘 ]
@@ -44,26 +44,26 @@ categories = ["studynote-enterprise"]
              └────────────────────────┘
 ```
 
-이 도식의 핵심은 AS-IS와 TO-BE가 단순히 그림을 두 장 그리는 작업으로 끝나서는 안 되며, 반드시 두 상태 간의 물리적, 논리적 차이를 수치화한 **'Gap(차이)'** 을 추출하여 이를 해결하는 구체적인 **이행 전략(로드맵)** 으로 수렴되어야 한다는 점이다. 이행 전략이 빠진 TO-BE 모델은 실현 불가능한 공상과학에 불과하다. 실무에서는 Gap 분석 결과를 바탕으로 어떤 시스템을 먼저 개발할지 우선순위(Quick Win)를 결정하게 된다.
+이 도식의 핵심은 [[344_as_autonomous_system_asn|AS]]-IS와 TO-BE가 단순히 그림을 두 장 그리는 작업으로 끝나서는 안 되며, 반드시 두 상태 간의 물리적, [[369_logic_bomb|논리]]적 차이를 수치화한 **'Gap(차이)'** 을 추출하여 이를 해결하는 구체적인 **이행 [[268_strategy_pattern|전략]](로드맵)** 으로 수렴되어야 한다는 점이다. 이행 [[268_strategy_pattern|전략]]이 빠진 TO-BE 모델은 실현 불가능한 공상과학에 불과하다. 실무에서는 Gap 분석 결과를 바탕으로 어떤 시스템을 먼저 개발할지 우선순위(Quick Win)를 결정하게 된다.
 
-📢 **섹션 요약 비유**: AS-IS 분석이 병원에 가서 현재 건강 상태와 질병(병목)을 진단받는 것이라면, TO-BE 모델링은 건강해진 미래의 몸 상태를 목표로 잡고 다이어트 식단과 운동 스케줄(이행 계획)을 처방받는 과정과 같습니다.
+📢 **섹션 요약 비유**: [[178_as_is_to_be_analysis|AS-IS]] 분석이 병원에 가서 현재 건강 상태와 질병(병목)을 진단받는 것이라면, TO-BE 모델링은 건강해진 미래의 몸 상태를 목표로 잡고 다이어트 식단과 운동 [[208_schedule_history_transaction_execution_order|스케줄]](이행 계획)을 처방받는 과정과 같습니다.
 
 ---
 
 ### Ⅱ. 아키텍처 및 핵심 원리 (Deep Dive)
 
-AS-IS와 TO-BE 모델링은 단순히 종이에 업무 순서를 그리는 것이 아니다. 엔터프라이즈 아키텍처(EA) 관점에서 비즈니스, 데이터, 애플리케이션, 기술(인프라) 등 다양한 계층(Layer)에 걸쳐 입체적으로 수행되어야 한다.
+[[344_as_autonomous_system_asn|AS]]-IS와 TO-BE 모델링은 단순히 종이에 업무 순서를 그리는 것이 아니다. 엔터프라이즈 아키텍처([[110_enterprise_architecture_ea|EA]]) 관점에서 비즈니스, [[001_dikw_pyramid|데이터]], 애플리케이션, 기술(인프라) 등 다양한 계층(Layer)에 걸쳐 입체적으로 수행되어야 한다.
 
 **계층별(Layer) 분석 및 모델링 대상**
 
-| 아키텍처 계층 | AS-IS 분석 (현재 파악) | TO-BE 모델링 (미래 설계) | 주요 산출물 기법 |
+| 아키텍처 계층 | [[178_as_is_to_be_analysis|AS-IS]] 분석 (현재 파악) | TO-BE 모델링 (미래 설계) | 주요 산출물 기법 |
 |:---|:---|:---|:---|
-| **비즈니스 (BA)** | 부서 간 중복 업무, 결재 지연 파악 | BPR 기반 직렬화, 권한 위임 체계 설계 | BPMN, 워크플로우 맵 |
-| **데이터 (DA)** | 데이터 불일치, 사일로 현상 파악 | 전사 마스터 데이터(MDM), 스키마 통합 설계 | ERD (Entity-Relationship) |
-| **애플리케이션 (AA)** | 노후화 레거시, 강결합 모놀리식 파악 | 마이크로서비스(MSA), SaaS 연동 설계 | UML 컴포넌트 도해 |
-| **기술/인프라 (TA)** | 온프레미스 서버 노후화, 보안 취약점 | 클라우드 네이티브, 제로 트러스트 아키텍처 | 물리/논리 네트워크 구성도 |
+| **비즈니스 ([[103_ba_as_is_analysis|BA]])** | 부서 간 중복 업무, 결재 [[015_지연_데이터_관점|지연]] 파악 | [[127_bpr_business_process_reengineering_radical_redesign|BPR]] 기반 [[149_serial_communication_rs232_rs485|직렬]]화, 권한 위임 체계 설계 | [[163_bpmn_business_process_modeling_notation|BPMN]], 워크플로우 맵 |
+| **[[001_dikw_pyramid|데이터]] ([[104_da_as_is_analysis|DA]])** | [[001_dikw_pyramid|데이터]] 불일치, [[002_silo_hyeonhyung|사일로]] 현상 파악 | 전사 [[539_mdm_master_data_management|마스터 데이터]]([[539_mdm_master_data_management|MDM]]), [[005_schema|스키마]] 통합 설계 | ERD (Entity-[[083_relationship_in_er_model|Relationship]]) |
+| **애플리케이션 ([[105_aa_as_is_analysis|AA]])** | 노후화 레거시, 강결합 모놀리식 파악 | [[532_microservices_decomposition_patterns|마이크로서비스]]([[619_msa_traffic_hardware|MSA]]), [[309_saas|SaaS]] 연동 설계 | [[232_uml_unified_modeling_language_overview|UML]] [[603_component_independent_deployment_unit|컴포넌트]] 도해 |
+| **기술/인프라 ([[106_ta_as_is_analysis|TA]])** | [[061_on_premise_legacy_infrastructure|온프레미스]] 서버 노후화, 보안 취약점 | [[531_cloud_native_architecture|클라우드 네이티브]], [[184_zero_trust_architecture|제로 트러스트 아키텍처]] | 물리/[[369_logic_bomb|논리]] 네트워크 구성도 |
 
-아래의 도식은 복잡한 엔터프라이즈 환경에서 AS-IS를 진단할 때 적용하는 다계층(Multi-tier) 분석 구조도이다.
+아래의 도식은 복잡한 엔터프라이즈 환경에서 [[344_as_autonomous_system_asn|AS]]-IS를 진단할 때 적용하는 다계층(Multi-tier) 분석 구조도이다.
 
 ```text
 [ 전사 아키텍처(EA) 기반 AS-IS 분석 계층도 ]
@@ -84,28 +84,28 @@ AS-IS와 TO-BE 모델링은 단순히 종이에 업무 순서를 그리는 것�
 └────────────────────────────────────────────────────────┘
 ```
 
-이 구조도의 핵심은 표면적으로 드러나는 '프로세스의 병목(비즈니스 계층)'이 실은 그 아래 깔려 있는 '데이터 불일치'나 '노후화된 애플리케이션 연동'이라는 깊은 뿌리에서 기인한다는 점이다. 따라서 유능한 IT 컨설턴트는 단순히 업무 담당자 인터뷰만으로 AS-IS를 끝내지 않고, 시스템 로그, DB 스키마, 서버 부하율까지 파헤쳐 근본 원인(Root Cause)을 찾아낸다. TO-BE 설계 시에는 이 밑바닥 인프라(Tech/Data)부터 클라우드나 통합 DB로 뜯어고친 뒤 그 위에 스마트한 프로세스를 얹는 상향식/하향식 양방향 재설계가 일어난다.
+이 구조도의 핵심은 표면적으로 드러나는 '프로세스의 병목(비즈니스 계층)'이 실은 그 아래 깔려 있는 '[[001_dikw_pyramid|데이터]] 불일치'나 '노후화된 애플리케이션 연동'이라는 깊은 뿌리에서 기인한다는 점이다. 따라서 유능한 IT 컨설턴트는 단순히 업무 담당자 인터뷰만으로 [[344_as_autonomous_system_asn|AS]]-IS를 끝내지 않고, 시스템 [[568_logs_distributed_logging_elk_fluentd|로그]], DB [[005_schema|스키마]], 서버 부하율까지 파헤쳐 근본 원인(Root Cause)을 찾아낸다. TO-BE 설계 시에는 이 밑바닥 인프라(Tech/[[001_dikw_pyramid|Data]])부터 클라우드나 통합 DB로 뜯어고친 뒤 그 위에 스마트한 프로세스를 얹는 상향식/하향식 양방향 재설계가 일어난다.
 
-이 과정에서 널리 쓰이는 모델링 표준은 **BPMN(Business Process Model and Notation)** 이다. 이벤트(Event), 활동(Activity), 게이트웨이(Gateway - 분기점) 기호를 통해 AS-IS의 불필요한 분기점을 시각화하고, TO-BE에서 이를 병렬 게이트웨이나 통합 활동으로 압축한다.
+이 과정에서 널리 쓰이는 모델링 표준은 **[[163_bpmn_business_process_modeling_notation|BPMN]]([[203_bpmn_business_process_model_and_notation|Business Process Model and Notation]])** 이다. 이벤트(Event), 활동(Activity), 게이트웨이(Gateway - 분기점) 기호를 통해 [[344_as_autonomous_system_asn|AS]]-IS의 불필요한 분기점을 [[003_bigdata_7v|시각화]]하고, TO-BE에서 이를 [[430_index_fast_full_scan|병렬]] 게이트웨이나 통합 활동으로 [[347_compaction|압축]]한다.
 
-📢 **섹션 요약 비유**: 건물(기업)을 리모델링할 때, 눈에 보이는 벽지 얼룩(비즈니스 병목)만 조사하는 것이 AS-IS가 아닙니다. 엑스레이를 찍어 벽 속의 녹슨 수도관(데이터 사일로)과 낡은 배선(레거시 앱)을 모두 찾아내어, 최신 스마트 빌딩(TO-BE) 도면을 그리는 완벽한 단층 촬영 과정입니다.
+📢 **섹션 요약 비유**: 건물(기업)을 리모델링할 때, 눈에 보이는 벽지 얼룩(비즈니스 병목)만 조사하는 것이 [[344_as_autonomous_system_asn|AS]]-IS가 아닙니다. 엑스레이를 찍어 벽 속의 녹슨 수도관([[001_dikw_pyramid|데이터]] [[002_silo_hyeonhyung|사일로]])과 낡은 배선(레거시 앱)을 모두 찾아내어, 최신 스마트 빌딩(TO-BE) 도면을 그리는 완벽한 단층 촬영 과정입니다.
 
 ---
 
 ### Ⅲ. 융합 비교 및 다각도 분석 (Comparison & Synergy)
 
-AS-IS와 TO-BE를 분석한 후, 도출된 갭을 메꾸기 위한 이행(Transition) 전략은 크게 시스템의 성격과 리스크 수용도에 따라 다양한 방식으로 선택된다. 
+[[344_as_autonomous_system_asn|AS]]-IS와 TO-BE를 분석한 후, 도출된 갭을 메꾸기 위한 이행(Transition) [[268_strategy_pattern|전략]]은 크게 시스템의 성격과 [[096_risk_non_risk_architecture_evaluation_flaws|리스크]] 수용도에 따라 다양한 방식으로 선택된다. 
 
-**전환(Transition) 아키텍처 전략 비교 매트릭스**
+**전환(Transition) 아키텍처 [[268_strategy_pattern|전략]] 비교 매트릭스**
 
 | 항목 | 빅뱅 (Big Bang) 전환 | 점진적 (Phased / Strangler) 전환 | 진화형 (Evolutionary) 병행 | 판단 포인트 |
 |:---|:---|:---|:---|:---|
-| **개념** | 어느 날 한순간에 전사 시스템을 TO-BE로 전면 오픈 | 기능별, 부서별로 나누어 순차적으로 TO-BE 오픈 | 구 시스템과 신 시스템을 양방향 동기화하며 병행 운영 | 비즈니스 연속성 요구 수준 |
-| **리스크 수준** | 매우 높음 (실패 시 전사 마비) | 중간 (이행 기간 중 복잡도 증가) | 낮음 (안전하나 높은 비용) | 다운타임 허용치 |
-| **AS-IS → TO-BE 간극** | 단기간 내 해소 | 장기간에 걸쳐 해소 | 단계적 튜닝으로 점차 흡수 | 프로젝트 기간 제약 |
-| **적합한 상황** | 구/신 시스템 간 데이터 호환이 완전히 불가능할 때 | 거대한 모놀리식 레거시를 MSA로 쪼개어 이관할 때 | 금융권 핵심 코어 뱅킹 등 무결성이 최우선일 때 | 예산과 기술 스택 차이 |
+| **개념** | 어느 날 한순간에 전사 시스템을 TO-BE로 전면 오픈 | 기능별, 부서별로 나누어 순차적으로 TO-BE 오픈 | 구 시스템과 신 시스템을 양방향 [[212_synchronization_mechanisms|동기화]]하며 병행 운영 | 비즈니스 연속성 요구 수준 |
+| **[[096_risk_non_risk_architecture_evaluation_flaws|리스크]] 수준** | 매우 높음 (실패 시 전사 마비) | 중간 (이행 기간 중 복잡도 증가) | 낮음 (안전하나 높은 비용) | 다운타임 허용치 |
+| **[[178_as_is_to_be_analysis|AS-IS]] → TO-BE 간극** | 단기간 내 해소 | 장기간에 걸쳐 해소 | 단계적 튜닝으로 점차 흡수 | 프로젝트 기간 제약 |
+| **적합한 상황** | 구/신 시스템 간 [[001_dikw_pyramid|데이터]] 호환이 완전히 불가능할 때 | 거대한 모놀리식 레거시를 MSA로 쪼개어 이관할 때 | 금융권 핵심 코어 뱅킹 등 [[003_integrity|무결성]]이 최우선일 때 | 예산과 기술 [[057_stack|스택]] 차이 |
 
-아래의 상태 전이도는 가장 실무적으로 권장되는 '점진적 전환(Strangler Fig Pattern)' 과정을 시각화한 것이다.
+아래의 [[632_state_transition_diagram_testing|상태 전이]]도는 가장 실무적으로 권장되는 '점진적 전환([[308_strangler_fig_pattern|Strangler Fig Pattern]])' 과정을 [[003_bigdata_7v|시각화]]한 것이다.
 
 ```text
 [ 점진적 TO-BE 이행 모델 (MSA 전환 시나리오) ]
@@ -119,62 +119,62 @@ AS-IS와 TO-BE를 분석한 후, 도출된 갭을 메꾸기 위한 이행(Transi
 └───────────┘       └──────┘             └───────┘       └───────┘
 ```
 
-이 상태도의 핵심은 AS-IS에서 TO-BE로 넘어갈 때 중간 단계인 **'과도기(Transition State)'** 아키텍처를 설계하는 것이다. 한 번에 TO-BE로 바꾸는 것은 위험하므로, API 게이트웨이를 앞단에 두어 특정 기능(예: 결제) 트래픽만 새로 만든 TO-BE 모듈로 라우팅하고, 나머지는 기존 AS-IS 레거시로 보내는 방식이다. 시간이 지남에 따라 AS-IS 모듈은 점차 숨통이 끊어져(Strangler) 사라지고, 마침내 완전한 TO-BE 상태에 도달한다. 실무에서는 이러한 과도기 아키텍처 설계 역량이 수석 아키텍트의 가장 중요한 자질이다.
+이 [[065_state_diagram|상태도]]의 핵심은 [[344_as_autonomous_system_asn|AS]]-IS에서 TO-BE로 넘어갈 때 중간 단계인 **'과도기(Transition [[272_state_pattern|State]])'** 아키텍처를 설계하는 것이다. 한 번에 TO-BE로 바꾸는 것은 위험하므로, [[014_api_posix|API]] 게이트웨이를 앞단에 두어 특정 기능(예: 결제) 트래픽만 새로 만든 TO-BE [[192_module_independence|모듈]]로 [[339_routing_overview_best_path_selection|라우팅]]하고, 나머지는 기존 [[178_as_is_to_be_analysis|AS-IS]] 레거시로 보내는 방식이다. 시간이 지남에 따라 [[178_as_is_to_be_analysis|AS-IS]] [[192_module_independence|모듈]]은 점차 숨통이 끊어져(Strangler) 사라지고, 마침내 완전한 TO-BE 상태에 도달한다. 실무에서는 이러한 과도기 아키텍처 설계 역량이 수석 아키텍트의 가장 중요한 자질이다.
 
 📢 **섹션 요약 비유**: 달리는 기차의 바퀴를 한 번에 빼고 새 바퀴를 끼우는 것(빅뱅)은 탈선의 위험이 큽니다. 가장 이상적인 TO-BE 이행은, 기차가 달리는 중에 보조 바퀴를 먼저 달고(과도기), 기존 바퀴를 서서히 해체하는 방식(점진적 전환)입니다.
 
 ---
 
-### Ⅳ. 실무 적용 및 기술사적 판단 (Strategy & Decision)
+### Ⅳ. 실무 적용 및 기술사적 판단 ([[268_strategy_pattern|Strategy]] & Decision)
 
-실제 IT 컨설팅 현장(ISP, PI, BPR 프로젝트)에서 AS-IS/TO-BE 모델링은 다양한 함정과 안티패턴을 동반한다. 
+실제 IT 컨설팅 현장([[101_isp_information_strategy_planning_4_steps|ISP]], [[009_process_innovation|PI]], [[127_bpr_business_process_reengineering_radical_redesign|BPR]] 프로젝트)에서 [[178_as_is_to_be_analysis|AS-IS]]/TO-BE 모델링은 다양한 함정과 [[128_water_scrum_fall_anti_pattern|안티패턴]]을 동반한다. 
 
 **실무 시나리오 및 의사결정**
 
-1. **지나친 AS-IS 묘사에 매몰되는 분석 마비 (Analysis Paralysis)**
-   - **상황**: 컨설턴트가 3개월 내내 현업 부서를 인터뷰하며 수천 장의 AS-IS 프로세스 맵만 그리고 있음. TO-BE 설계는 시작도 못함.
-   - **판단**: AS-IS는 '목적'이 아니라 '도구'다. TO-BE를 그리기 위해 필요한 병목 지점만 파악되면 과감히 AS-IS 상세화를 멈춰야 한다. 실무에서는 "AS-IS는 버려질 문서다"라는 마인드로 거시적 수준(Level 2~3)까지만 도출하고 민첩하게 TO-BE 가설 검증으로 넘어가야 한다.
+1. **지나친 [[178_as_is_to_be_analysis|AS-IS]] 묘사에 매몰되는 분석 마비 (Analysis Paralysis)**
+   - **상황**: 컨설턴트가 3개월 내내 현업 부서를 인터뷰하며 수천 장의 [[178_as_is_to_be_analysis|AS-IS]] 프로세스 맵만 그리고 있음. TO-BE 설계는 시작도 못함.
+   - **판단**: [[344_as_autonomous_system_asn|AS]]-IS는 '목적'이 아니라 '도구'다. TO-BE를 그리기 위해 필요한 병목 지점만 파악되면 과감히 [[178_as_is_to_be_analysis|AS-IS]] 상세화를 멈춰야 한다. 실무에서는 "[[344_as_autonomous_system_asn|AS]]-IS는 버려질 문서다"라는 마인드로 거시적 수준(Level 2~3)까지만 도출하고 민첩하게 TO-BE 가설 [[395_verification_process_review|검증]]으로 넘어가야 한다.
 
 2. **TO-BE에 기술적 타당성 검토(Feasibility Check) 누락**
-   - **상황**: TO-BE 모델에 "실시간 전사 데이터 AI 자동 통합 및 블록체인 기반 1초 결재"라는 화려한 청사진이 그려졌으나, 예산은 10억에 불과함.
-   - **판단**: TO-BE 모델은 소설이 되어서는 안 된다. 현재 조직의 IT 성숙도, 기술 부채, 가용 예산을 고려하여 '현실적으로 도달 가능한(Achievable) TO-BE'와 '장기적 비전(Visionary) TO-BE'를 Phase 1, Phase 2로 분리하여 설계해야 한다.
+   - **상황**: TO-BE 모델에 "실시간 전사 [[001_dikw_pyramid|데이터]] [[190_ai_llm_requirements_specification|AI]] 자동 통합 및 [[004_blockchain|블록체인]] 기반 1초 결재"라는 화려한 청사진이 그려졌으나, 예산은 10억에 불과함.
+   - **판단**: TO-BE 모델은 소설이 되어서는 안 된다. 현재 조직의 IT 성숙도, [[100_technical_debt_monitoring_release_policy|기술 부채]], 가용 예산을 고려하여 '현실적으로 도달 가능한(Achievable) TO-BE'와 '장기적 비전(Visionary) TO-BE'를 Phase 1, Phase 2로 분리하여 설계해야 한다.
 
-3. **기존 현업의 저항으로 TO-BE가 AS-IS와 똑같아지는 현상**
+3. **기존 현업의 [[003_resistance|저항]]으로 TO-BE가 [[344_as_autonomous_system_asn|AS]]-IS와 똑같아지는 현상**
    - **상황**: "우린 원래 이렇게 해왔다"는 현업의 강력한 반발에 부딪혀, TO-BE 시스템에 구시대적 결재 라인과 엑셀 다운로드 버튼이 부활함.
-   - **판단**: 혁신의 본질이 훼손된 전형적인 안티패턴이다. 경영진의 스폰서십을 통해 C-레벨(CxO) 위원회를 구성하고, 표준화된 베스트 프랙티스(Best Practice) 수용을 원칙으로 하여 커스터마이징을 철저히 차단해야 한다.
+   - **판단**: 혁신의 본질이 훼손된 전형적인 [[128_water_scrum_fall_anti_pattern|안티패턴]]이다. 경영진의 스폰서십을 통해 C-레벨(CxO) 위원회를 구성하고, 표준화된 베스트 프랙티스([[087_erp_package_advantages_best_practice|Best Practice]]) 수용을 원칙으로 하여 커스터마이징을 철저히 차단해야 한다.
 
-**성공적인 모델링 체크리스트**
-- [ ] AS-IS의 문제점(Pain Point)과 TO-BE의 해결책(Solution)이 1:1로 매핑되는가?
+**성공적인 모델링 [[435_checklist_based_testing|체크리스트]]**
+- [ ] [[344_as_autonomous_system_asn|AS]]-IS의 문제점(Pain Point)과 TO-BE의 해결책(Solution)이 1:1로 매핑되는가?
 - [ ] 도출된 갭(Gap)을 해소하는 데 필요한 예상 비용과 시간이 산정되었는가?
 - [ ] 변화된 TO-BE 프로세스를 수용할 임직원 교육 및 평가 보상 계획이 동반되었는가?
 
-📢 **섹션 요약 비유**: 완벽한 TO-BE 모델은 마치 훌륭한 맞춤 양복과 같습니다. 고객의 현재 치수(AS-IS)를 정확히 재는 것도 중요하지만, 고객이 다이어트를 할지 근육을 키울지(비즈니스 전략)를 반영해 옷을 만들어야 옷장 속 쓰레기가 되지 않습니다.
+📢 **섹션 요약 비유**: 완벽한 TO-BE 모델은 마치 훌륭한 맞춤 양복과 같습니다. 고객의 현재 치수([[178_as_is_to_be_analysis|AS-IS]])를 정확히 재는 것도 중요하지만, 고객이 다이어트를 할지 근육을 키울지(비즈니스 [[268_strategy_pattern|전략]])를 반영해 옷을 만들어야 옷장 속 쓰레기가 되지 않습니다.
 
 ---
 
 ### Ⅴ. 기대효과 및 결론 (Future & Standard)
 
-철저한 AS-IS 분석과 TO-BE 모델링을 통해 기업은 IT 투자의 방향성을 잃지 않고 체계적인 혁신을 달성할 수 있다.
+철저한 [[178_as_is_to_be_analysis|AS-IS]] 분석과 TO-BE 모델링을 통해 기업은 IT 투자의 방향성을 잃지 않고 체계적인 혁신을 달성할 수 있다.
 
 | 구분 | 모델링 부재 시 | 체계적 분석 및 모델링 수행 시 |
 |:---|:---|:---|
-| **IT 투자 방향** | 부서별 산발적, 중복 투자 (사일로 심화) | 전사적 로드맵 기반, 선택과 집중 (ROI 극대화) |
-| **시스템 구축** | 요구사항 번복, 프로젝트 기간/비용 초과 | 명확한 스코프(Scope) 정의로 구축 지연 방지 |
+| **IT 투자 방향** | 부서별 산발적, 중복 투자 ([[002_silo_hyeonhyung|사일로]] 심화) | 전사적 로드맵 기반, 선택과 집중 ([[012_roi_return_on_investment|ROI]] 극대화) |
+| **시스템 구축** | 요구사항 번복, 프로젝트 기간/비용 초과 | 명확한 스코프([[512_oauth_scope|Scope]]) 정의로 구축 [[015_지연_데이터_관점|지연]] 방지 |
 | **프로세스 통제** | 레거시 업무의 무비판적 전산화 (비효율 유지) | 베스트 프랙티스 내재화로 글로벌 표준 업무 장착 |
 
 **미래 전망**: 
-전통적으로 화이트보드와 인터뷰에 의존하던 수동적 AS-IS 분석은, 기업 내 이벤트 로그를 빨아들여 AI가 프로세스를 자동으로 그려주는 **프로세스 마이닝(Process Mining)** 솔루션(Celonis, ProM 등)으로 완벽하게 대체되고 있다. 또한, TO-BE 모델 역시 디지털 트윈(Digital Twin) 공간에서 시뮬레이션을 돌려 병목이 해소되는지 미리 검증(What-If Analysis)해 볼 수 있는 '지능형 모델링' 시대로 나아가고 있다.
+전통적으로 화이트보드와 인터뷰에 의존하던 수동적 [[178_as_is_to_be_analysis|AS-IS]] 분석은, 기업 내 이벤트 [[568_logs_distributed_logging_elk_fluentd|로그]]를 빨아들여 AI가 프로세스를 자동으로 그려주는 **[[129_process_mining_bpr_event_log_bottleneck_analysis|프로세스 마이닝]]([[129_process_mining_bpr_event_log_bottleneck_analysis|Process Mining]])** 솔루션(Celonis, ProM 등)으로 완벽하게 대체되고 있다. 또한, TO-BE 모델 역시 [[126_digital_twin_concept|디지털 트윈]]([[126_digital_twin_concept|Digital Twin]]) 공간에서 시뮬레이션을 돌려 병목이 해소되는지 미리 [[395_verification_process_review|검증]](What-If Analysis)해 볼 수 있는 '지능형 모델링' 시대로 나아가고 있다.
 
-📢 **섹션 요약 비유**: AS-IS/TO-BE 모델링은 짙은 안개 속에서 항해하는 기업이라는 배에, 현재 좌표를 찍어주는 GPS(AS-IS)와 목적지를 향한 최적의 항로를 계산해 주는 자동 항법 장치(TO-BE)를 달아주는 핵심 나침반입니다.
+📢 **섹션 요약 비유**: [[178_as_is_to_be_analysis|AS-IS]]/TO-BE 모델링은 짙은 안개 속에서 항해하는 기업이라는 배에, 현재 좌표를 찍어주는 GPS([[178_as_is_to_be_analysis|AS-IS]])와 목적지를 향한 최적의 항로를 계산해 주는 자동 항법 장치(TO-BE)를 달아주는 핵심 나침반입니다.
 
 ---
 
-### 📌 관련 개념 맵 (Knowledge Graph)
-* **ISP (Information Strategy Planning)** | 기업 경영 목표 달성을 위해 AS-IS 분석과 TO-BE 모델링을 수행하여 도출하는 전사 IT 마스터플랜
-* **BPR (Business Process Reengineering)** | TO-BE 모델링 시 기존 방식을 버리고 획기적으로 업무를 재설계하기 위해 적용하는 혁신 기법
-* **EA (Enterprise Architecture)** | AS-IS와 TO-BE를 그릴 때, 비즈니스/데이터/애플리케이션/기술을 층층이 나누어 구조화하는 큰 틀의 설계도
-* **프로세스 마이닝 (Process Mining)** | 로그 데이터를 분석해 사람이 숨기고 싶어 하거나 모르는 실제 AS-IS 프로세스를 데이터 기반으로 시각화하는 기술
-* **BPMN (Business Process Model and Notation)** | 분석가와 개발자가 서로 다른 프로세스 그림을 보며 헷갈리지 않도록 통일한 국제 표준 도식화 언어
+### 📌 관련 개념 맵 ([[160_knowledge_graph_graphrag_integration|Knowledge Graph]])
+* **[[101_isp_information_strategy_planning_4_steps|ISP]] (Information [[268_strategy_pattern|Strategy]] Planning)** | 기업 경영 목표 달성을 위해 [[178_as_is_to_be_analysis|AS-IS]] 분석과 TO-BE 모델링을 수행하여 도출하는 전사 IT [[172_maas_mobility_as_a_service|마스]]터플랜
+* **[[127_bpr_business_process_reengineering_radical_redesign|BPR]] ([[127_bpr_business_process_reengineering_radical_redesign|Business Process Reengineering]])** | TO-BE 모델링 시 기존 방식을 버리고 획기적으로 업무를 재설계하기 위해 적용하는 혁신 기법
+* **[[110_enterprise_architecture_ea|EA]] ([[010_ea_enterprise_architecture|Enterprise Architecture]])** | [[344_as_autonomous_system_asn|AS]]-IS와 TO-BE를 그릴 때, 비즈니스/[[001_dikw_pyramid|데이터]]/애플리케이션/기술을 층층이 나누어 구조화하는 큰 틀의 설계도
+* **[[129_process_mining_bpr_event_log_bottleneck_analysis|프로세스 마이닝]] ([[129_process_mining_bpr_event_log_bottleneck_analysis|Process Mining]])** | [[568_logs_distributed_logging_elk_fluentd|로그]] [[001_dikw_pyramid|데이터]]를 분석해 사람이 숨기고 싶어 하거나 모르는 실제 [[178_as_is_to_be_analysis|AS-IS]] 프로세스를 [[001_dikw_pyramid|데이터]] 기반으로 [[003_bigdata_7v|시각화]]하는 기술
+* **[[163_bpmn_business_process_modeling_notation|BPMN]] ([[203_bpmn_business_process_model_and_notation|Business Process Model and Notation]])** | 분석가와 개발자가 서로 다른 프로세스 그림을 보며 헷갈리지 않도록 통일한 국제 표준 도식화 언어
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -196,9 +196,9 @@ AS-IS와 TO-BE를 분석한 후, 도출된 갭을 메꾸기 위한 이행(Transi
     ▼
 [지속적 개선 (Continuous Improvement) — 운영 피드백 → AS-IS 갱신 → 반복 사이클]
 ```
-이 흐름은 현황 분석 없이 추진되던 시스템 도입 실패 경험을 바탕으로 AS-IS→GAP→TO-BE 체계가 정립되고, 이를 지속적 개선 사이클로 내재화하는 엔터프라이즈 변환 관리 방법론의 발전을 보여준다.
+이 흐름은 현황 분석 없이 추진되던 시스템 도입 실패 경험을 바탕으로 [[178_as_is_to_be_analysis|AS-IS]]→GAP→TO-BE 체계가 정립되고, 이를 지속적 개선 사이클로 내재화하는 엔터프라이즈 변환 관리 방법론의 발전을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
-1. AS-IS 분석은 지금 내 방이 얼마나 어질러져 있고 어디에 쓰레기가 있는지 돋보기로 꼼꼼하게 관찰해서 그림으로 그리는 거예요.
+1. [[178_as_is_to_be_analysis|AS-IS]] 분석은 지금 내 방이 얼마나 어질러져 있고 어디에 쓰레기가 있는지 돋보기로 꼼꼼하게 관찰해서 그림으로 그리는 거예요.
 2. TO-BE 모델링은 엄마가 칭찬할 만큼 제일 깨끗하고 장난감이 완벽하게 정리된 미래의 멋진 내 방 모습을 상상해서 그리는 거예요.
 3. 이 두 그림을 나란히 놓고 보면, "아하! 침대 밑에 있는 로봇을 장난감 상자로 옮겨야겠구나!" 하고 어떻게 청소할지 정확한 계획(갭 분석)을 세울 수 있답니다.

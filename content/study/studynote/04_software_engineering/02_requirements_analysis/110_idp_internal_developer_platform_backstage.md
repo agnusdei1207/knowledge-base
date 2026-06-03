@@ -7,15 +7,15 @@ categories = "studynote-software-engineering"
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: IDP(Internal Developer Platform)는 플랫폼 엔지니어링 팀이 구축한 **사내 전용 개발 환경 자판기**로, 앱 개발자가 인프라·보안·CI/CD 지식 없이 **셀프서비스 포털에서 클릭 한 번으로 Golden Path(표준 템플릿) 환경을 즉시 프로비저닝**받는 시스템이다.
-> 2. **가치**: 소프트웨어 카탈로그(전사 MSA 족보)·셀프서비스 스캐폴딩(템플릿 자판기)·플러그인 허브(50개 도구 통합)의 **3대 컴포넌트**가 개발자 온보딩을 2주→1일로 단축하고 Shadow IT를 원천 차단한다.
-> 3. **판단 포인트**: Spotify가 오픈소스화한 **Backstage**가 CNCF Incubating 프로젝트로 사실상 표준이며, IDP 성공 지표는 **플랫폼 채택률(WAU)**과 **인프라 티켓 감소율**이다.
+> 1. **본질**: [[536_idp_identity_provider|IDP]]([[200_internal_developer_platform_backstage|Internal Developer Platform]])는 [[109_platform_engineering_cognitive_load|플랫폼 엔지니어링]] 팀이 구축한 **사내 전용 개발 환경 자판기**로, 앱 개발자가 인프라·보안·[[090_configuration_item|CI]]/CD 지식 없이 **셀프서비스 포털에서 클릭 한 번으로 Golden Path(표준 템플릿) 환경을 즉시 [[528_provisioning|프로비저닝]]**받는 시스템이다.
+> 2. **가치**: 소프트웨어 [[394_catalog_metadata|카탈로그]](전사 [[619_msa_traffic_hardware|MSA]] 족보)·셀프서비스 스캐폴딩(템플릿 자판기)·플러그인 [[152_hub_dummy_switching_intelligent|허브]](50개 도구 통합)의 **3대 [[603_component_independent_deployment_unit|컴포넌트]]**가 개발자 온보딩을 2주→1일로 단축하고 Shadow IT를 원천 차단한다.
+> 3. **판단 포인트**: Spotify가 [[191_oss_license_compliance|오픈소스]]화한 **Backstage**가 [[190_cncf_landscape_observability|CNCF]] Incubating 프로젝트로 사실상 표준이며, [[536_idp_identity_provider|IDP]] 성공 지표는 **플랫폼 채택률(WAU)**과 **인프라 티켓 감소율**이다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-IDP가 없을 때 새 프로젝트 시작 시: GitHub 레포 생성 → Jenkins 파이프라인 스크립트 작성 → Terraform으로 AWS 인프라 구축 → 보안팀 취약점 점검 메일 → **개발 시작도 못 하고 1주일 소모**. IDP 도입 후: 포털에서 "Spring Boot + Redis MSA 세트" 클릭 → **1분 만에 레포·CI/CD·인프라 자동 생성** → 즉시 코딩 시작.
+IDP가 없을 때 새 프로젝트 시작 시: GitHub 레포 [[087_process_state_transition|생성]] → [[071_jenkins_ci_cd_pipeline_automation|Jenkins]] 파이프라인 스크립트 작성 → Terraform으로 AWS 인프라 구축 → 보안팀 취약점 점검 메일 → **개발 시작도 못 하고 1주일 소모**. [[536_idp_identity_provider|IDP]] 도입 후: 포털에서 "Spring Boot + [[542_redis|Redis]] [[619_msa_traffic_hardware|MSA]] 세트" 클릭 → **1분 만에 레포·[[090_configuration_item|CI]]/CD·인프라 자동 [[087_process_state_transition|생성]]** → 즉시 코딩 시작.
 
 ```text
 ┌───────────────────────────────────────────────────────┐
@@ -42,13 +42,13 @@ IDP가 없을 때 새 프로젝트 시작 시: GitHub 레포 생성 → Jenkins 
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### IDP 3대 컴포넌트
+### [[536_idp_identity_provider|IDP]] 3대 [[603_component_independent_deployment_unit|컴포넌트]]
 
-| 컴포넌트 | 역할 | 비유 |
+| [[603_component_independent_deployment_unit|컴포넌트]] | 역할 | 비유 |
 |:---|:---|:---|
-| **소프트웨어 카탈로그** | 전사 MSA·API·팀 소유권을 한눈에 조회하는 족보 | 도서관 검색 시스템 |
-| **셀프서비스 스캐폴딩** | Golden Path 템플릿으로 레포·인프라를 원클릭 생성 | 자판기 버튼 |
-| **플러그인 허브** | Jira·GitHub·Datadog·보안스캐너 등 50개 도구를 단일 화면에 통합 | 스마트폰 앱스토어 |
+| **소프트웨어 [[394_catalog_metadata|카탈로그]]** | 전사 [[619_msa_traffic_hardware|MSA]]·[[014_api_posix|API]]·팀 소유권을 한눈에 조회하는 족보 | 도서관 검색 시스템 |
+| **셀프서비스 스캐폴딩** | Golden Path 템플릿으로 레포·인프라를 원클릭 [[087_process_state_transition|생성]] | 자판기 버튼 |
+| **플러그인 [[152_hub_dummy_switching_intelligent|허브]]** | Jira·GitHub·Datadog·보안스캐너 등 50개 도구를 단일 화면에 통합 | 스마트폰 앱스토어 |
 
 ### Backstage 아키텍처
 
@@ -60,12 +60,12 @@ Backstage는 React 프론트엔드 + Node.js 백엔드로 구성되며, **Softwa
 
 ## Ⅲ. 비교 및 연결
 
-| 비교 | Backstage (Spotify) | Port | Humanitec |
+| 비교 | Backstage (Spotify) | [[446_port_and_bus|Port]] | Humanitec |
 |:---|:---|:---|:---|
-| **유형** | 오픈소스 프레임워크 | SaaS | SaaS |
+| **유형** | [[191_oss_license_compliance|오픈소스]] 프레임워크 | [[309_saas|SaaS]] | [[309_saas|SaaS]] |
 | **커스터마이징** | 무한 (플러그인 직접 개발) | 높음 | 중간 |
 | **운영 부담** | 높음 (직접 호스팅) | 낮음 | 낮음 |
-| **커뮤니티** | CNCF, 활발 | 성장 중 | 기업 중심 |
+| **커뮤니티** | [[190_cncf_landscape_observability|CNCF]], 활발 | 성장 중 | 기업 중심 |
 | **적합 조직** | 대규모, 플랫폼 팀 역량 보유 | 중규모, 빠른 도입 희망 | 엔터프라이즈 |
 
 ---
@@ -73,26 +73,26 @@ Backstage는 React 프론트엔드 + Node.js 백엔드로 구성되며, **Softwa
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 ### 도입 로드맵
-1. **MVP (4주)**: Backstage + 1개 Golden Path 템플릿(Spring Boot MSA) 배포.
+1. **[[036_mvp|MVP]] (4주)**: Backstage + 1개 Golden Path 템플릿(Spring Boot [[619_msa_traffic_hardware|MSA]]) 배포.
 2. **확산 (2~3개월)**: 주요 팀 온보딩, 플러그인(Jira·Datadog) 연동.
 3. **성숙 (6개월+)**: 전사 표준 채택, NPS 측정, 셀프서비스 커버리지 80% 달성.
 
-### 안티패턴
-- **빈 카탈로그**: 소프트웨어 카탈로그에 MSA가 10개만 등록 → 검색 가치 0, 채택률 하락.
+### [[128_water_scrum_fall_anti_pattern|안티패턴]]
+- **빈 [[394_catalog_metadata|카탈로그]]**: 소프트웨어 [[394_catalog_metadata|카탈로그]]에 MSA가 10개만 등록 → 검색 가치 0, 채택률 하락.
 - **Golden Path 강제 without Escape Hatch**: 100% 표준 강제 → 파워 유저 이탈.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-| 지표 | IDP 미도입 | IDP 도입 후 | 개선 |
+| 지표 | [[536_idp_identity_provider|IDP]] 미도입 | [[536_idp_identity_provider|IDP]] 도입 후 | 개선 |
 |:---|:---|:---|:---|
 | 새 프로젝트 시작 | 1~2주 | **1분** | 99% 단축 |
 | 온보딩 기간 | 2~4주 | **1~2일** | 90% 단축 |
 | 인프라 티켓 | 월 200건 | **월 20건** | 90% 감소 |
-| Shadow IT | 높음 | **0%** | 거버넌스 확보 |
+| [[049_shadow_it|Shadow IT]] | 높음 | **0%** | 거버넌스 확보 |
 
-IDP는 AI 코드 생성과 결합하여 "프롬프트 한 줄로 프로덕션 환경이 즉시 프로비저닝되는" 시대를 앞당기고 있다.
+IDP는 [[190_ai_llm_requirements_specification|AI]] 코드 [[087_process_state_transition|생성]]과 결합하여 "프롬프트 한 줄로 프로덕션 환경이 즉시 [[528_provisioning|프로비저닝]]되는" 시대를 앞당기고 있다.
 
 ---
 
@@ -100,11 +100,11 @@ IDP는 AI 코드 생성과 결합하여 "프롬프트 한 줄로 프로덕션 �
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **플랫폼 엔지니어링** | IDP를 만드는 상위 규율 |
-| **Backstage** | IDP의 사실상 표준 오픈소스 프레임워크 (CNCF) |
+| **[[109_platform_engineering_cognitive_load|플랫폼 엔지니어링]]** | IDP를 만드는 상위 규율 |
+| **Backstage** | IDP의 사실상 표준 [[191_oss_license_compliance|오픈소스]] 프레임워크 ([[190_cncf_landscape_observability|CNCF]]) |
 | **Golden Path** | IDP가 제공하는 검증된 표준 개발·배포 경로 |
-| **소프트웨어 카탈로그** | 전사 MSA·API 족보를 한눈에 조회하는 핵심 컴포넌트 |
-| **DevEx (Developer Experience)** | IDP 성공의 최종 척도 |
+| **소프트웨어 [[394_catalog_metadata|카탈로그]]** | 전사 [[619_msa_traffic_hardware|MSA]]·[[014_api_posix|API]] 족보를 한눈에 조회하는 핵심 [[603_component_independent_deployment_unit|컴포넌트]] |
+| **DevEx (Developer Experience)** | [[536_idp_identity_provider|IDP]] 성공의 최종 척도 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 

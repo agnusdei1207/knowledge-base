@@ -7,9 +7,9 @@ categories = "studynote-database"
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: Zachman Framework는 **6가지 관점(Planner·Owner·Designer·Builder·Subcontractor·User) × 6가지 질문(What·How·Where·Who·When·Why)**의 36셀 매트릭스로 엔터프라이즈 아키텍처를 **체계적으로 분류·정리**하는 분류 체계다.
-> 2. **가치**: 데이터 아키텍처를 설계할 때 "누구의 관점에서, 무엇을 정의하는가"를 명확히 하여, **개념→논리→물리 모델링의 각 산출물이 어디에 위치하는지** 체계적으로 관리할 수 있다.
-> 3. **판단 포인트**: Zachman은 **방법론이 아닌 분류 체계(Taxonomy)**이며, TOGAF(방법론)과 함께 사용하여 "어떻게 진행하는가"를 보완한다.
+> 1. **본질**: [[243_zachman_framework_matrix|Zachman]] Framework는 **6가지 관점(Planner·Owner·Designer·[[256_builder_pattern_step_by_step_creation|Builder]]·Subcontractor·User) × 6가지 질문(What·How·Where·Who·When·Why)**의 36셀 매트릭스로 엔터프라이즈 아키텍처를 **체계적으로 [[104_classification_analysis|분류]]·정리**하는 [[104_classification_analysis|분류]] 체계다.
+> 2. **가치**: [[001_dikw_pyramid|데이터]] 아키텍처를 설계할 때 "누구의 관점에서, 무엇을 정의하는가"를 명확히 하여, **개념→[[369_logic_bomb|논리]]→물리 모델링의 각 산출물이 어디에 위치하는지** 체계적으로 관리할 수 있다.
+> 3. **판단 포인트**: Zachman은 **방법론이 아닌 [[104_classification_analysis|분류]] 체계(Taxonomy)**이며, [[113_togaf|TOGAF]](방법론)과 함께 사용하여 "어떻게 진행하는가"를 보완한다.
 
 ---
 
@@ -29,46 +29,46 @@ categories = "studynote-database"
 └───────────────────────────────────────────────────────┘
 ```
 
-- **📢 섹션 요약 비유**: Zachman은 건축에서 건축주(Owner)·설계사(Designer)·시공자(Builder) 각각이 같은 건물을 다른 관점에서 보는 것이다.
+- **📢 섹션 요약 비유**: Zachman은 건축에서 건축주(Owner)·설계사(Designer)·시공자([[256_builder_pattern_step_by_step_creation|Builder]]) 각각이 같은 건물을 다른 관점에서 보는 것이다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### Zachman vs TOGAF
+### [[243_zachman_framework_matrix|Zachman]] vs [[113_togaf|TOGAF]]
 
-| 비교 | Zachman | TOGAF |
+| 비교 | [[243_zachman_framework_matrix|Zachman]] | [[113_togaf|TOGAF]] |
 |:---|:---|:---|
-| **유형** | **분류 체계** | **방법론 (ADM)** |
+| **유형** | **[[104_classification_analysis|분류]] 체계** | **방법론 ([[066_적응형_델타_변조_ADM|ADM]])** |
 | **질문** | What/How/Where/Who/When/Why | 아키텍처 개발 단계 |
-| **관계** | 산출물 정리 | **프로세스 정의** |
+| **[[083_relationship_in_er_model|관계]]** | 산출물 정리 | **프로세스 정의** |
 
-- **📢 섹션 요약 비유**: Zachman은 서랍장(분류)이고, TOGAF는 정리 순서(방법론)이다. 둘 다 필요하다.
+- **📢 섹션 요약 비유**: Zachman은 서랍장([[104_classification_analysis|분류]])이고, TOGAF는 정리 순서(방법론)이다. 둘 다 필요하다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-| 비교 | Zachman | TOGAF | DoDAF |
+| 비교 | [[243_zachman_framework_matrix|Zachman]] | [[113_togaf|TOGAF]] | DoDAF |
 |:---|:---|:---|:---|
-| **용도** | 범용 EA | 범용 EA | 국방 |
-| **특징** | 분류 체계 | **방법론** | 뷰포인트 |
+| **용도** | 범용 [[110_enterprise_architecture_ea|EA]] | 범용 [[110_enterprise_architecture_ea|EA]] | 국방 |
+| **특징** | [[104_classification_analysis|분류]] 체계 | **방법론** | 뷰포인트 |
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### 데이터 아키텍처에서의 활용
-- What(데이터) × Planner = 주제 영역(Subject Area).
+### [[001_dikw_pyramid|데이터]] 아키텍처에서의 활용
+- What([[001_dikw_pyramid|데이터]]) × Planner = 주제 영역(Subject Area).
 - What × Owner = 개념 ERD.
-- What × Designer = 논리 ERD.
-- What × Builder = 물리 스키마.
+- What × Designer = [[369_logic_bomb|논리]] ERD.
+- What × [[256_builder_pattern_step_by_step_creation|Builder]] = 물리 [[005_schema|스키마]].
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-Zachman Framework는 **EA(Enterprise Architecture)의 원조 분류 체계**로서, 데이터·프로세스·네트워크·조직 등 모든 아키텍처 산출물을 체계적으로 관리하는 데 필수적이다.
+[[243_zachman_framework_matrix|Zachman]] Framework는 **[[110_enterprise_architecture_ea|EA]]([[010_ea_enterprise_architecture|Enterprise Architecture]])의 원조 [[104_classification_analysis|분류]] 체계**로서, [[001_dikw_pyramid|데이터]]·프로세스·네트워크·조직 등 모든 아키텍처 산출물을 체계적으로 관리하는 데 필수적이다.
 
 ---
 
@@ -76,11 +76,11 @@ Zachman Framework는 **EA(Enterprise Architecture)의 원조 분류 체계**로�
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **Zachman** | EA 분류 체계 (6×6 매트릭스) |
-| **TOGAF** | EA 방법론 (ADM 프로세스) |
+| **[[243_zachman_framework_matrix|Zachman]]** | [[110_enterprise_architecture_ea|EA]] [[104_classification_analysis|분류]] 체계 (6×6 매트릭스) |
+| **[[113_togaf|TOGAF]]** | [[110_enterprise_architecture_ea|EA]] 방법론 ([[066_적응형_델타_변조_ADM|ADM]] 프로세스) |
 | **개념 모델** | Zachman의 Owner 행, What 열 |
-| **논리 모델** | Zachman의 Designer 행, What 열 |
-| **물리 모델** | Zachman의 Builder 행, What 열 |
+| **[[369_logic_bomb|논리]] 모델** | Zachman의 Designer 행, What 열 |
+| **물리 모델** | Zachman의 [[256_builder_pattern_step_by_step_creation|Builder]] 행, What 열 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 

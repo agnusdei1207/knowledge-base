@@ -8,8 +8,8 @@ categories = "studynote-software-engineering"
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: OAT (Operational Acceptance Testing)은(는) 소프트웨어 공학의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.
-> 2. **가치**: 이 개념을 올바르게 적용하면 소프트웨어의 품질·유지보수성·재사용성이 향상되고, 개발 생산성과 팀 협업 효율이 높아진다.
+> 1. **본질**: [[707_oat_operational_acceptance_testing|OAT]] ([[409_operational_acceptance_testing_oat|Operational Acceptance Testing]])은(는) [[001_software_engineering_definition|소프트웨어 공학]]의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.
+> 2. **가치**: 이 개념을 올바르게 적용하면 소프트웨어의 품질·[[346_maintainability_portability|유지보수성]]·재사용성이 향상되고, 개발 생산성과 팀 협업 효율이 높아진다.
 > 3. **판단 포인트**: 도입 시에는 비용·복잡도·조직 성숙도를 함께 고려해야 하며, 맹목적 적용보다 프로젝트 특성에 맞는 선택적 적용이 핵심이다.
 
 ---
@@ -19,7 +19,7 @@ categories = "studynote-software-engineering"
 소프트웨어 릴리즈 직전, 개발팀과 현업 부서(비즈니스 사용자)는 UAT(User Acceptance Testing)를 통해 화면이 잘 나오고 계산이 맞는지를 확인하며 환호합니다. 
 하지만 IT 운영팀(Infra/Ops)의 표정은 다릅니다. 이들은 "새벽 3시에 서버 전원 코드가 뽑혀 이중화가 넘어가야 할 때", 혹은 "랜섬웨어에 걸려 어제 날짜로 DB를 긴급 복원해야 할 때" 시스템이 매뉴얼대로 작동할지를 더 우려합니다. 
 
-**OAT(Operational Acceptance Testing, 운영 인수 테스트)**는 바로 이 운영자(Operator)들을 만족시키기 위한 테스트입니다. 
+**[[707_oat_operational_acceptance_testing|OAT]]([[409_operational_acceptance_testing_oat|Operational Acceptance Testing]], [[707_oat_operational_acceptance_testing|운영 인수 테스트]])**는 바로 이 운영자([[565_operator_pattern_kubernetes_automation|Operator]])들을 만족시키기 위한 테스트입니다. 
 애플리케이션을 살아 숨 쉬는 '생물'로 보고, 이 생물이 데이터센터라는 척박한 환경에서 버티기 위한 **인프라 적합성, 모니터링 연동성, 재난 복원력**을 검증하는 매우 차갑고 기계적인 테스트입니다.
 
 ```text
@@ -49,16 +49,16 @@ categories = "studynote-software-engineering"
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-OAT는 비기능 요구사항(NFR)의 운영적 측면을 극대화하여 테스트합니다. 기능서가 아니라 아키텍처 정의서와 운영 매뉴얼이 기준이 됩니다.
+OAT는 [[133_non_functional_requirements|비기능 요구사항]]([[133_non_functional_requirements|NFR]])의 운영적 측면을 극대화하여 테스트합니다. 기능서가 아니라 아키텍처 정의서와 운영 매뉴얼이 기준이 됩니다.
 
-1. **복원력 및 재해복구 (Resilience & DR)**
-   - 메인 서버를 강제로 Shutdown 시키고 (Chaos Engineering과 직결), 보조 서버(Active-Standby) 혹은 DR 센터로 트래픽이 정상 우회하는지 초(Second) 단위로 측정합니다.
-2. **백업 및 복원 (Backup & Restore)**
-   - 단순히 백업 스크립트가 도는지를 넘어, "어제 백업된 테이프/스토리지를 가져다 실제로 DB를 말아 올렸을 때 100% 무결성으로 부팅"되는지(Restore) 확인합니다.
-3. **가시성과 모니터링 (Observability & Alerting)**
-   - 로그 포맷이 중앙 로그 서버(Splunk, ELK) 분류 체계에 맞게 나오는지, CPU 80% 초과 시 SMS 알람이 정상 타겟팅되어 발송되는지 테스트합니다.
-4. **유지보수창 호환성 (Maintenance & Patching) 및 배포 롤백**
-   - 배포 실패 시 버튼 하나로 이전 버전으로 원복(Rollback)이 가능한지, OS 보안 패치 후에도 데몬 서버가 정상 기동하는지 점검합니다.
+1. **복원력 및 재해복구 (Resilience & [[360_ospf_dr_bdr_designated_router_lsa_flooding|DR]])**
+   - 메인 서버를 강제로 Shutdown 시키고 (Chaos Engineering과 직결), 보조 서버(Active-Standby) 혹은 [[360_ospf_dr_bdr_designated_router_lsa_flooding|DR]] 센터로 트래픽이 정상 우회하는지 초(Second) 단위로 측정합니다.
+2. **[[555_backup_and_restore_strategy|백업]] 및 복원 ([[555_backup_and_restore_strategy|Backup]] & Restore)**
+   - 단순히 [[555_backup_and_restore_strategy|백업]] 스크립트가 도는지를 넘어, "어제 [[555_backup_and_restore_strategy|백업]]된 테이프/스토리지를 가져다 실제로 DB를 말아 올렸을 때 100% 무결성으로 부팅"되는지(Restore) 확인합니다.
+3. **가시성과 모니터링 ([[642_observability_telemetry|Observability]] & Alerting)**
+   - [[568_logs_distributed_logging_elk_fluentd|로그]] 포맷이 중앙 [[568_logs_distributed_logging_elk_fluentd|로그]] 서버([[630_splunk|Splunk]], ELK) [[104_classification_analysis|분류]] 체계에 맞게 나오는지, CPU 80% 초과 시 SMS 알람이 정상 타겟팅되어 발송되는지 테스트합니다.
+4. **유지보수창 [[344_compatibility_usability|호환성]] (Maintenance & Patching) 및 배포 [[098_rollback_strategy_pipeline_error_threshold|롤백]]**
+   - 배포 실패 시 버튼 하나로 이전 버전으로 원복([[313_rollback|Rollback]])이 가능한지, OS 보안 패치 후에도 데몬 서버가 정상 기동하는지 점검합니다.
 
 - **📢 섹션 요약 비유**: 집을 지어놓고 예쁜지 보는 걸 넘어, 배수관이 막히면 뚫기 쉬운지, 전기가 나갔을 때 두꺼비집 스위치가 잘 작동하는지 '관리의 용이성' 4대 천왕을 확인하는 절차입니다.
 
@@ -66,7 +66,7 @@ OAT는 비기능 요구사항(NFR)의 운영적 측면을 극대화하여 테스
 
 | 항목 | 설명 | 비고 |
 | :--- | :--- | :--- |
-| 핵심 특성 | OAT (Operational Acceptance Testing)의 핵심 특성과 동작 방식 | 필수 이해 요소 |
+| 핵심 특성 | [[707_oat_operational_acceptance_testing|OAT]] ([[409_operational_acceptance_testing_oat|Operational Acceptance Testing]])의 핵심 특성과 동작 방식 | 필수 이해 요소 |
 | 적용 범위 | 어떤 프로젝트·상황에서 활용하는지 | 선택 기준 |
 | 제약 조건 | 적용 시 주의해야 할 전제·한계 | 트레이드오프 |
 
@@ -78,10 +78,10 @@ OAT는 비기능 요구사항(NFR)의 운영적 측면을 극대화하여 테스
 
 ## Ⅲ. 비교 및 연결
 
-전통적인 온프레미스 시대에 OAT는 거대한 체크리스트를 들고 서버실에 들어가 랜선을 뽑아보는 수작업 기반이었습니다.
-하지만 오늘날 **SRE(Site Reliability Engineering)**와 DevOps 환경에서는 OAT마저 코드로 내재화(Testing as Code) 됩니다.
+전통적인 [[061_on_premise_legacy_infrastructure|온프레미스]] 시대에 OAT는 거대한 체크리스트를 들고 서버실에 들어가 랜선을 뽑아보는 수작업 기반이었습니다.
+하지만 오늘날 **[[100_sre_site_reliability_engineering_error_budget|SRE]]([[100_sre_site_reliability_engineering_error_budget|Site Reliability Engineering]])**와 [[652_devops_calms_culture|DevOps]] 환경에서는 OAT마저 코드로 내재화(Testing [[344_as_autonomous_system_asn|as]] [[082_process_memory_structure|Code]]) 됩니다.
 
-쿠버네티스(k8s) 환경에서 OAT는 Pod를 무작위로 삭제하거나, 네트워크 지연을 5초 발생시켰을 때 Liveness/Readiness Probe가 정상적으로 헬스체크를 갱신하며 자동 재기동(Self-healing)하는지를 파이프라인에서 자동으로 테스트합니다. 
+[[196_kubernetes_k8s_container_orchestration|쿠버네티스]](k8s) 환경에서 OAT는 Pod를 무작위로 삭제하거나, 네트워크 지연을 5초 발생시켰을 때 Liveness/Readiness Probe가 정상적으로 헬스체크를 갱신하며 자동 재기동(Self-healing)하는지를 파이프라인에서 자동으로 테스트합니다. 
 OAT를 통과하지 못하면 아무리 개발 코드가 뛰어나도 릴리즈 파이프라인의 배포 버튼이 비활성화되는 강제 통제 수단으로 작용합니다.
 
 - **📢 섹션 요약 비유**: 옛날엔 관리인이 매달 한 번씩 소화기를 흔들어보며 점검했다면, 요즘은 로봇이 매일 아침마다 무작위로 복도에 가짜 불을 살짝 피워보고 스프링클러 로봇이 잘 켜지는지 전산으로 자동 확인하는 수준이 되었습니다.
@@ -96,12 +96,12 @@ OAT를 통과하지 못하면 아무리 개발 코드가 뛰어나도 릴리즈 
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-OAT는 흔히 프로젝트 막바지에 "시간 부족"을 이유로 생략하자는 유혹에 제일 먼저 시달립니다. 당장 눈에 보이는 버그가 아니기 때문입니다. 하지만 OAT를 건너뛰고 오픈하면 첫 달 발생하는 장애 시 평균 복구 시간(MTTR)이 상상을 초월하게 치솟습니다.
+OAT는 흔히 프로젝트 막바지에 "시간 부족"을 이유로 생략하자는 유혹에 제일 먼저 시달립니다. 당장 눈에 보이는 버그가 아니기 때문입니다. 하지만 OAT를 건너뛰고 오픈하면 첫 달 발생하는 장애 시 평균 [[658_ir_recovery|복구]] 시간([[451_mttr|MTTR]])이 상상을 초월하게 치솟습니다.
 
-실무에서 OAT를 원활히 하기 위해서는 개발 착수 시점부터 **"운영 인수인계 조건(OAT Acceptance Criteria)"**을 정의해야 합니다.
-예를 들어, "모든 에러 로그에는 고유한 `Trace ID`가 있어야 한다", "백업은 15분에 1번씩 찍히고 RTO는 1시간 이내여야 한다"라는 요건을 설계서에 박아두지 않으면, 막바지에 OAT를 통과하기 위해 코드 구조를 모조리 뜯어고쳐야 하는 재앙이 발생합니다.
+실무에서 OAT를 원활히 하기 위해서는 개발 착수 시점부터 **"운영 인수인계 조건([[707_oat_operational_acceptance_testing|OAT]] [[165_acceptance_criteria_definition|Acceptance Criteria]])"**을 정의해야 합니다.
+예를 들어, "모든 에러 [[568_logs_distributed_logging_elk_fluentd|로그]]에는 고유한 `Trace ID`가 있어야 한다", "[[555_backup_and_restore_strategy|백업]]은 15분에 1번씩 찍히고 RTO는 1시간 이내여야 한다"라는 요건을 설계서에 박아두지 않으면, 막바지에 OAT를 통과하기 위해 코드 구조를 모조리 뜯어고쳐야 하는 재앙이 발생합니다.
 
-- **📢 섹션 요약 비유**: 건물을 다 짓고 나서 "자, 이제 스프링클러 배관을 넣어봅시다" 하면 시멘트를 다시 까부숴야 합니다. 설계도를 그릴 때부터 소방 시설 배관(운영 기준)을 미리 그려놔야 나중에 소방 점검(OAT)을 단 한 번에 눈물 없이 통과할 수 있습니다.
+- **📢 섹션 요약 비유**: 건물을 다 짓고 나서 "자, 이제 스프링클러 배관을 넣어봅시다" 하면 시멘트를 다시 까부숴야 합니다. 설계도를 그릴 때부터 소방 시설 배관(운영 기준)을 미리 그려놔야 나중에 소방 점검([[707_oat_operational_acceptance_testing|OAT]])을 단 한 번에 눈물 없이 통과할 수 있습니다.
 
 ---
 
@@ -113,8 +113,8 @@ OAT는 흔히 프로젝트 막바지에 "시간 부족"을 이유로 생략하�
 
 ## Ⅴ. 기대효과 및 결론
 
-OAT(운영 인수 테스트)는 개발팀(Dev)과 운영팀(Ops) 간의 신뢰를 연결하는 최후의 다리입니다. 
-아무리 뛰어난 비즈니스 앱도 운영이 불가능한 구조라면 시한폭탄에 불과합니다. OAT를 철저히 거친 소프트웨어는 새벽의 장애에도 당직자를 당황시키지 않는 강인한 생명력을 갖게 되며, 장기적인 총소유비용(TCO)과 장애 대응 손실을 드라마틱하게 낮추는 방어선으로 영원히 작동할 것입니다.
+[[707_oat_operational_acceptance_testing|OAT]]([[707_oat_operational_acceptance_testing|운영 인수 테스트]])는 개발팀(Dev)과 운영팀(Ops) 간의 신뢰를 연결하는 최후의 다리입니다. 
+아무리 뛰어난 비즈니스 앱도 운영이 불가능한 구조라면 시한폭탄에 불과합니다. OAT를 철저히 거친 소프트웨어는 새벽의 장애에도 당직자를 당황시키지 않는 강인한 생명력을 갖게 되며, 장기적인 총소유비용([[016_tco|TCO]])과 장애 대응 손실을 드라마틱하게 낮추는 방어선으로 영원히 작동할 것입니다.
 
 - **📢 섹션 요약 비유**: 가장 뛰어난 검술을 자랑하는 병사라도, 비상식량이 없고 갑옷을 혼자 입고 벗지 못한다면 실전에서 얼어 죽습니다. OAT는 그 병사에게 스스로 버티고 살아남는 '생존 훈련 수료증'을 발급해 주는 과정입니다.
 
@@ -130,10 +130,10 @@ OAT(운영 인수 테스트)는 개발팀(Dev)과 운영팀(Ops) 간의 신뢰�
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| 소프트웨어 공학 (Software Engineering) | OAT (Operational Acceptance Testing)의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
-| 소프트웨어 생명주기 (SDLC, Software Development Life Cycle) | OAT (Operational Acceptance Testing)은 SDLC의 특정 단계에서 핵심적으로 적용된다 |
-| 품질 보증 (QA, Quality Assurance) | OAT (Operational Acceptance Testing) 적용 결과는 QA 활동을 통해 검증되고 측정된다 |
-| 형상 관리 (SCM, Software Configuration Management) | OAT (Operational Acceptance Testing)에서 생성된 산출물은 SCM을 통해 체계적으로 관리된다 |
+| [[001_software_engineering_definition|소프트웨어 공학]] ([[001_software_engineering_definition|Software Engineering]]) | [[707_oat_operational_acceptance_testing|OAT]] ([[409_operational_acceptance_testing_oat|Operational Acceptance Testing]])의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
+| [[003_sdlc|소프트웨어 생명주기]] ([[131_sdlc_system_development_life_cycle_waterfall_agile|SDLC]], Software Development Life Cycle) | [[707_oat_operational_acceptance_testing|OAT]] ([[409_operational_acceptance_testing_oat|Operational Acceptance Testing]])은 SDLC의 특정 단계에서 핵심적으로 적용된다 |
+| 품질 보증 (QA, Quality Assurance) | [[707_oat_operational_acceptance_testing|OAT]] ([[409_operational_acceptance_testing_oat|Operational Acceptance Testing]]) 적용 결과는 QA 활동을 통해 검증되고 측정된다 |
+| [[020_software_configuration_management|형상 관리]] ([[167_scm_software_configuration_management|SCM]], [[020_software_configuration_management|Software Configuration Management]]) | [[707_oat_operational_acceptance_testing|OAT]] ([[409_operational_acceptance_testing_oat|Operational Acceptance Testing]])에서 생성된 산출물은 SCM을 통해 체계적으로 관리된다 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -153,10 +153,10 @@ OAT (Operational Acceptance Testing) 개념 정립
 지속적 개선 및 DevOps·MLOps 통합
 ```
 
-이 흐름은 소프트웨어 위기 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
+이 흐름은 [[002_software_crisis|소프트웨어 위기]] 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. OAT (Operational Acceptance Testing)은 레고 블록으로 성을 만들 때처럼, 규칙을 정하고 역할을 나누어 함께 작업하는 방법이에요.
+1. [[707_oat_operational_acceptance_testing|OAT]] ([[409_operational_acceptance_testing_oat|Operational Acceptance Testing]])은 레고 블록으로 성을 만들 때처럼, 규칙을 정하고 역할을 나누어 함께 작업하는 방법이에요.
 2. 혼자서 막 만들면 나중에 무너지거나 고치기 어렵지만, 약속을 지키면 누구나 쉽게 고치고 더 크게 만들 수 있어요.
-3. 그래서 소프트웨어 공학은 프로그래머들이 좋은 프로그램을 빠르고 안전하게 만들 수 있게 도와주는 '규칙 모음집'이에요.
+3. 그래서 [[001_software_engineering_definition|소프트웨어 공학]]은 프로그래머들이 좋은 프로그램을 빠르고 안전하게 만들 수 있게 도와주는 '규칙 모음집'이에요.

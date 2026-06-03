@@ -7,15 +7,15 @@ categories = "studynote-devops-sre"
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: 마이크로 프론트엔드(Micro Frontends)는 모놀리식 프론트엔드 앱을 **비즈니스 도메인별로 독립 개발·배포·운영 가능한 단위**로 분해하여, 백엔드 MSA의 원칙을 프론트엔드에 적용한 아키텍처다.
-> 2. **가치**: 팀 A가 "검색" 마이크로 FE를, 팀 B가 "결제" 마이크로 FE를 **서로 다른 릴리즈 주기·기술 스택**으로 독립 배포할 수 있어, 대규모 조직의 **프론트엔드 배포 병목을 해소**한다.
-> 3. **판단 포인트**: Webpack Module Federation·Single-SPA·iframe 등 통합 방식의 트레이드오프를 이해하고, **공유 디자인 시스템(Design System)과 라우팅 규약**으로 UX 일관성을 보장해야 한다.
+> 1. **본질**: [[239_micro_frontends_architecture|마이크로 프론트엔드]]([[239_micro_frontends_architecture|Micro Frontends]])는 모놀리식 프론트엔드 앱을 **비즈니스 [[064_relation_domain|도메인]]별로 독립 개발·배포·운영 가능한 단위**로 분해하여, 백엔드 MSA의 원칙을 프론트엔드에 적용한 아키텍처다.
+> 2. **가치**: 팀 A가 "검색" 마이크로 FE를, 팀 B가 "결제" 마이크로 FE를 **서로 다른 릴리즈 주기·기술 [[057_stack|스택]]**으로 독립 배포할 수 있어, 대규모 조직의 **프론트엔드 배포 병목을 해소**한다.
+> 3. **판단 포인트**: [[557_webpack_module_federation|Webpack Module Federation]]·Single-SPA·iframe 등 통합 방식의 트레이드오프를 이해하고, **공유 디자인 시스템(Design System)과 [[339_routing_overview_best_path_selection|라우팅]] 규약**으로 UX [[194_consistency_database_integrity|일관성]]을 보장해야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-백엔드는 MSA로 서비스별 독립 배포가 가능하지만, 프론트엔드는 여전히 하나의 거대 SPA(Single Page App)로 묶여있는 경우가 많다. 10개 팀이 1개 프론트엔드 repo에서 코드를 수정하면 **머지 충돌·빌드 시간 폭발·배포 큐 대기**가 발생한다.
+백엔드는 MSA로 [[090_service_kubernetes_network_load_balancing|서비스]]별 독립 배포가 가능하지만, 프론트엔드는 여전히 하나의 거대 SPA(Single [[286_page_frame|Page]] App)로 묶여있는 경우가 많다. 10개 팀이 1개 프론트엔드 repo에서 코드를 수정하면 **머지 충돌·빌드 시간 폭발·배포 큐 대기**가 발생한다.
 
 ```text
 ┌───────────────────────────────────────────────────────┐
@@ -34,7 +34,7 @@ categories = "studynote-devops-sre"
 └───────────────────────────────────────────────────────┘
 ```
 
-- **📢 섹션 요약 비유**: 모놀리식 FE는 10명이 1개 도화지에 동시에 그림을 그리는 것이고, 마이크로 FE는 각자 캔버스에 그린 후 전시회(Shell App)에서 합치는 것이다.
+- **📢 섹션 요약 비유**: 모놀리식 FE는 10명이 1개 도화지에 동시에 그림을 그리는 것이고, 마이크로 FE는 각자 캔버스에 그린 후 전시회([[044_shell|Shell]] App)에서 합치는 것이다.
 
 ---
 
@@ -44,15 +44,15 @@ categories = "studynote-devops-sre"
 
 | 방식 | 원리 | 장점 | 단점 |
 |:---|:---|:---|:---|
-| **Module Federation** | Webpack 5 런타임 모듈 공유 | 코드 공유 효율, JS 네이티브 | Webpack 종속 |
-| **Single-SPA** | 각 FE를 독립 앱으로 등록, 라우팅 기반 전환 | 프레임워크 혼용 가능 | 러닝 커브 |
-| **iframe** | 페이지 내 독립 프레임 | 완벽 격리 | SEO 불리, UX 불연속 |
+| **[[557_webpack_module_federation|Module Federation]]** | Webpack 5 런타임 [[192_module_independence|모듈]] 공유 | 코드 공유 효율, JS 네이티브 | Webpack 종속 |
+| **Single-SPA** | 각 FE를 독립 앱으로 등록, [[339_routing_overview_best_path_selection|라우팅]] 기반 전환 | 프레임워크 혼용 가능 | 러닝 커브 |
+| **iframe** | [[286_page_frame|페이지]] 내 독립 프레임 | 완벽 격리 | SEO 불리, UX 불연속 |
 | **Web Components** | Custom Elements + Shadow DOM | 표준 기반 | 생태계 미성숙 |
 
-### Module Federation 핵심
-Host(Shell) 앱이 빌드 시점이 아닌 **런타임에** Remote 앱의 JS 번들을 동적으로 로드한다. Remote 앱은 독립적으로 빌드·배포되며, Host는 Remote의 최신 버전을 자동으로 반영한다.
+### [[557_webpack_module_federation|Module Federation]] 핵심
+Host([[044_shell|Shell]]) 앱이 빌드 시점이 아닌 **런타임에** Remote 앱의 JS 번들을 동적으로 로드한다. Remote 앱은 독립적으로 빌드·배포되며, Host는 Remote의 최신 [[288_version_ihl_tos_total_length|버전]]을 자동으로 반영한다.
 
-- **📢 섹션 요약 비유**: Module Federation은 레고 본체(Host)에 블록(Remote)을 끼워 넣는 것이다. 블록은 별도 공장에서 만들고, 본체는 어떤 블록이든 규격만 맞으면 끼운다.
+- **📢 섹션 요약 비유**: [[192_module_independence|Module]] Federation은 레고 본체(Host)에 블록(Remote)을 끼워 넣는 것이다. 블록은 별도 공장에서 만들고, 본체는 어떤 블록이든 규격만 맞으면 끼운다.
 
 ---
 
@@ -60,10 +60,10 @@ Host(Shell) 앱이 빌드 시점이 아닌 **런타임에** Remote 앱의 JS 번
 
 | 비교 | 모놀리식 FE | 마이크로 FE |
 |:---|:---|:---|
-| **배포 단위** | 전체 앱 | 도메인별 독립 |
+| **배포 단위** | 전체 앱 | [[064_relation_domain|도메인]]별 독립 |
 | **팀 자율성** | 낮음 (공유 repo) | **높음 (독립 repo)** |
-| **기술 스택** | 통일 필수 | 혼용 가능 |
-| **초기 복잡도** | 낮음 | 높음 (인프라 구성) |
+| **기술 [[057_stack|스택]]** | 통일 필수 | 혼용 가능 |
+| **[[459_quic_fec_forward_error_correction|초기]] 복잡도** | 낮음 | 높음 (인프라 구성) |
 | **적합 조직** | 소규모 (1~3팀) | **대규모 (5팀+)** |
 
 ---
@@ -71,11 +71,11 @@ Host(Shell) 앱이 빌드 시점이 아닌 **런타임에** Remote 앱의 JS 번
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 ### 성공 조건
-1. **공유 디자인 시스템**: 각 FE가 같은 버튼·색상·타이포를 사용하여 UX 일관성 보장.
-2. **라우팅 규약**: `/search/*`는 검색 FE, `/checkout/*`는 결제 FE처럼 경로 기반 분배.
-3. **버전 관리**: 공유 라이브러리 breaking change 시 Semantic Versioning 엄수.
+1. **공유 디자인 시스템**: 각 FE가 같은 버튼·색상·타이포를 사용하여 UX [[194_consistency_database_integrity|일관성]] 보장.
+2. **[[339_routing_overview_best_path_selection|라우팅]] 규약**: `/search/*`는 검색 FE, `/checkout/*`는 결제 FE처럼 경로 기반 분배.
+3. **[[288_version_ihl_tos_total_length|버전]] 관리**: [[333_shared_library|공유 라이브러리]] breaking change 시 Semantic [[317_versioning_data_model_design|Versioning]] 엄수.
 
-### 안티패턴
+### [[128_water_scrum_fall_anti_pattern|안티패턴]]
 - **3팀 미만에서 마이크로 FE 도입**: 인프라 복잡도만 증가하고 배포 병목이 없음 → 모놀리식 유지가 효율적.
 
 ---
@@ -85,10 +85,10 @@ Host(Shell) 앱이 빌드 시점이 아닌 **런타임에** Remote 앱의 JS 번
 | 지표 | 모놀리식 FE | 마이크로 FE | 개선 |
 |:---|:---|:---|:---|
 | 배포 빈도 | 주 1회 (큐 대기) | **일 수회 (팀별 독립)** | 5x |
-| 빌드 시간 | 30분 (전체) | **3분 (도메인별)** | 90% 단축 |
+| 빌드 시간 | 30분 (전체) | **3분 ([[064_relation_domain|도메인]]별)** | 90% 단축 |
 | 팀 자율성 | 머지 충돌 빈발 | **완전 독립** | 생산성 향상 |
 
-마이크로 프론트엔드는 **Next.js Zones·Vite Federation**과 결합하여 SSR(Server-Side Rendering) 환경에서도 독립 배포가 가능한 방향으로 진화하고 있다.
+[[239_micro_frontends_architecture|마이크로 프론트엔드]]는 **Next.js Zones·Vite [[543_federation|Federation]]**과 결합하여 [[316_ssr_vs_csr|SSR]](Server-Side Rendering) 환경에서도 독립 배포가 가능한 방향으로 진화하고 있다.
 
 ---
 
@@ -96,11 +96,11 @@ Host(Shell) 앱이 빌드 시점이 아닌 **런타임에** Remote 앱의 JS 번
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **MSA (Microservices)** | 백엔드 독립 배포 → 프론트엔드로 확장 |
-| **Module Federation** | Webpack 5 런타임 모듈 공유 기술 |
+| **[[619_msa_traffic_hardware|MSA]] ([[619_msa_traffic_hardware|Microservices]])** | 백엔드 독립 배포 → 프론트엔드로 확장 |
+| **[[557_webpack_module_federation|Module Federation]]** | Webpack 5 런타임 [[192_module_independence|모듈]] 공유 기술 |
 | **Single-SPA** | 프레임워크 혼용 마이크로 FE 오케스트레이터 |
-| **Design System** | UX 일관성을 보장하는 공유 컴포넌트 라이브러리 |
-| **BFF (Backend for Frontend)** | 마이크로 FE별 전용 API 게이트웨이 패턴 |
+| **Design System** | UX [[194_consistency_database_integrity|일관성]]을 보장하는 공유 [[603_component_independent_deployment_unit|컴포넌트]] [[336_library_vs_framework|라이브러리]] |
+| **[[543_bff_backend_for_frontend|BFF]] ([[543_bff_backend_for_frontend|Backend for Frontend]])** | 마이크로 FE별 전용 [[014_api_posix|API]] 게이트웨이 패턴 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -122,5 +122,5 @@ Host(Shell) 앱이 빌드 시점이 아닌 **런타임에** Remote 앱의 JS 번
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 옛날에는 10명이 **1개 도화지**에 동시에 그림을 그려서 서로 부딪혔어요.
-2. 마이크로 프론트엔드는 각자 **자기 캔버스**에 그린 후 전시회에서 합치는 거예요.
+2. [[239_micro_frontends_architecture|마이크로 프론트엔드]]는 각자 **자기 캔버스**에 그린 후 전시회에서 합치는 거예요.
 3. 덕분에 한 친구가 그림을 수정해도 **다른 친구 그림은 안 망가지고**, 전시회도 훨씬 빨리 열 수 있답니다!

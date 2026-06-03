@@ -8,12 +8,12 @@ categories = "studynote-software-engineering"
 
 > **핵심 인사이트**
 > 1. QA(Quality Assurance, 품질 보증)는 "올바른 프로세스를 따르고 있는가?"를 확인하는 예방적 활동이고, QC(Quality Control, 품질 통제)는 "산출물이 요구사항을 충족하는가?"를 검사하는 탐지적 활동 — 프로세스 중심 vs 제품 중심의 근본적 차이가 있다.
-> 2. 현대 소프트웨어 품질 관리는 단순 QC(테스팅 후 검사)를 넘어 QA(설계 단계부터 품질 내재화)로 진화했으며, DevOps의 Shift-Left 원칙은 이를 더 앞당겨 개발자가 직접 단위 테스트를 작성하는 패러다임 전환을 이끌었다.
+> 2. 현대 [[339_software_quality_definition|소프트웨어 품질]] 관리는 단순 QC(테스팅 후 검사)를 넘어 QA(설계 단계부터 품질 내재화)로 진화했으며, DevOps의 [[242_shift_left_sdlc|Shift-Left]] 원칙은 이를 더 앞당겨 개발자가 직접 단위 테스트를 작성하는 패러다임 전환을 이끌었다.
 > 3. ISO 9001의 품질경영시스템, CMMI의 프로세스 성숙도 모델, IEEE 730 소프트웨어 QA 계획 표준은 모두 QA 관점에서 품질을 "검사해서 심는 것이 아니라 프로세스에 심는 것"이라는 철학을 공유한다.
 
 ---
 
-## Ⅰ. QA vs QC 개념 대비
+## Ⅰ. [[160_qa_vs_qc_quality_management|QA vs QC]] 개념 대비
 
 ```
 QA (Quality Assurance, 품질 보증):
@@ -138,7 +138,7 @@ CMMI (Capability Maturity Model Integration):
 
 ---
 
-## Ⅳ. Shift-Left와 DevOps 품질
+## Ⅳ. Shift-Left와 [[652_devops_calms_culture|DevOps]] 품질
 
 ```
 Shift-Left 원칙:

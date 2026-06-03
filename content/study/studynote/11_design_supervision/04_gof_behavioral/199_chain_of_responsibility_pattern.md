@@ -8,9 +8,9 @@ categories = "studynote-design-supervision"
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 책임 연쇄 패턴 (Chain of Responsibility Pattern)은 GoF 행위 패턴으로, 요청을 처리할 수 있는 객체들을 체인(연쇄)으로 연결하여, 요청 발신자와 수신자를 분리하고 요청이 적절한 핸들러(Handler)를 찾을 때까지 체인을 따라 전달되게 하는 패턴이다.
+> 1. **본질**: [[395_process|책임 연쇄 패턴]] ([[276_chain_of_responsibility_pattern|Chain of Responsibility]] Pattern)은 GoF [[266_behavioral_patterns_overview|행위 패턴]]으로, 요청을 처리할 수 있는 객체들을 체인(연쇄)으로 연결하여, 요청 발신자와 수신자를 분리하고 요청이 적절한 핸들러(Handler)를 찾을 때까지 체인을 따라 전달되게 하는 패턴이다.
 > 2. **가치**: 요청의 발신자가 어떤 객체가 요청을 처리할지 알 필요 없고, 핸들러를 동적으로 추가·재배열할 수 있어 유연성이 높다. 서블릿 필터 체인, 스프링 인터셉터 체인, 미들웨어 파이프라인이 대표적인 구현이다.
-> 3. **판단 포인트**: 책임 연쇄 패턴은 요청이 반드시 처리된다는 보장이 없다(체인 끝까지 처리자가 없을 수 있음). 반드시 처리되어야 하는 요청은 기본 핸들러(Default Handler)를 체인 끝에 배치하거나, 예외를 발생시켜야 한다. 핸들러 수가 많거나 체인이 복잡해지면 디버깅이 어렵다.
+> 3. **판단 포인트**: [[395_process|책임 연쇄 패턴]]은 요청이 반드시 처리된다는 보장이 없다(체인 끝까지 처리자가 없을 수 있음). 반드시 처리되어야 하는 요청은 기본 핸들러(Default Handler)를 체인 끝에 배치하거나, 예외를 발생시켜야 한다. 핸들러 수가 많거나 체인이 복잡해지면 디버깅이 어렵다.
 
 ---
 
@@ -18,7 +18,7 @@ categories = "studynote-design-supervision"
 
 고객 지원 시스템에서 문의가 들어오면: 1차(일반 상담원) → 2차(기술 전문가) → 3차(관리자)로 처리 능력에 따라 요청이 전달된다. 각 담당자가 처리 가능하면 처리하고, 불가능하면 다음 담당자에게 전달한다.
 
-조건 분기로 구현하면: `if (level == "basic") { ... } else if (level == "tech") { ... }` — 새 레벨 추가 시 기존 코드를 수정해야 한다. 책임 연쇄 패턴은 각 핸들러가 독립적으로 처리 여부를 결정하고 다음 핸들러로 위임한다.
+조건 분기로 구현하면: `if (level == "basic") { ... } else if (level == "tech") { ... }` — 새 레벨 추가 시 기존 코드를 수정해야 한다. [[395_process|책임 연쇄 패턴]]은 각 핸들러가 독립적으로 처리 여부를 결정하고 다음 핸들러로 위임한다.
 
 ```text
 ┌─────────────────────────────────────────────────────────────┐
@@ -44,13 +44,13 @@ categories = "studynote-design-supervision"
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-서블릿 필터 체인이 책임 연쇄 패턴의 대표 구현이다. 각 필터(`AuthFilter`, `LogFilter`, `CorsFilter`)가 `doFilter(request, response, filterChain)` 메서드에서 처리 후 `filterChain.doFilter()`를 호출해 다음 필터로 전달한다. 전달하지 않으면 체인이 끊긴다(요청 차단).
+서블릿 필터 체인이 [[395_process|책임 연쇄 패턴]]의 대표 구현이다. 각 필터(`AuthFilter`, `LogFilter`, `CorsFilter`)가 `doFilter(request, response, filterChain)` 메서드에서 처리 후 `filterChain.doFilter()`를 호출해 다음 필터로 전달한다. 전달하지 않으면 체인이 끊긴다(요청 차단).
 
 | 항목 | 설명 | 포인트 |
 |:---|:---|:---|
 | 선형 체인 | 순서대로 전달, 처리하면 중단 | 고객 지원 에스컬레이션 |
 | 파이프라인 | 모든 핸들러를 통과, 각각 처리 | 서블릿 필터 체인 |
-| 분기 체인 | 조건에 따라 다른 체인으로 분기 | 복잡한 라우팅 |
+| 분기 체인 | 조건에 따라 다른 체인으로 분기 | 복잡한 [[339_routing_overview_best_path_selection|라우팅]] |
 
 ```text
 ┌─────────────────────────────────────────────────────────────┐
@@ -67,65 +67,65 @@ categories = "studynote-design-supervision"
 └─────────────────────────────────────────────────────────────┘
 ```
 
-- **📢 섹션 요약 비유**: 공항 보안 검색(Authentication Filter) → 신분증 확인(Authorization Filter) → 짐 검사(CORS Filter)를 모두 통과해야 탑승(Servlet)할 수 있다.
+- **📢 섹션 요약 비유**: 공항 보안 검색([[604_authentication_factors|Authentication]] Filter) → 신분증 [[396_validation|확인]]([[509_authorization_models_rbac_abac|Authorization]] Filter) → 짐 검사(CORS Filter)를 모두 통과해야 탑승(Servlet)할 수 있다.
 
 ---
 ## Ⅲ. 비교 및 연결
 
-책임 연쇄 패턴과 데코레이터 패턴의 비교: 데코레이터는 기능을 추가하고 항상 다음으로 전달하지만, 책임 연쇄는 처리 여부에 따라 전달 여부를 결정한다.
+[[395_process|책임 연쇄 패턴]]과 [[155_decorator_pattern|데코레이터 패턴]]의 비교: [[262_decorator_pattern_dynamic_wrapper|데코레이터]]는 기능을 추가하고 항상 다음으로 전달하지만, [[276_chain_of_responsibility_pattern|책임 연쇄]]는 처리 여부에 따라 전달 여부를 결정한다.
 
 | 비교 축 | A | B |
 |:---|:---|:---|
 | 전달 여부 | 조건부 (처리하면 중단 가능) | 항상 다음으로 전달 |
 | 목적 | 요청 처리자 탐색 | 기능 추가 |
 | 체인 순서 | 중요 (처리자 찾는 순서) | 중요 (기능 추가 순서) |
-| GoF 분류 | 행위 패턴 | 구조 패턴 |
+| GoF [[104_classification_analysis|분류]] | [[266_behavioral_patterns_overview|행위 패턴]] | [[258_structural_patterns_overview|구조 패턴]] |
 
-- **📢 섹션 요약 비유**: 책임 연쇄는 고객 상담 에스컬레이션(처리 가능하면 중단), 데코레이터는 피자에 토핑 추가(모두 통과, 기능 누적)다.
+- **📢 섹션 요약 비유**: [[276_chain_of_responsibility_pattern|책임 연쇄]]는 고객 상담 에스컬레이션(처리 가능하면 중단), [[262_decorator_pattern_dynamic_wrapper|데코레이터]]는 피자에 토핑 추가(모두 통과, 기능 누적)다.
 
 ---
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-스프링 Security는 `SecurityFilterChain`으로 인증·인가를 처리한다. 각 필터가 JWT 검증, 세션 관리, CSRF 보호 등 독립적인 보안 처리를 담당하고, 인증 실패 시 체인을 끊어 요청을 차단한다.
+스프링 Security는 `SecurityFilterChain`으로 [[303_authentication_authorization_patterns|인증]]·[[509_authorization_models_rbac_abac|인가]]를 처리한다. 각 필터가 [[549_jwt_json_web_token|JWT]] [[395_verification_process_review|검증]], [[507_session_management_security|세션 관리]], [[728_csrf_cross_site_request_forgery_concept|CSRF]] [[571_protection_vs_security|보호]] 등 독립적인 보안 처리를 담당하고, [[303_authentication_authorization_patterns|인증]] 실패 시 체인을 끊어 요청을 차단한다.
 
-### 판단 체크리스트
+### 판단 [[435_checklist_based_testing|체크리스트]]
 1. 요청이 체인을 따라 전달되고, 각 핸들러가 독립적으로 처리 여부를 결정하는가?
 2. 처리 불가 시 next.handle()로 다음 핸들러에 위임하는가?
 3. 처리 보장이 필요한 경우 기본 핸들러(Default Handler)가 체인 끝에 있는가?
 4. 핸들러를 동적으로 추가·재배열할 수 있어 유연성이 높은가?
 5. 서블릿 필터 체인처럼 파이프라인 방식(모두 통과)과 선택적 처리 방식의 차이를 이해하는가?
 
-- **📢 섹션 요약 비유**: 스프링 Security 필터 체인은 공항 보안처럼, 각 단계(인증→인가→CSRF)를 통과해야 하고, 하나라도 실패하면 요청이 차단된다.
+- **📢 섹션 요약 비유**: 스프링 [[283_security_tactics|Security]] 필터 체인은 공항 보안처럼, 각 단계([[303_authentication_authorization_patterns|인증]]→[[509_authorization_models_rbac_abac|인가]]→[[728_csrf_cross_site_request_forgery_concept|CSRF]])를 통과해야 하고, 하나라도 실패하면 요청이 차단된다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-책임 연쇄 패턴을 적용하면 요청 발신자와 수신자가 분리되고, 핸들러를 동적으로 추가·재배열하여 처리 흐름을 유연하게 변경할 수 있다. 서블릿 필터 체인, 스프링 인터셉터, 미들웨어 파이프라인이 이 패턴의 실무 구현이다.
+[[395_process|책임 연쇄 패턴]]을 적용하면 요청 발신자와 수신자가 분리되고, 핸들러를 동적으로 추가·재배열하여 처리 흐름을 유연하게 변경할 수 있다. 서블릿 필터 체인, 스프링 인터셉터, 미들웨어 파이프라인이 이 패턴의 실무 구현이다.
 
-한계는 처리 보장이 없고, 긴 체인에서 디버깅이 어려우며, 처리자를 추적하기 어렵다. 모든 핸들러를 항상 통과해야 하는 경우 파이프라인 패턴(Pipe-Filter)이 더 명확한 표현이다.
+한계는 처리 보장이 없고, 긴 체인에서 디버깅이 어려우며, 처리자를 추적하기 어렵다. 모든 핸들러를 항상 통과해야 하는 경우 파이프라인 패턴([[207_pipe_filter_architecture_data_stream|Pipe-Filter]])이 더 명확한 표현이다.
 
-- **📢 섹션 요약 비유**: 책임 연쇄 패턴은 공문서가 부서를 거쳐 결재되듯, 각 부서(핸들러)가 처리 가능하면 결재하고 불가능하면 상위 부서(다음 핸들러)로 올린다.
+- **📢 섹션 요약 비유**: [[395_process|책임 연쇄 패턴]]은 공문서가 부서를 거쳐 결재되듯, 각 부서(핸들러)가 처리 가능하면 결재하고 불가능하면 상위 부서(다음 핸들러)로 올린다.
 
 ---
 
 ### 📌 관련 개념 맵
 
-[요청-처리자 결합 문제] → [책임 연쇄 패턴] → [서블릿 필터 체인] → [스프링 Security FilterChain] → [미들웨어 파이프라인]
+[요청-처리자 결합 문제] → [책임 연쇄 패턴] → [서블릿 필터 체인] → [스프링 [[283_security_tactics|Security]] FilterChain] → [미들웨어 파이프라인]
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| 데코레이터 패턴 | 책임 연쇄와 구조 유사, 의도 다름 |
-| 파이프-필터 패턴 | 책임 연쇄의 모두-통과 변형 |
-| 스프링 Security | SecurityFilterChain 구현 |
-| 미들웨어 | Node.js Express 미들웨어가 책임 연쇄 구현 |
+| [[155_decorator_pattern|데코레이터 패턴]] | [[276_chain_of_responsibility_pattern|책임 연쇄]]와 구조 유사, 의도 다름 |
+| [[134_pipe_filter_pattern|파이프-필터 패턴]] | [[276_chain_of_responsibility_pattern|책임 연쇄]]의 모두-통과 변형 |
+| 스프링 [[283_security_tactics|Security]] | SecurityFilterChain 구현 |
+| 미들웨어 | Node.js Express 미들웨어가 [[276_chain_of_responsibility_pattern|책임 연쇄]] 구현 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-[GoF Chain of Responsibility(1994)] → [서블릿 필터 체인] → [스프링 Security] → [클라우드 API Gateway 미들웨어] → [서비스 메시 필터]
+[GoF [[276_chain_of_responsibility_pattern|Chain of Responsibility]](1994)] → [서블릿 필터 체인] → [스프링 [[283_security_tactics|Security]]] → [클라우드 [[542_api_gateway|API Gateway]] 미들웨어] → [서비스 [[389_mesh_topology|메시]] 필터]
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. 책임 연쇄 패턴은 고객 센터처럼, 1차 상담원이 못 해결하면 2차 전문가, 그래도 안 되면 3차 관리자에게 전달해요.
+1. [[395_process|책임 연쇄 패턴]]은 고객 센터처럼, 1차 상담원이 못 해결하면 2차 전문가, 그래도 안 되면 3차 관리자에게 전달해요.
 2. 서블릿 필터 체인이 바로 이 패턴이에요 - 각 필터가 처리하고 다음으로 넘겨요.
 3. 요청을 보내는 쪽은 누가 처리할지 알 필요 없어요!

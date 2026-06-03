@@ -7,9 +7,9 @@ categories = "studynote-security"
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: SLE(Single Loss Expectancy, 단일 손실 기대값)은 보안 사고 한 번 발생 시 예상 손실액이고, ALE(Annual Loss Expectancy, 연간 손실 기대값)은 연간 기대 손실액이다. 정량적 위험 분석의 핵심 계산식이다.
-> 2. **가치**: ALE = SLE × ARO(Annual Rate of Occurrence, 연간 발생 빈도)로 계산된다. ALE가 보안 통제 비용보다 크면 투자가 정당화된다. 이것이 보안 투자 ROI 계산의 기반이다.
-> 3. **판단 포인트**: SLE = 자산가치(AV, Asset Value) × 노출 인자(EF, Exposure Factor). EF는 0~1 사이 비율로 사고 발생 시 자산의 몇 %가 손실되는지를 나타낸다.
+> 1. **본질**: SLE(Single Loss Expectancy, 단일 손실 기대값)은 보안 사고 한 번 발생 시 예상 손실액이고, [[032_ale_annual_loss_expectancy|ALE]](Annual Loss Expectancy, 연간 손실 기대값)은 연간 기대 손실액이다. [[028_quantitative_risk_analysis|정량적 위험 분석]]의 핵심 계산식이다.
+> 2. **가치**: [[032_ale_annual_loss_expectancy|ALE]] = SLE × ARO(Annual Rate of Occurrence, 연간 발생 빈도)로 계산된다. ALE가 보안 통제 비용보다 크면 투자가 정당화된다. 이것이 보안 투자 [[012_roi_return_on_investment|ROI]] 계산의 기반이다.
+> 3. **판단 포인트**: SLE = 자산가치([[323_antivirus|AV]], Asset Value) × 노출 인자(EF, Exposure Factor). EF는 0~1 사이 비율로 사고 발생 시 자산의 몇 %가 손실되는지를 나타낸다.
 
 ---
 
@@ -31,13 +31,13 @@ categories = "studynote-security"
   → 화재 억제 시스템 설치 비용 < 600만 원/년 이면 투자 정당화
 ```
 
-- **📢 섹션 요약 비유**: ALE 계산은 자동차 보험료 산정과 같다. 사고 시 수리비(SLE)에 연간 사고 확률(ARO)을 곱해서 연간 기대 손실(ALE)을 산출하고, 이를 기준으로 보험료(보안 투자)를 정당화한다.
+- **📢 섹션 요약 비유**: [[032_ale_annual_loss_expectancy|ALE]] 계산은 자동차 보험료 산정과 같다. 사고 시 수리비(SLE)에 연간 사고 [[130_probability|확률]](ARO)을 곱해서 연간 기대 손실([[032_ale_annual_loss_expectancy|ALE]])을 산출하고, 이를 기준으로 보험료(보안 투자)를 정당화한다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### 보안 통제 적용 후 잔여 위험
+### 보안 통제 적용 후 [[038_residual_risk|잔여 위험]]
 
 ```text
 보안 투자 타당성:
@@ -59,7 +59,7 @@ categories = "studynote-security"
 | **생산성 손실** | 다운타임 중 비즈니스 손실 |
 | **법적 책임** | 고객 정보 유출 벌금·소송 |
 | **평판 손상** | 브랜드 가치 하락 |
-| **복구 비용** | 인시던트 대응·포렌식 비용 |
+| **[[658_ir_recovery|복구]] 비용** | [[652_incident_response_nist_800_61|인시던트 대응]]·포렌식 비용 |
 
 - **📢 섹션 요약 비유**: 자산 가치 산정은 보석 감정이다. 보석의 재료 가격(대체 비용)만이 아니라 역사적 가치(평판)·보험 가치(법적 책임)·생산성 가치를 모두 합쳐서 전체 자산 가치를 계산한다.
 
@@ -69,18 +69,18 @@ categories = "studynote-security"
 
 | 비교 | 정량적 분석 | 정성적 분석 |
 |:---|:---|:---|
-| 도구 | SLE·ALE, 확률·금액 | 위험 매트릭스, 색상 등급 |
-| 장점 | 객관적·ROI 계산 | 빠른 분석·전문가 직관 |
-| 단점 | 데이터 수집 어려움 | 주관적·비교 어려움 |
-| 적합 | 대규모 인프라 | 초기 분류·소규모 |
+| 도구 | SLE·[[032_ale_annual_loss_expectancy|ALE]], [[130_probability|확률]]·금액 | 위험 매트릭스, 색상 등급 |
+| 장점 | 객관적·[[012_roi_return_on_investment|ROI]] 계산 | 빠른 분석·전문가 직관 |
+| 단점 | [[001_dikw_pyramid|데이터]] 수집 어려움 | 주관적·비교 어려움 |
+| 적합 | 대규모 인프라 | [[459_quic_fec_forward_error_correction|초기]] [[104_classification_analysis|분류]]·소규모 |
 
-- **📢 섹션 요약 비유**: 정량적 vs 정성적 위험 분석은 건강 검진과 의사 진찰이다. 혈액 검사(정량적)는 수치로 정확히 알지만 시간이 걸리고, 의사 직관(정성적)은 빠르지만 주관적이다. 둘 다 필요하다.
+- **📢 섹션 요약 비유**: 정량적 vs [[029_qualitative_risk_analysis|정성적 위험 분석]]은 건강 검진과 의사 진찰이다. 혈액 검사(정량적)는 수치로 정확히 알지만 시간이 걸리고, 의사 직관(정성적)은 빠르지만 주관적이다. 둘 다 필요하다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### 사이버 보안 ALE 실제 사례
+### 사이버 보안 [[032_ale_annual_loss_expectancy|ALE]] 실제 사례
 
 ```text
 랜섬웨어 사고:
@@ -94,7 +94,7 @@ categories = "studynote-security"
      → 투자 타당 (1.6억 원/년 절감)
 ```
 
-### FAIR (Factor Analysis of Information Risk)
+### FAIR (Factor Analysis of Information [[096_risk_non_risk_architecture_evaluation_flaws|Risk]])
 
 ```text
 FAIR = 현대화된 정량적 위험 분석 표준
@@ -104,7 +104,7 @@ FAIR = 현대화된 정량적 위험 분석 표준
   - 금융 리스크 관리 방법론 차용
 ```
 
-- **📢 섹션 요약 비유**: FAIR는 기상 예보 업그레이드다. 단순 SLE/ALE("내일 비 올 것 같다")에서 FAIR("70% 확률로 20~30mm 강수, 범위: 15~40mm")처럼 정확한 확률 분포로 위험을 분석한다.
+- **📢 섹션 요약 비유**: FAIR는 기상 예보 업그레이드다. 단순 SLE/[[032_ale_annual_loss_expectancy|ALE]]("내일 비 올 것 같다")에서 FAIR("70% [[130_probability|확률]]로 20~30mm 강수, 범위: 15~40mm")처럼 정확한 [[130_probability|확률]] 분포로 위험을 분석한다.
 
 ---
 
@@ -112,13 +112,13 @@ FAIR = 현대화된 정량적 위험 분석 표준
 
 | 기대효과 | 내용 |
 |:---|:---|
-| **투자 정당화** | ALE 기반 보안 ROI 산출 |
-| **우선순위 결정** | ALE 높은 위험 먼저 처리 |
+| **투자 정당화** | [[032_ale_annual_loss_expectancy|ALE]] 기반 보안 [[012_roi_return_on_investment|ROI]] 산출 |
+| **우선순위 결정** | [[032_ale_annual_loss_expectancy|ALE]] 높은 위험 먼저 처리 |
 | **경영진 소통** | 금액으로 표현해 경영진 설득 |
 
-AI 기반 위험 정량화 플랫폼이 등장하고 있다. 사고 사례 데이터베이스·인더스트리 벤치마크·실시간 위협 인텔리전스를 자동 분석하여 ALE를 동적으로 산출하고, 보안 투자 포트폴리오 최적화까지 제안하는 CTEM(Continuous Threat Exposure Management) 플랫폼이 발전하고 있다.
+[[190_ai_llm_requirements_specification|AI]] 기반 위험 정량화 플랫폼이 등장하고 있다. 사고 사례 [[002_database_definition|데이터베이스]]·인더스트리 벤치마크·실시간 위협 인텔리전스를 자동 분석하여 ALE를 동적으로 산출하고, 보안 투자 포트폴리오 최적화까지 제안하는 CTEM(Continuous Threat Exposure [[372_management|Management]]) 플랫폼이 발전하고 있다.
 
-- **📢 섹션 요약 비유**: AI 위험 정량화는 자율주행 보험 동적 프리미엄이다. 실시간 운전 습관·도로 상황·날씨를 분석해 매 순간 보험료(ALE)를 재계산하는 것처럼, AI가 실시간 위협 데이터로 보안 위험값을 업데이트한다.
+- **📢 섹션 요약 비유**: [[190_ai_llm_requirements_specification|AI]] 위험 정량화는 자율주행 보험 동적 프리미엄이다. 실시간 운전 습관·도로 상황·날씨를 분석해 매 순간 보험료([[032_ale_annual_loss_expectancy|ALE]])를 재계산하는 것처럼, AI가 실시간 위협 [[001_dikw_pyramid|데이터]]로 보안 위험값을 업데이트한다.
 
 ---
 
@@ -126,11 +126,11 @@ AI 기반 위험 정량화 플랫폼이 등장하고 있다. 사고 사례 데�
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **AV·EF·ARO** | SLE·ALE 계산의 3요소 |
-| **FAIR** | 현대 정량적 위험 분석 표준 |
-| **위험 매트릭스** | 정성적 위험 분석 도구 |
+| **[[323_antivirus|AV]]·EF·ARO** | SLE·[[032_ale_annual_loss_expectancy|ALE]] 계산의 3요소 |
+| **FAIR** | 현대 [[028_quantitative_risk_analysis|정량적 위험 분석]] 표준 |
+| **위험 매트릭스** | [[029_qualitative_risk_analysis|정성적 위험 분석]] 도구 |
 | **CTEM** | 지속적 위협 노출 관리 플랫폼 |
-| **보안 ROI** | ALE 기반 투자 타당성 계산 |
+| **보안 [[012_roi_return_on_investment|ROI]]** | [[032_ale_annual_loss_expectancy|ALE]] 기반 투자 타당성 계산 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -153,5 +153,5 @@ AI 기반 위험 정량화 플랫폼이 등장하고 있다. 사고 사례 데�
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. SLE는 자동차 사고 한 번의 수리비예요! 사고 났을 때 얼마나 손해인지 계산한 거예요.
-2. ALE는 1년 동안 예상되는 총 손해액이에요 — 수리비 × 연간 사고 확률이에요!
+2. ALE는 1년 동안 예상되는 총 손해액이에요 — 수리비 × 연간 사고 [[130_probability|확률]]이에요!
 3. ALE가 보안 시스템 설치 비용보다 크면 투자하는 게 이익이에요!

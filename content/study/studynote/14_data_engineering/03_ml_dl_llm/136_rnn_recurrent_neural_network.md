@@ -7,9 +7,9 @@ categories = "studynote-dataengineering"
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: RNN은 **은닉 상태(Hidden State)를 이전 시점에서 현재 시점으로 순환(Recurrence)하여 시퀀스 데이터(텍스트·시계열·음성)의 순서 의존성을 학습**하는 신경망이다.
-> 2. **가치**: CNN은 공간 패턴, RNN은 **시간 패턴**을 처리하며, 기계 번역·음성 인식·시계열 예측의 초기 핵심 아키텍처였다. 단, 장기 의존성(Long-term Dependency)에 취약하다.
-> 3. **판단 포인트**: Vanilla RNN의 Vanishing Gradient → LSTM/GRU가 해결 → 현재는 **Transformer가 RNN을 거의 대체**했으나, 시계열·온디바이스에서는 여전히 사용된다.
+> 1. **본질**: RNN은 **은닉 상태(Hidden [[272_state_pattern|State]])를 이전 시점에서 현재 시점으로 순환(Recurrence)하여 시퀀스 [[001_dikw_pyramid|데이터]](텍스트·시계열·음성)의 순서 의존성을 학습**하는 신경망이다.
+> 2. **가치**: CNN은 공간 패턴, RNN은 **시간 패턴**을 처리하며, 기계 번역·음성 인식·시계열 예측의 [[459_quic_fec_forward_error_correction|초기]] 핵심 아키텍처였다. 단, [[291_long_term_dependency|장기 의존성]]([[291_long_term_dependency|Long-term Dependency]])에 취약하다.
+> 3. **판단 포인트**: Vanilla RNN의 [[240_relu_vanishing_gradient_softmax_backprop_chain|Vanishing Gradient]] → [[292_lstm|LSTM]]/GRU가 해결 → 현재는 **Transformer가 RNN을 거의 대체**했으나, 시계열·온디바이스에서는 여전히 사용된다.
 
 ---
 
@@ -28,7 +28,7 @@ RNN: h_t = f(W·h_{t-1} + U·x_t)
 
 ## Ⅱ~Ⅴ. 결론
 
-RNN은 **시퀀스 처리의 기초 아키텍처**이며, LSTM/GRU를 거쳐 Transformer로 진화했다.
+RNN은 **시퀀스 처리의 기초 아키텍처**이며, [[292_lstm|LSTM]]/GRU를 거쳐 Transformer로 진화했다.
 
 ---
 
@@ -36,11 +36,11 @@ RNN은 **시퀀스 처리의 기초 아키텍처**이며, LSTM/GRU를 거쳐 Tra
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **RNN** | 순환 은닉 상태 |
-| **LSTM** | 장기 의존성 해결 |
-| **GRU** | LSTM 경량화 |
-| **Transformer** | RNN 대체 (병렬) |
-| **시계열** | RNN 여전히 활용 |
+| **[[244_rnn_time_series_lstm_cell_gate_long_term_dependency|RNN]]** | 순환 은닉 상태 |
+| **[[292_lstm|LSTM]]** | [[291_long_term_dependency|장기 의존성]] 해결 |
+| **[[294_gru|GRU]]** | [[292_lstm|LSTM]] 경량화 |
+| **[[246_transformer_self_attention_parallel_positional_encoding|Transformer]]** | [[244_rnn_time_series_lstm_cell_gate_long_term_dependency|RNN]] 대체 ([[430_index_fast_full_scan|병렬]]) |
+| **시계열** | [[244_rnn_time_series_lstm_cell_gate_long_term_dependency|RNN]] 여전히 활용 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 

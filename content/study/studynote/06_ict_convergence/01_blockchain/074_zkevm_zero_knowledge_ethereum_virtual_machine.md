@@ -8,15 +8,15 @@ categories = "studynote-blockchain"
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: zkEVM은 제로 지식 증명을 활용해 이더리움 실행을 검증하는 가상 머신이다.
+> 1. **본질**: zkEVM은 제로 지식 증명을 활용해 이더리움 실행을 [[395_verification_process_review|검증]]하는 가상 머신이다.
 > 2. **가치**: 확장성과 프라이버시를 동시에 노린다.
-> 3. **판단**: EVM 호환성과 증명 비용의 균형이 중요하다.
+> 3. **판단**: [[152_evm_earned_value_management|EVM]] 호환성과 증명 비용의 균형이 중요하다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-블록체인을 빠르고 비공개로 만들고 싶다.
+[[004_blockchain|블록체인]]을 빠르고 비공개로 만들고 싶다.
 
 zkEVM이 그 방향을 제시한다.
 
@@ -35,7 +35,7 @@ Verification
 | 요소 | 의미 |
 | :-- | :-- |
 | Zero-Knowledge | 내용 숨김 |
-| EVM | 실행 호환 |
+| [[152_evm_earned_value_management|EVM]] | 실행 호환 |
 | Proof | 증명 |
 
 zkEVM은 이더리움 실행을 증명으로 대체해 효율과 프라이버시를 높인다.
@@ -46,15 +46,15 @@ zkEVM은 이더리움 실행을 증명으로 대체해 효율과 프라이버시
 
 ## Ⅲ. 비교 및 연결
 
-| 구분 | L1 EVM | zkEVM |
+| 구분 | L1 [[152_evm_earned_value_management|EVM]] | zkEVM |
 | :-- | :-- | :-- |
 | 실행 | 온체인 | 증명 기반 |
 | 확장성 | 제한 | 향상 |
 
 | 관련 | 의미 |
 | :-- | :-- |
-| Rollup | 확장 |
-| Privacy | 보호 |
+| [[042_rollup_l2_solution|Rollup]] | 확장 |
+| Privacy | [[571_protection_vs_security|보호]] |
 
 zkEVM은 확장성과 호환성을 동시에 노리는 기술이다.
 
@@ -64,22 +64,22 @@ zkEVM은 확장성과 호환성을 동시에 노리는 기술이다.
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### 체크리스트
+### [[435_checklist_based_testing|체크리스트]]
 
-1. EVM 호환성을 이해하는가?
+1. [[152_evm_earned_value_management|EVM]] 호환성을 이해하는가?
 2. 증명 비용을 아는가?
 3. 프라이버시와 확장성을 구분하는가?
 4. Rollup과 연결하는가?
-5. 검증과 실행을 구별하는가?
+5. [[395_verification_process_review|검증]]과 실행을 구별하는가?
 
-### 안티패턴
+### [[128_water_scrum_fall_anti_pattern|안티패턴]]
 
 - zkEVM을 단순 암호화로 보는 설계
-- EVM 호환성을 무시하는 설계
+- [[152_evm_earned_value_management|EVM]] 호환성을 무시하는 설계
 - 증명 비용을 무시하는 설계
 - 프라이버시만 보고 확장성을 놓치는 설계
 
-기술사 관점에서는 zkEVM을 "제로 지식 기반 EVM 실행 검증 기술"로 설명해야 한다.
+기술사 관점에서는 zkEVM을 "제로 지식 기반 [[152_evm_earned_value_management|EVM]] 실행 [[395_verification_process_review|검증]] 기술"로 설명해야 한다.
 
 - **📢 섹션 요약 비유**: 계산 과정을 숨기고 결과만 증명한다.
 
@@ -87,9 +87,9 @@ zkEVM은 확장성과 호환성을 동시에 노리는 기술이다.
 
 ## Ⅴ. 기대효과 및 결론
 
-zkEVM은 블록체인 확장성과 프라이버시를 높인다.
+zkEVM은 [[004_blockchain|블록체인]] 확장성과 프라이버시를 높인다.
 
-결론적으로 zkEVM은 제로 지식 증명으로 EVM 실행을 검증하는 기술이다.
+결론적으로 zkEVM은 제로 지식 증명으로 [[152_evm_earned_value_management|EVM]] 실행을 [[395_verification_process_review|검증]]하는 기술이다.
 
 - **📢 섹션 요약 비유**: 보이지 않아도 믿을 수 있는 계산이다.
 

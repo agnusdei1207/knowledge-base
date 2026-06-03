@@ -8,20 +8,20 @@ categories = "studynote-ai"
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: K-Means 클러스터링(K-Means Clustering)은 데이터를 K개의 군집으로 분할하기 위해 각 점을 가장 가까운 중심점(Centroid)에 할당하고, 중심점을 반복 재계산하는 EM(Expectation-Maximization) 구조의 비지도 학습 알고리즘이다.
-> 2. **가치**: 단순하고 빠르지만 K값을 사전에 지정해야 하고, 구형(Spherical) 클러스터 외에는 성능이 저하되는 한계를 GMM(Gaussian Mixture Model)이나 DBSCAN으로 극복할 수 있다.
-> 3. **판단 포인트**: 엘보우 방법(Elbow Method)과 실루엣 점수(Silhouette Score)로 최적 K를 선택하고, 초기화에 K-Means++ 알고리즘을 사용하면 지역 최적해(Local Optimum)에 빠지는 위험을 줄일 수 있다.
+> 1. **본질**: K-Means 클러스터링([[057_k_means_clustering_unsupervised_learning|K-Means Clustering]])은 [[001_dikw_pyramid|데이터]]를 K개의 군집으로 분할하기 위해 각 점을 가장 가까운 중심점(Centroid)에 할당하고, 중심점을 반복 재계산하는 EM([[142_em_algorithm|Expectation-Maximization]]) 구조의 [[122_unsupervised_learning|비지도 학습]] [[001_algorithm_definition|알고리즘]]이다.
+> 2. **가치**: 단순하고 빠르지만 K값을 사전에 지정해야 하고, 구형(Spherical) 클러스터 외에는 [[282_performance_tactics|성능]]이 저하되는 한계를 [[360_gmm_em_algorithm|GMM]]([[114_gaussian_mixture_model|Gaussian Mixture Model]])이나 DBSCAN으로 극복할 수 있다.
+> 3. **판단 포인트**: 엘보우 방법(Elbow Method)과 실루엣 점수([[350_kmeans_elbow_silhouette|Silhouette Score]])로 최적 K를 선택하고, [[459_quic_fec_forward_error_correction|초기]]화에 K-Means++ [[001_algorithm_definition|알고리즘]]을 사용하면 지역 최적해(Local Optimum)에 빠지는 위험을 줄일 수 있다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-K-Means는 레이블 없이 데이터를 자동으로 그룹화하는 가장 대표적인 **비지도 학습(Unsupervised Learning)** 알고리즘이다.
+K-Means는 레이블 없이 [[001_dikw_pyramid|데이터]]를 자동으로 [[535_grouping_counting_free_space|그룹화]]하는 가장 대표적인 **[[122_unsupervised_learning|비지도 학습]]([[122_unsupervised_learning|Unsupervised Learning]])** [[001_algorithm_definition|알고리즘]]이다.
 
 **활용 사례**:
-- **고객 세분화**: 구매 패턴으로 고객을 그룹화 → 맞춤 마케팅
-- **이미지 압축**: 색상 팔레트 K개로 이미지 색상 축약
-- **문서 클러스터링**: 유사한 주제의 기사를 그룹화
+- **고객 세분화**: 구매 패턴으로 고객을 [[535_grouping_counting_free_space|그룹화]] → 맞춤 마케팅
+- **이미지 [[347_compaction|압축]]**: 색상 팔레트 K개로 이미지 색상 축약
+- **문서 클러스터링**: 유사한 주제의 기사를 [[535_grouping_counting_free_space|그룹화]]
 - **이상값 탐지**: 어느 클러스터에도 속하지 않는 포인트 감지
 
 **K-Means의 목표 함수 (이너시아, Inertia)**:
@@ -31,13 +31,13 @@ $$\text{Inertia} = \sum_{k=1}^{K} \sum_{x \in C_k} \|x - \mu_k\|^2$$
 - $\mu_k$: k번째 클러스터의 중심점
 - 이너시아를 최소화하는 할당과 중심점을 찾는 것이 목표
 
-| 특성 | K-Means | DBSCAN | 계층적 군집화 |
+| 특성 | K-Means | [[351_dbscan_density_based_clustering|DBSCAN]] | [[358_hierarchical_clustering|계층적 군집화]] |
 |:---|:---|:---|:---|
 | K 사전 지정 | 필요 | 불필요 | 불필요 |
 | 클러스터 형태 | 구형만 | 임의 형태 | 임의 형태 |
 | 이상값 처리 | 약함 | 강함 (노이즈 포인트) | 중간 |
-| 시간 복잡도 | O(nKt) | O(n log n) | O(n²~n³) |
-| 대규모 데이터 | 가능 | 중간 | 어려움 |
+| [[002_time_complexity|시간 복잡도]] | O(nKt) | O(n log n) | O(n²~n³) |
+| 대규모 [[001_dikw_pyramid|데이터]] | 가능 | 중간 | 어려움 |
 
 ```text
 ┌──────────────────────────────────────────────┐
@@ -54,7 +54,7 @@ $$\text{Inertia} = \sum_{k=1}^{K} \sum_{x \in C_k} \|x - \mu_k\|^2$$
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### K-Means 알고리즘 EM 구조
+### K-Means [[001_algorithm_definition|알고리즘]] EM 구조
 
 ```
   K-Means EM (Expectation-Maximization) 구조
@@ -98,13 +98,13 @@ $$\text{Inertia} = \sum_{k=1}^{K} \sum_{x \in C_k} \|x - \mu_k\|^2$$
   엘보우 이후 이너시아 감소폭이 급격히 줄어드는 K가 최적
 ```
 
-### 실루엣 점수 (Silhouette Score)
+### 실루엣 점수 ([[350_kmeans_elbow_silhouette|Silhouette Score]])
 
 각 샘플에 대한 군집 품질 지표:
 
 $$s(i) = \frac{b(i) - a(i)}{\max(a(i), b(i))}$$
 
-- $a(i)$: 같은 클러스터 내 다른 샘플과의 평균 거리 (응집도)
+- $a(i)$: 같은 클러스터 내 다른 샘플과의 평균 거리 ([[193_cohesion_levels|응집도]])
 - $b(i)$: 가장 가까운 **다른** 클러스터 샘플과의 평균 거리 (분리도)
 - 범위: -1 (최악) ~ +1 (최상), 0.5 이상이 좋은 클러스터
 
@@ -115,9 +115,9 @@ $$s(i) = \frac{b(i) - a(i)}{\max(a(i), b(i))}$$
 | 0.25 ~ 0.5 | 약한 군집 구조 |
 | < 0.25 | 인위적이거나 무의미한 군집 |
 
-### EM 알고리즘과 GMM의 관계
+### EM [[001_algorithm_definition|알고리즘]]과 GMM의 [[083_relationship_in_er_model|관계]]
 
-K-Means는 EM 알고리즘의 하드(Hard) 버전이고, GMM(Gaussian Mixture Model)은 소프트(Soft) 버전이다.
+K-Means는 EM [[001_algorithm_definition|알고리즘]]의 하드(Hard) [[288_version_ihl_tos_total_length|버전]]이고, [[360_gmm_em_algorithm|GMM]]([[114_gaussian_mixture_model|Gaussian Mixture Model]])은 소프트(Soft) [[288_version_ihl_tos_total_length|버전]]이다.
 
 ```
   K-Means (Hard EM):           GMM (Soft EM):
@@ -130,7 +130,7 @@ K-Means는 EM 알고리즘의 하드(Hard) 버전이고, GMM(Gaussian Mixture Mo
   └──────────────────────┘     └──────────────────────┘
 ```
 
-- **📢 섹션 요약 비유**: K-Means EM은 "반 배정 후 각 반의 교실 위치를 학생들의 집 위치 평균으로 이동"하는 과정이다. GMM은 "학생을 여러 반에 확률적으로 소속"시켜 더 유연하게 그룹을 형성한다.
+- **📢 섹션 요약 비유**: K-Means EM은 "반 배정 후 각 반의 교실 위치를 학생들의 집 위치 평균으로 이동"하는 과정이다. GMM은 "학생을 여러 반에 [[130_probability|확률]]적으로 소속"시켜 더 유연하게 그룹을 형성한다.
 
 ---
 
@@ -158,31 +158,31 @@ K-Means는 EM 알고리즘의 하드(Hard) 버전이고, GMM(Gaussian Mixture Mo
   └──────────────────────────────────────────────┘
 ```
 
-### K-Means++ 초기화
+### K-Means++ [[459_quic_fec_forward_error_correction|초기]]화
 
-표준 K-Means는 무작위 초기화로 지역 최적해에 빠질 수 있다. K-Means++는 중심점들이 서로 멀리 떨어지도록 확률적으로 선택한다.
+표준 K-Means는 무작위 [[459_quic_fec_forward_error_correction|초기]]화로 지역 최적해에 빠질 수 있다. K-Means++는 중심점들이 서로 멀리 떨어지도록 [[130_probability|확률]]적으로 선택한다.
 
 - 첫 번째 중심점: 무작위 선택
-- 이후 중심점: 기존 중심점과의 거리²에 비례한 확률로 선택
+- 이후 중심점: 기존 중심점과의 거리²에 비례한 [[130_probability|확률]]로 선택
 - 효과: 수렴 속도 향상, 더 나은 최적해
 
-### GMM vs K-Means
+### [[360_gmm_em_algorithm|GMM]] vs K-Means
 
-| 특성 | K-Means | GMM |
+| 특성 | K-Means | [[360_gmm_em_algorithm|GMM]] |
 |:---|:---|:---|
 | 클러스터 모양 | 구형 | 타원형 (공분산 행렬) |
-| 소속 확률 | Hard (0/1) | Soft (0~1 확률) |
+| 소속 [[130_probability|확률]] | Hard (0/1) | Soft (0~1 [[130_probability|확률]]) |
 | 모수 추정 | 중심점 | 평균, 공분산, 혼합 비율 |
 | 이상값 | 약함 | 중간 |
 | 해석 | 쉬움 | 복잡 |
 
-- **📢 섹션 요약 비유**: K-Means는 "각자 하나의 부족(클러스터)에만 속하는 부족 사회"고, GMM은 "사람마다 여러 정체성(직장인이면서 부모이면서 운동선수)을 확률적으로 가지는 현대 사회"다.
+- **📢 섹션 요약 비유**: K-Means는 "각자 하나의 부족(클러스터)에만 속하는 부족 사회"고, GMM은 "사람마다 여러 정체성(직장인이면서 부모이면서 운동선수)을 [[130_probability|확률]]적으로 가지는 현대 사회"다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### 고객 세분화 K-Means 파이프라인
+### 고객 세분화 K-Means [[123_pipe|파이프]]라인
 
 ```
   데이터 수집 (구매 이력, 방문 빈도, 금액)
@@ -202,15 +202,15 @@ K-Means는 EM 알고리즘의 하드(Hard) 버전이고, GMM(Gaussian Mixture Mo
 
 ### Mini-Batch K-Means
 
-대규모 데이터에서 전체 데이터 대신 미니 배치(Mini-Batch)로 중심점을 업데이트:
-- 표준 K-Means: 메모리에 전체 데이터 필요, O(nKt)
+대규모 [[001_dikw_pyramid|데이터]]에서 전체 [[001_dikw_pyramid|데이터]] 대신 미니 배치(Mini-Batch)로 중심점을 업데이트:
+- 표준 K-Means: 메모리에 전체 [[001_dikw_pyramid|데이터]] 필요, O(nKt)
 - Mini-Batch K-Means: 배치 크기 b만 메모리, O(bKt), 정확도 약간 감소
 
 ### 기술사 답안 포인트
 
-- **"K-Means가 EM 알고리즘인 이유"**: E-Step(할당) = 기댓값 계산, M-Step(중심 업데이트) = 최대화
-- **"K 선정 방법 두 가지"**: 엘보우(이너시아 기울기 변화점), 실루엣(군집 응집도/분리도)
-- **"K-Means vs GMM 선택 기준"**: 클러스터가 원형이고 크기가 비슷하면 K-Means, 다양한 형태면 GMM
+- **"K-Means가 EM [[001_algorithm_definition|알고리즘]]인 이유"**: E-Step(할당) = [[135_expected_value|기댓값]] 계산, M-Step(중심 업데이트) = 최대화
+- **"K 선정 방법 두 가지"**: 엘보우(이너시아 기울기 변화점), 실루엣(군집 [[193_cohesion_levels|응집도]]/분리도)
+- **"K-Means vs [[360_gmm_em_algorithm|GMM]] 선택 기준"**: 클러스터가 원형이고 크기가 비슷하면 K-Means, 다양한 형태면 [[360_gmm_em_algorithm|GMM]]
 - **"K-Means 이상값 처리"**: 이상값 제거 후 적용 또는 K-Medoids(중위수 기반) 사용
 
 - **📢 섹션 요약 비유**: 엘보우 방법은 팔을 구부렸을 때 꺾이는 지점처럼, K가 증가해도 이너시아가 더 이상 크게 줄지 않는 "더 이상 나눠도 의미 없는 지점"을 찾는 것이다.
@@ -221,12 +221,12 @@ K-Means는 EM 알고리즘의 하드(Hard) 버전이고, GMM(Gaussian Mixture Mo
 
 K-Means를 올바르게 활용하면:
 
-1. **자동 패턴 발견**: 레이블 없는 데이터에서 숨겨진 구조 발견 → 비즈니스 인사이트
-2. **차원 축소 보완**: PCA 후 K-Means로 클러스터 구조 파악 → 2단계 분석
-3. **준지도 학습 지원**: 클러스터 레이블을 초기 레이블로 활용 → 적은 레이블로 지도 학습
-4. **실시간 데이터 스트리밍**: Mini-Batch K-Means로 온라인 군집화 가능
+1. **자동 패턴 발견**: 레이블 없는 [[001_dikw_pyramid|데이터]]에서 숨겨진 구조 발견 → 비즈니스 인사이트
+2. **[[081_dimensionality_reduction_pca_principal_component_analysis|차원 축소]] 보완**: [[163_pca|PCA]] 후 K-Means로 클러스터 구조 파악 → 2단계 분석
+3. **준지도 학습 지원**: 클러스터 레이블을 [[459_quic_fec_forward_error_correction|초기]] 레이블로 활용 → 적은 레이블로 [[121_supervised_learning|지도 학습]]
+4. **[[300_realtime_data_streaming_kafka_cdc|실시간 데이터 스트리밍]]**: Mini-Batch K-Means로 온라인 [[105_clustering_analysis|군집화]] 가능
 
-K-Means는 단순하지만, **올바른 전처리 + K 선택 + 결과 해석** 파이프라인을 구축하면 강력한 탐색적 데이터 분석(EDA, Exploratory Data Analysis) 도구가 된다.
+K-Means는 단순하지만, **올바른 전처리 + K 선택 + 결과 해석** [[123_pipe|파이프]]라인을 구축하면 강력한 [[062_eda_exploratory_data_analysis|탐색적 데이터 분석]]([[064_eda|EDA]], [[105_exploratory_data_analysis|Exploratory Data Analysis]]) 도구가 된다.
 
 - **📢 섹션 요약 비유**: K-Means는 "지도 없이 낯선 도시에서 주민들이 자연스럽게 모이는 동네를 찾는 것"이다. 처음엔 무작위로 동네 중심을 잡지만, 주민들이 모이고 중심이 이동하기를 반복하면 자연스러운 생활권(클러스터)이 드러난다.
 
@@ -236,12 +236,12 @@ K-Means는 단순하지만, **올바른 전처리 + K 선택 + 결과 해석** �
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| K-Means 클러스터링 | 중심점(Centroid), 이너시아 / 대표적 비지도 군집화 |
-| 이너시아 (Inertia) | 군집 내 분산, 목표 함수 / K-Means 최소화 대상 |
+| K-Means 클러스터링 | 중심점(Centroid), 이너시아 / 대표적 비지도 [[105_clustering_analysis|군집화]] |
+| 이너시아 (Inertia) | 군집 내 [[136_variance|분산]], 목표 함수 / K-Means 최소화 대상 |
 | 엘보우 방법 (Elbow Method) | 이너시아 감소율, 최적 K / K 선택 시각적 방법 |
-| 실루엣 점수 (Silhouette Score) | 응집도, 분리도, -1~1 / K 선택 정량적 방법 |
-| EM 알고리즘 (Expectation-Maximization) | E-Step, M-Step / K-Means의 수학적 프레임 |
-| GMM (Gaussian Mixture Model) | 가우시안 혼합, Soft 할당 / K-Means의 확률적 일반화 |
+| 실루엣 점수 ([[350_kmeans_elbow_silhouette|Silhouette Score]]) | [[193_cohesion_levels|응집도]], 분리도, -1~1 / K 선택 정량적 방법 |
+| EM [[001_algorithm_definition|알고리즘]] ([[142_em_algorithm|Expectation-Maximization]]) | E-Step, M-Step / K-Means의 수학적 프레임 |
+| [[360_gmm_em_algorithm|GMM]] ([[114_gaussian_mixture_model|Gaussian Mixture Model]]) | 가우시안 혼합, Soft 할당 / K-Means의 [[130_probability|확률]]적 일반화 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 

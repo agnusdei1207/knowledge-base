@@ -7,44 +7,44 @@ categories = "studynote-algorithm"
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: 외부 정렬은 주기억장치(RAM)에 올라오지 않는 대용량 데이터를 디스크 I/O를 최소화하면서 정렬하는 알고리즘으로, 성능의 핵심은 비교 연산이 아닌 I/O 횟수다.
-> 2. **가치**: 데이터베이스 ORDER BY, 빅데이터 파이프라인, 파일 시스템 인덱싱 등 수TB~PB 규모 데이터 처리의 근간이며 K-way 합병(Merge)이 핵심 기법이다.
-> 3. **판단 포인트**: 버퍼 크기, K(합병 경로 수), 런(Run) 생성 전략이 I/O 횟수를 결정하며, 대체 선택(Replacement Selection)으로 런 길이를 2배 이상 늘려 패스 수를 줄이는 것이 핵심 최적화다.
+> 1. **본질**: 외부 정렬은 주기억장치(RAM)에 올라오지 않는 대용량 [[001_dikw_pyramid|데이터]]를 디스크 I/O를 최소화하면서 정렬하는 [[001_algorithm_definition|알고리즘]]으로, [[282_performance_tactics|성능]]의 핵심은 비교 연산이 아닌 I/O 횟수다.
+> 2. **가치**: [[002_database_definition|데이터베이스]] ORDER BY, 빅데이터 파이프라인, [[501_file_definition_logical_record|파일]] 시스템 인덱싱 등 수TB~PB 규모 [[001_dikw_pyramid|데이터]] 처리의 근간이며 K-way 합병(Merge)이 핵심 기법이다.
+> 3. **판단 포인트**: 버퍼 크기, K(합병 경로 수), 런(Run) [[087_process_state_transition|생성]] [[268_strategy_pattern|전략]]이 I/O 횟수를 결정하며, 대체 선택(Replacement [[022_mcts_four_stages|Selection]])으로 런 길이를 2배 이상 늘려 패스 수를 줄이는 것이 핵심 최적화다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-메모리 M이 1GB인 서버에서 1TB 파일을 정렬해야 한다. 전통적인 내부 정렬(In-Memory Sort)은 이 상황에서 작동하지 않는다. **외부 정렬 (External Sort)**은 데이터를 메모리 크기의 청크(Chunk)로 나누어 디스크에서 읽고 쓰며 정렬하는 알고리즘이다.
+메모리 M이 1GB인 서버에서 1TB [[501_file_definition_logical_record|파일]]을 정렬해야 한다. 전통적인 내부 정렬(In-Memory Sort)은 이 상황에서 작동하지 않는다. **외부 정렬 (External Sort)**은 [[001_dikw_pyramid|데이터]]를 메모리 크기의 청크(Chunk)로 나누어 디스크에서 읽고 쓰며 정렬하는 [[001_algorithm_definition|알고리즘]]이다.
 
 ### 내부 정렬 vs 외부 정렬
 
 | 구분 | 내부 정렬 | 외부 정렬 |
 |:---|:---:|:---:|
-| 데이터 위치 | RAM 전체 | 디스크 (일부만 RAM) |
-| 성능 기준 | 비교 연산 수 | 디스크 I/O 횟수 |
-| 병목 | CPU | 디스크 대역폭 |
+| [[001_dikw_pyramid|데이터]] 위치 | RAM 전체 | 디스크 (일부만 RAM) |
+| [[282_performance_tactics|성능]] 기준 | 비교 연산 수 | 디스크 I/O 횟수 |
+| 병목 | CPU | 디스크 [[140_bandwidth|대역폭]] |
 | 적용 규모 | GB 이하 | GB~PB |
-| 대표 알고리즘 | 퀵/병합/힙 정렬 | K-way 외부 병합 정렬 |
+| 대표 [[001_algorithm_definition|알고리즘]] | 퀵/병합/[[080_heap_sort|힙 정렬]] | K-way 외부 병합 정렬 |
 
-📢 **섹션 요약 비유**: 외부 정렬은 도서관의 책 전수 재배치 작업과 같다. 한 번에 트럭 1대분(메모리)만 꺼낼 수 있으므로, 트럭 단위로 배치하고 병합하는 전략이 필요하다.
+📢 **섹션 요약 비유**: 외부 정렬은 도서관의 책 전수 재배치 작업과 같다. 한 번에 트럭 1대분(메모리)만 꺼낼 수 있으므로, 트럭 단위로 배치하고 병합하는 [[268_strategy_pattern|전략]]이 필요하다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### K-Way 외부 병합 정렬 (External Merge Sort) 단계
+### K-Way 외부 병합 정렬 (External [[044_merge_sort|Merge Sort]]) 단계
 
-**1단계 — 런(Run) 생성**:  
-메모리에 M 크기 청크를 읽어 내부 정렬 후 디스크에 임시 파일(런) 저장
+**1단계 — 런(Run) [[087_process_state_transition|생성]]**:  
+메모리에 M 크기 청크를 읽어 내부 정렬 후 디스크에 임시 [[501_file_definition_logical_record|파일]](런) 저장
 
 **2단계 — K-Way 병합 (Merge Passes)**:  
-K개 런 파일을 동시에 읽으면서 힙(Heap)으로 최솟값을 선택해 병합
+K개 런 [[501_file_definition_logical_record|파일]]을 동시에 읽으면서 힙([[078_heap_datastructure|Heap]])으로 최솟값을 선택해 병합
 
 **3단계 — 반복**:  
 런이 1개 남을 때까지 패스 반복
 
-### ASCII 다이어그램 — 외부 병합 정렬 흐름
+### [[103_ascii|ASCII]] 다이어그램 — 외부 병합 정렬 흐름
 
 ```
 데이터: 1TB, 메모리: 1GB, K=4
@@ -84,19 +84,19 @@ K개 런 파일을 동시에 읽으면서 힙(Heap)으로 최솟값을 선택해
 총 I/O:    2 * N_passes * (데이터 크기) / (블록 크기)
 ```
 
-### 버퍼 관리 전략
+### 버퍼 관리 [[268_strategy_pattern|전략]]
 
 | 버퍼 | 역할 |
 |:---|:---|
-| K개 입력 버퍼 | 각 런 파일에서 블록 단위 읽기 |
-| 1개 출력 버퍼 | 병합 결과를 블록 단위로 쓰기 |
+| K개 입력 버퍼 | 각 런 [[501_file_definition_logical_record|파일]]에서 블록 단위 읽기 |
+| 1개 출력 버퍼 | 병합 결과를 블록 단위로 [[289_cqrs_db|쓰기]] |
 | 힙 (크기 K) | K개 포인터의 최솟값 추출 O(log K) |
 
 ### 시간/I/O 복잡도
 
 | 항목 | 복잡도 |
 |:---|:---|
-| 런 생성 I/O | O(N) (전체 데이터 읽기+쓰기) |
+| 런 [[087_process_state_transition|생성]] I/O | O(N) (전체 [[001_dikw_pyramid|데이터]] 읽기+[[289_cqrs_db|쓰기]]) |
 | 병합 패스 수 | O(log_K(N/M)) |
 | 총 I/O 횟수 | O((N/B) · log_K(N/M)) (B=블록 크기) |
 | 총 비교 연산 | O(N log N) |
@@ -107,9 +107,9 @@ K개 런 파일을 동시에 읽으면서 힙(Heap)으로 최솟값을 선택해
 
 ## Ⅲ. 비교 및 연결
 
-### 런 생성 최적화: 대체 선택 (Replacement Selection)
+### 런 [[087_process_state_transition|생성]] 최적화: 대체 선택 (Replacement [[022_mcts_four_stages|Selection]])
 
-표준 런 생성은 메모리 M개 원소 → 런 크기 M. 대체 선택은 평균 **2M** 크기 런을 생성한다.
+표준 런 [[087_process_state_transition|생성]]은 메모리 M개 원소 → 런 크기 M. 대체 선택은 평균 **2M** 크기 런을 [[087_process_state_transition|생성]]한다.
 
 ```
 대체 선택 알고리즘:
@@ -127,31 +127,31 @@ K개 런 파일을 동시에 읽으면서 힙(Heap)으로 최솟값을 선택해
 
 | 기법 | 특징 | 적용 |
 |:---|:---|:---|
-| K-way 병합 정렬 | 기본 외부 정렬 | 데이터베이스 ORDER BY |
+| K-way 병합 정렬 | 기본 외부 정렬 | [[002_database_definition|데이터베이스]] ORDER BY |
 | 다단계 병합 (Polyphase Merge) | 패스 최적화 | 테이프 기반 고전 시스템 |
-| B-트리 기반 외부 정렬 | 인덱스 구조 활용 | DBMS 인덱스 빌드 |
-| 분산 외부 정렬 | MapReduce 기반 | Hadoop/Spark |
+| B-트리 기반 외부 정렬 | [[154_database_index_b_tree_search_optimization|인덱스]] 구조 활용 | [[502_dbms|DBMS]] [[154_database_index_b_tree_search_optimization|인덱스]] 빌드 |
+| [[136_variance|분산]] 외부 정렬 | [[018_mapreduce|MapReduce]] 기반 | [[843_hadoop_rack_awareness_data_replication_topology|Hadoop]]/Spark |
 
-📢 **섹션 요약 비유**: 대체 선택 최적화는 책을 챙길 때 "어차피 이 방향으로 가는 길에 있는 책은 지금 챙기는 것"처럼 한 번의 이동으로 더 많은 짐을 처리하는 전략이다.
+📢 **섹션 요약 비유**: 대체 선택 최적화는 책을 챙길 때 "어차피 이 방향으로 가는 길에 있는 책은 지금 챙기는 것"처럼 한 번의 이동으로 더 많은 짐을 처리하는 [[268_strategy_pattern|전략]]이다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### 데이터베이스 시스템에서의 외부 정렬
+### [[002_database_definition|데이터베이스]] 시스템에서의 외부 정렬
 
 **시나리오 — MySQL ORDER BY on 1억 건 테이블**:
-1. `sort_buffer_size` (기본 256KB~1MB) 내에서 퀵 정렬
-2. 버퍼 초과 → 임시 파일(Temp File)에 런 저장
+1. `sort_buffer_size` (기본 256KB~1MB) 내에서 [[047_quick_sort|퀵 정렬]]
+2. 버퍼 초과 → 임시 [[501_file_definition_logical_record|파일]](Temp [[501_file_definition_logical_record|File]])에 런 저장
 3. K-way 병합으로 최종 결과 반환
 4. `read_rnd_buffer_size` 최적화로 랜덤 I/O 감소
 
-**시나리오 — Apache Spark 정렬**:
+**시나리오 — [[206_spark_inmemory_rdd_lazy_evaluation_lineage|Apache Spark]] 정렬**:
 - ShuffleManager가 외부 정렬 담당
 - 메모리 임계값 초과 시 디스크 스필(Spill)
 - `spark.sql.shuffle.partitions` 조정으로 K 제어
 
-### 성능 튜닝 포인트
+### [[282_performance_tactics|성능]] 튜닝 포인트
 
 ```
 ┌──────────────────────────────────────────────────────┐
@@ -166,21 +166,21 @@ K개 런 파일을 동시에 읽으면서 힙(Heap)으로 최솟값을 선택해
 └──────────────────────────────────────────────────────┘
 ```
 
-📢 **섹션 요약 비유**: 외부 정렬 튜닝은 공장 조립 라인 최적화와 같다. 더 큰 부품 트레이(메모리), 더 많은 병렬 라인(K), 더 효율적인 부품 준비(대체 선택)로 전체 처리 시간을 단축한다.
+📢 **섹션 요약 비유**: 외부 정렬 튜닝은 공장 조립 라인 최적화와 같다. 더 큰 부품 트레이(메모리), 더 많은 [[430_index_fast_full_scan|병렬]] 라인(K), 더 효율적인 부품 준비(대체 선택)로 전체 처리 시간을 단축한다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-외부 정렬은 현대 데이터 시스템에서 **가장 실용적인 알고리즘 중 하나**다. 빅데이터 파이프라인, DBMS 쿼리 최적화, 파일 시스템 관리 등 모든 대용량 데이터 처리 시스템에서 외부 정렬의 원리가 동작하고 있다.
+외부 정렬은 현대 [[001_dikw_pyramid|데이터]] 시스템에서 **가장 실용적인 [[001_algorithm_definition|알고리즘]] 중 하나**다. 빅데이터 파이프라인, [[502_dbms|DBMS]] [[298_qkv_attention|쿼리]] 최적화, [[501_file_definition_logical_record|파일]] 시스템 관리 등 모든 대용량 [[001_dikw_pyramid|데이터]] 처리 시스템에서 외부 정렬의 원리가 동작하고 있다.
 
 ### 효과 정리
 
 | 효과 | 내용 |
 |:---|:---|
-| 확장성 | RAM 크기를 초과하는 어떤 데이터도 정렬 가능 |
-| I/O 효율 | K-way 병합으로 패스 수를 로그 수준으로 제한 |
-| 시스템 통합 | DBMS, MapReduce, 스트림 처리와 직접 연결 |
+| 확장성 | RAM 크기를 초과하는 어떤 [[001_dikw_pyramid|데이터]]도 정렬 가능 |
+| I/O 효율 | K-way 병합으로 패스 수를 [[568_logs_distributed_logging_elk_fluentd|로그]] 수준으로 제한 |
+| 시스템 통합 | [[502_dbms|DBMS]], [[018_mapreduce|MapReduce]], 스트림 처리와 직접 연결 |
 | 최적화 여지 | 버퍼 관리, 대체 선택 등 다양한 최적화 가능 |
 
 📢 **섹션 요약 비유**: 외부 정렬은 대형 물류 허브의 화물 처리 시스템이다. 창고(메모리)에 다 들어오지 않는 화물을 임시 야적장(디스크)에 분류해두고, 여러 경로(K-way)로 동시에 합치면 전국으로 배송할 수 있다.
@@ -189,13 +189,13 @@ K개 런 파일을 동시에 읽으면서 힙(Heap)으로 최솟값을 선택해
 
 ### 📌 관련 개념 맵
 
-| 개념 | 연결 관계 | 설명 |
+| 개념 | 연결 [[083_relationship_in_er_model|관계]] | 설명 |
 |:---|:---|:---|
-| 병합 정렬 (Merge Sort) | → 기반 알고리즘 | K-way 병합의 이론적 근거 |
+| 병합 정렬 ([[044_merge_sort|Merge Sort]]) | → 기반 [[001_algorithm_definition|알고리즘]] | K-way 병합의 이론적 근거 |
 | 버퍼 풀 (Buffer Pool) | → 구현 요소 | DBMS의 메모리 관리 |
-| B-트리 (B-Tree) | → 연관 구조 | 디스크 기반 인덱스 |
-| MapReduce | → 분산 확장 | Hadoop의 정렬 단계 |
-| 대체 선택 (Replacement Selection) | → 런 최적화 | 런 크기 2배 달성 |
+| B-트리 ([[064_b_tree|B-Tree]]) | → 연관 구조 | 디스크 기반 [[154_database_index_b_tree_search_optimization|인덱스]] |
+| [[018_mapreduce|MapReduce]] | → [[136_variance|분산]] 확장 | Hadoop의 정렬 단계 |
+| 대체 선택 (Replacement [[022_mcts_four_stages|Selection]]) | → 런 최적화 | 런 크기 2배 달성 |
 
 
 ### 📈 관련 키워드 및 발전 흐름도
@@ -216,10 +216,10 @@ K개 런 파일을 동시에 읽으면서 힙(Heap)으로 최솟값을 선택해
 [MapReduce 분산 정렬 — 외부 정렬의 분산 확장, Hadoop Shuffle 단계가 K-way 병합 구현]
 ```
 
-이 흐름은 메모리 한계를 넘는 데이터를 처리하기 위해 런 생성→K-way 병합이라는 2단계 외부 정렬 패러다임이 탄생하고, 이 원리가 분산 컴퓨팅 환경에서 MapReduce Shuffle 단계로 수평 확장되는 정렬 알고리즘의 발전 계보를 보여준다.
+이 흐름은 메모리 한계를 넘는 [[001_dikw_pyramid|데이터]]를 처리하기 위해 런 [[087_process_state_transition|생성]]→K-way 병합이라는 2단계 외부 정렬 패러다임이 탄생하고, 이 원리가 [[136_variance|분산]] 컴퓨팅 환경에서 [[018_mapreduce|MapReduce]] Shuffle 단계로 수평 확장되는 정렬 [[001_algorithm_definition|알고리즘]]의 발전 계보를 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-📦 **방 정리 이사 트럭**: 방(메모리)에 다 안 들어오는 짐을 트럭(런 파일)에 나눠 싣고, 여러 트럭을 동시에 비교하며 새 집(결과 파일)에 순서대로 넣어요.  
+📦 **방 정리 이사 트럭**: 방(메모리)에 다 안 들어오는 짐을 트럭(런 [[501_file_definition_logical_record|파일]])에 나눠 싣고, 여러 트럭을 동시에 비교하며 새 집(결과 [[501_file_definition_logical_record|파일]])에 순서대로 넣어요.  
 🗂️ **선생님의 학생부 정리**: 선생님이 한 번에 100명 이름만 기억할 수 있다면, 100명씩 묶어서 정렬하고 합치는 방식으로 전교생 3,000명 이름도 정렬할 수 있어요.  
-🔀 **합류 도로**: 여러 도로(K개 런 파일)에서 차가 동시에 나와서, 제일 앞에 있는 차를 순서대로 고속도로(결과)에 합류시키면 돼요!
+🔀 **합류 도로**: 여러 도로(K개 런 [[501_file_definition_logical_record|파일]])에서 차가 동시에 나와서, 제일 앞에 있는 차를 순서대로 고속도로(결과)에 합류시키면 돼요!

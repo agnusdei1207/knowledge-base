@@ -7,22 +7,22 @@ categories = "studynote-cloud-architecture"
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: 데이터를 저장할 때 구조를 강제하지 않고, 분석가가 읽을 때 비로소 스키마를 정의하는 **"나중 결정" 전략**이다.
-> 2. **가치**: 미래에 필요한 모든 분석 형태를 미리 알 수 없는 대용량 원시 데이터를 **있는 그대로 보존**해 탐색적 분석(EDA)과 머신러닝 피처 엔지니어링이 가능하다.
-> 3. **판단 포인트**: 데이터 레이크의 핵심 철학이지만, 잘못 관리하면 "데이터 스왐프(Data Swamp)"로 전락하므로 **메타데이터/카탈로그 거버넌스**가 필수다.
+> 1. **본질**: [[001_dikw_pyramid|데이터]]를 저장할 때 구조를 강제하지 않고, 분석가가 읽을 때 비로소 [[005_schema|스키마]]를 정의하는 **"나중 결정" [[268_strategy_pattern|전략]]**이다.
+> 2. **가치**: 미래에 필요한 모든 분석 형태를 미리 알 수 없는 대용량 원시 [[001_dikw_pyramid|데이터]]를 **있는 그대로 보존**해 탐색적 분석([[064_eda|EDA]])과 [[241_machine_learning_basics|머신러닝]] [[247_feature_label_variables|피처]] 엔지니어링이 가능하다.
+> 3. **판단 포인트**: [[208_data_lake_schema_on_read|데이터 레이크]]의 핵심 철학이지만, 잘못 관리하면 "[[001_dikw_pyramid|데이터]] 스왐프([[288_data_swamp_metadata_management_absence|Data Swamp]])"로 전락하므로 **[[012_metadata|메타데이터]]/[[394_catalog_metadata|카탈로그]] 거버넌스**가 필수다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-데이터 저장 방식에는 두 가지 철학이 존재한다. **Schema-on-Write(쓰기 시 스키마)**는 저장 전에 "이 데이터는 이 구조여야 한다"라고 검증하는 전통적 방식이고, **Schema-on-Read(읽기 시 스키마)**는 "일단 원시 그대로 저장하고, 필요할 때 읽는 쪽에서 의미를 부여한다"는 현대 데이터 레이크의 접근법이다.
+[[001_dikw_pyramid|데이터]] 저장 방식에는 두 가지 철학이 존재한다. **[[010_schema_on_write|Schema-on-Write]]([[289_cqrs_db|쓰기]] 시 [[005_schema|스키마]])**는 저장 전에 "이 [[001_dikw_pyramid|데이터]]는 이 구조여야 한다"라고 [[395_verification_process_review|검증]]하는 전통적 방식이고, **[[009_schema_on_read|Schema-on-Read]](읽기 시 [[005_schema|스키마]])**는 "일단 원시 그대로 저장하고, 필요할 때 읽는 쪽에서 의미를 부여한다"는 현대 [[208_data_lake_schema_on_read|데이터 레이크]]의 접근법이다.
 
-빅데이터 시대 이전에는 데이터의 형태가 예측 가능했다. 그러나 소셜 미디어 로그, IoT 센서 데이터, 반정형 JSON API 응답 등 다양한 형태의 데이터가 폭발적으로 늘어나면서, 저장 전에 스키마를 고정하면 **미래의 분석 요건 변화**에 대응하지 못한다는 한계가 드러났다.
+빅데이터 시대 이전에는 [[001_dikw_pyramid|데이터]]의 형태가 예측 가능했다. 그러나 소셜 미디어 [[568_logs_distributed_logging_elk_fluentd|로그]], [[101_iot_concept|IoT]] 센서 [[001_dikw_pyramid|데이터]], 반정형 [[343_json|JSON]] [[014_api_posix|API]] 응답 등 다양한 형태의 [[001_dikw_pyramid|데이터]]가 폭발적으로 늘어나면서, 저장 전에 [[005_schema|스키마]]를 고정하면 **미래의 분석 요건 변화**에 대응하지 못한다는 한계가 드러났다.
 
-Schema-on-Read의 핵심 필요성:
-- **유연성**: 동일한 원시 데이터를 서로 다른 팀이 다른 스키마 관점으로 해석 가능
-- **속도**: 스키마 검증·변환 없이 데이터를 즉시 저장하여 수집 파이프라인 단순화
-- **비용**: 원시 Parquet/JSON 파일로 S3 같은 저비용 오브젝트 스토리지에 보관
+[[505_schema|Schema]]-on-Read의 핵심 필요성:
+- **유연성**: 동일한 원시 [[001_dikw_pyramid|데이터]]를 서로 다른 팀이 다른 [[005_schema|스키마]] 관점으로 해석 가능
+- **속도**: [[005_schema|스키마]] [[395_verification_process_review|검증]]·변환 없이 [[001_dikw_pyramid|데이터]]를 즉시 저장하여 수집 파이프라인 단순화
+- **비용**: 원시 [[178_parquet_rle_encoding_columnar_compression|Parquet]]/[[343_json|JSON]] [[501_file_definition_logical_record|파일]]로 S3 같은 저비용 [[494_object_storage|오브젝트 스토리지]]에 보관
 
 ```
 전통 DW (Schema-on-Write)          데이터 레이크 (Schema-on-Read)
@@ -36,13 +36,13 @@ Schema-on-Read의 핵심 필요성:
 └────────────────────────┘          └──────────────────────────────┘
 ```
 
-📢 **섹션 요약 비유**: Schema-on-Read는 박물관 수장고와 같다. 유물을 발굴하면 바로 저장하고, 나중에 역사학자·고고학자·미술사가가 각자의 시각으로 의미를 부여하는 것처럼, 데이터도 일단 원형 그대로 보존하고 필요할 때 해석한다.
+📢 **섹션 요약 비유**: [[505_schema|Schema]]-on-Read는 박물관 수장고와 같다. 유물을 발굴하면 바로 저장하고, 나중에 역사학자·고고학자·미술사가가 각자의 시각으로 의미를 부여하는 것처럼, [[001_dikw_pyramid|데이터]]도 일단 원형 그대로 보존하고 필요할 때 해석한다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### Schema-on-Read 데이터 레이크 아키텍처
+### [[009_schema_on_read|Schema-on-Read]] [[208_data_lake_schema_on_read|데이터 레이크]] 아키텍처
 
 ```
 ┌─────────────────────────────────────────────────────────────────┐
@@ -73,49 +73,49 @@ Schema-on-Read의 핵심 필요성:
 
 | 구성 요소 | 역할 | 예시 기술 |
 |:---|:---|:---|
-| 오브젝트 스토리지 | 원시 데이터 무한 저장 | S3, ADLS Gen2, GCS |
-| 파일 포맷 | 압축/분할 지원 | Parquet, ORC, JSON, Avro |
-| 스키마 레지스트리 | 스키마 버전 관리 | Confluent Schema Registry |
-| 메타스토어 | 스키마 정의 저장 | AWS Glue, Hive Metastore |
-| 쿼리 엔진 | 런타임 스키마 적용 | Spark, Athena, Trino |
-| 데이터 카탈로그 | 발견·거버넌스 | AWS Glue Catalog, Apache Atlas |
+| [[494_object_storage|오브젝트 스토리지]] | 원시 [[001_dikw_pyramid|데이터]] 무한 저장 | S3, ADLS Gen2, GCS |
+| [[501_file_definition_logical_record|파일]] 포맷 | [[347_compaction|압축]]/분할 지원 | [[178_parquet_rle_encoding_columnar_compression|Parquet]], ORC, [[343_json|JSON]], Avro |
+| [[005_schema|스키마]] [[235_registry_immutable_tag|레지스트리]] | [[005_schema|스키마]] [[288_version_ihl_tos_total_length|버전]] 관리 | [[094_reinforcement_learning|Confluent]] [[505_schema|Schema]] [[235_registry_immutable_tag|Registry]] |
+| 메타스토어 | [[005_schema|스키마]] 정의 저장 | AWS Glue, [[544_hive|Hive]] Metastore |
+| [[298_qkv_attention|쿼리]] 엔진 | 런타임 [[005_schema|스키마]] 적용 | Spark, Athena, Trino |
+| [[213_data_catalog_metadata|데이터 카탈로그]] | 발견·거버넌스 | AWS Glue [[394_catalog_metadata|Catalog]], Apache Atlas |
 
-📢 **섹션 요약 비유**: 스키마 레지스트리와 메타스토어는 "번역 사전"이다. 원시 데이터는 각국 언어로 기록된 편지지만, 읽을 때 번역 사전(스키마)을 꺼내 의미를 이해하는 것처럼 동작한다.
+📢 **섹션 요약 비유**: [[005_schema|스키마]] [[235_registry_immutable_tag|레지스트리]]와 메타스토어는 "번역 사전"이다. 원시 [[001_dikw_pyramid|데이터]]는 각국 언어로 기록된 편지지만, 읽을 때 번역 사전([[005_schema|스키마]])을 꺼내 의미를 이해하는 것처럼 동작한다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-### Schema-on-Read vs Schema-on-Write
+### [[009_schema_on_read|Schema-on-Read]] vs [[010_schema_on_write|Schema-on-Write]]
 
-| 비교 항목 | Schema-on-Read (데이터 레이크) | Schema-on-Write (데이터 웨어하우스) |
+| 비교 항목 | [[009_schema_on_read|Schema-on-Read]] ([[208_data_lake_schema_on_read|데이터 레이크]]) | [[010_schema_on_write|Schema-on-Write]] ([[209_data_warehouse_schema_on_write|데이터 웨어하우스]]) |
 |:---|:---|:---|
-| **스키마 적용 시점** | 쿼리·분석 시 | 데이터 저장 전 |
-| **저장 형태** | 원시(Raw): JSON, CSV, Parquet | 정규화된 구조 테이블 |
+| **[[005_schema|스키마]] 적용 시점** | [[298_qkv_attention|쿼리]]·분석 시 | [[001_dikw_pyramid|데이터]] 저장 전 |
+| **저장 형태** | 원시([[225_raw|Raw]]): [[343_json|JSON]], CSV, [[178_parquet_rle_encoding_columnar_compression|Parquet]] | 정규화된 구조 테이블 |
 | **유연성** | 매우 높음 (미래 요건 대응) | 낮음 (사전 설계 필수) |
-| **데이터 품질** | 낮음 (쓰레기도 들어옴) | 높음 (ETL 검증 통과) |
-| **쿼리 성능** | 보통 (Full Scan 비용) | 우수 (인덱스, 통계 활용) |
-| **적합 워크로드** | 탐색적 분석, ML, 배치 | 정기 BI 리포트, KPI 대시보드 |
-| **저장 비용** | 저렴 (S3 기준) | 고비용 (Snowflake, Redshift) |
-| **대표 플랫폼** | AWS S3 + Glue, Azure Data Lake | Snowflake, BigQuery, Redshift |
+| **[[001_dikw_pyramid|데이터]] 품질** | 낮음 (쓰레기도 들어옴) | 높음 ([[215_etl_vs_elt_pipeline|ETL]] [[395_verification_process_review|검증]] 통과) |
+| **[[298_qkv_attention|쿼리]] [[282_performance_tactics|성능]]** | 보통 (Full Scan 비용) | 우수 ([[154_database_index_b_tree_search_optimization|인덱스]], 통계 활용) |
+| **적합 워크로드** | 탐색적 분석, ML, 배치 | 정기 BI 리포트, [[018_kpi|KPI]] 대시보드 |
+| **저장 비용** | 저렴 (S3 기준) | 고비용 ([[541_cassandra|Snowflake]], Redshift) |
+| **대표 플랫폼** | AWS S3 + Glue, Azure [[208_data_lake_schema_on_read|Data Lake]] | [[541_cassandra|Snowflake]], [[263_storage_compute_separation_bigquery|BigQuery]], Redshift |
 
-### 데이터 레이크 Zone 전략
+### [[208_data_lake_schema_on_read|데이터 레이크]] Zone [[268_strategy_pattern|전략]]
 
-| Zone | 스키마 상태 | 내용 |
+| Zone | [[005_schema|스키마]] 상태 | 내용 |
 |:---|:---|:---|
-| Bronze (Raw) | 스키마 없음 | 원시 수집 데이터 그대로 |
-| Silver (Cleansed) | 스키마 추론/정의 | 중복 제거, NULL 처리, 타입 변환 |
-| Gold (Curated) | 스키마 확정 | 집계, 비즈니스 도메인 모델 |
+| Bronze ([[225_raw|Raw]]) | [[005_schema|스키마]] 없음 | 원시 수집 [[001_dikw_pyramid|데이터]] 그대로 |
+| Silver (Cleansed) | [[005_schema|스키마]] 추론/정의 | 중복 제거, NULL 처리, 타입 변환 |
+| Gold (Curated) | [[005_schema|스키마]] 확정 | 집계, 비즈니스 [[064_relation_domain|도메인]] 모델 |
 
-📢 **섹션 요약 비유**: Schema-on-Read와 Schema-on-Write의 차이는 냉동 식재료 보관과 즉석 반찬 보관의 차이다. 냉동(레이크)은 원재료 그대로 두고 요리할 때 레시피(스키마)를 결정하고, 반찬(웨어하우스)은 미리 양념해 저장하여 빠르게 꺼내 먹는다.
+📢 **섹션 요약 비유**: [[505_schema|Schema]]-on-Read와 [[505_schema|Schema]]-on-Write의 차이는 냉동 식재료 보관과 즉석 반찬 보관의 차이다. 냉동(레이크)은 원재료 그대로 두고 요리할 때 레시피([[005_schema|스키마]])를 결정하고, 반찬(웨어하우스)은 미리 양념해 저장하여 빠르게 꺼내 먹는다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### 데이터 스왐프(Data Swamp) 방지 전략
+### [[001_dikw_pyramid|데이터]] 스왐프([[288_data_swamp_metadata_management_absence|Data Swamp]]) 방지 [[268_strategy_pattern|전략]]
 
-Schema-on-Read의 가장 큰 위험은 **거버넌스 부재**다. 아무 데이터나 쏟아부으면 "무엇이 어디에 있는지 아무도 모르는" 데이터 늪이 된다.
+[[505_schema|Schema]]-on-Read의 가장 큰 위험은 **거버넌스 부재**다. 아무 [[001_dikw_pyramid|데이터]]나 쏟아부으면 "무엇이 어디에 있는지 아무도 모르는" [[001_dikw_pyramid|데이터]] 늪이 된다.
 
 ```
 [위험] 데이터 스왐프 징후
@@ -131,7 +131,7 @@ Schema-on-Read의 가장 큰 위험은 **거버넌스 부재**다. 아무 데이
 4. 데이터 품질 규칙 자동화 (Great Expectations, dbt tests)
 ```
 
-### 실무 시나리오: 전자상거래 클릭스트림 분석
+### 실무 시나리오: 전자상거래 [[120_clickstream_analysis|클릭스트림 분석]]
 
 ```
 사용자 행동 로그 (100GB/일, JSON 비정형)
@@ -145,9 +145,9 @@ Athena 쿼리 → 상품별 전환율 분석 (스키마: 읽을 때 Parquet 컬�
 SageMaker (ML) → 추천 모델 학습 (Bronze 원시 피처 활용)
 ```
 
-**기술사 핵심 판단**: Schema-on-Read는 "먼저 수집, 나중 결정"의 전략이므로, **데이터 레이크 도입 시 반드시 데이터 카탈로그와 Zone 전략을 동시 설계**해야 실패하지 않는다.
+**기술사 핵심 판단**: [[505_schema|Schema]]-on-Read는 "먼저 수집, 나중 결정"의 [[268_strategy_pattern|전략]]이므로, **[[208_data_lake_schema_on_read|데이터 레이크]] 도입 시 반드시 [[213_data_catalog_metadata|데이터 카탈로그]]와 Zone [[268_strategy_pattern|전략]]을 동시 설계**해야 실패하지 않는다.
 
-📢 **섹션 요약 비유**: Schema-on-Read는 CCTV 영상 저장과 같다. 모든 영상을 일단 다 저장하고, 사건이 생겼을 때(분석 요건 발생) 그때 되돌려보며 의미를 찾는다. 단, 영상 분류 체계(메타데이터)가 없으면 수천 시간의 영상에서 아무것도 찾지 못한다.
+📢 **섹션 요약 비유**: [[505_schema|Schema]]-on-Read는 [[933_cctv|CCTV]] 영상 저장과 같다. 모든 영상을 일단 다 저장하고, 사건이 생겼을 때(분석 요건 발생) 그때 되돌려보며 의미를 찾는다. 단, 영상 [[104_classification_analysis|분류]] 체계([[012_metadata|메타데이터]])가 없으면 수천 시간의 영상에서 아무것도 찾지 못한다.
 
 ---
 
@@ -157,37 +157,37 @@ SageMaker (ML) → 추천 모델 학습 (Bronze 원시 피처 활용)
 
 | 효과 | 내용 |
 |:---|:---|
-| **탐색적 분석 지원** | 미정의 요건의 데이터를 원시 그대로 보존해 EDA 가능 |
-| **ML 파이프라인 지원** | 피처 엔지니어링을 위한 원천 원시 데이터 접근 |
-| **비용 절감** | S3 저장 비용이 DW 대비 10~100배 저렴 |
-| **시간 단축** | 스키마 사전 정의 없이 즉시 수집 시작 |
+| **탐색적 분석 지원** | 미정의 요건의 [[001_dikw_pyramid|데이터]]를 원시 그대로 보존해 [[064_eda|EDA]] 가능 |
+| **ML 파이프라인 지원** | [[247_feature_label_variables|피처]] 엔지니어링을 위한 원천 원시 [[001_dikw_pyramid|데이터]] 접근 |
+| **비용 절감** | S3 저장 비용이 [[209_data_warehouse_schema_on_write|DW]] 대비 [[489_raid_10_hybrid|10]]~100배 저렴 |
+| **시간 단축** | [[005_schema|스키마]] 사전 정의 없이 즉시 수집 시작 |
 
 ### 한계 및 주의점
 
 | 한계 | 설명 |
 |:---|:---|
-| **데이터 품질 보장 어려움** | 오류 데이터도 그대로 저장 → Silver/Gold 정제 필수 |
-| **쿼리 성능 불안정** | Full Scan 발생, 파티셔닝·포맷 최적화 필요 |
-| **거버넌스 비용** | 카탈로그·태깅·오너십 관리에 지속적 노력 필요 |
+| **[[001_dikw_pyramid|데이터]] 품질 보장 어려움** | 오류 [[001_dikw_pyramid|데이터]]도 그대로 저장 → Silver/Gold 정제 필수 |
+| **[[298_qkv_attention|쿼리]] [[282_performance_tactics|성능]] 불안정** | Full Scan 발생, [[179_table_partitioning_concept|파티셔닝]]·포맷 최적화 필요 |
+| **거버넌스 비용** | [[394_catalog_metadata|카탈로그]]·태깅·오너십 관리에 지속적 노력 필요 |
 | **보안 복잡성** | 원시 PII 포함 가능성 → 컬럼 단위 마스킹 필요 |
 
-📢 **섹션 요약 비유**: Schema-on-Read는 강력하지만 정리하지 않은 도서관과 같다. 모든 책(데이터)이 있지만, 도서 분류 시스템(카탈로그·거버넌스)이 없으면 원하는 책을 찾는 데 더 많은 시간이 걸릴 수 있다.
+📢 **섹션 요약 비유**: [[505_schema|Schema]]-on-Read는 강력하지만 정리하지 않은 도서관과 같다. 모든 책([[001_dikw_pyramid|데이터]])이 있지만, 도서 [[104_classification_analysis|분류]] 시스템([[394_catalog_metadata|카탈로그]]·거버넌스)이 없으면 원하는 책을 찾는 데 더 많은 시간이 걸릴 수 있다.
 
 ---
 
 ### 📌 관련 개념 맵
 | 개념 | 연결 포인트 |
 |:---|:---|
-| Schema-on-Write | 데이터 웨어하우스의 ETL 검증 전략, 반대 개념 |
-| 데이터 레이크 (Data Lake) | Schema-on-Read의 주요 적용 플랫폼 |
-| 데이터 카탈로그 | 스왐프 방지를 위한 메타데이터 거버넌스 도구 |
-| Parquet/ORC | 컬럼 지향 압축 포맷, 레이크 표준 파일 형식 |
-| Delta Lake | Schema-on-Read + ACID 트랜잭션 결합 |
-| Medallion Architecture | Bronze-Silver-Gold Zone 설계 패턴 |
-| AWS Glue Crawler | 자동 스키마 탐지 및 카탈로그 등록 |
+| [[010_schema_on_write|Schema-on-Write]] | [[209_data_warehouse_schema_on_write|데이터 웨어하우스]]의 [[215_etl_vs_elt_pipeline|ETL]] [[395_verification_process_review|검증]] [[268_strategy_pattern|전략]], 반대 개념 |
+| [[208_data_lake_schema_on_read|데이터 레이크]] ([[208_data_lake_schema_on_read|Data Lake]]) | [[505_schema|Schema]]-on-Read의 주요 적용 플랫폼 |
+| [[213_data_catalog_metadata|데이터 카탈로그]] | 스왐프 방지를 위한 [[012_metadata|메타데이터]] 거버넌스 도구 |
+| [[178_parquet_rle_encoding_columnar_compression|Parquet]]/ORC | 컬럼 지향 [[347_compaction|압축]] 포맷, 레이크 표준 [[501_file_definition_logical_record|파일]] 형식 |
+| [[147_delta_lake|Delta Lake]] | [[009_schema_on_read|Schema-on-Read]] + ACID [[191_transaction_concept_states|트랜잭션]] 결합 |
+| [[194_medallion_architecture_bronze_silver_gold|Medallion Architecture]] | Bronze-Silver-Gold Zone 설계 패턴 |
+| AWS Glue Crawler | 자동 [[005_schema|스키마]] 탐지 및 [[394_catalog_metadata|카탈로그]] 등록 |
 
 ### 👶 어린이를 위한 3줄 비유 설명
-1. Schema-on-Read는 사진을 찍을 때 필터를 나중에 고르는 것처럼, 데이터를 저장할 때는 그냥 두고 나중에 어떻게 볼지 결정한다.
+1. [[505_schema|Schema]]-on-Read는 사진을 찍을 때 필터를 나중에 고르는 것처럼, [[001_dikw_pyramid|데이터]]를 저장할 때는 그냥 두고 나중에 어떻게 볼지 결정한다.
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -202,5 +202,5 @@ Schema-on-Read: 저장 시 원시 형태 → 읽을 때 스키마 적용
     ▼
 Lakehouse: 두 방식의 장점 통합
 ```
-2. 마치 레고 블록을 일단 다 사두고, 만들고 싶은 게 생겼을 때 조립하는 것처럼, 데이터도 일단 쌓아두고 분석할 때 모양을 만든다.
-3. 데이터 레이크는 아무거나 다 넣는 큰 수납함인데, 어디에 무엇이 있는지 적어두는 메모(카탈로그)가 없으면 아무것도 못 찾는 수납함이 된다.
+2. 마치 레고 블록을 일단 다 사두고, 만들고 싶은 게 생겼을 때 조립하는 것처럼, [[001_dikw_pyramid|데이터]]도 일단 쌓아두고 분석할 때 모양을 만든다.
+3. [[208_data_lake_schema_on_read|데이터 레이크]]는 아무거나 다 넣는 큰 수납함인데, 어디에 무엇이 있는지 적어두는 메모([[394_catalog_metadata|카탈로그]])가 없으면 아무것도 못 찾는 수납함이 된다.

@@ -8,30 +8,30 @@ categories = "studynote-ict-convergence"
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 롤업(Rollup)은 수백 개 트랜잭션을 L2에서 처리 후 압축·증명하여 L1에 제출하는 확장성 기술로, 옵티미스틱(낙관적 가정+사기 증명)과 ZK(즉시 타당성 증명) 두 패러다임이 대립한다.
-> 2. **가치**: 옵티미스틱 롤업(Optimistic Rollup)은 범용 EVM 호환이 쉬워 Arbitrum·Optimism이 TVL(Total Value Locked) 기준 L2 1~2위를 차지하고, ZK 롤업은 더 빠른 최종성과 높은 보안이 장점이다.
-> 3. **판단 포인트**: 출금 지연(7일 챌린지 vs 즉시), 연산 오버헤드(낮음 vs 높음), EVM 호환성(완전 vs 부분)이 두 롤업 선택의 핵심 트레이드오프다.
+> 1. **본질**: [[042_rollup_l2_solution|롤업]]([[042_rollup_l2_solution|Rollup]])은 수백 개 [[191_transaction_concept_states|트랜잭션]]을 L2에서 처리 후 [[347_compaction|압축]]·증명하여 L1에 제출하는 확장성 기술로, 옵티미스틱(낙관적 가정+사기 증명)과 ZK(즉시 타당성 증명) 두 패러다임이 대립한다.
+> 2. **가치**: 옵티미스틱 [[042_rollup_l2_solution|롤업]](Optimistic [[042_rollup_l2_solution|Rollup]])은 범용 [[152_evm_earned_value_management|EVM]] 호환이 쉬워 Arbitrum·Optimism이 TVL(Total Value Locked) 기준 L2 1~2위를 차지하고, ZK [[042_rollup_l2_solution|롤업]]은 더 빠른 최종성과 높은 보안이 장점이다.
+> 3. **판단 포인트**: 출금 [[015_지연_데이터_관점|지연]](7일 챌린지 vs 즉시), 연산 오버헤드(낮음 vs 높음), [[152_evm_earned_value_management|EVM]] [[344_compatibility_usability|호환성]](완전 vs 부분)이 두 [[042_rollup_l2_solution|롤업]] 선택의 핵심 트레이드오프다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-### L2 롤업이 필요한 이유
+### L2 [[042_rollup_l2_solution|롤업]]이 필요한 이유
 
-이더리움 L1은 TPS(Transactions Per Second) 약 15~30 수준으로 글로벌 결제·DeFi 트래픽을 감당하기 어렵다. 롤업은 연산을 L2로 오프로드하되 **데이터와 보안은 L1에 위탁**하는 방식으로 확장성을 달성한다.
+이더리움 L1은 TPS(Transactions Per Second) 약 15~30 수준으로 글로벌 결제·[[033_defi_decentralized_finance|DeFi]] 트래픽을 감당하기 어렵다. [[042_rollup_l2_solution|롤업]]은 연산을 L2로 오프로드하되 **[[001_dikw_pyramid|데이터]]와 보안은 L1에 위탁**하는 방식으로 확장성을 달성한다.
 
 ```
 기존: L1에서 모든 트랜잭션 개별 실행 → TPS ≈ 15
 롤업: L2에서 배치 실행 → 압축 데이터만 L1에 → TPS ≈ 2,000+
 ```
 
-- **📢 섹션 요약 비유**: — "지점 창구(L2)에서 모든 거래를 처리하고, 일일 결산서(롤업 배치)만 본점(L1)에 보고하는 은행 구조다.
+- **📢 섹션 요약 비유**: — "지점 창구(L2)에서 모든 거래를 처리하고, 일일 결산서([[042_rollup_l2_solution|롤업]] 배치)만 본점(L1)에 보고하는 은행 구조다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### 두 롤업 구조 비교
+### 두 [[042_rollup_l2_solution|롤업]] 구조 비교
 
 ```
 옵티미스틱 롤업(Optimistic Rollup)
@@ -56,13 +56,13 @@ ZK 롤업(ZK Rollup)
 
 ### 핵심 비교표
 
-| 항목 | 옵티미스틱 롤업 | ZK 롤업 |
+| 항목 | 옵티미스틱 [[042_rollup_l2_solution|롤업]] | ZK [[042_rollup_l2_solution|롤업]] |
 |:---|:---|:---|
 | **증명 방식** | 사기 증명(Fraud Proof) | 타당성 증명(Validity Proof) |
 | **출금 대기** | 7일 챌린지 기간 | 즉시 (수 분~수 시간) |
-| **L1 연산 비용** | 낮음 (calldata만) | 높음 (ZK 증명 검증) |
-| **Prover 비용** | 없음 | 높음 (ZK 증명 생성) |
-| **EVM 호환** | 완전 호환 용이 | ZK-EVM 개발 필요 |
+| **L1 연산 비용** | 낮음 (calldata만) | 높음 (ZK 증명 [[395_verification_process_review|검증]]) |
+| **Prover 비용** | 없음 | 높음 (ZK 증명 [[087_process_state_transition|생성]]) |
+| **[[152_evm_earned_value_management|EVM]] 호환** | 완전 호환 용이 | ZK-[[152_evm_earned_value_management|EVM]] 개발 필요 |
 | **보안 가정** | 최소 1명의 정직한 챌린저 | 수학적 완전성 |
 | **대표 사례** | Arbitrum, Optimism | zkSync Era, StarkNet |
 
@@ -81,16 +81,16 @@ ZK 롤업(ZK Rollup)
     → 위반 확인 → 시퀀서 본드 슬래싱 + 롤백
 ```
 
-Optimism Cannon, Arbitrum BOLD: 이분 탐색(Bisection) 방식으로 문제 구간을 좁혀가는 대화형 사기 증명
+Optimism Cannon, Arbitrum BOLD: [[028_binary_search|이분 탐색]](Bisection) 방식으로 문제 구간을 좁혀가는 대화형 사기 증명
 
-### ZK 롤업 EVM 호환 도전
+### ZK [[042_rollup_l2_solution|롤업]] [[152_evm_earned_value_management|EVM]] 호환 도전
 
-ZK-EVM은 이더리움 Opcode를 ZK 회로(Circuit)로 변환해야 한다. 일부 Opcode(SHA-256, KECCAK)는 ZK 증명 비용이 매우 높아 완전 EVM 호환이 어렵다.
+ZK-EVM은 이더리움 Opcode를 ZK 회로(Circuit)로 변환해야 한다. 일부 [[159_opcode|Opcode]](SHA-256, [[101_sha_3|KECCAK]])는 ZK 증명 비용이 매우 높아 완전 [[152_evm_earned_value_management|EVM]] 호환이 어렵다.
 
-**ZK-EVM 호환 레벨** (Vitalik Buterin 분류):
+**ZK-[[152_evm_earned_value_management|EVM]] 호환 레벨** (Vitalik Buterin [[104_classification_analysis|분류]]):
 - Type 1: 완전 호환, 가장 무거운 증명
-- Type 2: EVM 동등, 약간 최적화
-- Type 3/4: 고수준 언어(Solidity) 호환, 경량
+- Type 2: [[152_evm_earned_value_management|EVM]] 동등, 약간 최적화
+- Type 3/4: 고수준 언어([[057_solidity_smart_contract_language|Solidity]]) 호환, 경량
 
 - **📢 섹션 요약 비유**: — "옵티미스틱은 '출입증 검사 없이 들어가되 나중에 단속', ZK는 '입구에서 신분증 검사 완료 후 즉시 입장'이다.
 
@@ -98,21 +98,21 @@ ZK-EVM은 이더리움 Opcode를 ZK 회로(Circuit)로 변환해야 한다. 일�
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### 롤업 선택 기준
+### [[042_rollup_l2_solution|롤업]] 선택 기준
 
-1. **빠른 출금이 중요한 경우**: ZK 롤업 (DeFi, CEX 연동)
-2. **기존 Solidity 코드 재사용**: 옵티미스틱 롤업 (Arbitrum, EVM 완전 호환)
-3. **최고 보안이 필요한 경우**: ZK 롤업 (수학적 완전성)
-4. **저비용 트랜잭션**: EIP-4844(Blob) 도입 후 양쪽 모두 비용 대폭 감소
+1. **빠른 출금이 중요한 경우**: ZK [[042_rollup_l2_solution|롤업]] ([[033_defi_decentralized_finance|DeFi]], CEX 연동)
+2. **기존 [[057_solidity_smart_contract_language|Solidity]] 코드 재사용**: 옵티미스틱 [[042_rollup_l2_solution|롤업]] (Arbitrum, [[152_evm_earned_value_management|EVM]] 완전 호환)
+3. **최고 보안이 필요한 경우**: ZK [[042_rollup_l2_solution|롤업]] (수학적 완전성)
+4. **저비용 [[191_transaction_concept_states|트랜잭션]]**: EIP-4844(Blob) 도입 후 양쪽 모두 비용 대폭 감소
 
 ### Sequencer 중앙화 문제
 
-현재 대부분 L2의 시퀀서(Sequencer)는 단일 주체가 운영 → 단일 장애점·검열 위험. **분산 시퀀서(Decentralized Sequencer)** 가 L2 로드맵의 핵심 과제.
+현재 대부분 L2의 시퀀서(Sequencer)는 단일 주체가 운영 → [[454_spof|단일 장애점]]·검열 위험. **[[136_variance|분산]] 시퀀서(Decentralized Sequencer)** 가 L2 로드맵의 핵심 과제.
 
 ### 기술사 핵심 판단
-- "L2 보안은 어디서 오는가?": L1에 제출된 데이터 + L1 Fraud/Validity Proof
+- "L2 보안은 어디서 오는가?": L1에 제출된 [[001_dikw_pyramid|데이터]] + L1 Fraud/Validity Proof
 - "출금 7일이 왜 필요한가?": 챌린저가 사기를 감지·증명할 시간 보장
-- "ZK 롤업이 더 좋으면 왜 옵티미스틱이 더 많이 쓰이나?": EVM 호환성, 개발 성숙도
+- "ZK [[042_rollup_l2_solution|롤업]]이 더 좋으면 왜 옵티미스틱이 더 많이 쓰이나?": [[152_evm_earned_value_management|EVM]] [[344_compatibility_usability|호환성]], 개발 성숙도
 
 - **📢 섹션 요약 비유**: — "옵티미스틱은 법원 재판(느리지만 쉬운 진입), ZK는 현장 공증(빠르지만 공증인 비용 높음)이다.
 
@@ -122,14 +122,14 @@ ZK-EVM은 이더리움 Opcode를 ZK 회로(Circuit)로 변환해야 한다. 일�
 
 | 효과 항목 | 내용 |
 |:---|:---|
-| **TPS 확장** | L1 대비 10~100배 처리량 향상 |
-| **가스비 절감** | L1 대비 10~50배 저렴 |
-| **L1 보안 상속** | 데이터·증명은 L1에 → 이더리움 보안 활용 |
-| **EIP-4844 효과** | Blob 데이터로 L2 데이터 비용 추가 90% 절감 |
+| **TPS 확장** | L1 대비 [[489_raid_10_hybrid|10]]~100배 [[139_throughput|처리량]] 향상 |
+| **가스비 절감** | L1 대비 [[489_raid_10_hybrid|10]]~50배 저렴 |
+| **L1 보안 [[234_uml_class_relationships_generalization_dependency|상속]]** | [[001_dikw_pyramid|데이터]]·증명은 L1에 → 이더리움 보안 활용 |
+| **EIP-4844 효과** | Blob [[001_dikw_pyramid|데이터]]로 L2 [[001_dikw_pyramid|데이터]] 비용 추가 90% 절감 |
 
-롤업은 현재 이더리움 확장성 로드맵의 핵심 전략이다. 옵티미스틱과 ZK 두 접근은 서로 다른 트레이드오프를 제공하며, 중장기적으로는 ZK-EVM 성숙에 따라 ZK 롤업 우세가 예상된다.
+[[042_rollup_l2_solution|롤업]]은 현재 이더리움 확장성 로드맵의 핵심 전략이다. 옵티미스틱과 ZK 두 접근은 서로 다른 트레이드오프를 제공하며, 중장기적으로는 ZK-[[152_evm_earned_value_management|EVM]] 성숙에 따라 ZK [[042_rollup_l2_solution|롤업]] 우세가 예상된다.
 
-- **📢 섹션 요약 비유**: — "블록체인 고속도로를 넓히는 대신, 고속도로 옆에 지름길을 만들어 결과만 보고하는 방식이 롤업이다.
+- **📢 섹션 요약 비유**: — "[[004_blockchain|블록체인]] 고속도로를 넓히는 대신, 고속도로 옆에 지름길을 만들어 결과만 보고하는 방식이 [[042_rollup_l2_solution|롤업]]이다.
 
 ---
 
@@ -137,11 +137,11 @@ ZK-EVM은 이더리움 Opcode를 ZK 회로(Circuit)로 변환해야 한다. 일�
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| 연결 개념 | 관계 설명 |
-| ZKP | ZK 롤업의 타당성 증명 기반 |
-| EIP-4844 | Blob 데이터로 롤업 비용 절감 |
-| 시퀀서 | 롤업 트랜잭션 순서 결정자 |
-| 사기 증명 | 옵티미스틱 롤업 보안 메커니즘 |
+| 연결 개념 | [[083_relationship_in_er_model|관계]] 설명 |
+| [[354_did_decentralized_identity_zkp|ZKP]] | ZK [[042_rollup_l2_solution|롤업]]의 타당성 증명 기반 |
+| EIP-4844 | Blob [[001_dikw_pyramid|데이터]]로 [[042_rollup_l2_solution|롤업]] 비용 절감 |
+| 시퀀서 | [[042_rollup_l2_solution|롤업]] [[191_transaction_concept_states|트랜잭션]] 순서 [[095_determinant_dependent|결정자]] |
+| 사기 증명 | 옵티미스틱 [[042_rollup_l2_solution|롤업]] 보안 메커니즘 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -151,6 +151,6 @@ ZK-EVM은 이더리움 Opcode를 ZK 회로(Circuit)로 변환해야 한다. 일�
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. 롤업은 반 아이들의 숙제를 반장이 모아서 선생님께 한꺼번에 제출하는 것이에요.
+1. [[042_rollup_l2_solution|롤업]]은 반 아이들의 숙제를 반장이 모아서 선생님께 한꺼번에 제출하는 것이에요.
 2. 옵티미스틱은 "일단 믿고 일주일 안에 이상하면 신고해요", ZK는 "숙제마다 정답 증명서를 붙여서 바로 검사해요".
 3. 덕분에 이더리움이 훨씬 빠르고 저렴하게 많은 거래를 처리할 수 있어요.

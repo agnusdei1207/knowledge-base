@@ -6,17 +6,17 @@ weight = 4
 # 04. 블록체인 (Blockchain)
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: 블록체인은 분산 원장 기술(DLT, Distributed Ledger Technology)의一種로서, 거래 데이터를 블록(Block) 단위로 묶고 이를 시간 순서대로 사슬(Chain)처럼 연결하여 모든 참여 노드가同一한 장부副本을 보유하는 탈중앙화 데이터 저장 기술이다.
-> 2. **가치**:改竄 불가능성(Immutability), 투명성(Transparency), 탈중앙화(Decentralization)라는 세 가지 핵심 특성을 통해 중개자 없이도 신뢰할 수 있는 거래가 가능하며, 금융, 공급망 관리, 디지털 신원증명 등 광범위한 분야에 적용된다.
-> 3. **융합**: IoT(사물인터넷), AI(인공지능), Big Data(빅데이터), IoT 등 타 기술과 결합하여 신뢰 기반의 차세대 디지털 인프라로 활용되며, 특히 스마트 컨트랙트(Smart Contract)와의 결합으로 자동화된 탈중앙화 애플리케이션(DApp) 생태계를構築한다.
+> 1. **본질**: 블록체인은 [[474_dlt_distributed_ledger_technology|분산 원장 기술]]([[919_dlt_distributed_ledger_technology_consensus_bottleneck|DLT]], Distributed Ledger Technology)의一種로서, 거래 [[001_dikw_pyramid|데이터]]를 블록(Block) 단위로 묶고 이를 시간 순서대로 사슬(Chain)처럼 연결하여 모든 참여 노드가同一한 장부副本을 보유하는 [[010_decentralization|탈중앙화]] [[001_dikw_pyramid|데이터]] 저장 기술이다.
+> 2. **가치**:改竄 불가능성(Immutability), 투명성(Transparency), [[010_decentralization|탈중앙화]]([[010_decentralization|Decentralization]])라는 세 가지 핵심 특성을 통해 중개자 없이도 신뢰할 수 있는 거래가 가능하며, 금융, [[520_supply_chain_attack_and_ci_cd_security|공급망]] 관리, 디지털 신원증명 등 광범위한 분야에 적용된다.
+> 3. **융합**: [[101_iot_concept|IoT]]([[101_iot_concept|사물인터넷]]), [[190_ai_llm_requirements_specification|AI]]([[231_ai_turing_test|인공지능]]), Big [[001_dikw_pyramid|Data]](빅데이터), [[101_iot_concept|IoT]] 등 타 기술과 결합하여 신뢰 기반의 차세대 디지털 인프라로 활용되며, 특히 [[022_smart_contract|스마트 컨트랙트]]([[022_smart_contract|Smart Contract]])와의 결합으로 자동화된 [[010_decentralization|탈중앙화]] 애플리케이션([[032_dapp_decentralized_application|DApp]]) 생태계를構築한다.
 
 ---
 
-## Ⅰ. 개요 및 필요성 (Context & Necessity)
+## Ⅰ. 개요 및 필요성 ([[033_context|Context]] & Necessity)
 
 ### 개념의 정의
 
-블록체인은 2008년 사토시 나카모토(Satoshi Nakamoto)가 비트코인(Bitcoin)의 백서에서 처음 제안한 혁신적 기술이다. 전통적인 중앙화된 데이터 저장 방식에서는 하나의 중앙 서버(예: 은행의 데이터센터)가 모든 거래 기록을保管한다. 그러나 이 방식에는 단일 장애점(SPOF, Single Point of Failure)이라는 구조적 취약점이 존재한다. 서버가 해킹되거나故障하면 전체 시스템이 마비될 수 있다. 블록체인은 이러한 중앙화 구조의 한계를 극복하기 위해, 모든 참여 노드(	Node)가 동일한 거래 기록의副本을分散하여保有し、共识算法(Consensus Algorithm)을 통해 모든 노드가 동일한 상태에 도달하도록 하는 탈중앙화 데이터 저장 기술이다.
+블록체인은 2008년 사토시 나카모토(Satoshi Nakamoto)가 비트코인(Bitcoin)의 백서에서 처음 제안한 혁신적 기술이다. 전통적인 중앙화된 [[001_dikw_pyramid|데이터]] 저장 방식에서는 하나의 중앙 서버(예: 은행의 [[801_data_center_3_tier_architecture_core_aggregation_access|데이터센터]])가 모든 거래 기록을保管한다. 그러나 이 방식에는 [[454_spof|단일 장애점]]([[454_spof|SPOF]], Single Point of Failure)이라는 구조적 취약점이 존재한다. 서버가 해킹되거나故障하면 전체 시스템이 마비될 수 있다. 블록체인은 이러한 중앙화 구조의 한계를 극복하기 위해, 모든 참여 노드(	Node)가 동일한 거래 기록의副本을分散하여保有し、共识算法([[011_consensus_algorithm|Consensus Algorithm]])을 통해 모든 노드가 동일한 상태에 도달하도록 하는 [[010_decentralization|탈중앙화]] [[001_dikw_pyramid|데이터]] 저장 기술이다.
 
 ### 탄생 배경과 필요성
 
@@ -24,11 +24,11 @@ weight = 4
 
 ### 💡 analogy
 
-블록체인은 여러 명이 동시에 같은 내용의 거래 내역 공부를 하고, 매일 저녁 모두 함께答え合わせ을 하며, 누구든 不一致가 있으면即座に修正하는 회계 시스템과 같다. 한 명이 공부를 분실하거나 위조しても, 나머지 수백 명의 정확한 기록이 존재하기 때문에 전체 시스템의 신뢰성은丝毫도 훼손되지 않는다.銀行の中間業務を完全に省略できる。
+블록체인은 여러 명이 동시에 같은 내용의 거래 내역 공부를 하고, 매일 저녁 모두 함께答え合わせ을 하며, 누구든 不一致가 있으면即座に修正하는 회계 시스템과 같다. 한 명이 공부를 분실하거나 위조しても, 나머지 수백 명의 정확한 기록이 존재하기 때문에 전체 시스템의 [[642_reliability_mtbf_mttr_mttf_availability|신뢰성]]은丝毫도 훼손되지 않는다.銀行の中間業務を完全に省略できる。
 
 ### 배경 설명
 
-블록체인의 동작 원리를 단계별로 설명하면 다음과 같다. 第一歩, 사용자가 거래(Transaction)를 요청하면, 해당 거래는 네트워크 내의 모든 노드에 전파(Broadcast)된다. 第二步, 노드들은 거래를 검증(Verify)하여 유효한 거래만 거래 풀(	Mempool)에 모은다. 第三步, 채굴자(Miner) 또는 검증자(Validator)는 거래 풀에서 거래를 선택하여 새 블록을 생성한다. 이 과정에서工作量증명(Proof of Work) 또는 지분증명(Proof of Stake) 등의 합의 알고리즘을 수행한다. 第四步, consensus에 도달하면 새 블록이 기존 체인에追加되고, 모든 노드가同一한区块链을更新한다.一旦 추가된 블록은 previous 해시(Hash) 값 때문에 내용을 변경하면 後続 모든 블록이无效가 되므로, 理論上 改竄이 불가능하다.
+블록체인의 동작 원리를 단계별로 설명하면 다음과 같다. 第一歩, 사용자가 거래([[191_transaction_concept_states|Transaction]])를 요청하면, 해당 거래는 네트워크 내의 모든 노드에 전파(Broadcast)된다. 第二步, 노드들은 거래를 [[395_verification_process_review|검증]](Verify)하여 유효한 거래만 거래 풀(	Mempool)에 모은다. 第三步, 채굴자(Miner) 또는 [[395_verification_process_review|검증]]자(Validator)는 거래 풀에서 거래를 선택하여 새 블록을 [[087_process_state_transition|생성]]한다. 이 과정에서工作量증명(Proof of Work) 또는 지분증명(Proof of Stake) 등의 [[011_consensus_algorithm|합의 알고리즘]]을 수행한다. 第四步, consensus에 도달하면 새 블록이 기존 체인에追加되고, 모든 노드가同一한区块链을更新한다.一旦 추가된 블록은 previous 해시(Hash) 값 때문에 내용을 변경하면 後続 모든 블록이无效가 되므로, 理論上 改竄이 불가능하다.
 
 ### 📢 비유 요약
 
@@ -59,13 +59,13 @@ weight = 4
 └────────────────────────┴─────────────────────────────────────────┘
 ```
 
-블록 헤더(Block Header)는 6개의 주요 필드로 구성된다. 버전(Version) 필드는 블록 생성에 사용된 프로토콜 버전을 나타낸다. 이전 블록 해시(Previous Block Hash) 필드는 바로 앞선 블록의 해시값을 저장하여 블록들을 사슬처럼 연결하는 역할을 한다. 이것이 블록체인의改竄 방지 핵심 메커니즘이다. 머클 루트(Merkle Root)는 해당 블록 내 모든 거래의 해시値を汇聚하여 만든 최종 해시값이다. 타임스탬프(Timestamp)는 블록이 생성된 시간을 기록한다. 난이도 목표(Difficulty Target)와 논스(Nonce)는工作量증명(PoW)에서 채굴 경쟁의 난이도를調整하는 역할을 한다.
+블록 헤더(Block Header)는 6개의 주요 필드로 구성된다. [[288_version_ihl_tos_total_length|버전]](Version) 필드는 블록 [[087_process_state_transition|생성]]에 사용된 [[295_protocol_field_tcp_udp_icmp|프로토콜]] [[288_version_ihl_tos_total_length|버전]]을 나타낸다. 이전 블록 해시(Previous Block Hash) 필드는 바로 앞선 블록의 해시값을 저장하여 블록들을 사슬처럼 연결하는 역할을 한다. 이것이 블록체인의改竄 방지 핵심 메커니즘이다. [[008_merkle_root|머클 루트]]([[008_merkle_root|Merkle Root]])는 해당 블록 내 모든 거래의 해시値を汇聚하여 만든 최종 해시값이다. 타임스탬프(Timestamp)는 블록이 [[087_process_state_transition|생성]]된 시간을 기록한다. 난이도 목표(Difficulty Target)와 논스([[519_oidc_nonce|Nonce]])는工作量증명(PoW)에서 채굴 경쟁의 난이도를調整하는 역할을 한다.
 
-### 합의 알고리즘
+### [[011_consensus_algorithm|합의 알고리즘]]
 
-합의 알고리즘(Consensus Algorithm)은分散된 노드들이 네트워크 상태에 대해 단일版本的合意(Agreement)에 도달하게 하는 메커니즘이다. 主要한 합의 알고리즘의 종류와 특징은 다음과 같다. 작업 증명(PoW, Proof of Work)은 해시 퍼즐을 가장 먼저 解読한 노드에게 블록 생성권을 부여하며, 비트코인에서使用된다. 지분 증명(PoS, Proof of Stake)는 보유 지분(Stake)에 비례하여 블록 생성 기회를 부여하며, 이더리움 2.0에서采用되었다. 비잔틴 장애 허용(BFT, Byzantine Fault Tolerance)은 네트워크 내 악의적 노드가 1/3 미만인 경우 정상적으로 합의에 도달할 수 있으며, 하이퍼레저 패브릭(Hyperledger Fabric)에서 활용된다.
+[[011_consensus_algorithm|합의 알고리즘]]([[011_consensus_algorithm|Consensus Algorithm]])은分散된 노드들이 네트워크 상태에 대해 단일版本的合意(Agreement)에 도달하게 하는 메커니즘이다. 主要한 [[011_consensus_algorithm|합의 알고리즘]]의 종류와 특징은 다음과 같다. [[014_pow_proof_of_work|작업 증명]](PoW, Proof of Work)은 해시 퍼즐을 가장 먼저 解読한 노드에게 블록 [[087_process_state_transition|생성]]권을 부여하며, 비트코인에서使用된다. [[015_pos_proof_of_stake|지분 증명]](PoS, Proof of Stake)는 보유 지분(Stake)에 비례하여 블록 [[087_process_state_transition|생성]] 기회를 부여하며, 이더리움 2.0에서采用되었다. [[647_bft_verification|비잔틴 장애 허용]]([[647_bft_verification|BFT]], Byzantine [[800_system_architecture_fault_tolerance_dual|Fault Tolerance]])은 네트워크 내 악의적 노드가 1/3 미만인 경우 정상적으로 합의에 도달할 수 있으며, [[058_hyperledger_fabric_private_blockchain|하이퍼레저 패브릭]]([[058_hyperledger_fabric_private_blockchain|Hyperledger Fabric]])에서 활용된다.
 
-### 분산 원장 구조
+### [[136_variance|분산]] 원장 구조
 
 ```
 [전 세계 분산 노드 네트워크]
@@ -80,7 +80,7 @@ weight = 4
 [동일한 거래 기록을 동시에保有]
 ```
 
-블록체인의 가장 근본적인 특성은分散性이다. 비트코인 네트워크에는 17,000개 이상의 활성 노드가分布되어 있으며, 각 노드는 Genesis Block(첫 번째 블록)부터 현재까지 모든 거래 기록의副本을保有한다. 어떤 노드가 공격を受けて故障하거나恶意的로 조작을 시도하여도,其他数千 개의忠実な 노ードが正しい記録を保有하고 있기 때문에, 네트워크 전체의-integrity는 유지된다.
+블록체인의 가장 근본적인 특성은分散性이다. 비트코인 네트워크에는 17,000개 이상의 활성 노드가分布되어 있으며, 각 노드는 [[005_genesis_block|Genesis Block]](첫 번째 블록)부터 현재까지 모든 거래 기록의副本을保有한다. 어떤 노드가 공격を受けて故障하거나恶意的로 조작을 시도하여도,其他数千 개의忠実な 노ードが正しい記録を保有하고 있기 때문에, 네트워크 전체의-integrity는 유지된다.
 
 ### 📢 비유 요약
 
@@ -92,15 +92,15 @@ weight = 4
 
 ### 암호화폐
 
-블록체인의 가장 잘 알려진 적용 분야는 암호화폐(Cryptocurrency)이다. 비트코인(Bitcoin)은 디지털 화폐로서 최초의 블록체인 애플리케이션이며, 2024년 현재 시가총액 1조 달러 이상의 가치를 보유하고 있다. 이더리움(Ethereum)은 스마트 컨트랙트 기능을 갖춘 차세대 블록체인 플랫폼으로, 다양한 DApp(탈중앙화 애플리케이션)과 토큰의 기반이 된다. 스테이블코인(Stablecoin)은法定通貨(예: 미국 달러)과 1:1으로 연동된 암호화폐로, USDC, USDT 등이 대표적이다.
+블록체인의 가장 잘 알려진 적용 분야는 암호화폐(Cryptocurrency)이다. 비트코인(Bitcoin)은 디지털 화폐로서 최초의 블록체인 애플리케이션이며, 2024년 현재 시가총액 1조 달러 이상의 가치를 보유하고 있다. 이더리움(Ethereum)은 [[022_smart_contract|스마트 컨트랙트]] 기능을 갖춘 차세대 블록체인 플랫폼으로, 다양한 [[032_dapp_decentralized_application|DApp]]([[010_decentralization|탈중앙화]] 애플리케이션)과 토큰의 기반이 된다. 스테이블코인(Stablecoin)은法定通貨(예: 미국 달러)과 1:1으로 연동된 암호화폐로, USDC, USDT 등이 대표적이다.
 
-### 공급망 관리
+### [[520_supply_chain_attack_and_ci_cd_security|공급망]] 관리
 
-블록체인의 불변性与透明性은 공급망 관리(Supply Chain Management)에 유용하게 활용된다. Walmart는 식품 공급망 추적에 블록체인을 도입하여, 한islamabad 오염 식품의 출처를数秒 만에追踪할 수 있게 되었다.以往는 확인하는 데 최대 7일이나 걸렸다. 다이아몬드業界에서는 블록체인을 통해 광산에서 최종 소비자까지 다이아몬드의 출처와 품질을 투명하게追踪할 수 있다(예: De Beers의 Tracr 플랫폼).
+블록체인의 불변性与透明性은 [[520_supply_chain_attack_and_ci_cd_security|공급망]] 관리([[520_supply_chain_attack_and_ci_cd_security|Supply Chain]] [[372_management|Management]])에 유용하게 활용된다. Walmart는 식품 [[520_supply_chain_attack_and_ci_cd_security|공급망]] 추적에 블록체인을 도입하여, 한islamabad 오염 식품의 출처를数秒 만에追踪할 수 있게 되었다.以往는 확인하는 데 최대 7일이나 걸렸다. 다이아몬드業界에서는 블록체인을 통해 광산에서 최종 소비자까지 다이아몬드의 출처와 품질을 투명하게追踪할 수 있다(예: De Beers의 Tracr 플랫폼).
 
 ### 디지털 신원증명 및 전자정부
 
-탈중앙화 신원증명(DID, Decentralized Identity)은 블록체인 기반의 신원 관리 시스템이다. 사용자는 政府나銀行等의 Issuer로부터 Verifiable Credential(검증 가능한 증명)을받고, 자신의 지갑에 保存한다. 증명서가 필요한 경우,Verifier는 블록체인에서Issuer의公開鍵을 확인하여 증명서의 진위를 검증한다.중개자 없이도身份证明가 가능해진다. 에스웨덴, 핀란드 등은 이미 정부 차원의 블록체인 기반 전자민원 서비스를 제공하고 있다.
+[[052_did_architecture_issuer_holder_verifier_vc_vp|탈중앙화 신원증명]]([[231_did_decentralized_identity|DID]], Decentralized Identity)은 블록체인 기반의 [[527_identity_management|신원 관리]] 시스템이다. 사용자는 政府나銀行等의 Issuer로부터 Verifiable Credential([[395_verification_process_review|검증]] 가능한 증명)을받고, 자신의 지갑에 保存한다. 증명서가 필요한 경우,Verifier는 블록체인에서Issuer의公開鍵을 확인하여 증명서의 진위를 [[395_verification_process_review|검증]]한다.중개자 없이도身份证明가 가능해진다. 에스웨덴, 핀란드 등은 이미 정부 차원의 블록체인 기반 전자민원 서비스를 제공하고 있다.
 
 ### 📢 비유 요약
 
@@ -114,13 +114,13 @@ weight = 4
 
 블록체인 네트워크의品質管理에서 가장 중요한 영역은 Consensus Algorithm의 안전성이다. 51% 공격(51% Attack)은 악의적 노드가 전체 해시 파워의 51% 이상을장악하여 거래를 조작하는 공격으로,工作量증명(PoW) 기반 네트워크의 경우 이론적 위험이 존재한다. 2024년 현재 비트코인의 경우 전 세계 최대算力을 보유하고 있어 사실상 51% 공격이不可能하지만,算力이낮은 알트코인들의 경우 여전히リスク가 존재한다.
 
-### 스마트 컨트랙트审计
+### [[022_smart_contract|스마트 컨트랙트]]审计
 
-스마트 컨트랙트의品質testにおいて、以下の脆弱점이重点的に проверяются。 재진입(Re-entrancy) 취약점은 2016년 The DAO 해킹의 원인이었으며, 외부 계약 호출 시 상태 업데이트 순서를 잘못 배치할 경우発生한다. 溢出/下溢(Overflow/Underflow) 취약점은 연산 결과가 데이터 타입의 범위를 초과하거나 미달할 때 발생한다. 권한 탈취(Access Control) 취약점은 접근 제어 통제를 제대로 구현하지 않아 악의적 사용자가관리자 권한을 획득하는 경우이다.
+[[022_smart_contract|스마트 컨트랙트]]의品質testにおいて、以下の脆弱점이重点的に проверяются。 재진입([[056_smart_contract_vulnerability_reentrancy|Re-entrancy]]) 취약점은 2016년 The [[054_dao_decentralized_autonomous_organization|DAO]] 해킹의 원인이었으며, 외부 계약 호출 시 상태 업데이트 순서를 잘못 배치할 경우発生한다. 溢出/下溢([[095_overflow|Overflow]]/[[096_underflow|Underflow]]) 취약점은 연산 결과가 [[001_dikw_pyramid|데이터]] 타입의 범위를 초과하거나 미달할 때 발생한다. 권한 탈취([[547_access_control_rwx|Access Control]]) 취약점은 접근 제어 통제를 제대로 구현하지 않아 악의적 사용자가관리자 권한을 획득하는 경우이다.
 
 ### 네트워크健全性모니터링
 
-블록체인 네트워크의 здоров성을 모니터링하는 주요 지표는 다음과 같다. 노드 수(Node Count)는 네트워크의 탈중앙화 수준을나타낸다. 블록 높이(Block Height)는 현재 blockchain의 길이를 나타낸다. 평균 거래 수수료(Average Transaction Fee)는 네트워크 혼잡도를 반영한다. 해시 율(Hash Rate, PoW의 경우)은 네트워크 보안 수준을나타낸다. 이러한 지표들은 Prometheus, Grafana 등의 도구를 통해 실시간으로 모니터링된다.
+블록체인 네트워크의 здоров성을 모니터링하는 주요 지표는 다음과 같다. 노드 수(Node Count)는 네트워크의 [[010_decentralization|탈중앙화]] 수준을나타낸다. 블록 높이(Block Height)는 현재 blockchain의 길이를 나타낸다. 평균 거래 수수료(Average [[191_transaction_concept_states|Transaction]] Fee)는 네트워크 혼잡도를 반영한다. 해시 율(Hash Rate, PoW의 경우)은 [[1117_network_security_zero_trust_policy|네트워크 보안]] 수준을나타낸다. 이러한 지표들은 [[136_prometheus|Prometheus]], [[168_grafana|Grafana]] 등의 도구를 통해 실시간으로 모니터링된다.
 
 ### 📢 비유 요약
 
@@ -132,23 +132,23 @@ weight = 4
 
 ### 레이어 2 솔루션의 부상
 
-온체인(On-chain) 확장성의限界을 극복하기 위해 레이어 2(Layer 2) 솔루션이 급속히 발전하고 있다. 롤업(Rollup) 기술은 메인 체인(Layer 1) 밖에서 많은 거래를 처리하고, 그 결과만 압축하여 메인 체인에 게시한다. 옵티미스틱 롤업(Optimistic Rollup)은 사기 증명(Fraud Proof)을 통해 거래의 유효성을 보장하며, Arbitrum, Optimism 등이代表적이다. ZK 롤업(Zero-Knowledge Rollup)은 영지식 증명(Zero-Knowledge Proof)을 통해 즉각적으로 거래의 유효성을 검증하며, zkSync, StarkNet 등이代表적이다.
+온체인(On-chain) 확장성의限界을 극복하기 위해 레이어 2(Layer 2) 솔루션이 급속히 발전하고 있다. [[042_rollup_l2_solution|롤업]]([[042_rollup_l2_solution|Rollup]]) 기술은 메인 체인(Layer 1) 밖에서 많은 거래를 처리하고, 그 결과만 압축하여 메인 체인에 게시한다. 옵티미스틱 [[042_rollup_l2_solution|롤업]](Optimistic [[042_rollup_l2_solution|Rollup]])은 사기 증명(Fraud Proof)을 통해 거래의 유효성을 보장하며, Arbitrum, Optimism 등이代表적이다. ZK [[042_rollup_l2_solution|롤업]](Zero-Knowledge [[042_rollup_l2_solution|Rollup]])은 [[229_zkp_data_clean_room|영지식 증명]]([[037_zero_knowledge_proof_zkp|Zero-Knowledge Proof]])을 통해 즉각적으로 거래의 유효성을 [[395_verification_process_review|검증]]하며, zkSync, StarkNet 등이代表적이다.
 
 ### 모듈러区块链의 등장
 
-기존의 모놀리식区块链(Monolithic Blockchain)이 모든 기능(실행, 합의, 정산, 데이터 가용성)을 단일 체인에서 처리하는 반면, 차세대 모듈러区块链(Modular Blockchain)은これらの機能を-separate하여 각 계층을 최적화한다. Celestia는 데이터 가용성(DA, Data Availability) 계층에 전문화된 모듈러区块链으로, 다른 실행 레이어(예: 이더리움)가 자신의 데이터 가용성을 Celestia에 위임할 수 있게 한다.
+기존의 모놀리식区块链([[096_monolithic_blockchain_solana|Monolithic Blockchain]])이 모든 기능(실행, 합의, 정산, [[094_data_availability_da_layer_celestia|데이터 가용성]])을 단일 체인에서 처리하는 반면, 차세대 모듈러区块链([[095_modular_blockchain_execution_da_consensus|Modular Blockchain]])은これらの機能を-separate하여 각 계층을 최적화한다. Celestia는 [[094_data_availability_da_layer_celestia|데이터 가용성]]([[104_da_as_is_analysis|DA]], [[001_dikw_pyramid|Data]] [[452_availability|Availability]]) 계층에 전문화된 모듈러区块链으로, 다른 실행 레이어(예: 이더리움)가 자신의 [[094_data_availability_da_layer_celestia|데이터 가용성]]을 Celestia에 위임할 수 있게 한다.
 
 ### 📢 비유 요약
 
-블록체인 기술의 발전은道路システムの進化と似ている. 처음에는 모든 차량이一般국도를 이용하였으나(모놀리식), 교통 체증이 심화되자 고속도로(Layer 2)를 새로 만들었다(롤업). 더욱 본격적으로는道路의종류를功能별로-separate하여 고속도로는 고속도로 전용으로, 일반도로는 일반도로 전용으로 운영하는方式(모듈러)로 발전하고 있다.
+블록체인 기술의 발전은道路システムの進化と似ている. 처음에는 모든 차량이一般국도를 이용하였으나(모놀리식), 교통 체증이 심화되자 고속도로(Layer 2)를 새로 만들었다([[042_rollup_l2_solution|롤업]]). 더욱 본격적으로는道路의종류를功能별로-separate하여 고속도로는 고속도로 전용으로, 일반도로는 일반도로 전용으로 운영하는方式(모듈러)로 발전하고 있다.
 
 ### 결론
 
-블록체인은 단순한 기술이 아니라, 인터넷의情報を信任できる形で共有한다는観点から、第三世代 인터넷의 핵심 인프라로 평가받는다.改竄 불가능성, 투명성, 탈중앙화 라는 세 가지 핵심 특성은 현대 디지털 사회에서 점점 중요해지는 "정보 신뢰성"과 "데이터 주권"에 대한 요구를 만족시키는划時代的 해결책이다. Consensus算法, 스마트 컨트랙트, 레이어 2 솔루션 등 관련 기술이 급속히 발전하면서, 블록체인은 가까운 장래에 더욱 넓은 분야에 적용될 것으로 기대된다.
+블록체인은 단순한 기술이 아니라, 인터넷의情報を信任できる形で共有한다는観点から、第三世代 인터넷의 핵심 인프라로 평가받는다.改竄 불가능성, 투명성, [[010_decentralization|탈중앙화]] 라는 세 가지 핵심 특성은 현대 디지털 사회에서 점점 중요해지는 "정보 [[642_reliability_mtbf_mttr_mttf_availability|신뢰성]]"과 "[[809_data_sovereignty|데이터 주권]]"에 대한 요구를 만족시키는划時代的 해결책이다. Consensus算法, [[022_smart_contract|스마트 컨트랙트]], 레이어 2 솔루션 등 관련 기술이 급속히 발전하면서, 블록체인은 가까운 장래에 더욱 넓은 분야에 적용될 것으로 기대된다.
 
 ---
 
-### 📌 관련 개념 맵 (Knowledge Graph)
+### 📌 관련 개념 맵 ([[160_knowledge_graph_graphrag_integration|Knowledge Graph]])
 
 ```
 +------------------------------------------------------------------+
@@ -210,11 +210,11 @@ weight = 4
 [합의 알고리즘 (Consensus Algorithm)]
 ```
 
-이 흐름도는 거래 요청 (Transaction Request)에서 출발해 네트워크 전파 (Network Propagation), Mempool (Transaction Pool), 새 블록 생성 (Block Creation), 합의 알고리즘 (Consensus Algorithm)으로 이어지는 블록체인 처리 순서를 보여준다.
+이 흐름도는 거래 요청 ([[191_transaction_concept_states|Transaction]] Request)에서 출발해 네트워크 전파 (Network Propagation), Mempool ([[191_transaction_concept_states|Transaction]] Pool), 새 블록 [[087_process_state_transition|생성]] (Block Creation), [[011_consensus_algorithm|합의 알고리즘]] ([[011_consensus_algorithm|Consensus Algorithm]])으로 이어지는 블록체인 처리 순서를 보여준다.
 
 ## 참고
 - 모든 약어는 반드시 전체 명칭과 함께 표기
 - 일어/중국어 절대 사용 금지
 - 각 섹션 끝에 📢 요약 비유 반드시 추가
-- 최소 800자/파일
-- 파일명: 01_, 02_, 03_... 형식 (2자리 숫자)
+- 최소 800자/[[501_file_definition_logical_record|파일]]
+- [[501_file_definition_logical_record|파일]]명: 01_, 02_, 03_... 형식 (2자리 숫자)

@@ -8,8 +8,8 @@ categories = "studynote-software-engineering"
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 시프트 라이트 테스팅 (Shift-Right Testing)은(는) 소프트웨어 공학의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.
-> 2. **가치**: 이 개념을 올바르게 적용하면 소프트웨어의 품질·유지보수성·재사용성이 향상되고, 개발 생산성과 팀 협업 효율이 높아진다.
+> 1. **본질**: 시프트 라이트 테스팅 (Shift-Right Testing)은(는) [[001_software_engineering_definition|소프트웨어 공학]]의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.
+> 2. **가치**: 이 개념을 올바르게 적용하면 소프트웨어의 품질·[[346_maintainability_portability|유지보수성]]·재사용성이 향상되고, 개발 생산성과 팀 협업 효율이 높아진다.
 > 3. **판단 포인트**: 도입 시에는 비용·복잡도·조직 성숙도를 함께 고려해야 하며, 맹목적 적용보다 프로젝트 특성에 맞는 선택적 적용이 핵심이다.
 
 ---
@@ -18,7 +18,7 @@ categories = "studynote-software-engineering"
 
 시프트 라이트는 운영 중 검증을 늘린다. 실사용 환경에서만 드러나는 문제를 잡기 위해서다.
 
-성능, 장애, 복구, 사용자 행동은 개발 환경과 다를 수 있다.
+[[282_performance_tactics|성능]], 장애, [[658_ir_recovery|복구]], 사용자 행동은 개발 환경과 다를 수 있다.
 
 - **📢 섹션 요약 비유**: 새 신발을 집 안이 아니라 밖에서 걸어 보는 것이다.
 
@@ -49,12 +49,12 @@ categories = "studynote-software-engineering"
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-운영 환경의 데이터를 보고, 실제 행동을 관찰하고, 안전 장치를 두면서 확인한다.
+운영 환경의 데이터를 보고, 실제 행동을 관찰하고, 안전 장치를 두면서 [[396_validation|확인]]한다.
 
 | 기법 | 역할 |
 |:---|:---|
-| 카나리 배포 | 일부 사용자에게 먼저 노출 |
-| 카오스 엔지니어링 | 장애 내성 확인 |
+| [[115_canary_deployment_gradual_rollout|카나리 배포]] | 일부 사용자에게 먼저 노출 |
+| [[751_chaos_engineering|카오스 엔지니어링]] | 장애 내성 [[396_validation|확인]] |
 | 관찰성 | 상태 추적 |
 
 ```text
@@ -75,13 +75,13 @@ categories = "studynote-software-engineering"
 
 ## Ⅲ. 비교 및 연결
 
-시프트 라이트는 시프트 레프트와 반대가 아니라 보완이다. 초반에는 결함을 줄이고, 후반에는 실제 반응을 본다.
+시프트 라이트는 [[242_shift_left_sdlc|시프트 레프트]]와 반대가 아니라 보완이다. 초반에는 [[352_defect_definition|결함]]을 줄이고, 후반에는 실제 반응을 본다.
 
-| 구분 | 시프트 레프트 | 시프트 라이트 |
+| 구분 | [[242_shift_left_sdlc|시프트 레프트]] | 시프트 라이트 |
 |:---|:---|:---|
 | 환경 | 개발 초반 | 운영 중 |
-| 초점 | 결함 조기 발견 | 실제 반응 |
-| 기법 | 테스트 자동화 | 카나리, 관찰성 |
+| 초점 | [[352_defect_definition|결함]] 조기 발견 | 실제 반응 |
+| 기법 | 테스트 자동화 | [[595_canary_stack_smashing_protector|카나리]], 관찰성 |
 
 실서비스의 진짜 품질을 보려면 이 단계가 필요하다.
 
@@ -102,7 +102,7 @@ categories = "studynote-software-engineering"
 체크 포인트는 다음과 같다.
 1. 실패 범위를 제한한다.
 2. 관찰 지표를 분명히 한다.
-3. 롤백 계획을 둔다.
+3. [[098_rollback_strategy_pipeline_error_threshold|롤백]] 계획을 둔다.
 
 - **📢 섹션 요약 비유**: 얕은 물부터 발을 담가 보는 것이다.
 
@@ -132,10 +132,10 @@ categories = "studynote-software-engineering"
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| 소프트웨어 공학 (Software Engineering) | 시프트 라이트 테스팅 (Shift-Right Testing)의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
-| 소프트웨어 생명주기 (SDLC, Software Development Life Cycle) | 시프트 라이트 테스팅 (Shift-Right Testing)은 SDLC의 특정 단계에서 핵심적으로 적용된다 |
+| [[001_software_engineering_definition|소프트웨어 공학]] ([[001_software_engineering_definition|Software Engineering]]) | 시프트 라이트 테스팅 (Shift-Right Testing)의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
+| [[003_sdlc|소프트웨어 생명주기]] ([[131_sdlc_system_development_life_cycle_waterfall_agile|SDLC]], Software Development Life Cycle) | 시프트 라이트 테스팅 (Shift-Right Testing)은 SDLC의 특정 단계에서 핵심적으로 적용된다 |
 | 품질 보증 (QA, Quality Assurance) | 시프트 라이트 테스팅 (Shift-Right Testing) 적용 결과는 QA 활동을 통해 검증되고 측정된다 |
-| 형상 관리 (SCM, Software Configuration Management) | 시프트 라이트 테스팅 (Shift-Right Testing)에서 생성된 산출물은 SCM을 통해 체계적으로 관리된다 |
+| [[020_software_configuration_management|형상 관리]] ([[167_scm_software_configuration_management|SCM]], [[020_software_configuration_management|Software Configuration Management]]) | 시프트 라이트 테스팅 (Shift-Right Testing)에서 생성된 산출물은 SCM을 통해 체계적으로 관리된다 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -155,10 +155,10 @@ categories = "studynote-software-engineering"
 지속적 개선 및 DevOps·MLOps 통합
 ```
 
-이 흐름은 소프트웨어 위기 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
+이 흐름은 [[002_software_crisis|소프트웨어 위기]] 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. 시프트 라이트 테스팅 (Shift-Right Testing)은 레고 블록으로 성을 만들 때처럼, 규칙을 정하고 역할을 나누어 함께 작업하는 방법이에요.
 2. 혼자서 막 만들면 나중에 무너지거나 고치기 어렵지만, 약속을 지키면 누구나 쉽게 고치고 더 크게 만들 수 있어요.
-3. 그래서 소프트웨어 공학은 프로그래머들이 좋은 프로그램을 빠르고 안전하게 만들 수 있게 도와주는 '규칙 모음집'이에요.
+3. 그래서 [[001_software_engineering_definition|소프트웨어 공학]]은 프로그래머들이 좋은 프로그램을 빠르고 안전하게 만들 수 있게 도와주는 '규칙 모음집'이에요.

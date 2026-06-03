@@ -7,13 +7,13 @@ categories = "studynote-data-engineering"
 +++
 
 > **핵심 인사이트**
-> 1. PACELC(파셀크) 정리는 Daniel Abadi(2012)가 CAP 정리의 한계를 극복하기 위해 제안한 확장 모델로, 파티션 발생 시(P) 가용성(A)/일관성(C) 트레이드오프 외에 정상 상태에서도 지연(L, Latency)/일관성(C, Consistency) 트레이드오프가 존재함을 명시한다.
-> 2. CAP 정리가 "파티션 발생"이라는 극단적 상황만 다루는 반면, PACELC는 파티션이 없는 정상 운영 상황에서도 "낮은 지연(L) vs 강한 일관성(C)"의 선택이 필요함을 보여줌으로써 분산 데이터베이스 선택의 실무적 기준을 제시한다.
-> 3. DynamoDB·Cassandra(PA/EL), HBase·VoltDB(PC/EC)처럼 실제 NoSQL/분산 DB는 PACELC 분류로 그 특성을 명확히 설명할 수 있으며, 애플리케이션 요구사항에 따라 PA/EL(가용성·저지연 우선) vs PC/EC(일관성 우선)를 선택해야 한다.
+> 1. [[342_pacelc|PACELC]](파셀크) 정리는 Daniel Abadi(2012)가 [[341_process|CAP]] 정리의 한계를 극복하기 위해 제안한 확장 모델로, [[514_partition_slice_volume|파티션]] 발생 시(P) [[452_availability|가용성]](A)/[[194_consistency_database_integrity|일관성]](C) 트레이드오프 외에 정상 상태에서도 [[015_지연_데이터_관점|지연]](L, [[141_latency|Latency]])/[[194_consistency_database_integrity|일관성]](C, [[194_consistency_database_integrity|Consistency]]) 트레이드오프가 존재함을 명시한다.
+> 2. [[341_process|CAP]] 정리가 "[[514_partition_slice_volume|파티션]] 발생"이라는 극단적 상황만 다루는 반면, PACELC는 [[514_partition_slice_volume|파티션]]이 없는 정상 운영 상황에서도 "낮은 [[015_지연_데이터_관점|지연]](L) vs 강한 [[194_consistency_database_integrity|일관성]](C)"의 선택이 필요함을 보여줌으로써 [[136_variance|분산]] [[002_database_definition|데이터베이스]] 선택의 실무적 기준을 제시한다.
+> 3. [[545_dynamodb|DynamoDB]]·[[541_cassandra|Cassandra]](PA/EL), [[543_hbase|HBase]]·VoltDB([[164_pc|PC]]/EC)처럼 실제 [[035_nosql|NoSQL]]/[[136_variance|분산]] DB는 [[342_pacelc|PACELC]] [[104_classification_analysis|분류]]로 그 특성을 명확히 설명할 수 있으며, 애플리케이션 요구사항에 따라 PA/EL([[452_availability|가용성]]·저지연 우선) vs [[164_pc|PC]]/EC([[194_consistency_database_integrity|일관성]] 우선)를 선택해야 한다.
 
 ---
 
-## Ⅰ. CAP 정리와 한계
+## Ⅰ. [[341_process|CAP]] 정리와 한계
 
 ```
 CAP 정리 복습:
@@ -41,7 +41,7 @@ PACELC 등장 배경:
 
 ---
 
-## Ⅱ. PACELC 정리 구조
+## Ⅱ. [[342_pacelc|PACELC]] 정리 구조
 
 ```
 PACELC 정리:
@@ -72,11 +72,11 @@ PC/EL (혼합):
   드문 조합, 일부 NewSQL 시도
 ```
 
-> 📢 **섹션 요약 비유**: PACELC는 마트 계산대 선택 — 손님 많을 때(파티션) 속도 vs 정확도, 평소에도 빠른 계산(L) vs 틀림없는 계산(C).
+> 📢 **섹션 요약 비유**: PACELC는 마트 계산대 선택 — 손님 많을 때([[514_partition_slice_volume|파티션]]) 속도 vs 정확도, 평소에도 빠른 계산(L) vs 틀림없는 계산(C).
 
 ---
 
-## Ⅲ. 주요 DB PACELC 분류
+## Ⅲ. 주요 DB [[342_pacelc|PACELC]] [[104_classification_analysis|분류]]
 
 ```
 분산 데이터베이스 PACELC 분류:
@@ -112,7 +112,7 @@ Tunable Consistency (Cassandra):
   ONE: 1개 응답 (최저 지연)
 ```
 
-> 📢 **섹션 요약 비유**: PACELC 분류는 음식점 배달 vs 홀식 선택 — Cassandra(빠른 배달, 오배송 허용), CockroachDB(홀식, 느려도 정확).
+> 📢 **섹션 요약 비유**: [[342_pacelc|PACELC]] [[104_classification_analysis|분류]]는 음식점 배달 vs 홀식 선택 — [[541_cassandra|Cassandra]](빠른 배달, 오배송 허용), [[292_etl_process|CockroachDB]](홀식, 느려도 정확).
 
 ---
 
@@ -150,7 +150,7 @@ Eventual Consistency vs Strong Consistency:
     지연 증가 (Round-trip 추가)
 ```
 
-> 📢 **섹션 요약 비유**: PACELC 선택은 통장 vs 편의점 — 통장(금융)은 PC/EC(정확해야), 편의점 포인트(부가 서비스)는 PA/EL(빨라야).
+> 📢 **섹션 요약 비유**: [[342_pacelc|PACELC]] 선택은 통장 vs 편의점 — 통장(금융)은 [[164_pc|PC]]/EC(정확해야), 편의점 포인트(부가 [[090_service_kubernetes_network_load_balancing|서비스]])는 PA/EL(빨라야).
 
 ---
 
@@ -196,7 +196,7 @@ PACELC 기반 DB 선택:
   글로벌 가용성: 99.995%
 ```
 
-> 📢 **섹션 요약 비유**: 글로벌 이커머스 DB는 백화점 부서별 다른 규정 — 현금(결제, PC/EC)은 정확하게, 진열품(카탈로그, PA/EL)은 빠르게, 고객 쇼핑백(장바구니)도 빠르게.
+> 📢 **섹션 요약 비유**: 글로벌 이커머스 DB는 백화점 부서별 다른 규정 — 현금(결제, [[164_pc|PC]]/EC)은 정확하게, 진열품([[394_catalog_metadata|카탈로그]], PA/EL)은 빠르게, 고객 쇼핑백(장바구니)도 빠르게.
 
 ---
 
@@ -255,5 +255,5 @@ SQL + 분산 + 강한 일관성 시도
 ## 👶 어린이를 위한 3줄 비유 설명
 
 1. CAP은 인터넷이 끊겼을 때 어떻게 할지 규칙이었는데, PACELC는 "평소에도" 빠른 응답(L) vs 정확함(C) 중 하나를 골라야 한다고 알려줘요!
-2. DynamoDB·Cassandra는 PA/EL — "좀 틀려도 괜찮으니까 빠르게!", HBase·Spanner는 PC/EC — "느려도 정확하게!"를 선택했어요.
-3. 쇼핑몰에서 상품 목록(빠르면 됨, PA/EL)과 결제(틀리면 큰일, PC/EC)에 다른 DB를 쓰는 것처럼 목적에 맞게 선택해야 해요!
+2. [[545_dynamodb|DynamoDB]]·Cassandra는 PA/EL — "좀 틀려도 괜찮으니까 빠르게!", [[543_hbase|HBase]]·Spanner는 [[164_pc|PC]]/EC — "느려도 정확하게!"를 선택했어요.
+3. 쇼핑몰에서 상품 목록(빠르면 됨, PA/EL)과 결제(틀리면 큰일, [[164_pc|PC]]/EC)에 다른 DB를 쓰는 것처럼 목적에 맞게 선택해야 해요!

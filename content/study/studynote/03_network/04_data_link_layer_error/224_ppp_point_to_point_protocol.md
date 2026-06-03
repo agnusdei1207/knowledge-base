@@ -8,7 +8,7 @@ categories = "studynote-network"
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: PPP는 데이터 링크 계층에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.
+> 1. **본질**: PPP는 [[001_dikw_pyramid|데이터]] 링크 계층에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.
 > 2. **가치**: PPP를 이해하면 오류율과 재전송 비용 사이의 균형을 더 정확히 볼 수 있다.
 > 3. **판단 포인트**: 설계 시에는 개념 자체보다 적용 조건, 운영 복잡도, 인접 기술과의 경계를 함께 판단해야 한다.
 
@@ -16,10 +16,10 @@ categories = "studynote-network"
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: PPP (Point-to-Point Protocol)는 동기식(Synchronous) 또는 비동기식(Asynchronous) 점대점 링크에서 여러 종류의 네트워크 계층 프로토콜을 다중화하여 전송할 수 있게 해주는 계층 2 표준 프로토콜이다.
-- **필요성**: 1980년대 후반 PC 통신 시절 사용되던 SLIP 프로토콜은 오직 IPv4만 지원했고, 동적 IP 할당 기능도 없었으며, 무엇보다 '사용자 인증' 기능이 없어 보안에 매우 취약했다. 서로 다른 벤더의 장비끼리 호환되면서도, 전화선을 통해 인터넷에 접속하려는 사용자를 안전하게 인증하고 IP를 자동으로 부여해 줄 강력한 범용 프로토콜이 필요했다.
-- **비유**: PPP는 단순한 배달 기사가 아니라 '종합 물류 서비스'다. 물건(데이터)을 배달할 뿐만 아니라, 배달 전에 신분증 검사(인증)를 하고, 내용물의 종류(IP, IPX)를 명확히 분류하며, 필요하면 압축이나 암호화 포장까지 알아서 해주는 만능 서비스다.
-- **발전 과정**: SLIP의 대체재로 등장한 PPP는 HDLC 프레임 구조를 차용하되 제어 기능을 모듈화(LCP, NCP)함으로써 인터넷 접속의 사실상 표준(De facto standard)이 되었다.
+- **개념**: PPP ([[142_point_to_point_integration_spaghetti|Point-to-Point]] [[295_protocol_field_tcp_udp_icmp|Protocol]])는 동기식([[010_동기식_비동기식_전송|Synchronous]]) 또는 비동기식(Asynchronous) 점대점 링크에서 여러 종류의 네트워크 계층 [[295_protocol_field_tcp_udp_icmp|프로토콜]]을 [[071_다중화_Multiplexing|다중화]]하여 전송할 수 있게 해주는 계층 2 표준 [[295_protocol_field_tcp_udp_icmp|프로토콜]]이다.
+- **필요성**: 1980년대 후반 [[164_pc|PC]] 통신 시절 사용되던 SLIP [[295_protocol_field_tcp_udp_icmp|프로토콜]]은 오직 IPv4만 지원했고, 동적 IP 할당 기능도 없었으며, 무엇보다 '[[604_authentication_factors|사용자 인증]]' 기능이 없어 보안에 매우 취약했다. 서로 다른 벤더의 장비끼리 호환되면서도, 전화선을 통해 인터넷에 접속하려는 사용자를 안전하게 [[303_authentication_authorization_patterns|인증]]하고 IP를 자동으로 부여해 줄 강력한 범용 [[295_protocol_field_tcp_udp_icmp|프로토콜]]이 필요했다.
+- **비유**: PPP는 단순한 배달 기사가 아니라 '종합 물류 [[090_service_kubernetes_network_load_balancing|서비스]]'다. 물건([[001_dikw_pyramid|데이터]])을 배달할 뿐만 아니라, 배달 전에 신분증 검사([[303_authentication_authorization_patterns|인증]])를 하고, 내용물의 종류(IP, IPX)를 명확히 분류하며, 필요하면 압축이나 암호화 포장까지 알아서 해주는 만능 [[090_service_kubernetes_network_load_balancing|서비스]]다.
+- **발전 과정**: SLIP의 대체재로 등장한 PPP는 [[216_hdlc_high_level_data_link_control|HDLC]] 프레임 구조를 차용하되 제어 기능을 모듈화([[225_lcp_link_control_protocol|LCP]], [[226_ncp_network_control_protocol|NCP]])함으로써 인터넷 접속의 사실상 표준(De facto standard)이 되었다.
 
 ```text
   ┌─────────────────────────────────────────────────────────┐
@@ -40,7 +40,7 @@ categories = "studynote-network"
   └─────────────────────────────────────────────────────────┘
 ```
 
-- **📢 섹션 요약 비유**: PPP는 단순히 두 도시를 잇는 아스팔트 도로(프레이밍)가 아니라, 그 도로 위에 톨게이트(LCP 인증)와 차선 분배기(NCP 프로토콜 다중화)까지 모두 갖춘 완벽한 턴키(Turn-key) 방식의 민자 고속도로 시스템입니다.
+- **📢 섹션 요약 비유**: PPP는 단순히 두 도시를 잇는 아스팔트 도로([[184_framing_mechanism|프레이밍]])가 아니라, 그 도로 위에 톨게이트([[225_lcp_link_control_protocol|LCP]] [[303_authentication_authorization_patterns|인증]])와 차선 분배기([[226_ncp_network_control_protocol|NCP]] [[295_protocol_field_tcp_udp_icmp|프로토콜]] [[071_다중화_Multiplexing|다중화]])까지 모두 갖춘 완벽한 턴키(Turn-key) 방식의 민자 고속도로 시스템입니다.
 
 ---
 
@@ -50,10 +50,10 @@ categories = "studynote-network"
 
 | 요소명 | 역할 | 내부 동작 |
 |:---|:---|:---|
-| **프레이밍 (Framing)** | 데이터의 시작과 끝 구분 | HDLC와 유사한 `01111110` 플래그 사용, 비트/바이트 스터핑 지원 |
-| **LCP (Link Control Protocol)** | 물리적 링크의 설정, 유지, 종료 | 최대 프레임 크기(MTU) 협상, 인증 프로토콜(PAP/CHAP) 결정 |
-| **인증 (Authentication)** | 접속하려는 사용자의 신원 확인 | PAP (명문장 전송, 취약), CHAP (Challenge-Response 3way 핸드쉐이크, 안전) |
-| **NCP (Network Control Protocol)** | 상위 네트워크 계층의 세부 설정 | IPCP (IP Control Protocol)를 통해 동적 IP 주소, DNS 서버 등 할당 |
+| **[[184_framing_mechanism|프레이밍]] ([[184_framing_mechanism|Framing]])** | [[001_dikw_pyramid|데이터]]의 시작과 끝 구분 | HDLC와 유사한 `01111110` [[186_character_stuffing_dle_stx_etx|플래그]] 사용, [[073_bit|비트]]/[[074_byte|바이트]] 스터핑 지원 |
+| **[[225_lcp_link_control_protocol|LCP]] ([[225_lcp_link_control_protocol|Link Control Protocol]])** | 물리적 링크의 [[009_config|설정]], 유지, 종료 | 최대 프레임 크기(MTU) 협상, [[303_authentication_authorization_patterns|인증]] [[295_protocol_field_tcp_udp_icmp|프로토콜]]([[227_pap_password_authentication_protocol|PAP]]/[[228_chap_challenge_handshake_authentication_protocol|CHAP]]) 결정 |
+| **[[303_authentication_authorization_patterns|인증]] ([[604_authentication_factors|Authentication]])** | 접속하려는 사용자의 신원 [[396_validation|확인]] | [[227_pap_password_authentication_protocol|PAP]] (명문장 전송, 취약), [[228_chap_challenge_handshake_authentication_protocol|CHAP]] (Challenge-Response 3way 핸드쉐이크, 안전) |
+| **[[226_ncp_network_control_protocol|NCP]] ([[226_ncp_network_control_protocol|Network Control Protocol]])** | 상위 네트워크 계층의 세부 [[009_config|설정]] | IPCP (IP Control [[295_protocol_field_tcp_udp_icmp|Protocol]])를 통해 동적 IP 주소, [[511_dns_hierarchical_distributed_architecture|DNS]] 서버 등 할당 |
 
 ```text
 [LAPD]
@@ -70,7 +70,7 @@ categories = "studynote-network"
 
 ## Ⅲ. 비교 및 연결
 
-PPP의 가장 강력한 특징은 단순히 데이터를 흘려보내는 것이 아니라, 명확한 단계를 거쳐 링크를 수립한다는 점이다.
+PPP의 가장 강력한 특징은 단순히 [[001_dikw_pyramid|데이터]]를 흘려보내는 것이 아니라, 명확한 단계를 거쳐 링크를 수립한다는 점이다.
 
 ```text
   ┌───────────────────────────────────────────────────────────────┐
@@ -93,43 +93,43 @@ PPP의 가장 강력한 특징은 단순히 데이터를 흘려보내는 것이 
   └───────────────────────────────────────────────────────────────┘
 ```
 
-**[다이어그램 해설]** 사용자가 모뎀으로 전화를 걸면 먼저 LCP 단계(Establish)에서 기본 통신 규칙을 정한다. 이후 인증 단계(Authenticate)에서 ID/Password를 검증하고, 성공하면 NCP(Network) 단계로 넘어가 ISP(통신사)로부터 IP 주소를 동적으로 받아온다. 이 모든 과정이 끝나야만 비로소 '인터넷 연결됨(Open)' 상태가 되어 웹 서핑이 가능해진다. 하나라도 실패하면 연결은 즉시 종료된다.
+**[다이어그램 해설]** 사용자가 [[146_modem_modulator_demodulator|모뎀]]으로 전화를 걸면 먼저 [[225_lcp_link_control_protocol|LCP]] 단계(Establish)에서 기본 통신 규칙을 정한다. 이후 [[303_authentication_authorization_patterns|인증]] 단계(Authenticate)에서 ID/Password를 검증하고, 성공하면 [[226_ncp_network_control_protocol|NCP]](Network) 단계로 넘어가 [[101_isp_information_strategy_planning_4_steps|ISP]](통신사)로부터 IP 주소를 동적으로 받아온다. 이 모든 과정이 끝나야만 비로소 '인터넷 연결됨(Open)' 상태가 되어 웹 서핑이 가능해진다. 하나라도 실패하면 연결은 즉시 종료된다.
 
-### 인증 메커니즘: PAP vs CHAP
+### [[303_authentication_authorization_patterns|인증]] 메커니즘: [[227_pap_password_authentication_protocol|PAP]] vs [[228_chap_challenge_handshake_authentication_protocol|CHAP]]
 
-PPP는 회선 도청의 위험을 막기 위해 CHAP(Challenge Handshake Authentication Protocol)이라는 강력한 인증 방식을 도입했다.
+PPP는 회선 도청의 위험을 막기 위해 [[228_chap_challenge_handshake_authentication_protocol|CHAP]](Challenge Handshake [[604_authentication_factors|Authentication]] [[295_protocol_field_tcp_udp_icmp|Protocol]])이라는 강력한 [[303_authentication_authorization_patterns|인증]] 방식을 도입했다.
 
-- **PAP (Password Authentication Protocol)**: 클라이언트가 ID와 비밀번호를 평문(Plain text)으로 2-Way 핸드쉐이크로 전송. 중간자 공격(MITM)에 극도로 취약함.
-- **CHAP**: 서버가 난수(Challenge)를 보내면, 클라이언트가 해시 함수(MD5 등)를 이용해 '비밀번호+난수'의 결과값(Response)을 보내는 3-Way 핸드쉐이크. 비밀번호 자체가 회선에 노출되지 않음.
+- **[[227_pap_password_authentication_protocol|PAP]] ([[227_pap_password_authentication_protocol|Password Authentication Protocol]])**: 클라이언트가 ID와 비밀번호를 평문(Plain text)으로 2-Way 핸드쉐이크로 전송. [[706_mitm_man_in_the_middle_hsts|중간자 공격]](MITM)에 극도로 취약함.
+- **[[228_chap_challenge_handshake_authentication_protocol|CHAP]]**: 서버가 난수(Challenge)를 보내면, 클라이언트가 [[667_hash_function_integrity_one_way|해시 함수]]([[668_md5_hash_collision_vulnerability|MD5]] 등)를 이용해 '비밀번호+난수'의 결과값(Response)을 보내는 3-Way 핸드쉐이크. 비밀번호 자체가 회선에 노출되지 않음.
 
 
-| 비교 항목 | SLIP | PPP | HDLC |
+| 비교 항목 | SLIP | PPP | [[216_hdlc_high_level_data_link_control|HDLC]] |
 |:---|:---|:---|:---|
-| **설계 목적** | 초기 시리얼 IP 전송 | 다중 프로토콜 지원, 인증, 동적 IP | 범용 링크 제어 (동기식 중심) |
-| **다중 프로토콜** | 불가 (오직 IPv4만) | 완벽 지원 (IP, IPX, IPv6 등) | 설정에 따라 다름 |
-| **인증/보안** | 없음 | PAP, CHAP, EAP 지원 | 없음 |
-| **오류 제어** | 없음 | FCS를 통한 오류 검출 (복구는 안 함) | 검출 및 재전송(ARQ) 지원 |
+| **설계 목적** | [[459_quic_fec_forward_error_correction|초기]] 시리얼 IP 전송 | 다중 [[295_protocol_field_tcp_udp_icmp|프로토콜]] 지원, [[303_authentication_authorization_patterns|인증]], 동적 IP | 범용 링크 제어 (동기식 중심) |
+| **다중 [[295_protocol_field_tcp_udp_icmp|프로토콜]]** | 불가 (오직 IPv4만) | 완벽 지원 (IP, IPX, [[324_ipv6_128bit_next_generation_address|IPv6]] 등) | [[009_config|설정]]에 따라 다름 |
+| **[[303_authentication_authorization_patterns|인증]]/보안** | 없음 | [[227_pap_password_authentication_protocol|PAP]], [[228_chap_challenge_handshake_authentication_protocol|CHAP]], [[229_eap_extensible_authentication_protocol|EAP]] 지원 | 없음 |
+| **[[188_error_control_overview|오류 제어]]** | 없음 | FCS를 통한 오류 검출 ([[658_ir_recovery|복구]]는 안 함) | 검출 및 재전송([[949_arq_automatic_repeat_request_go_back_n_selective|ARQ]]) 지원 |
 
-PPP는 HDLC의 프레임 구조를 빌려왔으나, 무거운 오류 복구(ARQ) 기능은 버리고 대신 '인증'과 '다중 네트워크 프로토콜 다중화'라는 현대 인터넷에 꼭 필요한 기능만을 담은 걸작이다.
+PPP는 HDLC의 프레임 구조를 빌려왔으나, 무거운 오류 [[658_ir_recovery|복구]]([[949_arq_automatic_repeat_request_go_back_n_selective|ARQ]]) 기능은 버리고 대신 '[[303_authentication_authorization_patterns|인증]]'과 '다중 네트워크 [[295_protocol_field_tcp_udp_icmp|프로토콜]] [[071_다중화_Multiplexing|다중화]]'라는 현대 인터넷에 꼭 필요한 기능만을 담은 걸작이다.
 
-- **📢 섹션 요약 비유**: SLIP이 오직 110v 돼지코만 꽂을 수 있는 구형 멀티탭이라면, PPP는 220v, USB, C타입을 모두 꽂을 수 있고 과전류 차단(인증) 기능까지 들어있는 스마트 멀티탭입니다.
+- **📢 섹션 요약 비유**: SLIP이 오직 110v 돼지코만 꽂을 수 있는 구형 멀티탭이라면, PPP는 220v, [[359_usb|USB]], C타입을 모두 꽂을 수 있고 과전류 차단([[303_authentication_authorization_patterns|인증]]) 기능까지 들어있는 스마트 멀티탭입니다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-ADSL이나 VDSL 같은 초고속 인터넷이 보급되던 2000년대 초반, 통신사(KT, SKT 등)는 이더넷(Ethernet)이라는 훌륭한 LAN 기술을 가정까지 끌고 왔다. 하지만 이더넷은 근본적으로 브로드캐스트 망이라 '누가 접속했는지 인증하고 요금을 과금하는' 기능이 없었다. 그래서 통신사들은 이더넷 프레임 안에 PPP를 캡슐화하여 넣는 **PPPoE (PPP over Ethernet)** 기술을 도입했다.
+ADSL이나 [[148_adsl_vdsl_gfast|VDSL]] 같은 [[148_5g_embb_urllc_mmtc|초고속]] 인터넷이 보급되던 2000년대 초반, 통신사(KT, SKT 등)는 [[230_ethernet_structure_and_principles_ieee_802_3|이더넷]]([[230_ethernet_structure_and_principles_ieee_802_3|Ethernet]])이라는 훌륭한 LAN 기술을 가정까지 끌고 왔다. 하지만 [[230_ethernet_structure_and_principles_ieee_802_3|이더넷]]은 근본적으로 브로드캐스트 망이라 '누가 접속했는지 [[303_authentication_authorization_patterns|인증]]하고 요금을 과금하는' 기능이 없었다. 그래서 통신사들은 [[230_ethernet_structure_and_principles_ieee_802_3|이더넷]] 프레임 안에 PPP를 캡슐화하여 넣는 **PPPoE (PPP over [[230_ethernet_structure_and_principles_ieee_802_3|Ethernet]])** 기술을 도입했다.
 
-- **도입의 당위성**: 이더넷의 싼 가격과 빠른 속도를 유지하면서도, 기존 전화선 시절 모뎀 통신사들이 쓰던 PPP의 강력한 인증(RADIUS 서버 연동) 및 IP 통제 관리 시스템을 그대로 재활용할 수 있는 완벽한 비즈니스적 판단이었다.
-- **안티패턴**: 현대의 모바일(LTE/5G)이나 순수 광랜(FTTH) 환경에서는 DHCP와 802.1X 같은 다른 인증 기술이 발전하면서, 굳이 MTU를 깎아먹는(이더넷 1500바이트 → PPPoE 1492바이트) PPPoE를 쓸 이유가 사라지고 있다.
+- **도입의 당위성**: [[230_ethernet_structure_and_principles_ieee_802_3|이더넷]]의 싼 가격과 빠른 속도를 유지하면서도, 기존 전화선 시절 [[146_modem_modulator_demodulator|모뎀]] 통신사들이 쓰던 PPP의 강력한 [[303_authentication_authorization_patterns|인증]]([[541_radius_remote_authentication_aaa|RADIUS]] 서버 연동) 및 IP 통제 관리 시스템을 그대로 재활용할 수 있는 완벽한 비즈니스적 판단이었다.
+- **[[128_water_scrum_fall_anti_pattern|안티패턴]]**: 현대의 모바일([[752_lte_long_term_evolution_4g|LTE]]/[[418_5g_embb_urllc_mmtc_slicing|5G]])이나 순수 광랜(FTTH) 환경에서는 DHCP와 802.[[584_802_1x_pnac_eap_radius|1X]] 같은 다른 [[303_authentication_authorization_patterns|인증]] 기술이 발전하면서, 굳이 MTU를 깎아먹는([[230_ethernet_structure_and_principles_ieee_802_3|이더넷]] 1500바이트 → PPPoE 1492바이트) PPPoE를 쓸 이유가 사라지고 있다.
 
-### 실무 체크리스트
+### 실무 [[435_checklist_based_testing|체크리스트]]
 
 1. 요구사항과 병목 지점을 먼저 수치화한다.
 2. 운영 복잡도와 도입 효과를 함께 검증한다.
 3. 인접 기술과의 연계를 배포 전에 점검한다.
 
-- **📢 섹션 요약 비유**: 고속철도(이더넷)가 깔렸지만 기차표 검사 시스템을 새로 만들기 아까워서, 예전 고속버스(모뎀) 시절 쓰던 매표소(PPP)를 기차역 입구에 그대로 들고 와서 쓴 것이 바로 PPPoE입니다.
+- **📢 섹션 요약 비유**: 고속철도([[230_ethernet_structure_and_principles_ieee_802_3|이더넷]])가 깔렸지만 기차표 검사 시스템을 새로 만들기 아까워서, 예전 고속버스([[146_modem_modulator_demodulator|모뎀]]) 시절 쓰던 매표소(PPP)를 기차역 입구에 그대로 들고 와서 쓴 것이 바로 PPPoE입니다.
 
 ---
 
@@ -137,10 +137,10 @@ ADSL이나 VDSL 같은 초고속 인터넷이 보급되던 2000년대 초반, �
 
 | 구분 | 내용 | 개선 효과 |
 |:---|:---|:---|
-| **정량** | IPCP를 통한 동적 IP 할당 | IPv4 주소 고갈 문제 완화, 통신사의 효율적 IP 풀 관리 |
-| **정성** | 플러그 앤 플레이(Plug & Play) | 사용자가 복잡한 네트워크 설정 없이 ID/PW만으로 즉시 인터넷 접속 |
+| **정량** | IPCP를 통한 동적 IP 할당 | [[286_ipv4_internet_protocol_version_4_rfc_791|IPv4]] 주소 고갈 문제 완화, 통신사의 효율적 IP 풀 관리 |
+| **정성** | 플러그 앤 플레이(Plug & Play) | 사용자가 복잡한 네트워크 [[009_config|설정]] 없이 ID/PW만으로 즉시 인터넷 접속 |
 
-순수한 직렬 케이블(Serial Cable) 위를 달리는 원시적인 형태의 PPP는 이제 찾아보기 어렵다. 그러나 PPP가 정립한 LCP(링크 협상), 인증(CHAP/EAP), NCP(IP 동적 할당)라는 3단계 모듈형 접속 아키텍처는 오늘날 VPN(PPTP, L2TP)과 다양한 터널링 기술의 코어 엔진으로 계속해서 살아가고 있다. PPP는 단순히 프로토콜을 넘어 '안전하고 통제된 접속'이라는 네트워크의 기본 철학을 정의한 위대한 유산이다. 향후에는 고신뢰 저지연 링크 제어 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
+순수한 [[149_serial_communication_rs232_rs485|직렬]] 케이블([[009_직렬_전송_vs_병렬_전송|Serial]] Cable) 위를 달리는 원시적인 형태의 PPP는 이제 찾아보기 어렵다. 그러나 PPP가 정립한 [[225_lcp_link_control_protocol|LCP]](링크 협상), [[303_authentication_authorization_patterns|인증]]([[228_chap_challenge_handshake_authentication_protocol|CHAP]]/[[229_eap_extensible_authentication_protocol|EAP]]), [[226_ncp_network_control_protocol|NCP]](IP 동적 할당)라는 3단계 모듈형 접속 아키텍처는 오늘날 [[983_vpn_virtual_private_network|VPN]](PPTP, [[379_l2tp_layer_2_tunneling_protocol|L2TP]])과 다양한 [[377_tunneling_mechanism_overview|터널링]] 기술의 코어 엔진으로 계속해서 살아가고 있다. PPP는 단순히 [[295_protocol_field_tcp_udp_icmp|프로토콜]]을 넘어 '안전하고 통제된 접속'이라는 네트워크의 기본 철학을 정의한 위대한 유산이다. 향후에는 고신뢰 저지연 링크 제어 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
 
 - **📢 섹션 요약 비유**: 옛날식 다이얼 전화기는 박물관으로 갔지만, 그때 정립된 '전화번호 체계'와 '요금 청구 방식'은 스마트폰 시대인 지금까지도 변함없이 이어지는 것과 같습니다.
 
@@ -150,10 +150,10 @@ ADSL이나 VDSL 같은 초고속 인터넷이 보급되던 2000년대 초반, �
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| LAPD | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
-| 프레이밍 (Framing) | 비트열을 의미 있는 전송 단위로 구분한다. |
-| 오류 제어 (Error Control) | 검출과 복구 정책을 함께 설계해야 한다. |
-| LCP | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
+| [[223_lapd_isdn_d_channel|LAPD]] | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
+| [[184_framing_mechanism|프레이밍]] ([[184_framing_mechanism|Framing]]) | [[073_bit|비트]]열을 의미 있는 전송 단위로 구분한다. |
+| [[188_error_control_overview|오류 제어]] ([[188_error_control_overview|Error Control]]) | 검출과 [[658_ir_recovery|복구]] 정책을 함께 설계해야 한다. |
+| [[225_lcp_link_control_protocol|LCP]] | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -171,6 +171,6 @@ PPP는 LAPD에서 출발해 현재 메커니즘을 정교화하고, 이후 LCP�
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. 편지를 보낼 때 봉투를 제대로 닫고 틀린 글자가 없는지 확인해야 해요.
+1. 편지를 보낼 때 봉투를 제대로 닫고 틀린 글자가 없는지 [[396_validation|확인]]해야 해요.
 2. 이 개념은 편지가 깨지거나 사라졌을 때 다시 보내는 규칙까지 정해줘요.
 3. 그래서 중간에 흔들려도 중요한 내용이 더 안전하게 도착해요.

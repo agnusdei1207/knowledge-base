@@ -6,15 +6,15 @@ weight = 86
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: Multi-Signature (다중 서명) 지갑은 M-of-N 정책으로 출금을 승인하는 구조다.
-> 2. **가치**: 단일 키 탈취를 막고, 기업 재무나 DAO (Decentralized Autonomous Organization) 거버넌스에 잘 맞는다.
-> 3. **판단 포인트**: 임계값, 복구 절차, 서명자 분산을 함께 설계해야 운영이 막히지 않는다.
+> 2. **가치**: 단일 키 탈취를 막고, 기업 재무나 [[054_dao_decentralized_autonomous_organization|DAO]] ([[054_dao_decentralized_autonomous_organization|Decentralized Autonomous Organization]]) 거버넌스에 잘 맞는다.
+> 3. **판단 포인트**: 임계값, [[658_ir_recovery|복구]] 절차, 서명자 [[136_variance|분산]]을 함께 설계해야 운영이 막히지 않는다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 멀티시그는 한 사람의 키만으로 자금을 옮길 수 없게 만든다. 여러 명의 승인 없이는 출금이 안 되므로 단일 실패 지점을 줄인다.
 
-그래서 기업 자금, 공동 계정, DAO 재무에 자주 쓰인다.
+그래서 기업 자금, 공동 계정, [[054_dao_decentralized_autonomous_organization|DAO]] 재무에 자주 쓰인다.
 - **📢 섹션 요약 비유**: 혼자 열 수 없는 금고를 만든다.
 
 ---
@@ -22,11 +22,11 @@ weight = 86
 ## Ⅱ. 아키텍처 및 핵심 원리
 | 요소 | 의미 | 설계 포인트 |
 |:---|:---|:---|
-| N | 전체 서명자 수 | 분산 정도 |
-| M | 필요한 최소 서명 수 | 보안/가용성 균형 |
-| signer set | 서명 가능한 사람들 | 역할 분리, 지역 분산 |
-| policy | 승인 규칙 | 금액별 임계값 등 |
-| recovery | 복구 절차 | 키 분실, 퇴사 대응 |
+| N | 전체 서명자 수 | [[136_variance|분산]] 정도 |
+| M | 필요한 최소 서명 수 | 보안/[[452_availability|가용성]] 균형 |
+| signer set | 서명 가능한 사람들 | 역할 분리, 지역 [[136_variance|분산]] |
+| [[164_policy|policy]] | 승인 규칙 | 금액별 임계값 등 |
+| [[658_ir_recovery|recovery]] | [[658_ir_recovery|복구]] 절차 | 키 분실, 퇴사 대응 |
 
 ┌──────────┐   sig1   ┌──────────────┐
 │ Signer A │─────────▶│ Threshold    │
@@ -37,17 +37,17 @@ weight = 86
 ┌──────────┐   sig3        │
 │ Signer C │───────────────┘
 └──────────┘
-- **📢 섹션 요약 비유**: 임계값과 복구가 핵심이다.
+- **📢 섹션 요약 비유**: 임계값과 [[658_ir_recovery|복구]]가 핵심이다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 | 비교 항목 | Single-Sig | Multisig | MPC (Multi-Party Computation) |
 |:---|:---|:---|:---|
-| 키 구조 | 1개 키 | 여러 개 키 + 임계값 | 비밀 분산 연산 |
+| 키 구조 | 1개 키 | 여러 개 키 + 임계값 | 비밀 [[136_variance|분산]] 연산 |
 | 장애 내성 | 낮음 | 높음 | 높음 |
 | 운영 난이도 | 낮음 | 중간~높음 | 높음 |
-| 대표 용도 | 개인 지갑 | 기업 재무, DAO | 고급 지갑 |
+| 대표 용도 | 개인 지갑 | 기업 재무, [[054_dao_decentralized_autonomous_organization|DAO]] | 고급 지갑 |
 
 멀티시그는 가장 직관적인 다중 승인 방식이고, MPC는 키를 직접 드러내지 않는 더 복잡한 방식이다.
 - **📢 섹션 요약 비유**: 단일 서명과 구조가 다르다.
@@ -56,14 +56,14 @@ weight = 86
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 - [ ] N과 M을 자산 규모와 위험도에 맞게 정한다.
-- [ ] 서명자가 한 장소나 한 장치에만 몰리지 않도록 분산한다.
-- [ ] 키 분실, 퇴사, 권한 변경 시 복구 절차를 문서화한다.
-- [ ] 승인 로그와 감사 추적이 남는지 확인한다.
+- [ ] 서명자가 한 장소나 한 장치에만 몰리지 않도록 [[136_variance|분산]]한다.
+- [ ] 키 분실, 퇴사, 권한 변경 시 [[658_ir_recovery|복구]] 절차를 문서화한다.
+- [ ] 승인 로그와 [[606_auditing_linux_auditd|감사]] 추적이 남는지 확인한다.
 
 - ❌ 모든 키를 한 사람의 휴대폰에 몰아넣는 것
 - ❌ 너무 낮은 임계값으로 사실상 단일 서명처럼 만드는 것
-- ❌ 복구용 백업 절차 없이 운영하는 것
-- **📢 섹션 요약 비유**: 분산과 운영성의 균형이 필요하다.
+- ❌ [[658_ir_recovery|복구]]용 [[555_backup_and_restore_strategy|백업]] 절차 없이 운영하는 것
+- **📢 섹션 요약 비유**: [[136_variance|분산]]과 운영성의 균형이 필요하다.
 
 ---
 
@@ -79,8 +79,8 @@ weight = 86
 |:---|:---|
 | Multi-Signature | 여러 사람의 승인을 모아 출금한다. |
 | M-of-N | N명 중 M명 이상이 필요하다. |
-| DAO (Decentralized Autonomous Organization) | 공동 재무와 거버넌스에 쓰인다. |
-| MPC (Multi-Party Computation) | 키를 분산해 관리한다. |
+| [[054_dao_decentralized_autonomous_organization|DAO]] ([[054_dao_decentralized_autonomous_organization|Decentralized Autonomous Organization]]) | 공동 재무와 거버넌스에 쓰인다. |
+| MPC (Multi-Party Computation) | 키를 [[136_variance|분산]]해 관리한다. |
 | single point of failure | 단일 실패 지점을 줄인다. |
 
 ### 📈 관련 키워드 및 발전 흐름도

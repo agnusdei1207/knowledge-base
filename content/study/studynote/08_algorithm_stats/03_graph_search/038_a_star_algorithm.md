@@ -7,12 +7,12 @@ categories = "studynote-algorithm"
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-- 시작점부터의 실제 비용(g)과 목표까지의 예상 비용(h)을 합산한 f(n)을 기준으로 최단 경로를 탐색하는 휴리스틱 기반 알고리즘임
-- 다익스트라의 범용성과 탐욕 알고리즘의 효율성을 결합하여 탐색 공간을 유도된 방향으로 최적화함
-- 허용적 휴리스틱(Admissible Heuristic) 조건을 만족할 때 항상 최단 경로를 보장함
+- 시작점부터의 실제 비용(g)과 목표까지의 예상 비용(h)을 합산한 f(n)을 기준으로 최단 경로를 탐색하는 [[210_heuristics_scheduling|휴리스틱]] 기반 [[001_algorithm_definition|알고리즘]]임
+- [[036_dijkstra|다익스트라]]의 범용성과 탐욕 [[001_algorithm_definition|알고리즘]]의 효율성을 결합하여 탐색 공간을 유도된 방향으로 최적화함
+- [[018_admissible_heuristic|허용적 휴리스틱]]([[018_admissible_heuristic|Admissible Heuristic]]) 조건을 만족할 때 항상 최단 경로를 보장함
 
-### Ⅰ. 개요 (Context & Background)
-A* 알고리즘은 그래프 탐색 분야에서 가장 널리 사용되는 경로 탐색 알고리즘으로, 목표 지점에 대한 정보(Hueristic)를 활용하여 불필요한 탐색을 줄인다. 게임 AI의 캐릭터 이동, 내비게이션 경로 최적화, 로보틱스 경로 계획 등에 필수적이다.
+### Ⅰ. 개요 ([[033_context|Context]] & Background)
+A* [[001_algorithm_definition|알고리즘]]은 [[613_graph_bfs_memory|그래프 탐색]] 분야에서 가장 널리 사용되는 경로 탐색 [[001_algorithm_definition|알고리즘]]으로, 목표 지점에 대한 정보(Hueristic)를 활용하여 불필요한 탐색을 줄인다. 게임 AI의 캐릭터 이동, 내비게이션 경로 최적화, 로보틱스 경로 계획 등에 필수적이다.
 
 ### Ⅱ. 아키텍처 및 핵심 원리 (Deep Dive)
 ```text
@@ -30,26 +30,26 @@ f(n) = g(n) + h(n)
 3. 인접 노드 확장 및 f(n) 갱신
 4. 목표 도달 시까지 반복
 ```
-- **휴리스틱 함수(h):** 유클리드 거리, 맨해튼 거리 등을 사용하며, 실제 비용을 과대평가하지 않아야(Admissible) 최적해가 보장됨
+- **[[210_heuristics_scheduling|휴리스틱]] 함수(h):** 유클리드 거리, 맨해튼 거리 등을 사용하며, 실제 비용을 과대평가하지 않아야(Admissible) 최적해가 보장됨
 
 ### Ⅲ. 융합 비교 및 다각도 분석 (Comparison & Synergy)
-| 알고리즘 | 평가 방식 | 특징 |
+| [[001_algorithm_definition|알고리즘]] | 평가 방식 | 특징 |
 | :--- | :--- | :--- |
-| Dijkstra | f(n) = g(n) | 모든 방향 탐색, 가중치 그래프 최단 경로 보장 |
+| [[036_dijkstra|Dijkstra]] | f(n) = g(n) | 모든 방향 탐색, [[267_weight_bias_activation|가중치]] [[070_graph_datastructure|그래프]] 최단 경로 보장 |
 | Best-First | f(n) = h(n) | 목표 방향으로만 탐색, 최단 경로 보장 못함 |
 | **A*** | **f(n) = g(n) + h(n)** | **방향성 탐색 + 최단 경로 보장 (효율적)** |
 
-### Ⅳ. 실무 적용 및 기술사적 판단 (Strategy & Decision)
-- **실무 적용:** 맵의 크기가 방대할 경우 힙(Priority Queue)을 활용한 구현이 필수적이며, 휴리스틱 함수의 정밀도가 알고리즘 성능(탐색 노드 수)을 결정함
-- **기술사적 판단:** 실시간성이 중요한 환경에서는 정확한 최단 경로보다는 '충분히 좋은' 경로를 빠르게 찾는 것이 중요하므로, h(n)에 가중치를 주는 Weighted A* 등을 고려할 수 있음
+### Ⅳ. 실무 적용 및 기술사적 판단 ([[268_strategy_pattern|Strategy]] & Decision)
+- **실무 적용:** 맵의 크기가 방대할 경우 힙([[083_priority_queue|Priority Queue]])을 활용한 구현이 필수적이며, [[210_heuristics_scheduling|휴리스틱]] 함수의 정밀도가 [[001_algorithm_definition|알고리즘]] [[282_performance_tactics|성능]](탐색 노드 수)을 결정함
+- **기술사적 판단:** 실시간성이 중요한 환경에서는 정확한 최단 경로보다는 '충분히 좋은' 경로를 빠르게 찾는 것이 중요하므로, h(n)에 [[267_weight_bias_activation|가중치]]를 주는 Weighted A* 등을 고려할 수 있음
 
 ### Ⅴ. 기대효과 및 결론 (Future & Standard)
 - **기대효과:** 탐색 공간의 효율적 절약을 통해 메모리와 CPU 자원을 최적화하며, 목적지가 분명한 대부분의 경로 탐색 문제에서 표준 솔루션으로 자리 잡음
-- **결론:** A*는 지능형 에이전트의 핵심 판단 로직으로서, 복잡한 환경 내에서 최적의 의사결정을 지원하는 알고리즘적 근간임
+- **결론:** A*는 지능형 에이전트의 핵심 판단 로직으로서, 복잡한 환경 내에서 최적의 의사결정을 지원하는 [[001_algorithm_definition|알고리즘]]적 근간임
 
-### 📌 관련 개념 맵 (Knowledge Graph)
-- 그래프 탐색 → 다익스트라 → A* → 휴리스틱
-- A* → 휴리스틱 → 맨해튼 거리 / 유클리드 거리
+### 📌 관련 개념 맵 ([[160_knowledge_graph_graphrag_integration|Knowledge Graph]])
+- [[613_graph_bfs_memory|그래프 탐색]] → [[036_dijkstra|다익스트라]] → A* → [[210_heuristics_scheduling|휴리스틱]]
+- A* → [[210_heuristics_scheduling|휴리스틱]] → 맨해튼 거리 / 유클리드 거리
 - A* → 변형 → IDA*, Jump Point Search (JPS)
 
 ### 📈 관련 키워드 및 발전 흐름도
@@ -73,7 +73,7 @@ f(n) = g(n) + h(n)
                 ▼
             [게임 AI / 로보틱스 / 내비게이션]
 ```
-A*는 다익스트라의 정확성과 휴리스틱의 방향성을 결합해, 최단 경로 보장을 유지하면서 탐색 공간을 효율적으로 줄인다.
+A*는 [[036_dijkstra|다익스트라]]의 정확성과 [[210_heuristics_scheduling|휴리스틱]]의 방향성을 결합해, 최단 경로 보장을 유지하면서 탐색 공간을 효율적으로 줄인다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 - 보물찾기를 할 때, 무작정 모든 곳을 뒤지는 게 아니라 "보물 상자가 저쪽에 있을 것 같아"라는 느낌(나침반)을 따라가는 거예요.

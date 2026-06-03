@@ -7,9 +7,9 @@ categories = "studynote-data-engineering"
 +++
 
 > **핵심 인사이트**
-> 1. BASE(Basically Available, Soft-state, Eventual Consistency)는 ACID의 엄격한 일관성을 포기하고 가용성과 분산성을 극대화한 NoSQL의 설계 철학으로, CAP 정리에서 Partition Tolerance를 선택한 시스템이 필연적으로 채택하는 일관성 모델이다.
-> 2. BASE의 핵심인 Eventual Consistency(결과적 일관성)는 "언젠가는 모든 노드가 같은 값을 갖게 된다"는 보장으로, Amazon Dynamo의 사례처럼 짧은 불일치 윈도우 동안 읽기 요청이 구버전 데이터를 반환할 수 있다 — 이것이 허용되는 서비스(소셜 피드, 장바구니)와 불허되는 서비스(금융 결제, 재고)를 구분하는 기준이 된다.
-> 3. BASE는 ACID와 상반된 개념이 아니라 트레이드오프 — 현대 시스템은 중요도에 따라 코어 트랜잭션(ACID)과 주변 데이터(BASE)를 혼합하는 폴리글롯 퍼시스턴스(Polyglot Persistence) 아키텍처를 채택한다.
+> 1. BASE(Basically Available, Soft-state, [[650_eventual_consistency|Eventual Consistency]])는 ACID의 엄격한 [[194_consistency_database_integrity|일관성]]을 포기하고 [[452_availability|가용성]]과 분산성을 극대화한 NoSQL의 설계 철학으로, [[341_process|CAP]] 정리에서 [[514_partition_slice_volume|Partition]] Tolerance를 선택한 시스템이 필연적으로 채택하는 [[194_consistency_database_integrity|일관성]] 모델이다.
+> 2. BASE의 핵심인 [[650_eventual_consistency|Eventual Consistency]]([[650_eventual_consistency|결과적 일관성]])는 "언젠가는 모든 노드가 같은 값을 갖게 된다"는 보장으로, Amazon Dynamo의 사례처럼 짧은 불일치 윈도우 동안 읽기 요청이 구버전 [[001_dikw_pyramid|데이터]]를 반환할 수 있다 — 이것이 허용되는 [[090_service_kubernetes_network_load_balancing|서비스]](소셜 피드, 장바구니)와 불허되는 [[090_service_kubernetes_network_load_balancing|서비스]](금융 결제, 재고)를 구분하는 기준이 된다.
+> 3. BASE는 ACID와 상반된 개념이 아니라 트레이드오프 — 현대 시스템은 중요도에 따라 코어 [[191_transaction_concept_states|트랜잭션]](ACID)과 주변 [[001_dikw_pyramid|데이터]](BASE)를 혼합하는 폴리글롯 퍼시스턴스([[132_polyglot_persistence|Polyglot Persistence]]) 아키텍처를 채택한다.
 
 ---
 
@@ -43,7 +43,7 @@ E - Eventual Consistency (결과적 일관성):
   실제 Dynamo: 수 밀리초 ~ 수 초
 ```
 
-> 📢 **섹션 요약 비유**: BASE는 여러 지점 카페의 메뉴판 — 본사에서 가격이 바뀌면 모든 지점이 즉시 동시에 바뀌지 않지만 며칠 내에 전부 바뀜(결과적 일관성).
+> 📢 **섹션 요약 비유**: BASE는 여러 지점 카페의 메뉴판 — 본사에서 가격이 바뀌면 모든 지점이 즉시 동시에 바뀌지 않지만 며칠 내에 전부 바뀜([[650_eventual_consistency|결과적 일관성]]).
 
 ---
 
@@ -79,11 +79,11 @@ CAP 정리와의 연결:
   낮은 가용성                                   높은 가용성
 ```
 
-> 📢 **섹션 요약 비유**: ACID vs BASE는 현금 vs 외상 장부 — 현금(ACID)은 즉시 정확하지만 느리고, 외상(BASE)은 빠르지만 정산(동기화)이 나중.
+> 📢 **섹션 요약 비유**: ACID vs BASE는 현금 vs 외상 장부 — 현금(ACID)은 즉시 정확하지만 느리고, 외상(BASE)은 빠르지만 정산([[212_synchronization_mechanisms|동기화]])이 나중.
 
 ---
 
-## Ⅲ. Eventual Consistency 구현 방법
+## Ⅲ. [[650_eventual_consistency|Eventual Consistency]] 구현 방법
 
 ```
 결과적 일관성 구현 기법:
@@ -122,7 +122,7 @@ CAP 정리와의 연결:
 
 ---
 
-## Ⅳ. NoSQL 시스템별 BASE 구현
+## Ⅳ. [[035_nosql|NoSQL]] 시스템별 BASE 구현
 
 ```
 주요 NoSQL DB BASE 구현 방식:
@@ -156,7 +156,7 @@ Redis Cluster:
   → 올바른 데이터 모델링 선택이 핵심
 ```
 
-> 📢 **섹션 요약 비유**: NoSQL BASE 설정은 스피커 음량 조절 — 가용성(볼륨 높음) vs 일관성(음질 좋음) 사이에서 Consistency Level이라는 다이얼로 균형 조정.
+> 📢 **섹션 요약 비유**: [[218_nosql_base_eventual_consistency_sharding|NoSQL BASE]] 설정은 스피커 음량 조절 — [[452_availability|가용성]](볼륨 높음) vs [[194_consistency_database_integrity|일관성]](음질 좋음) 사이에서 [[194_consistency_database_integrity|Consistency]] Level이라는 다이얼로 균형 조정.
 
 ---
 
@@ -262,5 +262,5 @@ NewSQL: ACID + 분산 확장성 동시 달성
 ## 👶 어린이를 위한 3줄 비유 설명
 
 1. BASE는 여러 지점 카페의 메뉴판 — 본사에서 가격이 바뀌어도 모든 지점이 동시에 바뀌지 않지만 며칠 내에 전부 같아져요!
-2. 결과적 일관성은 소문이 퍼지는 것 — 처음엔 모르는 친구가 있지만 결국 모두 알게 돼요.
-3. 중요한 결제 데이터는 ACID(은행 금고), 덜 중요한 피드 데이터는 BASE(보통 서랍) — 각각 다른 규칙으로 저장해요!
+2. [[650_eventual_consistency|결과적 일관성]]은 소문이 퍼지는 것 — 처음엔 모르는 친구가 있지만 결국 모두 알게 돼요.
+3. 중요한 결제 [[001_dikw_pyramid|데이터]]는 ACID(은행 금고), 덜 중요한 피드 [[001_dikw_pyramid|데이터]]는 BASE(보통 서랍) — 각각 다른 규칙으로 저장해요!

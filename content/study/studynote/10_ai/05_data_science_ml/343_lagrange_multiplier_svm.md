@@ -8,9 +8,9 @@ categories = "studynote-ai"
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 라그랑주 승수법 (Lagrange Multiplier Method) 은 제약 조건 하에서 목적 함수의 극값을 구하는 기법으로, 제약을 라그랑지안 (Lagrangian) 함수에 통합해 무제약 최적화로 변환한다.
-> 2. **가치**: SVM (Support Vector Machine, 서포트 벡터 머신) 의 마진 최대화 문제를 라그랑지안 쌍대 문제 (Dual Problem) 로 변환하면, 서포트 벡터만 사용한 효율적 최적해를 구할 수 있다.
-> 3. **판단 포인트**: KKT (Karush-Kuhn-Tucker) 조건은 부등식 제약의 필요충분 최적 조건으로, SVM 의 서포트 벡터가 KKT 조건에서 αᵢ > 0 인 데이터 포인트임을 명확히 서술해야 한다.
+> 1. **본질**: [[166_lagrange_multiplier|라그랑주 승수법]] ([[166_lagrange_multiplier|Lagrange Multiplier]] Method) 은 제약 조건 하에서 목적 함수의 극값을 구하는 기법으로, 제약을 라그랑지안 (Lagrangian) 함수에 통합해 무제약 최적화로 변환한다.
+> 2. **가치**: [[238_svm_margin_kernel_trick_naive_bayes|SVM]] ([[238_svm_margin_kernel_trick_naive_bayes|Support Vector Machine]], [[104_svm_support_vector_machine|서포트 벡터 머신]]) 의 마진 최대화 문제를 라그랑지안 쌍대 문제 (Dual Problem) 로 변환하면, 서포트 벡터만 사용한 효율적 최적해를 구할 수 있다.
+> 3. **판단 포인트**: KKT (Karush-Kuhn-Tucker) 조건은 부등식 제약의 필요충분 최적 조건으로, [[238_svm_margin_kernel_trick_naive_bayes|SVM]] 의 서포트 벡터가 KKT 조건에서 αᵢ > 0 인 [[001_dikw_pyramid|데이터]] 포인트임을 명확히 서술해야 한다.
 
 ---
 
@@ -18,15 +18,15 @@ categories = "studynote-ai"
 
 ### 제약 최적화 문제의 등장
 
-머신러닝에서 많은 최적화 문제는 제약 조건이 있다.
+[[241_machine_learning_basics|머신러닝]]에서 많은 최적화 문제는 제약 조건이 있다.
 
 | 문제 | 목적 함수 | 제약 조건 |
 |:---|:---|:---|
-| SVM 마진 최대화 | min (1/2)||w||² | yᵢ(w·xᵢ + b) ≥ 1 |
-| 포트폴리오 최적화 | min 분산 | 기대 수익 ≥ r |
-| PCA | max w·Cw | ||w||² = 1 |
+| [[238_svm_margin_kernel_trick_naive_bayes|SVM]] 마진 최대화 | min (1/2)||w||² | yᵢ(w·xᵢ + b) ≥ 1 |
+| [[446_port_and_bus|포트]]폴리오 최적화 | min [[136_variance|분산]] | 기대 수익 ≥ r |
+| [[163_pca|PCA]] | max w·Cw | ||w||² = 1 |
 
-단순 편미분으로는 제약을 처리할 수 없어 **라그랑주 승수법**이 필요하다.
+단순 편미분으로는 제약을 처리할 수 없어 **[[166_lagrange_multiplier|라그랑주 승수법]]**이 필요하다.
 
 ```text
 ┌──────────────────────────────────────────────┐
@@ -37,7 +37,7 @@ categories = "studynote-ai"
 └──────────────────────────────────────────────┘
 ```
 
-- **📢 섹션 요약 비유**: 라그랑주 승수법은 "울타리 안에서만 산책할 수 있을 때, 울타리 경계를 방정식에 녹여서 자유롭게 최적점을 찾는" 방법이다. 울타리(제약)를 없애는 대신 비용(승수)으로 환산한다.
+- **📢 섹션 요약 비유**: [[166_lagrange_multiplier|라그랑주 승수법]]은 "울타리 안에서만 산책할 수 있을 때, 울타리 경계를 방정식에 녹여서 자유롭게 최적점을 찾는" 방법이다. 울타리(제약)를 없애는 대신 비용(승수)으로 환산한다.
 
 ---
 
@@ -73,7 +73,7 @@ categories = "studynote-ai"
   핵심: 조건 4 → gᵢ = 0 (활성 제약) 이거나 μᵢ = 0
 ```
 
-### SVM (Support Vector Machine) 마진 최대화 유도
+### [[238_svm_margin_kernel_trick_naive_bayes|SVM]] ([[238_svm_margin_kernel_trick_naive_bayes|Support Vector Machine]]) 마진 최대화 유도
 
 ```
   SVM 원시 문제 (Primal Problem):
@@ -111,7 +111,7 @@ categories = "studynote-ai"
         (Saddle Point: 최소·최대 동시)
 ```
 
-- **📢 섹션 요약 비유**: SVM 의 라그랑지안 최적화는 "두 반 학생이 가장 넓은 복도(마진)를 사이에 두고 서있도록 경계선을 그리는 것"이다. 경계에 걸친 학생들(서포트 벡터)만이 결정선 위치를 결정한다.
+- **📢 섹션 요약 비유**: [[238_svm_margin_kernel_trick_naive_bayes|SVM]] 의 라그랑지안 최적화는 "두 반 학생이 가장 넓은 복도(마진)를 사이에 두고 서있도록 경계선을 그리는 것"이다. 경계에 걸친 학생들(서포트 벡터)만이 결정선 위치를 결정한다.
 
 ---
 
@@ -121,28 +121,28 @@ categories = "studynote-ai"
 
 | 항목 | 원시 문제 | 쌍대 문제 |
 |:---|:---|:---|
-| 최적화 변수 | w, b (차원 d) | α (데이터 수 n) |
+| 최적화 변수 | w, b (차원 d) | α ([[001_dikw_pyramid|데이터]] 수 n) |
 | 목적 | min (1/2)||w||² | max Σα - (1/2)ΣΣαᵢαⱼ yᵢyⱼ xᵢxⱼ |
 | 핵심 | 고차원 특징 공간 | 내적 계산만 필요 |
-| 커널 트릭 | 불가 | 가능 (xᵢ·xⱼ → K(xᵢ,xⱼ)) |
+| [[059_kernel_trick_rbf_polynomial|커널 트릭]] | 불가 | 가능 (xᵢ·xⱼ → K(xᵢ,xⱼ)) |
 
-### 커널 트릭 (Kernel Trick) 연계
+### [[059_kernel_trick_rbf_polynomial|커널 트릭]] ([[059_kernel_trick_rbf_polynomial|Kernel Trick]]) 연계
 
-쌍대 문제에서 xᵢ·xⱼ 내적을 커널 함수 K(xᵢ,xⱼ) 로 교체하면 명시적 고차원 매핑 없이 비선형 분류 가능.
+쌍대 문제에서 xᵢ·xⱼ 내적을 [[022_kernel_role|커널]] 함수 K(xᵢ,xⱼ) 로 교체하면 명시적 고차원 매핑 없이 비선형 [[104_classification_analysis|분류]] 가능.
 
-| 커널 | 수식 | 특성 |
+| [[022_kernel_role|커널]] | 수식 | 특성 |
 |:---|:---|:---|
-| 선형 (Linear) | xᵢᵀxⱼ | 선형 분류 |
+| 선형 (Linear) | xᵢᵀxⱼ | 선형 [[104_classification_analysis|분류]] |
 | RBF (Radial Basis Function) | exp(-γ||xᵢ-xⱼ||²) | 무한 차원, 유연 |
-| 다항 (Polynomial) | (γxᵢᵀxⱼ+r)ᵈ | d차 상호작용 |
+| 다항 ([[195_polynomial_generator_crc|Polynomial]]) | (γxᵢᵀxⱼ+r)ᵈ | d차 상호작용 |
 
-- **📢 섹션 요약 비유**: 쌍대 문제는 "복잡한 집 설계(원시, 고차원) 대신 이웃집과의 거리 관계(내적, 쌍대)만으로 최적 배치를 결정하는" 방법이다. 커널은 이 거리 계산 규칙을 바꿔 비선형 공간으로 확장한다.
+- **📢 섹션 요약 비유**: 쌍대 문제는 "복잡한 집 설계(원시, 고차원) 대신 이웃집과의 거리 [[083_relationship_in_er_model|관계]](내적, 쌍대)만으로 최적 배치를 결정하는" 방법이다. [[022_kernel_role|커널]]은 이 거리 계산 규칙을 바꿔 비선형 공간으로 확장한다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### SVM 활용 예시
+### [[238_svm_margin_kernel_trick_naive_bayes|SVM]] 활용 예시
 
 ```python
 from sklearn.svm import SVC
@@ -160,9 +160,9 @@ print(f"전체 데이터 대비 비율: {len(clf.support_vectors_)/len(X_train)*
 
 - 라그랑지안 구성: L = f + λg (등식), L = f + μg (부등식, μ≥0)
 - KKT 조건 4가지를 모두 나열하고 상보적 이완 조건 설명
-- SVM 원시→쌍대 변환 수식 전개 (w = Σ αᵢ yᵢ xᵢ)
-- 서포트 벡터가 αᵢ > 0 인 데이터인 이유 (KKT 상보적 이완)
-- 커널 트릭: 쌍대 문제의 내적을 커널로 교체해 비선형 확장
+- [[238_svm_margin_kernel_trick_naive_bayes|SVM]] 원시→쌍대 변환 수식 전개 (w = Σ αᵢ yᵢ xᵢ)
+- 서포트 벡터가 αᵢ > 0 인 [[001_dikw_pyramid|데이터]]인 이유 (KKT 상보적 이완)
+- [[059_kernel_trick_rbf_polynomial|커널 트릭]]: 쌍대 문제의 내적을 [[022_kernel_role|커널]]로 교체해 비선형 확장
 
 - **📢 섹션 요약 비유**: KKT 상보적 이완 조건은 "경계에 있지 않은 학생(제약 비활성)은 결정에 영향 없음(αᵢ=0), 경계에 딱 걸친 학생(제약 활성)만이 발언권(αᵢ>0)을 가진다"는 민주주의 규칙이다.
 
@@ -171,13 +171,13 @@ print(f"전체 데이터 대비 비율: {len(clf.support_vectors_)/len(X_train)*
 ## Ⅴ. 기대효과 및 결론
 
 - **이론적 우아함**: 제약 최적화를 무제약 문제로 우아하게 변환
-- **SVM 최적성**: 글로벌 최솟값 보장 (볼록 최적화)
-- **범용성**: SVM 외에도 포트폴리오, 역학 등 수많은 공학 문제에 적용
+- **[[238_svm_margin_kernel_trick_naive_bayes|SVM]] 최적성**: 글로벌 최솟값 보장 (볼록 최적화)
+- **범용성**: [[238_svm_margin_kernel_trick_naive_bayes|SVM]] 외에도 [[446_port_and_bus|포트]]폴리오, 역학 등 수많은 공학 문제에 적용
 - **한계**: 비볼록 (Non-Convex) 문제에서는 전역 최적 보장 안 됨
 
-라그랑주 승수법과 KKT 조건은 수리 최적화의 핵심 도구이자 SVM 의 이론적 기반이다. 기술사 시험에서는 라그랑지안 구성, KKT 4조건, SVM 원시-쌍대 변환, 서포트 벡터의 의미를 논리적으로 서술하면 고득점 가능하다.
+[[166_lagrange_multiplier|라그랑주 승수법]]과 KKT 조건은 수리 최적화의 핵심 도구이자 [[238_svm_margin_kernel_trick_naive_bayes|SVM]] 의 이론적 기반이다. 기술사 시험에서는 라그랑지안 구성, KKT 4조건, [[238_svm_margin_kernel_trick_naive_bayes|SVM]] 원시-쌍대 변환, 서포트 벡터의 의미를 [[369_logic_bomb|논리]]적으로 서술하면 고득점 가능하다.
 
-- **📢 섹션 요약 비유**: 라그랑주 승수는 "제약이라는 벽에 가격표를 붙여서, 최적화 계산에 포함시키는" 경제적 비용화 전략이다. 벽을 무시할 수 없으니, 비용으로 환산해서 함께 고려한다.
+- **📢 섹션 요약 비유**: 라그랑주 승수는 "제약이라는 벽에 가격표를 붙여서, 최적화 계산에 포함시키는" 경제적 비용화 [[268_strategy_pattern|전략]]이다. 벽을 무시할 수 없으니, 비용으로 환산해서 함께 고려한다.
 
 ---
 
@@ -186,10 +186,10 @@ print(f"전체 데이터 대비 비율: {len(clf.support_vectors_)/len(X_train)*
 | 개념 | 연결 포인트 |
 |:---|:---|
 | 라그랑지안 (Lagrangian) | 목적함수 + 제약 통합 / 제약 → 무제약 변환 도구 |
-| KKT 조건 | 부등식 제약 최적성 / SVM 서포트 벡터 판별 기준 |
-| 쌍대 문제 (Dual Problem) | αᵢ, 내적 기반 / 커널 트릭 적용 가능 형태 |
-| 서포트 벡터 | αᵢ > 0, 경계 데이터 / SVM 분류 경계 결정 포인트 |
-| 커널 트릭 (Kernel Trick) | RBF, Polynomial / 비선형 분류 확장 |
+| KKT 조건 | 부등식 제약 최적성 / [[238_svm_margin_kernel_trick_naive_bayes|SVM]] 서포트 벡터 판별 기준 |
+| 쌍대 문제 (Dual Problem) | αᵢ, 내적 기반 / [[059_kernel_trick_rbf_polynomial|커널 트릭]] 적용 가능 형태 |
+| 서포트 벡터 | αᵢ > 0, 경계 [[001_dikw_pyramid|데이터]] / [[238_svm_margin_kernel_trick_naive_bayes|SVM]] [[104_classification_analysis|분류]] 경계 결정 포인트 |
+| [[059_kernel_trick_rbf_polynomial|커널 트릭]] ([[059_kernel_trick_rbf_polynomial|Kernel Trick]]) | RBF, [[195_polynomial_generator_crc|Polynomial]] / 비선형 [[104_classification_analysis|분류]] 확장 |
 | 새들 포인트 | x 최소, λ 최대 / 라그랑지안 최적해 특성 |
 
 ### 📈 관련 키워드 및 발전 흐름도
@@ -201,5 +201,5 @@ print(f"전체 데이터 대비 비율: {len(clf.support_vectors_)/len(X_train)*
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. 🏁 라그랑주 승수는 "운동장 안에서만 달릴 수 있을 때, 운동장 경계를 달리기 방정식에 포함시켜서 가장 빠른 길을 찾는" 방법이에요.
-2. 🎯 SVM 은 이 방법으로 두 팀 사이에 가장 넓은 복도(마진)를 만들 수 있어요.
-3. 🔑 경계에 딱 걸쳐 있는 데이터(서포트 벡터)만이 그 복도 위치를 결정해요!
+2. 🎯 [[238_svm_margin_kernel_trick_naive_bayes|SVM]] 은 이 방법으로 두 팀 사이에 가장 넓은 복도(마진)를 만들 수 있어요.
+3. 🔑 경계에 딱 걸쳐 있는 [[001_dikw_pyramid|데이터]](서포트 벡터)만이 그 복도 위치를 결정해요!

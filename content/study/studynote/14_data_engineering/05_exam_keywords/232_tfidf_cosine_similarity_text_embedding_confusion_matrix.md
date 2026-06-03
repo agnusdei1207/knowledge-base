@@ -7,23 +7,23 @@ categories = "studynote-data-engineering"
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: TF-IDF(Term Frequency-Inverse Document Frequency)는 단어의 문서 내 빈도와 전체 문서 집합에서의 희귀성을 곱해 그 단어가 해당 문서를 얼마나 잘 대표하는지를 수치화한다.
-> 2. **가치**: 벡터 공간 모델(Vector Space Model)로 문서를 수치 벡터로 표현하면 코사인 유사도(Cosine Similarity)를 통해 문서 간 의미적 거리를 계산하고 검색·분류·추천에 활용할 수 있다.
-> 3. **판단 포인트**: TF-IDF는 단어 순서와 의미를 무시하므로, 문맥 이해가 중요한 경우에는 Word2Vec·BERT 임베딩을 선택하고 혼동 행렬(Confusion Matrix)로 분류 성능을 정밀 진단해야 한다.
+> 1. **본질**: TF-IDF(Term Frequency-Inverse [[037_document|Document]] Frequency)는 단어의 문서 내 빈도와 전체 문서 집합에서의 희귀성을 곱해 그 단어가 해당 문서를 얼마나 잘 대표하는지를 수치화한다.
+> 2. **가치**: 벡터 공간 모델(Vector Space Model)로 문서를 수치 벡터로 표현하면 [[359_cosine_similarity|코사인 유사도]]([[359_cosine_similarity|Cosine Similarity]])를 통해 문서 간 의미적 거리를 계산하고 검색·[[104_classification_analysis|분류]]·추천에 활용할 수 있다.
+> 3. **판단 포인트**: TF-IDF는 단어 순서와 의미를 무시하므로, 문맥 이해가 중요한 경우에는 [[339_word2vec|Word2Vec]]·[[301_bert_mlm|BERT]] [[278_instruction_tuning|임베딩]]을 선택하고 [[089_confusion_matrix_tp_fp_fn_tn|혼동 행렬]]([[089_confusion_matrix_tp_fp_fn_tn|Confusion Matrix]])로 [[104_classification_analysis|분류]] [[282_performance_tactics|성능]]을 정밀 진단해야 한다.
 
 ## Ⅰ. 개요 및 필요성
 
 ### 텍스트를 숫자로 바꾸는 이유
 
-머신러닝 모델은 숫자만 처리할 수 있다. 텍스트(문서, 리뷰, 기사)를 모델에 넣으려면 수치 벡터로 변환해야 한다.
+[[241_machine_learning_basics|머신러닝]] 모델은 숫자만 처리할 수 있다. 텍스트(문서, 리뷰, 기사)를 모델에 넣으려면 수치 벡터로 변환해야 한다.
 
 | 표현 방식 | 단어 순서 | 의미(Semantic) | 특징 |
 |:---|:---:|:---:|:---|
 | BoW (Bag of Words) | ❌ | ❌ | 단어 빈도수만 계산 |
 | TF-IDF | ❌ | 부분적 | 중요도 가중 빈도 |
-| Word2Vec | ❌ | ✅ | 단어 간 유사도 학습 |
+| [[339_word2vec|Word2Vec]] | ❌ | ✅ | 단어 간 유사도 학습 |
 | FastText | 부분적 | ✅ | 서브워드(Subword) 포함 |
-| BERT | ✅ | ✅✅ | 문맥 의존 임베딩 |
+| [[301_bert_mlm|BERT]] | ✅ | ✅✅ | 문맥 의존 [[278_instruction_tuning|임베딩]] |
 
 📢 **섹션 요약 비유**: 텍스트를 벡터로 바꾸는 것은 각 문서를 지도 위 좌표로 표시하는 것이다. 좌표가 가까운 두 문서는 내용이 비슷하다는 뜻이다.
 
@@ -36,7 +36,7 @@ categories = "studynote-data-engineering"
 TF(t, d) = (문서 d에서 단어 t의 등장 횟수) / (문서 d의 전체 단어 수)
 ```
 
-**IDF (Inverse Document Frequency, 역문서 빈도)**
+**IDF (Inverse [[037_document|Document]] Frequency, 역문서 빈도)**
 ```
 IDF(t) = log( N / df(t) )
          또는 log( 1 + N / (1 + df(t)) )  ← 스무딩 (Smoothing) 버전
@@ -46,7 +46,7 @@ IDF(t) = log( N / df(t) )
   df(t)= 단어 t를 포함한 문서 수
 ```
 
-**TF-IDF 최종 가중치**
+**TF-IDF 최종 [[267_weight_bias_activation|가중치]]**
 ```
 TF-IDF(t, d) = TF(t, d) × IDF(t)
 ```
@@ -83,7 +83,7 @@ TF-IDF("신경망", 문서3) = (1/3) × 1.099 = 0.366  ← 더 높은 가중치
 각 문서 = 고차원 벡터 공간의 한 점
 ```
 
-### 코사인 유사도 (Cosine Similarity)
+### [[359_cosine_similarity|코사인 유사도]] ([[359_cosine_similarity|Cosine Similarity]])
 
 두 문서 벡터가 이루는 각도의 코사인 값으로 유사도를 측정한다. 벡터 크기(문서 길이)에 영향받지 않는 것이 장점이다.
 
@@ -100,9 +100,9 @@ cos(θ) = (A · B) / (|A| × |B|)
   유클리드: 거리 기반 → 문서 길이 영향 → 이미지·좌표 분석에 적합
 ```
 
-### 혼동 행렬 (Confusion Matrix)
+### [[089_confusion_matrix_tp_fp_fn_tn|혼동 행렬]] ([[089_confusion_matrix_tp_fp_fn_tn|Confusion Matrix]])
 
-분류 모델의 성능을 4가지 경우로 상세 분석하는 도구이다.
+[[104_classification_analysis|분류]] 모델의 [[282_performance_tactics|성능]]을 4가지 경우로 상세 분석하는 도구이다.
 
 ```
                    예측 (Predicted)
@@ -122,23 +122,23 @@ FP: 실제 음성인데 양성으로 잘못 예측   → 1종 오류 (False Alar
 FN: 실제 양성인데 음성으로 잘못 예측   → 2종 오류 (Miss, 미탐)
 ```
 
-📢 **섹션 요약 비유**: 혼동 행렬은 병원 검사 결과표다. TP=진짜 환자를 환자로 진단, TN=건강인을 건강으로 진단, FP=건강인을 환자로 오진(과잉 진단), FN=환자를 건강으로 오진(놓침).
+📢 **섹션 요약 비유**: [[089_confusion_matrix_tp_fp_fn_tn|혼동 행렬]]은 병원 검사 결과표다. TP=진짜 환자를 환자로 진단, TN=건강인을 건강으로 진단, [[293_fp_function_point|FP]]=건강인을 환자로 오진(과잉 진단), FN=환자를 건강으로 오진(놓침).
 
 ## Ⅲ. 비교 및 연결
 
-### TF-IDF vs 신경망 임베딩 비교
+### TF-IDF vs 신경망 [[278_instruction_tuning|임베딩]] 비교
 
-| 항목 | TF-IDF | Word2Vec | FastText | BERT |
+| 항목 | TF-IDF | [[339_word2vec|Word2Vec]] | FastText | [[301_bert_mlm|BERT]] |
 |:---|:---|:---|:---|:---|
 | 벡터 크기 | 어휘 수(수만) | 100~300차원 | 100~300차원 | 768차원 |
 | 단어 순서 | ❌ | ❌ | ❌ | ✅ |
 | 미등록어 처리 | ❌ | ❌ | ✅(서브워드) | ✅ |
 | 문맥 의존 | ❌ | ❌ | ❌ | ✅ |
-| 학습 데이터 필요 | ❌ (통계적) | ✅ | ✅ | ✅✅(대규모) |
+| 학습 [[001_dikw_pyramid|데이터]] 필요 | ❌ (통계적) | ✅ | ✅ | ✅✅(대규모) |
 | 계산 속도 | ⚡ 빠름 | 보통 | 보통 | 🐢 느림 |
-| 주요 용도 | 문서 검색·분류 | 유사 단어 탐색 | 오타·신조어 처리 | 질의응답·번역 |
+| 주요 용도 | 문서 검색·[[104_classification_analysis|분류]] | 유사 단어 탐색 | 오타·신조어 처리 | 질의응답·번역 |
 
-### TP/TN/FP/FN 파생 지표
+### TP/TN/[[293_fp_function_point|FP]]/FN 파생 지표
 
 ```
 Precision (정밀도) = TP / (TP + FP)    → 양성 예측의 신뢰도
@@ -162,16 +162,16 @@ FPR (거짓양성률)  = FP / (FP + TN)    → ROC 곡선 X축
                  제거·소문자화
 ```
 
-### 혼동 행렬 기반 모델 진단 시나리오
+### [[089_confusion_matrix_tp_fp_fn_tn|혼동 행렬]] 기반 모델 진단 시나리오
 
-| 비즈니스 상황 | 치명적 오류 | 핵심 지표 | 전략 |
+| 비즈니스 상황 | 치명적 오류 | 핵심 지표 | [[268_strategy_pattern|전략]] |
 |:---|:---|:---|:---|
-| 암 진단 | FN (환자 놓침) | Recall 최대화 | 임계값 낮춤 |
-| 스팸 필터 | FP (정상 메일 차단) | Precision 최대화 | 임계값 높임 |
-| 사기 탐지 | FN (사기 놓침) | Recall 최대화 | SMOTE + 낮은 임계값 |
-| 제품 추천 | 양쪽 균형 필요 | F1 Score | 임계값 0.5 근방 |
+| 암 진단 | FN (환자 놓침) | [[254_recall_sensitivity|Recall]] 최대화 | 임계값 낮춤 |
+| 스팸 필터 | [[293_fp_function_point|FP]] (정상 메일 차단) | [[233_precision_recall_f1_roc_auc_threshold|Precision]] 최대화 | 임계값 높임 |
+| 사기 탐지 | FN (사기 놓침) | [[254_recall_sensitivity|Recall]] 최대화 | [[231_smote_oversampling_class_imbalance_augmentation|SMOTE]] + 낮은 임계값 |
+| 제품 추천 | 양쪽 균형 필요 | [[255_f1_score|F1 Score]] | 임계값 0.5 근방 |
 
-📢 **섹션 요약 비유**: 혼동 행렬을 보면 모델이 "어디서 실수하는지" 알 수 있다. 마치 시험 채점지를 보면 어떤 유형에서 틀렸는지 알 수 있는 것처럼.
+📢 **섹션 요약 비유**: [[089_confusion_matrix_tp_fp_fn_tn|혼동 행렬]]을 보면 모델이 "어디서 실수하는지" 알 수 있다. 마치 시험 채점지를 보면 어떤 유형에서 틀렸는지 알 수 있는 것처럼.
 
 ## Ⅴ. 기대효과 및 결론
 
@@ -179,29 +179,29 @@ FPR (거짓양성률)  = FP / (FP + TN)    → ROC 곡선 X축
 
 | 한계 | 극복 방향 |
 |:---|:---|
-| 단어 순서 무시 (BoW) | n-gram TF-IDF 또는 Word2Vec |
-| 동의어 처리 불가 | LSA(Latent Semantic Analysis), 임베딩 |
-| 미등록 신조어 취약 | FastText 서브워드 임베딩 |
-| 고차원 희소 행렬 | SVD(Singular Value Decomposition) 차원 축소 |
-| 문맥 의미 미반영 | BERT·GPT 문맥 기반 임베딩 |
+| 단어 순서 무시 (BoW) | n-gram TF-IDF 또는 [[339_word2vec|Word2Vec]] |
+| 동의어 처리 불가 | LSA(Latent Semantic Analysis), [[278_instruction_tuning|임베딩]] |
+| 미등록 신조어 취약 | FastText 서브워드 [[278_instruction_tuning|임베딩]] |
+| 고차원 희소 행렬 | [[230_svd_matrix_factorization_random_forest_xgboost_boosting|SVD]]([[230_svd_matrix_factorization_random_forest_xgboost_boosting|Singular Value Decomposition]]) [[081_dimensionality_reduction_pca_principal_component_analysis|차원 축소]] |
+| 문맥 의미 미반영 | [[301_bert_mlm|BERT]]·[[302_gpt_autoregressive|GPT]] 문맥 기반 [[278_instruction_tuning|임베딩]] |
 
 ### 결론
 
-TF-IDF는 단순하지만 문서 검색·분류 분야에서 여전히 강력한 베이스라인이다. 특히 학습 데이터 없이도 바로 적용 가능한 통계적 방법이라는 점에서 실무적 가치가 크다. 혼동 행렬은 분류 모델의 성능을 단일 숫자(Accuracy)로 단순화하지 않고 오류 유형을 구체적으로 진단할 수 있는 필수 도구이며, 비즈니스 맥락에 맞는 지표 선택의 출발점이 된다.
+TF-IDF는 단순하지만 문서 검색·[[104_classification_analysis|분류]] 분야에서 여전히 강력한 베이스라인이다. 특히 학습 [[001_dikw_pyramid|데이터]] 없이도 바로 적용 가능한 통계적 방법이라는 점에서 실무적 가치가 크다. [[089_confusion_matrix_tp_fp_fn_tn|혼동 행렬]]은 [[104_classification_analysis|분류]] 모델의 [[282_performance_tactics|성능]]을 단일 숫자(Accuracy)로 단순화하지 않고 오류 유형을 구체적으로 진단할 수 있는 필수 도구이며, 비즈니스 맥락에 맞는 지표 선택의 출발점이 된다.
 
-📢 **섹션 요약 비유**: TF-IDF는 도서관 색인 카드 시스템이다. 단순하지만 "이 키워드로 찾을 수 있는 책"을 빠르게 골라내는 힘이 있다. 더 깊은 이해가 필요하면 AI 사서(BERT)를 부르면 된다.
+📢 **섹션 요약 비유**: TF-IDF는 도서관 색인 카드 시스템이다. 단순하지만 "이 키워드로 찾을 수 있는 책"을 빠르게 골라내는 힘이 있다. 더 깊은 이해가 필요하면 [[190_ai_llm_requirements_specification|AI]] 사서([[301_bert_mlm|BERT]])를 부르면 된다.
 
 ### 📌 관련 개념 맵
 
-| 관계 | 개념 | 설명 |
+| [[083_relationship_in_er_model|관계]] | 개념 | 설명 |
 |:---|:---|:---|
 | 기반 기술 | TF-IDF | 단어 중요도 수치화 |
-| 유사도 측정 | 코사인 유사도 (Cosine Similarity) | 벡터 간 각도 기반 유사도 |
+| 유사도 측정 | [[359_cosine_similarity|코사인 유사도]] ([[359_cosine_similarity|Cosine Similarity]]) | 벡터 간 각도 기반 유사도 |
 | 문서 표현 모델 | 벡터 공간 모델 (Vector Space Model) | 문서를 고차원 벡터로 표현 |
-| 발전 기술 | Word2Vec / FastText | 밀집 벡터(Dense Vector) 임베딩 |
-| 발전 기술 | BERT / GPT | 문맥 의존 임베딩 |
-| 성능 진단 | 혼동 행렬 (Confusion Matrix) | TP/TN/FP/FN 오류 분석 |
-| 파생 지표 | Precision / Recall / F1 | 혼동 행렬 기반 분류 성능 |
+| 발전 기술 | [[339_word2vec|Word2Vec]] / FastText | 밀집 벡터(Dense Vector) [[278_instruction_tuning|임베딩]] |
+| 발전 기술 | [[301_bert_mlm|BERT]] / [[302_gpt_autoregressive|GPT]] | 문맥 의존 [[278_instruction_tuning|임베딩]] |
+| [[282_performance_tactics|성능]] 진단 | [[089_confusion_matrix_tp_fp_fn_tn|혼동 행렬]] ([[089_confusion_matrix_tp_fp_fn_tn|Confusion Matrix]]) | TP/TN/[[293_fp_function_point|FP]]/FN 오류 분석 |
+| 파생 지표 | [[233_precision_recall_f1_roc_auc_threshold|Precision]] / [[254_recall_sensitivity|Recall]] / F1 | [[089_confusion_matrix_tp_fp_fn_tn|혼동 행렬]] 기반 [[104_classification_analysis|분류]] [[282_performance_tactics|성능]] |
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -221,5 +221,5 @@ Word2Vec · GloVe: 단어 임베딩 (의미 유사도)
     ▼
 BERT Embedding · Sentence Transformer → 코사인 유사도
 ```
-2. 코사인 유사도는 두 책이 가리키는 방향이 얼마나 비슷한지 각도로 재는 것—방향이 같을수록(각도 0도) 비슷한 책이다.
-3. 혼동 행렬은 AI가 정답을 맞혔는지 틀렸는지 4가지 상자(TP, TN, FP, FN)에 나눠 세어보는 성적표다.
+2. [[359_cosine_similarity|코사인 유사도]]는 두 책이 가리키는 방향이 얼마나 비슷한지 각도로 재는 것—방향이 같을수록(각도 0도) 비슷한 책이다.
+3. [[089_confusion_matrix_tp_fp_fn_tn|혼동 행렬]]은 AI가 정답을 맞혔는지 틀렸는지 4가지 상자(TP, TN, [[293_fp_function_point|FP]], FN)에 나눠 세어보는 성적표다.

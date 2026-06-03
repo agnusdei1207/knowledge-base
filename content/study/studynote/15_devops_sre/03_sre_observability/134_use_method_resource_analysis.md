@@ -7,9 +7,9 @@ categories = "studynote-devops-sre"
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: USE 메서드는 **모든 리소스(CPU·메모리·디스크·네트워크)에 대해 Utilization(사용률)·Saturation(포화도)·Errors(에러)를 점검**하여 성능 병목을 체계적으로 찾는 Brendan Gregg의 방법론이다.
-> 2. **가치**: 수백 개 메트릭 중 어디를 봐야 할지 모를 때, USE로 **모든 리소스를 3가지 관점으로 순회**하면 병목을 빠르게 식별할 수 있다.
-> 3. **판단 포인트**: USE는 **인프라(하드웨어) 리소스** 분석에 최적이며, 서비스(애플리케이션) 분석에는 RED(Rate·Errors·Duration)를 사용한다.
+> 1. **본질**: USE 메서드는 **모든 리소스(CPU·메모리·디스크·네트워크)에 대해 Utilization(사용률)·Saturation(포화도)·Errors(에러)를 점검**하여 [[282_performance_tactics|성능]] 병목을 체계적으로 찾는 Brendan Gregg의 방법론이다.
+> 2. **가치**: 수백 개 [[342_routing_metric_hop_bandwidth_delay|메트릭]] 중 어디를 봐야 할지 모를 때, USE로 **모든 리소스를 3가지 관점으로 순회**하면 병목을 빠르게 [[655_ir_detection_analysis|식별]]할 수 있다.
+> 3. **판단 포인트**: USE는 **인프라(하드웨어) 리소스** 분석에 최적이며, [[090_service_kubernetes_network_load_balancing|서비스]](애플리케이션) 분석에는 RED(Rate·Errors·Duration)를 사용한다.
 
 ---
 
@@ -29,7 +29,7 @@ categories = "studynote-devops-sre"
 
 ## Ⅱ~Ⅴ. 결론
 
-USE는 **인프라 성능 분석의 체계적 방법론**이며, 골든 시그널·RED와 함께 상황에 맞게 조합하여 사용한다.
+USE는 **인프라 [[282_performance_tactics|성능]] 분석의 체계적 방법론**이며, [[186_golden_signals_sre_monitoring|골든 시그널]]·RED와 함께 상황에 맞게 조합하여 사용한다.
 
 ---
 
@@ -40,7 +40,7 @@ USE는 **인프라 성능 분석의 체계적 방법론**이며, 골든 시그�
 | **USE** | 리소스 중심 분석 |
 | **Utilization** | 사용률 (%) |
 | **Saturation** | 포화도 (큐) |
-| **RED** | 서비스 중심 분석 |
+| **RED** | [[090_service_kubernetes_network_load_balancing|서비스]] 중심 분석 |
 | **Brendan Gregg** | USE 메서드 창시자 |
 
 ### 📈 관련 키워드 및 발전 흐름도

@@ -9,16 +9,16 @@ categories = "studynote-computer-architecture"
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: Prime+Probe는 공격자가 특정 캐시 세트를 자기 데이터로 먼저 채운 뒤, 피해자 실행 후 다시 읽어 보며 어떤 라인이 축출되었는지 시간으로 판별하는 캐시 부채널 기법이다.
-> 2. **가치**: 공유 메모리 페이지가 없어도 LLC (Last-Level Cache) 같은 공유 캐시만 있으면 성립하므로, 프로세스 간·컨테이너 간·가상 머신 간 공격까지 가능한 범용성이 가장 큰 무기다.
-> 3. **판단 포인트**: 성공의 핵심은 타이머보다도 eviction set 구축과 캐시 격리 여부에 있으므로, 방어도 공유 페이지 차단이 아니라 캐시 파티셔닝·스케줄링 격리·상수 시간 구현을 함께 봐야 한다.
+> 2. **가치**: [[118_shared_memory|공유 메모리]] [[286_page_frame|페이지]]가 없어도 [[744_load_line_calibration|LLC]] (Last-Level Cache) 같은 공유 캐시만 있으면 성립하므로, 프로세스 간·[[561_container_based_deployment|컨테이너]] 간·가상 머신 간 공격까지 가능한 범용성이 가장 큰 무기다.
+> 3. **판단 포인트**: 성공의 핵심은 타이머보다도 eviction set 구축과 캐시 격리 여부에 있으므로, 방어도 공유 [[286_page_frame|페이지]] 차단이 아니라 캐시 [[179_table_partitioning_concept|파티셔닝]]·스케줄링 격리·상수 시간 구현을 함께 봐야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-Prime+Probe는 세트 연관 캐시 (Set-associative Cache)의 “자리 경쟁”을 이용하는 공격이다. 공격자는 피해자와 같은 물리 페이지를 공유하지 않아도 된다. 대신 같은 캐시 세트에 매핑되는 주소들을 자신의 데이터로 채워 넣고, 피해자가 그 세트를 사용했는지 나중에 다시 읽어 보며 판단한다.
+Prime+Probe는 세트 연관 캐시 (Set-associative Cache)의 “자리 경쟁”을 이용하는 공격이다. 공격자는 피해자와 같은 물리 [[286_page_frame|페이지]]를 공유하지 않아도 된다. 대신 같은 캐시 세트에 매핑되는 주소들을 자신의 데이터로 채워 넣고, 피해자가 그 세트를 사용했는지 나중에 다시 읽어 보며 판단한다.
 
-이 기법이 중요한 이유는 전제 조건이 약하기 때문이다. Flush+Reload처럼 공유 라이브러리나 중복 제거된 페이지가 없어도, 같은 LLC만 공유하면 공격을 시도할 수 있다. 그래서 멀티테넌트 클라우드, 브라우저 샌드박스, 컨테이너 환경에서 “메모리를 직접 공유하지 않으니 안전하다”는 가정을 깨뜨린다.
+이 기법이 중요한 이유는 전제 조건이 약하기 때문이다. Flush+Reload처럼 공유 라이브러리나 중복 제거된 [[286_page_frame|페이지]]가 없어도, 같은 LLC만 공유하면 공격을 시도할 수 있다. 그래서 [[310_multi_tenant_database_architecture|멀티테넌트]] 클라우드, 브라우저 샌드박스, [[561_container_based_deployment|컨테이너]] 환경에서 “메모리를 직접 공유하지 않으니 안전하다”는 가정을 깨뜨린다.
 
 ```text
 ┌──────────────────────────────────────────────────────────────┐
@@ -46,7 +46,7 @@ Prime+Probe는 세트 연관 캐시 (Set-associative Cache)의 “자리 경쟁�
 | Way | 세트 안의 슬롯 수 | 최소 prime 개수와 직접 연관 |
 | Congruent Address | 같은 세트로 가는 주소 | eviction set의 재료 |
 | Eviction Set | 같은 세트에 매핑된 주소 묶음 | 공격 정밀도의 핵심 |
-| 임계값 (Threshold) | hit/miss 구분 시간 | probe 결과 분류 기준 |
+| 임계값 (Threshold) | [[263_cache_hit_miss|hit]]/miss 구분 시간 | probe 결과 [[104_classification_analysis|분류]] 기준 |
 
 ```text
 ┌──────────────────────────────────────────────────────────────┐
@@ -60,7 +60,7 @@ Prime+Probe는 세트 연관 캐시 (Set-associative Cache)의 “자리 경쟁�
 └──────────────────────────────────────────────────────────────┘
 ```
 
-실전에서 가장 어려운 단계는 probe가 아니라 eviction set을 찾는 일이다. L1, L2는 주소 비트 구조가 비교적 단순하지만, LLC는 슬라이스 해시와 물리 주소 의존성이 섞여 있어 역공학이 필요하다. 또한 교체 정책이 완전한 LRU (Least Recently Used)가 아니기 때문에, 공격자는 보통 way 수와 비슷하거나 그보다 많은 주소를 준비하고 수천 번 측정해 통계적으로 세트 사용 패턴을 복구한다.
+실전에서 가장 어려운 단계는 probe가 아니라 eviction set을 찾는 일이다. L1, L2는 주소 [[073_bit|비트]] 구조가 비교적 단순하지만, LLC는 [[331_neuromorphic_ai_db|슬라이스]] 해시와 [[323_physical_address|물리 주소]] 의존성이 섞여 있어 역공학이 필요하다. 또한 교체 정책이 완전한 [[262_lru_page_replacement|LRU]] ([[262_lru_page_replacement|Least Recently Used]])가 아니기 때문에, 공격자는 보통 way 수와 비슷하거나 그보다 많은 주소를 준비하고 수천 번 측정해 통계적으로 세트 사용 패턴을 복구한다.
 
 - **📢 섹션 요약 비유**: Prime+Probe는 먼저 “어느 열쇠들이 같은 문으로 가는지”를 골라내는 작업이 필요하다. 열쇠 꾸러미를 제대로 못 만들면 문을 점거하지도, 누가 들어왔는지도 알 수 없다.
 
@@ -72,12 +72,12 @@ Prime+Probe는 캐시 공격 중 가장 범용적이지만, 그만큼 해상도�
 
 | 항목 | Prime+Probe | Flush+Reload | Evict+Time |
 | :--- | :---------- | :----------- | :--------- |
-| 공유 페이지 필요 | 없음 | 필요 | 없음 |
+| 공유 [[286_page_frame|페이지]] 필요 | 없음 | 필요 | 없음 |
 | 관측 단위 | 세트 단위 | 라인 단위 | 전체 실행 시간 |
 | 노이즈 수준 | 높음 | 낮음 | 매우 높음 |
-| 적용 범위 | 가장 넓음 | 공유 메모리 환경 | 제한 적지만 해상도 낮음 |
+| 적용 범위 | 가장 넓음 | [[118_shared_memory|공유 메모리]] 환경 | 제한 적지만 해상도 낮음 |
 
-아키텍처 특성도 결과를 바꾼다. Inclusive cache에서는 LLC 관찰만으로 상위 캐시의 흔적을 더 잘 읽을 수 있고, non-inclusive 구조에서는 상관관계가 약해져 probe 횟수가 늘어난다. 또한 SMT (Simultaneous Multithreading) 환경에서는 같은 물리 코어의 L1/L2를 공유할 가능성이 커져 공격면이 더 직접적이 된다.
+아키텍처 특성도 결과를 바꾼다. Inclusive cache에서는 [[744_load_line_calibration|LLC]] 관찰만으로 상위 캐시의 흔적을 더 잘 읽을 수 있고, non-inclusive 구조에서는 상관관계가 약해져 probe 횟수가 늘어난다. 또한 [[400_smt|SMT]] (Simultaneous [[095_multithreading_benefits|Multithreading]]) 환경에서는 같은 물리 코어의 L1/L2를 공유할 가능성이 커져 공격면이 더 직접적이 된다.
 
 - **📢 섹션 요약 비유**: Flush+Reload가 누가 책 한 권을 집어 갔는지 보는 CCTV라면, Prime+Probe는 책장이 흔들린 칸을 보고 누가 어느 구역을 뒤졌는지 맞히는 경비원에 가깝다.
 
@@ -85,27 +85,27 @@ Prime+Probe는 캐시 공격 중 가장 범용적이지만, 그만큼 해상도�
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-Prime+Probe 방어는 “공유 파일을 끊자”로 끝나지 않는다. 공유 페이지가 없어도 성립하므로, 결국 캐시 자원을 얼마나 격리하느냐가 핵심이다. 보안 워크로드를 다루는 서버라면 하드웨어 파티셔닝과 스케줄링 정책을 함께 설계해야 한다.
+Prime+Probe 방어는 “공유 파일을 끊자”로 끝나지 않는다. 공유 [[286_page_frame|페이지]]가 없어도 성립하므로, 결국 캐시 자원을 얼마나 격리하느냐가 핵심이다. 보안 워크로드를 다루는 서버라면 하드웨어 [[179_table_partitioning_concept|파티셔닝]]과 스케줄링 정책을 함께 설계해야 한다.
 
-### 방어 전략
+### 방어 [[268_strategy_pattern|전략]]
 
-1. **캐시 파티셔닝**: CAT (Cache Allocation Technology), page coloring, way-based isolation으로 세트를 분리  
-2. **실행 격리**: 민감 프로세스와 비신뢰 코드를 같은 LLC·SMT sibling에 두지 않기  
+1. **캐시 [[179_table_partitioning_concept|파티셔닝]]**: CAT (Cache Allocation Technology), [[286_page_frame|page]] coloring, way-based isolation으로 세트를 분리  
+2. **실행 격리**: 민감 프로세스와 비신뢰 코드를 같은 [[744_load_line_calibration|LLC]]·[[400_smt|SMT]] sibling에 두지 않기  
 3. **구현 개선**: constant-time crypto, table-less 또는 bitsliced 구현 채택  
-4. **관측 제한**: 고해상도 타이머 축소, 성능 카운터 기반 이상 probe 탐지  
+4. **관측 제한**: 고해상도 타이머 축소, [[282_performance_tactics|성능]] [[059_counter|카운터]] 기반 이상 probe 탐지  
 
-### 안티패턴
+### [[128_water_scrum_fall_anti_pattern|안티패턴]]
 
 - 키를 다루는 서비스와 공격자 테넌트를 같은 소켓에 공동 배치
 - SMT를 켠 채 보안 연산과 비신뢰 코드를 같은 코어에서 병행 실행
-- huge page, precise timer, shared LLC를 모두 허용하면서 “VM 경계가 있으니 안전하다”는 가정
+- [[517_huge_page|huge page]], precise [[071_os_timer|timer]], shared LLC를 모두 허용하면서 “[[598_vm_migration_nic|VM]] 경계가 있으니 안전하다”는 가정
 
-### 체크리스트
+### [[435_checklist_based_testing|체크리스트]]
 
-- 민감 워크로드에 CAT 또는 page coloring 정책이 적용되는가?
-- 배치 스케줄러가 SMT sibling 충돌을 피하도록 설정되어 있는가?
+- 민감 워크로드에 CAT 또는 [[286_page_frame|page]] coloring 정책이 적용되는가?
+- 배치 스케줄러가 [[400_smt|SMT]] sibling 충돌을 피하도록 설정되어 있는가?
 - 암호 라이브러리가 table-based implementation을 회피하는가?
-- probe 패턴처럼 비정상적인 cache miss와 timer 사용을 관제하는가?
+- probe 패턴처럼 비정상적인 cache miss와 [[071_os_timer|timer]] 사용을 관제하는가?
 
 - **📢 섹션 요약 비유**: Prime+Probe 방어는 공용 주차장을 넓히는 것이 아니라, VIP 차량 구역을 따로 칸막이 쳐서 남의 차가 들어오지 못하게 만드는 것과 같다.
 
@@ -113,9 +113,9 @@ Prime+Probe 방어는 “공유 파일을 끊자”로 끝나지 않는다. 공�
 
 ## Ⅴ. 기대효과 및 결론
 
-Prime+Probe를 고려한 시스템은 단순히 암호 모듈 하나를 보호하는 수준을 넘어, 멀티테넌트 인프라 전체의 자원 격리 품질을 높인다. 캐시를 성능 자원으로만 보지 않고 정보 경계로 보기 시작하면, 클라우드 보안 정책과 운영 스케줄링까지 더 정교해진다.
+Prime+Probe를 고려한 시스템은 단순히 암호 [[192_module_independence|모듈]] 하나를 보호하는 수준을 넘어, [[310_multi_tenant_database_architecture|멀티테넌트]] 인프라 전체의 자원 격리 품질을 높인다. 캐시를 [[282_performance_tactics|성능]] 자원으로만 보지 않고 정보 경계로 보기 시작하면, 클라우드 보안 정책과 운영 스케줄링까지 더 정교해진다.
 
-물론 완전한 격리는 비용을 요구한다. 캐시 파티셔닝은 성능 효율을 낮출 수 있고, SMT 비활성화는 처리량 감소로 이어질 수 있다. 그럼에도 Prime+Probe가 주는 교훈은 분명하다. 현대 시스템에서 공유는 곧 효율이지만, 동시에 정보 간섭의 경로이기도 하다. 따라서 기술사는 처리량뿐 아니라 **공유가 만드는 관측 가능성**까지 설계 변수로 봐야 한다.
+물론 완전한 격리는 비용을 요구한다. 캐시 [[179_table_partitioning_concept|파티셔닝]]은 [[282_performance_tactics|성능]] 효율을 낮출 수 있고, [[400_smt|SMT]] 비활성화는 [[139_throughput|처리량]] 감소로 이어질 수 있다. 그럼에도 Prime+Probe가 주는 교훈은 분명하다. 현대 시스템에서 공유는 곧 효율이지만, 동시에 정보 간섭의 경로이기도 하다. 따라서 기술사는 [[139_throughput|처리량]]뿐 아니라 **공유가 만드는 [[111_observability_metrics_logs_traces|관측 가능성]]**까지 설계 변수로 봐야 한다.
 
 - **📢 섹션 요약 비유**: Prime+Probe를 이해한다는 것은 벽만 높이면 안전하다고 믿지 않는 것이다. 옆집과 바닥을 함께 쓰면, 발소리만으로도 서로의 생활이 들릴 수 있기 때문이다.
 
@@ -127,10 +127,10 @@ Prime+Probe를 고려한 시스템은 단순히 암호 모듈 하나를 보호�
 | :--- | :---------- |
 | 캐시 세트 (Cache Set) | Prime 단계와 Probe 단계가 겨냥하는 기본 단위 |
 | Eviction Set | 같은 세트에 매핑되는 주소 묶음으로 공격 성패를 좌우 |
-| LLC (Last-Level Cache) | 프로세스·VM 간 공격을 가능하게 하는 공유 지점 |
-| Page Coloring | OS 차원의 세트 분리 기법 |
+| [[744_load_line_calibration|LLC]] (Last-Level Cache) | 프로세스·[[598_vm_migration_nic|VM]] 간 공격을 가능하게 하는 공유 지점 |
+| [[286_page_frame|Page]] Coloring | OS 차원의 세트 분리 기법 |
 | CAT (Cache Allocation Technology) | 하드웨어 차원의 way 격리 수단 |
-| SMT | L1/L2 공유 가능성으로 공격면을 넓히는 실행 환경 |
+| [[400_smt|SMT]] | L1/L2 공유 가능성으로 공격면을 넓히는 실행 환경 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 

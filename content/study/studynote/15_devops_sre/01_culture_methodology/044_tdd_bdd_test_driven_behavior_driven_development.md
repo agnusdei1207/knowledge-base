@@ -7,13 +7,13 @@ categories = "studynote-devops-sre"
 +++
 
 > **핵심 인사이트**
-> 1. TDD(Test-Driven Development)는 "테스트 먼저 작성 → 최소 코드로 통과 → 리팩토링"의 Red-Green-Refactor 사이클로 — 테스트가 설계 도구가 되어 과도한 설계(Over-Engineering)를 방지하고, 변경에 안전한 코드베이스를 만드는 개발 방법론이다.
-> 2. BDD(Behavior-Driven Development)는 TDD의 "무엇을 테스트할지 불명확함" 문제를 해결하기 위해 Dan North가 제안한 확장으로 — Gherkin 언어(Given-When-Then)로 비즈니스 시나리오를 자연어로 작성하여 비개발자와의 공통 언어를 확보한다.
-> 3. TDD/BDD의 실질적 가치는 "버그를 코드 작성 시점에 잡는다"는 것으로 — 프로덕션 버그 1건을 수정하는 비용이 TDD로 테스트 작성하는 비용의 10~100배임을 감안할 때, CI/CD 파이프라인과 결합된 TDD는 장기적으로 개발 속도를 오히려 향상시킨다.
+> 1. [[164_tdd_test_driven_development|TDD]]([[411_process|Test-Driven Development]])는 "테스트 먼저 작성 → 최소 코드로 통과 → [[213_refactoring_cloud_native_rearchitecture|리팩토링]]"의 Red-Green-[[213_refactoring_cloud_native_rearchitecture|Refactor]] 사이클로 — 테스트가 설계 도구가 되어 과도한 설계(Over-Engineering)를 방지하고, 변경에 안전한 [[007_codebase|코드베이스]]를 만드는 개발 방법론이다.
+> 2. [[165_bdd_behavior_driven_development|BDD]]([[126_bdd_behavior_driven_development_given_when_then|Behavior-Driven Development]])는 TDD의 "무엇을 테스트할지 불명확함" 문제를 해결하기 위해 Dan North가 제안한 확장으로 — Gherkin 언어(Given-When-Then)로 비즈니스 시나리오를 자연어로 작성하여 비개발자와의 공통 언어를 확보한다.
+> 3. [[164_tdd_test_driven_development|TDD]]/BDD의 실질적 가치는 "버그를 코드 작성 시점에 잡는다"는 것으로 — 프로덕션 버그 1건을 수정하는 비용이 TDD로 테스트 작성하는 비용의 [[489_raid_10_hybrid|10]]~100배임을 감안할 때, [[090_configuration_item|CI]]/CD [[123_pipe|파이프]]라인과 결합된 TDD는 장기적으로 개발 속도를 오히려 향상시킨다.
 
 ---
 
-## Ⅰ. TDD 개념
+## Ⅰ. [[164_tdd_test_driven_development|TDD]] 개념
 
 ```
 TDD (Test-Driven Development):
@@ -57,11 +57,11 @@ TDD의 3 규칙 (Uncle Bob):
   TDD: 주로 단위 테스트 중심
 ```
 
-> 📢 **섹션 요약 비유**: TDD는 미래의 나에게 편지 먼저 쓰기 — "이 기능은 이렇게 동작해야 해"를 테스트로 먼저 정의하고, 그 편지 내용에 맞는 코드를 만들어가요.
+> 📢 **섹션 요약 비유**: TDD는 미래의 나에게 편지 먼저 [[289_cqrs_db|쓰기]] — "이 기능은 이렇게 동작해야 해"를 테스트로 먼저 정의하고, 그 편지 내용에 맞는 코드를 만들어가요.
 
 ---
 
-## Ⅱ. BDD 개념
+## Ⅱ. [[165_bdd_behavior_driven_development|BDD]] 개념
 
 ```
 BDD (Behavior-Driven Development):
@@ -105,11 +105,11 @@ BDD의 가치:
   테스트 = 명세 = 문서
 ```
 
-> 📢 **섹션 요약 비유**: BDD는 사용 설명서 먼저 쓰기 — 제품(코드)을 만들기 전에 "이렇게 사용합니다"를 먼저 작성. 기획자도 읽고 이해할 수 있는 테스트 명세서.
+> 📢 **섹션 요약 비유**: BDD는 사용 설명서 먼저 [[289_cqrs_db|쓰기]] — 제품(코드)을 만들기 전에 "이렇게 사용합니다"를 먼저 작성. 기획자도 읽고 이해할 수 있는 테스트 명세서.
 
 ---
 
-## Ⅲ. TDD 실천 패턴
+## Ⅲ. [[164_tdd_test_driven_development|TDD]] 실천 패턴
 
 ```
 TDD 실천 패턴:
@@ -164,11 +164,11 @@ AAA 패턴 (Arrange-Act-Assert):
   도구: Istanbul (JS), Coverage.py, JaCoCo (Java)
 ```
 
-> 📢 **섹션 요약 비유**: Mock은 테스트용 모조품 — 진짜 데이터베이스 대신 "요청하면 이 값 줘"라고 프로그래밍된 모조 DB. 실제 DB 없이도 빠르고 정확하게 테스트 가능.
+> 📢 **섹션 요약 비유**: Mock은 테스트용 모조품 — 진짜 [[002_database_definition|데이터베이스]] 대신 "요청하면 이 값 줘"라고 프로그래밍된 모조 DB. 실제 DB 없이도 빠르고 정확하게 테스트 가능.
 
 ---
 
-## Ⅳ. TDD/BDD와 CI/CD 통합
+## Ⅳ. [[164_tdd_test_driven_development|TDD]]/BDD와 [[090_configuration_item|CI]]/CD 통합
 
 ```
 TDD/BDD + CI/CD 파이프라인:
@@ -219,11 +219,11 @@ TDD 도입 장벽과 극복:
   XP의 실천: "테스트 없는 코드는 레거시 코드"
 ```
 
-> 📢 **섹션 요약 비유**: TDD + CI/CD는 자동 품질 검사 컨베이어 — 코드(제품)가 컨베이어에 오르면 자동으로 테스트(품질 검사)를 통과해야 출하(배포). 불량품은 자동 반려.
+> 📢 **섹션 요약 비유**: [[164_tdd_test_driven_development|TDD]] + [[090_configuration_item|CI]]/CD는 자동 품질 검사 컨베이어 — 코드(제품)가 컨베이어에 오르면 자동으로 테스트(품질 검사)를 통과해야 출하(배포). 불량품은 자동 반려.
 
 ---
 
-## Ⅴ. 실무 시나리오 — API 개발 TDD+BDD
+## Ⅴ. 실무 시나리오 — [[014_api_posix|API]] 개발 [[164_tdd_test_driven_development|TDD]]+[[165_bdd_behavior_driven_development|BDD]]
 
 ```
 결제 API TDD+BDD 개발:
@@ -281,7 +281,7 @@ TDD 구현:
   (초기 속도 저하 후 리팩토링 가속)
 ```
 
-> 📢 **섹션 요약 비유**: 결제 API TDD+BDD는 요리 레시피+시식 — BDD로 "이 요리가 이런 맛이어야 해" 먼저 정의하고, TDD로 재료(코드) 하나씩 만들면서 맛(테스트) 확인. 최종 요리는 항상 원하는 맛!
+> 📢 **섹션 요약 비유**: 결제 [[014_api_posix|API]] [[164_tdd_test_driven_development|TDD]]+BDD는 요리 레시피+시식 — BDD로 "이 요리가 이런 맛이어야 해" 먼저 정의하고, TDD로 재료(코드) 하나씩 만들면서 맛(테스트) [[396_validation|확인]]. 최종 요리는 항상 원하는 맛!
 
 ---
 
@@ -339,6 +339,6 @@ AI 기반 엣지 케이스 자동 탐지
 
 ## 👶 어린이를 위한 3줄 비유 설명
 
-1. TDD는 편지 먼저 쓰기 — "이 기능은 이렇게 동작해야 해"를 테스트로 먼저 정의하고, 그 편지 내용에 맞게 코드를 만들어요!
+1. TDD는 편지 먼저 [[289_cqrs_db|쓰기]] — "이 기능은 이렇게 동작해야 해"를 테스트로 먼저 정의하고, 그 편지 내용에 맞게 코드를 만들어요!
 2. BDD는 사용 설명서 먼저 — "사용자가 이렇게 하면 이렇게 돼야 해"를 기획자도 이해하는 자연어로 먼저 써요.
-3. 테스트가 있으면 리팩토링이 안전 — 코드를 고쳐도 테스트가 통과하면 "잘 돼!" 확인 가능. 테스트 없이 고치면 뭔가 망가질까봐 두려워요!
+3. 테스트가 있으면 [[213_refactoring_cloud_native_rearchitecture|리팩토링]]이 안전 — 코드를 고쳐도 테스트가 통과하면 "잘 돼!" [[396_validation|확인]] 가능. 테스트 없이 고치면 뭔가 망가질까봐 두려워요!

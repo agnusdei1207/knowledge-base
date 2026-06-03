@@ -8,9 +8,9 @@ categories = "studynote-devops"
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: GitLab CI/CD는 GitLab에 내장된 파이프라인 자동화 시스템이다.
-> 2. **가치**: 코드 저장소와 CI/CD가 자연스럽게 연결된다.
-> 3. **판단**: .gitlab-ci.yml과 Runner 개념이 핵심이다.
+> 1. **본질**: GitLab [[090_configuration_item|CI]]/CD는 GitLab에 내장된 [[123_pipe|파이프]]라인 자동화 시스템이다.
+> 2. **가치**: 코드 저장소와 [[090_configuration_item|CI]]/CD가 자연스럽게 연결된다.
+> 3. **판단**: .gitlab-[[090_configuration_item|ci]].yml과 Runner 개념이 핵심이다.
 
 ---
 
@@ -18,7 +18,7 @@ categories = "studynote-devops"
 
 저장소와 배포가 가까울수록 자동화가 쉬워진다.
 
-GitLab CI/CD가 그 예다.
+GitLab [[090_configuration_item|CI]]/CD가 그 예다.
 
 - **📢 섹션 요약 비유**: 공장 옆에 컨베이어벨트를 바로 붙인 것이다.
 
@@ -34,11 +34,11 @@ Jobs / Stages
 
 | 요소 | 의미 |
 | :-- | :-- |
-| YAML | 파이프라인 정의 |
+| YAML | [[123_pipe|파이프]]라인 정의 |
 | Runner | 실행기 |
 | Stage | 단계 |
 
-GitLab CI/CD는 저장소에 파이프라인을 코드로 두고 자동 실행한다.
+GitLab [[090_configuration_item|CI]]/CD는 저장소에 [[123_pipe|파이프]]라인을 코드로 두고 자동 실행한다.
 
 - **📢 섹션 요약 비유**: 레시피가 창고 안에 바로 있는 것이다.
 
@@ -46,17 +46,17 @@ GitLab CI/CD는 저장소에 파이프라인을 코드로 두고 자동 실행�
 
 ## Ⅲ. 비교 및 연결
 
-| 구분 | GitLab CI/CD | Jenkins |
+| 구분 | GitLab [[090_configuration_item|CI]]/CD | [[071_jenkins_ci_cd_pipeline_automation|Jenkins]] |
 | :-- | :-- | :-- |
 | 통합 | 높음 | 플러그인 중심 |
 | 정의 | YAML | Jenkinsfile |
 
 | 기능 | 의미 |
 | :-- | :-- |
-| Pipeline | 자동화 흐름 |
+| [[082_pipeline|Pipeline]] | 자동화 흐름 |
 | Runner | 실행 자원 |
 
-GitLab CI/CD는 Git과 파이프라인의 통합이 강하다.
+GitLab [[090_configuration_item|CI]]/CD는 Git과 [[123_pipe|파이프]]라인의 통합이 강하다.
 
 - **📢 섹션 요약 비유**: 창고와 공장이 한 건물에 있는 느낌이다.
 
@@ -64,22 +64,22 @@ GitLab CI/CD는 Git과 파이프라인의 통합이 강하다.
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### 체크리스트
+### [[435_checklist_based_testing|체크리스트]]
 
-1. .gitlab-ci.yml을 쓰는가?
+1. .gitlab-[[090_configuration_item|ci]].yml을 쓰는가?
 2. Runner를 관리하는가?
 3. Stage/Job을 이해하는가?
 4. 보안 변수 관리를 하는가?
 5. 배포 흐름이 자동화되었는가?
 
-### 안티패턴
+### [[128_water_scrum_fall_anti_pattern|안티패턴]]
 
 - YAML을 방치하는 설계
 - Runner 자원 계획이 없는 설계
-- 저장소와 CI/CD를 분리해 두는 설계
-- 변수/시크릿을 노출하는 설계
+- 저장소와 [[090_configuration_item|CI]]/CD를 분리해 두는 설계
+- 변수/[[514_secret_management_vault_kms|시크릿]]을 노출하는 설계
 
-기술사 관점에서는 GitLab CI/CD를 "저장소 내장형 파이프라인 자동화"로 설명해야 한다.
+기술사 관점에서는 GitLab [[090_configuration_item|CI]]/CD를 "저장소 내장형 [[123_pipe|파이프]]라인 자동화"로 설명해야 한다.
 
 - **📢 섹션 요약 비유**: 코드를 넣으면 바로 공정이 돈다.
 
@@ -87,9 +87,9 @@ GitLab CI/CD는 Git과 파이프라인의 통합이 강하다.
 
 ## Ⅴ. 기대효과 및 결론
 
-GitLab CI/CD는 자동화와 추적성을 높인다.
+GitLab [[090_configuration_item|CI]]/CD는 자동화와 추적성을 높인다.
 
-결론적으로 GitLab CI/CD는 저장소 통합형 파이프라인 자동화 시스템이다.
+결론적으로 GitLab [[090_configuration_item|CI]]/CD는 저장소 통합형 [[123_pipe|파이프]]라인 자동화 시스템이다.
 
 - **📢 섹션 요약 비유**: 저장소에 레시피와 공장이 같이 있다.
 
@@ -123,4 +123,4 @@ Runner
 
 코드 저장소에서 바로 일해요.  
 줄을 정해 자동으로 움직여요.  
-GitLab CI/CD는 그런 시스템이에요.
+GitLab [[090_configuration_item|CI]]/CD는 그런 시스템이에요.

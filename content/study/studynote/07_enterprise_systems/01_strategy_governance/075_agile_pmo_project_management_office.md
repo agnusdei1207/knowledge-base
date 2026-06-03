@@ -8,9 +8,9 @@ categories = "studynote-enterprise"
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: Agile PMO (Project Management Office)는 일정·문서 통제보다 포트폴리오 가시성, 의존성 관리, 예산 흐름 지원에 초점을 맞추는 지원형 거버넌스다.
+> 1. **본질**: [[037_agile_pmo|Agile PMO]] ([[059_pmo_project_management_office|Project Management Office]])는 일정·문서 통제보다 [[446_port_and_bus|포트]]폴리오 가시성, 의존성 관리, 예산 흐름 지원에 초점을 맞추는 지원형 거버넌스다.
 > 2. **가치**: 팀이 짧은 피드백 주기로 움직여도 경영진은 무엇이 가치를 내는지 볼 수 있어야 하므로, PMO는 표준화와 자율성의 균형을 맞춰야 한다.
-> 3. **판단 포인트**: 산출물 보고서만 늘리면 애자일을 억누르고, burnup, CFD (Cumulative Flow Diagram), OKR (Objectives and Key Results) 같은 흐름 지표를 보면 의사결정이 빨라진다.
+> 3. **판단 포인트**: 산출물 보고서만 늘리면 [[004_agile_relation|애자일]]을 억누르고, burnup, CFD (Cumulative Flow Diagram), [[039_okr_objectives_key_results|OKR]] ([[039_okr_objectives_key_results|Objectives and Key Results]]) 같은 흐름 지표를 보면 의사결정이 빨라진다.
 
 ---
 
@@ -18,13 +18,13 @@ categories = "studynote-enterprise"
 
 전통 PMO는 계획 준수와 문서 완결성을 관리하는 데 강했다. 하지만 제품 중심, 변화 빈도 높은 환경에서는 계획 자체가 자주 바뀌므로, PMO도 통제 방식이 바뀌어야 한다.
 
-Agile PMO는 팀을 감시하기보다 흐름을 보이게 한다. 누가 어떤 일을 하고 있는지보다, 어떤 가치가 얼마나 빨리 나오는지 보여 주는 쪽에 초점을 맞춘다.
+[[004_agile_relation|Agile]] PMO는 팀을 감시하기보다 흐름을 보이게 한다. 누가 어떤 일을 하고 있는지보다, 어떤 가치가 얼마나 빨리 나오는지 보여 주는 쪽에 초점을 맞춘다.
 
 ```text
 strategy -> portfolio -> team cadence -> metrics -> decision
 ```
 
-그래서 PMO는 체크리스트의 집합이 아니라 의사결정의 품질을 높이는 장치가 된다.
+그래서 PMO는 [[435_checklist_based_testing|체크리스트]]의 집합이 아니라 의사결정의 품질을 높이는 장치가 된다.
 
 - **📢 섹션 요약 비유**: 감시는 줄이고 길은 더 잘 보이게 한다.
 
@@ -32,13 +32,13 @@ strategy -> portfolio -> team cadence -> metrics -> decision
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-Agile PMO의 핵심은 표준화와 자율성의 균형이다. 팀이 스스로 움직이되, 재무·리스크·의존성·릴리즈는 공통 언어로 보이게 해야 한다.
+[[004_agile_relation|Agile]] PMO의 핵심은 표준화와 자율성의 균형이다. 팀이 스스로 움직이되, 재무·[[096_risk_non_risk_architecture_evaluation_flaws|리스크]]·의존성·릴리즈는 공통 언어로 보이게 해야 한다.
 
-| 비교 축 | Waterfall PMO | Agile PMO |
+| 비교 축 | Waterfall [[059_pmo_project_management_office|PMO]] | [[037_agile_pmo|Agile PMO]] |
 | :--- | :--- | :--- |
 | 초점 | 계획 준수 | 흐름과 가치 |
 | 리듬 | 월간/분기 보고 | 짧은 피드백 |
-| 지표 | 일정, 산출물 | 리드타임, throughput |
+| 지표 | 일정, 산출물 | 리드타임, [[139_throughput|throughput]] |
 | 역할 | 통제 | enablement |
 
 이 구조가 있으면 PMO는 팀을 멈추게 하는 문지기가 아니라, 막힌 곳을 풀어 주는 조정자가 된다.
@@ -49,15 +49,15 @@ Agile PMO의 핵심은 표준화와 자율성의 균형이다. 팀이 스스로 
 
 ## Ⅲ. 비교 및 연결
 
-Agile PMO는 프로젝트 사무국과 다르다. 프로젝트 사무국이 단일 과제의 일정과 문서를 관리한다면, Agile PMO는 제품 포트폴리오와 여러 팀의 흐름을 본다.
+[[004_agile_relation|Agile]] PMO는 프로젝트 사무국과 다르다. 프로젝트 사무국이 단일 과제의 일정과 문서를 관리한다면, [[004_agile_relation|Agile]] PMO는 제품 [[446_port_and_bus|포트]]폴리오와 여러 팀의 흐름을 본다.
 
-| 비교 축 | Project Office | Agile PMO |
+| 비교 축 | [[042_relational_algebra_project|Project]] Office | [[037_agile_pmo|Agile PMO]] |
 | :--- | :--- | :--- |
-| 범위 | 개별 프로젝트 | 포트폴리오 |
+| 범위 | 개별 프로젝트 | [[446_port_and_bus|포트]]폴리오 |
 | 관리 단위 | 산출물 | 가치 흐름 |
-| 의사결정 | 승인 중심 | 데이터 중심 |
+| 의사결정 | 승인 중심 | [[383_data_centric_architecture|데이터 중심]] |
 
-또한 stage-gate 대신 rolling wave planning을 쓰면, 멀리 있는 계획은 가볍게 두고 가까운 계획만 촘촘히 관리할 수 있다.
+또한 stage-gate 대신 rolling [[590_wave_ieee_802_11p_dsrc_v2x|wave]] planning을 쓰면, 멀리 있는 계획은 가볍게 두고 가까운 계획만 촘촘히 관리할 수 있다.
 
 - **📢 섹션 요약 비유**: 문 하나를 지키는 사람과 길 전체를 보는 사람은 다르다.
 
@@ -65,14 +65,14 @@ Agile PMO는 프로젝트 사무국과 다르다. 프로젝트 사무국이 단�
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서는 의존성 보드, 릴리즈 캘린더, 리스크 레지스터, 예산 burn-down을 함께 본다. 그래야 팀이 많아져도 어디서 막히는지 드러난다.
+실무에서는 의존성 보드, 릴리즈 캘린더, [[096_risk_non_risk_architecture_evaluation_flaws|리스크]] [[057_register|레지스터]], 예산 burn-down을 함께 본다. 그래야 팀이 많아져도 어디서 막히는지 드러난다.
 
 체크 포인트는 다음과 같다.
 - 보고서보다 흐름 지표를 먼저 보는가.
 - OKR과 실제 delivery가 연결되는가.
 - capacity와 dependency가 같이 관리되는가.
 
-안티패턴은 story point를 회계 숫자로 바꾸거나, 모든 팀에 같은 승인 절차를 강요하는 것이다. 애자일 PMO는 가벼워야 효과적이다.
+[[128_water_scrum_fall_anti_pattern|안티패턴]]은 story point를 회계 숫자로 바꾸거나, 모든 팀에 같은 승인 절차를 강요하는 것이다. [[004_agile_relation|애자일]] PMO는 가벼워야 효과적이다.
 
 - **📢 섹션 요약 비유**: 심판보다는 코치에 가까워야 한다.
 
@@ -80,7 +80,7 @@ Agile PMO는 프로젝트 사무국과 다르다. 프로젝트 사무국이 단�
 
 ## Ⅴ. 기대효과 및 결론
 
-Agile PMO는 통제의 이름을 바꾸는 것이 아니라, 통제의 대상을 바꾸는 것이다. 문서 준수 대신 가치 흐름을 보고, 일정 고정 대신 예측 가능성을 높인다.
+[[004_agile_relation|Agile]] PMO는 통제의 이름을 바꾸는 것이 아니라, 통제의 대상을 바꾸는 것이다. 문서 준수 대신 가치 흐름을 보고, 일정 고정 대신 예측 가능성을 높인다.
 
 결론적으로 PMO는 사라지는 조직이 아니라 역할이 진화한 조직이다. 팀이 자율적으로 움직일수록, PMO는 더 좋은 시야와 더 빠른 의사결정을 제공해야 한다.
 
@@ -92,10 +92,10 @@ Agile PMO는 통제의 이름을 바꾸는 것이 아니라, 통제의 대상을
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| PMO | 거버넌스와 표준 |
+| [[059_pmo_project_management_office|PMO]] | 거버넌스와 표준 |
 | Portfolio | 여러 팀의 가치 묶음 |
-| OKR | 성과 목표 연결 |
-| CFD | 흐름 시각화 |
+| [[039_okr_objectives_key_results|OKR]] | 성과 목표 연결 |
+| CFD | 흐름 [[003_bigdata_7v|시각화]] |
 | Dependency | 팀 간 의존성 |
 
 ### 관련 키워드 및 발전 흐름도

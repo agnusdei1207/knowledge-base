@@ -8,15 +8,15 @@ categories = "studynote-enterprise-systems"
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 릴리스 관리 (Release Management)는 변경을 묶어 안정적으로 배포 가능한 단위로 준비하는 활동이다.
-> 2. **가치**: 배포 관리 (Deployment Management)는 실제 환경에 안전하게 반영하는 실행 절차다.
-> 3. **판단 포인트**: 릴리스와 배포를 분리해야 계획, 승인, 롤백이 명확해진다.
+> 1. **본질**: 릴리스 관리 (Release [[372_management|Management]])는 변경을 묶어 안정적으로 배포 가능한 단위로 준비하는 활동이다.
+> 2. **가치**: 배포 관리 ([[087_deployment_kubernetes_workload_rolling_update|Deployment]] [[372_management|Management]])는 실제 환경에 안전하게 반영하는 실행 절차다.
+> 3. **판단 포인트**: 릴리스와 배포를 분리해야 계획, 승인, [[098_rollback_strategy_pipeline_error_threshold|롤백]]이 명확해진다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-소프트웨어는 만들기만 하면 끝이 아니다. 배포 전 검증, 묶음 구성, 릴리스 노트, 배포 순서가 필요하다.
+소프트웨어는 만들기만 하면 끝이 아니다. 배포 전 [[395_verification_process_review|검증]], 묶음 구성, 릴리스 노트, 배포 순서가 필요하다.
 
 릴리스와 배포를 구분하면 운영 중 혼란을 줄일 수 있다.
 
@@ -26,7 +26,7 @@ categories = "studynote-enterprise-systems"
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-릴리스는 변경 집합과 버전, 배포는 실제 설치와 반영을 관리한다. 둘은 연결되지만 역할이 다르다.
+릴리스는 변경 집합과 [[288_version_ihl_tos_total_length|버전]], 배포는 실제 설치와 반영을 관리한다. 둘은 연결되지만 역할이 다르다.
 
 ```text
 Change → Build → Release Package → Deployment → Verification → Rollback
@@ -34,10 +34,10 @@ Change → Build → Release Package → Deployment → Verification → Rollbac
 
 | 단계 | 역할 | 포인트 |
 | :--- | :--- | :--- |
-| Release | 묶음 구성 | 버전/노트 |
-| Deployment | 반영 실행 | 순서/시간 |
-| Verification | 검증 | smoke test |
-| Rollback | 복구 | 백아웃 |
+| Release | 묶음 구성 | [[288_version_ihl_tos_total_length|버전]]/노트 |
+| [[087_deployment_kubernetes_workload_rolling_update|Deployment]] | 반영 실행 | 순서/시간 |
+| [[395_verification_process_review|Verification]] | [[395_verification_process_review|검증]] | smoke test |
+| [[313_rollback|Rollback]] | [[658_ir_recovery|복구]] | 백아웃 |
 
 핵심은 릴리스가 "무엇을" 배포할지 정하고, 배포가 "어떻게" 반영할지 정하는 것이다.
 
@@ -47,15 +47,15 @@ Change → Build → Release Package → Deployment → Verification → Rollbac
 
 ## Ⅲ. 비교 및 연결
 
-릴리스 관리와 배포 관리는 Change Management, CAB, CI/CD와 연결된다. 배포가 빠를수록 자동화와 검증이 더 중요하다.
+릴리스 관리와 배포 관리는 [[027_change_management|Change Management]], [[080_cab|CAB]], [[090_configuration_item|CI]]/CD와 연결된다. 배포가 빠를수록 자동화와 [[395_verification_process_review|검증]]이 더 중요하다.
 
 | 항목 | 릴리스 관리 | 배포 관리 |
 | :--- | :--- | :--- |
-| 초점 | 버전/묶음 | 실제 반영 |
+| 초점 | [[288_version_ihl_tos_total_length|버전]]/묶음 | 실제 반영 |
 | 질문 | 무엇을 내보낼까 | 어떻게 설치할까 |
 | 산출물 | 릴리스 패키지 | 배포 계획 |
 
-무중단 배포를 위해 blue-green, canary, rolling update 같은 방식과 함께 설계된다.
+[[082_zero_downtime_deployment_rolling_blue_green_canary|무중단 배포]]를 위해 blue-green, [[595_canary_stack_smashing_protector|canary]], [[083_rolling_update_deployment_zero_downtime_version_inconsistency|rolling update]] 같은 방식과 함께 설계된다.
 
 - **📢 섹션 요약 비유**: 릴리스는 배송 상자, 배포는 택배 기사다.
 
@@ -63,30 +63,30 @@ Change → Build → Release Package → Deployment → Verification → Rollbac
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서는 릴리스 캘린더, 배포 창, 승인 기록, 체크리스트, 롤백 절차가 필요하다. 운영 환경이 커질수록 표준화가 중요하다.
+실무에서는 릴리스 캘린더, 배포 창, 승인 기록, [[435_checklist_based_testing|체크리스트]], [[098_rollback_strategy_pipeline_error_threshold|롤백]] 절차가 필요하다. 운영 환경이 커질수록 표준화가 중요하다.
 
-### 체크리스트
+### [[435_checklist_based_testing|체크리스트]]
 
 1. 릴리스와 배포가 분리되어 있는가?
-2. 배포 전후 검증이 있는가?
-3. 롤백 계획이 명확한가?
-4. CAB/변경 관리와 연결되는가?
+2. 배포 전후 [[395_verification_process_review|검증]]이 있는가?
+3. [[098_rollback_strategy_pipeline_error_threshold|롤백]] 계획이 명확한가?
+4. [[080_cab|CAB]]/[[079_change_enablement|변경 관리]]와 연결되는가?
 
-### 안티패턴
+### [[128_water_scrum_fall_anti_pattern|안티패턴]]
 
 - 릴리스와 배포를 같은 뜻으로 쓰는 경우
-- 배포 후 검증 없이 종료하는 경우
-- 롤백 계획 없는 야간 배포
+- 배포 후 [[395_verification_process_review|검증]] 없이 종료하는 경우
+- [[098_rollback_strategy_pipeline_error_threshold|롤백]] 계획 없는 야간 배포
 
-기술사 관점에서는 릴리스 관리가 품질과 버전 관리, 배포 관리는 운영 안전성을 다루는 구분임을 설명해야 한다.
+기술사 관점에서는 릴리스 관리가 품질과 [[288_version_ihl_tos_total_length|버전]] 관리, 배포 관리는 운영 안전성을 다루는 구분임을 설명해야 한다.
 
-- **📢 섹션 요약 비유**: 릴리스는 포장, 배포는 배송, 검증은 도착 확인이다.
+- **📢 섹션 요약 비유**: 릴리스는 포장, 배포는 배송, [[395_verification_process_review|검증]]은 도착 [[396_validation|확인]]이다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-릴리스와 배포 관리가 분리되면 변경이 체계적이고 안전해진다. 대규모 서비스일수록 필수다.
+릴리스와 배포 관리가 분리되면 변경이 체계적이고 안전해진다. 대규모 [[090_service_kubernetes_network_load_balancing|서비스]]일수록 필수다.
 
 정리하면, 릴리스는 준비, 배포는 실행이다.
 
@@ -99,10 +99,10 @@ Change → Build → Release Package → Deployment → Verification → Rollbac
 | 개념 | 연결 포인트 |
 | :--- | :--- |
 | Release | 패키징 |
-| Deployment | 반영 |
-| Rollback | 복구 |
-| CAB | 승인 |
-| CI/CD | 자동화 |
+| [[087_deployment_kubernetes_workload_rolling_update|Deployment]] | 반영 |
+| [[313_rollback|Rollback]] | [[658_ir_recovery|복구]] |
+| [[080_cab|CAB]] | 승인 |
+| [[090_configuration_item|CI]]/CD | 자동화 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 

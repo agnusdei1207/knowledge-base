@@ -8,15 +8,15 @@ categories = "studynote-ai"
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: Adagrad(Adaptive Gradient Algorithm)와 RMSProp(Root Mean Square Propagation)은 각 파라미터마다 다른 학습률을 적응적으로 조정하는 옵티마이저로, 희소(Sparse) 특성이 많은 데이터에서 SGD보다 빠른 수렴을 달성한다.
-> 2. **가치**: Adagrad는 자주 나타나는 특성은 학습률을 줄이고 드문 특성은 크게 유지해 텍스트 모델에 강력하지만, 학습이 진행될수록 학습률이 0에 수렴하는 치명적 소멸 문제가 있고 RMSProp이 이를 지수 이동 평균(EMA)으로 해결한다.
-> 3. **판단 포인트**: Adam = RMSProp (2차 모멘트, 학습률 적응) + Momentum (1차 모멘트)의 결합이며, Adam이 실무에서 가장 널리 사용되는 이유가 여기에 있다.
+> 1. **본질**: Adagrad(Adaptive Gradient [[001_algorithm_definition|Algorithm]])와 RMSProp(Root Mean [[341_iso_iec_25010|Square]] Propagation)은 각 파라미터마다 다른 [[080_gradient_descent_learning_rate|학습률]]을 적응적으로 조정하는 [[163_optimizer_sql_execution_plan_generator|옵티마이저]]로, 희소(Sparse) 특성이 많은 [[001_dikw_pyramid|데이터]]에서 SGD보다 빠른 수렴을 달성한다.
+> 2. **가치**: Adagrad는 자주 나타나는 특성은 [[080_gradient_descent_learning_rate|학습률]]을 줄이고 드문 특성은 크게 유지해 텍스트 모델에 강력하지만, 학습이 [[216_progress_in_synchronization|진행]]될수록 [[080_gradient_descent_learning_rate|학습률]]이 0에 수렴하는 치명적 소멸 문제가 있고 RMSProp이 이를 지수 이동 평균(EMA)으로 해결한다.
+> 3. **판단 포인트**: [[277_adam_optimizer|Adam]] = RMSProp (2차 모멘트, [[080_gradient_descent_learning_rate|학습률]] 적응) + [[276_momentum_optimizer|Momentum]] (1차 모멘트)의 결합이며, Adam이 실무에서 가장 널리 사용되는 이유가 여기에 있다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-기본 SGD(Stochastic Gradient Descent)는 모든 파라미터에 동일한 학습률(η)을 적용한다. 텍스트 데이터에서 "the"같은 자주 나오는 단어의 가중치는 그래디언트가 크므로 큰 업데이트가, "quasar" 같은 드문 단어는 작은 업데이트가 필요하다. Adagrad는 이를 각 파라미터의 과거 그래디언트 제곱 합(G_t)을 학습률 분모에 넣어 자동으로 조정한다.
+기본 SGD([[241_optimizer_sgd_minibatch_adam_momentum_adaptive|Stochastic Gradient Descent]])는 모든 파라미터에 동일한 [[080_gradient_descent_learning_rate|학습률]](η)을 적용한다. 텍스트 [[001_dikw_pyramid|데이터]]에서 "the"같은 자주 나오는 단어의 [[267_weight_bias_activation|가중치]]는 그래디언트가 크므로 큰 업데이트가, "quasar" 같은 드문 단어는 작은 업데이트가 필요하다. Adagrad는 이를 각 파라미터의 과거 그래디언트 제곱 합(G_t)을 [[080_gradient_descent_learning_rate|학습률]] 분모에 넣어 자동으로 조정한다.
 
 ```text
 ┌──────────────────────────────────────────────┐
@@ -27,7 +27,7 @@ categories = "studynote-ai"
 └──────────────────────────────────────────────┘
 ```
 
-- **📢 섹션 요약 비유**: Adagrad는 "자주 쓰는 도로는 속도를 줄이고, 처음 가는 샛길은 빠르게" 학습하는 지능형 내비게이션이다. 이미 많이 업데이트된 파라미터(자주 쓴 도로)는 학습률을 줄여 안정화하고, 거의 업데이트 안 된 파라미터(새 샛길)는 빠르게 학습시킨다.
+- **📢 섹션 요약 비유**: Adagrad는 "자주 쓰는 도로는 속도를 줄이고, 처음 가는 샛길은 빠르게" 학습하는 지능형 내비게이션이다. 이미 많이 업데이트된 파라미터(자주 쓴 도로)는 [[080_gradient_descent_learning_rate|학습률]]을 줄여 안정화하고, 거의 업데이트 안 된 파라미터(새 샛길)는 빠르게 학습시킨다.
 
 ---
 
@@ -54,44 +54,44 @@ categories = "studynote-ai"
 └──────────────────────────────────────────────────────────┘
 ```
 
-| 옵티마이저 | 학습률 누적 | 소멸 문제 | 특이 사항 |
+| [[163_optimizer_sql_execution_plan_generator|옵티마이저]] | [[080_gradient_descent_learning_rate|학습률]] 누적 | 소멸 문제 | 특이 사항 |
 |:---|:---|:---|:---|
 | SGD | 고정 | ❌ 없음 | 튜닝 어려움 |
 | Adagrad | 전체 누적 | ✅ 발생 | 희소 특성에 강함 |
 | RMSProp | EMA (지수) | ❌ 없음 | 비정상 시계열에 강함 |
-| Adam | EMA + Momentum | ❌ 없음 | 실무 기본값 |
+| [[277_adam_optimizer|Adam]] | EMA + [[276_momentum_optimizer|Momentum]] | ❌ 없음 | 실무 기본값 |
 
-- **📢 섹션 요약 비유**: Adagrad의 학습률 소멸은 "계단 내려가는 로봇"이다. 처음엔 큰 걸음(η)으로 빠르게 내려오지만, 걸음 수(G_t)가 쌓일수록 걸음이 점점 작아져 결국 아예 멈춰버린다(학습 정지). RMSProp은 최근 몇 걸음(EMA)만 기억해 항상 적정 속도를 유지한다.
+- **📢 섹션 요약 비유**: Adagrad의 [[080_gradient_descent_learning_rate|학습률]] 소멸은 "계단 내려가는 로봇"이다. 처음엔 큰 걸음(η)으로 빠르게 내려오지만, 걸음 수(G_t)가 쌓일수록 걸음이 점점 작아져 결국 아예 멈춰버린다(학습 정지). RMSProp은 최근 몇 걸음(EMA)만 기억해 항상 적정 속도를 유지한다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-AMSGrad는 Adam의 과거 최대 2차 모멘트를 유지해 수렴 보장 문제를 해결한다. AdamW는 Adam에 가중치 감쇠(Weight Decay)를 L2 정규화와 분리하여 더 정확한 정규화를 구현한다(Transformer 훈련의 표준). Lion(Evolved Sign Momentum) 옵티마이저는 Google이 진화 알고리즘으로 발견한 Adam보다 메모리 효율적인 최신 옵티마이저다.
+AMSGrad는 Adam의 과거 최대 2차 모멘트를 유지해 수렴 보장 문제를 해결한다. AdamW는 Adam에 [[267_weight_bias_activation|가중치]] 감쇠([[091_l1_l2_regularization_weight_decay|Weight Decay]])를 L2 [[093_normalization|정규화]]와 분리하여 더 정확한 [[093_normalization|정규화]]를 구현한다([[246_transformer_self_attention_parallel_positional_encoding|Transformer]] 훈련의 표준). Lion(Evolved Sign [[276_momentum_optimizer|Momentum]]) [[163_optimizer_sql_execution_plan_generator|옵티마이저]]는 Google이 진화 [[001_algorithm_definition|알고리즘]]으로 발견한 Adam보다 메모리 효율적인 최신 [[163_optimizer_sql_execution_plan_generator|옵티마이저]]다.
 
 | 구분 | 핵심 초점 | 적용 상황 |
 |:---|:---|:---|
-| 기초 접근 | 원리 이해와 기준 설정 | 작은 규모, 개념 학습 |
-| Adagrad / RMSProp 옵티마이저 (Adagrad Rmsprop) | 성능과 실용성의 균형 | 대표적인 실무 적용 |
-| 확장 접근 | 자동화·대규모 최적화 | 서비스 고도화 단계 |
+| 기초 접근 | 원리 이해와 기준 [[009_config|설정]] | 작은 규모, 개념 학습 |
+| Adagrad / RMSProp [[163_optimizer_sql_execution_plan_generator|옵티마이저]] (Adagrad Rmsprop) | [[282_performance_tactics|성능]]과 실용성의 균형 | 대표적인 실무 적용 |
+| 확장 접근 | 자동화·대규모 최적화 | [[090_service_kubernetes_network_load_balancing|서비스]] 고도화 단계 |
 
-- **📢 섹션 요약 비유**: AdamW는 "다이어트와 운동을 분리하는 체중 관리"다. 기존 Adam의 L2 정규화는 그래디언트 업데이트와 뒤섞여 효과가 감소했다. AdamW는 가중치 감쇠를 별도로 적용해 Transformer 같은 대형 모델의 정규화 효과를 극대화한다.
+- **📢 섹션 요약 비유**: AdamW는 "다이어트와 운동을 분리하는 체중 관리"다. 기존 Adam의 L2 [[093_normalization|정규화]]는 그래디언트 업데이트와 뒤섞여 효과가 감소했다. AdamW는 [[267_weight_bias_activation|가중치]] 감쇠를 별도로 적용해 [[246_transformer_self_attention_parallel_positional_encoding|Transformer]] 같은 대형 모델의 [[093_normalization|정규화]] 효과를 극대화한다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-하이퍼파라미터 기본값(Adam): η=0.001, β₁=0.9, β₂=0.999, ε=1e-8. Warmup 스케줄: 학습 초기에 학습률을 0에서 천천히 올려 초기 학습 불안정성 방지(Transformer 훈련 필수). Cosine Annealing: 학습률을 코사인 커브로 감소시켜 수렴 말기 섬세한 조정. Cyclic LR: 학습률을 주기적으로 올렸다 내렸다 하며 다양한 Loss Landscape 탐색.
+하이퍼파라미터 기본값([[277_adam_optimizer|Adam]]): η=0.001, β₁=0.9, β₂=0.999, ε=1e-8. Warmup [[208_schedule_history_transaction_execution_order|스케줄]]: 학습 [[459_quic_fec_forward_error_correction|초기]]에 [[080_gradient_descent_learning_rate|학습률]]을 0에서 천천히 올려 [[459_quic_fec_forward_error_correction|초기]] 학습 불안정성 방지([[246_transformer_self_attention_parallel_positional_encoding|Transformer]] 훈련 필수). [[309_cosine_annealing|Cosine Annealing]]: [[080_gradient_descent_learning_rate|학습률]]을 코사인 커브로 감소시켜 수렴 말기 섬세한 조정. Cyclic LR: [[080_gradient_descent_learning_rate|학습률]]을 주기적으로 올렸다 내렸다 하며 다양한 Loss Landscape 탐색.
 
-- **📢 섹션 요약 비유**: 학습률 Warmup은 "엔진 예열"이다. 차(모델)를 처음 출발시킬 때 갑자기 최고 속도로 달리면(큰 학습률) 엔진이 망가진다. 천천히 예열(작은 학습률)한 뒤 최적 속도로 올리는 것이 Warmup이다.
+- **📢 섹션 요약 비유**: [[080_gradient_descent_learning_rate|학습률]] Warmup은 "엔진 예열"이다. 차(모델)를 처음 출발시킬 때 갑자기 최고 속도로 달리면(큰 [[080_gradient_descent_learning_rate|학습률]]) 엔진이 망가진다. 천천히 예열(작은 [[080_gradient_descent_learning_rate|학습률]])한 뒤 최적 속도로 올리는 것이 Warmup이다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-Adagrad → RMSProp → Adam으로 이어지는 적응적 학습률의 진화는 딥러닝 최적화의 핵심 발전사다. RMSProp의 EMA 아이디어가 Adam의 2차 모멘트가 되었고, Momentum이 1차 모멘트가 되어 Adam이 완성됐다. 기술사 시험에서 Adagrad 소멸 문제 → RMSProp EMA 해결 → Adam 수식까지 진화 경로를 설명하면 최고 수준의 답안이다.
+Adagrad → RMSProp → Adam으로 이어지는 적응적 [[080_gradient_descent_learning_rate|학습률]]의 진화는 딥러닝 최적화의 핵심 발전사다. RMSProp의 EMA 아이디어가 Adam의 2차 모멘트가 되었고, Momentum이 1차 모멘트가 되어 Adam이 완성됐다. 기술사 시험에서 Adagrad 소멸 문제 → RMSProp EMA 해결 → [[277_adam_optimizer|Adam]] 수식까지 진화 경로를 설명하면 최고 수준의 답안이다.
 
-- **📢 섹션 요약 비유**: Adagrad→Adam 진화는 "손으로 페달 밟기 → 자전거 → 전기자동차"다. 손으로 걷기(SGD)에서 자전거 기어(Adagrad 적응 학습률), 자동 기어(RMSProp EMA), 최첨단 전기차(Adam 모멘텀+적응 학습률) 순으로 편리하고 효율적으로 진화했다.
+- **📢 섹션 요약 비유**: Adagrad→[[277_adam_optimizer|Adam]] 진화는 "손으로 페달 밟기 → 자전거 → 전기자동차"다. 손으로 걷기(SGD)에서 자전거 기어(Adagrad 적응 [[080_gradient_descent_learning_rate|학습률]]), 자동 기어(RMSProp EMA), 최첨단 전기차([[277_adam_optimizer|Adam]] [[276_momentum_optimizer|모멘텀]]+적응 [[080_gradient_descent_learning_rate|학습률]]) 순으로 편리하고 효율적으로 진화했다.
 
 ---
 
@@ -99,9 +99,9 @@ Adagrad → RMSProp → Adam으로 이어지는 적응적 학습률의 진화는
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| Adam 옵티마이저 | β₁, β₂모멘트 / RMSProp + Momentum의 결합 |
-| AdamW | 가중치 감쇠 분리 / Transformer 훈련 표준 |
-| 학습률 스케줄링 | Warmup, Cosine / 옵티마이저와 함께 사용 |
+| [[277_adam_optimizer|Adam]] [[163_optimizer_sql_execution_plan_generator|옵티마이저]] | β₁, β₂모멘트 / RMSProp + Momentum의 결합 |
+| AdamW | [[267_weight_bias_activation|가중치]] 감쇠 분리 / [[246_transformer_self_attention_parallel_positional_encoding|Transformer]] 훈련 표준 |
+| [[080_gradient_descent_learning_rate|학습률]] [[208_schedule_history_transaction_execution_order|스케줄]]링 | Warmup, Cosine / [[163_optimizer_sql_execution_plan_generator|옵티마이저]]와 함께 사용 |
 | 그래디언트 소실 | 학습 정지 / Adagrad의 핵심 문제 |
 
 ### 📈 관련 키워드 및 발전 흐름도

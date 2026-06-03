@@ -8,14 +8,14 @@ categories = "studynote-design-supervision"
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 레거시 시스템 (Legacy System) 의 설계 부채 (Design Debt) 는 과거의 빠른 의사결정이 현재와 미래의 유지보수 비용으로 돌아오는 복리 이자이며, ADR (Architecture Decision Record, 아키텍처 결정 기록) 은 그 의사결정을 가시화하고 맥락을 보존하는 문서 체계다.
-> 2. **가치**: ADR을 통해 "왜 이렇게 만들었는가"를 추적 가능하게 함으로써 무분별한 변경을 막고, 설계 부채 청산의 우선순위를 데이터 기반으로 결정할 수 있다.
+> 1. **본질**: 레거시 시스템 (Legacy System) 의 [[140_design_debt|설계 부채]] ([[140_design_debt|Design Debt]]) 는 과거의 빠른 의사결정이 현재와 미래의 유지보수 비용으로 돌아오는 복리 이자이며, [[231_adr_architecture_decision_record_documentation|ADR]] ([[231_adr_architecture_decision_record_documentation|Architecture Decision Record]], 아키텍처 결정 기록) 은 그 의사결정을 가시화하고 맥락을 보존하는 문서 체계다.
+> 2. **가치**: ADR을 통해 "왜 이렇게 만들었는가"를 추적 가능하게 함으로써 무분별한 변경을 막고, [[140_design_debt|설계 부채]] 청산의 우선순위를 [[001_dikw_pyramid|데이터]] 기반으로 결정할 수 있다.
 > 3. **판단 포인트**: "이 코드를 변경하려는 사람이 원래 결정의 맥락을 알 수 있는가?" — No라면 ADR이 필요하다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
-워드 커닝햄 (Ward Cunningham) 이 1992년 제안한 기술 부채 (Technical Debt) 개념은 "빠른 해결책"이 장기적으로 초과 작업을 요구한다는 메타포다. 설계 부채 (Design Debt) 는 기술 부채 중에서 **아키텍처·설계 수준의 잘못된 결정**에서 발생하는 부채를 가리킨다.
+[[075_word|워드]] 커닝햄 (Ward Cunningham) 이 1992년 제안한 [[100_technical_debt_monitoring_release_policy|기술 부채]] ([[100_technical_debt_monitoring_release_policy|Technical Debt]]) 개념은 "빠른 해결책"이 장기적으로 초과 작업을 요구한다는 메타포다. [[140_design_debt|설계 부채]] ([[140_design_debt|Design Debt]]) 는 [[100_technical_debt_monitoring_release_policy|기술 부채]] 중에서 **아키텍처·설계 수준의 잘못된 결정**에서 발생하는 부채를 가리킨다.
 
 | 특성 | 설명 |
 |:---|:---|
@@ -24,7 +24,7 @@ categories = "studynote-design-supervision"
 | 복합 이자 | 한 부채가 다른 부채를 유발하는 연쇄 효과 |
 | 두려움 효과 | 변경 시 무엇이 깨질지 몰라 아무도 건드리지 않음 |
 
-마이클 나이가드 (Michael Nygard) 가 2011년 제안한 ADR은 아키텍처 결정의 **맥락 (Context), 결정 내용 (Decision), 결과 (Consequences)** 를 간결한 문서로 기록하는 체계다.
+마이클 나이가드 (Michael Nygard) 가 2011년 제안한 ADR은 아키텍처 결정의 **맥락 ([[033_context|Context]]), 결정 내용 (Decision), 결과 (Consequences)** 를 간결한 문서로 기록하는 체계다.
 
 ```text
 ┌──────────────┐    ┌──────────────┐    ┌──────────────┐
@@ -77,7 +77,7 @@ categories = "studynote-design-supervision"
 | Proposed | 검토 중인 결정 |
 | Accepted | 채택된 결정 |
 | Deprecated | 더 이상 권고하지 않음 |
-| Superseded by ADR-XXX | 다른 ADR로 대체됨 |
+| Superseded by [[231_adr_architecture_decision_record_documentation|ADR]]-XXX | 다른 ADR로 대체됨 |
 
 - **📢 섹션 요약 비유**: 회사 이사회 회의록처럼, ADR은 "왜 그때 그 결정을 했는가"를 나중에 확인할 수 있는 공식 기록이다.
 
@@ -86,10 +86,10 @@ categories = "studynote-design-supervision"
 ## Ⅲ. 비교 및 연결
 | 방법 | 목적 | 장점 | 단점 |
 |:---|:---|:---|:---|
-| ADR 문서화 | 결정 맥락 보존 | 가볍고 버전 관리 용이 | 작성 규율 필요 |
-| 아키텍처 다이어그램 | 구조 시각화 | 한눈에 파악 | 업데이트 누락 빈번 |
-| SonarQube 기술 부채 지표 | 코드 수준 부채 정량화 | 자동화 측정 | 설계 수준 미반영 |
-| 이벤트 스토밍 (Event Storming) | 도메인 재설계 | 팀 공유 지식 | 시간·비용 소요 |
+| [[231_adr_architecture_decision_record_documentation|ADR]] 문서화 | 결정 맥락 보존 | 가볍고 [[288_version_ihl_tos_total_length|버전]] 관리 용이 | 작성 규율 필요 |
+| 아키텍처 다이어그램 | 구조 [[003_bigdata_7v|시각화]] | 한눈에 파악 | 업데이트 누락 빈번 |
+| [[079_sonarqube|SonarQube]] [[100_technical_debt_monitoring_release_policy|기술 부채]] 지표 | 코드 수준 부채 정량화 | 자동화 측정 | 설계 수준 미반영 |
+| 이벤트 스토밍 (Event Storming) | [[064_relation_domain|도메인]] 재설계 | 팀 공유 지식 | 시간·비용 소요 |
 
 ```
 레거시 시스템 분석
@@ -109,12 +109,12 @@ categories = "studynote-design-supervision"
     └─ ADR 상태 업데이트 (Superseded)
 ```
 
-- **📢 섹션 요약 비유**: 국가대표팀 감독 교체 시 전임 감독의 전술 노트가 있으면 선수들의 역할과 전략을 빠르게 파악할 수 있다 — ADR이 그 전술 노트다.
+- **📢 섹션 요약 비유**: 국가대표팀 감독 교체 시 전임 감독의 전술 노트가 있으면 선수들의 역할과 [[268_strategy_pattern|전략]]을 빠르게 파악할 수 있다 — ADR이 그 전술 노트다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
-ADR은 **코드 저장소 (Repository) 와 함께** 버전 관리되어야 한다.
+ADR은 **코드 저장소 (Repository) 와 함께** [[288_version_ihl_tos_total_length|버전]] 관리되어야 한다.
 
 ```
 project-root/
@@ -126,18 +126,18 @@ project-root/
       ADR-0012_jwt-session-management-v2.md (Accepted)
 ```
 
-도구: `adr-tools` (CLI), Confluence 페이지, GitHub Wiki
+도구: `adr-tools` (CLI), Confluence [[286_page_frame|페이지]], GitHub Wiki
 
-레거시 시스템을 한 번에 교체하는 빅뱅 (Big Bang) 방식 대신, 마틴 파울러가 제안한 스트랭글러 피그 패턴 (Strangler Fig Pattern) 은 레거시를 점진적으로 새 시스템으로 교살하듯 대체한다. 각 교체 결정은 ADR로 문서화해 트레이드오프를 기록한다.
+레거시 시스템을 한 번에 교체하는 빅뱅 (Big Bang) 방식 대신, 마틴 파울러가 제안한 [[376_strangler_fig_summary|스트랭글러 피그 패턴]] ([[308_strangler_fig_pattern|Strangler Fig Pattern]]) 은 레거시를 점진적으로 새 시스템으로 교살하듯 대체한다. 각 교체 결정은 ADR로 문서화해 트레이드오프를 기록한다.
 
-- **설계 부채 정량화**: SonarQube의 기술 부채 일수 + ADR 위반 건수로 이중 측정
-- **거버넌스 (Governance)**: ADR 리뷰 프로세스를 아키텍처 거버넌스의 일환으로 제도화
-- **지식 경영 (Knowledge Management)**: 개인 지식을 조직 지식으로 전환하는 수단으로 ADR 강조
+- **[[140_design_debt|설계 부채]] 정량화**: SonarQube의 [[100_technical_debt_monitoring_release_policy|기술 부채]] 일수 + [[231_adr_architecture_decision_record_documentation|ADR]] 위반 건수로 이중 측정
+- **거버넌스 (Governance)**: [[231_adr_architecture_decision_record_documentation|ADR]] 리뷰 프로세스를 아키텍처 거버넌스의 일환으로 제도화
+- **지식 경영 (Knowledge [[372_management|Management]])**: 개인 지식을 조직 지식으로 전환하는 수단으로 [[231_adr_architecture_decision_record_documentation|ADR]] 강조
 
-### 판단 체크리스트
+### 판단 [[435_checklist_based_testing|체크리스트]]
 1. 변경 전 동작을 고정할 테스트가 준비되었는가?
 2. 냄새의 원인이 구조 문제인지 일회성 구현인지 구분했는가?
-3. 리팩토링 단위를 작게 나눠 롤백 가능하게 했는가?
+3. [[213_refactoring_cloud_native_rearchitecture|리팩토링]] 단위를 작게 나눠 [[098_rollback_strategy_pipeline_error_threshold|롤백]] 가능하게 했는가?
 4. 명명·모델·패키지 경계가 함께 개선되는가?
 
 - **📢 섹션 요약 비유**: 오래된 레시피 노트에 "왜 이 재료를 넣었는지" 이유가 적혀 있으면 수십 년 후 후계자도 레시피를 개선할 수 있다.
@@ -145,34 +145,34 @@ project-root/
 ---
 
 ## Ⅴ. 기대효과 및 결론
-| 지표 | ADR 미사용 | ADR 도입 |
+| 지표 | [[231_adr_architecture_decision_record_documentation|ADR]] 미사용 | [[231_adr_architecture_decision_record_documentation|ADR]] 도입 |
 |:---|:---:|:---:|
 | 아키텍처 결정 이해 시간 (신입) | 2주 | 3일 |
-| 잘못된 이유로 인한 리팩토링 비율 | 30% | 5% |
+| 잘못된 이유로 인한 [[213_refactoring_cloud_native_rearchitecture|리팩토링]] 비율 | 30% | 5% |
 | 아키텍처 지식 퇴직자 손실률 | 높음 | 낮음 (문서화) |
-| 설계 부채 청산 우선순위 합의 시간 | 2주 | 1일 |
+| [[140_design_debt|설계 부채]] 청산 우선순위 합의 시간 | 2주 | 1일 |
 
-레거시 설계 부채 (Legacy Design Debt) 와 ADR (Architecture Decision Record) 은 동전의 양면이다. 부채가 쌓이는 것을 막으려면 결정의 **이유와 트레이드오프**를 기록하고, 시간이 지나 그 결정이 부적합해졌을 때 **새 ADR로 대체**하는 순환 구조가 필요하다. 이는 기술 조직의 집단 기억 (Collective Memory) 을 코드베이스와 함께 성장시키는 실천이다.
+레거시 [[140_design_debt|설계 부채]] (Legacy [[140_design_debt|Design Debt]]) 와 [[231_adr_architecture_decision_record_documentation|ADR]] ([[231_adr_architecture_decision_record_documentation|Architecture Decision Record]]) 은 동전의 양면이다. 부채가 쌓이는 것을 막으려면 결정의 **이유와 트레이드오프**를 기록하고, 시간이 지나 그 결정이 부적합해졌을 때 **새 ADR로 대체**하는 순환 구조가 필요하다. 이는 기술 조직의 집단 기억 (Collective Memory) 을 코드베이스와 함께 성장시키는 실천이다.
 
-확장 방향은 ① 정적 분석 자동화, ② 아키텍처 적합성 검증, ③ 작은 단위의 상시 리팩토링 문화 정착이다.
+확장 방향은 ① [[331_static_analysis|정적 분석]] 자동화, ② 아키텍처 적합성 [[395_verification_process_review|검증]], ③ 작은 단위의 상시 [[213_refactoring_cloud_native_rearchitecture|리팩토링]] 문화 정착이다.
 
 - **📢 섹션 요약 비유**: 의료 차트에 모든 진단과 처방 이력이 기록되어야 다음 의사가 올바른 판단을 할 수 있다 — ADR은 소프트웨어 시스템의 의료 차트다.
 
 ---
 
 ### 📌 관련 개념 맵
-| 관계 | 개념 | 설명 |
+| [[083_relationship_in_er_model|관계]] | 개념 | 설명 |
 |:---|:---|:---|
-| 상위 개념 | 기술 부채 (Technical Debt) | 설계 부채는 기술 부채의 하위 분류 |
-| 핵심 도구 | ADR (Architecture Decision Record) | 결정 맥락 보존 문서 |
-| 연관 개념 | 레거시 시스템 (Legacy System) | 설계 부채의 주요 발생처 |
-| 연관 개념 | 스트랭글러 피그 패턴 (Strangler Fig Pattern) | 레거시 점진적 교체 전략 |
-| 연관 개념 | SonarQube | 코드 수준 기술 부채 정량화 |
-| 연관 개념 | 아키텍처 거버넌스 (Architecture Governance) | ADR 리뷰 제도화 |
-| 연관 개념 | 이벤트 스토밍 (Event Storming) | 도메인 재설계 협업 기법 |
+| 상위 개념 | [[100_technical_debt_monitoring_release_policy|기술 부채]] ([[100_technical_debt_monitoring_release_policy|Technical Debt]]) | [[140_design_debt|설계 부채]]는 [[100_technical_debt_monitoring_release_policy|기술 부채]]의 하위 [[104_classification_analysis|분류]] |
+| 핵심 도구 | [[231_adr_architecture_decision_record_documentation|ADR]] ([[231_adr_architecture_decision_record_documentation|Architecture Decision Record]]) | 결정 맥락 보존 문서 |
+| 연관 개념 | 레거시 시스템 (Legacy System) | [[140_design_debt|설계 부채]]의 주요 발생처 |
+| 연관 개념 | [[376_strangler_fig_summary|스트랭글러 피그 패턴]] ([[308_strangler_fig_pattern|Strangler Fig Pattern]]) | 레거시 점진적 교체 [[268_strategy_pattern|전략]] |
+| 연관 개념 | [[079_sonarqube|SonarQube]] | 코드 수준 [[100_technical_debt_monitoring_release_policy|기술 부채]] 정량화 |
+| 연관 개념 | 아키텍처 거버넌스 ([[319_architecture|Architecture]] Governance) | [[231_adr_architecture_decision_record_documentation|ADR]] 리뷰 제도화 |
+| 연관 개념 | 이벤트 스토밍 (Event Storming) | [[064_relation_domain|도메인]] 재설계 협업 기법 |
 
 ### 📈 관련 키워드 및 발전 흐름도
-부채 가시화 → 레거시 설계 부채와 ADR → architecture governance
+부채 가시화 → 레거시 [[140_design_debt|설계 부채]]와 [[231_adr_architecture_decision_record_documentation|ADR]] → [[319_architecture|architecture]] governance
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 오래된 장난감 상자에 "왜 이 장난감을 샀는지" 메모가 없으면 엄마가 함부로 버릴 수 있다.

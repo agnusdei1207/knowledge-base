@@ -7,9 +7,9 @@ categories = "studynote-design-supervision"
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: 정보시스템 감리는 프로젝트 특성(신규 개발, 운영·유지보수, 패키지 도입, 클라우드 전환)에 따라 감리 초점과 점검 항목이 달라진다. 단순히 체크리스트를 적용하는 것이 아니라 프로젝트 유형에 맞는 맞춤형 감리가 필요하다.
-> 2. **가치**: 신규 개발 감리는 아키텍처 적절성·개발 품질·보안 설계에 집중하는 반면, 운영 감리는 SLA 이행·장애 대응 프로세스·변경 관리에 집중한다. 패키지 도입 감리는 커스터마이징 리스크와 밴더 의존성을, 클라우드 감리는 CSP 책임 분리와 보안 설정을 중점 점검한다.
-> 3. **판단 포인트**: 클라우드·AI 기반 시스템의 감리 새 이슈가 등장했다. AI 모델의 편향성(Bias) 검증, 설명 가능성(XAI), 생성 AI 출력 품질 감리가 현대 감리의 신규 영역이다. 기존 체크리스트는 이를 포함하지 않으므로 감리 기준 현행화가 시급하다.
+> 1. **본질**: [[187_information_system_audit|정보시스템 감리]]는 프로젝트 특성(신규 개발, 운영·유지보수, 패키지 도입, 클라우드 전환)에 따라 감리 초점과 점검 항목이 달라진다. 단순히 체크리스트를 적용하는 것이 아니라 프로젝트 유형에 맞는 맞춤형 감리가 필요하다.
+> 2. **가치**: 신규 개발 감리는 아키텍처 적절성·개발 품질·보안 설계에 집중하는 반면, 운영 감리는 [[085_sla|SLA]] 이행·장애 대응 프로세스·변경 관리에 집중한다. 패키지 도입 감리는 커스터마이징 리스크와 밴더 의존성을, 클라우드 감리는 [[475_csp|CSP]] 책임 분리와 보안 [[009_config|설정]]을 중점 점검한다.
+> 3. **판단 포인트**: 클라우드·[[190_ai_llm_requirements_specification|AI]] 기반 시스템의 감리 새 이슈가 등장했다. [[190_ai_llm_requirements_specification|AI]] 모델의 편향성([[094_bias|Bias]]) [[395_verification_process_review|검증]], 설명 가능성([[227_xai_explainable_ai_lime_shap|XAI]]), [[087_process_state_transition|생성]] [[190_ai_llm_requirements_specification|AI]] 출력 품질 감리가 현대 감리의 신규 영역이다. 기존 체크리스트는 이를 포함하지 않으므로 감리 기준 현행화가 시급하다.
 
 ---
 
@@ -39,11 +39,11 @@ categories = "studynote-design-supervision"
 
 | 단계 | 주요 점검 항목 |
 |:---|:---|
-| **분석** | 요구사항 완전성·추적성, 이해관계자 합의 |
+| **분석** | 요구사항 완전성·추적성, [[173_stakeholder_identification_impact_matrix|이해관계자]] 합의 |
 | **설계** | 아키텍처 적절성, 보안 by Design, 확장성 |
-| **구현** | 코딩 표준, 코드 리뷰, 단위 테스트 |
-| **테스트** | 성능·보안·취약점 테스트 |
-| **전환** | 데이터 이관 정확성, 롤백 계획 |
+| **구현** | 코딩 표준, [[330_code_review|코드 리뷰]], [[397_unit_test|단위 테스트]] |
+| **테스트** | [[282_performance_tactics|성능]]·보안·취약점 테스트 |
+| **전환** | [[001_dikw_pyramid|데이터]] 이관 [[002_bigdata_5v|정확성]], [[098_rollback_strategy_pipeline_error_threshold|롤백]] 계획 |
 
 ### 클라우드 전환 감리 핵심
 
@@ -60,7 +60,7 @@ categories = "studynote-design-supervision"
   예산 알림, 미사용 리소스 정리 (FinOps)
 ```
 
-- **📢 섹션 요약 비유**: 클라우드 감리의 책임 공유 모델 검증은 셋집 임차인 의무 확인이다. 집주인(CSP)은 건물 기초·배관을 책임지고, 세입자(고객)는 내부 인테리어·잠금장치를 책임진다 — 역할 경계가 명확해야 한다.
+- **📢 섹션 요약 비유**: 클라우드 감리의 책임 공유 모델 [[395_verification_process_review|검증]]은 셋집 임차인 의무 [[396_validation|확인]]이다. 집주인([[475_csp|CSP]])은 건물 기초·배관을 책임지고, 세입자(고객)는 내부 인테리어·잠금장치를 책임진다 — 역할 경계가 명확해야 한다.
 
 ---
 
@@ -69,16 +69,16 @@ categories = "studynote-design-supervision"
 | 비교 | 신규 개발 | 운영 | 클라우드 전환 |
 |:---|:---|:---|:---|
 | 시점 | 개발 중 | 운영 중 | 전환 전후 |
-| 위험 | 설계 결함 | SLA 미달 | 보안 설정 오류 |
-| 주요 도구 | SAST, 설계 리뷰 | 모니터링 대시보드 | CSPM |
+| 위험 | 설계 [[352_defect_definition|결함]] | [[085_sla|SLA]] 미달 | [[482_security_misconfiguration|보안 설정 오류]] |
+| 주요 도구 | [[491_sast_static_analysis|SAST]], 설계 리뷰 | 모니터링 대시보드 | [[780_cspm_cloud_security_posture_management|CSPM]] |
 
-- **📢 섹션 요약 비유**: 감리 유형은 의사의 진료 종류다. 신규 개발은 신생아 검사(태어날 때부터 건강 확인), 운영 감리는 정기 건강검진, 클라우드 전환은 이민 전 건강검사다.
+- **📢 섹션 요약 비유**: 감리 유형은 의사의 진료 종류다. 신규 개발은 신생아 검사(태어날 때부터 건강 [[396_validation|확인]]), 운영 감리는 정기 건강검진, 클라우드 전환은 이민 전 건강검사다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### AI 시스템 감리 신규 이슈
+### [[190_ai_llm_requirements_specification|AI]] 시스템 감리 신규 이슈
 
 ```text
 모델 편향성 (Bias) 검증:
@@ -99,7 +99,7 @@ categories = "studynote-design-supervision"
   - RAG 검색 정확도
 ```
 
-- **📢 섹션 요약 비유**: AI 감리는 AI 의사 면허 시험이다. AI가 진단을 내릴 때 편향 없이(공정성), 이유를 설명하고(XAI), 잘못된 정보를 지어내지 않는지(환각 방지) 검증해야 진료 허가를 받을 수 있다.
+- **📢 섹션 요약 비유**: [[190_ai_llm_requirements_specification|AI]] 감리는 [[190_ai_llm_requirements_specification|AI]] 의사 면허 시험이다. AI가 진단을 내릴 때 편향 없이(공정성), 이유를 설명하고([[227_xai_explainable_ai_lime_shap|XAI]]), 잘못된 정보를 지어내지 않는지([[275_react_framework|환각]] 방지) [[395_verification_process_review|검증]]해야 진료 허가를 받을 수 있다.
 
 ---
 
@@ -107,13 +107,13 @@ categories = "studynote-design-supervision"
 
 | 기대효과 | 내용 |
 |:---|:---|
-| **품질 보증** | 프로젝트 유형별 맞춤 품질 검증 |
-| **위험 조기 발견** | 개발 중 결함 조기 발견·수정 |
-| **규제 준수** | 전자정부·개인정보·금융 규정 충족 |
+| **품질 보증** | 프로젝트 유형별 맞춤 품질 [[395_verification_process_review|검증]] |
+| **위험 조기 발견** | 개발 중 [[352_defect_definition|결함]] 조기 발견·수정 |
+| **규제 준수** | 전자정부·[[781_personal_information|개인정보]]·금융 규정 충족 |
 
-AI·클라우드 시대에 맞는 감리 기준 현행화가 시급하다. 기존 전자정부 정보시스템 감리 기준은 AI 편향성·생성 AI 품질·클라우드 CSP 책임 분리를 명시적으로 다루지 않아, 새로운 감리 프레임워크 개발이 필요하다.
+[[190_ai_llm_requirements_specification|AI]]·클라우드 시대에 맞는 감리 기준 현행화가 시급하다. 기존 전자정부 [[187_information_system_audit|정보시스템 감리]] 기준은 [[190_ai_llm_requirements_specification|AI]] 편향성·[[087_process_state_transition|생성]] [[190_ai_llm_requirements_specification|AI]] 품질·클라우드 [[475_csp|CSP]] 책임 분리를 명시적으로 다루지 않아, 새로운 [[006_audit_framework_3dimensional|감리 프레임워크]] 개발이 필요하다.
 
-- **📢 섹션 요약 비유**: AI 감리 기준 현행화는 도로교통법 개정이다. 자율주행차가 등장했지만 기존 교통법은 이를 규정하지 않아 새 규칙이 필요하듯, AI 시스템 감리도 새로운 기준이 필요하다.
+- **📢 섹션 요약 비유**: [[190_ai_llm_requirements_specification|AI]] 감리 기준 현행화는 도로교통법 개정이다. 자율주행차가 등장했지만 기존 교통법은 이를 규정하지 않아 새 규칙이 필요하듯, [[190_ai_llm_requirements_specification|AI]] 시스템 감리도 새로운 기준이 필요하다.
 
 ---
 
@@ -122,10 +122,10 @@ AI·클라우드 시대에 맞는 감리 기준 현행화가 시급하다. 기�
 | 개념 | 연결 포인트 |
 |:---|:---|
 | **책임 공유 모델** | 클라우드 감리의 핵심 프레임 |
-| **AI 공정성** | AI 시스템 감리 신규 지표 |
-| **XAI** | AI 결정 설명 가능성 감리 |
-| **CSPM** | 클라우드 보안 자세 관리 |
-| **데이터 계보** | AI 학습 데이터 품질 추적 |
+| **[[190_ai_llm_requirements_specification|AI]] 공정성** | [[190_ai_llm_requirements_specification|AI]] 시스템 감리 신규 지표 |
+| **[[227_xai_explainable_ai_lime_shap|XAI]]** | [[190_ai_llm_requirements_specification|AI]] 결정 설명 가능성 감리 |
+| **[[780_cspm_cloud_security_posture_management|CSPM]]** | 클라우드 보안 자세 관리 |
+| **[[001_dikw_pyramid|데이터]] 계보** | [[190_ai_llm_requirements_specification|AI]] 학습 [[001_dikw_pyramid|데이터]] 품질 추적 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -148,5 +148,5 @@ AI·클라우드 시대에 맞는 감리 기준 현행화가 시급하다. 기�
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. 프로젝트 유형마다 다른 검사가 필요해요! 새 건물(신규 개발), 리모델링(패키지), 이사(클라우드 전환) 때 각각 다른 안전 검사를 해요.
-2. 클라우드 감리는 "집주인(CSP)과 세입자(고객)의 책임 경계"를 명확히 확인해야 해요!
-3. AI 시스템은 편향·설명·환각이라는 새로운 감리 항목이 생겼어요 — AI 의사 면허 시험처럼 검증이 필요하답니다!
+2. 클라우드 감리는 "집주인([[475_csp|CSP]])과 세입자(고객)의 책임 경계"를 명확히 [[396_validation|확인]]해야 해요!
+3. [[190_ai_llm_requirements_specification|AI]] 시스템은 편향·설명·[[275_react_framework|환각]]이라는 새로운 감리 항목이 생겼어요 — [[190_ai_llm_requirements_specification|AI]] 의사 면허 시험처럼 [[395_verification_process_review|검증]]이 필요하답니다!

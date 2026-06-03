@@ -7,13 +7,13 @@ categories = "studynote-design-supervision"
 +++
 
 > **핵심 인사이트**
-> 1. RTM(Requirements Traceability Matrix, 요구사항 추적성 매트릭스)은 요구사항에서 설계, 구현, 테스트까지 각 산출물 간의 추적 관계를 매핑하는 문서로 — 단순한 표가 아니라 "변경 영향 분석"과 "요구사항 누락 탐지"를 위한 감리의 핵심 증거 도구이다.
-> 2. 양방향 추적성(Bidirectional Traceability)이 중요한 이유는 "이 요구사항이 어디서 구현됐나"(순방향)와 "이 코드가 어느 요구사항을 만족하나"(역방향) 두 질문 모두 답할 수 있어야 — 시스템 변경 시 영향 범위를 정확히 파악하고 테스트 케이스 완전성을 검증할 수 있기 때문이다.
-> 3. RTM 자동화 도구(IBM DOORS, Jama, Azure DevOps)는 요구사항-설계-코드-테스트 링크를 자동 유지하고 변경 시 영향 분석을 자동화하며 — ISO 26262(자동차), DO-178C(항공), IEC 62304(의료기기) 같은 기능안전 표준에서 RTM은 인증 필수 증거이다.
+> 1. [[667_requirements_traceability_matrix|RTM]]([[667_requirements_traceability_matrix|Requirements Traceability Matrix]], [[156_requirements_traceability_vertical_horizontal|요구사항 추적성]] 매트릭스)은 요구사항에서 설계, 구현, 테스트까지 각 산출물 간의 추적 관계를 매핑하는 문서로 — 단순한 표가 아니라 "변경 영향 분석"과 "요구사항 누락 탐지"를 위한 감리의 핵심 증거 도구이다.
+> 2. 양방향 추적성(Bidirectional [[228_blockchain_smart_contract_traceability|Traceability]])이 중요한 이유는 "이 요구사항이 어디서 구현됐나"(순방향)와 "이 코드가 어느 요구사항을 만족하나"(역방향) 두 질문 모두 답할 수 있어야 — 시스템 변경 시 영향 범위를 정확히 파악하고 [[441_test_case|테스트 케이스]] 완전성을 검증할 수 있기 때문이다.
+> 3. [[667_requirements_traceability_matrix|RTM]] 자동화 도구(IBM DOORS, Jama, Azure [[652_devops_calms_culture|DevOps]])는 요구사항-설계-코드-테스트 링크를 자동 유지하고 변경 시 영향 분석을 자동화하며 — ISO 26262(자동차), DO-178C(항공), IEC 62304(의료기기) 같은 기능안전 표준에서 RTM은 [[303_authentication_authorization_patterns|인증]] 필수 증거이다.
 
 ---
 
-## Ⅰ. RTM 개념과 구조
+## Ⅰ. [[667_requirements_traceability_matrix|RTM]] 개념과 구조
 
 ```
 RTM (Requirements Traceability Matrix):
@@ -40,7 +40,7 @@ RTM의 목적:
   4. 범위 크립(Scope Creep) 방지: 구현이 요구사항 범위 내인가?
 ```
 
-> 📢 **섹션 요약 비유**: RTM은 레고 조립 설명서와 완성품 대조표 — 설명서의 모든 단계가 완성품에 반영됐는지, 완성품의 모든 부분이 설명서 어느 단계인지 양방향 확인.
+> 📢 **섹션 요약 비유**: RTM은 레고 조립 설명서와 완성품 대조표 — 설명서의 모든 단계가 완성품에 반영됐는지, 완성품의 모든 부분이 설명서 어느 단계인지 양방향 [[396_validation|확인]].
 
 ---
 
@@ -93,7 +93,7 @@ RTM의 목적:
 
 ---
 
-## Ⅲ. RTM 작성 방법
+## Ⅲ. [[667_requirements_traceability_matrix|RTM]] 작성 방법
 
 ```
 RTM 작성 절차:
@@ -129,11 +129,11 @@ RTM 유지보수:
   버전 관리: 요구사항과 RTM의 버전 일치 유지
 ```
 
-> 📢 **섹션 요약 비유**: RTM 작성은 가계부 작성 — 지출(요구사항)마다 영수증(설계), 배달(구현), 검수(테스트) 칸을 채우는 것. 빈 칸이 있으면 추적이 끊긴 것.
+> 📢 **섹션 요약 비유**: [[667_requirements_traceability_matrix|RTM]] 작성은 가계부 작성 — 지출(요구사항)마다 영수증(설계), 배달(구현), 검수(테스트) 칸을 채우는 것. 빈 칸이 있으면 추적이 끊긴 것.
 
 ---
 
-## Ⅳ. RTM 자동화 도구
+## Ⅳ. [[667_requirements_traceability_matrix|RTM]] 자동화 도구
 
 ```
 RTM 자동화 도구 비교:
@@ -170,11 +170,11 @@ GitHub Projects:
   RTM 미작성 = 주요 감리 지적 사항
 ```
 
-> 📢 **섹션 요약 비유**: RTM 자동화 도구는 GPS 내비게이션 — 수동 지도(엑셀 RTM)보다 실시간 교통 반영(변경 영향 자동 업데이트)이 훨씬 안전한 경로 안내.
+> 📢 **섹션 요약 비유**: [[667_requirements_traceability_matrix|RTM]] 자동화 도구는 GPS 내비게이션 — 수동 지도(엑셀 [[667_requirements_traceability_matrix|RTM]])보다 실시간 교통 반영(변경 영향 자동 업데이트)이 훨씬 안전한 경로 안내.
 
 ---
 
-## Ⅴ. 실무 시나리오 — 의료기기 SW 인증
+## Ⅴ. 실무 시나리오 — 의료기기 SW [[303_authentication_authorization_patterns|인증]]
 
 ```
 의료기기 소프트웨어 IEC 62304 + RTM:
@@ -215,7 +215,7 @@ UN-001  | 환자 혈당 측정  | SRS-005 | ARCH-03 | UNIT-glucose.c | UT-005, I
   교훈: RTM 완전성 = 인증 선행 조건
 ```
 
-> 📢 **섹션 요약 비유**: 의료기기 RTM은 항공기 점검표 — 비행 전 모든 체크 항목(요구사항)이 확인(구현+테스트)됐는지 하나도 빠짐없이 서명해야 이륙 허가(FDA 인증).
+> 📢 **섹션 요약 비유**: 의료기기 RTM은 항공기 점검표 — 비행 전 모든 체크 항목(요구사항)이 [[396_validation|확인]](구현+테스트)됐는지 하나도 빠짐없이 서명해야 이륙 허가(FDA [[303_authentication_authorization_patterns|인증]]).
 
 ---
 
@@ -270,6 +270,6 @@ LLM으로 요구사항 → 테스트 케이스 자동 생성
 
 ## 👶 어린이를 위한 3줄 비유 설명
 
-1. RTM은 레고 설명서와 완성품 대조표 — "설명서 5단계가 완성품 어디에 해당하나"를 표로 만들어서 빠진 단계 없이 다 완성됐는지 확인해요!
+1. RTM은 레고 설명서와 완성품 대조표 — "설명서 5단계가 완성품 어디에 해당하나"를 표로 만들어서 빠진 단계 없이 다 완성됐는지 [[396_validation|확인]]해요!
 2. 양방향 추적은 두 방향으로 연결 — "이 요구사항 어디 구현됐나?"(순방향) + "이 코드 왜 있나?"(역방향) 둘 다 대답할 수 있어야 해요.
 3. 의료기기나 항공기 소프트웨어는 RTM이 법적 의무 — 체크 하나 빠지면 FDA가 출시를 막아요!

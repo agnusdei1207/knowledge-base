@@ -7,9 +7,9 @@ categories = "studynote-ai"
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: 장기 의존성 문제(Long-term Dependency)는 RNN이 시퀀스가 길어질 때 **초기 시간 단계의 정보를 후반 단계까지 유지하지 못하는** 근본적 한계이며, 역전파 시 기울기가 시간 축을 따라 **기하급수적으로 소실(Vanishing)하거나 폭발(Exploding)**하는 것이 수학적 원인이다.
-> 2. **가치**: "The cat, which … (50단어 후) … was hungry"에서 `was`가 `cat`(단수)에 따라 결정되지만, 바닐라 RNN은 50단계 역전파에서 기울기가 0에 수렴하여 **주어-동사 장거리 연결을 학습하지 못한다.**
-> 3. **판단 포인트**: LSTM의 **Cell State($C_t$) + Forget/Input/Output Gate**가 기울기를 보호하여 해결하며, Transformer의 **Self-Attention**은 시퀀스 길이와 무관하게 모든 위치에 직접 접근하여 장기 의존성을 완전히 극복했다.
+> 1. **본질**: [[291_long_term_dependency|장기 의존성]] 문제([[291_long_term_dependency|Long-term Dependency]])는 RNN이 시퀀스가 길어질 때 **[[459_quic_fec_forward_error_correction|초기]] 시간 단계의 정보를 후반 단계까지 유지하지 못하는** 근본적 한계이며, [[272_backpropagation|역전파]] 시 기울기가 시간 축을 따라 **기하급수적으로 소실(Vanishing)하거나 폭발(Exploding)**하는 것이 수학적 원인이다.
+> 2. **가치**: "The cat, which … (50단어 후) … was hungry"에서 `was`가 `cat`(단수)에 따라 결정되지만, 바닐라 RNN은 50단계 [[272_backpropagation|역전파]]에서 기울기가 0에 수렴하여 **주어-동사 장거리 연결을 학습하지 못한다.**
+> 3. **판단 포인트**: LSTM의 **Cell [[272_state_pattern|State]]($C_t$) + Forget/Input/Output Gate**가 기울기를 [[571_protection_vs_security|보호]]하여 해결하며, Transformer의 **[[124_self_attention|Self-Attention]]**은 시퀀스 길이와 무관하게 모든 위치에 직접 접근하여 [[291_long_term_dependency|장기 의존성]]을 완전히 극복했다.
 
 ---
 
@@ -30,7 +30,7 @@ categories = "studynote-ai"
 └───────────────────────────────────────────────────────┘
 ```
 
-- **📢 섹션 요약 비유**: 100명이 릴레이로 소문을 전달하면, 마지막 사람은 원래 메시지를 거의 기억 못 한다(소실). 또는 과장이 반복되어 완전히 다른 이야기가 된다(폭발).
+- **📢 섹션 요약 비유**: 100명이 릴레이로 소문을 전달하면, 마지막 사람은 원래 [[389_mesh_topology|메시]]지를 거의 기억 못 한다(소실). 또는 과장이 반복되어 완전히 다른 이야기가 된다(폭발).
 
 ---
 
@@ -43,43 +43,43 @@ categories = "studynote-ai"
 | **Forget Gate ($f_t$)** | 이전 기억 중 버릴 것 결정 | "어제 점심 뭐 먹었는지는 잊자" |
 | **Input Gate ($i_t$)** | 새 정보 중 저장할 것 결정 | "오늘 시험 범위는 기억하자" |
 | **Output Gate ($o_t$)** | 현재 출력에 쓸 기억 결정 | "지금 필요한 건 수학 공식" |
-| **Cell State ($C_t$)** | 장기 기억 고속도로 (기울기 직통) | "중요한 노트북" |
+| **Cell [[272_state_pattern|State]] ($C_t$)** | 장기 기억 고속도로 (기울기 직통) | "중요한 노트북" |
 
-### Cell State = 기울기 고속도로
+### Cell [[272_state_pattern|State]] = 기울기 고속도로
 
 $C_t = f_t \odot C_{t-1} + i_t \odot \tilde{C}_t$
 
 Cell State는 행렬 곱셈이 아닌 **원소별 곱(Hadamard Product)**으로 전파되므로, $W_h^T$ 반복 곱셈이 없어 기울기가 소실되지 않는다.
 
-- **📢 섹션 요약 비유**: 바닐라 RNN은 메모를 **연필로 적어서 계속 지워지는** 칠판이고, LSTM Cell State는 **중요한 것만 금고에 넣는** 보물 상자다.
+- **📢 섹션 요약 비유**: 바닐라 RNN은 메모를 **연필로 적어서 계속 지워지는** 칠판이고, [[292_lstm|LSTM]] Cell State는 **중요한 것만 금고에 넣는** 보물 상자다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-| 비교 | 바닐라 RNN | LSTM | Transformer |
+| 비교 | 바닐라 [[244_rnn_time_series_lstm_cell_gate_long_term_dependency|RNN]] | [[292_lstm|LSTM]] | [[246_transformer_self_attention_parallel_positional_encoding|Transformer]] |
 |:---|:---|:---|:---|
-| **장기 의존성** | 실패 | **성공 (게이트)** | **완전 해결 (Attention)** |
-| **경로 길이** | O(T) | O(T) (but 보호됨) | **O(1) (직접 접근)** |
-| **병렬화** | 불가 | 불가 | **완전 가능** |
+| **[[291_long_term_dependency|장기 의존성]]** | 실패 | **성공 (게이트)** | **완전 해결 (Attention)** |
+| **경로 길이** | O(T) | O(T) (but [[571_protection_vs_security|보호]]됨) | **O(1) (직접 접근)** |
+| **[[430_index_fast_full_scan|병렬]]화** | 불가 | 불가 | **완전 가능** |
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### 기울기 폭발 해결
-- **Gradient Clipping**: 기울기 norm이 임계값을 넘으면 잘라내기. `torch.nn.utils.clip_grad_norm_(model.parameters(), max_norm=1.0)`
+### [[089_exploding_gradient_clipping|기울기 폭발]] 해결
+- **Gradient [[389_ppo_proximal_policy_optimization|Clipping]]**: 기울기 norm이 임계값을 넘으면 잘라내기. `torch.nn.utils.clip_grad_norm_(model.parameters(), max_norm=1.0)`
 
-### 장기 의존성이 중요한 태스크
+### [[291_long_term_dependency|장기 의존성]]이 중요한 [[150_task|태스크]]
 1. **기계 번역**: 주어-동사 일치 (50+ 단어 거리).
-2. **음악 생성**: 조성·리듬 패턴 유지 (수백 노트).
+2. **음악 [[087_process_state_transition|생성]]**: 조성·리듬 패턴 유지 (수백 노트).
 3. **DNA 서열 분석**: 수천 염기 거리의 상호작용.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-장기 의존성 문제는 시퀀스 모델링의 **가장 근본적인 도전**이었으며, LSTM(1997)이 20년간 해법으로 군림했다. Transformer(2017)가 Self-Attention으로 경로 길이를 O(1)로 줄여 완전히 극복했고, 현재 Mamba·RWKV 등 **선형 복잡도 시퀀스 모델**이 Attention의 $O(T^2)$ 비용을 줄이면서 장기 의존성을 유지하는 새로운 접근을 시도하고 있다.
+[[291_long_term_dependency|장기 의존성]] 문제는 시퀀스 모델링의 **가장 근본적인 도전**이었으며, [[292_lstm|LSTM]](1997)이 20년간 해법으로 군림했다. [[246_transformer_self_attention_parallel_positional_encoding|Transformer]](2017)가 Self-Attention으로 경로 길이를 O(1)로 줄여 완전히 극복했고, 현재 Mamba·RWKV 등 **선형 복잡도 시퀀스 모델**이 Attention의 $O(T^2)$ 비용을 줄이면서 [[291_long_term_dependency|장기 의존성]]을 유지하는 새로운 접근을 시도하고 있다.
 
 ---
 
@@ -87,11 +87,11 @@ Cell State는 행렬 곱셈이 아닌 **원소별 곱(Hadamard Product)**으로 
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **기울기 소실** | $\|W_h\| < 1$의 반복 곱, 장기 의존성 실패 원인 |
-| **기울기 폭발** | $\|W_h\| > 1$의 반복 곱, Gradient Clipping으로 해결 |
-| **LSTM Cell State** | 기울기 고속도로, 장기 의존성 해결 |
-| **Self-Attention** | O(1) 경로로 장기 의존성 완전 극복 |
-| **Mamba / RWKV** | 선형 복잡도로 장기 의존성 유지하는 차세대 모델 |
+| **[[088_vanishing_gradient_relu_skip_connection|기울기 소실]]** | $\|W_h\| < 1$의 반복 곱, [[291_long_term_dependency|장기 의존성]] 실패 원인 |
+| **[[089_exploding_gradient_clipping|기울기 폭발]]** | $\|W_h\| > 1$의 반복 곱, Gradient Clipping으로 해결 |
+| **[[292_lstm|LSTM]] Cell [[272_state_pattern|State]]** | 기울기 고속도로, [[291_long_term_dependency|장기 의존성]] 해결 |
+| **[[124_self_attention|Self-Attention]]** | O(1) 경로로 [[291_long_term_dependency|장기 의존성]] 완전 극복 |
+| **Mamba / RWKV** | 선형 복잡도로 [[291_long_term_dependency|장기 의존성]] 유지하는 차세대 모델 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -113,5 +113,5 @@ Cell State는 행렬 곱셈이 아닌 **원소별 곱(Hadamard Product)**으로 
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 100명이 한 줄로 서서 **소문(기울기)을 전달**하면, 마지막 사람은 원래 이야기를 잊어버려요 (소실).
-2. LSTM은 중요한 이야기를 **금고(Cell State)**에 넣어서, 100번째 사람도 정확히 기억하게 해줘요.
+2. LSTM은 중요한 이야기를 **금고(Cell [[272_state_pattern|State]])**에 넣어서, 100번째 사람도 정확히 기억하게 해줘요.
 3. Transformer는 아예 **첫 번째 사람에게 직접 물어볼 수** 있어서 전달할 필요조차 없답니다!

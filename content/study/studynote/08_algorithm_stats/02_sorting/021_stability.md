@@ -7,26 +7,26 @@ categories = "studynote-algorithm"
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: 안정 정렬(Stable Sort)은 동일한 키를 가진 원소들의 상대적 순서를 정렬 전후로 보존하는 성질이며, 이는 기능적 정확성이 아니라 데이터 의미론의 문제다.
-> 2. **가치**: 다중 기준 정렬(성 → 이름 순), 데이터베이스 조인 후 정렬, 기수 정렬의 올바른 동작에 있어 안정성이 결과의 정확성을 보장하는 핵심 조건이다.
+> 1. **본질**: 안정 정렬(Stable Sort)은 동일한 키를 가진 원소들의 상대적 순서를 정렬 전후로 보존하는 성질이며, 이는 기능적 [[002_bigdata_5v|정확성]]이 아니라 [[001_dikw_pyramid|데이터]] 의미론의 문제다.
+> 2. **가치**: 다중 기준 정렬(성 → 이름 순), [[002_database_definition|데이터베이스]] 조인 후 정렬, [[017_radix_sort|기수 정렬]]의 올바른 동작에 있어 안정성이 결과의 [[002_bigdata_5v|정확성]]을 보장하는 핵심 조건이다.
 > 3. **판단 포인트**: 키 외 부가 정보가 있는 레코드를 정렬할 때는 안정 정렬을 선택해야 하며, 불안정 정렬 사용 시 다중 키 정렬 결과가 의도와 달라질 수 있다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-정렬 알고리즘을 평가할 때 속도만큼 중요한 속성이 **안정성 (Stability)**이다. 이는 **동일한 정렬 키를 가진 원소들이 정렬 후에도 입력 순서를 유지하는가**를 의미한다.
+정렬 [[001_algorithm_definition|알고리즘]]을 평가할 때 속도만큼 중요한 속성이 **안정성 (Stability)**이다. 이는 **동일한 정렬 키를 가진 원소들이 정렬 후에도 입력 순서를 유지하는가**를 의미한다.
 
-### 안정/불안정 정렬 분류
+### 안정/불안정 정렬 [[104_classification_analysis|분류]]
 
 | 안정 정렬 (Stable) | 불안정 정렬 (Unstable) |
 |:---|:---|
-| 버블 정렬 (Bubble Sort) | 선택 정렬 (Selection Sort) |
-| 삽입 정렬 (Insertion Sort) | 퀵 정렬 (Quick Sort) |
-| 병합 정렬 (Merge Sort) | 힙 정렬 (Heap Sort) |
-| 계수 정렬 (Counting Sort) | 인트로 정렬 (Introsort) |
-| 기수 정렬 (Radix Sort) | 셸 정렬 (Shell Sort) |
-| 팀 정렬 (Timsort) | — |
+| [[022_bubble_sort|버블 정렬]] ([[022_bubble_sort|Bubble Sort]]) | [[024_selection_sort|선택 정렬]] ([[024_selection_sort|Selection Sort]]) |
+| [[052_insertion_sort_algorithm|삽입 정렬]] ([[052_insertion_sort_algorithm|Insertion Sort]]) | [[047_quick_sort|퀵 정렬]] ([[047_quick_sort|Quick Sort]]) |
+| 병합 정렬 ([[044_merge_sort|Merge Sort]]) | [[080_heap_sort|힙 정렬]] ([[080_heap_sort|Heap Sort]]) |
+| [[016_counting_sort|계수 정렬]] ([[016_counting_sort|Counting Sort]]) | [[020_introsort|인트로 정렬]] ([[020_introsort|Introsort]]) |
+| [[017_radix_sort|기수 정렬]] ([[017_radix_sort|Radix Sort]]) | [[029_shell_sort|셸 정렬]] ([[029_shell_sort|Shell Sort]]) |
+| [[019_timsort|팀 정렬]] ([[019_timsort|Timsort]]) | — |
 
 📢 **섹션 요약 비유**: 안정 정렬은 번호표를 나눠준 줄 세우기다. 같은 키를 가진 사람들은 번호표 순서대로 서 있게 되어, 나중에 누가 먼저 왔는지 알 수 있다. 불안정 정렬은 번호표 없이 키 순으로만 줄 세우기다.
 
@@ -34,7 +34,7 @@ categories = "studynote-algorithm"
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### 안정성 차이 ASCII 다이어그램
+### 안정성 차이 [[103_ascii|ASCII]] 다이어그램
 
 ```
 입력 레코드: [(Bob, 3등급), (Alice, 3등급), (Charlie, 1등급)]
@@ -54,7 +54,7 @@ categories = "studynote-algorithm"
   → 운 좋게 맞을 수도 있지만 보장 없음
 ```
 
-### 왜 불안정 정렬이 발생하나? (선택 정렬 예시)
+### 왜 불안정 정렬이 발생하나? ([[024_selection_sort|선택 정렬]] 예시)
 
 ```
 입력: [B₁, A, B₂]  (B₁, B₂는 동일 키 B)
@@ -67,7 +67,7 @@ categories = "studynote-algorithm"
 선택 정렬은 교환(Swap) 연산이 키 외 순서를 파괴함 → 불안정
 ```
 
-### 안정 정렬이 보장되는 이유 (삽입 정렬 예시)
+### 안정 정렬이 보장되는 이유 ([[052_insertion_sort_algorithm|삽입 정렬]] 예시)
 
 ```
 입력: [B₁, A, B₂]
@@ -81,10 +81,10 @@ categories = "studynote-algorithm"
 
 ### 다중 키 정렬에서 안정성의 중요성
 
-| 정렬 기준 | 알고리즘 요구 |
+| 정렬 기준 | [[001_algorithm_definition|알고리즘]] 요구 |
 |:---|:---|
 | 먼저 이름순 정렬 후 나이순 정렬 | **안정 정렬 필수** (같은 나이에서 이름 순서 유지) |
-| 기수 정렬 (자릿수 순차 처리) | **안정 정렬 필수** (상위 자릿수가 하위 결과 덮지 않음) |
+| [[017_radix_sort|기수 정렬]] (자릿수 순차 처리) | **안정 정렬 필수** (상위 자릿수가 하위 결과 덮지 않음) |
 | 단일 키 정렬 | 안정/불안정 모두 가능 |
 
 📢 **섹션 요약 비유**: 다중 키 정렬의 안정성은 선착순 + 점수순 대기열과 같다. 먼저 점수순으로 줄을 세웠을 때, 같은 점수면 먼저 온 사람이 앞에 있어야 한다. 이를 보장하지 않으면 선착순 의미가 사라진다.
@@ -93,20 +93,20 @@ categories = "studynote-algorithm"
 
 ## Ⅲ. 비교 및 연결
 
-### 정렬 알고리즘별 안정성/복잡도 종합 비교
+### 정렬 [[001_algorithm_definition|알고리즘]]별 안정성/복잡도 종합 비교
 
-| 알고리즘 | 시간(평균) | 공간 | 안정 | 제자리 |
+| [[001_algorithm_definition|알고리즘]] | 시간(평균) | 공간 | 안정 | 제자리 |
 |:---|:---:|:---:|:---:|:---:|
-| 버블 정렬 | O(n²) | O(1) | ✅ | ✅ |
-| 선택 정렬 | O(n²) | O(1) | ❌ | ✅ |
-| 삽입 정렬 | O(n²) | O(1) | ✅ | ✅ |
+| [[022_bubble_sort|버블 정렬]] | O(n²) | O(1) | ✅ | ✅ |
+| [[024_selection_sort|선택 정렬]] | O(n²) | O(1) | ❌ | ✅ |
+| [[052_insertion_sort_algorithm|삽입 정렬]] | O(n²) | O(1) | ✅ | ✅ |
 | 병합 정렬 | O(n log n) | O(n) | ✅ | ❌ |
-| 퀵 정렬 | O(n log n) | O(log n) | ❌ | ✅ |
-| 힙 정렬 | O(n log n) | O(1) | ❌ | ✅ |
-| Timsort | O(n log n) | O(n) | ✅ | ❌ |
-| Introsort | O(n log n) | O(log n) | ❌ | ✅ |
-| 계수 정렬 | O(n+k) | O(n+k) | ✅ | ❌ |
-| 기수 정렬 | O(d·n) | O(n+k) | ✅ | ❌ |
+| [[047_quick_sort|퀵 정렬]] | O(n log n) | O(log n) | ❌ | ✅ |
+| [[080_heap_sort|힙 정렬]] | O(n log n) | O(1) | ❌ | ✅ |
+| [[019_timsort|Timsort]] | O(n log n) | O(n) | ✅ | ❌ |
+| [[020_introsort|Introsort]] | O(n log n) | O(log n) | ❌ | ✅ |
+| [[016_counting_sort|계수 정렬]] | O(n+k) | O(n+k) | ✅ | ❌ |
+| [[017_radix_sort|기수 정렬]] | O(d·n) | O(n+k) | ✅ | ❌ |
 
 ### 불안정 정렬을 안정화하는 방법
 
@@ -131,11 +131,11 @@ categories = "studynote-algorithm"
 → 가격으로 먼저 정렬(안정 정렬) → 카테고리로 정렬  
 → 같은 카테고리 내 가격 순서 보존 ✅
 
-**시나리오 2 — 데이터베이스 ORDER BY 다중 컬럼**: `ORDER BY grade ASC, name ASC`  
+**시나리오 2 — [[002_database_definition|데이터베이스]] ORDER BY 다중 컬럼**: `ORDER BY grade ASC, name ASC`  
 → name으로 먼저 안정 정렬 → grade로 안정 정렬  
 → 최종: grade 순 정렬, 같은 grade는 name 순 ✅
 
-**시나리오 3 — 기수 정렬 내부**: 십의 자리 정렬 후 백의 자리 정렬 시  
+**시나리오 3 — [[017_radix_sort|기수 정렬]] 내부**: 십의 자리 정렬 후 백의 자리 정렬 시  
 → 반드시 안정 정렬이어야 십의 자리 결과가 보존됨
 
 ### 기술사 선택 가이드
@@ -155,22 +155,22 @@ categories = "studynote-algorithm"
 └──────────────────────────────────────────────────────┘
 ```
 
-📢 **섹션 요약 비유**: 정렬 안정성은 법정 증거 보전과 같다. 원본 증거(입력 순서)가 정렬 과정에서 훼손되면, 법정(다중 키 정렬, 기수 정렬)에서 판결이 잘못된다.
+📢 **섹션 요약 비유**: 정렬 안정성은 법정 증거 보전과 같다. 원본 증거(입력 순서)가 정렬 과정에서 훼손되면, 법정(다중 키 정렬, [[017_radix_sort|기수 정렬]])에서 판결이 잘못된다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-정렬 안정성은 단순한 구현 세부사항이 아니라 **데이터의 의미론적 정확성**을 보장하는 알고리즘 속성이다. 실무에서 다중 키 정렬, 데이터베이스 처리, 알고리즘 조합(기수 정렬)에서 안정성 여부는 결과 정확성을 직접 결정한다.
+정렬 안정성은 단순한 구현 세부사항이 아니라 **[[001_dikw_pyramid|데이터]]의 의미론적 [[002_bigdata_5v|정확성]]**을 보장하는 [[001_algorithm_definition|알고리즘]] 속성이다. 실무에서 다중 키 정렬, [[002_database_definition|데이터베이스]] 처리, [[001_algorithm_definition|알고리즘]] 조합([[017_radix_sort|기수 정렬]])에서 안정성 여부는 결과 [[002_bigdata_5v|정확성]]을 직접 결정한다.
 
 ### 효과 정리
 
 | 효과 | 내용 |
 |:---|:---|
-| 정확성 | 다중 키 정렬에서 의도한 결과 보장 |
-| 조합성 | 기수 정렬 등 알고리즘 조합 시 정확성 |
+| [[002_bigdata_5v|정확성]] | 다중 키 정렬에서 의도한 결과 보장 |
+| 조합성 | [[017_radix_sort|기수 정렬]] 등 [[001_algorithm_definition|알고리즘]] 조합 시 [[002_bigdata_5v|정확성]] |
 | 예측성 | 동일 입력에 대해 일관된 출력 |
-| 신뢰성 | 사용자 데이터 순서 보존으로 신뢰 확보 |
+| [[642_reliability_mtbf_mttr_mttf_availability|신뢰성]] | 사용자 [[001_dikw_pyramid|데이터]] 순서 보존으로 신뢰 확보 |
 
 📢 **섹션 요약 비유**: 안정 정렬은 줄 서기 규칙이 명확한 공공기관과 같다. "같은 번호표라면 먼저 온 사람이 먼저"라는 원칙이 있어야 모든 사람이 시스템을 신뢰할 수 있다.
 
@@ -178,13 +178,13 @@ categories = "studynote-algorithm"
 
 ### 📌 관련 개념 맵
 
-| 개념 | 연결 관계 | 설명 |
+| 개념 | 연결 [[083_relationship_in_er_model|관계]] | 설명 |
 |:---|:---|:---|
-| 병합 정렬 (Merge Sort) | → 대표 안정 정렬 | 분할정복 기반, O(n log n) |
-| 기수 정렬 (Radix Sort) | → 안정성 요구 | 서브루틴 안정성 필수 |
+| 병합 정렬 ([[044_merge_sort|Merge Sort]]) | → 대표 안정 정렬 | 분할정복 기반, O(n log n) |
+| [[017_radix_sort|기수 정렬]] ([[017_radix_sort|Radix Sort]]) | → 안정성 요구 | 서브루틴 안정성 필수 |
 | 다중 키 정렬 | → 적용 필요 | 여러 기준 정렬에서 핵심 |
-| 퀵 정렬 (Quick Sort) | → 불안정 예시 | 파티션 교환으로 순서 파괴 |
-| Timsort | → 대표 안정 정렬 | Python/Java 기본 안정 정렬 |
+| [[047_quick_sort|퀵 정렬]] ([[047_quick_sort|Quick Sort]]) | → 불안정 예시 | [[514_partition_slice_volume|파티션]] 교환으로 순서 파괴 |
+| [[019_timsort|Timsort]] | → 대표 안정 정렬 | Python/Java 기본 안정 정렬 |
 
 
 ### 📈 관련 키워드 및 발전 흐름도
@@ -205,7 +205,7 @@ categories = "studynote-algorithm"
 [Tim Sort — 안정 정렬 + 실세계 데이터 최적화, Python·Java 기본 정렬]
 ```
 
-이 흐름은 안정성의 개념에서 안정/불안정 정렬의 트레이드오프를 거쳐, 다중 키 정렬 실무 응용과 최신 Tim Sort로 이어지는 정렬 안정성의 실용적 발전 과정을 보여준다.
+이 흐름은 안정성의 개념에서 안정/불안정 정렬의 트레이드오프를 거쳐, 다중 키 정렬 실무 응용과 최신 [[737_thermal_paste_tim|Tim]] Sort로 이어지는 정렬 안정성의 실용적 발전 과정을 보여준다.
 
 
 ### 👶 어린이를 위한 3줄 비유 설명

@@ -8,29 +8,29 @@ categories = "studynote-software-engineering"
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 공급망 (Supply Chain) 공격 사례 및 서명된 커밋(Signed Commit), CI 파이프라인 보호은(는) 소프트웨어 공학의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.
-> 2. **가치**: 이 개념을 올바르게 적용하면 소프트웨어의 품질·유지보수성·재사용성이 향상되고, 개발 생산성과 팀 협업 효율이 높아진다.
+> 1. **본질**: 공급망 (Supply Chain) 공격 사례 및 서명된 커밋(Signed Commit), [[090_configuration_item|CI]] 파이프라인 [[571_protection_vs_security|보호]]은(는) [[001_software_engineering_definition|소프트웨어 공학]]의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.
+> 2. **가치**: 이 개념을 올바르게 적용하면 소프트웨어의 품질·[[346_maintainability_portability|유지보수성]]·재사용성이 향상되고, 개발 생산성과 팀 협업 효율이 높아진다.
 > 3. **판단 포인트**: 도입 시에는 비용·복잡도·조직 성숙도를 함께 고려해야 하며, 맹목적 적용보다 프로젝트 특성에 맞는 선택적 적용이 핵심이다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 물건을 만들려면 공장(CI/CD 파이프라인)과 재료(오픈소스/외부 SW)가 필요하다. 해커가 이 공급망(Supply Chain)을 오염시킨다. 
+- **개념**: 물건을 만들려면 공장([[090_configuration_item|CI]]/CD 파이프라인)과 재료([[191_oss_license_compliance|오픈소스]]/외부 SW)가 필요하다. 해커가 이 공급망(Supply Chain)을 오염시킨다. 
   - 1) 개발자가 치는 코드에 몰래 섞여 들어가기 (Git 털기). 
-  - 2) 젠킨스가 코드를 `.jar` 로 압축할 때 몰래 파일 껴넣기 (Build 서버 털기). 
-  - 3) 내가 쓰는 외부 오픈소스의 공식 업데이트 파일에 독을 발라두기 (Dependency 털기).
+  - 2) [[071_jenkins_ci_cd_pipeline_automation|젠킨스]]가 코드를 `.jar` 로 압축할 때 몰래 [[501_file_definition_logical_record|파일]] 껴넣기 (Build 서버 털기). 
+  - 3) 내가 쓰는 외부 [[191_oss_license_compliance|오픈소스]]의 공식 업데이트 [[501_file_definition_logical_record|파일]]에 독을 발라두기 (Dependency 털기).
 
-- **필요성**: 2020년, 미국 국방부, 백악관, 마이크로소프트 등 천상계 방화벽을 두른 1만 개의 기관이 동시다발적으로 개털렸다. 원인은 그들이 100% 믿고 쓰는 '솔라윈즈(SolarWinds)'라는 네트워크 감시 소프트웨어의 **"공식 업데이트 파일"** 안에 러시아 해커가 심어둔 백도어가 섞여 있었기 때문이다. 해커는 솔라윈즈의 빌드 서버(공장)를 털어서 공식 인감도장을 찍어버렸다. **아무리 내 성벽을 100m로 쌓아도, 매일 성안으로 들어오는 식량 마차(공식 업데이트/오픈소스)에 독이 들었으면 성은 하루 만에 함락된다.** 내가 통제할 수 없는 이 외부의 독을 걸러내기 위해 공급망 방어가 전 세계 1순위 안보 과제로 터져 올랐다.
+- **필요성**: 2020년, 미국 국방부, 백악관, 마이크로소프트 등 천상계 [[690_firewall_generation_evolution|방화벽]]을 두른 1만 개의 기관이 동시다발적으로 개털렸다. 원인은 그들이 100% 믿고 쓰는 '솔라윈즈(SolarWinds)'라는 네트워크 감시 소프트웨어의 **"공식 업데이트 [[501_file_definition_logical_record|파일]]"** 안에 러시아 해커가 심어둔 [[737_backdoor_c2_beacon_behavior_analysis|백도어]]가 섞여 있었기 때문이다. 해커는 솔라윈즈의 빌드 서버(공장)를 털어서 공식 인감도장을 찍어버렸다. **아무리 내 성벽을 100m로 쌓아도, 매일 성안으로 들어오는 식량 마차(공식 업데이트/[[191_oss_license_compliance|오픈소스]])에 독이 들었으면 성은 하루 만에 함락된다.** 내가 통제할 수 없는 이 외부의 독을 걸러내기 위해 공급망 방어가 전 세계 1순위 안보 과제로 터져 올랐다.
 
-- **💡 비유**: 공급망 공격은 **'정수기 필터 납품업체 테러 사건'**과 똑같습니다. 아무리 철통 보안을 자랑하는 부자 동네라도 사람들은 정수기 물을 마십니다. 도둑은 부잣집 문을 뚫으려 낑낑대지 않습니다. 정수기 필터를 만드는 시골 공장(오픈소스/외부 SW) 하나를 몰래 뚫어서, 모든 필터 안에 '수면제(백도어)'를 1알씩 코팅해 둡니다. 이 필터들은 "식약처 공식 인증(합법적 업데이트)" 마크를 달고 부잣집에 예쁘게 배달됩니다. 부자들은 아무 의심 없이 꿀꺽 마시고 잠에 빠지며 저택의 모든 돈이 다 털립니다. 도둑은 부잣집 정문 근처에도 가지 않고 대성공을 거둡니다.
+- **💡 비유**: 공급망 공격은 **'정수기 필터 납품업체 테러 사건'**과 똑같습니다. 아무리 철통 보안을 자랑하는 부자 동네라도 사람들은 정수기 물을 마십니다. 도둑은 부잣집 문을 뚫으려 낑낑대지 않습니다. 정수기 필터를 만드는 시골 공장([[191_oss_license_compliance|오픈소스]]/외부 SW) 하나를 몰래 뚫어서, 모든 필터 안에 '수면제([[737_backdoor_c2_beacon_behavior_analysis|백도어]])'를 1알씩 코팅해 둡니다. 이 필터들은 "식약처 공식 [[303_authentication_authorization_patterns|인증]](합법적 업데이트)" 마크를 달고 부잣집에 예쁘게 배달됩니다. 부자들은 아무 의심 없이 꿀꺽 마시고 잠에 빠지며 저택의 모든 돈이 다 털립니다. 도둑은 부잣집 정문 근처에도 가지 않고 대성공을 거둡니다.
 
 - **등장 배경 및 발전 과정**:
-  1. **오픈소스의 낭만 시대**: 2000년대까진 남이 만든 코드를 묻지도 따지지도 않고 복붙해서 썼다(Frankenstein Code).
-  2. **오픈소스 타이포스쿼팅 (2010년대)**: 해커가 NPM이나 Maven에 엄청 유명한 라이브러리(`react-dom`)와 헷갈리게 `react-don` 이라는 가짜 바이러스 코드를 올렸다. 개발자들이 오타를 쳐서 다운받는 순간 컴퓨터가 좀비가 되었다.
-  3. **빌드 서버 장악의 대재앙 (2020~현재)**: 단순히 이름 속이기를 넘어, 아예 기업의 젠킨스(Jenkins)나 깃허브 액션(GitHub Actions) 권한을 탈취해, 정상 소스코드의 빌드 결과물(Artifact) 자체를 오염시키는 최악의 국가 스케일 공격(솔라윈즈, Kaseya 사태)으로 격상하며 미국 정부의 행정명령(SBOM 제출 의무화)을 끌어냈다.
+  1. **[[191_oss_license_compliance|오픈소스]]의 낭만 시대**: 2000년대까진 남이 만든 코드를 묻지도 따지지도 않고 복붙해서 썼다(Frankenstein [[082_process_memory_structure|Code]]).
+  2. **[[191_oss_license_compliance|오픈소스]] 타이포스쿼팅 (2010년대)**: 해커가 NPM이나 Maven에 엄청 유명한 [[336_library_vs_framework|라이브러리]](`react-dom`)와 헷갈리게 `react-don` 이라는 가짜 [[589_virus|바이러스]] 코드를 올렸다. 개발자들이 오타를 쳐서 다운받는 순간 컴퓨터가 좀비가 되었다.
+  3. **빌드 서버 장악의 대재앙 (2020~현재)**: 단순히 이름 속이기를 넘어, 아예 기업의 [[071_jenkins_ci_cd_pipeline_automation|젠킨스]]([[071_jenkins_ci_cd_pipeline_automation|Jenkins]])나 깃허브 액션(GitHub Actions) 권한을 탈취해, 정상 소스코드의 빌드 결과물([[075_artifact_management_nexus_docker_registry|Artifact]]) 자체를 오염시키는 최악의 국가 스케일 공격(솔라윈즈, Kaseya 사태)으로 격상하며 미국 정부의 행정명령([[890_sbom_cyclonedx_spdx|SBOM]] 제출 의무화)을 끌어냈다.
 
-- **📢 섹션 요약 비유**: 옛날 해커는 성(회사)을 털기 위해 **'공성전(대포 쏘기)'**을 했습니다(디도스, SQL 인젝션). 너무 힘들었습니다. 요즘 해커는 성을 공격하지 않습니다. 성으로 배달 가는 **'야채 트럭(서드파티 소프트웨어) 짐칸'**에 몰래 타서 성 안으로 편안하게 하이패스로 들어갑니다. 아무리 성벽(방화벽)을 높여도 야채 트럭 검수(공급망 방어)를 안 하면 성은 무조건 무혈입성 당합니다.
+- **📢 섹션 요약 비유**: 옛날 해커는 성(회사)을 털기 위해 **'공성전(대포 쏘기)'**을 했습니다(디도스, SQL [[480_injection|인젝션]]). 너무 힘들었습니다. 요즘 해커는 성을 공격하지 않습니다. 성으로 배달 가는 **'야채 트럭([[385_third_party_cookie_deprecation_cdw|서드파티]] 소프트웨어) 짐칸'**에 몰래 타서 성 안으로 편안하게 하이패스로 들어갑니다. 아무리 성벽([[690_firewall_generation_evolution|방화벽]])을 높여도 야채 트럭 검수(공급망 방어)를 안 하면 성은 무조건 무혈입성 당합니다.
 
 ---
 
@@ -59,18 +59,18 @@ categories = "studynote-software-engineering"
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-공급망 (Supply Chain) 공격 사례 및 서명된 커밋(Signed Commit), CI 파이프라인 보호의 핵심 원리와 구성 요소를 이해하기 위해 다음 구조를 살펴본다.
+공급망 (Supply Chain) 공격 사례 및 서명된 커밋(Signed Commit), [[090_configuration_item|CI]] 파이프라인 [[571_protection_vs_security|보호]]의 핵심 원리와 구성 요소를 이해하기 위해 다음 구조를 살펴본다.
 
 | 구성 요소 | 역할 | 적용 기준 |
 | :--- | :--- | :--- |
-| 개념 정의 | 핵심 용어와 범위를 명확히 설정 | 용어 혼용·오해 방지 |
-| 원칙 및 규칙 | 적용 시 따라야 할 기본 방향 | 일관성·품질 기준 |
+| 개념 정의 | 핵심 용어와 범위를 명확히 [[009_config|설정]] | 용어 혼용·오해 방지 |
+| 원칙 및 규칙 | 적용 시 따라야 할 기본 방향 | [[194_consistency_database_integrity|일관성]]·품질 기준 |
 | 기법 및 도구 | 실질적 구현 방법과 지원 도구 | 생산성·자동화 |
 | 측정 지표 | 결과물의 품질을 정량화하는 지표 | 의사결정 근거 |
 
-공급망 (Supply Chain) 공격 사례 및 서명된 커밋(Signed Commit), CI 파이프라인 보호의 핵심 원리는 **복잡성 분해**, **역할 분리**, **품질 측정**의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
+공급망 (Supply Chain) 공격 사례 및 서명된 커밋(Signed Commit), [[090_configuration_item|CI]] 파이프라인 [[571_protection_vs_security|보호]]의 핵심 원리는 **복잡성 분해**, **역할 분리**, **품질 측정**의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
 
-- **📢 섹션 요약 비유**: 공급망 (Supply Chain) 공격 사례 및 서명된 커밋(Signed Commit), CI 파이프라인 보호의 아키텍처는 공장의 생산 라인과 같다. 각 공정(구성 요소)이 명확한 역할을 가지고 정해진 순서대로 움직여야 최종 제품의 품질이 보장된다. 어느 한 공정이 부실하면 전체 제품이 불량이 된다.
+- **📢 섹션 요약 비유**: 공급망 (Supply Chain) 공격 사례 및 서명된 커밋(Signed Commit), [[090_configuration_item|CI]] 파이프라인 [[571_protection_vs_security|보호]]의 아키텍처는 공장의 생산 라인과 같다. 각 공정(구성 요소)이 명확한 역할을 가지고 정해진 순서대로 움직여야 최종 제품의 품질이 보장된다. 어느 한 공정이 부실하면 전체 제품이 불량이 된다.
 
 ---
 
@@ -80,18 +80,18 @@ categories = "studynote-software-engineering"
 
 ## Ⅲ. 비교 및 연결
 
-공급망 (Supply Chain) 공격 사례 및 서명된 커밋(Signed Commit), CI 파이프라인 보호을(를) 유사 개념과 비교하면 경계와 특성이 더 명확해진다.
+공급망 (Supply Chain) 공격 사례 및 서명된 커밋(Signed Commit), [[090_configuration_item|CI]] 파이프라인 [[571_protection_vs_security|보호]]을(를) 유사 개념과 비교하면 경계와 특성이 더 명확해진다.
 
-| 비교 항목 | 공급망 (Supply Chain) 공격 사례 및 서명된 커밋(Signed Commit), CI 파이프라인 보호 | 유사 대안 |
+| 비교 항목 | 공급망 (Supply Chain) 공격 사례 및 서명된 커밋(Signed Commit), [[090_configuration_item|CI]] 파이프라인 [[571_protection_vs_security|보호]] | 유사 대안 |
 | :--- | :--- | :--- |
 | 핵심 목적 | 체계적 품질·생산성 향상 | 임시 방편적 해결 |
 | 적용 규모 | 중·대규모 프로젝트에서 효과적 | 소규모에서는 오버헤드 발생 가능 |
 | 조직 요건 | 팀 전체의 공통 이해와 훈련 필요 | 개인 역량 의존 |
 | 측정 가능성 | 정량적 지표로 성과 측정 가능 | 주관적 판단에 의존 |
 
-다른 소프트웨어 공학 개념과의 연결을 보면, 공급망 (Supply Chain) 공격 사례 및 서명된 커밋(Signed Commit), CI 파이프라인 보호은(는) 요구공학·설계·테스트·형상관리 전반에 걸쳐 영향을 미친다. 특히 품질 보증(QA, Quality Assurance)과 형상 관리(SCM, Software Configuration Management)와 긴밀하게 연계된다.
+다른 [[001_software_engineering_definition|소프트웨어 공학]] 개념과의 연결을 보면, 공급망 (Supply Chain) 공격 사례 및 서명된 커밋(Signed Commit), [[090_configuration_item|CI]] 파이프라인 [[571_protection_vs_security|보호]]은(는) 요구공학·설계·테스트·형상관리 전반에 걸쳐 영향을 미친다. 특히 품질 보증(QA, Quality Assurance)과 [[020_software_configuration_management|형상 관리]]([[167_scm_software_configuration_management|SCM]], [[020_software_configuration_management|Software Configuration Management]])와 긴밀하게 연계된다.
 
-- **📢 섹션 요약 비유**: 공급망 (Supply Chain) 공격 사례 및 서명된 커밋(Signed Commit), CI 파이프라인 보호과 유사 대안의 차이는 지도를 가지고 산에 오르는 것과 감으로만 오르는 차이와 같다. 지도(체계적 방법)가 있으면 정상까지 최단 경로를 찾을 수 있지만, 없으면 같은 곳을 맴돌거나 낭떠러지에 빠질 수 있다.
+- **📢 섹션 요약 비유**: 공급망 (Supply Chain) 공격 사례 및 서명된 커밋(Signed Commit), [[090_configuration_item|CI]] 파이프라인 [[571_protection_vs_security|보호]]과 유사 대안의 차이는 지도를 가지고 산에 오르는 것과 감으로만 오르는 차이와 같다. 지도(체계적 방법)가 있으면 정상까지 최단 경로를 찾을 수 있지만, 없으면 같은 곳을 맴돌거나 낭떠러지에 빠질 수 있다.
 
 ---
 
@@ -101,9 +101,9 @@ categories = "studynote-software-engineering"
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-공급망 (Supply Chain) 공격 사례 및 서명된 커밋(Signed Commit), CI 파이프라인 보호을(를) 실무에 적용할 때는 다음 판단 기준을 참고한다.
+공급망 (Supply Chain) 공격 사례 및 서명된 커밋(Signed Commit), [[090_configuration_item|CI]] 파이프라인 [[571_protection_vs_security|보호]]을(를) 실무에 적용할 때는 다음 판단 기준을 참고한다.
 
-- **📢 섹션 요약 비유**: 공급망 (Supply Chain) 공격 사례 및 서명된 커밋(Signed Commit), CI 파이프라인 보호은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
+- **📢 섹션 요약 비유**: 공급망 (Supply Chain) 공격 사례 및 서명된 커밋(Signed Commit), [[090_configuration_item|CI]] 파이프라인 [[571_protection_vs_security|보호]]은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
 ---
 
@@ -111,21 +111,21 @@ categories = "studynote-software-engineering"
 
 ## Ⅴ. 기대효과 및 결론
 
-공급망 (Supply Chain) 공격 사례 및 서명된 커밋(Signed Commit), CI 파이프라인 보호을(를) 올바르게 적용하면 소프트웨어 품질·유지보수성·팀 생산성이 동시에 향상된다. 그러나 도입에는 학습 비용과 초기 투자가 필요하며, 조직 전체의 공감과 훈련이 선행되어야 한다.
+공급망 (Supply Chain) 공격 사례 및 서명된 커밋(Signed Commit), [[090_configuration_item|CI]] 파이프라인 [[571_protection_vs_security|보호]]을(를) 올바르게 적용하면 [[339_software_quality_definition|소프트웨어 품질]]·[[346_maintainability_portability|유지보수성]]·팀 생산성이 동시에 향상된다. 그러나 도입에는 학습 비용과 [[459_quic_fec_forward_error_correction|초기]] 투자가 필요하며, 조직 전체의 공감과 훈련이 선행되어야 한다.
 
 **한계와 전제 조건**:
 - 소규모 프로젝트에서는 오버헤드가 발생할 수 있다
 - 팀 전체의 충분한 교육과 실습 기간이 필요하다
-- 도구 지원 환경 구축에 초기 비용이 발생한다
+- 도구 지원 환경 구축에 [[459_quic_fec_forward_error_correction|초기]] 비용이 발생한다
 
 **미래 발전 방향**:
-- AI·LLM 기반 자동화 도구와의 통합으로 적용 효율 향상
-- 클라우드 네이티브·DevOps 환경에서의 진화적 적용
+- [[190_ai_llm_requirements_specification|AI]]·[[263_llm_large_language_model|LLM]] 기반 자동화 도구와의 통합으로 적용 효율 향상
+- [[531_cloud_native_architecture|클라우드 네이티브]]·[[652_devops_calms_culture|DevOps]] 환경에서의 진화적 적용
 - 정량적 측정 체계의 고도화를 통한 의사결정 지원 강화
 
-공급망 (Supply Chain) 공격 사례 및 서명된 커밋(Signed Commit), CI 파이프라인 보호은 '어떻게 빠르게 짜는가'가 아니라 '어떻게 오래 유지할 수 있는 소프트웨어를 짜는가'에 대한 답이다. 단기 속도보다 장기 지속 가능성을 추구하는 관점으로 기억해야 한다.
+공급망 (Supply Chain) 공격 사례 및 서명된 커밋(Signed Commit), [[090_configuration_item|CI]] 파이프라인 [[571_protection_vs_security|보호]]은 '어떻게 빠르게 짜는가'가 아니라 '어떻게 오래 유지할 수 있는 소프트웨어를 짜는가'에 대한 답이다. 단기 속도보다 장기 지속 가능성을 추구하는 관점으로 기억해야 한다.
 
-- **📢 섹션 요약 비유**: 공급망 (Supply Chain) 공격 사례 및 서명된 커밋(Signed Commit), CI 파이프라인 보호의 기대효과는 마라톤 훈련과 같다. 처음에는 느리고 고통스럽지만, 올바른 훈련 원칙을 지킨 선수만이 결승선에서 최고의 기록을 낼 수 있다. 소프트웨어 공학의 원칙도 단기 편의보다 장기 완성도를 위한 투자다.
+- **📢 섹션 요약 비유**: 공급망 (Supply Chain) 공격 사례 및 서명된 커밋(Signed Commit), [[090_configuration_item|CI]] 파이프라인 [[571_protection_vs_security|보호]]의 기대효과는 마라톤 훈련과 같다. 처음에는 느리고 고통스럽지만, 올바른 훈련 원칙을 지킨 선수만이 결승선에서 최고의 기록을 낼 수 있다. [[001_software_engineering_definition|소프트웨어 공학]]의 원칙도 단기 편의보다 장기 완성도를 위한 투자다.
 
 ---
 
@@ -137,10 +137,10 @@ categories = "studynote-software-engineering"
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| 소프트웨어 공학 (Software Engineering) | 공급망 (Supply Chain) 공격 사례 및 서명된 커밋(Signed Commit), CI 파이프라인 보호의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
-| 소프트웨어 생명주기 (SDLC, Software Development Life Cycle) | 공급망 (Supply Chain) 공격 사례 및 서명된 커밋(Signed Commit), CI 파이프라인 보호은 SDLC의 특정 단계에서 핵심적으로 적용된다 |
-| 품질 보증 (QA, Quality Assurance) | 공급망 (Supply Chain) 공격 사례 및 서명된 커밋(Signed Commit), CI 파이프라인 보호 적용 결과는 QA 활동을 통해 검증되고 측정된다 |
-| 형상 관리 (SCM, Software Configuration Management) | 공급망 (Supply Chain) 공격 사례 및 서명된 커밋(Signed Commit), CI 파이프라인 보호에서 생성된 산출물은 SCM을 통해 체계적으로 관리된다 |
+| [[001_software_engineering_definition|소프트웨어 공학]] ([[001_software_engineering_definition|Software Engineering]]) | 공급망 (Supply Chain) 공격 사례 및 서명된 커밋(Signed Commit), [[090_configuration_item|CI]] 파이프라인 [[571_protection_vs_security|보호]]의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
+| [[003_sdlc|소프트웨어 생명주기]] ([[131_sdlc_system_development_life_cycle_waterfall_agile|SDLC]], Software Development Life Cycle) | 공급망 (Supply Chain) 공격 사례 및 서명된 커밋(Signed Commit), [[090_configuration_item|CI]] 파이프라인 [[571_protection_vs_security|보호]]은 SDLC의 특정 단계에서 핵심적으로 적용된다 |
+| 품질 보증 (QA, Quality Assurance) | 공급망 (Supply Chain) 공격 사례 및 서명된 커밋(Signed Commit), [[090_configuration_item|CI]] 파이프라인 [[571_protection_vs_security|보호]] 적용 결과는 QA 활동을 통해 검증되고 측정된다 |
+| [[020_software_configuration_management|형상 관리]] ([[167_scm_software_configuration_management|SCM]], [[020_software_configuration_management|Software Configuration Management]]) | 공급망 (Supply Chain) 공격 사례 및 서명된 커밋(Signed Commit), [[090_configuration_item|CI]] 파이프라인 [[571_protection_vs_security|보호]]에서 생성된 산출물은 SCM을 통해 체계적으로 관리된다 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -160,10 +160,10 @@ categories = "studynote-software-engineering"
 지속적 개선 및 DevOps·MLOps 통합
 ```
 
-이 흐름은 소프트웨어 위기 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
+이 흐름은 [[002_software_crisis|소프트웨어 위기]] 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. 공급망 (Supply Chain) 공격 사례 및 서명된 커밋(Signed Commit), CI 파이프라인 보호은 레고 블록으로 성을 만들 때처럼, 규칙을 정하고 역할을 나누어 함께 작업하는 방법이에요.
+1. 공급망 (Supply Chain) 공격 사례 및 서명된 커밋(Signed Commit), [[090_configuration_item|CI]] 파이프라인 [[571_protection_vs_security|보호]]은 레고 블록으로 성을 만들 때처럼, 규칙을 정하고 역할을 나누어 함께 작업하는 방법이에요.
 2. 혼자서 막 만들면 나중에 무너지거나 고치기 어렵지만, 약속을 지키면 누구나 쉽게 고치고 더 크게 만들 수 있어요.
-3. 그래서 소프트웨어 공학은 프로그래머들이 좋은 프로그램을 빠르고 안전하게 만들 수 있게 도와주는 '규칙 모음집'이에요.
+3. 그래서 [[001_software_engineering_definition|소프트웨어 공학]]은 프로그래머들이 좋은 프로그램을 빠르고 안전하게 만들 수 있게 도와주는 '규칙 모음집'이에요.

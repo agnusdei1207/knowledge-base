@@ -18,7 +18,7 @@ categories = "studynote-security"
 
 시스템이 복잡할수록 공격자가 들어갈 수 있는 길도 많아진다. 그래서 공격 표면을 먼저 보는 것이 중요하다.
 
-불필요한 포트, API, 권한, 입력 지점이 많을수록 위험은 커진다.
+불필요한 [[446_port_and_bus|포트]], [[014_api_posix|API]], 권한, 입력 지점이 많을수록 위험은 커진다.
 
 - **📢 섹션 요약 비유**: 집의 문과 창문이 많을수록 잠가야 할 곳도 많아진다.
 
@@ -51,13 +51,13 @@ Reduction / Hardening
 | 개념 | 초점 | 차이 |
 | :-- | :-- | :-- |
 | Attack Surface | 노출 면적 | 공격 가능 접점 |
-| Threat Modeling | 공격 시나리오 | 공격 방식 |
-| Hardening | 방어 강화 | 설정/축소 |
+| [[611_threat_modeling|Threat Modeling]] | 공격 시나리오 | 공격 방식 |
+| Hardening | 방어 강화 | [[009_config|설정]]/축소 |
 
 | 영역 | 예 |
 | :-- | :-- |
-| Network | 포트, 프로토콜 |
-| Application | API, 입력값 |
+| Network | [[446_port_and_bus|포트]], [[295_protocol_field_tcp_udp_icmp|프로토콜]] |
+| Application | [[014_api_posix|API]], 입력값 |
 | Identity | 권한, 토큰 |
 
 표면을 줄이는 것은 공격자에게 줄 수 있는 기회를 줄이는 것과 같다.
@@ -68,18 +68,18 @@ Reduction / Hardening
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### 체크리스트
+### [[435_checklist_based_testing|체크리스트]]
 
-1. 외부 노출 포트와 API를 줄였는가?
+1. 외부 노출 [[446_port_and_bus|포트]]와 API를 줄였는가?
 2. 불필요한 권한과 기능을 닫았는가?
 3. 신뢰 경계를 확인했는가?
-4. 입력/파일/프로토콜 표면을 점검했는가?
+4. 입력/[[501_file_definition_logical_record|파일]]/[[295_protocol_field_tcp_udp_icmp|프로토콜]] 표면을 점검했는가?
 5. 주기적으로 재분석하는가?
 
-### 안티패턴
+### [[128_water_scrum_fall_anti_pattern|안티패턴]]
 
 - 모든 기능을 외부에 노출하는 설계
-- 사용하지 않는 포트를 방치하는 설계
+- 사용하지 않는 [[446_port_and_bus|포트]]를 방치하는 설계
 - 권한을 과도하게 주는 설계
 - 표면 축소 없이 탐지만 하는 설계
 

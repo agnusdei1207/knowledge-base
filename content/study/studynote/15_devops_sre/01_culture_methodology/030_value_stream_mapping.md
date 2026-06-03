@@ -7,9 +7,9 @@ categories = "studynote-devops-sre"
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: VSM(Value Stream Mapping, 가치 흐름 맵핑)은 린(Lean) 제조에서 소프트웨어 전달로 이식된 시각화 도구로, 아이디어부터 고객 전달까지 모든 단계의 작업 시간·대기 시간·낭비를 맵으로 그려서 분석한다.
-> 2. **가치**: 소프트웨어 전달에서 전체 리드 타임의 85~95%는 실제 작업이 아닌 대기 시간(Queue Time)이다. VSM은 이 대기 시간의 원인을 가시화하여 가장 큰 개선 레버를 찾아준다.
-> 3. **판단 포인트**: VSM은 현재 상태(Current State)와 미래 상태(Future State) 두 맵을 그리는 것이 핵심이다. 현재 맵으로 낭비를 찾고, 미래 맵으로 개선 목표를 시각화하여 팀 공감대를 형성한다.
+> 1. **본질**: VSM([[088_value_stream_mapping_vsm|Value Stream Mapping]], 가치 흐름 맵핑)은 린([[087_lean_software_development_7_principles|Lean]]) 제조에서 소프트웨어 전달로 이식된 [[003_bigdata_7v|시각화]] 도구로, 아이디어부터 고객 전달까지 모든 단계의 작업 시간·대기 시간·낭비를 맵으로 그려서 분석한다.
+> 2. **가치**: 소프트웨어 전달에서 전체 [[085_lead_time_cycle_time|리드 타임]]의 85~95%는 실제 작업이 아닌 대기 시간([[058_queue|Queue]] Time)이다. VSM은 이 대기 시간의 원인을 가시화하여 가장 큰 개선 레버를 찾아준다.
+> 3. **판단 포인트**: VSM은 [[178_as_is_to_be_analysis|현재 상태]]([[002_current|Current]] [[272_state_pattern|State]])와 미래 상태(Future [[272_state_pattern|State]]) 두 맵을 그리는 것이 핵심이다. 현재 맵으로 낭비를 찾고, 미래 맵으로 개선 목표를 [[003_bigdata_7v|시각화]]하여 팀 공감대를 형성한다.
 
 ---
 
@@ -40,15 +40,15 @@ VSM 소프트웨어 전달 예시:
 
 | 기호/개념 | 의미 |
 |:---|:---|
-| **Process Box** | 실제 작업 단계 |
+| **[[300_process|Process]] Box** | 실제 작업 단계 |
 | **Push 화살표** | 이전 단계가 밀어주는 흐름 |
 | **Pull 화살표** | 다음 단계가 당기는 흐름 |
 | **재고 삼각형** | 작업 대기 중인 항목 수 |
 | **작업 시간(PT)** | 실제 가치 창출 시간 |
 | **대기 시간(WT)** | 다음 단계로 이동 대기 |
-| **PCE** | Process Cycle Efficiency = PT/(PT+WT) |
+| **PCE** | [[300_process|Process]] Cycle Efficiency = PT/(PT+WT) |
 
-### 린 낭비 8가지 (TIM WOODS)
+### 린 낭비 8가지 ([[737_thermal_paste_tim|TIM]] WOODS)
 
 ```text
 T: Transport — 불필요한 이동·핸드오프
@@ -61,19 +61,19 @@ D: Defects — 버그·재작업
 S: Skills — 인재 미활용
 ```
 
-- **📢 섹션 요약 비유**: TIM WOODS 8 낭비는 식당 낭비 8가지다. 주방 동선 낭비(Motion), 재료 과잉 준비(Inventory), 손님 대기(Waiting), 불필요한 조리 단계(Over-processing) 등 모든 낭비가 매출(전달 속도)을 갉아먹는다.
+- **📢 섹션 요약 비유**: [[737_thermal_paste_tim|TIM]] WOODS 8 낭비는 식당 낭비 8가지다. 주방 동선 낭비(Motion), 재료 과잉 준비(Inventory), 손님 대기(Waiting), 불필요한 조리 단계(Over-processing) 등 모든 낭비가 매출(전달 속도)을 갉아먹는다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-| 비교 | VSM | DORA | OKR |
+| 비교 | VSM | [[523_dhcp_dora_process|DORA]] | [[039_okr_objectives_key_results|OKR]] |
 |:---|:---|:---|:---|
 | 초점 | 현재 흐름 분석 | 성과 측정 | 목표·결과 추적 |
-| 산출물 | 시각적 맵 | 4대 메트릭 | 분기 목표 |
+| 산출물 | 시각적 맵 | 4대 [[342_routing_metric_hop_bandwidth_delay|메트릭]] | 분기 목표 |
 | 피드백 주기 | 분기·연간 | 지속적 | 분기 |
 
-- **📢 섹션 요약 비유**: VSM·DORA·OKR은 공장 개선 3단계다. VSM으로 현재 문제를 찾고(진단), DORA 메트릭으로 개선을 측정하며(모니터링), OKR로 개선 목표를 달성한다(목표 추진).
+- **📢 섹션 요약 비유**: VSM·[[523_dhcp_dora_process|DORA]]·OKR은 공장 개선 3단계다. VSM으로 현재 문제를 찾고(진단), [[523_dhcp_dora_process|DORA]] [[342_routing_metric_hop_bandwidth_delay|메트릭]]으로 개선을 측정하며([[229_monitor|모니터]]링), OKR로 개선 목표를 달성한다(목표 추진).
 
 ---
 
@@ -117,13 +117,13 @@ S: Skills — 인재 미활용
 
 | 기대효과 | 내용 |
 |:---|:---|
-| **리드 타임 단축** | 대기 시간 제거로 배포 속도 향상 |
+| **[[085_lead_time_cycle_time|리드 타임]] 단축** | 대기 시간 제거로 배포 속도 향상 |
 | **팀 공감대** | 시각적 맵으로 전체 흐름 이해 공유 |
 | **PCE 향상** | 실제 작업 비율 증가 |
 
-AI 기반 자동 VSM 생성 도구가 등장하고 있다. GitHub Actions 로그·JIRA 이슈·배포 이력을 자동 수집하여 현재 상태 VSM을 자동 생성하고, AI가 주요 병목을 식별하여 개선 방안을 제안하는 Engineering Intelligence 플랫폼이 LinearB·Swarmia 등에서 실용화되고 있다.
+[[190_ai_llm_requirements_specification|AI]] 기반 자동 VSM [[087_process_state_transition|생성]] 도구가 등장하고 있다. GitHub Actions [[568_logs_distributed_logging_elk_fluentd|로그]]·JIRA 이슈·배포 이력을 자동 수집하여 [[178_as_is_to_be_analysis|현재 상태]] VSM을 자동 [[087_process_state_transition|생성]]하고, AI가 주요 병목을 [[655_ir_detection_analysis|식별]]하여 개선 방안을 제안하는 Engineering Intelligence 플랫폼이 LinearB·Swarmia 등에서 실용화되고 있다.
 
-- **📢 섹션 요약 비유**: AI VSM 자동화는 스마트 공장 생산성 분석이다. 공장 모든 센서 데이터를 AI가 분석해서 "라인 3번이 병목이에요"라고 실시간 알려주는 것처럼, AI가 개발 파이프라인 병목을 자동 진단한다.
+- **📢 섹션 요약 비유**: [[190_ai_llm_requirements_specification|AI]] VSM 자동화는 스마트 공장 생산성 분석이다. 공장 모든 센서 [[001_dikw_pyramid|데이터]]를 AI가 분석해서 "라인 3번이 병목이에요"라고 실시간 알려주는 것처럼, AI가 개발 [[123_pipe|파이프]]라인 병목을 자동 진단한다.
 
 ---
 
@@ -132,10 +132,10 @@ AI 기반 자동 VSM 생성 도구가 등장하고 있다. GitHub Actions 로그
 | 개념 | 연결 포인트 |
 |:---|:---|
 | **린 소프트웨어** | VSM 이론적 기원 |
-| **DORA 메트릭** | VSM 개선 측정 지표 |
+| **[[523_dhcp_dora_process|DORA]] [[342_routing_metric_hop_bandwidth_delay|메트릭]]** | VSM 개선 측정 지표 |
 | **WIP 제한** | 재고 낭비 제거 수단 |
-| **칸반** | VSM 흐름 관리 시각화 |
-| **Engineering Intelligence** | AI 기반 자동 VSM |
+| **[[084_kanban_board_wip_limit|칸반]]** | VSM 흐름 관리 [[003_bigdata_7v|시각화]] |
+| **Engineering Intelligence** | [[190_ai_llm_requirements_specification|AI]] 기반 자동 VSM |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -159,4 +159,4 @@ AI 기반 자동 VSM 생성 도구가 등장하고 있다. GitHub Actions 로그
 
 1. VSM은 택배 배송 경로 분석이에요 — 포장·운반·배달 중 어디서 시간이 가장 많이 낭비되는지 찾아요!
 2. 소프트웨어 전달의 64%는 실제 작업이 아닌 대기 시간이에요 — VSM으로 이걸 찾아서 제거해요!
-3. AI가 개발 파이프라인을 분석해서 병목을 자동으로 알려주는 시대가 오고 있어요!
+3. AI가 개발 [[123_pipe|파이프]]라인을 분석해서 병목을 자동으로 알려주는 시대가 오고 있어요!

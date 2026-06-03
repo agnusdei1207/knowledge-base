@@ -7,15 +7,15 @@ categories = "studynote-it-management"
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: SWOT 분석은 조직의 내부 강점(Strengths)·약점(Weaknesses)과 외부 기회(Opportunities)·위협(Threats)을 체계적으로 식별하는 환경 분석 도구이며, TOWS 매트릭스는 이 4개 요소를 교차하여 SO·ST·WO·WT 4가지 전략 방향을 도출하는 전략 수립 도구다.
-> 2. **가치**: SWOT 만으로는 분석에 그치지만, TOWS 매트릭스를 통해 "강점으로 기회를 활용(SO)"·"약점을 보완하여 위협 방어(WT)" 등 구체적 전략 대안이 도출되어 전략 기획의 완성도가 높아진다.
-> 3. **판단 포인트**: SWOT 분석의 함정은 주관적 나열에 그치는 것이다. 각 요소에 우선순위(High/Medium/Low)를 부여하고, TOWS에서 도출된 전략을 BSC(균형성과표)나 OKR과 연계하여 실행 계획으로 이어지게 해야 전략 도구로서 가치가 있다.
+> 1. **본질**: SWOT 분석은 조직의 내부 강점(Strengths)·약점(Weaknesses)과 외부 기회(Opportunities)·위협(Threats)을 체계적으로 식별하는 [[102_environmental_analysis_pest_5forces_value_chain|환경 분석]] 도구이며, TOWS 매트릭스는 이 4개 요소를 교차하여 SO·[[587_st|ST]]·WO·WT 4가지 [[268_strategy_pattern|전략]] 방향을 도출하는 [[268_strategy_pattern|전략]] 수립 도구다.
+> 2. **가치**: SWOT 만으로는 분석에 그치지만, TOWS 매트릭스를 통해 "강점으로 기회를 활용(SO)"·"약점을 보완하여 위협 방어(WT)" 등 구체적 [[268_strategy_pattern|전략]] 대안이 도출되어 [[268_strategy_pattern|전략]] 기획의 완성도가 높아진다.
+> 3. **판단 포인트**: SWOT 분석의 함정은 주관적 나열에 그치는 것이다. 각 요소에 우선순위(High/Medium/Low)를 부여하고, TOWS에서 도출된 [[268_strategy_pattern|전략]]을 [[019_bsc|BSC]](균형성과표)나 OKR과 연계하여 실행 계획으로 이어지게 해야 [[268_strategy_pattern|전략]] 도구로서 가치가 있다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-SWOT(Strengths·Weaknesses·Opportunities·Threats) 분석은 1960년대 스탠퍼드 연구팀이 개발한 전략 분석 프레임워크로, 반세기가 지난 지금도 경영 전략·IT 전략 수립의 출발점으로 광범위하게 사용된다.
+SWOT(Strengths·Weaknesses·Opportunities·Threats) 분석은 1960년대 스탠퍼드 연구팀이 개발한 [[268_strategy_pattern|전략]] 분석 프레임워크로, 반세기가 지난 지금도 경영 [[268_strategy_pattern|전략]]·IT [[268_strategy_pattern|전략]] 수립의 출발점으로 광범위하게 사용된다.
 
 ```text
 ┌───────────────────────────────────────────────────────┐
@@ -33,22 +33,22 @@ SWOT(Strengths·Weaknesses·Opportunities·Threats) 분석은 1960년대 스탠�
 └───────────────┴──────────────────┴────────────────────┘
 ```
 
-- **📢 섹션 요약 비유**: SWOT는 자신의 능력 목록(강점·약점)과 주변 환경(기회·위협)을 적는 것이고, TOWS는 "내 강점으로 어떤 기회를 잡을까, 약점 때문에 어떤 위협이 치명적일까"를 계산하는 전략 게임이다.
+- **📢 섹션 요약 비유**: SWOT는 자신의 능력 목록(강점·약점)과 주변 환경(기회·위협)을 적는 것이고, TOWS는 "내 강점으로 어떤 기회를 잡을까, 약점 때문에 어떤 위협이 치명적일까"를 계산하는 [[268_strategy_pattern|전략]] 게임이다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### TOWS 전략 4유형
+### TOWS [[268_strategy_pattern|전략]] 4유형
 
-| 전략 | 조합 | 내용 | IT 예시 |
+| [[268_strategy_pattern|전략]] | 조합 | 내용 | IT 예시 |
 |:---|:---|:---|:---|
-| **SO (Maxi-Maxi)** | 강점 × 기회 | 공격적 성장 | 클라우드 기술력으로 AI 시장 선점 |
+| **SO (Maxi-Maxi)** | 강점 × 기회 | 공격적 성장 | 클라우드 기술력으로 [[190_ai_llm_requirements_specification|AI]] 시장 선점 |
 | **WO (Mini-Maxi)** | 약점 × 기회 | 약점 극복하며 기회 활용 | M&A로 기술 역량 보완 후 시장 진입 |
-| **ST (Maxi-Mini)** | 강점 × 위협 | 강점으로 위협 방어 | 특허 포트폴리오로 경쟁사 진입 차단 |
+| **[[587_st|ST]] (Maxi-Mini)** | 강점 × 위협 | 강점으로 위협 방어 | 특허 포트폴리오로 경쟁사 진입 차단 |
 | **WT (Mini-Mini)** | 약점 × 위협 | 손실 최소화, 철수 고려 | 비핵심 사업 매각, 자원 집중 |
 
-### SWOT 분석 IT 전략 적용 예시
+### SWOT 분석 IT [[268_strategy_pattern|전략]] 적용 예시
 
 ```text
 IT 기업 SWOT 예시
@@ -64,7 +64,7 @@ ST 전략: 특화 데이터셋 구축으로 경쟁 차별화
 WT 전략: 핵심 AI 솔루션에만 집중, 주변 서비스 축소
 ```
 
-- **📢 섹션 요약 비유**: TOWS는 장기 전략이다. SO는 공격수가 빈 공간을 파고드는 것, WO는 약한 포지션을 강화하는 훈련, ST는 수비수가 강점을 활용해 공격수를 막는 것, WT는 위험한 게임을 피해 안정적으로 수비하는 전략이다.
+- **📢 섹션 요약 비유**: TOWS는 장기 [[268_strategy_pattern|전략]]이다. SO는 공격수가 빈 공간을 파고드는 것, WO는 약한 포지션을 강화하는 훈련, ST는 수비수가 강점을 활용해 공격수를 막는 것, WT는 위험한 게임을 피해 안정적으로 수비하는 [[268_strategy_pattern|전략]]이다.
 
 ---
 
@@ -72,32 +72,32 @@ WT 전략: 핵심 AI 솔루션에만 집중, 주변 서비스 축소
 
 | 도구 | 목적 | 범위 |
 |:---|:---|:---|
-| **SWOT** | 환경 분석 | 내부+외부 4요소 |
-| **PEST/PESTEL** | 외부 거시 환경 분석 | 외부 요인만 |
+| **SWOT** | [[102_environmental_analysis_pest_5forces_value_chain|환경 분석]] | 내부+외부 4요소 |
+| **[[102_isp_environmental_analysis_pest_5forces|PEST]]/PESTEL** | 외부 [[025_pest_analysis|거시 환경 분석]] | 외부 요인만 |
 | **5 Forces** | 산업 경쟁 구조 분석 | 외부 경쟁 요인 |
-| **TOWS** | SWOT 기반 전략 도출 | 4요소 교차 전략 |
-| **BSC** | 전략 실행 추적 | 4대 관점 KPI |
+| **TOWS** | SWOT 기반 [[268_strategy_pattern|전략]] 도출 | 4요소 교차 [[268_strategy_pattern|전략]] |
+| **[[019_bsc|BSC]]** | [[268_strategy_pattern|전략]] 실행 추적 | 4대 관점 [[018_kpi|KPI]] |
 
-SWOT → TOWS 전략 → BSC KPI 설정 → OKR 실행의 흐름이 전략 기획의 완성된 사이클이다.
+SWOT → TOWS [[268_strategy_pattern|전략]] → [[019_bsc|BSC]] [[018_kpi|KPI]] [[009_config|설정]] → [[039_okr_objectives_key_results|OKR]] 실행의 흐름이 [[268_strategy_pattern|전략]] 기획의 완성된 사이클이다.
 
-- **📢 섹션 요약 비유**: SWOT가 지도(현재 위치 파악), TOWS가 경로 선택, BSC가 이정표(KPI), OKR이 GPS 목적지 설정이다. 지도만 있고 경로가 없으면 길을 잃는다.
+- **📢 섹션 요약 비유**: SWOT가 지도(현재 위치 파악), TOWS가 경로 선택, BSC가 이정표([[018_kpi|KPI]]), OKR이 GPS 목적지 [[009_config|설정]]이다. 지도만 있고 경로가 없으면 길을 잃는다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### 실무 시나리오: IT 서비스 기업 3개년 전략 수립
+### 실무 시나리오: IT [[090_service_kubernetes_network_load_balancing|서비스]] 기업 3개년 [[268_strategy_pattern|전략]] 수립
 1. **SWOT 워크숍**: C-Level + 팀장 참여, Post-it 방식으로 각 사분면 항목 도출.
-2. **우선순위**: 항목별 투표로 HIGH/MED/LOW 분류.
-3. **TOWS 매트릭스**: 4개 전략 방향 × 상위 항목 교차 분석.
-4. **전략 선택**: SO 1개 + WO 1개 + WT 방어 1개 = 핵심 전략 3개.
-5. **BSC 연계**: 각 전략을 BSC 관점(재무/고객/프로세스/학습)에 배치.
-6. **OKR 수립**: 분기 단위 O와 KR로 전략을 실행 수준으로 내림.
+2. **우선순위**: 항목별 투표로 HIGH/MED/LOW [[104_classification_analysis|분류]].
+3. **TOWS 매트릭스**: 4개 [[268_strategy_pattern|전략]] 방향 × 상위 항목 교차 분석.
+4. **[[268_strategy_pattern|전략]] 선택**: SO 1개 + WO 1개 + WT 방어 1개 = 핵심 [[268_strategy_pattern|전략]] 3개.
+5. **[[019_bsc|BSC]] 연계**: 각 [[268_strategy_pattern|전략]]을 [[019_bsc|BSC]] 관점(재무/고객/프로세스/학습)에 배치.
+6. **[[039_okr_objectives_key_results|OKR]] 수립**: 분기 단위 O와 KR로 [[268_strategy_pattern|전략]]을 실행 수준으로 내림.
 
-### 안티패턴
-- SWOT 항목을 너무 추상적으로 나열하는 안티패턴. "기술력이 강함" 같은 추상적 강점이 아니라 "NLP 모델 정확도 업계 1위(90.5%)"처럼 구체적 수치와 증거가 있어야 TOWS 전략 도출 시 실질적으로 활용할 수 있다.
+### [[128_water_scrum_fall_anti_pattern|안티패턴]]
+- SWOT 항목을 너무 추상적으로 나열하는 [[128_water_scrum_fall_anti_pattern|안티패턴]]. "기술력이 강함" 같은 추상적 강점이 아니라 "NLP 모델 정확도 업계 1위(90.5%)"처럼 구체적 수치와 증거가 있어야 TOWS [[268_strategy_pattern|전략]] 도출 시 실질적으로 활용할 수 있다.
 
-- **📢 섹션 요약 비유**: "건강하다"는 강점은 SWOT에 쓸모없다. "100m 달리기 11초"라는 구체적 수치가 있어야 "단거리 속도를 활용한 SO 전략"을 세울 수 있다.
+- **📢 섹션 요약 비유**: "건강하다"는 강점은 SWOT에 쓸모없다. "100m 달리기 11초"라는 구체적 수치가 있어야 "단거리 속도를 활용한 SO [[268_strategy_pattern|전략]]"을 세울 수 있다.
 
 ---
 
@@ -105,13 +105,13 @@ SWOT → TOWS 전략 → BSC KPI 설정 → OKR 실행의 흐름이 전략 기�
 
 | 기대효과 | 내용 |
 |:---|:---|
-| **전략 방향 명확화** | 4개 전략 유형으로 방향 결정 |
-| **이해관계자 정렬** | 공동 워크숍으로 공감대 형성 |
-| **실행 연계** | BSC/OKR 연결로 실행 가능성 확보 |
+| **[[268_strategy_pattern|전략]] 방향 명확화** | 4개 [[268_strategy_pattern|전략]] 유형으로 방향 결정 |
+| **[[173_stakeholder_identification_impact_matrix|이해관계자]] 정렬** | 공동 워크숍으로 공감대 형성 |
+| **실행 연계** | [[019_bsc|BSC]]/[[039_okr_objectives_key_results|OKR]] 연결로 실행 가능성 확보 |
 
-디지털 전환(DX) 시대에 SWOT 분석의 주기가 연간→분기로 단축되고 있으며, 실시간 시장 데이터(빅데이터 분석)를 활용하여 동적 SWOT(Dynamic SWOT)을 수행하는 기업이 증가하고 있다.
+[[055_digital_transformation|디지털 전환]]([[726_platform_engineering_idp_dx|DX]]) 시대에 SWOT 분석의 주기가 연간→분기로 단축되고 있으며, 실시간 시장 [[001_dikw_pyramid|데이터]](빅데이터 분석)를 활용하여 동적 SWOT(Dynamic SWOT)을 수행하는 기업이 증가하고 있다.
 
-- **📢 섹션 요약 비유**: SWOT/TOWS는 전략의 나침반이다. 방향(S·W·O·T)을 파악하고, 나침반(TOWS)으로 가야 할 경로를 정하면 조직이 하나의 방향으로 일관되게 움직일 수 있다.
+- **📢 섹션 요약 비유**: SWOT/TOWS는 [[268_strategy_pattern|전략]]의 나침반이다. 방향(S·W·O·T)을 파악하고, 나침반(TOWS)으로 가야 할 경로를 정하면 조직이 하나의 방향으로 일관되게 움직일 수 있다.
 
 ---
 
@@ -119,10 +119,10 @@ SWOT → TOWS 전략 → BSC KPI 설정 → OKR 실행의 흐름이 전략 기�
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **PESTEL** | SWOT의 외부 환경(O·T) 도출 기반 거시 환경 분석 |
+| **PESTEL** | SWOT의 외부 환경(O·T) 도출 기반 [[025_pest_analysis|거시 환경 분석]] |
 | **Porter 5 Forces** | 산업 경쟁 구조 분석; SWOT 위협 요인 도출 |
-| **BSC** | TOWS 전략을 4대 관점 KPI로 실행화 |
-| **OKR** | BSC 전략 목표를 분기 실행 목표로 내림 |
+| **[[019_bsc|BSC]]** | TOWS [[268_strategy_pattern|전략]]을 4대 관점 KPI로 실행화 |
+| **[[039_okr_objectives_key_results|OKR]]** | [[019_bsc|BSC]] [[268_strategy_pattern|전략]] 목표를 분기 실행 목표로 내림 |
 | **Dynamic SWOT** | 실시간 빅데이터 기반 동적 SWOT 업데이트 |
 
 ### 📈 관련 키워드 및 발전 흐름도

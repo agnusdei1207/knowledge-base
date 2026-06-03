@@ -8,34 +8,34 @@ categories = "studynote-it-management"
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: RPO (Recovery Point Objective)는 재해 발생 시점으로부터 얼마나 이전의 데이터까지 잃어도 되는지를 시간으로 표현한 최대 허용 데이터 손실 목표다.
-> 2. **가치**: RPO는 백업 주기, 복제 방식, 로그 보존, 원격지 센터 구성을 결정하는 기준이므로, 데이터 중요도를 기술 아키텍처와 예산으로 번역하는 핵심 지표다.
-> 3. **판단 포인트**: RPO를 0 또는 근접 값으로 줄일수록 동기 복제와 고가용 인프라가 필요해 비용·지연·운영 복잡도가 급증하므로, 모든 시스템에 동일하게 적용하면 비효율이 커진다.
+> 1. **본질**: RPO ([[658_ir_recovery|Recovery]] Point Objective)는 재해 발생 시점으로부터 얼마나 이전의 [[001_dikw_pyramid|데이터]]까지 잃어도 되는지를 시간으로 표현한 최대 허용 [[001_dikw_pyramid|데이터]] 손실 목표다.
+> 2. **가치**: RPO는 [[555_backup_and_restore_strategy|백업]] 주기, [[016_replication_factor|복제]] 방식, [[568_logs_distributed_logging_elk_fluentd|로그]] 보존, 원격지 센터 구성을 결정하는 기준이므로, [[001_dikw_pyramid|데이터]] 중요도를 기술 아키텍처와 예산으로 번역하는 핵심 지표다.
+> 3. **판단 포인트**: RPO를 0 또는 근접 값으로 줄일수록 동기 [[016_replication_factor|복제]]와 고가용 인프라가 필요해 비용·[[015_지연_데이터_관점|지연]]·운영 복잡도가 급증하므로, 모든 시스템에 동일하게 적용하면 비효율이 커진다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-RPO는 "서비스를 얼마나 빨리 살릴 것인가"가 아니라, **"어느 시점의 데이터를 가지고 다시 시작할 것인가"**를 정하는 지표다. 시스템이 재기동되더라도 주문, 계좌, 재고, 진료 기록이 너무 오래된 상태라면 비즈니스는 정상으로 보기 어렵다. 따라서 RPO는 복구 속도의 문제가 아니라 **복구 시점의 데이터 신선도와 정합성** 문제다.
+RPO는 "[[090_service_kubernetes_network_load_balancing|서비스]]를 얼마나 빨리 살릴 것인가"가 아니라, **"어느 시점의 [[001_dikw_pyramid|데이터]]를 가지고 다시 시작할 것인가"**를 정하는 지표다. 시스템이 재기동되더라도 주문, 계좌, 재고, 진료 기록이 너무 오래된 상태라면 비즈니스는 정상으로 보기 어렵다. 따라서 RPO는 [[658_ir_recovery|복구]] 속도의 문제가 아니라 **[[658_ir_recovery|복구]] 시점의 [[001_dikw_pyramid|데이터]] 신선도와 정합성** 문제다.
 
-이 개념이 중요한 이유는 데이터 손실 비용이 업무마다 극단적으로 다르기 때문이다. 전자상거래 주문 30분 손실, 금융 거래 30초 손실, 분석 리포트 하루 손실은 비즈니스 영향이 같지 않다. 그래서 조직은 먼저 "얼마나 과거로 돌아가도 되는가"를 정하고, 그 허용 범위 안에서 복제와 백업 전략을 설계해야 한다.
+이 개념이 중요한 이유는 [[001_dikw_pyramid|데이터]] 손실 비용이 업무마다 극단적으로 다르기 때문이다. 전자상거래 주문 30분 손실, 금융 거래 30초 손실, 분석 리포트 하루 손실은 비즈니스 영향이 같지 않다. 그래서 조직은 먼저 "얼마나 과거로 돌아가도 되는가"를 정하고, 그 허용 범위 안에서 [[016_replication_factor|복제]]와 [[555_backup_and_restore_strategy|백업]] 전략을 설계해야 한다.
 
-즉 RPO는 단순히 "백업을 자주 하자"는 선언이 아니다. 업무 가치, 규제 요구, 재입력 가능성, 정산 비용을 기준으로 **데이터 손실 허용 한계**를 숫자로 표현한 것이다.
+즉 RPO는 단순히 "[[555_backup_and_restore_strategy|백업]]을 자주 하자"는 선언이 아니다. 업무 가치, 규제 요구, 재입력 가능성, 정산 비용을 기준으로 **[[001_dikw_pyramid|데이터]] 손실 허용 한계**를 숫자로 표현한 것이다.
 
-- **📢 섹션 요약 비유**: RPO는 게임이 꺼졌을 때 몇 분 전 세이브 파일까지는 괜찮은지 미리 정해 두는 약속과 같다. 다시 켤 수 있어도 너무 옛날 저장점이면 플레이어는 큰 손해를 본다.
+- **📢 섹션 요약 비유**: RPO는 게임이 꺼졌을 때 몇 분 전 세이브 [[501_file_definition_logical_record|파일]]까지는 괜찮은지 미리 정해 두는 약속과 같다. 다시 켤 수 있어도 너무 옛날 저장점이면 플레이어는 큰 손해를 본다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-RPO의 핵심 공식은 단순하다. **실제 데이터 손실 시간 = 장애 발생 시각 - 마지막으로 복구 가능한 일관된 시점**이다. 따라서 RPO를 줄이려면 그 "복구 가능한 시점"을 더 자주, 더 멀리, 더 안전하게 확보해야 한다. 여기에는 스냅샷, 로그 백업, 비동기 복제, 동기 복제, Point-in-Time Recovery (PITR) 같은 기술이 동원된다.
+RPO의 핵심 공식은 단순하다. **실제 [[001_dikw_pyramid|데이터]] 손실 시간 = 장애 발생 시각 - 마지막으로 [[658_ir_recovery|복구]] 가능한 일관된 시점**이다. 따라서 RPO를 줄이려면 그 "[[658_ir_recovery|복구]] 가능한 시점"을 더 자주, 더 멀리, 더 안전하게 확보해야 한다. 여기에는 [[022_snapshot_backup_architecture|스냅샷]], [[568_logs_distributed_logging_elk_fluentd|로그]] [[555_backup_and_restore_strategy|백업]], 비동기 [[016_replication_factor|복제]], 동기 [[016_replication_factor|복제]], Point-in-Time [[658_ir_recovery|Recovery]] (PITR) 같은 기술이 동원된다.
 
-| 보호 방식 | 일반적 RPO 수준 | 장점 | 제약 |
+| [[571_protection_vs_security|보호]] 방식 | 일반적 RPO 수준 | 장점 | 제약 |
 | :--- | :--- | :--- | :--- |
-| 동기 복제 (Synchronous Replication) | 0 또는 거의 0 | 커밋 완료 시점까지 데이터 보존 | 지연 증가, 거리 제약, 비용 높음 |
-| 비동기 복제 (Asynchronous Replication) | 초 ~ 수분 | 성능과 거리 유연성 확보 | 복제 지연 구간 손실 가능 |
-| 주기적 스냅샷 / 로그 백업 | 분 ~ 시간 | 구현이 비교적 단순 | 백업 간격만큼 손실 창 발생 |
-| 오프사이트 백업 매체 | 시간 ~ 일 | 비용 효율, 랜섬웨어 격리 가능 | 최신성 낮고 복구 절차 길어짐 |
+| 동기 [[016_replication_factor|복제]] ([[010_동기식_비동기식_전송|Synchronous]] [[016_replication_factor|Replication]]) | 0 또는 거의 0 | 커밋 완료 시점까지 [[001_dikw_pyramid|데이터]] 보존 | [[015_지연_데이터_관점|지연]] 증가, 거리 제약, 비용 높음 |
+| 비동기 [[016_replication_factor|복제]] (Asynchronous [[016_replication_factor|Replication]]) | 초 ~ 수분 | 성능과 거리 유연성 확보 | [[016_replication_factor|복제]] [[015_지연_데이터_관점|지연]] 구간 손실 가능 |
+| 주기적 [[022_snapshot_backup_architecture|스냅샷]] / [[568_logs_distributed_logging_elk_fluentd|로그]] [[555_backup_and_restore_strategy|백업]] | 분 ~ 시간 | 구현이 비교적 단순 | [[555_backup_and_restore_strategy|백업]] 간격만큼 손실 창 발생 |
+| 오프사이트 [[555_backup_and_restore_strategy|백업]] [[121_transmission_media_guided_unguided|매체]] | 시간 ~ 일 | 비용 효율, [[730_ransomware|랜섬웨어]] 격리 가능 | 최신성 낮고 [[658_ir_recovery|복구]] 절차 길어짐 |
 
 아래 그림은 RPO가 타임라인에서 어떻게 계산되는지 보여 준다.
 
@@ -53,9 +53,9 @@ RPO의 핵심 공식은 단순하다. **실제 데이터 손실 시간 = 장애 
 └──────────────────────────────────────────────────────────────────────┘
 ```
 
-이 그림에서 핵심은 RPO가 장애 이후에 계산되는 **실제 결과값**이면서, 동시에 그 결과값이 넘지 않도록 미리 정하는 **목표값**이라는 점이다. 그래서 "백업이 있었다"는 사실만으로는 충분하지 않고, 실제로 어느 시점까지 복구 가능한지와 그 일관성이 검증되어야 한다.
+이 그림에서 핵심은 RPO가 장애 이후에 계산되는 **실제 결과값**이면서, 동시에 그 결과값이 넘지 않도록 미리 정하는 **목표값**이라는 점이다. 그래서 "[[555_backup_and_restore_strategy|백업]]이 있었다"는 사실만으로는 충분하지 않고, 실제로 어느 시점까지 [[658_ir_recovery|복구]] 가능한지와 그 [[194_consistency_database_integrity|일관성]]이 [[395_verification_process_review|검증]]되어야 한다.
 
-또한 RPO는 백업 매체의 개수보다 캡처 빈도와 복구 정합성이 더 중요하다. 5개 백업본이 있어도 모두 하루 전 데이터면 RPO는 하루일 수 있다. 반대로 트랜잭션 로그와 PITR을 잘 구성하면 정해진 시점까지 훨씬 세밀하게 복구할 수 있다.
+또한 RPO는 [[555_backup_and_restore_strategy|백업]] [[121_transmission_media_guided_unguided|매체]]의 개수보다 캡처 빈도와 [[658_ir_recovery|복구]] 정합성이 더 중요하다. 5개 [[555_backup_and_restore_strategy|백업]]본이 있어도 모두 하루 전 [[001_dikw_pyramid|데이터]]면 RPO는 하루일 수 있다. 반대로 [[191_transaction_concept_states|트랜잭션]] [[568_logs_distributed_logging_elk_fluentd|로그]]와 PITR을 잘 구성하면 정해진 시점까지 훨씬 세밀하게 [[658_ir_recovery|복구]]할 수 있다.
 
 - **📢 섹션 요약 비유**: RPO를 줄인다는 것은 앨범 사진을 많이 찍는 일이 아니라, 중요한 순간을 놓치지 않도록 더 촘촘한 간격으로 사진을 저장하는 일과 같다.
 
@@ -63,18 +63,18 @@ RPO의 핵심 공식은 단순하다. **실제 데이터 손실 시간 = 장애 
 
 ## Ⅲ. 비교 및 연결
 
-RPO는 RTO (Recovery Time Objective), 고가용성, DR (Disaster Recovery) 사이트 전략과 자주 함께 등장하지만, 각각 초점이 다르다. 이 차이를 알아야 숫자를 혼동하지 않는다.
+RPO는 [[176_rto_recovery_time_objective|RTO]] ([[176_rto_recovery_time_objective|Recovery Time Objective]]), 고가용성, [[360_ospf_dr_bdr_designated_router_lsa_flooding|DR]] (Disaster [[658_ir_recovery|Recovery]]) 사이트 전략과 자주 함께 등장하지만, 각각 초점이 다르다. 이 차이를 알아야 숫자를 혼동하지 않는다.
 
 | 개념 | 핵심 질문 | 초점 | 대표 수단 |
 | :--- | :--- | :--- | :--- |
-| RPO | 얼마나 이전 데이터까지 잃어도 되는가 | 데이터 손실 허용 범위 | 백업, 복제, 로그 보존, PITR |
-| RTO | 얼마나 빨리 서비스를 복구할 것인가 | 서비스 재개 시간 | 자동 전환, 스탠바이 센터, 복구 절차 |
-| High Availability | 장애를 얼마나 덜 끊기게 만들 것인가 | 평상시 지속성 | 이중화, Failover, Load Balancing |
-| Mirror / Hot / Warm / Cold Site | 어떤 재해 복구 센터를 둘 것인가 | 복구 수준과 비용 | 동기/비동기 복제, 대기 인프라 |
+| RPO | 얼마나 이전 [[001_dikw_pyramid|데이터]]까지 잃어도 되는가 | [[001_dikw_pyramid|데이터]] 손실 허용 범위 | [[555_backup_and_restore_strategy|백업]], [[016_replication_factor|복제]], [[568_logs_distributed_logging_elk_fluentd|로그]] 보존, PITR |
+| [[176_rto_recovery_time_objective|RTO]] | 얼마나 빨리 [[090_service_kubernetes_network_load_balancing|서비스]]를 [[658_ir_recovery|복구]]할 것인가 | [[090_service_kubernetes_network_load_balancing|서비스]] 재개 시간 | 자동 전환, 스탠바이 센터, [[658_ir_recovery|복구]] 절차 |
+| High [[452_availability|Availability]] | 장애를 얼마나 덜 끊기게 만들 것인가 | 평상시 지속성 | [[456_dual_redundancy|이중화]], [[300_failover_architecture|Failover]], [[196_hard_soft_real_time|Load Balancing]] |
+| Mirror / Hot / Warm / [[181_cold_site_dr|Cold Site]] | 어떤 [[379_dr_architecture|재해 복구]] 센터를 둘 것인가 | [[658_ir_recovery|복구]] 수준과 비용 | 동기/비동기 [[016_replication_factor|복제]], 대기 인프라 |
 
-예를 들어 미러 사이트는 보통 RPO를 0에 가깝게 만들기 위해 동기 복제를 사용한다. 반면 핫 사이트는 비교적 짧은 RTO를 달성하면서도 RPO는 수분~수시간 수준일 수 있다. 즉 빠른 복구와 적은 데이터 손실은 관련 있지만 동일한 목표가 아니다. 서비스는 빨리 살아나도 데이터가 오래되면 업무는 정상화되지 않는다.
+예를 들어 미러 사이트는 보통 RPO를 0에 가깝게 만들기 위해 동기 [[016_replication_factor|복제]]를 사용한다. 반면 핫 사이트는 비교적 짧은 RTO를 달성하면서도 RPO는 수분~수시간 수준일 수 있다. 즉 빠른 [[658_ir_recovery|복구]]와 적은 [[001_dikw_pyramid|데이터]] 손실은 관련 있지만 동일한 목표가 아니다. [[090_service_kubernetes_network_load_balancing|서비스]]는 빨리 살아나도 [[001_dikw_pyramid|데이터]]가 오래되면 업무는 정상화되지 않는다.
 
-또한 RPO는 백업 정책과만 연결되지 않는다. 네트워크 대역폭, 스토리지 지연, 데이터베이스 로그 구조, 원격 센터 거리, 보안 정책, 랜섬웨어 대응까지 모두 영향을 준다. 그래서 RPO는 인프라, 애플리케이션, 운영, 보안이 함께 맞물리는 통합 지표다.
+또한 RPO는 [[555_backup_and_restore_strategy|백업]] [[164_policy|정책]]과만 연결되지 않는다. 네트워크 [[140_bandwidth|대역폭]], 스토리지 [[015_지연_데이터_관점|지연]], [[002_database_definition|데이터베이스]] [[568_logs_distributed_logging_elk_fluentd|로그]] 구조, 원격 센터 거리, [[007_security_policy|보안 정책]], [[730_ransomware|랜섬웨어]] 대응까지 모두 영향을 준다. 그래서 RPO는 인프라, 애플리케이션, 운영, 보안이 함께 맞물리는 통합 지표다.
 
 - **📢 섹션 요약 비유**: RTO가 "가게 문을 몇 시에 다시 열까"라면, RPO는 "장부를 몇 시 시점까지 되살릴 수 있을까"에 가깝다. 문을 빨리 열어도 장부가 틀리면 장사는 제대로 못 한다.
 
@@ -82,31 +82,31 @@ RPO는 RTO (Recovery Time Objective), 고가용성, DR (Disaster Recovery) 사�
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서 좋은 RPO는 모든 데이터를 같은 등급으로 보호하지 않는다. 거래 원장, 고객 결제, 생산 제어 데이터처럼 손실 허용이 거의 없는 정보와, 보고서 캐시·로그 집계처럼 일부 손실을 감내할 수 있는 정보는 분리해서 설계해야 한다.
+실무에서 좋은 RPO는 모든 [[001_dikw_pyramid|데이터]]를 같은 등급으로 [[571_protection_vs_security|보호]]하지 않는다. 거래 원장, 고객 결제, 생산 제어 [[001_dikw_pyramid|데이터]]처럼 손실 허용이 거의 없는 정보와, 보고서 캐시·[[568_logs_distributed_logging_elk_fluentd|로그]] 집계처럼 일부 손실을 감내할 수 있는 정보는 분리해서 설계해야 한다.
 
-| 데이터 유형 | 권장 RPO 방향 | 기술사 판단 포인트 |
+| [[001_dikw_pyramid|데이터]] 유형 | 권장 RPO 방향 | 기술사 판단 포인트 |
 | :--- | :--- | :--- |
-| 금융 거래·결제 원장 | 매우 짧음 또는 0 | 동기 복제, 이중 센터, 정합성 검증이 필수 |
-| 주문·재고·고객 업무 데이터 | 짧음 | 비동기 복제 + 로그 백업 + 빠른 PITR 조합 검토 |
+| 금융 거래·결제 원장 | 매우 짧음 또는 0 | 동기 [[016_replication_factor|복제]], 이중 센터, 정합성 [[395_verification_process_review|검증]]이 필수 |
+| 주문·재고·고객 업무 [[001_dikw_pyramid|데이터]] | 짧음 | 비동기 [[016_replication_factor|복제]] + [[568_logs_distributed_logging_elk_fluentd|로그]] [[555_backup_and_restore_strategy|백업]] + 빠른 PITR 조합 검토 |
 | 그룹웨어·일반 업무 문서 | 중간 | 사용자 재입력 가능성과 비용 균형 고려 |
-| 분석계·배치 리포트 | 상대적으로 김 | 스냅샷·주기 백업 중심도 현실적 |
+| 분석계·배치 리포트 | 상대적으로 김 | [[022_snapshot_backup_architecture|스냅샷]]·주기 [[555_backup_and_restore_strategy|백업]] 중심도 현실적 |
 
-### 실무 체크리스트
+### 실무 [[435_checklist_based_testing|체크리스트]]
 
-1. 업무 영향 분석(BIA, Business Impact Analysis) 기준으로 데이터 등급별 RPO를 나누었는가?
-2. 복제 지연과 로그 전송 지연이 실제 목표 RPO 안에 들어오는지 측정하는가?
-3. 백업 성공 여부만 보지 않고 실제 복구 테스트로 시점 정합성을 검증하는가?
-4. 랜섬웨어 대응을 위해 불변 백업(Immutable Backup)이나 격리 저장소를 함께 두는가?
-5. 애플리케이션 의존 순서와 데이터 일관성 그룹을 고려해 복구 시점을 맞추는가?
+1. 업무 영향 분석([[212_bia_business_impact_analysis_rto_rpo_dr|BIA]], [[212_bia_business_impact_analysis_rto_rpo_dr|Business Impact Analysis]]) 기준으로 [[001_dikw_pyramid|데이터]] 등급별 RPO를 나누었는가?
+2. [[016_replication_factor|복제]] [[015_지연_데이터_관점|지연]]과 [[568_logs_distributed_logging_elk_fluentd|로그]] 전송 [[015_지연_데이터_관점|지연]]이 실제 목표 RPO 안에 들어오는지 측정하는가?
+3. [[555_backup_and_restore_strategy|백업]] 성공 여부만 보지 않고 실제 [[658_ir_recovery|복구]] 테스트로 시점 정합성을 [[395_verification_process_review|검증]]하는가?
+4. [[730_ransomware|랜섬웨어]] 대응을 위해 불변 [[555_backup_and_restore_strategy|백업]]([[298_immutable|Immutable]] [[555_backup_and_restore_strategy|Backup]])이나 격리 저장소를 함께 두는가?
+5. 애플리케이션 의존 순서와 [[001_dikw_pyramid|데이터]] [[194_consistency_database_integrity|일관성]] 그룹을 고려해 [[658_ir_recovery|복구]] 시점을 맞추는가?
 
-### 자주 발생하는 안티패턴
+### 자주 발생하는 [[128_water_scrum_fall_anti_pattern|안티패턴]]
 
-- 비동기 복제를 쓰면서 문서상으로는 RPO=0이라고 선언하는 설계
-- 백업 파일은 많지만 복구 테스트가 없어 실제 복구 가능 시점을 모르는 운영
-- 중요 데이터와 비중요 데이터를 같은 RPO로 묶어 비용을 과도하게 쓰는 정책
-- 데이터베이스 본체만 보호하고 메시지 큐, 파일 스토리지, 외부 연계 데이터는 제외하는 계획
+- 비동기 [[016_replication_factor|복제]]를 쓰면서 문서상으로는 RPO=0이라고 선언하는 설계
+- [[555_backup_and_restore_strategy|백업]] [[501_file_definition_logical_record|파일]]은 많지만 [[658_ir_recovery|복구]] 테스트가 없어 실제 [[658_ir_recovery|복구]] 가능 시점을 모르는 운영
+- 중요 [[001_dikw_pyramid|데이터]]와 비중요 [[001_dikw_pyramid|데이터]]를 같은 RPO로 묶어 비용을 과도하게 쓰는 [[164_policy|정책]]
+- [[002_database_definition|데이터베이스]] 본체만 [[571_protection_vs_security|보호]]하고 메시지 큐, [[501_file_definition_logical_record|파일]] 스토리지, 외부 연계 [[001_dikw_pyramid|데이터]]는 제외하는 계획
 
-기술사 답안에서는 **"RPO는 백업 빈도의 다른 이름이 아니라, 비즈니스가 허용하는 최대 데이터 손실 창을 기술 구조로 구현한 목표"**라고 정리하면 수준 있는 판단으로 보인다.
+기술사 답안에서는 **"RPO는 [[555_backup_and_restore_strategy|백업]] 빈도의 다른 이름이 아니라, 비즈니스가 허용하는 최대 [[001_dikw_pyramid|데이터]] 손실 창을 기술 구조로 구현한 목표"**라고 정리하면 수준 있는 판단으로 보인다.
 
 - **📢 섹션 요약 비유**: RPO 설계는 모든 물건을 금고에 넣는 일이 아니라, 잃어버리면 큰일 나는 물건부터 더 가까운 곳에 더 자주 복사해 두는 생활 규칙과 같다.
 
@@ -114,9 +114,9 @@ RPO는 RTO (Recovery Time Objective), 고가용성, DR (Disaster Recovery) 사�
 
 ## Ⅴ. 기대효과 및 결론
 
-RPO를 명확히 정의하면 조직은 "데이터를 잃지 말자"라는 추상 구호 대신, 어떤 데이터에 얼마의 손실까지 허용할지 구체적으로 합의할 수 있다. 그 결과 백업 주기, 복제 방식, 센터 구성, 예산, 모의훈련 범위가 일관되게 설계된다. 특히 재해 후 재입력 비용과 정산 복구 시간을 크게 줄일 수 있다.
+RPO를 명확히 정의하면 조직은 "[[001_dikw_pyramid|데이터]]를 잃지 말자"라는 추상 구호 대신, 어떤 [[001_dikw_pyramid|데이터]]에 얼마의 손실까지 허용할지 구체적으로 합의할 수 있다. 그 결과 [[555_backup_and_restore_strategy|백업]] 주기, [[016_replication_factor|복제]] 방식, 센터 구성, 예산, 모의훈련 범위가 일관되게 설계된다. 특히 재해 후 재입력 비용과 정산 [[658_ir_recovery|복구]] 시간을 크게 줄일 수 있다.
 
-다만 낮은 RPO는 공짜가 아니다. 더 촘촘한 복제와 로그 보존, 더 빠른 스토리지, 더 가까운 센터, 더 엄격한 운영 통제가 필요하다. 그래서 RPO를 기억할 때는 "작을수록 무조건 좋다"가 아니라, **"업무 가치에 맞춘 데이터 손실 허용 한계"**로 이해하는 것이 맞다.
+다만 낮은 RPO는 공짜가 아니다. 더 촘촘한 [[016_replication_factor|복제]]와 [[568_logs_distributed_logging_elk_fluentd|로그]] 보존, 더 빠른 스토리지, 더 가까운 센터, 더 엄격한 운영 통제가 필요하다. 그래서 RPO를 기억할 때는 "작을수록 무조건 좋다"가 아니라, **"업무 가치에 맞춘 [[001_dikw_pyramid|데이터]] 손실 허용 한계"**로 이해하는 것이 맞다.
 
 - **📢 섹션 요약 비유**: 좋은 RPO는 모든 숙제를 1분마다 저장하는 것이 아니라, 정말 중요한 숙제는 자주 저장하고 덜 중요한 메모는 조금 늦게 저장하는 현명한 저장 습관과 같다.
 
@@ -126,12 +126,12 @@ RPO를 명확히 정의하면 조직은 "데이터를 잃지 말자"라는 추�
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| BIA (Business Impact Analysis) | 데이터 손실이 업무에 미치는 영향을 정량화해 RPO의 출발점을 만든다. |
-| RTO (Recovery Time Objective) | 복구 속도 목표이며, RPO와 함께 DR 전략을 완성한다. |
-| PITR (Point-in-Time Recovery) | 특정 시점까지 세밀하게 복구할 수 있게 해 실제 RPO를 줄여 준다. |
-| Synchronous / Asynchronous Replication | RPO 수준을 결정하는 대표 복제 방식이다. |
-| Mirror Site | RPO를 0에 가깝게 줄이기 위한 고비용 DR 구조다. |
-| Immutable Backup | 랜섬웨어 상황에서도 복구 시점을 지키기 위한 보안 보강 수단이다. |
+| [[212_bia_business_impact_analysis_rto_rpo_dr|BIA]] ([[212_bia_business_impact_analysis_rto_rpo_dr|Business Impact Analysis]]) | [[001_dikw_pyramid|데이터]] 손실이 업무에 미치는 영향을 정량화해 RPO의 출발점을 만든다. |
+| [[176_rto_recovery_time_objective|RTO]] ([[176_rto_recovery_time_objective|Recovery Time Objective]]) | [[658_ir_recovery|복구]] 속도 목표이며, RPO와 함께 [[360_ospf_dr_bdr_designated_router_lsa_flooding|DR]] 전략을 완성한다. |
+| PITR (Point-in-Time [[658_ir_recovery|Recovery]]) | 특정 시점까지 세밀하게 [[658_ir_recovery|복구]]할 수 있게 해 실제 RPO를 줄여 준다. |
+| [[010_동기식_비동기식_전송|Synchronous]] / Asynchronous [[016_replication_factor|Replication]] | RPO 수준을 결정하는 대표 [[016_replication_factor|복제]] 방식이다. |
+| [[178_mirror_site|Mirror Site]] | RPO를 0에 가깝게 줄이기 위한 고비용 [[360_ospf_dr_bdr_designated_router_lsa_flooding|DR]] 구조다. |
+| [[298_immutable|Immutable]] [[555_backup_and_restore_strategy|Backup]] | [[730_ransomware|랜섬웨어]] 상황에서도 [[658_ir_recovery|복구]] 시점을 지키기 위한 보안 보강 수단이다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -155,10 +155,10 @@ RPO 목표 설정
 BCP (Business Continuity Planning) / DR 거버넌스 고도화
 ```
 
-이 흐름은 RPO가 단일 숫자가 아니라, 데이터 중요도 분류에서 시작해 복제 전략과 복구 검증 체계로 이어지는 의사결정 축임을 보여 준다.
+이 흐름은 RPO가 단일 숫자가 아니라, [[001_dikw_pyramid|데이터]] 중요도 분류에서 시작해 [[016_replication_factor|복제]] 전략과 [[658_ir_recovery|복구]] [[395_verification_process_review|검증]] 체계로 이어지는 의사결정 축임을 보여 준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. RPO는 컴퓨터가 갑자기 꺼졌을 때 몇 분 전까지만 다시 돌아가도 괜찮은지 정해 두는 약속이에요.
 2. 중요한 그림일수록 더 자주 저장해야 덜 잃어버려요.
-3. 그래서 아주 중요한 데이터는 거의 안 잃게 하고, 덜 중요한 데이터는 조금 잃는 대신 돈을 아끼기도 한답니다.
+3. 그래서 아주 중요한 [[001_dikw_pyramid|데이터]]는 거의 안 잃게 하고, 덜 중요한 [[001_dikw_pyramid|데이터]]는 조금 잃는 대신 돈을 아끼기도 한답니다.

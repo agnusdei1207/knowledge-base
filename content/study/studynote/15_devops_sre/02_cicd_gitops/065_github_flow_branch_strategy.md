@@ -8,8 +8,8 @@ categories = "studynote-devops"
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: GitHub Flow는 main과 짧은 feature 브랜치만으로 개발과 배포를 단순화하는 브랜치 전략이다.
-> 2. **가치**: 빠른 PR 검토와 CI/CD 결합이 쉬워서, 연속 배포(Continuous Deployment)에 잘 맞는다.
+> 1. **본질**: GitHub Flow는 main과 짧은 feature 브랜치만으로 개발과 배포를 단순화하는 브랜치 [[268_strategy_pattern|전략]]이다.
+> 2. **가치**: 빠른 [[067_pull_request_pr_merge_request_code_review|PR]] 검토와 [[090_configuration_item|CI]]/CD 결합이 쉬워서, 연속 배포([[165_continuous_deployment|Continuous Deployment]])에 잘 맞는다.
 > 3. **판단**: Git Flow보다 단순하지만, 테스트와 자동화 품질이 낮으면 오히려 위험할 수 있다.
 
 ---
@@ -49,13 +49,13 @@ GitHub Flow는 릴리스 브랜치를 따로 두지 않고, main에 머지된 �
 
 ## Ⅲ. 비교 및 연결
 
-| 전략 | 특징 | 장점 | 한계 |
+| [[268_strategy_pattern|전략]] | 특징 | 장점 | 한계 |
 | :-- | :-- | :-- | :-- |
 | Git Flow | 브랜치 많음 | 릴리스 제어 | 복잡함 |
-| GitHub Flow | 매우 단순 | 빠른 CD | 테스트 의존 |
+| [[054_github_flow|GitHub Flow]] | 매우 단순 | 빠른 CD | 테스트 의존 |
 | Trunk-based | 메인 중심 | 통합 빠름 | 강한 규율 필요 |
 
-GitHub Flow는 Git Flow보다 가볍고, 트렁크 기반 개발보다 이해하기 쉽다. 그러나 짧은 브랜치와 높은 자동화 품질이 전제되어야 한다.
+GitHub Flow는 Git Flow보다 가볍고, [[040_trunk_based_development|트렁크 기반 개발]]보다 이해하기 쉽다. 그러나 짧은 브랜치와 높은 자동화 품질이 전제되어야 한다.
 
 - **📢 섹션 요약 비유**: 길이 짧고 직선이면 빠르지만, 튼튼한 다리가 있어야 건널 수 있다.
 
@@ -63,24 +63,24 @@ GitHub Flow는 Git Flow보다 가볍고, 트렁크 기반 개발보다 이해하
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### 체크리스트
+### [[435_checklist_based_testing|체크리스트]]
 
 1. feature 브랜치가 짧게 유지되는가?
-2. PR 리뷰와 CI가 자동화되어 있는가?
+2. [[067_pull_request_pr_merge_request_code_review|PR]] 리뷰와 CI가 자동화되어 있는가?
 3. main이 항상 배포 가능한 상태인가?
-4. 롤백과 배포가 단순한가?
+4. [[098_rollback_strategy_pipeline_error_threshold|롤백]]과 배포가 단순한가?
 5. 테스트 품질이 충분한가?
 
-### 안티패턴
+### [[128_water_scrum_fall_anti_pattern|안티패턴]]
 
 - feature 브랜치를 오래 끌고 가는 설계
 - main에 바로 푸시하는 설계
 - 테스트 없이 merge만 하는 설계
 - 배포 자동화 없이 GitHub Flow만 흉내 내는 설계
 
-기술사 관점에서는 GitHub Flow를 "브랜치 전략"이 아니라 "CI/CD 전략과 맞물린 개발 운영 방식"으로 봐야 한다.
+기술사 관점에서는 GitHub Flow를 "브랜치 [[268_strategy_pattern|전략]]"이 아니라 "[[090_configuration_item|CI]]/CD [[268_strategy_pattern|전략]]과 맞물린 개발 운영 방식"으로 봐야 한다.
 
-- **📢 섹션 요약 비유**: 만든 뒤 바로 확인하고, 바로 내보내는 간단한 공장 시스템이다.
+- **📢 섹션 요약 비유**: 만든 뒤 바로 [[396_validation|확인]]하고, 바로 내보내는 간단한 공장 시스템이다.
 
 ---
 
@@ -88,7 +88,7 @@ GitHub Flow는 Git Flow보다 가볍고, 트렁크 기반 개발보다 이해하
 
 GitHub Flow는 팀이 빠르게 변경하고 빨리 배포하는 데 적합하다. 간단한 규칙이지만 자동화가 받쳐 줘야 효과가 크다.
 
-결론적으로 GitHub Flow는 단순성과 지속 배포를 추구하는 전략이다.
+결론적으로 GitHub Flow는 단순성과 지속 배포를 추구하는 [[268_strategy_pattern|전략]]이다.
 
 - **📢 섹션 요약 비유**: 서랍이 적을수록 정리는 쉬워지지만, 내용물은 잘 라벨링해야 한다.
 
@@ -125,5 +125,5 @@ CI/CD
 ## 어린이를 위한 3줄 비유 설명
 
 작은 가지에서 만들고 바로 큰 줄기에 붙여요.  
-붙이기 전에 꼭 확인해요.  
+붙이기 전에 꼭 [[396_validation|확인]]해요.  
 GitHub Flow는 그런 단순한 브랜치 방법이에요.

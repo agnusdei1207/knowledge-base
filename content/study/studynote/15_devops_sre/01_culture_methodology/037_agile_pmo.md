@@ -6,13 +6,13 @@ categories = "studynote-devops-sre"
 +++
 
 > **핵심 인사이트**
-> 1. 애자일 PMO(Agile Project Management Office)는 전통적 PMO의 통제·감시 기능에서 벗어나 팀의 자율성을 존중하면서 조직 수준의 애자일 확장·장애물 제거·전략 정렬을 지원하는 가치 전달 허브다.
-> 2. 전통 PMO가 "계획 준수 감시자"라면 애자일 PMO는 "흐름 최적화 촉진자" — 산출물(Deliverable) 중심에서 가치(Value) 중심으로, 프로젝트 단위에서 제품 포트폴리오 단위로 전환이 핵심이다.
-> 3. SAFe(Scaled Agile Framework)의 LACE(Lean-Agile Center of Excellence), Spotify 모델의 길드(Guild), LeSS의 중앙 지원팀이 각각 조직 규모와 문화에 맞는 애자일 PMO 구현 방식이다.
+> 1. [[004_agile_relation|애자일]] [[059_pmo_project_management_office|PMO]]([[004_agile_relation|Agile]] [[059_pmo_project_management_office|Project Management Office]])는 전통적 PMO의 통제·감시 기능에서 벗어나 팀의 자율성을 존중하면서 조직 수준의 [[004_agile_relation|애자일]] 확장·장애물 제거·[[268_strategy_pattern|전략]] 정렬을 지원하는 가치 전달 [[152_hub_dummy_switching_intelligent|허브]]다.
+> 2. 전통 PMO가 "계획 준수 감시자"라면 [[004_agile_relation|애자일]] PMO는 "흐름 최적화 촉진자" — 산출물(Deliverable) 중심에서 가치(Value) 중심으로, 프로젝트 단위에서 제품 [[446_port_and_bus|포트]]폴리오 단위로 전환이 핵심이다.
+> 3. [[093_safe_scaled_agile_framework_art_pi|SAFe]]([[093_safe_scaled_agile_framework_art_pi|Scaled Agile Framework]])의 LACE([[087_lean_software_development_7_principles|Lean]]-[[004_agile_relation|Agile]] Center of Excellence), Spotify 모델의 길드(Guild), LeSS의 중앙 지원팀이 각각 조직 규모와 문화에 맞는 [[004_agile_relation|애자일]] [[059_pmo_project_management_office|PMO]] 구현 방식이다.
 
 ---
 
-## I. 전통 PMO vs 애자일 PMO
+## I. 전통 [[059_pmo_project_management_office|PMO]] vs [[004_agile_relation|애자일]] [[059_pmo_project_management_office|PMO]]
 
 ```
 전통 PMO (Directive PMO):
@@ -28,19 +28,19 @@ categories = "studynote-devops-sre"
   속도: 지속적 흐름, 스프린트 단위
 ```
 
-| 비교    | 전통 PMO          | 애자일 PMO          |
+| 비교    | 전통 [[059_pmo_project_management_office|PMO]]          | [[004_agile_relation|애자일]] [[059_pmo_project_management_office|PMO]]          |
 |-------|-----------------|---------------------|
 | 역할   | 감시자, 보고자    | 촉진자, 코치          |
 | 집중   | 계획 준수        | 가치 전달             |
 | 속도   | 느린 승인 프로세스| 빠른 실험·학습        |
-| 측정   | 예산·일정 준수    | OKR, 비즈니스 임팩트  |
-| 관계   | 위에서 아래로     | 서번트 리더십          |
+| 측정   | 예산·일정 준수    | [[039_okr_objectives_key_results|OKR]], 비즈니스 임팩트  |
+| [[083_relationship_in_er_model|관계]]   | 위에서 아래로     | 서번트 리더십          |
 
-> 📢 **섹션 요약 비유**: 전통 PMO는 교통 경찰(규칙 위반 감시), 애자일 PMO는 교통 엔지니어(교통 흐름 최적화).
+> 📢 **섹션 요약 비유**: 전통 PMO는 교통 경찰(규칙 위반 감시), [[004_agile_relation|애자일]] PMO는 교통 엔지니어(교통 흐름 최적화).
 
 ---
 
-## II. 애자일 PMO의 3가지 기능
+## II. [[004_agile_relation|애자일]] PMO의 3가지 기능
 
 ```
 1. 전략 정렬 (Strategic Alignment):
@@ -57,11 +57,11 @@ categories = "studynote-devops-sre"
    제품 오너 CoP (제품 전략 공유)
 ```
 
-> 📢 **섹션 요약 비유**: 애자일 PMO는 팀에게 물고기를 주는 게 아니라 낚시하는 법을 가르치고, 낚시터를 청소하는 역할.
+> 📢 **섹션 요약 비유**: [[004_agile_relation|애자일]] PMO는 팀에게 물고기를 주는 게 아니라 낚시하는 법을 가르치고, 낚시터를 청소하는 역할.
 
 ---
 
-## III. 애자일 확장 프레임워크와 PMO
+## III. [[004_agile_relation|애자일]] 확장 프레임워크와 [[059_pmo_project_management_office|PMO]]
 
 ```
 SAFe (Scaled Agile Framework):
@@ -85,7 +85,7 @@ LeSS (Large Scale Scrum):
 
 ---
 
-## IV. 애자일 PMO의 핵심 지표 (KPI)
+## [[288_version_ihl_tos_total_length|IV]]. [[004_agile_relation|애자일]] PMO의 핵심 지표 ([[018_kpi|KPI]])
 
 ```
 가치 전달 지표:
@@ -106,11 +106,11 @@ LeSS (Large Scale Scrum):
   - 기술적 부채 비율
 ```
 
-> 📢 **섹션 요약 비유**: 애자일 PMO의 성공 척도는 "회의 몇 번 했나"가 아니라 "고객에게 가치를 얼마나 빠르게 전달했나" — 결과 중심.
+> 📢 **섹션 요약 비유**: [[004_agile_relation|애자일]] PMO의 성공 척도는 "회의 몇 번 했나"가 아니라 "고객에게 가치를 얼마나 빠르게 전달했나" — 결과 중심.
 
 ---
 
-## V. 실무 시나리오 — 대기업 애자일 전환 PMO
+## V. 실무 시나리오 — 대기업 [[004_agile_relation|애자일]] 전환 [[059_pmo_project_management_office|PMO]]
 
 ```
 상황:
@@ -135,7 +135,7 @@ LeSS (Large Scale Scrum):
   + 팀 만족도: 3.2 → 4.1 (5점 만점)
 ```
 
-> 📢 **섹션 요약 비유**: 60개 팀이 각자 다른 음악을 연주하는 것을 애자일 PMO 지휘자가 같은 박자와 조화로 이끄는 것 — 각 팀의 자율성은 유지하면서 전체 앙상블을 조율.
+> 📢 **섹션 요약 비유**: 60개 팀이 각자 다른 음악을 연주하는 것을 [[004_agile_relation|애자일]] [[059_pmo_project_management_office|PMO]] 지휘자가 같은 박자와 조화로 이끄는 것 — 각 팀의 자율성은 유지하면서 전체 [[257_ensemble_learning|앙상블]]을 조율.
 
 ---
 
@@ -192,6 +192,6 @@ OKR + Flow Metrics 통합 대시보드
 
 ## 👶 어린이를 위한 3줄 비유 설명
 
-1. 애자일 PMO는 팀을 감시하는 감독관이 아니라 팀이 잘 달릴 수 있도록 장애물을 치워주는 코치예요.
-2. 옛날 PMO가 "계획대로 했냐?"를 감시했다면, 애자일 PMO는 "고객에게 가치를 전달했냐?"를 중시해요.
-3. 60개 팀이 각자 열심히 하지만 방향이 다르면 회사 목표를 이룰 수 없어서, 애자일 PMO가 모두를 같은 방향으로 정렬시켜줘요!
+1. [[004_agile_relation|애자일]] PMO는 팀을 감시하는 감독관이 아니라 팀이 잘 달릴 수 있도록 장애물을 치워주는 코치예요.
+2. 옛날 PMO가 "계획대로 했냐?"를 감시했다면, [[004_agile_relation|애자일]] PMO는 "고객에게 가치를 전달했냐?"를 중시해요.
+3. 60개 팀이 각자 열심히 하지만 방향이 다르면 회사 목표를 이룰 수 없어서, [[004_agile_relation|애자일]] PMO가 모두를 같은 방향으로 정렬시켜줘요!

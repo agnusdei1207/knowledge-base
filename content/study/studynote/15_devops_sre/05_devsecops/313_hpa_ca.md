@@ -5,13 +5,13 @@ categories = ["studynote-devops-sre"]
 +++
 
 > **핵심 인사이트**
-> - HPA (Horizontal Pod Autoscaler)는 파드 수를 늘리고, CA (Cluster Autoscaler)는 노드 수를 늘려 이중 레이어 오토스케일링을 구성한다.
-> - HPA는 CPU/메모리·커스텀 메트릭을 기준으로 ReplicaSet을 조정하고, CA는 Pending 파드를 감지해 클라우드 노드를 추가한다.
-> - VPA (Vertical Pod Autoscaler)는 리소스 Request·Limit 자체를 조정하는 세 번째 차원이다.
+> - [[095_hpa_horizontal_pod_autoscaler_kubernetes|HPA]] ([[095_hpa_horizontal_pod_autoscaler_kubernetes|Horizontal Pod Autoscaler]])는 [[085_pod_kubernetes_container_unit|파드]] 수를 늘리고, [[089_contract_account_smart_contract|CA]] (Cluster Autoscaler)는 노드 수를 늘려 이중 레이어 오토스케일링을 구성한다.
+> - HPA는 CPU/메모리·[[189_custom_metrics|커스텀 메트릭]]을 기준으로 ReplicaSet을 조정하고, CA는 Pending [[085_pod_kubernetes_container_unit|파드]]를 감지해 클라우드 노드를 추가한다.
+> - [[096_vpa_vertical_pod_autoscaler_kubernetes|VPA]] ([[096_vpa_vertical_pod_autoscaler_kubernetes|Vertical Pod Autoscaler]])는 리소스 Request·Limit 자체를 조정하는 세 번째 차원이다.
 
 ---
 
-## Ⅰ. HPA (Horizontal Pod Autoscaler) 원리
+## Ⅰ. [[095_hpa_horizontal_pod_autoscaler_kubernetes|HPA]] ([[095_hpa_horizontal_pod_autoscaler_kubernetes|Horizontal Pod Autoscaler]]) 원리
 
 HPA는 `metrics-server`에서 CPU/메모리 사용률을 주기적으로 수집해 목표 비율에 맞게 레플리카 수를 조정한다.
 
@@ -49,9 +49,9 @@ spec:
 
 ---
 
-## Ⅱ. CA (Cluster Autoscaler) 원리
+## Ⅱ. [[089_contract_account_smart_contract|CA]] (Cluster Autoscaler) 원리
 
-CA는 Pending 상태인 파드를 감지해 클라우드 Node Group에 노드를 추가하거나, 유휴 노드를 종료한다.
+CA는 Pending 상태인 [[085_pod_kubernetes_container_unit|파드]]를 감지해 클라우드 Node Group에 노드를 추가하거나, 유휴 노드를 종료한다.
 
 ```
 ┌──────────────────────────────────────────────────┐
@@ -66,15 +66,15 @@ CA는 Pending 상태인 파드를 감지해 클라우드 Node Group에 노드를
 ```
 
 조건:
-- 추가: 스케줄 불가 파드 존재
-- 삭제: 노드 사용률 50% 미만 + 파드 안전 이동 가능
+- 추가: [[208_schedule_history_transaction_execution_order|스케줄]] 불가 [[085_pod_kubernetes_container_unit|파드]] 존재
+- 삭제: 노드 사용률 50% 미만 + [[085_pod_kubernetes_container_unit|파드]] 안전 이동 가능
 
 > 📢 **Ⅱ 섹션 요약 비유**
 > CA는 레스토랑에서 손님이 넘치면 테이블을 추가하고, 손님이 없으면 빈 테이블을 치우는 매니저다.
 
 ---
 
-## Ⅲ. HPA + CA 연동 흐름
+## Ⅲ. [[095_hpa_horizontal_pod_autoscaler_kubernetes|HPA]] + [[089_contract_account_smart_contract|CA]] 연동 흐름
 
 ```
 트래픽 급증
@@ -90,22 +90,22 @@ CA: Pending 파드 감지 → 노드 추가
 ```
 
 **스케일 다운 안전 메커니즘**:
-- HPA: `--horizontal-pod-autoscaler-downscale-stabilization`(기본 5분)
-- CA: `scale-down-unneeded-time`(기본 10분)
+- [[095_hpa_horizontal_pod_autoscaler_kubernetes|HPA]]: `--horizontal-pod-autoscaler-downscale-stabilization`(기본 5분)
+- [[089_contract_account_smart_contract|CA]]: `scale-down-unneeded-time`(기본 10분)
 
 > 📢 **Ⅲ 섹션 요약 비유**
 > HPA가 직원을 더 부르면 CA가 그 직원들이 앉을 책상을 추가로 주문하는 구조다.
 
 ---
 
-## Ⅳ. VPA (Vertical Pod Autoscaler)
+## Ⅳ. [[096_vpa_vertical_pod_autoscaler_kubernetes|VPA]] ([[096_vpa_vertical_pod_autoscaler_kubernetes|Vertical Pod Autoscaler]])
 
-VPA는 파드의 CPU/메모리 Request·Limit을 자동 조정한다.
+VPA는 [[085_pod_kubernetes_container_unit|파드]]의 CPU/메모리 Request·Limit을 자동 조정한다.
 
-| 항목        | HPA                    | VPA                    |
+| 항목        | [[095_hpa_horizontal_pod_autoscaler_kubernetes|HPA]]                    | [[096_vpa_vertical_pod_autoscaler_kubernetes|VPA]]                    |
 |-------------|------------------------|------------------------|
-| 조정 대상   | 파드 수(레플리카)       | 파드 리소스 Request     |
-| 적합한 앱   | 수평 확장 가능한 웹앱  | DB·싱글톤처럼 확장 어려운 앱 |
+| 조정 대상   | [[085_pod_kubernetes_container_unit|파드]] 수(레플리카)       | [[085_pod_kubernetes_container_unit|파드]] 리소스 Request     |
+| 적합한 앱   | 수평 확장 가능한 웹앱  | DB·[[253_singleton_pattern_single_instance|싱글톤]]처럼 확장 어려운 앱 |
 | 병행 사용   | VPA와 동시 권장 안 됨  | -                      |
 
 > 📢 **Ⅳ 섹션 요약 비유**
@@ -119,12 +119,12 @@ VPA는 파드의 CPU/메모리 Request·Limit을 자동 조정한다.
 
 | 구성 요소             | 역할                                    |
 |-----------------------|-----------------------------------------|
-| HPA                   | 파드 수 자동 조정 (수평 스케일)          |
-| CA                    | 노드 수 자동 조정 (클러스터 스케일)      |
-| VPA                   | 파드 리소스 크기 자동 조정 (수직 스케일) |
-| metrics-server        | CPU/메모리 사용량 수집 컴포넌트          |
+| [[095_hpa_horizontal_pod_autoscaler_kubernetes|HPA]]                   | [[085_pod_kubernetes_container_unit|파드]] 수 자동 조정 (수평 스케일)          |
+| [[089_contract_account_smart_contract|CA]]                    | 노드 수 자동 조정 (클러스터 스케일)      |
+| [[096_vpa_vertical_pod_autoscaler_kubernetes|VPA]]                   | [[085_pod_kubernetes_container_unit|파드]] 리소스 크기 자동 조정 (수직 스케일) |
+| [[567_metrics_time_series_prometheus_grafana|metrics]]-server        | CPU/메모리 사용량 수집 [[603_component_independent_deployment_unit|컴포넌트]]          |
 | Node Group            | CA가 조정하는 클라우드 노드 풀           |
-| KEDA                  | 이벤트 기반 오토스케일러(HPA 확장)       |
+| KEDA                  | 이벤트 기반 오토스케일러([[095_hpa_horizontal_pod_autoscaler_kubernetes|HPA]] 확장)       |
 
 ### 관련 키워드 및 발전 흐름도
 

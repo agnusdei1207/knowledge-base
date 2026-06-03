@@ -7,9 +7,9 @@ categories = "studynote-enterprise-systems"
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: EPM(Enterprise Performance Management, =CPM)은 **기업의 전략 목표를 재무·운영 성과 지표로 분해하고 계획→실행→모니터링→분석의 순환으로 경영 성과를 관리**하는 시스템이다.
-> 2. **가치**: ERP가 "운영 데이터를 기록"한다면, EPM은 **"데이터를 분석하여 의사결정을 지원"**하며, 예산 계획·실적 비교·시나리오 분석·KPI 대시보드가 핵심 기능이다.
-> 3. **판단 포인트**: BSC(Balanced Scorecard)가 EPM의 성과 관리 프레임워크이며, Oracle Hyperion·SAP BPC·Anaplan이 대표 솔루션이다.
+> 1. **본질**: EPM(Enterprise [[282_performance_tactics|Performance]] [[372_management|Management]], =[[150_cpm_critical_path_method|CPM]])은 **기업의 [[268_strategy_pattern|전략]] 목표를 재무·운영 성과 지표로 분해하고 계획→실행→[[229_monitor|모니터]]링→분석의 순환으로 경영 성과를 관리**하는 시스템이다.
+> 2. **가치**: ERP가 "운영 [[001_dikw_pyramid|데이터]]를 기록"한다면, EPM은 **"[[001_dikw_pyramid|데이터]]를 분석하여 의사결정을 지원"**하며, 예산 계획·실적 비교·시나리오 분석·[[018_kpi|KPI]] 대시보드가 핵심 기능이다.
+> 3. **판단 포인트**: [[019_bsc|BSC]](Balanced Scorecard)가 EPM의 성과 관리 프레임워크이며, [[188_pl_sql_t_sql_procedural|Oracle]] Hyperion·SAP BPC·Anaplan이 대표 솔루션이다.
 
 ---
 
@@ -32,13 +32,13 @@ EPM 순환: 전략 → 계획(예산) → 실행 → 모니터링(KPI) → 분�
 | **계획·예산** | 연간 예산·Rolling Forecast |
 | **실적 분석** | 예산 vs 실적 비교 |
 | **시나리오** | What-if 분석 |
-| **KPI 대시보드** | BSC 기반 성과 시각화 |
+| **[[018_kpi|KPI]] 대시보드** | [[019_bsc|BSC]] 기반 성과 [[003_bigdata_7v|시각화]] |
 
 ---
 
 ## Ⅲ~Ⅴ. 결론
 
-EPM은 **ERP 데이터를 경영 의사결정으로 전환**하는 핵심 시스템이며, AI 예측과 결합하여 지능형 경영 관리로 진화하고 있다.
+EPM은 **[[081_erp_enterprise_resource_planning|ERP]] [[001_dikw_pyramid|데이터]]를 경영 의사결정으로 전환**하는 핵심 시스템이며, [[190_ai_llm_requirements_specification|AI]] 예측과 결합하여 지능형 경영 관리로 진화하고 있다.
 
 ---
 
@@ -46,10 +46,10 @@ EPM은 **ERP 데이터를 경영 의사결정으로 전환**하는 핵심 시스
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **EPM/CPM** | 기업 성과 관리 |
-| **BSC** | 균형 성과 관리 (4관점) |
-| **ERP** | 운영 데이터 원천 |
-| **KPI** | 핵심 성과 지표 |
+| **EPM/[[150_cpm_critical_path_method|CPM]]** | 기업 성과 관리 |
+| **[[019_bsc|BSC]]** | 균형 성과 관리 (4관점) |
+| **[[081_erp_enterprise_resource_planning|ERP]]** | 운영 [[001_dikw_pyramid|데이터]] 원천 |
+| **[[018_kpi|KPI]]** | [[018_kpi|핵심 성과 지표]] |
 | **Anaplan** | 클라우드 EPM 대표 |
 
 ### 📈 관련 키워드 및 발전 흐름도

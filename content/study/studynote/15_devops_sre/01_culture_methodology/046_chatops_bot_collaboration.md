@@ -7,13 +7,13 @@ categories = "studynote-devops-sre"
 +++
 
 > **핵심 인사이트**
-> 1. ChatOps는 운영 작업을 채팅 플랫폼에 통합하는 협업 모델 — "대화 주도 개발 운영(Conversation-Driven DevOps)"으로, 슬랙/팀즈 채널에서 명령어로 배포·모니터링·인시던트 대응을 수행하며 팀 전체가 맥락을 실시간 공유한다.
-> 2. ChatOps의 핵심 가치는 투명성과 학습 — 모든 운영 작업이 채팅 로그로 기록되어 누가 언제 무엇을 했는지 추적 가능하며, 주니어 엔지니어가 시니어의 운영 패턴을 자연스럽게 학습하는 효과가 있다.
-> 3. ChatOps 봇(Hubot/Lita/Errbot)은 단순한 메신저 통합이 아닌 운영 자동화 인터페이스 — CI/CD 파이프라인 트리거, 온콜 알림, 클라우드 리소스 관리, 인시던트 선언을 채팅 명령어 하나로 수행한다.
+> 1. ChatOps는 운영 작업을 채팅 플랫폼에 통합하는 협업 모델 — "대화 주도 개발 운영(Conversation-Driven [[652_devops_calms_culture|DevOps]])"으로, 슬랙/팀즈 채널에서 [[158_instruction|명령어]]로 배포·[[229_monitor|모니터]]링·[[652_incident_response_nist_800_61|인시던트 대응]]을 수행하며 팀 전체가 맥락을 실시간 공유한다.
+> 2. ChatOps의 핵심 가치는 투명성과 학습 — 모든 운영 작업이 채팅 [[568_logs_distributed_logging_elk_fluentd|로그]]로 기록되어 누가 언제 무엇을 했는지 추적 가능하며, 주니어 엔지니어가 시니어의 운영 패턴을 자연스럽게 학습하는 효과가 있다.
+> 3. [[207_chatops_slack_bot_deployment|ChatOps]] 봇(Hubot/Lita/Errbot)은 단순한 메신저 통합이 아닌 운영 자동화 인터페이스 — [[090_configuration_item|CI]]/CD [[123_pipe|파이프]]라인 [[507_acid_properties|트리거]], 온콜 알림, 클라우드 리소스 관리, 인시던트 선언을 채팅 [[158_instruction|명령어]] 하나로 수행한다.
 
 ---
 
-## Ⅰ. ChatOps 개요
+## Ⅰ. [[207_chatops_slack_bot_deployment|ChatOps]] 개요
 
 ```
 ChatOps 정의:
@@ -60,7 +60,7 @@ ChatOps 핵심 명령 예:
 
 ---
 
-## Ⅱ. ChatOps 봇 구현
+## Ⅱ. [[207_chatops_slack_bot_deployment|ChatOps]] 봇 구현
 
 ```
 Hubot 기반 ChatOps 예:
@@ -108,11 +108,11 @@ Hubot (GitHub, CoffeeScript/JavaScript):
   → 실수 방지 UX
 ```
 
-> 📢 **섹션 요약 비유**: ChatOps 봇은 채팅 비서 — "배포해줘"라고 말하면 비서(봇)가 실행하고 결과 보고. 슬래시 명령어는 채팅방에서 쓰는 특별 주문!
+> 📢 **섹션 요약 비유**: [[207_chatops_slack_bot_deployment|ChatOps]] 봇은 채팅 비서 — "배포해줘"라고 말하면 비서(봇)가 실행하고 결과 보고. 슬래시 [[158_instruction|명령어]]는 채팅방에서 쓰는 특별 주문!
 
 ---
 
-## Ⅲ. 인시던트 관리 ChatOps
+## Ⅲ. [[075_incident_management|인시던트 관리]] [[207_chatops_slack_bot_deployment|ChatOps]]
 
 ```
 인시던트 ChatOps 흐름:
@@ -160,11 +160,11 @@ Hubot (GitHub, CoffeeScript/JavaScript):
   원격 팀 동기화 (어디서나 동참)
 ```
 
-> 📢 **섹션 요약 비유**: 인시던트 ChatOps는 공개 소방 대응 — 화재(장애) 신고(알림) → 소방관(팀) 자동 소집(PagerDuty) → 채팅방에서 실시간 소화 작업(명령어) → 모든 과정 기록!
+> 📢 **섹션 요약 비유**: 인시던트 ChatOps는 공개 소방 대응 — 화재(장애) 신고(알림) → 소방관(팀) 자동 소집(PagerDuty) → 채팅방에서 실시간 소화 작업([[158_instruction|명령어]]) → 모든 과정 기록!
 
 ---
 
-## Ⅳ. ChatOps 보안
+## Ⅳ. [[207_chatops_slack_bot_deployment|ChatOps]] 보안
 
 ```
 ChatOps 보안 고려사항:
@@ -216,11 +216,11 @@ ChatOps 보안 고려사항:
   SIEM 연동
 ```
 
-> 📢 **섹션 요약 비유**: ChatOps 보안은 방송국 보안 — 누구나 방송실(채팅방)에 들어오면 큰일. 출입증(인증)+역할별 버튼(RBAC)+이중 확인(MFA)으로 적절한 사람만 적절한 버튼 조작!
+> 📢 **섹션 요약 비유**: [[207_chatops_slack_bot_deployment|ChatOps]] 보안은 방송국 보안 — 누구나 방송실(채팅방)에 들어오면 큰일. 출입증([[303_authentication_authorization_patterns|인증]])+역할별 버튼([[569_rbac|RBAC]])+이중 [[396_validation|확인]]([[552_mfa|MFA]])으로 적절한 사람만 적절한 버튼 조작!
 
 ---
 
-## Ⅴ. 실무 시나리오 — 스타트업 ChatOps 구축
+## Ⅴ. 실무 시나리오 — 스타트업 [[207_chatops_slack_bot_deployment|ChatOps]] 구축
 
 ```
 SaaS 스타트업 (엔지니어 15명) ChatOps:
@@ -328,5 +328,5 @@ GPT/Copilot 통합 봇
 ## 👶 어린이를 위한 3줄 비유 설명
 
 1. ChatOps는 공개 업무 방송 — 서버 작업을 몰래 하지 않고 채팅방에서 공개! 모두가 보니까 실수도 줄고, 서로 배울 수 있어요!
-2. ChatOps 봇은 채팅 비서 — "배포해줘" 명령 하면 봇이 실제로 실행하고 결과 보고. 코딩 없이 채팅방에서 서버 조종!
-3. 투명성의 힘 — 모든 운영 기록이 채팅 로그로 자동 저장. 신입이 시니어 채팅 로그 보고 배우는 무료 교과서!
+2. [[207_chatops_slack_bot_deployment|ChatOps]] 봇은 채팅 비서 — "배포해줘" 명령 하면 봇이 실제로 실행하고 결과 보고. 코딩 없이 채팅방에서 서버 조종!
+3. 투명성의 힘 — 모든 운영 기록이 채팅 [[568_logs_distributed_logging_elk_fluentd|로그]]로 자동 저장. 신입이 시니어 채팅 [[568_logs_distributed_logging_elk_fluentd|로그]] 보고 배우는 무료 교과서!

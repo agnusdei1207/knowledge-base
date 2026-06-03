@@ -7,9 +7,9 @@ categories = "studynote-devops-sre"
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: Error Budget은 **SLO에서 파생되는 허용 가능 장애 시간/비율**이며, "100% - SLO"로 계산한다. SLO=99.9%이면 Error Budget=0.1%=**30일 기준 약 43분**.
-> 2. **가치**: Error Budget은 **"얼마나 더 위험을 감수(배포·실험)해도 되는가"의 정량적 기준**이다. Budget이 남아있으면 공격적 배포, 소진되면 안정화에 집중하여 **속도와 안정의 갈등을 데이터로 해결**한다.
-> 3. **판단 포인트**: Burn Rate(소진 속도) 알림을 설정하여 Budget이 빠르게 소진될 때 조기 경고하고, Budget 소진 시 **Release Freeze(배포 동결)** 정책을 실행한다.
+> 1. **본질**: Error Budget은 **SLO에서 파생되는 허용 가능 장애 시간/비율**이며, "100% - [[181_slo_service_level_objective|SLO]]"로 계산한다. [[181_slo_service_level_objective|SLO]]=99.9%이면 [[101_error_budget_sre|Error Budget]]=0.1%=**30일 기준 약 43분**.
+> 2. **가치**: Error Budget은 **"얼마나 더 위험을 감수(배포·실험)해도 되는가"의 정량적 기준**이다. Budget이 남아있으면 공격적 배포, 소진되면 안정화에 집중하여 **속도와 안정의 갈등을 [[001_dikw_pyramid|데이터]]로 해결**한다.
+> 3. **판단 포인트**: Burn Rate(소진 속도) 알림을 [[009_config|설정]]하여 Budget이 빠르게 소진될 때 조기 경고하고, Budget 소진 시 **Release Freeze(배포 동결)** [[164_policy|정책]]을 실행한다.
 
 ---
 
@@ -31,7 +31,7 @@ categories = "studynote-devops-sre"
 └───────────────────────────────────────────────────────┘
 ```
 
-- **📢 섹션 요약 비유**: Error Budget은 **매월 주어지는 용돈(43분)**이다. 장애가 나면 용돈이 줄고, 다 쓰면 **새 장난감(피처) 구매 금지(Release Freeze)**.
+- **📢 섹션 요약 비유**: Error Budget은 **매월 주어지는 용돈(43분)**이다. 장애가 나면 용돈이 줄고, 다 쓰면 **새 장난감([[247_feature_label_variables|피처]]) 구매 금지(Release Freeze)**.
 
 ---
 
@@ -43,7 +43,7 @@ categories = "studynote-devops-sre"
 |:---|:---|:---|
 | **1× (정상)** | 30일에 Budget 소진 | 안전 |
 | **2×** | **15일에 소진 예상** | ⚠️ 주의 |
-| **10×** | **3일에 소진 예상** | 🚨 긴급 |
+| **[[489_raid_10_hybrid|10]]×** | **3일에 소진 예상** | 🚨 긴급 |
 | **14.4×** | **1시간에 1% 소진** | 즉시 대응 |
 
 - **📢 섹션 요약 비유**: Burn Rate는 용돈 소비 속도이다. 하루에 10만원씩 쓰면 월급 전에 바닥나므로 경고(Alert)가 필요하다.
@@ -56,19 +56,19 @@ categories = "studynote-devops-sre"
 |:---|:---|:---|
 | **배포** | 공포 (변경 회피) | **Budget 내 자유** |
 | **안정화** | 장애 후 사후 | **Budget 소진 시 즉시** |
-| **판단** | 주관적 | **데이터 기반** |
+| **판단** | 주관적 | **[[001_dikw_pyramid|데이터]] 기반** |
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### Error Budget 정책
+### [[101_error_budget_sre|Error Budget]] [[164_policy|정책]]
 
-| Budget 잔량 | 정책 |
+| Budget 잔량 | [[164_policy|정책]] |
 |:---|:---|
 | **> 50%** | 공격적 배포·실험 허용 |
-| **10~50%** | 카나리 배포로 신중하게 |
-| **< 10%** | 피처 동결, 안정화 집중 |
+| **[[489_raid_10_hybrid|10]]~50%** | [[115_canary_deployment_gradual_rollout|카나리 배포]]로 신중하게 |
+| **< [[489_raid_10_hybrid|10]]%** | [[247_feature_label_variables|피처]] 동결, 안정화 집중 |
 | **소진** | **Release Freeze** |
 
 ---
@@ -83,11 +83,11 @@ Error Budget은 **SRE의 가장 혁신적 도구**이며, 개발팀(속도)과 �
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **Error Budget** | 100% - SLO (허용 장애 시간) |
+| **[[101_error_budget_sre|Error Budget]]** | 100% - [[181_slo_service_level_objective|SLO]] (허용 장애 시간) |
 | **Burn Rate** | Budget 소진 속도 |
 | **Release Freeze** | Budget 소진 시 배포 동결 |
-| **SLO** | Error Budget의 원천 |
-| **Toil** | Budget 소진 시 자동화 투자 대상 |
+| **[[181_slo_service_level_objective|SLO]]** | Error Budget의 원천 |
+| **[[685_toil_automation_sre|Toil]]** | Budget 소진 시 자동화 투자 대상 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -109,5 +109,5 @@ Error Budget은 **SRE의 가장 혁신적 도구**이며, 개발팀(속도)과 �
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. Error Budget은 **매달 받는 용돈(43분)**이에요. 장애가 나면 용돈이 줄어요.
-2. 용돈이 다 떨어지면 **새 장난감(피처) 금지! 저축(안정화)**에 집중해야 해요.
+2. 용돈이 다 떨어지면 **새 장난감([[247_feature_label_variables|피처]]) 금지! 저축(안정화)**에 집중해야 해요.
 3. 용돈이 빨리 줄면 **"조심해!"라는 알림(Burn Rate Alert)**이 울려요!

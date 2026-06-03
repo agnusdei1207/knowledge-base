@@ -7,9 +7,9 @@ categories = "studynote-enterprise-systems"
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: RegTech(Regulatory Technology)는 **금융 규제 준수(Compliance)를 AI·빅데이터·자동화로 효율화**하는 기술이며, AML(자금세탁방지)·KYC(고객확인)·규제 보고가 핵심 영역이다.
-> 2. **가치**: 수작업 규제 준수는 비용이 막대(글로벌 은행 연간 수십조)하고 오류 위험이 높지만, RegTech는 **실시간 자동 모니터링·보고로 비용 70%+ 절감**과 정확도 향상을 동시 달성한다.
-> 3. **판단 포인트**: AI 이상 거래 탐지(AML), 생체 인증 eKYC, 규제 변경 자동 적용(Regulatory Change Management)이 핵심 기능이다.
+> 1. **본질**: RegTech(Regulatory Technology)는 **금융 규제 준수([[058_it_compliance_sox_basel_gdpr_isms|Compliance]])를 [[190_ai_llm_requirements_specification|AI]]·빅데이터·자동화로 효율화**하는 기술이며, AML(자금세탁방지)·KYC(고객확인)·규제 보고가 핵심 영역이다.
+> 2. **가치**: 수작업 규제 준수는 비용이 막대(글로벌 은행 연간 수십조)하고 오류 위험이 높지만, RegTech는 **실시간 자동 [[229_monitor|모니터]]링·보고로 비용 70%+ 절감**과 정확도 향상을 동시 달성한다.
+> 3. **판단 포인트**: [[190_ai_llm_requirements_specification|AI]] 이상 거래 탐지(AML), [[702_biometric_authentication|생체 인증]] eKYC, 규제 변경 자동 적용(Regulatory [[027_change_management|Change Management]])이 핵심 기능이다.
 
 ---
 
@@ -38,7 +38,7 @@ RegTech는 **금융 규제 준수의 필수 인프라**이며, AI가 이상 거�
 |:---|:---|
 | **RegTech** | 규제 기술 |
 | **AML** | 자금세탁방지 |
-| **KYC/eKYC** | 고객 신원 확인 |
+| **KYC/eKYC** | 고객 신원 [[396_validation|확인]] |
 | **SupTech** | 감독 기관용 기술 |
 | **FinTech** | RegTech의 상위 범주 |
 
@@ -53,4 +53,4 @@ RegTech는 **금융 규제 준수의 필수 인프라**이며, AI가 이상 거�
 ### 👶 어린이를 위한 3줄 비유 설명
 1. RegTech는 **자동 교통단속 카메라**예요. 위반(불법 거래)을 **AI가 자동 탐지**해요.
 2. 사람이 수천 대 차를 보는 건 불가능하지만 **AI는 실시간 감시**가 가능해요.
-3. 은행이 **규칙을 잘 지키는지** AI가 자동으로 확인해준답니다!
+3. 은행이 **규칙을 잘 지키는지** AI가 자동으로 [[396_validation|확인]]해준답니다!

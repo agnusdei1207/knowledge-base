@@ -8,8 +8,8 @@ tags = ["SBT", "soulbound token", "DeSoc", "NFT", "non-transferable", "DID", "ve
 
 > **핵심 인사이트 3줄**
 > 1. SBT(Soulbound Token)는 특정 지갑(Soul)에 영구 귀속되어 양도·판매할 수 없는 비양도성 토큰으로, Web3 신원·자격 증명의 핵심 도구다.
-> 2. 학력증명, 직업 이력, 의료 기록 등 개인의 사회적 자본을 온체인 표현으로 관리해 탈중앙화 사회(DeSoc, Decentralized Society)를 지향한다.
-> 3. 비양도성이 개인정보 보호와 충돌하는 문제(영구 온체인 기록)를 해결하기 위해 영지식 증명(ZKP)과 결합한 프라이버시 SBT가 연구 중이다.
+> 2. 학력증명, 직업 이력, 의료 기록 등 개인의 사회적 자본을 온체인 표현으로 관리해 [[010_decentralization|탈중앙화]] 사회(DeSoc, Decentralized Society)를 지향한다.
+> 3. 비양도성이 [[781_personal_information|개인정보]] 보호와 충돌하는 문제(영구 온체인 기록)를 해결하기 위해 [[229_zkp_data_clean_room|영지식 증명]]([[354_did_decentralized_identity_zkp|ZKP]])과 결합한 프라이버시 SBT가 연구 중이다.
 
 ---
 
@@ -51,8 +51,8 @@ Soul (지갑/DID)
 ### 2.2 DeSoc 시나리오
 
 - **담보 없는 대출**: Soul이 보유한 커뮤니티 SBT → 신용 평가 대체
-- **DAO 투표 조작 방지**: SBT 기반 고유 신원 → 시빌 공격 방지
-- **학력 인증**: 대학이 발행한 학위 SBT → 위조 불가
+- **[[054_dao_decentralized_autonomous_organization|DAO]] 투표 조작 방지**: SBT 기반 고유 신원 → [[070_sybil_attack_fake_nodes|시빌 공격]] 방지
+- **학력 [[303_authentication_authorization_patterns|인증]]**: 대학이 발행한 학위 SBT → 위조 불가
 
 📢 **섹션 요약 비유**: Soul은 디지털 이력서 가방 — 학교, 회사, 병원이 각자 도장(SBT)을 찍어주는데 다른 사람에게 못 넘긴다.
 
@@ -87,13 +87,13 @@ ERC-721 기반에 `locked()` 함수 추가 → transferFrom 시 locked=true면 r
 
 ---
 
-## Ⅳ. 개인정보 이슈와 ZKP
+## Ⅳ. [[781_personal_information|개인정보]] 이슈와 [[354_did_decentralized_identity_zkp|ZKP]]
 
 ### 4.1 온체인 공개 문제
 
 SBT가 퍼블릭 블록체인에 기록되면 누구나 해당 Soul의 모든 SBT를 볼 수 있다 → 프라이버시 침해.
 
-### 4.2 ZKP 기반 프라이버시 SBT
+### 4.2 [[354_did_decentralized_identity_zkp|ZKP]] 기반 프라이버시 SBT
 
 ```
 증명 시나리오:
@@ -105,10 +105,10 @@ ZK 증명: 졸업 SBT 보유 증명 + 내용 숨김
 
 ### 4.3 망각권(Right to Be Forgotten) 문제
 
-- 블록체인의 불변성 vs GDPR 망각권 충돌
-- 해결책: 오프체인에 SBT 데이터 저장 + 온체인에 해시만 → 오프체인 데이터 삭제 시 검증 불가 처리
+- 블록체인의 불변성 vs [[791_gdpr_eu|GDPR]] 망각권 충돌
+- 해결책: 오프체인에 SBT [[001_dikw_pyramid|데이터]] 저장 + 온체인에 해시만 → 오프체인 [[001_dikw_pyramid|데이터]] 삭제 시 [[395_verification_process_review|검증]] 불가 처리
 
-📢 **섹션 요약 비유**: ZKP SBT는 "나이 확인" 시 생년월일 전체가 아닌 "성인 여부만" 보여주는 것 — 필요한 사실만 증명.
+📢 **섹션 요약 비유**: [[354_did_decentralized_identity_zkp|ZKP]] SBT는 "나이 [[396_validation|확인]]" 시 생년월일 전체가 아닌 "성인 여부만" 보여주는 것 — 필요한 사실만 증명.
 
 ---
 
@@ -118,15 +118,15 @@ ZK 증명: 졸업 SBT 보유 증명 + 내용 숨김
 
 | 프로젝트          | 내용                                     |
 |-----------------|------------------------------------------|
-| Gitcoin Passport | 온체인 신원 검증 → 시빌 저항 투표        |
+| Gitcoin Passport | 온체인 신원 [[395_verification_process_review|검증]] → 시빌 [[003_resistance|저항]] 투표        |
 | Binance BAB     | KYC 완료 증명 SBT (최초 대형 SBT 사례)  |
-| Lens Protocol   | 팔로우, 포스트 등 소셜 그래프 SBT 기반  |
+| Lens [[295_protocol_field_tcp_udp_icmp|Protocol]]   | 팔로우, 포스트 등 소셜 [[070_graph_datastructure|그래프]] SBT 기반  |
 
 ### 5.2 주요 한계
 
-- **지갑 분실**: 복구 메커니즘 미표준화 (커뮤니티 복구 proposal 연구 중)
+- **지갑 분실**: [[658_ir_recovery|복구]] 메커니즘 미표준화 (커뮤니티 [[658_ir_recovery|복구]] proposal 연구 중)
 - **부정 SBT**: 원치 않는 SBT 강제 발행 (예: 범죄 기록) 거부 메커니즘 필요
-- **상호운용성**: 체인 간 SBT 연동 미표준
+- **[[287_interoperability_tactics|상호운용성]]**: 체인 간 SBT 연동 미표준
 
 📢 **섹션 요약 비유**: SBT는 지우기 어려운 문신처럼 강력하지만 — 원치 않는 문신을 누가 새기면 막기 어렵다.
 
@@ -170,7 +170,7 @@ ZKP SBT / 오프체인 SBT (현재 연구)
 Web3 탈중앙 신원 생태계 (미래)
 ```
 
-**핵심 키워드**: 비양도성, Soul, DeSoc, EIP-5192, ZKP, DID, 망각권, Gitcoin
+**핵심 키워드**: 비양도성, Soul, DeSoc, EIP-5192, [[354_did_decentralized_identity_zkp|ZKP]], [[231_did_decentralized_identity|DID]], 망각권, Gitcoin
 
 ---
 

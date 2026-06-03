@@ -8,15 +8,15 @@ categories = "studynote-bigdata"
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: Spark Shuffle은 파티션 간 데이터 재분배로, 성능 비용의 큰 비중을 차지하는 핵심 병목이다.
-> 2. **가치**: spark.sql.shuffle.partitions, AQE(Adaptive Query Execution), 브로드캐스트 조인, 데이터 스큐 대응을 통해 셔플 비용을 줄일 수 있다.
-> 3. **판단**: 셔플 최적화는 파티션 수를 무작정 늘리거나 줄이는 문제가 아니라, 데이터 분포와 쿼리 패턴에 맞추는 문제다.
+> 1. **본질**: Spark Shuffle은 [[514_partition_slice_volume|파티션]] 간 [[001_dikw_pyramid|데이터]] 재분배로, [[282_performance_tactics|성능]] 비용의 큰 비중을 차지하는 핵심 병목이다.
+> 2. **가치**: spark.sql.shuffle.partitions, AQE(Adaptive Query Execution), 브로드캐스트 조인, [[001_dikw_pyramid|데이터]] 스큐 대응을 통해 셔플 비용을 줄일 수 있다.
+> 3. **판단**: 셔플 최적화는 [[514_partition_slice_volume|파티션]] 수를 무작정 늘리거나 줄이는 문제가 아니라, [[001_dikw_pyramid|데이터]] 분포와 [[298_qkv_attention|쿼리]] 패턴에 맞추는 문제다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-Spark는 분산 처리 중 데이터를 다시 나눠야 하는 순간 셔플을 수행한다. 이때 네트워크, 디스크, 정렬 비용이 크게 발생한다.
+Spark는 [[136_variance|분산]] 처리 중 [[001_dikw_pyramid|데이터]]를 다시 나눠야 하는 순간 셔플을 수행한다. 이때 네트워크, 디스크, 정렬 비용이 크게 발생한다.
 
 따라서 셔플을 이해하지 못하면 Spark 튜닝은 절반만 이해한 셈이다.
 
@@ -36,10 +36,10 @@ Execution
 
 | 항목 | 역할 |
 | :-- | :-- |
-| Partition | 작업 분할 단위 |
-| Shuffle | 데이터 재배치 |
-| AQE | 실행 중 파티션/조인 전략 조정 |
-| Broadcast Join | 작은 테이블을 복제해 셔플 줄임 |
+| [[514_partition_slice_volume|Partition]] | 작업 분할 단위 |
+| Shuffle | [[001_dikw_pyramid|데이터]] 재배치 |
+| AQE | 실행 중 [[514_partition_slice_volume|파티션]]/조인 [[268_strategy_pattern|전략]] 조정 |
+| Broadcast [[521_join|Join]] | 작은 테이블을 복제해 셔플 줄임 |
 
 셔플은 Stage 경계를 만들고, 각 Stage는 독립적으로 실행된다. 그래서 셔플 양을 줄이면 전체 실행 시간과 메모리 사용량이 크게 줄어든다.
 
@@ -49,19 +49,19 @@ Execution
 
 ## Ⅲ. 비교 및 연결
 
-| 전략 | 장점 | 주의점 |
+| [[268_strategy_pattern|전략]] | 장점 | 주의점 |
 | :-- | :-- | :-- |
-| 파티션 수 조정 | 병렬성 개선 | 너무 많거나 적으면 비효율 |
-| AQE | 실행 중 최적화 | Spark 버전/설정 필요 |
-| Broadcast Join | 작은 테이블 셔플 제거 | 메모리 한계 고려 |
+| [[514_partition_slice_volume|파티션]] 수 조정 | 병렬성 개선 | 너무 많거나 적으면 비효율 |
+| AQE | 실행 중 최적화 | Spark [[288_version_ihl_tos_total_length|버전]]/[[009_config|설정]] 필요 |
+| Broadcast [[521_join|Join]] | 작은 테이블 셔플 제거 | 메모리 한계 고려 |
 
 | 문제 | 대응 |
 | :-- | :-- |
-| Data Skew | skew join / salting |
-| 작은 파일 많음 | 파일 병합 및 파티션 최적화 |
-| 과도한 셔플 | 조인 전략 변경 |
+| [[001_dikw_pyramid|Data]] Skew | [[069_skew_join|skew join]] / [[605_password_salting_hash|salting]] |
+| 작은 [[501_file_definition_logical_record|파일]] 많음 | [[501_file_definition_logical_record|파일]] 병합 및 [[070_partition_optimization|파티션 최적화]] |
+| 과도한 셔플 | 조인 [[268_strategy_pattern|전략]] 변경 |
 
-셔플 최적화는 단일 설정값으로 끝나지 않는다. 쿼리, 데이터 크기, 분포, 클러스터 자원을 함께 봐야 한다.
+셔플 최적화는 단일 [[009_config|설정]]값으로 끝나지 않는다. [[298_qkv_attention|쿼리]], [[001_dikw_pyramid|데이터]] 크기, 분포, 클러스터 자원을 함께 봐야 한다.
 
 - **📢 섹션 요약 비유**: 방 크기와 물건 크기를 함께 봐야 가구 배치가 쉬운 것과 같다.
 
@@ -69,19 +69,19 @@ Execution
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### 체크리스트
+### [[435_checklist_based_testing|체크리스트]]
 
 1. 셔플이 어디서 발생하는지 확인했는가?
-2. 파티션 수가 데이터 크기에 맞는가?
+2. [[514_partition_slice_volume|파티션]] 수가 [[001_dikw_pyramid|데이터]] 크기에 맞는가?
 3. AQE가 활성화되어 있는가?
 4. 브로드캐스트 조인을 적용할 수 있는가?
-5. 스큐 데이터를 별도로 다뤘는가?
+5. 스큐 [[001_dikw_pyramid|데이터]]를 별도로 다뤘는가?
 
-### 안티패턴
+### [[128_water_scrum_fall_anti_pattern|안티패턴]]
 
 - `spark.sql.shuffle.partitions`만 무작정 조정하는 설계
-- 데이터 분포를 보지 않고 조인하는 설계
-- 셔플 비용을 무시한 상태에서 성능 문제를 찾는 설계
+- [[001_dikw_pyramid|데이터]] 분포를 보지 않고 조인하는 설계
+- 셔플 비용을 무시한 상태에서 [[282_performance_tactics|성능]] 문제를 찾는 설계
 - AQE를 켰다고 모든 문제가 해결된다고 믿는 설계
 
 기술사 관점에서는 셔플을 "피해야 하는 비용"으로 보고, 어디서 왜 발생하는지 설명할 수 있어야 한다.
@@ -92,9 +92,9 @@ Execution
 
 ## Ⅴ. 기대효과 및 결론
 
-셔플을 줄이면 Spark 성능이 크게 좋아진다. 그래서 튜닝의 핵심은 데이터 재배치 비용을 읽는 것이다.
+셔플을 줄이면 Spark [[282_performance_tactics|성능]]이 크게 좋아진다. 그래서 튜닝의 핵심은 [[001_dikw_pyramid|데이터]] 재배치 비용을 읽는 것이다.
 
-결론적으로 Shuffle 최적화는 분산 쿼리 비용을 줄이는 대표 전략이다.
+결론적으로 Shuffle 최적화는 [[136_variance|분산]] [[298_qkv_attention|쿼리]] 비용을 줄이는 대표 [[268_strategy_pattern|전략]]이다.
 
 - **📢 섹션 요약 비유**: 짐을 덜 옮길수록 이사가 빨라진다.
 

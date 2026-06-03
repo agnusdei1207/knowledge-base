@@ -8,17 +8,17 @@ categories = "studynote-ai"
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: PPO (Proximal Policy Optimization, 근위 정책 최적화)는 정책 업데이트의 크기를 클리핑 (Clipping)으로 제한해 신뢰 영역 (Trust Region) 을 근사하며, TRPO (Trust Region Policy Optimization)의 계산 복잡성을 극적으로 줄인 강화학습 알고리즘이다.
-> 2. **가치**: 구현이 단순하고 다양한 연속/이산 행동 공간에서 안정적으로 학습하며, RLHF (Reinforcement Learning from Human Feedback)의 표준 정책 최적화 알고리즘으로 GPT-4, Claude, LLaMA 등 LLM 정렬 (Alignment)에 핵심 역할을 한다.
-> 3. **판단 포인트**: 클리핑 파라미터 ε (보통 0.1~0.2)이 너무 크면 TRPO의 안전성 상실, 너무 작으면 학습이 느려지며, 어드밴티지 추정의 정확성이 전체 성능을 좌우한다.
+> 1. **본질**: PPO (Proximal [[164_policy|Policy]] Optimization, 근위 [[164_policy|정책]] 최적화)는 [[164_policy|정책]] 업데이트의 크기를 클리핑 ([[389_ppo_proximal_policy_optimization|Clipping]])으로 제한해 신뢰 영역 (Trust Region) 을 근사하며, TRPO (Trust Region [[164_policy|Policy]] Optimization)의 계산 복잡성을 극적으로 줄인 강화학습 [[001_algorithm_definition|알고리즘]]이다.
+> 2. **가치**: 구현이 단순하고 다양한 연속/이산 행동 공간에서 안정적으로 학습하며, [[250_rlhf_human_feedback_reinforcement_alignment_cot|RLHF]] ([[250_rlhf_human_feedback_reinforcement_alignment_cot|Reinforcement Learning from Human Feedback]])의 표준 [[164_policy|정책]] 최적화 [[001_algorithm_definition|알고리즘]]으로 [[302_gpt_autoregressive|GPT]]-4, Claude, LLaMA 등 [[263_llm_large_language_model|LLM]] 정렬 (Alignment)에 핵심 역할을 한다.
+> 3. **판단 포인트**: 클리핑 파라미터 ε (보통 0.1~0.2)이 너무 크면 TRPO의 안전성 상실, 너무 작으면 학습이 느려지며, 어드밴티지 추정의 [[002_bigdata_5v|정확성]]이 전체 [[282_performance_tactics|성능]]을 좌우한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-정책 그래디언트 (Policy Gradient) 방법의 핵심 문제: 한 번의 큰 업데이트가 정책을 급격히 변화시켜 학습이 불안정해진다. TRPO는 KL 제약으로 이를 해결했지만, 2차 도함수 계산이 필요해 느리다.
+[[164_policy|정책]] 그래디언트 ([[318_policy_gradient_actor_critic|Policy Gradient]]) 방법의 핵심 문제: 한 번의 큰 업데이트가 [[164_policy|정책]]을 급격히 변화시켜 학습이 불안정해진다. TRPO는 KL 제약으로 이를 해결했지만, 2차 도함수 계산이 필요해 느리다.
 
-PPO는 클리핑만으로 비슷한 안정성을 달성한다. 단순하지만 강력한 이 특성으로 OpenAI의 기본 RL 알고리즘이 됐다.
+PPO는 클리핑만으로 비슷한 안정성을 달성한다. 단순하지만 강력한 이 특성으로 OpenAI의 기본 RL [[001_algorithm_definition|알고리즘]]이 됐다.
 
 ```text
 ┌──────────────────────────────────────────────┐
@@ -29,13 +29,13 @@ PPO는 클리핑만으로 비슷한 안정성을 달성한다. 단순하지만 �
 └──────────────────────────────────────────────┘
 ```
 
-- **📢 섹션 요약 비유**: PPO는 "정책을 업데이트할 때 한 번에 너무 많이 바꾸지 말라"는 규칙을 단순한 클리핑으로 구현한다. 경사 하강 시 최대 보폭을 정하는 것이다.
+- **📢 섹션 요약 비유**: PPO는 "[[164_policy|정책]]을 업데이트할 때 한 번에 너무 많이 바꾸지 말라"는 규칙을 단순한 클리핑으로 구현한다. 경사 하강 시 최대 보폭을 정하는 것이다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### 정책 비율 (Policy Ratio)
+### [[164_policy|정책]] 비율 ([[164_policy|Policy]] Ratio)
 
 ```
 rₜ(θ) = πθ(aₜ|sₜ) / πθₒₗₐ(aₜ|sₜ)   (새 정책 / 기존 정책)
@@ -96,12 +96,12 @@ S[πθ]: 엔트로피 보너스 (탐색 장려)
 c₁, c₂: 가중치 계수
 ```
 
-| 방법 | 신뢰 영역 | 2차 도함수 | 구현 난이도 | 성능 |
+| 방법 | 신뢰 영역 | 2차 도함수 | 구현 난이도 | [[282_performance_tactics|성능]] |
 |:---|:---|:---|:---|:---|
 | PG (vanilla) | 없음 | 없음 | 낮음 | 불안정 |
 | TRPO | KL 제약 | 필요 | 높음 | 안정적 |
 | PPO | 클리핑 근사 | 불필요 | 낮음 | 안정적 |
-| SAC | 엔트로피 최대화 | 불필요 | 중간 | 연속 행동에 강함 |
+| SAC | [[151_entropy|엔트로피]] 최대화 | 불필요 | 중간 | 연속 행동에 강함 |
 
 - **📢 섹션 요약 비유**: TRPO는 "정확한 안전 거리를 계산해서 이동", PPO는 "걷는 거리를 최대 ε로 제한해서 이동". 정확도는 약간 낮지만 훨씬 빠르다.
 
@@ -109,29 +109,29 @@ c₁, c₂: 가중치 계수
 
 ## Ⅲ. 비교 및 연결
 
-**RLHF (강화학습 기반 인간 피드백)**에서의 PPO:
-1. SFT (Supervised Fine-Tuning)로 초기 정책 학습
-2. 보상 모델(RM) 학습: 사람 선호도 → Bradley-Terry 모델
-3. PPO로 RM 점수를 보상으로 정책 최적화
-4. KL 패널티로 SFT 정책과의 과도한 이탈 방지
+**[[250_rlhf_human_feedback_reinforcement_alignment_cot|RLHF]] (강화학습 기반 인간 피드백)**에서의 PPO:
+1. SFT (Supervised [[304_fine_tuning|Fine-Tuning]])로 [[459_quic_fec_forward_error_correction|초기]] [[164_policy|정책]] 학습
+2. 보상 모델([[197_rm_rate_monotonic_scheduling|RM]]) 학습: 사람 선호도 → Bradley-Terry 모델
+3. PPO로 [[197_rm_rate_monotonic_scheduling|RM]] 점수를 보상으로 [[164_policy|정책]] 최적화
+4. KL 패널티로 SFT [[164_policy|정책]]과의 과도한 이탈 방지
 
 | 구분 | 핵심 초점 | 적용 상황 |
 |:---|:---|:---|
-| 기초 접근 | 원리 이해와 기준 설정 | 작은 규모, 개념 학습 |
-| PPO (Proximal Policy Optimization) | 성능과 실용성의 균형 | 대표적인 실무 적용 |
-| 확장 접근 | 자동화·대규모 최적화 | 서비스 고도화 단계 |
+| 기초 접근 | 원리 이해와 기준 [[009_config|설정]] | 작은 규모, 개념 학습 |
+| PPO (Proximal [[164_policy|Policy]] Optimization) | [[282_performance_tactics|성능]]과 실용성의 균형 | 대표적인 실무 적용 |
+| 확장 접근 | 자동화·대규모 최적화 | [[090_service_kubernetes_network_load_balancing|서비스]] 고도화 단계 |
 
-- **📢 섹션 요약 비유**: RLHF의 PPO는 "사람이 좋아하는 답을 더 많이 생성하도록 AI를 훈련"하되, "원래 언어 모델의 특성을 너무 많이 잃지 않도록" 균형을 잡는다.
+- **📢 섹션 요약 비유**: RLHF의 PPO는 "사람이 좋아하는 답을 더 많이 [[087_process_state_transition|생성]]하도록 AI를 훈련"하되, "원래 언어 모델의 특성을 너무 많이 잃지 않도록" 균형을 잡는다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-**GAE (Generalized Advantage Estimation)**: λ로 어드밴티지 편향-분산 균형 조절
+**GAE (Generalized Advantage Estimation)**: λ로 어드밴티지 편향-[[136_variance|분산]] 균형 조절
 ```
 Âₜ = Σ_{l=0}^{∞} (γλ)ˡ δₜ₊ₗ,  δₜ = rₜ + γV(sₜ₊₁) - V(sₜ)
 ```
-**미니배치 에폭 업데이트**: 동일 데이터로 K번(보통 3~10) 업데이트
+**미니배치 에폭 업데이트**: 동일 [[001_dikw_pyramid|데이터]]로 K번(보통 3~[[489_raid_10_hybrid|10]]) 업데이트
 
 기술사 포인트: 클리핑 목적 함수 수식, 어드밴티지의 역할, RLHF와 PPO의 연결고리를 명확히 설명.
 
@@ -141,7 +141,7 @@ c₁, c₂: 가중치 계수
 
 ## Ⅴ. 기대효과 및 결론
 
-PPO는 단순함과 안정성을 겸비한 강화학습 알고리즘의 현재 표준이다. 게임 플레이(OpenAI Five, AlphaStar 등), 로봇 제어, LLM 정렬까지 광범위하게 활용된다. 특히 RLHF를 통해 LLM의 안전성·유용성을 높이는 핵심 알고리즘으로서 현대 AI 시스템의 필수 구성 요소가 됐다.
+PPO는 단순함과 안정성을 겸비한 강화학습 [[001_algorithm_definition|알고리즘]]의 현재 표준이다. 게임 플레이(OpenAI Five, AlphaStar 등), 로봇 제어, [[263_llm_large_language_model|LLM]] 정렬까지 광범위하게 활용된다. 특히 RLHF를 통해 LLM의 안전성·유용성을 높이는 핵심 [[001_algorithm_definition|알고리즘]]으로서 현대 [[190_ai_llm_requirements_specification|AI]] 시스템의 필수 구성 요소가 됐다.
 
 - **📢 섹션 요약 비유**: PPO로 훈련된 LLM은 "사람이 좋아하는 답을 내는 법을 배운 학생"이다. 보상(사람 선호도)을 높이면서 원래 자신의 언어 능력은 잃지 않도록 균형을 맞춘다.
 
@@ -151,12 +151,12 @@ PPO는 단순함과 안정성을 겸비한 강화학습 알고리즘의 현재 �
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| PPO | 클리핑, 서로게이트 목적 / 안정적 정책 최적화 |
-| 정책 비율 rₜ | 새/기존 정책 비율 / 업데이트 크기 지표 |
+| PPO | 클리핑, 서로게이트 목적 / 안정적 [[164_policy|정책]] 최적화 |
+| [[164_policy|정책]] 비율 rₜ | 새/기존 [[164_policy|정책]] 비율 / 업데이트 크기 지표 |
 | 클리핑 ε | 신뢰 영역 근사 / 과도한 업데이트 방지 |
-| 어드밴티지 Â | 기준 대비 개선 / 정책 그래디언트 신호 |
-| RLHF | 인간 피드백, 보상 모델 / LLM 정렬에서 PPO 적용 |
-| GAE | λ, 편향-분산 균형 / 어드밴티지 추정 개선 |
+| 어드밴티지 Â | 기준 대비 개선 / [[164_policy|정책]] 그래디언트 [[130_signal|신호]] |
+| [[250_rlhf_human_feedback_reinforcement_alignment_cot|RLHF]] | 인간 피드백, 보상 모델 / [[263_llm_large_language_model|LLM]] 정렬에서 PPO 적용 |
+| GAE | λ, 편향-[[136_variance|분산]] 균형 / 어드밴티지 추정 개선 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 

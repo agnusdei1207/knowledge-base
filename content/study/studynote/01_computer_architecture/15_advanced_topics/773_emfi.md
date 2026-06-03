@@ -8,7 +8,7 @@ categories = "studynote-computer-architecture"
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: EMFI (Electromagnetic Fault Injection)는 칩에 직접 선을 대지 않고도 짧고 강한 전자기 펄스로 내부 배선과 플립플롭의 타이밍 여유를 깨뜨려 계산 오류를 만드는 비접촉 결함 주입 공격이다.
+> 1. **본질**: EMFI (Electromagnetic [[670_fault_injection_chaos_testing_kernel|Fault Injection]])는 칩에 직접 선을 대지 않고도 짧고 강한 전자기 펄스로 내부 배선과 플립플롭의 타이밍 여유를 깨뜨려 계산 오류를 만드는 비접촉 [[352_defect_definition|결함]] 주입 공격이다.
 > 2. **가치**: 외부 전원선이나 클럭 핀을 방어해도 패키지 위에서 특정 영역을 겨냥할 수 있어, 보안 부트와 암호 연산처럼 “한 번의 오류가 전체 신뢰를 무너뜨리는” 지점을 직접 공략한다.
 > 3. **판단 포인트**: EMFI 대응은 차폐 한 겹으로 끝나지 않으며, 탐지 센서·중복 계산·오류 즉시 종료를 함께 설계해 “오류가 나더라도 비밀이 남지 않게” 만드는 것이 핵심이다.
 
@@ -16,9 +16,9 @@ categories = "studynote-computer-architecture"
 
 ## Ⅰ. 개요 및 필요성
 
-EMFI (Electromagnetic Fault Injection)는 고전압 펄스를 마이크로 코일에 흘려 만든 급격한 자기장 변화로 칩 내부에 순간적인 전압 교란을 유도하는 물리 공격이다. 전원 핀이나 클럭 핀을 직접 잡지 않아도 되기 때문에, 패키지를 연 뒤 표면 근처에서 특정 블록을 노리는 비접촉 공격으로 널리 연구된다.
+EMFI (Electromagnetic [[670_fault_injection_chaos_testing_kernel|Fault Injection]])는 고전압 펄스를 마이크로 코일에 흘려 만든 급격한 자기장 변화로 칩 내부에 순간적인 [[001_voltage|전압]] 교란을 유도하는 물리 공격이다. 전원 핀이나 클럭 핀을 직접 잡지 않아도 되기 때문에, 패키지를 연 뒤 표면 근처에서 특정 블록을 노리는 비접촉 공격으로 널리 연구된다.
 
-이 기법이 위험한 이유는 “정답을 훔치는” 것이 아니라 “정답을 틀리게 계산하게 만드는” 데 있다. 예를 들어 서명 검증, 권한 검사, 암호 라운드 중 한 단계만 틀려도 Secure Boot나 키 보호 체계 전체가 붕괴될 수 있다. 즉 EMFI는 소프트웨어 버그가 없어도 하드웨어 타이밍 여유를 깨뜨려 보안 모델 자체를 흔든다.
+이 기법이 위험한 이유는 “정답을 훔치는” 것이 아니라 “정답을 틀리게 계산하게 만드는” 데 있다. 예를 들어 서명 [[395_verification_process_review|검증]], 권한 검사, 암호 라운드 중 한 단계만 틀려도 Secure Boot나 키 [[571_protection_vs_security|보호]] 체계 전체가 붕괴될 수 있다. 즉 EMFI는 소프트웨어 버그가 없어도 하드웨어 타이밍 여유를 깨뜨려 보안 모델 자체를 흔든다.
 
 ```text
 ┌──────────────────────────────────────────────────────────────┐
@@ -34,7 +34,7 @@ EMFI (Electromagnetic Fault Injection)는 고전압 펄스를 마이크로 코�
 └──────────────────────────────────────────────────────────────┘
 ```
 
-이 그림의 핵심은 공격 경로가 전원선이 아니라 칩 근처 공간이라는 점이다. 그래서 외부 핀 보호만으로는 부족하며, 패키지와 다이 내부까지 포함한 물리 보안 설계가 필요하다.
+이 그림의 핵심은 공격 경로가 전원선이 아니라 칩 근처 공간이라는 점이다. 그래서 외부 핀 [[571_protection_vs_security|보호]]만으로는 부족하며, 패키지와 다이 내부까지 포함한 물리 보안 설계가 필요하다.
 
 - **📢 섹션 요약 비유**: EMFI는 시험지를 훔치는 것이 아니라 감독관이 답안 채점 순간에 손전등을 번쩍 비춰 잠깐 눈을 멀게 만드는 것과 같다. 정답은 있었지만 판정이 틀어지는 순간이 공격 지점이다.
 
@@ -42,15 +42,15 @@ EMFI (Electromagnetic Fault Injection)는 고전압 펄스를 마이크로 코�
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-EMFI 공격 장비는 보통 펄스 생성기, 트리거 회로, 위치 제어 스테이지, 마이크로 코일 프로브로 구성된다. 공격자는 전력 파형이나 외부 I/O 신호를 보고 목표 연산의 시점을 맞춘 뒤, 수 ns 수준의 짧은 펄스를 넣어 특정 영역의 배선·전원 분배망·레지스터 타이밍을 흔든다.
+EMFI 공격 장비는 보통 펄스 [[087_process_state_transition|생성]]기, [[507_acid_properties|트리거]] 회로, 위치 제어 스테이지, 마이크로 코일 프로브로 구성된다. 공격자는 전력 파형이나 외부 I/O 신호를 보고 목표 연산의 시점을 맞춘 뒤, 수 ns 수준의 짧은 펄스를 넣어 특정 영역의 배선·전원 분배망·[[057_register|레지스터]] 타이밍을 흔든다.
 
 | 구성 요소 | 역할 | 공격자가 보는 핵심 |
 | :-------- | :--- | :----------------- |
-| 펄스 생성기 (Pulse Generator) | 고전압·짧은 폭의 펄스 생성 | rise time과 pulse width 조절 |
+| 펄스 [[087_process_state_transition|생성]]기 (Pulse Generator) | 고전압·짧은 폭의 펄스 [[087_process_state_transition|생성]] | rise time과 pulse width 조절 |
 | 마이크로 코일 (Micro-coil Probe) | 국소 자기장 형성 | 공간 해상도와 결합 강도 |
-| 트리거 회로 (Trigger Logic) | 목표 연산 시점 동기화 | 보안 검사 직전 타격 |
-| XY 스테이지 (XY Stage) | 칩 표면 좌표 탐색 | 결함 지도의 정밀도 |
-| 관측 장비 (Oscilloscope/Power Trace) | 성공 여부 판정 | 재현 가능한 fault model 확보 |
+| [[507_acid_properties|트리거]] 회로 (Trigger Logic) | 목표 연산 시점 [[212_synchronization_mechanisms|동기화]] | 보안 검사 직전 타격 |
+| XY 스테이지 (XY Stage) | 칩 표면 좌표 탐색 | [[352_defect_definition|결함]] 지도의 [[233_precision_recall_f1_roc_auc_threshold|정밀도]] |
+| 관측 장비 (Oscilloscope/[[069_type_1_2_error_statistical_power|Power]] Trace) | 성공 여부 판정 | 재현 가능한 fault model 확보 |
 
 ```text
 ┌──────────────────────────────────────────────────────────────┐
@@ -65,14 +65,14 @@ EMFI 공격 장비는 보통 펄스 생성기, 트리거 회로, 위치 제어 �
 └──────────────────────────────────────────────────────────────┘
 ```
 
-실제 성공은 “한 번 쏜다”가 아니라 “위치와 시간을 스캔한다”에 가깝다. 먼저 칩 표면을 훑어 어떤 좌표에서 instruction skip, bit flip, reset이 잘 나는지 결함 지도를 만들고, 그다음 목표 함수 실행 타이밍에 맞춰 반복 주입한다. 즉 EMFI의 핵심 원리는 전자기 유도 자체보다도 **공간 매핑 + 시간 동기화 + 결과 분류**의 조합에 있다.
+실제 성공은 “한 번 쏜다”가 아니라 “위치와 시간을 스캔한다”에 가깝다. 먼저 칩 표면을 훑어 어떤 좌표에서 [[158_instruction|instruction]] skip, [[086_fenwick_tree|bit]] flip, reset이 잘 나는지 [[352_defect_definition|결함]] 지도를 만들고, 그다음 목표 함수 실행 타이밍에 맞춰 반복 주입한다. 즉 EMFI의 핵심 원리는 전자기 유도 자체보다도 **공간 매핑 + 시간 [[212_synchronization_mechanisms|동기화]] + 결과 [[104_classification_analysis|분류]]**의 조합에 있다.
 
 | 대표 fault model | 현상 | 보안적 파장 |
 | :--------------- | :--- | :---------- |
-| Instruction Skip | 조건 검사나 분기 명령이 건너뛰어짐 | 인증 우회, Secure Boot 우회 |
-| Data Corruption | 레지스터·버스 값이 잘못 기록됨 | 암호 라운드 오류, 키 추론 |
+| [[158_instruction|Instruction]] Skip | 조건 검사나 분기 명령이 건너뛰어짐 | [[303_authentication_authorization_patterns|인증]] 우회, [[608_secure_boot|Secure Boot]] 우회 |
+| [[001_dikw_pyramid|Data]] Corruption | [[057_register|레지스터]]·[[344_bus|버스]] 값이 잘못 기록됨 | 암호 라운드 오류, 키 추론 |
 | Control-flow Error | 잘못된 주소나 예외 경로로 이동 | 권한 상태 붕괴 |
-| Reset/Hang | 시스템이 멈추거나 재부팅 | 방어 실패 시 서비스 거부 |
+| Reset/Hang | 시스템이 멈추거나 재부팅 | 방어 실패 시 [[599_dos_ddos_attack|서비스 거부]] |
 
 - **📢 섹션 요약 비유**: EMFI는 어두운 방에서 특정 스위치만 찾기 위해 벽을 조금씩 두드려 보는 작업과 같다. 어디를 언제 두드리면 불이 꺼지는지 지도를 먼저 만들고, 딱 필요한 순간에 같은 자리를 다시 치는 것이다.
 
@@ -80,9 +80,9 @@ EMFI 공격 장비는 보통 펄스 생성기, 트리거 회로, 위치 제어 �
 
 ## Ⅲ. 비교 및 연결
 
-EMFI를 제대로 이해하려면 다른 결함 주입 기법과의 경계를 봐야 한다. 전압 글리칭은 칩 전체에 넓게 영향을 주는 대신 준비가 쉽고, 레이저 결함 주입은 매우 정밀하지만 패키지 가공 비용이 크다. EMFI는 그 사이에서 **비접촉성**과 **국소성**을 동시에 확보한 공격으로 위치한다.
+EMFI를 제대로 이해하려면 다른 [[352_defect_definition|결함]] 주입 기법과의 경계를 봐야 한다. [[001_voltage|전압]] 글리칭은 칩 전체에 넓게 영향을 주는 대신 준비가 쉽고, 레이저 [[352_defect_definition|결함]] 주입은 매우 정밀하지만 패키지 가공 비용이 크다. EMFI는 그 사이에서 **비접촉성**과 **국소성**을 동시에 확보한 공격으로 위치한다.
 
-| 항목 | 전압 글리칭 (Voltage Glitching) | EMFI | 레이저 결함 주입 (Laser Fault Injection) |
+| 항목 | [[001_voltage|전압]] 글리칭 ([[771_voltage_glitching|Voltage Glitching]]) | EMFI | 레이저 [[352_defect_definition|결함]] 주입 (Laser [[670_fault_injection_chaos_testing_kernel|Fault Injection]]) |
 | :--- | :------------------------------ | :--- | :--------------------------------------- |
 | 주입 경로 | 전원선 직접 조작 | 칩 근처 자기장 결합 | 실리콘에 광 펄스 조사 |
 | 접촉 여부 | 보통 접촉 필요 | 비접촉 가능 | 패키지 개봉·광학 정렬 필요 |
@@ -90,35 +90,35 @@ EMFI를 제대로 이해하려면 다른 결함 주입 기법과의 경계를 �
 | 강점 | 장비 단순, 반복 쉬움 | 패키지 위에서도 타격 가능 | 해상도 최고 |
 | 약점 | 전체 리셋으로 이어지기 쉬움 | 위치·타이밍 탐색 비용 큼 | 고가 장비, 준비 난이도 큼 |
 
-또한 EMFI는 단독 공격보다 다른 기법과 묶여 강해진다. 전자기 분석 (Electromagnetic Analysis, EMA)이나 전력 분석으로 “언제 치는가”를 찾고, EMFI로 “어떤 오류를 내는가”를 만든 뒤, 차분 결함 분석 (Differential Fault Analysis, DFA)로 키를 계산하는 식이다. 즉 수동형 부채널이 정찰을 맡고, EMFI가 실제 타격을 맡는 구조다.
+또한 EMFI는 단독 공격보다 다른 기법과 묶여 강해진다. 전자기 분석 (Electromagnetic Analysis, EMA)이나 전력 분석으로 “언제 치는가”를 찾고, EMFI로 “어떤 오류를 내는가”를 만든 뒤, 차분 [[352_defect_definition|결함]] 분석 (Differential Fault Analysis, DFA)로 키를 계산하는 식이다. 즉 수동형 부채널이 정찰을 맡고, EMFI가 실제 타격을 맡는 구조다.
 
-- **📢 섹션 요약 비유**: 전압 글리칭이 방 전체 전등을 꺼버리는 것이라면, EMFI는 특정 스탠드만 깜빡이게 만드는 것이고, 레이저는 전구 필라멘트 한 점만 바늘처럼 찌르는 것이다.
+- **📢 섹션 요약 비유**: [[001_voltage|전압]] 글리칭이 방 전체 전등을 꺼버리는 것이라면, EMFI는 특정 스탠드만 깜빡이게 만드는 것이고, 레이저는 전구 필라멘트 한 점만 바늘처럼 찌르는 것이다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서는 “EMFI를 완전히 막을 수 있는가?”보다 “EMFI가 성공해도 치명적 결과가 나오지 않게 만들 수 있는가?”가 더 중요하다. 금융 보안 칩, 자동차 Hardware Security Module (HSM), 펌웨어 Root of Trust처럼 단일 오류가 곧 신뢰 붕괴로 이어지는 영역은 하드웨어 센서와 소프트웨어 중복 검증을 함께 써야 한다.
+실무에서는 “EMFI를 완전히 막을 수 있는가?”보다 “EMFI가 성공해도 치명적 결과가 나오지 않게 만들 수 있는가?”가 더 중요하다. 금융 보안 칩, 자동차 [[157_hsm_hardware_security_module|Hardware Security Module]] ([[475_hsm|HSM]]), [[032_firmware|펌웨어]] Root of Trust처럼 단일 오류가 곧 신뢰 붕괴로 이어지는 영역은 하드웨어 센서와 소프트웨어 중복 [[395_verification_process_review|검증]]을 함께 써야 한다.
 
 ### 설계 판단 포인트
 
-1. **탐지**: 온칩 센서, active shield, clock/voltage monitor로 이상 펄스를 조기에 감지할 것  
-2. **완화**: 중요한 비교·서명 검증·키 스케줄 연산은 시간적/공간적 중복 계산을 둘 것  
-3. **반응**: 이상 징후 시 조용히 계속 실행하지 말고 zeroization 또는 secure reset으로 종료할 것  
-4. **검증**: 개발 막판이 아니라 인증 전 단계에서 실제 EMFI campaign으로 fault map을 수집할 것  
+1. **탐지**: 온칩 센서, [[483_active_vs_passive_ftp|active]] shield, [[045_clock|clock]]/[[001_voltage|voltage]] monitor로 이상 펄스를 조기에 감지할 것  
+2. **완화**: 중요한 비교·서명 [[395_verification_process_review|검증]]·키 [[208_schedule_history_transaction_execution_order|스케줄]] 연산은 시간적/공간적 중복 계산을 둘 것  
+3. **반응**: 이상 징후 시 조용히 계속 실행하지 말고 [[784_zeroization_circuit|zeroization]] 또는 secure reset으로 종료할 것  
+4. **[[395_verification_process_review|검증]]**: 개발 막판이 아니라 [[303_authentication_authorization_patterns|인증]] 전 단계에서 실제 EMFI campaign으로 fault map을 수집할 것  
 
-### 안티패턴
+### [[128_water_scrum_fall_anti_pattern|안티패턴]]
 
 - “외부 클럭과 전원만 숨기면 안전하다”는 가정
 - 오류가 나면 재시도만 하고 보안 상태는 유지하는 설계
-- 단일 비교 결과 한 번으로 인증을 통과시키는 로직
+- 단일 비교 결과 한 번으로 [[303_authentication_authorization_patterns|인증]]을 통과시키는 로직
 
-### 체크리스트
+### [[435_checklist_based_testing|체크리스트]]
 
 - 중요한 제어 흐름에 결과 이중화와 inverse check가 있는가?
-- 금속 차폐층이나 active mesh가 민감 블록 위를 실제로 덮는가?
-- fault detected 시 key zeroization 경로가 검증되었는가?
-- EMFI 시험에서 instruction skip과 reset을 구분해 분석했는가?
+- 금속 차폐층이나 [[483_active_vs_passive_ftp|active]] mesh가 민감 블록 위를 실제로 덮는가?
+- fault detected 시 [[067_db_key_uniqueness_minimality|key]] [[784_zeroization_circuit|zeroization]] 경로가 [[395_verification_process_review|검증]]되었는가?
+- EMFI 시험에서 [[158_instruction|instruction]] skip과 reset을 구분해 분석했는가?
 
 - **📢 섹션 요약 비유**: EMFI 방어는 성문 하나를 두껍게 만드는 일이 아니라, 망루·경보종·예비 문지기·비상 폐문장치를 함께 두는 성곽 설계와 같다.
 
@@ -128,7 +128,7 @@ EMFI를 제대로 이해하려면 다른 결함 주입 기법과의 경계를 �
 
 EMFI를 고려한 설계는 단순히 물리 공격 한 종류를 막는 데 그치지 않는다. 보안 부트, 암호 처리, 디버그 잠금 같은 핵심 경로에 오류 감지와 안전 종료를 넣게 만들어, 다른 글리칭 공격이나 예외 상황에도 전체 신뢰성이 높아진다.
 
-다만 완전 차폐는 면적·전력·비용을 늘리고, 과도한 탐지는 정상 동작도 공격으로 오인할 수 있다. 그래서 앞으로는 블록별 센서, fault-aware microarchitecture, 형식 검증된 오류 반응 정책처럼 “필요한 곳만 강하게” 보호하는 방향이 중요해진다. 결국 EMFI는 보안을 코드만의 문제가 아니라 **전기장과 시간까지 포함한 시스템 문제**로 보게 만든다.
+다만 완전 차폐는 면적·전력·비용을 늘리고, 과도한 탐지는 정상 동작도 공격으로 오인할 수 있다. 그래서 앞으로는 블록별 센서, fault-aware [[204_microarchitecture|microarchitecture]], 형식 [[395_verification_process_review|검증]]된 오류 반응 정책처럼 “필요한 곳만 강하게” [[571_protection_vs_security|보호]]하는 방향이 중요해진다. 결국 EMFI는 보안을 코드만의 문제가 아니라 **전기장과 시간까지 포함한 시스템 문제**로 보게 만든다.
 
 - **📢 섹션 요약 비유**: 좋은 EMFI 대응은 비를 무조건 막는 우산이 아니라, 비가 새더라도 바닥이 미끄럽지 않게 배수로까지 갖춘 건물과 같다.
 
@@ -138,12 +138,12 @@ EMFI를 고려한 설계는 단순히 물리 공격 한 종류를 막는 데 그
 
 | 개념 | 연결 포인트 |
 | :--- | :---------- |
-| 전압 글리칭 (Voltage Glitching) | 전원선을 흔드는 전역형 결함 주입으로 EMFI와 대비됨 |
-| 클럭 글리칭 (Clock Glitching) | 시간축을 흔드는 공격으로 EMFI의 fault model과 겹침 |
+| [[001_voltage|전압]] 글리칭 ([[771_voltage_glitching|Voltage Glitching]]) | 전원선을 흔드는 전역형 [[352_defect_definition|결함]] 주입으로 EMFI와 대비됨 |
+| [[772_clock_glitching|클럭 글리칭]] ([[772_clock_glitching|Clock Glitching]]) | 시간축을 흔드는 공격으로 EMFI의 fault model과 겹침 |
 | EMA (Electromagnetic Analysis) | EMFI의 타이밍 정찰에 자주 쓰이는 수동형 부채널 |
 | DFA (Differential Fault Analysis) | EMFI로 만든 오류 결과를 키 복구에 연결하는 분석 기법 |
-| 액티브 실드 (Active Shield) | 외부 프로빙·전자기 교란을 감지하는 대표 방어 수단 |
-| Secure Boot | instruction skip으로 우회되기 쉬운 대표 목표 |
+| [[483_active_vs_passive_ftp|액티브]] 실드 ([[483_active_vs_passive_ftp|Active]] Shield) | 외부 프로빙·전자기 교란을 감지하는 대표 방어 수단 |
+| [[608_secure_boot|Secure Boot]] | [[158_instruction|instruction]] skip으로 우회되기 쉬운 대표 목표 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -166,7 +166,7 @@ DFA (Differential Fault Analysis) · Secure Boot Bypass
 Active Shield · Fault-aware Design
 ```
 
-이 흐름은 “결함 주입의 정밀화 → 오류 활용 → 방어의 다층화”라는 발전 방향을 보여준다.
+이 흐름은 “[[352_defect_definition|결함]] 주입의 정밀화 → 오류 활용 → 방어의 다층화”라는 발전 방향을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

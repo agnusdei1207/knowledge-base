@@ -7,9 +7,9 @@ categories = "studynote-enterprise-systems"
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: 암묵지(Tacit)는 **경험·노하우·직관처럼 언어로 표현하기 어려운 개인적 지식**이고, 형식지(Explicit)는 **문서·매뉴얼·DB처럼 체계적으로 기록·공유 가능한 지식**이다.
-> 2. **가치**: 조직 지식의 80%가 암묵지로 추정되며, 이를 형식지로 변환(외부화)하지 않으면 **핵심 인력 퇴사 시 지식이 유실**된다. SECI 모델이 지식 변환의 프레임워크이다.
-> 3. **판단 포인트**: SECI의 4단계(사회화→외부화→결합화→내면화) 중 **외부화(암묵지→형식지)**가 가장 어렵고 가치가 높으며, AI/RAG가 이를 자동화하는 새로운 수단이다.
+> 1. **본질**: 암묵지(Tacit)는 **경험·노하우·직관처럼 언어로 표현하기 어려운 개인적 지식**이고, [[129_explicit_knowledge_formalization|형식지]](Explicit)는 **문서·매뉴얼·DB처럼 체계적으로 기록·공유 가능한 지식**이다.
+> 2. **가치**: 조직 지식의 80%가 암묵지로 추정되며, 이를 [[129_explicit_knowledge_formalization|형식지]]로 변환(외부화)하지 않으면 **핵심 인력 퇴사 시 지식이 유실**된다. SECI 모델이 지식 변환의 프레임워크이다.
+> 3. **판단 포인트**: SECI의 4단계(사회화→외부화→결합화→내면화) 중 **외부화(암묵지→[[129_explicit_knowledge_formalization|형식지]])**가 가장 어렵고 가치가 높으며, [[190_ai_llm_requirements_specification|AI]]/RAG가 이를 자동화하는 새로운 수단이다.
 
 ---
 
@@ -27,22 +27,22 @@ categories = "studynote-enterprise-systems"
 └───────────────────────────────────────────────────────┘
 ```
 
-- **📢 섹션 요약 비유**: 암묵지는 할머니의 **손맛(경험)**이고, 형식지는 **레시피(문서)**이다. 손맛을 레시피로 바꾸는 것(외부화)이 KM의 핵심이다.
+- **📢 섹션 요약 비유**: 암묵지는 할머니의 **손맛(경험)**이고, [[129_explicit_knowledge_formalization|형식지]]는 **레시피(문서)**이다. 손맛을 레시피로 바꾸는 것(외부화)이 KM의 핵심이다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### 암묵지 vs 형식지
+### 암묵지 vs [[129_explicit_knowledge_formalization|형식지]]
 
-| 비교 | 암묵지 | 형식지 |
+| 비교 | 암묵지 | [[129_explicit_knowledge_formalization|형식지]] |
 |:---|:---|:---|
 | **형태** | 경험·직관·노하우 | **문서·코드·DB** |
-| **전달** | 대면·도제·OJT | **파일·시스템** |
+| **전달** | 대면·도제·OJT | **[[501_file_definition_logical_record|파일]]·시스템** |
 | **공유** | 어려움 | **쉬움** |
 | **비율** | ~80% | ~20% |
 
-- **📢 섹션 요약 비유**: 빙산의 수면 위(형식지 20%)와 수면 아래(암묵지 80%)이다.
+- **📢 섹션 요약 비유**: 빙산의 수면 위([[129_explicit_knowledge_formalization|형식지]] 20%)와 수면 아래(암묵지 80%)이다.
 
 ---
 
@@ -50,7 +50,7 @@ categories = "studynote-enterprise-systems"
 
 | SECI | 변환 | 예 |
 |:---|:---|:---|
-| **사회화** | 암→암 | 도제, 페어 프로그래밍 |
+| **사회화** | 암→암 | 도제, [[074_pair_programming_driver_navigator|페어 프로그래밍]] |
 | **외부화** | 암→형 | **매뉴얼·위키 작성** |
 | **결합화** | 형→형 | DB 통합·보고서 |
 | **내면화** | 형→암 | 학습·실습으로 체화 |
@@ -61,14 +61,14 @@ categories = "studynote-enterprise-systems"
 
 ### 현대 외부화 도구
 - 위키 (Confluence·Notion): 지식 문서화.
-- 코드 리뷰: 암묵적 코딩 노하우 형식지화.
-- AI/RAG: 대화·회의록에서 지식 자동 추출.
+- [[330_code_review|코드 리뷰]]: 암묵적 코딩 노하우 [[129_explicit_knowledge_formalization|형식지]]화.
+- [[190_ai_llm_requirements_specification|AI]]/[[276_fine_tuning|RAG]]: 대화·회의록에서 지식 자동 추출.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-암묵지→형식지 변환(외부화)은 **조직 지식 자산화의 핵심**이며, AI 시대에 RAG·LLM이 외부화를 자동화하는 새 패러다임이 열리고 있다.
+암묵지→[[129_explicit_knowledge_formalization|형식지]] 변환(외부화)은 **조직 지식 자산화의 핵심**이며, [[190_ai_llm_requirements_specification|AI]] 시대에 [[276_fine_tuning|RAG]]·LLM이 외부화를 자동화하는 새 패러다임이 열리고 있다.
 
 ---
 
@@ -77,10 +77,10 @@ categories = "studynote-enterprise-systems"
 | 개념 | 연결 포인트 |
 |:---|:---|
 | **암묵지** | 경험·노하우 (표현 어려움) |
-| **형식지** | 문서·코드 (공유 가능) |
+| **[[129_explicit_knowledge_formalization|형식지]]** | 문서·코드 (공유 가능) |
 | **SECI** | 지식 변환 4단계 |
-| **외부화** | 암묵지→형식지 (가장 핵심) |
-| **KMS** | 지식 관리 시스템 |
+| **외부화** | 암묵지→[[129_explicit_knowledge_formalization|형식지]] (가장 핵심) |
+| **[[127_kms_knowledge_management_system|KMS]]** | 지식 관리 시스템 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -102,5 +102,5 @@ categories = "studynote-enterprise-systems"
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 암묵지는 할머니의 **손맛(경험)**이에요. 말로 설명하기 어려워요.
-2. 형식지는 **레시피(문서)**예요. 누구나 보고 따라할 수 있어요.
+2. [[129_explicit_knowledge_formalization|형식지]]는 **레시피(문서)**예요. 누구나 보고 따라할 수 있어요.
 3. 손맛을 레시피로 바꾸면(외부화) 할머니가 안 계셔도 **맛있는 음식**을 만들 수 있어요!

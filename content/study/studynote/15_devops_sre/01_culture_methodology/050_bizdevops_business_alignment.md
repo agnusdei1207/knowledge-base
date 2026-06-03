@@ -8,14 +8,14 @@ tags = ["BizDevOps", "DevOps", "business alignment", "OKR", "value stream mappin
 
 > **핵심 인사이트 3줄**
 > 1. BizDevOps는 DevOps의 개발-운영 협업에 비즈니스 팀(기획·마케팅·영업)을 통합하여 IT와 비즈니스 목표를 단일 가치 흐름으로 연결하는 문화·방법론이다.
-> 2. DevOps가 "빠른 배포"에 집중했다면 BizDevOps는 "올바른 것을 빠르게 배포"로 진화하며, OKR(Objective & Key Results) 기반의 목표 정렬이 핵심이다.
-> 3. 가치 흐름 매핑(VSM, Value Stream Mapping)으로 아이디어에서 운영까지의 낭비를 가시화하고, 비즈니스 피드백 루프를 배포 파이프라인에 직접 통합한다.
+> 2. DevOps가 "빠른 배포"에 집중했다면 BizDevOps는 "올바른 것을 빠르게 배포"로 진화하며, [[039_okr_objectives_key_results|OKR]](Objective & [[067_db_key_uniqueness_minimality|Key]] Results) 기반의 목표 정렬이 핵심이다.
+> 3. [[224_vsm_value_stream_mapping|가치 흐름 매핑]]([[030_value_stream_mapping|VSM]], [[088_value_stream_mapping_vsm|Value Stream Mapping]])으로 아이디어에서 운영까지의 낭비를 가시화하고, 비즈니스 [[005_feedback_loop|피드백 루프]]를 배포 [[123_pipe|파이프]]라인에 직접 통합한다.
 
 ---
 
 ## Ⅰ. BizDevOps 개요
 
-### 1.1 DevOps → BizDevOps 진화
+### 1.1 [[652_devops_calms_culture|DevOps]] → BizDevOps 진화
 
 ```
 전통 조직:
@@ -31,17 +31,17 @@ BizDevOps:
 
 ### 1.2 BizDevOps의 3대 원칙
 
-1. **비즈니스 목표 공유**: 개발팀이 KPI와 비즈니스 메트릭 이해
-2. **지속적 비즈니스 피드백**: 사용자 행동 데이터 → 개발 의사결정
-3. **가치 중심 우선순위**: 기술 부채 vs 비즈니스 가치의 균형 측정
+1. **비즈니스 목표 공유**: 개발팀이 KPI와 비즈니스 [[342_routing_metric_hop_bandwidth_delay|메트릭]] 이해
+2. **지속적 비즈니스 피드백**: 사용자 행동 [[001_dikw_pyramid|데이터]] → 개발 의사결정
+3. **가치 중심 우선순위**: [[100_technical_debt_monitoring_release_policy|기술 부채]] vs 비즈니스 가치의 균형 측정
 
 📢 **섹션 요약 비유**: DevOps가 부엌(개발)과 홀(운영)을 합친 것이라면, BizDevOps는 메뉴 기획팀(비즈니스)까지 한 식당 팀으로 합친 것.
 
 ---
 
-## Ⅱ. OKR 기반 정렬
+## Ⅱ. [[039_okr_objectives_key_results|OKR]] 기반 정렬
 
-### 2.1 OKR 구조
+### 2.1 [[039_okr_objectives_key_results|OKR]] 구조
 
 ```
 Company OKR:
@@ -55,21 +55,21 @@ Company OKR:
   KR: MTTR 30분 이내, 배포 성공률 99%
 ```
 
-### 2.2 OKR과 DevOps 메트릭 연결
+### 2.2 OKR과 [[652_devops_calms_culture|DevOps]] [[342_routing_metric_hop_bandwidth_delay|메트릭]] 연결
 
-| OKR KR                | 관련 DevOps 메트릭           |
+| [[039_okr_objectives_key_results|OKR]] KR                | 관련 [[652_devops_calms_culture|DevOps]] [[342_routing_metric_hop_bandwidth_delay|메트릭]]           |
 |----------------------|------------------------------|
-| NPS 70점 이상        | 기능 출시 리드 타임           |
-| 앱 충돌률 0.1% 미만  | MTBF, 배포 실패율             |
-| 출시 주기 2주 이내   | 배포 빈도 (DORA)              |
+| NPS 70점 이상        | 기능 출시 [[085_lead_time_cycle_time|리드 타임]]           |
+| 앱 충돌률 0.1% 미만  | [[450_mtbf|MTBF]], 배포 실패율             |
+| 출시 주기 2주 이내   | 배포 빈도 ([[523_dhcp_dora_process|DORA]])              |
 
 📢 **섹션 요약 비유**: OKR은 팀 전체의 공통 성적표 — 기획자, 개발자, 운영자가 같은 목표를 향해 달리게 만든다.
 
 ---
 
-## Ⅲ. 가치 흐름 매핑 (VSM)
+## Ⅲ. [[224_vsm_value_stream_mapping|가치 흐름 매핑]] ([[030_value_stream_mapping|VSM]])
 
-### 3.1 VSM 아이디어→운영 흐름
+### 3.1 [[030_value_stream_mapping|VSM]] 아이디어→운영 흐름
 
 ```
 [아이디어] → [요구사항 분석] → [설계] → [개발] → [테스트] → [배포] → [모니터링] → [피드백]
@@ -78,14 +78,14 @@ Company OKR:
                                                  BizDevOps: 비즈니스 피드백 루프 통합
 ```
 
-### 3.2 낭비(Muda) 식별
+### 3.2 낭비(Muda) [[655_ir_detection_analysis|식별]]
 
 | 낭비 유형          | BizDevOps 해결책                          |
 |-----------------|------------------------------------------|
-| 대기 낭비         | 비즈니스 팀 스프린트 참여로 승인 병목 제거 |
-| 과잉 기능        | 사용 데이터 기반 우선순위 재조정           |
+| 대기 낭비         | 비즈니스 팀 [[067_sprint_timebox|스프린트]] 참여로 승인 병목 제거 |
+| 과잉 기능        | 사용 [[001_dikw_pyramid|데이터]] 기반 우선순위 재조정           |
 | 재작업           | 비즈니스 목표 사전 정렬로 방향 전환 감소  |
-| 지식 사일로      | 비즈니스-개발-운영 공통 대시보드          |
+| 지식 [[002_silo_hyeonhyung|사일로]]      | 비즈니스-개발-운영 공통 대시보드          |
 
 📢 **섹션 요약 비유**: VSM은 택배 배송 경로 지도 — 어디서 시간이 낭비(대기)되는지 한눈에 보여서 빠른 경로를 찾는다.
 
@@ -93,7 +93,7 @@ Company OKR:
 
 ## Ⅳ. 지속적 비즈니스 피드백
 
-### 4.1 피드백 루프 통합
+### 4.1 [[005_feedback_loop|피드백 루프]] 통합
 
 ```
 배포
@@ -106,7 +106,7 @@ Company OKR:
 데이터 기반 의사결정 → 다음 스프린트 백로그 조정
 ```
 
-### 4.2 Feature Flag 활용
+### 4.2 [[576_feature_flag_ab_testing_rollout|Feature Flag]] 활용
 
 ```python
 # LaunchDarkly / OpenFeature 예시
@@ -117,7 +117,7 @@ else:
 # 비즈니스 팀이 트래픽 비율을 실시간 조정
 ```
 
-📢 **섹션 요약 비유**: Feature Flag는 수도꼭지 — 기획자가 직접 새 기능의 물(트래픽)을 조금씩 틀어보며 효과를 확인한다.
+📢 **섹션 요약 비유**: Feature Flag는 수도꼭지 — 기획자가 직접 새 기능의 물(트래픽)을 조금씩 틀어보며 효과를 [[396_validation|확인]]한다.
 
 ---
 
@@ -139,11 +139,11 @@ else:
 
 | 장애물               | 해결책                                    |
 |--------------------|-----------------------------------------|
-| 비즈니스팀 기술 이해 부족 | DevOps 교육, 공통 대시보드 시각화      |
-| KPI 충돌 (속도 vs 안정) | OKR로 공통 우선순위 설정               |
-| 비즈니스 변동성 과다 | 스프린트 내 변경 금지 룰 + 분기 OKR 고정 |
+| 비즈니스팀 기술 이해 부족 | [[652_devops_calms_culture|DevOps]] 교육, 공통 대시보드 [[003_bigdata_7v|시각화]]      |
+| [[018_kpi|KPI]] 충돌 (속도 vs 안정) | OKR로 공통 우선순위 [[009_config|설정]]               |
+| 비즈니스 변동성 과다 | [[067_sprint_timebox|스프린트]] 내 변경 금지 룰 + 분기 [[039_okr_objectives_key_results|OKR]] 고정 |
 
-📢 **섹션 요약 비유**: BizDevOps 구현의 최대 적은 "각자 다른 성적표" — 팀 전체가 같은 목표(OKR)를 보게 만드는 것이 핵심이다.
+📢 **섹션 요약 비유**: BizDevOps 구현의 최대 적은 "각자 다른 성적표" — 팀 전체가 같은 목표([[039_okr_objectives_key_results|OKR]])를 보게 만드는 것이 핵심이다.
 
 ---
 
@@ -187,7 +187,7 @@ Product-Led Growth + BizDevOps (2020s)
 AI-Driven BizDevOps (현재~)
 ```
 
-**핵심 키워드**: OKR, 가치 흐름 매핑, Feature Flag, 지속적 피드백, 크로스펑셔널 팀, DORA
+**핵심 키워드**: [[039_okr_objectives_key_results|OKR]], [[224_vsm_value_stream_mapping|가치 흐름 매핑]], [[576_feature_flag_ab_testing_rollout|Feature Flag]], [[022_continuous_feedback_telemetry|지속적 피드백]], 크로스펑셔널 팀, [[523_dhcp_dora_process|DORA]]
 
 ---
 

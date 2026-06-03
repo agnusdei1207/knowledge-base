@@ -7,13 +7,13 @@ categories = "studynote-cloud-architecture"
 +++
 
 > **핵심 인사이트**
-> 1. 클라우드 마이그레이션 6R 전략은 AWS가 Gartner의 5Rs를 확장한 클라우드 이전 유형 분류 체계로, Retire(폐기)·Retain(유지)·Rehost(리호스트)·Replatform(리플랫폼)·Repurchase(재구매)·Refactor/Re-architect(재설계)의 6가지 경로를 제시한다.
-> 2. 대부분의 기업 클라우드 전환에서 포트폴리오 분석 시 Rehost(Lift & Shift)가 60~70%를 차지하며 가장 빠른 이전이 가능하지만, 클라우드 네이티브 이점 극대화는 Refactor에서만 온전히 실현된다.
-> 3. 6R 전략 선택의 핵심 변수는 비즈니스 가치(Value)·기술 복잡도·시간 제약·비용 효율성의 트레이드오프이며, 단일 전략이 아닌 애플리케이션별 맞춤 전략 선택이 성공적인 클라우드 전환의 원칙이다.
+> 1. 클라우드 마이그레이션 6R [[268_strategy_pattern|전략]]은 AWS가 Gartner의 5Rs를 확장한 클라우드 이전 유형 [[104_classification_analysis|분류]] 체계로, Retire(폐기)·Retain(유지)·Rehost([[212_rehost_lift_and_shift_migration_strategy|리호스트]])·Replatform(리플랫폼)·Repurchase(재구매)·[[213_refactoring_cloud_native_rearchitecture|Refactor]]/Re-architect(재설계)의 6가지 경로를 제시한다.
+> 2. 대부분의 기업 클라우드 전환에서 포트폴리오 분석 시 Rehost([[086_lift_association_rule_marketing|Lift]] & Shift)가 60~70%를 차지하며 가장 빠른 이전이 가능하지만, [[531_cloud_native_architecture|클라우드 네이티브]] 이점 극대화는 Refactor에서만 온전히 실현된다.
+> 3. 6R [[268_strategy_pattern|전략]] 선택의 핵심 변수는 비즈니스 가치(Value)·기술 복잡도·시간 제약·비용 효율성의 트레이드오프이며, 단일 [[268_strategy_pattern|전략]]이 아닌 애플리케이션별 맞춤 [[268_strategy_pattern|전략]] 선택이 성공적인 클라우드 전환의 원칙이다.
 
 ---
 
-## Ⅰ. 6R 전략 개요
+## Ⅰ. 6R [[268_strategy_pattern|전략]] 개요
 
 ```
 Cloud Migration 6R 전략:
@@ -46,11 +46,11 @@ Cloud Migration 6R 전략:
   최고 비용·시간, 최대 클라우드 효과
 ```
 
-> 📢 **섹션 요약 비유**: 6R은 이사 전략 — 버리기(Retire), 냅두기(Retain), 그대로 옮기기(Rehost), 일부 업그레이드(Replatform), 새로 구입(Repurchase), 완전 리모델링(Refactor).
+> 📢 **섹션 요약 비유**: 6R은 이사 [[268_strategy_pattern|전략]] — 버리기(Retire), 냅두기(Retain), 그대로 옮기기(Rehost), 일부 업그레이드(Replatform), 새로 구입(Repurchase), 완전 리모델링([[213_refactoring_cloud_native_rearchitecture|Refactor]]).
 
 ---
 
-## Ⅱ. 각 전략 상세 비교
+## Ⅱ. 각 [[268_strategy_pattern|전략]] 상세 비교
 
 ```
 6R 전략 상세 비교표:
@@ -81,7 +81,7 @@ Refactor 특징:
   비용: 최대 40~60% 절감 (올바르게 설계 시)
 ```
 
-> 📢 **섹션 요약 비유**: Rehost=가구 그대로 이사, Replatform=일부 새 가구로 교체, Refactor=집 전체 인테리어 리모델링 — 효과와 비용 모두 비례.
+> 📢 **섹션 요약 비유**: Rehost=가구 그대로 이사, Replatform=일부 새 가구로 교체, [[213_refactoring_cloud_native_rearchitecture|Refactor]]=집 전체 인테리어 리모델링 — 효과와 비용 모두 비례.
 
 ---
 
@@ -121,7 +121,7 @@ Refactor 특징:
    사이클릭 의존성 해소 후 이전
 ```
 
-> 📢 **섹션 요약 비유**: 포트폴리오 분석은 이사 짐 분류 — 자주 쓰는 것(가치 높음)은 먼저, 무거운 것(복잡한 것)은 나중에, 쓸모없는 것(폐기)은 버리기.
+> 📢 **섹션 요약 비유**: 포트폴리오 분석은 이사 짐 [[104_classification_analysis|분류]] — 자주 쓰는 것(가치 높음)은 먼저, 무거운 것(복잡한 것)은 나중에, 쓸모없는 것(폐기)은 버리기.
 
 ---
 
@@ -163,7 +163,7 @@ Refactor:
   Google Cloud Migrate for Compute Engine
 ```
 
-> 📢 **섹션 요약 비유**: 마이그레이션 도구는 이사 전문 업체 서비스 — Rehost는 용달 트럭, Refactor는 인테리어 회사.
+> 📢 **섹션 요약 비유**: 마이그레이션 도구는 이사 전문 업체 [[090_service_kubernetes_network_load_balancing|서비스]] — Rehost는 용달 트럭, Refactor는 인테리어 회사.
 
 ---
 
@@ -208,7 +208,7 @@ Refactor (15개, 6.8%):
   배포 빈도: 월 2회 → 주 3회
 ```
 
-> 📢 **섹션 요약 비유**: 금융기관 6R 전환은 대형 병원 이전 — ICU(핵심 거래)는 정밀 Refactor, 일반 병실(일반 앱)은 빠른 Rehost, 쓰지 않는 장비는 폐기.
+> 📢 **섹션 요약 비유**: 금융기관 6R 전환은 대형 병원 이전 — ICU(핵심 거래)는 정밀 [[213_refactoring_cloud_native_rearchitecture|Refactor]], 일반 병실(일반 앱)은 빠른 Rehost, 쓰지 않는 장비는 폐기.
 
 ---
 
@@ -263,6 +263,6 @@ FinOps로 비용 최적화 강조
 
 ## 👶 어린이를 위한 3줄 비유 설명
 
-1. 클라우드 이전 6R은 이사할 때 짐 처리 방법 — 버리기(Retire), 그냥 두기(Retain), 그대로 옮기기(Rehost), 일부 새걸로(Replatform), 새로 구매(Repurchase), 완전 새집 꾸미기(Refactor)!
-2. 대부분 기업은 빠른 이전을 위해 "그대로 옮기기(Rehost)"를 가장 많이 선택하지만, 진짜 클라우드 혜택은 "완전 새집 꾸미기(Refactor)"에서 나와요.
-3. 올바른 전략은 앱마다 달라요 — 중요한 앱은 시간이 걸려도 Refactor, 간단한 앱은 빠른 Rehost로 먼저 이전!
+1. 클라우드 이전 6R은 이사할 때 짐 처리 방법 — 버리기(Retire), 그냥 두기(Retain), 그대로 옮기기(Rehost), 일부 새걸로(Replatform), 새로 구매(Repurchase), 완전 새집 꾸미기([[213_refactoring_cloud_native_rearchitecture|Refactor]])!
+2. 대부분 기업은 빠른 이전을 위해 "그대로 옮기기(Rehost)"를 가장 많이 선택하지만, 진짜 클라우드 혜택은 "완전 새집 꾸미기([[213_refactoring_cloud_native_rearchitecture|Refactor]])"에서 나와요.
+3. 올바른 [[268_strategy_pattern|전략]]은 앱마다 달라요 — 중요한 앱은 시간이 걸려도 [[213_refactoring_cloud_native_rearchitecture|Refactor]], 간단한 앱은 빠른 Rehost로 먼저 이전!

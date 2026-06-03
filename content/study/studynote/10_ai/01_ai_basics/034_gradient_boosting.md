@@ -6,13 +6,13 @@ categories = "studynote-ai"
 +++
 
 > **핵심 인사이트 3줄**
-> 1. 그래디언트 부스팅(Gradient Boosting)은 약한 학습기(결정 트리)를 순차적으로 앙상블해 이전 모델의 잔차(Residual Error)를 반복적으로 줄이는 부스팅 알고리즘으로, 표 형식 데이터에서 최강의 성능을 보인다.
-> 2. XGBoost·LightGBM·CatBoost는 그래디언트 부스팅을 병렬화·최적화한 구현체로, 특히 LightGBM의 Leaf-wise 트리 성장과 히스토그램 근사가 처리 속도를 수십 배 향상시켰다.
-> 3. 그래디언트 부스팅의 핵심 하이퍼파라미터는 학습률(learning rate)·트리 깊이·서브샘플링으로, 작은 학습률 + 많은 트리(+ 조기 종료)가 정규화와 성능의 최적 균형을 제공한다.
+> 1. 그래디언트 [[127_boosting|부스팅]](Gradient [[127_boosting|Boosting]])은 약한 학습기(결정 트리)를 순차적으로 [[257_ensemble_learning|앙상블]]해 이전 모델의 잔차(Residual Error)를 반복적으로 줄이는 [[127_boosting|부스팅]] [[001_algorithm_definition|알고리즘]]으로, 표 형식 [[001_dikw_pyramid|데이터]]에서 최강의 [[282_performance_tactics|성능]]을 보인다.
+> 2. XGBoost·LightGBM·CatBoost는 그래디언트 [[127_boosting|부스팅]]을 [[430_index_fast_full_scan|병렬]]화·최적화한 구현체로, 특히 LightGBM의 Leaf-wise 트리 성장과 히스토그램 근사가 처리 속도를 수십 배 향상시켰다.
+> 3. 그래디언트 [[127_boosting|부스팅]]의 핵심 하이퍼파라미터는 [[080_gradient_descent_learning_rate|학습률]]([[240_switch_learning_forwarding_flooding|learning]] rate)·트리 깊이·서브샘플링으로, 작은 [[080_gradient_descent_learning_rate|학습률]] + 많은 트리(+ [[281_early_stopping|조기 종료]])가 [[093_normalization|정규화]]와 [[282_performance_tactics|성능]]의 최적 균형을 제공한다.
 
 ---
 
-## Ⅰ. 그래디언트 부스팅의 핵심 알고리즘
+## Ⅰ. 그래디언트 [[127_boosting|부스팅]]의 핵심 [[001_algorithm_definition|알고리즘]]
 
 ```
 그래디언트 부스팅 순서:
@@ -27,7 +27,7 @@ categories = "studynote-ai"
 3. 최종: F(x) = F₀ + ν·h₁ + ν·h₂ + ... + ν·hₜ
 ```
 
-📢 **섹션 요약 비유**: 그래디언트 부스팅은 오답 모음집이다 — 첫 번째 학생이 틀린 문제를 두 번째 학생이 집중 공부하고, 두 번째가 틀린 문제를 세 번째가 집중 공부하는 방식으로 팀 전체가 점점 개선된다.
+📢 **섹션 요약 비유**: 그래디언트 [[127_boosting|부스팅]]은 오답 모음집이다 — 첫 번째 학생이 틀린 문제를 두 번째 학생이 집중 공부하고, 두 번째가 틀린 문제를 세 번째가 집중 공부하는 방식으로 팀 전체가 점점 개선된다.
 
 ---
 
@@ -39,7 +39,7 @@ categories = "studynote-ai"
 | 속도          | 중간              | 매우 빠름            | 중간                  |
 | 범주형 변수   | 인코딩 필요       | 제한적 내장          | 완벽한 내장 처리       |
 | 메모리        | 높음              | 낮음 (히스토그램)    | 중간                  |
-| GPU 지원     | ✅               | ✅                  | ✅                   |
+| [[418_gpu|GPU]] 지원     | ✅               | ✅                  | ✅                   |
 
 ### LightGBM 핵심 최적화
 
@@ -58,7 +58,7 @@ Leaf-wise (LightGBM):
 
 ---
 
-## Ⅲ. 하이퍼파라미터 튜닝
+## Ⅲ. [[041_bagging_boosting|하이퍼파라미터 튜닝]]
 
 | 파라미터             | 역할                | 권장값           |
 |--------------------|---------------------|----------------|
@@ -67,9 +67,9 @@ Leaf-wise (LightGBM):
 | max_depth           | 트리 최대 깊이       | 3~8            |
 | subsample           | 행 샘플링 비율       | 0.7~0.9        |
 | colsample_bytree    | 열 샘플링 비율       | 0.7~0.9        |
-| min_child_weight    | 리프 최소 샘플 수    | 1~10           |
+| min_child_weight    | 리프 최소 샘플 수    | 1~[[489_raid_10_hybrid|10]]           |
 
-### 조기 종료 (Early Stopping)
+### [[281_early_stopping|조기 종료]] ([[281_early_stopping|Early Stopping]])
 
 ```python
 import xgboost as xgb
@@ -84,11 +84,11 @@ model.fit(X_train, y_train,
           verbose=100)
 ```
 
-📢 **섹션 요약 비유**: 조기 종료는 시험 준비 중 멈추는 것이다 — 50번 더 공부해도 점수가 안 오르면, 이미 충분히 준비됐다고 판단하고 공부를 멈춘다.
+📢 **섹션 요약 비유**: [[281_early_stopping|조기 종료]]는 시험 준비 중 멈추는 것이다 — 50번 더 공부해도 점수가 안 오르면, 이미 충분히 준비됐다고 판단하고 공부를 멈춘다.
 
 ---
 
-## Ⅳ. 특성 중요도 (Feature Importance)
+## Ⅳ. 특성 중요도 ([[355_random_forest_feature_importance|Feature Importance]])
 
 ```
 그래디언트 부스팅 특성 중요도 계산 방식:
@@ -101,17 +101,17 @@ SHAP (SHapley Additive exPlanations):
   → 전체 중요도 + 개별 샘플 설명
 ```
 
-📢 **섹션 요약 비유**: SHAP 값은 팀 기여도 분석이다 — 팀 승리(예측 결과)에 각 선수(특성)가 얼마나 기여했는지 수치로 보여준다.
+📢 **섹션 요약 비유**: [[327_shap|SHAP]] 값은 팀 기여도 분석이다 — 팀 승리(예측 결과)에 각 선수(특성)가 얼마나 기여했는지 수치로 보여준다.
 
 ---
 
-## Ⅴ. 그래디언트 부스팅 실전 응용
+## Ⅴ. 그래디언트 [[127_boosting|부스팅]] 실전 응용
 
 | 분야           | 응용                              |
 |-------------|----------------------------------|
-| Kaggle 경진  | 표 형식 데이터 1위 알고리즘       |
+| Kaggle 경진  | 표 형식 [[001_dikw_pyramid|데이터]] 1위 [[001_algorithm_definition|알고리즘]]       |
 | 신용 평가     | 대출 부도 예측 (LightGBM)        |
-| 클릭률 예측   | 광고 CTR 예측 (XGBoost)          |
+| 클릭률 예측   | 광고 [[090_ctr_mode|CTR]] 예측 (XGBoost)          |
 | 이상 거래 탐지| 카드 사기 탐지                   |
 | 의료 진단     | 질병 위험도 예측                  |
 
@@ -133,7 +133,7 @@ model.fit(X_train, y_train,
           callbacks=[lgb.early_stopping(50)])
 ```
 
-📢 **섹션 요약 비유**: 그래디언트 부스팅은 Kaggle 대회의 비밀 무기다 — 표 형식 데이터(엑셀 같은 데이터)에서는 딥러닝보다도 XGBoost·LightGBM이 자주 우승한다.
+📢 **섹션 요약 비유**: 그래디언트 [[127_boosting|부스팅]]은 Kaggle 대회의 비밀 무기다 — 표 형식 [[001_dikw_pyramid|데이터]](엑셀 같은 [[001_dikw_pyramid|데이터]])에서는 딥러닝보다도 XGBoost·LightGBM이 자주 우승한다.
 
 ---
 
@@ -185,6 +185,6 @@ XGBoost → LightGBM → CatBoost → AutoML 기본 알고리즘
 
 ## 👶 어린이를 위한 3줄 비유 설명
 
-1. 그래디언트 부스팅은 오답 교사다 — 첫 번째 선생님이 틀린 문제를 두 번째 선생님이 가르치고, 그것도 틀린 문제를 세 번째 선생님이 가르치는 방식이다.
-2. 학습률은 각 선생님의 영향력이다 — 학습률이 작으면(0.01) 각 선생님의 기여가 작아서 더 많은 선생님(트리)이 필요하지만, 최종 결과가 더 안정적이다.
+1. 그래디언트 [[127_boosting|부스팅]]은 오답 교사다 — 첫 번째 선생님이 틀린 문제를 두 번째 선생님이 가르치고, 그것도 틀린 문제를 세 번째 선생님이 가르치는 방식이다.
+2. [[080_gradient_descent_learning_rate|학습률]]은 각 선생님의 영향력이다 — [[080_gradient_descent_learning_rate|학습률]]이 작으면(0.01) 각 선생님의 기여가 작아서 더 많은 선생님(트리)이 필요하지만, 최종 결과가 더 안정적이다.
 3. LightGBM이 XGBoost보다 빠른 이유는 히스토그램이다 — 모든 값을 정확히 기록(XGBoost) 대신, 범위로 묶어(히스토그램) 계산하면 계산량이 훨씬 줄어든다.

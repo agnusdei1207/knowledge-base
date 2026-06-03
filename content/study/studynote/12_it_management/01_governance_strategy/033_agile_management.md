@@ -6,15 +6,15 @@ categories = "studynote-it-management"
 +++
 
 > **핵심 인사이트 3줄**
-> 1. 애자일 관리(Agile Management)는 짧은 반복 주기(스프린트)를 통해 고객 가치를 지속 전달하고, 변화에 신속히 적응하는 인간 중심의 경량 프로젝트 관리 방식이다.
-> 2. 애자일 선언(2001년)의 4대 가치와 12원칙이 이론 기반이며, Scrum·Kanban·SAFe가 주요 실천 프레임워크로 대부분의 IT 프로젝트에 적용되고 있다.
-> 3. 애자일의 핵심은 '계획 준수'가 아닌 '적응과 학습'이며, 측정 지표(벨로시티·번다운 차트·사이클 타임)로 팀 성과를 가시화하고 지속적으로 개선하는 것이다.
+> 1. [[004_agile_relation|애자일]] 관리([[004_agile_relation|Agile]] [[372_management|Management]])는 짧은 반복 주기([[067_sprint_timebox|스프린트]])를 통해 고객 가치를 지속 전달하고, 변화에 신속히 적응하는 인간 중심의 경량 프로젝트 관리 방식이다.
+> 2. [[004_agile_relation|애자일]] 선언(2001년)의 4대 가치와 12원칙이 이론 기반이며, [[658_agile_scrum_roles|Scrum]]·[[084_kanban_board_wip_limit|Kanban]]·SAFe가 주요 실천 프레임워크로 대부분의 IT 프로젝트에 적용되고 있다.
+> 3. [[004_agile_relation|애자일]]의 핵심은 '계획 준수'가 아닌 '적응과 학습'이며, 측정 지표(벨로시티·[[072_burndown_burnup_chart|번다운 차트]]·사이클 타임)로 팀 성과를 가시화하고 지속적으로 개선하는 것이다.
 
 ---
 
-## Ⅰ. 애자일 선언과 4대 가치
+## Ⅰ. [[004_agile_relation|애자일]] 선언과 4대 가치
 
-### 애자일 선언 (Agile Manifesto, 2001)
+### [[004_agile_relation|애자일]] 선언 ([[061_agile_manifesto|Agile Manifesto]], 2001)
 
 > 우리는 소프트웨어를 개발하고, 또 다른 사람의 개발을 도와주면서 소프트웨어 개발의 더 나은 방법들을 찾아가고 있다.
 
@@ -25,21 +25,21 @@ categories = "studynote-it-management"
 | 고객과의 협력     | 계약 협상      |
 | 변화에 대응하기   | 계획을 따르기  |
 
-📢 **섹션 요약 비유**: 애자일 4대 가치는 회사 철학이다 — 규정집(프로세스)보다 대화(개인), 보고서(문서)보다 작동하는 제품, 계약서(계약)보다 파트너십(협력)을 중시한다.
+📢 **섹션 요약 비유**: [[004_agile_relation|애자일]] 4대 가치는 회사 철학이다 — 규정집(프로세스)보다 대화(개인), 보고서(문서)보다 작동하는 제품, 계약서(계약)보다 파트너십(협력)을 중시한다.
 
 ---
 
-## Ⅱ. Scrum 프레임워크
+## Ⅱ. [[658_agile_scrum_roles|Scrum]] 프레임워크
 
-### Scrum 3대 역할
+### [[658_agile_scrum_roles|Scrum]] 3대 역할
 
 | 역할              | 책임                              |
 |-----------------|----------------------------------|
-| Product Owner (PO) | 제품 백로그 관리·우선순위 결정   |
-| Scrum Master (SM)  | 팀 코치·장애물 제거·애자일 촉진  |
-| Development Team   | 자기 조직화 개발 (3~9명)         |
+| Product Owner (PO) | [[066_product_backlog_grooming|제품 백로그]] 관리·우선순위 결정   |
+| [[064_scrum_master_sm|Scrum Master]] ([[421_streaming_multiprocessor|SM]])  | 팀 코치·장애물 제거·[[004_agile_relation|애자일]] 촉진  |
+| [[065_development_team_scrum|Development Team]]   | 자기 조직화 개발 (3~9명)         |
 
-### Scrum 이벤트 (2주 스프린트 기준)
+### [[658_agile_scrum_roles|Scrum]] 이벤트 (2주 [[067_sprint_timebox|스프린트]] 기준)
 
 ```
 스프린트 계획 (Planning) — 2h
@@ -55,15 +55,15 @@ categories = "studynote-it-management"
 
 | 산출물              | 설명                              |
 |------------------|----------------------------------|
-| Product Backlog  | 전체 기능 목록 (PO가 우선순위 관리)|
-| Sprint Backlog   | 현 스프린트 태스크 목록            |
-| Increment        | 스프린트 결과물 (잠재 출시 가능)  |
+| [[066_product_backlog_grooming|Product Backlog]]  | 전체 기능 목록 (PO가 우선순위 관리)|
+| [[067_sprint_timebox|Sprint]] Backlog   | 현 [[067_sprint_timebox|스프린트]] [[150_task|태스크]] 목록            |
+| Increment        | [[067_sprint_timebox|스프린트]] 결과물 (잠재 출시 가능)  |
 
-📢 **섹션 요약 비유**: Scrum 스프린트는 마라톤 대신 릴레이 경주다 — 2주마다 배턴(Increment)을 넘기며 방향을 수정하고, 다음 구간을 더 잘 달릴 준비를 한다.
+📢 **섹션 요약 비유**: [[658_agile_scrum_roles|Scrum]] [[067_sprint_timebox|스프린트]]는 마라톤 대신 릴레이 경주다 — 2주마다 배턴(Increment)을 넘기며 방향을 수정하고, 다음 구간을 더 잘 달릴 준비를 한다.
 
 ---
 
-## Ⅲ. Kanban 보드와 WIP 제한
+## Ⅲ. [[084_kanban_board_wip_limit|Kanban]] 보드와 WIP 제한
 
 ```
 Kanban 보드:
@@ -77,25 +77,25 @@ To Do         In Progress     In Review      Done
 WIP 제한 없음   최대 2개        최대 1개
 ```
 
-**WIP(Work In Progress) 제한**: 동시 진행 작업 수를 제한해 흐름 개선·대기 시간 단축
+**WIP([[661_kanban_wip_limit|Work In Progress]]) 제한**: 동시 [[216_progress_in_synchronization|진행]] 작업 수를 제한해 흐름 개선·대기 시간 단축
 
-**리틀의 법칙**: 사이클 타임 = WIP / 처리량
+**리틀의 법칙**: 사이클 타임 = WIP / [[139_throughput|처리량]]
 
 📢 **섹션 요약 비유**: WIP 제한은 주방장이 동시에 요리할 수 있는 접시 수 제한이다 — 너무 많이 올리면 다 식고, 적당히 제한해야 따뜻한 요리가 나온다.
 
 ---
 
-## Ⅳ. 애자일 측정 지표
+## Ⅳ. [[004_agile_relation|애자일]] 측정 지표
 
 | 지표              | 계산·설명                         |
 |-----------------|----------------------------------|
-| 벨로시티 (Velocity) | 스프린트당 완료 스토리 포인트    |
-| 번다운 차트        | 남은 작업량 vs 시간 (이상: 우하향) |
+| 벨로시티 (Velocity) | [[067_sprint_timebox|스프린트]]당 완료 [[082_story_point_velocity|스토리 포인트]]    |
+| [[072_burndown_burnup_chart|번다운 차트]]        | 남은 작업량 vs 시간 (이상: 우하향) |
 | 사이클 타임        | 작업 시작 → 완료까지 경과 시간   |
-| 리드 타임         | 요청 등록 → 완료까지 총 시간      |
-| 결함 탈출률        | 프로덕션에서 발견된 버그 비율      |
+| [[085_lead_time_cycle_time|리드 타임]]         | 요청 등록 → 완료까지 총 시간      |
+| [[352_defect_definition|결함]] 탈출률        | 프로덕션에서 발견된 버그 비율      |
 
-### 번다운 차트
+### [[072_burndown_burnup_chart|번다운 차트]]
 
 ```
 포인트
@@ -110,11 +110,11 @@ WIP 제한 없음   최대 2개        최대 1개
  0 ┤────────────────→ 날짜 (스프린트 기간)
 ```
 
-📢 **섹션 요약 비유**: 번다운 차트는 눈사람 녹이기 게임이다 — 매일 얼마나 녹였는지(완료했는지) 그래프로 보여주며, 스프린트 끝에 0이 되면 성공이다.
+📢 **섹션 요약 비유**: [[072_burndown_burnup_chart|번다운 차트]]는 눈사람 녹이기 게임이다 — 매일 얼마나 녹였는지(완료했는지) 그래프로 보여주며, [[067_sprint_timebox|스프린트]] 끝에 0이 되면 성공이다.
 
 ---
 
-## Ⅴ. SAFe (Scaled Agile Framework) — 대규모 애자일
+## Ⅴ. [[093_safe_scaled_agile_framework_art_pi|SAFe]] ([[093_safe_scaled_agile_framework_art_pi|Scaled Agile Framework]]) — [[092_scaled_agile_frameworks_overview|대규모 애자일]]
 
 ```
 SAFe 계층:
@@ -122,21 +122,21 @@ Essential SAFe: 팀 + ART (Agile Release Train) 수준
 Large SAFe:    Portfolio + Solution + ART + Team
 ```
 
-### PI (Program Increment) Planning
+### [[009_process_innovation|PI]] (Program Increment) Planning
 
-- 전체 팀(100명+)이 분기별 8~12주 로드맵 동기화
-- 팀 간 의존성 식별·조율
-- 공통 PI 목표 수립
+- 전체 팀(100명+)이 분기별 8~12주 로드맵 [[212_synchronization_mechanisms|동기화]]
+- 팀 간 의존성 [[655_ir_detection_analysis|식별]]·조율
+- 공통 [[009_process_innovation|PI]] 목표 수립
 
-### Scrum vs Kanban vs SAFe
+### [[658_agile_scrum_roles|Scrum]] vs [[084_kanban_board_wip_limit|Kanban]] vs [[093_safe_scaled_agile_framework_art_pi|SAFe]]
 
 | 프레임워크  | 적합 팀 규모   | 주요 특징            |
 |----------|-------------|---------------------|
-| Scrum    | 3~9명 단일 팀 | 2주 스프린트·역할 분담 |
-| Kanban   | 운영·지원 팀  | 흐름 최적화·WIP 제한  |
-| SAFe     | 100명+ 기업  | 포트폴리오·ART 조율   |
+| [[658_agile_scrum_roles|Scrum]]    | 3~9명 단일 팀 | 2주 [[067_sprint_timebox|스프린트]]·역할 분담 |
+| [[084_kanban_board_wip_limit|Kanban]]   | 운영·지원 팀  | 흐름 최적화·WIP 제한  |
+| [[093_safe_scaled_agile_framework_art_pi|SAFe]]     | 100명+ 기업  | 포트폴리오·[[621_art_android_runtime|ART]] 조율   |
 
-📢 **섹션 요약 비유**: SAFe는 여러 팀이 같은 악보로 연주하는 오케스트라다 — 각 파트(팀)가 독립적이지만 PI 계획(리허설)으로 전체 곡(제품)을 맞춘다.
+📢 **섹션 요약 비유**: SAFe는 여러 팀이 같은 악보로 연주하는 오케스트라다 — 각 파트(팀)가 독립적이지만 [[009_process_innovation|PI]] 계획(리허설)으로 전체 곡(제품)을 맞춘다.
 
 ---
 
@@ -188,6 +188,6 @@ SAFe → 대규모 PI Planning → 포트폴리오 레벨 애자일
 
 ## 👶 어린이를 위한 3줄 비유 설명
 
-1. 애자일은 2주마다 숙제를 제출하는 방식이다 — 학기 말 한 번 내는 것보다 중간중간 피드백을 받으면 더 좋은 결과물이 나온다.
-2. 스프린트는 짧은 달리기다 — 마라톤(폭포수)이 아니라 2주씩 전력 질주하고, 쉬면서 방향을 확인한다.
-3. Kanban WIP 제한은 요리사가 동시에 담을 수 있는 접시 수다 — 너무 많이 담으면 다 식고, 적당히 제한하면 신선하게 나온다.
+1. [[004_agile_relation|애자일]]은 2주마다 숙제를 제출하는 방식이다 — 학기 말 한 번 내는 것보다 중간중간 피드백을 받으면 더 좋은 결과물이 나온다.
+2. [[067_sprint_timebox|스프린트]]는 짧은 달리기다 — 마라톤(폭포수)이 아니라 2주씩 전력 질주하고, 쉬면서 방향을 확인한다.
+3. [[084_kanban_board_wip_limit|Kanban]] WIP 제한은 요리사가 동시에 담을 수 있는 접시 수다 — 너무 많이 담으면 다 식고, 적당히 제한하면 신선하게 나온다.

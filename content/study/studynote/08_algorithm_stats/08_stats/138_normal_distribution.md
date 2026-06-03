@@ -8,9 +8,9 @@ categories = "studynote-algorithm"
 
 ## 핵심 인사이트
 
-> 정규 분포 (Normal Distribution) 는 자연·사회·측정 오차에서 가장 보편적으로 등장하는 분포로, 그 이유는 CLT (Central Limit Theorem) — 독립적인 많은 요인의 합은 정규로 수렴하기 때문이다.
-> 68-95-99.7 경험 법칙 (Empirical Rule) 은 μ±1σ/2σ/3σ 범위의 확률을 외워 두는 것만으로도 이상 탐지·품질 관리·신뢰 구간 계산의 빠른 추정이 가능하다.
-> Z-점수 (Z-score) 표준화는 서로 다른 단위·스케일의 데이터를 "평균 0, 표준편차 1" 로 통일해, 비교·정규화·머신러닝 전처리의 핵심 연산이다.
+> 정규 분포 (Normal Distribution) 는 자연·사회·측정 오차에서 가장 보편적으로 등장하는 분포로, 그 이유는 [[139_clt|CLT]] (Central Limit Theorem) — 독립적인 많은 요인의 합은 정규로 수렴하기 때문이다.
+> 68-95-99.7 경험 법칙 (Empirical Rule) 은 μ±1σ/2σ/3σ 범위의 [[130_probability|확률]]을 외워 두는 것만으로도 [[236_anomaly_based_detection_zero_day_false_positive|이상 탐지]]·품질 관리·[[146_confidence_interval|신뢰 구간]] 계산의 빠른 추정이 가능하다.
+> Z-점수 (Z-score) 표준화는 서로 다른 단위·스케일의 [[001_dikw_pyramid|데이터]]를 "평균 0, 표준편차 1" 로 통일해, 비교·[[093_normalization|정규화]]·[[241_machine_learning_basics|머신러닝]] 전처리의 핵심 연산이다.
 
 ---
 
@@ -35,7 +35,7 @@ f(x) = ─────────────── · exp(- (x-μ)² )
 - 평균 μ 에서 최댓값 (Peak)
 - 좌우 대칭: 평균 = 중앙값 = 최빈값
 - 양 끝으로 갈수록 0에 수렴 (무한 꼬리)
-- 전체 넓이 = 1: ∫₋∞^{+∞} f(x)dx = 1
+- 전체 넓이 = 1: ∫₋∞^{+∞} f(x)[[726_platform_engineering_idp_dx|dx]] = 1
 
 ### 표준 정규 분포 (Standard Normal Distribution)
 
@@ -93,11 +93,11 @@ Z ~ N(0, 1)   (μ=0, σ=1 의 특수 경우)
 
 **오차 분석 (σ 거리별 의미)**:
 - 1σ 이탈: 흔한 변동 (일상적)
-- 2σ 이탈: 주의 신호 (5% 확률)
-- 3σ 이탈: 이상 탐지 신호 (0.3% 확률)
-- 6σ (Six Sigma): 10억분의 3.4 불량률 목표
+- 2σ 이탈: 주의 [[130_signal|신호]] (5% [[130_probability|확률]])
+- 3σ 이탈: [[236_anomaly_based_detection_zero_day_false_positive|이상 탐지]] [[130_signal|신호]] (0.3% [[130_probability|확률]])
+- 6σ ([[351_six_sigma|Six Sigma]]): 10억분의 3.4 불량률 목표
 
-📢 **섹션 요약 비유**: 68-95-99.7 법칙은 "정상 범위"를 판단하는 빠른 기준이다 — μ±2σ 밖이면 "드문 경우", μ±3σ 밖이면 "이상 신호"로 즉시 경계할 수 있다.
+📢 **섹션 요약 비유**: 68-95-99.7 법칙은 "정상 범위"를 판단하는 빠른 기준이다 — μ±2σ 밖이면 "드문 경우", μ±3σ 밖이면 "이상 [[130_signal|신호]]"로 즉시 경계할 수 있다.
 
 ---
 
@@ -117,7 +117,7 @@ Z = (X - μ) / σ
 
 ### Z-점수 ↔ 백분위수 매핑
 
-| Z-점수 | 누적 확률 P(Z ≤ z) | 백분위수 |
+| Z-점수 | 누적 [[130_probability|확률]] P(Z ≤ z) | 백분위수 |
 |:---:|:---:|:---:|
 | -3.0 | 0.0013 | 0.13%ile |
 | -2.0 | 0.0228 | 2.28%ile |
@@ -144,13 +144,13 @@ Z = (X - μ) / σ
 주의: 정규 분포를 가정하지 않아도 사용 가능
 ```
 
-📢 **섹션 요약 비유**: Z-점수는 "전국 시험에서 내 점수가 상위 몇 %인가"를 평균과 표준편차만 알면 즉시 계산하게 해주는 변환이다 — 모든 점수를 동일한 자로 재는 셈이다.
+📢 **섹션 요약 비유**: Z-점수는 "전국 시험에서 내 점수가 상위 몇 %[[509_authorization_models_rbac_abac|인가]]"를 평균과 표준편차만 알면 즉시 계산하게 해주는 변환이다 — 모든 점수를 동일한 자로 재는 셈이다.
 
 ---
 
-## Ⅳ. 로그 정규 분포와 변형
+## Ⅳ. [[568_logs_distributed_logging_elk_fluentd|로그]] 정규 분포와 변형
 
-### 로그 정규 분포 (Log-Normal Distribution)
+### [[568_logs_distributed_logging_elk_fluentd|로그]] 정규 분포 (Log-Normal Distribution)
 
 ```
 X가 로그 정규 분포 ⟺ Y = ln(X) ~ N(μ, σ²)
@@ -163,7 +163,7 @@ Var[X] = (exp(σ²)-1) · exp(2μ+σ²)
 
 **응용**:
 - 주가 수익률 (Financial Returns)
-- 인터넷 사이트 방문자 체류 시간
+- 인터넷 사이트 [[275_visitor_pattern|방문자]] 체류 시간
 - 소득 분포
 - 복잡계에서 곱셈적 성장 결과
 
@@ -173,13 +173,13 @@ Var[X] = (exp(σ²)-1) · exp(2μ+σ²)
   로그 정규: 곱셈으로 만들어진 결과 (log 취하면 정규)
 ```
 
-📢 **섹션 요약 비유**: 로그 정규 분포는 "0원에서 시작해 매 달 랜덤한 비율로 성장하는 투자 수익"처럼, 곱셈적으로 변하는 현상의 분포다 — 돈이 많을수록 더 커지는 자본의 논리.
+📢 **섹션 요약 비유**: [[568_logs_distributed_logging_elk_fluentd|로그]] 정규 분포는 "0원에서 시작해 매 달 랜덤한 비율로 성장하는 투자 수익"처럼, 곱셈적으로 변하는 현상의 분포다 — 돈이 많을수록 더 커지는 자본의 [[369_logic_bomb|논리]].
 
 ---
 
-## Ⅴ. 응용 — SPC·가설 검정·오차 분석
+## Ⅴ. 응용 — [[203_spc_signed_public_key_challenge|SPC]]·[[145_hypothesis_testing|가설 검정]]·오차 분석
 
-### SPC (Statistical Process Control, 통계적 공정 관리)
+### [[203_spc_signed_public_key_challenge|SPC]] (Statistical [[300_process|Process]] Control, [[368_spc|통계적 공정 관리]])
 
 ```
 관리도 (Control Chart) 설계:
@@ -192,7 +192,7 @@ Var[X] = (exp(σ²)-1) · exp(2μ+σ²)
 이탈 → 특수 원인 (Special Cause) → 즉시 조사
 ```
 
-### 가설 검정 (Hypothesis Testing) 기반
+### [[145_hypothesis_testing|가설 검정]] ([[145_hypothesis_testing|Hypothesis Testing]]) 기반
 
 ```
 귀무 가설 H₀: μ = μ₀ (정규 분포 가정)
@@ -223,14 +223,14 @@ Var[X] = (exp(σ²)-1) · exp(2μ+σ²)
 
 ### 📌 관련 개념 맵
 
-| 개념 | 연결 개념 | 관계 |
+| 개념 | 연결 개념 | [[083_relationship_in_er_model|관계]] |
 |:---|:---|:---|
-| 정규 분포 | CLT | 합의 극한 분포 |
-| Z-점수 | 가설 검정 | 검정 통계량 기반 |
-| 68-95-99.7 | 이상 탐지, SPC | 임계값 설정 기준 |
-| 로그 정규 | 주가 모델, 소득 분포 | 양수·비대칭 데이터 |
-| 표준 정규 | Z-table, p-value | 확률 계산 참조표 |
-| 최소 제곱법 | 가우스 오차 모델 | MLE 동치 증명 |
+| 정규 분포 | [[139_clt|CLT]] | 합의 극한 분포 |
+| Z-점수 | [[145_hypothesis_testing|가설 검정]] | 검정 통계량 기반 |
+| 68-95-99.7 | [[236_anomaly_based_detection_zero_day_false_positive|이상 탐지]], [[203_spc_signed_public_key_challenge|SPC]] | 임계값 [[009_config|설정]] 기준 |
+| [[568_logs_distributed_logging_elk_fluentd|로그]] 정규 | 주가 모델, 소득 분포 | 양수·비대칭 [[001_dikw_pyramid|데이터]] |
+| 표준 정규 | Z-table, [[337_p_value_significance|p-value]] | [[130_probability|확률]] 계산 참조표 |
+| [[327_ordinary_least_squares_ols|최소 제곱법]] | 가우스 오차 모델 | [[143_mle|MLE]] 동치 증명 |
 
 ---
 
@@ -256,6 +256,6 @@ Var[X] = (exp(σ²)-1) · exp(2μ+σ²)
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-- 정규 분포는 "학생들 키가 165cm 주변에 가장 많고, 멀어질수록 줄어드는 종 모양 그래프"야.
+- 정규 분포는 "학생들 키가 165cm 주변에 가장 많고, 멀어질수록 줄어드는 종 모양 [[070_graph_datastructure|그래프]]"야.
 - 68-95-99.7 법칙은 "보통은 평균 ±1칸(68%), 거의 다는 평균 ±2칸(95%), 극히 드문 경우만 ±3칸 밖(0.3%)"이라는 편리한 규칙이야.
 - Z-점수는 "내 점수가 평균에서 몇 표준편차 떨어진 자리인지"를 나타내서, 시험 점수를 전국 기준으로 비교할 수 있어.

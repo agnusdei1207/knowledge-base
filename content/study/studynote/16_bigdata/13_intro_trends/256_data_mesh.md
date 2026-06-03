@@ -7,13 +7,13 @@ categories = "studynote-bigdata"
 +++
 
 > **핵심 인사이트**
-> 1. 데이터 메시(Data Mesh)는 Zhamak Dehghani(2019)가 제안한 분산 데이터 아키텍처 패러다임으로 — 중앙집중식 데이터 레이크/데이터 웨어하우스의 "데이터 병목(Data Bottleneck)"을 해결하기 위해 도메인 팀이 직접 데이터 제품(Data Product)을 소유·운영하는 분산 데이터 거버넌스 모델이다.
-> 2. 데이터 메시의 4대 원칙은 — 도메인 데이터 소유권(Domain Ownership), 데이터를 제품으로(Data as a Product), 셀프서비스 데이터 플랫폼(Self-Serve Data Platform), 연합 컴퓨팅 거버넌스(Federated Computational Governance)로 구성되며, 이 네 가지의 균형이 구현 성패를 결정한다.
-> 3. 데이터 메시는 조직 변화(Conway의 법칙: 시스템 구조 = 팀 구조)를 전제하므로 — 기술 도입보다 도메인 팀이 데이터 엔지니어링 역량을 갖추는 조직 변화가 더 어렵고 핵심적이며, 이를 무시한 데이터 메시 도입은 "분산 데이터 카오스"를 초래한다.
+> 1. [[211_data_mesh_domain_ownership|데이터 메시]]([[320_data_mesh|Data Mesh]])는 Zhamak Dehghani(2019)가 제안한 [[136_variance|분산]] [[104_da_as_is_analysis|데이터 아키텍처]] 패러다임으로 — 중앙집중식 [[208_data_lake_schema_on_read|데이터 레이크]]/[[209_data_warehouse_schema_on_write|데이터 웨어하우스]]의 "[[001_dikw_pyramid|데이터]] 병목([[001_dikw_pyramid|Data]] [[617_io_bottleneck|Bottleneck]])"을 해결하기 위해 [[064_relation_domain|도메인]] 팀이 직접 [[154_data_product|데이터 제품]]([[154_data_product|Data Product]])을 소유·운영하는 [[136_variance|분산]] [[052_data_governance_framework|데이터 거버넌스]] 모델이다.
+> 2. [[211_data_mesh_domain_ownership|데이터 메시]]의 4대 원칙은 — [[064_relation_domain|도메인]] [[001_dikw_pyramid|데이터]] 소유권([[064_relation_domain|Domain]] Ownership), [[001_dikw_pyramid|데이터]]를 제품으로([[001_dikw_pyramid|Data]] [[344_as_autonomous_system_asn|as]] a Product), 셀프서비스 [[001_dikw_pyramid|데이터]] 플랫폼(Self-Serve [[001_dikw_pyramid|Data]] Platform), 연합 컴퓨팅 거버넌스(Federated Computational Governance)로 구성되며, 이 네 가지의 균형이 구현 성패를 결정한다.
+> 3. [[211_data_mesh_domain_ownership|데이터 메시]]는 조직 변화(Conway의 법칙: 시스템 구조 = 팀 구조)를 전제하므로 — 기술 도입보다 [[064_relation_domain|도메인]] 팀이 [[001_dikw_pyramid|데이터]] 엔지니어링 역량을 갖추는 조직 변화가 더 어렵고 핵심적이며, 이를 무시한 [[211_data_mesh_domain_ownership|데이터 메시]] 도입은 "[[136_variance|분산]] [[001_dikw_pyramid|데이터]] 카오스"를 초래한다.
 
 ---
 
-## Ⅰ. 데이터 메시 탄생 배경
+## Ⅰ. [[211_data_mesh_domain_ownership|데이터 메시]] 탄생 배경
 
 ```
 데이터 메시 탄생 배경:
@@ -52,7 +52,7 @@ MSA와 데이터 메시 비교:
   데이터 메시: 도메인별 독립 데이터 제품, 표준 인터페이스
 ```
 
-> 📢 **섹션 요약 비유**: 데이터 메시는 동네 빵집 → 분산 베이커리 — 중앙 공장(데이터 레이크)에서 모든 빵을 굽는 대신, 각 동네(도메인 팀)가 자기 빵을 굽고 표준 진열대(플랫폼)에 올려요.
+> 📢 **섹션 요약 비유**: [[211_data_mesh_domain_ownership|데이터 메시]]는 동네 빵집 → [[136_variance|분산]] 베이커리 — 중앙 공장([[208_data_lake_schema_on_read|데이터 레이크]])에서 모든 빵을 굽는 대신, 각 동네([[064_relation_domain|도메인]] 팀)가 자기 빵을 굽고 표준 진열대(플랫폼)에 올려요.
 
 ---
 
@@ -104,11 +104,11 @@ MSA와 데이터 메시 비교:
    도메인 자율: 구현 방법, 도구 선택, 내부 스키마
 ```
 
-> 📢 **섹션 요약 비유**: 4대 원칙은 도시 계획 — 각 건물(도메인)은 스스로 설계하되, 도시(플랫폼)는 도로 표준(거버넌스)을 제공. 자율성과 표준의 균형.
+> 📢 **섹션 요약 비유**: 4대 원칙은 도시 계획 — 각 건물([[064_relation_domain|도메인]])은 스스로 설계하되, 도시(플랫폼)는 도로 표준(거버넌스)을 제공. 자율성과 표준의 균형.
 
 ---
 
-## Ⅲ. 데이터 메시 vs 데이터 레이크
+## Ⅲ. [[211_data_mesh_domain_ownership|데이터 메시]] vs [[208_data_lake_schema_on_read|데이터 레이크]]
 
 ```
 데이터 메시 vs 데이터 레이크 비교:
@@ -145,7 +145,7 @@ Conway의 법칙:
   → 분산 데이터 카오스 발생
 ```
 
-> 📢 **섹션 요약 비유**: 데이터 메시 vs 레이크는 중앙 수돗물 vs 개인 우물 — 데이터 레이크는 모든 집에 중앙 수돗물 공급, 메시는 각 집이 우물(데이터 제품)을 파되 수질 기준(거버넌스)은 동일.
+> 📢 **섹션 요약 비유**: [[211_data_mesh_domain_ownership|데이터 메시]] vs 레이크는 중앙 수돗물 vs 개인 우물 — [[208_data_lake_schema_on_read|데이터 레이크]]는 모든 집에 중앙 수돗물 공급, [[389_mesh_topology|메시]]는 각 집이 우물([[154_data_product|데이터 제품]])을 파되 수질 기준(거버넌스)은 동일.
 
 ---
 
@@ -203,11 +203,11 @@ Conway의 법칙:
     Great Expectations: 품질 표준
 ```
 
-> 📢 **섹션 요약 비유**: 데이터 메시 도구는 도시 인프라 — DataHub는 지도(어디 있는지), Airflow는 도로(어떻게 이동), S3는 창고(저장). 도메인 팀은 자기 건물(데이터 제품)을 관리.
+> 📢 **섹션 요약 비유**: [[211_data_mesh_domain_ownership|데이터 메시]] 도구는 도시 인프라 — DataHub는 지도(어디 있는지), Airflow는 도로(어떻게 이동), S3는 창고(저장). [[064_relation_domain|도메인]] 팀은 자기 건물([[154_data_product|데이터 제품]])을 관리.
 
 ---
 
-## Ⅴ. 실무 시나리오 — 글로벌 핀테크 데이터 메시
+## Ⅴ. 실무 시나리오 — 글로벌 핀테크 [[211_data_mesh_domain_ownership|데이터 메시]]
 
 ```
 글로벌 핀테크 기업 데이터 메시 전환:
@@ -248,7 +248,7 @@ Phase 3 — 연합 거버넌스:
   → 아무도 안 씀
 ```
 
-> 📢 **섹션 요약 비유**: 핀테크 데이터 메시는 공방 → 분산 공방 전환 — 중앙 공방(데이터팀) 9명이 400개 주문을 처리하다가, 각 동네 장인(도메인 팀)이 자기 제품을 만드는 구조로 변신!
+> 📢 **섹션 요약 비유**: 핀테크 [[211_data_mesh_domain_ownership|데이터 메시]]는 공방 → [[136_variance|분산]] 공방 전환 — 중앙 공방([[001_dikw_pyramid|데이터]]팀) 9명이 400개 주문을 처리하다가, 각 동네 장인([[064_relation_domain|도메인]] 팀)이 자기 제품을 만드는 구조로 변신!
 
 ---
 
@@ -307,6 +307,6 @@ Zhamak Dehghani: 4대 원칙
 
 ## 👶 어린이를 위한 3줄 비유 설명
 
-1. 데이터 메시는 분산 빵집 — 중앙 공장(데이터 레이크) 대신, 각 동네(도메인 팀)가 자기 빵(데이터 제품)을 굽고 표준 진열대(플랫폼)에 올려요!
-2. 4대 원칙 — 각 팀이 소유하고, 데이터를 제품처럼, 혼자서도 할 수 있는 플랫폼, 공통 규칙. 이 네 가지가 균형 잡혀야 데이터 메시가 작동해요.
-3. 조직 변화가 더 중요 — 도구(플랫폼)보다 각 팀의 데이터 역량 키우기가 먼저. 역량 없이 도구만 도입하면 분산 카오스!
+1. [[211_data_mesh_domain_ownership|데이터 메시]]는 [[136_variance|분산]] 빵집 — 중앙 공장([[208_data_lake_schema_on_read|데이터 레이크]]) 대신, 각 동네([[064_relation_domain|도메인]] 팀)가 자기 빵([[154_data_product|데이터 제품]])을 굽고 표준 진열대(플랫폼)에 올려요!
+2. 4대 원칙 — 각 팀이 소유하고, [[001_dikw_pyramid|데이터]]를 제품처럼, 혼자서도 할 수 있는 플랫폼, 공통 규칙. 이 네 가지가 균형 잡혀야 [[211_data_mesh_domain_ownership|데이터 메시]]가 작동해요.
+3. 조직 변화가 더 중요 — 도구(플랫폼)보다 각 팀의 [[001_dikw_pyramid|데이터]] 역량 키우기가 먼저. 역량 없이 도구만 도입하면 [[136_variance|분산]] 카오스!

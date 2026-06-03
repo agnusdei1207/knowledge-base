@@ -10,13 +10,13 @@ categories = "studynote-operating-system"
 
 > 1. **본질**: 호스트드 하이퍼바이저는 호스트 OS 위에서 동작하는 Type 2 하이퍼바이저다.
 > 2. **가치**: 설치와 사용이 쉽고 개발/테스트 환경에 적합하다.
-> 3. **판단 포인트**: 성능과 격리성은 베어메탈(Type 1)보다 약할 수 있다.
+> 3. **판단 포인트**: [[282_performance_tactics|성능]]과 격리성은 베어메탈(Type 1)보다 약할 수 있다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-호스트드 하이퍼바이저는 이미 설치된 운영체제 위에서 VM을 실행한다. 데스크톱 가상화와 실습 환경에서 많이 쓰인다.
+호스트드 하이퍼바이저는 이미 설치된 [[001_operating_system_purpose|운영체제]] 위에서 VM을 실행한다. 데스크톱 [[015_virtualization|가상화]]와 실습 환경에서 많이 쓰인다.
 
 쉽게 시작할 수 있다는 것이 큰 장점이다.
 
@@ -41,8 +41,8 @@ Hosted Hypervisor
 | 요소 | 역할 | 포인트 |
 | :--- | :--- | :--- |
 | Host OS | 기본 운영 | 드라이버 |
-| Hypervisor | VM 실행 | Type 2 |
-| VM | 격리 환경 | 개발/테스트 |
+| [[054_hypervisor|Hypervisor]] | [[598_vm_migration_nic|VM]] 실행 | Type 2 |
+| [[598_vm_migration_nic|VM]] | 격리 환경 | 개발/테스트 |
 
 핵심은 호스트 OS가 중간층으로 존재해 설치와 관리가 편하지만, 그만큼 오버헤드가 생긴다는 점이다.
 
@@ -57,7 +57,7 @@ Hosted Hypervisor
 | 항목 | Hosted | Bare Metal |
 | :--- | :--- | :--- |
 | 설치 | 쉬움 | 전문적 |
-| 성능 | 중간 | 높음 |
+| [[282_performance_tactics|성능]] | 중간 | 높음 |
 | 용도 | 데스크톱/실습 | 서버/클라우드 |
 
 대표적으로 VirtualBox, VMware Workstation 같은 도구가 있다.
@@ -68,20 +68,20 @@ Hosted Hypervisor
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서는 편의성, 호환성, 성능, 호스트 OS 의존성을 함께 본다. 개발/실습에서는 충분하지만 운영에는 한계가 있다.
+실무에서는 편의성, [[344_compatibility_usability|호환성]], [[282_performance_tactics|성능]], 호스트 OS 의존성을 함께 본다. 개발/실습에서는 충분하지만 운영에는 한계가 있다.
 
-### 체크리스트
+### [[435_checklist_based_testing|체크리스트]]
 
 1. 사용 목적이 개발/테스트인가?
 2. 호스트 OS 자원에 의존하는가?
-3. 성능 요구가 높지 않은가?
-4. 장치 호환성이 필요한가?
+3. [[282_performance_tactics|성능]] 요구가 높지 않은가?
+4. 장치 [[344_compatibility_usability|호환성]]이 필요한가?
 
-### 안티패턴
+### [[128_water_scrum_fall_anti_pattern|안티패턴]]
 
 - 운영 서버를 hosted만으로 책임지려는 경우
 - 호스트 OS 업데이트 영향을 무시하는 경우
-- 성능 요구를 과소평가하는 경우
+- [[282_performance_tactics|성능]] 요구를 과소평가하는 경우
 
 기술사 관점에서는 hosted hypervisor가 접근성과 편의성을 제공하지만, 서버급 안정성은 bare metal에 미치지 못한다는 점을 설명해야 한다.
 
@@ -93,7 +93,7 @@ Hosted Hypervisor
 
 호스트드 하이퍼바이저는 빠른 시작과 쉬운 사용성을 제공한다. 학습과 검증에 특히 유용하다.
 
-정리하면, 이미 있는 OS 위에 가상화 계층을 얹는 방식이다.
+정리하면, 이미 있는 OS 위에 [[015_virtualization|가상화]] 계층을 얹는 방식이다.
 
 - **📢 섹션 요약 비유**: 호스트드는 이미 있는 책상 위에 작은 책상을 하나 더 놓는 것이다.
 
@@ -104,8 +104,8 @@ Hosted Hypervisor
 | 개념 | 연결 포인트 |
 | :--- | :--- |
 | Host OS | 기반 |
-| Type 2 | 분류 |
-| VM | 실행 환경 |
+| Type 2 | [[104_classification_analysis|분류]] |
+| [[598_vm_migration_nic|VM]] | 실행 환경 |
 | Driver | 장치 지원 |
 | Developer Tools | 활용 |
 
@@ -124,7 +124,7 @@ Hosted Hypervisor
 가상 머신
 ```
 
-이 흐름은 운영체제 위에 가상화 계층을 얹는 구조를 보여준다.
+이 흐름은 [[001_operating_system_purpose|운영체제]] 위에 [[015_virtualization|가상화]] 계층을 얹는 구조를 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

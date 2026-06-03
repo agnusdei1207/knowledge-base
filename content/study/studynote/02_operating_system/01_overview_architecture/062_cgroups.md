@@ -8,9 +8,9 @@ categories = "studynote-operating-system"
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: cgroups(Control Groups)는 프로세스 그룹별로 CPU, 메모리, I/O 같은 자원 사용량을 제한하고 측정하는 커널 기능이다.
-> 2. **가치**: 한 서비스가 자원을 독점하는 것을 막아 멀티 테넌시와 서비스 안정성을 지킨다.
-> 3. **융합**: Kubernetes의 requests/limits와 OOM (Out of Memory) 제어는 cgroups 없이는 제대로 동작할 수 없다.
+> 1. **본질**: cgroups([[668_cgroups_hw_resource_allocation|Control Groups]])는 프로세스 그룹별로 CPU, 메모리, I/O 같은 자원 사용량을 제한하고 측정하는 [[022_kernel_role|커널]] 기능이다.
+> 2. **가치**: 한 [[090_service_kubernetes_network_load_balancing|서비스]]가 자원을 독점하는 것을 막아 멀티 테넌시와 [[090_service_kubernetes_network_load_balancing|서비스]] 안정성을 지킨다.
+> 3. **융합**: Kubernetes의 requests/limits와 [[157_oom_killer|OOM]] ([[157_oom_killer|Out of Memory]]) 제어는 cgroups 없이는 제대로 동작할 수 없다.
 
 ---
 
@@ -41,12 +41,12 @@ Root Cgroup
 | 컨트롤러 | 역할 |
 | :-- | :-- |
 | CPU | 사용량/우선순위 제어 |
-| Memory | 메모리 상한 설정 |
+| Memory | 메모리 상한 [[009_config|설정]] |
 | IO | 디스크 I/O 제한 |
 | pids | 프로세스 수 제한 |
 | cpuacct | 사용량 계측 |
 
-cgroups는 계층 구조를 가진다. 상위 그룹이 전체 정책을 갖고, 하위 그룹이 세부 자원을 배분받는다. 그래서 운영자는 서비스 단위로 자원을 정밀하게 다룰 수 있다.
+cgroups는 계층 구조를 가진다. 상위 그룹이 전체 [[164_policy|정책]]을 갖고, 하위 그룹이 세부 자원을 배분받는다. 그래서 운영자는 [[090_service_kubernetes_network_load_balancing|서비스]] 단위로 자원을 정밀하게 다룰 수 있다.
 
 - **📢 섹션 요약 비유**: 건물 관리실이 각 세대별 전기, 수도, 인터넷 사용량을 따로 정하는 구조다.
 
@@ -54,13 +54,13 @@ cgroups는 계층 구조를 가진다. 상위 그룹이 전체 정책을 갖고,
 
 ## Ⅲ. 비교 및 연결
 
-| 항목 | cgroups | Namespace | Resource Quota |
+| 항목 | cgroups | [[061_namespace|Namespace]] | Resource [[551_quota_disk_limit|Quota]] |
 | :-- | :-- | :-- | :-- |
-| 목적 | 자원 사용 제한/계측 | 보이는 세계 분리 | 운영 정책 수준 제한 |
-| 강점 | CPU, 메모리, IO 통제 | 격리와 분리 | 클러스터 전체 정책 |
-| 관계 | 컨테이너 핵심 | 컨테이너 핵심 | 상위 운영 정책 |
+| 목적 | 자원 사용 제한/계측 | 보이는 세계 분리 | 운영 [[164_policy|정책]] 수준 제한 |
+| 강점 | CPU, 메모리, IO 통제 | 격리와 분리 | 클러스터 전체 [[164_policy|정책]] |
+| [[083_relationship_in_er_model|관계]] | [[561_container_based_deployment|컨테이너]] 핵심 | [[561_container_based_deployment|컨테이너]] 핵심 | 상위 운영 [[164_policy|정책]] |
 
-Kubernetes의 requests/limits는 결국 cgroups 설정으로 내려간다. 따라서 오케스트레이션 수준의 숫자가 커널 수준 제어로 이어지는 것이 핵심이다.
+Kubernetes의 requests/limits는 결국 cgroups [[009_config|설정]]으로 내려간다. 따라서 [[073_container_orchestration_tools|오케스트레이션]] 수준의 숫자가 [[022_kernel_role|커널]] 수준 제어로 이어지는 것이 핵심이다.
 
 - **📢 섹션 요약 비유**: 앱에서 "전기 2칸만 써"라고 말하면, 실제 차단기는 cgroups가 작동하는 것과 같다.
 
@@ -68,22 +68,22 @@ Kubernetes의 requests/limits는 결국 cgroups 설정으로 내려간다. 따�
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### 체크리스트
+### [[435_checklist_based_testing|체크리스트]]
 
 1. CPU, 메모리, I/O 한도가 명확한가?
-2. OOM 발생 시 우선순위와 복구 전략이 있는가?
+2. [[157_oom_killer|OOM]] 발생 시 우선순위와 [[658_ir_recovery|복구]] 전략이 있는가?
 3. 요청(request)과 제한(limit)을 구분했는가?
-4. 계층 구조가 서비스 조직도와 맞는가?
+4. 계층 구조가 [[090_service_kubernetes_network_load_balancing|서비스]] 조직도와 맞는가?
 5. 사용량 계측을 통해 과금과 운영이 가능한가?
 
-### 안티패턴
+### [[128_water_scrum_fall_anti_pattern|안티패턴]]
 
-- 한 서비스에 자원 제한을 안 걸어 두는 설계
+- 한 [[090_service_kubernetes_network_load_balancing|서비스]]에 자원 제한을 안 걸어 두는 설계
 - requests/limits를 임의로 크게만 잡는 설계
 - 계측 없이 "문제 생기면 늘리자"로 가는 설계
 - cgroups를 namespace와 혼동하는 설계
 
-기술사 관점에서는 cgroups를 "성능 제한 도구"가 아니라 "운영의 공정성 도구"로 봐야 한다. 제한과 계측이 함께 있어야 서비스 품질이 유지된다.
+기술사 관점에서는 cgroups를 "[[282_performance_tactics|성능]] 제한 도구"가 아니라 "운영의 공정성 도구"로 봐야 한다. 제한과 계측이 함께 있어야 [[090_service_kubernetes_network_load_balancing|서비스]] 품질이 유지된다.
 
 - **📢 섹션 요약 비유**: 운동장에 뛰는 사람 수와 달리는 시간을 정해, 한 명이 다 쓰지 못하게 하는 규칙이다.
 
@@ -91,7 +91,7 @@ Kubernetes의 requests/limits는 결국 cgroups 설정으로 내려간다. 따�
 
 ## Ⅴ. 기대효과 및 결론
 
-cgroups는 Linux를 대규모 서비스 플랫폼으로 만드는 핵심 기반이다. 컨테이너, Kubernetes, 클라우드 과금까지 모두 이 위에서 돌아간다.
+cgroups는 Linux를 대규모 [[090_service_kubernetes_network_load_balancing|서비스]] 플랫폼으로 만드는 핵심 기반이다. [[561_container_based_deployment|컨테이너]], [[205_kubernetes_container_orchestration|Kubernetes]], 클라우드 과금까지 모두 이 위에서 돌아간다.
 
 결국 cgroups는 "프로세스가 어디 있느냐"보다 "얼마나 쓸 수 있느냐"를 관리하는 현실적인 운영 장치다.
 

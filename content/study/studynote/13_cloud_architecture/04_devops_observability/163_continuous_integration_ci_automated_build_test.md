@@ -7,13 +7,13 @@ categories = "studynote-cloud"
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-1. **코드 품질의 실시간 검증**: 개발자가 코드를 공유 저장소(Git)에 머지할 때마다 자동 빌드와 테스트를 수행하여 결함을 즉시 발견함.
-2. **사일로 및 충돌 방지**: 작게 자주 코드를 통합하여, 대규모 코드 병합 시 발생하는 '머지 지옥(Merge Hell)' 리스크를 사전에 차단함.
-3. **신뢰 기반 개발**: 모든 변경 사항이 검증된 상태를 유지하므로, 팀 전체가 메인 브랜치의 안전성을 신뢰하며 개발에 집중할 수 있음.
+1. **코드 품질의 실시간 [[395_verification_process_review|검증]]**: 개발자가 코드를 공유 저장소(Git)에 머지할 때마다 자동 빌드와 테스트를 수행하여 [[352_defect_definition|결함]]을 즉시 발견함.
+2. **[[002_silo_hyeonhyung|사일로]] 및 충돌 방지**: 작게 자주 코드를 통합하여, 대규모 코드 병합 시 발생하는 '머지 지옥(Merge Hell)' 리스크를 사전에 차단함.
+3. **신뢰 기반 개발**: 모든 변경 사항이 [[395_verification_process_review|검증]]된 상태를 유지하므로, 팀 전체가 메인 브랜치의 안전성을 신뢰하며 개발에 집중할 수 있음.
 
 ---
 
-### Ⅰ. 개요 (Context & Background)
+### Ⅰ. 개요 ([[033_context|Context]] & Background)
 - **정의**: 모든 개발자가 짠 코드를 하나의 공유 저장소에 매일 여러 번 통합하고, 그 과정에서 자동화된 빌드와 테스트를 수행하는 소프트웨어 개발 관행.
 - **배경**: 여러 개발자가 동시에 작업할 때 코드가 서로 충돌하거나, 배포 직전에야 버그가 발견되어 일정이 지연되는 문제를 해결하기 위해 도입됨.
 
@@ -37,31 +37,31 @@ categories = "studynote-cloud"
 
 - **CI의 4단계 자동화**:
     1. **Build**: 소스코드를 실행 가능한 바이너리나 패키지로 컴파일.
-    2. **Unit Test**: 개별 함수나 모듈이 정상 동작하는지 테스트 코드로 검증.
-    3. **Static Analysis**: 코드 스멜(Code Smell)이나 보안 취약점을 도구로 정적 분석.
-    4. **Artifact**: 검증이 완료된 실행 파일(Docker Image, Jar 등)을 저장소에 보관.
+    2. **[[397_unit_test|Unit Test]]**: 개별 함수나 모듈이 정상 동작하는지 테스트 코드로 [[395_verification_process_review|검증]].
+    3. **[[331_static_analysis|Static Analysis]]**: [[370_code_smell|코드 스멜]]([[365_5_solid_code_smell|Code Smell]])이나 보안 취약점을 도구로 [[331_static_analysis|정적 분석]].
+    4. **[[075_artifact_management_nexus_docker_registry|Artifact]]**: [[395_verification_process_review|검증]]이 완료된 실행 [[501_file_definition_logical_record|파일]]([[068_docker_image_immutable_package|Docker Image]], Jar 등)을 저장소에 보관.
 
 ### Ⅲ. 융합 비교 및 다각도 분석 (Comparison & Synergy)
 
-| 구분 | 수동 통합 (Manual) | 지속적 통합 (CI) |
+| 구분 | 수동 통합 (Manual) | [[076_ci_continuous_integration|지속적 통합]] ([[090_configuration_item|CI]]) |
 | :--- | :--- | :--- |
 | **통합 주기** | 주간/월간 단위 (비정기적) | 매일 수회 (Push 시 자동) |
-| **결함 발견 시점** | 통합 단계 혹은 배포 후 (늦음) | 코드 작성 직후 (매우 빠름) |
+| **[[352_defect_definition|결함]] 발견 시점** | 통합 단계 혹은 배포 후 (늦음) | 코드 작성 직후 (매우 빠름) |
 | **품질 유지** | 사람의 주의력에 의존 | 자동화된 테스트 슈트에 의존 |
-| **리소스 소모** | 통합 담당자(Build Master) 필요 | CI 인프라 구축 비용 발생 |
+| **리소스 소모** | 통합 담당자(Build Master) 필요 | [[090_configuration_item|CI]] 인프라 구축 비용 발생 |
 
-### Ⅳ. 실무 적용 및 기술사적 판단 (Strategy & Decision)
+### Ⅳ. 실무 적용 및 기술사적 판단 ([[268_strategy_pattern|Strategy]] & Decision)
 - **실무 적용**: 테스트 커버리지(Test Coverage)를 높이는 것이 CI의 성패를 결정함. 테스트 코드가 없는 CI는 단순한 '컴파일 자동화'에 불과함.
-- **기술사적 판단**: CI는 CD(지속적 배포)의 전제 조건이며, 최근에는 'Shift-Left' 사상을 반영하여 시큐리티 스캐닝과 취약점 분석까지 CI 파이프라인에 포함하는 추세임.
+- **기술사적 판단**: CI는 CD([[099_continuous_deployment_cd|지속적 배포]])의 전제 조건이며, 최근에는 '[[242_shift_left_sdlc|Shift-Left]]' 사상을 반영하여 시큐리티 스캐닝과 취약점 분석까지 [[090_configuration_item|CI]] 파이프라인에 포함하는 추세임.
 
 ### Ⅴ. 기대효과 및 결론 (Future & Standard)
-- **기대효과**: 소프트웨어 품질 향상, 개발 생산성 증대, 버그 수정 비용의 획기적 절감.
-- **결론**: CI는 단순한 도구의 문제가 아니라, '코드 한 줄도 검증 없이 메인 스트림에 넣지 않겠다'는 품질 중심의 개발 문화의 정수임.
+- **기대효과**: [[339_software_quality_definition|소프트웨어 품질]] 향상, 개발 생산성 증대, 버그 수정 비용의 획기적 절감.
+- **결론**: CI는 단순한 도구의 문제가 아니라, '코드 한 줄도 [[395_verification_process_review|검증]] 없이 메인 스트림에 넣지 않겠다'는 품질 중심의 개발 문화의 정수임.
 
-### 📌 관련 개념 맵 (Knowledge Graph)
-- **상위 개념**: 데브옵스, 소프트웨어 공학.
-- **하위 개념**: 단위 테스트, 빌드 도구 (Gradle, Maven), Git Hook.
-- **연관 기술**: GitHub Actions, Jenkins, SonarQube, JUnit.
+### 📌 관련 개념 맵 ([[160_knowledge_graph_graphrag_integration|Knowledge Graph]])
+- **상위 개념**: [[652_devops_calms_culture|데브옵스]], [[001_software_engineering_definition|소프트웨어 공학]].
+- **하위 개념**: [[397_unit_test|단위 테스트]], [[070_build_tools_maven_gradle_npm|빌드 도구]] (Gradle, Maven), Git Hook.
+- **연관 기술**: GitHub Actions, [[071_jenkins_ci_cd_pipeline_automation|Jenkins]], [[079_sonarqube|SonarQube]], JUnit.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 레고를 만들 때 조각 하나를 끼울 때마다 설계도와 맞는지 바로바로 확인하는 것과 같아요.
@@ -78,4 +78,4 @@ CI: 코드 커밋 → 자동 빌드 → 자동 테스트
 CD: Continuous Delivery → Continuous Deployment
 ```
 2. 다 만들고 나서 틀린 조각을 찾으려면 다 부숴야 하지만, 그때그때 확인하면 금방 고칠 수 있어요.
-3. 기계 선생님(CI 서버)이 우리가 실수한 조각을 즉시 찾아주니 안심하고 조립할 수 있어요!
+3. 기계 선생님([[090_configuration_item|CI]] 서버)이 우리가 실수한 조각을 즉시 찾아주니 안심하고 조립할 수 있어요!

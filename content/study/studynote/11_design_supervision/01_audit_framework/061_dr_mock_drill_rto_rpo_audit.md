@@ -8,17 +8,17 @@ categories = "studynote-design"
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: DR (Disaster Recovery) 모의 훈련은 장애가 실제로 났을 때 대체 센터가 정말 살아나는지 확인하는 실전 검증이다.
-> 2. **가치**: BCP (Business Continuity Plan)와 DRP (Disaster Recovery Plan)가 문서로만 존재하는지, 현장에서 실제로 돌아가는지 점검한다.
-> 3. **판단**: RTO (Recovery Time Objective)와 RPO (Recovery Point Objective)를 숫자로 측정해야 DR 품질을 말할 수 있다.
+> 1. **본질**: [[360_ospf_dr_bdr_designated_router_lsa_flooding|DR]] (Disaster [[658_ir_recovery|Recovery]]) 모의 훈련은 장애가 실제로 났을 때 대체 센터가 정말 살아나는지 확인하는 실전 검증이다.
+> 2. **가치**: BCP (Business Continuity Plan)와 DRP (Disaster [[658_ir_recovery|Recovery]] Plan)가 문서로만 존재하는지, 현장에서 실제로 돌아가는지 점검한다.
+> 3. **판단**: [[176_rto_recovery_time_objective|RTO]] ([[176_rto_recovery_time_objective|Recovery Time Objective]])와 [[177_rpo_recovery_point_objective|RPO]] ([[177_rpo_recovery_point_objective|Recovery Point Objective]])를 숫자로 측정해야 [[360_ospf_dr_bdr_designated_router_lsa_flooding|DR]] 품질을 말할 수 있다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-재해 복구는 "백업이 있다"는 말만으로 끝나지 않는다. 실제 화재, 랜섬웨어, 전원 장애가 발생했을 때 서비스가 얼마나 빨리, 얼마나 적게 잃고 돌아오는지가 중요하다.
+[[379_dr_architecture|재해 복구]]는 "백업이 있다"는 말만으로 끝나지 않는다. 실제 화재, [[730_ransomware|랜섬웨어]], 전원 장애가 발생했을 때 [[090_service_kubernetes_network_load_balancing|서비스]]가 얼마나 빨리, 얼마나 적게 잃고 돌아오는지가 중요하다.
 
-그래서 모의 훈련(Mock Drill)을 통해 주 센터와 DR 센터 간 전환 절차를 실제로 시험한다. 감리의 목적은 서류가 아니라 실행력을 확인하는 데 있다.
+그래서 모의 훈련([[462_mock_test_double|Mock]] Drill)을 통해 주 센터와 [[360_ospf_dr_bdr_designated_router_lsa_flooding|DR]] 센터 간 전환 절차를 실제로 시험한다. 감리의 목적은 서류가 아니라 실행력을 확인하는 데 있다.
 
 - **📢 섹션 요약 비유**: 구명정이 있다고 믿는 것과, 진짜 바다에서 타 보게 하는 것은 다르다.
 
@@ -41,13 +41,13 @@ DR 센터
 | 용어 | 의미 |
 | :-- | :-- |
 | BCP (Business Continuity Plan) | 업무 연속성 계획 |
-| DRP (Disaster Recovery Plan) | 재해 복구 절차 |
-| Failover | 주 센터에서 DR 센터로 전환 |
-| Failback | 복구 후 원래 센터로 복귀 |
-| RTO | 서비스 복구까지 허용되는 시간 |
-| RPO | 허용 가능한 데이터 손실 시점 |
+| DRP (Disaster [[658_ir_recovery|Recovery]] Plan) | [[379_dr_architecture|재해 복구]] 절차 |
+| [[300_failover_architecture|Failover]] | 주 센터에서 [[360_ospf_dr_bdr_designated_router_lsa_flooding|DR]] 센터로 전환 |
+| Failback | [[658_ir_recovery|복구]] 후 원래 센터로 복귀 |
+| [[176_rto_recovery_time_objective|RTO]] | [[090_service_kubernetes_network_load_balancing|서비스]] [[658_ir_recovery|복구]]까지 허용되는 시간 |
+| [[177_rpo_recovery_point_objective|RPO]] | 허용 가능한 [[001_dikw_pyramid|데이터]] 손실 시점 |
 
-모의 훈련은 전원을 뽑는 수준까지 가지 않더라도, 데이터 복제, DNS 전환, 인증, 메시지 큐, 외부 연동까지 실제로 이어져야 의미가 있다.
+모의 훈련은 전원을 뽑는 수준까지 가지 않더라도, [[001_dikw_pyramid|데이터]] [[016_replication_factor|복제]], [[511_dns_hierarchical_distributed_architecture|DNS]] 전환, [[303_authentication_authorization_patterns|인증]], 메시지 큐, 외부 연동까지 실제로 이어져야 의미가 있다.
 
 - **📢 섹션 요약 비유**: 비상문 위치만 외우는 게 아니라, 실제로 문을 열고 나가 보는 훈련이다.
 
@@ -55,13 +55,13 @@ DR 센터
 
 ## Ⅲ. 비교 및 연결
 
-| DR 형태 | 비용 | RTO | RPO |
+| [[360_ospf_dr_bdr_designated_router_lsa_flooding|DR]] 형태 | 비용 | [[176_rto_recovery_time_objective|RTO]] | [[177_rpo_recovery_point_objective|RPO]] |
 | :-- | :-- | :-- | :-- |
-| Hot Site | 높음 | 매우 짧음 | 매우 짧음 |
-| Warm Site | 중간 | 짧음 | 짧음 |
-| Cold Site | 낮음 | 김 | 김 |
+| [[179_hot_site_dr|Hot Site]] | 높음 | 매우 짧음 | 매우 짧음 |
+| [[180_warm_site_dr|Warm Site]] | 중간 | 짧음 | 짧음 |
+| [[181_cold_site_dr|Cold Site]] | 낮음 | 김 | 김 |
 
-Hot Site는 거의 실시간 복제와 대기 자원을 두어 빠르지만 비싸다. Cold Site는 저렴하지만 복구에 오래 걸린다. 그래서 실제 설계는 서비스 중요도에 맞춰 타협한다.
+Hot Site는 거의 실시간 [[016_replication_factor|복제]]와 대기 자원을 두어 빠르지만 비싸다. Cold Site는 저렴하지만 [[658_ir_recovery|복구]]에 오래 걸린다. 그래서 실제 설계는 [[090_service_kubernetes_network_load_balancing|서비스]] 중요도에 맞춰 타협한다.
 
 - **📢 섹션 요약 비유**: 예비 열쇠를 바로 손에 쥐고 있는지, 창고 어딘가에 묻어 두었는지의 차이다.
 
@@ -69,22 +69,22 @@ Hot Site는 거의 실시간 복제와 대기 자원을 두어 빠르지만 비�
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### 체크리스트
+### [[435_checklist_based_testing|체크리스트]]
 
 1. 훈련 시 실제 Failover가 이루어졌는가?
 2. RTO와 RPO가 숫자로 측정되었는가?
-3. 외부 연동과 인증 절차까지 점검했는가?
-4. 복구 후 Failback 절차도 검증했는가?
+3. 외부 연동과 [[303_authentication_authorization_patterns|인증]] 절차까지 점검했는가?
+4. [[658_ir_recovery|복구]] 후 Failback 절차도 검증했는가?
 5. 보고서보다 증적 로그와 타임라인이 있는가?
 
-### 안티패턴
+### [[128_water_scrum_fall_anti_pattern|안티패턴]]
 
 - 문서 검토만 하고 실제 전환은 하지 않는 훈련
-- DB만 복제하고 앱/인증/연계를 빼먹는 설계
-- 복구는 됐는데 원복(Failback)이 안 되는 설계
-- RTO/RPO 목표를 정하지 않고 "빠르게"만 말하는 설계
+- DB만 [[016_replication_factor|복제]]하고 앱/[[303_authentication_authorization_patterns|인증]]/연계를 빼먹는 설계
+- [[658_ir_recovery|복구]]는 됐는데 원복(Failback)이 안 되는 설계
+- [[176_rto_recovery_time_objective|RTO]]/[[177_rpo_recovery_point_objective|RPO]] 목표를 정하지 않고 "빠르게"만 말하는 설계
 
-기술사 관점에서는 DR의 성패를 "복구 계획이 있다"가 아니라 "정해진 시간과 손실 한도 안에 복구되는가"로 판단해야 한다.
+기술사 관점에서는 DR의 성패를 "[[658_ir_recovery|복구]] 계획이 있다"가 아니라 "정해진 시간과 손실 한도 안에 [[658_ir_recovery|복구]]되는가"로 판단해야 한다.
 
 - **📢 섹션 요약 비유**: 연습 경기에서 이기는 게 아니라, 진짜 경기에서 몇 분 안에 재정비할 수 있는지가 중요하다.
 
@@ -92,9 +92,9 @@ Hot Site는 거의 실시간 복제와 대기 자원을 두어 빠르지만 비�
 
 ## Ⅴ. 기대효과 및 결론
 
-DR 모의 훈련은 장애 대응 체계를 현실화한다. 덕분에 조직은 위기 상황에서 더 빠르게 움직이고, 운영 리스크를 수치로 다룰 수 있다.
+[[360_ospf_dr_bdr_designated_router_lsa_flooding|DR]] 모의 훈련은 장애 대응 체계를 현실화한다. 덕분에 조직은 위기 상황에서 더 빠르게 움직이고, 운영 리스크를 수치로 다룰 수 있다.
 
-결국 DR 감리는 백업의 존재 여부가 아니라, 장애가 났을 때 다시 살아나는 힘을 검증하는 일이다.
+결국 [[360_ospf_dr_bdr_designated_router_lsa_flooding|DR]] 감리는 백업의 존재 여부가 아니라, 장애가 났을 때 다시 살아나는 힘을 검증하는 일이다.
 
 - **📢 섹션 요약 비유**: 연습장에서 넘어져도, 실제 경기장에서 다시 일어나는 방법을 확인하는 것이다.
 

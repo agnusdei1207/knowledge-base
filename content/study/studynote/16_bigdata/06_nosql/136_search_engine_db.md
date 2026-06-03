@@ -7,15 +7,15 @@ categories = "studynote-bigdata"
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-- **본질**: 검색 엔진 DB는 역색인(Inverted Index) 구조로 모든 단어가 어느 문서에 있는지를 미리 색인하여, 수억 개 문서에서도 키워드 검색을 밀리초 만에 처리하는 Lucene 기반 분산 검색 엔진이다.
-- **가치**: 전문 검색(Full-Text Search), 집계 분석(Aggregation), 실시간 로그 분석을 단일 플랫폼에서 처리하며 ELK(Elasticsearch/Logstash/Kibana) 스택으로 옵저버빌리티(Observability) 표준 인프라가 되었다.
-- **판단 포인트**: 검색 정확도보다 관련성(Relevance) 기반 랭킹이 필요하거나 로그/이벤트의 집계 분석이 주목적이라면 Elasticsearch가, AWS 완전 관리형이 필요하고 오픈소스 라이선스(Apache 2.0)가 중요하다면 OpenSearch를 선택한다.
+- **본질**: 검색 엔진 DB는 [[500_inverted_index_elasticsearch|역색인]]([[500_inverted_index_elasticsearch|Inverted Index]]) 구조로 모든 단어가 어느 문서에 있는지를 미리 색인하여, 수억 개 문서에서도 키워드 검색을 밀리초 만에 처리하는 Lucene 기반 [[136_variance|분산]] 검색 엔진이다.
+- **가치**: 전문 검색(Full-Text Search), 집계 분석(Aggregation), 실시간 [[119_log_analysis|로그 분석]]을 단일 플랫폼에서 처리하며 ELK([[302_cdc|Elasticsearch]]/Logstash/[[169_kibana|Kibana]]) [[057_stack|스택]]으로 [[642_observability_telemetry|옵저버빌리티]]([[642_observability_telemetry|Observability]]) 표준 인프라가 되었다.
+- **판단 포인트**: 검색 정확도보다 관련성(Relevance) 기반 랭킹이 필요하거나 [[568_logs_distributed_logging_elk_fluentd|로그]]/이벤트의 집계 분석이 주목적이라면 Elasticsearch가, AWS 완전 관리형이 필요하고 [[191_oss_license_compliance|오픈소스]] 라이선스(Apache 2.0)가 중요하다면 OpenSearch를 선택한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-### 역색인(Inverted Index) 원리
+### [[500_inverted_index_elasticsearch|역색인]]([[500_inverted_index_elasticsearch|Inverted Index]]) 원리
 
 ```text
 ┌───────────────────────────────────────────────────────────┐
@@ -43,25 +43,25 @@ categories = "studynote-bigdata"
 └───────────────────────────────────────────────────────────┘
 ```
 
-### Elasticsearch vs OpenSearch
+### [[302_cdc|Elasticsearch]] vs OpenSearch
 
-| 항목 | Elasticsearch | OpenSearch |
+| 항목 | [[302_cdc|Elasticsearch]] | OpenSearch |
 |:---:|:---:|:---:|
-| 개발사 | Elastic | AWS (2021 포크) |
+| 개발사 | Elastic | AWS ([[477_owasp_top_10_2021|2021]] 포크) |
 | 라이선스 | SSPL (비오픈소스) | Apache 2.0 |
-| AWS 관리형 | 제한적 | AWS OpenSearch Service |
+| AWS 관리형 | 제한적 | AWS OpenSearch [[090_service_kubernetes_network_load_balancing|Service]] |
 | 기능 패리티 | 약간 선진 | 빠르게 따라옴 |
-| 보안 기능 | 유료 X-Pack | 무료 포함 |
-| 선택 기준 | 최신 ML 기능 | AWS 통합, 오픈소스 |
+| [[503_security_features_design|보안 기능]] | 유료 X-Pack | 무료 포함 |
+| 선택 기준 | 최신 ML 기능 | AWS 통합, [[191_oss_license_compliance|오픈소스]] |
 
 📢 **섹션 요약 비유**
-> 역색인은 책의 색인(Index)과 같다. 책을 처음부터 읽어 "Redis"를 찾는 대신(O(N)), 뒤의 색인에서 "Redis → 12, 45, 87페이지"를 즉시 확인(O(1))하는 것이다. 검색 엔진은 이 색인을 수십억 개 문서에 대해 미리 만들어둔 것이다.
+> [[500_inverted_index_elasticsearch|역색인]]은 책의 색인([[154_database_index_b_tree_search_optimization|Index]])과 같다. 책을 처음부터 읽어 "[[542_redis|Redis]]"를 찾는 대신(O(N)), 뒤의 색인에서 "[[542_redis|Redis]] → 12, 45, 87페이지"를 즉시 [[396_validation|확인]](O(1))하는 것이다. 검색 엔진은 이 색인을 수십억 개 문서에 대해 미리 만들어둔 것이다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### Elasticsearch 클러스터 구조
+### [[302_cdc|Elasticsearch]] 클러스터 구조
 
 ```text
 ┌──────────────────────────────────────────────────────────────┐
@@ -89,7 +89,7 @@ categories = "studynote-bigdata"
 └──────────────────────────────────────────────────────────────┘
 ```
 
-### 쿼리 DSL (Domain Specific Language) 핵심
+### [[298_qkv_attention|쿼리]] DSL ([[064_relation_domain|Domain]] Specific Language) 핵심
 
 ```json
 // ① Match Query: 전문 검색 (분석기 적용)
@@ -124,25 +124,25 @@ categories = "studynote-bigdata"
 }
 ```
 
-### 인덱스 매핑(Mapping) 설계
+### [[154_database_index_b_tree_search_optimization|인덱스]] 매핑([[010_schema_mapping|Mapping]]) 설계
 
 | 필드 타입 | 용도 | 예시 |
 |:---:|:---|:---:|
 | `text` | 전문 검색(분석기 적용) | 상품 설명, 본문 |
 | `keyword` | 정확 일치, 집계, 정렬 | 카테고리, 태그 |
-| `date` | 날짜/시간 범위 쿼리 | 생성일, 이벤트 시각 |
-| `integer/float` | 수치 범위 쿼리 | 가격, 수량 |
-| `nested` | 배열 객체 독립 검색 | 리뷰 목록 내 검색 |
-| `geo_point` | 지리 좌표 거리 쿼리 | 위경도 좌표 |
+| `date` | 날짜/시간 범위 [[298_qkv_attention|쿼리]] | [[087_process_state_transition|생성]]일, 이벤트 시각 |
+| `integer/float` | 수치 범위 [[298_qkv_attention|쿼리]] | 가격, 수량 |
+| `nested` | [[055_array|배열]] 객체 독립 검색 | 리뷰 목록 내 검색 |
+| `geo_point` | 지리 좌표 거리 [[298_qkv_attention|쿼리]] | 위경도 좌표 |
 
 📢 **섹션 요약 비유**
-> Elasticsearch 클러스터의 Primary/Replica 샤드 구조는 마트 진열 + 창고 시스템과 같다. 매장 진열(Primary)이 손상되면 창고(Replica)에서 즉시 가져와 진열하고, 고객이 많을 때는 창고에서도 직접 판매(읽기)를 지원한다.
+> [[302_cdc|Elasticsearch]] 클러스터의 Primary/Replica 샤드 구조는 마트 진열 + 창고 시스템과 같다. 매장 진열(Primary)이 손상되면 창고(Replica)에서 즉시 가져와 진열하고, 고객이 많을 때는 창고에서도 직접 판매(읽기)를 지원한다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-### ELK/EFK 스택 구성
+### ELK/EFK [[057_stack|스택]] 구성
 
 ```text
 ┌────────────────────────────────────────────────────────────┐
@@ -165,9 +165,9 @@ categories = "studynote-bigdata"
 └────────────────────────────────────────────────────────────┘
 ```
 
-### Elasticsearch vs Solr 비교
+### [[302_cdc|Elasticsearch]] vs Solr 비교
 
-| 항목 | Elasticsearch | Solr |
+| 항목 | [[302_cdc|Elasticsearch]] | Solr |
 |:---:|:---:|:---:|
 | 기반 | Lucene | Lucene |
 | 출시 | 2010 | 2004 |
@@ -177,13 +177,13 @@ categories = "studynote-bigdata"
 | ML 기능 | 풍부 | 제한적 |
 
 📢 **섹션 요약 비유**
-> ELK 스택은 공장의 CCTV + AI 분석 시스템과 같다. CCTV(Logstash/Beats)가 모든 것을 기록하고, 저장소(Elasticsearch)에 보관하며, AI 분석(Kibana)이 이상 패턴을 시각화하고 알람을 보낸다. 개별 로그 파일을 grep으로 뒤지던 시절과는 차원이 다른 운영 가시성을 제공한다.
+> ELK [[057_stack|스택]]은 공장의 [[933_cctv|CCTV]] + [[190_ai_llm_requirements_specification|AI]] 분석 시스템과 같다. [[933_cctv|CCTV]](Logstash/Beats)가 모든 것을 기록하고, 저장소([[302_cdc|Elasticsearch]])에 보관하며, [[190_ai_llm_requirements_specification|AI]] 분석([[169_kibana|Kibana]])이 이상 패턴을 [[003_bigdata_7v|시각화]]하고 알람을 보낸다. 개별 [[568_logs_distributed_logging_elk_fluentd|로그]] [[501_file_definition_logical_record|파일]]을 grep으로 뒤지던 시절과는 차원이 다른 운영 가시성을 제공한다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### 인덱스 설계 전략
+### [[154_database_index_b_tree_search_optimization|인덱스]] 설계 [[268_strategy_pattern|전략]]
 
 ```text
 인덱스 설계 Best Practice:
@@ -217,7 +217,7 @@ score = IDF × (TF × (k1+1)) / (TF + k1 × (1-b+b×fieldLen/avgLen))
 ```
 
 📢 **섹션 요약 비유**
-> BM25 관련성 스코어는 시험 채점과 같다. 자주 등장하는 단어(TF)에 점수를 주되 너무 많이 쓴다고 무한정 점수를 올려주지 않고(체감 증가), 아무 시험에나 나오는 단어("그리고", "는")보다 희귀한 단어("역색인")를 맞추면 더 높은 점수(IDF)를 준다.
+> BM25 관련성 스코어는 시험 채점과 같다. 자주 등장하는 단어(TF)에 점수를 주되 너무 많이 쓴다고 무한정 점수를 올려주지 않고(체감 증가), 아무 시험에나 나오는 단어("그리고", "는")보다 희귀한 단어("[[500_inverted_index_elasticsearch|역색인]]")를 맞추면 더 높은 점수(IDF)를 준다.
 
 ---
 
@@ -225,30 +225,30 @@ score = IDF × (TF × (k1+1)) / (TF + k1 × (1-b+b×fieldLen/avgLen))
 
 ### 도입 효과 실사례
 
-| 사례 | 기존 방식 | Elasticsearch 도입 후 |
+| 사례 | 기존 방식 | [[302_cdc|Elasticsearch]] 도입 후 |
 |:---:|:---:|:---:|
-| 로그 검색 | grep + SSH | Kibana UI, 수초 이내 |
-| 상품 검색 | LIKE 쿼리 | 관련성 랭킹 + 자동완성 |
-| 이상 탐지 | 수동 모니터링 | ML 이상 탐지 자동화 |
+| [[568_logs_distributed_logging_elk_fluentd|로그]] 검색 | grep + [[538_ssh_vs_telnet_secure_remote|SSH]] | [[169_kibana|Kibana]] UI, 수초 이내 |
+| 상품 검색 | LIKE [[298_qkv_attention|쿼리]] | 관련성 랭킹 + 자동완성 |
+| [[236_anomaly_based_detection_zero_day_false_positive|이상 탐지]] | 수동 [[229_monitor|모니터]]링 | ML [[236_anomaly_based_detection_zero_day_false_positive|이상 탐지]] 자동화 |
 | 집계 분석 | 야간 배치 | 실시간 대시보드 |
 
 ### 결론
-Elasticsearch/OpenSearch는 로그 분석·전문 검색·실시간 집계를 단일 플랫폼으로 통합하는 현대 옵저버빌리티의 핵심 인프라다. 기술사 시험에서는 **역색인 원리와 Inverted Index 구조**, **BM25 관련성 스코어링**, **Primary/Replica 샤드 아키텍처**, **Bool 쿼리와 Aggregation 활용**이 핵심 논점이다.
+[[302_cdc|Elasticsearch]]/OpenSearch는 [[119_log_analysis|로그 분석]]·전문 검색·실시간 집계를 단일 플랫폼으로 통합하는 현대 [[642_observability_telemetry|옵저버빌리티]]의 핵심 인프라다. 기술사 시험에서는 **[[500_inverted_index_elasticsearch|역색인]] 원리와 [[500_inverted_index_elasticsearch|Inverted Index]] 구조**, **BM25 관련성 스코어링**, **Primary/Replica 샤드 아키텍처**, **Bool [[298_qkv_attention|쿼리]]와 Aggregation 활용**이 핵심 논점이다.
 
 📢 **섹션 요약 비유**
-> Elasticsearch 도입은 거대한 도서관에 사서 로봇을 배치하는 것과 같다. 수백만 권의 책에서 "분산 시스템이라는 단어가 나오는 모든 책을 관련성 높은 순서로" 즉시 찾아주고, 동시에 "최근 한 달 간 가장 많이 대출된 주제"도 실시간으로 집계해준다.
+> [[302_cdc|Elasticsearch]] 도입은 거대한 도서관에 사서 로봇을 배치하는 것과 같다. 수백만 권의 책에서 "[[136_variance|분산]] 시스템이라는 단어가 나오는 모든 책을 관련성 높은 순서로" 즉시 찾아주고, 동시에 "최근 한 달 간 가장 많이 대출된 주제"도 실시간으로 집계해준다.
 
 ---
 
 ### 📌 관련 개념 맵
 
-| 개념 | 관계 | 설명 |
+| 개념 | [[083_relationship_in_er_model|관계]] | 설명 |
 |:---:|:---:|:---|
-| Apache Lucene | 기반 엔진 | Elasticsearch/Solr의 코어 라이브러리 |
-| BM25 | 스코어링 알고리즘 | TF-IDF 개선판, 관련성 랭킹 |
-| Kibana | 시각화 | ELK 스택 대시보드 |
-| Logstash | 데이터 수집 | 파이프라인 기반 로그 수집·가공 |
-| ILM (Index Lifecycle Management) | 인덱스 관리 | 시간 기반 인덱스 자동 롤오버·삭제 |
+| Apache Lucene | 기반 엔진 | [[302_cdc|Elasticsearch]]/Solr의 코어 [[336_library_vs_framework|라이브러리]] |
+| BM25 | 스코어링 [[001_algorithm_definition|알고리즘]] | [[232_tfidf_cosine_similarity_text_embedding_confusion_matrix|TF-IDF]] 개선판, 관련성 랭킹 |
+| [[169_kibana|Kibana]] | [[003_bigdata_7v|시각화]] | ELK [[057_stack|스택]] 대시보드 |
+| Logstash | [[001_dikw_pyramid|데이터]] 수집 | [[123_pipe|파이프]]라인 기반 [[626_log_collection|로그 수집]]·가공 |
+| ILM ([[154_database_index_b_tree_search_optimization|Index]] [[927_medical_device_lifecycle|Lifecycle Management]]) | [[154_database_index_b_tree_search_optimization|인덱스]] 관리 | 시간 기반 [[154_database_index_b_tree_search_optimization|인덱스]] 자동 롤오버·삭제 |
 
 
 ### 📈 관련 키워드 및 발전 흐름도
@@ -269,10 +269,10 @@ Elasticsearch/OpenSearch는 로그 분석·전문 검색·실시간 집계를 �
 [AI 검색 엔진 — RAG + 벡터DB + LLM, 의미 기반 지식 검색 통합]
 ```
 
-이 흐름은 RDBMS 전문 검색의 한계에서 역색인 기반 Elasticsearch로 검색 성능이 혁신되고, 벡터 검색으로 의미 기반 검색이 가능해지며 RAG+LLM 조합의 AI 검색 엔진으로 진화하는 검색 기술의 핵심 계보를 보여준다.
+이 흐름은 RDBMS 전문 검색의 한계에서 [[500_inverted_index_elasticsearch|역색인]] 기반 Elasticsearch로 검색 [[282_performance_tactics|성능]]이 혁신되고, 벡터 검색으로 의미 기반 검색이 가능해지며 [[276_fine_tuning|RAG]]+[[263_llm_large_language_model|LLM]] 조합의 [[190_ai_llm_requirements_specification|AI]] 검색 엔진으로 진화하는 검색 기술의 핵심 계보를 보여준다.
 
 
 ### 👶 어린이를 위한 3줄 비유 설명
-1. 역색인은 단어장의 색인 페이지와 같아요. "Redis"를 찾으면 색인에서 즉시 12, 45, 87페이지라고 알려줘요 — 책 전체를 읽을 필요가 없어요.
+1. [[500_inverted_index_elasticsearch|역색인]]은 단어장의 색인 [[286_page_frame|페이지]]와 같아요. "[[542_redis|Redis]]"를 찾으면 색인에서 즉시 12, 45, 87페이지라고 알려줘요 — 책 전체를 읽을 필요가 없어요.
 2. Elasticsearch는 도서관의 스마트 검색 로봇 — 수백만 권 중에서 "가장 관련 있는" 책을 순위 매겨 1초 안에 꺼내줘요.
-3. ELK 스택은 앱의 모든 일기(로그)를 모아 자동으로 그래프로 그려주는 시스템 — 문제가 생기면 어느 일기에서 시작됐는지 바로 찾아줘요.
+3. ELK [[057_stack|스택]]은 앱의 모든 일기([[568_logs_distributed_logging_elk_fluentd|로그]])를 모아 자동으로 [[070_graph_datastructure|그래프]]로 그려주는 시스템 — 문제가 생기면 어느 일기에서 시작됐는지 바로 찾아줘요.

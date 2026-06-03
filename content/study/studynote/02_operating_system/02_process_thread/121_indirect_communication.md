@@ -8,18 +8,18 @@ categories = "studynote-operating-system"
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 간접 통신 (Indirect Communication)은 메시지를 송수신 프로세스가 직접 주고받지 않고, 운영체제가 관리하는 우편함(Mailbox) 또는 포트(Port)라는 중간 매개체(Intermediate Entity)를 경유하여 통신하는 방식이다.
-> 2. **가치**: 송신자와 수신자가 서로의 존재나 식별자를 알 필요 없이, 공유된 우편함 ID만으로 통신할 수 있으므로 시스템의 결합도(Coupling)를 획기적으로 낮추고 1:1, 1:N, N:1, N:N 등 다양한 통신 토폴로지(Topology)를 유연하게 지원한다.
-> 3. **융합**: POSIX 메시지 큐, 마이크로커널의 포트(Port) 시스템, 그리고 RabbitMQ/Kafka와 같은 메시지 브로커(Message Broker)의 근간이 되며, 발행-구독(Publish-Subscribe) 패턴을 구현하는 핵심 기반 기술이다.
+> 1. **본질**: 간접 통신 ([[177_indirect_addressing|Indirect]] Communication)은 메시지를 송수신 프로세스가 직접 주고받지 않고, 운영체제가 관리하는 우편함(Mailbox) 또는 [[446_port_and_bus|포트]]([[446_port_and_bus|Port]])라는 중간 매개체(Intermediate Entity)를 경유하여 통신하는 방식이다.
+> 2. **가치**: 송신자와 수신자가 서로의 존재나 식별자를 알 필요 없이, 공유된 우편함 ID만으로 통신할 수 있으므로 시스템의 [[195_coupling_levels|결합도]]([[195_coupling_levels|Coupling]])를 획기적으로 낮추고 1:1, 1:N, N:1, N:N 등 다양한 통신 토폴로지(Topology)를 유연하게 지원한다.
+> 3. **융합**: POSIX 메시지 큐, 마이크로커널의 [[446_port_and_bus|포트]]([[446_port_and_bus|Port]]) 시스템, 그리고 RabbitMQ/Kafka와 같은 [[145_message_broker_sync_async|메시지 브로커]]([[145_message_broker_sync_async|Message Broker]])의 근간이 되며, 발행-구독(Publish-Subscribe) 패턴을 구현하는 핵심 기반 기술이다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 간접 통신에서 메시지는 송신자가 수신자에게 직접 전달되지 않고, 커널이 관리하는 우편함(Mailbox) 또는 포트(Port)라는 추상적인 중간 객체를 거친다. 송신자는 `send(A, msg)`(우편함 A에 메시지를 보냄) 형태로 호출하고, 수신자는 `receive(A, msg)`(우편함 A에서 메시지를 받음) 형태로 호출한다.
-- **필요성**: 직접 통신(Direct Communication)은 송신자가 수신자의 PID나 이름을 알아야 하므로 모듈 간 결합도가 높고, 새로운 수신자가 추가되면 송신자 코드를 수정해야 하는 유연성 문제가 있다. 또한 1:N(하나의 송신자가 여러 수신자에게 전송) 통신을 직접 통신으로 구현하려면 송신자가 모든 수신자의 ID를 관리해야 한다. 간접 통신은 우편함이라는 추상 계층을 도입하여 이러한 문제를 근본적으로 해결한다. 송신자는 우편함 ID만 알면 되고, 수신자가 몇 명이든 상관없다.
+- **개념**: 간접 통신에서 메시지는 송신자가 수신자에게 직접 전달되지 않고, [[022_kernel_role|커널]]이 관리하는 우편함(Mailbox) 또는 [[446_port_and_bus|포트]]([[446_port_and_bus|Port]])라는 추상적인 중간 객체를 거친다. 송신자는 `send(A, msg)`(우편함 A에 메시지를 보냄) 형태로 호출하고, 수신자는 `receive(A, msg)`(우편함 A에서 메시지를 받음) 형태로 호출한다.
+- **필요성**: [[120_direct_communication|직접 통신]]([[120_direct_communication|Direct Communication]])은 송신자가 수신자의 PID나 이름을 알아야 하므로 [[192_module_independence|모듈]] 간 [[195_coupling_levels|결합도]]가 높고, 새로운 수신자가 추가되면 송신자 코드를 수정해야 하는 유연성 문제가 있다. 또한 1:N(하나의 송신자가 여러 수신자에게 전송) 통신을 [[120_direct_communication|직접 통신]]으로 구현하려면 송신자가 모든 수신자의 ID를 관리해야 한다. 간접 통신은 우편함이라는 추상 계층을 도입하여 이러한 문제를 근본적으로 해결한다. 송신자는 우편함 ID만 알면 되고, 수신자가 몇 명이든 상관없다.
 
-- **등장 배경**: 1970년대 CMU의 Mach 마이크로커널이 포트(Port) 기반 간접 통신을 처음으로 대규모로 구현하였다. 이후 Microsoft Windows의 LPC/RPC, QNX의 메시지 전달, 그리고 Java Message Service (JMS) 표준에 이르기까지 간접 통신은 분산 시스템과 느슨한 결합 아키텍처의 핵심 전송 모델로 발전하였다.
+- **등장 배경**: 1970년대 CMU의 Mach 마이크로커널이 [[446_port_and_bus|포트]]([[446_port_and_bus|Port]]) 기반 간접 통신을 처음으로 대규모로 구현하였다. 이후 Microsoft Windows의 LPC/[[126_rpc|RPC]], QNX의 [[119_message_passing|메시지 전달]], 그리고 Java Message [[090_service_kubernetes_network_load_balancing|Service]] (JMS) 표준에 이르기까지 간접 통신은 [[136_variance|분산]] 시스템과 느슨한 결합 아키텍처의 핵심 전송 모델로 발전하였다.
 
 ```text
   ┌─────────────────────────────────────────────────────────────────────┐
@@ -55,7 +55,7 @@ categories = "studynote-operating-system"
   └─────────────────────────────────────────────────────────────────────┘
 ```
 
-**[다이어그램 해설]** 이 다이어그램은 간접 통신이 직접 통신과 근본적으로 다른 점을 명확히 보여준다. 송신자(Sender 1, 2)는 자신의 메시지를 어느 프로세스에게 보내는지 알지 못한다. 단지 우편함 M이라는 식별자에 메시지를 넣을 뿐이다. 반대로 수신자(Receiver 1, 2, 3)도 메시지가 누구로부터 왔는지 알 필요 없이 우편함 M을 확인하기만 한다. 이러한 디커플링(Decoupling) 덕분에 시스템의 각 구성 요소를 독립적으로 개발, 배포, 교체할 수 있다. 예를 들어, 새로운 Receiver 4를 추가하더라도 Sender의 코드는 전혀 변경할 필요가 없다. 이는 마이크로서비스 아키텍처(MSA)에서 서비스 간 결합도를 낮추는 핵심 원리와 정확히 일치한다.
+**[다이어그램 해설]** 이 다이어그램은 간접 통신이 [[120_direct_communication|직접 통신]]과 근본적으로 다른 점을 명확히 보여준다. 송신자(Sender 1, 2)는 자신의 메시지를 어느 프로세스에게 보내는지 알지 못한다. 단지 우편함 M이라는 식별자에 메시지를 넣을 뿐이다. 반대로 수신자(Receiver 1, 2, 3)도 메시지가 누구로부터 왔는지 알 필요 없이 우편함 M을 확인하기만 한다. 이러한 디커플링(Decoupling) 덕분에 시스템의 각 구성 요소를 독립적으로 개발, 배포, 교체할 수 있다. 예를 들어, 새로운 Receiver 4를 추가하더라도 Sender의 코드는 전혀 변경할 필요가 없다. 이는 [[213_msa_microservices_architecture|마이크로서비스 아키텍처]]([[619_msa_traffic_hardware|MSA]])에서 [[090_service_kubernetes_network_load_balancing|서비스]] 간 [[195_coupling_levels|결합도]]를 낮추는 핵심 원리와 정확히 일치한다.
 
 - **📢 섹션 요약 비유**: 학교 사물함(Mailbox)에 편지를 넣어두면, 그 사물함의 열쇠를 가진 모든 친구가 편지를 읽을 수 있어요. 편지를 넣은 사람은 누가 읽는지 모르고, 읽는 사람도 누가 썼는지 몰라도 되니 아주 편리하죠!
 
@@ -69,9 +69,9 @@ categories = "studynote-operating-system"
 
 | 소유권 모델 | 설명 | 장점 | 단점 | 예시 |
 |:---|:---|:---|:---|:---|
-| **프로세스 소유** | 우편함을 생성한 프로세스가 소유. 프로세스 종료 시 소멸 | 수명 관리가 단순 | 소유자 종료 시 우편함도 사라져 메시지 유실 | Mach Port |
-| **커널 소유** | 커널이 영구적인 우편함을 관리 | 프로세스 종료 후에도 우편함 유지 | 관리 오버헤드, 누적 메시지 정리 필요 | System V Message Queue |
-| **독립 프로세스 소유** | 전용 관리 프로세스가 우편함 운영 | 고도의 제어와 모니터링 가능 | 추가 프로세스 유지 비용 | RabbitMQ Broker |
+| **프로세스 소유** | 우편함을 생성한 프로세스가 소유. [[107_process_termination|프로세스 종료]] 시 소멸 | 수명 관리가 단순 | 소유자 종료 시 우편함도 사라져 메시지 유실 | Mach [[446_port_and_bus|Port]] |
+| **[[022_kernel_role|커널]] 소유** | [[022_kernel_role|커널]]이 영구적인 우편함을 관리 | [[107_process_termination|프로세스 종료]] 후에도 우편함 유지 | 관리 오버헤드, 누적 메시지 정리 필요 | System V Message [[058_queue|Queue]] |
+| **독립 프로세스 소유** | 전용 [[018_admin_processes|관리 프로세스]]가 우편함 운영 | 고도의 제어와 모니터링 가능 | 추가 프로세스 유지 비용 | RabbitMQ Broker |
 
 ### 통신 토폴로지: 우편함 조합에 의한 다양한 패턴
 
@@ -101,7 +101,7 @@ categories = "studynote-operating-system"
   └─────────────────────────────────────────────────────────────────────┘
 ```
 
-**[다이어그램 해설]** 간접 통신의 가장 강력한 장점은 동일한 API(`send/receive`)로 다양한 통신 토폴로지를 구현할 수 있다는 점이다. 1:1 통신은 두 프로세스가 공유하는 전용 우편함(MB-A)을 사용하면 되고, 1:N 통신(발행-구독 패턴)은 하나의 우편함(MB-B)에 여러 수신자가 구독(Subscribe)하도록 설정하면 된다. N:1 통신(로드 밸런싱 패턴)은 여러 송신자가 하나의 우편함(MB-C)에 메시지를 보내고, 수신자 중 하나만 꺼내가도록 구현한다. N:N 통신은 그룹 우편함을 사용하여 다자간 채팅 시스템을 구현할 수 있다. 이러한 유연성은 직접 통신에서는 불가능하며, 우편함(중간 매개체)이라는 추상화 계층이 제공하는 근본적인 이점이다.
+**[다이어그램 해설]** 간접 통신의 가장 강력한 장점은 동일한 [[014_api_posix|API]](`send/receive`)로 다양한 통신 토폴로지를 구현할 수 있다는 점이다. 1:1 통신은 두 프로세스가 공유하는 전용 우편함(MB-A)을 사용하면 되고, 1:N 통신(발행-구독 패턴)은 하나의 우편함(MB-B)에 여러 수신자가 구독(Subscribe)하도록 설정하면 된다. N:1 통신([[833_load_balancing_l4_l7_switch_traffic_distribution|로드 밸런싱]] 패턴)은 여러 송신자가 하나의 우편함(MB-C)에 메시지를 보내고, 수신자 중 하나만 꺼내가도록 구현한다. N:N 통신은 그룹 우편함을 사용하여 다자간 채팅 시스템을 구현할 수 있다. 이러한 유연성은 [[120_direct_communication|직접 통신]]에서는 불가능하며, 우편함(중간 매개체)이라는 [[198_abstraction_control_data_process|추상화]] 계층이 제공하는 근본적인 이점이다.
 
 - **📢 섹션 요약 비유**: 하나의 사물함(Mailbox)을 사용해 1:1 비밀 편지, 1:N 공지사항, N:1 고객 문의, N:N 그룹 채팅까지 모두 구현할 수 있는 것이 간접 통신의 마법 같은 유연성입니다.
 
@@ -109,18 +109,18 @@ categories = "studynote-operating-system"
 
 ## Ⅲ. 비교 및 연결
 
-### 발행-구독 (Publish-Subscribe) 패턴과의 관계
+### 발행-구독 (Publish-Subscribe) 패턴과의 [[083_relationship_in_er_model|관계]]
 
 간접 통신은 발행-구독(Pub/Sub) 패턴의 기반 기술이다. 우편함을 '토픽(Topic)'이라는 이름으로 재해석하면, 발행자(Publisher)는 토픽에 메시지를 게시하고 구독자(Subscriber)는 자신이 관심 있는 토픽을 구독하여 메시지를 수신한다.
 
 | Pub/Sub 구성요소 | 간접 통신 대응 개념 | 역할 | 실무 예시 |
 |:---|:---|:---|:---|
-| **토픽 (Topic)** | 우편함 (Mailbox) | 메시지가 분류되는 채널 | Kafka Topic, RabbitMQ Exchange |
-| **발행자 (Publisher)** | 송신자 (Sender) | 토픽에 메시지를 생산 | 주문 서비스, 센서 장치 |
-| **구독자 (Subscriber)** | 수신자 (Receiver) | 토픽에서 메시지를 소비 | 재고 서비스, 알림 서비스 |
-| **브로커 (Broker)** | 커널 (Kernel) | 토픽 관리 및 메시지 라우팅 | Kafka Broker, RabbitMQ Node |
+| **토픽 (Topic)** | 우편함 (Mailbox) | 메시지가 분류되는 채널 | [[179_kafka_flink_watermark_time_window|Kafka]] Topic, RabbitMQ Exchange |
+| **발행자 (Publisher)** | 송신자 (Sender) | 토픽에 메시지를 생산 | 주문 [[090_service_kubernetes_network_load_balancing|서비스]], 센서 장치 |
+| **구독자 (Subscriber)** | 수신자 (Receiver) | 토픽에서 메시지를 소비 | 재고 [[090_service_kubernetes_network_load_balancing|서비스]], 알림 [[090_service_kubernetes_network_load_balancing|서비스]] |
+| **브로커 (Broker)** | [[022_kernel_role|커널]] ([[022_kernel_role|Kernel]]) | 토픽 관리 및 메시지 [[339_routing_overview_best_path_selection|라우팅]] | [[179_kafka_flink_watermark_time_window|Kafka]] Broker, RabbitMQ Node |
 
-- **📢 섹션 요약 비유**: 유튜브 채널(Topic/Mailbox)에 영상(메시지)을 올리는 크리에이터(발행자)와, 구독 버튼을 누른 시청자(구독자) 사이에 유튜브 플랫폼(브로커/커널)이 중재하는 것이 간접 통신의 발행-구독 패턴과 같습니다.
+- **📢 섹션 요약 비유**: 유튜브 채널(Topic/Mailbox)에 영상(메시지)을 올리는 크리에이터(발행자)와, 구독 버튼을 누른 시청자(구독자) 사이에 유튜브 플랫폼(브로커/[[022_kernel_role|커널]])이 중재하는 것이 간접 통신의 발행-구독 패턴과 같습니다.
 
 ---
 
@@ -128,18 +128,18 @@ categories = "studynote-operating-system"
 
 ### 실무 시나리오
 
-1. **시나리오 -- Apache Kafka 기반 이벤트 스트리밍**: 전자상거래 플랫폼에서 주문 완료 이벤트를 `order-events` 토픽(우편함)에 발행하고, 재고 서비스, 배송 서비스, 통계 서비스 등 여러 구독자가 독립적으로 메시지를 소비하는 파이프라인. 각 서비스는 서로의 존재를 알 필요 없이 토픽 ID만으로 통신하므로, 새로운 서비스 추가 시 기존 서비스의 코드 수정이 전혀 불필요하다.
+1. **시나리오 -- [[214_kafka_pubsub_topic_partition_offset_broker|Apache Kafka]] 기반 이벤트 스트리밍**: 전자상거래 플랫폼에서 주문 완료 이벤트를 `order-events` 토픽(우편함)에 발행하고, 재고 [[090_service_kubernetes_network_load_balancing|서비스]], 배송 [[090_service_kubernetes_network_load_balancing|서비스]], 통계 [[090_service_kubernetes_network_load_balancing|서비스]] 등 여러 구독자가 독립적으로 메시지를 소비하는 [[123_pipe|파이프]]라인. 각 [[090_service_kubernetes_network_load_balancing|서비스]]는 서로의 존재를 알 필요 없이 토픽 ID만으로 통신하므로, 새로운 [[090_service_kubernetes_network_load_balancing|서비스]] 추가 시 기존 [[090_service_kubernetes_network_load_balancing|서비스]]의 코드 수정이 전혀 불필요하다.
 
-2. **시나리오 -- Mach 마이크로커널의 포트(Port) 시스템**: macOS의 XNU 커널(Mach 기반)에서 모든 IPC는 포트 기반 간접 통신으로 수행된다. 각 태스크(Task)는 고유한 포트를 소유하며, 메시지는 송신자의 아웃박스(Outbox) 포트에서 수신자의 인박스(Inbox) 포트로 전달된다. 포트 권한(Port Right)을 통해 수신 권한을 세밀하게 제어할 수 있다.
+2. **시나리오 -- Mach 마이크로커널의 [[446_port_and_bus|포트]]([[446_port_and_bus|Port]]) 시스템**: macOS의 XNU [[022_kernel_role|커널]](Mach 기반)에서 모든 IPC는 [[446_port_and_bus|포트]] 기반 간접 통신으로 수행된다. 각 [[150_task|태스크]]([[150_task|Task]])는 고유한 [[446_port_and_bus|포트]]를 소유하며, 메시지는 송신자의 아웃박스(Outbox) [[446_port_and_bus|포트]]에서 수신자의 인박스(Inbox) [[446_port_and_bus|포트]]로 전달된다. [[446_port_and_bus|포트]] 권한([[446_port_and_bus|Port]] Right)을 통해 수신 권한을 세밀하게 제어할 수 있다.
 
-### 도입 체크리스트
-- **기술적**: 우편함의 소유권 모델(프로세스/커널/독립 프로세스)을 시스템 요구사항에 맞게 선택하였는가? 우편함 크기 제한(Capacity)을 초과할 때의 처리 정책(Full Queue Policy)을 정의하였는가?
+### 도입 [[435_checklist_based_testing|체크리스트]]
+- **기술적**: 우편함의 소유권 모델(프로세스/[[022_kernel_role|커널]]/독립 프로세스)을 시스템 요구사항에 맞게 선택하였는가? 우편함 크기 제한(Capacity)을 초과할 때의 처리 [[164_policy|정책]](Full [[058_queue|Queue]] [[164_policy|Policy]])을 정의하였는가?
 - **운영 보안적**: 우편함에 대한 접근 권한(Read/Write)을 최소 권한 원칙에 따라 설정하였는가? 우편함에 누적된 미수신 메시지를 모니터링하고 정리(Cleanup)하는 체계가 있는가?
 
-### 안티패턴
-- **우편함 누적 (Mailbox Accumulation)**: 수신 프로세스가 장애로 인해 메시지를 소비하지 못하면 우편함에 메시지가 무한히 누적되어 시스템 메모리를 고갈시킨다. TTL (Time-To-Live), 최대 크기 제한(Max Size), Dead Letter Queue 등의 방어 메커니즘이 필수적이다.
+### [[128_water_scrum_fall_anti_pattern|안티패턴]]
+- **우편함 누적 (Mailbox Accumulation)**: 수신 프로세스가 장애로 인해 메시지를 소비하지 못하면 우편함에 메시지가 무한히 누적되어 시스템 메모리를 고갈시킨다. [[294_ttl_time_to_live_looping_prevention|TTL]] (Time-To-Live), 최대 크기 제한(Max Size), Dead Letter [[058_queue|Queue]] 등의 방어 메커니즘이 필수적이다.
 
-- **📢 섹션 요약 비유**: 편지함(Mailbox)을 아무도 확인하지 않고 방치하면 편지가 산더미처럼 쌓여 우체통이 터져버리듯(메모리 고갈), 수신자가 장애 난 경우를 대비한 안전장치(TTL, 크기 제한)가 꼭 필요합니다.
+- **📢 섹션 요약 비유**: 편지함(Mailbox)을 아무도 확인하지 않고 방치하면 편지가 산더미처럼 쌓여 우체통이 터져버리듯(메모리 고갈), 수신자가 장애 난 경우를 대비한 안전장치([[294_ttl_time_to_live_looping_prevention|TTL]], 크기 제한)가 꼭 필요합니다.
 
 ---
 
@@ -147,22 +147,22 @@ categories = "studynote-operating-system"
 
 ### 정량/정성 기대효과
 
-| 구분 | 직접 통신 | 간접 통신 (우편함) | 간접 통신의 우위 영역 |
+| 구분 | [[120_direct_communication|직접 통신]] | 간접 통신 (우편함) | 간접 통신의 우위 영역 |
 |:---|:---|:---|:---|
 | **정량** | 1:1 통신만 가능 | 1:N, N:1, N:N 모두 지원 | **다자간 통신 유연성** |
 | **정량** | 수신자 변경 시 송신자 수정 필요 | 우편함만 공유하면 무한 확장 | **시스템 확장성** |
-| **정성** | 모듈 간 높은 결합도 | 모듈 간 느슨한 결합도 | **유지보수성** |
-| **정성** | 단순 시나리오에 적합 | 대규모 분산 시스템에 적합 | **MSA 아키텍처 적합성** |
+| **정성** | [[192_module_independence|모듈]] 간 높은 [[195_coupling_levels|결합도]] | [[192_module_independence|모듈]] 간 느슨한 [[195_coupling_levels|결합도]] | **[[346_maintainability_portability|유지보수성]]** |
+| **정성** | 단순 시나리오에 적합 | 대규모 [[136_variance|분산]] 시스템에 적합 | **[[619_msa_traffic_hardware|MSA]] 아키텍처 적합성** |
 
 ### 미래 전망
-- **이벤트 드리븐 아키텍처 (Event-Driven Architecture)**: 간접 통신의 발행-구독 패턴은 마이크로서비스 아키텍처에서 핵심 패턴으로 자리 잡았다. 클라우드 네이티브(Cloud Native) 환경에서 Kafka, Pulsar, NATS 등의 이벤트 스트리밍 플랫폼이 간접 통신의 극대화된 형태로 발전하고 있다.
-- **Actor 모델 (Akka, Erlang)**: Erlang/OTP와 Akka Actor 프레임워크는 각 Actor가 자신의 우편함(Mailbox)을 소유하고 메시지를 비동기적으로 처리하는 모델이다. 간접 통신의 개념을 프로그래밍 언어 수준으로 내장한 고도의 구현이다.
+- **[[214_eda_event_driven_architecture_async|이벤트 드리븐 아키텍처]] ([[140_event_driven_architecture_eda|Event-Driven Architecture]])**: 간접 통신의 발행-구독 패턴은 [[213_msa_microservices_architecture|마이크로서비스 아키텍처]]에서 핵심 패턴으로 자리 잡았다. [[531_cloud_native_architecture|클라우드 네이티브]]([[199_cloud_native_architecture_msa_cicd_devops|Cloud Native]]) 환경에서 [[179_kafka_flink_watermark_time_window|Kafka]], Pulsar, NATS 등의 이벤트 스트리밍 플랫폼이 간접 통신의 극대화된 형태로 발전하고 있다.
+- **Actor 모델 (Akka, [[1004_erlang_traffic_load_unit_calculation|Erlang]])**: [[1004_erlang_traffic_load_unit_calculation|Erlang]]/OTP와 Akka Actor 프레임워크는 각 Actor가 자신의 우편함(Mailbox)을 소유하고 메시지를 비동기적으로 처리하는 모델이다. 간접 통신의 개념을 프로그래밍 언어 수준으로 내장한 고도의 구현이다.
 
 ### 참고 표준
 - **POSIX.1**: `mq_open()`, `mq_send()`, `mq_receive()` 기반의 POSIX 메시지 큐(우편함) 표준.
-- **AMQP (Advanced Message Queuing Protocol)**: RabbitMQ 등 메시지 브로커의 개방형 프로토콜. Exchange(우편함) 기반의 간접 통신을 표준화한다.
+- **AMQP (Advanced Message Queuing [[295_protocol_field_tcp_udp_icmp|Protocol]])**: RabbitMQ 등 [[145_message_broker_sync_async|메시지 브로커]]의 개방형 [[295_protocol_field_tcp_udp_icmp|프로토콜]]. Exchange(우편함) 기반의 간접 통신을 표준화한다.
 
-간접 통신은 우편함(Mailbox)이라는 중간 매개체를 도입하여 송신자와 수신자를 완전히 디커플링(Decoupling)하는 우아한 IPC 패턴이다. 동일한 API로 1:1부터 N:N까지 모든 통신 토폴로지를 표현할 수 있으며, 발행-구독(Pub/Sub) 패턴의 기반 기술로서 마이크로서비스 아키텍처와 클라우드 네이티브 시스템의 핵심 통신 인프라다.
+간접 통신은 우편함(Mailbox)이라는 중간 매개체를 도입하여 송신자와 수신자를 완전히 디커플링(Decoupling)하는 우아한 [[117_ipc|IPC]] 패턴이다. 동일한 API로 1:1부터 N:N까지 모든 통신 토폴로지를 표현할 수 있으며, 발행-구독(Pub/Sub) 패턴의 기반 기술로서 [[213_msa_microservices_architecture|마이크로서비스 아키텍처]]와 [[531_cloud_native_architecture|클라우드 네이티브]] 시스템의 핵심 통신 인프라다.
 
 - **📢 섹션 요약 비유**: 학교 사물함(우편함) 시스템은 편지를 쓰는 사람과 읽는 사람을 완전히 분리시켜, 누가 이사를 가거나 전학을 와도 사물함 번호만 알면 언제든 연락할 수 있는 가장 유연하고 확장 가능한 통신 시스템입니다.
 
@@ -172,10 +172,10 @@ categories = "studynote-operating-system"
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| 메시지 전달 (Message Passing) 방식 | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
-| 직접 통신 (Direct Communication) | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
-| 동기식 통신 (Blocking) vs 비동기식 통신 (Non-blocking) | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
-| 파이프 (Pipe) | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
+| [[119_message_passing|메시지 전달]] ([[119_message_passing|Message Passing]]) 방식 | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
+| [[120_direct_communication|직접 통신]] ([[120_direct_communication|Direct Communication]]) | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
+| [[122_sync_async_communication|동기식 통신]] ([[122_sync_async_communication|Blocking]]) vs 비동기식 통신 (Non-[[122_sync_async_communication|blocking]]) | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
+| [[123_pipe|파이프]] ([[123_pipe|Pipe]]) | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 

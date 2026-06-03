@@ -8,23 +8,23 @@ categories = "studynote-software-engineering"
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: SBOM (Software Bill of Materials) 포맷은(는) 소프트웨어 공학의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.
-> 2. **가치**: 이 개념을 올바르게 적용하면 소프트웨어의 품질·유지보수성·재사용성이 향상되고, 개발 생산성과 팀 협업 효율이 높아진다.
+> 1. **본질**: [[890_sbom_cyclonedx_spdx|SBOM]] (Software [[124_bom_bill_of_materials|Bill of Materials]]) 포맷은(는) [[001_software_engineering_definition|소프트웨어 공학]]의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.
+> 2. **가치**: 이 개념을 올바르게 적용하면 소프트웨어의 품질·[[346_maintainability_portability|유지보수성]]·재사용성이 향상되고, 개발 생산성과 팀 협업 효율이 높아진다.
 > 3. **판단 포인트**: 도입 시에는 비용·복잡도·조직 성숙도를 함께 고려해야 하며, 맹목적 적용보다 프로젝트 특성에 맞는 선택적 적용이 핵심이다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-SBOM은 제품에 어떤 라이브러리와 버전이 포함됐는지 기록한다. 공급망 보안의 기본 자료다.
+SBOM은 제품에 어떤 라이브러리와 [[288_version_ihl_tos_total_length|버전]]이 포함됐는지 기록한다. [[520_supply_chain_attack_and_ci_cd_security|공급망]] 보안의 기본 자료다.
 
-SPDX (Software Package Data Exchange)와 CycloneDX가 대표 포맷이다.
+SPDX (Software Package [[001_dikw_pyramid|Data]] Exchange)와 CycloneDX가 대표 포맷이다.
 
 - **📢 섹션 요약 비유**: 도시락 반찬표가 있어야 뭐가 들어 있는지 바로 알 수 있다.
 
 ---
 
-다음은 SBOM (Software Bill 의 핵심 구조와 흐름을 보여주는 다이어그램이다.
+다음은 [[890_sbom_cyclonedx_spdx|SBOM]] (Software Bill 의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
 ```text
 ┌─────────────────────────────────────────────────────────────┐
@@ -39,7 +39,7 @@ SPDX (Software Package Data Exchange)와 CycloneDX가 대표 포맷이다.
 └─────────────────────────────────────────────────────────────┘
 ```
 
-이 다이어그램은 SBOM (Software Bill 가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
+이 다이어그램은 [[890_sbom_cyclonedx_spdx|SBOM]] (Software Bill 가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
 ---
 
@@ -49,7 +49,7 @@ SPDX (Software Package Data Exchange)와 CycloneDX가 대표 포맷이다.
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-SBOM은 구성 요소, 버전, 관계, 해시, 라이선스 정보를 담는다.
+SBOM은 구성 요소, [[288_version_ihl_tos_total_length|버전]], [[083_relationship_in_er_model|관계]], 해시, 라이선스 정보를 담는다.
 
 ```text
 제품 -> 컴포넌트 목록 -> 버전/출처/라이선스
@@ -58,7 +58,7 @@ SBOM은 구성 요소, 버전, 관계, 해시, 라이선스 정보를 담는다.
 | 포맷 | 특징 |
 |:---|:---|
 | SPDX | 라이선스 표현에 강함 |
-| CycloneDX | 보안/공급망 정보에 강함 |
+| CycloneDX | 보안/[[520_supply_chain_attack_and_ci_cd_security|공급망]] 정보에 강함 |
 | 공통 | 구성 추적 |
 
 - **📢 섹션 요약 비유**: 식재료표에 원산지와 유통기한을 같이 적는 것이다.
@@ -75,7 +75,7 @@ SBOM은 구성 요소, 버전, 관계, 해시, 라이선스 정보를 담는다.
 
 SBOM은 SCA의 입력이자 결과물이 될 수 있다.
 
-| 구분 | SBOM | SCA |
+| 구분 | [[890_sbom_cyclonedx_spdx|SBOM]] | [[453_sca|SCA]] |
 |:---|:---|:---|
 | 역할 | 목록 | 분석 |
 | 방향 | 기록 | 검사 |
@@ -95,10 +95,10 @@ SBOM은 SCA의 입력이자 결과물이 될 수 있다.
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서는 배포 전, 감사 대응, 취약점 공지 대응에 SBOM을 만든다.
+실무에서는 배포 전, [[606_auditing_linux_auditd|감사]] 대응, 취약점 공지 대응에 SBOM을 만든다.
 
 점검 포인트는 다음과 같다.
-1. 버전이 정확한가?
+1. [[288_version_ihl_tos_total_length|버전]]이 정확한가?
 2. 간접 의존성까지 담겼는가?
 3. 정기적으로 갱신되는가?
 
@@ -130,10 +130,10 @@ SBOM은 제품의 투명성과 추적성을 높인다.
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| 소프트웨어 공학 (Software Engineering) | SBOM (Software Bill of Materials) 포맷의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
-| 소프트웨어 생명주기 (SDLC, Software Development Life Cycle) | SBOM (Software Bill of Materials) 포맷은 SDLC의 특정 단계에서 핵심적으로 적용된다 |
-| 품질 보증 (QA, Quality Assurance) | SBOM (Software Bill of Materials) 포맷 적용 결과는 QA 활동을 통해 검증되고 측정된다 |
-| 형상 관리 (SCM, Software Configuration Management) | SBOM (Software Bill of Materials) 포맷에서 생성된 산출물은 SCM을 통해 체계적으로 관리된다 |
+| [[001_software_engineering_definition|소프트웨어 공학]] ([[001_software_engineering_definition|Software Engineering]]) | [[890_sbom_cyclonedx_spdx|SBOM]] (Software [[124_bom_bill_of_materials|Bill of Materials]]) 포맷의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
+| [[003_sdlc|소프트웨어 생명주기]] ([[131_sdlc_system_development_life_cycle_waterfall_agile|SDLC]], Software Development Life Cycle) | [[890_sbom_cyclonedx_spdx|SBOM]] (Software [[124_bom_bill_of_materials|Bill of Materials]]) 포맷은 SDLC의 특정 단계에서 핵심적으로 적용된다 |
+| 품질 보증 (QA, Quality Assurance) | [[890_sbom_cyclonedx_spdx|SBOM]] (Software [[124_bom_bill_of_materials|Bill of Materials]]) 포맷 적용 결과는 QA 활동을 통해 검증되고 측정된다 |
+| [[020_software_configuration_management|형상 관리]] ([[167_scm_software_configuration_management|SCM]], [[020_software_configuration_management|Software Configuration Management]]) | [[890_sbom_cyclonedx_spdx|SBOM]] (Software [[124_bom_bill_of_materials|Bill of Materials]]) 포맷에서 생성된 산출물은 SCM을 통해 체계적으로 관리된다 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -153,10 +153,10 @@ SBOM (Software Bill of Materials) 포맷 개념 정립
 지속적 개선 및 DevOps·MLOps 통합
 ```
 
-이 흐름은 소프트웨어 위기 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
+이 흐름은 [[002_software_crisis|소프트웨어 위기]] 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. SBOM (Software Bill of Materials) 포맷은 레고 블록으로 성을 만들 때처럼, 규칙을 정하고 역할을 나누어 함께 작업하는 방법이에요.
+1. [[890_sbom_cyclonedx_spdx|SBOM]] (Software [[124_bom_bill_of_materials|Bill of Materials]]) 포맷은 레고 블록으로 성을 만들 때처럼, 규칙을 정하고 역할을 나누어 함께 작업하는 방법이에요.
 2. 혼자서 막 만들면 나중에 무너지거나 고치기 어렵지만, 약속을 지키면 누구나 쉽게 고치고 더 크게 만들 수 있어요.
-3. 그래서 소프트웨어 공학은 프로그래머들이 좋은 프로그램을 빠르고 안전하게 만들 수 있게 도와주는 '규칙 모음집'이에요.
+3. 그래서 [[001_software_engineering_definition|소프트웨어 공학]]은 프로그래머들이 좋은 프로그램을 빠르고 안전하게 만들 수 있게 도와주는 '규칙 모음집'이에요.

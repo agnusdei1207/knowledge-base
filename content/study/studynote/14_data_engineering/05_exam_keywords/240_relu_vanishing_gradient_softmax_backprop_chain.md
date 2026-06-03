@@ -7,42 +7,42 @@ categories = "studynote-data-engineering"
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: 시그모이드(Sigmoid) 활성화 함수는 기울기 소실(Vanishing Gradient) 문제를 유발해 깊은 신경망 학습을 어렵게 하며, ReLU(Rectified Linear Unit)가 이를 해결하는 핵심 대안이다.
-> 2. **가치**: 역전파(Backpropagation)의 연쇄 법칙(Chain Rule)을 통해 기울기가 전파되므로, 기울기 소실·폭발(Vanishing/Exploding Gradient) 문제는 신경망 깊이와 활성화 함수 선택에 직접적으로 연결된다.
-> 3. **판단 포인트**: 은닉층에는 ReLU/GELU, 출력층에는 회귀→선형(Linear), 이진분류→시그모이드, 다중분류→소프트맥스(Softmax)를 사용하는 조합 원칙을 논술에서 명확히 제시해야 한다.
+> 1. **본질**: [[268_sigmoid_vanishing_gradient|시그모이드]]([[268_sigmoid_vanishing_gradient|Sigmoid]]) [[129_activation_function|활성화 함수]]는 [[088_vanishing_gradient_relu_skip_connection|기울기 소실]](Vanishing Gradient) 문제를 유발해 깊은 신경망 학습을 어렵게 하며, [[269_relu_activation|ReLU]]([[269_relu_activation|Rectified Linear Unit]])가 이를 해결하는 핵심 대안이다.
+> 2. **가치**: [[272_backpropagation|역전파]]([[272_backpropagation|Backpropagation]])의 연쇄 법칙(Chain Rule)을 통해 기울기가 전파되므로, [[088_vanishing_gradient_relu_skip_connection|기울기 소실]]·폭발(Vanishing/[[089_exploding_gradient_clipping|Exploding Gradient]]) 문제는 신경망 깊이와 [[129_activation_function|활성화 함수]] 선택에 직접적으로 연결된다.
+> 3. **판단 포인트**: 은닉층에는 [[269_relu_activation|ReLU]]/GELU, 출력층에는 회귀→선형(Linear), 이진분류→[[268_sigmoid_vanishing_gradient|시그모이드]], 다중분류→[[270_softmax|소프트맥스]]([[270_softmax|Softmax]])를 사용하는 조합 원칙을 논술에서 명확히 제시해야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-### 기울기 소실 문제 (Vanishing Gradient Problem)
+### [[088_vanishing_gradient_relu_skip_connection|기울기 소실]] 문제 (Vanishing Gradient Problem)
 
-깊은 신경망에서 역전파 시 기울기(Gradient)가 출력층에서 입력층으로 전달되면서 **지수적으로 작아지는 현상**이다.
+깊은 신경망에서 [[272_backpropagation|역전파]] 시 기울기(Gradient)가 출력층에서 입력층으로 전달되면서 **지수적으로 작아지는 현상**이다.
 
 **원인:**
-- 시그모이드 함수의 최대 미분값 = 0.25 (입력이 ±2 이상이면 거의 0)
-- 30층 신경망에서 0.25^30 ≈ 8.7 × 10^-19 → 사실상 기울기 0
-- 초기 층의 가중치가 거의 업데이트되지 않음
+- [[268_sigmoid_vanishing_gradient|시그모이드]] 함수의 최대 미분값 = 0.25 (입력이 ±2 이상이면 거의 0)
+- 30층 신경망에서 0.25^30 ≈ 8.7 × [[489_raid_10_hybrid|10]]^-19 → 사실상 기울기 0
+- [[459_quic_fec_forward_error_correction|초기]] 층의 [[267_weight_bias_activation|가중치]]가 거의 업데이트되지 않음
 
 **결과:**
 - 깊은 층의 특성 학습 불가
 - 학습 속도 극단적 저하
 - 네트워크가 수렴하지 않음
 
-### 기울기 폭발 문제 (Exploding Gradient Problem)
+### [[089_exploding_gradient_clipping|기울기 폭발]] 문제 ([[089_exploding_gradient_clipping|Exploding Gradient]] Problem)
 
 반대로 기울기가 지수적으로 커지는 현상:
-- RNN(순환 신경망)에서 자주 발생
-- 가중치 업데이트가 너무 커서 학습 발산
-- **그래디언트 클리핑(Gradient Clipping)**으로 해결
+- [[244_rnn_time_series_lstm_cell_gate_long_term_dependency|RNN]]([[111_rnn_recurrent_neural_network_sequential_data|순환 신경망]])에서 자주 발생
+- [[267_weight_bias_activation|가중치]] 업데이트가 너무 커서 학습 발산
+- **그래디언트 클리핑(Gradient [[389_ppo_proximal_policy_optimization|Clipping]])**으로 해결
 
-📢 **섹션 요약 비유**: 기울기 소실은 **깊은 우물에 메시지를 전달하는 것**과 같다. 30명이 손에서 손으로 전달하면, 마지막에는 속삭임도 안 들릴 만큼 신호가 사라진다.
+📢 **섹션 요약 비유**: [[088_vanishing_gradient_relu_skip_connection|기울기 소실]]은 **깊은 우물에 메시지를 전달하는 것**과 같다. 30명이 손에서 손으로 전달하면, 마지막에는 속삭임도 안 들릴 만큼 신호가 사라진다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### 활성화 함수 비교
+### [[129_activation_function|활성화 함수]] 비교
 
 ```
 활성화 함수 특성 비교
@@ -61,7 +61,7 @@ categories = "studynote-data-engineering"
 └──────────────┴────────────┴──────────────┴───────────────────┘
 ```
 
-### 역전파(Backpropagation)와 연쇄 법칙(Chain Rule)
+### [[272_backpropagation|역전파]]([[272_backpropagation|Backpropagation]])와 연쇄 법칙(Chain Rule)
 
 ```
 순전파 (Forward Pass):
@@ -73,36 +73,36 @@ Loss L 계산 → ∂L/∂W3 → ∂L/∂W2 → ∂L/∂W1
 연쇄 법칙: ∂L/∂W1 = ∂L/∂ŷ · ∂ŷ/∂a2 · ∂a2/∂a1 · ∂a1/∂W1
 ```
 
-**배치 정규화(Batch Normalization)의 역할:**
-- 각 층의 입력 분포를 정규화 → 기울기 소실 완화
-- 더 높은 학습률 사용 가능
-- 드롭아웃 효과를 부분 대체
+**[[282_batch_normalization|배치 정규화]]([[282_batch_normalization|Batch Normalization]])의 역할:**
+- 각 층의 입력 분포를 [[093_normalization|정규화]] → [[088_vanishing_gradient_relu_skip_connection|기울기 소실]] 완화
+- 더 높은 [[080_gradient_descent_learning_rate|학습률]] 사용 가능
+- [[280_dropout|드롭아웃]] 효과를 부분 대체
 
-📢 **섹션 요약 비유**: 역전파는 **성적표 피드백**이다. 선생님(출력층)이 틀렸다고 알려주면, 그 오류 신호가 거꾸로 전달되어 각 학생(레이어)이 자신의 실수를 고친다.
+📢 **섹션 요약 비유**: [[272_backpropagation|역전파]]는 **성적표 피드백**이다. 선생님(출력층)이 틀렸다고 알려주면, 그 오류 신호가 거꾸로 전달되어 각 학생(레이어)이 자신의 실수를 고친다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-### ReLU vs 변형 비교
+### [[269_relu_activation|ReLU]] vs 변형 비교
 
-| 함수 | Dead Neuron | 기울기 소실 | 수렴 속도 | 주요 사용 환경 |
+| 함수 | Dead Neuron | [[088_vanishing_gradient_relu_skip_connection|기울기 소실]] | 수렴 속도 | 주요 사용 환경 |
 |:---|:---|:---|:---|:---|
-| **Sigmoid** | 없음 | 심각 | 느림 | 이진 분류 출력 |
-| **ReLU** | 있음(x<0) | 거의 없음 | 빠름 | 일반 은닉층 |
-| **Leaky ReLU** | 없음 | 없음 | 빠름 | GAN, 깊은 네트워크 |
-| **GELU** | 없음 | 없음 | 빠름 | BERT, GPT, Transformer |
-| **Softmax** | - | - | - | 다중 분류 출력층만 |
+| **[[268_sigmoid_vanishing_gradient|Sigmoid]]** | 없음 | 심각 | 느림 | 이진 [[104_classification_analysis|분류]] 출력 |
+| **[[269_relu_activation|ReLU]]** | 있음(x<0) | 거의 없음 | 빠름 | 일반 은닉층 |
+| **Leaky [[269_relu_activation|ReLU]]** | 없음 | 없음 | 빠름 | [[154_gan_generative_adversarial_network|GAN]], 깊은 네트워크 |
+| **GELU** | 없음 | 없음 | 빠름 | [[301_bert_mlm|BERT]], [[302_gpt_autoregressive|GPT]], [[246_transformer_self_attention_parallel_positional_encoding|Transformer]] |
+| **[[270_softmax|Softmax]]** | - | - | - | 다중 [[104_classification_analysis|분류]] 출력층만 |
 
-### Dead ReLU 문제와 해결
+### Dead [[269_relu_activation|ReLU]] 문제와 해결
 
 ReLU의 음수 입력 시 기울기 = 0 → 뉴런이 "죽음(Dead)"
 
 **해결 방법:**
-1. Leaky ReLU: 음수 구간에서도 작은 기울기(0.01) 유지
+1. Leaky [[269_relu_activation|ReLU]]: 음수 구간에서도 작은 기울기(0.01) 유지
 2. ELU: 음수 구간에서 지수함수로 포화
-3. 적절한 가중치 초기화(He Initialization)
-4. 학습률 조정으로 뉴런 죽음 예방
+3. 적절한 [[087_weight_initialization_xavier_he_glorot|가중치 초기화]](He Initialization)
+4. [[080_gradient_descent_learning_rate|학습률]] 조정으로 뉴런 죽음 예방
 
 📢 **섹션 요약 비유**: Dead ReLU는 **전구가 타버린 것**과 같다. 한번 꺼지면 신호가 통과를 못 한다. Leaky ReLU는 타지 않도록 최소한의 전류를 흘려준다.
 
@@ -110,17 +110,17 @@ ReLU의 음수 입력 시 기울기 = 0 → 뉴런이 "죽음(Dead)"
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### 출력층 활성화 함수 선택 원칙
+### 출력층 [[129_activation_function|활성화 함수]] 선택 원칙
 
-| 태스크 | 출력층 활성화 | 손실 함수 |
+| [[150_task|태스크]] | 출력층 활성화 | [[075_loss_function_cost_function|손실 함수]] |
 |:---|:---|:---|
-| **회귀** | 없음(Linear) | MSE (Mean Squared Error) |
-| **이진 분류** | Sigmoid | BCE (Binary Cross-Entropy) |
-| **다중 분류** | Softmax | CCE (Categorical Cross-Entropy) |
-| **다중 레이블** | Sigmoid (각 출력) | BCE (각 레이블 독립) |
-| **언어 모델** | Softmax (어휘 크기) | CCE |
+| **회귀** | 없음(Linear) | [[076_mse_mean_squared_error_regression|MSE]] ([[076_mse_mean_squared_error_regression|Mean Squared Error]]) |
+| **이진 [[104_classification_analysis|분류]]** | [[268_sigmoid_vanishing_gradient|Sigmoid]] | BCE (Binary [[154_cross_entropy|Cross-Entropy]]) |
+| **다중 [[104_classification_analysis|분류]]** | [[270_softmax|Softmax]] | CCE (Categorical [[154_cross_entropy|Cross-Entropy]]) |
+| **다중 레이블** | [[268_sigmoid_vanishing_gradient|Sigmoid]] (각 출력) | BCE (각 레이블 독립) |
+| **언어 모델** | [[270_softmax|Softmax]] (어휘 크기) | CCE |
 
-### 소프트맥스 (Softmax) 상세
+### [[270_softmax|소프트맥스]] ([[270_softmax|Softmax]]) 상세
 
 ```
 Softmax(xi) = exp(xi) / Σ exp(xj)
@@ -131,11 +131,11 @@ Softmax(xi) = exp(xi) / Σ exp(xj)
   결과: [0.628, 0.231, 0.140]  (합 = 1.0)
 ```
 
-- 모든 출력을 0~1 사이의 확률로 변환
-- 합이 1이므로 확률 분포로 해석 가능
-- 온도 파라미터(Temperature): T>1 → 분포 평탄화, T<1 → 분포 첨예화
+- 모든 출력을 0~1 사이의 [[130_probability|확률]]로 변환
+- 합이 1이므로 [[130_probability|확률]] 분포로 해석 가능
+- 온도 파라미터([[386_llm_temperature|Temperature]]): T>1 → 분포 평탄화, T<1 → 분포 첨예화
 
-📢 **섹션 요약 비유**: 소프트맥스는 **득표율 계산**이다. 세 후보가 7표, 2표, 1표를 받으면 득표율이 70%, 20%, 10%가 되고, 이 비율의 합은 100%다.
+📢 **섹션 요약 비유**: [[270_softmax|소프트맥스]]는 **득표율 계산**이다. 세 후보가 7표, 2표, 1표를 받으면 득표율이 70%, 20%, [[489_raid_10_hybrid|10]]%가 되고, 이 비율의 합은 100%다.
 
 ---
 
@@ -143,37 +143,37 @@ Softmax(xi) = exp(xi) / Σ exp(xj)
 
 ### 현대 신경망 설계 원칙 정리
 
-| 층 | 권장 활성화 함수 | 이유 |
+| 층 | 권장 [[129_activation_function|활성화 함수]] | 이유 |
 |:---|:---|:---|
-| 은닉층 (일반) | ReLU 또는 Leaky ReLU | 기울기 소실 없음, 빠른 수렴 |
-| 은닉층 (Transformer) | GELU | 부드러운 비선형성, 성능 우수 |
+| 은닉층 (일반) | [[269_relu_activation|ReLU]] 또는 Leaky [[269_relu_activation|ReLU]] | [[088_vanishing_gradient_relu_skip_connection|기울기 소실]] 없음, 빠른 수렴 |
+| 은닉층 ([[246_transformer_self_attention_parallel_positional_encoding|Transformer]]) | GELU | 부드러운 비선형성, [[484_elt_extract_load_transform|성능 우수]] |
 | 출력층 (회귀) | 없음 (Linear) | 값 범위 제한 없음 |
-| 출력층 (이진 분류) | Sigmoid | 확률 출력 |
-| 출력층 (다중 분류) | Softmax | 확률 분포 출력 |
+| 출력층 (이진 [[104_classification_analysis|분류]]) | [[268_sigmoid_vanishing_gradient|Sigmoid]] | [[130_probability|확률]] 출력 |
+| 출력층 (다중 [[104_classification_analysis|분류]]) | [[270_softmax|Softmax]] | [[130_probability|확률]] 분포 출력 |
 
 ### 결론
 
-ReLU와 그 변형들은 딥러닝의 **깊이 문제를 해결**한 핵심 혁신이다. 배치 정규화, 잔차 연결(Residual Connection), 그리고 GELU 같은 부드러운 활성화 함수가 결합되어 수백 층의 신경망도 안정적으로 학습할 수 있게 되었다. 기술사 논술에서는 각 활성화 함수의 수학적 특성과 사용 맥락을 함께 설명해야 한다.
+ReLU와 그 변형들은 딥러닝의 **깊이 문제를 해결**한 핵심 혁신이다. [[282_batch_normalization|배치 정규화]], 잔차 연결(Residual Connection), 그리고 GELU 같은 부드러운 [[129_activation_function|활성화 함수]]가 결합되어 수백 층의 신경망도 안정적으로 학습할 수 있게 되었다. 기술사 논술에서는 각 [[129_activation_function|활성화 함수]]의 수학적 특성과 사용 맥락을 함께 설명해야 한다.
 
-📢 **섹션 요약 비유**: 활성화 함수는 **뇌의 뉴런 발화 규칙**이다. 어떤 자극에 어떻게 반응할지 결정하는 규칙이고, 이 규칙의 선택이 뇌(신경망)의 학습 능력을 결정한다.
+📢 **섹션 요약 비유**: [[129_activation_function|활성화 함수]]는 **뇌의 뉴런 발화 규칙**이다. 어떤 자극에 어떻게 반응할지 결정하는 규칙이고, 이 규칙의 선택이 뇌(신경망)의 학습 능력을 결정한다.
 
 ---
 
 ### 📌 관련 개념 맵
 
-| 관계 | 개념 | 설명 |
+| [[083_relationship_in_er_model|관계]] | 개념 | 설명 |
 |:---|:---|:---|
-| 문제 | 기울기 소실 (Vanishing Gradient) | 시그모이드 함수의 깊은 층 학습 장애 |
-| 해결 | ReLU (Rectified Linear Unit) | 양수 구간 기울기 = 1 유지 |
-| 변형 | Leaky ReLU, GELU, ELU | Dead ReLU 및 기울기 소실 개선 |
-| 출력 활성화 | Softmax | 다중 분류 확률 분포 |
-| 학습 알고리즘 | 역전파 + 연쇄 법칙 | 기울기 계산 및 전파 |
-| 보조 기법 | 배치 정규화 | 기울기 소실 완화 |
-| 보조 기법 | 잔차 연결 (ResNet) | 기울기 통로 확보 |
+| 문제 | [[088_vanishing_gradient_relu_skip_connection|기울기 소실]] (Vanishing Gradient) | [[268_sigmoid_vanishing_gradient|시그모이드]] 함수의 깊은 층 학습 장애 |
+| 해결 | [[269_relu_activation|ReLU]] ([[269_relu_activation|Rectified Linear Unit]]) | 양수 구간 기울기 = 1 유지 |
+| 변형 | Leaky [[269_relu_activation|ReLU]], GELU, ELU | Dead [[269_relu_activation|ReLU]] 및 [[088_vanishing_gradient_relu_skip_connection|기울기 소실]] 개선 |
+| 출력 활성화 | [[270_softmax|Softmax]] | 다중 [[104_classification_analysis|분류]] [[130_probability|확률]] 분포 |
+| 학습 [[001_algorithm_definition|알고리즘]] | [[272_backpropagation|역전파]] + 연쇄 법칙 | 기울기 계산 및 전파 |
+| 보조 기법 | [[282_batch_normalization|배치 정규화]] | [[088_vanishing_gradient_relu_skip_connection|기울기 소실]] 완화 |
+| 보조 기법 | 잔차 연결 ([[287_resnet_skip_connection|ResNet]]) | 기울기 통로 확보 |
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. 기울기 소실은 **속삭임 전화 게임**이야. 30명이 순서대로 전달하면 마지막엔 아무 소리도 안 들려.
+1. [[088_vanishing_gradient_relu_skip_connection|기울기 소실]]은 **속삭임 전화 게임**이야. 30명이 순서대로 전달하면 마지막엔 아무 소리도 안 들려.
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -191,4 +191,4 @@ Softmax (출력층): 다중 클래스 확률 분포
 역전파 + Chain Rule → Autograd (자동 미분)
 ```
 2. ReLU는 **양수면 그대로 전달하고, 음수면 0으로 만드는 간단한 규칙**이야. 이 덕분에 신호가 소리치듯 전달돼.
-3. 소프트맥스는 **시험 점수를 퍼센트로 바꾸는 것**이야. 모든 답의 확률을 더하면 100%가 되니까 "이게 고양이일 확률이 70%야"라고 말할 수 있어.
+3. [[270_softmax|소프트맥스]]는 **시험 점수를 퍼센트로 바꾸는 것**이야. 모든 답의 [[130_probability|확률]]을 더하면 100%가 되니까 "이게 고양이일 [[130_probability|확률]]이 70%야"라고 말할 수 있어.

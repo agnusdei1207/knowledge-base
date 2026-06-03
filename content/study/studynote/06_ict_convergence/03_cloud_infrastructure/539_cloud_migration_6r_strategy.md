@@ -8,29 +8,29 @@ categories = "studynote-ict-convergence"
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 클라우드 마이그레이션 6R 전략은 각 애플리케이션의 비즈니스 가치, 기술 부채, 클라우드 친화성을 기준으로 최적의 이전 경로를 선택하는 의사결정 프레임워크다.
-> 2. **가치**: Rehost(빠른 이전)에서 Refactor(최고 최적화)까지 비용-효과 스펙트럼이 명확하여, 전체 포트폴리오를 경제적으로 분류할 수 있다.
-> 3. **판단 포인트**: 모든 시스템을 Refactor(재설계)하는 것이 이상적이지만, 비용과 시간 제약에서 Rehost와 Replatform으로 빠른 클라우드 이전 효과를 먼저 확보하는 것이 현실적이다.
+> 1. **본질**: 클라우드 마이그레이션 6R [[268_strategy_pattern|전략]]은 각 애플리케이션의 비즈니스 가치, [[100_technical_debt_monitoring_release_policy|기술 부채]], 클라우드 친화성을 기준으로 최적의 이전 경로를 선택하는 의사결정 프레임워크다.
+> 2. **가치**: Rehost(빠른 이전)에서 [[213_refactoring_cloud_native_rearchitecture|Refactor]](최고 최적화)까지 비용-효과 스펙트럼이 명확하여, 전체 포트폴리오를 경제적으로 분류할 수 있다.
+> 3. **판단 포인트**: 모든 시스템을 [[213_refactoring_cloud_native_rearchitecture|Refactor]](재설계)하는 것이 이상적이지만, 비용과 시간 제약에서 Rehost와 Replatform으로 빠른 클라우드 이전 효과를 먼저 확보하는 것이 현실적이다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-기업이 온프레미스(On-Premises) 시스템을 클라우드로 이전할 때, 수백~수천 개의 애플리케이션을 동일한 방식으로 이전하는 것은 비효율적이다. AWS의 Gartner(가트너)가 정의한 **6R 프레임워크**는 각 애플리케이션의 특성에 맞는 최적 이전 전략을 제시한다.
+기업이 [[061_on_premise_legacy_infrastructure|온프레미스]](On-Premises) 시스템을 클라우드로 이전할 때, 수백~수천 개의 애플리케이션을 동일한 방식으로 이전하는 것은 비효율적이다. AWS의 Gartner(가트너)가 정의한 **6R 프레임워크**는 각 애플리케이션의 특성에 맞는 최적 이전 [[268_strategy_pattern|전략]]을 제시한다.
 
 **마이그레이션 필요성**:
-- 데이터센터 임대 계약 만료, 하드웨어 노후화
-- 클라우드 탄력성(Elasticity), 종량제 비용 모델 확보
-- 레거시 시스템 현대화, 기술 부채 해소
-- DevOps/클라우드 네이티브 역량 확보
+- [[801_data_center_3_tier_architecture_core_aggregation_access|데이터센터]] 임대 계약 만료, 하드웨어 노후화
+- 클라우드 [[571_resiliency_fault_tolerance_patterns|탄력성]](Elasticity), 종량제 비용 모델 확보
+- [[034_legacy_system_modernization|레거시 시스템 현대화]], [[100_technical_debt_monitoring_release_policy|기술 부채]] 해소
+- [[652_devops_calms_culture|DevOps]]/[[531_cloud_native_architecture|클라우드 네이티브]] 역량 확보
 
-- **📢 섹션 요약 비유**: 6R은 이사 전략이다 — 짐을 통째로 옮기거나(Rehost), 가구를 재배치하거나(Replatform), 새 집에 맞게 리모델링하거나(Refactor), 아예 새 가구를 사거나(Repurchase), 필요 없는 짐을 버리거나(Retire), 그냥 안 가거나(Retain).
+- **📢 섹션 요약 비유**: 6R은 이사 [[268_strategy_pattern|전략]]이다 — 짐을 통째로 옮기거나(Rehost), 가구를 재배치하거나(Replatform), 새 집에 맞게 리모델링하거나([[213_refactoring_cloud_native_rearchitecture|Refactor]]), 아예 새 가구를 사거나(Repurchase), 필요 없는 짐을 버리거나(Retire), 그냥 안 가거나(Retain).
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-**6R 전략 전체 구조**:
+**6R [[268_strategy_pattern|전략]] 전체 구조**:
 
 ```
   빠른 이전                              최고 최적화
@@ -42,21 +42,21 @@ categories = "studynote-ict-convergence"
   & Shift)  Reshape)               architect)        유지)
 ```
 
-| 전략 | 내용 | 이점 | 적합 사례 |
+| [[268_strategy_pattern|전략]] | 내용 | 이점 | 적합 사례 |
 |:---|:---|:---|:---|
-| Rehost (Lift & Shift) | 코드/DB 변경 없이 VM 그대로 이전 | 빠름, 위험 낮음 | 레거시 대용량 이전 |
-| Replatform (Lift & Reshape) | 최소 변경으로 관리형 서비스 활용 | 관리 부담 감소 | DB → RDS 전환 |
-| Repurchase | 기존 앱 폐기 후 SaaS로 전환 | 유지보수 제거 | CRM → Salesforce |
-| Refactor / Re-architect | 클라우드 네이티브로 완전 재설계 | 최고 효과 | 핵심 경쟁력 앱 |
+| Rehost ([[086_lift_association_rule_marketing|Lift]] & Shift) | 코드/DB 변경 없이 [[598_vm_migration_nic|VM]] 그대로 이전 | 빠름, 위험 낮음 | 레거시 대용량 이전 |
+| Replatform ([[086_lift_association_rule_marketing|Lift]] & Reshape) | 최소 변경으로 관리형 [[090_service_kubernetes_network_load_balancing|서비스]] 활용 | 관리 부담 감소 | DB → RDS 전환 |
+| Repurchase | 기존 앱 폐기 후 SaaS로 전환 | 유지보수 제거 | [[107_crm_customer_relationship_management|CRM]] → Salesforce |
+| [[213_refactoring_cloud_native_rearchitecture|Refactor]] / Re-architect | [[531_cloud_native_architecture|클라우드 네이티브]]로 완전 재설계 | 최고 효과 | 핵심 경쟁력 앱 |
 | Retire | 사용 안 되는 앱 폐기 | 비용 절감 | 중복/유휴 시스템 |
-| Retain | 온프레미스 현행 유지 | 안정성 유지 | 규제, 레이턴시 요구 |
+| Retain | [[061_on_premise_legacy_infrastructure|온프레미스]] 현행 유지 | 안정성 유지 | 규제, 레이턴시 요구 |
 
-**의사결정 트리**:
+**[[124_decision_tree|의사결정 트리]]**:
 1. 앱이 더 이상 필요한가? → NO: Retire
 2. 클라우드 이전이 적합한가? → NO: Retain
 3. 완제품 SaaS가 있는가? → YES: Repurchase
-4. 핵심 경쟁력 앱이고 클라우드 최적화 가치가 있는가? → YES: Refactor
-5. 관리형 서비스로 최소 변경 가능한가? → YES: Replatform
+4. 핵심 경쟁력 앱이고 클라우드 최적화 가치가 있는가? → YES: [[213_refactoring_cloud_native_rearchitecture|Refactor]]
+5. 관리형 [[090_service_kubernetes_network_load_balancing|서비스]]로 최소 변경 가능한가? → YES: Replatform
 6. 나머지: Rehost
 
 - **📢 섹션 요약 비유**: Refactor는 집을 최신 스마트홈으로 전면 리모델링하는 것, Rehost는 가구 배치도 안 바꾸고 그냥 이사하는 것, Retain은 이사 자체를 안 하는 것이다.
@@ -65,19 +65,19 @@ categories = "studynote-ict-convergence"
 
 ## Ⅲ. 비교 및 연결
 
-**Rehost vs Refactor 비교**:
+**Rehost vs [[213_refactoring_cloud_native_rearchitecture|Refactor]] 비교**:
 
-| 구분 | Rehost | Refactor |
+| 구분 | Rehost | [[213_refactoring_cloud_native_rearchitecture|Refactor]] |
 |:---|:---|:---|
 | 소요 시간 | 짧음 (주~월) | 김 (월~년) |
 | 비용 | 낮음 | 높음 |
-| 클라우드 혜택 | 제한적 (자원 탄력성만) | 완전 (서버리스, 오토스케일, 관리형 서비스) |
-| 기술 부채 | 유지 | 해소 |
-| 리스크 | 낮음 | 중간~높음 |
+| 클라우드 혜택 | 제한적 (자원 [[571_resiliency_fault_tolerance_patterns|탄력성]]만) | 완전 ([[206_serverless_cold_start|서버리스]], 오토스케일, 관리형 [[090_service_kubernetes_network_load_balancing|서비스]]) |
+| [[100_technical_debt_monitoring_release_policy|기술 부채]] | 유지 | 해소 |
+| [[096_risk_non_risk_architecture_evaluation_flaws|리스크]] | 낮음 | 중간~높음 |
 
-**7R(최신 버전)**: Relocate(Hypervisor 수준 이전)를 추가한 확장 버전. AWS VMware Cloud로 VMware 워크로드를 그대로 이전하는 경우.
+**7R(최신 [[288_version_ihl_tos_total_length|버전]])**: Relocate([[054_hypervisor|Hypervisor]] 수준 이전)를 추가한 확장 [[288_version_ihl_tos_total_length|버전]]. AWS VMware Cloud로 VMware 워크로드를 그대로 이전하는 경우.
 
-**마이그레이션 파동(Wave) 접근법**: 전체 앱 포트폴리오를 3~5개 파동으로 나누어 이전. 1파동: 비핵심 앱(Rehost), 2파동: 중요 앱(Replatform), 3파동: 핵심 앱(Refactor) 순서.
+**마이그레이션 파동([[590_wave_ieee_802_11p_dsrc_v2x|Wave]]) 접근법**: 전체 앱 포트폴리오를 3~5개 파동으로 나누어 이전. 1파동: 비핵심 앱(Rehost), 2파동: 중요 앱(Replatform), 3파동: 핵심 앱([[213_refactoring_cloud_native_rearchitecture|Refactor]]) 순서.
 
 - **📢 섹션 요약 비유**: 마이그레이션 파동은 군대 이동과 같다 — 선발대(비핵심 앱)가 먼저 이동하여 기지를 설치하고, 본대(핵심 앱)는 안전이 확보된 후 이동한다.
 
@@ -86,17 +86,17 @@ categories = "studynote-ict-convergence"
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 **기술사 시험 판단 포인트**:
-1. 6R을 비용-효과 스펙트럼으로 설명하고, 각 전략의 적합 기준(비즈니스 가치, 기술 복잡도, 마이그레이션 리스크)을 제시한다.
+1. 6R을 비용-효과 스펙트럼으로 설명하고, 각 [[268_strategy_pattern|전략]]의 적합 기준(비즈니스 가치, 기술 복잡도, 마이그레이션 [[096_risk_non_risk_architecture_evaluation_flaws|리스크]])을 제시한다.
 2. 모든 앱을 Refactor하지 않고 포트폴리오를 분류하는 현실적 이유(비용, 시간)를 설명한다.
-3. "Quick Win" — Rehost로 빠른 클라우드 이전 효과를 먼저 보여주고 신뢰를 확보하는 전략을 언급한다.
+3. "Quick Win" — Rehost로 빠른 클라우드 이전 효과를 먼저 보여주고 신뢰를 확보하는 [[268_strategy_pattern|전략]]을 언급한다.
 
 **실무 시나리오**: 제조업 기업의 50개 앱 클라우드 이전 —
-- ERP(SAP): Retain (벤더 계약, 레이턴시 요구)
-- 구 사내 게시판: Retire (대체 SaaS 사용)
-- HR 시스템: Repurchase (WorkDay SaaS 전환)
+- [[081_erp_enterprise_resource_planning|ERP]](SAP): Retain (벤더 계약, 레이턴시 요구)
+- 구 사내 게시판: Retire (대체 [[309_saas|SaaS]] 사용)
+- HR 시스템: Repurchase (WorkDay [[309_saas|SaaS]] 전환)
 - 생산 모니터링: Rehost (빠른 이전 우선)
-- 물류 최적화 AI: Refactor (클라우드 ML 서비스 활용, 경쟁력 핵심)
-- 배치 리포팅 서버: Replatform (EC2 → Lambda 전환, 최소 변경)
+- 물류 최적화 [[190_ai_llm_requirements_specification|AI]]: [[213_refactoring_cloud_native_rearchitecture|Refactor]] (클라우드 ML [[090_service_kubernetes_network_load_balancing|서비스]] 활용, 경쟁력 핵심)
+- 배치 리포팅 서버: Replatform (EC2 → [[216_lambda_kappa_architecture_batch_realtime|Lambda]] 전환, 최소 변경)
 
 - **📢 섹션 요약 비유**: 6R 분류는 이사할 때 짐을 정리하는 것이다 — 자주 쓰는 것(Rehost), 버릴 것(Retire), 새 것으로 살 것(Repurchase)을 먼저 분류해야 이사가 효율적이다.
 
@@ -104,11 +104,11 @@ categories = "studynote-ict-convergence"
 
 ## Ⅴ. 기대효과 및 결론
 
-6R 기반 전략적 마이그레이션의 기대 효과:
+6R 기반 [[268_strategy_pattern|전략]]적 마이그레이션의 기대 효과:
 - **비용 최적화**: Retire/Retain으로 불필요한 클라우드 지출 사전 차단
-- **리스크 분산**: 파동별 이전으로 전체 중단 리스크 최소화
-- **클라우드 네이티브 전환**: Refactor로 핵심 앱의 탄력성, 확장성 확보
-- **운영 단순화**: Repurchase(SaaS)로 유지보수 부담 이전
+- **[[096_risk_non_risk_architecture_evaluation_flaws|리스크]] [[136_variance|분산]]**: 파동별 이전으로 전체 중단 [[096_risk_non_risk_architecture_evaluation_flaws|리스크]] 최소화
+- **[[531_cloud_native_architecture|클라우드 네이티브]] 전환**: Refactor로 핵심 앱의 [[571_resiliency_fault_tolerance_patterns|탄력성]], 확장성 확보
+- **운영 단순화**: Repurchase([[309_saas|SaaS]])로 유지보수 부담 이전
 
 클라우드 마이그레이션은 기술 프로젝트인 동시에 **비즈니스 변환 프로젝트**이며, 6R 프레임워크는 이 두 관점을 연결하는 공통 언어다.
 
@@ -120,11 +120,11 @@ categories = "studynote-ict-convergence"
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| IaaS / PaaS / SaaS | 클라우드 서비스 모델, 관리 부담 · 499 |
-| IaC (Infrastructure as Code) | Terraform, 마이그레이션 자동화 · 504 |
-| 클라우드 네이티브 (Cloud Native) | Refactor, MSA, 컨테이너 · 501 |
-| FinOps | 마이그레이션 비용 관리, TCO 분석 · 500 |
-| SDDC (Software Defined Data Center) | 온프레미스 현대화, Retain 대안 · 540 |
+| [[183_iaas_infrastructure_as_a_service|IaaS]] / [[184_paas_platform_as_a_service|PaaS]] / [[309_saas|SaaS]] | [[201_cloud_service_models_iaas_paas_saas|클라우드 서비스 모델]], 관리 부담 · 499 |
+| [[793_iac_idempotency_template|IaC]] ([[062_infrastructure_as_code|Infrastructure as Code]]) | [[195_terraform_hashicorp_agnostic_aws_gcp|Terraform]], 마이그레이션 자동화 · 504 |
+| [[531_cloud_native_architecture|클라우드 네이티브]] ([[199_cloud_native_architecture_msa_cicd_devops|Cloud Native]]) | [[213_refactoring_cloud_native_rearchitecture|Refactor]], [[619_msa_traffic_hardware|MSA]], [[561_container_based_deployment|컨테이너]] · 501 |
+| [[344_finops|FinOps]] | 마이그레이션 비용 관리, [[016_tco|TCO]] 분석 · 500 |
+| [[631_sddc|SDDC]] (Software Defined [[801_data_center_3_tier_architecture_core_aggregation_access|Data Center]]) | [[061_on_premise_legacy_infrastructure|온프레미스]] 현대화, Retain 대안 · 540 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 

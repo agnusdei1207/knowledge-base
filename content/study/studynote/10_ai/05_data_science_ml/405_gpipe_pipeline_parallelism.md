@@ -8,20 +8,20 @@ categories = "studynote-ai"
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: GPipe는 거대 신경망 모델을 여러 개의 레이어 묶음으로 나누어 서로 다른 가속기(GPU)에 배치하고, 데이터를 미세 배치(Micro-batch) 단위로 쪼개어 동시에 처리하는 파이프라인 병렬화(Pipeline Parallelism) 기법이다.
-> 2. **가치**: 단일 GPU 메모리 용량을 초과하는 초거대 모델을 학습 가능하게 하며, 마이크로 배치를 통한 병렬 실행으로 GPU 유휴 시간(Bubble)을 최소화하여 학습 처리량(Throughput)을 극대화한다.
-> 3. **판단 포인트**: 파이프라인의 깊이가 깊어질수록 동기화 대기 시간(Bubble)이 성능의 병목이 되므로, 최적의 마이크로 배치 개수와 레이어 분할 전략을 결정하는 것이 핵심이다.
+> 1. **본질**: GPipe는 거대 신경망 모델을 여러 개의 레이어 묶음으로 나누어 서로 다른 가속기([[418_gpu|GPU]])에 배치하고, [[001_dikw_pyramid|데이터]]를 미세 배치(Micro-batch) 단위로 쪼개어 동시에 처리하는 [[123_pipe|파이프]]라인 [[430_index_fast_full_scan|병렬]]화([[082_pipeline|Pipeline]] Parallelism) 기법이다.
+> 2. **가치**: 단일 [[418_gpu|GPU]] 메모리 용량을 초과하는 초거대 모델을 학습 가능하게 하며, 마이크로 배치를 통한 [[430_index_fast_full_scan|병렬]] 실행으로 [[418_gpu|GPU]] 유휴 시간(Bubble)을 최소화하여 학습 [[139_throughput|처리량]]([[139_throughput|Throughput]])을 극대화한다.
+> 3. **판단 포인트**: [[123_pipe|파이프]]라인의 깊이가 깊어질수록 [[212_synchronization_mechanisms|동기화]] 대기 시간(Bubble)이 [[282_performance_tactics|성능]]의 병목이 되므로, 최적의 마이크로 배치 개수와 레이어 분할 [[268_strategy_pattern|전략]]을 결정하는 것이 핵심이다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-모델 파라미터가 수천억 개에 달하는 초거대 AI 시대에 단일 GPU의 메모리는 턱없이 부족하다. 이를 해결하기 위해 모델을 쪼개어 여러 GPU에 나누어 담아야 하는데, 단순한 분할은 한 GPU가 일할 때 다른 GPU는 노는 비효율을 초래한다. GPipe는 공장의 조립 라인 시스템을 도입하여 이 문제를 해결한다.
+모델 파라미터가 수천억 개에 달하는 초거대 [[190_ai_llm_requirements_specification|AI]] 시대에 단일 GPU의 메모리는 턱없이 부족하다. 이를 해결하기 위해 모델을 쪼개어 여러 GPU에 나누어 담아야 하는데, 단순한 분할은 한 GPU가 일할 때 다른 GPU는 노는 비효율을 초래한다. GPipe는 공장의 조립 라인 시스템을 도입하여 이 문제를 해결한다.
 
 **필요성**:
 - **거대 모델 수용**: 수천억 개의 파라미터를 가진 모델을 여러 GPU의 메모리에 나누어 저장하여 물리적 한계 돌파
-- **학습 효율화**: 데이터 병렬화(Data Parallelism)와 결합하여 대규모 클러스터에서의 학습 속도 향상
-- **재연 가능성**: 복잡한 병렬화 속에서도 수학적으로 동일한 그래디언트 계산 결과 보장
+- **학습 효율화**: [[001_dikw_pyramid|데이터]] [[430_index_fast_full_scan|병렬]]화([[001_dikw_pyramid|Data]] Parallelism)와 결합하여 대규모 클러스터에서의 학습 속도 향상
+- **재연 가능성**: 복잡한 [[430_index_fast_full_scan|병렬]]화 속에서도 수학적으로 동일한 그래디언트 계산 결과 보장
 
 ```text
 ┌──────────────────────────────────────────────┐
@@ -38,12 +38,12 @@ categories = "studynote-ai"
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-GPipe는 모델을 수직으로 분할하고, 입력을 수평으로 분할하여 2차원적인 병렬화를 수행한다.
+GPipe는 모델을 수직으로 분할하고, 입력을 수평으로 분할하여 2차원적인 [[430_index_fast_full_scan|병렬]]화를 수행한다.
 
 | 기술 요소 | 설명 | 특징 |
 |:---|:---|:---|
-| **Pipeline Partitioning** | 모델 레이어를 연속적인 묶음으로 나누어 각 GPU에 할당 | 네트워크 통신 오버헤드 고려 필요 |
-| **Micro-batching** | 하나의 배치(Mini-batch)를 더 작은 단위(Micro-batch)로 분할 | 파이프라인 가동률 향상의 핵심 |
+| **[[082_pipeline|Pipeline]] [[179_table_partitioning_concept|Partitioning]]** | 모델 레이어를 연속적인 묶음으로 나누어 각 GPU에 할당 | 네트워크 통신 오버헤드 고려 필요 |
+| **Micro-[[389_bulk_insert_batching_optimization|batching]]** | 하나의 배치(Mini-batch)를 더 작은 단위(Micro-batch)로 분할 | [[123_pipe|파이프]]라인 가동률 향상의 핵심 |
 | **Re-materialization** | 메모리 절약을 위해 중간 활성 값을 저장하지 않고 필요 시 재계산 | 메모리 사용량과 연산 시간의 트레이드오프 |
 
 ```text
@@ -63,37 +63,37 @@ GPipe는 모델을 수직으로 분할하고, 입력을 수평으로 분할하�
 ```
 
 **동작 메커니즘**:
-1. **Forward Pass**: 첫 번째 GPU가 첫 마이크로 배치를 연산하여 다음 GPU로 넘기고, 바로 두 번째 마이크로 배치를 연산하기 시작한다.
-2. **Backward Pass**: 모든 마이크로 배치의 순전파가 끝나면 역순으로 역전파를 수행하며 그래디언트를 누적한다.
-3. **Weight Update**: 한 주기가 끝나면 누적된 그래디언트로 가중치를 한 번에 업데이트한다.
+1. **[[235_forward_backward_chaining|Forward]] Pass**: 첫 번째 GPU가 첫 마이크로 배치를 연산하여 다음 GPU로 넘기고, 바로 두 번째 마이크로 배치를 연산하기 시작한다.
+2. **Backward Pass**: 모든 마이크로 배치의 [[271_forward_propagation|순전파]]가 끝나면 역순으로 [[272_backpropagation|역전파]]를 수행하며 그래디언트를 누적한다.
+3. **[[267_weight_bias_activation|Weight]] Update**: 한 주기가 끝나면 누적된 그래디언트로 [[267_weight_bias_activation|가중치]]를 한 번에 업데이트한다.
 
-- **📢 섹션 요약 비유**: 앞 사람이 작업을 끝내야 뒷 사람이 시작할 수 있지만, 물건(데이터)을 작게 쪼개서 계속 넘겨주면(Micro-batch) 모두가 쉴 틈 없이 계속 일하게 되는 원리다.
+- **📢 섹션 요약 비유**: 앞 사람이 작업을 끝내야 뒷 사람이 시작할 수 있지만, 물건([[001_dikw_pyramid|데이터]])을 작게 쪼개서 계속 넘겨주면(Micro-batch) 모두가 쉴 틈 없이 계속 일하게 되는 원리다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-| 항목 | 데이터 병렬화 (DP) | 모델 병렬화 (Tensor) | 파이프라인 병렬화 (GPipe) |
+| 항목 | [[001_dikw_pyramid|데이터]] [[430_index_fast_full_scan|병렬]]화 (DP) | 모델 [[430_index_fast_full_scan|병렬]]화 (Tensor) | [[123_pipe|파이프]]라인 [[430_index_fast_full_scan|병렬]]화 (GPipe) |
 |:---|:---|:---|:---|
-| 분할 기준 | 데이터 (Samples) | 연산 (Operations) | 레이어 (Layers) |
-| 통신 시점 | 그래디언트 동기화 시 | 모든 레이어 연산 시 | 레이어 경계 통과 시 |
+| 분할 기준 | [[001_dikw_pyramid|데이터]] (Samples) | 연산 (Operations) | 레이어 (Layers) |
+| 통신 시점 | 그래디언트 [[212_synchronization_mechanisms|동기화]] 시 | 모든 레이어 연산 시 | 레이어 경계 통과 시 |
 | 주요 장점 | 구현이 매우 쉬움 | 메모리 절약 극대화 | 큰 모델을 효율적으로 처리 |
 
-GPipe는 이후 405번의 **DeepSpeed**나 **Megatron-LM** 같은 고도화된 병렬 학습 프레임워크의 기초가 된다.
+GPipe는 이후 405번의 **DeepSpeed**나 **Megatron-LM** 같은 고도화된 [[430_index_fast_full_scan|병렬]] 학습 프레임워크의 기초가 된다.
 
-- **📢 섹션 요약 비유**: 데이터 병렬화가 같은 요리를 여러 명이 각자 만드는 것이라면, 파이프라인 병렬화는 코스 요리를 각 파트별로 나누어 전문적으로 조리하는 분업 시스템이다.
+- **📢 섹션 요약 비유**: [[001_dikw_pyramid|데이터]] [[430_index_fast_full_scan|병렬]]화가 같은 요리를 여러 명이 각자 만드는 것이라면, [[123_pipe|파이프]]라인 [[430_index_fast_full_scan|병렬]]화는 코스 요리를 각 파트별로 나누어 전문적으로 조리하는 분업 시스템이다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 ### 실무 고려 사항
-1. **Bubble Overhead**: 마이크로 배치의 수가 적으면 파이프라인의 시작과 끝에서 GPU가 노는 '버블' 시간이 길어진다. (보통 GPU 개수의 4배 이상 설정 권장)
-2. **통신 대역폭**: GPU 간 데이터 전송(P2P Communication) 속도가 전체 학습 속도를 좌우하므로 NVLink 같은 고속 인터커넥트 활용이 필수적이다.
+1. **Bubble Overhead**: 마이크로 배치의 수가 적으면 [[123_pipe|파이프]]라인의 시작과 끝에서 GPU가 노는 '버블' 시간이 길어진다. (보통 [[418_gpu|GPU]] 개수의 4배 이상 [[009_config|설정]] 권장)
+2. **통신 [[140_bandwidth|대역폭]]**: [[418_gpu|GPU]] 간 [[001_dikw_pyramid|데이터]] 전송([[916_p2p_peer_to_peer_networking_super_node_gnutella|P2P]] Communication) 속도가 전체 학습 속도를 좌우하므로 NVLink 같은 고속 인터커넥트 활용이 필수적이다.
 3. **레이어 균형**: 각 GPU에 할당된 레이어들의 연산 시간이 비슷해야 특정 GPU에서 정체가 발생하는 '병목 현상'을 막을 수 있다.
 
 ### 기술사 판단 포인트
-- GPipe는 메모리 효율성을 위해 **체크포인팅(Checkpointing)** 기술을 필수적으로 사용한다. 이는 모든 중간 값을 저장하는 대신 역전파 시점에 다시 계산함으로써 메모리를 1/N로 줄이는 대신 연산량을 약 33% 증가시키는 전략적 선택임을 명시해야 한다.
+- GPipe는 메모리 효율성을 위해 **[[071_checkpointing|체크포인팅]]([[071_checkpointing|Checkpointing]])** 기술을 필수적으로 사용한다. 이는 모든 중간 값을 저장하는 대신 [[272_backpropagation|역전파]] 시점에 다시 계산함으로써 메모리를 1/N로 줄이는 대신 연산량을 약 33% 증가시키는 [[268_strategy_pattern|전략]]적 선택임을 명시해야 한다.
 
 - **📢 섹션 요약 비유**: 공장 라인에서 한 사람이 너무 느리면 전체 라인이 멈춘다. 모두가 비슷한 속도로 일할 수 있게 업무(레이어)를 공평하게 나눠주는 것이 관리자의 능력이다.
 
@@ -103,7 +103,7 @@ GPipe는 이후 405번의 **DeepSpeed**나 **Megatron-LM** 같은 고도화된 �
 
 GPipe는 초거대 언어 모델 학습의 기술적 한계를 극복하고 모델의 크기를 무한정 확장할 수 있는 토대를 마련했다.
 
-최근에는 순차적 파이프라인을 넘어 양방향으로 데이터를 흘려보내는 **PipeDream**이나 효율적인 스케줄링을 지원하는 **FlashAttention** 등과 결합하여 더욱 진화하고 있다. 결국 AI의 성능은 '얼마나 효율적으로 GPU 자원을 쥐어짜느냐'에 달려 있으며, GPipe는 그 최전선에 있는 기술이다.
+최근에는 순차적 [[123_pipe|파이프]]라인을 넘어 양방향으로 [[001_dikw_pyramid|데이터]]를 흘려보내는 **PipeDream**이나 효율적인 [[208_schedule_history_transaction_execution_order|스케줄]]링을 지원하는 **FlashAttention** 등과 결합하여 더욱 진화하고 있다. 결국 AI의 [[282_performance_tactics|성능]]은 '얼마나 효율적으로 [[418_gpu|GPU]] 자원을 쥐어짜느냐'에 달려 있으며, GPipe는 그 최전선에 있는 기술이다.
 
 - **📢 섹션 요약 비유**: GPipe는 인류가 피라미드를 쌓을 때처럼, 거대한 작업을 작은 조각으로 나누어 수많은 일꾼이 함께 완성해 나가는 장대한 협업의 미학이다.
 
@@ -113,10 +113,10 @@ GPipe는 초거대 언어 모델 학습의 기술적 한계를 극복하고 모�
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| Pipeline Bubble | 최적화 대상 / 파이프라인 구조상 발생하는 GPU의 유휴 시간 |
-| Micro-batch | 핵심 도구 / 데이터를 작게 쪼개어 병렬성을 높이는 단위 |
+| [[082_pipeline|Pipeline]] Bubble | 최적화 대상 / [[123_pipe|파이프]]라인 구조상 발생하는 GPU의 유휴 시간 |
+| Micro-batch | 핵심 도구 / [[001_dikw_pyramid|데이터]]를 작게 쪼개어 [[430_index_fast_full_scan|병렬]]성을 높이는 단위 |
 | Rematerialization | 메모리 기법 / 메모리 부족 시 연산을 다시 수행하여 값을 복원 |
-| ZeRO (Zero Redundancy Optimizer) | 경쟁/보완 / 가중치와 상태를 분산하여 메모리를 극단적으로 아끼는 기술 |
+| [[585_zero_skipping|ZeRO]] ([[334_vram_zero_optimizer|Zero Redundancy Optimizer]]) | 경쟁/보완 / [[267_weight_bias_activation|가중치]]와 상태를 [[136_variance|분산]]하여 메모리를 극단적으로 아끼는 기술 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 

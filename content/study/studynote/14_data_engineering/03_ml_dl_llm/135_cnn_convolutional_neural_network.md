@@ -7,9 +7,9 @@ categories = "studynote-dataengineering"
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: CNN은 **합성곱(Convolution) 연산으로 입력의 지역적 패턴(엣지·텍스처·형태)을 계층적으로 추출**하는 신경망이며, 이미지·영상 처리의 핵심 아키텍처이다.
-> 2. **가치**: 전결합층(FC)은 이미지를 1D로 펼쳐 공간 정보를 잃지만, CNN은 **2D 구조를 유지하며 파라미터를 공유(가중치 공유)**하여 효율적으로 학습한다.
-> 3. **판단 포인트**: Conv→ReLU→Pool의 반복이 기본 구조이며, AlexNet→VGGNet→ResNet→EfficientNet의 발전과 함께 Vision Transformer(ViT)가 대안으로 부상했다.
+> 1. **본질**: CNN은 **[[228_cnn_1d_2d_3d_video_medical|합성곱]]([[284_convolution_stride_padding|Convolution]]) 연산으로 입력의 지역적 패턴(엣지·텍스처·형태)을 계층적으로 추출**하는 신경망이며, 이미지·영상 처리의 핵심 아키텍처이다.
+> 2. **가치**: 전결합층([[696_fibre_channel_protocol|FC]])은 이미지를 1D로 펼쳐 공간 정보를 잃지만, CNN은 **2D 구조를 유지하며 파라미터를 공유([[267_weight_bias_activation|가중치]] 공유)**하여 효율적으로 학습한다.
+> 3. **판단 포인트**: Conv→[[269_relu_activation|ReLU]]→Pool의 반복이 기본 구조이며, AlexNet→VGGNet→[[287_resnet_skip_connection|ResNet]]→EfficientNet의 발전과 함께 Vision [[246_transformer_self_attention_parallel_positional_encoding|Transformer]](ViT)가 대안으로 부상했다.
 
 ---
 
@@ -36,11 +36,11 @@ CNN은 **컴퓨터 비전의 기본 아키텍처**이며, ResNet의 Skip Connect
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **Conv** | 합성곱 (패턴 추출) |
+| **Conv** | [[228_cnn_1d_2d_3d_video_medical|합성곱]] (패턴 추출) |
 | **Pool** | 다운샘플링 |
-| **ResNet** | Skip Connection |
-| **EfficientNet** | 효율적 스케일링 |
-| **ViT** | Vision Transformer (대안) |
+| **[[287_resnet_skip_connection|ResNet]]** | Skip Connection |
+| **EfficientNet** | 효율적 [[249_scaling_normalization_standardization|스케일링]] |
+| **ViT** | Vision [[246_transformer_self_attention_parallel_positional_encoding|Transformer]] (대안) |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -54,4 +54,4 @@ CNN은 **컴퓨터 비전의 기본 아키텍처**이며, ResNet의 Skip Connect
 ### 👶 어린이를 위한 3줄 비유 설명
 1. CNN은 **돋보기로 그림의 부분**을 하나씩 살펴보는 거예요.
 2. 먼저 **선(엣지)**을 찾고, 다음에 **모양(형태)**, 마지막에 **물체(고양이!)**를 인식해요.
-3. 사진 인식·얼굴 인식 등 **눈(비전) 관련 AI**의 핵심이에요!
+3. 사진 인식·얼굴 인식 등 **눈(비전) 관련 [[190_ai_llm_requirements_specification|AI]]**의 핵심이에요!

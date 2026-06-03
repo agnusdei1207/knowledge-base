@@ -8,19 +8,19 @@ tags = ["Database", "Schema", "Internal Schema", "ANSI-SPARC", "Storage", "Index
 categories = ["studynote-database"]
 +++
 
-# 내부 스키마 (Internal Schema)
+# 내부 [[005_schema|스키마]] (Internal [[505_schema|Schema]])
 #### 핵심 인사이트 (3줄 요약)
-> 1. **본질**: 데이터베이스 3단계 아키텍처 중 최하위 계층으로, 논리적인 데이터가 실제 디스크(물리적 저장 장치)에 어떻게 저장될지 명세하는 구조입니다.
-> 2. **가치**: 데이터 블록 크기, 압축 알고리즘, 인덱싱 구조 등을 정의하여 시스템의 I/O 응답 속도와 스토리지 효율을 극대화합니다.
-> 3. **융합**: 운영체제(OS)의 파일 시스템 관리, 블록 스토리지 아키텍처 및 B-Tree 자료구조 알고리즘과 직접적으로 맞물려 동작합니다.
+> 1. **본질**: [[002_database_definition|데이터베이스]] 3단계 아키텍처 중 최하위 계층으로, [[369_logic_bomb|논리]]적인 [[001_dikw_pyramid|데이터]]가 실제 디스크(물리적 저장 장치)에 어떻게 저장될지 명세하는 구조입니다.
+> 2. **가치**: [[001_dikw_pyramid|데이터]] 블록 크기, [[347_compaction|압축]] [[001_algorithm_definition|알고리즘]], 인덱싱 구조 등을 정의하여 시스템의 I/O 응답 속도와 스토리지 효율을 극대화합니다.
+> 3. **융합**: [[001_operating_system_purpose|운영체제]](OS)의 [[501_file_definition_logical_record|파일]] 시스템 관리, 블록 스토리지 아키텍처 및 [[064_b_tree|B-Tree]] 자료구조 [[001_algorithm_definition|알고리즘]]과 직접적으로 맞물려 동작합니다.
 
 ---
 
-### Ⅰ. 개요 및 필요성 (Context & Necessity)
-내부 스키마 (Internal Schema)는 시스템 엔지니어나 물리적 데이터베이스 설계자 관점에서 데이터가 저장 장치에 실제로 표현되는 방식을 정의합니다. 사용자와 응용 프로그램은 테이블(개념 스키마)이라는 2차원 표만 인식하지만, 컴퓨터의 디스크 드라이브는 2차원 표를 이해하지 못하고 연속된 비트(Bit)와 블록(Block)의 스트림만을 처리합니다.
-내부 스키마는 이 논리적 표를 디스크의 실린더, 트랙, 섹터, 페이지 단위로 어떻게 배치할 것인지 결정합니다. 대용량 트랜잭션이 발생하는 현대 시스템에서는, 아무리 논리 스키마(정규화)가 잘 되어 있어도 디스크 I/O 병목을 해결하지 못하면 시스템이 멈춰버립니다. 따라서 레코드의 물리적 배치 순서, 압축, 암호화, 인덱스 자료구조 등을 다루는 내부 스키마의 최적화는 전체 데이터베이스 성능을 좌우하는 결정적 요인입니다.
+### Ⅰ. 개요 및 필요성 ([[033_context|Context]] & Necessity)
+내부 [[005_schema|스키마]] (Internal [[505_schema|Schema]])는 시스템 엔지니어나 물리적 [[027_database_designer|데이터베이스 설계자]] 관점에서 [[001_dikw_pyramid|데이터]]가 저장 장치에 실제로 표현되는 방식을 정의합니다. 사용자와 응용 프로그램은 테이블([[008_conceptual_schema|개념 스키마]])이라는 2차원 표만 인식하지만, 컴퓨터의 디스크 드라이브는 2차원 표를 이해하지 못하고 연속된 [[073_bit|비트]]([[086_fenwick_tree|Bit]])와 블록(Block)의 스트림만을 처리합니다.
+내부 [[005_schema|스키마]]는 이 [[369_logic_bomb|논리]]적 표를 디스크의 실린더, 트랙, 섹터, [[286_page_frame|페이지]] 단위로 어떻게 배치할 것인지 결정합니다. 대용량 [[191_transaction_concept_states|트랜잭션]]이 발생하는 현대 시스템에서는, 아무리 [[369_logic_bomb|논리]] [[005_schema|스키마]]([[093_normalization|정규화]])가 잘 되어 있어도 디스크 I/O 병목을 해결하지 못하면 시스템이 멈춰버립니다. 따라서 레코드의 물리적 배치 순서, [[347_compaction|압축]], 암호화, [[154_database_index_b_tree_search_optimization|인덱스]] 자료구조 등을 다루는 내부 [[005_schema|스키마]]의 최적화는 전체 [[002_database_definition|데이터베이스]] [[282_performance_tactics|성능]]을 좌우하는 결정적 요인입니다.
 
-아래 그림은 논리적 테이블이 내부 스키마를 거쳐 물리적 스토리지로 매핑되는 계층 구조를 보여줍니다.
+아래 그림은 [[369_logic_bomb|논리]]적 테이블이 내부 [[005_schema|스키마]]를 거쳐 물리적 스토리지로 매핑되는 계층 구조를 보여줍니다.
 ```text
 [개념 스키마]    Employee 테이블 (Row & Column)
                        ↓ (개념/내부 사상)
@@ -33,22 +33,22 @@ categories = ["studynote-database"]
                        ↓ (OS 파일 시스템 매핑)
 [물리 저장소]    Data File 1 (Extent -> Block -> OS Page -> HDD/SSD)
 ```
-이 도식에서 핵심은 내부 스키마가 논리적 데이터(Employee)를 운영체제가 이해할 수 있는 파일/블록 구조로 '번역'하고 '포장'하는 역할을 수행한다는 점입니다. 개념 스키마는 하나지만, DBA는 성능 향상을 위해 테이블을 여러 개의 물리 파일로 분할하거나(파티셔닝), 인덱스를 추가하는 등 내부 스키마를 자유롭게 재구성할 수 있습니다. 이것이 물리적 데이터 독립성(Physical Data Independence)의 근간입니다.
+이 도식에서 핵심은 내부 [[005_schema|스키마]]가 [[369_logic_bomb|논리]]적 [[001_dikw_pyramid|데이터]](Employee)를 [[001_operating_system_purpose|운영체제]]가 이해할 수 있는 [[501_file_definition_logical_record|파일]]/블록 구조로 '번역'하고 '포장'하는 역할을 수행한다는 점입니다. [[008_conceptual_schema|개념 스키마]]는 하나지만, DBA는 [[282_performance_tactics|성능]] 향상을 위해 테이블을 여러 개의 물리 [[501_file_definition_logical_record|파일]]로 분할하거나([[179_table_partitioning_concept|파티셔닝]]), [[154_database_index_b_tree_search_optimization|인덱스]]를 추가하는 등 내부 [[005_schema|스키마]]를 자유롭게 재구성할 수 있습니다. 이것이 물리적 [[004_data_independence|데이터 독립성]](Physical [[504_data_independence|Data Independence]])의 근간입니다.
 
-📢 **섹션 요약 비유**: 물류 창고에서 서류상의 '품목 리스트(개념 스키마)'를 보고, 실제 지게차가 동선을 최소화할 수 있도록 'A구역 3번 선반 2층(내부 스키마)'에 물건을 적재하는 배치도와 같습니다.
+📢 **섹션 요약 비유**: 물류 창고에서 서류상의 '품목 리스트([[008_conceptual_schema|개념 스키마]])'를 보고, 실제 지게차가 동선을 최소화할 수 있도록 'A구역 3번 선반 2층(내부 [[005_schema|스키마]])'에 물건을 적재하는 배치도와 같습니다.
 
 ### Ⅱ. 아키텍처 및 핵심 원리 (Deep Dive)
-내부 스키마는 DBMS의 스토리지 엔진(Storage Engine, 예: InnoDB)과 버퍼 매니저를 제어하는 복잡한 파라미터들로 구성됩니다.
+내부 [[005_schema|스키마]]는 DBMS의 스토리지 엔진(Storage Engine, 예: InnoDB)과 버퍼 매니저를 제어하는 복잡한 파라미터들로 구성됩니다.
 
-| 구성 요소 | 역할 | 내부 동작 메커니즘 | 실무 매핑 (Oracle/MySQL) | 비유 |
+| 구성 요소 | 역할 | 내부 동작 메커니즘 | 실무 매핑 ([[188_pl_sql_t_sql_procedural|Oracle]]/MySQL) | 비유 |
 |:---|:---|:---|:---|:---|
-| **Tablespace & Datafile** | 논리/물리 매핑 공간 | 여러 테이블을 묶어 물리적 파일(.ibd, .dbf)에 할당 | TABLESPACE, 디스크 할당 | 거대한 서랍장 |
-| **Block / Page** | I/O의 최소 단위 | 디스크에서 메모리로 퍼올리는 기본 전송 단위 (보통 8KB~16KB) | DB_BLOCK_SIZE | 물건을 담는 규격 박스 |
+| **Tablespace & Datafile** | [[369_logic_bomb|논리]]/물리 매핑 공간 | 여러 테이블을 묶어 물리적 [[501_file_definition_logical_record|파일]](.ibd, .dbf)에 할당 | TABLESPACE, 디스크 할당 | 거대한 서랍장 |
+| **Block / [[286_page_frame|Page]]** | I/O의 최소 단위 | 디스크에서 메모리로 퍼올리는 기본 전송 단위 (보통 8KB~16KB) | DB_BLOCK_SIZE | 물건을 담는 규격 박스 |
 | **Record Format** | 행(Row) 저장 방식 | 고정/가변 길이 레코드 관리, 행 이주(Row Migration) 처리 | Row Header, Null Bitmap | 박스 내부 칸막이 |
-| **Index Structure** | 검색 경로 최적화 | B-Tree 또는 Hash 구조로 포인터(ROWID) 배열 구성 | CLUSTERED, 보조 인덱스 | 백과사전 색인 |
-| **Clustering/Partitioning** | 물리적 데이터 군집화 | 조인 속도 향상을 위해 연관 데이터를 동일 블록에 모음 | Range, Hash 파티션 | 연관 상품 묶음 진열 |
+| **[[154_database_index_b_tree_search_optimization|Index]] Structure** | 검색 경로 최적화 | [[064_b_tree|B-Tree]] 또는 Hash 구조로 포인터(ROWID) [[055_array|배열]] 구성 | CLUSTERED, 보조 [[154_database_index_b_tree_search_optimization|인덱스]] | 백과사전 색인 |
+| **[[105_clustering_analysis|Clustering]]/[[179_table_partitioning_concept|Partitioning]]** | 물리적 [[001_dikw_pyramid|데이터]] [[105_clustering_analysis|군집화]] | 조인 속도 향상을 위해 연관 [[001_dikw_pyramid|데이터]]를 동일 블록에 모음 | Range, Hash [[514_partition_slice_volume|파티션]] | 연관 상품 묶음 진열 |
 
-데이터가 디스크 블록에 물리적으로 저장되는 (내부 스키마 관점) 세부 구조는 다음과 같습니다.
+[[001_dikw_pyramid|데이터]]가 디스크 블록에 물리적으로 저장되는 (내부 [[005_schema|스키마]] 관점) 세부 구조는 다음과 같습니다.
 ```text
 ┌── DB Block (e.g., 8KB) ───────────────────────────┐
 │ [Block Header] LSN, Checksum, Transaction ID      │
@@ -61,32 +61,32 @@ categories = ["studynote-database"]
 │ [Record 1] (Col A=..., Col B=...)                 │
 └───────────────────────────────────────────────────┘
 ```
-이 구조의 핵심은 데이터 레코드가 블록의 밑바닥부터 쌓이고, 헤더 포인터는 위에서부터 내려오는 구조라는 점입니다. 중간에 있는 `Free Space`는 트랜잭션 도중 레코드 길이가 늘어날 때(Update 시) 다른 블록으로 데이터가 튕겨 나가는 현상(Row Migration)을 방지하기 위한 여유 공간입니다. DBA는 내부 스키마 설계 시 이 빈 공간의 비율(PCTFREE)을 튜닝하여 디스크 낭비와 I/O 성능 저하 사이의 타협점을 찾습니다.
+이 구조의 핵심은 [[001_dikw_pyramid|데이터]] 레코드가 블록의 밑바닥부터 쌓이고, 헤더 포인터는 위에서부터 내려오는 구조라는 점입니다. 중간에 있는 `Free Space`는 [[191_transaction_concept_states|트랜잭션]] 도중 레코드 길이가 늘어날 때(Update 시) 다른 블록으로 [[001_dikw_pyramid|데이터]]가 튕겨 나가는 현상(Row Migration)을 방지하기 위한 여유 공간입니다. DBA는 내부 [[005_schema|스키마]] 설계 시 이 빈 공간의 비율(PCTFREE)을 튜닝하여 디스크 낭비와 I/O [[282_performance_tactics|성능]] 저하 사이의 타협점을 찾습니다.
 
 📢 **섹션 요약 비유**: 이삿짐을 박스에 담을 때, 나중에 물건을 더 넣을 것을 대비해 박스 상단을 조금 비워두는(Free Space) 고도의 테트리스 작업과 같습니다.
 
 ### Ⅲ. 융합 비교 및 다각도 분석 (Comparison & Synergy)
-내부 스키마 최적화 시, 데이터 저장 방식(Row vs Column)에 따라 극명한 성능 차이가 발생합니다.
+내부 [[005_schema|스키마]] 최적화 시, [[001_dikw_pyramid|데이터]] 저장 방식(Row vs Column)에 따라 극명한 [[282_performance_tactics|성능]] 차이가 발생합니다.
 
 | 아키텍처 특성 | 로우 스토어 (Row Store) | 컬럼 스토어 (Column Store) | 트레이드오프 판단 |
 |:---|:---|:---|:---|
-| **저장 방식** | 하나의 행(Row) 데이터를 연속적으로 저장 | 같은 속성(Column) 데이터끼리 연속 저장 | **디스크 블록 배치 순서** |
-| **I/O 병목** | 특정 컬럼만 집계할 때도 전체 행을 읽어야 함 | 필요한 컬럼 블록만 읽음 (I/O 극소화) | **데이터 접근 패턴** |
-| **압축 효율** | 데이터 타입이 혼재되어 압축률 낮음 | 동일 데이터 타입 연속으로 압축률 극대화 | **스토리지 비용 절감** |
-| **최적 워크로드**| OLTP (잦은 삽입, 단건 조회) | OLAP (대용량 집계, DW, 통계) | **서비스의 목적** |
+| **저장 방식** | 하나의 행(Row) [[001_dikw_pyramid|데이터]]를 연속적으로 저장 | 같은 [[082_attribute_types_er_model|속성]](Column) [[001_dikw_pyramid|데이터]]끼리 연속 저장 | **디스크 블록 배치 순서** |
+| **I/O 병목** | 특정 컬럼만 집계할 때도 전체 행을 읽어야 함 | 필요한 컬럼 블록만 읽음 (I/O 극소화) | **[[001_dikw_pyramid|데이터]] 접근 패턴** |
+| **[[347_compaction|압축]] 효율** | [[001_dikw_pyramid|데이터]] 타입이 혼재되어 [[347_compaction|압축]]률 낮음 | 동일 [[001_dikw_pyramid|데이터]] 타입 연속으로 [[347_compaction|압축]]률 극대화 | **스토리지 비용 절감** |
+| **최적 워크로드**| [[327_hint_handoff|OLTP]] (잦은 삽입, 단건 조회) | [[316_olap|OLAP]] (대용량 집계, [[209_data_warehouse_schema_on_write|DW]], 통계) | **[[090_service_kubernetes_network_load_balancing|서비스]]의 목적** |
 
-이 매트릭스는 내부 스키마를 어떻게 구성하느냐에 따라 동일한 논리적 테이블이 트랜잭션용(OLTP)이 되기도 하고 분석용(OLAP)이 되기도 함을 증명합니다. 최신 NewSQL 데이터베이스(예: TiDB, SAP HANA)는 메모리에서는 Row 단위로 처리하고 디스크 백업 시에는 Column 단위로 저장하는 하이브리드(HTAP) 내부 스키마를 채택하여 두 방식의 장점을 모두 취하고 있습니다.
+이 매트릭스는 내부 [[005_schema|스키마]]를 어떻게 구성하느냐에 따라 동일한 [[369_logic_bomb|논리]]적 테이블이 [[191_transaction_concept_states|트랜잭션]]용([[327_hint_handoff|OLTP]])이 되기도 하고 분석용([[316_olap|OLAP]])이 되기도 함을 증명합니다. 최신 [[058_newsql_google_spanner_truetime_distributed_transaction|NewSQL]] [[002_database_definition|데이터베이스]](예: [[293_elt_process|TiDB]], SAP HANA)는 메모리에서는 Row 단위로 처리하고 디스크 [[555_backup_and_restore_strategy|백업]] 시에는 Column 단위로 저장하는 하이브리드([[294_oltp_vs_olap|HTAP]]) 내부 [[005_schema|스키마]]를 채택하여 두 방식의 장점을 모두 취하고 있습니다.
 
 📢 **섹션 요약 비유**: 도서관에서 책을 번호순(Row)으로 꽂을지, 장르별(Column)로 꽂을지 결정하는 것입니다. 한 권을 통째로 빌릴 땐 번호순이 빠르지만, 특정 장르의 책 두께만 비교할 땐 장르별 배치가 압도적으로 빠릅니다.
 
-### Ⅳ. 실무 적용 및 기술사적 판단 (Strategy & Decision)
-실무에서 내부 스키마 관련 이슈는 대부분 치명적인 장애나 엄청난 I/O 지연으로 직결됩니다.
+### Ⅳ. 실무 적용 및 기술사적 판단 ([[268_strategy_pattern|Strategy]] & Decision)
+실무에서 내부 [[005_schema|스키마]] 관련 이슈는 대부분 치명적인 장애나 엄청난 I/O [[015_지연_데이터_관점|지연]]으로 직결됩니다.
 
-1. **파티셔닝 (Partitioning) 전략**: 수억 건이 쌓이는 로그 테이블의 경우, 논리적 테이블은 1개로 두되 내부 스키마 단에서 월별로 물리적 파일을 쪼개는 Range 파티셔닝을 적용합니다. 이를 통해 오래된 데이터를 삭제(DROP)할 때 DELETE 쿼리 대신 파일(Partition) 자체를 버림으로써 시스템 락(Lock)을 유발하지 않습니다.
-2. **클러스터링 팩터 (Clustering Factor) 관리**: 인덱스 트리의 정렬 순서와 실제 디스크 블록의 데이터 정렬 순서가 일치하는 정도를 의미합니다. 이 수치가 나쁘면(무작위 배치), 인덱스를 타더라도 디스크 헤드가 이리저리 튀면서 풀 스캔보다 느려지는 현상이 발생합니다. DBA는 주기적인 테이블 재구성을 통해 이 수치를 교정합니다.
-3. **안티패턴 (과도한 인덱스 생성)**: 조회 성능을 높인다고 내부 스키마에 수십 개의 인덱스를 걸면, INSERT/UPDATE 발생 시마다 모든 인덱스 트리를 재정렬해야 하는 최악의 쓰기 병목이 발생합니다.
+1. **[[179_table_partitioning_concept|파티셔닝]] ([[179_table_partitioning_concept|Partitioning]]) [[268_strategy_pattern|전략]]**: 수억 건이 쌓이는 [[568_logs_distributed_logging_elk_fluentd|로그]] 테이블의 경우, [[369_logic_bomb|논리]]적 테이블은 1개로 두되 내부 [[005_schema|스키마]] 단에서 월별로 물리적 [[501_file_definition_logical_record|파일]]을 쪼개는 Range [[179_table_partitioning_concept|파티셔닝]]을 적용합니다. 이를 통해 오래된 [[001_dikw_pyramid|데이터]]를 삭제(DROP)할 때 DELETE [[298_qkv_attention|쿼리]] 대신 [[501_file_definition_logical_record|파일]]([[514_partition_slice_volume|Partition]]) 자체를 버림으로써 시스템 락([[510_lock|Lock]])을 유발하지 않습니다.
+2. **[[169_clustering_factor_index_physical_sort|클러스터링 팩터]] ([[169_clustering_factor_index_physical_sort|Clustering Factor]]) 관리**: [[154_database_index_b_tree_search_optimization|인덱스]] 트리의 정렬 순서와 실제 디스크 블록의 [[001_dikw_pyramid|데이터]] 정렬 순서가 일치하는 정도를 의미합니다. 이 수치가 나쁘면(무작위 배치), [[154_database_index_b_tree_search_optimization|인덱스]]를 타더라도 디스크 헤드가 이리저리 튀면서 풀 스캔보다 느려지는 현상이 발생합니다. DBA는 주기적인 테이블 재구성을 통해 이 수치를 교정합니다.
+3. **[[128_water_scrum_fall_anti_pattern|안티패턴]] (과도한 [[154_database_index_b_tree_search_optimization|인덱스]] [[087_process_state_transition|생성]])**: 조회 [[282_performance_tactics|성능]]을 높인다고 내부 [[005_schema|스키마]]에 수십 개의 [[154_database_index_b_tree_search_optimization|인덱스]]를 걸면, INSERT/UPDATE 발생 시마다 모든 [[154_database_index_b_tree_search_optimization|인덱스]] 트리를 재정렬해야 하는 최악의 [[289_cqrs_db|쓰기]] 병목이 발생합니다.
 
-아래 트리는 성능 저하 시 내부 스키마 튜닝의 의사결정 흐름을 보여줍니다.
+아래 트리는 [[282_performance_tactics|성능]] 저하 시 내부 [[005_schema|스키마]] 튜닝의 의사결정 흐름을 보여줍니다.
 ```text
 [쿼리 성능 저하 감지]
    ↓
@@ -96,29 +96,29 @@ categories = ["studynote-database"]
           ├─> 랜덤 I/O 과다? ──> 클러스터드 인덱스 재정렬 (리빌드)
           └─> 블록 경합? ──> PCTFREE 증가 (블록당 레코드 수 감소시켜 락 분산)
 ```
-이 흐름의 핵심은 논리적 쿼리(외부/개념) 수정 없이, 데이터의 물리적 배치와 블록 밀도를 조정하는 것만으로 극적인 성능 개선을 이뤄낸다는 점입니다. 이것이 물리적 데이터 독립성이 실무에서 주는 가장 강력한 무기입니다.
+이 흐름의 핵심은 [[369_logic_bomb|논리]]적 [[298_qkv_attention|쿼리]](외부/개념) 수정 없이, [[001_dikw_pyramid|데이터]]의 물리적 배치와 블록 밀도를 조정하는 것만으로 극적인 [[282_performance_tactics|성능]] 개선을 이뤄낸다는 점입니다. 이것이 물리적 [[004_data_independence|데이터 독립성]]이 실무에서 주는 가장 강력한 무기입니다.
 
-📢 **섹션 요약 비유**: 엔진(SQL)은 좋은데 차가 안 나간다면, 엔진을 바꾸는 대신 타이어 공기압(블록 크기)을 맞추고 기어비(인덱스)를 조율하는 전문가의 튜닝 작업과 같습니다.
+📢 **섹션 요약 비유**: 엔진(SQL)은 좋은데 차가 안 나간다면, 엔진을 바꾸는 대신 타이어 공기압(블록 크기)을 맞추고 기어비([[154_database_index_b_tree_search_optimization|인덱스]])를 조율하는 전문가의 튜닝 작업과 같습니다.
 
 ### Ⅴ. 기대효과 및 결론 (Future & Standard)
-정교한 내부 스키마 설계는 하드웨어 자원의 한계를 소프트웨어적으로 극복하게 해주는 마법입니다.
+정교한 내부 [[005_schema|스키마]] 설계는 하드웨어 자원의 한계를 소프트웨어적으로 극복하게 해주는 마법입니다.
 
 | 정량적 효과 | 정성적 효과 |
 |:---|:---|
-| 디스크 I/O 횟수 및 스토리지 공간 70% 이상 절감 | 예측 가능한 응답 시간(Latency) 보장 |
-| 인덱스 및 파티션 프루닝을 통한 쿼리 응답 지연 최소화 | 시스템 다운타임 없는 대용량 데이터 아카이빙 구조 확보 |
+| 디스크 I/O 횟수 및 스토리지 공간 70% 이상 절감 | 예측 가능한 [[138_response_time|응답 시간]]([[141_latency|Latency]]) 보장 |
+| [[154_database_index_b_tree_search_optimization|인덱스]] 및 [[184_partition_pruning|파티션 프루닝]]을 통한 [[298_qkv_attention|쿼리]] 응답 [[015_지연_데이터_관점|지연]] 최소화 | 시스템 다운타임 없는 대용량 [[001_dikw_pyramid|데이터]] 아카이빙 구조 확보 |
 
-최근 클라우드 네이티브 환경에서는 스토리지와 컴퓨팅이 분리(Separation of Storage and Compute)되면서, 내부 스키마의 역할 중 스토리지 티어링(Hot/Cold 데이터 자동 이동)과 S3와 같은 객체 스토리지 파케이(Parquet) 포맷 매핑 기능이 미래 데이터베이스 성능의 핵심 표준으로 자리 잡고 있습니다.
+최근 [[531_cloud_native_architecture|클라우드 네이티브]] 환경에서는 스토리지와 컴퓨팅이 분리([[357_separation_of_storage_and_compute|Separation of Storage and Compute]])되면서, 내부 [[005_schema|스키마]]의 역할 중 [[674_storage_tiering|스토리지 티어링]](Hot/Cold [[001_dikw_pyramid|데이터]] 자동 이동)과 S3와 같은 객체 스토리지 [[178_parquet_rle_encoding_columnar_compression|파케이]]([[178_parquet_rle_encoding_columnar_compression|Parquet]]) 포맷 매핑 기능이 미래 [[002_database_definition|데이터베이스]] [[282_performance_tactics|성능]]의 핵심 표준으로 자리 잡고 있습니다.
 
-📢 **섹션 요약 비유**: 수백만 개의 소포를 처리하는 글로벌 물류 허브에서, 단 1초의 낭비도 없도록 컨베이어 벨트와 창고 선반의 각도를 설계하는 궁극의 최적화 도면입니다.
+📢 **섹션 요약 비유**: 수백만 개의 소포를 처리하는 글로벌 물류 [[152_hub_dummy_switching_intelligent|허브]]에서, 단 1초의 낭비도 없도록 컨베이어 벨트와 창고 선반의 각도를 설계하는 궁극의 최적화 도면입니다.
 
 ---
-### 📌 관련 개념 맵 (Knowledge Graph)
-* B-Tree / B+Tree 인덱스 (내부 스키마에서 데이터 검색 경로를 최적화하는 기본 자료구조)
-* 물리적 데이터 독립성 (내부 스키마 변경이 응용 프로그램에 영향을 주지 않는 성질)
-* 파티셔닝과 샤딩 (대용량 테이블을 여러 개의 물리적 단위로 쪼개는 내부 스키마 기술)
-* 스토리지 엔진 (DBMS 코어에서 디스크 블록 할당과 I/O를 통제하는 모듈, 예: InnoDB)
-* Row Migration & Chaining (블록 공간 부족으로 데이터가 분절되는 현상과 해소 기법)
+### 📌 관련 개념 맵 ([[160_knowledge_graph_graphrag_integration|Knowledge Graph]])
+* [[064_b_tree|B-Tree]] / B+Tree [[154_database_index_b_tree_search_optimization|인덱스]] (내부 [[005_schema|스키마]]에서 [[001_dikw_pyramid|데이터]] 검색 경로를 최적화하는 기본 자료구조)
+* 물리적 [[004_data_independence|데이터 독립성]] (내부 [[005_schema|스키마]] 변경이 응용 프로그램에 영향을 주지 않는 성질)
+* [[179_table_partitioning_concept|파티셔닝]]과 [[280_sharding|샤딩]] (대용량 테이블을 여러 개의 물리적 단위로 쪼개는 내부 [[005_schema|스키마]] 기술)
+* 스토리지 엔진 ([[502_dbms|DBMS]] 코어에서 디스크 블록 할당과 I/O를 통제하는 [[192_module_independence|모듈]], 예: InnoDB)
+* Row Migration & [[103_chaining|Chaining]] (블록 공간 부족으로 [[001_dikw_pyramid|데이터]]가 분절되는 현상과 해소 기법)
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -138,9 +138,9 @@ categories = ["studynote-database"]
 [스토리지 엔진 최적화 — 실제 I/O 튜닝]
 ```
 
-내부 스키마는 개념·논리 스키마를 물리 저장 구조와 인덱스 최적화로 연결하는 단계다.
+내부 [[005_schema|스키마]]는 개념·[[369_logic_bomb|논리]] [[005_schema|스키마]]를 물리 저장 구조와 [[154_database_index_b_tree_search_optimization|인덱스]] 최적화로 연결하는 단계다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
-1. 서류상에 장난감 목록을 적어둔 것이 개념 스키마라면, 이 장난감들을 실제 방 안의 장난감 상자에 어떻게 예쁘게 우겨넣을지 고민하는 것이 내부 스키마예요.
-2. 로봇은 네모난 상자에, 인형은 동그란 상자에 차곡차곡 압축해서 넣으면 방이 넓어지겠죠?
+1. 서류상에 장난감 목록을 적어둔 것이 [[008_conceptual_schema|개념 스키마]]라면, 이 장난감들을 실제 방 안의 장난감 상자에 어떻게 예쁘게 우겨넣을지 고민하는 것이 내부 [[005_schema|스키마]]예요.
+2. 로봇은 네모난 상자에, 인형은 동그란 상자에 차곡차곡 [[347_compaction|압축]]해서 넣으면 방이 넓어지겠죠?
 3. 이렇게 방 정리를 잘 해두면 나중에 놀고 싶은 장난감을 찾을 때 1초 만에 바로 꺼낼 수 있답니다!

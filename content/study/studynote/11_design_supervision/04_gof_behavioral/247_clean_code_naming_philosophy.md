@@ -8,7 +8,7 @@ categories = "studynote-design-supervision"
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 자가 설명 네이밍 (Self-Documenting Naming) 은 코드 자체가 문서가 되도록 변수·함수·클래스 이름을 의도(Why/What)를 드러내는 이름으로 짓는 클린 코드 (Clean Code) 의 핵심 원칙이다.
+> 1. **본질**: 자가 설명 네이밍 (Self-Documenting Naming) 은 코드 자체가 문서가 되도록 변수·함수·클래스 이름을 의도(Why/What)를 드러내는 이름으로 짓는 [[334_clean_code_principles|클린 코드]] ([[334_clean_code_principles|Clean Code]]) 의 핵심 원칙이다.
 > 2. **가치**: 주석 과잉 (Excessive Comments) 을 제거하고 코드의 진실 (Truth) 과 문서를 단일 소스로 일치시켜 유지보수 비용과 인지 부하를 동시에 줄인다.
 > 3. **판단 포인트**: "이 이름이 없어도 주석이 의도를 설명해야 하는가?" — Yes라면 이름을 다시 지어야 한다.
 
@@ -33,8 +33,8 @@ int daysSinceLastModification;
 | 검색 가능성 (Searchable) | 단일 문자 변수는 지역 루프에만 사용 |
 | 클래스/메서드 구분 | 클래스명 = 명사, 메서드명 = 동사 |
 
-- 공개 API (Application Programming Interface) Javadoc
-- 법적 주석 (저작권, 라이선스)
+- 공개 [[014_api_posix|API]] ([[014_api_posix|Application Programming Interface]]) Javadoc
+- 법적 주석 ([[583_ai_code_license_security_threats|저작권]], 라이선스)
 - 의도를 이름으로 표현하기 불가능한 정규식 패턴 설명
 - TODO: 임시 표시 (단, 추적 티켓 번호 병기)
 
@@ -93,10 +93,10 @@ int daysSinceLastModification;
 | 나쁜 이름 | 문제점 | 좋은 이름 |
 |:---|:---|:---|
 | `temp`, `t`, `x` | 의미 없음 | `elapsedTimeInDays` |
-| `getData()` | 어떤 데이터? | `fetchActiveUserList()` |
+| `getData()` | 어떤 [[001_dikw_pyramid|데이터]]? | `fetchActiveUserList()` |
 | `Manager`, `Processor` | 너무 포괄적 | `InvoiceApprovalWorkflow` |
-| `flag`, `status` | 무슨 플래그? | `isEmailVerified` |
-| `hp`, `aix`, `sco` | 발음·의미 모호 | 명확한 도메인 용어 사용 |
+| `flag`, `status` | 무슨 [[186_character_stuffing_dle_stx_etx|플래그]]? | `isEmailVerified` |
+| `hp`, `aix`, `sco` | 발음·의미 모호 | 명확한 [[064_relation_domain|도메인]] 용어 사용 |
 | `DtaRcrd102` | 발음 불가 | `CustomerRecord` |
 
 | 주석 유형 | 네이밍으로 대체 방법 |
@@ -104,7 +104,7 @@ int daysSinceLastModification;
 | 변수 설명 주석 | 의도 표현 변수명 |
 | 메서드 기능 설명 | 동사+명사 메서드명 |
 | 조건식 설명 | 설명 변수 (Explanatory Variable) 도입 |
-| 매직 넘버 설명 | 명명 상수 (Named Constant) 사용 |
+| [[503_magic_number_file_signature|매직 넘버]] 설명 | 명명 상수 (Named Constant) 사용 |
 | 블록 구분 주석 | 메서드 분리 (Extract Method) 적용 |
 
 - **📢 섹션 요약 비유**: 지도에 매번 "이 점은 학교임" 메모를 붙이는 것보다, 처음부터 학교 모양 아이콘을 쓰는 게 낫다 — 범례(컨벤션)와 아이콘(이름)이 곧 설명이다.
@@ -112,7 +112,7 @@ int daysSinceLastModification;
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
-DDD (Domain-Driven Design) 의 유비쿼터스 언어 (Ubiquitous Language) 개념을 네이밍에 적용하면, 비즈니스 팀과 개발팀이 동일한 용어를 사용해 소통 오류가 줄어든다.
+[[310_architecture|DDD]] ([[127_ddd_domain_driven_design|Domain-Driven Design]]) 의 [[220_ubiquitous_language_ddd_communication|유비쿼터스 언어]] ([[220_ubiquitous_language_ddd_communication|Ubiquitous Language]]) 개념을 네이밍에 적용하면, 비즈니스 팀과 개발팀이 동일한 용어를 사용해 소통 오류가 줄어든다.
 
 ```
 비즈니스 용어 → 코드 반영
@@ -127,14 +127,14 @@ DDD (Domain-Driven Design) 의 유비쿼터스 언어 (Ubiquitous Language) 개�
 - [ ] 부울 변수가 `is/has/can/should` 접두사를 사용하는가?
 - [ ] 컬렉션 변수명이 복수형인가 (`users`, `orders`)?
 
-- **유지보수 비용 절감**: 주석 동기화 비용 제거, 온보딩 시간 단축 (평균 30% 이상)
-- **협업 효율**: 코드 리뷰 시 의도 파악 시간 단축
-- **자동화 도구**: 정적 분석 도구로 이름 품질 측정 가능 (SonarQube 규칙 활용)
+- **유지보수 비용 절감**: 주석 [[212_synchronization_mechanisms|동기화]] 비용 제거, 온보딩 시간 단축 (평균 30% 이상)
+- **협업 효율**: [[330_code_review|코드 리뷰]] 시 의도 파악 시간 단축
+- **자동화 도구**: [[331_static_analysis|정적 분석]] 도구로 이름 품질 측정 가능 ([[079_sonarqube|SonarQube]] 규칙 활용)
 
-### 판단 체크리스트
+### 판단 [[435_checklist_based_testing|체크리스트]]
 1. 변경 전 동작을 고정할 테스트가 준비되었는가?
 2. 냄새의 원인이 구조 문제인지 일회성 구현인지 구분했는가?
-3. 리팩토링 단위를 작게 나눠 롤백 가능하게 했는가?
+3. [[213_refactoring_cloud_native_rearchitecture|리팩토링]] 단위를 작게 나눠 [[098_rollback_strategy_pipeline_error_threshold|롤백]] 가능하게 했는가?
 4. 명명·모델·패키지 경계가 함께 개선되는가?
 
 - **📢 섹션 요약 비유**: 수술실에서 집도의가 "3번 도구 주세요" 대신 "지혈 겸자 주세요"라고 말해야 간호사가 정확한 도구를 건넬 수 있다 — 전문 용어가 정확한 소통을 만든다.
@@ -144,32 +144,32 @@ DDD (Domain-Driven Design) 의 유비쿼터스 언어 (Ubiquitous Language) 개�
 ## Ⅴ. 기대효과 및 결론
 | 지표 | 네이밍 개선 전 | 네이밍 개선 후 |
 |:---|:---:|:---:|
-| 코드 리뷰 지적사항 중 이해 문제 비율 | 38% | 8% |
+| [[330_code_review|코드 리뷰]] 지적사항 중 이해 문제 비율 | 38% | 8% |
 | 신입 개발자 온보딩 기간 | 4주 | 2.5주 |
 | 주석 라인 수 (전체 대비) | 18% | 4% |
 | 버그 추적 평균 시간 | 45분 | 15분 |
 
-자가 설명 네이밍 (Self-Documenting Naming) 은 코드를 **협업 도구**로 만드는 투자다. 좋은 이름은 한 번 짓지만, 나쁜 이름은 모든 독자가 매번 해석 비용을 치른다. "이 이름이 다음 개발자에게 뭘 말해주는가?"를 항상 먼저 묻는 것이 클린 코드의 시작이다.
+자가 설명 네이밍 (Self-Documenting Naming) 은 코드를 **협업 도구**로 만드는 투자다. 좋은 이름은 한 번 짓지만, 나쁜 이름은 모든 독자가 매번 해석 비용을 치른다. "이 이름이 다음 개발자에게 뭘 말해주는가?"를 항상 먼저 묻는 것이 [[334_clean_code_principles|클린 코드]]의 시작이다.
 
-확장 방향은 ① 정적 분석 자동화, ② 아키텍처 적합성 검증, ③ 작은 단위의 상시 리팩토링 문화 정착이다.
+확장 방향은 ① [[331_static_analysis|정적 분석]] 자동화, ② 아키텍처 적합성 [[395_verification_process_review|검증]], ③ 작은 단위의 상시 [[213_refactoring_cloud_native_rearchitecture|리팩토링]] 문화 정착이다.
 
 - **📢 섹션 요약 비유**: 잘 쓴 이력서는 면접관이 추가 설명을 요청하지 않아도 된다 — 코드 이름도 그런 이력서여야 한다.
 
 ---
 
 ### 📌 관련 개념 맵
-| 관계 | 개념 | 설명 |
+| [[083_relationship_in_er_model|관계]] | 개념 | 설명 |
 |:---|:---|:---|
-| 상위 개념 | 클린 코드 (Clean Code) | 네이밍은 클린 코드의 핵심 요소 |
-| 연관 개념 | 코드 스멜 (Code Smell) | 주석 과잉 스멜 직접 해결 |
-| 연관 개념 | 유비쿼터스 언어 (Ubiquitous Language) | DDD의 공통 언어를 코드에 반영 |
-| 연관 개념 | 설명 변수 (Explanatory Variable) | 복잡 표현을 이름으로 추상화 |
-| 연관 개념 | 명명 상수 (Named Constant) | 매직 넘버 대체 |
-| 처방 | 리팩토링 (Rename) | IDE 지원 이름 변경 |
-| 도구 | SonarQube | 이름 품질 규칙 자동 검사 |
+| 상위 개념 | [[334_clean_code_principles|클린 코드]] ([[334_clean_code_principles|Clean Code]]) | 네이밍은 [[334_clean_code_principles|클린 코드]]의 핵심 요소 |
+| 연관 개념 | [[370_code_smell|코드 스멜]] ([[365_5_solid_code_smell|Code Smell]]) | 주석 과잉 스멜 직접 해결 |
+| 연관 개념 | [[220_ubiquitous_language_ddd_communication|유비쿼터스 언어]] ([[220_ubiquitous_language_ddd_communication|Ubiquitous Language]]) | DDD의 공통 언어를 코드에 반영 |
+| 연관 개념 | 설명 변수 (Explanatory Variable) | 복잡 표현을 이름으로 [[198_abstraction_control_data_process|추상화]] |
+| 연관 개념 | 명명 상수 (Named Constant) | [[503_magic_number_file_signature|매직 넘버]] 대체 |
+| 처방 | [[213_refactoring_cloud_native_rearchitecture|리팩토링]] (Rename) | IDE 지원 이름 변경 |
+| 도구 | [[079_sonarqube|SonarQube]] | 이름 품질 규칙 자동 검사 |
 
 ### 📈 관련 키워드 및 발전 흐름도
-의도 드러내기 → 클린 코드 네이밍 철학 → ubiquitous language
+의도 드러내기 → [[334_clean_code_principles|클린 코드]] 네이밍 철학 → [[220_ubiquitous_language_ddd_communication|ubiquitous language]]
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 서랍에 "물건들"이라고 적는 것보다 "양말", "속옷", "티셔츠"라고 적으면 열어보지 않아도 뭐가 있는지 안다.

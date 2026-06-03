@@ -28,8 +28,8 @@ categories = "studynote-design-supervision"
 
 감리 독립성은 두 가지로 본다.
 
-- **독립성의 마음(Independence of Mind)**: 실제로 편향 없이 판단하는가
-- **독립성의 외형(Independence in Appearance)**: 밖에서 봐도 독립적으로 보이는가
+- **독립성의 마음([[133_independence|Independence]] of Mind)**: 실제로 편향 없이 판단하는가
+- **독립성의 외형([[133_independence|Independence]] in Appearance)**: 밖에서 봐도 독립적으로 보이는가
 
 둘 중 하나라도 흔들리면 감리의 신뢰가 약해진다.
 
@@ -42,10 +42,10 @@ categories = "studynote-design-supervision"
 독립성을 깨는 대표 위험은 다음과 같다.
 
 - 경제적 이해관계
-- 친분이나 친족 관계
+- 친분이나 친족 [[083_relationship_in_er_model|관계]]
 - 이전 근무 경험으로 인한 자기검토
 - 조직적 압력
-- 감사 대상과의 거래 관계
+- [[606_auditing_linux_auditd|감사]] 대상과의 거래 [[083_relationship_in_er_model|관계]]
 
 이런 요인은 판단을 흐리게 하므로 사전에 차단해야 한다.
 
@@ -63,7 +63,7 @@ categories = "studynote-design-supervision"
 - 검토 단계 분리
 - 증거 중심 판단
 
-ISACA (Information Systems Audit and Control Association) 같은 기준은 이런 독립성 보장을 중요하게 본다.
+[[021_isaca_global_standard|ISACA]] (Information Systems [[363_audit|Audit]] and Control Association) 같은 기준은 이런 독립성 보장을 중요하게 본다.
 
 - **📢 섹션 요약 비유**: 한 사람이 심판, 선수, 기록원을 모두 맡지 않게 하는 것이다.
 

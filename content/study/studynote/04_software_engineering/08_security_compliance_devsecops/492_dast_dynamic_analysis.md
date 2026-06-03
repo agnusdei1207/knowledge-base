@@ -8,26 +8,26 @@ categories = "studynote-software-engineering"
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: DAST (Dynamic Application Security Testing) - 런타임 환경에 공격 페이로드 주입 분석 (블랙박스)은(는) 소프트웨어 공학의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.
-> 2. **가치**: 이 개념을 올바르게 적용하면 소프트웨어의 품질·유지보수성·재사용성이 향상되고, 개발 생산성과 팀 협업 효율이 높아진다.
+> 1. **본질**: DAST (Dynamic Application [[283_security_tactics|Security]] Testing) - 런타임 환경에 공격 페이로드 주입 분석 (블랙박스)은(는) [[001_software_engineering_definition|소프트웨어 공학]]의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.
+> 2. **가치**: 이 개념을 올바르게 적용하면 소프트웨어의 품질·[[346_maintainability_portability|유지보수성]]·재사용성이 향상되고, 개발 생산성과 팀 협업 효율이 높아진다.
 > 3. **판단 포인트**: 도입 시에는 비용·복잡도·조직 성숙도를 함께 고려해야 하며, 맹목적 적용보다 프로젝트 특성에 맞는 선택적 적용이 핵심이다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: DAST는 소스코드를 절대 보지 않는다(눈을 감고 쏜다). 대신 앱을 서버에 띄운다(Runtime). 스캐너 툴(ZAP 등)이 웹 브라우저처럼 행동하며, 쇼핑몰 게시판의 검색창을 찾아낸다. 그리고 검색어 대신 `<script>alert(1)</script>` (XSS 공격)나 `' OR 1=1` (SQL 공격) 같은 독극물 데이터(Payload)를 1초에 1만 번씩 날려본다. 서버가 에러를 뱉거나 뚫리면 "어? 여기 뚫렸다!"라고 팩트 리포트를 출력한다.
+- **개념**: DAST는 소스코드를 절대 보지 않는다(눈을 감고 쏜다). 대신 앱을 서버에 띄운다(Runtime). 스캐너 툴(ZAP 등)이 웹 브라우저처럼 행동하며, 쇼핑몰 게시판의 검색창을 찾아낸다. 그리고 검색어 대신 `<script>alert(1)</script>` ([[726_xss_cross_site_scripting_types|XSS]] 공격)나 `' OR 1=1` (SQL 공격) 같은 독극물 [[001_dikw_pyramid|데이터]](Payload)를 1초에 1만 번씩 날려본다. 서버가 에러를 뱉거나 뚫리면 "어? 여기 뚫렸다!"라고 팩트 리포트를 출력한다.
 
-- **필요성**: SAST(정적 분석기)만 썼더니 거짓 경고(오탐)가 5만 개나 떠서 개발자들이 쌍욕을 하며 스캐너 코드를 뽑아버렸다. 게다가 SAST는 소스코드(로직)만 보지, **"웹 서버의 방화벽이 어떻게 쳐져 있는지, 톰캣 서버의 포트(Port) 설정이 틀렸는지"와 같은 '인프라 환경(Runtime Environment)'의 구멍**은 절대 찾을 수 없다. 개발자가 완벽하게 짠 코드라도, 운영 서버의 아파치 설정이 뚫려있으면 털리는 법이다. 이 때문에 **실제 서버가 켜진 상태에서 밖에서 문을 걷어차 보는 진짜 도둑질 시뮬레이션**이 100% 필수적이다.
+- **필요성**: [[491_sast_static_analysis|SAST]](정적 분석기)만 썼더니 거짓 경고(오탐)가 5만 개나 떠서 개발자들이 쌍욕을 하며 스캐너 코드를 뽑아버렸다. 게다가 SAST는 소스코드(로직)만 보지, **"웹 서버의 방화벽이 어떻게 쳐져 있는지, 톰캣 서버의 [[446_port_and_bus|포트]]([[446_port_and_bus|Port]]) [[009_config|설정]]이 틀렸는지"와 같은 '인프라 환경(Runtime [[066_gitlab_flow_environment_branch_strategy|Environment]])'의 구멍**은 절대 찾을 수 없다. 개발자가 완벽하게 짠 코드라도, 운영 서버의 아파치 [[009_config|설정]]이 뚫려있으면 털리는 법이다. 이 때문에 **실제 서버가 켜진 상태에서 밖에서 문을 걷어차 보는 진짜 도둑질 시뮬레이션**이 100% 필수적이다.
 
-- **💡 비유**: DAST는 **'자동차 충돌 크래시 테스트'**와 똑같습니다. SAST가 공장에서 도면과 나사(소스코드)를 엑스레이로 쳐다보며 "튼튼하네!"라고 박수 치는 거라면, DAST는 그렇게 만든 차에 더미 인형을 태우고 진짜 시속 100km로 벽에 갖다 쳐박아버리는 짓입니다. 도면엔 완벽했는데 쳐박아보니 에어백이 안 터집니다(런타임 환경 에러). 진짜 피를 흘려봐야만 아는 팩트를 증명하는 가장 확실한 맷집 검증입니다.
+- **💡 비유**: DAST는 **'자동차 충돌 크래시 테스트'**와 똑같습니다. SAST가 공장에서 도면과 나사(소스코드)를 엑스레이로 쳐다보며 "튼튼하네!"라고 박수 치는 거라면, DAST는 그렇게 만든 차에 [[459_dummy_test_double|더미]] 인형을 태우고 진짜 시속 100km로 벽에 갖다 쳐박아버리는 짓입니다. 도면엔 완벽했는데 쳐박아보니 에어백이 안 터집니다(런타임 환경 에러). 진짜 피를 흘려봐야만 아는 팩트를 증명하는 가장 확실한 맷집 검증입니다.
 
 - **등장 배경 및 발전 과정**:
-  1. **초기 모의 해킹 노가다**: 과거엔 비싼 화이트해커를 1주일 고용해서 손으로 직접 키보드를 치게 했다(수동 DAST). 
+  1. **[[459_quic_fec_forward_error_correction|초기]] [[455_penetration_testing_vulnerability_scanning|모의 해킹]] 노가다**: 과거엔 비싼 화이트해커를 1주일 고용해서 손으로 직접 키보드를 치게 했다(수동 DAST). 
   2. **자동화 스캐너의 붐 (2000년대 중반)**: 해커들이 치는 단골 해킹 패턴 1만 개(Payload)를 모아놓고, 기계가 밤새도록 버튼을 누르며 대신 폭격을 쏴주는 `Burp Suite`나 `OWASP ZAP` 같은 위대한 DAST 툴이 상용화되었다.
-  3. **DevSecOps 파이프라인 합체 (현재)**: 젠킨스가 빌드를 끝내고 QA 서버(Docker)를 띄우자마자, DAST 툴이 1시간 동안 무자비하게 폭격하고 젠킨스 파이프라인을 부숴버리며 배포를 컷오프(Fail)시키는 파이프라인 자동화의 끝판왕이 되었다.
+  3. **[[653_devsecops_shift_left|DevSecOps]] 파이프라인 합체 (현재)**: [[071_jenkins_ci_cd_pipeline_automation|젠킨스]]가 빌드를 끝내고 QA 서버([[063_docker_architecture|Docker]])를 띄우자마자, DAST 툴이 1시간 동안 무자비하게 폭격하고 [[071_jenkins_ci_cd_pipeline_automation|젠킨스]] 파이프라인을 부숴버리며 배포를 컷오프(Fail)시키는 파이프라인 자동화의 끝판왕이 되었다.
 
-- **📢 섹션 요약 비유**: SAST가 **'공항 엑스레이 검색대'**라면, DAST는 **'경비견 셰퍼드를 풀어놓기'**입니다. 엑스레이(SAST)는 가방 속의 철(코드) 모양은 잘 보지만 밀봉된 마약 냄새(환경 설정)는 못 찾습니다. 경비견(DAST)은 가방 속은 안 봐도, 밖에서 킁킁대며 냄새(실제 반응)를 맡고 독이 든 가방만 정확히 물어뜯어 갈기갈기 찢어버리는 실전 짐승입니다.
+- **📢 섹션 요약 비유**: SAST가 **'공항 엑스레이 검색대'**라면, DAST는 **'경비견 셰퍼드를 풀어놓기'**입니다. 엑스레이([[491_sast_static_analysis|SAST]])는 가방 속의 철(코드) 모양은 잘 보지만 밀봉된 마약 냄새(환경 [[009_config|설정]])는 못 찾습니다. 경비견(DAST)은 가방 속은 안 봐도, 밖에서 킁킁대며 냄새(실제 반응)를 맡고 독이 든 가방만 정확히 물어뜯어 갈기갈기 찢어버리는 실전 짐승입니다.
 
 ---
 
@@ -56,18 +56,18 @@ categories = "studynote-software-engineering"
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-DAST (Dynamic Application Security Testing) - 런타임 환경에 공격 페이로드 주입 분석 (블랙박스)의 핵심 원리와 구성 요소를 이해하기 위해 다음 구조를 살펴본다.
+DAST (Dynamic Application [[283_security_tactics|Security]] Testing) - 런타임 환경에 공격 페이로드 주입 분석 (블랙박스)의 핵심 원리와 구성 요소를 이해하기 위해 다음 구조를 살펴본다.
 
 | 구성 요소 | 역할 | 적용 기준 |
 | :--- | :--- | :--- |
-| 개념 정의 | 핵심 용어와 범위를 명확히 설정 | 용어 혼용·오해 방지 |
-| 원칙 및 규칙 | 적용 시 따라야 할 기본 방향 | 일관성·품질 기준 |
+| 개념 정의 | 핵심 용어와 범위를 명확히 [[009_config|설정]] | 용어 혼용·오해 방지 |
+| 원칙 및 규칙 | 적용 시 따라야 할 기본 방향 | [[194_consistency_database_integrity|일관성]]·품질 기준 |
 | 기법 및 도구 | 실질적 구현 방법과 지원 도구 | 생산성·자동화 |
 | 측정 지표 | 결과물의 품질을 정량화하는 지표 | 의사결정 근거 |
 
-DAST (Dynamic Application Security Testing)의 핵심 원리는 **복잡성 분해**, **역할 분리**, **품질 측정**의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
+DAST (Dynamic Application [[283_security_tactics|Security]] Testing)의 핵심 원리는 **복잡성 분해**, **역할 분리**, **품질 측정**의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
 
-- **📢 섹션 요약 비유**: DAST (Dynamic Application Security Testing)의 아키텍처는 공장의 생산 라인과 같다. 각 공정(구성 요소)이 명확한 역할을 가지고 정해진 순서대로 움직여야 최종 제품의 품질이 보장된다. 어느 한 공정이 부실하면 전체 제품이 불량이 된다.
+- **📢 섹션 요약 비유**: DAST (Dynamic Application [[283_security_tactics|Security]] Testing)의 아키텍처는 공장의 생산 라인과 같다. 각 공정(구성 요소)이 명확한 역할을 가지고 정해진 순서대로 움직여야 최종 제품의 품질이 보장된다. 어느 한 공정이 부실하면 전체 제품이 불량이 된다.
 
 ---
 
@@ -77,18 +77,18 @@ DAST (Dynamic Application Security Testing)의 핵심 원리는 **복잡성 분�
 
 ## Ⅲ. 비교 및 연결
 
-DAST (Dynamic Application Security Testing)을(를) 유사 개념과 비교하면 경계와 특성이 더 명확해진다.
+DAST (Dynamic Application [[283_security_tactics|Security]] Testing)을(를) 유사 개념과 비교하면 경계와 특성이 더 명확해진다.
 
-| 비교 항목 | DAST (Dynamic Application Security Testing) | 유사 대안 |
+| 비교 항목 | DAST (Dynamic Application [[283_security_tactics|Security]] Testing) | 유사 대안 |
 | :--- | :--- | :--- |
 | 핵심 목적 | 체계적 품질·생산성 향상 | 임시 방편적 해결 |
 | 적용 규모 | 중·대규모 프로젝트에서 효과적 | 소규모에서는 오버헤드 발생 가능 |
 | 조직 요건 | 팀 전체의 공통 이해와 훈련 필요 | 개인 역량 의존 |
 | 측정 가능성 | 정량적 지표로 성과 측정 가능 | 주관적 판단에 의존 |
 
-다른 소프트웨어 공학 개념과의 연결을 보면, DAST (Dynamic Application Security Testing)은(는) 요구공학·설계·테스트·형상관리 전반에 걸쳐 영향을 미친다. 특히 품질 보증(QA, Quality Assurance)과 형상 관리(SCM, Software Configuration Management)와 긴밀하게 연계된다.
+다른 [[001_software_engineering_definition|소프트웨어 공학]] 개념과의 연결을 보면, DAST (Dynamic Application [[283_security_tactics|Security]] Testing)은(는) 요구공학·설계·테스트·형상관리 전반에 걸쳐 영향을 미친다. 특히 품질 보증(QA, Quality Assurance)과 [[020_software_configuration_management|형상 관리]]([[167_scm_software_configuration_management|SCM]], [[020_software_configuration_management|Software Configuration Management]])와 긴밀하게 연계된다.
 
-- **📢 섹션 요약 비유**: DAST (Dynamic Application Security Testing)과 유사 대안의 차이는 지도를 가지고 산에 오르는 것과 감으로만 오르는 차이와 같다. 지도(체계적 방법)가 있으면 정상까지 최단 경로를 찾을 수 있지만, 없으면 같은 곳을 맴돌거나 낭떠러지에 빠질 수 있다.
+- **📢 섹션 요약 비유**: DAST (Dynamic Application [[283_security_tactics|Security]] Testing)과 유사 대안의 차이는 지도를 가지고 산에 오르는 것과 감으로만 오르는 차이와 같다. 지도(체계적 방법)가 있으면 정상까지 최단 경로를 찾을 수 있지만, 없으면 같은 곳을 맴돌거나 낭떠러지에 빠질 수 있다.
 
 ---
 
@@ -98,9 +98,9 @@ DAST (Dynamic Application Security Testing)을(를) 유사 개념과 비교하�
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-DAST (Dynamic Application Security Testing)을(를) 실무에 적용할 때는 다음 판단 기준을 참고한다.
+DAST (Dynamic Application [[283_security_tactics|Security]] Testing)을(를) 실무에 적용할 때는 다음 판단 기준을 참고한다.
 
-- **📢 섹션 요약 비유**: DAST (Dynamic Application Security Testing)은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
+- **📢 섹션 요약 비유**: DAST (Dynamic Application [[283_security_tactics|Security]] Testing)은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
 ---
 
@@ -108,21 +108,21 @@ DAST (Dynamic Application Security Testing)을(를) 실무에 적용할 때는 �
 
 ## Ⅴ. 기대효과 및 결론
 
-DAST (Dynamic Application Security Testing)을(를) 올바르게 적용하면 소프트웨어 품질·유지보수성·팀 생산성이 동시에 향상된다. 그러나 도입에는 학습 비용과 초기 투자가 필요하며, 조직 전체의 공감과 훈련이 선행되어야 한다.
+DAST (Dynamic Application [[283_security_tactics|Security]] Testing)을(를) 올바르게 적용하면 [[339_software_quality_definition|소프트웨어 품질]]·[[346_maintainability_portability|유지보수성]]·팀 생산성이 동시에 향상된다. 그러나 도입에는 학습 비용과 [[459_quic_fec_forward_error_correction|초기]] 투자가 필요하며, 조직 전체의 공감과 훈련이 선행되어야 한다.
 
 **한계와 전제 조건**:
 - 소규모 프로젝트에서는 오버헤드가 발생할 수 있다
 - 팀 전체의 충분한 교육과 실습 기간이 필요하다
-- 도구 지원 환경 구축에 초기 비용이 발생한다
+- 도구 지원 환경 구축에 [[459_quic_fec_forward_error_correction|초기]] 비용이 발생한다
 
 **미래 발전 방향**:
-- AI·LLM 기반 자동화 도구와의 통합으로 적용 효율 향상
-- 클라우드 네이티브·DevOps 환경에서의 진화적 적용
+- [[190_ai_llm_requirements_specification|AI]]·[[263_llm_large_language_model|LLM]] 기반 자동화 도구와의 통합으로 적용 효율 향상
+- [[531_cloud_native_architecture|클라우드 네이티브]]·[[652_devops_calms_culture|DevOps]] 환경에서의 진화적 적용
 - 정량적 측정 체계의 고도화를 통한 의사결정 지원 강화
 
-DAST (Dynamic Application Security Testing)은 '어떻게 빠르게 짜는가'가 아니라 '어떻게 오래 유지할 수 있는 소프트웨어를 짜는가'에 대한 답이다. 단기 속도보다 장기 지속 가능성을 추구하는 관점으로 기억해야 한다.
+DAST (Dynamic Application [[283_security_tactics|Security]] Testing)은 '어떻게 빠르게 짜는가'가 아니라 '어떻게 오래 유지할 수 있는 소프트웨어를 짜는가'에 대한 답이다. 단기 속도보다 장기 지속 가능성을 추구하는 관점으로 기억해야 한다.
 
-- **📢 섹션 요약 비유**: DAST (Dynamic Application Security Testing)의 기대효과는 마라톤 훈련과 같다. 처음에는 느리고 고통스럽지만, 올바른 훈련 원칙을 지킨 선수만이 결승선에서 최고의 기록을 낼 수 있다. 소프트웨어 공학의 원칙도 단기 편의보다 장기 완성도를 위한 투자다.
+- **📢 섹션 요약 비유**: DAST (Dynamic Application [[283_security_tactics|Security]] Testing)의 기대효과는 마라톤 훈련과 같다. 처음에는 느리고 고통스럽지만, 올바른 훈련 원칙을 지킨 선수만이 결승선에서 최고의 기록을 낼 수 있다. [[001_software_engineering_definition|소프트웨어 공학]]의 원칙도 단기 편의보다 장기 완성도를 위한 투자다.
 
 ---
 
@@ -134,10 +134,10 @@ DAST (Dynamic Application Security Testing)은 '어떻게 빠르게 짜는가'�
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| 소프트웨어 공학 (Software Engineering) | DAST (Dynamic Application Security Testing)의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
-| 소프트웨어 생명주기 (SDLC, Software Development Life Cycle) | DAST (Dynamic Application Security Testing)은 SDLC의 특정 단계에서 핵심적으로 적용된다 |
-| 품질 보증 (QA, Quality Assurance) | DAST (Dynamic Application Security Testing) 적용 결과는 QA 활동을 통해 검증되고 측정된다 |
-| 형상 관리 (SCM, Software Configuration Management) | DAST (Dynamic Application Security Testing)에서 생성된 산출물은 SCM을 통해 체계적으로 관리된다 |
+| [[001_software_engineering_definition|소프트웨어 공학]] ([[001_software_engineering_definition|Software Engineering]]) | DAST (Dynamic Application [[283_security_tactics|Security]] Testing)의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
+| [[003_sdlc|소프트웨어 생명주기]] ([[131_sdlc_system_development_life_cycle_waterfall_agile|SDLC]], Software Development Life Cycle) | DAST (Dynamic Application [[283_security_tactics|Security]] Testing)은 SDLC의 특정 단계에서 핵심적으로 적용된다 |
+| 품질 보증 (QA, Quality Assurance) | DAST (Dynamic Application [[283_security_tactics|Security]] Testing) 적용 결과는 QA 활동을 통해 검증되고 측정된다 |
+| [[020_software_configuration_management|형상 관리]] ([[167_scm_software_configuration_management|SCM]], [[020_software_configuration_management|Software Configuration Management]]) | DAST (Dynamic Application [[283_security_tactics|Security]] Testing)에서 생성된 산출물은 SCM을 통해 체계적으로 관리된다 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -157,10 +157,10 @@ DAST (Dynamic Application Security Testing) 개념 정립
 지속적 개선 및 DevOps·MLOps 통합
 ```
 
-이 흐름은 소프트웨어 위기 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
+이 흐름은 [[002_software_crisis|소프트웨어 위기]] 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. DAST (Dynamic Application Security Testing)은 레고 블록으로 성을 만들 때처럼, 규칙을 정하고 역할을 나누어 함께 작업하는 방법이에요.
+1. DAST (Dynamic Application [[283_security_tactics|Security]] Testing)은 레고 블록으로 성을 만들 때처럼, 규칙을 정하고 역할을 나누어 함께 작업하는 방법이에요.
 2. 혼자서 막 만들면 나중에 무너지거나 고치기 어렵지만, 약속을 지키면 누구나 쉽게 고치고 더 크게 만들 수 있어요.
-3. 그래서 소프트웨어 공학은 프로그래머들이 좋은 프로그램을 빠르고 안전하게 만들 수 있게 도와주는 '규칙 모음집'이에요.
+3. 그래서 [[001_software_engineering_definition|소프트웨어 공학]]은 프로그래머들이 좋은 프로그램을 빠르고 안전하게 만들 수 있게 도와주는 '규칙 모음집'이에요.

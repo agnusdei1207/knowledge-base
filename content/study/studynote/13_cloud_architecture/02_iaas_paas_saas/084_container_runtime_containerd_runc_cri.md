@@ -8,17 +8,17 @@ categories = "studynote-cloud-architecture"
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 컨테이너 런타임은 컨테이너를 실제로 생성·시작·정지·삭제하는 실행 계층이고, 오케스트레이션과 커널 사이의 중간 다리다.
-> 2. **가치**: containerd는 수명주기와 이미지/스냅샷을 관리하고, runc는 OCI 규격에 맞춰 프로세스를 띄우며, CRI는 kubelet이 런타임과 대화하는 표준 인터페이스를 제공한다.
-> 3. **판단 포인트**: 문제가 생기면 '쿠버네티스가 안 된다'고 말하기보다 kubelet, CRI, containerd, runc, 커널 순서로 경로를 쪼개 봐야 한다.
+> 1. **본질**: [[628_container_runtime_oci|컨테이너 런타임]]은 [[561_container_based_deployment|컨테이너]]를 실제로 [[087_process_state_transition|생성]]·시작·정지·삭제하는 실행 계층이고, 오케스트레이션과 [[022_kernel_role|커널]] 사이의 중간 다리다.
+> 2. **가치**: containerd는 수명주기와 이미지/[[022_snapshot_backup_architecture|스냅샷]]을 관리하고, runc는 [[333_process|OCI]] 규격에 맞춰 프로세스를 띄우며, CRI는 kubelet이 런타임과 대화하는 표준 인터페이스를 제공한다.
+> 3. **판단 포인트**: 문제가 생기면 '[[196_kubernetes_k8s_container_orchestration|쿠버네티스]]가 안 된다'고 말하기보다 [[082_kubelet_node_agent|kubelet]], CRI, containerd, [[667_container_runtime_hw_isolation|runc]], [[022_kernel_role|커널]] 순서로 경로를 쪼개 봐야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-컨테이너 런타임은 컨테이너를 실제로 실행하는 계층이다. 쿠버네티스 (Kubernetes, K8s)는 스케줄링과 상태 관리를 맡고, CRI (Container Runtime Interface)는 kubelet이 런타임과 대화하는 표준 인터페이스다. 따라서 런타임은 '컨테이너를 어떻게 실행할 것인가'를, 오케스트레이션은 '어느 노드에서 언제 실행할 것인가'를 책임진다.
+[[628_container_runtime_oci|컨테이너 런타임]]은 [[561_container_based_deployment|컨테이너]]를 실제로 실행하는 계층이다. [[196_kubernetes_k8s_container_orchestration|쿠버네티스]] ([[205_kubernetes_container_orchestration|Kubernetes]], K8s)는 스케줄링과 상태 관리를 맡고, CRI ([[194_container_virtualization_docker_namespace|Container]] Runtime Interface)는 kubelet이 런타임과 대화하는 표준 인터페이스다. 따라서 런타임은 '[[561_container_based_deployment|컨테이너]]를 어떻게 실행할 것인가'를, 오케스트레이션은 '어느 노드에서 언제 실행할 것인가'를 책임진다.
 
-Docker라는 이름이 널리 쓰이지만, 실제 현장에서는 containerd와 runc의 역할 분리가 더 중요하다. 이미지 풀링, 스냅샷, 컨테이너 수명 관리가 한 덩어리로 섞이면 디버깅이 어려워지기 때문이다.
+Docker라는 이름이 널리 쓰이지만, 실제 현장에서는 containerd와 runc의 역할 분리가 더 중요하다. 이미지 [[285_pooling_layer|풀링]], [[022_snapshot_backup_architecture|스냅샷]], [[561_container_based_deployment|컨테이너]] 수명 관리가 한 덩어리로 섞이면 디버깅이 어려워지기 때문이다.
 
 ```text
 Pod spec
@@ -42,15 +42,15 @@ Linux kernel start process
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-containerd는 컨테이너의 상태 전환과 이미지 풀링, 스냅샷, 실행된 프로세스의 수명을 관리한다. runc는 OCI (Open Container Initiative) 규격을 따라 Linux namespace와 cgroup을 설정하고 실제 프로세스를 fork/exec 한다. containerd-shim은 런타임이 재시작돼도 컨테이너 프로세스가 살아 있게 만드는 완충 역할을 한다.
+containerd는 [[561_container_based_deployment|컨테이너]]의 상태 전환과 이미지 [[285_pooling_layer|풀링]], [[022_snapshot_backup_architecture|스냅샷]], 실행된 프로세스의 수명을 관리한다. runc는 [[333_process|OCI]] ([[205_container_image_layer_oci_standard|Open Container Initiative]]) 규격을 따라 Linux namespace와 cgroup을 [[009_config|설정]]하고 실제 프로세스를 fork/exec 한다. containerd-shim은 런타임이 재시작돼도 [[561_container_based_deployment|컨테이너]] 프로세스가 살아 있게 만드는 완충 역할을 한다.
 
 | 구성요소 | 역할 | 장애 시 징후 |
 | :--- | :--- | :--- |
-| kubelet | 노드 상태와 Pod 수명 제어 | Pod 이벤트는 보이는데 실행이 안 됨 |
-| CRI | kubelet과 런타임 사이의 표준 계약 | 런타임 교체 시 호환성 문제 |
-| containerd | 이미지·스냅샷·컨테이너 수명 관리 | pull / create / start 단계 실패 |
-| runc | 컨테이너 프로세스 생성 | namespace / cgroup 오류 |
-| kernel | 격리와 자원 제한 집행 | 권한·커널 기능 부족 |
+| [[082_kubelet_node_agent|kubelet]] | 노드 상태와 [[198_pod_kubernetes_minimum_deployment_unit|Pod]] 수명 제어 | [[198_pod_kubernetes_minimum_deployment_unit|Pod]] 이벤트는 보이는데 실행이 안 됨 |
+| CRI | kubelet과 런타임 사이의 표준 계약 | 런타임 교체 시 [[344_compatibility_usability|호환성]] 문제 |
+| containerd | 이미지·[[022_snapshot_backup_architecture|스냅샷]]·[[561_container_based_deployment|컨테이너]] 수명 관리 | pull / create / start 단계 실패 |
+| [[667_container_runtime_hw_isolation|runc]] | [[561_container_based_deployment|컨테이너]] [[104_process_creation|프로세스 생성]] | [[061_namespace|namespace]] / cgroup 오류 |
+| [[022_kernel_role|kernel]] | 격리와 자원 제한 집행 | 권한·[[022_kernel_role|커널]] 기능 부족 |
 
 ```text
 containerd 는 '무엇을' 실행할지 관리하고
@@ -59,7 +59,7 @@ runc 는 '어떻게' 프로세스를 띄울지 처리한다.
 즉, 관리와 실행을 분리해 장애 범위를 좁힌다.
 ```
 
-이 분리는 운영상 중요하다. containerd가 관리 계층이라면 runc는 실행 계층이어서, 둘을 나눠야 이미지 문제와 커널 문제를 따로 추적할 수 있다. 인터페이스가 표준화될수록 런타임 교체와 보안 패치도 쉬워진다.
+이 분리는 운영상 중요하다. containerd가 관리 계층이라면 runc는 실행 계층이어서, 둘을 나눠야 이미지 문제와 [[022_kernel_role|커널]] 문제를 따로 추적할 수 있다. 인터페이스가 표준화될수록 런타임 교체와 보안 패치도 쉬워진다.
 
 - **📢 섹션 요약 비유**: 여행 가방을 챙기는 사람과, 실제로 문 앞까지 들고 가는 사람이 다르면 역할을 나누기 쉽다.
 
@@ -67,16 +67,16 @@ runc 는 '어떻게' 프로세스를 띄울지 처리한다.
 
 ## Ⅲ. 비교 및 연결
 
-containerd와 runc는 같은 '런타임'으로 묶여 말하지만, 세밀하게 보면 범위가 다르다. containerd는 데몬 수준에서 이미지와 컨테이너를 관리하고, runc는 낮은 수준에서 실제 컨테이너 프로세스를 만든다. CRI는 쿠버네티스가 이 둘을 호출하기 위한 계약이고, OCI는 컨테이너가 어떤 규격으로 만들어져야 하는지 정의한다.
+containerd와 runc는 같은 '런타임'으로 묶여 말하지만, 세밀하게 보면 범위가 다르다. containerd는 데몬 수준에서 이미지와 [[561_container_based_deployment|컨테이너]]를 관리하고, runc는 낮은 수준에서 실제 [[561_container_based_deployment|컨테이너]] 프로세스를 만든다. CRI는 [[196_kubernetes_k8s_container_orchestration|쿠버네티스]]가 이 둘을 호출하기 위한 계약이고, OCI는 [[561_container_based_deployment|컨테이너]]가 어떤 규격으로 만들어져야 하는지 정의한다.
 
 | 구분 | 성격 | 주 역할 |
 | :--- | :--- | :--- |
-| CRI (Container Runtime Interface) | kubelet ↔ runtime 계약 | Pod 실행 명령 전달 |
-| OCI (Open Container Initiative) | 컨테이너 실행 규격 | 이미지 / 런타임 표준화 |
+| CRI ([[194_container_virtualization_docker_namespace|Container]] Runtime Interface) | [[082_kubelet_node_agent|kubelet]] ↔ runtime 계약 | [[198_pod_kubernetes_minimum_deployment_unit|Pod]] 실행 명령 전달 |
+| [[333_process|OCI]] ([[205_container_image_layer_oci_standard|Open Container Initiative]]) | [[561_container_based_deployment|컨테이너]] 실행 규격 | 이미지 / 런타임 표준화 |
 | containerd | 상위 런타임 데몬 | 생명주기 관리 |
-| runc | 저수준 실행기 | 프로세스 생성 |
+| [[667_container_runtime_hw_isolation|runc]] | 저수준 실행기 | [[104_process_creation|프로세스 생성]] |
 
-Docker Engine은 개발자 경험과 빌드·런·푸시를 한 제품에 묶은 반면, containerd와 runc는 운영 계층에 더 가깝다. 그래서 컨테이너 플랫폼을 설계할 때는 '도구 이름'보다 '어느 계층을 책임지는가'를 먼저 봐야 한다.
+[[063_docker_architecture|Docker]] Engine은 개발자 경험과 빌드·런·푸시를 한 제품에 묶은 반면, containerd와 runc는 운영 계층에 더 가깝다. 그래서 [[561_container_based_deployment|컨테이너]] 플랫폼을 설계할 때는 '도구 이름'보다 '어느 계층을 책임지는가'를 먼저 봐야 한다.
 
 - **📢 섹션 요약 비유**: 차를 사는 것과, 엔진·변속기·브레이크 부품을 따로 관리하는 것은 같은 이동이라도 관리 방식이 다르다.
 
@@ -84,20 +84,20 @@ Docker Engine은 개발자 경험과 빌드·런·푸시를 한 제품에 묶은
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서 컨테이너 런타임 문제는 보통 Pod가 멈추거나, 이미지가 안 내려오거나, 컨테이너가 바로 죽는 형태로 드러난다. 이때는 kubelet 이벤트, CRI 통신, containerd 로그, runc의 namespace / cgroup 설정 순서로 좁혀야 한다. 무조건 쿠버네티스 문제라고 보기보다, 실패 지점을 계층별로 나누는 것이 핵심이다.
+실무에서 [[628_container_runtime_oci|컨테이너 런타임]] 문제는 보통 Pod가 멈추거나, 이미지가 안 내려오거나, [[561_container_based_deployment|컨테이너]]가 바로 죽는 형태로 드러난다. 이때는 [[082_kubelet_node_agent|kubelet]] 이벤트, CRI 통신, containerd [[568_logs_distributed_logging_elk_fluentd|로그]], runc의 [[061_namespace|namespace]] / cgroup [[009_config|설정]] 순서로 좁혀야 한다. 무조건 [[196_kubernetes_k8s_container_orchestration|쿠버네티스]] 문제라고 보기보다, 실패 지점을 계층별로 나누는 것이 핵심이다.
 
-### 체크리스트
+### [[435_checklist_based_testing|체크리스트]]
 
-1. 노드의 cgroup 드라이버와 런타임 설정이 일치하는가?
-2. 이미지 pull 실패와 컨테이너 start 실패를 구분했는가?
-3. containerd 재시작 시에도 컨테이너가 유지되는가?
-4. 권한 문제인지 커널 기능 문제인지 분리했는가?
+1. 노드의 cgroup 드라이버와 런타임 [[009_config|설정]]이 일치하는가?
+2. 이미지 pull 실패와 [[561_container_based_deployment|컨테이너]] start 실패를 구분했는가?
+3. containerd 재시작 시에도 [[561_container_based_deployment|컨테이너]]가 유지되는가?
+4. 권한 문제인지 [[022_kernel_role|커널]] 기능 문제인지 분리했는가?
 
-### 안티패턴
+### [[128_water_scrum_fall_anti_pattern|안티패턴]]
 
-- Docker CLI로 보이는 증상만 보고 runtime 계층을 구분하지 않는 경우
-- build, registry, runtime 문제를 한 로그로 뭉뚱그리는 경우
-- 런타임 교체 후 CRI 호환성을 검증하지 않는 경우
+- [[063_docker_architecture|Docker]] CLI로 보이는 증상만 보고 runtime 계층을 구분하지 않는 경우
+- build, [[235_registry_immutable_tag|registry]], runtime 문제를 한 [[568_logs_distributed_logging_elk_fluentd|로그]]로 뭉뚱그리는 경우
+- 런타임 교체 후 CRI [[344_compatibility_usability|호환성]]을 검증하지 않는 경우
 
 - **📢 섹션 요약 비유**: 고장 난 집을 볼 때 전등, 배전반, 건물 구조를 따로 확인해야 어디가 문제인지 찾을 수 있다.
 
@@ -105,11 +105,11 @@ Docker Engine은 개발자 경험과 빌드·런·푸시를 한 제품에 묶은
 
 ## Ⅴ. 기대효과 및 결론
 
-컨테이너 런타임의 장점은 실행 경계를 분리해 포터블한 배포와 명확한 장애 분석을 가능하게 하는 데 있다. containerd와 runc, CRI와 OCI의 계층 분리는 '어디서 문제가 나는가'를 빠르게 좁히게 해 준다. 그러나 런타임은 애플리케이션의 논리 오류나 잘못된 이미지 자체를 해결해 주지는 않는다.
+[[628_container_runtime_oci|컨테이너 런타임]]의 장점은 실행 경계를 분리해 포터블한 배포와 명확한 장애 분석을 가능하게 하는 데 있다. containerd와 [[667_container_runtime_hw_isolation|runc]], CRI와 OCI의 계층 분리는 '어디서 문제가 나는가'를 빠르게 좁히게 해 준다. 그러나 런타임은 애플리케이션의 [[369_logic_bomb|논리]] 오류나 잘못된 이미지 자체를 해결해 주지는 않는다.
 
-따라서 컨테이너 런타임은 '컨테이너를 돌리는 엔진'이 아니라 '컨테이너를 어떤 규칙으로 돌릴지 정리한 실행 체계'로 기억하는 것이 맞다. 운영의 관점에서는 이 분리가 가장 큰 가치다.
+따라서 [[628_container_runtime_oci|컨테이너 런타임]]은 '[[561_container_based_deployment|컨테이너]]를 돌리는 엔진'이 아니라 '[[561_container_based_deployment|컨테이너]]를 어떤 규칙으로 돌릴지 정리한 실행 체계'로 기억하는 것이 맞다. 운영의 관점에서는 이 분리가 가장 큰 가치다.
 
-- **📢 섹션 요약 비유**: 좋은 주방은 요리사가 바쁘더라도 가스, 칼, 그릇이 어디 있는지 바로 찾을 수 있게 정리돼 있다.
+- **📢 섹션 요약 비유**: 좋은 주방은 요리사가 바쁘더라도 [[024_gas|가스]], 칼, 그릇이 어디 있는지 바로 찾을 수 있게 정리돼 있다.
 
 ---
 
@@ -117,12 +117,12 @@ Docker Engine은 개발자 경험과 빌드·런·푸시를 한 제품에 묶은
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| Kubernetes (K8s) | Pod 스케줄링과 상태 관리 |
-| CRI (Container Runtime Interface) | kubelet이 런타임과 대화하는 계약 |
-| containerd | 이미지·스냅샷·수명주기 관리 |
-| runc | 실제 컨테이너 프로세스 생성 |
-| OCI (Open Container Initiative) | 컨테이너 표준 규격 |
-| namespaces / cgroups | 격리와 자원 제어의 핵심 |
+| [[205_kubernetes_container_orchestration|Kubernetes]] (K8s) | [[198_pod_kubernetes_minimum_deployment_unit|Pod]] 스케줄링과 상태 관리 |
+| CRI ([[194_container_virtualization_docker_namespace|Container]] Runtime Interface) | kubelet이 런타임과 대화하는 계약 |
+| containerd | 이미지·[[022_snapshot_backup_architecture|스냅샷]]·수명주기 관리 |
+| [[667_container_runtime_hw_isolation|runc]] | 실제 [[561_container_based_deployment|컨테이너]] [[104_process_creation|프로세스 생성]] |
+| [[333_process|OCI]] ([[205_container_image_layer_oci_standard|Open Container Initiative]]) | [[561_container_based_deployment|컨테이너]] 표준 규격 |
+| [[700_nvme_namespaces|namespaces]] / [[062_cgroups|cgroups]] | 격리와 자원 제어의 핵심 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 

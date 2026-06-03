@@ -6,7 +6,7 @@ weight = 72
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 플랫폼 비즈니스는 공급자와 수요자를 연결하는 생태계 운영 모델이다.
-> 2. **가치**: 네트워크 효과로 가치가 커지고, 규칙/수수료를 통해 수익을 만든다.
+> 2. **가치**: [[253_network_effect_metcalfe|네트워크 효과]]로 가치가 커지고, 규칙/수수료를 통해 수익을 만든다.
 > 3. **판단**: 플랫폼은 제품이 아니라 거래와 상호작용의 장을 설계하는 것이다.
 
 ---
@@ -32,10 +32,10 @@ Demand Side
 | 요소 | 의미 |
 | :-- | :-- |
 | Two-sided Market | 양면 시장 |
-| Network Effect | 네트워크 효과 |
+| [[032_network_effect|Network Effect]] | [[253_network_effect_metcalfe|네트워크 효과]] |
 | Rule / Fee | 규칙과 수수료 |
 
-플랫폼은 양쪽 참여자가 많아질수록 더 강해진다. 그래서 초기 임계치와 규칙 설계가 중요하다.
+플랫폼은 양쪽 참여자가 많아질수록 더 강해진다. 그래서 [[459_quic_fec_forward_error_correction|초기]] [[431_ssthresh_slow_start_threshold|임계치]]와 규칙 설계가 중요하다.
 
 - **📢 섹션 요약 비유**: 손님과 가게를 모두 모으는 시장이다.
 
@@ -47,7 +47,7 @@ Demand Side
 | :-- | :-- | :-- |
 | 생산 | 직접 제조 | 연결/중개 |
 | 수익 | 판매 마진 | 수수료/광고 |
-| 성장 | 선형 | 네트워크 효과 |
+| 성장 | 선형 | [[253_network_effect_metcalfe|네트워크 효과]] |
 
 | 핵심 | 의미 |
 | :-- | :-- |
@@ -62,20 +62,20 @@ Demand Side
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### 체크리스트
+### [[435_checklist_based_testing|체크리스트]]
 
 1. 공급자와 수요자를 모두 보는가?
-2. 네트워크 효과를 설계하는가?
+2. [[253_network_effect_metcalfe|네트워크 효과]]를 설계하는가?
 3. 규칙과 수수료가 명확한가?
-4. 초기 참여 임계치를 넘길 전략이 있는가?
+4. [[459_quic_fec_forward_error_correction|초기]] 참여 [[431_ssthresh_slow_start_threshold|임계치]]를 넘길 [[268_strategy_pattern|전략]]이 있는가?
 5. 신뢰와 거버넌스를 고려하는가?
 
-### 안티패턴
+### [[128_water_scrum_fall_anti_pattern|안티패턴]]
 
 - 한쪽만 생각하는 설계
 - 거래 규칙이 없는 설계
-- 네트워크 효과를 무시하는 설계
-- 플랫폼과 단일 서비스의 차이를 모르는 설계
+- [[253_network_effect_metcalfe|네트워크 효과]]를 무시하는 설계
+- 플랫폼과 단일 [[090_service_kubernetes_network_load_balancing|서비스]]의 차이를 모르는 설계
 
 기술사 관점에서는 플랫폼 비즈니스를 "양면 시장을 연결하는 생태계 모델"로 설명해야 한다.
 

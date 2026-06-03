@@ -7,9 +7,9 @@ categories = "studynote-devops-sre"
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: Prometheus는 **Pull 방식으로 서비스의 /metrics 엔드포인트에서 시계열 메트릭을 수집·저장**하는 CNCF 졸업 프로젝트이며, 클라우드 네이티브 모니터링의 사실상 표준이다.
-> 2. **가치**: Push 기반(StatsD)은 서비스가 모니터링 시스템에 종속되지만, Prometheus의 Pull은 **서비스가 메트릭을 노출만 하면** Prometheus가 주기적으로 가져가므로 느슨한 결합이다.
-> 3. **판단 포인트**: PromQL(쿼리 언어)·Alertmanager(알림)·Service Discovery(K8s 자동 발견)·장기 저장(Thanos·Mimir)이 핵심 에코시스템이다.
+> 1. **본질**: Prometheus는 **Pull 방식으로 [[090_service_kubernetes_network_load_balancing|서비스]]의 /[[567_metrics_time_series_prometheus_grafana|metrics]] 엔드포인트에서 시계열 [[342_routing_metric_hop_bandwidth_delay|메트릭]]을 수집·저장**하는 [[190_cncf_landscape_observability|CNCF]] 졸업 프로젝트이며, [[531_cloud_native_architecture|클라우드 네이티브]] [[229_monitor|모니터]]링의 사실상 표준이다.
+> 2. **가치**: Push 기반(StatsD)은 [[090_service_kubernetes_network_load_balancing|서비스]]가 [[229_monitor|모니터]]링 시스템에 종속되지만, Prometheus의 Pull은 **[[090_service_kubernetes_network_load_balancing|서비스]]가 [[342_routing_metric_hop_bandwidth_delay|메트릭]]을 노출만 하면** Prometheus가 주기적으로 가져가므로 느슨한 결합이다.
+> 3. **판단 포인트**: PromQL([[298_qkv_attention|쿼리]] 언어)·Alertmanager(알림)·[[303_service_discovery|Service Discovery]](K8s 자동 발견)·장기 저장(Thanos·Mimir)이 핵심 [[031_에코_반향|에코]]시스템이다.
 
 ---
 
@@ -21,13 +21,13 @@ categories = "studynote-devops-sre"
   → Alertmanager → PagerDuty/Slack 알림
 ```
 
-- **📢 섹션 요약 비유**: Prometheus는 **우편배달부(Pull)**이다. 각 집(서비스)의 우편함(/metrics)에서 편지(메트릭)를 수거한다.
+- **📢 섹션 요약 비유**: Prometheus는 **우편배달부(Pull)**이다. 각 집([[090_service_kubernetes_network_load_balancing|서비스]])의 우편함(/[[567_metrics_time_series_prometheus_grafana|metrics]])에서 편지([[342_routing_metric_hop_bandwidth_delay|메트릭]])를 수거한다.
 
 ---
 
 ## Ⅱ~Ⅴ. 결론
 
-Prometheus는 **K8s 환경의 메트릭 표준**이며, Thanos/Mimir로 장기 저장·고가용성을 확보한다.
+Prometheus는 **K8s 환경의 [[342_routing_metric_hop_bandwidth_delay|메트릭]] 표준**이며, Thanos/Mimir로 장기 저장·고가용성을 확보한다.
 
 ---
 
@@ -35,11 +35,11 @@ Prometheus는 **K8s 환경의 메트릭 표준**이며, Thanos/Mimir로 장기 �
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **Prometheus** | Pull 메트릭 수집 |
-| **PromQL** | 메트릭 조회 언어 |
-| **Alertmanager** | 알림 라우팅 |
+| **Prometheus** | Pull [[342_routing_metric_hop_bandwidth_delay|메트릭]] 수집 |
+| **PromQL** | [[342_routing_metric_hop_bandwidth_delay|메트릭]] 조회 언어 |
+| **Alertmanager** | 알림 [[339_routing_overview_best_path_selection|라우팅]] |
 | **Thanos** | 장기 저장·HA |
-| **Mimir** | Grafana Labs 장기 저장 |
+| **Mimir** | [[168_grafana|Grafana]] Labs 장기 저장 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -51,6 +51,6 @@ Prometheus는 **K8s 환경의 메트릭 표준**이며, Thanos/Mimir로 장기 �
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
-1. Prometheus는 **우편배달부**예요. 각 서비스(집)의 우편함(/metrics)에서 **편지를 수거**해요.
-2. 수거한 편지를 **정리(TSDB)**하고 **그래프(Grafana)**로 보여줘요.
+1. Prometheus는 **우편배달부**예요. 각 [[090_service_kubernetes_network_load_balancing|서비스]](집)의 우편함(/[[567_metrics_time_series_prometheus_grafana|metrics]])에서 **편지를 수거**해요.
+2. 수거한 편지를 **정리(TSDB)**하고 **[[070_graph_datastructure|그래프]]([[168_grafana|Grafana]])**로 보여줘요.
 3. 위험한 편지(이상 지표)가 오면 **비상벨(Alertmanager)**을 울려요!

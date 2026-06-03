@@ -6,9 +6,9 @@ categories = "studynote-computer-architecture"
 +++
 
 > **핵심 인사이트 3줄**
-> 1. 전가산기(Full Adder)는 두 입력 비트와 이전 자리의 올림수(Carry-in)를 합산해 합(Sum)과 올림수(Carry-out)를 출력하는 조합 논리 회로로, 반가산기(Half Adder) 2개와 OR 게이트 1개로 구성된다.
-> 2. 전가산기 n개를 직렬 연결한 리플 캐리 가산기(Ripple Carry Adder)는 가장 단순한 n비트 덧셈기이나, 올림수가 차례로 전파되는 지연(Carry Propagation Delay)이 O(n)이어서 고속 회로에는 부적합하다.
-> 3. 올림수 예측 가산기(CLA·Carry Look-Ahead Adder)는 모든 올림수를 병렬 계산해 O(log n) 지연으로 개선하며, 현대 ALU의 기반 회로다.
+> 1. 전가산기(Full Adder)는 두 입력 비트와 이전 자리의 올림수(Carry-in)를 합산해 합(Sum)과 올림수(Carry-out)를 출력하는 조합 [[369_logic_bomb|논리]] 회로로, [[033_half_adder|반가산기]]([[033_half_adder|Half Adder]]) 2개와 OR 게이트 1개로 구성된다.
+> 2. 전가산기 n개를 [[149_serial_communication_rs232_rs485|직렬]] 연결한 [[035_ripple_carry_adder|리플 캐리 가산기]]([[035_ripple_carry_adder|Ripple Carry Adder]])는 가장 단순한 n비트 덧셈기이나, 올림수가 차례로 전파되는 [[015_지연_데이터_관점|지연]](Carry [[016_전파_지연|Propagation Delay]])이 O(n)이어서 고속 회로에는 부적합하다.
+> 3. [[036_carry_lookahead_adder|올림수 예측 가산기]](CLA·Carry Look-Ahead Adder)는 모든 올림수를 [[430_index_fast_full_scan|병렬]] 계산해 O(log n) [[015_지연_데이터_관점|지연]]으로 개선하며, 현대 ALU의 기반 회로다.
 
 ---
 
@@ -16,7 +16,7 @@ categories = "studynote-computer-architecture"
 
 전가산기(Full Adder)는 **3입력(A, B, Cin), 2출력(Sum, Cout)** 회로다.
 
-### 진리표
+### [[024_truth_table|진리표]]
 
 | A | B | Cin | Sum | Cout |
 |---|---|-----|-----|------|
@@ -50,7 +50,7 @@ Cout = (A AND B) OR (Cin AND (A XOR B))
 
 ---
 
-## Ⅱ. 반가산기 2개로 전가산기 구성
+## Ⅱ. [[033_half_adder|반가산기]] 2개로 전가산기 구성
 
 ```
 HA1: S1 = A XOR B,  C1 = A AND B
@@ -58,11 +58,11 @@ HA2: Sum = S1 XOR Cin,  C2 = S1 AND Cin
 Cout = C1 OR C2
 ```
 
-📢 **섹션 요약 비유**: 전가산기는 반가산기 두 팀이 이어달리기다 — 첫 팀(HA1)이 A+B를 계산하고, 두 번째 팀(HA2)이 그 결과에 Cin을 더한다.
+📢 **섹션 요약 비유**: 전가산기는 [[033_half_adder|반가산기]] 두 팀이 이어달리기다 — 첫 팀(HA1)이 A+B를 계산하고, 두 번째 팀(HA2)이 그 결과에 Cin을 더한다.
 
 ---
 
-## Ⅲ. 리플 캐리 가산기 (Ripple Carry Adder)
+## Ⅲ. [[035_ripple_carry_adder|리플 캐리 가산기]] ([[035_ripple_carry_adder|Ripple Carry Adder]])
 
 ```
 4비트 리플 캐리 가산기:
@@ -76,13 +76,13 @@ Cout   ←C3    ←C2    ←C1   Cin=0
 Sum3   Sum2   Sum1   Sum0
 ```
 
-**올림수 전파 지연**: FA0→C1→FA1→C2→...→FA3→Cout (n단계)
+**올림수 [[016_전파_지연|전파 지연]]**: FA0→C1→FA1→[[746_c2|C2]]→...→FA3→Cout (n단계)
 
 📢 **섹션 요약 비유**: 리플 캐리는 릴레이 경주다 — 앞 선수(FA0)가 배턴(Carry)을 넘기기 전까지 다음 선수(FA1)가 출발 못하므로 전체 시간이 n배 걸린다.
 
 ---
 
-## Ⅳ. 올림수 예측 가산기 (CLA, Carry Look-Ahead Adder)
+## Ⅳ. [[036_carry_lookahead_adder|올림수 예측 가산기]] (CLA, Carry Look-Ahead Adder)
 
 ```
 Gi = Ai AND Bi          (Generate: 반드시 올림수 생성)
@@ -93,7 +93,7 @@ C2 = G1 OR (P1 AND G0) OR (P1 AND P0 AND C0)
 C3 = G2 OR (P2 AND G1) OR (P2 AND P1 AND G0) OR ...
 ```
 
-모든 올림수를 **동시에 병렬 계산** → 지연 O(log n)
+모든 올림수를 **동시에 [[430_index_fast_full_scan|병렬]] 계산** → [[015_지연_데이터_관점|지연]] O(log n)
 
 📢 **섹션 요약 비유**: CLA는 모든 릴레이 선수가 동시에 출발 신호를 받는 것이다 — "만약 앞 선수가 배턴을 줄 것 같다면"을 미리 계산해 일제히 달린다.
 
@@ -101,10 +101,10 @@ C3 = G2 OR (P2 AND G1) OR (P2 AND P1 AND G0) OR ...
 
 ## Ⅴ. 가산기 방식 비교
 
-| 방식               | 지연       | 회로 복잡도 | 적용                  |
+| 방식               | [[015_지연_데이터_관점|지연]]       | 회로 복잡도 | 적용                  |
 |-----------------|----------|------------|----------------------|
-| 리플 캐리 가산기   | O(n)     | 낮음        | 교육용, 저속 회로     |
-| CLA 가산기        | O(log n) | 중간        | 범용 ALU              |
+| [[035_ripple_carry_adder|리플 캐리 가산기]]   | O(n)     | 낮음        | 교육용, 저속 회로     |
+| CLA 가산기        | O(log n) | 중간        | 범용 [[117_alu|ALU]]              |
 | 캐리 저장 가산기 (CSA) | O(1) | 높음     | 곱셈기, 파이프라인     |
 | 접두사 가산기 (Brent-Kung) | O(log n) | 높음 | VLSI 설계        |
 
@@ -156,5 +156,5 @@ ALU → CPU 산술 연산
 ## 👶 어린이를 위한 3줄 비유 설명
 
 1. 전가산기는 세 개의 구슬을 더하는 기계다 — 두 구슬(A, B)에 앞에서 넘어온 구슬(Cin)까지 더해서, 남은 구슬(Sum)과 다음으로 넘길 구슬(Cout)을 알려준다.
-2. 리플 캐리 가산기는 릴레이 경주다 — 앞 주자가 배턴을 주기 전까지 다음 주자가 달릴 수 없어서, 8명이면 8배, 64명이면 64배 느려진다.
+2. [[035_ripple_carry_adder|리플 캐리 가산기]]는 릴레이 경주다 — 앞 주자가 배턴을 주기 전까지 다음 주자가 달릴 수 없어서, 8명이면 8배, 64명이면 64배 느려진다.
 3. CLA 가산기는 모든 주자가 동시에 준비하는 경주다 — "혹시 배턴이 올 경우"를 미리 계산해 놓고 한꺼번에 달려서 훨씬 빠르다.

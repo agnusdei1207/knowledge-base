@@ -6,9 +6,9 @@ categories = "studynote-ict-convergence"
 +++
 
 > **핵심 인사이트**
-> 1. 블록체인 오라클 문제(Oracle Problem)는 스마트 컨트랙트가 블록체인 외부(실세계) 데이터를 신뢰성 있게 가져올 수 없다는 구조적 한계로, 블록체인의 결정론적 실행 환경과 비결정론적 외부 세계 사이의 간극이다.
-> 2. 스마트 컨트랙트는 블록체인 내부 상태만 검증 가능하므로, 외부 데이터(가격·날씨·스포츠 결과)를 체인으로 가져오는 오라클이 단일 실패 지점(Single Point of Failure)이 될 수 있다.
-> 3. 탈중앙화 오라클 네트워크(DON, Decentralized Oracle Network)인 Chainlink는 다수의 독립 노드가 외부 데이터를 집계·검증해 오라클 조작 위험을 분산한다.
+> 1. [[004_blockchain|블록체인]] 오라클 문제([[188_pl_sql_t_sql_procedural|Oracle]] Problem)는 스마트 컨트랙트가 [[004_blockchain|블록체인]] 외부(실세계) [[001_dikw_pyramid|데이터]]를 [[642_reliability_mtbf_mttr_mttf_availability|신뢰성]] 있게 가져올 수 없다는 구조적 한계로, [[004_blockchain|블록체인]]의 결정론적 실행 환경과 비결정론적 외부 세계 사이의 간극이다.
+> 2. 스마트 컨트랙트는 [[004_blockchain|블록체인]] 내부 상태만 [[395_verification_process_review|검증]] 가능하므로, 외부 [[001_dikw_pyramid|데이터]](가격·날씨·스포츠 결과)를 체인으로 가져오는 오라클이 단일 실패 지점(Single Point of Failure)이 될 수 있다.
+> 3. [[010_decentralization|탈중앙화]] 오라클 네트워크(DON, Decentralized [[188_pl_sql_t_sql_procedural|Oracle]] Network)인 Chainlink는 다수의 독립 노드가 외부 [[001_dikw_pyramid|데이터]]를 집계·[[395_verification_process_review|검증]]해 오라클 조작 위험을 분산한다.
 
 ---
 
@@ -34,10 +34,10 @@ categories = "studynote-ict-convergence"
 | 오라클 유형     | 방향          | 예시                  |
 |--------------|-------------|----------------------|
 | 입력 오라클    | 외부 -> 체인  | 가격 피드, 날씨, 결과  |
-| 출력 오라클    | 체인 -> 외부  | 결제 트리거, IoT 제어  |
-| 크로스체인     | 체인 -> 체인  | 브리지, 멀티체인 데이터 |
+| 출력 오라클    | 체인 -> 외부  | 결제 [[507_acid_properties|트리거]], [[101_iot_concept|IoT]] 제어  |
+| 크로스체인     | 체인 -> 체인  | [[260_bridge_pattern_abstraction_implementation|브리지]], 멀티체인 [[001_dikw_pyramid|데이터]] |
 
-> 📢 **섹션 요약 비유**: 법원(블록체인)은 제출된 증거만 판단할 수 있고, 증거를 수집해 제출하는 역할(오라클)은 외부에 의존 — 증거 조작이 판결을 바꾼다.
+> 📢 **섹션 요약 비유**: 법원([[004_blockchain|블록체인]])은 제출된 증거만 판단할 수 있고, 증거를 수집해 제출하는 역할(오라클)은 외부에 의존 — 증거 조작이 판결을 바꾼다.
 
 ---
 
@@ -63,7 +63,7 @@ categories = "studynote-ict-convergence"
 
 ---
 
-## III. Chainlink — 탈중앙화 오라클 네트워크
+## III. Chainlink — [[010_decentralization|탈중앙화]] 오라클 네트워크
 
 ```
 Chainlink (DON) 구조:
@@ -88,15 +88,15 @@ Chainlink 오라클 노드 (다수, 독립)
 | Chainlink 특성    | 설명                         |
 |-----------------|------------------------------|
 | LINK 토큰        | 오라클 노드 보상 + 슬래싱      |
-| 평판 시스템      | 노드 성능·정확성 기록          |
-| 임계값 서명       | 다수 노드 합의로 데이터 확정    |
-| VRF              | 검증 가능한 난수 생성          |
+| 평판 시스템      | 노드 [[282_performance_tactics|성능]]·[[002_bigdata_5v|정확성]] 기록          |
+| 임계값 서명       | 다수 노드 합의로 [[001_dikw_pyramid|데이터]] 확정    |
+| [[371_vrf_virtual_routing_and_forwarding|VRF]]              | [[395_verification_process_review|검증]] 가능한 난수 [[087_process_state_transition|생성]]          |
 
 > 📢 **섹션 요약 비유**: 여러 독립 증인이 각자 진술하고 다수결로 판결 — 한 명을 매수해도 결과를 바꿀 수 없다.
 
 ---
 
-## IV. TWAP 오라클 (시간 가중 평균)
+## [[288_version_ihl_tos_total_length|IV]]. TWAP 오라클 (시간 가중 평균)
 
 ```
 Flash Loan 공격 대응:
@@ -116,16 +116,16 @@ TWAP (Time-Weighted Average Price):
 
 ---
 
-## V. 실무 시나리오 — DeFi 가격 오라클
+## V. 실무 시나리오 — [[033_defi_decentralized_finance|DeFi]] 가격 오라클
 
-| 프로토콜     | 오라클 전략                      |
+| [[295_protocol_field_tcp_udp_icmp|프로토콜]]     | 오라클 [[268_strategy_pattern|전략]]                      |
 |------------|--------------------------------|
-| Aave        | Chainlink + 비상 오라클 이중화  |
+| Aave        | Chainlink + 비상 오라클 [[456_dual_redundancy|이중화]]  |
 | Compound    | Open Price Feed + Chainlink    |
 | Uniswap v3  | TWAP 내장 오라클               |
-| MakerDAO    | 다수 가격 피드 + 1시간 지연 오라클|
+| MakerDAO    | 다수 가격 피드 + 1시간 [[015_지연_데이터_관점|지연]] 오라클|
 
-> �� **섹션 요약 비유**: 아무리 좋은 스마트 컨트랙트도 입력 데이터가 신뢰할 수 없으면 무용지물 — 오라클 보안이 DeFi 보안의 핵심이다.
+> �� **섹션 요약 비유**: 아무리 좋은 스마트 컨트랙트도 입력 [[001_dikw_pyramid|데이터]]가 신뢰할 수 없으면 무용지물 — 오라클 보안이 [[033_defi_decentralized_finance|DeFi]] 보안의 핵심이다.
 
 ---
 
@@ -182,6 +182,6 @@ AI 데이터 검증 오라클 연구
 
 ## 👶 어린이를 위한 3줄 비유 설명
 
-1. 블록체인은 자기 안에서 일어난 일만 믿을 수 있고, 바깥 세상의 정보는 믿기 어려워요.
-2. 오라클은 바깥 정보를 블록체인에 전달하는 연락책인데, 이 연락책이 거짓말을 하면 큰 문제가 생겨요.
+1. [[004_blockchain|블록체인]]은 자기 안에서 일어난 일만 믿을 수 있고, 바깥 세상의 정보는 믿기 어려워요.
+2. 오라클은 바깥 정보를 [[004_blockchain|블록체인]]에 전달하는 연락책인데, 이 연락책이 거짓말을 하면 큰 문제가 생겨요.
 3. 그래서 Chainlink처럼 여러 연락책이 독립적으로 정보를 모아 다수결로 확인하는 방법을 써요!

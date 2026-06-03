@@ -8,26 +8,26 @@ categories = "studynote-software-engineering"
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 보안성 (Security) - 공격 탐지, 방어, 복구 전술은(는) 소프트웨어 공학의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.
-> 2. **가치**: 이 개념을 올바르게 적용하면 소프트웨어의 품질·유지보수성·재사용성이 향상되고, 개발 생산성과 팀 협업 효율이 높아진다.
+> 1. **본질**: 보안성 (Security) - 공격 탐지, 방어, [[658_ir_recovery|복구]] 전술은(는) [[001_software_engineering_definition|소프트웨어 공학]]의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.
+> 2. **가치**: 이 개념을 올바르게 적용하면 소프트웨어의 품질·[[346_maintainability_portability|유지보수성]]·재사용성이 향상되고, 개발 생산성과 팀 협업 효율이 높아진다.
 > 3. **판단 포인트**: 도입 시에는 비용·복잡도·조직 성숙도를 함께 고려해야 하며, 맹목적 적용보다 프로젝트 특성에 맞는 선택적 적용이 핵심이다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 보안성은 시스템이 데이터의 기밀성(Confidentiality), 무결성(Integrity), 가용성(Availability)이라는 3대 보안 원칙(CIA Triad)을 얼마나 잘 유지하는가를 측정하는 품질 속성이다.
+- **개념**: 보안성은 시스템이 [[001_dikw_pyramid|데이터]]의 [[002_confidentiality|기밀성]]([[002_confidentiality|Confidentiality]]), [[003_integrity|무결성]]([[003_integrity|Integrity]]), [[452_availability|가용성]]([[452_availability|Availability]])이라는 3대 보안 원칙([[001_cia_triad|CIA Triad]])을 얼마나 잘 유지하는가를 측정하는 품질 속성이다.
 
-- **필요성**: 회원 수 1천만 명의 이커머스 앱을 만들었다고 치자. 성능이 빨라서 0.1초 만에 응답하지만, 해커가 파라미터 1개를 조작했더니(SQL Injection) 1천만 명의 개인정보가 통째로 빠져나갔다. 이 시스템은 잘 만든 시스템인가? 아무리 기능이 화려해도, 내 집의 문을 아무나 열고 들어올 수 있다면 그 집은 폐가나 다름없다. 성능이나 사용성이 좀 떨어지더라도, 절대로 타협해서는 안 되는 **아키텍처의 철창(Steel Wall)**이 필요했다.
+- **필요성**: 회원 수 1천만 명의 이커머스 앱을 만들었다고 치자. 성능이 빨라서 0.1초 만에 응답하지만, 해커가 파라미터 1개를 조작했더니([[604_sql_injection|SQL Injection]]) 1천만 명의 개인정보가 통째로 빠져나갔다. 이 시스템은 잘 만든 시스템인가? 아무리 기능이 화려해도, 내 집의 문을 아무나 열고 들어올 수 있다면 그 집은 폐가나 다름없다. 성능이나 사용성이 좀 떨어지더라도, 절대로 타협해서는 안 되는 **아키텍처의 철창(Steel Wall)**이 필요했다.
 
-- **💡 비유**: 은행 금고와 같습니다. 도둑이 금고에 접근하지 못하도록 **1차로 지문인식 문(방어)**을 설치하고, 만약 문을 부수면 **2차로 사이렌(탐지)**이 울리며, 그래도 돈을 털어갔다면 지폐 다발에서 **3차로 파란색 잉크가 터져 돈을 못 쓰게(복구/무효화)** 만드는 3중 보안 시스템이 바로 보안성 설계입니다.
+- **💡 비유**: 은행 금고와 같습니다. 도둑이 금고에 접근하지 못하도록 **1차로 지문인식 문(방어)**을 설치하고, 만약 문을 부수면 **2차로 사이렌(탐지)**이 울리며, 그래도 돈을 털어갔다면 지폐 다발에서 **3차로 파란색 잉크가 터져 돈을 못 쓰게([[658_ir_recovery|복구]]/무효화)** 만드는 3중 보안 시스템이 바로 보안성 설계입니다.
 
 - **등장 배경 및 발전 과정**:
-  1. **초기 단일 방어 (Perimeter Security)**: 인터넷 초기에는 회사 망 입구에 방화벽(Firewall) 하나만 세워두면 끝나는 '성벽 모델'이었다. 하지만 내부 직원의 실수나 감염에는 속수무책으로 뚫렸다.
-  2. **심층 방어 (Defense in Depth)**: 양파 껍질처럼 네트워크, 서버, 애플리케이션, 데이터 등 모든 계층(Layer)마다 중복해서 보안 전술을 배치하는 다층 방어 체계로 발전했다.
-  3. **제로 트러스트 (Zero Trust)**: 클라우드와 원격 근무 시대가 도림함에 따라 "아무도 믿지 마라"는 철학이 대두되었다. 내/외부 망 구분 없이 모든 요청마다 권한을 지속적으로 검증하는 궁극의 보안 아키텍처로 진화했다.
+  1. **[[459_quic_fec_forward_error_correction|초기]] 단일 방어 ([[936_perimeter_security|Perimeter Security]])**: 인터넷 [[459_quic_fec_forward_error_correction|초기]]에는 회사 망 입구에 [[690_firewall_generation_evolution|방화벽]]([[690_firewall_generation_evolution|Firewall]]) 하나만 세워두면 끝나는 '성벽 모델'이었다. 하지만 내부 직원의 실수나 감염에는 속수무책으로 뚫렸다.
+  2. **심층 방어 ([[012_defense_in_depth|Defense in Depth]])**: 양파 껍질처럼 네트워크, 서버, 애플리케이션, [[001_dikw_pyramid|데이터]] 등 모든 계층(Layer)마다 중복해서 보안 전술을 배치하는 다층 방어 체계로 발전했다.
+  3. **[[667_zero_trust_runtime_integrity_measurement|제로 트러스트]] ([[667_zero_trust_runtime_integrity_measurement|Zero Trust]])**: 클라우드와 원격 근무 시대가 도림함에 따라 "아무도 믿지 마라"는 철학이 대두되었다. 내/외부 망 구분 없이 모든 요청마다 권한을 지속적으로 검증하는 궁극의 보안 아키텍처로 진화했다.
 
-- **📢 섹션 요약 비유**: 보안성은 성을 지키는 것과 같습니다. 성문만 높이 쌓는 게 아니라(방어), 성벽 위에 보초병을 세우고(탐지), 적이 들어오면 내성으로 후퇴해 문을 잠그는(복구) 3단계 작전이 모두 준비되어 있어야 진짜 튼튼한 성입니다.
+- **📢 섹션 요약 비유**: 보안성은 성을 지키는 것과 같습니다. 성문만 높이 쌓는 게 아니라(방어), 성벽 위에 보초병을 세우고(탐지), 적이 들어오면 내성으로 후퇴해 문을 잠그는([[658_ir_recovery|복구]]) 3단계 작전이 모두 준비되어 있어야 진짜 튼튼한 성입니다.
 
 ---
 
@@ -56,12 +56,12 @@ categories = "studynote-software-engineering"
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-보안성 (Security) - 공격 탐지, 방어, 복구 전술의 핵심 원리와 구성 요소를 이해하기 위해 다음 구조를 살펴본다.
+보안성 (Security) - 공격 탐지, 방어, [[658_ir_recovery|복구]] 전술의 핵심 원리와 구성 요소를 이해하기 위해 다음 구조를 살펴본다.
 
 | 구성 요소 | 역할 | 적용 기준 |
 | :--- | :--- | :--- |
-| 개념 정의 | 핵심 용어와 범위를 명확히 설정 | 용어 혼용·오해 방지 |
-| 원칙 및 규칙 | 적용 시 따라야 할 기본 방향 | 일관성·품질 기준 |
+| 개념 정의 | 핵심 용어와 범위를 명확히 [[009_config|설정]] | 용어 혼용·오해 방지 |
+| 원칙 및 규칙 | 적용 시 따라야 할 기본 방향 | [[194_consistency_database_integrity|일관성]]·품질 기준 |
 | 기법 및 도구 | 실질적 구현 방법과 지원 도구 | 생산성·자동화 |
 | 측정 지표 | 결과물의 품질을 정량화하는 지표 | 의사결정 근거 |
 
@@ -86,7 +86,7 @@ categories = "studynote-software-engineering"
 | 조직 요건 | 팀 전체의 공통 이해와 훈련 필요 | 개인 역량 의존 |
 | 측정 가능성 | 정량적 지표로 성과 측정 가능 | 주관적 판단에 의존 |
 
-다른 소프트웨어 공학 개념과의 연결을 보면, 보안성 (Security)은(는) 요구공학·설계·테스트·형상관리 전반에 걸쳐 영향을 미친다. 특히 품질 보증(QA, Quality Assurance)과 형상 관리(SCM, Software Configuration Management)와 긴밀하게 연계된다.
+다른 [[001_software_engineering_definition|소프트웨어 공학]] 개념과의 연결을 보면, 보안성 (Security)은(는) 요구공학·설계·테스트·형상관리 전반에 걸쳐 영향을 미친다. 특히 품질 보증(QA, Quality Assurance)과 [[020_software_configuration_management|형상 관리]]([[167_scm_software_configuration_management|SCM]], [[020_software_configuration_management|Software Configuration Management]])와 긴밀하게 연계된다.
 
 - **📢 섹션 요약 비유**: 보안성 (Security)과 유사 대안의 차이는 지도를 가지고 산에 오르는 것과 감으로만 오르는 차이와 같다. 지도(체계적 방법)가 있으면 정상까지 최단 경로를 찾을 수 있지만, 없으면 같은 곳을 맴돌거나 낭떠러지에 빠질 수 있다.
 
@@ -108,21 +108,21 @@ categories = "studynote-software-engineering"
 
 ## Ⅴ. 기대효과 및 결론
 
-보안성 (Security)을(를) 올바르게 적용하면 소프트웨어 품질·유지보수성·팀 생산성이 동시에 향상된다. 그러나 도입에는 학습 비용과 초기 투자가 필요하며, 조직 전체의 공감과 훈련이 선행되어야 한다.
+보안성 (Security)을(를) 올바르게 적용하면 [[339_software_quality_definition|소프트웨어 품질]]·[[346_maintainability_portability|유지보수성]]·팀 생산성이 동시에 향상된다. 그러나 도입에는 학습 비용과 [[459_quic_fec_forward_error_correction|초기]] 투자가 필요하며, 조직 전체의 공감과 훈련이 선행되어야 한다.
 
 **한계와 전제 조건**:
 - 소규모 프로젝트에서는 오버헤드가 발생할 수 있다
 - 팀 전체의 충분한 교육과 실습 기간이 필요하다
-- 도구 지원 환경 구축에 초기 비용이 발생한다
+- 도구 지원 환경 구축에 [[459_quic_fec_forward_error_correction|초기]] 비용이 발생한다
 
 **미래 발전 방향**:
-- AI·LLM 기반 자동화 도구와의 통합으로 적용 효율 향상
-- 클라우드 네이티브·DevOps 환경에서의 진화적 적용
+- [[190_ai_llm_requirements_specification|AI]]·[[263_llm_large_language_model|LLM]] 기반 자동화 도구와의 통합으로 적용 효율 향상
+- [[531_cloud_native_architecture|클라우드 네이티브]]·[[652_devops_calms_culture|DevOps]] 환경에서의 진화적 적용
 - 정량적 측정 체계의 고도화를 통한 의사결정 지원 강화
 
 보안성 (Security)은 '어떻게 빠르게 짜는가'가 아니라 '어떻게 오래 유지할 수 있는 소프트웨어를 짜는가'에 대한 답이다. 단기 속도보다 장기 지속 가능성을 추구하는 관점으로 기억해야 한다.
 
-- **📢 섹션 요약 비유**: 보안성 (Security)의 기대효과는 마라톤 훈련과 같다. 처음에는 느리고 고통스럽지만, 올바른 훈련 원칙을 지킨 선수만이 결승선에서 최고의 기록을 낼 수 있다. 소프트웨어 공학의 원칙도 단기 편의보다 장기 완성도를 위한 투자다.
+- **📢 섹션 요약 비유**: 보안성 (Security)의 기대효과는 마라톤 훈련과 같다. 처음에는 느리고 고통스럽지만, 올바른 훈련 원칙을 지킨 선수만이 결승선에서 최고의 기록을 낼 수 있다. [[001_software_engineering_definition|소프트웨어 공학]]의 원칙도 단기 편의보다 장기 완성도를 위한 투자다.
 
 ---
 
@@ -134,10 +134,10 @@ categories = "studynote-software-engineering"
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| 소프트웨어 공학 (Software Engineering) | 보안성 (Security)의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
-| 소프트웨어 생명주기 (SDLC, Software Development Life Cycle) | 보안성 (Security)은 SDLC의 특정 단계에서 핵심적으로 적용된다 |
+| [[001_software_engineering_definition|소프트웨어 공학]] ([[001_software_engineering_definition|Software Engineering]]) | 보안성 (Security)의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
+| [[003_sdlc|소프트웨어 생명주기]] ([[131_sdlc_system_development_life_cycle_waterfall_agile|SDLC]], Software Development Life Cycle) | 보안성 (Security)은 SDLC의 특정 단계에서 핵심적으로 적용된다 |
 | 품질 보증 (QA, Quality Assurance) | 보안성 (Security) 적용 결과는 QA 활동을 통해 검증되고 측정된다 |
-| 형상 관리 (SCM, Software Configuration Management) | 보안성 (Security)에서 생성된 산출물은 SCM을 통해 체계적으로 관리된다 |
+| [[020_software_configuration_management|형상 관리]] ([[167_scm_software_configuration_management|SCM]], [[020_software_configuration_management|Software Configuration Management]]) | 보안성 (Security)에서 생성된 산출물은 SCM을 통해 체계적으로 관리된다 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -157,10 +157,10 @@ categories = "studynote-software-engineering"
 지속적 개선 및 DevOps·MLOps 통합
 ```
 
-이 흐름은 소프트웨어 위기 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
+이 흐름은 [[002_software_crisis|소프트웨어 위기]] 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. 보안성 (Security)은 레고 블록으로 성을 만들 때처럼, 규칙을 정하고 역할을 나누어 함께 작업하는 방법이에요.
 2. 혼자서 막 만들면 나중에 무너지거나 고치기 어렵지만, 약속을 지키면 누구나 쉽게 고치고 더 크게 만들 수 있어요.
-3. 그래서 소프트웨어 공학은 프로그래머들이 좋은 프로그램을 빠르고 안전하게 만들 수 있게 도와주는 '규칙 모음집'이에요.
+3. 그래서 [[001_software_engineering_definition|소프트웨어 공학]]은 프로그래머들이 좋은 프로그램을 빠르고 안전하게 만들 수 있게 도와주는 '규칙 모음집'이에요.

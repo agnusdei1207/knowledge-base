@@ -8,9 +8,9 @@ categories = "studynote-design"
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 비밀번호는 암호화(encryption)보다 단방향 해시(hash)와 솔트(salt)로 저장해야 한다.
-> 2. **가치**: 솔트는 같은 비밀번호라도 서로 다른 해시를 만들고, 레인보우 테이블 공격을 어렵게 한다.
-> 3. **판단**: 감리에서는 알고리즘 선택, salt 생성, 반복 횟수, 저장 정책을 모두 확인해야 한다.
+> 1. **본질**: 비밀번호는 암호화(encryption)보다 [[008_단방향_반이중_전이중|단방향]] 해시(hash)와 [[671_password_hash_salt_pbkdf2_bcrypt_argon2|솔트]]([[671_password_hash_salt_pbkdf2_bcrypt_argon2|salt]])로 저장해야 한다.
+> 2. **가치**: [[671_password_hash_salt_pbkdf2_bcrypt_argon2|솔트]]는 같은 비밀번호라도 서로 다른 해시를 만들고, 레인보우 테이블 공격을 어렵게 한다.
+> 3. **판단**: 감리에서는 [[001_algorithm_definition|알고리즘]] 선택, [[671_password_hash_salt_pbkdf2_bcrypt_argon2|salt]] [[087_process_state_transition|생성]], 반복 횟수, 저장 [[164_policy|정책]]을 모두 확인해야 한다.
 
 ---
 
@@ -38,11 +38,11 @@ Stored Digest
 
 | 구성 요소 | 역할 |
 | :-- | :-- |
-| Salt | 같은 비밀번호의 해시를 다르게 함 |
-| Hash | 단방향 변환 |
-| Iteration / KDF | 계산 비용 증가 |
+| [[671_password_hash_salt_pbkdf2_bcrypt_argon2|Salt]] | 같은 비밀번호의 해시를 다르게 함 |
+| Hash | [[008_단방향_반이중_전이중|단방향]] 변환 |
+| Iteration / [[144_hkdf_tls_1_3|KDF]] | 계산 비용 증가 |
 
-비밀번호 저장에서 중요한 것은 복원 가능성이 아니라 검증 가능성이다. 따라서 비교는 원문이 아니라 해시 결과로 해야 한다.
+비밀번호 저장에서 중요한 것은 복원 가능성이 아니라 [[395_verification_process_review|검증]] 가능성이다. 따라서 비교는 원문이 아니라 해시 결과로 해야 한다.
 
 - **📢 섹션 요약 비유**: 원래 글을 숨기고, 비교할 수 있는 도장만 남겨 두는 셈이다.
 
@@ -53,16 +53,16 @@ Stored Digest
 | 방식 | 특징 | 적합성 |
 | :-- | :-- | :-- |
 | Encryption | 복호화 가능 | 비밀번호 저장 부적합 |
-| Hash + Salt | 단방향 | 권장 |
+| Hash + [[671_password_hash_salt_pbkdf2_bcrypt_argon2|Salt]] | [[008_단방향_반이중_전이중|단방향]] | 권장 |
 | Plain Text | 그대로 저장 | 금지 |
 
 | 공격 | 대응 |
 | :-- | :-- |
-| Rainbow Table | Salt |
-| Brute Force | 느린 KDF |
-| Credential Stuffing | MFA / 정책 |
+| [[107_rainbow_table|Rainbow Table]] | [[671_password_hash_salt_pbkdf2_bcrypt_argon2|Salt]] |
+| [[456_brute_force|Brute Force]] | 느린 [[144_hkdf_tls_1_3|KDF]] |
+| [[455_credential_stuffing|Credential Stuffing]] | [[552_mfa|MFA]] / [[164_policy|정책]] |
 
-감리에서는 저장 방식만이 아니라, 해시 알고리즘이 느린 KDF인지, 솔트가 충분히 무작위인지도 확인해야 한다.
+감리에서는 저장 방식만이 아니라, 해시 [[001_algorithm_definition|알고리즘]]이 느린 KDF인지, [[671_password_hash_salt_pbkdf2_bcrypt_argon2|솔트]]가 충분히 무작위인지도 확인해야 한다.
 
 - **📢 섹션 요약 비유**: 같은 이름표를 쓰면 안 되고, 각자 다른 표식을 붙여야 한다.
 
@@ -70,22 +70,22 @@ Stored Digest
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### 체크리스트
+### [[435_checklist_based_testing|체크리스트]]
 
 1. 비밀번호를 암호화가 아닌 해시로 저장하는가?
 2. 사용자마다 고유한 salt를 사용하는가?
 3. 느린 KDF를 사용하는가?
 4. 원문 재조회가 필요 없는 구조인가?
-5. 재설정/검증 정책이 분리되어 있는가?
+5. 재설정/[[395_verification_process_review|검증]] [[164_policy|정책]]이 분리되어 있는가?
 
-### 안티패턴
+### [[128_water_scrum_fall_anti_pattern|안티패턴]]
 
 - 비밀번호를 복호화 가능한 방식으로 저장하는 설계
 - 모든 사용자에 같은 salt를 쓰는 설계
 - 너무 빠른 해시를 쓰는 설계
-- 감리 없이 라이브러리 기본값만 믿는 설계
+- 감리 없이 [[336_library_vs_framework|라이브러리]] 기본값만 믿는 설계
 
-기술사 관점에서는 "암호화 저장"이라는 표현 자체를 경계해야 한다. 비밀번호는 복호화보다 검증이 중요하기 때문이다.
+기술사 관점에서는 "암호화 저장"이라는 표현 자체를 경계해야 한다. 비밀번호는 복호화보다 [[395_verification_process_review|검증]]이 중요하기 때문이다.
 
 - **📢 섹션 요약 비유**: 열쇠를 다시 여는 게 아니라, 맞는지 확인만 하는 자물쇠다.
 
@@ -93,9 +93,9 @@ Stored Digest
 
 ## Ⅴ. 기대효과 및 결론
 
-올바른 해시와 솔트는 비밀번호 유출 사고의 피해를 크게 줄인다. 그래서 인증 보안의 기본이다.
+올바른 해시와 [[671_password_hash_salt_pbkdf2_bcrypt_argon2|솔트]]는 비밀번호 유출 사고의 피해를 크게 줄인다. 그래서 [[303_authentication_authorization_patterns|인증]] 보안의 기본이다.
 
-결론적으로 비밀번호는 암호화가 아니라 단방향 해시와 솔트로 보호해야 한다.
+결론적으로 비밀번호는 암호화가 아니라 [[008_단방향_반이중_전이중|단방향]] 해시와 [[671_password_hash_salt_pbkdf2_bcrypt_argon2|솔트]]로 보호해야 한다.
 
 - **📢 섹션 요약 비유**: 비밀은 읽을 수 없게 보관하고, 맞는지만 확인하면 된다.
 
@@ -133,4 +133,4 @@ Password Security
 
 비밀번호는 다시 꺼내 읽으면 안 돼요.  
 대신 특별한 표식을 붙여서 확인만 해요.  
-이게 해시와 솔트예요.
+이게 해시와 [[671_password_hash_salt_pbkdf2_bcrypt_argon2|솔트]]예요.

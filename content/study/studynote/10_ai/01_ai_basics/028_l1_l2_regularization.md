@@ -7,9 +7,9 @@ categories = "studynote-ai"
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: L1(Lasso)과 L2(Ridge) 규제화는 손실 함수에 가중치 크기에 비례하는 패널티를 추가하여 모델 과적합(Overfitting)을 방지한다. L1은 희소(Sparse) 가중치를 유도해 Feature Selection 효과를, L2는 가중치를 균등하게 축소해 안정적 일반화를 제공한다.
-> 2. **가치**: 두 규제화의 핵심 차이는 기하학적으로 명확하다. L1의 다이아몬드 제약 경계는 모서리(좌표축)에서 만날 확률이 높아 일부 가중치를 정확히 0으로 만든다(Feature Selection). L2의 원형 제약은 모든 가중치를 균등하게 작게 만든다(Weight Decay).
-> 3. **판단 포인트**: L1 vs. L2 선택 기준 — 불필요한 Feature가 많고 희소 모델이 필요하면 L1(Lasso), Feature 간 상관관계가 높고 안정적 예측이 필요하면 L2(Ridge), 두 특성 모두 필요하면 ElasticNet(L1+L2 혼합)을 선택한다.
+> 1. **본질**: L1([[102_lasso_ridge_regression_regularization|Lasso]])과 L2(Ridge) 규제화는 [[075_loss_function_cost_function|손실 함수]]에 [[267_weight_bias_activation|가중치]] 크기에 비례하는 패널티를 추가하여 모델 과적합([[245_overfitting_variance|Overfitting]])을 방지한다. L1은 희소(Sparse) [[267_weight_bias_activation|가중치]]를 유도해 Feature [[022_mcts_four_stages|Selection]] 효과를, L2는 [[267_weight_bias_activation|가중치]]를 균등하게 축소해 안정적 일반화를 제공한다.
+> 2. **가치**: 두 규제화의 핵심 차이는 기하학적으로 명확하다. L1의 다이아몬드 제약 경계는 모서리(좌표축)에서 만날 [[130_probability|확률]]이 높아 일부 [[267_weight_bias_activation|가중치]]를 정확히 0으로 만든다(Feature [[022_mcts_four_stages|Selection]]). L2의 원형 제약은 모든 [[267_weight_bias_activation|가중치]]를 균등하게 작게 만든다([[091_l1_l2_regularization_weight_decay|Weight Decay]]).
+> 3. **판단 포인트**: L1 vs. L2 선택 기준 — 불필요한 Feature가 많고 희소 모델이 필요하면 L1([[102_lasso_ridge_regression_regularization|Lasso]]), Feature 간 상관관계가 높고 안정적 예측이 필요하면 L2(Ridge), 두 특성 모두 필요하면 ElasticNet(L1+L2 혼합)을 선택한다.
 
 ---
 
@@ -32,7 +32,7 @@ categories = "studynote-ai"
 └──────────────────────────────────────────────────────┘
 ```
 
-- **📢 섹션 요약 비유**: 규제화는 모델에게 "너무 복잡하게 외우지 마라"는 제약이다. L1은 "쓸모없는 공식은 아예 지워라(가중치 0화)", L2는 "모든 공식을 조금씩 단순하게 만들어라"라고 제약을 준다.
+- **📢 섹션 요약 비유**: 규제화는 모델에게 "너무 복잡하게 외우지 마라"는 제약이다. L1은 "쓸모없는 공식은 아예 지워라([[267_weight_bias_activation|가중치]] 0화)", L2는 "모든 공식을 조금씩 단순하게 만들어라"라고 제약을 준다.
 
 ---
 
@@ -66,11 +66,11 @@ L1: 가중치 업데이트 시 wᵢ - λη×sign(wᵢ) → 절댓값에서 일�
 
 ## Ⅲ. 비교 및 연결
 
-| 비교 | L1 (Lasso) | L2 (Ridge) | ElasticNet |
+| 비교 | L1 ([[102_lasso_ridge_regression_regularization|Lasso]]) | L2 (Ridge) | ElasticNet |
 |:---|:---|:---|:---|
-| 희소성 | ✅ 가중치 0화 | ❌ | 중간 |
+| 희소성 | ✅ [[267_weight_bias_activation|가중치]] 0화 | ❌ | 중간 |
 | 다중공선성 처리 | 약함 | 강함 | 강함 |
-| Feature Selection | ✅ 내장 | ❌ | 부분 |
+| Feature [[022_mcts_four_stages|Selection]] | ✅ 내장 | ❌ | 부분 |
 | 수학적 안정성 | 미분 불연속 | 연속 | 연속 |
 
 - **📢 섹션 요약 비유**: L1은 불필요한 교과목을 수강 취소하는 것(0화), L2는 모든 교과목을 같은 비율로 수강 시간을 줄이는 것(균등 축소), ElasticNet은 일부 과목은 취소하고 나머지는 줄이는 것이다.
@@ -105,13 +105,13 @@ ElasticNet 적합:
 
 | 기대효과 | 내용 |
 |:---|:---|
-| **과적합 방지** | 훈련 데이터 암기 대신 패턴 학습 |
-| **Feature Selection (L1)** | 자동 불필요 특성 제거 |
-| **일반화 성능** | 테스트 데이터 예측력 향상 |
+| **과적합 방지** | 훈련 [[001_dikw_pyramid|데이터]] 암기 대신 패턴 학습 |
+| **Feature [[022_mcts_four_stages|Selection]] (L1)** | 자동 불필요 특성 제거 |
+| **일반화 [[282_performance_tactics|성능]]** | [[444_test_data_management|테스트 데이터]] 예측력 향상 |
 
-딥러닝에서는 L2 규제화(Weight Decay)가 Adam 옵티마이저에 통합된 AdamW로 구현되어 표준화됐다. L1 희소 가중치는 뉴럴 네트워크 가지치기(Pruning)와 결합되어 모델 경량화에 활용된다.
+딥러닝에서는 L2 규제화([[091_l1_l2_regularization_weight_decay|Weight Decay]])가 [[277_adam_optimizer|Adam]] [[163_optimizer_sql_execution_plan_generator|옵티마이저]]에 통합된 AdamW로 구현되어 표준화됐다. L1 희소 [[267_weight_bias_activation|가중치]]는 뉴럴 네트워크 [[435_pruning_hardware|가지치기]]([[435_pruning_hardware|Pruning]])와 결합되어 모델 경량화에 활용된다.
 
-- **📢 섹션 요약 비유**: AdamW는 L2 규제를 자동으로 적용하는 스마트 옵티마이저다. 예전에는 규제 강도(λ)를 수동으로 조정해야 했지만, AdamW가 이를 옵티마이저 내부에 통합해서 편리하게 만들었다.
+- **📢 섹션 요약 비유**: AdamW는 L2 규제를 자동으로 적용하는 스마트 [[163_optimizer_sql_execution_plan_generator|옵티마이저]]다. 예전에는 규제 강도(λ)를 수동으로 조정해야 했지만, AdamW가 이를 [[163_optimizer_sql_execution_plan_generator|옵티마이저]] 내부에 통합해서 편리하게 만들었다.
 
 ---
 
@@ -121,9 +121,9 @@ ElasticNet 적합:
 |:---|:---|
 | **과적합** | 규제화가 해결하는 핵심 문제 |
 | **ElasticNet** | L1+L2 혼합 규제 |
-| **AdamW** | L2 규제 통합 딥러닝 옵티마이저 |
-| **모델 가지치기** | L1 희소성과 연결 |
-| **하이퍼파라미터 튜닝** | λ 최적값 탐색 |
+| **AdamW** | L2 규제 통합 딥러닝 [[163_optimizer_sql_execution_plan_generator|옵티마이저]] |
+| **모델 [[435_pruning_hardware|가지치기]]** | L1 희소성과 연결 |
+| **[[041_bagging_boosting|하이퍼파라미터 튜닝]]** | λ 최적값 탐색 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 

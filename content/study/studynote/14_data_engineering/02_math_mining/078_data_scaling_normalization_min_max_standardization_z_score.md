@@ -10,7 +10,7 @@ categories = "studynote-data-engineering"
 
 > 1. **본질**: 스케일링은 서로 다른 크기의 수치를 비교 가능하게 만드는 전처리다.
 > 2. **가치**: Min-Max Scaling은 범위를 맞추고, Z-Score Standardization은 평균과 표준편차 기준으로 분포를 맞춘다.
-> 3. **판단 포인트**: 모델 종류, 이상치, 그리고 학습/배포 파이프라인을 기준으로 스케일러를 고른다.
+> 3. **판단 포인트**: 모델 종류, [[076_outlier_detection_iqr_dbscan_isolation_forest|이상치]], 그리고 학습/배포 파이프라인을 기준으로 스케일러를 고른다.
 
 ---
 
@@ -32,11 +32,11 @@ categories = "studynote-data-engineering"
 
 Min-Max Scaling은 x′ = (x - min) / (max - min)처럼 최솟값과 최댓값을 이용해 범위를 압축한다. 보통 0~1 구간으로 맞추지만 필요하면 다른 구간도 가능하다.
 Z-Score Standardization은 x′ = (x - μ) / σ처럼 평균과 표준편차를 이용한다. 분포 중심이 0이 되고, 퍼짐은 1이 된다.
-| 방법 | 공식 | 이상치 민감도 | 주요 사용처 |
+| 방법 | 공식 | [[076_outlier_detection_iqr_dbscan_isolation_forest|이상치]] 민감도 | 주요 사용처 |
 | --- | --- | --- | --- |
 | Min-Max Scaling | (x-min)/(max-min) | 높다 | 신경망 입력, 범위 제한이 필요할 때 |
-| Z-Score Standardization | (x-μ)/σ | 중간 | 회귀, SVM (Support Vector Machine), k-NN (k-Nearest Neighbors) |
-| Normalization(구분용) | 여기서는 Min-Max 의미 | 의미 혼동 주의 | 문서마다 용어를 확인해야 한다 |
+| Z-Score Standardization | (x-μ)/σ | 중간 | 회귀, [[238_svm_margin_kernel_trick_naive_bayes|SVM]] ([[238_svm_margin_kernel_trick_naive_bayes|Support Vector Machine]]), [[352_knn_distance_metrics|k-NN]] ([[262_knn|k-Nearest Neighbors]]) |
+| [[093_normalization|Normalization]](구분용) | 여기서는 Min-Max 의미 | 의미 혼동 주의 | 문서마다 용어를 확인해야 한다 |
 
 - **📢 섹션 요약 비유**: Min-Max는 범위, Z-Score는 중심과 퍼짐을 맞춘다.
 
@@ -49,7 +49,7 @@ Min-Max는 값의 상대 위치를 보존하면서 고정 범위로 압축하는
 | 비교축 | Min-Max | Z-Score |
 | --- | --- | --- |
 | 범위 | 고정 구간으로 맞춘다 | 이론적 범위는 제한되지 않는다 |
-| 이상치 영향 | 크다 | 상대적으로 덜하다 |
+| [[076_outlier_detection_iqr_dbscan_isolation_forest|이상치]] 영향 | 크다 | 상대적으로 덜하다 |
 | 해석성 | 직관적이다 | 평균 대비 편차로 읽는다 |
 
 - **📢 섹션 요약 비유**: 모델마다 필요한 스케일이 다르므로 전처리도 다르게 고른다.
@@ -58,17 +58,17 @@ Min-Max는 값의 상대 위치를 보존하면서 고정 범위로 압축하는
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서는 학습 데이터에만 fit하고 검증·운영 데이터에는 transform만 적용해야 한다. 데이터 누수(data leakage)가 생기면 성능이 과장된다.
-또한 파이프라인에 스케일러를 묶어 두고, 이상치가 많은 경우에는 robust한 전처리도 검토한다. 입력 분포가 바뀌면 재학습이나 재스케일링도 필요하다.
-### 체크리스트
+실무에서는 학습 [[001_dikw_pyramid|데이터]]에만 fit하고 [[395_verification_process_review|검증]]·운영 [[001_dikw_pyramid|데이터]]에는 transform만 적용해야 한다. [[001_dikw_pyramid|데이터]] 누수([[001_dikw_pyramid|data]] leakage)가 생기면 성능이 과장된다.
+또한 파이프라인에 스케일러를 묶어 두고, [[076_outlier_detection_iqr_dbscan_isolation_forest|이상치]]가 많은 경우에는 robust한 전처리도 검토한다. 입력 분포가 바뀌면 재학습이나 재스케일링도 필요하다.
+### [[435_checklist_based_testing|체크리스트]]
 
-1. 학습 데이터에만 fit 했는가?
-2. 이상치가 결과를 왜곡하지 않는가?
+1. 학습 [[001_dikw_pyramid|데이터]]에만 fit 했는가?
+2. [[076_outlier_detection_iqr_dbscan_isolation_forest|이상치]]가 결과를 왜곡하지 않는가?
 3. 운영 환경에서 같은 스케일러를 재사용하는가?
 
-### 안티패턴
+### [[128_water_scrum_fall_anti_pattern|안티패턴]]
 
-- 전체 데이터에 fit 해서 누수를 만드는 것
+- 전체 [[001_dikw_pyramid|데이터]]에 fit 해서 누수를 만드는 것
 - 범주형 ID나 라벨까지 무리하게 스케일링하는 것
 
 - **📢 섹션 요약 비유**: fit과 transform을 구분해야 누수 없이 운영할 수 있다.
@@ -91,10 +91,10 @@ Min-Max는 값의 상대 위치를 보존하면서 고정 범위로 압축하는
 | --- | --- |
 | Min-Max Scaling | 값을 정해진 범위로 압축한다 |
 | Z-Score | 평균과 표준편차로 표준화한다 |
-| Outlier | 스케일러 선택에 큰 영향을 준다 |
-| Pipeline | 전처리와 모델을 일관되게 묶는다 |
-| SVM | 스케일에 민감한 대표 모델이다 |
-| k-NN | 거리 계산 때문에 스케일 영향이 크다 |
+| [[076_outlier_detection_iqr_dbscan_isolation_forest|Outlier]] | 스케일러 선택에 큰 영향을 준다 |
+| [[082_pipeline|Pipeline]] | 전처리와 모델을 일관되게 묶는다 |
+| [[238_svm_margin_kernel_trick_naive_bayes|SVM]] | 스케일에 민감한 대표 모델이다 |
+| [[352_knn_distance_metrics|k-NN]] | 거리 계산 때문에 스케일 영향이 크다 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 

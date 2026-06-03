@@ -7,15 +7,15 @@ categories = "studynote-dataengineering"
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: 로버스트 통계(Robust Statistics)는 **이상치(Outlier)와 분포 가정 위반에 둔감한(저항성 있는) 통계적 추정량**을 사용하여, 오염된 데이터에서도 안정적인 모집단 추론을 가능하게 하는 분야다.
-> 2. **가치**: 산술 평균은 이상치 1개에 극단적으로 왜곡되지만, **중앙값(Median)·절사 평균(Trimmed Mean)·MAD(Median Absolute Deviation)**는 이상치의 영향을 제한하여 데이터의 진정한 중심·산포를 반영한다.
-> 3. **판단 포인트**: 붕괴점(Breakdown Point)이 로버스트 추정량의 핵심 지표이며, 중앙값의 붕괴점은 **50%** (데이터의 절반이 오염되어도 유효), 산술 평균의 붕괴점은 **0%** (1개 이상치에도 무한 왜곡)이다.
+> 1. **본질**: 로버스트 통계(Robust [[168_clustering_factor_index_physical_alignment|Statistics]])는 **[[076_outlier_detection_iqr_dbscan_isolation_forest|이상치]]([[076_outlier_detection_iqr_dbscan_isolation_forest|Outlier]])와 분포 가정 위반에 둔감한([[003_resistance|저항]]성 있는) 통계적 추정량**을 사용하여, 오염된 [[001_dikw_pyramid|데이터]]에서도 안정적인 모집단 추론을 가능하게 하는 분야다.
+> 2. **가치**: 산술 평균은 [[076_outlier_detection_iqr_dbscan_isolation_forest|이상치]] 1개에 극단적으로 왜곡되지만, **중앙값(Median)·절사 평균(Trimmed Mean)·MAD(Median Absolute Deviation)**는 [[076_outlier_detection_iqr_dbscan_isolation_forest|이상치]]의 영향을 제한하여 [[001_dikw_pyramid|데이터]]의 진정한 중심·산포를 반영한다.
+> 3. **판단 포인트**: 붕괴점(Breakdown Point)이 로버스트 추정량의 핵심 지표이며, 중앙값의 붕괴점은 **50%** ([[001_dikw_pyramid|데이터]]의 절반이 오염되어도 유효), 산술 평균의 붕괴점은 **0%** (1개 [[076_outlier_detection_iqr_dbscan_isolation_forest|이상치]]에도 무한 왜곡)이다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-연봉 데이터: [3000, 3200, 3500, 3800, 4000, **100,000,000**]. 산술 평균 = 16,670,917원 → 현실과 동떨어진 숫자. 중앙값 = 3,650원 → 실제 중심을 정확히 반영. 이것이 로버스트 통계의 존재 이유다.
+연봉 [[001_dikw_pyramid|데이터]]: [3000, 3200, 3500, 3800, [[548_special_permissions_setuid|4000]], **100,000,000**]. 산술 평균 = 16,670,917원 → 현실과 동떨어진 숫자. 중앙값 = 3,650원 → 실제 중심을 정확히 반영. 이것이 로버스트 통계의 존재 이유다.
 
 ```text
 ┌───────────────────────────────────────────────────────┐
@@ -44,15 +44,15 @@ categories = "studynote-dataengineering"
 | 추정량 | 대상 | 붕괴점 | 계산 |
 |:---|:---|:---|:---|
 | **중앙값 (Median)** | 중심 | **50%** | 정렬 후 가운데 값 |
-| **절사 평균 (Trimmed Mean)** | 중심 | $\alpha$ (절사율) | 양극단 $\alpha$% 제거 후 평균 |
+| **절사 평균 (Trimmed Mean)** | 중심 | $\[[068_significance_level_alpha_p_value_hypothesis|alpha]]$ (절사율) | 양극단 $\[[068_significance_level_alpha_p_value_hypothesis|alpha]]$% 제거 후 평균 |
 | **MAD** | 산포 | **50%** | $\text{Median}(\|x_i - \text{Median}(X)\|)$ |
-| **Huber M-추정량** | 중심 | ~28% | 이상치에 가중치 축소 |
+| **Huber M-추정량** | 중심 | ~28% | [[076_outlier_detection_iqr_dbscan_isolation_forest|이상치]]에 [[267_weight_bias_activation|가중치]] 축소 |
 
 ### 붕괴점 (Breakdown Point)
 
 추정량이 무한대로 왜곡되지 않고 버틸 수 있는 **오염 비율의 최대값**. 높을수록 로버스트하다.
 
-- **📢 섹션 요약 비유**: 붕괴점은 배(추정량)가 침몰하지 않고 버틸 수 있는 **최대 파도(이상치) 높이**다. 중앙값은 태풍(50%)에도 안 가라앉고, 평균은 잔물결(0%)에도 침몰한다.
+- **📢 섹션 요약 비유**: 붕괴점은 배(추정량)가 침몰하지 않고 버틸 수 있는 **최대 파도([[076_outlier_detection_iqr_dbscan_isolation_forest|이상치]]) 높이**다. 중앙값은 태풍(50%)에도 안 가라앉고, 평균은 잔물결(0%)에도 침몰한다.
 
 ---
 
@@ -60,9 +60,9 @@ categories = "studynote-dataengineering"
 
 | 비교 | 산술 평균 | 중앙값 | 절사 평균 |
 |:---|:---|:---|:---|
-| **붕괴점** | 0% | **50%** | $\alpha$% |
-| **효율성 (정규 분포)** | **100%** | 64% | 중간 |
-| **이상치 저항** | 없음 | **최고** | 높음 |
+| **붕괴점** | 0% | **50%** | $\[[068_significance_level_alpha_p_value_hypothesis|alpha]]$% |
+| **효율성 ([[138_normal_distribution|정규 분포]])** | **100%** | 64% | 중간 |
+| **[[076_outlier_detection_iqr_dbscan_isolation_forest|이상치]] [[003_resistance|저항]]** | 없음 | **최고** | 높음 |
 | **계산 복잡도** | O(n) | O(n log n) | O(n log n) |
 
 ---
@@ -71,17 +71,17 @@ categories = "studynote-dataengineering"
 
 ### 활용 시나리오
 1. **연봉 통계**: 중앙값 사용 (상위 1%가 평균을 왜곡하므로).
-2. **이상 탐지**: MAD 기반 Z-score → 전통 표준편차보다 이상치에 강건.
-3. **ML 전처리**: 정규화 시 중앙값·IQR 사용 (RobustScaler).
+2. **[[236_anomaly_based_detection_zero_day_false_positive|이상 탐지]]**: MAD 기반 Z-score → 전통 표준편차보다 [[076_outlier_detection_iqr_dbscan_isolation_forest|이상치]]에 강건.
+3. **ML 전처리**: [[093_normalization|정규화]] 시 중앙값·IQR 사용 (RobustScaler).
 
-### 안티패턴
-- **무조건 중앙값**: 정규 분포에서는 산술 평균이 더 효율적(분산이 작음). 데이터 분포를 확인 후 선택해야 한다.
+### [[128_water_scrum_fall_anti_pattern|안티패턴]]
+- **무조건 중앙값**: [[138_normal_distribution|정규 분포]]에서는 산술 평균이 더 효율적(분산이 작음). [[001_dikw_pyramid|데이터]] 분포를 [[396_validation|확인]] 후 선택해야 한다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-로버스트 통계는 "현실 데이터는 깨끗하지 않다"는 전제에서 출발한다. IoT 센서 오작동, 금융 데이터 극단값, 의료 데이터 기록 오류 등 **이상치가 불가피한 도메인**에서 신뢰할 수 있는 분석 결과를 보장하는 필수 도구다.
+로버스트 통계는 "현실 [[001_dikw_pyramid|데이터]]는 깨끗하지 않다"는 전제에서 출발한다. [[101_iot_concept|IoT]] 센서 오작동, 금융 [[001_dikw_pyramid|데이터]] 극단값, 의료 [[001_dikw_pyramid|데이터]] 기록 오류 등 **[[076_outlier_detection_iqr_dbscan_isolation_forest|이상치]]가 불가피한 [[064_relation_domain|도메인]]**에서 신뢰할 수 있는 분석 결과를 보장하는 필수 도구다.
 
 ---
 
@@ -89,11 +89,11 @@ categories = "studynote-dataengineering"
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **이상치 (Outlier)** | 로버스트 통계가 저항하려는 대상 |
+| **[[076_outlier_detection_iqr_dbscan_isolation_forest|이상치]] ([[076_outlier_detection_iqr_dbscan_isolation_forest|Outlier]])** | 로버스트 통계가 [[003_resistance|저항]]하려는 대상 |
 | **중앙값 (Median)** | 붕괴점 50%의 대표적 로버스트 추정량 |
 | **MAD** | 로버스트 산포 추정량, 표준편차의 대안 |
-| **붕괴점 (Breakdown Point)** | 로버스트 추정량의 핵심 성능 지표 |
-| **RobustScaler (sklearn)** | ML 전처리에서 중앙값·IQR 기반 정규화 |
+| **붕괴점 (Breakdown Point)** | 로버스트 추정량의 핵심 [[282_performance_tactics|성능]] 지표 |
+| **RobustScaler (sklearn)** | ML 전처리에서 중앙값·IQR 기반 [[093_normalization|정규화]] |
 
 ### 📈 관련 키워드 및 발전 흐름도
 

@@ -8,31 +8,31 @@ categories = ["studynote-devops-sre", "cicd-gitops"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 배포 승인 게이트 (Approval Gate)는 소프트웨어가 개발 파이프라인(CI)에서 프로덕션 운영 환경(CD)으로 넘어갈 때, 비즈니스 리스크와 품질을 점검하는 논리적/물리적 차단막이다.
-> 2. **가치**: 코드 병합 후 발생할 수 있는 치명적인 보안 취약점, 성능 저하, 규제 위반을 배포 직전에 차단하여 '빠른 배포'로 인한 운영 환경의 대형 장애를 방어한다.
-> 3. **판단 포인트**: 현대 DevOps에서는 인간의 수동 승인(Manual Approval)을 최소화하고, 정적 분석·보안 스캔 지표에 기반한 '자동화 품질 게이트(Quality Gate)' 중심의 데이터 주도 통제로 전환하는 것이 민첩성 유지의 핵심이다.
+> 1. **본질**: 배포 승인 게이트 (Approval Gate)는 소프트웨어가 개발 [[123_pipe|파이프]]라인([[090_configuration_item|CI]])에서 프로덕션 운영 환경(CD)으로 넘어갈 때, 비즈니스 [[096_risk_non_risk_architecture_evaluation_flaws|리스크]]와 품질을 점검하는 [[369_logic_bomb|논리]]적/물리적 차단막이다.
+> 2. **가치**: 코드 병합 후 발생할 수 있는 치명적인 보안 취약점, [[282_performance_tactics|성능]] 저하, 규제 위반을 배포 직전에 차단하여 '빠른 배포'로 인한 운영 환경의 대형 장애를 방어한다.
+> 3. **판단 포인트**: 현대 DevOps에서는 인간의 수동 승인(Manual Approval)을 최소화하고, [[331_static_analysis|정적 분석]]·보안 스캔 지표에 기반한 '자동화 품질 게이트(Quality Gate)' 중심의 [[001_dikw_pyramid|데이터]] 주도 통제로 전환하는 것이 민첩성 유지의 핵심이다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-지속적 통합(CI, Continuous Integration)을 통해 코드를 빠르게 빌드하고 테스트하는 환경이 구축되었더라도, 이것이 실제 고객이 사용하는 프로덕션(Production) 서버에 무방비로 즉시 배포되는 것은 막대한 위험을 수반한다. 
+[[076_ci_continuous_integration|지속적 통합]]([[090_configuration_item|CI]], [[019_continuous_integration|Continuous Integration]])을 통해 코드를 빠르게 빌드하고 테스트하는 환경이 구축되었더라도, 이것이 실제 고객이 사용하는 프로덕션(Production) 서버에 무방비로 즉시 배포되는 것은 막대한 위험을 수반한다. 
 
-금융, 의료, 국방과 같이 규제 컴플라이언스(Compliance)가 엄격한 산업군에서는 변경 관리 통제 장치가 법적으로 요구되기도 한다. 배포 승인 게이트는 맹목적인 애자일 속도전에 '안전벨트' 역할을 부여하여, 지속적 전달(CD, Continuous Delivery) 파이프라인이 최소한의 품질과 보안 임계치를 넘은 아티팩트(Artifact)만 운영 환경에 도달하도록 보장하는 필수 아키텍처다.
+금융, 의료, 국방과 같이 규제 컴플라이언스([[058_it_compliance_sox_basel_gdpr_isms|Compliance]])가 엄격한 산업군에서는 [[079_change_enablement|변경 관리]] 통제 장치가 법적으로 요구되기도 한다. 배포 승인 게이트는 맹목적인 [[004_agile_relation|애자일]] 속도전에 '안전벨트' 역할을 부여하여, [[020_continuous_delivery|지속적 전달]](CD, [[164_continuous_delivery|Continuous Delivery]]) [[123_pipe|파이프]]라인이 최소한의 품질과 보안 [[431_ssthresh_slow_start_threshold|임계치]]를 넘은 [[075_artifact_management_nexus_docker_registry|아티팩트]]([[075_artifact_management_nexus_docker_registry|Artifact]])만 운영 환경에 도달하도록 보장하는 필수 아키텍처다.
 
-- **📢 섹션 요약 비유**: 공장에서 장난감(코드)을 아무리 빨리 조립(CI)하더라도, 대형 마트(프로덕션)에 진열하기 전 납 성분이 없는지, 날카롭지 않은지를 최종 확인하고 '출하 도장'을 찍는 품질 검사소가 바로 배포 승인 게이트다.
+- **📢 섹션 요약 비유**: 공장에서 장난감(코드)을 아무리 빨리 조립([[090_configuration_item|CI]])하더라도, 대형 마트(프로덕션)에 진열하기 전 납 성분이 없는지, 날카롭지 않은지를 최종 [[396_validation|확인]]하고 '출하 도장'을 찍는 품질 검사소가 바로 배포 승인 게이트다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-승인 게이트는 일반적으로 빌드 파이프라인(CI)과 릴리스 파이프라인(CD) 사이, 혹은 스테이징(Staging)과 프로덕션(Production) 사이에 위치하여 다단계 검증 로직을 수행한다.
+승인 게이트는 일반적으로 빌드 [[123_pipe|파이프]]라인([[090_configuration_item|CI]])과 릴리스 [[123_pipe|파이프]]라인(CD) 사이, 혹은 스테이징(Staging)과 프로덕션(Production) 사이에 위치하여 다단계 [[395_verification_process_review|검증]] 로직을 수행한다.
 
 | 게이트 유형 | 핵심 원리 및 통제 방식 | 주요 도구 연동 |
 | :--- | :--- | :--- |
-| **자동화 게이트 (Quality Gate)** | 정해진 메트릭 임계치(테스트 커버리지 80% 이상, 치명적 취약점 0건) 충족 시 자동 통과 | SonarQube, Trivy, APM 지표 |
-| **수동 승인 (Manual Approval)** | 릴리스 매니저, QA, PM 등이 환경을 점검하고 명시적으로 승인 버튼을 클릭 | Jenkins, GitLab CI, GitHub Actions |
-| **스케줄 게이트 (Scheduling Window)** | 배포 가능 시간대(예: 금요일 저녁 배포 금지)를 설정하여 위험 시간대 차단 | ITIL 변경 관리, ServiceNow |
+| **자동화 게이트 (Quality Gate)** | 정해진 [[342_routing_metric_hop_bandwidth_delay|메트릭]] [[431_ssthresh_slow_start_threshold|임계치]](테스트 커버리지 80% 이상, 치명적 취약점 0건) 충족 시 자동 통과 | [[079_sonarqube|SonarQube]], Trivy, [[162_apm_application_performance_management|APM]] 지표 |
+| **수동 승인 (Manual Approval)** | 릴리스 매니저, QA, PM 등이 환경을 점검하고 명시적으로 승인 버튼을 클릭 | [[071_jenkins_ci_cd_pipeline_automation|Jenkins]], GitLab [[090_configuration_item|CI]], GitHub Actions |
+| **[[208_schedule_history_transaction_execution_order|스케줄]] 게이트 (Scheduling Window)** | 배포 가능 시간대(예: 금요일 저녁 배포 금지)를 [[009_config|설정]]하여 위험 시간대 차단 | [[062_itil|ITIL]] [[079_change_enablement|변경 관리]], ServiceNow |
 
 ```text
 ┌──────────────────────────────────────────────────────────────┐
@@ -47,50 +47,50 @@ categories = ["studynote-devops-sre", "cicd-gitops"]
 └──────────────────────────────────────────────────────────────┘
 ```
 
-현대의 승인 게이트는 챗옵스(ChatOps)와 강하게 결합된다. 파이프라인이 게이트에 도달하면 슬랙(Slack) 메시지를 전송하고, 권한자가 메시지 내 'Approve' 버튼을 누르면 즉시 CD로 이어지는 비동기 결재를 지원한다.
+현대의 승인 게이트는 [[207_chatops_slack_bot_deployment|챗옵스]]([[207_chatops_slack_bot_deployment|ChatOps]])와 강하게 결합된다. [[123_pipe|파이프]]라인이 게이트에 도달하면 슬랙(Slack) [[389_mesh_topology|메시]]지를 전송하고, 권한자가 [[389_mesh_topology|메시]]지 내 'Approve' 버튼을 누르면 즉시 CD로 이어지는 비동기 결재를 지원한다.
 
-- **📢 섹션 요약 비유**: 여권 심사대(자동화 게이트)에서 범죄 이력이나 비자 문제가 없으면 기계가 통과시켜 주지만, 특별 감시 대상(중요 릴리스)의 경우에는 심사관(수동 승인자)이 직접 여권을 확인하고 도장을 찍어줘야 입국장(운영 서버)으로 들어갈 수 있다.
+- **📢 섹션 요약 비유**: 여권 심사대(자동화 게이트)에서 범죄 이력이나 비자 문제가 없으면 기계가 통과시켜 주지만, 특별 감시 대상(중요 릴리스)의 경우에는 심사관(수동 승인자)이 직접 여권을 [[396_validation|확인]]하고 도장을 찍어줘야 입국장(운영 서버)으로 들어갈 수 있다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-배포 승인 게이트의 성격은 조직이 '지속적 전달(CD)'과 '지속적 배포(CD)' 중 어느 철학을 채택하느냐에 따라 완전히 달라진다.
+배포 승인 게이트의 성격은 조직이 '[[020_continuous_delivery|지속적 전달]](CD)'과 '[[099_continuous_deployment_cd|지속적 배포]](CD)' 중 어느 철학을 채택하느냐에 따라 완전히 달라진다.
 
-| 구분 | 지속적 전달 (Continuous Delivery) | 지속적 배포 (Continuous Deployment) |
+| 구분 | [[020_continuous_delivery|지속적 전달]] ([[164_continuous_delivery|Continuous Delivery]]) | [[099_continuous_deployment_cd|지속적 배포]] ([[165_continuous_deployment|Continuous Deployment]]) |
 | :--- | :--- | :--- |
-| **게이트 통과 방식** | 파이프라인은 멈추고 **수동 승인(Manual Approval)** 대기 | 테스트 통과 시 **완전 자동(Fully Automated)** 배포 |
-| **가치 및 목표** | 리스크 통제, 규제 준수, 예측 가능한 릴리스 | 극한의 민첩성, 최소 리드 타임(Lead Time) |
-| **주요 적용 도메인** | 금융 코어 시스템, 의료 인프라, B2B 엔터프라이즈 | 넷플릭스, 메타 등 소비자 대상 빠른 기능 실험 조직 |
-| **장애 방어 전략** | 배포 '전' 사전 통제(Gate)에 리소스 집중 | 배포 '후' 카나리 분석 및 롤백 엔진에 의존 |
+| **게이트 통과 방식** | [[123_pipe|파이프]]라인은 멈추고 **수동 승인(Manual Approval)** 대기 | 테스트 통과 시 **완전 자동(Fully Automated)** 배포 |
+| **가치 및 목표** | [[096_risk_non_risk_architecture_evaluation_flaws|리스크]] 통제, 규제 준수, 예측 가능한 릴리스 | 극한의 민첩성, 최소 [[085_lead_time_cycle_time|리드 타임]]([[085_lead_time_cycle_time|Lead Time]]) |
+| **주요 적용 [[064_relation_domain|도메인]]** | 금융 코어 시스템, 의료 인프라, B2B 엔터프라이즈 | 넷플릭스, 메타 등 소비자 대상 빠른 기능 실험 조직 |
+| **장애 방어 [[268_strategy_pattern|전략]]** | 배포 '전' 사전 통제(Gate)에 리소스 집중 | 배포 '후' [[595_canary_stack_smashing_protector|카나리]] 분석 및 [[098_rollback_strategy_pipeline_error_threshold|롤백]] 엔진에 의존 |
 
-지속적 배포가 무조건 우월한 것은 아니다. 서비스의 신뢰도 수준(SLO)과 비즈니스 특성에 맞춰 게이트의 강도(수동 vs 자동 비율)를 조절하는 융합적 접근이 필수적이다.
+[[099_continuous_deployment_cd|지속적 배포]]가 무조건 우월한 것은 아니다. [[090_service_kubernetes_network_load_balancing|서비스]]의 [[085_confidence_association_rule_conditional_probability|신뢰도]] 수준([[181_slo_service_level_objective|SLO]])과 비즈니스 특성에 맞춰 게이트의 강도(수동 vs 자동 비율)를 조절하는 융합적 접근이 필수적이다.
 
-- **📢 섹션 요약 비유**: 지속적 전달(Delivery)은 출발 전 부모님께 허락(승인)을 받고 배낭여행을 떠나는 것이고, 지속적 배포(Deployment)는 짐을 싸자마자 자동으로 기차에 올라타 여행을 시작하는 극한의 자유다.
+- **📢 섹션 요약 비유**: [[020_continuous_delivery|지속적 전달]](Delivery)은 출발 전 부모님께 허락(승인)을 받고 배낭여행을 떠나는 것이고, [[099_continuous_deployment_cd|지속적 배포]]([[087_deployment_kubernetes_workload_rolling_update|Deployment]])는 짐을 싸자마자 자동으로 기차에 올라타 여행을 시작하는 극한의 자유다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-승인 게이트는 통제력을 주지만 과용하면 파이프라인의 목을 조르는 병목(Bottleneck)이 된다. 기술사는 '안전'이라는 명목하에 개발 속도를 지연시키는 안티패턴을 타파해야 한다.
+승인 게이트는 통제력을 주지만 과용하면 [[123_pipe|파이프]]라인의 목을 조르는 병목([[617_io_bottleneck|Bottleneck]])이 된다. 기술사는 '안전'이라는 명목하에 개발 속도를 [[015_지연_데이터_관점|지연]]시키는 [[128_water_scrum_fall_anti_pattern|안티패턴]]을 타파해야 한다.
 
-### 실무 적용 체크리스트
-1. **데이터 기반 통제 (Data-driven Approval)**: 관리자의 '감'에 의존하는 수동 승인을 줄이고, SonarQube(코드 품질)나 보안 스캐너의 정량적 임계치를 통한 '자동화 게이트' 비중을 80% 이상으로 끌어올렸는가?
-2. **ITSM 시스템 연동**: ServiceNow나 Jira Service Management와 CD 파이프라인을 연동하여, 변경 요청(CR) 티켓이 자동 생성되고 승인 이력이 감사(Audit) 로그로 남도록 거버넌스를 구축했는가?
-3. **위험도 기반 동적 라우팅**: 단순 UI 오타 수정(Low Risk)은 게이트를 프리패스하고, DB 스키마 변경(High Risk)은 엄격한 수동 게이트를 거치게 하는 위험도 분기 로직이 있는가?
+### 실무 적용 [[435_checklist_based_testing|체크리스트]]
+1. **[[001_dikw_pyramid|데이터]] 기반 통제 ([[001_dikw_pyramid|Data]]-driven Approval)**: 관리자의 '감'에 의존하는 수동 승인을 줄이고, [[079_sonarqube|SonarQube]](코드 품질)나 보안 스캐너의 정량적 [[431_ssthresh_slow_start_threshold|임계치]]를 통한 '자동화 게이트' 비중을 80% 이상으로 끌어올렸는가?
+2. **[[096_iso_iec_20000_itsm_certification|ITSM]] 시스템 연동**: ServiceNow나 Jira [[090_service_kubernetes_network_load_balancing|Service]] Management와 CD [[123_pipe|파이프]]라인을 연동하여, 변경 요청(CR) 티켓이 자동 [[087_process_state_transition|생성]]되고 승인 이력이 [[606_auditing_linux_auditd|감사]]([[363_audit|Audit]]) [[568_logs_distributed_logging_elk_fluentd|로그]]로 남도록 거버넌스를 구축했는가?
+3. **위험도 기반 [[341_dynamic_routing_protocol_operation|동적 라우팅]]**: 단순 UI 오타 수정(Low [[096_risk_non_risk_architecture_evaluation_flaws|Risk]])은 게이트를 프리패스하고, DB [[005_schema|스키마]] 변경(High [[096_risk_non_risk_architecture_evaluation_flaws|Risk]])은 엄격한 수동 게이트를 거치게 하는 위험도 분기 로직이 있는가?
 
-### 안티패턴
-- 수동 승인을 얻기 위해 개발자가 며칠씩 결재를 기다리게 되어 릴리스 배치가 커지고(빅뱅 배포), 오히려 배포 장애 리스크가 폭증하는 '워터-스크럼-폴(Water-Scrum-Fall)' 현상.
+### [[128_water_scrum_fall_anti_pattern|안티패턴]]
+- 수동 승인을 얻기 위해 개발자가 며칠씩 결재를 기다리게 되어 릴리스 배치가 커지고(빅뱅 배포), 오히려 배포 장애 [[096_risk_non_risk_architecture_evaluation_flaws|리스크]]가 폭증하는 '워터-[[062_scrum_framework_overview|스크럼]]-폴([[128_water_scrum_fall_anti_pattern|Water-Scrum-Fall]])' 현상.
 
-- **📢 섹션 요약 비유**: 출입문 검색대(게이트)에 보안 요원을 너무 많이 배치하면 비행기를 놓치는 승객(지연된 배포)이 속출한다. 위험한 가방만 정밀 검사하고, 90%의 승객은 X-ray 자동 검색대를 빠르게 통과시켜야 공항이 마비되지 않는다.
+- **📢 섹션 요약 비유**: 출입문 검색대(게이트)에 보안 요원을 너무 많이 배치하면 비행기를 놓치는 승객([[015_지연_데이터_관점|지연]]된 배포)이 속출한다. 위험한 가방만 정밀 검사하고, 90%의 승객은 X-ray 자동 검색대를 빠르게 통과시켜야 공항이 마비되지 않는다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-배포 승인 게이트는 개발(Dev) 조직의 '속도'와 운영/보안(Ops/Sec) 조직의 '안정성' 사이에서 충돌을 완충하는 핵심 기어(Gear) 역할을 한다. 이를 통해 조직은 규제를 준수(Compliance)하면서도 장애 반경을 최소화할 수 있다.
+배포 승인 게이트는 개발(Dev) 조직의 '속도'와 운영/보안(Ops/Sec) 조직의 '안정성' 사이에서 충돌을 완충하는 핵심 기어(Gear) 역할을 한다. 이를 통해 조직은 규제를 준수([[058_it_compliance_sox_basel_gdpr_isms|Compliance]])하면서도 장애 반경을 최소화할 수 있다.
 
-미래의 배포 게이트는 AI/MLOps와 결합하여 배포될 모델의 '정확도 저하'나 '편향성'까지 스캔하여 차단하는 지능형 게이트로 발전하고 있다. 궁극적으로 배포 게이트는 인간의 승인 행위가 아닌 '데이터와 알고리즘 기반의 자동 통제 시스템'으로 진화해야 DevOps의 진정한 가치를 실현할 수 있다.
+미래의 배포 게이트는 [[190_ai_llm_requirements_specification|AI]]/MLOps와 결합하여 배포될 모델의 '정확도 저하'나 '편향성'까지 스캔하여 차단하는 지능형 게이트로 발전하고 있다. 궁극적으로 배포 게이트는 인간의 승인 행위가 아닌 '[[001_dikw_pyramid|데이터]]와 [[001_algorithm_definition|알고리즘]] 기반의 자동 통제 시스템'으로 진화해야 DevOps의 진정한 가치를 실현할 수 있다.
 
 - **📢 섹션 요약 비유**: 훌륭한 배포 승인 게이트는 브레이크 장치와 같다. 레이싱 카에 좋은 브레이크(승인 게이트)가 달려있다는 믿음이 있어야 레이서(개발자)가 코너에서도 마음 놓고 엑셀(빠른 배포)을 밟을 수 있다.
 
@@ -100,10 +100,10 @@ categories = ["studynote-devops-sre", "cicd-gitops"]
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| **CI/CD 파이프라인** | 승인 게이트가 삽입되어 통제력을 행사하는 전체 자동화 생태계 |
-| **Quality Gate (품질 게이트)** | SonarQube 등에서 설정한 정적/동적 품질 임계치 (자동 승인의 기준) |
-| **ChatOps (챗옵스)** | 슬랙, 팀즈를 통해 비동기적으로 빠르고 투명하게 배포 승인을 처리하는 기법 |
-| **ITIL / ITSM** | 엔터프라이즈 환경에서 변경 관리(Change Management) 규제를 준수하기 위한 프로세스 기반 |
+| **[[090_configuration_item|CI]]/CD [[123_pipe|파이프]]라인** | 승인 게이트가 삽입되어 통제력을 행사하는 전체 자동화 생태계 |
+| **Quality Gate (품질 게이트)** | [[079_sonarqube|SonarQube]] 등에서 [[009_config|설정]]한 정적/동적 품질 [[431_ssthresh_slow_start_threshold|임계치]] (자동 승인의 기준) |
+| **[[207_chatops_slack_bot_deployment|ChatOps]] ([[207_chatops_slack_bot_deployment|챗옵스]])** | 슬랙, 팀즈를 통해 [[017_hardware_interrupt|비동기적]]으로 빠르고 투명하게 배포 승인을 처리하는 기법 |
+| **[[062_itil|ITIL]] / [[096_iso_iec_20000_itsm_certification|ITSM]]** | 엔터프라이즈 환경에서 [[079_change_enablement|변경 관리]]([[027_change_management|Change Management]]) 규제를 준수하기 위한 프로세스 기반 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -123,10 +123,10 @@ ITSM 티켓 자동 연동 및 챗옵스 (ChatOps) 비동기 결재
 AI 기반 장애 예측 모델링 및 자동 롤백 결합 게이트
 ```
 
-이 흐름도는 인간의 직관과 서류 작업에 의존하던 배포 승인이 자동화된 정량적 지표 통제로 진화하고, 궁극적으로 인공지능 기반의 지능형 리스크 판단으로 나아가는 과정을 보여준다.
+이 흐름도는 인간의 직관과 서류 작업에 의존하던 배포 승인이 자동화된 정량적 지표 통제로 진화하고, 궁극적으로 [[231_ai_turing_test|인공지능]] 기반의 지능형 [[096_risk_non_risk_architecture_evaluation_flaws|리스크]] 판단으로 나아가는 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. 배포 승인 게이트는 공장에서 막 만들어진 장난감을 백화점에 팔기 전 마지막으로 점검하는 검사관 아저씨예요.
-2. 장난감에 뾰족한 가시가 없는지 확인하고 문제가 없을 때만 "출발!" 도장을 찍어서 트럭을 출발시켜 주죠.
+2. 장난감에 뾰족한 가시가 없는지 [[396_validation|확인]]하고 문제가 없을 때만 "출발!" 도장을 찍어서 트럭을 출발시켜 주죠.
 3. 이렇게 꼼꼼하게 검사하는 문이 있어야 나쁜 장난감이 우리 집으로 배달되는 큰 사고를 막을 수 있답니다.

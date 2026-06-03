@@ -8,34 +8,34 @@ categories = "studynote-algorithm"
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 최대 유량 (Max Flow) 문제는 소스 (Source)에서 싱크 (Sink)까지 흘릴 수 있는 최대 흐름량을 구하는 문제로, 잔여 그래프 (Residual Graph)와 증가 경로 (Augmenting Path)를 이용해 해결한다.
-> 2. **가치**: Ford-Fulkerson, Edmonds-Karp 알고리즘으로 네트워크 대역폭, 이분 매칭 (Bipartite Matching), 프로젝트 선택 등 다양한 문제를 최대 유량 문제로 환원하여 해결한다.
-> 3. **판단 포인트**: Edmonds-Karp (BFS 기반 Ford-Fulkerson)는 O(VE²)으로 정수 용량에서 항상 종료하며, 최대 유량 = 최소 컷 (Max-Flow Min-Cut 정리)은 핵심 정리다.
+> 1. **본질**: 최대 유량 (Max Flow) 문제는 소스 (Source)에서 싱크 (Sink)까지 흘릴 수 있는 최대 흐름량을 구하는 문제로, 잔여 [[070_graph_datastructure|그래프]] (Residual [[104_graph|Graph]])와 증가 경로 (Augmenting Path)를 이용해 해결한다.
+> 2. **가치**: Ford-Fulkerson, Edmonds-Karp [[001_algorithm_definition|알고리즘]]으로 네트워크 [[140_bandwidth|대역폭]], [[172_bipartite_matching|이분 매칭]] ([[172_bipartite_matching|Bipartite Matching]]), 프로젝트 선택 등 다양한 문제를 최대 유량 문제로 환원하여 해결한다.
+> 3. **판단 포인트**: Edmonds-Karp ([[035_bfs|BFS]] 기반 Ford-Fulkerson)는 O(VE²)으로 정수 용량에서 항상 종료하며, 최대 유량 = [[045_min_cut|최소 컷]] (Max-Flow Min-Cut 정리)은 핵심 정리다.
 
 ## Ⅰ. 개요 및 필요성
 
-최대 유량 문제는 방향 그래프에서 각 간선에 용량 제한이 있을 때, 소스 s에서 싱크 t까지 보낼 수 있는 최대 흐름을 구하는 문제다.
+최대 유량 문제는 방향 [[070_graph_datastructure|그래프]]에서 각 간선에 용량 제한이 있을 때, 소스 s에서 싱크 t까지 보낼 수 있는 최대 흐름을 구하는 문제다.
 
 | 특성 | 내용 |
 |:---|:---|
 | Ford-Fulkerson 시간 | O(E × max_flow) |
 | Edmonds-Karp 시간 | O(VE²) |
-| Dinic's 알고리즘 | O(V²E) |
-| 핵심 개념 | 잔여 그래프, 증가 경로, 역방향 간선 |
+| Dinic's [[001_algorithm_definition|알고리즘]] | O(V²E) |
+| 핵심 개념 | 잔여 [[070_graph_datastructure|그래프]], 증가 경로, 역방향 간선 |
 | 핵심 정리 | Max-Flow = Min-Cut |
 
 최대 유량이 필요한 상황:
 
-- 네트워크 대역폭 최대화 (인터넷 라우팅)
-- 이분 매칭 (구직자-회사, 학생-기숙사 배정)
+- 네트워크 [[140_bandwidth|대역폭]] 최대화 (인터넷 [[339_routing_overview_best_path_selection|라우팅]])
+- [[172_bipartite_matching|이분 매칭]] (구직자-회사, 학생-기숙사 배정)
 - 프로젝트 선택 문제 (손익 최대화)
-- 이미지 세분화 (Graph Cut)
+- 이미지 세분화 ([[104_graph|Graph]] Cut)
 
-📢 **섹션 요약 비유**: 최대 유량은 수도관 네트워크에서 수원지(소스)에서 도시(싱크)까지 흘릴 수 있는 최대 물의 양을 구하는 것이다. 각 파이프의 지름(용량)이 흐름을 제한한다.
+📢 **섹션 요약 비유**: 최대 유량은 수도관 네트워크에서 수원지(소스)에서 도시(싱크)까지 흘릴 수 있는 최대 물의 양을 구하는 것이다. 각 [[123_pipe|파이프]]의 지름(용량)이 흐름을 제한한다.
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### 잔여 그래프 (Residual Graph)
+### 잔여 [[070_graph_datastructure|그래프]] (Residual [[104_graph|Graph]])
 
 ```
 원본 간선 (u→v, 용량 c, 현재 흐름 f):
@@ -45,7 +45,7 @@ categories = "studynote-algorithm"
 핵심: 역방향 간선이 있기 때문에 "이미 보낸 흐름을 우회"하는 경로도 활용 가능
 ```
 
-### ASCII 다이어그램 — 잔여 그래프와 증가 경로
+### [[103_ascii|ASCII]] 다이어그램 — 잔여 [[070_graph_datastructure|그래프]]와 증가 경로
 
 ```
 ┌──────────────────────────────────────────────────────────┐
@@ -77,11 +77,11 @@ Edmonds-Karp:
   시간: O(VE²)
 ```
 
-| 알고리즘 | 경로 탐색 | 시간 복잡도 | 종료 보장 |
+| [[001_algorithm_definition|알고리즘]] | 경로 탐색 | [[002_time_complexity|시간 복잡도]] | 종료 보장 |
 |:---|:---:|:---:|:---:|
-| Ford-Fulkerson | DFS | O(E × max_flow) | 정수 용량만 |
-| Edmonds-Karp | BFS | O(VE²) | 항상 |
-| Dinic's | BFS + DFS | O(V²E) | 항상 |
+| Ford-Fulkerson | [[034_dfs|DFS]] | O(E × max_flow) | 정수 용량만 |
+| Edmonds-Karp | [[035_bfs|BFS]] | O(VE²) | 항상 |
+| Dinic's | [[035_bfs|BFS]] + [[034_dfs|DFS]] | O(V²E) | 항상 |
 
 📢 **섹션 요약 비유**: Ford-Fulkerson은 물길을 아무 방향으로나 찾고, Edmonds-Karp는 항상 가장 짧은 물길을 먼저 찾는다. 짧은 길을 우선하면 전체 탐색 횟수가 줄어든다.
 
@@ -89,7 +89,7 @@ Edmonds-Karp:
 
 ### Max-Flow Min-Cut 정리
 
-최대 유량 = 최소 컷 (Min-Cut)의 용량
+최대 유량 = [[045_min_cut|최소 컷]] (Min-Cut)의 용량
 
 ```
 최소 컷: 소스와 싱크를 분리하는 간선 집합 중 총 용량이 최소인 것
@@ -97,7 +97,7 @@ Max-Flow = Min-Cut 용량
 → 최대 유량 해로부터 최소 컷 도출 가능
 ```
 
-### 이분 매칭 (Bipartite Matching)으로 환원
+### [[172_bipartite_matching|이분 매칭]] ([[172_bipartite_matching|Bipartite Matching]])으로 환원
 
 ```
 이분 그래프: 좌측 집합 L, 우측 집합 R
@@ -107,22 +107,22 @@ Max-Flow = Min-Cut 용량
 → 최대 유량 = 최대 매칭 수
 ```
 
-📢 **섹션 요약 비유**: 이분 매칭의 최대 유량 변환은 구직자와 회사 사이에 지원 가능한 경로만 있고, 각 사람은 한 회사에만 매칭될 수 있는 채용 네트워크를 만드는 것이다.
+📢 **섹션 요약 비유**: [[172_bipartite_matching|이분 매칭]]의 최대 유량 변환은 구직자와 회사 사이에 지원 가능한 경로만 있고, 각 사람은 한 회사에만 매칭될 수 있는 채용 네트워크를 만드는 것이다.
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 ### 실무 시나리오
 
-**시나리오 1**: 이분 매칭 — 과목-교실 배정
+**시나리오 1**: [[172_bipartite_matching|이분 매칭]] — 과목-교실 배정
 - 과목 집합과 교실 집합이 있을 때, 최대 몇 과목을 배정할 수 있는가?
 - 최대 유량으로 O(VE²) 해결
 
-**시나리오 2**: 네트워크 대역폭 분석
-- 서버 네트워크에서 소스(데이터센터)→싱크(CDN) 최대 전송 가능 대역폭
-- Max-Flow = Min-Cut → 병목 링크(최소 컷) 식별
+**시나리오 2**: 네트워크 [[140_bandwidth|대역폭]] 분석
+- 서버 네트워크에서 소스([[801_data_center_3_tier_architecture_core_aggregation_access|데이터센터]])→싱크([[506_cdn_content_delivery_network_edge_caching|CDN]]) 최대 전송 가능 [[140_bandwidth|대역폭]]
+- Max-Flow = Min-Cut → 병목 링크([[045_min_cut|최소 컷]]) [[655_ir_detection_analysis|식별]]
 
 **시나리오 3**: 프로젝트 선택 문제
-- 각 프로젝트는 이익/비용이 있고 의존 관계 존재
+- 각 프로젝트는 이익/비용이 있고 의존 [[083_relationship_in_er_model|관계]] 존재
 - 최대 이익 = 최대 유량 모델링으로 O(VE²) 해결
 
 ### 기술사 판단 포인트
@@ -131,30 +131,30 @@ Max-Flow = Min-Cut 용량
 |:---|:---|
 | 정수 용량, 소규모 | Ford-Fulkerson |
 | 일반적인 경우 | Edmonds-Karp (O(VE²)) |
-| 대규모 고성능 | Dinic's 알고리즘 (O(V²E)) |
-| 이분 매칭 | 최대 유량으로 환원 |
+| 대규모 고성능 | Dinic's [[001_algorithm_definition|알고리즘]] (O(V²E)) |
+| [[172_bipartite_matching|이분 매칭]] | 최대 유량으로 환원 |
 | 병목 링크 찾기 | Max-Flow 후 Min-Cut 계산 |
 
-📢 **섹션 요약 비유**: 최대 유량은 도시의 하수도 설계 문제와 같다. 어떤 파이프가 막히면(최소 컷) 전체 흐름이 제한된다는 것을 알아내는 것이 핵심이다.
+📢 **섹션 요약 비유**: 최대 유량은 도시의 하수도 설계 문제와 같다. 어떤 [[123_pipe|파이프]]가 막히면([[045_min_cut|최소 컷]]) 전체 흐름이 제한된다는 것을 알아내는 것이 핵심이다.
 
 ## Ⅴ. 기대효과 및 결론
 
-최대 유량 (Max Flow) 알고리즘은 네트워크 최적화의 핵심 도구로, Ford-Fulkerson의 기본 아이디어를 Edmonds-Karp가 BFS로 개선하여 항상 O(VE²)에 종료를 보장한다. Max-Flow Min-Cut 정리는 네트워크 분석과 이분 매칭 등 다양한 문제의 이론적 기반이다.
+최대 유량 (Max Flow) [[001_algorithm_definition|알고리즘]]은 네트워크 최적화의 핵심 도구로, Ford-Fulkerson의 기본 아이디어를 Edmonds-Karp가 BFS로 개선하여 항상 O(VE²)에 종료를 보장한다. Max-Flow Min-Cut 정리는 네트워크 분석과 [[172_bipartite_matching|이분 매칭]] 등 다양한 문제의 이론적 기반이다.
 
-**핵심 결론**: 유량, 매칭, 분리 문제는 모두 최대 유량으로 통합된다. 잔여 그래프와 역방향 간선이 이 통합의 핵심 메커니즘이다.
+**핵심 결론**: 유량, 매칭, 분리 문제는 모두 최대 유량으로 통합된다. 잔여 [[070_graph_datastructure|그래프]]와 역방향 간선이 이 통합의 핵심 메커니즘이다.
 
-📢 **섹션 요약 비유**: 최대 유량 알고리즘은 가장 막힌 파이프(최소 컷)를 찾아내는 과정이기도 하다. 물이 최대로 흐르면, 그 흐름을 막는 최소한의 파이프 집합이 자동으로 드러난다.
+📢 **섹션 요약 비유**: 최대 유량 [[001_algorithm_definition|알고리즘]]은 가장 막힌 [[123_pipe|파이프]]([[045_min_cut|최소 컷]])를 찾아내는 과정이기도 하다. 물이 최대로 흐르면, 그 흐름을 막는 최소한의 [[123_pipe|파이프]] 집합이 자동으로 드러난다.
 
 ### 📌 관련 개념 맵
 
-| 개념 | 관계 | 설명 |
+| 개념 | [[083_relationship_in_er_model|관계]] | 설명 |
 |:---|:---|:---|
-| 잔여 그래프 (Residual Graph) | 핵심 개념 | 남은 용량 + 역방향 간선 |
+| 잔여 [[070_graph_datastructure|그래프]] (Residual [[104_graph|Graph]]) | 핵심 개념 | 남은 용량 + 역방향 간선 |
 | 증가 경로 (Augmenting Path) | 핵심 개념 | s→t 경로 탐색 |
-| Max-Flow Min-Cut 정리 | 핵심 정리 | 최대 유량 = 최소 컷 |
-| 이분 매칭 | 응용 | 최대 유량으로 환원 |
-| Dinic's 알고리즘 | 확장 | O(V²E) 고성능 |
-| 최소 컷 (Min-Cut) | 연계 | 병목 간선 집합 |
+| Max-Flow Min-Cut 정리 | 핵심 정리 | 최대 유량 = [[045_min_cut|최소 컷]] |
+| [[172_bipartite_matching|이분 매칭]] | 응용 | 최대 유량으로 환원 |
+| Dinic's [[001_algorithm_definition|알고리즘]] | 확장 | O(V²E) 고성능 |
+| [[045_min_cut|최소 컷]] (Min-Cut) | 연계 | 병목 간선 집합 |
 
 
 ### 📈 관련 키워드 및 발전 흐름도
@@ -174,10 +174,10 @@ Max-Flow = Min-Cut 용량
     ▼
 [이분 매칭 (Bipartite Matching) / 프로젝트 선택 — 최대 유량으로 환원하는 응용]
 ```
-이 흐름은 그래프 유량 문제의 기초 아이디어(Ford-Fulkerson)가 수렴 보장의 결함을 극복하며 효율적인 알고리즘으로 정제되고, 그 결과물인 Max-Flow Min-Cut 정리가 매칭·분리·스케줄링 등 다양한 문제를 통합하는 이론적 기반으로 자리잡는 과정을 보여준다.
+이 흐름은 [[070_graph_datastructure|그래프]] 유량 문제의 기초 아이디어(Ford-Fulkerson)가 수렴 보장의 결함을 극복하며 효율적인 [[001_algorithm_definition|알고리즘]]으로 정제되고, 그 결과물인 Max-Flow Min-Cut 정리가 매칭·분리·스케줄링 등 다양한 문제를 통합하는 이론적 기반으로 자리잡는 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. 🚿 최대 유량은 수원지에서 도시까지 여러 파이프로 연결된 수도관에서 물을 최대로 보내는 방법을 찾는 문제다.
+1. 🚿 최대 유량은 수원지에서 도시까지 여러 [[123_pipe|파이프]]로 연결된 수도관에서 물을 최대로 보내는 방법을 찾는 문제다.
 2. 🔄 역방향 간선은 "이미 보낸 물을 다른 방향으로 돌릴 수 있다"는 것을 의미하여, 더 좋은 경로를 발견하면 이전 선택을 취소할 수 있다.
-3. 🔎 최대한 물을 보내고 나면, 전체 흐름을 막는 가장 작은 파이프 집합(최소 컷)이 자동으로 드러난다.
+3. 🔎 최대한 물을 보내고 나면, 전체 흐름을 막는 가장 작은 [[123_pipe|파이프]] 집합([[045_min_cut|최소 컷]])이 자동으로 드러난다.

@@ -8,35 +8,35 @@ categories = "studynote-enterprise"
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: gRPC (Google Remote Procedure Call)은 `.proto` 계약서를 기준으로 클라이언트와 서버 코드를 생성하고, Protocol Buffers 바이너리 메시지를 HTTP/2 위에서 주고받는 고성능 원격 호출 프레임워크다.
-> 2. **가치**: 내부 마이크로서비스 아키텍처 (MSA, Microservices Architecture)에서 JSON (JavaScript Object Notation) 기반 REST보다 메시지 크기와 직렬화 비용을 줄여, 낮은 지연시간과 높은 처리량을 동시에 노릴 수 있다.
-> 3. **판단 포인트**: gRPC는 "모든 API의 정답"이 아니라, 강한 계약·다중 언어 코드 생성·스트리밍이 중요한 내부 서비스 간 통신에서 특히 강하고, 공개 API나 브라우저 친화성은 별도 보완이 필요하다.
+> 1. **본질**: [[479_grpc_protobuf_http2|gRPC]] (Google [[126_rpc|Remote Procedure Call]])은 `.proto` 계약서를 기준으로 클라이언트와 서버 코드를 [[087_process_state_transition|생성]]하고, [[535_sync_communication_rest_grpc|Protocol Buffers]] 바이너리 [[389_mesh_topology|메시]]지를 [[461_http_stateless_connection_oriented|HTTP]]/2 위에서 주고받는 고성능 원격 호출 프레임워크다.
+> 2. **가치**: 내부 [[213_msa_microservices_architecture|마이크로서비스 아키텍처]] ([[619_msa_traffic_hardware|MSA]], [[122_msa_microservices_architecture|Microservices Architecture]])에서 [[343_json|JSON]] (JavaScript Object Notation) 기반 REST보다 [[389_mesh_topology|메시]]지 크기와 [[149_serial_communication_rs232_rs485|직렬]]화 비용을 줄여, 낮은 [[015_지연_데이터_관점|지연]]시간과 높은 [[139_throughput|처리량]]을 동시에 노릴 수 있다.
+> 3. **판단 포인트**: gRPC는 "모든 API의 정답"이 아니라, 강한 계약·다중 언어 코드 [[087_process_state_transition|생성]]·스트리밍이 중요한 내부 [[090_service_kubernetes_network_load_balancing|서비스]] 간 통신에서 특히 강하고, 공개 API나 브라우저 친화성은 별도 보완이 필요하다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-gRPC는 네트워크 너머의 함수를 로컬 메서드처럼 호출하게 해 주는 RPC (Remote Procedure Call) 계열 기술을 현대적인 서비스 환경에 맞게 정교화한 방식이다. 핵심은 "어떤 메시지를 어떤 형식으로 주고받는가"를 먼저 계약으로 고정하고, 그 계약을 바탕으로 통신 코드를 자동 생성한다는 점이다. 그래서 gRPC는 단순 전송 프로토콜이 아니라 **계약 중심 통신 체계**로 이해해야 한다.
+gRPC는 네트워크 너머의 함수를 로컬 메서드처럼 호출하게 해 주는 [[126_rpc|RPC]] ([[126_rpc|Remote Procedure Call]]) 계열 기술을 현대적인 [[090_service_kubernetes_network_load_balancing|서비스]] 환경에 맞게 정교화한 방식이다. 핵심은 "어떤 [[389_mesh_topology|메시]]지를 어떤 형식으로 주고받는가"를 먼저 계약으로 고정하고, 그 계약을 바탕으로 통신 코드를 자동 [[087_process_state_transition|생성]]한다는 점이다. 그래서 gRPC는 단순 전송 [[295_protocol_field_tcp_udp_icmp|프로토콜]]이 아니라 **계약 중심 통신 체계**로 이해해야 한다.
 
-이 방식이 필요해진 이유는 내부 서비스 호출량이 폭증했기 때문이다. 전자상거래나 금융 플랫폼에서는 주문, 결제, 재고, 추천 서비스가 요청 하나를 처리하는 동안 서로 수십 번씩 호출한다. 이때 텍스트 기반 JSON과 반복적인 파싱 비용이 누적되면 p95 지연시간과 CPU 사용량이 빠르게 증가하고, 언어가 다른 팀끼리 DTO (Data Transfer Object) 정의가 어긋나며 통합 비용도 커진다.
+이 방식이 필요해진 이유는 내부 [[090_service_kubernetes_network_load_balancing|서비스]] 호출량이 폭증했기 때문이다. 전자상거래나 금융 플랫폼에서는 주문, 결제, 재고, 추천 [[090_service_kubernetes_network_load_balancing|서비스]]가 요청 하나를 처리하는 동안 서로 수십 번씩 호출한다. 이때 텍스트 기반 JSON과 반복적인 파싱 비용이 누적되면 p95 [[015_지연_데이터_관점|지연]]시간과 CPU 사용량이 빠르게 증가하고, 언어가 다른 팀끼리 DTO ([[001_dikw_pyramid|Data]] Transfer Object) 정의가 어긋나며 통합 비용도 커진다.
 
-특히 gRPC는 사람이 읽기 쉬운 문서보다 **기계가 일관되게 이해할 수 있는 계약**을 우선한다. 그래서 외부 공개용 API보다 백엔드 간 동기 호출, 실시간 스트리밍, 다중 언어 SDK 생성이 중요한 환경에서 더 큰 의미를 가진다.
+특히 gRPC는 사람이 읽기 쉬운 문서보다 **기계가 일관되게 이해할 수 있는 계약**을 우선한다. 그래서 외부 공개용 API보다 백엔드 간 동기 호출, 실시간 스트리밍, 다중 언어 SDK [[087_process_state_transition|생성]]이 중요한 환경에서 더 큰 의미를 가진다.
 
-- **📢 섹션 요약 비유**: gRPC는 사내 메신저에 자유 형식으로 글을 남기는 방식이 아니라, 모든 부서가 같은 양식의 바코드 운송장을 붙여 자동 분류기에 바로 태우는 내부 물류 체계와 같다.
+- **📢 섹션 요약 비유**: gRPC는 사내 메신저에 자유 형식으로 글을 남기는 방식이 아니라, 모든 부서가 같은 양식의 바코드 운송장을 붙여 자동 [[104_classification_analysis|분류]]기에 바로 태우는 내부 물류 체계와 같다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-gRPC의 출발점은 인터페이스 정의 언어 (IDL, Interface Definition Language) 역할을 하는 `.proto` 파일이다. 개발자는 메시지 구조와 서비스 메서드를 정의하고, 컴파일러가 각 언어용 스텁 (Stub) 코드를 생성한다. 호출 시 클라이언트 스텁은 객체를 Protocol Buffers 형식으로 직렬화하고, HTTP/2 스트림에 실어 보내며, 서버 스텁은 이를 역직렬화해 실제 서비스 구현체에 전달한다.
+gRPC의 출발점은 인터페이스 정의 언어 (IDL, Interface Definition Language) 역할을 하는 `.proto` [[501_file_definition_logical_record|파일]]이다. 개발자는 [[389_mesh_topology|메시]]지 구조와 [[090_service_kubernetes_network_load_balancing|서비스]] 메서드를 정의하고, 컴파일러가 각 언어용 [[460_stub_test_double|스텁]] ([[460_stub_test_double|Stub]]) 코드를 [[087_process_state_transition|생성]]한다. 호출 시 클라이언트 [[460_stub_test_double|스텁]]은 객체를 [[535_sync_communication_rest_grpc|Protocol Buffers]] 형식으로 [[149_serial_communication_rs232_rs485|직렬]]화하고, [[461_http_stateless_connection_oriented|HTTP]]/2 스트림에 실어 보내며, 서버 [[460_stub_test_double|스텁]]은 이를 역직렬화해 실제 [[090_service_kubernetes_network_load_balancing|서비스]] 구현체에 전달한다.
 
 아래 표는 gRPC가 제공하는 대표 호출 방식을 보여준다.
 
 | 호출 방식 | 요청/응답 형태 | 적합한 사례 | 설계 포인트 |
 | :--- | :--- | :--- | :--- |
-| Unary | 요청 1건 / 응답 1건 | 회원 조회, 결제 승인 | 가장 단순하며 REST 대체에 적합 |
-| Server Streaming | 요청 1건 / 응답 다건 | 로그 tail, 실시간 시세 구독 | 수신 측 처리 속도와 backpressure 고려 |
-| Client Streaming | 요청 다건 / 응답 1건 | 센서 업로드, 대량 이벤트 적재 | 전송 완료 시점과 버퍼 관리 중요 |
+| Unary | 요청 1건 / 응답 1건 | 회원 조회, 결제 승인 | 가장 단순하며 [[156_rest_representational_state_transfer|REST]] 대체에 적합 |
+| Server Streaming | 요청 1건 / 응답 다건 | [[568_logs_distributed_logging_elk_fluentd|로그]] tail, 실시간 시세 구독 | 수신 측 처리 속도와 backpressure 고려 |
+| [[003_audit_stakeholders|Client]] Streaming | 요청 다건 / 응답 1건 | 센서 업로드, 대량 이벤트 적재 | 전송 완료 시점과 버퍼 관리 중요 |
 | Bidirectional Streaming | 요청 다건 / 응답 다건 | 채팅, 협업 편집, 실시간 제어 | 연결 유지, 순서, 취소 전파 설계 필요 |
 
 이 그림은 gRPC가 계약에서 실행까지 어떻게 이어지는지 보여준다.
@@ -54,58 +54,58 @@ gRPC의 출발점은 인터페이스 정의 언어 (IDL, Interface Definition La
 └──────────────────────────────────────────────────────────────────────┘
 ```
 
-HTTP/2는 하나의 연결에서 여러 스트림을 멀티플렉싱하고, 헤더 압축과 흐름 제어를 제공한다. 여기에 Protocol Buffers의 태그 기반 바이너리 직렬화가 결합되면, 동일한 의미의 메시지를 더 작은 크기와 더 적은 CPU 비용으로 전달할 수 있다. 또한 deadline, status code, metadata, interceptor 같은 메커니즘이 함께 제공되어 단순 속도뿐 아니라 운영 일관성도 확보한다.
+[[461_http_stateless_connection_oriented|HTTP]]/2는 하나의 연결에서 여러 스트림을 멀티플렉싱하고, 헤더 [[347_compaction|압축]]과 [[213_flow_control_buffer_overflow|흐름 제어]]를 제공한다. 여기에 [[295_protocol_field_tcp_udp_icmp|Protocol]] Buffers의 태그 기반 바이너리 [[149_serial_communication_rs232_rs485|직렬]]화가 결합되면, 동일한 의미의 [[389_mesh_topology|메시]]지를 더 작은 크기와 더 적은 CPU 비용으로 전달할 수 있다. 또한 [[766_realtime_scheduling_deadline|deadline]], status [[082_process_memory_structure|code]], [[012_metadata|metadata]], interceptor 같은 메커니즘이 함께 제공되어 단순 속도뿐 아니라 운영 [[194_consistency_database_integrity|일관성]]도 확보한다.
 
-- **📢 섹션 요약 비유**: gRPC는 택배를 보낼 때 내용물을 자유롭게 적는 종이 메모가 아니라, 규격 상자와 자동 분류 라인을 함께 쓰는 고속 물류센터와 같다. 상자가 규격화되어 있어야 분류기와 배송차가 빠르게 움직인다.
+- **📢 섹션 요약 비유**: gRPC는 택배를 보낼 때 내용물을 자유롭게 적는 종이 메모가 아니라, 규격 상자와 자동 [[104_classification_analysis|분류]] 라인을 함께 쓰는 고속 물류센터와 같다. 상자가 규격화되어 있어야 [[104_classification_analysis|분류]]기와 배송차가 빠르게 움직인다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-gRPC를 이해하려면 REST API (Representational State Transfer Application Programming Interface)와 메시지 브로커 기반 비동기 연동을 함께 봐야 한다. gRPC는 동기 호출의 응답성, 메시지 브로커는 시간적 분리, REST는 범용성과 가시성에 강하다. 결국 어떤 통신을 택할지는 "누가 소비하는가"와 "응답이 즉시 필요한가"에 달려 있다.
+gRPC를 이해하려면 [[477_rest_api_architecture|REST API]] ([[477_rest_api_architecture|Representational State Transfer]] [[014_api_posix|Application Programming Interface]])와 [[145_message_broker_sync_async|메시지 브로커]] 기반 비동기 연동을 함께 봐야 한다. gRPC는 동기 호출의 응답성, [[145_message_broker_sync_async|메시지 브로커]]는 시간적 분리, REST는 범용성과 가시성에 강하다. 결국 어떤 통신을 택할지는 "누가 소비하는가"와 "응답이 즉시 필요한가"에 달려 있다.
 
-| 항목 | gRPC | REST API | 메시지 브로커 기반 이벤트 |
+| 항목 | [[479_grpc_protobuf_http2|gRPC]] | [[477_rest_api_architecture|REST API]] | [[145_message_broker_sync_async|메시지 브로커]] 기반 이벤트 |
 | :--- | :--- | :--- | :--- |
-| 통신 성격 | 동기 RPC 중심 | 동기 요청/응답 중심 | 비동기 발행/구독 |
-| 데이터 형식 | Protocol Buffers | 주로 JSON | JSON, Avro, Protobuf 등 다양 |
-| 장점 | 저지연, 강한 타입, 코드 생성 | 브라우저 친화성, 디버깅 용이 | 결합도 완화, 재시도·버퍼링 용이 |
+| 통신 성격 | 동기 [[126_rpc|RPC]] 중심 | 동기 요청/응답 중심 | 비동기 발행/구독 |
+| [[001_dikw_pyramid|데이터]] 형식 | [[535_sync_communication_rest_grpc|Protocol Buffers]] | 주로 [[343_json|JSON]] | [[343_json|JSON]], Avro, Protobuf 등 다양 |
+| 장점 | 저지연, 강한 타입, 코드 [[087_process_state_transition|생성]] | 브라우저 친화성, 디버깅 용이 | [[195_coupling_levels|결합도]] 완화, 재시도·[[454_buffering|버퍼링]] 용이 |
 | 약점 | 브라우저 제약, 사람이 읽기 어려움 | 오버헤드 큼, 계약 드리프트 가능 | 즉시 응답 부적합, 운영 복잡성 증가 |
-| 대표 활용 | 내부 서비스 간 호출 | 외부 공개 API, BFF | 주문 이벤트, 비동기 후처리 |
+| 대표 활용 | 내부 [[090_service_kubernetes_network_load_balancing|서비스]] 간 호출 | 외부 공개 [[014_api_posix|API]], [[543_bff_backend_for_frontend|BFF]] | 주문 이벤트, 비동기 후처리 |
 
-연결 관점에서도 중요하다. gRPC는 서비스 메시 (Service Mesh)와 결합하면 mTLS (Mutual Transport Layer Security), 재시도, 관측성을 인프라 계층으로 위임하기 쉽다. 반면 외부 클라이언트와 직접 연결할 때는 API Gateway나 gRPC-Web 같은 중간 계층이 필요해지며, 그 지점에서 OpenAPI 기반 REST와 혼합 운용되는 경우가 많다.
+연결 관점에서도 중요하다. gRPC는 [[302_service_mesh_istio|서비스 메시]] ([[828_service_mesh_microservice_communication_infrastructure|Service Mesh]])와 결합하면 [[831_mtls_mutual_tls_microservices_zero_trust|mTLS]] (Mutual Transport Layer [[283_security_tactics|Security]]), 재시도, 관측성을 인프라 계층으로 위임하기 쉽다. 반면 외부 클라이언트와 직접 연결할 때는 [[014_api_posix|API]] Gateway나 [[479_grpc_protobuf_http2|gRPC]]-Web 같은 중간 계층이 필요해지며, 그 지점에서 OpenAPI 기반 REST와 혼합 운용되는 경우가 많다.
 
-- **📢 섹션 요약 비유**: gRPC는 사내 전용 고속 직통전화이고, REST는 누구나 읽을 수 있는 안내 데스크이며, 메시지 브로커는 답장이 늦어도 되는 사내 우편함과 같다. 셋은 경쟁자라기보다 쓰임새가 다른 통신 채널이다.
+- **📢 섹션 요약 비유**: gRPC는 사내 전용 고속 직통전화이고, REST는 누구나 읽을 수 있는 안내 데스크이며, [[145_message_broker_sync_async|메시지 브로커]]는 답장이 늦어도 되는 사내 우편함과 같다. 셋은 경쟁자라기보다 쓰임새가 다른 통신 채널이다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서는 "속도가 빠르다"보다 "어느 경계 안에서 표준으로 삼을 것인가"가 더 중요하다. 서비스 간 호출이 잦고, Java·Go·Python처럼 다중 언어가 공존하며, 스키마 일관성이 중요하다면 gRPC 채택 이점이 크다. 반대로 공개 API, CDN 캐시 활용, 브라우저 개발자 도구 중심 디버깅이 중요하다면 REST가 더 자연스럽다.
+실무에서는 "속도가 빠르다"보다 "어느 경계 안에서 표준으로 삼을 것인가"가 더 중요하다. [[090_service_kubernetes_network_load_balancing|서비스]] 간 호출이 잦고, Java·Go·Python처럼 다중 언어가 공존하며, [[005_schema|스키마]] [[194_consistency_database_integrity|일관성]]이 중요하다면 [[479_grpc_protobuf_http2|gRPC]] 채택 이점이 크다. 반대로 공개 [[014_api_posix|API]], [[506_cdn_content_delivery_network_edge_caching|CDN]] 캐시 활용, 브라우저 개발자 도구 중심 디버깅이 중요하다면 REST가 더 자연스럽다.
 
-### 채택 판단 체크리스트
+### 채택 판단 [[435_checklist_based_testing|체크리스트]]
 
-1. 내부 서비스 간 호출량이 많아 JSON 파싱 비용과 네트워크 오버헤드가 병목인가?
-2. `.proto` 스키마를 중앙 거버넌스로 관리하고 하위 호환 규칙을 지킬 수 있는가?
-3. timeout 대신 deadline, retry, circuit breaker를 호출 규약으로 표준화했는가?
-4. 필드 번호 재사용 금지, optional/oneof 전략, 에러 코드 체계를 팀 공통 규칙으로 문서화했는가?
+1. 내부 [[090_service_kubernetes_network_load_balancing|서비스]] 간 호출량이 많아 [[343_json|JSON]] 파싱 비용과 네트워크 오버헤드가 병목인가?
+2. `.proto` [[005_schema|스키마]]를 중앙 거버넌스로 관리하고 하위 호환 규칙을 지킬 수 있는가?
+3. [[319_timeout_prevention|timeout]] 대신 [[766_realtime_scheduling_deadline|deadline]], retry, circuit breaker를 호출 규약으로 표준화했는가?
+4. 필드 번호 재사용 금지, optional/oneof [[268_strategy_pattern|전략]], 에러 코드 체계를 팀 공통 규칙으로 문서화했는가?
 
-### 안티패턴
+### [[128_water_scrum_fall_anti_pattern|안티패턴]]
 
-- 공개 모바일/웹 API까지 무조건 gRPC 하나로 통일하려는 설계
-- 장기 스트리밍을 쓰면서 keepalive, 인증 갱신, 취소 전파를 설계하지 않는 경우
-- 스키마 버전 관리 없이 필드 삭제·번호 재사용을 반복하는 경우
+- 공개 모바일/웹 API까지 무조건 [[479_grpc_protobuf_http2|gRPC]] 하나로 통일하려는 설계
+- 장기 스트리밍을 쓰면서 keepalive, [[303_authentication_authorization_patterns|인증]] 갱신, 취소 전파를 설계하지 않는 경우
+- [[005_schema|스키마]] [[288_version_ihl_tos_total_length|버전]] 관리 없이 필드 삭제·번호 재사용을 반복하는 경우
 
-따라서 기술사 관점의 답안은 "gRPC는 내부 MSA의 고성능 표준" 정도로 외우는 데서 끝나면 부족하다. **어떤 경계는 gRPC, 어떤 경계는 REST, 어떤 경계는 비동기 이벤트**로 나누는 계층적 통신 전략까지 제시해야 설계력이 드러난다.
+따라서 기술사 관점의 답안은 "gRPC는 내부 MSA의 고성능 표준" 정도로 외우는 데서 끝나면 부족하다. **어떤 경계는 [[479_grpc_protobuf_http2|gRPC]], 어떤 경계는 [[156_rest_representational_state_transfer|REST]], 어떤 경계는 비동기 이벤트**로 나누는 계층적 통신 [[268_strategy_pattern|전략]]까지 제시해야 설계력이 드러난다.
 
-- **📢 섹션 요약 비유**: gRPC 도입은 도시 전체 도로를 모두 고속도로로 바꾸는 일이 아니다. 물동량이 큰 산업 단지 사이에만 전용선 도로를 깔아야 투자 대비 효과가 난다.
+- **📢 섹션 요약 비유**: [[479_grpc_protobuf_http2|gRPC]] 도입은 도시 전체 도로를 모두 고속도로로 바꾸는 일이 아니다. 물동량이 큰 산업 단지 사이에만 [[266_leased_line_basics_e1_t1_t3|전용선]] 도로를 깔아야 투자 대비 효과가 난다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-gRPC를 잘 도입하면 서비스 간 호출의 지연시간과 대역폭 사용량을 줄이고, 코드 생성으로 클라이언트/서버 계약 불일치를 크게 줄일 수 있다. 스트리밍이 필요한 실시간 분석, 채팅, 대량 업로드 시나리오에서도 단일 프로토콜로 일관된 통신 모델을 확보할 수 있다. 즉 성능뿐 아니라 개발 생산성과 계약 안정성까지 함께 얻는다는 점이 핵심 효과다.
+gRPC를 잘 도입하면 [[090_service_kubernetes_network_load_balancing|서비스]] 간 호출의 [[015_지연_데이터_관점|지연]]시간과 [[140_bandwidth|대역폭]] 사용량을 줄이고, 코드 [[087_process_state_transition|생성]]으로 클라이언트/서버 계약 불일치를 크게 줄일 수 있다. 스트리밍이 필요한 실시간 분석, 채팅, 대량 업로드 시나리오에서도 단일 [[295_protocol_field_tcp_udp_icmp|프로토콜]]로 일관된 통신 모델을 확보할 수 있다. 즉 [[282_performance_tactics|성능]]뿐 아니라 개발 생산성과 계약 안정성까지 함께 얻는다는 점이 핵심 효과다.
 
-다만 전제조건도 분명하다. `.proto` 스키마 거버넌스, 관측성, 에러 표준화, 게이트웨이 전략이 없으면 gRPC는 단순히 "빠르지만 다루기 어려운 바이너리 프로토콜"로 전락한다. 따라서 이 주제는 **REST의 대체재**가 아니라 **내부 서비스 통신을 정형화하는 고속 계약 체계**로 기억하는 것이 가장 정확하다.
+다만 전제조건도 분명하다. `.proto` [[005_schema|스키마]] 거버넌스, 관측성, 에러 표준화, 게이트웨이 [[268_strategy_pattern|전략]]이 없으면 gRPC는 단순히 "빠르지만 다루기 어려운 바이너리 [[295_protocol_field_tcp_udp_icmp|프로토콜]]"로 전락한다. 따라서 이 주제는 **REST의 대체재**가 아니라 **내부 [[090_service_kubernetes_network_load_balancing|서비스]] 통신을 정형화하는 고속 계약 체계**로 기억하는 것이 가장 정확하다.
 
 - **📢 섹션 요약 비유**: gRPC는 손님이 보는 쇼윈도보다 창고와 공장을 잇는 자동 컨베이어 벨트에 가깝다. 보이지 않는 내부 동선을 정리할 때 가장 큰 힘을 발휘한다.
 
@@ -115,11 +115,11 @@ gRPC를 잘 도입하면 서비스 간 호출의 지연시간과 대역폭 사�
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| Protocol Buffers | gRPC 메시지 직렬화와 스키마 계약의 핵심 |
-| HTTP/2 | 멀티플렉싱, 헤더 압축, 스트리밍을 제공하는 전송 기반 |
-| 스텁 (Stub) | 원격 호출을 로컬 메서드처럼 보이게 하는 코드 생성 결과물 |
-| 서비스 메시 | gRPC 트래픽의 보안·재시도·관측성을 인프라에서 보완 |
-| gRPC-Web | 브라우저 환경에서 gRPC를 우회적으로 사용하게 하는 호환 계층 |
+| [[535_sync_communication_rest_grpc|Protocol Buffers]] | [[479_grpc_protobuf_http2|gRPC]] [[389_mesh_topology|메시]]지 [[149_serial_communication_rs232_rs485|직렬]]화와 [[005_schema|스키마]] 계약의 핵심 |
+| [[461_http_stateless_connection_oriented|HTTP]]/2 | 멀티플렉싱, 헤더 [[347_compaction|압축]], 스트리밍을 제공하는 전송 기반 |
+| [[460_stub_test_double|스텁]] ([[460_stub_test_double|Stub]]) | 원격 호출을 로컬 메서드처럼 보이게 하는 코드 [[087_process_state_transition|생성]] 결과물 |
+| [[302_service_mesh_istio|서비스 메시]] | [[479_grpc_protobuf_http2|gRPC]] 트래픽의 보안·재시도·관측성을 인프라에서 보완 |
+| [[479_grpc_protobuf_http2|gRPC]]-Web | 브라우저 환경에서 gRPC를 우회적으로 사용하게 하는 호환 계층 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 

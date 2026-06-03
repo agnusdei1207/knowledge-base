@@ -8,7 +8,7 @@ categories = "studynote-computer-architecture"
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 마스터-슬레이브 플립플롭은 두 개의 래치를 직렬로 연결해 엣지 트리거처럼 동작하게 한 구조다.
+> 1. **본질**: 마스터-슬레이브 [[051_flip_flop|플립플롭]]은 두 개의 래치를 직렬로 연결해 엣지 트리거처럼 동작하게 한 구조다.
 > 2. **가치**: level-sensitive latch의 투명 구간 문제와 race-around를 줄인다.
 > 3. **판단 포인트**: 클록의 전/후반 구간 역할 분리가 핵심이다.
 
@@ -47,9 +47,9 @@ Input → [Master Latch] → [Slave Latch] → Output
 
 ## Ⅲ. 비교 및 연결
 
-마스터-슬레이브 구조는 D, JK, T 플립플롭 구현에 사용될 수 있다. 순차회로에서 race-around를 줄이는 전형적 방법이다.
+마스터-슬레이브 구조는 D, JK, T [[051_flip_flop|플립플롭]] 구현에 사용될 수 있다. 순차회로에서 race-around를 줄이는 전형적 방법이다.
 
-| 항목 | Latch | Master-Slave |
+| 항목 | [[048_latch|Latch]] | Master-Slave |
 | :--- | :--- | :--- |
 | 민감도 | 레벨 | 사실상 엣지 |
 | 안정성 | 중간 | 높음 |
@@ -65,14 +65,14 @@ Input → [Master Latch] → [Slave Latch] → Output
 
 실무에서는 클록 위상, setup/hold, race-around 방지, 타이밍 마진을 함께 고려한다. 마스터와 슬레이브의 시간 분리가 중요하다.
 
-### 체크리스트
+### [[435_checklist_based_testing|체크리스트]]
 
 1. 두 래치가 동시에 열리지 않는가?
 2. race-around가 억제되는가?
 3. 엣지 기반 동작이 보장되는가?
 4. 타이밍 여유가 있는가?
 
-### 안티패턴
+### [[128_water_scrum_fall_anti_pattern|안티패턴]]
 
 - 클록 위상 분리를 무시하는 경우
 - 동시 투명 구간이 생기는 경우
@@ -98,11 +98,11 @@ Input → [Master Latch] → [Slave Latch] → Output
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| Latch | 기본 블록 |
-| Edge Trigger | 목표 동작 |
+| [[048_latch|Latch]] | 기본 블록 |
+| [[046_edge_trigger|Edge Trigger]] | 목표 동작 |
 | Race-around | 문제 |
 | Setup/Hold | 타이밍 |
-| Flip-Flop | 응용 |
+| [[051_flip_flop|Flip-Flop]] | 응용 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 

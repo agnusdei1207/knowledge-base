@@ -6,9 +6,9 @@ categories = "studynote-design-supervision"
 +++
 
 > **핵심 인사이트**
-> 1. 감리에서 전수 검토(100% 검사)는 비용·시간상 불가능한 경우가 많으므로, 통계적 샘플링(Statistical Sampling)을 통해 모집단(Population)의 특성을 신뢰 수준(Confidence Level)과 허용 오차(Tolerable Error) 내에서 추론한다.
-> 2. 샘플링 리스크(Sampling Risk)는 샘플이 모집단을 대표하지 못할 위험으로, 표본 크기(Sample Size)가 클수록 줄어들지만 영구적으로 제거되지는 않는다 — 이것이 샘플링 기반 감리 의견의 근본적 한계이자 전제이다.
-> 3. 속성 샘플링(Attribute Sampling)은 통제의 준수율 평가에, 변수 샘플링(Variables Sampling)은 금액적 오류의 규모 추정에 사용 — 감리 목적에 따라 방법을 선택해야 한다.
+> 1. 감리에서 전수 검토(100% 검사)는 비용·시간상 불가능한 경우가 많으므로, 통계적 샘플링(Statistical [[056_표본화_Sampling|Sampling]])을 통해 모집단(Population)의 특성을 신뢰 수준([[085_confidence_association_rule_conditional_probability|Confidence]] Level)과 허용 오차(Tolerable Error) 내에서 추론한다.
+> 2. 샘플링 [[096_risk_non_risk_architecture_evaluation_flaws|리스크]]([[056_표본화_Sampling|Sampling]] [[096_risk_non_risk_architecture_evaluation_flaws|Risk]])는 샘플이 모집단을 대표하지 못할 위험으로, 표본 크기(Sample Size)가 클수록 줄어들지만 영구적으로 제거되지는 않는다 — 이것이 샘플링 기반 감리 의견의 근본적 한계이자 전제이다.
+> 3. [[082_attribute_types_er_model|속성]] 샘플링([[082_attribute_types_er_model|Attribute]] [[056_표본화_Sampling|Sampling]])은 통제의 준수율 평가에, 변수 샘플링(Variables [[056_표본화_Sampling|Sampling]])은 금액적 오류의 규모 추정에 사용 — 감리 목적에 따라 방법을 선택해야 한다.
 
 ---
 
@@ -44,7 +44,7 @@ categories = "studynote-design-supervision"
 
 ---
 
-## II. 속성 샘플링
+## II. [[082_attribute_types_er_model|속성]] 샘플링
 
 ```
 속성 샘플링 (Attribute Sampling):
@@ -75,7 +75,7 @@ categories = "studynote-design-supervision"
   예상 모집단 오류율 ↑ -> 표본 크기 ↑
 ```
 
-> 📢 **섹션 요약 비유**: 속성 샘플링은 선거 여론조사처럼 — 1,000명 물어보고 "60% 지지 ± 3%" 추론, 더 확실하려면 더 많이 물어봐야 함.
+> 📢 **섹션 요약 비유**: [[082_attribute_types_er_model|속성]] 샘플링은 선거 여론조사처럼 — 1,000명 물어보고 "60% 지지 ± 3%" 추론, 더 확실하려면 더 많이 물어봐야 함.
 
 ---
 
@@ -107,11 +107,11 @@ MUS (Monetary Unit Sampling, 금액 단위 샘플링):
   -> 추가 샘플링 또는 전수 조사
 ```
 
-> 📢 **섹션 요약 비유**: 변수 샘플링은 은행 대출 포트폴리오 감사 — 100억 대출 중 5억 샘플링해서 전체 오류 금액 추정.
+> 📢 **섹션 요약 비유**: 변수 샘플링은 은행 대출 포트폴리오 [[606_auditing_linux_auditd|감사]] — 100억 대출 중 5억 샘플링해서 전체 오류 금액 추정.
 
 ---
 
-## IV. 샘플링 방법
+## [[288_version_ihl_tos_total_length|IV]]. 샘플링 방법
 
 ```
 표본 선택 방법:
@@ -151,7 +151,7 @@ MUS (Monetary Unit Sampling, 금액 단위 샘플링):
 
 ---
 
-## V. 실무 시나리오 — ISMS 감리 속성 샘플링
+## V. 실무 시나리오 — [[836_iso_27001_isms|ISMS]] 감리 [[082_attribute_types_er_model|속성]] 샘플링
 
 ```
 감리 목적: 접근 권한 검토 절차 준수 확인
@@ -187,7 +187,7 @@ MUS (Monetary Unit Sampling, 금액 단위 샘플링):
   미승인 변경 원천 차단 필요
 ```
 
-> 📢 **섹션 요약 비유**: 77건 샘플에서 4건 오류 -> 전체 2,400건에서 약 125건 오류 추정 — 전수 검토 없이도 문제 규모 파악 가능.
+> 📢 **섹션 요약 비유**: 77건 샘플에서 4건 오류 -> 전체 2,400건에서 약 125건 [[434_error_guessing|오류 추정]] — 전수 검토 없이도 문제 규모 파악 가능.
 
 ---
 
@@ -241,5 +241,5 @@ ISACA, IIA 가이드라인
 ## 👶 어린이를 위한 3줄 비유 설명
 
 1. 샘플링 감리는 식품 공장에서 제품 10개만 검사하고 전체 품질을 판단하는 것처럼, 모든 서류를 다 확인하는 대신 일부만 골라 전체를 추론하는 방법이에요.
-2. 속성 샘플링은 "승인 서명이 있는 서류 비율이 5% 이상 없으면 문제"처럼 통제 준수율을 확인하고, 변수 샘플링은 "오류 금액이 얼마나 되는지"를 추정해요.
+2. [[082_attribute_types_er_model|속성]] 샘플링은 "승인 서명이 있는 서류 비율이 5% 이상 없으면 문제"처럼 통제 준수율을 확인하고, 변수 샘플링은 "오류 금액이 얼마나 되는지"를 추정해요.
 3. 표본이 클수록 더 정확하지만 비용이 늘어나서, 신뢰 수준과 허용 오류 범위를 정해 적정한 표본 크기를 계산하는 것이 핵심이에요!

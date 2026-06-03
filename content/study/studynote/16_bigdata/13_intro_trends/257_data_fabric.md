@@ -7,13 +7,13 @@ categories = "studynote-bigdata"
 +++
 
 > **핵심 인사이트**
-> 1. 데이터 패브릭(Data Fabric)은 이기종 데이터 소스를 메타데이터와 AI로 통합·자동화하는 아키텍처 패러다임 — 데이터 메시(Data Mesh)가 조직·도메인 중심의 분산이라면, 데이터 패브릭은 기술 자동화 중심의 통합으로 두 접근법은 상호 보완적이다.
-> 2. 데이터 패브릭의 핵심은 "지능형 메타데이터 레이어" — 능동 메타데이터(Active Metadata)가 데이터 계보(Lineage), 품질, 접근 패턴을 자동 학습하여 데이터 발견·통합·관리를 자동화하는 것이 기존 카탈로그와의 핵심 차별점이다.
-> 3. Gartner는 2022년 데이터 패브릭을 탑 데이터 관리 트렌드로 선정 — 기업 데이터 조직의 75%가 2026년까지 데이터 패브릭 도입을 검토할 것으로 예측하며, IBM, Microsoft, Informatica 등이 주요 벤더다.
+> 1. [[212_data_fabric_virtualization|데이터 패브릭]]([[212_data_fabric_virtualization|Data Fabric]])은 이기종 [[001_dikw_pyramid|데이터]] 소스를 [[012_metadata|메타데이터]]와 AI로 통합·자동화하는 아키텍처 패러다임 — [[211_data_mesh_domain_ownership|데이터 메시]]([[320_data_mesh|Data Mesh]])가 조직·[[064_relation_domain|도메인]] 중심의 [[136_variance|분산]]이라면, [[212_data_fabric_virtualization|데이터 패브릭]]은 기술 자동화 중심의 통합으로 두 접근법은 상호 보완적이다.
+> 2. [[212_data_fabric_virtualization|데이터 패브릭]]의 핵심은 "지능형 [[012_metadata|메타데이터]] 레이어" — 능동 [[012_metadata|메타데이터]]([[483_active_vs_passive_ftp|Active]] [[012_metadata|Metadata]])가 [[001_dikw_pyramid|데이터]] 계보(Lineage), 품질, 접근 패턴을 자동 학습하여 [[001_dikw_pyramid|데이터]] 발견·통합·관리를 자동화하는 것이 기존 [[394_catalog_metadata|카탈로그]]와의 핵심 차별점이다.
+> 3. Gartner는 2022년 [[212_data_fabric_virtualization|데이터 패브릭]]을 탑 [[001_dikw_pyramid|데이터]] 관리 트렌드로 선정 — 기업 [[001_dikw_pyramid|데이터]] 조직의 75%가 2026년까지 [[212_data_fabric_virtualization|데이터 패브릭]] 도입을 검토할 것으로 예측하며, IBM, Microsoft, Informatica 등이 주요 벤더다.
 
 ---
 
-## Ⅰ. 데이터 패브릭 개념
+## Ⅰ. [[212_data_fabric_virtualization|데이터 패브릭]] 개념
 
 ```
 데이터 패브릭 (Data Fabric):
@@ -52,11 +52,11 @@ categories = "studynote-bigdata"
   → 상호 보완 가능 (메시 + 패브릭)
 ```
 
-> 📢 **섹션 요약 비유**: 데이터 패브릭은 스마트 번역기 — 각나라 말(데이터 소스)을 자동으로 이해하고 연결. 메타데이터(언어 사전)가 AI로 학습해 자동 통역!
+> 📢 **섹션 요약 비유**: [[212_data_fabric_virtualization|데이터 패브릭]]은 스마트 번역기 — 각나라 말([[001_dikw_pyramid|데이터]] 소스)을 자동으로 이해하고 연결. [[012_metadata|메타데이터]](언어 사전)가 AI로 학습해 자동 통역!
 
 ---
 
-## Ⅱ. 능동 메타데이터
+## Ⅱ. 능동 [[012_metadata|메타데이터]]
 
 ```
 능동 메타데이터 (Active Metadata):
@@ -103,11 +103,11 @@ categories = "studynote-bigdata"
   → 복잡한 데이터 관계 시각화
 ```
 
-> 📢 **섹션 요약 비유**: 능동 메타데이터는 AI 사서 — 도서관 책(데이터)에 대한 기록(메타데이터)을 AI가 자동 업데이트. "이 책 보면 저 책도 봐요" 자동 추천!
+> 📢 **섹션 요약 비유**: 능동 [[012_metadata|메타데이터]]는 [[190_ai_llm_requirements_specification|AI]] 사서 — 도서관 책([[001_dikw_pyramid|데이터]])에 대한 기록([[012_metadata|메타데이터]])을 AI가 자동 업데이트. "이 책 보면 저 책도 봐요" 자동 추천!
 
 ---
 
-## Ⅲ. 데이터 패브릭 기술 구성
+## Ⅲ. [[212_data_fabric_virtualization|데이터 패브릭]] 기술 구성
 
 ```
 데이터 패브릭 기술 아키텍처:
@@ -151,11 +151,11 @@ categories = "studynote-bigdata"
   Denodo (데이터 가상화 특화)
 ```
 
-> 📢 **섹션 요약 비유**: 데이터 패브릭 아키텍처는 스마트 물류 센터 — 여러 공급처(소스)에서 물건(데이터) 받아 자동 분류(메타데이터), AI 추천 경로(통합), 보안 관리(거버넌스)!
+> 📢 **섹션 요약 비유**: [[212_data_fabric_virtualization|데이터 패브릭]] 아키텍처는 스마트 물류 센터 — 여러 공급처(소스)에서 물건([[001_dikw_pyramid|데이터]]) 받아 자동 [[104_classification_analysis|분류]]([[012_metadata|메타데이터]]), [[190_ai_llm_requirements_specification|AI]] 추천 경로(통합), 보안 관리(거버넌스)!
 
 ---
 
-## Ⅳ. 데이터 가상화
+## Ⅳ. [[360_data_virtualization|데이터 가상화]]
 
 ```
 데이터 가상화 (Data Virtualization):
@@ -202,11 +202,11 @@ categories = "studynote-bigdata"
   ETL 구축 이전 빠른 프로토타입
 ```
 
-> 📢 **섹션 요약 비유**: 데이터 가상화는 통합 은행 앱 — 여러 은행(소스) 계좌를 앱(가상화)으로 한 번에 조회. 실제 돈(데이터)은 각 은행에, 잔액 표시만 통합!
+> 📢 **섹션 요약 비유**: [[360_data_virtualization|데이터 가상화]]는 통합 은행 앱 — 여러 은행(소스) 계좌를 앱([[015_virtualization|가상화]])으로 한 번에 조회. 실제 돈([[001_dikw_pyramid|데이터]])은 각 은행에, 잔액 표시만 통합!
 
 ---
 
-## Ⅴ. 실무 시나리오 — 금융그룹 데이터 패브릭
+## Ⅴ. 실무 시나리오 — 금융그룹 [[212_data_fabric_virtualization|데이터 패브릭]]
 
 ```
 대형 금융그룹 데이터 패브릭 구축:
@@ -251,7 +251,7 @@ categories = "studynote-bigdata"
   데이터 관련 컴플라이언스 위반: 0건 (계보 추적)
 ```
 
-> 📢 **섹션 요약 비유**: 금융 데이터 패브릭은 가족 통합 다이어리 — 은행·증권·보험(3형제)이 각자 쓰던 일기(DB)를 AI 비서(패브릭)가 자동 통합해서 가족 전체 상황(고객 360도) 한눈에!
+> 📢 **섹션 요약 비유**: 금융 [[212_data_fabric_virtualization|데이터 패브릭]]은 가족 통합 다이어리 — 은행·증권·보험(3형제)이 각자 쓰던 일기(DB)를 [[190_ai_llm_requirements_specification|AI]] 비서(패브릭)가 자동 통합해서 가족 전체 상황(고객 360도) 한눈에!
 
 ---
 
@@ -308,6 +308,6 @@ LLM 기반 자연어 데이터 질의
 
 ## 👶 어린이를 위한 3줄 비유 설명
 
-1. 데이터 패브릭은 스마트 도서관 — 여러 도서관(DB)의 책(데이터)을 AI 사서(메타데이터)가 자동으로 목록 만들고, "이 책 찾으면 저 책도 봐요" 추천!
-2. 데이터 가상화는 통합 앱 — 여러 은행 계좌를 하나의 앱으로! 실제 돈은 각 은행에 있지만 앱에서 통합 조회.
-3. 데이터 메시 vs 패브릭 — 메시는 "각 팀이 자기 데이터 관리", 패브릭은 "AI가 자동 통합". 둘 다 분산 데이터 문제 해결, 방법이 달라요!
+1. [[212_data_fabric_virtualization|데이터 패브릭]]은 스마트 도서관 — 여러 도서관(DB)의 책([[001_dikw_pyramid|데이터]])을 [[190_ai_llm_requirements_specification|AI]] 사서([[012_metadata|메타데이터]])가 자동으로 목록 만들고, "이 책 찾으면 저 책도 봐요" 추천!
+2. [[360_data_virtualization|데이터 가상화]]는 통합 앱 — 여러 은행 계좌를 하나의 앱으로! 실제 돈은 각 은행에 있지만 앱에서 통합 조회.
+3. [[211_data_mesh_domain_ownership|데이터 메시]] vs 패브릭 — [[389_mesh_topology|메시]]는 "각 팀이 자기 [[001_dikw_pyramid|데이터]] 관리", 패브릭은 "AI가 자동 통합". 둘 다 [[136_variance|분산]] [[001_dikw_pyramid|데이터]] 문제 해결, 방법이 달라요!

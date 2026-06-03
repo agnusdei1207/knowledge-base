@@ -8,17 +8,17 @@ categories = "studynote-software-engineering"
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 요구사항 관리 (Requirements Management)는 확정된 요구사항을 베이스라인 (Baseline)으로 고정하고, 이후의 변경 요청을 평가·승인·기록하며 버전을 관리하는 통제 활동이다.
-> 2. **가치**: 이 체계가 있어야 범위 팽창 (Scope Creep), 근거 없는 기능 추가, 테스트 누락, 계약 분쟁을 줄이고 요구사항과 구현의 정합성을 유지할 수 있다.
-> 3. **판단 포인트**: 좋은 요구사항 관리는 무조건 문서를 많이 만드는 것이 아니라, 변경 속도와 통제 강도의 균형을 잡아 필요한 추적성·버전성·승인 흐름을 살아 있게 유지하는 것이다.
+> 1. **본질**: 요구사항 관리 (Requirements [[372_management|Management]])는 확정된 요구사항을 [[159_baseline_requirements_configuration_management|베이스라인]] ([[025_baseline|Baseline]])으로 고정하고, 이후의 변경 요청을 평가·승인·기록하며 [[288_version_ihl_tos_total_length|버전]]을 관리하는 통제 활동이다.
+> 2. **가치**: 이 체계가 있어야 범위 팽창 ([[161_scope_creep_requirements_inflation_prevention|Scope Creep]]), 근거 없는 기능 추가, 테스트 누락, 계약 분쟁을 줄이고 요구사항과 구현의 정합성을 유지할 수 있다.
+> 3. **판단 포인트**: 좋은 요구사항 관리는 무조건 문서를 많이 만드는 것이 아니라, 변경 속도와 통제 강도의 균형을 잡아 필요한 추적성·[[288_version_ihl_tos_total_length|버전]]성·승인 흐름을 살아 있게 유지하는 것이다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-요구사항 관리는 프로젝트 전 생명주기 동안 요구사항을 식별, 조직화, 추적, 변경 통제, 버전 관리하는 활동이다. 요구사항은 프로젝트 초기에만 쓰고 끝나는 문서가 아니라, 설계·구현·테스트·운영 판단의 기준선이 된다. 따라서 한 번 합의된 요구사항이 무엇인지, 무엇이 언제 왜 바뀌었는지, 현재 어떤 버전이 유효한지를 계속 관리해야 한다.
+요구사항 관리는 프로젝트 전 생명주기 동안 요구사항을 [[655_ir_detection_analysis|식별]], 조직화, 추적, 변경 통제, [[288_version_ihl_tos_total_length|버전]] 관리하는 활동이다. 요구사항은 프로젝트 [[459_quic_fec_forward_error_correction|초기]]에만 쓰고 끝나는 문서가 아니라, 설계·구현·테스트·운영 판단의 [[025_baseline|기준선]]이 된다. 따라서 한 번 합의된 요구사항이 무엇인지, 무엇이 언제 왜 바뀌었는지, 현재 어떤 [[288_version_ihl_tos_total_length|버전]]이 유효한지를 계속 관리해야 한다.
 
-이 활동이 필요한 이유는 요구사항이 본질적으로 변하기 때문이다. 고객 요구, 규제, 시장, 운영 환경이 바뀌면 변경 요청은 반드시 발생한다. 문제는 변경 자체가 아니라, 변경이 문서와 코드에 비공식적으로 스며들 때 생기는 혼란이다. 기준선 없는 변경은 재작업 증가, 일정 지연, 테스트 누락, 책임 공방으로 이어진다. 요구사항 관리는 이 혼란을 줄이기 위한 프로젝트의 제동 장치다.
+이 활동이 필요한 이유는 요구사항이 본질적으로 변하기 때문이다. 고객 요구, 규제, 시장, 운영 환경이 바뀌면 변경 요청은 반드시 발생한다. 문제는 변경 자체가 아니라, 변경이 문서와 코드에 비공식적으로 스며들 때 생기는 혼란이다. [[025_baseline|기준선]] 없는 변경은 재작업 증가, 일정 [[015_지연_데이터_관점|지연]], 테스트 누락, 책임 공방으로 이어진다. 요구사항 관리는 이 혼란을 줄이기 위한 프로젝트의 제동 장치다.
 
 - **📢 섹션 요약 비유**: 요구사항 관리는 건축 공사에서 최종 도면에 도장을 찍고, 이후 수정은 설계 변경 절차를 거쳐야만 가능하게 하는 현장 통제판과 같다.
 
@@ -26,18 +26,18 @@ categories = "studynote-software-engineering"
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-요구사항 관리의 핵심은 세 가지다. 첫째, 모든 요구사항에 고유 ID와 속성을 부여한다. 둘째, 특정 시점의 합의본을 베이스라인으로 동결한다. 셋째, 이후 변경은 영향도 분석과 승인 절차를 거쳐 새 버전으로 반영한다. 즉 요구사항 관리는 “문서를 보관하는 일”이 아니라 **기준선과 변경 이력의 무결성을 유지하는 체계**다.
+요구사항 관리의 핵심은 세 가지다. 첫째, 모든 요구사항에 고유 ID와 속성을 부여한다. 둘째, 특정 시점의 합의본을 [[159_baseline_requirements_configuration_management|베이스라인]]으로 동결한다. 셋째, 이후 변경은 영향도 분석과 승인 절차를 거쳐 새 [[288_version_ihl_tos_total_length|버전]]으로 반영한다. 즉 요구사항 관리는 “문서를 보관하는 일”이 아니라 **[[025_baseline|기준선]]과 변경 이력의 무결성을 유지하는 체계**다.
 
 ### 핵심 구성 요소
 
 | 구성 요소 | 역할 | 관리 포인트 |
 | :--- | :--- | :--- |
-| Requirement ID | 요구사항 개체 식별 | 중복·누락 방지, 추적성 출발점 |
-| Baseline | 특정 시점 합의본 동결 | 어떤 버전을 기준으로 개발하는지 명확화 |
+| Requirement ID | 요구사항 개체 [[655_ir_detection_analysis|식별]] | 중복·누락 방지, 추적성 출발점 |
+| [[025_baseline|Baseline]] | 특정 시점 합의본 동결 | 어떤 [[288_version_ihl_tos_total_length|버전]]을 기준으로 개발하는지 명확화 |
 | Change Request | 변경 요청 공식화 | 구두 지시와 비공식 변경 차단 |
 | Impact Analysis | 영향 범위 평가 | 비용, 일정, 설계, 테스트 영향 판단 |
-| Version Management | `v1.0 → v1.1` 이력 관리 | 현재 유효본과 과거 이력 구분 |
-| Approval / CCB | 승인 여부 결정 | 가치 대비 비용과 리스크 판단 |
+| Version [[372_management|Management]] | `v1.0 → v1.1` 이력 관리 | 현재 유효본과 과거 이력 구분 |
+| Approval / [[160_change_control_board_ccb_requirements_review|CCB]] | 승인 여부 결정 | 가치 대비 비용과 [[096_risk_non_risk_architecture_evaluation_flaws|리스크]] 판단 |
 
 아래 그림은 요구사항 변경 통제가 어떤 흐름으로 돌아가는지 보여 준다.
 
@@ -60,45 +60,45 @@ categories = "studynote-software-engineering"
 └────────────────────────────────────────────────────────────────────────────┘
 ```
 
-이 구조에서 중요한 것은 버전 번호 자체보다 **무엇이 현재 기준선인지 모두가 동일하게 아는 상태**다. 예를 들어 같은 요구사항이라도 초안, 승인본, 변경 반영본이 섞이면 설계와 테스트가 다른 문서를 참조하게 된다. 그래서 요구사항 관리는 문서 저장이 아니라 단일 진실 원천(Single Source of Truth)을 유지하는 활동으로 봐야 한다.
+이 구조에서 중요한 것은 [[288_version_ihl_tos_total_length|버전]] 번호 자체보다 **무엇이 현재 [[025_baseline|기준선]]인지 모두가 동일하게 아는 상태**다. 예를 들어 같은 요구사항이라도 초안, 승인본, 변경 반영본이 섞이면 설계와 테스트가 다른 문서를 참조하게 된다. 그래서 요구사항 관리는 문서 저장이 아니라 단일 진실 원천(Single Source of Truth)을 유지하는 활동으로 봐야 한다.
 
-- **📢 섹션 요약 비유**: 베이스라인은 게임의 저장 지점과 같다. 중간에 전략을 바꾸더라도, 어느 시점 상태에서 다시 시작하는지 분명해야 전체 진행이 꼬이지 않는다.
+- **📢 섹션 요약 비유**: [[159_baseline_requirements_configuration_management|베이스라인]]은 게임의 저장 지점과 같다. 중간에 전략을 바꾸더라도, 어느 시점 상태에서 다시 시작하는지 분명해야 전체 진행이 꼬이지 않는다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-요구사항 관리는 형상 관리나 RTM (Requirements Traceability Matrix)과 밀접하지만 역할은 다르다.
+요구사항 관리는 [[020_software_configuration_management|형상 관리]]나 [[667_requirements_traceability_matrix|RTM]] ([[667_requirements_traceability_matrix|Requirements Traceability Matrix]])과 밀접하지만 역할은 다르다.
 
-| 구분 | 요구사항 관리 | 형상 관리 (Configuration Management) | RTM (Requirements Traceability Matrix) |
+| 구분 | 요구사항 관리 | [[020_software_configuration_management|형상 관리]] ([[089_configuration_management|Configuration Management]]) | [[667_requirements_traceability_matrix|RTM]] ([[667_requirements_traceability_matrix|Requirements Traceability Matrix]]) |
 | :--- | :--- | :--- | :--- |
-| 주 대상 | 요구사항 자체와 그 변경 | 코드, 문서, 빌드, 배포 산출물 | 요구사항과 산출물 간 연결 관계 |
+| 주 대상 | 요구사항 자체와 그 변경 | 코드, 문서, 빌드, 배포 산출물 | 요구사항과 산출물 간 연결 [[083_relationship_in_er_model|관계]] |
 | 핵심 질문 | 무엇이 현재 요구인가? | 무엇이 현재 배포 대상인가? | 이 요구는 어디까지 구현·검증됐는가? |
-| 핵심 활동 | 베이스라인, 버전, 변경 승인 | 버전, 빌드, 릴리즈, 감사 | 정방향/역방향 추적 |
+| 핵심 활동 | [[159_baseline_requirements_configuration_management|베이스라인]], [[288_version_ihl_tos_total_length|버전]], 변경 승인 | [[288_version_ihl_tos_total_length|버전]], 빌드, 릴리즈, [[606_auditing_linux_auditd|감사]] | 정방향/역방향 추적 |
 | 연결 방식 | 변경의 출발점 | 변경의 실행 대상 | 변경 영향 분석의 근거 |
 
-또한 애자일 (Agile)이라고 해서 요구사항 관리가 사라지는 것은 아니다. 폭포수는 긴 주기로 베이스라인을 고정하고, 애자일은 스프린트나 릴리스 단위로 짧게 기준선을 잡는다. 즉 차이는 “통제 유무”가 아니라 “통제 단위와 속도”다. 그래서 백로그 기반 개발에서도 현재 스프린트에 들어온 요구사항은 변경 비용과 우선순위를 따져 관리해야 한다.
+또한 [[004_agile_relation|애자일]] ([[004_agile_relation|Agile]])이라고 해서 요구사항 관리가 사라지는 것은 아니다. 폭포수는 긴 주기로 [[159_baseline_requirements_configuration_management|베이스라인]]을 고정하고, [[004_agile_relation|애자일]]은 [[067_sprint_timebox|스프린트]]나 릴리스 단위로 짧게 [[025_baseline|기준선]]을 잡는다. 즉 차이는 “통제 유무”가 아니라 “통제 단위와 속도”다. 그래서 백로그 기반 개발에서도 현재 [[067_sprint_timebox|스프린트]]에 들어온 요구사항은 변경 비용과 우선순위를 따져 관리해야 한다.
 
-- **📢 섹션 요약 비유**: 요구사항 관리가 여행 일정표를 정하는 일이라면, 형상 관리는 실제 짐을 싸고 출발하는 일이고, RTM은 일정표의 각 항목이 실제 예약과 결제로 이어졌는지 확인하는 체크표다.
+- **📢 섹션 요약 비유**: 요구사항 관리가 여행 일정표를 정하는 일이라면, [[020_software_configuration_management|형상 관리]]는 실제 짐을 싸고 출발하는 일이고, RTM은 일정표의 각 항목이 실제 예약과 결제로 이어졌는지 확인하는 체크표다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서는 요구사항 관리가 문서 부서의 일이 아니라 ALM (Application Lifecycle Management) 체계의 중심이어야 한다. Confluence나 요구사항 도구에서 변경 요청이 등록되면, Jira 이슈, Git 브랜치, 테스트 케이스가 연동되어 어떤 요구가 어떤 산출물에 영향을 주는지 바로 보여 주는 구조가 이상적이다. 이때 CCB (Change Control Board)는 단순 결재 조직이 아니라, 변경 가치와 비용, 위험, 일정 영향을 판단하는 의사결정 장치다.
+실무에서는 요구사항 관리가 문서 부서의 일이 아니라 [[390_application_lifecycle_management|ALM]] ([[390_application_lifecycle_management|Application Lifecycle Management]]) 체계의 중심이어야 한다. Confluence나 요구사항 도구에서 변경 요청이 등록되면, Jira 이슈, Git 브랜치, 테스트 케이스가 연동되어 어떤 요구가 어떤 산출물에 영향을 주는지 바로 보여 주는 구조가 이상적이다. 이때 [[160_change_control_board_ccb_requirements_review|CCB]] (Change Control Board)는 단순 결재 조직이 아니라, 변경 가치와 비용, 위험, 일정 영향을 판단하는 의사결정 장치다.
 
-### 체크리스트
+### [[435_checklist_based_testing|체크리스트]]
 
-1. **모든 요구사항에 ID, 상태, 우선순위, 버전이 있는가?** 자연어 문장만 있으면 관리가 끊긴다.
+1. **모든 요구사항에 ID, 상태, 우선순위, [[288_version_ihl_tos_total_length|버전]]이 있는가?** 자연어 문장만 있으면 관리가 끊긴다.
 2. **구두 변경을 공식 요청으로 전환하는 절차가 있는가?** 메신저 지시가 바로 개발로 들어가면 통제는 무너진다.
 3. **변경 승인 전 영향도 분석이 이뤄지는가?** 설계, 코드, 테스트, 일정, 계약 범위를 함께 봐야 한다.
-4. **애자일 팀이라도 스프린트/릴리스 기준선을 명확히 두는가?** 빠름과 무규칙은 다르다.
+4. **[[004_agile_relation|애자일]] 팀이라도 [[067_sprint_timebox|스프린트]]/릴리스 [[025_baseline|기준선]]을 명확히 두는가?** 빠름과 무규칙은 다르다.
 
-### 안티패턴
+### [[128_water_scrum_fall_anti_pattern|안티패턴]]
 
-- 승인된 베이스라인 문서를 직접 수정해 버전 이력을 없애는 경우
+- 승인된 [[159_baseline_requirements_configuration_management|베이스라인]] 문서를 직접 수정해 [[288_version_ihl_tos_total_length|버전]] 이력을 없애는 경우
 - 신규 요구사항을 “버그 수정”으로 위장해 변경 통제를 우회하는 경우
-- RTM, 테스트, 릴리스 계획은 갱신하지 않고 요구사항 문서만 바꾸는 경우
+- [[667_requirements_traceability_matrix|RTM]], 테스트, 릴리스 계획은 갱신하지 않고 요구사항 문서만 바꾸는 경우
 
 - **📢 섹션 요약 비유**: 요구사항 관리가 없는 프로젝트는 단체 주문에서 메뉴를 계속 바꾸는데 계산서는 그대로 두는 식당과 같다. 마지막에는 누가 뭘 시켰는지 아무도 설명하지 못한다.
 
@@ -106,9 +106,9 @@ categories = "studynote-software-engineering"
 
 ## Ⅴ. 기대효과 및 결론
 
-요구사항 관리를 제대로 운영하면 일정 예측 가능성, 변경 비용 가시성, 테스트 정합성, 감사 대응력, 고객과 개발팀 간 책임 경계가 함께 좋아진다. 특히 대규모·규제 산업 프로젝트에서는 이 체계가 단순한 행정 절차가 아니라 품질 보증과 계약 관리의 핵심이 된다. 반대로 통제만 강조하고 변경 속도를 무시하면 승인 병목이 생겨 가치 전달이 늦어질 수 있다.
+요구사항 관리를 제대로 운영하면 일정 예측 가능성, 변경 비용 가시성, 테스트 정합성, [[606_auditing_linux_auditd|감사]] 대응력, 고객과 개발팀 간 책임 경계가 함께 좋아진다. 특히 대규모·규제 산업 프로젝트에서는 이 체계가 단순한 행정 절차가 아니라 품질 보증과 계약 관리의 핵심이 된다. 반대로 통제만 강조하고 변경 속도를 무시하면 승인 병목이 생겨 가치 전달이 늦어질 수 있다.
 
-따라서 좋은 요구사항 관리는 “변경을 막는 시스템”이 아니라 **변경을 이해 가능한 비용과 기록 아래에서 안전하게 수용하는 시스템**이어야 한다. 앞으로는 AI 기반 영향도 분석, 디지털 스레드, 요구사항-코드 연동 자동화가 더 중요해지겠지만, 핵심 원리는 바뀌지 않는다. 무엇이 현재 합의된 요구인지, 왜 바뀌었는지, 그 결과가 어디까지 반영됐는지를 끝까지 추적할 수 있어야 한다.
+따라서 좋은 요구사항 관리는 “변경을 막는 시스템”이 아니라 **변경을 이해 가능한 비용과 기록 아래에서 안전하게 수용하는 시스템**이어야 한다. 앞으로는 [[190_ai_llm_requirements_specification|AI]] 기반 영향도 분석, 디지털 [[092_thread_lwp|스레드]], 요구사항-코드 연동 자동화가 더 중요해지겠지만, 핵심 원리는 바뀌지 않는다. 무엇이 현재 합의된 요구인지, 왜 바뀌었는지, 그 결과가 어디까지 반영됐는지를 끝까지 추적할 수 있어야 한다.
 
 - **📢 섹션 요약 비유**: 요구사항 관리는 배의 키와 항해일지와 같다. 바람이 바뀌어 항로를 수정할 수는 있지만, 언제 왜 방향을 틀었는지 기록이 남아야 목적지까지 안전하게 갈 수 있다.
 
@@ -118,12 +118,12 @@ categories = "studynote-software-engineering"
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| 베이스라인 (Baseline) | 특정 시점의 승인된 요구사항 기준선 |
+| [[159_baseline_requirements_configuration_management|베이스라인]] ([[025_baseline|Baseline]]) | 특정 시점의 승인된 요구사항 [[025_baseline|기준선]] |
 | 변경 요청 (Change Request) | 요구사항 수정의 공식 입력 채널 |
-| CCB (Change Control Board) | 변경 승인 여부를 판단하는 의사결정 조직 |
-| RTM (Requirements Traceability Matrix) | 요구사항이 설계·코드·테스트로 이어졌는지 추적 |
-| 형상 관리 (Configuration Management) | 변경된 요구를 실제 산출물 버전과 연결 |
-| ALM (Application Lifecycle Management) | 요구사항, 개발, 테스트 도구를 통합하는 운영 환경 |
+| [[160_change_control_board_ccb_requirements_review|CCB]] (Change Control Board) | 변경 승인 여부를 판단하는 의사결정 조직 |
+| [[667_requirements_traceability_matrix|RTM]] ([[667_requirements_traceability_matrix|Requirements Traceability Matrix]]) | 요구사항이 설계·코드·테스트로 이어졌는지 추적 |
+| [[020_software_configuration_management|형상 관리]] ([[089_configuration_management|Configuration Management]]) | 변경된 요구를 실제 산출물 [[288_version_ihl_tos_total_length|버전]]과 연결 |
+| [[390_application_lifecycle_management|ALM]] ([[390_application_lifecycle_management|Application Lifecycle Management]]) | 요구사항, 개발, 테스트 도구를 통합하는 운영 환경 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -143,7 +143,7 @@ categories = "studynote-software-engineering"
 지속적 요구사항 관리 · 디지털 스레드 자동화
 ```
 
-이 흐름은 요구사항 관리가 초기 명세서 작성으로 끝나지 않고, 변경 통제와 버전 관리, 추적성, 릴리스 동기화까지 이어지는 생명주기 활동임을 보여준다.
+이 흐름은 요구사항 관리가 [[459_quic_fec_forward_error_correction|초기]] 명세서 작성으로 끝나지 않고, 변경 통제와 [[288_version_ihl_tos_total_length|버전]] 관리, 추적성, 릴리스 동기화까지 이어지는 생명주기 활동임을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

@@ -6,7 +6,7 @@ categories = "studynote-enterprise-systems"
 +++
 
 > **핵심 인사이트**
-> 1. 파괴적 혁신(Disruptive Innovation)은 클레이튼 크리스텐슨이 정의한 개념으로, 처음에는 기존 시장에서 무시받던 저가·단순 제품이 새로운 고객층을 만들어 결국 주류 시장을 정복하는 현상이다.
+> 1. 파괴적 혁신([[030_disruptive_innovation|Disruptive Innovation]])은 클레이튼 크리스텐슨이 정의한 개념으로, 처음에는 기존 시장에서 무시받던 저가·단순 제품이 새로운 고객층을 만들어 결국 주류 시장을 정복하는 현상이다.
 > 2. 기존 기업이 파괴당하는 이유는 "혁신자의 딜레마(Innovator's Dilemma)" — 현재 고수익 고객에 집중하면서 파괴적 혁신자를 무시하다가, 그들이 주류 시장까지 올라왔을 때는 이미 늦는다.
 > 3. 존속적 혁신(Sustaining Innovation)은 기존 고객을 위해 기존 제품을 개선하는 것이고, 파괴적 혁신은 새 시장을 만들거나 저가 시장에서 시작해 상향 이동하는 것 — 구분이 중요하다.
 
@@ -38,7 +38,7 @@ categories = "studynote-enterprise-systems"
 | 구분          | 파괴적 혁신         | 존속적 혁신           |
 |-------------|------------------|---------------------|
 | 타깃         | 비소비층 / 저가 시장 | 기존 고수익 고객       |
-| 성능         | 처음에는 열등      | 지속적 개선           |
+| [[282_performance_tactics|성능]]         | 처음에는 열등      | 지속적 개선           |
 | 기존 기업 반응 | 무시 또는 포기      | 적극 대응            |
 | 결과         | 시장 구조 변혁      | 점진적 개선           |
 
@@ -97,7 +97,7 @@ Netflix, Uber, Airbnb:
 
 ---
 
-## IV. 파괴적 혁신 유형
+## [[288_version_ihl_tos_total_length|IV]]. 파괴적 혁신 유형
 
 ```
 1. 저가 시장 파괴 (Low-End Disruption):
@@ -120,7 +120,7 @@ Netflix, Uber, Airbnb:
 
 ---
 
-## V. 실무 시나리오 — 클라우드의 온프레미스 파괴
+## V. 실무 시나리오 — 클라우드의 [[061_on_premise_legacy_infrastructure|온프레미스]] 파괴
 
 ```
 AWS vs 기존 IT 인프라 기업:

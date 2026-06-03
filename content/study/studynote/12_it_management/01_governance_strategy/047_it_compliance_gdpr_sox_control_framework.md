@@ -7,13 +7,13 @@ categories = "studynote-it-management"
 +++
 
 > **핵심 인사이트**
-> 1. IT 컴플라이언스(IT Compliance)는 법·규정·표준 준수를 위한 IT 거버넌스의 실천 — GDPR(개인정보), SOX(재무 보고), HIPAA(의료) 등 각 도메인별 규제가 IT 시스템에 구체적 통제 요구사항을 부과하며, 이를 충족하지 못하면 막대한 과징금과 법적 책임이 발생한다.
-> 2. GDPR의 핵심은 개인 데이터의 생애주기 관리 — 수집 시 동의, 처리 목적 명시, 보유 기간 제한, 삭제 권리(잊혀질 권리), 국외 이전 제한이 IT 아키텍처와 데이터 파이프라인 설계에 직접 영향을 미친다.
-> 3. SOX IT 통제는 재무 데이터의 정확성과 무결성 보장 — 재무 시스템에 대한 접근 통제, 변경 관리, 감사 추적이 SOX Section 404 준수의 핵심이며, COBIT·COSO 프레임워크가 SOX IT 통제 구현의 참조 모델이다.
+> 1. IT 컴플라이언스([[047_it_compliance|IT Compliance]])는 법·규정·표준 준수를 위한 IT 거버넌스의 실천 — [[791_gdpr_eu|GDPR]]([[781_personal_information|개인정보]]), SOX(재무 보고), [[863_hipaa|HIPAA]](의료) 등 각 도메인별 규제가 IT 시스템에 구체적 통제 요구사항을 부과하며, 이를 충족하지 못하면 막대한 과징금과 법적 책임이 발생한다.
+> 2. GDPR의 핵심은 개인 [[001_dikw_pyramid|데이터]]의 생애주기 관리 — 수집 시 동의, 처리 목적 명시, 보유 기간 제한, 삭제 권리(잊혀질 권리), 국외 이전 제한이 IT 아키텍처와 [[645_data_pipeline_acceleration|데이터 파이프라인]] 설계에 직접 영향을 미친다.
+> 3. SOX IT 통제는 재무 [[001_dikw_pyramid|데이터]]의 정확성과 [[442_consistency_integrity|무결성 보장]] — 재무 시스템에 대한 [[387_access_control_pattern|접근 통제]], [[079_change_enablement|변경 관리]], [[606_auditing_linux_auditd|감사]] 추적이 SOX Section 404 준수의 핵심이며, [[004_cobit|COBIT]]·COSO 프레임워크가 SOX IT 통제 구현의 [[316_reference_pattern_nosql|참조]] 모델이다.
 
 ---
 
-## Ⅰ. GDPR IT 준수
+## Ⅰ. [[791_gdpr_eu|GDPR]] IT 준수
 
 ```
 GDPR (General Data Protection Regulation):
@@ -60,7 +60,7 @@ GDPR (General Data Protection Regulation):
   심각한 위반: 연간 매출 4% 또는 2,000만 유로 중 큰 금액
 ```
 
-> 📢 **섹션 요약 비유**: GDPR은 개인정보 주민증 — 내 정보(개인 데이터)는 내 것. 언제 어디서 쓰는지(동의), 버릴 때(삭제 권리), 국경 넘어갈 때(국외 이전) 모두 내 허락 필요!
+> 📢 **섹션 요약 비유**: GDPR은 [[781_personal_information|개인정보]] 주민증 — 내 정보(개인 [[001_dikw_pyramid|데이터]])는 내 것. 언제 어디서 쓰는지(동의), 버릴 때(삭제 권리), 국경 넘어갈 때(국외 이전) 모두 내 허락 필요!
 
 ---
 
@@ -111,7 +111,7 @@ IT 감사 증거:
   SOX 위반: 임원 최대 징역 20년 + $5M 벌금
 ```
 
-> 📢 **섹션 요약 비유**: SOX IT 통제는 회계장부 자물쇠 — 누가 장부(재무 시스템) 열어봤나(접근 통제), 누가 수정했나(변경 관리), 수정 내역 기록(감사 추적). 모든 것이 증거!
+> 📢 **섹션 요약 비유**: SOX IT 통제는 회계장부 자물쇠 — 누가 장부(재무 시스템) 열어봤나([[387_access_control_pattern|접근 통제]]), 누가 수정했나([[079_change_enablement|변경 관리]]), 수정 내역 기록([[606_auditing_linux_auditd|감사]] 추적). 모든 것이 증거!
 
 ---
 
@@ -164,11 +164,11 @@ HIPAA (미국 의료):
   결제: PCI DSS + SOC 2
 ```
 
-> 📢 **섹션 요약 비유**: 통제 프레임워크는 산업별 안전 기준 — 건축 기준법(COSO), IT 안전 기준(COBIT), 보안 인증(ISO 27001), 카드 결제 안전(PCI DSS). 해당 산업에 맞는 기준 준수!
+> 📢 **섹션 요약 비유**: 통제 프레임워크는 산업별 안전 기준 — 건축 기준법(COSO), IT 안전 기준([[004_cobit|COBIT]]), 보안 [[303_authentication_authorization_patterns|인증]](ISO 27001), 카드 결제 안전([[355_pci|PCI]] DSS). 해당 산업에 맞는 기준 준수!
 
 ---
 
-## Ⅳ. SOC 2 인증
+## Ⅳ. [[855_soc_2|SOC 2]] [[303_authentication_authorization_patterns|인증]]
 
 ```
 SOC 2 (System and Organization Controls 2):
@@ -215,11 +215,11 @@ ROI:
   Enterprise 계약 잠금 해제
 ```
 
-> 📢 **섹션 요약 비유**: SOC 2 Type II는 식당 위생 등급 6개월 검사 — 하루 깨끗한 게(Type I) 아니라 6개월 동안 항상 깨끗한지(Type II) 확인. B2B 엔터프라이즈 신뢰의 증거!
+> 📢 **섹션 요약 비유**: [[855_soc_2|SOC 2]] Type II는 식당 위생 등급 6개월 검사 — 하루 깨끗한 게(Type I) 아니라 6개월 동안 항상 깨끗한지(Type II) [[396_validation|확인]]. B2B 엔터프라이즈 신뢰의 증거!
 
 ---
 
-## Ⅴ. 실무 시나리오 — SaaS 스타트업 컴플라이언스
+## Ⅴ. 실무 시나리오 — [[309_saas|SaaS]] 스타트업 컴플라이언스
 
 ```
 B2B SaaS 스타트업 컴플라이언스 로드맵:
@@ -273,7 +273,7 @@ Phase 3 (12개월): 인증 획득 + 영업 활용
   2주 → 2일 (신뢰 센터로)
 ```
 
-> 📢 **섹션 요약 비유**: SaaS 컴플라이언스 로드맵 — GDPR(집 청소: 기본 위생), SOC 2(위생 인증서: Enterprise 신뢰). 인증 후 대기업 계약 5배 증가. 컴플라이언스 = 영업 도구!
+> 📢 **섹션 요약 비유**: [[309_saas|SaaS]] 컴플라이언스 로드맵 — [[791_gdpr_eu|GDPR]](집 청소: 기본 위생), [[855_soc_2|SOC 2]](위생 [[303_authentication_authorization_patterns|인증]]서: Enterprise 신뢰). [[303_authentication_authorization_patterns|인증]] 후 대기업 계약 5배 증가. 컴플라이언스 = 영업 도구!
 
 ---
 
@@ -330,6 +330,6 @@ AI 기반 준수 모니터링
 
 ## 👶 어린이를 위한 3줄 비유 설명
 
-1. GDPR은 내 정보 지킴이 — 내 이름(개인 데이터)을 사용하려면 내 허락 필요. 안 쓸 때 버려야 하고, 어디 갔는지 알려줘야 해요!
+1. GDPR은 내 정보 지킴이 — 내 이름(개인 [[001_dikw_pyramid|데이터]])을 사용하려면 내 허락 필요. 안 쓸 때 버려야 하고, 어디 갔는지 알려줘야 해요!
 2. SOX IT 통제는 회계장부 경비 — 누가 재무 장부(시스템) 열었는지, 수정했는지 모두 기록. 속이면 임원 징역!
-3. SOC 2 Type II는 6개월 위생 검사 — 하루가 아니라 6개월 동안 항상 깨끗한지 확인. Enterprise 고객이 신뢰 증거로 요구!
+3. [[855_soc_2|SOC 2]] Type II는 6개월 위생 검사 — 하루가 아니라 6개월 동안 항상 깨끗한지 [[396_validation|확인]]. Enterprise 고객이 신뢰 증거로 요구!

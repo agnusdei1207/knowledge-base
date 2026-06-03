@@ -8,19 +8,19 @@ categories = "studynote-operating-system"
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: TPM(Trusted Platform Module)은 메인보드(Mainboard)에 물리적으로 탑재된 전용 보안 칩셋으로, 소프트웨어 공격뿐 아니라 물리적 침입(Firmware Dump, Bus Sniffing 등)에도 견디는 하드웨어 경계의 루트 오브 트러스트(RoT, Root of Trust)를 제공한다.
-> 2. **가치**: 소프트웨어만으로는 운영체제(OS) 부팅 과정의 무결성(Integrity)을 보증할 수 없는데, TPM은 부팅 체인(Boot Chain)의 각 단계 해시값을 자신의 불휘발성 메모리(PCR, Platform Configuration Register)에 기록하여, 부팅 이전 상태와 현재 상태가 일치하는지 암호학적으로 증명하는 신뢰 접점(Trust Anchor) 역할을 수행한다.
-> 3. **융합**: TPM은 컴퓨터 아키텍처의 버스(Bus) 계층, 암호학(Cryptography)의 비대칭 키 및 증명(Attestation) 체계, 그리고 운영체제의 보안 부팅(Secure Boot) 메커니즘이 융합된 하드웨어-소프트웨어 복합 보안 아키텍처의 핵심 기반이다.
+> 1. **본질**: [[476_tpm|TPM]]([[476_tpm|Trusted Platform Module]])은 메인보드(Mainboard)에 물리적으로 탑재된 전용 보안 칩셋으로, 소프트웨어 공격뿐 아니라 물리적 침입([[032_firmware|Firmware]] Dump, [[344_bus|Bus]] Sniffing 등)에도 견디는 하드웨어 경계의 [[487_root_of_trust|루트 오브 트러스트]](RoT, [[487_root_of_trust|Root of Trust]])를 제공한다.
+> 2. **가치**: 소프트웨어만으로는 [[001_operating_system_purpose|운영체제]](OS) 부팅 과정의 [[003_integrity|무결성]]([[003_integrity|Integrity]])을 보증할 수 없는데, TPM은 부팅 체인(Boot Chain)의 각 단계 해시값을 자신의 불휘발성 메모리(PCR, Platform Configuration [[175_register_addressing|Register]])에 기록하여, 부팅 이전 상태와 현재 상태가 일치하는지 [[652_cryptography_concept_encryption_decryption|암호학]]적으로 증명하는 신뢰 접점(Trust Anchor) 역할을 수행한다.
+> 3. **융합**: TPM은 컴퓨터 아키텍처의 [[344_bus|버스]]([[344_bus|Bus]]) 계층, [[652_cryptography_concept_encryption_decryption|암호학]]([[652_cryptography_concept_encryption_decryption|Cryptography]])의 비대칭 키 및 증명(Attestation) 체계, 그리고 [[001_operating_system_purpose|운영체제]]의 [[608_secure_boot|보안 부팅]]([[608_secure_boot|Secure Boot]]) 메커니즘이 융합된 하드웨어-소프트웨어 복합 보안 아키텍처의 핵심 기반이다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
 **개념 및 정의**
-물리적 보안(Physical Security)은 서버, 워크스테이션, 임베디드 기기의 하드웨어 자체를 물리적 조작이나 도난으로부터 보호하는 보안 영역이다. 그중 TPM(Trusted Platform Module)은 TCG(Trusted Computing Group)가 표준화한 사양에 따라 메인보드에 장착되는 전용 암호화 보안 코프로세서(Coprocessor)로, 시스템의 루트 오브 트러스트(RoT, Root of Trust)를 하드웨어 수준에서 구현한다. 소프트웨어 기반 보안 솔루션은 OS가 이미 침해된 상태에서는 무력화될 수 있으나, TPM은 OS와 독립된 물리적 칩셋에서 동작하므로 OS가 완전히 장악당한 상황에서도 기밀 키의 유출을 방지할 수 있다.
+물리적 보안(Physical [[283_security_tactics|Security]])은 서버, 워크스테이션, 임베디드 기기의 하드웨어 자체를 물리적 조작이나 도난으로부터 보호하는 보안 영역이다. 그중 [[476_tpm|TPM]]([[476_tpm|Trusted Platform Module]])은 TCG(Trusted Computing Group)가 표준화한 사양에 따라 메인보드에 장착되는 전용 암호화 보안 코프로세서(Coprocessor)로, 시스템의 [[487_root_of_trust|루트 오브 트러스트]](RoT, [[487_root_of_trust|Root of Trust]])를 하드웨어 수준에서 구현한다. 소프트웨어 기반 보안 솔루션은 OS가 이미 침해된 상태에서는 무력화될 수 있으나, TPM은 OS와 독립된 물리적 칩셋에서 동작하므로 OS가 완전히 장악당한 상황에서도 기밀 키의 유출을 방지할 수 있다.
 
 **필요성 및 등장 배경**
-전통적인 소프트웨어 보안은 "OS가 정상적으로 부팅되었다"는 전제 위에서만 유효하다. 그러나 해커가 BIOS/UEFI 펌웨어를 변조하거나, 디스크를 물리적으로 탈거하여 악의적 페이로드를 삽입한 뒤 재장착하거나, DMA(Direct Memory Access)를 지원하는 Thunderbolt/PCIe 포트를 통해 메모리를 직접 덤프하는 공격은 OS 수준의 방어로는 탐지 자체가 불가능하다. 이러한 물리적·펌웨어 수준 공격 위협에 대응하기 위해, 부팅 최초 시점부터 하드웨어가 보증하는 신뢰 체인(Chain of Trust)을 확립하는 TPM 아키텍처가 필연적으로 등장하였다.
+전통적인 소프트웨어 보안은 "OS가 정상적으로 부팅되었다"는 전제 위에서만 유효하다. 그러나 해커가 BIOS/[[706_uefi|UEFI]] [[032_firmware|펌웨어]]를 변조하거나, 디스크를 물리적으로 탈거하여 악의적 페이로드를 삽입한 뒤 재장착하거나, [[746_io_direct_memory_access_dma|DMA]]([[318_dma|Direct Memory Access]])를 지원하는 [[360_thunderbolt|Thunderbolt]]/[[356_pcie|PCIe]] 포트를 통해 메모리를 직접 덤프하는 공격은 OS 수준의 방어로는 탐지 자체가 불가능하다. 이러한 물리적·[[032_firmware|펌웨어]] 수준 공격 위협에 대응하기 위해, 부팅 최초 시점부터 하드웨어가 보증하는 신뢰 체인(Chain of Trust)을 확립하는 [[476_tpm|TPM]] 아키텍처가 필연적으로 등장하였다.
 
 ```text
 ┌────────────────────────────────────────────────────────────────┐
@@ -53,28 +53,28 @@ categories = "studynote-operating-system"
 └────────────────────────────────────────────────────────────────┘
 ```
 
-**[다이어그램 해설]** 이 구조도는 소프트웨어 보안의 근본적 한계를 명확히 보여준다. 디스크를 물리적으로 빼내어 악의적 코드를 심고 다시 장착하거나, DMA(Direct Memory Access) 지원 포트를 통해 메모리를 직접 덤프하는 공격은 OS가 동작하지 않는 상태나 OS를 우회하는 경로에서 이루어지므로, OS 내부의 방화벽이나 백신 프로그램은 전혀 개입할 수 없다. TPM은 부팅 과정에서 각 단계의 해시값을 자신의 내부 레지스터(PCR)에 기록하므로, 부팅 환경이 조금이라도 변조되면 원래의 PCR 값과 달라져 복호키의 봉인(Sealing)이 해제되지 않아 데이터 보호가 유지된다.
+**[다이어그램 해설]** 이 구조도는 소프트웨어 보안의 근본적 한계를 명확히 보여준다. 디스크를 물리적으로 빼내어 악의적 코드를 심고 다시 장착하거나, [[746_io_direct_memory_access_dma|DMA]]([[318_dma|Direct Memory Access]]) 지원 포트를 통해 메모리를 직접 덤프하는 공격은 OS가 동작하지 않는 상태나 OS를 우회하는 경로에서 이루어지므로, OS 내부의 방화벽이나 백신 프로그램은 전혀 개입할 수 없다. TPM은 부팅 과정에서 각 단계의 해시값을 자신의 내부 [[057_register|레지스터]](PCR)에 기록하므로, 부팅 환경이 조금이라도 변조되면 원래의 PCR 값과 달라져 복호키의 봉인(Sealing)이 해제되지 않아 [[001_dikw_pyramid|데이터]] 보호가 유지된다.
 
-- **📢 섹션 요약 비유**: 은행 금고의 비밀번호를 금고 안에 적어둔 종이에만 의존하는 것(소프트웨어 보안)은 금고 자체를 통째로 들고 가면 무용지물이 됩니다. 하지만 금고 문을 여는 열쇠를 은행 본사의 별도 금고(TPM 칩)에 보관하고, 매일 아침 금고 상태를 사진 찍어 대조(PCR 검증)한 뒤에만 열쇠를 빌려주는 구조라면, 금고를 훔쳐가도 열쇠가 없어 열 수 없는 것과 같습니다.
+- **📢 섹션 요약 비유**: 은행 금고의 비밀번호를 금고 안에 적어둔 종이에만 의존하는 것(소프트웨어 보안)은 금고 자체를 통째로 들고 가면 무용지물이 됩니다. 하지만 금고 문을 여는 열쇠를 은행 본사의 별도 금고([[476_tpm|TPM]] 칩)에 보관하고, 매일 아침 금고 상태를 사진 찍어 대조(PCR [[395_verification_process_review|검증]])한 뒤에만 열쇠를 빌려주는 구조라면, 금고를 훔쳐가도 열쇠가 없어 열 수 없는 것과 같습니다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### TPM 하드웨어 아키텍처 구성 요소
+### [[476_tpm|TPM]] 하드웨어 아키텍처 구성 요소
 
 | 구성 요소 | 역할 | 내부 동작 | 비유 |
 |:---|:---|:---|:---|
-| **비휘발성 메모리 (NVRAM)** | 영구 키 및 인증서 저장 | EK(Endorsement Key), SRK(Storage Root Key) 등 루트 키 저장 | 시민증 발급소의 원본 대장 |
-| **플랫폼 구성 레지스터 (PCR)** | 부팅 단계별 해시값 누적 기록 | SHA-256 해시를 Extend 연산으로 누적 (초기값 0) | 출입증에 도장을 계속 찍는 구조 |
-| **난수 생성기 (RNG)** | 암호학적 안전 난수 생성 | 하드웨어 엔트로피 소스 기반 TRNG(True Random Number Generator) | 주사위를 물리적으로 굴리는 것 |
-| **암호엔진 (Crypto Engine)** | RSA, ECC, AES 등 암호 연산 가속 | 키 생성, 서명, 암호화/복호화를 칩 내부에서 수행 | 안전 금고 안의 계산기 |
+| **비휘발성 메모리 (NVRAM)** | 영구 키 및 [[303_authentication_authorization_patterns|인증]]서 저장 | EK(Endorsement [[067_db_key_uniqueness_minimality|Key]]), SRK(Storage Root [[067_db_key_uniqueness_minimality|Key]]) 등 루트 키 저장 | 시민증 발급소의 원본 대장 |
+| **플랫폼 구성 [[057_register|레지스터]] (PCR)** | 부팅 단계별 해시값 누적 기록 | SHA-256 해시를 Extend 연산으로 누적 (초기값 0) | 출입증에 도장을 계속 찍는 구조 |
+| **[[486_trng|난수 생성기]] (RNG)** | [[652_cryptography_concept_encryption_decryption|암호학]]적 안전 난수 [[087_process_state_transition|생성]] | 하드웨어 [[151_entropy|엔트로피]] 소스 기반 [[669_hardware_trng_kernel_entropy_pool|TRNG]](True Random Number Generator) | 주사위를 물리적으로 굴리는 것 |
+| **암호엔진 (Crypto Engine)** | [[110_rsa|RSA]], [[554_ecc_circuit|ECC]], [[656_aes_advanced_encryption_standard_rijndael|AES]] 등 암호 연산 가속 | 키 [[087_process_state_transition|생성]], 서명, 암호화/복호화를 칩 내부에서 수행 | 안전 금고 안의 계산기 |
 | **PCR Extend 연산** | 기존 PCR값과 새 해시를 결합 | `PCR_new = SHA256(PCR_old ∥ SHA256(이벤트))` | 이전 도장 위에 새 도장 겹치기 |
-| **Sealing/Unsealing** | 특정 PCR 상태에서만 키 복호 허용 | 데이터를 암호화할 때 PCR 값을 조건으로 묶어 저장 | "도장이 정확히 맞을 때만 열리는 금고" |
+| **Sealing/Unsealing** | 특정 PCR 상태에서만 키 복호 허용 | [[001_dikw_pyramid|데이터]]를 암호화할 때 PCR 값을 조건으로 묶어 저장 | "도장이 정확히 맞을 때만 열리는 금고" |
 
 ### 심층 동작 원리: 신뢰 체인(Chain of Trust)과 PCR 누적
 
-TPM의 핵심 메커니즘은 **신뢰 체인(Chain of Trust)**을 통한 **원격 증명(Remote Attestation)**이다. 시스템이 켜지는 순간부터 BIOS/UEFI → 부트로더(Bootloader) → 커널(Kernel) → initrd/시스템 서비스 순서로, 각 단계의 코드를 해시한 값을 TPM의 PCR 레지스터에 누적(Extend)한다. 이 값은 단방향 해시의 연속 결합이므로, 중간에 한 글자라도 변조되면 최종 PCR 값이 완전히 달라진다.
+TPM의 핵심 메커니즘은 **신뢰 체인(Chain of Trust)**을 통한 **원격 증명([[396_remote_attestation|Remote Attestation]])**이다. 시스템이 켜지는 순간부터 BIOS/[[706_uefi|UEFI]] → [[029_bootloader|부트로더]]([[029_bootloader|Bootloader]]) → [[022_kernel_role|커널]]([[022_kernel_role|Kernel]]) → initrd/시스템 [[090_service_kubernetes_network_load_balancing|서비스]] 순서로, 각 단계의 코드를 해시한 값을 TPM의 PCR [[057_register|레지스터]]에 누적(Extend)한다. 이 값은 [[008_단방향_반이중_전이중|단방향]] 해시의 연속 결합이므로, 중간에 한 글자라도 변조되면 최종 PCR 값이 완전히 달라진다.
 
 ```text
 ┌────────────────────────────────────────────────────────────────┐
@@ -116,19 +116,19 @@ TPM의 핵심 메커니즘은 **신뢰 체인(Chain of Trust)**을 통한 **원�
 
 ## Ⅲ. 비교 및 연결
 
-### TPM 1.2 vs TPM 2.0 비교
+### [[476_tpm|TPM]] 1.2 vs [[476_tpm|TPM]] 2.0 비교
 
-| 구분 | TPM 1.2 (2005~) | TPM 2.0 (2014~, 현재 표준) |
+| 구분 | [[476_tpm|TPM]] 1.2 (2005~) | [[476_tpm|TPM]] 2.0 (2014~, 현재 표준) |
 |:---|:---|:---|
-| **암호 알고리즘** | RSA, SHA-1 (취약) | RSA, ECC, AES, SHA-256/384 (현대적) |
-| **알고리즘 유연성** | 알고리즘 고정(하드코딩) | 알고리즘 교체 가능(Algorithm Agility) |
+| **암호 [[001_algorithm_definition|알고리즘]]** | [[110_rsa|RSA]], SHA-1 (취약) | [[110_rsa|RSA]], [[554_ecc_circuit|ECC]], [[656_aes_advanced_encryption_standard_rijndael|AES]], SHA-256/384 (현대적) |
+| **[[001_algorithm_definition|알고리즘]] 유연성** | [[001_algorithm_definition|알고리즘]] 고정(하드코딩) | [[001_algorithm_definition|알고리즘]] 교체 가능([[001_algorithm_definition|Algorithm]] Agility) |
 | **키 계층** | 단일 스토리지 키(SRK) | 다중 계층 키(Storage, Endorsement, Attestation) |
-| **인증 메커니즘** | 단순 EK 기반 | 다중 인증(Password, Biometric, Fingerprint) |
+| **[[303_authentication_authorization_patterns|인증]] 메커니즘** | 단순 EK 기반 | 다중 [[303_authentication_authorization_patterns|인증]](Password, Biometric, Fingerprint) |
 | **PCR 수** | 최대 24개 | 구현체별 가변 (일반적으로 24~32개) |
-| **보안 인증** | FIPS 140-2 Level 2 | FIPS 140-3, Common Criteria EAL4+ |
-| **펌웨어 vs 디스크릿** | 디스크릿(Discrete) 칩 전용 | 디스크릿 + fTPM(펌웨어 TPM) 지원 |
+| **보안 [[303_authentication_authorization_patterns|인증]]** | FIPS 140-2 Level 2 | [[885_fips_140_3_cryptographic_module|FIPS 140-3]], [[883_common_criteria_iso_15408|Common Criteria]] EAL4+ |
+| **[[032_firmware|펌웨어]] vs 디스크릿** | 디스크릿(Discrete) 칩 전용 | 디스크릿 + fTPM([[032_firmware|펌웨어]] [[476_tpm|TPM]]) 지원 |
 
-### 소프트웨어 보안 vs 하드웨어 보안(TPM) 비교
+### 소프트웨어 보안 vs 하드웨어 보안([[476_tpm|TPM]]) 비교
 
 ```text
 ┌────────────────────────────────────────────────────────────────┐
@@ -154,9 +154,9 @@ TPM의 핵심 메커니즘은 **신뢰 체인(Chain of Trust)**을 통한 **원�
 └────────────────────────────────────────────────────────────────┘
 ```
 
-**[다이어그램 해설]** 이 표는 소프트웨어 보안과 하드웨어 보안(TPM)이 각각 방어할 수 있는 공격 범위를 명확히 구분한다. 소프트웨어 보안은 OS가 정상 동작하는 전제하에 네트워크 침투, 악성코드, 권한 상승 등을 방어한다. 반면 디스크 탈거, 펌웨어 변조, DMA 공격, 콜드 부트(Cold Boot) 공격 등은 OS의 통제 범위를 벗어나므로 TPM과 같은 하드웨어 보안 모듈만이 방어할 수 있다.
+**[다이어그램 해설]** 이 표는 소프트웨어 보안과 하드웨어 보안([[476_tpm|TPM]])이 각각 방어할 수 있는 공격 범위를 명확히 구분한다. 소프트웨어 보안은 OS가 정상 동작하는 전제하에 네트워크 침투, 악성코드, [[356_privilege_escalation|권한 상승]] 등을 방어한다. 반면 디스크 탈거, [[032_firmware|펌웨어]] 변조, [[746_io_direct_memory_access_dma|DMA]] 공격, 콜드 부트(Cold Boot) 공격 등은 OS의 통제 범위를 벗어나므로 TPM과 같은 [[475_hsm|하드웨어 보안 모듈]]만이 방어할 수 있다.
 
-- **📢 섹션 요약 비유**: 소프트웨어 보안은 집 안의 도어락, CCTV, 경보기라면, TPM은 은행 금고의 강화된 벽, 생체인증 금고 자체입니다. 집 안의 경비는 침입자가 이미 집 안에 들어온 상황(해킹된 OS)에서는 무력화되지만, 금고 자체의 물리적 보호는 침입자가 집 안에 있어도 열 수 없는 최종 방어선입니다.
+- **📢 섹션 요약 비유**: 소프트웨어 보안은 집 안의 도어락, [[933_cctv|CCTV]], 경보기라면, TPM은 은행 금고의 강화된 벽, 생체인증 금고 자체입니다. 집 안의 경비는 침입자가 이미 집 안에 들어온 상황(해킹된 OS)에서는 무력화되지만, 금고 자체의 물리적 보호는 침입자가 집 안에 있어도 열 수 없는 최종 방어선입니다.
 
 ---
 
@@ -164,20 +164,20 @@ TPM의 핵심 메커니즘은 **신뢰 체인(Chain of Trust)**을 통한 **원�
 
 ### 실무 적용 시나리오 및 의사결정
 
-**시나리오 1: 엔터프라이즈 디스크 암호화(BitLocker / LUKS + TPM)**
-- Windows BitLocker는 TPM의 PCR 값과 결합하여 볼륨 암호화 키(Volume Master Key)를 Sealing한다.
-- 정상 부팅 시 PCR이 일치하면 자동으로 Unseal → 사용자는 추가 PIN 없이 로그인 가능(투명한 보안, Transparent Security).
-- 펌웨어 변조나 디스크 탈거 시 PCR 불일치 → 복구 키(Recovery Key) 입력 필요 → 관리자에게 경고 알림.
+**시나리오 1: 엔터프라이즈 디스크 암호화([[397_bitlocker_windows_fde|BitLocker]] / [[399_luks_linux_unified_key_setup|LUKS]] + [[476_tpm|TPM]])**
+- Windows BitLocker는 TPM의 PCR 값과 결합하여 볼륨 암호화 키([[001_bigdata_3v_5v|Volume]] Master [[067_db_key_uniqueness_minimality|Key]])를 Sealing한다.
+- 정상 부팅 시 PCR이 일치하면 자동으로 Unseal → 사용자는 추가 PIN 없이 로그인 가능(투명한 보안, Transparent [[283_security_tactics|Security]]).
+- [[032_firmware|펌웨어]] 변조나 디스크 탈거 시 PCR 불일치 → [[658_ir_recovery|복구]] 키([[658_ir_recovery|Recovery]] [[067_db_key_uniqueness_minimality|Key]]) 입력 필요 → 관리자에게 경고 알림.
 
-**시나리오 2: 클라우드 환경의 vTPM(Virtual TPM)**
-- AWS Nitro, Azure Confidential Computing, GCP Shielded VM 등은 가상 머신(VM)에 vTPM을 제공.
-- VM의 부팅 무결성(Boot Integrity)을 증명하여, 클라우드 공급자조차 VM 내부를 들여다볼 수 없음을 보증.
-- 원격 증명(Remote Attestation)을 통해 제3자가 VM의 무결성을 독립적으로 검증 가능.
+**시나리오 2: 클라우드 환경의 vTPM(Virtual [[476_tpm|TPM]])**
+- AWS Nitro, Azure [[795_confidential_computing|Confidential Computing]], GCP Shielded [[598_vm_migration_nic|VM]] 등은 가상 머신([[598_vm_migration_nic|VM]])에 vTPM을 제공.
+- VM의 [[916_secure_boot|부팅 무결성]](Boot [[003_integrity|Integrity]])을 증명하여, 클라우드 공급자조차 [[598_vm_migration_nic|VM]] 내부를 들여다볼 수 없음을 보증.
+- 원격 증명([[396_remote_attestation|Remote Attestation]])을 통해 제3자가 VM의 [[003_integrity|무결성]]을 독립적으로 [[395_verification_process_review|검증]] 가능.
 
-**시나리오 3: IoT/임베디드 디바이스의 펌웨어 무결성 보증**
-- 스마트 카메라, 산업 제어기(PLC), 스마트 미터기 등은 물리적 접근이 용이하여 펌웨어 변조 위험이 높음.
-- TPM(DTPM) 또는 fTPM(펌웨어 TPM)을 활용하여 OTA(Over-The-Air) 업데이트의 서명 검증과 설치 후 PCR 측정 수행.
-- 변조된 펌웨어는 PCR 불일치로 감지 → 디바이스 비활성화 또는 안전 모드(Safe Mode) 진입.
+**시나리오 3: [[101_iot_concept|IoT]]/임베디드 디바이스의 [[032_firmware|펌웨어]] [[003_integrity|무결성]] 보증**
+- 스마트 카메라, 산업 제어기([[896_plc_programmable_logic_controller|PLC]]), 스마트 미터기 등은 물리적 접근이 용이하여 [[032_firmware|펌웨어]] 변조 위험이 높음.
+- [[476_tpm|TPM]](DTPM) 또는 fTPM([[032_firmware|펌웨어]] [[476_tpm|TPM]])을 활용하여 OTA([[523_iot_firmware_ota_security|Over-The-Air]]) 업데이트의 서명 [[395_verification_process_review|검증]]과 설치 후 PCR 측정 수행.
+- 변조된 [[032_firmware|펌웨어]]는 PCR 불일치로 감지 → 디바이스 비활성화 또는 [[719_cpu_downclocking|안전 모드]]([[093_safe_scaled_agile_framework_art_pi|Safe]] Mode) 진입.
 
 ```text
 ┌────────────────────────────────────────────────────────────────┐
@@ -203,23 +203,23 @@ TPM의 핵심 메커니즘은 **신뢰 체인(Chain of Trust)**을 통한 **원�
 └────────────────────────────────────────────────────────────────┘
 ```
 
-**[다이어그램 해설]** 이 흐름도는 TPM 도입 여부를 실무적으로 판단하는 의사결정 트리다. 모든 시스템에 TPM이 필요한 것은 아니다. 클라우드의 관리형 서비스나 물리적 접근이 통제된 사내망의 일반 서비스 서버는 소프트웨어 보안만으로 충분할 수 있다. 그러나 노트북, IoT 디바이스, 클라우드 VM의 기밀 컴퓨팅 등 물리적 접근 위험이 있는 환경에서는 TPM(또는 vTPM) 도입이 필수적이다.
+**[다이어그램 해설]** 이 흐름도는 [[476_tpm|TPM]] 도입 여부를 실무적으로 판단하는 의사결정 트리다. 모든 시스템에 TPM이 필요한 것은 아니다. 클라우드의 관리형 [[090_service_kubernetes_network_load_balancing|서비스]]나 물리적 접근이 통제된 사내망의 일반 [[090_service_kubernetes_network_load_balancing|서비스]] 서버는 소프트웨어 보안만으로 충분할 수 있다. 그러나 노트북, [[101_iot_concept|IoT]] 디바이스, 클라우드 VM의 [[795_confidential_computing|기밀 컴퓨팅]] 등 물리적 접근 위험이 있는 환경에서는 [[476_tpm|TPM]](또는 vTPM) 도입이 필수적이다.
 
-- **📢 섹션 요약 비유**: 모든 집에 은행급 금고가 필요한 것은 아닙니다. 도난 위험이 적은 아파트는 도어락만으로 충분하지만, 현금을 다루는 은행이나 중요 서류가 있는 사무실에는 반드시 금고(TPM)가 필요한 것과 같습니다.
+- **📢 섹션 요약 비유**: 모든 집에 은행급 금고가 필요한 것은 아닙니다. 도난 위험이 적은 아파트는 도어락만으로 충분하지만, 현금을 다루는 은행이나 중요 서류가 있는 사무실에는 반드시 금고([[476_tpm|TPM]])가 필요한 것과 같습니다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-TPM(Trusted Platform Module)은 운영체제의 보안을 넘어 하드웨어 수준에서 신뢰의 근간(Root of Trust)을 확립하는 핵심 기술이다. 소프트웨어 보안이 OS가 정상 동작한다는 전제에 의존하는 반면, TPM은 부팅 최초 시점부터 암호학적 증명을 통해 시스템 무결성을 보증하므로, 물리적 공격과 펌웨어 변조라는 근원적 위협에 대응할 수 있다.
+[[476_tpm|TPM]]([[476_tpm|Trusted Platform Module]])은 [[001_operating_system_purpose|운영체제]]의 보안을 넘어 하드웨어 수준에서 신뢰의 근간([[487_root_of_trust|Root of Trust]])을 확립하는 핵심 기술이다. 소프트웨어 보안이 OS가 정상 동작한다는 전제에 의존하는 반면, TPM은 부팅 최초 시점부터 [[652_cryptography_concept_encryption_decryption|암호학]]적 증명을 통해 시스템 [[003_integrity|무결성]]을 보증하므로, 물리적 공격과 [[032_firmware|펌웨어]] 변조라는 근원적 위협에 대응할 수 있다.
 
-TPM 2.0은 알고리즘 유연성(Algorithm Agility)과 다중 키 계층 구조를 도입하여 현대 암호학 요구사항을 충족하며, fTPM(펌웨어 TPM)의 보급으로 사실상 모든 현대 PC와 서버에 TPM 기능이 내장되었다. Windows 11의 TPM 2.0 필수 요구 사항은 이 기술이 이제 선택이 아닌 기본 인프라가 되었음을 시사한다.
+[[476_tpm|TPM]] 2.0은 [[001_algorithm_definition|알고리즘]] 유연성([[001_algorithm_definition|Algorithm]] Agility)과 다중 키 계층 구조를 도입하여 현대 [[652_cryptography_concept_encryption_decryption|암호학]] 요구사항을 충족하며, fTPM([[032_firmware|펌웨어]] [[476_tpm|TPM]])의 보급으로 사실상 모든 현대 PC와 서버에 [[476_tpm|TPM]] 기능이 내장되었다. Windows 11의 [[476_tpm|TPM]] 2.0 필수 요구 사항은 이 기술이 이제 선택이 아닌 기본 인프라가 되었음을 시사한다.
 
-앞으로 TEE(Trusted Execution Environment)와 결합된 기밀 컴퓨팅(Confidential Computing), 하이퍼바이저 기반 격리(VM 에서의 vTPM), 그리고 양자 내성(Post-Quantum) 암호 알고리즘 지원까지 확장될 것이며, 물리적 보안과 소프트웨어 보안의 경계를 허무는 통합 신뢰 플랫폼으로 진화할 것이다.
+앞으로 [[478_tee|TEE]]([[972_tee_based_ml|Trusted Execution Environment]])와 결합된 [[795_confidential_computing|기밀 컴퓨팅]]([[795_confidential_computing|Confidential Computing]]), [[054_hypervisor|하이퍼바이저]] 기반 격리([[598_vm_migration_nic|VM]] 에서의 vTPM), 그리고 양자 내성(Post-Quantum) 암호 [[001_algorithm_definition|알고리즘]] 지원까지 확장될 것이며, 물리적 보안과 소프트웨어 보안의 경계를 허무는 통합 신뢰 플랫폼으로 진화할 것이다.
 
 ---
 
-컴퓨터에 **비밀 키를 넣는 아주 튼튼한 금고 상자**가 있다고 생각해 보세요! 이 금고 상자(TPM)는 컴퓨터 안의 나쁜 프로그램이 열 수 없고, 컴퓨터를 아예 꺼버려도 금고 안의 비밀은 안전합니다. 매일 아침 컴퓨터가 켜질 때마다, 이 금고 상자가 "어제와 똑같이 안전하게 켜졌는지?" 확인 도장(PCR)을 찍어서 비교합니다. 도장이 조금이라도 다르면 "누군가 내 컴퓨터를 만졌어!"라고 경고하면서 비밀 키를 절대 꺼내주지 않습니다. 마치 학교 금고실의 비밀번호를 아무도 모르게 보호하는 특별한 파수꾼 같아요!
+컴퓨터에 **비밀 키를 넣는 아주 튼튼한 금고 상자**가 있다고 생각해 보세요! 이 금고 상자([[476_tpm|TPM]])는 컴퓨터 안의 나쁜 프로그램이 열 수 없고, 컴퓨터를 아예 꺼버려도 금고 안의 비밀은 안전합니다. 매일 아침 컴퓨터가 켜질 때마다, 이 금고 상자가 "어제와 똑같이 안전하게 켜졌는지?" [[396_validation|확인]] 도장(PCR)을 찍어서 비교합니다. 도장이 조금이라도 다르면 "누군가 내 컴퓨터를 만졌어!"라고 경고하면서 비밀 키를 절대 꺼내주지 않습니다. 마치 학교 금고실의 비밀번호를 아무도 모르게 보호하는 특별한 파수꾼 같아요!
 
 - **📢 섹션 요약 비유**: 도구의 장점만 외우는 것이 아니라 어디까지 믿고 어디서 보완해야 하는지 기억하는 정리 노트와 같다.
 
@@ -229,10 +229,10 @@ TPM 2.0은 알고리즘 유연성(Algorithm Agility)과 다중 키 계층 구조
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| 비밀번호 솔팅 (Salting) 기반 해시 처리 방어 구조 | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
-| 감사 (Auditing) 로깅 프레임워크 (Linux Auditd) | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
-| 보안 부팅 (Secure Boot) 인증서 체인 로딩 검증 | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
-| 성능 모니터링 (Performance Monitoring) 및 튜닝 방법론 | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
+| [[605_password_salting_hash|비밀번호 솔팅]] ([[605_password_salting_hash|Salting]]) 기반 해시 처리 방어 구조 | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
+| [[606_auditing_linux_auditd|감사]] ([[606_auditing_linux_auditd|Auditing]]) 로깅 프레임워크 (Linux Auditd) | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
+| [[608_secure_boot|보안 부팅]] ([[608_secure_boot|Secure Boot]]) [[303_authentication_authorization_patterns|인증]]서 체인 로딩 [[395_verification_process_review|검증]] | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
+| [[609_performance_monitoring|성능 모니터링]] ([[609_performance_monitoring|Performance Monitoring]]) 및 튜닝 방법론 | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -250,6 +250,6 @@ TPM 2.0은 알고리즘 유연성(Algorithm Agility)과 다중 키 계층 구조
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. 물리적 보안 및 하드웨어 보안 모듈 (TPM, Trusted Platform Module)은 컴퓨터가 누가 들어와도 되는지와 무엇을 막아야 하는지 정하는 문지기 규칙이에요.
-2. 먼저 감사 (Auditing) 로깅 프레임워크 (Linux Auditd)을 이해하면 물리적 보안 및 하드웨어 보안 모듈 (TPM, Trusted Platform Module)이 왜 필요한지 더 쉽게 보여요.
-3. 그래서 물리적 보안 및 하드웨어 보안 모듈 (TPM, Trusted Platform Module)을 잘 알면 나중에 보안 부팅 (Secure Boot) 인증서 체인 로딩 검증도 훨씬 쉽게 배울 수 있어요.
+1. 물리적 보안 및 [[475_hsm|하드웨어 보안 모듈]] ([[476_tpm|TPM]], [[476_tpm|Trusted Platform Module]])은 컴퓨터가 누가 들어와도 되는지와 무엇을 막아야 하는지 정하는 문지기 규칙이에요.
+2. 먼저 [[606_auditing_linux_auditd|감사]] ([[606_auditing_linux_auditd|Auditing]]) 로깅 프레임워크 (Linux Auditd)을 이해하면 물리적 보안 및 [[475_hsm|하드웨어 보안 모듈]] ([[476_tpm|TPM]], [[476_tpm|Trusted Platform Module]])이 왜 필요한지 더 쉽게 보여요.
+3. 그래서 물리적 보안 및 [[475_hsm|하드웨어 보안 모듈]] ([[476_tpm|TPM]], [[476_tpm|Trusted Platform Module]])을 잘 알면 나중에 [[608_secure_boot|보안 부팅]] ([[608_secure_boot|Secure Boot]]) [[303_authentication_authorization_patterns|인증]]서 체인 로딩 [[395_verification_process_review|검증]]도 훨씬 쉽게 배울 수 있어요.

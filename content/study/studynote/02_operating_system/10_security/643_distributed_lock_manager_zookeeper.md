@@ -8,43 +8,43 @@ categories = "studynote-operating-system"
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 단일 서버에서는 OS 커널이 Mutex나 Semaphore로 락(Lock)을 관리하지만, 물리적으로 떨어진 수백 대의 분산 서버들이 하나의 자원(예: DB 테이블, 마스터 선출)을 두고 경쟁할 때는 **분산 락 매니저 (DLM: Distributed Lock Manager)**라는 합의된 제3의 통제소가 필요하다.
-> 2. **메커니즘**: Google의 Chubby나 Apache ZooKeeper 같은 분산 코디네이터는 **임시 노드(Ephemeral Node)**와 **와치(Watch)** 매커니즘을 사용해 락을 구현한다. 누군가 락을 잡고 죽어버려도(세션 끊김) 임시 노드가 자동 삭제되어 데드락을 방지하고, 대기자들에게 즉시 알림을 쏴주어 폴링(Polling) 오버헤드를 없앤다.
-> 3. **가치**: 분산 락은 마이크로서비스(MSA)와 클라우드 아키텍처에서 노드 간의 충돌(Race Condition)을 막고, 리더 선출(Leader Election)을 완벽하게 통제하여 '스플릿 브레인(Split-brain)' 대참사를 막는 가장 핵심적인 인프라 동기화 도구다.
+> 1. **본질**: 단일 서버에서는 OS [[022_kernel_role|커널]]이 Mutex나 Semaphore로 락([[510_lock|Lock]])을 관리하지만, 물리적으로 떨어진 수백 대의 [[136_variance|분산]] 서버들이 하나의 자원(예: DB 테이블, 마스터 선출)을 두고 경쟁할 때는 **[[136_variance|분산]] 락 매니저 ([[047_dlm|DLM]]: Distributed [[510_lock|Lock]] Manager)**라는 합의된 제3의 통제소가 필요하다.
+> 2. **메커니즘**: Google의 Chubby나 [[029_apache_zookeeper|Apache ZooKeeper]] 같은 [[136_variance|분산]] 코디네이터는 **임시 노드(Ephemeral Node)**와 **와치(Watch)** 매커니즘을 사용해 락을 구현한다. 누군가 락을 잡고 죽어버려도([[160_session_controlling_terminal|세션]] 끊김) 임시 노드가 자동 삭제되어 데드락을 방지하고, 대기자들에게 즉시 알림을 쏴주어 [[448_polling_programmed_io|폴링]]([[747_io_polling_overhead|Polling]]) 오버헤드를 없앤다.
+> 3. **가치**: [[136_variance|분산]] 락은 [[532_microservices_decomposition_patterns|마이크로서비스]]([[619_msa_traffic_hardware|MSA]])와 클라우드 아키텍처에서 노드 간의 충돌([[213_race_condition|Race Condition]])을 막고, 리더 선출(Leader Election)을 완벽하게 통제하여 '[[190_split_brain_zookeeper_fencing_quorum|스플릿 브레인]](Split-brain)' 대참사를 막는 가장 핵심적인 인프라 [[212_synchronization_mechanisms|동기화]] 도구다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 분산 락(Distributed Lock)은 여러 독립된 프로세스나 서버가 공유 자원(데이터베이스, 파일 시스템, 특정 연산 등)에 순차적으로 접근해야 할 때, 네트워크를 통해 상호 배제(Mutual Exclusion)를 보장하는 기술이다. 이를 전문적으로 수행하는 시스템을 분산 코디네이션 서비스(Distributed Coordination Service)라고 부른다.
+- **개념**: [[136_variance|분산]] 락(Distributed [[510_lock|Lock]])은 여러 독립된 프로세스나 서버가 공유 자원([[002_database_definition|데이터베이스]], [[501_file_definition_logical_record|파일]] 시스템, 특정 연산 등)에 순차적으로 접근해야 할 때, 네트워크를 통해 [[283_mutual_exclusion|상호 배제]]([[283_mutual_exclusion|Mutual Exclusion]])를 보장하는 기술이다. 이를 전문적으로 수행하는 시스템을 [[136_variance|분산]] 코디네이션 [[090_service_kubernetes_network_load_balancing|서비스]](Distributed Coordination [[090_service_kubernetes_network_load_balancing|Service]])라고 부른다.
 
 - **필요성 (단일 락의 붕괴)**: 
-  - 과거에는 데이터베이스 서버 1대에 모든 요청이 몰렸으므로, DB 자체의 Lock이나 OS의 Lock을 쓰면 됐다.
-  - 하지만 서버가 100대로 늘어나고(Scale-out), 이 100대가 똑같은 스토리지의 파일에 동시에 쓰기(Write)를 시도한다면 파일이 1초 만에 박살난다. 100대의 서버 중 누군가는 락을 쥐고, 나머지는 대기해야 한다.
+  - 과거에는 [[002_database_definition|데이터베이스]] 서버 1대에 모든 요청이 몰렸으므로, DB 자체의 Lock이나 OS의 Lock을 쓰면 됐다.
+  - 하지만 서버가 100대로 늘어나고([[202_scale_out_distributed_horizontal_expansion|Scale-out]]), 이 100대가 똑같은 스토리지의 [[501_file_definition_logical_record|파일]]에 동시에 [[289_cqrs_db|쓰기]](Write)를 시도한다면 [[501_file_definition_logical_record|파일]]이 1초 만에 박살난다. 100대의 서버 중 누군가는 락을 쥐고, 나머지는 대기해야 한다.
   - 만약 락을 쥐고 있는 1번 서버가 정전으로 죽어버리면? 남은 99대는 1번 서버가 락을 풀 때까지 영원히 기다리는 무한 데드락에 빠진다.
-  - **해결책**: "살아있는 놈만 락을 가질 수 있고, 죽으면 락이 자동으로 풀리며, 락이 풀리는 순간 다음 대기자에게 즉시 알려주는" 똑똑한 글로벌 중앙 통제소(DLM)가 절실했다.
+  - **해결책**: "살아있는 놈만 락을 가질 수 있고, 죽으면 락이 자동으로 풀리며, 락이 풀리는 순간 다음 대기자에게 즉시 알려주는" 똑똑한 글로벌 중앙 통제소([[047_dlm|DLM]])가 절실했다.
 
   - **로컬 락**: 한 가족이 화장실 문(공유 자원)을 잠그고 쓰는 것.
-  - **분산 락 (ZooKeeper)**: 전국 각지에 흩어진 100명의 직원이 하나의 금고를 열어야 한다. 직원들은 직접 금고로 가지 않고, 본사의 '열쇠 관리소(ZooKeeper)'에 전화를 건다. 관리소는 "가장 먼저 전화한 사람에게 임시 열쇠(Ephemeral Node)를 주고, 그 사람이 전화를 끊거나 연락이 두절되면(장애) 열쇠를 빼앗아 2번째 대기자에게 즉시 문자를 보내주는(Watch)" 완벽한 번호표 시스템을 운영한다.
+  - **[[136_variance|분산]] 락 ([[798_distributed_lock_zookeeper_consensus|ZooKeeper]])**: 전국 각지에 흩어진 100명의 직원이 하나의 금고를 열어야 한다. 직원들은 직접 금고로 가지 않고, 본사의 '열쇠 관리소([[798_distributed_lock_zookeeper_consensus|ZooKeeper]])'에 전화를 건다. 관리소는 "가장 먼저 전화한 사람에게 임시 열쇠(Ephemeral Node)를 주고, 그 사람이 전화를 끊거나 연락이 두절되면(장애) 열쇠를 빼앗아 2번째 대기자에게 즉시 문자를 보내주는(Watch)" 완벽한 번호표 시스템을 운영한다.
 
 - **발전 과정**:
-  1. **초기 DLM**: VMS 클러스터, Oracle RAC 내부의 DLM. 특정 솔루션에 종속되고 무거움.
-  2. **Google Chubby (2006)**: Paxos 기반의 분산 락 파일 시스템. GFS와 Bigtable의 마스터 선출을 위해 개발.
-  3. **Apache ZooKeeper**: Chubby의 오픈소스 클론. Hadoop 생태계의 표준 코디네이터로 등극. (현재는 etcd, Consul, Redis Redlock 등 다양화됨)
+  1. **[[459_quic_fec_forward_error_correction|초기]] [[047_dlm|DLM]]**: VMS 클러스터, [[188_pl_sql_t_sql_procedural|Oracle]] RAC 내부의 [[047_dlm|DLM]]. 특정 솔루션에 종속되고 무거움.
+  2. **Google Chubby (2006)**: Paxos 기반의 [[136_variance|분산]] 락 [[501_file_definition_logical_record|파일]] 시스템. GFS와 Bigtable의 마스터 선출을 위해 개발.
+  3. **[[029_apache_zookeeper|Apache ZooKeeper]]**: Chubby의 [[191_oss_license_compliance|오픈소스]] [[149_clone_system_call|클론]]. [[843_hadoop_rack_awareness_data_replication_topology|Hadoop]] 생태계의 표준 코디네이터로 등극. (현재는 [[078_etcd_distributed_key_value_store|etcd]], Consul, [[542_redis|Redis]] Redlock 등 다양화됨)
 
-- **📢 섹션 요약 비유**: 수백 명의 요리사가 하나의 냄비(자원)에 재료를 넣으려 할 때, 주방장(DLM)이 호루라기를 불며 순서를 정해주고, 재료를 넣다 쓰러진 요리사는 즉시 밖으로 끌어내어 요리가 멈추지 않게 하는 식당의 지휘자입니다.
+- **📢 섹션 요약 비유**: 수백 명의 요리사가 하나의 냄비(자원)에 재료를 넣으려 할 때, 주방장([[047_dlm|DLM]])이 호루라기를 불며 순서를 정해주고, 재료를 넣다 쓰러진 요리사는 즉시 밖으로 끌어내어 요리가 멈추지 않게 하는 식당의 지휘자입니다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### ZooKeeper 기반 분산 락 구현 원리 (Znode)
+### [[798_distributed_lock_zookeeper_consensus|ZooKeeper]] 기반 [[136_variance|분산]] 락 구현 원리 (Znode)
 
-ZooKeeper는 파일 시스템과 비슷한 계층적 디렉터리 구조(`Znode`)를 메모리에 유지한다. 여기서 분산 락을 구현하는 데 핵심이 되는 두 가지 마법의 기능이 있다.
+ZooKeeper는 [[501_file_definition_logical_record|파일]] 시스템과 비슷한 계층적 [[506_directory_structure_symbol_table|디렉터리]] 구조(`Znode`)를 메모리에 유지한다. 여기서 [[136_variance|분산]] 락을 구현하는 데 핵심이 되는 두 가지 마법의 기능이 있다.
 
-1. **Ephemeral Node (임시 노드)**: 클라이언트가 연결(세션)되어 있는 동안만 존재하고, 클라이언트가 죽거나 네트워크가 끊기면 즉시 자동 삭제되는 노드. (데드락 방지)
-2. **Sequence Node (순차 노드)**: 노드를 생성할 때 이름 뒤에 자동으로 1, 2, 3... 번호표를 붙여주는 기능. (순서 보장)
-3. **Watch (감시/알림)**: 특정 노드의 변경(생성/삭제)을 기다리고 있다가 이벤트가 발생하면 클라이언트에게 콜백(Callback)을 날려주는 기능. (폴링 방지)
+1. **Ephemeral Node (임시 노드)**: 클라이언트가 연결([[160_session_controlling_terminal|세션]])되어 있는 동안만 존재하고, 클라이언트가 죽거나 네트워크가 끊기면 즉시 자동 삭제되는 노드. (데드락 방지)
+2. **Sequence Node (순차 노드)**: 노드를 [[087_process_state_transition|생성]]할 때 이름 뒤에 자동으로 1, 2, 3... 번호표를 붙여주는 기능. (순서 보장)
+3. **Watch (감시/알림)**: 특정 노드의 변경([[087_process_state_transition|생성]]/삭제)을 기다리고 있다가 이벤트가 발생하면 클라이언트에게 콜백(Callback)을 날려주는 기능. ([[448_polling_programmed_io|폴링]] 방지)
 
 ```text
   ┌───────────────────────────────────────────────────────────────────┐
@@ -75,37 +75,37 @@ ZooKeeper는 파일 시스템과 비슷한 계층적 디렉터리 구조(`Znode`
   └───────────────────────────────────────────────────────────────────┘
 ```
 
-**[다이어그램 해설]** 이 알고리즘의 위대함은 **'Herd Effect(소떼 현상)'를 완벽히 차단**했다는 점이다. 만약 100대의 서버가 모두 1등(001번) 노드만 쳐다보고(Watch) 있었다면, 1번이 끝나는 순간 99대에게 동시에 알림이 날아가 ZooKeeper 서버가 터져버린다. 하지만 이 알고리즘에서는 B는 A만 감시하고, C는 B만 감시하고, D는 C만 감시한다. 앞사람이 죽으면 딱 그다음 사람 한 명에게만 알림이 간다. 네트워크 오버헤드가 최소화되고 락이 아주 우아하게 다음 타자에게 넘어간다. 죽은 서버가 영원히 락을 쥐고 있는 데드락(Deadlock) 문제도 '임시 노드' 기능 덕분에 완벽히 해결된다.
+**[다이어그램 해설]** 이 [[001_algorithm_definition|알고리즘]]의 위대함은 **'Herd Effect(소떼 현상)'를 완벽히 차단**했다는 점이다. 만약 100대의 서버가 모두 1등(001번) 노드만 쳐다보고(Watch) 있었다면, 1번이 끝나는 순간 99대에게 동시에 알림이 날아가 [[798_distributed_lock_zookeeper_consensus|ZooKeeper]] 서버가 터져버린다. 하지만 이 [[001_algorithm_definition|알고리즘]]에서는 B는 A만 감시하고, C는 B만 감시하고, D는 C만 감시한다. 앞사람이 죽으면 딱 그다음 사람 한 명에게만 알림이 간다. 네트워크 오버헤드가 최소화되고 락이 아주 우아하게 다음 타자에게 넘어간다. 죽은 서버가 영원히 락을 쥐고 있는 데드락([[281_deadlock_definition|Deadlock]]) 문제도 '임시 노드' 기능 덕분에 완벽히 해결된다.
 
 ---
 
-### Redis 기반 분산 락 (Redlock 알고리즘)
+### [[542_redis|Redis]] 기반 [[136_variance|분산]] 락 (Redlock [[001_algorithm_definition|알고리즘]])
 
-무거운 ZooKeeper 대신 가벼운 인메모리 캐시인 Redis를 이용한 분산 락도 매우 널리 쓰인다.
+무거운 [[798_distributed_lock_zookeeper_consensus|ZooKeeper]] 대신 가벼운 인메모리 캐시인 Redis를 이용한 [[136_variance|분산]] 락도 매우 널리 쓰인다.
 
-1. **기본 원리 (SETNX)**: Redis의 `SET resource_name my_random_value NX PX 30000` 명령어를 사용한다. (NX: 없으면 생성해라 = Lock 획득 / PX 30000: 30초 뒤 자동 삭제 = TTL 데드락 방지)
-2. **Redlock 알고리즘**: 단일 Redis는 장애 시 락 정보가 날아간다. 분산 환경의 창시자 Salvatore Sanfilippo는 N개(보통 5개)의 독립된 Redis 마스터 노드에 동시에 SETNX를 쏘아, 과반수(Quorum, 3대) 이상에서 락 획득에 성공하면 진짜 락을 얻은 것으로 치는 **Redlock(레드락)** 알고리즘을 제안했다.
+1. **기본 원리 (SETNX)**: Redis의 `SET resource_name my_random_value NX PX 30000` 명령어를 사용한다. (NX: 없으면 [[087_process_state_transition|생성]]해라 = [[510_lock|Lock]] 획득 / PX 30000: 30초 뒤 자동 삭제 = [[294_ttl_time_to_live_looping_prevention|TTL]] 데드락 방지)
+2. **Redlock [[001_algorithm_definition|알고리즘]]**: 단일 Redis는 장애 시 락 정보가 날아간다. [[136_variance|분산]] 환경의 창시자 Salvatore Sanfilippo는 N개(보통 5개)의 독립된 [[542_redis|Redis]] 마스터 노드에 동시에 SETNX를 쏘아, 과반수(Quorum, 3대) 이상에서 락 획득에 성공하면 진짜 락을 얻은 것으로 치는 **Redlock(레드락)** [[001_algorithm_definition|알고리즘]]을 제안했다.
 
-- **📢 섹션 요약 비유**: ZooKeeper 락이 관공서에서 대기표를 뽑고 차례를 기다리는 '줄서기' 방식이라면, Redis Redlock은 5명의 문지기 중 3명 이상에게 먼저 뇌물(SETNX)을 먹이는 사람이 문을 여는 '다수결 선착순' 방식입니다.
+- **📢 섹션 요약 비유**: [[798_distributed_lock_zookeeper_consensus|ZooKeeper]] 락이 관공서에서 대기표를 뽑고 차례를 기다리는 '줄서기' 방식이라면, [[542_redis|Redis]] Redlock은 5명의 문지기 중 3명 이상에게 먼저 뇌물(SETNX)을 먹이는 사람이 문을 여는 '다수결 선착순' 방식입니다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-### 분산 락 기술 스택 비교
+### [[136_variance|분산]] 락 기술 [[057_stack|스택]] 비교
 
-| 비교 항목 | ZooKeeper (ZAB) / etcd (Raft) | Redis (Redlock) | RDBMS (MySQL Named Lock) |
+| 비교 항목 | [[798_distributed_lock_zookeeper_consensus|ZooKeeper]] (ZAB) / [[078_etcd_distributed_key_value_store|etcd]] ([[259_raft_paxos|Raft]]) | [[542_redis|Redis]] (Redlock) | RDBMS (MySQL Named [[510_lock|Lock]]) |
 |:---|:---|:---|:---|
-| **일관성 (Consistency)** | **Strong Consistency (매우 높음)** | 분산 시스템에서 수학적 취약점 존재 | 높음 |
-| **락 해제/알림 방식** | 임시 노드 + Watch (이벤트 푸시) | TTL (만료 시간) + 주기적 Polling | 트랜잭션 종료 / Polling |
-| **성능 (속도)** | 다소 무거움 (디스크 영속성 동반) | **매우 빠름 (순수 메모리 연산)** | 느림 |
-| **데드락 방지** | 세션 타임아웃으로 즉각 해제 | TTL 만료로 해제 (만료 전 작업 시 위험) | 세션/커넥션 종료 시 해제 |
-| **주 사용처** | K8s(etcd), Kafka, Hadoop 리더 선출 | 짧고 빠른 MSA 분산 캐시 락 | 기존 RDBMS 인프라 재활용 |
+| **[[194_consistency_database_integrity|일관성]] ([[194_consistency_database_integrity|Consistency]])** | **Strong [[194_consistency_database_integrity|Consistency]] (매우 높음)** | [[136_variance|분산]] 시스템에서 수학적 취약점 존재 | 높음 |
+| **락 해제/알림 방식** | 임시 노드 + Watch (이벤트 푸시) | [[294_ttl_time_to_live_looping_prevention|TTL]] (만료 시간) + 주기적 [[747_io_polling_overhead|Polling]] | [[191_transaction_concept_states|트랜잭션]] 종료 / [[747_io_polling_overhead|Polling]] |
+| **[[282_performance_tactics|성능]] (속도)** | 다소 무거움 (디스크 [[196_durability_permanent_storage|영속성]] 동반) | **매우 빠름 (순수 메모리 연산)** | 느림 |
+| **데드락 방지** | [[160_session_controlling_terminal|세션]] 타임아웃으로 즉각 해제 | [[294_ttl_time_to_live_looping_prevention|TTL]] 만료로 해제 (만료 전 작업 시 위험) | [[160_session_controlling_terminal|세션]]/커넥션 종료 시 해제 |
+| **주 사용처** | K8s([[078_etcd_distributed_key_value_store|etcd]]), [[179_kafka_flink_watermark_time_window|Kafka]], [[843_hadoop_rack_awareness_data_replication_topology|Hadoop]] 리더 선출 | 짧고 빠른 [[619_msa_traffic_hardware|MSA]] [[136_variance|분산]] 캐시 락 | 기존 RDBMS 인프라 재활용 |
 
 ### 과목 융합 관점
 
-- **운영체제 (OS)**: 로컬 OS의 스핀락(Spinlock)이 "CPU 코어를 태우며 무한 대기"하는 구조라면, ZooKeeper의 Watch는 OS의 블로킹(Sleep)과 인터럽트(Wake-up) 메커니즘을 네트워크 스케일로 확장한 것과 정확히 일치한다.
-- **알고리즘 (Algorithm)**: ZooKeeper나 etcd 내부에서 락 정보를 여러 노드에 동일하게 복제(Replication)하기 위해 사용하는 **Paxos, ZAB(ZooKeeper Atomic Broadcast), Raft** 합의 알고리즘은 네트워크 단절(Network Partition) 상황에서도 스플릿 브레인(Split-brain)을 막아내는 컴퓨터 과학의 정수다.
+- **[[001_operating_system_purpose|운영체제]] (OS)**: 로컬 OS의 [[222_spinlock|스핀락]]([[222_spinlock|Spinlock]])이 "CPU 코어를 태우며 무한 대기"하는 구조라면, ZooKeeper의 Watch는 OS의 블로킹(Sleep)과 [[016_interrupt_mechanism|인터럽트]](Wake-up) 메커니즘을 네트워크 스케일로 확장한 것과 정확히 일치한다.
+- **[[001_algorithm_definition|알고리즘]] ([[001_algorithm_definition|Algorithm]])**: ZooKeeper나 [[078_etcd_distributed_key_value_store|etcd]] 내부에서 락 정보를 여러 노드에 동일하게 [[016_replication_factor|복제]]([[016_replication_factor|Replication]])하기 위해 사용하는 **Paxos, ZAB([[798_distributed_lock_zookeeper_consensus|ZooKeeper]] Atomic Broadcast), [[259_raft_paxos|Raft]]** [[011_consensus_algorithm|합의 알고리즘]]은 네트워크 단절(Network [[514_partition_slice_volume|Partition]]) 상황에서도 [[190_split_brain_zookeeper_fencing_quorum|스플릿 브레인]](Split-brain)을 막아내는 컴퓨터 과학의 정수다.
 
 - **📢 섹션 요약 비유**: 빠르고 가벼운 티켓이 필요하면 Redis를 쓰고, 돈이 오가는 절대 틀려선 안 되는 금고 열쇠가 필요하면 조금 무겁지만 절대 안전한 ZooKeeper나 etcd를 쓰는 것이 아키텍처의 정석입니다.
 
@@ -115,13 +115,13 @@ ZooKeeper는 파일 시스템과 비슷한 계층적 디렉터리 구조(`Znode`
 
 ### 실무 시나리오
 
-1. **시나리오 — 마이크로서비스(MSA) 선착순 쿠폰 발급 시스템**: 1,000장의 쿠폰을 발급하는데, 10대의 Spring Boot 서버(컨테이너)로 10만 명의 트래픽이 쏟아진다. 분산 락이 없으면 쿠폰 잔여 수량을 읽고(Read) 빼는(Update) 사이 경쟁 조건(Race Condition)이 터져 쿠폰이 1,500장 발급될 수 있다.
-   - **아키텍처 적용 (Redis Redisson)**: 빠른 응답 속도가 생명이다. ZooKeeper보다 가벼운 Redis 기반의 분산 락 라이브러리인 자바의 **Redisson**을 사용한다.
+1. **시나리오 — [[532_microservices_decomposition_patterns|마이크로서비스]]([[619_msa_traffic_hardware|MSA]]) 선착순 쿠폰 발급 시스템**: 1,000장의 쿠폰을 발급하는데, 10대의 Spring Boot 서버([[561_container_based_deployment|컨테이너]])로 10만 명의 트래픽이 쏟아진다. [[136_variance|분산]] 락이 없으면 쿠폰 잔여 수량을 읽고(Read) 빼는(Update) 사이 [[213_race_condition|경쟁 조건]]([[213_race_condition|Race Condition]])이 터져 쿠폰이 1,500장 발급될 수 있다.
+   - **아키텍처 적용 ([[542_redis|Redis]] Redisson)**: 빠른 응답 속도가 생명이다. ZooKeeper보다 가벼운 [[542_redis|Redis]] 기반의 [[136_variance|분산]] 락 라이브러리인 자바의 **Redisson**을 사용한다.
    - 10대의 서버가 쿠폰 발급 로직을 실행하기 전 `RLock lock = redisson.getLock("coupon_1"); lock.tryLock();`을 호출한다. 
-   - Redisson 내부는 Pub/Sub 구조로 되어 있어, 락을 못 얻은 서버가 미친 듯이 Redis를 때리는(Busy Waiting) 현상 없이 얌전히 대기하다가 이벤트 알림을 받고 처리하므로 Redis 부하 없이 초당 수만 건의 락을 완벽히 소화한다.
+   - Redisson 내부는 Pub/Sub 구조로 되어 있어, 락을 못 얻은 서버가 미친 듯이 Redis를 때리는([[227_busy_waiting|Busy Waiting]]) 현상 없이 얌전히 대기하다가 이벤트 알림을 받고 처리하므로 [[542_redis|Redis]] 부하 없이 초당 수만 건의 락을 완벽히 소화한다.
 
-2. **시나리오 — 클라우드 스케줄러의 이중 실행 방지 (Leader Election)**: 자정에 100만 건의 배치(Batch) 메일을 발송하는 서버가 있다. 가용성을 위해 서버를 2대 띄웠는데, 분산 락이 없으면 두 서버가 동시에 크론(Cron)을 돌려 고객에게 메일이 2번씩 발송되는 대참사가 발생한다.
-   - **대응 (ZooKeeper Leader Election)**: 2대의 서버가 켜지자마자 ZooKeeper에 `/batch_master`라는 임시 순차 노드를 생성한다. 번호표 1번을 부여받은 서버가 "Active(리더)"가 되어 배치 작업을 수행하고, 2번 서버는 "Standby(대기)" 상태로 돌입한다. 만약 1번 서버가 죽으면 임시 노드가 사라지고, Watch 알림을 받은 2번 서버가 즉시 1등이 되어 배치를 이어받는다. 완벽한 Active-Standby 고가용성 클러스터가 구축된다.
+2. **시나리오 — 클라우드 스케줄러의 이중 실행 방지 (Leader Election)**: 자정에 100만 건의 배치(Batch) 메일을 발송하는 서버가 있다. [[452_availability|가용성]]을 위해 서버를 2대 띄웠는데, [[136_variance|분산]] 락이 없으면 두 서버가 동시에 크론([[107_nightly_build_scheduled_cron_pipeline|Cron]])을 돌려 고객에게 메일이 2번씩 발송되는 대참사가 발생한다.
+   - **대응 ([[798_distributed_lock_zookeeper_consensus|ZooKeeper]] Leader Election)**: 2대의 서버가 켜지자마자 ZooKeeper에 `/batch_master`라는 임시 순차 노드를 [[087_process_state_transition|생성]]한다. 번호표 1번을 부여받은 서버가 "[[483_active_vs_passive_ftp|Active]](리더)"가 되어 배치 작업을 수행하고, 2번 서버는 "Standby(대기)" 상태로 돌입한다. 만약 1번 서버가 죽으면 임시 노드가 사라지고, Watch 알림을 받은 2번 서버가 즉시 1등이 되어 배치를 이어받는다. 완벽한 [[483_active_vs_passive_ftp|Active]]-Standby 고가용성 클러스터가 구축된다.
 
 ### 의사결정 및 튜닝 플로우
 
@@ -148,13 +148,13 @@ ZooKeeper는 파일 시스템과 비슷한 계층적 디렉터리 구조(`Znode`
   └───────────────────────────────────────────────────────────────────┘
 ```
 
-**[다이어그램 해설]** "모든 곳에 ZooKeeper를 쓰면 되지 않나?"는 틀린 접근이다. 분산 락을 거는 행위 자체가 네트워크 I/O를 발생시키기 때문에 시스템의 처리량(Throughput)을 박살낸다. 가장 좋은 분산 락은 분산 락을 아예 안 쓰는 아키텍처(요청을 카프카 큐에 줄 세워 단일 컨슈머가 처리하게 함)를 만드는 것이다. 불가피하게 써야 한다면 성능(Redis)과 무결성(Zookeeper) 사이의 트레이드오프를 철저히 계산해야 한다.
+**[다이어그램 해설]** "모든 곳에 ZooKeeper를 쓰면 되지 않나?"는 틀린 접근이다. [[136_variance|분산]] 락을 거는 행위 자체가 네트워크 I/O를 발생시키기 때문에 시스템의 [[139_throughput|처리량]]([[139_throughput|Throughput]])을 박살낸다. 가장 좋은 [[136_variance|분산]] 락은 [[136_variance|분산]] 락을 아예 안 쓰는 아키텍처(요청을 [[179_kafka_flink_watermark_time_window|카프카]] 큐에 줄 세워 단일 컨슈머가 처리하게 함)를 만드는 것이다. 불가피하게 써야 한다면 [[282_performance_tactics|성능]]([[542_redis|Redis]])과 [[003_integrity|무결성]]([[798_distributed_lock_zookeeper_consensus|Zookeeper]]) 사이의 트레이드오프를 철저히 계산해야 한다.
 
-### 도입 체크리스트
-- **락 TTL(Time-To-Live) 갱신 (Watchdog)**: 서버 A가 Redis 락을 10초 잡고 작업을 하는데 풀 풀스캔이 15초 걸렸다. 10초 뒤 락이 풀려버리고 서버 B가 들어와서 데이터가 꼬인다. 작업이 길어질 때 백그라운드 스레드가 락의 TTL을 지속적으로 연장해 주는 **Watchdog 메커니즘**이 적용되었는가?
-- **스플릿 브레인 방어 (Fencing Token)**: 가비지 컬렉션(GC Pause)으로 인해 서버 A가 5초간 멈췄다 깨어났다. 그 사이 ZooKeeper는 A가 죽은 줄 알고 B에게 락을 줬다. A가 깨어나 자기가 아직 락을 쥔 줄 알고 DB에 쓴다. 이를 막기 위해 락을 줄 때마다 증가하는 버전 번호(Fencing Token)를 DB에 같이 넘겨, 구버전의 쓰기를 튕겨내는 방어 로직이 있는가? (분산 락의 핵심 면접 질문)
+### 도입 [[435_checklist_based_testing|체크리스트]]
+- **락 [[294_ttl_time_to_live_looping_prevention|TTL]](Time-To-Live) 갱신 (Watchdog)**: 서버 A가 [[542_redis|Redis]] 락을 10초 잡고 작업을 하는데 풀 풀스캔이 15초 걸렸다. 10초 뒤 락이 풀려버리고 서버 B가 들어와서 [[001_dikw_pyramid|데이터]]가 꼬인다. 작업이 길어질 때 백그라운드 스레드가 락의 TTL을 지속적으로 연장해 주는 **Watchdog 메커니즘**이 적용되었는가?
+- **[[190_split_brain_zookeeper_fencing_quorum|스플릿 브레인]] 방어 (Fencing Token)**: [[380_garbage_collection|가비지 컬렉션]](GC Pause)으로 인해 서버 A가 5초간 멈췄다 깨어났다. 그 사이 ZooKeeper는 A가 죽은 줄 알고 B에게 락을 줬다. A가 깨어나 자기가 아직 락을 쥔 줄 알고 DB에 쓴다. 이를 막기 위해 락을 줄 때마다 증가하는 [[288_version_ihl_tos_total_length|버전]] 번호(Fencing Token)를 DB에 같이 넘겨, 구버전의 [[289_cqrs_db|쓰기]]를 튕겨내는 방어 로직이 있는가? ([[136_variance|분산]] 락의 핵심 면접 질문)
 
-- **📢 섹션 요약 비유**: 분산 락은 '운전대'입니다. 운전대(락)를 넘겨받은 줄 알고 눈을 감고 달리면 사고(GC Pause 문제)가 납니다. 운전대를 잡았더라도 페달을 밟기 전(DB 쓰기)에 지금 내 운전대가 진짜인지(Fencing Token) 한 번 더 확인하는 이중 안전장치가 필수입니다.
+- **📢 섹션 요약 비유**: [[136_variance|분산]] 락은 '운전대'입니다. 운전대(락)를 넘겨받은 줄 알고 눈을 감고 달리면 사고(GC Pause 문제)가 납니다. 운전대를 잡았더라도 페달을 밟기 전(DB [[289_cqrs_db|쓰기]])에 지금 내 운전대가 진짜인지(Fencing Token) 한 번 더 확인하는 이중 안전장치가 필수입니다.
 
 ---
 
@@ -162,20 +162,20 @@ ZooKeeper는 파일 시스템과 비슷한 계층적 디렉터리 구조(`Znode`
 
 ### 정량/정성 기대효과
 
-| 구분 | 분산 락 미적용 환경 | 분산 락 (ZooKeeper/Redis) 적용 | 개선 효과 |
+| 구분 | [[136_variance|분산]] 락 미적용 환경 | [[136_variance|분산]] 락 ([[798_distributed_lock_zookeeper_consensus|ZooKeeper]]/[[542_redis|Redis]]) 적용 | 개선 효과 |
 |:---|:---|:---|:---|
-| **정성 (데이터 정합성)**| 동시 접속 시 쿠폰 초과 발급, 계좌 마이너스 | 경쟁 조건(Race Condition) 완벽 차단 | 비즈니스 크리티컬 로직의 신뢰성 보장 |
-| **정량 (가용성)** | 배치 서버 1대 죽으면 수동 복구(수십 분) | 리더 선출을 통한 즉각 Failover (수 초) | 무중단 자동화 클러스터 구축 |
-| **정성 (자원 효율)** | 동시 실행(중복 실행)으로 인한 리소스 낭비 | 상호 배제를 통해 단 1회의 실행 보장 | 데드락 없는 안전한 분산 제어 |
+| **정성 ([[001_dikw_pyramid|데이터]] 정합성)**| 동시 접속 시 쿠폰 초과 발급, 계좌 마이너스 | [[213_race_condition|경쟁 조건]]([[213_race_condition|Race Condition]]) 완벽 차단 | 비즈니스 크리티컬 로직의 [[642_reliability_mtbf_mttr_mttf_availability|신뢰성]] 보장 |
+| **정량 ([[452_availability|가용성]])** | 배치 서버 1대 죽으면 수동 [[658_ir_recovery|복구]](수십 분) | 리더 선출을 통한 즉각 [[300_failover_architecture|Failover]] (수 초) | 무중단 자동화 클러스터 구축 |
+| **정성 (자원 효율)** | 동시 실행(중복 실행)으로 인한 리소스 낭비 | [[283_mutual_exclusion|상호 배제]]를 통해 단 1회의 실행 보장 | 데드락 없는 안전한 [[136_variance|분산]] 제어 |
 
 ### 미래 전망
-- **etcd의 클라우드 네이티브 표준화**: 과거 Hadoop 시대의 제왕이었던 ZooKeeper (Java 기반, 무거움)는 쿠버네티스(K8s)의 등장과 함께 Go 언어로 작성된 가볍고 빠른 **etcd**로 분산 코디네이터의 왕좌가 넘어가고 있다. K8s의 모든 분산 상태 관리와 락은 etcd의 Raft 알고리즘을 기반으로 돌아간다.
-- **데이터베이스 자체 내장 분산 락**: 분산 락 매니저를 따로 띄우는 관리 오버헤드를 줄이기 위해, CockroachDB나 TiDB 같은 차세대 분산 DB들이 아예 내부 트랜잭션 엔진에 분산 락킹 메커니즘을 내장하여 개발자가 신경 쓸 필요 없는 방향으로 진화 중이다.
+- **etcd의 [[531_cloud_native_architecture|클라우드 네이티브]] 표준화**: 과거 [[843_hadoop_rack_awareness_data_replication_topology|Hadoop]] 시대의 제왕이었던 [[798_distributed_lock_zookeeper_consensus|ZooKeeper]] (Java 기반, 무거움)는 [[196_kubernetes_k8s_container_orchestration|쿠버네티스]](K8s)의 등장과 함께 Go 언어로 작성된 가볍고 빠른 **[[078_etcd_distributed_key_value_store|etcd]]**로 [[136_variance|분산]] 코디네이터의 왕좌가 넘어가고 있다. K8s의 모든 [[136_variance|분산]] 상태 관리와 락은 etcd의 [[259_raft_paxos|Raft]] [[001_algorithm_definition|알고리즘]]을 기반으로 돌아간다.
+- **[[002_database_definition|데이터베이스]] 자체 내장 [[136_variance|분산]] 락**: [[136_variance|분산]] 락 매니저를 따로 띄우는 관리 오버헤드를 줄이기 위해, CockroachDB나 [[293_elt_process|TiDB]] 같은 차세대 [[136_variance|분산]] DB들이 아예 내부 [[191_transaction_concept_states|트랜잭션]] 엔진에 [[136_variance|분산]] 락킹 메커니즘을 내장하여 개발자가 신경 쓸 필요 없는 방향으로 진화 중이다.
 
 ### 결론
-분산 락 매니저(DLM)의 구현은 멀티코어 운영체제의 스핀락/뮤텍스 개념을 네트워크 위로 확장한 분산 시스템 공학의 걸작이다. 임시 노드(Ephemeral), 콜백(Watch), 합의 알고리즘(Paxos/Raft)의 우아한 결합은 "서버는 언제든 죽을 수 있고, 네트워크는 언제든 끊길 수 있다"는 최악의 가정을 전제로 설계되었다. 현대 마이크로서비스를 다루는 엔지니어에게 분산 락의 한계(GC Pause, Clock Skew)를 이해하고 Fencing Token과 같은 방어 수단을 엮어내는 것은 시스템의 대형 사고를 막는 가장 결정적인 역량이다.
+[[136_variance|분산]] 락 매니저([[047_dlm|DLM]])의 구현은 멀티코어 [[001_operating_system_purpose|운영체제]]의 [[222_spinlock|스핀락]]/뮤텍스 개념을 네트워크 위로 확장한 [[136_variance|분산]] 시스템 공학의 걸작이다. 임시 노드(Ephemeral), 콜백(Watch), [[011_consensus_algorithm|합의 알고리즘]](Paxos/[[259_raft_paxos|Raft]])의 우아한 결합은 "서버는 언제든 죽을 수 있고, 네트워크는 언제든 끊길 수 있다"는 최악의 가정을 전제로 설계되었다. 현대 [[532_microservices_decomposition_patterns|마이크로서비스]]를 다루는 엔지니어에게 [[136_variance|분산]] 락의 한계(GC Pause, [[388_spanner_truetime_clock_skew|Clock Skew]])를 이해하고 Fencing Token과 같은 방어 수단을 엮어내는 것은 시스템의 대형 사고를 막는 가장 결정적인 역량이다.
 
-- **📢 섹션 요약 비유**: 오케스트라(MSA) 단원들이 서로 악보(DB)를 뺏으려 싸우지 않게, 절대 고장 나지 않는 지휘봉(분산 락)을 세워 완벽한 연주 순서를 지켜내는 현대 클라우드의 지휘자입니다.
+- **📢 섹션 요약 비유**: 오케스트라([[619_msa_traffic_hardware|MSA]]) 단원들이 서로 악보(DB)를 뺏으려 싸우지 않게, 절대 고장 나지 않는 지휘봉([[136_variance|분산]] 락)을 세워 완벽한 연주 순서를 지켜내는 현대 클라우드의 지휘자입니다.
 
 ---
 
@@ -183,10 +183,10 @@ ZooKeeper는 파일 시스템과 비슷한 계층적 디렉터리 구조(`Znode`
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| 분산 OS 투명성 (Transparency: 위치, 마이그레이션, 복제, 병행 투명성 보장 구조) | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
-| 람포트 논리적 시계 (Lamport's Logical Clocks) 분산 환경 동기화 정렬 | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
-| 마이크로서비스 커널 자원 제약 (Pod / Container 자원 오버커밋 킬링 정책) | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
-| 커널 동적 모듈 서명 (Module Signature Verification) 무결성 통제 | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
+| [[136_variance|분산]] OS 투명성 (Transparency: 위치, 마이그레이션, [[016_replication_factor|복제]], 병행 투명성 보장 구조) | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
+| 람포트 논리적 시계 (Lamport's Logical Clocks) [[136_variance|분산]] 환경 [[212_synchronization_mechanisms|동기화]] 정렬 | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
+| [[532_microservices_decomposition_patterns|마이크로서비스]] [[022_kernel_role|커널]] 자원 제약 ([[198_pod_kubernetes_minimum_deployment_unit|Pod]] / [[194_container_virtualization_docker_namespace|Container]] 자원 오버커밋 킬링 [[164_policy|정책]]) | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
+| [[022_kernel_role|커널]] 동적 [[192_module_independence|모듈]] 서명 ([[645_kernel_module_signature_verification|Module Signature Verification]]) [[003_integrity|무결성]] 통제 | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -204,6 +204,6 @@ ZooKeeper는 파일 시스템과 비슷한 계층적 디렉터리 구조(`Znode`
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. 전국에 있는 100명의 친구들이 하나의 곰 인형(공유 데이터)을 가지고 놀고 싶어 해요. 한 번에 여러 명이 인형을 잡으면 찢어지겠죠?
-2. 그래서 '동물원 관리자(ZooKeeper)'를 두었어요. 관리자에게 먼저 전화한 사람에게 임시 번호표(락)를 주고 인형을 줍니다.
+1. 전국에 있는 100명의 친구들이 하나의 곰 인형(공유 [[001_dikw_pyramid|데이터]])을 가지고 놀고 싶어 해요. 한 번에 여러 명이 인형을 잡으면 찢어지겠죠?
+2. 그래서 '동물원 관리자([[798_distributed_lock_zookeeper_consensus|ZooKeeper]])'를 두었어요. 관리자에게 먼저 전화한 사람에게 임시 번호표(락)를 주고 인형을 줍니다.
 3. 인형을 가지고 놀던 친구가 잠들거나 전화를 끊으면(장애), 관리자는 즉시 인형을 뺏어서 다음 번호표를 가진 친구에게 문자를 보내(Watch) 차례를 알려줘요. 그래서 인형이 절대 찢어지지 않는답니다!

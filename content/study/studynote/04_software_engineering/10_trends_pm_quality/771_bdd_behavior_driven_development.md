@@ -8,25 +8,25 @@ categories = "studynote-software-engineering"
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: BDD Given-When-Then 행동 명세 테스트은(는) 소프트웨어 공학의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.
-> 2. **가치**: 이 개념을 올바르게 적용하면 소프트웨어의 품질·유지보수성·재사용성이 향상되고, 개발 생산성과 팀 협업 효율이 높아진다.
+> 1. **본질**: [[165_bdd_behavior_driven_development|BDD]] Given-When-Then 행동 명세 테스트은(는) [[001_software_engineering_definition|소프트웨어 공학]]의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.
+> 2. **가치**: 이 개념을 올바르게 적용하면 소프트웨어의 품질·[[346_maintainability_portability|유지보수성]]·재사용성이 향상되고, 개발 생산성과 팀 협업 효율이 높아진다.
 > 3. **판단 포인트**: 도입 시에는 비용·복잡도·조직 성숙도를 함께 고려해야 하며, 맹목적 적용보다 프로젝트 특성에 맞는 선택적 적용이 핵심이다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-TDD(테스트 주도 개발)가 유행하면서 개발자들은 코드에 버그가 없음을 스스로 증명할 수 있게 되었다. 하지만 TDD는 순수한 '개발자용 언어'다. 기획자가 `assertEquals(user.getBalance(), 500)` 같은 코드를 보고 이 프로그램이 제대로 만들어지고 있는지 이해할 수는 없었다.
+[[164_tdd_test_driven_development|TDD]]([[077_tdd_test_driven_development|테스트 주도 개발]])가 유행하면서 개발자들은 코드에 버그가 없음을 스스로 증명할 수 있게 되었다. 하지만 TDD는 순수한 '개발자용 언어'다. 기획자가 `assertEquals(user.getBalance(), 500)` 같은 코드를 보고 이 프로그램이 제대로 만들어지고 있는지 이해할 수는 없었다.
 
 그래서 영국의 댄 노스(Dan North)는 생각했다. **"테스트 코드의 이름을 '무엇을 테스트할지'가 아니라 '사용자 입장에서 어떻게 행동해야 하는지(Behavior)'를 적는 문장으로 바꾸면 어떨까?"**
 
-이 작은 생각의 전환에서 출발한 **BDD(행위 주도 개발)**는 곧 기획자(비즈니스)와 개발자(엔지니어링) 사이의 거대한 통역기가 되었다. 기획자가 "이럴 땐 이렇게 작동해야 해"라고 평범한 글로 적어주면, 그것이 곧바로 테스트 코드가 되는 마법이 열린 것이다.
+이 작은 생각의 전환에서 출발한 **[[165_bdd_behavior_driven_development|BDD]]([[412_process|행위 주도 개발]])**는 곧 기획자(비즈니스)와 개발자(엔지니어링) 사이의 거대한 통역기가 되었다. 기획자가 "이럴 땐 이렇게 작동해야 해"라고 평범한 글로 적어주면, 그것이 곧바로 테스트 코드가 되는 마법이 열린 것이다.
 
-- **📢 섹션 요약 비유**: TDD가 자동차를 만들 때 "나사가 10바퀴 잘 돌아가는가?"를 검사하는 '엔지니어의 체크리스트'라면, BDD는 "브레이크를 밟으면 3초 안에 차가 멈추는가?"를 검사하는 '운전자의 시승 평가표'다.
+- **📢 섹션 요약 비유**: TDD가 자동차를 만들 때 "나사가 10바퀴 잘 돌아가는가?"를 검사하는 '엔지니어의 [[435_checklist_based_testing|체크리스트]]'라면, BDD는 "브레이크를 밟으면 3초 안에 차가 멈추는가?"를 검사하는 '운전자의 시승 평가표'다.
 
 ---
 
-다음은 BDD Given-When-Then 의 핵심 구조와 흐름을 보여주는 다이어그램이다.
+다음은 [[165_bdd_behavior_driven_development|BDD]] Given-When-Then 의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
 ```text
 ┌─────────────────────────────────────────────────────────────┐
@@ -41,7 +41,7 @@ TDD(테스트 주도 개발)가 유행하면서 개발자들은 코드에 버그
 └─────────────────────────────────────────────────────────────┘
 ```
 
-이 다이어그램은 BDD Given-When-Then 가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
+이 다이어그램은 [[165_bdd_behavior_driven_development|BDD]] Given-When-Then 가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
 ---
 
@@ -53,11 +53,11 @@ TDD(테스트 주도 개발)가 유행하면서 개발자들은 코드에 버그
 
 BDD의 심장부는 누구나 이해할 수 있는 자연어 문법인 **Gherkin(거킨)**과, 이를 코드로 연결해 주는 **Cucumber(큐컴버)** 프레임워크다.
 
-- **📢 섹션 요약 비유**: BDD Given-When-Then 행동 명세 테스트은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
+- **📢 섹션 요약 비유**: [[165_bdd_behavior_driven_development|BDD]] Given-When-Then 행동 명세 테스트은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
 | 항목 | 설명 | 비고 |
 | :--- | :--- | :--- |
-| 핵심 특성 | BDD Given-When-Then 행동 명세 테스트의 핵심 특성과 동작 방식 | 필수 이해 요소 |
+| 핵심 특성 | [[165_bdd_behavior_driven_development|BDD]] Given-When-Then 행동 명세 테스트의 핵심 특성과 동작 방식 | 필수 이해 요소 |
 | 적용 범위 | 어떤 프로젝트·상황에서 활용하는지 | 선택 기준 |
 | 제약 조건 | 적용 시 주의해야 할 전제·한계 | 트레이드오프 |
 
@@ -69,15 +69,15 @@ BDD의 심장부는 누구나 이해할 수 있는 자연어 문법인 **Gherkin
 
 ## Ⅲ. 비교 및 연결
 
-TDD와 BDD는 경쟁 관계가 아니라, 소프트웨어를 바라보는 높낮이(Level of Abstraction)가 다를 뿐이다.
+TDD와 BDD는 경쟁 관계가 아니라, 소프트웨어를 바라보는 높낮이(Level of [[198_abstraction_control_data_process|Abstraction]])가 다를 뿐이다.
 
-| 비교 항목 | TDD (Test-Driven Development) | BDD (Behavior-Driven Development) |
+| 비교 항목 | [[164_tdd_test_driven_development|TDD]] ([[411_process|Test-Driven Development]]) | [[165_bdd_behavior_driven_development|BDD]] ([[126_bdd_behavior_driven_development_given_when_then|Behavior-Driven Development]]) |
 |:---|:---|:---|
 | **설계의 중심** | **개발자 (Developer)** | **기획자, QA, 개발자 (Three Amigos)** |
 | **작성 언어** | 프로그래밍 언어 (Java, Python) | **자연어 기반 (Gherkin 문법)** |
 | **질문** | "이 함수(메서드)가 올바르게 작동하는가?" | "이 시스템이 **사용자가 원하는 대로 행동**하는가?" |
 | **문법/패턴** | `Setup` $\rightarrow$ `Execute` $\rightarrow$ `Assert` | `Given` $\rightarrow$ `When` $\rightarrow$ `Then` |
-| **적용 범위** | 단위 테스트 (Unit Test) | 통합/인수 테스트 (Integration/Acceptance Test) |
+| **적용 범위** | [[397_unit_test|단위 테스트]] ([[397_unit_test|Unit Test]]) | 통합/[[406_acceptance_test_uat|인수 테스트]] (Integration/[[406_acceptance_test_uat|Acceptance Test]]) |
 
 실무에서는 **바깥쪽 껍데기(비즈니스 요구사항)는 BDD로 덮고, 그 내부의 세부 알고리즘은 TDD로 채워 넣는 이중 루프(Double-Loop)** 전략이 가장 이상적이다.
 
@@ -95,7 +95,7 @@ TDD와 BDD는 경쟁 관계가 아니라, 소프트웨어를 바라보는 높낮
 
 BDD의 이론은 환상적이지만, 실무에서 Cucumber를 도입했다가 1년 만에 지우고 다시 TDD로 돌아가는 조직이 수두룩하다.
 
-- **📢 섹션 요약 비유**: BDD Given-When-Then 행동 명세 테스트은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
+- **📢 섹션 요약 비유**: [[165_bdd_behavior_driven_development|BDD]] Given-When-Then 행동 명세 테스트은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
 ---
 
@@ -105,11 +105,11 @@ BDD의 이론은 환상적이지만, 실무에서 Cucumber를 도입했다가 1�
 
 ## Ⅴ. 기대효과 및 결론
 
-BDD 프레임워크를 조직에 이식하는 데 성공하면, 비즈니스 부서와 개발팀 사이의 통역사가 필요 없어진다. 기획자가 쓴 문장이 바로 테스트 코드가 되어 실서버 배포(CI/CD)의 최종 문지기 역할을 하기 때문에, "고객이 원하지 않은 기능"이 실서버로 나가는 일은 물리적으로 불가능해진다.
+[[165_bdd_behavior_driven_development|BDD]] 프레임워크를 조직에 이식하는 데 성공하면, 비즈니스 부서와 개발팀 사이의 통역사가 필요 없어진다. 기획자가 쓴 문장이 바로 테스트 코드가 되어 실서버 배포([[090_configuration_item|CI]]/CD)의 최종 문지기 역할을 하기 때문에, "고객이 원하지 않은 기능"이 실서버로 나가는 일은 물리적으로 불가능해진다.
 
-결론적으로 기술 리더는 TDD의 기술적 한계(비즈니스와의 단절)를 인식하고, 소프트웨어 공학의 최종 목표인 '고객 가치 전달'을 위해 BDD를 도입해야 한다. BDD는 단순한 테스팅 툴이 아니라, 애자일 조직 전체를 하나의 언어(Ubiquitous Language)로 묶어주는 가장 위대한 의사소통 아키텍처다.
+결론적으로 기술 리더는 TDD의 기술적 한계(비즈니스와의 단절)를 인식하고, [[001_software_engineering_definition|소프트웨어 공학]]의 최종 목표인 '고객 가치 전달'을 위해 BDD를 도입해야 한다. BDD는 단순한 테스팅 툴이 아니라, [[004_agile_relation|애자일]] 조직 전체를 하나의 언어([[220_ubiquitous_language_ddd_communication|Ubiquitous Language]])로 묶어주는 가장 위대한 의사소통 아키텍처다.
 
-- **📢 섹션 요약 비유**: BDD는 개발자와 기획자가 손가락을 걸고 쓰는 '마법의 계약서'다. 기획자가 계약서에 글을 쓰면, 개발자는 그 글씨가 붉은색(실패)에서 녹색(성능 통과)으로 빛날 때까지 땀 흘려 코드를 짠다. 녹색 불이 켜지면 두 사람은 싸울 일 없이 기분 좋게 퇴근하면 된다.
+- **📢 섹션 요약 비유**: BDD는 개발자와 기획자가 손가락을 걸고 쓰는 '마법의 계약서'다. 기획자가 계약서에 글을 쓰면, 개발자는 그 글씨가 붉은색(실패)에서 녹색([[282_performance_tactics|성능]] 통과)으로 빛날 때까지 땀 흘려 코드를 짠다. 녹색 불이 켜지면 두 사람은 싸울 일 없이 기분 좋게 퇴근하면 된다.
 
 ---
 
@@ -123,10 +123,10 @@ BDD 프레임워크를 조직에 이식하는 데 성공하면, 비즈니스 부
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| 소프트웨어 공학 (Software Engineering) | BDD Given-When-Then 행동 명세 테스트의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
-| 소프트웨어 생명주기 (SDLC, Software Development Life Cycle) | BDD Given-When-Then 행동 명세 테스트은 SDLC의 특정 단계에서 핵심적으로 적용된다 |
-| 품질 보증 (QA, Quality Assurance) | BDD Given-When-Then 행동 명세 테스트 적용 결과는 QA 활동을 통해 검증되고 측정된다 |
-| 형상 관리 (SCM, Software Configuration Management) | BDD Given-When-Then 행동 명세 테스트에서 생성된 산출물은 SCM을 통해 체계적으로 관리된다 |
+| [[001_software_engineering_definition|소프트웨어 공학]] ([[001_software_engineering_definition|Software Engineering]]) | [[165_bdd_behavior_driven_development|BDD]] Given-When-Then 행동 명세 테스트의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
+| [[003_sdlc|소프트웨어 생명주기]] ([[131_sdlc_system_development_life_cycle_waterfall_agile|SDLC]], Software Development Life Cycle) | [[165_bdd_behavior_driven_development|BDD]] Given-When-Then 행동 명세 테스트은 SDLC의 특정 단계에서 핵심적으로 적용된다 |
+| 품질 보증 (QA, Quality Assurance) | [[165_bdd_behavior_driven_development|BDD]] Given-When-Then 행동 명세 테스트 적용 결과는 QA 활동을 통해 검증되고 측정된다 |
+| [[020_software_configuration_management|형상 관리]] ([[167_scm_software_configuration_management|SCM]], [[020_software_configuration_management|Software Configuration Management]]) | [[165_bdd_behavior_driven_development|BDD]] Given-When-Then 행동 명세 테스트에서 생성된 산출물은 SCM을 통해 체계적으로 관리된다 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -146,10 +146,10 @@ BDD Given-When-Then 행동 명세 테스트 개념 정립
 지속적 개선 및 DevOps·MLOps 통합
 ```
 
-이 흐름은 소프트웨어 위기 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
+이 흐름은 [[002_software_crisis|소프트웨어 위기]] 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. BDD Given-When-Then 행동 명세 테스트은 레고 블록으로 성을 만들 때처럼, 규칙을 정하고 역할을 나누어 함께 작업하는 방법이에요.
+1. [[165_bdd_behavior_driven_development|BDD]] Given-When-Then 행동 명세 테스트은 레고 블록으로 성을 만들 때처럼, 규칙을 정하고 역할을 나누어 함께 작업하는 방법이에요.
 2. 혼자서 막 만들면 나중에 무너지거나 고치기 어렵지만, 약속을 지키면 누구나 쉽게 고치고 더 크게 만들 수 있어요.
-3. 그래서 소프트웨어 공학은 프로그래머들이 좋은 프로그램을 빠르고 안전하게 만들 수 있게 도와주는 '규칙 모음집'이에요.
+3. 그래서 [[001_software_engineering_definition|소프트웨어 공학]]은 프로그래머들이 좋은 프로그램을 빠르고 안전하게 만들 수 있게 도와주는 '규칙 모음집'이에요.

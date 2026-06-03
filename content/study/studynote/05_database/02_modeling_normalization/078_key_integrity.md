@@ -5,16 +5,16 @@ weight = 78
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 키 무결성은 PK (Primary Key)가 각 행을 유일하게 식별하고 FK (Foreign Key)가 부모 행을 실제로 가리키게 하는 규칙이다.
+> 1. **본질**: 키 [[003_integrity|무결성]]은 PK (Primary [[067_db_key_uniqueness_minimality|Key]])가 각 행을 유일하게 식별하고 FK (Foreign [[067_db_key_uniqueness_minimality|Key]])가 부모 행을 실제로 가리키게 하는 규칙이다.
 > 2. **가치**: 이 규칙이 있어야 중복과 고아 레코드를 막고 조인 결과를 믿을 수 있다.
-> 3. **판단 포인트**: 기술사는 의미보다 안정성이 높은 키를 선택하고 DBMS (Database Management System) 제약조건으로 강제해야 한다.
+> 3. **판단 포인트**: 기술사는 의미보다 안정성이 높은 키를 선택하고 [[502_dbms|DBMS]] ([[501_database|Database]] [[372_management|Management]] System) 제약조건으로 강제해야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-키 무결성은 릴레이션의 각 행이 하나의 키로 식별되고, 참조 관계가 실제 존재하는 값만 가리키도록 보장하는 규칙이다.
-이 규칙이 무너지면 같은 데이터가 여러 번 들어가거나, 부모가 사라졌는데 자식만 남는 문제가 생긴다. 그래서 정규화된 모델도 무결성이 없으면 신뢰를 잃는다.
+키 [[003_integrity|무결성]]은 릴레이션의 각 행이 하나의 키로 식별되고, [[316_reference_pattern_nosql|참조]] 관계가 실제 존재하는 값만 가리키도록 보장하는 규칙이다.
+이 규칙이 무너지면 같은 [[001_dikw_pyramid|데이터]]가 여러 번 들어가거나, 부모가 사라졌는데 자식만 남는 문제가 생긴다. 그래서 정규화된 모델도 [[003_integrity|무결성]]이 없으면 신뢰를 잃는다.
 ```text
 ┌───────────────┐      FK      ┌───────────────┐
 │ Customer      │────────────▶│ Order         │
@@ -22,35 +22,35 @@ weight = 78
 └───────────────┘             └───────────────┘
 ```
 
-- **📢 섹션 요약 비유**: 식별이 흐리면 데이터 관계도 같이 흐려진다.
+- **📢 섹션 요약 비유**: 식별이 흐리면 [[001_dikw_pyramid|데이터]] 관계도 같이 흐려진다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-후보키(candidate key) 중 하나가 PK가 되고, 나머지는 UK (Unique Key)로 남을 수 있다. FK는 부모 테이블의 키를 참조하면서 참조 무결성을 유지한다.
+후보키([[069_candidate_key_uniqueness_minimality|candidate key]]) 중 하나가 PK가 되고, 나머지는 UK (Unique [[067_db_key_uniqueness_minimality|Key]])로 남을 수 있다. FK는 부모 테이블의 키를 [[316_reference_pattern_nosql|참조]]하면서 [[075_referential_integrity_foreign_key_cascade|참조 무결성]]을 유지한다.
 PK는 보통 NOT NULL과 UNIQUE를 동시에 만족해야 하고, FK는 삽입·갱신·삭제 규칙까지 함께 설계해야 한다.
 | 구성 요소 | 역할 | 설계 포인트 |
 | --- | --- | --- |
-| Candidate key | 후보 식별자 집합 | 업무 의미와 안정성을 본다 |
-| PK | 대표 식별자 | 짧고 변하지 않아야 한다 |
+| [[069_candidate_key_uniqueness_minimality|Candidate key]] | 후보 [[289_identification_flags_fragmentation_offset|식별자]] 집합 | 업무 의미와 안정성을 본다 |
+| PK | 대표 [[289_identification_flags_fragmentation_offset|식별자]] | 짧고 변하지 않아야 한다 |
 | UK | 대체 유일성 보장 | 중복만 막고 NULL 정책을 확인한다 |
-| FK | 부모 행 참조 | 고아 레코드 방지와 조인 기준이 된다 |
-| Surrogate key | 대리 식별자 | 분산 환경과 변경 안정성을 고려한다 |
+| FK | 부모 행 [[316_reference_pattern_nosql|참조]] | 고아 레코드 방지와 조인 기준이 된다 |
+| [[314_surrogate_key|Surrogate key]] | 대리 [[289_identification_flags_fragmentation_offset|식별자]] | [[136_variance|분산]] 환경과 변경 안정성을 고려한다 |
 
-- **📢 섹션 요약 비유**: 후보키, 대표키, 참조키가 역할을 나눠 무결성을 만든다.
+- **📢 섹션 요약 비유**: 후보키, 대표키, [[316_reference_pattern_nosql|참조]]키가 역할을 나눠 [[003_integrity|무결성]]을 만든다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-키 무결성은 엔터티 무결성(entity integrity)과 참조 무결성(referential integrity)을 실제로 구현하는 바닥 규칙이다. 둘을 함께 봐야 "행은 자기 자신을 잃지 않고, 관계도 끊기지 않는다"는 뜻이 완성된다.
+키 [[003_integrity|무결성]]은 엔터티 [[003_integrity|무결성]]([[074_entity_integrity_primary_key|entity integrity]])과 [[075_referential_integrity_foreign_key_cascade|참조 무결성]]([[075_referential_integrity_foreign_key_cascade|referential integrity]])을 실제로 구현하는 바닥 규칙이다. 둘을 함께 봐야 "행은 자기 자신을 잃지 않고, 관계도 끊기지 않는다"는 뜻이 완성된다.
 자연키는 업무 의미가 분명하지만 변경 가능성이 있고, 대리키는 의미는 약하지만 안정성과 조인 성능이 좋다. 그래서 키 선택은 의미와 운영을 동시에 봐야 한다.
 | 비교축 | 자연키 | 대리키 |
 | --- | --- | --- |
 | 의미 | 업무상 읽기 쉽다 | 의미는 약하다 |
 | 변경성 | 업무 변경에 흔들릴 수 있다 | 대체로 안정적이다 |
-| 운영성 | 사람이 이해하기 좋다 | 분산·샤딩에 유리하다 |
+| 운영성 | 사람이 이해하기 좋다 | [[136_variance|분산]]·샤딩에 유리하다 |
 
 - **📢 섹션 요약 비유**: 자연키와 대리키는 의미와 안정성 사이의 선택이다.
 
@@ -58,27 +58,27 @@ PK는 보통 NOT NULL과 UNIQUE를 동시에 만족해야 하고, FK는 삽입·
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서는 안정성, 길이, 의미, 분산성, 인덱스 비용을 함께 본다. 특히 키가 바뀌면 연쇄 갱신이 발생하므로, 바뀔 가능성이 낮은 값을 우선한다.
-DBMS (Database Management System) 제약조건으로 강제하고 애플리케이션은 보조 역할만 맡겨야 한다. 앱 코드만 믿으면 배치 작업이나 수동 수정에서 쉽게 깨진다.
-### 체크리스트
+실무에서는 안정성, 길이, 의미, [[136_variance|분산]]성, [[154_database_index_b_tree_search_optimization|인덱스]] 비용을 함께 본다. 특히 키가 바뀌면 연쇄 갱신이 발생하므로, 바뀔 가능성이 낮은 값을 우선한다.
+[[502_dbms|DBMS]] ([[501_database|Database]] [[372_management|Management]] System) 제약조건으로 강제하고 애플리케이션은 보조 역할만 맡겨야 한다. 앱 코드만 믿으면 배치 작업이나 수동 수정에서 쉽게 깨진다.
+### [[435_checklist_based_testing|체크리스트]]
 
 1. PK가 짧고 변하지 않는가?
 2. FK가 실제 부모 행을 강제하는가?
 3. 키 변경 시 연쇄 영향이 통제되는가?
 
-### 안티패턴
+### [[128_water_scrum_fall_anti_pattern|안티패턴]]
 
 - 이메일, 전화번호처럼 바뀌기 쉬운 값을 PK로 쓰는 것
 - 편하다는 이유로 FK 제약을 꺼버리는 것
 
-- **📢 섹션 요약 비유**: 제약조건을 DBMS에 걸어야 키 무결성이 실제로 살아난다.
+- **📢 섹션 요약 비유**: 제약조건을 DBMS에 걸어야 키 [[003_integrity|무결성]]이 실제로 살아난다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-키 무결성이 좋으면 중복 제거, 조인 안정성, 장애 복구가 함께 쉬워진다. 데이터 품질은 결국 키 설계에서 출발한다.
-분산 환경에서는 UUID (Universally Unique Identifier)처럼 전역 유일성과 운영 편의성을 함께 보는 식별자 전략이 중요해진다.
+키 [[003_integrity|무결성]]이 좋으면 중복 제거, 조인 안정성, 장애 복구가 함께 쉬워진다. [[001_dikw_pyramid|데이터]] 품질은 결국 키 설계에서 출발한다.
+[[136_variance|분산]] 환경에서는 UUID (Universally Unique [[088_identifier_in_er_model|Identifier]])처럼 전역 유일성과 운영 편의성을 함께 보는 [[289_identification_flags_fragmentation_offset|식별자]] 전략이 중요해진다.
 기술사는 이 주제를 "행을 찾는 표지판과 관계를 지키는 울타리"로 기억하면 된다.
 
 - **📢 섹션 요약 비유**: 좋은 키는 품질과 운영의 첫 번째 안전장치다.
@@ -92,9 +92,9 @@ DBMS (Database Management System) 제약조건으로 강제하고 애플리케�
 | PK | 행을 유일하게 식별한다 |
 | FK | 부모 행과 자식 행을 연결한다 |
 | UK | 대체 유일성을 보장한다 |
-| Candidate key | 후보 식별자 집합이다 |
-| Normalization | 중복과 이상 현상을 줄인다 |
-| UUID | 분산 환경의 전역 식별에 쓰인다 |
+| [[069_candidate_key_uniqueness_minimality|Candidate key]] | 후보 [[289_identification_flags_fragmentation_offset|식별자]] 집합이다 |
+| [[093_normalization|Normalization]] | 중복과 이상 현상을 줄인다 |
+| UUID | [[136_variance|분산]] 환경의 전역 식별에 쓰인다 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 

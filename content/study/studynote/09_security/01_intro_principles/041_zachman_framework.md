@@ -7,9 +7,9 @@ categories = "studynote-security"
 +++
 
 > **핵심 인사이트**
-> 1. 자크만 프레임워크(Zachman Framework)는 엔터프라이즈 아키텍처(EA)를 6가지 관점(이해관계자)×6가지 질문(What/How/Where/Who/When/Why)의 36셀 매트릭스로 체계화한 온톨로지로, 아키텍처 산출물을 분류하고 누락을 방지하는 메타프레임워크다.
-> 2. 보안 관점에서 자크만 프레임워크는 ISMS-P(정보보호 관리체계)·SABSA(Sherwood Applied Business Security Architecture) 등 보안 아키텍처 설계에서 각 계층의 보안 요구사항을 빠짐없이 도출하는 구조화 도구로 활용된다.
-> 3. 자크만 프레임워크는 프로세스(방법론)가 아닌 분류 체계(Taxonomy/Ontology)로, TOGAF·DoDAF 등 실제 EA 방법론과 결합하여 아키텍처 산출물의 완전성(Completeness)을 검증하는 기준으로 사용된다.
+> 1. 자크만 프레임워크([[112_zachman_framework|Zachman Framework]])는 엔터프라이즈 아키텍처([[110_enterprise_architecture_ea|EA]])를 6가지 관점([[173_stakeholder_identification_impact_matrix|이해관계자]])×6가지 질문(What/How/Where/Who/When/Why)의 36셀 매트릭스로 체계화한 온톨로지로, 아키텍처 산출물을 [[104_classification_analysis|분류]]하고 누락을 방지하는 메타프레임워크다.
+> 2. 보안 관점에서 자크만 프레임워크는 [[171_isms_p|ISMS-P]](정보보호 관리체계)·[[042_sabsa|SABSA]](Sherwood Applied Business [[302_security_architecture_design|Security Architecture]]) 등 [[302_security_architecture_design|보안 아키텍처]] 설계에서 각 계층의 보안 요구사항을 빠짐없이 도출하는 구조화 도구로 활용된다.
+> 3. 자크만 프레임워크는 프로세스(방법론)가 아닌 [[104_classification_analysis|분류]] 체계(Taxonomy/Ontology)로, [[113_togaf|TOGAF]]·DoDAF 등 실제 [[110_enterprise_architecture_ea|EA]] 방법론과 결합하여 아키텍처 산출물의 완전성(Completeness)을 검증하는 기준으로 사용된다.
 
 ---
 
@@ -38,7 +38,7 @@ categories = "studynote-security"
   각 셀 = 특정 관점에서 특정 측면의 아키텍처 산출물
 ```
 
-> 📢 **섹션 요약 비유**: 자크만은 건물 설계 도면 분류 체계 — 건축주(경영자)부터 배관공(기술자)까지, 구조(What)부터 일정(When)까지 모든 관점의 도면을 체계화.
+> 📢 **섹션 요약 비유**: 자크만은 건물 설계 도면 [[104_classification_analysis|분류]] 체계 — 건축주(경영자)부터 배관공(기술자)까지, 구조(What)부터 일정(When)까지 모든 관점의 도면을 체계화.
 
 ---
 
@@ -76,7 +76,7 @@ Row 3 × Where (아키텍트 × 네트워크):
 
 ---
 
-## Ⅲ. 보안 아키텍처 적용 (SABSA)
+## Ⅲ. [[302_security_architecture_design|보안 아키텍처]] 적용 ([[042_sabsa|SABSA]])
 
 ```
 SABSA (Sherwood Applied Business Security Architecture):
@@ -103,11 +103,11 @@ ISMS-P 연계:
   계층별 보안 아키텍처 완전성 검증
 ```
 
-> 📢 **섹션 요약 비유**: SABSA는 자크만을 보안 렌즈로 본 것 — 건물 보안 도면 분류처럼, 비즈니스부터 기술까지 모든 보안 관점을 체계화.
+> 📢 **섹션 요약 비유**: SABSA는 자크만을 보안 렌즈로 본 것 — 건물 보안 도면 [[104_classification_analysis|분류]]처럼, 비즈니스부터 기술까지 모든 보안 관점을 체계화.
 
 ---
 
-## Ⅳ. EA 방법론과 자크만
+## Ⅳ. [[110_enterprise_architecture_ea|EA]] 방법론과 자크만
 
 ```
 EA 방법론과 자크만 관계:
@@ -138,11 +138,11 @@ EA 4대 도메인 (TOGAF):
   ISP/BPR 산출물 = 자크만 셀 매핑 가능
 ```
 
-> 📢 **섹션 요약 비유**: 자크만 + TOGAF는 설계 체크리스트 + 건축 시공 순서 — 체크리스트로 빠진 도면 없는지 확인하고, TOGAF로 순서대로 진행.
+> 📢 **섹션 요약 비유**: 자크만 + TOGAF는 설계 [[435_checklist_based_testing|체크리스트]] + 건축 시공 순서 — [[435_checklist_based_testing|체크리스트]]로 빠진 도면 없는지 확인하고, TOGAF로 순서대로 [[216_progress_in_synchronization|진행]].
 
 ---
 
-## Ⅴ. 실무 시나리오 — ISP 산출물 자크만 매핑
+## Ⅴ. 실무 시나리오 — [[101_isp_information_strategy_planning_4_steps|ISP]] 산출물 자크만 매핑
 
 ```
 정보화 전략 계획(ISP) 자크만 매핑:
@@ -172,7 +172,7 @@ To-Be 아키텍처 설계:
   감리원이 ISP 완전성 검증에 자크만 활용
 ```
 
-> 📢 **섹션 요약 비유**: 자크만으로 ISP 검토는 36칸 빙고 게임 — 모든 칸이 채워져야 아키텍처가 완전하고, 빈 칸이 있으면 누락된 산출물.
+> 📢 **섹션 요약 비유**: 자크만으로 [[101_isp_information_strategy_planning_4_steps|ISP]] 검토는 36칸 빙고 게임 — 모든 칸이 채워져야 아키텍처가 완전하고, 빈 칸이 있으면 누락된 산출물.
 
 ---
 
@@ -228,6 +228,6 @@ EA 법제화 (전자정부법)
 
 ## 👶 어린이를 위한 3줄 비유 설명
 
-1. 자크만 프레임워크는 IT 시스템을 6가지 관점(경영자, 설계자, 개발자 등)과 6가지 질문(무엇, 어떻게, 어디서, 누가, 언제, 왜)으로 나눈 36칸 체크리스트예요.
-2. 이 36칸을 모두 채우면 "이 IT 시스템에 대해 모든 이해관계자가 필요한 정보를 가지고 있다"는 것을 보장할 수 있어요.
+1. 자크만 프레임워크는 IT 시스템을 6가지 관점(경영자, 설계자, 개발자 등)과 6가지 질문(무엇, 어떻게, 어디서, 누가, 언제, 왜)으로 나눈 36칸 [[435_checklist_based_testing|체크리스트]]예요.
+2. 이 36칸을 모두 채우면 "이 IT 시스템에 대해 모든 [[173_stakeholder_identification_impact_matrix|이해관계자]]가 필요한 정보를 가지고 있다"는 것을 보장할 수 있어요.
 3. 보안 분야에서도 이 틀을 써서 비즈니스 레벨부터 기술 레벨까지 빠짐없이 보안 요구사항을 정리해요!

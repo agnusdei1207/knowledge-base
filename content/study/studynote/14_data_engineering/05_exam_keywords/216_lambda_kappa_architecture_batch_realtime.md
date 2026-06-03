@@ -7,24 +7,24 @@ categories = "studynote-data-engineering"
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: Lambda 아키텍처는 배치 레이어(Batch Layer)와 스피드 레이어(Speed Layer)를 병렬로 운영해 정확성과 저지연을 동시에 달성하는 이중 경로 설계이며, Kappa 아키텍처는 스트리밍 하나로만 모든 처리를 통일해 복잡성을 제거한다.
-> 2. **가치**: Lambda는 배치의 정확성과 실시간의 속도를 모두 확보하지만 코드 중복과 운영 복잡성이 높고, Kappa는 단순하지만 재처리 시 스트리밍 리플레이(Replay) 성능에 의존한다.
+> 1. **본질**: Lambda 아키텍처는 배치 레이어(Batch Layer)와 스피드 레이어([[092_GPT_NLP|Speed Layer]])를 병렬로 운영해 [[002_bigdata_5v|정확성]]과 저지연을 동시에 달성하는 [[500_multipath_io|이중 경로]] 설계이며, [[235_kappa|Kappa]] 아키텍처는 스트리밍 하나로만 모든 처리를 통일해 복잡성을 제거한다.
+> 2. **가치**: Lambda는 배치의 [[002_bigdata_5v|정확성]]과 실시간의 속도를 모두 확보하지만 코드 중복과 운영 복잡성이 높고, Kappa는 단순하지만 재처리 시 스트리밍 리플레이(Replay) [[282_performance_tactics|성능]]에 의존한다.
 > 3. **판단 포인트**: 현대 클라우드 환경에서는 Flink·Kafka의 성숙으로 Kappa가 실용적이나, 레거시 배치 의존도가 높거나 복잡한 히스토리컬 분석이 필요하면 Lambda가 여전히 유효하다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-### 1.1 데이터 처리 아키텍처의 딜레마
+### 1.1 [[001_dikw_pyramid|데이터]] 처리 아키텍처의 딜레마
 
-빅데이터 시대 초기, 데이터 플랫폼은 두 가지 상충된 요구를 받았다.
+빅데이터 시대 [[459_quic_fec_forward_error_correction|초기]], [[001_dikw_pyramid|데이터]] 플랫폼은 두 가지 상충된 요구를 받았다.
 
 | 요구 | 내용 | 전통적 해법의 한계 |
 |:---|:---|:---|
-| **정확성** | 수TB 히스토리 배치 집계 | 배치만으로는 T+1일 지연 |
+| **[[002_bigdata_5v|정확성]]** | 수TB 히스토리 배치 집계 | 배치만으로는 T+1일 [[015_지연_데이터_관점|지연]] |
 | **저지연** | 수 초 내 실시간 업데이트 | 실시간만으로는 재처리 어려움 |
 
-Nathan Marz가 2011년 Lambda 아키텍처를 제안하며 두 경로를 병렬로 운영하는 해법을 제시했고, Jay Kreps가 2014년 Kappa 아키텍처로 이를 단순화했다.
+Nathan Marz가 2011년 Lambda 아키텍처를 제안하며 두 경로를 병렬로 운영하는 해법을 제시했고, Jay Kreps가 2014년 [[235_kappa|Kappa]] 아키텍처로 이를 단순화했다.
 
 ### 1.2 두 아키텍처의 탄생 배경
 
@@ -77,7 +77,7 @@ Kappa:  "스트리밍 기술이 충분히 성숙했다면 하나면 충분하다
                     └──────────────────────┘
 ```
 
-### 2.2 Kappa 아키텍처 상세 구조
+### 2.2 [[235_kappa|Kappa]] 아키텍처 상세 구조
 
 ```
 데이터 소스
@@ -101,14 +101,14 @@ Kappa:  "스트리밍 기술이 충분히 성숙했다면 하나면 충분하다
               └──────────────────────────┘
 ```
 
-### 2.3 재처리 (Reprocessing) 전략
+### 2.3 재처리 (Reprocessing) [[268_strategy_pattern|전략]]
 
 | 아키텍처 | 재처리 방법 | 복잡도 |
 |:---|:---|:---|
 | **Lambda** | 배치 레이어 재실행 (Spark Job 재구동) | 낮음 (배치는 독립적) |
-| **Kappa** | Kafka 오프셋 리셋 후 스트리밍 재처리 | 중간 (리플레이 성능 의존) |
+| **[[235_kappa|Kappa]]** | [[179_kafka_flink_watermark_time_window|Kafka]] 오프셋 리셋 후 스트리밍 재처리 | 중간 (리플레이 [[282_performance_tactics|성능]] 의존) |
 
-Kappa 재처리 흐름:
+[[235_kappa|Kappa]] 재처리 흐름:
 ```
 1. Kafka 토픽의 오프셋을 처음(0)으로 리셋
 2. 새 컨슈머 그룹으로 전체 데이터 다시 처리
@@ -123,26 +123,26 @@ Kappa 재처리 흐름:
 
 ## Ⅲ. 비교 및 연결
 
-### 3.1 Lambda vs Kappa 종합 비교
+### 3.1 Lambda vs [[235_kappa|Kappa]] 종합 비교
 
-| 항목 | Lambda 아키텍처 | Kappa 아키텍처 |
+| 항목 | Lambda 아키텍처 | [[235_kappa|Kappa]] 아키텍처 |
 |:---|:---|:---|
 | **레이어 수** | 3개 (Batch·Speed·Serving) | 1~2개 (Streaming·Serving) |
 | **코드 중복** | 배치/스트리밍 로직 이중 구현 | 단일 구현 |
-| **정확성** | 높음 (배치로 보정) | 중~높음 (스트리밍 성숙도에 의존) |
-| **지연** | Speed Layer로 저지연 | 스트리밍으로 저지연 |
-| **재처리** | 배치 레이어에서 독립 재처리 | Kafka 리플레이 필요 |
+| **[[002_bigdata_5v|정확성]]** | 높음 (배치로 보정) | 중~높음 (스트리밍 성숙도에 의존) |
+| **[[015_지연_데이터_관점|지연]]** | Speed Layer로 저지연 | 스트리밍으로 저지연 |
+| **재처리** | 배치 레이어에서 독립 재처리 | [[179_kafka_flink_watermark_time_window|Kafka]] 리플레이 필요 |
 | **운영 복잡성** | 높음 (두 파이프라인 관리) | 낮음 (단일 파이프라인) |
-| **적합 환경** | 레거시 혼용, 복잡한 집계 | 클라우드 네이티브, Kafka 중심 |
+| **적합 환경** | 레거시 혼용, 복잡한 집계 | [[531_cloud_native_architecture|클라우드 네이티브]], [[179_kafka_flink_watermark_time_window|Kafka]] 중심 |
 
 ### 3.2 현대 플랫폼 적용 사례
 
-| 회사 | 아키텍처 | 구체적 스택 |
+| 회사 | 아키텍처 | 구체적 [[057_stack|스택]] |
 |:---|:---|:---|
-| Netflix | Lambda → Kappa 전환 | Kafka + Flink |
-| LinkedIn | Lambda 초기 도입, Kafka 주도 | Kafka + Samza |
-| Uber | Lambda 변형 | Kafka + Flink + Hadoop |
-| Twitter | Kappa | Kafka + Storm → Heron |
+| Netflix | Lambda → [[235_kappa|Kappa]] 전환 | [[179_kafka_flink_watermark_time_window|Kafka]] + Flink |
+| LinkedIn | Lambda [[459_quic_fec_forward_error_correction|초기]] 도입, [[179_kafka_flink_watermark_time_window|Kafka]] 주도 | [[179_kafka_flink_watermark_time_window|Kafka]] + Samza |
+| Uber | Lambda 변형 | [[179_kafka_flink_watermark_time_window|Kafka]] + Flink + [[843_hadoop_rack_awareness_data_replication_topology|Hadoop]] |
+| Twitter | [[235_kappa|Kappa]] | [[179_kafka_flink_watermark_time_window|Kafka]] + Storm → Heron |
 
 📢 **섹션 요약 비유**: Lambda에서 Kappa로의 전환은 '2중 장부 회계'에서 '디지털 단일 장부 회계'로 바꾸는 것이다 — 예전엔 현금 장부와 전자 장부를 따로 맞춰야 했지만, 이제는 하나의 시스템으로 실시간·과거 분석이 모두 된다.
 
@@ -168,8 +168,8 @@ Kappa 재처리 흐름:
 
 | 과제 | 설명 | 해법 |
 |:---|:---|:---|
-| **코드 동기화** | 배치·스트리밍 로직이 달라지면 결과 불일치 | 공통 라이브러리 추출 |
-| **병합 복잡성** | 쿼리 시 배치 뷰와 실시간 뷰를 합쳐야 함 | Druid·Cassandra 병합 쿼리 |
+| **코드 [[212_synchronization_mechanisms|동기화]]** | 배치·스트리밍 로직이 달라지면 결과 불일치 | 공통 [[336_library_vs_framework|라이브러리]] 추출 |
+| **병합 복잡성** | [[298_qkv_attention|쿼리]] 시 배치 뷰와 실시간 뷰를 합쳐야 함 | Druid·[[541_cassandra|Cassandra]] 병합 [[298_qkv_attention|쿼리]] |
 | **운영 오버헤드** | 두 파이프라인 모니터링 이중 비용 | 통합 관제 시스템 |
 
 📢 **섹션 요약 비유**: Lambda 아키텍처의 코드 중복 문제는 '같은 내용의 한국어·영어 번역본을 동시에 관리하는 것'이다 — 내용이 바뀌면 두 문서를 모두 수정해야 하고, 실수로 하나만 바꾸면 불일치가 발생한다.
@@ -182,27 +182,27 @@ Kappa 재처리 흐름:
 
 | 아키텍처 | 주요 효과 | 주의점 |
 |:---|:---|:---|
-| **Lambda** | 정확성·속도 동시 확보, 레거시 호환성 | 운영 복잡성, 코드 중복 |
-| **Kappa** | 단순성, 빠른 배포, 코드 단일화 | Kafka 토픽 보존 비용, 재처리 시간 |
+| **Lambda** | [[002_bigdata_5v|정확성]]·속도 동시 확보, 레거시 [[344_compatibility_usability|호환성]] | 운영 복잡성, 코드 중복 |
+| **[[235_kappa|Kappa]]** | 단순성, 빠른 배포, 코드 단일화 | [[179_kafka_flink_watermark_time_window|Kafka]] 토픽 보존 비용, 재처리 시간 |
 
 ### 5.2 결론 — 기술사 작성 포인트
 
-기술사 답안에서는 **"두 아키텍처의 트레이드오프를 시스템 맥락에 따라 판단하는 능력"**을 보여야 한다. Lambda는 배치 정확성이 비즈니스 요건인 금융·정산 시스템에 적합하고, Kappa는 Kafka 기반 마이크로서비스가 이미 구축된 클라우드 네이티브 환경에서 운영 단순성의 가치가 크다는 점을 구체적으로 서술하면 고득점이다.
+기술사 답안에서는 **"두 아키텍처의 트레이드오프를 시스템 맥락에 따라 판단하는 능력"**을 보여야 한다. Lambda는 배치 [[002_bigdata_5v|정확성]]이 비즈니스 요건인 금융·정산 시스템에 적합하고, Kappa는 [[179_kafka_flink_watermark_time_window|Kafka]] 기반 마이크로서비스가 이미 구축된 [[531_cloud_native_architecture|클라우드 네이티브]] 환경에서 운영 단순성의 가치가 크다는 점을 구체적으로 서술하면 고득점이다.
 
-📢 **섹션 요약 비유**: Lambda vs Kappa 선택은 '자동차 두 대 vs 고성능 오토바이 한 대' 선택과 같다 — 안전성과 다양성이 필요하면 두 대(Lambda), 속도와 단순함이 우선이면 오토바이 한 대(Kappa)다.
+📢 **섹션 요약 비유**: Lambda vs [[235_kappa|Kappa]] 선택은 '자동차 두 대 vs 고성능 오토바이 한 대' 선택과 같다 — 안전성과 다양성이 필요하면 두 대(Lambda), 속도와 단순함이 우선이면 오토바이 한 대([[235_kappa|Kappa]])다.
 
 ---
 
 ### 📌 관련 개념 맵
 
-| 관계 | 개념 | 설명 |
+| [[083_relationship_in_er_model|관계]] | 개념 | 설명 |
 |:---|:---|:---|
-| Lambda 구성 | 배치·스피드·서빙 레이어 | 3계층 이중 경로 처리 |
-| Kappa 구성 | 단일 스트리밍 레이어 | 스트리밍으로 모든 처리 통합 |
-| 재처리 | Kafka 리플레이 (Replay) | Kappa의 배치 처리 대안 |
-| 서빙 기술 | Apache Druid / Cassandra | 배치+실시간 뷰 병합 서빙 |
-| 배치 엔진 | Hadoop MapReduce / Apache Spark | Lambda 배치 레이어 |
-| 스트림 엔진 | Apache Flink / Kafka Streams | Lambda 스피드 / Kappa 레이어 |
+| Lambda 구성 | 배치·스피드·서빙 레이어 | 3계층 [[500_multipath_io|이중 경로]] 처리 |
+| [[235_kappa|Kappa]] 구성 | 단일 스트리밍 레이어 | 스트리밍으로 모든 처리 통합 |
+| 재처리 | [[179_kafka_flink_watermark_time_window|Kafka]] 리플레이 (Replay) | Kappa의 [[228_batch_processing_hadoop_spark|배치 처리]] 대안 |
+| 서빙 기술 | Apache Druid / [[541_cassandra|Cassandra]] | 배치+실시간 뷰 병합 서빙 |
+| 배치 엔진 | [[395_hadoop_mapreduce_disk_bottleneck|Hadoop MapReduce]] / [[206_spark_inmemory_rdd_lazy_evaluation_lineage|Apache Spark]] | Lambda 배치 레이어 |
+| 스트림 엔진 | [[215_flink_native_stream_watermark_window_time|Apache Flink]] / [[179_kafka_flink_watermark_time_window|Kafka]] Streams | Lambda 스피드 / [[235_kappa|Kappa]] 레이어 |
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -222,5 +222,5 @@ Kappa: Speed Layer만 (Kafka 리플레이로 배치 대체)
     ▼
 Lakehouse 패턴: Delta Lake 스트리밍 + 배치 통합
 ```
-2. Kappa 아키텍처는 '최신 고속 착즙기 하나'로 빠르고 정확하게 주스를 만들어서 두 대 기계가 필요 없는 가게야.
+2. [[235_kappa|Kappa]] 아키텍처는 '최신 고속 착즙기 하나'로 빠르고 정확하게 주스를 만들어서 두 대 기계가 필요 없는 가게야.
 3. 어떤 방식이 좋냐고? 오래된 레시피(레거시 배치)가 많으면 Lambda, 처음부터 최신 기계로 만들었다면 Kappa가 훨씬 편해!

@@ -16,7 +16,7 @@ categories = "studynote-design-supervision"
 
 ## Ⅰ. 개요 및 필요성
 
-감리나 검토에서는 모든 것을 다 볼 수 없는 경우가 많다. 코드, 로그, 데이터, 문서가 너무 많으면 전수 검사는 현실적으로 어렵다.
+감리나 검토에서는 모든 것을 다 볼 수 없는 경우가 많다. 코드, [[568_logs_distributed_logging_elk_fluentd|로그]], [[001_dikw_pyramid|데이터]], 문서가 너무 많으면 전수 검사는 현실적으로 어렵다.
 
 그래서 대표성을 가진 일부만 보고 전체를 판단하는 샘플링이 필요하다.
 
@@ -75,7 +75,7 @@ categories = "studynote-design-supervision"
 
 ## Ⅴ. 실무 활용과 한계
 
-샘플링은 코드 리뷰, 데이터 검증, 이관 검토, 통제 점검에서 자주 쓴다.
+샘플링은 [[330_code_review|코드 리뷰]], [[001_dikw_pyramid|데이터]] [[395_verification_process_review|검증]], 이관 검토, 통제 점검에서 자주 쓴다.
 
 다만 다음 상황에서는 조심해야 한다.
 
@@ -107,10 +107,10 @@ categories = "studynote-design-supervision"
 ## 관련 키워드 및 발전 흐름도
 
 1. 전수 조사 중심 → 비용과 시간이 과도
-2. 통계적 표본 추출 → 현실적 검증 방식 정착
+2. 통계적 표본 추출 → 현실적 [[395_verification_process_review|검증]] 방식 정착
 3. 층화 / 체계적 샘플링 → 대표성 향상
 4. 이상 탐지와 결합 → 위험 표본을 더 잘 찾음
-5. 데이터 기반 감리 → 효율과 신뢰를 함께 확보
+5. [[001_dikw_pyramid|데이터]] 기반 감리 → 효율과 신뢰를 함께 확보
 
 ---
 

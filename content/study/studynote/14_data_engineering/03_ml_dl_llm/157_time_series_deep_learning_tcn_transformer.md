@@ -7,33 +7,33 @@ categories = "studynote-data-engineering"
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: TCN (Temporal Convolutional Network, 시간 합성곱 신경망)은 팽창 인과 합성곱(Dilated Causal Convolution)으로 긴 시계열을 병렬 처리해 RNN/LSTM의 순차 처리 병목을 제거한다.
-> 2. **가치**: 팽창률(Dilation Rate)을 지수적으로 키워 적은 레이어로 긴 역사(Long History)를 참조하며, Transformer Time-Series 모델과 함께 현대 시계열 예측의 표준이 되었다.
-> 3. **판단 포인트**: TCN은 고정 수용 영역(Receptive Field)과 병렬 학습에 강하고, Transformer 계열(PatchTST, iTransformer)은 긴 시퀀스·전역 패턴 포착에 강하다.
+> 1. **본질**: TCN (Temporal Convolutional Network, 시간 [[089_CNN_Convolutional|합성곱 신경망]])은 팽창 인과 [[228_cnn_1d_2d_3d_video_medical|합성곱]](Dilated Causal [[284_convolution_stride_padding|Convolution]])으로 긴 시계열을 [[430_index_fast_full_scan|병렬]] 처리해 [[244_rnn_time_series_lstm_cell_gate_long_term_dependency|RNN]]/LSTM의 순차 처리 병목을 제거한다.
+> 2. **가치**: 팽창률(Dilation Rate)을 지수적으로 키워 적은 레이어로 긴 역사(Long History)를 [[316_reference_pattern_nosql|참조]]하며, [[246_transformer_self_attention_parallel_positional_encoding|Transformer]] Time-Series 모델과 함께 현대 시계열 예측의 표준이 되었다.
+> 3. **판단 포인트**: TCN은 고정 수용 영역(Receptive Field)과 [[430_index_fast_full_scan|병렬]] 학습에 강하고, [[246_transformer_self_attention_parallel_positional_encoding|Transformer]] 계열(PatchTST, iTransformer)은 긴 시퀀스·전역 패턴 포착에 강하다.
 
 ## Ⅰ. 개요 및 필요성
 
-주가 예측, 수요 예측, 이상 탐지, 센서 데이터 분석은 모두 시계열(Time Series) 문제다. LSTM이 주류였지만 시퀀스가 길어질수록 훈련이 느리고 메모리 병목이 발생한다.
+주가 예측, 수요 예측, [[236_anomaly_based_detection_zero_day_false_positive|이상 탐지]], 센서 [[001_dikw_pyramid|데이터]] 분석은 모두 시계열(Time Series) 문제다. LSTM이 주류였지만 시퀀스가 길어질수록 훈련이 느리고 메모리 병목이 발생한다.
 
-TCN은 CNN의 병렬성을 시계열에 적용하고, 팽창 합성곱(Dilated Convolution)으로 지수적으로 넓은 역사를 참조한다. 2018년 연구에서 TCN이 대부분의 시계열 태스크에서 LSTM을 능가함이 증명됐다.
+TCN은 CNN의 [[430_index_fast_full_scan|병렬]]성을 시계열에 적용하고, 팽창 [[228_cnn_1d_2d_3d_video_medical|합성곱]](Dilated [[284_convolution_stride_padding|Convolution]])으로 지수적으로 넓은 역사를 [[316_reference_pattern_nosql|참조]]한다. 2018년 연구에서 TCN이 대부분의 시계열 태스크에서 LSTM을 능가함이 증명됐다.
 
-**시계열 딥러닝 발전 경로**
-- LSTM (2012~): 순차 처리, 기울기 소실 문제
-- TCN (2018): 병렬 합성곱, 고정 수용 영역
-- Transformer 계열 (2020~): 셀프 어텐션 전역 의존성
+**[[206_tcn_time_series|시계열 딥러닝]] 발전 경로**
+- [[292_lstm|LSTM]] (2012~): 순차 처리, [[088_vanishing_gradient_relu_skip_connection|기울기 소실]] 문제
+- TCN (2018): [[430_index_fast_full_scan|병렬]] [[228_cnn_1d_2d_3d_video_medical|합성곱]], 고정 수용 영역
+- [[246_transformer_self_attention_parallel_positional_encoding|Transformer]] 계열 (2020~): 셀프 어텐션 전역 의존성
 - PatchTST, iTransformer (2023~): 장기 예측 특화
 
-📢 **섹션 요약 비유**: TCN은 여러 망원경을 동시에 다른 시점에 겨냥해 하늘을 촬영하는 것처럼, 여러 시점을 병렬로 분석한다.
+📢 **섹션 요약 비유**: TCN은 여러 망원경을 동시에 다른 시점에 겨냥해 하늘을 촬영하는 것처럼, 여러 시점을 [[430_index_fast_full_scan|병렬]]로 분석한다.
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 | 개념 | 설명 |
 |:---|:---|
-| 인과 합성곱 (Causal Conv) | 현재 시점은 과거만 참조 (미래 데이터 누설 방지) |
-| 팽창 합성곱 (Dilated Conv) | 필터 사이에 간격(dilation)을 두어 수용 영역 확장 |
+| 인과 [[228_cnn_1d_2d_3d_video_medical|합성곱]] (Causal Conv) | 현재 시점은 과거만 [[316_reference_pattern_nosql|참조]] (미래 [[001_dikw_pyramid|데이터]] 누설 방지) |
+| 팽창 [[228_cnn_1d_2d_3d_video_medical|합성곱]] (Dilated Conv) | 필터 사이에 간격(dilation)을 두어 수용 영역 확장 |
 | 팽창률 (Dilation Rate) | 레이어마다 2배 증가 (1,2,4,8,16,...) |
-| 수용 영역 (Receptive Field) | L개 레이어, 커널 k, 최대 dilation d → RF=(k-1)×d_max+1 |
-| 잔차 연결 (Residual Connection) | 기울기 소실 방지, 깊은 TCN 학습 |
+| 수용 영역 (Receptive Field) | L개 레이어, [[022_kernel_role|커널]] k, 최대 dilation d → RF=(k-1)×d_max+1 |
+| 잔차 연결 (Residual Connection) | [[088_vanishing_gradient_relu_skip_connection|기울기 소실]] 방지, 깊은 TCN 학습 |
 
 ```
 [팽창 인과 합성곱 (Dilation=1,2,4)]
@@ -76,24 +76,24 @@ Layer 3 (dilation=4):
    예측 출력
 ```
 
-**시계열 Transformer 모델 비교**
+**시계열 [[246_transformer_self_attention_parallel_positional_encoding|Transformer]] 모델 비교**
 
 | 모델 | 핵심 아이디어 | 장점 |
 |:---|:---|:---|
-| Informer (2021) | Sparse Attention (ProbSparse) | 긴 시퀀스 O(n log n) |
-| Autoformer (2021) | 자동 상관 기반 어텐션 | 주기 패턴 |
-| PatchTST (2023) | 시계열을 패치로 분할 | 장기 예측, 전이 학습 |
+| Informer ([[477_owasp_top_10_2021|2021]]) | Sparse Attention (ProbSparse) | 긴 시퀀스 O(n log n) |
+| Autoformer ([[477_owasp_top_10_2021|2021]]) | 자동 상관 기반 어텐션 | 주기 패턴 |
+| PatchTST (2023) | 시계열을 패치로 분할 | 장기 예측, [[132_transfer_learning|전이 학습]] |
 | iTransformer (2024) | 변수 축으로 어텐션 | 다변량 시계열 |
 | TimesNet (2023) | 1D → 2D 시간 이미지 변환 | 복잡 패턴 |
 
-📢 **섹션 요약 비유**: 팽창 합성곱은 과거를 보는 창문 크기가 레이어마다 2배씩 커지는 망원경이다. 적은 층으로도 수백 타임스텝 전을 참조한다.
+📢 **섹션 요약 비유**: 팽창 [[228_cnn_1d_2d_3d_video_medical|합성곱]]은 과거를 보는 창문 크기가 레이어마다 2배씩 커지는 망원경이다. 적은 층으로도 수백 타임스텝 전을 [[316_reference_pattern_nosql|참조]]한다.
 
 ## Ⅲ. 비교 및 연결
 
-| 항목 | LSTM | TCN | Transformer |
+| 항목 | [[292_lstm|LSTM]] | TCN | [[246_transformer_self_attention_parallel_positional_encoding|Transformer]] |
 |:---|:---|:---|:---|
-| 병렬 처리 | ❌ | ✅ | ✅ |
-| 장기 의존성 | 보통 | 고정 RF | ✅ 전역 |
+| [[430_index_fast_full_scan|병렬]] 처리 | ❌ | ✅ | ✅ |
+| [[291_long_term_dependency|장기 의존성]] | 보통 | 고정 RF | ✅ 전역 |
 | 메모리 | 낮음 | 중간 | 높음 |
 | 학습 속도 | 느림 | 빠름 | 중간~빠름 |
 | 추론 속도 | 빠름 | 빠름 | 중간 |
@@ -104,46 +104,46 @@ Layer 3 (dilation=4):
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 **시계열 태스크별 모델 선택**
-- 단기 예측 (1~24 스텝): LSTM, TCN 모두 적합
+- 단기 예측 (1~24 스텝): [[292_lstm|LSTM]], TCN 모두 적합
 - 장기 예측 (96~720 스텝): PatchTST, iTransformer
-- 이상 탐지: TCN 기반 Autoencoder
+- [[236_anomaly_based_detection_zero_day_false_positive|이상 탐지]]: TCN 기반 [[335_autoencoder|Autoencoder]]
 - 실시간 스트리밍: TCN (빠른 추론)
 
-**데이터 전처리 핵심**
-- 정상성 (Stationarity): ADF 테스트, 차분(Differencing)
-- 계절 분해: STL, X-13 ARIMA-SEATS
-- 정규화: MinMax 또는 z-score (윈도우 단위)
+**[[001_dikw_pyramid|데이터]] 전처리 핵심**
+- 정상성 ([[377_time_series_stationarity|Stationarity]]): ADF 테스트, 차분(Differencing)
+- 계절 분해: STL, X-13 [[342_arima_auto_regressive_integrated_moving_average|ARIMA]]-SEATS
+- [[093_normalization|정규화]]: MinMax 또는 z-score (윈도우 단위)
 
 **시계열 특수 고려사항**
-- 데이터 누설 방지: 미래 정보를 훈련에 사용하지 않도록 워킹-포워드 검증
-- 멀티 스텝 예측: Direct (각 스텝 독립 예측) vs Recursive
+- [[001_dikw_pyramid|데이터]] 누설 방지: 미래 정보를 훈련에 사용하지 않도록 워킹-포워드 [[395_verification_process_review|검증]]
+- 멀티 스텝 예측: [[176_direct_addressing|Direct]] (각 스텝 독립 예측) vs Recursive
 - Covariates: 날씨, 공휴일 등 외부 변수 통합
 
 **기술사 출제 포인트**
-- "TCN의 팽창 인과 합성곱이 LSTM 대비 갖는 장점을 설명하시오"
-- "시계열 예측에서 데이터 누설(Data Leakage)이 발생하는 원인과 방지 방법을 설명하시오"
+- "TCN의 팽창 인과 [[228_cnn_1d_2d_3d_video_medical|합성곱]]이 [[292_lstm|LSTM]] 대비 갖는 장점을 설명하시오"
+- "시계열 예측에서 [[001_dikw_pyramid|데이터]] 누설([[001_dikw_pyramid|Data]] Leakage)이 발생하는 원인과 방지 방법을 설명하시오"
 
-📢 **섹션 요약 비유**: 시계열 딥러닝은 과거 패턴에서 미래를 예측하는 타임머신이다. 단, 미래 정보가 훈련에 섞이면 무용지물이 된다.
+📢 **섹션 요약 비유**: [[206_tcn_time_series|시계열 딥러닝]]은 과거 패턴에서 미래를 예측하는 타임머신이다. 단, 미래 정보가 훈련에 섞이면 무용지물이 된다.
 
 ## Ⅴ. 기대효과 및 결론
 
-TCN과 Transformer 기반 시계열 모델은 전통 통계 방법(ARIMA, Exponential Smoothing)의 한계를 넘어, 복잡한 비선형 패턴과 외부 변수를 통합한 예측이 가능하다. 수요 예측의 5% 개선만으로도 글로벌 공급망에서 수천억 원의 재고 비용을 절감할 수 있다.
+TCN과 [[246_transformer_self_attention_parallel_positional_encoding|Transformer]] 기반 시계열 모델은 전통 통계 방법([[342_arima_auto_regressive_integrated_moving_average|ARIMA]], [[344_exponential_smoothing_moving_average|Exponential Smoothing]])의 한계를 넘어, 복잡한 비선형 패턴과 외부 변수를 통합한 예측이 가능하다. 수요 예측의 5% 개선만으로도 글로벌 공급망에서 수천억 원의 재고 비용을 절감할 수 있다.
 
-📢 **섹션 요약 비유**: 시계열 딥러닝은 과거 날씨 기록을 학습해 내일 날씨를 예측하는 AI 기상청이다. 더 많은 패턴을 학습할수록 예측이 정확해진다.
+📢 **섹션 요약 비유**: [[206_tcn_time_series|시계열 딥러닝]]은 과거 날씨 기록을 학습해 내일 날씨를 예측하는 [[190_ai_llm_requirements_specification|AI]] 기상청이다. 더 많은 패턴을 학습할수록 예측이 정확해진다.
 
 ### 📌 관련 개념 맵
-| 관계 | 개념 | 설명 |
+| [[083_relationship_in_er_model|관계]] | 개념 | 설명 |
 |:---|:---|:---|
-| 핵심 | TCN (Temporal Convolutional Network) | 팽창 인과 합성곱 |
-| 기법 | 팽창 합성곱 (Dilated Convolution) | 수용 영역 지수 확장 |
-| 기법 | 인과 합성곱 (Causal Convolution) | 미래 누설 방지 |
-| 발전 | PatchTST, iTransformer | 장기 예측 Transformer |
-| 경쟁 | LSTM | 순차 처리, 장기 의존성 |
+| 핵심 | TCN (Temporal Convolutional Network) | 팽창 인과 [[228_cnn_1d_2d_3d_video_medical|합성곱]] |
+| 기법 | 팽창 [[228_cnn_1d_2d_3d_video_medical|합성곱]] (Dilated [[284_convolution_stride_padding|Convolution]]) | 수용 영역 지수 확장 |
+| 기법 | 인과 [[228_cnn_1d_2d_3d_video_medical|합성곱]] (Causal [[284_convolution_stride_padding|Convolution]]) | 미래 누설 방지 |
+| 발전 | PatchTST, iTransformer | 장기 예측 [[246_transformer_self_attention_parallel_positional_encoding|Transformer]] |
+| 경쟁 | [[292_lstm|LSTM]] | 순차 처리, [[291_long_term_dependency|장기 의존성]] |
 | 평가 | MAE, MAPE, RMSE | 시계열 예측 지표 |
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. TCN은 시간의 흐름을 여러 창문으로 동시에 바라보는 방법이에요 — 창문이 클수록 더 오래전까지 볼 수 있어요.
-2. 팽창 합성곱은 창문을 레이어마다 2배씩 크게 만들어, 몇 개 층만으로도 수백 단계 과거를 볼 수 있어요.
+2. 팽창 [[228_cnn_1d_2d_3d_video_medical|합성곱]]은 창문을 레이어마다 2배씩 크게 만들어, 몇 개 층만으로도 수백 단계 과거를 볼 수 있어요.
 3. 덕분에 주가, 날씨, 수요 예측을 LSTM보다 훨씬 빠르고 정확하게 할 수 있어요.
 
 ### 📈 관련 키워드 및 발전 흐름도

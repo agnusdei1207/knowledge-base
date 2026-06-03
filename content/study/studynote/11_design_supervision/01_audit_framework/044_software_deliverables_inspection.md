@@ -7,9 +7,9 @@ categories = "studynote-design-supervision"
 +++
 
 > **핵심 인사이트**
-> 1. 소프트웨어 산출물 검사(Software Deliverables Inspection)는 개발 생명주기의 각 단계에서 작성되는 문서·코드·테스트 결과물을 체계적으로 검토하여 결함을 조기 발견하는 품질 보증 활동으로 — Fagan이 증명한 바와 같이 결함을 개발 단계에서 발견하면 운영 단계보다 100배 저렴하다.
-> 2. 검사 유형은 동료 검토(Peer Review), 워크스루(Walkthrough), 인스펙션(Inspection), 감사(Audit)로 구분되며 — Fagan 인스펙션은 가장 공식적인 절차(계획→개요→준비→검사→수정→추적)로 역할 분리(작성자, 검사자, 진행자, 기록자)를 통해 결함 발견율을 최대화한다.
-> 3. ISO/IEC 20246(소프트웨어 검토 표준)과 CMMI의 검증·확인(V&V) 활동은 산출물 검사를 조직 프로세스로 내재화하는 체계를 제공하며 — 코드 리뷰 도구(GitHub PR, Gerrit, Crucible)의 확산으로 과거 수작업 검사가 자동화·통합된 CI/CD 기반 품질 게이트로 발전했다.
+> 1. 소프트웨어 산출물 검사(Software Deliverables Inspection)는 개발 생명주기의 각 단계에서 작성되는 문서·코드·테스트 결과물을 체계적으로 검토하여 [[352_defect_definition|결함]]을 조기 발견하는 품질 보증 활동으로 — Fagan이 증명한 바와 같이 [[352_defect_definition|결함]]을 개발 단계에서 발견하면 운영 단계보다 100배 저렴하다.
+> 2. 검사 유형은 [[163_peer_review|동료 검토]]([[163_peer_review|Peer Review]]), [[162_walkthrough_informal_review|워크스루]](Walkthrough), [[161_inspection_formal_review|인스펙션]](Inspection), [[606_auditing_linux_auditd|감사]]([[363_audit|Audit]])로 구분되며 — Fagan [[161_inspection_formal_review|인스펙션]]은 가장 공식적인 절차(계획→개요→준비→검사→수정→추적)로 역할 분리(작성자, 검사자, 진행자, 기록자)를 통해 [[352_defect_definition|결함]] 발견율을 최대화한다.
+> 3. ISO/IEC 20246(소프트웨어 검토 표준)과 CMMI의 [[395_verification_process_review|검증]]·[[396_validation|확인]](V&V) 활동은 산출물 검사를 조직 프로세스로 내재화하는 체계를 제공하며 — [[330_code_review|코드 리뷰]] 도구(GitHub [[067_pull_request_pr_merge_request_code_review|PR]], Gerrit, Crucible)의 확산으로 과거 수작업 검사가 자동화·통합된 [[090_configuration_item|CI]]/CD 기반 품질 게이트로 발전했다.
 
 ---
 
@@ -57,7 +57,7 @@ categories = "studynote-design-supervision"
 
 ---
 
-## Ⅱ. Fagan 인스펙션
+## Ⅱ. Fagan [[161_inspection_formal_review|인스펙션]]
 
 ```
 Fagan 인스펙션 (Fagan Inspection):
@@ -106,7 +106,7 @@ Fagan 인스펙션 (Fagan Inspection):
   결함 제거 비용: 테스트보다 3~5배 저렴
 ```
 
-> 📢 **섹션 요약 비유**: Fagan 인스펙션은 신문 교정 팀 — 기자(작성자), 교열 담당자(검사자), 편집장(진행자)이 각자 역할을 맡아 오탈자(결함)를 체계적으로 잡아내요. 혼자 교정보다 훨씬 정확.
+> 📢 **섹션 요약 비유**: Fagan [[161_inspection_formal_review|인스펙션]]은 신문 교정 팀 — 기자(작성자), 교열 담당자(검사자), 편집장(진행자)이 각자 역할을 맡아 오탈자([[352_defect_definition|결함]])를 체계적으로 잡아내요. 혼자 교정보다 훨씬 정확.
 
 ---
 
@@ -167,11 +167,11 @@ Fagan 인스펙션 (Fagan Inspection):
   문제 있으면 머지 차단
 ```
 
-> 📢 **섹션 요약 비유**: 코드 검토는 동료 출판 전 검수 — 혼자 쓴 논문(코드)을 동료(검토자)가 교정하고, 편집장(CI/CD)이 형식 검사. 서로 봐주면 실수가 적어요.
+> 📢 **섹션 요약 비유**: 코드 검토는 동료 출판 전 검수 — 혼자 쓴 논문(코드)을 동료(검토자)가 교정하고, 편집장([[090_configuration_item|CI]]/CD)이 형식 검사. 서로 봐주면 실수가 적어요.
 
 ---
 
-## Ⅳ. 감사
+## Ⅳ. [[606_auditing_linux_auditd|감사]]
 
 ```
 소프트웨어 감사 (Software Audit):
@@ -215,11 +215,11 @@ ISO 15504 (SPICE):
   5. 최적화됨 (Optimizing)
 ```
 
-> 📢 **섹션 요약 비유**: 소프트웨어 감사는 회사 재무 감사 — 장부(소스코드)와 설계서(계획)가 일치하는지, 프로세스(개발 방법)가 기준(표준)에 맞는지 외부 시각으로 점검.
+> 📢 **섹션 요약 비유**: 소프트웨어 [[606_auditing_linux_auditd|감사]]는 회사 재무 [[606_auditing_linux_auditd|감사]] — 장부(소스코드)와 설계서(계획)가 일치하는지, 프로세스(개발 방법)가 기준(표준)에 맞는지 외부 시각으로 점검.
 
 ---
 
-## Ⅴ. 실무 시나리오 — CI/CD 품질 게이트
+## Ⅴ. 실무 시나리오 — [[090_configuration_item|CI]]/CD 품질 게이트
 
 ```
 CI/CD 통합 산출물 품질 게이트:
@@ -266,7 +266,7 @@ Quality Gate 구성 예:
   배포 후 버그: 스프린트 당 2개 이하
 ```
 
-> 📢 **섹션 요약 비유**: CI/CD 품질 게이트는 공항 보안 검색대 — 체크인(PR 생성) → 보안 검사(SonarQube/Snyk) → 탑승구 확인(코드 검토 승인) → 이륙(배포). 기준 미달은 탑승 거부!
+> 📢 **섹션 요약 비유**: [[090_configuration_item|CI]]/CD 품질 게이트는 공항 보안 검색대 — 체크인([[067_pull_request_pr_merge_request_code_review|PR]] [[087_process_state_transition|생성]]) → 보안 검사([[079_sonarqube|SonarQube]]/Snyk) → 탑승구 [[396_validation|확인]](코드 검토 승인) → 이륙(배포). 기준 미달은 탑승 거부!
 
 ---
 
@@ -323,5 +323,5 @@ GitHub Copilot, CodeRabbit
 ## 👶 어린이를 위한 3줄 비유 설명
 
 1. 산출물 검사는 단계별 음식 품질 검사 — 재료 검사(요구사항), 조리 중 맛 보기(코드 검토), 최종 시식(테스트). 일찍 발견할수록 고치기 쉬워요!
-2. Fagan 인스펙션은 역할 분리 교정 팀 — 기자(작성자), 교열(검사자), 편집장(진행자)이 각자 역할로 더 많은 오류를 잡아내요.
-3. 현대는 CI/CD 자동 품질 게이트 — SonarQube, Snyk이 코드 공항 보안검색대. 기준 미달은 배포 자동 차단!
+2. Fagan [[161_inspection_formal_review|인스펙션]]은 역할 분리 교정 팀 — 기자(작성자), 교열(검사자), 편집장(진행자)이 각자 역할로 더 많은 오류를 잡아내요.
+3. 현대는 [[090_configuration_item|CI]]/CD 자동 품질 게이트 — [[079_sonarqube|SonarQube]], Snyk이 코드 공항 보안검색대. 기준 미달은 배포 자동 차단!

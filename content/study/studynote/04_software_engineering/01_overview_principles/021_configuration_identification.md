@@ -8,32 +8,32 @@ categories = ["studynote-se"]
 tags = ["Software Engineering", "SCM", "Configuration Identification", "CI", "형상식별"]
 +++
 
-# 형상 식별 (Configuration Identification)
+# 형상 [[655_ir_detection_analysis|식별]] (Configuration [[289_identification_flags_fragmentation_offset|Identification]])
 
 #### 핵심 인사이트 (3줄 요약)
-> 1. **본질**: 형상 식별은 소프트웨어 시스템을 관리 가능한 최소 단위인 형상 항목(CI, Configuration Item)으로 분해하고, 각각에 고유한 식별자와 버전 체계를 부여하는 과정이다.
-> 2. **가치**: 변경 통제의 대상 범위를 명확히 함으로써, 시스템의 복잡성을 낮추고 추적성(Traceability)을 확보하여 형상 관리 전체 프로세스의 기반을 다진다.
-> 3. **융합**: 단순한 파일 관리가 아닌 클라우드 네이티브 환경의 마이크로서비스(MSA), 인프라스트럭처 애즈 코드(IaC), 소프트웨어 자재 명세서(SBOM)의 식별 체계로 직접 이어진다.
+> 1. **본질**: 형상 [[655_ir_detection_analysis|식별]]은 소프트웨어 시스템을 관리 가능한 최소 단위인 형상 항목([[090_configuration_item|CI]], [[090_configuration_item|Configuration Item]])으로 분해하고, 각각에 고유한 [[655_ir_detection_analysis|식별]]자와 [[288_version_ihl_tos_total_length|버전]] 체계를 부여하는 과정이다.
+> 2. **가치**: 변경 통제의 대상 범위를 명확히 함으로써, 시스템의 복잡성을 낮추고 추적성([[228_blockchain_smart_contract_traceability|Traceability]])을 확보하여 [[020_software_configuration_management|형상 관리]] 전체 프로세스의 기반을 다진다.
+> 3. **융합**: 단순한 [[501_file_definition_logical_record|파일]] 관리가 아닌 [[531_cloud_native_architecture|클라우드 네이티브]] 환경의 [[532_microservices_decomposition_patterns|마이크로서비스]]([[619_msa_traffic_hardware|MSA]]), [[207_iac_terraform_immutable_infrastructure|인프라스트럭처 애즈 코드]]([[793_iac_idempotency_template|IaC]]), [[690_sbom_software_supply_chain_security|소프트웨어 자재 명세서]]([[890_sbom_cyclonedx_spdx|SBOM]])의 [[655_ir_detection_analysis|식별]] 체계로 직접 이어진다.
 
 ---
 
-### Ⅰ. 개요 및 필요성 (Context & Necessity)
+### Ⅰ. 개요 및 필요성 ([[033_context|Context]] & Necessity)
 
-형상 식별 (Configuration Identification)은 형상 관리(SCM, Software Configuration Management) 프로세스의 가장 첫 번째 단계로, 전체 시스템 내에서 형상 관리의 대상이 될 항목들을 찾아내고 이들에 대한 식별 번호와 버전 부여 규칙을 정의하는 활동이다. 이는 단순한 이름표 붙이기를 넘어, 소프트웨어를 구성하는 부품들의 생명주기를 어떻게 관리할 것인지에 대한 설계적 결단이다.
+형상 [[655_ir_detection_analysis|식별]] (Configuration [[289_identification_flags_fragmentation_offset|Identification]])은 [[020_software_configuration_management|형상 관리]]([[167_scm_software_configuration_management|SCM]], [[020_software_configuration_management|Software Configuration Management]]) 프로세스의 가장 첫 번째 단계로, 전체 시스템 내에서 [[020_software_configuration_management|형상 관리]]의 대상이 될 항목들을 찾아내고 이들에 대한 [[655_ir_detection_analysis|식별]] 번호와 [[288_version_ihl_tos_total_length|버전]] 부여 규칙을 정의하는 활동이다. 이는 단순한 이름표 붙이기를 넘어, 소프트웨어를 구성하는 부품들의 생명주기를 어떻게 관리할 것인지에 대한 설계적 결단이다.
 
-이 과정이 필수적인 이유는 대규모 시스템에서 발생하는 "변경의 연쇄 작용"을 통제하기 위해서다. 과거 단일(Monolithic) 시스템에서는 전체 소스코드를 하나의 덩어리로 관리하는 것이 가능했지만, 시스템이 커지고 컴포넌트 간 의존성이 복잡해짐에 따라 특정 변경이 어느 모듈에 영향을 미치는지 추적하는 것이 불가능해졌다. 무엇을 관리할지(What to control) 정의하지 않으면, 변경 통제나 감사 자체가 성립할 수 없다. 
+이 과정이 필수적인 이유는 대규모 시스템에서 발생하는 "변경의 연쇄 작용"을 통제하기 위해서다. 과거 단일(Monolithic) 시스템에서는 전체 소스코드를 하나의 덩어리로 관리하는 것이 가능했지만, 시스템이 커지고 [[603_component_independent_deployment_unit|컴포넌트]] 간 의존성이 복잡해짐에 따라 특정 변경이 어느 모듈에 영향을 미치는지 추적하는 것이 불가능해졌다. 무엇을 관리할지(What to control) 정의하지 않으면, 변경 통제나 [[606_auditing_linux_auditd|감사]] 자체가 성립할 수 없다. 
 
-이러한 한계를 극복하기 위해, 전체 시스템을 기능적 혹은 물리적 단위로 분해하여 트리 구조의 형상 항목(CI)을 식별하고, 각 CI마다 명확한 베이스라인(Baseline)과 식별자를 부여하는 혁신적인 관리 패러다임이 요구되었다. 현재의 비즈니스 환경에서는 코드뿐만 아니라 라이브러리 의존성, 컨테이너 이미지, 인프라 설정 파일까지 모두 CI로 식별해야만 무결성을 보장할 수 있다.
+이러한 한계를 극복하기 위해, 전체 시스템을 기능적 혹은 물리적 단위로 분해하여 트리 구조의 형상 항목([[090_configuration_item|CI]])을 [[655_ir_detection_analysis|식별]]하고, 각 CI마다 명확한 [[159_baseline_requirements_configuration_management|베이스라인]]([[025_baseline|Baseline]])과 [[655_ir_detection_analysis|식별]]자를 부여하는 혁신적인 관리 패러다임이 요구되었다. 현재의 비즈니스 환경에서는 코드뿐만 아니라 [[336_library_vs_framework|라이브러리]] 의존성, [[561_container_based_deployment|컨테이너]] 이미지, 인프라 [[009_config|설정]] [[501_file_definition_logical_record|파일]]까지 모두 CI로 [[655_ir_detection_analysis|식별]]해야만 무결성을 보장할 수 있다.
 
-> **📢 섹션 요약 비유**: 마치 대형 마트에서 수만 개의 상품을 체계적으로 관리하기 위해 카테고리를 나누고 개별 상품마다 고유한 바코드(바코드 번호와 버전)를 부여하는 것과 같습니다. 바코드가 없으면 재고 파악과 유통 기한 관리가 불가능한 것처럼, 형상 식별 없이는 소프트웨어 자산 관리가 불가능합니다.
+> **📢 섹션 요약 비유**: 마치 대형 마트에서 수만 개의 상품을 체계적으로 관리하기 위해 카테고리를 나누고 개별 상품마다 고유한 바코드(바코드 번호와 [[288_version_ihl_tos_total_length|버전]])를 부여하는 것과 같습니다. 바코드가 없으면 재고 파악과 유통 기한 관리가 불가능한 것처럼, 형상 [[655_ir_detection_analysis|식별]] 없이는 소프트웨어 자산 관리가 불가능합니다.
 
 ---
 
 ### Ⅱ. 아키텍처 및 핵심 원리 (Deep Dive)
 
-형상 식별의 아키텍처는 하향식 분해(Top-down Decomposition) 메커니즘을 따른다. 전체 시스템을 점진적으로 분할하여, 더 이상 나눌 수 없거나 나눌 필요가 없는 관리의 최소 단위인 CI를 도출한다.
+형상 [[655_ir_detection_analysis|식별]]의 아키텍처는 하향식 분해([[402_top_down_integration|Top-down]] Decomposition) 메커니즘을 따른다. 전체 시스템을 점진적으로 분할하여, 더 이상 나눌 수 없거나 나눌 필요가 없는 관리의 최소 단위인 CI를 도출한다.
 
-이 도식은 시스템이 어떻게 하위 CI로 분할되는지, 그리고 각 레벨에서 어떤 메타데이터가 식별되는지를 보여준다. 최상위 시스템에서 시작해 기능 블록, 개별 컴포넌트로 이어지는 트리 구조를 이해하는 것이 핵심이다.
+이 도식은 시스템이 어떻게 하위 CI로 분할되는지, 그리고 각 레벨에서 어떤 [[012_metadata|메타데이터]]가 [[655_ir_detection_analysis|식별]]되는지를 보여준다. 최상위 시스템에서 시작해 기능 블록, 개별 [[603_component_independent_deployment_unit|컴포넌트]]로 이어지는 트리 구조를 이해하는 것이 핵심이다.
 
 ```text
 
@@ -53,21 +53,21 @@ tags = ["Software Engineering", "SCM", "Configuration Identification", "CI", "�
 └─────────┘ └─────────┘                         └─────────┘
 ```
 
-이 흐름의 핵심은 분할의 깊이(Granularity)를 결정하는 것이다. CI 트리를 너무 깊게 구성하면 관리 오버헤드가 급증하고, 너무 얕게 구성하면 변경 시 영향도를 정확히 파악하기 어렵다. 따라서 각 계층에서 관리해야 하는 정보의 성격에 맞춰 식별 기준을 수립해야 한다.
+이 흐름의 핵심은 분할의 깊이(Granularity)를 결정하는 것이다. [[090_configuration_item|CI]] 트리를 너무 깊게 구성하면 관리 오버헤드가 급증하고, 너무 얕게 구성하면 변경 시 영향도를 정확히 파악하기 어렵다. 따라서 각 계층에서 관리해야 하는 정보의 성격에 맞춰 [[655_ir_detection_analysis|식별]] 기준을 수립해야 한다.
 
-#### 구성 요소 및 식별 메타데이터
+#### 구성 요소 및 [[655_ir_detection_analysis|식별]] [[012_metadata|메타데이터]]
 
-| 요소명 | 역할 | 내부 속성 | 식별 체계 예시 | 비유 |
+| 요소명 | 역할 | 내부 [[082_attribute_types_er_model|속성]] | [[655_ir_detection_analysis|식별]] 체계 예시 | 비유 |
 |:---|:---|:---|:---|:---|
-| **System** | 전체 서비스의 최상위 집합 | 전체 버전, 배포 기준선 | `SYS-APP-v1.0` | 자동차 완성품 |
-| **Subsystem** | 독립적으로 기능하는 주요 서브 단위 | 하위 CI 리스트, API 명세 | `SUB-AUTH-v2.1` | 자동차 엔진 |
-| **Module (CI)** | 형상 통제의 최소 단위 (코드/문서) | 작성자, 의존성, 체크섬 | `MOD-LOGIN-v2.1.4` | 엔진 실린더 |
-| **Metadata** | 각 CI에 부여되는 식별 정보 | ID, 버전, 상태, 생성일 | `{"id":"M1", "ver":"1.0"}` | 부품 시리얼 번호 |
-| **Relationship** | CI 간의 연결 구조 (의존성) | 부모-자식, 의존(Depends-on) | `Tree Structure` | 조립 설계도 |
+| **System** | 전체 [[090_service_kubernetes_network_load_balancing|서비스]]의 최상위 집합 | 전체 [[288_version_ihl_tos_total_length|버전]], 배포 [[025_baseline|기준선]] | `SYS-APP-v1.0` | 자동차 완성품 |
+| **Subsystem** | 독립적으로 기능하는 주요 서브 단위 | 하위 [[090_configuration_item|CI]] 리스트, [[014_api_posix|API]] 명세 | `SUB-AUTH-v2.1` | 자동차 엔진 |
+| **[[192_module_independence|Module]] ([[090_configuration_item|CI]])** | [[022_configuration_control|형상 통제]]의 최소 단위 (코드/문서) | 작성자, 의존성, [[112_checksum|체크섬]] | `MOD-LOGIN-v2.1.4` | 엔진 실린더 |
+| **[[012_metadata|Metadata]]** | 각 CI에 부여되는 [[655_ir_detection_analysis|식별]] 정보 | ID, [[288_version_ihl_tos_total_length|버전]], 상태, 생성일 | `{"id":"M1", "ver":"1.0"}` | 부품 시리얼 번호 |
+| **[[083_relationship_in_er_model|Relationship]]** | [[090_configuration_item|CI]] 간의 연결 구조 (의존성) | 부모-자식, 의존(Depends-on) | `Tree Structure` | 조립 설계도 |
 
-형상 항목의 식별 번호는 보통 `[프로젝트 식별자]-[시스템 구분]-[문서/모듈 종류]-[일련번호]-[버전]`의 구조를 갖는다. 예를 들어 `PRJ-AUTH-SRC-001-v1.2`와 같이 부여되며, 이는 데이터베이스(CMDB)나 Git의 태그/해시값과 매핑되어 중앙에서 관리된다.
+형상 항목의 [[655_ir_detection_analysis|식별]] 번호는 보통 `[프로젝트 식별자]-[시스템 구분]-[문서/모듈 종류]-[일련번호]-[버전]`의 구조를 갖는다. 예를 들어 `PRJ-AUTH-SRC-001-v1.2`와 같이 부여되며, 이는 [[002_database_definition|데이터베이스]]([[091_cmdb|CMDB]])나 Git의 태그/해시값과 매핑되어 중앙에서 관리된다.
 
-최근의 식별 체계는 소스 코드의 컴파일 단위뿐만 아니라, `Dockerfile`, `docker-compose.yml`, 쿠버네티스 매니페스트와 같은 인프라 구성 파일까지 모두 CI로 식별하여 코드 변경과 인프라 변경을 동일한 선상에서 추적할 수 있도록 진화하고 있다.
+최근의 [[655_ir_detection_analysis|식별]] 체계는 소스 코드의 컴파일 단위뿐만 아니라, `Dockerfile`, `docker-compose.yml`, [[196_kubernetes_k8s_container_orchestration|쿠버네티스]] 매니페스트와 같은 인프라 구성 [[501_file_definition_logical_record|파일]]까지 모두 CI로 [[655_ir_detection_analysis|식별]]하여 코드 변경과 인프라 변경을 동일한 선상에서 추적할 수 있도록 진화하고 있다.
 
 > **📢 섹션 요약 비유**: 복잡한 레고 블록 성을 조립할 때, 성벽, 지붕, 문으로 큰 덩어리를 나눈 후 각 조각마다 일련번호를 매겨 "이 문은 지붕 3번과 연결된다"고 명세서를 쓰는 것과 같습니다.
 
@@ -75,9 +75,9 @@ tags = ["Software Engineering", "SCM", "Configuration Identification", "CI", "�
 
 ### Ⅲ. 융합 비교 및 다각도 분석 (Comparison & Synergy)
 
-형상 식별에서 가장 중요한 결정은 CI의 크기(Granularity), 즉 '얼마나 잘게 쪼갤 것인가'이다. 이는 마이크로서비스 아키텍처(MSA)에서의 서비스 분리 기준과 매우 유사하다.
+형상 [[655_ir_detection_analysis|식별]]에서 가장 중요한 결정은 CI의 크기(Granularity), 즉 '얼마나 잘게 쪼갤 것인가'이다. 이는 [[213_msa_microservices_architecture|마이크로서비스 아키텍처]]([[619_msa_traffic_hardware|MSA]])에서의 [[090_service_kubernetes_network_load_balancing|서비스]] 분리 기준과 매우 유사하다.
 
-다음 매트릭스는 거친 식별(Coarse-grained)과 세밀한 식별(Fine-grained) 방식의 아키텍처적 트레이드오프를 보여준다. 식별 입도는 시스템의 관리 비용과 직결된다.
+다음 매트릭스는 거친 [[655_ir_detection_analysis|식별]]([[398_coarse_grained_multithreading|Coarse-grained]])과 세밀한 [[655_ir_detection_analysis|식별]]([[399_fine_grained_multithreading|Fine-grained]]) 방식의 아키텍처적 트레이드오프를 보여준다. [[655_ir_detection_analysis|식별]] 입도는 시스템의 관리 비용과 직결된다.
 
 ```text
 ┌──────────┬──────────────────────────┬──────────────────────────┬────────────────┐
@@ -90,21 +90,21 @@ tags = ["Software Engineering", "SCM", "Configuration Identification", "CI", "�
 └──────────┴──────────────────────────┴──────────────────────────┴────────────────┘
 ```
 
-거친 식별 방식은 초기 도입 비용이 적지만, 단일 패키지 내부에서 발생하는 세부적인 충돌을 방지하기 어렵다. 반면 세밀한 식별 방식은 단건 지연과 관리 오버헤드가 다소 크지만, 의존성 격리와 수평 확장성이 뛰어나기 때문에 MSA 환경처럼 독립적 배포가 잦은 구조에서는 전체 처리량 기준으로 유리하다.
+거친 [[655_ir_detection_analysis|식별]] 방식은 [[459_quic_fec_forward_error_correction|초기]] 도입 비용이 적지만, 단일 패키지 내부에서 발생하는 세부적인 충돌을 방지하기 어렵다. 반면 세밀한 [[655_ir_detection_analysis|식별]] 방식은 단건 [[015_지연_데이터_관점|지연]]과 관리 오버헤드가 다소 크지만, 의존성 격리와 수평 확장성이 뛰어나기 때문에 [[619_msa_traffic_hardware|MSA]] 환경처럼 독립적 배포가 잦은 구조에서는 전체 [[139_throughput|처리량]] 기준으로 유리하다.
 
 **과목 융합 관점:**
-- **네트워크/보안 (SBOM 융합)**: 형상 식별을 통해 도출된 CI 목록은 보안 관점에서 소프트웨어 자재 명세서(SBOM)로 직결된다. 오픈소스 라이브러리(Log4j 등) 각각이 CI로 식별되어야만 제로 데이 취약점 발생 시 즉각적인 영향도 파악이 가능하다.
-- **데이터베이스 (CMDB 모델링)**: 도출된 CI와 그들 간의 연관 관계(Relationship)는 ITIL 기반의 구성 관리 데이터베이스(CMDB) 스키마를 설계하는 기초 자료가 된다.
+- **네트워크/보안 ([[890_sbom_cyclonedx_spdx|SBOM]] 융합)**: 형상 [[655_ir_detection_analysis|식별]]을 통해 도출된 [[090_configuration_item|CI]] 목록은 보안 관점에서 [[690_sbom_software_supply_chain_security|소프트웨어 자재 명세서]]([[890_sbom_cyclonedx_spdx|SBOM]])로 직결된다. [[191_oss_license_compliance|오픈소스]] [[336_library_vs_framework|라이브러리]](Log4j 등) 각각이 CI로 [[655_ir_detection_analysis|식별]]되어야만 [[597_zero_day_exploit|제로 데이]] 취약점 발생 시 즉각적인 영향도 파악이 가능하다.
+- **[[002_database_definition|데이터베이스]] ([[091_cmdb|CMDB]] 모델링)**: 도출된 CI와 그들 간의 연관 [[083_relationship_in_er_model|관계]]([[083_relationship_in_er_model|Relationship]])는 [[062_itil|ITIL]] 기반의 [[089_configuration_management|구성 관리]] [[002_database_definition|데이터베이스]]([[091_cmdb|CMDB]]) 스키마를 설계하는 기초 자료가 된다.
 
-> **📢 섹션 요약 비유**: 우편물을 관리할 때, '아파트 동' 단위로만 묶어서 배달할지(거친 식별), 아니면 '각 세대별'로 바코드를 붙여 배달할지(세밀한 식별) 결정하는 것과 같습니다. 세대별 바코드가 있으면 정확성은 높지만 우체부의 관리 작업은 훨씬 많아집니다.
+> **📢 섹션 요약 비유**: 우편물을 관리할 때, '아파트 동' 단위로만 묶어서 배달할지(거친 [[655_ir_detection_analysis|식별]]), 아니면 '각 세대별'로 바코드를 붙여 배달할지(세밀한 [[655_ir_detection_analysis|식별]]) 결정하는 것과 같습니다. 세대별 바코드가 있으면 정확성은 높지만 우체부의 관리 작업은 훨씬 많아집니다.
 
 ---
 
-### Ⅳ. 실무 적용 및 기술사적 판단 (Strategy & Decision)
+### Ⅳ. 실무 적용 및 기술사적 판단 ([[268_strategy_pattern|Strategy]] & Decision)
 
-실무에서 형상 식별을 잘못 수행하면 시스템 전체의 형상 통제가 마비되는 치명적 안티패턴에 직면한다. 
+실무에서 형상 [[655_ir_detection_analysis|식별]]을 잘못 수행하면 시스템 전체의 [[022_configuration_control|형상 통제]]가 마비되는 치명적 [[128_water_scrum_fall_anti_pattern|안티패턴]]에 직면한다. 
 
-이 의사결정 트리는 실무 프로젝트에서 특정 산출물을 CI로 식별할지 말지를 판단하는 기준을 제시한다. 
+이 의사결정 트리는 실무 프로젝트에서 특정 산출물을 CI로 [[655_ir_detection_analysis|식별]]할지 말지를 판단하는 기준을 제시한다. 
 
 ```text
 [산출물 발생]
@@ -124,39 +124,39 @@ tags = ["Software Engineering", "SCM", "Configuration Identification", "CI", "�
 [독립 CI로 식별 및 베이스라인 부여]
 ```
 
-이 흐름의 핵심은 변경 가능성과 독립 배포 가능성 단계가 판단의 중심에 위치한다는 점이다. 따라서 불필요한 산출물(예: 임시 로그 파일, 컴파일 중간 생성물)은 형상 관리 항목에서 즉시 배제되며, 시스템 성능 저하(형상 DB 오버헤드)를 방지할 수 있다. 실무에서는 이 지점의 독립성을 지속적으로 점검해야 한다.
+이 흐름의 핵심은 변경 가능성과 독립 배포 가능성 단계가 판단의 중심에 위치한다는 점이다. 따라서 불필요한 산출물(예: 임시 [[568_logs_distributed_logging_elk_fluentd|로그]] [[501_file_definition_logical_record|파일]], 컴파일 중간 생성물)은 [[020_software_configuration_management|형상 관리]] 항목에서 즉시 배제되며, 시스템 [[282_performance_tactics|성능]] 저하(형상 DB 오버헤드)를 방지할 수 있다. 실무에서는 이 지점의 독립성을 지속적으로 점검해야 한다.
 
-#### 안티패턴 및 치명적 결함 사례
-1. **모든 산출물의 CI화**: 개발 중 생성되는 모든 중간 파일(.class, .o 등)까지 CI로 지정하는 경우. 관리비용 폭증으로 형상 통제가 불가능해진다. **실무 판단**: 컴파일된 바이너리는 배포 기준선 단위에서만 CI로 묶고 소스코드는 개별 CI로 관리해야 한다.
-2. **동적 구성 파일 누락**: 마이크로서비스의 Config 파일이나 환경 변수를 CI에서 누락하는 경우. 코드 버전은 맞는데 환경 설정이 달라 배포에 실패하는 원인이 된다. **실무 판단**: `application.yml` 등의 인프라 구성 파일도 코드와 동일한 수준의 CI로 식별해야 한다.
+#### [[128_water_scrum_fall_anti_pattern|안티패턴]] 및 치명적 [[352_defect_definition|결함]] 사례
+1. **모든 산출물의 CI화**: 개발 중 생성되는 모든 중간 [[501_file_definition_logical_record|파일]](.class, .o 등)까지 CI로 지정하는 경우. 관리비용 폭증으로 [[022_configuration_control|형상 통제]]가 불가능해진다. **실무 판단**: 컴파일된 바이너리는 배포 [[025_baseline|기준선]] 단위에서만 CI로 묶고 소스코드는 개별 CI로 관리해야 한다.
+2. **동적 구성 [[501_file_definition_logical_record|파일]] 누락**: [[532_microservices_decomposition_patterns|마이크로서비스]]의 [[009_config|Config]] [[501_file_definition_logical_record|파일]]이나 환경 변수를 CI에서 누락하는 경우. 코드 [[288_version_ihl_tos_total_length|버전]]은 맞는데 환경 [[009_config|설정]]이 달라 배포에 실패하는 원인이 된다. **실무 판단**: `application.yml` 등의 인프라 구성 [[501_file_definition_logical_record|파일]]도 코드와 동일한 수준의 CI로 [[655_ir_detection_analysis|식별]]해야 한다.
 
-> **📢 섹션 요약 비유**: 짐을 쌀 때, 언제든 버려도 되는 휴지조각까지 인벤토리 목록에 적어 넣으면 정작 중요한 여권과 지갑을 관리하기 힘들어지는 것과 같습니다. 중요한 물건만 인벤토리(CI)로 등록해야 합니다.
+> **📢 섹션 요약 비유**: 짐을 쌀 때, 언제든 버려도 되는 휴지조각까지 인벤토리 목록에 적어 넣으면 정작 중요한 여권과 지갑을 관리하기 힘들어지는 것과 같습니다. 중요한 물건만 인벤토리([[090_configuration_item|CI]])로 등록해야 합니다.
 
 ---
 
 ### Ⅴ. 기대효과 및 결론 (Future & Standard)
 
-형상 식별이 체계적으로 구축되었을 때 얻는 정량적/정성적 효과는 다음과 같다.
+형상 [[655_ir_detection_analysis|식별]]이 체계적으로 구축되었을 때 얻는 정량적/정성적 효과는 다음과 같다.
 
 | 구분 | 도입 전 | 도입 후 (기대효과) |
 |:---|:---|:---|
-| **의존성 파악 시간** | 담당자 인터뷰에 의존 (수 시간~수 일) | CMDB 트리 조회 (수 분 이내) |
-| **장애 복구 시간 (MTTR)** | 원인 파일 파악 지연 | 롤백 대상 CI 명확화로 단축 |
-| **보안 취약점 대응** | 전수 수동 검사 | 특정 라이브러리 CI 즉시 격리 |
+| **의존성 파악 시간** | 담당자 인터뷰에 의존 (수 시간~수 일) | [[091_cmdb|CMDB]] 트리 조회 (수 분 이내) |
+| **장애 [[658_ir_recovery|복구]] 시간 ([[451_mttr|MTTR]])** | 원인 [[501_file_definition_logical_record|파일]] 파악 [[015_지연_데이터_관점|지연]] | [[098_rollback_strategy_pipeline_error_threshold|롤백]] 대상 [[090_configuration_item|CI]] 명확화로 단축 |
+| **보안 취약점 대응** | 전수 수동 검사 | 특정 [[336_library_vs_framework|라이브러리]] [[090_configuration_item|CI]] 즉시 격리 |
 
-**미래 전망**: 클라우드 네이티브 환경에서는 IaC(Infrastructure as Code)와 결합하여 식별 대상이 논리적 코드에서 물리적 인프라 스펙으로 확장되고 있다. 또한, 해시(Hash) 기반의 분산 버전 관리 체계(Git 등)가 주류가 되면서, 중앙 집중적 번호 부여보다 커밋 해시(Commit Hash) 자체가 CI 식별자로 활용되는 선언적 식별 방식이 표준으로 자리 잡을 것이다. 관련하여 IEEE 828 (Configuration Management) 및 ISO/IEC 12207 등에서 시스템의 논리/물리적 항목 식별을 중요 프로세스로 권고하고 있다.
+**미래 전망**: [[531_cloud_native_architecture|클라우드 네이티브]] 환경에서는 [[793_iac_idempotency_template|IaC]]([[062_infrastructure_as_code|Infrastructure as Code]])와 결합하여 [[655_ir_detection_analysis|식별]] 대상이 [[369_logic_bomb|논리]]적 코드에서 물리적 인프라 스펙으로 확장되고 있다. 또한, 해시(Hash) 기반의 [[136_variance|분산]] [[288_version_ihl_tos_total_length|버전]] 관리 체계(Git 등)가 주류가 되면서, 중앙 집중적 번호 부여보다 커밋 해시(Commit Hash) 자체가 [[090_configuration_item|CI]] [[655_ir_detection_analysis|식별]]자로 활용되는 선언적 [[655_ir_detection_analysis|식별]] 방식이 표준으로 자리 잡을 것이다. 관련하여 IEEE 828 ([[089_configuration_management|Configuration Management]]) 및 ISO/IEC 12207 등에서 시스템의 [[369_logic_bomb|논리]]/물리적 항목 [[655_ir_detection_analysis|식별]]을 중요 프로세스로 권고하고 있다.
 
-> **📢 섹션 요약 비유**: 제대로 된 형상 식별은 얽히고설킨 털실 뭉치를 색깔별로 분류해 깔끔하게 실패에 감아두는 것과 같아, 필요할 때 즉시 원하는 색의 실을 당겨 쓸 수 있게 해줍니다.
+> **📢 섹션 요약 비유**: 제대로 된 형상 [[655_ir_detection_analysis|식별]]은 얽히고설킨 털실 뭉치를 색깔별로 분류해 깔끔하게 실패에 감아두는 것과 같아, 필요할 때 즉시 원하는 색의 실을 당겨 쓸 수 있게 해줍니다.
 
 ---
 
-### 📌 관련 개념 맵 (Knowledge Graph)
+### 📌 관련 개념 맵 ([[160_knowledge_graph_graphrag_integration|Knowledge Graph]])
 
-- **형상 통제 (Configuration Control)** | 식별된 CI에 대한 변경 요청을 평가하고 승인하는 제어 위원회 프로세스
-- **기준선 (Baseline)** | 식별된 각 CI들의 특정 시점 조합을 공식적으로 승인한 버전의 묶음
-- **형상 기록/보고 (Configuration Status Accounting)** | 식별된 CI의 모든 변경 이력을 기록하고 상태를 대시보드화하는 가시성 확보 활동
-- **소프트웨어 자재 명세서 (SBOM)** | 소프트웨어 공급망 보안을 위해 식별된 라이브러리와 모듈의 의존성 메타데이터 명세
-- **마이크로서비스 아키텍처 (MSA)** | 시스템을 세분화된 CI 묶음인 독립적 서비스로 분리하여 배포하는 아키텍처 패턴
+- **[[022_configuration_control|형상 통제]] ([[022_configuration_control|Configuration Control]])** | [[655_ir_detection_analysis|식별]]된 CI에 대한 변경 요청을 평가하고 승인하는 제어 위원회 프로세스
+- **[[025_baseline|기준선]] ([[025_baseline|Baseline]])** | [[655_ir_detection_analysis|식별]]된 각 CI들의 특정 시점 조합을 공식적으로 승인한 [[288_version_ihl_tos_total_length|버전]]의 묶음
+- **형상 기록/보고 ([[024_configuration_status_accounting|Configuration Status Accounting]])** | [[655_ir_detection_analysis|식별]]된 CI의 모든 변경 이력을 기록하고 상태를 대시보드화하는 가시성 확보 활동
+- **[[690_sbom_software_supply_chain_security|소프트웨어 자재 명세서]] ([[890_sbom_cyclonedx_spdx|SBOM]])** | 소프트웨어 [[520_supply_chain_attack_and_ci_cd_security|공급망]] 보안을 위해 [[655_ir_detection_analysis|식별]]된 [[336_library_vs_framework|라이브러리]]와 모듈의 의존성 [[012_metadata|메타데이터]] 명세
+- **[[213_msa_microservices_architecture|마이크로서비스 아키텍처]] ([[619_msa_traffic_hardware|MSA]])** | 시스템을 세분화된 [[090_configuration_item|CI]] 묶음인 독립적 [[090_service_kubernetes_network_load_balancing|서비스]]로 분리하여 배포하는 아키텍처 패턴
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -175,9 +175,9 @@ tags = ["Software Engineering", "SCM", "Configuration Identification", "CI", "�
     ▼
 [형상 감사 (Configuration Audit) — 기능/물리 감사]
 ```
-SCM의 4대 활동은 식별→기준선→통제→기록→감사의 흐름으로 이어지며, 식별이 첫 단추로 모든 변경 추적성과 감사 가능성의 기반이 된다.
+SCM의 4대 활동은 [[655_ir_detection_analysis|식별]]→[[025_baseline|기준선]]→통제→기록→[[606_auditing_linux_auditd|감사]]의 흐름으로 이어지며, [[655_ir_detection_analysis|식별]]이 첫 단추로 모든 변경 추적성과 [[606_auditing_linux_auditd|감사]] 가능성의 기반이 된다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
-1. 장난감 로봇을 만들 때, 그냥 섞어두지 않고 머리, 팔, 다리로 나누는 것을 형상 식별이라고 해요.
+1. 장난감 로봇을 만들 때, 그냥 섞어두지 않고 머리, 팔, 다리로 나누는 것을 형상 [[655_ir_detection_analysis|식별]]이라고 해요.
 2. 각각의 부품에 "로봇팔-1호"라고 이름표를 붙여야 잃어버렸을 때 쉽게 찾고 조립할 수 있어요.
 3. 이렇게 이름표를 잘 붙여두면, 나중에 팔을 "로봇팔-2호"로 업그레이드할 때 다른 부품은 놔두고 팔만 딱 바꿀 수 있답니다!

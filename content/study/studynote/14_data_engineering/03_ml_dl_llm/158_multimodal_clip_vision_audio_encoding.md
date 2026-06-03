@@ -7,9 +7,9 @@ categories = "studynote-data-engineering"
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: 멀티모달(Multimodal) AI는 텍스트·이미지·오디오·비디오 등 여러 모달리티(Modality)를 동일한 잠재 공간(Latent Space)에 매핑해, 모달 간 의미적 관계를 학습한다.
-> 2. **가치**: CLIP (Contrastive Language-Image Pre-training)은 4억 개 이미지-텍스트 쌍의 대조 학습(Contrastive Learning)으로 텍스트 → 이미지 제로샷 검색·분류를 가능하게 한다.
-> 3. **판단 포인트**: GPT-4V, Gemini 같은 Large Multimodal Model (LMM)은 이미지를 보면서 텍스트를 이해하고 생성하며, Vision Encoder + LLM 결합이 현대 멀티모달 AI의 표준 아키텍처다.
+> 1. **본질**: 멀티모달(Multimodal) AI는 텍스트·이미지·오디오·비디오 등 여러 모달리티(Modality)를 동일한 잠재 공간(Latent Space)에 매핑해, 모달 간 의미적 [[083_relationship_in_er_model|관계]]를 학습한다.
+> 2. **가치**: [[408_clip|CLIP]] ([[408_clip|Contrastive Language-Image Pre-training]])은 4억 개 이미지-텍스트 쌍의 대조 학습(Contrastive [[240_switch_learning_forwarding_flooding|Learning]])으로 텍스트 → 이미지 제로샷 검색·[[104_classification_analysis|분류]]를 가능하게 한다.
+> 3. **판단 포인트**: GPT-4V, Gemini 같은 Large Multimodal Model (LMM)은 이미지를 보면서 텍스트를 이해하고 생성하며, Vision [[040_encoder|Encoder]] + [[263_llm_large_language_model|LLM]] 결합이 현대 멀티모달 AI의 표준 아키텍처다.
 
 ## Ⅰ. 개요 및 필요성
 
@@ -18,7 +18,7 @@ categories = "studynote-data-engineering"
 멀티모달 AI는 이 경계를 허물어 "이 사진에 있는 음식의 레시피를 알려줘", "영상의 내용을 요약해줘" 같은 복합적 질의를 처리한다.
 
 **멀티모달 처리 유형**
-- Vision-Language: 이미지 + 텍스트 (CLIP, GPT-4V)
+- Vision-Language: 이미지 + 텍스트 ([[408_clip|CLIP]], GPT-4V)
 - Audio-Language: 음성 + 텍스트 (Whisper, AudioPaLM)
 - Video-Language: 비디오 + 텍스트 (Gemini, VideoLLaMA)
 - All-modal: 텍스트+이미지+오디오+비디오 (Gemini Ultra)
@@ -27,16 +27,16 @@ categories = "studynote-data-engineering"
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### CLIP (Contrastive Language-Image Pre-training)
+### [[408_clip|CLIP]] ([[408_clip|Contrastive Language-Image Pre-training]])
 
 | 항목 | 설명 |
 |:---|:---|
-| 개발 | OpenAI, 2021 |
-| 학습 데이터 | 4억 개 이미지-텍스트 쌍 (인터넷 크롤링) |
-| 이미지 인코더 | ViT (Vision Transformer) 또는 ResNet |
-| 텍스트 인코더 | Transformer |
+| 개발 | OpenAI, [[477_owasp_top_10_2021|2021]] |
+| 학습 [[001_dikw_pyramid|데이터]] | 4억 개 이미지-텍스트 쌍 (인터넷 크롤링) |
+| 이미지 [[040_encoder|인코더]] | ViT (Vision [[246_transformer_self_attention_parallel_positional_encoding|Transformer]]) 또는 [[287_resnet_skip_connection|ResNet]] |
+| 텍스트 [[040_encoder|인코더]] | [[246_transformer_self_attention_parallel_positional_encoding|Transformer]] |
 | 학습 목표 | 대조 학습 (매칭 쌍 유사도 최대, 비매칭 최소) |
-| 제로샷 능력 | 학습 없이 텍스트만으로 이미지 분류 |
+| 제로샷 능력 | 학습 없이 텍스트만으로 이미지 [[104_classification_analysis|분류]] |
 
 ```
 [CLIP 대조 학습]
@@ -80,11 +80,11 @@ Linear Projection (차원 맞춤)
 
 | 모델 | 기관 | 모달리티 | 특징 |
 |:---|:---|:---|:---|
-| CLIP (2021) | OpenAI | 이미지+텍스트 | 대조 학습 |
+| [[408_clip|CLIP]] ([[477_owasp_top_10_2021|2021]]) | OpenAI | 이미지+텍스트 | 대조 학습 |
 | Flamingo (2022) | DeepMind | 이미지+텍스트 | Few-Shot 멀티모달 |
-| GPT-4V (2023) | OpenAI | 이미지+텍스트 | 최고 성능 |
+| GPT-4V (2023) | OpenAI | 이미지+텍스트 | 최고 [[282_performance_tactics|성능]] |
 | Gemini (2023) | Google | 텍스트+이미지+오디오+비디오 | 네이티브 멀티모달 |
-| LLaVA (2023) | 오픈소스 | 이미지+텍스트 | CLIP+LLaMA |
+| LLaVA (2023) | [[191_oss_license_compliance|오픈소스]] | 이미지+텍스트 | [[408_clip|CLIP]]+LLaMA |
 | Whisper (2022) | OpenAI | 오디오+텍스트 | 음성 인식 |
 
 �� **섹션 요약 비유**: CLIP은 이미지와 텍스트를 같은 "의미 좌표계"에 배치해, 비슷한 의미는 가깝고 다른 의미는 멀리 떨어지게 한다.
@@ -95,49 +95,49 @@ Linear Projection (차원 맞춤)
 |:---|:---|:---|
 | 입력 | 텍스트 또는 이미지 | 텍스트 + 이미지 + 오디오 |
 | 크로스 모달 추론 | ❌ | ✅ |
-| 제로샷 이미지 분류 | ❌ | ✅ (CLIP) |
+| 제로샷 이미지 [[104_classification_analysis|분류]] | ❌ | ✅ ([[408_clip|CLIP]]) |
 | 시각적 QA | ❌ | ✅ |
 | 복잡도 | 낮음 | 높음 |
 
-**CLIP 활용 사례**
-- 제로샷 이미지 분류: 학습 없이 "이 이미지는 고양이입니까?"
+**[[408_clip|CLIP]] 활용 사례**
+- 제로샷 이미지 [[104_classification_analysis|분류]]: 학습 없이 "이 이미지는 고양이입니까?"
 - 이미지-텍스트 검색: 텍스트로 이미지 검색 (Google Image Search 방식)
 - Stable Diffusion 가이드: CLIP이 텍스트-이미지 정렬 점수 계산
-- OpenCLIP: 오픈소스 CLIP 재구현
+- OpenCLIP: [[191_oss_license_compliance|오픈소스]] [[408_clip|CLIP]] 재구현
 
 📢 **섹션 요약 비유**: CLIP은 이미지와 텍스트가 같은 언어를 쓰게 만드는 번역기다. "고양이"라는 단어와 고양이 사진이 같은 주소에 살게 된다.
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 **멀티모달 시스템 설계**
-- Vision Encoder 선택: CLIP ViT-L/14 (범용), DINOv2 (지역 특징)
+- Vision [[040_encoder|Encoder]] 선택: [[408_clip|CLIP]] ViT-L/14 (범용), DINOv2 (지역 특징)
 - Projector: MLP 또는 Q-Former (Flamingo 방식)으로 이미지→텍스트 차원 연결
-- LLM 선택: LLaVA(LLaMA+CLIP), InternVL, CogVLM
+- [[263_llm_large_language_model|LLM]] 선택: LLaVA(LLaMA+[[408_clip|CLIP]]), InternVL, CogVLM
 
 **음성-텍스트 (ASR) 파이프라인**
-- Whisper: 다국어 음성 인식, OpenAI 오픈소스
+- Whisper: 다국어 음성 인식, OpenAI [[191_oss_license_compliance|오픈소스]]
 - 스트리밍 ASR: Whisper + VAD(음성 활동 감지) + 청크 처리
 
 **기술사 출제 포인트**
-- "CLIP의 대조 학습 원리와 제로샷 분류 동작 방식을 설명하시오"
+- "CLIP의 대조 학습 원리와 제로샷 [[104_classification_analysis|분류]] 동작 방식을 설명하시오"
 - "Large Multimodal Model (LMM)의 아키텍처에서 Vision Encoder와 LLM의 연결 방식을 설명하시오"
 
-📢 **섹션 요약 비유**: LMM은 눈(Vision Encoder)과 뇌(LLM)를 연결한 AI다. 눈이 본 것을 뇌가 이해하고 말로 설명하는 것이다.
+📢 **섹션 요약 비유**: LMM은 눈(Vision [[040_encoder|Encoder]])과 뇌([[263_llm_large_language_model|LLM]])를 연결한 AI다. 눈이 본 것을 뇌가 이해하고 말로 설명하는 것이다.
 
 ## Ⅴ. 기대효과 및 결론
 
-멀티모달 AI는 의료 영상 진단, 자율주행 시각 이해, 교육 콘텐츠 분석, 접근성 향상(시각 장애인 이미지 설명) 등 광범위한 영역에 혁신을 가져온다. GPT-4V와 Gemini의 성공으로 텍스트만의 AI 시대가 끝나고, 멀티모달이 AI의 표준이 되고 있다.
+멀티모달 AI는 의료 영상 진단, 자율주행 시각 이해, 교육 콘텐츠 분석, [[292_accessibility_kwcag_wcag|접근성]] 향상(시각 장애인 이미지 설명) 등 광범위한 영역에 혁신을 가져온다. GPT-4V와 Gemini의 성공으로 텍스트만의 [[190_ai_llm_requirements_specification|AI]] 시대가 끝나고, 멀티모달이 AI의 표준이 되고 있다.
 
 📢 **섹션 요약 비유**: 멀티모달 AI는 보고 듣고 읽는 인간의 통합 지능을 처음으로 흉내 낼 수 있게 된 AI의 진화다.
 
 ### 📌 관련 개념 맵
-| 관계 | 개념 | 설명 |
+| [[083_relationship_in_er_model|관계]] | 개념 | 설명 |
 |:---|:---|:---|
-| 핵심 | CLIP | 대조 학습 비전-언어 |
-| 학습 | 대조 학습 (Contrastive Learning) | 매칭 쌍 유사도 최대화 |
-| 구조 | Vision Encoder + LLM | 멀티모달 LMM 기본 |
+| 핵심 | [[408_clip|CLIP]] | 대조 학습 비전-언어 |
+| 학습 | 대조 학습 (Contrastive [[240_switch_learning_forwarding_flooding|Learning]]) | 매칭 쌍 유사도 최대화 |
+| 구조 | Vision [[040_encoder|Encoder]] + [[263_llm_large_language_model|LLM]] | 멀티모달 LMM 기본 |
 | 대표 | GPT-4V, Gemini | 상용 LMM |
-| 오픈소스 | LLaVA, InternVL | 공개 멀티모달 모델 |
+| [[191_oss_license_compliance|오픈소스]] | LLaVA, InternVL | 공개 멀티모달 모델 |
 | 오디오 | Whisper | 음성 인식 멀티모달 |
 
 ### 👶 어린이를 위한 3줄 비유 설명

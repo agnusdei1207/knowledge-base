@@ -10,23 +10,23 @@ categories = ["15_devops_sre"]
 # 무상태 프로세스
 
 #### 핵심 인사이트 (3줄 요약)
-> 1. **본질**: 무상태 프로세스 원칙은 애플리케이션이 각 요청/응답 사이클 간에 상태를 저장하지 않고 실행되며, 필요한 상태는 데이터베이스나 캐시 같은 외부 자원에 저장해야 한다는 12팩터 앱의 제6원칙이다.
-> 2. **가치**: 무상태로 설계된 애플리케이션은 수평적 확장이 용이하고, 인스턴스 장애 시에도 다른 인스턴스가即時に 작업을引き継ぐことがあり, 배포 및 스케일링이 단순화된다.
-> 3. **융합**: 무상태 원칙은 컨테이너, 쿠버네티스 오토스케일링, 세션 클러스터링, 그리고 MSA의 상태 관리 패턴과 긴밀하게 연결되어 있다.
+> 1. **본질**: 무상태 프로세스 원칙은 애플리케이션이 각 요청/응답 사이클 간에 상태를 저장하지 않고 실행되며, 필요한 상태는 [[002_database_definition|데이터베이스]]나 캐시 같은 외부 자원에 저장해야 한다는 12팩터 앱의 제6원칙이다.
+> 2. **가치**: 무상태로 설계된 애플리케이션은 수평적 확장이 용이하고, 인스턴스 장애 시에도 다른 인스턴스가即時に 작업을引き継ぐことがあり, 배포 및 [[249_scaling_normalization_standardization|스케일링]]이 단순화된다.
+> 3. **융합**: 무상태 원칙은 [[561_container_based_deployment|컨테이너]], [[206_kubernetes_autoscaling_hpa_vpa_ca|쿠버네티스 오토스케일링]], [[160_session_controlling_terminal|세션]] 클러스터링, 그리고 MSA의 상태 관리 패턴과 긴밀하게 연결되어 있다.
 
 ---
 
-### Ⅰ. 개요 및 필요성 (Context & Necessity)
+### Ⅰ. 개요 및 필요성 ([[033_context|Context]] & Necessity)
 
-"상태(State)"란 애플리케이션이 처리를 수행하기 위해 유지하는 정보로, 이는 메모리 내 변수, 로컬 파일 시스템, 또는 세션 객체 등 다양한 형태로 존재할 수 있다. 상태를 저장하는 애플리케이션을"상태 저장(Stateful)"하다고 하고, 상태를 저장하지 않는 애플리케이션을"무상태(Stateless)"하다고 한다.
+"상태([[272_state_pattern|State]])"란 애플리케이션이 처리를 수행하기 위해 유지하는 정보로, 이는 메모리 내 변수, 로컬 [[501_file_definition_logical_record|파일]] 시스템, 또는 [[160_session_controlling_terminal|세션]] 객체 등 다양한 형태로 존재할 수 있다. 상태를 저장하는 애플리케이션을"상태 저장(Stateful)"하다고 하고, 상태를 저장하지 않는 애플리케이션을"무상태([[239_stateless_redis|Stateless]])"하다고 한다.
 
-전통적인 웹 애플리케이션에서는 세션을 메모리에 저장하거나, 파일 시스템에 캐시를 저장하는 것이 일반적이었다. 이렇게 하면 동일한 사용자의 이후 요청이 동일한 서버 인스턴스로 라우팅되어야 했다(Sticky Session). 그러나 이러한 설계는 다음과 같은 문제를 야기한다:
+전통적인 웹 애플리케이션에서는 [[160_session_controlling_terminal|세션]]을 메모리에 저장하거나, [[501_file_definition_logical_record|파일]] 시스템에 캐시를 저장하는 것이 일반적이었다. 이렇게 하면 동일한 사용자의 이후 요청이 동일한 서버 인스턴스로 [[339_routing_overview_best_path_selection|라우팅]]되어야 했다(Sticky [[160_session_controlling_terminal|Session]]). 그러나 이러한 설계는 다음과 같은 문제를 야기한다:
 
-- **확장의 어려움**: 트래픽 증가 시 새 인스턴스를 추가해도, 기존 사용자는 여전히"자신의 세션이 있는" 기존 인스턴스로 라우팅되어야 하므로 확장이 복잡하다.
-- **가용성 저하**: 특정 인스턴스가 장애가 발생하면 그 인스턴스에 저장된 세션/상태가 모두 손실된다.
-- **배포의 어려움**: 인스턴스를 업데이트할 때 해당 인스턴스의 모든 세션/상태를 처리해야 한다.
+- **확장의 어려움**: 트래픽 증가 시 새 인스턴스를 추가해도, 기존 사용자는 여전히"자신의 [[160_session_controlling_terminal|세션]]이 있는" 기존 인스턴스로 [[339_routing_overview_best_path_selection|라우팅]]되어야 하므로 확장이 복잡하다.
+- **[[452_availability|가용성]] 저하**: 특정 인스턴스가 장애가 발생하면 그 인스턴스에 저장된 [[160_session_controlling_terminal|세션]]/상태가 모두 손실된다.
+- **배포의 어려움**: 인스턴스를 업데이트할 때 해당 인스턴스의 모든 [[160_session_controlling_terminal|세션]]/상태를 처리해야 한다.
 
-12팩터 앱의 무상태 프로세스 원칙은 이러한 문제를 해결하기 위해"애플리케이션은 무상태로 설계되어야 하며, 상태가 필요한 경우에는 명시적으로 외부 자원(데이터베이스, 캐시, 객체 스토리지 등)에 저장해야 한다"고 명시한다.
+12팩터 앱의 무상태 프로세스 원칙은 이러한 문제를 해결하기 위해"애플리케이션은 무상태로 설계되어야 하며, 상태가 필요한 경우에는 명시적으로 외부 자원([[002_database_definition|데이터베이스]], 캐시, 객체 스토리지 등)에 저장해야 한다"고 명시한다.
 
 아래 다이어그램은 상태 저장 애플리케이션과 무상태 애플리케이션의 차이를 보여준다.
 
@@ -72,17 +72,17 @@ categories = ["15_devops_sre"]
 
 ### Ⅱ. 아키텍처 및 핵심 원리 (Deep Dive)
 
-무상태 원칙을 효과적으로 구현하기 위해서는 상태 관리 전략과 외부 상태 저장소 활용법에 대한 깊은 이해가 필요하다.
+무상태 원칙을 효과적으로 구현하기 위해서는 상태 관리 [[268_strategy_pattern|전략]]과 외부 상태 저장소 활용법에 대한 깊은 이해가 필요하다.
 
 | 상태 유형 | 저장 위치 | 무상태 원칙 적용 방법 | 예시 |
 |:---|:---|:---|:---|
-| **세션 데이터** | Redis, Memcached, DB | 외부 캐시/DB에 저장, 세션 ID로 조회 | 로그인 세션, 장바구니 |
-| **사용자 캐시** | Redis, CDN | 가능하면 포함하지 않거나 TTL 설정 | 추천 상품, 임시 데이터 |
-| **업로드 파일** | S3, GCS, NFS | 객체 스토어에 저장, 경로만 DB에 | 프로필 이미지, 첨부 파일 |
-| **임시 파일** | Ephemeral Disk (없음) | 사용 후 즉시 삭제 | 업로드 임시 저장 |
+| **[[160_session_controlling_terminal|세션]] [[001_dikw_pyramid|데이터]]** | [[542_redis|Redis]], Memcached, DB | 외부 캐시/DB에 저장, [[160_session_controlling_terminal|세션]] ID로 조회 | [[568_logs_distributed_logging_elk_fluentd|로그]]인 [[160_session_controlling_terminal|세션]], 장바구니 |
+| **사용자 캐시** | [[542_redis|Redis]], [[506_cdn_content_delivery_network_edge_caching|CDN]] | 가능하면 포함하지 않거나 [[294_ttl_time_to_live_looping_prevention|TTL]] [[009_config|설정]] | 추천 상품, 임시 [[001_dikw_pyramid|데이터]] |
+| **업로드 [[501_file_definition_logical_record|파일]]** | S3, GCS, [[543_nfs_network_file_system|NFS]] | 객체 스토어에 저장, 경로만 DB에 | 프로필 이미지, 첨부 [[501_file_definition_logical_record|파일]] |
+| **임시 [[501_file_definition_logical_record|파일]]** | Ephemeral Disk (없음) | 사용 후 즉시 삭제 | 업로드 임시 저장 |
 | **애플리케이션 상태** | 외부 DB | 설계 시부터 외부 저장 고려 | 워크플로우 상태, 주문 상태 |
 
-아래는 무상태 프로세스의 내부 데이터 흐름을 보여주는 ASCII 다이어그램이다.
+아래는 무상태 프로세스의 내부 [[001_dikw_pyramid|데이터]] 흐름을 보여주는 [[103_ascii|ASCII]] 다이어그램이다.
 
 ```text
 [무상태 애플리케이션의 요청 처리 흐름]
@@ -130,23 +130,23 @@ categories = ["15_devops_sre"]
 └─────────────────────────────────────────────────────────────┘
 ```
 
-> 📢 **섹션 요약 비유**: 무상태 처리 방식은"은행의 계좌 시스템"과 같다. 은행원이 바뀌었다고(인스턴스 장애/교체) 고객의 계좌 잔고(외부 상태)가 사라지지 않는다. 고객은 새로운 은행원(다른 인스턴스)에게 가서 자신의 계좌 번호(세션 ID)를 말하면 계좌 정보를 조회할 수 있다.
+> 📢 **섹션 요약 비유**: 무상태 처리 방식은"은행의 계좌 시스템"과 같다. 은행원이 바뀌었다고(인스턴스 장애/교체) 고객의 계좌 잔고(외부 상태)가 사라지지 않는다. 고객은 새로운 은행원(다른 인스턴스)에게 가서 자신의 계좌 번호([[160_session_controlling_terminal|세션]] ID)를 말하면 계좌 정보를 조회할 수 있다.
 
 ---
 
 ### Ⅲ. 융합 비교 및 다각도 분석 (Comparison & Synergy)
 
-무상태 원칙은 현대적인 클라우드 네이티브 아키텍처와 긴밀하게 연결되어 있으며, 다른 기술과 어떻게 시너지를 발생하는지 분석한다.
+무상태 원칙은 현대적인 [[204_cloud_native_architecture|클라우드 네이티브 아키텍처]]와 긴밀하게 연결되어 있으며, 다른 기술과 어떻게 시너지를 발생하는지 분석한다.
 
-| 관련 기술 | 무상태 원칙과의 관계 | 시너지 효과 |
+| 관련 기술 | 무상태 원칙과의 [[083_relationship_in_er_model|관계]] | 시너지 효과 |
 |:---|:---|:---|
-| **컨테이너 (Docker)** | 컨테이너는ephemeral이므로 상태 저장 불가 | 자연스럽게 무상태 설계 강제 |
-| **쿠버네티스** | Pod는 언제든 재생성될 수 있음 | 무상태 설계 없으면 스케일링 곤란 |
+| **[[561_container_based_deployment|컨테이너]] ([[063_docker_architecture|Docker]])** | [[561_container_based_deployment|컨테이너]]는ephemeral이므로 상태 저장 불가 | 자연스럽게 무상태 설계 강제 |
+| **[[196_kubernetes_k8s_container_orchestration|쿠버네티스]]** | Pod는 언제든 재생성될 수 있음 | 무상태 설계 없으면 [[249_scaling_normalization_standardization|스케일링]] 곤란 |
 | **오토스케일링** | 인스턴스가 동적으로 추가/제거 | 무상태여야만 올바른 로드밸런싱 가능 |
-| **세션 클러스터링** | Redis를 사용한 중앙화 세션 관리 | Tomcat/Jetty 등의 세션 클러스터링 대체 |
-| **마이크로서비스** | MSA에서는 서비스 간 상태 공유 불허 | 각 서비스가 stateless하게 설계 필수 |
+| **[[160_session_controlling_terminal|세션]] 클러스터링** | Redis를 사용한 중앙화 [[507_session_management_security|세션 관리]] | Tomcat/Jetty 등의 [[160_session_controlling_terminal|세션]] 클러스터링 대체 |
+| **[[532_microservices_decomposition_patterns|마이크로서비스]]** | MSA에서는 [[090_service_kubernetes_network_load_balancing|서비스]] 간 상태 공유 불허 | 각 [[090_service_kubernetes_network_load_balancing|서비스]]가 stateless하게 설계 필수 |
 
-특히 쿠버네티스 환경에서는 무상태 여부가直接적으로 확장성과 가용성에 영향을 미친다. 쿠버네티스는 서비스를 요청에 따라 Pod를 동적으로 확장/축소하고, 문제가 있는 Pod는自動的に終了させて新しいものに置き換える。
+특히 [[196_kubernetes_k8s_container_orchestration|쿠버네티스]] 환경에서는 무상태 여부가直接적으로 확장성과 [[452_availability|가용성]]에 영향을 미친다. [[196_kubernetes_k8s_container_orchestration|쿠버네티스]]는 [[090_service_kubernetes_network_load_balancing|서비스]]를 요청에 따라 Pod를 동적으로 확장/축소하고, 문제가 있는 Pod는自動的に終了させて新しいものに置き換える。
 
 ```text
 [쿠버네티스에서 무상태 원칙의중요성]
@@ -190,22 +190,22 @@ categories = ["15_devops_sre"]
 └─────────────────────────────────────────────────────────────┘
 ```
 
-> 📢 **섹션 요약 비유**: 쿠버네티스의 무상태 원칙 적용은"호텔 방 청소 시스템"과 같다. 하루가 끝나면(일정 주기) 하녀(쿠버네티스)가 각 방(파드)을 청소하는데, 만약 손님 물건(상태)이 방 안 어딘가에 있을 때(로컬 상태) 문제가 발생한다. 그러나 손님이 짐을 짐寄存소(외부 저장소)에預けて 있으면, 하녀는 어떤 방이든 빠르게 정리하고 다음 손님을 맞을 수 있다.
+> 📢 **섹션 요약 비유**: [[196_kubernetes_k8s_container_orchestration|쿠버네티스]]의 무상태 원칙 적용은"호텔 방 청소 시스템"과 같다. 하루가 끝나면(일정 주기) 하녀([[196_kubernetes_k8s_container_orchestration|쿠버네티스]])가 각 방([[085_pod_kubernetes_container_unit|파드]])을 청소하는데, 만약 손님 물건(상태)이 방 안 어딘가에 있을 때(로컬 상태) 문제가 발생한다. 그러나 손님이 짐을 짐寄存소(외부 저장소)에預けて 있으면, 하녀는 어떤 방이든 빠르게 정리하고 다음 손님을 맞을 수 있다.
 
 ---
 
-### Ⅳ. 실무 적용 및 기술사적 판단 (Strategy & Decision)
+### Ⅳ. 실무 적용 및 기술사적 판단 ([[268_strategy_pattern|Strategy]] & Decision)
 
 무상태 원칙을 실무에 적용할 때 흔히 직면하는 문제와 해결 방안을 분석한다.
 
 **1. 실무 의사결정 시나리오**
-- **시나리오 A: 레거시 앱이 로컬 파일 시스템에 큰 파일 캐시를 저장하고 있는데 이를 무상태로 전환해야 할 때**
-  - **상황**: 기존 앱이 사용자가 업로드한 파일을 로컬 디스크에缓存하고 있어, MSA로 전환 시 문제가 될 것으로 예상됨.
-  - **판단**: 파일 캐시는 S3나 GCS 같은 객체 스토리지로 마이그레이션해야 한다. 앱에서는 파일을 참조할 때 로컬 경로가 아닌 S3 URL을 사용하며, CDN과 결합하면 더 빠른 파일 전송이 가능하다.
+- **시나리오 A: 레거시 앱이 로컬 [[501_file_definition_logical_record|파일]] 시스템에 큰 [[501_file_definition_logical_record|파일]] 캐시를 저장하고 있는데 이를 무상태로 전환해야 할 때**
+  - **상황**: 기존 앱이 사용자가 업로드한 [[501_file_definition_logical_record|파일]]을 로컬 디스크에缓存하고 있어, MSA로 전환 시 문제가 될 것으로 예상됨.
+  - **판단**: [[501_file_definition_logical_record|파일]] 캐시는 S3나 GCS 같은 객체 스토리지로 마이그레이션해야 한다. 앱에서는 [[501_file_definition_logical_record|파일]]을 [[316_reference_pattern_nosql|참조]]할 때 로컬 경로가 아닌 S3 URL을 사용하며, CDN과 결합하면 더 빠른 [[501_file_definition_logical_record|파일]] 전송이 가능하다.
 
-- **시나리오 B: 스프링 부트의 HTTP 세션을 Redis로迁移해야 할 때**
-  - **상황**: 현재 스프링 부트 앱이 세션을 JVM 메모리에 저장하고 있는데, 쿠버네티스 환경으로 이전하려고 함.
-  - **판단**: 스프링 세션을 Redis로 저장하도록 설정하면 된다. `spring-session-data-redis` 의존성을追加하고 설정만 하면, 기존 코드 변경 없이 세션을 외부 Redis에 저장할 수 있다.
+- **시나리오 B: 스프링 부트의 [[461_http_stateless_connection_oriented|HTTP]] [[160_session_controlling_terminal|세션]]을 Redis로迁移해야 할 때**
+  - **상황**: 현재 스프링 부트 앱이 [[160_session_controlling_terminal|세션]]을 JVM 메모리에 저장하고 있는데, [[196_kubernetes_k8s_container_orchestration|쿠버네티스]] 환경으로 이전하려고 함.
+  - **판단**: 스프링 [[160_session_controlling_terminal|세션]]을 Redis로 저장하도록 [[009_config|설정]]하면 된다. `spring-session-data-redis` 의존성을追加하고 [[009_config|설정]]만 하면, 기존 코드 변경 없이 [[160_session_controlling_terminal|세션]]을 외부 Redis에 저장할 수 있다.
 
 ```text
 [무상태 전환 체크리스트]
@@ -226,38 +226,38 @@ categories = ["15_devops_sre"]
   □ 중요한 데이터는 캐시에만保存하지 않음
 ```
 
-> 📢 **섹션 요약 비유**: 무상태 원칙의 부재는"여권에 사진을 붙여두는 것"과 같다. 만약 출입국 심사대에서 여권 사진이 떨어져 나오면(인스턴스 장애) 그 사람은 누구인지 증명할 수 없다. 그러나 출입국관리 데이터베이스(외부 상태 저장소)에 사진이 있고(Redis), 여권에는 그를 식별할 수 있는 여권 번호만 있으면(세션 ID), 어느 심사대(인스턴스)를 가든 동일한 심사를 받을 수 있다.
+> 📢 **섹션 요약 비유**: 무상태 원칙의 부재는"여권에 사진을 붙여두는 것"과 같다. 만약 출입국 심사대에서 여권 사진이 떨어져 나오면(인스턴스 장애) 그 사람은 누구인지 증명할 수 없다. 그러나 출입국관리 [[002_database_definition|데이터베이스]](외부 상태 저장소)에 사진이 있고([[542_redis|Redis]]), 여권에는 그를 [[655_ir_detection_analysis|식별]]할 수 있는 여권 번호만 있으면([[160_session_controlling_terminal|세션]] ID), 어느 심사대(인스턴스)를 가든 동일한 심사를 받을 수 있다.
 
 ---
 
 ### Ⅴ. 기대효과 및 결론 (Future & Standard)
 
-무상태 원칙의 올바른 적용은 시스템의 확장성, 가용성, 그리고 운영 효율성에 직접적인 긍정적 영향을 미친다.
+무상태 원칙의 올바른 적용은 시스템의 확장성, [[452_availability|가용성]], 그리고 운영 효율성에 직접적인 긍정적 영향을 미친다.
 
-| 관점 | 상태 저장 설계 (AS-IS) | 무상태 설계 (TO-BE) | 핵심 성과 지표 |
+| 관점 | 상태 저장 설계 ([[178_as_is_to_be_analysis|AS-IS]]) | 무상태 설계 (TO-BE) | [[018_kpi|핵심 성과 지표]] |
 |:---|:---|:---|:---|
-| **확장성** | Sticky Session으로 확장 제한 | 모든 인스턴스 동일, 무제한 확장 가능 | 스케일 아웃 응답 시간 단축 |
-| **가용성** | 인스턴스 장애 시 세션/데이터 손실 | 인스턴스 장애 시即時 failover | 장애에 따른 영향 최소화 |
+| **확장성** | Sticky Session으로 확장 제한 | 모든 인스턴스 동일, 무제한 확장 가능 | [[202_scale_out_distributed_horizontal_expansion|스케일 아웃]] [[138_response_time|응답 시간]] 단축 |
+| **[[452_availability|가용성]]** | 인스턴스 장애 시 [[160_session_controlling_terminal|세션]]/[[001_dikw_pyramid|데이터]] 손실 | 인스턴스 장애 시即時 [[300_failover_architecture|failover]] | 장애에 따른 영향 최소화 |
 | **배포 민첩성** | 인스턴스별 상태 처리 필요 | 상태 걱정 없이 언제든 배포/교체 가능 | 배포 시간 단축 |
 | **테스트 용이성** | 특정 인스턴스에서만再現 가능 | 모든 인스턴스에서 동일 동작 | 디버깅/테스트 용이 |
-| **쿠버네티스 적합성** | Pod 교체 시 상태 손실 위험 | Pod lifecycle와 무관하게 상태 유지 | Cloud Native 완전 지원 |
+| **[[196_kubernetes_k8s_container_orchestration|쿠버네티스]] 적합성** | [[198_pod_kubernetes_minimum_deployment_unit|Pod]] 교체 시 상태 손실 위험 | [[198_pod_kubernetes_minimum_deployment_unit|Pod]] lifecycle와 무관하게 상태 유지 | [[199_cloud_native_architecture_msa_cicd_devops|Cloud Native]] 완전 지원 |
 
 **미래 전망 및 결론**:
-무상태 원칙은 컨테이너, 쿠버네티스, 서버리스 등 현대적 클라우드 네이티브 플랫폼의 기본 전제 조건이다. 특히 서버리스(AWS Lambda, Azure Functions)에서는 애플리케이션이 상태를保存할 수 없으며, 모든 상태는 외부 서비스에 저장해야 한다. 따라서 무상태 설계는"선택이 아닌 필수"가 되었다.
+무상태 원칙은 [[561_container_based_deployment|컨테이너]], [[196_kubernetes_k8s_container_orchestration|쿠버네티스]], [[206_serverless_cold_start|서버리스]] 등 현대적 [[531_cloud_native_architecture|클라우드 네이티브]] 플랫폼의 기본 전제 조건이다. 특히 [[206_serverless_cold_start|서버리스]](AWS [[216_lambda_kappa_architecture_batch_realtime|Lambda]], Azure Functions)에서는 애플리케이션이 상태를保存할 수 없으며, 모든 상태는 외부 [[090_service_kubernetes_network_load_balancing|서비스]]에 저장해야 한다. 따라서 무상태 설계는"선택이 아닌 필수"가 되었다.
 
-결론적으로, 무상태 원칙은 12팩터 앱의 제6원칙으로, 현대적 클라우드 네이티브 환경에서 시스템의 확장성, 가용성, 그리고 민첩성을担保하는 기본적인 설계 원칙이다. 모든 새로운 시스템은 무상태로 설계해야 하며, 기존 상태 저장 시스템도 점진적으로 무상태로 전환하는 것이 권장된다.
+결론적으로, 무상태 원칙은 12팩터 앱의 제6원칙으로, 현대적 [[531_cloud_native_architecture|클라우드 네이티브]] 환경에서 시스템의 확장성, [[452_availability|가용성]], 그리고 민첩성을担保하는 기본적인 설계 원칙이다. 모든 새로운 시스템은 무상태로 설계해야 하며, 기존 상태 저장 시스템도 점진적으로 무상태로 전환하는 것이 권장된다.
 
-> 📢 **섹션 요약 비유**: 무상태 원칙은"스마트폰의 연락처 앱"과 같다. 과거에는 전화기에 직접 연락처를 저장했지만(상태 저장), 이제는 Gmail/icloud 연락처(외부 상태 저장소)에 저장한다. 이렇게 하면 핸드폰을 바꿔도(인스턴스 교체) 같은 계정으로 로그인하면 모든 연락처가 그대로이고, 어떤 기기에서든 연락처를 확인할 수 있다.
+> 📢 **섹션 요약 비유**: 무상태 원칙은"스마트폰의 연락처 앱"과 같다. 과거에는 전화기에 직접 연락처를 저장했지만(상태 저장), 이제는 Gmail/icloud 연락처(외부 상태 저장소)에 저장한다. 이렇게 하면 핸드폰을 바꿔도(인스턴스 교체) 같은 계정으로 [[568_logs_distributed_logging_elk_fluentd|로그]]인하면 모든 연락처가 그대로이고, 어떤 기기에서든 연락처를 [[396_validation|확인]]할 수 있다.
 
 
 ### 📌 관련 개념 맵
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **12팩터 앱 (12-Factor App)** | 상태를 코드 밖으로 분리하는 설계 원칙 |
-| **무상태 프로세스 (Stateless Process)** | 요청 간 로컬 상태를 유지하지 않는 실행 방식 |
-| **외부 상태 저장소 (External State Store)** | Redis/DB로 세션과 데이터를 보관하는 영역 |
-| **컨테이너 오케스트레이션 (Container Orchestration)** | 무상태 인스턴스를 자동 배치·복구하는 운영 방식 |
+| **12팩터 앱 ([[200_12_factor_app_cloud_native_principles|12-Factor App]])** | 상태를 코드 밖으로 분리하는 설계 원칙 |
+| **무상태 프로세스 ([[239_stateless_redis|Stateless]] [[300_process|Process]])** | 요청 간 로컬 상태를 유지하지 않는 실행 방식 |
+| **외부 상태 저장소 (External [[272_state_pattern|State]] Store)** | [[542_redis|Redis]]/DB로 [[160_session_controlling_terminal|세션]]과 [[001_dikw_pyramid|데이터]]를 보관하는 영역 |
+| **[[205_kubernetes_container_orchestration|컨테이너 오케스트레이션]] ([[122_container_orchestration_kubernetes_k8s|Container Orchestration]])** | 무상태 인스턴스를 자동 배치·[[658_ir_recovery|복구]]하는 운영 방식 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -277,10 +277,10 @@ categories = ["15_devops_sre"]
 [컨테이너 오케스트레이션 (Container Orchestration) — Kubernetes 자동 배치]
 ```
 
-이 흐름은 12-Factor App의 원칙에서 출발해 로컬 상태를 배제하고, 외부 저장소와 수평 확장을 거쳐 Kubernetes 같은 오케스트레이션으로 자동 배치되는 구조를 보여준다.
+이 흐름은 12-Factor App의 원칙에서 출발해 로컬 상태를 배제하고, 외부 저장소와 수평 확장을 거쳐 [[205_kubernetes_container_orchestration|Kubernetes]] 같은 [[073_container_orchestration_tools|오케스트레이션]]으로 자동 배치되는 구조를 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. 무상태 프로세스는 서버가 자기 물건을 잔뜩 들고 있지 않게 하는 규칙이에요.
-2. 필요한 기억은 Redis나 데이터베이스 같은 바깥 창고에 맡겨요.
+2. 필요한 기억은 Redis나 [[002_database_definition|데이터베이스]] 같은 바깥 창고에 맡겨요.
 3. 그래서 서버를 여러 대로 늘려도 같은 일을 똑같이 할 수 있어요.

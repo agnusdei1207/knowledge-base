@@ -8,22 +8,22 @@ categories = "studynote-operating-system"
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 인증 (Authentication)은 운영체제 (OS)나 시스템에 접근하려는 주체(사용자 또는 프로세스)가 자신이 주장하는 신분(Identity)이 진짜 맞는지 증명(Verify)하는 가장 기초적이고 필수적인 보안 절차다.
-> 2. **가치**: 아무리 강력한 방화벽이나 암호화 기술(접근 제어)이 구축되어 있더라도, 공격자가 합법적인 사용자의 신분(인증)을 도용하면 이 모든 방어막이 무용지물이 되므로 사이버 보안의 첫 번째 관문으로서 절대적 가치를 지닌다.
-> 3. **융합**: "네가 아는 것(지식)", "네가 가진 것(소유)", "너의 특징(생체)"이라는 3대 인증 요소를 융합한 다중 인증 (MFA, Multi-Factor Authentication) 기술과 FIDO, OAuth 등 최신 프로토콜이 결합하여 패스워드 없는(Passwordless) 제로 트러스트(Zero Trust) 아키텍처로 진화하고 있다.
+> 1. **본질**: [[303_authentication_authorization_patterns|인증]] (Authentication)은 [[001_operating_system_purpose|운영체제]] (OS)나 시스템에 접근하려는 주체(사용자 또는 프로세스)가 자신이 주장하는 신분(Identity)이 진짜 맞는지 증명(Verify)하는 가장 기초적이고 필수적인 보안 절차다.
+> 2. **가치**: 아무리 강력한 방화벽이나 암호화 기술(접근 제어)이 구축되어 있더라도, 공격자가 합법적인 사용자의 신분([[303_authentication_authorization_patterns|인증]])을 도용하면 이 모든 방어막이 무용지물이 되므로 사이버 보안의 첫 번째 관문으로서 절대적 가치를 지닌다.
+> 3. **융합**: "네가 아는 것(지식)", "네가 가진 것(소유)", "너의 특징(생체)"이라는 3대 [[303_authentication_authorization_patterns|인증]] 요소를 융합한 다중 [[303_authentication_authorization_patterns|인증]] ([[552_mfa|MFA]], [[552_mfa|Multi-Factor Authentication]]) 기술과 FIDO, OAuth 등 최신 [[295_protocol_field_tcp_udp_icmp|프로토콜]]이 결합하여 패스워드 없는(Passwordless) [[667_zero_trust_runtime_integrity_measurement|제로 트러스트]]([[667_zero_trust_runtime_integrity_measurement|Zero Trust]]) 아키텍처로 진화하고 있다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
 **개념 및 정의**
-정보보안에서 접근 관리 체계는 크게 3단계의 프로세스인 식별(Identification) → 인증(Authentication) → 인가(Authorization)로 나뉜다. 
-- **식별**: "나는 ID `admin` 입니다"라고 주장하는 것.
-- **인증**: "비밀번호 `1234`를 확인해보니 당신이 진짜 `admin`이 맞군요"라고 증명하는 것.
-- **인가**: "인증된 `admin`에게 파일 삭제 권한을 부여합니다"라며 접근 제어를 수행하는 것.
+정보보안에서 접근 관리 체계는 크게 3단계의 프로세스인 [[655_ir_detection_analysis|식별]]([[289_identification_flags_fragmentation_offset|Identification]]) → [[303_authentication_authorization_patterns|인증]](Authentication) → [[509_authorization_models_rbac_abac|인가]]([[509_authorization_models_rbac_abac|Authorization]])로 나뉜다. 
+- **[[655_ir_detection_analysis|식별]]**: "나는 ID `admin` 입니다"라고 주장하는 것.
+- **[[303_authentication_authorization_patterns|인증]]**: "비밀번호 `1234`를 확인해보니 당신이 진짜 `admin`이 맞군요"라고 증명하는 것.
+- **[[509_authorization_models_rbac_abac|인가]]**: "[[303_authentication_authorization_patterns|인증]]된 `admin`에게 [[501_file_definition_logical_record|파일]] 삭제 권한을 부여합니다"라며 접근 제어를 수행하는 것.
 
 **필요성 및 등장 배경**
-과거 독립된 컴퓨터 환경에서는 단순한 패스워드 하나만으로 충분한 인증이 가능했다. 그러나 인터넷 시대가 열리고 분산 환경이 도래하면서 패스워드 스니핑(Sniffing), 피싱(Phishing), 브루트 포스(Brute-force) 등 패스워드 기반 인증을 파훼하는 공격이 쏟아졌다. 인간의 기억력에 한계가 있어 쉬운 패스워드를 재사용하는 취약점이 지속되자, 단순 지식을 넘어 하드웨어 매체나 생체 정보를 복합적으로 요구하는 강력한 다중 인증(MFA) 아키텍처가 필수 불가결한 시대적 요구가 되었다.
+과거 독립된 컴퓨터 환경에서는 단순한 패스워드 하나만으로 충분한 [[303_authentication_authorization_patterns|인증]]이 가능했다. 그러나 인터넷 시대가 열리고 [[136_variance|분산]] 환경이 도래하면서 패스워드 스니핑(Sniffing), [[752_phishing|피싱]]([[752_phishing|Phishing]]), 브루트 포스(Brute-force) 등 패스워드 기반 [[303_authentication_authorization_patterns|인증]]을 파훼하는 공격이 쏟아졌다. 인간의 기억력에 한계가 있어 쉬운 패스워드를 재사용하는 취약점이 지속되자, 단순 지식을 넘어 하드웨어 [[121_transmission_media_guided_unguided|매체]]나 생체 정보를 복합적으로 요구하는 강력한 다중 [[303_authentication_authorization_patterns|인증]]([[552_mfa|MFA]]) 아키텍처가 필수 불가결한 시대적 요구가 되었다.
 
 ```text
 ┌────────────────────────────────────────────────────────────┐
@@ -46,29 +46,29 @@ categories = "studynote-operating-system"
 └────────────────────────────────────────────────────────────┘
 ```
 
-**[다이어그램 해설]** 이 프로세스 다이어그램은 인증(Authentication)이 시스템 보안의 병목(Bottleneck)이자 핵심 관문임을 보여준다. 아무리 권한 통제(인가, Authorization) 로직이 정교하게 짜여 있더라도, 해커가 2단계 인증 관문을 통과해 합법적인 Alice의 자격을 획득해 버리면 OS는 공격자를 Alice로 완벽히 착각하고 모든 권한을 내어준다. 즉, 시스템 침해 사고의 80% 이상이 복잡한 해킹 기술이 아니라 '탈취된 인증 정보(Credential Theft)'로 인해 합법적 절차를 거쳐 발생한다.
+**[다이어그램 해설]** 이 프로세스 다이어그램은 [[303_authentication_authorization_patterns|인증]](Authentication)이 시스템 보안의 병목([[617_io_bottleneck|Bottleneck]])이자 핵심 관문임을 보여준다. 아무리 권한 통제([[509_authorization_models_rbac_abac|인가]], [[509_authorization_models_rbac_abac|Authorization]]) 로직이 정교하게 짜여 있더라도, 해커가 2단계 [[303_authentication_authorization_patterns|인증]] 관문을 통과해 합법적인 Alice의 자격을 획득해 버리면 OS는 공격자를 Alice로 완벽히 착각하고 모든 권한을 내어준다. 즉, 시스템 침해 사고의 80% 이상이 복잡한 해킹 기술이 아니라 '탈취된 [[303_authentication_authorization_patterns|인증]] 정보(Credential Theft)'로 인해 합법적 절차를 거쳐 발생한다.
 
-- **📢 섹션 요약 비유**: 식별이 "내 이름은 홍길동입니다"라고 말하는 것이라면, 인증은 "여기 내 주민등록증과 지문을 대조해 보시오"라며 신분을 철저히 검증받는 과정입니다.
+- **📢 섹션 요약 비유**: [[655_ir_detection_analysis|식별]]이 "내 이름은 홍길동입니다"라고 말하는 것이라면, [[303_authentication_authorization_patterns|인증]]은 "여기 내 주민등록증과 지문을 대조해 보시오"라며 신분을 철저히 [[395_verification_process_review|검증]]받는 과정입니다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### 구성 요소 (인증의 3대 요소 + 2)
+### 구성 요소 ([[303_authentication_authorization_patterns|인증]]의 3대 요소 + 2)
 
-사용자를 인증하기 위해 시스템이 요구하는 증거의 속성은 전통적으로 크게 3가지 요소(Something you know, have, are)로 분류되며, 최근 2가지 요소가 추가되어 맥락 기반 인증으로 발전했다.
+사용자를 [[303_authentication_authorization_patterns|인증]]하기 위해 시스템이 요구하는 증거의 속성은 전통적으로 크게 3가지 요소(Something you know, have, are)로 [[104_classification_analysis|분류]]되며, 최근 2가지 요소가 추가되어 맥락 기반 [[303_authentication_authorization_patterns|인증]]으로 발전했다.
 
-| 인증 요소 (Factor) | 영문 명칭 | 정의 및 예시 (구현 방식) | 해킹/탈취 위험도 | 비유 |
+| [[303_authentication_authorization_patterns|인증]] 요소 (Factor) | 영문 명칭 | 정의 및 예시 (구현 방식) | 해킹/탈취 위험도 | 비유 |
 |:---|:---|:---|:---|:---|
-| **지식 요소** | Something you **KNOW** | 머릿속에 기억하고 있는 정보<br>(패스워드, PIN 번호, 보안 질문) | **높음** (피싱, 무차별 대입, 스니핑에 취약) | 금고 비밀번호 |
-| **소유 요소** | Something you **HAVE** | 물리적으로 소유하고 있는 매체<br>(스마트폰 OTP, OTP 토큰, 스마트 카드) | 중간 (분실, 도난, SIM 스와핑 위험) | 집 열쇠 |
+| **지식 요소** | Something you **KNOW** | 머릿속에 기억하고 있는 정보<br>(패스워드, PIN 번호, 보안 질문) | **높음** ([[752_phishing|피싱]], 무차별 대입, 스니핑에 취약) | 금고 비밀번호 |
+| **소유 요소** | Something you **HAVE** | 물리적으로 소유하고 있는 [[121_transmission_media_guided_unguided|매체]]<br>(스마트폰 [[748_otp|OTP]], [[748_otp|OTP]] 토큰, [[607_smart_card|스마트 카드]]) | 중간 (분실, 도난, SIM [[335_swapping|스와핑]] 위험) | 집 열쇠 |
 | **생체 요소** | Something you **ARE** | 신체적 특징이나 행동 패턴<br>(지문, 홍채, 정맥, 안면, 목소리, 서명 패동) | 낮음 (위조가 매우 어려움. 단, 변경 불가) | 내 지문, 내 얼굴 |
-| **행위 요소** | Something you **DO** | 타이핑 속도, 마우스 궤적 등 무의식적 습관 (행동 바이오메트릭스) | 낮음 (머신러닝 기반 지속 검증) | 특유의 걸음걸이 |
-| **위치 요소** | **WHERE** you are | GPS, IP 주소 대역, MAC 기반 위치 제어 | 조건부 (단독으로 쓰이지 않고 다른 요소와 결합) | 지정된 사무실에서만 접근 허용 |
+| **행위 요소** | Something you **DO** | 타이핑 속도, 마우스 궤적 등 무의식적 습관 (행동 바이오메트릭스) | 낮음 ([[241_machine_learning_basics|머신러닝]] 기반 지속 [[395_verification_process_review|검증]]) | 특유의 걸음걸이 |
+| **위치 요소** | **WHERE** you are | GPS, IP 주소 대역, [[673_mac_message_authentication_code|MAC]] 기반 위치 제어 | 조건부 (단독으로 쓰이지 않고 다른 요소와 결합) | 지정된 사무실에서만 접근 허용 |
 
-### 심층 동작 원리: 다중 인증 (MFA, Multi-Factor Authentication) 메커니즘
+### 심층 동작 원리: 다중 [[303_authentication_authorization_patterns|인증]] ([[552_mfa|MFA]], [[552_mfa|Multi-Factor Authentication]]) 메커니즘
 
-서로 다른 카테고리의 인증 요소를 2개 이상 결합하여 인증을 수행하는 것을 이중 인증(2FA) 또는 다중 인증(MFA)이라 한다. 핵심은 반드시 **"서로 다른 요소(Type)"를 조합해야 한다는 점**이다. 패스워드와 PIN 번호 2개를 묻는 것은 '지식 요소 2개'이므로 MFA가 아니다. 패스워드(지식) + OTP(소유)를 결합해야 진정한 MFA다.
+서로 다른 카테고리의 [[303_authentication_authorization_patterns|인증]] 요소를 2개 이상 결합하여 [[303_authentication_authorization_patterns|인증]]을 수행하는 것을 이중 [[303_authentication_authorization_patterns|인증]](2FA) 또는 다중 [[303_authentication_authorization_patterns|인증]]([[552_mfa|MFA]])이라 한다. 핵심은 반드시 **"서로 다른 요소(Type)"를 조합해야 한다는 점**이다. 패스워드와 PIN 번호 2개를 묻는 것은 '지식 요소 2개'이므로 MFA가 아니다. 패스워드(지식) + [[748_otp|OTP]](소유)를 결합해야 진정한 MFA다.
 
 ```text
 ┌────────────────────────────────────────────────────────────┐
@@ -92,7 +92,7 @@ categories = "studynote-operating-system"
 └────────────────────────────────────────────────────────────┘
 ```
 
-**[다이어그램 해설]** 이 흐름도는 MFA가 왜 피싱 공격의 궁극적인 방어 수단인지를 보여준다. 러시아에 있는 해커가 직원의 패스워드(지식 요소)를 피싱 이메일로 훔쳐내는 데 성공했다 하더라도, 해커는 그 직원의 주머니에 있는 스마트폰(소유 요소)을 물리적으로 훔치지 않는 이상 2단계 인증을 통과할 수 없다. 나아가 최신 IAM(계정 및 접근 관리) 서버는 사용자의 접속 위치(IP)나 디바이스 상태까지 검사하여 평소와 다른 맥락(Context)이면 아예 생체 인증(ARE 요소)을 한 번 더 강제하는 적응형 인증(Adaptive Authentication) 아키텍처로 동작한다. 
+**[다이어그램 해설]** 이 흐름도는 MFA가 왜 [[752_phishing|피싱]] 공격의 궁극적인 방어 수단인지를 보여준다. 러시아에 있는 해커가 직원의 패스워드(지식 요소)를 [[752_phishing|피싱]] 이메일로 훔쳐내는 데 성공했다 하더라도, 해커는 그 직원의 주머니에 있는 스마트폰(소유 요소)을 물리적으로 훔치지 않는 이상 2단계 [[303_authentication_authorization_patterns|인증]]을 통과할 수 없다. 나아가 최신 [[526_iam|IAM]](계정 및 접근 관리) 서버는 사용자의 접속 위치(IP)나 디바이스 상태까지 검사하여 평소와 다른 맥락([[033_context|Context]])이면 아예 [[702_biometric_authentication|생체 인증]](ARE 요소)을 한 번 더 강제하는 적응형 [[303_authentication_authorization_patterns|인증]](Adaptive Authentication) 아키텍처로 동작한다. 
 
 - **📢 섹션 요약 비유**: 은행 금고를 열기 위해 은행장이 머릿속에 아는 '비밀번호(지식)'를 누른 뒤, 반드시 주머니에 있는 물리적 '마스터키(소유)'를 꽂아 돌려야만 문이 열리는 철저한 이중 잠금 시스템입니다.
 
@@ -100,17 +100,17 @@ categories = "studynote-operating-system"
 
 ## Ⅲ. 비교 및 연결
 
-### 인증 프로토콜 아키텍처의 진화 (Password -> FIDO -> OAuth)
+### [[303_authentication_authorization_patterns|인증]] [[295_protocol_field_tcp_udp_icmp|프로토콜]] 아키텍처의 진화 (Password -> FIDO -> OAuth)
 
-OS와 웹 환경의 발전에 따라 인증 기술도 단순한 패스워드 해시 비교에서, 암호학 기반의 비대칭 키 검증 및 토큰 기반 위임 인증으로 거대한 패러다임 전환을 겪었다.
+OS와 웹 환경의 발전에 따라 [[303_authentication_authorization_patterns|인증]] 기술도 단순한 패스워드 해시 비교에서, [[652_cryptography_concept_encryption_decryption|암호학]] 기반의 비대칭 키 [[395_verification_process_review|검증]] 및 토큰 기반 위임 [[303_authentication_authorization_patterns|인증]]으로 거대한 패러다임 전환을 겪었다.
 
-| 분류 | 전통적 패스워드 인증 (Local / LDAP) | FIDO (Fast IDentity Online) | OAuth 2.0 / OIDC |
+| [[104_classification_analysis|분류]] | 전통적 패스워드 [[303_authentication_authorization_patterns|인증]] (Local / [[543_ldap_lightweight_directory_access_protocol|LDAP]]) | FIDO (Fast IDentity Online) | OAuth 2.0 / [[537_oidc_openid_connect|OIDC]] |
 |:---|:---|:---|:---|
-| **핵심 원리** | 서버에 저장된 해시값과 클라이언트 입력 해시값을 비교 (대칭적 증명) | 기기 내 안전 공간(TrustZone)에 개인키를 저장하고, 공개키로 전자 서명 검증 (비대칭) | 다른 신뢰할 수 있는 서비스(구글, 카카오)에 인증을 위임(Delegation) |
-| **생체 정보 저장** | 중앙 서버 저장 시 대규모 유출 위험 존재 | **생체 정보는 사용자 기기에만 저장**. 서버에는 공개키만 전송되므로 해킹당해도 안전함 | 소셜 로그인, Single Sign-On (SSO) 편의성 제공 |
-| **방어 특성** | 패스워드 크래킹, 피싱 공격에 극도로 취약함 | 패스워드가 아예 네트워크로 전송되지 않아 피싱 원천 차단 (Passwordless) | 사용자 패스워드를 타사 서비스(Third-party)에 노출하지 않음 |
+| **핵심 원리** | 서버에 저장된 해시값과 클라이언트 입력 해시값을 비교 (대칭적 증명) | 기기 내 안전 공간(TrustZone)에 개인키를 저장하고, 공개키로 [[988_digital_signature|전자 서명]] [[395_verification_process_review|검증]] (비대칭) | 다른 신뢰할 수 있는 [[090_service_kubernetes_network_load_balancing|서비스]](구글, 카카오)에 [[303_authentication_authorization_patterns|인증]]을 위임(Delegation) |
+| **생체 정보 저장** | 중앙 서버 저장 시 대규모 유출 위험 존재 | **생체 정보는 사용자 기기에만 저장**. 서버에는 공개키만 전송되므로 해킹당해도 안전함 | 소셜 로그인, [[531_sso|Single Sign-On]] ([[531_sso|SSO]]) 편의성 제공 |
+| **방어 특성** | 패스워드 크래킹, [[752_phishing|피싱]] 공격에 극도로 취약함 | 패스워드가 아예 네트워크로 전송되지 않아 [[752_phishing|피싱]] 원천 차단 (Passwordless) | 사용자 패스워드를 타사 [[090_service_kubernetes_network_load_balancing|서비스]](Third-party)에 노출하지 않음 |
 
-차세대 인증의 글로벌 표준이 된 **FIDO(파이도) 2.0 / WebAuthn** 프로토콜의 아키텍처를 살펴보면, 생체 정보와 비대칭 키 암호학(PKI)이 어떻게 융합되어 보안을 극대화하는지 알 수 있다.
+차세대 [[303_authentication_authorization_patterns|인증]]의 글로벌 표준이 된 **FIDO(파이도) 2.0 / WebAuthn** [[295_protocol_field_tcp_udp_icmp|프로토콜]]의 아키텍처를 살펴보면, 생체 정보와 비대칭 키 [[652_cryptography_concept_encryption_decryption|암호학]]([[159_pki_public_key_infrastructure|PKI]])이 어떻게 융합되어 보안을 극대화하는지 알 수 있다.
 
 ```text
 ┌────────────────────────────────────────────────────────────┐
@@ -138,7 +138,7 @@ OS와 웹 환경의 발전에 따라 인증 기술도 단순한 패스워드 해
 └────────────────────────────────────────────────────────────┘
 ```
 
-**[다이어그램 해설]** 전통적 방식의 가장 큰 문제점은 사용자의 패스워드(비밀)가 네트워크를 타고 서버로 전달되어야만 한다는 것이었다. 서버가 털리면 모든 패스워드가 유출된다. FIDO는 이 구조를 근본적으로 파괴했다. 사용자의 지문이나 얼굴 데이터는 오직 스마트폰 내부의 하드웨어 보안 영역(TrustZone/Secure Enclave)에만 머문다. 지문이 맞으면 디바이스가 개인키를 꺼내 서버가 보낸 수학 문제(난수)를 풀어서 제출(전자 서명)할 뿐이다. 서버가 해킹당해 DB가 털리더라도, 안에는 수학 문제를 풀 수 있는 권한인 '공개키'밖에 없으므로 해커는 사용자의 생체 정보나 비밀을 알아낼 방법이 없다.
+**[다이어그램 해설]** 전통적 방식의 가장 큰 문제점은 사용자의 패스워드(비밀)가 네트워크를 타고 서버로 전달되어야만 한다는 것이었다. 서버가 털리면 모든 패스워드가 유출된다. FIDO는 이 구조를 근본적으로 파괴했다. 사용자의 지문이나 얼굴 데이터는 오직 스마트폰 내부의 하드웨어 보안 영역(TrustZone/[[790_secure_enclave|Secure Enclave]])에만 머문다. 지문이 맞으면 디바이스가 개인키를 꺼내 서버가 보낸 수학 문제(난수)를 풀어서 제출([[988_digital_signature|전자 서명]])할 뿐이다. 서버가 해킹당해 DB가 털리더라도, 안에는 수학 문제를 풀 수 있는 권한인 '공개키'밖에 없으므로 해커는 사용자의 생체 정보나 비밀을 알아낼 방법이 없다.
 
 - **📢 섹션 요약 비유**: 기존에는 호텔에 갈 때마다 내 집 열쇠(패스워드)를 복사해서 프론트에 맡겼다면, FIDO는 내 집 열쇠는 내 주머니에 꼭 넣어두고 프론트가 부르는 암구호에 지문으로 도장(서명)만 찍어주는 절대적으로 안전한 방식입니다.
 
@@ -146,20 +146,20 @@ OS와 웹 환경의 발전에 따라 인증 기술도 단순한 패스워드 해
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### 실무 시나리오: 다중 인증(MFA) 우회 공격 방어 체계 설계
+### 실무 시나리오: 다중 [[303_authentication_authorization_patterns|인증]]([[552_mfa|MFA]]) 우회 공격 방어 체계 설계
 
-1. **상황 (MFA Fatigue 공격)**: 해외 해킹 그룹이 다크웹에서 기업 임원의 아이디와 패스워드를 구매했다. 하지만 회사에 MFA가 적용되어 있어 로그인이 불가능하자, 해커는 새벽 3시에 10분 동안 100번 연속으로 임원의 스마트폰에 "로그인 허용 푸시 알람"을 보냈다. 잠결에 짜증이 난 임원이 알람을 끄기 위해 무의식적으로 "허용(Approve)" 버튼을 눌러버려 시스템이 장악되었다. (우버(Uber), 시스코(Cisco) 해킹의 실제 사례)
-2. **원인 분석**: 단순 푸시 승인 방식(Push Notification)은 해커의 무차별 피로도(Fatigue) 공격과 사용자의 휴먼 에러(Human Error)에 치명적으로 취약하다.
-3. **방어자의 의사결정 (MFA 고도화)**:
-   - **번호 매칭 (Number Matching) 도입**: 인증 화면(PC)에 임의의 두 자리 숫자(예: 83)를 띄우고, 스마트폰 앱에서 단순히 '허용'을 누르는 것이 아니라 그 숫자 '83'을 직접 타이핑해야만 승인되도록 아키텍처를 변경한다. 해커가 시도하면 사용자는 PC 화면을 볼 수 없어 숫자를 입력할 수 없으므로 피로도 공격이 원천 차단된다.
-   - **FIDO2 하드웨어 보안키 적용**: 최고 권한 관리자(Root/DBA)의 경우 스마트폰 앱이 아닌, USB 형태의 하드웨어 YubiKey(유비키)를 데스크탑에 직접 꽂고 터치해야만 인증이 통과되도록 최고 등급의 소유 인증을 강제한다.
+1. **상황 ([[552_mfa|MFA]] Fatigue 공격)**: 해외 해킹 그룹이 다크웹에서 기업 임원의 아이디와 패스워드를 구매했다. 하지만 회사에 MFA가 적용되어 있어 로그인이 불가능하자, 해커는 새벽 3시에 10분 동안 100번 연속으로 임원의 스마트폰에 "로그인 허용 푸시 알람"을 보냈다. 잠결에 짜증이 난 임원이 알람을 끄기 위해 무의식적으로 "허용(Approve)" 버튼을 눌러버려 시스템이 장악되었다. (우버(Uber), 시스코([[539_netflow_sflow_traffic_monitoring|Cisco]]) 해킹의 실제 사례)
+2. **원인 분석**: 단순 푸시 승인 방식([[560_push_notification|Push Notification]])은 해커의 무차별 피로도(Fatigue) 공격과 사용자의 휴먼 에러(Human Error)에 치명적으로 취약하다.
+3. **방어자의 의사결정 ([[552_mfa|MFA]] 고도화)**:
+   - **번호 매칭 (Number Matching) 도입**: [[303_authentication_authorization_patterns|인증]] 화면([[164_pc|PC]])에 임의의 두 자리 숫자(예: 83)를 띄우고, 스마트폰 앱에서 단순히 '허용'을 누르는 것이 아니라 그 숫자 '83'을 직접 타이핑해야만 승인되도록 아키텍처를 변경한다. 해커가 시도하면 사용자는 [[164_pc|PC]] 화면을 볼 수 없어 숫자를 입력할 수 없으므로 피로도 공격이 원천 차단된다.
+   - **FIDO2 하드웨어 보안키 적용**: 최고 권한 관리자(Root/[[025_dba_database_administrator|DBA]])의 경우 스마트폰 앱이 아닌, [[359_usb|USB]] 형태의 하드웨어 YubiKey(유비키)를 데스크탑에 직접 꽂고 터치해야만 [[303_authentication_authorization_patterns|인증]]이 통과되도록 최고 등급의 소유 [[303_authentication_authorization_patterns|인증]]을 강제한다.
 
-### 도입 체크리스트 (기업 인증 아키텍처)
-- **SSO (Single Sign-On) 통제**: 사내의 수십 개 애플리케이션(Jira, Confluence, ERP)이 각자의 DB에 패스워드를 관리하게 두지 말고, 중앙 SAML/OIDC 기반의 IdP(Identity Provider, 예: Okta, Keycloak) 하나로 통합하여 단일 지점에서 강력한 MFA 정책을 통제하고 있는가?
-- **세션 타임아웃 및 재인증**: 강력한 MFA로 로그인했더라도 12시간 동안 자리를 비우면 세션 하이재킹 위험이 존재한다. 민감한 정보(개인정보 다운로드, 결제) 접근 시에는 세션이 살아있더라도 비밀번호나 생체를 한 번 더 묻는 스텝 업(Step-up) 인증이 적용되어 있는가?
+### 도입 [[435_checklist_based_testing|체크리스트]] (기업 [[303_authentication_authorization_patterns|인증]] 아키텍처)
+- **[[531_sso|SSO]] ([[531_sso|Single Sign-On]]) 통제**: 사내의 수십 개 애플리케이션(Jira, Confluence, [[081_erp_enterprise_resource_planning|ERP]])이 각자의 DB에 패스워드를 관리하게 두지 말고, 중앙 SAML/[[537_oidc_openid_connect|OIDC]] 기반의 [[536_idp_identity_provider|IdP]]([[536_idp_identity_provider|Identity Provider]], 예: [[551_okta_idaas|Okta]], Keycloak) 하나로 통합하여 단일 지점에서 강력한 [[552_mfa|MFA]] [[164_policy|정책]]을 통제하고 있는가?
+- **[[160_session_controlling_terminal|세션]] [[573_timeout_retry_backoff_strategy|타임아웃]] 및 재인증**: 강력한 MFA로 로그인했더라도 12시간 동안 자리를 비우면 [[707_session_hijacking_tcp_seq_cookie|세션 하이재킹]] 위험이 존재한다. 민감한 정보([[781_personal_information|개인정보]] 다운로드, 결제) 접근 시에는 [[160_session_controlling_terminal|세션]]이 살아있더라도 비밀번호나 생체를 한 번 더 묻는 스텝 업(Step-up) [[303_authentication_authorization_patterns|인증]]이 적용되어 있는가?
 
-### 안티패턴
-- **단순 SMS 기반 OTP 운영**: "소유 요소"를 만족시키기 위해 휴대폰 문자 메시지(SMS)로 6자리 인증번호를 보내는 방식을 방어막의 핵심으로 두는 행위. SMS는 평문으로 전송되며, 해커가 통신사를 속여 피해자의 번호로 유심을 복제하는 **SIM Swapping (심 스와핑)** 공격 앞에서는 허무하게 뚫리므로 최신 표준(NIST)에서는 권장하지 않는 안티패턴이다.
+### [[128_water_scrum_fall_anti_pattern|안티패턴]]
+- **단순 SMS 기반 [[748_otp|OTP]] 운영**: "소유 요소"를 만족시키기 위해 휴대폰 문자 메시지(SMS)로 6자리 [[303_authentication_authorization_patterns|인증]]번호를 보내는 방식을 방어막의 핵심으로 두는 행위. SMS는 평문으로 전송되며, 해커가 통신사를 속여 피해자의 번호로 유심을 복제하는 **SIM [[335_swapping|Swapping]] (심 [[335_swapping|스와핑]])** 공격 앞에서는 허무하게 뚫리므로 최신 표준(NIST)에서는 권장하지 않는 [[128_water_scrum_fall_anti_pattern|안티패턴]]이다.
 
 - **📢 섹션 요약 비유**: 도둑이 밤새도록 문을 두드리며 귀찮게 해서 주인이 짜증 나서 문을 열어주게 만드는 수법(피로도 공격)을 막기 위해, 반드시 문밖의 도둑과 특정 암구호 숫자(번호 매칭)를 주고받아야만 문손잡이가 돌아가게 만드는 똑똑한 설계가 필요합니다.
 
@@ -167,23 +167,23 @@ OS와 웹 환경의 발전에 따라 인증 기술도 단순한 패스워드 해
 
 ## Ⅴ. 기대효과 및 결론
 
-### 정량/정성 기대효과 (MFA 및 FIDO 도입 시)
+### 정량/정성 기대효과 ([[552_mfa|MFA]] 및 FIDO 도입 시)
 
-| 구분 | 단순 패스워드 전용 정책 | FIDO 기반 MFA 전면 적용 정책 | 기술적 함의 |
+| 구분 | 단순 패스워드 전용 [[164_policy|정책]] | FIDO 기반 [[552_mfa|MFA]] 전면 적용 [[164_policy|정책]] | 기술적 함의 |
 |:---|:---|:---|:---|
-| **정량 (보안성)** | 탈취된 패스워드 기반 침해사고 비중 80% | 크리덴셜 스터핑 / 피싱 성공률 **99.9% 원천 차단** (MS 통계) | 계정 탈취 공격의 경제성 파괴 (가성비 하락 유도) |
+| **정량 ([[283_security_tactics|보안성]])** | 탈취된 패스워드 기반 침해사고 비중 80% | [[455_credential_stuffing|크리덴셜 스터핑]] / [[752_phishing|피싱]] 성공률 **99.9% 원천 차단** (MS 통계) | 계정 탈취 공격의 경제성 파괴 (가성비 하락 유도) |
 | **정성 (UX)** | 90일 주기 패스워드 강제 변경으로 사용자 피로도 극심 | 생체 인식(Touch/FaceID) 1초 로그인으로 UX 극대화 | "보안이 강해지면 불편해진다"는 전통적 트레이드오프 극복 |
-| **운영 비용** | 헬프데스크의 30%가 "비밀번호 초기화 요청" | 패스워드 리셋 관련 CS 업무 소멸 | IT 운영 인력의 핵심 업무 집중 가능 (ROI 향상) |
+| **운영 비용** | 헬프데스크의 30%가 "비밀번호 초기화 요청" | 패스워드 리셋 관련 CS 업무 소멸 | IT 운영 인력의 핵심 업무 집중 가능 ([[012_roi_return_on_investment|ROI]] 향상) |
 
 ### 미래 전망
-앞으로 "패스워드(Password)"라는 개념 자체가지구상에서 멸종하는 **패스워드리스(Passwordless)** 시대로 완벽하게 이행될 것이다. 구글, 애플, 마이크로소프트 연합은 FIDO 표준을 확장한 **패스키(Passkeys)** 기술을 스마트폰 OS 깊숙이 내장시켰다. 이로 인해 사용자는 어떤 웹사이트에 가입하든 복잡한 문자를 외울 필요 없이, 자신의 디바이스의 지문 인식 한 번으로 클라우드에 동기화된 암호화 키를 생성하여 로그인하게 된다. 패스워드가 존재하지 않으니 해커가 훔쳐 갈 DB도, 피싱할 미끼도 사라지는 궁극의 구조적 보안이 완성되는 것이다.
+앞으로 "패스워드(Password)"라는 개념 자체가지구상에서 멸종하는 **패스워드리스(Passwordless)** 시대로 완벽하게 이행될 것이다. 구글, 애플, 마이크로소프트 연합은 FIDO 표준을 확장한 **패스키(Passkeys)** 기술을 스마트폰 OS 깊숙이 내장시켰다. 이로 인해 사용자는 어떤 웹사이트에 가입하든 복잡한 문자를 외울 필요 없이, 자신의 디바이스의 지문 인식 한 번으로 클라우드에 동기화된 암호화 키를 생성하여 로그인하게 된다. 패스워드가 존재하지 않으니 해커가 훔쳐 갈 DB도, [[752_phishing|피싱]]할 미끼도 사라지는 궁극의 구조적 보안이 완성되는 것이다.
 
 ### 참고 표준
-- **NIST SP 800-63B**: 디지털 신원 지침 (인증 및 수명 주기 관리) - SMS OTP 폐기 권고 포함
-- **FIDO Alliance / W3C WebAuthn**: 패스워드 없는 웹 인증 개방형 표준
-- **ISO/IEC 27001**: 정보보호 관리체계 (A.9 접근 제어 도메인)
+- **[[853_nist_sp_800_63b|NIST SP 800-63B]]**: 디지털 신원 지침 ([[303_authentication_authorization_patterns|인증]] 및 수명 주기 관리) - SMS [[748_otp|OTP]] 폐기 권고 포함
+- **FIDO Alliance / W3C WebAuthn**: 패스워드 없는 웹 [[303_authentication_authorization_patterns|인증]] 개방형 표준
+- **ISO/IEC 27001**: 정보보호 관리체계 (A.9 접근 제어 [[064_relation_domain|도메인]])
 
-- **📢 섹션 요약 비유**: 자물쇠의 열쇠구멍(패스워드)이 있으면 도둑은 어떻게든 철사를 쑤셔 넣어 문을 엽니다. 미래의 인증 기술(Passkey)은 아예 문에서 열쇠구멍 자체를 없애버리고 집주인의 유전자(생체/비대칭키)에만 반응하는 마법의 문으로 집을 교체하는 혁신입니다.
+- **📢 섹션 요약 비유**: 자물쇠의 열쇠구멍(패스워드)이 있으면 도둑은 어떻게든 철사를 쑤셔 넣어 문을 엽니다. 미래의 [[303_authentication_authorization_patterns|인증]] 기술([[562_passkey|Passkey]])은 아예 문에서 열쇠구멍 자체를 없애버리고 집주인의 유전자(생체/비대칭키)에만 반응하는 마법의 문으로 집을 교체하는 혁신입니다.
 
 ---
 
@@ -191,10 +191,10 @@ OS와 웹 환경의 발전에 따라 인증 기술도 단순한 패스워드 해
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| 샌드박싱 (Sandboxing) 기술 커널 래퍼 | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
-| 루트킷 (Rootkit) 커널 모듈 감염 방식 (시스템 콜 테이블 후킹) | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
-| 비밀번호 솔팅 (Salting) 기반 해시 처리 방어 구조 | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
-| 감사 (Auditing) 로깅 프레임워크 (Linux Auditd) | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
+| [[602_sandboxing_kernel_wrapper|샌드박싱]] ([[602_sandboxing_kernel_wrapper|Sandboxing]]) 기술 [[022_kernel_role|커널]] 래퍼 | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
+| [[603_rootkit_syscall_hooking|루트킷]] ([[603_rootkit_syscall_hooking|Rootkit]]) [[022_kernel_role|커널]] [[192_module_independence|모듈]] 감염 방식 (시스템 콜 테이블 후킹) | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
+| [[605_password_salting_hash|비밀번호 솔팅]] ([[605_password_salting_hash|Salting]]) 기반 해시 처리 방어 구조 | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
+| [[606_auditing_linux_auditd|감사]] ([[606_auditing_linux_auditd|Auditing]]) 로깅 프레임워크 (Linux Auditd) | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -214,4 +214,4 @@ OS와 웹 환경의 발전에 따라 인증 기술도 단순한 패스워드 해
 
 1. 컴퓨터가 "너 정말 우리 집 주인 맞아?"라고 물어볼 때 증명하는 3가지 방법이 있어요.
 2. 첫 번째는 머릿속에 기억하는 **비밀번호(아는 것)**, 두 번째는 주머니에 든 **마스터키(가진 것)**, 세 번째는 내 손가락의 **지문(나 자신)** 이에요.
-3. 도둑이 비밀번호를 훔쳐도 마스터키나 내 손가락은 훔칠 수 없기 때문에, 이 3가지를 섞어서 검사하면(다중 인증) 도둑을 완벽하게 막아낼 수 있답니다!
+3. 도둑이 비밀번호를 훔쳐도 마스터키나 내 손가락은 훔칠 수 없기 때문에, 이 3가지를 섞어서 검사하면(다중 [[303_authentication_authorization_patterns|인증]]) 도둑을 완벽하게 막아낼 수 있답니다!

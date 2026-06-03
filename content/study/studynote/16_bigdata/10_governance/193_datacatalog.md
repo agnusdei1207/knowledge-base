@@ -6,36 +6,36 @@ date = "2026-04-05"
 categories = "studynote-bigdata"
 +++
 
-# 데이터 카탈로그 (Data Catalog) - 데이터 검색 및 발견의 중앙 허브
+# [[213_data_catalog_metadata|데이터 카탈로그]] ([[213_data_catalog_metadata|Data Catalog]]) - [[001_dikw_pyramid|데이터]] 검색 및 발견의 중앙 [[152_hub_dummy_switching_intelligent|허브]]
 
-> ⚠️ 이 문서는 빅데이터 환경에서 데이터 발견성(Data Discoverability)을 혁신하는 핵심 메타데이터 관리 도구인 '데이터 카탈로그(Data Catalog)'의 목적, 핵심 기능(검색, 계보, 워크플로우 연동), 주요 제품(AWS Glue Catalog, DataHub, Alation 등), 그리고 데이터 거버넌스와의 연계성을 기술사 수준에서 심층 분석합니다.
+> ⚠️ 이 문서는 빅데이터 환경에서 [[001_dikw_pyramid|데이터]] 발견성([[001_dikw_pyramid|Data]] Discoverability)을 혁신하는 핵심 [[203_metadata_management|메타데이터 관리]] 도구인 '[[213_data_catalog_metadata|데이터 카탈로그]]([[213_data_catalog_metadata|Data Catalog]])'의 목적, 핵심 기능(검색, 계보, 워크플로우 연동), 주요 제품(AWS Glue [[394_catalog_metadata|Catalog]], DataHub, Alation 등), 그리고 [[052_data_governance_framework|데이터 거버넌스]]와의 연계성을 기술사 수준에서 심층 분석합니다.
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: 데이터 카탈로그(Data Catalog)는 "기업 내散在する(흩어져 있는) 모든 데이터 자산(데이터베이스, 테이블, 파일, API 등)의 위치, 스키마, 설명, 소유자, 품질 지표, 계보(Lineage) 정보를 한눈에 검색하고 발견할 수 있도록 중앙 집중식으로整理(정리)한 메타데이터 관리 시스템"이다.
-> 2. **가치**: 데이터 분석가나 데이터 과학자가 "내 нужна 필요한 데이터가 어디에 있는지"를 数週間(수개월)에 걸쳐 탐색하는 '데이터 사냥'을 제거하고, 5분 내 필요한 데이터를 검색하여 분석 시작 시간을 драстически(극적으로) 단축하며,自助式(셀프서비스) 데이터 분석 문화의 기반을 제공한다.
-> 3. **융합**: 데이터 카탈로그는 데이터베이스 스키마 자동 추출(Scanner), NLP 기반 의미론적 검색(Semantic Search), 워크플로우 오케스트레이션(Airflow 등)과의 자동 연동을 통해 단순한 목록 기능을 넘어 데이터 거버넌스 Enforcement(시행)의 핵심 인프라로 진화하고 있다.
+> 1. **본질**: [[213_data_catalog_metadata|데이터 카탈로그]]([[213_data_catalog_metadata|Data Catalog]])는 "기업 내散在する(흩어져 있는) 모든 [[001_dikw_pyramid|데이터]] 자산([[002_database_definition|데이터베이스]], 테이블, [[501_file_definition_logical_record|파일]], [[014_api_posix|API]] 등)의 위치, [[005_schema|스키마]], 설명, 소유자, 품질 지표, 계보(Lineage) 정보를 한눈에 검색하고 발견할 수 있도록 중앙 집중식으로整理(정리)한 [[125_metadata_management_system_mms|메타데이터 관리 시스템]]"이다.
+> 2. **가치**: [[001_dikw_pyramid|데이터]] 분석가나 [[001_dikw_pyramid|데이터]] 과학자가 "내 нужна 필요한 [[001_dikw_pyramid|데이터]]가 어디에 있는지"를 数週間(수개월)에 걸쳐 탐색하는 '[[001_dikw_pyramid|데이터]] 사냥'을 제거하고, 5분 내 필요한 [[001_dikw_pyramid|데이터]]를 검색하여 분석 시작 시간을 драстически(극적으로) 단축하며,自助式(셀프서비스) [[001_dikw_pyramid|데이터]] 분석 문화의 기반을 제공한다.
+> 3. **융합**: [[213_data_catalog_metadata|데이터 카탈로그]]는 [[002_database_definition|데이터베이스]] [[005_schema|스키마]] 자동 추출(Scanner), NLP 기반 의미론적 검색(Semantic Search), 워크플로우 [[073_container_orchestration_tools|오케스트레이션]](Airflow 등)과의 자동 연동을 통해 단순한 목록 기능을 넘어 [[052_data_governance_framework|데이터 거버넌스]] Enforcement(시행)의 핵심 인프라로 진화하고 있다.
 
 ---
 
-## Ⅰ. 개요 및 필요성 (Context & Necessity)
+## Ⅰ. 개요 및 필요성 ([[033_context|Context]] & Necessity)
 
-### 1. 데이터 발견의 장벽 (Pain Point)
-기업에 수천 개의 데이터 테이블이 존재합니다. 재무 시스템의 `FACT_SALES` 테이블, CRM 시스템의 `ORDER_DETAIL` 테이블, 물류 시스템의 `SHIPMENT_TB` 테이블 등 같은 '주문'이라도 다른 이름으로 존재합니다.
-- **문제 1 -"Where is my data?"**: 데이터 분석가가 마케팅 캠페인 효과를 分析하려고 하는데, 고객 주문 데이터가 재무팀 시스템에는 있지만 마케팅팀 시스템에는 없는 것을 뒤늦게 발견합니다. 수주에 걸친 데이터 탐색過程에서 분석 인사이트를 도출할 수 있는時間이 낭비됩니다.
-- **문제 2 - 스키마 이해의 부재**: 분석가가 `$EXPENSE_AMT`라는 컬럼을 발견했으나, 이게 법인卡(카드) 사용액인지, 현금Expense인지, 환율 반영이 된Expense인지 알 수 없어서 데이터 소유자에게 하나하나 문의해야 합니다.
-- **문제 3 - 데이터的品质 알 수 없음**: 분석에 사용한 데이터가 30%나 결측치를 가지고 있었다는 것을 分析 후에야 알게 되어, 分析 결과를 후회하는 상황이 발생합니다.
+### 1. [[001_dikw_pyramid|데이터]] 발견의 장벽 (Pain Point)
+기업에 수천 개의 [[001_dikw_pyramid|데이터]] 테이블이 존재합니다. 재무 시스템의 `FACT_SALES` 테이블, [[107_crm_customer_relationship_management|CRM]] 시스템의 `ORDER_DETAIL` 테이블, 물류 시스템의 `SHIPMENT_TB` 테이블 등 같은 '주문'이라도 다른 이름으로 존재합니다.
+- **문제 1 -"Where is my [[001_dikw_pyramid|data]]?"**: [[001_dikw_pyramid|데이터]] 분석가가 마케팅 캠페인 효과를 分析하려고 하는데, 고객 주문 [[001_dikw_pyramid|데이터]]가 재무팀 시스템에는 있지만 마케팅팀 시스템에는 없는 것을 뒤늦게 발견합니다. 수주에 걸친 [[001_dikw_pyramid|데이터]] 탐색過程에서 분석 인사이트를 도출할 수 있는時間이 낭비됩니다.
+- **문제 2 - [[005_schema|스키마]] 이해의 부재**: 분석가가 `$EXPENSE_AMT`라는 컬럼을 발견했으나, 이게 법인卡(카드) 사용액인지, 현금Expense인지, 환율 반영이 된Expense인지 알 수 없어서 [[200_data_owner|데이터 소유자]]에게 하나하나 문의해야 합니다.
+- **문제 3 - [[001_dikw_pyramid|데이터]]的品质 알 수 없음**: 분석에 사용한 [[001_dikw_pyramid|데이터]]가 30%나 결측치를 가지고 있었다는 것을 分析 후에야 알게 되어, 分析 결과를 후회하는 상황이 발생합니다.
 
-### 2. 데이터 카탈로그의 등장: "데이터의Google 검색引擎"
-"기업 내 모든 데이터 자산을 中央目录(카탈로그)에 등재해 두고, 分析가들은 keyword로 검색하여 '이 데이터가 어디에 있고', '누가 소유하며', '어떤品質인지'를 즉시 확인할 수 있게 하자!"
-- **필요성**: 데이터 카탈로그는 데이터 발견의摩擦(마찰)을 제거하는 핵심 인프라입니다. Google이 웹페이지 정보를 인덱싱하여 검색 가능하게 한 것처럼, 데이터 카탈로그는 기업 데이터 자산을 인덱싱하여 검색 가능하게 합니다.
+### 2. [[213_data_catalog_metadata|데이터 카탈로그]]의 등장: "[[001_dikw_pyramid|데이터]]의Google 검색引擎"
+"기업 내 모든 [[001_dikw_pyramid|데이터]] 자산을 中央目录([[394_catalog_metadata|카탈로그]])에 등재해 두고, 分析가들은 keyword로 검색하여 '이 [[001_dikw_pyramid|데이터]]가 어디에 있고', '누가 소유하며', '어떤品質인지'를 즉시 [[396_validation|확인]]할 수 있게 하자!"
+- **필요성**: [[213_data_catalog_metadata|데이터 카탈로그]]는 [[001_dikw_pyramid|데이터]] 발견의摩擦(마찰)을 제거하는 핵심 인프라입니다. Google이 웹페이지 정보를 인덱싱하여 검색 가능하게 한 것처럼, [[213_data_catalog_metadata|데이터 카탈로그]]는 기업 [[001_dikw_pyramid|데이터]] 자산을 인덱싱하여 검색 가능하게 합니다.
 
-- **📢 섹션 요약 비유**: 데이터 카탈로그는 "도서관의 OPAC(온라인公用目録 Catalog) 시스템"과 같습니다. 책(데이터)이 도서관 곳곳에 흩어져 있지만, OPAC에서 제목, 저자, 주제어로 검색하면 '3층 경제 섹션 B-12 선반'에 있으며, 어떤 책과 함께 분류되어 있는지, 현재 대출 중인지 여부까지 한눈에 확인할 수 있습니다. 데이터 카탈로그는 이 시스템을 데이터 자산에 적용한 것입니다.
+- **📢 섹션 요약 비유**: [[213_data_catalog_metadata|데이터 카탈로그]]는 "도서관의 OPAC(온라인公用目録 [[394_catalog_metadata|Catalog]]) 시스템"과 같습니다. 책([[001_dikw_pyramid|데이터]])이 도서관 곳곳에 흩어져 있지만, OPAC에서 제목, 저자, 주제어로 검색하면 '3층 경제 섹션 B-12 선반'에 있으며, 어떤 책과 함께 [[104_classification_analysis|분류]]되어 있는지, 현재 대출 중인지 여부까지 한눈에 [[396_validation|확인]]할 수 있습니다. [[213_data_catalog_metadata|데이터 카탈로그]]는 이 시스템을 [[001_dikw_pyramid|데이터]] 자산에 적용한 것입니다.
 
 ---
 
-## Ⅱ. 핵심 아키텍처 및 원리 (Architecture & Mechanism)
+## Ⅱ. 핵심 아키텍처 및 원리 ([[319_architecture|Architecture]] & Mechanism)
 
-데이터 카탈로그의 핵심 메커니즘은 크게 세 가지 기능으로 구성됩니다: 메타데이터 수집(採集), 중앙 저장소 관리, 검색 및 발견 인터페이스 제공입니다.
+[[213_data_catalog_metadata|데이터 카탈로그]]의 핵심 메커니즘은 크게 세 가지 기능으로 구성됩니다: [[012_metadata|메타데이터]] 수집(採集), 중앙 저장소 관리, 검색 및 발견 인터페이스 제공입니다.
 
 ```text
 ┌─────────────────────────────────────────────────────────────────────────┐
@@ -79,34 +79,34 @@ categories = "studynote-bigdata"
 └─────────────────────────────────────────────────────────────────────────┘
 ```
 
-### 1. 자동 메타데이터 추출 (Automated Metadata Collection)
-데이터 카탈로그의 Man Hour(인건비) 감소 핵심은 Scanner/Crawler입니다.
-- **구조적 메타데이터 추출**: Apache Atlas의 Hooks은 Hive 테이블 생성/변경 시 자동으로 WebHCat API를 통해 메타데이터를 interceptor하여 카탈로그에 반영합니다.
-- **NLP 기반 의미론적 검색**: 단순한 keyword 매칭이 아닌, 단어의 의미(시소러스)를 이해하여 "고객" 검색 시 "Client", "Customer", "구매자"도 함께 검색 결과에 포함시킵니다.
+### 1. 자동 [[012_metadata|메타데이터]] 추출 (Automated [[012_metadata|Metadata]] Collection)
+[[213_data_catalog_metadata|데이터 카탈로그]]의 Man Hour(인건비) 감소 핵심은 Scanner/Crawler입니다.
+- **구조적 [[012_metadata|메타데이터]] 추출**: Apache Atlas의 Hooks은 [[544_hive|Hive]] 테이블 [[087_process_state_transition|생성]]/변경 시 자동으로 WebHCat API를 통해 [[012_metadata|메타데이터]]를 interceptor하여 [[394_catalog_metadata|카탈로그]]에 반영합니다.
+- **NLP 기반 의미론적 검색**: 단순한 keyword 매칭이 아닌, 단어의 의미(시소러스)를 이해하여 "고객" 검색 시 "[[003_audit_stakeholders|Client]]", "[[026_three_c_analysis|Customer]]", "구매자"도 함께 검색 결과에 포함시킵니다.
 
-- **📢 섹션 요약 비유**: 데이터 카탈로그의 Scanner는 "도서관의 바코드 리더기"와 같습니다. 도서를 반입하거나 대출할 때마다 바코드(데이터 식별자)를 스캔하면 중앙 컴퓨터(카탈로그)에 정보가 自动 반영됩니다. 같은 방식으로 Hadoop에 새로운 테이블이 생성되면, Scanner가 이를 자동 감지하여 카탈로그에 등재하는 것입니다.
+- **📢 섹션 요약 비유**: [[213_data_catalog_metadata|데이터 카탈로그]]의 Scanner는 "도서관의 바코드 리더기"와 같습니다. 도서를 반입하거나 대출할 때마다 바코드([[001_dikw_pyramid|데이터]] [[289_identification_flags_fragmentation_offset|식별자]])를 스캔하면 중앙 컴퓨터([[394_catalog_metadata|카탈로그]])에 정보가 自动 반영됩니다. 같은 방식으로 Hadoop에 새로운 테이블이 [[087_process_state_transition|생성]]되면, Scanner가 이를 자동 감지하여 [[394_catalog_metadata|카탈로그]]에 등재하는 것입니다.
 
 ---
 
 ## Ⅲ. 비교 및 기술적 트레이드오프 (Comparison & Trade-offs)
 
-### 주요 데이터 카탈로그 제품 비교
+### 주요 [[213_data_catalog_metadata|데이터 카탈로그]] 제품 비교
 
 | 제품 | 유형 | 강점 | 약점 | 주 사용 시나리오 |
 | :--- | :--- | :--- | :--- | :--- |
-| **AWS Glue Data Catalog** | 관리형 (Cloud-native) | AWS ecosystem과 深統合,_serverless | 멀티 클라우드/온프레미스 지원弱 | AWS 기반lakehouse |
-| **DataHub (LinkedIn OSS)** | 오픈소스 | REST API, GraphQL,强大的 lineage 추적 | 자체 호스팅 필요 | 커스텀 통합이 필요한 대규모 |
-| **Alation** | 엔터프라이즈 | NLP search, 자동化的 description 생성 | 高価(고가) | 강한 거버넌스 요구 기업 |
+| **AWS Glue [[213_data_catalog_metadata|Data Catalog]]** | 관리형 (Cloud-native) | AWS ecosystem과 深統合,_serverless | [[202_multi_cloud_hybrid_cloud_governance|멀티 클라우드]]/[[061_on_premise_legacy_infrastructure|온프레미스]] 지원弱 | AWS 기반lakehouse |
+| **DataHub (LinkedIn [[191_oss_license_compliance|OSS]])** | [[191_oss_license_compliance|오픈소스]] | [[477_rest_api_architecture|REST API]], [[246_graphql_query_language_overfetching_solution|GraphQL]],强大的 lineage 추적 | 자체 호스팅 필요 | 커스텀 통합이 필요한 대규모 |
+| **Alation** | 엔터프라이즈 | NLP search, 자동化的 description [[087_process_state_transition|생성]] | 高価(고가) | 강한 거버넌스 요구 기업 |
 | **Collibra** | 엔터프라이즈 | 거버넌스 워크플로우 강점, 업무용很漂亮 | complexity高 | 규제 산업 (금융, 의료) |
-| **OpenMetadata** | 오픈소스 |統一된 테이블, ML, Pipeline, BI 메타데이터 1개 where | 상대적으로 신생 | OSS 선호 조직 |
-| **Data.world** | SaaS | 사회화된 데이터 발견 (댓글, 질문) | 커넥터 제한 | 研究/학술 데이터 분석 |
+| **OpenMetadata** | [[191_oss_license_compliance|오픈소스]] |統一된 테이블, ML, [[082_pipeline|Pipeline]], BI [[012_metadata|메타데이터]] 1개 where | 상대적으로 신생 | [[191_oss_license_compliance|OSS]] 선호 조직 |
+| **[[001_dikw_pyramid|Data]].world** | [[309_saas|SaaS]] | 사회화된 [[001_dikw_pyramid|데이터]] 발견 (댓글, 질문) | 커넥터 제한 | 研究/학술 [[001_dikw_pyramid|데이터]] 분석 |
 
 ### 치명적 트레이드오프
-- **도전 1 - 메타데이터 품질 "쓰레기进去, 쓰레기 나오기(Garbage In, Garbage Out)"**: 카탈로그에 등재된 정보가不正确하면 오히려 利用자을 오도할 수 있습니다. Scanner가 자동으로 추출한 스키마 정보는 정확하지만, 테이블의 의미론적 설명(description)은 Owner가 수동으로 입력해야 하므로, description이 부실한 테이블이 많으면利用자 신뢰가 떨어집니다.
+- **도전 1 - [[012_metadata|메타데이터]] 품질 "쓰레기进去, 쓰레기 나오기(Garbage In, Garbage Out)"**: [[394_catalog_metadata|카탈로그]]에 등재된 정보가不正确하면 오히려 利用자을 오도할 수 있습니다. Scanner가 자동으로 추출한 [[005_schema|스키마]] 정보는 정확하지만, 테이블의 의미론적 설명(description)은 Owner가 수동으로 입력해야 하므로, description이 부실한 테이블이 많으면利用자 신뢰가 떨어집니다.
 - **도전 2 - 계보 추적의 不完全성**: SQL 단위(컬럼レベル)的 계보 추적은 현재 기술로는 완벽하지 않습니다. Spark 코드 내의 중간 변수로의 lineage 추적은 제한적이며, 특히 Python pandas 코드와 같은 커스텀 transformation 로직은 계보 추적에서 누락되는 경우가 많습니다.
-- **도전 3 - 거버넌스 Enforcement와의 간극**: 카탈로그에 "이 데이터에 접근하려면 승인 필요"라고 적어두어도, 실제 데이터 접근 통제는 카탈로그가 아닌 Ranger나 IAM 등 외부 시스템에서 이루어지므로, 카탈로그와 접근 제어 시스템 간의同步(동기화) 관리가 필수적입니다.
+- **도전 3 - 거버넌스 Enforcement와의 간극**: [[394_catalog_metadata|카탈로그]]에 "이 [[001_dikw_pyramid|데이터]]에 접근하려면 승인 필요"라고 적어두어도, 실제 [[001_dikw_pyramid|데이터]] [[387_access_control_pattern|접근 통제]]는 [[394_catalog_metadata|카탈로그]]가 아닌 Ranger나 [[526_iam|IAM]] 등 외부 시스템에서 이루어지므로, [[394_catalog_metadata|카탈로그]]와 접근 제어 시스템 간의同步([[212_synchronization_mechanisms|동기화]]) 관리가 필수적입니다.
 
-- **📢 섹션 요약 비유**: 데이터 카탈로그 도입은 "새로운 체육관更衣실 사물함 시스템을 도입하는 것"과 같습니다. 사물함 위치와 키(데이터 위치)를 중앙 관리소(카탈로그)에 등록해 두면 누군가 "내 사물함 어디 있지?"라고 물을 때すぐ(즉시) 찾아줍니다. 하지만 사물함에 물건(데이터)을入れ忘れて(입력 누락)거나, 다른 사람 물건(잘못된 설명)을放入하면 시스템이 오히려混乱을 야기하는 것처럼, 메타데이터 입력의 질이 카탈로그의价值을 결정합니다.
+- **📢 섹션 요약 비유**: [[213_data_catalog_metadata|데이터 카탈로그]] 도입은 "새로운 체육관更衣실 사물함 시스템을 도입하는 것"과 같습니다. 사물함 위치와 키([[001_dikw_pyramid|데이터]] 위치)를 중앙 관리소([[394_catalog_metadata|카탈로그]])에 등록해 두면 누군가 "내 사물함 어디 있지?"라고 물을 때すぐ(즉시) 찾아줍니다. 하지만 사물함에 물건([[001_dikw_pyramid|데이터]])을入れ忘れて(입력 누락)거나, 다른 사람 물건(잘못된 설명)을放入하면 시스템이 오히려混乱을 야기하는 것처럼, [[012_metadata|메타데이터]] 입력의 질이 [[394_catalog_metadata|카탈로그]]의价值을 결정합니다.
 
 ---
 
@@ -114,46 +114,46 @@ categories = "studynote-bigdata"
 
 | 고려 사항 | 세부 내용 | 도입 의사결정 |
 |:---|:---|:---|
-| **클라우드 플랫폼** | AWS / Azure / GCP / 온프레미스 혼합 여부 | 멀티 클라우드면 DataHub/OpenMetadata, AWS 단독이면 Glue |
-| **거버넌스 요구 수준** | 규제 산업 여부, 데이터 품질 강제 필요성 | 규제 산업이면 Alation/Collibra, 일반은 Glue/DataHub |
-| **예산** | 관리형 서비스 비용 감당 가능 여부 | 관리형은Convenience지만cost高, OSS는人力 부담 |
-| **팀 규모** | 데이터 엔지니어링 팀 규모 | 소규모면 관리형 SaaS, 대규모면 OSS 커스텀 |
+| **클라우드 플랫폼** | AWS / Azure / GCP / [[061_on_premise_legacy_infrastructure|온프레미스]] 혼합 여부 | [[202_multi_cloud_hybrid_cloud_governance|멀티 클라우드]]면 DataHub/OpenMetadata, AWS 단독이면 Glue |
+| **거버넌스 요구 수준** | 규제 산업 여부, [[001_dikw_pyramid|데이터]] 품질 강제 필요성 | 규제 산업이면 Alation/Collibra, 일반은 Glue/DataHub |
+| **예산** | 관리형 [[090_service_kubernetes_network_load_balancing|서비스]] 비용 감당 가능 여부 | 관리형은Convenience지만cost高, OSS는人力 부담 |
+| **팀 규모** | [[001_dikw_pyramid|데이터]] 엔지니어링 팀 규모 | 소규모면 관리형 [[309_saas|SaaS]], 대규모면 [[191_oss_license_compliance|OSS]] 커스텀 |
 
-*(추가 실무 적용 가이드 - 카탈로그 확산 전략)*
-- 카탈로그 도입의 가장 큰 Challange은 利用자(분석가, 데이터 사이언티스트)가 카탈로그를 실제로 사용하는文化 구축입니다.
-- **Best Practice**: 데이터 팀이 회의에서 "이 분석에 필요한 데이터 어디 있지?"라는 질문이 나오면,即座에 카탈로그에서 검색하여 보여주는 것을 습관으로 만들며, 카탈로그 미사용 시 手動 설명 대신 "카탈로그에 없으면 제공 불가"라는 룰을 적용하는 것이有效性증가(효과적)입니다.
+*(추가 실무 적용 가이드 - [[394_catalog_metadata|카탈로그]] 확산 [[268_strategy_pattern|전략]])*
+- [[394_catalog_metadata|카탈로그]] 도입의 가장 큰 Challange은 利用자(분석가, [[001_dikw_pyramid|데이터]] 사이언티스트)가 [[394_catalog_metadata|카탈로그]]를 실제로 사용하는文化 구축입니다.
+- **[[087_erp_package_advantages_best_practice|Best Practice]]**: [[001_dikw_pyramid|데이터]] 팀이 회의에서 "이 분석에 필요한 [[001_dikw_pyramid|데이터]] 어디 있지?"라는 질문이 나오면,即座에 [[394_catalog_metadata|카탈로그]]에서 검색하여 보여주는 것을 습관으로 만들며, [[394_catalog_metadata|카탈로그]] 미사용 시 手動 설명 대신 "[[394_catalog_metadata|카탈로그]]에 없으면 제공 불가"라는 룰을 적용하는 것이有效性증가(효과적)입니다.
 
-- **📢 섹션 요약 비유**: 실무 확산은 "우리가ibrary Membership을 홍보하는 것"과 같습니다. 아무리 좋은 카탈로그 시스템(OPAC)을 구축해도, 구성원들이 利用하지 않으면意味가 없습니다. 그래서 도서관에서는入学 時 Orientation에 카탈로그 사용법을 교육하고, 수시로 "오늘의 추천 도서"를公告하는 것처럼, 카탈로그팀도 정기적으로 "주간 Popular数据集"을 mailing하는 등 Promotion 활동을 통해 利用率을 높여야 합니다.
+- **📢 섹션 요약 비유**: 실무 확산은 "우리가ibrary Membership을 홍보하는 것"과 같습니다. 아무리 좋은 [[394_catalog_metadata|카탈로그]] 시스템(OPAC)을 구축해도, 구성원들이 利用하지 않으면意味가 없습니다. 그래서 도서관에서는入学 時 Orientation에 [[394_catalog_metadata|카탈로그]] 사용법을 교육하고, 수시로 "오늘의 추천 도서"를公告하는 것처럼, [[394_catalog_metadata|카탈로그]]팀도 정기적으로 "주간 Popular数据集"을 mailing하는 등 Promotion 활동을 통해 利用率을 높여야 합니다.
 
 ---
 
 ## Ⅴ. 미래 전망 및 발전 방향 (Future Trend)
 
-1. **生成 AI 기반 자동 설명 생성 (Automated Description Generation)**
-   LLM(大型言語 Model)을 활용하여, 테이블 이름과 컬럼 이름, 샘플 데이터를Input으로 "이 테이블은 고객의 주문 정보를 日期, 商品, 数量, 金額과 함께 저장하는 테이블입니다"와 같은 설명을自動生成하는 기능이 빠르게 성숙하고 있습니다. 이로 인해 수동 description 입력 부담이大幅 감소할 것으로 기대됩니다.
+1. **生成 [[190_ai_llm_requirements_specification|AI]] 기반 자동 설명 [[087_process_state_transition|생성]] (Automated Description Generation)**
+   [[263_llm_large_language_model|LLM]](大型言語 Model)을 활용하여, 테이블 이름과 컬럼 이름, 샘플 [[001_dikw_pyramid|데이터]]를Input으로 "이 테이블은 고객의 주문 정보를 日期, 商品, 数量, 金額과 함께 저장하는 테이블입니다"와 같은 설명을自動生成하는 기능이 빠르게 성숙하고 있습니다. 이로 인해 수동 description 입력 부담이大幅 감소할 것으로 기대됩니다.
 
-2. **카탈로그-기반 데이터 리니지 자동 추적 확대**
-   Apache Atlas, DataHub 등의 계보 추적 기능이 SQL 구문解析(파싱) 단계를 넘어, Spark, Python, dbt 코드의transform 내부로까지 확대되어, 컬럼 수준(Column-level)의 종속 관계를 автоматически 추적하는 것이 표준화되고 있습니다.
+2. **[[394_catalog_metadata|카탈로그]]-기반 [[214_data_lineage_tracking|데이터 리니지]] 자동 추적 확대**
+   Apache Atlas, DataHub 등의 계보 추적 기능이 SQL 구문解析(파싱) 단계를 넘어, Spark, Python, dbt 코드의transform 내부로까지 확대되어, 컬럼 수준(Column-level)의 종속 [[083_relationship_in_er_model|관계]]를 автоматически 추적하는 것이 표준화되고 있습니다.
 
-3. **데이터 계약(Data Contract)과의 통합**
-   데이터 계약(Schema + SLA을 명시한 협약)이 활발해지면서, 카탈로그에 계약 정보를 등재하고, 계약 위반 시 자동으로 경고하거나 접근을 제한하는 "카탈로그 중심의 계약 Enforcement" 아키텍처가 주목받고 있습니다.
+3. **[[236_data_contract|데이터 계약]]([[236_data_contract|Data Contract]])과의 통합**
+   [[236_data_contract|데이터 계약]]([[505_schema|Schema]] + SLA을 명시한 협약)이 활발해지면서, [[394_catalog_metadata|카탈로그]]에 계약 정보를 등재하고, 계약 위반 시 자동으로 경고하거나 접근을 제한하는 "[[394_catalog_metadata|카탈로그]] 중심의 계약 Enforcement" 아키텍처가 주목받고 있습니다.
 
-- **📢 섹션 요약 비유**: 데이터 카탈로그의 미래는 "음성 인식 비서(AI Assistant)"와 같습니다. 현재는 키워드를入力(입력)해서 검색하지만, 미래에는 "내 분석에 필요한去年 Quarter EMEA 지역의 고객 주문 데이터 찾아줘"라고 음성으로 말하면, AI가 카탈로그 지식을 활용하여 최적의 데이터를 추천하고, 필요 시 승인 요청까지 자동으로 처리해주는 것입니다.
+- **📢 섹션 요약 비유**: [[213_data_catalog_metadata|데이터 카탈로그]]의 미래는 "음성 인식 비서([[190_ai_llm_requirements_specification|AI]] Assistant)"와 같습니다. 현재는 키워드를入力(입력)해서 검색하지만, 미래에는 "내 분석에 필요한去年 Quarter EMEA 지역의 고객 주문 [[001_dikw_pyramid|데이터]] 찾아줘"라고 음성으로 말하면, AI가 [[394_catalog_metadata|카탈로그]] 지식을 활용하여 최적의 [[001_dikw_pyramid|데이터]]를 추천하고, 필요 시 승인 요청까지 자동으로 처리해주는 것입니다.
 
 ---
 
-## 🧠 지식 맵 (Knowledge Graph)
+## 🧠 지식 맵 ([[160_knowledge_graph_graphrag_integration|Knowledge Graph]])
 
-*   **데이터 카탈로그 핵심 기능 5가지**
+*   **[[213_data_catalog_metadata|데이터 카탈로그]] 핵심 기능 5가지**
     *   검색 및 발견 (Search & Discovery): NLP/키워드 기반 테이블 검색
-    *   계보 추적 (Lineage): 테이블 → 컬럼 수준 데이터 흐름 추적
-    *   메타데이터 관리: 설명, 분류, 태그, 소유자 정보
-    *   품질 모니터링: 결측치 비율, 更新时间,刷新 주기
+    *   계보 추적 (Lineage): 테이블 → 컬럼 수준 [[001_dikw_pyramid|데이터]] 흐름 추적
+    *   [[203_metadata_management|메타데이터 관리]]: 설명, [[104_classification_analysis|분류]], 태그, 소유자 정보
+    *   품질 [[229_monitor|모니터]]링: 결측치 비율, 更新时间,刷新 주기
     *   워크플로우 연동: Airflow, Dagster 작업 연결,impact 分析
-*   **주요 오픈소스/클라우드 카탈로그**
-    *   AWS Glue Catalog, Azure Purview, GCP Dataplex (Cloud-native 관리형)
-    *   DataHub, Apache Atlas, OpenMetadata (OSS)
-    *   Alation, Collibra, Data.world (엔터프라이즈 상용)
+*   **주요 [[191_oss_license_compliance|오픈소스]]/클라우드 [[394_catalog_metadata|카탈로그]]**
+    *   AWS Glue [[394_catalog_metadata|Catalog]], Azure Purview, GCP Dataplex (Cloud-native 관리형)
+    *   DataHub, Apache Atlas, OpenMetadata ([[191_oss_license_compliance|OSS]])
+    *   Alation, Collibra, [[001_dikw_pyramid|Data]].world (엔터프라이즈 상용)
 
 ---
 
@@ -178,13 +178,13 @@ categories = "studynote-bigdata"
 [워크플로우 연동: Airflow, Dagster 작업 연결,impact 分析]
 ```
 
-이 흐름도는 데이터 카탈로그 핵심 기능 5가지에서 출발해 품질 모니터링: 결측치 비율, 更新时间,刷新 주기까지 이어지며, 중간 단계가 기초 개념을 실무 구조로 발전시키는 과정을 보여준다.
+이 흐름도는 [[213_data_catalog_metadata|데이터 카탈로그]] 핵심 기능 5가지에서 출발해 품질 [[229_monitor|모니터]]링: 결측치 비율, 更新时间,刷新 주기까지 이어지며, 중간 단계가 기초 개념을 실무 구조로 발전시키는 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
-1. 데이터 카탈로그'는 비빔밥을 만들 때 필요한 '食材 목록卡片'과 같아요.
-2. 카드에는 "양파: 3번째 선반, 표고버섯: 1번째 냉장고, 소고기: 2번째 냉장고"와 같이 모든 데이터가 어디에 있는지 적혀있어서, 필요한 재료를すぐ見つける(바로 찾을) 수 있어요.
-3. 컴퓨터에서도 수천 개의 데이터가 어디에 저장되어 있는지 목록을 만들어 놓으면, 데이터를 needed할 때 数秒 만에 찾아올 수 있는 것이 바로 '데이터 카탈로그'예요!
+1. [[213_data_catalog_metadata|데이터 카탈로그]]'는 비빔밥을 만들 때 필요한 '食材 목록卡片'과 같아요.
+2. 카드에는 "양파: 3번째 선반, 표고버섯: 1번째 냉장고, 소고기: 2번째 냉장고"와 같이 모든 [[001_dikw_pyramid|데이터]]가 어디에 있는지 적혀있어서, 필요한 재료를すぐ見つける(바로 찾을) 수 있어요.
+3. 컴퓨터에서도 수천 개의 [[001_dikw_pyramid|데이터]]가 어디에 저장되어 있는지 목록을 만들어 놓으면, [[001_dikw_pyramid|데이터]]를 needed할 때 数秒 만에 찾아올 수 있는 것이 바로 '[[213_data_catalog_metadata|데이터 카탈로그]]'예요!
 
 ---
 <!-- [✅ Gemini 3.1 Pro Verified] -->
-> **🛡️ 3.1 Pro Expert Verification:** 본 문서는 구조적 무결성, 다이어그램 명확성, 그리고 기술사(PE) 수준의 심도 있는 통찰력을 기준으로 `gemini-3.1-pro-preview` 모델 룰 기반 엔진에 의해 직접 검증 및 작성되었습니다. (Verified at: 2026-04-05)
+> **🛡️ 3.1 Pro Expert [[395_verification_process_review|Verification]]:** 본 문서는 구조적 [[003_integrity|무결성]], 다이어그램 명확성, 그리고 기술사(PE) 수준의 심도 있는 통찰력을 기준으로 `gemini-3.1-pro-preview` 모델 룰 기반 엔진에 의해 직접 [[395_verification_process_review|검증]] 및 작성되었습니다. (Verified at: 2026-04-05)

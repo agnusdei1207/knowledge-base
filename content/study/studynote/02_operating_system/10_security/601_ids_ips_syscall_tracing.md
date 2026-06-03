@@ -8,19 +8,19 @@ categories = "studynote-operating-system"
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 침입 탐지 시스템 (IDS, Intrusion Detection System)과 방지 시스템 (IPS, Intrusion Prevention System)은 네트워크 패킷이나 호스트 OS 내부의 이벤트를 분석하여 비정상적인 악성 행위를 식별하고(IDS) 이를 능동적으로 차단하는(IPS) 보안 관제의 핵심 인프라다.
-> 2. **가치**: 기존 방화벽이 IP/Port 기반의 정적인 '문지기' 역할만 했다면, IDS/IPS는 데이터의 깊은 내용(Payload)과 OS의 시스템 콜(System Call) 시퀀스까지 동적으로 추적하여 셸코드 주입이나 제로데이 공격을 맥락적(Contextual)으로 탐지해 낸다.
-> 3. **융합**: 고성능 패킷 처리를 위한 하드웨어 아키텍처, 알려진 공격을 막는 오용 탐지(Misuse/Signature), 미지의 공격을 탐지하는 이상 탐지(Anomaly/ML), 그리고 OS 커널의 eBPF 기반 시스템 콜 트레이싱 메커니즘이 완벽하게 융합된 복합 기술의 결정체다.
+> 1. **본질**: 침입 탐지 시스템 (IDS, [[994_ids_ips_intrusion_detection_prevention_false_positive|Intrusion Detection System]])과 방지 시스템 ([[695_ips_network_intrusion_prevention_system|IPS]], Intrusion Prevention System)은 네트워크 패킷이나 호스트 OS 내부의 이벤트를 분석하여 비정상적인 악성 행위를 식별하고(IDS) 이를 능동적으로 차단하는([[695_ips_network_intrusion_prevention_system|IPS]]) 보안 관제의 핵심 인프라다.
+> 2. **가치**: 기존 [[690_firewall_generation_evolution|방화벽]]이 IP/[[446_port_and_bus|Port]] 기반의 정적인 '문지기' 역할만 했다면, IDS/IPS는 [[001_dikw_pyramid|데이터]]의 깊은 내용(Payload)과 OS의 시스템 콜([[013_system_call|System Call]]) 시퀀스까지 동적으로 추적하여 [[592_shellcode_injection|셸코드]] 주입이나 [[761_zero_day|제로데이]] 공격을 맥락적(Contextual)으로 탐지해 낸다.
+> 3. **융합**: 고성능 패킷 처리를 위한 하드웨어 아키텍처, 알려진 공격을 막는 오용 탐지(Misuse/Signature), 미지의 공격을 탐지하는 [[236_anomaly_based_detection_zero_day_false_positive|이상 탐지]]([[530_anomaly|Anomaly]]/ML), 그리고 OS [[022_kernel_role|커널]]의 [[615_ebpf|eBPF]] 기반 시스템 콜 트레이싱 메커니즘이 완벽하게 융합된 복합 기술의 결정체다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
 **개념 및 정의**
-침입 탐지 시스템 (IDS)은 네트워크나 호스트에서 발생하는 이벤트를 실시간으로 모니터링하여 침해 시도, 보안 정책 위반을 '경고(Alert)'하는 감시 카메라 역할을 한다. 반면, 침입 방지 시스템 (IPS)은 탐지 기능을 넘어 악성 패킷을 버리거나(Drop), 연결을 끊어버리는(RST) 등 즉각적인 차단 행동을 취하는 '능동형 방어 요원'이다. 
+침입 탐지 시스템 (IDS)은 네트워크나 호스트에서 발생하는 이벤트를 실시간으로 모니터링하여 침해 시도, [[007_security_policy|보안 정책]] 위반을 '경고(Alert)'하는 감시 카메라 역할을 한다. 반면, 침입 방지 시스템 ([[695_ips_network_intrusion_prevention_system|IPS]])은 탐지 기능을 넘어 악성 패킷을 버리거나(Drop), 연결을 끊어버리는(RST) 등 즉각적인 차단 행동을 취하는 '능동형 방어 요원'이다. 
 
 **필요성 및 등장 배경**
-초기의 패킷 필터링 방화벽(L3/L4)은 내부망으로 향하는 HTTP(80번 포트) 트래픽을 허용할 수밖에 없었다. 해커들은 이 합법적으로 열린 80번 포트에 버퍼 오버플로우 페이로드나 SQL 인젝션 공격을 섞어 보냈고, 방화벽은 이를 단순한 웹 요청으로 착각해 무사통과시켰다. 따라서 허용된 포트 안쪽을 흐르는 데이터(Payload)의 내용물을 깊이 뜯어보고(Deep Packet Inspection), 운영체제가 프로세스를 실행하는 단계에서 위험한 시스템 콜이 호출되는지를 추적하는 '똑똑한 내용 검사기'의 필요성이 대두되며 IDS/IPS 체계가 발전했다.
+[[459_quic_fec_forward_error_correction|초기]]의 [[213_packet_filtering_firewall|패킷 필터링 방화벽]](L3/L4)은 내부망으로 향하는 [[461_http_stateless_connection_oriented|HTTP]](80번 [[446_port_and_bus|포트]]) 트래픽을 허용할 수밖에 없었다. 해커들은 이 합법적으로 열린 80번 [[446_port_and_bus|포트]]에 [[591_buffer_overflow|버퍼 오버플로우]] 페이로드나 SQL [[480_injection|인젝션]] 공격을 섞어 보냈고, [[690_firewall_generation_evolution|방화벽]]은 이를 단순한 웹 요청으로 착각해 무사통과시켰다. 따라서 허용된 [[446_port_and_bus|포트]] 안쪽을 흐르는 [[001_dikw_pyramid|데이터]](Payload)의 내용물을 깊이 뜯어보고(Deep Packet Inspection), [[001_operating_system_purpose|운영체제]]가 프로세스를 실행하는 단계에서 위험한 시스템 콜이 호출되는지를 추적하는 '똑똑한 내용 검사기'의 필요성이 대두되며 IDS/[[695_ips_network_intrusion_prevention_system|IPS]] 체계가 발전했다.
 
 ```text
 ┌─────────────────────────────────────────────────────────────┐
@@ -46,28 +46,28 @@ categories = "studynote-operating-system"
 └─────────────────────────────────────────────────────────────┘
 ```
 
-**[다이어그램 해설]** 이 흐름도는 왜 기업 인프라에 방화벽 하나만으로 부족한지 직관적으로 설명한다. IDS는 네트워크 옆에 비스듬히 연결된(Out-of-band / Mirroring) CCTV와 같아서, 공격을 알아채고 경고를 울리지만 범인을 멈춰 세울 물리적 통제권이 없어 피해를 예방하지 못한다. 이를 극복하기 위해 IPS는 통신망의 정중앙(Inline)에 서서 모든 패킷을 직접 열어보고 통과 여부를 결정하는 톨게이트 방식으로 진화했다. 다만 IPS 인라인 모드는 시스템 오류나 정탐/오탐으로 인해 전체 네트워크 속도가 느려지거나 정상 비즈니스가 멈출 수 있는 단일 장애점(SPOF, Single Point of Failure)이 될 수 있으므로 아키텍처 설계 시 바이패스(Bypass) 하드웨어 구성이 필수적이다.
+**[다이어그램 해설]** 이 흐름도는 왜 기업 인프라에 [[690_firewall_generation_evolution|방화벽]] 하나만으로 부족한지 직관적으로 설명한다. IDS는 네트워크 옆에 비스듬히 연결된(Out-of-band / Mirroring) CCTV와 같아서, 공격을 알아채고 경고를 울리지만 범인을 멈춰 세울 물리적 통제권이 없어 피해를 예방하지 못한다. 이를 극복하기 위해 IPS는 통신망의 정중앙(Inline)에 서서 모든 패킷을 직접 열어보고 통과 여부를 결정하는 톨게이트 방식으로 진화했다. 다만 [[695_ips_network_intrusion_prevention_system|IPS]] 인라인 모드는 시스템 오류나 정탐/오탐으로 인해 전체 네트워크 속도가 느려지거나 정상 비즈니스가 멈출 수 있는 [[454_spof|단일 장애점]]([[454_spof|SPOF]], Single Point of Failure)이 될 수 있으므로 아키텍처 설계 시 바이패스(Bypass) 하드웨어 구성이 필수적이다.
 
-- **📢 섹션 요약 비유**: 방화벽은 건물 입구에서 "방문 목적"만 묻고 통과시키는 경비원이라면, IDS는 방 안에서 무기를 꺼내는지 지켜보고 비상벨을 누르는 CCTV이며, IPS는 그 자리에서 직접 무기를 빼앗고 쫓아내는 무장 경찰과 같습니다.
+- **📢 섹션 요약 비유**: [[690_firewall_generation_evolution|방화벽]]은 건물 입구에서 "방문 목적"만 묻고 통과시키는 경비원이라면, IDS는 방 안에서 무기를 꺼내는지 지켜보고 비상벨을 누르는 CCTV이며, IPS는 그 자리에서 직접 무기를 빼앗고 쫓아내는 무장 경찰과 같습니다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### 탐지 기법 모델: 오용 탐지 vs 이상 탐지
+### 탐지 기법 모델: 오용 탐지 vs [[236_anomaly_based_detection_zero_day_false_positive|이상 탐지]]
 
 어떻게 공격을 알아낼 것인가에 대한 철학적 접근법은 크게 두 가지로 나뉜다.
 
 | 탐지 기법 | 핵심 원리 및 매커니즘 | 장점 | 단점 및 한계 | 비유 |
 |:---|:---|:---|:---|:---|
-| **오용 탐지 (Misuse)** / 시그니처 기반 | 기 검증된 공격 패턴(시그니처 데이터베이스)과 매칭 검사. "이 바이트 배열이 보이면 차단해" | 알려진 공격(1-Day 등)에 대해 **정탐률이 매우 높고 오탐률이 낮음**. | 새로운 변종이나 **제로데이(0-Day) 공격 탐지 불가**. DB 업데이트 부하. | 지명수배자 얼굴(몽타주)을 보고 범인 잡기 |
-| **이상 탐지 (Anomaly)** / 행위 기반 | 시스템의 평상시 정상 상태(Baseline)를 학습한 뒤, 이를 크게 벗어나는 임계치(Threshold)나 행위 차단. | **제로데이 등 미지의 공격** 탐지 가능. (예: 평소 안 쓰던 포트 대량 사용) | 정상 행위를 공격으로 오인하는 **오탐률(False Positive)** 이 매우 높음. | 평소 조용하던 직원이 갑자기 허둥대며 뛰어나가면 막기 |
+| **오용 탐지 (Misuse)** / 시그니처 기반 | 기 검증된 공격 패턴(시그니처 [[002_database_definition|데이터베이스]])과 매칭 검사. "이 [[074_byte|바이트]] 배열이 보이면 차단해" | 알려진 공격(1-Day 등)에 대해 **정탐률이 매우 높고 오탐률이 낮음**. | 새로운 변종이나 **[[761_zero_day|제로데이]](0-Day) 공격 탐지 불가**. DB 업데이트 부하. | 지명수배자 얼굴(몽타주)을 보고 범인 잡기 |
+| **[[236_anomaly_based_detection_zero_day_false_positive|이상 탐지]] ([[530_anomaly|Anomaly]])** / 행위 기반 | 시스템의 평상시 정상 상태([[025_baseline|Baseline]])를 학습한 뒤, 이를 크게 벗어나는 [[431_ssthresh_slow_start_threshold|임계치]](Threshold)나 행위 차단. | **[[761_zero_day|제로데이]] 등 미지의 공격** 탐지 가능. (예: 평소 안 쓰던 [[446_port_and_bus|포트]] 대량 사용) | 정상 행위를 공격으로 오인하는 **오탐률(False Positive)** 이 매우 높음. | 평소 조용하던 직원이 갑자기 허둥대며 뛰어나가면 막기 |
 
-현대의 최상위 시스템(NG-IPS, EDR)은 오용 탐지를 기본 방어막으로 깔고, 머신러닝(ML) 기반의 이상 탐지 알고리즘을 융합하여 0-Day 탐지력과 낮은 오탐률의 균형을 맞춘다.
+현대의 최상위 시스템(NG-[[695_ips_network_intrusion_prevention_system|IPS]], [[325_edr|EDR]])은 오용 탐지를 기본 방어막으로 깔고, [[241_machine_learning_basics|머신러닝]](ML) 기반의 [[236_anomaly_based_detection_zero_day_false_positive|이상 탐지]] 알고리즘을 융합하여 0-Day 탐지력과 낮은 오탐률의 균형을 맞춘다.
 
-### 호스트 기반 HIDS 아키텍처와 커널 시스템 콜 트레이싱
+### 호스트 기반 HIDS 아키텍처와 [[022_kernel_role|커널]] 시스템 콜 트레이싱
 
-NIDS/NIPS가 네트워크 "외부"의 트래픽을 본다면, **HIDS (Host-based IDS)** 는 서버 OS "내부"에 에이전트로 설치되어 파일 무결성, 로그, 프로세스 트리, 그리고 가장 중요한 **시스템 콜 (System Call)**을 감시한다. 해커가 암호화된 터널(HTTPS)로 공격 페이로드를 보내 NIDS의 눈을 속이더라도, 결국 OS 커널에 `execve`(프로세스 실행)나 `open`(파일 열기) 같은 시스템 콜을 날려야만 목표를 달성할 수 있기 때문이다.
+[[693_nids_network_intrusion_detection_system|NIDS]]/NIPS가 네트워크 "외부"의 트래픽을 본다면, **HIDS (Host-based IDS)** 는 서버 OS "내부"에 에이전트로 설치되어 [[501_file_definition_logical_record|파일]] [[003_integrity|무결성]], [[568_logs_distributed_logging_elk_fluentd|로그]], 프로세스 트리, 그리고 가장 중요한 **시스템 콜 ([[013_system_call|System Call]])**을 감시한다. 해커가 암호화된 터널([[471_https_http_over_tls|HTTPS]])로 공격 페이로드를 보내 NIDS의 눈을 속이더라도, 결국 OS [[022_kernel_role|커널]]에 `execve`(프로세스 실행)나 `open`([[501_file_definition_logical_record|파일]] 열기) 같은 시스템 콜을 날려야만 목표를 달성할 수 있기 때문이다.
 
 ```text
 ┌─────────────────────────────────────────────────────────────┐
@@ -95,25 +95,25 @@ NIDS/NIPS가 네트워크 "외부"의 트래픽을 본다면, **HIDS (Host-based
 └─────────────────────────────────────────────────────────────┘
 ```
 
-**[다이어그램 해설]** 이 구조도는 호스트(OS) 내부에서 침입 탐지가 어떻게 동작하는지를 보여준다. 공격자가 페이로드를 암호화하여 네트워크단(NIDS)의 시그니처 검사를 무사통과하더라도, 목적지에 도달한 페이로드는 자신이 원하는 악성 행위(쉘 획득 등)를 위해 반드시 OS 커널에게 자원을 요청(System Call)해야 한다. 최신 HIDS나 EDR(Endpoint Detection and Response) 솔루션은 리눅스 커널의 최신 프레임워크인 **eBPF (Extended Berkeley Packet Filter)** 나 `ptrace`를 이용하여, 시스템 콜이 실행되기 직전 그 인자와 호출의 맥락(누가, 무엇을 부르는가)을 가로채어 분석한다. 평소에 정적 콘텐츠만 반환하던 아파치 워커 프로세스가 갑자기 네트워크 소켓을 새로 열고(리버스 셸) 리눅스 셸(`/bin/sh`)을 실행하는 시스템 콜 시퀀스를 발생시킨다면, 이는 명백한 이상 행위(Anomaly)로 규정되어 즉각 차단된다. 이것이 암호화 통신 시대에 HIDS가 네트워크 IPS보다 더 주목받는 이유다.
+**[다이어그램 해설]** 이 구조도는 호스트(OS) 내부에서 침입 탐지가 어떻게 동작하는지를 보여준다. 공격자가 페이로드를 암호화하여 네트워크단([[693_nids_network_intrusion_detection_system|NIDS]])의 시그니처 검사를 무사통과하더라도, 목적지에 도달한 페이로드는 자신이 원하는 악성 행위(쉘 획득 등)를 위해 반드시 OS [[022_kernel_role|커널]]에게 자원을 요청([[013_system_call|System Call]])해야 한다. 최신 HIDS나 [[325_edr|EDR]](Endpoint [[961_deepfake_detection|Detection]] and Response) 솔루션은 리눅스 [[022_kernel_role|커널]]의 최신 프레임워크인 **[[615_ebpf|eBPF]] (Extended [[069_ebpf|Berkeley Packet Filter]])** 나 `ptrace`를 이용하여, 시스템 콜이 실행되기 직전 그 인자와 호출의 맥락(누가, 무엇을 부르는가)을 가로채어 분석한다. 평소에 정적 콘텐츠만 반환하던 아파치 워커 프로세스가 갑자기 네트워크 소켓을 새로 열고(리버스 셸) 리눅스 셸(`/bin/sh`)을 실행하는 시스템 콜 시퀀스를 발생시킨다면, 이는 명백한 이상 행위([[530_anomaly|Anomaly]])로 규정되어 즉각 차단된다. 이것이 암호화 통신 시대에 HIDS가 네트워크 IPS보다 더 주목받는 이유다.
 
-- **📢 섹션 요약 비유**: 성문 밖 초소(NIDS)에서 암호로 쓰인 편지(HTTPS)를 검사하지 못해 통과시켜 주었더라도, 결국 그 편지를 읽은 성 안의 스파이가 무기고의 문을 열려고(시스템 콜) 할 때 성 내부의 잠복 경찰(HIDS/커널 트레이서)이 즉각 체포하는 다층 구조와 같습니다.
+- **📢 섹션 요약 비유**: 성문 밖 초소([[693_nids_network_intrusion_detection_system|NIDS]])에서 암호로 쓰인 편지([[471_https_http_over_tls|HTTPS]])를 검사하지 못해 통과시켜 주었더라도, 결국 그 편지를 읽은 성 안의 스파이가 무기고의 문을 열려고(시스템 콜) 할 때 성 내부의 잠복 경찰(HIDS/[[022_kernel_role|커널]] 트레이서)이 즉각 체포하는 다층 구조와 같습니다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-### NIDS (네트워크 기반) vs HIDS (호스트 기반)의 입체적 비교
+### [[693_nids_network_intrusion_detection_system|NIDS]] (네트워크 기반) vs HIDS (호스트 기반)의 입체적 비교
 
 하나의 기술만으로는 방어가 불가능하므로, 아키텍트는 두 시스템의 트레이드오프를 명확히 이해하고 하이브리드(Hybrid) 아키텍처를 구성해야 한다.
 
-| 비교 항목 | NIDS / NIPS (네트워크 기반) | HIDS / HIPS (호스트/OS 기반) |
+| 비교 항목 | [[693_nids_network_intrusion_detection_system|NIDS]] / NIPS (네트워크 기반) | HIDS / HIPS (호스트/OS 기반) |
 |:---|:---|:---|
-| **모니터링 대상** | 네트워크 세그먼트를 흐르는 전체 패킷 | 특정 서버 내부의 로그, 파일 수정, 프로세스, 시스템 콜 |
-| **운영 및 구축 비용** | 라우터/스위치 엣지 1대에만 설치하면 하위 전체 커버 가능 (경제적) | 수백 대의 서버마다 OS별 에이전트를 개별 설치하고 관리해야 함 (높음) |
-| **암호화 트래픽 처리** | TLS 복호화 프록시가 없으면 내용을 읽지 못해 장님(Blind)이 됨 | 앱 단에서 복호화가 끝난 평문 데이터나 시스템 콜 자체를 분석하므로 우수 |
-| **자원 소모 오버헤드** | 전용 하드웨어(ASIC) 사용으로 서버 OS 자원(CPU)에 영향 없음 | 에이전트가 실행되며 서버 자원(CPU, 메모리) 3~10% 점유율 차지 |
-| **스니핑/스푸핑 탐지** | ARP 스푸핑, 포트 스캐닝 등 네트워크 흐름 파악에 특화됨 | 단일 호스트로 향하지 않는 네트워크 전체의 스캔 행위는 볼 수 없음 |
+| **모니터링 대상** | 네트워크 세그먼트를 흐르는 전체 패킷 | 특정 서버 내부의 [[568_logs_distributed_logging_elk_fluentd|로그]], [[501_file_definition_logical_record|파일]] 수정, 프로세스, 시스템 콜 |
+| **운영 및 구축 비용** | 라우터/[[238_switch_operation_principles|스위치]] 엣지 1대에만 설치하면 하위 전체 커버 가능 (경제적) | 수백 대의 서버마다 OS별 에이전트를 개별 설치하고 관리해야 함 (높음) |
+| **암호화 트래픽 처리** | [[694_thread_local_storage_tls|TLS]] 복호화 프록시가 없으면 내용을 읽지 못해 장님(Blind)이 됨 | 앱 단에서 복호화가 끝난 평문 [[001_dikw_pyramid|데이터]]나 시스템 콜 자체를 분석하므로 우수 |
+| **자원 소모 오버헤드** | 전용 하드웨어([[070_asic|ASIC]]) 사용으로 서버 OS 자원(CPU)에 영향 없음 | 에이전트가 실행되며 서버 자원(CPU, 메모리) 3~[[489_raid_10_hybrid|10]]% 점유율 차지 |
+| **스니핑/[[598_spoofing|스푸핑]] 탐지** | [[312_arp_address_resolution_protocol_ip_to_mac|ARP]] [[598_spoofing|스푸핑]], [[600_port_scanning|포트 스캐닝]] 등 네트워크 흐름 파악에 특화됨 | 단일 호스트로 향하지 않는 네트워크 전체의 스캔 행위는 볼 수 없음 |
 
 ```text
 ┌─────────────────────────────────────────────────────────────┐
@@ -139,7 +139,7 @@ NIDS/NIPS가 네트워크 "외부"의 트래픽을 본다면, **HIDS (Host-based
 └─────────────────────────────────────────────────────────────┘
 ```
 
-**[다이어그램 해설]** 이 하이브리드 아키텍처는 "심층 방어(Defense in Depth)"의 교과서적 모델이다. NIPS는 최전방에서 수십 Gbps로 쏟아지는 알려진 공격(SQL 인젝션 시그니처, 웜 바이러스 패턴, 대용량 스캐닝)을 하드웨어 가속을 통해 저비용 고효율로 쳐내는 방파제 역할을 한다. NIPS를 무사 통과한 고도화된 타겟팅 공격이나 암호화된 공격 페이로드는 개별 서버(엔드포인트)에 도달한다. 이때 서버 OS 내부에 심어진 HIPS 에이전트가 마지막 수문장으로서 OS 시스템 콜 수준의 행위 분석을 통해 악성 행위의 '발현'을 차단한다. 두 시스템의 로그는 SIEM(통합 보안 관제 시스템)으로 모여 연관 분석(Correlation)된다.
+**[다이어그램 해설]** 이 하이브리드 아키텍처는 "심층 방어([[012_defense_in_depth|Defense in Depth]])"의 교과서적 모델이다. NIPS는 최전방에서 수십 Gbps로 쏟아지는 알려진 공격(SQL [[480_injection|인젝션]] 시그니처, 웜 [[589_virus|바이러스]] 패턴, 대용량 스캐닝)을 하드웨어 가속을 통해 저비용 고효율로 쳐내는 방파제 역할을 한다. NIPS를 무사 통과한 고도화된 타겟팅 공격이나 암호화된 공격 페이로드는 개별 서버(엔드포인트)에 도달한다. 이때 서버 OS 내부에 심어진 HIPS 에이전트가 마지막 수문장으로서 OS 시스템 콜 수준의 행위 분석을 통해 악성 행위의 '발현'을 차단한다. 두 시스템의 [[568_logs_distributed_logging_elk_fluentd|로그]]는 [[624_siem|SIEM]](통합 보안 관제 시스템)으로 모여 연관 분석(Correlation)된다.
 
 - **📢 섹션 요약 비유**: NIPS는 국경을 넘는 거대한 화물차들을 엑스레이로 스캔하여 밀수품을 1차로 걸러내는 세관이고, HIPS는 각 가정집 내부에 상주하며 누군가 금고를 열려 할 때 행동을 제압하는 개인 경호원과 같습니다. 두 계층이 모두 있어야 완벽한 방어가 됩니다.
 
@@ -149,19 +149,19 @@ NIDS/NIPS가 네트워크 "외부"의 트래픽을 본다면, **HIDS (Host-based
 
 ### 실무 시나리오: False Positive (오탐지)로 인한 운영 장애 및 회피
 
-1. **상황 (IPS 인라인 모드 장애)**: 쇼핑몰의 대형 이벤트 기간 중 트래픽이 폭주하자, NIPS 장비가 정상적인 고객들의 다중 로그인 시도를 Brute-force 공격으로 오인(False Positive, 오탐)하여 정상 고객 IP들을 무더기로 차단(Drop)하는 사태가 발생했다.
-2. **원인 분석**: 룰셋(시그니처) 업데이트 시 "1분에 5회 이상 로그인 실패 시 IP 차단"이라는 임계치가 엄격하게 걸려있었으나, 수만 명이 몰리는 이벤트 특성을 반영하지 못한 경직된 오용 탐지 로직이 문제였다.
+1. **상황 ([[695_ips_network_intrusion_prevention_system|IPS]] 인라인 모드 장애)**: 쇼핑몰의 대형 이벤트 기간 중 트래픽이 폭주하자, NIPS 장비가 정상적인 고객들의 다중 [[568_logs_distributed_logging_elk_fluentd|로그]]인 시도를 Brute-force 공격으로 오인(False Positive, 오탐)하여 정상 고객 IP들을 무더기로 차단(Drop)하는 사태가 발생했다.
+2. **원인 분석**: 룰셋(시그니처) 업데이트 시 "1분에 5회 이상 [[568_logs_distributed_logging_elk_fluentd|로그]]인 실패 시 IP 차단"이라는 [[431_ssthresh_slow_start_threshold|임계치]]가 엄격하게 걸려있었으나, 수만 명이 몰리는 이벤트 특성을 반영하지 못한 경직된 오용 탐지 로직이 문제였다.
 3. **방어자의 의사결정 (Fail-Open 및 튜닝)**:
-   - **조치 1 (Fail-Open 우회)**: 당장의 비즈니스 가용성 회복을 위해 IPS 장비의 하드웨어 바이패스(Bypass) 포트를 활성화하여, 공격 여부 검사 없이 패킷을 무조건 통과시키는 `Fail-Open` 상태로 강제 전환한다.
-   - **조치 2 (Snort/Suricata 룰 튜닝)**: 이벤트가 끝난 후, IDS/IPS 엔진(예: Snort)의 임계치를 조정하고 예외 IP(화이트리스트)를 반영하는 튜닝 작업을 거친다.
-   - **조치 3 (ML 기반 이상 탐지 도입)**: 단순 고정 임계치(Threshold)를 넘어, 과거 이벤트 기간의 트래픽 데이터를 머신러닝 알고리즘으로 학습시켜 "평시"와 "이벤트 시"의 정상 동적 베이스라인을 스스로 계산하여 유연하게 차단하는 AI 기반 NIPS로 고도화를 추진한다.
+   - **조치 1 (Fail-Open 우회)**: 당장의 비즈니스 [[452_availability|가용성]] 회복을 위해 [[695_ips_network_intrusion_prevention_system|IPS]] 장비의 하드웨어 바이패스(Bypass) [[446_port_and_bus|포트]]를 활성화하여, 공격 여부 검사 없이 패킷을 무조건 통과시키는 `Fail-Open` 상태로 강제 전환한다.
+   - **조치 2 ([[694_snort_suricata_misuse_anomaly_detection|Snort]]/[[240_suricata_multithreaded_nids_ids_ips_engine|Suricata]] 룰 튜닝)**: 이벤트가 끝난 후, IDS/[[695_ips_network_intrusion_prevention_system|IPS]] 엔진(예: [[694_snort_suricata_misuse_anomaly_detection|Snort]])의 [[431_ssthresh_slow_start_threshold|임계치]]를 조정하고 예외 IP(화이트리스트)를 반영하는 튜닝 작업을 거친다.
+   - **조치 3 (ML 기반 [[236_anomaly_based_detection_zero_day_false_positive|이상 탐지]] 도입)**: 단순 고정 [[431_ssthresh_slow_start_threshold|임계치]](Threshold)를 넘어, 과거 이벤트 기간의 트래픽 [[001_dikw_pyramid|데이터]]를 [[241_machine_learning_basics|머신러닝]] 알고리즘으로 학습시켜 "평시"와 "이벤트 시"의 정상 동적 베이스라인을 스스로 계산하여 유연하게 차단하는 [[190_ai_llm_requirements_specification|AI]] 기반 NIPS로 고도화를 추진한다.
 
-### 도입 체크리스트 (오탐 및 회피 대응)
-- **IDS Evasion (탐지 회피) 차단**: 해커가 페이로드를 아주 작게 쪼개거나(IP Fragmentation), 순서를 뒤죽박죽 섞어서 보내어 IDS의 패턴 매칭을 무력화시키는 회피 공격을 방어하기 위해, IPS 장비 내에 "IP 단편화 재조합(Reassembly) 및 TCP 스트림 세션 정규화" 엔진이 활성화되어 있는지 확인해야 한다.
-- **성능 사이징 (Sizing)**: 인라인 NIPS는 패킷을 뜯어보는 검사(DPI) 오버헤드가 크므로 장비 스펙의 Throughput 한계를 쉽게 넘는다. 평문 트래픽 대역폭뿐만 아니라 동시 연결 세션 수(CPS)와 암호화(SSL) 가속 카드 용량을 실무 트래픽 기준 1.5배 이상으로 사이징했는가?
+### 도입 [[435_checklist_based_testing|체크리스트]] (오탐 및 회피 대응)
+- **IDS Evasion (탐지 회피) 차단**: 해커가 페이로드를 아주 작게 쪼개거나(IP [[291_fragmentation_and_reassembly_process|Fragmentation]]), 순서를 뒤죽박죽 섞어서 보내어 IDS의 패턴 매칭을 무력화시키는 회피 공격을 방어하기 위해, [[695_ips_network_intrusion_prevention_system|IPS]] 장비 내에 "IP [[291_fragmentation_and_reassembly_process|단편화]] 재조합(Reassembly) 및 [[405_tcp_transmission_control_protocol_connection_oriented|TCP]] 스트림 [[160_session_controlling_terminal|세션]] [[093_normalization|정규화]]" 엔진이 활성화되어 있는지 확인해야 한다.
+- **[[282_performance_tactics|성능]] 사이징 (Sizing)**: 인라인 NIPS는 패킷을 뜯어보는 검사(DPI) 오버헤드가 크므로 장비 스펙의 [[139_throughput|Throughput]] 한계를 쉽게 넘는다. 평문 트래픽 대역폭뿐만 아니라 동시 연결 [[160_session_controlling_terminal|세션]] 수([[167_cps_cyber_physical_system|CPS]])와 암호화(SSL) 가속 카드 용량을 실무 트래픽 기준 1.5배 이상으로 사이징했는가?
 
-### 안티패턴
-- **운영 인력 없는 IPS 도입**: 도입 초기 벤더사가 세팅해 준 기본(Default) 차단 룰셋만 켜놓고 방치하는 행위. 서비스 특성에 맞춘 지속적인 튜닝(예외 처리)이 없으면, 잦은 오탐(False Positive)으로 인해 현업 부서의 원성이 폭발하고, 결국 보안팀 스스로 IPS의 차단(Prevention) 모드를 끄고 모니터링(IDS) 모드로만 운영하게 되는 최악의 "비싼 고철 장비 전락" 사태를 맞이한다.
+### [[128_water_scrum_fall_anti_pattern|안티패턴]]
+- **운영 인력 없는 [[695_ips_network_intrusion_prevention_system|IPS]] 도입**: 도입 [[459_quic_fec_forward_error_correction|초기]] 벤더사가 세팅해 준 기본(Default) 차단 룰셋만 켜놓고 방치하는 행위. [[090_service_kubernetes_network_load_balancing|서비스]] 특성에 맞춘 지속적인 튜닝(예외 처리)이 없으면, 잦은 오탐(False Positive)으로 인해 현업 부서의 원성이 폭발하고, 결국 보안팀 스스로 IPS의 차단(Prevention) 모드를 끄고 모니터링(IDS) 모드로만 운영하게 되는 최악의 "비싼 고철 장비 전락" 사태를 맞이한다.
 
 - **📢 섹션 요약 비유**: IPS는 아주 날카로운 칼과 같아서 공격을 잘라내는 데 탁월하지만, 훈련된 요원(관제 인력의 튜닝)이 계속해서 날을 갈고 다듬어주지 않으면 정상적인 비즈니스라는 우리 자신의 팔다리(오탐 장애)를 베어버릴 수 있는 양날의 검입니다.
 
@@ -171,21 +171,21 @@ NIDS/NIPS가 네트워크 "외부"의 트래픽을 본다면, **HIDS (Host-based
 
 ### 정량/정성 기대효과 (HIDS 시스템 콜 트레이싱 도입 시)
 
-| 구분 | NIPS만 운용 (레거시 방어) | eBPF 기반 HIPS 도입 및 융합 운용 | 기술적 함의 |
+| 구분 | NIPS만 운용 (레거시 방어) | [[615_ebpf|eBPF]] 기반 HIPS 도입 및 융합 운용 | 기술적 함의 |
 |:---|:---|:---|:---|
-| **가시성** | 암호화 트래픽 내부 및 로컬 공격 경로 맹점 발생 | 커널 레벨 시스템 콜, 파일 액세스, 컨테이너 런타임 **가시성 100%** 확보 | 클라우드 워크로드 및 마이크로서비스 내부 통신망 감시 체계 완성 |
-| **정량 (탐지 속도)** | 로그 분석을 거쳐 수 분~수 시간 소요 | 이상 행위 발생 즉시 커널 스케줄러 단에서 프로세스 **밀리초 단위 차단** | 랜섬웨어 암호화가 시작되기 전 극초기 킬 체인 단계에서 절단 |
-| **정성 (보안 관제)** | 무의미한 네트워크 알람(Noise)의 홍수 | "A 프로세스가 B 파일을 변조하려 함"이라는 명확한 맥락(Context) 기반 알람 | 관제 대응(IR) 인력의 피로도 감소 및 신속한 의사결정 지원 |
+| **가시성** | 암호화 트래픽 내부 및 로컬 공격 경로 맹점 발생 | [[022_kernel_role|커널]] 레벨 시스템 콜, [[501_file_definition_logical_record|파일]] 액세스, [[628_container_runtime_oci|컨테이너 런타임]] **가시성 100%** 확보 | 클라우드 워크로드 및 [[532_microservices_decomposition_patterns|마이크로서비스]] 내부 통신망 감시 체계 완성 |
+| **정량 (탐지 속도)** | [[568_logs_distributed_logging_elk_fluentd|로그]] 분석을 거쳐 수 분~수 시간 소요 | 이상 행위 발생 즉시 [[022_kernel_role|커널]] [[079_kube_scheduler_pod_placement|스케줄러]] 단에서 프로세스 **밀리초 단위 차단** | [[730_ransomware|랜섬웨어]] 암호화가 시작되기 전 극초기 킬 체인 단계에서 절단 |
+| **정성 (보안 관제)** | 무의미한 네트워크 알람(Noise)의 홍수 | "A 프로세스가 B [[501_file_definition_logical_record|파일]]을 변조하려 함"이라는 명확한 맥락([[033_context|Context]]) 기반 알람 | 관제 대응([[165_ir|IR]]) 인력의 피로도 감소 및 신속한 의사결정 지원 |
 
 ### 미래 전망
-방화벽, IDS, IPS, 백신으로 파편화되어 발전하던 기술들은 이제 하나의 통합된 지능형 에이전트인 **XDR (Extended Detection and Response)** 과 클라우드 보안 형상 관리(CNAPP) 플랫폼으로 수렴하고 있다. 특히 현대 운영체제 생태계에서는 NIPS 하드웨어 장비에 의존하기보다, 리눅스 커널 내부의 샌드박스 프로그래밍 환경인 **eBPF (Extended Berkeley Packet Filter)** 를 활용하여 에이전트 설치 오버헤드 없이 OS 자체가 본연적으로 패킷을 필터링하고 시스템 콜을 검증하는 초경량, 고성능의 내재적 보안(Security by Design) 아키텍처가 미래 표준으로 자리 잡을 것이다.
+[[690_firewall_generation_evolution|방화벽]], IDS, [[695_ips_network_intrusion_prevention_system|IPS]], 백신으로 파편화되어 발전하던 기술들은 이제 하나의 통합된 지능형 에이전트인 **[[127_xdr_external_data_representation|XDR]] (Extended [[961_deepfake_detection|Detection]] and Response)** 과 클라우드 보안 [[020_software_configuration_management|형상 관리]]([[256_cnapp_cloud_native_application_protection|CNAPP]]) 플랫폼으로 수렴하고 있다. 특히 현대 [[001_operating_system_purpose|운영체제]] 생태계에서는 NIPS 하드웨어 장비에 의존하기보다, 리눅스 [[022_kernel_role|커널]] 내부의 샌드박스 프로그래밍 환경인 **[[615_ebpf|eBPF]] (Extended [[069_ebpf|Berkeley Packet Filter]])** 를 활용하여 에이전트 설치 오버헤드 없이 OS 자체가 본연적으로 패킷을 필터링하고 시스템 콜을 검증하는 초경량, 고성능의 [[058_security_by_design|내재적 보안]]([[058_security_by_design|Security by Design]]) 아키텍처가 미래 표준으로 자리 잡을 것이다.
 
 ### 참고 표준
-- **NIST SP 800-94**: 침입 탐지 및 방지 시스템(IDPS) 가이드라인
-- **ISO/IEC 27039**: 디지털 증거 수집 및 분석 (IDS 로그의 법적 보존)
-- **MITRE ATT&CK**: T1055 (Process Injection) 방어 및 완화 체계
+- **NIST [[166_sp|SP]] 800-94**: 침입 탐지 및 방지 시스템(IDPS) 가이드라인
+- **ISO/IEC 27039**: 디지털 증거 수집 및 분석 (IDS [[568_logs_distributed_logging_elk_fluentd|로그]]의 법적 보존)
+- **[[642_mitre_attack|MITRE ATT&CK]]**: T1055 ([[300_process|Process]] [[480_injection|Injection]]) 방어 및 완화 체계
 
-- **📢 섹션 요약 비유**: 성벽의 경비병(NIPS)에 의존하던 시대를 넘어, 이제는 모든 병사와 시민의 핏속에 나노 로봇(eBPF 커널 트레이서)을 주입하여 몸속에 나쁜 바이러스(비정상 명령)가 들어오는 즉시 유전자 단계에서 소멸시켜 버리는 궁극의 면역 체계로 진화하고 있습니다.
+- **📢 섹션 요약 비유**: 성벽의 경비병(NIPS)에 의존하던 시대를 넘어, 이제는 모든 병사와 시민의 핏속에 나노 로봇([[615_ebpf|eBPF]] [[022_kernel_role|커널]] 트레이서)을 주입하여 몸속에 나쁜 [[589_virus|바이러스]](비정상 명령)가 들어오는 즉시 유전자 단계에서 소멸시켜 버리는 궁극의 면역 체계로 진화하고 있습니다.
 
 ---
 
@@ -193,10 +193,10 @@ NIDS/NIPS가 네트워크 "외부"의 트래픽을 본다면, **HIDS (Host-based
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| 서비스 거부 (DoS) 및 분산 서비스 거부 (DDoS) 네트워크 자원 고갈 공격 | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
-| 포트 스캐닝 (Port Scanning) 도구 원리 | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
-| 샌드박싱 (Sandboxing) 기술 커널 래퍼 | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
-| 루트킷 (Rootkit) 커널 모듈 감염 방식 (시스템 콜 테이블 후킹) | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
+| [[599_dos_ddos_attack|서비스 거부]] ([[599_dos_ddos_attack|DoS]]) 및 [[136_variance|분산]] [[599_dos_ddos_attack|서비스 거부]] (DDoS) 네트워크 자원 고갈 공격 | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
+| [[600_port_scanning|포트 스캐닝]] ([[600_port_scanning|Port Scanning]]) 도구 원리 | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
+| [[602_sandboxing_kernel_wrapper|샌드박싱]] ([[602_sandboxing_kernel_wrapper|Sandboxing]]) 기술 [[022_kernel_role|커널]] 래퍼 | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
+| [[603_rootkit_syscall_hooking|루트킷]] ([[603_rootkit_syscall_hooking|Rootkit]]) [[022_kernel_role|커널]] [[192_module_independence|모듈]] 감염 방식 (시스템 콜 테이블 후킹) | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -214,6 +214,6 @@ NIDS/NIPS가 네트워크 "외부"의 트래픽을 본다면, **HIDS (Host-based
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. 방화벽은 아파트 입구에서 비밀번호를 모르는 나쁜 사람을 못 들어오게 막는 **현관문**이에요.
-2. 하지만 나쁜 사람이 택배 기사로 위장(암호화/웹 요청)해서 문을 통과해버리면 방화벽은 막지 못해요. 이때 복도에 설치된 **CCTV(IDS)** 가 그걸 보고 "경비 아저씨 출동하세요!" 하고 삐용삐용 알람을 울려주죠.
-3. 더 똑똑한 **방어 로봇(IPS)** 은 복도에서 나쁜 사람이 택배 상자에서 칼(해킹 코드)을 꺼내는 순간, 알람만 울리는 게 아니라 그 자리에서 직접 로봇 팔로 칼을 빼앗고 쫓아내는 멋진 경찰관 역할을 한답니다!
+1. [[690_firewall_generation_evolution|방화벽]]은 아파트 입구에서 비밀번호를 모르는 나쁜 사람을 못 들어오게 막는 **현관문**이에요.
+2. 하지만 나쁜 사람이 택배 기사로 위장(암호화/웹 요청)해서 문을 통과해버리면 [[690_firewall_generation_evolution|방화벽]]은 막지 못해요. 이때 복도에 설치된 **[[933_cctv|CCTV]](IDS)** 가 그걸 보고 "경비 아저씨 출동하세요!" 하고 삐용삐용 알람을 울려주죠.
+3. 더 똑똑한 **방어 로봇([[695_ips_network_intrusion_prevention_system|IPS]])** 은 복도에서 나쁜 사람이 택배 상자에서 칼(해킹 코드)을 꺼내는 순간, 알람만 울리는 게 아니라 그 자리에서 직접 로봇 팔로 칼을 빼앗고 쫓아내는 멋진 경찰관 역할을 한답니다!

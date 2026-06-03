@@ -7,8 +7,8 @@ categories = "studynote-dataengineering"
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: Self-Attention은 **시퀀스 내 모든 위치 쌍의 관련도를 계산**하는 메커니즘이고, Multi-Head는 **h개의 독립 Attention을 병렬 수행**하여 다양한 관점의 패턴을 학습하며, Positional Encoding은 **순서 정보를 주입**한다.
-> 2. **가치**: RNN은 순차 처리로 위치 정보가 자연 반영되지만, Transformer는 **순서 정보가 없으므로** Positional Encoding(사인/코사인 or 학습)으로 위치를 알려줘야 한다.
+> 1. **본질**: Self-Attention은 **시퀀스 내 모든 위치 쌍의 관련도를 계산**하는 메커니즘이고, Multi-Head는 **h개의 독립 Attention을 [[430_index_fast_full_scan|병렬]] 수행**하여 다양한 관점의 패턴을 학습하며, Positional Encoding은 **순서 정보를 주입**한다.
+> 2. **가치**: RNN은 순차 처리로 위치 정보가 자연 반영되지만, Transformer는 **순서 정보가 없으므로** [[300_positional_encoding|Positional Encoding]](사인/코사인 or 학습)으로 위치를 알려줘야 한다.
 > 3. **판단 포인트**: head 수(h=8~96)·d_model(512~4096)이 핵심 하이퍼파라미터이며, RoPE(Rotary PE)가 LLM의 표준 위치 인코딩이다.
 
 ---
@@ -29,7 +29,7 @@ Positional Encoding:
 
 ## Ⅱ~Ⅴ. 결론
 
-Self-Attention+Multi-Head+PE는 **Transformer의 3대 핵심 구성**이며, RoPE가 LLM 위치 인코딩의 표준이다.
+[[124_self_attention|Self-Attention]]+Multi-Head+PE는 **Transformer의 3대 핵심 구성**이며, RoPE가 [[263_llm_large_language_model|LLM]] 위치 인코딩의 표준이다.
 
 ---
 
@@ -37,9 +37,9 @@ Self-Attention+Multi-Head+PE는 **Transformer의 3대 핵심 구성**이며, RoP
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **Self-Attention** | 자기 참조 관련도 |
-| **Multi-Head** | 다관점 병렬 |
-| **Positional Encoding** | 순서 정보 주입 |
+| **[[124_self_attention|Self-Attention]]** | 자기 [[316_reference_pattern_nosql|참조]] 관련도 |
+| **Multi-Head** | 다관점 [[430_index_fast_full_scan|병렬]] |
+| **[[300_positional_encoding|Positional Encoding]]** | 순서 정보 주입 |
 | **RoPE** | 회전 위치 인코딩 |
 | **ALiBi** | 위치 바이어스 대안 |
 

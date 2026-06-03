@@ -7,24 +7,24 @@ tags = ["PSK", "8PSK", "16PSK", "MPSK", "constellation", "QAM", "BER", "spectral
 +++
 
 > **핵심 인사이트 3줄**
-> 1. M진 PSK(M-ary PSK)는 M개의 위상(phase)으로 log₂M 비트를 하나의 심볼에 실어 전송하는 대역폭 효율적 변조 방식이다.
-> 2. M이 커질수록 주파수 효율은 높아지지만 성상도(constellation) 포인트 간격이 좁아져 잡음에 취약해진다.
-> 3. 8PSK는 3G UMTS 업링크에, 16QAM/64QAM은 LTE/5G에서 사용되며, 고차 변조일수록 높은 SNR이 필요하다.
+> 1. M진 [[142_psk_pre_shared_key|PSK]](M-ary [[142_psk_pre_shared_key|PSK]])는 M개의 위상(phase)으로 log₂M [[073_bit|비트]]를 하나의 심볼에 실어 전송하는 [[140_bandwidth|대역폭]] 효율적 변조 방식이다.
+> 2. M이 커질수록 주파수 효율은 높아지지만 [[053_성상도_Constellation_Diagram|성상도]](constellation) 포인트 간격이 좁아져 잡음에 취약해진다.
+> 3. 8PSK는 3G UMTS 업링크에, 16QAM/64QAM은 [[752_lte_long_term_evolution_4g|LTE]]/5G에서 사용되며, 고차 변조일수록 높은 SNR이 필요하다.
 
 ---
 
-## Ⅰ. PSK 기초와 M진 확장
+## Ⅰ. [[142_psk_pre_shared_key|PSK]] 기초와 M진 확장
 
 ### 1.1 BPSK → QPSK → 8PSK 흐름
 
-| 방식  | M   | 비트/심볼 | 위상 간격 | 주요 용도          |
+| 방식  | M   | [[073_bit|비트]]/심볼 | 위상 간격 | 주요 용도          |
 |-------|-----|-----------|-----------|-------------------|
 | BPSK  | 2   | 1         | 180°      | 위성, GPS          |
-| QPSK  | 4   | 2         | 90°       | LTE, DVB           |
+| QPSK  | 4   | 2         | 90°       | [[752_lte_long_term_evolution_4g|LTE]], DVB           |
 | 8PSK  | 8   | 3         | 45°       | 3G, DVB-S2        |
 | 16PSK | 16  | 4         | 22.5°     | (대부분 16QAM 선호) |
 
-### 1.2 성상도 (Constellation Diagram)
+### 1.2 [[053_성상도_Constellation_Diagram|성상도]] ([[053_성상도_Constellation_Diagram|Constellation Diagram]])
 
 ```
 8PSK 성상도 (단위 원)
@@ -46,7 +46,7 @@ tags = ["PSK", "8PSK", "16PSK", "MPSK", "constellation", "QAM", "BER", "spectral
 
 ### 2.1 Gray 코딩
 
-인접 심볼이 1비트만 다르도록 배치 → 오류 시 비트 오류 최소화.
+인접 심볼이 1비트만 다르도록 배치 → 오류 시 [[073_bit|비트]] 오류 최소화.
 
 ```
 000 → 001 → 011 → 010 → 110 → 111 → 101 → 100 (Gray)
@@ -67,7 +67,7 @@ M이 커지면 같은 BER을 위해 더 높은 Eb/N₀ 필요.
 ### 3.1 왜 16QAM이 선호되는가?
 
 16PSK는 16개 포인트를 단위 원에만 배치 → 포인트 간격이 매우 좁다.
-16QAM은 진폭+위상 2차원으로 분산 배치 → 같은 M에서 더 넓은 최소 거리.
+16QAM은 진폭+위상 2차원으로 [[136_variance|분산]] 배치 → 같은 M에서 더 넓은 최소 거리.
 
 ```
 16QAM 성상도:                16PSK 성상도:
@@ -79,9 +79,9 @@ M이 커지면 같은 BER을 위해 더 높은 Eb/N₀ 필요.
 
 ### 3.2 결론
 
-고차 PSK(16PSK 이상)는 실용 시스템에서 거의 쓰이지 않고 QAM으로 대체된다.
+고차 [[142_psk_pre_shared_key|PSK]](16PSK 이상)는 실용 시스템에서 거의 쓰이지 않고 QAM으로 대체된다.
 
-📢 **섹션 요약 비유**: 원 위에만 사탕 놓기(PSK)보다 사각 격자에 놓기(QAM)가 간격이 넓어 잘 안 헷갈린다.
+📢 **섹션 요약 비유**: 원 위에만 사탕 놓기([[142_psk_pre_shared_key|PSK]])보다 사각 격자에 놓기(QAM)가 간격이 넓어 잘 안 헷갈린다.
 
 ---
 
@@ -89,18 +89,18 @@ M이 커지면 같은 BER을 위해 더 높은 Eb/N₀ 필요.
 
 ### 4.1 표준별 변조 방식
 
-| 표준       | 변조 방식                     | 비트/심볼 |
+| 표준       | 변조 방식                     | [[073_bit|비트]]/심볼 |
 |-----------|-------------------------------|-----------|
 | GSM/EDGE  | 8PSK (EDGE 전용)              | 3         |
 | DVB-S2    | 8PSK, 16APSK, 32APSK          | 3~5       |
-| LTE DL    | QPSK, 16QAM, 64QAM, 256QAM   | 2~8       |
-| 5G NR     | π/2-BPSK ~ 1024QAM            | 1~10      |
+| [[752_lte_long_term_evolution_4g|LTE]] DL    | QPSK, 16QAM, 64QAM, 256QAM   | 2~8       |
+| [[763_5g_nr_new_radio_scalable_numerology|5G NR]]     | π/2-BPSK ~ 1024QAM            | 1~[[489_raid_10_hybrid|10]]      |
 
 ### 4.2 적응형 변조(AMC)
 
-채널 상태(SNR)에 따라 변조 차수를 동적 변경:
+채널 상태([[024_신호_대_잡음비|SNR]])에 따라 변조 차수를 동적 변경:
 - 좋은 채널 → 256QAM (높은 처리율)
-- 나쁜 채널 → QPSK (높은 신뢰성)
+- 나쁜 채널 → QPSK (높은 [[642_reliability_mtbf_mttr_mttf_availability|신뢰성]])
 
 📢 **섹션 요약 비유**: AMC는 길이 좋으면 고속도로(256QAM), 비 오면 골목길(QPSK) — 도로 상태에 맞춰 속도 선택.
 
@@ -119,11 +119,11 @@ M이 커지면 같은 BER을 위해 더 높은 Eb/N₀ 필요.
 | 16    | 4          |
 | 256   | 8          |
 
-### 5.2 Shannon 용량과의 관계
+### 5.2 Shannon 용량과의 [[083_relationship_in_er_model|관계]]
 
-C = B × log₂(1 + SNR) — 실제 변조 차수는 Shannon 한계의 70~90% 수준 설계.
+C = B × log₂(1 + [[024_신호_대_잡음비|SNR]]) — 실제 변조 차수는 Shannon 한계의 70~90% 수준 설계.
 
-📢 **섹션 요약 비유**: 도로 차선(대역폭)은 고정, 차(심볼) 하나에 더 많은 짐(비트)을 실을수록 효율 ↑ — 단, 짐이 너무 많으면 균형 잃는다.
+📢 **섹션 요약 비유**: 도로 차선([[140_bandwidth|대역폭]])은 고정, 차(심볼) 하나에 더 많은 짐([[073_bit|비트]])을 실을수록 효율 ↑ — 단, 짐이 너무 많으면 균형 잃는다.
 
 ---
 
@@ -165,7 +165,7 @@ AMC (Adaptive Modulation and Coding)
 OFDM + AMC (현대 이동통신 핵심)
 ```
 
-**핵심 키워드**: 성상도, Gray 코딩, 스펙트럼 효율, BER, AMC, QAM, OFDM
+**핵심 키워드**: [[053_성상도_Constellation_Diagram|성상도]], Gray 코딩, 스펙트럼 효율, BER, AMC, QAM, OFDM
 
 ---
 

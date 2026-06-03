@@ -8,24 +8,24 @@ categories = "studynote-design-supervision"
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 메서드 분리 (Extract Method) 는 긴 메서드 내 코드 블록을 의미 있는 이름의 독립 메서드로 추출해 가독성·재사용성을 높이는 리팩토링의 기초 기법이다.
-> 2. **가치**: 코드 스멜(Code Smell) 중 '롱 메서드(Long Method)'를 직접 제거하며, 단일 책임 원칙 (SRP: Single Responsibility Principle) 을 메서드 수준에서 실현한다.
+> 1. **본질**: 메서드 분리 (Extract Method) 는 긴 메서드 내 코드 블록을 의미 있는 이름의 독립 메서드로 추출해 [[333_readability_vs_efficiency|가독성]]·재사용성을 높이는 [[213_refactoring_cloud_native_rearchitecture|리팩토링]]의 기초 기법이다.
+> 2. **가치**: [[370_code_smell|코드 스멜]]([[365_5_solid_code_smell|Code Smell]]) 중 '롱 메서드(Long Method)'를 직접 제거하며, [[355_process|단일 책임 원칙]] ([[243_srp_single_responsibility_principle|SRP]]: [[243_srp_single_responsibility_principle|Single Responsibility Principle]]) 을 메서드 수준에서 실현한다.
 > 3. **판단 포인트**: "이 코드 블록에 이름을 붙일 수 있는가?" — 붙일 수 있다면 분리해야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
-메서드 분리 (Extract Method) 란 한 메서드 내에 묶인 코드 조각을 **별도 메서드**로 떼어내고, 원래 위치에서 새 메서드를 **호출**하도록 대체하는 기법이다. 마틴 파울러 (Martin Fowler) 의 『리팩토링 (Refactoring)』 목록에서 가장 자주 쓰이는 기법 1위에 해당한다.
+메서드 분리 (Extract Method) 란 한 메서드 내에 묶인 코드 조각을 **별도 메서드**로 떼어내고, 원래 위치에서 새 메서드를 **호출**하도록 대체하는 기법이다. 마틴 파울러 (Martin Fowler) 의 『[[213_refactoring_cloud_native_rearchitecture|리팩토링]] ([[078_refactoring_code_smells|Refactoring]])』 목록에서 가장 자주 쓰이는 기법 1위에 해당한다.
 
 - **롱 메서드 (Long Method)**: 한 메서드가 50줄을 넘어서면 이해와 테스트가 어려워진다.
-- **중복 코드 (Duplicated Code)**: 동일 로직이 여러 메서드에 산재해 수정 시 누락이 발생한다.
-- **주석 의존성**: "// 주문 유효성 검사" 같은 주석은 분리 신호다.
+- **중복 코드 (Duplicated [[082_process_memory_structure|Code]])**: 동일 로직이 여러 메서드에 산재해 수정 시 누락이 발생한다.
+- **주석 의존성**: "// 주문 유효성 검사" 같은 주석은 분리 [[130_signal|신호]]다.
 
-| 신호 | 예시 |
+| [[130_signal|신호]] | 예시 |
 |:---|:---|
 | 주석으로 블록을 설명 | `// 세금 계산` 이후 5줄 |
 | 들여쓰기 깊이 3단 이상 | `if { for { if { ... }}}` |
-| 메서드 길이 30줄 초과 | 실무 기준 10~20줄 권고 |
+| 메서드 길이 30줄 초과 | 실무 기준 [[489_raid_10_hybrid|10]]~20줄 권고 |
 | 동일 코드 2회 이상 반복 | 복붙 후 변수명만 다름 |
 
 ```text
@@ -59,11 +59,11 @@ categories = "studynote-design-supervision"
                                     └─────────────────────────────┘
 ```
 
-1. **새 메서드 생성** — 의도를 드러내는 이름 결정 (how가 아닌 **what**)
+1. **새 메서드 [[087_process_state_transition|생성]]** — 의도를 드러내는 이름 결정 (how가 아닌 **what**)
 2. **코드 복사** — 원본 블록을 새 메서드로 복사
 3. **지역 변수 처리** — 참조하는 지역 변수를 매개변수로 전달 또는 반환값 처리
 4. **원본 교체** — 원본 블록을 새 메서드 호출로 대체
-5. **컴파일·테스트** — 동작 불변 확인
+5. **컴파일·테스트** — 동작 불변 [[396_validation|확인]]
 
 ```
 ┌─────────────────────────────────────────────────────┐
@@ -80,7 +80,7 @@ categories = "studynote-design-supervision"
 |:---|:---|:---|
 | 핵심 역할 | 입력·상태·출력을 분리하는 책임 경계 | 구현보다 경계를 먼저 본다. |
 | 제어 지점 | 조건, 이벤트, 정책이 만나는 곳 | 병목과 결합이 생기는 곳이다. |
-| 검증 포인트 | 테스트·로그·모니터링으로 확인할 지점 | 운영 가능성이 설계 품질을 결정한다. |
+| [[395_verification_process_review|검증]] 포인트 | 테스트·[[568_logs_distributed_logging_elk_fluentd|로그]]·모니터링으로 [[396_validation|확인]]할 지점 | 운영 가능성이 설계 품질을 결정한다. |
 
 - **📢 섹션 요약 비유**: 요리사가 "잡채 소스 만들기"를 별도 레시피 카드로 분리하고, 필요한 재료(매개변수)만 건네받아 완성품(반환값)을 돌려주는 방식이다.
 
@@ -92,35 +92,35 @@ categories = "studynote-design-supervision"
 | 메서드 분리 (Extract Method) | 긴 메서드 단축 | 코드 블록 | 롱 메서드 존재 |
 | 메서드 인라인 (Inline Method) | 불필요한 위임 제거 | 단순 위임 메서드 | 메서드 내용이 이름보다 명확 |
 | 클래스 분리 (Extract Class) | 큰 클래스 분해 | 필드+메서드 묶음 | 라지 클래스 존재 |
-| 파라미터 객체화 (Introduce Parameter Object) | 긴 매개변수 정리 | 매개변수 묶음 | 데이터 클럼프 존재 |
+| [[242_introduce_parameter_object|파라미터 객체화]] ([[242_introduce_parameter_object|Introduce Parameter Object]]) | 긴 매개변수 정리 | 매개변수 묶음 | [[001_dikw_pyramid|데이터]] 클럼프 존재 |
 
-단일 책임 원칙 (SRP: Single Responsibility Principle) 은 클래스 수준이지만, Extract Method는 **메서드 수준**에서 SRP를 구현한다. 각 메서드가 **하나의 추상화 수준 (Single Level of Abstraction, SLA)** 만 담당하도록 강제한다.
+[[355_process|단일 책임 원칙]] ([[243_srp_single_responsibility_principle|SRP]]: [[243_srp_single_responsibility_principle|Single Responsibility Principle]]) 은 클래스 수준이지만, Extract Method는 **메서드 수준**에서 SRP를 구현한다. 각 메서드가 **하나의 [[198_abstraction_control_data_process|추상화]] 수준 (Single Level of [[198_abstraction_control_data_process|Abstraction]], [[085_sla|SLA]])** 만 담당하도록 강제한다.
 
 - **📢 섹션 요약 비유**: "물 끓이기 + 면 삶기 + 소스 만들기"를 하나의 작업 지시서에 쓰면 혼란스럽다 — 각각 분리된 레시피 카드가 SRP다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
-현대 IDE (Integrated Development Environment) 는 단축키 하나로 자동 Extract Method를 수행한다.
+현대 IDE (Integrated Development [[066_gitlab_flow_environment_branch_strategy|Environment]]) 는 단축키 하나로 자동 Extract Method를 수행한다.
 
 - **IntelliJ IDEA**: `Ctrl+Alt+M` (macOS: `Cmd+Opt+M`)
 - **Eclipse**: `Alt+Shift+M`
-- **VS Code**: 선택 후 전구 아이콘 → Extract Method
+- **VS [[082_process_memory_structure|Code]]**: 선택 후 전구 아이콘 → Extract Method
 
 IDE는 지역 변수 스코프를 자동 분석해 매개변수·반환값을 결정한다.
 
-- **코드 리뷰 기준**: PR (Pull Request) 리뷰 시 메서드 길이 20줄 초과면 분리 요청이 표준 관례다.
-- **테스트 용이성**: 분리된 작은 메서드는 단위 테스트 (Unit Test) 작성이 쉬워 코드 커버리지 향상에 직결된다.
+- **[[330_code_review|코드 리뷰]] 기준**: [[067_pull_request_pr_merge_request_code_review|PR]] ([[067_pull_request_pr_merge_request_code_review|Pull Request]]) 리뷰 시 메서드 길이 20줄 초과면 분리 요청이 표준 관례다.
+- **테스트 용이성**: 분리된 작은 메서드는 [[397_unit_test|단위 테스트]] ([[397_unit_test|Unit Test]]) 작성이 쉬워 [[078_code_coverage|코드 커버리지]] 향상에 직결된다.
 - **온보딩 비용 절감**: 신규 개발자가 개별 메서드를 읽고 이해하는 시간이 50% 이상 단축된다는 실증 연구가 있다.
 
 - **과잉 분리**: 단 1~2줄 코드를 무조건 분리하면 오히려 호출 스택이 복잡해진다.
-- **성능**: JVM (Java Virtual Machine) 은 인라이닝 최적화를 수행하므로 성능 저하는 실질적으로 없다.
+- **[[282_performance_tactics|성능]]**: JVM (Java [[598_vm_migration_nic|Virtual Machine]]) 은 인라이닝 최적화를 수행하므로 [[282_performance_tactics|성능]] 저하는 실질적으로 없다.
 - **이름 선택**: 동사+목적어 형태(`calculateTax`, `validateInput`)로 의도를 명확히 한다.
 
-### 판단 체크리스트
+### 판단 [[435_checklist_based_testing|체크리스트]]
 1. 변경 전 동작을 고정할 테스트가 준비되었는가?
 2. 냄새의 원인이 구조 문제인지 일회성 구현인지 구분했는가?
-3. 리팩토링 단위를 작게 나눠 롤백 가능하게 했는가?
+3. [[213_refactoring_cloud_native_rearchitecture|리팩토링]] 단위를 작게 나눠 [[098_rollback_strategy_pipeline_error_threshold|롤백]] 가능하게 했는가?
 4. 명명·모델·패키지 경계가 함께 개선되는가?
 
 - **📢 섹션 요약 비유**: 공장 조립 라인을 "부품 A 조립 → 부품 B 조립 → 완제품 검사"처럼 공정 단위로 나눠야 QC(품질 관리)가 가능하다.
@@ -131,31 +131,31 @@ IDE는 지역 변수 스코프를 자동 분석해 매개변수·반환값을 �
 | 지표 | 분리 전 | 분리 후 |
 |:---|:---:|:---:|
 | 메서드 평균 길이 | 80줄 | 15줄 |
-| 단위 테스트 커버리지 | 30% | 75% |
-| 코드 리뷰 소요 시간 | 45분 | 20분 |
+| [[397_unit_test|단위 테스트]] 커버리지 | 30% | 75% |
+| [[330_code_review|코드 리뷰]] 소요 시간 | 45분 | 20분 |
 | 버그 수정 사이클 | 2일 | 0.5일 |
 
-메서드 분리 (Extract Method) 는 리팩토링의 알파이자 오메가다. 코드를 **읽는 코드**로 만드는 첫 번째 도구이며, 이후 모든 고수준 패턴 적용의 **전제 조건**이다. 기술사 설계 논술에서는 레거시 시스템 개선 방안으로 "Extract Method + 단위 테스트 보강"을 표준 답안으로 제시할 수 있다.
+메서드 분리 (Extract Method) 는 [[213_refactoring_cloud_native_rearchitecture|리팩토링]]의 알파이자 오메가다. 코드를 **읽는 코드**로 만드는 첫 번째 도구이며, 이후 모든 고수준 패턴 적용의 **전제 조건**이다. 기술사 설계 논술에서는 레거시 시스템 개선 방안으로 "Extract Method + [[397_unit_test|단위 테스트]] 보강"을 표준 답안으로 제시할 수 있다.
 
-확장 방향은 ① 정적 분석 자동화, ② 아키텍처 적합성 검증, ③ 작은 단위의 상시 리팩토링 문화 정착이다.
+확장 방향은 ① [[331_static_analysis|정적 분석]] 자동화, ② 아키텍처 적합성 [[395_verification_process_review|검증]], ③ 작은 단위의 상시 [[213_refactoring_cloud_native_rearchitecture|리팩토링]] 문화 정착이다.
 
 - **📢 섹션 요약 비유**: �� **섹션 요약 비유**: 잡동사니가 가득한 창고를 "공구 코너", "소모품 코너", "안전 장비 코너"로 나누면 찾기도 쉽고, 점검도 쉽다 — Extract Method가 바로 그 정리 작업이다.
 
 ---
 
 ### 📌 관련 개념 맵
-| 관계 | 개념 | 설명 |
+| [[083_relationship_in_er_model|관계]] | 개념 | 설명 |
 |:---|:---|:---|
-| 상위 개념 | 리팩토링 (Refactoring) | 외부 동작 불변 하에 내부 구조 개선 |
-| 상위 개념 | 코드 스멜 (Code Smell) | 설계 문제를 드러내는 코드 냄새 |
+| 상위 개념 | [[213_refactoring_cloud_native_rearchitecture|리팩토링]] ([[078_refactoring_code_smells|Refactoring]]) | 외부 동작 불변 하에 내부 구조 개선 |
+| 상위 개념 | [[370_code_smell|코드 스멜]] ([[365_5_solid_code_smell|Code Smell]]) | 설계 문제를 드러내는 코드 냄새 |
 | 하위 개념 | 롱 메서드 (Long Method) | Extract Method의 주요 대상 스멜 |
-| 연관 개념 | 단일 책임 원칙 (SRP) | 메서드도 하나의 책임만 가져야 함 |
-| 연관 개념 | 단일 추상화 수준 (SLA: Single Level of Abstraction) | 메서드 내 코드의 추상화 일관성 |
-| 연관 개념 | 단위 테스트 (Unit Test) | 분리 후 독립 검증 가능 |
-| 도구 | IDE 자동 리팩토링 | IntelliJ, Eclipse, VS Code |
+| 연관 개념 | [[355_process|단일 책임 원칙]] ([[243_srp_single_responsibility_principle|SRP]]) | 메서드도 하나의 책임만 가져야 함 |
+| 연관 개념 | 단일 [[198_abstraction_control_data_process|추상화]] 수준 ([[085_sla|SLA]]: Single Level of [[198_abstraction_control_data_process|Abstraction]]) | 메서드 내 코드의 [[198_abstraction_control_data_process|추상화]] [[194_consistency_database_integrity|일관성]] |
+| 연관 개념 | [[397_unit_test|단위 테스트]] ([[397_unit_test|Unit Test]]) | 분리 후 독립 [[395_verification_process_review|검증]] 가능 |
+| 도구 | IDE 자동 [[213_refactoring_cloud_native_rearchitecture|리팩토링]] | IntelliJ, Eclipse, VS [[082_process_memory_structure|Code]] |
 
 ### 📈 관련 키워드 및 발전 흐름도
-긴 메서드 → 메서드 분리 리팩토링 → 의도 기반 조합
+긴 메서드 → 메서드 분리 [[213_refactoring_cloud_native_rearchitecture|리팩토링]] → 의도 기반 조합
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 긴 일기를 쓸 때 "학교 이야기", "점심 이야기", "놀이터 이야기"로 나눠 쓰는 것처럼, 긴 코드도 의미 있는 이름의 작은 조각으로 나눈다.

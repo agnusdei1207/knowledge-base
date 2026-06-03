@@ -8,17 +8,17 @@ categories = "studynote-computer-architecture"
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 페이지랭크 (PageRank) 하드웨어 맵핑은 반복적인 중요도 전파 계산을 희소 행렬-벡터 곱셈 파이프라인으로 바꾸어, 알고리즘의 흐름 자체를 하드웨어 데이터 경로로 구현하는 것이다.
-> 2. **가치**: 웹 링크나 추천 그래프처럼 간선 수가 막대한 데이터에서는 명령어 해석보다 메모리 스트리밍과 누산이 지배적이므로, 전용 맵핑이 처리량과 전력 효율을 동시에 높인다.
-> 3. **판단 포인트**: 성공 여부는 곱셈기 개수보다 그래프 파티셔닝, 누산 충돌 완화, 정밀도 선택, 수렴 검사 비용을 어떻게 설계하느냐에 달려 있다.
+> 1. **본질**: 페이지랭크 (PageRank) 하드웨어 맵핑은 반복적인 중요도 전파 계산을 희소 행렬-벡터 곱셈 파이프라인으로 바꾸어, [[001_algorithm_definition|알고리즘]]의 흐름 자체를 하드웨어 [[001_dikw_pyramid|데이터]] 경로로 구현하는 것이다.
+> 2. **가치**: 웹 링크나 추천 [[070_graph_datastructure|그래프]]처럼 간선 수가 막대한 [[001_dikw_pyramid|데이터]]에서는 [[158_instruction|명령어]] 해석보다 메모리 스트리밍과 누산이 지배적이므로, 전용 맵핑이 처리량과 전력 효율을 동시에 높인다.
+> 3. **판단 포인트**: 성공 여부는 곱셈기 개수보다 [[070_graph_datastructure|그래프]] [[179_table_partitioning_concept|파티셔닝]], 누산 충돌 완화, [[233_precision_recall_f1_roc_auc_threshold|정밀도]] 선택, 수렴 검사 비용을 어떻게 설계하느냐에 달려 있다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-페이지랭크는 들어오는 링크의 양과 질을 이용해 정점 중요도를 반복 계산하는 알고리즘이다. 검색 랭킹, 추천, 계정 영향력 분석에서 널리 쓰이지만, 한 번만 계산하면 끝나는 작업이 아니라 수렴할 때까지 그래프 전체를 여러 번 다시 읽어야 한다. 그래서 성능 병목은 계산식보다도 간선과 랭크 벡터를 얼마나 규칙적으로 흘려보내는지에 있다.
+페이지랭크는 들어오는 링크의 양과 질을 이용해 정점 중요도를 반복 계산하는 [[001_algorithm_definition|알고리즘]]이다. 검색 랭킹, 추천, 계정 영향력 분석에서 널리 쓰이지만, 한 번만 계산하면 끝나는 작업이 아니라 수렴할 때까지 [[070_graph_datastructure|그래프]] 전체를 여러 번 다시 읽어야 한다. 그래서 [[282_performance_tactics|성능]] 병목은 계산식보다도 간선과 랭크 벡터를 얼마나 규칙적으로 흘려보내는지에 있다.
 
-범용 중앙처리장치 (Central Processing Unit, CPU)나 그래픽 처리 장치 (Graphics Processing Unit, GPU)도 PageRank를 수행할 수 있지만, 반복마다 메모리 간접 참조와 누산 동기화가 크게 발생한다. 특히 수억~수십억 간선을 가진 그래프에서는 명령어 해석과 캐시 미스가 누적되어 전력 소모가 급격히 커진다. PageRank가 하드웨어 맵핑 대상이 되는 이유는, 같은 그래프를 비슷한 패턴으로 반복 순회하므로 스트리밍 파이프라인으로 바꾸기 좋기 때문이다.
+범용 중앙처리장치 (Central Processing Unit, CPU)나 그래픽 처리 장치 ([[418_gpu|Graphics Processing Unit]], [[418_gpu|GPU]])도 PageRank를 수행할 수 있지만, 반복마다 메모리 간접 참조와 누산 동기화가 크게 발생한다. 특히 수억~수십억 간선을 가진 [[070_graph_datastructure|그래프]]에서는 [[158_instruction|명령어]] 해석과 캐시 미스가 누적되어 전력 소모가 급격히 커진다. PageRank가 하드웨어 맵핑 대상이 되는 이유는, 같은 [[070_graph_datastructure|그래프]]를 비슷한 패턴으로 반복 순회하므로 스트리밍 파이프라인으로 바꾸기 좋기 때문이다.
 
 - **📢 섹션 요약 비유**: 사람이 한 장씩 장부를 넘기며 점수를 다시 계산하는 대신, 공장 컨베이어벨트 위로 장부를 계속 흘려보내며 자동으로 점수를 갱신하는 구조가 바로 PageRank 하드웨어 맵핑이다.
 
@@ -26,7 +26,7 @@ categories = "studynote-computer-architecture"
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-PageRank 계산은 사실상 희소 행렬-벡터 곱셈 (Sparse Matrix-Vector Multiplication, SpMV)과 정규화의 반복이다. 일반식은 `R_{k+1}(v) = (1-d)/N + d × Σ_{u→v} R_k(u)/outdeg(u)` 형태이며, 여기서 감쇠 계수 (Damping Factor, d)는 보통 0.85 안팎이다. 하드웨어는 발신 정점 기준의 압축 희소 행 형식 (Compressed Sparse Row, CSR)이나 수신 정점 기준의 압축 희소 열 형식 (Compressed Sparse Column, CSC)으로 간선을 저장한 뒤, 기여도 계산·누산·수렴 검사 단계를 파이프라인으로 연결한다.
+PageRank 계산은 사실상 희소 행렬-벡터 곱셈 (Sparse Matrix-Vector Multiplication, SpMV)과 [[093_normalization|정규화]]의 반복이다. 일반식은 `R_{k+1}(v) = (1-d)/N + d × Σ_{u→v} R_k(u)/outdeg(u)` 형태이며, 여기서 감쇠 계수 (Damping Factor, d)는 보통 0.85 안팎이다. 하드웨어는 발신 정점 기준의 [[347_compaction|압축]] 희소 행 형식 (Compressed Sparse Row, [[169_pkcs10_csr|CSR]])이나 수신 정점 기준의 [[347_compaction|압축]] 희소 열 형식 (Compressed Sparse Column, CSC)으로 간선을 저장한 뒤, 기여도 계산·누산·수렴 검사 단계를 파이프라인으로 연결한다.
 
 아래 그림은 PageRank를 스트리밍 하드웨어로 맵핑할 때의 대표 흐름을 보여 준다.
 
@@ -52,13 +52,13 @@ PageRank 계산은 사실상 희소 행렬-벡터 곱셈 (Sparse Matrix-Vector M
 | 구성 요소 | 역할 | 설계 포인트 |
 | :--- | :--- | :--- |
 | 랭크 벡터 버퍼 (Rank Vector Buffer) | 현재 반복의 정점 점수 저장 | 온칩 버퍼와 오프칩 메모리 간 교통량 최소화 |
-| 간선 블록 리더 (Edge Block Reader) | CSR/CSC 블록을 순차 스트리밍 | 파티션 크기와 메모리 정렬이 중요 |
-| 기여도 계산기 (Contribution Engine) | `rank/outdegree` 연산 수행 | 고정소수점과 부동소수점 선택이 핵심 |
+| 간선 블록 리더 (Edge Block Reader) | [[169_pkcs10_csr|CSR]]/CSC 블록을 순차 스트리밍 | [[514_partition_slice_volume|파티션]] 크기와 메모리 정렬이 중요 |
+| 기여도 계산기 (Contribution Engine) | `rank/outdegree` 연산 수행 | [[086_fixed_point|고정소수점]]과 [[087_floating_point|부동소수점]] 선택이 핵심 |
 | 누산 뱅크 (Accumulation Banks) | 목적지 정점별 부분합 저장 | 충돌이 심하면 원자적 갱신 비용이 커진다 |
-| 감쇠·정규화 유닛 (Damping / Normalize Unit) | 감쇠 계수 적용, 누락 질량 보정 | 매달린 정점 (Dangling Node) 처리 필요 |
+| 감쇠·[[093_normalization|정규화]] 유닛 (Damping / Normalize Unit) | 감쇠 계수 적용, 누락 질량 보정 | 매달린 정점 (Dangling Node) 처리 필요 |
 | 수렴 검사기 (Convergence Checker) | 반복 종료 여부 판단 | 오차 한계값과 검사 빈도의 균형이 필요 |
 
-PageRank 하드웨어 맵핑에서 자주 부딪히는 선택은 `gather`와 `scatter`다. CSC 기반 `gather`는 목적지 정점별 누산이 단순해 제어가 쉬운 반면, CSR 기반 `scatter`는 발신 정점 스트리밍이 자연스러워 메모리 읽기 효율이 좋다. 또한 16~32비트 고정소수점으로도 순위 안정성이 충분한 경우가 많지만, 정밀도 민감도가 큰 환경에서는 부동소수점이 필요하므로 성능과 재현성 사이의 균형을 잡아야 한다.
+PageRank 하드웨어 맵핑에서 자주 부딪히는 선택은 `gather`와 `scatter`다. CSC 기반 `gather`는 목적지 정점별 누산이 단순해 제어가 쉬운 반면, [[169_pkcs10_csr|CSR]] 기반 `scatter`는 발신 정점 스트리밍이 자연스러워 메모리 읽기 효율이 좋다. 또한 16~32비트 [[086_fixed_point|고정소수점]]으로도 순위 안정성이 충분한 경우가 많지만, [[233_precision_recall_f1_roc_auc_threshold|정밀도]] 민감도가 큰 환경에서는 [[087_floating_point|부동소수점]]이 필요하므로 [[282_performance_tactics|성능]]과 재현성 사이의 균형을 잡아야 한다.
 
 - **📢 섹션 요약 비유**: 하드웨어 맵핑은 우유, 밀가루, 설탕을 그때그때 꺼내 보는 수제 제과점이 아니라, 재료가 흘러오면 정해진 순서대로 섞고 굽고 포장하는 자동화 생산라인에 가깝다.
 
@@ -66,39 +66,39 @@ PageRank 하드웨어 맵핑에서 자주 부딪히는 선택은 `gather`와 `sc
 
 ## Ⅲ. 비교 및 연결
 
-PageRank는 같은 그래프 알고리즘이라도 BFS보다 하드웨어 맵핑이 쉬운 편이다. BFS는 프런티어가 단계마다 급격히 변하고 방문 비트맵 충돌이 심하지만, PageRank는 그래프 전체를 반복적으로 비교적 균일하게 훑는다. 그래서 현장 프로그래머블 게이트 배열 (Field-Programmable Gate Array, FPGA)이나 주문형 반도체 (Application-Specific Integrated Circuit, ASIC) 기반 데이터플로우 설계와 잘 맞는다.
+PageRank는 같은 [[070_graph_datastructure|그래프]] [[001_algorithm_definition|알고리즘]]이라도 BFS보다 하드웨어 맵핑이 쉬운 편이다. BFS는 프런티어가 단계마다 급격히 변하고 방문 비트맵 충돌이 심하지만, PageRank는 [[070_graph_datastructure|그래프]] 전체를 반복적으로 비교적 균일하게 훑는다. 그래서 현장 프로그래머블 게이트 [[055_array|배열]] ([[606_dynamic_partial_reconfiguration|Field-Programmable Gate Array]], [[606_dynamic_partial_reconfiguration|FPGA]])이나 [[070_asic|주문형 반도체]] (Application-Specific Integrated Circuit, [[070_asic|ASIC]]) 기반 [[001_dikw_pyramid|데이터]]플로우 설계와 잘 맞는다.
 
-| 항목 | CPU | GPU | PageRank 전용 FPGA/ASIC |
+| 항목 | CPU | [[418_gpu|GPU]] | PageRank 전용 [[606_dynamic_partial_reconfiguration|FPGA]]/[[070_asic|ASIC]] |
 | :--- | :--- | :--- | :--- |
 | 제어 유연성 | 매우 높음 | 높음 | 중간 또는 낮음 |
-| 간선 스트리밍 효율 | 캐시 미스에 취약 | 높지만 원자적 누산 충돌 존재 | 그래프 파티션에 맞춰 고정 배선 가능 |
+| 간선 스트리밍 효율 | 캐시 미스에 취약 | 높지만 원자적 누산 충돌 존재 | [[070_graph_datastructure|그래프]] [[514_partition_slice_volume|파티션]]에 맞춰 고정 배선 가능 |
 | 반복당 전력 효율 | 낮음 | 중간 | 높음 |
-| 강점 | 빠른 개발, 알고리즘 변경 용이 | 대규모 병렬 곱셈 | 반복 작업의 처리량과 일관성 |
-| 적합한 상황 | 연구·프로토타입 | 범용 그래프 분석 플랫폼 | 대규모 랭킹 서비스, 반복 배치 처리 |
+| 강점 | 빠른 개발, [[001_algorithm_definition|알고리즘]] 변경 용이 | 대규모 [[430_index_fast_full_scan|병렬]] 곱셈 | 반복 작업의 처리량과 [[194_consistency_database_integrity|일관성]] |
+| 적합한 상황 | 연구·[[257_prototype_pattern_object_cloning|프로토타입]] | 범용 [[114_graph_analytics|그래프 분석]] 플랫폼 | 대규모 랭킹 [[090_service_kubernetes_network_load_balancing|서비스]], 반복 [[228_batch_processing_hadoop_spark|배치 처리]] |
 
-이 차이는 PageRank가 그래프 신경망 (Graph Neural Network, GNN) 전처리나 중심성 분석과도 연결된다는 점에서 중요하다. PageRank용 누산 구조와 스트리밍 메모리 설계는 이후의 그래프 집계 연산에도 응용될 수 있다. 즉 PageRank 하드웨어 맵핑은 하나의 알고리즘 최적화이면서, 그래프 데이터플로우 설계 전반의 출발점이 된다.
+이 차이는 PageRank가 [[306_graph_neural_network_gnn|그래프 신경망]] ([[159_gnn_graph_neural_network_message_passing|Graph Neural Network]], [[159_gnn_graph_neural_network_message_passing|GNN]]) 전처리나 중심성 분석과도 연결된다는 점에서 중요하다. PageRank용 누산 구조와 스트리밍 메모리 설계는 이후의 [[070_graph_datastructure|그래프]] 집계 연산에도 응용될 수 있다. 즉 PageRank 하드웨어 맵핑은 하나의 [[001_algorithm_definition|알고리즘]] 최적화이면서, [[070_graph_datastructure|그래프]] [[001_dikw_pyramid|데이터]]플로우 설계 전반의 출발점이 된다.
 
-- **📢 섹션 요약 비유**: CPU가 다목적 공구함이라면, GPU는 힘센 공장 인부들, FPGA/ASIC은 특정 제품만 가장 빠르게 찍어내는 전용 금형이라고 볼 수 있다.
+- **📢 섹션 요약 비유**: CPU가 다목적 공구함이라면, GPU는 힘센 공장 인부들, [[606_dynamic_partial_reconfiguration|FPGA]]/ASIC은 특정 제품만 가장 빠르게 찍어내는 전용 금형이라고 볼 수 있다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서 PageRank 하드웨어 맵핑은 그래프가 상대적으로 안정적이고, 랭킹 계산을 반복 수행하며, 전력당 처리량이 중요한 환경에서 가장 효과적이다. 검색 엔진의 야간 인덱스 갱신, 대규모 지식 그래프 추천, 금융 계정 영향력 분석처럼 **같은 구조를 여러 번 도는 업무**가 대표적이다. 반대로 그래프 구조가 초 단위로 크게 바뀌거나 실험적 알고리즘 교체가 잦다면 범용 프로세서가 더 유리할 수 있다.
+실무에서 PageRank 하드웨어 맵핑은 [[070_graph_datastructure|그래프]]가 상대적으로 안정적이고, 랭킹 계산을 반복 수행하며, 전력당 처리량이 중요한 환경에서 가장 효과적이다. 검색 엔진의 야간 [[154_database_index_b_tree_search_optimization|인덱스]] 갱신, 대규모 [[160_knowledge_graph_graphrag_integration|지식 그래프]] 추천, 금융 계정 영향력 분석처럼 **같은 구조를 여러 번 도는 업무**가 대표적이다. 반대로 [[070_graph_datastructure|그래프]] 구조가 초 단위로 크게 바뀌거나 실험적 [[001_algorithm_definition|알고리즘]] 교체가 잦다면 범용 프로세서가 더 유리할 수 있다.
 
-### 설계 판단 체크리스트
+### 설계 판단 [[435_checklist_based_testing|체크리스트]]
 
-1. 그래프를 CSR 또는 CSC 블록으로 안정적으로 분할할 수 있는가?
-2. 목적지 누산 충돌을 줄이기 위한 파티셔닝 또는 로컬 버퍼링 전략이 있는가?
+1. [[070_graph_datastructure|그래프]]를 [[169_pkcs10_csr|CSR]] 또는 CSC 블록으로 안정적으로 분할할 수 있는가?
+2. 목적지 누산 충돌을 줄이기 위한 [[179_table_partitioning_concept|파티셔닝]] 또는 로컬 [[454_buffering|버퍼링]] 전략이 있는가?
 3. 매달린 정점 (Dangling Node)의 질량 보정을 하드웨어 경로에 포함했는가?
-4. 고정소수점 정밀도로 충분한지, 아니면 부동소수점이 필요한지 사전 검증했는가?
+4. [[086_fixed_point|고정소수점]] [[233_precision_recall_f1_roc_auc_threshold|정밀도]]로 충분한지, 아니면 [[087_floating_point|부동소수점]]이 필요한지 사전 검증했는가?
 5. 반복 종료 기준인 `epsilon` 값을 너무 엄격하게 잡아 하드웨어 이득을 갉아먹고 있지 않은가?
 
-### 안티패턴
+### [[128_water_scrum_fall_anti_pattern|안티패턴]]
 
-- **간선 하나마다 회로를 1:1로 고정하려는 설계**: 하드웨어 맵핑은 그래프 데이터를 위한 배선을 짜는 것이 아니라, 계산 패턴을 위한 데이터 경로를 설계하는 것이다.
-- **목적지 정점 업데이트를 전역 메모리에 무작위로 직접 쓰기**: 누산 충돌과 메모리 병목이 동시에 발생한다.
-- **필요 이상으로 높은 정밀도 집착**: 순위 비교가 목적이면 과도한 배정밀도는 전력과 면적만 낭비할 수 있다.
+- **간선 하나마다 회로를 1:1로 고정하려는 설계**: 하드웨어 맵핑은 [[070_graph_datastructure|그래프]] [[001_dikw_pyramid|데이터]]를 위한 배선을 짜는 것이 아니라, 계산 패턴을 위한 [[001_dikw_pyramid|데이터]] 경로를 설계하는 것이다.
+- **목적지 정점 업데이트를 전역 메모리에 무작위로 직접 [[289_cqrs_db|쓰기]]**: 누산 충돌과 메모리 병목이 동시에 발생한다.
+- **필요 이상으로 높은 [[233_precision_recall_f1_roc_auc_threshold|정밀도]] 집착**: 순위 비교가 목적이면 과도한 배정밀도는 전력과 면적만 낭비할 수 있다.
 
 - **📢 섹션 요약 비유**: 식당 주문이 많아졌다고 주방 한가운데서 모든 요리를 섞어 만들면 부딪치기만 한다. 메뉴별로 조리대를 나누고, 재료 흐름을 정리해야 진짜 속도가 난다.
 
@@ -106,9 +106,9 @@ PageRank는 같은 그래프 알고리즘이라도 BFS보다 하드웨어 맵핑
 
 ## Ⅴ. 기대효과 및 결론
 
-PageRank 하드웨어 맵핑의 직접 효과는 반복당 처리 시간 단축과 전력 절감이다. 같은 그래프를 더 자주 다시 계산할 수 있으므로 검색 랭킹 갱신 주기, 추천 재학습 주기, 이상 계정 탐지 반응 시간이 짧아진다. 특히 대규모 서비스에서는 `랭킹 1회 계산 비용`이 곧 운영비이므로, 전용 맵핑의 경제적 효과가 크다.
+PageRank 하드웨어 맵핑의 직접 효과는 반복당 처리 시간 단축과 전력 절감이다. 같은 [[070_graph_datastructure|그래프]]를 더 자주 다시 계산할 수 있으므로 검색 랭킹 갱신 주기, 추천 재학습 주기, 이상 계정 탐지 반응 시간이 짧아진다. 특히 대규모 [[090_service_kubernetes_network_load_balancing|서비스]]에서는 `랭킹 1회 계산 비용`이 곧 운영비이므로, 전용 맵핑의 경제적 효과가 크다.
 
-다만 이 접근은 `PageRank 계산`을 빠르게 만들 뿐, 그래프 수집 품질이나 랭킹 해석 가능성까지 자동으로 해결해 주지는 않는다. 또한 그래프가 지나치게 자주 바뀌면 파티셔닝과 데이터 적재 비용이 다시 병목이 된다. 결국 기억해야 할 핵심은 **PageRank는 수학 공식이면서 동시에 매우 전형적인 스트리밍 하드웨어 문제**라는 점이다.
+다만 이 접근은 `PageRank 계산`을 빠르게 만들 뿐, [[070_graph_datastructure|그래프]] 수집 품질이나 랭킹 해석 가능성까지 자동으로 해결해 주지는 않는다. 또한 [[070_graph_datastructure|그래프]]가 지나치게 자주 바뀌면 [[179_table_partitioning_concept|파티셔닝]]과 [[001_dikw_pyramid|데이터]] 적재 비용이 다시 병목이 된다. 결국 기억해야 할 핵심은 **PageRank는 수학 공식이면서 동시에 매우 전형적인 스트리밍 하드웨어 문제**라는 점이다.
 
 - **📢 섹션 요약 비유**: 한 도시의 인기 지도를 매번 손으로 다시 그리는 대신, 교통량이 흐르는 대로 자동으로 점수를 갱신하는 전광판 시스템을 만드는 것이 PageRank 하드웨어 맵핑이다.
 
@@ -120,9 +120,9 @@ PageRank 하드웨어 맵핑의 직접 효과는 반복당 처리 시간 단축�
 | :--- | :--- |
 | 감쇠 계수 (Damping Factor) | 임의 점프 확률을 반영해 순위가 특정 순환에 갇히지 않도록 만드는 보정 요소다. |
 | 희소 행렬-벡터 곱셈 (Sparse Matrix-Vector Multiplication, SpMV) | PageRank의 계산 핵심을 하드웨어 파이프라인으로 바꿀 때 기준이 되는 수학적 형태다. |
-| 압축 희소 열 형식 (Compressed Sparse Column, CSC) | 목적지 정점 기준 누산을 구현할 때 유리한 그래프 저장 방식이다. |
+| [[347_compaction|압축]] 희소 열 형식 (Compressed Sparse Column, CSC) | 목적지 정점 기준 누산을 구현할 때 유리한 [[070_graph_datastructure|그래프]] 저장 방식이다. |
 | 매달린 정점 (Dangling Node) | 출력 간선이 없어 별도 질량 보정이 필요한 정점으로, 하드웨어 설계 시 빠뜨리기 쉬운 항목이다. |
-| 고대역폭 메모리 (High Bandwidth Memory, HBM) | 대규모 그래프의 반복 스트리밍에서 외부 메모리 병목을 줄이는 핵심 수단이다. |
+| 고대역폭 메모리 ([[495_hbm|High Bandwidth Memory]], [[495_hbm|HBM]]) | 대규모 [[070_graph_datastructure|그래프]]의 반복 스트리밍에서 외부 메모리 병목을 줄이는 핵심 수단이다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 

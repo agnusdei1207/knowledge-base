@@ -7,9 +7,9 @@ categories = "studynote-ai"
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: Self-Attention은 **같은 시퀀스 내에서 각 위치가 다른 모든 위치를 참조**하여 문맥을 파악하는 메커니즘이며, Transformer의 핵심 연산이다. Q·K·V가 모두 **같은 시퀀스에서 생성**된다.
-> 2. **가치**: "The animal didn't cross the street because **it** was too tired"에서 "it"이 "animal"을 가리킨다는 것을 파악하려면 문장 전체를 참조해야 하며, Self-Attention이 이를 **가중치로 정량화**한다.
-> 3. **판단 포인트**: Cross-Attention(Q≠K,V, 인코더→디코더)과 구분하고, **Masked Self-Attention**(디코더에서 미래 토큰 참조 방지)의 필요성을 이해해야 한다.
+> 1. **본질**: Self-Attention은 **같은 시퀀스 내에서 각 위치가 다른 모든 위치를 [[316_reference_pattern_nosql|참조]]**하여 문맥을 파악하는 메커니즘이며, Transformer의 핵심 연산이다. Q·K·V가 모두 **같은 시퀀스에서 [[087_process_state_transition|생성]]**된다.
+> 2. **가치**: "The animal didn't cross the street because **it** was too tired"에서 "it"이 "animal"을 가리킨다는 것을 파악하려면 문장 전체를 [[316_reference_pattern_nosql|참조]]해야 하며, Self-Attention이 이를 **[[267_weight_bias_activation|가중치]]로 정량화**한다.
+> 3. **판단 포인트**: Cross-Attention(Q≠K,V, [[040_encoder|인코더]]→[[039_decoder|디코더]])과 구분하고, **Masked Self-Attention**([[039_decoder|디코더]]에서 미래 토큰 [[316_reference_pattern_nosql|참조]] 방지)의 필요성을 이해해야 한다.
 
 ---
 
@@ -39,20 +39,20 @@ categories = "studynote-ai"
 
 | 유형 | Q·K·V | 용도 |
 |:---|:---|:---|
-| **Self** | 같은 시퀀스 | **인코더 (양방향)** |
-| **Cross** | Q(디코더), K,V(인코더) | 인코더→디코더 참조 |
-| **Masked Self** | 같은 시퀀스 + 미래 마스킹 | **디코더 (자기 회귀)** |
+| **Self** | 같은 시퀀스 | **[[040_encoder|인코더]] (양방향)** |
+| **Cross** | Q([[039_decoder|디코더]]), K,V([[040_encoder|인코더]]) | [[040_encoder|인코더]]→[[039_decoder|디코더]] [[316_reference_pattern_nosql|참조]] |
+| **Masked Self** | 같은 시퀀스 + 미래 [[172_maas_mobility_as_a_service|마스]]킹 | **[[039_decoder|디코더]] (자기 회귀)** |
 
-- **📢 섹션 요약 비유**: Self는 책 전체를 보고 이해하는 것, Masked는 앞 페이지만 보고 다음 페이지를 예측하는 것이다.
+- **📢 섹션 요약 비유**: Self는 책 전체를 보고 이해하는 것, Masked는 앞 [[286_page_frame|페이지]]만 보고 다음 [[286_page_frame|페이지]]를 예측하는 것이다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-| 비교 | RNN | Self-Attention |
+| 비교 | [[244_rnn_time_series_lstm_cell_gate_long_term_dependency|RNN]] | Self-Attention |
 |:---|:---|:---|
-| **참조 범위** | 직전 상태 | **전체 시퀀스** |
-| **병렬화** | 불가 | **가능** |
+| **[[316_reference_pattern_nosql|참조]] 범위** | 직전 상태 | **전체 시퀀스** |
+| **[[430_index_fast_full_scan|병렬]]화** | 불가 | **가능** |
 | **장거리 의존성** | 약함 | **강함** |
 
 ---
@@ -67,7 +67,7 @@ categories = "studynote-ai"
 
 ## Ⅴ. 기대효과 및 결론
 
-Self-Attention은 **Transformer·BERT·GPT의 단일 핵심 메커니즘**이며, Vision(ViT)·Audio(Whisper)까지 확장되어 현대 AI의 근간이다.
+Self-Attention은 **[[246_transformer_self_attention_parallel_positional_encoding|Transformer]]·[[301_bert_mlm|BERT]]·GPT의 단일 핵심 메커니즘**이며, Vision(ViT)·Audio(Whisper)까지 확장되어 현대 AI의 근간이다.
 
 ---
 
@@ -75,8 +75,8 @@ Self-Attention은 **Transformer·BERT·GPT의 단일 핵심 메커니즘**이며
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **Self-Attention** | 같은 시퀀스 내 상호 참조 |
-| **Masked Self-Attention** | 미래 토큰 마스킹 (GPT 디코더) |
+| **Self-Attention** | 같은 시퀀스 내 상호 [[316_reference_pattern_nosql|참조]] |
+| **Masked Self-Attention** | 미래 토큰 [[172_maas_mobility_as_a_service|마스]]킹 ([[302_gpt_autoregressive|GPT]] [[039_decoder|디코더]]) |
 | **Multi-Head** | 다관점 Self-Attention |
 | **O(n²) 복잡도** | Self-Attention의 한계 |
 | **Flash Attention** | O(n²) 메모리 최적화 |
@@ -100,6 +100,6 @@ Self-Attention은 **Transformer·BERT·GPT의 단일 핵심 메커니즘**이며
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
-1. Self-Attention은 교실에서 **모든 친구의 얼굴을 보면서** 관계를 파악하는 거예요.
+1. Self-Attention은 교실에서 **모든 친구의 얼굴을 보면서** [[083_relationship_in_er_model|관계]]를 파악하는 거예요.
 2. "고양이가 매트 위에 앉았다"에서 "앉았다"는 **"고양이"와 "매트"를 더 많이** 봐요.
 3. 이 방법 덕분에 AI가 **문장의 뜻을 정확하게 이해**할 수 있답니다!

@@ -7,17 +7,17 @@ categories = "studynote-operating-system"
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-- **본질**: BSS (Block Started by Symbol) 영역은 초기화되지 않은 전역 변수와 정적 변수를 저장하는 메모리 구역으로, 실행 파일에는 크기 정보만 남긴다.
-- **가치**: 실제 데이터 대신 크기만 기록하므로 실행 파일이 작아지고, 로더가 메모리 적재 시 0으로 초기화해 일관된 시작 상태를 보장한다.
+- **본질**: BSS (Block Started by Symbol) 영역은 [[459_quic_fec_forward_error_correction|초기]]화되지 않은 전역 변수와 정적 변수를 저장하는 메모리 구역으로, 실행 [[501_file_definition_logical_record|파일]]에는 크기 정보만 남긴다.
+- **가치**: 실제 [[001_dikw_pyramid|데이터]] 대신 크기만 기록하므로 실행 [[501_file_definition_logical_record|파일]]이 작아지고, 로더가 메모리 적재 시 0으로 [[459_quic_fec_forward_error_correction|초기]]화해 일관된 시작 상태를 보장한다.
 - **판단 포인트**: 큰 전역 버퍼가 필요하면 BSS가 유리하지만, 로컬 변수나 런타임 할당까지 같은 규칙으로 보면 안 된다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-BSS (Block Started by Symbol)는 프로그램의 정적 저장 영역 중 하나로, 초기값이 명시되지 않은 전역 변수와 정적 변수를 담는다. 이 영역이 필요한 이유는 간단하다. 0으로 채워질 값까지 실행 파일에 통째로 넣으면 바이너리 크기만 커지고, 배포와 로딩이 모두 느려지기 때문이다.
+BSS (Block Started by Symbol)는 프로그램의 정적 저장 영역 중 하나로, [[459_quic_fec_forward_error_correction|초기]]값이 명시되지 않은 전역 변수와 정적 변수를 담는다. 이 영역이 필요한 이유는 간단하다. 0으로 채워질 값까지 실행 [[501_file_definition_logical_record|파일]]에 통째로 넣으면 바이너리 크기만 커지고, 배포와 로딩이 모두 느려지기 때문이다.
 
-과거 어셈블리와 링크 단계에서는 "여기부터는 나중에 빈 공간을 잡아 달라"는 의사 명령이 필요했다. 그 개념이 현대의 `.bss`로 이어졌다. 즉, BSS는 실제 데이터를 저장하는 공간이 아니라 "이만큼의 빈 공간이 필요하다"는 약속이다.
+과거 어셈블리와 링크 단계에서는 "여기부터는 나중에 빈 공간을 잡아 달라"는 의사 명령이 필요했다. 그 개념이 현대의 `.bss`로 이어졌다. 즉, BSS는 실제 [[001_dikw_pyramid|데이터]]를 저장하는 공간이 아니라 "이만큼의 빈 공간이 필요하다"는 약속이다.
 
 ```text
 ┌──────────────────────────────────────────────────────────────┐
@@ -32,16 +32,16 @@ BSS (Block Started by Symbol)는 프로그램의 정적 저장 영역 중 하나
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-BSS는 컴파일러, 링커, 로더, 가상 메모리가 순서대로 맡는다. 컴파일러는 초기값이 없는 전역/정적 변수를 `.bss`로 분류하고, 링커는 여러 오브젝트 파일의 BSS 크기를 합친 뒤, 로더는 그만큼의 가상 주소 공간을 예약한다. 실제 물리 페이지는 필요한 순간에만 붙는다.
+BSS는 컴파일러, 링커, 로더, [[381_virtual_memory|가상 메모리]]가 순서대로 맡는다. 컴파일러는 [[459_quic_fec_forward_error_correction|초기]]값이 없는 전역/정적 변수를 `.bss`로 [[104_classification_analysis|분류]]하고, 링커는 여러 오브젝트 [[501_file_definition_logical_record|파일]]의 BSS 크기를 합친 뒤, 로더는 그만큼의 가상 주소 공간을 예약한다. 실제 물리 [[286_page_frame|페이지]]는 필요한 순간에만 붙는다.
 
 | 단계 | 담당 | 일어나는 일 |
 | :--- | :--- | :--- |
-| 컴파일러 | .bss 분류 | 심볼 크기만 기록 |
-| 링커 | 섹션 병합 | 실행 파일에는 데이터 본문을 넣지 않음 |
+| 컴파일러 | .bss [[104_classification_analysis|분류]] | 심볼 크기만 기록 |
+| 링커 | 섹션 병합 | 실행 [[501_file_definition_logical_record|파일]]에는 [[001_dikw_pyramid|데이터]] 본문을 넣지 않음 |
 | 로더 | 메모리 매핑 | BSS 크기만큼 주소 공간 예약 |
-| 가상 메모리 (Virtual Memory) | Page Fault / COW | 첫 접근 시 0페이지 또는 개인 페이지 할당 |
+| [[381_virtual_memory|가상 메모리]] ([[381_virtual_memory|Virtual Memory]]) | [[387_page_fault|Page Fault]] / [[542_cow_file_system|COW]] | 첫 접근 시 0페이지 또는 개인 [[286_page_frame|페이지]] 할당 |
 
-여기서 중요한 개념이 Zero-fill-on-demand와 Copy-on-Write (COW)다. Zero-fill-on-demand는 새 페이지를 미리 0으로 칠하지 않고, 접근 순간에 0으로 채운 페이지를 주는 방식이다. COW (Copy-on-Write)는 읽기 전용으로 공유하던 페이지를 쓰기 순간에만 복제하는 기법인데, BSS의 첫 쓰기에도 유사한 지연 할당 철학이 들어 있다.
+여기서 중요한 개념이 Zero-fill-on-demand와 [[542_cow_file_system|Copy-on-Write]] ([[542_cow_file_system|COW]])다. Zero-fill-on-demand는 새 [[286_page_frame|페이지]]를 미리 0으로 칠하지 않고, 접근 순간에 0으로 채운 [[286_page_frame|페이지]]를 주는 방식이다. [[542_cow_file_system|COW]] ([[542_cow_file_system|Copy-on-Write]])는 읽기 전용으로 공유하던 [[286_page_frame|페이지]]를 [[289_cqrs_db|쓰기]] 순간에만 복제하는 기법인데, BSS의 첫 [[289_cqrs_db|쓰기]]에도 유사한 [[015_지연_데이터_관점|지연]] 할당 철학이 들어 있다.
 
 ```text
 ┌────────────────────────────────────────────────────────────────┐
@@ -51,7 +51,7 @@ BSS는 컴파일러, 링커, 로더, 가상 메모리가 순서대로 맡는다.
 └────────────────────────────────────────────────────────────────┘
 ```
 
-예를 들어 `int arr[1000000];`처럼 큰 배열을 선언해도 실행 파일 크기는 거의 변하지 않는다. `nm` 명령으로 보면 해당 심볼은 `B` 타입으로 표시되는 경우가 많다. 이때 BSS는 용량을 아끼는 대신, 실제 접근 시점까지 물리 메모리를 미룬다는 점이 핵심이다.
+예를 들어 `int arr[1000000];`처럼 큰 배열을 선언해도 실행 [[501_file_definition_logical_record|파일]] 크기는 거의 변하지 않는다. `nm` 명령으로 보면 해당 심볼은 `B` 타입으로 표시되는 경우가 많다. 이때 BSS는 용량을 아끼는 대신, 실제 접근 시점까지 물리 메모리를 미룬다는 점이 핵심이다.
 
 - **📢 섹션 요약 비유**: 무거운 짐을 미리 다 배달하는 대신, 주소표만 붙여 두고 진짜 짐은 손님이 올 때 꺼내는 물류 시스템이다.
 
@@ -59,16 +59,16 @@ BSS는 컴파일러, 링커, 로더, 가상 메모리가 순서대로 맡는다.
 
 ## Ⅲ. 비교 및 연결
 
-BSS를 이해하려면 Data, Heap, Stack과의 경계를 봐야 한다. Data 영역은 초기값이 있는 전역/정적 변수, BSS는 초기값이 없는 전역/정적 변수다. Heap은 런타임에 동적으로 할당되는 공간이고, Stack은 함수 호출마다 생겼다가 사라지는 지역 변수의 공간이다.
+BSS를 이해하려면 [[001_dikw_pyramid|Data]], [[078_heap_datastructure|Heap]], Stack과의 경계를 봐야 한다. [[001_dikw_pyramid|Data]] 영역은 [[459_quic_fec_forward_error_correction|초기]]값이 있는 전역/정적 변수, BSS는 [[459_quic_fec_forward_error_correction|초기]]값이 없는 전역/정적 변수다. Heap은 런타임에 동적으로 할당되는 공간이고, Stack은 [[294_function_calling_tool_use|함수 호출]]마다 생겼다가 사라지는 지역 변수의 공간이다.
 
-| 영역 | 초기값 | 수명 | 제어 주체 | 대표 특성 |
+| 영역 | [[459_quic_fec_forward_error_correction|초기]]값 | 수명 | 제어 주체 | 대표 특성 |
 | :--- | :--- | :--- | :--- | :--- |
-| Data | 있음 | 프로세스 전체 | 로더/링커 | 실행 파일에 실제 값 포함 |
-| BSS | 없음(0으로 시작) | 프로세스 전체 | 로더/가상 메모리 (Virtual Memory) | 파일 크기 증가 없음 |
-| Heap | 런타임 할당 | free 전까지 | 개발자 | 동적 크기, 관리 필요 |
-| Stack | 함수 실행 중 | 함수 종료까지 | 컴파일러/CPU (Central Processing Unit) | 빠르지만 범위가 짧음 |
+| [[001_dikw_pyramid|Data]] | 있음 | 프로세스 전체 | 로더/링커 | 실행 [[501_file_definition_logical_record|파일]]에 실제 값 포함 |
+| BSS | 없음(0으로 시작) | 프로세스 전체 | 로더/[[381_virtual_memory|가상 메모리]] ([[381_virtual_memory|Virtual Memory]]) | [[501_file_definition_logical_record|파일]] 크기 증가 없음 |
+| [[078_heap_datastructure|Heap]] | 런타임 할당 | free 전까지 | 개발자 | 동적 크기, 관리 필요 |
+| [[057_stack|Stack]] | 함수 실행 중 | 함수 종료까지 | 컴파일러/CPU (Central Processing Unit) | 빠르지만 범위가 짧음 |
 
-BSS와 Data의 차이는 "값이 있느냐"가 아니라 "파일에 값이 들어가느냐"다. 둘 다 정적 저장 영역이지만, Data는 바이너리에 초기값이 박혀 있고 BSS는 크기 정보만 남는다. 그래서 nm에서는 Data가 `D`, BSS가 `B`로 보인다.
+BSS와 Data의 차이는 "값이 있느냐"가 아니라 "[[501_file_definition_logical_record|파일]]에 값이 들어가느냐"다. 둘 다 정적 저장 영역이지만, Data는 바이너리에 [[459_quic_fec_forward_error_correction|초기]]값이 박혀 있고 BSS는 크기 정보만 남는다. 그래서 nm에서는 Data가 `D`, BSS가 `B`로 보인다.
 
 한편 Heap은 BSS와 달리 런타임 크기 변경에 적합하다. 하지만 큰 버퍼를 무심코 Heap에 올리면 free 관리와 단편화가 따라온다. 그래서 "처음부터 0이면 되는 큰 정적 버퍼"는 BSS, "크기가 실행 중 바뀌는 버퍼"는 Heap으로 나누는 것이 정석이다.
 
@@ -78,15 +78,15 @@ BSS와 Data의 차이는 "값이 있느냐"가 아니라 "파일에 값이 들�
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-임베디드 시스템에서는 BSS 활용이 특히 중요하다. 플래시가 작은 MCU (Microcontroller Unit)에서는 큰 전역 버퍼를 BSS로 두면 ROM (Read-Only Memory) 용량을 아낄 수 있다. 반대로 bare-metal 환경은 OS (Operating System) 로더가 없으므로, 시작 루틴이 직접 Data 복사와 BSS 0 초기화를 해줘야 한다.
+임베디드 시스템에서는 BSS 활용이 특히 중요하다. 플래시가 작은 MCU ([[130_microcontroller|Microcontroller]] Unit)에서는 큰 전역 버퍼를 BSS로 두면 [[255_rom|ROM]] (Read-Only Memory) 용량을 아낄 수 있다. 반대로 bare-metal 환경은 OS ([[001_operating_system_purpose|Operating System]]) 로더가 없으므로, 시작 루틴이 직접 [[001_dikw_pyramid|Data]] 복사와 BSS 0 [[459_quic_fec_forward_error_correction|초기]]화를 해줘야 한다.
 
 체크리스트는 다음과 같다.
 1. 전역/정적 수명이 필요한가?
-2. 초기값이 정말 0이면 충분한가?
-3. 실행 파일 크기와 플래시 사용량이 민감한가?
+2. [[459_quic_fec_forward_error_correction|초기]]값이 정말 0이면 충분한가?
+3. 실행 [[501_file_definition_logical_record|파일]] 크기와 플래시 사용량이 민감한가?
 4. 런타임에 크기가 바뀌어야 하는가?
 
-큰 배열을 선언했다고 해서 물리 RAM (Random Access Memory)을 즉시 다 쓰는 것은 아니다. 하지만 첫 접근 때 페이지 폴트가 몰리면 지연이 커질 수 있다. 그래서 서버나 실시간 시스템에서는 BSS의 장점과 첫 터치 비용을 함께 봐야 한다. 또 로컬 스택 변수나 힙은 0이 보장되지 않으므로, BSS의 안전성을 모든 메모리로 일반화하면 안 된다.
+큰 배열을 선언했다고 해서 물리 RAM (Random Access Memory)을 즉시 다 쓰는 것은 아니다. 하지만 첫 접근 때 [[286_page_frame|페이지]] 폴트가 몰리면 [[015_지연_데이터_관점|지연]]이 커질 수 있다. 그래서 서버나 실시간 시스템에서는 BSS의 장점과 첫 터치 비용을 함께 봐야 한다. 또 로컬 [[057_stack|스택]] 변수나 힙은 0이 보장되지 않으므로, BSS의 안전성을 모든 메모리로 일반화하면 안 된다.
 
 - **📢 섹션 요약 비유**: 전기 스위치가 꺼져 있다고 방 전체가 자동 정리되는 것은 아니듯, BSS의 0 보장은 정적 저장 영역에만 적용된다.
 
@@ -94,20 +94,20 @@ BSS와 Data의 차이는 "값이 있느냐"가 아니라 "파일에 값이 들�
 
 ## Ⅴ. 기대효과 및 결론
 
-BSS는 실행 파일을 가볍게 하고, 초기 상태를 일관되게 만들며, 대형 정적 버퍼를 배포하기 쉽게 만든다. 동시에 메모리 초기화를 로더와 가상 메모리 시스템에 맡겨, 프로그램 작성자가 직접 0 채우기 코드를 쓰지 않아도 되게 해준다.
+BSS는 실행 [[501_file_definition_logical_record|파일]]을 가볍게 하고, [[459_quic_fec_forward_error_correction|초기]] 상태를 일관되게 만들며, 대형 정적 버퍼를 배포하기 쉽게 만든다. 동시에 메모리 [[459_quic_fec_forward_error_correction|초기]]화를 로더와 [[381_virtual_memory|가상 메모리]] 시스템에 맡겨, 프로그램 작성자가 직접 0 채우기 코드를 쓰지 않아도 되게 해준다.
 
-다만 BSS는 공짜 메모리가 아니다. 물리 페이지는 결국 사용 시점에 할당되며, 잘못 쓰면 첫 접근 지연이나 메모리 압박이 생긴다. 결론적으로 BSS는 "값을 저장하는 곳"이 아니라 "빈 공간을 예약하는 곳"으로 기억해야 한다.
+다만 BSS는 공짜 메모리가 아니다. 물리 [[286_page_frame|페이지]]는 결국 사용 시점에 할당되며, 잘못 쓰면 첫 접근 [[015_지연_데이터_관점|지연]]이나 메모리 압박이 생긴다. 결론적으로 BSS는 "값을 저장하는 곳"이 아니라 "빈 공간을 예약하는 곳"으로 기억해야 한다.
 
 ### 📌 관련 개념 맵
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| Data 영역 | 초기값이 있는 전역/정적 변수 |
-| Heap | 런타임 동적 할당 영역 |
-| Stack | 함수 호출 기반 지역 저장 영역 |
+| [[001_dikw_pyramid|Data]] 영역 | [[459_quic_fec_forward_error_correction|초기]]값이 있는 전역/정적 변수 |
+| [[078_heap_datastructure|Heap]] | 런타임 동적 할당 영역 |
+| [[057_stack|Stack]] | [[294_function_calling_tool_use|함수 호출]] 기반 지역 저장 영역 |
 | ELF (Executable and Linkable Format) | 섹션 메타데이터와 로드 구조 |
-| Zero-fill-on-demand | 첫 접근 시 0 페이지 할당 |
-| Copy-on-Write (COW) | 지연 복제와 페이지 공유 최적화 |
+| Zero-fill-on-demand | 첫 접근 시 0 [[286_page_frame|페이지]] 할당 |
+| [[542_cow_file_system|Copy-on-Write]] ([[542_cow_file_system|COW]]) | [[015_지연_데이터_관점|지연]] 복제와 [[286_page_frame|페이지]] 공유 최적화 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -131,4 +131,4 @@ Page Fault 시 0페이지 할당
 
 1. BSS는 "아직 안 채운 빈 상자"를 미리 예약해 두는 거예요.
 2. 상자 안에 무엇이 들어갈지는 나중에 정하고, 처음엔 깨끗하게 비워 둬요.
-3. 그래서 컴퓨터는 큰 상자를 써도 파일은 작게, 시작은 깔끔하게 할 수 있답니다.
+3. 그래서 컴퓨터는 큰 상자를 써도 [[501_file_definition_logical_record|파일]]은 작게, 시작은 깔끔하게 할 수 있답니다.

@@ -7,15 +7,15 @@ categories = "studynote-dataengineering"
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: 매니폴드 가설(Manifold Hypothesis)은 현실의 고차원 데이터가 실제로는 **저차원 매니폴드(곡면) 위에 밀집**되어 있다는 가정이며, 이것이 PCA·t-SNE·오토인코더 등 **차원 축소가 작동하는 수학적 근거**다.
-> 2. **가치**: 100×100 이미지(10,000차원)에서 의미 있는 사진은 전체 공간의 극히 일부에만 존재한다. 매니폴드 가설은 이 "의미 있는 부분 공간"을 찾아 **차원의 저주(Curse of Dimensionality)**를 극복하게 한다.
-> 3. **판단 포인트**: 딥러닝의 은닉층은 본질적으로 **고차원 데이터를 저차원 매니폴드로 투영하는 비선형 변환 장치**이며, Representation Learning(표현 학습)의 수학적 토대가 매니폴드 가설이다.
+> 1. **본질**: 매니폴드 가설(Manifold Hypothesis)은 현실의 고차원 데이터가 실제로는 **저차원 매니폴드(곡면) 위에 밀집**되어 있다는 가정이며, 이것이 [[163_pca|PCA]]·t-SNE·[[335_autoencoder|오토인코더]] 등 **[[081_dimensionality_reduction_pca_principal_component_analysis|차원 축소]]가 작동하는 수학적 근거**다.
+> 2. **가치**: 100×100 이미지([[489_raid_10_hybrid|10]],000차원)에서 의미 있는 사진은 전체 공간의 극히 일부에만 존재한다. 매니폴드 가설은 이 "의미 있는 부분 공간"을 찾아 **차원의 저주([[080_curse_of_dimensionality|Curse of Dimensionality]])**를 극복하게 한다.
+> 3. **판단 포인트**: 딥러닝의 은닉층은 본질적으로 **고차원 데이터를 저차원 매니폴드로 투영하는 비선형 변환 장치**이며, Representation [[240_switch_learning_forwarding_flooding|Learning]](표현 학습)의 수학적 토대가 매니폴드 가설이다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-10,000차원 이미지 공간에서 랜덤 픽셀을 생성하면 99.99%가 의미 없는 노이즈다. 의미 있는 "얼굴 사진"은 10,000차원 중 극히 작은 부분(~100차원 매니폴드)에 모여있다.
+[[489_raid_10_hybrid|10]],000차원 이미지 공간에서 랜덤 픽셀을 [[087_process_state_transition|생성]]하면 99.99%가 의미 없는 노이즈다. 의미 있는 "얼굴 사진"은 [[489_raid_10_hybrid|10]],000차원 중 극히 작은 부분(~100차원 매니폴드)에 모여있다.
 
 ```text
 ┌───────────────────────────────────────────────────────┐
@@ -43,14 +43,14 @@ categories = "studynote-dataengineering"
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### 차원 축소 기법과 매니폴드
+### [[081_dimensionality_reduction_pca_principal_component_analysis|차원 축소]] 기법과 매니폴드
 
 | 기법 | 유형 | 매니폴드 가정 | 적합 |
 |:---|:---|:---|:---|
-| **PCA** | 선형 | 데이터가 초평면 위 | 선형 구조 |
-| **t-SNE** | 비선형 | 비선형 매니폴드 | 시각화 (2D/3D) |
-| **UMAP** | 비선형 | 위상 매니폴드 | 시각화 + 구조 보존 |
-| **Autoencoder** | 비선형 | 딥러닝으로 매니폴드 학습 | 특징 추출, 생성 |
+| **[[163_pca|PCA]]** | 선형 | 데이터가 초평면 위 | 선형 구조 |
+| **t-SNE** | 비선형 | 비선형 매니폴드 | [[003_bigdata_7v|시각화]] (2D/3D) |
+| **UMAP** | 비선형 | 위상 매니폴드 | [[003_bigdata_7v|시각화]] + 구조 보존 |
+| **[[335_autoencoder|Autoencoder]]** | 비선형 | 딥러닝으로 매니폴드 학습 | 특징 추출, [[087_process_state_transition|생성]] |
 
 ### 차원의 저주 vs 매니폴드 가설
 
@@ -62,10 +62,10 @@ categories = "studynote-dataengineering"
 
 ## Ⅲ. 비교 및 연결
 
-| 비교 | PCA (선형) | t-SNE/UMAP (비선형) | Autoencoder |
+| 비교 | [[163_pca|PCA]] (선형) | t-SNE/UMAP (비선형) | [[335_autoencoder|Autoencoder]] |
 |:---|:---|:---|:---|
 | **매니폴드** | 초평면 | 곡면 | **학습된 곡면** |
-| **역변환** | 가능 | 불가 | **가능 (디코더)** |
+| **역변환** | 가능 | 불가 | **가능 ([[039_decoder|디코더]])** |
 | **확장성** | 높음 | 중간 | 높음 |
 
 ---
@@ -73,15 +73,15 @@ categories = "studynote-dataengineering"
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 ### 활용 시나리오
-1. **시각화**: t-SNE/UMAP으로 고차원 임베딩을 2D로 투영 → 클러스터 확인.
-2. **전처리**: PCA/Autoencoder로 차원 축소 후 ML 학습 → 과적합 방지, 속도 향상.
-3. **생성 모델**: VAE(Variational Autoencoder)가 매니폴드의 잠재 공간(Latent Space)에서 새 데이터를 생성.
+1. **[[003_bigdata_7v|시각화]]**: t-SNE/UMAP으로 고차원 임베딩을 2D로 투영 → 클러스터 [[396_validation|확인]].
+2. **전처리**: [[163_pca|PCA]]/Autoencoder로 [[081_dimensionality_reduction_pca_principal_component_analysis|차원 축소]] 후 ML 학습 → 과적합 방지, 속도 향상.
+3. **[[087_process_state_transition|생성]] 모델**: [[315_autoencoder_vae|VAE]]([[213_variational_autoencoder|Variational Autoencoder]])가 매니폴드의 잠재 공간(Latent Space)에서 새 데이터를 [[087_process_state_transition|생성]].
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-매니폴드 가설은 **딥러닝이 작동하는 근본적 이유**를 설명한다. 신경망의 각 층은 데이터를 더 유용한 매니폴드로 변환(Representation Learning)하며, 이 관점이 VAE·GAN·Diffusion Model 등 생성 모델의 이론적 기반이다.
+매니폴드 가설은 **딥러닝이 작동하는 근본적 이유**를 설명한다. 신경망의 각 층은 데이터를 더 유용한 매니폴드로 변환(Representation [[240_switch_learning_forwarding_flooding|Learning]])하며, 이 관점이 [[315_autoencoder_vae|VAE]]·[[154_gan_generative_adversarial_network|GAN]]·[[153_diffusion_model_stable_diffusion_denoising|Diffusion Model]] 등 [[087_process_state_transition|생성]] 모델의 이론적 기반이다.
 
 ---
 
@@ -90,9 +90,9 @@ categories = "studynote-dataengineering"
 | 개념 | 연결 포인트 |
 |:---|:---|
 | **차원의 저주** | 매니폴드 가설이 극복하는 문제 |
-| **PCA** | 선형 매니폴드(초평면) 탐색 |
-| **t-SNE / UMAP** | 비선형 매니폴드 시각화 |
-| **Autoencoder** | 딥러닝으로 매니폴드 학습 |
+| **[[163_pca|PCA]]** | 선형 매니폴드(초평면) 탐색 |
+| **t-SNE / UMAP** | 비선형 매니폴드 [[003_bigdata_7v|시각화]] |
+| **[[335_autoencoder|Autoencoder]]** | 딥러닝으로 매니폴드 학습 |
 | **Latent Space** | 매니폴드의 저차원 표현 공간 |
 
 ### 📈 관련 키워드 및 발전 흐름도

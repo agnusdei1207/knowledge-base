@@ -6,9 +6,9 @@ categories = "studynote-cloud-architecture"
 +++
 
 > **핵심 인사이트**
-> 1. 클라우드 브로커(Cloud Broker)는 기업과 클라우드 서비스 제공자(CSP) 사이에서 중개·통합·조율 역할을 하는 존재로, NIST SP 800-145에서 5가지 역할 중 하나로 정의되어 있다.
-> 2. MSP(Managed Service Provider)는 고객의 클라우드 인프라를 대신 관리·운영하는 서비스로, 클라우드 도입 후 운영 복잡성을 외부에 위임하는 대표적 방식이며, 멀티클라우드 환경에서 더욱 중요해지고 있다.
-> 3. 기업은 CSP 직접 사용(DIY)→MSP 위임→풀아웃소싱의 스펙트럼에서 역량·비용·제어권을 고려해 적절한 파트너십 모델을 선택해야 한다.
+> 1. 클라우드 브로커(Cloud Broker)는 기업과 클라우드 [[090_service_kubernetes_network_load_balancing|서비스]] 제공자([[475_csp|CSP]]) 사이에서 중개·통합·조율 역할을 하는 존재로, NIST [[166_sp|SP]] 800-145에서 5가지 역할 중 하나로 정의되어 있다.
+> 2. MSP([[060_cloud_msp_managed_service_provider|Managed Service Provider]])는 고객의 클라우드 인프라를 대신 관리·운영하는 [[090_service_kubernetes_network_load_balancing|서비스]]로, 클라우드 도입 후 운영 복잡성을 외부에 위임하는 대표적 방식이며, 멀티클라우드 환경에서 더욱 중요해지고 있다.
+> 3. 기업은 [[475_csp|CSP]] 직접 사용(DIY)→MSP 위임→풀아웃소싱의 스펙트럼에서 역량·비용·제어권을 고려해 적절한 파트너십 모델을 선택해야 한다.
 
 ---
 
@@ -36,15 +36,15 @@ NIST SP 800-145 클라우드 배포 참여자:
 
 | 역할           | 설명                              | 예시                      |
 |-------------|----------------------------------|--------------------------|
-| 서비스 중개    | 기존 서비스에 부가가치 추가        | 보안 레이어 추가            |
-| 서비스 집합    | 여러 CSP 통합 관리               | AWS + Azure 통합 포털      |
-| 서비스 중재    | 최적 CSP 자동 선택               | 비용·성능 기준 자동 배치    |
+| [[090_service_kubernetes_network_load_balancing|서비스]] 중개    | 기존 [[090_service_kubernetes_network_load_balancing|서비스]]에 부가가치 추가        | 보안 레이어 추가            |
+| [[090_service_kubernetes_network_load_balancing|서비스]] 집합    | 여러 [[475_csp|CSP]] 통합 관리               | AWS + Azure 통합 포털      |
+| [[090_service_kubernetes_network_load_balancing|서비스]] 중재    | 최적 [[475_csp|CSP]] 자동 선택               | 비용·[[282_performance_tactics|성능]] 기준 자동 배치    |
 
-> 📢 **섹션 요약 비유**: 부동산 중개인처럼 — 집주인(CSP)과 세입자(기업) 사이에서 최적의 매칭을 도와주고 추가 서비스(인테리어=보안)를 제공한다.
+> 📢 **섹션 요약 비유**: 부동산 중개인처럼 — 집주인([[475_csp|CSP]])과 세입자(기업) 사이에서 최적의 매칭을 도와주고 추가 [[090_service_kubernetes_network_load_balancing|서비스]](인테리어=보안)를 제공한다.
 
 ---
 
-## II. MSP(Managed Service Provider) 개요
+## II. MSP([[060_cloud_msp_managed_service_provider|Managed Service Provider]]) 개요
 
 ```
 MSP 서비스 범위:
@@ -101,11 +101,11 @@ MSP 국내 주요 업체:
   SK C&C, LG CNS (대기업 계열)
 ```
 
-> 📢 **섹션 요약 비유**: MSP 선택은 의사 선택 — 전문과목(CSP 전문성), 가용 시간(24x7), 진료비(비용 모델), 자격증(파트너 등급).
+> 📢 **섹션 요약 비유**: MSP 선택은 의사 선택 — 전문과목([[475_csp|CSP]] 전문성), 가용 시간(24x7), 진료비(비용 모델), 자격증(파트너 등급).
 
 ---
 
-## IV. 멀티클라우드 브로커 필요성
+## [[288_version_ihl_tos_total_length|IV]]. 멀티클라우드 브로커 필요성
 
 ```
 멀티클라우드 현실:
@@ -205,5 +205,5 @@ CNCF FinOps Foundation
 ## 👶 어린이를 위한 3줄 비유 설명
 
 1. MSP는 클라우드 건물의 전문 관리인이에요 — 기업 대신 서버 관리, 보안, 비용 절감을 모두 처리해줘요.
-2. 클라우드 브로커는 여러 클라우드 회사 중 기업에게 가장 맞는 서비스를 골라주는 중개인이에요.
+2. 클라우드 브로커는 여러 클라우드 회사 중 기업에게 가장 맞는 [[090_service_kubernetes_network_load_balancing|서비스]]를 골라주는 중개인이에요.
 3. 여러 클라우드를 동시에 쓰는 기업들이 많아지면서 이것들을 통합 관리해주는 MSP의 역할이 더 중요해지고 있어요!

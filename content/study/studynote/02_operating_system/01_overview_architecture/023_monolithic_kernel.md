@@ -7,17 +7,17 @@ categories = "studynote-operating-system"
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: 모놀리식 커널 (Monolithic Kernel)은 프로세스 관리, 메모리 관리, 파일 시스템, 장치 드라이버 등 OS의 모든 핵심 서비스를 단일 커널 주소 공간 (Kernel Address Space)에서 실행하는 일체형 아키텍처다.
-> 2. **가치**: 커널 내부 서비스 호출이 모드 전환 (Mode Switch) 없이 직접 함수 호출 (Direct Function Call)로 처리되어 IPC (Inter-Process Communication) 오버헤드가 없고, Linux가 서버 시장을 지배한 결정적 이유인 극한의 I/O 처리량 (Throughput)을 달성한다.
-> 3. **판단 포인트**: 단일 모듈 오류가 커널 전체 크래시 (Kernel Panic)로 이어지는 밀결합 (Tight Coupling) 구조의 취약점을 LKM (Loadable Kernel Module) 동적 로딩과 eBPF (Extended Berkeley Packet Filter) 샌드박싱 기술로 점진적으로 보완하며 진화하고 있다.
+> 1. **본질**: 모놀리식 [[022_kernel_role|커널]] (Monolithic [[022_kernel_role|Kernel]])은 프로세스 관리, 메모리 관리, [[501_file_definition_logical_record|파일]] 시스템, [[495_device_driver|장치 드라이버]] 등 OS의 모든 핵심 [[090_service_kubernetes_network_load_balancing|서비스]]를 단일 [[022_kernel_role|커널]] 주소 공간 ([[022_kernel_role|Kernel]] Address Space)에서 실행하는 일체형 아키텍처다.
+> 2. **가치**: [[022_kernel_role|커널]] 내부 [[090_service_kubernetes_network_load_balancing|서비스]] 호출이 모드 전환 (Mode [[238_switch_operation_principles|Switch]]) 없이 직접 [[294_function_calling_tool_use|함수 호출]] ([[176_direct_addressing|Direct]] Function [[189_subroutine_call_return|Call]])로 처리되어 [[117_ipc|IPC]] (Inter-Process Communication) 오버헤드가 없고, Linux가 서버 시장을 지배한 결정적 이유인 극한의 I/O [[139_throughput|처리량]] ([[139_throughput|Throughput]])을 달성한다.
+> 3. **판단 포인트**: 단일 [[192_module_independence|모듈]] 오류가 [[022_kernel_role|커널]] 전체 크래시 ([[036_kernel_panic|Kernel Panic]])로 이어지는 밀결합 (Tight [[195_coupling_levels|Coupling]]) 구조의 취약점을 [[067_lkm|LKM]] (Loadable [[022_kernel_role|Kernel]] [[192_module_independence|Module]]) 동적 로딩과 [[615_ebpf|eBPF]] (Extended [[069_ebpf|Berkeley Packet Filter]]) [[602_sandboxing_kernel_wrapper|샌드박싱]] 기술로 점진적으로 보완하며 진화하고 있다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-모놀리식 커널은 운영체제의 모든 기능 — 프로세스 스케줄링, 메모리 페이징, 파일 시스템, 네트워크 스택, 장치 드라이버 — 을 단일한 커널 주소 공간이라는 하나의 거대한 메모리 영역에 집어넣고 실행하는 방식이다.
+모놀리식 [[022_kernel_role|커널]]은 운영체제의 모든 기능 — 프로세스 스케줄링, 메모리 [[259_paging|페이징]], [[501_file_definition_logical_record|파일]] 시스템, 네트워크 [[057_stack|스택]], [[495_device_driver|장치 드라이버]] — 을 단일한 [[022_kernel_role|커널]] 주소 공간이라는 하나의 거대한 메모리 영역에 집어넣고 실행하는 방식이다.
 
-초기 컴퓨팅 환경은 하드웨어 자원이 극도로 제한적이었고, OS 내부 통신 비용을 최소화하는 것이 가장 중요한 과제였다. 모놀리식 커널은 이 '성능 최적화' 요구에 완벽하게 부합하는 구조로, 서비스 간 통신을 단순한 C 함수 호출로 처리하여 컨텍스트 스위치 (Context Switch) 비용을 제로에 가깝게 낮췄다.
+[[459_quic_fec_forward_error_correction|초기]] 컴퓨팅 환경은 하드웨어 자원이 극도로 제한적이었고, OS 내부 통신 비용을 최소화하는 것이 가장 중요한 과제였다. 모놀리식 [[022_kernel_role|커널]]은 이 '[[282_performance_tactics|성능]] 최적화' 요구에 완벽하게 부합하는 구조로, [[090_service_kubernetes_network_load_balancing|서비스]] 간 통신을 단순한 C [[294_function_calling_tool_use|함수 호출]]로 처리하여 [[033_context|컨텍스트]] [[238_switch_operation_principles|스위치]] ([[211_context_switch|Context Switch]]) 비용을 제로에 가깝게 낮췄다.
 
 ```text
 ┌─────────────────────────────────────────────────────────────────┐
@@ -50,7 +50,7 @@ categories = "studynote-operating-system"
 └─────────────────────────────────────────────────────────────────┘
 ```
 
-마이크로 커널이 서비스 간 통신에 IPC 메시지 전달을 사용하는 것과 달리, 모놀리식 커널은 모든 서비스가 동일한 메모리 공간 안에서 함수 포인터를 통해 직접 호출되어 지연이 없다.
+[[598_microkernel_plugin_architecture|마이크로 커널]]이 [[090_service_kubernetes_network_load_balancing|서비스]] 간 통신에 [[117_ipc|IPC]] [[119_message_passing|메시지 전달]]을 사용하는 것과 달리, 모놀리식 [[022_kernel_role|커널]]은 모든 [[090_service_kubernetes_network_load_balancing|서비스]]가 동일한 메모리 공간 안에서 함수 포인터를 통해 직접 호출되어 [[015_지연_데이터_관점|지연]]이 없다.
 
 📢 **섹션 요약 비유**: 모든 부서가 칸막이 없이 한 사무실에서 일하는 오픈 플랜 구조다. 서류를 복도 건너 다른 부서에 보낼 필요 없이 바로 옆 사람에게 건네면 되어 업무가 빠르다. 하지만 한 명이 감기에 걸리면 사무실 전체로 순식간에 퍼질 위험이 있다.
 
@@ -62,14 +62,14 @@ categories = "studynote-operating-system"
 
 | 구성 요소 | 역할 | 핵심 기술 | 비유 |
 |:---|:---|:---|:---|
-| **시스템 호출 인터페이스** | 사용자-커널 간 유일한 게이트웨이 | `syscall` 명령, INT 80h | 출입국 심사대 |
-| **프로세스 관리 (PM)** | 프로세스 생성·소멸·스케줄링 | CFS (Completely Fair Scheduler) | 식당 웨이팅 배정 매니저 |
-| **메모리 관리 (MM)** | 가상 메모리·페이지 테이블 관리 | Buddy System, Slab Allocator | 도시 토지 구획 컨트롤 타워 |
-| **가상 파일 시스템 (VFS)** | 다양한 FS를 단일 인터페이스로 추상화 | Ext4, XFS, tmpfs | 도서관 분류 체계 |
-| **네트워크 스택** | TCP/IP 패킷 처리 | Socket API, SKB (Socket Buffer) | 우체국 물류 센터 |
-| **장치 드라이버 모듈** | 하드웨어 인터럽트 처리 및 제어 | LKM (Loadable Kernel Module) | 전용 장비 조종사 |
+| **[[013_system_call|시스템 호출]] 인터페이스** | 사용자-[[022_kernel_role|커널]] 간 유일한 게이트웨이 | `syscall` 명령, INT 80h | 출입국 심사대 |
+| **프로세스 관리 (PM)** | [[104_process_creation|프로세스 생성]]·소멸·스케줄링 | CFS (Completely Fair Scheduler) | 식당 웨이팅 배정 매니저 |
+| **메모리 관리 (MM)** | [[381_virtual_memory|가상 메모리]]·[[353_page_table|페이지 테이블]] 관리 | [[348_buddy_system|Buddy System]], [[349_slab_allocator|Slab Allocator]] | 도시 토지 구획 컨트롤 타워 |
+| **가상 [[501_file_definition_logical_record|파일]] 시스템 ([[517_virtual_file_system_vfs|VFS]])** | 다양한 FS를 단일 인터페이스로 [[198_abstraction_control_data_process|추상화]] | Ext4, XFS, tmpfs | 도서관 [[104_classification_analysis|분류]] 체계 |
+| **네트워크 [[057_stack|스택]]** | [[405_tcp_transmission_control_protocol_connection_oriented|TCP]]/IP 패킷 처리 | [[125_socket|Socket]] [[014_api_posix|API]], SKB ([[125_socket|Socket]] Buffer) | 우체국 물류 센터 |
+| **[[495_device_driver|장치 드라이버]] [[192_module_independence|모듈]]** | [[017_hardware_interrupt|하드웨어 인터럽트]] 처리 및 제어 | [[067_lkm|LKM]] (Loadable [[022_kernel_role|Kernel]] [[192_module_independence|Module]]) | 전용 장비 조종사 |
 
-### 서비스 호출 메커니즘 — 마이크로 커널과의 결정적 차이
+### [[090_service_kubernetes_network_load_balancing|서비스]] 호출 메커니즘 — [[598_microkernel_plugin_architecture|마이크로 커널]]과의 결정적 차이
 
 ```text
 ┌─────────────────────────────────────────────────────────────────┐
@@ -99,9 +99,9 @@ categories = "studynote-operating-system"
 └─────────────────────────────────────────────────────────────────┘
 ```
 
-### LKM (Loadable Kernel Module) — 동적 확장 기술
+### [[067_lkm|LKM]] (Loadable [[022_kernel_role|Kernel]] [[192_module_independence|Module]]) — 동적 확장 기술
 
-전통적 모놀리식 커널의 단점인 '수정 시 전체 재컴파일'을 극복하기 위해 Linux는 LKM 기술을 채택했다.
+전통적 모놀리식 [[022_kernel_role|커널]]의 단점인 '수정 시 전체 재컴파일'을 극복하기 위해 Linux는 [[067_lkm|LKM]] 기술을 채택했다.
 
 ```text
 ┌─────────────────────────────────────────────────────────────────┐
@@ -123,49 +123,49 @@ categories = "studynote-operating-system"
 └─────────────────────────────────────────────────────────────────┘
 ```
 
-📢 **섹션 요약 비유**: 레고 기본 판(커널 코어) 위에 새 기능 블록(LKM)을 실시간으로 꽂아 넣어 성능 저하 없이 로봇의 능력을 확장하는 것과 같다. 단, 불량 블록을 꽂으면 기본 판째로 망가지는 위험이 있다.
+📢 **섹션 요약 비유**: 레고 기본 판([[022_kernel_role|커널]] 코어) 위에 새 기능 블록([[067_lkm|LKM]])을 실시간으로 꽂아 넣어 [[282_performance_tactics|성능]] 저하 없이 로봇의 능력을 확장하는 것과 같다. 단, 불량 블록을 꽂으면 기본 판째로 망가지는 위험이 있다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-### 모놀리식 커널 vs 마이크로 커널 vs 하이브리드 커널
+### 모놀리식 [[022_kernel_role|커널]] vs [[598_microkernel_plugin_architecture|마이크로 커널]] vs [[025_hybrid_kernel|하이브리드 커널]]
 
-| 비교 항목 | 모놀리식 (Monolithic) | 마이크로 (Microkernel) | 하이브리드 (Hybrid) |
+| 비교 항목 | 모놀리식 (Monolithic) | 마이크로 ([[024_microkernel|Microkernel]]) | 하이브리드 (Hybrid) |
 |:---|:---|:---|:---|
-| **커널 크기** | 거대함 (Fat Kernel) | 최소화 (Thin Kernel) | 중간 |
-| **내부 통신** | 직접 함수 호출 (초고속) | IPC 메시지 전달 (느림) | 혼용 |
+| **[[022_kernel_role|커널]] 크기** | 거대함 ([[525_fat_file_allocation_table|Fat]] [[022_kernel_role|Kernel]]) | 최소화 (Thin [[022_kernel_role|Kernel]]) | 중간 |
+| **내부 통신** | 직접 [[294_function_calling_tool_use|함수 호출]] ([[148_5g_embb_urllc_mmtc|초고속]]) | [[117_ipc|IPC]] [[119_message_passing|메시지 전달]] (느림) | 혼용 |
 | **실행 속도** | 매우 빠름 | 상대적으로 느림 | 중간 |
-| **안정성** | 낮음 — 단일 장애점 | 높음 — 서버 단위 재시작 | 중간 |
-| **유지보수성** | 어려움 (밀결합) | 쉬움 (독립 모듈) | 중간 |
+| **안정성** | 낮음 — [[454_spof|단일 장애점]] | 높음 — 서버 단위 재시작 | 중간 |
+| **[[346_maintainability_portability|유지보수성]]** | 어려움 (밀결합) | 쉬움 (독립 [[192_module_independence|모듈]]) | 중간 |
 | **대표 사례** | Linux, BSD, UNIX | MINIX, QNX, L4 | Windows NT, macOS XNU |
 
 ### 개발 및 운영 관점의 트레이드오프
 
 | 구분 | 모놀리식 Linux | 마이크로 QNX/실시간 OS |
 |:---|:---|:---|
-| **하드웨어 지원** | 방대한 오픈소스 드라이버 생태계 | 특정 장치 최적화 소량 드라이버 |
+| **하드웨어 지원** | 방대한 [[191_oss_license_compliance|오픈소스]] 드라이버 생태계 | 특정 장치 최적화 소량 드라이버 |
 | **메모리 점유** | 상대적으로 큼 | 매우 작음 (임베디드 적합) |
 | **보안 모델** | 단일 특권 모델 | 최소 권한 분리형 Capability 모델 |
-| **적합 환경** | 고성능 서버, 클라우드 VM | 항공·의료 실시간 제어 시스템 |
+| **적합 환경** | 고성능 서버, 클라우드 [[598_vm_migration_nic|VM]] | 항공·의료 실시간 제어 시스템 |
 
-📢 **섹션 요약 비유**: 모놀리식 커널이 모든 걸 다 하는 만능 집사 한 명이 직접 뛰는 방식이라면, 마이크로 커널은 집사는 지시만 하고 각 전문 업체(서비스)를 따로 불러 일을 시키는 에이전시 매니저 방식이다. 집사 방식이 빠르지만 집사가 쓰러지면 집안이 올스톱된다.
+📢 **섹션 요약 비유**: 모놀리식 [[022_kernel_role|커널]]이 모든 걸 다 하는 만능 집사 한 명이 직접 뛰는 방식이라면, [[598_microkernel_plugin_architecture|마이크로 커널]]은 집사는 지시만 하고 각 전문 업체([[090_service_kubernetes_network_load_balancing|서비스]])를 따로 불러 일을 시키는 에이전시 매니저 방식이다. 집사 방식이 빠르지만 집사가 쓰러지면 집안이 올스톱된다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### 실무 시나리오 1: GPU 드라이버로 인한 Kernel Panic
+### 실무 시나리오 1: [[418_gpu|GPU]] 드라이버로 인한 [[036_kernel_panic|Kernel Panic]]
 
-새 GPU 드라이버 설치 후 Linux 서버가 불규칙하게 멈추는 현상. 모놀리식 구조에서는 드라이버가 커널 메모리를 침범 (Memory Corruption)해 시스템 전체가 다운된다. `dmesg`로 커널 패닉 덤프를 분석해 해당 모듈을 블랙리스트 처리하거나 안정 버전으로 롤백해 가용성을 복구한다.
+새 [[418_gpu|GPU]] 드라이버 설치 후 Linux 서버가 불규칙하게 멈추는 현상. 모놀리식 구조에서는 드라이버가 [[022_kernel_role|커널]] 메모리를 침범 (Memory Corruption)해 시스템 전체가 다운된다. `dmesg`로 [[036_kernel_panic|커널 패닉]] 덤프를 분석해 해당 [[192_module_independence|모듈]]을 블랙리스트 처리하거나 안정 버전으로 롤백해 가용성을 복구한다.
 
-### 실무 시나리오 2: 임베디드 IoT 부팅 최적화
+### 실무 시나리오 2: 임베디드 [[101_iot_concept|IoT]] 부팅 최적화
 
-자원이 부족한 IoT 장치에서 Linux 부팅이 느린 문제. `make menuconfig`로 불필요한 네트워크 프로토콜과 파일 시스템을 제거하고 핵심 드라이버만 빌트인 (Built-in)으로 컴파일하는 경량 커널 빌드 전략으로 부팅 시간을 8초 → 2초로 단축했다.
+자원이 부족한 [[101_iot_concept|IoT]] 장치에서 Linux 부팅이 느린 문제. `make menuconfig`로 불필요한 네트워크 프로토콜과 [[501_file_definition_logical_record|파일]] 시스템을 제거하고 핵심 드라이버만 빌트인 (Built-in)으로 컴파일하는 경량 [[022_kernel_role|커널]] 빌드 전략으로 부팅 시간을 8초 → 2초로 단축했다.
 
-### 실무 시나리오 3: LKM 악용 루트킷 (Rootkit) 대응
+### 실무 시나리오 3: [[067_lkm|LKM]] 악용 [[603_rootkit_syscall_hooking|루트킷]] ([[603_rootkit_syscall_hooking|Rootkit]]) 대응
 
-공격자가 LKM을 악용해 커널 내부에 악성 모듈을 삽입, 모든 시스템 콜을 후킹하는 루트킷을 심은 사례. 모듈 서명 검증 (Module Signing) 활성화와 `/proc/sys/kernel/modules_disabled=1` 설정으로 런타임 모듈 삽입을 원천 차단하는 커널 하드닝 (Kernel Hardening) 전략을 즉시 적용해야 한다.
+공격자가 LKM을 악용해 [[022_kernel_role|커널]] 내부에 악성 [[192_module_independence|모듈]]을 삽입, 모든 시스템 콜을 후킹하는 [[603_rootkit_syscall_hooking|루트킷]]을 심은 사례. [[192_module_independence|모듈]] 서명 [[395_verification_process_review|검증]] ([[192_module_independence|Module]] Signing) 활성화와 `/proc/sys/kernel/modules_disabled=1` 설정으로 런타임 [[192_module_independence|모듈]] 삽입을 원천 차단하는 [[022_kernel_role|커널]] 하드닝 ([[022_kernel_role|Kernel]] Hardening) 전략을 즉시 적용해야 한다.
 
 ```text
 ┌─────────────────────────────────────────────────────────────────┐
@@ -189,38 +189,38 @@ categories = "studynote-operating-system"
 └─────────────────────────────────────────────────────────────────┘
 ```
 
-### 도입 체크리스트
+### 도입 [[435_checklist_based_testing|체크리스트]]
 
-- [ ] 워크로드가 I/O 집약적인가? (그렇다면 모놀리식의 고속 함수 호출이 압도적으로 유리)
-- [ ] 단일 모듈 크래시가 전체 서비스를 중단시켜도 감당 가능한 아키텍처인가?
-- [ ] 모든 커널 모듈에 서명 검증이 적용되어 있는가?
-- [ ] `sysctl` 파라미터 튜닝으로 네트워크 버퍼, 파일 디스크립터 한계를 최적화했는가?
-- [ ] eBPF 기반 관측성 (Observability) 도구로 커널 재컴파일 없이 성능을 모니터링하고 있는가?
+- [ ] 워크로드가 I/O 집약적인가? (그렇다면 모놀리식의 고속 [[294_function_calling_tool_use|함수 호출]]이 압도적으로 유리)
+- [ ] 단일 [[192_module_independence|모듈]] 크래시가 전체 [[090_service_kubernetes_network_load_balancing|서비스]]를 중단시켜도 감당 가능한 아키텍처인가?
+- [ ] 모든 [[022_kernel_role|커널]] [[192_module_independence|모듈]]에 서명 [[395_verification_process_review|검증]]이 적용되어 있는가?
+- [ ] `sysctl` 파라미터 튜닝으로 네트워크 버퍼, [[501_file_definition_logical_record|파일]] 디스크립터 한계를 최적화했는가?
+- [ ] [[615_ebpf|eBPF]] 기반 관측성 ([[642_observability_telemetry|Observability]]) 도구로 [[022_kernel_role|커널]] 재컴파일 없이 [[282_performance_tactics|성능]]을 모니터링하고 있는가?
 
-### 안티패턴
+### [[128_water_scrum_fall_anti_pattern|안티패턴]]
 
-외부 출처 불분명한 LKM을 프로덕션 커널에 서명 검증 없이 로드하는 행위. 드라이버 1줄의 메모리 버그가 커널 주소 공간 전체를 오염시켜 수십만 사용자가 이용 중인 서비스를 순식간에 다운시킨다.
+외부 출처 불분명한 LKM을 프로덕션 [[022_kernel_role|커널]]에 서명 [[395_verification_process_review|검증]] 없이 로드하는 행위. 드라이버 1줄의 메모리 버그가 [[022_kernel_role|커널]] 주소 공간 전체를 오염시켜 수십만 사용자가 이용 중인 [[090_service_kubernetes_network_load_balancing|서비스]]를 순식간에 다운시킨다.
 
-📢 **섹션 요약 비유**: 거대한 함선(모놀리식 커널)이 침몰하지 않도록, 각 구획(모듈)의 이상 징후를 실시간으로 감시하고 문제 구획을 즉시 격리하는 숙련된 항해사의 판단력이 모놀리식 커널 운영의 핵심이다.
+📢 **섹션 요약 비유**: 거대한 함선(모놀리식 [[022_kernel_role|커널]])이 침몰하지 않도록, 각 구획([[192_module_independence|모듈]])의 이상 징후를 실시간으로 감시하고 문제 구획을 즉시 격리하는 숙련된 항해사의 판단력이 모놀리식 [[022_kernel_role|커널]] 운영의 핵심이다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-| 구분 | 도입 전 (마이크로 커널 비교) | 도입 후 (모놀리식 최적화) | 개선 효과 |
+| 구분 | 도입 전 ([[598_microkernel_plugin_architecture|마이크로 커널]] 비교) | 도입 후 (모놀리식 최적화) | 개선 효과 |
 |:---|:---|:---|:---|
-| **I/O 처리량** | IPC 오버헤드로 처리량 제한 | 커널 내 고속 함수 호출 | Throughput **30~50% 향상** |
-| **지연 시간** | 모드 전환 4~6회 발생 | 시스템 콜 1회 진입 후 처리 완료 | Latency 마이크로초 단위 절감 |
-| **드라이버 생태계** | 한정적 지원 | Linux 오픈소스 드라이버 수천 종 | 최신 하드웨어 즉시 수용 |
-| **운영 단순성** | 분산 서버 프로세스 관리 복잡 | 단일 이미지 배포 및 관리 | 자동화 파이프라인 구성 용이 |
+| **I/O [[139_throughput|처리량]]** | [[117_ipc|IPC]] 오버헤드로 [[139_throughput|처리량]] 제한 | [[022_kernel_role|커널]] 내 고속 [[294_function_calling_tool_use|함수 호출]] | [[139_throughput|Throughput]] **30~50% 향상** |
+| **[[141_latency|지연 시간]]** | 모드 전환 4~6회 발생 | 시스템 콜 1회 진입 후 처리 완료 | [[141_latency|Latency]] 마이크로초 단위 절감 |
+| **드라이버 생태계** | 한정적 지원 | Linux [[191_oss_license_compliance|오픈소스]] 드라이버 수천 종 | 최신 하드웨어 즉시 수용 |
+| **운영 단순성** | [[136_variance|분산]] 서버 프로세스 관리 복잡 | 단일 이미지 배포 및 관리 | 자동화 파이프라인 구성 용이 |
 
 ### 미래 방향
 
-- **eBPF (Extended Berkeley Packet Filter) 융합**: 커널 재컴파일이나 LKM 없이도 안전한 샌드박스 환경에서 커널 기능을 확장하는 eBPF가 모놀리식 커널의 보안·안정성 문제를 해결하는 차세대 대안으로 급부상 중이다. Cilium, BPF Tracing 등이 대표 사례다.
-- **Modular Monolithic 진화**: 컨테이너 기술과 결합하여 Namespace, Cgroups 기반 커널 수준 격리를 강화하면서도 성능을 유지하는 하이브리드 성향의 발전이 가속화되고 있다.
-- **RISC-V 기반 임베디드 Linux**: 초경량 RISC-V 프로세서를 위한 최소 커널 이미지 컴파일 기술이 발전하면서 모놀리식 커널이 IoT/엣지 디바이스 영역까지 확장되고 있다.
+- **[[615_ebpf|eBPF]] (Extended [[069_ebpf|Berkeley Packet Filter]]) 융합**: [[022_kernel_role|커널]] 재컴파일이나 [[067_lkm|LKM]] 없이도 안전한 샌드박스 환경에서 [[022_kernel_role|커널]] 기능을 확장하는 eBPF가 모놀리식 [[022_kernel_role|커널]]의 보안·안정성 문제를 해결하는 차세대 대안으로 급부상 중이다. [[825_cilium_ebpf_kubernetes_networking_security|Cilium]], [[069_ebpf|BPF]] [[657_observability|Tracing]] 등이 대표 사례다.
+- **Modular Monolithic 진화**: [[561_container_based_deployment|컨테이너]] 기술과 결합하여 [[061_namespace|Namespace]], [[062_cgroups|Cgroups]] 기반 [[022_kernel_role|커널]] 수준 격리를 강화하면서도 [[282_performance_tactics|성능]]을 유지하는 하이브리드 성향의 발전이 가속화되고 있다.
+- **[[200_riscv|RISC-V]] 기반 임베디드 Linux**: 초경량 [[200_riscv|RISC-V]] 프로세서를 위한 최소 [[022_kernel_role|커널]] 이미지 컴파일 기술이 발전하면서 모놀리식 [[022_kernel_role|커널]]이 [[101_iot_concept|IoT]]/엣지 디바이스 영역까지 확장되고 있다.
 
-📢 **섹션 요약 비유**: 모놀리식 커널은 최고 성능의 스포츠카처럼 모든 부품이 정교하게 맞물려 있다. 기술의 발전에 따라 eBPF라는 스마트 엔진 관리 시스템이 장착되어 성능을 유지하면서도 더 안전하고 스마트하게 진화하고 있다.
+📢 **섹션 요약 비유**: 모놀리식 [[022_kernel_role|커널]]은 최고 [[282_performance_tactics|성능]]의 스포츠카처럼 모든 부품이 정교하게 맞물려 있다. 기술의 발전에 따라 eBPF라는 스마트 엔진 관리 시스템이 장착되어 [[282_performance_tactics|성능]]을 유지하면서도 더 안전하고 스마트하게 진화하고 있다.
 
 ---
 
@@ -228,12 +228,12 @@ categories = "studynote-operating-system"
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **커널 모드 (Kernel Mode)** | 모놀리식 커널의 모든 서비스가 실행되는 고특권 실행 환경으로, 하드웨어 직접 접근이 가능한 공간 |
-| **LKM (Loadable Kernel Module)** | 모놀리식 커널의 경직성을 해결하는 동적 확장 기술로, `insmod`/`rmmod`로 런타임 로드·언로드 가능 |
-| **시스템 콜 (System Call)** | 사용자 모드와 커널 모드를 연결하는 유일한 인터페이스로, 모놀리식 커널이 단 1회의 모드 전환만 요구 |
-| **커널 패닉 (Kernel Panic)** | 모놀리식 단일 주소 공간에서 발생하는 치명적 오류로, 드라이버 버그 1개가 전체 시스템을 중단시킴 |
-| **eBPF (Extended Berkeley Packet Filter)** | 커널 재컴파일 없이 커널 내부를 안전하게 관측·확장하는 혁신 기술로, 모놀리식의 미래 방향 |
-| **CFS (Completely Fair Scheduler)** | Linux 모놀리식 커널의 CPU 스케줄러로, 모든 프로세스에 공평한 CPU 시간을 보장 |
+| **[[022_kernel_role|커널]] 모드 ([[022_kernel_role|Kernel]] Mode)** | 모놀리식 [[022_kernel_role|커널]]의 모든 [[090_service_kubernetes_network_load_balancing|서비스]]가 실행되는 고특권 실행 환경으로, 하드웨어 직접 접근이 가능한 공간 |
+| **[[067_lkm|LKM]] (Loadable [[022_kernel_role|Kernel]] [[192_module_independence|Module]])** | 모놀리식 [[022_kernel_role|커널]]의 경직성을 해결하는 동적 확장 기술로, `insmod`/`rmmod`로 런타임 로드·언로드 가능 |
+| **시스템 콜 ([[013_system_call|System Call]])** | 사용자 모드와 [[022_kernel_role|커널]] 모드를 연결하는 유일한 인터페이스로, 모놀리식 [[022_kernel_role|커널]]이 단 1회의 모드 전환만 요구 |
+| **[[036_kernel_panic|커널 패닉]] ([[036_kernel_panic|Kernel Panic]])** | 모놀리식 단일 주소 공간에서 발생하는 치명적 오류로, 드라이버 버그 1개가 전체 시스템을 중단시킴 |
+| **[[615_ebpf|eBPF]] (Extended [[069_ebpf|Berkeley Packet Filter]])** | [[022_kernel_role|커널]] 재컴파일 없이 [[022_kernel_role|커널]] 내부를 안전하게 관측·확장하는 혁신 기술로, 모놀리식의 미래 방향 |
+| **CFS (Completely Fair Scheduler)** | Linux 모놀리식 [[022_kernel_role|커널]]의 CPU 스케줄러로, 모든 프로세스에 공평한 CPU 시간을 보장 |
 
 ---
 
@@ -260,11 +260,11 @@ categories = "studynote-operating-system"
      자동화된 sysctl 파라미터 최적화 및 이상 탐지
 ```
 
-모놀리식 커널은 성능과 안정성의 긴장 관계 속에서, LKM → 모듈형 모놀리식 → eBPF로 이어지는 진화를 통해 두 가지 요구를 모두 충족하는 방향으로 발전하고 있다.
+모놀리식 [[022_kernel_role|커널]]은 [[282_performance_tactics|성능]]과 안정성의 긴장 [[083_relationship_in_er_model|관계]] 속에서, [[067_lkm|LKM]] → [[192_module_independence|모듈]]형 모놀리식 → eBPF로 이어지는 진화를 통해 두 가지 요구를 모두 충족하는 방향으로 발전하고 있다.
 
 ---
 
 ### 👶 어린이를 위한 3줄 비유 설명
-1. 모놀리식 커널은 컴퓨터 나라의 **"천하무적 거인 선생님"**이에요. 요리, 청소, 공부를 한 분이 다 해주셔서 일이 아주 빠르게 진행돼요.
+1. 모놀리식 [[022_kernel_role|커널]]은 컴퓨터 나라의 **"천하무적 거인 선생님"**이에요. 요리, 청소, 공부를 한 분이 다 해주셔서 일이 아주 빠르게 진행돼요.
 2. 하지만 선생님이 감기에 걸려 쓰러지면 컴퓨터 나라 전체가 멈춰버리는 **"하나로 뭉친 구조"** 를 가지고 있답니다.
-3. 그래서 엔지니어 삼촌들은 선생님이 아프지 않게 매일 건강검진(보안 패치)을 하고, 새 재능(LKM 모듈)을 추가하며 컴퓨터를 든든하게 지키고 있어요!
+3. 그래서 엔지니어 삼촌들은 선생님이 아프지 않게 매일 건강검진(보안 패치)을 하고, 새 재능([[067_lkm|LKM]] [[192_module_independence|모듈]])을 추가하며 컴퓨터를 든든하게 지키고 있어요!

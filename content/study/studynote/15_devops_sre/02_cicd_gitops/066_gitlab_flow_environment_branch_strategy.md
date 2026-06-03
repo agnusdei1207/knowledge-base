@@ -8,9 +8,9 @@ categories = "studynote-devops"
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: GitLab Flow는 main과 환경 브랜치(dev/staging/prod 등)를 연결해 배포 흐름을 명확히 하는 전략이다.
+> 1. **본질**: GitLab Flow는 main과 환경 브랜치(dev/staging/prod 등)를 연결해 배포 흐름을 명확히 하는 [[268_strategy_pattern|전략]]이다.
 > 2. **가치**: 환경별 승격(promote) 흐름이 분명해 운영과 릴리스 관리가 쉬워진다.
-> 3. **판단**: GitFlow와 GitHub Flow의 중간 성격을 가지며, 환경 중심 CI/CD에 잘 맞는다.
+> 3. **판단**: GitFlow와 GitHub Flow의 중간 성격을 가지며, 환경 중심 [[090_configuration_item|CI]]/CD에 잘 맞는다.
 
 ---
 
@@ -18,7 +18,7 @@ categories = "studynote-devops"
 
 배포 환경이 여러 개면 "어느 브랜치가 어느 환경인지"가 중요해진다. GitLab Flow는 이 문제를 해결하기 위해 환경 브랜치 개념을 쓴다.
 
-개발, 검증, 운영을 브랜치와 연결하면 릴리스 상태를 명확하게 추적할 수 있다.
+개발, [[395_verification_process_review|검증]], 운영을 브랜치와 연결하면 릴리스 상태를 명확하게 추적할 수 있다.
 
 - **📢 섹션 요약 비유**: 완성도에 따라 장난감을 dev 방, 테스트 방, 전시 방으로 옮겨 두는 것이다.
 
@@ -32,9 +32,9 @@ feature → main → dev → staging → prod
 
 | 브랜치 | 의미 |
 | :-- | :-- |
-| main | 기준선 |
+| main | [[025_baseline|기준선]] |
 | dev | 개발 환경 |
-| staging | 사전 검증 |
+| staging | 사전 [[395_verification_process_review|검증]] |
 | prod | 운영 반영 |
 
 GitLab Flow는 환경 승격을 명시적으로 표현한다. 그래서 "어떤 커밋이 지금 어느 환경에 있는지"를 추적하기 쉽다.
@@ -45,9 +45,9 @@ GitLab Flow는 환경 승격을 명시적으로 표현한다. 그래서 "어떤 
 
 ## Ⅲ. 비교 및 연결
 
-| 전략 | 특징 | 강점 | 한계 |
+| [[268_strategy_pattern|전략]] | 특징 | 강점 | 한계 |
 | :-- | :-- | :-- | :-- |
-| GitHub Flow | 단순 | 빠른 CD | 환경 표현 약함 |
+| [[054_github_flow|GitHub Flow]] | 단순 | 빠른 CD | 환경 표현 약함 |
 | GitLab Flow | 환경 중심 | 추적 쉬움 | 브랜치 관리 필요 |
 | Git Flow | 브랜치 많음 | 릴리스 제어 | 복잡함 |
 
@@ -59,22 +59,22 @@ GitLab Flow는 환경 브랜치가 중요한 조직에 잘 맞는다. 단순한 
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### 체크리스트
+### [[435_checklist_based_testing|체크리스트]]
 
-1. 환경별 브랜치/배포 정책이 있는가?
+1. 환경별 브랜치/배포 [[164_policy|정책]]이 있는가?
 2. 승격 순서가 명확한가?
-3. 롤백과 승인 절차가 있는가?
-4. CI/CD와 연결되어 있는가?
+3. [[098_rollback_strategy_pipeline_error_threshold|롤백]]과 승인 절차가 있는가?
+4. [[090_configuration_item|CI]]/CD와 연결되어 있는가?
 5. 브랜치 폭증을 관리하는가?
 
-### 안티패턴
+### [[128_water_scrum_fall_anti_pattern|안티패턴]]
 
 - 환경과 브랜치를 무관하게 두는 설계
 - dev/staging/prod 승격을 문서로만 남기는 설계
 - 배포 기록이 남지 않는 설계
 - GitHub Flow와 GitLab Flow를 혼동하는 설계
 
-기술사 관점에서는 GitLab Flow를 환경 중심 배포 전략으로 보고, 운영 통제와 릴리스 추적성을 강조해야 한다.
+기술사 관점에서는 GitLab Flow를 환경 중심 배포 [[268_strategy_pattern|전략]]으로 보고, 운영 통제와 릴리스 추적성을 강조해야 한다.
 
 - **📢 섹션 요약 비유**: 어느 방에 있는지 알 수 있어야 찾기도 쉽고 옮기기도 쉽다.
 
@@ -82,9 +82,9 @@ GitLab Flow는 환경 브랜치가 중요한 조직에 잘 맞는다. 단순한 
 
 ## Ⅴ. 기대효과 및 결론
 
-GitLab Flow는 환경 승격과 배포 추적을 단순화한다. 그래서 기업용 CI/CD에서 실용적이다.
+GitLab Flow는 환경 승격과 배포 추적을 단순화한다. 그래서 기업용 [[090_configuration_item|CI]]/CD에서 실용적이다.
 
-결론적으로 GitLab Flow는 환경 브랜치를 중심으로 한 배포 전략이다.
+결론적으로 GitLab Flow는 환경 브랜치를 중심으로 한 배포 [[268_strategy_pattern|전략]]이다.
 
 - **📢 섹션 요약 비유**: 물건이 어디까지 갔는지 표를 붙여 놓는 것이다.
 

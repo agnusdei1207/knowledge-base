@@ -7,22 +7,22 @@ categories = "studynote-algorithm"
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: 이분 탐색은 정렬된 배열에서 탐색 범위를 매 단계 절반으로 줄여 O(log n)에 목표값을 찾는 알고리즘으로, "분할 후 정복"의 가장 단순한 형태다.
-> 2. **가치**: O(log n)이라는 압도적 효율(n=10억에서 30번 비교)은 데이터베이스 인덱스, 컴파일러 심볼 테이블, 이분 탐색 트리의 이론적 근거를 제공한다.
+> 1. **본질**: 이분 탐색은 정렬된 [[055_array|배열]]에서 탐색 범위를 매 단계 절반으로 줄여 O(log n)에 목표값을 찾는 [[001_algorithm_definition|알고리즘]]으로, "분할 후 정복"의 가장 단순한 형태다.
+> 2. **가치**: O(log n)이라는 압도적 효율(n=10억에서 30번 비교)은 [[002_database_definition|데이터베이스]] [[154_database_index_b_tree_search_optimization|인덱스]], 컴파일러 심볼 테이블, 이분 탐색 트리의 이론적 근거를 제공한다.
 > 3. **판단 포인트**: off-by-one 버그(경계값 처리)가 가장 흔한 구현 오류이며, 하한(Lower Bound)/상한(Upper Bound) 변형을 통해 중복값 처리와 조건 최적화 문제에 응용된다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-선형 탐색(Linear Search)은 n개 원소를 순차적으로 확인하여 O(n)이다. 데이터가 **정렬**되어 있다면, 중간값을 기준으로 탐색 범위를 절반으로 줄이는 **이분 탐색 (Binary Search)**으로 O(log n)을 달성할 수 있다.
+[[030_linear_search|선형 탐색]]([[030_linear_search|Linear Search]])은 n개 원소를 순차적으로 확인하여 O(n)이다. [[001_dikw_pyramid|데이터]]가 **정렬**되어 있다면, 중간값을 기준으로 탐색 범위를 절반으로 줄이는 **이분 탐색 ([[031_binary_search_algorithm|Binary Search]])**으로 O(log n)을 달성할 수 있다.
 
-### 선형 탐색 vs 이분 탐색
+### [[030_linear_search|선형 탐색]] vs 이분 탐색
 
-| 항목 | 선형 탐색 | 이분 탐색 |
+| 항목 | [[030_linear_search|선형 탐색]] | 이분 탐색 |
 |:---|:---:|:---:|
-| 전제 조건 | 없음 | **정렬된 배열** |
-| 시간 복잡도 | O(n) | O(log n) |
+| 전제 조건 | 없음 | **정렬된 [[055_array|배열]]** |
+| [[002_time_complexity|시간 복잡도]] | O(n) | O(log n) |
 | n=10억에서 최대 비교 | 10억 번 | **30번** |
 | 구현 난이도 | 매우 쉬움 | 경계값 주의 |
 
@@ -45,7 +45,7 @@ BinarySearch(arr, target):
   return -1  ← 찾지 못함
 ```
 
-### ASCII 다이어그램 — 탐색 과정
+### [[103_ascii|ASCII]] 다이어그램 — 탐색 과정
 
 ```
 배열: [1, 3, 5, 7, 9, 11, 13, 15, 17, 19]
@@ -74,14 +74,14 @@ arr[3]=7 == 7 → 발견! 인덱스 3 반환 ✅
 총 4단계 (log₂(10) ≈ 3.32, 올림 → 4)
 ```
 
-### 시간/공간 복잡도
+### 시간/[[003_space_complexity|공간 복잡도]]
 
 | 항목 | 복잡도 |
 |:---|:---:|
 | 최선 | O(1) (첫 번째 mid에서 발견) |
 | 평균/최악 | **O(log n)** |
-| 공간 | O(1) (반복 구현), O(log n) (재귀 구현) |
-| 전제 조건 | **정렬된 배열** |
+| 공간 | O(1) (반복 구현), O(log n) ([[014_recursion|재귀]] 구현) |
+| 전제 조건 | **정렬된 [[055_array|배열]]** |
 
 ### 하한(Lower Bound) / 상한(Upper Bound)
 
@@ -125,21 +125,21 @@ Upper Bound (upper_bound): target 초과의 첫 번째 위치
 | 실수 유형 | 잘못된 코드 | 올바른 코드 |
 |:---|:---|:---|
 | 무한 루프 | `while left < right` (Lower Bound) | `while left < right` + `mid = left + (right-left)/2` + `right = mid` |
-| 범위 초과 | `mid = (left + right) / 2` | `mid = left + (right - left) / 2` (오버플로우 방지) |
+| 범위 초과 | `mid = (left + right) / 2` | `mid = left + (right - left) / 2` ([[095_overflow|오버플로우]] 방지) |
 | 끝 조건 | `right = n` → 올바름 | `right = n - 1` → 기본 탐색에 올바름 |
 
 ### 이분 탐색 응용 비교
 
 | 응용 | 설명 | 복잡도 |
 |:---|:---|:---:|
-| 기본 탐색 | 배열에서 값 찾기 | O(log n) |
+| 기본 탐색 | [[055_array|배열]]에서 값 찾기 | O(log n) |
 | Lower/Upper Bound | 중복값 범위 탐색 | O(log n) |
-| 회전 정렬 배열 탐색 | 피벗이 있는 정렬 배열 | O(log n) |
+| 회전 정렬 [[055_array|배열]] 탐색 | 피벗이 있는 정렬 [[055_array|배열]] | O(log n) |
 | 매개변수 탐색 | 해 공간 이분 탐색 | O(log(범위) × 판단함수) |
-| 이분 탐색 트리 (BST) | 동적 데이터 구조 | O(log n) 평균 |
-| B-트리 인덱스 | 디스크 기반 | O(log n) |
+| 이분 탐색 트리 (BST) | 동적 [[001_dikw_pyramid|데이터]] 구조 | O(log n) 평균 |
+| B-트리 [[154_database_index_b_tree_search_optimization|인덱스]] | 디스크 기반 | O(log n) |
 
-📢 **섹션 요약 비유**: 이분 탐색과 매개변수 탐색의 관계는 자 재는 방법과 같다. 자(이분 탐색)로 직접 크기를 재는 것이 기본이고, 자를 여러 번 대어 최적 크기를 찾는 것(매개변수 탐색)이 응용이다.
+📢 **섹션 요약 비유**: 이분 탐색과 매개변수 탐색의 [[083_relationship_in_er_model|관계]]는 자 재는 방법과 같다. 자(이분 탐색)로 직접 크기를 재는 것이 기본이고, 자를 여러 번 대어 최적 크기를 찾는 것(매개변수 탐색)이 응용이다.
 
 ---
 
@@ -147,13 +147,13 @@ Upper Bound (upper_bound): target 초과의 첫 번째 위치
 
 ### 실무 시나리오
 
-**시나리오 1 — 데이터베이스 인덱스**: B-트리 인덱스의 각 노드 내 키 탐색  
+**시나리오 1 — [[002_database_definition|데이터베이스]] [[154_database_index_b_tree_search_optimization|인덱스]]**: B-트리 [[154_database_index_b_tree_search_optimization|인덱스]]의 각 노드 내 키 탐색  
 → 페이지당 수백 개 키에 이분 탐색 → O(log n) 탐색 보장
 
 **시나리오 2 — 컴파일러 심볼 테이블**: 정렬된 심볼 목록에서 변수명 탐색  
 → 이분 탐색으로 O(log n) 조회
 
-**시나리오 3 — 이진 탐색 트리(BST)**: 이분 탐색의 구조화된 형태  
+**시나리오 3 — [[061_binary_search_tree_bst|이진 탐색 트리]](BST)**: 이분 탐색의 구조화된 형태  
 → 삽입/삭제가 가능한 동적 이분 탐색 구조
 
 **시나리오 4 — 업무 최적화 문제**: "최소 배송 비용으로 D일 이내 전달 가능한가?"  
@@ -182,16 +182,16 @@ Upper Bound (upper_bound): target 초과의 첫 번째 위치
 
 ## Ⅴ. 기대효과 및 결론
 
-이분 탐색은 **알고리즘의 가장 우아한 아이디어 중 하나**다. 단순한 탐색 알고리즘을 넘어, 매개변수 탐색을 통해 최적화 문제에까지 적용되며, 데이터베이스 인덱스와 자료구조의 이론적 토대를 제공한다.
+이분 탐색은 **[[001_algorithm_definition|알고리즘]]의 가장 우아한 아이디어 중 하나**다. 단순한 탐색 [[001_algorithm_definition|알고리즘]]을 넘어, 매개변수 탐색을 통해 최적화 문제에까지 적용되며, [[002_database_definition|데이터베이스]] [[154_database_index_b_tree_search_optimization|인덱스]]와 자료구조의 이론적 토대를 제공한다.
 
 ### 효과 정리
 
 | 효과 | 내용 |
 |:---|:---|
-| 극적인 성능 | n=10억에서 O(n)→O(log n): 10억 → 30 비교 |
+| 극적인 [[282_performance_tactics|성능]] | n=10억에서 O(n)→O(log n): 10억 → 30 비교 |
 | 범용 응용 | Lower/Upper Bound, 매개변수 탐색으로 확장 |
-| 시스템 기반 | DBMS 인덱스, 파일 시스템, BST의 근원 |
-| 검증 용이성 | 단순한 로직으로 정확성 증명이 쉬움 |
+| 시스템 기반 | [[502_dbms|DBMS]] [[154_database_index_b_tree_search_optimization|인덱스]], [[501_file_definition_logical_record|파일]] 시스템, BST의 근원 |
+| [[395_verification_process_review|검증]] 용이성 | 단순한 로직으로 [[002_bigdata_5v|정확성]] 증명이 쉬움 |
 
 📢 **섹션 요약 비유**: 이분 탐색은 전화번호부에서 "박○○"을 찾을 때 가장 전형적인 방법이다. 중간 페이지를 펼쳐서 "박" 앞이면 앞으로, 뒤면 뒤로 — 몇 번만 하면 10만 명 중에서도 찾을 수 있다.
 
@@ -199,13 +199,13 @@ Upper Bound (upper_bound): target 초과의 첫 번째 위치
 
 ### 📌 관련 개념 맵
 
-| 개념 | 연결 관계 | 설명 |
+| 개념 | 연결 [[083_relationship_in_er_model|관계]] | 설명 |
 |:---|:---|:---|
-| 이진 탐색 트리 (BST) | → 구조화 확장 | 동적 삽입/삭제 지원 |
-| B-트리 인덱스 | → 실무 응용 | DBMS 인덱스 기반 |
+| [[061_binary_search_tree_bst|이진 탐색 트리]] (BST) | → 구조화 확장 | 동적 삽입/삭제 지원 |
+| B-트리 [[154_database_index_b_tree_search_optimization|인덱스]] | → 실무 응용 | [[502_dbms|DBMS]] [[154_database_index_b_tree_search_optimization|인덱스]] 기반 |
 | 매개변수 탐색 | → 응용 패턴 | 해 공간 이분 탐색 |
 | 분할정복 | → 설계 패러다임 | 절반씩 줄이는 원리 |
-| Lower/Upper Bound | → 변형 알고리즘 | 중복값 범위 탐색 |
+| Lower/Upper Bound | → 변형 [[001_algorithm_definition|알고리즘]] | 중복값 범위 탐색 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -224,7 +224,7 @@ Upper Bound (upper_bound): target 초과의 첫 번째 위치
     ▼
 [이진 탐색 트리 (BST) / B-트리 — 동적 데이터 구조로 확장]
 ```
-이분 탐색은 정렬된 배열에서 범위를 반으로 줄이는 분할 원리를 바탕으로, Lower/Upper Bound·매개변수 탐색·BST 등 다양한 알고리즘과 자료구조로 확장된다.
+이분 탐색은 정렬된 [[055_array|배열]]에서 범위를 반으로 줄이는 분할 원리를 바탕으로, Lower/Upper Bound·매개변수 탐색·BST 등 다양한 [[001_algorithm_definition|알고리즘]]과 자료구조로 확장된다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

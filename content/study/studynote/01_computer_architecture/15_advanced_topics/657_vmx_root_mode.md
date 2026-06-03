@@ -8,19 +8,19 @@ categories = "studynote-computer-architecture"
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: VMX (Virtual Machine Extensions) root 모드는 Intel VT-x (Intel Virtualization Technology for x86)에서 하이퍼바이저가 CPU (Central Processing Unit) 제어권을 유지하는 실행 문맥이다.
-> 2. **가치**: 게스트 운영체제 (Operating System, OS)는 VMX non-root 문맥에서 대부분의 명령을 직접 실행하고, 꼭 필요한 사건만 가상 머신 이탈 (Virtual Machine Exit, VM-Exit)로 넘기므로 격리와 성능을 함께 잡는다.
-> 3. **판단 포인트**: VMX root 모드는 "무조건 더 센 Ring"이 아니라 통제 축이므로, 실제 성능은 얼마나 똑똑하게 VM-Exit 규칙을 설계하느냐에 달려 있다.
+> 1. **본질**: VMX ([[598_vm_migration_nic|Virtual Machine]] Extensions) root 모드는 [[658_intel_vtx|Intel VT-x]] (Intel [[190_virtualization_computing_architecture_cloud|Virtualization]] Technology for x86)에서 하이퍼바이저가 CPU (Central Processing Unit) 제어권을 유지하는 실행 문맥이다.
+> 2. **가치**: 게스트 [[001_operating_system_purpose|운영체제]] ([[001_operating_system_purpose|Operating System]], OS)는 VMX non-root 문맥에서 대부분의 명령을 직접 실행하고, 꼭 필요한 사건만 가상 머신 이탈 ([[598_vm_migration_nic|Virtual Machine]] Exit, [[598_vm_migration_nic|VM]]-Exit)로 넘기므로 격리와 [[282_performance_tactics|성능]]을 함께 잡는다.
+> 3. **판단 포인트**: VMX root 모드는 "무조건 더 센 Ring"이 아니라 통제 축이므로, 실제 [[282_performance_tactics|성능]]은 얼마나 똑똑하게 [[598_vm_migration_nic|VM]]-Exit 규칙을 설계하느냐에 달려 있다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-VMX root 모드는 Intel이 x86 가상화를 위해 만든 관리자 자리다. 전통적인 Ring 0 체계만으로는 호스트와 게스트 커널이 동시에 "내가 진짜 관리자"라고 주장할 수 없기 때문에, 과거에는 바이너리 번역이나 Ring 압축 같은 우회가 필요했다. 이 우회는 동작은 가능하게 했지만, 특권 명령 처리와 상태 복원 비용이 커서 성능과 구현 복잡도를 동시에 악화시켰다.
+VMX root 모드는 Intel이 x86 [[015_virtualization|가상화]]를 위해 만든 관리자 자리다. 전통적인 Ring 0 체계만으로는 호스트와 게스트 [[022_kernel_role|커널]]이 동시에 "내가 진짜 관리자"라고 주장할 수 없기 때문에, 과거에는 바이너리 번역이나 Ring [[347_compaction|압축]] 같은 우회가 필요했다. 이 우회는 동작은 가능하게 했지만, 특권 명령 처리와 상태 복원 비용이 커서 [[282_performance_tactics|성능]]과 구현 복잡도를 동시에 악화시켰다.
 
-핵심은 VMX root / non-root가 Ring 0 / Ring 3와 **직교하는 축**이라는 점이다. 즉 게스트 커널은 여전히 Ring 0처럼 실행되지만, 하드웨어 소유권과 가로채기 정책은 root 쪽이 쥔다. 덕분에 게스트는 수정 없이 돌아가고, 하이퍼바이저는 마지막 통제권을 잃지 않는다.
+핵심은 VMX root / non-root가 Ring 0 / Ring 3와 **직교하는 축**이라는 점이다. 즉 게스트 [[022_kernel_role|커널]]은 여전히 Ring 0처럼 실행되지만, 하드웨어 소유권과 가로채기 [[164_policy|정책]]은 root 쪽이 쥔다. 덕분에 게스트는 수정 없이 돌아가고, 하이퍼바이저는 마지막 통제권을 잃지 않는다.
 
-아래 그림은 "권한 레벨"과 "가상화 문맥"이 서로 다른 축임을 보여준다.
+아래 그림은 "권한 레벨"과 "[[015_virtualization|가상화]] 문맥"이 서로 다른 축임을 보여준다.
 
 ```text
 ┌──────────────────────────────────────────────────────────────┐
@@ -41,16 +41,16 @@ VMX root 모드는 Intel이 x86 가상화를 위해 만든 관리자 자리다. 
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-VMX root 모드의 실체는 하이퍼바이저가 **가상 머신 (Virtual Machine, VM)** 실행 전후 상태를 관리하는 제어 루프다. 먼저 프로세서는 VMXON으로 가상화 동작에 들어가고, 하이퍼바이저는 가상 머신 제어 구조체 (Virtual Machine Control Structure, VMCS)에 게스트 상태, 호스트 상태, 그리고 어떤 사건을 가로챌지에 대한 규칙을 채운다. 이후 VMLAUNCH 또는 VMRESUME가 실행되면 하드웨어가 게스트 상태를 적재하고 non-root로 넘어간다.
+VMX root 모드의 실체는 하이퍼바이저가 **가상 머신 ([[598_vm_migration_nic|Virtual Machine]], [[598_vm_migration_nic|VM]])** 실행 전후 상태를 관리하는 제어 루프다. 먼저 프로세서는 VMXON으로 [[015_virtualization|가상화]] 동작에 들어가고, 하이퍼바이저는 가상 머신 제어 구조체 ([[598_vm_migration_nic|Virtual Machine]] Control Structure, [[529_vmcs|VMCS]])에 게스트 상태, 호스트 상태, 그리고 어떤 사건을 가로챌지에 대한 규칙을 채운다. 이후 VMLAUNCH 또는 VMRESUME가 실행되면 하드웨어가 게스트 상태를 적재하고 non-root로 넘어간다.
 
 | 구성 요소 | root 모드에서 맡는 역할 | 설계상 핵심 포인트 |
 | :--- | :--- | :--- |
-| VMCS | 게스트/호스트 상태와 제어 비트를 보관 | 너무 많은 가로채기 비트는 Exit 폭증으로 이어짐 |
-| 가상 머신 진입 (Virtual Machine Entry, VM-Entry) | root에서 non-root로 제어권 전달 | 진입 전 상태 일관성 검증이 중요 |
-| 가상 머신 이탈 (Virtual Machine Exit, VM-Exit) | 민감한 사건 발생 시 root로 복귀 | 빈도와 원인 분포가 성능을 좌우 |
-| 확장 페이지 테이블 (Extended Page Tables, EPT) | 메모리 관련 Exit를 줄이는 2차 주소 변환 지원 | 메모리 워크로드에서 효과가 큼 |
+| [[529_vmcs|VMCS]] | 게스트/호스트 상태와 제어 비트를 보관 | 너무 많은 가로채기 비트는 Exit 폭증으로 이어짐 |
+| 가상 머신 진입 ([[598_vm_migration_nic|Virtual Machine]] Entry, [[598_vm_migration_nic|VM]]-Entry) | root에서 non-root로 제어권 전달 | 진입 전 상태 [[194_consistency_database_integrity|일관성]] 검증이 중요 |
+| 가상 머신 이탈 ([[598_vm_migration_nic|Virtual Machine]] Exit, [[598_vm_migration_nic|VM]]-Exit) | 민감한 사건 발생 시 root로 복귀 | 빈도와 원인 분포가 [[282_performance_tactics|성능]]을 좌우 |
+| [[661_extended_page_table|확장 페이지 테이블]] (Extended [[286_page_frame|Page]] Tables, EPT) | 메모리 관련 Exit를 줄이는 2차 주소 변환 지원 | 메모리 워크로드에서 효과가 큼 |
 
-아래 흐름은 root 모드가 "직접 계산"보다 "상태 저장과 정책 집행"에 집중한다는 점을 보여준다.
+아래 흐름은 root 모드가 "직접 계산"보다 "상태 저장과 [[164_policy|정책]] 집행"에 집중한다는 점을 보여준다.
 
 ```text
 ┌────────────────────┐   VM-Entry    ┌──────────────────────────┐
@@ -62,7 +62,7 @@ VMX root 모드의 실체는 하이퍼바이저가 **가상 머신 (Virtual Mach
           └─────────────────────────────────────┘
 ```
 
-게스트에서 모든 특권 동작이 무조건 Exit 되는 것은 아니다. 하이퍼바이저는 `CPUID`, 제어 레지스터 변경, 입출력 (Input/Output, I/O), 인터럽트 전달 같은 항목 중 무엇을 잡을지 고른다. 따라서 root 모드의 핵심 기술은 "더 많은 것을 직접 처리"가 아니라 "정말 필요한 것만 돌아오게 만드는 선별"이다.
+게스트에서 모든 특권 동작이 무조건 Exit 되는 것은 아니다. 하이퍼바이저는 `CPUID`, 제어 [[057_register|레지스터]] 변경, 입출력 (Input/Output, I/O), [[016_interrupt_mechanism|인터럽트]] 전달 같은 항목 중 무엇을 잡을지 고른다. 따라서 root 모드의 핵심 기술은 "더 많은 것을 직접 처리"가 아니라 "정말 필요한 것만 돌아오게 만드는 선별"이다.
 
 - **📢 섹션 요약 비유**: root 모드는 공항 관제탑과 같다. 관제사는 비행기를 직접 날리지 않지만, 이착륙 시점과 위험 상황만 통제해 전체 흐름을 안전하게 유지한다.
 
@@ -70,18 +70,18 @@ VMX root 모드의 실체는 하이퍼바이저가 **가상 머신 (Virtual Mach
 
 ## Ⅲ. 비교 및 연결
 
-VMX root 모드를 이해할 때 가장 많이 생기는 오해는 "Ring 0보다 더 높은 슈퍼 커널"로 보는 것이다. 실제로는 링 체계 바깥에 추가된 **가상화 제어 컨텍스트**에 가깝다. 그래서 root 모드는 운영체제 커널 모드와 경쟁 관계가 아니라, 커널 위에서 가상화 정책을 감독하는 자리로 이해해야 한다.
+VMX root 모드를 이해할 때 가장 많이 생기는 오해는 "Ring 0보다 더 높은 슈퍼 [[022_kernel_role|커널]]"로 보는 것이다. 실제로는 링 체계 바깥에 추가된 **[[015_virtualization|가상화]] 제어 [[033_context|컨텍스트]]**에 가깝다. 그래서 root 모드는 [[001_operating_system_purpose|운영체제]] [[022_kernel_role|커널]] 모드와 경쟁 관계가 아니라, [[022_kernel_role|커널]] 위에서 [[015_virtualization|가상화]] [[164_policy|정책]]을 감독하는 자리로 이해해야 한다.
 
-AMD-V (AMD Virtualization)는 같은 목적을 Secure Virtual Machine (SVM) 구조로 푼다. Intel이 VMCS 중심으로 설계했다면, AMD는 Virtual Machine Control Block (VMCB) 중심으로 풀었다는 차이가 있다. 즉 개념적으로는 비슷하지만, 제어 구조와 명령 체계가 다르다.
+[[659_amd_v|AMD-V]] (AMD [[190_virtualization_computing_architecture_cloud|Virtualization]])는 같은 목적을 Secure [[598_vm_migration_nic|Virtual Machine]] ([[238_svm_margin_kernel_trick_naive_bayes|SVM]]) 구조로 푼다. Intel이 [[529_vmcs|VMCS]] 중심으로 설계했다면, AMD는 [[598_vm_migration_nic|Virtual Machine]] Control Block (VMCB) 중심으로 풀었다는 차이가 있다. 즉 개념적으로는 비슷하지만, 제어 구조와 명령 체계가 다르다.
 
-| 비교 항목 | Ring 0 커널 모드 | VMX root 모드 | AMD-V host 모드 |
+| 비교 항목 | Ring 0 [[022_kernel_role|커널]] 모드 | VMX root 모드 | [[659_amd_v|AMD-V]] host 모드 |
 | :--- | :--- | :--- | :--- |
-| 주 목적 | 운영체제 내부 자원 관리 | 가상화 정책 집행과 VM 전환 | 가상화 정책 집행과 VM 전환 |
+| 주 목적 | [[001_operating_system_purpose|운영체제]] 내부 자원 관리 | [[015_virtualization|가상화]] [[164_policy|정책]] 집행과 [[598_vm_migration_nic|VM]] 전환 | [[015_virtualization|가상화]] [[164_policy|정책]] 집행과 [[598_vm_migration_nic|VM]] 전환 |
 | 게스트에 대한 관점 | 게스트 내부의 관리자 | 게스트 바깥의 실제 관리자 | 게스트 바깥의 실제 관리자 |
-| 대표 제어 구조 | 커널 자료구조 | VMCS | VMCB |
-| 핵심 사건 처리 | 시스템 호출, 인터럽트 | VM-Exit, VM-Entry | VM-Exit, VMRUN |
+| 대표 제어 구조 | [[022_kernel_role|커널]] 자료구조 | [[529_vmcs|VMCS]] | VMCB |
+| 핵심 사건 처리 | [[013_system_call|시스템 호출]], [[016_interrupt_mechanism|인터럽트]] | [[598_vm_migration_nic|VM]]-Exit, [[598_vm_migration_nic|VM]]-Entry | [[598_vm_migration_nic|VM]]-Exit, VMRUN |
 
-이 비교가 중요한 이유는 root 모드가 성능 향상 기능 자체가 아니라는 점을 분명히 하기 때문이다. 성능은 EPT, 인터럽트 가상화, 가상 장치 설계와 같이 주변 기술이 받쳐 줄 때 좋아지고, root 모드는 그 전체를 감독하는 좌석이다.
+이 비교가 중요한 이유는 root 모드가 [[282_performance_tactics|성능]] 향상 기능 자체가 아니라는 점을 분명히 하기 때문이다. [[282_performance_tactics|성능]]은 EPT, [[016_interrupt_mechanism|인터럽트]] [[015_virtualization|가상화]], 가상 장치 설계와 같이 주변 기술이 받쳐 줄 때 좋아지고, root 모드는 그 전체를 감독하는 좌석이다.
 
 - **📢 섹션 요약 비유**: Ring 0가 건물 안의 관리실이라면, VMX root 모드는 건물 전체를 총괄하는 중앙 관제실이다. 둘 다 중요하지만 보는 범위와 책임이 다르다.
 
@@ -89,16 +89,16 @@ AMD-V (AMD Virtualization)는 같은 목적을 Secure Virtual Machine (SVM) 구�
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서 가상 머신 모니터 (Virtual Machine Monitor, VMM)는 root 모드에서 가능한 한 짧은 경로로 일해야 한다. VM-Exit 한 번이 수백~수천 사이클 비용을 낼 수 있기 때문에, 자주 반복되는 명령까지 무분별하게 가로채면 게스트는 계속 "문 두드리기"만 하게 된다. 그래서 성능 튜닝의 출발점은 Exit 이유를 세는 것이지, root 모드 코드를 더 많이 쓰는 것이 아니다.
+실무에서 가상 머신 [[229_monitor|모니터]] ([[598_vm_migration_nic|Virtual Machine]] [[229_monitor|Monitor]], VMM)는 root 모드에서 가능한 한 짧은 경로로 일해야 한다. [[598_vm_migration_nic|VM]]-Exit 한 번이 수백~수천 사이클 비용을 낼 수 있기 때문에, 자주 반복되는 명령까지 무분별하게 가로채면 게스트는 계속 "문 두드리기"만 하게 된다. 그래서 [[282_performance_tactics|성능]] 튜닝의 출발점은 Exit 이유를 세는 것이지, root 모드 코드를 더 많이 쓰는 것이 아니다.
 
 대표적인 판단 포인트는 다음과 같다.
 
-1. 게스트 호환성 때문에 꼭 필요한 명령만 가로챈다.
-2. 메모리 관련 Exit가 많다면 EPT 설정과 Huge Page 전략을 먼저 본다.
-3. 장치 에뮬레이션이 병목이면 반가상화 드라이버나 직접 장치 할당을 검토한다.
-4. 중첩 가상화에서는 상위 하이퍼바이저와 하위 하이퍼바이저의 Exit가 겹치므로 root 경로를 더 보수적으로 설계한다.
+1. 게스트 [[344_compatibility_usability|호환성]] 때문에 꼭 필요한 명령만 가로챈다.
+2. 메모리 관련 Exit가 많다면 EPT 설정과 [[517_huge_page|Huge Page]] 전략을 먼저 본다.
+3. 장치 에뮬레이션이 병목이면 [[058_paravirtualization|반가상화]] 드라이버나 직접 장치 할당을 검토한다.
+4. 중첩 [[015_virtualization|가상화]]에서는 상위 하이퍼바이저와 하위 하이퍼바이저의 Exit가 겹치므로 root 경로를 더 보수적으로 설계한다.
 
-보안 측면에서도 root 모드는 중요하다. 게스트 내부를 관찰하거나 무결성을 강제하는 기능은 대부분 root에서 구현되지만, 반대로 root가 뚫리면 모든 게스트가 한 번에 위험해진다. 따라서 root 모드 강화는 "성능 최적화"이면서 동시에 "공격 표면 최소화"이기도 하다.
+보안 측면에서도 root 모드는 중요하다. 게스트 내부를 관찰하거나 무결성을 강제하는 기능은 대부분 root에서 구현되지만, 반대로 root가 뚫리면 모든 게스트가 한 번에 위험해진다. 따라서 root 모드 강화는 "[[282_performance_tactics|성능]] 최적화"이면서 동시에 "공격 표면 최소화"이기도 하다.
 
 - **📢 섹션 요약 비유**: root 모드는 응급실 당직실과 같다. 환자가 올 때마다 모든 의사가 뛰어나오면 병원이 마비되므로, 정말 응급인 경우만 정확히 골라 빠르게 대응해야 한다.
 
@@ -106,9 +106,9 @@ AMD-V (AMD Virtualization)는 같은 목적을 Secure Virtual Machine (SVM) 구�
 
 ## Ⅴ. 기대효과 및 결론
 
-VMX root 모드는 x86 가상화에서 가장 중요한 분기점 중 하나다. 이 문맥 덕분에 게스트 운영체제를 수정하지 않고도 높은 호환성을 유지할 수 있고, 하이퍼바이저는 필요한 순간에만 개입해 시스템 전체를 통제한다. 클라우드, 데스크톱 가상화, 보안 관찰 도구가 모두 이 구조 위에서 현실적인 성능을 얻는다.
+VMX root 모드는 x86 [[015_virtualization|가상화]]에서 가장 중요한 분기점 중 하나다. 이 문맥 덕분에 게스트 [[001_operating_system_purpose|운영체제]]를 수정하지 않고도 높은 [[344_compatibility_usability|호환성]]을 유지할 수 있고, 하이퍼바이저는 필요한 순간에만 개입해 시스템 전체를 통제한다. 클라우드, 데스크톱 [[015_virtualization|가상화]], 보안 관찰 도구가 모두 이 구조 위에서 현실적인 [[282_performance_tactics|성능]]을 얻는다.
 
-다만 root 모드만으로 모든 문제가 해결되지는 않는다. 장치의 직접 메모리 접근 (Direct Memory Access, DMA) 격리는 VT-d (Virtualization Technology for Directed I/O) 같은 보조 기술이 필요하고, 미세구조 측면 채널은 별도 완화가 필요하다. 결국 VMX root 모드는 "가상화의 최고 속도 모드"가 아니라 "가상화의 최종 통제면"으로 기억하는 것이 정확하다.
+다만 root 모드만으로 모든 문제가 해결되지는 않는다. 장치의 [[450_dma_direct_memory_access|직접 메모리 접근]] ([[318_dma|Direct Memory Access]], [[746_io_direct_memory_access_dma|DMA]]) 격리는 VT-d ([[190_virtualization_computing_architecture_cloud|Virtualization]] Technology for Directed I/O) 같은 보조 기술이 필요하고, 미세구조 측면 채널은 별도 완화가 필요하다. 결국 VMX root 모드는 "[[015_virtualization|가상화]]의 최고 속도 모드"가 아니라 "[[015_virtualization|가상화]]의 최종 통제면"으로 기억하는 것이 정확하다.
 
 - **📢 섹션 요약 비유**: 좋은 오케스트라에서 지휘자는 직접 악기를 연주하지 않는다. 대신 꼭 필요한 순간에만 개입해 전체 합주가 무너지지 않게 만든다.
 
@@ -118,10 +118,10 @@ VMX root 모드는 x86 가상화에서 가장 중요한 분기점 중 하나다.
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| VMCS | root 모드가 게스트와 호스트 상태를 교대 관리하는 핵심 장부 |
-| VM-Exit / VM-Entry | root와 non-root 사이의 제어권 전환 메커니즘 |
+| [[529_vmcs|VMCS]] | root 모드가 게스트와 호스트 상태를 교대 관리하는 핵심 장부 |
+| [[598_vm_migration_nic|VM]]-Exit / [[598_vm_migration_nic|VM]]-Entry | root와 non-root 사이의 제어권 전환 메커니즘 |
 | EPT | 메모리 접근에서 불필요한 Exit를 줄여 root 부담을 낮춤 |
-| VMM | root 모드에서 정책을 실행하는 실제 소프트웨어 |
+| VMM | root 모드에서 [[164_policy|정책]]을 실행하는 실제 소프트웨어 |
 | VT-d | 장치 접근까지 root의 통제 범위를 확장하는 I/O 보조 기술 |
 
 ### 📈 관련 키워드 및 발전 흐름도

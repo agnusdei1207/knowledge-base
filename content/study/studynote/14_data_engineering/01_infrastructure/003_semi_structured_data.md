@@ -8,21 +8,21 @@ tags = ["반정형데이터", "JSON", "XML", "NoSQL", "로그데이터", "데이
 categories = ["studynote", "14_data_engineering"]
 +++
 
-# 03. 반정형 데이터 (Semi-structured Data)
+# 03. 반정형 [[001_dikw_pyramid|데이터]] (Semi-structured [[001_dikw_pyramid|Data]])
 
 #### 핵심 인사이트 (3줄 요약)
-> 1. **본질**: 반정형 데이터는 고정된 스키마( Schema )가 없지만, 데이터 내부에 태그( Tag )나 메타데이터( Metadata )를 내장하여 자체적으로 구조를 기술한다.
-> 2. **유연성**: XML( Extensible Markup Language ), JSON( JavaScript Object Notation ), CSV, 로그 파일 등이 대표적이며, 스키마 진화( Schema Evolution )에 유리하여 애자일 환경에서 자주 사용된다.
-> 3. **한계**: 관계형 연산( JOIN, 집계 )의 효율이 정형 데이터보다 낮아, 대규모 분석에는 분산 처리 엔진( Spark, Flink )와의 연동이 필수적이다.
+> 1. **본질**: 반정형 [[001_dikw_pyramid|데이터]]는 고정된 [[005_schema|스키마]]( [[505_schema|Schema]] )가 없지만, [[001_dikw_pyramid|데이터]] 내부에 태그( Tag )나 [[012_metadata|메타데이터]]( [[012_metadata|Metadata]] )를 내장하여 자체적으로 구조를 기술한다.
+> 2. **유연성**: XML( Extensible Markup Language ), [[343_json|JSON]]( JavaScript Object Notation ), CSV, [[568_logs_distributed_logging_elk_fluentd|로그]] [[501_file_definition_logical_record|파일]] 등이 대표적이며, [[005_schema|스키마]] 진화( [[505_schema|Schema]] Evolution )에 유리하여 [[004_agile_relation|애자일]] 환경에서 자주 사용된다.
+> 3. **한계**: 관계형 연산( [[521_join|JOIN]], 집계 )의 효율이 [[002_structured_data|정형 데이터]]보다 낮아, 대규모 분석에는 [[136_variance|분산]] 처리 엔진( Spark, Flink )와의 연동이 필수적이다.
 
 ---
 
-### Ⅰ. 개요 및 필요성 (Context & Necessity)
-반정형 데이터( Semi-structured Data )とは事前定義된固定スキーマ 없이도 데이터 내부에 메타데이터( 태그, 요소, 속성 )를 포함하여 스스로의 구조를 표현하는 데이터 유형을 말한다. 이는 기존의 정형 데이터( RDBMS 테이블 )처럼 엄격한 열( Column ) 정의가 필요하지 않으면서도, 완전한 무정형( Unstructured ) 데이터( 이미지, 영상, 음성 )보다는 내재된 구조를 갖고 있다.
-대표적인 예로서、웹 문서의 HTML, 이메일의 MIME, 설정 파일의 XML,REST API의 요청/응답 몸체인 JSON, 서버/애플리케이션 로그 등이 있다. 이러한 데이터들은 개발자가 데이터 구조를 동적으로 정의할 수 있어,業務の変化에 빠르게 대응해야 하는現代적软件开发 환경에서 선호된다.
-특히, 마이크로서비스 아키텍처( MSA )에서 서비스 간 통신은 대부분 JSON 기반의 REST API로 이루어지며, IoT 기기에서 발생하는 센서 데이터도 반정형 JSON 또는 CSV 형태로 전달된다. 이러한 맥락에서 반정형 데이터의 처리는 현대 데이터 플랫폼에서 필수적인 기술 역량으로 부상하였다.
+### Ⅰ. 개요 및 필요성 ([[033_context|Context]] & Necessity)
+반정형 [[001_dikw_pyramid|데이터]]( Semi-structured [[001_dikw_pyramid|Data]] )とは事前定義된固定スキーマ 없이도 [[001_dikw_pyramid|데이터]] 내부에 [[012_metadata|메타데이터]]( 태그, 요소, [[082_attribute_types_er_model|속성]] )를 포함하여 스스로의 구조를 표현하는 [[001_dikw_pyramid|데이터]] 유형을 말한다. 이는 기존의 [[002_structured_data|정형 데이터]]( RDBMS 테이블 )처럼 엄격한 열( Column ) 정의가 필요하지 않으면서도, 완전한 무정형( Unstructured ) [[001_dikw_pyramid|데이터]]( 이미지, 영상, 음성 )보다는 내재된 구조를 갖고 있다.
+대표적인 예로서、웹 문서의 HTML, 이메일의 [[492_mime_multipurpose_internet_mail_extensions|MIME]], [[009_config|설정]] [[501_file_definition_logical_record|파일]]의 XML,[[156_rest_representational_state_transfer|REST]] API의 요청/응답 몸체인 [[343_json|JSON]], 서버/애플리케이션 [[568_logs_distributed_logging_elk_fluentd|로그]] 등이 있다. 이러한 [[001_dikw_pyramid|데이터]]들은 개발자가 [[001_dikw_pyramid|데이터]] 구조를 동적으로 정의할 수 있어,業務の変化에 빠르게 대응해야 하는現代적软件开发 환경에서 선호된다.
+특히, [[213_msa_microservices_architecture|마이크로서비스 아키텍처]]( [[619_msa_traffic_hardware|MSA]] )에서 [[090_service_kubernetes_network_load_balancing|서비스]] 간 통신은 대부분 [[343_json|JSON]] 기반의 [[156_rest_representational_state_transfer|REST]] API로 이루어지며, [[101_iot_concept|IoT]] 기기에서 발생하는 센서 [[001_dikw_pyramid|데이터]]도 반정형 [[343_json|JSON]] 또는 CSV 형태로 전달된다. 이러한 맥락에서 반정형 [[001_dikw_pyramid|데이터]]의 처리는 현대 [[001_dikw_pyramid|데이터]] 플랫폼에서 필수적인 기술 역량으로 부상하였다.
 
-[반정형 데이터의 대표 유형과 구조적 특성 도식도]
+[반정형 [[001_dikw_pyramid|데이터]]의 대표 유형과 구조적 특성 도식도]
 ```text
 [반정형 데이터 유형 매트릭스]
 
@@ -56,23 +56,23 @@ categories = ["studynote", "14_data_engineering"]
 │  2024-01-01 10:00:00 ERROR [Auth] Login failed for user: admin   │
 └─────────────────────────────────────────────────────────────────┘
 ```
-이 도식은 대표적인 반정형 데이터 유형들의 구조적 특성을 비교한다. JSON은 키-값 쌍의 중첩( Nested ) 구조로 복잡한 계층을 표현할 수 있어 REST API와(NoSQL) Document DBに最適. XML은 시작/종료 태그로 데이터를 감싸는Markup 언어로, 설정 파일과 웹 서비스에歴史적으로 많이 사용되었다. CSV는最简单的한 평면 구조로 스프레드시트 내보내기나 로그 파일에 활용된다. 로그 파일은 반정형이라기보다는 비정형에 가깝지만, 정규식( Regular Expression )을利用하여 구조화할 수 있는 특성이 있다.
+이 도식은 대표적인 반정형 [[001_dikw_pyramid|데이터]] 유형들의 구조적 특성을 비교한다. JSON은 키-값 쌍의 중첩( Nested ) 구조로 복잡한 계층을 표현할 수 있어 [[156_rest_representational_state_transfer|REST]] API와([[035_nosql|NoSQL]]) [[037_document|Document]] DBに最適. XML은 시작/종료 태그로 [[001_dikw_pyramid|데이터]]를 감싸는Markup 언어로, [[009_config|설정]] [[501_file_definition_logical_record|파일]]과 웹 [[090_service_kubernetes_network_load_balancing|서비스]]에歴史적으로 많이 사용되었다. CSV는最简单的한 평면 구조로 스프레드시트 내보내기나 [[568_logs_distributed_logging_elk_fluentd|로그]] [[501_file_definition_logical_record|파일]]에 활용된다. [[568_logs_distributed_logging_elk_fluentd|로그]] [[501_file_definition_logical_record|파일]]은 반정형이라기보다는 비정형에 가깝지만, 정규식( Regular Expression )을利用하여 구조화할 수 있는 특성이 있다.
 
-📢 **섹션 요약 비유**: 반정형 데이터는修士录记처럼 그날그날の状況을 자유로운 문장으로 적어두지만, 그래도"날짜,날씨,하루 목표" 같은 항목은 항상 포함하는 다이어리와 같다. 항목 이름( 태그/키 )은 있지만 页마다 실제 내용이 다르므로 정형 데이터那样的严格的表结构는 아니다.
+📢 **섹션 요약 비유**: 반정형 [[001_dikw_pyramid|데이터]]는修士录记처럼 그날그날の状況을 자유로운 문장으로 적어두지만, 그래도"날짜,날씨,하루 목표" 같은 항목은 항상 포함하는 다이어리와 같다. 항목 이름( 태그/키 )은 있지만 页마다 실제 내용이 다르므로 [[002_structured_data|정형 데이터]]那样的严格的表结构는 아니다.
 
 ### Ⅱ. 아키텍처 및 핵심 원리 (Deep Dive)
-반정형 데이터는 그 내재적 유연성으로 인해 다양한 저장소와 처리 엔진에서 활용되며, 각각 특화된 기술 스택이 존재한다.
+반정형 [[001_dikw_pyramid|데이터]]는 그 내재적 유연성으로 인해 다양한 저장소와 처리 엔진에서 활용되며, 각각 특화된 기술 스택이 존재한다.
 
 | 반정형 유형 | 핵심 저장소 | 처리 엔진 | 장점 | 단점 |
 |:---|:---|:---|:---|:---|
-| **JSON** | MongoDB, Elasticsearch, Couchbase | Spark, Flink, Trino | 유연한 스키마, REST 친화 | 중첩很深时 查询 복잡 |
-| **XML** | MarkLogic, Oracle XML DB | Spark, DataStage | 구조적 검증(XSD) 가능 | 파싱 오버헤드 큼 |
-| **CSV/TSV** | HDFS, S3, MySQL | Spark, Pandas, Airflow |シンプルで普遍性 | 스키마 추론 필요 |
-| **로그** | Kafka, Elasticsearch, S3 | Flink, Logstash, Splunk | 실시간 분석 가능 | 검색性能 제한 |
-| **Avro** | HDFS, Kafka (스키마 레지스트리) | Spark, Flink | 바이너리高效, 스키마進化支持 | 바이너리 直接 확인 어려움 |
-| **Protocol Buffers** | gRPC 통신, Kafka | Spark (SparkSQL) | 강력한 타입,スキーマ検証 | 이기종 언어限定 |
+| **[[343_json|JSON]]** | [[540_mongodb|MongoDB]], [[302_cdc|Elasticsearch]], Couchbase | Spark, Flink, Trino | 유연한 [[005_schema|스키마]], [[156_rest_representational_state_transfer|REST]] 친화 | 중첩很深时 查询 복잡 |
+| **XML** | MarkLogic, [[188_pl_sql_t_sql_procedural|Oracle]] XML DB | Spark, DataStage | 구조적 [[395_verification_process_review|검증]](XSD) 가능 | 파싱 오버헤드 큼 |
+| **CSV/[[496_tsv|TSV]]** | [[013_hdfs|HDFS]], S3, MySQL | Spark, Pandas, Airflow |シンプルで普遍性 | [[005_schema|스키마]] 추론 필요 |
+| **[[568_logs_distributed_logging_elk_fluentd|로그]]** | [[179_kafka_flink_watermark_time_window|Kafka]], [[302_cdc|Elasticsearch]], S3 | Flink, Logstash, [[630_splunk|Splunk]] | 실시간 분석 가능 | 검색性能 제한 |
+| **Avro** | [[013_hdfs|HDFS]], [[179_kafka_flink_watermark_time_window|Kafka]] ([[005_schema|스키마]] [[235_registry_immutable_tag|레지스트리]]) | Spark, Flink | 바이너리高效, [[005_schema|스키마]]進化支持 | 바이너리 直接 [[396_validation|확인]] 어려움 |
+| **[[535_sync_communication_rest_grpc|Protocol Buffers]]** | [[479_grpc_protobuf_http2|gRPC]] 통신, [[179_kafka_flink_watermark_time_window|Kafka]] | Spark (SparkSQL) | 강력한 타입,スキーマ検証 | 이기종 언어限定 |
 
-[반정형 JSON 데이터의 분산 처리 아키텍처]
+[반정형 [[343_json|JSON]] [[001_dikw_pyramid|데이터]]의 [[136_variance|분산]] 처리 아키텍처]
 ```text
 [반정형 JSON 데이터의 수집에서 분석까지의 파이프라인]
 ┌─────────────────────────────────────────────────────────────────────┐
@@ -123,24 +123,24 @@ categories = ["studynote", "14_data_engineering"]
 │  └─────────────────────────────────────────────────────────┘        │
 └─────────────────────────────────────────────────────────────────────┘
 ```
-이 구조는 반정형 JSON 데이터가 REST API와 IoT 센서에서 발생하여 Kafka에 수집되고, Flink에서 실시간으로 파싱 및 윈도우 집계된 후, 최종적으로 Parquet形式でData Lake에 저장되어 분석되는全过程을 보여준다. 핵심적인利点は 반정형 데이터의灵活性と분산 처리의スケーラビリティ을 결합하여, 스키마 변화( Schema Evolution )에도 유연하게 대응할 수 있다는 것이다. Kafka에서Schema Registry( Avro/Protobuf )를 함께 활용하면, 반정형 데이터のスキーマ整合性も确保できる.
+이 구조는 반정형 [[343_json|JSON]] [[001_dikw_pyramid|데이터]]가 [[156_rest_representational_state_transfer|REST]] API와 [[101_iot_concept|IoT]] 센서에서 발생하여 Kafka에 수집되고, Flink에서 실시간으로 파싱 및 윈도우 집계된 후, 최종적으로 Parquet形式でData Lake에 저장되어 분석되는全过程을 보여준다. 핵심적인利点は 반정형 [[001_dikw_pyramid|데이터]]의灵活性と[[136_variance|분산]] 처리의スケーラビリティ을 결합하여, [[005_schema|스키마]] 변화( [[505_schema|Schema]] Evolution )에도 유연하게 대응할 수 있다는 것이다. Kafka에서Schema [[235_registry_immutable_tag|Registry]]( Avro/Protobuf )를 함께 활용하면, 반정형 [[001_dikw_pyramid|데이터]]のスキーマ整合性も确保できる.
 
-📢 **섹션 요약 비유**: 반정형 데이터 파이프라인は大小様々な大きさの水果( 다양한 구조의 JSON/XML )를 컨베이어 벨트( Kafka )에 그대로 올려놓고, 거대한選別 시스템( Flink )에서自動的に等级( 파싱/파티셔닝 )을分け終 了したら、等级별로箱に詰める( Parquet 압축 )自动化倉庫と 같다.
+📢 **섹션 요약 비유**: 반정형 [[645_data_pipeline_acceleration|데이터 파이프라인]]は大小様々な大きさの水果( 다양한 구조의 [[343_json|JSON]]/XML )를 컨베이어 벨트( [[179_kafka_flink_watermark_time_window|Kafka]] )에 그대로 올려놓고, 거대한選別 시스템( Flink )에서自動的に等级( 파싱/[[179_table_partitioning_concept|파티셔닝]] )을分け終 了したら、等级별로箱に詰める( [[178_parquet_rle_encoding_columnar_compression|Parquet]] [[347_compaction|압축]] )自动化倉庫と 같다.
 
 ### Ⅲ. 융합 비교 및 다각도 분석 (Comparison & Synergy)
-반정형 데이터는 정형 데이터와 비정형 데이터 사이의 중간 위치에 있으며, 각각의 장점을 취합하는場面で活用된다.
+반정형 [[001_dikw_pyramid|데이터]]는 [[002_structured_data|정형 데이터]]와 [[004_unstructured_data|비정형 데이터]] 사이의 중간 위치에 있으며, 각각의 장점을 취합하는場面で活用된다.
 
-| 비교 항목 | 정형 데이터 (Structured) | 반정형 데이터 (Semi-structured) | 비정형 데이터 (Unstructured) |
+| 비교 항목 | [[002_structured_data|정형 데이터]] (Structured) | 반정형 [[001_dikw_pyramid|데이터]] (Semi-structured) | [[004_unstructured_data|비정형 데이터]] (Unstructured) |
 |:---|:---|:---|:---|
-| **스키마** | 사전 정의 고정 스키마 | 동적 스키마 (데이터 내 포함) | 스키마 없음 |
-| **변화 대응** | 스키마 변경 시 마이그레이션 필요 | 동적 추가/삭제 가능 | 어떤 데이터든 수용 |
-| **쿼리 성능** | SQL 인덱스 통한 高效检索 | 인덱스 제한적 (MongoDB 인덱스) | 풀 텍스트/벡터 검색 |
-| **트랜잭션** | ACID 완전 보장 | 제한적 (MongoDB 4.0+ ACID) | 미지원 |
-| **적용 기술** | RDBMS, Data Warehouse | NoSQL Document, Kafka, REST API | HDFS, S3, Vector DB |
-| **데이터 예시** | 고객 테이블, 거래 내역 | REST API 응답, IoT 센서 | 이미지, 음성, 영상 |
-| **분석 용도** | 집계/BI/리포팅 | 로그 분석/실시간 모니터링 | 딥러닝/NLP/이미지 인식 |
+| **[[005_schema|스키마]]** | 사전 정의 고정 [[005_schema|스키마]] | 동적 [[005_schema|스키마]] ([[001_dikw_pyramid|데이터]] 내 포함) | [[005_schema|스키마]] 없음 |
+| **변화 대응** | [[005_schema|스키마]] 변경 시 마이그레이션 필요 | 동적 추가/삭제 가능 | 어떤 [[001_dikw_pyramid|데이터]]든 수용 |
+| **[[298_qkv_attention|쿼리]] [[282_performance_tactics|성능]]** | SQL [[154_database_index_b_tree_search_optimization|인덱스]] 통한 高效检索 | [[154_database_index_b_tree_search_optimization|인덱스]] 제한적 ([[540_mongodb|MongoDB]] [[154_database_index_b_tree_search_optimization|인덱스]]) | 풀 텍스트/벡터 검색 |
+| **[[191_transaction_concept_states|트랜잭션]]** | ACID 완전 보장 | 제한적 ([[540_mongodb|MongoDB]] 4.0+ ACID) | 미지원 |
+| **적용 기술** | RDBMS, [[208_data_warehouse_schema_on_write_inmon|Data Warehouse]] | [[035_nosql|NoSQL]] [[037_document|Document]], [[179_kafka_flink_watermark_time_window|Kafka]], [[477_rest_api_architecture|REST API]] | [[013_hdfs|HDFS]], S3, [[151_vector_database_embedding_ann_search|Vector DB]] |
+| **[[001_dikw_pyramid|데이터]] 예시** | 고객 테이블, 거래 내역 | [[477_rest_api_architecture|REST API]] 응답, [[101_iot_concept|IoT]] 센서 | 이미지, 음성, 영상 |
+| **분석 용도** | 집계/BI/리포팅 | [[119_log_analysis|로그 분석]]/실시간 모니터링 | 딥러닝/NLP/이미지 인식 |
 
-[반정형 JSON과 정형 RDBMS 테이블의 스키마比較]
+[반정형 JSON과 정형 RDBMS 테이블의 [[005_schema|스키마]]比較]
 ```text
 [정형 RDBMS 테이블: 고객]
 ┌─────────────────────────────────────────────────────────┐
@@ -174,21 +174,21 @@ categories = ["studynote", "14_data_engineering"]
 }
   (문서마다異なる 필드 추가/삭제 가능, 계층 구조 표현 가능)
 ```
-이 비교는 정형 RDBMS 테이블의 rigid한 행/열 구조와 반정형 JSON 문서의灵活한 계층 구조의 차이를 보여준다. RDBMS 테이블에서는 회원의 선호색, 취미, 알림 설정 같은 계층적/반복적 데이터 구조를 정규화하여 별도 테이블로 분리해야 하지만, JSON 문서에서는 단일 문서 안에 중첩된 구조로 자연스럽게 표현된다. 다만, 이러한 flexibility는 데이터 무결성約束の宽松と쿼리性能の trade-off를 수반한다.
+이 비교는 정형 RDBMS 테이블의 rigid한 행/열 구조와 반정형 [[343_json|JSON]] 문서의灵活한 계층 구조의 차이를 보여준다. RDBMS 테이블에서는 회원의 선호색, 취미, 알림 [[009_config|설정]] 같은 계층적/반복적 [[001_dikw_pyramid|데이터]] 구조를 [[093_normalization|정규화]]하여 별도 테이블로 분리해야 하지만, [[343_json|JSON]] 문서에서는 단일 문서 안에 중첩된 구조로 자연스럽게 표현된다. 다만, 이러한 flexibility는 [[001_dikw_pyramid|데이터]] [[003_integrity|무결성]]約束の宽松と[[298_qkv_attention|쿼리]]性能の trade-off를 수반한다.
 
-📢 **섹션 요약 비유**: 정형 데이터는 미리 정해진 칸의保鲜盒( 각 칸에 정해진 음식만 )이고, 반정형 데이터는自由形式の保鲜袋( 뭐든 넣을 수 있지만 모양이 제각각 )이며, 비정형 데이터는冰箱 전체( 냉동실, 채소실,製品실 구분 없이 모두 휘저어넣은 )と 같다.
+📢 **섹션 요약 비유**: [[002_structured_data|정형 데이터]]는 미리 정해진 칸의保鲜盒( 각 칸에 정해진 음식만 )이고, 반정형 [[001_dikw_pyramid|데이터]]는自由形式の保鲜袋( 뭐든 넣을 수 있지만 모양이 제각각 )이며, [[004_unstructured_data|비정형 데이터]]는冰箱 전체( 냉동실, 채소실,製品실 구분 없이 모두 휘저어넣은 )と 같다.
 
-### Ⅳ. 실무 적용 및 기술사적 판단 (Strategy & Decision)
-실무에서 반정형 데이터를 다룰 때 마주치는 핵심 판단 상황과 그 기준을 정리한다.
+### Ⅳ. 실무 적용 및 기술사적 판단 ([[268_strategy_pattern|Strategy]] & Decision)
+실무에서 반정형 [[001_dikw_pyramid|데이터]]를 다룰 때 마주치는 핵심 판단 상황과 그 기준을 정리한다.
 
-1. **스키마 온 리드( Schema-on-Read ) vs 스키마 온 라이트( Schema-on-Write )**: 반정형 데이터는 본질적으로 Schema-on-Read에適한다.
-   - **판단**: Kafka에 JSON 메시지를 저장할 때, 각 producers가 다른 스키마 버전( v1, v2 )을 보내면 Schema Registry( Confluent )를利用하여 하위 호환성을検証 하고 저장할 수 있다. 이후 소비자가 스키마를 적용( 파싱 )할 때 이전 버전과 신규 버전을 모두処理할 수 있다.
-2. **중첩 JSON 구조의 查询 최적화**: MongoDB에서 深중첩된 배열( Array ) 필터를 queries 할 때性能問題가 발생한다.
-   - **판단**: 먼저 데이터 모델링 시 정규화( Normalization )를 고려하되, 읽기 성능이 중요하다면 反正規化( Denormalization )로配列を平面화하여 인덱스를 적용한다. 또는 Elasticsearch의 중첩( Nested ) 타입과結合( Join ) 타입을활용하여 查询한다.
-3. **반정형 로그 데이터의 실시간 분석**: Application 로그가 JSON 형태로 Kafka에 유입될 때, 로그 레벨( DEBUG, INFO, ERROR )별 필터링이 필수적이다.
-   - **판단**: Flink의 JSON 파싱과 워터마크( Watermark ) 처리를 통해 시간 기반 윈도우聚合과 이상치( Anomaly ) 탐지를 실시간으로 수행할 수 있다. 다만, JSON 파싱은 CPU 집약적이므로 高流量 환경에서는 라인 기반 파싱( TSV/공백 분리 )보다低速이다.
+1. **[[009_schema_on_read|스키마 온 리드]]( [[009_schema_on_read|Schema-on-Read]] ) vs [[010_schema_on_write|스키마 온 라이트]]( [[010_schema_on_write|Schema-on-Write]] )**: 반정형 [[001_dikw_pyramid|데이터]]는 본질적으로 [[505_schema|Schema]]-on-Read에適한다.
+   - **판단**: Kafka에 [[343_json|JSON]] 메시지를 저장할 때, 각 producers가 다른 [[005_schema|스키마]] [[288_version_ihl_tos_total_length|버전]]( v1, v2 )을 보내면 [[505_schema|Schema]] [[235_registry_immutable_tag|Registry]]( [[094_reinforcement_learning|Confluent]] )를利用하여 하위 [[344_compatibility_usability|호환성]]을検証 하고 저장할 수 있다. 이후 소비자가 [[005_schema|스키마]]를 적용( 파싱 )할 때 이전 [[288_version_ihl_tos_total_length|버전]]과 신규 [[288_version_ihl_tos_total_length|버전]]을 모두処理할 수 있다.
+2. **중첩 [[343_json|JSON]] 구조의 查询 최적화**: MongoDB에서 深중첩된 [[055_array|배열]]( [[055_array|Array]] ) 필터를 queries 할 때性能問題가 발생한다.
+   - **판단**: 먼저 [[001_dikw_pyramid|데이터]] 모델링 시 [[093_normalization|정규화]]( [[093_normalization|Normalization]] )를 고려하되, 읽기 [[282_performance_tactics|성능]]이 중요하다면 反正規化( [[111_denormalization_performance_tradeoff|Denormalization]] )로配列を平面화하여 [[154_database_index_b_tree_search_optimization|인덱스]]를 적용한다. 또는 Elasticsearch의 중첩( Nested ) 타입과結合( [[521_join|Join]] ) 타입을활용하여 查询한다.
+3. **반정형 [[568_logs_distributed_logging_elk_fluentd|로그]] [[001_dikw_pyramid|데이터]]의 실시간 분석**: Application [[568_logs_distributed_logging_elk_fluentd|로그]]가 [[343_json|JSON]] 형태로 Kafka에 유입될 때, [[568_logs_distributed_logging_elk_fluentd|로그]] 레벨( DEBUG, INFO, ERROR )별 필터링이 필수적이다.
+   - **판단**: Flink의 [[343_json|JSON]] 파싱과 [[085_watermark|워터마크]]( [[085_watermark|Watermark]] ) 처리를 통해 시간 기반 윈도우聚合과 [[076_outlier_detection_iqr_dbscan_isolation_forest|이상치]]( [[530_anomaly|Anomaly]] ) 탐지를 실시간으로 수행할 수 있다. 다만, [[343_json|JSON]] 파싱은 CPU 집약적이므로 高流量 환경에서는 라인 기반 파싱( [[496_tsv|TSV]]/공백 분리 )보다低速이다.
 
-[반정형 JSON 데이터의 스키마 진화( Schema Evolution ) 처리 전략]
+[반정형 [[343_json|JSON]] [[001_dikw_pyramid|데이터]]의 [[005_schema|스키마]] 진화( [[505_schema|Schema]] Evolution ) 처리 전략]
 ```text
 [Schema Registry를 활용한 스키마 진화 처리]
 ┌─────────────────────────────────────────────────────────────┐
@@ -207,32 +207,32 @@ categories = ["studynote", "14_data_engineering"]
 │         │ (이전 버전 소비자가 신규 레코드 읽기 가능)          │
 └─────────────────────────────────────────────────────────────┘
 ```
-이 전략은 Schema Registry를 활용하여 반정형 JSON 데이터의 스키마 진화를 안전하게管理하는 방법을 보여준다. BACKWARD 호환성模式下에서 신규 스키마( v3 )의 레코드도 이전 스키마( v1 )의 consumers가 읽을 수 있어, producers와 consumers의-deploy를 독립적으로 진행할 수 있다. 이는 마이크로서비스 환경에서 특히 중요한 패턴이다.
+이 [[268_strategy_pattern|전략]]은 [[505_schema|Schema]] Registry를 활용하여 반정형 [[343_json|JSON]] [[001_dikw_pyramid|데이터]]의 [[005_schema|스키마]] 진화를 안전하게管理하는 방법을 보여준다. BACKWARD [[344_compatibility_usability|호환성]]模式下에서 신규 [[005_schema|스키마]]( v3 )의 레코드도 이전 [[005_schema|스키마]]( v1 )의 consumers가 읽을 수 있어, producers와 consumers의-deploy를 독립적으로 진행할 수 있다. 이는 [[532_microservices_decomposition_patterns|마이크로서비스]] 환경에서 특히 중요한 패턴이다.
 
-📢 **섹션 요약 비유**: 반정형 데이터의 스키마 진화는修士록의 형식이 해마다 조금씩 변하는 것과 같다.，去年은"오늘의 목표"만 적었는데, 今年는"오늘의 목표"와"情绪 상태"를 함께 적는 식이다. Schema Registry는 이런 변화가 과거 기록을 감당할 수 있도록 해주는同时, 새 형식으로도 기록할 수 있게 해주는 문서 관리 정책과 같다.
+📢 **섹션 요약 비유**: 반정형 [[001_dikw_pyramid|데이터]]의 [[005_schema|스키마]] 진화는修士록의 형식이 해마다 조금씩 변하는 것과 같다.，去年은"오늘의 목표"만 적었는데, 今年는"오늘의 목표"와"情绪 상태"를 함께 적는 식이다. [[505_schema|Schema]] Registry는 이런 변화가 과거 기록을 감당할 수 있도록 해주는同时, 새 형식으로도 기록할 수 있게 해주는 문서 관리 정책과 같다.
 
 ### Ⅴ. 기대효과 및 결론 (Future & Standard)
-반정형 데이터는 마이크로서비스, IoT, 그리고 실시간 분석 분야에서 그 활용이 계속 확대되고 있으며, 특히REST API와JSON 기반의 데이터 교환이 표준이 된今, 그重要性はさらに高まっている。
+반정형 [[001_dikw_pyramid|데이터]]는 [[532_microservices_decomposition_patterns|마이크로서비스]], [[101_iot_concept|IoT]], 그리고 실시간 분석 분야에서 그 활용이 계속 확대되고 있으며, 특히REST API와JSON 기반의 [[001_dikw_pyramid|데이터]] 교환이 표준이 된今, 그重要性はさらに高まっている。
 
 | 관점 | 기대 효과 (Before & After) | 정량 지표 |
 |:---|:---|:---|
-| 개발 생산성 | 고정 스키마 변경 시 마이그레이션 → 스키마 없이高速開發 | 기능 출시 시간 40% 단축 |
-| 데이터 통합 | 이기종 시스템 간CSV/텍스트 변환 → JSON/REST로 直接연동 |.integration 시간 60% 절감 |
-| 실시간 분석 | 배치 중심 → 스트리밍 실시간 로그 분석 | 분석 지연 시간 95% 감소 |
+| 개발 생산성 | 고정 [[005_schema|스키마]] 변경 시 마이그레이션 → [[005_schema|스키마]] 없이高速開發 | 기능 출시 시간 40% 단축 |
+| [[001_dikw_pyramid|데이터]] 통합 | 이기종 시스템 간CSV/텍스트 변환 → [[343_json|JSON]]/REST로 直接연동 |.integration 시간 60% 절감 |
+| 실시간 분석 | 배치 중심 → 스트리밍 실시간 [[119_log_analysis|로그 분석]] | 분석 [[141_latency|지연 시간]] 95% 감소 |
 
-미래에는 반정형 데이터와 정형 데이터를 통합 查询하는 Federated Query 기술이 더욱成熟하여, 사용자는 데이터의 물리적 저장 위치나 형식을意識하지 않고도单一の SQL로 모든 데이터를 분석할 수 있을 것이다. 또한, 반정형 데이터를AI가 자동으로 구조화하여情报를抽出する技術( Automated Schema Inference )이 발전함에 따라, 현재の手動的な스키마定義 부담도 크게 줄어들 것이다.
+미래에는 반정형 [[001_dikw_pyramid|데이터]]와 [[002_structured_data|정형 데이터]]를 통합 查询하는 [[195_federated_query_data_fabric_distributed_join|Federated Query]] 기술이 더욱成熟하여, 사용자는 [[001_dikw_pyramid|데이터]]의 물리적 저장 위치나 형식을意識하지 않고도单一の SQL로 모든 [[001_dikw_pyramid|데이터]]를 분석할 수 있을 것이다. 또한, 반정형 [[001_dikw_pyramid|데이터]]를AI가 자동으로 구조화하여情报를抽出する技術( Automated [[505_schema|Schema]] Inference )이 발전함에 따라, 현재の手動的な[[005_schema|스키마]]定義 부담도 크게 줄어들 것이다.
 
-📢 **섹션 요약 비유**: 반정형 데이터 기술は음식점에서 음식의 정확한 레시피( 정형 스키마 ) 없이도,（图省钱）その日の食材状況（데이터 ）에 따라 메뉴를 즉석에서 구성하는灵活营业과 같다. 레시피가 없으면厨师の创新能力 발휘할 수 있지만, 때로는，创新과品質管理の間にtrade-off가 존재한다.
+📢 **섹션 요약 비유**: 반정형 [[001_dikw_pyramid|데이터]] 기술は음식점에서 음식의 정확한 레시피( 정형 [[005_schema|스키마]] ) 없이도,（图省钱）その日の食材状況（[[001_dikw_pyramid|데이터]] ）에 따라 메뉴를 즉석에서 구성하는灵活营业과 같다. 레시피가 없으면厨师の创新能力 발휘할 수 있지만, 때로는，创新과品質管理の間にtrade-off가 존재한다.
 
 ---
 
-### 📌 관련 개념 맵 (Knowledge Graph)
-* JSON (JavaScript Object Notation) | 키-값 쌍 기반의 경량 반정형 데이터 교환 포맷
+### 📌 관련 개념 맵 ([[160_knowledge_graph_graphrag_integration|Knowledge Graph]])
+* [[343_json|JSON]] (JavaScript Object Notation) | 키-값 쌍 기반의 경량 반정형 [[001_dikw_pyramid|데이터]] 교환 포맷
 * XML (Extensible Markup Language) | 태그 기반의 계층적 구조를 표현하는Markup 언어
-* NoSQL Document Database | JSON과 같은 문서를 직접 저장하는 MongoDB, CouchBase 등
-* Schema Registry | Kafka에서 메시지 스키마의 버전과 호환성을管理하는 시스템
-* 스키마 온 리드 (Schema-on-Read) | 저장 시는 원시 그대로 두고, 읽을 때 스키마를 적용하는 방식
-* Apache Kafka | 반정형 JSON/XML 메시지의 실시간 스트리밍을 처리하는 분산 플랫폼
+* [[035_nosql|NoSQL]] [[037_document|Document]] [[501_database|Database]] | JSON과 같은 문서를 직접 저장하는 [[540_mongodb|MongoDB]], CouchBase 등
+* [[505_schema|Schema]] [[235_registry_immutable_tag|Registry]] | Kafka에서 메시지 [[005_schema|스키마]]의 [[288_version_ihl_tos_total_length|버전]]과 [[344_compatibility_usability|호환성]]을管理하는 시스템
+* [[009_schema_on_read|스키마 온 리드]] ([[009_schema_on_read|Schema-on-Read]]) | 저장 시는 원시 그대로 두고, 읽을 때 [[005_schema|스키마]]를 적용하는 방식
+* [[214_kafka_pubsub_topic_partition_offset_broker|Apache Kafka]] | 반정형 [[343_json|JSON]]/XML 메시지의 실시간 스트리밍을 처리하는 [[136_variance|분산]] 플랫폼
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -255,9 +255,9 @@ categories = ["studynote", "14_data_engineering"]
 [Apache Kafka]
 ```
 
-이 흐름도는 JSON (JavaScript Object Notation)에서 출발해 스키마 온 리드 (Schema-on-Read)까지 이어지며, 중간 단계가 기초 개념을 실무 구조로 발전시키는 과정을 보여준다.
+이 흐름도는 [[343_json|JSON]] (JavaScript Object Notation)에서 출발해 [[009_schema_on_read|스키마 온 리드]] ([[009_schema_on_read|Schema-on-Read]])까지 이어지며, 중간 단계가 기초 개념을 실무 구조로 발전시키는 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
-1. 반정형 데이터는修真录记와 같아서, 날짜와 제목은 항상 쓰지만 그 옆에 그림을 그리거나 메모를 자유롭게 할 수 있어요.
-2. 스마트폰의 사진 갤러리를 보면 사진마다 찍은 날짜( 메타데이터 )가 자동으로 붙지만, 사진 자체( 이미지 )는 규격이 없죠.
+1. 반정형 [[001_dikw_pyramid|데이터]]는修真录记와 같아서, 날짜와 제목은 항상 쓰지만 그 옆에 그림을 그리거나 메모를 자유롭게 할 수 있어요.
+2. 스마트폰의 사진 갤러리를 보면 사진마다 찍은 날짜( [[012_metadata|메타데이터]] )가 자동으로 붙지만, 사진 자체( 이미지 )는 규격이 없죠.
 3. 그래서 반정형은 정형( 규격화된 필통 )과 비정형( 아무거나 넣는 서랍장 )의 중간쯤에 있는 거예요.

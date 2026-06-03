@@ -8,15 +8,15 @@ categories = "studynote-software-engineering"
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: LSP (Liskov Substitution Principle) - 리스코프 치환 원칙 (자식은 부모를 대체 가능)은(는) 소프트웨어 공학의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.
-> 2. **가치**: 이 개념을 올바르게 적용하면 소프트웨어의 품질·유지보수성·재사용성이 향상되고, 개발 생산성과 팀 협업 효율이 높아진다.
+> 1. **본질**: LSP (Liskov Substitution Principle) - [[357_process|리스코프 치환 원칙]] (자식은 부모를 대체 가능)은(는) [[001_software_engineering_definition|소프트웨어 공학]]의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.
+> 2. **가치**: 이 개념을 올바르게 적용하면 소프트웨어의 품질·[[346_maintainability_portability|유지보수성]]·재사용성이 향상되고, 개발 생산성과 팀 협업 효율이 높아진다.
 > 3. **판단 포인트**: 도입 시에는 비용·복잡도·조직 성숙도를 함께 고려해야 하며, 맹목적 적용보다 프로젝트 특성에 맞는 선택적 적용이 핵심이다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-- 초보 개발자들은 "오! 부모 클래스에 함수 10개 있네? 나 이거 복사하기 귀찮으니까 그냥 `extends` 상속받아서 10개 공짜로 써야지~"라고 생각합니다.
+- 초보 개발자들은 "오! 부모 클래스에 함수 10개 있네? 나 이거 복사하기 귀찮으니까 그냥 `extends` [[234_uml_class_relationships_generalization_dependency|상속]]받아서 10개 공짜로 써야지~"라고 생각합니다.
 - **비극의 시작**: 10개 중 1개가 내(자식) 입맛에 안 맞습니다. 그래서 그 함수 1개를 **'에러를 뿜게 덮어쓰거나(오버라이딩), 아예 비워두거나, 부모와 완전히 다른 짓을 하게 개조'**해버립니다. 
 - 시스템(클라이언트 코드)은 부모인 줄 믿고 그 1번 함수를 호출했다가, 자식이 튀어나와서 딴짓을 하거나 에러를 뿜어 프로그램이 대폭발합니다.
 
@@ -47,8 +47,8 @@ categories = "studynote-software-engineering"
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-- 1988년 컴퓨터 과학자 바바라 리스코프(Barbara Liskov) 교수가 발표한 상속의 절대 헌법.
-- **개념**: 컴퓨터 프로그램에서 부모 클래스의 인스턴스(객체)를 사용하는 곳에, **그 부모를 상속받은 '자식 클래스의 인스턴스'를 대신 교체(치환 Substitution)해서 집어넣더라도, 프로그램의 정확성(부모가 맺어둔 계약)을 단 1%도 깨뜨리지 않고 완벽하게 똑같이 정상 동작해야만 올바른 상속 관계**라는 원칙입니다.
+- 1988년 컴퓨터 과학자 바바라 리스코프(Barbara Liskov) 교수가 발표한 [[234_uml_class_relationships_generalization_dependency|상속]]의 절대 헌법.
+- **개념**: 컴퓨터 프로그램에서 부모 클래스의 인스턴스(객체)를 사용하는 곳에, **그 부모를 [[234_uml_class_relationships_generalization_dependency|상속]]받은 '자식 클래스의 인스턴스'를 대신 교체(치환 Substitution)해서 집어넣더라도, 프로그램의 [[002_bigdata_5v|정확성]](부모가 맺어둔 계약)을 단 1%도 깨뜨리지 않고 완벽하게 똑같이 정상 동작해야만 올바른 [[234_uml_class_relationships_generalization_dependency|상속]] [[083_relationship_in_er_model|관계]]**라는 원칙입니다.
 
 - **📢 섹션 요약 비유**: LSP (Liskov Substitution Principle)은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
@@ -78,10 +78,10 @@ categories = "studynote-software-engineering"
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-- 해결책은 간단합니다. 펭귄은 새를 상속받으면 안 됩니다.
-- 펭귄과 독수리의 진짜 공통점은 '새'가 아니라 **'동물(Animal)'**입니다. 둘을 공통의 부모(인터페이스)인 `동물`로 묶고, 독수리에게만 `Flyable(날 수 있는)` 인터페이스를 따로 붙여줘야(상속의 분리) LSP가 완벽히 지켜지고 시스템이 평화로워집니다.
+- 해결책은 간단합니다. 펭귄은 새를 [[234_uml_class_relationships_generalization_dependency|상속]]받으면 안 됩니다.
+- 펭귄과 독수리의 진짜 공통점은 '새'가 아니라 **'동물(Animal)'**입니다. 둘을 공통의 부모(인터페이스)인 `동물`로 묶고, 독수리에게만 `Flyable(날 수 있는)` 인터페이스를 따로 붙여줘야([[234_uml_class_relationships_generalization_dependency|상속]]의 분리) LSP가 완벽히 지켜지고 시스템이 평화로워집니다.
 
-> 📢 **섹션 요약 비유**: **리스코프 치환 원칙(LSP)**은 패스트푸드점 주방의 **'가짜 아르바이트생 대타 쓰기(치환) 금지법'**입니다. 주방에 원래 **'감자튀김 튀기는 달인(부모 클래스)'**이 있었습니다. 이 달인의 계약(기능)은 "감자를 주면 3분 뒤에 튀김을 내놓는다"입니다. 어느 날 달인이 아파서, 그의 **'아들(자식 클래스)'**을 대타로 주방에 세웠습니다(치환 Substitution). 점장(시스템)은 당연히 아들이 아버지의 피를 물려받았으니(상속) 똑같은 계약을 지킬 줄 알고 감자를 줬습니다. 그런데 이 미친 아들이 감자를 받더니 튀김기가 아니라 믹서기에 넣고 **'감자 주스'**를 갈아버렸습니다!(자식의 함수 오버라이딩 깽판). 점장이 튀김인 줄 알고 손님에게 나갔다가 식당이 문을 닫습니다. 바바라 리스코프 교수는 소리칩니다. **"야! 아버지 자리에 아들을 대타(치환)로 세울 거면, 아들이 아버지보다 감자튀김을 더 바삭하게(기능 추가) 튀기는 건 합법이지만, 감자로 주스를 갈아버리거나(부모의 계약 위반) '저 튀길 줄 모르는데요?(에러 예외 발생)'라고 배째라 시전하는 놈은 절대 아버지를 상속받은 자식으로 호적에 올리지 마라!!"** 다형성이라는 이름으로 부모의 믿음을 배신하는 가짜 상속 자식들을 호적 파버려, 프로그램이 예기치 않게 터지는 나비효과를 원천 봉쇄하는 객체지향 족보의 가장 날카로운 판별법입니다.
+> 📢 **섹션 요약 비유**: **[[357_process|리스코프 치환 원칙]](LSP)**은 패스트푸드점 주방의 **'가짜 아르바이트생 대타 [[289_cqrs_db|쓰기]](치환) 금지법'**입니다. 주방에 원래 **'감자튀김 튀기는 달인(부모 클래스)'**이 있었습니다. 이 달인의 계약(기능)은 "감자를 주면 3분 뒤에 튀김을 내놓는다"입니다. 어느 날 달인이 아파서, 그의 **'아들(자식 클래스)'**을 대타로 주방에 세웠습니다(치환 Substitution). 점장(시스템)은 당연히 아들이 아버지의 피를 물려받았으니([[234_uml_class_relationships_generalization_dependency|상속]]) 똑같은 계약을 지킬 줄 알고 감자를 줬습니다. 그런데 이 미친 아들이 감자를 받더니 튀김기가 아니라 믹서기에 넣고 **'감자 주스'**를 갈아버렸습니다!(자식의 함수 오버라이딩 깽판). 점장이 튀김인 줄 알고 손님에게 나갔다가 식당이 문을 닫습니다. 바바라 리스코프 교수는 소리칩니다. **"야! 아버지 자리에 아들을 대타(치환)로 세울 거면, 아들이 아버지보다 감자튀김을 더 바삭하게(기능 추가) 튀기는 건 합법이지만, 감자로 주스를 갈아버리거나(부모의 계약 위반) '저 튀길 줄 모르는데요?(에러 예외 발생)'라고 배째라 시전하는 놈은 절대 아버지를 [[234_uml_class_relationships_generalization_dependency|상속]]받은 자식으로 호적에 올리지 마라!!"** 다형성이라는 이름으로 부모의 믿음을 배신하는 가짜 [[234_uml_class_relationships_generalization_dependency|상속]] 자식들을 호적 파버려, 프로그램이 예기치 않게 터지는 나비효과를 원천 봉쇄하는 객체지향 족보의 가장 날카로운 판별법입니다.
 
 - **📢 섹션 요약 비유**: LSP (Liskov Substitution Principle)은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
@@ -93,21 +93,21 @@ categories = "studynote-software-engineering"
 
 ## Ⅴ. 기대효과 및 결론
 
-LSP (Liskov Substitution Principle)을(를) 올바르게 적용하면 소프트웨어 품질·유지보수성·팀 생산성이 동시에 향상된다. 그러나 도입에는 학습 비용과 초기 투자가 필요하며, 조직 전체의 공감과 훈련이 선행되어야 한다.
+LSP (Liskov Substitution Principle)을(를) 올바르게 적용하면 [[339_software_quality_definition|소프트웨어 품질]]·[[346_maintainability_portability|유지보수성]]·팀 생산성이 동시에 향상된다. 그러나 도입에는 학습 비용과 [[459_quic_fec_forward_error_correction|초기]] 투자가 필요하며, 조직 전체의 공감과 훈련이 선행되어야 한다.
 
 **한계와 전제 조건**:
 - 소규모 프로젝트에서는 오버헤드가 발생할 수 있다
 - 팀 전체의 충분한 교육과 실습 기간이 필요하다
-- 도구 지원 환경 구축에 초기 비용이 발생한다
+- 도구 지원 환경 구축에 [[459_quic_fec_forward_error_correction|초기]] 비용이 발생한다
 
 **미래 발전 방향**:
-- AI·LLM 기반 자동화 도구와의 통합으로 적용 효율 향상
-- 클라우드 네이티브·DevOps 환경에서의 진화적 적용
+- [[190_ai_llm_requirements_specification|AI]]·[[263_llm_large_language_model|LLM]] 기반 자동화 도구와의 통합으로 적용 효율 향상
+- [[531_cloud_native_architecture|클라우드 네이티브]]·[[652_devops_calms_culture|DevOps]] 환경에서의 진화적 적용
 - 정량적 측정 체계의 고도화를 통한 의사결정 지원 강화
 
 LSP (Liskov Substitution Principle)은 '어떻게 빠르게 짜는가'가 아니라 '어떻게 오래 유지할 수 있는 소프트웨어를 짜는가'에 대한 답이다. 단기 속도보다 장기 지속 가능성을 추구하는 관점으로 기억해야 한다.
 
-- **📢 섹션 요약 비유**: LSP (Liskov Substitution Principle)의 기대효과는 마라톤 훈련과 같다. 처음에는 느리고 고통스럽지만, 올바른 훈련 원칙을 지킨 선수만이 결승선에서 최고의 기록을 낼 수 있다. 소프트웨어 공학의 원칙도 단기 편의보다 장기 완성도를 위한 투자다.
+- **📢 섹션 요약 비유**: LSP (Liskov Substitution Principle)의 기대효과는 마라톤 훈련과 같다. 처음에는 느리고 고통스럽지만, 올바른 훈련 원칙을 지킨 선수만이 결승선에서 최고의 기록을 낼 수 있다. [[001_software_engineering_definition|소프트웨어 공학]]의 원칙도 단기 편의보다 장기 완성도를 위한 투자다.
 
 ---
 
@@ -119,10 +119,10 @@ LSP (Liskov Substitution Principle)은 '어떻게 빠르게 짜는가'가 아니
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| 소프트웨어 공학 (Software Engineering) | LSP (Liskov Substitution Principle)의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
-| 소프트웨어 생명주기 (SDLC, Software Development Life Cycle) | LSP (Liskov Substitution Principle)은 SDLC의 특정 단계에서 핵심적으로 적용된다 |
+| [[001_software_engineering_definition|소프트웨어 공학]] ([[001_software_engineering_definition|Software Engineering]]) | LSP (Liskov Substitution Principle)의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
+| [[003_sdlc|소프트웨어 생명주기]] ([[131_sdlc_system_development_life_cycle_waterfall_agile|SDLC]], Software Development Life Cycle) | LSP (Liskov Substitution Principle)은 SDLC의 특정 단계에서 핵심적으로 적용된다 |
 | 품질 보증 (QA, Quality Assurance) | LSP (Liskov Substitution Principle) 적용 결과는 QA 활동을 통해 검증되고 측정된다 |
-| 형상 관리 (SCM, Software Configuration Management) | LSP (Liskov Substitution Principle)에서 생성된 산출물은 SCM을 통해 체계적으로 관리된다 |
+| [[020_software_configuration_management|형상 관리]] ([[167_scm_software_configuration_management|SCM]], [[020_software_configuration_management|Software Configuration Management]]) | LSP (Liskov Substitution Principle)에서 생성된 산출물은 SCM을 통해 체계적으로 관리된다 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -142,10 +142,10 @@ LSP (Liskov Substitution Principle) 개념 정립
 지속적 개선 및 DevOps·MLOps 통합
 ```
 
-이 흐름은 소프트웨어 위기 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
+이 흐름은 [[002_software_crisis|소프트웨어 위기]] 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. LSP (Liskov Substitution Principle)은 레고 블록으로 성을 만들 때처럼, 규칙을 정하고 역할을 나누어 함께 작업하는 방법이에요.
 2. 혼자서 막 만들면 나중에 무너지거나 고치기 어렵지만, 약속을 지키면 누구나 쉽게 고치고 더 크게 만들 수 있어요.
-3. 그래서 소프트웨어 공학은 프로그래머들이 좋은 프로그램을 빠르고 안전하게 만들 수 있게 도와주는 '규칙 모음집'이에요.
+3. 그래서 [[001_software_engineering_definition|소프트웨어 공학]]은 프로그래머들이 좋은 프로그램을 빠르고 안전하게 만들 수 있게 도와주는 '규칙 모음집'이에요.

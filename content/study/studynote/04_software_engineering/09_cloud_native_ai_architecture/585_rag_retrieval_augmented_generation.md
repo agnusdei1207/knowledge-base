@@ -8,8 +8,8 @@ categories = "studynote-software-engineering"
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: RAG (Retrieval-Augmented Generation) 패턴 아키텍처 통합 설계은(는) 소프트웨어 공학의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.
-> 2. **가치**: 이 개념을 올바르게 적용하면 소프트웨어의 품질·유지보수성·재사용성이 향상되고, 개발 생산성과 팀 협업 효율이 높아진다.
+> 1. **본질**: [[276_fine_tuning|RAG]] (Retrieval-Augmented Generation) 패턴 아키텍처 통합 설계은(는) [[001_software_engineering_definition|소프트웨어 공학]]의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.
+> 2. **가치**: 이 개념을 올바르게 적용하면 소프트웨어의 품질·[[346_maintainability_portability|유지보수성]]·재사용성이 향상되고, 개발 생산성과 팀 협업 효율이 높아진다.
 > 3. **판단 포인트**: 도입 시에는 비용·복잡도·조직 성숙도를 함께 고려해야 하며, 맹목적 적용보다 프로젝트 특성에 맞는 선택적 적용이 핵심이다.
 
 ---
@@ -19,22 +19,22 @@ categories = "studynote-software-engineering"
 - **개념**: 
   - **Retrieval (검색/가져오기)**: 유저가 "우리 회사 환불 규정 뭐야?" 물어보면, AI한테 바로 묻지 않고 1차로 사내 위키(DB)를 검색해서 '환불 규정 PDF 텍스트 덩어리'를 긁어오는 단계.
   - **Augmented (증강/덧붙이기)**: 긁어온 PDF 텍스트를 유저의 원래 질문과 합체(프롬프트에 쑤셔 박음)시켜서 "질문을 뚱뚱하고 빵빵하게(증강)" 만드는 단계.
-  - **Generation (생성/답변하기)**: 이 뚱뚱해진 팩트 프롬프트를 LLM(ChatGPT)에 던져서 "여기 적힌 팩트대로만 예쁘게 요약해서 대답해!"라고 정답을 찍어내는 단계.
+  - **Generation ([[087_process_state_transition|생성]]/답변하기)**: 이 뚱뚱해진 팩트 프롬프트를 [[263_llm_large_language_model|LLM]](ChatGPT)에 던져서 "여기 적힌 팩트대로만 예쁘게 요약해서 대답해!"라고 정답을 찍어내는 단계.
 
-- **필요성 (파인튜닝의 절망과 LLM의 숨 쉬는 거짓말)**: 대기업 사장님이 "우리 회사 내부 규정 알려주는 사내 챗GPT 만들어!" 지시했다. 개발자는 GPT-3 모델에 사내 규정집 100만 장을 1주일 동안 피똥 싸며 재학습(파인튜닝) 시켰다. 오픈 날, 사장님이 "11월 특가 쿠폰 규정 뭐야?" 물었다. 챗GPT는 "그런 거 없음 ㅋ" 했다. 왜? **특가 쿠폰 규정은 어제 밤(파인튜닝 이후)에 새로 올라온 공지사항이라 챗GPT의 뇌(가중치)에 업데이트가 안 되어 있었기 때문이다! 게다가 모르면 모른다고 할 것이지, 엉뚱한 작년 쿠폰 규정을 가져와 거짓말(환각)을 쳤다.** "아 ㅆㅂ 데이터 바뀔 때마다 1주일씩 재학습시킬 수도 없고, 거짓말 치는 건 어떻게 막아?!" 이 분노의 해결책이 바로 RAG다.
+- **필요성 (파인튜닝의 절망과 LLM의 숨 쉬는 거짓말)**: 대기업 사장님이 "우리 회사 내부 규정 알려주는 사내 챗GPT 만들어!" 지시했다. 개발자는 GPT-3 모델에 사내 규정집 100만 장을 1주일 동안 피똥 싸며 재학습(파인튜닝) 시켰다. 오픈 날, 사장님이 "11월 특가 쿠폰 규정 뭐야?" 물었다. 챗GPT는 "그런 거 없음 ㅋ" 했다. 왜? **특가 쿠폰 규정은 어제 밤(파인튜닝 이후)에 새로 올라온 공지사항이라 챗GPT의 뇌([[267_weight_bias_activation|가중치]])에 업데이트가 안 되어 있었기 때문이다! 게다가 모르면 모른다고 할 것이지, 엉뚱한 작년 쿠폰 규정을 가져와 거짓말([[275_react_framework|환각]])을 쳤다.** "아 ㅆㅂ [[001_dikw_pyramid|데이터]] 바뀔 때마다 1주일씩 재학습시킬 수도 없고, 거짓말 치는 건 어떻게 막아?!" 이 분노의 해결책이 바로 RAG다.
 
-- **💡 비유**: 파인튜닝(재학습)이 **'직원(AI)한테 회사 매뉴얼 1만 장을 1주일 동안 통째로 달달 암기(학습)시켜서 시험 보기'**라면, RAG는 **'직원한테 오픈북(Open Book) 시험을 보게 하는 짓'**입니다. 억지로 외우게 할 필요 없습니다. 직원은 백지상태지만, 손님이 질문하면 즉시 **'회사 매뉴얼 책자(Vector DB)'**를 실시간으로 검색(Retrieval)해서 정답이 있는 페이지를 쫙 폅니다(Augmented). 그리고 그 페이지에 적힌 내용만 앵무새처럼 요약해서(Generation) 읽어줍니다. 매뉴얼이 오늘 아침에 바뀌었어도 책자만 갈아 끼우면 되니 100% 최신 팩트만 대답하는 궁극의 치트키입니다.
+- **💡 비유**: 파인튜닝(재학습)이 **'직원([[190_ai_llm_requirements_specification|AI]])한테 회사 매뉴얼 1만 장을 1주일 동안 통째로 달달 암기(학습)시켜서 시험 보기'**라면, RAG는 **'직원한테 오픈북(Open Book) 시험을 보게 하는 짓'**입니다. 억지로 외우게 할 필요 없습니다. 직원은 백지상태지만, 손님이 질문하면 즉시 **'회사 매뉴얼 책자([[151_vector_database_embedding_ann_search|Vector DB]])'**를 실시간으로 검색(Retrieval)해서 정답이 있는 페이지를 쫙 폅니다(Augmented). 그리고 그 페이지에 적힌 내용만 앵무새처럼 요약해서(Generation) 읽어줍니다. 매뉴얼이 오늘 아침에 바뀌었어도 책자만 갈아 끼우면 되니 100% 최신 팩트만 대답하는 궁극의 치트키입니다.
 
 - **등장 배경 및 발전 과정**:
-  1. **Prompt Engineering 쌩노가다 (초기)**: RAG가 없던 시절엔, 챗GPT 대화창에 사내 규정 텍스트 1,000줄을 복붙해서 넣고 "이거 보고 대답해"라고 손으로 쳤다. 텍스트가 너무 길어지면 에러가 났다.
-  2. **파인튜닝(Fine-Tuning)의 삽질 (과도기)**: 기업들이 수억을 들여 LLM을 자체 튜닝했다. 하지만 돈만 오지게 깨지고, 보안 통제(권한별 답변 분리)도 안 되고, 실시간 업데이트도 불가능해서 죄다 폭망했다.
-  3. **Facebook(Meta)의 RAG 논문 (현재)**: 2020년 페이스북이 "야 모델 학습시키지 마! 그냥 밖에서 텍스트 검색해서 입에 떠먹여 줘!"라는 RAG 논문을 발표, 이 사상이 LangChain 프레임워크와 결합되며 전 세계 기업 AI 구축의 99%를 차지하는 절대 왕좌에 올랐다.
+  1. **[[224_prompt_engineering_guideline|Prompt Engineering]] 쌩노가다 ([[459_quic_fec_forward_error_correction|초기]])**: RAG가 없던 시절엔, 챗GPT 대화창에 사내 규정 텍스트 1,000줄을 복붙해서 넣고 "이거 보고 대답해"라고 손으로 쳤다. 텍스트가 너무 길어지면 에러가 났다.
+  2. **파인튜닝([[304_fine_tuning|Fine-Tuning]])의 삽질 (과도기)**: 기업들이 수억을 들여 LLM을 자체 튜닝했다. 하지만 돈만 오지게 깨지고, 보안 통제(권한별 답변 분리)도 안 되고, 실시간 업데이트도 불가능해서 죄다 폭망했다.
+  3. **Facebook(Meta)의 [[276_fine_tuning|RAG]] 논문 (현재)**: 2020년 페이스북이 "야 모델 학습시키지 마! 그냥 밖에서 텍스트 검색해서 입에 떠먹여 줘!"라는 [[276_fine_tuning|RAG]] 논문을 발표, 이 사상이 [[586_langchain_ai_pipeline_framework|LangChain]] 프레임워크와 결합되며 전 세계 기업 [[190_ai_llm_requirements_specification|AI]] 구축의 99%를 차지하는 절대 왕좌에 올랐다.
 
-- **📢 섹션 요약 비유**: RAG는 **'판사(LLM)와 변호사(검색기)'**의 협업입니다. 판사는 법전(사내 지식)을 다 외우고 있지 않습니다. 변호사(Retrieval)가 수만 장의 판례를 뒤져서 딱 맞는 핵심 증거 자료 3장(Context)을 1초 만에 판사 책상에 올려둡니다. 판사는 그 증거 자료만 보고 훌륭한 판결문(Generation)을 뚝딱 써 내려갑니다. 판사(LLM)를 똑똑하게 만들 필요 없이, 변호사(검색 DB)만 잘 키우면 100점짜리 재판이 가능해집니다.
+- **📢 섹션 요약 비유**: RAG는 **'판사([[263_llm_large_language_model|LLM]])와 변호사(검색기)'**의 협업입니다. 판사는 법전(사내 지식)을 다 외우고 있지 않습니다. 변호사(Retrieval)가 수만 장의 판례를 뒤져서 딱 맞는 핵심 증거 자료 3장([[033_context|Context]])을 1초 만에 판사 책상에 올려둡니다. 판사는 그 증거 자료만 보고 훌륭한 판결문(Generation)을 뚝딱 써 내려갑니다. 판사([[263_llm_large_language_model|LLM]])를 똑똑하게 만들 필요 없이, 변호사(검색 DB)만 잘 키우면 100점짜리 재판이 가능해집니다.
 
 ---
 
-다음은 RAG (Retrieval-Augme의 핵심 구조와 흐름을 보여주는 다이어그램이다.
+다음은 [[276_fine_tuning|RAG]] (Retrieval-Augme의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
 ```text
 ┌─────────────────────────────────────────────────────────────┐
@@ -49,7 +49,7 @@ categories = "studynote-software-engineering"
 └─────────────────────────────────────────────────────────────┘
 ```
 
-이 다이어그램은 RAG (Retrieval-Augme가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
+이 다이어그램은 [[276_fine_tuning|RAG]] (Retrieval-Augme가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
 ---
 
@@ -59,18 +59,18 @@ categories = "studynote-software-engineering"
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-RAG (Retrieval-Augmented Generation) 패턴 아키텍처 통합 설계의 핵심 원리와 구성 요소를 이해하기 위해 다음 구조를 살펴본다.
+[[276_fine_tuning|RAG]] (Retrieval-Augmented Generation) 패턴 아키텍처 통합 설계의 핵심 원리와 구성 요소를 이해하기 위해 다음 구조를 살펴본다.
 
 | 구성 요소 | 역할 | 적용 기준 |
 | :--- | :--- | :--- |
-| 개념 정의 | 핵심 용어와 범위를 명확히 설정 | 용어 혼용·오해 방지 |
-| 원칙 및 규칙 | 적용 시 따라야 할 기본 방향 | 일관성·품질 기준 |
+| 개념 정의 | 핵심 용어와 범위를 명확히 [[009_config|설정]] | 용어 혼용·오해 방지 |
+| 원칙 및 규칙 | 적용 시 따라야 할 기본 방향 | [[194_consistency_database_integrity|일관성]]·품질 기준 |
 | 기법 및 도구 | 실질적 구현 방법과 지원 도구 | 생산성·자동화 |
 | 측정 지표 | 결과물의 품질을 정량화하는 지표 | 의사결정 근거 |
 
-RAG (Retrieval-Augmented Generation) 패턴 아키텍처 통합 설계의 핵심 원리는 **복잡성 분해**, **역할 분리**, **품질 측정**의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
+[[276_fine_tuning|RAG]] (Retrieval-Augmented Generation) 패턴 아키텍처 통합 설계의 핵심 원리는 **복잡성 분해**, **역할 분리**, **품질 측정**의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
 
-- **📢 섹션 요약 비유**: RAG (Retrieval-Augmented Generation) 패턴 아키텍처 통합 설계의 아키텍처는 공장의 생산 라인과 같다. 각 공정(구성 요소)이 명확한 역할을 가지고 정해진 순서대로 움직여야 최종 제품의 품질이 보장된다. 어느 한 공정이 부실하면 전체 제품이 불량이 된다.
+- **📢 섹션 요약 비유**: [[276_fine_tuning|RAG]] (Retrieval-Augmented Generation) 패턴 아키텍처 통합 설계의 아키텍처는 공장의 생산 라인과 같다. 각 공정(구성 요소)이 명확한 역할을 가지고 정해진 순서대로 움직여야 최종 제품의 품질이 보장된다. 어느 한 공정이 부실하면 전체 제품이 불량이 된다.
 
 ---
 
@@ -80,18 +80,18 @@ RAG (Retrieval-Augmented Generation) 패턴 아키텍처 통합 설계의 핵심
 
 ## Ⅲ. 비교 및 연결
 
-RAG (Retrieval-Augmented Generation) 패턴 아키텍처 통합 설계을(를) 유사 개념과 비교하면 경계와 특성이 더 명확해진다.
+[[276_fine_tuning|RAG]] (Retrieval-Augmented Generation) 패턴 아키텍처 통합 설계을(를) 유사 개념과 비교하면 경계와 특성이 더 명확해진다.
 
-| 비교 항목 | RAG (Retrieval-Augmented Generation) 패턴 아키텍처 통합 설계 | 유사 대안 |
+| 비교 항목 | [[276_fine_tuning|RAG]] (Retrieval-Augmented Generation) 패턴 아키텍처 통합 설계 | 유사 대안 |
 | :--- | :--- | :--- |
 | 핵심 목적 | 체계적 품질·생산성 향상 | 임시 방편적 해결 |
 | 적용 규모 | 중·대규모 프로젝트에서 효과적 | 소규모에서는 오버헤드 발생 가능 |
 | 조직 요건 | 팀 전체의 공통 이해와 훈련 필요 | 개인 역량 의존 |
 | 측정 가능성 | 정량적 지표로 성과 측정 가능 | 주관적 판단에 의존 |
 
-다른 소프트웨어 공학 개념과의 연결을 보면, RAG (Retrieval-Augmented Generation) 패턴 아키텍처 통합 설계은(는) 요구공학·설계·테스트·형상관리 전반에 걸쳐 영향을 미친다. 특히 품질 보증(QA, Quality Assurance)과 형상 관리(SCM, Software Configuration Management)와 긴밀하게 연계된다.
+다른 [[001_software_engineering_definition|소프트웨어 공학]] 개념과의 연결을 보면, [[276_fine_tuning|RAG]] (Retrieval-Augmented Generation) 패턴 아키텍처 통합 설계은(는) 요구공학·설계·테스트·형상관리 전반에 걸쳐 영향을 미친다. 특히 품질 보증(QA, Quality Assurance)과 [[020_software_configuration_management|형상 관리]]([[167_scm_software_configuration_management|SCM]], [[020_software_configuration_management|Software Configuration Management]])와 긴밀하게 연계된다.
 
-- **📢 섹션 요약 비유**: RAG (Retrieval-Augmented Generation) 패턴 아키텍처 통합 설계과 유사 대안의 차이는 지도를 가지고 산에 오르는 것과 감으로만 오르는 차이와 같다. 지도(체계적 방법)가 있으면 정상까지 최단 경로를 찾을 수 있지만, 없으면 같은 곳을 맴돌거나 낭떠러지에 빠질 수 있다.
+- **📢 섹션 요약 비유**: [[276_fine_tuning|RAG]] (Retrieval-Augmented Generation) 패턴 아키텍처 통합 설계과 유사 대안의 차이는 지도를 가지고 산에 오르는 것과 감으로만 오르는 차이와 같다. 지도(체계적 방법)가 있으면 정상까지 최단 경로를 찾을 수 있지만, 없으면 같은 곳을 맴돌거나 낭떠러지에 빠질 수 있다.
 
 ---
 
@@ -101,9 +101,9 @@ RAG (Retrieval-Augmented Generation) 패턴 아키텍처 통합 설계을(를) �
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-RAG (Retrieval-Augmented Generation) 패턴 아키텍처 통합 설계을(를) 실무에 적용할 때는 다음 판단 기준을 참고한다.
+[[276_fine_tuning|RAG]] (Retrieval-Augmented Generation) 패턴 아키텍처 통합 설계을(를) 실무에 적용할 때는 다음 판단 기준을 참고한다.
 
-- **📢 섹션 요약 비유**: RAG (Retrieval-Augmented Generation) 패턴 아키텍처 통합 설계은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
+- **📢 섹션 요약 비유**: [[276_fine_tuning|RAG]] (Retrieval-Augmented Generation) 패턴 아키텍처 통합 설계은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
 ---
 
@@ -111,21 +111,21 @@ RAG (Retrieval-Augmented Generation) 패턴 아키텍처 통합 설계을(를) �
 
 ## Ⅴ. 기대효과 및 결론
 
-RAG (Retrieval-Augmented Generation) 패턴 아키텍처 통합 설계을(를) 올바르게 적용하면 소프트웨어 품질·유지보수성·팀 생산성이 동시에 향상된다. 그러나 도입에는 학습 비용과 초기 투자가 필요하며, 조직 전체의 공감과 훈련이 선행되어야 한다.
+[[276_fine_tuning|RAG]] (Retrieval-Augmented Generation) 패턴 아키텍처 통합 설계을(를) 올바르게 적용하면 [[339_software_quality_definition|소프트웨어 품질]]·[[346_maintainability_portability|유지보수성]]·팀 생산성이 동시에 향상된다. 그러나 도입에는 학습 비용과 [[459_quic_fec_forward_error_correction|초기]] 투자가 필요하며, 조직 전체의 공감과 훈련이 선행되어야 한다.
 
 **한계와 전제 조건**:
 - 소규모 프로젝트에서는 오버헤드가 발생할 수 있다
 - 팀 전체의 충분한 교육과 실습 기간이 필요하다
-- 도구 지원 환경 구축에 초기 비용이 발생한다
+- 도구 지원 환경 구축에 [[459_quic_fec_forward_error_correction|초기]] 비용이 발생한다
 
 **미래 발전 방향**:
-- AI·LLM 기반 자동화 도구와의 통합으로 적용 효율 향상
-- 클라우드 네이티브·DevOps 환경에서의 진화적 적용
+- [[190_ai_llm_requirements_specification|AI]]·[[263_llm_large_language_model|LLM]] 기반 자동화 도구와의 통합으로 적용 효율 향상
+- [[531_cloud_native_architecture|클라우드 네이티브]]·[[652_devops_calms_culture|DevOps]] 환경에서의 진화적 적용
 - 정량적 측정 체계의 고도화를 통한 의사결정 지원 강화
 
-RAG (Retrieval-Augmented Generation) 패턴 아키텍처 통합 설계은 '어떻게 빠르게 짜는가'가 아니라 '어떻게 오래 유지할 수 있는 소프트웨어를 짜는가'에 대한 답이다. 단기 속도보다 장기 지속 가능성을 추구하는 관점으로 기억해야 한다.
+[[276_fine_tuning|RAG]] (Retrieval-Augmented Generation) 패턴 아키텍처 통합 설계은 '어떻게 빠르게 짜는가'가 아니라 '어떻게 오래 유지할 수 있는 소프트웨어를 짜는가'에 대한 답이다. 단기 속도보다 장기 지속 가능성을 추구하는 관점으로 기억해야 한다.
 
-- **📢 섹션 요약 비유**: RAG (Retrieval-Augmented Generation) 패턴 아키텍처 통합 설계의 기대효과는 마라톤 훈련과 같다. 처음에는 느리고 고통스럽지만, 올바른 훈련 원칙을 지킨 선수만이 결승선에서 최고의 기록을 낼 수 있다. 소프트웨어 공학의 원칙도 단기 편의보다 장기 완성도를 위한 투자다.
+- **📢 섹션 요약 비유**: [[276_fine_tuning|RAG]] (Retrieval-Augmented Generation) 패턴 아키텍처 통합 설계의 기대효과는 마라톤 훈련과 같다. 처음에는 느리고 고통스럽지만, 올바른 훈련 원칙을 지킨 선수만이 결승선에서 최고의 기록을 낼 수 있다. [[001_software_engineering_definition|소프트웨어 공학]]의 원칙도 단기 편의보다 장기 완성도를 위한 투자다.
 
 ---
 
@@ -137,10 +137,10 @@ RAG (Retrieval-Augmented Generation) 패턴 아키텍처 통합 설계은 '어�
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| 소프트웨어 공학 (Software Engineering) | RAG (Retrieval-Augmented Generation) 패턴 아키텍처 통합 설계의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
-| 소프트웨어 생명주기 (SDLC, Software Development Life Cycle) | RAG (Retrieval-Augmented Generation) 패턴 아키텍처 통합 설계은 SDLC의 특정 단계에서 핵심적으로 적용된다 |
-| 품질 보증 (QA, Quality Assurance) | RAG (Retrieval-Augmented Generation) 패턴 아키텍처 통합 설계 적용 결과는 QA 활동을 통해 검증되고 측정된다 |
-| 형상 관리 (SCM, Software Configuration Management) | RAG (Retrieval-Augmented Generation) 패턴 아키텍처 통합 설계에서 생성된 산출물은 SCM을 통해 체계적으로 관리된다 |
+| [[001_software_engineering_definition|소프트웨어 공학]] ([[001_software_engineering_definition|Software Engineering]]) | [[276_fine_tuning|RAG]] (Retrieval-Augmented Generation) 패턴 아키텍처 통합 설계의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
+| [[003_sdlc|소프트웨어 생명주기]] ([[131_sdlc_system_development_life_cycle_waterfall_agile|SDLC]], Software Development Life Cycle) | [[276_fine_tuning|RAG]] (Retrieval-Augmented Generation) 패턴 아키텍처 통합 설계은 SDLC의 특정 단계에서 핵심적으로 적용된다 |
+| 품질 보증 (QA, Quality Assurance) | [[276_fine_tuning|RAG]] (Retrieval-Augmented Generation) 패턴 아키텍처 통합 설계 적용 결과는 QA 활동을 통해 검증되고 측정된다 |
+| [[020_software_configuration_management|형상 관리]] ([[167_scm_software_configuration_management|SCM]], [[020_software_configuration_management|Software Configuration Management]]) | [[276_fine_tuning|RAG]] (Retrieval-Augmented Generation) 패턴 아키텍처 통합 설계에서 [[087_process_state_transition|생성]]된 산출물은 SCM을 통해 체계적으로 관리된다 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -160,10 +160,10 @@ RAG (Retrieval-Augmented Generation) 패턴 아키텍처 통합 설계 개념 �
 지속적 개선 및 DevOps·MLOps 통합
 ```
 
-이 흐름은 소프트웨어 위기 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
+이 흐름은 [[002_software_crisis|소프트웨어 위기]] 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. RAG (Retrieval-Augmented Generation) 패턴 아키텍처 통합 설계은 레고 블록으로 성을 만들 때처럼, 규칙을 정하고 역할을 나누어 함께 작업하는 방법이에요.
+1. [[276_fine_tuning|RAG]] (Retrieval-Augmented Generation) 패턴 아키텍처 통합 설계은 레고 블록으로 성을 만들 때처럼, 규칙을 정하고 역할을 나누어 함께 작업하는 방법이에요.
 2. 혼자서 막 만들면 나중에 무너지거나 고치기 어렵지만, 약속을 지키면 누구나 쉽게 고치고 더 크게 만들 수 있어요.
-3. 그래서 소프트웨어 공학은 프로그래머들이 좋은 프로그램을 빠르고 안전하게 만들 수 있게 도와주는 '규칙 모음집'이에요.
+3. 그래서 [[001_software_engineering_definition|소프트웨어 공학]]은 프로그래머들이 좋은 프로그램을 빠르고 안전하게 만들 수 있게 도와주는 '규칙 모음집'이에요.

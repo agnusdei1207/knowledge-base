@@ -5,7 +5,7 @@ weight = 64
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: PBFT(Practical Byzantine Fault Tolerance)는 Byzantine fault가 있어도 3단계 투표로 합의를 빠르게 확정하는 합의 알고리즘이다.
+> 1. **본질**: [[013_pbft_practical_bft|PBFT]](Practical Byzantine [[800_system_architecture_fault_tolerance_dual|Fault Tolerance]])는 Byzantine fault가 있어도 3단계 투표로 합의를 빠르게 확정하는 합의 알고리즘이다.
 > 2. **가치**: Pre-prepare, Prepare, Commit의 다중 서명 구조를 통해 신뢰할 수 없는 노드가 섞여 있어도 장부 일관성을 유지한다.
 > 3. **판단**: PBFT는 노드 수와 통신량이 많아질수록 무거워지므로, 허가형 네트워크에 적합하다.
 
@@ -38,7 +38,7 @@ Ledger Update
 | 단계 | 역할 |
 | :-- | :-- |
 | Pre-prepare | 리더가 제안문을 배포 |
-| Prepare | 노드들이 제안 검증 후 예비 동의 |
+| Prepare | 노드들이 제안 [[395_verification_process_review|검증]] 후 예비 동의 |
 | Commit | 최종 동의 후 장부 반영 |
 
 PBFT는 일반적으로 3f+1개의 노드로 f개의 Byzantine fault를 견딘다. 핵심은 2f+1 이상의 quorum을 모아야만 다음 단계로 넘어간다는 점이다.
@@ -51,15 +51,15 @@ PBFT는 일반적으로 3f+1개의 노드로 f개의 Byzantine fault를 견딘�
 
 | 합의 | 특징 | 장점 | 한계 |
 | :-- | :-- | :-- | :-- |
-| PoW | 연산 경쟁 | 단순, 공개형에 강함 | 전력 소모 큼 |
+| PoW | 연산 경쟁 | 단순, 공개형에 강함 | [[466_power_consumption|전력 소모]] 큼 |
 | PoS | 지분 기반 | 에너지 효율 | 설계 복잡 |
-| PBFT | 다중 투표 | 빠른 최종성 | 메시지 비용 큼 |
+| [[013_pbft_practical_bft|PBFT]] | 다중 투표 | 빠른 최종성 | 메시지 비용 큼 |
 
 | 단계 | 의미 |
 | :-- | :-- |
-| Prepare | 제안 검증과 확산 |
+| Prepare | 제안 [[395_verification_process_review|검증]]과 확산 |
 | Commit | 최종 확정 |
-| View Change | 리더 교체 |
+| [[151_sql_view_virtual_table|View]] Change | 리더 교체 |
 
 PBFT는 허가형 네트워크와 컨소시엄 체인에 잘 맞는다. 참여자 수가 너무 많으면 통신 비용이 급격히 올라간다.
 
@@ -69,15 +69,15 @@ PBFT는 허가형 네트워크와 컨소시엄 체인에 잘 맞는다. 참여�
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### 체크리스트
+### [[435_checklist_based_testing|체크리스트]]
 
 1. 노드 수와 fault tolerance가 맞는가?
 2. quorum 조건을 정확히 설명할 수 있는가?
-3. 리더 실패 시 view change가 있는가?
+3. 리더 실패 시 [[151_sql_view_virtual_table|view]] change가 있는가?
 4. 합의 지연과 통신 비용을 이해하는가?
 5. 허가형 네트워크에 적합한가?
 
-### 안티패턴
+### [[128_water_scrum_fall_anti_pattern|안티패턴]]
 
 - 공개형 대규모 네트워크에 PBFT를 그대로 쓰는 설계
 - 2f+1 quorum 의미를 놓치는 설계

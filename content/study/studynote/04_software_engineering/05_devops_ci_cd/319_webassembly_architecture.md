@@ -8,24 +8,24 @@ categories = "studynote-software-engineering"
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 웹어셈블리 (WebAssembly) 적용 아키텍처은(는) 소프트웨어 공학의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.
-> 2. **가치**: 이 개념을 올바르게 적용하면 소프트웨어의 품질·유지보수성·재사용성이 향상되고, 개발 생산성과 팀 협업 효율이 높아진다.
+> 1. **본질**: 웹어셈블리 (WebAssembly) 적용 아키텍처은(는) [[001_software_engineering_definition|소프트웨어 공학]]의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.
+> 2. **가치**: 이 개념을 올바르게 적용하면 소프트웨어의 품질·[[346_maintainability_portability|유지보수성]]·재사용성이 향상되고, 개발 생산성과 팀 협업 효율이 높아진다.
 > 3. **판단 포인트**: 도입 시에는 비용·복잡도·조직 성숙도를 함께 고려해야 하며, 맹목적 적용보다 프로젝트 특성에 맞는 선택적 적용이 핵심이다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: WebAssembly는 웹(Web)과 어셈블리(Assembly, 기계어와 가장 가까운 언어)의 합성어다. 특정 하드웨어(CPU)에 종속되지 않고, 모든 최신 웹 브라우저(크롬, 사파리, 엣지)에 내장된 Wasm VM에서 돌아가는 안전한 바이너리 실행 포맷이다.
+- **개념**: WebAssembly는 웹(Web)과 어셈블리(Assembly, 기계어와 가장 가까운 언어)의 합성어다. 특정 하드웨어(CPU)에 종속되지 않고, 모든 최신 웹 브라우저(크롬, 사파리, 엣지)에 내장된 [[701_webassembly_wasm_frontend_performance|Wasm]] VM에서 돌아가는 안전한 바이너리 실행 포맷이다.
 
 - **필요성**: 웹 브라우저에서 '포토샵'을 돌린다고 치자. 100MB짜리 사진에 필터를 입히는 픽셀 연산을 자바스크립트로 돌리면 브라우저가 멈추고 뻗어버린다. JS는 태생이 HTML 요소(DOM)를 살짝살짝 조작하려고 만든 가벼운 스크립트 언어이지, 무거운 수학 연산을 하도록 설계되지 않았다. "브라우저 안에서도 C++처럼 쌩쌩 돌아가는 진짜 기계어(바이너리)를 실행할 수는 없을까?"라는 전 세계 프론트엔드 개발자들의 오랜 염원이 필요했다.
 
-- **💡 비유**: 자바스크립트(JS)가 주문을 받을 때마다 요리책을 보며(인터프리터) 재료를 손질해 요리를 내어주는 **'초보 요리사'**라면, 웹어셈블리(Wasm)는 이미 공장에서 조리가 완벽하게 끝난 레토르트 식품(바이너리 코드)을 가져와 전자레인지에 딱 3분만 데워서 바로 내어주는 **'초고속 밀키트 시스템'**입니다.
+- **💡 비유**: 자바스크립트(JS)가 주문을 받을 때마다 요리책을 보며(인터프리터) 재료를 손질해 요리를 내어주는 **'초보 요리사'**라면, 웹어셈블리([[701_webassembly_wasm_frontend_performance|Wasm]])는 이미 공장에서 조리가 완벽하게 끝난 레토르트 식품(바이너리 코드)을 가져와 전자레인지에 딱 3분만 데워서 바로 내어주는 **'[[148_5g_embb_urllc_mmtc|초고속]] 밀키트 시스템'**입니다.
 
 - **등장 배경 및 발전 과정**:
-  1. **JS의 성능 한계와 꼼수들**: ActiveX, Flash, Java Applet 등 브라우저에 플러그인을 깔아서 무거운 작업을 돌렸으나, 보안과 호환성 문제로 모두 멸망했다. 그 후 구글의 PNaCl이나 모질라의 asm.js 같은 실험이 있었으나 널리 퍼지지 못했다.
+  1. **JS의 [[282_performance_tactics|성능]] 한계와 꼼수들**: ActiveX, Flash, Java Applet 등 브라우저에 플러그인을 깔아서 무거운 작업을 돌렸으나, 보안과 [[344_compatibility_usability|호환성]] 문제로 모두 멸망했다. 그 후 구글의 PNaCl이나 모질라의 asm.js 같은 실험이 있었으나 널리 퍼지지 못했다.
   2. **Wasm의 탄생 (2017)**: Google, Mozilla, Apple, Microsoft 등 적대적이던 4대 브라우저 벤더가 역사상 처음으로 손을 잡고, 플러그인 없이 브라우저 자체에서 돌아가는 통합 표준인 WebAssembly 1.0을 공식 발표했다.
-  3. **WASI와 클라우드 백엔드 진출 (현재)**: Wasm은 브라우저를 벗어나, Wasmtime 같은 런타임과 WASI(WebAssembly System Interface) 표준을 통해 서버 OS의 파일과 네트워크까지 직접 통제하며 도커(Docker)를 위협하는 백엔드 아키텍처로 폭발적 진화를 거듭하고 있다.
+  3. **WASI와 클라우드 백엔드 진출 (현재)**: Wasm은 브라우저를 벗어나, Wasmtime 같은 런타임과 WASI(WebAssembly System Interface) 표준을 통해 서버 OS의 파일과 네트워크까지 직접 통제하며 [[063_docker_architecture|도커]]([[063_docker_architecture|Docker]])를 위협하는 백엔드 아키텍처로 폭발적 진화를 거듭하고 있다.
 
 - **📢 섹션 요약 비유**: 웹어셈블리는 브라우저라는 '가벼운 소형차'에, C++나 Rust로 만든 '포르쉐 엔진'을 합법적으로 달 수 있게 해주는 완벽한 엔진 스왑(Engine Swap) 기술입니다.
 
@@ -60,8 +60,8 @@ categories = "studynote-software-engineering"
 
 | 구성 요소 | 역할 | 적용 기준 |
 | :--- | :--- | :--- |
-| 개념 정의 | 핵심 용어와 범위를 명확히 설정 | 용어 혼용·오해 방지 |
-| 원칙 및 규칙 | 적용 시 따라야 할 기본 방향 | 일관성·품질 기준 |
+| 개념 정의 | 핵심 용어와 범위를 명확히 [[009_config|설정]] | 용어 혼용·오해 방지 |
+| 원칙 및 규칙 | 적용 시 따라야 할 기본 방향 | [[194_consistency_database_integrity|일관성]]·품질 기준 |
 | 기법 및 도구 | 실질적 구현 방법과 지원 도구 | 생산성·자동화 |
 | 측정 지표 | 결과물의 품질을 정량화하는 지표 | 의사결정 근거 |
 
@@ -86,7 +86,7 @@ categories = "studynote-software-engineering"
 | 조직 요건 | 팀 전체의 공통 이해와 훈련 필요 | 개인 역량 의존 |
 | 측정 가능성 | 정량적 지표로 성과 측정 가능 | 주관적 판단에 의존 |
 
-다른 소프트웨어 공학 개념과의 연결을 보면, 웹어셈블리 (WebAssembly) 적용 아키텍처은(는) 요구공학·설계·테스트·형상관리 전반에 걸쳐 영향을 미친다. 특히 품질 보증(QA, Quality Assurance)과 형상 관리(SCM, Software Configuration Management)와 긴밀하게 연계된다.
+다른 [[001_software_engineering_definition|소프트웨어 공학]] 개념과의 연결을 보면, 웹어셈블리 (WebAssembly) 적용 아키텍처은(는) 요구공학·설계·테스트·형상관리 전반에 걸쳐 영향을 미친다. 특히 품질 보증(QA, Quality Assurance)과 [[020_software_configuration_management|형상 관리]]([[167_scm_software_configuration_management|SCM]], [[020_software_configuration_management|Software Configuration Management]])와 긴밀하게 연계된다.
 
 - **📢 섹션 요약 비유**: 웹어셈블리 (WebAssembly) 적용 아키텍처과 유사 대안의 차이는 지도를 가지고 산에 오르는 것과 감으로만 오르는 차이와 같다. 지도(체계적 방법)가 있으면 정상까지 최단 경로를 찾을 수 있지만, 없으면 같은 곳을 맴돌거나 낭떠러지에 빠질 수 있다.
 
@@ -108,21 +108,21 @@ categories = "studynote-software-engineering"
 
 ## Ⅴ. 기대효과 및 결론
 
-웹어셈블리 (WebAssembly) 적용 아키텍처을(를) 올바르게 적용하면 소프트웨어 품질·유지보수성·팀 생산성이 동시에 향상된다. 그러나 도입에는 학습 비용과 초기 투자가 필요하며, 조직 전체의 공감과 훈련이 선행되어야 한다.
+웹어셈블리 (WebAssembly) 적용 아키텍처을(를) 올바르게 적용하면 [[339_software_quality_definition|소프트웨어 품질]]·[[346_maintainability_portability|유지보수성]]·팀 생산성이 동시에 향상된다. 그러나 도입에는 학습 비용과 [[459_quic_fec_forward_error_correction|초기]] 투자가 필요하며, 조직 전체의 공감과 훈련이 선행되어야 한다.
 
 **한계와 전제 조건**:
 - 소규모 프로젝트에서는 오버헤드가 발생할 수 있다
 - 팀 전체의 충분한 교육과 실습 기간이 필요하다
-- 도구 지원 환경 구축에 초기 비용이 발생한다
+- 도구 지원 환경 구축에 [[459_quic_fec_forward_error_correction|초기]] 비용이 발생한다
 
 **미래 발전 방향**:
-- AI·LLM 기반 자동화 도구와의 통합으로 적용 효율 향상
-- 클라우드 네이티브·DevOps 환경에서의 진화적 적용
+- [[190_ai_llm_requirements_specification|AI]]·[[263_llm_large_language_model|LLM]] 기반 자동화 도구와의 통합으로 적용 효율 향상
+- [[531_cloud_native_architecture|클라우드 네이티브]]·[[652_devops_calms_culture|DevOps]] 환경에서의 진화적 적용
 - 정량적 측정 체계의 고도화를 통한 의사결정 지원 강화
 
 웹어셈블리 (WebAssembly) 적용 아키텍처은 '어떻게 빠르게 짜는가'가 아니라 '어떻게 오래 유지할 수 있는 소프트웨어를 짜는가'에 대한 답이다. 단기 속도보다 장기 지속 가능성을 추구하는 관점으로 기억해야 한다.
 
-- **📢 섹션 요약 비유**: 웹어셈블리 (WebAssembly) 적용 아키텍처의 기대효과는 마라톤 훈련과 같다. 처음에는 느리고 고통스럽지만, 올바른 훈련 원칙을 지킨 선수만이 결승선에서 최고의 기록을 낼 수 있다. 소프트웨어 공학의 원칙도 단기 편의보다 장기 완성도를 위한 투자다.
+- **📢 섹션 요약 비유**: 웹어셈블리 (WebAssembly) 적용 아키텍처의 기대효과는 마라톤 훈련과 같다. 처음에는 느리고 고통스럽지만, 올바른 훈련 원칙을 지킨 선수만이 결승선에서 최고의 기록을 낼 수 있다. [[001_software_engineering_definition|소프트웨어 공학]]의 원칙도 단기 편의보다 장기 완성도를 위한 투자다.
 
 ---
 
@@ -134,10 +134,10 @@ categories = "studynote-software-engineering"
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| 소프트웨어 공학 (Software Engineering) | 웹어셈블리 (WebAssembly) 적용 아키텍처의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
-| 소프트웨어 생명주기 (SDLC, Software Development Life Cycle) | 웹어셈블리 (WebAssembly) 적용 아키텍처은 SDLC의 특정 단계에서 핵심적으로 적용된다 |
+| [[001_software_engineering_definition|소프트웨어 공학]] ([[001_software_engineering_definition|Software Engineering]]) | 웹어셈블리 (WebAssembly) 적용 아키텍처의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
+| [[003_sdlc|소프트웨어 생명주기]] ([[131_sdlc_system_development_life_cycle_waterfall_agile|SDLC]], Software Development Life Cycle) | 웹어셈블리 (WebAssembly) 적용 아키텍처은 SDLC의 특정 단계에서 핵심적으로 적용된다 |
 | 품질 보증 (QA, Quality Assurance) | 웹어셈블리 (WebAssembly) 적용 아키텍처 적용 결과는 QA 활동을 통해 검증되고 측정된다 |
-| 형상 관리 (SCM, Software Configuration Management) | 웹어셈블리 (WebAssembly) 적용 아키텍처에서 생성된 산출물은 SCM을 통해 체계적으로 관리된다 |
+| [[020_software_configuration_management|형상 관리]] ([[167_scm_software_configuration_management|SCM]], [[020_software_configuration_management|Software Configuration Management]]) | 웹어셈블리 (WebAssembly) 적용 아키텍처에서 생성된 산출물은 SCM을 통해 체계적으로 관리된다 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -157,10 +157,10 @@ categories = "studynote-software-engineering"
 지속적 개선 및 DevOps·MLOps 통합
 ```
 
-이 흐름은 소프트웨어 위기 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
+이 흐름은 [[002_software_crisis|소프트웨어 위기]] 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. 웹어셈블리 (WebAssembly) 적용 아키텍처은 레고 블록으로 성을 만들 때처럼, 규칙을 정하고 역할을 나누어 함께 작업하는 방법이에요.
 2. 혼자서 막 만들면 나중에 무너지거나 고치기 어렵지만, 약속을 지키면 누구나 쉽게 고치고 더 크게 만들 수 있어요.
-3. 그래서 소프트웨어 공학은 프로그래머들이 좋은 프로그램을 빠르고 안전하게 만들 수 있게 도와주는 '규칙 모음집'이에요.
+3. 그래서 [[001_software_engineering_definition|소프트웨어 공학]]은 프로그래머들이 좋은 프로그램을 빠르고 안전하게 만들 수 있게 도와주는 '규칙 모음집'이에요.

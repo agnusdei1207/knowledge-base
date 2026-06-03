@@ -9,14 +9,14 @@ categories = "studynote-enterprise"
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 온프레미스(On-Premise)는 서버, 네트워크, 스토리지, 전원, 보안까지 기업이 직접 소유하고 운영하는 IT 인프라다.
-> 2. **가치**: 데이터 주권, 낮은 지연, 강한 물리 통제는 여전히 온프레미스의 핵심 경쟁력이다.
-> 3. **판단**: CAPEX (Capital Expenditure)와 OPEX (Operating Expenditure), 그리고 하이브리드 클라우드 전략을 함께 봐야 한다.
+> 2. **가치**: [[809_data_sovereignty|데이터 주권]], 낮은 [[015_지연_데이터_관점|지연]], 강한 물리 통제는 여전히 온프레미스의 핵심 경쟁력이다.
+> 3. **판단**: CAPEX (Capital Expenditure)와 OPEX (Operating Expenditure), 그리고 [[009_hybrid_cloud|하이브리드 클라우드]] [[268_strategy_pattern|전략]]을 함께 봐야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-온프레미스는 말 그대로 "내 건물 안에 내 서버를 두는 방식"이다. 전산실, 랙, 네트워크, 냉각, 백업, 보안 정책까지 모두 기업이 책임진다.
+온프레미스는 말 그대로 "내 건물 안에 내 서버를 두는 방식"이다. 전산실, 랙, 네트워크, 냉각, [[555_backup_and_restore_strategy|백업]], [[007_security_policy|보안 정책]]까지 모두 기업이 책임진다.
 
 클라우드가 널리 쓰여도 온프레미스가 사라지지 않는 이유는 분명하다. 규제, 주권, 초저지연, 그리고 물리적 통제는 여전히 중요한 요구이기 때문이다.
 
@@ -40,9 +40,9 @@ categories = "studynote-enterprise"
 | :-- | :-- |
 | Server | 애플리케이션과 DB 실행 |
 | Network | 내부/외부 연결과 분리 |
-| Storage | 데이터 저장과 백업 |
-| Power / Cooling | 안정적 운영 환경 유지 |
-| Physical Security | 출입 통제와 장비 보호 |
+| Storage | [[001_dikw_pyramid|데이터]] 저장과 [[555_backup_and_restore_strategy|백업]] |
+| [[069_type_1_2_error_statistical_power|Power]] / Cooling | 안정적 운영 환경 유지 |
+| Physical [[283_security_tactics|Security]] | 출입 통제와 장비 [[571_protection_vs_security|보호]] |
 
 온프레미스의 핵심은 소유와 책임이 함께 간다는 점이다. 직접 통제할 수 있는 만큼, 장애와 확장도 직접 설계해야 한다.
 
@@ -52,14 +52,14 @@ categories = "studynote-enterprise"
 
 ## Ⅲ. 비교 및 연결
 
-| 항목 | 온프레미스 | 퍼블릭 클라우드 | 하이브리드 클라우드 |
+| 항목 | 온프레미스 | [[007_public_cloud|퍼블릭 클라우드]] | [[009_hybrid_cloud|하이브리드 클라우드]] |
 | :-- | :-- | :-- | :-- |
-| 비용 구조 | 초기 CAPEX 큼 | 사용량 기반 OPEX | 혼합 |
+| 비용 구조 | [[459_quic_fec_forward_error_correction|초기]] CAPEX 큼 | 사용량 기반 OPEX | 혼합 |
 | 확장성 | 느림 | 빠름 | 역할 분담 |
 | 통제성 | 매우 높음 | 공급자 의존 | 중요 자원은 온프레미스 |
-| 적합 분야 | 규제/기밀/초저지연 | 유연한 웹 서비스 | 현실적 타협 |
+| 적합 분야 | 규제/기밀/초저지연 | 유연한 웹 [[090_service_kubernetes_network_load_balancing|서비스]] | 현실적 타협 |
 
-온프레미스는 구식이 아니라, 적합한 문제에 계속 유효한 선택지다. 특히 전용선(Direct Connect)이나 전용 회선으로 클라우드와 묶으면, 핵심 데이터는 안에 두고 외부 서비스만 유연하게 쓸 수 있다.
+온프레미스는 구식이 아니라, 적합한 문제에 계속 유효한 선택지다. 특히 [[266_leased_line_basics_e1_t1_t3|전용선]]([[838_direct_connect_expressroute_cloud_leased_line|Direct Connect]])이나 전용 회선으로 클라우드와 묶으면, 핵심 [[001_dikw_pyramid|데이터]]는 안에 두고 외부 [[090_service_kubernetes_network_load_balancing|서비스]]만 유연하게 쓸 수 있다.
 
 - **📢 섹션 요약 비유**: 큰 창고는 직접 두고, 바쁘게 움직이는 물건만 택배로 보내는 운영이다.
 
@@ -67,22 +67,22 @@ categories = "studynote-enterprise"
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### 체크리스트
+### [[435_checklist_based_testing|체크리스트]]
 
-1. 데이터 주권이나 규제 요구가 강한가?
-2. 지연 시간과 물리 통제가 중요한가?
+1. [[809_data_sovereignty|데이터 주권]]이나 규제 요구가 강한가?
+2. [[141_latency|지연 시간]]과 물리 통제가 중요한가?
 3. CAPEX와 운영 인력을 감당할 수 있는가?
-4. 재해 복구와 백업 전략이 준비되어 있는가?
+4. [[379_dr_architecture|재해 복구]]와 [[555_backup_and_restore_strategy|백업]] [[268_strategy_pattern|전략]]이 준비되어 있는가?
 5. 클라우드와의 역할 분담이 명확한가?
 
-### 안티패턴
+### [[128_water_scrum_fall_anti_pattern|안티패턴]]
 
 - "클라우드가 유행이니 전부 버리자"는 설계
 - 운영 역량 없이 전산실만 유지하는 설계
 - 감당 못 할 규모로 온프레미스를 과잉 구축하는 설계
 - 클라우드와 온프레미스를 싸우게만 두는 설계
 
-기술사 관점에서는 온프레미스를 "옛 기술"로 보지 않고, 통제와 책임을 원하는 경우의 합리적 선택으로 봐야 한다. 문제는 사용 여부가 아니라, 운영 체계와 이행 전략이다.
+기술사 관점에서는 온프레미스를 "옛 기술"로 보지 않고, 통제와 책임을 원하는 경우의 합리적 선택으로 봐야 한다. 문제는 사용 여부가 아니라, 운영 체계와 이행 [[268_strategy_pattern|전략]]이다.
 
 - **📢 섹션 요약 비유**: 내 차를 직접 몰면 편한 길은 적어도, 어디로 가는지는 완전히 내가 정할 수 있다.
 

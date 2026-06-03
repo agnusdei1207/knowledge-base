@@ -11,8 +11,8 @@ categories = ["studynote-software-engineering"]
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: computationally infeasible는 수학적으로 불가능이 아니라, 현실 시간·비용·자원으로는 풀 수 없다는 뜻이며 현대 암호학의 기본 가정이다.
-> 2. **가치**: AES (Advanced Encryption Standard), RSA (Rivest–Shamir–Adleman), ECC (Elliptic Curve Cryptography)는 각각 다른 난제와 보안 마진을 이용해 공격 비용을 폭발시킨다.
-> 3. **판단 포인트**: 알고리즘이 지금 안 깨졌다는 사실보다 키 길이·공격 모델·양자 위협까지 고려해 "얼마나 오래 안전한가"를 판단해야 한다.
+> 2. **가치**: [[656_aes_advanced_encryption_standard_rijndael|AES]] ([[656_aes_advanced_encryption_standard_rijndael|Advanced Encryption Standard]]), [[110_rsa|RSA]] (Rivest–Shamir–Adleman), [[554_ecc_circuit|ECC]] ([[119_ecc_elliptic_curve_cryptography|Elliptic Curve Cryptography]])는 각각 다른 난제와 보안 마진을 이용해 공격 비용을 폭발시킨다.
+> 3. **판단 포인트**: [[001_algorithm_definition|알고리즘]]이 지금 안 깨졌다는 사실보다 키 길이·공격 모델·양자 위협까지 고려해 "얼마나 오래 안전한가"를 판단해야 한다.
 
 ---
 
@@ -36,14 +36,14 @@ secret -> algorithm -> attacker search cost -> infeasible -> security
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-암호학은 보통 one-way function과 큰 key space를 활용한다. 입력은 쉽게 만들 수 있지만, 역으로 복원하는 데는 엄청난 계산이 필요해야 한다.
+암호학은 보통 one-way function과 큰 [[067_db_key_uniqueness_minimality|key]] space를 활용한다. 입력은 쉽게 만들 수 있지만, 역으로 복원하는 데는 엄청난 계산이 필요해야 한다.
 
 | 문제 | 왜 어려운가 | 보안 의미 |
 | :--- | :--- | :--- |
-| Brute-force key search | 경우의 수가 기하급수적으로 증가 | 키 길이가 중요 |
-| Integer factorization | 효율적 일반 해법이 없음 | RSA 기반 |
-| Discrete logarithm | 역함수 계산이 어려움 | ECC 기반 |
-| Hash preimage | 원하는 입력 찾기가 매우 어려움 | 무결성 기반 |
+| Brute-force [[067_db_key_uniqueness_minimality|key]] search | 경우의 수가 기하급수적으로 증가 | 키 길이가 중요 |
+| Integer factorization | 효율적 일반 해법이 없음 | [[110_rsa|RSA]] 기반 |
+| Discrete logarithm | 역함수 계산이 어려움 | [[554_ecc_circuit|ECC]] 기반 |
+| Hash preimage | 원하는 입력 찾기가 매우 어려움 | [[003_integrity|무결성]] 기반 |
 
 여기에 `P (Polynomial time)`와 `NP (Nondeterministic Polynomial time)` 같은 복잡도 관점이 붙는다. 보안은 단순 연산이 아니라, 계산 가능성의 경계를 산다.
 
@@ -61,7 +61,7 @@ infeasible과 impossible은 다르다. 전자는 자원이 부족해 못 푸는 
 | 변화 가능성 | 기술 발전에 따라 변함 | 변하지 않음 |
 | 암호학적 의미 | 핵심 가정 | 거의 사용 안 함 |
 
-또 classical과 quantum의 차이도 중요하다. 양자 알고리즘은 일부 난제를 더 빠르게 풀 수 있으므로, 보안은 현재가 아니라 미래의 계산 모델까지 본다.
+또 classical과 quantum의 차이도 중요하다. 양자 [[001_algorithm_definition|알고리즘]]은 일부 난제를 더 빠르게 풀 수 있으므로, 보안은 현재가 아니라 미래의 계산 모델까지 본다.
 
 - **📢 섹션 요약 비유**: 지금 못 푸는 것과 원래 못 푸는 것은 다르다.
 
@@ -69,12 +69,12 @@ infeasible과 impossible은 다르다. 전자는 자원이 부족해 못 푸는 
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서는 키 길이, 알고리즘 수명, 공격 모델을 같이 본다. 단순히 "안 깨졌다"가 아니라, 5년·10년 뒤에도 버틸 수 있는지 따져야 한다.
+실무에서는 키 길이, [[001_algorithm_definition|알고리즘]] 수명, 공격 모델을 같이 본다. 단순히 "안 깨졌다"가 아니라, 5년·10년 뒤에도 버틸 수 있는지 따져야 한다.
 
 체크 포인트는 다음과 같다.
-- 충분한 security margin이 있는가.
-- 알고리즘 교체 가능성이 열려 있는가.
-- PQC (Post-Quantum Cryptography) 전환 계획이 있는가.
+- 충분한 [[283_security_tactics|security]] margin이 있는가.
+- [[001_algorithm_definition|알고리즘]] 교체 가능성이 열려 있는가.
+- [[351_quantum_computing_pqc_transition|PQC]] ([[183_post_quantum_cryptography_key_transition|Post-Quantum Cryptography]]) 전환 계획이 있는가.
 
 안티패턴은 보안 강도를 현재 하드웨어 성능에만 기대는 것이다. 계산 자원은 계속 늘고, 공격 도구도 계속 발전한다.
 
@@ -86,7 +86,7 @@ infeasible과 impossible은 다르다. 전자는 자원이 부족해 못 푸는 
 
 computational infeasibility는 암호학의 현실주의를 보여 준다. 보안은 절대값이 아니라 비용 곡선이며, 그 곡선이 공격자의 예산을 넘어설 때 성립한다.
 
-따라서 좋은 설계는 현재의 난제뿐 아니라 미래의 계산 환경까지 생각한다. 이 관점을 잡아야 키 길이, 알고리즘 선택, 폐기 주기가 일관된다.
+따라서 좋은 설계는 현재의 난제뿐 아니라 미래의 계산 환경까지 생각한다. 이 관점을 잡아야 키 길이, [[001_algorithm_definition|알고리즘]] 선택, 폐기 주기가 일관된다.
 
 - **📢 섹션 요약 비유**: 보물상자는 못 여는 상자가 아니라 너무 오래 걸리는 상자다.
 
@@ -97,10 +97,10 @@ computational infeasibility는 암호학의 현실주의를 보여 준다. 보�
 | 개념 | 연결 포인트 |
 | :--- | :--- |
 | One-way Function | 쉽게 만들고 어렵게 되돌림 |
-| Key Space | 공격 비용의 원천 |
-| Security Margin | 미래 대비 여유 |
-| Quantum Threat | 계산 모델 변화 |
-| PQC | 전환 대비 |
+| [[067_db_key_uniqueness_minimality|Key]] Space | 공격 비용의 원천 |
+| [[283_security_tactics|Security]] Margin | 미래 대비 여유 |
+| [[690_round_robin_time_quantum|Quantum]] Threat | 계산 모델 변화 |
+| [[351_quantum_computing_pqc_transition|PQC]] | 전환 대비 |
 
 ### 관련 키워드 및 발전 흐름도
 

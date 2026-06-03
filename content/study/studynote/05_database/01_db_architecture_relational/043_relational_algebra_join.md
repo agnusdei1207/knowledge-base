@@ -7,9 +7,9 @@ categories = "studynote-database"
 +++
 
 > **핵심 인사이트**
-> 1. 조인(Join)은 두 릴레이션을 연결하는 관계 대수의 핵심 연산으로, 카티전 프로덕트(×)와 셀렉션(σ)의 조합이지만 — DBMS 내부적으로는 Nested Loop, Hash Join, Merge Join 세 가지 물리적 알고리즘 중 옵티마이저가 비용 기반으로 선택한다.
-> 2. INNER JOIN은 두 릴레이션의 교집합(일치하는 행만), OUTER JOIN은 한쪽 또는 양쪽의 비매칭 행까지 포함하는 개념으로 — 데이터 손실 없는 JOIN을 요구하는 업무(주문 없는 고객 포함 조회 등)에서 OUTER JOIN의 선택이 결과 정확성을 결정한다.
-> 3. 다중 테이블 조인의 성능은 조인 순서(Join Order)와 인덱스 유무에 좌우되며 — 옵티마이저가 항상 최적이 아닐 수 있으므로 EXPLAIN/EXPLAIN ANALYZE로 실행 계획을 확인하고 인덱스 힌트나 조인 순서 힌트로 튜닝하는 것이 실무 DBA의 핵심 역량이다.
+> 1. 조인([[521_join|Join]])은 두 [[061_relation_schema_instance|릴레이션]]을 연결하는 [[038_relational_algebra|관계 대수]]의 핵심 연산으로, 카티전 프로덕트(×)와 셀렉션(σ)의 조합이지만 — [[502_dbms|DBMS]] 내부적으로는 [[431_nested_loop_join|Nested Loop]], [[174_hash_join|Hash Join]], Merge [[521_join|Join]] 세 가지 물리적 [[001_algorithm_definition|알고리즘]] 중 [[163_optimizer_sql_execution_plan_generator|옵티마이저]]가 비용 기반으로 선택한다.
+> 2. INNER JOIN은 두 [[061_relation_schema_instance|릴레이션]]의 교집합(일치하는 행만), OUTER JOIN은 한쪽 또는 양쪽의 비매칭 행까지 포함하는 개념으로 — [[001_dikw_pyramid|데이터]] 손실 없는 JOIN을 요구하는 업무(주문 없는 고객 포함 조회 등)에서 OUTER JOIN의 선택이 결과 [[002_bigdata_5v|정확성]]을 결정한다.
+> 3. 다중 테이블 조인의 [[282_performance_tactics|성능]]은 [[176_join_order_optimization|조인 순서]]([[176_join_order_optimization|Join Order]])와 [[154_database_index_b_tree_search_optimization|인덱스]] 유무에 좌우되며 — [[163_optimizer_sql_execution_plan_generator|옵티마이저]]가 항상 최적이 아닐 수 있으므로 EXPLAIN/EXPLAIN ANALYZE로 [[166_execution_plan_optimizer_navigation_tree|실행 계획]]을 [[396_validation|확인]]하고 [[154_database_index_b_tree_search_optimization|인덱스]] [[167_sql_hint_optimizer_override|힌트]]나 [[176_join_order_optimization|조인 순서]] [[167_sql_hint_optimizer_override|힌트]]로 튜닝하는 것이 실무 DBA의 핵심 역량이다.
 
 ---
 
@@ -43,7 +43,7 @@ categories = "studynote-database"
   분산 DB에서 데이터 전송량 최소화
 ```
 
-> 📢 **섹션 요약 비유**: 조인은 두 명단 합치기 — 이름이 같은 사람을 연결(INNER), 한쪽 명단엔 없어도 다른 쪽 전체 포함(OUTER JOIN).
+> 📢 **섹션 요약 비유**: 조인은 두 명단 합치기 — 이름이 같은 사람을 연결(INNER), 한쪽 명단엔 없어도 다른 쪽 전체 포함([[414_outer_join|OUTER JOIN]]).
 
 ---
 
@@ -90,7 +90,7 @@ NATURAL JOIN (주의):
 
 ---
 
-## Ⅲ. 물리적 조인 알고리즘
+## Ⅲ. 물리적 조인 [[001_algorithm_definition|알고리즘]]
 
 ```
 DBMS 조인 구현 알고리즘:
@@ -131,11 +131,11 @@ DBMS 조인 구현 알고리즘:
   EXPLAIN (MySQL/PostgreSQL)으로 확인
 ```
 
-> 📢 **섹션 요약 비유**: 조인 알고리즘은 두 명단 비교 방법 — NL은 한명씩 체크(느리지만 간단), Hash는 색인카드 만들어 검색(빠름), Merge는 두 명단 미리 정렬 후 동시에 훑기.
+> 📢 **섹션 요약 비유**: 조인 [[001_algorithm_definition|알고리즘]]은 두 명단 비교 방법 — NL은 한명씩 체크(느리지만 간단), Hash는 색인카드 만들어 검색(빠름), Merge는 두 명단 미리 정렬 후 동시에 훑기.
 
 ---
 
-## Ⅳ. 조인 순서 최적화
+## Ⅳ. [[176_join_order_optimization|조인 순서]] 최적화
 
 ```
 조인 순서 (Join Order)의 중요성:
@@ -177,11 +177,11 @@ EXPLAIN 실행 계획 분석 (PostgreSQL):
   → 옵티마이저 통계 최신화 → 더 좋은 실행 계획
 ```
 
-> 📢 **섹션 요약 비유**: 조인 순서 최적화는 장보기 순서 — 가장 작은 양의 재료부터 손에 들면 마지막에 많이 들 필요 없어요. 첫 조인에서 결과를 최대한 줄여야 효율적.
+> 📢 **섹션 요약 비유**: [[176_join_order_optimization|조인 순서]] 최적화는 장보기 순서 — 가장 작은 양의 재료부터 손에 들면 마지막에 많이 들 필요 없어요. 첫 조인에서 결과를 최대한 줄여야 효율적.
 
 ---
 
-## Ⅴ. 실무 시나리오 — 쿼리 성능 튜닝
+## Ⅴ. 실무 시나리오 — [[298_qkv_attention|쿼리]] [[282_performance_tactics|성능]] 튜닝
 
 ```
 이커머스 주문 분석 쿼리 튜닝:

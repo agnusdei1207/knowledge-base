@@ -7,9 +7,9 @@ categories = "studynote-software-engineering"
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: 요구 도출(Elicitation)→분석(Analysis)→명세(Specification, SRS)→검증(Validation)→관리(Management) 5단계를 반복 순환하며, 각 단계마다 고유한 기법과 산출물이 있다.
+> 1. **본질**: 요구 도출(Elicitation)→분석(Analysis)→명세([[148_requirements_specification_formal_informal|Specification]], SRS)→[[395_verification_process_review|검증]]([[396_validation|Validation]])→관리([[372_management|Management]]) 5단계를 반복 순환하며, 각 단계마다 고유한 기법과 산출물이 있다.
 > 2. **가치**: 도출 기법(인터뷰·워크숍·프로토타이핑)을 적절히 조합해야 **숨겨진 요구사항(Hidden Requirements)**을 발견할 수 있고, 명세의 품질이 전체 프로젝트 품질을 결정한다.
-> 3. **판단 포인트**: 도출 기법 선택, SRS 구조(IEEE 830), 검증(리뷰·프로토타입·테스트 케이스), RTM(요구→설계→코드→테스트 추적)이 핵심이다.
+> 3. **판단 포인트**: 도출 기법 선택, SRS 구조(IEEE 830), [[395_verification_process_review|검증]](리뷰·[[257_prototype_pattern_object_cloning|프로토타입]]·[[441_test_case|테스트 케이스]]), [[667_requirements_traceability_matrix|RTM]](요구→설계→코드→테스트 추적)이 핵심이다.
 
 ---
 
@@ -23,7 +23,7 @@ categories = "studynote-software-engineering"
 관리: RTM, 변경 관리(CCB), 형상 관리
 ```
 
-- **📢 섹션 요약 비유**: 요구 프로세스는 의사의 진료(도출=문진, 분석=진단, 명세=처방전, 검증=경과관찰, 관리=진료기록)이다.
+- **📢 섹션 요약 비유**: 요구 프로세스는 의사의 진료(도출=문진, 분석=진단, 명세=처방전, [[395_verification_process_review|검증]]=경과관찰, 관리=진료기록)이다.
 
 ---
 
@@ -39,9 +39,9 @@ categories = "studynote-software-engineering"
 |:---|:---|
 | **도출** | 인터뷰·JAD·프로토타이핑 |
 | **SRS** | IEEE 830 명세서 |
-| **RTM** | 요구→테스트 추적 |
-| **CCB** | 변경 통제 위원회 |
-| **MoSCoW** | 우선순위 분류 |
+| **[[667_requirements_traceability_matrix|RTM]]** | 요구→테스트 추적 |
+| **[[160_change_control_board_ccb_requirements_review|CCB]]** | [[080_cab|변경 통제 위원회]] |
+| **MoSCoW** | 우선순위 [[104_classification_analysis|분류]] |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -53,4 +53,4 @@ categories = "studynote-software-engineering"
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 요구 프로세스는 **의사 진료**예요. 먼저 어디 아프냐(도출) 물어봐요.
 2. 진단(분석) 후 **처방전(명세)** 을 써요.
-3. 약을 먹고 **경과를 지켜보며(검증)** 진료 기록(관리)을 남겨요!
+3. 약을 먹고 **경과를 지켜보며([[395_verification_process_review|검증]])** 진료 기록(관리)을 남겨요!

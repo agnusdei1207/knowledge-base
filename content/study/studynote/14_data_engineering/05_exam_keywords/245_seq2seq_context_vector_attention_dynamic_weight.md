@@ -7,27 +7,27 @@ categories = "studynote-data-engineering"
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: Seq2Seq(Sequence-to-Sequence)는 인코더(Encoder)가 입력 시퀀스를 고정 길이 컨텍스트 벡터(Context Vector)로 압축하고 디코더(Decoder)가 이를 펼쳐 출력 시퀀스를 생성하는 아키텍처다.
-> 2. **가치**: 어텐션 메커니즘(Attention Mechanism)은 디코더가 출력 토큰마다 인코더의 모든 은닉 상태에 동적 가중합(Dynamic Weighted Sum)을 수행해 정보 압축 병목(Bottleneck)을 극복한다.
-> 3. **판단 포인트**: 어텐션 메커니즘은 Transformer의 핵심 셀프 어텐션(Self-Attention)으로 진화했으며, Seq2Seq 자체는 기계 번역·요약·챗봇의 기반 아키텍처로 여전히 널리 참조된다.
+> 1. **본질**: Seq2Seq(Sequence-to-Sequence)는 [[040_encoder|인코더]]([[040_encoder|Encoder]])가 입력 시퀀스를 고정 길이 [[120_context_vector|컨텍스트 벡터]]([[120_context_vector|Context Vector]])로 [[347_compaction|압축]]하고 [[039_decoder|디코더]]([[039_decoder|Decoder]])가 이를 펼쳐 출력 시퀀스를 [[087_process_state_transition|생성]]하는 아키텍처다.
+> 2. **가치**: [[296_attention_mechanism|어텐션 메커니즘]]([[296_attention_mechanism|Attention Mechanism]])은 [[039_decoder|디코더]]가 출력 토큰마다 [[040_encoder|인코더]]의 모든 은닉 상태에 동적 가중합(Dynamic Weighted Sum)을 수행해 정보 [[347_compaction|압축]] 병목([[617_io_bottleneck|Bottleneck]])을 극복한다.
+> 3. **판단 포인트**: [[296_attention_mechanism|어텐션 메커니즘]]은 Transformer의 핵심 셀프 어텐션([[124_self_attention|Self-Attention]])으로 진화했으며, Seq2Seq 자체는 기계 번역·요약·챗봇의 기반 아키텍처로 여전히 널리 참조된다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-기존 RNN 기반 언어 모델은 단일 문장 또는 고정 길이 시퀀스만 처리할 수 있었다. Seq2Seq는 가변 길이 입력을 가변 길이 출력으로 변환하는 범용 시퀀스 변환 프레임워크를 제공한다.
+기존 [[244_rnn_time_series_lstm_cell_gate_long_term_dependency|RNN]] 기반 언어 모델은 단일 문장 또는 고정 길이 시퀀스만 처리할 수 있었다. Seq2Seq는 가변 길이 입력을 가변 길이 출력으로 변환하는 범용 시퀀스 변환 프레임워크를 제공한다.
 
 ### Seq2Seq 등장 배경
 
 | 한계 | 설명 | 해결 방법 |
 |:---|:---|:---|
-| 고정 크기 입력 | 기존 신경망은 고정 길이 벡터 필요 | 인코더-디코더 분리 |
-| 가변 길이 출력 | 번역 결과는 입력과 길이 다름 | 디코더 자기 회귀 생성 |
-| 입출력 정렬 불필요 | 언어마다 어순 다름 | 컨텍스트 벡터 추상화 |
+| 고정 크기 입력 | 기존 신경망은 고정 길이 벡터 필요 | [[040_encoder|인코더]]-[[039_decoder|디코더]] 분리 |
+| 가변 길이 출력 | 번역 결과는 입력과 길이 다름 | [[039_decoder|디코더]] 자기 회귀 [[087_process_state_transition|생성]] |
+| 입출력 정렬 불필요 | 언어마다 어순 다름 | [[120_context_vector|컨텍스트 벡터]] [[198_abstraction_control_data_process|추상화]] |
 
-**핵심 응용 분야**: 기계 번역, 텍스트 요약, 챗봇, 음성 인식, 코드 생성
+**핵심 응용 분야**: 기계 번역, [[115_text_summarization|텍스트 요약]], 챗봇, 음성 인식, 코드 [[087_process_state_transition|생성]]
 
-📢 **섹션 요약 비유**: Seq2Seq는 통역사와 같다. 한국어 연설을 완전히 이해한 후(인코더), 영어로 다시 말하는(디코더) 과정이다. 단어 하나씩 번역하는 것이 아니라 전체 의미를 이해한 후 재표현한다.
+📢 **섹션 요약 비유**: Seq2Seq는 통역사와 같다. 한국어 연설을 완전히 이해한 후([[040_encoder|인코더]]), 영어로 다시 말하는([[039_decoder|디코더]]) 과정이다. 단어 하나씩 번역하는 것이 아니라 전체 의미를 이해한 후 재표현한다.
 
 ---
 
@@ -62,7 +62,7 @@ categories = "studynote-data-engineering"
 출력: "I go to school"
 ```
 
-**핵심 문제: 정보 병목(Information Bottleneck)**
+**핵심 문제: 정보 병목(Information [[617_io_bottleneck|Bottleneck]])**
 
 ```
 입력 길이가 길수록:
@@ -71,9 +71,9 @@ categories = "studynote-data-engineering"
  30 단어                                  c ∈ ℝ^{512}  ← 손실 발생!
 ```
 
-### 어텐션 메커니즘 (Attention Mechanism)
+### [[296_attention_mechanism|어텐션 메커니즘]] ([[296_attention_mechanism|Attention Mechanism]])
 
-Bahdanau et al. 2015 — "Neural Machine Translation by Jointly Learning to Align and Translate"
+Bahdanau et al. 2015 — "Neural Machine Translation by Jointly [[240_switch_learning_forwarding_flooding|Learning]] to Align and Translate"
 
 ```
 어텐션 가중치 계산 과정
@@ -103,8 +103,8 @@ Bahdanau et al. 2015 — "Neural Machine Translation by Jointly Learning to Alig
 | 구분 | Bahdanau 어텐션 | Luong 어텐션 |
 |:---|:---|:---|
 | 정렬 함수 | additive (덧셈) | multiplicative (내적) |
-| score 계산 | v^T · tanh(W₁h + W₂s) | h^T · W · s |
-| 입력 상태 | h_{t-1} (이전 상태) | h_t (현재 상태) |
+| score 계산 | v^T · [[070_hyperbolic_tangent_tanh_activation|tanh]](W₁h + W₂s) | h^T · W · s |
+| 입력 상태 | h_{t-1} (이전 상태) | h_t ([[178_as_is_to_be_analysis|현재 상태]]) |
 | 연산 비용 | 높음 | 낮음 |
 | 특징 | 부드러운 정렬 | 빠른 연산 |
 
@@ -130,7 +130,7 @@ Bahdanau et al. 2015 — "Neural Machine Translation by Jointly Learning to Alig
   대규모 코퍼스 사전 학습 + 다운스트림 파인튜닝
 ```
 
-### 어텐션 시각화 — 정렬 행렬(Alignment Matrix)
+### 어텐션 [[003_bigdata_7v|시각화]] — 정렬 행렬(Alignment Matrix)
 
 ```
 출력  │ 나 │ 는 │ 학교에│ 간다 │
@@ -146,9 +146,9 @@ school│ ▒  │ ▒  │  ██   │  ▒   │  ← "학교에"에 집중
 
 | 특성 | Seq2Seq (w/o Attention) | Seq2Seq + Attention |
 |:---|:---|:---|
-| 컨텍스트 | 고정 벡터 c | 매 스텝 동적 c_s |
-| 장문 처리 | 성능 급락 | 성능 유지 |
-| 해석 가능성 | 낮음 | 어텐션 가중치 시각화 |
+| [[033_context|컨텍스트]] | 고정 벡터 c | 매 스텝 동적 c_s |
+| 장문 처리 | [[282_performance_tactics|성능]] 급락 | [[282_performance_tactics|성능]] 유지 |
+| 해석 가능성 | 낮음 | 어텐션 [[267_weight_bias_activation|가중치]] [[003_bigdata_7v|시각화]] |
 | 파라미터 추가 | 없음 | 소수 (정렬 함수) |
 
 📢 **섹션 요약 비유**: 어텐션이 없는 Seq2Seq는 책 전체를 읽고 요약을 기억해 번역하는 것이다. 어텐션이 있는 Seq2Seq는 번역 중 필요할 때마다 원문의 해당 부분을 다시 보는 것이다. 훨씬 정확하고 긴 문장도 처리할 수 있다.
@@ -179,14 +179,14 @@ Beam Search (빔 탐색):
 
 ### 산업 적용 사례
 
-| 서비스 | 아키텍처 | 특이점 |
+| [[090_service_kubernetes_network_load_balancing|서비스]] | 아키텍처 | 특이점 |
 |:---|:---|:---|
-| Google Translate | Transformer 기반 | Seq2Seq에서 전환 |
+| Google Translate | [[246_transformer_self_attention_parallel_positional_encoding|Transformer]] 기반 | Seq2Seq에서 전환 |
 | Siri/Alexa | Seq2Seq + 대화 관리 | 다중 턴 문맥 유지 |
-| GitHub Copilot | GPT 기반 자동 회귀 | Seq2Seq 원리 응용 |
-| 문서 요약 | T5 / BART | 인코더-디코더 사전 학습 |
+| GitHub Copilot | [[302_gpt_autoregressive|GPT]] 기반 자동 회귀 | Seq2Seq 원리 응용 |
+| 문서 요약 | T5 / BART | [[040_encoder|인코더]]-[[039_decoder|디코더]] 사전 학습 |
 
-📢 **섹션 요약 비유**: Seq2Seq와 어텐션은 현대 AI 번역기의 심장이다. "의미를 이해하고 재표현한다"는 철학이 Google Translate부터 ChatGPT까지 이어지는 핵심 원리다.
+📢 **섹션 요약 비유**: Seq2Seq와 어텐션은 현대 [[190_ai_llm_requirements_specification|AI]] 번역기의 심장이다. "의미를 이해하고 재표현한다"는 철학이 Google Translate부터 ChatGPT까지 이어지는 핵심 원리다.
 
 ---
 
@@ -211,25 +211,25 @@ Seq2Seq 프레임워크의 적용 영역
 
 ### 기술사 시험 핵심 포인트
 
-1. **컨텍스트 벡터 병목**: 고정 길이 벡터의 정보 손실 문제
-2. **어텐션 가중치 계산**: `α = softmax(score(s, h))` → `c = Σα·h`
+1. **[[120_context_vector|컨텍스트 벡터]] 병목**: 고정 길이 벡터의 정보 손실 문제
+2. **어텐션 [[267_weight_bias_activation|가중치]] 계산**: `α = softmax(score(s, h))` → `c = Σα·h`
 3. **Bahdanau vs Luong**: additive vs multiplicative 비교
 4. **Teacher Forcing**: 훈련 효율화 기법 (정답 토큰 강제 입력)
 5. **Beam Search**: 추론 품질 향상 기법
 
-📢 **섹션 요약 비유**: Seq2Seq와 어텐션의 관계는 독서실과 개방형 스터디룸의 차이다. 독서실(컨텍스트 벡터)에서는 공부를 마친 후 노트 하나만 들고 나오지만, 개방형 스터디룸(어텐션)에서는 필요할 때마다 원하는 책을 펼쳐볼 수 있다.
+📢 **섹션 요약 비유**: Seq2Seq와 어텐션의 [[083_relationship_in_er_model|관계]]는 독서실과 개방형 스터디룸의 차이다. 독서실([[120_context_vector|컨텍스트 벡터]])에서는 공부를 마친 후 노트 하나만 들고 나오지만, 개방형 스터디룸(어텐션)에서는 필요할 때마다 원하는 책을 펼쳐볼 수 있다.
 
 ---
 
 ### 📌 관련 개념 맵
-| 관계 | 개념 | 설명 |
+| [[083_relationship_in_er_model|관계]] | 개념 | 설명 |
 |:---|:---|:---|
-| 기반 구조 | Seq2Seq | 인코더-디코더 시퀀스 변환 |
-| 핵심 문제 | 정보 병목 (Information Bottleneck) | 고정 컨텍스트 벡터 한계 |
-| 핵심 해결 | 어텐션 메커니즘 (Attention) | 동적 가중합으로 병목 극복 |
+| 기반 구조 | Seq2Seq | [[040_encoder|인코더]]-[[039_decoder|디코더]] 시퀀스 변환 |
+| 핵심 문제 | 정보 병목 (Information [[617_io_bottleneck|Bottleneck]]) | 고정 [[120_context_vector|컨텍스트 벡터]] 한계 |
+| 핵심 해결 | [[296_attention_mechanism|어텐션 메커니즘]] (Attention) | 동적 가중합으로 병목 극복 |
 | 어텐션 유형 | Bahdanau Attention | 덧셈 기반 정렬 함수 |
 | 어텐션 유형 | Luong Attention | 내적 기반 정렬 함수 |
-| 발전 방향 | Transformer | 셀프 어텐션 + 병렬화 |
+| 발전 방향 | [[246_transformer_self_attention_parallel_positional_encoding|Transformer]] | 셀프 어텐션 + 병렬화 |
 | 추론 기법 | Beam Search | 상위 k 후보 유지 탐색 |
 | 훈련 기법 | Teacher Forcing | 정답 토큰 강제 입력 |
 
@@ -250,5 +250,5 @@ Self-Attention → Transformer (병렬 처리 가능)
     ▼
 BERT · GPT · T5 (Foundation Models)
 ```
-2. 컨텍스트 벡터 없는 어텐션은 책을 다 읽고 메모지 하나에만 적어 두는 것, 어텐션이 있으면 번역할 때 원본 책을 다시 펼쳐볼 수 있어.
-3. 어텐션 가중치 시각화는 번역가가 "이 영어 단어를 쓸 때 한국어의 어느 부분을 보고 있었는지" 색깔로 보여주는 지도야.
+2. [[120_context_vector|컨텍스트 벡터]] 없는 어텐션은 책을 다 읽고 메모지 하나에만 적어 두는 것, 어텐션이 있으면 번역할 때 원본 책을 다시 펼쳐볼 수 있어.
+3. 어텐션 [[267_weight_bias_activation|가중치]] [[003_bigdata_7v|시각화]]는 번역가가 "이 영어 단어를 쓸 때 한국어의 어느 부분을 보고 있었는지" 색깔로 보여주는 지도야.

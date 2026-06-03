@@ -7,15 +7,15 @@ categories = "studynote-data-engineering"
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: Apache Flink는 이벤트 시간(Event Time) 기반 상태 저장(Stateful) 스트림 처리 엔진으로, 배치를 스트림의 특수 케이스로 통합(Unified Processing)하며 밀리초 단위 지연(Latency)과 Exactly-once 시맨틱(Semantics)을 동시에 제공하는 진정한 실시간 처리 플랫폼이다.
-> 2. **가치**: Spark Streaming이 마이크로 배치(Micro-batch, 수백ms~초 단위 지연)를 "스트리밍"으로 처리하는 데 반해, Flink는 이벤트 단위 네이티브 스트림 처리로 10ms 이하 지연을 달성하며, 강력한 상태 관리와 워터마크(Watermark) 기반 이벤트 시간 처리가 핵심 차별점이다.
-> 3. **판단 포인트**: Flink를 선택하는 결정적 기준은 "이벤트 도착 순서가 보장되지 않는 환경에서 정확한 집계가 필요한가"이다. 네트워크 지연으로 이벤트 순서가 뒤섞이는 실제 분산 환경에서 워터마크 기반 이벤트 시간 윈도우가 Kafka+Flink 조합의 핵심 가치이다.
+> 1. **본질**: Apache Flink는 이벤트 시간(Event Time) 기반 상태 저장(Stateful) [[229_stream_processing_kafka_flink|스트림 처리]] 엔진으로, 배치를 스트림의 특수 케이스로 통합(Unified Processing)하며 밀리초 단위 [[015_지연_데이터_관점|지연]]([[141_latency|Latency]])과 Exactly-once 시맨틱(Semantics)을 동시에 제공하는 진정한 실시간 처리 플랫폼이다.
+> 2. **가치**: Spark Streaming이 마이크로 배치(Micro-batch, 수백ms~초 단위 [[015_지연_데이터_관점|지연]])를 "스트리밍"으로 처리하는 데 반해, Flink는 이벤트 단위 네이티브 [[229_stream_processing_kafka_flink|스트림 처리]]로 10ms 이하 [[015_지연_데이터_관점|지연]]을 달성하며, 강력한 상태 관리와 [[085_watermark|워터마크]]([[085_watermark|Watermark]]) 기반 이벤트 시간 처리가 핵심 차별점이다.
+> 3. **판단 포인트**: Flink를 선택하는 결정적 기준은 "이벤트 도착 순서가 보장되지 않는 환경에서 정확한 집계가 필요한가"이다. [[1002_network_delay_rtt_oneway_delay_components|네트워크 지연]]으로 이벤트 순서가 뒤섞이는 실제 [[136_variance|분산]] 환경에서 [[085_watermark|워터마크]] 기반 이벤트 시간 윈도우가 [[179_kafka_flink_watermark_time_window|Kafka]]+Flink 조합의 핵심 가치이다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-Apache Flink는 독일 베를린 공과대학(TU Berlin) 연구에서 시작된 오픈소스 스트림 처리 엔진으로, 2014년 Apache 프로젝트로 편입되었다.
+Apache Flink는 독일 베를린 공과대학(TU Berlin) 연구에서 시작된 [[191_oss_license_compliance|오픈소스]] [[229_stream_processing_kafka_flink|스트림 처리]] 엔진으로, 2014년 Apache 프로젝트로 편입되었다.
 
 ```text
 ┌──────────────────────────────────────────────────────────────┐
@@ -56,7 +56,7 @@ Apache Flink는 독일 베를린 공과대학(TU Berlin) 연구에서 시작된 
 [Task:Slot1~4]  [Task:Slot1~4]
 ```
 
-### 이벤트 시간 처리와 워터마크
+### 이벤트 시간 처리와 [[085_watermark|워터마크]]
 
 ```text
 이벤트 시간: 12:00:01  12:00:03  12:00:02  12:00:05
@@ -67,22 +67,22 @@ Apache Flink는 독일 베를린 공과대학(TU Berlin) 연구에서 시작된 
 → 12:00:00~12:00:02 윈도우 닫기 → 집계 실행
 ```
 
-- **📢 섹션 요약 비유**: 워터마크는 기차역의 출발 기준선이다. "마지막 탑승 기준 2분 후 출발"처럼, 지정 시간이 지나면 늦게 오는 승객(이벤트)을 기다리지 않고 집계(출발)한다.
+- **📢 섹션 요약 비유**: [[085_watermark|워터마크]]는 기차역의 출발 기준선이다. "마지막 탑승 기준 2분 후 출발"처럼, 지정 시간이 지나면 늦게 오는 승객(이벤트)을 기다리지 않고 집계(출발)한다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-| 항목 | Apache Flink | Spark Streaming | Kafka Streams |
+| 항목 | [[215_flink_native_stream_watermark_window_time|Apache Flink]] | [[060_spark_streaming_dstream|Spark Streaming]] | [[179_kafka_flink_watermark_time_window|Kafka]] Streams |
 |:---|:---|:---|:---|
 | **처리 모델** | 네이티브 스트리밍 | 마이크로 배치 | 네이티브 스트리밍 |
-| **지연** | 1~10ms | 500ms~수초 | 1~10ms |
+| **[[015_지연_데이터_관점|지연]]** | 1~10ms | 500ms~수초 | 1~10ms |
 | **상태 관리** | RocksDB 대용량 | 메모리/Checkpoint | RocksDB |
 | **Exactly-once** | ✅ | ✅ | ✅ |
-| **복잡 CEP** | ✅ (Flink CEP) | 제한적 | 제한적 |
-| **배포 규모** | 수천 노드 | 수천 노드 | Kafka 클러스터 내 |
+| **복잡 [[098_cep|CEP]]** | ✅ (Flink [[098_cep|CEP]]) | 제한적 | 제한적 |
+| **배포 규모** | 수천 노드 | 수천 노드 | [[179_kafka_flink_watermark_time_window|Kafka]] 클러스터 내 |
 
-- **📢 섹션 요약 비유**: Flink는 전문 마라토너(특화된 스트리밍 처리), Spark는 철인 3종 선수(배치+스트리밍 통합), Kafka Streams는 Kafka 옆에 딸린 조깅 트랙이다.
+- **📢 섹션 요약 비유**: Flink는 전문 마라토너(특화된 스트리밍 처리), Spark는 철인 3종 선수(배치+스트리밍 통합), [[179_kafka_flink_watermark_time_window|Kafka]] Streams는 [[179_kafka_flink_watermark_time_window|Kafka]] 옆에 딸린 조깅 트랙이다.
 
 ---
 
@@ -91,16 +91,16 @@ Apache Flink는 독일 베를린 공과대학(TU Berlin) 연구에서 시작된 
 ### 실무 시나리오: 실시간 이상 거래 탐지
 금융사 카드 거래 스트림에서 이상 패턴 즉각 탐지.
 
-1. **데이터 소스**: Kafka 토픽 (초당 100,000 TPS 카드 거래).
-2. **Flink CEP 패턴**: 5분 내 동일 카드 다른 국가 3회 이상 거래.
+1. **[[001_dikw_pyramid|데이터]] 소스**: [[179_kafka_flink_watermark_time_window|Kafka]] 토픽 (초당 100,000 TPS 카드 거래).
+2. **Flink [[098_cep|CEP]] 패턴**: 5분 내 동일 카드 다른 국가 3회 이상 거래.
 3. **상태 저장**: RocksDB Backend로 카드별 거래 이력 유지.
-4. **워터마크**: 허용 이벤트 지연 30초 (네트워크 지연 고려).
-5. **결과**: 이상 패턴 탐지 지연 < 50ms → 즉각 차단 API 호출.
+4. **[[085_watermark|워터마크]]**: 허용 이벤트 [[015_지연_데이터_관점|지연]] 30초 ([[1002_network_delay_rtt_oneway_delay_components|네트워크 지연]] 고려).
+5. **결과**: 이상 패턴 탐지 [[015_지연_데이터_관점|지연]] < 50ms → 즉각 차단 [[014_api_posix|API]] 호출.
 
-### 안티패턴
-- Flink 상태(State) 크기를 무한히 늘리는 안티패턴. 영구 보관 불필요한 상태를 TTL(Time-to-Live) 없이 관리하면 TaskManager 메모리 고갈로 OOM(Out of Memory) 장애가 발생한다. 상태 만료(State TTL)와 RocksDB 상태 백엔드 조합이 필수다.
+### [[128_water_scrum_fall_anti_pattern|안티패턴]]
+- Flink 상태([[272_state_pattern|State]]) 크기를 무한히 늘리는 [[128_water_scrum_fall_anti_pattern|안티패턴]]. 영구 보관 불필요한 상태를 [[294_ttl_time_to_live_looping_prevention|TTL]](Time-to-Live) 없이 관리하면 TaskManager 메모리 고갈로 [[157_oom_killer|OOM]]([[157_oom_killer|Out of Memory]]) 장애가 발생한다. 상태 만료([[272_state_pattern|State]] [[294_ttl_time_to_live_looping_prevention|TTL]])와 RocksDB 상태 백엔드 조합이 필수다.
 
-- **📢 섹션 요약 비유**: Flink 상태를 무한정 쌓는 건 창고에 물건을 계속 쌓고 버리지 않는 것이다. 창고(메모리)가 꽉 차면 아무것도 처리하지 못한다. 오래된 상태(TTL)는 주기적으로 정리해야 한다.
+- **📢 섹션 요약 비유**: Flink 상태를 무한정 쌓는 건 창고에 물건을 계속 쌓고 버리지 않는 것이다. 창고(메모리)가 꽉 차면 아무것도 처리하지 못한다. 오래된 상태([[294_ttl_time_to_live_looping_prevention|TTL]])는 주기적으로 정리해야 한다.
 
 ---
 
@@ -109,12 +109,12 @@ Apache Flink는 독일 베를린 공과대학(TU Berlin) 연구에서 시작된 
 | 기대효과 | 내용 |
 |:---|:---|
 | **초저지연** | 이벤트 도착 즉시 처리, 1~10ms |
-| **정확한 집계** | 이벤트 시간 + 워터마크 기반 |
+| **정확한 집계** | 이벤트 시간 + [[085_watermark|워터마크]] 기반 |
 | **고장 내성** | Exactly-once 체크포인트 |
 
-Flink는 Apache Iceberg·Hudi·Delta Lake 등 오픈 테이블 포맷과의 Streaming Sink 통합이 강화되어 스트림→레이크하우스 실시간 적재 파이프라인의 표준으로 자리 잡고 있으며, Flink SQL의 발전으로 SQL 한 줄로 복잡한 스트림 처리를 표현하는 방향으로 진화하고 있다.
+Flink는 [[148_apache_iceberg|Apache Iceberg]]·Hudi·[[147_delta_lake|Delta Lake]] 등 오픈 테이블 포맷과의 Streaming Sink 통합이 강화되어 스트림→[[146_lakehouse|레이크하우스]] 실시간 적재 파이프라인의 표준으로 자리 잡고 있으며, Flink SQL의 발전으로 SQL 한 줄로 복잡한 [[229_stream_processing_kafka_flink|스트림 처리]]를 표현하는 방향으로 진화하고 있다.
 
-- **📢 섹션 요약 비유**: Apache Flink는 데이터 파이프라인의 심장 박동이다. 데이터가 심장(Flink)에 닿는 즉시 처리되어 온몸(시스템)으로 퍼져나가며, 심장이 멈추지 않도록 체크포인트(제세동기)가 항상 대기하고 있다.
+- **📢 섹션 요약 비유**: Apache Flink는 [[001_dikw_pyramid|데이터]] 파이프라인의 심장 박동이다. [[001_dikw_pyramid|데이터]]가 심장(Flink)에 닿는 즉시 처리되어 온몸(시스템)으로 퍼져나가며, 심장이 멈추지 않도록 체크포인트(제세동기)가 항상 대기하고 있다.
 
 ---
 
@@ -122,11 +122,11 @@ Flink는 Apache Iceberg·Hudi·Delta Lake 등 오픈 테이블 포맷과의 Stre
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **워터마크** | 이벤트 시간 기반 윈도우 닫기 기준 |
-| **RocksDB State Backend** | 대용량 상태 저장; Flink 권장 백엔드 |
+| **[[085_watermark|워터마크]]** | 이벤트 시간 기반 윈도우 닫기 기준 |
+| **RocksDB [[272_state_pattern|State]] Backend** | 대용량 상태 저장; Flink 권장 백엔드 |
 | **Exactly-once** | 중복/누락 없는 처리 보장; 체크포인트 기반 |
-| **Flink CEP** | 복합 이벤트 패턴 라이브러리 |
-| **Apache Kafka** | Flink의 주요 소스/싱크 메시지 큐 |
+| **Flink [[098_cep|CEP]]** | 복합 이벤트 패턴 [[336_library_vs_framework|라이브러리]] |
+| **[[214_kafka_pubsub_topic_partition_offset_broker|Apache Kafka]]** | Flink의 주요 소스/싱크 메시지 큐 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -148,6 +148,6 @@ Flink는 Apache Iceberg·Hudi·Delta Lake 등 오픈 테이블 포맷과의 Stre
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. Apache Flink는 음식이 들어오자마자 바로 요리하는 초고속 주방이에요 — 주문(이벤트)이 오면 1초도 안 돼 처리해요!
-2. 늦게 도착한 주문(지연 이벤트)도 일정 시간(워터마크) 기다려주고, 그다음에는 과감히 요리를 시작해요.
+1. Apache Flink는 음식이 들어오자마자 바로 요리하는 [[148_5g_embb_urllc_mmtc|초고속]] 주방이에요 — 주문(이벤트)이 오면 1초도 안 돼 처리해요!
+2. 늦게 도착한 주문([[015_지연_데이터_관점|지연]] 이벤트)도 일정 시간([[085_watermark|워터마크]]) 기다려주고, 그다음에는 과감히 요리를 시작해요.
 3. 신용카드 사기 탐지, 실시간 게임 점수 집계처럼 0.1초도 늦으면 안 되는 곳에서 Flink가 활약한답니다!

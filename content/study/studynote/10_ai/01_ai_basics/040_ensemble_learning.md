@@ -7,13 +7,13 @@ categories = "studynote-ai"
 +++
 
 > **핵심 인사이트**
-> 1. 앙상블 학습(Ensemble Learning)은 여러 약한 학습기(Weak Learner)를 결합하여 단일 강한 학습기보다 우수한 예측 성능을 달성하는 기법으로, "다수결의 지혜"를 알고리즘으로 구현한 것이다.
-> 2. Bagging(Bootstrap Aggregating)은 분산(Variance)을 줄여 과적합을 방지하고(Random Forest), Boosting은 편향(Bias)을 줄여 강한 예측기를 만들며(XGBoost), Stacking은 이질적 모델의 예측을 메타 학습기로 결합한다.
-> 3. XGBoost·LightGBM·CatBoost는 Gradient Boosting의 현대적 구현으로 Kaggle 경진대회의 70% 이상 우승 솔루션에서 사용되었으며, 표 형태(Tabular) 데이터에서는 여전히 딥러닝을 능가하는 경우가 많다.
+> 1. [[125_ensemble_learning|앙상블 학습]]([[125_ensemble_learning|Ensemble Learning]])은 여러 약한 학습기(Weak Learner)를 결합하여 단일 강한 학습기보다 우수한 예측 [[282_performance_tactics|성능]]을 달성하는 기법으로, "다수결의 지혜"를 [[001_algorithm_definition|알고리즘]]으로 구현한 것이다.
+> 2. [[259_bagging_random_forest|Bagging]](Bootstrap Aggregating)은 [[136_variance|분산]]([[136_variance|Variance]])을 줄여 과적합을 방지하고([[353_random_forest|Random Forest]]), Boosting은 편향([[094_bias|Bias]])을 줄여 강한 예측기를 만들며(XGBoost), Stacking은 이질적 모델의 예측을 메타 학습기로 결합한다.
+> 3. XGBoost·LightGBM·CatBoost는 Gradient Boosting의 현대적 구현으로 Kaggle 경진대회의 70% 이상 우승 솔루션에서 사용되었으며, 표 형태(Tabular) [[001_dikw_pyramid|데이터]]에서는 여전히 딥러닝을 능가하는 경우가 많다.
 
 ---
 
-## Ⅰ. 앙상블 학습 원리
+## Ⅰ. [[125_ensemble_learning|앙상블 학습]] 원리
 
 ```
 앙상블 학습의 핵심:
@@ -36,11 +36,11 @@ categories = "studynote-ai"
       다수결 투표 시 83.8% 정확도 달성
 ```
 
-> 📢 **섹션 요약 비유**: 앙상블 학습은 의사 여럿의 종합 소견 — 한 의사 실수는 다른 의사가 잡아주므로 단독 진단보다 정확하다.
+> 📢 **섹션 요약 비유**: [[125_ensemble_learning|앙상블 학습]]은 의사 여럿의 종합 소견 — 한 의사 실수는 다른 의사가 잡아주므로 단독 진단보다 정확하다.
 
 ---
 
-## Ⅱ. Bagging (배깅)
+## Ⅱ. [[259_bagging_random_forest|Bagging]] ([[259_bagging_random_forest|배깅]])
 
 ```
 Bagging (Bootstrap Aggregating):
@@ -68,11 +68,11 @@ Bootstrap 샘플 특성:
   나머지 36.8% = OOB(Out-of-Bag) 검증 데이터
 ```
 
-> 📢 **섹션 요약 비유**: 배깅은 여러 전문가에게 각기 다른 정보 부분집합을 보여주고 각자 판단 후 다수결 투표 — 각자 다른 측면을 보기 때문에 편향이 줄어듦.
+> 📢 **섹션 요약 비유**: [[259_bagging_random_forest|배깅]]은 여러 전문가에게 각기 다른 정보 부분집합을 보여주고 각자 판단 후 다수결 투표 — 각자 다른 측면을 보기 때문에 편향이 줄어듦.
 
 ---
 
-## Ⅲ. Boosting (부스팅)
+## Ⅲ. [[127_boosting|Boosting]] ([[127_boosting|부스팅]])
 
 ```
 Boosting (부스팅):
@@ -105,7 +105,7 @@ CatBoost:
   - 범주형 변수 자동 처리
 ```
 
-> 📢 **섹션 요약 비유**: 부스팅은 틀린 문제 집중 복습 — 이전 시험에서 틀린 문제를 다음 시험에서 더 집중해서 공부하는 맞춤형 학습.
+> 📢 **섹션 요약 비유**: [[127_boosting|부스팅]]은 틀린 문제 집중 복습 — 이전 시험에서 틀린 문제를 다음 시험에서 더 집중해서 공부하는 맞춤형 학습.
 
 ---
 
@@ -140,11 +140,11 @@ Stacking (Stacked Generalization):
   Kaggle 최종 단계에서 자주 사용
 ```
 
-> 📢 **섹션 요약 비유**: 스태킹은 전문가 패널 토론 후 진행자가 종합 판단 — 각 분야 전문가(Base 모델) 의견을 MC(메타 모델)가 최종 정리.
+> 📢 **섹션 요약 비유**: 스태킹은 전문가 패널 토론 후 [[216_progress_in_synchronization|진행]]자가 종합 판단 — 각 분야 전문가(Base 모델) 의견을 MC(메타 모델)가 최종 정리.
 
 ---
 
-## Ⅴ. 실무 시나리오 — 신용 리스크 예측
+## Ⅴ. 실무 시나리오 — 신용 [[096_risk_non_risk_architecture_evaluation_flaws|리스크]] 예측
 
 ```
 금융 신용 리스크 예측 앙상블:
@@ -176,7 +176,7 @@ Stacking (Stacked Generalization):
   Distribution Shift 감지 -> 재학습 트리거
 ```
 
-> 📢 **섹션 요약 비유**: 신용 리스크 앙상블은 여러 심사관의 종합 심사 — 한 심사관 판단보다 여럿의 합의가 대출 사고를 더 잘 예방한다.
+> 📢 **섹션 요약 비유**: 신용 [[096_risk_non_risk_architecture_evaluation_flaws|리스크]] [[257_ensemble_learning|앙상블]]은 여러 심사관의 종합 심사 — 한 심사관 판단보다 여럿의 합의가 대출 사고를 더 잘 예방한다.
 
 ---
 
@@ -234,6 +234,6 @@ AutoML에서 기본 모델로 채택
 
 ## 👶 어린이를 위한 3줄 비유 설명
 
-1. 앙상블 학습은 퀴즈쇼에서 혼자 답하는 것보다 관객 투표를 이용하는 것처럼, 여러 AI 모델의 답을 모아 더 정확한 결과를 내는 방법이에요.
-2. 배깅은 같은 문제를 여러 명에게 따로 풀게 해서 다수결하는 것이고, 부스팅은 틀린 문제만 골라서 더 집중적으로 다시 공부하는 방법이에요.
-3. XGBoost는 이 부스팅 방법을 아주 빠르고 정확하게 구현해서 요즘 데이터 분석 대회의 단골 우승 무기가 됐어요!
+1. [[125_ensemble_learning|앙상블 학습]]은 퀴즈쇼에서 혼자 답하는 것보다 관객 투표를 이용하는 것처럼, 여러 [[190_ai_llm_requirements_specification|AI]] 모델의 답을 모아 더 정확한 결과를 내는 방법이에요.
+2. [[259_bagging_random_forest|배깅]]은 같은 문제를 여러 명에게 따로 풀게 해서 다수결하는 것이고, [[127_boosting|부스팅]]은 틀린 문제만 골라서 더 집중적으로 다시 공부하는 방법이에요.
+3. XGBoost는 이 [[127_boosting|부스팅]] 방법을 아주 빠르고 정확하게 구현해서 요즘 [[001_dikw_pyramid|데이터]] 분석 대회의 단골 우승 무기가 됐어요!

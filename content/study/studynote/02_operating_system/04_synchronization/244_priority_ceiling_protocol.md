@@ -8,17 +8,17 @@ categories = "studynote-operating-system"
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: PCP (Priority Ceiling Protocol)는 각 자원(락)에 해당 자원을 사용할 수 있는 최고 우선순위 프로세스의 우선순위를 미리 부여(천장값)하여, 락 획득 시 보유 프로세스의 우선순위를 즉시 그 천장값으로 올리는 실시간 동기화 기법이다.
-> 2. **가치**: 우선순위 역전 (Priority Inversion)과 교착 상태 (Deadlock) 모두를 단일 프로토콜로 예방할 수 있으며, RTOS (Real-Time Operating System) 환경에서 마감시간 (Deadline) 보장의 핵심 메커니즘이다.
-> 3. **융합**: PIP (Priority Inheritance Protocol)가 역전 발생 후 사후 처리라면, PCP는 사전 예방으로서 POSIX (Portable Operating System Interface) 실시간 확장과 AUTOSAR OS에서 표준으로 채택된다.
+> 1. **본질**: PCP (Priority Ceiling [[295_protocol_field_tcp_udp_icmp|Protocol]])는 각 자원(락)에 해당 자원을 사용할 수 있는 최고 우선순위 프로세스의 우선순위를 미리 부여(천장값)하여, 락 획득 시 보유 프로세스의 우선순위를 즉시 그 천장값으로 올리는 실시간 [[212_synchronization_mechanisms|동기화]] 기법이다.
+> 2. **가치**: [[205_priority_inversion|우선순위 역전]] ([[205_priority_inversion|Priority Inversion]])과 [[281_deadlock_definition|교착 상태]] ([[281_deadlock_definition|Deadlock]]) 모두를 단일 프로토콜로 예방할 수 있으며, RTOS (Real-Time [[001_operating_system_purpose|Operating System]]) 환경에서 마감시간 ([[766_realtime_scheduling_deadline|Deadline]]) 보장의 핵심 메커니즘이다.
+> 3. **융합**: PIP ([[206_priority_inheritance|Priority Inheritance]] [[295_protocol_field_tcp_udp_icmp|Protocol]])가 역전 발생 후 사후 처리라면, PCP는 사전 예방으로서 POSIX (Portable [[001_operating_system_purpose|Operating System]] Interface) 실시간 확장과 AUTOSAR OS에서 표준으로 채택된다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-PCP (Priority Ceiling Protocol)는 자원 기반 우선순위 조정 기법이다. 시스템 설계 시점에 각 뮤텍스에 **천장 우선순위 (Ceiling Priority)** — 해당 뮤텍스를 사용할 수 있는 모든 태스크 중 최고 우선순위 — 를 정적으로 할당한다. 프로세스가 뮤텍스를 획득하는 순간, OS는 그 프로세스의 실행 우선순위를 뮤텍스의 천장값으로 즉시 상승시킨다. 이 승격은 뮤텍스를 반납할 때까지 유지된다.
+PCP (Priority Ceiling [[295_protocol_field_tcp_udp_icmp|Protocol]])는 자원 기반 우선순위 조정 기법이다. 시스템 설계 시점에 각 뮤텍스에 **천장 우선순위 (Ceiling Priority)** — 해당 뮤텍스를 사용할 수 있는 모든 [[150_task|태스크]] 중 최고 우선순위 — 를 정적으로 할당한다. 프로세스가 뮤텍스를 획득하는 순간, OS는 그 프로세스의 실행 우선순위를 뮤텍스의 천장값으로 즉시 상승시킨다. 이 승격은 뮤텍스를 반납할 때까지 유지된다.
 
-PIP (Priority Inheritance Protocol)가 우선순위 역전이 실제 발생한 이후에야 상속을 시작하는 '사후 처리'인 반면, PCP는 락을 잡는 순간부터 최고 가능 우선순위로 올려버리므로 어떤 상위 프로세스도 차단되지 않는다. 이는 체인 차단 (Chained Blocking) 방지와 교착 상태 예방을 동시에 해결하는 실용적 전략이다.
+PIP ([[206_priority_inheritance|Priority Inheritance]] [[295_protocol_field_tcp_udp_icmp|Protocol]])가 [[205_priority_inversion|우선순위 역전]]이 실제 발생한 이후에야 [[234_uml_class_relationships_generalization_dependency|상속]]을 시작하는 '사후 처리'인 반면, PCP는 락을 잡는 순간부터 최고 가능 우선순위로 올려버리므로 어떤 상위 프로세스도 차단되지 않는다. 이는 체인 차단 (Chained [[122_sync_async_communication|Blocking]]) 방지와 [[292_deadlock_prevention|교착 상태 예방]]을 동시에 해결하는 실용적 전략이다.
 
 **💡 비유**: 도서관 개인열람실 규칙을 상상하라. 일반 학생이 실을 예약하는 순간 '교수 수준'의 우선권을 부여하여, 더 높은 지위의 사람도 "이미 사용 중"이라면 기다리지 않고 다른 방을 즉시 쓸 수 있도록 보장한다.
 
@@ -41,7 +41,7 @@ PIP (Priority Inheritance Protocol)가 우선순위 역전이 실제 발생한 �
 └──────────────────────────────────────────────────────────┘
 ```
 
-**[다이어그램 해설]** 이 비교의 핵심은 T_M (중간 우선순위 태스크)의 개입 여부다. PIP에서는 T_L이 상속받기 전 짧은 순간에 T_M이 선점할 수 있어 체인 우선순위 역전이 여전히 발생한다. PCP는 T_L이 락을 잡는 즉시 Ceiling(3)으로 승격되므로 T_M(prio=2)은 T_L보다 낮아져 절대 선점하지 못한다. 따라서 T_H의 차단 시간은 T_L의 임계 구역 실행 시간 하나로 상한이 결정되고, 이것이 RTOS 마감 분석의 핵심 입력값이 된다.
+**[다이어그램 해설]** 이 비교의 핵심은 T_M (중간 우선순위 [[150_task|태스크]])의 개입 여부다. PIP에서는 T_L이 [[234_uml_class_relationships_generalization_dependency|상속]]받기 전 짧은 순간에 T_M이 선점할 수 있어 체인 [[205_priority_inversion|우선순위 역전]]이 여전히 발생한다. PCP는 T_L이 락을 잡는 즉시 Ceiling(3)으로 승격되므로 T_M(prio=2)은 T_L보다 낮아져 절대 선점하지 못한다. 따라서 T_H의 차단 시간은 T_L의 [[214_critical_section|임계 구역]] 실행 시간 하나로 상한이 결정되고, 이것이 RTOS 마감 분석의 핵심 입력값이 된다.
 
 **📢 섹션 요약 비유**: 마치 VIP 행사장에 입장하는 순간 모든 스태프가 VIP 배지를 달아주어, 다른 어떤 요인에도 중단 없이 무대까지 도달하게 해주는 것과 같습니다.
 
@@ -54,11 +54,11 @@ PIP (Priority Inheritance Protocol)가 우선순위 역전이 실제 발생한 �
 | 요소 | 역할 | 동작 |
 |:---|:---|:---|
 | **Ceiling Priority** | 각 뮤텍스에 부여된 최고 우선순위값 | 설계 시점에 정적 결정 |
-| **Current Priority** | 프로세스가 락 보유 중 실행되는 우선순위 | 락 획득 시 Ceiling으로 승격 |
-| **Lock Protocol Check** | 락 획득 가능 여부 판단 | 현재 시스템의 Ceiling Threshold와 비교 |
+| **[[002_current|Current]] Priority** | 프로세스가 락 보유 중 실행되는 우선순위 | 락 획득 시 Ceiling으로 승격 |
+| **[[510_lock|Lock]] [[295_protocol_field_tcp_udp_icmp|Protocol]] Check** | 락 획득 가능 여부 판단 | 현재 시스템의 Ceiling Threshold와 비교 |
 | **Release** | 락 반납 시 원래 우선순위 복원 | 중첩 락의 경우 단계별 복원 |
 
-### 동작 알고리즘 (Immediate Ceiling Priority Protocol)
+### 동작 [[001_algorithm_definition|알고리즘]] ([[174_immediate_addressing|Immediate]] Ceiling Priority [[295_protocol_field_tcp_udp_icmp|Protocol]])
 
 ```text
 ┌──────────────────────────────────────────────────────────┐
@@ -86,13 +86,13 @@ PIP (Priority Inheritance Protocol)가 우선순위 역전이 실제 발생한 �
 └──────────────────────────────────────────────────────────┘
 ```
 
-**[다이어그램 해설]** PCP의 핵심 연산은 `T.current_priority = max(T.base_priority, M.ceiling)` 한 줄로 요약된다. 이 연산이 락 획득과 동시에 수행되므로 우선순위 역전이 시작될 여지가 없다. 반납 시에는 원래 기준 우선순위 (Base Priority)로 즉시 복원되며, 중첩된 락의 경우 스택 방식으로 단계별 복원이 이뤄진다.
+**[다이어그램 해설]** PCP의 핵심 연산은 `T.current_priority = max(T.base_priority, M.ceiling)` 한 줄로 요약된다. 이 연산이 락 획득과 동시에 수행되므로 [[205_priority_inversion|우선순위 역전]]이 시작될 여지가 없다. 반납 시에는 원래 기준 우선순위 (Base Priority)로 즉시 복원되며, 중첩된 락의 경우 [[057_stack|스택]] 방식으로 단계별 복원이 이뤄진다.
 
-### PCP의 교착 상태 예방 원리
+### PCP의 [[292_deadlock_prevention|교착 상태 예방]] 원리
 
-PCP는 순환 대기 (Circular Wait)를 구조적으로 차단한다. 태스크가 이미 락을 보유한 상태에서 Ceiling 우선순위로 승격되어 있으면, 다른 태스크가 같거나 낮은 Ceiling을 가진 자원을 획득하려 할 때 현재 보유자보다 우선순위가 낮아져 차단된다. 이로 인해 두 태스크가 서로의 자원을 기다리는 순환 대기 조합이 발생하지 않는다.
+PCP는 [[286_circular_wait|순환 대기]] ([[286_circular_wait|Circular Wait]])를 구조적으로 차단한다. [[150_task|태스크]]가 이미 락을 보유한 상태에서 Ceiling 우선순위로 승격되어 있으면, 다른 [[150_task|태스크]]가 같거나 낮은 Ceiling을 가진 자원을 획득하려 할 때 현재 보유자보다 우선순위가 낮아져 차단된다. 이로 인해 두 [[150_task|태스크]]가 서로의 자원을 기다리는 [[286_circular_wait|순환 대기]] 조합이 발생하지 않는다.
 
-**📢 섹션 요약 비유**: 마치 교통 신호 체계가 교차로에서 동시에 여러 방향이 진입하지 못하도록 단계적으로 통제하여 교통 정체(교착)를 원천 방지하는 것과 같습니다.
+**📢 섹션 요약 비유**: 마치 교통 [[130_signal|신호]] 체계가 교차로에서 동시에 여러 방향이 진입하지 못하도록 단계적으로 통제하여 교통 정체(교착)를 원천 방지하는 것과 같습니다.
 
 ---
 
@@ -113,12 +113,12 @@ PCP는 순환 대기 (Circular Wait)를 구조적으로 차단한다. 태스크�
 └─────────────────┴──────────────────┴────────────────────────┘
 ```
 
-**[비교 해설]** PCP가 RTOS에서 선호되는 이유는 **최악 응답시간 (Worst-Case Response Time)**을 분석 가능하게 만들기 때문이다. 차단 상한이 임계 구역 실행 시간 하나로 결정되므로, EDF (Earliest Deadline First)나 RM (Rate-Monotonic) 스케줄링의 스케줄링 분석에 직접 대입할 수 있다. PIP는 체인 차단이 발생하면 분석이 복잡해진다.
+**[비교 해설]** PCP가 RTOS에서 선호되는 이유는 **최악 응답시간 (Worst-Case [[138_response_time|Response Time]])**을 분석 가능하게 만들기 때문이다. 차단 상한이 [[214_critical_section|임계 구역]] 실행 시간 하나로 결정되므로, [[207_deadline_scheduling|EDF]] ([[207_deadline_scheduling|Earliest Deadline First]])나 [[197_rm_rate_monotonic_scheduling|RM]] ([[206_priority_inheritance|Rate-Monotonic]]) 스케줄링의 스케줄링 분석에 직접 대입할 수 있다. PIP는 체인 차단이 발생하면 분석이 복잡해진다.
 
 ### 실무 융합 관점
 
 - **RTOS/임베디드**: AUTOSAR OS, FreeRTOS 뮤텍스 천장 옵션(`mutexCeilingPriority`)으로 구현. 차량 제어 ECU에서 마감 보장의 법적 의무 충족에 사용.
-- **리눅스 실시간 (POSIX)**: `pthread_mutexattr_setprotocol(PTHREAD_PRIO_PROTECT)`로 PCP 활성화, `pthread_mutexattr_setprioceiling()`으로 Ceiling 설정.
+- **리눅스 실시간 (POSIX)**: `pthread_mutexattr_setprotocol(PTHREAD_PRIO_PROTECT)`로 PCP 활성화, `pthread_mutexattr_setprioceiling()`으로 Ceiling [[009_config|설정]].
 
 **📢 섹션 요약 비유**: 마치 공항 보안 구역에서 최고 보안 등급 배지를 달면 모든 게이트가 즉시 열리는 것처럼, PCP는 자원 접근 순간 최고 권한을 부여해 다른 누구도 끼어들 틈을 주지 않습니다.
 
@@ -128,15 +128,15 @@ PCP는 순환 대기 (Circular Wait)를 구조적으로 차단한다. 태스크�
 
 ### 실무 시나리오
 
-1. **차량 ECU 실시간 제어**: 엔진 제어 태스크(최고 우선순위)가 센서 데이터 뮤텍스를 보유한 저우선순위 센서 태스크에 의해 차단될 경우, PCP를 통해 센서 태스크를 즉시 최고 우선순위로 승격시켜 엔진 제어 마감 10ms 이내 보장.
-2. **리얼타임 오디오 처리**: 오디오 버퍼 뮤텍스에 PCP를 적용하여 UI 태스크가 오디오 처리 태스크를 간접 차단하는 현상을 원천 방지, 끊김 없는 스트리밍 달성.
+1. **차량 ECU 실시간 제어**: 엔진 제어 [[150_task|태스크]](최고 우선순위)가 센서 [[001_dikw_pyramid|데이터]] 뮤텍스를 보유한 저우선순위 센서 [[150_task|태스크]]에 의해 차단될 경우, PCP를 통해 센서 [[150_task|태스크]]를 즉시 최고 우선순위로 승격시켜 엔진 제어 마감 10ms 이내 보장.
+2. **리얼타임 오디오 처리**: 오디오 버퍼 뮤텍스에 PCP를 적용하여 UI [[150_task|태스크]]가 오디오 처리 [[150_task|태스크]]를 간접 차단하는 현상을 원천 방지, 끊김 없는 스트리밍 달성.
 
-### 도입 체크리스트
-- **기술적**: 시스템 설계 시점에 각 뮤텍스를 사용하는 모든 태스크를 식별하고 최고 우선순위를 Ceiling으로 할당했는가?
-- **운영적**: 동적으로 생성되는 태스크나 런타임에 변경되는 우선순위가 있다면 PCP 정적 분석이 무효화되므로 사전에 확인해야 한다.
+### 도입 [[435_checklist_based_testing|체크리스트]]
+- **기술적**: 시스템 설계 시점에 각 뮤텍스를 사용하는 모든 [[150_task|태스크]]를 식별하고 최고 우선순위를 Ceiling으로 할당했는가?
+- **운영적**: 동적으로 생성되는 [[150_task|태스크]]나 런타임에 변경되는 우선순위가 있다면 PCP 정적 분석이 무효화되므로 사전에 확인해야 한다.
 
-### 안티패턴
-- **Ceiling 과소 설정**: 새로운 고우선순위 태스크가 추가되었을 때 Ceiling 재분석을 하지 않으면 PCP 예방 효과가 사라진다.
+### [[128_water_scrum_fall_anti_pattern|안티패턴]]
+- **Ceiling 과소 [[009_config|설정]]**: 새로운 고우선순위 [[150_task|태스크]]가 추가되었을 때 Ceiling 재분석을 하지 않으면 PCP 예방 효과가 사라진다.
 - **동적 우선순위 시스템에 PCP 적용**: PCP는 정적 설계를 전제하므로, 동적 우선순위가 빈번한 환경에서는 오히려 PIP가 더 적합하다.
 
 **📢 섹션 요약 비유**: Ceiling 값은 마치 건물의 비상구처럼 — 잘못 설계하면 비상 상황에서도 열리지 않아 더 큰 재앙을 초래할 수 있습니다.
@@ -149,19 +149,19 @@ PCP는 순환 대기 (Circular Wait)를 구조적으로 차단한다. 태스크�
 
 | 구분 | 도입 전 | 도입 후 | 개선 효과 |
 |:---|:---|:---|:---|
-| **차단 상한** | 비결정적 | 임계 구역 시간 × 1 | 최악 응답시간 보장 |
-| **교착 상태** | 설계 결함으로 발생 가능 | 구조적 예방 | 안전-임계 시스템 요구 충족 |
-| **RTOS 인증** | 별도 분석 복잡 | 스케줄링 분석 직접 대입 가능 | ISO 26262, DO-178C 인증 지원 |
+| **차단 상한** | 비결정적 | [[214_critical_section|임계 구역]] 시간 × 1 | 최악 응답시간 보장 |
+| **[[281_deadlock_definition|교착 상태]]** | 설계 결함으로 발생 가능 | 구조적 예방 | 안전-임계 시스템 요구 충족 |
+| **RTOS [[303_authentication_authorization_patterns|인증]]** | 별도 분석 복잡 | 스케줄링 분석 직접 대입 가능 | ISO 26262, DO-178C [[303_authentication_authorization_patterns|인증]] 지원 |
 
 ### 미래 전망
-혼합 임계성 시스템 (Mixed-Criticality System)에서 PCP는 서로 다른 안전 수준의 파티션 간 자원 공유 문제의 핵심 해결책으로 더 중요해질 전망이다.
+혼합 임계성 시스템 (Mixed-Criticality System)에서 PCP는 서로 다른 안전 수준의 [[514_partition_slice_volume|파티션]] 간 자원 공유 문제의 핵심 해결책으로 더 중요해질 전망이다.
 
 ### 참고 표준
 - **POSIX 1003.1b**: `PTHREAD_PRIO_PROTECT` 옵션
-- **AUTOSAR OS Specification**: 내부 자원(Internal Resource) 관리에 PCP 채택
-- **ISO 26262**: 차량 기능 안전 표준에서 실시간 동기화 요구
+- **AUTOSAR OS [[148_requirements_specification_formal_informal|Specification]]**: 내부 자원(Internal Resource) 관리에 PCP 채택
+- **ISO 26262**: 차량 기능 안전 표준에서 실시간 [[212_synchronization_mechanisms|동기화]] 요구
 
-**📢 섹션 요약 비유**: PCP는 마치 도시 교통 시스템의 우선신호등(긴급차량 신호 우선)처럼 — 설계 시점에 올바르게 구성하면 전체 시스템이 예측 가능하게 흐릅니다.
+**📢 섹션 요약 비유**: PCP는 마치 도시 교통 시스템의 우선신호등(긴급차량 [[130_signal|신호]] 우선)처럼 — 설계 시점에 올바르게 구성하면 전체 시스템이 예측 가능하게 흐릅니다.
 
 ---
 
@@ -169,10 +169,10 @@ PCP는 순환 대기 (Circular Wait)를 구조적으로 차단한다. 태스크�
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| 우선순위 역전 (Priority Inversion) | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
-| 우선순위 상속 (Priority Inheritance Protocol) | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
-| 고전적 동기화 문제들 | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
-| 유한 버퍼 문제 (Bounded-Buffer Problem) / 생산자-소비자 (Producer-Consumer) 문제 | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
+| [[205_priority_inversion|우선순위 역전]] ([[205_priority_inversion|Priority Inversion]]) | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
+| 우선순위 [[234_uml_class_relationships_generalization_dependency|상속]] ([[206_priority_inheritance|Priority Inheritance]] [[295_protocol_field_tcp_udp_icmp|Protocol]]) | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
+| [[245_classic_synchronization_problems|고전적 동기화 문제들]] | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
+| [[246_bounded_buffer_producer_consumer|유한 버퍼 문제]] ([[246_bounded_buffer_producer_consumer|Bounded-Buffer Problem]]) / 생산자-소비자 (Producer-Consumer) 문제 | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 

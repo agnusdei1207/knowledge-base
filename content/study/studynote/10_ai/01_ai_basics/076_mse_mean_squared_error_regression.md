@@ -8,9 +8,9 @@ categories = "studynote-ai"
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: MSE(Mean Squared Error, 평균 제곱 오차)는 예측값과 정답의 차이(residual)를 제곱한 뒤 평균한 회귀 손실 함수다.
-> 2. **가치**: 제곱을 사용하면 부호가 사라져 오차 상쇄를 막고, 큰 실수를 훨씬 더 강하게 벌점 주므로 모델이 멀리 빗나가는 것을 억제한다.
-> 3. **판단 포인트**: MSE는 미분이 매끄러워 Gradient Descent(경사하강법)에 잘 맞지만, 이상치에 매우 민감하므로 데이터 분포를 보고 MAE나 Huber Loss와 비교해야 한다.
+> 1. **본질**: MSE(Mean Squared Error, 평균 제곱 오차)는 예측값과 정답의 차이(residual)를 제곱한 뒤 평균한 회귀 [[075_loss_function_cost_function|손실 함수]]다.
+> 2. **가치**: 제곱을 사용하면 부호가 사라져 오차 상쇄를 막고, 큰 실수를 훨씬 더 강하게 벌점 주므로 모델이 멀리 빗나가는 것을 [[656_ir_containment|억제]]한다.
+> 3. **판단 포인트**: MSE는 미분이 매끄러워 [[165_gradient_descent|Gradient Descent]](경사하강법)에 잘 맞지만, [[076_outlier_detection_iqr_dbscan_isolation_forest|이상치]]에 매우 민감하므로 [[001_dikw_pyramid|데이터]] 분포를 보고 MAE나 Huber Loss와 비교해야 한다.
 
 ---
 
@@ -26,7 +26,7 @@ residual을 그냥 더하면 양수와 음수가 서로 지워진다. 그래서 
 예측 ŷ ─┘
 ```
 
-이 흐름은 간단하지만 강력하다. 모델은 MSE가 작아지도록 가중치를 조정하면서 점점 정답에 가까워진다.
+이 흐름은 간단하지만 강력하다. 모델은 MSE가 작아지도록 [[267_weight_bias_activation|가중치]]를 조정하면서 점점 정답에 가까워진다.
 
 - **📢 섹션 요약 비유**: 시험에서 틀린 문제를 그냥 더하면 +2점과 -2점이 상쇄될 수 있다. 틀린 정도를 제곱하면 큰 실수는 더 크게 드러난다.
 
@@ -47,7 +47,7 @@ MSE = (1/n) Σ (y_i - ŷ_i)^2
 | 정답 y | 실제 값 | 기준점 |
 | 예측 ŷ | 모델 출력 | 조정 대상 |
 | residual | y - ŷ | 오차 방향 |
-| square | residual² | 큰 오차에 가중 |
+| [[341_iso_iec_25010|square]] | residual² | 큰 오차에 가중 |
 | mean | 평균 | 전체 손실 |
 
 필요하면 미분도 쓸 수 있다.
@@ -66,14 +66,14 @@ MSE = (1/n) Σ (y_i - ŷ_i)^2
 
 MSE는 MAE(Mean Absolute Error), RMSE(Root Mean Squared Error), Huber Loss와 자주 비교된다.
 
-| 손실 함수 | 특징 | 장점 | 약점 |
+| [[075_loss_function_cost_function|손실 함수]] | 특징 | 장점 | 약점 |
 | :-- | :-- | :-- | :-- |
-| MSE | 오차 제곱의 평균 | 미분이 부드럽고 큰 오차에 민감 | 이상치에 취약 |
-| MAE(Mean Absolute Error) | 절대값의 평균 | 이상치에 덜 민감 | 0 근처 미분이 거칠 수 있음 |
+| MSE | 오차 제곱의 평균 | 미분이 부드럽고 큰 오차에 민감 | [[076_outlier_detection_iqr_dbscan_isolation_forest|이상치]]에 취약 |
+| MAE(Mean Absolute Error) | 절대값의 평균 | [[076_outlier_detection_iqr_dbscan_isolation_forest|이상치]]에 덜 민감 | 0 근처 미분이 거칠 수 있음 |
 | RMSE(Root Mean Squared Error) | MSE의 제곱근 | 원래 단위로 해석 쉬움 | MSE의 민감성은 그대로 |
 | Huber Loss | 작은 오차는 MSE, 큰 오차는 MAE | 절충형 | 하이퍼파라미터 필요 |
 
-MSE는 예측값과 정답의 거리만 보면 되므로 직관적이지만, 이상치가 많으면 큰 값 몇 개가 학습을 지배한다. 그럴 땐 MAE나 Huber Loss가 더 적합하다.
+MSE는 예측값과 정답의 거리만 보면 되므로 직관적이지만, [[076_outlier_detection_iqr_dbscan_isolation_forest|이상치]]가 많으면 큰 값 몇 개가 학습을 지배한다. 그럴 땐 MAE나 Huber Loss가 더 적합하다.
 
 - **📢 섹션 요약 비유**: 넘어졌을 때 무릎 스크래치와 큰 상처를 똑같이 보는 건 위험하다. MSE는 큰 상처를 훨씬 더 크게 본다.
 
@@ -81,21 +81,21 @@ MSE는 예측값과 정답의 거리만 보면 되므로 직관적이지만, 이
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-MSE를 쓸지 여부는 "큰 실수가 정말 더 위험한가"로 판단하면 된다. 예를 들어 자율주행, 전력 예측, 재고 예측처럼 큰 오차가 치명적인 경우에는 MSE가 잘 맞는다. 반대로 극단값이 섞인 임금 데이터나 사기 탐지처럼 이상치 자체가 중요할 수 있는 문제는 조심해야 한다.
+MSE를 쓸지 여부는 "큰 실수가 정말 더 위험한가"로 판단하면 된다. 예를 들어 자율주행, 전력 예측, 재고 예측처럼 큰 오차가 치명적인 경우에는 MSE가 잘 맞는다. 반대로 극단값이 섞인 임금 [[001_dikw_pyramid|데이터]]나 사기 탐지처럼 [[076_outlier_detection_iqr_dbscan_isolation_forest|이상치]] 자체가 중요할 수 있는 문제는 조심해야 한다.
 
-### 체크리스트
+### [[435_checklist_based_testing|체크리스트]]
 1. 큰 오차를 강하게 벌점 주는 것이 비즈니스 요구와 맞는가?
-2. 이상치가 학습을 왜곡하지 않는가?
+2. [[076_outlier_detection_iqr_dbscan_isolation_forest|이상치]]가 학습을 왜곡하지 않는가?
 3. 모델 학습과 평가 지표가 같은 철학을 공유하는가?
 4. 출력 단위가 제곱 단위가 되어도 해석 가능한가?
 5. 필요하면 MAE/Huber와 함께 비교했는가?
 
-### 안티패턴
+### [[128_water_scrum_fall_anti_pattern|안티패턴]]
 - MSE만 보고 실제 업무 지표를 놓침
-- 이상치를 확인하지 않고 무조건 MSE를 사용
-- 손실 함수와 평가 지표를 서로 다르게 설계
+- [[076_outlier_detection_iqr_dbscan_isolation_forest|이상치]]를 [[396_validation|확인]]하지 않고 무조건 MSE를 사용
+- [[075_loss_function_cost_function|손실 함수]]와 평가 지표를 서로 다르게 설계
 
-기술사 답안에서는 "MSE는 학습 안정성, 이상치 민감도, 해석성의 균형점"이라는 문장을 넣으면 좋다.
+기술사 답안에서는 "MSE는 학습 안정성, [[076_outlier_detection_iqr_dbscan_isolation_forest|이상치]] 민감도, 해석성의 균형점"이라는 문장을 넣으면 좋다.
 
 - **📢 섹션 요약 비유**: 과녁에서 조금 벗어난 화살보다 멀리 날아간 화살이 더 문제다. MSE는 멀리 벗어난 화살을 더 크게 혼낸다.
 
@@ -105,7 +105,7 @@ MSE를 쓸지 여부는 "큰 실수가 정말 더 위험한가"로 판단하면 
 
 MSE는 회귀 학습을 단순하고 안정적으로 만든다. 오차가 작아질수록 손실도 자연스럽게 줄어들어 학습이 잘 수렴한다. 그래서 선형 회귀와 많은 신경망 회귀 문제의 기본 손실로 자리 잡았다.
 
-하지만 MSE는 이상치에 약하고 단위가 제곱으로 변한다. 따라서 "기본값은 MSE, 예외는 데이터 분포"라고 기억하는 것이 정확하다.
+하지만 MSE는 [[076_outlier_detection_iqr_dbscan_isolation_forest|이상치]]에 약하고 단위가 제곱으로 변한다. 따라서 "기본값은 MSE, 예외는 [[001_dikw_pyramid|데이터]] 분포"라고 기억하는 것이 정확하다.
 
 - **📢 섹션 요약 비유**: 조금 삐뚤어진 나무보다 크게 휘어진 나무가 더 문제다. MSE는 휘어진 정도를 크게 보고, 그만큼 더 세게 바로잡는다.
 
@@ -117,8 +117,8 @@ MSE는 회귀 학습을 단순하고 안정적으로 만든다. 오차가 작아
 | Residual | 정답-예측 차이 |
 | MSE | 평균 제곱 오차 |
 | RMSE | MSE의 해석형 |
-| MAE | 이상치에 더 robust |
-| Gradient Descent | 손실 최소화 알고리즘 |
+| MAE | [[076_outlier_detection_iqr_dbscan_isolation_forest|이상치]]에 더 robust |
+| [[165_gradient_descent|Gradient Descent]] | 손실 최소화 [[001_algorithm_definition|알고리즘]] |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -138,7 +138,7 @@ residual 계산
 Gradient Descent로 가중치 갱신
 ```
 
-이 흐름은 "오차를 수치화하고, 그 수치를 미분해, 다시 학습으로 돌리는" 전형적인 회귀 학습 구조를 보여준다. 앞으로도 손실 함수는 문제 성격에 맞게 MSE·MAE·Huber 사이에서 선택된다.
+이 흐름은 "오차를 수치화하고, 그 수치를 미분해, 다시 학습으로 돌리는" 전형적인 회귀 학습 구조를 보여준다. 앞으로도 [[075_loss_function_cost_function|손실 함수]]는 문제 성격에 맞게 MSE·MAE·Huber 사이에서 선택된다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

@@ -7,24 +7,24 @@ tags = ["P2P", "peer to peer", "DHT", "BitTorrent", "IPFS", "distributed hash ta
 +++
 
 > **핵심 인사이트 3줄**
-> 1. P2P(Peer-to-Peer) 시스템은 중앙 서버 없이 노드(peer)들이 클라이언트와 서버 역할을 동시에 수행하는 분산 아키텍처다.
-> 2. DHT(Distributed Hash Table)는 키-값 쌍을 노드들에게 분산 저장해 O(log N) 검색을 보장하는 P2P의 핵심 자료구조다.
-> 3. BitTorrent의 조각(piece) 스와핑과 IPFS의 콘텐츠 주소 지정(CID)은 P2P 데이터 공유의 두 대표 진화 방향이다.
+> 1. [[916_p2p_peer_to_peer_networking_super_node_gnutella|P2P]]([[916_p2p_peer_to_peer_networking_super_node_gnutella|Peer-to-Peer]]) 시스템은 중앙 서버 없이 노드([[060_hyperledger_architecture_peer_orderer_msp|peer]])들이 클라이언트와 서버 역할을 동시에 수행하는 [[136_variance|분산]] 아키텍처다.
+> 2. DHT(Distributed [[067_hash_table|Hash Table]])는 키-값 쌍을 노드들에게 [[136_variance|분산]] 저장해 O(log N) 검색을 보장하는 P2P의 핵심 자료구조다.
+> 3. BitTorrent의 조각(piece) 스와핑과 IPFS의 콘텐츠 주소 지정(CID)은 [[916_p2p_peer_to_peer_networking_super_node_gnutella|P2P]] [[001_dikw_pyramid|데이터]] 공유의 두 대표 진화 방향이다.
 
 ---
 
-## Ⅰ. P2P 시스템 개요
+## Ⅰ. [[916_p2p_peer_to_peer_networking_super_node_gnutella|P2P]] 시스템 개요
 
 ### 1.1 정의와 특성
 
-| 특성          | 클라이언트-서버    | P2P                    |
+| 특성          | 클라이언트-서버    | [[916_p2p_peer_to_peer_networking_super_node_gnutella|P2P]]                    |
 |-------------|-----------------|------------------------|
 | 서버 역할     | 전담 서버 필요   | 모든 노드가 서버+클라이언트 |
 | 확장성        | 서버가 병목      | 노드 증가 = 자원 증가   |
-| 가용성        | 서버 장애 = 중단 | 단일 실패점 없음         |
+| [[452_availability|가용성]]        | 서버 장애 = 중단 | 단일 실패점 없음         |
 | 관리 복잡성   | 낮음            | 높음                    |
 
-### 1.2 P2P 유형
+### 1.2 [[916_p2p_peer_to_peer_networking_super_node_gnutella|P2P]] 유형
 
 ```
 순수 P2P (Pure P2P)
@@ -44,9 +44,9 @@ DHT 기반 구조 P2P
 
 ---
 
-## Ⅱ. DHT — 분산 해시 테이블
+## Ⅱ. DHT — [[136_variance|분산]] [[067_hash_table|해시 테이블]]
 
-### 2.1 Chord 알고리즘
+### 2.1 Chord [[001_algorithm_definition|알고리즘]]
 
 ```
 Ring 구조: 노드와 키 모두 0~2^m -1 ID 공간
@@ -74,7 +74,7 @@ Ring 구조: 노드와 키 모두 0~2^m -1 ID 공간
 
 ---
 
-## Ⅲ. BitTorrent — 콘텐츠 분산 공유
+## Ⅲ. [[917_bittorrent_choke_unchoke_p2p_incentive_algorithm|BitTorrent]] — 콘텐츠 [[136_variance|분산]] 공유
 
 ### 3.1 동작 흐름
 
@@ -93,16 +93,16 @@ Ring 구조: 노드와 키 모두 0~2^m -1 ID 공간
 
 ---
 
-## Ⅳ. IPFS — 콘텐츠 주소 지정 파일 시스템
+## Ⅳ. [[055_ipfs_interplanetary_file_system|IPFS]] — 콘텐츠 주소 지정 [[501_file_definition_logical_record|파일]] 시스템
 
 ### 4.1 핵심 아이디어
 
 기존 웹 = 위치 기반 (Location-based): `https://server/path`
-IPFS = 콘텐츠 기반 (Content-based): `/ipfs/QmHash`
+[[055_ipfs_interplanetary_file_system|IPFS]] = 콘텐츠 기반 (Content-based): `/ipfs/QmHash`
 
-콘텐츠의 해시(CID, Content Identifier)가 주소 → 위치 무관, 무결성 자동 검증.
+콘텐츠의 해시(CID, Content [[088_identifier_in_er_model|Identifier]])가 주소 → 위치 무관, [[003_integrity|무결성]] 자동 [[395_verification_process_review|검증]].
 
-### 4.2 Merkle DAG
+### 4.2 Merkle [[401_bayesian_network_dag_causality|DAG]]
 
 ```
 파일 → 청크(chunk) 분할 → SHA256 해시
@@ -115,24 +115,24 @@ IPFS = 콘텐츠 기반 (Content-based): `/ipfs/QmHash`
 
 ---
 
-## Ⅴ. P2P 보안과 과제
+## Ⅴ. [[916_p2p_peer_to_peer_networking_super_node_gnutella|P2P]] 보안과 과제
 
 ### 5.1 주요 보안 위협
 
 | 위협              | 설명                                         |
 |------------------|----------------------------------------------|
-| 시빌 공격(Sybil)  | 하나의 공격자가 다수 노드 위장                |
-| 이클립스 공격     | 피해자 노드를 악성 피어로 둘러싸 고립         |
+| [[070_sybil_attack_fake_nodes|시빌 공격]](Sybil)  | 하나의 공격자가 다수 노드 위장                |
+| [[068_eclipse_attack_p2p_isolation|이클립스 공격]]     | 피해자 노드를 악성 피어로 둘러싸 고립         |
 | 무임승차(Free-riding) | 다운로드만 하고 업로드 안 함              |
 | 콘텐츠 오염       | 잘못된 조각(piece)를 의도적으로 배포          |
 
 ### 5.2 대응
 
-- Kademlia: XOR 메트릭 기반 라우팅 → 시빌 저항
-- BitTorrent: SHA-1 해시 검증으로 오염 방지
-- 블록체인 + P2P: Filecoin은 저장 증명(PoS)으로 무임승차 방지
+- Kademlia: XOR [[342_routing_metric_hop_bandwidth_delay|메트릭]] 기반 [[339_routing_overview_best_path_selection|라우팅]] → 시빌 [[003_resistance|저항]]
+- [[917_bittorrent_choke_unchoke_p2p_incentive_algorithm|BitTorrent]]: SHA-1 해시 [[395_verification_process_review|검증]]으로 오염 방지
+- [[004_blockchain|블록체인]] + [[916_p2p_peer_to_peer_networking_super_node_gnutella|P2P]]: Filecoin은 저장 증명(PoS)으로 무임승차 방지
 
-📢 **섹션 요약 비유**: P2P 네트워크는 신분증 없는 마을 장터 — 활발하지만 사기꾼(시빌)이 많이 들어올 수 있어 조심해야 한다.
+📢 **섹션 요약 비유**: [[916_p2p_peer_to_peer_networking_super_node_gnutella|P2P]] 네트워크는 신분증 없는 마을 장터 — 활발하지만 사기꾼(시빌)이 많이 들어올 수 있어 조심해야 한다.
 
 ---
 
@@ -177,7 +177,7 @@ IPFS / Filecoin (콘텐츠 주소 지정, 2015~)
 Web3 분산 인프라 (현재)
 ```
 
-**핵심 키워드**: DHT, Chord, Kademlia, BitTorrent, IPFS, CID, 시빌 공격, 이클립스 공격
+**핵심 키워드**: DHT, Chord, Kademlia, [[917_bittorrent_choke_unchoke_p2p_incentive_algorithm|BitTorrent]], [[055_ipfs_interplanetary_file_system|IPFS]], CID, [[070_sybil_attack_fake_nodes|시빌 공격]], [[068_eclipse_attack_p2p_isolation|이클립스 공격]]
 
 ---
 

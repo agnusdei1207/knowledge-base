@@ -8,15 +8,15 @@ categories = "studynote-computer-architecture"
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: Microsoft Titan은 Azure 서버에서 펌웨어 경로를 감시하고 보호·탐지·복구를 수행하도록 설계된 하드웨어 루트 오브 트러스트 계열 아키텍처다.
-> 2. **가치**: 단순히 변조를 막는 데서 끝나지 않고, 손상된 펌웨어를 안전한 이미지로 복구하는 PFR (Platform Firmware Resiliency) 관점이 강하다는 점이 특징이다.
-> 3. **판단 포인트**: 따라서 Titan 설계 평가는 차단 성능만이 아니라 골든 이미지 관리, 롤백 방지, 운영 자동복구 정책까지 포함해 이뤄져야 한다.
+> 1. **본질**: Microsoft Titan은 Azure 서버에서 [[032_firmware|펌웨어]] 경로를 감시하고 [[571_protection_vs_security|보호]]·탐지·[[658_ir_recovery|복구]]를 수행하도록 설계된 하드웨어 [[487_root_of_trust|루트 오브 트러스트]] 계열 아키텍처다.
+> 2. **가치**: 단순히 변조를 막는 데서 끝나지 않고, 손상된 [[032_firmware|펌웨어]]를 안전한 이미지로 [[658_ir_recovery|복구]]하는 PFR (Platform [[032_firmware|Firmware]] [[571_resiliency_fault_tolerance_patterns|Resiliency]]) 관점이 강하다는 점이 특징이다.
+> 3. **판단 포인트**: 따라서 Titan 설계 평가는 차단 성능만이 아니라 골든 이미지 관리, [[098_rollback_strategy_pipeline_error_threshold|롤백]] 방지, 운영 자동복구 정책까지 포함해 이뤄져야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-클라우드 서버는 한 번 침해되면 수많은 테넌트에 영향을 줄 수 있다. 특히 펌웨어 레벨 공격은 운영체제를 재설치해도 남을 수 있어 훨씬 치명적이다. Microsoft Titan은 이런 문제에 대응하기 위해 Azure 서버에서 펌웨어 경로를 하드웨어로 통제하고, 손상이 발견되면 신뢰 가능한 상태로 되돌리는 구조를 취한다. 즉 "검증"에 더해 "복구"를 설계 중심에 둔 하드웨어 보안이라는 점이 중요하다.
+클라우드 서버는 한 번 침해되면 수많은 테넌트에 영향을 줄 수 있다. 특히 [[032_firmware|펌웨어]] 레벨 공격은 운영체제를 재설치해도 남을 수 있어 훨씬 치명적이다. Microsoft Titan은 이런 문제에 대응하기 위해 Azure 서버에서 [[032_firmware|펌웨어]] 경로를 하드웨어로 통제하고, 손상이 발견되면 신뢰 가능한 상태로 되돌리는 구조를 취한다. 즉 "[[395_verification_process_review|검증]]"에 더해 "[[658_ir_recovery|복구]]"를 설계 중심에 둔 하드웨어 보안이라는 점이 중요하다.
 
 ```text
 ┌──────────────────────────────────────────────────────────────┐
@@ -30,20 +30,20 @@ categories = "studynote-computer-architecture"
 └──────────────────────────────────────────────────────────────┘
 ```
 
-- **📢 섹션 요약 비유**: 건물 경비원이 출입만 막는 것이 아니라, 벽이 훼손되면 안전 도면대로 바로 복구하는 유지보수 팀 역할까지 함께 하는 셈이다.
+- **📢 섹션 요약 비유**: 건물 경비원이 출입만 막는 것이 아니라, 벽이 훼손되면 안전 도면대로 바로 [[658_ir_recovery|복구]]하는 유지보수 팀 역할까지 함께 하는 셈이다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-Titan 아키텍처는 SPI (Serial Peripheral Interface) 플래시 경로 감시, 암호 검증, 상태 저장, 복구 이미지 관리, 원격 증명 기능으로 구성된다. PFR 철학에 따라 보호(Protect), 탐지(Detect), 복구(Recover)를 모두 하드웨어 수준에서 수행하며, 운영체제보다 낮은 계층에서 정책을 강제한다. 이 구조 덕분에 런타임 중 비인가 쓰기 시도도 차단할 수 있고, 부팅 시점에는 서명된 이미지로만 시스템을 올릴 수 있다. 복구 기능이 있다는 점에서 단순 RoT보다 운용 현실성이 높다.
+Titan 아키텍처는 [[159_spi_schedule_performance_index|SPI]] ([[009_직렬_전송_vs_병렬_전송|Serial]] Peripheral Interface) 플래시 경로 감시, 암호 [[395_verification_process_review|검증]], 상태 저장, [[658_ir_recovery|복구]] 이미지 관리, 원격 증명 기능으로 구성된다. PFR 철학에 따라 [[571_protection_vs_security|보호]](Protect), 탐지(Detect), [[658_ir_recovery|복구]](Recover)를 모두 하드웨어 수준에서 수행하며, 운영체제보다 낮은 계층에서 정책을 강제한다. 이 구조 덕분에 런타임 중 비인가 [[289_cqrs_db|쓰기]] 시도도 차단할 수 있고, 부팅 시점에는 서명된 이미지로만 시스템을 올릴 수 있다. [[658_ir_recovery|복구]] 기능이 있다는 점에서 단순 RoT보다 운용 현실성이 높다.
 
 | 구성 요소 | 역할 | 핵심 포인트 |
 | :--- | :--- | :--- |
-| SPI Interposition | 펌웨어 경로 감시·차단 | 직접 변조를 하드웨어에서 봉쇄 |
-| Crypto Verification | 서명·해시 확인 | 안전 이미지와 비교 |
-| Recovery Store | 복구용 골든 이미지 보관 | 항상 최신 신뢰 상태 유지 필요 |
-| Attestation Module | 상태 보고 | 대규모 클라우드 관리와 연계 |
+| [[159_spi_schedule_performance_index|SPI]] Interposition | [[032_firmware|펌웨어]] 경로 감시·차단 | 직접 변조를 하드웨어에서 봉쇄 |
+| Crypto [[395_verification_process_review|Verification]] | 서명·해시 [[396_validation|확인]] | 안전 이미지와 비교 |
+| [[658_ir_recovery|Recovery]] Store | [[658_ir_recovery|복구]]용 골든 이미지 보관 | 항상 최신 신뢰 상태 유지 필요 |
+| Attestation [[192_module_independence|Module]] | 상태 보고 | 대규모 클라우드 관리와 연계 |
 
 ```text
 ┌──────────────────────────────────────────────────────────────┐
@@ -63,29 +63,29 @@ Titan 아키텍처는 SPI (Serial Peripheral Interface) 플래시 경로 감시,
 
 ## Ⅲ. 비교 및 연결
 
-Microsoft Titan은 Google Titan과 비슷하게 호스트보다 아래 계층에서 신뢰를 잡지만, PFR 강조점이 더 크다는 점에서 비교 포인트가 있다. Pluton처럼 CPU 내부 통합형 보안 프로세서와도 철학이 다르다. Pluton은 소비자 단말에서 CPU 내 키 보호를 강화하는 쪽이고, Titan은 데이터센터 서버의 펌웨어 경로와 복구 운용에 더 초점을 둔다.
+Microsoft Titan은 Google Titan과 비슷하게 호스트보다 아래 계층에서 신뢰를 잡지만, PFR 강조점이 더 크다는 점에서 비교 포인트가 있다. Pluton처럼 CPU 내부 통합형 보안 프로세서와도 철학이 다르다. Pluton은 소비자 단말에서 CPU 내 키 [[571_protection_vs_security|보호]]를 강화하는 쪽이고, Titan은 [[801_data_center_3_tier_architecture_core_aggregation_access|데이터센터]] 서버의 [[032_firmware|펌웨어]] 경로와 [[658_ir_recovery|복구]] 운용에 더 초점을 둔다.
 
 | 비교 대상 | 강점 | 차이점 |
 | :--- | :--- | :--- |
-| Microsoft Titan | 보호·탐지·복구의 전주기 제어 | Azure 서버 운영 모델 최적화 |
-| Google Titan | 부팅 이전 검증 강점 | 복구 강조는 상대적으로 덜 부각 |
-| Microsoft Pluton | CPU 내 통합 키 보호 | 서버 펌웨어 복구 역할은 다름 |
+| Microsoft Titan | [[571_protection_vs_security|보호]]·탐지·[[658_ir_recovery|복구]]의 전주기 제어 | Azure 서버 운영 모델 최적화 |
+| [[792_google_titan|Google Titan]] | 부팅 이전 [[395_verification_process_review|검증]] 강점 | [[658_ir_recovery|복구]] 강조는 상대적으로 덜 부각 |
+| Microsoft Pluton | CPU 내 통합 키 [[571_protection_vs_security|보호]] | 서버 [[032_firmware|펌웨어]] [[658_ir_recovery|복구]] 역할은 다름 |
 
-- **📢 섹션 요약 비유**: 경비실, 복구센터, 보험 창구가 한 세트로 묶인 구조라고 보면 된다. 단순 경비보다 운영 복원력이 더 강하다.
+- **📢 섹션 요약 비유**: 경비실, [[658_ir_recovery|복구]]센터, 보험 창구가 한 세트로 묶인 구조라고 보면 된다. 단순 경비보다 운영 복원력이 더 강하다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서는 골든 이미지 저장 위치, 업데이트 승인 절차, 자동 복구 임계값, 안티 롤백 정책을 함께 설계해야 한다. 기술사 답안에서는 NIST SP 800-193 계열의 PFR 철학을 연결해 쓰면 Titan의 위치가 분명해진다. 또한 개발·디버그 예외를 운영 장비에 남기면 펌웨어 필터링이 우회될 수 있으므로, 예외 경로 폐쇄를 반드시 체크해야 한다. 결국 Titan은 보안 칩이자 운영 자동복구 장치다.
+실무에서는 골든 이미지 저장 위치, 업데이트 승인 절차, 자동 [[658_ir_recovery|복구]] 임계값, 안티 [[098_rollback_strategy_pipeline_error_threshold|롤백]] 정책을 함께 설계해야 한다. 기술사 답안에서는 NIST [[166_sp|SP]] 800-193 계열의 PFR 철학을 연결해 쓰면 Titan의 위치가 분명해진다. 또한 개발·디버그 예외를 운영 장비에 남기면 [[032_firmware|펌웨어]] 필터링이 우회될 수 있으므로, 예외 경로 폐쇄를 반드시 체크해야 한다. 결국 Titan은 보안 칩이자 운영 자동복구 장치다.
 
-- **📢 섹션 요약 비유**: 소화기를 설치하고도 안전핀을 뽑아 둔 채 방치하면 화재 대응이 안 되듯, 복구 이미지를 낡게 관리하면 Titan도 제 힘을 못 쓴다.
+- **📢 섹션 요약 비유**: 소화기를 설치하고도 안전핀을 뽑아 둔 채 방치하면 화재 대응이 안 되듯, [[658_ir_recovery|복구]] 이미지를 낡게 관리하면 Titan도 제 힘을 못 쓴다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-Microsoft Titan은 대규모 클라우드에서 펌웨어 침해를 관리 가능한 장애로 바꾸는 데 의미가 있다. 침해를 100% 막는 것보다, 침해 이후에도 신뢰 상태로 빠르게 돌아오게 만드는 것이 데이터센터 운영에서는 매우 중요하기 때문이다. 앞으로는 원격 증명, 공급망 이력, 자동 패치 검증까지 결합된 폐쇄 루프 보안으로 발전할 가능성이 높다. 핵심은 Titan을 "차단 장치"보다 "회복 가능한 하드웨어 신뢰 플랫폼"으로 보는 것이다.
+Microsoft Titan은 대규모 클라우드에서 [[032_firmware|펌웨어]] 침해를 관리 가능한 장애로 바꾸는 데 의미가 있다. 침해를 100% 막는 것보다, 침해 이후에도 신뢰 상태로 빠르게 돌아오게 만드는 것이 [[801_data_center_3_tier_architecture_core_aggregation_access|데이터센터]] 운영에서는 매우 중요하기 때문이다. 앞으로는 원격 증명, [[520_supply_chain_attack_and_ci_cd_security|공급망]] 이력, 자동 패치 [[395_verification_process_review|검증]]까지 결합된 폐쇄 루프 보안으로 발전할 가능성이 높다. 핵심은 Titan을 "차단 장치"보다 "[[233_recovery_database_restoration_overview|회복]] 가능한 하드웨어 신뢰 플랫폼"으로 보는 것이다.
 
 - **📢 섹션 요약 비유**: 비 오는 날 우산만 챙기는 게 아니라, 젖었을 때 갈아입을 옷까지 준비하는 보안이라고 생각하면 된다.
 
@@ -96,8 +96,8 @@ Microsoft Titan은 대규모 클라우드에서 펌웨어 침해를 관리 가�
 | 개념 | 연결 포인트 |
 | :--- | :--- |
 | PFR | Microsoft Titan을 이해하는 핵심 운영 개념 |
-| 골든 이미지 | 복구 단계에서 기준이 되는 안전 펌웨어 사본 |
-| SPI Flash | Titan이 감시하는 대표 펌웨어 저장 경로 |
+| 골든 이미지 | [[658_ir_recovery|복구]] 단계에서 기준이 되는 안전 [[032_firmware|펌웨어]] 사본 |
+| [[159_spi_schedule_performance_index|SPI]] Flash | Titan이 감시하는 대표 [[032_firmware|펌웨어]] 저장 경로 |
 | Pluton | Microsoft의 다른 하드웨어 보안 축과의 비교 대상 |
 
 ### 📈 관련 키워드 및 발전 흐름도
@@ -115,7 +115,7 @@ Microsoft Titan은 대규모 클라우드에서 펌웨어 침해를 관리 가�
     └──▶ [Attestation / Audit]
 ```
 
-이 흐름은 Titan이 펌웨어를 보호·탐지한 뒤, 단순 차단이 아니라 복구와 감사로 이어지는 구조임을 보여준다. 즉 운영 회복력이 아키텍처의 일부다.
+이 흐름은 Titan이 [[032_firmware|펌웨어]]를 [[571_protection_vs_security|보호]]·탐지한 뒤, 단순 차단이 아니라 [[658_ir_recovery|복구]]와 감사로 이어지는 구조임을 보여준다. 즉 운영 [[233_recovery_database_restoration_overview|회복]]력이 아키텍처의 일부다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

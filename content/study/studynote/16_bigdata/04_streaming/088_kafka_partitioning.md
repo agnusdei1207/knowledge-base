@@ -8,21 +8,21 @@ categories = "studynote-bigdata"
 
 ## 핵심 인사이트 (3줄 요약)
 
-- **본질**: Apache Kafka (아파치 카프카)의 파티션(Partition)은 병렬 처리의 단위이자 순서 보장의 경계로, 파티셔닝 전략에 따라 "어느 파티션에 어떤 메시지가 들어가는지"가 결정되며 이는 소비자 그룹의 병렬성과 순서 보장에 직접 영향을 미친다.
-- **가치**: 키 기반(Key-Based) 파티셔닝은 같은 키의 메시지가 같은 파티션에 들어가 순서를 보장하고, 라운드로빈(Round-Robin)은 파티션 간 부하를 고르게 분산하며, 커스텀 파티셔너(Custom Partitioner)는 지역별·우선순위별 복잡한 라우팅을 가능하게 한다.
-- **판단 포인트**: 파티션 수 = 소비자 병렬 처리의 상한선이므로, 최대 예상 처리량을 초과 처리하는 파티션 수를 초기에 넉넉히 설계해야 한다. 파티션 수는 늘릴 수 있지만 줄일 수 없으며, 수를 늘리면 기존 키 기반 파티션 배정이 바뀌어 순서 보장이 깨질 수 있다.
+- **본질**: [[214_kafka_pubsub_topic_partition_offset_broker|Apache Kafka]] ([[214_kafka_pubsub_topic_partition_offset_broker|아파치 카프카]])의 [[514_partition_slice_volume|파티션]]([[514_partition_slice_volume|Partition]])은 [[430_index_fast_full_scan|병렬]] 처리의 단위이자 순서 보장의 경계로, [[179_table_partitioning_concept|파티셔닝]] [[268_strategy_pattern|전략]]에 따라 "어느 [[514_partition_slice_volume|파티션]]에 어떤 [[389_mesh_topology|메시]]지가 들어가는지"가 결정되며 이는 소비자 그룹의 [[430_index_fast_full_scan|병렬]]성과 순서 보장에 직접 영향을 미친다.
+- **가치**: 키 기반([[067_db_key_uniqueness_minimality|Key]]-Based) [[179_table_partitioning_concept|파티셔닝]]은 같은 키의 [[389_mesh_topology|메시]]지가 같은 [[514_partition_slice_volume|파티션]]에 들어가 순서를 보장하고, 라운드로빈(Round-Robin)은 [[514_partition_slice_volume|파티션]] 간 부하를 고르게 [[136_variance|분산]]하며, 커스텀 파티셔너(Custom Partitioner)는 지역별·우선순위별 복잡한 [[339_routing_overview_best_path_selection|라우팅]]을 가능하게 한다.
+- **판단 포인트**: [[514_partition_slice_volume|파티션]] 수 = 소비자 [[430_index_fast_full_scan|병렬]] 처리의 상한선이므로, 최대 예상 [[139_throughput|처리량]]을 초과 처리하는 [[514_partition_slice_volume|파티션]] 수를 [[459_quic_fec_forward_error_correction|초기]]에 넉넉히 설계해야 한다. [[514_partition_slice_volume|파티션]] 수는 늘릴 수 있지만 줄일 수 없으며, 수를 늘리면 기존 키 기반 [[514_partition_slice_volume|파티션]] 배정이 바뀌어 순서 보장이 깨질 수 있다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-### 1. Kafka 파티션의 역할
+### 1. [[179_kafka_flink_watermark_time_window|Kafka]] [[514_partition_slice_volume|파티션]]의 역할
 
-파티션은 Kafka 토픽(Topic)을 나누는 물리적 단위다.
+[[514_partition_slice_volume|파티션]]은 [[179_kafka_flink_watermark_time_window|Kafka]] 토픽(Topic)을 나누는 물리적 단위다.
 
-- **병렬 처리**: 파티션 수 = 동시에 처리할 수 있는 최대 Consumer 수
-- **순서 보장**: 하나의 파티션 내에서는 메시지 순서 보장 (오프셋 순)
-- **내구성**: 파티션은 여러 브로커에 복제(Replication)되어 장애 내성 확보
+- **[[430_index_fast_full_scan|병렬]] 처리**: [[514_partition_slice_volume|파티션]] 수 = 동시에 처리할 수 있는 최대 Consumer 수
+- **순서 보장**: 하나의 [[514_partition_slice_volume|파티션]] 내에서는 [[389_mesh_topology|메시]]지 순서 보장 (오프셋 순)
+- **내구성**: [[514_partition_slice_volume|파티션]]은 여러 브로커에 [[016_replication_factor|복제]]([[016_replication_factor|Replication]])되어 장애 내성 확보
 
 ```
 토픽 "orders" (파티션 수 = 3):
@@ -35,13 +35,13 @@ categories = "studynote-bigdata"
 ```
 
 **📢 섹션 요약 비유**
-> Kafka 파티션은 "슈퍼마켓 계산대"와 같다. 계산대(파티션) 수만큼 손님(소비자)이 병렬 처리 가능하다. 계산대가 3개인데 손님이 10명이면, 7명은 줄을 서야 한다.
+> [[179_kafka_flink_watermark_time_window|Kafka]] [[514_partition_slice_volume|파티션]]은 "슈퍼마켓 계산대"와 같다. 계산대([[514_partition_slice_volume|파티션]]) 수만큼 손님(소비자)이 [[430_index_fast_full_scan|병렬]] 처리 가능하다. 계산대가 3개인데 손님이 10명이면, 7명은 줄을 서야 한다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### 1. 세 가지 파티셔닝 전략
+### 1. 세 가지 [[179_table_partitioning_concept|파티셔닝]] [[268_strategy_pattern|전략]]
 
 ```
 [1. 키 기반 파티셔닝 (Key-Based)]
@@ -65,16 +65,16 @@ if (msg.priority == "HIGH") → 파티션 2
 비즈니스 로직 기반 라우팅
 ```
 
-### 2. 파티션 배정 메커니즘
+### 2. [[514_partition_slice_volume|파티션]] 배정 메커니즘
 
-| 전략 | Java API | 키 유무 | 균등 분산 | 순서 보장 |
+| [[268_strategy_pattern|전략]] | Java [[014_api_posix|API]] | 키 유무 | 균등 [[136_variance|분산]] | 순서 보장 |
 |:---|:---|:---|:---|:---|
 | 키 기반 | 기본 (키 지정 시) | 필요 | 키 편중 가능 | 동일 키 내 보장 |
 | 라운드로빈 | 기본 (키 null 시) | 불필요 | 균등 | 보장 안 됨 |
-| 스티키 파티셔너 | 기본 (Kafka 2.4+) | 불필요 | 균등 | 배치 내 보장 |
+| 스티키 파티셔너 | 기본 ([[179_kafka_flink_watermark_time_window|Kafka]] 2.4+) | 불필요 | 균등 | 배치 내 보장 |
 | 커스텀 | `Partitioner` 인터페이스 구현 | 선택 | 설계에 따라 | 설계에 따라 |
 
-### 3. 파티션 수 설계
+### 3. [[514_partition_slice_volume|파티션]] 수 설계
 
 ```
 파티션 수 설계 공식 (경험칙):
@@ -91,15 +91,15 @@ if (msg.priority == "HIGH") → 파티션 2
 ```
 
 **📢 섹션 요약 비유**
-> 파티션 수 설계는 "고속도로 차선 수 설계"와 같다. 차선이 적으면 정체, 차선이 너무 많으면 유지 비용 증가. 예상 최대 차량 수(처리량)를 기준으로 초기에 충분히 설계해야 한다.
+> [[514_partition_slice_volume|파티션]] 수 설계는 "고속도로 차선 수 설계"와 같다. 차선이 적으면 정체, 차선이 너무 많으면 유지 비용 증가. 예상 최대 차량 수([[139_throughput|처리량]])를 기준으로 [[459_quic_fec_forward_error_correction|초기]]에 충분히 설계해야 한다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-### 1. 컨슈머 그룹 리밸런싱(Consumer Group Rebalancing)
+### 1. [[191_consumer_group_kafka_partition_load_balancing|컨슈머 그룹]] 리밸런싱([[191_consumer_group_kafka_partition_load_balancing|Consumer Group]] Rebalancing)
 
-파티션 재배정이 발생하면 모든 Consumer가 일시 정지(STW: Stop-The-World)한다.
+[[514_partition_slice_volume|파티션]] 재배정이 발생하면 모든 Consumer가 일시 정지(STW: Stop-The-World)한다.
 
 ```
 리밸런싱 발생 트리거:
@@ -113,9 +113,9 @@ Incremental Cooperative Rebalancing (Kafka 2.4+):
   - "Cooperative" 알고리즘으로 처리 중단 최소화
 ```
 
-### 2. 스티키 파티셔너 (Sticky Partitioner, Kafka 2.4+)
+### 2. 스티키 파티셔너 (Sticky Partitioner, [[179_kafka_flink_watermark_time_window|Kafka]] 2.4+)
 
-키 없는 메시지를 배치(Batch) 단위로 같은 파티션에 몰아서 처리 → I/O 효율 향상.
+키 없는 [[389_mesh_topology|메시]]지를 배치(Batch) 단위로 같은 [[514_partition_slice_volume|파티션]]에 몰아서 처리 → I/O 효율 향상.
 
 ```
 기존 라운드로빈: msg1→P0, msg2→P1, msg3→P2, msg4→P0 (배치 효율 낮음)
@@ -130,19 +130,19 @@ Incremental Cooperative Rebalancing (Kafka 2.4+):
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### 1. 파티셔닝 전략 선택 가이드
+### 1. [[179_table_partitioning_concept|파티셔닝]] [[268_strategy_pattern|전략]] 선택 가이드
 
-| 요구사항 | 권장 전략 |
+| 요구사항 | 권장 [[268_strategy_pattern|전략]] |
 |:---|:---|
 | 주문별 처리 순서 보장 | 키 기반 (order_id) |
 | 사용자별 이벤트 순서 보장 | 키 기반 (user_id) |
-| 단순 처리량 극대화 | 라운드로빈 (키 null) |
-| 지역/우선순위별 라우팅 | 커스텀 파티셔너 |
-| 키 스큐(Hot Partition) 해결 | 복합 키 또는 솔팅 |
+| 단순 [[139_throughput|처리량]] 극대화 | 라운드로빈 (키 null) |
+| 지역/우선순위별 [[339_routing_overview_best_path_selection|라우팅]] | 커스텀 파티셔너 |
+| 키 스큐(Hot [[514_partition_slice_volume|Partition]]) 해결 | 복합 키 또는 솔팅 |
 
-### 2. 핫 파티션(Hot Partition) 문제 해결
+### 2. 핫 [[514_partition_slice_volume|파티션]](Hot [[514_partition_slice_volume|Partition]]) 문제 해결
 
-특정 키에 메시지가 집중되면 해당 파티션이 병목이 된다.
+특정 키에 [[389_mesh_topology|메시]]지가 집중되면 해당 [[514_partition_slice_volume|파티션]]이 병목이 된다.
 
 ```python
 # 솔팅으로 핫 파티션 방지
@@ -151,16 +151,16 @@ composite_key = f"user_001_{salt}"   # 10개 파티션에 분산
 # → 나중에 집계 시 user_001_* 패턴으로 합산
 ```
 
-### 3. 체크리스트
+### 3. [[435_checklist_based_testing|체크리스트]]
 
-- [ ] 최대 처리량 기반 파티션 수 초기 설계 (부족하면 나중에 늘려야 함)
-- [ ] 파티션 수 변경 시 키 기반 라우팅 재검토
-- [ ] `group.instance.id` 설정으로 Incremental Cooperative Rebalancing 활성화
-- [ ] 핫 파티션 모니터링: 파티션별 오프셋 격차 확인
-- [ ] Retention 정책: 보관 기간 × 처리량 = 스토리지 계획
+- [ ] 최대 [[139_throughput|처리량]] 기반 [[514_partition_slice_volume|파티션]] 수 [[459_quic_fec_forward_error_correction|초기]] 설계 (부족하면 나중에 늘려야 함)
+- [ ] [[514_partition_slice_volume|파티션]] 수 변경 시 키 기반 [[339_routing_overview_best_path_selection|라우팅]] 재검토
+- [ ] `group.instance.id` [[009_config|설정]]으로 Incremental Cooperative Rebalancing 활성화
+- [ ] 핫 [[514_partition_slice_volume|파티션]] [[229_monitor|모니터]]링: [[514_partition_slice_volume|파티션]]별 오프셋 격차 [[396_validation|확인]]
+- [ ] [[515_mvcc|Retention]] [[164_policy|정책]]: 보관 기간 × [[139_throughput|처리량]] = 스토리지 계획
 
 **📢 섹션 요약 비유**
-> 파티셔닝 전략 설계는 "물류 센터 창고 구획 설계"와 같다. 상품 종류별(키 기반)로 구역을 나눠 순서를 관리하거나, 용량 균등(라운드로빈)으로 배치하거나, 중요 상품 우선(커스텀)으로 전용 구역을 만들 수 있다.
+> [[179_table_partitioning_concept|파티셔닝]] [[268_strategy_pattern|전략]] 설계는 "물류 센터 창고 구획 설계"와 같다. 상품 종류별(키 기반)로 구역을 나눠 순서를 관리하거나, 용량 균등(라운드로빈)으로 배치하거나, 중요 상품 우선(커스텀)으로 전용 구역을 만들 수 있다.
 
 ---
 
@@ -170,28 +170,28 @@ composite_key = f"user_001_{salt}"   # 10개 파티션에 분산
 
 | 효과 | 설명 |
 |:---|:---|
-| 병렬 처리 확장 | 파티션 수만큼 소비자 병렬화 가능 |
-| 순서 보장 | 키 기반으로 도메인 내 이벤트 순서 보장 |
-| 처리량 선형 확장 | 파티션 추가 = 처리량 비례 증가 |
+| [[430_index_fast_full_scan|병렬]] 처리 확장 | [[514_partition_slice_volume|파티션]] 수만큼 소비자 [[430_index_fast_full_scan|병렬]]화 가능 |
+| 순서 보장 | 키 기반으로 [[064_relation_domain|도메인]] 내 이벤트 순서 보장 |
+| [[139_throughput|처리량]] 선형 확장 | [[514_partition_slice_volume|파티션]] 추가 = [[139_throughput|처리량]] 비례 증가 |
 
 ### 2. 결론
 
-Kafka 파티셔닝 전략은 **처리량, 순서 보장, 부하 균등의 세 축을 균형 있게 설계**하는 핵심 의사결정이다. 기술사 답안에서는 세 가지 전략의 차이, 파티션 수 설계 기준, 리밸런싱의 영향, 그리고 핫 파티션 방지 방법을 함께 서술하면 완성도 높은 답안이 된다.
+[[179_kafka_flink_watermark_time_window|Kafka]] [[179_table_partitioning_concept|파티셔닝]] [[268_strategy_pattern|전략]]은 **[[139_throughput|처리량]], 순서 보장, 부하 균등의 세 축을 균형 있게 설계**하는 핵심 의사결정이다. 기술사 답안에서는 세 가지 [[268_strategy_pattern|전략]]의 차이, [[514_partition_slice_volume|파티션]] 수 설계 기준, 리밸런싱의 영향, 그리고 핫 [[514_partition_slice_volume|파티션]] 방지 방법을 함께 서술하면 완성도 높은 답안이 된다.
 
 **📢 섹션 요약 비유**
-> Kafka 파티셔닝은 "우체국 편지 분류 시스템"이다. 지역별 분류(키 기반)는 순서를 지키고, 무작위 분류(라운드로빈)는 처리량을 극대화하며, VIP 우선 처리(커스텀)는 비즈니스 규칙을 반영한다.
+> [[179_kafka_flink_watermark_time_window|Kafka]] [[179_table_partitioning_concept|파티셔닝]]은 "우체국 편지 [[104_classification_analysis|분류]] 시스템"이다. 지역별 [[104_classification_analysis|분류]](키 기반)는 순서를 지키고, 무작위 [[104_classification_analysis|분류]](라운드로빈)는 [[139_throughput|처리량]]을 극대화하며, VIP 우선 처리(커스텀)는 비즈니스 규칙을 반영한다.
 
 ---
 
 ### 📌 관련 개념 맵
 
-| 개념 | 관계 | 설명 |
+| 개념 | [[083_relationship_in_er_model|관계]] | 설명 |
 |:---|:---|:---|
-| Consumer Group | 파티션의 소비 단위 | 파티션 수 = 최대 병렬 Consumer 수 |
-| 리밸런싱 | 파티션 재배정 | Consumer 변동 시 발생하는 재할당 |
-| Consumer Lag | 모니터링 지표 | 파티션별 처리 지연 측정 |
-| Kafka Streams | 스트리밍 응용 | 파티셔닝 전략이 상태 파티션에 영향 |
-| MirrorMaker 2 | 복제 도구 | 클러스터 간 파티션 토폴로지 복제 |
+| [[191_consumer_group_kafka_partition_load_balancing|Consumer Group]] | [[514_partition_slice_volume|파티션]]의 소비 단위 | [[514_partition_slice_volume|파티션]] 수 = 최대 [[430_index_fast_full_scan|병렬]] Consumer 수 |
+| 리밸런싱 | [[514_partition_slice_volume|파티션]] 재배정 | Consumer 변동 시 발생하는 재할당 |
+| [[089_consumer_lag|Consumer Lag]] | [[229_monitor|모니터]]링 지표 | [[514_partition_slice_volume|파티션]]별 [[019_처리_지연|처리 지연]] 측정 |
+| [[179_kafka_flink_watermark_time_window|Kafka]] Streams | 스트리밍 응용 | [[179_table_partitioning_concept|파티셔닝]] [[268_strategy_pattern|전략]]이 상태 [[514_partition_slice_volume|파티션]]에 영향 |
+| MirrorMaker 2 | [[016_replication_factor|복제]] 도구 | 클러스터 간 [[514_partition_slice_volume|파티션]] 토폴로지 [[016_replication_factor|복제]] |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -211,8 +211,8 @@ Kafka 파티셔닝 전략은 **처리량, 순서 보장, 부하 균등의 세 �
 [파티션 재조정 (Rebalancing) — 컨슈머 그룹 변경 시 파티션 재분배]
 ```
 
-이 흐름은 카프카 토픽이 병렬 처리를 위해 파티션으로 분할되고, 파티션 키로 순서가 보장되며, 복제와 재조정을 통해 고가용성 스트리밍 아키텍처가 완성되는 과정을 보여준다.
+이 흐름은 [[179_kafka_flink_watermark_time_window|카프카]] 토픽이 [[430_index_fast_full_scan|병렬]] 처리를 위해 [[514_partition_slice_volume|파티션]]으로 분할되고, [[514_partition_slice_volume|파티션]] 키로 순서가 보장되며, [[016_replication_factor|복제]]와 재조정을 통해 고가용성 스트리밍 아키텍처가 완성되는 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-Kafka 파티션은 마트 계산대예요. 고객들을 어느 계산대로 보내느냐가 파티셔닝 전략이에요. "이름 순서로 줄 세우기(키 기반)"는 같은 이름 고객이 항상 같은 줄에 서서 순서가 지켜지고, "그냥 빈 줄로 보내기(라운드로빈)"는 모든 계산대가 바쁘게 돌아가요. 계산대 수(파티션 수)를 처음부터 충분히 만들어야 나중에 손님이 늘어도 줄이 막히지 않아요!
+[[179_kafka_flink_watermark_time_window|Kafka]] [[514_partition_slice_volume|파티션]]은 마트 계산대예요. 고객들을 어느 계산대로 보내느냐가 [[179_table_partitioning_concept|파티셔닝]] [[268_strategy_pattern|전략]]이에요. "이름 순서로 줄 세우기(키 기반)"는 같은 이름 고객이 항상 같은 줄에 서서 순서가 지켜지고, "그냥 빈 줄로 보내기(라운드로빈)"는 모든 계산대가 바쁘게 돌아가요. 계산대 수([[514_partition_slice_volume|파티션]] 수)를 처음부터 충분히 만들어야 나중에 손님이 늘어도 줄이 막히지 않아요!

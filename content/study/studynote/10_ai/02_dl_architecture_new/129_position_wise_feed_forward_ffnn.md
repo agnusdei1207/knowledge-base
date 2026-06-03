@@ -7,9 +7,9 @@ categories = "studynote-ai"
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: Position-wise FFN은 Transformer 블록에서 Self-Attention 후 **각 위치에 독립적으로 적용되는 2층 MLP(Linear→ReLU→Linear)**이며, 비선형 변환과 표현력 확장을 담당한다.
-> 2. **가치**: Self-Attention만으로는 **선형 변환의 합**에 불과하므로, FFN의 비선형 활성화(ReLU/GELU)가 있어야 복잡한 패턴을 학습할 수 있다.
-> 3. **판단 포인트**: FFN의 내부 차원(d_ff)은 보통 d_model×4이며, 최신 LLM에서는 **SwiGLU 활성화**로 성능을 개선한다.
+> 1. **본질**: Position-wise FFN은 [[246_transformer_self_attention_parallel_positional_encoding|Transformer]] 블록에서 [[124_self_attention|Self-Attention]] 후 **각 위치에 독립적으로 적용되는 2층 MLP(Linear→[[269_relu_activation|ReLU]]→Linear)**이며, 비선형 변환과 표현력 확장을 담당한다.
+> 2. **가치**: Self-Attention만으로는 **선형 변환의 합**에 불과하므로, FFN의 비선형 활성화([[269_relu_activation|ReLU]]/GELU)가 있어야 복잡한 패턴을 학습할 수 있다.
+> 3. **판단 포인트**: FFN의 내부 차원(d_ff)은 보통 d_model×4이며, 최신 LLM에서는 **SwiGLU 활성화**로 [[282_performance_tactics|성능]]을 개선한다.
 
 ---
 
@@ -29,11 +29,11 @@ d_model=512, d_ff=2048 (4배 확장 후 축소)
 | 요소 | 역할 |
 |:---|:---|
 | **W₁ (d→4d)** | 차원 확장 |
-| **ReLU/GELU** | 비선형 활성화 |
-| **W₂ (4d→d)** | 차원 축소 |
+| **[[269_relu_activation|ReLU]]/GELU** | 비선형 활성화 |
+| **W₂ (4d→d)** | [[081_dimensionality_reduction_pca_principal_component_analysis|차원 축소]] |
 
 ### SwiGLU (최신)
-- Llama·PaLM에서 사용. ReLU보다 성능↑.
+- Llama·PaLM에서 사용. ReLU보다 [[282_performance_tactics|성능]]↑.
 
 ---
 
@@ -48,14 +48,14 @@ d_model=512, d_ff=2048 (4배 확장 후 축소)
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-- Transformer 파라미터의 ~66%가 FFN에 집중.
+- [[246_transformer_self_attention_parallel_positional_encoding|Transformer]] 파라미터의 ~66%가 FFN에 집중.
 - MoE(Mixture of Experts)는 FFN을 전문가로 분리하여 효율화.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-FFN은 **Transformer의 비선형 표현력을 담당하는 핵심 구성 요소**이며, SwiGLU·MoE로 효율화·성능 개선이 진행되고 있다.
+FFN은 **Transformer의 비선형 표현력을 담당하는 핵심 구성 요소**이며, SwiGLU·MoE로 효율화·[[282_performance_tactics|성능]] 개선이 [[216_progress_in_synchronization|진행]]되고 있다.
 
 ---
 
@@ -64,7 +64,7 @@ FFN은 **Transformer의 비선형 표현력을 담당하는 핵심 구성 요소
 | 개념 | 연결 포인트 |
 |:---|:---|
 | **FFN** | 2층 MLP (비선형 변환) |
-| **ReLU/GELU** | 활성화 함수 |
+| **[[269_relu_activation|ReLU]]/GELU** | [[129_activation_function|활성화 함수]] |
 | **SwiGLU** | 최신 활성화 (Llama) |
 | **MoE** | FFN을 전문가로 분리 |
 | **d_ff** | FFN 내부 차원 (d_model×4) |

@@ -7,9 +7,9 @@ categories = "studynote-enterprise-systems"
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: C-Commerce는 **공급망 파트너(공급자·제조자·유통자)가 정보 시스템을 통해 실시간으로 정보·프로세스를 공유하고 협업**하여 공동의 비즈니스 가치를 창출하는 전자상거래 모델이다.
-> 2. **가치**: B2B·B2C가 거래 중심이라면, C-Commerce는 **설계 협업·수요 예측 공유·재고 가시화** 등 거래 이전·이후의 프로세스까지 포함하여 공급망 전체를 최적화한다.
-> 3. **판단 포인트**: CPFR(공동 수요예측·보충)·VMI(공급자 관리 재고)가 대표적 C-Commerce 구현이며, SCM·PLM과 연계하여 파트너 간 데이터 사일로를 해소한다.
+> 1. **본질**: C-Commerce는 **[[520_supply_chain_attack_and_ci_cd_security|공급망]] 파트너(공급자·제조자·유통자)가 정보 시스템을 통해 실시간으로 정보·프로세스를 공유하고 협업**하여 공동의 비즈니스 가치를 창출하는 전자상거래 모델이다.
+> 2. **가치**: B2B·B2C가 거래 중심이라면, C-Commerce는 **설계 협업·수요 예측 공유·재고 가시화** 등 거래 이전·이후의 프로세스까지 포함하여 [[520_supply_chain_attack_and_ci_cd_security|공급망]] 전체를 최적화한다.
+> 3. **판단 포인트**: CPFR(공동 수요예측·보충)·[[099_vmi_vendor_managed_inventory|VMI]](공급자 관리 재고)가 대표적 C-Commerce 구현이며, [[167_scm_software_configuration_management|SCM]]·PLM과 연계하여 파트너 간 [[001_dikw_pyramid|데이터]] [[002_silo_hyeonhyung|사일로]]를 해소한다.
 
 ---
 
@@ -39,9 +39,9 @@ categories = "studynote-enterprise-systems"
 | 구현 | 설명 |
 |:---|:---|
 | **CPFR** | 수요예측·보충 계획 공동 수립 |
-| **VMI** | 공급자가 고객 재고를 직접 관리 |
-| **공동 설계** | 파트너와 CAD/PLM 공유 |
-| **가시화** | 공급망 전체 재고·주문 실시간 공유 |
+| **[[099_vmi_vendor_managed_inventory|VMI]]** | 공급자가 고객 재고를 직접 관리 |
+| **공동 설계** | 파트너와 CAD/[[122_plm_product_lifecycle_management|PLM]] 공유 |
+| **가시화** | [[520_supply_chain_attack_and_ci_cd_security|공급망]] 전체 재고·주문 실시간 공유 |
 
 - **📢 섹션 요약 비유**: CPFR은 식당과 식재료 공급업체가 **함께 다음 주 메뉴와 재료 양을 계획**하는 것이다.
 
@@ -51,24 +51,24 @@ categories = "studynote-enterprise-systems"
 
 | 비교 | B2B | C-Commerce |
 |:---|:---|:---|
-| **관계** | 거래 중심 | **협업 중심** |
+| **[[083_relationship_in_er_model|관계]]** | 거래 중심 | **협업 중심** |
 | **정보** | 주문·송장 | **수요예측·설계·재고** |
-| **가치** | 구매 효율 | **공급망 최적화** |
+| **가치** | 구매 효율 | **[[520_supply_chain_attack_and_ci_cd_security|공급망]] 최적화** |
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 ### 적용 사례
-- 자동차: OEM↔부품사 공동 설계 (PLM 공유).
+- 자동차: OEM↔부품사 공동 설계 ([[122_plm_product_lifecycle_management|PLM]] 공유).
 - 유통: 월마트↔P&G CPFR.
-- 반도체: 파운드리↔팹리스 설계 협업.
+- [[009_semiconductor|반도체]]: 파운드리↔팹리스 설계 협업.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-C-Commerce는 **공급망 파트너 간 데이터 사일로를 해소**하여, 수요 예측 정확도↑·재고 비용↓·출시 기간↓을 실현하는 협업 상거래 모델이다.
+C-Commerce는 **[[520_supply_chain_attack_and_ci_cd_security|공급망]] 파트너 간 [[001_dikw_pyramid|데이터]] [[002_silo_hyeonhyung|사일로]]를 해소**하여, 수요 예측 정확도↑·재고 비용↓·출시 기간↓을 실현하는 협업 상거래 모델이다.
 
 ---
 
@@ -77,9 +77,9 @@ C-Commerce는 **공급망 파트너 간 데이터 사일로를 해소**하여, �
 | 개념 | 연결 포인트 |
 |:---|:---|
 | **CPFR** | 공동 수요예측·보충 |
-| **VMI** | 공급자 관리 재고 |
-| **SCM** | C-Commerce의 인프라 |
-| **PLM** | 공동 설계의 플랫폼 |
+| **[[099_vmi_vendor_managed_inventory|VMI]]** | 공급자 관리 재고 |
+| **[[167_scm_software_configuration_management|SCM]]** | C-Commerce의 인프라 |
+| **[[122_plm_product_lifecycle_management|PLM]]** | 공동 설계의 플랫폼 |
 | **B2B** | C-Commerce의 하위 개념 |
 
 ### 📈 관련 키워드 및 발전 흐름도

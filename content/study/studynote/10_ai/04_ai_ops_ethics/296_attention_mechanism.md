@@ -8,17 +8,17 @@ categories = "studynote-ai"
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 어텐션 메커니즘 (Attention Mechanism)은 디코더가 출력 단어를 생성할 때 인코더의 **모든 시점 은닉 상태**를 동적으로 가중 평균하여 현재 출력에 가장 관련 있는 입력 부분에 "주의(Attention)"를 집중하는 기법이다.
-> 2. **가치**: Seq2Seq의 고정 문맥 벡터 병목을 해소하여 긴 문장 번역 정확도를 비약적으로 향상시켰으며, 이후 Transformer의 셀프 어텐션(Self-Attention)으로 발전해 현대 대규모 언어 모델(LLM)의 핵심 구조가 되었다.
-> 3. **판단 포인트**: 어텐션의 핵심 연산은 쿼리(Query)와 키(Key)의 유사도로 가중치(소프트맥스 통과)를 계산하고, 이 가중치로 밸류(Value)를 가중 합산하는 것이다. 각 쿼리에 대한 문맥이 **동적(Dynamic)**으로 달라진다.
+> 1. **본질**: 어텐션 메커니즘 (Attention Mechanism)은 [[039_decoder|디코더]]가 출력 단어를 [[087_process_state_transition|생성]]할 때 [[040_encoder|인코더]]의 **모든 시점 은닉 상태**를 동적으로 가중 평균하여 현재 출력에 가장 관련 있는 입력 부분에 "주의(Attention)"를 집중하는 기법이다.
+> 2. **가치**: Seq2Seq의 고정 문맥 벡터 병목을 해소하여 긴 문장 번역 정확도를 비약적으로 향상시켰으며, 이후 Transformer의 셀프 어텐션([[124_self_attention|Self-Attention]])으로 발전해 현대 [[582_llm_based_code_generation_tools|대규모 언어 모델]]([[263_llm_large_language_model|LLM]])의 핵심 구조가 되었다.
+> 3. **판단 포인트**: 어텐션의 핵심 연산은 [[298_qkv_attention|쿼리]](Query)와 키([[067_db_key_uniqueness_minimality|Key]])의 유사도로 [[267_weight_bias_activation|가중치]]([[270_softmax|소프트맥스]] 통과)를 계산하고, 이 [[267_weight_bias_activation|가중치]]로 밸류(Value)를 가중 합산하는 것이다. 각 [[298_qkv_attention|쿼리]]에 대한 문맥이 **동적(Dynamic)**으로 달라진다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-기계 번역에서 "The cat sat on the mat"을 번역할 때, "고양이"를 생성하는 시점에서는 "The cat"에 집중해야 하고, "매트"를 생성할 때는 "mat"에 집중해야 한다. 기존 Seq2Seq는 입력 전체를 하나의 문맥 벡터에 담아 모든 출력 생성에 동일하게 제공했기 때문에, 긴 문장에서 "어떤 입력 단어에 주목해야 하는가"를 포착할 수 없었다.
+기계 번역에서 "The cat [[103_chaining|sat]] on the mat"을 번역할 때, "고양이"를 [[087_process_state_transition|생성]]하는 시점에서는 "The cat"에 집중해야 하고, "매트"를 [[087_process_state_transition|생성]]할 때는 "mat"에 집중해야 한다. 기존 Seq2Seq는 입력 전체를 하나의 문맥 벡터에 담아 모든 출력 [[087_process_state_transition|생성]]에 동일하게 제공했기 때문에, 긴 문장에서 "어떤 입력 단어에 주목해야 하는가"를 포착할 수 없었다.
 
-2015년 바다나우(Bahdanau) 등이 제안한 어텐션 메커니즘은 디코더의 각 시점에서 **인코더의 모든 시점 은닉 상태를 다시 참조**하여, 현재 출력과 가장 관련 있는 입력에 높은 가중치를 부여하는 **동적 문맥 벡터**를 생성한다.
+2015년 바다나우(Bahdanau) 등이 제안한 어텐션 메커니즘은 [[039_decoder|디코더]]의 각 시점에서 **[[040_encoder|인코더]]의 모든 시점 은닉 상태를 다시 [[316_reference_pattern_nosql|참조]]**하여, 현재 출력과 가장 관련 있는 입력에 높은 [[267_weight_bias_activation|가중치]]를 부여하는 **동적 문맥 벡터**를 [[087_process_state_transition|생성]]한다.
 
 ```text
 ┌──────────────────────────────────────────────┐
@@ -64,42 +64,42 @@ categories = "studynote-ai"
 
 | 어텐션 종류 | 점수 함수 | 특징 |
 |:---|:---|:---|
-| 가산 어텐션 (Additive, Bahdanau) | vᵀ·tanh(W_s·s + W_h·h) | 학습 가능 가중치, 높은 표현력 |
-| 내적 어텐션 (Dot-Product, Luong) | sᵀ·h | 계산 간단, 속도 빠름 |
-| 스케일드 내적 (Scaled Dot-Product) | (Q·Kᵀ)/√d_k | Transformer 표준, 차원에 따른 스케일링 |
+| 가산 어텐션 (Additive, Bahdanau) | vᵀ·[[070_hyperbolic_tangent_tanh_activation|tanh]](W_s·s + W_h·h) | 학습 가능 [[267_weight_bias_activation|가중치]], 높은 표현력 |
+| 내적 어텐션 ([[519_dot_dns_over_tls|Dot]]-Product, Luong) | sᵀ·h | 계산 간단, 속도 빠름 |
+| 스케일드 내적 (Scaled [[519_dot_dns_over_tls|Dot]]-Product) | (Q·Kᵀ)/√d_k | [[246_transformer_self_attention_parallel_positional_encoding|Transformer]] 표준, 차원에 따른 [[249_scaling_normalization_standardization|스케일링]] |
 
-- **📢 섹션 요약 비유**: 어텐션 가중치(α)는 카메라 자동 초점(Auto-Focus) 시스템이다. 사진의 어떤 피사체를 촬영하느냐에 따라 초점을 맞추는 대상이 달라진다(동적 가중치). "고양이"를 찍을 때는 고양이에 초점(α=0.9), 배경은 흐리게(α=0.05). "매트"를 찍을 때는 매트에 초점(α=0.85). 시점마다 초점이 달라지는 것이 어텐션의 핵심이다.
+- **📢 섹션 요약 비유**: 어텐션 [[267_weight_bias_activation|가중치]](α)는 카메라 자동 초점(Auto-Focus) 시스템이다. 사진의 어떤 피사체를 촬영하느냐에 따라 초점을 맞추는 대상이 달라진다(동적 [[267_weight_bias_activation|가중치]]). "고양이"를 찍을 때는 고양이에 초점(α=0.9), 배경은 흐리게(α=0.05). "매트"를 찍을 때는 매트에 초점(α=0.85). 시점마다 초점이 달라지는 것이 어텐션의 핵심이다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-| 항목 | Seq2Seq (어텐션 없음) | Seq2Seq + 어텐션 | Transformer (Self-Attention) |
+| 항목 | [[245_seq2seq_context_vector_attention_dynamic_weight|Seq2Seq]] (어텐션 없음) | [[245_seq2seq_context_vector_attention_dynamic_weight|Seq2Seq]] + 어텐션 | [[246_transformer_self_attention_parallel_positional_encoding|Transformer]] ([[124_self_attention|Self-Attention]]) |
 |:---|:---|:---|:---|
 | 문맥 벡터 | 고정 단일 벡터 | 동적 가중 합산 벡터 | 모든 위치 간 직접 어텐션 |
 | 장거리 의존성 | 취약 | 향상 | 완벽 |
-| 입력 참조 방식 | 마지막 은닉 상태만 | 모든 인코더 상태 참조 | 입력 내부도 서로 참조(Self) |
+| 입력 [[316_reference_pattern_nosql|참조]] 방식 | 마지막 은닉 상태만 | 모든 [[040_encoder|인코더]] 상태 [[316_reference_pattern_nosql|참조]] | 입력 내부도 서로 [[316_reference_pattern_nosql|참조]](Self) |
 | 계산 복잡도 | O(T) | O(T²) | O(T²) |
 
-- **📢 섹션 요약 비유**: Seq2Seq는 연설 요약본만 보는 청중, Seq2Seq+어텐션은 연설 원고 전체를 들고 필요할 때마다 찾아보는 청중, Transformer는 연설 중 모든 참석자가 서로의 발언을 동시에 듣고 토론하는 원탁회의다. 정보 접근 방식이 단계적으로 민주화된다.
+- **📢 섹션 요약 비유**: Seq2Seq는 연설 요약본만 보는 청중, [[245_seq2seq_context_vector_attention_dynamic_weight|Seq2Seq]]+어텐션은 연설 원고 전체를 들고 필요할 때마다 찾아보는 청중, Transformer는 연설 중 모든 참석자가 서로의 발언을 동시에 듣고 토론하는 원탁회의다. 정보 접근 방식이 단계적으로 민주화된다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-**어텐션 시각화**: 훈련된 번역 모델의 어텐션 가중치 행렬을 히트맵으로 시각화하면, 번역 시 어떤 소스 단어가 어떤 타겟 단어에 대응되는지 직관적으로 확인할 수 있다. 이는 모델 디버깅과 설명 가능성(XAI, eXplainable AI)에 핵심적으로 활용된다.
+**어텐션 [[003_bigdata_7v|시각화]]**: 훈련된 번역 모델의 어텐션 [[267_weight_bias_activation|가중치]] 행렬을 히트맵으로 [[003_bigdata_7v|시각화]]하면, 번역 시 어떤 소스 단어가 어떤 타겟 단어에 대응되는지 직관적으로 [[396_validation|확인]]할 수 있다. 이는 모델 디버깅과 설명 가능성([[227_xai_explainable_ai_lime_shap|XAI]], [[255_xai_lime_shap_explainable_contribution|eXplainable AI]])에 핵심적으로 활용된다.
 
 **계산 복잡도 주의**: 어텐션은 입력 길이 T에 대해 O(T²) 복잡도를 가지므로, 매우 긴 시퀀스(문서 수천 토큰)에서는 선형 어텐션(Linear Attention), 스파스 어텐션(Sparse Attention) 등 효율적 변형이 필요하다.
 
-- **📢 섹션 요약 비유**: 어텐션 시각화는 학생 답안지 위에 형광펜으로 "이 답은 교과서 어느 줄을 참고했는가"를 표시하는 것이다. 선생님(개발자)이 어떤 근거로 어떤 답(출력)을 생성했는지 추적하여 AI의 학습 과정을 투명하게 만든다.
+- **📢 섹션 요약 비유**: 어텐션 [[003_bigdata_7v|시각화]]는 학생 답안지 위에 형광펜으로 "이 답은 교과서 어느 줄을 참고했는가"를 표시하는 것이다. 선생님(개발자)이 어떤 근거로 어떤 답(출력)을 [[087_process_state_transition|생성]]했는지 추적하여 AI의 학습 과정을 투명하게 만든다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-어텐션 메커니즘은 딥러닝 역사에서 가장 영향력 있는 발명 중 하나다. Seq2Seq의 고정 병목을 해소하는 데서 출발해, Transformer의 셀프 어텐션으로 발전하며 BERT·GPT·T5·ChatGPT·Claude 등 현대 AI의 기반 아키텍처를 탄생시켰다. "Attention is All You Need"라는 2017년 논문 제목처럼, 어텐션 하나로 RNN이 필요 없는 새로운 신경망 시대를 열었다.
+어텐션 메커니즘은 딥러닝 역사에서 가장 영향력 있는 발명 중 하나다. Seq2Seq의 고정 병목을 해소하는 데서 출발해, Transformer의 셀프 어텐션으로 발전하며 [[301_bert_mlm|BERT]]·[[302_gpt_autoregressive|GPT]]·T5·ChatGPT·Claude 등 현대 AI의 기반 아키텍처를 탄생시켰다. "Attention is All You Need"라는 2017년 논문 제목처럼, 어텐션 하나로 RNN이 필요 없는 새로운 신경망 시대를 열었다.
 
-- **📢 섹션 요약 비유**: 어텐션 메커니즘은 AI에게 "눈(Eye)"을 달아준 혁명이다. 이전까지 AI는 데이터를 귀로만 들으며 요약 메모에만 의존했다면, 어텐션 덕분에 필요할 때마다 고개를 돌려 원하는 곳을 직접 응시하는 시각 능력을 가지게 됐다. 이 눈이 Transformer, GPT, BERT를 거쳐 오늘날 AI 혁명의 핵심 기관으로 자리잡았다.
+- **📢 섹션 요약 비유**: 어텐션 메커니즘은 AI에게 "눈(Eye)"을 달아준 혁명이다. 이전까지 AI는 [[001_dikw_pyramid|데이터]]를 귀로만 들으며 요약 메모에만 의존했다면, 어텐션 덕분에 필요할 때마다 고개를 돌려 원하는 곳을 직접 응시하는 시각 능력을 가지게 됐다. 이 눈이 [[246_transformer_self_attention_parallel_positional_encoding|Transformer]], [[302_gpt_autoregressive|GPT]], BERT를 거쳐 오늘날 [[190_ai_llm_requirements_specification|AI]] 혁명의 핵심 기관으로 자리잡았다.
 
 ---
 
@@ -107,11 +107,11 @@ categories = "studynote-ai"
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| 쿼리/키/밸류 (Q/K/V) | 내적, 소프트맥스 / 어텐션 연산의 3요소 |
-| 소프트맥스 (Softmax) | 정규화, 확률 분포 / 어텐션 가중치 계산 |
-| Seq2Seq | 인코더-디코더, 문맥 벡터 / 어텐션이 해결한 원래 문제의 구조 |
-| Transformer | 셀프 어텐션, 멀티헤드 / 어텐션 메커니즘의 완전한 진화형 |
-| XAI (설명 가능 AI) | 어텐션 시각화 / 어텐션 가중치로 모델 판단 근거 추적 |
+| [[298_qkv_attention|쿼리]]/키/밸류 (Q/K/V) | 내적, [[270_softmax|소프트맥스]] / 어텐션 연산의 3요소 |
+| [[270_softmax|소프트맥스]] ([[270_softmax|Softmax]]) | [[093_normalization|정규화]], [[130_probability|확률]] 분포 / 어텐션 [[267_weight_bias_activation|가중치]] 계산 |
+| [[245_seq2seq_context_vector_attention_dynamic_weight|Seq2Seq]] | [[040_encoder|인코더]]-[[039_decoder|디코더]], 문맥 벡터 / 어텐션이 해결한 원래 문제의 구조 |
+| [[246_transformer_self_attention_parallel_positional_encoding|Transformer]] | 셀프 어텐션, 멀티헤드 / 어텐션 메커니즘의 완전한 진화형 |
+| [[227_xai_explainable_ai_lime_shap|XAI]] (설명 가능 [[190_ai_llm_requirements_specification|AI]]) | 어텐션 [[003_bigdata_7v|시각화]] / 어텐션 [[267_weight_bias_activation|가중치]]로 모델 판단 근거 추적 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -123,4 +123,4 @@ categories = "studynote-ai"
 
 1. 번역할 때 "고양이"라는 단어를 만들 때는 영어 입력에서 **"cat"에만 집중**하고, "매트"를 만들 때는 **"mat"에만 집중**하는 게 어텐션이에요!
 2. 도서관 책장에서 "이 질문엔 3번 책이 제일 중요해, 7번 책도 조금 봐야 해" 하고 **매번 새로 골라보는** 똑똑한 탐색 방법이에요.
-3. 이 아이디어 덕분에 **Transformer, GPT, ChatGPT** 같은 엄청난 AI들이 탄생할 수 있었어요!
+3. 이 아이디어 덕분에 **[[246_transformer_self_attention_parallel_positional_encoding|Transformer]], [[302_gpt_autoregressive|GPT]], ChatGPT** 같은 엄청난 AI들이 탄생할 수 있었어요!

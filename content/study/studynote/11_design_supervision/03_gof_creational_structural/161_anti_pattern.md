@@ -8,8 +8,8 @@ categories = "studynote-design-supervision"
 
 ## 핵심 인사이트
 
-> 1. **본질**: 안티 패턴 (Anti-Pattern)은 문제를 해결하는 것처럼 보이지만 시간이 지날수록 결합도와 복잡도를 키워 시스템을 더 어렵게 만드는 반복적 실패 구조다.
-> 2. **가치**: 안티 패턴에 이름을 붙이면 팀이 문제를 빠르게 공유하고, 리팩토링 우선순위를 감정이 아니라 구조적 근거로 설명할 수 있다.
+> 1. **본질**: 안티 패턴 (Anti-Pattern)은 문제를 해결하는 것처럼 보이지만 시간이 지날수록 [[195_coupling_levels|결합도]]와 복잡도를 키워 시스템을 더 어렵게 만드는 반복적 실패 구조다.
+> 2. **가치**: 안티 패턴에 이름을 붙이면 팀이 문제를 빠르게 공유하고, [[213_refactoring_cloud_native_rearchitecture|리팩토링]] 우선순위를 감정이 아니라 구조적 근거로 설명할 수 있다.
 > 3. **판단 포인트**: 안티 패턴은 단순한 보기 나쁜 코드가 아니라 변경 비용, 테스트 난이도, 장애 전파 범위를 키우는 설계 리스크이므로 조기 식별과 확산 차단이 중요하다.
 
 ---
@@ -53,8 +53,8 @@ categories = "studynote-design-supervision"
 
 | 안티 패턴 | 핵심 증상 | 깨지는 원칙 | 대표 개선 방향 |
 | :--- | :--- | :--- | :--- |
-| 스파게티 코드 (Spaghetti Code) | 흐름이 꼬여 읽기 어렵다 | 구조화, 단일 책임 | 함수 분리, 제어 흐름 단순화 |
-| 갓 클래스 (God Class) | 한 클래스에 책임이 과도하게 몰린다 | SRP (Single Responsibility Principle, 단일 책임 원칙) | Extract Class 리팩토링 |
+| 스파게티 코드 (Spaghetti [[082_process_memory_structure|Code]]) | 흐름이 꼬여 읽기 어렵다 | 구조화, 단일 책임 | 함수 분리, 제어 흐름 단순화 |
+| 갓 클래스 (God Class) | 한 클래스에 책임이 과도하게 몰린다 | [[243_srp_single_responsibility_principle|SRP]] ([[243_srp_single_responsibility_principle|Single Responsibility Principle]], [[355_process|단일 책임 원칙]]) | Extract Class [[213_refactoring_cloud_native_rearchitecture|리팩토링]] |
 | 황금 망치 (Golden Hammer) | 모든 문제에 같은 기술을 쓴다 | 적합성 판단 | 요구사항 재분석, 대안 비교 |
 | 복사-붙여넣기 프로그래밍 | 중복 코드가 넓게 퍼진다 | DRY (Don't Repeat Yourself) | 공통화, 템플릿화 |
 | 용암류 (Lava Flow) | 아무도 건드리지 못하는 코드가 쌓인다 | 지식 공유, 단순성 | 테스트 추가 후 단계적 정리 |
@@ -67,39 +67,39 @@ categories = "studynote-design-supervision"
 
 ## Ⅲ. 비교 및 연결
 
-안티 패턴은 디자인 패턴 (Design Pattern)이나 코드 스멜 (Code Smell)과 자주 함께 언급되지만 의미는 다르다. 디자인 패턴은 재사용 가능한 좋은 해결책이고, 코드 스멜은 구조적 문제가 있을 가능성을 알리는 경고 신호다. 안티 패턴은 그보다 한 단계 더 나아가, 반복적으로 실패를 만드는 **잘못된 해결 방식 자체**를 가리킨다.
+안티 패턴은 [[251_design_patterns_gof_overview|디자인 패턴]] (Design Pattern)이나 [[370_code_smell|코드 스멜]] ([[365_5_solid_code_smell|Code Smell]])과 자주 함께 언급되지만 의미는 다르다. [[251_design_patterns_gof_overview|디자인 패턴]]은 재사용 가능한 좋은 해결책이고, [[370_code_smell|코드 스멜]]은 구조적 문제가 있을 가능성을 알리는 경고 신호다. 안티 패턴은 그보다 한 단계 더 나아가, 반복적으로 실패를 만드는 **잘못된 해결 방식 자체**를 가리킨다.
 
-| 구분 | 디자인 패턴 | 코드 스멜 | 안티 패턴 |
+| 구분 | [[251_design_patterns_gof_overview|디자인 패턴]] | [[370_code_smell|코드 스멜]] | 안티 패턴 |
 | :--- | :--- | :--- | :--- |
 | 의미 | 검증된 좋은 설계 해법 | 이상 징후 또는 냄새 | 반복되는 나쁜 해결 방식 |
 | 발견 시점 | 설계 단계에서 의도적으로 채택 | 구현·리뷰 중 징후 포착 | 운영·유지보수 중 피해가 커짐 |
 | 대응 | 적절히 적용 | 원인 분석 필요 | 확산 차단과 구조 개선 필요 |
-| 예시 | 어댑터, 퍼사드, 브리지 | 긴 메서드, 중복 코드 | 갓 클래스, 황금 망치 |
+| 예시 | [[259_adapter_pattern_interface_wrapper|어댑터]], [[263_facade_pattern_simplified_interface|퍼사드]], [[260_bridge_pattern_abstraction_implementation|브리지]] | 긴 메서드, 중복 코드 | 갓 클래스, 황금 망치 |
 
-이 주제는 뒤이어 나오는 갓 클래스, 싱글톤 패턴의 단점, 구조 패턴 비교와도 연결된다. 예를 들어 싱글톤 (Singleton) 자체는 패턴이지만, 전역 상태 남용과 테스트 어려움이 커지면 안티 패턴처럼 작동할 수 있다. 즉 패턴과 안티 패턴의 경계는 이름이 아니라 **적용 맥락**이 결정한다.
+이 주제는 뒤이어 나오는 갓 클래스, [[253_singleton_pattern_single_instance|싱글톤]] 패턴의 단점, [[258_structural_patterns_overview|구조 패턴]] 비교와도 연결된다. 예를 들어 [[253_singleton_pattern_single_instance|싱글톤]] ([[253_singleton_pattern_single_instance|Singleton]]) 자체는 패턴이지만, 전역 상태 남용과 테스트 어려움이 커지면 안티 패턴처럼 작동할 수 있다. 즉 패턴과 안티 패턴의 경계는 이름이 아니라 **적용 맥락**이 결정한다.
 
-또한 안티 패턴은 설계 원칙의 반대편에서 이해하면 더 분명해진다. 개방-폐쇄 원칙 (OCP, Open-Closed Principle)을 무시하면 변경 때마다 기존 코드를 크게 흔들게 되고, 의존 역전 원칙 (DIP, Dependency Inversion Principle)을 무시하면 구현체에 강하게 묶인다. 결국 안티 패턴은 원칙 붕괴가 장기간 누적된 결과라고 볼 수 있다.
+또한 안티 패턴은 설계 원칙의 반대편에서 이해하면 더 분명해진다. [[356_process|개방-폐쇄 원칙]] ([[746_ocp|OCP]], [[244_ocp_open_closed_principle|Open-Closed Principle]])을 무시하면 변경 때마다 기존 코드를 크게 흔들게 되고, [[359_process|의존 역전 원칙]] ([[247_dip_dependency_inversion_principle|DIP]], [[247_dip_dependency_inversion_principle|Dependency Inversion Principle]])을 무시하면 구현체에 강하게 묶인다. 결국 안티 패턴은 원칙 붕괴가 장기간 누적된 결과라고 볼 수 있다.
 
-- **📢 섹션 요약 비유**: 디자인 패턴이 잘 만든 공구 설명서라면, 코드 스멜은 공구가 삐걱거리는 소리이고, 안티 패턴은 이미 그 공구를 잘못 쓰는 습관이 굳어져 매번 작업을 망치는 상태에 가깝다.
+- **📢 섹션 요약 비유**: [[251_design_patterns_gof_overview|디자인 패턴]]이 잘 만든 공구 설명서라면, [[370_code_smell|코드 스멜]]은 공구가 삐걱거리는 소리이고, 안티 패턴은 이미 그 공구를 잘못 쓰는 습관이 굳어져 매번 작업을 망치는 상태에 가깝다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서 중요한 것은 안티 패턴을 "발견"하는 것과 "방치하지 않는 것"이다. 발견 단계에서는 정적 분석, 코드 리뷰, 변경 이력, 장애 빈도를 함께 본다. 순환 복잡도 (Cyclomatic Complexity), 중복률, 객체 간 결합도, 테스트 작성 난이도, 특정 파일에만 수정이 몰리는 현상은 모두 신호가 된다.
+실무에서 중요한 것은 안티 패턴을 "발견"하는 것과 "방치하지 않는 것"이다. 발견 단계에서는 [[331_static_analysis|정적 분석]], [[330_code_review|코드 리뷰]], 변경 이력, 장애 빈도를 함께 본다. 순환 복잡도 (Cyclomatic Complexity), 중복률, 객체 간 [[195_coupling_levels|결합도]], 테스트 작성 난이도, 특정 파일에만 수정이 몰리는 현상은 모두 신호가 된다.
 
 개선 단계에서는 무조건 대수술부터 하면 실패하기 쉽다. 먼저 변경이 잦고 장애 영향이 큰 구간을 우선순위로 잡고, 그다음 테스트를 보강한 뒤 작은 단위로 분리해야 한다. 특히 안티 패턴 제거는 코드 정리 작업이 아니라 **변경 비용을 낮추는 투자**라는 관점이 중요하다.
 
-### 실무 체크리스트
+### 실무 [[435_checklist_based_testing|체크리스트]]
 
 1. 특정 클래스나 모듈에 수정이 과도하게 집중되는가?
 2. 기능 하나 바꿀 때 관련 파일이 너무 많이 흔들리는가?
-3. 테스트 작성보다 목 객체 구성과 준비 코드가 더 복잡한가?
+3. 테스트 작성보다 [[399_mock_object|목 객체]] 구성과 준비 코드가 더 복잡한가?
 4. 팀이 "이 코드는 건드리면 큰일 난다"고 말하는 구역이 존재하는가?
 
-### 대표 안티패턴 대응 원칙
+### 대표 [[128_water_scrum_fall_anti_pattern|안티패턴]] 대응 원칙
 
-- 원인 없이 증상만 고치는 리팩토링 금지
+- 원인 없이 증상만 고치는 [[213_refactoring_cloud_native_rearchitecture|리팩토링]] 금지
 - 공통화 전 테스트 보강 우선
 - 한 번에 전면 교체보다 경계부터 분리
 - 패턴 이름보다 요구사항 적합성 먼저 검토
@@ -110,9 +110,9 @@ categories = "studynote-design-supervision"
 
 ## Ⅴ. 기대효과 및 결론
 
-안티 패턴을 조기에 식별하고 줄이면 유지보수성이 높아지고, 신규 기능 추가 시간이 짧아지며, 온보딩 비용도 낮아진다. 무엇보다 장애가 났을 때 원인 추적 범위가 줄어든다. 잘 분리된 구조는 변경 지점을 국소화해 팀의 병렬 개발도 쉽게 만든다.
+안티 패턴을 조기에 식별하고 줄이면 유지보수성이 높아지고, 신규 기능 추가 시간이 짧아지며, 온보딩 비용도 낮아진다. 무엇보다 장애가 났을 때 원인 추적 범위가 줄어든다. 잘 분리된 구조는 변경 지점을 국소화해 팀의 [[430_index_fast_full_scan|병렬]] 개발도 쉽게 만든다.
 
-물론 모든 안티 패턴을 즉시 제거해야 하는 것은 아니다. 변경 가능성이 낮고 리스크가 작다면 우선순위를 뒤로 미룰 수 있다. 그러나 변경 빈도가 높고 장애 전파 범위가 넓은 구역은 미루는 비용이 계속 커지므로, 설계 부채 청산 대상으로 관리해야 한다.
+물론 모든 안티 패턴을 즉시 제거해야 하는 것은 아니다. 변경 가능성이 낮고 리스크가 작다면 우선순위를 뒤로 미룰 수 있다. 그러나 변경 빈도가 높고 장애 전파 범위가 넓은 구역은 미루는 비용이 계속 커지므로, [[140_design_debt|설계 부채]] 청산 대상으로 관리해야 한다.
 
 결국 안티 패턴은 "나쁜 코드"라는 도덕적 평가보다 "미래 비용을 키우는 반복 구조"로 기억하는 편이 정확하다. 이름을 붙이고, 경계를 파악하고, 작은 단위로 줄여 나가는 것이 실무적 해법이다.
 
@@ -124,12 +124,12 @@ categories = "studynote-design-supervision"
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| 디자인 패턴 (Design Pattern) | 좋은 해결책을 문서화한 대응 개념 |
+| [[251_design_patterns_gof_overview|디자인 패턴]] (Design Pattern) | 좋은 해결책을 문서화한 대응 개념 |
 | 갓 클래스 (God Class) | 책임 집중이 심한 대표 안티 패턴 |
-| 싱글톤 단점 (Singleton Drawbacks) | 패턴이 맥락에 따라 안티 패턴처럼 작동하는 사례 |
-| 설계 부채 (Design Debt) | 안티 패턴이 장기적으로 남기는 비용 |
-| 리팩토링 (Refactoring) | 안티 패턴을 구조적으로 줄이는 핵심 수단 |
-| SRP / DRY / OCP | 안티 패턴 판단의 기준이 되는 설계 원칙 |
+| [[253_singleton_pattern_single_instance|싱글톤]] 단점 ([[253_singleton_pattern_single_instance|Singleton]] Drawbacks) | 패턴이 맥락에 따라 안티 패턴처럼 작동하는 사례 |
+| [[140_design_debt|설계 부채]] ([[140_design_debt|Design Debt]]) | 안티 패턴이 장기적으로 남기는 비용 |
+| [[213_refactoring_cloud_native_rearchitecture|리팩토링]] ([[078_refactoring_code_smells|Refactoring]]) | 안티 패턴을 구조적으로 줄이는 핵심 수단 |
+| [[243_srp_single_responsibility_principle|SRP]] / DRY / [[746_ocp|OCP]] | 안티 패턴 판단의 기준이 되는 설계 원칙 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 

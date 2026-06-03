@@ -7,9 +7,9 @@ categories = "studynote-algorithm-stats"
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: AVL 트리는 모든 노드에서 왼쪽·오른쪽 서브트리 높이 차이(Balance Factor)가 최대 1인 자가 균형(Self-balancing) BST(Binary Search Tree)다. Adelson-Velsky & Landis(1962)가 발명했다.
-> 2. **가치**: BST의 최악 O(N) 검색을 방지한다. 삽입·삭제 후 불균형이 생기면 회전(Rotation)으로 즉시 균형을 복구하여 항상 O(log N) 검색·삽입·삭제를 보장한다.
-> 3. **판단 포인트**: AVL vs Red-Black Tree — AVL은 더 엄격한 균형(BF = -1·0·1)으로 검색이 약간 빠르고, Red-Black은 균형이 덜 엄격하지만 삽입·삭제가 빠르다. STL map/set(C++)은 Red-Black, Java TreeMap도 Red-Black을 사용한다.
+> 1. **본질**: AVL 트리는 모든 노드에서 왼쪽·오른쪽 서브트리 높이 차이(Balance Factor)가 최대 1인 자가 균형(Self-balancing) BST([[031_binary_search_algorithm|Binary Search]] Tree)다. Adelson-Velsky & Landis(1962)가 발명했다.
+> 2. **가치**: BST의 최악 O(N) 검색을 방지한다. 삽입·삭제 후 불균형이 생기면 회전(Rotation)으로 즉시 균형을 [[658_ir_recovery|복구]]하여 항상 O(log N) 검색·삽입·삭제를 보장한다.
+> 3. **판단 포인트**: AVL vs [[204_red_black_tree_cfs|Red-Black Tree]] — AVL은 더 엄격한 균형(BF = -1·0·1)으로 검색이 약간 빠르고, Red-Black은 균형이 덜 엄격하지만 삽입·삭제가 빠르다. STL map/set(C++)은 Red-Black, Java TreeMap도 Red-Black을 사용한다.
 
 ---
 
@@ -58,7 +58,7 @@ BF ≤ -2 또는 BF ≥ 2 → 불균형 → 회전 필요
   RL 불균형: 우회전 후 좌회전 (이중 회전)
 ```
 
-### 높이와 성능
+### 높이와 [[282_performance_tactics|성능]]
 
 ```text
 N개 노드 AVL 트리:
@@ -79,14 +79,14 @@ N개 노드 AVL 트리:
 
 ## Ⅲ. 비교 및 연결
 
-| 비교 | AVL | Red-Black | B-Tree |
+| 비교 | AVL | Red-Black | [[064_b_tree|B-Tree]] |
 |:---|:---|:---|:---|
 | 균형 엄격도 | 엄격 (BF±1) | 유연 (2배 높이차 허용) | N차 분기 |
 | 검색 | 약간 빠름 | 약간 느림 | 디스크 최적화 |
 | 삽입/삭제 | 약간 느림 | 약간 빠름 | I/O 최소화 |
 | 활용 | 읽기 집중 | STL/JVM | DB·파일시스템 |
 
-- **📢 섹션 요약 비유**: AVL·RB·B-Tree는 세 가지 정리정돈 스타일이다. AVL(완벽한 좌우 균형), RB(대충 균형하지만 빠른 수정), B-Tree(한 칸에 여러 책, 디스크 효율)로 각각 다른 강점이 있다.
+- **📢 섹션 요약 비유**: AVL·RB·B-Tree는 세 가지 정리정돈 스타일이다. AVL(완벽한 좌우 균형), RB(대충 균형하지만 빠른 수정), [[064_b_tree|B-Tree]](한 칸에 여러 책, 디스크 효율)로 각각 다른 강점이 있다.
 
 ---
 
@@ -141,12 +141,12 @@ def insert(root, key):
 | 기대효과 | 내용 |
 |:---|:---|
 | **O(log N) 보장** | BST 퇴화 문제 해결 |
-| **예측 가능성** | 최악 성능 1.44 log N으로 제한 |
+| **예측 가능성** | 최악 [[282_performance_tactics|성능]] 1.44 log N으로 제한 |
 | **정렬 순서** | 중위 순회로 정렬된 출력 |
 
-현대 데이터베이스 인덱스는 디스크 I/O를 최소화하는 B+Tree를 사용하지만, 인메모리 데이터 구조(Redis Sorted Set, Java TreeMap)는 Red-Black Tree를 활용한다. AVL 트리의 개념이 이 모든 균형 BST의 이론적 기반이다.
+현대 [[002_database_definition|데이터베이스]] [[154_database_index_b_tree_search_optimization|인덱스]]는 디스크 I/O를 최소화하는 B+Tree를 사용하지만, 인메모리 [[001_dikw_pyramid|데이터]] 구조([[542_redis|Redis]] Sorted Set, Java TreeMap)는 Red-Black Tree를 활용한다. AVL 트리의 개념이 이 모든 균형 BST의 이론적 기반이다.
 
-- **📢 섹션 요약 비유**: AVL의 이론이 실전에 적용된 것이 Redis Sorted Set이다. 게임 랭킹·실시간 리더보드에서 O(log N) 검색·삽입으로 수백만 사용자 순위를 빠르게 관리한다.
+- **📢 섹션 요약 비유**: AVL의 이론이 실전에 적용된 것이 [[542_redis|Redis]] Sorted Set이다. 게임 랭킹·실시간 리더보드에서 O(log N) 검색·삽입으로 수백만 사용자 순위를 빠르게 관리한다.
 
 ---
 
@@ -155,9 +155,9 @@ def insert(root, key):
 | 개념 | 연결 포인트 |
 |:---|:---|
 | **BST** | AVL의 기반 자료 구조 |
-| **Red-Black Tree** | AVL의 대안 균형 BST |
-| **B-Tree / B+Tree** | 디스크 기반 DB 인덱스 |
-| **회전 (Rotation)** | AVL/RB 균형 복구 연산 |
+| **[[204_red_black_tree_cfs|Red-Black Tree]]** | AVL의 대안 균형 BST |
+| **[[064_b_tree|B-Tree]] / B+Tree** | 디스크 기반 DB [[154_database_index_b_tree_search_optimization|인덱스]] |
+| **회전 (Rotation)** | AVL/RB 균형 [[658_ir_recovery|복구]] 연산 |
 | **Balance Factor** | AVL 균형 판단 기준 |
 
 ### 📈 관련 키워드 및 발전 흐름도
@@ -182,4 +182,4 @@ def insert(root, key):
 
 1. AVL 트리는 자동 균형 책장이에요 — 한쪽으로 기울면 자동으로 회전해서 균형을 맞춰요!
 2. 덕분에 아무리 많은 책이 있어도 항상 O(log N)으로 빠르게 찾을 수 있어요!
-3. Java의 TreeMap과 Redis 정렬 세트가 이 개념을 활용해 빠른 순위 검색을 제공해요!
+3. Java의 TreeMap과 [[542_redis|Redis]] 정렬 세트가 이 개념을 활용해 빠른 순위 검색을 제공해요!

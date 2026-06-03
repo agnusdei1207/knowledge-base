@@ -8,17 +8,17 @@ categories = "studynote-enterprise"
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: TDE (Transparent Data Encryption, 투명한 데이터 암호화)는 DB 엔진이 자동으로 디스크에 저장되는 데이터를 암호화하는 방식이고, 애플리케이션 레벨 암호화 (Application-Level Encryption)는 애플리케이션이 DB에 저장하기 전 데이터를 직접 암호화하는 방식으로, 두 방식은 위협 모델과 보호 범위가 다르다.
-> 2. **가치**: TDE는 물리 스토리지 탈취 위협을 방어하지만 DB 접근 권한을 가진 내부자나 DB 세션 탈취에는 무력하며, 애플리케이션 암호화는 DB 관리자 (DBA)조차도 평문 데이터에 접근할 수 없는 강한 보호를 제공한다.
-> 3. **판단 포인트**: GDPR, 개인정보보호법 준수 시 민감 데이터(주민번호, 카드번호 등)는 TDE와 애플리케이션 레벨 암호화를 계층적으로 적용하는 심층 방어 (Defense in Depth) 전략이 필요하다.
+> 1. **본질**: [[403_tde_transparent_data_encryption|TDE]] ([[403_tde_transparent_data_encryption|Transparent Data Encryption]], 투명한 [[001_dikw_pyramid|데이터]] 암호화)는 DB 엔진이 자동으로 디스크에 저장되는 [[001_dikw_pyramid|데이터]]를 암호화하는 방식이고, 애플리케이션 레벨 암호화 (Application-Level Encryption)는 애플리케이션이 DB에 저장하기 전 [[001_dikw_pyramid|데이터]]를 직접 암호화하는 방식으로, 두 방식은 위협 모델과 [[571_protection_vs_security|보호]] 범위가 다르다.
+> 2. **가치**: TDE는 물리 스토리지 탈취 위협을 방어하지만 DB 접근 권한을 가진 내부자나 DB [[160_session_controlling_terminal|세션]] 탈취에는 무력하며, 애플리케이션 암호화는 DB 관리자 ([[025_dba_database_administrator|DBA]])조차도 평문 [[001_dikw_pyramid|데이터]]에 접근할 수 없는 강한 [[571_protection_vs_security|보호]]를 제공한다.
+> 3. **판단 포인트**: [[791_gdpr_eu|GDPR]], [[783_pipa_korea|개인정보보호법]] 준수 시 민감 [[001_dikw_pyramid|데이터]](주민번호, 카드번호 등)는 TDE와 애플리케이션 레벨 암호화를 계층적으로 적용하는 심층 방어 ([[012_defense_in_depth|Defense in Depth]]) [[268_strategy_pattern|전략]]이 필요하다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-데이터 침해 사고의 주요 시나리오는 두 가지다. 첫째, 물리적 스토리지(HDD, SSD, 백업 테이프)가 분실·도난되는 경우. 둘째, DB 접근 권한을 가진 내부자나 해킹으로 DB 세션이 탈취되는 경우. TDE는 첫 번째 위협에 강하고, 애플리케이션 암호화는 두 번째 위협까지 방어한다.
+[[001_dikw_pyramid|데이터]] 침해 사고의 주요 시나리오는 두 가지다. 첫째, 물리적 스토리지([[465_hdd_structure|HDD]], [[327_ssd|SSD]], [[555_backup_and_restore_strategy|백업]] 테이프)가 분실·도난되는 경우. 둘째, DB 접근 권한을 가진 내부자나 해킹으로 DB [[160_session_controlling_terminal|세션]]이 탈취되는 경우. TDE는 첫 번째 위협에 강하고, 애플리케이션 암호화는 두 번째 위협까지 방어한다.
 
-규제 환경이 강화되면서 "데이터를 암호화했느냐"가 아니라 "어떤 수준으로 암호화했느냐"가 중요해졌다. PCI-DSS는 카드번호의 컬럼 레벨 암호화를 요구하고, GDPR은 개인 식별 가능 데이터 보호를 의무화한다.
+규제 환경이 강화되면서 "[[001_dikw_pyramid|데이터]]를 암호화했느냐"가 아니라 "어떤 수준으로 암호화했느냐"가 중요해졌다. [[355_pci|PCI]]-DSS는 카드번호의 컬럼 레벨 암호화를 요구하고, GDPR은 개인 [[655_ir_detection_analysis|식별]] 가능 [[001_dikw_pyramid|데이터]] [[571_protection_vs_security|보호]]를 의무화한다.
 
 - **📢 섹션 요약 비유**: TDE는 금고(DB 서버)를 잠그는 것, 애플리케이션 암호화는 금고 안에서도 중요한 서류를 개별 봉투에 밀봉하는 것이다. 금고를 통째로 가져가도 봉투 안은 볼 수 없다.
 
@@ -48,14 +48,14 @@ categories = "studynote-enterprise"
 └──────────────────────────────────────────────────────────────────┘
 ```
 
-| 항목               | TDE                         | 애플리케이션 암호화              |
+| 항목               | [[403_tde_transparent_data_encryption|TDE]]                         | 애플리케이션 암호화              |
 |:-----------------|:----------------------------|:-------------------------------|
 | 암호화 위치        | DB 엔진 (I/O 계층)            | 애플리케이션 코드                |
 | 투명성            | 애플리케이션 변경 없음          | 암호화/복호화 로직 필요           |
-| 물리 스토리지 보호 | ✅                            | ✅ (이미 암호문으로 저장)         |
-| DB 세션 탈취 방어 | ❌                            | ✅                               |
-| DBA 접근 방어     | ❌                            | ✅                               |
-| 검색 성능         | 영향 없음                     | 암호화 컬럼 인덱스 불가           |
+| 물리 스토리지 [[571_protection_vs_security|보호]] | ✅                            | ✅ (이미 암호문으로 저장)         |
+| DB [[160_session_controlling_terminal|세션]] 탈취 방어 | ❌                            | ✅                               |
+| [[025_dba_database_administrator|DBA]] 접근 방어     | ❌                            | ✅                               |
+| 검색 [[282_performance_tactics|성능]]         | 영향 없음                     | 암호화 컬럼 [[154_database_index_b_tree_search_optimization|인덱스]] 불가           |
 
 - **📢 섹션 요약 비유**: TDE는 집 현관문 잠금(DB 서버 접근 방어), 애플리케이션 암호화는 현관문과 방문을 모두 잠그는 것(내부에서도 특정 방에 못 들어감)이다.
 
@@ -63,9 +63,9 @@ categories = "studynote-enterprise"
 
 ## Ⅲ. 비교 및 연결
 
-**키 관리 (Key Management)**는 암호화 전략에서 핵심 과제다. 데이터와 암호화 키를 같은 서버에 보관하면 서버 탈취 시 키와 데이터 모두 노출된다. HSM (Hardware Security Module, 하드웨어 보안 모듈)이나 클라우드 KMS (Key Management Service)를 통해 키를 분리 보관해야 한다.
+**키 관리 ([[067_db_key_uniqueness_minimality|Key]] [[372_management|Management]])**는 암호화 [[268_strategy_pattern|전략]]에서 핵심 과제다. [[001_dikw_pyramid|데이터]]와 암호화 키를 같은 서버에 보관하면 서버 탈취 시 키와 [[001_dikw_pyramid|데이터]] 모두 노출된다. [[475_hsm|HSM]] ([[157_hsm_hardware_security_module|Hardware Security Module]], [[475_hsm|하드웨어 보안 모듈]])이나 클라우드 [[127_kms_knowledge_management_system|KMS]] ([[067_db_key_uniqueness_minimality|Key]] [[372_management|Management]] [[090_service_kubernetes_network_load_balancing|Service]])를 통해 키를 분리 보관해야 한다.
 
-**SQL Server Always Encrypted**: 클라이언트 측 암호화로, DB 서버도 평문을 볼 수 없는 방식. 열 마스터 키 (Column Master Key)는 클라이언트에, 열 암호화 키 (Column Encryption Key)는 DB에 암호화된 형태로 저장한다.
+**SQL Server Always Encrypted**: 클라이언트 측 암호화로, DB 서버도 평문을 볼 수 없는 방식. 열 [[172_maas_mobility_as_a_service|마스]]터 키 (Column Master [[067_db_key_uniqueness_minimality|Key]])는 클라이언트에, 열 암호화 키 (Column Encryption [[067_db_key_uniqueness_minimality|Key]])는 DB에 암호화된 형태로 저장한다.
 
 - **📢 섹션 요약 비유**: 키 관리는 금고 열쇠를 어디에 보관하는가의 문제다. 금고(DB)와 금고 열쇠(암호화 키)를 같은 책상 위에 두면 의미가 없다.
 
@@ -73,29 +73,29 @@ categories = "studynote-enterprise"
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-**데이터 분류별 암호화 전략**:
-- 공개 데이터: 암호화 불필요
-- 내부 민감 데이터 (개인정보, 연락처): TDE + 컬럼 레벨 암호화
-- 극도 민감 데이터 (카드번호, 주민번호): 애플리케이션 암호화 + HSM/KMS 키 분리
+**[[808_data_classification|데이터 분류]]별 암호화 [[268_strategy_pattern|전략]]**:
+- 공개 [[001_dikw_pyramid|데이터]]: 암호화 불필요
+- 내부 민감 [[001_dikw_pyramid|데이터]] ([[781_personal_information|개인정보]], 연락처): [[403_tde_transparent_data_encryption|TDE]] + 컬럼 레벨 암호화
+- 극도 민감 [[001_dikw_pyramid|데이터]] (카드번호, 주민번호): 애플리케이션 암호화 + [[475_hsm|HSM]]/[[127_kms_knowledge_management_system|KMS]] 키 분리
 
 **국내 법적 요구사항**:
-- 개인정보보호법 제24조: 고유식별정보(주민번호, 여권번호 등) 암호화 의무
-- 전자금융감독규정: 카드번호, 계좌번호 등 금융정보 암호화
-- ISMS-P: 개인정보 저장 시 암호화 적용 여부 인증 항목
+- [[783_pipa_korea|개인정보보호법]] 제24조: 고유식별정보(주민번호, 여권번호 등) 암호화 의무
+- [[888_electronic_financial_supervision_regulation|전자금융감독규정]]: 카드번호, 계좌번호 등 금융정보 암호화
+- [[171_isms_p|ISMS-P]]: [[781_personal_information|개인정보]] 저장 시 암호화 적용 여부 [[303_authentication_authorization_patterns|인증]] 항목
 
-**안티패턴**:
+**[[128_water_scrum_fall_anti_pattern|안티패턴]]**:
 - 전체 DB를 TDE로 암호화하고 규정 준수 완료로 간주 → 내부자 위협 무방비
-- 모든 컬럼을 애플리케이션 암호화 → 검색 불가능, 성능 저하
+- 모든 컬럼을 애플리케이션 암호화 → 검색 불가능, [[282_performance_tactics|성능]] 저하
 
-- **📢 섹션 요약 비유**: 민감도에 따라 암호화 전략을 다르게 적용하는 것은, 보관 가치에 따라 일반 서랍, 잠금 서랍, 금고를 구분해서 사용하는 것과 같다.
+- **📢 섹션 요약 비유**: 민감도에 따라 암호화 [[268_strategy_pattern|전략]]을 다르게 적용하는 것은, 보관 가치에 따라 일반 서랍, 잠금 서랍, 금고를 구분해서 사용하는 것과 같다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-TDE와 애플리케이션 암호화를 계층적으로 적용한 심층 방어 전략은 스토리지 탈취, 내부자 위협, DB 해킹 등 다양한 위협 모델을 커버한다. 규제 준수 측면에서도 암호화 계층이 명확히 구분되어 있으면 감사 대응이 수월하다.
+TDE와 애플리케이션 암호화를 계층적으로 적용한 심층 방어 [[268_strategy_pattern|전략]]은 스토리지 탈취, 내부자 위협, DB 해킹 등 다양한 위협 모델을 커버한다. 규제 준수 측면에서도 암호화 계층이 명확히 구분되어 있으면 [[606_auditing_linux_auditd|감사]] 대응이 수월하다.
 
-한계는 성능과 운영 복잡도다. 특히 애플리케이션 암호화는 암호화된 컬럼의 인덱스 검색이 불가능하여 쿼리 성능에 영향을 준다. 동형 암호화 (Homomorphic Encryption)는 암호문 상태로 계산을 허용하는 미래 기술이지만, 현재는 성능상 제한적이다.
+한계는 [[282_performance_tactics|성능]]과 운영 복잡도다. 특히 애플리케이션 암호화는 암호화된 컬럼의 [[154_database_index_b_tree_search_optimization|인덱스]] 검색이 불가능하여 [[298_qkv_attention|쿼리]] [[282_performance_tactics|성능]]에 영향을 준다. [[1019_homomorphic_encryption|동형 암호]]화 ([[1019_homomorphic_encryption|Homomorphic Encryption]])는 암호문 상태로 계산을 허용하는 미래 기술이지만, 현재는 [[282_performance_tactics|성능]]상 제한적이다.
 
 - **📢 섹션 요약 비유**: 암호화 계층은 보안 격납고의 중첩 문이다. 각 문마다 다른 열쇠가 필요하여, 한 열쇠가 노출되어도 안쪽 문을 열 수 없다.
 
@@ -105,11 +105,11 @@ TDE와 애플리케이션 암호화를 계층적으로 적용한 심층 방어 �
 
 | 개념                          | 연결 포인트                              |
 |:-----------------------------|:----------------------------------------|
-| TDE (Transparent Data Encryption) | DB 엔진 수준 자동 암호화            |
-| HSM (Hardware Security Module)    | 암호화 키 분리 보관 하드웨어          |
-| KMS (Key Management Service)      | 클라우드 기반 키 관리 서비스          |
+| [[403_tde_transparent_data_encryption|TDE]] ([[403_tde_transparent_data_encryption|Transparent Data Encryption]]) | DB 엔진 수준 자동 암호화            |
+| [[475_hsm|HSM]] ([[157_hsm_hardware_security_module|Hardware Security Module]])    | 암호화 키 분리 보관 하드웨어          |
+| [[127_kms_knowledge_management_system|KMS]] ([[067_db_key_uniqueness_minimality|Key]] [[372_management|Management]] [[090_service_kubernetes_network_load_balancing|Service]])      | 클라우드 기반 키 관리 [[090_service_kubernetes_network_load_balancing|서비스]]          |
 | SQL Server Always Encrypted       | 클라이언트 측 암호화, DB 서버 평문 불가|
-| 동형 암호화 (Homomorphic Encryption) | 암호문 상태로 연산 가능 미래 기술  |
+| [[1019_homomorphic_encryption|동형 암호]]화 ([[1019_homomorphic_encryption|Homomorphic Encryption]]) | 암호문 상태로 연산 가능 미래 기술  |
 
 ### 📈 관련 키워드 및 발전 흐름도
 

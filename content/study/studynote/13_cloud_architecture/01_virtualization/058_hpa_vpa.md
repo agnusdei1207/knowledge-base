@@ -8,15 +8,15 @@ categories = ["13_cloud_architecture"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: HPA (Horizontal Pod Autoscaler)는 파드 수를 조절하고, VPA (Vertical Pod Autoscaler)는 파드의 리소스 요청량을 조절한다.
+> 1. **본질**: [[095_hpa_horizontal_pod_autoscaler_kubernetes|HPA]] ([[095_hpa_horizontal_pod_autoscaler_kubernetes|Horizontal Pod Autoscaler]])는 [[085_pod_kubernetes_container_unit|파드]] 수를 조절하고, [[096_vpa_vertical_pod_autoscaler_kubernetes|VPA]] ([[096_vpa_vertical_pod_autoscaler_kubernetes|Vertical Pod Autoscaler]])는 [[085_pod_kubernetes_container_unit|파드]]의 리소스 요청량을 조절한다.
 > 2. **가치**: 트래픽 변화에 맞춰 자동으로 자원을 늘리거나 줄여 비용과 성능을 동시에 관리한다.
-> 3. **판단 포인트**: 메트릭 기준, 리소스 경계, Cluster Autoscaler와의 조합을 함께 봐야 한다.
+> 3. **판단 포인트**: [[342_routing_metric_hop_bandwidth_delay|메트릭]] 기준, 리소스 경계, Cluster Autoscaler와의 조합을 함께 봐야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-서비스 트래픽은 늘 일정하지 않다. 피크를 대비해 과도하게 배치하면 비용이 낭비되고, 부족하면 장애가 난다.
+[[090_service_kubernetes_network_load_balancing|서비스]] 트래픽은 늘 일정하지 않다. 피크를 대비해 과도하게 배치하면 비용이 낭비되고, 부족하면 장애가 난다.
 
 쿠버네티스의 오토스케일링은 이 문제를 자동으로 완화한다.
 
@@ -24,12 +24,12 @@ categories = ["13_cloud_architecture"]
 
 ---
 
-## Ⅱ. HPA와 VPA
+## Ⅱ. HPA와 [[096_vpa_vertical_pod_autoscaler_kubernetes|VPA]]
 
 두 오토스케일러는 역할이 다르다.
 
-- **HPA**: 파드 개수를 늘리거나 줄인다.
-- **VPA**: 파드 한 개당 리소스 요청량을 조절한다.
+- **[[095_hpa_horizontal_pod_autoscaler_kubernetes|HPA]]**: [[085_pod_kubernetes_container_unit|파드]] 개수를 늘리거나 줄인다.
+- **[[096_vpa_vertical_pod_autoscaler_kubernetes|VPA]]**: [[085_pod_kubernetes_container_unit|파드]] 한 개당 리소스 요청량을 조절한다.
 
 ```text
 트래픽 증가
@@ -46,7 +46,7 @@ VPA: 파드당 리소스 조정
 
 ## Ⅲ. 클러스터 레벨 확장
 
-파드가 늘어도 노드가 부족하면 배치할 자리가 없다. 이때 Cluster Autoscaler가 노드를 추가한다.
+[[085_pod_kubernetes_container_unit|파드]]가 늘어도 노드가 부족하면 배치할 자리가 없다. 이때 Cluster Autoscaler가 노드를 추가한다.
 
 ```text
 HPA / VPA
@@ -58,7 +58,7 @@ Cluster Autoscaler
 노드 확장
 ```
 
-그래서 파드, 컨테이너, 노드의 세 층을 함께 봐야 한다.
+그래서 [[085_pod_kubernetes_container_unit|파드]], [[561_container_based_deployment|컨테이너]], 노드의 세 층을 함께 봐야 한다.
 
 - **📢 섹션 요약 비유**: 책상이 부족하면 의자만 늘리는 게 아니라 방 자체를 넓혀야 한다.
 
@@ -66,10 +66,10 @@ Cluster Autoscaler
 
 ## Ⅳ. 적용 시 주의점
 
-HPA와 VPA는 동시에 쓰기 까다로운 경우가 있다.
+HPA와 VPA는 동시에 [[289_cqrs_db|쓰기]] 까다로운 경우가 있다.
 
-- 메트릭 기준이 명확해야 한다.
-- 상태 저장 서비스는 조심해야 한다.
+- [[342_routing_metric_hop_bandwidth_delay|메트릭]] 기준이 명확해야 한다.
+- 상태 저장 [[090_service_kubernetes_network_load_balancing|서비스]]는 조심해야 한다.
 - VPA가 재시작을 유발할 수 있다.
 - 급격한 트래픽 변동은 별도 보호가 필요하다.
 
@@ -81,12 +81,12 @@ HPA와 VPA는 동시에 쓰기 까다로운 경우가 있다.
 
 ## Ⅴ. 실무 기준과 비교
 
-HPA는 사용자 수나 CPU 사용률처럼 수평 확장에 적합하고, VPA는 단일 파드의 자원 부족을 채울 때 유용하다.
+HPA는 사용자 수나 CPU 사용률처럼 수평 확장에 적합하고, VPA는 단일 [[085_pod_kubernetes_container_unit|파드]]의 자원 부족을 채울 때 유용하다.
 
 운영자는 목표에 따라 선택해야 한다.
 
-- 복제본 수 조절이 필요하면 HPA
-- 파드 자원 조절이 필요하면 VPA
+- 복제본 수 조절이 필요하면 [[095_hpa_horizontal_pod_autoscaler_kubernetes|HPA]]
+- [[085_pod_kubernetes_container_unit|파드]] 자원 조절이 필요하면 [[096_vpa_vertical_pod_autoscaler_kubernetes|VPA]]
 - 노드 부족까지 자동화하려면 Cluster Autoscaler
 
 - **📢 섹션 요약 비유**: 사람 수를 늘릴지, 각 사람의 일할 힘을 늘릴지, 건물 자체를 넓힐지 선택하는 문제다.
@@ -110,8 +110,8 @@ Cluster Autoscaler
 ## 관련 키워드 및 발전 흐름도
 
 1. 수동 용량 계획 → 비용과 장애 위험 증가
-2. HPA → 파드 수 자동 조절
-3. VPA → 파드 자원 자동 조정
+2. [[095_hpa_horizontal_pod_autoscaler_kubernetes|HPA]] → [[085_pod_kubernetes_container_unit|파드]] 수 자동 조절
+3. [[096_vpa_vertical_pod_autoscaler_kubernetes|VPA]] → [[085_pod_kubernetes_container_unit|파드]] 자원 자동 조정
 4. Cluster Autoscaler → 노드 확장 연동
 5. 다층 오토스케일링 → 클라우드 운영 최적화
 

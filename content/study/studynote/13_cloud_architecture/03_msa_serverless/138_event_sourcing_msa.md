@@ -8,8 +8,8 @@ categories = "studynote-cloud-architecture"
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: Event Sourcing은 **엔티티의 현재 상태를 저장하는 대신, 상태를 변경한 모든 이벤트(Event)를 순서대로 저장**하고, 이벤트를 재생(Replay)하여 현재 상태를 복원하는 패턴이다.
-> 2. **가치**: 상태만 저장하면 "왜 이 상태가 되었는지" 추적이 불가능하지만, Event Sourcing은 **모든 변경 이력이 이벤트로 보존**되어 감사(Audit)·디버깅·시간 여행(Time Travel) 쿼리가 가능하다.
-> 3. **판단 포인트**: CQRS(Command Query Responsibility Segregation)와 자주 함께 사용하며, 이벤트 저장소(Event Store)가 핵심 인프라이다. 스냅샷으로 재생 성능을 최적화한다.
+> 2. **가치**: 상태만 저장하면 "왜 이 상태가 되었는지" 추적이 불가능하지만, Event Sourcing은 **모든 변경 이력이 이벤트로 보존**되어 [[606_auditing_linux_auditd|감사]]([[363_audit|Audit]])·디버깅·시간 여행(Time Travel) 쿼리가 가능하다.
+> 3. **판단 포인트**: [[306_cqrs|CQRS]]([[271_command_pattern|Command]] Query Responsibility Segregation)와 자주 함께 사용하며, 이벤트 저장소(Event Store)가 핵심 인프라이다. 스냅샷으로 재생 [[282_performance_tactics|성능]]을 최적화한다.
 
 ---
 
@@ -29,7 +29,7 @@ Event Sourcing: events 테이블 →
 
 ## Ⅱ~Ⅴ. 결론
 
-Event Sourcing은 **감사·추적·재생이 중요한 도메인(금융·의료)의 핵심 패턴**이며, CQRS와 함께 MSA의 고급 아키텍처를 구성한다.
+Event Sourcing은 **[[606_auditing_linux_auditd|감사]]·추적·재생이 중요한 [[064_relation_domain|도메인]](금융·의료)의 핵심 패턴**이며, CQRS와 함께 MSA의 고급 아키텍처를 구성한다.
 
 ---
 
@@ -37,11 +37,11 @@ Event Sourcing은 **감사·추적·재생이 중요한 도메인(금융·의료
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **Event Sourcing** | 이벤트 저장·재생 |
-| **CQRS** | 명령·조회 분리 |
+| **[[307_event_sourcing|Event Sourcing]]** | 이벤트 저장·재생 |
+| **[[306_cqrs|CQRS]]** | 명령·조회 분리 |
 | **Event Store** | 이벤트 저장소 |
-| **Snapshot** | 재생 성능 최적화 |
-| **Audit Trail** | 감사 추적 |
+| **[[637_zfs_snapshot_cow_architecture|Snapshot]]** | 재생 [[282_performance_tactics|성능]] 최적화 |
+| **[[065_audit_trail_worm_storage_compliance|Audit Trail]]** | [[606_auditing_linux_auditd|감사]] 추적 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 

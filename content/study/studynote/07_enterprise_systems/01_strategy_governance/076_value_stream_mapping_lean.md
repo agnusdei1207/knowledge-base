@@ -8,7 +8,7 @@ categories = "studynote-enterprise"
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: VSM(Value Stream Mapping, 가치 흐름 매핑)은 고객 요청부터 최종 인도까지의 흐름을 한 장에 그려 낭비(Muda)와 병목을 찾는 Lean 도구다.
+> 1. **본질**: [[030_value_stream_mapping|VSM]]([[088_value_stream_mapping_vsm|Value Stream Mapping]], [[224_vsm_value_stream_mapping|가치 흐름 매핑]])은 고객 요청부터 최종 인도까지의 흐름을 한 장에 그려 낭비(Muda)와 병목을 찾는 [[087_lean_software_development_7_principles|Lean]] 도구다.
 > 2. **가치**: 개발 자체는 빠른데 승인과 대기 때문에 배포가 늦다면, VSM은 그 보이지 않는 시간을 숫자로 드러낸다.
 > 3. **판단 포인트**: VSM은 부서별 효율이 아니라 전체 Lead Time을 줄이는 도구이므로, 한 부서만 빠르게 만드는 개선은 정답이 아니다.
 
@@ -16,9 +16,9 @@ categories = "studynote-enterprise"
 
 ## Ⅰ. 개요 및 필요성
 
-가치 흐름은 고객이 원하는 결과가 만들어지는 전체 경로다. VSM은 이 경로를 시각화해, 어디서 실제 가치가 생기고 어디서 시간만 소비되는지 드러낸다. 그래서 Lean과 DevOps가 만날 때 가장 자주 쓰이는 진단 도구가 된다.
+가치 흐름은 고객이 원하는 결과가 만들어지는 전체 경로다. VSM은 이 경로를 [[003_bigdata_7v|시각화]]해, 어디서 실제 가치가 생기고 어디서 시간만 소비되는지 드러낸다. 그래서 Lean과 DevOps가 만날 때 가장 자주 쓰이는 진단 도구가 된다.
 
-소프트웨어 조직에서는 코딩보다 대기 시간이 더 길다. 개발이 1시간인데 보안 검토와 승인 대기가 2주라면, 전체 리드 타임은 사실상 2주다. VSM은 이 숨은 대기를 눈에 보이게 한다.
+소프트웨어 조직에서는 코딩보다 대기 시간이 더 길다. 개발이 1시간인데 보안 검토와 승인 대기가 2주라면, 전체 [[085_lead_time_cycle_time|리드 타임]]은 사실상 2주다. VSM은 이 숨은 대기를 눈에 보이게 한다.
 
 ```text
 고객 요청 → 개발 → QA 대기 → 보안 승인 → 배포
@@ -34,13 +34,13 @@ categories = "studynote-enterprise"
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-VSM은 프로세스 박스, 정보 흐름, 재공품(WIP, Work In Progress), Cycle Time, Lead Time, Takt Time을 함께 본다. 가치 시간과 대기 시간을 나눠 적으면 개선 포인트가 선명해진다.
+VSM은 프로세스 박스, 정보 흐름, 재공품(WIP, [[661_kanban_wip_limit|Work In Progress]]), Cycle Time, [[085_lead_time_cycle_time|Lead Time]], Takt Time을 함께 본다. 가치 시간과 대기 시간을 나눠 적으면 개선 포인트가 선명해진다.
 
 | 지표 | 뜻 | 왜 중요한가 |
 | :-- | :-- | :-- |
 | Cycle Time | 실제 작업 시간 | 팀 역량 측정 |
-| Lead Time | 요청부터 인도까지 총시간 | 고객 체감 시간 |
-| WIP(Work In Progress) | 진행 중 작업량 | 병목과 혼잡의 신호 |
+| [[085_lead_time_cycle_time|Lead Time]] | 요청부터 인도까지 총시간 | 고객 체감 시간 |
+| WIP([[661_kanban_wip_limit|Work In Progress]]) | [[216_progress_in_synchronization|진행]] 중 작업량 | 병목과 혼잡의 [[130_signal|신호]] |
 | Takt Time | 고객 수요가 요구하는 리듬 | 공급 속도 기준 |
 
 ```text
@@ -59,13 +59,13 @@ VSM의 힘은 각 단계의 소요 시간을 숫자로 적는 데 있다. 숫자
 
 ## Ⅲ. 비교 및 연결
 
-VSM은 Flowchart, Kanban, Gantt chart와 자주 비교된다. 각 도구는 보는 것이 다르다.
+VSM은 Flowchart, [[084_kanban_board_wip_limit|Kanban]], Gantt chart와 자주 비교된다. 각 도구는 보는 것이 다르다.
 
 | 도구 | 무엇을 보여주는가 | 강점 | 한계 |
 | :-- | :-- | :-- | :-- |
-| VSM | 가치와 대기의 흐름 | 병목과 낭비 가시화 | 작성에 데이터 필요 |
-| Flowchart | 절차와 분기 | 논리 구조 파악 | 시간 정보 약함 |
-| Kanban | 작업 상태와 WIP | 흐름 제어 | 전체 리드 타임은 약함 |
+| [[030_value_stream_mapping|VSM]] | 가치와 대기의 흐름 | 병목과 낭비 가시화 | 작성에 [[001_dikw_pyramid|데이터]] 필요 |
+| Flowchart | 절차와 분기 | [[369_logic_bomb|논리]] 구조 파악 | 시간 정보 약함 |
+| [[084_kanban_board_wip_limit|Kanban]] | 작업 상태와 WIP | [[213_flow_control_buffer_overflow|흐름 제어]] | 전체 [[085_lead_time_cycle_time|리드 타임]]은 약함 |
 | Gantt | 일정과 기간 | 계획 관리 | 실제 흐름 낭비는 잘 안 보임 |
 
 Lean의 관점에서는 VSM이 가장 직관적으로 "전체 최적화"를 말해 준다. 개별 팀의 생산성보다 최종 인도 시간을 줄이는 것이 목표이기 때문이다.
@@ -76,17 +76,17 @@ Lean의 관점에서는 VSM이 가장 직관적으로 "전체 최적화"를 말�
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-VSM을 제대로 하려면 특정 제품군이나 서비스 흐름 하나를 정하고, 실제 시간 데이터를 모아야 한다. 감으로 그린 지도는 보통 낙관적이다. 실제 시간을 적으면 대기와 재작업이 드러난다.
+VSM을 제대로 하려면 특정 제품군이나 [[090_service_kubernetes_network_load_balancing|서비스]] 흐름 하나를 정하고, 실제 시간 [[001_dikw_pyramid|데이터]]를 모아야 한다. 감으로 그린 지도는 보통 낙관적이다. 실제 시간을 적으면 대기와 재작업이 드러난다.
 
-### 체크리스트
-1. 하나의 가치 흐름(제품/서비스)을 선택했는가?
+### [[435_checklist_based_testing|체크리스트]]
+1. 하나의 가치 흐름(제품/[[090_service_kubernetes_network_load_balancing|서비스]])을 선택했는가?
 2. 각 단계의 실제 시간이 기록됐는가?
 3. 대기 시간과 작업 시간을 분리했는가?
 4. 병목이 부서가 아니라 흐름 관점에서 정의됐는가?
-5. 미래 상태(Future State)와 개선 항목이 있는가?
+5. 미래 상태(Future [[272_state_pattern|State]])와 개선 항목이 있는가?
 
-### 안티패턴
-- 희망 사항을 현재 상태처럼 그림
+### [[128_water_scrum_fall_anti_pattern|안티패턴]]
+- 희망 사항을 [[178_as_is_to_be_analysis|현재 상태]]처럼 그림
 - 한 부서만 빠르게 만드는 로컬 최적화
 - 대기 시간을 측정하지 않음
 - 현황도 없이 미래도만 그리기
@@ -99,7 +99,7 @@ VSM을 제대로 하려면 특정 제품군이나 서비스 흐름 하나를 정
 
 ## Ⅴ. 기대효과 및 결론
 
-VSM을 쓰면 리드 타임이 줄고, 협업 병목이 보이며, 개선 우선순위가 숫자로 바뀐다. 특히 DevOps에서는 CI/CD 파이프라인의 어느 구간이 가장 오래 멈추는지 찾는 데 효과적이다.
+VSM을 쓰면 [[085_lead_time_cycle_time|리드 타임]]이 줄고, 협업 병목이 보이며, 개선 우선순위가 숫자로 바뀐다. 특히 DevOps에서는 [[090_configuration_item|CI]]/CD [[123_pipe|파이프]]라인의 어느 구간이 가장 오래 멈추는지 찾는 데 효과적이다.
 
 다만 VSM은 한 번 그려 놓고 끝나는 문서가 아니다. 프로세스가 바뀌면 다시 측정해야 한다. 결국 VSM은 "흐름을 보는 습관"으로 기억해야 한다.
 
@@ -109,11 +109,11 @@ VSM을 쓰면 리드 타임이 줄고, 협업 병목이 보이며, 개선 우선
 
 | 개념 | 연결 포인트 |
 | :-- | :-- |
-| VSM(Value Stream Mapping) | 전체 흐름 시각화 |
-| Lean | 낭비 제거 철학 |
+| [[030_value_stream_mapping|VSM]]([[088_value_stream_mapping_vsm|Value Stream Mapping]]) | 전체 흐름 [[003_bigdata_7v|시각화]] |
+| [[087_lean_software_development_7_principles|Lean]] | 낭비 제거 철학 |
 | Muda | 가치 없는 낭비 |
-| WIP(Work In Progress) | 진행 중 작업 |
-| Lead Time | 요청부터 인도까지 |
+| WIP([[661_kanban_wip_limit|Work In Progress]]) | [[216_progress_in_synchronization|진행]] 중 작업 |
+| [[085_lead_time_cycle_time|Lead Time]] | 요청부터 인도까지 |
 | TPS(Toyota Production System) | VSM의 뿌리 |
 
 ### 📈 관련 키워드 및 발전 흐름도
@@ -134,7 +134,7 @@ DevOps 파이프라인 진단
 Lead Time 단축 / Flow 개선
 ```
 
-이 흐름은 제조업의 낭비 제거 철학이 소프트웨어 흐름 진단으로 확장된 과정을 보여준다. 앞으로는 자동 메트릭 수집과 결합해 더 자주, 더 정확하게 흐름을 볼 수 있다.
+이 흐름은 제조업의 낭비 제거 철학이 소프트웨어 흐름 진단으로 확장된 과정을 보여준다. 앞으로는 자동 [[342_routing_metric_hop_bandwidth_delay|메트릭]] 수집과 결합해 더 자주, 더 정확하게 흐름을 볼 수 있다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

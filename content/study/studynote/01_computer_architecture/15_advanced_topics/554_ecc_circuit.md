@@ -8,19 +8,19 @@ categories = "studynote-computer-architecture"
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 오류 정정 부호 (Error Correction Code, ECC) 회로는 데이터에 여분의 검사 비트를 붙여 코드워드로 저장하고, 읽을 때 신드롬 (Syndrome) 연산으로 오류 위치나 오류 패턴을 판별해 즉시 수정하는 신뢰성 회로다.
-> 2. **가치**: 공정 미세화와 대용량 메모리 시대에는 1비트 반전이 희귀한 예외가 아니라 운영 중 누적되는 현실적 사건이므로, ECC 회로는 데이터 무결성과 가용성을 지키는 기본 장치가 된다.
-> 3. **판단 포인트**: ECC는 강할수록 좋기만 한 것이 아니라 지연시간, 면적, 메모리 오버헤드, 미스코렉션 (Miscorrection) 위험을 함께 고려해 매체별로 다른 코드를 선택해야 한다.
+> 1. **본질**: [[158_error_correcting_codes|오류 정정 부호]] (Error Correction [[082_process_memory_structure|Code]], ECC) 회로는 [[001_dikw_pyramid|데이터]]에 여분의 검사 [[073_bit|비트]]를 붙여 코드워드로 저장하고, 읽을 때 신드롬 (Syndrome) 연산으로 오류 위치나 오류 패턴을 판별해 즉시 수정하는 [[642_reliability_mtbf_mttr_mttf_availability|신뢰성]] 회로다.
+> 2. **가치**: 공정 미세화와 대용량 메모리 시대에는 1비트 반전이 희귀한 예외가 아니라 운영 중 누적되는 현실적 사건이므로, ECC 회로는 [[001_dikw_pyramid|데이터]] 무결성과 가용성을 지키는 기본 장치가 된다.
+> 3. **판단 포인트**: ECC는 강할수록 좋기만 한 것이 아니라 [[015_지연_데이터_관점|지연]]시간, 면적, 메모리 오버헤드, 미스코렉션 (Miscorrection) 위험을 함께 고려해 [[121_transmission_media_guided_unguided|매체]]별로 다른 코드를 선택해야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-오류 정정 부호 (Error Correction Code, ECC) 회로는 저장되거나 전송되는 비트열에 검사 비트를 추가해, 일부 비트가 뒤집혀도 원래 데이터를 복원할 수 있게 하는 하드웨어 논리다. 단순 패리티 (Parity)가 "문제가 있다"까지만 알려 준다면, ECC는 그보다 한 단계 더 나아가 **어디가 틀렸는지 계산해 직접 고치는 구조**다.
+[[158_error_correcting_codes|오류 정정 부호]] (Error Correction [[082_process_memory_structure|Code]], ECC) 회로는 저장되거나 전송되는 [[073_bit|비트]]열에 검사 [[073_bit|비트]]를 추가해, 일부 [[073_bit|비트]]가 뒤집혀도 원래 [[001_dikw_pyramid|데이터]]를 복원할 수 있게 하는 하드웨어 논리다. 단순 패리티 (Parity)가 "문제가 있다"까지만 알려 준다면, ECC는 그보다 한 단계 더 나아가 **어디가 틀렸는지 계산해 직접 고치는 구조**다.
 
-이 회로가 필수인 이유는 현대 시스템이 더 이상 "비트가 항상 안정적일 것"이라는 가정을 할 수 없기 때문이다. 미세 공정에서는 임계 전하가 줄어 우주선이나 잡음에 의한 비트 반전 가능성이 높아지고, 메모리 용량은 수백 기가바이트에서 수테라바이트로 커지면서 단일 비트 에러가 나타날 통계적 기회도 함께 커진다. ECC가 없으면 이런 오류는 조용한 데이터 손상 (Silent Data Corruption)이나 예기치 않은 시스템 중단으로 이어진다.
+이 회로가 필수인 이유는 현대 시스템이 더 이상 "[[073_bit|비트]]가 항상 안정적일 것"이라는 가정을 할 수 없기 때문이다. 미세 공정에서는 임계 전하가 줄어 우주선이나 잡음에 의한 [[073_bit|비트]] 반전 가능성이 높아지고, 메모리 용량은 수백 기가바이트에서 수테라바이트로 커지면서 단일 [[073_bit|비트]] 에러가 나타날 통계적 기회도 함께 커진다. ECC가 없으면 이런 오류는 조용한 [[001_dikw_pyramid|데이터]] 손상 (Silent [[001_dikw_pyramid|Data]] Corruption)이나 예기치 않은 시스템 중단으로 이어진다.
 
-또한 ECC는 단지 서버용 부가 기능이 아니다. DRAM (Dynamic Random Access Memory), SRAM (Static Random-Access Memory), NAND Flash, 통신 링크는 각각 다른 오류 양상을 가지므로, 어느 계층에서 어느 정도까지 고쳐야 하는지 결정하는 순간부터 회로 설계가 시작된다. 즉 ECC는 보조 장치가 아니라 **매체 특성에 맞춘 신뢰성 전략의 중심**이다.
+또한 ECC는 단지 서버용 부가 기능이 아니다. [[251_dram|DRAM]] (Dynamic Random Access Memory), [[250_sram|SRAM]] (Static Random-Access Memory), [[257_nand_flash|NAND Flash]], 통신 링크는 각각 다른 오류 양상을 가지므로, 어느 계층에서 어느 정도까지 고쳐야 하는지 결정하는 순간부터 회로 설계가 시작된다. 즉 ECC는 보조 장치가 아니라 **[[121_transmission_media_guided_unguided|매체]] 특성에 맞춘 [[642_reliability_mtbf_mttr_mttf_availability|신뢰성]] 전략의 중심**이다.
 
 - **📢 섹션 요약 비유**: ECC 회로는 시험지를 제출하기 전에 자동으로 오답 위치를 찾아 수정해 주는 감독관과 같다. 틀렸다는 사실만 알리는 것이 아니라, 어디를 고쳐야 하는지까지 짚어 준다.
 
@@ -28,17 +28,17 @@ categories = "studynote-computer-architecture"
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-ECC 회로의 기본 흐름은 쓰기 시 인코딩, 읽기 시 신드롬 계산, 그리고 오류 분류·수정으로 이어진다. 쓰기 경로에서는 데이터 비트와 검사 비트를 묶어 하나의 코드워드 (Codeword)를 만들고, 읽기 경로에서는 다시 같은 패리티 관계를 검사해 어긋난 위치를 계산한다. 이때 최소 해밍 거리 (Hamming Distance)가 클수록 더 많은 오류를 탐지·정정할 수 있지만, 계산량과 오버헤드도 커진다.
+ECC 회로의 기본 흐름은 [[289_cqrs_db|쓰기]] 시 인코딩, 읽기 시 신드롬 계산, 그리고 오류 [[104_classification_analysis|분류]]·수정으로 이어진다. [[289_cqrs_db|쓰기]] 경로에서는 [[001_dikw_pyramid|데이터]] [[073_bit|비트]]와 검사 [[073_bit|비트]]를 묶어 하나의 코드워드 (Codeword)를 만들고, 읽기 경로에서는 다시 같은 패리티 관계를 검사해 어긋난 위치를 계산한다. 이때 최소 [[110_hamming_distance|해밍 거리]] ([[110_hamming_distance|Hamming Distance]])가 클수록 더 많은 오류를 탐지·정정할 수 있지만, 계산량과 오버헤드도 커진다.
 
 | 블록 | 역할 | 구현 포인트 |
 | :-- | :-- | :-- |
-| Encoder | 데이터로부터 검사 비트 생성 | XOR 트리 깊이가 write latency에 영향을 준다. |
-| Check-bit storage | 데이터와 검사 비트를 함께 저장 | 64b+8b처럼 데이터 폭과 코드 폭의 균형이 중요하다. |
-| Syndrome generator | 읽은 코드워드의 불일치 패턴 계산 | 빠른 read path를 위해 병렬 연산 구조가 필요하다. |
+| [[040_encoder|Encoder]] | [[001_dikw_pyramid|데이터]]로부터 검사 [[073_bit|비트]] [[087_process_state_transition|생성]] | XOR 트리 깊이가 write latency에 영향을 준다. |
+| Check-bit storage | [[001_dikw_pyramid|데이터]]와 검사 [[073_bit|비트]]를 함께 저장 | 64b+8b처럼 [[001_dikw_pyramid|데이터]] 폭과 코드 폭의 균형이 중요하다. |
+| Syndrome generator | 읽은 코드워드의 불일치 패턴 계산 | 빠른 read path를 위해 [[430_index_fast_full_scan|병렬]] 연산 구조가 필요하다. |
 | Error classifier | 무오류, 정정 가능, 정정 불가 상태 구분 | 미스코렉션 방지 규칙이 중요하다. |
-| Corrector / Logger | 비트 수정, 로그 기록, 상위 계층 알림 | 반복 오류는 page retirement 같은 후속 조치를 유도한다. |
+| Corrector / Logger | [[073_bit|비트]] 수정, [[568_logs_distributed_logging_elk_fluentd|로그]] 기록, 상위 계층 알림 | 반복 오류는 [[286_page_frame|page]] retirement 같은 후속 조치를 유도한다. |
 
-다음 그림은 ECC 회로가 "쓰기 때 코드워드를 만들고, 읽기 때 신드롬으로 판단하는 구조"임을 보여 준다.
+다음 그림은 ECC 회로가 "[[289_cqrs_db|쓰기]] 때 코드워드를 만들고, 읽기 때 신드롬으로 판단하는 구조"임을 보여 준다.
 
 ```text
 ┌────────────────────────────────────────────────────────────────────────────┐
@@ -55,7 +55,7 @@ ECC 회로의 기본 흐름은 쓰기 시 인코딩, 읽기 시 신드롬 계산
 └────────────────────────────────────────────────────────────────────────────┘
 ```
 
-예를 들어 SECDED (Single Error Correction, Double Error Detection)는 최소 해밍 거리 4를 이용해 1비트 오류를 정정하고 2비트 오류를 탐지한다. 일반적으로 DRAM 경로에서는 낮은 지연이 중요하므로 Hamming 계열이나 SECDED가 널리 쓰이고, NAND Flash처럼 오류 패턴이 더 거칠고 누적되는 매체에서는 BCH (Bose–Chaudhuri–Hocquenghem)나 LDPC (Low-Density Parity-Check)처럼 더 강한 코드를 사용한다. 결국 ECC 설계는 "얼마나 많이 고칠 수 있는가"보다 **얼마나 빨리, 얼마나 적은 비용으로, 어떤 오류 분포를 상대로 고칠 것인가**의 문제다.
+예를 들어 SECDED (Single Error Correction, Double [[040_error_detection|Error Detection]])는 최소 [[110_hamming_distance|해밍 거리]] 4를 이용해 1비트 오류를 정정하고 2비트 오류를 탐지한다. 일반적으로 [[251_dram|DRAM]] 경로에서는 낮은 [[015_지연_데이터_관점|지연]]이 중요하므로 Hamming 계열이나 SECDED가 널리 쓰이고, NAND Flash처럼 오류 패턴이 더 거칠고 누적되는 [[121_transmission_media_guided_unguided|매체]]에서는 BCH (Bose–Chaudhuri–Hocquenghem)나 [[203_ldpc_low_density_parity_check|LDPC]] (Low-Density Parity-Check)처럼 더 강한 코드를 사용한다. 결국 ECC 설계는 "얼마나 많이 고칠 수 있는가"보다 **얼마나 빨리, 얼마나 적은 비용으로, 어떤 오류 분포를 상대로 고칠 것인가**의 문제다.
 
 - **📢 섹션 요약 비유**: ECC의 신드롬 계산은 엇갈린 퍼즐 조각을 보고 어느 조각이 잘못 끼워졌는지 역으로 찾아내는 작업과 같다. 조각 수가 늘수록 더 똑똑한 규칙이 필요하다.
 
@@ -63,18 +63,18 @@ ECC 회로의 기본 흐름은 쓰기 시 인코딩, 읽기 시 신드롬 계산
 
 ## Ⅲ. 비교 및 연결
 
-ECC 회로를 이해할 때 가장 중요한 비교 축은 "탐지 전용"과 "정정 가능", 그리고 "저지연"과 "고정정력" 사이의 경계다. 모든 매체에 같은 코드를 쓰지 않는 이유도 여기에 있다. 지연이 민감한 메인 메모리는 빠른 단일 비트 정정이 우선이고, 저장 밀도가 높은 SSD는 더 큰 지연을 감수하고서라도 강한 정정이 필요하다.
+ECC 회로를 이해할 때 가장 중요한 비교 축은 "탐지 전용"과 "정정 가능", 그리고 "저지연"과 "고정정력" 사이의 경계다. 모든 [[121_transmission_media_guided_unguided|매체]]에 같은 코드를 쓰지 않는 이유도 여기에 있다. [[015_지연_데이터_관점|지연]]이 민감한 메인 메모리는 빠른 단일 [[073_bit|비트]] 정정이 우선이고, 저장 밀도가 높은 SSD는 더 큰 [[015_지연_데이터_관점|지연]]을 감수하고서라도 강한 정정이 필요하다.
 
 | 방식 | 대표 코드 | 장점 | 약점 | 주 사용처 |
 | :-- | :-- | :-- | :-- | :-- |
-| 오류 탐지 중심 | Parity / CRC (Cyclic Redundancy Check) | 오버헤드와 지연이 작다 | 복구는 못 하거나 재전송이 필요하다 | 링크 계층, 버스 |
-| 저지연 정정 | Hamming / SECDED | 읽기 지연이 짧고 구현이 단순하다 | 다중 비트 오류에 약하다 | DRAM, SRAM |
-| 칩 단위 보호 | Chipkill 계열 | DRAM 칩 단위 고장까지 버틴다 | 더 넓은 데이터 폭과 복잡한 배선이 필요하다 | 엔터프라이즈 서버 |
-| 고정정력 코드 | BCH / LDPC | 열화된 매체와 다중 비트 오류에 강하다 | 연산량과 지연이 크다 | SSD (Solid State Drive), 고밀도 저장장치 |
+| [[040_error_detection|오류 탐지]] 중심 | Parity / [[113_crc|CRC]] ([[113_crc|Cyclic Redundancy Check]]) | 오버헤드와 [[015_지연_데이터_관점|지연]]이 작다 | 복구는 못 하거나 재전송이 필요하다 | 링크 계층, [[344_bus|버스]] |
+| 저지연 정정 | Hamming / SECDED | 읽기 [[015_지연_데이터_관점|지연]]이 짧고 구현이 단순하다 | 다중 [[073_bit|비트]] 오류에 약하다 | [[251_dram|DRAM]], [[250_sram|SRAM]] |
+| 칩 단위 [[571_protection_vs_security|보호]] | Chipkill 계열 | [[251_dram|DRAM]] 칩 단위 고장까지 버틴다 | 더 넓은 [[001_dikw_pyramid|데이터]] 폭과 복잡한 배선이 필요하다 | 엔터프라이즈 서버 |
+| 고정정력 코드 | BCH / [[203_ldpc_low_density_parity_check|LDPC]] | 열화된 [[121_transmission_media_guided_unguided|매체]]와 다중 [[073_bit|비트]] 오류에 강하다 | 연산량과 [[015_지연_데이터_관점|지연]]이 크다 | [[327_ssd|SSD]] ([[327_ssd|Solid State Drive]]), 고밀도 저장장치 |
 
-또 하나 중요한 연결은 온다이 ECC (On-die ECC)와 시스템 ECC의 차이다. 온다이 ECC는 메모리 칩 내부 제조 편차와 셀 오류를 숨기는 데 유용하지만, 메모리 채널 전송이나 DIMM (Dual In-line Memory Module) 단위 고장까지 보호하지는 못한다. 그래서 서버 설계에서는 온다이 ECC만 믿지 않고, 메모리 컨트롤러 수준의 시스템 ECC와 메모리 스크러빙을 함께 사용한다.
+또 하나 중요한 연결은 온다이 ECC (On-die ECC)와 시스템 ECC의 차이다. 온다이 ECC는 메모리 칩 내부 제조 편차와 셀 오류를 숨기는 데 유용하지만, 메모리 채널 전송이나 DIMM (Dual In-line Memory [[192_module_independence|Module]]) 단위 고장까지 [[571_protection_vs_security|보호]]하지는 못한다. 그래서 서버 설계에서는 온다이 ECC만 믿지 않고, 메모리 컨트롤러 수준의 시스템 ECC와 메모리 스크러빙을 함께 사용한다.
 
-즉 ECC 회로는 혼자 완성되는 기술이 아니라 스크러빙, 페이지 은퇴 (Page Retirement), 오류 로깅, RAS (Reliability, Availability, Serviceability) 정책과 연결돼야 진짜 가치가 나온다. 정정 가능한 오류를 "성공적으로 고쳤다"로 끝내지 않고, 왜 그 오류가 났는지까지 추적할 수 있어야 시스템이 성숙해진다.
+즉 ECC 회로는 혼자 완성되는 기술이 아니라 스크러빙, [[286_page_frame|페이지]] 은퇴 ([[286_page_frame|Page]] Retirement), 오류 로깅, [[449_ras|RAS]] ([[345_reliability_security|Reliability]], [[452_availability|Availability]], Serviceability) [[164_policy|정책]]과 연결돼야 진짜 가치가 나온다. 정정 가능한 오류를 "성공적으로 고쳤다"로 끝내지 않고, 왜 그 오류가 났는지까지 추적할 수 있어야 시스템이 성숙해진다.
 
 - **📢 섹션 요약 비유**: 단순 패리티가 경비실 인터폰이라면, SECDED는 현장 출동팀이고, LDPC는 복잡한 사고 현장을 분석해 복구하는 전문 구조대에 가깝다.
 
@@ -82,23 +82,23 @@ ECC 회로를 이해할 때 가장 중요한 비교 축은 "탐지 전용"과 "�
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서 ECC 회로는 "메모리에 ECC 넣을까?" 수준의 선택이 아니라, 매체별 신뢰성 예산을 나누는 설계 문제다. DRAM은 읽기 지연 수 ns 차이도 민감하므로 저지연 정정이 우선이고, SSD 컨트롤러는 수명 말기에 급격히 나빠지는 원시 비트 오류율을 감당하기 위해 LDPC 같은 반복 복호를 사용한다. 따라서 기술사는 **정정력만이 아니라 지연·면적·전력·오버프로비저닝까지 포함한 전체 시스템 관점**으로 답해야 한다.
+실무에서 ECC 회로는 "메모리에 ECC 넣을까?" 수준의 선택이 아니라, [[121_transmission_media_guided_unguided|매체]]별 [[642_reliability_mtbf_mttr_mttf_availability|신뢰성]] 예산을 나누는 설계 문제다. DRAM은 읽기 [[015_지연_데이터_관점|지연]] 수 ns 차이도 민감하므로 저지연 정정이 우선이고, [[327_ssd|SSD]] 컨트롤러는 수명 말기에 급격히 나빠지는 원시 [[073_bit|비트]] 오류율을 감당하기 위해 [[203_ldpc_low_density_parity_check|LDPC]] 같은 반복 복호를 사용한다. 따라서 기술사는 **정정력만이 아니라 [[015_지연_데이터_관점|지연]]·면적·전력·오버프로비저닝까지 포함한 전체 시스템 관점**으로 답해야 한다.
 
-### 적용 체크리스트
+### 적용 [[435_checklist_based_testing|체크리스트]]
 
-1. 보호 대상이 메모리 셀, 채널 전송, 칩 단위 고장 중 무엇인지 구분했는가?
-2. 정정 가능한 오류 수와 read latency 예산이 충돌하지 않는가?
-3. correctable error 카운터와 EDAC (Error Detection and Correction) 로그를 운영에 연결했는가?
-4. 반복되는 correctable error에 대해 page retirement, DIMM 교체, RAID 재구성 같은 후속 정책이 있는가?
-5. 온다이 ECC와 시스템 ECC의 보호 범위를 혼동하지 않았는가?
+1. [[571_protection_vs_security|보호]] 대상이 메모리 셀, 채널 전송, 칩 단위 고장 중 무엇인지 구분했는가?
+2. 정정 가능한 오류 수와 read [[141_latency|latency]] 예산이 충돌하지 않는가?
+3. correctable error 카운터와 [[718_edac|EDAC]] ([[040_error_detection|Error Detection]] and Correction) [[568_logs_distributed_logging_elk_fluentd|로그]]를 운영에 연결했는가?
+4. 반복되는 correctable error에 대해 [[286_page_frame|page]] retirement, DIMM 교체, [[483_raid_overview|RAID]] 재구성 같은 후속 [[164_policy|정책]]이 있는가?
+5. 온다이 ECC와 시스템 ECC의 [[571_protection_vs_security|보호]] 범위를 혼동하지 않았는가?
 
-### 피해야 할 안티패턴
+### 피해야 할 [[128_water_scrum_fall_anti_pattern|안티패턴]]
 
-- "오류를 고쳤으니 끝"이라고 보고 반복 교정 로그를 무시하는 운영
+- "오류를 고쳤으니 끝"이라고 보고 반복 교정 [[568_logs_distributed_logging_elk_fluentd|로그]]를 무시하는 운영
 - DRAM과 NAND의 오류 특성이 다른데도 같은 코드 강도를 적용하려는 설계
-- 정정 불가 오류를 감추기 위해 과도한 미스코렉션 위험을 허용하는 복호 정책
+- 정정 불가 오류를 감추기 위해 과도한 미스코렉션 위험을 허용하는 복호 [[164_policy|정책]]
 
-기술사 답안에서는 ECC를 단순 암기 항목으로 쓰기보다, **저지연 메모리 보호는 SECDED, 고열화 저장 매체는 BCH/LDPC, 고가용성 서버는 Chipkill과 스크러빙 결합**처럼 선택 논리를 분명히 써야 설계 감각이 드러난다. 운영 관점에서는 반복 오류가 디스크 중복 배열 (RAID, Redundant Array of Independent Disks) 재구성이나 메모리 교체 정책으로 어떻게 이어지는지도 함께 봐야 한다.
+기술사 답안에서는 ECC를 단순 암기 항목으로 [[289_cqrs_db|쓰기]]보다, **저지연 메모리 [[571_protection_vs_security|보호]]는 SECDED, 고열화 저장 [[121_transmission_media_guided_unguided|매체]]는 BCH/[[203_ldpc_low_density_parity_check|LDPC]], 고가용성 서버는 Chipkill과 스크러빙 결합**처럼 선택 논리를 분명히 써야 설계 감각이 드러난다. 운영 관점에서는 반복 오류가 디스크 중복 [[055_array|배열]] ([[483_raid_overview|RAID]], Redundant [[055_array|Array]] of Independent Disks) 재구성이나 메모리 교체 [[164_policy|정책]]으로 어떻게 이어지는지도 함께 봐야 한다.
 
 - **📢 섹션 요약 비유**: ECC 선택은 모든 환자에게 같은 약을 주는 일이 아니라, 감기인지 골절인지에 따라 치료법을 달리 정하는 의료 판단과 같다.
 
@@ -106,9 +106,9 @@ ECC 회로를 이해할 때 가장 중요한 비교 축은 "탐지 전용"과 "�
 
 ## Ⅴ. 기대효과 및 결론
 
-ECC 회로의 가장 직접적인 효과는 조용한 데이터 손상과 갑작스러운 시스템 중단을 크게 줄인다는 점이다. 이 덕분에 서버는 더 오랜 시간 안정적으로 동작하고, 저장장치는 더 높은 밀도와 더 긴 사용 수명을 감당할 수 있다. 즉 ECC는 성능을 조금 내어 주는 대신, 시스템 전체의 신뢰성을 크게 끌어올리는 매우 효율적인 투자다.
+ECC 회로의 가장 직접적인 효과는 조용한 [[001_dikw_pyramid|데이터]] 손상과 갑작스러운 시스템 중단을 크게 줄인다는 점이다. 이 덕분에 서버는 더 오랜 시간 안정적으로 동작하고, 저장장치는 더 높은 밀도와 더 긴 사용 수명을 감당할 수 있다. 즉 ECC는 성능을 조금 내어 주는 대신, 시스템 전체의 [[642_reliability_mtbf_mttr_mttf_availability|신뢰성]]을 크게 끌어올리는 매우 효율적인 투자다.
 
-하지만 한계도 있다. 강한 코드는 지연시간과 회로 면적을 늘리고, 코드 설계가 잘못되면 미스코렉션이라는 더 위험한 문제를 만들 수 있다. 앞으로는 DDR 계열의 온다이 ECC 고도화, CXL (Compute Express Link) 메모리 확장 환경에서의 계층형 ECC, 데이터 중요도에 따라 보호 강도를 조절하는 적응형 ECC가 더 중요해질 것이다. 결국 ECC 회로는 **완벽한 소자를 전제하지 않고도 신뢰할 수 있는 시스템을 만드는 수학+하드웨어의 접점**으로 기억해야 한다.
+하지만 한계도 있다. 강한 코드는 [[015_지연_데이터_관점|지연]]시간과 회로 면적을 늘리고, 코드 설계가 잘못되면 미스코렉션이라는 더 위험한 문제를 만들 수 있다. 앞으로는 DDR 계열의 온다이 ECC 고도화, [[441_cxl|CXL]] ([[441_cxl|Compute Express Link]]) 메모리 확장 환경에서의 계층형 ECC, [[001_dikw_pyramid|데이터]] 중요도에 따라 [[571_protection_vs_security|보호]] 강도를 조절하는 적응형 ECC가 더 중요해질 것이다. 결국 ECC 회로는 **완벽한 소자를 전제하지 않고도 신뢰할 수 있는 시스템을 만드는 수학+하드웨어의 접점**으로 기억해야 한다.
 
 - **📢 섹션 요약 비유**: ECC 회로는 흔들리는 다리 아래에 설치한 자동 보강 장치와 같다. 다리 자체가 완벽하지 않아도, 흔들림을 감지하고 바로 보정해 사람들을 안전하게 건너게 해 준다.
 
@@ -119,11 +119,11 @@ ECC 회로의 가장 직접적인 효과는 조용한 데이터 손상과 갑작
 | 개념 | 연결 포인트 |
 | :-- | :-- |
 | Syndrome | 읽은 코드워드가 어떤 규칙을 어겼는지 보여 주는 핵심 진단값이다. |
-| Hamming Distance | 코드가 몇 비트 오류까지 탐지·정정 가능한지 결정하는 수학적 기준이다. |
+| [[110_hamming_distance|Hamming Distance]] | 코드가 몇 [[073_bit|비트]] 오류까지 탐지·정정 가능한지 결정하는 수학적 기준이다. |
 | SECDED | DRAM에서 가장 널리 쓰이는 저지연 ECC 방식이다. |
-| Chipkill | 단일 DRAM 칩 고장을 감당하도록 확장된 서버급 보호 기법이다. |
-| Memory Scrubbing | 잠재적 1비트 오류가 다중 오류로 누적되기 전에 선제적으로 수정한다. |
-| On-die ECC | 메모리 칩 내부 보호와 시스템 경로 보호를 구분해 생각하게 만드는 개념이다. |
+| Chipkill | 단일 [[251_dram|DRAM]] 칩 고장을 감당하도록 확장된 서버급 [[571_protection_vs_security|보호]] 기법이다. |
+| [[555_memory_scrubbing|Memory Scrubbing]] | 잠재적 1비트 오류가 다중 오류로 누적되기 전에 선제적으로 수정한다. |
+| On-die ECC | 메모리 칩 내부 [[571_protection_vs_security|보호]]와 시스템 경로 [[571_protection_vs_security|보호]]를 구분해 생각하게 만드는 개념이다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -143,7 +143,7 @@ BCH · LDPC 기반 고정정력 저장장치 ECC
 온다이 ECC · 적응형 계층형 신뢰성 아키텍처
 ```
 
-이 흐름은 단순 오류 알림에서 출발해, 지금은 매체별 특성에 맞춘 다층 신뢰성 설계로 발전해 왔음을 보여 준다.
+이 흐름은 단순 오류 알림에서 출발해, 지금은 [[121_transmission_media_guided_unguided|매체]]별 특성에 맞춘 다층 [[642_reliability_mtbf_mttr_mttf_availability|신뢰성]] 설계로 발전해 왔음을 보여 준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

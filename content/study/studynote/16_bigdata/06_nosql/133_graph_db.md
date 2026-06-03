@@ -7,18 +7,18 @@ categories = "studynote-bigdata"
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-- **본질**: 그래프 DB는 엔티티(노드)와 관계(엣지)를 1등급 시민으로 저장하여, 관계 탐색이 JOIN 없이 포인터 추적 방식으로 O(1) per hop 성능을 제공하는 관계 중심 NoSQL이다.
-- **가치**: 소셜 네트워크 친구의 친구, 사기 탐지 링, 추천 엔진처럼 관계가 데이터만큼 중요한 도메인에서 RDBMS JOIN이 수 분 걸릴 쿼리를 밀리초 만에 처리한다.
-- **판단 포인트**: 데이터보다 관계가 중요하고 탐색 깊이가 3홉 이상이며 관계의 구조가 예측 불가능하게 변한다면, 그래프 DB가 RDBMS보다 압도적으로 유리한 선택이다.
+- **본질**: [[070_graph_datastructure|그래프]] DB는 엔티티(노드)와 [[083_relationship_in_er_model|관계]](엣지)를 1등급 시민으로 저장하여, [[083_relationship_in_er_model|관계]] 탐색이 [[521_join|JOIN]] 없이 포인터 추적 방식으로 O(1) per hop [[282_performance_tactics|성능]]을 제공하는 [[083_relationship_in_er_model|관계]] 중심 NoSQL이다.
+- **가치**: 소셜 네트워크 친구의 친구, 사기 탐지 링, 추천 엔진처럼 [[083_relationship_in_er_model|관계]]가 [[001_dikw_pyramid|데이터]]만큼 중요한 [[064_relation_domain|도메인]]에서 RDBMS JOIN이 수 분 걸릴 [[298_qkv_attention|쿼리]]를 밀리초 만에 처리한다.
+- **판단 포인트**: [[001_dikw_pyramid|데이터]]보다 [[083_relationship_in_er_model|관계]]가 중요하고 탐색 깊이가 3홉 이상이며 [[083_relationship_in_er_model|관계]]의 구조가 예측 불가능하게 변한다면, [[070_graph_datastructure|그래프]] DB가 RDBMS보다 압도적으로 유리한 선택이다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-### 관계형 DB의 JOIN 문제
-RDBMS에서 "내 친구의 친구의 친구(3홉)"를 구하려면 동일 테이블에 3회 자기 조인(Self-Join)이 필요하다. 네트워크가 클수록 지수적으로 쿼리 비용이 증가하여 수억 명 규모의 소셜 네트워크에서는 실질적으로 불가능하다.
+### [[083_relationship_in_er_model|관계]]형 DB의 [[521_join|JOIN]] 문제
+RDBMS에서 "내 친구의 친구의 친구(3홉)"를 구하려면 동일 테이블에 3회 자기 조인(Self-[[521_join|Join]])이 필요하다. 네트워크가 클수록 지수적으로 [[298_qkv_attention|쿼리]] 비용이 증가하여 수억 명 규모의 소셜 네트워크에서는 실질적으로 불가능하다.
 
-### 그래프의 기본 구성 요소
+### [[070_graph_datastructure|그래프]]의 기본 구성 요소
 
 ```text
 ┌──────────────────────────────────────────────────────────┐
@@ -41,22 +41,22 @@ RDBMS에서 "내 친구의 친구의 친구(3홉)"를 구하려면 동일 테이
 
 ### 대표 솔루션 비교
 
-| 솔루션 | 특징 | 쿼리 언어 | 적합 사용처 |
+| 솔루션 | 특징 | [[298_qkv_attention|쿼리]] 언어 | 적합 사용처 |
 |:---:|:---|:---:|:---:|
-| **Neo4j** | 가장 성숙, ACID, 인덱스 없는 인접성 | Cypher | 엔터프라이즈 그래프 |
-| **Amazon Neptune** | AWS 관리형, 멀티 모델 | Gremlin/SPARQL | 클라우드 그래프 |
-| **Memgraph** | 인메모리, 스트리밍, OpenCypher | Cypher | 실시간 그래프 |
-| **ArangoDB** | 문서+그래프+KV 멀티모델 | AQL | 유연한 멀티모델 |
-| **TigerGraph** | 병렬 처리, 딥 링크 분석 | GSQL | 엔터프라이즈 분석 |
+| **Neo4j** | 가장 성숙, ACID, [[154_database_index_b_tree_search_optimization|인덱스]] 없는 인접성 | Cypher | 엔터프라이즈 [[070_graph_datastructure|그래프]] |
+| **Amazon Neptune** | AWS 관리형, 멀티 모델 | Gremlin/SPARQL | 클라우드 [[070_graph_datastructure|그래프]] |
+| **Memgraph** | 인메모리, 스트리밍, OpenCypher | Cypher | 실시간 [[070_graph_datastructure|그래프]] |
+| **ArangoDB** | 문서+[[070_graph_datastructure|그래프]]+KV 멀티모델 | AQL | 유연한 멀티모델 |
+| **TigerGraph** | [[430_index_fast_full_scan|병렬]] 처리, 딥 링크 분석 | GSQL | 엔터프라이즈 분석 |
 
 📢 **섹션 요약 비유**
-> RDBMS가 정류장 목록표(데이터 중심)라면, 그래프 DB는 지하철 노선도(관계 중심)다. 노선도에서는 "강남에서 3번 환승하면 어디까지 갈 수 있나?"를 지도를 눈으로 따라가듯 즉시 파악할 수 있지만, 목록표에서는 수십 번의 검색과 비교가 필요하다.
+> RDBMS가 정류장 목록표([[383_data_centric_architecture|데이터 중심]])라면, [[070_graph_datastructure|그래프]] DB는 지하철 노선도([[083_relationship_in_er_model|관계]] 중심)다. 노선도에서는 "강남에서 3번 환승하면 어디까지 갈 수 있나?"를 지도를 눈으로 따라가듯 즉시 파악할 수 있지만, 목록표에서는 수십 번의 검색과 비교가 필요하다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### 인덱스 없는 인접성 (Index-Free Adjacency)
+### [[154_database_index_b_tree_search_optimization|인덱스]] 없는 인접성 ([[154_database_index_b_tree_search_optimization|Index]]-Free [[358_ospf_adjacency_hello_lsa_lsdb|Adjacency]])
 
 ```text
 RDBMS의 관계 탐색 (JOIN 기반):
@@ -100,32 +100,32 @@ RDBMS의 관계 탐색 (JOIN 기반):
 └──────────────────────────────────────────────────────────┘
 ```
 
-### 그래프 모델 유형 비교
+### [[070_graph_datastructure|그래프]] 모델 유형 비교
 
-| 모델 | 표현 방식 | 쿼리 언어 | 특징 |
+| 모델 | 표현 방식 | [[298_qkv_attention|쿼리]] 언어 | 특징 |
 |:---:|:---:|:---:|:---|
-| **Property Graph** | 노드/엣지 + 속성 | Cypher, Gremlin | 가장 직관적, 엔터프라이즈 표준 |
-| **RDF (Resource Description Framework)** | 주어-술어-목적어 트리플 | SPARQL | 시맨틱 웹, 지식 그래프 |
-| **Hypergraph** | N개 노드를 잇는 하이퍼엣지 | 전용 쿼리 | 복잡한 관계 모델링 |
+| **Property [[104_graph|Graph]]** | 노드/엣지 + [[082_attribute_types_er_model|속성]] | Cypher, Gremlin | 가장 직관적, 엔터프라이즈 표준 |
+| **RDF (Resource Description Framework)** | 주어-술어-목적어 트리플 | SPARQL | [[003_semantic_web|시맨틱 웹]], [[160_knowledge_graph_graphrag_integration|지식 그래프]] |
+| **Hypergraph** | N개 노드를 잇는 하이퍼엣지 | 전용 [[298_qkv_attention|쿼리]] | 복잡한 [[083_relationship_in_er_model|관계]] 모델링 |
 
 📢 **섹션 요약 비유**
-> 인덱스 없는 인접성은 전화번호부에서 이름을 찾는 것(O(N))이 아니라, 각 사람이 명함에 다음 연락처를 직접 적어두는 것(O(1))과 같다. 아무리 긴 연락 체인이어도 명함을 따라가면 되니, 전체 전화번호부를 뒤지는 비용이 없다.
+> [[154_database_index_b_tree_search_optimization|인덱스]] 없는 인접성은 전화번호부에서 이름을 찾는 것(O(N))이 아니라, 각 사람이 명함에 다음 연락처를 직접 적어두는 것(O(1))과 같다. 아무리 긴 연락 체인이어도 명함을 따라가면 되니, 전체 전화번호부를 뒤지는 비용이 없다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-### 그래프 DB가 유리한 워크로드
+### [[070_graph_datastructure|그래프]] DB가 유리한 워크로드
 
-| 사용 사례 | 그래프 쿼리 | RDBMS 대비 |
+| 사용 사례 | [[070_graph_datastructure|그래프]] [[298_qkv_attention|쿼리]] | RDBMS 대비 |
 |:---:|:---|:---:|
 | 소셜 네트워크 탐색 | 친구의 친구(N홉) | 수초 → 수ms |
-| 추천 엔진 | "이 상품 산 사람들이 같이 산 것" | 복잡한 JOIN → 단순 패턴 |
+| 추천 엔진 | "이 상품 산 사람들이 같이 산 것" | 복잡한 [[521_join|JOIN]] → 단순 패턴 |
 | 사기 탐지 | 계좌 거래 링 탐지 | 불가능 → 실시간 |
-| 지식 그래프 | 개념 간 관계 추론 | 비정형 → 자연 표현 |
+| [[160_knowledge_graph_graphrag_integration|지식 그래프]] | 개념 간 [[083_relationship_in_er_model|관계]] 추론 | 비정형 → 자연 표현 |
 | 네트워크 IT | 의존성 분석, 영향 범위 계산 | 복잡 → 직관적 |
 
-### ACID vs BASE 그래프 DB
+### ACID vs BASE [[070_graph_datastructure|그래프]] DB
 
 ```text
 Neo4j (ACID):
@@ -140,7 +140,7 @@ Amazon Neptune (조정 가능):
 ```
 
 📢 **섹션 요약 비유**
-> 그래프 DB와 RDBMS의 선택은 도시 내비게이션과 같다. RDBMS는 "도로 목록"을 가지고 경로를 계산하고, 그래프 DB는 이미 도로가 연결된 지도를 가지고 있다. 출발지와 목적지 사이 관계가 복잡할수록 지도(그래프 DB)가 월등히 빠르다.
+> [[070_graph_datastructure|그래프]] DB와 RDBMS의 선택은 도시 내비게이션과 같다. RDBMS는 "도로 목록"을 가지고 경로를 계산하고, [[070_graph_datastructure|그래프]] DB는 이미 도로가 연결된 지도를 가지고 있다. 출발지와 목적지 사이 [[083_relationship_in_er_model|관계]]가 복잡할수록 지도([[070_graph_datastructure|그래프]] DB)가 월등히 빠르다.
 
 ---
 
@@ -168,7 +168,7 @@ WHERE ALL(r IN relationships(path)
 RETURN path
 ```
 
-### 기술사 판단: 그래프 DB 도입 기준
+### 기술사 판단: [[070_graph_datastructure|그래프]] DB 도입 기준
 
 ```text
 그래프 DB 도입 검토 기준:
@@ -185,39 +185,39 @@ RDBMS 유지 기준:
 ```
 
 📢 **섹션 요약 비유**
-> 금융 사기 탐지에서 그래프 DB는 거미줄 속 파리를 찾는 것과 같다. RDBMS로는 각 실을 하나하나 비교해야 하지만, 그래프 DB는 거미줄 전체 패턴을 한눈에 보고 이상한 진동(순환 패턴)을 즉시 감지할 수 있다.
+> 금융 사기 탐지에서 [[070_graph_datastructure|그래프]] DB는 거미줄 속 파리를 찾는 것과 같다. RDBMS로는 각 실을 하나하나 비교해야 하지만, [[070_graph_datastructure|그래프]] DB는 거미줄 전체 패턴을 한눈에 보고 이상한 진동(순환 패턴)을 즉시 감지할 수 있다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-### 산업별 그래프 DB 활용 효과
+### 산업별 [[070_graph_datastructure|그래프]] DB 활용 효과
 
 | 산업 | 활용 | 효과 |
 |:---:|:---:|:---:|
 | 금융 | 사기 탐지 링 분석 | 탐지율 30% 향상, 오탐 50% 감소 |
-| 이커머스 | 추천 엔진 | CTR 15~20% 향상 |
+| 이커머스 | 추천 엔진 | [[090_ctr_mode|CTR]] 15~20% 향상 |
 | 통신 | 네트워크 의존성 분석 | 장애 영향 분석 90% 단축 |
-| 의료 | 지식 그래프 | 약물 상호작용 발견 |
-| 미디어 | 콘텐츠 그래프 | Netflix 유사 추천 |
+| 의료 | [[160_knowledge_graph_graphrag_integration|지식 그래프]] | 약물 상호작용 발견 |
+| 미디어 | 콘텐츠 [[070_graph_datastructure|그래프]] | Netflix 유사 추천 |
 
 ### 결론
-그래프 DB는 "관계가 데이터"인 도메인에서 RDBMS가 해결할 수 없는 문제를 해결하는 특화 데이터베이스다. 기술사 시험에서는 **인덱스 없는 인접성 원리**, **Property Graph vs RDF 모델 차이**, **사기 탐지·추천 엔진 적용 시나리오**, **Cypher 패턴 매칭 문법**이 핵심 논점이다.
+[[070_graph_datastructure|그래프]] DB는 "[[083_relationship_in_er_model|관계]]가 [[001_dikw_pyramid|데이터]]"인 [[064_relation_domain|도메인]]에서 RDBMS가 해결할 수 없는 문제를 해결하는 특화 [[002_database_definition|데이터베이스]]다. 기술사 시험에서는 **[[154_database_index_b_tree_search_optimization|인덱스]] 없는 인접성 원리**, **Property [[104_graph|Graph]] vs RDF 모델 차이**, **사기 탐지·추천 엔진 적용 시나리오**, **Cypher 패턴 매칭 문법**이 핵심 논점이다.
 
 📢 **섹션 요약 비유**
-> 그래프 DB 도입은 지도 앱이 없던 시대에 지도 앱을 도입하는 것과 같다. "서울에서 부산까지 최단 경로"를 묻는 질문에 버스 노선 전체 목록을 뒤지는 것(RDBMS)과 지도를 보는 것(그래프 DB)은 차원이 다른 접근이다.
+> [[070_graph_datastructure|그래프]] DB 도입은 지도 앱이 없던 시대에 지도 앱을 도입하는 것과 같다. "서울에서 부산까지 최단 경로"를 묻는 질문에 [[344_bus|버스]] 노선 전체 목록을 뒤지는 것(RDBMS)과 지도를 보는 것([[070_graph_datastructure|그래프]] DB)은 차원이 다른 접근이다.
 
 ---
 
 ### 📌 관련 개념 맵
 
-| 개념 | 관계 | 설명 |
+| 개념 | [[083_relationship_in_er_model|관계]] | 설명 |
 |:---:|:---:|:---|
-| Cypher | 쿼리 언어 | 패턴 매칭 기반 그래프 쿼리 |
-| SPARQL | 쿼리 언어 | RDF 트리플스토어 쿼리 |
-| 인덱스 없는 인접성 | 성능 원리 | 관계를 포인터로 직접 저장 |
-| PageRank | 그래프 알고리즘 | 노드 중요도 계산 |
-| 커뮤니티 탐지 | 그래프 분석 | 클러스터(사기 그룹) 식별 |
+| Cypher | [[298_qkv_attention|쿼리]] 언어 | 패턴 매칭 기반 [[070_graph_datastructure|그래프]] [[298_qkv_attention|쿼리]] |
+| SPARQL | [[298_qkv_attention|쿼리]] 언어 | RDF 트리플스토어 [[298_qkv_attention|쿼리]] |
+| [[154_database_index_b_tree_search_optimization|인덱스]] 없는 인접성 | [[282_performance_tactics|성능]] 원리 | [[083_relationship_in_er_model|관계]]를 포인터로 직접 저장 |
+| PageRank | [[070_graph_datastructure|그래프]] [[001_algorithm_definition|알고리즘]] | 노드 중요도 계산 |
+| 커뮤니티 탐지 | [[114_graph_analytics|그래프 분석]] | 클러스터(사기 그룹) [[655_ir_detection_analysis|식별]] |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -237,9 +237,9 @@ RDBMS 유지 기준:
 [그래프 머신러닝 (Graph ML) — GNN으로 구조적 패턴 학습, 사기 탐지·추천에 적용]
 ```
 
-이 흐름은 관계형 DB의 조인 한계를 그래프 DB가 극복하고 지식 그래프·GNN으로 AI와 융합하는 발전 경로를 나타낸다.
+이 흐름은 [[083_relationship_in_er_model|관계]]형 DB의 조인 한계를 [[070_graph_datastructure|그래프]] DB가 극복하고 [[160_knowledge_graph_graphrag_integration|지식 그래프]]·GNN으로 AI와 융합하는 발전 경로를 나타낸다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
-1. 그래프 DB는 친구 관계를 선으로 이어놓은 그림 — "내 친구의 친구는 누구?"를 선을 따라가면 바로 알 수 있어요.
-2. 일반 DB가 "학생 명단"이라면 그래프 DB는 "친구 관계도" — 관계가 복잡할수록 그래프 DB가 훨씬 유용해요.
-3. 사기꾼들이 돈을 돌리는 고리 패턴을 찾는 것도 선으로 이어진 그림에서 동그라미를 찾는 것과 같아서, 그래프 DB가 딱 맞는 도구예요.
+1. [[070_graph_datastructure|그래프]] DB는 친구 [[083_relationship_in_er_model|관계]]를 선으로 이어놓은 그림 — "내 친구의 친구는 누구?"를 선을 따라가면 바로 알 수 있어요.
+2. 일반 DB가 "학생 명단"이라면 [[070_graph_datastructure|그래프]] DB는 "친구 [[083_relationship_in_er_model|관계]]도" — [[083_relationship_in_er_model|관계]]가 복잡할수록 [[070_graph_datastructure|그래프]] DB가 훨씬 유용해요.
+3. 사기꾼들이 돈을 돌리는 고리 패턴을 찾는 것도 선으로 이어진 그림에서 동그라미를 찾는 것과 같아서, [[070_graph_datastructure|그래프]] DB가 딱 맞는 도구예요.

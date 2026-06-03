@@ -7,9 +7,9 @@ categories = "studynote-it-management"
 +++
 
 > **핵심 인사이트**
-> 1. 섀도 IT(Shadow IT)는 IT 부서의 공식 승인 없이 직원이 업무에 사용하는 기술·서비스를 뜻하며, 생산성 향상 욕구와 IT 거버넌스의 긴장에서 발생 — Google Drive, Slack, Notion 등 SaaS의 폭발적 증가로 섀도 IT의 범위가 전례 없이 확대됐다.
-> 2. 섀도 IT의 위험은 "보이지 않는 데이터 흐름"에서 발생 — 승인되지 않은 클라우드 서비스에 민감 데이터가 저장되거나, 보안 패치 없는 앱이 기업 네트워크에 연결되어도 IT가 인지하지 못한다.
-> 3. 섀도 IT를 단순 차단이 아닌 "안전한 혁신 채널"로 전환하는 것이 현대 CIO의 접근법 — CASB(Cloud Access Security Broker)로 가시성을 확보하고, 빠른 서비스 카탈로그 승인 프로세스로 합법적 경로를 제공해야 한다.
+> 1. 섀도 IT([[049_shadow_it|Shadow IT]])는 IT 부서의 공식 승인 없이 직원이 업무에 사용하는 기술·[[090_service_kubernetes_network_load_balancing|서비스]]를 뜻하며, 생산성 향상 욕구와 IT 거버넌스의 긴장에서 발생 — Google Drive, Slack, Notion 등 SaaS의 폭발적 증가로 섀도 IT의 범위가 전례 없이 확대됐다.
+> 2. 섀도 IT의 위험은 "보이지 않는 [[001_dikw_pyramid|데이터]] 흐름"에서 발생 — 승인되지 않은 클라우드 [[090_service_kubernetes_network_load_balancing|서비스]]에 민감 [[001_dikw_pyramid|데이터]]가 저장되거나, 보안 패치 없는 앱이 기업 네트워크에 연결되어도 IT가 인지하지 못한다.
+> 3. 섀도 IT를 단순 차단이 아닌 "안전한 혁신 채널"로 전환하는 것이 현대 CIO의 접근법 — [[741_casb_cloud_access_security_broker|CASB]](Cloud Access [[283_security_tactics|Security]] Broker)로 가시성을 확보하고, 빠른 [[088_service_catalog|서비스 카탈로그]] 승인 프로세스로 합법적 경로를 제공해야 한다.
 
 ---
 
@@ -51,7 +51,7 @@ categories = "studynote-it-management"
 
 ---
 
-## Ⅱ. 리스크 유형
+## Ⅱ. [[096_risk_non_risk_architecture_evaluation_flaws|리스크]] 유형
 
 ```
 섀도 IT 리스크 유형:
@@ -90,7 +90,7 @@ categories = "studynote-it-management"
   데이터 사일로 형성
 ```
 
-> 📢 **섹션 요약 비유**: 섀도 IT 위험 = 비밀 거래처 리스크 — 공식 거래처(IT 승인)가 아닌 개인 거래처(섀도 IT). 품질 보증 없음(보안), 세금 신고 불가(컴플라이언스), 거래처 폐업 시 자료 없음(연속성)!
+> 📢 **섹션 요약 비유**: 섀도 IT 위험 = 비밀 거래처 [[096_risk_non_risk_architecture_evaluation_flaws|리스크]] — 공식 거래처(IT 승인)가 아닌 개인 거래처(섀도 IT). 품질 보증 없음(보안), 세금 신고 불가(컴플라이언스), 거래처 폐업 시 자료 없음(연속성)!
 
 ---
 
@@ -140,11 +140,11 @@ CASB (Cloud Access Security Broker):
   Zscaler CASB, Cisco Cloudlock
 ```
 
-> 📢 **섹션 요약 비유**: CASB = 세관 검사대 — 직원(사용자)이 클라우드(해외)로 가는 짐(데이터) 모두 검사. 허가된 짐(승인 앱) OK. 금지 물품(기밀 데이터 업로드) 압수. 허가 목록 없는 앱은 입국 차단!
+> 📢 **섹션 요약 비유**: [[741_casb_cloud_access_security_broker|CASB]] = 세관 검사대 — 직원(사용자)이 클라우드(해외)로 가는 짐([[001_dikw_pyramid|데이터]]) 모두 검사. 허가된 짐(승인 앱) OK. 금지 물품(기밀 [[001_dikw_pyramid|데이터]] 업로드) 압수. 허가 목록 없는 앱은 입국 차단!
 
 ---
 
-## Ⅳ. 거버넌스 전략
+## Ⅳ. 거버넌스 [[268_strategy_pattern|전략]]
 
 ```
 섀도 IT 거버넌스 전략:
@@ -180,11 +180,11 @@ CASB (Cloud Access Security Broker):
   보고 인센티브: 미승인 앱 발견 → IT 신고
 ```
 
-> 📢 **섹션 요약 비유**: 섀도 IT 거버넌스 = 편의점 화장실 정책 — "화장실 없다고 근처 카페 몰래 사용(섀도 IT)". 해결책: 화장실 쉽게 사용하게(빠른 승인). 고위험 구역은 잠금(차단). 모든 방문 기록(CASB)!
+> 📢 **섹션 요약 비유**: 섀도 IT 거버넌스 = 편의점 화장실 [[164_policy|정책]] — "화장실 없다고 근처 카페 몰래 사용(섀도 IT)". 해결책: 화장실 쉽게 사용하게(빠른 승인). 고위험 구역은 잠금(차단). 모든 방문 기록([[741_casb_cloud_access_security_broker|CASB]])!
 
 ---
 
-## Ⅴ. 실무 시나리오 — CASB 도입 효과
+## Ⅴ. 실무 시나리오 — [[741_casb_cloud_access_security_broker|CASB]] 도입 효과
 
 ```
 IT 기업 CASB 도입 사례:
@@ -229,7 +229,7 @@ IT 기업 CASB 도입 사례:
   직원 만족도: "대안 제공" 덕분에 수용성 높음
 ```
 
-> 📢 **섹션 요약 비유**: CASB 도입 = 회사 복지 개선 + 규정 강화 — 몰래 쓰던 개인 앱 차단하면서 공식 대안(Azure OpenAI, Workspace) 제공. 고위험 800개→23개. "차단만"은 반발, "대안 제공"이 성공!
+> 📢 **섹션 요약 비유**: [[741_casb_cloud_access_security_broker|CASB]] 도입 = 회사 복지 개선 + 규정 강화 — 몰래 쓰던 개인 앱 차단하면서 공식 대안(Azure OpenAI, Workspace) 제공. 고위험 800개→23개. "차단만"은 반발, "대안 제공"이 성공!
 
 ---
 
@@ -289,5 +289,5 @@ ChatGPT 업무 데이터 입력
 ## 👶 어린이를 위한 3줄 비유 설명
 
 1. 섀도 IT = 몰래 쓰는 비공식 창고 — IT 승인(공식 창고) 느려서 개인 클라우드(비공식) 사용. 보이지 않아 관리 불가, 보안 사고 위험!
-2. CASB = 세관 검사대 — 직원이 클라우드로 보내는 데이터 모두 검사. 기밀 데이터 업로드 차단, 미승인 앱 접근 제어!
-3. 해결책 = 빠른 대안 제공 — 차단만 하면 반발. 48시간 승인 + 공식 AI 도구 제공. 고위험 앱 800개→23개 감소!
+2. [[741_casb_cloud_access_security_broker|CASB]] = 세관 검사대 — 직원이 클라우드로 보내는 [[001_dikw_pyramid|데이터]] 모두 검사. 기밀 [[001_dikw_pyramid|데이터]] 업로드 차단, 미승인 앱 접근 제어!
+3. 해결책 = 빠른 대안 제공 — 차단만 하면 반발. 48시간 승인 + 공식 [[190_ai_llm_requirements_specification|AI]] 도구 제공. 고위험 앱 800개→23개 감소!

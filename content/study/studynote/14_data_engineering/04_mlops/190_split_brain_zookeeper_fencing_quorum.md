@@ -8,9 +8,9 @@ categories = "studynote-data-engineering"
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 스플릿 브레인(Split Brain)은 네트워크 파티션(분할) 발생 시 클러스터가 두 개 이상의 독립 그룹으로 나뉘어 **각자 리더라고 주장하며 이중 쓰기(Dual Write)를 일으키는** 분산 시스템의 가장 위험한 장애 패턴이다.
-> 2. **가치**: 주키퍼(ZooKeeper)의 ZAB(ZooKeeper Atomic Broadcast) 합의 프로토콜과 쿼럼(Quorum, 과반수) 메커니즘은 네트워크 분할에서도 **하나의 일관된 진실(Single Source of Truth)**을 유지하게 하는 핵심 인프라다.
-> 3. **판단 포인트**: Kafka의 KRaft 모드(Kafka 2.8+)는 ZooKeeper 의존성을 제거하여 운영 복잡도를 낮추고 메타데이터 분산을 개선—이것이 기술사 답안에서 최신 트렌드로 반드시 언급해야 할 포인트다.
+> 1. **본질**: 스플릿 브레인(Split Brain)은 네트워크 [[514_partition_slice_volume|파티션]](분할) 발생 시 클러스터가 두 개 이상의 독립 그룹으로 나뉘어 **각자 리더라고 주장하며 이중 [[289_cqrs_db|쓰기]](Dual Write)를 일으키는** [[136_variance|분산]] 시스템의 가장 위험한 장애 패턴이다.
+> 2. **가치**: 주키퍼([[798_distributed_lock_zookeeper_consensus|ZooKeeper]])의 ZAB([[798_distributed_lock_zookeeper_consensus|ZooKeeper]] Atomic Broadcast) 합의 [[295_protocol_field_tcp_udp_icmp|프로토콜]]과 쿼럼(Quorum, 과반수) 메커니즘은 네트워크 분할에서도 **하나의 일관된 진실(Single Source of Truth)**을 유지하게 하는 핵심 인프라다.
+> 3. **판단 포인트**: Kafka의 KRaft 모드([[179_kafka_flink_watermark_time_window|Kafka]] 2.8+)는 [[798_distributed_lock_zookeeper_consensus|ZooKeeper]] 의존성을 제거하여 운영 복잡도를 낮추고 [[012_metadata|메타데이터]] [[136_variance|분산]]을 개선—이것이 기술사 답안에서 최신 트렌드로 반드시 언급해야 할 포인트다.
 
 ---
 
@@ -41,7 +41,7 @@ categories = "studynote-data-engineering"
   → 단일 리더만 유지 (CAP 이론의 CP 선택)
 ```
 
-### 1.2 CAP 이론과 스플릿 브레인
+### 1.2 [[341_process|CAP]] 이론과 스플릿 브레인
 
 ```
 CAP 이론 트레이드오프:
@@ -66,7 +66,7 @@ CAP 이론 트레이드오프:
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### 2.1 ZooKeeper ZAB (ZooKeeper Atomic Broadcast) 합의 프로토콜
+### 2.1 [[260_zookeeper_leader_election_consensus|ZooKeeper ZAB]] ([[798_distributed_lock_zookeeper_consensus|ZooKeeper]] Atomic Broadcast) 합의 [[295_protocol_field_tcp_udp_icmp|프로토콜]]
 
 ```
 ZAB 합의 프로토콜 흐름:
@@ -94,7 +94,7 @@ ZAB 합의 프로토콜 흐름:
   7노드: 4개 ACK 필요
 ```
 
-### 2.2 ZooKeeper 클러스터 아키텍처
+### 2.2 [[798_distributed_lock_zookeeper_consensus|ZooKeeper]] 클러스터 아키텍처
 
 ```
 ┌──────────────────────────────────────────────────────────┐
@@ -165,19 +165,19 @@ ZAB 합의 프로토콜 흐름:
 
 ## Ⅲ. 비교 및 연결
 
-### 3.1 RAFT vs ZAB 분산 합의 알고리즘 비교
+### 3.1 [[259_raft_paxos|RAFT]] vs ZAB [[136_variance|분산]] [[011_consensus_algorithm|합의 알고리즘]] 비교
 
-| 항목 | RAFT | ZAB (ZooKeeper) |
+| 항목 | [[259_raft_paxos|RAFT]] | ZAB ([[798_distributed_lock_zookeeper_consensus|ZooKeeper]]) |
 |:---|:---|:---|
-| 설계 목적 | 이해하기 쉬운 합의 | ZooKeeper 전용 합의 |
-| 리더 선출 | 타임아웃 기반 무작위 선출 | FastLeaderElection (투표 기반) |
-| 로그 복제 | AppendEntries RPC | PROPOSAL + ACK + COMMIT |
-| 클라이언트 쓰기 | 리더만 처리 | 리더만 처리 |
+| 설계 목적 | 이해하기 쉬운 합의 | [[798_distributed_lock_zookeeper_consensus|ZooKeeper]] 전용 합의 |
+| 리더 선출 | [[573_timeout_retry_backoff_strategy|타임아웃]] 기반 무작위 선출 | FastLeaderElection (투표 기반) |
+| [[568_logs_distributed_logging_elk_fluentd|로그]] [[016_replication_factor|복제]] | AppendEntries [[126_rpc|RPC]] | PROPOSAL + ACK + COMMIT |
+| 클라이언트 [[289_cqrs_db|쓰기]] | 리더만 처리 | 리더만 처리 |
 | 클라이언트 읽기 | 리더 or 팔로워 (설정에 따라) | 팔로워도 읽기 가능 |
-| 장애 복구 | 로그 복제 완료 보장 | 트랜잭션 순서 보장 |
-| 대표 구현 | etcd, Consul, TiKV | ZooKeeper |
+| 장애 [[658_ir_recovery|복구]] | [[568_logs_distributed_logging_elk_fluentd|로그]] [[016_replication_factor|복제]] 완료 보장 | [[191_transaction_concept_states|트랜잭션]] 순서 보장 |
+| 대표 구현 | [[078_etcd_distributed_key_value_store|etcd]], Consul, TiKV | [[798_distributed_lock_zookeeper_consensus|ZooKeeper]] |
 
-### 3.2 Kafka ZooKeeper 의존성 vs KRaft 모드 비교
+### 3.2 [[179_kafka_flink_watermark_time_window|Kafka]] [[798_distributed_lock_zookeeper_consensus|ZooKeeper]] 의존성 vs KRaft 모드 비교
 
 ```
 기존 Kafka + ZooKeeper 아키텍처:
@@ -208,22 +208,22 @@ Kafka KRaft 모드 (Kafka 2.8+, 3.0 프로덕션 안정):
   - 단일 보안 모델 (ZooKeeper 별도 인증 불필요)
 ```
 
-### 3.3 분산 코디네이션 서비스 비교
+### 3.3 [[136_variance|분산]] 코디네이션 [[090_service_kubernetes_network_load_balancing|서비스]] 비교
 
-| 서비스 | 합의 | 특징 | 주요 사용처 |
+| [[090_service_kubernetes_network_load_balancing|서비스]] | 합의 | 특징 | 주요 사용처 |
 |:---|:---|:---|:---|
-| ZooKeeper | ZAB | 성숙한 오픈소스, Hadoop 에코시스템 | Kafka (구버전), HBase, Hadoop NameNode |
-| etcd | RAFT | Kubernetes 기본 스토어 | Kubernetes, CoreDNS |
-| Consul | RAFT | 서비스 디스커버리 특화 | 마이크로서비스 MSA |
-| Apache Curator | ZAB (ZK 래퍼) | ZooKeeper 레시피 라이브러리 | ZooKeeper 고수준 API |
+| [[798_distributed_lock_zookeeper_consensus|ZooKeeper]] | ZAB | 성숙한 [[191_oss_license_compliance|오픈소스]], [[843_hadoop_rack_awareness_data_replication_topology|Hadoop]] 에코시스템 | [[179_kafka_flink_watermark_time_window|Kafka]] (구버전), [[543_hbase|HBase]], [[843_hadoop_rack_awareness_data_replication_topology|Hadoop]] [[014_namenode|NameNode]] |
+| [[078_etcd_distributed_key_value_store|etcd]] | [[259_raft_paxos|RAFT]] | [[205_kubernetes_container_orchestration|Kubernetes]] 기본 스토어 | [[205_kubernetes_container_orchestration|Kubernetes]], CoreDNS |
+| Consul | [[259_raft_paxos|RAFT]] | [[306_service_discovery_pattern|서비스 디스커버리]] 특화 | [[532_microservices_decomposition_patterns|마이크로서비스]] [[619_msa_traffic_hardware|MSA]] |
+| Apache Curator | ZAB (ZK 래퍼) | [[798_distributed_lock_zookeeper_consensus|ZooKeeper]] 레시피 [[336_library_vs_framework|라이브러리]] | [[798_distributed_lock_zookeeper_consensus|ZooKeeper]] 고수준 [[014_api_posix|API]] |
 
-📢 **섹션 요약 비유**: KRaft 모드는 마치 회사 행정팀(ZooKeeper)이 분리되어 있던 것을 없애고, 경영진(Kafka 컨트롤러)이 직접 회사 기록을 관리하게 된 것이다. 중간 관리 비용이 줄고 의사결정이 빨라진다.
+📢 **섹션 요약 비유**: KRaft 모드는 마치 회사 행정팀([[798_distributed_lock_zookeeper_consensus|ZooKeeper]])이 분리되어 있던 것을 없애고, 경영진([[179_kafka_flink_watermark_time_window|Kafka]] 컨트롤러)이 직접 회사 기록을 관리하게 된 것이다. 중간 관리 비용이 줄고 의사결정이 빨라진다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### 4.1 ZooKeeper 고가용성 배포 설계
+### 4.1 [[798_distributed_lock_zookeeper_consensus|ZooKeeper]] 고가용성 배포 설계
 
 ```
 ┌──────────────────────────────────────────────────────────┐
@@ -246,7 +246,7 @@ Kafka KRaft 모드 (Kafka 2.8+, 3.0 프로덕션 안정):
 └──────────────────────────────────────────────────────────┘
 ```
 
-### 4.2 스플릿 브레인 방지 종합 전략
+### 4.2 스플릿 브레인 방지 종합 [[268_strategy_pattern|전략]]
 
 ```
 스플릿 브레인 방지 레이어드 전략:
@@ -286,22 +286,22 @@ Kafka KRaft 모드 (Kafka 2.8+, 3.0 프로덕션 안정):
   ✓ ZooKeeper 운영 주의: 전용 SSD, NTP 동기화, 힙 크기
 ```
 
-📢 **섹션 요약 비유**: 스플릿 브레인 방지 레이어드 전략은 마치 은행 금고의 다중 잠금 장치와 같다. 네트워크 이중화(첫 번째 자물쇠), 쿼럼 합의(두 번째 자물쇠), 펜싱(세 번째 자물쇠) 중 하나가 뚫려도 다음 단계에서 차단한다.
+📢 **섹션 요약 비유**: 스플릿 브레인 방지 레이어드 [[268_strategy_pattern|전략]]은 마치 은행 금고의 다중 잠금 장치와 같다. 네트워크 [[456_dual_redundancy|이중화]](첫 번째 자물쇠), 쿼럼 합의(두 번째 자물쇠), 펜싱(세 번째 자물쇠) 중 하나가 뚫려도 다음 단계에서 차단한다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-### 5.1 ZooKeeper 기반 분산 코디네이션 도입 효과
+### 5.1 [[798_distributed_lock_zookeeper_consensus|ZooKeeper]] 기반 [[136_variance|분산]] 코디네이션 도입 효과
 
 | 효과 | 내용 |
 |:---|:---|
-| 데이터 일관성 | 스플릿 브레인 원천 차단으로 이중 쓰기 0 |
+| [[001_dikw_pyramid|데이터]] [[194_consistency_database_integrity|일관성]] | 스플릿 브레인 원천 차단으로 이중 [[289_cqrs_db|쓰기]] 0 |
 | 리더 선출 자동화 | 수동 개입 없이 수초 내 자동 페일오버 |
-| 분산 잠금 | 글로벌 뮤텍스로 크리티컬 섹션 보호 |
-| 서비스 디스커버리 | 동적 서비스 등록·조회 (마이크로서비스) |
+| [[136_variance|분산]] 잠금 | 글로벌 뮤텍스로 크리티컬 섹션 [[571_protection_vs_security|보호]] |
+| [[306_service_discovery_pattern|서비스 디스커버리]] | 동적 [[090_service_kubernetes_network_load_balancing|서비스]] 등록·조회 ([[532_microservices_decomposition_patterns|마이크로서비스]]) |
 
-### 5.2 분산 합의 기술 발전 방향
+### 5.2 [[136_variance|분산]] 합의 기술 발전 방향
 
 ```
 ┌──────────────────────────────────────────────────────┐
@@ -321,37 +321,37 @@ Kafka KRaft 모드 (Kafka 2.8+, 3.0 프로덕션 안정):
 └──────────────────────────────────────────────────────┘
 ```
 
-### 5.3 분산 시스템 설계 원칙 요약
+### 5.3 [[136_variance|분산]] 시스템 설계 원칙 요약
 
 | 원칙 | 구현 방법 |
 |:---|:---|
 | 홀수 노드 구성 | 2n+1 노드로 쿼럼 계산 단순화 |
 | 레이어드 펜싱 | 에포크 토큰 + STONITH + 스토리지 예약 |
 | 장애 허용 설계 | 최대 n개 노드 장애 허용 (n = (클러스터 크기-1)/2) |
-| 합의 내재화 | ZooKeeper 외부 의존 → KRaft 내재화 |
+| 합의 내재화 | [[798_distributed_lock_zookeeper_consensus|ZooKeeper]] 외부 의존 → KRaft 내재화 |
 
-📢 **섹션 요약 비유**: 분산 합의의 발전은 마치 회사 이사회 구조 발전과 같다. 처음엔 외부 공증 회사(ZooKeeper)에게 의사결정 기록을 맡겼지만, 이제는 이사회(Kafka 컨트롤러) 자체에 기록과 합의 권한을 내재화하여 더 빠르고 효율적으로 운영하는 방향으로 발전했다.
+📢 **섹션 요약 비유**: [[136_variance|분산]] 합의의 발전은 마치 회사 이사회 구조 발전과 같다. 처음엔 외부 공증 회사([[798_distributed_lock_zookeeper_consensus|ZooKeeper]])에게 의사결정 기록을 맡겼지만, 이제는 이사회([[179_kafka_flink_watermark_time_window|Kafka]] 컨트롤러) 자체에 기록과 합의 권한을 내재화하여 더 빠르고 효율적으로 운영하는 방향으로 발전했다.
 
 ---
 
 ### 📌 관련 개념 맵
 
-| 관계 | 개념 | 설명 |
+| [[083_relationship_in_er_model|관계]] | 개념 | 설명 |
 |:---|:---|:---|
 | 핵심 장애 | 스플릿 브레인 (Split Brain) | 네트워크 분할 시 이중 리더 발생 |
 | 해결 메커니즘 | 쿼럼 (Quorum) | 과반수 노드 동의로만 결정 |
-| 합의 프로토콜 | ZAB (ZooKeeper Atomic Broadcast) | ZooKeeper 전용 2-phase 합의 |
+| 합의 [[295_protocol_field_tcp_udp_icmp|프로토콜]] | ZAB ([[798_distributed_lock_zookeeper_consensus|ZooKeeper]] Atomic Broadcast) | [[798_distributed_lock_zookeeper_consensus|ZooKeeper]] 전용 2-phase 합의 |
 | 격리 메커니즘 | 펜싱 (Fencing) | 구형 리더 강제 격리 |
-| 이론 기반 | CAP 정리 | 일관성/가용성/파티션 허용 트레이드오프 |
-| 비교 알고리즘 | RAFT | etcd, Consul, KRaft의 합의 알고리즘 |
-| 최신 트렌드 | KRaft (Kafka RAFT) | Kafka 3.x+ ZooKeeper 의존성 제거 |
+| 이론 기반 | [[341_process|CAP]] 정리 | [[194_consistency_database_integrity|일관성]]/[[452_availability|가용성]]/[[514_partition_slice_volume|파티션]] 허용 트레이드오프 |
+| 비교 [[001_algorithm_definition|알고리즘]] | [[259_raft_paxos|RAFT]] | [[078_etcd_distributed_key_value_store|etcd]], Consul, KRaft의 [[011_consensus_algorithm|합의 알고리즘]] |
+| 최신 트렌드 | KRaft ([[179_kafka_flink_watermark_time_window|Kafka]] [[259_raft_paxos|RAFT]]) | [[179_kafka_flink_watermark_time_window|Kafka]] 3.x+ [[798_distributed_lock_zookeeper_consensus|ZooKeeper]] 의존성 제거 |
 | 물리적 펜싱 | STONITH | 구형 리더 원격 전원 차단으로 격리 |
 
 ---
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. **스플릿 브레인**은 마치 반장 선거를 하다가 교실이 둘로 나뉘어, 앞쪽 학생들은 A가 반장이라 하고 뒤쪽 학생들은 B가 반장이라고 주장하는 상황이에요—두 명이 동시에 반장 노릇을 하면 학급이 혼란에 빠지는 것처럼 데이터베이스도 엉망이 돼요.
+1. **스플릿 브레인**은 마치 반장 선거를 하다가 교실이 둘로 나뉘어, 앞쪽 학생들은 A가 반장이라 하고 뒤쪽 학생들은 B가 반장이라고 주장하는 상황이에요—두 명이 동시에 반장 노릇을 하면 학급이 혼란에 빠지는 것처럼 [[001_dikw_pyramid|데이터]]베이스도 엉망이 돼요.
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -374,4 +374,4 @@ CAP 정리: Consistency vs Availability 트레이드오프
 Raft · Paxos 합의 알고리즘 → 안전한 리더 선출
 ```
 2. **쿼럼**은 "반 전체 30명 중 16명 이상이 동의해야 반장이 된다"는 규칙이에요—교실이 둘로 나뉠 때 한쪽이 16명 이상이어야만 반장을 선출할 수 있어서, 양쪽 동시에 반장이 나오는 일이 없어요.
-3. **펜싱**은 새 반장이 뽑힌 후 전 반장의 교실 열쇠와 반장 도장을 즉시 회수하는 것처럼, 구형 리더가 실수로 데이터를 건드리지 못하게 물리적으로 차단하는 방법이에요.
+3. **펜싱**은 새 반장이 뽑힌 후 전 반장의 교실 열쇠와 반장 도장을 즉시 회수하는 것처럼, 구형 리더가 실수로 [[001_dikw_pyramid|데이터]]를 건드리지 못하게 물리적으로 차단하는 방법이에요.

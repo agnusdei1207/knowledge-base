@@ -8,27 +8,27 @@ categories = "studynote-cloud-architecture"
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 운영 환경의 실제 트래픽을 100% 복제(미러링)하여 격리된 신버전 서버로 전달하되, 그 응답은 버리고 운영 서버 응답만 사용자에게 반환하는 완전 격리 검증 기법이다.
-> 2. **가치**: 스테이징 환경의 한계(실제 트래픽 패턴 부재)를 극복하여, 신버전이 운영 수준의 부하와 데이터 다양성에서 올바르게 동작하는지를 안전하게 검증한다.
-> 3. **판단 포인트**: 미러링 트래픽이 신버전 DB에 실제 쓰기(Write)를 수행하면 데이터 오염이 발생하므로, 신버전 환경은 별도 격리 DB 또는 읽기 전용 DB를 사용해야 한다.
+> 1. **본질**: 운영 환경의 실제 트래픽을 100% [[016_replication_factor|복제]]([[333_raid_1|미러링]])하여 격리된 신버전 서버로 전달하되, 그 응답은 버리고 운영 서버 응답만 사용자에게 반환하는 완전 격리 [[395_verification_process_review|검증]] 기법이다.
+> 2. **가치**: 스테이징 환경의 한계(실제 트래픽 패턴 부재)를 극복하여, 신버전이 운영 수준의 부하와 [[001_dikw_pyramid|데이터]] 다양성에서 올바르게 동작하는지를 안전하게 [[395_verification_process_review|검증]]한다.
+> 3. **판단 포인트**: [[333_raid_1|미러링]] 트래픽이 신버전 DB에 실제 [[289_cqrs_db|쓰기]](Write)를 수행하면 [[001_dikw_pyramid|데이터]] 오염이 발생하므로, 신버전 환경은 별도 격리 DB 또는 읽기 전용 DB를 사용해야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-섀도우 배포(Shadow Deployment)는 서비스 메시(Istio, Envoy)나 API 게이트웨이의 트래픽 미러링(Traffic Mirroring) 기능을 활용하여, 운영 트래픽의 복사본을 신버전 서비스에 동시에 전달하는 기법이다. 운영 서비스는 정상적으로 응답하고, 신버전(Shadow)은 동일한 요청을 처리하지만 그 응답은 사용자에게 반환되지 않는다.
+[[575_shadow_deployment_traffic_mirroring|섀도우 배포]]([[118_shadow_deployment_traffic_mirroring|Shadow Deployment]])는 [[302_service_mesh_istio|서비스 메시]]([[302_service_mesh_istio|Istio]], Envoy)나 [[014_api_posix|API]] 게이트웨이의 트래픽 [[333_raid_1|미러링]](Traffic Mirroring) 기능을 활용하여, 운영 트래픽의 복사본을 신버전 [[090_service_kubernetes_network_load_balancing|서비스]]에 동시에 전달하는 기법이다. 운영 [[090_service_kubernetes_network_load_balancing|서비스]]는 정상적으로 응답하고, 신버전(Shadow)은 동일한 요청을 처리하지만 그 응답은 사용자에게 반환되지 않는다.
 
-이 기법이 필요한 이유는 **스테이징 환경의 근본적 한계** 때문이다. 스테이징 환경은 운영과 동일한 코드를 실행하지만, 트래픽 패턴·데이터 분포·사용자 행동 패턴이 운영과 다르다. 예를 들어 검색 쿼리의 99%는 스테이징에서 테스트되지 않은 특이한 패턴일 수 있다.
+이 기법이 필요한 이유는 **스테이징 환경의 근본적 한계** 때문이다. 스테이징 환경은 운영과 동일한 코드를 실행하지만, 트래픽 패턴·[[001_dikw_pyramid|데이터]] 분포·사용자 행동 패턴이 운영과 다르다. 예를 들어 검색 쿼리의 99%는 스테이징에서 테스트되지 않은 특이한 패턴일 수 있다.
 
-섀도우 배포는 특히 **대규모 시스템 리팩토링·마이그레이션**에서 강력하다. 마이크로서비스 분리, DB 엔진 교체, 검색 알고리즘 변경 같이 "기존과 동일하게 동작하는지"를 운영 수준 데이터로 검증해야 하는 상황에서 리스크를 제거한다.
+[[575_shadow_deployment_traffic_mirroring|섀도우 배포]]는 특히 **대규모 시스템 [[213_refactoring_cloud_native_rearchitecture|리팩토링]]·마이그레이션**에서 강력하다. [[532_microservices_decomposition_patterns|마이크로서비스]] 분리, DB 엔진 교체, 검색 [[001_algorithm_definition|알고리즘]] 변경 같이 "기존과 동일하게 동작하는지"를 운영 수준 [[001_dikw_pyramid|데이터]]로 [[395_verification_process_review|검증]]해야 하는 상황에서 [[096_risk_non_risk_architecture_evaluation_flaws|리스크]]를 제거한다.
 
-📢 **섹션 요약 비유**: 섀도우 배포는 새 번역가를 채용할 때 고객 편지를 기존 번역가와 새 번역가에게 동시에 보내서 번역 결과를 비교하는 것과 같다. 고객에게는 기존 번역가 답장만 보내고, 새 번역가의 결과는 내부 품질 검증에만 사용한다.
+📢 **섹션 요약 비유**: [[575_shadow_deployment_traffic_mirroring|섀도우 배포]]는 새 번역가를 채용할 때 고객 편지를 기존 번역가와 새 번역가에게 동시에 보내서 번역 결과를 비교하는 것과 같다. 고객에게는 기존 번역가 답장만 보내고, 새 번역가의 결과는 내부 품질 [[395_verification_process_review|검증]]에만 사용한다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### 트래픽 미러링 구조
+### 트래픽 [[333_raid_1|미러링]] 구조
 
 ```
   ┌────────────┐
@@ -54,7 +54,7 @@ categories = "studynote-cloud-architecture"
                         - v1과 결과 차이
 ```
 
-### Istio 트래픽 미러링 설정
+### [[302_service_mesh_istio|Istio]] 트래픽 [[333_raid_1|미러링]] [[009_config|설정]]
 
 ```yaml
 apiVersion: networking.istio.io/v1alpha3
@@ -94,34 +94,34 @@ spec:
   └─────────────────────────────────────────────┘
 ```
 
-📢 **섹션 요약 비유**: Istio `mirror` 설정은 마치 전화 통화를 녹음하는 것과 같다. 통화(서비스)는 정상 진행되고, 복사본이 조용히 다른 시스템(Shadow)에 전달되어 분석된다.
+📢 **섹션 요약 비유**: [[302_service_mesh_istio|Istio]] `mirror` [[009_config|설정]]은 마치 전화 통화를 녹음하는 것과 같다. 통화([[090_service_kubernetes_network_load_balancing|서비스]])는 정상 진행되고, 복사본이 조용히 다른 시스템(Shadow)에 전달되어 분석된다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-### 섀도우 배포 vs 다크 론칭 비교
+### [[575_shadow_deployment_traffic_mirroring|섀도우 배포]] vs [[197_dark_launching_traffic_shadow|다크 론칭]] 비교
 
-| 항목 | Shadow Deployment | Dark Launching |
+| 항목 | [[118_shadow_deployment_traffic_mirroring|Shadow Deployment]] | [[197_dark_launching_traffic_shadow|Dark Launching]] |
 |:---|:---|:---|
-| 복제 레벨 | 네트워크/인프라 레벨 | 코드 레벨 (조건 분기) |
+| [[016_replication_factor|복제]] 레벨 | 네트워크/인프라 레벨 | 코드 레벨 (조건 분기) |
 | 신버전 격리 | 완전히 격리된 별도 서버 | 동일 서버 내 코드 분기 |
 | DB 격리 | 별도 DB 사용 가능 | 코드에서 dry_run 필요 |
-| 전체 서비스 재현 | ✅ (전체 인프라 스택) | ❌ (단일 기능 위주) |
-| 구현 복잡도 | 높음 (인프라 설정) | 낮음~중간 |
+| 전체 [[090_service_kubernetes_network_load_balancing|서비스]] 재현 | ✅ (전체 인프라 [[057_stack|스택]]) | ❌ (단일 기능 위주) |
+| 구현 복잡도 | 높음 (인프라 [[009_config|설정]]) | 낮음~중간 |
 | 대규모 마이그레이션 | ✅ 적합 | ❌ 적합하지 않음 |
 
 ### 활용 시나리오별 적합 기법
 
 | 시나리오 | 권장 기법 |
 |:---|:---|
-| 단일 API 기능 성능 검증 | 다크 론칭 |
-| DB 엔진 교체 검증 | 섀도우 배포 |
-| 전체 서비스 마이그레이션 | 섀도우 배포 |
-| 새 알고리즘 정확도 비교 | 섀도우 배포 |
-| 점진적 사용자 출시 | 카나리 배포 |
+| 단일 [[014_api_posix|API]] 기능 [[282_performance_tactics|성능]] [[395_verification_process_review|검증]] | [[197_dark_launching_traffic_shadow|다크 론칭]] |
+| DB 엔진 교체 [[395_verification_process_review|검증]] | [[575_shadow_deployment_traffic_mirroring|섀도우 배포]] |
+| 전체 [[090_service_kubernetes_network_load_balancing|서비스]] 마이그레이션 | [[575_shadow_deployment_traffic_mirroring|섀도우 배포]] |
+| 새 [[001_algorithm_definition|알고리즘]] 정확도 비교 | [[575_shadow_deployment_traffic_mirroring|섀도우 배포]] |
+| 점진적 사용자 출시 | [[115_canary_deployment_gradual_rollout|카나리 배포]] |
 
-📢 **섹션 요약 비유**: 섀도우 배포가 다크 론칭보다 강력한 이유는, 다크 론칭이 주방의 새 레시피만 테스트한다면 섀도우는 새 레스토랑 전체(주방+서빙+결제 시스템)를 복제해서 병렬 운영하기 때문이다.
+📢 **섹션 요약 비유**: [[575_shadow_deployment_traffic_mirroring|섀도우 배포]]가 [[197_dark_launching_traffic_shadow|다크 론칭]]보다 강력한 이유는, [[197_dark_launching_traffic_shadow|다크 론칭]]이 주방의 새 레시피만 테스트한다면 섀도우는 새 레스토랑 전체(주방+서빙+결제 시스템)를 [[016_replication_factor|복제]]해서 [[430_index_fast_full_scan|병렬]] 운영하기 때문이다.
 
 ---
 
@@ -154,15 +154,15 @@ class ShadowComparisonService:
 ```
 
 **실제 적용 사례**:
-- GitHub: Ruby on Rails → Go 마이그레이션 시 섀도우 배포로 응답 일치율 99.9% 검증 후 전환
-- 금융 서비스: 신 결제 엔진을 구 엔진과 병렬로 6개월간 섀도우 운영 후 전환
+- GitHub: Ruby on Rails → Go 마이그레이션 시 [[575_shadow_deployment_traffic_mirroring|섀도우 배포]]로 응답 일치율 99.9% [[395_verification_process_review|검증]] 후 전환
+- 금융 [[090_service_kubernetes_network_load_balancing|서비스]]: 신 결제 엔진을 구 엔진과 [[430_index_fast_full_scan|병렬]]로 6개월간 섀도우 운영 후 전환
 
 **기술사 판단 포인트**:
-- 미러링 트래픽은 운영 서버에 추가 네트워크 오버헤드를 발생시키므로, 100% 미러링이 아닌 10~50%부터 시작하여 Shadow 서버의 안정성을 먼저 확인한다.
-- Shadow 환경의 리소스는 운영과 동일 스펙으로 구성해야 현실적인 성능 측정이 가능하다.
+- [[333_raid_1|미러링]] 트래픽은 운영 서버에 추가 네트워크 오버헤드를 발생시키므로, 100% [[333_raid_1|미러링]]이 아닌 [[489_raid_10_hybrid|10]]~50%부터 시작하여 Shadow 서버의 안정성을 먼저 확인한다.
+- Shadow 환경의 리소스는 운영과 동일 스펙으로 구성해야 현실적인 [[282_performance_tactics|성능]] 측정이 가능하다.
 - 비교 결과 불일치(Mismatch) 리포트를 자동화하여 개발팀이 매일 리뷰하는 프로세스를 수립한다.
 
-📢 **섹션 요약 비유**: 섀도우 배포 비교 분석은 이란성 쌍둥이를 비교하는 것과 같다. 외모(응답)가 똑같은지, 속도(성능)가 같은지, 건강(에러)은 괜찮은지를 꼼꼼히 체크하여 새 버전이 기존과 완전히 동등함을 증명한다.
+📢 **섹션 요약 비유**: [[575_shadow_deployment_traffic_mirroring|섀도우 배포]] 비교 분석은 이란성 쌍둥이를 비교하는 것과 같다. 외모(응답)가 똑같은지, 속도([[282_performance_tactics|성능]])가 같은지, 건강(에러)은 괜찮은지를 꼼꼼히 체크하여 새 버전이 기존과 완전히 동등함을 증명한다.
 
 ---
 
@@ -170,14 +170,14 @@ class ShadowComparisonService:
 
 | 기대효과 | 설명 |
 |:---|:---|
-| 리스크 없는 실운영 검증 | 사용자 영향 없이 100% 실제 트래픽으로 검증 |
-| 정확한 성능 측정 | 실제 부하 패턴에서의 p99, 에러율 측정 |
+| [[096_risk_non_risk_architecture_evaluation_flaws|리스크]] 없는 실운영 [[395_verification_process_review|검증]] | 사용자 영향 없이 100% 실제 트래픽으로 [[395_verification_process_review|검증]] |
+| 정확한 [[282_performance_tactics|성능]] 측정 | 실제 부하 패턴에서의 p99, 에러율 측정 |
 | 마이그레이션 자신감 | 수 주~수 달 운영 후 확신을 가지고 전환 |
 | 결과 비교 자동화 | 일치율 메트릭으로 품질 게이트 자동화 |
 
-섀도우 배포는 대규모 아키텍처 전환의 "최후 보루"다. 모든 테스트를 통과했더라도 실제 운영 트래픽에서는 예상치 못한 동작이 나타날 수 있다. 섀도우 배포는 이 마지막 불확실성을 데이터로 해소하는 가장 강력한 방법이다.
+[[575_shadow_deployment_traffic_mirroring|섀도우 배포]]는 대규모 아키텍처 전환의 "최후 보루"다. 모든 테스트를 통과했더라도 실제 운영 트래픽에서는 예상치 못한 동작이 나타날 수 있다. [[575_shadow_deployment_traffic_mirroring|섀도우 배포]]는 이 마지막 불확실성을 [[001_dikw_pyramid|데이터]]로 해소하는 가장 강력한 방법이다.
 
-📢 **섹션 요약 비유**: 섀도우 배포는 비행기 조종사를 정식 채용하기 전 실제 비행기에 보조 좌석을 마련해 수백 시간 실제 비행을 관찰하는 것과 같다. 시뮬레이터가 아닌 실제 하늘에서 실력을 증명해야 승객을 맡길 수 있다.
+📢 **섹션 요약 비유**: [[575_shadow_deployment_traffic_mirroring|섀도우 배포]]는 비행기 조종사를 정식 채용하기 전 실제 비행기에 보조 좌석을 마련해 수백 시간 실제 비행을 관찰하는 것과 같다. 시뮬레이터가 아닌 실제 하늘에서 실력을 증명해야 승객을 맡길 수 있다.
 
 ---
 
@@ -185,16 +185,16 @@ class ShadowComparisonService:
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| Istio Traffic Mirroring | 섀도우 배포의 핵심 구현 기술 |
-| 다크 론칭 | 코드 레벨의 유사 기법, 단일 기능 검증에 적합 |
-| 서비스 메시 (Envoy) | 네트워크 레벨 미러링을 가능하게 하는 프록시 |
-| 격리 DB 환경 | 미러링 트래픽의 쓰기 사이드 이펙트 방지 핵심 |
+| [[302_service_mesh_istio|Istio]] Traffic Mirroring | [[575_shadow_deployment_traffic_mirroring|섀도우 배포]]의 핵심 구현 기술 |
+| [[197_dark_launching_traffic_shadow|다크 론칭]] | 코드 레벨의 유사 기법, 단일 기능 [[395_verification_process_review|검증]]에 적합 |
+| [[302_service_mesh_istio|서비스 메시]] (Envoy) | 네트워크 레벨 [[333_raid_1|미러링]]을 가능하게 하는 [[264_proxy_pattern_surrogate_access_control|프록시]] |
+| 격리 DB 환경 | [[333_raid_1|미러링]] 트래픽의 [[289_cqrs_db|쓰기]] 사이드 이펙트 방지 핵심 |
 | 결과 비교 분석 | 자동화된 Mismatch 감지 및 리포팅 프로세스 |
-| 카나리 배포 | 섀도우 검증 완료 후 점진적 사용자 노출 단계 |
+| [[115_canary_deployment_gradual_rollout|카나리 배포]] | 섀도우 [[395_verification_process_review|검증]] 완료 후 점진적 사용자 노출 단계 |
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. 섀도우 배포는 새 선생님이 수업을 잘 가르치는지 확인하기 위해, 기존 선생님 수업 옆에서 새 선생님도 똑같이 가르쳐보게 하는 것이야.
+1. [[575_shadow_deployment_traffic_mirroring|섀도우 배포]]는 새 선생님이 수업을 잘 가르치는지 확인하기 위해, 기존 선생님 수업 옆에서 새 선생님도 똑같이 가르쳐보게 하는 것이야.
 
 ### 📈 관련 키워드 및 발전 흐름도
 

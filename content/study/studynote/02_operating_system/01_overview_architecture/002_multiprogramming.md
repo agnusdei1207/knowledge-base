@@ -6,26 +6,26 @@ date = "2026-03-21"
 categories = "studynote-operating-system"
 +++
 
-# 다중 프로그래밍 (Multiprogramming)
+# [[673_multiprogramming_bottleneck_resource|다중 프로그래밍]] ([[673_multiprogramming_bottleneck_resource|Multiprogramming]])
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: 다중 프로그래밍 (Multiprogramming)은 I/O 작업으로 인해 CPU가 유휴 상태 (Idle)가 될 때 다른 작업으로 전환하여 CPU 활용률 (Utilization)을 극대화하는 자원 효율화 기법이다.
-> 2. **가치**: 단일 작업 처리 (Uni-programming)의 한계인 자원 낭비를 극복하고, 메모리에 여러 프로세스를 상주시켜 시스템 전체의 처리량 (Throughput)을 비약적으로 향상시킨다.
-> 3. **융합**: 현대의 시분할 시스템 (Time-sharing)과 가상 메모리 (Virtual Memory) 기술의 근간이 되었으며, 프로세스 스케줄링 및 메모리 보호 (Memory Protection) 기술 발전을 견인했다.
+> 1. **본질**: [[673_multiprogramming_bottleneck_resource|다중 프로그래밍]] ([[673_multiprogramming_bottleneck_resource|Multiprogramming]])은 I/O 작업으로 인해 CPU가 유휴 상태 ([[611_cpu_idle_wait_optimization|Idle]])가 될 때 다른 작업으로 전환하여 CPU 활용률 (Utilization)을 극대화하는 자원 효율화 기법이다.
+> 2. **가치**: 단일 작업 처리 (Uni-programming)의 한계인 자원 낭비를 극복하고, 메모리에 여러 프로세스를 상주시켜 시스템 전체의 [[139_throughput|처리량]] ([[139_throughput|Throughput]])을 비약적으로 향상시킨다.
+> 3. **융합**: 현대의 [[003_time_sharing_system|시분할 시스템]] (Time-sharing)과 [[381_virtual_memory|가상 메모리]] ([[381_virtual_memory|Virtual Memory]]) 기술의 근간이 되었으며, 프로세스 스케줄링 및 [[307_memory_protection|메모리 보호]] ([[307_memory_protection|Memory Protection]]) 기술 발전을 견인했다.
 
 ---
 
-## Ⅰ. 개요 및 필요성 (Context & Necessity)
+## Ⅰ. 개요 및 필요성 ([[033_context|Context]] & Necessity)
 
-- **개념**: 다중 프로그래밍 (Multiprogramming)은 여러 개의 프로그램 (Job)을 동시에 메모리에 적재해 두고, 현재 실행 중인 프로그램이 I/O (Input/Output) 요청 등으로 인해 대기 상태에 빠지면 CPU (Central Processing Unit)를 즉시 다른 프로그램에게 할당하여 실행을 지속하는 방식이다. 이는 'CPU는 한순간도 쉬지 않아야 한다'는 효율성 중심의 운영 철학을 대변한다.
+- **개념**: [[673_multiprogramming_bottleneck_resource|다중 프로그래밍]] ([[673_multiprogramming_bottleneck_resource|Multiprogramming]])은 여러 개의 프로그램 (Job)을 동시에 메모리에 적재해 두고, 현재 실행 중인 프로그램이 I/O (Input/Output) 요청 등으로 인해 대기 상태에 빠지면 CPU (Central Processing Unit)를 즉시 다른 프로그램에게 할당하여 실행을 지속하는 방식이다. 이는 'CPU는 한순간도 쉬지 않아야 한다'는 효율성 중심의 운영 철학을 대변한다.
 
-- **필요성**: 컴퓨터 시스템에서 CPU의 연산 속도는 I/O 장치의 처리 속도에 비해 압도적으로 빠르다. 단일 프로그래밍 환경에서는 프로그램이 키보드 입력을 기다리거나 디스크 읽기를 수행하는 동안 CPU가 아무런 작업도 하지 못하고 기다려야 한다. 이러한 비효율을 제거하고 값비싼 자원인 CPU의 사용 시간을 100%에 가깝게 끌어올리기 위해 다중 프로그래밍이 고안되었다.
+- **필요성**: 컴퓨터 시스템에서 CPU의 연산 속도는 I/O 장치의 처리 속도에 비해 압도적으로 빠르다. 단일 프로그래밍 환경에서는 프로그램이 키보드 입력을 기다리거나 디스크 읽기를 수행하는 동안 CPU가 아무런 작업도 하지 못하고 기다려야 한다. 이러한 비효율을 제거하고 값비싼 자원인 CPU의 사용 시간을 100%에 가깝게 끌어올리기 위해 [[673_multiprogramming_bottleneck_resource|다중 프로그래밍]]이 고안되었다.
 
-- **💡 비유**: 다중 프로그래밍은 "숙련된 요리사"와 같다. 요리사가 냄비에 물을 올려두고 끓을 때까지 가만히 기다리는 것이 아니라, 물이 끓는 동안 재료를 손질하거나 다른 요리를 시작하여 주방의 생산성을 높이는 것과 같은 원리다.
+- **💡 비유**: [[673_multiprogramming_bottleneck_resource|다중 프로그래밍]]은 "숙련된 요리사"와 같다. 요리사가 냄비에 물을 올려두고 끓을 때까지 가만히 기다리는 것이 아니라, 물이 끓는 동안 재료를 손질하거나 다른 요리를 시작하여 주방의 생산성을 높이는 것과 같은 원리다.
 
-- **기존 한계와 다중 프로그래밍의 등장**: 초기의 일괄 처리 시스템 (Batch Processing)은 한 번에 하나의 작업만 메모리에 올려 처리했다. 이는 I/O 바운드 작업에서 극심한 자원 낭비를 초래했다. 이를 해결하기 위해 메모리 관리와 작업 스케줄링 (Job Scheduling) 개념이 도입되며 다중 프로그래밍이 시작되었다.
+- **기존 한계와 [[673_multiprogramming_bottleneck_resource|다중 프로그래밍]]의 등장**: 초기의 [[672_batch_processing_system_metrics|일괄 처리 시스템]] ([[228_batch_processing_hadoop_spark|Batch Processing]])은 한 번에 하나의 작업만 메모리에 올려 처리했다. 이는 I/O 바운드 작업에서 극심한 자원 낭비를 초래했다. 이를 해결하기 위해 메모리 관리와 작업 스케줄링 (Job Scheduling) 개념이 도입되며 [[673_multiprogramming_bottleneck_resource|다중 프로그래밍]]이 시작되었다.
 
-이 그래프는 단일 프로그래밍과 다중 프로그래밍 환경에서 CPU의 유휴 시간 (Idle Time) 차이를 시각적으로 보여준다.
+이 그래프는 단일 프로그래밍과 [[673_multiprogramming_bottleneck_resource|다중 프로그래밍]] 환경에서 CPU의 유휴 시간 ([[611_cpu_idle_wait_optimization|Idle]] Time) 차이를 시각적으로 보여준다.
 
 ```text
 ┌────────────────────────────────────────────────────────────────────┐
@@ -43,7 +43,7 @@ categories = "studynote-operating-system"
 └────────────────────────────────────────────────────────────────────┘
 ```
 
-**[다이어그램 해설]** 단일 프로그래밍 (Uni-programming) 방식에서는 Job A가 I/O 작업을 수행하는 동안 CPU는 아무런 연산을 하지 못하고 유휴 상태 (Idle)로 대기하게 된다. 이는 시스템 전체 처리 효율을 급격히 떨어뜨리는 원인이 된다. 반면 다중 프로그래밍 (Multiprogramming)은 Job A가 I/O 대기에 들어가는 즉시 준비 상태에 있는 Job B나 Job C로 CPU 제어권을 넘긴다. 결과적으로 CPU는 연속적으로 작업을 처리할 수 있게 되며, 시스템 전체의 처리량 (Throughput)이 비약적으로 향상된다. 이러한 작업 전환 (Context Switching) 메커니즘은 운영체제 커널의 스케줄러에 의해 관리되며, 메모리에 여러 작업을 동시에 유지할 수 있는 기술적 전제가 필요하다.
+**[다이어그램 해설]** 단일 프로그래밍 (Uni-programming) 방식에서는 Job A가 I/O 작업을 수행하는 동안 CPU는 아무런 연산을 하지 못하고 유휴 상태 ([[611_cpu_idle_wait_optimization|Idle]])로 대기하게 된다. 이는 시스템 전체 처리 효율을 급격히 떨어뜨리는 원인이 된다. 반면 [[673_multiprogramming_bottleneck_resource|다중 프로그래밍]] ([[673_multiprogramming_bottleneck_resource|Multiprogramming]])은 Job A가 I/O 대기에 들어가는 즉시 준비 상태에 있는 Job B나 Job C로 CPU 제어권을 넘긴다. 결과적으로 CPU는 연속적으로 작업을 처리할 수 있게 되며, 시스템 전체의 [[139_throughput|처리량]] ([[139_throughput|Throughput]])이 비약적으로 향상된다. 이러한 작업 전환 ([[033_context|Context]] Switching) 메커니즘은 [[001_operating_system_purpose|운영체제]] [[022_kernel_role|커널]]의 [[079_kube_scheduler_pod_placement|스케줄러]]에 의해 관리되며, 메모리에 여러 작업을 동시에 유지할 수 있는 기술적 전제가 필요하다.
 
 - **📢 섹션 요약 비유**: 손님이 주문한 음식이 나오길 기다리는 동안 다른 테이블의 서빙을 병행하여 회전율을 높이는 식당 운영 방식과 같습니다.
 
@@ -55,17 +55,17 @@ categories = "studynote-operating-system"
 
 | 요소명 | 역할 | 내부 동작 | 비유 |
 |:---|:---|:---|:---|
-| **작업 스케줄러 (Job Scheduler)** | 어떤 프로그램을 메모리에 올릴지 결정 | 보조기억장치에서 메모리로 프로세스 선택 | 입구 대기표 관리자 |
-| **CPU 스케줄러** | 메모리 상의 어떤 프로세스에 CPU를 줄지 결정 | 준비 큐 (Ready Queue)에서 실행 대상 선정 | 서빙 우선순위 결정자 |
-| **메모리 관리자** | 여러 프로그램의 메모리 공간 할당 및 격리 | 베이스/리미트 레지스터를 통한 영역 보호 | 테이블 좌석 배정 |
-| **I/O 인터럽트** | I/O 완료 시 CPU에 알림 | 인터럽트 서비스 루틴 (ISR) 실행 및 상태 전이 | "주문 완료" 벨소리 |
-| **준비 큐 (Ready Queue)** | 실행 대기 중인 프로세스 목록 관리 | PCB (Process Control Block)의 연결 리스트 구조 | 줄 서서 기다리는 손님 |
+| **작업 [[079_kube_scheduler_pod_placement|스케줄러]] (Job Scheduler)** | 어떤 프로그램을 메모리에 올릴지 결정 | 보조기억장치에서 메모리로 프로세스 선택 | 입구 대기표 관리자 |
+| **CPU [[079_kube_scheduler_pod_placement|스케줄러]]** | 메모리 상의 어떤 프로세스에 CPU를 줄지 결정 | [[088_ready_queue|준비 큐]] ([[088_ready_queue|Ready Queue]])에서 실행 대상 선정 | 서빙 우선순위 [[095_determinant_dependent|결정자]] |
+| **메모리 관리자** | 여러 프로그램의 메모리 공간 할당 및 격리 | 베이스/리미트 [[057_register|레지스터]]를 통한 영역 [[571_protection_vs_security|보호]] | 테이블 좌석 배정 |
+| **I/O [[016_interrupt_mechanism|인터럽트]]** | I/O 완료 시 CPU에 알림 | [[020_isr|인터럽트 서비스 루틴]] ([[020_isr|ISR]]) 실행 및 [[632_state_transition_diagram_testing|상태 전이]] | "주문 완료" 벨소리 |
+| **[[088_ready_queue|준비 큐]] ([[088_ready_queue|Ready Queue]])** | 실행 대기 중인 프로세스 목록 관리 | PCB ([[300_process|Process]] Control Block)의 [[056_linked_list|연결 리스트]] 구조 | 줄 서서 기다리는 손님 |
 
 ---
 
-### 다중 프로그래밍의 메모리 레이아웃
+### [[673_multiprogramming_bottleneck_resource|다중 프로그래밍]]의 메모리 레이아웃
 
-다중 프로그래밍을 지원하기 위해서는 메모리가 운영체제 영역과 여러 사용자의 프로그램 영역으로 분할되어야 한다. 각 프로그램은 서로의 영역을 침범하지 않도록 엄격하게 보호되어야 한다.
+[[673_multiprogramming_bottleneck_resource|다중 프로그래밍]]을 지원하기 위해서는 메모리가 [[001_operating_system_purpose|운영체제]] 영역과 여러 사용자의 프로그램 영역으로 분할되어야 한다. 각 프로그램은 서로의 영역을 침범하지 않도록 엄격하게 [[571_protection_vs_security|보호]]되어야 한다.
 
 ```text
 ┌─────────────────────────────────────────────────────────────────┐
@@ -88,13 +88,13 @@ categories = "studynote-operating-system"
 └─────────────────────────────────────────────────────────────────┘
 ```
 
-**[다이어그램 해설]** 다중 프로그래밍의 가장 큰 기술적 도전은 메모리에 여러 작업을 안전하게 상주시키는 것이다. 이 도식은 메모리가 커널 영역과 다수의 사용자 작업 영역으로 나뉘어 있음을 보여준다. 각 작업은 고정 분할 (Fixed Partitioning) 또는 가변 분할 (Variable Partitioning) 방식으로 할당된다. 이때 가장 중요한 것은 보안과 안정성이다. 특정 작업이 오류를 일으켜 운영체제 영역이나 다른 작업의 메모리를 덮어쓰지 못하도록 베이스 레지스터 (Base Register)와 리미트 레지스터 (Limit Register)를 사용하여 접근 범위를 제한한다. 만약 허용 범위를 벗어난 접근이 발생하면 CPU는 트랩 (Trap)을 발생시켜 해당 프로세스를 강제 종료한다. 이러한 메모리 관리 체계는 후대의 페이징 (Paging)과 가상 메모리 기술로 진화하는 토대가 되었다.
+**[다이어그램 해설]** [[673_multiprogramming_bottleneck_resource|다중 프로그래밍]]의 가장 큰 기술적 도전은 메모리에 여러 작업을 안전하게 상주시키는 것이다. 이 도식은 메모리가 [[022_kernel_role|커널]] 영역과 다수의 사용자 작업 영역으로 나뉘어 있음을 보여준다. 각 작업은 고정 분할 (Fixed [[179_table_partitioning_concept|Partitioning]]) 또는 가변 분할 (Variable [[179_table_partitioning_concept|Partitioning]]) 방식으로 할당된다. 이때 가장 중요한 것은 보안과 안정성이다. 특정 작업이 오류를 일으켜 [[001_operating_system_purpose|운영체제]] 영역이나 다른 작업의 메모리를 덮어쓰지 못하도록 [[329_base_register|베이스 레지스터]] ([[329_base_register|Base Register]])와 리미트 [[057_register|레지스터]] ([[330_limit_register|Limit Register]])를 사용하여 접근 범위를 제한한다. 만약 허용 범위를 벗어난 접근이 발생하면 CPU는 [[677_trap_based_system_call_implementation|트랩]] ([[677_trap_based_system_call_implementation|Trap]])을 발생시켜 해당 프로세스를 강제 종료한다. 이러한 메모리 관리 체계는 후대의 [[259_paging|페이징]] ([[259_paging|Paging]])과 [[381_virtual_memory|가상 메모리]] 기술로 진화하는 토대가 되었다.
 
 ---
 
-### 다중 프로그래밍의 프로세스 상태 전이
+### [[673_multiprogramming_bottleneck_resource|다중 프로그래밍]]의 [[086_process_state|프로세스 상태]] 전이
 
-프로세스는 CPU 사용 여부와 I/O 대기 여부에 따라 여러 상태를 오가며 다중 프로그래밍 사이클을 완성한다.
+프로세스는 CPU 사용 여부와 I/O 대기 여부에 따라 여러 상태를 오가며 [[673_multiprogramming_bottleneck_resource|다중 프로그래밍]] 사이클을 완성한다.
 
 ```text
        [생성]
@@ -110,7 +110,7 @@ categories = "studynote-operating-system"
   └─── [대기] (Wait / Block)
 ```
 
-**[다이어그램 해설]** 다중 프로그래밍의 동적 메커니즘은 프로세스 상태 전이로 설명된다. 프로그램이 메모리에 적재되면 '준비 (Ready)' 상태가 되어 준비 큐 (Ready Queue)에서 대기한다. CPU 스케줄러가 이 중 하나를 선택하면 '실행 (Running)' 상태가 된다. 다중 프로그래밍의 핵심 포인트는 실행 중인 프로세스가 I/O 요청을 하면 즉시 '대기 (Wait)' 상태로 빠지고, CPU 제어권을 다른 '준비' 상태 프로세스에게 넘겨준다는 점이다. I/O 작업이 완료되면 인터럽트 (Interrupt)를 통해 다시 '준비' 상태로 돌아와 차례를 기다린다. 이 과정이 반복됨으로써 CPU는 유휴 시간 없이 계속해서 유효한 연산을 수행할 수 있게 된다.
+**[다이어그램 해설]** [[673_multiprogramming_bottleneck_resource|다중 프로그래밍]]의 동적 메커니즘은 [[086_process_state|프로세스 상태]] 전이로 설명된다. 프로그램이 메모리에 적재되면 '준비 (Ready)' 상태가 되어 [[088_ready_queue|준비 큐]] ([[088_ready_queue|Ready Queue]])에서 대기한다. CPU [[079_kube_scheduler_pod_placement|스케줄러]]가 이 중 하나를 선택하면 '실행 (Running)' 상태가 된다. [[673_multiprogramming_bottleneck_resource|다중 프로그래밍]]의 핵심 포인트는 실행 중인 프로세스가 I/O 요청을 하면 즉시 '대기 (Wait)' 상태로 빠지고, CPU 제어권을 다른 '준비' 상태 프로세스에게 넘겨준다는 점이다. I/O 작업이 완료되면 [[016_interrupt_mechanism|인터럽트]] ([[016_interrupt_mechanism|Interrupt]])를 통해 다시 '준비' 상태로 돌아와 차례를 기다린다. 이 과정이 반복됨으로써 CPU는 유휴 시간 없이 계속해서 유효한 연산을 수행할 수 있게 된다.
 
 - **📢 섹션 요약 비유**: 여러 개의 체스판을 동시에 두고, 상대방이 수를 두는 동안(I/O) 다른 판으로 이동하여 대국을 진행하는 체스 고수의 모습과 같습니다.
 
@@ -120,39 +120,39 @@ categories = "studynote-operating-system"
 
 ### 다중 작업 처리 방식 비교
 
-| 비교 항목 | 다중 프로그래밍 (Multiprogramming) | 시분할 시스템 (Time-sharing) | 다중 처리 (Multiprocessing) |
+| 비교 항목 | [[673_multiprogramming_bottleneck_resource|다중 프로그래밍]] ([[673_multiprogramming_bottleneck_resource|Multiprogramming]]) | [[003_time_sharing_system|시분할 시스템]] (Time-sharing) | 다중 처리 (Multiprocessing) |
 |:---|:---|:---|:---|
-| **핵심 목표** | CPU 활용률 극대화 | 사용자 응답 시간 단축 | 처리량 및 신뢰성 향상 |
-| **전환 기준** | I/O 발생 시 전환 | 타임 슬라이스 (Time Slice) 소진 시 전환 | 하드웨어적 병렬 처리 |
-| **구현 단위** | 작업 (Job) 단위 | 프로세스/스레드 단위 | CPU 코어 단위 |
+| **핵심 목표** | CPU 활용률 극대화 | 사용자 [[138_response_time|응답 시간]] 단축 | [[139_throughput|처리량]] 및 [[642_reliability_mtbf_mttr_mttf_availability|신뢰성]] 향상 |
+| **전환 기준** | I/O 발생 시 전환 | 타임 [[331_neuromorphic_ai_db|슬라이스]] (Time [[331_neuromorphic_ai_db|Slice]]) 소진 시 전환 | 하드웨어적 [[430_index_fast_full_scan|병렬]] 처리 |
+| **구현 단위** | 작업 (Job) 단위 | 프로세스/[[092_thread_lwp|스레드]] 단위 | CPU 코어 단위 |
 | **사용자 수** | 주로 단일 사용자 (Batch) | 다중 사용자 (Interactive) | 시스템 구조적 특성 |
 
-### 다중 프로그래밍의 성능 지표: Degree of Multiprogramming
+### [[673_multiprogramming_bottleneck_resource|다중 프로그래밍]]의 [[282_performance_tactics|성능]] 지표: [[258_degree_of_multiprogramming|Degree of Multiprogramming]]
 
-메모리에 올라와 있는 프로세스의 수(Degree of Multiprogramming)와 CPU 활용률 사이에는 밀접한 관계가 있다.
+메모리에 올라와 있는 프로세스의 수([[258_degree_of_multiprogramming|Degree of Multiprogramming]])와 CPU 활용률 사이에는 밀접한 [[083_relationship_in_er_model|관계]]가 있다.
 - **CPU 활용률 (U) 공식**: $U = 1 - p^n$ (여기서 $p$는 프로세스가 I/O에 머무는 시간 비율, $n$은 프로세스 수)
-- **한계점**: $n$이 너무 커지면 각 프로세스에 할당되는 메모리가 부족해져 페이지 폴트 (Page Fault)가 빈번해지고, 결과적으로 CPU가 작업 처리보다 교체 작업에 더 많은 시간을 쓰는 스래싱 (Thrashing) 현상이 발생한다.
+- **한계점**: $n$이 너무 커지면 각 프로세스에 할당되는 메모리가 부족해져 [[720_page_fault_isr|페이지 폴트]] ([[387_page_fault|Page Fault]])가 빈번해지고, 결과적으로 CPU가 작업 처리보다 교체 작업에 더 많은 시간을 쓰는 [[257_thrashing|스래싱]] ([[257_thrashing|Thrashing]]) 현상이 발생한다.
 
-- **📢 섹션 요약 비유**: 공부하는 과목 수를 늘리면 노는 시간은 줄어들지만(효율성), 너무 많은 과목을 동시에 펴놓으면 책장 넘기느라 정작 공부는 못 하게 되는(스래싱) 것과 같습니다.
+- **📢 섹션 요약 비유**: 공부하는 과목 수를 늘리면 노는 시간은 줄어들지만(효율성), 너무 많은 과목을 동시에 펴놓으면 책장 넘기느라 정작 공부는 못 하게 되는([[257_thrashing|스래싱]]) 것과 같습니다.
 
 ---
 
-## Ⅳ. 실무 적용 및 기술사적 판단 (Strategy & Decision)
+## Ⅳ. 실무 적용 및 기술사적 판단 ([[268_strategy_pattern|Strategy]] & Decision)
 
-### 실무 적용 시나리오 및 운영 전략
+### 실무 적용 시나리오 및 운영 [[268_strategy_pattern|전략]]
 
-1. **시나리오 — 서버 자원 고갈 및 응답 지연 해결**: 웹 서버에 접속자가 몰려 응답이 느려질 때, 무조건 동시 처리 수 (Concurrency)를 늘리는 것이 답은 아니다. Degree of Multiprogramming이 과도하게 높아지면 컨텍스트 스위칭 (Context Switching) 오버헤드가 CPU 연산 시간을 압도하게 된다. 이때는 적절한 큐잉 (Queuing) 전략과 로드 밸런싱을 통해 시스템이 감당 가능한 최적의 프로세스 수를 유지해야 한다.
+1. **시나리오 — 서버 자원 고갈 및 응답 [[015_지연_데이터_관점|지연]] 해결**: 웹 서버에 접속자가 몰려 응답이 느려질 때, 무조건 동시 처리 수 ([[266_other_transparency|Concurrency]])를 늘리는 것이 답은 아니다. Degree of Multiprogramming이 과도하게 높아지면 [[034_context_switch|컨텍스트 스위칭]] ([[033_context|Context]] Switching) 오버헤드가 CPU 연산 시간을 압도하게 된다. 이때는 적절한 큐잉 (Queuing) [[268_strategy_pattern|전략]]과 로드 밸런싱을 통해 시스템이 감당 가능한 최적의 프로세스 수를 유지해야 한다.
 
-2. **시나리오 — I/O 바운드와 CPU 바운드 작업의 혼합**: 시스템의 효율을 극대화하기 위해서는 I/O 바운드 작업(DB 조회 등)과 CPU 바운드 작업(데이터 암호화 등)을 적절히 섞어서 실행해야 한다. OS 스케줄러는 이러한 작업 특성을 파악하여 CPU를 점유하고 있는 작업이 I/O 대기에 들어갔을 때 빠르게 다른 작업을 투입함으로써 전체 자원 밸런스를 맞춘다.
+2. **시나리오 — I/O 바운드와 CPU 바운드 작업의 혼합**: 시스템의 효율을 극대화하기 위해서는 I/O 바운드 작업(DB 조회 등)과 CPU 바운드 작업([[001_dikw_pyramid|데이터]] 암호화 등)을 적절히 섞어서 실행해야 한다. OS [[079_kube_scheduler_pod_placement|스케줄러]]는 이러한 작업 특성을 파악하여 CPU를 점유하고 있는 작업이 I/O 대기에 들어갔을 때 빠르게 다른 작업을 투입함으로써 전체 자원 밸런스를 맞춘다.
 
-### 도입 시 체크리스트
-- **자원 할당**: 각 프로세스가 실행에 필요한 최소 메모리 (Working Set)를 보장받고 있는가?
-- **공정성**: 특정 프로세스가 자원을 독점하지 않도록 에이징 (Aging) 기법이나 우선순위 조정이 적용되었는가?
-- **안정성**: 메모리 보호 메커니즘이 활성화되어 한 프로세스의 결함이 다른 프로세스나 커널로 전파되지 않는가?
+### 도입 시 [[435_checklist_based_testing|체크리스트]]
+- **[[041_resource_allocation|자원 할당]]**: 각 프로세스가 실행에 필요한 최소 메모리 ([[265_working_set|Working Set]])를 보장받고 있는가?
+- **공정성**: 특정 프로세스가 자원을 독점하지 않도록 [[411_aging_algorithm|에이징]] ([[182_aging|Aging]]) 기법이나 우선순위 조정이 적용되었는가?
+- **안정성**: [[307_memory_protection|메모리 보호]] 메커니즘이 활성화되어 한 프로세스의 결함이 다른 프로세스나 [[022_kernel_role|커널]]로 전파되지 않는가?
 
-### 안티패턴
-- **스래싱 (Thrashing) 방치**: CPU 이용률이 떨어진다고 해서 프로세스 수를 계속 늘리면, 시스템은 페이징 교체 작업에만 몰두하여 결국 멈추게 된다.
-- **부적절한 작업 선택**: CPU 바운드 작업들만 메모리에 가득 차 있으면 I/O 장치는 놀게 되고, 반대의 경우 CPU가 놀게 되어 다중 프로그래밍의 목적이 상실된다.
+### [[128_water_scrum_fall_anti_pattern|안티패턴]]
+- **[[257_thrashing|스래싱]] ([[257_thrashing|Thrashing]]) 방치**: CPU 이용률이 떨어진다고 해서 프로세스 수를 계속 늘리면, 시스템은 [[259_paging|페이징]] 교체 작업에만 몰두하여 결국 멈추게 된다.
+- **부적절한 작업 선택**: CPU 바운드 작업들만 메모리에 가득 차 있으면 I/O 장치는 놀게 되고, 반대의 경우 CPU가 놀게 되어 [[673_multiprogramming_bottleneck_resource|다중 프로그래밍]]의 목적이 상실된다.
 
 - **📢 섹션 요약 비유**: 버스에 손님을 많이 태우면 효율적이지만, 발 디딜 틈 없이 태우면 아무도 내리고 타지 못해 버스가 출발하지 못하는 상황을 경계해야 합니다.
 
@@ -160,33 +160,33 @@ categories = "studynote-operating-system"
 
 ## Ⅴ. 기대효과 및 결론 (Future & Standard)
 
-### 다중 프로그래밍 도입의 정량/정성적 효과
+### [[673_multiprogramming_bottleneck_resource|다중 프로그래밍]] 도입의 정량/정성적 효과
 
-| 구분 | 도입 전 (Single-tasking) | 도입 후 (Multiprogramming) | 기대 효과 |
+| 구분 | 도입 전 (Single-tasking) | 도입 후 ([[673_multiprogramming_bottleneck_resource|Multiprogramming]]) | 기대 효과 |
 |:---|:---|:---|:---|
-| **CPU 이용률** | 10~30% (I/O 대기 시 낭비) | 70~90% 이상 유지 가능 | 하드웨어 투자 대비 효용 극대화 |
-| **시스템 처리량** | 단위 시간당 낮은 작업 완료 | 단위 시간당 많은 작업 완료 | 비즈니스 처리 능력 향상 |
-| **운영 유연성** | 한 작업 끝날 때까지 대기 | 여러 작업 병행 처리 및 우선순위 부여 | 서비스 품질 (QoS) 관리 가능 |
+| **CPU 이용률** | [[489_raid_10_hybrid|10]]~30% (I/O 대기 시 낭비) | 70~90% 이상 유지 가능 | 하드웨어 투자 대비 효용 극대화 |
+| **시스템 [[139_throughput|처리량]]** | 단위 시간당 낮은 작업 완료 | 단위 시간당 많은 작업 완료 | 비즈니스 처리 능력 향상 |
+| **운영 유연성** | 한 작업 끝날 때까지 대기 | 여러 작업 병행 처리 및 우선순위 부여 | [[090_service_kubernetes_network_load_balancing|서비스]] 품질 ([[388_qos_quality_of_service_best_effort_intserv_diffserv|QoS]]) 관리 가능 |
 
 ### 미래 전망
-현대의 가상화와 클라우드 컴퓨팅은 다중 프로그래밍의 개념을 머신 단위로 확장한 것이다. 컨테이너 기술은 OS 커널을 공유하며 수천 개의 격리된 실행 환경(프로세스)을 다중 프로그래밍 방식으로 구동한다. 향후에는 AI가 실시간으로 워크로드의 특성을 분석하여 CPU 코어 할당과 메모리 배치를 자동화하는 **지능형 다중 프로그래밍**으로 진화할 것이다.
+현대의 가상화와 클라우드 컴퓨팅은 [[673_multiprogramming_bottleneck_resource|다중 프로그래밍]]의 개념을 머신 단위로 확장한 것이다. [[561_container_based_deployment|컨테이너]] 기술은 OS [[022_kernel_role|커널]]을 공유하며 수천 개의 격리된 실행 환경(프로세스)을 [[673_multiprogramming_bottleneck_resource|다중 프로그래밍]] 방식으로 구동한다. 향후에는 AI가 실시간으로 워크로드의 특성을 분석하여 CPU 코어 할당과 메모리 배치를 자동화하는 **지능형 [[673_multiprogramming_bottleneck_resource|다중 프로그래밍]]**으로 진화할 것이다.
 
 ### 참고 표준
-- **IEEE 1003.1 (POSIX)**: 프로세스 생성 및 관리, 스케줄링 인터페이스 표준.
+- **IEEE 1003.1 (POSIX)**: [[104_process_creation|프로세스 생성]] 및 관리, 스케줄링 인터페이스 표준.
 - **ISO/IEC 9899**: C 언어 표준 내의 병행성 및 메모리 모델 정의.
 
 - **📢 섹션 요약 비유**: 텅 빈 고속도로에 차 한 대만 달리는 낭비를 막고, 여러 차선에 차를 가득 채워 도로의 가치를 높이는 효율적인 교통 시스템의 완성입니다.
 
 ---
 
-### 📌 관련 개념 맵 (Knowledge Graph)
-| 개념 명칭 | 관계 및 시너지 설명 |
+### 📌 관련 개념 맵 ([[160_knowledge_graph_graphrag_integration|Knowledge Graph]])
+| 개념 명칭 | [[083_relationship_in_er_model|관계]] 및 시너지 설명 |
 |:---|:---|
-| **컨텍스트 스위칭 (Context Switching)** | 실행 중인 작업을 전환하기 위해 상태를 저장하고 복구하는 핵심 메커니즘 |
-| **스케줄링 (Scheduling)** | 어떤 프로세스에게 CPU를 줄지 결정하는 전략과 알고리즘 |
-| **스래싱 (Thrashing)** | 과도한 다중 프로그래밍으로 인해 시스템 성능이 급격히 저하되는 현상 |
-| **인터럽트 (Interrupt)** | I/O 완료 등 외부 이벤트를 OS에 알려 작업 전환을 유도하는 신호 |
-| **메모리 보호 (Memory Protection)** | 여러 작업이 공존할 때 서로의 영역을 침범하지 못하게 하는 안전장치 |
+| **[[034_context_switch|컨텍스트 스위칭]] ([[033_context|Context]] Switching)** | 실행 중인 작업을 전환하기 위해 상태를 저장하고 복구하는 핵심 메커니즘 |
+| **스케줄링 (Scheduling)** | 어떤 프로세스에게 CPU를 줄지 결정하는 [[268_strategy_pattern|전략]]과 [[001_algorithm_definition|알고리즘]] |
+| **[[257_thrashing|스래싱]] ([[257_thrashing|Thrashing]])** | 과도한 [[673_multiprogramming_bottleneck_resource|다중 프로그래밍]]으로 인해 시스템 [[282_performance_tactics|성능]]이 급격히 저하되는 현상 |
+| **[[016_interrupt_mechanism|인터럽트]] ([[016_interrupt_mechanism|Interrupt]])** | I/O 완료 등 외부 이벤트를 OS에 알려 작업 전환을 유도하는 [[130_signal|신호]] |
+| **[[307_memory_protection|메모리 보호]] ([[307_memory_protection|Memory Protection]])** | 여러 작업이 공존할 때 서로의 영역을 침범하지 못하게 하는 안전장치 |
 
 ---
 
@@ -208,9 +208,9 @@ categories = "studynote-operating-system"
 [메모리 보호 (Memory Protection)]
 ```
 
-이 흐름도는 컨텍스트 스위칭 (Context Switching)에서 출발해 메모리 보호 (Memory Protection)까지 이어지며, 중간 단계가 기초 개념을 실무 구조로 발전시키는 과정을 보여준다.
+이 흐름도는 [[034_context_switch|컨텍스트 스위칭]] ([[033_context|Context]] Switching)에서 출발해 [[307_memory_protection|메모리 보호]] ([[307_memory_protection|Memory Protection]])까지 이어지며, 중간 단계가 기초 개념을 실무 구조로 발전시키는 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
-1. 다중 프로그래밍은 컴퓨터가 **"여러 가지 일을 한꺼번에 하는 법"**을 배운 거예요.
+1. [[673_multiprogramming_bottleneck_resource|다중 프로그래밍]]은 컴퓨터가 **"여러 가지 일을 한꺼번에 하는 법"**을 배운 거예요.
 2. 예전에는 동영상이 다운로드될 때까지 아무것도 못 하고 기다렸다면, 이제는 다운로드되는 동안 게임도 하고 숙제도 할 수 있게 된 거랍니다.
 3. 컴퓨터 부품들이 놀지 않고 쉬지 않고 일하게 해서, 우리가 컴퓨터를 더 빠르게 쓸 수 있게 해주는 아주 고마운 기술이에요!

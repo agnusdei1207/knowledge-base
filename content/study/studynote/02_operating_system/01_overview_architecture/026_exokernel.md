@@ -7,9 +7,9 @@ categories = "studynote-operating-system"
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: 엑소커널(Exokernel)은 MIT가 1994년 제안한 OS 커널 아키텍처로, 전통 OS가 하드웨어 자원을 추상화하여 제공하는 것과 달리, 하드웨어 자원(CPU, 메모리, 디스크)을 안전하게 다중화(Multiplexing)하되 추상화는 최소화하여 응용 프로그램이 직접 하드웨어를 제어하도록 한다.
-> 2. **가치**: 전통 OS의 추상화 계층(파일시스템, 가상 메모리)이 특정 응용에 최적이 아닐 수 있다. 엑소커널은 응용이 자신의 목적에 맞는 LibOS (Library OS, 라이브러리 OS)를 구현하게 하여 데이터베이스, 웹 서버 등이 자신의 I/O 패턴에 최적화된 커스텀 스토리지·메모리 관리를 사용할 수 있게 한다.
-> 3. **판단 포인트**: 엑소커널은 현대 Unikernel과 컨테이너 기술의 선구자적 개념이다. AWS Firecracker의 경량 VMM, Unikernel(MirageOS), eBPF 기반 OS 커스터마이징이 "필요한 만큼만 OS를 사용한다"는 엑소커널 철학을 현대적으로 구현한 사례다.
+> 1. **본질**: 엑소커널(Exokernel)은 MIT가 1994년 제안한 OS [[022_kernel_role|커널]] 아키텍처로, 전통 OS가 하드웨어 자원을 [[198_abstraction_control_data_process|추상화]]하여 제공하는 것과 달리, 하드웨어 자원(CPU, 메모리, 디스크)을 안전하게 [[071_다중화_Multiplexing|다중화]]([[071_다중화_Multiplexing|Multiplexing]])하되 [[198_abstraction_control_data_process|추상화]]는 최소화하여 응용 프로그램이 직접 하드웨어를 제어하도록 한다.
+> 2. **가치**: 전통 OS의 [[198_abstraction_control_data_process|추상화]] 계층(파일시스템, [[381_virtual_memory|가상 메모리]])이 특정 응용에 최적이 아닐 수 있다. 엑소커널은 응용이 자신의 목적에 맞는 LibOS ([[336_library_vs_framework|Library]] OS, [[336_library_vs_framework|라이브러리]] OS)를 구현하게 하여 [[002_database_definition|데이터베이스]], 웹 서버 등이 자신의 I/O 패턴에 최적화된 커스텀 스토리지·메모리 관리를 사용할 수 있게 한다.
+> 3. **판단 포인트**: 엑소커널은 현대 Unikernel과 [[561_container_based_deployment|컨테이너]] 기술의 선구자적 개념이다. AWS Firecracker의 경량 VMM, [[640_unikernel_mirageos_architecture|Unikernel]](MirageOS), [[615_ebpf|eBPF]] 기반 OS 커스터마이징이 "필요한 만큼만 OS를 사용한다"는 엑소커널 철학을 현대적으로 구현한 사례다.
 
 ---
 
@@ -60,34 +60,34 @@ categories = "studynote-operating-system"
                       커스텀 메모리 풀      비동기 I/O
 ```
 
-- **📢 섹션 요약 비유**: LibOS는 맞춤형 작업복이다. 데이터베이스(중장비 작업자)는 강화 안전화(커스텀 I/O)를 신고, 웹 서버(배달원)는 가벼운 운동화(경량 네트워킹)를 신는다. 모든 사람에게 같은 신발(추상화)을 강요하지 않는다.
+- **📢 섹션 요약 비유**: LibOS는 맞춤형 작업복이다. [[002_database_definition|데이터베이스]](중장비 작업자)는 강화 안전화(커스텀 I/O)를 신고, 웹 서버(배달원)는 가벼운 운동화(경량 네트워킹)를 신는다. 모든 사람에게 같은 신발([[198_abstraction_control_data_process|추상화]])을 강요하지 않는다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-| 항목 | 모놀리식 | 마이크로커널 | 엑소커널 |
+| 항목 | 모놀리식 | [[024_microkernel|마이크로커널]] | 엑소커널 |
 |:---|:---|:---|:---|
-| **추상화 위치** | 커널 | 커널/서비스 | LibOS (유저 공간) |
-| **HW 제어** | 커널 전담 | 커널 전담 | 앱이 직접 |
+| **[[198_abstraction_control_data_process|추상화]] 위치** | [[022_kernel_role|커널]] | [[022_kernel_role|커널]]/[[090_service_kubernetes_network_load_balancing|서비스]] | LibOS (유저 공간) |
+| **HW 제어** | [[022_kernel_role|커널]] 전담 | [[022_kernel_role|커널]] 전담 | 앱이 직접 |
 | **유연성** | 낮음 | 중간 | 높음 |
 | **보안 복잡성** | 낮음 | 중간 | 높음 |
-| **현대 사례** | Linux | QNX, L4 | Unikernel, eBPF |
+| **현대 사례** | Linux | QNX, L4 | [[640_unikernel_mirageos_architecture|Unikernel]], [[615_ebpf|eBPF]] |
 
-- **📢 섹션 요약 비유**: 모놀리식은 완성형 아파트(모든 게 정해진 구조), 마이크로커널은 인테리어 커스텀 아파트, 엑소커널은 빈 땅에 직접 짓는 건물이다. 자유도가 높을수록 책임도 크다.
+- **📢 섹션 요약 비유**: 모놀리식은 완성형 아파트(모든 게 정해진 구조), [[024_microkernel|마이크로커널]]은 인테리어 커스텀 아파트, 엑소커널은 빈 땅에 직접 짓는 건물이다. 자유도가 높을수록 책임도 크다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 ### 현대 적용: AWS Firecracker
-- 엑소커널 철학을 VMM(Virtual Machine Monitor)에 적용.
-- 각 Lambda 함수가 경량 MicroVM 위에서 실행.
-- 불필요한 커널 기능 제거 → 부팅 125ms, 메모리 오버헤드 5MB 미만.
-- "Lambda 함수마다 맞춤형 경량 환경" = 엑소커널의 앱별 커스텀 추상화 철학.
+- 엑소커널 철학을 VMM([[598_vm_migration_nic|Virtual Machine]] [[229_monitor|Monitor]])에 적용.
+- 각 [[216_lambda_kappa_architecture_batch_realtime|Lambda]] 함수가 경량 MicroVM 위에서 실행.
+- 불필요한 [[022_kernel_role|커널]] 기능 제거 → 부팅 125ms, 메모리 오버헤드 5MB 미만.
+- "[[216_lambda_kappa_architecture_batch_realtime|Lambda]] 함수마다 맞춤형 경량 환경" = 엑소커널의 앱별 커스텀 [[198_abstraction_control_data_process|추상화]] 철학.
 
-### 안티패턴
-- LibOS 구현의 버그가 보안 취약점이 된다. 전통 OS는 커널의 검증된 추상화가 버퍼. 엑소커널에서는 LibOS 개발자가 메모리 안전성·격리를 직접 책임져야 하는 높은 개발 복잡성이 상용화의 장벽이다.
+### [[128_water_scrum_fall_anti_pattern|안티패턴]]
+- LibOS 구현의 버그가 보안 취약점이 된다. 전통 OS는 [[022_kernel_role|커널]]의 검증된 [[198_abstraction_control_data_process|추상화]]가 버퍼. 엑소커널에서는 LibOS 개발자가 [[529_memory_safety_rust_go|메모리 안전성]]·격리를 직접 책임져야 하는 높은 개발 복잡성이 상용화의 장벽이다.
 
 - **📢 섹션 요약 비유**: 엑소커널의 LibOS는 직접 집을 짓는 자유지만, 건축법(보안·안전)도 혼자 책임져야 한다. 검증된 건설사(전통 OS)를 쓰면 제한은 있지만 집이 안전하게 지어진다.
 
@@ -97,13 +97,13 @@ categories = "studynote-operating-system"
 
 | 기대효과 | 내용 |
 |:---|:---|
-| **성능** | 불필요한 추상화 제거 → 최대 HW 성능 |
+| **[[282_performance_tactics|성능]]** | 불필요한 [[198_abstraction_control_data_process|추상화]] 제거 → 최대 HW [[282_performance_tactics|성능]] |
 | **유연성** | 앱별 맞춤 LibOS 구현 가능 |
-| **연구 영향** | Unikernel, eBPF, MicroVM 설계에 영향 |
+| **연구 영향** | [[640_unikernel_mirageos_architecture|Unikernel]], [[615_ebpf|eBPF]], MicroVM 설계에 영향 |
 
-엑소커널은 상용 배포는 제한적이었지만, 그 철학은 클라우드 네이티브 환경에서 Unikernel(MirageOS, Nanos), eBPF 기반 커널 확장, AWS Firecracker 등으로 부활했다.
+엑소커널은 상용 배포는 제한적이었지만, 그 철학은 [[531_cloud_native_architecture|클라우드 네이티브]] 환경에서 [[640_unikernel_mirageos_architecture|Unikernel]](MirageOS, Nanos), [[615_ebpf|eBPF]] 기반 [[022_kernel_role|커널]] 확장, AWS Firecracker 등으로 부활했다.
 
-- **📢 섹션 요약 비유**: 엑소커널은 시대를 앞선 설계 철학이다. 1990년대에는 너무 복잡하고 위험했지만, 컨테이너·클라우드 시대가 되면서 그 아이디어가 Unikernel과 MicroVM으로 되살아났다.
+- **📢 섹션 요약 비유**: 엑소커널은 시대를 앞선 설계 철학이다. 1990년대에는 너무 복잡하고 위험했지만, [[561_container_based_deployment|컨테이너]]·클라우드 시대가 되면서 그 아이디어가 Unikernel과 MicroVM으로 되살아났다.
 
 ---
 
@@ -112,10 +112,10 @@ categories = "studynote-operating-system"
 | 개념 | 연결 포인트 |
 |:---|:---|
 | **LibOS** | 엑소커널에서 앱 레벨 OS 기능 구현 |
-| **Unikernel** | 엑소커널 철학의 현대적 구현 |
-| **Firecracker** | AWS Lambda/Fargate의 경량 VMM |
-| **eBPF** | 커널 확장을 유저 코드로 구현 |
-| **마이크로커널** | 서비스 분리의 중간 단계 |
+| **[[640_unikernel_mirageos_architecture|Unikernel]]** | 엑소커널 철학의 현대적 구현 |
+| **Firecracker** | AWS [[216_lambda_kappa_architecture_batch_realtime|Lambda]]/Fargate의 경량 VMM |
+| **[[615_ebpf|eBPF]]** | [[022_kernel_role|커널]] 확장을 유저 코드로 구현 |
+| **[[024_microkernel|마이크로커널]]** | [[090_service_kubernetes_network_load_balancing|서비스]] 분리의 중간 단계 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 

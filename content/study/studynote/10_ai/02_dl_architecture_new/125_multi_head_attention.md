@@ -7,8 +7,8 @@ categories = "studynote-ai"
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: Multi-Head Attention은 **QKV를 h개 헤드로 분할하여 각 헤드가 독립적으로 Attention을 수행**한 후 결합(Concat+Linear)하는 구조이며, 단일 Attention보다 **다양한 관계 패턴을 동시에 포착**한다.
-> 2. **가치**: 단일 Attention은 하나의 관점에서만 참조하지만, 8개 헤드는 각각 **문법 관계·의미 관계·위치 관계** 등 다른 패턴에 주목하여 **더 풍부한 표현**을 학습한다.
+> 1. **본질**: Multi-Head Attention은 **QKV를 h개 헤드로 분할하여 각 헤드가 독립적으로 Attention을 수행**한 후 결합(Concat+Linear)하는 구조이며, 단일 Attention보다 **다양한 [[083_relationship_in_er_model|관계]] 패턴을 동시에 포착**한다.
+> 2. **가치**: 단일 Attention은 하나의 관점에서만 [[316_reference_pattern_nosql|참조]]하지만, 8개 헤드는 각각 **문법 [[083_relationship_in_er_model|관계]]·의미 [[083_relationship_in_er_model|관계]]·위치 [[083_relationship_in_er_model|관계]]** 등 다른 패턴에 주목하여 **더 풍부한 표현**을 학습한다.
 > 3. **판단 포인트**: d_model=512, h=8이면 각 헤드는 d_k=64 차원에서 독립 Attention을 수행하며, 총 연산량은 단일 헤드와 동일하되 **표현력은 증가**한다.
 
 ---
@@ -46,7 +46,7 @@ categories = "studynote-ai"
 | **결합** | Concat(head_1,...,head_h) · W_O |
 
 ### GQA (Grouped Query Attention)
-- 최신 LLM(Llama 2)에서는 Key·Value 헤드를 공유하여 **메모리·속도 최적화**.
+- 최신 [[263_llm_large_language_model|LLM]](Llama 2)에서는 [[067_db_key_uniqueness_minimality|Key]]·Value 헤드를 공유하여 **메모리·속도 최적화**.
 
 - **📢 섹션 요약 비유**: MHA는 8명이 각자 카메라를 가진 것이고, GQA는 8명이 4대 카메라를 공유하는 것이다 (효율↑).
 
@@ -65,15 +65,15 @@ categories = "studynote-ai"
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 ### 헤드 수 선택
-- Transformer-base: h=8, d_k=64.
-- Transformer-large: h=16, d_k=64.
+- [[246_transformer_self_attention_parallel_positional_encoding|Transformer]]-base: h=8, d_k=64.
+- [[246_transformer_self_attention_parallel_positional_encoding|Transformer]]-large: h=16, d_k=64.
 - 헤드 수↑ → 다양한 관점, 단 d_k↓ → 개별 헤드 용량 감소.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-Multi-Head Attention은 **Transformer의 표현력을 결정**하는 핵심 구조이며, GQA·MQA로 효율화되어 최신 LLM(GPT-4·Llama 3)에서 표준으로 사용된다.
+Multi-Head Attention은 **Transformer의 표현력을 결정**하는 핵심 구조이며, GQA·MQA로 효율화되어 최신 [[263_llm_large_language_model|LLM]]([[302_gpt_autoregressive|GPT]]-4·Llama 3)에서 표준으로 사용된다.
 
 ---
 
@@ -81,8 +81,8 @@ Multi-Head Attention은 **Transformer의 표현력을 결정**하는 핵심 구�
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **Multi-Head** | h개 관점 병렬 Attention |
-| **GQA** | Key·Value 헤드 공유 (효율화) |
+| **Multi-Head** | h개 관점 [[430_index_fast_full_scan|병렬]] Attention |
+| **GQA** | [[067_db_key_uniqueness_minimality|Key]]·Value 헤드 공유 (효율화) |
 | **MQA** | 모든 헤드가 1개 KV 공유 |
 | **d_model** | 모델 전체 차원 |
 | **d_k** | 각 헤드의 차원 (d_model/h) |

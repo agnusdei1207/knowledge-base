@@ -10,8 +10,8 @@ categories = ["studynote", "Network"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: OFDM (Orthogonal Frequency Division Multiplexing)에서 CP (Cyclic Prefix)와 GI (Guard Interval)는 ISI (Inter-Symbol Interference)를 막는 보호 구간이다.
-> 2. **가치**: 심볼 꼬리를 앞에 복사해 다중경로 지연을 흡수하고, FFT (Fast Fourier Transform) 구간의 직교성을 지킨다.
+> 1. **본질**: OFDM (Orthogonal Frequency [[411_division_operation|Division]] [[071_다중화_Multiplexing|Multiplexing]])에서 CP (Cyclic Prefix)와 GI (Guard Interval)는 ISI (Inter-Symbol Interference)를 막는 [[571_protection_vs_security|보호]] 구간이다.
+> 2. **가치**: 심볼 꼬리를 앞에 복사해 다중경로 [[015_지연_데이터_관점|지연]]을 흡수하고, [[126_fft|FFT]] (Fast Fourier Transform) 구간의 직교성을 지킨다.
 > 3. **판단 포인트**: CP 길이, delay spread, 효율 손실의 균형을 함께 봐야 한다.
 
 ---
@@ -20,7 +20,7 @@ categories = ["studynote", "Network"]
 무선 채널은 반사와 굴절 때문에 같은 심볼이 여러 경로로 늦게 도착한다. 이때 앞 심볼의 잔상이 다음 심볼을 침범하면 ISI가 생기고, 서브캐리어 직교성이 깨진다.
 
 CP는 이 침범을 흡수하는 쿠션 역할을 한다.
-- **📢 섹션 요약 비유**: 보호 구간이 신호를 지켜 준다.
+- **📢 섹션 요약 비유**: [[571_protection_vs_security|보호]] 구간이 신호를 지켜 준다.
 
 ---
 
@@ -28,17 +28,17 @@ CP는 이 침범을 흡수하는 쿠션 역할을 한다.
 | 요소 | 의미 | 포인트 |
 |:---|:---|:---|
 | CP | 심볼 끝부분을 앞에 복사 | 다중경로 완충 |
-| GI | 보호 구간 | 간섭 흡수 시간 |
-| delay spread | 경로 지연 폭 | CP보다 작아야 유리 |
-| FFT window | 실제 복조 구간 | CP 뒤에서 시작 |
+| GI | [[571_protection_vs_security|보호]] 구간 | 간섭 흡수 시간 |
+| delay spread | 경로 [[015_지연_데이터_관점|지연]] 폭 | CP보다 작아야 유리 |
+| [[126_fft|FFT]] window | 실제 복조 구간 | CP 뒤에서 시작 |
 
 ┌──────────── CP / GI ─────────────┐
 │ [tail copy] [  useful symbol  ]  │
 │     ↑             ↑             │
 │     └── delay spread absorbs ───┘│
 └──────────────────────────────────┘
-             채널 지연 ↘  ↘  ↘
-             FFT 창        [ useful symbol ]
+             채널 [[015_지연_데이터_관점|지연]] ↘  ↘  ↘
+             [[126_fft|FFT]] 창        [ useful symbol ]
 - **📢 섹션 요약 비유**: 꼬리 복사가 간섭을 흡수한다.
 
 ---
@@ -47,11 +47,11 @@ CP는 이 침범을 흡수하는 쿠션 역할을 한다.
 | 비교 항목 | Normal CP | Extended CP | CP 없음/짧음 |
 |:---|:---|:---|:---|
 | 길이 | 기본값 | 더 김 | 부족 |
-| 적합 환경 | 일반 셀 환경 | 지연 확산이 큰 환경 | 실사용 곤란 |
+| 적합 환경 | 일반 셀 환경 | [[015_지연_데이터_관점|지연]] 확산이 큰 환경 | 실사용 곤란 |
 | 장점 | 속도와 안정성 균형 | 간섭 흡수 여유 | 오버헤드 적음 |
-| 단점 | 매우 긴 지연에는 한계 | 효율 저하 | ISI 급증 |
+| 단점 | 매우 긴 [[015_지연_데이터_관점|지연]]에는 한계 | 효율 저하 | ISI 급증 |
 
-CP 길이는 채널 지연 분포와 시스템 효율 사이의 타협점이다.
+CP 길이는 채널 [[015_지연_데이터_관점|지연]] 분포와 시스템 효율 사이의 타협점이다.
 - **📢 섹션 요약 비유**: CP 길이에 따라 효율과 안정성이 바뀐다.
 
 ---
@@ -65,7 +65,7 @@ CP 길이는 채널 지연 분포와 시스템 효율 사이의 타협점이다.
 - ❌ 어떤 환경이든 같은 CP를 쓰는 것
 - ❌ CP가 짧아도 대충 되겠지 하고 넘기는 것
 - ❌ 다중경로를 무시한 채 변조 효율만 보는 것
-- **📢 섹션 요약 비유**: 지연 확산보다 짧으면 문제가 생긴다.
+- **📢 섹션 요약 비유**: [[015_지연_데이터_관점|지연]] 확산보다 짧으면 문제가 생긴다.
 
 ---
 
@@ -79,11 +79,11 @@ CP/GI는 비 오는 날 문 앞에 깔아 두는 발판 같다. 물이 집 안�
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| OFDM (Orthogonal Frequency Division Multiplexing) | 다중반송파 변조의 기본이다. |
+| OFDM (Orthogonal Frequency [[411_division_operation|Division]] [[071_다중화_Multiplexing|Multiplexing]]) | 다중반송파 변조의 기본이다. |
 | ISI (Inter-Symbol Interference) | 심볼 간 간섭을 막아야 한다. |
 | CP (Cyclic Prefix) | 심볼 꼬리를 앞에 복사한다. |
-| GI (Guard Interval) | 간섭을 흡수하는 보호 구간이다. |
-| FFT (Fast Fourier Transform) | 복조 시 직교성을 활용한다. |
+| GI (Guard Interval) | 간섭을 흡수하는 [[571_protection_vs_security|보호]] 구간이다. |
+| [[126_fft|FFT]] (Fast Fourier Transform) | 복조 시 직교성을 활용한다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 

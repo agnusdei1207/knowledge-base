@@ -8,15 +8,15 @@ categories = "studynote-network"
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: TCP BIC / CUBIC는 전송 계층에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.
-> 2. **가치**: TCP BIC / CUBIC를 이해하면 신뢰성과 지연 사이의 균형을 더 정확히 볼 수 있다.
+> 1. **본질**: [[405_tcp_transmission_control_protocol_connection_oriented|TCP]] BIC / CUBIC는 전송 계층에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.
+> 2. **가치**: [[405_tcp_transmission_control_protocol_connection_oriented|TCP]] BIC / CUBIC를 이해하면 [[642_reliability_mtbf_mttr_mttf_availability|신뢰성]]과 [[015_지연_데이터_관점|지연]] 사이의 균형을 더 정확히 볼 수 있다.
 > 3. **판단 포인트**: 설계 시에는 개념 자체보다 적용 조건, 운영 복잡도, 인접 기술과의 경계를 함께 판단해야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: TCP Reno의 선형적(Linear) 윈도우 증가 방식이 고대역폭-장지연 네트워크(LFN)에서 대역폭을 낭비하는 문제를 해결하기 위해, 혼잡 윈도우 크기를 3차 함수(Cubic function) 기반으로 계산하여 팽창시키는 현대 OS의 기본 혼잡 제어 알고리즘.
+- **개념**: [[405_tcp_transmission_control_protocol_connection_oriented|TCP]] Reno의 선형적(Linear) 윈도우 증가 방식이 고대역폭-장지연 네트워크(LFN)에서 대역폭을 낭비하는 문제를 해결하기 위해, [[429_cwnd_congestion_window_concept|혼잡 윈도우]] 크기를 3차 함수(Cubic function) 기반으로 계산하여 팽창시키는 현대 OS의 기본 혼잡 제어 [[001_algorithm_definition|알고리즘]].
 - **필요성**: 2000년대 중반, 기가비트(1Gbps) 인터넷이 보급되었다. 한국에서 미국으로 10GB짜리 롤(LOL) 클라이언트를 다운받는다. 가다가 패킷 1개가 튀어서 속도(CWND)가 반 토막 났다. 기존 레노(Reno) 공식에 따르면, 이 반 토막 난 속도를 다시 1Gbps까지 +1씩 끌어올리려면 무려 '몇 시간' 동안 영수증을 주고받아야 한다는 계산이 나왔다! **"야!! 요즘 선로가 얼마나 빵빵한데 언제 +1씩 찔끔찔끔 올리고 자빠졌어! 사고 나기 직전의 아까 그 속도가 어차피 이 선로의 한계점이니까, 아까 그 속도까지는 묻고 더블로 확 올려버리고 한계점 근처에서만 조심하게 만들자!!"**
 
 - **💡 비유**: CUBIC은 **"기억상실증에 안 걸린 롤러코스터"**와 같습니다.
@@ -64,13 +64,13 @@ CUBIC은 이름 그대로 3차 함수 곡선 $y = x^3$ 의 S자 모양(정확히
  └─────────────────────────────────────────────────────────────┘
 ```
 
-### 2. RTT 공평성의 파괴 (이기적인 알고리즘)
+### 2. [[441_rtt_round_trip_time_srtt_smoothed|RTT]] 공평성의 파괴 (이기적인 [[001_algorithm_definition|알고리즘]])
 CUBIC은 기존의 룰을 파괴했다. 
-- 기존 Reno는 영수증(ACK)이 1개 와야 속도를 1 올렸다. 그래서 핑(RTT)이 10ms로 짧은 한국 사람은 핑이 200ms인 미국 사람보다 ACK를 더 자주 받아 속도를 혼자 다 빨아먹었다(RTT Fairness 문제).
+- 기존 Reno는 영수증(ACK)이 1개 와야 속도를 1 올렸다. 그래서 핑([[441_rtt_round_trip_time_srtt_smoothed|RTT]])이 10ms로 짧은 한국 사람은 핑이 200ms인 미국 사람보다 ACK를 더 자주 받아 속도를 혼자 다 빨아먹었다([[441_rtt_round_trip_time_srtt_smoothed|RTT]] Fairness 문제).
 - **CUBIC의 쿨함**: CUBIC의 3차 함수 공식은 ACK 개수 따위 신경 안 쓴다. 오직 **"마지막으로 사고(Drop)가 터진 후 흐른 '절대 시간(Time)'"**만을 변수로 쓴다. 즉, 한국 사람이든 미국 사람이든 시간이 흐르면 3차 함수 곡선을 타고 다 같이 공평하게 속도가 확확 오르므로, 장거리 통신망(LFN)의 속도 저하 문제를 완벽히 해결했다.
 
 ### 3. 현대 통신의 지배자
-오늘날 안드로이드 스마트폰, 리눅스 서버, 윈도우(업데이트 이후) 등 우리가 쓰는 99%의 기계는 내부 커널 세팅에 `tcp_congestion_control = cubic` 으로 박혀 있다. 즉, 우리가 구글 드라이브나 넷플릭스를 쾌적하게 쓰는 것은 모두 이 CUBIC 덕분이다.
+오늘날 안드로이드 스마트폰, 리눅스 서버, 윈도우(업데이트 이후) 등 우리가 쓰는 99%의 기계는 내부 [[022_kernel_role|커널]] 세팅에 `tcp_congestion_control = cubic` 으로 박혀 있다. 즉, 우리가 구글 드라이브나 넷플릭스를 쾌적하게 쓰는 것은 모두 이 CUBIC 덕분이다.
 
 - **📢 섹션 요약 비유**: ** CUBIC은 번지점프나 바이킹 같은 **"롤러코스터 트랙 설계"**입니다. 밑으로 떨어졌을 때 그 반동(3차 함수)을 이용해 단숨에 하늘 높이 치솟아 오르며 속도감을 유지하는, 공학의 극치가 담긴 탑승물입니다. 레노(Reno)처럼 등산하듯 헉헉대며 기어오르지 않습니다.
 
@@ -78,42 +78,42 @@ CUBIC은 기존의 룰을 파괴했다.
 
 ## Ⅲ. 비교 및 연결
 
-TCP BIC / CUBIC를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. TCP NewReno / SACK가 기반 조건을 만든다면, TCP BIC / CUBIC는 그 위에서 핵심 메커니즘을 구현하고, BBR는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 신뢰성과 지연에 어떤 차이를 만드는지 비교하는 것이 중요하다.
+[[405_tcp_transmission_control_protocol_connection_oriented|TCP]] BIC / CUBIC를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [[405_tcp_transmission_control_protocol_connection_oriented|TCP]] NewReno / SACK가 기반 조건을 만든다면, [[405_tcp_transmission_control_protocol_connection_oriented|TCP]] BIC / CUBIC는 그 위에서 핵심 메커니즘을 구현하고, BBR는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 [[642_reliability_mtbf_mttr_mttf_availability|신뢰성]]과 [[015_지연_데이터_관점|지연]]에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
 | 관점 | 선행 개념 | 현재 개념 | 확장 개념 |
 |:---|:---|:---|:---|
-| 초점 | TCP NewReno / SACK의 기반 정리 | TCP BIC / CUBIC의 핵심 동작 | BBR의 확장 적용 |
-| 자원 관점 | 기본 조건 확보 | 신뢰성 최적화 | 규모와 범위 확대 |
-| 판단 포인트 | 도입 가능성 확인 | 현재 메커니즘의 적합성 판단 | 운영·확장 전략 연결 |
+| 초점 | [[405_tcp_transmission_control_protocol_connection_oriented|TCP]] NewReno / SACK의 기반 정리 | [[405_tcp_transmission_control_protocol_connection_oriented|TCP]] BIC / CUBIC의 핵심 동작 | BBR의 확장 적용 |
+| 자원 관점 | 기본 조건 확보 | [[642_reliability_mtbf_mttr_mttf_availability|신뢰성]] 최적화 | 규모와 범위 확대 |
+| 판단 포인트 | 도입 가능성 [[396_validation|확인]] | 현재 메커니즘의 적합성 판단 | 운영·확장 [[268_strategy_pattern|전략]] 연결 |
 
-- **📢 섹션 요약 비유**: TCP BIC / CUBIC는 비슷한 기술들 사이의 차선을 구분하는 분기점과 같다. 어디서 갈라지는지 알아야 헷갈리지 않는다.
+- **📢 섹션 요약 비유**: [[405_tcp_transmission_control_protocol_connection_oriented|TCP]] BIC / CUBIC는 비슷한 기술들 사이의 차선을 구분하는 분기점과 같다. 어디서 갈라지는지 알아야 헷갈리지 않는다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서는 TCP BIC / CUBIC를 단독 개념으로 외우기보다 어떤 병목을 줄이기 위한 선택인지 먼저 따져야 한다. 특히 TCP NewReno / SACK 수준의 기본 대책으로 충분한지, 아니면 TCP BIC / CUBIC가 제공하는 메커니즘이 실제로 필요한지 구분해야 한다. 이후 확장 단계에서는 BBR와 같은 후속 기술, 자동화 체계, 표준 호환성까지 함께 검토해야 한다.
+실무에서는 [[405_tcp_transmission_control_protocol_connection_oriented|TCP]] BIC / CUBIC를 단독 개념으로 외우기보다 어떤 병목을 줄이기 위한 선택인지 먼저 따져야 한다. 특히 [[405_tcp_transmission_control_protocol_connection_oriented|TCP]] NewReno / SACK 수준의 기본 대책으로 충분한지, 아니면 [[405_tcp_transmission_control_protocol_connection_oriented|TCP]] BIC / CUBIC가 제공하는 메커니즘이 실제로 필요한지 구분해야 한다. 이후 확장 단계에서는 BBR와 같은 후속 기술, 자동화 체계, 표준 호환성까지 함께 검토해야 한다.
 
-### 실무 체크리스트
+### 실무 [[435_checklist_based_testing|체크리스트]]
 
-1. 현재 문제의 핵심이 신뢰성 부족인지, 지연 악화인지 먼저 분리한다.
-2. TCP BIC / CUBIC가 추가하는 복잡도와 운영 이득이 균형을 이루는지 확인한다.
+1. 현재 문제의 핵심이 [[642_reliability_mtbf_mttr_mttf_availability|신뢰성]] 부족인지, [[015_지연_데이터_관점|지연]] 악화인지 먼저 분리한다.
+2. [[405_tcp_transmission_control_protocol_connection_oriented|TCP]] BIC / CUBIC가 추가하는 복잡도와 운영 이득이 균형을 이루는지 [[396_validation|확인]]한다.
 3. 도입 후에는 인접 기술인 BBR와의 연계 방식을 함께 검증한다.
 
-### 안티패턴
+### [[128_water_scrum_fall_anti_pattern|안티패턴]]
 
-- TCP BIC / CUBIC의 장점만 보고 트래픽 패턴이나 운영 비용을 무시한 채 과도 도입하는 설계
-- TCP NewReno / SACK와의 경계를 정리하지 않아 중복 투자나 정책 충돌을 만드는 설계
+- [[405_tcp_transmission_control_protocol_connection_oriented|TCP]] BIC / CUBIC의 장점만 보고 트래픽 패턴이나 운영 비용을 무시한 채 과도 도입하는 설계
+- [[405_tcp_transmission_control_protocol_connection_oriented|TCP]] NewReno / SACK와의 경계를 정리하지 않아 중복 투자나 [[164_policy|정책]] 충돌을 만드는 설계
 
-- **📢 섹션 요약 비유**: TCP BIC / CUBIC를 실제로 쓰는 판단은 도구 상자를 고르는 일과 비슷하다. 좋아 보이는 도구보다 지금 문제에 맞는 도구가 중요하다.
+- **📢 섹션 요약 비유**: [[405_tcp_transmission_control_protocol_connection_oriented|TCP]] BIC / CUBIC를 실제로 쓰는 판단은 도구 상자를 고르는 일과 비슷하다. 좋아 보이는 도구보다 지금 문제에 맞는 도구가 중요하다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-TCP BIC / CUBIC는 전송 계층을 이해할 때 핵심 축을 잡아 주는 개념이다. 올바르게 적용하면 신뢰성 개선과 구조적 단순화에 기여하지만, 조건을 잘못 잡으면 오히려 복잡도와 운영 부담이 커질 수 있다. 앞으로는 BBR, 적응형 저지연 전송, 자동화 운영과의 결합을 통해 더 정교하게 발전할 가능성이 크다. 따라서 이 개념은 정의 자체보다 “언제 쓰고 언제 다른 방법으로 넘길 것인가”의 관점으로 기억하는 것이 좋다. 향후에는 적응형 저지연 전송 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
+[[405_tcp_transmission_control_protocol_connection_oriented|TCP]] BIC / CUBIC는 전송 계층을 이해할 때 핵심 축을 잡아 주는 개념이다. 올바르게 적용하면 [[642_reliability_mtbf_mttr_mttf_availability|신뢰성]] 개선과 구조적 단순화에 기여하지만, 조건을 잘못 잡으면 오히려 복잡도와 운영 부담이 커질 수 있다. 앞으로는 [[439_bbr_bottleneck_bandwidth_and_rtt_google_congestion_control|BBR]], 적응형 저지연 전송, 자동화 운영과의 결합을 통해 더 정교하게 발전할 가능성이 크다. 따라서 이 개념은 정의 자체보다 “언제 쓰고 언제 다른 방법으로 넘길 것인가”의 관점으로 기억하는 것이 좋다. 향후에는 적응형 저지연 전송 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
 
-- **📢 섹션 요약 비유**: TCP BIC / CUBIC는 큰 흐름 속에서 기억해야 오래 남는다. 지금의 장점과 다음 확장 방향을 같이 보면 전체 그림이 선명해진다.
+- **📢 섹션 요약 비유**: [[405_tcp_transmission_control_protocol_connection_oriented|TCP]] BIC / CUBIC는 큰 흐름 속에서 기억해야 오래 남는다. 지금의 장점과 다음 확장 방향을 같이 보면 전체 그림이 선명해진다.
 
 ---
 
@@ -121,10 +121,10 @@ TCP BIC / CUBIC는 전송 계층을 이해할 때 핵심 축을 잡아 주는 �
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| TCP NewReno / SACK | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
-| 세그먼트 (Segment) | 전송 계층이 다루는 기본 단위다. |
-| 흐름 제어 (Flow Control) | 수신자 처리 속도를 넘지 않게 조절한다. |
-| BBR | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
+| [[405_tcp_transmission_control_protocol_connection_oriented|TCP]] NewReno / SACK | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
+| 세그먼트 ([[407_tcp_segment_header_structure_20_60_bytes|Segment]]) | 전송 계층이 다루는 기본 단위다. |
+| [[213_flow_control_buffer_overflow|흐름 제어]] ([[421_tcp_flow_control_sliding_window_algorithm|Flow Control]]) | 수신자 처리 속도를 넘지 않게 조절한다. |
+| [[439_bbr_bottleneck_bandwidth_and_rtt_google_congestion_control|BBR]] | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -138,7 +138,7 @@ TCP BIC / CUBIC는 전송 계층을 이해할 때 핵심 축을 잡아 주는 �
     └──▶ [확장 B: 적응형 저지연 전송]
 ```
 
-TCP BIC / CUBIC는 TCP NewReno / SACK에서 출발해 현재 메커니즘을 정교화하고, 이후 BBR와 적응형 저지연 전송 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
+[[405_tcp_transmission_control_protocol_connection_oriented|TCP]] BIC / CUBIC는 [[405_tcp_transmission_control_protocol_connection_oriented|TCP]] NewReno / SACK에서 출발해 현재 메커니즘을 정교화하고, 이후 BBR와 적응형 저지연 전송 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

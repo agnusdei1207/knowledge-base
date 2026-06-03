@@ -7,19 +7,19 @@ categories = "studynote-bigdata"
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-- **본질**: 키-값 DB는 해시 테이블 구조를 분산 환경으로 확장한 가장 단순하면서 가장 빠른 NoSQL 모델로, O(1) 조회 성능이 본질적 강점이다.
-- **가치**: 세션 관리·캐싱·장바구니처럼 단순 키로 즉시 조회해야 하는 워크로드에서 RDBMS 대비 10~100배 빠른 응답속도를 제공한다.
-- **판단 포인트**: 복잡한 쿼리(JOIN, 범위 검색) 없이 키로만 접근하는 워크로드라면 키-값 DB가 최적 선택이며, 복잡한 관계 표현이 필요하면 다른 모델로 전환해야 한다.
+- **본질**: 키-값 DB는 [[067_hash_table|해시 테이블]] 구조를 [[136_variance|분산]] 환경으로 확장한 가장 단순하면서 가장 빠른 [[035_nosql|NoSQL]] 모델로, O(1) 조회 [[282_performance_tactics|성능]]이 본질적 강점이다.
+- **가치**: [[507_session_management_security|세션 관리]]·[[456_caching|캐싱]]·장바구니처럼 단순 키로 즉시 조회해야 하는 워크로드에서 RDBMS 대비 [[489_raid_10_hybrid|10]]~100배 빠른 응답속도를 제공한다.
+- **판단 포인트**: 복잡한 [[298_qkv_attention|쿼리]]([[521_join|JOIN]], 범위 검색) 없이 키로만 접근하는 워크로드라면 키-값 DB가 최적 선택이며, 복잡한 [[083_relationship_in_er_model|관계]] 표현이 필요하면 다른 모델로 전환해야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
 ### 등장 배경
-대규모 인터넷 서비스(Amazon, LinkedIn 등)에서 수억 건의 사용자 세션·장바구니를 실시간으로 처리하기 위한 초고속 저장소가 필요해졌다. RDBMS는 행 잠금(Row Lock)과 인덱스 오버헤드로 인해 이 요구를 충족시키지 못했다.
+대규모 인터넷 [[090_service_kubernetes_network_load_balancing|서비스]](Amazon, LinkedIn 등)에서 수억 건의 사용자 [[160_session_controlling_terminal|세션]]·장바구니를 실시간으로 처리하기 위한 [[148_5g_embb_urllc_mmtc|초고속]] 저장소가 필요해졌다. RDBMS는 행 잠금(Row [[510_lock|Lock]])과 [[154_database_index_b_tree_search_optimization|인덱스]] 오버헤드로 인해 이 요구를 충족시키지 못했다.
 
 ### 핵심 개념
-키-값 저장소(Key-Value Store)는 고유한 키(Key)와 임의의 값(Value)을 쌍으로 저장한다. 내부 구조는 분산 해시 테이블(DHT, Distributed Hash Table)로, `해시(key) → 노드 위치`를 결정하여 O(1) 접근을 보장한다.
+[[036_key_value|키-값 저장소]]([[036_key_value|Key-Value Store]])는 고유한 키([[067_db_key_uniqueness_minimality|Key]])와 임의의 값(Value)을 쌍으로 저장한다. 내부 구조는 [[136_variance|분산]] [[067_hash_table|해시 테이블]](DHT, Distributed [[067_hash_table|Hash Table]])로, `해시(key) → 노드 위치`를 결정하여 O(1) 접근을 보장한다.
 
 ```text
 ┌─────────────────────────────────────────────────┐
@@ -37,21 +37,21 @@ categories = "studynote-bigdata"
 
 ### 대표 솔루션 비교
 
-| 솔루션 | 분류 | 일관성 모델 | 특징 |
+| 솔루션 | [[104_classification_analysis|분류]] | [[194_consistency_database_integrity|일관성]] 모델 | 특징 |
 |:---:|:---:|:---:|:---|
-| **Redis** | 인메모리 + 지속성 | 강한 일관성(단일 노드) | 다양한 자료구조, Pub/Sub, 클러스터 |
-| **DynamoDB** | 완전 관리형 | 조정 가능(Eventual/Strong) | 서버리스, 무제한 확장, AWS 통합 |
-| **Riak** | 분산 P2P | 결과적 일관성 | CRDT 지원, 고가용성 우선 |
+| **[[542_redis|Redis]]** | 인메모리 + 지속성 | 강한 [[194_consistency_database_integrity|일관성]](단일 노드) | 다양한 자료구조, Pub/Sub, 클러스터 |
+| **[[545_dynamodb|DynamoDB]]** | 완전 관리형 | 조정 가능(Eventual/Strong) | [[206_serverless_cold_start|서버리스]], 무제한 확장, AWS 통합 |
+| **Riak** | [[136_variance|분산]] [[916_p2p_peer_to_peer_networking_super_node_gnutella|P2P]] | [[650_eventual_consistency|결과적 일관성]] | CRDT 지원, 고가용성 우선 |
 | **Memcached** | 순수 캐시 | 없음(휘발성) | 단순·고성능 캐시, 멀티스레드 |
 
 📢 **섹션 요약 비유**
-> 키-값 DB는 거대한 물품 보관소와 같다. 보관증(Key)을 내밀면 즉시 해당 물건(Value)을 꺼내준다. 어떤 물건인지 내용을 검사하거나 다른 물건과 비교하는 일은 하지 않는다 — 그것이 속도의 비결이다.
+> 키-값 DB는 거대한 물품 보관소와 같다. 보관증([[067_db_key_uniqueness_minimality|Key]])을 내밀면 즉시 해당 물건(Value)을 꺼내준다. 어떤 물건인지 내용을 검사하거나 다른 물건과 비교하는 일은 하지 않는다 — 그것이 속도의 비결이다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### 분산 해시 테이블 (DHT, Distributed Hash Table)
+### [[136_variance|분산]] [[067_hash_table|해시 테이블]] (DHT, Distributed [[067_hash_table|Hash Table]])
 
 ```text
 ┌────────────────────────────────────────────────────┐
@@ -78,10 +78,10 @@ categories = "studynote-bigdata"
 | `GET key` | O(1) | 키로 값 조회 |
 | `SET key value` | O(1) | 키-값 저장 또는 갱신 |
 | `DEL key` | O(1) | 키 삭제 |
-| `EXPIRE key ttl` | O(1) | TTL(Time To Live) 설정 |
+| `EXPIRE key ttl` | O(1) | [[294_ttl_time_to_live_looping_prevention|TTL]]([[294_ttl_time_to_live_looping_prevention|Time To Live]]) [[009_config|설정]] |
 | `SCAN pattern` | O(N) | 패턴 기반 키 탐색 (비권장) |
 
-### DynamoDB 파티셔닝 구조
+### [[545_dynamodb|DynamoDB]] [[179_table_partitioning_concept|파티셔닝]] 구조
 
 ```text
 ┌──────────────────────────────────────────────────────┐
@@ -104,34 +104,34 @@ categories = "studynote-bigdata"
 ```
 
 📢 **섹션 요약 비유**
-> 일관된 해싱 링은 원형 시계판과 같다. 데이터는 시침처럼 시계 방향으로 가장 가까운 노드에 저장된다. 노드가 추가되면 그 사이 구간의 데이터만 이사하면 되어, 전체 재배치라는 대혼란을 피할 수 있다.
+> [[283_reference_pattern|일관된 해싱]] 링은 원형 시계판과 같다. [[001_dikw_pyramid|데이터]]는 시침처럼 시계 방향으로 가장 가까운 노드에 저장된다. 노드가 추가되면 그 사이 구간의 [[001_dikw_pyramid|데이터]]만 이사하면 되어, 전체 재배치라는 대혼란을 피할 수 있다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-### 키-값 DB vs 다른 NoSQL 모델
+### 키-값 DB vs 다른 [[035_nosql|NoSQL]] 모델
 
-| 관점 | Key-Value DB | Document DB | Column-Family DB |
+| 관점 | [[067_db_key_uniqueness_minimality|Key]]-Value DB | [[129_document_db|Document DB]] | Column-Family DB |
 |:---:|:---:|:---:|:---:|
 | **조회 방법** | 키만 가능 | 키 + 필드 필터 | 키 + 컬럼 범위 |
-| **값 구조** | 불투명(Opaque) | JSON/BSON 구조화 | 컬럼 그룹 |
-| **쿼리 표현력** | 최소 | 중간 | 중간 |
+| **값 구조** | 불투명(Opaque) | [[343_json|JSON]]/BSON 구조화 | 컬럼 그룹 |
+| **[[298_qkv_attention|쿼리]] 표현력** | 최소 | 중간 | 중간 |
 | **조회 속도** | ★★★★★ | ★★★★ | ★★★★ |
-| **적합 용도** | 캐시·세션 | CMS·프로필 | IoT·시계열 |
+| **적합 용도** | 캐시·[[160_session_controlling_terminal|세션]] | CMS·프로필 | [[101_iot_concept|IoT]]·시계열 |
 
-### Riak의 CRDT (Conflict-free Replicated Data Type)
-멀티 마스터 환경에서 충돌 없는 병합을 보장하는 수학적 자료구조.
+### Riak의 CRDT (Conflict-free Replicated [[001_dikw_pyramid|Data]] Type)
+멀티 [[172_maas_mobility_as_a_service|마스]]터 환경에서 충돌 없는 병합을 보장하는 수학적 자료구조.
 
 | CRDT 유형 | 설명 | 예시 |
 |:---:|:---:|:---|
-| G-Counter | 증가만 가능한 카운터 | 페이지 뷰 집계 |
-| PN-Counter | 증가/감소 카운터 | 재고 수량 |
+| G-[[059_counter|Counter]] | 증가만 가능한 [[059_counter|카운터]] | [[286_page_frame|페이지]] 뷰 집계 |
+| PN-[[059_counter|Counter]] | 증가/감소 [[059_counter|카운터]] | 재고 수량 |
 | OR-Set | 충돌 없는 집합 | 태그 목록 |
-| LWW-Register | 최신 쓰기 우선 | 사용자 설정 |
+| LWW-[[175_register_addressing|Register]] | 최신 [[289_cqrs_db|쓰기]] 우선 | 사용자 [[009_config|설정]] |
 
 📢 **섹션 요약 비유**
-> Document DB가 내용을 확인할 수 있는 투명 상자라면, Key-Value DB는 겉에 번호만 붙은 불투명 금고다. 안을 열어보지 않아도 되기에 가장 빠르지만, "빨간 물건만 꺼내줘"라는 요청은 처리할 수 없다.
+> [[037_document|Document]] DB가 내용을 [[396_validation|확인]]할 수 있는 투명 상자라면, [[067_db_key_uniqueness_minimality|Key]]-Value DB는 겉에 번호만 붙은 불투명 금고다. 안을 열어보지 않아도 되기에 가장 빠르지만, "빨간 물건만 꺼내줘"라는 요청은 처리할 수 없다.
 
 ---
 
@@ -141,11 +141,11 @@ categories = "studynote-bigdata"
 
 | 패턴 | 예시 | 추천 솔루션 |
 |:---:|:---:|:---:|
-| **세션 저장** | 로그인 세션, JWT 블랙리스트 | Redis (TTL 활용) |
-| **캐싱 레이어** | DB 조회 결과 캐시 | Redis / Memcached |
-| **실시간 리더보드** | 게임 점수 순위표 | Redis Sorted Set |
-| **서버리스 OLTP** | 전자상거래 주문 | DynamoDB |
-| **피처 플래그** | A/B 테스트 설정 | Redis Hash |
+| **[[160_session_controlling_terminal|세션]] 저장** | [[568_logs_distributed_logging_elk_fluentd|로그]]인 [[160_session_controlling_terminal|세션]], [[549_jwt_json_web_token|JWT]] 블랙리스트 | [[542_redis|Redis]] ([[294_ttl_time_to_live_looping_prevention|TTL]] 활용) |
+| **[[456_caching|캐싱]] 레이어** | DB 조회 결과 캐시 | [[542_redis|Redis]] / Memcached |
+| **실시간 리더보드** | 게임 점수 순위표 | [[542_redis|Redis]] Sorted Set |
+| **[[206_serverless_cold_start|서버리스]] [[327_hint_handoff|OLTP]]** | 전자상거래 주문 | [[545_dynamodb|DynamoDB]] |
+| **[[576_feature_flag_ab_testing_rollout|피처 플래그]]** | A/B 테스트 [[009_config|설정]] | [[542_redis|Redis]] Hash |
 
 ### 기술사 시험 핵심 판단 포인트
 
@@ -167,7 +167,7 @@ Q. 키-값 DB 선택 기준은?
 ```
 
 📢 **섹션 요약 비유**
-> 기술사 판단은 요리사가 식재료를 고르는 것과 같다. 빨리 볶아야 하면 이미 손질된 재료(Redis)를, 천천히 숙성이 필요하면 냉장 보관 가능한 재료(DynamoDB)를 고른다. 용도에 맞지 않는 재료를 쓰면 맛있는 요리가 나오지 않는다.
+> 기술사 판단은 요리사가 식재료를 고르는 것과 같다. 빨리 볶아야 하면 이미 손질된 재료([[542_redis|Redis]])를, 천천히 숙성이 필요하면 냉장 보관 가능한 재료([[545_dynamodb|DynamoDB]])를 고른다. 용도에 맞지 않는 재료를 쓰면 맛있는 요리가 나오지 않는다.
 
 ---
 
@@ -175,30 +175,30 @@ Q. 키-값 DB 선택 기준은?
 
 ### 도입 효과 수치화
 
-| 지표 | RDBMS | Key-Value DB | 개선율 |
+| 지표 | RDBMS | [[067_db_key_uniqueness_minimality|Key]]-Value DB | 개선율 |
 |:---:|:---:|:---:|:---:|
-| 읽기 지연(p99) | 50~200ms | 0.1~1ms | 50~200배 향상 |
-| 초당 처리량(TPS) | 수천 | 수십만~수백만 | 100배+ |
-| 수평 확장 | 어려움 | 용이(샤딩) | — |
+| 읽기 [[015_지연_데이터_관점|지연]](p99) | 50~200ms | 0.1~1ms | 50~200배 향상 |
+| 초당 [[139_throughput|처리량]](TPS) | 수천 | 수십만~수백만 | 100배+ |
+| 수평 확장 | 어려움 | 용이([[280_sharding|샤딩]]) | — |
 | 비용(대규모) | 높음 | 낮음 | 60~80% 절감 |
 
 ### 결론 및 아키텍처 권고
-키-값 DB는 단독 사용보다 **RDBMS + 키-값 캐싱 레이어**의 조합으로 가장 큰 효과를 발휘한다. 캐시 히트율(Cache Hit Rate) 90% 이상을 목표로 설계하면 DB 부하를 획기적으로 줄일 수 있다. DynamoDB를 중심으로 한 서버리스 아키텍처는 관리 오버헤드 없이 무제한 확장이 필요한 클라우드 네이티브 환경에 최적이다.
+키-값 DB는 단독 사용보다 **RDBMS + 키-값 [[456_caching|캐싱]] 레이어**의 조합으로 가장 큰 효과를 발휘한다. [[263_cache_hit_miss|캐시 히트]]율(Cache [[263_cache_hit_miss|Hit]] Rate) 90% 이상을 목표로 설계하면 DB 부하를 획기적으로 줄일 수 있다. DynamoDB를 중심으로 한 [[215_serverless_architecture_faas_aws_lambda|서버리스 아키텍처]]는 관리 오버헤드 없이 무제한 확장이 필요한 [[531_cloud_native_architecture|클라우드 네이티브]] 환경에 최적이다.
 
 📢 **섹션 요약 비유**
-> 키-값 DB는 도로 위의 고속도로 휴게소 자판기와 같다. 버튼(Key)만 누르면 음료(Value)가 나오는 단순함 덕분에 줄을 서지 않아도 된다. 하지만 "오늘의 특선 메뉴"처럼 복잡한 조합은 제공하지 못한다 — 그 역할은 레스토랑(RDBMS)의 몫이다.
+> 키-값 DB는 도로 위의 고속도로 휴게소 자판기와 같다. 버튼([[067_db_key_uniqueness_minimality|Key]])만 누르면 음료(Value)가 나오는 단순함 덕분에 줄을 서지 않아도 된다. 하지만 "오늘의 특선 메뉴"처럼 복잡한 조합은 제공하지 못한다 — 그 역할은 레스토랑(RDBMS)의 몫이다.
 
 ---
 
 ### 📌 관련 개념 맵
 
-| 개념 | 관계 | 설명 |
+| 개념 | [[083_relationship_in_er_model|관계]] | 설명 |
 |:---:|:---:|:---|
-| CAP 정리 | 이론적 기반 | AP 선택(Riak), CP(Redis 클러스터) |
-| 일관된 해싱 | 구현 메커니즘 | 노드 추가 시 최소 데이터 이동 |
-| TTL (Time To Live) | 기능 | 만료 시간 설정, 캐시 갱신 |
+| [[341_process|CAP]] 정리 | 이론적 기반 | [[572_ap_access_point_ds_distribution_system|AP]] 선택(Riak), [[086_CP_순환_전치_GI|CP]]([[542_redis|Redis]] 클러스터) |
+| [[283_reference_pattern|일관된 해싱]] | 구현 메커니즘 | 노드 추가 시 최소 [[001_dikw_pyramid|데이터]] 이동 |
+| [[294_ttl_time_to_live_looping_prevention|TTL]] ([[294_ttl_time_to_live_looping_prevention|Time To Live]]) | 기능 | 만료 시간 [[009_config|설정]], 캐시 갱신 |
 | CRDT | 충돌 해결 | 자동 병합 가능한 자료구조 |
-| Polyglot Persistence | 아키텍처 패턴 | DB 혼합 사용 전략 |
+| [[132_polyglot_persistence|Polyglot Persistence]] | 아키텍처 패턴 | DB 혼합 사용 [[268_strategy_pattern|전략]] |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -218,9 +218,9 @@ Q. 키-값 DB 선택 기준은?
 [Polyglot Persistence]
 ```
 
-이 흐름도는 CAP 정리 (CAP Theorem)에서 출발해 Polyglot Persistence까지 이어지며, 중간 단계가 기초 개념을 실무 구조로 발전시키는 과정을 보여준다.
+이 흐름도는 [[341_process|CAP]] 정리 ([[219_cap_pacelc_distributed_tradeoff|CAP Theorem]])에서 출발해 Polyglot Persistence까지 이어지며, 중간 단계가 기초 개념을 실무 구조로 발전시키는 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
-1. 키-값 DB는 학교 사물함과 같아요. 번호(Key)를 알면 즉시 내 물건(Value)을 꺼낼 수 있어요.
+1. 키-값 DB는 학교 사물함과 같아요. 번호([[067_db_key_uniqueness_minimality|Key]])를 알면 즉시 내 물건(Value)을 꺼낼 수 있어요.
 2. 사물함 번호를 모르면 전체를 다 열어봐야 해서 시간이 오래 걸려요 — 그래서 "키"가 매우 중요해요.
 3. Redis는 책상 위에 놓인 사물함(빠르지만 전기가 끊기면 잊어버림), DynamoDB는 학교 창고 사물함(느리지만 절대 잊어버리지 않음)이에요.

@@ -7,9 +7,9 @@ categories = "studynote-cloud-architecture"
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: 베어메탈 클라우드(Bare Metal Cloud)는 하이퍼바이저(Hypervisor) 없이 물리 서버 하드웨어를 클라우드 방식으로 온디맨드(On-Demand) 프로비저닝하는 서비스로, 가상화 오버헤드 없이 물리 서버 수준의 성능과 클라우드의 탄력성을 동시에 제공한다.
-> 2. **가치**: 베어메탈의 핵심 가치는 "노이즈 네이버(Noisy Neighbor) 문제 제거"다. 멀티테넌트 VM에서는 같은 물리 서버의 다른 VM이 리소스를 과다 사용하면 내 VM 성능이 저하된다. 베어메탈은 물리 서버 전체를 단독으로 사용하므로 이 문제가 없다.
-> 3. **판단 포인트**: 베어메탈 선택 기준: ①DB 워크로드(OLAP, In-Memory DB) — I/O 성능 극대화, ②HPC(고성능 컴퓨팅) — MPI 통신 지연 최소화, ③보안 컴플라이언스 — 하드웨어 격리 요구, ④GPU 집약 AI 학습 — GPU to GPU 직접 통신. VM이 더 적합한 경우: 가변 워크로드, 빠른 프로비저닝, 비용 최적화.
+> 1. **본질**: [[629_bare_metal_cloud|베어메탈 클라우드]]([[629_bare_metal_cloud|Bare Metal Cloud]])는 [[054_hypervisor|하이퍼바이저]]([[054_hypervisor|Hypervisor]]) 없이 물리 서버 하드웨어를 클라우드 방식으로 온디맨드(On-Demand) [[528_provisioning|프로비저닝]]하는 [[090_service_kubernetes_network_load_balancing|서비스]]로, [[015_virtualization|가상화]] 오버헤드 없이 물리 서버 수준의 [[282_performance_tactics|성능]]과 클라우드의 탄력성을 동시에 제공한다.
+> 2. **가치**: 베어메탈의 핵심 가치는 "노이즈 네이버(Noisy Neighbor) 문제 제거"다. [[310_multi_tenant_database_architecture|멀티테넌트]] VM에서는 같은 물리 서버의 다른 VM이 리소스를 과다 사용하면 내 [[598_vm_migration_nic|VM]] [[282_performance_tactics|성능]]이 저하된다. 베어메탈은 물리 서버 전체를 단독으로 사용하므로 이 문제가 없다.
+> 3. **판단 포인트**: 베어메탈 선택 기준: ①DB 워크로드([[316_olap|OLAP]], [[139_inmemory_db|In-Memory DB]]) — I/O [[282_performance_tactics|성능]] 극대화, ②HPC(고성능 컴퓨팅) — MPI 통신 [[015_지연_데이터_관점|지연]] 최소화, ③보안 컴플라이언스 — 하드웨어 격리 요구, ④GPU 집약 [[190_ai_llm_requirements_specification|AI]] 학습 — [[418_gpu|GPU]] to [[418_gpu|GPU]] [[120_direct_communication|직접 통신]]. VM이 더 적합한 경우: 가변 워크로드, 빠른 [[528_provisioning|프로비저닝]], 비용 최적화.
 
 ---
 
@@ -31,13 +31,13 @@ categories = "studynote-cloud-architecture"
 └─────────────────────────────────────────────────────────┘
 ```
 
-- **📢 섹션 요약 비유**: 베어메탈은 럭셔리 단독 주택이다. 공동 주택(VM)보다 비싸지만 이웃 소음(노이즈 네이버) 없이 집 전체를 혼자 쓴다. 공동 주택은 더 저렴하지만 이웃이 시끄러우면 내 생활이 영향받는다.
+- **📢 섹션 요약 비유**: 베어메탈은 럭셔리 단독 주택이다. 공동 주택([[598_vm_migration_nic|VM]])보다 비싸지만 이웃 소음(노이즈 네이버) 없이 집 전체를 혼자 쓴다. 공동 주택은 더 저렴하지만 이웃이 시끄러우면 내 생활이 영향받는다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### 베어메탈 프로비저닝 과정
+### 베어메탈 [[528_provisioning|프로비저닝]] 과정
 
 ```text
 1. 사용자 요청 (API/포털)
@@ -51,29 +51,29 @@ categories = "studynote-cloud-architecture"
 4. 서버 준비 완료 → 사용자 접근 (10~30분)
 ```
 
-### 주요 베어메탈 클라우드 서비스
+### 주요 [[629_bare_metal_cloud|베어메탈 클라우드]] [[090_service_kubernetes_network_load_balancing|서비스]]
 
-| 서비스 | 벤더 | 특징 |
+| [[090_service_kubernetes_network_load_balancing|서비스]] | 벤더 | 특징 |
 |:---|:---|:---|
 | Bare Metal | AWS | EC2 Metal 인스턴스 |
 | Bare Metal | IBM Cloud | 엔터프라이즈 특화 |
 | Dedicated Servers | OVHcloud | 글로벌 가성비 |
-| Bare Metal Cloud | Oracle | Exadata 통합 |
+| [[629_bare_metal_cloud|Bare Metal Cloud]] | [[188_pl_sql_t_sql_procedural|Oracle]] | Exadata 통합 |
 
-- **📢 섹션 요약 비유**: 베어메탈 프로비저닝은 30분 내 완성되는 맞춤 PC 조립 서비스다. 원하는 사양을 주문하면(API 요청) 로봇이 자동으로 조립하고 OS를 설치해서 바로 쓸 수 있게 해준다.
+- **📢 섹션 요약 비유**: 베어메탈 [[528_provisioning|프로비저닝]]은 30분 내 완성되는 맞춤 [[164_pc|PC]] 조립 [[090_service_kubernetes_network_load_balancing|서비스]]다. 원하는 사양을 주문하면([[014_api_posix|API]] 요청) 로봇이 자동으로 조립하고 OS를 설치해서 바로 쓸 수 있게 해준다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-| 비교 | 베어메탈 | VM | 컨테이너 |
+| 비교 | 베어메탈 | [[598_vm_migration_nic|VM]] | [[561_container_based_deployment|컨테이너]] |
 |:---|:---|:---|:---|
-| 격리 수준 | 물리 서버 전용 | 하이퍼바이저 | OS 공유 |
-| 성능 | 100% (오버헤드 없음) | 90~95% | 98~99% |
-| 프로비저닝 | 분~시간 | 초~분 | 초 이내 |
+| 격리 수준 | 물리 서버 전용 | [[054_hypervisor|하이퍼바이저]] | OS 공유 |
+| [[282_performance_tactics|성능]] | 100% (오버헤드 없음) | 90~95% | 98~99% |
+| [[528_provisioning|프로비저닝]] | 분~시간 | 초~분 | 초 이내 |
 | 비용 | 높음 | 중간 | 낮음 |
 
-- **📢 섹션 요약 비유**: 베어메탈·VM·컨테이너는 교통 수단이다. 베어메탈은 전세 버스(독점, 비싸지만 빠름), VM은 일반 버스(공유, 적당), 컨테이너는 지하철(초고속, 공유, 저렴)이다.
+- **📢 섹션 요약 비유**: 베어메탈·[[598_vm_migration_nic|VM]]·[[561_container_based_deployment|컨테이너]]는 교통 수단이다. 베어메탈은 전세 [[344_bus|버스]](독점, 비싸지만 빠름), VM은 일반 [[344_bus|버스]](공유, 적당), [[561_container_based_deployment|컨테이너]]는 지하철([[148_5g_embb_urllc_mmtc|초고속]], 공유, 저렴)이다.
 
 ---
 
@@ -81,13 +81,13 @@ categories = "studynote-cloud-architecture"
 
 ### 베어메탈 최적 워크로드
 - **SAP HANA 인메모리 DB**: 수 TB RAM + 빠른 I/O 요구 → 베어메탈 최적.
-- **AI 학습 클러스터**: A100 GPU 서버 직접 통신(NVLink, InfiniBand) → VM 오버헤드 없음.
-- **고빈도 트레이딩(HFT)**: 마이크로초 지연 요구 → 하이퍼바이저 제거.
+- **[[190_ai_llm_requirements_specification|AI]] 학습 클러스터**: A100 [[418_gpu|GPU]] 서버 [[120_direct_communication|직접 통신]](NVLink, [[361_infiniband|InfiniBand]]) → [[598_vm_migration_nic|VM]] 오버헤드 없음.
+- **고빈도 트레이딩(HFT)**: 마이크로초 [[015_지연_데이터_관점|지연]] 요구 → [[054_hypervisor|하이퍼바이저]] 제거.
 
-### 베어메탈 + 컨테이너 조합
-- 베어메탈 서버 위에 Kubernetes 직접 배포 → 물리 성능 + 컨테이너 오케스트레이션 이점.
+### 베어메탈 + [[561_container_based_deployment|컨테이너]] 조합
+- 베어메탈 서버 위에 [[205_kubernetes_container_orchestration|Kubernetes]] 직접 배포 → 물리 [[282_performance_tactics|성능]] + [[205_kubernetes_container_orchestration|컨테이너 오케스트레이션]] 이점.
 
-- **📢 섹션 요약 비유**: 베어메탈+Kubernetes는 경기장에 직접 설치된 최고급 음향 시스템이다. 건물 벽(하이퍼바이저) 없이 공간 전체가 음향 전용으로 최적화되고, 앱(컨테이너)은 이 최적 환경을 직접 활용한다.
+- **📢 섹션 요약 비유**: 베어메탈+Kubernetes는 경기장에 직접 설치된 최고급 음향 시스템이다. 건물 벽([[054_hypervisor|하이퍼바이저]]) 없이 공간 전체가 음향 전용으로 최적화되고, 앱([[561_container_based_deployment|컨테이너]])은 이 최적 환경을 직접 활용한다.
 
 ---
 
@@ -95,13 +95,13 @@ categories = "studynote-cloud-architecture"
 
 | 기대효과 | 내용 |
 |:---|:---|
-| **최고 성능** | 하이퍼바이저 오버헤드 제거 |
-| **예측 가능한 성능** | 노이즈 네이버 없음 |
+| **최고 [[282_performance_tactics|성능]]** | [[054_hypervisor|하이퍼바이저]] 오버헤드 제거 |
+| **예측 가능한 [[282_performance_tactics|성능]]** | 노이즈 네이버 없음 |
 | **보안 격리** | 물리 수준 하드웨어 분리 |
 
-스마트 NIC(Smart NIC/DPU, Data Processing Unit)의 등장으로 베어메탈 서버에서도 네트워킹·보안·스토리지 가상화를 하드웨어 가속하여 VM에 가까운 탄력성을 제공하는 방향으로 진화하고 있다.
+스마트 [[587_nic_offloading|NIC]](Smart [[587_nic_offloading|NIC]]/[[436_dpu|DPU]], [[229_dpu_ipu_infrastructure_accelerator_offloading|Data Processing Unit]])의 등장으로 베어메탈 서버에서도 네트워킹·보안·스토리지 [[015_virtualization|가상화]]를 하드웨어 가속하여 VM에 가까운 탄력성을 제공하는 방향으로 진화하고 있다.
 
-- **📢 섹션 요약 비유**: DPU 탑재 베어메탈은 성능을 희생하지 않고 유연성을 얻는 방법이다. 스마트 전기 콘센트(DPU)를 달면 단독 주택(베어메탈)에서도 전기 공급(네트워크·스토리지)을 자유롭게 조절할 수 있다.
+- **📢 섹션 요약 비유**: [[436_dpu|DPU]] 탑재 베어메탈은 [[282_performance_tactics|성능]]을 희생하지 않고 유연성을 얻는 방법이다. 스마트 전기 콘센트([[436_dpu|DPU]])를 달면 단독 주택(베어메탈)에서도 전기 공급(네트워크·스토리지)을 자유롭게 조절할 수 있다.
 
 ---
 
@@ -109,11 +109,11 @@ categories = "studynote-cloud-architecture"
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **하이퍼바이저** | 베어메탈이 제거하는 가상화 계층 |
-| **노이즈 네이버** | VM 공유 환경의 성능 불안정 문제 |
-| **DPU** | 베어메탈에서 탄력성을 더하는 스마트 NIC |
-| **HPC** | 베어메탈의 대표 적합 워크로드 |
-| **Kubernetes on Bare Metal** | 베어메탈 + 컨테이너 오케스트레이션 조합 |
+| **[[054_hypervisor|하이퍼바이저]]** | 베어메탈이 제거하는 [[015_virtualization|가상화]] 계층 |
+| **노이즈 네이버** | [[598_vm_migration_nic|VM]] 공유 환경의 [[282_performance_tactics|성능]] 불안정 문제 |
+| **[[436_dpu|DPU]]** | 베어메탈에서 탄력성을 더하는 스마트 [[587_nic_offloading|NIC]] |
+| **[[548_automotive_hpc|HPC]]** | 베어메탈의 대표 적합 워크로드 |
+| **[[205_kubernetes_container_orchestration|Kubernetes]] on Bare Metal** | 베어메탈 + [[205_kubernetes_container_orchestration|컨테이너 오케스트레이션]] 조합 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -135,6 +135,6 @@ categories = "studynote-cloud-architecture"
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. 베어메탈 클라우드는 전세 버스예요! 공동 버스(VM)와 달리 버스 전체를 혼자 써서 이웃 소음(노이즈 네이버) 없이 최고 속도로 달려요.
-2. AI 학습이나 대용량 DB처럼 엄청난 성능이 필요할 때 베어메탈을 써요!
-3. 스마트 칩(DPU)을 달면 베어메탈도 VM처럼 유연하게 쓸 수 있는 기술이 나오고 있답니다!
+1. [[629_bare_metal_cloud|베어메탈 클라우드]]는 전세 [[344_bus|버스]]예요! 공동 [[344_bus|버스]]([[598_vm_migration_nic|VM]])와 달리 [[344_bus|버스]] 전체를 혼자 써서 이웃 소음(노이즈 네이버) 없이 최고 속도로 달려요.
+2. [[190_ai_llm_requirements_specification|AI]] 학습이나 대용량 DB처럼 엄청난 [[282_performance_tactics|성능]]이 필요할 때 베어메탈을 써요!
+3. 스마트 칩([[436_dpu|DPU]])을 달면 베어메탈도 VM처럼 유연하게 쓸 수 있는 기술이 나오고 있답니다!

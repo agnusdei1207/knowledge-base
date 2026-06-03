@@ -7,27 +7,27 @@ categories = "studynote-bigdata"
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-1. 레이크하우스(Lakehouse)는 데이터 레이크의 **저비용·유연 저장**과 데이터 웨어하우스의 **ACID 트랜잭션·쿼리 성능**을 단일 아키텍처로 통합하여 ETL 이중화 비용을 제거한다.
-2. Delta Lake / Apache Iceberg / Apache Hudi 같은 **오픈 테이블 포맷**이 객체 스토리지 위에서 트랜잭션 보장·타임 트래블을 실현하는 핵심 기술 레이어다.
-3. ML 파이프라인이 정제된 데이터에 직접 접근할 수 있어 데이터 과학자의 실험 주기가 단축되고 거버넌스가 단일 지점으로 통합된다.
+1. 레이크하우스(Lakehouse)는 [[208_data_lake_schema_on_read|데이터 레이크]]의 **저비용·유연 저장**과 [[209_data_warehouse_schema_on_write|데이터 웨어하우스]]의 **ACID [[191_transaction_concept_states|트랜잭션]]·[[298_qkv_attention|쿼리]] [[282_performance_tactics|성능]]**을 단일 아키텍처로 통합하여 [[215_etl_vs_elt_pipeline|ETL]] [[456_dual_redundancy|이중화]] 비용을 제거한다.
+2. [[147_delta_lake|Delta Lake]] / [[148_apache_iceberg|Apache Iceberg]] / [[149_apache_hudi|Apache Hudi]] 같은 **[[054_open_table_format_iceberg_delta_hudi|오픈 테이블 포맷]]**이 객체 스토리지 위에서 [[191_transaction_concept_states|트랜잭션]] 보장·타임 트래블을 실현하는 핵심 기술 레이어다.
+3. ML [[123_pipe|파이프]]라인이 정제된 [[001_dikw_pyramid|데이터]]에 직접 접근할 수 있어 [[001_dikw_pyramid|데이터]] 과학자의 실험 주기가 단축되고 거버넌스가 단일 지점으로 통합된다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-전통적 빅데이터 아키텍처에서는 데이터 레이크(원시 저장)와 데이터 웨어하우스(분석·리포팅)가 분리된 2-계층 구조로 운영되었다. 이 구조는 이중 ETL 파이프라인, 데이터 동기화 지연, 중복 스토리지 비용이라는 세 가지 만성적 문제를 내포했다.
+전통적 빅데이터 아키텍처에서는 [[208_data_lake_schema_on_read|데이터 레이크]](원시 저장)와 [[209_data_warehouse_schema_on_write|데이터 웨어하우스]](분석·리포팅)가 분리된 2-계층 구조로 운영되었다. 이 구조는 이중 [[215_etl_vs_elt_pipeline|ETL]] [[123_pipe|파이프]]라인, [[001_dikw_pyramid|데이터]] [[212_synchronization_mechanisms|동기화]] [[015_지연_데이터_관점|지연]], 중복 스토리지 비용이라는 세 가지 만성적 문제를 내포했다.
 
-Databricks가 2020년 논문에서 제시한 레이크하우스 패러다임은 이 두 계층을 하나로 합치는 것이다. 객체 스토리지(S3, Azure Data Lake Storage Gen2, GCS)를 단일 진실의 원천(Single Source of Truth)으로 삼고, 그 위에 메타데이터 레이어(트랜잭션 로그)를 추가함으로써 웨어하우스 수준의 보장을 달성한다.
+Databricks가 2020년 논문에서 제시한 레이크하우스 패러다임은 이 두 계층을 하나로 합치는 것이다. 객체 스토리지(S3, Azure [[641_data_lake_storage|Data Lake Storage]] Gen2, GCS)를 단일 진실의 원천([[119_gitops_single_source_of_truth|Single Source of Truth]])으로 삼고, 그 위에 [[012_metadata|메타데이터]] 레이어([[191_transaction_concept_states|트랜잭션]] [[568_logs_distributed_logging_elk_fluentd|로그]])를 추가함으로써 웨어하우스 수준의 보장을 달성한다.
 
-| 구분 | 데이터 레이크 | 데이터 웨어하우스 | 레이크하우스 |
+| 구분 | [[208_data_lake_schema_on_read|데이터 레이크]] | [[209_data_warehouse_schema_on_write|데이터 웨어하우스]] | 레이크하우스 |
 |:---|:---|:---|:---|
 | 저장 비용 | 매우 낮음 (객체 스토리지) | 높음 (전용 스토리지) | 매우 낮음 (객체 스토리지) |
-| 스키마 방식 | Schema-on-Read | Schema-on-Write | 둘 다 지원 |
+| [[005_schema|스키마]] 방식 | [[009_schema_on_read|Schema-on-Read]] | [[010_schema_on_write|Schema-on-Write]] | 둘 다 지원 |
 | ACID 보장 | 없음 | 있음 | 있음 (오픈 포맷) |
 | ML 지원 | 직접 가능 | 제한적 | 직접 가능 |
-| 동시성 제어 | 없음 | 있음 | 있음 |
+| [[014_concurrency|동시성]] 제어 | 없음 | 있음 | 있음 |
 
-> 📢 **섹션 요약 비유**: 기존엔 신선 재료 창고(레이크)와 완성 요리 냉장고(DW)를 따로 관리했다. 레이크하우스는 스마트 냉장고 하나로 신선 재료 보관과 완성 요리 제공을 동시에 처리하는 것이다.
+> 📢 **섹션 요약 비유**: 기존엔 신선 재료 창고(레이크)와 완성 요리 냉장고([[209_data_warehouse_schema_on_write|DW]])를 따로 관리했다. 레이크하우스는 스마트 냉장고 하나로 신선 재료 보관과 완성 요리 제공을 동시에 처리하는 것이다.
 
 ---
 
@@ -59,13 +59,13 @@ Databricks가 2020년 논문에서 제시한 레이크하우스 패러다임은 
 
 | 기술 요소 | 역할 | 구현 예시 |
 |:---|:---|:---|
-| 오픈 테이블 포맷 | ACID + 스냅샷 관리 | Delta Lake, Iceberg, Hudi |
-| 컬럼형 파일 포맷 | 효율적 압축·쿼리 | Parquet, ORC |
-| 카탈로그/거버넌스 | 메타데이터·권한 관리 | Unity Catalog, AWS Glue |
+| [[054_open_table_format_iceberg_delta_hudi|오픈 테이블 포맷]] | ACID + [[022_snapshot_backup_architecture|스냅샷]] 관리 | [[147_delta_lake|Delta Lake]], Iceberg, Hudi |
+| 컬럼형 [[501_file_definition_logical_record|파일]] 포맷 | 효율적 [[347_compaction|압축]]·[[298_qkv_attention|쿼리]] | [[178_parquet_rle_encoding_columnar_compression|Parquet]], ORC |
+| [[394_catalog_metadata|카탈로그]]/거버넌스 | [[012_metadata|메타데이터]]·권한 관리 | [[150_unity_catalog|Unity Catalog]], AWS Glue |
 | 컴퓨팅 엔진 | SQL·배치·스트리밍 처리 | Spark, Trino, Flink |
-| 오케스트레이션 | 파이프라인 스케줄 | Airflow, Databricks Workflows |
+| [[073_container_orchestration_tools|오케스트레이션]] | [[123_pipe|파이프]]라인 [[208_schedule_history_transaction_execution_order|스케줄]] | Airflow, [[074_photon_engine|Databricks]] Workflows |
 
-> 📢 **섹션 요약 비유**: 건물(스토리지) 위에 엘리베이터 관제 시스템(트랜잭션 로그)을 설치하면, 여러 사람이 동시에 엘리베이터를 타도 충돌 없이 각자 원하는 층에 도달할 수 있다.
+> 📢 **섹션 요약 비유**: 건물(스토리지) 위에 엘리베이터 관제 시스템([[191_transaction_concept_states|트랜잭션]] [[568_logs_distributed_logging_elk_fluentd|로그]])을 설치하면, 여러 사람이 동시에 엘리베이터를 타도 충돌 없이 각자 원하는 층에 도달할 수 있다.
 
 ---
 
@@ -73,22 +73,22 @@ Databricks가 2020년 논문에서 제시한 레이크하우스 패러다임은 
 
 **레이크하우스 vs 기존 2-티어 아키텍처**
 
-| 항목 | 레이크 + DW (2-티어) | 레이크하우스 (1-티어) |
+| 항목 | 레이크 + [[209_data_warehouse_schema_on_write|DW]] (2-티어) | 레이크하우스 (1-티어) |
 |:---|:---|:---|
-| ETL 파이프라인 수 | 2개 (레이크→DW) | 1개 (소스→레이크하우스) |
-| 데이터 신선도 | 수 시간 지연 | 근실시간 가능 |
-| ML 접근 경로 | DW 혹은 레이크 별도 접근 | 단일 테이블 직접 접근 |
-| 스토리지 비용 | 이중화 (레이크 + DW) | 단일 객체 스토리지 |
+| [[215_etl_vs_elt_pipeline|ETL]] [[123_pipe|파이프]]라인 수 | 2개 (레이크→[[209_data_warehouse_schema_on_write|DW]]) | 1개 (소스→레이크하우스) |
+| [[001_dikw_pyramid|데이터]] 신선도 | 수 시간 [[015_지연_데이터_관점|지연]] | 근실시간 가능 |
+| ML 접근 경로 | [[209_data_warehouse_schema_on_write|DW]] 혹은 레이크 별도 접근 | 단일 테이블 직접 접근 |
+| 스토리지 비용 | [[456_dual_redundancy|이중화]] (레이크 + [[209_data_warehouse_schema_on_write|DW]]) | 단일 객체 스토리지 |
 | 운영 복잡도 | 높음 (두 시스템 관리) | 낮음 (단일 시스템) |
 
 **연관 기술 연결**
 
-- **Delta Lake**: 레이크하우스의 대표 구현체 → `_delta_log` 기반 ACID
-- **Medallion Architecture**: 레이크하우스 내 Bronze → Silver → Gold 3계층
-- **Unity Catalog**: 레이크하우스의 거버넌스·접근 제어 레이어
-- **MLflow**: 레이크하우스 위 ML 실험 추적 및 모델 레지스트리
+- **[[147_delta_lake|Delta Lake]]**: 레이크하우스의 대표 구현체 → `_delta_log` 기반 ACID
+- **[[194_medallion_architecture_bronze_silver_gold|Medallion Architecture]]**: 레이크하우스 내 Bronze → Silver → Gold 3계층
+- **[[150_unity_catalog|Unity Catalog]]**: 레이크하우스의 거버넌스·접근 제어 레이어
+- **[[180_mlflow|MLflow]]**: 레이크하우스 위 ML 실험 추적 및 [[166_model_registry_versioning_mlflow|모델 레지스트리]]
 
-> 📢 **섹션 요약 비유**: 예전엔 생산 공장(레이크)과 판매 창고(DW)가 별개였는데, 레이크하우스는 스마트 팩토리처럼 생산과 판매를 한 건물에서 동시에 처리한다.
+> 📢 **섹션 요약 비유**: 예전엔 생산 공장(레이크)과 판매 창고([[209_data_warehouse_schema_on_write|DW]])가 별개였는데, 레이크하우스는 [[166_smart_factory|스마트 팩토리]]처럼 생산과 판매를 한 건물에서 동시에 처리한다.
 
 ---
 
@@ -96,21 +96,21 @@ Databricks가 2020년 논문에서 제시한 레이크하우스 패러다임은 
 
 **채택 판단 기준**
 
-- **데이터 규모**: 테라바이트 이상, 다양한 형식의 데이터가 공존할 때 레이크하우스가 유리
-- **ML 필요성**: 데이터 과학 팀이 raw 데이터에 직접 접근해야 한다면 레이크하우스 필수
-- **비용 최적화**: 기존 DW의 라이선스 비용(Snowflake, Redshift)이 높을 때 이전 검토
-- **실시간 요건**: 스트리밍과 배치를 동일 테이블에서 처리해야 할 때 Structured Streaming + Delta
+- **[[001_dikw_pyramid|데이터]] 규모**: 테라바이트 이상, 다양한 형식의 [[001_dikw_pyramid|데이터]]가 공존할 때 레이크하우스가 유리
+- **ML 필요성**: [[001_dikw_pyramid|데이터]] 과학 팀이 [[225_raw|raw]] [[001_dikw_pyramid|데이터]]에 직접 접근해야 한다면 레이크하우스 필수
+- **비용 최적화**: 기존 DW의 라이선스 비용([[541_cassandra|Snowflake]], Redshift)이 높을 때 이전 검토
+- **실시간 요건**: 스트리밍과 배치를 동일 테이블에서 처리해야 할 때 [[061_structured_streaming|Structured Streaming]] + Delta
 
 **기술사 답안 포인트**
 
 | 질문 유형 | 핵심 답변 키워드 |
 |:---|:---|
-| 레이크하우스 정의 | ACID on 객체 스토리지, 오픈 테이블 포맷, 스키마 유연성 |
-| 도입 효과 | ETL 이중화 제거, 스토리지 비용 절감, ML 직접 접근 |
-| 한계점 | 소규모 파일 문제(Small File Problem), 쿼리 레이턴시(DW 대비) |
-| 대안 비교 | vs Snowflake: SQL 친화성, vs Databricks: Spark 네이티브 |
+| 레이크하우스 정의 | ACID on 객체 스토리지, [[054_open_table_format_iceberg_delta_hudi|오픈 테이블 포맷]], [[005_schema|스키마]] 유연성 |
+| 도입 효과 | [[215_etl_vs_elt_pipeline|ETL]] [[456_dual_redundancy|이중화]] 제거, 스토리지 비용 절감, ML 직접 접근 |
+| 한계점 | 소규모 [[501_file_definition_logical_record|파일]] 문제([[269_small_file_problem_data_lakehouse|Small File Problem]]), [[298_qkv_attention|쿼리]] 레이턴시([[209_data_warehouse_schema_on_write|DW]] 대비) |
+| 대안 비교 | vs [[541_cassandra|Snowflake]]: SQL 친화성, vs [[074_photon_engine|Databricks]]: Spark 네이티브 |
 
-> 📢 **섹션 요약 비유**: 레이크하우스 도입은 두 개의 전화 요금제(레이크·DW)를 하나의 무제한 요금제로 통합하는 것이다. 단, 신호 강도(쿼리 성능)가 기존 전용선보다 약할 수 있으므로 SLA를 확인해야 한다.
+> 📢 **섹션 요약 비유**: 레이크하우스 도입은 두 개의 전화 요금제(레이크·[[209_data_warehouse_schema_on_write|DW]])를 하나의 무제한 요금제로 통합하는 것이다. 단, [[130_signal|신호]] 강도([[298_qkv_attention|쿼리]] [[282_performance_tactics|성능]])가 기존 [[266_leased_line_basics_e1_t1_t3|전용선]]보다 약할 수 있으므로 SLA를 [[396_validation|확인]]해야 한다.
 
 ---
 
@@ -118,27 +118,27 @@ Databricks가 2020년 논문에서 제시한 레이크하우스 패러다임은 
 
 | 효과 | 정량적 기대값 |
 |:---|:---|
-| 스토리지 비용 절감 | 기존 DW 대비 40~80% (객체 스토리지 단가 차이) |
-| ETL 파이프라인 복잡도 | 2-티어 대비 50% 감소 |
-| ML 실험 주기 단축 | 데이터 접근 지연 제거로 일 단위 → 시간 단위 |
-| 데이터 거버넌스 | 단일 카탈로그로 전사 정책 일원화 |
+| 스토리지 비용 절감 | 기존 [[209_data_warehouse_schema_on_write|DW]] 대비 40~80% (객체 스토리지 단가 차이) |
+| [[215_etl_vs_elt_pipeline|ETL]] [[123_pipe|파이프]]라인 복잡도 | 2-티어 대비 50% 감소 |
+| ML 실험 주기 단축 | [[001_dikw_pyramid|데이터]] 접근 [[015_지연_데이터_관점|지연]] 제거로 일 단위 → 시간 단위 |
+| [[052_data_governance_framework|데이터 거버넌스]] | 단일 [[394_catalog_metadata|카탈로그]]로 전사 [[164_policy|정책]] 일원화 |
 
-레이크하우스는 빅데이터 아키텍처의 차세대 표준으로 빠르게 수렴하고 있다. Databricks, Snowflake, AWS, Azure, GCP 모두 자사 플랫폼에 레이크하우스 기능을 내재화하고 있으며, Apache Iceberg의 멀티엔진 지원이 벤더 종속성을 완화한다. 기술사 시험에서는 **오픈 포맷 기반 ACID 보장**, **Medallion 계층화**, **ETL 이중화 제거**가 핵심 논점이다.
+레이크하우스는 빅데이터 아키텍처의 차세대 표준으로 빠르게 수렴하고 있다. [[074_photon_engine|Databricks]], [[541_cassandra|Snowflake]], AWS, Azure, GCP 모두 자사 플랫폼에 레이크하우스 기능을 내재화하고 있으며, Apache Iceberg의 멀티엔진 지원이 [[051_vendor_lock_in_cloud_computing|벤더 종속]]성을 완화한다. 기술사 시험에서는 **오픈 포맷 기반 ACID 보장**, **Medallion 계층화**, **[[215_etl_vs_elt_pipeline|ETL]] [[456_dual_redundancy|이중화]] 제거**가 핵심 논점이다.
 
-> 📢 **섹션 요약 비유**: 레이크하우스는 도시의 통합 물류 허브다. 원자재 창고와 소매점을 분리하던 구조를 하나의 스마트 물류 센터로 통합하여, 실시간 재고 파악과 즉각적인 배송을 동시에 실현한다.
+> 📢 **섹션 요약 비유**: 레이크하우스는 도시의 통합 물류 [[152_hub_dummy_switching_intelligent|허브]]다. 원자재 창고와 소매점을 분리하던 구조를 하나의 스마트 물류 센터로 통합하여, 실시간 재고 파악과 즉각적인 배송을 동시에 실현한다.
 
 ---
 
 ### 📌 관련 개념 맵
 
-| 개념 | 관계 | 설명 |
+| 개념 | [[083_relationship_in_er_model|관계]] | 설명 |
 |:---|:---|:---|
-| Delta Lake | 레이크하우스 구현체 | ACID on Parquet, 트랜잭션 로그 |
-| Apache Iceberg | 대체 구현체 | 멀티엔진, 히든 파티셔닝 |
-| Medallion Architecture | 설계 패턴 | Bronze→Silver→Gold 계층화 |
-| Unity Catalog | 거버넌스 레이어 | 컬럼/행 수준 접근 제어 |
-| MLflow | ML 통합 | 레이크하우스 위 실험 추적 |
-| Data Mesh | 조직 원칙 | 도메인 소유권 + 레이크하우스 인프라 |
+| [[147_delta_lake|Delta Lake]] | 레이크하우스 구현체 | ACID on [[178_parquet_rle_encoding_columnar_compression|Parquet]], [[191_transaction_concept_states|트랜잭션]] [[568_logs_distributed_logging_elk_fluentd|로그]] |
+| [[148_apache_iceberg|Apache Iceberg]] | 대체 구현체 | 멀티엔진, 히든 [[179_table_partitioning_concept|파티셔닝]] |
+| [[194_medallion_architecture_bronze_silver_gold|Medallion Architecture]] | 설계 패턴 | Bronze→Silver→Gold 계층화 |
+| [[150_unity_catalog|Unity Catalog]] | 거버넌스 레이어 | 컬럼/행 수준 접근 제어 |
+| [[180_mlflow|MLflow]] | ML 통합 | 레이크하우스 위 실험 추적 |
+| [[320_data_mesh|Data Mesh]] | 조직 원칙 | [[064_relation_domain|도메인]] 소유권 + 레이크하우스 인프라 |
 
 ---
 

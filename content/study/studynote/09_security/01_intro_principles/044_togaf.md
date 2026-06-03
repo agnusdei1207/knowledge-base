@@ -7,13 +7,13 @@ categories = "studynote-security"
 +++
 
 > **핵심 인사이트**
-> 1. TOGAF(The Open Group Architecture Framework)는 엔터프라이즈 아키텍처(EA)를 개발·관리하는 세계 표준 프레임워크로 — 비즈니스·데이터·애플리케이션·기술의 4개 아키텍처 도메인과 ADM(Architecture Development Method) 9단계 사이클로 구성된다.
-> 2. ADM(Architecture Development Method)은 예비 단계 → A(비전) → B(비즈니스) → C(정보시스템) → D(기술) → E(기회/해결) → F(마이그레이션) → G(거버넌스) → H(변경 관리)의 순환 사이클로 — 아키텍처가 비즈니스 전략과 IT 구현 사이의 단절을 메우는 체계적 접근법이다.
-> 3. TOGAF의 아키텍처 저장소(Architecture Repository)와 아키텍처 역량 프레임워크(ACF)는 조직이 EA 역량을 성숙시키는 로드맵을 제공하며 — IT 거버넌스, 비용 최적화, 비즈니스-IT 정렬의 실질적 도구로 금융·공공·제조 등 대규모 조직에서 광범위하게 활용된다.
+> 1. [[113_togaf|TOGAF]]([[113_togaf|The Open Group]] [[319_architecture|Architecture]] Framework)는 엔터프라이즈 아키텍처([[110_enterprise_architecture_ea|EA]])를 개발·관리하는 세계 표준 프레임워크로 — 비즈니스·[[001_dikw_pyramid|데이터]]·애플리케이션·기술의 4개 아키텍처 도메인과 [[066_적응형_델타_변조_ADM|ADM]]([[114_togaf_adm_architecture_development_method|Architecture Development Method]]) 9단계 사이클로 구성된다.
+> 2. [[066_적응형_델타_변조_ADM|ADM]]([[114_togaf_adm_architecture_development_method|Architecture Development Method]])은 예비 단계 → A(비전) → B(비즈니스) → C(정보시스템) → D(기술) → E(기회/해결) → F(마이그레이션) → G(거버넌스) → H([[079_change_enablement|변경 관리]])의 순환 사이클로 — 아키텍처가 비즈니스 전략과 IT 구현 사이의 단절을 메우는 체계적 접근법이다.
+> 3. TOGAF의 아키텍처 저장소([[319_architecture|Architecture]] Repository)와 아키텍처 역량 프레임워크(ACF)는 조직이 [[110_enterprise_architecture_ea|EA]] 역량을 성숙시키는 로드맵을 제공하며 — IT 거버넌스, 비용 최적화, 비즈니스-IT 정렬의 실질적 도구로 금융·공공·제조 등 대규모 조직에서 광범위하게 활용된다.
 
 ---
 
-## Ⅰ. TOGAF 개요
+## Ⅰ. [[113_togaf|TOGAF]] 개요
 
 ```
 TOGAF (The Open Group Architecture Framework):
@@ -48,11 +48,11 @@ TOGAF (The Open Group Architecture Framework):
   TOGAF ADM: 격차를 체계적으로 메우는 사이클
 ```
 
-> 📢 **섹션 요약 비유**: TOGAF는 도시 마스터플랜 — 건물(비즈니스)·도로(데이터)·시설(애플리케이션)·인프라(기술)의 4개 레이어를 통합적으로 설계하는 도시 계획 표준.
+> 📢 **섹션 요약 비유**: TOGAF는 도시 마스터플랜 — 건물(비즈니스)·도로([[001_dikw_pyramid|데이터]])·시설(애플리케이션)·인프라(기술)의 4개 레이어를 통합적으로 설계하는 도시 계획 표준.
 
 ---
 
-## Ⅱ. ADM 사이클
+## Ⅱ. [[066_적응형_델타_변조_ADM|ADM]] 사이클
 
 ```
 ADM (Architecture Development Method):
@@ -99,11 +99,11 @@ H. 아키텍처 변경 관리:
   → 모든 단계에서 지속적으로 관리
 ```
 
-> 📢 **섹션 요약 비유**: ADM 9단계는 건물 설계 프로세스 — 비전(설계 콘셉트) → 비즈니스(용도) → 데이터/앱(내부 구조) → 기술(자재) → 공사 계획 → 시공 감리 → 준공 후 유지.
+> 📢 **섹션 요약 비유**: [[066_적응형_델타_변조_ADM|ADM]] 9단계는 건물 설계 프로세스 — 비전(설계 콘셉트) → 비즈니스(용도) → [[001_dikw_pyramid|데이터]]/앱(내부 구조) → 기술(자재) → 공사 계획 → 시공 감리 → 준공 후 유지.
 
 ---
 
-## Ⅲ. TOGAF 핵심 개념
+## Ⅲ. [[113_togaf|TOGAF]] 핵심 개념
 
 ```
 아키텍처 빌딩 블록 (ABB vs SBB):
@@ -183,11 +183,11 @@ Zero Trust 통합:
   TOGAF 로드맵에 ZT 마이그레이션 계획 포함
 ```
 
-> 📢 **섹션 요약 비유**: TOGAF 보안 통합은 건물 보안 설계 — 설계 초기부터 잠금장치(보안)를 설계에 포함. 완공 후 자물쇠 붙이기보다 훨씬 효과적이고 저렴해요.
+> 📢 **섹션 요약 비유**: [[113_togaf|TOGAF]] 보안 통합은 건물 보안 설계 — 설계 초기부터 잠금장치(보안)를 설계에 포함. 완공 후 자물쇠 붙이기보다 훨씬 효과적이고 저렴해요.
 
 ---
 
-## Ⅴ. 실무 시나리오 — 공공기관 차세대 EA
+## Ⅴ. 실무 시나리오 — 공공기관 차세대 [[110_enterprise_architecture_ea|EA]]
 
 ```
 공공기관 차세대 시스템 TOGAF 적용:
@@ -290,6 +290,6 @@ IaC와 EA 자동화 통합
 
 ## 👶 어린이를 위한 3줄 비유 설명
 
-1. TOGAF는 도시 마스터플랜 — 건물(비즈니스), 도로(데이터), 시설(앱), 인프라(기술) 4개 레이어를 통합 설계하는 표준 계획서예요!
-2. ADM 9단계는 건물 설계~시공 과정 — 비전→비즈니스→기술 순서로 설계하고, 마이그레이션 계획으로 단계적으로 옮겨가요.
-3. EA 없이 IT 투자하면 낭비 — 한 팀이 만든 시스템이 다른 팀 시스템과 안 맞으면 다시 만들어야 해요. TOGAF는 이 낭비를 막는 설계도예요!
+1. TOGAF는 도시 마스터플랜 — 건물(비즈니스), 도로([[001_dikw_pyramid|데이터]]), 시설(앱), 인프라(기술) 4개 레이어를 통합 설계하는 표준 계획서예요!
+2. [[066_적응형_델타_변조_ADM|ADM]] 9단계는 건물 설계~시공 과정 — 비전→비즈니스→기술 순서로 설계하고, 마이그레이션 계획으로 단계적으로 옮겨가요.
+3. [[110_enterprise_architecture_ea|EA]] 없이 IT 투자하면 낭비 — 한 팀이 만든 시스템이 다른 팀 시스템과 안 맞으면 다시 만들어야 해요. TOGAF는 이 낭비를 막는 설계도예요!

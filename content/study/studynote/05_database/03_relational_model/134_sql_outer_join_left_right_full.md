@@ -8,8 +8,8 @@ categories = "studynote-database"
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: OUTER JOIN은 **매칭되지 않는 행도 NULL로 채워서 포함**하는 JOIN이며, LEFT(왼쪽 전체)·RIGHT(오른쪽 전체)·FULL(양쪽 전체)로 구분된다.
-> 2. **가치**: "주문이 없는 고객 목록"·"담당자가 없는 프로젝트 목록" 등 **비매칭 데이터를 찾는 데 필수**이며, LEFT JOIN이 가장 빈번하게 사용된다.
-> 3. **판단 포인트**: LEFT JOIN + WHERE right.id IS NULL → **비매칭만 추출**하는 Anti-Join 패턴이 실무에서 핵심이다.
+> 2. **가치**: "주문이 없는 고객 목록"·"담당자가 없는 프로젝트 목록" 등 **비매칭 [[001_dikw_pyramid|데이터]]를 찾는 데 필수**이며, LEFT JOIN이 가장 빈번하게 사용된다.
+> 3. **판단 포인트**: LEFT [[521_join|JOIN]] + WHERE right.id IS NULL → **비매칭만 추출**하는 Anti-[[521_join|Join]] 패턴이 실무에서 핵심이다.
 
 ---
 
@@ -28,7 +28,7 @@ Anti-Join:  LEFT JOIN WHERE right.id IS NULL → 비매칭만
 
 ## Ⅱ~Ⅴ. 결론
 
-OUTER JOIN은 **비매칭 데이터 분석의 핵심 연산**이며, Anti-Join 패턴이 실무에서 가장 자주 사용된다.
+OUTER JOIN은 **비매칭 [[001_dikw_pyramid|데이터]] 분석의 핵심 연산**이며, Anti-[[521_join|Join]] 패턴이 실무에서 가장 자주 사용된다.
 
 ---
 
@@ -36,10 +36,10 @@ OUTER JOIN은 **비매칭 데이터 분석의 핵심 연산**이며, Anti-Join �
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **LEFT JOIN** | 왼쪽 전체 보존 |
-| **RIGHT JOIN** | 오른쪽 전체 보존 |
+| **LEFT [[521_join|JOIN]]** | 왼쪽 전체 보존 |
+| **RIGHT [[521_join|JOIN]]** | 오른쪽 전체 보존 |
 | **FULL OUTER** | 양쪽 전체 |
-| **Anti-Join** | 비매칭만 추출 |
+| **Anti-[[521_join|Join]]** | 비매칭만 추출 |
 | **NULL** | 매칭 없을 때 채움 |
 
 ### 📈 관련 키워드 및 발전 흐름도
@@ -53,4 +53,4 @@ OUTER JOIN은 **비매칭 데이터 분석의 핵심 연산**이며, Anti-Join �
 ### 👶 어린이를 위한 3줄 비유 설명
 1. LEFT JOIN은 **A반 전체 명단**이에요. B반에서 겹치는 사람은 표시하고 **안 겹치면 빈칸**이에요.
 2. "주문 안 한 고객"을 찾으려면 **빈칸(NULL)인 사람만** 뽑으면 돼요.
-3. 이 방법(Anti-Join)은 **실무에서 정말 많이** 사용한답니다!
+3. 이 방법(Anti-[[521_join|Join]])은 **실무에서 정말 많이** 사용한답니다!

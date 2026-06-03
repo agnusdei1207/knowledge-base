@@ -7,9 +7,9 @@ categories = "studynote-dataengineering"
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: 정규화(Regularization)는 **모델이 학습 데이터에 과적합(Overfitting)하는 것을 방지**하는 기법의 총칭이며, Dropout·BatchNorm·L1/L2·Data Augmentation·Early Stopping이 대표이다.
-> 2. **가치**: 과적합 없이는 학습 정확도 99%인데 테스트 60%인 상황이 발생하며, 정규화로 **일반화 성능(Generalization)**을 확보해야 실제 데이터에서도 높은 성능을 발휘한다.
-> 3. **판단 포인트**: Dropout(뉴런 랜덤 비활성화)·BatchNorm(층별 정규화)·Weight Decay(L2)가 현대 딥러닝의 3대 정규화이며, Transformer에서는 LayerNorm을 사용한다.
+> 1. **본질**: [[093_normalization|정규화]](Regularization)는 **모델이 학습 데이터에 과적합([[245_overfitting_variance|Overfitting]])하는 것을 방지**하는 기법의 총칭이며, [[242_regularization_dropout_early_stopping_l1_l2_lasso_ridge|Dropout]]·BatchNorm·L1/L2·[[001_dikw_pyramid|Data]] Augmentation·Early Stopping이 대표이다.
+> 2. **가치**: 과적합 없이는 학습 정확도 99%인데 테스트 60%인 상황이 발생하며, [[093_normalization|정규화]]로 **일반화 [[282_performance_tactics|성능]](Generalization)**을 확보해야 실제 데이터에서도 높은 [[282_performance_tactics|성능]]을 발휘한다.
+> 3. **판단 포인트**: [[242_regularization_dropout_early_stopping_l1_l2_lasso_ridge|Dropout]](뉴런 랜덤 비활성화)·BatchNorm(층별 [[093_normalization|정규화]])·[[091_l1_l2_regularization_weight_decay|Weight Decay]](L2)가 현대 딥러닝의 3대 [[093_normalization|정규화]]이며, Transformer에서는 LayerNorm을 사용한다.
 
 ---
 
@@ -22,13 +22,13 @@ L2 (Weight Decay): 가중치 크기 패널티
 LayerNorm:  Transformer 표준 (배치 무관)
 ```
 
-- **📢 섹션 요약 비유**: 정규화는 **시험 전 다양한 문제집으로 연습**하는 것이다. 한 문제집만 외우면(과적합) 새 시험에서 틀린다.
+- **📢 섹션 요약 비유**: [[093_normalization|정규화]]는 **시험 전 다양한 문제집으로 연습**하는 것이다. 한 문제집만 외우면(과적합) 새 시험에서 틀린다.
 
 ---
 
 ## Ⅱ~Ⅴ. 결론
 
-정규화는 **딥러닝 일반화 성능의 핵심**이며, Dropout+BatchNorm/LayerNorm+Weight Decay가 표준 조합이다.
+[[093_normalization|정규화]]는 **딥러닝 일반화 [[282_performance_tactics|성능]]의 핵심**이며, [[242_regularization_dropout_early_stopping_l1_l2_lasso_ridge|Dropout]]+BatchNorm/LayerNorm+[[267_weight_bias_activation|Weight]] Decay가 표준 조합이다.
 
 ---
 
@@ -36,11 +36,11 @@ LayerNorm:  Transformer 표준 (배치 무관)
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **Dropout** | 뉴런 랜덤 비활성화 |
-| **BatchNorm** | 미니배치 정규화 |
-| **LayerNorm** | Transformer 정규화 |
-| **Weight Decay** | L2 정규화 |
-| **과적합** | 정규화가 방지하는 대상 |
+| **[[242_regularization_dropout_early_stopping_l1_l2_lasso_ridge|Dropout]]** | 뉴런 랜덤 비활성화 |
+| **BatchNorm** | 미니배치 [[093_normalization|정규화]] |
+| **LayerNorm** | [[246_transformer_self_attention_parallel_positional_encoding|Transformer]] [[093_normalization|정규화]] |
+| **[[091_l1_l2_regularization_weight_decay|Weight Decay]]** | L2 [[093_normalization|정규화]] |
+| **과적합** | [[093_normalization|정규화]]가 방지하는 대상 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -52,5 +52,5 @@ LayerNorm:  Transformer 표준 (배치 무관)
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 과적합은 **한 문제집만 외우는** 거예요. 새 시험에서 틀려요.
-2. 정규화는 **다양한 문제집으로 연습**하는 거예요. 어떤 시험이든 잘 봐요.
+2. [[093_normalization|정규화]]는 **다양한 문제집으로 연습**하는 거예요. 어떤 시험이든 잘 봐요.
 3. Dropout은 **일부러 어려운 환경(뉴런 꺼짐)에서 연습**해서 더 강해져요!

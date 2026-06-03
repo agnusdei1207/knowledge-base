@@ -6,44 +6,44 @@ categories = "studynote-operating-system"
 +++
 
 > **핵심 인사이트 3줄**
-> 1. 펌웨어(Firmware)는 하드웨어에 내장된 소프트웨어로, ROM/Flash에 저장되어 기기 전원 투입 시 가장 먼저 실행되는 저수준 제어 코드다.
-> 2. BIOS → UEFI → Secure Boot로 발전하며, 부트 프로세스·하드웨어 초기화·드라이버 추상화 계층을 제공한다.
-> 3. IoT·임베디드 환경에서 펌웨어 보안 취약점은 공급망 공격(Supply Chain Attack)의 가장 깊은 침투 경로가 된다.
+> 1. 펌웨어(Firmware)는 하드웨어에 내장된 소프트웨어로, [[255_rom|ROM]]/Flash에 저장되어 기기 전원 투입 시 가장 먼저 실행되는 저수준 제어 코드다.
+> 2. BIOS → [[706_uefi|UEFI]] → Secure Boot로 발전하며, 부트 프로세스·하드웨어 초기화·드라이버 [[198_abstraction_control_data_process|추상화]] 계층을 제공한다.
+> 3. [[101_iot_concept|IoT]]·임베디드 환경에서 펌웨어 보안 취약점은 [[764_supply_chain_attack|공급망 공격]]([[764_supply_chain_attack|Supply Chain Attack]])의 가장 깊은 침투 경로가 된다.
 
 ---
 
-## Ⅰ. 펌웨어의 정의와 분류
+## Ⅰ. 펌웨어의 정의와 [[104_classification_analysis|분류]]
 
-펌웨어(Firmware)는 **하드웨어를 직접 제어하기 위해 ROM·Flash·EEPROM에 내장된 소프트웨어**다. 하드웨어(HW)와 소프트웨어(SW)의 중간 계층으로, 기기가 켜지면 CPU가 가장 먼저 실행하는 코드다.
+펌웨어(Firmware)는 **하드웨어를 직접 제어하기 위해 [[255_rom|ROM]]·Flash·EEPROM에 내장된 소프트웨어**다. 하드웨어(HW)와 소프트웨어(SW)의 중간 계층으로, 기기가 켜지면 CPU가 가장 먼저 실행하는 코드다.
 
-| 분류         | 저장 매체         | 예시                           |
+| [[104_classification_analysis|분류]]         | 저장 [[121_transmission_media_guided_unguided|매체]]         | 예시                           |
 |-------------|------------------|-------------------------------|
-| 마스크 ROM   | 제조 시 고정      | 오래된 가전 제어 IC            |
-| EEPROM      | 전기 소거/재기록   | 시리얼 번호·설정 저장           |
-| Flash 펌웨어 | OTA 업데이트 가능 | UEFI BIOS, SSD 컨트롤러        |
+| 마스크 [[255_rom|ROM]]   | 제조 시 고정      | 오래된 가전 제어 IC            |
+| EEPROM      | 전기 소거/재기록   | 시리얼 번호·[[009_config|설정]] 저장           |
+| Flash 펌웨어 | OTA 업데이트 가능 | [[706_uefi|UEFI]] BIOS, [[327_ssd|SSD]] 컨트롤러        |
 | 임베디드 OS  | Flash + RAM       | 스마트TV Android/Tizen         |
 
 📢 **섹션 요약 비유**: 펌웨어는 가전제품 설명서가 기기 안에 인쇄된 것과 같다. 꺼내서 수정하기 어렵지만, 요즘은 인터넷으로 업데이트도 된다.
 
 ---
 
-## Ⅱ. BIOS → UEFI 발전과 부트 프로세스
+## Ⅱ. BIOS → [[706_uefi|UEFI]] 발전과 부트 프로세스
 
 ### BIOS (Basic Input/Output System) 한계
 
 - 16비트 리얼 모드, 1MB 주소 공간 제한
-- MBR(Master Boot Record) 기반: 최대 2TB, 파티션 4개
+- [[515_mbr_vs_gpt|MBR]]([[515_mbr_vs_gpt|Master Boot Record]]) 기반: 최대 2TB, [[514_partition_slice_volume|파티션]] 4개
 - 텍스트 인터페이스, 드라이버 내장 불가
 
-### UEFI (Unified Extensible Firmware Interface) 특징
+### [[706_uefi|UEFI]] (Unified Extensible Firmware Interface) 특징
 
-| 항목         | BIOS          | UEFI                    |
+| 항목         | BIOS          | [[706_uefi|UEFI]]                    |
 |-------------|---------------|-------------------------|
 | 주소 공간    | 1MB           | 17.2억 TB (64비트)       |
-| 파티션 방식  | MBR           | GPT (최대 128개)         |
-| 보안 부팅    | 없음           | Secure Boot 지원         |
+| [[514_partition_slice_volume|파티션]] 방식  | [[515_mbr_vs_gpt|MBR]]           | [[302_gpt_autoregressive|GPT]] (최대 128개)         |
+| [[608_secure_boot|보안 부팅]]    | 없음           | [[608_secure_boot|Secure Boot]] 지원         |
 | GUI         | 텍스트         | 그래픽 UI + 마우스 지원   |
-| 부트 속도   | 느림           | Fast Boot, NVMe 직접 지원 |
+| 부트 속도   | 느림           | Fast Boot, [[482_nvme|NVMe]] 직접 지원 |
 
 ### 부트 시퀀스
 
@@ -53,7 +53,7 @@ categories = "studynote-operating-system"
    → 커널 로드 → OS 초기화
 ```
 
-📢 **섹션 요약 비유**: UEFI는 낡은 흑백 TV 리모컨(BIOS)을 스마트폰 앱으로 교체한 것과 같다. 기능도 많고 빠르지만 보안 설정도 더 복잡해졌다.
+📢 **섹션 요약 비유**: UEFI는 낡은 흑백 TV 리모컨(BIOS)을 스마트폰 앱으로 교체한 것과 같다. 기능도 많고 빠르지만 보안 [[009_config|설정]]도 더 복잡해졌다.
 
 ---
 
@@ -69,16 +69,16 @@ categories = "studynote-operating-system"
 └─────────────────────────────────────────────────────────┘
 ```
 
-**TPM (Trusted Platform Module)과 결합**
+**[[476_tpm|TPM]] ([[476_tpm|Trusted Platform Module]])과 결합**
 
-- TPM 2.0: 플랫폼 무결성 측정(PCR), 키 저장, BitLocker 연동
-- 측정 부팅(Measured Boot): 각 단계 해시를 TPM에 기록 → 원격 증명
+- [[476_tpm|TPM]] 2.0: 플랫폼 [[003_integrity|무결성]] 측정(PCR), 키 저장, [[397_bitlocker_windows_fde|BitLocker]] 연동
+- 측정 부팅([[919_measured_boot|Measured Boot]]): 각 단계 해시를 TPM에 기록 → 원격 증명
 
 📢 **섹션 요약 비유**: Secure Boot는 콘서트 입장 검표와 같다. 티켓(서명) 없는 코드는 무대(OS)에 들어올 수 없고, TPM은 입장자 명단을 봉인 보관한다.
 
 ---
 
-## Ⅳ. 임베디드·IoT 펌웨어 아키텍처
+## Ⅳ. 임베디드·[[101_iot_concept|IoT]] 펌웨어 아키텍처
 
 ### 임베디드 펌웨어 구조
 
@@ -97,15 +97,15 @@ categories = "studynote-operating-system"
 └────────────────────────────────┘
 ```
 
-### OTA (Over-The-Air) 펌웨어 업데이트
+### OTA ([[523_iot_firmware_ota_security|Over-The-Air]]) 펌웨어 업데이트
 
 | 방식       | 특징                       | 위험 요소              |
 |-----------|---------------------------|----------------------|
-| A/B 파티션 | 업데이트 실패 시 롤백 가능   | 2배 Flash 용량 필요   |
-| 단일 파티션 | 용량 효율적                | 업데이트 실패 시 벽돌  |
-| 델타 업데이트 | 변경 부분만 전송           | 패치 생성 복잡         |
+| A/B [[514_partition_slice_volume|파티션]] | 업데이트 실패 시 [[098_rollback_strategy_pipeline_error_threshold|롤백]] 가능   | 2배 Flash 용량 필요   |
+| 단일 [[514_partition_slice_volume|파티션]] | 용량 효율적                | 업데이트 실패 시 벽돌  |
+| 델타 업데이트 | 변경 부분만 전송           | 패치 [[087_process_state_transition|생성]] 복잡         |
 
-📢 **섹션 요약 비유**: OTA 업데이트는 비행 중인 비행기 엔진 교체와 같다. A/B 파티션은 예비 엔진을 미리 장착해두고 교체 후 구 엔진을 제거하는 방식이다.
+📢 **섹션 요약 비유**: OTA 업데이트는 비행 중인 비행기 엔진 교체와 같다. A/B [[514_partition_slice_volume|파티션]]은 예비 엔진을 미리 장착해두고 교체 후 구 엔진을 제거하는 방식이다.
 
 ---
 
@@ -115,10 +115,10 @@ categories = "studynote-operating-system"
 
 | 공격           | 설명                          | 사례                    |
 |---------------|-------------------------------|------------------------|
-| 부트킷         | 부트로더·UEFI 루트킷          | BlackLotus (2023)       |
-| 공급망 공격    | 제조 단계 악성 펌웨어 삽입     | SolarWinds 공급망       |
-| 다운그레이드   | 취약한 구버전으로 강제 롤백    | BootHole 취약점         |
-| JTAG 덤프      | 물리 접근으로 Flash 내용 추출  | 임베디드 기기 역공학     |
+| [[362_bootkit|부트킷]]         | [[029_bootloader|부트로더]]·[[706_uefi|UEFI]] [[603_rootkit_syscall_hooking|루트킷]]          | BlackLotus (2023)       |
+| [[764_supply_chain_attack|공급망 공격]]    | 제조 단계 악성 펌웨어 삽입     | SolarWinds [[520_supply_chain_attack_and_ci_cd_security|공급망]]       |
+| 다운그레이드   | 취약한 구버전으로 강제 [[098_rollback_strategy_pipeline_error_threshold|롤백]]    | BootHole 취약점         |
+| JTAG 덤프      | 물리 접근으로 Flash 내용 추출  | 임베디드 기기 [[029_reverse_engineering|역공학]]     |
 
 ### 대응 방안
 
@@ -188,5 +188,5 @@ OTA 업데이트 → A/B 파티션 → 롤백 보장
 ## 👶 어린이를 위한 3줄 비유 설명
 
 1. 펌웨어는 장난감 로봇 안에 인쇄된 설명서다 — 버튼을 누르면 어떻게 움직일지 알려주는 기본 지침이 들어있다.
-2. UEFI는 낡은 종이 설명서를 스마트폰 앱으로 바꾼 것이다 — 그림도 보이고 터치로 설정도 할 수 있다.
+2. UEFI는 낡은 종이 설명서를 스마트폰 앱으로 바꾼 것이다 — 그림도 보이고 터치로 [[009_config|설정]]도 할 수 있다.
 3. Secure Boot는 집 열쇠 잠금 장치다 — 맞는 열쇠(서명)만 문을 열 수 있고, 복사 열쇠는 거부된다.

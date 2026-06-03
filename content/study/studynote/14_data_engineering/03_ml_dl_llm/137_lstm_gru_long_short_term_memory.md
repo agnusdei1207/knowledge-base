@@ -7,9 +7,9 @@ categories = "studynote-dataengineering"
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: LSTM(Long Short-Term Memory)은 **Forget·Input·Output 3개의 게이트로 셀 상태(Cell State)를 제어**하여 Vanilla RNN의 장기 의존성(Vanishing Gradient) 문제를 해결한 순환 신경망이며, GRU는 LSTM을 **2개 게이트(Reset·Update)로 단순화**한 경량 변형이다.
+> 1. **본질**: [[292_lstm|LSTM]]([[292_lstm|Long Short-Term Memory]])은 **Forget·Input·Output 3개의 게이트로 셀 상태(Cell [[272_state_pattern|State]])를 제어**하여 Vanilla RNN의 [[291_long_term_dependency|장기 의존성]]([[240_relu_vanishing_gradient_softmax_backprop_chain|Vanishing Gradient]]) 문제를 해결한 순환 신경망이며, GRU는 LSTM을 **2개 게이트(Reset·Update)로 단순화**한 경량 변형이다.
 > 2. **가치**: RNN은 "어제 비가 왔다"는 기억하지만 "한 달 전 비가 왔다"는 잊지만, LSTM은 **중요한 정보를 셀 상태에 장기 보존**하여 먼 과거의 맥락도 활용한다.
-> 3. **판단 포인트**: 성능은 LSTM≈GRU이나 GRU가 파라미터가 적어(학습 빠름) 소규모 데이터에 유리하며, 현재는 **Transformer가 대부분 대체**했으나 시계열·온디바이스에서 여전히 사용된다.
+> 3. **판단 포인트**: 성능은 [[292_lstm|LSTM]]≈GRU이나 GRU가 파라미터가 적어(학습 빠름) 소규모 데이터에 유리하며, 현재는 **Transformer가 대부분 대체**했으나 시계열·온디바이스에서 여전히 사용된다.
 
 ---
 
@@ -31,7 +31,7 @@ GRU 2 Gate: Reset + Update (LSTM 단순화)
 
 ## Ⅱ~Ⅴ. 결론
 
-LSTM/GRU는 **시퀀스 모델링의 중요한 이정표**이며, Transformer 이전의 NLP·음성·시계열 핵심 아키텍처였다.
+[[292_lstm|LSTM]]/GRU는 **시퀀스 모델링의 중요한 이정표**이며, [[246_transformer_self_attention_parallel_positional_encoding|Transformer]] 이전의 NLP·음성·시계열 핵심 아키텍처였다.
 
 ---
 
@@ -39,11 +39,11 @@ LSTM/GRU는 **시퀀스 모델링의 중요한 이정표**이며, Transformer �
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **LSTM** | 3 Gate + Cell State |
-| **GRU** | 2 Gate (경량) |
-| **Cell State** | 장기 기억 고속도로 |
-| **Vanishing Gradient** | RNN 문제 → LSTM 해결 |
-| **Transformer** | LSTM 대체 (병렬) |
+| **[[292_lstm|LSTM]]** | 3 Gate + Cell [[272_state_pattern|State]] |
+| **[[294_gru|GRU]]** | 2 Gate (경량) |
+| **Cell [[272_state_pattern|State]]** | 장기 기억 고속도로 |
+| **[[240_relu_vanishing_gradient_softmax_backprop_chain|Vanishing Gradient]]** | [[244_rnn_time_series_lstm_cell_gate_long_term_dependency|RNN]] 문제 → [[292_lstm|LSTM]] 해결 |
+| **[[246_transformer_self_attention_parallel_positional_encoding|Transformer]]** | [[292_lstm|LSTM]] 대체 ([[430_index_fast_full_scan|병렬]]) |
 
 ### 📈 관련 키워드 및 발전 흐름도
 

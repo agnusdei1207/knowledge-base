@@ -6,13 +6,13 @@ categories = "studynote-cloud-architecture"
 +++
 
 > **핵심 인사이트**
-> 1. 클라우드 마이그레이션 6R은 Rehost(리호스트)·Replatform(리플랫폼)·Repurchase(리퍼채스)·Refactor(리팩터)·Retire(리타이어)·Retain(리테인)으로 구성된 워크로드별 마이그레이션 전략 프레임워크다.
-> 2. 모든 워크로드에 동일한 전략을 적용하는 것이 아니라 비즈니스 가치·기술적 복잡성·TCO(Total Cost of Ownership)를 기준으로 각 애플리케이션에 적합한 R을 선택해야 한다.
-> 3. 대부분의 기업은 Rehost(리프트앤시프트)로 빠른 마이그레이션을 시작하고, 이후 Replatform·Refactor로 클라우드 네이티브 최적화를 진행하는 2단계 접근을 취한다.
+> 1. 클라우드 마이그레이션 6R은 Rehost([[212_rehost_lift_and_shift_migration_strategy|리호스트]])·Replatform(리플랫폼)·Repurchase(리퍼채스)·[[213_refactoring_cloud_native_rearchitecture|Refactor]](리팩터)·Retire(리타이어)·Retain(리테인)으로 구성된 워크로드별 마이그레이션 [[268_strategy_pattern|전략]] 프레임워크다.
+> 2. 모든 워크로드에 동일한 [[268_strategy_pattern|전략]]을 적용하는 것이 아니라 비즈니스 가치·기술적 복잡성·[[016_tco|TCO]](Total Cost of Ownership)를 기준으로 각 애플리케이션에 적합한 R을 선택해야 한다.
+> 3. 대부분의 기업은 Rehost(리프트앤시프트)로 빠른 마이그레이션을 시작하고, 이후 Replatform·Refactor로 [[531_cloud_native_architecture|클라우드 네이티브]] 최적화를 진행하는 2단계 접근을 취한다.
 
 ---
 
-## I. 6R 전략 개요
+## I. 6R [[268_strategy_pattern|전략]] 개요
 
 ```
 6R 전략 (Gartner + AWS 체계):
@@ -31,18 +31,18 @@ categories = "studynote-cloud-architecture"
 |-----------|---------|-----|------------|------|
 | Rehost    | 없음    | 빠름 | 낮음       | 낮음 |
 | Replatform| 최소    | 중간 | 중간       | 중간 |
-| Repurchase| 교체    | 빠름 | 높음 (SaaS)| 구독 |
-| Refactor  | 완전    | 느림 | 최고       | 높음 |
+| Repurchase| 교체    | 빠름 | 높음 ([[309_saas|SaaS]])| 구독 |
+| [[213_refactoring_cloud_native_rearchitecture|Refactor]]  | 완전    | 느림 | 최고       | 높음 |
 | Retire    | -       | 즉시 | -          | 절약 |
 | Retain    | -       | -    | 없음       | 현행 |
 
-> 📢 **섹션 요약 비유**: 이사할 때 — 그대로 옮기기(Rehost), 일부 정리 후 옮기기(Replatform), 가구 바꾸기(Repurchase), 집을 새로 짓기(Refactor), 쓸모없는 짐 버리기(Retire), 일단 두기(Retain).
+> 📢 **섹션 요약 비유**: 이사할 때 — 그대로 옮기기(Rehost), 일부 정리 후 옮기기(Replatform), 가구 바꾸기(Repurchase), 집을 새로 짓기([[213_refactoring_cloud_native_rearchitecture|Refactor]]), 쓸모없는 짐 버리기(Retire), 일단 두기(Retain).
 
 ---
 
 ## II. 각 R 상세 설명
 
-### Rehost — 리프트 앤 시프트 (Lift & Shift)
+### Rehost — 리프트 앤 시프트 ([[086_lift_association_rule_marketing|Lift]] & Shift)
 
 ```
 기존: On-Premise 서버
@@ -80,7 +80,7 @@ categories = "studynote-cloud-architecture"
 
 ---
 
-## III. Refactor — 클라우드 네이티브 재설계
+## III. [[213_refactoring_cloud_native_rearchitecture|Refactor]] — [[531_cloud_native_architecture|클라우드 네이티브]] 재설계
 
 ```
 기존: 모놀리식 Java EE 애플리케이션
@@ -100,7 +100,7 @@ categories = "studynote-cloud-architecture"
 
 ---
 
-## IV. 마이그레이션 의사결정 기준
+## [[288_version_ihl_tos_total_length|IV]]. 마이그레이션 의사결정 기준
 
 ```
 워크로드 분류 기준:
@@ -115,7 +115,7 @@ categories = "studynote-cloud-architecture"
 |---------------|-----------------------------------|
 | 비즈니스 가치   | 이 앱이 핵심 비즈니스에 중요한가?   |
 | 기술적 부채     | 현재 아키텍처가 변경하기 쉬운가?    |
-| TCO 비교       | 마이그레이션 후 비용이 절감되는가?  |
+| [[016_tco|TCO]] 비교       | 마이그레이션 후 비용이 절감되는가?  |
 | 규정 준수       | 클라우드 이전 시 규정 이슈가 있는가?|
 
 > 📢 **섹션 요약 비유**: 모든 짐을 같은 방법으로 옮기지 않듯이 — 골동품은 정성껏, 잡동사니는 버리고, 가구는 그냥 들고 가고.
@@ -124,16 +124,16 @@ categories = "studynote-cloud-architecture"
 
 ## V. 실무 시나리오 — 은행 코어 시스템 마이그레이션
 
-| 시스템          | 전략     | 이유                            |
+| 시스템          | [[268_strategy_pattern|전략]]     | 이유                            |
 |--------------|---------|--------------------------------|
 | 웹/앱 서버      | Rehost  | 빠른 인프라 이전, 1단계          |
 | 이메일 시스템   | Repurchase | Exchange -> Office365 교체     |
-| 데이터 분석     | Replatform | 온프레미스 DB -> AWS RDS Redshift|
+| [[001_dikw_pyramid|데이터]] 분석     | Replatform | [[061_on_premise_legacy_infrastructure|온프레미스]] DB -> AWS RDS Redshift|
 | 코어 뱅킹      | Retain   | 규제 준수, 레거시 복잡도 높음    |
-| 보고 시스템    | Refactor | 서버리스 + 이벤트 드리븐 재설계  |
+| 보고 시스템    | [[213_refactoring_cloud_native_rearchitecture|Refactor]] | [[206_serverless_cold_start|서버리스]] + 이벤트 드리븐 재설계  |
 | 구형 MIS      | Retire   | 사용자 없음, 5년 된 레거시       |
 
-> 📢 **섹션 요약 비유**: 은행 이전도 금고(코어뱅킹)는 마지막에, 사무용품(이메일)은 서비스로 교체, 오래된 보고서 시스템은 버리고 — 우선순위와 전략이 다르다.
+> 📢 **섹션 요약 비유**: 은행 이전도 금고(코어뱅킹)는 마지막에, 사무용품(이메일)은 서비스로 교체, 오래된 보고서 시스템은 버리고 — 우선순위와 [[268_strategy_pattern|전략]]이 다르다.
 
 ---
 

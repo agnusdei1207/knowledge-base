@@ -8,34 +8,34 @@ categories = "studynote-computer-architecture"
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 포인터 인증 (Pointer Authentication)은 AArch64 포인터의 미사용 상위 비트에 PAC (Pointer Authentication Code)를 기록하고, 사용 직전에 비밀 키와 문맥 값을 이용해 다시 검증함으로써 포인터 위변조를 막는 하드웨어 보안 기법이다.
+> 1. **본질**: 포인터 [[303_authentication_authorization_patterns|인증]] (Pointer [[604_authentication_factors|Authentication]])은 AArch64 포인터의 미사용 상위 [[073_bit|비트]]에 PAC (Pointer [[604_authentication_factors|Authentication]] [[082_process_memory_structure|Code]])를 기록하고, 사용 직전에 비밀 키와 문맥 값을 이용해 다시 검증함으로써 포인터 위변조를 막는 하드웨어 보안 기법이다.
 > 2. **가치**: 리턴 주소, 함수 포인터, 가상 함수 테이블 포인터처럼 제어 흐름의 핵심 값을 서명해, 메모리 손상이 발생해도 공격자가 유효한 점프 대상을 만들기 어렵게 한다.
-> 3. **판단 포인트**: PAC은 낮은 오버헤드로 강한 제어 흐름 방어를 제공하지만 서명 비트 수가 제한되고 메모리 안전 전체를 보장하지 않으므로 BTI (Branch Target Identification), CFI (Control-Flow Integrity), MTE (Memory Tagging Extension)와 함께 설계해야 한다.
+> 3. **판단 포인트**: PAC은 낮은 오버헤드로 강한 제어 흐름 방어를 제공하지만 서명 [[073_bit|비트]] 수가 제한되고 메모리 안전 전체를 보장하지 않으므로 BTI (Branch Target [[289_identification_flags_fragmentation_offset|Identification]]), CFI (Control-Flow [[003_integrity|Integrity]]), MTE (Memory Tagging Extension)와 함께 설계해야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-포인터 인증은 포인터를 단순 주소값으로 믿지 않고, "누가 어떤 문맥에서 만든 포인터인가"를 함께 확인하는 Arm 아키텍처의 보안 기능이다. 64비트 가상 주소를 사용하더라도 실제 주소 공간은 그보다 좁게 쓰이므로 상위 비트 일부가 남는데, Pointer Authentication은 이 공간에 서명값을 넣고 재검증하는 방식으로 포인터 위변조를 탐지한다.
+포인터 [[303_authentication_authorization_patterns|인증]]은 포인터를 단순 주소값으로 믿지 않고, "누가 어떤 문맥에서 만든 포인터인가"를 함께 확인하는 Arm 아키텍처의 보안 기능이다. 64비트 가상 주소를 사용하더라도 실제 주소 공간은 그보다 좁게 쓰이므로 상위 [[073_bit|비트]] 일부가 남는데, Pointer Authentication은 이 공간에 서명값을 넣고 재검증하는 방식으로 포인터 위변조를 탐지한다.
 
-이 기술이 필요해진 이유는 버퍼 오버플로우나 Use-After-Free 같은 메모리 손상이 단순 데이터 오류를 넘어 제어 흐름 탈취로 이어졌기 때문이다. 공격자는 리턴 주소나 함수 포인터만 원하는 값으로 바꾸면 ROP (Return-Oriented Programming)와 JOP (Jump-Oriented Programming)처럼 기존 코드 조각을 엮어 악성 동작을 만들 수 있다. PAC은 바로 이 "유효한 포인터로 보이게 바꿔치기하는 과정"을 어렵게 만든다.
+이 기술이 필요해진 이유는 버퍼 오버플로우나 [[351_use_after_free|Use-After-Free]] 같은 메모리 손상이 단순 [[001_dikw_pyramid|데이터]] 오류를 넘어 제어 흐름 탈취로 이어졌기 때문이다. 공격자는 리턴 주소나 함수 포인터만 원하는 값으로 바꾸면 [[596_return_oriented_programming|ROP]] ([[596_return_oriented_programming|Return-Oriented Programming]])와 [[346_jop|JOP]] ([[346_jop|Jump-Oriented Programming]])처럼 기존 코드 조각을 엮어 악성 동작을 만들 수 있다. PAC은 바로 이 "유효한 포인터로 보이게 바꿔치기하는 과정"을 어렵게 만든다.
 
-특히 모바일 운영체제와 브라우저처럼 공격 표면은 넓고 성능 예산은 빡빡한 환경에서, 소프트웨어만으로 강한 CFI를 구현하면 오버헤드가 부담될 수 있다. 포인터 인증은 CPU (Central Processing Unit) 명령 수준에서 서명과 검증을 수행해, 비교적 적은 비용으로 하드웨어 친화적인 제어 흐름 보호를 제공한다.
+특히 모바일 [[001_operating_system_purpose|운영체제]]와 브라우저처럼 공격 표면은 넓고 [[282_performance_tactics|성능]] 예산은 빡빡한 환경에서, 소프트웨어만으로 강한 CFI를 구현하면 오버헤드가 부담될 수 있다. 포인터 [[303_authentication_authorization_patterns|인증]]은 CPU (Central Processing Unit) 명령 수준에서 서명과 검증을 수행해, 비교적 적은 비용으로 하드웨어 친화적인 제어 흐름 [[571_protection_vs_security|보호]]를 제공한다.
 
-- **📢 섹션 요약 비유**: 포인터 인증은 주소가 적힌 봉투에 위조 방지 홀로그램을 붙이는 것과 같다. 겉주소만 비슷하게 바꿔도 홀로그램까지 맞추지 못하면 우체국이 배달을 거부한다.
+- **📢 섹션 요약 비유**: 포인터 [[303_authentication_authorization_patterns|인증]]은 주소가 적힌 봉투에 위조 방지 홀로그램을 붙이는 것과 같다. 겉주소만 비슷하게 바꿔도 홀로그램까지 맞추지 못하면 우체국이 배달을 거부한다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-포인터 인증은 세 가지 요소가 함께 동작할 때 의미가 생긴다. 첫째, 하드웨어 내부의 비밀 키가 필요하다. 둘째, 같은 주소라도 다른 위치에서 재사용되지 않도록 문맥 값이 필요하다. 셋째, 포인터를 저장할 때 서명하고 사용할 때 인증하는 명령어와 ABI (Application Binary Interface) 규칙이 필요하다.
+포인터 [[303_authentication_authorization_patterns|인증]]은 세 가지 요소가 함께 동작할 때 의미가 생긴다. 첫째, 하드웨어 내부의 비밀 키가 필요하다. 둘째, 같은 주소라도 다른 위치에서 재사용되지 않도록 문맥 값이 필요하다. 셋째, 포인터를 저장할 때 서명하고 사용할 때 [[303_authentication_authorization_patterns|인증]]하는 명령어와 [[015_abi|ABI]] ([[015_abi|Application Binary Interface]]) 규칙이 필요하다.
 
 | 요소 | 역할 | 설계 포인트 |
 | :-- | :-- | :-- |
-| 비밀 키 | PAC 생성의 기준 비밀값 | 사용자 코드가 직접 읽을 수 없어야 한다. |
-| 문맥 값 | 같은 주소라도 다른 장소에서 다른 PAC 생성 | 스택 포인터 (Stack Pointer)나 타입 식별자를 섞어 재사용 공격을 줄인다. |
-| PAC 생성 명령 | 포인터에 서명 비트 부여 | 리턴 주소, 함수 포인터, 데이터 포인터별 정책이 다를 수 있다. |
-| 인증 명령 | 사용 직전 PAC 재검증 | 실패 시 포인터를 무효화해 후속 분기나 접근을 실패시켜야 한다. |
+| 비밀 키 | PAC [[087_process_state_transition|생성]]의 기준 비밀값 | 사용자 코드가 직접 읽을 수 없어야 한다. |
+| 문맥 값 | 같은 주소라도 다른 장소에서 다른 PAC [[087_process_state_transition|생성]] | [[166_sp|스택 포인터]] ([[057_stack|Stack]] Pointer)나 타입 [[289_identification_flags_fragmentation_offset|식별자]]를 섞어 재사용 공격을 줄인다. |
+| PAC [[087_process_state_transition|생성]] 명령 | 포인터에 서명 [[073_bit|비트]] 부여 | 리턴 주소, 함수 포인터, [[001_dikw_pyramid|데이터]] 포인터별 [[164_policy|정책]]이 다를 수 있다. |
+| [[303_authentication_authorization_patterns|인증]] 명령 | 사용 직전 PAC 재검증 | 실패 시 포인터를 무효화해 후속 분기나 접근을 실패시켜야 한다. |
 
 이 그림은 주소가 어떻게 서명되고 다시 검증되는지 보여 준다.
 
@@ -57,26 +57,26 @@ categories = "studynote-computer-architecture"
 └──────────────────────────────────────────────────────────────────────┘
 ```
 
-실무에서 가장 널리 쓰이는 형태는 리턴 주소 서명이다. 함수 진입 시 `PACIASP`처럼 스택 포인터를 문맥으로 섞어 리턴 주소를 서명하고, 함수 복귀 직전에 `AUTIASP`로 다시 검증한다. 이렇게 하면 공격자가 다른 함수에서 훔친 리턴 주소를 그대로 붙여 넣거나, 동일 주소라도 다른 스택 깊이에서 재사용하는 공격을 더 어렵게 만들 수 있다.
+실무에서 가장 널리 쓰이는 형태는 리턴 주소 서명이다. 함수 진입 시 `PACIASP`처럼 [[166_sp|스택 포인터]]를 문맥으로 섞어 리턴 주소를 서명하고, 함수 복귀 직전에 `AUTIASP`로 다시 검증한다. 이렇게 하면 공격자가 다른 함수에서 훔친 리턴 주소를 그대로 붙여 넣거나, 동일 주소라도 다른 [[057_stack|스택]] 깊이에서 재사용하는 공격을 더 어렵게 만들 수 있다.
 
-다만 PAC은 "모든 포인터가 자동 보호"되는 기능은 아니다. 어떤 포인터를 언제 서명하고 언제 인증할지는 툴체인, 운영체제, ABI, 런타임이 함께 정해야 한다. 그래서 포인터 인증의 성패는 하드웨어 명령 자체보다도, 어떤 경로를 보호 대상으로 택하고 문맥 값을 얼마나 잘 설계했는지에 달려 있다.
+다만 PAC은 "모든 포인터가 자동 [[571_protection_vs_security|보호]]"되는 기능은 아니다. 어떤 포인터를 언제 서명하고 언제 [[303_authentication_authorization_patterns|인증]]할지는 툴체인, [[001_operating_system_purpose|운영체제]], [[015_abi|ABI]], 런타임이 함께 정해야 한다. 그래서 포인터 [[303_authentication_authorization_patterns|인증]]의 성패는 하드웨어 명령 자체보다도, 어떤 경로를 [[571_protection_vs_security|보호]] 대상으로 택하고 문맥 값을 얼마나 잘 설계했는지에 달려 있다.
 
-- **📢 섹션 요약 비유**: 포인터 인증은 입장권에 날짜와 좌석 번호까지 함께 찍는 것과 같다. 표를 훔쳐도 같은 공연, 같은 자리, 같은 시간표가 아니면 문 앞에서 들킨다.
+- **📢 섹션 요약 비유**: 포인터 [[303_authentication_authorization_patterns|인증]]은 입장권에 날짜와 좌석 번호까지 함께 찍는 것과 같다. 표를 훔쳐도 같은 공연, 같은 자리, 같은 시간표가 아니면 문 앞에서 들킨다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-포인터 인증을 제대로 이해하려면 리턴 주소 복사형 보호와 목적지 검증형 보호를 같이 봐야 한다. PAC은 포인터 자체에 서명을 붙여 "이 값이 진짜인가"를 묻고, Shadow Stack은 리턴 주소를 별도 안전 장부와 대조해 "복귀 경로가 원본과 같은가"를 묻는다. BTI는 분기 목적지에 착지 표식을 두어 "점프한 위치가 허가된 착지점인가"를 확인한다.
+포인터 [[303_authentication_authorization_patterns|인증]]을 제대로 이해하려면 리턴 주소 복사형 [[571_protection_vs_security|보호]]와 목적지 검증형 [[571_protection_vs_security|보호]]를 같이 봐야 한다. PAC은 포인터 자체에 서명을 붙여 "이 값이 진짜인가"를 묻고, Shadow Stack은 리턴 주소를 별도 안전 장부와 대조해 "복귀 경로가 원본과 같은가"를 묻는다. BTI는 분기 목적지에 착지 표식을 두어 "점프한 위치가 허가된 착지점인가"를 확인한다.
 
 | 기법 | 무엇을 확인하는가 | 강점 | 약점 |
 | :-- | :-- | :-- | :-- |
-| PAC (Pointer Authentication Code) | 포인터의 진위와 문맥 적합성 | 포인터 전반 보호, 메모리 오버헤드 작음 | 서명 비트 수 제한, 아키텍처 의존 |
-| Shadow Stack | 리턴 주소 원본 일치 여부 | 리턴 경로 보호가 매우 강함 | 반환 이외의 포인터는 직접 보호하지 않음 |
-| BTI (Branch Target Identification) | 분기 도착 지점의 유효성 | JOP류 공격 억제에 효과적 | 포인터 출처 위변조 자체는 막지 못함 |
-| 소프트웨어 CFI | 허용된 흐름 그래프 일치 여부 | 이식성 좋음, 세밀한 정책 가능 | 성능 비용과 우회 가능성 관리 필요 |
+| PAC (Pointer [[604_authentication_factors|Authentication]] [[082_process_memory_structure|Code]]) | 포인터의 진위와 문맥 적합성 | 포인터 전반 [[571_protection_vs_security|보호]], 메모리 오버헤드 작음 | 서명 [[073_bit|비트]] 수 제한, 아키텍처 의존 |
+| Shadow [[057_stack|Stack]] | 리턴 주소 원본 일치 여부 | 리턴 경로 [[571_protection_vs_security|보호]]가 매우 강함 | 반환 이외의 포인터는 직접 [[571_protection_vs_security|보호]]하지 않음 |
+| BTI (Branch Target [[289_identification_flags_fragmentation_offset|Identification]]) | 분기 도착 지점의 유효성 | JOP류 공격 억제에 효과적 | 포인터 출처 위변조 자체는 막지 못함 |
+| 소프트웨어 CFI | 허용된 흐름 [[070_graph_datastructure|그래프]] 일치 여부 | 이식성 좋음, 세밀한 [[164_policy|정책]] 가능 | [[282_performance_tactics|성능]] 비용과 우회 가능성 관리 필요 |
 
-실전에서는 이 기술들이 겹쳐질수록 방어가 단단해진다. PAC이 "누가 쓴 포인터인가"를 확인하고, BTI가 "어디에 착지하는가"를 검증하며, CFI가 "전체 흐름이 허용 그래프 안에 있는가"를 보완한다. 그래서 Arm 계열 최신 보안 설계는 포인터 인증을 단독 기능이 아니라, 하드웨어 CFI 체계의 일부로 보는 편이 정확하다.
+실전에서는 이 기술들이 겹쳐질수록 방어가 단단해진다. PAC이 "누가 쓴 포인터인가"를 확인하고, BTI가 "어디에 착지하는가"를 검증하며, CFI가 "전체 흐름이 허용 [[070_graph_datastructure|그래프]] 안에 있는가"를 보완한다. 그래서 Arm 계열 최신 보안 설계는 포인터 [[303_authentication_authorization_patterns|인증]]을 단독 기능이 아니라, 하드웨어 CFI 체계의 일부로 보는 편이 정확하다.
 
 또한 PAC은 메모리 안전의 대체재가 아니다. 포인터를 서명해도 버퍼 경계 검증이 사라지는 것은 아니며, 정보 유출로 서명된 포인터를 읽을 수 있다면 공격 표면은 여전히 남는다. 따라서 PAC은 "손상 이후 공격 단계를 어렵게 만드는 기술"이지, 메모리 오류의 근원을 없애는 기술은 아니다.
 
@@ -86,34 +86,34 @@ categories = "studynote-computer-architecture"
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서는 포인터 인증을 특권 코드와 공격 표면이 큰 런타임부터 우선 적용하는 경우가 많다. 모바일 운영체제, 브라우저 렌더러, 시스템 라이브러리, 하이퍼바이저는 리턴 주소 보호만으로도 익스플로잇 난도를 크게 높일 수 있다. 특히 `-mbranch-protection=pac-ret+bti` 같은 툴체인 옵션은 리턴 주소 서명과 착지점 검증을 함께 활성화하기 좋아 운영 측면에서 실용적이다.
+실무에서는 포인터 [[303_authentication_authorization_patterns|인증]]을 특권 코드와 공격 표면이 큰 런타임부터 우선 적용하는 경우가 많다. 모바일 [[001_operating_system_purpose|운영체제]], 브라우저 렌더러, 시스템 [[336_library_vs_framework|라이브러리]], 하이퍼바이저는 리턴 주소 [[571_protection_vs_security|보호]]만으로도 익스플로잇 난도를 크게 높일 수 있다. 특히 `-mbranch-protection=pac-ret+bti` 같은 툴체인 옵션은 리턴 주소 서명과 착지점 검증을 함께 활성화하기 좋아 운영 측면에서 실용적이다.
 
-### 적용 체크리스트
+### 적용 [[435_checklist_based_testing|체크리스트]]
 
-1. 리턴 주소뿐 아니라 장기 보관되는 함수 포인터와 콜백 포인터도 보호 대상으로 분류했는가?
-2. 스택 포인터, 타입 식별자, 객체 문맥 등 충분히 구별력 있는 문맥 값을 사용하고 있는가?
-3. 예외 언와인더, 손수 작성한 어셈블리, JIT (Just-In-Time) 컴파일러가 PAC 규약을 깨지 않는가?
+1. 리턴 주소뿐 아니라 장기 보관되는 함수 포인터와 콜백 포인터도 [[571_protection_vs_security|보호]] 대상으로 분류했는가?
+2. [[166_sp|스택 포인터]], 타입 [[289_identification_flags_fragmentation_offset|식별자]], 객체 문맥 등 충분히 구별력 있는 문맥 값을 사용하고 있는가?
+3. 예외 언와인더, 손수 작성한 어셈블리, [[568_jit_access|JIT]] ([[568_jit_access|Just-In-Time]]) 컴파일러가 PAC 규약을 깨지 않는가?
 4. PAC 실패 시 크래시 원인과 공격 징후를 분석할 수 있도록 진단 정보가 남는가?
 
-### 피해야 할 안티패턴
+### 피해야 할 [[128_water_scrum_fall_anti_pattern|안티패턴]]
 
 - 모든 포인터에 동일 modifier를 넣어 재사용 공격 여지를 남기는 설계
-- 포인터를 저장할 때는 서명하지만, 실제 간접 분기 직전에는 인증하지 않는 구현
-- PAC이 있으니 버퍼 경계 검사와 Use-After-Free 방어는 불필요하다고 생각하는 판단
+- 포인터를 저장할 때는 서명하지만, 실제 간접 분기 직전에는 [[303_authentication_authorization_patterns|인증]]하지 않는 구현
+- PAC이 있으니 버퍼 경계 검사와 [[351_use_after_free|Use-After-Free]] 방어는 불필요하다고 생각하는 판단
 
-기술사 답안에서는 "PAC이 포인터를 서명한다"에서 멈추면 부족하다. 왜 문맥 값을 섞어야 하는지, 왜 BTI와 조합해야 하는지, 왜 메모리 안전과는 다른 계층인지까지 이어서 써야 설계 관점이 살아난다. 성능과 보안의 균형이라는 점도 중요하다. PAC은 하드웨어 친화적이지만, ABI와 도구 체인의 협업 없이는 제대로 된 효과를 내기 어렵다.
+기술사 답안에서는 "PAC이 포인터를 서명한다"에서 멈추면 부족하다. 왜 문맥 값을 섞어야 하는지, 왜 BTI와 조합해야 하는지, 왜 메모리 안전과는 다른 계층인지까지 이어서 써야 설계 관점이 살아난다. [[282_performance_tactics|성능]]과 보안의 균형이라는 점도 중요하다. PAC은 하드웨어 친화적이지만, ABI와 도구 체인의 협업 없이는 제대로 된 효과를 내기 어렵다.
 
-- **📢 섹션 요약 비유**: 포인터 인증 운영은 대형 행사 출입관리와 같다. 표만 확인할 것이 아니라 날짜, 자리, 입구, 재입장 규칙까지 맞춰야 진짜 보안이 된다.
+- **📢 섹션 요약 비유**: 포인터 [[303_authentication_authorization_patterns|인증]] 운영은 대형 행사 출입관리와 같다. 표만 확인할 것이 아니라 날짜, 자리, 입구, 재입장 규칙까지 맞춰야 진짜 보안이 된다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-포인터 인증의 가장 큰 효과는 메모리 손상이 곧바로 "유효한 제어 흐름"으로 번역되지 않게 만드는 데 있다. 서명과 검증이 CPU 명령으로 수행되므로, 소프트웨어만으로 동일한 강도의 방어를 구현할 때보다 성능 부담을 낮추기 쉽다. 그래서 PAC은 특히 모바일과 임베디드처럼 전력 예산이 빡빡한 환경에서 가치가 크다.
+포인터 [[303_authentication_authorization_patterns|인증]]의 가장 큰 효과는 메모리 손상이 곧바로 "유효한 제어 흐름"으로 번역되지 않게 만드는 데 있다. 서명과 검증이 CPU 명령으로 수행되므로, 소프트웨어만으로 동일한 강도의 방어를 구현할 때보다 [[282_performance_tactics|성능]] 부담을 낮추기 쉽다. 그래서 PAC은 특히 모바일과 임베디드처럼 전력 예산이 빡빡한 환경에서 가치가 크다.
 
-하지만 PAC만으로 모든 공격이 사라지는 것은 아니다. 서명 비트 수는 주소 폭과 구현에 따라 제한되고, 정보 유출과 임의 서명 가젯이 결합되면 우회 가능성을 완전히 배제할 수 없다. 앞으로는 BTI, MTE, 더 강한 Shadow Stack 계열 보호와 함께 "포인터 진위 + 착지점 유효성 + 메모리 태깅"을 결합하는 방향이 중요해진다.
+하지만 PAC만으로 모든 공격이 사라지는 것은 아니다. 서명 [[073_bit|비트]] 수는 주소 폭과 구현에 따라 제한되고, 정보 유출과 임의 서명 가젯이 결합되면 우회 가능성을 완전히 배제할 수 없다. 앞으로는 BTI, MTE, 더 강한 Shadow [[057_stack|Stack]] 계열 [[571_protection_vs_security|보호]]와 함께 "포인터 진위 + 착지점 유효성 + 메모리 태깅"을 결합하는 방향이 중요해진다.
 
-결론적으로 포인터 인증은 "주소에 찍는 디지털 인장"으로 기억하면 좋다. 주소값 그 자체보다, 그 주소가 정당한 문맥에서 만들어졌는지 검증한다는 점이 PAC의 핵심이다.
+결론적으로 포인터 [[303_authentication_authorization_patterns|인증]]은 "주소에 찍는 디지털 인장"으로 기억하면 좋다. 주소값 그 자체보다, 그 주소가 정당한 문맥에서 만들어졌는지 검증한다는 점이 PAC의 핵심이다.
 
 - **📢 섹션 요약 비유**: PAC은 중요한 열쇠에 맞춤형 봉인을 씌우는 것과 같다. 열쇠 모양만 흉내 내도, 봉인이 맞지 않으면 자물쇠가 열리지 않는다.
 
@@ -123,12 +123,12 @@ categories = "studynote-computer-architecture"
 
 | 개념 | 연결 포인트 |
 | :-- | :-- |
-| PAC (Pointer Authentication Code) | 포인터 상위 비트에 저장되는 인증 코드로 기술의 핵심이다. |
+| PAC (Pointer [[604_authentication_factors|Authentication]] [[082_process_memory_structure|Code]]) | 포인터 상위 [[073_bit|비트]]에 저장되는 [[303_authentication_authorization_patterns|인증]] 코드로 기술의 핵심이다. |
 | Modifier | 같은 주소라도 다른 위치에서는 다른 PAC이 나오게 만드는 문맥 값이다. |
-| BTI (Branch Target Identification) | 간접 분기 착지점을 제한해 PAC과 상호 보완한다. |
-| CFI (Control-Flow Integrity) | PAC이 구현하는 하드웨어 친화적 흐름 보호의 상위 개념이다. |
+| BTI (Branch Target [[289_identification_flags_fragmentation_offset|Identification]]) | 간접 분기 착지점을 제한해 PAC과 상호 보완한다. |
+| CFI (Control-Flow [[003_integrity|Integrity]]) | PAC이 구현하는 하드웨어 친화적 흐름 [[571_protection_vs_security|보호]]의 상위 개념이다. |
 | MTE (Memory Tagging Extension) | 포인터 태그와 메모리 태그를 맞춰 메모리 안전 범위를 넓힌다. |
-| Shadow Stack | 리턴 주소를 별도 장부로 검증하는 대안·보완 기법이다. |
+| Shadow [[057_stack|Stack]] | 리턴 주소를 별도 장부로 검증하는 대안·보완 기법이다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 

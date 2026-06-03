@@ -7,9 +7,9 @@ categories = "studynote-algorithm-stats"
 +++
 
 > **핵심 인사이트**
-> 1. P = NP 문제는 "검증이 쉬운 문제는 풀기도 쉬운가?"라는 질문으로, 밀레니엄 7대 난제 중 하나이자 100만 달러 상금의 클레이 수학 연구소 문제이며 — 만약 P = NP라면 암호화(RSA, 블록체인)의 수학적 기반이 붕괴된다.
+> 1. P = NP 문제는 "검증이 쉬운 문제는 풀기도 쉬운가?"라는 질문으로, 밀레니엄 7대 난제 중 하나이자 100만 달러 상금의 클레이 수학 연구소 문제이며 — 만약 P = NP라면 암호화([[110_rsa|RSA]], [[004_blockchain|블록체인]])의 수학적 기반이 붕괴된다.
 > 2. 현재까지 P ≠ NP로 추측되지만 증명이 없으며, 수학자 Scott Aaronson은 "P = NP라면 수학 자체가 자동화된다 — AI가 모든 수학 증명을 실용적으로 찾아낼 수 있다"고 설명했다.
-> 3. P = NP 여부와 관계없이 현실의 NP 문제는 근사 알고리즘(Approximation Algorithm)과 휴리스틱(Heuristic)으로 다루며 — 이것이 현대 최적화 이론과 AI의 실용적 기반이다.
+> 3. P = NP 여부와 관계없이 현실의 NP 문제는 [[012_approximation_algorithm|근사 알고리즘]]([[012_approximation_algorithm|Approximation Algorithm]])과 [[210_heuristics_scheduling|휴리스틱]]([[236_a_star_heuristic_minimax_mcts_monte_carlo|Heuristic]])으로 다루며 — 이것이 현대 최적화 이론과 AI의 실용적 기반이다.
 
 ---
 
@@ -169,11 +169,11 @@ Fixed-Parameter Tractable (FPT):
   입력에 제약 조건 → DP로 폭발적 탐색 제한
 ```
 
-> 📢 **섹션 요약 비유**: P ≠ NP 세계에서의 생존은 탐험가 전략 — 지도 없이 정글을 헤맬 때 최선의 방향을 빠르게 찾는 경험과 직관(휴리스틱)이 완벽한 지도보다 실용적.
+> 📢 **섹션 요약 비유**: P ≠ NP 세계에서의 생존은 탐험가 [[268_strategy_pattern|전략]] — 지도 없이 정글을 헤맬 때 최선의 방향을 빠르게 찾는 경험과 직관([[210_heuristics_scheduling|휴리스틱]])이 완벽한 지도보다 실용적.
 
 ---
 
-## Ⅴ. 실무 시나리오 — 보안 프로토콜 설계
+## Ⅴ. 실무 시나리오 — 보안 [[295_protocol_field_tcp_udp_icmp|프로토콜]] 설계
 
 ```
 암호화 시스템과 P ≠ NP 가정:

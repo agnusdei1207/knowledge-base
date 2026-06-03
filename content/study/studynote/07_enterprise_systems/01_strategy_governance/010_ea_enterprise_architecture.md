@@ -8,20 +8,20 @@ tags = ["EA", "Enterprise Architecture", "TOGAF", "Zachman", "ITA", "IT 거버�
 categories = ["studynote-enterprise"]
 +++
 
-# 10. 전사적 아키텍처 (EA, Enterprise Architecture)
+# [[489_raid_10_hybrid|10]]. 전사적 아키텍처 ([[110_enterprise_architecture_ea|EA]], Enterprise [[319_architecture|Architecture]])
 
 #### 핵심 인사이트 (3줄 요약)
-> 1. **본질**: 전사적 아키텍처(EA)는 기업의 복잡한 비즈니스 목표와 프로세스를 지원하기 위해 데이터, 애플리케이션, IT 인프라를 논리적이고 체계적으로 구조화한 종합적인 청사진(Blueprint)이다.
-> 2. **가치**: IT 시스템 간의 사일로(Silo)를 타파하고 중복 투자를 방지하며, 새로운 기술(클라우드, AI) 도입 시 비즈니스와 정렬(Alignment)되도록 하는 통제(Governance)의 기준점이 된다.
-> 3. **융합**: 자크만(Zachman) 프레임워크의 논리적 메타모델과 TOGAF의 실천적 아키텍처 개발 방법론(ADM)이 결합되어, ISP(정보화 전략 계획)의 결과를 영구적으로 유지 및 현행화하는 틀로 작용한다.
+> 1. **본질**: 전사적 아키텍처([[110_enterprise_architecture_ea|EA]])는 기업의 복잡한 비즈니스 목표와 프로세스를 지원하기 위해 [[001_dikw_pyramid|데이터]], 애플리케이션, IT 인프라를 [[369_logic_bomb|논리]]적이고 체계적으로 구조화한 종합적인 청사진(Blueprint)이다.
+> 2. **가치**: IT 시스템 간의 [[002_silo_hyeonhyung|사일로]]([[002_silo_hyeonhyung|Silo]])를 타파하고 중복 투자를 방지하며, 새로운 기술(클라우드, [[190_ai_llm_requirements_specification|AI]]) 도입 시 비즈니스와 정렬(Alignment)되도록 하는 통제(Governance)의 기준점이 된다.
+> 3. **융합**: 자크만([[243_zachman_framework_matrix|Zachman]]) 프레임워크의 [[369_logic_bomb|논리]]적 메타모델과 TOGAF의 실천적 아키텍처 개발 방법론([[066_적응형_델타_변조_ADM|ADM]])이 결합되어, [[101_isp_information_strategy_planning_4_steps|ISP]]([[101_isp_information_strategy_planning_4_steps|정보화 전략 계획]])의 결과를 영구적으로 유지 및 [[125_asis_update_ea_maintenance_synchronization|현행화]]하는 틀로 작용한다.
 
 ---
 
-### Ⅰ. 개요 및 필요성 (Context & Necessity)
+### Ⅰ. 개요 및 필요성 ([[033_context|Context]] & Necessity)
 
-전사적 아키텍처 (EA, Enterprise Architecture)는 기업(Enterprise)이라는 거대한 유기체를 구성하는 비즈니스, 데이터, 애플리케이션, 기술 인프라 요소들이 어떻게 구성되어 있고 서로 어떻게 상호작용하는지를 명시적으로 규정한 아키텍처 청사진이다. 과거에는 ITA(Information Technology Architecture)라는 용어로 법제화되기도 했으나, 현재는 IT를 넘어 비즈니스 전략까지 포괄하는 EA라는 명칭이 글로벌 표준이다.
+전사적 아키텍처 ([[110_enterprise_architecture_ea|EA]], Enterprise [[319_architecture|Architecture]])는 기업(Enterprise)이라는 거대한 유기체를 구성하는 비즈니스, [[001_dikw_pyramid|데이터]], 애플리케이션, 기술 인프라 요소들이 어떻게 구성되어 있고 서로 어떻게 상호작용하는지를 명시적으로 규정한 아키텍처 청사진이다. 과거에는 [[015_ita_information_technology_architecture|ITA]]([[015_ita_information_technology_architecture|Information Technology Architecture]])라는 용어로 법제화되기도 했으나, 현재는 IT를 넘어 비즈니스 [[268_strategy_pattern|전략]]까지 포괄하는 EA라는 명칭이 글로벌 표준이다.
 
-기업의 IT 환경이 확장되면서 각 부서는 자신의 편의에 맞는 시스템을 개별적으로 도입했다. 마케팅팀은 SaaS형 CRM을, 재무팀은 레거시 ERP를, 공장은 별도의 MES를 구축하면서 기업 내부에는 수백 개의 시스템이 얽히고설킨 스파게티 네트워크(Spaghetti Network)가 형성되었다. 이로 인해 데이터는 파편화되고, 하나의 시스템을 고치면 다른 시스템이 연쇄적으로 마비되는 극강의 복잡도(Complexity)가 발생했다. 이러한 혼돈을 통제하기 위해 도시 계획(Urban Planning)과 같은 종합적인 규준이 필요해졌고, 그것이 바로 EA다. EA는 "우리 회사가 가진 IT 자산의 현주소는 어디이며, 미래에는 어떤 표준 구조로 나아가야 하는가?"에 대한 근본적인 가이드라인을 제공한다.
+기업의 IT 환경이 확장되면서 각 부서는 자신의 편의에 맞는 시스템을 개별적으로 도입했다. 마케팅팀은 SaaS형 CRM을, 재무팀은 레거시 ERP를, 공장은 별도의 MES를 구축하면서 기업 내부에는 수백 개의 시스템이 얽히고설킨 스파게티 네트워크(Spaghetti Network)가 형성되었다. 이로 인해 [[001_dikw_pyramid|데이터]]는 파편화되고, 하나의 시스템을 고치면 다른 시스템이 연쇄적으로 마비되는 극강의 복잡도(Complexity)가 발생했다. 이러한 혼돈을 통제하기 위해 도시 계획(Urban Planning)과 같은 종합적인 규준이 필요해졌고, 그것이 바로 EA다. EA는 "우리 회사가 가진 IT 자산의 현주소는 어디이며, 미래에는 어떤 표준 구조로 나아가야 하는가?"에 대한 근본적인 가이드라인을 제공한다.
 
 ```text
 이 도식은 무질서한 IT 환경(사일로)이 EA라는 청사진을 통해 어떻게 정렬(Alignment)되고 계층화되는지를 보여주는 계층 구조도이다.
@@ -36,24 +36,24 @@ categories = ["studynote-enterprise"]
                                          [Technology Arch (TA)] : 클라우드, 네트워크, 보안
 ```
 
-이 그림의 핵심은 EA가 단순한 기술(Technology) 카탈로그가 아니라는 점이다. 가장 상위에 비즈니스 아키텍처(BA)가 존재하며, 나머지 하위 아키텍처(DA, AA, TA)는 오직 상위 비즈니스를 지원하기 위해 존재한다. 이런 배치는 EA의 궁극적인 목적이 '비즈니스와 IT의 완벽한 정렬(IT-Business Alignment)'에 있음을 의미한다. 실무에서는 새로운 애플리케이션(AA)을 개발할 때, 사전에 정의된 데이터 표준(DA)과 인프라 표준(TA)을 벗어나는 구조는 EA 위원회의 승인을 받지 못하도록 강제함으로써 전체 시스템의 상호운용성(Interoperability)을 보장한다.
+이 그림의 핵심은 EA가 단순한 기술(Technology) [[394_catalog_metadata|카탈로그]]가 아니라는 점이다. 가장 상위에 [[103_ba_as_is_analysis|비즈니스 아키텍처]]([[103_ba_as_is_analysis|BA]])가 존재하며, 나머지 하위 아키텍처([[104_da_as_is_analysis|DA]], [[105_aa_as_is_analysis|AA]], [[106_ta_as_is_analysis|TA]])는 오직 상위 비즈니스를 지원하기 위해 존재한다. 이런 배치는 EA의 궁극적인 목적이 '비즈니스와 IT의 완벽한 정렬(IT-Business Alignment)'에 있음을 의미한다. 실무에서는 새로운 애플리케이션([[105_aa_as_is_analysis|AA]])을 개발할 때, 사전에 정의된 [[001_dikw_pyramid|데이터]] 표준([[104_da_as_is_analysis|DA]])과 인프라 표준([[106_ta_as_is_analysis|TA]])을 벗어나는 구조는 [[110_enterprise_architecture_ea|EA]] 위원회의 승인을 받지 못하도록 강제함으로써 전체 시스템의 [[287_interoperability_tactics|상호운용성]]([[084_blockchain_interoperability_polkadot_cosmos|Interoperability]])을 보장한다.
 
-📢 **섹션 요약 비유**: EA는 복잡한 대도시를 건설할 때, 주거 구역(BA), 상하수도망(DA), 도로망(AA), 전기 통신망(TA)이 엉키지 않도록 미리 그려두는 완벽한 도시 계획도입니다.
+📢 **섹션 요약 비유**: EA는 복잡한 대도시를 건설할 때, 주거 구역([[103_ba_as_is_analysis|BA]]), 상하수도망([[104_da_as_is_analysis|DA]]), 도로망([[105_aa_as_is_analysis|AA]]), 전기 통신망([[106_ta_as_is_analysis|TA]])이 엉키지 않도록 미리 그려두는 완벽한 도시 계획도입니다.
 
 ---
 
 ### Ⅱ. 아키텍처 프레임워크 및 구성요소 (Deep Dive)
 
-EA를 구축하기 위해서는 맨바닥에서 시작하는 것이 아니라 검증된 EA 프레임워크를 활용한다. 대표적으로 아키텍처의 구성 요소를 분류하는 '자크만 프레임워크(Zachman Framework)'와 아키텍처를 개발하는 실천적 방법론인 'TOGAF (The Open Group Architecture Framework)'가 융합되어 사용된다. 
+EA를 구축하기 위해서는 맨바닥에서 시작하는 것이 아니라 [[395_verification_process_review|검증]]된 [[110_enterprise_architecture_ea|EA]] 프레임워크를 활용한다. 대표적으로 아키텍처의 구성 요소를 [[104_classification_analysis|분류]]하는 '[[041_zachman_framework|자크만 프레임워크]]([[112_zachman_framework|Zachman Framework]])'와 아키텍처를 개발하는 실천적 방법론인 '[[113_togaf|TOGAF]] ([[875_togaf|The Open Group Architecture Framework]])'가 융합되어 사용된다. 
 
-EA의 구성은 기본적으로 현재 상태(AS-IS Architecture), 목표 상태(TO-BE Architecture), 그리고 이를 달성하기 위한 이행 계획(Transition Plan)으로 이루어진다. 이 모든 정보는 메타데이터(Metadata) 형태로 EA 리포지토리(EAMS, EA Management System)에 저장되어 살아 숨 쉬는 데이터(Living EA)로 관리된다.
+EA의 구성은 기본적으로 [[178_as_is_to_be_analysis|현재 상태]]([[178_as_is_to_be_analysis|AS-IS]] [[319_architecture|Architecture]]), 목표 상태(TO-BE [[319_architecture|Architecture]]), 그리고 이를 달성하기 위한 이행 계획(Transition Plan)으로 이루어진다. 이 모든 정보는 [[012_metadata|메타데이터]]([[012_metadata|Metadata]]) 형태로 [[110_enterprise_architecture_ea|EA]] 리포지토리([[124_eams_ea_management_system|EAMS]], [[110_enterprise_architecture_ea|EA]] [[372_management|Management]] System)에 저장되어 살아 숨 쉬는 [[001_dikw_pyramid|데이터]](Living [[110_enterprise_architecture_ea|EA]])로 관리된다.
 
-**1. 자크만 프레임워크 (Zachman Framework)**
+**1. [[041_zachman_framework|자크만 프레임워크]] ([[112_zachman_framework|Zachman Framework]])**
 - EA를 6하 원칙(What, How, Where, Who, When, Why)과 6가지 관점(계획자, 소유자, 설계자, 개발자, 구현자, 사용자)으로 교차시킨 6x6 매트릭스 메타모델.
-- "어떤 데이터를(What), 기술자(Developer) 관점에서 보면 관계형 스키마(RDBMS)가 된다"는 식으로 시스템 구성 요소의 누락과 중복을 검증하는 주기율표 역할을 한다.
+- "어떤 [[001_dikw_pyramid|데이터]]를(What), 기술자(Developer) 관점에서 보면 [[083_relationship_in_er_model|관계]]형 [[005_schema|스키마]](RDBMS)가 된다"는 식으로 시스템 구성 요소의 누락과 중복을 [[395_verification_process_review|검증]]하는 주기율표 역할을 한다.
 
-**2. TOGAF (The Open Group Architecture Framework)**
-- EA를 실제로 어떻게 만들고 유지할 것인지에 대한 단계별 방법론인 **ADM (Architecture Development Method)**을 제공하는 사실상의 글로벌 표준.
+**2. [[113_togaf|TOGAF]] ([[875_togaf|The Open Group Architecture Framework]])**
+- EA를 실제로 어떻게 만들고 유지할 것인지에 대한 단계별 방법론인 **[[066_적응형_델타_변조_ADM|ADM]] ([[114_togaf_adm_architecture_development_method|Architecture Development Method]])**을 제공하는 사실상의 글로벌 표준.
 
 ```text
 이 도식은 TOGAF의 핵심인 ADM(Architecture Development Method)의 순환 주기를 보여주는 상태 흐름도이다. EA는 일회성 프로젝트가 아니라 지속해서 개선되는 라이프사이클을 가짐을 보여준다.
@@ -80,22 +80,22 @@ EA의 구성은 기본적으로 현재 상태(AS-IS Architecture), 목표 상태
        └───────────────────────────────┘
 ```
 
-이 흐름의 핵심은 ADM이 A단계에서 D단계까지 AS-IS와 TO-BE를 정의하고, E와 F단계에서 그 격차(Gap)를 메울 프로젝트를 식별한 뒤, G와 H단계에서 실제 개발 프로젝트를 감시(거버넌스)하고 환경 변화에 맞춰 EA 청사진을 다시 업데이트(변경 관리)하는 무한 순환 구조라는 점이다. 따라서 EA는 한 번 책자로 만들어져 캐비닛에 꽂히는 순간 죽은 문서가 된다. 실무에서는 G(구현 거버넌스) 단계가 가장 중요하다. 새로운 ERP를 도입할 때 프로젝트 PM은 반드시 EA팀(아키텍트)에게 "이 시스템이 우리의 TA/DA 표준을 준수하는가?"를 리뷰받아야 한다.
+이 흐름의 핵심은 ADM이 A단계에서 D단계까지 [[344_as_autonomous_system_asn|AS]]-IS와 TO-BE를 정의하고, E와 F단계에서 그 격차(Gap)를 메울 프로젝트를 [[655_ir_detection_analysis|식별]]한 뒤, G와 H단계에서 실제 개발 프로젝트를 감시(거버넌스)하고 환경 변화에 맞춰 [[110_enterprise_architecture_ea|EA]] 청사진을 다시 업데이트([[079_change_enablement|변경 관리]])하는 무한 순환 구조라는 점이다. 따라서 EA는 한 번 책자로 만들어져 캐비닛에 꽂히는 순간 죽은 문서가 된다. 실무에서는 G(구현 거버넌스) 단계가 가장 중요하다. 새로운 ERP를 도입할 때 프로젝트 PM은 반드시 EA팀(아키텍트)에게 "이 시스템이 우리의 [[106_ta_as_is_analysis|TA]]/[[104_da_as_is_analysis|DA]] 표준을 준수하는가?"를 리뷰받아야 한다.
 
-📢 **섹션 요약 비유**: 자크만 프레임워크가 건물을 짓기 위한 '재료와 부품의 분류표'라면, TOGAF ADM은 그 재료들을 가져다 실제 건물을 짓고 보수하는 '시공 순서도'입니다.
+📢 **섹션 요약 비유**: [[041_zachman_framework|자크만 프레임워크]]가 건물을 짓기 위한 '재료와 부품의 [[104_classification_analysis|분류]]표'라면, [[113_togaf|TOGAF]] ADM은 그 재료들을 가져다 실제 건물을 짓고 보수하는 '시공 순서도'입니다.
 
 ---
 
 ### Ⅲ. 융합 비교 및 다각도 분석 (Comparison & Synergy)
 
-EA는 종종 솔루션 아키텍처(SA)나 정보화 전략 계획(ISP)과 혼동된다. 이들의 관계와 차이를 정확히 인지하는 것은 IT 리더의 핵심 역량이다. ISP가 '전략과 프로젝트 도출'에 방점이 있다면, EA는 그 전략을 시스템으로 구현하기 위한 '구조적 표준과 규칙'에 방점이 있다. 
+EA는 종종 솔루션 아키텍처([[767_sa_standalone_5g_core_network|SA]])나 [[101_isp_information_strategy_planning_4_steps|정보화 전략 계획]]([[101_isp_information_strategy_planning_4_steps|ISP]])과 혼동된다. 이들의 [[083_relationship_in_er_model|관계]]와 차이를 정확히 인지하는 것은 IT 리더의 핵심 역량이다. ISP가 '[[268_strategy_pattern|전략]]과 프로젝트 도출'에 방점이 있다면, EA는 그 [[268_strategy_pattern|전략]]을 시스템으로 구현하기 위한 '구조적 표준과 규칙'에 방점이 있다. 
 
-| 비교 항목 | EA (전사 아키텍처 / Enterprise Arch.) | SA (솔루션 아키텍처 / Solution Arch.) |
+| 비교 항목 | [[110_enterprise_architecture_ea|EA]] ([[242_ea_architecture_planning|전사 아키텍처]] / Enterprise Arch.) | [[767_sa_standalone_5g_core_network|SA]] (솔루션 아키텍처 / Solution Arch.) |
 |:---|:---|:---|
 | **관점과 범위** | 기업 전체 (전 부서, 전 시스템 포괄) | 특정 비즈니스 문제 해결을 위한 단일 시스템 |
-| **초점 (Focus)** | 표준화, 상호운용성, IT-비즈니스 정렬 | 시스템 성능, 안정성, 구현 가능성 |
-| **주요 활동** | 전사 아키텍처 원칙 수립, 시스템 간 연계 통제 | 프레임워크 선정, DB 튜닝, 컴포넌트 설계 |
-| **결과물** | 4대 아키텍처(BA, DA, AA, TA) 청사진, 참조 모델 | 시스템 설계서, API 명세, 아키텍처 다이어그램 |
+| **초점 (Focus)** | 표준화, [[287_interoperability_tactics|상호운용성]], IT-비즈니스 정렬 | 시스템 [[282_performance_tactics|성능]], 안정성, 구현 가능성 |
+| **주요 활동** | [[242_ea_architecture_planning|전사 아키텍처]] 원칙 수립, 시스템 간 연계 통제 | 프레임워크 선정, DB 튜닝, [[603_component_independent_deployment_unit|컴포넌트]] 설계 |
+| **결과물** | 4대 아키텍처([[103_ba_as_is_analysis|BA]], [[104_da_as_is_analysis|DA]], [[105_aa_as_is_analysis|AA]], [[106_ta_as_is_analysis|TA]]) 청사진, [[116_reference_model|참조 모델]] | 시스템 설계서, [[014_api_posix|API]] 명세, 아키텍처 다이어그램 |
 
 ```text
 이 매트릭스는 EA의 양대 프레임워크인 Zachman과 TOGAF의 특성을 비교하여, 실무에서 두 프레임워크를 어떻게 융합해야 하는지 판단 포인트를 제시한다.
@@ -110,22 +110,22 @@ EA는 종종 솔루션 아키텍처(SA)나 정보화 전략 계획(ISP)과 혼�
 └────────────┴─────────────────────────────┴──────────────────────────────┴───────────────────────┘
 ```
 
-이 비교 구조의 핵심은 자크만과 TOGAF가 경쟁 관계가 아니라 상호 보완재(Complementary)라는 점이다. 기업이 EA를 도입할 때, 어떤 요소들을 관리할 것인지에 대한 데이터베이스 스키마(메타모델)는 자크만의 분류법을 차용하여 설계하고, 그 데이터베이스를 채워 넣고 갱신하는 업무 프로세스는 TOGAF의 ADM을 적용하는 것이 글로벌 베스트 프랙티스다. 최근에는 MSA(마이크로서비스)와 클라우드 환경이 대두되면서, 이 거대한 프레임워크를 그대로 쓰기보다는 조직에 맞게 초경량화(Tailoring)하여 꼭 필요한 핵심 TA/DA 표준만 강제하는 마이크로 EA(Micro-EA)가 트렌드로 자리 잡고 있다.
+이 비교 구조의 핵심은 자크만과 TOGAF가 경쟁 [[083_relationship_in_er_model|관계]]가 아니라 상호 보완재(Complementary)라는 점이다. 기업이 EA를 도입할 때, 어떤 요소들을 관리할 것인지에 대한 [[002_database_definition|데이터베이스]] [[005_schema|스키마]](메타모델)는 자크만의 [[104_classification_analysis|분류]]법을 차용하여 설계하고, 그 [[002_database_definition|데이터베이스]]를 채워 넣고 갱신하는 업무 프로세스는 TOGAF의 ADM을 적용하는 것이 글로벌 베스트 프랙티스다. 최근에는 [[619_msa_traffic_hardware|MSA]]([[532_microservices_decomposition_patterns|마이크로서비스]])와 클라우드 환경이 대두되면서, 이 거대한 프레임워크를 그대로 [[289_cqrs_db|쓰기]]보다는 조직에 맞게 초경량화([[058_methodology_tailoring|Tailoring]])하여 꼭 필요한 핵심 [[106_ta_as_is_analysis|TA]]/[[104_da_as_is_analysis|DA]] 표준만 강제하는 마이크로 [[110_enterprise_architecture_ea|EA]](Micro-[[110_enterprise_architecture_ea|EA]])가 트렌드로 자리 잡고 있다.
 
-📢 **섹션 요약 비유**: 자크만은 옷장 서랍에 양말, 셔츠, 바지를 빈틈없이 분류해 놓은 '라벨링 시스템'이고, TOGAF는 아침에 일어나서 그 옷들을 순서대로 꺼내 입는 '행동 지침'입니다.
+📢 **섹션 요약 비유**: 자크만은 옷장 서랍에 양말, 셔츠, 바지를 빈틈없이 [[104_classification_analysis|분류]]해 놓은 '라벨링 시스템'이고, TOGAF는 아침에 일어나서 그 옷들을 순서대로 꺼내 입는 '행동 지침'입니다.
 
 ---
 
-### Ⅳ. 실무 적용 및 기술사적 판단 (Strategy & Decision)
+### Ⅳ. 실무 적용 및 기술사적 판단 ([[268_strategy_pattern|Strategy]] & Decision)
 
-실무에서 EA를 도입한 많은 기업과 공공기관이 겪는 가장 큰 실패는 'EA의 화석화(Dead EA)' 현상이다. 막대한 예산을 들여 초기 EA 정보(산출물)를 EAMS(EA 관리 시스템)에 등록했지만, 이후 1년 동안 새로운 시스템이 수십 개 개발됨에도 EA 정보가 업데이트되지 않아 실제 아키텍처와 EA 시스템 상의 정보가 불일치하게 되는 것이다.
+실무에서 EA를 도입한 많은 기업과 공공기관이 겪는 가장 큰 실패는 'EA의 화석화(Dead [[110_enterprise_architecture_ea|EA]])' 현상이다. 막대한 예산을 들여 [[459_quic_fec_forward_error_correction|초기]] [[110_enterprise_architecture_ea|EA]] 정보(산출물)를 [[124_eams_ea_management_system|EAMS]]([[110_enterprise_architecture_ea|EA]] 관리 시스템)에 등록했지만, 이후 1년 동안 새로운 시스템이 수십 개 개발됨에도 [[110_enterprise_architecture_ea|EA]] 정보가 업데이트되지 않아 실제 아키텍처와 [[110_enterprise_architecture_ea|EA]] 시스템 상의 정보가 불일치하게 되는 것이다.
 
-**실무 시나리오 및 해결책 (Checklist)**
-1. **EA 현행화 (Living EA) 보장**: 이를 해결하기 위해서는 아키텍처 리뷰 보드(ARB, Architecture Review Board) 통제 프로세스가 물리적으로 작동해야 한다. 즉, IT 프로젝트가 개발 서버에서 운영 서버로 이관(배포)되기 전에, 개발 PM이 EAMS에 접속하여 변경된 테이블 스키마(DA)와 연계 정보(AA)를 등록하지 않으면 결재(Go-Live 승인)가 떨어지지 않도록 시스템 결재선(Workflow)을 엮어버려야 한다.
-2. **기술 참조 모델 (TRM) 활용**: TA 통제를 위해 사내에 '승인된 기술 스택 카탈로그(TRM)'를 배포해야 한다. 예를 들어 "RDBMS는 PostgreSQL, 언어는 Java 17, 프론트는 React"로 지정해 둔다. 현업이 멋대로 트렌디한 언어(예: Go, Rust)로 개발하겠다고 하면, EA 위원회는 "우리는 해당 언어의 유지보수 인력이 없으므로 반려한다"며 기술 파편화를 방어해야 한다.
+**실무 시나리오 및 해결책 ([[435_checklist_based_testing|Checklist]])**
+1. **[[110_enterprise_architecture_ea|EA]] [[125_asis_update_ea_maintenance_synchronization|현행화]] (Living [[110_enterprise_architecture_ea|EA]]) 보장**: 이를 해결하기 위해서는 아키텍처 리뷰 보드(ARB, [[319_architecture|Architecture]] [[153_requirements_review_inspection_walkthrough|Review]] Board) 통제 프로세스가 물리적으로 작동해야 한다. 즉, IT 프로젝트가 개발 서버에서 운영 서버로 이관(배포)되기 전에, 개발 PM이 EAMS에 접속하여 변경된 테이블 [[005_schema|스키마]]([[104_da_as_is_analysis|DA]])와 연계 정보([[105_aa_as_is_analysis|AA]])를 등록하지 않으면 결재(Go-Live 승인)가 떨어지지 않도록 시스템 결재선(Workflow)을 엮어버려야 한다.
+2. **기술 [[116_reference_model|참조 모델]] ([[120_trm_technical_reference_model|TRM]]) 활용**: [[106_ta_as_is_analysis|TA]] 통제를 위해 사내에 '승인된 기술 [[057_stack|스택]] [[394_catalog_metadata|카탈로그]]([[120_trm_technical_reference_model|TRM]])'를 배포해야 한다. 예를 들어 "RDBMS는 PostgreSQL, 언어는 Java 17, 프론트는 React"로 지정해 둔다. 현업이 멋대로 트렌디한 언어(예: Go, [[782_memory_safety_rust_compiler_verification|Rust]])로 개발하겠다고 하면, [[110_enterprise_architecture_ea|EA]] 위원회는 "우리는 해당 언어의 유지보수 인력이 없으므로 반려한다"며 기술 파편화를 방어해야 한다.
 
-**안티패턴 (치명적 결함 사례)**
-- **문서화 자체에 집착하는 EA**: 거대한 기업의 모든 프로세스와 IT 요소를 완벽하게 매핑하겠다며 1~2년을 분석에만 쏟는 것은 치명적 결함이다. 분석이 끝날 즈음이면 이미 비즈니스 환경이 변해있다. 애자일 시대의 EA는 완벽함보다는 '꼭 지켜야 할 최소한의 가이드레일(Guardrail)'을 제공하는 가벼운 중앙 통제소로 역할이 바뀌어야 한다.
+**[[128_water_scrum_fall_anti_pattern|안티패턴]] (치명적 [[352_defect_definition|결함]] 사례)**
+- **문서화 자체에 집착하는 [[110_enterprise_architecture_ea|EA]]**: 거대한 기업의 모든 프로세스와 IT 요소를 완벽하게 매핑하겠다며 1~2년을 분석에만 쏟는 것은 치명적 [[352_defect_definition|결함]]이다. 분석이 끝날 즈음이면 이미 비즈니스 환경이 변해있다. [[004_agile_relation|애자일]] 시대의 EA는 완벽함보다는 '꼭 지켜야 할 최소한의 가이드레일(Guardrail)'을 제공하는 가벼운 중앙 통제소로 역할이 바뀌어야 한다.
 
 ```text
 이 도식은 실무 환경에서 IT 프로젝트가 진행될 때, EA 위원회(ARB)가 언제 개입하여 통제력을 행사하는지를 보여주는 의사결정(거버넌스) 플로우다.
@@ -145,33 +145,33 @@ EA는 종종 솔루션 아키텍처(SA)나 정보화 전략 계획(ISP)과 혼�
                                  (오픈 전 EAMS 산출물 강제 등록)
 ```
 
-이 운영 플로우의 핵심은 EA가 '경찰'과 '조언자'의 역할을 동시에 수행한다는 점이다. 단순히 규정을 어겼다고 처벌하는 것이 아니라, 새로운 AI 기술이 필요하다면 기존 EA 표준(TRM)에 이를 새롭게 편입시켜 전사 표준으로 승격시키는 유연한 예외 처리(Exception Handling) 프로세스가 필수적이다. 그래야만 EA가 혁신을 가로막는 장애물이 아니라 혁신을 안전하게 확산시키는 뼈대가 될 수 있다.
+이 운영 플로우의 핵심은 EA가 '경찰'과 '조언자'의 역할을 동시에 수행한다는 점이다. 단순히 규정을 어겼다고 처벌하는 것이 아니라, 새로운 [[190_ai_llm_requirements_specification|AI]] 기술이 필요하다면 기존 [[110_enterprise_architecture_ea|EA]] 표준([[120_trm_technical_reference_model|TRM]])에 이를 새롭게 편입시켜 전사 표준으로 승격시키는 유연한 예외 처리(Exception Handling) 프로세스가 필수적이다. 그래야만 EA가 혁신을 가로막는 장애물이 아니라 혁신을 안전하게 확산시키는 뼈대가 될 수 있다.
 
-📢 **섹션 요약 비유**: 도로 교통법(EA)을 만들어두기만 하고 신호등이나 과속 단속 카메라(ARB 통제)를 설치하지 않으면 도로는 금세 난장판이 됩니다. 법을 강제할 물리적 시스템이 꼭 필요합니다.
+📢 **섹션 요약 비유**: 도로 교통법([[110_enterprise_architecture_ea|EA]])을 만들어두기만 하고 [[130_signal|신호]]등이나 과속 단속 카메라(ARB 통제)를 설치하지 않으면 도로는 금세 난장판이 됩니다. 법을 강제할 물리적 시스템이 꼭 필요합니다.
 
 ---
 
 ### Ⅴ. 기대효과 및 결론 (Future & Standard)
 
-EA를 살아있는 거버넌스 체계로 안착시킨 기업은 엄청난 아키텍처적 유연성(Agility)과 비용 절감을 동시에 누린다. 어떤 시스템이 어디에 연결되어 있고 무슨 데이터를 쓰는지 투명하게 가시화되므로, 노후화된 레거시 시스템을 걷어낼 때 영향도(Impact Analysis)를 클릭 한 번으로 파악할 수 있다.
+EA를 살아있는 거버넌스 체계로 안착시킨 기업은 엄청난 아키텍처적 유연성(Agility)과 비용 절감을 동시에 누린다. 어떤 시스템이 어디에 연결되어 있고 무슨 [[001_dikw_pyramid|데이터]]를 쓰는지 투명하게 가시화되므로, 노후화된 레거시 시스템을 걷어낼 때 영향도(Impact Analysis)를 클릭 한 번으로 파악할 수 있다.
 
 | 정량적 기대효과 | 정성적 기대효과 |
 |:---|:---|
 | 시스템 중복 개발 방지 및 S/W 라이선스 통합으로 IT 투자 비용 15~20% 절감 | 비즈니스 언어와 IT 언어 간의 전사적 공통 의사소통 기반(Vocab) 확립 |
-| 장애 발생 시 시스템 연관도(Topology) 즉각 파악을 통한 MTTR(복구 시간) 단축 | M&A(인수합병) 시 양사 IT 시스템 통합(PMI) 분석 시간 획기적 단축 |
+| 장애 발생 시 시스템 연관도(Topology) 즉각 파악을 통한 [[451_mttr|MTTR]]([[658_ir_recovery|복구]] 시간) 단축 | M&A(인수합병) 시 양사 IT 시스템 통합(PMI) 분석 시간 획기적 단축 |
 
-미래의 EA는 사람이 수동으로 문서를 입력하는 EAMS에서 벗어나, 클라우드 자원 관리(CSPM) 및 소스코드 저장소(Git)와 API로 직접 연동되어 아키텍처 형상이 실시간으로 자동 갱신되는 AI 주도적 구조(Automated EA)로 진화하고 있다. 결국 EA의 본질은 변하지 않는다. 복잡성이 증가할수록 기준점의 중요성은 커지며, 비즈니스의 성공은 이 단단한 아키텍처의 뼈대 위에서만 지속 가능하게 피어날 수 있다.
+미래의 EA는 사람이 수동으로 문서를 입력하는 EAMS에서 벗어나, 클라우드 자원 관리([[780_cspm_cloud_security_posture_management|CSPM]]) 및 소스코드 저장소(Git)와 API로 직접 연동되어 아키텍처 형상이 실시간으로 자동 갱신되는 [[190_ai_llm_requirements_specification|AI]] 주도적 구조(Automated [[110_enterprise_architecture_ea|EA]])로 진화하고 있다. 결국 EA의 본질은 변하지 않는다. 복잡성이 증가할수록 기준점의 중요성은 커지며, 비즈니스의 성공은 이 단단한 아키텍처의 뼈대 위에서만 지속 가능하게 피어날 수 있다.
 
 📢 **섹션 요약 비유**: 엉킨 이어폰 줄(스파게티 IT)을 풀려다 짜증 난 적이 있나요? EA는 애초에 줄이 엉키지 않도록 깔끔하게 선을 감아두는 스마트한 정리함과 같습니다. 정리할 땐 귀찮지만, 평생 편해집니다.
 
 ---
 
-### 📌 관련 개념 맵 (Knowledge Graph)
-* **ISP (Information Strategy Planning)** : EA의 방향성을 제시하는 비즈니스/IT 연계 마스터플랜으로, ISP의 결과가 EA 아키텍처에 반영됨.
-* **거버넌스 (IT Governance)** : COBIT 등과 연계하여 EA 원칙이 전사에 강제되도록 하는 최고위 관리 체계 및 정책 통제 활동.
-* **EAMS (EA Management System)** : 기업의 EA 정보(모델, 메타데이터, 연계 정보)를 저장, 조회, 분석하는 중앙 집중형 리포지토리 소프트웨어.
-* **상호운용성 (Interoperability)** : 개별 시스템이 서로 다른 기술을 쓰더라도 데이터를 끊김 없이 주고받을 수 있는 능력으로, EA(특히 AA/TA)의 핵심 목표.
-* **마이크로서비스 아키텍처 (MSA)** : 최근 EA 환경에서 모놀리식 구조를 대체하는 핵심 아키텍처 패턴으로, 분산 환경에서의 EA 통제(API 게이트웨이 등)를 더욱 중요하게 만듦.
+### 📌 관련 개념 맵 ([[160_knowledge_graph_graphrag_integration|Knowledge Graph]])
+* **[[101_isp_information_strategy_planning_4_steps|ISP]] (Information [[268_strategy_pattern|Strategy]] Planning)** : EA의 방향성을 제시하는 비즈니스/IT 연계 [[172_maas_mobility_as_a_service|마스]]터플랜으로, ISP의 결과가 [[110_enterprise_architecture_ea|EA]] 아키텍처에 반영됨.
+* **거버넌스 ([[001_it_governance|IT Governance]])** : [[004_cobit|COBIT]] 등과 연계하여 [[110_enterprise_architecture_ea|EA]] 원칙이 전사에 강제되도록 하는 최고위 관리 체계 및 [[164_policy|정책]] 통제 활동.
+* **[[124_eams_ea_management_system|EAMS]] ([[110_enterprise_architecture_ea|EA]] [[372_management|Management]] System)** : 기업의 [[110_enterprise_architecture_ea|EA]] 정보(모델, [[012_metadata|메타데이터]], 연계 정보)를 저장, 조회, 분석하는 중앙 집중형 리포지토리 소프트웨어.
+* **[[287_interoperability_tactics|상호운용성]] ([[084_blockchain_interoperability_polkadot_cosmos|Interoperability]])** : 개별 시스템이 서로 다른 기술을 쓰더라도 [[001_dikw_pyramid|데이터]]를 끊김 없이 주고받을 수 있는 능력으로, [[110_enterprise_architecture_ea|EA]](특히 [[105_aa_as_is_analysis|AA]]/[[106_ta_as_is_analysis|TA]])의 핵심 목표.
+* **[[213_msa_microservices_architecture|마이크로서비스 아키텍처]] ([[619_msa_traffic_hardware|MSA]])** : 최근 [[110_enterprise_architecture_ea|EA]] 환경에서 모놀리식 구조를 대체하는 핵심 아키텍처 패턴으로, [[136_variance|분산]] 환경에서의 [[110_enterprise_architecture_ea|EA]] 통제([[014_api_posix|API]] 게이트웨이 등)를 더욱 중요하게 만듦.
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -193,9 +193,9 @@ EA를 살아있는 거버넌스 체계로 안착시킨 기업은 엄청난 아�
     ▼
 [디지털 전환 로드맵 (DT Roadmap) — EA 기반 변환 추진 계획]
 ```
-EA는 비즈니스·데이터·애플리케이션·기술 아키텍처 4개 계층을 통합 관리하여, 전사 IT 투자의 일관성과 디지털 전환의 방향성을 제시하는 나침반이다.
+EA는 비즈니스·[[001_dikw_pyramid|데이터]]·애플리케이션·[[106_ta_as_is_analysis|기술 아키텍처]] 4개 계층을 통합 관리하여, 전사 IT 투자의 [[194_consistency_database_integrity|일관성]]과 [[055_digital_transformation|디지털 전환]]의 방향성을 제시하는 나침반이다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 서랍장 안에 장난감, 옷, 학용품이 엉망진창으로 섞여 있으면 내가 원하는 물건을 찾을 수가 없어요.
 2. 그래서 맨 위 칸은 옷, 중간 칸은 장난감처럼 규칙을 정하고 이름표를 붙여서 언제든 쉽게 찾도록 정리하는 게 좋아요.
-3. 이렇게 회사의 수많은 컴퓨터와 프로그램들이 엉망이 되지 않도록 똑똑하게 분류하고 정리하는 규칙을 EA라고 불러요.
+3. 이렇게 회사의 수많은 컴퓨터와 프로그램들이 엉망이 되지 않도록 똑똑하게 [[104_classification_analysis|분류]]하고 정리하는 규칙을 EA라고 불러요.

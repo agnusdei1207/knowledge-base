@@ -5,21 +5,21 @@ categories = ["studynote-devops-sre"]
 +++
 
 > **핵심 인사이트**
-> - SRE (Site Reliability Engineering)는 구글이 정의한 "소프트웨어 엔지니어링 방식으로 운영 문제를 해결하는 방법론"이다.
-> - Toil (토일) 자동화, Error Budget (에러 버짓) 관리, 50% 운영 업무 상한선이 SRE의 세 핵심 원칙이다.
+> - [[100_sre_site_reliability_engineering_error_budget|SRE]] ([[100_sre_site_reliability_engineering_error_budget|Site Reliability Engineering]])는 구글이 정의한 "소프트웨어 엔지니어링 방식으로 운영 문제를 해결하는 방법론"이다.
+> - [[685_toil_automation_sre|Toil]] ([[685_toil_automation_sre|토일]]) 자동화, [[101_error_budget_sre|Error Budget]] (에러 버짓) 관리, 50% 운영 업무 상한선이 SRE의 세 핵심 원칙이다.
 > - DevOps는 문화·철학이고, SRE는 그 철학을 구체적으로 구현하는 실천 방법론이다.
 
 ---
 
-## Ⅰ. SRE 정의와 DevOps와의 관계
+## Ⅰ. [[100_sre_site_reliability_engineering_error_budget|SRE]] 정의와 DevOps와의 [[083_relationship_in_er_model|관계]]
 
-SRE는 Google이 2003년에 시작한 직군으로, "신뢰성을 소프트웨어 엔지니어링으로 달성"한다.
+SRE는 Google이 2003년에 시작한 직군으로, "[[642_reliability_mtbf_mttr_mttf_availability|신뢰성]]을 소프트웨어 엔지니어링으로 달성"한다.
 
-| 항목        | DevOps                       | SRE                              |
+| 항목        | [[652_devops_calms_culture|DevOps]]                       | [[100_sre_site_reliability_engineering_error_budget|SRE]]                              |
 |-------------|------------------------------|----------------------------------|
 | 성격        | 문화·철학                     | 구체적 실천 방법론                |
-| 초점        | 빠른 전달 + 안정성 균형        | 신뢰성 정량화 + 자동화            |
-| 지표        | 리드 타임, 배포 빈도           | SLI, SLO, Error Budget           |
+| 초점        | 빠른 전달 + 안정성 균형        | [[642_reliability_mtbf_mttr_mttf_availability|신뢰성]] 정량화 + 자동화            |
+| 지표        | [[085_lead_time_cycle_time|리드 타임]], 배포 빈도           | [[102_sli_slo_service_level_indicator_objective|SLI]], [[181_slo_service_level_objective|SLO]], [[101_error_budget_sre|Error Budget]]           |
 
 ```
 ┌────────────────────────────────────────────────────┐
@@ -37,27 +37,27 @@ SRE는 Google이 2003년에 시작한 직군으로, "신뢰성을 소프트웨�
 
 ---
 
-## Ⅱ. SRE 엔지니어의 역할과 50% 규칙
+## Ⅱ. [[100_sre_site_reliability_engineering_error_budget|SRE]] 엔지니어의 역할과 50% 규칙
 
-SRE는 운영 업무(On-call, 티켓, 수동 배포)를 최대 50%로 제한하고, 나머지를 엔지니어링(자동화, 개선)에 써야 한다.
+SRE는 운영 업무(On-[[189_subroutine_call_return|call]], 티켓, 수동 배포)를 최대 50%로 제한하고, 나머지를 엔지니어링(자동화, 개선)에 써야 한다.
 
 | 업무 유형         | 목표 비율 | 예시                           |
 |-------------------|-----------|--------------------------------|
-| 운영(Toil)        | ≤ 50%     | 수동 배포, 알림 처리           |
+| 운영([[685_toil_automation_sre|Toil]])        | ≤ 50%     | 수동 배포, 알림 처리           |
 | 엔지니어링        | ≥ 50%     | 자동화, 용량 계획, 도구 개발   |
 
-On-call (온콜) 부담을 줄이기 위해 알림(Alert)은 Actionable(즉각 조치 필요)한 것만 남기고, 노이즈는 제거한다.
+On-[[189_subroutine_call_return|call]] (온콜) 부담을 줄이기 위해 알림(Alert)은 Actionable(즉각 조치 필요)한 것만 남기고, 노이즈는 제거한다.
 
 > 📢 **Ⅱ 섹션 요약 비유**
 > SRE는 소방관이 화재 진압(운영)보다 방화 시스템 설치(엔지니어링)에 더 많은 시간을 써야 한다는 원칙을 지킨다.
 
 ---
 
-## Ⅲ. Error Budget 운영
+## Ⅲ. [[101_error_budget_sre|Error Budget]] 운영
 
-Error Budget = `1 - SLO`
+[[101_error_budget_sre|Error Budget]] = `1 - SLO`
 
-SLO (Service Level Objective)가 99.9%이면 월 43.8분의 다운타임이 허용되는 예산이다.
+[[181_slo_service_level_objective|SLO]] ([[123_slo_service_level_objective|Service Level Objective]])가 99.9%이면 월 43.8분의 다운타임이 허용되는 예산이다.
 
 ```
 Error Budget 소진 시나리오
@@ -67,28 +67,28 @@ Error Budget 소진 시나리오
 예산 완전 소진: 기능 동결, 신뢰성 개선 집중
 ```
 
-이를 통해 개발팀과 운영팀이 신뢰성을 공동 목표로 삼게 된다.
+이를 통해 개발팀과 운영팀이 [[642_reliability_mtbf_mttr_mttf_availability|신뢰성]]을 공동 목표로 삼게 된다.
 
 > 📢 **Ⅲ 섹션 요약 비유**
 > Error Budget은 "이번 달 고장 허용 쿠폰" — 다 쓰면 새 기능 출시는 잠시 멈춰야 한다.
 
 ---
 
-## Ⅳ. Capacity Planning과 Production Readiness Review
+## Ⅳ. Capacity Planning과 Production Readiness [[153_requirements_review_inspection_walkthrough|Review]]
 
 Capacity Planning (용량 계획): 부하 예측 기반 리소스 사전 확보로 트래픽 급증에 대비한다.
 
-PRR (Production Readiness Review, 프로덕션 준비성 검토): 서비스가 SRE 운영 기준에 맞는지 검토하는 체크리스트 프로세스.
+PRR (Production Readiness [[153_requirements_review_inspection_walkthrough|Review]], 프로덕션 준비성 검토): [[090_service_kubernetes_network_load_balancing|서비스]]가 [[100_sre_site_reliability_engineering_error_budget|SRE]] 운영 기준에 맞는지 검토하는 [[435_checklist_based_testing|체크리스트]] 프로세스.
 
 | PRR 항목        | 점검 내용                          |
 |-----------------|-------------------------------------|
-| SLI/SLO 정의    | 지표와 목표가 명확한가              |
+| [[102_sli_slo_service_level_indicator_objective|SLI]]/[[181_slo_service_level_objective|SLO]] 정의    | 지표와 목표가 명확한가              |
 | 알림 설계       | Actionable Alert만 구성됐는가       |
 | 런북(Runbook)   | 장애 대응 절차가 문서화됐는가       |
-| 자동 롤백       | 배포 실패 시 자동 복구가 되는가     |
+| 자동 [[098_rollback_strategy_pipeline_error_threshold|롤백]]       | 배포 실패 시 자동 [[658_ir_recovery|복구]]가 되는가     |
 
 > 📢 **Ⅳ 섹션 요약 비유**
-> PRR은 비행기 이륙 전 체크리스트 — 모든 항목을 통과해야 운항(배포)이 허가된다.
+> PRR은 비행기 이륙 전 [[435_checklist_based_testing|체크리스트]] — 모든 항목을 통과해야 운항(배포)이 허가된다.
 
 ---
 
@@ -98,12 +98,12 @@ PRR (Production Readiness Review, 프로덕션 준비성 검토): 서비스가 S
 
 | 구성 요소              | 역할                                     |
 |------------------------|------------------------------------------|
-| SRE                    | 신뢰성 엔지니어링 방법론                  |
-| SLI / SLO / SLA        | 신뢰성 측정·목표·계약 지표 계층          |
-| Error Budget           | 허용 가능한 다운타임 예산                |
-| Toil                   | 자동화 대상 반복 수동 운영 업무          |
-| Blameless Postmortem   | 무비난 장애 회고 문화                    |
-| On-call                | 장애 대응 당직 체계                      |
+| [[100_sre_site_reliability_engineering_error_budget|SRE]]                    | [[642_reliability_mtbf_mttr_mttf_availability|신뢰성]] 엔지니어링 방법론                  |
+| [[102_sli_slo_service_level_indicator_objective|SLI]] / [[181_slo_service_level_objective|SLO]] / [[085_sla|SLA]]        | [[642_reliability_mtbf_mttr_mttf_availability|신뢰성]] 측정·목표·계약 지표 계층          |
+| [[101_error_budget_sre|Error Budget]]           | 허용 가능한 다운타임 예산                |
+| [[685_toil_automation_sre|Toil]]                   | 자동화 대상 반복 수동 운영 업무          |
+| [[128_blameless_postmortem|Blameless Postmortem]]   | 무비난 장애 회고 문화                    |
+| On-[[189_subroutine_call_return|call]]                | 장애 대응 당직 체계                      |
 | PRR                    | 프로덕션 진입 검토 프로세스              |
 
 ### 관련 키워드 및 발전 흐름도
@@ -118,4 +118,4 @@ SRE
 ```
 
 > 🧒 **어린이 비유**
-> SRE는 놀이공원 안전 관리자예요. 고장 나도 괜찮은 시간(Error Budget)을 미리 정해두고, 그 이상 고장나면 새로운 놀이기구 도입을 잠깐 멈추는 규칙을 지켜요.
+> SRE는 놀이공원 안전 관리자예요. 고장 나도 괜찮은 시간([[101_error_budget_sre|Error Budget]])을 미리 정해두고, 그 이상 고장나면 새로운 놀이기구 도입을 잠깐 멈추는 규칙을 지켜요.

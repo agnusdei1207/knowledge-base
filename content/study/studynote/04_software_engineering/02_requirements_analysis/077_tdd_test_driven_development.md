@@ -3,11 +3,11 @@ title = "77. 테스트 주도 개발 (TDD, Test Driven Development) - Red-Green-
 weight = 77
 +++
 
-# 테스트 주도 개발 (TDD, Test-Driven Development) - Red-Green-Refactor
+# 테스트 주도 개발 ([[164_tdd_test_driven_development|TDD]], [[411_process|Test-Driven Development]]) - Red-Green-[[213_refactoring_cloud_native_rearchitecture|Refactor]]
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: TDD (Test-Driven Development)는 실패하는 테스트를 먼저 쓰고, 그 테스트를 통과하는 최소 코드만 작성하는 개발 방식이다.
-> 2. **가치**: Red-Green-Refactor 사이클은 요구사항을 작게 쪼개고, 회귀를 줄이며, 설계의 응집도를 높인다.
+> 1. **본질**: [[164_tdd_test_driven_development|TDD]] ([[411_process|Test-Driven Development]])는 실패하는 테스트를 먼저 쓰고, 그 테스트를 통과하는 최소 코드만 작성하는 개발 방식이다.
+> 2. **가치**: Red-Green-[[213_refactoring_cloud_native_rearchitecture|Refactor]] 사이클은 요구사항을 작게 쪼개고, 회귀를 줄이며, 설계의 응집도를 높인다.
 > 3. **판단 포인트**: TDD는 만능이 아니라, 핵심 로직과 경계 조건이 많은 영역에서 특히 효과가 크다.
 
 ---
@@ -22,13 +22,13 @@ weight = 77
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
-TDD의 기본 사이클은 Red → Green → Refactor다. Red는 실패하는 테스트 작성, Green은 최소 구현, Refactor는 중복 제거와 구조 개선이다. 핵심은 한 번에 많이 고치지 않고, 작은 단위로 검증하는 데 있다.
+TDD의 기본 사이클은 Red → Green → Refactor다. Red는 실패하는 테스트 작성, Green은 최소 구현, Refactor는 중복 제거와 구조 개선이다. 핵심은 한 번에 많이 고치지 않고, 작은 단위로 [[395_verification_process_review|검증]]하는 데 있다.
 
 | 단계 | 의미 | 산출물 |
 | :--- | :--- | :--- |
-| Red | 실패하는 테스트 먼저 작성 | 요구사항 명세 |
+| Red | 실패하는 테스트 먼저 작성 | [[148_requirements_specification_formal_informal|요구사항 명세]] |
 | Green | 통과할 최소 코드 작성 | 동작하는 코드 |
-| Refactor | 구조 정리 | 유지 가능한 코드 |
+| [[213_refactoring_cloud_native_rearchitecture|Refactor]] | 구조 정리 | 유지 가능한 코드 |
 
 ```text
 실패하는 테스트(Red)
@@ -49,13 +49,13 @@ AAA (Arrange-Act-Assert) 구조를 사용하면 테스트 본문이 읽기 쉬�
 ---
 
 ## Ⅲ. 비교 및 연결
-TDD는 일반적인 테스트 자동화와 연결되지만 같지는 않다. 자동화는 이미 있는 코드를 빠르게 검사하는 도구이고, TDD는 테스트를 설계의 출발점으로 삼는다. BDD (Behavior-Driven Development)는 행위 중심의 명세를 더 강조한다.
+TDD는 일반적인 테스트 자동화와 연결되지만 같지는 않다. 자동화는 이미 있는 코드를 빠르게 검사하는 도구이고, TDD는 테스트를 설계의 출발점으로 삼는다. [[165_bdd_behavior_driven_development|BDD]] ([[126_bdd_behavior_driven_development_given_when_then|Behavior-Driven Development]])는 행위 중심의 명세를 더 강조한다.
 
-| 구분 | TDD | 일반 테스트 | BDD |
+| 구분 | [[164_tdd_test_driven_development|TDD]] | 일반 테스트 | [[165_bdd_behavior_driven_development|BDD]] |
 | :--- | :--- | :--- | :--- |
 | 시작점 | 테스트 | 코드 | 행동 시나리오 |
 | 중심 | 기술적 동작 | 회귀 검사 | 사용자 관점 |
-| 장점 | 설계 개선 | 빠른 검증 | 소통 강화 |
+| 장점 | 설계 개선 | 빠른 [[395_verification_process_review|검증]] | 소통 강화 |
 
 TDD는 unit test와 잘 맞지만, integration test까지 모두 대체하지는 않는다. 즉 작은 안전망과 큰 안전망을 함께 봐야 한다.
 
@@ -64,12 +64,12 @@ TDD는 unit test와 잘 맞지만, integration test까지 모두 대체하지는
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
-TDD는 계산 로직, 상태 전이, 규칙 엔진, 버그 재현처럼 경계 조건이 분명한 영역에서 효과가 크다. 반면 UI를 지나치게 세밀하게 테스트하면 수정이 잦아질수록 테스트가 먼저 깨진다.
+TDD는 계산 로직, [[632_state_transition_diagram_testing|상태 전이]], 규칙 엔진, 버그 재현처럼 경계 조건이 분명한 영역에서 효과가 크다. 반면 UI를 지나치게 세밀하게 테스트하면 수정이 잦아질수록 테스트가 먼저 깨진다.
 
 - 채택: 규칙이 복잡하고, 리팩토링이 잦고, 회귀 비용이 큰 영역
-- 회피: 구현 세부를 과도하게 검증하는 취약한 테스트
-- 체크리스트
-  1. 테스트가 행동을 검증하는가, 구현 세부를 검증하는가?
+- 회피: 구현 세부를 과도하게 [[395_verification_process_review|검증]]하는 취약한 테스트
+- [[435_checklist_based_testing|체크리스트]]
+  1. 테스트가 행동을 [[395_verification_process_review|검증]]하는가, 구현 세부를 [[395_verification_process_review|검증]]하는가?
   2. 한 테스트가 너무 많은 것을 묻고 있지 않은가?
   3. 실패 메시지로 원인이 바로 보이는가?
   4. 테스트가 먼저 쓰여 실제 요구를 선명하게 만들었는가?
@@ -89,11 +89,11 @@ TDD는 회귀를 줄이고, 설계를 명확하게 하며, 변경에 대한 자�
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| TDD (Test-Driven Development) | 테스트 선작성 개발 |
+| [[164_tdd_test_driven_development|TDD]] ([[411_process|Test-Driven Development]]) | 테스트 선작성 개발 |
 | AAA (Arrange-Act-Assert) | 테스트 구성 패턴 |
-| BDD (Behavior-Driven Development) | 행동 명세 중심 개발 |
+| [[165_bdd_behavior_driven_development|BDD]] ([[126_bdd_behavior_driven_development_given_when_then|Behavior-Driven Development]]) | 행동 명세 중심 개발 |
 | fixture | 테스트 환경 준비 |
-| mock | 외부 의존성 분리 |
+| [[462_mock_test_double|mock]] | 외부 의존성 분리 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 

@@ -8,7 +8,7 @@ categories = "studynote-operating-system"
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: Tick은 타이머가 발생시키는 주기 신호이고, jiffies는 그 누적 카운트다.
+> 1. **본질**: Tick은 타이머가 발생시키는 주기 [[130_signal|신호]]이고, jiffies는 그 누적 카운트다.
 > 2. **가치**: OS 시간 관리와 스케줄링 기준이 된다.
 > 3. **판단**: 시간 단위와 누적 값의 차이를 구분해야 한다.
 
@@ -49,14 +49,14 @@ Tick이 하나씩 발생할 때마다 jiffies가 증가한다. 그래서 OS는 �
 | 구분 | Tick | Jiffies |
 | :-- | :-- | :-- |
 | 성격 | 이벤트 | 카운트 |
-| 역할 | 기준 신호 | 누적 시간 |
+| 역할 | 기준 [[130_signal|신호]] | 누적 시간 |
 
 | 관련 | 의미 |
 | :-- | :-- |
 | Scheduler | 시간 분배 |
-| Timer Interrupt | 신호 발생 |
+| [[072_timer_interrupt|Timer Interrupt]] | [[130_signal|신호]] 발생 |
 
-Tick과 jiffies는 커널의 시간 표현에서 자주 함께 등장한다.
+Tick과 jiffies는 [[022_kernel_role|커널]]의 시간 표현에서 자주 함께 등장한다.
 
 - **📢 섹션 요약 비유**: 알람 소리와 알람 횟수를 구분하는 것이다.
 
@@ -64,20 +64,20 @@ Tick과 jiffies는 커널의 시간 표현에서 자주 함께 등장한다.
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### 체크리스트
+### [[435_checklist_based_testing|체크리스트]]
 
 1. tick과 jiffies를 구분하는가?
-2. 커널 시간 관리와 연결하는가?
+2. [[022_kernel_role|커널]] 시간 관리와 연결하는가?
 3. 스케줄링 기준으로 이해하는가?
-4. timeout 계산에 쓰는가?
+4. [[319_timeout_prevention|timeout]] 계산에 쓰는가?
 5. 시간 단위를 혼동하지 않는가?
 
-### 안티패턴
+### [[128_water_scrum_fall_anti_pattern|안티패턴]]
 
 - tick을 jiffies로 착각하는 설계
 - 시간을 이벤트와 카운트로 구분하지 않는 설계
-- timeout 계산을 대충 하는 설계
-- 커널 시간 개념을 단순 숫자로만 보는 설계
+- [[319_timeout_prevention|timeout]] 계산을 대충 하는 설계
+- [[022_kernel_role|커널]] 시간 개념을 단순 숫자로만 보는 설계
 
 기술사 관점에서는 tick과 jiffies를 "OS 시간 측정의 기본 단위와 누적값"으로 설명해야 한다.
 
@@ -87,9 +87,9 @@ Tick과 jiffies는 커널의 시간 표현에서 자주 함께 등장한다.
 
 ## Ⅴ. 기대효과 및 결론
 
-Tick과 jiffies를 이해하면 커널 시간 관리가 보인다.
+Tick과 jiffies를 이해하면 [[022_kernel_role|커널]] 시간 관리가 보인다.
 
-결론적으로 tick은 주기 신호이고 jiffies는 누적 카운트다.
+결론적으로 tick은 주기 [[130_signal|신호]]이고 jiffies는 누적 카운트다.
 
 - **📢 섹션 요약 비유**: 소리와 횟수를 따로 세는 것이다.
 

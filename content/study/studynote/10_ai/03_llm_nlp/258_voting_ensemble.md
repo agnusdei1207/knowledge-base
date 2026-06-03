@@ -8,28 +8,28 @@ categories = "studynote-ai"
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 보팅(Voting)은 서로 다른 알고리즘(이종 모델, Heterogeneous Models)들의 예측을 집계하는 가장 단순한 앙상블 방법이다.
-> 2. **가치**: 하드 보팅(Hard Voting)은 다수결로 클래스를 결정하고, 소프트 보팅(Soft Voting)은 확률 평균을 사용하여 더 정교한 결과를 낸다.
+> 1. **본질**: 보팅(Voting)은 서로 다른 [[001_algorithm_definition|알고리즘]](이종 모델, [[273_heterogeneous_db|Heterogeneous]] Models)들의 예측을 집계하는 가장 단순한 [[257_ensemble_learning|앙상블]] 방법이다.
+> 2. **가치**: 하드 보팅(Hard Voting)은 다수결로 클래스를 결정하고, 소프트 보팅(Soft Voting)은 [[130_probability|확률]] 평균을 사용하여 더 정교한 결과를 낸다.
 > 3. **판단 포인트**: 보팅의 효과는 각 모델이 서로 독립적인 오류를 범할 때 극대화되며, 상관된 모델들의 조합은 개선 효과가 제한적이다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-보팅(Voting)은 **여러 이종 모델(Heterogeneous Models)**의 예측 결과를 합쳐 최종 결정을 내리는 앙상블 기법이다. Bagging이나 Boosting과 달리, 보팅은 **같은 데이터로 학습된 서로 다른 알고리즘**들을 결합한다.
+보팅(Voting)은 **여러 이종 모델([[273_heterogeneous_db|Heterogeneous]] Models)**의 예측 결과를 합쳐 최종 결정을 내리는 [[257_ensemble_learning|앙상블]] 기법이다. Bagging이나 Boosting과 달리, 보팅은 **같은 [[001_dikw_pyramid|데이터]]로 학습된 서로 다른 [[001_algorithm_definition|알고리즘]]**들을 결합한다.
 
 **보팅이 필요한 이유**:
 - SVM은 경계면 근처 샘플에 강함
 - Random Forest는 비선형 패턴에 강함
-- Logistic Regression은 확률 보정이 잘 됨
-- 이 세 모델의 약점이 서로 다르므로, 결합하면 전반적 성능이 향상된다.
+- Logistic Regression은 [[130_probability|확률]] 보정이 잘 됨
+- 이 세 모델의 약점이 서로 다르므로, 결합하면 전반적 [[282_performance_tactics|성능]]이 향상된다.
 
 | 구분 | Hard Voting | Soft Voting |
 |:---|:---|:---|
-| 집계 방법 | 다수결 (최빈 클래스) | 확률 평균 → argmax |
-| 필요 정보 | 클래스 레이블 | 클래스 확률 |
-| 정밀도 | 낮음 | 높음 |
-| 사용 조건 | 확률 출력 불가 모델 포함 시 | 모든 모델이 확률 출력 가능 시 |
+| 집계 방법 | 다수결 (최빈 클래스) | [[130_probability|확률]] 평균 → argmax |
+| 필요 정보 | 클래스 레이블 | 클래스 [[130_probability|확률]] |
+| [[233_precision_recall_f1_roc_auc_threshold|정밀도]] | 낮음 | 높음 |
+| 사용 조건 | [[130_probability|확률]] 출력 불가 모델 포함 시 | 모든 모델이 [[130_probability|확률]] 출력 가능 시 |
 
 ```text
 ┌──────────────────────────────────────────────┐
@@ -40,7 +40,7 @@ categories = "studynote-ai"
 └──────────────────────────────────────────────┘
 ```
 
-- **📢 섹션 요약 비유**: 보팅은 배심원 재판과 같다. 12명의 배심원이 각자 다른 직업과 관점을 가지고 유/무죄를 결정하는 것처럼, 다양한 알고리즘이 "각자의 관점"으로 클래스를 판정한다.
+- **📢 섹션 요약 비유**: 보팅은 배심원 재판과 같다. 12명의 배심원이 각자 다른 직업과 관점을 가지고 유/무죄를 결정하는 것처럼, 다양한 [[001_algorithm_definition|알고리즘]]이 "각자의 관점"으로 클래스를 판정한다.
 
 ---
 
@@ -76,16 +76,16 @@ categories = "studynote-ai"
 $$\hat{y} = \text{argmax}_k \sum_{j=1}^{M} w_j \cdot p_{jk}$$
 
 - $M$: 모델 수
-- $w_j$: j번째 모델의 가중치 (기본값 1, 가중 보팅 시 조정)
-- $p_{jk}$: j번째 모델이 클래스 k로 예측한 확률
+- $w_j$: j번째 모델의 [[267_weight_bias_activation|가중치]] (기본값 1, 가중 보팅 시 조정)
+- $p_{jk}$: j번째 모델이 클래스 k로 예측한 [[130_probability|확률]]
 
-### 보팅 분류기 예시 (이진 분류)
+### 보팅 [[104_classification_analysis|분류]]기 예시 (이진 [[104_classification_analysis|분류]])
 
 | 모델 | P(양성) | 하드 보팅 | 소프트 보팅 |
 |:---|:---:|:---:|:---:|
-| SVM | 0.85 | Positive | - |
-| Random Forest | 0.40 | Negative | - |
-| Logistic Regression | 0.72 | Positive | - |
+| [[238_svm_margin_kernel_trick_naive_bayes|SVM]] | 0.85 | Positive | - |
+| [[353_random_forest|Random Forest]] | 0.40 | Negative | - |
+| [[227_logistic_regression_clt_pvalue_type_error|Logistic Regression]] | 0.72 | Positive | - |
 | **집계 결과** | **(0.85+0.40+0.72)/3=0.657** | **Positive (2:1)** | **Positive (>0.5)** |
 
 - **📢 섹션 요약 비유**: 하드 보팅은 "손들어서 투표"고, 소프트 보팅은 "각자 얼마나 확신하는지 점수를 매겨서 합산"하는 방식이다. 확신의 정도가 다를 때는 소프트 보팅이 더 현명하다.
@@ -94,19 +94,19 @@ $$\hat{y} = \text{argmax}_k \sum_{j=1}^{M} w_j \cdot p_{jk}$$
 
 ## Ⅲ. 비교 및 연결
 
-### 보팅 vs Bagging vs Boosting
+### 보팅 vs [[259_bagging_random_forest|Bagging]] vs [[127_boosting|Boosting]]
 
-| 특성 | Voting | Bagging | Boosting |
+| 특성 | Voting | [[259_bagging_random_forest|Bagging]] | [[127_boosting|Boosting]] |
 |:---|:---|:---|:---|
-| 모델 종류 | 이종 (다른 알고리즘) | 동종 (같은 알고리즘) | 동종 (같은 알고리즘) |
-| 데이터 샘플링 | 동일 데이터 | Bootstrap 샘플링 | 가중치 기반 재샘플링 |
-| 학습 방식 | 독립 병렬 | 독립 병렬 | 순차 직렬 |
-| 다양성 원천 | 알고리즘 차이 | 데이터 차이 | 오차 집중 |
+| 모델 종류 | 이종 (다른 [[001_algorithm_definition|알고리즘]]) | 동종 (같은 [[001_algorithm_definition|알고리즘]]) | 동종 (같은 [[001_algorithm_definition|알고리즘]]) |
+| [[001_dikw_pyramid|데이터]] 샘플링 | 동일 [[001_dikw_pyramid|데이터]] | Bootstrap 샘플링 | [[267_weight_bias_activation|가중치]] 기반 재샘플링 |
+| 학습 방식 | 독립 [[430_index_fast_full_scan|병렬]] | 독립 [[430_index_fast_full_scan|병렬]] | 순차 [[149_serial_communication_rs232_rs485|직렬]] |
+| 다양성 원천 | [[001_algorithm_definition|알고리즘]] 차이 | [[001_dikw_pyramid|데이터]] 차이 | 오차 집중 |
 | 구현 복잡도 | 낮음 | 중간 | 높음 |
 
 ### 독립성 가정과 실제
 
-보팅 효과의 수학적 근거: 각 분류기의 오류율이 ε < 0.5이고 독립적이라면, n개 분류기의 다수결 오류율은:
+보팅 효과의 수학적 근거: 각 [[104_classification_analysis|분류]]기의 오류율이 ε < 0.5이고 독립적이라면, n개 [[104_classification_analysis|분류]]기의 다수결 오류율은:
 
 $$P(\text{다수결 오류}) = \sum_{k=\lceil n/2 \rceil}^{n} \binom{n}{k} \epsilon^k (1-\epsilon)^{n-k}$$
 
@@ -120,18 +120,18 @@ n=5, ε=0.3 → 다수결 오류율 ≈ 0.163 (단일 모델 0.3보다 낮음)
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### 보팅 앙상블 설계 전략
+### 보팅 [[257_ensemble_learning|앙상블]] 설계 [[268_strategy_pattern|전략]]
 
 **좋은 보팅 조합 예시**:
-- SVM + Random Forest + Gradient Boosting + Logistic Regression
+- [[238_svm_margin_kernel_trick_naive_bayes|SVM]] + [[353_random_forest|Random Forest]] + [[034_gradient_boosting|Gradient Boosting]] + [[227_logistic_regression_clt_pvalue_type_error|Logistic Regression]]
 - 각 모델이 서로 다른 특성(선형/비선형/트리 기반)을 활용하므로 다양성 확보
 
 **나쁜 보팅 조합 예시**:
-- Decision Tree + Decision Tree + Decision Tree (모두 동일 → Bagging이 낫다)
+- [[124_decision_tree|Decision Tree]] + [[124_decision_tree|Decision Tree]] + [[124_decision_tree|Decision Tree]] (모두 동일 → Bagging이 낫다)
 
 ### 가중 보팅(Weighted Voting)
 
-검증 세트 성능에 비례하여 가중치를 부여하면 단순 보팅보다 성능이 향상된다.
+[[395_verification_process_review|검증]] 세트 [[282_performance_tactics|성능]]에 비례하여 [[267_weight_bias_activation|가중치]]를 부여하면 단순 보팅보다 [[282_performance_tactics|성능]]이 향상된다.
 
 ```
   모델별 가중치 결정:
@@ -146,26 +146,26 @@ n=5, ε=0.3 → 다수결 오류율 ≈ 0.163 (단일 모델 0.3보다 낮음)
 
 ### 기술사 답안 포인트
 
-- **Hard vs Soft 선택 기준**: 모든 기본 분류기가 `predict_proba`를 지원하면 Soft Voting 권장
-- **모델 선택 원칙**: 단독 성능이 무작위(50%)보다 좋고, 서로 낮은 상관관계
+- **Hard vs Soft 선택 기준**: 모든 기본 [[104_classification_analysis|분류]]기가 `predict_proba`를 지원하면 Soft Voting 권장
+- **모델 선택 원칙**: 단독 [[282_performance_tactics|성능]]이 무작위(50%)보다 좋고, 서로 낮은 상관관계
 - **sklearn 구현**: `VotingClassifier(estimators=[...], voting='soft')`
 
-- **📢 섹션 요약 비유**: 보팅 앙상블 설계는 팀 구성과 같다. 각자 강점이 다른 멤버들을 모아야 팀 시너지가 발생한다. 모두 같은 특기를 가진 팀(동종 모델 조합)은 Bagging으로 따로 처리하는 게 낫다.
+- **📢 섹션 요약 비유**: 보팅 [[257_ensemble_learning|앙상블]] 설계는 팀 구성과 같다. 각자 강점이 다른 멤버들을 모아야 팀 시너지가 발생한다. 모두 같은 특기를 가진 팀(동종 모델 조합)은 Bagging으로 따로 처리하는 게 낫다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-보팅 앙상블을 적용하면:
+보팅 [[257_ensemble_learning|앙상블]]을 적용하면:
 
-1. **빠른 성능 개선**: 기존 훈련된 모델을 재사용하여 추가 학습 없이 성능 향상
-2. **모델 다양성 활용**: 각 알고리즘의 강점을 상호 보완
+1. **빠른 [[282_performance_tactics|성능]] 개선**: 기존 훈련된 모델을 재사용하여 추가 학습 없이 [[282_performance_tactics|성능]] 향상
+2. **모델 다양성 활용**: 각 [[001_algorithm_definition|알고리즘]]의 강점을 상호 보완
 3. **안정성 증대**: 특정 모델의 실패가 전체 예측에 미치는 영향 감소
-4. **구현 단순성**: Bagging/Boosting보다 이해하기 쉽고 구현이 간단
+4. **구현 단순성**: [[259_bagging_random_forest|Bagging]]/Boosting보다 이해하기 쉽고 구현이 간단
 
-보팅은 **이미 잘 훈련된 여러 모델이 있고, 빠르게 성능을 끌어올려야 할 때** 최적의 선택이다.
+보팅은 **이미 잘 훈련된 여러 모델이 있고, 빠르게 [[282_performance_tactics|성능]]을 끌어올려야 할 때** 최적의 선택이다.
 
-- **📢 섹션 요약 비유**: 보팅은 "이미 실력 있는 전문가들을 한 방에 모아 의견을 듣는 것"이다. 새로운 전문가를 키우는(재학습) 시간 없이 현재 가진 자원으로 최선의 결정을 내리는 실용적 전략이다.
+- **📢 섹션 요약 비유**: 보팅은 "이미 실력 있는 전문가들을 한 방에 모아 의견을 듣는 것"이다. 새로운 전문가를 키우는(재학습) 시간 없이 현재 가진 자원으로 최선의 결정을 내리는 실용적 [[268_strategy_pattern|전략]]이다.
 
 ---
 
@@ -173,12 +173,12 @@ n=5, ε=0.3 → 다수결 오류율 ≈ 0.163 (단일 모델 0.3보다 낮음)
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| 보팅 (Voting) | Hard Voting, Soft Voting / 이종 모델 앙상블 방법 |
+| 보팅 (Voting) | Hard Voting, Soft Voting / 이종 모델 [[257_ensemble_learning|앙상블]] 방법 |
 | 하드 보팅 (Hard Voting) | 다수결, 클래스 레이블 / 단순 다수결 집계 |
-| 소프트 보팅 (Soft Voting) | 확률 평균, argmax / 정교한 확률 집계 |
-| 이종 모델 (Heterogeneous) | SVM, RF, LR 조합 / 다양성의 원천 |
-| 독립성 (Independence) | 상관관계, 오류 상쇄 / 보팅 효과의 조건 |
-| 가중 보팅 (Weighted Voting) | 검증 성능 기반 가중치 / 단순 보팅의 개선 |
+| 소프트 보팅 (Soft Voting) | [[130_probability|확률]] 평균, argmax / 정교한 [[130_probability|확률]] 집계 |
+| 이종 모델 ([[273_heterogeneous_db|Heterogeneous]]) | [[238_svm_margin_kernel_trick_naive_bayes|SVM]], RF, LR 조합 / 다양성의 원천 |
+| 독립성 ([[133_independence|Independence]]) | 상관관계, 오류 상쇄 / 보팅 효과의 조건 |
+| 가중 보팅 (Weighted Voting) | [[395_verification_process_review|검증]] [[282_performance_tactics|성능]] 기반 [[267_weight_bias_activation|가중치]] / 단순 보팅의 개선 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 

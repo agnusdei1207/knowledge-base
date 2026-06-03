@@ -10,17 +10,17 @@ categories = ["Network"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 동기식 CDMA (Synchronous Code Division Multiple Access)는 GPS (Global Positioning System)를 통해 기지국 간 시간을 완벽히 일치시키는 반면, 비동기식 CDMA (WCDMA)는 GPS 없이 각 기지국의 독립적인 타이밍을 허용하며 스크램블링 코드로 식별한다.
+> 1. **본질**: 동기식 [[957_cdma_code_division_multiple_access_dsss_orthogonality|CDMA]] ([[010_동기식_비동기식_전송|Synchronous]] [[082_process_memory_structure|Code]] [[411_division_operation|Division]] [[087_다중접속_Multiple_Access|Multiple Access]])는 GPS (Global Positioning System)를 통해 기지국 간 시간을 완벽히 일치시키는 반면, 비동기식 [[957_cdma_code_division_multiple_access_dsss_orthogonality|CDMA]] (WCDMA)는 GPS 없이 각 기지국의 독립적인 타이밍을 허용하며 스크램블링 코드로 [[655_ir_detection_analysis|식별]]한다.
 > 2. **가치**: 동기식은 시스템 복잡도가 낮지만 GPS가 안 터지는 지하나 실내망 구축에 치명적 약점을 가졌고, WCDMA는 이를 극복하며 전 세계 글로벌 로밍과 3G 표준 시장을 장악했다.
-> 3. **판단 포인트**: WCDMA의 비동기적 셀 탐색 과정은 단말기의 초기 접속 지연을 늘렸으나, 네트워크 인프라 구축의 유연성을 극대화하여 차세대 LTE, 5G 비동기 네트워크 구조의 확고한 토대가 되었다.
+> 3. **판단 포인트**: WCDMA의 [[017_hardware_interrupt|비동기적]] 셀 탐색 과정은 단말기의 [[459_quic_fec_forward_error_correction|초기]] 접속 지연을 늘렸으나, 네트워크 인프라 구축의 유연성을 극대화하여 차세대 [[752_lte_long_term_evolution_4g|LTE]], [[418_5g_embb_urllc_mmtc_slicing|5G]] 비동기 네트워크 구조의 확고한 토대가 되었다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-CDMA (Code Division Multiple Access) 방식의 통신망이 상용화되면서 시스템 설계의 가장 큰 화두는 "기지국 간의 시간 기준을 어떻게 통일할 것인가"였다. 초기 2G 통신망을 주도한 동기식 CDMA는 GPS 위성의 정확한 시간 신호를 수신해 모든 기지국이 소수점 이하 초 단위까지 동일한 시간을 공유했다. 하지만 군사 및 안보의 이유로 특정 국가의 위성에 의존하기를 꺼리던 유럽의 통신 규격 단체들은 GPS 독립적인 인프라를 원했다.
+[[957_cdma_code_division_multiple_access_dsss_orthogonality|CDMA]] ([[082_process_memory_structure|Code]] [[411_division_operation|Division]] [[087_다중접속_Multiple_Access|Multiple Access]]) 방식의 통신망이 상용화되면서 시스템 설계의 가장 큰 화두는 "기지국 간의 시간 기준을 어떻게 통일할 것인가"였다. [[459_quic_fec_forward_error_correction|초기]] 2G 통신망을 주도한 동기식 CDMA는 GPS 위성의 정확한 시간 [[130_signal|신호]]를 수신해 모든 기지국이 소수점 이하 초 단위까지 동일한 시간을 공유했다. 하지만 군사 및 안보의 이유로 특정 국가의 위성에 의존하기를 꺼리던 유럽의 통신 규격 단체들은 GPS 독립적인 인프라를 원했다.
 
-비동기식 CDMA (WCDMA, Wideband CDMA)가 등장한 결정적 이유는 지리적 한계 극복에 있다. 지하철, 대형 쇼핑몰 지하 등 GPS가 닿지 않는 곳에 동기식 기지국을 설치하려면 막대한 케이블 공사 비용이 발생했다. 이에 반해 비동기식은 기지국마다 각자의 시계(자체 오실레이터)를 가지고 독립적으로 작동하므로 제약 없는 확장이 가능했고, 이 장점이 글로벌 3G 표준 채택의 핵심 동력이 되었다.
+비동기식 [[957_cdma_code_division_multiple_access_dsss_orthogonality|CDMA]] (WCDMA, [[120_wcdma_hspa|Wideband CDMA]])가 등장한 결정적 이유는 지리적 한계 극복에 있다. 지하철, 대형 쇼핑몰 지하 등 GPS가 닿지 않는 곳에 동기식 기지국을 설치하려면 막대한 케이블 공사 비용이 발생했다. 이에 반해 비동기식은 기지국마다 각자의 시계(자체 오실레이터)를 가지고 독립적으로 작동하므로 제약 없는 확장이 가능했고, 이 장점이 글로벌 3G 표준 채택의 핵심 동력이 되었다.
 
 - **📢 섹션 요약 비유**: 동기식 CDMA가 모든 학교의 수업 종소리를 국가 표준시에 정확히 맞춰서 동시에 치는 시스템이라면, 비동기식 WCDMA는 선생님마다 각자 자기 시계를 보고 수업을 시작하되 교실 앞에 명확한 고유 이름표(스크램블링 코드)를 붙여 학생들이 찾아가게 만든 자율 시스템이다.
 
@@ -28,7 +28,7 @@ CDMA (Code Division Multiple Access) 방식의 통신망이 상용화되면서 �
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-기지국 간 동기를 맞출 수 있느냐 없느냐에 따라 단말기가 기지국을 찾고 식별하는 아키텍처 자체가 완전히 바뀐다.
+기지국 간 동기를 맞출 수 있느냐 없느냐에 따라 단말기가 기지국을 찾고 [[655_ir_detection_analysis|식별]]하는 아키텍처 자체가 완전히 바뀐다.
 
 ```text
 ┌──────────────────────────────────────────────────────────────┐
@@ -49,7 +49,7 @@ CDMA (Code Division Multiple Access) 방식의 통신망이 상용화되면서 �
 └──────────────────────────────────────────────────────────────┘
 ```
 
-동기식에서는 모든 기지국이 동일한 패턴의 코드를 사용하되, 방송 시작 시간을 조금씩 비틀어(Offset) 단말기가 거리와 기지국을 구분하게 한다. 반면 비동기식 WCDMA에서는 단말기가 기지국의 시간 기준을 모르기 때문에 다짜고짜 전체 코드를 뒤질 수 없다. 따라서 3단계 셀 탐색 과정(Cell Search)을 통해 범위를 좁혀나가며 최종적으로 기지국의 고유한 골드 코드(Gold Code)를 특정하는 방식을 채택했다. 이로 인해 단말기의 DSP(Digital Signal Processor) 구조는 훨씬 복잡해졌다.
+동기식에서는 모든 기지국이 동일한 패턴의 코드를 사용하되, 방송 시작 시간을 조금씩 비틀어(Offset) 단말기가 거리와 기지국을 구분하게 한다. 반면 비동기식 WCDMA에서는 단말기가 기지국의 시간 기준을 모르기 때문에 다짜고짜 전체 코드를 뒤질 수 없다. 따라서 3단계 셀 탐색 과정(Cell Search)을 통해 범위를 좁혀나가며 최종적으로 기지국의 고유한 골드 코드(Gold [[082_process_memory_structure|Code]])를 특정하는 방식을 채택했다. 이로 인해 단말기의 DSP(Digital [[130_signal|Signal]] Processor) 구조는 훨씬 복잡해졌다.
 
 - **📢 섹션 요약 비유**: 동기식 기지국 탐색이 똑같은 노래를 1초, 2초, 3초 늦게 부르는 사람들의 목소리 차이(Offset)로 누구인지 알아맞히는 거라면, 비동기식 탐색은 모르는 언어로 대화하는 시장 바닥에서 지역어 집단(그룹)을 먼저 찾고 그 안에서 특정 발화자(최종 코드)의 톤을 골라내는 고도화된 색출 과정이다.
 
@@ -59,29 +59,29 @@ CDMA (Code Division Multiple Access) 방식의 통신망이 상용화되면서 �
 
 동기식과 비동기식의 아키텍처 트레이드오프는 통신 인프라의 경제성과 효율성에 직결된다.
 
-| 비교 항목 | 동기식 CDMA (CDMA2000) | 비동기식 CDMA (WCDMA) | 결과적 시스템 차이 |
+| 비교 항목 | 동기식 [[957_cdma_code_division_multiple_access_dsss_orthogonality|CDMA]] (CDMA2000) | 비동기식 [[957_cdma_code_division_multiple_access_dsss_orthogonality|CDMA]] (WCDMA) | 결과적 시스템 차이 |
 | :--- | :--- | :--- | :--- |
 | **GPS 의존 여부** | 필수 (의존도 100%) | 불필요 | 지하 및 실내망 구축 난이도 결정 |
-| **단말 초기 접속 속도** | 매우 빠름 | 3단계 절차로 인해 상대적 느림 | 배터리 소모 및 설계 복잡도 차이 |
-| **대역폭 (Bandwidth)** | 1.2288 MHz (협대역) | 5 MHz (광대역) | WCDMA가 다중경로 페이딩(Multipath Fading)에 더 강함 |
-| **핸드오버 (Handover)** | 단순한 Soft Handover | Soft + 비동기 보정 Handover | 비동기망은 두 기지국 간 타이밍 차이를 단말이 자체 계산 |
+| **단말 [[459_quic_fec_forward_error_correction|초기]] 접속 속도** | 매우 빠름 | 3단계 절차로 인해 상대적 느림 | 배터리 소모 및 설계 복잡도 차이 |
+| **[[140_bandwidth|대역폭]] ([[140_bandwidth|Bandwidth]])** | 1.2288 MHz (협대역) | 5 MHz (광대역) | WCDMA가 다중경로 [[167_fading_large_scale_small_scale|페이딩]]([[168_multipath_fading_isi|Multipath Fading]])에 더 강함 |
+| **[[556_handover_handoff_types_concept|핸드오버]] ([[556_handover_handoff_types_concept|Handover]])** | 단순한 Soft [[556_handover_handoff_types_concept|Handover]] | Soft + 비동기 보정 [[556_handover_handoff_types_concept|Handover]] | 비동기망은 두 기지국 간 타이밍 차이를 단말이 자체 계산 |
 
-동기식 시스템은 GPS라는 완벽한 지휘자가 중앙 통제하는 구조라 네트워크 장애 전파(SPOF, Single Point of Failure) 위험을 안고 있다. 외부 전파 교란(Jamming)으로 GPS가 마비되면 전체 통신 셀이 붕괴할 수 있다. 비동기식 WCDMA는 이러한 마스터 노드를 제거하고 노드 간 타이밍 분산을 허용함으로써 훨씬 높은 생존성을 확보하는 탈중앙화 모델과 같다.
+동기식 시스템은 GPS라는 완벽한 지휘자가 중앙 통제하는 구조라 네트워크 장애 전파([[454_spof|SPOF]], Single Point of Failure) 위험을 안고 있다. 외부 전파 교란(Jamming)으로 GPS가 마비되면 전체 통신 셀이 붕괴할 수 있다. 비동기식 WCDMA는 이러한 마스터 노드를 제거하고 노드 간 타이밍 분산을 허용함으로써 훨씬 높은 생존성을 확보하는 [[010_decentralization|탈중앙화]] 모델과 같다.
 
-- **📢 섹션 요약 비유**: 동기식 시스템이 중앙 관제 서버가 멈추면 접속이 다 끊기는 '단일 중앙 집중형'이라면, 비동기식 방식은 개별 마이크로서비스가 독립적으로 돌아가면서 중앙 서버 없이도 연결을 맺는 'MSA (Microservices Architecture)'와 구조적으로 닮아 있다.
+- **📢 섹션 요약 비유**: 동기식 시스템이 중앙 관제 서버가 멈추면 접속이 다 끊기는 '단일 중앙 집중형'이라면, 비동기식 방식은 개별 마이크로서비스가 독립적으로 돌아가면서 중앙 서버 없이도 연결을 맺는 '[[619_msa_traffic_hardware|MSA]] ([[122_msa_microservices_architecture|Microservices Architecture]])'와 구조적으로 닮아 있다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무 망 설계와 구축 과정에서 두 방식은 전혀 다른 문제점(안티패턴)을 유발하므로 정확한 튜닝이 요구된다.
+실무 망 설계와 구축 과정에서 두 방식은 전혀 다른 문제점([[128_water_scrum_fall_anti_pattern|안티패턴]])을 유발하므로 정확한 튜닝이 요구된다.
 
-### 체크리스트 및 실무 판단
-1. **인빌딩(In-building) 커버리지 솔루션 채택**: GPS 신호 수신이 불가능한 대형 벙커나 지하철 터널에 커버리지를 뚫을 때, 동기식을 쓴다면 외부 안테나를 옥상에 세우고 수십 미터의 값비싼 광케이블을 깔아야 하므로 경제성이 없다. 비동기식을 도입해 자체 클럭과 백홀(Backhaul) 전송망만으로 유연하게 구축하는 것이 정답이다.
-2. **코드 플래닝 (Code Planning) 정밀도 확보**: WCDMA 실무에서는 기지국 식별자인 스크램블링 코드를 인접 지역에 재사용할 때 거리를 충분히 띄워야 한다. 그렇지 않으면 두 기지국의 코드가 겹치면서 '파일럿 오염 (Pilot Pollution)' 간섭 현상이 터져 통화 단절이 대규모로 발생한다.
+### [[435_checklist_based_testing|체크리스트]] 및 실무 판단
+1. **인빌딩(In-building) 커버리지 솔루션 채택**: GPS [[130_signal|신호]] 수신이 불가능한 대형 벙커나 지하철 터널에 커버리지를 뚫을 때, 동기식을 쓴다면 외부 안테나를 옥상에 세우고 수십 미터의 값비싼 광케이블을 깔아야 하므로 경제성이 없다. 비동기식을 도입해 자체 클럭과 [[1009_backhaul_network_base_station_core_connection|백홀]]([[1009_backhaul_network_base_station_core_connection|Backhaul]]) 전송망만으로 유연하게 구축하는 것이 정답이다.
+2. **코드 플래닝 ([[082_process_memory_structure|Code]] Planning) [[233_precision_recall_f1_roc_auc_threshold|정밀도]] 확보**: WCDMA 실무에서는 기지국 [[655_ir_detection_analysis|식별]]자인 스크램블링 코드를 인접 지역에 재사용할 때 거리를 충분히 띄워야 한다. 그렇지 않으면 두 기지국의 코드가 겹치면서 '파일럿 오염 (Pilot Pollution)' 간섭 현상이 터져 통화 단절이 대규모로 발생한다.
 
-### 안티패턴
-- **동기식 망에서의 불량 중계기 방치**: 동기식 망에서 케이블 딜레이 캘리브레이션(보정) 없이 아날로그 중계기를 길게 달아버리면, 지연된 신호가 단말기에 다른 기지국의 시간차(Offset)로 잘못 인식되어 'PN Pollution' 오류를 일으키는 가장 흔한 망 설계 실수다.
+### [[128_water_scrum_fall_anti_pattern|안티패턴]]
+- **동기식 망에서의 불량 중계기 방치**: 동기식 망에서 케이블 딜레이 캘리브레이션(보정) 없이 아날로그 중계기를 길게 달아버리면, 지연된 [[130_signal|신호]]가 단말기에 다른 기지국의 시간차(Offset)로 잘못 인식되어 'PN Pollution' 오류를 일으키는 가장 흔한 망 설계 실수다.
 
 - **📢 섹션 요약 비유**: GPS 의존을 버린 비동기식 네트워크 설계는 내비게이션 없이 도시의 도로망을 까는 것과 같다. 자율성은 얻었지만, 그 대신 표지판(스크램블링 코드)을 교차로마다 절대 헷갈리지 않게 정밀하게 배치해야 길을 잃지 않는 치밀함이 필요하다.
 
@@ -89,9 +89,9 @@ CDMA (Code Division Multiple Access) 방식의 통신망이 상용화되면서 �
 
 ## Ⅴ. 기대효과 및 결론
 
-비동기식 CDMA (WCDMA)는 동기식이 쥐고 있던 절대적 타이밍의 족쇄를 끊어내며 글로벌 통신 기술의 단일화를 이뤄낸 역사적 규격이다. 
+비동기식 [[957_cdma_code_division_multiple_access_dsss_orthogonality|CDMA]] (WCDMA)는 동기식이 쥐고 있던 절대적 타이밍의 족쇄를 끊어내며 글로벌 통신 기술의 단일화를 이뤄낸 역사적 규격이다. 
 
-지형과 인프라 제약 없이 어디서든 유연하게 기지국을 늘릴 수 있는 생태계적 강점 덕분에, WCDMA는 3GPP 진영을 중심으로 전 세계 80% 이상의 시장을 제패했다. 더 중요한 사실은 비동기식 셀 탐색 방식(계층적 동기 신호 추적)이 이후 LTE와 5G NR (New Radio)의 핵심 동기화 메커니즘으로 고스란히 유산처럼 이어졌다는 점이다. 결국 미래 통신망은 강력한 단일 동기화보다는 유연한 비동기식 자율 분산형 아키텍처가 우월함을 WCDMA가 완벽하게 입증했다.
+지형과 인프라 제약 없이 어디서든 유연하게 기지국을 늘릴 수 있는 생태계적 강점 덕분에, WCDMA는 [[751_3gpp_3rd_generation_partnership_project|3GPP]] 진영을 중심으로 전 세계 80% 이상의 시장을 제패했다. 더 중요한 사실은 비동기식 셀 탐색 방식(계층적 동기 [[130_signal|신호]] 추적)이 이후 LTE와 [[763_5g_nr_new_radio_scalable_numerology|5G NR]] ([[763_5g_nr_new_radio_scalable_numerology|New Radio]])의 핵심 [[212_synchronization_mechanisms|동기화]] 메커니즘으로 고스란히 유산처럼 이어졌다는 점이다. 결국 미래 통신망은 강력한 단일 [[212_synchronization_mechanisms|동기화]]보다는 유연한 비동기식 자율 분산형 아키텍처가 우월함을 WCDMA가 완벽하게 입증했다.
 
 - **📢 섹션 요약 비유**: 모두가 하나의 지휘봉에만 맞춰서 연주하려던 동기식 교향악단은 무대가 지하로 바뀌면 음악을 멈춰야 했다. 각자 자기 악보의 기준 박자로 춤추는 방법을 터득한 비동기식 밴드는 무대를 가리지 않고 글로벌 투어의 진정한 승리자가 되었다.
 
@@ -101,10 +101,10 @@ CDMA (Code Division Multiple Access) 방식의 통신망이 상용화되면서 �
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| **PN Code (Pseudo-Noise Code)** | 동기식 CDMA 망에서 시간차(Offset) 조정을 통해 기지국과 채널을 식별하는 기본 잡음 코드 |
-| **Scrambling Code** | 비동기식 WCDMA 망에서 기지국과 단말의 고유성을 부여해 서로를 구분하는 식별 코드 (시간차 불필요) |
-| **Soft Handover** | CDMA 방식의 꽃. 원래 기지국과의 연결을 끊기 전에 새로운 기지국과 먼저 무선 링크를 맺는 무단절 교체 기술 |
-| **3GPP (3rd Generation Partnership Project)** | 비동기식 WCDMA를 밀어붙이며 현재까지 전 세계 이동통신 기술 표준을 사실상 독점하고 있는 기구 |
+| **PN [[082_process_memory_structure|Code]] (Pseudo-Noise [[082_process_memory_structure|Code]])** | 동기식 [[957_cdma_code_division_multiple_access_dsss_orthogonality|CDMA]] 망에서 시간차(Offset) 조정을 통해 기지국과 채널을 [[655_ir_detection_analysis|식별]]하는 기본 잡음 코드 |
+| **Scrambling [[082_process_memory_structure|Code]]** | 비동기식 WCDMA 망에서 기지국과 단말의 고유성을 부여해 서로를 구분하는 [[655_ir_detection_analysis|식별]] 코드 (시간차 불필요) |
+| **Soft [[556_handover_handoff_types_concept|Handover]]** | [[957_cdma_code_division_multiple_access_dsss_orthogonality|CDMA]] 방식의 꽃. 원래 기지국과의 연결을 끊기 전에 새로운 기지국과 먼저 무선 링크를 맺는 무단절 교체 기술 |
+| **[[751_3gpp_3rd_generation_partnership_project|3GPP]] (3rd Generation Partnership [[042_relational_algebra_project|Project]])** | 비동기식 WCDMA를 밀어붙이며 현재까지 전 세계 이동통신 기술 표준을 사실상 독점하고 있는 기구 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 

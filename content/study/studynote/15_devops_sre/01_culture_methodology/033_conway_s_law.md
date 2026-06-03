@@ -6,9 +6,9 @@ categories = "studynote-devops"
 +++
 
 > **핵심 인사이트 3줄**
-> 1. 콘웨이의 법칙(Conway's Law)은 조직의 커뮤니케이션 구조가 시스템 아키텍처를 결정한다는 원칙으로, 마이크로서비스 전환 시 팀 구조 재편이 아키텍처 재설계만큼 중요하다.
-> 2. 역 콘웨이 기동(Inverse Conway Maneuver)은 원하는 아키텍처를 먼저 정의하고 그에 맞게 팀을 재구성하는 전략으로, Netflix·Amazon의 마이크로서비스 성공 비결이다.
-> 3. Team Topologies의 4가지 팀 유형(Stream-aligned·Platform·Enabling·Complicated-subsystem)과 3가지 상호작용 모드가 현대 소프트웨어 조직 설계의 표준 프레임워크가 되었다.
+> 1. 콘웨이의 법칙(Conway's Law)은 조직의 커뮤니케이션 구조가 시스템 아키텍처를 결정한다는 원칙으로, [[532_microservices_decomposition_patterns|마이크로서비스]] 전환 시 팀 구조 재편이 아키텍처 재설계만큼 중요하다.
+> 2. 역 콘웨이 기동(Inverse Conway Maneuver)은 원하는 아키텍처를 먼저 정의하고 그에 맞게 팀을 재구성하는 [[268_strategy_pattern|전략]]으로, Netflix·Amazon의 [[532_microservices_decomposition_patterns|마이크로서비스]] 성공 비결이다.
+> 3. Team Topologies의 4가지 팀 유형([[467_http2_stream_multiplexing_tcp_hol|Stream]]-aligned·Platform·Enabling·Complicated-subsystem)과 3가지 상호작용 모드가 현대 소프트웨어 조직 설계의 표준 프레임워크가 되었다.
 
 ---
 
@@ -30,11 +30,11 @@ categories = "studynote-devops"
 | 조직 구조                | 결과 시스템 아키텍처              |
 |----------------------|--------------------------------|
 | DB팀·백엔드팀·프론트팀 | 3계층 레이어드 아키텍처            |
-| 기능별 팀(주문·결제·배송) | 기능별 마이크로서비스              |
-| 단일 팀               | 모놀리식 아키텍처                  |
-| 플랫폼팀 + 제품팀      | 플랫폼 + 마이크로서비스 하이브리드  |
+| 기능별 팀(주문·결제·배송) | 기능별 [[532_microservices_decomposition_patterns|마이크로서비스]]              |
+| 단일 팀               | [[121_monolithic_architecture|모놀리식 아키텍처]]                  |
+| 플랫폼팀 + 제품팀      | 플랫폼 + [[532_microservices_decomposition_patterns|마이크로서비스]] 하이브리드  |
 
-📢 **섹션 요약 비유**: 콘웨이의 법칙은 "방 배치가 곧 회의 패턴"이다 — 같은 층에 앉은 팀원들은 자연스럽게 많이 대화하고, 그 대화 범위가 코드 모듈이 된다.
+📢 **섹션 요약 비유**: 콘웨이의 법칙은 "방 배치가 곧 회의 패턴"이다 — 같은 층에 앉은 팀원들은 자연스럽게 많이 대화하고, 그 대화 범위가 코드 [[192_module_independence|모듈]]이 된다.
 
 ---
 
@@ -93,7 +93,7 @@ Complicated-subsystem Team:
   예시: 암호화팀, ML 플랫폼팀, 결제 게이트웨이팀
 ```
 
-### 인지 부하 (Cognitive Load) 관리
+### [[686_cognitive_load_team_topologies|인지 부하]] ([[686_cognitive_load_team_topologies|Cognitive Load]]) 관리
 
 ```
 Team cognitive load = Σ(서비스 복잡도 + 도메인 복잡도 + 환경 복잡도)
@@ -104,13 +104,13 @@ Platform Team의 역할:
   → 도메인 집중도 향상
 ```
 
-📢 **섹션 요약 비유**: Platform Team은 요리사를 위한 주방 설비 전문가다 — 요리사(Stream-aligned)가 요리에만 집중할 수 있도록 오븐·칼·청소(인프라·CI/CD)를 알아서 관리한다.
+📢 **섹션 요약 비유**: Platform Team은 요리사를 위한 주방 설비 전문가다 — 요리사([[467_http2_stream_multiplexing_tcp_hol|Stream]]-aligned)가 요리에만 집중할 수 있도록 오븐·칼·청소(인프라·[[090_configuration_item|CI]]/CD)를 알아서 관리한다.
 
 ---
 
-## Ⅳ. 콘웨이 법칙과 플랫폼 엔지니어링
+## Ⅳ. 콘웨이 법칙과 [[109_platform_engineering_cognitive_load|플랫폼 엔지니어링]]
 
-### 플랫폼 엔지니어링 (Platform Engineering)
+### [[109_platform_engineering_cognitive_load|플랫폼 엔지니어링]] ([[109_platform_engineering_cognitive_load|Platform Engineering]])
 
 ```
 전통 DevOps:           플랫폼 엔지니어링:
@@ -119,16 +119,16 @@ Dev → 인프라팀 요청    Dev → 내부 개발자 플랫폼 (IDP)
      지연 발생               즉시 처리
 ```
 
-### IDP (Internal Developer Platform) 구성
+### [[536_idp_identity_provider|IDP]] ([[200_internal_developer_platform_backstage|Internal Developer Platform]]) 구성
 
-- 셀프서비스 인프라 프로비저닝 (Backstage·Port)
-- CI/CD 골든 패스 (표준화된 파이프라인)
+- 셀프서비스 인프라 [[528_provisioning|프로비저닝]] (Backstage·[[446_port_and_bus|Port]])
+- [[090_configuration_item|CI]]/CD 골든 패스 (표준화된 [[123_pipe|파이프]]라인)
 - 관측성 대시보드 (인프라 걱정 없이)
 - 보안·컴플라이언스 자동화
 
-**콘웨이 법칙 관점**: Platform Team이 좋은 IDP를 만들면, Stream-aligned Team이 자연스럽게 마이크로서비스 패턴으로 개발하게 됨
+**콘웨이 법칙 관점**: Platform Team이 좋은 IDP를 만들면, [[467_http2_stream_multiplexing_tcp_hol|Stream]]-aligned Team이 자연스럽게 [[532_microservices_decomposition_patterns|마이크로서비스]] 패턴으로 개발하게 됨
 
-📢 **섹션 요약 비유**: IDP는 IKEA 가구 조립 키트다 — 설계도(골든 패스), 도구(CI/CD), 재료(인프라)를 모두 패키지로 제공해 누구나 쉽게 조립(배포)할 수 있게 한다.
+📢 **섹션 요약 비유**: IDP는 IKEA 가구 조립 키트다 — 설계도(골든 패스), 도구([[090_configuration_item|CI]]/CD), 재료(인프라)를 모두 패키지로 제공해 누구나 쉽게 조립(배포)할 수 있게 한다.
 
 ---
 
@@ -199,4 +199,4 @@ Team Topologies → Platform Engineering → 인지 부하 최소화
 
 1. 콘웨이의 법칙은 "같은 반 친구끼리 같은 팀이 되는 것"이다 — 매일 만나는 사람들이 자연스럽게 같은 코드를 담당하게 된다.
 2. 역 콘웨이 기동은 포지션을 먼저 그리고 선수를 고르는 것이다 — 원하는 시스템(포지션)을 먼저 정하고, 그에 맞는 팀(선수)을 배치한다.
-3. Platform Team은 학교 급식실이다 — 모든 반(Stream-aligned)이 직접 밥을 짓는 대신(인프라 관리), 급식실(Platform)에서 제공해 수업(개발)에 집중하게 한다.
+3. Platform Team은 학교 급식실이다 — 모든 반([[467_http2_stream_multiplexing_tcp_hol|Stream]]-aligned)이 직접 밥을 짓는 대신(인프라 관리), 급식실(Platform)에서 제공해 수업(개발)에 집중하게 한다.

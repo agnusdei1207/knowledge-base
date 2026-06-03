@@ -8,8 +8,8 @@ categories = "studynote-software-engineering"
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 테스트 오라클 (Test Oracle)은(는) 소프트웨어 공학의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.
-> 2. **가치**: 이 개념을 올바르게 적용하면 소프트웨어의 품질·유지보수성·재사용성이 향상되고, 개발 생산성과 팀 협업 효율이 높아진다.
+> 1. **본질**: 테스트 오라클 (Test [[188_pl_sql_t_sql_procedural|Oracle]])은(는) [[001_software_engineering_definition|소프트웨어 공학]]의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.
+> 2. **가치**: 이 개념을 올바르게 적용하면 소프트웨어의 품질·[[346_maintainability_portability|유지보수성]]·재사용성이 향상되고, 개발 생산성과 팀 협업 효율이 높아진다.
 > 3. **판단 포인트**: 도입 시에는 비용·복잡도·조직 성숙도를 함께 고려해야 하며, 맹목적 적용보다 프로젝트 특성에 맞는 선택적 적용이 핵심이다.
 
 ---
@@ -78,13 +78,13 @@ categories = "studynote-software-engineering"
 
 ## Ⅲ. 비교 및 연결
 
-오라클은 모든 테스트 기법의 뒤에 숨어 있다. 블랙박스 테스트는 명세 오라클을, 회귀 테스트는 일관성 오라클을 많이 쓴다.
+오라클은 모든 테스트 기법의 뒤에 숨어 있다. 블랙박스 테스트는 명세 오라클을, 회귀 테스트는 [[194_consistency_database_integrity|일관성]] 오라클을 많이 쓴다.
 
 | 구분 | 판단 기준 | 특징 |
 |:---|:---|:---|
 | 명세 오라클 | 요구사항 | 가장 정석 |
-| 참조 오라클 | 기준 시스템 | 비교 대상 필요 |
-| 휴리스틱 오라클 | 경험 | 빠르지만 주관적 |
+| [[316_reference_pattern_nosql|참조]] 오라클 | 기준 시스템 | 비교 대상 필요 |
+| [[439_heuristic_oracle|휴리스틱 오라클]] | 경험 | 빠르지만 주관적 |
 
 좋은 테스트는 좋은 입력뿐 아니라 좋은 오라클도 필요하다.
 
@@ -100,7 +100,7 @@ categories = "studynote-software-engineering"
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서는 기대값이 명확한 API, 정산 로직, 계산식에 오라클을 둔다. 반대로 정답이 애매한 UI 감성이나 AI 출력은 오라클 설계가 더 어렵다.
+실무에서는 기대값이 명확한 [[014_api_posix|API]], 정산 로직, 계산식에 오라클을 둔다. 반대로 정답이 애매한 UI 감성이나 [[190_ai_llm_requirements_specification|AI]] 출력은 오라클 설계가 더 어렵다.
 
 체크 포인트는 다음과 같다.
 1. 기대 결과를 수치나 규칙으로 만든다.
@@ -135,10 +135,10 @@ categories = "studynote-software-engineering"
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| 소프트웨어 공학 (Software Engineering) | 테스트 오라클 (Test Oracle)의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
-| 소프트웨어 생명주기 (SDLC, Software Development Life Cycle) | 테스트 오라클 (Test Oracle)은 SDLC의 특정 단계에서 핵심적으로 적용된다 |
-| 품질 보증 (QA, Quality Assurance) | 테스트 오라클 (Test Oracle) 적용 결과는 QA 활동을 통해 검증되고 측정된다 |
-| 형상 관리 (SCM, Software Configuration Management) | 테스트 오라클 (Test Oracle)에서 생성된 산출물은 SCM을 통해 체계적으로 관리된다 |
+| [[001_software_engineering_definition|소프트웨어 공학]] ([[001_software_engineering_definition|Software Engineering]]) | 테스트 오라클 (Test [[188_pl_sql_t_sql_procedural|Oracle]])의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
+| [[003_sdlc|소프트웨어 생명주기]] ([[131_sdlc_system_development_life_cycle_waterfall_agile|SDLC]], Software Development Life Cycle) | 테스트 오라클 (Test [[188_pl_sql_t_sql_procedural|Oracle]])은 SDLC의 특정 단계에서 핵심적으로 적용된다 |
+| 품질 보증 (QA, Quality Assurance) | 테스트 오라클 (Test [[188_pl_sql_t_sql_procedural|Oracle]]) 적용 결과는 QA 활동을 통해 검증되고 측정된다 |
+| [[020_software_configuration_management|형상 관리]] ([[167_scm_software_configuration_management|SCM]], [[020_software_configuration_management|Software Configuration Management]]) | 테스트 오라클 (Test [[188_pl_sql_t_sql_procedural|Oracle]])에서 생성된 산출물은 SCM을 통해 체계적으로 관리된다 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -158,10 +158,10 @@ categories = "studynote-software-engineering"
 지속적 개선 및 DevOps·MLOps 통합
 ```
 
-이 흐름은 소프트웨어 위기 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
+이 흐름은 [[002_software_crisis|소프트웨어 위기]] 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. 테스트 오라클 (Test Oracle)은 레고 블록으로 성을 만들 때처럼, 규칙을 정하고 역할을 나누어 함께 작업하는 방법이에요.
+1. 테스트 오라클 (Test [[188_pl_sql_t_sql_procedural|Oracle]])은 레고 블록으로 성을 만들 때처럼, 규칙을 정하고 역할을 나누어 함께 작업하는 방법이에요.
 2. 혼자서 막 만들면 나중에 무너지거나 고치기 어렵지만, 약속을 지키면 누구나 쉽게 고치고 더 크게 만들 수 있어요.
-3. 그래서 소프트웨어 공학은 프로그래머들이 좋은 프로그램을 빠르고 안전하게 만들 수 있게 도와주는 '규칙 모음집'이에요.
+3. 그래서 [[001_software_engineering_definition|소프트웨어 공학]]은 프로그래머들이 좋은 프로그램을 빠르고 안전하게 만들 수 있게 도와주는 '규칙 모음집'이에요.

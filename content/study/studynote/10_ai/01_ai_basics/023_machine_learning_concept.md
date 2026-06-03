@@ -7,15 +7,15 @@ categories = "studynote-ai"
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: 머신러닝(ML, Machine Learning)은 인간이 규칙(Rule)을 직접 코딩하는 대신, 대량의 데이터(Data)와 정답(Label)을 알고리즘에 주입하면 **기계가 스스로 수학적 패턴(가중치, Weight)을 최적화**하며 예측 함수를 완성하는 인공지능의 핵심 하위 분야다. (Tom Mitchell, 1997)
-> 2. **가치**: 인간의 두뇌로 모든 변수를 if-else로 코딩하기 불가능한 **복잡계 문제**(스팸 필터·암 진단·주가 예측)를 확률·통계·최적화 이론으로 해결하며, GPU (Graphics Processing Unit) 인프라와 빅데이터의 결합으로 딥러닝(Deep Learning) 혁명을 촉발했다.
-> 3. **판단 포인트**: "데이터가 얼마나 있고, 해석 가능성(Explainability)이 얼마나 중요한가?"—데이터 부족·설명 필요 시 **전통적 ML (Random Forest, XGBoost)**, 대규모 데이터·성능 최우선 시 **딥러닝**, 레이블 없음 시 **비지도 학습(Unsupervised Learning)**을 선택한다.
+> 1. **본질**: [[241_machine_learning_basics|머신러닝]](ML, Machine [[240_switch_learning_forwarding_flooding|Learning]])은 인간이 규칙(Rule)을 직접 코딩하는 대신, 대량의 [[001_dikw_pyramid|데이터]]([[001_dikw_pyramid|Data]])와 정답(Label)을 [[001_algorithm_definition|알고리즘]]에 주입하면 **기계가 스스로 수학적 패턴([[267_weight_bias_activation|가중치]], [[267_weight_bias_activation|Weight]])을 최적화**하며 예측 함수를 완성하는 [[231_ai_turing_test|인공지능]]의 핵심 하위 분야다. (Tom Mitchell, 1997)
+> 2. **가치**: 인간의 두뇌로 모든 변수를 if-else로 코딩하기 불가능한 **복잡계 문제**(스팸 필터·암 진단·주가 예측)를 [[130_probability|확률]]·통계·최적화 이론으로 해결하며, [[418_gpu|GPU]] ([[418_gpu|Graphics Processing Unit]]) 인프라와 빅데이터의 결합으로 딥러닝(Deep [[240_switch_learning_forwarding_flooding|Learning]]) 혁명을 촉발했다.
+> 3. **판단 포인트**: "[[001_dikw_pyramid|데이터]]가 얼마나 있고, 해석 가능성(Explainability)이 얼마나 중요한가?"—[[001_dikw_pyramid|데이터]] 부족·설명 필요 시 **전통적 ML ([[353_random_forest|Random Forest]], XGBoost)**, 대규모 [[001_dikw_pyramid|데이터]]·[[282_performance_tactics|성능]] 최우선 시 **딥러닝**, 레이블 없음 시 **[[122_unsupervised_learning|비지도 학습]]([[122_unsupervised_learning|Unsupervised Learning]])**을 선택한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-머신러닝(ML, Machine Learning)은 명시적으로 프로그래밍하지 않아도 경험(데이터)으로부터 자동으로 학습하고 성능을 개선하는 알고리즘과 시스템의 과학이다.
+[[241_machine_learning_basics|머신러닝]](ML, Machine [[240_switch_learning_forwarding_flooding|Learning]])은 명시적으로 프로그래밍하지 않아도 경험([[001_dikw_pyramid|데이터]])으로부터 자동으로 학습하고 [[282_performance_tactics|성능]]을 개선하는 [[001_algorithm_definition|알고리즘]]과 시스템의 과학이다.
 
 ### 1. 전통적 프로그래밍의 한계 — 규칙 기반(Rule-based)의 붕괴
 
@@ -24,18 +24,18 @@ categories = "studynote-ai"
 - Day 1: `if "비아그라" in email: spam` — 작동!
 - Day 2: 스패머가 "V.i.A.g.R.a"로 변경 → 우회 성공
 - Day 3: 개발자가 정규식 패턴 추가 → 스패머가 또 우회
-- Day 100: 스팸 필터 코드베이스 = 수십만 줄의 스파게티 코드 → 유지보수 불가능
+- Day 100: 스팸 필터 [[007_codebase|코드베이스]] = 수십만 줄의 스파게티 코드 → 유지보수 불가능
 
 인간이 명시적으로 모든 규칙을 하드코딩하는 방식은 **무한히 변화하는 실세계 패턴에 대응 불가능**하다.
 
-### 2. 패러다임의 역전 — "기계에게 데이터와 정답을 주면, 기계가 규칙을 찾는다"
+### 2. 패러다임의 역전 — "기계에게 [[001_dikw_pyramid|데이터]]와 정답을 주면, 기계가 규칙을 찾는다"
 
 ```text
 전통 프로그래밍:   데이터 + 규칙(코드)  ──▶  출력(답)
 머신러닝:          데이터 + 출력(답)    ──▶  규칙(모델)을 스스로 학습
 ```
 
-이 패러다임 역전이 머신러닝의 본질이다. 개발자는 스팸 단어를 찾는 대신, 1만 통의 스팸과 1만 통의 정상 메일을 알고리즘에 던져준다. 알고리즘은 수학적 최적화(경사 하강법, Gradient Descent)를 통해 **스팸을 구분하는 최적의 가중치(Weight)를 스스로 학습**한다.
+이 패러다임 역전이 [[241_machine_learning_basics|머신러닝]]의 본질이다. 개발자는 스팸 단어를 찾는 대신, 1만 통의 스팸과 1만 통의 정상 메일을 [[001_algorithm_definition|알고리즘]]에 던져준다. [[001_algorithm_definition|알고리즘]]은 수학적 최적화([[275_gradient_descent_sgd|경사 하강법]], [[165_gradient_descent|Gradient Descent]])를 통해 **스팸을 구분하는 최적의 [[267_weight_bias_activation|가중치]]([[267_weight_bias_activation|Weight]])를 스스로 학습**한다.
 
 ```text
 ┌─────────────────────────────────────────────────────────┐
@@ -59,15 +59,15 @@ categories = "studynote-ai"
 └─────────────────────────────────────────────────────────┘
 ```
 
-📢 **섹션 요약 비유**: 전통 프로그래밍이 "요리 레시피를 모두 외워주는 선생님"이라면, 머신러닝은 "수천 개의 요리 영상을 혼자 보고 '맛있는 요리의 공통점'을 스스로 터득하는 천재 셰프"다. 선생님이 없어도 데이터만 충분하면 혼자 배운다.
+📢 **섹션 요약 비유**: 전통 프로그래밍이 "요리 레시피를 모두 외워주는 선생님"이라면, [[241_machine_learning_basics|머신러닝]]은 "수천 개의 요리 영상을 혼자 보고 '맛있는 요리의 공통점'을 스스로 터득하는 천재 셰프"다. 선생님이 없어도 [[001_dikw_pyramid|데이터]]만 충분하면 혼자 배운다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### 1. 머신러닝 3대 학습 패러다임
+### 1. [[241_machine_learning_basics|머신러닝]] 3대 학습 패러다임
 
-데이터에 정답(Label)이 있는지, 상호작용 환경이 있는지에 따라 학습 방식이 갈린다.
+[[001_dikw_pyramid|데이터]]에 정답(Label)이 있는지, 상호작용 환경이 있는지에 따라 학습 방식이 갈린다.
 
 ```text
 ┌─────────────────┬──────────────────────┬───────────────────┐
@@ -87,7 +87,7 @@ categories = "studynote-ai"
 └─────────────────┴──────────────────────┴───────────────────┘
 ```
 
-### 2. 머신러닝 학습 파이프라인 (Training → Inference)
+### 2. [[241_machine_learning_basics|머신러닝]] 학습 [[123_pipe|파이프]]라인 ([[588_mlops_pipeline_automation|Training]] → Inference)
 
 ```text
 ┌──────────────────────────────────────────────────────────────┐
@@ -119,9 +119,9 @@ categories = "studynote-ai"
 └──────────────────────────────────────────────────────────────┘
 ```
 
-### 3. 핵심 수학 원리 — 경사 하강법 (Gradient Descent)
+### 3. 핵심 수학 원리 — [[275_gradient_descent_sgd|경사 하강법]] ([[165_gradient_descent|Gradient Descent]])
 
-모델 학습의 본질은 **손실 함수(Loss Function)** 값을 최소화하는 가중치(W)를 찾는 최적화 문제다.
+모델 학습의 본질은 **[[075_loss_function_cost_function|손실 함수]]([[087_loss_function|Loss Function]])** 값을 최소화하는 [[267_weight_bias_activation|가중치]](W)를 찾는 최적화 문제다.
 
 ```text
 손실(Loss)
@@ -138,10 +138,10 @@ categories = "studynote-ai"
 
 `W_new = W_old − η × ∂L/∂W`
 
-- η (학습률, Learning Rate): 너무 크면 발산, 너무 작으면 수렴 속도 저하
+- η ([[080_gradient_descent_learning_rate|학습률]], [[240_switch_learning_forwarding_flooding|Learning]] Rate): 너무 크면 발산, 너무 작으면 수렴 속도 저하
 - ∂L/∂W (기울기): 손실이 줄어드는 방향을 계산
 
-📢 **섹션 요약 비유**: 학습은 "눈 감고 산 내려가기"와 같다. 발 아래 기울기를 느끼며(기울기 계산) 내리막 방향으로 한 걸음씩(학습률) 이동해 가장 낮은 골짜기(최솟값=최적 가중치)를 찾는다. 성급하게 너무 큰 발걸음을 내디디면 골짜기를 건너뛰어 버린다.
+📢 **섹션 요약 비유**: 학습은 "눈 감고 산 내려가기"와 같다. 발 아래 기울기를 느끼며(기울기 계산) 내리막 방향으로 한 걸음씩([[080_gradient_descent_learning_rate|학습률]]) 이동해 가장 낮은 골짜기(최솟값=최적 [[267_weight_bias_activation|가중치]])를 찾는다. 성급하게 너무 큰 발걸음을 내디디면 골짜기를 건너뛰어 버린다.
 
 ---
 
@@ -149,17 +149,17 @@ categories = "studynote-ai"
 
 ### 1. 전통적 ML vs 딥러닝 아키텍처 비교
 
-| 비교 항목 | 전통적 ML | 딥러닝 (Deep Learning) |
+| 비교 항목 | 전통적 ML | 딥러닝 (Deep [[240_switch_learning_forwarding_flooding|Learning]]) |
 |:---|:---|:---|
-| **피처 엔지니어링** | 도메인 전문가가 직접 변수 설계 (필수) | End-to-End: 신경망이 자동 피처 추출 |
-| **데이터 요구량** | 수천~수만 건으로도 동작 | 수십만~수백만 건 이상 필요 |
-| **하드웨어** | CPU 충분 | GPU / TPU 클러스터 필수 |
-| **해석 가능성** | 결정 트리 등 화이트박스 가능 | 블랙박스 (XAI 기술로 부분 보완) |
+| **[[247_feature_label_variables|피처]] 엔지니어링** | [[064_relation_domain|도메인]] 전문가가 직접 변수 설계 (필수) | [[401_transport_layer_role_end_to_end_multiplexing|End-to-End]]: 신경망이 자동 [[247_feature_label_variables|피처]] 추출 |
+| **[[001_dikw_pyramid|데이터]] 요구량** | 수천~수만 건으로도 동작 | 수십만~수백만 건 이상 필요 |
+| **하드웨어** | CPU 충분 | [[418_gpu|GPU]] / [[425_tpu|TPU]] 클러스터 필수 |
+| **해석 가능성** | 결정 트리 등 화이트박스 가능 | 블랙박스 ([[227_xai_explainable_ai_lime_shap|XAI]] 기술로 부분 보완) |
 | **학습 시간** | 분~시간 | 시간~수일 |
-| **대표 알고리즘** | Random Forest, XGBoost, SVM | CNN, RNN, Transformer |
-| **적합 영역** | 정형 데이터, 규제 산업 (금융·의료) | 이미지, 자연어, 음성 처리 |
+| **대표 [[001_algorithm_definition|알고리즘]]** | [[353_random_forest|Random Forest]], XGBoost, [[238_svm_margin_kernel_trick_naive_bayes|SVM]] | [[243_cnn_stride_pooling_resnet_residual_yolo_object_detection|CNN]], [[244_rnn_time_series_lstm_cell_gate_long_term_dependency|RNN]], [[246_transformer_self_attention_parallel_positional_encoding|Transformer]] |
+| **적합 영역** | [[002_structured_data|정형 데이터]], 규제 산업 (금융·의료) | 이미지, 자연어, 음성 처리 |
 
-### 2. 과적합(Overfitting) vs 과소적합(Underfitting) 트레이드오프
+### 2. 과적합([[245_overfitting_variance|Overfitting]]) vs 과소적합([[246_underfitting_bias|Underfitting]]) 트레이드오프
 
 ```text
 모델 성능
@@ -178,23 +178,23 @@ categories = "studynote-ai"
      해결: 복잡도↑, 피처 추가    해결: 정규화, 드롭아웃, 교차 검증
 ```
 
-📢 **섹션 요약 비유**: 과적합은 "기출문제만 달달 외운 수험생"과 같다. 모의고사(훈련 데이터)는 100점이지만, 수능 당일(실제 데이터)에는 처음 보는 문제 앞에서 패닉이 온다. 정규화(Regularization)는 기출 의존도를 낮추고 개념 이해를 강제하는 학습법이다.
+📢 **섹션 요약 비유**: 과적합은 "기출문제만 달달 외운 수험생"과 같다. 모의고사(훈련 [[001_dikw_pyramid|데이터]])는 100점이지만, 수능 당일(실제 [[001_dikw_pyramid|데이터]])에는 처음 보는 문제 앞에서 패닉이 온다. [[093_normalization|정규화]]([[134_regularization_dropout_batch_norm|Regularization]])는 기출 의존도를 낮추고 개념 이해를 강제하는 학습법이다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### 1. 알고리즘 선택 기준 체크리스트
+### 1. [[001_algorithm_definition|알고리즘]] 선택 기준 [[435_checklist_based_testing|체크리스트]]
 
 | 상황 | 권장 접근법 | 이유 |
 |:---|:---|:---|
-| 정형 데이터 + 레이블 있음 + 데이터 1만 건 이하 | **XGBoost / Random Forest** | 적은 데이터에도 강건, 해석 가능 |
-| 비정형 데이터 (이미지·텍스트) + 레이블 대량 | **CNN / Transformer (BERT, GPT)** | 자동 피처 추출, 최고 성능 |
-| 레이블 없음 + 고객 세분화 | **K-Means / DBSCAN** | 비지도 군집화 |
-| 금융·의료 규제 환경 + 설명 의무 | **Logistic Regression / Decision Tree** | XAI (Explainable AI) 대응 |
-| 시계열 이상 탐지 | **Isolation Forest / LSTM-Autoencoder** | 패턴 변화 감지 |
+| [[002_structured_data|정형 데이터]] + 레이블 있음 + [[001_dikw_pyramid|데이터]] 1만 건 이하 | **XGBoost / [[353_random_forest|Random Forest]]** | 적은 [[001_dikw_pyramid|데이터]]에도 강건, 해석 가능 |
+| [[004_unstructured_data|비정형 데이터]] (이미지·텍스트) + 레이블 대량 | **[[243_cnn_stride_pooling_resnet_residual_yolo_object_detection|CNN]] / [[246_transformer_self_attention_parallel_positional_encoding|Transformer]] ([[301_bert_mlm|BERT]], [[302_gpt_autoregressive|GPT]])** | 자동 [[247_feature_label_variables|피처]] 추출, 최고 [[282_performance_tactics|성능]] |
+| 레이블 없음 + 고객 세분화 | **K-Means / [[351_dbscan_density_based_clustering|DBSCAN]]** | 비지도 [[105_clustering_analysis|군집화]] |
+| 금융·의료 규제 환경 + 설명 의무 | **[[227_logistic_regression_clt_pvalue_type_error|Logistic Regression]] / [[124_decision_tree|Decision Tree]]** | [[227_xai_explainable_ai_lime_shap|XAI]] ([[255_xai_lime_shap_explainable_contribution|Explainable AI]]) 대응 |
+| 시계열 [[236_anomaly_based_detection_zero_day_false_positive|이상 탐지]] | **[[195_isolation_concurrency_control|Isolation]] Forest / [[292_lstm|LSTM]]-[[335_autoencoder|Autoencoder]]** | 패턴 변화 감지 |
 
-### 2. MLOps 아키텍처 — 프로덕션 ML의 필수 요소
+### 2. [[348_mlops|MLOps]] 아키텍처 — 프로덕션 ML의 필수 요소
 
 ```text
 ┌────────────────────────────────────────────────────────┐
@@ -217,47 +217,47 @@ categories = "studynote-ai"
 └────────────────────────────────────────────────────────┘
 ```
 
-### 3. 기술사 빈출 안티패턴
+### 3. 기술사 빈출 [[128_water_scrum_fall_anti_pattern|안티패턴]]
 
-**안티패턴 1: 데이터 누수 (Data Leakage)**
-- 증상: 학습 시 미래 데이터가 훈련셋에 섞여 실험실 성능(99%)이 실서비스(60%)와 엄청난 괴리
-- 해결: 시계열 데이터는 반드시 시간 순서로 분리 (TimeSeriesSplit)
+**[[128_water_scrum_fall_anti_pattern|안티패턴]] 1: [[001_dikw_pyramid|데이터]] 누수 ([[001_dikw_pyramid|Data]] Leakage)**
+- 증상: 학습 시 미래 [[001_dikw_pyramid|데이터]]가 훈련셋에 섞여 실험실 [[282_performance_tactics|성능]](99%)이 실서비스(60%)와 엄청난 괴리
+- 해결: 시계열 [[001_dikw_pyramid|데이터]]는 반드시 시간 순서로 분리 (TimeSeriesSplit)
 
-**안티패턴 2: 클래스 불균형 무시 (Class Imbalance)**
-- 증상: 사기 탐지 데이터에서 정상 99%, 사기 1% — 모두 정상이라고 예측해도 정확도 99% 달성
-- 해결: SMOTE (Synthetic Minority Oversampling Technique), 가중 손실 함수 적용
+**[[128_water_scrum_fall_anti_pattern|안티패턴]] 2: 클래스 불균형 무시 (Class Imbalance)**
+- 증상: 사기 탐지 [[001_dikw_pyramid|데이터]]에서 정상 99%, 사기 1% — 모두 정상이라고 예측해도 정확도 99% 달성
+- 해결: [[231_smote_oversampling_class_imbalance_augmentation|SMOTE]] (Synthetic Minority [[096_oversampling_smote|Oversampling]] Technique), 가중 [[075_loss_function_cost_function|손실 함수]] 적용
 
-**안티패턴 3: 피처 스케일링 누락**
-- 증상: SVM (Support Vector Machine)·KNN에서 값 범위가 큰 피처가 모델을 지배
+**[[128_water_scrum_fall_anti_pattern|안티패턴]] 3: [[247_feature_label_variables|피처]] [[249_scaling_normalization_standardization|스케일링]] 누락**
+- 증상: [[238_svm_margin_kernel_trick_naive_bayes|SVM]] ([[238_svm_margin_kernel_trick_naive_bayes|Support Vector Machine]])·KNN에서 값 범위가 큰 [[247_feature_label_variables|피처]]가 모델을 지배
 - 해결: StandardScaler / MinMaxScaler 전처리 필수
 
-📢 **섹션 요약 비유**: 실무 ML은 "요리 대회"와 같다. 재료 선별(데이터 전처리)이 95%, 불 조절(하이퍼파라미터 튜닝)이 나머지 5%다. 재료가 상한 채로 아무리 훌륭한 불 조절을 해도 손님(사용자)은 배탈이 난다.
+📢 **섹션 요약 비유**: 실무 ML은 "요리 대회"와 같다. 재료 선별([[001_dikw_pyramid|데이터]] 전처리)이 95%, 불 조절([[041_bagging_boosting|하이퍼파라미터 튜닝]])이 나머지 5%다. 재료가 상한 채로 아무리 훌륭한 불 조절을 해도 손님(사용자)은 배탈이 난다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-### 1. 머신러닝 도입 기대효과
+### 1. [[241_machine_learning_basics|머신러닝]] 도입 기대효과
 
 | 영역 | 도입 전 | 도입 후 | 개선 효과 |
 |:---|:---|:---|:---|
 | **스팸 필터** | Rule 기반 — 매주 수동 업데이트 | ML 모델 — 새 패턴 자동 학습 | 운영 공수 80% 절감 |
-| **금융 사기 탐지** | 규칙 수백 개 수동 관리 | XGBoost 앙상블 — 실시간 스코어링 | 탐지율 40% 향상 |
+| **금융 사기 탐지** | 규칙 수백 개 수동 관리 | XGBoost [[257_ensemble_learning|앙상블]] — 실시간 스코어링 | 탐지율 40% 향상 |
 | **수요 예측** | 과거 평균값 기반 발주 | 시계열 ML — 계절·이벤트 자동 반영 | 재고 비용 25% 절감 |
-| **의료 영상 진단** | 전문의 수동 판독 (오진율 5~10%) | CNN 모델 — 양성 의심 소견 자동 표시 | 보조 탐지율 95% 이상 |
+| **의료 영상 진단** | 전문의 수동 판독 (오진율 5~[[489_raid_10_hybrid|10]]%) | [[243_cnn_stride_pooling_resnet_residual_yolo_object_detection|CNN]] 모델 — 양성 의심 소견 자동 표시 | 보조 탐지율 95% 이상 |
 
 ### 2. 미래 발전 방향
 
-**방향 1: AutoML & No-Code ML**
-하이퍼파라미터 탐색, 피처 선택, 모델 선택 전 과정을 자동화하는 AutoML (Google Vertex AI AutoML, H2O.ai)이 데이터 과학자의 진입장벽을 낮추고 있다.
+**방향 1: [[176_automl_hyperparameter_optimization_bayesian|AutoML]] & No-[[082_process_memory_structure|Code]] ML**
+하이퍼파라미터 탐색, [[247_feature_label_variables|피처]] 선택, 모델 선택 전 과정을 자동화하는 [[176_automl_hyperparameter_optimization_bayesian|AutoML]] (Google Vertex [[190_ai_llm_requirements_specification|AI]] [[176_automl_hyperparameter_optimization_bayesian|AutoML]], H2O.[[190_ai_llm_requirements_specification|ai]])이 [[001_dikw_pyramid|데이터]] 과학자의 진입장벽을 낮추고 있다.
 
-**방향 2: Foundation Model & Fine-tuning**
-GPT, BERT, SAM 등 수천억 파라미터 파운데이션 모델(Foundation Model)을 소수 데이터로 미세 조정(Fine-tuning)하여 각 도메인에 특화하는 패러다임이 전통 ML을 빠르게 대체 중.
+**방향 2: [[225_foundation_model_peft_lora|Foundation Model]] & [[304_fine_tuning|Fine-tuning]]**
+[[302_gpt_autoregressive|GPT]], [[301_bert_mlm|BERT]], SAM 등 수천억 파라미터 [[225_foundation_model_peft_lora|파운데이션 모델]]([[225_foundation_model_peft_lora|Foundation Model]])을 소수 [[001_dikw_pyramid|데이터]]로 [[133_fine_tuning|미세 조정]]([[304_fine_tuning|Fine-tuning]])하여 각 [[064_relation_domain|도메인]]에 특화하는 패러다임이 전통 ML을 빠르게 대체 중.
 
-**방향 3: Federated Learning (연합 학습)**
-데이터를 중앙 서버로 모으지 않고 각 디바이스에서 로컬 학습 후 가중치만 집계, 프라이버시 보호 + 규제 대응을 동시에 달성하는 연합 학습이 의료·금융 분야에서 빠르게 확산.
+**방향 3: [[256_federated_learning_privacy_model_security|Federated Learning]] ([[256_federated_learning_privacy_model_security|연합 학습]])**
+[[001_dikw_pyramid|데이터]]를 중앙 서버로 모으지 않고 각 디바이스에서 로컬 학습 후 [[267_weight_bias_activation|가중치]]만 집계, 프라이버시 [[571_protection_vs_security|보호]] + 규제 대응을 동시에 달성하는 [[256_federated_learning_privacy_model_security|연합 학습]]이 의료·금융 분야에서 빠르게 확산.
 
-📢 **섹션 요약 비유**: 머신러닝의 미래는 "도제식 장인 교육(직접 데이터 수집 → 수작업 모델 개발)"에서 "이미 만들어진 마스터 레시피(Foundation Model)를 사다가 우리 가게 특색 소스만 추가(Fine-tuning)해 바로 판매"하는 프랜차이즈 모델로 진화하고 있다.
+📢 **섹션 요약 비유**: [[241_machine_learning_basics|머신러닝]]의 미래는 "도제식 장인 교육(직접 [[001_dikw_pyramid|데이터]] 수집 → 수작업 모델 개발)"에서 "이미 만들어진 [[172_maas_mobility_as_a_service|마스]]터 레시피([[225_foundation_model_peft_lora|Foundation Model]])를 사다가 우리 가게 특색 소스만 추가([[304_fine_tuning|Fine-tuning]])해 바로 판매"하는 프랜차이즈 모델로 진화하고 있다.
 
 ---
 
@@ -265,13 +265,13 @@ GPT, BERT, SAM 등 수천억 파라미터 파운데이션 모델(Foundation Mode
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **딥러닝 (Deep Learning)** | ML의 하위 분야; 다층 신경망(MLP, CNN, RNN)으로 자동 피처 추출 |
-| **XAI (Explainable AI)** | 블랙박스 ML 모델의 결정 근거를 인간이 이해할 수 있게 해석 |
-| **MLOps** | ML 모델의 개발·배포·모니터링·재학습 파이프라인 자동화 체계 |
-| **Feature Engineering** | 원시 데이터를 모델이 학습하기 좋은 형태의 변수로 변환하는 과정 |
-| **과적합 (Overfitting)** | 훈련 데이터 과도 최적화 → 새 데이터 예측력 저하; 정규화로 방지 |
-| **경사 하강법 (Gradient Descent)** | 손실 함수를 최소화하는 가중치를 반복 업데이트로 찾는 핵심 최적화 알고리즘 |
-| **Foundation Model** | 대규모 사전 학습 모델 (GPT, BERT); Fine-tuning으로 다양한 태스크에 적용 |
+| **딥러닝 (Deep [[240_switch_learning_forwarding_flooding|Learning]])** | ML의 하위 분야; 다층 신경망(MLP, [[243_cnn_stride_pooling_resnet_residual_yolo_object_detection|CNN]], [[244_rnn_time_series_lstm_cell_gate_long_term_dependency|RNN]])으로 자동 [[247_feature_label_variables|피처]] 추출 |
+| **[[227_xai_explainable_ai_lime_shap|XAI]] ([[255_xai_lime_shap_explainable_contribution|Explainable AI]])** | 블랙박스 ML 모델의 결정 근거를 인간이 이해할 수 있게 해석 |
+| **[[348_mlops|MLOps]]** | ML 모델의 개발·배포·[[229_monitor|모니터]]링·재학습 [[123_pipe|파이프]]라인 자동화 체계 |
+| **[[081_feature_engineering|Feature Engineering]]** | 원시 [[001_dikw_pyramid|데이터]]를 모델이 학습하기 좋은 형태의 변수로 변환하는 과정 |
+| **과적합 ([[245_overfitting_variance|Overfitting]])** | 훈련 [[001_dikw_pyramid|데이터]] 과도 최적화 → 새 [[001_dikw_pyramid|데이터]] 예측력 저하; [[093_normalization|정규화]]로 방지 |
+| **[[275_gradient_descent_sgd|경사 하강법]] ([[165_gradient_descent|Gradient Descent]])** | [[075_loss_function_cost_function|손실 함수]]를 최소화하는 [[267_weight_bias_activation|가중치]]를 반복 업데이트로 찾는 핵심 최적화 [[001_algorithm_definition|알고리즘]] |
+| **[[225_foundation_model_peft_lora|Foundation Model]]** | 대규모 사전 학습 모델 ([[302_gpt_autoregressive|GPT]], [[301_bert_mlm|BERT]]); Fine-tuning으로 다양한 [[150_task|태스크]]에 적용 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -298,9 +298,9 @@ GPT, BERT, SAM 등 수천억 파라미터 파운데이션 모델(Foundation Mode
 [Federated Learning + XAI — 프라이버시 보호·설명 가능 AI]
 ```
 
-단순 규칙 코딩 → 통계 학습 → 신경망 → 대규모 사전 학습 → 자동화·민주화의 경로로 발전하며, 각 단계에서 컴퓨팅 파워와 데이터 규모가 핵심 변수였다.
+단순 규칙 코딩 → 통계 학습 → 신경망 → 대규모 사전 학습 → 자동화·민주화의 경로로 발전하며, 각 단계에서 컴퓨팅 파워와 [[001_dikw_pyramid|데이터]] 규모가 핵심 변수였다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
-1. 강아지 사진 1만 장을 보여주며 "이게 강아지야"라고 알려주면, 컴퓨터가 스스로 강아지의 생김새 비법(가중치)을 기억해 처음 보는 사진도 "강아지다!"라고 알아채는 것이 머신러닝이에요.
+1. 강아지 사진 1만 장을 보여주며 "이게 강아지야"라고 알려주면, 컴퓨터가 스스로 강아지의 생김새 비법([[267_weight_bias_activation|가중치]])을 기억해 처음 보는 사진도 "강아지다!"라고 알아채는 것이 [[241_machine_learning_basics|머신러닝]]이에요.
 2. 엄마가 요리 레시피를 알려주는 게 아니라, 맛있는 음식 사진 수천 장을 보고 스스로 "이런 색깔, 이런 모양이 맛있구나"를 깨닫는 아이처럼 컴퓨터도 혼자 배울 수 있어요.
 3. 배우면 배울수록 더 똑똑해지지만, 가끔 기출문제만 외워서 진짜 새 시험은 망치는 것처럼 '과적합'이라는 함정도 조심해야 해요.

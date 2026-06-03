@@ -7,9 +7,9 @@ categories = "studynote-software-engineering"
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: 브레인스토밍은 **비판 없이 자유롭게 아이디어를 발산**하는 기법이고, JAD(Joint Application Development)는 **이해관계자·개발자가 함께 모여 구조화된 워크숍으로 요구사항을 합의**하는 기법이다.
-> 2. **가치**: 1:1 인터뷰만으로는 다부서 갈등·숨겨진 요구 발견이 어렵지만, JAD 워크숍은 **이해관계자 갈등을 현장에서 해결**하고 합의를 이끌어낸다.
-> 3. **판단 포인트**: 브레인스토밍은 초기 발산(아이디어 양), JAD는 수렴(합의·결정)에 강하며, **퍼실리테이터(촉진자)**의 역량이 성패를 좌우한다.
+> 1. **본질**: 브레인스토밍은 **비판 없이 자유롭게 아이디어를 발산**하는 기법이고, JAD(Joint Application Development)는 **[[173_stakeholder_identification_impact_matrix|이해관계자]]·개발자가 함께 모여 구조화된 워크숍으로 요구사항을 합의**하는 기법이다.
+> 2. **가치**: 1:1 인터뷰만으로는 다부서 갈등·숨겨진 요구 발견이 어렵지만, JAD 워크숍은 **[[173_stakeholder_identification_impact_matrix|이해관계자]] 갈등을 현장에서 해결**하고 합의를 이끌어낸다.
+> 3. **판단 포인트**: 브레인스토밍은 [[459_quic_fec_forward_error_correction|초기]] 발산(아이디어 양), JAD는 수렴(합의·결정)에 강하며, **퍼실리테이터(촉진자)**의 역량이 성패를 좌우한다.
 
 ---
 
@@ -37,9 +37,9 @@ categories = "studynote-software-engineering"
 |:---|:---|
 | **브레인스토밍** | 아이디어 발산 |
 | **JAD** | 합의 워크숍 |
-| **퍼실리테이터** | JAD 진행 촉진자 |
-| **Design Thinking** | 발산→수렴 프레임워크 |
-| **Affinity Diagram** | 아이디어 분류 |
+| **퍼실리테이터** | JAD [[216_progress_in_synchronization|진행]] 촉진자 |
+| **[[040_design_thinking|Design Thinking]]** | 발산→수렴 프레임워크 |
+| **[[778_process_affinity_scheduling_pinning|Affinity]] Diagram** | 아이디어 [[104_classification_analysis|분류]] |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -52,5 +52,5 @@ categories = "studynote-software-engineering"
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 브레인스토밍은 **자유 토론**이에요. "어떤 아이디어든 OK!"
-2. JAD는 **모두 모여서 결론을 내는 회의**예요. 사회자(퍼실리테이터)가 진행해요.
+2. JAD는 **모두 모여서 결론을 내는 회의**예요. 사회자(퍼실리테이터)가 [[216_progress_in_synchronization|진행]]해요.
 3. 먼저 **많은 아이디어를 내고(발산)**, 그중 **좋은 것을 고르는(수렴)** 거예요!

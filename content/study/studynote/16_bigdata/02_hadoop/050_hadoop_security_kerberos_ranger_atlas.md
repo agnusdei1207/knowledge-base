@@ -7,9 +7,9 @@ categories = "studynote-bigdata"
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: Hadoop 보안은 3개 레이어로 구성된다. Kerberos(인증 — 누구인가?), Apache Ranger(권한 부여 — 무엇을 할 수 있는가?), Apache Atlas(데이터 거버넌스 — 어떤 데이터인가·어떻게 이동하는가?)가 완전한 엔터프라이즈 보안 스택을 형성한다.
-> 2. **가치**: 초기 Hadoop은 보안이 없는 "Simple Security Mode"만 지원했다. Kerberos 통합으로 인증, Ranger로 세밀한 컬럼·행 레벨 접근 제어, Atlas로 데이터 계보(Lineage) 추적이 가능해지면서 금융·의료 규제 환경에서도 사용 가능한 플랫폼으로 발전했다.
-> 3. **판단 포인트**: 현대 클라우드 레이크하우스 환경에서는 Hadoop Kerberos 대신 IAM(Cloud Identity), Ranger 대신 Unity Catalog·LakeFormation이 대안이 된다. 온프레미스 Hadoop 클러스터 유지 조직에서는 Kerberos+Ranger+Atlas 스택이 여전히 표준이다.
+> 1. **본질**: [[843_hadoop_rack_awareness_data_replication_topology|Hadoop]] 보안은 3개 레이어로 구성된다. [[545_kerberos_kdc_ticket_based_auth|Kerberos]]([[303_authentication_authorization_patterns|인증]] — 누구인가?), Apache Ranger(권한 부여 — 무엇을 할 수 있는가?), Apache Atlas([[052_data_governance_framework|데이터 거버넌스]] — 어떤 [[001_dikw_pyramid|데이터]]인가·어떻게 이동하는가?)가 완전한 엔터프라이즈 보안 [[057_stack|스택]]을 형성한다.
+> 2. **가치**: [[459_quic_fec_forward_error_correction|초기]] Hadoop은 보안이 없는 "Simple [[283_security_tactics|Security]] Mode"만 지원했다. [[545_kerberos_kdc_ticket_based_auth|Kerberos]] 통합으로 [[303_authentication_authorization_patterns|인증]], Ranger로 세밀한 컬럼·행 레벨 접근 제어, Atlas로 [[001_dikw_pyramid|데이터]] 계보(Lineage) 추적이 가능해지면서 금융·의료 규제 환경에서도 사용 가능한 플랫폼으로 발전했다.
+> 3. **판단 포인트**: 현대 클라우드 [[146_lakehouse|레이크하우스]] 환경에서는 [[843_hadoop_rack_awareness_data_replication_topology|Hadoop]] [[545_kerberos_kdc_ticket_based_auth|Kerberos]] 대신 [[526_iam|IAM]](Cloud Identity), Ranger 대신 [[150_unity_catalog|Unity Catalog]]·LakeFormation이 대안이 된다. [[061_on_premise_legacy_infrastructure|온프레미스]] [[843_hadoop_rack_awareness_data_replication_topology|Hadoop]] 클러스터 유지 조직에서는 [[545_kerberos_kdc_ticket_based_auth|Kerberos]]+Ranger+Atlas [[057_stack|스택]]이 여전히 표준이다.
 
 ---
 
@@ -40,13 +40,13 @@ categories = "studynote-bigdata"
 └──────────────────────────────────────────────────────────┘
 ```
 
-- **📢 섹션 요약 비유**: Hadoop 보안은 회사 출입 관리 시스템이다. 출입 카드(Kerberos — 신원 확인), 층별 권한(Ranger — 접근 가능 구역), 방문 기록부(Atlas — 어디서 어디로 이동했는지 추적) 3단계로 구성된다.
+- **📢 섹션 요약 비유**: [[843_hadoop_rack_awareness_data_replication_topology|Hadoop]] 보안은 회사 출입 관리 시스템이다. 출입 카드([[545_kerberos_kdc_ticket_based_auth|Kerberos]] — 신원 [[396_validation|확인]]), 층별 권한(Ranger — 접근 가능 구역), 방문 기록부(Atlas — 어디서 어디로 이동했는지 추적) 3단계로 구성된다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### Kerberos 인증 흐름
+### [[545_kerberos_kdc_ticket_based_auth|Kerberos]] [[303_authentication_authorization_patterns|인증]] 흐름
 
 ```text
 사용자     KDC(AS)           KDC(TGS)        서비스
@@ -74,25 +74,25 @@ categories = "studynote-bigdata"
   - 지역 관리자: WHERE region = '${user.region}' 자동 적용
 ```
 
-- **📢 섹션 요약 비유**: Apache Ranger는 스마트 사무실 열쇠 시스템이다. 마케팅 팀은 마케팅 데이터만 읽기 가능, 개인정보가 있는 컬럼은 자동으로 별표(**)로 마스킹, 감사팀은 모든 접근 기록을 볼 수 있다.
+- **📢 섹션 요약 비유**: Apache Ranger는 스마트 사무실 열쇠 시스템이다. 마케팅 팀은 마케팅 [[001_dikw_pyramid|데이터]]만 읽기 가능, [[781_personal_information|개인정보]]가 있는 컬럼은 자동으로 별표(**)로 [[172_maas_mobility_as_a_service|마스]]킹, [[606_auditing_linux_auditd|감사]]팀은 모든 접근 기록을 볼 수 있다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-| 비교 | 온프레미스 Hadoop | 클라우드 레이크하우스 |
+| 비교 | [[061_on_premise_legacy_infrastructure|온프레미스]] [[843_hadoop_rack_awareness_data_replication_topology|Hadoop]] | 클라우드 [[146_lakehouse|레이크하우스]] |
 |:---|:---|:---|
-| 인증 | Kerberos | IAM (AWS/Azure/GCP) |
-| 권한 부여 | Ranger | LakeFormation / Unity Catalog |
-| 거버넌스 | Atlas | AWS Glue Catalog / Purview |
+| [[303_authentication_authorization_patterns|인증]] | [[545_kerberos_kdc_ticket_based_auth|Kerberos]] | [[526_iam|IAM]] (AWS/Azure/GCP) |
+| 권한 부여 | Ranger | LakeFormation / [[150_unity_catalog|Unity Catalog]] |
+| 거버넌스 | Atlas | AWS Glue [[394_catalog_metadata|Catalog]] / Purview |
 
-- **📢 섹션 요약 비유**: 온프레미스 Hadoop 보안 vs 클라우드 보안은 사내 보안 시스템 vs 클라우드 보안 서비스다. 클라우드는 CSP가 인증·권한·거버넌스를 관리형 서비스로 제공해서 운영 부담이 줄어든다.
+- **📢 섹션 요약 비유**: [[061_on_premise_legacy_infrastructure|온프레미스]] [[843_hadoop_rack_awareness_data_replication_topology|Hadoop]] 보안 vs 클라우드 보안은 사내 보안 시스템 vs 클라우드 보안 [[090_service_kubernetes_network_load_balancing|서비스]]다. 클라우드는 CSP가 [[303_authentication_authorization_patterns|인증]]·권한·거버넌스를 관리형 [[090_service_kubernetes_network_load_balancing|서비스]]로 제공해서 운영 부담이 줄어든다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### Apache Atlas 데이터 계보 (Data Lineage)
+### Apache Atlas [[001_dikw_pyramid|데이터]] 계보 ([[214_data_lineage_tracking|Data Lineage]])
 
 ```text
 데이터 소스 → ETL 변환 → DW 테이블 → 분석 보고서
@@ -115,7 +115,7 @@ Knox Gateway:
   → TLS 종단, SSO 통합
 ```
 
-- **📢 섹션 요약 비유**: Apache Atlas 데이터 계보는 식품 이력 추적 시스템이다. 원재료(원본 데이터)에서 완제품(분석 보고서)까지 모든 가공 단계를 추적해서 "이 숫자가 어떤 원본 데이터에서 왔나?" 역추적이 가능하다.
+- **📢 섹션 요약 비유**: Apache Atlas [[001_dikw_pyramid|데이터]] 계보는 식품 이력 추적 시스템이다. 원재료(원본 [[001_dikw_pyramid|데이터]])에서 완제품(분석 보고서)까지 모든 가공 단계를 추적해서 "이 숫자가 어떤 원본 [[001_dikw_pyramid|데이터]]에서 왔나?" 역추적이 가능하다.
 
 ---
 
@@ -123,13 +123,13 @@ Knox Gateway:
 
 | 기대효과 | 내용 |
 |:---|:---|
-| **규제 준수** | GDPR·개인정보보호법·금융 규제 충족 |
-| **세밀한 접근 제어** | 컬럼·행 레벨 정책으로 최소 권한 |
-| **데이터 신뢰성** | 계보 추적으로 데이터 품질·영향 파악 |
+| **규제 준수** | [[791_gdpr_eu|GDPR]]·[[783_pipa_korea|개인정보보호법]]·금융 규제 충족 |
+| **세밀한 접근 제어** | 컬럼·행 레벨 [[164_policy|정책]]으로 최소 권한 |
+| **[[001_dikw_pyramid|데이터]] [[642_reliability_mtbf_mttr_mttf_availability|신뢰성]]** | 계보 추적으로 [[001_dikw_pyramid|데이터]] 품질·영향 파악 |
 
-현대 데이터 레이크하우스에서 Hadoop Kerberos는 클라우드 IAM으로, Ranger는 Unity Catalog/LakeFormation으로, Atlas는 Microsoft Purview/OpenMetadata로 대체되는 추세다. 온프레미스 Hadoop 클러스터 유지 조직에서는 Kerberos+Ranger+Atlas 스택이 여전히 표준 보안 아키텍처다.
+현대 [[210_data_lakehouse_delta_lake|데이터 레이크하우스]]에서 [[843_hadoop_rack_awareness_data_replication_topology|Hadoop]] Kerberos는 클라우드 IAM으로, Ranger는 [[150_unity_catalog|Unity Catalog]]/LakeFormation으로, Atlas는 Microsoft Purview/OpenMetadata로 대체되는 추세다. [[061_on_premise_legacy_infrastructure|온프레미스]] [[843_hadoop_rack_awareness_data_replication_topology|Hadoop]] 클러스터 유지 조직에서는 [[545_kerberos_kdc_ticket_based_auth|Kerberos]]+Ranger+Atlas [[057_stack|스택]]이 여전히 표준 [[302_security_architecture_design|보안 아키텍처]]다.
 
-- **📢 섹션 요약 비유**: Hadoop 보안 스택 진화는 자동차 안전 기술 발전과 같다. 구형 Hadoop(안전벨트만 있는 차)에서 Kerberos+Ranger+Atlas(에어백·ABS·차선 유지 시스템 장착 차)로 발전했고, 클라우드 레이크하우스는 완전 자율주행 안전 시스템으로 업그레이드된 것이다.
+- **📢 섹션 요약 비유**: [[843_hadoop_rack_awareness_data_replication_topology|Hadoop]] 보안 [[057_stack|스택]] 진화는 자동차 안전 기술 발전과 같다. 구형 [[843_hadoop_rack_awareness_data_replication_topology|Hadoop]](안전벨트만 있는 차)에서 [[545_kerberos_kdc_ticket_based_auth|Kerberos]]+Ranger+Atlas(에어백·ABS·차선 유지 시스템 장착 차)로 발전했고, 클라우드 [[146_lakehouse|레이크하우스]]는 완전 자율주행 안전 시스템으로 업그레이드된 것이다.
 
 ---
 
@@ -137,11 +137,11 @@ Knox Gateway:
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **Kerberos** | Hadoop 네트워크 인증 프로토콜 |
-| **Apache Ranger** | 정책 기반 세밀한 접근 제어 |
-| **Apache Atlas** | 메타데이터·계보·분류·태그 |
-| **Knox Gateway** | Hadoop 클러스터 단일 진입점 |
-| **Unity Catalog** | 클라우드 레이크하우스 통합 거버넌스 |
+| **[[545_kerberos_kdc_ticket_based_auth|Kerberos]]** | [[843_hadoop_rack_awareness_data_replication_topology|Hadoop]] 네트워크 [[303_authentication_authorization_patterns|인증]] [[295_protocol_field_tcp_udp_icmp|프로토콜]] |
+| **Apache Ranger** | [[164_policy|정책]] 기반 세밀한 접근 제어 |
+| **Apache Atlas** | [[012_metadata|메타데이터]]·계보·[[104_classification_analysis|분류]]·태그 |
+| **Knox Gateway** | [[843_hadoop_rack_awareness_data_replication_topology|Hadoop]] 클러스터 단일 진입점 |
+| **[[150_unity_catalog|Unity Catalog]]** | 클라우드 [[146_lakehouse|레이크하우스]] 통합 거버넌스 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -163,6 +163,6 @@ Knox Gateway:
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. Hadoop 보안은 출입 카드(Kerberos), 층별 권한(Ranger), 방문 기록부(Atlas) 3단계 시스템이에요!
-2. Ranger는 "마케팅팀은 마케팅 데이터만, 개인정보는 자동으로 숨김"처럼 스마트하게 접근을 제어해요!
-3. Atlas는 "이 데이터가 어디서 왔고 어디로 갔나" 식품 이력 추적처럼 모든 데이터 흐름을 기록해요!
+1. [[843_hadoop_rack_awareness_data_replication_topology|Hadoop]] 보안은 출입 카드([[545_kerberos_kdc_ticket_based_auth|Kerberos]]), 층별 권한(Ranger), 방문 기록부(Atlas) 3단계 시스템이에요!
+2. Ranger는 "마케팅팀은 마케팅 [[001_dikw_pyramid|데이터]]만, [[781_personal_information|개인정보]]는 자동으로 숨김"처럼 스마트하게 접근을 제어해요!
+3. Atlas는 "이 [[001_dikw_pyramid|데이터]]가 어디서 왔고 어디로 갔나" 식품 이력 추적처럼 모든 [[001_dikw_pyramid|데이터]] 흐름을 기록해요!

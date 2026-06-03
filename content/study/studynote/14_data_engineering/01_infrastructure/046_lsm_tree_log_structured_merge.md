@@ -7,9 +7,9 @@ categories = "studynote-data-engineering"
 +++
 
 > **핵심 인사이트**
-> 1. LSM(Log-Structured Merge-Tree) 트리는 쓰기 집약적 워크로드에 최적화된 데이터 구조 — 임의 쓰기(Random Write)를 순차 쓰기(Sequential Write)로 변환해 HDD/SSD에서 극적인 쓰기 성능을 달성하며, RocksDB·Cassandra·HBase·LevelDB의 스토리지 엔진으로 사용된다.
-> 2. LSM의 핵심 트레이드오프는 쓰기↑ vs 읽기↓ — 컴팩션(Compaction) 과정 없이는 여러 레벨에 데이터가 분산되어 읽기 성능이 저하되며, Bloom Filter가 불필요한 디스크 읽기를 방지하는 핵심 최적화 도구다.
-> 3. B-Tree vs LSM: 워크로드 특성에 따른 선택 — 읽기 많은 OLTP(MySQL, PostgreSQL)는 B-Tree, 쓰기 집약적(IoT, 로그, 이벤트 스트림)은 LSM이 적합하며, 현대 NoSQL 대부분이 LSM을 채택한 이유가 여기에 있다.
+> 1. LSM([[221_lsm_tree_memtable_sequential_flush_compaction|Log-Structured Merge-Tree]]) 트리는 [[289_cqrs_db|쓰기]] 집약적 워크로드에 최적화된 [[001_dikw_pyramid|데이터]] 구조 — 임의 [[289_cqrs_db|쓰기]](Random Write)를 순차 [[289_cqrs_db|쓰기]](Sequential Write)로 변환해 [[465_hdd_structure|HDD]]/SSD에서 극적인 [[289_cqrs_db|쓰기]] 성능을 달성하며, RocksDB·[[541_cassandra|Cassandra]]·[[543_hbase|HBase]]·LevelDB의 스토리지 엔진으로 사용된다.
+> 2. LSM의 핵심 트레이드오프는 [[289_cqrs_db|쓰기]]↑ vs 읽기↓ — 컴팩션([[347_compaction|Compaction]]) 과정 없이는 여러 레벨에 [[001_dikw_pyramid|데이터]]가 분산되어 읽기 성능이 저하되며, Bloom Filter가 불필요한 디스크 읽기를 방지하는 핵심 최적화 도구다.
+> 3. [[064_b_tree|B-Tree]] vs LSM: 워크로드 특성에 따른 선택 — 읽기 많은 [[327_hint_handoff|OLTP]](MySQL, PostgreSQL)는 [[064_b_tree|B-Tree]], [[289_cqrs_db|쓰기]] 집약적([[101_iot_concept|IoT]], [[568_logs_distributed_logging_elk_fluentd|로그]], 이벤트 스트림)은 LSM이 적합하며, 현대 [[035_nosql|NoSQL]] 대부분이 LSM을 채택한 이유가 여기에 있다.
 
 ---
 
@@ -54,7 +54,7 @@ LSM 단점:
   Space Amplification
 ```
 
-> 📢 **섹션 요약 비유**: LSM은 메모장 모아서 한번에 파일 정리 — 메모지(쓰기)를 일단 책상(메모리)에 쌓고, 나중에 한번에 서랍(디스크)에 순서대로 정리. 쓰기 속도 폭발적 향상!
+> 📢 **섹션 요약 비유**: LSM은 메모장 모아서 한번에 [[501_file_definition_logical_record|파일]] 정리 — 메모지([[289_cqrs_db|쓰기]])를 일단 책상(메모리)에 쌓고, 나중에 한번에 서랍(디스크)에 순서대로 정리. [[289_cqrs_db|쓰기]] 속도 폭발적 향상!
 
 ---
 
@@ -108,11 +108,11 @@ SSTable (Sorted String Table):
   → Bloom Filter로 불필요한 탐색 건너뜀
 ```
 
-> 📢 **섹션 요약 비유**: LSM 구조는 서류 정리 시스템 — 새 서류(쓰기)는 책상 메모장(MemTable)에 먼저. 가득 차면 파일럿(L0 SSTable)으로 이동, 주기적으로 캐비닛(더 깊은 레벨)으로 정리!
+> 📢 **섹션 요약 비유**: LSM 구조는 서류 정리 시스템 — 새 서류([[289_cqrs_db|쓰기]])는 책상 메모장([[494_memtable_sstable_flush|MemTable]])에 먼저. 가득 차면 [[501_file_definition_logical_record|파일]]럿(L0 SSTable)으로 이동, 주기적으로 캐비닛(더 깊은 레벨)으로 정리!
 
 ---
 
-## Ⅲ. Compaction과 Bloom Filter
+## Ⅲ. Compaction과 [[061_bloomfilter|Bloom Filter]]
 
 ```
 Compaction (컴팩션):
@@ -161,11 +161,11 @@ Write Amplification:
   → Compaction으로 인한 추가 쓰기
 ```
 
-> 📢 **섹션 요약 비유**: Compaction은 책 정리, Bloom Filter는 인덱스 — 정기적으로 흩어진 책(SSTable)을 합쳐 정리(Compaction). 목차(Bloom Filter)로 "이 책에 없다"고 빠르게 판단!
+> 📢 **섹션 요약 비유**: Compaction은 책 정리, Bloom Filter는 [[154_database_index_b_tree_search_optimization|인덱스]] — 정기적으로 흩어진 책(SSTable)을 합쳐 정리([[347_compaction|Compaction]]). 목차([[061_bloomfilter|Bloom Filter]])로 "이 책에 없다"고 빠르게 판단!
 
 ---
 
-## Ⅳ. B-Tree vs LSM 비교
+## Ⅳ. [[064_b_tree|B-Tree]] vs LSM 비교
 
 ```
 B-Tree vs LSM 비교:
@@ -208,11 +208,11 @@ RUM Conjecture:
   로그 저장 (Kafka→Cassandra): LSM
 ```
 
-> 📢 **섹션 요약 비유**: B-Tree vs LSM은 창고 정리법 — B-Tree: 물건 제자리 즉시 정리(느린 쓰기, 빠른 찾기). LSM: 일단 입구에 쌓고 나중에 한번에 정리(빠른 쓰기, 느린 찾기)!
+> 📢 **섹션 요약 비유**: [[064_b_tree|B-Tree]] vs LSM은 창고 정리법 — [[064_b_tree|B-Tree]]: 물건 제자리 즉시 정리(느린 [[289_cqrs_db|쓰기]], 빠른 찾기). LSM: 일단 입구에 쌓고 나중에 한번에 정리(빠른 [[289_cqrs_db|쓰기]], 느린 찾기)!
 
 ---
 
-## Ⅴ. 실무 시나리오 — RocksDB IoT 데이터 수집
+## Ⅴ. 실무 시나리오 — RocksDB [[101_iot_concept|IoT]] [[001_dikw_pyramid|데이터]] 수집
 
 ```
 스마트 공장 IoT 데이터 저장 (RocksDB + LSM):
@@ -265,7 +265,7 @@ Compaction 관리:
   S3 Glacier 아카이브: 연 20만원
 ```
 
-> 📢 **섹션 요약 비유**: RocksDB IoT 수집은 고속 우체통 — 10,000개 센서가 매초 편지(데이터)를 넣어요. LSM은 편지를 먼저 트레이(MemTable)에 쌓고 한번에 정리. MySQL 대비 7배 빠른 쓰기!
+> 📢 **섹션 요약 비유**: RocksDB [[101_iot_concept|IoT]] 수집은 고속 우체통 — [[489_raid_10_hybrid|10]],000개 센서가 매초 편지([[001_dikw_pyramid|데이터]])를 넣어요. LSM은 편지를 먼저 트레이([[494_memtable_sstable_flush|MemTable]])에 쌓고 한번에 정리. MySQL 대비 7배 빠른 [[289_cqrs_db|쓰기]]!
 
 ---
 
@@ -324,6 +324,6 @@ Cassandra, TiKV 등 채택
 
 ## 👶 어린이를 위한 3줄 비유 설명
 
-1. LSM은 빠른 우체통 — 편지(쓰기)를 먼저 입구 트레이(MemTable)에 쌓고, 나중에 한번에 정리. 줄 서기(랜덤 쓰기) 없이 빠르게 넣어요!
-2. Compaction은 대청소 — 흩어진 서류(SSTable)를 주기적으로 합쳐서 정리. 안 하면 같은 파일이 곳곳에 분산돼 찾기 힘들어요!
-3. Bloom Filter는 빠른 목차 — "이 파일에 없어요"를 1초 만에 판단. 없는 데이터 찾으러 30개 파일 다 열지 않아도 돼요!
+1. LSM은 빠른 우체통 — 편지([[289_cqrs_db|쓰기]])를 먼저 입구 트레이([[494_memtable_sstable_flush|MemTable]])에 쌓고, 나중에 한번에 정리. 줄 서기(랜덤 [[289_cqrs_db|쓰기]]) 없이 빠르게 넣어요!
+2. Compaction은 대청소 — 흩어진 서류(SSTable)를 주기적으로 합쳐서 정리. 안 하면 같은 [[501_file_definition_logical_record|파일]]이 곳곳에 분산돼 찾기 힘들어요!
+3. Bloom Filter는 빠른 목차 — "이 [[501_file_definition_logical_record|파일]]에 없어요"를 1초 만에 판단. 없는 [[001_dikw_pyramid|데이터]] 찾으러 30개 [[501_file_definition_logical_record|파일]] 다 열지 않아도 돼요!

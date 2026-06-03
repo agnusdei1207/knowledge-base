@@ -8,20 +8,20 @@ categories = "studynote-operating-system"
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 독자-저자 문제는 여러 독자 (Reader)가 동시에 읽을 수 있지만, 저자 (Writer)는 독점 쓰기를 요구하는 비대칭 접근 패턴에서, 기아 (Starvation) 없이 일관성을 보장하는 동기화 문제다.
-> 2. **가치**: 제1유형(독자 우선)은 읽기 처리량을 극대화하지만 저자 기아를 유발하고, 제2유형(저자 우선)은 그 반대다. 이 트레이드오프는 데이터베이스 락, MVCC, RCU (Read-Copy-Update) 설계의 핵심 판단 기준이다.
-> 3. **융합**: PostgreSQL MVCC, Linux RCU (Read-Copy-Update), Java ReadWriteLock, 리눅스 커널 Page Cache 등이 이 문제의 산업적 해법이다.
+> 1. **본질**: 독자-저자 문제는 여러 독자 (Reader)가 동시에 읽을 수 있지만, 저자 (Writer)는 독점 [[289_cqrs_db|쓰기]]를 요구하는 비대칭 접근 패턴에서, 기아 ([[314_starvation_prevention|Starvation]]) 없이 일관성을 보장하는 [[212_synchronization_mechanisms|동기화]] 문제다.
+> 2. **가치**: 제1유형(독자 우선)은 읽기 [[139_throughput|처리량]]을 극대화하지만 저자 기아를 유발하고, 제2유형(저자 우선)은 그 반대다. 이 트레이드오프는 [[002_database_definition|데이터베이스]] 락, [[449_mvcc|MVCC]], [[254_rcu_read_copy_update|RCU]] ([[254_rcu_read_copy_update|Read-Copy-Update]]) 설계의 핵심 판단 기준이다.
+> 3. **융합**: PostgreSQL [[449_mvcc|MVCC]], Linux [[254_rcu_read_copy_update|RCU]] ([[254_rcu_read_copy_update|Read-Copy-Update]]), Java ReadWriteLock, 리눅스 [[022_kernel_role|커널]] [[286_page_frame|Page]] Cache 등이 이 문제의 산업적 해법이다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-독자-저자 문제는 E.W. 다익스트라가 정의한 고전적 동기화 문제로, 공유 데이터(파일, 데이터베이스 레코드, 캐시)에 대한 두 클래스의 비대칭 접근을 다룬다.
+독자-저자 문제는 E.W. 다익스트라가 정의한 고전적 [[212_synchronization_mechanisms|동기화]] 문제로, 공유 [[001_dikw_pyramid|데이터]]([[501_file_definition_logical_record|파일]], [[002_database_definition|데이터베이스]] 레코드, 캐시)에 대한 두 클래스의 비대칭 접근을 다룬다.
 
-- **독자**: 데이터를 읽기만 함. 여러 독자 동시 접근 허용 가능.
-- **저자**: 데이터를 수정함. 완전한 독점 접근 필요.
+- **독자**: [[001_dikw_pyramid|데이터]]를 읽기만 함. 여러 독자 동시 접근 허용 가능.
+- **저자**: [[001_dikw_pyramid|데이터]]를 수정함. 완전한 독점 접근 필요.
 
-순진한 해법: 모든 접근에 mutex 사용 → 독자끼리도 순차 실행으로 처리량이 크게 저하된다. 정교한 해법이 필요하다.
+순진한 해법: 모든 접근에 [[223_mutex|mutex]] 사용 → 독자끼리도 순차 실행으로 [[139_throughput|처리량]]이 크게 저하된다. 정교한 해법이 필요하다.
 
 **💡 비유**: 도서관 열람실 규칙을 상상하라. 같은 책을 여러 사람이 동시에 읽을 수 있지만, 누군가 내용을 수정(저자)하려면 독점 열람실을 사용해야 한다.
 
@@ -44,7 +44,7 @@ categories = "studynote-operating-system"
 └──────────────────────────────────────────────────────────┘
 ```
 
-**📢 섹션 요약 비유**: 독자-저자는 '다 함께 읽되, 홀로 쓰는' 원칙 — 이 단순한 규칙을 구현하는 방법에서 처리량과 공정성의 트레이드오프가 발생합니다.
+**📢 섹션 요약 비유**: 독자-저자는 '다 함께 읽되, 홀로 쓰는' 원칙 — 이 단순한 규칙을 구현하는 방법에서 [[139_throughput|처리량]]과 공정성의 트레이드오프가 발생합니다.
 
 ---
 
@@ -106,7 +106,7 @@ signal(rw_mutex);
 
 저자가 대기 중이면 새 독자 진입을 막아 저자가 빠르게 처리되도록 한다. 이번엔 독자 기아가 발생할 수 있다.
 
-### 공정 해결 (Starvation-Free): 큐 기반
+### 공정 해결 ([[314_starvation_prevention|Starvation]]-Free): 큐 기반
 
 ```text
 ┌──────────────────────────────────────────────────────────┐
@@ -124,7 +124,7 @@ signal(rw_mutex);
 └──────────────────────────────────────────────────────────┘
 ```
 
-**[다이어그램 해설]** 공정 큐 방식은 대기 순서를 보존하므로 기아가 발생하지 않는다. 단, 독자 여럿을 연속 처리하지 못하므로 처리량이 감소할 수 있다. Java `ReentrantReadWriteLock(fair=true)`가 이를 구현하며, 저자 우선순위가 높은 환경에서는 NonfairReadWriteLock이 더 높은 처리량을 제공한다.
+**[다이어그램 해설]** 공정 큐 방식은 대기 순서를 보존하므로 기아가 발생하지 않는다. 단, 독자 여럿을 연속 처리하지 못하므로 [[139_throughput|처리량]]이 감소할 수 있다. Java `ReentrantReadWriteLock(fair=true)`가 이를 구현하며, 저자 우선순위가 높은 환경에서는 NonfairReadWriteLock이 더 높은 [[139_throughput|처리량]]을 제공한다.
 
 **📢 섹션 요약 비유**: 독자 우선은 바이킹 뷔페 — 독자들이 계속 들어와 저자는 굶을 수 있고, 공정 방식은 번호표 대기 — 도착 순서대로 공평하게 처리하지만 약간 느립니다.
 
@@ -146,9 +146,9 @@ signal(rw_mutex);
 └──────────────────┴──────────────┴──────────────┴──────────────┘
 ```
 
-### 리눅스 RCU (Read-Copy-Update) — 궁극적 해법
+### 리눅스 [[254_rcu_read_copy_update|RCU]] ([[254_rcu_read_copy_update|Read-Copy-Update]]) — 궁극적 해법
 
-RCU는 독자에게 락 없이(lock-free) 읽기를 허용하고, 저자는 복사(Copy) → 수정 → 포인터 교체(Update) 방식으로 일관성을 보장한다. 리눅스 커널에서 수천 곳에 사용되며 독자 처리량을 극대화한다.
+RCU는 독자에게 락 없이([[256_lock_free_data_structures|lock-free]]) 읽기를 허용하고, 저자는 복사(Copy) → 수정 → 포인터 교체(Update) 방식으로 일관성을 보장한다. 리눅스 [[022_kernel_role|커널]]에서 수천 곳에 사용되며 독자 [[139_throughput|처리량]]을 극대화한다.
 
 ```text
 [Writer]
@@ -163,20 +163,20 @@ ptr_local = rcu_dereference(ptr);  // 현재 버전 읽기
 rcu_read_unlock();
 ```
 
-**📢 섹션 요약 비유**: 독자-저자 트레이드오프는 읽기 처리량과 쓰기 공정성 사이의 시소 게임 — RCU는 이 시소를 완전히 없앤 혁신적 해법입니다.
+**📢 섹션 요약 비유**: 독자-저자 트레이드오프는 읽기 [[139_throughput|처리량]]과 [[289_cqrs_db|쓰기]] 공정성 사이의 시소 게임 — RCU는 이 시소를 완전히 없앤 혁신적 해법입니다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 ### 실무 시나리오
-1. **PostgreSQL MVCC**: 독자는 트랜잭션 시작 시점의 스냅샷을 읽고, 저자는 새 버전을 생성. 독자와 저자가 서로를 차단하지 않아 높은 동시성 달성.
-2. **Java ConcurrentHashMap**: `ReadWriteLock`이 아니라 세그먼트별 락으로 더 세밀한 동시성을 구현함. 이는 독자-저자 문제를 더 작은 단위로 분해한 것.
-3. **리눅스 커널 VFS**: 파일 시스템 메타데이터 접근에 RCU를 적극 적용하여 SMP 환경에서 락 경합을 최소화.
+1. **PostgreSQL [[449_mvcc|MVCC]]**: 독자는 [[191_transaction_concept_states|트랜잭션]] 시작 시점의 스냅샷을 읽고, 저자는 새 버전을 [[087_process_state_transition|생성]]. 독자와 저자가 서로를 차단하지 않아 높은 [[014_concurrency|동시성]] 달성.
+2. **Java ConcurrentHashMap**: `ReadWriteLock`이 아니라 세그먼트별 락으로 더 세밀한 [[014_concurrency|동시성]]을 구현함. 이는 독자-저자 문제를 더 작은 단위로 분해한 것.
+3. **리눅스 [[022_kernel_role|커널]] [[517_virtual_file_system_vfs|VFS]]**: [[501_file_definition_logical_record|파일]] 시스템 [[012_metadata|메타데이터]] 접근에 RCU를 적극 적용하여 [[195_real_time_scheduling|SMP]] 환경에서 락 경합을 최소화.
 
-### 안티패턴
-- **저자 기아 무시**: 로그 수집기가 무한 읽기를 허용하면 설정 변경 저자가 영원히 대기하여 설정이 적용되지 않는 장애 발생.
-- **RCU의 잘못된 사용**: Grace Period 이전에 원본 해제 → 사용 중인 독자가 해제된 메모리 접근 → Use-After-Free 취약점.
+### [[128_water_scrum_fall_anti_pattern|안티패턴]]
+- **저자 기아 무시**: [[568_logs_distributed_logging_elk_fluentd|로그]] 수집기가 무한 읽기를 허용하면 [[009_config|설정]] 변경 저자가 영원히 대기하여 [[009_config|설정]]이 적용되지 않는 장애 발생.
+- **RCU의 잘못된 사용**: Grace Period 이전에 원본 해제 → 사용 중인 독자가 해제된 메모리 접근 → [[351_use_after_free|Use-After-Free]] 취약점.
 
 **📢 섹션 요약 비유**: 독자-저자 문제의 잘못된 구현은 도서관에서 누군가 책을 태워버렸는데 다른 사람이 그 책 페이지를 읽고 있는 상황과 같습니다.
 
@@ -184,13 +184,13 @@ rcu_read_unlock();
 
 ## Ⅴ. 기대효과 및 결론
 
-| 구분 | 단순 Mutex | 독자 우선 | MVCC/RCU |
+| 구분 | 단순 [[223_mutex|Mutex]] | 독자 우선 | [[449_mvcc|MVCC]]/[[254_rcu_read_copy_update|RCU]] |
 |:---|:---|:---|:---|
-| 읽기 처리량 | 낮음 (직렬화) | 높음 | 매우 높음 (락 프리) |
+| 읽기 [[139_throughput|처리량]] | 낮음 (직렬화) | 높음 | 매우 높음 (락 프리) |
 | 저자 기아 | 없음 | 가능 | 없음 |
 | 구현 복잡도 | 낮음 | 중간 | 높음 |
 
-**📢 섹션 요약 비유**: 독자-저자 문제 해법의 진화는 자물쇠(Mutex)→회전문(RWLock)→홀로그램 복사본(MVCC/RCU)의 순서로, 점점 더 많은 사람이 동시에 도서관을 이용하는 방향으로 진화했습니다.
+**📢 섹션 요약 비유**: 독자-저자 문제 해법의 진화는 자물쇠([[223_mutex|Mutex]])→회전문(RWLock)→홀로그램 복사본([[449_mvcc|MVCC]]/[[254_rcu_read_copy_update|RCU]])의 순서로, 점점 더 많은 사람이 동시에 도서관을 이용하는 방향으로 진화했습니다.
 
 ---
 
@@ -198,10 +198,10 @@ rcu_read_unlock();
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| 고전적 동기화 문제들 | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
-| 유한 버퍼 문제 (Bounded-Buffer Problem) / 생산자-소비자 (Producer-Consumer) 문제 | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
-| 식사하는 철학자 문제 (Dining-Philosophers Problem) | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
-| 자바 동기화 | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
+| [[245_classic_synchronization_problems|고전적 동기화 문제들]] | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
+| [[246_bounded_buffer_producer_consumer|유한 버퍼 문제]] ([[246_bounded_buffer_producer_consumer|Bounded-Buffer Problem]]) / 생산자-소비자 (Producer-Consumer) 문제 | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
+| [[248_dining_philosophers_problem|식사하는 철학자 문제]] ([[248_dining_philosophers_problem|Dining-Philosophers Problem]]) | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
+| [[249_java_synchronization|자바 동기화]] | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 

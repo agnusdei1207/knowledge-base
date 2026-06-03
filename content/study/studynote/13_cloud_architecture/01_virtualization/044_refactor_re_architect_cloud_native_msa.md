@@ -7,9 +7,9 @@ categories = "studynote-cloud-architecture"
 +++
 
 > **핵심 인사이트**
-> 1. Re-factor(재구성)와 Re-architect(재설계)는 클라우드 마이그레이션 6R 전략의 가장 높은 가치를 창출하는 단계로 — Re-factor는 애플리케이션 코드를 PaaS/서버리스에 최적화하고, Re-architect는 모놀리스를 MSA(Microservices Architecture)로 근본적으로 재설계한다.
-> 2. MSA 전환의 핵심 원칙은 도메인 주도 설계(DDD)의 바운디드 컨텍스트(Bounded Context)를 서비스 경계로 삼는 것으로 — 각 마이크로서비스는 독립적으로 배포·확장·장애 격리가 가능해야 하며, "두 피자 팀(Two-Pizza Team)"이 소유·운영할 수 있는 크기가 적절하다.
-> 3. MSA 전환은 Strangler Fig Pattern(교살 무화과 패턴)으로 점진적으로 진행하는 것이 권장되며 — 모놀리스를 즉시 전부 전환하는 "Big Bang" 방식은 서비스 중단 리스크와 복잡성으로 인해 대부분 실패한다.
+> 1. Re-factor(재구성)와 Re-architect(재설계)는 클라우드 마이그레이션 6R [[268_strategy_pattern|전략]]의 가장 높은 가치를 창출하는 단계로 — Re-factor는 애플리케이션 코드를 [[184_paas_platform_as_a_service|PaaS]]/서버리스에 최적화하고, Re-architect는 모놀리스를 [[619_msa_traffic_hardware|MSA]]([[122_msa_microservices_architecture|Microservices Architecture]])로 근본적으로 재설계한다.
+> 2. [[619_msa_traffic_hardware|MSA]] 전환의 핵심 원칙은 [[310_architecture|도메인 주도 설계]]([[310_architecture|DDD]])의 [[221_bounded_context_ddd_msa_boundary|바운디드 컨텍스트]]([[221_bounded_context_ddd_msa_boundary|Bounded Context]])를 [[090_service_kubernetes_network_load_balancing|서비스]] 경계로 삼는 것으로 — 각 [[532_microservices_decomposition_patterns|마이크로서비스]]는 독립적으로 배포·확장·장애 격리가 가능해야 하며, "두 피자 팀(Two-Pizza Team)"이 소유·운영할 수 있는 크기가 적절하다.
+> 3. [[619_msa_traffic_hardware|MSA]] 전환은 [[308_strangler_fig_pattern|Strangler Fig Pattern]](교살 무화과 패턴)으로 점진적으로 진행하는 것이 권장되며 — 모놀리스를 즉시 전부 전환하는 "Big Bang" 방식은 [[090_service_kubernetes_network_load_balancing|서비스]] 중단 리스크와 복잡성으로 인해 대부분 실패한다.
 
 ---
 
@@ -57,11 +57,11 @@ Re-factor vs Re-architect:
   Re-architect: 비용 60~80% 절감 + 민첩성 향상
 ```
 
-> 📢 **섹션 요약 비유**: 6R은 이사 전략 — 짐 그대로 옮기기(Rehost), 조금 정리하기(Replatform), 새로 디자인하기(Re-architect). 비용은 커지지만 새 집을 제대로 활용할수록 효과도 커요.
+> 📢 **섹션 요약 비유**: 6R은 이사 [[268_strategy_pattern|전략]] — 짐 그대로 옮기기(Rehost), 조금 정리하기(Replatform), 새로 디자인하기(Re-architect). 비용은 커지지만 새 집을 제대로 활용할수록 효과도 커요.
 
 ---
 
-## Ⅱ. MSA 설계 원칙
+## Ⅱ. [[619_msa_traffic_hardware|MSA]] 설계 원칙
 
 ```
 MSA (Microservices Architecture) 원칙:
@@ -112,11 +112,11 @@ Two-Pizza Team:
   하나의 마이크로서비스 = 하나의 팀이 소유·운영
 ```
 
-> 📢 **섹션 요약 비유**: MSA는 레스토랑 → 푸드코트 전환 — 하나의 주방(모놀리스)에서 모든 요리를 만들다가, 각 음식별 전문점(마이크로서비스)으로 분리. 피자 가게가 파스타 가게와 독립적으로 운영.
+> 📢 **섹션 요약 비유**: MSA는 레스토랑 → 푸드코트 전환 — 하나의 주방(모놀리스)에서 모든 요리를 만들다가, 각 음식별 전문점([[532_microservices_decomposition_patterns|마이크로서비스]])으로 분리. 피자 가게가 파스타 가게와 독립적으로 운영.
 
 ---
 
-## Ⅲ. Strangler Fig Pattern
+## Ⅲ. [[308_strangler_fig_pattern|Strangler Fig Pattern]]
 
 ```
 Strangler Fig Pattern (교살 무화과 패턴):
@@ -164,7 +164,7 @@ Strangler 장점:
 
 ---
 
-## Ⅳ. 클라우드 네이티브 패턴
+## Ⅳ. [[531_cloud_native_architecture|클라우드 네이티브]] 패턴
 
 ```
 클라우드 네이티브 패턴:
@@ -210,11 +210,11 @@ Strangler 장점:
   서비스 디스커버리
 ```
 
-> 📢 **섹션 요약 비유**: Circuit Breaker는 전기 차단기 — 한 서비스가 망가져서 요청이 계속 오면, 전기 차단기처럼 "뚝!" 차단해서 전체 시스템이 쓰러지지 않도록 보호해요.
+> 📢 **섹션 요약 비유**: Circuit Breaker는 전기 차단기 — 한 [[090_service_kubernetes_network_load_balancing|서비스]]가 망가져서 요청이 계속 오면, 전기 차단기처럼 "뚝!" 차단해서 전체 시스템이 쓰러지지 않도록 보호해요.
 
 ---
 
-## Ⅴ. 실무 시나리오 — 이커머스 MSA 전환
+## Ⅴ. 실무 시나리오 — 이커머스 [[619_msa_traffic_hardware|MSA]] 전환
 
 ```
 대형 이커머스 모놀리스 → MSA 전환:
@@ -261,7 +261,7 @@ Phase 4~6 (다음 해): 주문/결제/배송 분리
   분산 트랜잭션: Saga 패턴으로 해결
 ```
 
-> 📢 **섹션 요약 비유**: 이커머스 MSA 전환은 대형마트 → 전문점 거리 — 모든 것 파는 대형마트(모놀리스)를 식료품점·전자제품점·의류점(마이크로서비스)으로 분리. 각 점포가 독립적으로 영업!
+> 📢 **섹션 요약 비유**: 이커머스 [[619_msa_traffic_hardware|MSA]] 전환은 대형마트 → 전문점 거리 — 모든 것 파는 대형마트(모놀리스)를 식료품점·전자제품점·의류점([[532_microservices_decomposition_patterns|마이크로서비스]])으로 분리. 각 점포가 독립적으로 영업!
 
 ---
 
@@ -317,6 +317,6 @@ Lambda Function as a Service
 
 ## 👶 어린이를 위한 3줄 비유 설명
 
-1. MSA는 대형마트 → 전문점 거리 전환 — 하나의 큰 가게(모놀리스) 대신, 각 물건별 전문점(마이크로서비스)으로 분리해서 각자 독립 운영해요!
+1. MSA는 대형마트 → 전문점 거리 전환 — 하나의 큰 가게(모놀리스) 대신, 각 물건별 전문점([[532_microservices_decomposition_patterns|마이크로서비스]])으로 분리해서 각자 독립 운영해요!
 2. Strangler Fig는 점진적 집 수리 — 한꺼번에 헐고 짓는 대신(Big Bang), 사람이 살면서 방 하나씩 리모델링. 훨씬 안전해요.
-3. Circuit Breaker는 전기 차단기 — 서비스 하나가 망가졌을 때 전체로 퍼지지 않도록 "뚝!" 차단해서 시스템을 보호해요!
+3. Circuit Breaker는 전기 차단기 — [[090_service_kubernetes_network_load_balancing|서비스]] 하나가 망가졌을 때 전체로 퍼지지 않도록 "뚝!" 차단해서 시스템을 보호해요!

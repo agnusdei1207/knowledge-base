@@ -8,19 +8,19 @@ categories = "studynote-operating-system"
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 하드웨어 트랜잭셔널 메모리 (HTM, Hardware Transactional Memory)는 멀티코어 환경에서 데이터베이스의 트랜잭션 개념(원자성 보장)을 메모리 연산에 도입하여, 명시적인 락(Lock) 없이도 하드웨어가 동시성 제어를 처리하는 기법이다.
-> 2. **가치**: 락 단위(Granularity)를 세밀하게 쪼개는 복잡한 소프트웨어 설계 없이도 거친 락(Coarse-grained Lock)의 쉬운 작성 편의성과 세밀한 락(Fine-grained Lock) 이상의 높은 동시 실행 성능을 동시에 얻을 수 있다.
-> 3. **융합**: Intel TSX(Transactional Synchronization Extensions)가 대표적 구현체이며, L1 캐시와 캐시 일관성 프로토콜(MESI)을 확장하여 트랜잭션 충돌을 하드웨어 수준에서 탐지하고 어보트(Abort)/롤백(Rollback)을 수행한다.
+> 1. **본질**: 하드웨어 [[513_htm|트랜잭셔널 메모리]] ([[513_htm|HTM]], Hardware Transactional Memory)는 멀티코어 환경에서 [[002_database_definition|데이터베이스]]의 [[191_transaction_concept_states|트랜잭션]] 개념([[193_atomicity_all_or_nothing|원자성]] 보장)을 메모리 연산에 도입하여, 명시적인 락([[510_lock|Lock]]) 없이도 하드웨어가 [[014_concurrency|동시성]] 제어를 처리하는 기법이다.
+> 2. **가치**: 락 단위(Granularity)를 세밀하게 쪼개는 복잡한 소프트웨어 설계 없이도 거친 락([[398_coarse_grained_multithreading|Coarse-grained]] [[510_lock|Lock]])의 쉬운 작성 편의성과 세밀한 락([[399_fine_grained_multithreading|Fine-grained]] [[510_lock|Lock]]) 이상의 높은 동시 실행 [[282_performance_tactics|성능]]을 동시에 얻을 수 있다.
+> 3. **융합**: Intel TSX(Transactional [[212_synchronization_mechanisms|Synchronization]] Extensions)가 대표적 구현체이며, L1 캐시와 [[402_cache_coherence|캐시 일관성]] [[295_protocol_field_tcp_udp_icmp|프로토콜]](MESI)을 확장하여 [[191_transaction_concept_states|트랜잭션]] 충돌을 하드웨어 수준에서 탐지하고 어보트(Abort)/[[098_rollback_strategy_pipeline_error_threshold|롤백]]([[313_rollback|Rollback]])을 수행한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-멀티스레드 프로그래밍에서 동시성 제어를 위해 사용하는 락(Lock)은 근본적으로 '성능'과 '구현 난이도' 사이의 트레이드오프를 갖는다. 큰 단위로 락을 걸면(Coarse-grained) 코딩은 쉽지만 병렬성이 죽고, 작은 단위로 락을 걸면(Fine-grained) 병렬성은 올라가지만 데드락 발생 확률과 코드 복잡도가 폭증한다.
+멀티스레드 프로그래밍에서 [[014_concurrency|동시성]] 제어를 위해 사용하는 락([[510_lock|Lock]])은 근본적으로 '[[282_performance_tactics|성능]]'과 '구현 난이도' 사이의 트레이드오프를 갖는다. 큰 단위로 락을 걸면([[398_coarse_grained_multithreading|Coarse-grained]]) 코딩은 쉽지만 병렬성이 죽고, 작은 단위로 락을 걸면([[399_fine_grained_multithreading|Fine-grained]]) 병렬성은 올라가지만 데드락 발생 확률과 코드 복잡도가 폭증한다.
 
-HTM은 이 모순을 해결한다. "일단 락 없이 동시에 실행(Optimistic)해보고, 충돌이 나면 하드웨어가 알아서 무효화(Rollback) 후 재시도한다."
+HTM은 이 모순을 해결한다. "일단 락 없이 동시에 실행(Optimistic)해보고, 충돌이 나면 하드웨어가 알아서 무효화([[313_rollback|Rollback]]) 후 재시도한다."
 
-**💡 비유**: HTM은 자율 계산대 — 줄 서서 한 명씩 결제(Lock)하는 대신, 각자 물건을 스캔하고 나가다가 혹시 중복 바코드가 찍혔을 때만 경보를 울려 다시 스캔(Rollback)하게 한다. 평소엔 멈춤 없이 통과!
+**💡 비유**: HTM은 자율 계산대 — 줄 서서 한 명씩 결제([[510_lock|Lock]])하는 대신, 각자 물건을 스캔하고 나가다가 혹시 중복 바코드가 찍혔을 때만 경보를 울려 다시 스캔([[313_rollback|Rollback]])하게 한다. 평소엔 멈춤 없이 통과!
 
 ```text
 ┌────────────────────────────────────────────────────────────────┐
@@ -46,21 +46,21 @@ HTM은 이 모순을 해결한다. "일단 락 없이 동시에 실행(Optimisti
 └────────────────────────────────────────────────────────────────┘
 ```
 
-**📢 섹션 요약 비유**: HTM은 락(Lock)의 불편함을 없애주는 마법의 공간 — 각자 마음대로 메모리 일기장을 쓰다가, 우연히 같은 줄을 쓰려고 할 때만 한 명의 글을 지우고 다시 쓰게 만듭니다.
+**📢 섹션 요약 비유**: HTM은 락([[510_lock|Lock]])의 불편함을 없애주는 마법의 공간 — 각자 마음대로 메모리 일기장을 쓰다가, 우연히 같은 줄을 쓰려고 할 때만 한 명의 글을 지우고 다시 쓰게 만듭니다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### Intel TSX (Transactional Synchronization Extensions)
+### Intel TSX (Transactional [[212_synchronization_mechanisms|Synchronization]] Extensions)
 
-Intel TSX는 코어의 **L1 데이터 캐시** 공간을 활용해 트랜잭션의 임시 데이터를 저장한다. 
+Intel TSX는 코어의 **L1 [[001_dikw_pyramid|데이터]] 캐시** 공간을 활용해 [[191_transaction_concept_states|트랜잭션]]의 임시 [[001_dikw_pyramid|데이터]]를 저장한다. 
 
-- **Read Set**: 트랜잭션 내에서 읽은 메모리 주소 집합 (캐시 라인 마킹)
-- **Write Set**: 트랜잭션 내에서 쓴 주소 집합 (L1 캐시에만 저장, 메인 메모리 반영 안함)
-- **캐시 일관성 활용**: 다른 코어가 내 Read/Write Set을 건드리는지 MESI 프로토콜의 스누핑(Snooping) 기능으로 감시. 침범당하면 즉시 트랜잭션 복귀(Abort).
+- **Read Set**: [[191_transaction_concept_states|트랜잭션]] 내에서 읽은 메모리 주소 집합 (캐시 라인 마킹)
+- **Write Set**: [[191_transaction_concept_states|트랜잭션]] 내에서 쓴 주소 집합 (L1 캐시에만 저장, 메인 메모리 반영 안함)
+- **[[402_cache_coherence|캐시 일관성]] 활용**: 다른 코어가 내 Read/Write Set을 건드리는지 MESI [[295_protocol_field_tcp_udp_icmp|프로토콜]]의 스누핑(Snooping) 기능으로 감시. 침범당하면 즉시 [[191_transaction_concept_states|트랜잭션]] 복귀(Abort).
 
-성공 조건: 트랜잭션 크기가 L1 캐시 용량을 넘지 않고, 타 스레드와 충돌 없이 `XEND`에 도달하면 한 번에 캐시 라인을 가용 상태로 Commit.
+성공 조건: [[191_transaction_concept_states|트랜잭션]] 크기가 L1 캐시 용량을 넘지 않고, 타 [[092_thread_lwp|스레드]]와 충돌 없이 `XEND`에 도달하면 한 번에 캐시 라인을 가용 상태로 Commit.
 
 **📢 섹션 요약 비유**: Intel TSX는 L1 캐시를 임시 스케치북으로 사용 — 스케치북에 연산 결과를 적다가, 다른 사람이 내 스케치북 주제를 가로채면 확 찢어버리고(Abort) 다시 시작합니다. 완성되면 정식으로 제출(Commit)하죠.
 
@@ -68,12 +68,12 @@ Intel TSX는 코어의 **L1 데이터 캐시** 공간을 활용해 트랜잭션�
 
 ## Ⅲ. 비교 및 연결
 
-| 항목 | 전통적 Lock | STM (Software TM) | HTM (Hardware TM) |
+| 항목 | 전통적 [[510_lock|Lock]] | [[268_software_transactional_memory|STM]] (Software TM) | [[513_htm|HTM]] (Hardware TM) |
 |:---|:---|:---|:---|
-| 제어 방식 | 비관적 (충돌을 미리 방지) | 낙관적 (SW로 추적/롤백) | 낙관적 (HW로 추적/롤백) |
+| 제어 방식 | 비관적 (충돌을 미리 방지) | 낙관적 (SW로 추적/[[098_rollback_strategy_pipeline_error_threshold|롤백]]) | 낙관적 (HW로 추적/[[098_rollback_strategy_pipeline_error_threshold|롤백]]) |
 | 오버헤드 | 락 획득/해제 (경합 시 급증) | 모든 연산마다 로깅 발생 | 거의 없음 (CPU 네이티브 속도) |
 | 병렬성 | 락 단위에 종속 (Coarse는 낮음) | 매우 높음 | 매우 높음 |
-| 한계/약점 | 데드락, 우선순위 역전, 확장성↓ | CPU/메모리 오버헤드 큼 | 용량 제한 (L1 캐시), 잦은 Abort |
+| 한계/약점 | 데드락, [[205_priority_inversion|우선순위 역전]], 확장성↓ | CPU/메모리 오버헤드 큼 | 용량 제한 (L1 캐시), 잦은 Abort |
 
 **📢 섹션 요약 비유**: Lock은 교차로 신호등(대기 길어짐), STM은 보행자 관제센터(모든 걸 감시해 느림), HTM은 스마트 로터리(멈춤 없이 돌다가 위험할 때만 브레이크)입니다.
 
@@ -82,26 +82,26 @@ Intel TSX는 코어의 **L1 데이터 캐시** 공간을 활용해 트랜잭션�
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 **실무 시나리오**:
-1. **인메모리 데이터베이스**: SAP HANA, Redis 등에서 해시 테이블 버킷 단위의 동시 접근 시, 값 비싼 스핀락 대신 HTM(Lock Elision)을 적용하면 쓰기 스레드 수십 개가 동시에 돌아가도 성능 저하가 없음(충돌 없는 경우).
-2. **Java JVM (JDK 8+) `synchronized` 최적화**: 운영체제 개입 전 하드웨어 지원이 있는 CPU면 TSX를 이용해 `synchronized` 블록을 먼저 락 없이 실행해 보는 기법(Lock Elision) 기본 탑재.
+1. **[[139_inmemory_db|인메모리 데이터베이스]]**: SAP HANA, [[542_redis|Redis]] 등에서 [[067_hash_table|해시 테이블]] 버킷 단위의 동시 접근 시, 값 비싼 [[222_spinlock|스핀락]] 대신 [[513_htm|HTM]]([[270_lock_elision|Lock Elision]])을 적용하면 [[289_cqrs_db|쓰기]] [[092_thread_lwp|스레드]] 수십 개가 동시에 돌아가도 [[282_performance_tactics|성능]] 저하가 없음(충돌 없는 경우).
+2. **Java JVM (JDK 8+) `synchronized` 최적화**: [[001_operating_system_purpose|운영체제]] 개입 전 하드웨어 지원이 있는 CPU면 TSX를 이용해 `synchronized` 블록을 먼저 락 없이 실행해 보는 기법([[270_lock_elision|Lock Elision]]) 기본 탑재.
 
-**안티패턴**:
-- **트랜잭션 블록 내에서 I/O 또는 시스템 콜 호출**: HTM 블록 내에서 `printf` 같은 I/O나 컨텍스트 스위치 유발 코드를 넣으면, CPU는 롤백이 불가능한 외부 상태 변경이라 판단해 무조건 Abort 시킴. 임계 구역 안에는 순수 메모리 연산만 존재해야 함.
+**[[128_water_scrum_fall_anti_pattern|안티패턴]]**:
+- **[[191_transaction_concept_states|트랜잭션]] 블록 내에서 I/O 또는 시스템 콜 호출**: [[513_htm|HTM]] 블록 내에서 `printf` 같은 I/O나 [[033_context|컨텍스트]] [[238_switch_operation_principles|스위치]] 유발 코드를 넣으면, CPU는 [[098_rollback_strategy_pipeline_error_threshold|롤백]]이 불가능한 외부 상태 변경이라 판단해 무조건 Abort 시킴. [[214_critical_section|임계 구역]] 안에는 순수 메모리 연산만 존재해야 함.
 
-**📢 섹션 요약 비유**: HTM 안에서 로그 출력(I/O)을 하는 건 스케치북 연습 중에 도장을 찍어버리는 것 — 연습 단계에서는 외부에 흔적을 절대 남기면 안 됩니다.
+**📢 섹션 요약 비유**: [[513_htm|HTM]] 안에서 [[568_logs_distributed_logging_elk_fluentd|로그]] 출력(I/O)을 하는 건 스케치북 연습 중에 도장을 찍어버리는 것 — 연습 단계에서는 외부에 흔적을 절대 남기면 안 됩니다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-| 구분 | 락 기반 병행성 제어 | 하드웨어 트랜잭셔널 메모리 |
+| 구분 | 락 기반 병행성 제어 | 하드웨어 [[513_htm|트랜잭셔널 메모리]] |
 |:---|:---|:---|
-| 컨텍스트 스위치 | 데드락, 블로킹으로 발생 가능 | 원천 차단 (블로킹 없음) |
-| 프로그래머 난이도 | Fine-grained 시 데드락 위험 폭발 | 거대한 임계구역도 알아서 쪼개어 최적화 |
-| 성능 스케일링 | 코어 증가 시 경합으로 하락 | 충돌이 적다면 선형적 방어 |
+| [[033_context|컨텍스트]] [[238_switch_operation_principles|스위치]] | 데드락, 블로킹으로 발생 가능 | 원천 차단 (블로킹 없음) |
+| 프로그래머 난이도 | [[399_fine_grained_multithreading|Fine-grained]] 시 데드락 위험 폭발 | 거대한 임계구역도 알아서 쪼개어 최적화 |
+| [[282_performance_tactics|성능]] [[249_scaling_normalization_standardization|스케일링]] | 코어 증가 시 경합으로 하락 | 충돌이 적다면 선형적 방어 |
 | 제약 사항 | 튜닝 공수 증대 | CPU 의존성, L1 캐시 한계량 |
 
-HTM은 락 오버헤드라는 소프트웨어계의 오랜 난제를 하드웨어 캐시 아키텍처로 우회 돌파한 기술이다. 비록 보안 취약점 이슈(Zombieload) 등으로 기능 비활성화의 부침을 겪었지만, 락 프리(Lock-Free) 생태계의 궁극적 지향점으로서 지속 발전할 핵심 가치다.
+HTM은 락 오버헤드라는 소프트웨어계의 오랜 난제를 하드웨어 캐시 아키텍처로 우회 돌파한 기술이다. 비록 보안 취약점 이슈([[767_zombieload_attack|Zombieload]]) 등으로 기능 비활성화의 부침을 겪었지만, 락 프리([[256_lock_free_data_structures|Lock-Free]]) 생태계의 궁극적 지향점으로서 지속 발전할 핵심 가치다.
 
 - **📢 섹션 요약 비유**: 도구의 장점만 외우는 것이 아니라 어디까지 믿고 어디서 보완해야 하는지 기억하는 정리 노트와 같다.
 
@@ -111,10 +111,10 @@ HTM은 락 오버헤드라는 소프트웨어계의 오랜 난제를 하드웨�
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| 원자적 트랜잭션 (Atomic Transaction) 개념 | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
-| 소프트웨어 트랜잭셔널 메모리 (STM) | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
-| 락 엘리전 (Lock Elision) | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
-| 스레드 풀 스케줄링 락 경합 (Work Stealing) | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
+| [[267_atomic_transaction|원자적 트랜잭션]] ([[267_atomic_transaction|Atomic Transaction]]) 개념 | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
+| [[268_software_transactional_memory|소프트웨어 트랜잭셔널 메모리]] ([[268_software_transactional_memory|STM]]) | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
+| [[270_lock_elision|락 엘리전]] ([[270_lock_elision|Lock Elision]]) | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
+| [[103_thread_pool|스레드 풀]] 스케줄링 [[275_lock_contention_monitoring|락 경합]] ([[271_work_stealing|Work Stealing]]) | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 

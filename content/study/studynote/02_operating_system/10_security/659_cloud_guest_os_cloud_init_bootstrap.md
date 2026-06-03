@@ -8,33 +8,33 @@ categories = "studynote-operating-system"
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: `cloud-init`은 클라우드 환경(AWS, GCP, OpenStack)에서 가상머신(VM) 인스턴스가 **최초로 부팅(Bootstrapping)될 때, 사용자의 개입 없이 OS를 자동으로 설정하고 초기화**해 주는 파이썬 기반의 업계 표준 패키지다.
-> 2. **메커니즘**: VM이 부팅될 때 클라우드 플랫폼이 제공하는 메타데이터 서버(예: `169.254.169.254`)에 접속하여 SSH 공개키, 호스트 이름, 네트워크 설정, 그리고 사용자가 주입한 `User-Data`(스크립트)를 가져와 OS 내부의 파일 시스템과 설정 파일에 자동으로 박아 넣는다.
-> 3. **가치**: 골든 이미지(미리 다 세팅된 무거운 OS 이미지)를 수백 개씩 만들어 관리하는 대신, 단 하나의 '바닐라(Vanilla) 이미지'와 'cloud-init 스크립트'의 조합만으로 언제든 1분 안에 원하는 형태의 서버를 수천 대씩 찍어낼 수 있는 **Infrastructure as Code (IaC)**의 시작점이다.
+> 1. **본질**: `cloud-init`은 클라우드 환경(AWS, GCP, OpenStack)에서 가상머신([[598_vm_migration_nic|VM]]) 인스턴스가 **최초로 부팅([[120_concept|Bootstrapping]])될 때, 사용자의 개입 없이 OS를 자동으로 [[009_config|설정]]하고 [[459_quic_fec_forward_error_correction|초기]]화**해 주는 파이썬 기반의 업계 표준 패키지다.
+> 2. **메커니즘**: VM이 부팅될 때 클라우드 플랫폼이 제공하는 [[012_metadata|메타데이터]] 서버(예: `169.254.169.254`)에 접속하여 [[538_ssh_vs_telnet_secure_remote|SSH]] 공개키, 호스트 이름, 네트워크 [[009_config|설정]], 그리고 사용자가 주입한 `User-Data`(스크립트)를 가져와 OS 내부의 [[501_file_definition_logical_record|파일]] 시스템과 [[009_config|설정]] [[501_file_definition_logical_record|파일]]에 자동으로 박아 넣는다.
+> 3. **가치**: 골든 이미지(미리 다 세팅된 무거운 OS 이미지)를 수백 개씩 만들어 관리하는 대신, 단 하나의 '바닐라(Vanilla) 이미지'와 'cloud-init 스크립트'의 조합만으로 언제든 1분 안에 원하는 형태의 서버를 수천 대씩 찍어낼 수 있는 **[[062_infrastructure_as_code|Infrastructure as Code]] ([[793_iac_idempotency_template|IaC]])**의 시작점이다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
 - **개념**: 
-  - **게스트 OS (Guest OS)**: 클라우드 인스턴스 내부에서 도는 운영체제 (예: Ubuntu, Amazon Linux 2023).
-  - **부트스트랩 (Bootstrapping)**: OS가 부팅되는 극초기 단계에 스스로 자신의 환경을 구축하는 과정.
-  - **Cloud-init**: Canonical(우분투 제작사)이 만들어 AWS 등에 표준으로 정착시킨 초기화 도구. 인스턴스가 켜질 때 딱 한 번(또는 설정에 따라 매 부팅 시) 실행되어 OS를 설정한다.
+  - **게스트 OS (Guest OS)**: 클라우드 인스턴스 내부에서 도는 [[001_operating_system_purpose|운영체제]] (예: Ubuntu, Amazon Linux 2023).
+  - **부트스트랩 ([[120_concept|Bootstrapping]])**: OS가 부팅되는 극초기 단계에 스스로 자신의 환경을 구축하는 과정.
+  - **Cloud-init**: Canonical(우분투 제작사)이 만들어 AWS 등에 표준으로 정착시킨 [[459_quic_fec_forward_error_correction|초기]]화 도구. 인스턴스가 켜질 때 딱 한 번(또는 [[009_config|설정]]에 따라 매 부팅 시) 실행되어 OS를 [[009_config|설정]]한다.
 
 - **필요성 (서버 찍어내기의 딜레마)**: 
   - 예전에는 웹 서버 100대를 띄우려면, 관리자가 일일이 SSH로 접속해서 호스트 이름을 바꾸고, Nginx를 설치하고, 계정의 암호를 세팅했다 (수작업 지옥).
-  - 그래서 미리 Nginx가 다 깔린 '이미지(AMI)'를 구워뒀는데, Nginx 버전이 바뀔 때마다 이미지를 새로 구워야 해서 이미지 관리(Image Sprawl)에만 인력이 다 갈려 나갔다.
-  - **해결책**: "빈 깡통 OS(바닐라 이미지)를 띄운 직후, 클라우드 인프라가 OS 안으로 '초기화 지시서'를 밀어 넣어주면 OS가 혼자 알아서 세팅하게 만들자"는 개념이 탄생했다.
+  - 그래서 미리 Nginx가 다 깔린 '이미지([[162_ami_advanced_metering_infrastructure|AMI]])'를 구워뒀는데, Nginx 버전이 바뀔 때마다 이미지를 새로 구워야 해서 이미지 관리(Image Sprawl)에만 인력이 다 갈려 나갔다.
+  - **해결책**: "빈 깡통 OS(바닐라 이미지)를 띄운 직후, 클라우드 인프라가 OS 안으로 '[[459_quic_fec_forward_error_correction|초기]]화 지시서'를 밀어 넣어주면 OS가 혼자 알아서 세팅하게 만들자"는 개념이 탄생했다.
 
   - **기존 방식 (골든 이미지)**: 공장에서 '딸기 케이크', '초코 케이크', '바나나 케이크'를 각각 완성품으로 얼려서 보관하다가 손님이 오면 녹여서 준다. 종류가 100개면 창고가 터진다.
-  - **Cloud-init 방식**: 공장에는 아무 맛도 안 나는 '기본 빵(바닐라 OS)'만 1만 개 쌓아둔다. 손님이 주문서(User-data)에 "딸기 시럽 뿌려줘"라고 적어서 내면, 빵이 오븐(부팅)에서 나오는 순간 로봇(cloud-init)이 주문서를 읽고 1초 만에 딸기 시럽을 쫙 뿌려서 완성한다.
+  - **Cloud-init 방식**: 공장에는 아무 맛도 안 나는 '기본 빵(바닐라 OS)'만 1만 개 쌓아둔다. 손님이 주문서(User-[[001_dikw_pyramid|data]])에 "딸기 시럽 뿌려줘"라고 적어서 내면, 빵이 오븐(부팅)에서 나오는 순간 로봇(cloud-init)이 주문서를 읽고 1초 만에 딸기 시럽을 쫙 뿌려서 완성한다.
 
 - **발전 과정**:
-  1. **초기 쉘 스크립트 주입**: 단순한 Bash 스크립트를 파라미터로 넘겨 부팅 시 실행.
-  2. **Cloud-init 등장**: Canonical이 개발. 다양한 클라우드 프로바이더(AWS, Azure, DigitalOcean)의 메타데이터 형식을 단일 인터페이스로 추상화.
-  3. **Cloud-config (YAML) 포맷 정착**: 쉘 스크립트 대신, 멱등성(Idempotency)을 보장하는 선언적 YAML 파일로 OS 설정을 주입하는 것이 업계 표준이 됨.
+  1. **[[459_quic_fec_forward_error_correction|초기]] 쉘 스크립트 주입**: 단순한 Bash 스크립트를 파라미터로 넘겨 부팅 시 실행.
+  2. **Cloud-init 등장**: Canonical이 개발. 다양한 클라우드 프로바이더(AWS, Azure, DigitalOcean)의 [[012_metadata|메타데이터]] 형식을 단일 인터페이스로 [[198_abstraction_control_data_process|추상화]].
+  3. **Cloud-[[009_config|config]] (YAML) 포맷 정착**: 쉘 스크립트 대신, [[171_idempotency_iac_terraform|멱등성]]([[194_idempotency|Idempotency]])을 보장하는 선언적 YAML [[501_file_definition_logical_record|파일]]로 OS [[009_config|설정]]을 주입하는 것이 업계 표준이 됨.
 
-- **📢 섹션 요약 비유**: 로봇(서버)이 처음 태어날 때(부팅), 신(클라우드 컨트롤러)이 허공(메타데이터 서버)에서 지혜의 칩(User-data)을 내려주면, 로봇이 스스로 자신의 이름과 직업을 깨닫고 즉시 업무에 돌입하는 자동화 의식입니다.
+- **📢 섹션 요약 비유**: 로봇(서버)이 처음 태어날 때(부팅), 신(클라우드 컨트롤러)이 허공([[012_metadata|메타데이터]] 서버)에서 지혜의 칩(User-[[001_dikw_pyramid|data]])을 내려주면, 로봇이 스스로 자신의 이름과 직업을 깨닫고 즉시 업무에 돌입하는 자동화 의식입니다.
 
 ---
 
@@ -46,16 +46,16 @@ categories = "studynote-operating-system"
 
 | 실행 단계 (systemd 타겟) | 수행하는 작업 (Action) | 비유 |
 |:---|:---|:---|
-| **1. Generator (Local)**| 부팅 극초기. 디스크에 남은 캐시를 확인해 네트워크 없이 할 수 있는 로컬 라우팅 테이블 등을 설정. | 기상 직후 스트레칭 |
-| **2. Network** | **메타데이터 서버(169.254.169.254)**에 HTTP 요청을 날려 Instance ID, Hostname, User-Data 등을 다운로드함. 네트워크 인터페이스 활성화. | 오늘의 할 일(지시서) 이메일 수신 |
-| **3. Config** | 다운받은 YAML 데이터를 바탕으로 `apt-get` 패키지 설치, SSH 키 등록, 디스크 마운트 등을 수행. | 지시서대로 옷 입고 장비 세팅 |
-| **4. Final** | 사용자가 주입한 커스텀 쉘 스크립트(`#!/bin/bash`)를 최종적으로 실행. (모든 설정 완료 후) | 사장님(유저)의 특별 명령 수행 |
+| **1. Generator (Local)**| 부팅 극초기. 디스크에 남은 캐시를 확인해 네트워크 없이 할 수 있는 로컬 [[339_routing_overview_best_path_selection|라우팅]] 테이블 등을 [[009_config|설정]]. | 기상 직후 스트레칭 |
+| **2. Network** | **[[012_metadata|메타데이터]] 서버(169.254.169.254)**에 [[461_http_stateless_connection_oriented|HTTP]] 요청을 날려 Instance ID, Hostname, User-[[001_dikw_pyramid|Data]] 등을 다운로드함. 네트워크 인터페이스 활성화. | 오늘의 할 일(지시서) 이메일 수신 |
+| **3. [[009_config|Config]]** | 다운받은 YAML [[001_dikw_pyramid|데이터]]를 바탕으로 `apt-get` 패키지 설치, [[538_ssh_vs_telnet_secure_remote|SSH]] 키 등록, 디스크 [[516_mount_mechanism|마운트]] 등을 수행. | 지시서대로 옷 입고 장비 세팅 |
+| **4. Final** | 사용자가 주입한 커스텀 쉘 스크립트(`#!/bin/bash`)를 최종적으로 실행. (모든 [[009_config|설정]] 완료 후) | 사장님(유저)의 특별 명령 수행 |
 
 ---
 
-### 메타데이터 (Metadata) 서버의 비밀: 169.254.169.254
+### [[012_metadata|메타데이터]] ([[012_metadata|Metadata]]) 서버의 비밀: 169.254.169.254
 
-가장 신기한 점은, 인터넷이 안 되는 폐쇄망 안에서도 VM은 자기가 누구인지, SSH 공개키가 뭔지 알아낸다는 것이다.
+가장 신기한 점은, 인터넷이 안 되는 폐쇄망 안에서도 VM은 자기가 누구인지, [[538_ssh_vs_telnet_secure_remote|SSH]] 공개키가 뭔지 알아낸다는 것이다.
 
 ```text
   ┌───────────────────────────────────────────────────────────────────┐
@@ -84,13 +84,13 @@ categories = "studynote-operating-system"
   └───────────────────────────────────────────────────────────────────┘
 ```
 
-**[다이어그램 해설]** `169.254.169.254`는 Link-local 주소로, 전 세계 모든 클라우드(AWS, GCP, Azure, Oracle)가 약속한 마법의 IP다. 공유기나 라우터를 타지 않고 VM과 하이퍼바이저 사이에서만 통신된다. Cloud-init은 어떤 클라우드에 배포되든 무조건 이 주소로 먼저 찔러보고, 클라우드 사업자가 내려주는 데이터(JSON)를 파싱하여 이질적인 환경을 동일한 방식으로 초기화한다.
+**[다이어그램 해설]** `169.254.169.254`는 Link-local 주소로, 전 세계 모든 클라우드(AWS, GCP, Azure, [[188_pl_sql_t_sql_procedural|Oracle]])가 약속한 마법의 IP다. 공유기나 라우터를 타지 않고 VM과 [[054_hypervisor|하이퍼바이저]] 사이에서만 통신된다. Cloud-init은 어떤 클라우드에 배포되든 무조건 이 주소로 먼저 찔러보고, 클라우드 사업자가 내려주는 [[001_dikw_pyramid|데이터]]([[343_json|JSON]])를 파싱하여 이질적인 환경을 동일한 방식으로 [[459_quic_fec_forward_error_correction|초기]]화한다.
 
 ---
 
-### User-Data: Cloud-config 포맷 (YAML)
+### User-[[001_dikw_pyramid|Data]]: Cloud-[[009_config|config]] 포맷 (YAML)
 
-사용자가 AWS 콘솔에서 인스턴스를 만들 때 '고급 설정'에 넣는 스크립트다. 단순 bash 스크립트도 되지만, 멱등성 보장을 위해 `#cloud-config` 선언 기반의 YAML을 가장 많이 쓴다.
+사용자가 AWS 콘솔에서 인스턴스를 만들 때 '고급 [[009_config|설정]]'에 넣는 스크립트다. 단순 bash 스크립트도 되지만, [[171_idempotency_iac_terraform|멱등성]] 보장을 위해 `#cloud-config` 선언 기반의 YAML을 가장 많이 쓴다.
 
 ```yaml
 #cloud-config
@@ -112,31 +112,31 @@ runcmd:
 ```
 이 단 15줄의 YAML 텍스트 쪼가리가, 부팅이 끝난 뒤 완벽하게 구동되는 Nginx 웹 서버를 창조해 낸다.
 
-- **📢 섹션 요약 비유**: Cloud-config는 이케아(IKEA) 가구 조립 설명서입니다. 나무토막(VM)과 함께 이 설명서만 던져주면, 방 안에 있던 꼬마 요정(cloud-init)이 나사(Package)를 조이고 페인트(Config)를 칠해서 완벽한 의자로 만들어줍니다.
+- **📢 섹션 요약 비유**: Cloud-config는 이케아(IKEA) 가구 조립 설명서입니다. 나무토막([[598_vm_migration_nic|VM]])과 함께 이 설명서만 던져주면, 방 안에 있던 꼬마 요정(cloud-init)이 나사(Package)를 조이고 페인트([[009_config|Config]])를 칠해서 완벽한 의자로 만들어줍니다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-### 서버 프로비저닝 (Provisioning) 3단계 스택 비교
+### 서버 [[528_provisioning|프로비저닝]] ([[528_provisioning|Provisioning]]) 3단계 [[057_stack|스택]] 비교
 
 서버를 세팅하는 시점과 도구의 진화다.
 
 | 단계 | 도구 예시 | 작업 시점 | 장점 | 한계 |
 |:---|:---|:---|:---|:---|
-| **1. Image Builder** | **Packer** (HashiCorp) | 부팅 **전** (이미지 굽기) | 부팅이 극도로 빠름 (다 깔려있음) | 패스워드나 IP 등 동적 정보를 구울 수 없음 |
+| **1. Image [[256_builder_pattern_step_by_step_creation|Builder]]** | **[[199_packer_aws_ami_baking|Packer]]** (HashiCorp) | 부팅 **전** (이미지 굽기) | 부팅이 극도로 빠름 (다 깔려있음) | 패스워드나 IP 등 동적 정보를 구울 수 없음 |
 | **2. Bootstrapper** | **Cloud-init** | 부팅 **중** (최초 1회) | IP, SSH키 부여. 동적 스크립트 실행 | 너무 무거운 패키지 설치 시 부팅 시간이 수 분 지연됨 |
-| **3. Config Manager**| **Ansible, Chef** | 부팅 **후** (런타임 지속 관리)| 수만 대 서버 동시 구성 관리 가능 | 타겟 서버에 Python, SSH 포트 등이 미리 열려 있어야 함 |
+| **3. [[009_config|Config]] Manager**| **[[198_ansible_os_configuration_management_ssh|Ansible]], Chef** | 부팅 **후** (런타임 지속 관리)| 수만 대 서버 동시 [[089_configuration_management|구성 관리]] 가능 | 타겟 서버에 Python, [[538_ssh_vs_telnet_secure_remote|SSH]] [[446_port_and_bus|포트]] 등이 미리 열려 있어야 함 |
 
-**최상의 조합 (Immutable Infrastructure)**: 
-1) Packer로 Nginx, Docker 등 무거운 패키지만 미리 깔아서 AMI(이미지)를 구워 둔다.
-2) Cloud-init은 부팅될 때 딱 필요한 '환경 변수'나 '최신 설정 파일' 1개만 다운받게 한다. (부팅 10초 컷)
+**최상의 조합 ([[204_immutable_infrastructure_configuration_drift_prevention|Immutable Infrastructure]])**: 
+1) Packer로 Nginx, [[063_docker_architecture|Docker]] 등 무거운 패키지만 미리 깔아서 [[162_ami_advanced_metering_infrastructure|AMI]](이미지)를 구워 둔다.
+2) Cloud-init은 부팅될 때 딱 필요한 '[[156_environment_variables|환경 변수]]'나 '최신 [[009_config|설정]] [[501_file_definition_logical_record|파일]]' 1개만 다운받게 한다. (부팅 10초 컷)
 3) 부팅 후에는 아무것도 건드리지 않고, 업데이트가 필요하면 1번부터 다시 구워서 클러스터를 통째로 교체해 버린다.
 
 ### 과목 융합 관점
 
-- **운영체제 (OS)**: Cloud-init은 `systemd` 서비스의 의존성 관리 기능에 전적으로 기대고 있다. 네트워크 인터페이스가 완전히 올라오기 전(`network-online.target` 도달 전)에 `cloud-init.service`가 돌아버리면 메타데이터 서버 통신에 실패하여 초기화가 영원히 꼬여버리는 레이스 컨디션 문제가 발생한다.
-- **클라우드 컴퓨팅 (Cloud)**: Auto Scaling Group(ASG) 아키텍처의 필수 요건이다. 트래픽이 폭주하여 10대의 새 서버가 추가될 때, 이 서버들이 사람의 개입 없이 스스로 소스코드를 `git pull` 받고 로드밸런서에 자기를 등록(Register)하는 모든 행위가 Cloud-init의 `runcmd`를 통해 달성된다.
+- **[[001_operating_system_purpose|운영체제]] (OS)**: Cloud-init은 `systemd` 서비스의 의존성 관리 기능에 전적으로 기대고 있다. 네트워크 인터페이스가 완전히 올라오기 전(`network-online.target` 도달 전)에 `cloud-init.service`가 돌아버리면 [[012_metadata|메타데이터]] 서버 통신에 실패하여 [[459_quic_fec_forward_error_correction|초기]]화가 영원히 꼬여버리는 레이스 컨디션 문제가 발생한다.
+- **[[052_cloud_computing_os|클라우드 컴퓨팅]] (Cloud)**: [[030_auto_scaling|Auto Scaling]] Group(ASG) 아키텍처의 필수 요건이다. 트래픽이 폭주하여 10대의 새 서버가 추가될 때, 이 서버들이 사람의 개입 없이 스스로 소스코드를 `git pull` 받고 로드밸런서에 자기를 등록([[175_register_addressing|Register]])하는 모든 행위가 Cloud-init의 `runcmd`를 통해 달성된다.
 
 - **📢 섹션 요약 비유**: Packer가 붕어빵의 '틀'을 만드는 것이라면, Cloud-init은 구워져 나온 붕어빵의 뱃속에 팥을 넣을지 슈크림을 넣을지 결정하는 '앙금 자동 주입기'입니다. 두 가지가 결합해야 맞춤형 붕어빵이 1초 만에 쏟아집니다.
 
@@ -146,14 +146,14 @@ runcmd:
 
 ### 실무 시나리오
 
-1. **시나리오 — AWS EC2 인스턴스의 비밀번호 분실 및 복구 (Cloud-init 마술)**: 실수로 접속용 `.pem` 키를 잃어버려서 EC2 서버에 영영 접속할 수 없게 된 주니어 개발자의 절망적인 상황.
-   - **원리 파악**: 인스턴스는 한 번 부팅되어 초기화가 끝나면, 재부팅을 해도 Cloud-init의 `User-Data`를 다시 실행하지 않는다(방어 기제). 
-   - **대응 (기술사적 가이드)**: AWS 콘솔에서 인스턴스를 중지(Stop)한다. `User-Data` 편집 창을 열고, 스크립트 상단에 새 텍스트를 추가한다. 그리고 재부팅할 때 Cloud-init이 "이 데이터는 옛날에 실행한 게 아니라 새 거네!"라고 인식하도록 설정 파일 형식을 멀티파트(MIME)로 조작하거나, AWS Systems Manager(SSM)를 우회하여 찔러 넣는다. 
-   - **결과**: 부팅 단계에서 Cloud-init이 강제 재실행되며 `/home/ubuntu/.ssh/authorized_keys` 파일에 나의 새 공개키를 덮어쓰고, 서버를 포맷하지 않고도 접속 권한을 되찾게 된다.
+1. **시나리오 — AWS EC2 인스턴스의 비밀번호 분실 및 [[658_ir_recovery|복구]] (Cloud-init 마술)**: 실수로 접속용 `.pem` 키를 잃어버려서 EC2 서버에 영영 접속할 수 없게 된 주니어 개발자의 절망적인 상황.
+   - **원리 파악**: 인스턴스는 한 번 부팅되어 [[459_quic_fec_forward_error_correction|초기]]화가 끝나면, 재부팅을 해도 Cloud-init의 `User-Data`를 다시 실행하지 않는다(방어 기제). 
+   - **대응 (기술사적 가이드)**: AWS 콘솔에서 인스턴스를 중지(Stop)한다. `User-Data` 편집 창을 열고, 스크립트 상단에 새 텍스트를 추가한다. 그리고 재부팅할 때 Cloud-init이 "이 [[001_dikw_pyramid|데이터]]는 옛날에 실행한 게 아니라 새 거네!"라고 인식하도록 [[009_config|설정]] [[501_file_definition_logical_record|파일]] 형식을 멀티파트([[492_mime_multipurpose_internet_mail_extensions|MIME]])로 조작하거나, AWS Systems Manager(SSM)를 우회하여 찔러 넣는다. 
+   - **결과**: 부팅 단계에서 Cloud-init이 강제 재실행되며 `/home/ubuntu/.ssh/authorized_keys` [[501_file_definition_logical_record|파일]]에 나의 새 공개키를 덮어쓰고, 서버를 포맷하지 않고도 접속 권한을 되찾게 된다.
 
-2. **시나리오 — 보안에 취약한 메타데이터 서버 SSRF(Server-Side Request Forgery) 공격 방어**: 해커가 내 웹 서버의 엉성한 이미지 다운로드 기능을 악용하여, `http://169.254.169.254/latest/meta-data/iam/security-credentials/` 주소로 HTTP 요청을 쏘게 만들었다. 서버는 자기가 요쳥한 줄 알고 AWS IAM Role의 토큰을 고스란히 해커에게 반환했고(SSRF 공격), 해커는 내 클라우드를 장악했다. (실제 2019년 캐피털원 1억 명 개인정보 유출 사건의 원인)
-   - **아키텍처 적용**: Cloud-init이 사용하는 이 마법의 주소가 양날의 검이 되었다. AWS는 즉각 **IMDSv2 (Instance Metadata Service v2)**를 출시했다.
-   - **방어 메커니즘**: 이제 `169.254.169.254`에 단순히 GET 요청을 날리면 거부된다. 반드시 사전에 PUT 요청을 날려 1분짜리 임시 세션 토큰(Token)을 발급받아야 하며, 이 과정에서 X-Forwarded-For 같은 프록시 헤더가 있으면 토큰 발급을 거부한다. OS의 Cloud-init 패키지도 이 IMDSv2 프로토콜을 사용하도록 전면 패치되었다.
+2. **시나리오 — 보안에 취약한 [[012_metadata|메타데이터]] 서버 [[468_ssrf|SSRF]]([[487_ssrf_server_side_request_forgery|Server-Side Request Forgery]]) 공격 방어**: 해커가 내 웹 서버의 엉성한 이미지 다운로드 기능을 악용하여, `http://169.254.169.254/latest/meta-data/iam/security-credentials/` 주소로 [[461_http_stateless_connection_oriented|HTTP]] 요청을 쏘게 만들었다. 서버는 자기가 요쳥한 줄 알고 AWS [[526_iam|IAM]] Role의 토큰을 고스란히 해커에게 반환했고([[468_ssrf|SSRF]] 공격), 해커는 내 클라우드를 장악했다. (실제 2019년 캐피털원 1억 명 [[781_personal_information|개인정보]] 유출 사건의 원인)
+   - **아키텍처 적용**: Cloud-init이 사용하는 이 마법의 주소가 양날의 검이 되었다. AWS는 즉각 **IMDSv2 (Instance [[012_metadata|Metadata]] [[090_service_kubernetes_network_load_balancing|Service]] v2)**를 출시했다.
+   - **방어 메커니즘**: 이제 `169.254.169.254`에 단순히 GET 요청을 날리면 거부된다. 반드시 사전에 PUT 요청을 날려 1분짜리 임시 [[160_session_controlling_terminal|세션]] 토큰(Token)을 발급받아야 하며, 이 과정에서 X-Forwarded-For 같은 [[264_proxy_pattern_surrogate_access_control|프록시]] 헤더가 있으면 토큰 발급을 거부한다. OS의 Cloud-init 패키지도 이 IMDSv2 프로토콜을 사용하도록 전면 패치되었다.
 
 ### 의사결정 및 튜닝 플로우
 
@@ -183,11 +183,11 @@ runcmd:
   └───────────────────────────────────────────────────────────────────┘
 ```
 
-**[다이어그램 해설]** Cloud-init은 너무 강력해서 개발자들이 모든 것을 다 User-data 창에 때려 넣는 실수를 범한다. 부팅할 때 소스코드를 컴파일하고, 자바를 깔고 앉아 있으면 서버가 트래픽을 받기까지 5분이 걸린다. 5분 뒤면 이미 서비스는 폭주해서 죽은 뒤다. 클라우드 아키텍처의 정수는 **"베이크(Bake)할 것인가, 프라이(Fry)할 것인가"**의 비율 조절이다. 무거운 짐은 무조건 미리 구워(Bake, Packer)두고, IP나 토큰 같은 마지막 양념만 현장에서 튀겨야(Fry, Cloud-init) 한다.
+**[다이어그램 해설]** Cloud-init은 너무 강력해서 개발자들이 모든 것을 다 User-[[001_dikw_pyramid|data]] 창에 때려 넣는 실수를 범한다. 부팅할 때 소스코드를 컴파일하고, 자바를 깔고 앉아 있으면 서버가 트래픽을 받기까지 5분이 걸린다. 5분 뒤면 이미 서비스는 폭주해서 죽은 뒤다. 클라우드 아키텍처의 정수는 **"베이크(Bake)할 것인가, 프라이(Fry)할 것인가"**의 비율 조절이다. 무거운 짐은 무조건 미리 구워(Bake, [[199_packer_aws_ami_baking|Packer]])두고, IP나 토큰 같은 마지막 양념만 현장에서 튀겨야(Fry, Cloud-init) 한다.
 
-### 도입 체크리스트
-- **로그 분석**: Cloud-init이 실행되다 중간에 에러가 나면 서버는 먹통이 되지만, 에러를 콘솔에 띄워주지 않는다. 반드시 접속해서 `/var/log/cloud-init-output.log` 파일의 끝자락을 보고 어떤 Bash 명령어가 실패했는지 디버깅하는 습관을 들여야 한다.
-- **모듈 실행 순서 (Boot Stages)**: Cloud-config YAML에서 디스크 마운트(`mounts:`)가 실행되기 전에 패키지 설치(`packages:`)가 동작해서 엉뚱한 파티션에 파일이 깔리지 않는지, Cloud-init의 모듈 간 실행 단계(stage) 우선순위를 검토했는가?
+### 도입 [[435_checklist_based_testing|체크리스트]]
+- **[[119_log_analysis|로그 분석]]**: Cloud-init이 실행되다 중간에 에러가 나면 서버는 먹통이 되지만, 에러를 콘솔에 띄워주지 않는다. 반드시 접속해서 `/var/log/cloud-init-output.log` [[501_file_definition_logical_record|파일]]의 끝자락을 보고 어떤 Bash 명령어가 실패했는지 디버깅하는 습관을 들여야 한다.
+- **[[192_module_independence|모듈]] 실행 순서 (Boot Stages)**: Cloud-[[009_config|config]] YAML에서 디스크 [[516_mount_mechanism|마운트]](`mounts:`)가 실행되기 전에 패키지 설치(`packages:`)가 동작해서 엉뚱한 [[514_partition_slice_volume|파티션]]에 [[501_file_definition_logical_record|파일]]이 깔리지 않는지, Cloud-init의 [[192_module_independence|모듈]] 간 실행 단계(stage) 우선순위를 검토했는가?
 
 - **📢 섹션 요약 비유**: Cloud-init(요리사)에게 너무 복잡한 100줄짜리 레시피를 주면 요리(부팅)가 하루 종일 걸리고 실수를 합니다. 반조리 식품(미리 만든 이미지)을 건네주고 "전자레인지 3분만 돌려!"라고 짧은 메모만 주는 것이 클라우드의 미덕입니다.
 
@@ -197,20 +197,20 @@ runcmd:
 
 ### 정량/정성 기대효과
 
-| 구분 | 레거시 (수동 세팅 / 골든 이미지 의존) | Cloud-init 기반 IaC 적용 | 개선 효과 |
+| 구분 | 레거시 (수동 세팅 / 골든 이미지 의존) | Cloud-init 기반 [[793_iac_idempotency_template|IaC]] 적용 | 개선 효과 |
 |:---|:---|:---|:---|
-| **정량 (부팅/배포)** | 수십 종류의 AMI 이미지 관리 파편화 | 1개의 베이스 이미지 + N개의 YAML | 이미지 관리 비용(Storage) **90% 절감** |
-| **정량 (가용성)** | 장애 시 관리자 접속 및 복구 (30분) | Auto Scaling 그룹이 자동 재시작 (1분) | 무인화된 자가 치유(Self-Healing) 달성 |
-| **정성 (보안)** | 패스워드나 인증서가 디스크에 영구 박힘 | 부팅 시 주입되고 인스턴스와 함께 소멸 | Immutable Infrastructure 및 보안 격리 |
+| **정량 (부팅/배포)** | 수십 종류의 [[162_ami_advanced_metering_infrastructure|AMI]] 이미지 관리 파편화 | 1개의 베이스 이미지 + N개의 YAML | 이미지 관리 비용(Storage) **90% 절감** |
+| **정량 ([[452_availability|가용성]])** | 장애 시 관리자 접속 및 [[658_ir_recovery|복구]] (30분) | [[030_auto_scaling|Auto Scaling]] 그룹이 자동 재시작 (1분) | 무인화된 자가 치유(Self-Healing) 달성 |
+| **정성 (보안)** | 패스워드나 인증서가 디스크에 영구 박힘 | 부팅 시 주입되고 인스턴스와 함께 소멸 | [[204_immutable_infrastructure_configuration_drift_prevention|Immutable Infrastructure]] 및 보안 격리 |
 
 ### 미래 전망
-- **Ignition (Flatcar Linux)**: CoreOS 진영이 만든 Cloud-init의 대체재다. Cloud-init은 파이썬 런타임이 무겁게 동작하지만, Ignition은 JSON 기반으로 OS 커널이 마운트되기도 전인 극초기 Initramfs 단계에서 디스크 파티션 자체를 포맷해 버리는 훨씬 낮고 빠른 수준의 초기화를 제공하며 컨테이너 최적화 OS(Flatcar, Fedora CoreOS)의 표준으로 자리 잡았다.
+- **Ignition (Flatcar Linux)**: CoreOS 진영이 만든 Cloud-init의 대체재다. Cloud-init은 파이썬 런타임이 무겁게 동작하지만, Ignition은 [[343_json|JSON]] 기반으로 OS [[022_kernel_role|커널]]이 [[516_mount_mechanism|마운트]]되기도 전인 극초기 Initramfs 단계에서 디스크 [[514_partition_slice_volume|파티션]] 자체를 포맷해 버리는 훨씬 낮고 빠른 수준의 [[459_quic_fec_forward_error_correction|초기]]화를 제공하며 [[561_container_based_deployment|컨테이너]] 최적화 OS(Flatcar, Fedora CoreOS)의 표준으로 자리 잡았다.
 - **클라우드 API와의 경계 붕괴**: 과거에는 Cloud-init이 단방향으로 지시를 받기만 했다면, 이제는 스크립트 실행이 끝난 직후 Cloud-init 훅이 AWS 람다나 이벤트 브릿지에 "나 세팅 다 끝났어! 로드밸런서에 내 IP 넣어줘"라고 양방향(Callback)으로 클라우드 인프라를 직접 제어하는 융합망으로 진화 중이다.
 
 ### 결론
-Cloud-init은 단순히 스크립트를 한 번 실행해 주는 도구가 아니다. 물리 서버에 플로피 디스크를 꽂아 리눅스를 설치하던 20세기의 패러다임을 박살 내고, API 통신만으로 10만 대의 서버에 각자의 정체성(Identity)을 부여하는 21세기 클라우드 '대량 생산 체제'의 탯줄이다. 테라폼(Terraform) 같은 최상위 인프라 관리 도구가 아무리 화려하게 서버의 외형을 조립하더라도, 결국 그 서버의 심장을 뛰게 하고 영혼을 불어넣는 0.1초의 마술은 언제나 `/var/lib/cloud` 속을 파고드는 이 낡고 견고한 파이썬 스크립트의 몫이다.
+Cloud-init은 단순히 스크립트를 한 번 실행해 주는 도구가 아니다. 물리 서버에 플로피 디스크를 꽂아 리눅스를 설치하던 20세기의 패러다임을 박살 내고, [[014_api_posix|API]] 통신만으로 10만 대의 서버에 각자의 정체성(Identity)을 부여하는 21세기 클라우드 '대량 생산 체제'의 탯줄이다. [[195_terraform_hashicorp_agnostic_aws_gcp|테라폼]]([[195_terraform_hashicorp_agnostic_aws_gcp|Terraform]]) 같은 최상위 인프라 관리 도구가 아무리 화려하게 서버의 외형을 조립하더라도, 결국 그 서버의 심장을 뛰게 하고 영혼을 불어넣는 0.1초의 마술은 언제나 `/var/lib/cloud` 속을 파고드는 이 낡고 견고한 파이썬 스크립트의 몫이다.
 
-- **📢 섹션 요약 비유**: 수만 개의 진흙 인형(서버)을 아무리 예쁘게 빚어봐야 그냥 흙덩이입니다. 메타데이터 서버에서 불어오는 바람(User-data)을 받아 마시며 각자의 이름을 외치고 벌떡 일어나는 순간(Cloud-init), 흙덩이는 비로소 클라우드라는 거대한 제국의 군대가 됩니다.
+- **📢 섹션 요약 비유**: 수만 개의 진흙 인형(서버)을 아무리 예쁘게 빚어봐야 그냥 흙덩이입니다. [[012_metadata|메타데이터]] 서버에서 불어오는 바람(User-[[001_dikw_pyramid|data]])을 받아 마시며 각자의 이름을 외치고 벌떡 일어나는 순간(Cloud-init), 흙덩이는 비로소 클라우드라는 거대한 제국의 군대가 됩니다.
 
 ---
 
@@ -218,10 +218,10 @@ Cloud-init은 단순히 스크립트를 한 번 실행해 주는 도구가 아�
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| 가상화 I/O 패스스루 (Passthrough) VFIO 프레임워크 | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
+| [[015_virtualization|가상화]] I/O 패스스루 ([[657_vfio_virtual_function_io_passthrough|Passthrough]]) VFIO 프레임워크 | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
 | Virtio | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
-| 커널 덤프 (Kdump) 시스템 크래시 원인 분석 커널 구조 | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
-| eBPF 기반 XDP (eXpress Data Path) 커널 네트워크 스택 우회 초고속 패킷 드롭/전달 프레임워크 | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
+| [[660_kernel_crash_dump_kdump_architecture|커널 덤프]] ([[660_kernel_crash_dump_kdump_architecture|Kdump]]) 시스템 크래시 원인 분석 [[022_kernel_role|커널]] 구조 | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
+| [[615_ebpf|eBPF]] 기반 [[670_xdp|XDP]] ([[661_ebpf_xdp_express_data_path|eXpress Data Path]]) [[022_kernel_role|커널]] 네트워크 [[057_stack|스택]] 우회 [[148_5g_embb_urllc_mmtc|초고속]] 패킷 드롭/전달 프레임워크 | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -240,5 +240,5 @@ Cloud-init은 단순히 스크립트를 한 번 실행해 주는 도구가 아�
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. 클라우드 공장에는 아무 얼굴도 없는 하얀 점토 로봇(가상머신)이 수만 개 쌓여 있어요. 손님이 "요리사 로봇 주세요!" 하고 주문을 해요.
-2. 로봇이 공장 문을 나서는 순간(부팅), 로봇은 허공에 대고 "내 직업이 뭐지?" 하고 물어봐요(메타데이터 서버 접속).
-3. 공장의 시스템이 "넌 요리사야! 이 모자를 쓰고 스파게티를 만들어!"라는 쪽지(User-data)를 던져주면, 로봇(Cloud-init)이 스스로 모자를 쓰고 1초 만에 완벽한 요리사로 변신한답니다!
+2. 로봇이 공장 문을 나서는 순간(부팅), 로봇은 허공에 대고 "내 직업이 뭐지?" 하고 물어봐요([[012_metadata|메타데이터]] 서버 접속).
+3. 공장의 시스템이 "넌 요리사야! 이 모자를 쓰고 스파게티를 만들어!"라는 쪽지(User-[[001_dikw_pyramid|data]])를 던져주면, 로봇(Cloud-init)이 스스로 모자를 쓰고 1초 만에 완벽한 요리사로 변신한답니다!

@@ -8,19 +8,19 @@ categories = "studynote-ai"
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: RAG (Retrieval-Augmented Generation, 검색 증강 생성)는 LLM의 파라미터 지식을 외부 벡터 DB에서 검색한 관련 문서로 보완하며, HNSW (Hierarchical Navigable Small World) 그래프가 대규모 벡터 ANN (Approximate Nearest Neighbor) 검색의 사실상 표준이다.
-> 2. **가치**: HNSW는 계층적 소규모 세계 그래프로 O(log n) 검색 복잡도를 달성하며, 정확도·속도·메모리 트레이드오프에서 우수한 성능을 보인다.
-> 3. **판단 포인트**: RAG 품질은 청킹 전략, 임베딩 모델 선택, HNSW 파라미터(M, ef_construction, ef_search)의 조합으로 결정되며, Reranker 추가로 정밀도를 높인다.
+> 1. **본질**: [[276_fine_tuning|RAG]] ([[585_rag_retrieval_augmented_generation|Retrieval-Augmented Generation]], [[222_rag_retrieval_augmented_generation|검색 증강 생성]])는 LLM의 파라미터 지식을 외부 벡터 DB에서 검색한 관련 문서로 보완하며, [[351_hnsw|HNSW]] ([[352_rag|Hierarchical Navigable Small World]]) [[070_graph_datastructure|그래프]]가 대규모 벡터 [[350_ann|ANN]] ([[351_hnsw|Approximate Nearest Neighbor]]) 검색의 사실상 표준이다.
+> 2. **가치**: HNSW는 계층적 소규모 세계 [[070_graph_datastructure|그래프]]로 O(log n) 검색 복잡도를 달성하며, 정확도·속도·메모리 트레이드오프에서 우수한 [[282_performance_tactics|성능]]을 보인다.
+> 3. **판단 포인트**: [[276_fine_tuning|RAG]] 품질은 청킹 [[268_strategy_pattern|전략]], [[278_instruction_tuning|임베딩]] 모델 선택, [[351_hnsw|HNSW]] 파라미터(M, ef_construction, ef_search)의 조합으로 결정되며, Reranker 추가로 [[233_precision_recall_f1_roc_auc_threshold|정밀도]]를 높인다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-LLM은 사전학습 컷오프 이후 지식이 없고, 길고 구체적인 내부 문서에 대한 질문에 취약하다. RAG는 질문과 관련된 외부 문서를 실시간 검색해 LLM의 컨텍스트에 주입함으로써 이 문제를 해결한다.
+LLM은 사전학습 컷오프 이후 지식이 없고, 길고 구체적인 내부 문서에 대한 질문에 취약하다. RAG는 질문과 관련된 외부 문서를 실시간 검색해 LLM의 [[033_context|컨텍스트]]에 주입함으로써 이 문제를 해결한다.
 
-- **Hallucination 감소**: 실제 문서 근거 제공
+- **[[345_llm_foundation_model_hallucination|Hallucination]] 감소**: 실제 문서 근거 제공
 - **지식 최신화**: DB 업데이트만으로 지식 갱신
-- **비용 효율**: 재학습 없이 도메인 특화 가능
+- **비용 효율**: 재학습 없이 [[064_relation_domain|도메인]] 특화 가능
 
 ```text
 ┌──────────────────────────────────────────────┐
@@ -31,13 +31,13 @@ LLM은 사전학습 컷오프 이후 지식이 없고, 길고 구체적인 내�
 └──────────────────────────────────────────────┘
 ```
 
-- **📢 섹션 요약 비유**: RAG는 "오픈북 시험"이다. LLM(학생)이 모든 걸 외우는 대신, 시험 중에 책(벡터 DB)을 찾아보고 답을 작성한다.
+- **📢 섹션 요약 비유**: RAG는 "오픈북 시험"이다. [[263_llm_large_language_model|LLM]](학생)이 모든 걸 외우는 대신, 시험 중에 책(벡터 DB)을 찾아보고 답을 작성한다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### RAG 파이프라인
+### [[276_fine_tuning|RAG]] [[123_pipe|파이프]]라인
 
 ```
 ┌──────────────────────────────────────────────────────────┐
@@ -53,10 +53,10 @@ LLM은 사전학습 컷오프 이후 지식이 없고, 길고 구체적인 내�
 └──────────────────────────────────────────────────────────┘
 ```
 
-### HNSW (Hierarchical Navigable Small World)
+### [[351_hnsw|HNSW]] ([[352_rag|Hierarchical Navigable Small World]])
 
 NSW (Navigable Small World): 소수의 장거리 연결 + 다수의 단거리 연결로 좁은 세상 현상 구현
-HNSW: 계층적 구조로 탐색 시작점 최적화
+[[351_hnsw|HNSW]]: 계층적 구조로 탐색 시작점 최적화
 
 ```
 레이어 3 (희소): ● ────────────────── ●
@@ -66,19 +66,19 @@ HNSW: 계층적 구조로 탐색 시작점 최적화
                 ↑ 상위 레이어에서 시작해 하위로 내려가며 탐색
 ```
 
-**HNSW 주요 파라미터**:
+**[[351_hnsw|HNSW]] 주요 파라미터**:
 
 | 파라미터 | 의미 | 기본값 | 영향 |
 |:---|:---|:---|:---|
 | M | 각 노드의 최대 연결 수 | 16 | ↑: 정확도↑, 메모리↑ |
-| ef_construction | 인덱싱 시 탐색 후보 수 | 200 | ↑: 인덱스 품질↑, 빌드 느림 |
+| ef_construction | 인덱싱 시 탐색 후보 수 | 200 | ↑: [[154_database_index_b_tree_search_optimization|인덱스]] 품질↑, 빌드 느림 |
 | ef_search | 검색 시 탐색 후보 수 | 50 | ↑: 정확도↑, 검색 느림 |
 
-**HNSW 복잡도**:
+**[[351_hnsw|HNSW]] 복잡도**:
 - 삽입: O(log n)
 - 검색: O(log n) 평균
 
-### 청킹 전략 (Chunking Strategy)
+### 청킹 [[268_strategy_pattern|전략]] (Chunking [[268_strategy_pattern|Strategy]])
 
 ```
 고정 크기: 512 토큰씩 분할 (단순, 컨텍스트 파괴 가능)
@@ -93,35 +93,35 @@ HNSW: 계층적 구조로 탐색 시작점 최적화
 
 ## Ⅲ. 비교 및 연결
 
-| ANN 알고리즘 | 복잡도 | 메모리 | 정확도 | 업데이트 |
+| [[350_ann|ANN]] [[001_algorithm_definition|알고리즘]] | 복잡도 | 메모리 | 정확도 | 업데이트 |
 |:---|:---|:---|:---|:---|
-| 완전 탐색 | O(nd) | 낮음 | 100% | 쉬움 |
-| IVF (Inverted File) | O(√n·d) | 중간 | 높음 | 어려움 |
-| HNSW | O(log n) | 높음 | 매우 높음 | 어려움 |
-| FAISS (Flat) | O(nd) | 낮음 | 100% | 쉬움 |
+| 완전 탐색 | O(nd) | 낮음 | [[489_raid_10_hybrid|10]]0% | 쉬움 |
+| IVF (Inverted [[501_file_definition_logical_record|File]]) | O(√n·d) | 중간 | 높음 | 어려움 |
+| [[351_hnsw|HNSW]] | O(log n) | 높음 | 매우 높음 | 어려움 |
+| FAISS (Flat) | O(nd) | 낮음 | [[489_raid_10_hybrid|10]]0% | 쉬움 |
 | ScaNN | O(log n) | 중간 | 높음 | 중간 |
 
-**주요 벡터 DB**: Chroma, Pinecone, Weaviate, Milvus, Qdrant (대부분 HNSW 지원)
+**주요 벡터 DB**: Chroma, Pinecone, Weaviate, [[320_gnn_vector_db_recommendation|Milvus]], Qdrant (대부분 [[351_hnsw|HNSW]] 지원)
 
-- **📢 섹션 요약 비유**: ANN 알고리즘 선택은 "지도 서비스"와 같다. 완전 탐색은 전국 도보 여행, HNSW는 고속도로 내비게이션이다.
+- **📢 섹션 요약 비유**: [[350_ann|ANN]] [[001_algorithm_definition|알고리즘]] 선택은 "지도 [[090_service_kubernetes_network_load_balancing|서비스]]"와 같다. 완전 탐색은 전국 도보 여행, HNSW는 고속도로 내비게이션이다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-**Reranker 추가**: BM25 + 벡터 검색 하이브리드 → Cross-Encoder Reranker로 정밀도 향상
-**청크 크기**: 128~512 토큰 (LLM 컨텍스트 창 크기 고려)
-**임베딩 모델**: text-embedding-ada-002, BGE, E5 등 태스크별 선택
+**Reranker 추가**: BM25 + 벡터 검색 하이브리드 → Cross-[[040_encoder|Encoder]] Reranker로 [[233_precision_recall_f1_roc_auc_threshold|정밀도]] 향상
+**청크 크기**: 128~512 토큰 ([[263_llm_large_language_model|LLM]] [[033_context|컨텍스트]] 창 크기 고려)
+**[[278_instruction_tuning|임베딩]] 모델**: text-[[278_instruction_tuning|embedding]]-ada-002, BGE, E5 등 [[150_task|태스크]]별 선택
 
-기술사 포인트: RAG 파이프라인 단계(인덱싱→검색→생성), HNSW 계층 구조, ANN vs 완전 탐색 트레이드오프를 도식으로 설명.
+기술사 포인트: [[276_fine_tuning|RAG]] [[219_pipeline_stages|파이프라인 단계]](인덱싱→검색→[[087_process_state_transition|생성]]), [[351_hnsw|HNSW]] 계층 구조, [[350_ann|ANN]] vs 완전 탐색 트레이드오프를 도식으로 설명.
 
-- **📢 섹션 요약 비유**: Reranker는 "Google 검색 결과 1위가 항상 최선이 아니라 1위~10위를 모두 읽고 가장 적합한 것을 다시 고르는" 정밀 필터링이다.
+- **📢 섹션 요약 비유**: Reranker는 "Google 검색 결과 1위가 항상 최선이 아니라 1위~[[489_raid_10_hybrid|10]]위를 모두 읽고 가장 적합한 것을 다시 고르는" 정밀 필터링이다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-RAG + HNSW 조합은 LLM의 환각 문제를 실용적으로 해결하는 현재 표준 아키텍처다. 기업 내 문서 Q&A, 법률·의료 전문 AI에서 재학습 없이 도메인 지식을 제공한다. HNSW의 O(log n) 검색 효율은 수억 개의 벡터에서도 밀리초 단위 검색을 가능하게 한다.
+[[276_fine_tuning|RAG]] + [[351_hnsw|HNSW]] 조합은 LLM의 [[275_react_framework|환각]] 문제를 실용적으로 해결하는 현재 표준 아키텍처다. 기업 내 문서 Q&A, 법률·의료 전문 AI에서 재학습 없이 [[064_relation_domain|도메인]] 지식을 제공한다. HNSW의 O(log n) 검색 효율은 수억 개의 벡터에서도 밀리초 단위 검색을 가능하게 한다.
 
 - **📢 섹션 요약 비유**: RAG는 AI에게 "기억력을 인터넷으로 확장"하는 것이다. 외울 수 없는 것은 빠르게 검색해서 답하면 된다.
 
@@ -131,12 +131,12 @@ RAG + HNSW 조합은 LLM의 환각 문제를 실용적으로 해결하는 현재
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| RAG | 검색 증강, 벡터 DB / LLM 지식 확장 방법 |
-| HNSW | 계층 그래프, O(log n) / 벡터 ANN 검색 표준 |
-| ANN | 근사 최근접 이웃 / 벡터 유사도 검색 |
-| 청킹 | 문서 분할, 컨텍스트 / 인덱싱 전처리 |
-| Reranker | Cross-Encoder, 정밀도 / 검색 결과 재정렬 |
-| 벡터 DB | Pinecone, Chroma / HNSW 구현체 |
+| [[276_fine_tuning|RAG]] | 검색 증강, 벡터 DB / [[263_llm_large_language_model|LLM]] 지식 확장 방법 |
+| [[351_hnsw|HNSW]] | 계층 [[070_graph_datastructure|그래프]], O(log n) / 벡터 [[350_ann|ANN]] 검색 표준 |
+| [[350_ann|ANN]] | 근사 최근접 이웃 / 벡터 [[348_similarity_search|유사도 검색]] |
+| 청킹 | 문서 분할, [[033_context|컨텍스트]] / 인덱싱 전처리 |
+| Reranker | Cross-[[040_encoder|Encoder]], [[233_precision_recall_f1_roc_auc_threshold|정밀도]] / 검색 결과 재정렬 |
+| 벡터 DB | Pinecone, Chroma / [[351_hnsw|HNSW]] 구현체 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 

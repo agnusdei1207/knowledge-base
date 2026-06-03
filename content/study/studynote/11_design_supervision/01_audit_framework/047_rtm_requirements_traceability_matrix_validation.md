@@ -7,13 +7,13 @@ categories = "studynote-design-supervision"
 +++
 
 > **핵심 인사이트**
-> 1. RTM(Requirements Traceability Matrix)은 요구사항과 설계·개발·테스트 산출물 간의 연결 고리를 추적하는 표 — "요구사항 RQ-001이 어느 설계 문서, 어느 코드, 어느 테스트 케이스에 반영되었는가"를 한눈에 확인하며, 누락·중복·불일치를 방지한다.
-> 2. 양방향 추적성(Bi-directional Traceability)이 RTM의 핵심 가치 — 전방 추적(Forward: 요구사항→테스트)은 "모든 요구사항이 테스트되었는가" 확인, 후방 추적(Backward: 테스트→요구사항)은 "모든 테스트가 요구사항에 기반하는가(불필요 테스트 탐지)" 확인이다.
+> 1. [[667_requirements_traceability_matrix|RTM]]([[667_requirements_traceability_matrix|Requirements Traceability Matrix]])은 요구사항과 설계·개발·테스트 산출물 간의 연결 고리를 추적하는 표 — "요구사항 RQ-001이 어느 설계 문서, 어느 코드, 어느 테스트 케이스에 반영되었는가"를 한눈에 [[396_validation|확인]]하며, 누락·중복·불일치를 방지한다.
+> 2. 양방향 추적성(Bi-directional [[228_blockchain_smart_contract_traceability|Traceability]])이 RTM의 핵심 가치 — 전방 추적([[235_forward_backward_chaining|Forward]]: 요구사항→테스트)은 "모든 요구사항이 테스트되었는가" [[396_validation|확인]], 후방 추적(Backward: 테스트→요구사항)은 "모든 테스트가 요구사항에 기반하는가(불필요 테스트 탐지)" [[396_validation|확인]]이다.
 > 3. RTM은 변경 영향 분석의 핵심 도구 — 요구사항 변경 시 RTM으로 영향받는 설계·코드·테스트 케이스를 즉시 파악하여 변경 범위와 비용을 정확히 산정할 수 있다.
 
 ---
 
-## Ⅰ. RTM 기본 구조
+## Ⅰ. [[667_requirements_traceability_matrix|RTM]] 기본 구조
 
 ```
 RTM (Requirements Traceability Matrix) 구조:
@@ -54,7 +54,7 @@ RTM 분석:
   Requiment 추적: Azure DevOps, Rally
 ```
 
-> 📢 **섹션 요약 비유**: RTM은 건축 체크리스트 — "설계도 3번 항목(요구사항)이 실제 벽(코드)에 있나? 감리 검사(테스트)에서 확인됐나?" 연결 추적표!
+> 📢 **섹션 요약 비유**: RTM은 건축 [[435_checklist_based_testing|체크리스트]] — "설계도 3번 항목(요구사항)이 실제 벽(코드)에 있나? 감리 검사(테스트)에서 [[396_validation|확인]]됐나?" 연결 추적표!
 
 ---
 
@@ -108,11 +108,11 @@ ISO/IEC 29119 (소프트웨어 테스트 표준):
   → TC-007 (세션 연장 테스트)도 수정 필요
 ```
 
-> 📢 **섹션 요약 비유**: 양방향 추적은 건물+감리 체크 — 앞방향(설계→건물→감리: 누락 탐지), 뒷방향(감리→건물→설계: 불필요 감리 탐지). 양방향 확인으로 완전성 보장!
+> 📢 **섹션 요약 비유**: 양방향 추적은 건물+감리 체크 — 앞방향(설계→건물→감리: 누락 탐지), 뒷방향(감리→건물→설계: 불필요 감리 탐지). 양방향 [[396_validation|확인]]으로 완전성 보장!
 
 ---
 
-## Ⅲ. 공공 SI에서의 RTM
+## Ⅲ. 공공 SI에서의 [[667_requirements_traceability_matrix|RTM]]
 
 ```
 공공 SI 프로젝트 RTM:
@@ -165,7 +165,7 @@ ISO/IEC 29119 (소프트웨어 테스트 표준):
 
 ---
 
-## Ⅳ. RTM 자동화
+## Ⅳ. [[667_requirements_traceability_matrix|RTM]] 자동화
 
 ```
 RTM 자동화 도구 활용:
@@ -211,11 +211,11 @@ RTM 자동화 장점:
   요구사항이 명확해야 자동화 가능
 ```
 
-> 📢 **섹션 요약 비유**: RTM 자동화는 스마트 체크리스트 — 엑셀(수동 체크) → JIRA+Xray(CI/CD 연동 자동 체크). 코드 커밋할 때마다 RTM 자동 갱신!
+> 📢 **섹션 요약 비유**: [[667_requirements_traceability_matrix|RTM]] 자동화는 스마트 [[435_checklist_based_testing|체크리스트]] — 엑셀(수동 체크) → JIRA+Xray([[090_configuration_item|CI]]/CD 연동 자동 체크). 코드 커밋할 때마다 [[667_requirements_traceability_matrix|RTM]] 자동 갱신!
 
 ---
 
-## Ⅴ. 실무 시나리오 — 의료 기기 RTM
+## Ⅴ. 실무 시나리오 — 의료 기기 [[667_requirements_traceability_matrix|RTM]]
 
 ```
 의료 기기 소프트웨어 RTM (IEC 62304):
@@ -261,7 +261,7 @@ RTM 구성 (의료 기기):
   RTM 불완전 → 심사 반려
 ```
 
-> 📢 **섹션 요약 비유**: 의료 기기 RTM은 안전 인증서 — "이 혈당 경고(요구사항)가 실제 코드(구현)에 있고, 테스트(검증)로 확인됐다"는 FDA 증거. RTM 빠지면 의료 기기 판매 불가!
+> 📢 **섹션 요약 비유**: 의료 기기 RTM은 안전 인증서 — "이 혈당 경고(요구사항)가 실제 코드(구현)에 있고, 테스트([[395_verification_process_review|검증]])로 [[396_validation|확인]]됐다"는 FDA 증거. [[667_requirements_traceability_matrix|RTM]] 빠지면 의료 기기 판매 불가!
 
 ---
 
@@ -320,5 +320,5 @@ NLP 요구사항 분석
 ## 👶 어린이를 위한 3줄 비유 설명
 
 1. RTM은 연결 지도 — "요구사항 001번이 어느 코드(지점 A), 어느 테스트(검사소 B)에 있나?" 지도. 없으면 길을 잃어요!
-2. 양방향 추적 — 앞으로(요구사항→테스트: 테스트 빠진 것 찾기), 뒤로(테스트→요구사항: 불필요 테스트 찾기). 양방향 확인!
+2. 양방향 추적 — 앞으로(요구사항→테스트: 테스트 빠진 것 찾기), 뒤로(테스트→요구사항: 불필요 테스트 찾기). 양방향 [[396_validation|확인]]!
 3. 의료 기기 RTM은 안전 인증서 — 혈당 경고 기능이 코드+테스트로 증명돼야 FDA 통과. RTM이 없으면 의료 기기 판매 금지!

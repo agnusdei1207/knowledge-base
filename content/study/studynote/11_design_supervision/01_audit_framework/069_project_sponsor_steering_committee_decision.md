@@ -68,7 +68,7 @@ Direction / Budget / Escalation
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### 체크리스트
+### [[435_checklist_based_testing|체크리스트]]
 
 1. 스폰서 책임이 명확한가?
 2. 위원회 의사결정 범위가 있는가?
@@ -76,7 +76,7 @@ Direction / Budget / Escalation
 4. 이슈 escalation 경로가 있는가?
 5. 회의가 아니라 결정이 남는가?
 
-### 안티패턴
+### [[128_water_scrum_fall_anti_pattern|안티패턴]]
 
 - 스폰서가 없는 프로젝트
 - 위원회가 형식만 있는 설계

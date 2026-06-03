@@ -7,17 +7,17 @@ categories = "studynote-data-engineering"
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: 연방 쿼리(Federated Query)는 데이터를 물리적으로 이동하지 않고, 분산된 이기종 데이터 소스에 단일 쿼리로 접근하는 패턴이다.
-> 2. **가치**: 데이터 패브릭(Data Fabric)은 연방 쿼리 + 메타데이터 관리 + 자동 거버넌스를 통합하여 데이터 사일로(Silo) 없는 논리적 단일 데이터 계층을 실현한다.
-> 3. **판단 포인트**: 쿼리 성능(데이터 이동 비용)과 거버넌스 복잡도의 트레이드오프를 이해하고, Data Fabric vs Data Mesh vs Data Lake의 차이를 조직 구조에 맞게 선택해야 한다.
+> 1. **본질**: 연방 [[298_qkv_attention|쿼리]](Federated Query)는 [[001_dikw_pyramid|데이터]]를 물리적으로 이동하지 않고, [[136_variance|분산]]된 이기종 [[001_dikw_pyramid|데이터]] 소스에 단일 [[298_qkv_attention|쿼리]]로 접근하는 패턴이다.
+> 2. **가치**: [[212_data_fabric_virtualization|데이터 패브릭]]([[212_data_fabric_virtualization|Data Fabric]])은 연방 [[298_qkv_attention|쿼리]] + [[203_metadata_management|메타데이터 관리]] + 자동 거버넌스를 통합하여 [[001_dikw_pyramid|데이터]] [[002_silo_hyeonhyung|사일로]]([[002_silo_hyeonhyung|Silo]]) 없는 논리적 단일 [[001_dikw_pyramid|데이터]] 계층을 실현한다.
+> 3. **판단 포인트**: [[298_qkv_attention|쿼리]] [[282_performance_tactics|성능]]([[189_egress|데이터 이동 비용]])과 거버넌스 복잡도의 트레이드오프를 이해하고, [[212_data_fabric_virtualization|Data Fabric]] vs [[320_data_mesh|Data Mesh]] vs [[001_dikw_pyramid|Data]] Lake의 차이를 조직 구조에 맞게 선택해야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-### 1.1 데이터 사일로 문제
+### 1.1 [[001_dikw_pyramid|데이터]] [[002_silo_hyeonhyung|사일로]] 문제
 
-현대 기업은 데이터가 수십 개의 이기종 시스템에 분산되어 있다.
+현대 기업은 [[001_dikw_pyramid|데이터]]가 수십 개의 이기종 시스템에 [[136_variance|분산]]되어 있다.
 
 ```
 [데이터 사일로 현황]
@@ -34,29 +34,29 @@ Oracle DB    PostgreSQL    MongoDB    Salesforce CRM
   └─ 실시간 최신 데이터 접근 불가
 ```
 
-### 1.2 연방 쿼리 (Federated Query) 정의
+### 1.2 연방 [[298_qkv_attention|쿼리]] (Federated Query) 정의
 
-연방 쿼리는 **데이터를 중앙으로 이동시키지 않고** 각 데이터 소스에 직접 쿼리를 실행하고 결과를 통합하는 기법이다.
+연방 [[298_qkv_attention|쿼리]]는 **[[001_dikw_pyramid|데이터]]를 중앙으로 이동시키지 않고** 각 [[001_dikw_pyramid|데이터]] 소스에 직접 [[298_qkv_attention|쿼리]]를 실행하고 결과를 통합하는 기법이다.
 
-| 항목 | ETL 방식 | 연방 쿼리 방식 |
+| 항목 | [[215_etl_vs_elt_pipeline|ETL]] 방식 | 연방 [[298_qkv_attention|쿼리]] 방식 |
 |:---|:---|:---|
-| 데이터 이동 | 중앙 저장소로 복사 | 원본 위치에서 쿼리 |
-| 데이터 신선도 | 배치 주기 의존 | 실시간 최신 데이터 |
+| [[001_dikw_pyramid|데이터]] 이동 | 중앙 저장소로 복사 | 원본 위치에서 [[298_qkv_attention|쿼리]] |
+| [[001_dikw_pyramid|데이터]] 신선도 | 배치 주기 의존 | 실시간 최신 [[001_dikw_pyramid|데이터]] |
 | 인프라 비용 | 중앙 저장소 비용 | 소스별 컴퓨팅 비용 |
-| 쿼리 성능 | 로컬 조회 (빠름) | 네트워크 전송 (느릴 수 있음) |
-| 거버넌스 | 중앙 관리 | 분산 정책 필요 |
+| [[298_qkv_attention|쿼리]] [[282_performance_tactics|성능]] | 로컬 조회 (빠름) | 네트워크 전송 (느릴 수 있음) |
+| 거버넌스 | 중앙 관리 | [[136_variance|분산]] [[164_policy|정책]] 필요 |
 
-### 1.3 데이터 패브릭 (Data Fabric) 정의
+### 1.3 [[212_data_fabric_virtualization|데이터 패브릭]] ([[212_data_fabric_virtualization|Data Fabric]]) 정의
 
-데이터 패브릭은 이기종 데이터 소스를 **논리적으로 통합**하는 아키텍처 레이어로, 연방 쿼리 + 메타데이터 관리 + 자동 거버넌스 + 데이터 카탈로그를 포함한다.
+[[212_data_fabric_virtualization|데이터 패브릭]]은 이기종 [[001_dikw_pyramid|데이터]] 소스를 **논리적으로 통합**하는 아키텍처 레이어로, 연방 [[298_qkv_attention|쿼리]] + [[203_metadata_management|메타데이터 관리]] + 자동 거버넌스 + [[001_dikw_pyramid|데이터]] 카탈로그를 포함한다.
 
-📢 **섹션 요약 비유**: 연방 쿼리는 여러 도서관의 책(데이터)을 한 곳으로 모으지 않고, 각 도서관에 사서(쿼리 엔진)를 보내 원하는 정보를 가져오는 것이다. 도서관(데이터 소스)은 그대로이고, 정보만 모아온다.
+📢 **섹션 요약 비유**: 연방 [[298_qkv_attention|쿼리]]는 여러 도서관의 책([[001_dikw_pyramid|데이터]])을 한 곳으로 모으지 않고, 각 도서관에 사서([[298_qkv_attention|쿼리]] 엔진)를 보내 원하는 정보를 가져오는 것이다. 도서관([[001_dikw_pyramid|데이터]] 소스)은 그대로이고, 정보만 모아온다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### 2.1 연방 쿼리 실행 아키텍처
+### 2.1 연방 [[298_qkv_attention|쿼리]] 실행 아키텍처
 
 ```
 사용자 쿼리
@@ -89,7 +89,7 @@ PostgreSQL     MongoDB        Salesforce API
                최종 결과 반환
 ```
 
-### 2.2 쿼리 최적화: 프레디케이트 푸시다운 (Predicate Pushdown)
+### 2.2 [[298_qkv_attention|쿼리]] 최적화: 프레디케이트 푸시다운 (Predicate Pushdown)
 
 ```
 최적화 전 (비효율):
@@ -112,18 +112,18 @@ PostgreSQL     MongoDB        Salesforce API
 └────────────────┴─────────────────────────────┘
 ```
 
-### 2.3 주요 연방 쿼리 엔진 비교
+### 2.3 주요 연방 [[298_qkv_attention|쿼리]] 엔진 비교
 
 | 엔진 | 개발사 | 지원 소스 | 특징 |
 |:---|:---|:---|:---|
-| Trino (구 PrestoSQL) | Trino 재단 | 50+ 커넥터 | 대용량 분산 처리 |
-| Presto | Meta | 30+ 커넥터 | 낮은 지연 |
-| AWS Athena Federated Query | AWS | Lambda 커넥터 | 서버리스 |
-| BigQuery Omni | Google | GCS/AWS/Azure | 멀티클라우드 |
-| Databricks Unity Catalog | Databricks | Delta, JDBC | 통합 거버넌스 |
-| Apache Drill | Apache | 파일/NoSQL | 스키마 없는 쿼리 |
+| Trino (구 PrestoSQL) | Trino 재단 | 50+ 커넥터 | 대용량 [[136_variance|분산]] 처리 |
+| Presto | Meta | 30+ 커넥터 | 낮은 [[015_지연_데이터_관점|지연]] |
+| AWS Athena Federated Query | AWS | [[216_lambda_kappa_architecture_batch_realtime|Lambda]] 커넥터 | [[206_serverless_cold_start|서버리스]] |
+| [[263_storage_compute_separation_bigquery|BigQuery]] Omni | Google | GCS/AWS/Azure | 멀티클라우드 |
+| [[074_photon_engine|Databricks]] [[150_unity_catalog|Unity Catalog]] | [[074_photon_engine|Databricks]] | Delta, JDBC | 통합 거버넌스 |
+| Apache Drill | Apache | [[501_file_definition_logical_record|파일]]/[[035_nosql|NoSQL]] | [[005_schema|스키마]] 없는 [[298_qkv_attention|쿼리]] |
 
-### 2.4 메타데이터 관리 아키텍처
+### 2.4 [[203_metadata_management|메타데이터 관리]] 아키텍처
 
 ```
 ┌──────────────────────────────────────────────────────┐
@@ -146,24 +146,24 @@ PostgreSQL     MongoDB        Salesforce API
 └──────────────────────────────────────────────────────┘
 ```
 
-📢 **섹션 요약 비유**: 연방 쿼리 엔진은 "여행사 코디네이터"와 같다. 고객(사용자)이 "파리와 도쿄를 모두 보고 싶다"고 하면, 코디네이터(쿼리 엔진)가 각 나라의 여행사(데이터 소스)에 최적의 패키지를 요청하고 결과를 조합한다.
+📢 **섹션 요약 비유**: 연방 [[298_qkv_attention|쿼리]] 엔진은 "여행사 코디네이터"와 같다. 고객(사용자)이 "파리와 도쿄를 모두 보고 싶다"고 하면, 코디네이터([[298_qkv_attention|쿼리]] 엔진)가 각 나라의 여행사([[001_dikw_pyramid|데이터]] 소스)에 최적의 패키지를 요청하고 결과를 조합한다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-### 3.1 Data Fabric vs Data Mesh vs Data Lake 비교
+### 3.1 [[212_data_fabric_virtualization|Data Fabric]] vs [[320_data_mesh|Data Mesh]] vs [[208_data_lake_schema_on_read|Data Lake]] 비교
 
-| 항목 | Data Lake | Data Fabric | Data Mesh |
+| 항목 | [[208_data_lake_schema_on_read|Data Lake]] | [[212_data_fabric_virtualization|Data Fabric]] | [[320_data_mesh|Data Mesh]] |
 |:---|:---|:---|:---|
-| 데이터 소유 | 중앙 팀 | 중앙 기술, 분산 소스 | 도메인 팀 |
-| 접근 방식 | 물리적 통합 | 논리적 통합 | 분산 자율 |
+| [[001_dikw_pyramid|데이터]] 소유 | 중앙 팀 | 중앙 기술, [[136_variance|분산]] 소스 | [[064_relation_domain|도메인]] 팀 |
+| 접근 방식 | 물리적 통합 | 논리적 통합 | [[136_variance|분산]] 자율 |
 | 거버넌스 | 중앙 집권 | 자동화된 거버넌스 | 연방 거버넌스 |
-| 기술 의존성 | 높음 (단일 플랫폼) | 높음 (통합 레이어) | 낮음 (도메인 자율) |
-| 확장성 | 플랫폼 확장 | 커넥터 추가 | 도메인 추가 |
-| 적합 조직 | 소규모, 중앙집권 | 중규모, 하이브리드 | 대규모, 도메인 분리 |
+| 기술 의존성 | 높음 (단일 플랫폼) | 높음 (통합 레이어) | 낮음 ([[064_relation_domain|도메인]] 자율) |
+| 확장성 | 플랫폼 확장 | 커넥터 추가 | [[064_relation_domain|도메인]] 추가 |
+| 적합 조직 | 소규모, 중앙집권 | 중규모, 하이브리드 | 대규모, [[064_relation_domain|도메인]] 분리 |
 
-### 3.2 연방 쿼리 성능 최적화 전략
+### 3.2 연방 [[298_qkv_attention|쿼리]] [[282_performance_tactics|성능]] 최적화 [[268_strategy_pattern|전략]]
 
 ```
 성능 병목 요소 및 해결책
@@ -186,7 +186,7 @@ PostgreSQL     MongoDB        Salesforce API
    └─ 반복 쿼리 결과 캐시 (Alluxio, Redis)
 ```
 
-### 3.3 Trino 연방 쿼리 설정 예시
+### 3.3 Trino 연방 [[298_qkv_attention|쿼리]] [[009_config|설정]] 예시
 
 ```sql
 -- Trino 카탈로그 설정
@@ -213,23 +213,23 @@ ORDER BY o.amount DESC
 LIMIT 100;
 ```
 
-📢 **섹션 요약 비유**: Data Fabric vs Data Mesh는 대형 마트 vs 전통 시장의 차이다. 대형 마트(Data Fabric)는 한 곳에서 모든 것을 구매하는 편리함을 주고, 전통 시장(Data Mesh)은 각 가게가 독립적으로 전문 상품을 판매하지만 전체를 조율하는 시장 관리소가 있다.
+📢 **섹션 요약 비유**: [[212_data_fabric_virtualization|Data Fabric]] vs [[001_dikw_pyramid|Data]] Mesh는 대형 마트 vs 전통 시장의 차이다. 대형 마트([[212_data_fabric_virtualization|Data Fabric]])는 한 곳에서 모든 것을 구매하는 편리함을 주고, 전통 시장([[320_data_mesh|Data Mesh]])은 각 가게가 독립적으로 전문 상품을 판매하지만 전체를 조율하는 시장 관리소가 있다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### 4.1 연방 쿼리 도입 적합성 판단
+### 4.1 연방 [[298_qkv_attention|쿼리]] 도입 적합성 판단
 
 | 상황 | 권장 방식 | 이유 |
 |:---|:---|:---|
-| 실시간 데이터 조합 필요 | 연방 쿼리 | 이동 없이 최신 데이터 |
-| 복잡한 집계/대용량 분석 | ETL + DW | 성능 최적화 필요 |
-| 데이터 거버넌스 강화 | Data Fabric | 메타데이터 통합 관리 |
-| 도메인별 자율성 중요 | Data Mesh | 조직 구조 반영 |
-| 빠른 프로토타이핑 | 연방 쿼리 | ETL 없이 즉시 탐색 |
+| 실시간 [[001_dikw_pyramid|데이터]] 조합 필요 | 연방 [[298_qkv_attention|쿼리]] | 이동 없이 최신 [[001_dikw_pyramid|데이터]] |
+| 복잡한 집계/대용량 분석 | [[215_etl_vs_elt_pipeline|ETL]] + [[209_data_warehouse_schema_on_write|DW]] | [[282_performance_tactics|성능]] 최적화 필요 |
+| [[052_data_governance_framework|데이터 거버넌스]] 강화 | [[212_data_fabric_virtualization|Data Fabric]] | [[012_metadata|메타데이터]] 통합 관리 |
+| [[064_relation_domain|도메인]]별 자율성 중요 | [[320_data_mesh|Data Mesh]] | 조직 구조 반영 |
+| 빠른 프로토타이핑 | 연방 [[298_qkv_attention|쿼리]] | [[215_etl_vs_elt_pipeline|ETL]] 없이 즉시 탐색 |
 
-### 4.2 AWS 환경 연방 쿼리 아키텍처
+### 4.2 AWS 환경 연방 [[298_qkv_attention|쿼리]] 아키텍처
 
 ```
 AWS Athena Federated Query 아키텍처
@@ -258,37 +258,37 @@ AWS Athena Federated Query 아키텍처
 
 | 보안 요소 | 구현 방법 |
 |:---|:---|
-| 인증/인가 | OAuth2, IAM Role, RBAC |
-| 컬럼 레벨 보안 | 뷰(View) 기반 마스킹, Apache Ranger |
-| 감사 로그 | Trino 쿼리 로그 → S3/CloudWatch |
-| 네트워크 보안 | VPC 격리, TLS 암호화 |
-| 데이터 분류 | 민감도 태그 기반 접근 제어 |
+| [[303_authentication_authorization_patterns|인증]]/[[509_authorization_models_rbac_abac|인가]] | OAuth2, [[526_iam|IAM]] Role, [[569_rbac|RBAC]] |
+| 컬럼 레벨 보안 | 뷰([[151_sql_view_virtual_table|View]]) 기반 마스킹, Apache Ranger |
+| [[606_auditing_linux_auditd|감사]] [[568_logs_distributed_logging_elk_fluentd|로그]] | Trino [[298_qkv_attention|쿼리]] [[568_logs_distributed_logging_elk_fluentd|로그]] → S3/CloudWatch |
+| [[1117_network_security_zero_trust_policy|네트워크 보안]] | [[836_vpc_virtual_private_cloud_subnet_isolation|VPC]] 격리, [[694_thread_local_storage_tls|TLS]] 암호화 |
+| [[808_data_classification|데이터 분류]] | 민감도 태그 기반 접근 제어 |
 
 ### 4.4 기술사 논술 핵심 포인트
 
 | 논점 | 핵심 내용 |
 |:---|:---|
-| 연방 쿼리 vs ETL | 데이터 신선도 vs 쿼리 성능 트레이드오프 |
-| CBO 최적화 | 통계 정보 없으면 연방 쿼리 성능 급락 |
-| Data Fabric 구축 | 메타데이터 카탈로그가 핵심 인프라 |
-| Data Mesh 전환 | 조직 문화(도메인 책임감) 없으면 실패 |
+| 연방 [[298_qkv_attention|쿼리]] vs [[215_etl_vs_elt_pipeline|ETL]] | [[001_dikw_pyramid|데이터]] 신선도 vs [[298_qkv_attention|쿼리]] [[282_performance_tactics|성능]] 트레이드오프 |
+| CBO 최적화 | 통계 정보 없으면 연방 [[298_qkv_attention|쿼리]] [[282_performance_tactics|성능]] 급락 |
+| [[212_data_fabric_virtualization|Data Fabric]] 구축 | [[012_metadata|메타데이터]] 카탈로그가 핵심 인프라 |
+| [[320_data_mesh|Data Mesh]] 전환 | 조직 문화([[064_relation_domain|도메인]] 책임감) 없으면 실패 |
 
-📢 **섹션 요약 비유**: 연방 쿼리 엔진의 CBO(비용 기반 최적화기)는 네비게이션과 같다. 도로 상황(데이터 통계)을 알아야 최적 경로(실행 계획)를 찾을 수 있고, 정보가 없으면 엉뚱한 우회로를 선택해 시간이 오래 걸린다.
+📢 **섹션 요약 비유**: 연방 [[298_qkv_attention|쿼리]] 엔진의 CBO(비용 기반 최적화기)는 네비게이션과 같다. 도로 상황([[001_dikw_pyramid|데이터]] 통계)을 알아야 최적 경로([[166_execution_plan_optimizer_navigation_tree|실행 계획]])를 찾을 수 있고, 정보가 없으면 엉뚱한 우회로를 선택해 시간이 오래 걸린다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-### 5.1 데이터 패브릭 도입 기대효과
+### 5.1 [[212_data_fabric_virtualization|데이터 패브릭]] 도입 기대효과
 
 | 효과 | 정량 지표 |
 |:---|:---|
-| 데이터 사일로 제거 | ETL 파이프라인 60% 감소 |
-| 시간 단축 | 데이터 탐색 시간 80% 감소 |
-| 거버넌스 자동화 | 수동 메타데이터 관리 90% 감소 |
-| 규정 준수 | GDPR/CCPA 자동 분류·마스킹 |
+| [[001_dikw_pyramid|데이터]] [[002_silo_hyeonhyung|사일로]] 제거 | [[215_etl_vs_elt_pipeline|ETL]] 파이프라인 60% 감소 |
+| 시간 단축 | [[001_dikw_pyramid|데이터]] [[324_seek_time|탐색 시간]] 80% 감소 |
+| 거버넌스 자동화 | 수동 [[203_metadata_management|메타데이터 관리]] 90% 감소 |
+| 규정 준수 | [[791_gdpr_eu|GDPR]]/[[800_ccpa|CCPA]] 자동 [[104_classification_analysis|분류]]·마스킹 |
 
-### 5.2 진화 방향: AI 기반 데이터 패브릭
+### 5.2 진화 방향: [[190_ai_llm_requirements_specification|AI]] 기반 [[212_data_fabric_virtualization|데이터 패브릭]]
 
 ```
 AI 강화 데이터 패브릭 (미래)
@@ -306,29 +306,29 @@ AI 강화 데이터 패브릭 (미래)
 
 ### 5.3 결론 요약
 
-연방 쿼리와 데이터 패브릭은 분산된 데이터 자산을 논리적으로 통합하는 현대 데이터 아키텍처의 핵심이다. 기술사 관점에서는 **쿼리 성능 최적화 기법(Pushdown, CBO), 메타데이터 관리의 중요성**, 그리고 **Data Fabric vs Data Mesh의 조직 적합성** 차이를 명확히 이해해야 한다.
+연방 [[298_qkv_attention|쿼리]]와 [[212_data_fabric_virtualization|데이터 패브릭]]은 [[136_variance|분산]]된 [[001_dikw_pyramid|데이터]] 자산을 논리적으로 통합하는 현대 [[104_da_as_is_analysis|데이터 아키텍처]]의 핵심이다. 기술사 관점에서는 **[[298_qkv_attention|쿼리]] [[282_performance_tactics|성능]] 최적화 기법(Pushdown, CBO), [[203_metadata_management|메타데이터 관리]]의 중요성**, 그리고 **[[212_data_fabric_virtualization|Data Fabric]] vs [[001_dikw_pyramid|Data]] Mesh의 조직 적합성** 차이를 명확히 이해해야 한다.
 
-📢 **섹션 요약 비유**: 데이터 패브릭은 여러 도시(데이터 소스)를 연결하는 고속도로 네트워크다. 각 도시(소스)는 독립적으로 운영되지만, 고속도로(패브릭)를 통해 어느 도시 정보든 빠르게 접근하고, 교통 관제 시스템(메타데이터)이 최적 경로를 안내한다.
+📢 **섹션 요약 비유**: [[212_data_fabric_virtualization|데이터 패브릭]]은 여러 도시([[001_dikw_pyramid|데이터]] 소스)를 연결하는 고속도로 네트워크다. 각 도시(소스)는 독립적으로 운영되지만, 고속도로(패브릭)를 통해 어느 도시 정보든 빠르게 접근하고, 교통 관제 시스템([[012_metadata|메타데이터]])이 최적 경로를 안내한다.
 
 ---
 
 ### 📌 관련 개념 맵
 
-| 관계 | 개념 | 설명 |
+| [[083_relationship_in_er_model|관계]] | 개념 | 설명 |
 |:---|:---|:---|
-| 쿼리 패턴 | Federated Query (연방 쿼리) | 이기종 소스 단일 쿼리 조회 |
-| 아키텍처 | Data Fabric (데이터 패브릭) | 이기종 소스 논리적 통합 레이어 |
-| 비교 | Data Mesh (데이터 메시) | 도메인 자율 분산 데이터 아키텍처 |
-| 엔진 | Trino (트리노) | 오픈소스 분산 쿼리 엔진 |
-| 엔진 | AWS Athena Federated Query | 서버리스 연방 쿼리 |
+| [[298_qkv_attention|쿼리]] 패턴 | Federated Query (연방 [[298_qkv_attention|쿼리]]) | 이기종 소스 단일 [[298_qkv_attention|쿼리]] 조회 |
+| 아키텍처 | [[212_data_fabric_virtualization|Data Fabric]] ([[212_data_fabric_virtualization|데이터 패브릭]]) | 이기종 소스 논리적 통합 레이어 |
+| 비교 | [[320_data_mesh|Data Mesh]] ([[211_data_mesh_domain_ownership|데이터 메시]]) | [[064_relation_domain|도메인]] 자율 [[136_variance|분산]] [[104_da_as_is_analysis|데이터 아키텍처]] |
+| 엔진 | Trino (트리노) | [[191_oss_license_compliance|오픈소스]] [[136_variance|분산]] [[298_qkv_attention|쿼리]] 엔진 |
+| 엔진 | AWS Athena Federated Query | [[206_serverless_cold_start|서버리스]] 연방 [[298_qkv_attention|쿼리]] |
 | 최적화 | Predicate Pushdown | 필터 조건을 소스로 전달 |
-| 최적화 | CBO (Cost-Based Optimizer) | 통계 기반 실행 계획 최적화 |
-| 메타데이터 | Hive Metastore | 하둡 기반 메타데이터 저장소 |
-| 거버넌스 | Apache Atlas | 데이터 거버넌스·계보 관리 |
+| 최적화 | CBO (Cost-Based [[088_optimizer|Optimizer]]) | 통계 기반 [[166_execution_plan_optimizer_navigation_tree|실행 계획]] 최적화 |
+| [[012_metadata|메타데이터]] | [[544_hive|Hive]] Metastore | [[843_hadoop_rack_awareness_data_replication_topology|하둡]] 기반 [[012_metadata|메타데이터]] 저장소 |
+| 거버넌스 | Apache Atlas | [[052_data_governance_framework|데이터 거버넌스]]·계보 관리 |
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. 연방 쿼리는 여러 도서관에서 책을 빌려오는 심부름꾼이에요. 책을 한 곳으로 옮기지 않고, 각 도서관에서 원하는 부분만 복사해와서 합쳐줘요.
+1. 연방 [[298_qkv_attention|쿼리]]는 여러 도서관에서 책을 빌려오는 심부름꾼이에요. 책을 한 곳으로 옮기지 않고, 각 도서관에서 원하는 부분만 복사해와서 합쳐줘요.
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -349,5 +349,5 @@ AI 강화 데이터 패브릭 (미래)
     ▼
 데이터 메시 (Data Mesh): 도메인 소유권 분산
 ```
-2. 데이터 패브릭은 여러 나라를 연결하는 번역기 겸 지도예요. 어느 나라 데이터든 같은 언어(SQL)로 대화할 수 있게 해줘요.
-3. CBO(비용 기반 최적화기)는 네비게이션이에요. 가장 빠른 길(실행 계획)을 찾아주는데, 교통 정보(통계)가 없으면 엉뚱한 길을 안내할 수 있어요.
+2. [[212_data_fabric_virtualization|데이터 패브릭]]은 여러 나라를 연결하는 번역기 겸 지도예요. 어느 나라 [[001_dikw_pyramid|데이터]]든 같은 언어(SQL)로 대화할 수 있게 해줘요.
+3. CBO(비용 기반 최적화기)는 네비게이션이에요. 가장 빠른 길([[166_execution_plan_optimizer_navigation_tree|실행 계획]])을 찾아주는데, 교통 정보(통계)가 없으면 엉뚱한 길을 안내할 수 있어요.

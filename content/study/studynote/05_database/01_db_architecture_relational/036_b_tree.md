@@ -6,13 +6,13 @@ categories = "studynote-database"
 +++
 
 > **핵심 인사이트**
-> 1. B-Tree (Balanced Tree)는 모든 리프 노드가 같은 깊이에 있는 자기 균형 다진 탐색 트리로, 디스크 기반 인덱스의 표준 자료구조다 — O(log n) 검색·삽입·삭제를 보장한다.
-> 2. 하나의 노드에 여러 키와 포인터를 저장해 디스크 I/O 횟수(=트리 깊이)를 최소화하며, 차수(Order) m의 B-Tree 노드는 최대 m-1개 키와 m개 자식 포인터를 가진다.
-> 3. B+Tree는 B-Tree의 변형으로 내부 노드에 포인터만 두고 리프 노드에만 실제 데이터를 저장하며 리프를 링크드 리스트로 연결 — 범위 탐색(Range Scan)이 효율적이어서 RDBMS 인덱스의 표준이다.
+> 1. [[064_b_tree|B-Tree]] (Balanced Tree)는 모든 리프 노드가 같은 깊이에 있는 자기 균형 다진 탐색 트리로, 디스크 기반 [[154_database_index_b_tree_search_optimization|인덱스]]의 표준 자료구조다 — O(log n) 검색·삽입·삭제를 보장한다.
+> 2. 하나의 노드에 여러 키와 포인터를 저장해 디스크 I/O 횟수(=트리 깊이)를 최소화하며, 차수(Order) m의 [[064_b_tree|B-Tree]] 노드는 최대 m-1개 키와 m개 자식 포인터를 가진다.
+> 3. B+Tree는 B-Tree의 변형으로 내부 노드에 포인터만 두고 리프 노드에만 실제 [[001_dikw_pyramid|데이터]]를 저장하며 리프를 링크드 리스트로 연결 — 범위 탐색(Range Scan)이 효율적이어서 RDBMS [[154_database_index_b_tree_search_optimization|인덱스]]의 표준이다.
 
 ---
 
-## I. B-Tree 기본 속성 (차수 m=3)
+## I. [[064_b_tree|B-Tree]] 기본 [[082_attribute_types_er_model|속성]] (차수 m=3)
 
 ```
 B-Tree (Order 3, 최대 2개 키/노드):
@@ -39,7 +39,7 @@ B-Tree (Order 3, 최대 2개 키/노드):
 
 ---
 
-## II. B+Tree vs B-Tree
+## II. B+Tree vs [[064_b_tree|B-Tree]]
 
 ```
 B-Tree:
@@ -53,15 +53,15 @@ B+Tree:
   -> 범위 탐색: 리프 링크만 따라가면 됨
 ```
 
-| 비교       | B-Tree               | B+Tree              |
+| 비교       | [[064_b_tree|B-Tree]]               | B+Tree              |
 |-----------|----------------------|---------------------|
-| 내부 노드  | 키 + 데이터          | 키만 (라우팅)        |
-| 데이터     | 모든 노드            | 리프 노드만          |
+| 내부 노드  | 키 + [[001_dikw_pyramid|데이터]]          | 키만 ([[339_routing_overview_best_path_selection|라우팅]])        |
+| [[001_dikw_pyramid|데이터]]     | 모든 노드            | 리프 노드만          |
 | 범위 탐색  | 비효율적             | 리프 링크로 효율적   |
 | 공간 효율  | 낮음                 | 높음 (내부 노드 작음)|
-| 사용처     | 파일 시스템 (B-Tree)  | RDBMS 인덱스 표준   |
+| 사용처     | [[501_file_definition_logical_record|파일]] 시스템 ([[064_b_tree|B-Tree]])  | RDBMS [[154_database_index_b_tree_search_optimization|인덱스]] 표준   |
 
-> 📢 **섹션 요약 비유**: B-Tree는 책 본문에 메모를 넣은 것, B+Tree는 인덱스만 따로 모은 책 뒤의 색인 — 범위 검색은 색인을 쭉 훑는 게 빠르다.
+> 📢 **섹션 요약 비유**: B-Tree는 책 본문에 메모를 넣은 것, B+Tree는 [[154_database_index_b_tree_search_optimization|인덱스]]만 따로 모은 책 뒤의 색인 — 범위 검색은 색인을 쭉 훑는 게 빠르다.
 
 ---
 
@@ -86,13 +86,13 @@ B+Tree (Order 3) 삽입 예시:
 |------------|--------------|
 | 노드 여유   | 직접 삽입     |
 | 노드 가득   | Split → 부모에 중간키 올림 |
-| 루트 분할   | 새 루트 생성  |
+| 루트 분할   | 새 루트 [[087_process_state_transition|생성]]  |
 
 > 📢 **섹션 요약 비유**: 서랍이 꽉 차면 새 서랍을 만들고 절반씩 나눠 담는 것 — 항상 균형을 유지한다.
 
 ---
 
-## IV. 인덱스 차수와 트리 깊이
+## [[288_version_ihl_tos_total_length|IV]]. [[154_database_index_b_tree_search_optimization|인덱스]] 차수와 트리 깊이
 
 ```
 블록 크기 = 4 KB = 4,096 Bytes
@@ -112,7 +112,7 @@ B+Tree 깊이 (10억 개 레코드):
 
 ---
 
-## V. 실무 시나리오 — PostgreSQL B+Tree 인덱스
+## V. 실무 시나리오 — PostgreSQL B+Tree [[154_database_index_b_tree_search_optimization|인덱스]]
 
 ```sql
 -- B+Tree 인덱스 생성
@@ -129,7 +129,7 @@ EXPLAIN ANALYZE SELECT * FROM users WHERE email = 'test@example.com';
 -- Index Scan using idx_user_email -> 3-4 I/O
 ```
 
-> 📢 **섹션 요약 비유**: 이메일 인덱스는 수백만 명 중에서 3번의 점프로 해당 사용자를 찾게 해주는 마법 주소록.
+> 📢 **섹션 요약 비유**: 이메일 [[154_database_index_b_tree_search_optimization|인덱스]]는 수백만 명 중에서 3번의 점프로 해당 사용자를 찾게 해주는 마법 주소록.
 
 ---
 
@@ -185,5 +185,5 @@ B+Tree 대안으로 등장
 ## 👶 어린이를 위한 3줄 비유 설명
 
 1. B-트리는 도서관 책 색인처럼 한 카드에 여러 항목을 담아 빠르게 찾을 수 있게 해요.
-2. 항상 균형이 잡혀 있어서, 몇 번만 확인하면 어떤 책도 찾을 수 있어요.
-3. 특히 B+트리는 범위 검색에 강해서 거의 모든 데이터베이스가 이걸 사용해요!
+2. 항상 균형이 잡혀 있어서, 몇 번만 [[396_validation|확인]]하면 어떤 책도 찾을 수 있어요.
+3. 특히 B+트리는 범위 검색에 강해서 거의 모든 [[002_database_definition|데이터베이스]]가 이걸 사용해요!

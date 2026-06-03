@@ -7,29 +7,29 @@ categories = "studynote-data-engineering"
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: DataOps는 데이터 파이프라인에 DevOps(CI/CD, 자동화, 테스팅) 원칙을 적용해 데이터 품질과 배포 속도를 동시에 향상하는 방법론이다.
-> 2. **가치**: dbt(Data Build Tool)는 SQL 기반 데이터 변환을 코드로 관리하고, 테스트·문서화·계보를 내장하여 "데이터 엔지니어링의 Git+CI/CD"를 실현한다.
-> 3. **판단 포인트**: 데이터 계약(Data Contract) 도입으로 생산자(파이프라인)와 소비자(분석가) 간 인터페이스를 명시적으로 보장하고, 품질 저하를 조기에 감지한다.
+> 1. **본질**: DataOps는 [[645_data_pipeline_acceleration|데이터 파이프라인]]에 [[652_devops_calms_culture|DevOps]]([[090_configuration_item|CI]]/CD, 자동화, 테스팅) 원칙을 적용해 [[001_dikw_pyramid|데이터]] 품질과 배포 속도를 동시에 향상하는 방법론이다.
+> 2. **가치**: dbt([[001_dikw_pyramid|Data]] Build Tool)는 SQL 기반 [[001_dikw_pyramid|데이터]] 변환을 코드로 관리하고, 테스트·문서화·계보를 내장하여 "[[001_dikw_pyramid|데이터]] 엔지니어링의 Git+[[090_configuration_item|CI]]/CD"를 실현한다.
+> 3. **판단 포인트**: [[236_data_contract|데이터 계약]]([[236_data_contract|Data Contract]]) 도입으로 생산자(파이프라인)와 소비자(분석가) 간 인터페이스를 명시적으로 보장하고, 품질 저하를 조기에 감지한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-### 1.1 DataOps 정의 및 배경
+### 1.1 [[324_dataops|DataOps]] 정의 및 배경
 
-DataOps는 Gartner(2019)가 정의한 방법론으로, 데이터 엔지니어링·분석·AI 파이프라인에 **DevOps의 민첩성과 품질 보증 문화**를 이식한다.
+DataOps는 Gartner(2019)가 정의한 방법론으로, [[001_dikw_pyramid|데이터]] 엔지니어링·분석·[[190_ai_llm_requirements_specification|AI]] 파이프라인에 **DevOps의 민첩성과 품질 보증 문화**를 이식한다.
 
-### 1.2 기존 데이터 파이프라인의 문제
+### 1.2 기존 [[645_data_pipeline_acceleration|데이터 파이프라인]]의 문제
 
 | 문제 | 증상 |
 |:---|:---|
-| 테스트 부재 | 데이터 오류를 수일 후 발견 |
+| 테스트 부재 | [[001_dikw_pyramid|데이터]] 오류를 수일 후 발견 |
 | 수동 배포 | 변경 적용에 수시간~수일 소요 |
 | 문서화 없음 | "이 컬럼이 뭘 의미하는지 모름" |
 | 의존성 불명확 | 상위 테이블 변경 시 하위 영향 알 수 없음 |
-| 환경 불일치 | 개발/스테이징/운영 데이터 불일치 |
+| 환경 불일치 | 개발/스테이징/운영 [[001_dikw_pyramid|데이터]] 불일치 |
 
-### 1.3 DataOps 핵심 원칙
+### 1.3 [[324_dataops|DataOps]] 핵심 원칙
 
 ```
 DataOps 4대 원칙
@@ -49,15 +49,15 @@ DataOps 4대 원칙
 └────────────────────────────────────────────────────┘
 ```
 
-📢 **섹션 요약 비유**: DataOps는 데이터 파이프라인에 "자동차 안전 검사 시스템"을 도입하는 것이다. 매번 수동으로 점검(수동 배포)하는 대신, 출발 전 자동으로 브레이크·엔진·타이어를 검사(자동 테스트)하고 이상 시 출발을 막는다.
+📢 **섹션 요약 비유**: DataOps는 [[645_data_pipeline_acceleration|데이터 파이프라인]]에 "자동차 안전 검사 시스템"을 도입하는 것이다. 매번 수동으로 점검(수동 배포)하는 대신, 출발 전 자동으로 브레이크·엔진·타이어를 검사(자동 테스트)하고 이상 시 출발을 막는다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### 2.1 dbt (Data Build Tool) 아키텍처
+### 2.1 dbt ([[001_dikw_pyramid|Data]] Build Tool) 아키텍처
 
-dbt는 **ELT(Extract-Load-Transform)** 패턴의 Transform 단계를 SQL로 모듈화하는 프레임워크다.
+dbt는 **[[034_elt|ELT]](Extract-Load-Transform)** 패턴의 Transform 단계를 SQL로 모듈화하는 프레임워크다.
 
 ```
 dbt 핵심 구성요소
@@ -141,7 +141,7 @@ models:
               expression: ">= 0"   # 음수 금액 불가
 ```
 
-### 2.3 CI/CD 파이프라인 아키텍처
+### 2.3 [[090_configuration_item|CI]]/CD 파이프라인 아키텍처
 
 ```
 GitHub Actions + dbt Cloud CI/CD 파이프라인
@@ -172,39 +172,39 @@ GitHub Actions + dbt Cloud CI/CD 파이프라인
 └────────────────────────────────────────────────────────┘
 ```
 
-### 2.4 dbt 핵심 명령어
+### 2.4 dbt 핵심 [[158_instruction|명령어]]
 
-| 명령어 | 역할 |
+| [[158_instruction|명령어]] | 역할 |
 |:---|:---|
-| `dbt run` | SQL 모델 실행 및 테이블 생성 |
-| `dbt test` | 데이터 품질 테스트 실행 |
-| `dbt docs generate` | 자동 문서화 사이트 생성 |
-| `dbt snapshot` | SCD Type 2 이력 테이블 생성 |
-| `dbt source freshness` | 소스 데이터 신선도 확인 |
-| `dbt compile` | SQL 컴파일 (실행 없이 검증) |
-| `dbt seed` | CSV 파일 → 테이블 적재 |
+| `dbt run` | SQL 모델 실행 및 테이블 [[087_process_state_transition|생성]] |
+| `dbt test` | [[001_dikw_pyramid|데이터]] 품질 테스트 실행 |
+| `dbt docs generate` | 자동 문서화 사이트 [[087_process_state_transition|생성]] |
+| `dbt snapshot` | [[315_scd_type_2|SCD Type 2]] 이력 테이블 [[087_process_state_transition|생성]] |
+| `dbt source freshness` | 소스 [[001_dikw_pyramid|데이터]] 신선도 [[396_validation|확인]] |
+| `dbt compile` | SQL 컴파일 (실행 없이 [[395_verification_process_review|검증]]) |
+| `dbt seed` | CSV [[501_file_definition_logical_record|파일]] → 테이블 적재 |
 
-📢 **섹션 요약 비유**: dbt는 데이터 변환의 "레고 설명서"다. 각 블록(SQL 모델)을 ref() 함수로 연결하면 복잡한 구조물을 만들 수 있고, 설명서(문서화)와 품질 검사(테스트)가 자동으로 포함된다.
+📢 **섹션 요약 비유**: dbt는 [[001_dikw_pyramid|데이터]] 변환의 "레고 설명서"다. 각 블록(SQL 모델)을 ref() 함수로 연결하면 복잡한 구조물을 만들 수 있고, 설명서(문서화)와 품질 검사(테스트)가 자동으로 포함된다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-### 3.1 DataOps vs DevOps 매핑
+### 3.1 [[324_dataops|DataOps]] vs [[652_devops_calms_culture|DevOps]] 매핑
 
-| DevOps 개념 | DataOps 대응 |
+| [[652_devops_calms_culture|DevOps]] 개념 | [[324_dataops|DataOps]] 대응 |
 |:---|:---|
 | 소스 코드 | SQL 변환 로직 (dbt 모델) |
-| 단위 테스트 | dbt 데이터 테스트 |
-| CI/CD 파이프라인 | dbt Cloud + GitHub Actions |
-| 모니터링/Alerting | Monte Carlo, Bigeye 데이터 관측 |
-| 인프라 코드 (IaC) | Terraform + Airflow DAG as Code |
+| [[397_unit_test|단위 테스트]] | dbt [[001_dikw_pyramid|데이터]] 테스트 |
+| [[090_configuration_item|CI]]/CD 파이프라인 | dbt Cloud + GitHub Actions |
+| 모니터링/Alerting | Monte Carlo, Bigeye [[001_dikw_pyramid|데이터]] 관측 |
+| [[793_iac_idempotency_template|인프라 코드]] ([[793_iac_idempotency_template|IaC]]) | [[195_terraform_hashicorp_agnostic_aws_gcp|Terraform]] + Airflow [[401_bayesian_network_dag_causality|DAG]] [[344_as_autonomous_system_asn|as]] [[082_process_memory_structure|Code]] |
 | 블루/그린 배포 | dbt 환경 분리 (dev/staging/prod) |
-| 코드 리뷰 | SQL PR 리뷰 (dbt Slim CI) |
+| [[330_code_review|코드 리뷰]] | SQL [[067_pull_request_pr_merge_request_code_review|PR]] 리뷰 (dbt Slim [[090_configuration_item|CI]]) |
 
-### 3.2 데이터 계약 (Data Contract) 패턴
+### 3.2 [[236_data_contract|데이터 계약]] ([[236_data_contract|Data Contract]]) 패턴
 
-데이터 계약은 데이터 생산자와 소비자 간 인터페이스를 명시적으로 정의하는 계약 문서다.
+[[236_data_contract|데이터 계약]]은 [[001_dikw_pyramid|데이터]] 생산자와 소비자 간 인터페이스를 명시적으로 정의하는 계약 문서다.
 
 ```yaml
 # data-contract.yaml
@@ -243,7 +243,7 @@ quality:
     mustBe: 0
 ```
 
-### 3.3 데이터 관측가능성 (Data Observability)
+### 3.3 [[001_dikw_pyramid|데이터]] 관측가능성 ([[255_data_observability|Data Observability]])
 
 ```
 데이터 관측가능성 5대 기둥 (Monte Carlo)
@@ -264,7 +264,7 @@ quality:
    └─ "이상 데이터가 어느 소스에서 유입되었는가?"
 ```
 
-📢 **섹션 요약 비유**: 데이터 계약은 음식 주문서와 같다. "피자 라지, 페페로니, 30분 이내 배달"처럼 소비자가 원하는 것을 명확히 적고, 생산자(파이프라인)가 이를 보장한다. 계약 위반 시 즉시 알림이 간다.
+📢 **섹션 요약 비유**: [[236_data_contract|데이터 계약]]은 음식 주문서와 같다. "피자 라지, 페페로니, 30분 이내 배달"처럼 소비자가 원하는 것을 명확히 적고, 생산자(파이프라인)가 이를 보장한다. 계약 위반 시 즉시 알림이 간다.
 
 ---
 
@@ -301,7 +301,7 @@ Level 4: 데이터 계약 + 관측가능성
   └─ 이상 감지 자동 알림
 ```
 
-### 4.2 dbt Slim CI (변경 영향 범위 최소화)
+### 4.2 dbt Slim [[090_configuration_item|CI]] (변경 영향 범위 최소화)
 
 ```bash
 # 전체 모델 테스트 (느림, O(N) 시간)
@@ -317,44 +317,44 @@ dbt test --select state:modified+
 Slim CI:    3분 (PR 당 93% 절감)
 ```
 
-### 4.3 실무 DataOps 스택 구성
+### 4.3 실무 [[324_dataops|DataOps]] [[057_stack|스택]] 구성
 
 | 역할 | 도구 | 비고 |
 |:---|:---|:---|
 | 변환 관리 | dbt Core / dbt Cloud | SQL 모델 관리 |
-| 오케스트레이션 | Apache Airflow | DAG 스케줄링 |
-| 소스 제어 | GitHub / GitLab | 버전 관리 |
-| CI/CD | GitHub Actions | 자동 테스트·배포 |
-| 데이터 관측 | Monte Carlo | 이상 감지 |
-| 데이터 카탈로그 | DataHub / Collibra | 메타데이터 관리 |
-| 품질 검증 | Great Expectations | 복잡한 검증 |
+| [[073_container_orchestration_tools|오케스트레이션]] | [[168_airflow_dag_pipeline_scheduling|Apache Airflow]] | [[401_bayesian_network_dag_causality|DAG]] 스케줄링 |
+| 소스 제어 | GitHub / GitLab | [[288_version_ihl_tos_total_length|버전]] 관리 |
+| [[090_configuration_item|CI]]/CD | GitHub Actions | 자동 테스트·배포 |
+| [[001_dikw_pyramid|데이터]] 관측 | Monte Carlo | 이상 감지 |
+| [[213_data_catalog_metadata|데이터 카탈로그]] | DataHub / Collibra | [[203_metadata_management|메타데이터 관리]] |
+| 품질 [[395_verification_process_review|검증]] | Great Expectations | 복잡한 [[395_verification_process_review|검증]] |
 
 ### 4.4 기술사 논술 핵심 포인트
 
 | 논점 | 핵심 내용 |
 |:---|:---|
-| DataOps vs DevOps | 원칙은 동일, 데이터 특성(볼륨·스키마 변화) 적용 |
+| [[324_dataops|DataOps]] vs [[652_devops_calms_culture|DevOps]] | 원칙은 동일, [[001_dikw_pyramid|데이터]] 특성(볼륨·[[005_schema|스키마]] 변화) 적용 |
 | dbt 도입 효과 | SQL 표준화, 자동 계보, 테스트 내재화 |
-| Data Contract | 생산자-소비자 인터페이스 명시로 신뢰 확보 |
-| 데이터 관측가능성 | 5대 기둥(신선도·볼륨·스키마·분포·계보) |
+| [[236_data_contract|Data Contract]] | 생산자-소비자 인터페이스 명시로 신뢰 확보 |
+| [[001_dikw_pyramid|데이터]] 관측가능성 | 5대 기둥(신선도·볼륨·[[005_schema|스키마]]·분포·계보) |
 
-📢 **섹션 요약 비유**: dbt CI/CD는 자동차 생산 라인의 품질 검사 게이트다. 각 조립 단계(SQL 모델)마다 자동으로 검사(테스트)하고, 불량품(오류 데이터)이 발견되면 다음 단계로 넘어가지 않는다.
+📢 **섹션 요약 비유**: dbt [[090_configuration_item|CI]]/CD는 자동차 생산 라인의 품질 검사 게이트다. 각 조립 단계(SQL 모델)마다 자동으로 검사(테스트)하고, 불량품(오류 [[001_dikw_pyramid|데이터]])이 발견되면 다음 단계로 넘어가지 않는다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-### 5.1 DataOps 도입 정량 효과
+### 5.1 [[324_dataops|DataOps]] 도입 정량 효과
 
 | 효과 | 도입 전 | 도입 후 |
 |:---|:---|:---|
-| 데이터 오류 감지 시간 | 수일 후 | 배포 시 즉시 |
+| [[001_dikw_pyramid|데이터]] 오류 감지 시간 | 수일 후 | 배포 시 즉시 |
 | 신기능 배포 주기 | 2~4주 | 1~3일 |
-| 파이프라인 장애 복구 | 4~8시간 | 30분 이내 |
+| 파이프라인 장애 [[658_ir_recovery|복구]] | 4~8시간 | 30분 이내 |
 | 문서화 커버리지 | 20% | 90%+ (자동화) |
 | 테스트 커버리지 | 0% | 80%+ |
 
-### 5.2 DataOps 성공 요소
+### 5.2 [[324_dataops|DataOps]] 성공 요소
 
 ```
 DataOps 성공 3요소
@@ -376,29 +376,29 @@ DataOps 성공 3요소
 
 ### 5.3 결론 요약
 
-DataOps는 데이터 파이프라인의 품질과 속도를 동시에 개선하는 방법론이며, dbt는 그 기술적 구현의 핵심 도구다. 기술사 관점에서는 **dbt 계층화 모델(staging/intermediate/marts), CI/CD 자동화 파이프라인, 데이터 계약의 역할**을 이해하고, 조직 내 DataOps 성숙도 향상 로드맵을 제시할 수 있어야 한다.
+DataOps는 [[645_data_pipeline_acceleration|데이터 파이프라인]]의 품질과 속도를 동시에 개선하는 방법론이며, dbt는 그 기술적 구현의 핵심 도구다. 기술사 관점에서는 **dbt 계층화 모델(staging/intermediate/marts), [[090_configuration_item|CI]]/CD 자동화 파이프라인, [[236_data_contract|데이터 계약]]의 역할**을 이해하고, 조직 내 [[324_dataops|DataOps]] 성숙도 향상 로드맵을 제시할 수 있어야 한다.
 
-📢 **섹션 요약 비유**: DataOps는 데이터 파이프라인의 "제조업 QC(품질 관리) 시스템"이다. 과거에는 완성품에서 불량을 발견했다면, DataOps는 각 공정 단계에서 실시간으로 품질을 검사해 불량이 다음 단계로 전파되는 것을 막는다.
+📢 **섹션 요약 비유**: DataOps는 [[645_data_pipeline_acceleration|데이터 파이프라인]]의 "제조업 QC(품질 관리) 시스템"이다. 과거에는 완성품에서 불량을 발견했다면, DataOps는 각 공정 단계에서 실시간으로 품질을 검사해 불량이 다음 단계로 전파되는 것을 막는다.
 
 ---
 
 ### 📌 관련 개념 맵
 
-| 관계 | 개념 | 설명 |
+| [[083_relationship_in_er_model|관계]] | 개념 | 설명 |
 |:---|:---|:---|
-| 방법론 | DataOps | 데이터 파이프라인 DevOps 적용 |
-| 도구 | dbt (Data Build Tool) | SQL 기반 데이터 변환 프레임워크 |
-| 패턴 | Data Contract (데이터 계약) | 생산자-소비자 인터페이스 계약 |
-| 모니터링 | Data Observability (데이터 관측가능성) | 5대 기둥 기반 품질 모니터링 |
+| 방법론 | [[324_dataops|DataOps]] | [[645_data_pipeline_acceleration|데이터 파이프라인]] [[652_devops_calms_culture|DevOps]] 적용 |
+| 도구 | dbt ([[001_dikw_pyramid|Data]] Build Tool) | SQL 기반 [[001_dikw_pyramid|데이터]] 변환 프레임워크 |
+| 패턴 | [[236_data_contract|Data Contract]] ([[236_data_contract|데이터 계약]]) | 생산자-소비자 인터페이스 계약 |
+| 모니터링 | [[255_data_observability|Data Observability]] ([[001_dikw_pyramid|데이터]] 관측가능성) | 5대 기둥 기반 품질 모니터링 |
 | 테스트 | dbt Tests | not_null, unique, accepted_values |
-| CI/CD | GitHub Actions | 자동 테스트·배포 워크플로우 |
-| 오케스트레이션 | Apache Airflow | DAG 기반 파이프라인 스케줄링 |
-| 변환 패턴 | ELT (Extract-Load-Transform) | dbt가 담당하는 Transform 단계 |
-| 최적화 | Slim CI | 변경 영향 모델만 선택 테스트 |
+| [[090_configuration_item|CI]]/CD | GitHub Actions | 자동 테스트·배포 워크플로우 |
+| [[073_container_orchestration_tools|오케스트레이션]] | [[168_airflow_dag_pipeline_scheduling|Apache Airflow]] | [[401_bayesian_network_dag_causality|DAG]] 기반 파이프라인 스케줄링 |
+| 변환 패턴 | [[034_elt|ELT]] (Extract-Load-Transform) | dbt가 담당하는 Transform 단계 |
+| 최적화 | Slim [[090_configuration_item|CI]] | 변경 영향 모델만 선택 테스트 |
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. DataOps는 요리사가 요리(데이터 파이프라인)를 만들 때마다 맛 검사(테스트)를 자동으로 하는 시스템이에요. 쓴맛(오류)이 나면 손님(사용자)에게 내보내기 전에 잡아낸다고요.
+1. DataOps는 요리사가 요리([[645_data_pipeline_acceleration|데이터 파이프라인]])를 만들 때마다 맛 검사(테스트)를 자동으로 하는 시스템이에요. 쓴맛(오류)이 나면 손님(사용자)에게 내보내기 전에 잡아낸다고요.
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -421,4 +421,4 @@ DataOps: 데이터 파이프라인 CI/CD 자동화
 Observability: Monte Carlo · Bigeye → 데이터 이상 자동 감지
 ```
 2. dbt는 레고 설명서예요. 각 레고 블록(SQL 모델)이 어떻게 연결되는지 그려주고, 완성된 모습(문서)과 품질 검사(테스트)도 함께 제공해요.
-3. 데이터 계약은 식당 메뉴판이에요. "피자는 30분 안에, 반드시 뜨겁게, 토핑은 이것들"처럼 소비자가 기대하는 것을 명확히 약속하고, 지키지 않으면 알림이 와요.
+3. [[236_data_contract|데이터 계약]]은 식당 메뉴판이에요. "피자는 30분 안에, 반드시 뜨겁게, 토핑은 이것들"처럼 소비자가 기대하는 것을 명확히 약속하고, 지키지 않으면 알림이 와요.

@@ -7,13 +7,13 @@ categories = "studynote-software-engineering"
 +++
 
 > **핵심 인사이트**
-> 1. 소프트웨어 프로젝트 위험 관리(Risk Management)는 식별(Identification)→분석(Analysis)→대응(Response)→모니터링(Monitoring) 4단계로 구성되며, "예측할 수 없는 것은 관리할 수 없다"는 원칙에 따라 가시성(Visibility)을 최대화하는 체계다.
-> 2. 위험은 확률(Probability)×영향도(Impact)의 곱으로 우선순위가 결정되며, 위험 노출도(Risk Exposure) = P × I 매트릭스를 통해 한정된 대응 자원을 고위험 항목에 집중 투자하는 의사결정을 지원한다.
-> 3. 위험 대응 전략의 4가지(회피·전가·완화·수용)는 각각 비용과 잔존 위험의 트레이드오프가 다르며, PMBOK과 ISO 21502는 이를 프로젝트 성공의 핵심 역량으로 정의하고 공공 IT 사업 감리의 필수 점검 항목으로 규정한다.
+> 1. 소프트웨어 프로젝트 위험 관리([[841_iso_27005_risk_management|Risk Management]])는 [[655_ir_detection_analysis|식별]]([[289_identification_flags_fragmentation_offset|Identification]])→분석(Analysis)→대응(Response)→모니터링(Monitoring) 4단계로 구성되며, "예측할 수 없는 것은 관리할 수 없다"는 원칙에 따라 가시성(Visibility)을 최대화하는 체계다.
+> 2. 위험은 [[130_probability|확률]]([[130_probability|Probability]])×영향도(Impact)의 곱으로 우선순위가 결정되며, 위험 노출도([[096_risk_non_risk_architecture_evaluation_flaws|Risk]] Exposure) = P × I 매트릭스를 통해 한정된 대응 자원을 고위험 항목에 집중 투자하는 의사결정을 지원한다.
+> 3. [[033_risk_response_strategies|위험 대응 전략]]의 4가지(회피·전가·완화·수용)는 각각 비용과 잔존 위험의 트레이드오프가 다르며, PMBOK과 ISO 21502는 이를 프로젝트 성공의 핵심 역량으로 정의하고 공공 IT 사업 감리의 필수 점검 항목으로 규정한다.
 
 ---
 
-## Ⅰ. 위험 식별 (Risk Identification)
+## Ⅰ. [[027_risk_identification|위험 식별]] ([[027_risk_identification|Risk Identification]])
 
 ```
 위험 식별 기법:
@@ -40,7 +40,7 @@ categories = "studynote-software-engineering"
   외부 위험: 법규 변경, 공급업체
 ```
 
-> 📢 **섹션 요약 비유**: 위험 식별은 여행 전 위험 지도 만들기 — 출발 전에 가능한 모든 위험을 나열해야 대비할 수 있다.
+> 📢 **섹션 요약 비유**: [[027_risk_identification|위험 식별]]은 여행 전 위험 지도 만들기 — 출발 전에 가능한 모든 위험을 나열해야 대비할 수 있다.
 
 ---
 
@@ -74,7 +74,7 @@ categories = "studynote-software-engineering"
 
 ---
 
-## Ⅲ. 위험 대응 전략
+## Ⅲ. [[033_risk_response_strategies|위험 대응 전략]]
 
 ```
 위험 대응 4전략:
@@ -106,7 +106,7 @@ categories = "studynote-software-engineering"
   예: RE 합산 × 0.5 = 비상 예비비
 ```
 
-> 📢 **섹션 요약 비유**: 위험 대응은 우산 전략 — 회피(비 오는 날 여행 안 가기), 전가(우산 빌려주기), 완화(방수 코트 입기), 수용(젖어도 감기 안 걸림).
+> 📢 **섹션 요약 비유**: 위험 대응은 우산 [[268_strategy_pattern|전략]] — 회피(비 오는 날 여행 안 가기), 전가(우산 빌려주기), 완화(방수 코트 입기), 수용(젖어도 감기 안 걸림).
 
 ---
 

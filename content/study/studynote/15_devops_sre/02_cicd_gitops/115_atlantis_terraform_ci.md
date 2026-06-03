@@ -7,9 +7,9 @@ categories = "studynote-devops-sre"
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: Atlantis는 Terraform/OpenTofu의 **PR(Pull Request) 기반 자동 Plan/Apply 워크플로**를 제공하는 OSS 도구로, PR을 열면 자동으로 `terraform plan` 결과를 코멘트로 달고, 승인 후 `atlantis apply`로 적용한다.
-> 2. **가치**: 개발자가 로컬에서 `terraform apply`를 실행하면 State 충돌·감사 불가·리뷰 없는 변경이 발생하지만, Atlantis는 **모든 인프라 변경을 PR 리뷰 프로세스**에 통합하여 IaC의 GitOps를 실현한다.
-> 3. **판단 포인트**: Atlantis는 자체 호스팅(GitHub/GitLab Webhook 연동)이 필요하며, Terraform Cloud/Spacelift 같은 SaaS 대안과 비교하여 **비용 0 + 완전 제어**가 장점이다.
+> 1. **본질**: Atlantis는 [[195_terraform_hashicorp_agnostic_aws_gcp|Terraform]]/OpenTofu의 **[[067_pull_request_pr_merge_request_code_review|PR]]([[067_pull_request_pr_merge_request_code_review|Pull Request]]) 기반 자동 Plan/Apply 워크플로**를 제공하는 [[191_oss_license_compliance|OSS]] 도구로, PR을 열면 자동으로 `terraform plan` 결과를 코멘트로 달고, 승인 후 `atlantis apply`로 적용한다.
+> 2. **가치**: 개발자가 로컬에서 `terraform apply`를 실행하면 [[272_state_pattern|State]] 충돌·[[606_auditing_linux_auditd|감사]] 불가·리뷰 없는 변경이 발생하지만, Atlantis는 **모든 인프라 변경을 [[067_pull_request_pr_merge_request_code_review|PR]] 리뷰 프로세스**에 통합하여 IaC의 GitOps를 실현한다.
+> 3. **판단 포인트**: Atlantis는 자체 호스팅(GitHub/GitLab [[498_webhook_rest_api_reverse_callback|Webhook]] 연동)이 필요하며, [[195_terraform_hashicorp_agnostic_aws_gcp|Terraform]] Cloud/Spacelift 같은 [[309_saas|SaaS]] 대안과 비교하여 **비용 0 + 완전 제어**가 장점이다.
 
 ---
 
@@ -30,7 +30,7 @@ categories = "studynote-devops-sre"
 └───────────────────────────────────────────────────────┘
 ```
 
-- **📢 섹션 요약 비유**: Atlantis는 인프라 변경의 **4-eyes 원칙(이중 확인)**을 자동화한 것이다. 혼자 몰래 서버를 바꿀 수 없고, 반드시 PR 리뷰를 거쳐야 한다.
+- **📢 섹션 요약 비유**: Atlantis는 인프라 변경의 **4-eyes 원칙(이중 [[396_validation|확인]])**을 자동화한 것이다. 혼자 몰래 서버를 바꿀 수 없고, 반드시 [[067_pull_request_pr_merge_request_code_review|PR]] 리뷰를 거쳐야 한다.
 
 ---
 
@@ -40,43 +40,43 @@ categories = "studynote-devops-sre"
 
 | 기능 | 설명 |
 |:---|:---|
-| **Auto Plan** | PR 생성 시 자동 plan 실행 |
-| **PR Comment** | Plan 결과를 PR 코멘트로 표시 |
-| **Locking** | 동일 디렉터리 동시 변경 방지 |
-| **Apply Require** | PR Approve 후에만 apply 허용 |
+| **Auto Plan** | [[067_pull_request_pr_merge_request_code_review|PR]] [[087_process_state_transition|생성]] 시 자동 plan 실행 |
+| **[[067_pull_request_pr_merge_request_code_review|PR]] Comment** | Plan 결과를 [[067_pull_request_pr_merge_request_code_review|PR]] 코멘트로 표시 |
+| **[[213_locking_mechanism_concurrency_control|Locking]]** | 동일 [[506_directory_structure_symbol_table|디렉터리]] 동시 변경 방지 |
+| **Apply Require** | [[067_pull_request_pr_merge_request_code_review|PR]] Approve 후에만 apply 허용 |
 | **Custom Workflow** | pre-plan/post-apply 훅 지원 |
 
-### Atlantis vs Terraform Cloud
+### Atlantis vs [[195_terraform_hashicorp_agnostic_aws_gcp|Terraform]] Cloud
 
-| 비교 | Atlantis | Terraform Cloud |
+| 비교 | Atlantis | [[195_terraform_hashicorp_agnostic_aws_gcp|Terraform]] Cloud |
 |:---|:---|:---|
-| **호스팅** | 자체 (Docker) | **SaaS** |
+| **호스팅** | 자체 ([[063_docker_architecture|Docker]]) | **[[309_saas|SaaS]]** |
 | **비용** | 무료 | 유료 |
 | **제어** | **완전** | HashiCorp 의존 |
-| **State** | 별도 관리 (S3) | 내장 |
-| **Sentinel** | ✗ | ✅ (정책) |
+| **[[272_state_pattern|State]]** | 별도 관리 (S3) | 내장 |
+| **Sentinel** | ✗ | ✅ ([[164_policy|정책]]) |
 
-- **📢 섹션 요약 비유**: Atlantis는 자가용(직접 관리, 비용 0)이고, Terraform Cloud는 택시(편리하지만 비용 있음)이다.
+- **📢 섹션 요약 비유**: Atlantis는 자가용(직접 관리, 비용 0)이고, [[195_terraform_hashicorp_agnostic_aws_gcp|Terraform]] Cloud는 택시(편리하지만 비용 있음)이다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-| 비교 | 로컬 apply | Atlantis | Terraform Cloud |
+| 비교 | 로컬 apply | Atlantis | [[195_terraform_hashicorp_agnostic_aws_gcp|Terraform]] Cloud |
 |:---|:---|:---|:---|
-| **리뷰** | 없음 | **PR 필수** | PR 필수 |
-| **감사** | 불가 | **Git 이력** | 내장 |
-| **State 충돌** | 빈번 | **Lock으로 방지** | 내장 |
+| **리뷰** | 없음 | **[[067_pull_request_pr_merge_request_code_review|PR]] 필수** | [[067_pull_request_pr_merge_request_code_review|PR]] 필수 |
+| **[[606_auditing_linux_auditd|감사]]** | 불가 | **Git 이력** | 내장 |
+| **[[272_state_pattern|State]] 충돌** | 빈번 | **Lock으로 방지** | 내장 |
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### 배포 체크리스트
+### 배포 [[435_checklist_based_testing|체크리스트]]
 1. Atlantis 서버를 K8s/Docker에 배포.
-2. GitHub/GitLab Webhook 연결.
-3. `atlantis.yaml`에 프로젝트 디렉터리·워크플로 정의.
-4. PR Approve → `atlantis apply` 코멘트로 적용.
+2. GitHub/GitLab [[498_webhook_rest_api_reverse_callback|Webhook]] 연결.
+3. `atlantis.yaml`에 프로젝트 [[506_directory_structure_symbol_table|디렉터리]]·워크플로 정의.
+4. [[067_pull_request_pr_merge_request_code_review|PR]] Approve → `atlantis apply` 코멘트로 적용.
 
 ---
 
@@ -84,11 +84,11 @@ categories = "studynote-devops-sre"
 
 | 지표 | 로컬 apply | Atlantis | 개선 |
 |:---|:---|:---|:---|
-| 인프라 변경 감사 | 불가 | **PR 이력** | 100% |
-| State 충돌 | 빈번 | **Lock** | 0건 |
-| 비용 | - | **무료** | SaaS 대비 절감 |
+| 인프라 변경 [[606_auditing_linux_auditd|감사]] | 불가 | **[[067_pull_request_pr_merge_request_code_review|PR]] 이력** | 100% |
+| [[272_state_pattern|State]] 충돌 | 빈번 | **[[510_lock|Lock]]** | 0건 |
+| 비용 | - | **무료** | [[309_saas|SaaS]] 대비 절감 |
 
-Atlantis는 GitOps + Terraform의 가장 실용적인 조합이며, PR 리뷰 문화가 정착된 팀에서 인프라 거버넌스를 비용 없이 확보할 수 있는 최적의 도구다.
+Atlantis는 [[119_gitops_single_source_of_truth|GitOps]] + Terraform의 가장 실용적인 조합이며, [[067_pull_request_pr_merge_request_code_review|PR]] 리뷰 문화가 정착된 팀에서 인프라 거버넌스를 비용 없이 확보할 수 있는 최적의 도구다.
 
 ---
 
@@ -96,11 +96,11 @@ Atlantis는 GitOps + Terraform의 가장 실용적인 조합이며, PR 리뷰 �
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **Terraform** | Atlantis가 자동화하는 IaC 도구 |
-| **GitOps** | PR 기반 인프라 관리 = IaC GitOps |
-| **Terraform Cloud** | SaaS 경쟁 도구 |
-| **Spacelift** | 또 다른 Terraform CI SaaS 대안 |
-| **PR Review** | Atlantis가 강제하는 변경 리뷰 프로세스 |
+| **[[195_terraform_hashicorp_agnostic_aws_gcp|Terraform]]** | Atlantis가 자동화하는 [[793_iac_idempotency_template|IaC]] 도구 |
+| **[[119_gitops_single_source_of_truth|GitOps]]** | [[067_pull_request_pr_merge_request_code_review|PR]] 기반 인프라 관리 = [[793_iac_idempotency_template|IaC]] [[119_gitops_single_source_of_truth|GitOps]] |
+| **[[195_terraform_hashicorp_agnostic_aws_gcp|Terraform]] Cloud** | [[309_saas|SaaS]] 경쟁 도구 |
+| **Spacelift** | 또 다른 [[195_terraform_hashicorp_agnostic_aws_gcp|Terraform]] [[090_configuration_item|CI]] [[309_saas|SaaS]] 대안 |
+| **[[067_pull_request_pr_merge_request_code_review|PR]] [[153_requirements_review_inspection_walkthrough|Review]]** | Atlantis가 강제하는 변경 리뷰 프로세스 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 

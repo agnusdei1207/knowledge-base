@@ -7,8 +7,8 @@ categories = "studynote-cloud-architecture"
 +++
 
 > **핵심 인사이트**
-> 1. Rehost(Lift & Shift)는 클라우드 6R 전략 중 가장 빠르고 위험이 낮은 방법으로, 온프레미스 워크로드를 코드 수정 없이 클라우드 VM으로 이전하지만 클라우드 네이티브 최적화(PaaS, 서버리스, 오토스케일링)를 활용하지 못해 비용 절감 효과가 제한적이다.
-> 2. AWS MGN(Application Migration Service), Azure Migrate, Google Migrate for Compute Engine 같은 자동화 도구가 Rehost를 대폭 단순화했으나, 성공적인 Rehost는 반드시 네트워크 설계(VPC, 서브넷), 보안 그룹, 스토리지 용량 계획을 사전에 수립해야 한다.
+> 1. Rehost([[086_lift_association_rule_marketing|Lift]] & Shift)는 클라우드 6R [[268_strategy_pattern|전략]] 중 가장 빠르고 위험이 낮은 방법으로, [[061_on_premise_legacy_infrastructure|온프레미스]] 워크로드를 코드 수정 없이 클라우드 VM으로 이전하지만 [[531_cloud_native_architecture|클라우드 네이티브]] 최적화([[184_paas_platform_as_a_service|PaaS]], [[206_serverless_cold_start|서버리스]], 오토스케일링)를 활용하지 못해 비용 절감 효과가 제한적이다.
+> 2. AWS MGN(Application Migration [[090_service_kubernetes_network_load_balancing|Service]]), Azure Migrate, Google Migrate for Compute Engine 같은 자동화 도구가 Rehost를 대폭 단순화했으나, 성공적인 Rehost는 반드시 네트워크 설계([[836_vpc_virtual_private_cloud_subnet_isolation|VPC]], 서브넷), 보안 그룹, 스토리지 용량 계획을 사전에 수립해야 한다.
 > 3. Rehost는 종착점이 아닌 출발점 — 이전 후 안정화 기간(보통 3~6개월)을 거쳐 Re-platform 또는 Re-architect로 진화하는 단계적 클라우드 여정의 첫 번째 관문이다.
 
 ---
@@ -159,7 +159,7 @@ RTO/RPO 목표:
   데이터 손실: 최소화 (마지막 동기화 이후 델타만)
 ```
 
-> 📢 **섹션 요약 비유**: Rehost 컷오버는 비행기 탑승 — 게이트 닫히는 순간(DNS 전환)이 컷오버, 그 전까지는 탑승 준비(복제, 테스트).
+> 📢 **섹션 요약 비유**: Rehost 컷오버는 비행기 탑승 — 게이트 닫히는 순간([[511_dns_hierarchical_distributed_architecture|DNS]] 전환)이 컷오버, 그 전까지는 탑승 준비([[016_replication_factor|복제]], 테스트).
 
 ---
 

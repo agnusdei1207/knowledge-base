@@ -8,9 +8,9 @@ categories = "studynote-design-supervision"
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: Monad (모나드)는 값을 Context (컨텍스트, 맥락) 안에 포장(wrap)하여 연산을 안전하게 체이닝(Chaining)하는 함수형 프로그래밍(Functional Programming) 패턴이다 — "값의 안전한 변환 파이프라인" 이다.
-> 2. **가치**: null 체크, 예외 처리, 비동기 대기 등 부수효과(Side Effect)를 직접 다루지 않고, 컨텍스트(Optional, Stream, Future)가 내부에서 처리하여 비즈니스 로직을 순수하게 유지한다.
-> 3. **판단 포인트**: `flatMap()`이 모나드의 핵심이다 — `map()`은 컨텍스트 안의 값을 변환하고, `flatMap()`은 중첩 컨텍스트를 평탄화(flatten)하여 체이닝을 자연스럽게 이어간다.
+> 1. **본질**: Monad (모나드)는 값을 [[033_context|Context]] ([[033_context|컨텍스트]], 맥락) 안에 포장(wrap)하여 연산을 안전하게 체이닝([[103_chaining|Chaining]])하는 [[324_functional_programming_core|함수형 프로그래밍]]([[324_functional_programming_core|Functional Programming]]) 패턴이다 — "값의 안전한 변환 [[123_pipe|파이프]]라인" 이다.
+> 2. **가치**: null 체크, 예외 처리, 비동기 대기 등 부수효과(Side Effect)를 직접 다루지 않고, [[033_context|컨텍스트]](Optional, [[467_http2_stream_multiplexing_tcp_hol|Stream]], Future)가 내부에서 처리하여 비즈니스 로직을 순수하게 유지한다.
+> 3. **판단 포인트**: `flatMap()`이 모나드의 핵심이다 — `map()`은 [[033_context|컨텍스트]] 안의 값을 변환하고, `flatMap()`은 중첩 [[033_context|컨텍스트]]를 평탄화(flatten)하여 체이닝을 자연스럽게 이어간다.
 
 ---
 
@@ -30,7 +30,7 @@ if (user != null) {
 return "UNKNOWN";
 ```
 
-**문제**: null 체크가 비즈니스 로직을 뒤덮어 가독성을 파괴한다.
+**문제**: null 체크가 비즈니스 로직을 뒤덮어 [[333_readability_vs_efficiency|가독성]]을 파괴한다.
 
 모나드 방식 (Optional 모나드):
 ```java
@@ -41,7 +41,7 @@ return getUser(id)
     .orElse("UNKNOWN");
 ```
 
-**개선**: null 체크가 컨텍스트(Optional) 안에 숨고, 비즈니스 변환 로직만 선명하게 드러난다.
+**개선**: null 체크가 [[033_context|컨텍스트]](Optional) 안에 숨고, 비즈니스 변환 로직만 선명하게 드러난다.
 
 ```
 Monad (모나드):
@@ -112,7 +112,7 @@ flatMap():
 ---
 
 ## Ⅲ. 비교 및 연결
-| 타입 | 표현하는 컨텍스트 | 사용 목적 | flatMap 역할 |
+| 타입 | 표현하는 [[033_context|컨텍스트]] | 사용 목적 | flatMap 역할 |
 |:---|:---|:---|:---|
 | `Optional<T>` | 값의 존재/부재 | null 안전 처리 | 중첩 Optional 평탄화 |
 | `Stream<T>` | 0~N개의 값 | 컬렉션 변환 | 중첩 스트림 평탄화 |
@@ -120,14 +120,14 @@ flatMap():
 | `Either<L, R>` | 성공/실패 분기 | 에러 처리 | 실패 시 단락(Short-circuit) |
 | `List<T>` | 비결정론적 값 | 조합 탐색 | 리스트 확장 (flat) |
 
-| 개념 | 설명 | 모나드와의 관계 |
+| 개념 | 설명 | 모나드와의 [[083_relationship_in_er_model|관계]] |
 |:---|:---|:---|
 | 순수 함수 (Pure Function) | 부수효과 없는 함수 | 모나드가 부수효과를 캡슐화 |
-| 불변성 (Immutability) | 상태 변경 불가 | 모나드는 새 컨텍스트를 반환 |
+| 불변성 (Immutability) | 상태 변경 불가 | 모나드는 새 [[033_context|컨텍스트]]를 반환 |
 | 함수 합성 (Composition) | f ∘ g | flatMap이 합성의 구현체 |
-| 참조 투명성 (Referential Transparency) | 표현식을 값으로 교체 가능 | 모나드 연산은 항상 동일 결과 |
+| [[316_reference_pattern_nosql|참조]] 투명성 ([[406_referential_integrity_foreign_key|Referential]] Transparency) | 표현식을 값으로 교체 가능 | 모나드 연산은 항상 동일 결과 |
 
-- **📢 섹션 요약 비유**: 모나드는 마법 파이프라인 — 물(값)이 흐르다 오염(null, 오류, 비동기)을 만나도 파이프(컨텍스트)가 내부에서 처리하고, 최종 출구(unwrap)에서만 결과를 꺼낸다.
+- **📢 섹션 요약 비유**: 모나드는 마법 [[123_pipe|파이프]]라인 — 물(값)이 흐르다 오염(null, 오류, 비동기)을 만나도 [[123_pipe|파이프]]([[033_context|컨텍스트]])가 내부에서 처리하고, 최종 출구(unwrap)에서만 결과를 꺼낸다.
 
 ---
 
@@ -172,14 +172,14 @@ List<Integer> flat = nested.stream()
 | 상황 | 적용 모나드 | 이유 |
 |:---|:---|:---|
 | null 가능 반환값 | `Optional<T>` | null 전파 방지 |
-| 대용량 데이터 변환 | `Stream<T>` | 지연 평가 + 체이닝 |
+| 대용량 [[001_dikw_pyramid|데이터]] 변환 | `Stream<T>` | [[023_lazy_evaluation|지연 평가]] + 체이닝 |
 | 비동기 작업 체이닝 | `CompletableFuture<T>` | 콜백 지옥 탈피 |
 | 성공/실패 분기 처리 | `Either<L, R>` | 예외 없이 에러 전파 |
 
-### 판단 체크리스트
+### 판단 [[435_checklist_based_testing|체크리스트]]
 1. 해결하려는 변화 축이 분명한가?
-2. 추상화 비용보다 변경 절감 효과가 큰가?
-3. 테스트·로그·운영 가시성이 확보되는가?
+2. [[198_abstraction_control_data_process|추상화]] 비용보다 변경 절감 효과가 큰가?
+3. 테스트·[[568_logs_distributed_logging_elk_fluentd|로그]]·운영 가시성이 확보되는가?
 4. 팀이 이 구조를 일관되게 유지할 수 있는가?
 
 - **📢 섹션 요약 비유**: 모나드 체이닝은 조립 라인 — 각 작업대(map/flatMap)가 부품(값)을 받아 가공하고, 문제가 생기면(null/오류) 라인을 멈추지 않고 불량품 처리 경로(orElse/exceptionally)로 조용히 보낸다.
@@ -187,35 +187,35 @@ List<Integer> flat = nested.stream()
 ---
 
 ## Ⅴ. 기대효과 및 결론
-모나드 패턴은 함수형 프로그래밍의 철학을 실용적으로 구현한 것이다:
+모나드 패턴은 [[324_functional_programming_core|함수형 프로그래밍]]의 철학을 실용적으로 구현한 것이다:
 
 **장점**:
-- null 체크, 예외 처리, 비동기 대기 등을 컨텍스트 안에 캡슐화
-- 체이닝으로 선언적(Declarative) 코드 작성 가능
-- 함수 합성(Composition) 지원으로 단위 테스트 용이
+- null 체크, 예외 처리, 비동기 대기 등을 [[033_context|컨텍스트]] 안에 캡슐화
+- 체이닝으로 선언적([[219_declarative_yaml|Declarative]]) 코드 작성 가능
+- 함수 합성(Composition) 지원으로 [[397_unit_test|단위 테스트]] 용이
 
 **한계**:
 - 처음 접하는 개발자에게 학습 곡선 존재
-- 지나친 모나드 중첩은 오히려 가독성 저하
-- 성능 민감 코드에서는 오버헤드 확인 필요
+- 지나친 모나드 중첩은 오히려 [[333_readability_vs_efficiency|가독성]] 저하
+- [[282_performance_tactics|성능]] 민감 코드에서는 오버헤드 [[396_validation|확인]] 필요
 
 Java에서 모나드를 이해하면 `Optional`, `Stream`, `CompletableFuture`의 설계 의도가 명확해지며, 이를 올바르게 사용하는 것이 현대 Java 코드 품질의 핵심이다.
 
-확장 방향은 ① 선언형 API와의 결합, ② 관측 가능성(Observability) 내장, ③ 분산 환경에 맞는 변형 패턴 적용이다.
+확장 방향은 ① 선언형 API와의 결합, ② [[111_observability_metrics_logs_traces|관측 가능성]]([[642_observability_telemetry|Observability]]) 내장, ③ [[136_variance|분산]] 환경에 맞는 변형 패턴 적용이다.
 
-- **📢 섹션 요약 비유**: 모나드는 도시락 통(컨텍스트) — 반찬(값)이 넘치거나 상하는 것(null/오류)을 통이 알아서 막아주고, 뚜껑(unwrap)을 열 때만 내용물과 마주한다.
+- **📢 섹션 요약 비유**: 모나드는 도시락 통([[033_context|컨텍스트]]) — 반찬(값)이 넘치거나 상하는 것(null/오류)을 통이 알아서 막아주고, 뚜껑(unwrap)을 열 때만 내용물과 마주한다.
 
 ---
 
 ### 📌 관련 개념 맵
-| 관계 | 개념 | 설명 |
+| [[083_relationship_in_er_model|관계]] | 개념 | 설명 |
 |:---|:---|:---|
-| 상위 개념 | 함수형 프로그래밍 (Functional Programming) | 부수효과 없는 함수 합성 패러다임 |
+| 상위 개념 | [[324_functional_programming_core|함수형 프로그래밍]] ([[324_functional_programming_core|Functional Programming]]) | 부수효과 없는 함수 합성 패러다임 |
 | 하위 개념 | flatMap() / bind() | 모나드 체이닝의 핵심 연산 |
-| 구현체 | Java Optional | null 안전 컨텍스트 모나드 |
-| 구현체 | Java Stream | 컬렉션 변환 파이프라인 모나드 |
-| 구현체 | CompletableFuture | 비동기 값 컨텍스트 모나드 |
-| 연관 개념 | 불변 객체 (Immutable Object) | 모나드 연산은 불변 원칙을 따름 |
+| 구현체 | Java Optional | null 안전 [[033_context|컨텍스트]] 모나드 |
+| 구현체 | Java [[467_http2_stream_multiplexing_tcp_hol|Stream]] | 컬렉션 변환 [[123_pipe|파이프]]라인 모나드 |
+| 구현체 | CompletableFuture | 비동기 값 [[033_context|컨텍스트]] 모나드 |
+| 연관 개념 | 불변 객체 ([[172_builder_immutable_object|Immutable Object]]) | 모나드 연산은 불변 원칙을 따름 |
 | 연관 개념 | 커링 (Currying) | 함수 합성과 부분 적용의 기반 |
 
 ### 📈 관련 키워드 및 발전 흐름도

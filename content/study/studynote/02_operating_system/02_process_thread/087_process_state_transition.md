@@ -8,17 +8,17 @@ categories = "studynote-operating-system"
 
 ## 핵심 인사이트 (3줄 요약)
 
-    > 1. **본질**: 프로세스 상태 전이 (Process State Transition)는 New, Ready, Running, Waiting/Blocked, Terminated 사이의 이동 규칙을 정의해 스케줄러가 CPU 시간을 공정하게 나누게 한다.
-    > 2. **가치**: 상태를 분리하면 CPU 바운드와 I/O 바운드의 차이를 설명할 수 있고, 문맥 교환과 대기 큐 관리도 명확해진다.
-    > 3. **판단 포인트**: 상태 전이를 단순 목록으로 외우지 말고, 어떤 사건이 상태를 바꾸는지와 그 결과가 스케줄링에 어떤 영향을 주는지 함께 봐야 한다.
+    > 1. **본질**: [[086_process_state|프로세스 상태]] 전이 ([[300_process|Process]] [[632_state_transition_diagram_testing|State Transition]])는 New, Ready, Running, Waiting/Blocked, Terminated 사이의 이동 규칙을 정의해 스케줄러가 CPU 시간을 공정하게 나누게 한다.
+    > 2. **가치**: 상태를 분리하면 CPU 바운드와 I/O 바운드의 차이를 설명할 수 있고, [[211_context_switch|문맥 교환]]과 [[089_wait_queue|대기 큐]] 관리도 명확해진다.
+    > 3. **판단 포인트**: [[632_state_transition_diagram_testing|상태 전이]]를 단순 목록으로 외우지 말고, 어떤 사건이 상태를 바꾸는지와 그 결과가 스케줄링에 어떤 영향을 주는지 함께 봐야 한다.
 
     ---
 
     ## Ⅰ. 개요 및 필요성
 
-    프로세스는 실행 중인 프로그램이며, 운영체제는 이를 상태로 관리한다. 프로세스 상태 전이 (Process State Transition)는 프로세스가 생성에서 종료까지 어떤 조건으로 이동하는지 정리한 모델이다.
+    프로세스는 실행 중인 프로그램이며, 운영체제는 이를 상태로 관리한다. [[086_process_state|프로세스 상태]] 전이 ([[300_process|Process]] [[632_state_transition_diagram_testing|State Transition]])는 프로세스가 생성에서 종료까지 어떤 조건으로 이동하는지 정리한 모델이다.
 
-이 모델이 필요한 이유는 CPU가 한 번에 하나만 실행하는 것처럼 보이더라도, 실제로는 준비 큐와 대기 큐를 오가며 수많은 프로세스가 공존하기 때문이다. 상태를 분리해야 스케줄러와 디스패처가 언제 누구를 CPU에 올릴지 판단할 수 있다.
+이 모델이 필요한 이유는 CPU가 한 번에 하나만 실행하는 것처럼 보이더라도, 실제로는 준비 큐와 [[089_wait_queue|대기 큐]]를 오가며 수많은 프로세스가 공존하기 때문이다. 상태를 분리해야 스케줄러와 디스패처가 언제 누구를 CPU에 올릴지 판단할 수 있다.
 
     - **📢 섹션 요약 비유**: 운동장에서 한 사람이 줄 서기, 달리기, 쉬기를 오가는 규칙표라고 생각하면 된다.
 
@@ -44,7 +44,7 @@ New ──admit──► Ready ──dispatch──► Running ──exit──�
                  └──event complete───┴────ready─────────┘
 ```
 
-상태 전이는 단순한 라벨이 아니라, 큐 이동과 문맥 교환 비용을 포함한 스케줄링 계약이다.
+[[632_state_transition_diagram_testing|상태 전이]]는 단순한 라벨이 아니라, 큐 이동과 [[211_context_switch|문맥 교환]] 비용을 포함한 스케줄링 계약이다.
 
     - **📢 섹션 요약 비유**: 선수는 대기줄과 경기장 사이를 옮겨 다니고, 심판은 언제 출전할지 정한다.
 
@@ -52,14 +52,14 @@ New ──admit──► Ready ──dispatch──► Running ──exit──�
 
     ## Ⅲ. 비교 및 연결
 
-    프로세스 상태는 스레드 상태와도 연결된다. 프로세스는 주소 공간과 자원을 포함한 실행 단위이고, 스레드는 그 안에서 실행 흐름을 더 잘게 나눈 단위다.
+    [[086_process_state|프로세스 상태]]는 [[092_thread_lwp|스레드]] 상태와도 연결된다. 프로세스는 주소 공간과 자원을 포함한 실행 단위이고, [[092_thread_lwp|스레드]]는 그 안에서 실행 흐름을 더 잘게 나눈 단위다.
 
-| 비교 | 프로세스 | 스레드 |
+| 비교 | 프로세스 | [[092_thread_lwp|스레드]] |
 | :-- | :-- | :-- |
 | 관리 단위 | 자원 + 실행 | 실행 흐름 |
-| 상태 전이 비용 | 큼 | 상대적으로 작음 |
-| 문맥 교환 | 무거움 | 가벼움 |
-| 대표 이슈 | PCB (Process Control Block) 관리 | 동기화와 경쟁 상태 |
+| [[632_state_transition_diagram_testing|상태 전이]] 비용 | 큼 | 상대적으로 작음 |
+| [[211_context_switch|문맥 교환]] | 무거움 | 가벼움 |
+| 대표 이슈 | PCB ([[300_process|Process]] Control Block) 관리 | 동기화와 경쟁 상태 |
 
 또한 Ready와 Waiting을 구분해야 CPU 바운드와 I/O 바운드 작업을 다르게 다룰 수 있다. CPU를 많이 쓰는 프로세스는 Running 시간을 더 세밀하게 쪼개야 하고, I/O가 많은 프로세스는 대기 후 복귀가 빈번하므로 큐 관리와 우선순위 조정이 중요하다.
 
@@ -69,17 +69,17 @@ New ──admit──► Ready ──dispatch──► Running ──exit──�
 
     ## Ⅳ. 실무 적용 및 기술사 판단
 
-    실무에서는 상태 전이가 비정상적으로 길어지는 지점을 찾는 것이 중요하다. Waiting이 길면 I/O 병목이나 외부 의존성 문제를, Ready가 길면 CPU 경쟁이나 우선순위 불균형을 의심할 수 있다.
+    실무에서는 [[632_state_transition_diagram_testing|상태 전이]]가 비정상적으로 길어지는 지점을 찾는 것이 중요하다. Waiting이 길면 I/O 병목이나 외부 의존성 문제를, Ready가 길면 CPU 경쟁이나 우선순위 불균형을 의심할 수 있다.
 
-### 체크리스트
+### [[435_checklist_based_testing|체크리스트]]
 1. Ready 큐와 Waiting 큐가 분리되어 관측되는가?
-2. 컨텍스트 스위치 폭증이 성능 저하를 만들고 있지 않은가?
+2. [[033_context|컨텍스트]] [[238_switch_operation_principles|스위치]] 폭증이 [[282_performance_tactics|성능]] 저하를 만들고 있지 않은가?
 3. I/O 요청 후 복귀 시 우선순위 역전이 없는가?
 4. 종료 후 좀비(zombie)나 고아(orphan) 관리가 필요한가?
 
-### 안티패턴
+### [[128_water_scrum_fall_anti_pattern|안티패턴]]
 - Busy waiting으로 CPU를 낭비하는 것
-- 상태 전이를 로그 없이 추적하는 것
+- [[632_state_transition_diagram_testing|상태 전이]]를 [[568_logs_distributed_logging_elk_fluentd|로그]] 없이 추적하는 것
 - I/O 바운드 프로세스를 CPU 바운드와 같은 기준으로 스케줄링하는 것
 
     - **📢 섹션 요약 비유**: 오래 기다리는 사람은 줄이 막혔는지, 일이 끝난 뒤 돌아오는 중인지 봐야 한다.
@@ -88,9 +88,9 @@ New ──admit──► Ready ──dispatch──► Running ──exit──�
 
     ## Ⅴ. 기대효과 및 결론
 
-    상태 전이 모델은 운영체제의 스케줄링, 성능 분석, 장애 분석을 한 프레임으로 묶어 준다. 상태를 보면 왜 CPU가 바빠 보이는데 실제 처리량은 낮은지, 왜 요청이 멈췄는지도 설명할 수 있다.
+    [[632_state_transition_diagram_testing|상태 전이]] 모델은 운영체제의 스케줄링, [[282_performance_tactics|성능]] 분석, 장애 분석을 한 프레임으로 묶어 준다. 상태를 보면 왜 CPU가 바빠 보이는데 실제 처리량은 낮은지, 왜 요청이 멈췄는지도 설명할 수 있다.
 
-따라서 프로세스 상태는 외워야 하는 표가 아니라, 자원 경쟁의 흐름을 읽는 지도라고 기억하는 것이 맞다.
+따라서 [[086_process_state|프로세스 상태]]는 외워야 하는 표가 아니라, 자원 경쟁의 흐름을 읽는 지도라고 기억하는 것이 맞다.
 
     - **📢 섹션 요약 비유**: 놀이공원 줄처럼 상태를 나누면, 어디가 막혔는지 바로 알 수 있다.
 
@@ -100,11 +100,11 @@ New ──admit──► Ready ──dispatch──► Running ──exit──�
 
     | 개념 | 연결 포인트 |
 | :-- | :-- |
-| PCB (Process Control Block) | 프로세스 상태와 자원 정보를 저장 |
-| Ready Queue | CPU 대기 프로세스 집합 |
-| Waiting Queue | I/O 대기 프로세스 집합 |
-| Context Switch | 상태 전이 시 비용 발생 |
-| Scheduler / Dispatcher | 상태 전이를 실제로 관리 |
+| PCB ([[300_process|Process]] Control Block) | [[086_process_state|프로세스 상태]]와 자원 정보를 저장 |
+| [[088_ready_queue|Ready Queue]] | CPU 대기 프로세스 집합 |
+| Waiting [[058_queue|Queue]] | I/O 대기 프로세스 집합 |
+| [[211_context_switch|Context Switch]] | [[632_state_transition_diagram_testing|상태 전이]] 시 비용 발생 |
+| Scheduler / [[168_dispatcher|Dispatcher]] | [[632_state_transition_diagram_testing|상태 전이]]를 실제로 관리 |
 
     ### 📈 관련 키워드 및 발전 흐름도
 

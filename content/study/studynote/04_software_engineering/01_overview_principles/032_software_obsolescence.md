@@ -6,33 +6,33 @@ categories = "studynote-software-engineering"
 +++
 
 > **핵심 인사이트 3줄**
-> 1. 소프트웨어 노후화(Software Obsolescence)는 기술적 부채·엔트로피 축적·환경 변화로 시스템이 유지보수 불가 상태에 도달하는 현상이다.
-> 2. 레거시 마이그레이션 전략(리팩토링·리아키텍처링·교체·은퇴)의 선택은 비즈니스 가치 vs 기술 부채 비율로 결정한다.
-> 3. 소프트웨어 나이(Software Age)는 캘린더 시간이 아닌 변경 요청 누적량과 결함 밀도로 측정해야 한다.
+> 1. 소프트웨어 노후화(Software Obsolescence)는 기술적 부채·[[151_entropy|엔트로피]] 축적·환경 변화로 시스템이 유지보수 불가 상태에 도달하는 현상이다.
+> 2. 레거시 마이그레이션 [[268_strategy_pattern|전략]]([[213_refactoring_cloud_native_rearchitecture|리팩토링]]·리아키텍처링·교체·은퇴)의 선택은 비즈니스 가치 vs [[100_technical_debt_monitoring_release_policy|기술 부채]] 비율로 결정한다.
+> 3. 소프트웨어 나이(Software Age)는 캘린더 시간이 아닌 변경 요청 누적량과 [[355_defect_density|결함 밀도]]로 측정해야 한다.
 
 ---
 
 ## Ⅰ. 소프트웨어 노후화의 정의와 원인
 
-소프트웨어 노후화(Software Obsolescence)는 **시간이 지남에 따라 소프트웨어의 유지보수성·적합성·기술 지원이 저하**되는 현상이다.
+소프트웨어 노후화(Software Obsolescence)는 **시간이 지남에 따라 소프트웨어의 [[346_maintainability_portability|유지보수성]]·적합성·기술 지원이 저하**되는 현상이다.
 
-| 원인 분류       | 세부 내용                                  |
+| 원인 [[104_classification_analysis|분류]]       | 세부 내용                                  |
 |--------------|-------------------------------------------|
 | 기술적 원인    | 오래된 프레임워크·언어·플랫폼 지원 종료       |
-| 설계 원인     | 높은 결합도·낮은 응집도, 모놀리식 아키텍처    |
+| 설계 원인     | 높은 [[195_coupling_levels|결합도]]·낮은 [[193_cohesion_levels|응집도]], [[121_monolithic_architecture|모놀리식 아키텍처]]    |
 | 문서 원인     | 소스 코드·요구사항 문서 불일치               |
-| 인적 원인     | 원개발자 이직으로 도메인 지식 상실            |
+| 인적 원인     | 원개발자 이직으로 [[064_relation_domain|도메인]] 지식 상실            |
 | 환경 원인     | 하드웨어 단종·OS 지원 종료·규제 변경          |
 
-**소프트웨어 엔트로피 (Software Entropy)**: 변경을 거듭할수록 구조가 무질서해지는 현상. "부패하는 설계(Rotting Design)"라고도 한다.
+**소프트웨어 [[151_entropy|엔트로피]] (Software [[151_entropy|Entropy]])**: 변경을 거듭할수록 구조가 무질서해지는 현상. "부패하는 설계(Rotting Design)"라고도 한다.
 
 📢 **섹션 요약 비유**: 소프트웨어 노후화는 오래된 집과 같다 — 처음엔 깔끔했지만 증축·개조를 반복하다 보면 배관이 얽히고 벽을 뚫기 어려워진다.
 
 ---
 
-## Ⅱ. 기술적 부채 (Technical Debt)
+## Ⅱ. 기술적 부채 ([[100_technical_debt_monitoring_release_policy|Technical Debt]])
 
-기술적 부채(Technical Debt)는 Ward Cunningham이 제안한 개념으로, **빠른 개발을 위해 취한 지름길이 미래 유지보수 비용 증가**로 되돌아오는 현상이다.
+기술적 부채([[100_technical_debt_monitoring_release_policy|Technical Debt]])는 Ward Cunningham이 제안한 개념으로, **빠른 개발을 위해 취한 지름길이 미래 유지보수 비용 증가**로 되돌아오는 현상이다.
 
 ```
 기술 부채 = 현재 최적 설계 구현 비용 - 실제 구현 비용
@@ -43,10 +43,10 @@ categories = "studynote-software-engineering"
 |--------------|------------------------------|
 | 의도적 부채   | 데드라인 압박으로 의식적 절충  |
 | 비의도적 부채 | 설계 지식 부족으로 발생        |
-| 비트 부패    | 코드 점진적 품질 저하          |
+| [[073_bit|비트]] 부패    | 코드 점진적 품질 저하          |
 | 아키텍처 부채 | 잘못된 기초 설계               |
 
-📢 **섹션 요약 비유**: 기술 부채는 신용카드와 같다 — 지금 당장 사고 나중에 갚는데, 방치하면 이자가 쌓여 원금보다 이자가 더 많아진다.
+📢 **섹션 요약 비유**: [[100_technical_debt_monitoring_release_policy|기술 부채]]는 신용카드와 같다 — 지금 당장 사고 나중에 갚는데, 방치하면 이자가 쌓여 원금보다 이자가 더 많아진다.
 
 ---
 
@@ -65,17 +65,17 @@ categories = "studynote-software-engineering"
      └────────────┴─────────┘
 ```
 
-### 레거시 마이그레이션 5R 전략 (Gartner)
+### 레거시 마이그레이션 5R [[268_strategy_pattern|전략]] (Gartner)
 
-| 전략           | 설명                            | 언제 선택             |
+| [[268_strategy_pattern|전략]]           | 설명                            | 언제 선택             |
 |--------------|--------------------------------|-----------------------|
 | Rehost       | 클라우드 리프트 앤 시프트        | 빠른 이전 필요        |
 | Replatform   | 경미한 최적화 + 이전             | 부분 개선 원할 때     |
-| Refactor     | 코드 재구성, 아키텍처 유지       | 품질 개선 필요        |
-| Rearchitect  | 아키텍처 재설계 (마이크로서비스) | 확장성 필요           |
+| [[213_refactoring_cloud_native_rearchitecture|Refactor]]     | 코드 재구성, 아키텍처 유지       | 품질 개선 필요        |
+| Rearchitect  | 아키텍처 재설계 ([[532_microservices_decomposition_patterns|마이크로서비스]]) | 확장성 필요           |
 | Replace      | 신규 솔루션으로 교체             | 비용 > 재개발 비용     |
 
-📢 **섹션 요약 비유**: 5R은 낡은 집을 어떻게 처리할지 결정하는 것과 같다 — 통째로 이사(Rehost), 리모델링(Refactor), 완전 재건축(Rearchitect), 아파트 분양(Replace).
+📢 **섹션 요약 비유**: 5R은 낡은 집을 어떻게 처리할지 결정하는 것과 같다 — 통째로 이사(Rehost), 리모델링([[213_refactoring_cloud_native_rearchitecture|Refactor]]), 완전 재건축(Rearchitect), 아파트 분양(Replace).
 
 ---
 
@@ -83,17 +83,17 @@ categories = "studynote-software-engineering"
 
 | 지표                  | 측정 방법                      | 임계값 예시           |
 |--------------------|-------------------------------|----------------------|
-| 코드 복잡도 (CC)     | McCabe 순환 복잡도              | CC > 10 → 리팩토링  |
-| 결함 밀도 (DD)       | 결함 수 / KLOC                  | DD > 5 → 재작성      |
-| 기술 부채 비율       | 기술 부채 / 개발 비용            | > 5% → 경보         |
-| 변경 요청 빈도       | 주간 CR 수                      | 급증 시 위험 신호    |
-| 커버리지 (Test Cov.) | 단위 테스트 커버리지 비율         | < 30% → 위험         |
+| 코드 복잡도 ([[883_common_criteria_iso_15408|CC]])     | McCabe 순환 복잡도              | [[883_common_criteria_iso_15408|CC]] > [[489_raid_10_hybrid|10]] → [[213_refactoring_cloud_native_rearchitecture|리팩토링]]  |
+| [[355_defect_density|결함 밀도]] ([[769_architecture|DD]])       | [[352_defect_definition|결함]] 수 / KLOC                  | [[769_architecture|DD]] > 5 → 재작성      |
+| [[100_technical_debt_monitoring_release_policy|기술 부채]] 비율       | [[100_technical_debt_monitoring_release_policy|기술 부채]] / 개발 비용            | > 5% → 경보         |
+| 변경 요청 빈도       | 주간 CR 수                      | 급증 시 위험 [[130_signal|신호]]    |
+| 커버리지 (Test Cov.) | [[397_unit_test|단위 테스트]] 커버리지 비율         | < 30% → 위험         |
 
-📢 **섹션 요약 비유**: 소프트웨어 건강 지표는 혈액 검사와 같다 — 정상 범위를 벗어나기 시작하면 조기 처방(리팩토링)이 수술(재구축)보다 훨씬 저렴하다.
+📢 **섹션 요약 비유**: 소프트웨어 건강 지표는 혈액 검사와 같다 — 정상 범위를 벗어나기 시작하면 조기 처방([[213_refactoring_cloud_native_rearchitecture|리팩토링]])이 수술(재구축)보다 훨씬 저렴하다.
 
 ---
 
-## Ⅴ. 현대화 전략과 사례
+## Ⅴ. 현대화 [[268_strategy_pattern|전략]]과 사례
 
 ### 점진적 현대화 패턴
 
@@ -111,13 +111,13 @@ API Gateway로 레거시·신규 트래픽 라우팅
 
 ### 성공/실패 사례
 
-| 사례          | 결과 | 교훈                           |
+| 사례          | 결과 | [[659_ir_lessons_learned|교훈]]                           |
 |--------------|------|-------------------------------|
-| 미국 FAA STARS | 성공 | 점진적 교체, 병렬 운영          |
+| 미국 FAA STARS | 성공 | 점진적 교체, [[430_index_fast_full_scan|병렬]] 운영          |
 | 영국 NHS CfH  | 실패 | 빅뱅 교체, 범위·복잡도 과소평가 |
-| Target Canada | 실패 | 레거시 데이터 마이그레이션 실패  |
+| Target Canada | 실패 | 레거시 [[001_dikw_pyramid|데이터]] 마이그레이션 실패  |
 
-📢 **섹션 요약 비유**: Strangler Fig 패턴은 나무를 감고 올라가는 무화과 덩굴이다 — 새 시스템이 레거시를 감싸면서 점점 교체하고, 완전히 감싼 뒤 낡은 나무를 제거한다.
+📢 **섹션 요약 비유**: [[310_strangler_fig_pattern|Strangler Fig]] 패턴은 나무를 감고 올라가는 무화과 덩굴이다 — 새 시스템이 레거시를 감싸면서 점점 교체하고, 완전히 감싼 뒤 낡은 나무를 제거한다.
 
 ---
 
@@ -168,5 +168,5 @@ API Gateway로 레거시·신규 트래픽 라우팅
 ## 👶 어린이를 위한 3줄 비유 설명
 
 1. 소프트웨어 노후화는 낡은 스마트폰과 같다 — 처음엔 빨랐지만 앱이 많아지고 업데이트가 쌓이면 점점 느려진다.
-2. 기술 부채는 숙제 미루기다 — 오늘 안 하면 내일 두 배가 되어 돌아온다.
-3. Strangler Fig 패턴은 낡은 집 리모델링이다 — 한 방씩 고치고 다 고치면 낡은 구조물을 철거한다.
+2. [[100_technical_debt_monitoring_release_policy|기술 부채]]는 숙제 미루기다 — 오늘 안 하면 내일 두 배가 되어 돌아온다.
+3. [[310_strangler_fig_pattern|Strangler Fig]] 패턴은 낡은 집 리모델링이다 — 한 방씩 고치고 다 고치면 낡은 구조물을 철거한다.

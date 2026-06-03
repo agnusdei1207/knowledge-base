@@ -8,27 +8,27 @@ categories = "studynote-cloud-architecture"
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: HDFS는 거대한 파일을 기본 128MB 블록 단위로 쪼개어 수천 대의 DataNode 디스크에 분산 저장하고, NameNode가 "어떤 블록이 어디에 있는지" 메타데이터를 중앙 관리하는 분산 파일 시스템이다.
-> 2. **가치**: 각 블록을 기본 3개 DataNode에 복제(Replication Factor=3)함으로써, 하드웨어 고장을 소프트웨어 레벨에서 투명하게 처리하여 데이터 손실 없이 페타바이트급 스토리지를 실현한다.
-> 3. **판단 포인트**: NameNode는 HDFS의 단일 장애 지점(SPOF)이었으나, Hadoop 2.x에서 Standby NameNode와 JournalNode를 통한 HA(고가용성) 구성으로 해결됐다. NameNode 메모리가 HDFS의 실질적 용량 한계를 결정한다.
+> 1. **본질**: HDFS는 거대한 [[501_file_definition_logical_record|파일]]을 기본 128MB 블록 단위로 쪼개어 수천 대의 [[015_datanode|DataNode]] 디스크에 [[136_variance|분산]] 저장하고, NameNode가 "어떤 블록이 어디에 있는지" [[012_metadata|메타데이터]]를 중앙 관리하는 [[136_variance|분산]] [[501_file_definition_logical_record|파일]] 시스템이다.
+> 2. **가치**: 각 블록을 기본 3개 DataNode에 [[016_replication_factor|복제]]([[016_replication_factor|Replication Factor]]=3)함으로써, 하드웨어 고장을 소프트웨어 레벨에서 투명하게 처리하여 [[001_dikw_pyramid|데이터]] 손실 없이 페타바이트급 스토리지를 실현한다.
+> 3. **판단 포인트**: NameNode는 HDFS의 단일 장애 지점([[454_spof|SPOF]])이었으나, [[843_hadoop_rack_awareness_data_replication_topology|Hadoop]] 2.x에서 Standby NameNode와 JournalNode를 통한 HA(고가용성) 구성으로 해결됐다. [[014_namenode|NameNode]] 메모리가 HDFS의 실질적 용량 한계를 결정한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-HDFS는 구글의 GFS(Google File System) 논문(2003)을 기반으로 설계됐다. 전통적 파일 시스템은 단일 서버의 디스크 용량에 제한되지만, HDFS는 수천 대 서버의 디스크를 하나의 거대한 파일 시스템으로 추상화한다.
+HDFS는 구글의 GFS(Google [[501_file_definition_logical_record|File]] System) 논문(2003)을 기반으로 설계됐다. 전통적 [[501_file_definition_logical_record|파일]] 시스템은 단일 서버의 디스크 용량에 제한되지만, HDFS는 수천 대 서버의 디스크를 하나의 거대한 [[501_file_definition_logical_record|파일]] 시스템으로 추상화한다.
 
-HDFS 설계의 핵심 전제: **하드웨어 고장은 정상이다(Hardware Failure is the Norm).** 수천 대 서버로 구성된 클러스터에서는 매일 몇 대가 고장 난다. HDFS는 이를 예외 상황이 아닌 정상 운영의 일부로 처리한다. 각 블록의 3벌 복제는 이 전제 하에서 데이터를 보호하는 메커니즘이다.
+[[013_hdfs|HDFS]] 설계의 핵심 전제: **하드웨어 고장은 정상이다(Hardware Failure is the Norm).** 수천 대 서버로 구성된 클러스터에서는 매일 몇 대가 고장 난다. HDFS는 이를 예외 상황이 아닌 정상 운영의 일부로 처리한다. 각 블록의 3벌 [[016_replication_factor|복제]]는 이 전제 하에서 [[001_dikw_pyramid|데이터]]를 보호하는 메커니즘이다.
 
-HDFS가 최적화된 워크로드: **Write Once, Read Many(한 번 쓰고 여러 번 읽기).** 대용량 로그 파일, 이미지 데이터, 크롤링 결과를 한 번 저장하고 반복적으로 분석하는 패턴에 최적화됐다. 반대로 작은 파일 다수 쓰기, 랜덤 쓰기에는 적합하지 않다.
+HDFS가 최적화된 워크로드: **Write Once, Read Many(한 번 쓰고 여러 번 읽기).** 대용량 [[568_logs_distributed_logging_elk_fluentd|로그]] [[501_file_definition_logical_record|파일]], 이미지 [[001_dikw_pyramid|데이터]], 크롤링 결과를 한 번 저장하고 반복적으로 분석하는 패턴에 최적화됐다. 반대로 작은 [[501_file_definition_logical_record|파일]] 다수 [[289_cqrs_db|쓰기]], 랜덤 [[289_cqrs_db|쓰기]]에는 적합하지 않다.
 
-📢 **섹션 요약 비유**: HDFS는 대형 도서관의 서가 시스템과 같다. 사서(NameNode)는 책(데이터)이 몇 번 서가(DataNode)에 있는지 목록(메타데이터)을 관리하고, 실제 책은 여러 서가에 복사본과 함께 저장된다.
+📢 **섹션 요약 비유**: HDFS는 대형 도서관의 서가 시스템과 같다. 사서([[014_namenode|NameNode]])는 책([[001_dikw_pyramid|데이터]])이 몇 번 서가([[015_datanode|DataNode]])에 있는지 목록([[012_metadata|메타데이터]])을 관리하고, 실제 책은 여러 서가에 복사본과 함께 저장된다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### HDFS 아키텍처
+### [[013_hdfs|HDFS]] 아키텍처
 
 ```
   ┌─────────────────────────────────────────────────────────────┐
@@ -56,17 +56,17 @@ HDFS가 최적화된 워크로드: **Write Once, Read Many(한 번 쓰고 여러
   └─────────────────────────────────────────────────────────────┘
 ```
 
-### 블록 분할 및 복제 메커니즘
+### 블록 분할 및 [[016_replication_factor|복제]] 메커니즘
 
 | 항목 | 값 | 설명 |
 |:---|:---:|:---|
-| 기본 블록 크기 | 128MB | HDFS 기본값 (Hadoop 2.x+) |
-| 복제 팩터 | 3 | 기본 3개 DataNode에 복제 |
-| 복제 배치 전략 | Rack-awareness | 한 노드, 같은 Rack, 다른 Rack에 분산 |
+| 기본 블록 크기 | 128MB | [[013_hdfs|HDFS]] 기본값 ([[843_hadoop_rack_awareness_data_replication_topology|Hadoop]] 2.x+) |
+| [[016_replication_factor|복제]] 팩터 | 3 | 기본 3개 DataNode에 [[016_replication_factor|복제]] |
+| [[016_replication_factor|복제]] 배치 [[268_strategy_pattern|전략]] | Rack-awareness | 한 노드, 같은 Rack, 다른 Rack에 [[136_variance|분산]] |
 | 하트비트 주기 | 3초 | DataNode가 NameNode에 상태 보고 |
 | 블록 보고 주기 | 6시간 | DataNode가 보유 블록 목록 보고 |
 
-### Rack-Awareness 복제 전략
+### Rack-Awareness [[016_replication_factor|복제]] [[268_strategy_pattern|전략]]
 
 ```
 파일 블록 A를 3벌 복제 시:
@@ -80,19 +80,19 @@ HDFS가 최적화된 워크로드: **Write Once, Read Many(한 번 쓰고 여러
   - 네트워크 최적화: 같은 랙 복제로 대역폭 절약
 ```
 
-📢 **섹션 요약 비유**: Rack-Awareness는 중요한 문서를 3벌 복사해서, 1부는 내 책상, 1부는 다른 사무실, 1부는 다른 건물에 보관하는 것과 같다. 내 책상이 불타도(노드 고장), 내 건물이 무너져도(랙 고장) 데이터는 안전하다.
+📢 **섹션 요약 비유**: Rack-Awareness는 중요한 문서를 3벌 복사해서, 1부는 내 책상, 1부는 다른 사무실, 1부는 다른 건물에 보관하는 것과 같다. 내 책상이 불타도(노드 고장), 내 건물이 무너져도(랙 고장) [[001_dikw_pyramid|데이터]]는 안전하다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-### HDFS vs 클라우드 스토리지 (Amazon S3)
+### [[013_hdfs|HDFS]] vs 클라우드 스토리지 (Amazon S3)
 
-| 항목 | HDFS | Amazon S3 |
+| 항목 | [[013_hdfs|HDFS]] | Amazon S3 |
 |:---|:---|:---|
-| 운영 방식 | 자체 운영 클러스터 | 완전 관리형 서비스 |
-| 데이터 지역성 | ✅ (처리 노드에 데이터 위치) | ❌ (컴퓨팅과 스토리지 분리) |
-| 복제 관리 | 수동 설정 필요 | S3가 자동 관리 (11 9's 내구성) |
+| 운영 방식 | 자체 운영 클러스터 | 완전 관리형 [[090_service_kubernetes_network_load_balancing|서비스]] |
+| [[019_data_locality|데이터 지역성]] | ✅ (처리 노드에 [[001_dikw_pyramid|데이터]] 위치) | ❌ (컴퓨팅과 스토리지 분리) |
+| [[016_replication_factor|복제]] 관리 | 수동 [[009_config|설정]] 필요 | S3가 자동 관리 ([[308_static_dynamic_nat_pat_port_address_translation|11]] 9's 내구성) |
 | 비용 구조 | 고정 비용 (클러스터 상시 운영) | 사용량 비례 |
 | 확장성 | 수동 노드 추가 | 무한 자동 확장 |
 | 현대 추세 | S3로 대체 중 | 클라우드 빅데이터 표준 |
@@ -101,18 +101,18 @@ HDFS가 최적화된 워크로드: **Write Once, Read Many(한 번 쓰고 여러
 
 | 제약 | 설명 |
 |:---|:---|
-| 작은 파일 문제 | 수백만 개의 작은 파일 → NameNode 메모리 부족 |
-| 랜덤 쓰기 불가 | Append-only 모델, 랜덤 수정 불가 |
-| 낮은 지연 시간 | Batch 처리 최적화, 실시간 처리 부적합 |
-| NameNode SPOF | HA 구성 필수 (Hadoop 2.x에서 해결) |
+| 작은 [[501_file_definition_logical_record|파일]] 문제 | 수백만 개의 작은 [[501_file_definition_logical_record|파일]] → [[014_namenode|NameNode]] 메모리 부족 |
+| 랜덤 [[289_cqrs_db|쓰기]] 불가 | Append-only 모델, 랜덤 수정 불가 |
+| 낮은 [[141_latency|지연 시간]] | Batch 처리 최적화, 실시간 처리 부적합 |
+| [[014_namenode|NameNode]] [[454_spof|SPOF]] | HA 구성 필수 ([[843_hadoop_rack_awareness_data_replication_topology|Hadoop]] 2.x에서 해결) |
 
-📢 **섹션 요약 비유**: HDFS와 S3의 차이는 자체 창고 운영과 창고 임대의 차이다. 자체 창고는 빠른 접근과 완전한 제어가 가능하지만 관리가 복잡하고 고정 비용이 크다. 창고 임대는 관리가 없어 편리하지만 이동 시간(네트워크 지연)이 있다.
+📢 **섹션 요약 비유**: HDFS와 S3의 차이는 자체 창고 운영과 창고 임대의 차이다. 자체 창고는 빠른 접근과 완전한 제어가 가능하지만 관리가 복잡하고 고정 비용이 크다. 창고 임대는 관리가 없어 편리하지만 이동 시간([[1002_network_delay_rtt_oneway_delay_components|네트워크 지연]])이 있다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-**HDFS 기본 명령어**:
+**[[013_hdfs|HDFS]] 기본 [[158_instruction|명령어]]**:
 ```bash
 # 디렉토리 목록 보기
 hdfs dfs -ls /user/hadoop/
@@ -130,7 +130,7 @@ hdfs fsck /user/hadoop/data/ -files -blocks
 hdfs dfsadmin -report
 ```
 
-**Small File Problem 해결 방법**:
+**[[269_small_file_problem_data_lakehouse|Small File Problem]] 해결 방법**:
 ```
 문제: 1MB 파일 1000개 → NameNode에 1000개 메타데이터 항목
      1GB 파일 1개 → NameNode에 8개 메타데이터 항목 (128MB 블록 8개)
@@ -142,11 +142,11 @@ hdfs dfsadmin -report
 ```
 
 **기술사 판단 포인트**:
-- NameNode의 JVM 힙 메모리가 HDFS의 실질적 파일 수 한계를 결정한다. 1GB 힙 ≈ 약 100만 개 블록 관리 가능.
-- 클라우드 환경(AWS EMR)에서는 HDFS 대신 S3를 스토리지로 사용하고, EMR 클러스터는 처리할 때만 실행하는 방식이 비용 최적이다.
-- Hadoop 3.x의 Erasure Coding은 3벌 복제(200% 오버헤드) 대신 EC(50% 오버헤드)로 저장 효율을 크게 개선한다.
+- NameNode의 JVM 힙 메모리가 HDFS의 실질적 [[501_file_definition_logical_record|파일]] 수 한계를 결정한다. 1GB 힙 ≈ 약 100만 개 블록 관리 가능.
+- 클라우드 환경(AWS EMR)에서는 [[013_hdfs|HDFS]] 대신 S3를 스토리지로 사용하고, EMR 클러스터는 처리할 때만 실행하는 방식이 비용 최적이다.
+- [[843_hadoop_rack_awareness_data_replication_topology|Hadoop]] 3.x의 Erasure Coding은 3벌 [[016_replication_factor|복제]](200% 오버헤드) 대신 EC(50% 오버헤드)로 저장 효율을 크게 개선한다.
 
-📢 **섹션 요약 비유**: NameNode 메모리 한계는 사서(NameNode)가 기억할 수 있는 도서 목록의 한계다. 책이 수천만 권이 되면 사서가 모두 기억할 수 없어서 목록 검색이 느려지거나 불가능해진다.
+📢 **섹션 요약 비유**: [[014_namenode|NameNode]] 메모리 한계는 사서([[014_namenode|NameNode]])가 기억할 수 있는 도서 목록의 한계다. 책이 수천만 권이 되면 사서가 모두 기억할 수 없어서 목록 검색이 느려지거나 불가능해진다.
 
 ---
 
@@ -155,13 +155,13 @@ hdfs dfsadmin -report
 | 기대효과 | 설명 |
 |:---|:---|
 | 페타바이트 확장성 | 노드 추가만으로 선형 용량 확장 |
-| 내결함성 | 3벌 복제로 노드/랙 고장 자동 복구 |
-| 데이터 지역성 | MapReduce/Spark가 데이터 위치에서 처리 (네트워크 절약) |
+| 내결함성 | 3벌 [[016_replication_factor|복제]]로 노드/랙 고장 자동 [[658_ir_recovery|복구]] |
+| [[019_data_locality|데이터 지역성]] | [[018_mapreduce|MapReduce]]/Spark가 [[001_dikw_pyramid|데이터]] 위치에서 처리 (네트워크 절약) |
 | 비용 효율 | 고가 스토리지 대신 범용 하드디스크 사용 |
 
-HDFS는 현대 빅데이터 처리의 토대를 마련한 혁신이었다. 클라우드 시대에는 S3·GCS·ADLS 같은 객체 스토리지로 점차 대체되고 있지만, HDFS의 설계 철학(복제·블록 분할·데이터 지역성)은 현대 모든 분산 스토리지의 기초가 됐다.
+HDFS는 현대 빅데이터 처리의 토대를 마련한 혁신이었다. 클라우드 시대에는 S3·GCS·ADLS 같은 객체 스토리지로 점차 대체되고 있지만, HDFS의 설계 철학([[016_replication_factor|복제]]·블록 분할·[[019_data_locality|데이터 지역성]])은 현대 모든 [[136_variance|분산]] 스토리지의 기초가 됐다.
 
-📢 **섹션 요약 비유**: HDFS는 분산 스토리지의 어머니다. S3가 더 편리하고 강력하지만, S3의 설계 원칙들은 HDFS에서 배웠다. 부모를 모르면 자식의 철학을 이해하기 어렵다.
+📢 **섹션 요약 비유**: HDFS는 [[136_variance|분산]] 스토리지의 어머니다. S3가 더 편리하고 강력하지만, S3의 설계 원칙들은 HDFS에서 배웠다. 부모를 모르면 자식의 철학을 이해하기 어렵다.
 
 ---
 
@@ -169,16 +169,16 @@ HDFS는 현대 빅데이터 처리의 토대를 마련한 혁신이었다. 클�
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| NameNode | HDFS의 마스터 노드, 메타데이터 관리, HA 구성 필수 |
-| DataNode | 실제 블록을 저장하는 워커 노드 |
-| Rack-Awareness | 데이터 복제 배치 전략, 랙 단위 장애 내성 |
-| MapReduce / Spark | HDFS 위에서 실행되는 분산 처리 엔진 |
+| [[014_namenode|NameNode]] | HDFS의 [[075_kubernetes_k8s_cluster_architecture|마스터 노드]], [[203_metadata_management|메타데이터 관리]], HA 구성 필수 |
+| [[015_datanode|DataNode]] | 실제 블록을 저장하는 워커 노드 |
+| Rack-Awareness | [[001_dikw_pyramid|데이터]] [[016_replication_factor|복제]] 배치 [[268_strategy_pattern|전략]], 랙 단위 장애 내성 |
+| [[018_mapreduce|MapReduce]] / Spark | [[013_hdfs|HDFS]] 위에서 실행되는 [[136_variance|분산]] 처리 엔진 |
 | Amazon S3 | 클라우드에서 HDFS를 대체하는 객체 스토리지 |
-| Small File Problem | HDFS의 핵심 성능 병목, 해결책 필요 |
+| [[269_small_file_problem_data_lakehouse|Small File Problem]] | HDFS의 핵심 [[282_performance_tactics|성능]] 병목, 해결책 필요 |
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. HDFS는 큰 퍼즐을 여러 조각으로 나누어 여러 상자에 보관하는 것처럼, 큰 파일을 128MB 블록으로 쪼개어 여러 서버에 저장해.
+1. HDFS는 큰 퍼즐을 여러 조각으로 나누어 여러 상자에 보관하는 것처럼, 큰 [[501_file_definition_logical_record|파일]]을 128MB 블록으로 쪼개어 여러 서버에 저장해.
 
 ### 📈 관련 키워드 및 발전 흐름도
 

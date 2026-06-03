@@ -40,7 +40,7 @@ Contextual Inquiry: 관찰 + 즉석 질문 (맥락적 질의)
 | **Ethnography** | 민족지학적 관찰 |
 | **Contextual Inquiry** | 관찰+질문 |
 | **암묵적 요구** | 관찰의 핵심 목표 |
-| **Journey Map** | 관찰 결과 시각화 |
+| **Journey Map** | 관찰 결과 [[003_bigdata_7v|시각화]] |
 
 ### 📈 관련 키워드 및 발전 흐름도
 

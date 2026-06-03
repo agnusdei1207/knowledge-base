@@ -8,25 +8,25 @@ categories = "studynote-it-management"
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 옴니채널은 채널을 많이 여는 전략이 아니라, 고객이 어디서 만나도 같은 브랜드 경험을 받게 만드는 전략이다.
+> 1. **본질**: [[073_omni_channel_o2o_evolution|옴니채널]]은 채널을 많이 여는 전략이 아니라, 고객이 어디서 만나도 같은 브랜드 경험을 받게 만드는 전략이다.
 > 2. **가치**: 웹, 앱, 매장, 상담센터가 하나의 고객 프로필과 재고 상태를 공유해야 전환, 재구매, 충성도가 함께 오른다.
-> 3. **판단 포인트**: MDM (Master Data Management), CRM (Customer Relationship Management), POS (Point of Sale), LBS (Location-Based Service) 동기화가 되어야 진짜 옴니채널이다.
+> 3. **판단 포인트**: [[539_mdm_master_data_management|MDM]] (Master [[001_dikw_pyramid|Data]] [[372_management|Management]]), [[107_crm_customer_relationship_management|CRM]] ([[026_three_c_analysis|Customer]] [[083_relationship_in_er_model|Relationship]] [[372_management|Management]]), POS (Point of Sale), LBS (Location-Based [[090_service_kubernetes_network_load_balancing|Service]]) [[212_synchronization_mechanisms|동기화]]가 되어야 진짜 [[073_omni_channel_o2o_evolution|옴니채널]]이다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-옴니채널은 온라인과 오프라인을 구분하지 않고 고객 경험을 하나로 엮는 전략이다. 고객은 더 이상 "이건 웹 주문, 저건 매장 구매"로 생각하지 않는다.
+[[073_omni_channel_o2o_evolution|옴니채널]]은 온라인과 오프라인을 구분하지 않고 고객 경험을 하나로 엮는 전략이다. 고객은 더 이상 "이건 웹 주문, 저건 매장 구매"로 생각하지 않는다.
 
-쇼루밍과 웹루밍이 일반화되면서, 고객은 채널을 옮겨 다녀도 가격, 혜택, 장바구니, 재고, 상담 이력이 이어지길 기대한다. O2O (Online to Offline)와 O4O (Online for Offline)는 그 중간 단계라고 볼 수 있다.
+쇼루밍과 웹루밍이 일반화되면서, 고객은 채널을 옮겨 다녀도 가격, 혜택, 장바구니, 재고, 상담 이력이 이어지길 기대한다. [[139_o2o_online_to_offline_platform|O2O]] ([[139_o2o_online_to_offline_platform|Online to Offline]])와 O4O (Online for Offline)는 그 중간 단계라고 볼 수 있다.
 
-- **📢 섹션 요약 비유**: 옴니채널은 가게가 여러 개여도 손님에게는 한 집처럼 느껴지게 만드는 일이다.
+- **📢 섹션 요약 비유**: [[073_omni_channel_o2o_evolution|옴니채널]]은 가게가 여러 개여도 손님에게는 한 집처럼 느껴지게 만드는 일이다.
 
 ---
 
-## Ⅱ. 핵심 구조와 데이터 연결
+## Ⅱ. 핵심 구조와 [[001_dikw_pyramid|데이터]] 연결
 
-옴니채널의 중심은 "한 명의 고객을 하나로 보는 것"이다. 고객 ID를 중심으로 상품, 주문, 재고, 쿠폰, 상담 이력이 연결되어야 한다.
+[[073_omni_channel_o2o_evolution|옴니채널]]의 중심은 "한 명의 고객을 하나로 보는 것"이다. 고객 ID를 중심으로 상품, 주문, 재고, 쿠폰, 상담 이력이 연결되어야 한다.
 
 ```text
 웹 / 앱 / 매장 / 상담센터
@@ -47,34 +47,34 @@ POS (Point of Sale)
 
 ## Ⅲ. 운영 원리
 
-옴니채널은 단순한 시스템 연결이 아니라 운영 규칙의 통일이다.
+[[073_omni_channel_o2o_evolution|옴니채널]]은 단순한 시스템 연결이 아니라 운영 규칙의 통일이다.
 
-- 고객 식별 통합: 같은 사람이 앱과 매장에서 다른 사람처럼 보이면 안 된다.
-- 재고 동기화: 보이는 재고와 실제 재고가 어긋나면 신뢰가 무너진다.
-- 가격/쿠폰 동기화: 채널마다 혜택이 다르면 이탈이 생긴다.
+- 고객 [[655_ir_detection_analysis|식별]] 통합: 같은 사람이 앱과 매장에서 다른 사람처럼 보이면 안 된다.
+- 재고 [[212_synchronization_mechanisms|동기화]]: 보이는 재고와 실제 재고가 어긋나면 신뢰가 무너진다.
+- 가격/쿠폰 [[212_synchronization_mechanisms|동기화]]: 채널마다 혜택이 다르면 이탈이 생긴다.
 - 상담 이력 연속성: 고객이 다시 문의해도 이전 대화가 이어져야 한다.
 
 이 운영 원리가 맞아야 채널 이동이 "끊김"이 아니라 "연결"이 된다.
 
-- **📢 섹션 요약 비유**: 옴니채널은 서로 다른 가게 점원이 아니라, 같은 기억을 가진 한 명의 점원이 응대하는 느낌이다.
+- **📢 섹션 요약 비유**: [[073_omni_channel_o2o_evolution|옴니채널]]은 서로 다른 가게 점원이 아니라, 같은 기억을 가진 한 명의 점원이 응대하는 느낌이다.
 
 ---
 
 ## Ⅳ. 실무 시나리오와 함정
 
-옴니채널은 말은 쉽지만, 실제로는 데이터 지연과 조직 분리 때문에 자주 무너진다.
+[[073_omni_channel_o2o_evolution|옴니채널]]은 말은 쉽지만, 실제로는 [[001_dikw_pyramid|데이터]] 지연과 조직 분리 때문에 자주 무너진다.
 
 - 온라인에서 주문하고 매장에서 픽업한다.
 - 매장에서 본 상품을 앱으로 이어서 결제한다.
 - 다른 채널에서 산 상품을 가까운 매장에서 반품한다.
 - 상담센터가 고객의 최근 주문과 불만 이력을 바로 본다.
 
-반대로 다음 문제가 있으면 옴니채널이 아니다.
+반대로 다음 문제가 있으면 [[073_omni_channel_o2o_evolution|옴니채널]]이 아니다.
 
 - 채널별 재고가 따로 계산된다.
 - 쿠폰 정책이 채널마다 다르다.
 - 고객 정보가 중복 저장된다.
-- 실시간 API가 없어 데이터가 늦게 맞춰진다.
+- 실시간 API가 없어 [[001_dikw_pyramid|데이터]]가 늦게 맞춰진다.
 
 - **📢 섹션 요약 비유**: 지도는 한 장인데 길 안내가 점마다 다르면, 손님은 결국 길을 잃는다.
 
@@ -82,12 +82,12 @@ POS (Point of Sale)
 
 ## Ⅴ. 비교와 성과 지표
 
-옴니채널은 단일 채널, 멀티채널, 크로스채널보다 한 단계 더 나간다.
+[[073_omni_channel_o2o_evolution|옴니채널]]은 단일 채널, 멀티채널, 크로스채널보다 한 단계 더 나간다.
 
 - **Single Channel**: 하나의 채널만 운영
 - **Multi-Channel**: 여러 채널을 각각 운영
 - **Cross-Channel**: 한 채널의 행동이 다른 채널로 이어짐
-- **Omni-Channel**: 채널 구분 없이 하나의 고객 경험으로 통합
+- **[[073_omni_channel_o2o_evolution|Omni-Channel]]**: 채널 구분 없이 하나의 고객 경험으로 통합
 
 성과는 매출만 보면 안 된다. 전환율, 재구매율, 고객 유지율, Net Promoter Score (NPS) 같은 지표를 함께 봐야 한다.
 
@@ -114,13 +114,13 @@ MDM / CRM / POS / LBS
 1. Single Channel → 하나의 판매 창구
 2. Multi-Channel → 채널 확대
 3. Cross-Channel → 채널 간 연계 시작
-4. Omni-Channel → 고객 중심 통합 경험 완성
-5. 실시간 데이터 통합과 개인화 → 옴니채널 고도화
+4. [[073_omni_channel_o2o_evolution|Omni-Channel]] → 고객 중심 통합 경험 완성
+5. 실시간 [[001_dikw_pyramid|데이터]] 통합과 개인화 → [[073_omni_channel_o2o_evolution|옴니채널]] 고도화
 
 ---
 
 ## 어린이를 위한 3줄 비유 설명
 
-옴니채널은 장난감 가게, 앱, 전화가 모두 같은 노트를 보는 거예요.  
+[[073_omni_channel_o2o_evolution|옴니채널]]은 장난감 가게, 앱, 전화가 모두 같은 노트를 보는 거예요.  
 어디서 물어봐도 같은 답을 받으면 덜 헷갈려요.  
 그래서 손님은 "이 가게는 나를 기억한다"라고 느껴요.

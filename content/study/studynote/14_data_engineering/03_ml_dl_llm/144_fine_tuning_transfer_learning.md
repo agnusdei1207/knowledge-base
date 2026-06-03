@@ -7,9 +7,9 @@ categories = "studynote-dataengineering"
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: Fine-tuning은 **사전 학습된 Foundation Model의 가중치를 특정 도메인·작업의 라벨 데이터로 추가 학습**하여 적응시키는 Transfer Learning 기법이다.
-> 2. **가치**: 처음부터 학습하면 **수백만 달러·수개월**이 소요되지만, Fine-tuning은 **소량 데이터(수천~수만)로 수시간**만에 도메인 특화 모델을 만들어 비용을 100배+ 절감한다.
-> 3. **판단 포인트**: Full Fine-tuning(전체 가중치)→PEFT(LoRA·QLoRA, 일부만)→Instruction Tuning(지시-응답 쌍)으로 구분하며, LoRA가 LLM Fine-tuning의 사실상 표준이다.
+> 1. **본질**: Fine-tuning은 **사전 학습된 Foundation Model의 [[267_weight_bias_activation|가중치]]를 특정 [[064_relation_domain|도메인]]·작업의 라벨 [[001_dikw_pyramid|데이터]]로 추가 학습**하여 적응시키는 [[132_transfer_learning|Transfer Learning]] 기법이다.
+> 2. **가치**: 처음부터 학습하면 **수백만 달러·수개월**이 소요되지만, Fine-tuning은 **소량 [[001_dikw_pyramid|데이터]](수천~수만)로 수시간**만에 [[064_relation_domain|도메인]] 특화 모델을 만들어 비용을 100배+ 절감한다.
+> 3. **판단 포인트**: Full [[304_fine_tuning|Fine-tuning]](전체 [[267_weight_bias_activation|가중치]])→[[306_peft_lora|PEFT]]([[617_lora_lorawan_css_chirp_spread_spectrum|LoRA]]·[[404_qlora|QLoRA]], 일부만)→[[147_instruction_tuning_rlhf_alignment|Instruction Tuning]](지시-응답 쌍)으로 구분하며, LoRA가 [[263_llm_large_language_model|LLM]] Fine-tuning의 사실상 표준이다.
 
 ---
 
@@ -28,7 +28,7 @@ Instruction Tuning: 지시-응답 쌍으로 지시 따르기 학습
 
 ## Ⅱ~Ⅴ. 결론
 
-Fine-tuning은 **FM을 도메인에 적응시키는 핵심 기법**이며, LoRA/QLoRA가 효율적 표준이다.
+Fine-tuning은 **FM을 [[064_relation_domain|도메인]]에 적응시키는 핵심 기법**이며, [[617_lora_lorawan_css_chirp_spread_spectrum|LoRA]]/QLoRA가 효율적 표준이다.
 
 ---
 
@@ -36,11 +36,11 @@ Fine-tuning은 **FM을 도메인에 적응시키는 핵심 기법**이며, LoRA/
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **Fine-tuning** | 가중치 적응 |
-| **Transfer Learning** | 지식 이전 |
-| **LoRA** | 저랭크 PEFT |
-| **QLoRA** | 양자화+LoRA |
-| **Instruction Tuning** | 지시 따르기 |
+| **[[304_fine_tuning|Fine-tuning]]** | [[267_weight_bias_activation|가중치]] 적응 |
+| **[[132_transfer_learning|Transfer Learning]]** | 지식 이전 |
+| **[[617_lora_lorawan_css_chirp_spread_spectrum|LoRA]]** | 저랭크 [[306_peft_lora|PEFT]] |
+| **[[404_qlora|QLoRA]]** | [[434_quantization|양자화]]+[[617_lora_lorawan_css_chirp_spread_spectrum|LoRA]] |
+| **[[147_instruction_tuning_rlhf_alignment|Instruction Tuning]]** | 지시 따르기 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 

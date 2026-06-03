@@ -8,24 +8,24 @@ categories = "studynote-algorithm"
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 정렬된 배열에서 탐색 범위를 매 단계 절반으로 줄여 O(log n) 시간에 목표를 찾는 분할 정복 기반 탐색이다.
-> 2. **가치**: n=10억 개 데이터에서도 최대 30번의 비교로 탐색 완료 — 정렬 비용을 한 번 치르면 이후 모든 탐색을 O(log n)으로 처리한다.
-> 3. **판단 포인트**: off-by-one 오류와 정수 오버플로우(mid = left + (right-left)/2 사용) 및 Lower/Upper Bound 변형으로 중복 원소도 정밀 처리한다.
+> 1. **본질**: 정렬된 [[055_array|배열]]에서 탐색 범위를 매 단계 절반으로 줄여 O(log n) 시간에 목표를 찾는 [[005_divide_and_conquer|분할 정복]] 기반 탐색이다.
+> 2. **가치**: n=10억 개 [[001_dikw_pyramid|데이터]]에서도 최대 30번의 비교로 탐색 완료 — 정렬 비용을 한 번 치르면 이후 모든 탐색을 O(log n)으로 처리한다.
+> 3. **판단 포인트**: off-by-one 오류와 [[333_integer_overflow|정수 오버플로우]](mid = left + (right-left)/2 사용) 및 Lower/Upper Bound 변형으로 중복 원소도 정밀 처리한다.
 
 ## Ⅰ. 개요 및 필요성
 
-이진 탐색 (Binary Search)은 정렬된 배열에서 left, right, mid 세 포인터를 이용해 탐색 범위를 반씩 줄여나가는 알고리즘이다. 매 단계에서 mid 위치의 값과 목표값을 비교하여 왼쪽 또는 오른쪽 절반으로 탐색 범위를 좁힌다.
+이진 탐색 (Binary Search)은 정렬된 [[055_array|배열]]에서 left, right, mid 세 포인터를 이용해 탐색 범위를 반씩 줄여나가는 [[001_algorithm_definition|알고리즘]]이다. 매 단계에서 mid 위치의 값과 목표값을 비교하여 왼쪽 또는 오른쪽 절반으로 탐색 범위를 좁힌다.
 
 | 특성 | 내용 |
 |:---|:---|
-| 시간 복잡도 | O(log n) |
-| 공간 복잡도 | O(1) 반복 / O(log n) 재귀 호출 스택 |
-| 전제 조건 | 배열이 정렬되어 있어야 함 |
-| 적합 조건 | 크기가 크고 탐색 빈도가 높은 정렬 배열 |
+| [[002_time_complexity|시간 복잡도]] | O(log n) |
+| [[003_space_complexity|공간 복잡도]] | O(1) 반복 / O(log n) [[014_recursion|재귀]] 호출 [[057_stack|스택]] |
+| 전제 조건 | [[055_array|배열]]이 정렬되어 있어야 함 |
+| 적합 조건 | 크기가 크고 탐색 빈도가 높은 정렬 [[055_array|배열]] |
 
 이진 탐색이 필요한 상황:
 
-- 대규모 정렬 배열 탐색 (DNS 조회 테이블, 주소록, IP 차단 목록)
+- 대규모 정렬 [[055_array|배열]] 탐색 ([[511_dns_hierarchical_distributed_architecture|DNS]] 조회 테이블, 주소록, IP 차단 목록)
 - 단조 함수에서 조건을 만족하는 경계값 탐색 (Parametric Search)
 - Lower Bound / Upper Bound 활용한 범위 카운팅
 
@@ -43,7 +43,7 @@ categories = "studynote-algorithm"
 단계 3: left=4, right=4, mid=4 → arr[4]=9 == 9 → 반환(4)  ✓
 ```
 
-### ASCII 다이어그램 — 이진 탐색 포인터 이동
+### [[103_ascii|ASCII]] 다이어그램 — 이진 탐색 포인터 이동
 
 ```
 ┌──────────────────────────────────────────────────────────────┐
@@ -66,7 +66,7 @@ categories = "studynote-algorithm"
 
 ### Lower Bound / Upper Bound
 
-중복 원소가 있는 배열에서 특정 값의 첫 위치(Lower Bound) 또는 마지막 위치 다음(Upper Bound)을 구하는 변형이다.
+중복 원소가 있는 [[055_array|배열]]에서 특정 값의 첫 위치(Lower Bound) 또는 마지막 위치 다음(Upper Bound)을 구하는 변형이다.
 
 | 변형 | 조건 변경 | 결과 |
 |:---|:---|:---|
@@ -98,9 +98,9 @@ Upper Bound → index 4  (마지막 3의 다음 위치)
 
 ### 이진 탐색 vs 다른 탐색
 
-| 항목 | 이진 탐색 | 선형 탐색 | 해시 탐색 |
+| 항목 | 이진 탐색 | [[030_linear_search|선형 탐색]] | [[032_hash_search|해시 탐색]] |
 |:---|:---:|:---:|:---:|
-| 평균 시간 복잡도 | O(log n) | O(n) | O(1) |
+| 평균 [[002_time_complexity|시간 복잡도]] | O(log n) | O(n) | O(1) |
 | 정렬 필요 | 필수 | 불필요 | 불필요 |
 | 추가 공간 | O(1) | O(1) | O(n) |
 | 범위 탐색 | 가능 | 가능 | 불가 |
@@ -109,8 +109,8 @@ Upper Bound → index 4  (마지막 3의 다음 위치)
 ### 흔한 오류 3가지
 
 1. **off-by-one**: `while (left < right)` vs `while (left <= right)` 차이로 무한 루프 또는 탐색 실패
-2. **정수 오버플로우**: `mid = (left + right) / 2` → left+right가 int 범위 초과 가능 → `mid = left + (right - left) / 2` 사용
-3. **비정렬 적용**: 정렬 전제가 깨진 배열에 적용 시 오탐 (회전 배열은 조건부 이진 탐색 사용)
+2. **[[333_integer_overflow|정수 오버플로우]]**: `mid = (left + right) / 2` → left+right가 int 범위 초과 가능 → `mid = left + (right - left) / 2` 사용
+3. **비정렬 적용**: 정렬 전제가 깨진 [[055_array|배열]]에 적용 시 오탐 (회전 [[055_array|배열]]은 조건부 이진 탐색 사용)
 
 📢 **섹션 요약 비유**: off-by-one 오류는 계단에서 마지막 계단을 한 칸 더 내딛는 실수와 같다. 딱 한 칸 차이가 추락을 만든다.
 
@@ -118,18 +118,18 @@ Upper Bound → index 4  (마지막 3의 다음 위치)
 
 ### 실무 시나리오
 
-**시나리오 1**: 방화벽 IP 차단 목록 조회 (n=500만)
-- 선형 탐색: 최대 500만 비교 → 패킷 처리 지연 발생
+**시나리오 1**: [[690_firewall_generation_evolution|방화벽]] IP 차단 목록 조회 (n=500만)
+- [[030_linear_search|선형 탐색]]: 최대 500만 비교 → 패킷 [[019_처리_지연|처리 지연]] 발생
 - 이진 탐색: 최대 23번 비교 (log₂ 5,000,000 ≈ 22.9)
-- → 정렬된 차단 목록에서 이진 탐색으로 실시간 성능 확보
+- → 정렬된 차단 목록에서 이진 탐색으로 실시간 [[282_performance_tactics|성능]] 확보
 
 **시나리오 2**: git bisect (버그 커밋 이진 탐색)
 - "이 커밋부터 버그가 발생한다" — git bisect는 Parametric Search
 - O(log n) 단계로 수천 개 커밋에서 버그 도입 커밋 탐색
 
-**시나리오 3**: DB B-Tree 인덱스
-- B-Tree (Balanced Tree)의 노드 내 키 탐색은 이진 탐색 활용
-- MySQL InnoDB, PostgreSQL 인덱스의 핵심 내부 탐색 알고리즘
+**시나리오 3**: DB [[064_b_tree|B-Tree]] [[154_database_index_b_tree_search_optimization|인덱스]]
+- [[064_b_tree|B-Tree]] (Balanced Tree)의 노드 내 키 탐색은 이진 탐색 활용
+- MySQL InnoDB, PostgreSQL [[154_database_index_b_tree_search_optimization|인덱스]]의 핵심 내부 탐색 [[001_algorithm_definition|알고리즘]]
 
 ### 기술사 판단 포인트
 
@@ -137,29 +137,29 @@ Upper Bound → index 4  (마지막 3의 다음 위치)
 |:---|:---|
 | 정렬 비용 vs 탐색 이득 | 반복 탐색이면 정렬 O(n log n) 비용은 금방 회수됨 |
 | Parametric Search 적용 | 결정 문제로 변환 가능한 최적화 문제에 활용 |
-| Lower/Upper Bound | 중복 데이터 처리 및 범위 카운팅에 필수 |
-| B-Tree 연계 | DB 인덱스 설계의 이론적 기반 |
+| Lower/Upper Bound | 중복 [[001_dikw_pyramid|데이터]] 처리 및 범위 카운팅에 필수 |
+| [[064_b_tree|B-Tree]] 연계 | DB [[154_database_index_b_tree_search_optimization|인덱스]] 설계의 이론적 기반 |
 
-📢 **섹션 요약 비유**: 기술사 관점에서 이진 탐색은 "인덱스를 설계했느냐"의 은유다. 데이터를 미리 정렬·인덱싱한 시스템은 모든 검색 비용을 로그 스케일로 낮춘다.
+📢 **섹션 요약 비유**: 기술사 관점에서 이진 탐색은 "[[154_database_index_b_tree_search_optimization|인덱스]]를 설계했느냐"의 은유다. [[001_dikw_pyramid|데이터]]를 미리 정렬·인덱싱한 시스템은 모든 검색 비용을 [[568_logs_distributed_logging_elk_fluentd|로그]] 스케일로 낮춘다.
 
 ## Ⅴ. 기대효과 및 결론
 
-이진 탐색 (Binary Search)은 O(log n)이라는 압도적 효율로 대규모 정렬 데이터 탐색의 표준이다. 단순한 탐색을 넘어 Parametric Search로 최적화 문제를 결정 문제로 변환하고, Lower/Upper Bound로 중복 데이터를 정밀 처리한다.
+이진 탐색 (Binary Search)은 O(log n)이라는 압도적 효율로 대규모 정렬 [[001_dikw_pyramid|데이터]] 탐색의 표준이다. 단순한 탐색을 넘어 Parametric Search로 최적화 문제를 결정 문제로 변환하고, Lower/Upper Bound로 중복 [[001_dikw_pyramid|데이터]]를 정밀 처리한다.
 
-**핵심 결론**: 데이터를 한 번 정렬해두면, 이후 모든 탐색 비용을 영구히 O(log n)으로 낮출 수 있다. 정렬은 탐색에 대한 투자다.
+**핵심 결론**: [[001_dikw_pyramid|데이터]]를 한 번 정렬해두면, 이후 모든 탐색 비용을 영구히 O(log n)으로 낮출 수 있다. 정렬은 탐색에 대한 투자다.
 
-📢 **섹션 요약 비유**: 이진 탐색은 100층 건물에서 엘리베이터를 타는 것이다. 선형 탐색이 계단을 한 층씩 오른다면, 이진 탐색은 중간 층을 찍고 올라갈지 내려갈지 결정하며 7번 만에 도착한다.
+📢 **섹션 요약 비유**: 이진 탐색은 100층 건물에서 엘리베이터를 타는 것이다. [[030_linear_search|선형 탐색]]이 계단을 한 층씩 오른다면, 이진 탐색은 중간 층을 찍고 올라갈지 내려갈지 결정하며 7번 만에 도착한다.
 
 ### 📌 관련 개념 맵
 
-| 개념 | 관계 | 설명 |
+| 개념 | [[083_relationship_in_er_model|관계]] | 설명 |
 |:---|:---|:---|
 | Lower Bound | 변형 | 조건 만족 최솟값 위치 |
 | Upper Bound | 변형 | 조건 만족 마지막+1 위치 |
 | Parametric Search | 응용 | 단조 함수 최적화 → 결정 문제 변환 |
-| B-Tree 인덱스 | 활용 | DB 인덱스 노드 내 탐색 |
+| [[064_b_tree|B-Tree]] [[154_database_index_b_tree_search_optimization|인덱스]] | 활용 | DB [[154_database_index_b_tree_search_optimization|인덱스]] 노드 내 탐색 |
 | git bisect | 활용 | 버그 커밋 이진 탐색 |
-| 회전 배열 탐색 | 변형 | 조건부 이진 탐색 적용 |
+| 회전 [[055_array|배열]] 탐색 | 변형 | 조건부 이진 탐색 적용 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -179,7 +179,7 @@ Upper Bound → index 4  (마지막 3의 다음 위치)
 [git bisect]
 ```
 
-이 흐름도는 Lower Bound에서 출발해 회전 배열 탐색까지 이어지며, 중간 단계가 기초 개념을 실무 구조로 발전시키는 과정을 보여준다.
+이 흐름도는 Lower Bound에서 출발해 회전 [[055_array|배열]] 탐색까지 이어지며, 중간 단계가 기초 개념을 실무 구조로 발전시키는 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

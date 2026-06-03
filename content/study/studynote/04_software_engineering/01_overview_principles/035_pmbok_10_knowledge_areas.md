@@ -6,9 +6,9 @@ categories = "studynote-software-engineering"
 +++
 
 > **핵심 인사이트**
-> 1. PMBOK (Project Management Body of Knowledge) 10대 지식 영역은 프로젝트 관리의 전 영역을 통합·범위·일정·원가·품질·자원·의사소통·위험·조달·이해관계자로 구조화한 국제 표준 프레임워크다.
-> 2. 각 지식 영역은 착수·계획·실행·감시통제·종료의 5개 프로세스 그룹과 교차되어 49개 프로세스를 구성한다(PMBOK 6th).
-> 3. 디지털 전환 시대에 애자일 방법론이 확산됨에 따라 PMBOK 7th(2021)는 12개 원칙과 8개 성과 영역으로 패러다임이 전환되었지만, 6th의 10대 지식 영역은 여전히 PMP 시험의 기반이다.
+> 1. [[147_pmbok_10_knowledge_areas|PMBOK]] ([[042_relational_algebra_project|Project]] [[372_management|Management]] Body of Knowledge) 10대 지식 영역은 프로젝트 관리의 전 영역을 통합·범위·일정·원가·품질·자원·의사소통·위험·조달·[[173_stakeholder_identification_impact_matrix|이해관계자]]로 구조화한 국제 표준 프레임워크다.
+> 2. 각 지식 영역은 착수·계획·실행·감시통제·종료의 5개 [[159_process_group|프로세스 그룹]]과 교차되어 49개 프로세스를 구성한다([[147_pmbok_10_knowledge_areas|PMBOK]] 6th).
+> 3. [[055_digital_transformation|디지털 전환]] 시대에 [[004_agile_relation|애자일]] 방법론이 확산됨에 따라 [[147_pmbok_10_knowledge_areas|PMBOK]] 7th([[477_owasp_top_10_2021|2021]])는 12개 원칙과 8개 성과 영역으로 패러다임이 전환되었지만, 6th의 10대 지식 영역은 여전히 PMP 시험의 기반이다.
 
 ---
 
@@ -30,22 +30,22 @@ categories = "studynote-software-engineering"
 
 | 영역         | 핵심 산출물                    | 핵심 도구         |
 |-------------|-------------------------------|------------------|
-| 통합         | 프로젝트 헌장, 프로젝트 관리 계획 | 전문가 판단      |
-| 범위         | WBS, 범위 기준선               | WBS 분해, 검사   |
-| 일정         | 프로젝트 일정, CPM             | PDM, 일정 압축   |
-| 원가         | 원가 기준선, EVM               | 유사 산정, 모수  |
-| 품질         | 품질 관리 계획, 체크리스트     | 파레토, 관리도   |
+| 통합         | [[232_project_charter_sponsor|프로젝트 헌장]], 프로젝트 관리 계획 | 전문가 판단      |
+| 범위         | [[149_wbs_work_breakdown_structure|WBS]], 범위 [[025_baseline|기준선]]               | [[149_wbs_work_breakdown_structure|WBS]] 분해, 검사   |
+| 일정         | 프로젝트 일정, [[150_cpm_critical_path_method|CPM]]             | [[123_pdm_product_data_management|PDM]], 일정 [[347_compaction|압축]]   |
+| 원가         | 원가 [[025_baseline|기준선]], [[152_evm_earned_value_management|EVM]]               | 유사 산정, 모수  |
+| 품질         | 품질 관리 계획, [[435_checklist_based_testing|체크리스트]]     | 파레토, 관리도   |
 | 자원         | RAM, 자원 달력                 | RACI 매트릭스    |
 | 의사소통     | 의사소통 관리 계획             | 커뮤니케이션 모델|
-| 위험         | 위험 등록부                    | 확률·영향 매트릭스|
+| 위험         | 위험 등록부                    | [[130_probability|확률]]·영향 매트릭스|
 | 조달         | 계약서, 입찰 문서              | 공급업체 선정    |
-| 이해관계자   | 이해관계자 등록부              | 권력/관심 그리드  |
+| [[173_stakeholder_identification_impact_matrix|이해관계자]]   | [[173_stakeholder_identification_impact_matrix|이해관계자]] 등록부              | 권력/관심 그리드  |
 
 > 📢 **섹션 요약 비유**: 집 짓기의 10가지 역할 — 건축가(통합), 설계도(범위), 공사 일정표(일정), 예산(원가), 감리(품질)...
 
 ---
 
-## Ⅱ. 5 프로세스 그룹 × 10 지식 영역
+## Ⅱ. 5 [[159_process_group|프로세스 그룹]] × [[489_raid_10_hybrid|10]] 지식 영역
 
 ```
 프로세스 그룹
@@ -69,7 +69,7 @@ categories = "studynote-software-engineering"
 
 ## Ⅲ. 핵심 지식 영역 심화
 
-### 3-1. 범위 관리 — WBS (Work Breakdown Structure)
+### 3-1. 범위 관리 — [[149_wbs_work_breakdown_structure|WBS]] ([[149_wbs_work_breakdown_structure|Work Breakdown Structure]])
 
 ```
 프로젝트
@@ -83,7 +83,7 @@ categories = "studynote-software-engineering"
 - **100% 규칙**: WBS는 전체 작업을 빠짐없이 포함
 - **롤링 웨이브 계획**: 가까운 작업은 상세, 먼 작업은 고수준
 
-### 3-2. 일정 관리 — CPM (Critical Path Method)
+### 3-2. 일정 관리 — [[150_cpm_critical_path_method|CPM]] ([[037_cpm|Critical Path Method]])
 
 ```
 A(3일) → B(2일) → D(4일)
@@ -94,27 +94,27 @@ CPM: A→C→D = 3+5+4 = 12일 (최장 경로 = 임계 경로)
 여유시간(Float): B = 12 - (3+2+4) = 3일
 ```
 
-### 3-3. 원가 관리 — EVM (Earned Value Management)
+### 3-3. 원가 관리 — [[152_evm_earned_value_management|EVM]] ([[040_evm|Earned Value Management]])
 
 | 지표  | 공식           | 의미                |
 |-------|----------------|---------------------|
-| PV    | 계획 예산      | 완료 예정 작업 가치  |
-| EV    | 획득 가치      | 실제 완료 작업 가치  |
-| AC    | 실제 원가      | 실제 지출 금액       |
-| CPI   | EV/AC          | 원가 효율 (1=정상)  |
-| SPI   | EV/PV          | 일정 효율 (1=정상)  |
+| [[153_pv_planned_value|PV]]    | 계획 예산      | 완료 예정 작업 가치  |
+| [[154_ev_earned_value|EV]]    | 획득 가치      | 실제 완료 작업 가치  |
+| [[155_ac_actual_cost|AC]]    | 실제 원가      | 실제 지출 금액       |
+| [[158_cpi_cost_performance_index|CPI]]   | [[154_ev_earned_value|EV]]/[[155_ac_actual_cost|AC]]          | 원가 효율 (1=정상)  |
+| [[159_spi_schedule_performance_index|SPI]]   | [[154_ev_earned_value|EV]]/[[153_pv_planned_value|PV]]          | 일정 효율 (1=정상)  |
 
 > 📢 **섹션 요약 비유**: WBS는 집의 설계도, CPM은 공사 일정표, EVM은 실시간 가계부 — 세 가지가 함께 있어야 프로젝트가 통제된다.
 
 ---
 
-## Ⅳ. PMBOK 7th 변화 — 프로세스에서 원칙으로
+## Ⅳ. [[147_pmbok_10_knowledge_areas|PMBOK]] 7th 변화 — 프로세스에서 원칙으로
 
-| 구분      | PMBOK 6th               | PMBOK 7th              |
+| 구분      | [[147_pmbok_10_knowledge_areas|PMBOK]] 6th               | [[147_pmbok_10_knowledge_areas|PMBOK]] 7th              |
 |-----------|-------------------------|------------------------|
 | 구조      | 10개 지식 영역 + 49 프로세스 | 12개 원칙 + 8개 성과 영역 |
 | 초점      | 프로세스 준수            | 가치 전달              |
-| 방법론    | 예측형(Waterfall) 중심   | 애자일 통합            |
+| 방법론    | 예측형(Waterfall) 중심   | [[004_agile_relation|애자일]] 통합            |
 | 산출물    | ITTO(입력·도구·기법·출력) | 모델·방법·공학         |
 
 > 📢 **섹션 요약 비유**: 6th가 '요리 레시피 책'이라면, 7th는 '요리 철학 교과서' — 결과물 중심에서 가치 중심으로.
@@ -123,13 +123,13 @@ CPM: A→C→D = 3+5+4 = 12일 (최장 경로 = 임계 경로)
 
 ## Ⅴ. 실무 시나리오 — SI 프로젝트 적용
 
-| 단계       | PMBOK 적용 포인트                        |
+| 단계       | [[147_pmbok_10_knowledge_areas|PMBOK]] 적용 포인트                        |
 |-----------|------------------------------------------|
-| 착수       | 이해관계자 분석(권력/관심 그리드), 헌장   |
-| 계획       | WBS → 일정 → EVM 기준선 설정            |
-| 실행       | 품질 감사, 조달 관리, 팀 빌딩            |
-| 감시통제   | CPI/SPI 추적, 변경 통제 위원회(CCB)     |
-| 종료       | 교훈 기록, 최종 인수 확인               |
+| 착수       | [[173_stakeholder_identification_impact_matrix|이해관계자]] 분석(권력/관심 그리드), 헌장   |
+| 계획       | [[149_wbs_work_breakdown_structure|WBS]] → 일정 → [[152_evm_earned_value_management|EVM]] [[025_baseline|기준선]] [[009_config|설정]]            |
+| 실행       | 품질 [[606_auditing_linux_auditd|감사]], 조달 관리, 팀 빌딩            |
+| 감시통제   | [[158_cpi_cost_performance_index|CPI]]/[[159_spi_schedule_performance_index|SPI]] 추적, [[080_cab|변경 통제 위원회]]([[160_change_control_board_ccb_requirements_review|CCB]])     |
+| 종료       | [[659_ir_lessons_learned|교훈]] 기록, 최종 인수 [[396_validation|확인]]               |
 
 > 📢 **섹션 요약 비유**: PMBOK은 건설 현장의 표준 공정표 — 표준을 따르면 누가 감독해도 품질이 일정하게 유지된다.
 
@@ -184,6 +184,6 @@ Scrum + PMBOK 조합, SAFe 연계
 
 ## 👶 어린이를 위한 3줄 비유 설명
 
-1. PMBOK 10대 지식 영역은 큰 프로젝트를 잘 관리하기 위한 10가지 역할 설명서예요.
+1. [[147_pmbok_10_knowledge_areas|PMBOK]] 10대 지식 영역은 큰 프로젝트를 잘 관리하기 위한 10가지 역할 설명서예요.
 2. 일정, 비용, 품질, 위험 등 각 역할이 서로 협력해야 프로젝트가 성공해요.
 3. 마치 축구팀의 포지션 역할 매뉴얼처럼, 모두가 자기 역할을 알아야 이길 수 있어요!

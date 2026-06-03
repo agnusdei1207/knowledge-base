@@ -7,9 +7,9 @@ categories = "studynote-database"
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: 팩트 테이블은 **비즈니스 이벤트의 측정값(매출액·수량·클릭 수)**을 저장하는 대용량 테이블이고, 디멘전 테이블은 **분석 축(날짜·상품·고객·지역)**의 속성을 저장하는 마스터 테이블이다.
-> 2. **가치**: "2024년 1월 서울 매장의 전자제품 매출"을 분석할 때, 팩트(매출)에 디멘전(날짜·지역·카테고리)을 **JOIN하면 자유로운 다차원 분석(OLAP Cube)**이 가능하다.
-> 3. **판단 포인트**: 팩트 유형(Transaction·Periodic·Accumulating Snapshot)과 디멘전 변경 관리(SCD Type 1/2/3)를 정확히 구분해야 한다.
+> 1. **본질**: [[210_fact_dimension_table_snowflake_schema|팩트 테이블]]은 **비즈니스 이벤트의 측정값(매출액·수량·클릭 수)**을 저장하는 대용량 테이블이고, 디멘전 테이블은 **분석 축(날짜·상품·고객·지역)**의 [[082_attribute_types_er_model|속성]]을 저장하는 마스터 테이블이다.
+> 2. **가치**: "2024년 1월 서울 매장의 전자제품 매출"을 분석할 때, 팩트(매출)에 디멘전(날짜·지역·카테고리)을 **JOIN하면 자유로운 다차원 분석([[316_olap|OLAP]] Cube)**이 가능하다.
+> 3. **판단 포인트**: 팩트 유형([[191_transaction_concept_states|Transaction]]·Periodic·Accumulating [[637_zfs_snapshot_cow_architecture|Snapshot]])과 디멘전 [[079_change_enablement|변경 관리]]([[277_scd_slowly_changing_dimension_modeling|SCD]] Type 1/2/3)를 정확히 구분해야 한다.
 
 ---
 
@@ -38,15 +38,15 @@ categories = "studynote-database"
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### 팩트 테이블 유형
+### [[210_fact_dimension_table_snowflake_schema|팩트 테이블]] 유형
 
 | 유형 | 설명 | 예 |
 |:---|:---|:---|
-| **Transaction** | 이벤트 발생 시마다 1행 | 주문·클릭 |
-| **Periodic Snapshot** | 정해진 주기로 스냅샷 | 월말 재고·잔액 |
-| **Accumulating Snapshot** | 프로세스 전체 추적 | 주문→배송→반품 |
+| **[[191_transaction_concept_states|Transaction]]** | 이벤트 발생 시마다 1행 | 주문·클릭 |
+| **Periodic [[637_zfs_snapshot_cow_architecture|Snapshot]]** | 정해진 주기로 [[022_snapshot_backup_architecture|스냅샷]] | 월말 재고·잔액 |
+| **Accumulating [[637_zfs_snapshot_cow_architecture|Snapshot]]** | 프로세스 전체 추적 | 주문→배송→반품 |
 
-### SCD (Slowly Changing Dimension) 유형
+### [[277_scd_slowly_changing_dimension_modeling|SCD]] ([[575_scd_slowly_changing_dimension_type_history_management|Slowly Changing Dimension]]) 유형
 
 | Type | 방법 | 이력 |
 |:---|:---|:---|
@@ -54,32 +54,32 @@ categories = "studynote-database"
 | **Type 2** | 새 행 + 유효기간 | **보존** |
 | **Type 3** | 이전/현재 컬럼 | 제한적 |
 
-- **📢 섹션 요약 비유**: SCD Type 2는 "이사 기록"이다. 서울→부산 이사 시 서울 행(만료)과 부산 행(현재)을 모두 유지한다.
+- **📢 섹션 요약 비유**: [[277_scd_slowly_changing_dimension_modeling|SCD]] Type 2는 "이사 기록"이다. 서울→부산 이사 시 서울 행(만료)과 부산 행(현재)을 모두 유지한다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-| 비교 | 팩트 테이블 | 디멘전 테이블 |
+| 비교 | [[210_fact_dimension_table_snowflake_schema|팩트 테이블]] | 디멘전 테이블 |
 |:---|:---|:---|
-| **내용** | 측정값 (숫자) | 속성 (텍스트) |
+| **내용** | 측정값 (숫자) | [[082_attribute_types_er_model|속성]] (텍스트) |
 | **행 수** | 수억 | 수천~수만 |
-| **변경** | Append (추가) | SCD (갱신) |
-| **키** | FK (디멘전 참조) | PK (Surrogate Key) |
+| **변경** | Append (추가) | [[277_scd_slowly_changing_dimension_modeling|SCD]] (갱신) |
+| **키** | FK (디멘전 [[316_reference_pattern_nosql|참조]]) | PK ([[314_surrogate_key|Surrogate Key]]) |
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### Surrogate Key vs Natural Key
-- **Natural Key** (상품코드 "P001"): 비즈니스 의미 있음, 변경 가능.
-- **Surrogate Key** (자동증가 정수): DW 내부 전용, **SCD Type 2에 필수**.
+### [[314_surrogate_key|Surrogate Key]] vs Natural [[067_db_key_uniqueness_minimality|Key]]
+- **Natural [[067_db_key_uniqueness_minimality|Key]]** (상품코드 "P001"): 비즈니스 의미 있음, 변경 가능.
+- **[[314_surrogate_key|Surrogate Key]]** (자동증가 정수): [[209_data_warehouse_schema_on_write|DW]] 내부 전용, **[[277_scd_slowly_changing_dimension_modeling|SCD]] Type 2에 필수**.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-팩트/디멘전 분리 설계는 OLAP 분석의 기본이며, 현대 클라우드 DW(BigQuery, Snowflake)에서도 이 패턴이 표준으로 사용된다. dbt(data build tool)가 팩트/디멘전 모델 자동 생성을 지원한다.
+팩트/디멘전 분리 설계는 [[316_olap|OLAP]] 분석의 기본이며, 현대 클라우드 [[209_data_warehouse_schema_on_write|DW]]([[263_storage_compute_separation_bigquery|BigQuery]], [[541_cassandra|Snowflake]])에서도 이 패턴이 표준으로 사용된다. dbt([[001_dikw_pyramid|data]] build tool)가 팩트/디멘전 모델 자동 생성을 지원한다.
 
 ---
 
@@ -87,11 +87,11 @@ categories = "studynote-database"
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **스타 스키마** | 팩트 중심 + 1단 디멘전 JOIN |
-| **SCD** | 디멘전 변경 이력 관리 |
-| **Surrogate Key** | DW 디멘전의 내부 PK |
-| **OLAP Cube** | 팩트+디멘전으로 구성하는 다차원 분석 |
-| **dbt** | 팩트/디멘전 모델 자동 빌드 도구 |
+| **[[334_star_schema|스타 스키마]]** | 팩트 중심 + 1단 디멘전 [[521_join|JOIN]] |
+| **[[277_scd_slowly_changing_dimension_modeling|SCD]]** | 디멘전 변경 이력 관리 |
+| **[[314_surrogate_key|Surrogate Key]]** | [[209_data_warehouse_schema_on_write|DW]] 디멘전의 내부 PK |
+| **[[316_olap|OLAP]] Cube** | 팩트+디멘전으로 구성하는 다차원 분석 |
+| **dbt** | 팩트/디멘전 모델 자동 [[070_build_tools_maven_gradle_npm|빌드 도구]] |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -112,6 +112,6 @@ categories = "studynote-database"
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
-1. 팩트 테이블은 "가게 매출 일지"예요. **얼마를 벌었는지** 숫자를 기록해요.
+1. [[210_fact_dimension_table_snowflake_schema|팩트 테이블]]은 "가게 매출 일지"예요. **얼마를 벌었는지** 숫자를 기록해요.
 2. 디멘전 테이블은 "누가, 언제, 어디서, 무엇을"이라는 **맥락 사전**이에요.
 3. 일지와 사전을 합치면 "서울 매장에서 1월에 전자제품이 얼마나 팔렸는지" **다차원 분석**이 가능해요!

@@ -8,15 +8,15 @@ categories = "studynote-ai"
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: RLHF (Reinforcement Learning from Human Feedback)의 보상 모델(Reward Model, RM)은 사람의 선호도 데이터(Preference Data)를 학습하여, AI 모델의 답변이 얼마나 인간의 의도에 부합하는지 점수화(Scalar Score)하는 함수다.
+> 1. **본질**: [[250_rlhf_human_feedback_reinforcement_alignment_cot|RLHF]] ([[250_rlhf_human_feedback_reinforcement_alignment_cot|Reinforcement Learning from Human Feedback]])의 보상 모델(Reward Model, [[197_rm_rate_monotonic_scheduling|RM]])은 사람의 선호도 [[001_dikw_pyramid|데이터]](Preference [[001_dikw_pyramid|Data]])를 학습하여, [[190_ai_llm_requirements_specification|AI]] 모델의 답변이 얼마나 인간의 의도에 부합하는지 점수화(Scalar Score)하는 함수다.
 > 2. **가치**: 단순히 정답을 맞히는 것을 넘어, 유해성(Toxicity), 사실관계(Truthfulness), 도움 정도(Helpfulness) 등 정량화하기 어려운 '인간의 가치'를 모델에 주입하는 핵심 교사 역할을 한다.
-> 3. **판단 포인트**: 보상 모델 학습 시 Bradley-Terry 모델 기반의 비교 손실 함수를 사용하며, RM의 품질이 최종 언어 모델(LLM)의 정렬(Alignment) 성능을 결정짓는 가장 중요한 병목 지점이다.
+> 3. **판단 포인트**: 보상 모델 학습 시 Bradley-Terry 모델 기반의 비교 [[075_loss_function_cost_function|손실 함수]]를 사용하며, RM의 품질이 최종 언어 모델([[263_llm_large_language_model|LLM]])의 정렬(Alignment) [[282_performance_tactics|성능]]을 결정짓는 가장 중요한 병목 지점이다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-대규모 언어 모델(LLM)이 사전 학습(Pre-training)과 미세 조정(SFT)을 거쳐도 여전히 환각이나 부적절한 답변을 내놓는 경우가 많다. 인간이 모든 답변에 점수를 매길 수 없으므로, 인간의 판단 기준을 모방하는 '보상 모델(RM)'을 만들어 기계가 스스로 피드백을 주고받으며 학습하게 해야 한다.
+[[582_llm_based_code_generation_tools|대규모 언어 모델]]([[263_llm_large_language_model|LLM]])이 사전 학습(Pre-[[588_mlops_pipeline_automation|training]])과 [[133_fine_tuning|미세 조정]](SFT)을 거쳐도 여전히 [[275_react_framework|환각]]이나 부적절한 답변을 내놓는 경우가 많다. 인간이 모든 답변에 점수를 매길 수 없으므로, 인간의 판단 기준을 모방하는 '보상 모델([[197_rm_rate_monotonic_scheduling|RM]])'을 만들어 기계가 스스로 피드백을 주고받으며 학습하게 해야 한다.
 
 **필요성**:
 - **복잡한 가치 학습**: "더 친절하게", "더 안전하게"와 같은 정성적인 기준을 수학적인 보상 값으로 변환
@@ -38,14 +38,14 @@ categories = "studynote-ai"
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-보상 모델은 주로 사전 학습된 모델에 하나의 스칼라 값을 출력하는 Linear Layer를 붙여 구성하며, '비교 데이터'를 통해 학습된다.
+보상 모델은 주로 사전 학습된 모델에 하나의 스칼라 값을 출력하는 Linear Layer를 붙여 구성하며, '비교 [[001_dikw_pyramid|데이터]]'를 통해 학습된다.
 
 | 요소 | 설명 | 특징 |
 |:---|:---|:---|
 | **입력 (Input)** | 프롬프트와 모델의 답변 쌍 (Prompt + Response) | 문맥을 이해해야 함 |
 | **출력 (Output)** | 단일 스칼라 점수 (Scalar Reward) | 답변의 품질을 나타내는 실수값 |
-| **데이터셋** | 인간이 두 답변 중 더 나은 것을 고른 결과 (A > B) | 상대적 선호도(Pairwise) 기반 |
-| **Bradley-Terry 모델** | 두 대상의 선호 확률을 지수 함수로 모델링 | 순위 데이터를 확률 분포로 변환 |
+| **[[001_dikw_pyramid|데이터]]셋** | 인간이 두 답변 중 더 나은 것을 고른 결과 (A > B) | 상대적 선호도([[174_pairwise_comparison_priority_matrix|Pairwise]]) 기반 |
+| **Bradley-Terry 모델** | 두 대상의 선호 [[130_probability|확률]]을 지수 함수로 모델링 | 순위 [[001_dikw_pyramid|데이터]]를 [[130_probability|확률]] 분포로 변환 |
 
 ```text
 [ 보상 모델 학습 프로세스 (Pairwise Ranking) ]
@@ -67,23 +67,23 @@ categories = "studynote-ai"
                                       Optimize: Score A > Score B
 ```
 
-**핵심 알고리즘**:
+**핵심 [[001_algorithm_definition|알고리즘]]**:
 - **Elo Rating**: 체스나 게임의 순위 시스템처럼 모델 답변들의 상대적 강점을 측정
-- **Preference Modeling**: 인간의 주관적 선호도를 수학적 확률 공간에 매핑
+- **Preference Modeling**: 인간의 주관적 선호도를 수학적 [[130_probability|확률]] 공간에 매핑
 
-- **📢 섹션 요약 비유**: 두 가지 메뉴 중 어떤 것이 더 맛있는지 손님에게 물어본 뒤, 주방장(RM)은 그 의견을 모아 "이 레시피가 더 인기 있다"는 점수표를 완성하는 과정이다.
+- **📢 섹션 요약 비유**: 두 가지 메뉴 중 어떤 것이 더 맛있는지 손님에게 물어본 뒤, 주방장([[197_rm_rate_monotonic_scheduling|RM]])은 그 의견을 모아 "이 레시피가 더 인기 있다"는 점수표를 완성하는 과정이다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-| 항목 | SFT (지도 미세 조정) | RLHF 보상 모델 (RM) |
+| 항목 | SFT (지도 [[133_fine_tuning|미세 조정]]) | [[250_rlhf_human_feedback_reinforcement_alignment_cot|RLHF]] 보상 모델 ([[197_rm_rate_monotonic_scheduling|RM]]) |
 |:---|:---|:---|
-| 데이터 형태 | 질문 - 정답 (Prompt-Answer) | 질문 - (더 나은 답 vs 나쁜 답) |
+| [[001_dikw_pyramid|데이터]] 형태 | 질문 - 정답 (Prompt-Answer) | 질문 - (더 나은 답 vs 나쁜 답) |
 | 학습 목표 | 정답 텍스트의 다음 단어 예측 | 답변 품질에 대한 인간의 만족도 예측 |
 | 역할 | 모델의 기본 지식 및 말투 형성 | 모델의 도덕성 및 정교한 품질 정렬 |
 
-보상 모델은 이후 395번의 **PPO (Proximal Policy Optimization)** 또는 최신 기법인 **DPO (Direct Preference Optimization)**와 연결되어 최종 모델을 최적화하는 기준이 된다.
+보상 모델은 이후 395번의 **[[395_ppo_clipping|PPO]] ([[395_ppo_clipping|Proximal Policy Optimization]])** 또는 최신 기법인 **[[270_embedding_model|DPO]] ([[270_embedding_model|Direct Preference Optimization]])**와 연결되어 최종 모델을 최적화하는 기준이 된다.
 
 - **📢 섹션 요약 비유**: SFT가 교과서를 통째로 외우는 공부라면, RM은 기출문제를 풀고 채점 기준표를 보며 출제자의 의도(인간의 가치)를 파악하는 공부다.
 
@@ -93,11 +93,11 @@ categories = "studynote-ai"
 
 ### 실무 고려 사항
 1. **Reward Hacking (보상 해킹)**: 모델이 점수를 높게 받기 위해 인간이 좋아할 만한 미사여구만 늘어놓거나, 정답은 아니지만 듣기 좋은 말만 하는 현상을 경계해야 한다. (KL-Divergence 페널티 적용 필수)
-2. **라벨러 편향**: 데이터를 만드는 인간 라벨러의 성향이 모델에 투영될 수 있으므로, 다양한 문화권과 가치관을 가진 라벨러 그룹을 확보해야 한다.
-3. **Over-optimization**: RM에 너무 과하게 맞추다 보면 모델의 창의성이나 일반화 성능이 떨어질 수 있다.
+2. **라벨러 편향**: [[001_dikw_pyramid|데이터]]를 만드는 인간 라벨러의 성향이 모델에 투영될 수 있으므로, 다양한 문화권과 가치관을 가진 라벨러 그룹을 확보해야 한다.
+3. **Over-optimization**: RM에 너무 과하게 맞추다 보면 모델의 창의성이나 일반화 [[282_performance_tactics|성능]]이 떨어질 수 있다.
 
 ### 기술사 판단 포인트
-- 보상 모델은 단순한 채점기를 넘어 **'인간의 가치를 코드로 명문화한 것'**임을 이해해야 한다. 따라서 RM의 설계 시 보안, 윤리, 공정성 지표가 가중치에 어떻게 반영되는지 검증하는 체계(AI Governance)가 동반되어야 한다.
+- 보상 모델은 단순한 채점기를 넘어 **'인간의 가치를 코드로 명문화한 것'**임을 이해해야 한다. 따라서 RM의 설계 시 보안, 윤리, 공정성 지표가 [[267_weight_bias_activation|가중치]]에 어떻게 반영되는지 [[395_verification_process_review|검증]]하는 체계([[190_ai_llm_requirements_specification|AI]] Governance)가 동반되어야 한다.
 
 - **📢 섹션 요약 비유**: 심사위원이 "웃기기만 하면 점수를 잘 준다"는 소문이 나면 참가자들이 광대 짓만 하는(보상 해킹) 사태가 발생한다. 균형 잡힌 심사 기준(보상 설계)이 대회의 수준을 결정한다.
 
@@ -107,7 +107,7 @@ categories = "studynote-ai"
 
 보상 모델은 AI가 단순히 지식을 나열하는 수준을 넘어, 인간과 진정으로 소통하고 공감하며 신뢰를 쌓을 수 있는 사회적 존재로 거듭나게 하는 핵심 장치다.
 
-앞으로 RM은 고정된 모델이 아니라 실시간 피드백을 통해 계속 진화하는 동적 모델로 발전할 것이며, 이는 '범용 인공지능(AGI)'으로 가는 정렬 문제 해결의 열쇠가 될 것이다.
+앞으로 RM은 고정된 모델이 아니라 실시간 피드백을 통해 계속 진화하는 동적 모델로 발전할 것이며, 이는 '범용 [[231_ai_turing_test|인공지능]](AGI)'으로 가는 정렬 문제 해결의 열쇠가 될 것이다.
 
 - **📢 섹션 요약 비유**: 보상 모델은 AI라는 거친 원석을 인간 사회에 꼭 필요한 보석으로 깎아내는 정교한 조각 칼과 같다.
 
@@ -117,9 +117,9 @@ categories = "studynote-ai"
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| RLHF | 상위 프로세스 / 인간 피드백 기반 강화 학습의 전체 체계 |
-| PPO | 후속 알고리즘 / RM이 준 점수를 바탕으로 가중치를 업데이트하는 최적화 기법 |
-| DPO | 대안 기법 / RM 생성 없이 직접 선호도를 학습하는 최신 방식 |
+| [[250_rlhf_human_feedback_reinforcement_alignment_cot|RLHF]] | 상위 프로세스 / 인간 피드백 기반 [[253_reinforcement_learning_mdp_policy_value_q_learning_dqn|강화 학습]]의 전체 체계 |
+| [[395_ppo_clipping|PPO]] | 후속 [[001_algorithm_definition|알고리즘]] / RM이 준 점수를 바탕으로 [[267_weight_bias_activation|가중치]]를 업데이트하는 최적화 기법 |
+| [[270_embedding_model|DPO]] | 대안 기법 / [[197_rm_rate_monotonic_scheduling|RM]] [[087_process_state_transition|생성]] 없이 직접 선호도를 학습하는 최신 방식 |
 | Reward Hacking | 부작용 / 보상 시스템의 허점을 이용해 점수만 높게 받는 현상 |
 
 ### 📈 관련 키워드 및 발전 흐름도

@@ -7,13 +7,13 @@ categories = "studynote-cloud-architecture"
 +++
 
 > **핵심 인사이트**
-> 1. 클라우드 네이티브(Cloud Native)는 단순히 클라우드에서 실행되는 것이 아니라, 클라우드의 탄력성·자동화·분산성을 최대한 활용하도록 **설계부터** 클라우드를 위해 만들어진 애플리케이션/아키텍처 방식이다.
-> 2. CNCF(Cloud Native Computing Foundation)의 정의에 따르면, 마이크로서비스·컨테이너·동적 오케스트레이션·지속적 전달(CI/CD)의 4대 기둥이 클라우드 네이티브의 핵심이며, 12-Factor App이 구현 원칙의 표준이다.
-> 3. Cloud Native vs Cloud-Enabled(기존 앱을 클라우드로 이전)의 차이가 핵심으로, Cloud-Enabled는 클라우드 비용은 쓰지만 클라우드 탄력성 이점은 못 누리는 "리프트앤시프트(Lift-and-Shift)" 함정에 빠지는 반면, Cloud Native는 스케일 아웃·자동 복구·무중단 배포를 기본 내장한다.
+> 1. [[531_cloud_native_architecture|클라우드 네이티브]]([[199_cloud_native_architecture_msa_cicd_devops|Cloud Native]])는 단순히 클라우드에서 실행되는 것이 아니라, 클라우드의 [[571_resiliency_fault_tolerance_patterns|탄력성]]·자동화·분산성을 최대한 활용하도록 **설계부터** 클라우드를 위해 만들어진 애플리케이션/아키텍처 방식이다.
+> 2. [[190_cncf_landscape_observability|CNCF]]([[199_cloud_native_architecture_msa_cicd_devops|Cloud Native]] Computing Foundation)의 정의에 따르면, [[532_microservices_decomposition_patterns|마이크로서비스]]·[[561_container_based_deployment|컨테이너]]·동적 [[073_container_orchestration_tools|오케스트레이션]]·[[020_continuous_delivery|지속적 전달]]([[090_configuration_item|CI]]/CD)의 4대 기둥이 [[531_cloud_native_architecture|클라우드 네이티브]]의 핵심이며, 12-Factor App이 구현 원칙의 표준이다.
+> 3. [[199_cloud_native_architecture_msa_cicd_devops|Cloud Native]] vs Cloud-Enabled(기존 앱을 클라우드로 이전)의 차이가 핵심으로, Cloud-Enabled는 클라우드 비용은 쓰지만 클라우드 [[571_resiliency_fault_tolerance_patterns|탄력성]] 이점은 못 누리는 "리프트앤시프트(Lift-and-Shift)" 함정에 빠지는 반면, Cloud Native는 [[202_scale_out_distributed_horizontal_expansion|스케일 아웃]]·자동 [[658_ir_recovery|복구]]·무중단 배포를 기본 내장한다.
 
 ---
 
-## Ⅰ. Cloud Native 4대 기둥
+## Ⅰ. [[199_cloud_native_architecture_msa_cicd_devops|Cloud Native]] 4대 기둥
 
 ```
 CNCF Cloud Native 정의의 4대 요소:
@@ -39,11 +39,11 @@ CNCF Cloud Native 정의의 4대 요소:
    "배포는 이벤트가 아닌 일상"
 ```
 
-> 📢 **섹션 요약 비유**: Cloud Native 4대 기둥은 현대 아파트 구조 — 컨테이너(독립 세대), 마이크로서비스(분리된 공간), 쿠버네티스(아파트 관리시스템), CI/CD(자동 시설 점검).
+> 📢 **섹션 요약 비유**: [[199_cloud_native_architecture_msa_cicd_devops|Cloud Native]] 4대 기둥은 현대 아파트 구조 — [[561_container_based_deployment|컨테이너]](독립 세대), [[532_microservices_decomposition_patterns|마이크로서비스]](분리된 공간), [[196_kubernetes_k8s_container_orchestration|쿠버네티스]](아파트 관리시스템), [[090_configuration_item|CI]]/CD(자동 시설 점검).
 
 ---
 
-## Ⅱ. 12-Factor App
+## Ⅱ. [[200_12_factor_app_cloud_native_principles|12-Factor App]]
 
 ```
 12-Factor App (Heroku, 2011):
@@ -72,7 +72,7 @@ CNCF Cloud Native 정의의 4대 요소:
 
 ---
 
-## Ⅲ. Cloud Native vs Cloud-Enabled
+## Ⅲ. [[199_cloud_native_architecture_msa_cicd_devops|Cloud Native]] vs Cloud-Enabled
 
 ```
 비교:
@@ -95,11 +95,11 @@ CNCF Cloud Native 정의의 4대 요소:
   신규: 처음부터 Cloud Native 설계
 ```
 
-> 📢 **섹션 요약 비유**: Cloud Native vs Cloud-Enabled는 전기차 vs 엔진 개조 — 전기차(Native)는 처음부터 전기에 최적화, 개조차는 배터리 달았지만 원래 구조의 한계가 있다.
+> 📢 **섹션 요약 비유**: [[199_cloud_native_architecture_msa_cicd_devops|Cloud Native]] vs Cloud-Enabled는 전기차 vs 엔진 개조 — 전기차(Native)는 처음부터 전기에 최적화, 개조차는 배터리 달았지만 원래 구조의 한계가 있다.
 
 ---
 
-## Ⅳ. Kubernetes 핵심 개념
+## Ⅳ. [[205_kubernetes_container_orchestration|Kubernetes]] 핵심 개념
 
 ```
 Kubernetes (K8s) Cloud Native 오케스트레이션:
@@ -126,11 +126,11 @@ Cloud Native 패턴:
     문제 시 자동 롤백
 ```
 
-> 📢 **섹션 요약 비유**: Kubernetes는 레스토랑 자동화 매니저 — 주문(요청) 많아지면 요리사(Pod) 추가 고용, 요리사 쓰러지면 바로 대체.
+> 📢 **섹션 요약 비유**: Kubernetes는 레스토랑 자동화 매니저 — 주문(요청) 많아지면 요리사([[198_pod_kubernetes_minimum_deployment_unit|Pod]]) 추가 고용, 요리사 쓰러지면 바로 대체.
 
 ---
 
-## Ⅴ. 실무 시나리오 — 금융 서비스 Cloud Native 전환
+## Ⅴ. 실무 시나리오 — 금융 [[090_service_kubernetes_network_load_balancing|서비스]] [[199_cloud_native_architecture_msa_cicd_devops|Cloud Native]] 전환
 
 ```
 금융 서비스 A사 Cloud Native 전환 사례:
@@ -162,7 +162,7 @@ Cloud Native 패턴:
   개발 생산성: 팀당 독립 배포 (의존성 제거)
 ```
 
-> 📢 **섹션 요약 비유**: Cloud Native 전환은 대형 백화점을 독립 가게 거리(마이크로서비스)로 바꾸기 — 한 가게 화재가 전체 백화점을 닫는 일이 없어진다.
+> 📢 **섹션 요약 비유**: [[199_cloud_native_architecture_msa_cicd_devops|Cloud Native]] 전환은 대형 백화점을 독립 가게 거리([[532_microservices_decomposition_patterns|마이크로서비스]])로 바꾸기 — 한 가게 화재가 전체 백화점을 닫는 일이 없어진다.
 
 ---
 
@@ -222,6 +222,6 @@ Serverless, eBPF, Service Mesh 발전
 
 ## 👶 어린이를 위한 3줄 비유 설명
 
-1. 클라우드 네이티브는 물고기가 물속에 맞게 설계된 것처럼, 앱이 클라우드에 맞게 처음부터 설계된 방식이에요.
-2. 레고 블록처럼 각 기능을 독립적으로 만들어서 한 블록이 망가져도 전체가 무너지지 않게 하는 것이 마이크로서비스예요.
-3. 쿠버네티스는 레고 자동 조립 로봇 — 필요할 때 블록을 더 붙이고(자동 확장), 부서진 블록은 바로 교체해줘요(자가 치유)!
+1. [[531_cloud_native_architecture|클라우드 네이티브]]는 물고기가 물속에 맞게 설계된 것처럼, 앱이 클라우드에 맞게 처음부터 설계된 방식이에요.
+2. 레고 블록처럼 각 기능을 독립적으로 만들어서 한 블록이 망가져도 전체가 무너지지 않게 하는 것이 [[532_microservices_decomposition_patterns|마이크로서비스]]예요.
+3. [[196_kubernetes_k8s_container_orchestration|쿠버네티스]]는 레고 자동 조립 로봇 — 필요할 때 블록을 더 붙이고(자동 확장), 부서진 블록은 바로 교체해줘요(자가 치유)!

@@ -7,9 +7,9 @@ categories = "studynote-devops-sre"
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: 골든 패스(Golden Path)는 플랫폼 팀이 개발자에게 권장하는 표준 개발·배포 경로이고, 가치 흐름(Value Stream)은 아이디어에서 고객 전달까지 모든 단계의 흐름을 시각화하는 린(Lean) 개념이다. 둘 다 DevOps 흐름의 최적화를 목표로 한다.
-> 2. **가치**: 가치 흐름 맵핑(Value Stream Mapping, VSM)은 전체 소프트웨어 전달 파이프라인에서 낭비(Waste)를 찾아 리드 타임을 단축한다. 일반적으로 전체 리드 타임의 85~95%는 대기 시간(Queue Time)이며, VSM은 이를 가시화한다.
-> 3. **판단 포인트**: 골든 패스와 VSM의 결합이 DORA 메트릭 개선의 핵심 경로다. 골든 패스로 개발자가 표준 경로를 따라가게 하고, VSM으로 병목을 찾아 제거하면 배포 빈도↑·리드 타임↓·변경 실패율↓을 동시 달성할 수 있다.
+> 1. **본질**: 골든 패스(Golden Path)는 플랫폼 팀이 개발자에게 권장하는 표준 개발·배포 경로이고, 가치 흐름(Value [[467_http2_stream_multiplexing_tcp_hol|Stream]])은 아이디어에서 고객 전달까지 모든 단계의 흐름을 [[003_bigdata_7v|시각화]]하는 린([[087_lean_software_development_7_principles|Lean]]) 개념이다. 둘 다 [[652_devops_calms_culture|DevOps]] 흐름의 최적화를 목표로 한다.
+> 2. **가치**: [[030_value_stream_mapping|가치 흐름 맵핑]]([[088_value_stream_mapping_vsm|Value Stream Mapping]], [[030_value_stream_mapping|VSM]])은 전체 소프트웨어 전달 [[123_pipe|파이프]]라인에서 낭비(Waste)를 찾아 [[085_lead_time_cycle_time|리드 타임]]을 단축한다. 일반적으로 전체 [[085_lead_time_cycle_time|리드 타임]]의 85~95%는 대기 시간([[058_queue|Queue]] Time)이며, VSM은 이를 가시화한다.
+> 3. **판단 포인트**: 골든 패스와 VSM의 결합이 [[523_dhcp_dora_process|DORA]] [[342_routing_metric_hop_bandwidth_delay|메트릭]] 개선의 핵심 경로다. 골든 패스로 개발자가 표준 경로를 따라가게 하고, VSM으로 병목을 찾아 제거하면 배포 빈도↑·[[085_lead_time_cycle_time|리드 타임]]↓·변경 실패율↓을 동시 달성할 수 있다.
 
 ---
 
@@ -32,20 +32,20 @@ categories = "studynote-devops-sre"
 └──────────────────────────────────────────────────────────┘
 ```
 
-- **📢 섹션 요약 비유**: 가치 흐름 맵핑은 피자 배달 시간 분석이다. 반죽(개발)·굽기(테스트)·포장(빌드)·배달(배포) 각 단계 시간을 측정해보면, 실제 피자 만들기는 20분인데 총 1시간이 걸리는 이유가 대기 시간 때문임을 발견한다.
+- **📢 섹션 요약 비유**: [[030_value_stream_mapping|가치 흐름 맵핑]]은 피자 배달 시간 분석이다. 반죽(개발)·굽기(테스트)·포장(빌드)·배달(배포) 각 단계 시간을 측정해보면, 실제 피자 만들기는 20분인데 총 1시간이 걸리는 이유가 대기 시간 때문임을 발견한다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### 린 낭비 7가지 (소프트웨어 버전)
+### 린 낭비 7가지 (소프트웨어 [[288_version_ihl_tos_total_length|버전]])
 
 | 린 낭비 | 소프트웨어 예시 |
 |:---|:---|
 | **과생산** | 아무도 안 쓰는 기능 개발 |
-| **재고** | 검토 대기 중인 코드 PR |
+| **재고** | 검토 대기 중인 코드 [[067_pull_request_pr_merge_request_code_review|PR]] |
 | **이동** | 팀 간 핸드오프, 승인 대기 |
-| **불량** | 버그·기술 부채, 재작업 |
+| **불량** | 버그·[[100_technical_debt_monitoring_release_policy|기술 부채]], 재작업 |
 | **과처리** | 불필요한 문서화, 복잡한 프로세스 |
 | **대기** | 배포 승인 대기, 환경 구성 대기 |
 | **미활용 재능** | 개발자가 인프라 수동 작업 |
@@ -65,25 +65,25 @@ categories = "studynote-devops-sre"
 골든 패스 = 비표준 경로 대비 100배 생산성
 ```
 
-- **📢 섹션 요약 비유**: 골든 패스는 고속도로다. 비표준 경로(국도)는 목적지에 도달하지만 신호등·공사 구간으로 느리고 예측 불가하다. 고속도로(골든 패스)는 표준화된 빠른 경로로 모두가 예측 가능하게 이동한다.
+- **📢 섹션 요약 비유**: 골든 패스는 고속도로다. 비표준 경로(국도)는 목적지에 도달하지만 [[130_signal|신호]]등·공사 구간으로 느리고 예측 불가하다. 고속도로(골든 패스)는 표준화된 빠른 경로로 모두가 예측 가능하게 이동한다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-| 비교 | 가치 흐름 | CI/CD | DORA |
+| 비교 | 가치 흐름 | [[090_configuration_item|CI]]/CD | [[523_dhcp_dora_process|DORA]] |
 |:---|:---|:---|:---|
-| 초점 | 전체 흐름 분석 | 자동화 파이프라인 | 성과 측정 |
-| 기원 | 린 제조업 | 애자일·DevOps | 구글 연구 |
+| 초점 | 전체 흐름 분석 | 자동화 [[123_pipe|파이프]]라인 | 성과 측정 |
+| 기원 | 린 제조업 | [[004_agile_relation|애자일]]·[[652_devops_calms_culture|DevOps]] | 구글 연구 |
 | 목표 | 낭비 제거 | 빠른 자동 전달 | 고성과 달성 |
 
-- **📢 섹션 요약 비유**: VSM·CI/CD·DORA는 공장 개선 3단계다. VSM으로 공정 병목을 찾고(분석), CI/CD로 공정을 자동화하며(개선), DORA 메트릭으로 개선 효과를 측정한다(검증).
+- **📢 섹션 요약 비유**: [[030_value_stream_mapping|VSM]]·[[090_configuration_item|CI]]/CD·DORA는 공장 개선 3단계다. VSM으로 공정 병목을 찾고(분석), [[090_configuration_item|CI]]/CD로 공정을 자동화하며(개선), [[523_dhcp_dora_process|DORA]] [[342_routing_metric_hop_bandwidth_delay|메트릭]]으로 개선 효과를 측정한다([[395_verification_process_review|검증]]).
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### VSM 실시 방법
+### [[030_value_stream_mapping|VSM]] 실시 방법
 
 ```text
 1단계: 현재 상태 맵핑
@@ -114,7 +114,7 @@ categories = "studynote-devops-sre"
 해결: 자동화 테스트 통과 시 자동 배포 (GitOps)
 ```
 
-- **📢 섹션 요약 비유**: VSM 병목 해결은 교통 체증 분석이다. GPS 데이터로 어디서 막히는지 파악하고(VSM), 신호등 최적화·도로 확장(자동화)으로 교통 흐름을 개선한다.
+- **📢 섹션 요약 비유**: [[030_value_stream_mapping|VSM]] 병목 해결은 교통 체증 분석이다. GPS [[001_dikw_pyramid|데이터]]로 어디서 막히는지 파악하고([[030_value_stream_mapping|VSM]]), [[130_signal|신호]]등 최적화·도로 확장(자동화)으로 교통 흐름을 개선한다.
 
 ---
 
@@ -122,13 +122,13 @@ categories = "studynote-devops-sre"
 
 | 기대효과 | 내용 |
 |:---|:---|
-| **리드 타임 단축** | 대기 시간 제거로 전달 속도 향상 |
-| **DORA 개선** | 배포 빈도↑, 리드 타임↓ |
-| **개발자 경험** | 골든 패스로 마찰 없는 개발 환경 |
+| **[[085_lead_time_cycle_time|리드 타임]] 단축** | 대기 시간 제거로 전달 속도 향상 |
+| **[[523_dhcp_dora_process|DORA]] 개선** | 배포 빈도↑, [[085_lead_time_cycle_time|리드 타임]]↓ |
+| **[[058_dx_developer_experience|개발자 경험]]** | 골든 패스로 마찰 없는 개발 환경 |
 
-AI 기반 가치 흐름 분석이 등장하고 있다. GitHub Actions 로그, JIRA 이슈 데이터, 배포 기록을 AI가 자동 분석하여 실시간 가치 흐름 현황과 병목 예측을 제공하는 Engineering Intelligence 플랫폼이 발전하고 있다.
+[[190_ai_llm_requirements_specification|AI]] 기반 가치 흐름 분석이 등장하고 있다. GitHub Actions [[568_logs_distributed_logging_elk_fluentd|로그]], JIRA 이슈 [[001_dikw_pyramid|데이터]], 배포 기록을 AI가 자동 분석하여 실시간 가치 흐름 현황과 병목 예측을 제공하는 Engineering Intelligence 플랫폼이 발전하고 있다.
 
-- **📢 섹션 요약 비유**: AI 가치 흐름 분석은 스마트 공장 AI다. 공장의 모든 센서 데이터를 실시간 수집하여 어느 공정이 느린지, 어디서 오류가 많은지를 AI가 자동으로 분석하고 개선 방향을 제시한다.
+- **📢 섹션 요약 비유**: [[190_ai_llm_requirements_specification|AI]] 가치 흐름 분석은 스마트 공장 AI다. 공장의 모든 센서 [[001_dikw_pyramid|데이터]]를 실시간 수집하여 어느 공정이 느린지, 어디서 오류가 많은지를 AI가 자동으로 분석하고 개선 방향을 제시한다.
 
 ---
 
@@ -136,11 +136,11 @@ AI 기반 가치 흐름 분석이 등장하고 있다. GitHub Actions 로그, JI
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **DORA 메트릭** | 가치 흐름 개선 측정 지표 |
-| **플랫폼 엔지니어링** | 골든 패스 제공 주체 |
+| **[[523_dhcp_dora_process|DORA]] [[342_routing_metric_hop_bandwidth_delay|메트릭]]** | 가치 흐름 개선 측정 지표 |
+| **[[109_platform_engineering_cognitive_load|플랫폼 엔지니어링]]** | 골든 패스 제공 주체 |
 | **린 소프트웨어** | 가치 흐름 이론 기원 |
-| **GitOps** | 승인 병목 자동화 패턴 |
-| **Engineering Intelligence** | AI 기반 흐름 분석 |
+| **[[119_gitops_single_source_of_truth|GitOps]]** | 승인 병목 자동화 패턴 |
+| **Engineering Intelligence** | [[190_ai_llm_requirements_specification|AI]] 기반 흐름 분석 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -162,6 +162,6 @@ AI 기반 가치 흐름 분석이 등장하고 있다. GitHub Actions 로그, JI
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. 가치 흐름 맵핑은 피자 배달 과정 분석이에요! 피자 만들기(20분)보다 대기(40분)가 더 길다는 것을 발견해서 개선해요.
+1. [[030_value_stream_mapping|가치 흐름 맵핑]]은 피자 배달 과정 분석이에요! 피자 만들기(20분)보다 대기(40분)가 더 길다는 것을 발견해서 개선해요.
 2. 골든 패스는 고속도로예요! 표준 경로로 모두가 빠르고 예측 가능하게 개발·배포할 수 있어요.
 3. AI가 모든 개발 활동을 분석해서 "여기서 시간이 많이 낭비되고 있어요"라고 실시간으로 알려주는 시대가 됐어요!

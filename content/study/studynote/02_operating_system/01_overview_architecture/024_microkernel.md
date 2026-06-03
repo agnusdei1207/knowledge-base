@@ -7,17 +7,17 @@ categories = "studynote-operating-system"
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: 마이크로커널(Microkernel)은 OS 커널에서 메모리 관리·프로세스 스케줄링·IPC(Inter-Process Communication)만 남기고, 파일 시스템·디바이스 드라이버·네트워크 스택 등 나머지 서비스를 사용자 공간(User Space) 서버로 분리하여 커널 크기를 최소화하는 아키텍처다.
-> 2. **가치**: 커널 서비스를 사용자 공간에서 실행하면 단일 서비스 장애가 전체 시스템 크래시로 이어지지 않아 고가용성이 확보되며, 각 서비스를 독립적으로 교체·업데이트할 수 있어 QNX·L4·MINIX 등의 안전 필수 시스템(Safety-critical System)에서 선호된다.
-> 3. **판단 포인트**: 마이크로커널의 가장 큰 약점은 IPC 오버헤드다. 모놀리식 커널(Monolithic Kernel)이 같은 주소 공간에서 함수 호출로 서비스를 요청하는 것과 달리, 마이크로커널은 메시지 패싱(Message Passing)을 통해 서비스를 요청하므로 문맥 교환(Context Switch)이 빈번하게 발생한다.
+> 1. **본질**: 마이크로커널(Microkernel)은 OS [[022_kernel_role|커널]]에서 메모리 관리·프로세스 스케줄링·[[117_ipc|IPC]](Inter-Process Communication)만 남기고, [[501_file_definition_logical_record|파일]] 시스템·디바이스 드라이버·네트워크 [[057_stack|스택]] 등 나머지 [[090_service_kubernetes_network_load_balancing|서비스]]를 사용자 공간(User Space) 서버로 분리하여 [[022_kernel_role|커널]] 크기를 최소화하는 아키텍처다.
+> 2. **가치**: [[022_kernel_role|커널]] [[090_service_kubernetes_network_load_balancing|서비스]]를 사용자 공간에서 실행하면 단일 [[090_service_kubernetes_network_load_balancing|서비스]] 장애가 전체 시스템 크래시로 이어지지 않아 고가용성이 확보되며, 각 [[090_service_kubernetes_network_load_balancing|서비스]]를 독립적으로 교체·업데이트할 수 있어 QNX·L4·MINIX 등의 안전 필수 시스템(Safety-critical System)에서 선호된다.
+> 3. **판단 포인트**: 마이크로커널의 가장 큰 약점은 [[117_ipc|IPC]] 오버헤드다. [[023_monolithic_kernel|모놀리식 커널]]([[023_monolithic_kernel|Monolithic Kernel]])이 같은 주소 공간에서 [[294_function_calling_tool_use|함수 호출]]로 [[090_service_kubernetes_network_load_balancing|서비스]]를 요청하는 것과 달리, 마이크로커널은 메시지 패싱([[119_message_passing|Message Passing]])을 통해 [[090_service_kubernetes_network_load_balancing|서비스]]를 요청하므로 [[211_context_switch|문맥 교환]]([[211_context_switch|Context Switch]])이 빈번하게 발생한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-마이크로커널(Microkernel)은 1980년대 말 모놀리식 커널의 거대화·불안정성 문제를 해결하기 위해 등장했다. 앤드루 타넨바움(Andrew Tanenbaum)의 MINIX와 카네기멜론의 Mach 프로젝트가 대표적인 초기 구현체다.
+마이크로커널(Microkernel)은 1980년대 말 [[023_monolithic_kernel|모놀리식 커널]]의 거대화·불안정성 문제를 해결하기 위해 등장했다. 앤드루 타넨바움(Andrew Tanenbaum)의 MINIX와 카네기멜론의 Mach 프로젝트가 대표적인 [[459_quic_fec_forward_error_correction|초기]] 구현체다.
 
-핵심 철학: "커널은 최소한의 메커니즘만 제공하고, 정책(Policy)은 사용자 공간에서 결정한다."
+핵심 철학: "[[022_kernel_role|커널]]은 최소한의 메커니즘만 제공하고, [[164_policy|정책]]([[164_policy|Policy]])은 사용자 공간에서 결정한다."
 
 ```text
 ┌──────────────────────────────────────────────────────────────┐
@@ -33,7 +33,7 @@ categories = "studynote-operating-system"
 └─────────────────────────┴────────────────────────────────────┘
 ```
 
-- **📢 섹션 요약 비유**: 모놀리식 커널은 모든 기능이 한 방에 있는 대형 마트이고, 마이크로커널은 핵심 계산대(IPC, 메모리)만 중앙에 두고 각 가게(파일시스템, 드라이버)는 별도 건물에 있는 복합쇼핑몰이다. 편의성 vs 유연성의 트레이드오프다.
+- **📢 섹션 요약 비유**: [[023_monolithic_kernel|모놀리식 커널]]은 모든 기능이 한 방에 있는 대형 마트이고, 마이크로커널은 핵심 계산대([[117_ipc|IPC]], 메모리)만 중앙에 두고 각 가게([[501_file_definition_logical_record|파일]]시스템, 드라이버)는 별도 건물에 있는 복합쇼핑몰이다. 편의성 vs 유연성의 트레이드오프다.
 
 ---
 
@@ -41,14 +41,14 @@ categories = "studynote-operating-system"
 
 ### 마이크로커널의 최소 기능 집합
 
-| 커널 내부 | 사용자 공간 서버 |
+| [[022_kernel_role|커널]] 내부 | 사용자 공간 서버 |
 |:---|:---|
-| IPC (메시지 패싱) | 파일 시스템 서버 |
-| 기본 메모리 관리 (페이지 테이블) | 디바이스 드라이버 서버 |
-| 프로세스/스레드 스케줄링 | 네트워크 스택 서버 |
-| 인터럽트 핸들링 (최소) | GUI 서버 |
+| [[117_ipc|IPC]] (메시지 패싱) | [[501_file_definition_logical_record|파일]] 시스템 서버 |
+| 기본 메모리 관리 ([[353_page_table|페이지 테이블]]) | 디바이스 드라이버 서버 |
+| 프로세스/[[092_thread_lwp|스레드]] 스케줄링 | 네트워크 [[057_stack|스택]] 서버 |
+| [[016_interrupt_mechanism|인터럽트]] 핸들링 (최소) | GUI 서버 |
 
-### IPC 메시지 패싱 흐름
+### [[117_ipc|IPC]] 메시지 패싱 흐름
 
 ```text
 [App] → send(msg) → [마이크로커널 IPC]
@@ -62,19 +62,19 @@ categories = "studynote-operating-system"
 Context Switch: 2회 (App→Kernel→Server, Server→Kernel→App)
 ```
 
-모놀리식 커널 시스템 콜: 1회 Context Switch (User→Kernel→User)
+[[023_monolithic_kernel|모놀리식 커널]] 시스템 콜: 1회 [[211_context_switch|Context Switch]] (User→[[022_kernel_role|Kernel]]→User)
 
-- **📢 섹션 요약 비유**: 마이크로커널 IPC는 편지를 우체국(커널)을 통해 서로 다른 건물(서버)에 보내는 것이다. 보안은 높지만 편지가 오고 가는 데 시간이 걸린다.
+- **📢 섹션 요약 비유**: 마이크로커널 IPC는 편지를 우체국([[022_kernel_role|커널]])을 통해 서로 다른 건물(서버)에 보내는 것이다. 보안은 높지만 편지가 오고 가는 데 시간이 걸린다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-| 항목 | 모놀리식 커널 | 마이크로커널 | 하이브리드 커널 |
+| 항목 | [[023_monolithic_kernel|모놀리식 커널]] | 마이크로커널 | [[025_hybrid_kernel|하이브리드 커널]] |
 |:---|:---|:---|:---|
-| **커널 크기** | 크다 (수백만 줄) | 작다 (수만 줄) | 중간 |
-| **성능** | 빠름 (함수 호출) | 느림 (IPC 오버헤드) | 중간 |
-| **안정성** | 드라이버 버그 → 크래시 | 서버 격리 → 자동 복구 | 중간 |
+| **[[022_kernel_role|커널]] 크기** | 크다 (수백만 줄) | 작다 (수만 줄) | 중간 |
+| **[[282_performance_tactics|성능]]** | 빠름 ([[294_function_calling_tool_use|함수 호출]]) | 느림 ([[117_ipc|IPC]] 오버헤드) | 중간 |
+| **안정성** | 드라이버 버그 → 크래시 | 서버 격리 → 자동 [[658_ir_recovery|복구]] | 중간 |
 | **사례** | Linux, Unix | QNX, L4, MINIX | macOS(XNU), Windows NT |
 
 - **📢 섹션 요약 비유**: 모놀리식은 슈퍼맨(혼자 다 처리, 빠르지만 한 번 다치면 치명적), 마이크로커널은 팀(역할 분리, 한 명 쓰러져도 팀은 유지), 하이브리드는 둘의 절충이다.
@@ -84,17 +84,17 @@ Context Switch: 2회 (App→Kernel→Server, Server→Kernel→App)
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 ### 실무 시나리오: 항공기 비행 제어 SW 선택
-실시간성(Hard Real-time)과 고가용성(High Availability)이 동시에 요구되는 항공기 비행 제어 시스템 OS 선택.
+실시간성(Hard Real-time)과 고가용성(High [[452_availability|Availability]])이 동시에 요구되는 항공기 비행 제어 시스템 OS 선택.
 
 - **선택: QNX (마이크로커널 기반)**.
 - 디바이스 드라이버가 사용자 공간에서 실행 → 드라이버 버그가 비행 제어 코어에 영향 없음.
 - POSIX 표준 지원 → 기존 SW 포팅 용이.
-- 드라이버 장애 시 재시작(Restart) 가능 → 비행 중 무중단 복구.
+- 드라이버 장애 시 재시작(Restart) 가능 → 비행 중 무중단 [[658_ir_recovery|복구]].
 
-### 안티패턴
-- 마이크로커널의 IPC 오버헤드를 무시하고 초고성능 실시간 시스템에 적용하는 안티패턴. 메시지 패싱의 컨텍스트 스위치 비용이 수백~수천 ns에 달하여 Hard Real-time 응답 시간(< 1ms) 요건을 충족하지 못할 수 있다. L4 계열처럼 IPC를 극한 최적화한 마이크로커널만이 이를 해결할 수 있다.
+### [[128_water_scrum_fall_anti_pattern|안티패턴]]
+- 마이크로커널의 [[117_ipc|IPC]] 오버헤드를 무시하고 초고성능 실시간 시스템에 적용하는 [[128_water_scrum_fall_anti_pattern|안티패턴]]. 메시지 패싱의 [[033_context|컨텍스트]] [[238_switch_operation_principles|스위치]] 비용이 수백~수천 ns에 달하여 Hard Real-time [[138_response_time|응답 시간]](< 1ms) 요건을 충족하지 못할 수 있다. L4 계열처럼 IPC를 극한 최적화한 마이크로커널만이 이를 해결할 수 있다.
 
-- **📢 섹션 요약 비유**: 느린 마이크로커널에 Hard Real-time을 요구하는 건, 여러 팀에 공문을 보내는 방식으로 0.001초 내 응급 조치를 요청하는 것이다. 긴급할수록 직통 전화(모놀리식 또는 최적화 IPC)가 필요하다.
+- **📢 섹션 요약 비유**: 느린 마이크로커널에 Hard Real-time을 요구하는 건, 여러 팀에 공문을 보내는 방식으로 0.001초 내 응급 조치를 요청하는 것이다. 긴급할수록 직통 전화(모놀리식 또는 최적화 [[117_ipc|IPC]])가 필요하다.
 
 ---
 
@@ -102,13 +102,13 @@ Context Switch: 2회 (App→Kernel→Server, Server→Kernel→App)
 
 | 기대효과 | 내용 |
 |:---|:---|
-| **고가용성** | 서비스 서버 장애 격리·자동 복구 |
-| **보안성** | 최소 권한(Least Privilege) 커널 |
-| **유지보수성** | 서버 독립 업데이트·교체 |
+| **고가용성** | [[090_service_kubernetes_network_load_balancing|서비스]] 서버 장애 격리·자동 [[658_ir_recovery|복구]] |
+| **[[283_security_tactics|보안성]]** | 최소 권한([[010_least_privilege|Least Privilege]]) [[022_kernel_role|커널]] |
+| **[[346_maintainability_portability|유지보수성]]** | 서버 독립 업데이트·교체 |
 
-마이크로커널 아키텍처는 IoT·자율주행·항공 임베디드 분야에서 기능 안전(Functional Safety) 인증(ISO 26262, DO-178C) 획득을 위한 표준 선택지다. SEL4처럼 수학적으로 형식 검증(Formal Verification)된 마이크로커널이 등장하여 "증명 가능한 안전성"이 미래 방향이다.
+마이크로커널 아키텍처는 [[101_iot_concept|IoT]]·자율주행·항공 임베디드 분야에서 기능 안전(Functional Safety) [[303_authentication_authorization_patterns|인증]](ISO 26262, DO-178C) 획득을 위한 표준 선택지다. SEL4처럼 수학적으로 형식 [[395_verification_process_review|검증]]([[093_smart_contract_formal_verification|Formal Verification]])된 마이크로커널이 등장하여 "증명 가능한 안전성"이 미래 방향이다.
 
-- **📢 섹션 요약 비유**: 마이크로커널은 조립식 빌딩(모듈화)이다. 한 층이 무너져도 다른 층은 멀쩡하며, 필요한 층을 교체하거나 증축할 수 있다. 반면 시공에는 더 복잡한 설계(IPC)가 필요하다.
+- **📢 섹션 요약 비유**: 마이크로커널은 조립식 빌딩(모듈화)이다. 한 층이 무너져도 다른 층은 멀쩡하며, 필요한 층을 교체하거나 증축할 수 있다. 반면 시공에는 더 복잡한 설계([[117_ipc|IPC]])가 필요하다.
 
 ---
 
@@ -116,11 +116,11 @@ Context Switch: 2회 (App→Kernel→Server, Server→Kernel→App)
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **모놀리식 커널** | 마이크로커널의 비교 대안; Linux 대표 |
-| **IPC (프로세스 간 통신)** | 마이크로커널 서비스 요청의 핵심 메커니즘 |
-| **하이브리드 커널** | 마이크로커널 + 모놀리식 절충; macOS XNU |
+| **[[023_monolithic_kernel|모놀리식 커널]]** | 마이크로커널의 비교 대안; Linux 대표 |
+| **[[117_ipc|IPC]] ([[117_ipc|프로세스 간 통신]])** | 마이크로커널 [[090_service_kubernetes_network_load_balancing|서비스]] 요청의 핵심 메커니즘 |
+| **[[025_hybrid_kernel|하이브리드 커널]]** | 마이크로커널 + 모놀리식 절충; macOS XNU |
 | **QNX / L4** | 대표적인 산업용 마이크로커널 OS |
-| **형식 검증 (seL4)** | 수학적으로 안전성이 증명된 마이크로커널 |
+| **형식 [[395_verification_process_review|검증]] (seL4)** | 수학적으로 안전성이 증명된 마이크로커널 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -142,6 +142,6 @@ Context Switch: 2회 (App→Kernel→Server, Server→Kernel→App)
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. 마이크로커널은 학교에서 교장선생님(커널)이 핵심 규칙만 정하고, 나머지는 각 반 선생님(서버)이 알아서 하는 것처럼 역할을 나눠요!
+1. 마이크로커널은 학교에서 교장선생님([[022_kernel_role|커널]])이 핵심 규칙만 정하고, 나머지는 각 반 선생님(서버)이 알아서 하는 것처럼 역할을 나눠요!
 2. 한 반 선생님이 아파서 쉬어도(서버 장애), 학교 전체(시스템)가 멈추지 않고 다른 선생님이 대신할 수 있어요.
 3. 비행기, 자동차 같은 안전이 중요한 곳에서 마이크로커널을 쓰는 이유가 바로 이 안전성 때문이랍니다!

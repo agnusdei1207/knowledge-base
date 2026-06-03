@@ -7,9 +7,9 @@ categories = "studynote-database"
 +++
 
 > **핵심 인사이트**
-> 1. InnoDB와 MyISAM의 핵심 차이는 "트랜잭션 + 외래키 지원 여부" — InnoDB는 ACID 트랜잭션·외래키·행 단위 잠금을 지원하는 반면, MyISAM은 이 모두를 지원하지 않는 대신 단순한 구조로 읽기 전용 환경에서 빠른 성능을 보인다.
-> 2. InnoDB의 클러스터드 인덱스(Clustered Index)가 핵심 설계 원리 — InnoDB는 PK를 기준으로 데이터를 B+ 트리에 정렬 저장(클러스터드)하여 PK 기반 조회가 매우 빠르지만, MyISAM은 데이터 파일과 인덱스 파일을 분리해 더 유연하다.
-> 3. MySQL 5.5 이후 InnoDB가 기본 엔진으로 설정되었으나, 특수 목적(전문 검색·지리 데이터·로그 테이블)에는 MyISAM 또는 Aria·Memory·CSV·Blackhole 등 다른 엔진이 여전히 선택된다.
+> 1. InnoDB와 MyISAM의 핵심 차이는 "[[191_transaction_concept_states|트랜잭션]] + 외래키 지원 여부" — InnoDB는 ACID [[191_transaction_concept_states|트랜잭션]]·외래키·행 단위 잠금을 지원하는 반면, MyISAM은 이 모두를 지원하지 않는 대신 단순한 구조로 읽기 전용 환경에서 빠른 [[282_performance_tactics|성능]]을 보인다.
+> 2. InnoDB의 [[159_clustered_index_physical_sort|클러스터드 인덱스]]([[159_clustered_index_physical_sort|Clustered Index]])가 핵심 설계 원리 — InnoDB는 PK를 기준으로 [[001_dikw_pyramid|데이터]]를 B+ 트리에 정렬 저장(클러스터드)하여 PK 기반 조회가 매우 빠르지만, MyISAM은 [[001_dikw_pyramid|데이터]] [[501_file_definition_logical_record|파일]]과 [[154_database_index_b_tree_search_optimization|인덱스]] [[501_file_definition_logical_record|파일]]을 분리해 더 유연하다.
+> 3. MySQL 5.5 이후 InnoDB가 기본 엔진으로 [[009_config|설정]]되었으나, 특수 목적(전문 검색·지리 [[001_dikw_pyramid|데이터]]·[[568_logs_distributed_logging_elk_fluentd|로그]] 테이블)에는 MyISAM 또는 Aria·Memory·CSV·Blackhole 등 다른 엔진이 여전히 선택된다.
 
 ---
 
@@ -50,7 +50,7 @@ MySQL 아키텍처:
   ) ENGINE=MyISAM;
 ```
 
-> 📢 **섹션 요약 비유**: 스토리지 엔진 = 창고 관리 방식 — MySQL은 SQL 접수 데스크(파서/옵티마이저). 실제 창고 운영은 엔진마다 다름. InnoDB(정확한 ACID 창고), MyISAM(빠른 읽기 전용 창고)!
+> 📢 **섹션 요약 비유**: 스토리지 엔진 = 창고 관리 방식 — MySQL은 SQL 접수 데스크(파서/[[163_optimizer_sql_execution_plan_generator|옵티마이저]]). 실제 창고 운영은 엔진마다 다름. InnoDB(정확한 ACID 창고), MyISAM(빠른 읽기 전용 창고)!
 
 ---
 
@@ -98,7 +98,7 @@ InnoDB 핵심 특성:
   LRU 알고리즘으로 관리
 ```
 
-> 📢 **섹션 요약 비유**: InnoDB = 은행 창고 — 거래 장부(트랜잭션), 담보 연결(외래키), 개인 금고(행 잠금), 스냅샷 열람(MVCC). 안전하고 정확하지만 체계가 복잡!
+> 📢 **섹션 요약 비유**: InnoDB = 은행 창고 — 거래 장부([[191_transaction_concept_states|트랜잭션]]), 담보 연결(외래키), 개인 금고(행 잠금), [[022_snapshot_backup_architecture|스냅샷]] 열람([[449_mvcc|MVCC]]). 안전하고 정확하지만 체계가 복잡!
 
 ---
 
@@ -148,7 +148,7 @@ MyISAM 핵심 특성:
   전문 검색 (레거시 시스템)
 ```
 
-> 📢 **섹션 요약 비유**: MyISAM = 도서관 창고 — 책(데이터)과 카드 목록(인덱스) 분리. 빠른 책 찾기(읽기). 하지만 책 수정 중엔 도서관 전체 입장 금지(테이블 잠금). 트랜잭션 없음!
+> 📢 **섹션 요약 비유**: MyISAM = 도서관 창고 — 책([[001_dikw_pyramid|데이터]])과 카드 목록([[154_database_index_b_tree_search_optimization|인덱스]]) 분리. 빠른 책 찾기(읽기). 하지만 책 수정 중엔 도서관 전체 입장 금지(테이블 잠금). [[191_transaction_concept_states|트랜잭션]] 없음!
 
 ---
 
@@ -187,7 +187,7 @@ MySQL 버전별 기본 엔진:
   MyISAM 전용 기능 (압축 테이블 등)
 ```
 
-> 📢 **섹션 요약 비유**: InnoDB vs MyISAM = 스마트폰 vs 피처폰 — 스마트폰(InnoDB): 다기능, 안전, 동시 작업. 피처폰(MyISAM): 단순, 읽기 빠름, 구형 기기 호환. 새 프로젝트는 무조건 InnoDB!
+> 📢 **섹션 요약 비유**: InnoDB vs MyISAM = 스마트폰 vs [[247_feature_label_variables|피처]]폰 — 스마트폰(InnoDB): 다기능, 안전, 동시 작업. [[247_feature_label_variables|피처]]폰(MyISAM): 단순, 읽기 빠름, 구형 기기 호환. 새 프로젝트는 무조건 InnoDB!
 
 ---
 
@@ -239,7 +239,7 @@ InnoDB 추가 최적화:
   UUID 필요 시: UUID_TO_BIN() 또는 ULIDv7
 ```
 
-> 📢 **섹션 요약 비유**: MyISAM→InnoDB 마이그레이션 = 구형 수동 금고→디지털 금고 교체 — 수동(MyISAM): 열쇠 분실 시 망가짐(크래시). 디지털(InnoDB): 자동 복구, 동시 사용 가능. 마이그레이션 후 성능 3배+!
+> 📢 **섹션 요약 비유**: MyISAM→InnoDB 마이그레이션 = 구형 수동 금고→디지털 금고 교체 — 수동(MyISAM): 열쇠 분실 시 망가짐(크래시). 디지털(InnoDB): 자동 [[658_ir_recovery|복구]], 동시 사용 가능. 마이그레이션 후 [[282_performance_tactics|성능]] 3배+!
 
 ---
 
@@ -297,6 +297,6 @@ RocksDB: 대용량 쓰기 최적화
 
 ## 👶 어린이를 위한 3줄 비유 설명
 
-1. InnoDB = 은행 금고 — 거래(트랜잭션) 안전하게. 개인 칸막이(행 잠금). 사고 나도 자동 복구. 새 프로젝트 필수!
-2. MyISAM = 도서관 열람실 — 책(데이터)과 카드 목록(인덱스) 분리. 읽기 빠르고 COUNT 빠름. 수정 중엔 전체 입장 금지!
-3. 마이그레이션 = 구형→디지털 금고 교체 — ALTER TABLE ENGINE=InnoDB. 대규모는 pt-osc로 무중단. 성능 3배 향상!
+1. InnoDB = 은행 금고 — 거래([[191_transaction_concept_states|트랜잭션]]) 안전하게. 개인 칸막이(행 잠금). 사고 나도 자동 [[658_ir_recovery|복구]]. 새 프로젝트 필수!
+2. MyISAM = 도서관 열람실 — 책([[001_dikw_pyramid|데이터]])과 카드 목록([[154_database_index_b_tree_search_optimization|인덱스]]) 분리. 읽기 빠르고 COUNT 빠름. 수정 중엔 전체 입장 금지!
+3. 마이그레이션 = 구형→디지털 금고 교체 — ALTER TABLE ENGINE=InnoDB. 대규모는 pt-osc로 무중단. [[282_performance_tactics|성능]] 3배 향상!

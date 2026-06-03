@@ -8,17 +8,17 @@ categories = "studynote-ai"
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 손실 함수 (Loss Function)는 개별 샘플의 오차를 수치화하고, 비용 함수 (Cost Function)는 그 손실을 모아 최적화 대상으로 만든다.
-> 2. **가치**: 어떤 손실을 고르느냐가 학습 신호의 모양을 바꿔서, 같은 모델이라도 수렴 속도와 최종 성능을 달리 만든다.
-> 3. **판단 포인트**: 정확도(Accuracy) 같은 평가 지표는 결과 확인용이고, 학습은 미분 가능한 목적 함수(Objective Function)를 최소화해야 한다.
+> 1. **본질**: 손실 함수 ([[087_loss_function|Loss Function]])는 개별 샘플의 오차를 수치화하고, 비용 함수 (Cost Function)는 그 손실을 모아 최적화 대상으로 만든다.
+> 2. **가치**: 어떤 손실을 고르느냐가 학습 [[130_signal|신호]]의 모양을 바꿔서, 같은 모델이라도 수렴 속도와 최종 [[282_performance_tactics|성능]]을 달리 만든다.
+> 3. **판단 포인트**: 정확도(Accuracy) 같은 평가 지표는 결과 [[396_validation|확인]]용이고, 학습은 미분 가능한 목적 함수(Objective Function)를 최소화해야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-기계학습은 예측이 정답과 얼마나 다른지를 숫자로 바꿔서 줄여 가는 과정이다. 이때 샘플 하나의 오차를 재는 것이 loss이고, 전체 데이터셋 수준에서 합쳐 최적화하는 것이 cost 또는 objective다.
+기계학습은 예측이 정답과 얼마나 다른지를 숫자로 바꿔서 줄여 가는 과정이다. 이때 샘플 하나의 오차를 재는 것이 loss이고, 전체 [[001_dikw_pyramid|데이터]]셋 수준에서 합쳐 최적화하는 것이 cost 또는 objective다.
 
-용어가 섞여 쓰이는 이유는 문헌마다 loss와 cost를 거의 같은 뜻으로 쓰기 때문이다. 하지만 기술적으로는 "개별 오류"와 "전체 목표"를 구분해 두는 편이 훨씬 명확하다.
+용어가 섞여 쓰이는 이유는 문헌마다 loss와 cost를 거의 같은 뜻으로 [[289_cqrs_db|쓰기]] 때문이다. 하지만 기술적으로는 "개별 오류"와 "전체 목표"를 구분해 두는 편이 훨씬 명확하다.
 
 ```text
 prediction -> sample loss -> aggregate -> regularize -> optimizer
@@ -32,15 +32,15 @@ prediction -> sample loss -> aggregate -> regularize -> optimizer
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-학습 파이프라인은 보통 예측값을 만들고, sample loss를 계산한 뒤, 평균이나 합으로 묶고, regularization을 더한 objective를 만든다. 그다음 Gradient Descent가 그 objective의 기울기를 따라 파라미터를 갱신한다.
+학습 [[123_pipe|파이프]]라인은 보통 예측값을 만들고, sample loss를 계산한 뒤, 평균이나 합으로 묶고, regularization을 더한 objective를 만든다. 그다음 Gradient Descent가 그 objective의 기울기를 따라 파라미터를 갱신한다.
 
 | 손실 예시 | 주 용도 | 특징 |
 | :--- | :--- | :--- |
-| MSE (Mean Squared Error) | 회귀 | 큰 오차를 강하게 벌점 |
-| MAE (Mean Absolute Error) | 회귀 | 이상치에 더 둔감 |
-| Cross-Entropy | 분류 | 확률 예측과 잘 맞음 |
+| [[076_mse_mean_squared_error_regression|MSE]] ([[076_mse_mean_squared_error_regression|Mean Squared Error]]) | 회귀 | 큰 오차를 강하게 벌점 |
+| MAE (Mean Absolute Error) | 회귀 | [[076_outlier_detection_iqr_dbscan_isolation_forest|이상치]]에 더 둔감 |
+| [[154_cross_entropy|Cross-Entropy]] | [[104_classification_analysis|분류]] | [[130_probability|확률]] 예측과 잘 맞음 |
 | Huber Loss | 회귀 | MSE와 MAE의 절충 |
-| Focal Loss | 불균형 분류 | 쉬운 샘플의 영향 축소 |
+| Focal Loss | 불균형 [[104_classification_analysis|분류]] | 쉬운 샘플의 영향 축소 |
 
 어떤 손실을 쓰느냐는 "무엇을 더 아프게 볼 것인가"의 선택이다. 그래서 손실 선택은 모델 선택만큼 중요하다.
 
@@ -50,15 +50,15 @@ prediction -> sample loss -> aggregate -> regularize -> optimizer
 
 ## Ⅲ. 비교 및 연결
 
-loss, cost, metric은 목적이 다르다. loss는 학습용 미분 신호이고, cost는 전체 최적화 대상이며, metric은 사람이 결과를 평가하는 기준이다.
+loss, cost, metric은 목적이 다르다. loss는 학습용 미분 [[130_signal|신호]]이고, cost는 전체 최적화 대상이며, metric은 사람이 결과를 평가하는 기준이다.
 
 | 구분 | 역할 | 미분 가능성 |
 | :--- | :--- | :--- |
 | Loss | 샘플별 오차 | 보통 가능 |
 | Cost / Objective | 전체 목표 | 가능해야 함 |
-| Metric | 운영 성능 확인 | 불필요 |
+| [[342_routing_metric_hop_bandwidth_delay|Metric]] | 운영 [[282_performance_tactics|성능]] [[396_validation|확인]] | 불필요 |
 
-이 경계를 흐리면 정확도를 높였는데 실제 비즈니스 성능은 나빠지는 일이 생긴다. 예를 들어 불균형 분류에서 accuracy만 높이는 것은 거의 항상 위험하다.
+이 경계를 흐리면 정확도를 높였는데 실제 비즈니스 [[282_performance_tactics|성능]]은 나빠지는 일이 생긴다. 예를 들어 불균형 [[104_classification_analysis|분류]]에서 accuracy만 높이는 것은 거의 항상 위험하다.
 
 - **📢 섹션 요약 비유**: 연습 점수, 총점, 합격선은 서로 다른 말이다.
 
@@ -66,14 +66,14 @@ loss, cost, metric은 목적이 다르다. loss는 학습용 미분 신호이고
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서는 먼저 문제 유형을 본다. 연속값 예측이면 MSE나 MAE, 분류면 cross-entropy, 이상치가 크면 Huber, 클래스 불균형이면 가중치나 focal loss를 검토한다.
+실무에서는 먼저 문제 유형을 본다. 연속값 예측이면 MSE나 MAE, [[104_classification_analysis|분류]]면 [[154_cross_entropy|cross-entropy]], [[076_outlier_detection_iqr_dbscan_isolation_forest|이상치]]가 크면 Huber, 클래스 불균형이면 [[267_weight_bias_activation|가중치]]나 focal loss를 검토한다.
 
 체크 포인트는 다음과 같다.
 - 손실이 label noise에 과민하지 않은가.
 - 학습 목표와 운영 metric이 충돌하지 않는가.
 - threshold 조정이나 calibration이 필요한가.
 
-안티패턴은 accuracy 하나만 보고 모델을 고르는 것이다. 또 하나는 non-differentiable metric을 그대로 loss처럼 쓰는 것이다. 둘 다 학습 신호를 망친다.
+[[128_water_scrum_fall_anti_pattern|안티패턴]]은 accuracy 하나만 보고 모델을 고르는 것이다. 또 하나는 non-differentiable metric을 그대로 loss처럼 쓰는 것이다. 둘 다 학습 [[130_signal|신호]]를 망친다.
 
 - **📢 섹션 요약 비유**: 점수를 잘 받는 법과 잘 배워지는 법은 다르다.
 
@@ -81,7 +81,7 @@ loss, cost, metric은 목적이 다르다. loss는 학습용 미분 신호이고
 
 ## Ⅴ. 기대효과 및 결론
 
-좋은 objective는 비즈니스의 실패를 학습 가능한 신호로 바꾼다. 그래서 loss 설계는 수학 문제이면서 동시에 도메인 해석 문제다.
+좋은 objective는 비즈니스의 실패를 학습 가능한 [[130_signal|신호]]로 바꾼다. 그래서 loss 설계는 수학 문제이면서 동시에 [[064_relation_domain|도메인]] 해석 문제다.
 
 결국 기억할 것은 간단하다. 모델은 "정답과 얼마나 먼가"를 줄이도록 학습하고, 운영은 "그 차이가 실제로 중요한가"를 따로 본다. 이 둘을 함께 설계해야 한다.
 
@@ -96,8 +96,8 @@ loss, cost, metric은 목적이 다르다. loss는 학습용 미분 신호이고
 | Loss | 샘플별 오차 |
 | Cost / Objective | 전체 최적화 대상 |
 | Gradient | 파라미터를 움직이는 방향 |
-| Regularization | 과적합 억제 |
-| Metric | 운영 성능 평가 |
+| [[134_regularization_dropout_batch_norm|Regularization]] | 과적합 [[656_ir_containment|억제]] |
+| [[342_routing_metric_hop_bandwidth_delay|Metric]] | 운영 [[282_performance_tactics|성능]] 평가 |
 
 ### 관련 키워드 및 발전 흐름도
 

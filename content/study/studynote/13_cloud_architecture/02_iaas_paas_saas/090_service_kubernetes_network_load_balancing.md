@@ -7,25 +7,25 @@ categories = "studynote-cloud-architecture"
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: 쿠버네티스 서비스(Service)는 수시로 생성되고 소멸하며 IP가 변하는 파드(Pod)들 앞단에 위치하여, 변하지 않는 고정된 진입점(IP 및 DNS)을 제공하는 논리적 네트워크 추상화 계층이다.
-> 2. **가치**: 클라이언트(또는 다른 파드)가 파드의 현재 상태나 개수를 몰라도, 서비스 이름만으로 통신할 수 있게 하여 인프라의 변동성과 애플리케이션의 연결성을 완벽하게 분리(Decoupling)한다.
+> 1. **본질**: [[196_kubernetes_k8s_container_orchestration|쿠버네티스]] 서비스(Service)는 수시로 [[087_process_state_transition|생성]]되고 소멸하며 IP가 변하는 [[085_pod_kubernetes_container_unit|파드]]([[198_pod_kubernetes_minimum_deployment_unit|Pod]])들 앞단에 위치하여, 변하지 않는 고정된 진입점(IP 및 [[511_dns_hierarchical_distributed_architecture|DNS]])을 제공하는 논리적 네트워크 [[198_abstraction_control_data_process|추상화]] 계층이다.
+> 2. **가치**: 클라이언트(또는 다른 [[085_pod_kubernetes_container_unit|파드]])가 [[085_pod_kubernetes_container_unit|파드]]의 현재 상태나 개수를 몰라도, 서비스 이름만으로 통신할 수 있게 하여 인프라의 변동성과 애플리케이션의 연결성을 완벽하게 분리(Decoupling)한다.
 > 3. **판단 포인트**: 클러스터 내부 통신(ClusterIP), 외부 노출(NodePort, LoadBalancer), 외부 리소스 매핑(ExternalName) 등 서비스의 노출 범위와 트래픽 특성에 따라 적절한 타입을 선택해야 보안과 비용을 최적화할 수 있다.
 
 ---
 
 ### Ⅰ. 개요 및 필요성
-쿠버네티스 파드(Pod)는 라이프사이클이 짧아 언제든 죽고 다시 생성될 수 있으며, 이때마다 새로운 IP 주소를 할당받는다. 이러한 휘발성(Ephemeral) 때문에 애플리케이션 간 통신 시 특정 파드의 IP를 하드코딩하거나 직접 참조하면, 파드 교체 시 즉각적인 통신 단절(502 Bad Gateway 등)이 발생한다.
+[[196_kubernetes_k8s_container_orchestration|쿠버네티스]] [[085_pod_kubernetes_container_unit|파드]]([[198_pod_kubernetes_minimum_deployment_unit|Pod]])는 라이프사이클이 짧아 언제든 죽고 다시 [[087_process_state_transition|생성]]될 수 있으며, 이때마다 새로운 IP 주소를 할당받는다. 이러한 휘발성(Ephemeral) 때문에 애플리케이션 간 통신 시 특정 [[085_pod_kubernetes_container_unit|파드]]의 IP를 하드코딩하거나 직접 참조하면, [[085_pod_kubernetes_container_unit|파드]] 교체 시 즉각적인 통신 단절(502 Bad Gateway 등)이 발생한다.
 
-서비스(Service)는 이 문제를 해결하기 위해 등장했다. 파드 그룹을 논리적으로 묶어 하나의 고정된 가상 IP(VIP)와 도메인 이름(DNS)을 부여하고, 들어오는 트래픽을 살아있는 파드들에게 로드 밸런싱한다. 결과적으로 클라이언트는 파드의 IP 변경을 신경 쓰지 않고 안정적으로 서비스를 호출할 수 있다.
+서비스(Service)는 이 문제를 해결하기 위해 등장했다. [[085_pod_kubernetes_container_unit|파드]] 그룹을 논리적으로 묶어 하나의 고정된 가상 IP(VIP)와 [[064_relation_domain|도메인]] 이름([[511_dns_hierarchical_distributed_architecture|DNS]])을 부여하고, 들어오는 트래픽을 살아있는 [[085_pod_kubernetes_container_unit|파드]]들에게 로드 밸런싱한다. 결과적으로 클라이언트는 [[085_pod_kubernetes_container_unit|파드]]의 IP 변경을 신경 쓰지 않고 안정적으로 서비스를 호출할 수 있다.
 
-- **📢 섹션 요약 비유**: 파드가 수시로 바뀌는 콜센터 상담원이라면, 서비스는 평생 바뀌지 않는 콜센터의 '1588 대표번호'와 같다. 고객은 상담원 개인 번호를 알 필요 없이 대표번호로만 전화하면 된다.
+- **📢 섹션 요약 비유**: [[085_pod_kubernetes_container_unit|파드]]가 수시로 바뀌는 콜센터 상담원이라면, 서비스는 평생 바뀌지 않는 콜센터의 '1588 대표번호'와 같다. 고객은 상담원 개인 번호를 알 필요 없이 대표번호로만 전화하면 된다.
 
 ---
 
 ### Ⅱ. 아키텍처 및 핵심 원리
-서비스는 자체적으로 트래픽을 처리하는 프로세스가 아니라, 쿠버네티스 API 서버와 각 노드의 `kube-proxy`가 협력하여 만드는 네트워크 규칙(iptables/IPVS)의 집합이다.
+서비스는 자체적으로 트래픽을 처리하는 프로세스가 아니라, [[196_kubernetes_k8s_container_orchestration|쿠버네티스]] [[014_api_posix|API]] 서버와 각 노드의 `kube-proxy`가 협력하여 만드는 네트워크 규칙(iptables/IPVS)의 집합이다.
 
-핵심 원리는 **라벨 셀렉터(Label Selector)**다. 서비스는 `selector`에 정의된 라벨(예: `app=backend`)과 일치하는 파드들의 실시간 IP 목록을 `엔드포인트(Endpoint)` 객체로 자동 관리한다. 파드가 새로 생기거나 죽으면 엔드포인트가 즉시 업데이트되며, CoreDNS를 통해 `서비스이름.네임스페이스.svc.cluster.local` 형태의 DNS 이름으로 해상(Resolution)된다.
+핵심 원리는 **라벨 셀렉터(Label Selector)**다. 서비스는 `selector`에 정의된 라벨(예: `app=backend`)과 일치하는 [[085_pod_kubernetes_container_unit|파드]]들의 실시간 IP 목록을 `엔드포인트(Endpoint)` 객체로 자동 관리한다. [[085_pod_kubernetes_container_unit|파드]]가 새로 생기거나 죽으면 엔드포인트가 즉시 업데이트되며, CoreDNS를 통해 `서비스이름.네임스페이스.svc.cluster.local` 형태의 [[511_dns_hierarchical_distributed_architecture|DNS]] 이름으로 해상(Resolution)된다.
 
 ```text
 ┌──────────────────────────────────────────────────────────────┐
@@ -41,9 +41,9 @@ categories = "studynote-cloud-architecture"
 └──────────────────────────────────────────────────────────────┘
 ```
 
-이 그림은 클라이언트가 고정된 VIP를 호출하면, 노드의 `kube-proxy`가 라벨이 일치하는 정상 파드 중 하나로 트래픽을 리다이렉트하는 과정을 보여준다.
+이 그림은 클라이언트가 고정된 VIP를 호출하면, 노드의 `kube-proxy`가 라벨이 일치하는 정상 [[085_pod_kubernetes_container_unit|파드]] 중 하나로 트래픽을 리다이렉트하는 과정을 보여준다.
 
-- **📢 섹션 요약 비유**: 식당 매니저(서비스)는 요리사(파드)의 이름을 외우지 않고 '빨간 모자(라벨)'를 쓴 사람에게만 주문을 나눠준다. 모자를 쓴 요리사가 새로 오면 바로 주문을 주고, 그만두면 더 이상 주지 않는다.
+- **📢 섹션 요약 비유**: 식당 매니저(서비스)는 요리사([[085_pod_kubernetes_container_unit|파드]])의 이름을 외우지 않고 '빨간 모자(라벨)'를 쓴 사람에게만 주문을 나눠준다. 모자를 쓴 요리사가 새로 오면 바로 주문을 주고, 그만두면 더 이상 주지 않는다.
 
 ---
 
@@ -52,44 +52,44 @@ categories = "studynote-cloud-architecture"
 
 | 서비스 타입 | 통신 범위 | 동작 원리 | 활용 사례 |
 | :--- | :--- | :--- | :--- |
-| **ClusterIP** | 클러스터 내부 | 내부 가상 IP(VIP)만 할당 | 내부 백엔드 API, DB 통신 |
-| **NodePort** | 클러스터 외부 | 모든 노드의 동일한 포트(30000~32767) 개방 | 개발/테스트 환경의 임시 노출 |
-| **LoadBalancer** | 클라우드 외부 | CSP의 로드밸런서(ALB/NLB) 자동 프로비저닝 | 상용 웹 서비스 외부 노출 |
-| **ExternalName** | 외부 시스템 | 외부 DNS 주소에 대한 CNAME 레코드 생성 | 클러스터 외부의 레거시 DB 연결 |
+| **ClusterIP** | 클러스터 내부 | 내부 가상 IP(VIP)만 할당 | 내부 백엔드 [[014_api_posix|API]], DB 통신 |
+| **NodePort** | 클러스터 외부 | 모든 노드의 동일한 [[446_port_and_bus|포트]](30000~32767) 개방 | 개발/테스트 환경의 임시 노출 |
+| **LoadBalancer** | 클라우드 외부 | CSP의 로드밸런서(ALB/NLB) 자동 [[528_provisioning|프로비저닝]] | 상용 웹 서비스 외부 노출 |
+| **ExternalName** | 외부 시스템 | 외부 [[511_dns_hierarchical_distributed_architecture|DNS]] 주소에 대한 CNAME 레코드 [[087_process_state_transition|생성]] | 클러스터 외부의 레거시 DB 연결 |
 
-NodePort를 생성하면 자동으로 ClusterIP가 생성되고, LoadBalancer를 생성하면 NodePort와 ClusterIP가 모두 생성되는 중첩 구조를 띠며 트래픽을 단계별로 내부로 끌어들인다.
+NodePort를 [[087_process_state_transition|생성]]하면 자동으로 ClusterIP가 [[087_process_state_transition|생성]]되고, LoadBalancer를 [[087_process_state_transition|생성]]하면 NodePort와 ClusterIP가 모두 [[087_process_state_transition|생성]]되는 중첩 구조를 띠며 트래픽을 단계별로 내부로 끌어들인다.
 
 - **📢 섹션 요약 비유**: ClusterIP는 사내 내선 전화, NodePort는 건물 1층의 공용 팩스기, LoadBalancer는 외부 고객을 위한 전용 콜센터 창구와 같다.
 
 ---
 
 ### Ⅳ. 실무 적용 및 기술사 판단
-실무에서 서비스를 설계할 때는 클러스터의 규모, 보안, 비용을 종합적으로 판단해야 한다. 모든 서비스를 LoadBalancer로 열면 퍼블릭 클라우드 비용이 급증하므로 주의해야 한다.
+실무에서 서비스를 설계할 때는 클러스터의 규모, 보안, 비용을 종합적으로 판단해야 한다. 모든 서비스를 LoadBalancer로 열면 [[007_public_cloud|퍼블릭 클라우드]] 비용이 급증하므로 주의해야 한다.
 
-- **판단 기준 1**: 외부 노출이 필요한 최소한의 서비스(예: Ingress Controller 앞단)에만 LoadBalancer를 적용하고, 나머지 내부 서비스는 모두 ClusterIP로 숨겨야 보안과 비용이 확보된다.
-- **판단 기준 2**: 대규모 클러스터에서는 `kube-proxy`의 기본 모드인 iptables가 규칙이 많아질수록 성능 병목(순차 탐색)을 일으키므로, O(1) 성능을 내는 IPVS(IP Virtual Server) 모드로 변경하는 것을 고려해야 한다.
-- **안티패턴**: 라벨 오타나 잘못된 셀렉터 지정으로 인해 엔드포인트가 비어있는 상태(Endpoints: `<none>`). 서비스는 생성되었지만 트래픽이 갈 곳이 없어 타임아웃이 발생한다.
+- **판단 기준 1**: 외부 노출이 필요한 최소한의 서비스(예: [[094_ingress_kubernetes_l7_routing_gateway|Ingress]] Controller 앞단)에만 LoadBalancer를 적용하고, 나머지 내부 서비스는 모두 ClusterIP로 숨겨야 보안과 비용이 확보된다.
+- **판단 기준 2**: 대규모 클러스터에서는 `kube-proxy`의 기본 모드인 iptables가 규칙이 많아질수록 [[282_performance_tactics|성능]] 병목(순차 탐색)을 일으키므로, O(1) [[282_performance_tactics|성능]]을 내는 IPVS(IP Virtual Server) 모드로 변경하는 것을 고려해야 한다.
+- **[[128_water_scrum_fall_anti_pattern|안티패턴]]**: 라벨 오타나 잘못된 셀렉터 지정으로 인해 엔드포인트가 비어있는 상태(Endpoints: `<none>`). 서비스는 [[087_process_state_transition|생성]]되었지만 트래픽이 갈 곳이 없어 타임아웃이 발생한다.
 
-- **📢 섹션 요약 비유**: 건물의 모든 사무실에 외부 직통 번호(LoadBalancer)를 개통하면 통신비가 폭탄을 맞는다. 안내데스크(Ingress)에만 직통 번호를 두고 나머지는 내선(ClusterIP)으로 연결해야 한다.
+- **📢 섹션 요약 비유**: 건물의 모든 사무실에 외부 직통 번호(LoadBalancer)를 개통하면 통신비가 폭탄을 맞는다. 안내데스크([[094_ingress_kubernetes_l7_routing_gateway|Ingress]])에만 직통 번호를 두고 나머지는 내선(ClusterIP)으로 연결해야 한다.
 
 ---
 
 ### Ⅴ. 기대효과 및 결론
-서비스를 통해 마이크로서비스 간의 완벽한 디커플링이 완성된다. 파드의 증설(Scale-out)이나 장애 복구 시 IP가 변하더라도, 서비스 덕분에 네트워크 연결성은 전혀 흔들리지 않으며 무중단 서비스가 가능해진다.
+서비스를 통해 [[532_microservices_decomposition_patterns|마이크로서비스]] 간의 완벽한 디커플링이 완성된다. [[085_pod_kubernetes_container_unit|파드]]의 증설([[202_scale_out_distributed_horizontal_expansion|Scale-out]])이나 장애 [[658_ir_recovery|복구]] 시 IP가 변하더라도, 서비스 덕분에 네트워크 연결성은 전혀 흔들리지 않으며 무중단 서비스가 가능해진다.
 
-하지만 서비스(L4)만으로는 HTTP 경로 기반 라우팅이나 SSL 인증서 처리 같은 정교한 L7 제어가 불가능하다. 이를 극복하기 위해 Ingress(인그레스) 또는 API Gateway와 결합하는 것이 현대 클라우드 네이티브 아키텍처의 표준이다. 서비스는 영원불멸의 논리적 네트워크 진입점으로서 K8s 아키텍처의 근간이다.
+하지만 서비스(L4)만으로는 [[461_http_stateless_connection_oriented|HTTP]] 경로 기반 라우팅이나 SSL 인증서 처리 같은 정교한 L7 제어가 불가능하다. 이를 극복하기 위해 [[094_ingress_kubernetes_l7_routing_gateway|Ingress]]([[094_ingress_kubernetes_l7_routing_gateway|인그레스]]) 또는 [[014_api_posix|API]] Gateway와 결합하는 것이 현대 [[531_cloud_native_architecture|클라우드 네이티브]] 아키텍처의 표준이다. 서비스는 영원불멸의 논리적 네트워크 진입점으로서 K8s 아키텍처의 근간이다.
 
-- **📢 섹션 요약 비유**: 튼튼한 다리(서비스)가 놓여 있으면, 강물이 얼마나 불어나고 흐름이 바뀌든(파드의 변화) 사람들은 언제나 안전하게 강을 건널 수 있다.
+- **📢 섹션 요약 비유**: 튼튼한 다리(서비스)가 놓여 있으면, 강물이 얼마나 불어나고 흐름이 바뀌든([[085_pod_kubernetes_container_unit|파드]]의 변화) 사람들은 언제나 안전하게 강을 건널 수 있다.
 
 ---
 
 ### 📌 관련 개념 맵
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| **파드 (Pod)** | 서비스가 트래픽을 분산시켜 주는 최종 목적지 |
-| **라벨 셀렉터 (Label Selector)** | 서비스가 동적으로 파드 그룹(엔드포인트)을 식별하는 기준 |
-| **엔드포인트 (Endpoint)** | 서비스와 연결된 실제 파드들의 IP와 Port 목록 |
-| **인그레스 (Ingress)** | 서비스 앞단에서 L7 HTTP/HTTPS 라우팅을 담당하는 리소스 |
+| **[[085_pod_kubernetes_container_unit|파드]] ([[198_pod_kubernetes_minimum_deployment_unit|Pod]])** | 서비스가 트래픽을 분산시켜 주는 최종 목적지 |
+| **라벨 셀렉터 (Label Selector)** | 서비스가 동적으로 [[085_pod_kubernetes_container_unit|파드]] 그룹(엔드포인트)을 식별하는 기준 |
+| **엔드포인트 (Endpoint)** | 서비스와 연결된 실제 [[085_pod_kubernetes_container_unit|파드]]들의 IP와 [[446_port_and_bus|Port]] 목록 |
+| **[[094_ingress_kubernetes_l7_routing_gateway|인그레스]] ([[094_ingress_kubernetes_l7_routing_gateway|Ingress]])** | 서비스 앞단에서 L7 [[461_http_stateless_connection_oriented|HTTP]]/[[471_https_http_over_tls|HTTPS]] 라우팅을 담당하는 리소스 |
 | **CoreDNS** | 서비스 이름을 가상 IP(ClusterIP)로 변환해 주는 내부 네임 서버 |
 
 ### 📈 관련 키워드 및 발전 흐름도
@@ -110,6 +110,6 @@ NodePort · LoadBalancer (외부 트래픽 유입)
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
-1. 쿠버네티스 마을에서는 심부름꾼(파드)들이 수시로 이사를 다녀서 집 주소(IP)가 자꾸 바뀌어요.
+1. [[196_kubernetes_k8s_container_orchestration|쿠버네티스]] 마을에서는 심부름꾼([[085_pod_kubernetes_container_unit|파드]])들이 수시로 이사를 다녀서 집 주소(IP)가 자꾸 바뀌어요.
 2. 그래서 마을 이장님이 '우체통(서비스)'을 하나 튼튼하게 세워두고 절대 주소를 안 바꾸기로 했어요.
 3. 이제 편지를 무조건 우체통에 넣으면, 이장님이 알아서 현재 일하고 있는 심부름꾼에게 딱 맞춰 전해준답니다!

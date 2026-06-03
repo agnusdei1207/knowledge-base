@@ -8,16 +8,16 @@ categories = "studynote-design-supervision"
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 데이터 클럼프 (Data Clumps) 는 항상 함께 등장하는 변수 묶음이 별도 클래스로 추상화되지 않아 중복·불일치·유효성 분산을 유발하는 코드 스멜이다.
+> 1. **본질**: [[001_dikw_pyramid|데이터]] 클럼프 ([[001_dikw_pyramid|Data]] Clumps) 는 항상 함께 등장하는 변수 묶음이 별도 클래스로 추상화되지 않아 중복·불일치·유효성 분산을 유발하는 [[370_code_smell|코드 스멜]]이다.
 > 2. **가치**: 클럼프를 클래스로 캡슐화하면 묶음의 **의미**가 코드에 드러나고, 유효성 검사와 행동이 한곳에 모인다.
-> 3. **판단 포인트**: "이 변수들 중 하나를 지우면 나머지가 의미를 잃는가?" — Yes라면 데이터 클럼프다.
+> 3. **판단 포인트**: "이 변수들 중 하나를 지우면 나머지가 의미를 잃는가?" — Yes라면 [[001_dikw_pyramid|데이터]] 클럼프다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
-데이터 클럼프 (Data Clumps) 는 여러 클래스 필드나 메서드 매개변수에서 동일한 변수 그룹이 반복 등장하는 현상이다. 예: `firstName + lastName + email`, `x + y + z (좌표)`, `startDate + endDate`, `host + port + protocol`.
+[[001_dikw_pyramid|데이터]] 클럼프 ([[001_dikw_pyramid|Data]] Clumps) 는 여러 클래스 필드나 메서드 매개변수에서 동일한 변수 그룹이 반복 등장하는 현상이다. 예: `firstName + lastName + email`, `x + y + z (좌표)`, `startDate + endDate`, `host + port + protocol`.
 
-- 초기 설계 단계에서 개념을 **원시 타입 (Primitive Type)** 으로 분해한 후 추상화를 미룸
+- [[459_quic_fec_forward_error_correction|초기]] 설계 단계에서 개념을 **원시 타입 (Primitive Type)** 으로 분해한 후 추상화를 미룸
 - 점진적 기능 추가 과정에서 관련 변수가 늘어남
 - 복붙 (Copy-and-Paste) 개발로 동일 패턴이 여러 곳에 확산
 
@@ -77,10 +77,10 @@ categories = "studynote-design-supervision"
 | 클럼프 위치 | 권장 처방 | 결과 |
 |:---|:---|:---|
 | 클래스 필드로 반복 | 클래스 분리 (Extract Class) | 독립 클래스로 캡슐화 |
-| 메서드 매개변수로 반복 | 파라미터 객체화 (Introduce Parameter Object) | 값 객체 (VO) 생성 |
+| 메서드 매개변수로 반복 | [[242_introduce_parameter_object|파라미터 객체화]] ([[242_introduce_parameter_object|Introduce Parameter Object]]) | 값 객체 (VO) [[087_process_state_transition|생성]] |
 | 반환값 묶음 | 결과 객체 (Result Object) 도입 | 명시적 타입 반환 |
 
-클럼프를 클래스로 변환한 후, 관련 로직을 새 클래스로 이동시키면 **응집도 (Cohesion)** 가 높아진다.
+클럼프를 클래스로 변환한 후, 관련 로직을 새 클래스로 이동시키면 **[[193_cohesion_levels|응집도]] ([[193_cohesion_levels|Cohesion]])** 가 높아진다.
 
 ```
 ConnectionEndpoint.isSecure()    ← ssl 판단 로직 이전
@@ -95,12 +95,12 @@ ConnectionEndpoint.validate()    ← 포트 범위 검사 이전
 ## Ⅲ. 비교 및 연결
 | 스멜 | 공통점 | 차이점 | 처방 |
 |:---|:---|:---|:---|
-| 데이터 클럼프 (Data Clumps) | 관련 변수 묶음 | 항상 같이 다님 | 클래스 분리 |
+| [[001_dikw_pyramid|데이터]] 클럼프 ([[001_dikw_pyramid|Data]] Clumps) | 관련 변수 묶음 | 항상 같이 다님 | 클래스 분리 |
 | 프리미티브 강박 (Primitive Obsession) | 원시 타입 남용 | 의미 있는 타입 대체 필요 | 값 객체 도입 |
-| 긴 매개변수 목록 (Long Parameter List) | 매개변수 많음 | 꼭 같이 다니지 않아도 됨 | 파라미터 객체화 |
+| 긴 매개변수 목록 (Long Parameter List) | 매개변수 많음 | 꼭 같이 다니지 않아도 됨 | [[242_introduce_parameter_object|파라미터 객체화]] |
 | 임시 필드 (Temporary Field) | 필드 관련 문제 | 조건부 존재 필드 | 특수 케이스 객체 |
 
-도메인 주도 설계 (DDD) 에서는 데이터 클럼프를 "아직 발견되지 않은 도메인 개념"으로 바라본다. `startDate + endDate`는 `DateRange`, `lat + lng`는 `GeoCoordinate`, `amount + currency`는 `Money` 라는 도메인 개념이 숨어 있는 것이다.
+[[310_architecture|도메인 주도 설계]] ([[310_architecture|DDD]]) 에서는 [[001_dikw_pyramid|데이터]] 클럼프를 "아직 발견되지 않은 [[064_relation_domain|도메인]] 개념"으로 바라본다. `startDate + endDate`는 `DateRange`, `lat + lng`는 `GeoCoordinate`, `amount + currency`는 `Money` 라는 [[064_relation_domain|도메인]] 개념이 숨어 있는 것이다.
 
 - **📢 섹션 요약 비유**: "생수 + 음료수 + 주스"가 항상 함께 주문되면 "음료 패키지"라는 이름을 붙여 메뉴판에 올리는 것이 비즈니스 의미 표현이다.
 
@@ -131,14 +131,14 @@ public final class Money {
 
 지도 서비스에서 `double latitude, double longitude, double altitude`가 100곳에 흩어진 경우, `GeoCoordinate` 객체로 통합하면 거리 계산 (`distanceTo`), 유효 범위 검사 (`isValid`), WKT (Well-Known Text) 직렬화 등을 한곳에서 관리한다.
 
-- **도메인 모델 (Domain Model) 풍부화**: 클럼프 → 클래스 전환은 빈약한 도메인 모델 (Anemic Domain Model) 을 탈출하는 첫걸음이다.
-- **테스트 집중화**: 유효성 검사가 클래스 생성자에 모이므로 테스트 1개로 모든 사용처를 검증한다.
-- **불변 객체 (Immutable Object)**: 스레드 안전성 (Thread Safety) 이 보장되어 멀티스레드 환경에서도 안전하다.
+- **[[064_relation_domain|도메인]] 모델 ([[064_relation_domain|Domain]] Model) 풍부화**: 클럼프 → 클래스 전환은 빈약한 [[064_relation_domain|도메인]] 모델 (Anemic [[064_relation_domain|Domain]] Model) 을 탈출하는 첫걸음이다.
+- **테스트 집중화**: 유효성 검사가 클래스 [[087_process_state_transition|생성]]자에 모이므로 테스트 1개로 모든 사용처를 [[395_verification_process_review|검증]]한다.
+- **불변 객체 ([[172_builder_immutable_object|Immutable Object]])**: [[092_thread_lwp|스레드]] 안전성 ([[092_thread_lwp|Thread]] Safety) 이 보장되어 멀티스레드 환경에서도 안전하다.
 
-### 판단 체크리스트
+### 판단 [[435_checklist_based_testing|체크리스트]]
 1. 변경 전 동작을 고정할 테스트가 준비되었는가?
 2. 냄새의 원인이 구조 문제인지 일회성 구현인지 구분했는가?
-3. 리팩토링 단위를 작게 나눠 롤백 가능하게 했는가?
+3. [[213_refactoring_cloud_native_rearchitecture|리팩토링]] 단위를 작게 나눠 [[098_rollback_strategy_pipeline_error_threshold|롤백]] 가능하게 했는가?
 4. 명명·모델·패키지 경계가 함께 개선되는가?
 
 - **📢 섹션 요약 비유**: 병원에서 "혈압 + 맥박 + 체온"을 매번 따로 기록하다가 "활력징후 (Vital Signs) 표"로 통합하면 한눈에 추세를 파악하고 이상값 범위 검사를 자동화할 수 있다.
@@ -149,33 +149,33 @@ public final class Money {
 | 지표 | 클럼프 방치 | 클럼프 제거 |
 |:---|:---:|:---:|
 | 관련 유효성 검사 위치 수 | 23곳 | 1곳 (클래스 내부) |
-| 관련 변수 추가 시 수정 파일 수 | 18개 | 1개 |
-| 단위 테스트 케이스 수 (동일 커버리지) | 47개 | 12개 |
+| 관련 변수 추가 시 수정 [[501_file_definition_logical_record|파일]] 수 | 18개 | 1개 |
+| 단위 [[441_test_case|테스트 케이스]] 수 (동일 커버리지) | 47개 | 12개 |
 | 코드 중복률 | 19% | 3% |
 
-데이터 클럼프 (Data Clumps) 제거는 **숨겨진 도메인 개념을 발굴하는 탐사 작업**이다. 단순히 변수를 묶는 것이 아니라, 그 묶음에 이름과 행동을 부여함으로써 코드가 비즈니스 언어와 일치하도록 만든다. 이는 유지보수성, 테스트 용이성, 팀 커뮤니케이션을 동시에 향상시킨다.
+[[001_dikw_pyramid|데이터]] 클럼프 ([[001_dikw_pyramid|Data]] Clumps) 제거는 **숨겨진 [[064_relation_domain|도메인]] 개념을 발굴하는 탐사 작업**이다. 단순히 변수를 묶는 것이 아니라, 그 묶음에 이름과 행동을 부여함으로써 코드가 비즈니스 언어와 일치하도록 만든다. 이는 [[346_maintainability_portability|유지보수성]], 테스트 용이성, 팀 커뮤니케이션을 동시에 향상시킨다.
 
-확장 방향은 ① 정적 분석 자동화, ② 아키텍처 적합성 검증, ③ 작은 단위의 상시 리팩토링 문화 정착이다.
+확장 방향은 ① [[331_static_analysis|정적 분석]] 자동화, ② 아키텍처 적합성 [[395_verification_process_review|검증]], ③ 작은 단위의 상시 [[213_refactoring_cloud_native_rearchitecture|리팩토링]] 문화 정착이다.
 
-- **📢 섹션 요약 비유**: 서랍 속 양말, 속옷, 티셔츠를 각자 제자리 수납함에 넣으면 "오늘 입을 옷 세트"를 꺼낼 때도 빠르고, 세탁 후 정리도 쉽다 — 이것이 데이터 클럼프 제거의 가치다.
+- **📢 섹션 요약 비유**: 서랍 속 양말, 속옷, 티셔츠를 각자 제자리 수납함에 넣으면 "오늘 입을 옷 세트"를 꺼낼 때도 빠르고, 세탁 후 정리도 쉽다 — 이것이 [[001_dikw_pyramid|데이터]] 클럼프 제거의 가치다.
 
 ---
 
 ### 📌 관련 개념 맵
-| 관계 | 개념 | 설명 |
+| [[083_relationship_in_er_model|관계]] | 개념 | 설명 |
 |:---|:---|:---|
-| 상위 개념 | 코드 스멜 (Code Smell) | 데이터 클럼프는 주요 스멜 중 하나 |
-| 상위 개념 | 리팩토링 (Refactoring) | 클럼프 제거의 공식 수단 |
+| 상위 개념 | [[370_code_smell|코드 스멜]] ([[365_5_solid_code_smell|Code Smell]]) | [[001_dikw_pyramid|데이터]] 클럼프는 주요 스멜 중 하나 |
+| 상위 개념 | [[213_refactoring_cloud_native_rearchitecture|리팩토링]] ([[078_refactoring_code_smells|Refactoring]]) | 클럼프 제거의 공식 수단 |
 | 연관 개념 | 프리미티브 강박 (Primitive Obsession) | 함께 발생하는 스멜 |
 | 연관 개념 | 값 객체 (Value Object, VO) | 클럼프 클래스화의 이상적 형태 |
-| 연관 개념 | DDD (Domain-Driven Design) | 클럼프에서 도메인 개념 발굴 |
+| 연관 개념 | [[310_architecture|DDD]] ([[127_ddd_domain_driven_design|Domain-Driven Design]]) | 클럼프에서 [[064_relation_domain|도메인]] 개념 발굴 |
 | 처방 | 클래스 분리 (Extract Class) | 필드 클럼프 처방 |
-| 처방 | 파라미터 객체화 (Introduce Parameter Object) | 매개변수 클럼프 처방 |
+| 처방 | [[242_introduce_parameter_object|파라미터 객체화]] ([[242_introduce_parameter_object|Introduce Parameter Object]]) | 매개변수 클럼프 처방 |
 
 ### 📈 관련 키워드 및 발전 흐름도
-중복 매개변수 → 데이터 클럼프 리팩토링 → 개념 모델 정제
+중복 매개변수 → [[001_dikw_pyramid|데이터]] 클럼프 [[213_refactoring_cloud_native_rearchitecture|리팩토링]] → 개념 모델 정제
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 알림장에 매일 "국어책, 수학책, 연필, 지우개"를 따로따로 적는 대신 "1교시 준비물 세트"라고 묶어서 적으면 더 빠르다.
 2. 세트 이름이 생기면 "오늘은 세트에 색연필도 추가"처럼 한번만 바꿔도 모든 알림장이 업데이트된다.
-3. 데이터 클럼프 제거는 바로 이 "세트 이름 붙이기"다.
+3. [[001_dikw_pyramid|데이터]] 클럼프 제거는 바로 이 "세트 이름 붙이기"다.

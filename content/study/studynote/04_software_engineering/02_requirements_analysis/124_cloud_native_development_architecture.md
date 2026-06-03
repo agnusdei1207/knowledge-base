@@ -7,9 +7,9 @@ categories = "studynote-software-engineering"
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: 클라우드 네이티브는 **컨테이너·MSA·CI/CD·선언적 API**를 핵심으로 하여 클라우드 환경의 **탄력성·확장성·복원력을 최대한 활용**하는 소프트웨어 개발·운영 패러다임이다.
-> 2. **가치**: Lift & Shift(기존 시스템을 그대로 클라우드로 이전)로는 클라우드의 이점을 10%도 활용하지 못하지만, 클라우드 네이티브로 설계하면 **오토스케일링·셀프힐링·글로벌 배포**가 자연스럽게 구현된다.
-> 3. **판단 포인트**: CNCF(Cloud Native Computing Foundation)의 **Trail Map**(컨테이너화→CI/CD→오케스트레이션→관측성→서비스 메시)이 도입 로드맵이며, **12 Factor App**이 클라우드 네이티브 설계 원칙이다.
+> 1. **본질**: [[531_cloud_native_architecture|클라우드 네이티브]]는 **[[561_container_based_deployment|컨테이너]]·[[619_msa_traffic_hardware|MSA]]·[[090_configuration_item|CI]]/CD·선언적 [[014_api_posix|API]]**를 핵심으로 하여 클라우드 환경의 **[[571_resiliency_fault_tolerance_patterns|탄력성]]·확장성·복원력을 최대한 활용**하는 소프트웨어 개발·운영 패러다임이다.
+> 2. **가치**: [[086_lift_association_rule_marketing|Lift]] & Shift(기존 시스템을 그대로 클라우드로 이전)로는 클라우드의 이점을 [[489_raid_10_hybrid|10]]%도 활용하지 못하지만, [[531_cloud_native_architecture|클라우드 네이티브]]로 설계하면 **오토스케일링·셀프힐링·글로벌 배포**가 자연스럽게 구현된다.
+> 3. **판단 포인트**: [[190_cncf_landscape_observability|CNCF]]([[199_cloud_native_architecture_msa_cicd_devops|Cloud Native]] Computing Foundation)의 **Trail Map**([[561_container_based_deployment|컨테이너]]화→[[090_configuration_item|CI]]/CD→[[073_container_orchestration_tools|오케스트레이션]]→관측성→[[302_service_mesh_istio|서비스 메시]])이 도입 로드맵이며, **12 Factor App**이 [[531_cloud_native_architecture|클라우드 네이티브]] 설계 원칙이다.
 
 ---
 
@@ -28,7 +28,7 @@ categories = "studynote-software-engineering"
 └───────────────────────────────────────────────────────┘
 ```
 
-- **📢 섹션 요약 비유**: 클라우드 네이티브는 처음부터 **바다(클라우드)에서 살도록 진화한 물고기**이고, Lift & Shift는 육지 동물이 바다에 던져진 것이다.
+- **📢 섹션 요약 비유**: [[531_cloud_native_architecture|클라우드 네이티브]]는 처음부터 **바다(클라우드)에서 살도록 진화한 물고기**이고, [[086_lift_association_rule_marketing|Lift]] & Shift는 육지 동물이 바다에 던져진 것이다.
 
 ---
 
@@ -38,37 +38,37 @@ categories = "studynote-software-engineering"
 
 | Factor | 설명 |
 |:---|:---|
-| **코드베이스** | 1앱 = 1리포 |
+| **[[007_codebase|코드베이스]]** | 1앱 = 1리포 |
 | **의존성** | 명시적 선언 |
-| **설정** | 환경 변수로 분리 |
-| **포트 바인딩** | 자체 HTTP 서버 |
-| **로그** | stdout 스트림 |
-| **프로세스** | Stateless |
+| **[[009_config|설정]]** | 환경 변수로 분리 |
+| **[[013_port_binding|포트 바인딩]]** | 자체 [[461_http_stateless_connection_oriented|HTTP]] 서버 |
+| **[[568_logs_distributed_logging_elk_fluentd|로그]]** | stdout 스트림 |
+| **프로세스** | [[239_stateless_redis|Stateless]] |
 
-- **📢 섹션 요약 비유**: 12 Factor는 클라우드 네이티브의 **건축 법규**다. 이 규칙을 따라야 건물(앱)이 안전하다.
+- **📢 섹션 요약 비유**: 12 Factor는 [[531_cloud_native_architecture|클라우드 네이티브]]의 **건축 법규**다. 이 규칙을 따라야 건물(앱)이 안전하다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-| 비교 | 전통 | Lift & Shift | 클라우드 네이티브 |
+| 비교 | 전통 | [[086_lift_association_rule_marketing|Lift]] & Shift | [[531_cloud_native_architecture|클라우드 네이티브]] |
 |:---|:---|:---|:---|
-| **아키텍처** | 모놀리식 | 모놀리식 | **MSA** |
-| **배포** | 수동 | 수동 | **CI/CD** |
-| **스케일링** | 수동 | 반자동 | **자동** |
+| **아키텍처** | 모놀리식 | 모놀리식 | **[[619_msa_traffic_hardware|MSA]]** |
+| **배포** | 수동 | 수동 | **[[090_configuration_item|CI]]/CD** |
+| **[[249_scaling_normalization_standardization|스케일링]]** | 수동 | 반자동 | **자동** |
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### CNCF Trail Map
-1. 컨테이너화 → 2. CI/CD → 3. K8s → 4. 관측성(Prometheus) → 5. 서비스 메시(Istio) → 6. 보안(OPA).
+### [[190_cncf_landscape_observability|CNCF]] Trail Map
+1. [[561_container_based_deployment|컨테이너]]화 → 2. [[090_configuration_item|CI]]/CD → 3. K8s → 4. 관측성([[136_prometheus|Prometheus]]) → 5. [[302_service_mesh_istio|서비스 메시]]([[302_service_mesh_istio|Istio]]) → 6. 보안([[237_opa_open_policy_agent_gatekeeper|OPA]]).
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-클라우드 네이티브는 **현대 소프트웨어 개발의 표준 패러다임**이며, CNCF 생태계가 사실상 모든 기술 스택을 포괄한다.
+[[531_cloud_native_architecture|클라우드 네이티브]]는 **현대 소프트웨어 개발의 표준 패러다임**이며, [[190_cncf_landscape_observability|CNCF]] 생태계가 사실상 모든 기술 스택을 포괄한다.
 
 ---
 
@@ -76,11 +76,11 @@ categories = "studynote-software-engineering"
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **CNCF** | 클라우드 네이티브 재단 |
+| **[[190_cncf_landscape_observability|CNCF]]** | [[531_cloud_native_architecture|클라우드 네이티브]] 재단 |
 | **12 Factor** | 설계 원칙 |
-| **컨테이너** | 핵심 런타임 |
-| **K8s** | 오케스트레이션 표준 |
-| **서비스 메시** | 통신 인프라 (Istio) |
+| **[[561_container_based_deployment|컨테이너]]** | 핵심 런타임 |
+| **K8s** | [[073_container_orchestration_tools|오케스트레이션]] 표준 |
+| **[[302_service_mesh_istio|서비스 메시]]** | 통신 인프라 ([[302_service_mesh_istio|Istio]]) |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -101,6 +101,6 @@ categories = "studynote-software-engineering"
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
-1. 클라우드 네이티브는 처음부터 **바다(클라우드)에서 살도록 태어난 물고기**예요.
-2. 옛날 방식은 **육지 동물을 바다에 던지는(Lift & Shift)** 거라 잘 못 수영해요.
+1. [[531_cloud_native_architecture|클라우드 네이티브]]는 처음부터 **바다(클라우드)에서 살도록 태어난 물고기**예요.
+2. 옛날 방식은 **육지 동물을 바다에 던지는([[086_lift_association_rule_marketing|Lift]] & Shift)** 거라 잘 못 수영해요.
 3. 물고기처럼 설계하면 **파도(트래픽)가 커도 자유롭게** 헤엄칠 수 있답니다!

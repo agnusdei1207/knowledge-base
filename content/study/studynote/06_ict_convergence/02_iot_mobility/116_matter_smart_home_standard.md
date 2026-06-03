@@ -7,9 +7,9 @@ categories = "studynote-ict-convergence"
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: Matter(구 Project CHIP)는 Apple·Google·Amazon·Samsung이 공동 개발한 **스마트 홈 디바이스 상호 운용성 표준**으로, Zigbee·Z-Wave·Wi-Fi·Thread 위에서 동작하는 **애플리케이션 계층 프로토콜**이다.
-> 2. **가치**: 기존에는 HomeKit 전용·Google Home 전용·Alexa 전용 디바이스를 각각 구매해야 했지만, Matter 인증 디바이스는 **모든 플랫폼에서 동시 동작**한다 (Multi-admin).
-> 3. **판단 포인트**: Matter는 **Thread(저전력 메시) + Wi-Fi(고속) + BLE(커미셔닝)**를 전송 계층으로 사용하며, IPv6 기반으로 클라우드 없이 **로컬 제어**가 가능하다.
+> 1. **본질**: [[612_matter_csa_smart_home_standard|Matter]](구 [[042_relational_algebra_project|Project]] CHIP)는 Apple·Google·Amazon·Samsung이 공동 개발한 **스마트 홈 디바이스 상호 운용성 표준**으로, [[609_zigbee_ieee_802_15_4_mesh_iot|Zigbee]]·[[610_z_wave_900mhz_smart_home_iot|Z-Wave]]·Wi-Fi·[[092_thread_lwp|Thread]] 위에서 동작하는 **애플리케이션 계층 [[295_protocol_field_tcp_udp_icmp|프로토콜]]**이다.
+> 2. **가치**: 기존에는 HomeKit 전용·Google Home 전용·Alexa 전용 디바이스를 각각 구매해야 했지만, [[612_matter_csa_smart_home_standard|Matter]] [[303_authentication_authorization_patterns|인증]] 디바이스는 **모든 플랫폼에서 동시 동작**한다 (Multi-admin).
+> 3. **판단 포인트**: Matter는 **[[092_thread_lwp|Thread]](저전력 [[389_mesh_topology|메시]]) + Wi-Fi(고속) + [[607_ble_bluetooth_low_energy_iot|BLE]](커미셔닝)**를 전송 계층으로 사용하며, [[324_ipv6_128bit_next_generation_address|IPv6]] 기반으로 클라우드 없이 **로컬 제어**가 가능하다.
 
 ---
 
@@ -32,29 +32,29 @@ categories = "studynote-ict-convergence"
 └───────────────────────────────────────────────────────┘
 ```
 
-- **📢 섹션 요약 비유**: Matter 이전은 나라마다 충전기가 다른 세상이고, Matter는 **USB-C**처럼 하나로 통일된 세상이다.
+- **📢 섹션 요약 비유**: [[612_matter_csa_smart_home_standard|Matter]] 이전은 나라마다 충전기가 다른 세상이고, Matter는 **USB-C**처럼 하나로 통일된 세상이다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### Matter 프로토콜 스택
+### [[612_matter_csa_smart_home_standard|Matter]] [[295_protocol_field_tcp_udp_icmp|프로토콜]] [[057_stack|스택]]
 
 | 계층 | 기술 |
 |:---|:---|
-| **Application** | Matter (데이터 모델, 커맨드) |
-| **Security** | CASE (Certificate Authenticated Session) |
-| **Transport** | **Thread (IPv6 메시) / Wi-Fi / Ethernet** |
-| **Commissioning** | **BLE** (디바이스 초기 등록) |
+| **Application** | [[612_matter_csa_smart_home_standard|Matter]] ([[014_data_model_components|데이터 모델]], [[271_command_pattern|커맨드]]) |
+| **[[283_security_tactics|Security]]** | CASE (Certificate Authenticated [[160_session_controlling_terminal|Session]]) |
+| **Transport** | **[[092_thread_lwp|Thread]] ([[324_ipv6_128bit_next_generation_address|IPv6]] [[389_mesh_topology|메시]]) / Wi-Fi / [[230_ethernet_structure_and_principles_ieee_802_3|Ethernet]]** |
+| **Commissioning** | **[[607_ble_bluetooth_low_energy_iot|BLE]]** (디바이스 [[459_quic_fec_forward_error_correction|초기]] 등록) |
 
-### Matter 핵심 특징
+### [[612_matter_csa_smart_home_standard|Matter]] 핵심 특징
 
 | 특징 | 설명 |
 |:---|:---|
 | **Multi-admin** | 1개 디바이스를 여러 플랫폼이 동시 제어 |
 | **로컬 제어** | 클라우드 없이 LAN에서 직접 제어 |
-| **IPv6** | 모든 디바이스에 IP 주소 부여 |
-| **보안** | PKI 기반 인증서 체계 |
+| **[[324_ipv6_128bit_next_generation_address|IPv6]]** | 모든 디바이스에 IP 주소 부여 |
+| **보안** | [[159_pki_public_key_infrastructure|PKI]] 기반 [[303_authentication_authorization_patterns|인증]]서 체계 |
 
 - **📢 섹션 요약 비유**: Matter는 스마트 홈의 **에스페란토(국제 공용어)**다. 어떤 나라(플랫폼) 사람이든 이 언어를 쓰면 소통이 된다.
 
@@ -62,28 +62,28 @@ categories = "studynote-ict-convergence"
 
 ## Ⅲ. 비교 및 연결
 
-| 비교 | Zigbee | Z-Wave | Matter |
+| 비교 | [[609_zigbee_ieee_802_15_4_mesh_iot|Zigbee]] | [[610_z_wave_900mhz_smart_home_iot|Z-Wave]] | [[612_matter_csa_smart_home_standard|Matter]] |
 |:---|:---|:---|:---|
-| **상호 운용** | Zigbee 내 | Z-Wave 내 | **모든 플랫폼** |
-| **IP** | ✗ | ✗ | **IPv6** |
+| **상호 운용** | [[609_zigbee_ieee_802_15_4_mesh_iot|Zigbee]] 내 | [[610_z_wave_900mhz_smart_home_iot|Z-Wave]] 내 | **모든 플랫폼** |
+| **IP** | ✗ | ✗ | **[[324_ipv6_128bit_next_generation_address|IPv6]]** |
 | **멀티 플랫폼** | ✗ | ✗ | **✅** |
-| **거버넌스** | CSA | Z-Wave Alliance | **CSA (Apple·Google·Amazon)** |
+| **거버넌스** | CSA | [[610_z_wave_900mhz_smart_home_iot|Z-Wave]] Alliance | **CSA (Apple·Google·Amazon)** |
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### Matter 1.0 지원 디바이스 유형
-조명, 스위치, 스마트 플러그, 도어록, 온도 조절기, 블라인드, 센서.
+### [[612_matter_csa_smart_home_standard|Matter]] 1.0 지원 디바이스 유형
+조명, [[238_switch_operation_principles|스위치]], 스마트 플러그, 도어록, 온도 조절기, 블라인드, 센서.
 
 ### 기존 디바이스 전환
-Zigbee/Z-Wave → **Matter Bridge**를 통해 Matter 생태계에 편입 가능.
+[[609_zigbee_ieee_802_15_4_mesh_iot|Zigbee]]/[[610_z_wave_900mhz_smart_home_iot|Z-Wave]] → **[[612_matter_csa_smart_home_standard|Matter]] [[260_bridge_pattern_abstraction_implementation|Bridge]]**를 통해 [[612_matter_csa_smart_home_standard|Matter]] 생태계에 편입 가능.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-Matter는 스마트 홈의 **USB-C 모먼트**이며, 플랫폼 파편화를 해소하여 IoT 시장의 대중화를 가속시키고 있다. Matter 2.0에서는 카메라·로봇 청소기·가전 등으로 디바이스 유형이 확대될 예정이다.
+Matter는 스마트 홈의 **USB-C 모먼트**이며, 플랫폼 파편화를 해소하여 [[101_iot_concept|IoT]] 시장의 대중화를 가속시키고 있다. [[612_matter_csa_smart_home_standard|Matter]] 2.0에서는 카메라·로봇 청소기·가전 등으로 디바이스 유형이 확대될 예정이다.
 
 ---
 
@@ -91,10 +91,10 @@ Matter는 스마트 홈의 **USB-C 모먼트**이며, 플랫폼 파편화를 해
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **Thread** | Matter의 저전력 메시 전송 계층 |
+| **[[092_thread_lwp|Thread]]** | Matter의 저전력 [[389_mesh_topology|메시]] 전송 계층 |
 | **Wi-Fi** | Matter의 고속 전송 계층 |
-| **BLE** | Matter 디바이스 커미셔닝 전용 |
-| **CSA (Connectivity Standards Alliance)** | Matter 표준 관리 기관 |
+| **[[607_ble_bluetooth_low_energy_iot|BLE]]** | [[612_matter_csa_smart_home_standard|Matter]] 디바이스 커미셔닝 전용 |
+| **CSA (Connectivity Standards Alliance)** | [[612_matter_csa_smart_home_standard|Matter]] 표준 관리 기관 |
 | **Multi-admin** | 1 디바이스 → 다수 플랫폼 동시 제어 |
 
 ### 📈 관련 키워드 및 발전 흐름도

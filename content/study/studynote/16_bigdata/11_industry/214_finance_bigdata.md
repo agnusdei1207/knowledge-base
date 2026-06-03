@@ -8,32 +8,32 @@ categories = "studynote-bigdata"
 
 ## 핵심 인사이트 (3줄 요약)
 
-- 금융 빅데이터는 **신용·사기·리스크·거래** 4대 영역에서 "데이터로 의사결정을 자동화"하는 핵심 인프라다.
-- FDS (Fraud Detection System, 이상거래탐지시스템)는 실시간 스트리밍 + 그래프 분석의 결합으로 사기 링을 밀리초 단위에 포착한다.
-- 알고트레이딩(Algorithmic Trading)은 틱 데이터와 감성분석을 결합하여 인간보다 빠르게 시장 신호를 실행으로 연결한다.
+- 금융 빅데이터는 **신용·사기·[[096_risk_non_risk_architecture_evaluation_flaws|리스크]]·거래** 4대 영역에서 "[[001_dikw_pyramid|데이터]]로 의사결정을 자동화"하는 핵심 인프라다.
+- [[267_gnn_fraud_detection_knowledge_graph|FDS]] (Fraud [[961_deepfake_detection|Detection]] System, 이상거래탐지시스템)는 실시간 스트리밍 + [[114_graph_analytics|그래프 분석]]의 결합으로 사기 링을 밀리초 단위에 포착한다.
+- 알고트레이딩(Algorithmic Trading)은 틱 [[001_dikw_pyramid|데이터]]와 감성분석을 결합하여 인간보다 빠르게 시장 [[130_signal|신호]]를 실행으로 연결한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-금융은 빅데이터가 가장 일찍, 가장 깊이 적용된 산업이다. 매 거래마다 타임스탬프·금액·위치·채널 정보가 생성되며, 이를 결합하면 고객의 재무 패턴이 정밀하게 드러난다.
+금융은 빅데이터가 가장 일찍, 가장 깊이 적용된 산업이다. 매 거래마다 타임스탬프·금액·위치·채널 정보가 [[087_process_state_transition|생성]]되며, 이를 결합하면 고객의 재무 패턴이 정밀하게 드러난다.
 
 ### 왜 금융에 빅데이터가 필수인가
 
 | 문제 | 전통 접근 | 빅데이터 접근 |
 |:---|:---|:---|
-| 신용 평가 | 소득·자산 3개 지표 | 통신비 납부 이력·유통 구매 패턴 등 수백 가지 대안 데이터 |
-| 사기 탐지 | 규칙 기반 (임계치 초과 시 차단) | 실시간 ML·그래프 분석 → 미지의 패턴 감지 |
-| 리스크 관리 | 역사적 VaR (Value at Risk) | 시뮬레이션 + 스트레스 테스트 + 시나리오 분석 병렬 수행 |
-| 거래 전략 | 인간 트레이더 판단 | 고빈도 알고리즘 + 뉴스 감성 분석 |
+| 신용 평가 | 소득·자산 3개 지표 | 통신비 납부 이력·유통 구매 패턴 등 수백 가지 대안 [[001_dikw_pyramid|데이터]] |
+| 사기 탐지 | 규칙 기반 ([[431_ssthresh_slow_start_threshold|임계치]] 초과 시 차단) | 실시간 ML·[[114_graph_analytics|그래프 분석]] → 미지의 패턴 감지 |
+| [[096_risk_non_risk_architecture_evaluation_flaws|리스크]] 관리 | 역사적 VaR (Value at [[096_risk_non_risk_architecture_evaluation_flaws|Risk]]) | 시뮬레이션 + [[447_stress_test|스트레스 테스트]] + 시나리오 분석 [[430_index_fast_full_scan|병렬]] 수행 |
+| 거래 [[268_strategy_pattern|전략]] | 인간 트레이더 판단 | 고빈도 [[001_algorithm_definition|알고리즘]] + 뉴스 [[105_exploratory_data_analysis|감성 분석]] |
 
-> 📢 **섹션 요약 비유**: 금융 빅데이터는 "도시 전체의 CCTV + 신용카드 내역을 동시에 보는 탐정"이다. 과거에는 한 장의 재무제표만 보았다면, 이제는 수백만 개의 행동 기록이 증거가 된다.
+> 📢 **섹션 요약 비유**: 금융 빅데이터는 "도시 전체의 [[933_cctv|CCTV]] + 신용카드 내역을 동시에 보는 탐정"이다. 과거에는 한 장의 재무제표만 보았다면, 이제는 수백만 개의 행동 기록이 증거가 된다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### FDS (Fraud Detection System) 실시간 파이프라인
+### [[267_gnn_fraud_detection_knowledge_graph|FDS]] (Fraud [[961_deepfake_detection|Detection]] System) 실시간 [[123_pipe|파이프]]라인
 
 ```
 ┌─────────────────────────────────────────────────────────────────┐
@@ -70,14 +70,14 @@ categories = "studynote-bigdata"
 
 ### 대안 신용평가 (Alternative Credit Scoring)
 
-| 데이터 유형 | 활용 방식 | 신용 신호 |
+| [[001_dikw_pyramid|데이터]] 유형 | 활용 방식 | 신용 [[130_signal|신호]] |
 |:---|:---|:---|
 | 통신비 납부 이력 | 정기 납부 패턴, 연체 여부 | 상환 의지 |
 | 유통·커머스 구매 | SKU 다양성, 할부 빈도 | 소비 습관 |
 | 소셜 네트워크 | 연결된 지인의 신용도 | 사회적 신뢰망 |
 | 앱 사용 패턴 | 금융 앱 접속 빈도 | 금융 리터러시 |
 
-### 알고트레이딩 (Algorithmic Trading) 데이터 흐름
+### 알고트레이딩 (Algorithmic Trading) [[001_dikw_pyramid|데이터]] 흐름
 
 ```
 ┌─────────────────────────────────────────────────────────────────┐
@@ -110,7 +110,7 @@ categories = "studynote-bigdata"
 └─────────────────────────────────────────────────────────────────┘
 ```
 
-> 📢 **섹션 요약 비유**: FDS는 "은행 입구에 서 있는 AI 경비원"이다. 얼굴(거래 패턴)을 보는 동시에, 그 경비원과 이전에 같이 다녔던 사람들(그래프 연결)까지 확인한다.
+> 📢 **섹션 요약 비유**: FDS는 "은행 입구에 서 있는 [[190_ai_llm_requirements_specification|AI]] 경비원"이다. 얼굴(거래 패턴)을 보는 동시에, 그 경비원과 이전에 같이 다녔던 사람들([[070_graph_datastructure|그래프]] 연결)까지 [[396_validation|확인]]한다.
 
 ---
 
@@ -118,14 +118,14 @@ categories = "studynote-bigdata"
 
 ### 금융 빅데이터 4대 영역 비교
 
-| 영역 | 목표 | 핵심 기술 | 데이터 특성 | 지연 요구 |
+| 영역 | 목표 | 핵심 기술 | [[001_dikw_pyramid|데이터]] 특성 | [[015_지연_데이터_관점|지연]] 요구 |
 |:---|:---|:---|:---|:---|
-| 신용 평가 | 상환 능력 예측 | Gradient Boosting, Logistic Regression | 배치, 수백 피처 | 수분~수시간 |
-| FDS (이상거래) | 실시간 사기 차단 | Isolation Forest, GBM, 그래프 DB | 스트리밍, 저지연 | < 200ms |
-| 리스크 관리 | VaR, 스트레스 테스트 | Monte Carlo 시뮬레이션, 시나리오 분석 | 배치 대용량 | 수분 |
-| 알고트레이딩 | 수익 기회 포착 | LSTM, 강화학습, 통계적 차익 | 틱 스트리밍 | μs~ms |
+| 신용 평가 | 상환 능력 예측 | [[034_gradient_boosting|Gradient Boosting]], [[227_logistic_regression_clt_pvalue_type_error|Logistic Regression]] | 배치, 수백 [[247_feature_label_variables|피처]] | 수분~수시간 |
+| [[267_gnn_fraud_detection_knowledge_graph|FDS]] (이상거래) | 실시간 사기 차단 | [[195_isolation_concurrency_control|Isolation]] Forest, GBM, [[070_graph_datastructure|그래프]] DB | 스트리밍, 저지연 | < 200ms |
+| [[096_risk_non_risk_architecture_evaluation_flaws|리스크]] 관리 | VaR, [[447_stress_test|스트레스 테스트]] | Monte Carlo 시뮬레이션, 시나리오 분석 | 배치 대용량 | 수분 |
+| 알고트레이딩 | 수익 기회 포착 | [[292_lstm|LSTM]], 강화학습, 통계적 차익 | 틱 스트리밍 | μs~ms |
 
-### 연관 기술 스택
+### 연관 기술 [[057_stack|스택]]
 
 ```
 규제 환경  ──── GDPR, 개인정보보호법, 금융소비자보호법
@@ -149,7 +149,7 @@ categories = "studynote-bigdata"
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### 실무 시나리오: 카드사 FDS 구축
+### 실무 시나리오: 카드사 [[267_gnn_fraud_detection_knowledge_graph|FDS]] 구축
 
 **배경**: 하루 2,000만 건 이상의 카드 거래에서 사기 거래를 실시간 차단.
 
@@ -157,20 +157,20 @@ categories = "studynote-bigdata"
 
 | 요구사항 | 선택 기술 | 이유 |
 |:---|:---|:---|
-| 200ms 이내 응답 | Kafka → Flink 인메모리 처리 | 배치 불가, 실시간 필수 |
-| 미지의 패턴 탐지 | Isolation Forest (비지도 학습) | 규칙 기반 우회 방지 |
-| 사기 집단 탐지 | Neo4j 그래프 DB | 계좌 공유·기기 공유 관계망 분석 |
-| 모델 드리프트 대응 | MLflow 모니터링 + 주기적 재학습 | 사기 패턴 진화 대응 |
+| 200ms 이내 응답 | [[179_kafka_flink_watermark_time_window|Kafka]] → Flink 인메모리 처리 | 배치 불가, 실시간 필수 |
+| 미지의 패턴 탐지 | [[195_isolation_concurrency_control|Isolation]] Forest ([[122_unsupervised_learning|비지도 학습]]) | 규칙 기반 우회 방지 |
+| 사기 집단 탐지 | Neo4j [[070_graph_datastructure|그래프]] DB | 계좌 공유·기기 공유 [[083_relationship_in_er_model|관계]]망 분석 |
+| [[468_model_drift_retraining|모델 드리프트]] 대응 | [[180_mlflow|MLflow]] [[229_monitor|모니터]]링 + 주기적 재학습 | 사기 패턴 진화 대응 |
 
-**핵심 KPI**:
+**핵심 [[018_kpi|KPI]]**:
 - 사기 탐지율 (TPR): > 95%
 - 오탐율 (FPR): < 0.1% (정상 거래 차단 최소화)
-- 응답 지연: P99 < 200ms
+- 응답 [[015_지연_데이터_관점|지연]]: P99 < 200ms
 
 ### 기술사 관점의 판단 기준
 
-- **데이터 편향 (Bias)**: 대안 신용평가에서 특정 계층이 불리해지는 차별 방지 필요.
-- **설명가능성 (Explainability)**: 신용 거절 시 고객에게 사유 설명 의무 → SHAP 값 활용.
+- **[[001_dikw_pyramid|데이터]] 편향 ([[094_bias|Bias]])**: 대안 신용평가에서 특정 계층이 불리해지는 차별 방지 필요.
+- **설명가능성 (Explainability)**: 신용 거절 시 고객에게 사유 설명 의무 → [[327_shap|SHAP]] 값 활용.
 - **규제 준수**: 신용정보법, 금융소비자보호법 상 자동화 결정에 대한 이의제기 권리 보장.
 
 > 📢 **섹션 요약 비유**: FDS를 구축할 때 "빠른 것과 정확한 것" 사이에서 균형을 잡는 것이 핵심이다. 오탐이 너무 많으면 정상 고객이 분노하고, 탐지율이 낮으면 사기에 노출된다. 이 트레이드오프를 조정하는 것이 기술사의 역할이다.
@@ -181,14 +181,14 @@ categories = "studynote-bigdata"
 
 | 효과 | 수치 예시 |
 |:---|:---|
-| 사기 손실 감소 | FDS 도입 시 카드 사기 손실 50~70% 감소 |
+| 사기 손실 감소 | [[267_gnn_fraud_detection_knowledge_graph|FDS]] 도입 시 카드 사기 손실 50~70% 감소 |
 | 신용평가 포용성 | 금융 이력 부족자(Thin-filer) 15~30% 추가 포용 |
-| 알고트레이딩 효율 | 인간 트레이더 대비 10~100배 빠른 실행, 24/7 무중단 |
-| 리스크 관리 비용 | 스트레스 테스트 자동화로 인건비 40% 절감 |
+| 알고트레이딩 효율 | 인간 트레이더 대비 [[489_raid_10_hybrid|10]]~100배 빠른 실행, 24/7 무중단 |
+| [[096_risk_non_risk_architecture_evaluation_flaws|리스크]] 관리 비용 | [[447_stress_test|스트레스 테스트]] 자동화로 인건비 40% 절감 |
 
-**결론**: 금융 빅데이터는 기존 규칙 기반 의사결정 시스템을 데이터 주도형으로 전환하는 핵심 동력이다. 실시간성·설명가능성·규제 준수의 삼각 균형이 성공의 열쇠이며, 기술사는 비즈니스 임팩트와 윤리적 위험을 함께 설계해야 한다.
+**결론**: 금융 빅데이터는 기존 규칙 기반 의사결정 시스템을 [[001_dikw_pyramid|데이터]] 주도형으로 전환하는 핵심 동력이다. 실시간성·설명가능성·규제 준수의 삼각 균형이 성공의 열쇠이며, 기술사는 비즈니스 임팩트와 윤리적 위험을 함께 설계해야 한다.
 
-> 📢 **섹션 요약 비유**: 금융 빅데이터의 최종 목표는 "더 많은 사람에게 공정하고 빠른 금융 서비스"를 제공하는 것이다. 빠른 사기 차단, 포용적 신용 평가, 자동화된 거래가 합쳐질 때 금융의 민주화가 시작된다.
+> 📢 **섹션 요약 비유**: 금융 빅데이터의 최종 목표는 "더 많은 사람에게 공정하고 빠른 금융 [[090_service_kubernetes_network_load_balancing|서비스]]"를 제공하는 것이다. 빠른 사기 차단, 포용적 신용 평가, 자동화된 거래가 합쳐질 때 금융의 민주화가 시작된다.
 
 ---
 
@@ -196,11 +196,11 @@ categories = "studynote-bigdata"
 
 | 개념 | 연관 개념 | 비고 |
 |:---|:---|:---|
-| FDS (이상거래탐지시스템) | Kafka, Flink, Isolation Forest, 그래프 DB | 금융 보안의 핵심 |
-| ACS (대안 신용평가) | XGBoost, SHAP, 개인정보보호법 | 금융 포용성 |
-| VaR (Value at Risk) | Monte Carlo, 스트레스 테스트 | 리스크 정량화 |
-| 알고트레이딩 | LSTM, 강화학습, 틱 데이터, OMS | 시장 미시구조 |
-| UBI (Usage-Based Insurance) | 텔레매틱스, IoT | 보험 응용 연계 |
+| [[267_gnn_fraud_detection_knowledge_graph|FDS]] (이상거래탐지시스템) | [[179_kafka_flink_watermark_time_window|Kafka]], Flink, [[195_isolation_concurrency_control|Isolation]] Forest, [[070_graph_datastructure|그래프]] DB | 금융 보안의 핵심 |
+| ACS (대안 신용평가) | XGBoost, [[327_shap|SHAP]], [[783_pipa_korea|개인정보보호법]] | 금융 포용성 |
+| VaR (Value at [[096_risk_non_risk_architecture_evaluation_flaws|Risk]]) | Monte Carlo, [[447_stress_test|스트레스 테스트]] | [[096_risk_non_risk_architecture_evaluation_flaws|리스크]] 정량화 |
+| 알고트레이딩 | [[292_lstm|LSTM]], 강화학습, 틱 [[001_dikw_pyramid|데이터]], OMS | 시장 미시구조 |
+| UBI (Usage-Based Insurance) | 텔레매틱스, [[101_iot_concept|IoT]] | 보험 응용 연계 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 

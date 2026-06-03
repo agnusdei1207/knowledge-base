@@ -7,9 +7,9 @@ categories = "studynote-ict-convergence"
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: 공간 컴퓨팅(Spatial Computing)은 **3차원 물리 공간을 컴퓨팅 인터페이스로 사용**하는 패러다임으로, 눈·손·음성으로 공간 속 디지털 콘텐츠와 상호작용하며, Apple Vision Pro(2024)가 대표 디바이스이다.
-> 2. **가치**: 2D 화면(모니터·스마트폰)은 **크기 제약·멀티태스킹 한계**가 있지만, 공간 컴퓨팅은 **무한한 가상 디스플레이·3D 콘텐츠 배치**로 작업 공간을 혁신한다.
-> 3. **판단 포인트**: 공간 컴퓨팅 = XR(VR+AR+MR) + **환경 인식(LiDAR)** + **자연 입력(눈·손·음성)** + **공간 앵커(물리 공간에 디지털 콘텐츠 고정)**이며, visionOS가 개발 플랫폼이다.
+> 1. **본질**: [[232_spatial_computing_digital_twin|공간 컴퓨팅]]([[232_spatial_computing_digital_twin|Spatial Computing]])은 **3차원 물리 공간을 컴퓨팅 인터페이스로 사용**하는 패러다임으로, 눈·손·음성으로 공간 속 디지털 콘텐츠와 상호작용하며, Apple Vision Pro(2024)가 대표 디바이스이다.
+> 2. **가치**: 2D 화면([[229_monitor|모니터]]·스마트폰)은 **크기 제약·[[675_multitasking_terminology_preemptive|멀티태스킹]] 한계**가 있지만, [[232_spatial_computing_digital_twin|공간 컴퓨팅]]은 **무한한 가상 디스플레이·3D 콘텐츠 배치**로 작업 공간을 혁신한다.
+> 3. **판단 포인트**: [[232_spatial_computing_digital_twin|공간 컴퓨팅]] = XR(VR+AR+MR) + **환경 인식([[140_lidar_light_detection_and_ranging_tof|LiDAR]])** + **자연 입력(눈·손·음성)** + **공간 앵커(물리 공간에 디지털 콘텐츠 고정)**이며, visionOS가 개발 플랫폼이다.
 
 ---
 
@@ -29,22 +29,22 @@ categories = "studynote-ict-convergence"
 └───────────────────────────────────────────────────────┘
 ```
 
-- **📢 섹션 요약 비유**: 공간 컴퓨팅은 **"공기 중에 화면이 떠 있는" 컴퓨터**이다. 눈으로 보고, 손으로 만지고, 말로 명령한다.
+- **📢 섹션 요약 비유**: [[232_spatial_computing_digital_twin|공간 컴퓨팅]]은 **"공기 중에 화면이 떠 있는" 컴퓨터**이다. 눈으로 보고, 손으로 만지고, 말로 명령한다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### 2D vs 공간 컴퓨팅
+### 2D vs [[232_spatial_computing_digital_twin|공간 컴퓨팅]]
 
-| 비교 | 2D (모니터) | 공간 컴퓨팅 |
+| 비교 | 2D ([[229_monitor|모니터]]) | [[232_spatial_computing_digital_twin|공간 컴퓨팅]] |
 |:---|:---|:---|
 | **입력** | 키보드·마우스 | **눈·손·음성** |
 | **디스플레이** | 평면 | **3D 공간** |
 | **화면 수** | 1~3 | **무제한** |
 | **몰입** | 낮음 | **높음** |
 
-- **📢 섹션 요약 비유**: 모니터는 창문(고정), 공간 컴퓨팅은 눈앞의 무한한 하늘(자유 배치)이다.
+- **📢 섹션 요약 비유**: [[229_monitor|모니터]]는 창문(고정), [[232_spatial_computing_digital_twin|공간 컴퓨팅]]은 눈앞의 무한한 하늘(자유 배치)이다.
 
 ---
 
@@ -61,7 +61,7 @@ categories = "studynote-ict-convergence"
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 ### 적용 분야
-- 작업: 무한 가상 모니터 (생산성).
+- 작업: 무한 가상 [[229_monitor|모니터]] (생산성).
 - 설계: 3D 모델 공간 검토 (CAD).
 - 의료: 수술 가이드 AR 오버레이.
 - 협업: 공간 화상 회의 (Persona).
@@ -70,7 +70,7 @@ categories = "studynote-ict-convergence"
 
 ## Ⅴ. 기대효과 및 결론
 
-공간 컴퓨팅은 **"화면 뒤"에서 "공간 속"으로 컴퓨팅을 이동**시키는 차세대 인터페이스이며, PC→모바일 전환에 이은 3번째 패러다임 시프트이다.
+[[232_spatial_computing_digital_twin|공간 컴퓨팅]]은 **"화면 뒤"에서 "공간 속"으로 컴퓨팅을 이동**시키는 차세대 인터페이스이며, [[164_pc|PC]]→모바일 전환에 이은 3번째 패러다임 시프트이다.
 
 ---
 
@@ -78,11 +78,11 @@ categories = "studynote-ict-convergence"
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **공간 컴퓨팅** | 3D 공간 기반 컴퓨팅 |
-| **visionOS** | Apple 공간 컴퓨팅 OS |
+| **[[232_spatial_computing_digital_twin|공간 컴퓨팅]]** | 3D 공간 기반 컴퓨팅 |
+| **visionOS** | Apple [[232_spatial_computing_digital_twin|공간 컴퓨팅]] OS |
 | **패스스루** | 카메라로 현실 투과 |
 | **공간 앵커** | 가상 객체를 물리에 고정 |
-| **LiDAR** | 3D 공간 인식 센서 |
+| **[[140_lidar_light_detection_and_ranging_tof|LiDAR]]** | 3D 공간 인식 센서 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -103,6 +103,6 @@ categories = "studynote-ict-convergence"
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
-1. 공간 컴퓨팅은 **공기 중에 화면이 떠 있는** 컴퓨터예요.
+1. [[232_spatial_computing_digital_twin|공간 컴퓨팅]]은 **공기 중에 화면이 떠 있는** 컴퓨터예요.
 2. **눈으로 보고, 손으로 만지고, 말로 명령**해요. 키보드가 필요 없어요!
 3. 방 안 어디에나 **가상 화면**을 놓을 수 있어서 무한히 넓은 책상이 생겨요!

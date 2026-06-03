@@ -8,8 +8,8 @@ categories = "studynote-devops-sre"
 
 > **핵심 인사이트**
 > 1. 트렁크 기반 개발(TBD, Trunk-Based Development)은 모든 개발자가 하나의 공유 브랜치(trunk/main)에 소규모 코드를 빈번하게 통합하는 방식으로, 장기 브랜치로 인한 병합 지옥(Merge Hell)과 통합 늦음(Integration Late) 문제를 근본적으로 해결한다.
-> 2. TBD는 DORA 연구에서 고성능 조직의 핵심 기술 실천으로 확인된 과학적 근거가 있는 DevOps 원칙이며, 피처 플래그(Feature Flag)와 결합하여 "완성되지 않은 코드도 안전하게 통합"하는 것이 핵심 패턴이다.
-> 3. Git Flow·GitHub Flow와 구분되어, TBD는 배포 파이프라인 완성도와 테스트 자동화가 높을수록 효과가 커지며, "브랜치 수명은 하루"라는 규칙이 지속적 통합(CI)의 진정한 의미를 구현한다.
+> 2. TBD는 [[523_dhcp_dora_process|DORA]] 연구에서 고성능 조직의 핵심 기술 실천으로 [[396_validation|확인]]된 과학적 근거가 있는 [[652_devops_calms_culture|DevOps]] 원칙이며, [[576_feature_flag_ab_testing_rollout|피처 플래그]]([[576_feature_flag_ab_testing_rollout|Feature Flag]])와 결합하여 "완성되지 않은 코드도 안전하게 통합"하는 것이 핵심 패턴이다.
+> 3. Git Flow·GitHub Flow와 구분되어, TBD는 배포 [[123_pipe|파이프]]라인 완성도와 테스트 자동화가 높을수록 효과가 커지며, "브랜치 수명은 하루"라는 규칙이 [[076_ci_continuous_integration|지속적 통합]]([[090_configuration_item|CI]])의 진정한 의미를 구현한다.
 
 ---
 
@@ -45,7 +45,7 @@ TBD 흐름:
 
 ---
 
-## Ⅱ. 피처 플래그와 TBD
+## Ⅱ. [[576_feature_flag_ab_testing_rollout|피처 플래그]]와 TBD
 
 ```
 Feature Flag (피처 플래그) + TBD:
@@ -76,11 +76,11 @@ Feature Flag (피처 플래그) + TBD:
   직접 DB/Redis로 간단 구현 가능
 ```
 
-> 📢 **섹션 요약 비유**: 피처 플래그는 새 도로 개통 전에 차단막 설치 — 공사(개발)는 다 끝났지만 개통(활성화) 시점은 따로 결정.
+> 📢 **섹션 요약 비유**: [[576_feature_flag_ab_testing_rollout|피처 플래그]]는 새 도로 개통 전에 차단막 설치 — 공사(개발)는 다 끝났지만 개통(활성화) 시점은 따로 결정.
 
 ---
 
-## Ⅲ. TBD vs Git Flow vs GitHub Flow
+## Ⅲ. TBD vs Git Flow vs [[054_github_flow|GitHub Flow]]
 
 ```
 브랜칭 전략 비교:
@@ -141,7 +141,7 @@ TBD 성공을 위한 전제:
    심리적 안전감 (Small Change 두려움 없음)
 ```
 
-> 📢 **섹션 요약 비유**: TBD 전제 조건은 고속도로 운전 조건 — 자동차(테스트)와 GPS(CI/CD)가 갖춰져야 안전하게 달릴 수 있다.
+> 📢 **섹션 요약 비유**: TBD 전제 조건은 고속도로 운전 조건 — 자동차(테스트)와 GPS([[090_configuration_item|CI]]/CD)가 갖춰져야 안전하게 달릴 수 있다.
 
 ---
 
@@ -233,6 +233,6 @@ TBD + 피처 플래그 = 현대 DevOps 표준
 
 ## 👶 어린이를 위한 3줄 비유 설명
 
-1. TBD는 한 달치 일기를 몰아 쓰는 것보다 매일 조금씩 쓰는 방식 — 나중에 기억나지 않는 것도 없고, 선생님도 바로바로 확인할 수 있어요.
-2. 피처 플래그는 새 기능을 만들어 놓고 "스위치"로 켜고 끌 수 있어서, 완성 전에도 안전하게 메인 코드에 넣어 둘 수 있어요.
+1. TBD는 한 달치 일기를 몰아 쓰는 것보다 매일 조금씩 쓰는 방식 — 나중에 기억나지 않는 것도 없고, 선생님도 바로바로 [[396_validation|확인]]할 수 있어요.
+2. [[576_feature_flag_ab_testing_rollout|피처 플래그]]는 새 기능을 만들어 놓고 "[[238_switch_operation_principles|스위치]]"로 켜고 끌 수 있어서, 완성 전에도 안전하게 메인 코드에 넣어 둘 수 있어요.
 3. 매일 조금씩 코드를 합치면 충돌(다른 사람 코드와 겹침)이 거의 없어서, 금요일마다 "대충돌"을 수습하는 고통이 사라져요!

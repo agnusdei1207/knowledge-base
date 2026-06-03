@@ -8,25 +8,25 @@ categories = "studynote-design-supervision"
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: SW 개발보안(시큐어 코딩, Secure Coding)은 취약점을 설계·개발 단계에서 원천 차단하는 예방 중심 접근이다.
-> 2. **가치**: SQL 인젝션(SQL Injection), XSS(Cross-Site Scripting), CSRF(Cross-Site Request Forgery) 세 공격 유형은 OWASP(Open Web Application Security Project) Top 10의 핵심으로, 감리 점검 빈도가 가장 높다.
-> 3. **판단 포인트**: 입력값 검증(Input Validation)·출력값 인코딩(Output Encoding)·토큰 기반 요청 인증이 코드 레벨에서 구현되었는지를 소스코드 및 실행 결과 모두에서 확인한다.
+> 1. **본질**: SW 개발보안([[190_secure_coding_guideline|시큐어 코딩]], [[190_secure_coding_guideline|Secure Coding]])은 취약점을 설계·개발 단계에서 원천 차단하는 예방 중심 접근이다.
+> 2. **가치**: SQL [[480_injection|인젝션]]([[604_sql_injection|SQL Injection]]), [[726_xss_cross_site_scripting_types|XSS]]([[470_xss|Cross-Site Scripting]]), [[728_csrf_cross_site_request_forgery_concept|CSRF]]([[728_csrf_cross_site_request_forgery_concept|Cross-Site Request Forgery]]) 세 공격 유형은 OWASP(Open Web Application [[283_security_tactics|Security]] [[042_relational_algebra_project|Project]]) Top 10의 핵심으로, 감리 점검 빈도가 가장 높다.
+> 3. **판단 포인트**: 입력값 [[395_verification_process_review|검증]]([[601_input_validation|Input Validation]])·출력값 인코딩(Output Encoding)·토큰 기반 요청 인증이 코드 레벨에서 구현되었는지를 소스코드 및 실행 결과 모두에서 [[396_validation|확인]]한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
-SW 개발보안(시큐어 코딩, Secure Coding)은 소프트웨어 개발 생명주기(SDLC, Software Development Life Cycle) 전 단계에 걸쳐 보안 취약점을 제거하는 실천 체계다. 행정안전부 「소프트웨어 개발보안 가이드」는 SQL 인젝션, XSS, CSRF를 포함한 43개 취약점 진단 항목을 규정하며, 공공정보화사업 감리 시 반드시 확인해야 한다.
+SW 개발보안([[190_secure_coding_guideline|시큐어 코딩]], [[190_secure_coding_guideline|Secure Coding]])은 소프트웨어 개발 생명주기([[131_sdlc_system_development_life_cycle_waterfall_agile|SDLC]], Software Development Life Cycle) 전 단계에 걸쳐 보안 취약점을 제거하는 실천 체계다. 행정안전부 「소프트웨어 개발보안 가이드」는 SQL [[480_injection|인젝션]], [[726_xss_cross_site_scripting_types|XSS]], CSRF를 포함한 43개 취약점 진단 항목을 규정하며, 공공정보화사업 감리 시 반드시 [[396_validation|확인]]해야 한다.
 
 | 공격 유형 | 영문 Full Name | 공격 원리 | 피해 범위 |
 |:---|:---|:---|:---|
-| SQL 인젝션 | SQL Injection | 사용자 입력을 SQL 쿼리에 직접 삽입 | DB 전체 탈취·삭제 |
-| OS 인젝션 | OS Command Injection | 입력값으로 시스템 명령 실행 | 서버 루트 권한 탈취 |
-| XSS | Cross-Site Scripting | 악성 스크립트를 피해자 브라우저에서 실행 | 세션 쿠키 탈취·피싱 |
-| CSRF | Cross-Site Request Forgery | 인증된 사용자의 권한으로 위조 요청 실행 | 계정 변경·결제 위조 |
+| SQL [[480_injection|인젝션]] | [[604_sql_injection|SQL Injection]] | 사용자 입력을 SQL [[298_qkv_attention|쿼리]]에 직접 삽입 | DB 전체 탈취·삭제 |
+| OS [[480_injection|인젝션]] | [[435_os_command_injection|OS Command Injection]] | 입력값으로 시스템 명령 실행 | 서버 루트 권한 탈취 |
+| [[726_xss_cross_site_scripting_types|XSS]] | [[470_xss|Cross-Site Scripting]] | 악성 스크립트를 피해자 브라우저에서 실행 | [[160_session_controlling_terminal|세션]] [[475_cookie_local_state|쿠키]] 탈취·[[752_phishing|피싱]] |
+| [[728_csrf_cross_site_request_forgery_concept|CSRF]] | [[728_csrf_cross_site_request_forgery_concept|Cross-Site Request Forgery]] | 인증된 사용자의 권한으로 위조 요청 실행 | 계정 변경·결제 위조 |
 
 - 「전자정부법」 제45조의3: 정보보호 진단·점검 의무
-- 행정안전부 「소프트웨어 개발보안 가이드(2021)」: 43개 진단 항목
-- KISA(한국인터넷진흥원, Korea Internet & Security Agency) 취약점 진단 기준
+- 행정안전부 「소프트웨어 개발보안 가이드([[477_owasp_top_10_2021|2021]])」: 43개 진단 항목
+- KISA(한국인터넷진흥원, Korea Internet & [[283_security_tactics|Security]] Agency) 취약점 진단 기준
 
 ```text
 ┌──────────────┐    ┌──────────────┐    ┌──────────────┐
@@ -34,7 +34,7 @@ SW 개발보안(시큐어 코딩, Secure Coding)은 소프트웨어 개발 생�
 └──────────────┘    └──────────────┘    └──────────────┘
 ```
 
-- **📢 섹션 요약 비유**: SQL 인젝션은 "식당 주문서에 '모든 메뉴를 공짜로 주세요'라고 적어 요리사를 혼란에 빠트리는 것"이다. 입력 칸을 신뢰하지 않는 것이 시큐어 코딩의 출발점이다.
+- **📢 섹션 요약 비유**: SQL [[480_injection|인젝션]]은 "식당 주문서에 '모든 메뉴를 공짜로 주세요'라고 적어 요리사를 혼란에 빠트리는 것"이다. 입력 칸을 신뢰하지 않는 것이 [[190_secure_coding_guideline|시큐어 코딩]]의 출발점이다.
 
 ---
 
@@ -68,7 +68,7 @@ SW 개발보안(시큐어 코딩, Secure Coding)은 소프트웨어 개발 생�
 └────────────────────────────────────────────────────────────┘
 ```
 
-XSS는 사용자가 입력한 `<script>` 태그가 다른 사용자의 브라우저에서 실행되는 공격이다. 방어의 핵심은 **출력 시점의 컨텍스트별 인코딩**이다.
+XSS는 사용자가 입력한 `<script>` 태그가 다른 사용자의 브라우저에서 실행되는 공격이다. 방어의 핵심은 **출력 시점의 [[033_context|컨텍스트]]별 인코딩**이다.
 
 ```
 ┌────────────────────────────────────────────────────────────┐
@@ -90,7 +90,7 @@ XSS는 사용자가 입력한 `<script>` 태그가 다른 사용자의 브라우
 └────────────────────────────────────────────────────────────┘
 ```
 
-CSRF 토큰(CSRF Token)은 서버가 생성한 난수값을 폼(Form) 히든 필드에 삽입하여 위조 요청을 차단한다.
+[[728_csrf_cross_site_request_forgery_concept|CSRF]] 토큰([[478_csrf_token|CSRF Token]])은 서버가 생성한 난수값을 폼(Form) 히든 필드에 삽입하여 위조 요청을 차단한다.
 
 ```
 ┌────────────────────────────────────────────────────────────┐
@@ -113,81 +113,81 @@ CSRF 토큰(CSRF Token)은 서버가 생성한 난수값을 폼(Form) 히든 필
 |:---|:---|:---|
 | 핵심 역할 | 입력·상태·출력을 분리하는 책임 경계 | 구현보다 경계를 먼저 본다. |
 | 제어 지점 | 조건, 이벤트, 정책이 만나는 곳 | 병목과 결합이 생기는 곳이다. |
-| 검증 포인트 | 테스트·로그·모니터링으로 확인할 지점 | 운영 가능성이 설계 품질을 결정한다. |
+| [[395_verification_process_review|검증]] 포인트 | 테스트·[[568_logs_distributed_logging_elk_fluentd|로그]]·모니터링으로 [[396_validation|확인]]할 지점 | 운영 가능성이 설계 품질을 결정한다. |
 
-- **📢 섹션 요약 비유**: XSS 방어는 "스피커에 전달된 대사를 그대로 읽지 않고 따옴표로 묶어 안전하게 출력"하는 것이고, CSRF 방어는 "편지에 비밀 도장이 없으면 배달부가 접수를 거부"하는 것이다.
+- **📢 섹션 요약 비유**: [[726_xss_cross_site_scripting_types|XSS]] 방어는 "스피커에 전달된 대사를 그대로 읽지 않고 따옴표로 묶어 안전하게 출력"하는 것이고, [[728_csrf_cross_site_request_forgery_concept|CSRF]] 방어는 "편지에 비밀 도장이 없으면 배달부가 접수를 거부"하는 것이다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
-| 구분 | SQL 인젝션 방어 | XSS 방어 | CSRF 방어 |
+| 구분 | SQL [[480_injection|인젝션]] 방어 | [[726_xss_cross_site_scripting_types|XSS]] 방어 | [[728_csrf_cross_site_request_forgery_concept|CSRF]] 방어 |
 |:---|:---|:---|:---|
-| **핵심 원리** | 입력과 코드 분리 | 출력 컨텍스트 인코딩 | 요청 출처 검증 |
-| **구현 방법** | PreparedStatement, ORM(Object-Relational Mapping) | HTML 엔티티 인코딩, CSP(Content Security Policy) 헤더 | CSRF 토큰, SameSite 쿠키 |
-| **감리 확인 위치** | DAO(Data Access Object) 레이어 코드 | 뷰(View) 템플릿 출력 함수 | 폼 히든 필드, 서버 검증 로직 |
-| **자동 탐지 도구** | SAST(Static Application Security Testing) | DAST(Dynamic Application Security Testing) | DAST + 수동 점검 |
+| **핵심 원리** | 입력과 코드 분리 | 출력 [[033_context|컨텍스트]] 인코딩 | 요청 출처 [[395_verification_process_review|검증]] |
+| **구현 방법** | PreparedStatement, ORM(Object-Relational [[010_schema_mapping|Mapping]]) | HTML 엔티티 인코딩, [[475_csp|CSP]]([[475_csp|Content Security Policy]]) 헤더 | [[728_csrf_cross_site_request_forgery_concept|CSRF]] 토큰, SameSite [[475_cookie_local_state|쿠키]] |
+| **감리 [[396_validation|확인]] 위치** | [[054_dao_decentralized_autonomous_organization|DAO]]([[001_dikw_pyramid|Data]] Access Object) 레이어 코드 | 뷰([[151_sql_view_virtual_table|View]]) 템플릿 출력 함수 | 폼 히든 필드, 서버 [[395_verification_process_review|검증]] 로직 |
+| **자동 탐지 도구** | [[491_sast_static_analysis|SAST]](Static Application [[283_security_tactics|Security]] Testing) | [[492_dast_dynamic_analysis|DAST]](Dynamic Application [[283_security_tactics|Security]] Testing) | [[492_dast_dynamic_analysis|DAST]] + 수동 점검 |
 | **위험 등급** | Critical | High | High |
 
-| 기준 | SAST (정적 분석) | DAST (동적 분석) |
+| 기준 | [[491_sast_static_analysis|SAST]] ([[331_static_analysis|정적 분석]]) | [[492_dast_dynamic_analysis|DAST]] ([[332_dynamic_analysis|동적 분석]]) |
 |:---|:---|:---|
 | 분석 시점 | 코드 작성 후 빌드 단계 | 실행 중인 애플리케이션 |
-| 도구 예시 | Fortify, SonarQube, Checkmarx | OWASP ZAP, Burp Suite |
-| 장점 | 초기 발견, 낮은 비용 | 실제 공격 시나리오 재현 |
+| 도구 예시 | Fortify, [[079_sonarqube|SonarQube]], Checkmarx | [[485_owasp_zap|OWASP ZAP]], [[486_burp_suite|Burp Suite]] |
+| 장점 | [[459_quic_fec_forward_error_correction|초기]] 발견, 낮은 비용 | 실제 공격 시나리오 재현 |
 | 단점 | 오탐(False Positive) 다수 | 실행 환경 필요 |
 
-- **📢 섹션 요약 비유**: SAST는 "요리 전 재료 목록을 검사"하고, DAST는 "완성된 음식을 직접 먹어보며 독성을 확인"하는 것이다. 감리는 두 방법 모두를 요구한다.
+- **📢 섹션 요약 비유**: SAST는 "요리 전 재료 목록을 검사"하고, DAST는 "완성된 음식을 직접 먹어보며 독성을 [[396_validation|확인]]"하는 것이다. 감리는 두 방법 모두를 요구한다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
-| 점검 항목 | 확인 방법 | 판정 기준 |
+| 점검 항목 | [[396_validation|확인]] 방법 | 판정 기준 |
 |:---|:---|:---|
-| PreparedStatement 적용률 | DAO 레이어 코드 전수 검사 | SQL 동적 쿼리 0건 |
-| XSS 인코딩 함수 사용 | 출력 뷰 파일 검색 | `fn:escapeXml()` 또는 동등 함수 100% 적용 |
-| CSRF 토큰 구현 | 상태 변경 요청(POST/PUT/DELETE) 전수 | 히든 필드 + 서버 검증 모두 존재 |
-| CSP(Content Security Policy) 헤더 | HTTP 응답 헤더 확인 | `default-src 'self'` 이상 설정 |
-| 오류 메시지 노출 | 고의 오류 발생 후 응답 확인 | DB/쿼리 정보 미노출 |
+| PreparedStatement 적용률 | [[054_dao_decentralized_autonomous_organization|DAO]] 레이어 코드 전수 검사 | SQL 동적 [[298_qkv_attention|쿼리]] 0건 |
+| [[726_xss_cross_site_scripting_types|XSS]] 인코딩 함수 사용 | 출력 뷰 [[501_file_definition_logical_record|파일]] 검색 | `fn:escapeXml()` 또는 동등 함수 100% 적용 |
+| [[728_csrf_cross_site_request_forgery_concept|CSRF]] 토큰 구현 | 상태 변경 요청(POST/PUT/DELETE) 전수 | 히든 필드 + 서버 [[395_verification_process_review|검증]] 모두 존재 |
+| [[475_csp|CSP]]([[475_csp|Content Security Policy]]) 헤더 | [[461_http_stateless_connection_oriented|HTTP]] 응답 헤더 [[396_validation|확인]] | `default-src 'self'` 이상 [[009_config|설정]] |
+| 오류 메시지 노출 | 고의 오류 발생 후 응답 [[396_validation|확인]] | DB/[[298_qkv_attention|쿼리]] 정보 미노출 |
 
-- **ORM(Object-Relational Mapping) 사용 시 주의**: JPA(Java Persistence API)/MyBatis의 `${}` 대신 `#{}` 사용 여부 확인. `${}`는 PreparedStatement를 우회하여 SQL 인젝션에 취약하다.
-- **DOM 기반 XSS**: 서버 응답이 안전해도 JavaScript에서 `innerHTML`, `document.write()` 사용 시 클라이언트 측 XSS 발생 가능 — DAST로만 탐지 가능.
-- **CSRF 예외 관리**: API 게이트웨이에서 JWT(JSON Web Token) 기반 인증을 사용하는 경우 CSRF 위험은 낮으나, 쿠키 기반 세션과 혼용 시 반드시 토큰 적용.
+- **ORM(Object-Relational [[010_schema_mapping|Mapping]]) 사용 시 주의**: JPA(Java Persistence [[014_api_posix|API]])/MyBatis의 `${}` 대신 `#{}` 사용 여부 [[396_validation|확인]]. `${}`는 PreparedStatement를 우회하여 SQL [[480_injection|인젝션]]에 취약하다.
+- **DOM 기반 [[726_xss_cross_site_scripting_types|XSS]]**: 서버 응답이 안전해도 JavaScript에서 `innerHTML`, `document.write()` 사용 시 클라이언트 측 [[726_xss_cross_site_scripting_types|XSS]] 발생 가능 — DAST로만 탐지 가능.
+- **[[728_csrf_cross_site_request_forgery_concept|CSRF]] 예외 관리**: [[014_api_posix|API]] 게이트웨이에서 [[549_jwt_json_web_token|JWT]]([[549_jwt_json_web_token|JSON Web Token]]) 기반 인증을 사용하는 경우 [[728_csrf_cross_site_request_forgery_concept|CSRF]] 위험은 낮으나, [[475_cookie_local_state|쿠키]] 기반 [[160_session_controlling_terminal|세션]]과 혼용 시 반드시 토큰 적용.
 
-### 판단 체크리스트
+### 판단 [[435_checklist_based_testing|체크리스트]]
 1. 위험 시나리오와 점검 범위가 문서로 합의되었는가?
-2. 지표·증적·로그가 재현 가능하게 수집되는가?
+2. 지표·증적·[[568_logs_distributed_logging_elk_fluentd|로그]]가 재현 가능하게 수집되는가?
 3. 예외 상황과 오탐·미탐 처리 절차가 있는가?
 4. 재시험 또는 후속 조치 기준이 수치로 정의되었는가?
 
-- **📢 섹션 요약 비유**: ORM에서 `${}` 사용은 "문잠금 장치를 설치했지만 비상구 문은 열어둔 것"이다. 감리는 그 비상구까지 반드시 확인한다.
+- **📢 섹션 요약 비유**: ORM에서 `${}` 사용은 "문잠금 장치를 설치했지만 비상구 문은 열어둔 것"이다. 감리는 그 비상구까지 반드시 [[396_validation|확인]]한다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
-시큐어 코딩 진단이 체계적으로 수행되면 SQL 인젝션을 통한 DB 탈취, XSS를 통한 세션 하이재킹(Session Hijacking), CSRF를 통한 권한 남용이 코드 레벨에서 원천 차단된다. 행정안전부 통계에 따르면 공공기관 침해사고의 약 40%가 웹 취약점에서 발생하며, 특히 SQL 인젝션과 XSS가 주를 이룬다. 감리 단계에서 조기 발견 시 수정 비용은 운영 단계 대비 1/10 이하로 절감된다.
+[[190_secure_coding_guideline|시큐어 코딩]] 진단이 체계적으로 수행되면 SQL [[480_injection|인젝션]]을 통한 DB 탈취, XSS를 통한 [[707_session_hijacking_tcp_seq_cookie|세션 하이재킹]]([[271_session_hijacking|Session Hijacking]]), CSRF를 통한 권한 남용이 코드 레벨에서 원천 차단된다. 행정안전부 통계에 따르면 공공기관 침해사고의 약 40%가 웹 취약점에서 발생하며, 특히 SQL [[480_injection|인젝션]]과 XSS가 주를 이룬다. 감리 단계에서 조기 발견 시 수정 비용은 운영 단계 대비 1/[[489_raid_10_hybrid|10]] 이하로 절감된다.
 
-감리인은 자동화 도구(SAST/DAST) 결과와 수동 코드리뷰를 병행하고, 특히 **입력 처리→DB 연동→출력 렌더링** 전 경로를 추적하는 **데이터 흐름 분석(Data Flow Analysis)**을 핵심 점검 방법으로 적용해야 한다.
+감리인은 자동화 도구([[491_sast_static_analysis|SAST]]/[[492_dast_dynamic_analysis|DAST]]) 결과와 수동 코드리뷰를 병행하고, 특히 **입력 처리→DB 연동→출력 렌더링** 전 경로를 추적하는 **[[001_dikw_pyramid|데이터]] 흐름 분석([[001_dikw_pyramid|Data]] Flow Analysis)**을 핵심 점검 방법으로 적용해야 한다.
 
-확장 방향은 ① Policy as Code, ② Continuous Audit, ③ 인공지능(AI, Artificial Intelligence) 기반 이상 탐지와 결합하는 것이다.
+확장 방향은 ① [[164_policy|Policy]] [[344_as_autonomous_system_asn|as]] [[082_process_memory_structure|Code]], ② Continuous [[363_audit|Audit]], ③ [[231_ai_turing_test|인공지능]]([[190_ai_llm_requirements_specification|AI]], [[001_artificial_intelligence|Artificial Intelligence]]) 기반 이상 탐지와 결합하는 것이다.
 
-- **📢 섹션 요약 비유**: 시큐어 코딩 감리는 건물 완공 전 소방 배선을 점검하는 것과 같다. 벽을 뜯고 다시 배선하는 비용보다 사전 점검이 훨씬 저렴하고 안전하다.
+- **📢 섹션 요약 비유**: [[190_secure_coding_guideline|시큐어 코딩]] 감리는 건물 완공 전 소방 배선을 점검하는 것과 같다. 벽을 뜯고 다시 배선하는 비용보다 사전 점검이 훨씬 저렴하고 안전하다.
 
 ---
 
 ### 📌 관련 개념 맵
-| 관계 | 개념 | 설명 |
+| [[083_relationship_in_er_model|관계]] | 개념 | 설명 |
 |:---|:---|:---|
-| 상위 개념 | SW 개발보안 (Secure Coding) | 43개 취약점 진단 체계 전체 |
-| 상위 개념 | OWASP Top 10 | 웹 보안 10대 위험 목록 |
-| 하위 개념 | PreparedStatement | SQL 인젝션 방어 핵심 구현체 |
-| 하위 개념 | CSP (Content Security Policy) | XSS 방어를 위한 HTTP 응답 헤더 |
-| 하위 개념 | SameSite 쿠키 | CSRF 방어를 위한 쿠키 속성 |
-| 연관 개념 | SAST / DAST | 정적·동적 보안 테스트 도구 |
+| 상위 개념 | SW 개발보안 ([[190_secure_coding_guideline|Secure Coding]]) | 43개 취약점 진단 체계 전체 |
+| 상위 개념 | [[416_owasp_top_10|OWASP Top 10]] | 웹 보안 10대 위험 목록 |
+| 하위 개념 | PreparedStatement | SQL [[480_injection|인젝션]] 방어 핵심 구현체 |
+| 하위 개념 | [[475_csp|CSP]] ([[475_csp|Content Security Policy]]) | [[726_xss_cross_site_scripting_types|XSS]] 방어를 위한 [[461_http_stateless_connection_oriented|HTTP]] 응답 헤더 |
+| 하위 개념 | SameSite [[475_cookie_local_state|쿠키]] | [[728_csrf_cross_site_request_forgery_concept|CSRF]] 방어를 위한 [[475_cookie_local_state|쿠키]] [[082_attribute_types_er_model|속성]] |
+| 연관 개념 | [[491_sast_static_analysis|SAST]] / [[492_dast_dynamic_analysis|DAST]] | 정적·동적 보안 테스트 도구 |
 | 연관 개념 | KISA 취약점 진단 | 공공기관 법적 점검 기준 |
 
 ### 📈 관련 키워드 및 발전 흐름도
-위협 모델링 → 시큐어 코딩 SQL/XSS/CSRF 진단 → SAST/DAST·보안 테스트
+[[611_threat_modeling|위협 모델링]] → [[190_secure_coding_guideline|시큐어 코딩]] SQL/[[726_xss_cross_site_scripting_types|XSS]]/[[728_csrf_cross_site_request_forgery_concept|CSRF]] 진단 → [[491_sast_static_analysis|SAST]]/[[492_dast_dynamic_analysis|DAST]]·보안 테스트
 
 ### 👶 어린이를 위한 3줄 비유 설명
-1. SQL 인젝션은 마법 주문서에 "내 말을 무조건 따라!"라고 쓴 쪽지를 몰래 끼워 넣는 속임수야.
+1. SQL [[480_injection|인젝션]]은 마법 주문서에 "내 말을 무조건 따라!"라고 쓴 쪽지를 몰래 끼워 넣는 속임수야.
 2. XSS는 친구에게 전달할 편지 속에 폭탄 스티커를 숨겨 상대방 책상에서 터지게 하는 것이고.
 3. CSRF는 누군가가 엄마 이름으로 가짜 편지를 써서 용돈을 자기 통장에 넣도록 속이는 것이야.

@@ -8,28 +8,28 @@ categories = "studynote-operating-system"
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: SELinux (Security-Enhanced Linux)는 기존 리눅스의 허술한 임의 접근 통제(DAC)를 대체하기 위해, 미국 국가안보국(NSA)이 개발한 **커널 레벨의 강제 접근 통제 (MAC, Mandatory Access Control) 보안 아키텍처**다.
-> 2. **가치**: 해커가 시스템 관리자(Root) 권한을 탈취하거나 애플리케이션의 취약점을 뚫더라도, 사전에 정의된 '보안 정책(Policy)'에 없는 행동(예: 웹 서버가 쉘 스크립트를 실행)이라면 무조건 차단하여 시스템 전체가 장악되는 것을 방지한다.
-> 3. **융합**: 모든 프로세스, 파일, 네트워크 포트에 '보안 컨텍스트(Security Context, 라벨)'를 부여하고, 이를 주체(Subject)와 객체(Object) 간의 매트릭스로 검증하는 린눅스 커널 모듈(LSM) 프레임워크의 가장 성공적인 융합 사례다.
+> 1. **본질**: [[583_selinux|SELinux]] ([[283_security_tactics|Security]]-Enhanced Linux)는 기존 리눅스의 허술한 임의 [[387_access_control_pattern|접근 통제]](DAC)를 대체하기 위해, 미국 국가안보국([[766_nsa_non_standalone_5g_lte_core|NSA]])이 개발한 **[[022_kernel_role|커널]] 레벨의 강제 [[387_access_control_pattern|접근 통제]] ([[673_mac_message_authentication_code|MAC]], Mandatory [[547_access_control_rwx|Access Control]]) [[302_security_architecture_design|보안 아키텍처]]**다.
+> 2. **가치**: 해커가 시스템 관리자(Root) 권한을 탈취하거나 애플리케이션의 취약점을 뚫더라도, 사전에 정의된 '[[007_security_policy|보안 정책]]([[164_policy|Policy]])'에 없는 행동(예: 웹 서버가 쉘 스크립트를 실행)이라면 무조건 차단하여 시스템 전체가 장악되는 것을 방지한다.
+> 3. **융합**: 모든 프로세스, [[501_file_definition_logical_record|파일]], 네트워크 [[446_port_and_bus|포트]]에 '보안 [[033_context|컨텍스트]]([[283_security_tactics|Security]] [[033_context|Context]], 라벨)'를 부여하고, 이를 주체(Subject)와 객체(Object) 간의 매트릭스로 검증하는 린눅스 [[022_kernel_role|커널]] [[192_module_independence|모듈]](LSM) 프레임워크의 가장 성공적인 융합 사례다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
 - **개념**: 
-  - **DAC (임의 접근 통제)**: 리눅스의 기본 권한 체계(`rwxr-xr-x`). 파일의 '소유자(Owner)'가 마음대로 권한을 바꿀 수 있다. Root는 무적이다.
-  - **MAC (강제 접근 통제)**: 파일 소유자든 Root든 상관없이, 오직 **'시스템의 중앙 보안 정책(Policy)'**만이 누가 무엇을 할 수 있는지 결정한다. SELinux는 이 MAC을 구현한 리눅스의 보안 엔진이다.
+  - **DAC (임의 [[387_access_control_pattern|접근 통제]])**: 리눅스의 기본 권한 체계(`rwxr-xr-x`). [[501_file_definition_logical_record|파일]]의 '소유자(Owner)'가 마음대로 권한을 바꿀 수 있다. Root는 무적이다.
+  - **[[673_mac_message_authentication_code|MAC]] (강제 [[387_access_control_pattern|접근 통제]])**: [[501_file_definition_logical_record|파일]] 소유자든 Root든 상관없이, 오직 **'시스템의 중앙 [[007_security_policy|보안 정책]]([[164_policy|Policy]])'**만이 누가 무엇을 할 수 있는지 결정한다. SELinux는 이 MAC을 구현한 리눅스의 보안 엔진이다.
 
 - **필요성(문제의식)**: 
   - 전통적인 리눅스(DAC)에서는 Nginx 웹 서버가 `www-data` 권한으로 돈다. 만약 Nginx 코드에 취약점이 있어서 해커가 침투하면, 해커는 `www-data` 권한을 얻는다. 문제는 이 권한만으로도 `/tmp`에 악성코드를 다운받거나 리버스 쉘을 열 수 있다는 점이다.
-  - 만약 해커가 어떻게든 `Root` 계정마저 탈취하면(권한 상승), 서버는 끝장난다.
-  - **해결책**: "Root 권한이고 뭐고 다 뺏어라! 웹 서버 프로세스는 오직 '/var/www/html' 폴더만 읽을 수 있고, 네트워크 80번 포트만 열 수 있도록 강제로 족쇄(Context)를 채워버리자!"
+  - 만약 해커가 어떻게든 `Root` 계정마저 탈취하면([[356_privilege_escalation|권한 상승]]), 서버는 끝장난다.
+  - **해결책**: "Root 권한이고 뭐고 다 뺏어라! 웹 서버 프로세스는 오직 '/var/www/html' 폴더만 읽을 수 있고, 네트워크 80번 [[446_port_and_bus|포트]]만 열 수 있도록 강제로 족쇄([[033_context|Context]])를 채워버리자!"
 
   - **DAC (기존 리눅스)**: 아파트(서버)에서 집주인(소유자)이 자기 집 열쇠를 친구에게 맘대로 복사해 줄 수 있다. 건물주(Root)는 마스터 키로 모든 집에 다 들어갈 수 있다. (건물주가 미치면 아파트 전체가 털림)
-  - **MAC (SELinux)**: 아파트의 모든 문이 지문 인식기(MAC)로 바뀌었다. 집주인이라도 관리사무소 시스템(정책)에 미리 등록되지 않은 행동은 할 수 없으며, 건물주(Root)조차 시스템이 허락한 '관리용 방' 외에는 절대 들어갈 수 없다.
+  - **[[673_mac_message_authentication_code|MAC]] ([[583_selinux|SELinux]])**: 아파트의 모든 문이 지문 인식기([[673_mac_message_authentication_code|MAC]])로 바뀌었다. 집주인이라도 관리사무소 시스템([[164_policy|정책]])에 미리 등록되지 않은 행동은 할 수 없으며, 건물주(Root)조차 시스템이 허락한 '관리용 방' 외에는 절대 들어갈 수 없다.
 
 - **등장 배경**: 
-  - 2000년대 초반, 미국 정부(NSA)가 국가 기밀 시스템을 리눅스로 구축하려다 "Root가 너무 위험하다"며 직접 리눅스 커널에 강력한 통제 모듈을 붙여서 오픈소스로 기증한 것이 SELinux다. (이후 Red Hat/CentOS 진영의 표준이 됨).
+  - 2000년대 초반, 미국 정부([[766_nsa_non_standalone_5g_lte_core|NSA]])가 국가 기밀 시스템을 리눅스로 구축하려다 "Root가 너무 위험하다"며 직접 리눅스 [[022_kernel_role|커널]]에 강력한 통제 [[192_module_independence|모듈]]을 붙여서 오픈소스로 기증한 것이 SELinux다. (이후 Red Hat/CentOS 진영의 표준이 됨).
 
 ```text
   ┌─────────────────────────────────────────────────────────────┐
@@ -60,30 +60,30 @@ categories = "studynote-operating-system"
   └─────────────────────────────────────────────────────────────┘
 ```
 
-**[다이어그램 해설]** 이것이 바로 "강제(Mandatory)"라는 단어의 위력이다. 위 그림에서 `/etc/passwd` 파일은 기본적으로 누구나 읽을 수 있게(`-rw-r--r--`) 되어 있어서 1차 관문(DAC)은 쉽게 통과한다. 하지만 SELinux는 2차 관문으로 동작한다. Nginx 프로세스의 이마에 붙은 부적(`httpd_t`)과 타겟 파일의 부적(`passwd_file_t`)을 비교하여, "웹 서버가 왜 비밀번호 파일을 건드려?"라며 차단해 버린다. 해커가 웹 서버를 완전히 장악했음에도 불구하고, 그 웹 서버라는 감옥(Sandbox) 안에서 한 발자국도 밖으로 나갈 수 없게 되는 것이다.
+**[다이어그램 해설]** 이것이 바로 "강제(Mandatory)"라는 단어의 위력이다. 위 그림에서 `/etc/passwd` [[501_file_definition_logical_record|파일]]은 기본적으로 누구나 읽을 수 있게(`-rw-r--r--`) 되어 있어서 1차 관문(DAC)은 쉽게 통과한다. 하지만 SELinux는 2차 관문으로 동작한다. Nginx 프로세스의 이마에 붙은 부적(`httpd_t`)과 타겟 [[501_file_definition_logical_record|파일]]의 부적(`passwd_file_t`)을 비교하여, "웹 서버가 왜 비밀번호 [[501_file_definition_logical_record|파일]]을 건드려?"라며 차단해 버린다. 해커가 웹 서버를 완전히 장악했음에도 불구하고, 그 웹 서버라는 감옥(Sandbox) 안에서 한 발자국도 밖으로 나갈 수 없게 되는 것이다.
 
-- **📢 섹션 요약 비유**: 회사에서 사장님(Root) 지시로 부서원이 움직이는 게 아니라, 오직 회사 '정관과 규정집(Policy)'에 적힌 행동만 할 수 있게 강제하는 깐깐한 감사팀(SELinux)이 실시간으로 감시하는 조직입니다.
+- **📢 섹션 요약 비유**: 회사에서 사장님(Root) 지시로 부서원이 움직이는 게 아니라, 오직 회사 '정관과 규정집([[164_policy|Policy]])'에 적힌 행동만 할 수 있게 강제하는 깐깐한 감사팀([[583_selinux|SELinux]])이 실시간으로 감시하는 조직입니다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### SELinux 보안 컨텍스트 (Security Context / Label)
+### [[583_selinux|SELinux]] 보안 [[033_context|컨텍스트]] ([[283_security_tactics|Security]] [[033_context|Context]] / Label)
 
-SELinux는 시스템의 모든 요소에 `User:Role:Type:Level` 형식의 긴 라벨(Label)을 붙인다. `ls -Z` 나 `ps -Z` 명령어로 볼 수 있다.
+SELinux는 시스템의 모든 요소에 `User:Role:Type:Level` 형식의 긴 라벨(Label)을 붙인다. `ls -Z` 나 `ps -Z` [[158_instruction|명령어]]로 볼 수 있다.
 
 | 라벨 요소 | 의미 | 예시 (`unconfined_u:object_r:httpd_sys_content_t:s0`) |
 |:---|:---|:---|
 | **User (사용자)** | SELinux가 매핑한 가상의 사용자 | `unconfined_u` (제한 없는 사용자) |
-| **Role (역할)** | 사용자가 현재 맡고 있는 역할 (RBAC) | `object_r` (일반적인 파일/객체 역할) |
-| **Type (타입) ★**| **가장 중요!** 프로세스가 가진 권한의 도메인이자, 파일이 가진 속성. (Type Enforcement, TE) | `httpd_sys_content_t` (웹 서버가 읽어도 되는 정적 파일 타입) |
-| **Level (레벨)** | 군사 등급 보안용 다중 레벨 보안 (MLS) | `s0` (기밀 분류) |
+| **Role (역할)** | 사용자가 현재 맡고 있는 역할 ([[569_rbac|RBAC]]) | `object_r` (일반적인 [[501_file_definition_logical_record|파일]]/객체 역할) |
+| **Type (타입) ★**| **가장 중요!** 프로세스가 가진 권한의 도메인이자, [[501_file_definition_logical_record|파일]]이 가진 [[082_attribute_types_er_model|속성]]. (Type Enforcement, [[361_ospf_traffic_engineering_te|TE]]) | `httpd_sys_content_t` (웹 서버가 읽어도 되는 정적 [[501_file_definition_logical_record|파일]] 타입) |
+| **Level (레벨)** | 군사 등급 보안용 다중 레벨 보안 (MLS) | `s0` (기밀 [[104_classification_analysis|분류]]) |
 
-가장 핵심은 **타입(Type)**이다. 프로세스의 타입(Domain)과 객체의 타입(Type)을 매칭시켜 통제하는 것을 **Type Enforcement (TE)**라고 부른다.
+가장 핵심은 **타입(Type)**이다. 프로세스의 타입([[064_relation_domain|Domain]])과 객체의 타입(Type)을 매칭시켜 통제하는 것을 **Type Enforcement ([[361_ospf_traffic_engineering_te|TE]])**라고 부른다.
 
-### SELinux의 커널 내부 처리 파이프라인 (LSM 훅)
+### SELinux의 [[022_kernel_role|커널]] 내부 처리 파이프라인 (LSM 훅)
 
-SELinux는 독자적으로 돌지 않고, 리눅스 커널의 보안 프레임워크인 **LSM (Linux Security Modules)** 위에서 훅(Hook)으로 동작한다.
+SELinux는 독자적으로 돌지 않고, 리눅스 [[022_kernel_role|커널]]의 보안 프레임워크인 **LSM (Linux [[283_security_tactics|Security]] Modules)** 위에서 훅(Hook)으로 동작한다.
 
 ```text
   ┌───────────────────────────────────────────────────────────────────┐
@@ -117,29 +117,29 @@ SELinux는 독자적으로 돌지 않고, 리눅스 커널의 보안 프레임�
   └───────────────────────────────────────────────────────────────────┘
 ```
 
-**[다이어그램 해설]** SELinux는 리눅스 커널의 목구멍(LSM)에 필터를 끼워 넣은 구조다. 일반 권한 검사(DAC)를 통과하더라도, 커널이 진짜 디스크 드라이버를 부르기 직전 마지막 순간에 LSM 훅이 가로챈다. SELinux 엔진은 이 요청이 '보안 정책'에 어긋나는지 판단한다. 이때 수만 줄의 규칙을 매번 검색하면 서버가 엄청나게 느려질 것이므로, 한 번 판단한 결과는 커널 메모리 내의 **AVC (Access Vector Cache)**라는 고속 캐시에 저장해 두고 재사용한다. 덕분에 SELinux를 켜도 성능 저하는 1~2% 미만에 불과하다.
+**[다이어그램 해설]** SELinux는 리눅스 [[022_kernel_role|커널]]의 목구멍(LSM)에 필터를 끼워 넣은 구조다. 일반 권한 검사(DAC)를 통과하더라도, [[022_kernel_role|커널]]이 진짜 디스크 드라이버를 부르기 직전 마지막 순간에 LSM 훅이 가로챈다. [[583_selinux|SELinux]] 엔진은 이 요청이 '[[007_security_policy|보안 정책]]'에 어긋나는지 판단한다. 이때 수만 줄의 규칙을 매번 검색하면 서버가 엄청나게 느려질 것이므로, 한 번 판단한 결과는 [[022_kernel_role|커널]] 메모리 내의 **AVC (Access Vector Cache)**라는 고속 캐시에 저장해 두고 재사용한다. 덕분에 SELinux를 켜도 [[282_performance_tactics|성능]] 저하는 1~2% 미만에 불과하다.
 
-- **📢 섹션 요약 비유**: 놀이공원에서 표(DAC)를 내고 1차 입장을 했더라도, 롤러코스터를 타기 직전 안전요원(LSM 훅)이 키 제한과 나이(SELinux 라벨)를 한 번 더 깐깐하게 검사하여 조건(정책)에 안 맞으면 쫓아내는 2중 보안 시스템입니다.
+- **📢 섹션 요약 비유**: 놀이공원에서 표(DAC)를 내고 1차 입장을 했더라도, 롤러코스터를 타기 직전 안전요원(LSM 훅)이 키 제한과 나이([[583_selinux|SELinux]] 라벨)를 한 번 더 깐깐하게 검사하여 조건([[164_policy|정책]])에 안 맞으면 쫓아내는 2중 보안 시스템입니다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-### MAC 솔루션 비교 (SELinux vs AppArmor)
+### [[673_mac_message_authentication_code|MAC]] 솔루션 비교 ([[583_selinux|SELinux]] vs [[584_apparmor|AppArmor]])
 
-미국 정부(NSA)가 주도한 RedHat 진영의 SELinux와, 유럽/Canonical 진영이 주도한 Ubuntu의 AppArmor는 같은 철학을 다른 방식으로 풀었다.
+미국 정부([[766_nsa_non_standalone_5g_lte_core|NSA]])가 주도한 RedHat 진영의 SELinux와, 유럽/Canonical 진영이 주도한 Ubuntu의 AppArmor는 같은 철학을 다른 방식으로 풀었다.
 
-| 비교 항목 | SELinux (Security-Enhanced Linux) | AppArmor |
+| 비교 항목 | [[583_selinux|SELinux]] ([[283_security_tactics|Security]]-Enhanced Linux) | [[584_apparmor|AppArmor]] |
 |:---|:---|:---|
 | **기반 OS** | Red Hat, CentOS, Fedora, Android | Ubuntu, SUSE |
-| **통제 방식 (식별자)**| **라벨 (Label/Type) 기반**. 객체마다 고유의 확장 속성(xattr) 메타데이터 라벨을 박아둠. | **파일 경로 (Path) 기반**. "`/usr/bin/nginx`는 `/var/www/`만 읽을 수 있다"라고 직관적으로 적음. |
-| **설정 난이도** | **극상 (Hell)**. 수만 개의 라벨과 Boolean 조합을 이해해야 함. | **쉬움**. 단순한 경로 기반 텍스트 파일로 작성. |
-| **보안 강도** | 파일 이름이나 경로가 바뀌어도 라벨이 유지되므로 **극강의 보안성**을 제공. | 하드링크(Hardlink) 등 경로 우회 공격에 다소 취약할 수 있음. |
+| **통제 방식 ([[289_identification_flags_fragmentation_offset|식별자]])**| **라벨 (Label/Type) 기반**. 객체마다 고유의 확장 [[082_attribute_types_er_model|속성]](xattr) [[012_metadata|메타데이터]] 라벨을 박아둠. | **[[501_file_definition_logical_record|파일]] 경로 (Path) 기반**. "`/usr/bin/nginx`는 `/var/www/`만 읽을 수 있다"라고 직관적으로 적음. |
+| **[[009_config|설정]] 난이도** | **극상 (Hell)**. 수만 개의 라벨과 Boolean 조합을 이해해야 함. | **쉬움**. 단순한 경로 기반 텍스트 [[501_file_definition_logical_record|파일]]로 작성. |
+| **보안 강도** | [[501_file_definition_logical_record|파일]] 이름이나 경로가 바뀌어도 라벨이 유지되므로 **극강의 [[283_security_tactics|보안성]]**을 제공. | 하드링크(Hardlink) 등 경로 우회 공격에 다소 취약할 수 있음. |
 
 ### 과목 융합 관점
 
 - **모바일 OS (안드로이드 보안)**: 오늘날 전 세계에서 SELinux가 가장 많이 깔린 곳은 서버가 아니라 스마트폰(Android)이다. 구글은 안드로이드 4.3부터 **SEAndroid**를 강제 적용했다. 카카오톡 앱이 스마트폰의 문자메시지 DB나 카메라를 마음대로 건드리지 못하는 이유는 앱마다 철저하게 샌드박스 라벨(Type)이 찢어져 격리되어 있기 때문이다. 루팅(Rooting)이 점점 불가능해지는 핵심 이유다.
-- **클라우드 컨테이너 (Docker sVirt)**: 컨테이너는 1개의 커널을 공유하므로, 해커가 A 컨테이너를 뚫고 커널을 장악하면 B 컨테이너도 털린다. 이를 막기 위해 Docker는 SELinux의 확장 기능(sVirt/MCS)을 써서, 컨테이너 A가 켜질 때 고유의 랜덤한 보안 라벨(`s0:c1,c2`)을 붙인다. 컨테이너 A는 절대 컨테이너 B의 라벨이 붙은 메모리나 볼륨에 접근할 수 없다.
+- **클라우드 [[561_container_based_deployment|컨테이너]] ([[063_docker_architecture|Docker]] sVirt)**: [[561_container_based_deployment|컨테이너]]는 1개의 [[022_kernel_role|커널]]을 공유하므로, 해커가 A [[561_container_based_deployment|컨테이너]]를 뚫고 [[022_kernel_role|커널]]을 장악하면 B [[561_container_based_deployment|컨테이너]]도 털린다. 이를 막기 위해 Docker는 SELinux의 확장 기능(sVirt/MCS)을 써서, [[561_container_based_deployment|컨테이너]] A가 켜질 때 고유의 랜덤한 보안 라벨(`s0:c1,c2`)을 붙인다. [[561_container_based_deployment|컨테이너]] A는 절대 [[561_container_based_deployment|컨테이너]] B의 라벨이 붙은 메모리나 볼륨에 접근할 수 없다.
 
 - **📢 섹션 요약 비유**: AppArmor가 사람에게 "넌 '인사팀 명찰' 찼으니 '인사팀 사무실(경로)'만 들어가라"고 문패를 보고 통제한다면, SELinux는 모든 서류 한장 한장, 볼펜 한 자루마다 "이건 인사팀용"이라는 바코드(라벨)를 찍어놓고 바코드가 안 맞으면 물건조차 집을 수 없게 만드는 숨 막히는 통제입니다.
 
@@ -149,13 +149,13 @@ SELinux는 독자적으로 돌지 않고, 리눅스 커널의 보안 프레임�
 
 ### 실무 시나리오 및 트러블슈팅
 
-1. **시나리오 — Nginx 프록시 서버의 502 Bad Gateway 에러**: 관리자가 Nginx를 설치하고 백엔드 톰캣(Tomcat, 포트 8080)으로 리버스 프록시(Reverse Proxy) 설정을 했는데, 브라우저에서 무조건 502 에러가 뜬다. Nginx 에러 로그에는 `Permission denied`가 뜬다.
-   - **원인 분석**: `ls -l` 해보면 권한은 완벽하고 네트워크 방화벽도 뚫려있다. 범인은 SELinux다. Nginx(`httpd_t`)는 80번, 443번 포트를 열어줄 순 있지만, "다른 서버(8080)로 네트워크 연결을 능동적으로 맺어주는 행위"는 정책상 금지되어 있다. `/var/log/audit/audit.log` 파일을 까보면 `avc: denied` 메시지가 찍혀 있다.
-   - **아키텍트 판단 (Boolean 토글 튜닝)**: 무식한 초보자는 `setenforce 0`을 쳐서 SELinux 자체를 꺼버린다(최악의 안티패턴). 시니어 엔지니어는 SELinux가 제공하는 스위치(Boolean)를 찾아내어 `setsebool -P httpd_can_network_connect 1` 명령어 하나만 쳐서 Nginx에게 "네트워크 아웃바운드 연결" 권한만 핀포인트로 허용해 주는 우아한 튜닝을 수행한다.
+1. **시나리오 — Nginx [[264_proxy_pattern_surrogate_access_control|프록시]] 서버의 502 Bad Gateway 에러**: 관리자가 Nginx를 설치하고 백엔드 톰캣(Tomcat, [[446_port_and_bus|포트]] 8080)으로 리버스 [[264_proxy_pattern_surrogate_access_control|프록시]](Reverse [[264_proxy_pattern_surrogate_access_control|Proxy]]) [[009_config|설정]]을 했는데, 브라우저에서 무조건 502 에러가 뜬다. Nginx 에러 로그에는 `Permission denied`가 뜬다.
+   - **원인 분석**: `ls -l` 해보면 권한은 완벽하고 네트워크 방화벽도 뚫려있다. 범인은 SELinux다. Nginx(`httpd_t`)는 80번, 443번 [[446_port_and_bus|포트]]를 열어줄 순 있지만, "다른 서버(8080)로 네트워크 연결을 능동적으로 맺어주는 행위"는 [[164_policy|정책]]상 금지되어 있다. `/var/log/audit/audit.log` [[501_file_definition_logical_record|파일]]을 까보면 `avc: denied` 메시지가 찍혀 있다.
+   - **아키텍트 판단 (Boolean 토글 튜닝)**: 무식한 초보자는 `setenforce 0`을 쳐서 [[583_selinux|SELinux]] 자체를 꺼버린다(최악의 [[128_water_scrum_fall_anti_pattern|안티패턴]]). 시니어 엔지니어는 SELinux가 제공하는 [[238_switch_operation_principles|스위치]](Boolean)를 찾아내어 `setsebool -P httpd_can_network_connect 1` [[158_instruction|명령어]] 하나만 쳐서 Nginx에게 "네트워크 아웃바운드 연결" 권한만 핀포인트로 허용해 주는 우아한 튜닝을 수행한다.
 
-2. **시나리오 — 새로운 경로에 웹 디렉터리를 만들었을 때의 403 Forbidden**: 관리자가 `/var/www/` 대신 디스크 용량이 큰 `/data/website/` 폴더를 새로 만들고 HTML 파일을 넣은 뒤 Nginx 설정 경로를 바꿨다. 접속하니 403 에러가 뜬다.
-   - **원인 분석**: `ls -Z /data/website/` 로 확인해 보면, 새로 만든 폴더는 기본 시스템 타입인 `default_t` 라벨이 붙어 있다. 웹 서버(`httpd_t`)는 `httpd_sys_content_t` 라벨이 붙은 파일만 읽도록 강제되어 있으므로, 권한이 777이라도 SELinux가 차단한 것이다.
-   - **아키텍트 판단 (Context 복원)**: 임시로 `chcon` 명령어를 써서 라벨을 바꿀 수 있지만, 재부팅하면 날아간다. 영구적인 조치를 위해 `semanage fcontext -a -t httpd_sys_content_t "/data/website(/.*)?"` 로 룰을 추가하고, `restorecon -Rv /data/website` 명령을 때려서 파일 시스템에 정식으로 웹 서버용 바코드(라벨)를 찍어주어야 완벽히 해결된다.
+2. **시나리오 — 새로운 경로에 웹 디렉터리를 만들었을 때의 403 Forbidden**: 관리자가 `/var/www/` 대신 디스크 용량이 큰 `/data/website/` 폴더를 새로 만들고 HTML [[501_file_definition_logical_record|파일]]을 넣은 뒤 Nginx [[009_config|설정]] 경로를 바꿨다. 접속하니 403 에러가 뜬다.
+   - **원인 분석**: `ls -Z /data/website/` 로 확인해 보면, 새로 만든 폴더는 기본 시스템 타입인 `default_t` 라벨이 붙어 있다. 웹 서버(`httpd_t`)는 `httpd_sys_content_t` 라벨이 붙은 [[501_file_definition_logical_record|파일]]만 읽도록 강제되어 있으므로, 권한이 777이라도 SELinux가 차단한 것이다.
+   - **아키텍트 판단 ([[033_context|Context]] 복원)**: 임시로 `chcon` [[158_instruction|명령어]]를 써서 라벨을 바꿀 수 있지만, 재부팅하면 날아간다. 영구적인 조치를 위해 `semanage fcontext -a -t httpd_sys_content_t "/data/website(/.*)?"` 로 룰을 추가하고, `restorecon -Rv /data/website` 명령을 때려서 [[501_file_definition_logical_record|파일]] 시스템에 정식으로 웹 서버용 바코드(라벨)를 찍어주어야 완벽히 해결된다.
 
 ```text
   ┌───────────────────────────────────────────────────────────────────┐
@@ -180,12 +180,12 @@ SELinux는 독자적으로 돌지 않고, 리눅스 커널의 보안 프레임�
   └───────────────────────────────────────────────────────────────────┘
 ```
 
-**[다이어그램 해설]** "SELinux를 끄세요"는 구글 검색에 가장 많이 나오는 엉터리 조언이다. 아키텍트라면 SELinux를 '디버깅 모드(Permissive)'로만 살짝 바꿔서 원인이 맞는지 확인한 후, 반드시 다시 켜고(Enforcing) 근본적인 라벨링 룰을 고쳐야 한다. 리눅스에는 `audit2allow`라는 천재적인 도구가 내장되어 있어서, 로그에 찍힌 에러를 분석하여 "이거 허용하려면 이 명령어 치면 돼"라고 정답(Rule)을 알려준다. 이를 적극 활용하는 것이 실무의 핵심이다.
+**[다이어그램 해설]** "SELinux를 끄세요"는 구글 검색에 가장 많이 나오는 엉터리 조언이다. 아키텍트라면 SELinux를 '디버깅 모드(Permissive)'로만 살짝 바꿔서 원인이 맞는지 확인한 후, 반드시 다시 켜고(Enforcing) 근본적인 라벨링 룰을 고쳐야 한다. 리눅스에는 `audit2allow`라는 천재적인 도구가 내장되어 있어서, 로그에 찍힌 에러를 분석하여 "이거 허용하려면 이 [[158_instruction|명령어]] 치면 돼"라고 정답(Rule)을 알려준다. 이를 적극 활용하는 것이 실무의 핵심이다.
 
-### 안티패턴
-- **운영 서버의 `/etc/selinux/config` 에서 `SELINUX=disabled` 설정**: 설치 과정이 귀찮다고 커널 부팅 파라미터나 설정 파일에서 SELinux 엔진 자체를 영구적으로 꺼버리는 행위. 이는 시스템의 2차 방어벽을 통째로 허물어버리는 짓이다. 만약 제로데이 취약점이나 아파치/톰캣의 RCE(원격 코드 실행)가 터지면, 뚫린 즉시 해커가 쉘(Shell)을 얻고 횡적 이동(Lateral Movement)을 통해 서버망 전체를 박살 낼 것이다.
+### [[128_water_scrum_fall_anti_pattern|안티패턴]]
+- **운영 서버의 `/etc/selinux/config` 에서 `SELINUX=disabled` [[009_config|설정]]**: 설치 과정이 귀찮다고 [[022_kernel_role|커널]] 부팅 파라미터나 [[009_config|설정]] [[501_file_definition_logical_record|파일]]에서 [[583_selinux|SELinux]] 엔진 자체를 영구적으로 꺼버리는 행위. 이는 시스템의 2차 방어벽을 통째로 허물어버리는 짓이다. 만약 [[761_zero_day|제로데이]] 취약점이나 아파치/톰캣의 RCE(원격 코드 실행)가 터지면, 뚫린 즉시 해커가 쉘([[044_shell|Shell]])을 얻고 횡적 이동(Lateral Movement)을 통해 서버망 전체를 박살 낼 것이다.
 
-- **📢 섹션 요약 비유**: 예방주사(SELinux)를 맞았더니 팔이 뻐근하고 열이 난다(세팅의 귀찮음)고 해서 주사를 아예 안 맞겠다(Disabled)고 선언하는 것과 같습니다. 열이 조금 나더라도 약을 먹으며(라벨 튜닝) 항체를 만들어두어야, 진짜 치명적인 바이러스(해커)가 들어왔을 때 목숨을 건질 수 있습니다.
+- **📢 섹션 요약 비유**: 예방주사([[583_selinux|SELinux]])를 맞았더니 팔이 뻐근하고 열이 난다(세팅의 귀찮음)고 해서 주사를 아예 안 맞겠다(Disabled)고 선언하는 것과 같습니다. 열이 조금 나더라도 약을 먹으며(라벨 튜닝) 항체를 만들어두어야, 진짜 치명적인 [[589_virus|바이러스]](해커)가 들어왔을 때 목숨을 건질 수 있습니다.
 
 ---
 
@@ -193,23 +193,23 @@ SELinux는 독자적으로 돌지 않고, 리눅스 커널의 보안 프레임�
 
 ### 정량/정성 기대효과
 
-| 구분 | DAC 전용 환경 (SELinux Off) | MAC 강제 환경 (SELinux On) | 개선 효과 |
+| 구분 | DAC 전용 환경 ([[583_selinux|SELinux]] Off) | [[673_mac_message_authentication_code|MAC]] 강제 환경 ([[583_selinux|SELinux]] On) | 개선 효과 |
 |:---|:---|:---|:---|
-| **정량 (Exploit 성공 후 피해)**| 취약점 1개로 시스템 100% 장악 | 취약점 뚫려도 해당 앱 권한 내에 100% 갇힘 | 제로데이 공격(RCE)의 2차, 3차 확산 파괴력 제로화 |
-| **정성 (권한 분산)** | Root가 절대 권력 독점 | Root마저도 보안 정책에 종속 | 내부자(악의적 관리자) 위협 방어 및 권력 분리 달성 |
-| **정성 (컴플라이언스)** | 심층 보안(Defense in Depth) 미흡 | 미국 국방성(DoD) 레벨의 강제 통제 입증 | 최고 수준의 기업/금융 인프라 규제(Compliance) 통과 |
+| **정량 (Exploit 성공 후 피해)**| 취약점 1개로 시스템 100% 장악 | 취약점 뚫려도 해당 앱 권한 내에 100% 갇힘 | [[761_zero_day|제로데이]] 공격(RCE)의 2차, 3차 확산 파괴력 [[784_zeroization_circuit|제로화]] |
+| **정성 (권한 [[136_variance|분산]])** | Root가 절대 권력 독점 | Root마저도 [[007_security_policy|보안 정책]]에 종속 | 내부자(악의적 관리자) 위협 방어 및 권력 분리 달성 |
+| **정성 (컴플라이언스)** | 심층 보안([[012_defense_in_depth|Defense in Depth]]) 미흡 | 미국 국방성(DoD) 레벨의 강제 통제 입증 | 최고 수준의 기업/금융 인프라 규제([[058_it_compliance_sox_basel_gdpr_isms|Compliance]]) 통과 |
 
 ### 미래 전망
-- **eBPF 기반 동적 보안 (LSM-BPF)**: 기존 SELinux는 정책 언어가 너무 어렵고 정적이어서 클라우드의 미친 변화 속도를 따라가기 벅찼다. 최신 커널은 LSM(Linux Security Module) 자체를 eBPF로 노출시켰다. 이제는 무거운 SELinux 모듈 대신, 커널 소스 수정 없이 eBPF 코드로 런타임에 보안 정책(접근 통제 훅)을 실시간으로 박아넣는 **동적 MAC (Cilium Tetragon 등)** 시대로 넘어가고 있다.
-- **Micro-segmentation (초정밀 격리)**: 컨테이너(Kubernetes) 환경에서는 파일이나 프로세스 라벨링을 넘어, 네트워크 패킷과 API 호출 하나하나까지 SELinux 수준의 MAC 통제를 거는 마이크로 세그멘테이션으로 철학이 이식되어, 제로 트러스트(Zero Trust) 아키텍처의 밑거름이 되고 있다.
+- **[[615_ebpf|eBPF]] 기반 동적 보안 (LSM-BPF)**: 기존 SELinux는 [[164_policy|정책]] 언어가 너무 어렵고 정적이어서 클라우드의 미친 변화 속도를 따라가기 벅찼다. 최신 [[022_kernel_role|커널]]은 LSM(Linux [[283_security_tactics|Security]] [[192_module_independence|Module]]) 자체를 eBPF로 노출시켰다. 이제는 무거운 [[583_selinux|SELinux]] [[192_module_independence|모듈]] 대신, [[022_kernel_role|커널]] 소스 수정 없이 [[615_ebpf|eBPF]] 코드로 런타임에 [[007_security_policy|보안 정책]]([[387_access_control_pattern|접근 통제]] 훅)을 실시간으로 박아넣는 **동적 [[673_mac_message_authentication_code|MAC]] ([[825_cilium_ebpf_kubernetes_networking_security|Cilium]] Tetragon 등)** 시대로 넘어가고 있다.
+- **[[059_micro_segmentation_east_west_traffic|Micro-segmentation]] (초정밀 격리)**: [[561_container_based_deployment|컨테이너]]([[205_kubernetes_container_orchestration|Kubernetes]]) 환경에서는 [[501_file_definition_logical_record|파일]]이나 프로세스 라벨링을 넘어, 네트워크 패킷과 [[014_api_posix|API]] 호출 하나하나까지 [[583_selinux|SELinux]] 수준의 [[673_mac_message_authentication_code|MAC]] 통제를 거는 마이크로 세그멘테이션으로 철학이 이식되어, [[667_zero_trust_runtime_integrity_measurement|제로 트러스트]]([[667_zero_trust_runtime_integrity_measurement|Zero Trust]]) 아키텍처의 밑거름이 되고 있다.
 
 ### 참고 표준
-- **FLASK (Flux Advanced Security Kernel)**: 미국 NSA가 만든 보안 아키텍처로, 객체 관리자(OS)와 보안 결정 엔진(Security Server)을 완벽히 분리하는 SELinux의 토대 스펙.
-- **RBAC (Role-Based Access Control) & MLS**: SELinux가 지원하는 부가적인 보안 표준들로, 역할 기반 접근 제어와 군사적 다중 등급 보안 모델.
+- **FLASK (Flux Advanced [[283_security_tactics|Security]] [[022_kernel_role|Kernel]])**: 미국 NSA가 만든 [[302_security_architecture_design|보안 아키텍처]]로, 객체 관리자(OS)와 보안 결정 엔진([[283_security_tactics|Security]] Server)을 완벽히 분리하는 SELinux의 토대 스펙.
+- **[[569_rbac|RBAC]] ([[569_rbac|Role-Based Access Control]]) & MLS**: SELinux가 지원하는 부가적인 보안 표준들로, 역할 기반 접근 제어와 군사적 다중 등급 보안 모델.
 
-SELinux 강제 접근 통제는 "아무도 믿지 마라. 심지어 나(Root)조차도"라는 극단적인 의심에서 출발한 철학이다. 너무 깐깐해서 수많은 리눅스 입문자들의 원망을 샀고 가장 먼저 꺼버리는(Disabled) 옵션 1순위가 되었지만, 역설적으로 그 깐깐함 덕분에 리눅스는 세상에서 가장 안전한 운영체제로 서버와 스마트폰 시장을 정복할 수 있었다. 해커가 창을 갈고 닦아 첫 번째 성벽(DAC)을 넘었을 때, 그들을 절망에 빠뜨리는 투명하고 거대한 두 번째 성벽이 바로 MAC이다.
+[[583_selinux|SELinux]] 강제 [[387_access_control_pattern|접근 통제]]는 "아무도 믿지 마라. 심지어 나(Root)조차도"라는 극단적인 의심에서 출발한 철학이다. 너무 깐깐해서 수많은 리눅스 입문자들의 원망을 샀고 가장 먼저 꺼버리는(Disabled) 옵션 1순위가 되었지만, 역설적으로 그 깐깐함 덕분에 리눅스는 세상에서 가장 안전한 운영체제로 서버와 스마트폰 시장을 정복할 수 있었다. 해커가 창을 갈고 닦아 첫 번째 성벽(DAC)을 넘었을 때, 그들을 절망에 빠뜨리는 투명하고 거대한 두 번째 성벽이 바로 MAC이다.
 
-- **📢 섹션 요약 비유**: 해커가 은행원(프로세스)을 협박해 금고를 열라고 했지만, 금고는 '은행원이 아니라 로봇(보안 정책)이 두 명 이상 동시에 지문(라벨)을 찍어야만 열리는' 시스템(MAC)으로 설계되어 있어, 결국 해커는 아무것도 훔치지 못하고 헛고생만 하게 만드는 철벽의 설계입니다.
+- **📢 섹션 요약 비유**: 해커가 은행원(프로세스)을 협박해 금고를 열라고 했지만, 금고는 '은행원이 아니라 로봇([[007_security_policy|보안 정책]])이 두 명 이상 동시에 지문(라벨)을 찍어야만 열리는' 시스템([[673_mac_message_authentication_code|MAC]])으로 설계되어 있어, 결국 해커는 아무것도 훔치지 못하고 헛고생만 하게 만드는 철벽의 설계입니다.
 
 ---
 
@@ -217,10 +217,10 @@ SELinux 강제 접근 통제는 "아무도 믿지 마라. 심지어 나(Root)조
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| 루트킷 탐지 무결성 스캔 | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
-| ASLR 메모리 레이아웃 난수화 | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
-| 실시간 스케줄링 마감 시간 (Deadline) | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
-| 스핀락 멀티 프로세서 전용 활용 | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
+| [[603_rootkit_syscall_hooking|루트킷]] 탐지 [[003_integrity|무결성]] 스캔 | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
+| [[374_aslr|ASLR]] 메모리 레이아웃 난수화 | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
+| 실시간 스케줄링 마감 시간 ([[766_realtime_scheduling_deadline|Deadline]]) | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
+| [[222_spinlock|스핀락]] 멀티 프로세서 전용 활용 | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -239,5 +239,5 @@ SELinux 강제 접근 통제는 "아무도 믿지 마라. 심지어 나(Root)조
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. 기존의 컴퓨터 세상(DAC)은 아파트 주인이 열쇠를 친구한테 마음대로 복사해 줄 수 있어서, 친구가 나쁜 마음을 먹으면 집이 다 털렸어요.
-2. 하지만 SELinux 세상(MAC)은 아파트의 모든 문을 '초정밀 지문 인식기'로 바꿨어요. 집주인이라도 미리 등록된 약속된 행동 외에는 절대 문이 열리지 않죠.
+2. 하지만 [[583_selinux|SELinux]] 세상([[673_mac_message_authentication_code|MAC]])은 아파트의 모든 문을 '초정밀 지문 인식기'로 바꿨어요. 집주인이라도 미리 등록된 약속된 행동 외에는 절대 문이 열리지 않죠.
 3. 그래서 도둑이 몰래 집주인 행세를 하며 들어와도, 시스템이 "넌 원래 이 방에 들어갈 권한(라벨)이 없잖아!"라며 강제로 막아버리기 때문에 컴퓨터가 아주 안전하게 지켜진답니다!

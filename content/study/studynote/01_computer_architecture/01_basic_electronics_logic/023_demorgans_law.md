@@ -7,15 +7,15 @@ categories = "studynote-computer-architecture"
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: 드모르간의 법칙 (De Morgan's Law)은 논리식 전체를 부정(NOT)할 때, AND(논리곱)와 OR(논리합) 연산자가 서로 뒤집히고 개별 변수에 각각 NOT이 분배된다는 부울 대수 (Boolean Algebra)의 이중성 (Duality) 정리다.
-> 2. **가치**: 두 법칙 — $\overline{A \cdot B} = \overline{A} + \overline{B}$, $\overline{A + B} = \overline{A} \cdot \overline{B}$ — 덕분에 AND·OR·NOT 어떤 회로도 NAND (Not AND) 또는 NOR (Not OR) 단일 게이트만으로 완전히 대체할 수 있어 반도체 마스크 종류를 하나로 통일하고 칩 단가를 극적으로 절감한다.
+> 1. **본질**: 드모르간의 법칙 (De Morgan's Law)은 [[369_logic_bomb|논리]]식 전체를 부정(NOT)할 때, AND([[369_logic_bomb|논리]]곱)와 OR([[369_logic_bomb|논리]]합) 연산자가 서로 뒤집히고 개별 변수에 각각 NOT이 분배된다는 [[022_boolean_algebra|부울 대수]] ([[022_boolean_algebra|Boolean Algebra]])의 이중성 (Duality) 정리다.
+> 2. **가치**: 두 법칙 — $\overline{A \cdot B} = \overline{A} + \overline{B}$, $\overline{A + B} = \overline{A} \cdot \overline{B}$ — 덕분에 AND·OR·NOT 어떤 회로도 NAND (Not AND) 또는 NOR (Not OR) 단일 게이트만으로 완전히 대체할 수 있어 [[009_semiconductor|반도체]] 마스크 종류를 하나로 통일하고 칩 단가를 극적으로 절감한다.
 > 3. **판단 포인트**: 로직 합성 (Logic Synthesis) 시 불필요한 게이트 혼용을 없애고 회로 깊이 (Logic Depth)를 줄이는 핵심 도구이며, 소프트웨어 조건문의 우아한 리팩토링에서도 동일 원리가 작동한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-드모르간의 법칙은 영국 수학자 오거스터스 드모르간 (Augustus De Morgan, 1806~1871)이 정립한 부울 대수의 근본 정리로, 논리식 전체를 감싸는 부정 기호를 괄호 안으로 쪼개 분배할 때 내부 연산자가 정확히 반전된다는 법칙이다.
+드모르간의 법칙은 영국 수학자 오거스터스 드모르간 (Augustus De Morgan, 1806~1871)이 정립한 [[022_boolean_algebra|부울 대수]]의 근본 정리로, [[369_logic_bomb|논리]]식 전체를 감싸는 부정 기호를 괄호 안으로 쪼개 분배할 때 내부 연산자가 정확히 반전된다는 법칙이다.
 
 디지털 회로 설계에서 AND, OR, NOT 게이트를 각각 별도로 파운드리에서 찍어낼 경우, 포토마스크 (Photo-mask) 종류와 제조 공정이 늘어나 원가가 치솟는다. 드모르간의 법칙은 이 세 종류의 게이트 전부를 오직 NAND 또는 NOR 하나로만 만들 수 있음을 수학적으로 보장해 주어, VLSI (Very Large Scale Integration) 시대의 핵심 경제 원리가 되었다.
 
@@ -26,7 +26,7 @@ categories = "studynote-computer-architecture"
 | **제 1법칙 (NAND 분해)** | $\overline{A \cdot B} = \overline{A} + \overline{B}$ | NAND 전체 부정 → 각각 NOT 후 OR |
 | **제 2법칙 (NOR 분해)** | $\overline{A + B} = \overline{A} \cdot \overline{B}$ | NOR 전체 부정 → 각각 NOT 후 AND |
 
-법칙이 없었다면 EDA (Electronic Design Automation) 합성 툴은 회로를 하나의 게이트 족으로 묶어 최적화하지 못했을 것이다.
+법칙이 없었다면 [[064_eda|EDA]] (Electronic Design Automation) 합성 툴은 회로를 하나의 게이트 족으로 묶어 최적화하지 못했을 것이다.
 
 ```text
 ┌───────────────────────────────────────────────────────────┐
@@ -50,7 +50,7 @@ categories = "studynote-computer-architecture"
 └───────────────────────────────────────────────────────────┘
 ```
 
-📢 **섹션 요약 비유**: "비가 오고 천둥이 친다"의 반대말은 "비가 안 오거나 천둥이 안 친다"이다. "비가 안 오고 천둥도 안 친다"(AND → AND)가 아니다. 드모르간은 일상 언어 속에 숨어있는 논리의 참모습을 꺼내주는 진실의 거울이다.
+📢 **섹션 요약 비유**: "비가 오고 천둥이 친다"의 반대말은 "비가 안 오거나 천둥이 안 친다"이다. "비가 안 오고 천둥도 안 친다"(AND → AND)가 아니다. 드모르간은 일상 언어 속에 숨어있는 [[369_logic_bomb|논리]]의 참모습을 꺼내주는 진실의 거울이다.
 
 ---
 
@@ -58,7 +58,7 @@ categories = "studynote-computer-architecture"
 
 드모르간의 법칙을 실제 회로 최적화에 적용하는 과정은 복잡한 중첩 괄호 수식(큰 로직 깊이)을 평평하게 펴는 수술이다.
 
-### 논리 깊이 (Logic Depth) 압축 과정
+### [[369_logic_bomb|논리]] 깊이 (Logic Depth) [[347_compaction|압축]] 과정
 
 복잡한 수식 $F = ((A + B') \cdot C)'$ 을 드모르간으로 단계적으로 전개하면:
 
@@ -83,7 +83,7 @@ categories = "studynote-computer-architecture"
 └──────────────────────────────────────────────────────────────┘
 ```
 
-### 범용 게이트 (Universal Gate) 구현 예시
+### 범용 게이트 ([[031_universal_gate|Universal Gate]]) 구현 예시
 
 NAND 하나만으로 AND, OR, NOT을 모두 합성하는 방법:
 
@@ -121,7 +121,7 @@ NAND 하나만으로 AND, OR, NOT을 모두 합성하는 방법:
 | **수식 형태** | $AB + CD$ | $(A+B)(C+D)$ |
 | **드모르간 변환** | 전체에 바 씌우고 적용 → POS로 변환 | 전체에 바 씌우고 적용 → SOP로 변환 |
 | **하드웨어 매핑** | NAND-NAND 2단 구조에 직접 매핑 | NOR-NOR 2단 구조에 직접 매핑 |
-| **최적화 도구** | 카르노 맵 (Karnaugh Map) SOP 간소화 | 카르노 맵 POS 간소화 |
+| **최적화 도구** | [[025_karnaugh_map|카르노 맵]] ([[025_karnaugh_map|Karnaugh Map]]) SOP 간소화 | [[025_karnaugh_map|카르노 맵]] POS 간소화 |
 
 ### 소프트웨어 조건문에서의 드모르간
 
@@ -154,26 +154,26 @@ NAND 하나만으로 AND, OR, NOT을 모두 합성하는 방법:
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### 실무 시나리오 1: VLSI 논리 합성 최적화
+### 실무 시나리오 1: VLSI [[369_logic_bomb|논리]] 합성 최적화
 
-EDA (Electronic Design Automation) 툴인 Synopsys Design Compiler를 사용해 SoC (System on Chip)의 타이밍 클로저 (Timing Closure)를 달성하는 과정에서, 설계 팀은 크리티컬 패스 (Critical Path)에 위치한 6단짜리 게이트 체인을 발견했다. 합성 옵션을 `NAND-NAND` 매핑으로 강제하고 드모르간 기반 논리 변환을 적용해 동일 기능을 3단으로 줄임으로써, 최대 동작 주파수 (fmax)를 400 MHz에서 620 MHz로 55% 향상시켰다.
+[[064_eda|EDA]] (Electronic Design Automation) 툴인 Synopsys Design Compiler를 사용해 [[131_soc|SoC]] ([[131_soc|System on Chip]])의 타이밍 클로저 (Timing Closure)를 달성하는 과정에서, 설계 팀은 크리티컬 패스 (Critical Path)에 위치한 6단짜리 게이트 체인을 발견했다. 합성 옵션을 `NAND-NAND` 매핑으로 강제하고 드모르간 기반 [[369_logic_bomb|논리]] 변환을 적용해 동일 기능을 3단으로 줄임으로써, 최대 동작 주파수 (fmax)를 400 MHz에서 620 MHz로 55% 향상시켰다.
 
 ### 실무 시나리오 2: 임베디드 저전력 최적화
 
-심박수 센서용 초저전력 SoC에서 동적 전력 소모 $P = CV^2 f$를 줄이기 위해 회로 깊이를 단축하는 드모르간 최적화를 적용했다. 로직 깊이가 8단 → 4단으로 줄면서 클럭 주파수를 낮춰도 타이밍을 충족하게 되어 전력 소모가 38% 감소했다.
+심박수 센서용 초저전력 SoC에서 동적 [[466_power_consumption|전력 소모]] $P = [[156_cv_cost_variance|CV]]^2 f$를 줄이기 위해 회로 깊이를 단축하는 드모르간 최적화를 적용했다. 로직 깊이가 8단 → 4단으로 줄면서 클럭 주파수를 낮춰도 타이밍을 충족하게 되어 [[466_power_consumption|전력 소모]]가 38% 감소했다.
 
-### 체크리스트
+### [[435_checklist_based_testing|체크리스트]]
 
 - [ ] 합성 툴 실행 전 `compile_ultra -gate_clock` 또는 `NAND-NAND map` 전략을 명시했는가?
-- [ ] 카르노 맵 (Karnaugh Map) 간소화 후 SOP/POS 선택을 하드웨어 매핑 효율성 기준으로 결정했는가?
-- [ ] 소프트웨어 조건문에서 중첩 부정을 드모르간으로 풀어 가독성을 개선했는가?
+- [ ] [[025_karnaugh_map|카르노 맵]] ([[025_karnaugh_map|Karnaugh Map]]) 간소화 후 SOP/POS 선택을 하드웨어 매핑 효율성 기준으로 결정했는가?
+- [ ] 소프트웨어 조건문에서 중첩 부정을 드모르간으로 풀어 [[333_readability_vs_efficiency|가독성]]을 개선했는가?
 - [ ] 드모르간 변환 후 타이밍 시뮬레이션 (STA, Static Timing Analysis)으로 셋업 타임 (Setup Time) 위반이 없는지 검증했는가?
 
-### 안티패턴
+### [[128_water_scrum_fall_anti_pattern|안티패턴]]
 
-인수분해 형태 $F = A(B + C(D + E))$로 수식을 묶으면 게이트 수는 줄지만 직렬 깊이가 늘어나 셋업 타임 위반이 발생한다. "식이 짧으면 좋은 것"이라는 착각이 원인이다. 합성 최적화는 게이트 수(면적)와 로직 깊이(속도)의 예술적 트레이드오프다.
+인수분해 형태 $F = A(B + C(D + E))$로 수식을 묶으면 게이트 수는 줄지만 [[149_serial_communication_rs232_rs485|직렬]] 깊이가 늘어나 셋업 타임 위반이 발생한다. "식이 짧으면 좋은 것"이라는 착각이 원인이다. 합성 최적화는 게이트 수(면적)와 로직 깊이(속도)의 예술적 트레이드오프다.
 
-📢 **섹션 요약 비유**: 짐을 압축팩에 너무 꽉꽉 눌러 담으면 부피는 줄지만, 세관 검사 때 전부 풀고 다시 쌓아야 해서 비행기를 놓쳐버린다(타이밍 위반). 넓게 펼쳐두면 부피는 크지만 필요한 것을 1초 만에 꺼낼 수 있다.
+📢 **섹션 요약 비유**: 짐을 [[347_compaction|압축]]팩에 너무 꽉꽉 눌러 담으면 부피는 줄지만, 세관 검사 때 전부 풀고 다시 쌓아야 해서 비행기를 놓쳐버린다(타이밍 위반). 넓게 펼쳐두면 부피는 크지만 필요한 것을 1초 만에 꺼낼 수 있다.
 
 ---
 
@@ -181,18 +181,18 @@ EDA (Electronic Design Automation) 툴인 Synopsys Design Compiler를 사용해 
 
 | 적용 영역 | 드모르간 적용 전 | 드모르간 적용 후 | 개선 효과 |
 |:---|:---|:---|:---|
-| **반도체 제조** | AND/OR/NOT 3종 마스크 필요 | NAND 단일 마스크 통일 | 마스크 비용 **최대 60% 절감** |
-| **회로 속도** | 6~8단 게이트 직렬 | 2~3단 NAND-NAND | 동작 주파수 **30~55% 향상** |
-| **전력 소모** | 깊은 체인, 높은 스위칭 전력 | 체인 단축, 낮은 동적 전력 | 소비 전력 **20~40% 감소** |
-| **소프트웨어** | 중첩 부정으로 인한 가독성 저하 | 조건문 단순화, 버그 감소 | 코드 리뷰 속도 향상 |
+| **[[009_semiconductor|반도체]] 제조** | AND/OR/NOT 3종 마스크 필요 | NAND 단일 마스크 통일 | 마스크 비용 **최대 60% 절감** |
+| **회로 속도** | 6~8단 게이트 [[149_serial_communication_rs232_rs485|직렬]] | 2~3단 NAND-NAND | 동작 주파수 **30~55% 향상** |
+| **[[466_power_consumption|전력 소모]]** | 깊은 체인, 높은 스위칭 전력 | 체인 단축, 낮은 [[467_dynamic_power|동적 전력]] | 소비 전력 **20~40% 감소** |
+| **소프트웨어** | 중첩 부정으로 인한 [[333_readability_vs_efficiency|가독성]] 저하 | 조건문 단순화, 버그 감소 | [[330_code_review|코드 리뷰]] 속도 향상 |
 
 ### 미래 방향
 
-- **양자 컴퓨팅(Quantum Computing) 게이트 설계**: CNOT (Controlled NOT) 게이트 기반 양자 회로에서도 드모르간에 해당하는 양자 등가 변환이 연구되고 있다.
-- **AI 칩 로직 합성**: 수백억 트랜지스터의 NPU (Neural Processing Unit) 설계에서 머신러닝 기반 EDA 툴이 드모르간 변환을 자동으로 수천만 번 적용하며 최적 회로를 탐색한다.
-- **소프트웨어 정적 분석**: 컴파일러 최적화 패스에서 조건식을 드모르간으로 변환하여 분기 예측 (Branch Prediction) 적중률을 높이는 코드를 자동 생성한다.
+- **[[236_quantum_computing_pqc|양자 컴퓨팅]]([[236_quantum_computing_pqc|Quantum Computing]]) 게이트 설계**: CNOT (Controlled NOT) 게이트 기반 양자 회로에서도 드모르간에 해당하는 양자 등가 변환이 연구되고 있다.
+- **[[190_ai_llm_requirements_specification|AI]] 칩 로직 합성**: 수백억 [[014_transistor|트랜지스터]]의 [[424_npu|NPU]] ([[424_npu|Neural Processing Unit]]) 설계에서 [[241_machine_learning_basics|머신러닝]] 기반 [[064_eda|EDA]] 툴이 드모르간 변환을 자동으로 수천만 번 적용하며 최적 회로를 탐색한다.
+- **소프트웨어 [[331_static_analysis|정적 분석]]**: 컴파일러 최적화 패스에서 조건식을 드모르간으로 변환하여 [[231_branch_prediction|분기 예측]] ([[231_branch_prediction|Branch Prediction]]) 적중률을 높이는 코드를 자동 생성한다.
 
-📢 **섹션 요약 비유**: 조지 불의 부울 대수라는 캔버스 위에서 드모르간은 지저분한 덧칠(중첩 괄호)들을 벗겨내고 완벽하고 평평한 선 하나로 정제하는 복원 전문가다. 그 덕분에 파운드리는 단 하나의 마법 블록(NAND)으로 디지털 세상 전체를 주조할 수 있게 되었다.
+📢 **섹션 요약 비유**: 조지 불의 [[022_boolean_algebra|부울 대수]]라는 캔버스 위에서 드모르간은 지저분한 덧칠(중첩 괄호)들을 벗겨내고 완벽하고 평평한 선 하나로 정제하는 복원 전문가다. 그 덕분에 파운드리는 단 하나의 마법 블록(NAND)으로 디지털 세상 전체를 주조할 수 있게 되었다.
 
 ---
 
@@ -200,12 +200,12 @@ EDA (Electronic Design Automation) 툴인 Synopsys Design Compiler를 사용해 
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **부울 대수 (Boolean Algebra)** | 드모르간 법칙이 성립하는 수학 체계로, 0과 1만으로 논리를 표현하는 모든 디지털 시스템의 기반 |
-| **NAND / NOR 범용 게이트 (Universal Gate)** | 드모르간 덕분에 이 단일 게이트만으로 세상 모든 논리 회로를 구현 가능하다는 것이 증명됨 |
-| **카르노 맵 (Karnaugh Map)** | SOP/POS 최소화 도구. 드모르간 변환으로 SOP ↔ POS 상호 전환 시 함께 활용 |
-| **논리 합성 (Logic Synthesis)** | RTL 코드를 트랜지스터 수준 넷리스트(Netlist)로 컴파일할 때 드모르간이 핵심 변환 엔진으로 작동 |
-| **이중성 원리 (Duality Principle)** | 부울 대수에서 0↔1, AND↔OR을 서로 바꾸어도 항등식이 성립하는 원리로, 드모르간의 수학적 근거 |
-| **크리티컬 패스 (Critical Path)** | 로직 합성 시 가장 긴 게이트 체인이며, 드모르간 기반 깊이 압축의 주요 공략 대상 |
+| **[[022_boolean_algebra|부울 대수]] ([[022_boolean_algebra|Boolean Algebra]])** | 드모르간 법칙이 성립하는 수학 체계로, 0과 1만으로 [[369_logic_bomb|논리]]를 표현하는 모든 디지털 시스템의 기반 |
+| **NAND / NOR 범용 게이트 ([[031_universal_gate|Universal Gate]])** | 드모르간 덕분에 이 단일 게이트만으로 세상 모든 [[369_logic_bomb|논리]] 회로를 구현 가능하다는 것이 증명됨 |
+| **[[025_karnaugh_map|카르노 맵]] ([[025_karnaugh_map|Karnaugh Map]])** | SOP/POS 최소화 도구. 드모르간 변환으로 SOP ↔ POS 상호 전환 시 함께 활용 |
+| **[[369_logic_bomb|논리]] 합성 (Logic Synthesis)** | RTL 코드를 [[014_transistor|트랜지스터]] 수준 넷리스트(Netlist)로 컴파일할 때 드모르간이 핵심 변환 엔진으로 작동 |
+| **이중성 원리 (Duality Principle)** | [[022_boolean_algebra|부울 대수]]에서 0↔1, AND↔OR을 서로 바꾸어도 항등식이 성립하는 원리로, 드모르간의 수학적 근거 |
+| **크리티컬 패스 (Critical Path)** | 로직 합성 시 가장 긴 게이트 체인이며, 드모르간 기반 깊이 [[347_compaction|압축]]의 주요 공략 대상 |
 
 ---
 
@@ -232,7 +232,7 @@ EDA (Electronic Design Automation) 툴인 Synopsys Design Compiler를 사용해 
      머신러닝으로 드모르간 변환 공간 탐색
 ```
 
-드모르간의 법칙은 19세기 수학의 산물이지만, 오늘날 수백억 트랜지스터 SoC의 합성 엔진과 AI 칩 최적화까지 정확히 동일한 원리로 작동하며 디지털 세계의 근간을 이루고 있다.
+드모르간의 법칙은 19세기 수학의 산물이지만, 오늘날 수백억 [[014_transistor|트랜지스터]] SoC의 합성 엔진과 [[190_ai_llm_requirements_specification|AI]] 칩 최적화까지 정확히 동일한 원리로 작동하며 디지털 세계의 근간을 이루고 있다.
 
 ---
 

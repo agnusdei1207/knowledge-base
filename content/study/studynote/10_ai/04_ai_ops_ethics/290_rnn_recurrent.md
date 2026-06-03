@@ -8,17 +8,17 @@ categories = "studynote-ai"
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: RNN (Recurrent Neural Network, 순환 신경망)은 입력 데이터를 시간 순서대로 하나씩 처리하면서 이전 시점의 정보를 **은닉 상태 (Hidden State, h_t)**라는 내부 메모리에 담아 다음 시점으로 전달하는 시계열 전용 신경망이다.
-> 2. **가치**: 문장의 단어, 주가 데이터, 음성 신호처럼 "순서가 의미를 만드는" 시퀀스 데이터를 처리하기 위해 설계되었으며, 같은 가중치(Weight)를 모든 시점에 재사용하는 **파라미터 공유** 구조로 가변 길이 입력을 처리한다.
-> 3. **판단 포인트**: RNN의 치명적 단점은 시퀀스가 길어질수록 과거 정보가 기울기 소실 (Vanishing Gradient)로 증발하는 **장기 의존성 문제**이며, 이를 해결하기 위해 LSTM과 GRU가 등장했다.
+> 1. **본질**: [[244_rnn_time_series_lstm_cell_gate_long_term_dependency|RNN]] ([[244_rnn_time_series_lstm_cell_gate_long_term_dependency|Recurrent Neural Network]], [[111_rnn_recurrent_neural_network_sequential_data|순환 신경망]])은 입력 [[001_dikw_pyramid|데이터]]를 시간 순서대로 하나씩 처리하면서 이전 시점의 정보를 **은닉 상태 (Hidden [[272_state_pattern|State]], h_t)**라는 내부 메모리에 담아 다음 시점으로 전달하는 시계열 전용 신경망이다.
+> 2. **가치**: 문장의 단어, 주가 [[001_dikw_pyramid|데이터]], 음성 [[130_signal|신호]]처럼 "순서가 의미를 만드는" 시퀀스 [[001_dikw_pyramid|데이터]]를 처리하기 위해 설계되었으며, 같은 [[267_weight_bias_activation|가중치]]([[267_weight_bias_activation|Weight]])를 모든 시점에 재사용하는 **파라미터 공유** 구조로 가변 길이 입력을 처리한다.
+> 3. **판단 포인트**: RNN의 치명적 단점은 시퀀스가 길어질수록 과거 정보가 [[088_vanishing_gradient_relu_skip_connection|기울기 소실]] ([[240_relu_vanishing_gradient_softmax_backprop_chain|Vanishing Gradient]])로 증발하는 **[[113_long_term_dependency_rnn|장기 의존성 문제]]**이며, 이를 해결하기 위해 LSTM과 GRU가 등장했다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-기존 완전연결층(Fully Connected Layer)과 CNN은 입력의 순서에 무감각하다. "오늘 주식 가격이 올랐다"는 문장을 처리할 때, 단어를 뒤죽박죽 섞어도 같은 결과를 낸다면 번역 시스템은 쓸모없어진다. 언어, 음성, 센서 시계열 데이터처럼 **앞 순서가 뒤 순서의 의미를 결정하는 Sequential 데이터**를 처리하려면 순서 기억 메커니즘이 필수다.
+기존 완전연결층(Fully Connected Layer)과 CNN은 입력의 순서에 무감각하다. "오늘 주식 가격이 올랐다"는 문장을 처리할 때, 단어를 뒤죽박죽 섞어도 같은 결과를 낸다면 번역 시스템은 쓸모없어진다. 언어, 음성, 센서 시계열 [[001_dikw_pyramid|데이터]]처럼 **앞 순서가 뒤 순서의 의미를 결정하는 Sequential [[001_dikw_pyramid|데이터]]**를 처리하려면 순서 기억 메커니즘이 필수다.
 
-**RNN (Recurrent Neural Network)**은 네트워크에 루프(Loop)를 도입하여 이전 시점의 출력(은닉 상태)을 현재 시점 입력과 함께 받아들인다. 덕분에 "어제의 정보 + 오늘의 입력 → 오늘의 판단"이라는 인과 연쇄가 수학적으로 구현된다.
+**[[244_rnn_time_series_lstm_cell_gate_long_term_dependency|RNN]] ([[244_rnn_time_series_lstm_cell_gate_long_term_dependency|Recurrent Neural Network]])**은 네트워크에 루프(Loop)를 도입하여 이전 시점의 출력(은닉 상태)을 현재 시점 입력과 함께 받아들인다. 덕분에 "어제의 정보 + 오늘의 입력 → 오늘의 판단"이라는 인과 연쇄가 수학적으로 구현된다.
 
 ```text
 ┌──────────────────────────────────────────────┐
@@ -61,10 +61,10 @@ RNN의 핵심 수식은 단순하다. 현재 은닉 상태 h_t는 이전 은닉 
 
 | 구조 | 설명 | 활용 예 |
 |:---|:---|:---|
-| One-to-One | 단일 입력 → 단일 출력 | 일반 분류 |
-| One-to-Many | 하나 입력 → 시퀀스 출력 | 이미지 자막 생성 |
-| Many-to-One | 시퀀스 입력 → 하나 출력 | 감성 분석 |
-| Many-to-Many | 시퀀스 → 시퀀스 | 기계 번역, 챗봇 |
+| [[099_one_to_one_model|One-to-One]] | 단일 입력 → 단일 출력 | 일반 [[104_classification_analysis|분류]] |
+| One-to-Many | 하나 입력 → 시퀀스 출력 | 이미지 자막 [[087_process_state_transition|생성]] |
+| [[098_many_to_one_model|Many-to-One]] | 시퀀스 입력 → 하나 출력 | [[105_exploratory_data_analysis|감성 분석]] |
+| [[100_many_to_many_model|Many-to-Many]] | 시퀀스 → 시퀀스 | 기계 번역, 챗봇 |
 
 - **📢 섹션 요약 비유**: RNN의 은닉 상태는 달리기 선수가 바통을 들고 계주 경기를 하는 것이다. 1번 선수(t=1)가 달리다가 바통(h_1)을 2번 선수에게 넘기고, 2번도 달리다가 바통(h_2)을 3번에게 넘긴다. 최종 4번 선수의 손에는 1·2·3번의 기억이 바통 안에 담겨 있다. 문제는 바통을 넘길 때마다 내용이 조금씩 지워진다는 것이다.
 
@@ -72,24 +72,24 @@ RNN의 핵심 수식은 단순하다. 현재 은닉 상태 h_t는 이전 은닉 
 
 ## Ⅲ. 비교 및 연결
 
-| 비교 항목 | RNN | LSTM | GRU |
+| 비교 항목 | [[244_rnn_time_series_lstm_cell_gate_long_term_dependency|RNN]] | [[292_lstm|LSTM]] | [[294_gru|GRU]] |
 |:---|:---|:---|:---|
 | 메모리 구조 | 은닉 상태 h_t만 | 셀 상태 C_t + 은닉 상태 h_t | 은닉 상태 h_t (단일) |
 | 게이트 수 | 없음 | 3개 (입력/삭제/출력) | 2개 (업데이트/리셋) |
-| 장기 의존성 | 취약 (기울기 소실) | 강함 | 강함 (LSTM보다 경량) |
+| [[291_long_term_dependency|장기 의존성]] | 취약 ([[088_vanishing_gradient_relu_skip_connection|기울기 소실]]) | 강함 | 강함 (LSTM보다 경량) |
 | 파라미터 수 | 가장 적음 | 많음 | 중간 |
 
-- **📢 섹션 요약 비유**: RNN은 메모만 적는 노트 한 권이고, LSTM은 노트 + 장기 금고(셀 상태)를 별도로 가진 이중 기억 시스템이다. GRU는 LSTM의 금고를 단순화해서 무게를 줄인 경량 버전이다.
+- **📢 섹션 요약 비유**: RNN은 메모만 적는 노트 한 권이고, LSTM은 노트 + 장기 금고(셀 상태)를 별도로 가진 이중 기억 시스템이다. GRU는 LSTM의 금고를 단순화해서 무게를 줄인 경량 [[288_version_ihl_tos_total_length|버전]]이다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-- **자연어 처리 (NLP)**: 텍스트를 단어 단위로 순차 입력받아 번역, 요약, 감성 분석에 활용
-- **시계열 예측**: 주가, 전력 수요, 센서 이상 탐지 등 시간 의존성 있는 데이터 예측
+- **자연어 처리 (NLP)**: 텍스트를 단어 단위로 순차 입력받아 번역, 요약, [[105_exploratory_data_analysis|감성 분석]]에 활용
+- **시계열 예측**: 주가, 전력 수요, 센서 [[236_anomaly_based_detection_zero_day_false_positive|이상 탐지]] 등 시간 의존성 있는 [[001_dikw_pyramid|데이터]] 예측
 - **음성 인식 (ASR)**: 오디오 프레임을 순차 처리하여 텍스트로 변환
 
-**실무 주의사항**: 긴 시퀀스(1000 토큰 이상)에서는 RNN보다 Transformer가 병렬 처리와 장거리 의존성 모두에서 압도적으로 유리하므로, RNN/LSTM은 중·단기 시계열이나 온디바이스 경량 모델에서 여전히 사용된다.
+**실무 주의사항**: 긴 시퀀스(1000 토큰 이상)에서는 RNN보다 Transformer가 [[430_index_fast_full_scan|병렬]] 처리와 장거리 의존성 모두에서 압도적으로 유리하므로, [[244_rnn_time_series_lstm_cell_gate_long_term_dependency|RNN]]/LSTM은 중·단기 시계열이나 온디바이스 경량 모델에서 여전히 사용된다.
 
 - **📢 섹션 요약 비유**: RNN은 책을 한 글자씩 소리 내어 읽으며 앞 내용을 머릿속으로 기억하는 학생이다. 책이 10페이지면 괜찮지만, 1,000페이지짜리 소설을 읽을 때는 1페이지 내용을 999페이지에서 기억하기 어렵다. 그래서 두꺼운 책(긴 시퀀스)은 Transformer라는 "책 전체를 펼쳐놓고 동시에 보는 사진 찍기"로 넘어가게 된다.
 
@@ -97,9 +97,9 @@ RNN의 핵심 수식은 단순하다. 현재 은닉 상태 h_t는 이전 은닉 
 
 ## Ⅴ. 기대효과 및 결론
 
-RNN (Recurrent Neural Network)은 딥러닝의 순서 인식 능력을 최초로 구현한 혁신이었다. 비록 장기 의존성 문제와 순차적 처리의 속도 한계로 Transformer에게 NLP 왕좌를 넘겨주었지만, 경량성과 시계열 처리 적합성 덕분에 IoT 센서, 의료 생체 신호, 엣지 디바이스 AI에서 여전히 실전 배치된다. LSTM, GRU, Transformer 모두 RNN에서 시작된 "순서를 기억하는 AI"라는 철학의 진화체다.
+[[244_rnn_time_series_lstm_cell_gate_long_term_dependency|RNN]] ([[244_rnn_time_series_lstm_cell_gate_long_term_dependency|Recurrent Neural Network]])은 딥러닝의 순서 인식 능력을 최초로 구현한 혁신이었다. 비록 [[113_long_term_dependency_rnn|장기 의존성 문제]]와 순차적 처리의 속도 한계로 Transformer에게 NLP 왕좌를 넘겨주었지만, 경량성과 시계열 처리 적합성 덕분에 [[101_iot_concept|IoT]] 센서, 의료 생체 [[130_signal|신호]], 엣지 디바이스 AI에서 여전히 실전 배치된다. [[292_lstm|LSTM]], [[294_gru|GRU]], [[246_transformer_self_attention_parallel_positional_encoding|Transformer]] 모두 RNN에서 시작된 "순서를 기억하는 [[190_ai_llm_requirements_specification|AI]]"라는 철학의 진화체다.
 
-- **📢 섹션 요약 비유**: RNN은 스마트폰 이전 시대의 MP3 플레이어다. 오늘날에는 스마트폰(Transformer)이 훨씬 강력하지만, 단순한 음악 재생(경량 시계열 처리)에는 MP3가 배터리도 덜 먹고 충분히 쓸만하다. 역사의 시작점이자 진화의 발판으로서 RNN의 가치는 영원하다.
+- **📢 섹션 요약 비유**: RNN은 스마트폰 이전 시대의 MP3 플레이어다. 오늘날에는 스마트폰([[246_transformer_self_attention_parallel_positional_encoding|Transformer]])이 훨씬 강력하지만, 단순한 음악 재생(경량 시계열 처리)에는 MP3가 배터리도 덜 먹고 충분히 쓸만하다. 역사의 시작점이자 진화의 발판으로서 RNN의 가치는 영원하다.
 
 ---
 
@@ -107,11 +107,11 @@ RNN (Recurrent Neural Network)은 딥러닝의 순서 인식 능력을 최초로
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| 은닉 상태 (Hidden State) | h_t, 기울기 소실 / RNN의 핵심 메모리 단위 |
-| LSTM | 셀 상태, 3 게이트 / RNN의 장기 의존성 문제를 해결한 진화형 |
-| GRU | 업데이트/리셋 게이트 / LSTM보다 경량화된 RNN 변종 |
-| Transformer | 셀프 어텐션, 병렬 처리 / RNN을 대체한 현대 NLP 기반 구조 |
-| BPTT | 시간 역전파, 기울기 / RNN 학습 알고리즘 |
+| 은닉 상태 (Hidden [[272_state_pattern|State]]) | h_t, [[088_vanishing_gradient_relu_skip_connection|기울기 소실]] / RNN의 핵심 메모리 단위 |
+| [[292_lstm|LSTM]] | 셀 상태, 3 게이트 / RNN의 [[113_long_term_dependency_rnn|장기 의존성 문제]]를 해결한 진화형 |
+| [[294_gru|GRU]] | 업데이트/리셋 게이트 / LSTM보다 경량화된 [[244_rnn_time_series_lstm_cell_gate_long_term_dependency|RNN]] 변종 |
+| [[246_transformer_self_attention_parallel_positional_encoding|Transformer]] | 셀프 어텐션, [[430_index_fast_full_scan|병렬]] 처리 / RNN을 대체한 현대 NLP 기반 구조 |
+| [[114_bptt_backpropagation_through_time|BPTT]] | 시간 [[272_backpropagation|역전파]], 기울기 / [[244_rnn_time_series_lstm_cell_gate_long_term_dependency|RNN]] 학습 [[001_algorithm_definition|알고리즘]] |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -121,6 +121,6 @@ RNN (Recurrent Neural Network)은 딥러닝의 순서 인식 능력을 최초로
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. 일반 신경망이 "오늘 날씨만 보고 내일을 예측"한다면, **RNN(순환 신경망)**은 **"오늘까지 1주일 날씨 기록을 다 기억하면서"** 내일을 예측하는 더 똑똑한 신경망이에요!
+1. 일반 신경망이 "오늘 날씨만 보고 내일을 예측"한다면, **[[244_rnn_time_series_lstm_cell_gate_long_term_dependency|RNN]]([[111_rnn_recurrent_neural_network_sequential_data|순환 신경망]])**은 **"오늘까지 1주일 날씨 기록을 다 기억하면서"** 내일을 예측하는 더 똑똑한 신경망이에요!
 2. 문장에서 "나는 학교에 **간다**"를 이해하려면 앞에 "나는"이 있다는 걸 기억해야 하는데, RNN은 **앞 단어를 메모(은닉 상태)**해두면서 뒤를 읽어요.
 3. 하지만 아주 긴 소설을 읽으면 **맨 처음 문장이 뭐였는지 까먹어버리는 문제**가 있어서, 더 좋은 LSTM이 그 문제를 해결하러 나왔어요!

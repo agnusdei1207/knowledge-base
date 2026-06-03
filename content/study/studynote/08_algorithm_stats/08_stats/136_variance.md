@@ -9,7 +9,7 @@ categories = "studynote-algorithm"
 ## 핵심 인사이트
 
 > 분산 (Variance) 은 "평균에서 얼마나 흩어져 있는가"를 측정하는 제곱 평균이고, 표준편차 (Standard Deviation) 는 원래 단위로 복원한 산포 척도다.
-> 공분산 (Covariance) 과 상관 계수 (Correlation Coefficient) 는 두 변수의 연동 방향과 강도를 측정하며, 포트폴리오 이론·특징 선택·정규화 설계의 핵심이다.
+> 공분산 (Covariance) 과 상관 계수 (Correlation Coefficient) 는 두 변수의 연동 방향과 강도를 측정하며, 포트폴리오 이론·특징 선택·[[093_normalization|정규화]] 설계의 핵심이다.
 > 체비쇼프 부등식 (Chebyshev's Inequality) 은 분포의 형태를 모르더라도 "평균 ±kσ 범위 밖에 있을 확률의 상한"을 보장하는 분포-무관 (Distribution-Free) 부등식이다.
 
 ---
@@ -66,7 +66,7 @@ Var[cX] = c²·Var[X]         (스케일 제곱)
 Var[aX+b] = a²·Var[X]       (이동+스케일)
 ```
 
-**핵심**: 기댓값은 E[X+c] = E[X]+c 이지만, 분산은 Var[X+c] = Var[X] — 이동해도 흩어짐은 그대로다.
+**핵심**: [[135_expected_value|기댓값]]은 E[X+c] = E[X]+c 이지만, 분산은 Var[X+c] = Var[X] — 이동해도 흩어짐은 그대로다.
 
 ### 합의 분산
 
@@ -122,7 +122,7 @@ Cov[X,Y] = E[(X-μX)(Y-μY)]
 ρ = -1: 완전 음의 선형 상관
 ```
 
-**저분산 vs 고분산 시각화**:
+**저분산 vs 고분산 [[003_bigdata_7v|시각화]]**:
 
 ```
 ┌──────────────────────────────────────────────────────────┐
@@ -140,7 +140,7 @@ Cov[X,Y] = E[(X-μX)(Y-μY)]
 └──────────────────────────────────────────────────────────┘
 ```
 
-### 변동 계수 (CV, Coefficient of Variation)
+### 변동 계수 ([[156_cv_cost_variance|CV]], Coefficient of Variation)
 
 ```
 CV = σ / μ × 100%
@@ -164,18 +164,18 @@ P(|X-μ| ≥ kσ) ≤ 1/k²    (k > 0)
 동치: P(|X-μ| < kσ) ≥ 1 - 1/k²
 ```
 
-**분포 모양에 관계없이** 성립하는 강력한 부등식!
+**분포 모양에 [[083_relationship_in_er_model|관계]]없이** 성립하는 강력한 부등식!
 
 | k 값 | P(|X-μ| ≥ kσ) ≤ | P(μ ± kσ 범위 내) ≥ |
 |:---:|:---:|:---:|
 | 1 | 100% (자명) | 0% |
 | 2 | 25% | 75% |
-| 3 | 11.1% | 88.9% |
+| 3 | [[308_static_dynamic_nat_pat_port_address_translation|11]].1% | 88.9% |
 | 4 | 6.25% | 93.75% |
-| 10 | 1% | 99% |
+| [[489_raid_10_hybrid|10]] | 1% | 99% |
 
-**정규 분포와의 비교**:
-- 정규 분포 μ±2σ: 95.4% (체비쇼프: 75% 이상 보장)
+**[[138_normal_distribution|정규 분포]]와의 비교**:
+- [[138_normal_distribution|정규 분포]] μ±2σ: 95.4% (체비쇼프: 75% 이상 보장)
 - 체비쇼프는 더 느슨하지만 **모든 분포에 적용 가능**
 
 ### 응용 — 표본 평균의 수렴 증명
@@ -193,13 +193,13 @@ X₁,...,Xₙ i.i.d., E[Xᵢ]=μ, Var[Xᵢ]=σ²
 → 대수의 법칙 (Law of Large Numbers) 증명!
 ```
 
-📢 **섹션 요약 비유**: 체비쇼프 부등식은 "분포가 어떻든 간에, 평균에서 3배 표준편차 이상 벗어날 확률은 최대 11%다"라는 최악의 경우 보증서다.
+📢 **섹션 요약 비유**: 체비쇼프 부등식은 "분포가 어떻든 간에, 평균에서 3배 표준편차 이상 벗어날 확률은 최대 [[308_static_dynamic_nat_pat_port_address_translation|11]]%다"라는 최악의 경우 보증서다.
 
 ---
 
 ## Ⅴ. 분산의 실무 응용
 
-### 금융 위험 분석 (Risk Analysis)
+### 금융 위험 분석 ([[096_risk_non_risk_architecture_evaluation_flaws|Risk]] Analysis)
 
 ```
 포트폴리오 수익률 R = w₁R₁ + w₂R₂
@@ -211,7 +211,7 @@ Var[R] = w₁²Var[R₁] + w₂²Var[R₂] + 2w₁w₂Cov[R₁,R₂]
 → ρ > 0 이면 리스크 분산 효과 감소
 ```
 
-### ML 정규화 (Regularization)
+### ML [[093_normalization|정규화]] ([[134_regularization_dropout_batch_norm|Regularization]])
 
 ```
 L2 정규화 (Ridge): 가중치 분산 억제
@@ -236,14 +236,14 @@ SPC (Statistical Process Control, 통계적 공정 관리):
 
 ### 📌 관련 개념 맵
 
-| 개념 | 연결 개념 | 관계 |
+| 개념 | 연결 개념 | [[083_relationship_in_er_model|관계]] |
 |:---|:---|:---|
-| 분산 | 기댓값 | E[X²]-(E[X])² |
-| 표준편차 | 정규 분포 68-95-99.7 | μ±σ 범위 정의 |
+| 분산 | [[135_expected_value|기댓값]] | E[X²]-(E[X])² |
+| 표준편차 | [[138_normal_distribution|정규 분포]] 68-95-99.7 | μ±σ 범위 정의 |
 | 공분산 | 상관 계수 | 표준화한 공분산 |
-| 체비쇼프 | 대수의 법칙 | 수렴 증명 도구 |
+| 체비쇼프 | [[074_law_of_large_numbers_lln_convergence_probability|대수의 법칙]] | 수렴 증명 도구 |
 | 변동 계수 | 비교 통계 | 단위 무관 산포 |
-| ML 정규화 | 과적합 방지 | 분산 억제 메커니즘 |
+| ML [[093_normalization|정규화]] | 과적합 방지 | 분산 [[656_ir_containment|억제]] 메커니즘 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 

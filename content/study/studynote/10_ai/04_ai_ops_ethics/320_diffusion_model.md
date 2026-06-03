@@ -8,17 +8,17 @@ categories = "studynote-ai"
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 디퓨전 모델 (Diffusion Model)은 실제 데이터에 점진적으로 가우시안 노이즈를 추가하는 **순방향 과정(Forward Process)**과, 노이즈 예측 신경망이 역방향으로 노이즈를 제거하며 원본 데이터를 복원하는 **역방향 과정(Reverse Process)**으로 학습하는 생성 모델이다.
-> 2. **가치**: GAN의 훈련 불안정성과 모드 붕괴 없이 텍스트 프롬프트로 고품질·다양한 이미지를 생성하는 Stable Diffusion, DALL-E 3, Midjourney의 기반 기술로, 현재 이미지·비디오·오디오 생성 AI의 사실상 표준이다.
-> 3. **판단 포인트**: 디퓨전 모델의 핵심 학습 목표는 각 노이즈 레벨에서 추가된 노이즈 ε을 정확히 예측하는 **노이즈 예측 신경망(U-Net, Transformer)** 훈련이며, 추론 시 순수 노이즈에서 시작해 T 스텝 역방향으로 이미지를 생성한다.
+> 1. **본질**: [[153_diffusion_model_stable_diffusion_denoising|디퓨전 모델]] ([[153_diffusion_model_stable_diffusion_denoising|Diffusion Model]])은 실제 [[001_dikw_pyramid|데이터]]에 점진적으로 가우시안 노이즈를 추가하는 **순방향 과정([[235_forward_backward_chaining|Forward]] [[300_process|Process]])**과, 노이즈 예측 신경망이 역방향으로 노이즈를 제거하며 원본 [[001_dikw_pyramid|데이터]]를 복원하는 **역방향 과정(Reverse [[300_process|Process]])**으로 학습하는 [[087_process_state_transition|생성]] 모델이다.
+> 2. **가치**: GAN의 훈련 불안정성과 모드 붕괴 없이 텍스트 프롬프트로 고품질·다양한 이미지를 [[087_process_state_transition|생성]]하는 Stable Diffusion, DALL-E 3, Midjourney의 기반 기술로, 현재 이미지·비디오·오디오 [[087_process_state_transition|생성]] AI의 사실상 표준이다.
+> 3. **판단 포인트**: [[153_diffusion_model_stable_diffusion_denoising|디퓨전 모델]]의 핵심 학습 목표는 각 노이즈 레벨에서 추가된 노이즈 ε을 정확히 예측하는 **노이즈 예측 신경망(U-Net, [[246_transformer_self_attention_parallel_positional_encoding|Transformer]])** 훈련이며, 추론 시 순수 노이즈에서 시작해 T 스텝 역방향으로 이미지를 [[087_process_state_transition|생성]]한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-사막의 모래성이 바람에 조금씩 무너지다가 결국 평평한 모래가 되는 과정을 상상하라(순방향, 노이즈 주입). 이 역과정 — 평평한 모래에서 모래성이 만들어지는 — 을 AI가 학습하면 어떨까? 이것이 디퓨전 모델의 핵심 아이디어다.
+사막의 모래성이 바람에 조금씩 무너지다가 결국 평평한 모래가 되는 과정을 상상하라(순방향, 노이즈 주입). 이 역과정 — 평평한 모래에서 모래성이 만들어지는 — 을 AI가 학습하면 어떨까? 이것이 [[153_diffusion_model_stable_diffusion_denoising|디퓨전 모델]]의 핵심 아이디어다.
 
-사진에 매우 조금씩(T=1000 스텝) 노이즈를 추가해 결국 완전한 노이즈(정규분포)로 만든다. 신경망은 이 역과정 — 완전 노이즈에서 원본 이미지를 복원하는 — 을 학습한다. 학습이 완성되면 순수 노이즈에서 출발해 텍스트 조건(프롬프트)에 맞는 임의의 이미지를 생성할 수 있다.
+사진에 매우 조금씩(T=1000 스텝) 노이즈를 추가해 결국 완전한 노이즈(정규분포)로 만든다. 신경망은 이 역과정 — 완전 노이즈에서 원본 이미지를 복원하는 — 을 학습한다. 학습이 완성되면 순수 노이즈에서 출발해 텍스트 조건(프롬프트)에 맞는 임의의 이미지를 [[087_process_state_transition|생성]]할 수 있다.
 
 ```text
 ┌──────────────────────────────────────────────┐
@@ -29,7 +29,7 @@ categories = "studynote-ai"
 └──────────────────────────────────────────────┘
 ```
 
-- **📢 섹션 요약 비유**: 디퓨전 모델은 "지우개로 그림 지우기 역교사"다. 선생님이 완성된 그림을 조금씩 지워 결국 빈 종이(노이즈)로 만드는 과정을 보여주면, AI는 빈 종이에서 조금씩 그림을 그려 완성하는 역과정을 학습한다. 1000번 지운 것을 1000번 역으로 복원하는 것이 이미지 생성의 본질이다.
+- **📢 섹션 요약 비유**: [[153_diffusion_model_stable_diffusion_denoising|디퓨전 모델]]은 "지우개로 그림 지우기 역교사"다. 선생님이 완성된 그림을 조금씩 지워 결국 빈 종이(노이즈)로 만드는 과정을 보여주면, AI는 빈 종이에서 조금씩 그림을 그려 완성하는 역과정을 학습한다. 1000번 지운 것을 1000번 역으로 복원하는 것이 이미지 [[087_process_state_transition|생성]]의 본질이다.
 
 ---
 
@@ -65,25 +65,25 @@ categories = "studynote-ai"
 
 | 모델 | 기반 기술 | 특징 |
 |:---|:---|:---|
-| DDPM (2020) | 기초 디퓨전 | 원리 확립, 느린 생성 (1000 스텝) |
-| DDIM (2021) | 결정론적 샘플링 | 50 스텝으로 가속 |
-| Stable Diffusion (2022) | LDM + CLIP | 오픈소스, 소비자 GPU 동작 |
-| DALL-E 3 (2023) | Transformer 기반 | 텍스트 정합성 최고 |
-| Sora (2024) | 비디오 디퓨전 | 60초 고품질 영상 생성 |
+| DDPM (2020) | 기초 디퓨전 | 원리 확립, 느린 [[087_process_state_transition|생성]] (1000 스텝) |
+| DDIM ([[477_owasp_top_10_2021|2021]]) | 결정론적 샘플링 | 50 스텝으로 가속 |
+| Stable Diffusion (2022) | [[288_latent_diffusion_model|LDM]] + [[408_clip|CLIP]] | [[191_oss_license_compliance|오픈소스]], 소비자 [[418_gpu|GPU]] 동작 |
+| DALL-E 3 (2023) | [[246_transformer_self_attention_parallel_positional_encoding|Transformer]] 기반 | 텍스트 정합성 최고 |
+| Sora (2024) | 비디오 디퓨전 | 60초 고품질 영상 [[087_process_state_transition|생성]] |
 
-- **📢 섹션 요약 비유**: Latent Diffusion Model(LDM)은 그림을 그릴 때 캔버스(픽셀) 대신 작은 스케치(잠재 공간)에서 먼저 구상하는 것이다. 4K 캔버스(픽셀 공간)에서 직접 작업하면 수천 번 붓질(스텝)이 필요하지만, A4 스케치(잠재 공간)에서 구상하고 나중에 확대(VAE 디코딩)하면 100배 빠르다.
+- **📢 섹션 요약 비유**: [[288_latent_diffusion_model|Latent Diffusion Model]]([[288_latent_diffusion_model|LDM]])은 그림을 그릴 때 캔버스(픽셀) 대신 작은 스케치(잠재 공간)에서 먼저 구상하는 것이다. 4K 캔버스(픽셀 공간)에서 직접 작업하면 수천 번 붓질(스텝)이 필요하지만, A4 스케치(잠재 공간)에서 구상하고 나중에 확대([[315_autoencoder_vae|VAE]] 디코딩)하면 100배 빠르다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-**CFG (Classifier-Free Guidance, 분류기 없는 안내)**: 텍스트 조건 w의 세기를 조절하여 생성 이미지가 프롬프트를 얼마나 충실히 따를지 제어한다. CFG 스케일이 높을수록 프롬프트 충실도 높지만 다양성 감소. 디퓨전 모델 실용화의 핵심 기법이다.
+**CFG (Classifier-Free Guidance, [[104_classification_analysis|분류]]기 없는 안내)**: 텍스트 조건 w의 세기를 조절하여 [[087_process_state_transition|생성]] 이미지가 프롬프트를 얼마나 충실히 따를지 제어한다. CFG 스케일이 높을수록 프롬프트 충실도 높지만 다양성 감소. [[153_diffusion_model_stable_diffusion_denoising|디퓨전 모델]] 실용화의 핵심 기법이다.
 
 | 구분 | 핵심 초점 | 적용 상황 |
 |:---|:---|:---|
-| 기초 접근 | 원리 이해와 기준 설정 | 작은 규모, 개념 학습 |
-| 디퓨전 모델 (Diffusion Model) | 성능과 실용성의 균형 | 대표적인 실무 적용 |
-| 확장 접근 | 자동화·대규모 최적화 | 서비스 고도화 단계 |
+| 기초 접근 | 원리 이해와 기준 [[009_config|설정]] | 작은 규모, 개념 학습 |
+| [[153_diffusion_model_stable_diffusion_denoising|디퓨전 모델]] ([[153_diffusion_model_stable_diffusion_denoising|Diffusion Model]]) | [[282_performance_tactics|성능]]과 실용성의 균형 | 대표적인 실무 적용 |
+| 확장 접근 | 자동화·대규모 최적화 | [[090_service_kubernetes_network_load_balancing|서비스]] 고도화 단계 |
 
 - **📢 섹션 요약 비유**: CFG 스케일은 화가에게 "이 스케치를 얼마나 충실히 따를 것인가"의 지시 세기다. CFG=1은 "대충 비슷하게 그려줘", CFG=15는 "한 획도 벗어나지 말고 정확히 그려줘"다. 너무 낮으면 프롬프트와 다른 그림이 나오고, 너무 높으면 아무리 창의적 요청도 경직된 결과가 나온다.
 
@@ -91,25 +91,25 @@ categories = "studynote-ai"
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-**생성 AI 규제 이슈**:
-- **저작권 문제**: 학습 데이터의 저작물 포함 여부 — 미국 판례에서 AI 생성 이미지 저작권 소송 진행 중
-- **딥페이크 악용**: EU AI Act에서 합성 미디어에 워터마킹 의무화
-- **생성 이미지 탐지**: C2PA (Content Credentials), 생성 이미지 탐지 AI로 출처 투명성 확보
+**[[087_process_state_transition|생성]] [[190_ai_llm_requirements_specification|AI]] 규제 이슈**:
+- **[[583_ai_code_license_security_threats|저작권]] 문제**: 학습 [[001_dikw_pyramid|데이터]]의 저작물 포함 여부 — 미국 판례에서 [[190_ai_llm_requirements_specification|AI]] [[087_process_state_transition|생성]] 이미지 [[583_ai_code_license_security_threats|저작권]] 소송 [[216_progress_in_synchronization|진행]] 중
+- **[[960_deepfake|딥페이크]] 악용**: EU [[190_ai_llm_requirements_specification|AI]] Act에서 합성 미디어에 워터마킹 의무화
+- **[[087_process_state_transition|생성]] 이미지 탐지**: [[962_c2pa|C2PA]] (Content Credentials), [[087_process_state_transition|생성]] 이미지 탐지 AI로 출처 투명성 확보
 
-**이미지 생성 품질 평가 지표**:
-- FID (Fréchet Inception Distance): 실제/생성 이미지 분포 간 거리 → 낮을수록 품질 高
-- CLIP Score: 텍스트 프롬프트와 생성 이미지의 의미적 일치도
-- IS (Inception Score): 생성 이미지의 다양성과 선명도
+**이미지 [[087_process_state_transition|생성]] 품질 평가 지표**:
+- FID (Fréchet Inception Distance): 실제/[[087_process_state_transition|생성]] 이미지 분포 간 거리 → 낮을수록 품질 高
+- [[408_clip|CLIP]] Score: 텍스트 프롬프트와 [[087_process_state_transition|생성]] 이미지의 의미적 일치도
+- IS (Inception Score): [[087_process_state_transition|생성]] 이미지의 다양성과 선명도
 
-- **📢 섹션 요약 비유**: FID는 AI 그림 대회 심사 기준이다. 실제 사진 갤러리(진짜 데이터 분포)와 AI 갤러리(생성 데이터 분포)를 통계적으로 비교해서 "얼마나 똑같이 보이나"를 측정한다. FID가 낮을수록 두 갤러리가 구별 안 된다 → AI가 실제 사진과 구별 불가능한 수준에 도달했다는 의미다.
+- **📢 섹션 요약 비유**: FID는 [[190_ai_llm_requirements_specification|AI]] 그림 대회 심사 기준이다. 실제 사진 갤러리(진짜 [[001_dikw_pyramid|데이터]] 분포)와 [[190_ai_llm_requirements_specification|AI]] 갤러리([[087_process_state_transition|생성]] [[001_dikw_pyramid|데이터]] 분포)를 통계적으로 비교해서 "얼마나 똑같이 보이나"를 측정한다. FID가 낮을수록 두 갤러리가 구별 안 된다 → AI가 실제 사진과 구별 불가능한 수준에 도달했다는 의미다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-디퓨전 모델은 생성 AI의 현재 왕좌를 차지한 기술이다. Stable Diffusion이 텍스트 한 줄로 예술 작품을 생성하고, Sora가 텍스트로 영화 수준 영상을 만들며, 음악 생성(AudioCraft), 단백질 구조(RFDiffusion) 등 모든 데이터 타입으로 확장되고 있다. 창작·의료·과학 분야에서 인간 전문가와의 협력 도구로서 디퓨전 모델의 잠재력은 아직도 초기 단계에 있다.
+[[153_diffusion_model_stable_diffusion_denoising|디퓨전 모델]]은 [[087_process_state_transition|생성]] AI의 현재 왕좌를 차지한 기술이다. Stable Diffusion이 텍스트 한 줄로 예술 작품을 [[087_process_state_transition|생성]]하고, Sora가 텍스트로 영화 수준 영상을 만들며, 음악 [[087_process_state_transition|생성]](AudioCraft), 단백질 구조(RFDiffusion) 등 모든 [[001_dikw_pyramid|데이터]] 타입으로 확장되고 있다. 창작·의료·과학 분야에서 인간 전문가와의 협력 도구로서 [[153_diffusion_model_stable_diffusion_denoising|디퓨전 모델]]의 잠재력은 아직도 [[459_quic_fec_forward_error_correction|초기]] 단계에 있다.
 
-- **📢 섹션 요약 비유**: 디퓨전 모델은 AI 세계의 3D 프린터다. "고양이 위에 달을 타고 있는 우주비행사(텍스트 프롬프트)"를 입력하면 이 개념을 노이즈(재료)에서 출발해 층층이 쌓아 실제 이미지(3D 출력)로 완성한다. 과거엔 전문 화가만 가능했던 "아이디어 → 완성 이미지"가 이제 누구나 10초 만에 가능해졌다.
+- **📢 섹션 요약 비유**: [[153_diffusion_model_stable_diffusion_denoising|디퓨전 모델]]은 [[190_ai_llm_requirements_specification|AI]] 세계의 3D 프린터다. "고양이 위에 달을 타고 있는 우주비행사(텍스트 프롬프트)"를 입력하면 이 개념을 노이즈(재료)에서 출발해 층층이 쌓아 실제 이미지(3D 출력)로 완성한다. 과거엔 전문 화가만 가능했던 "아이디어 → 완성 이미지"가 이제 누구나 10초 만에 가능해졌다.
 
 ---
 
@@ -117,11 +117,11 @@ categories = "studynote-ai"
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| 순방향 과정 (Forward Process) | 노이즈 주입, 가우시안 / 디퓨전 모델 학습 데이터 생성 과정 |
-| 역방향 과정 (Reverse Process) | 노이즈 제거, U-Net / 디퓨전 모델 추론 핵심 과정 |
-| LDM (잠재 디퓨전 모델) | VAE 잠재 공간, 가속 / Stable Diffusion의 핵심 혁신 |
-| CFG (분류기 없는 안내) | 프롬프트 충실도, 가이던스 스케일 / 텍스트 조건 이미지 생성 제어 |
-| GAN | 적대적 훈련, 모드 붕괴 / 디퓨전 이전 이미지 생성 표준 |
+| 순방향 과정 ([[235_forward_backward_chaining|Forward]] [[300_process|Process]]) | 노이즈 주입, 가우시안 / [[153_diffusion_model_stable_diffusion_denoising|디퓨전 모델]] 학습 [[001_dikw_pyramid|데이터]] [[087_process_state_transition|생성]] 과정 |
+| 역방향 과정 (Reverse [[300_process|Process]]) | 노이즈 제거, U-Net / [[153_diffusion_model_stable_diffusion_denoising|디퓨전 모델]] 추론 핵심 과정 |
+| [[288_latent_diffusion_model|LDM]] (잠재 [[153_diffusion_model_stable_diffusion_denoising|디퓨전 모델]]) | [[315_autoencoder_vae|VAE]] 잠재 공간, 가속 / Stable Diffusion의 핵심 혁신 |
+| CFG ([[104_classification_analysis|분류]]기 없는 안내) | 프롬프트 충실도, 가이던스 스케일 / 텍스트 조건 이미지 [[087_process_state_transition|생성]] 제어 |
+| [[154_gan_generative_adversarial_network|GAN]] | [[968_adversarial_training|적대적 훈련]], 모드 붕괴 / 디퓨전 이전 이미지 [[087_process_state_transition|생성]] 표준 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -131,6 +131,6 @@ categories = "studynote-ai"
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. **디퓨전 모델**은 완성된 그림을 지우개로 1000번 지워 빈 종이로 만들고, AI가 **역순으로 1000번 그려 복원**하는 법을 배우는 거예요!
-2. 다 배우면 **아무 노이즈(빈 종이)에서 출발**해서 "고양이 우주비행사"처럼 **텍스트 설명에 맞는 그림을 생성**할 수 있어요.
-3. **Stable Diffusion, DALL-E 3, Midjourney**가 모두 이 원리로 만들어진 이미지 생성 AI예요!
+1. **[[153_diffusion_model_stable_diffusion_denoising|디퓨전 모델]]**은 완성된 그림을 지우개로 1000번 지워 빈 종이로 만들고, AI가 **역순으로 1000번 그려 복원**하는 법을 배우는 거예요!
+2. 다 배우면 **아무 노이즈(빈 종이)에서 출발**해서 "고양이 우주비행사"처럼 **텍스트 설명에 맞는 그림을 [[087_process_state_transition|생성]]**할 수 있어요.
+3. **Stable Diffusion, DALL-E 3, Midjourney**가 모두 이 원리로 만들어진 이미지 [[087_process_state_transition|생성]] AI예요!

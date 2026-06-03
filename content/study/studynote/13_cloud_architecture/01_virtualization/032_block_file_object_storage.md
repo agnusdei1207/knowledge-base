@@ -6,29 +6,29 @@ categories = "studynote-cloud"
 +++
 
 > **핵심 인사이트 3줄**
-> 1. 블록·파일·오브젝트 스토리지는 저장 단위·접근 방식·확장 방식이 근본적으로 다르며, 워크로드 특성에 맞는 선택이 성능과 비용을 결정한다.
-> 2. 블록은 고성능 DB/VM(낮은 레이턴시), 파일은 공유 NFS/CIFS(협업), 오브젝트는 무한 확장 비정형 데이터(S3)에 최적화되어 있다.
-> 3. 클라우드에서는 EBS(블록)·EFS(파일)·S3(오브젝트)를 혼합해 다계층 스토리지 아키텍처를 구성하는 것이 표준 패턴이다.
+> 1. 블록·[[501_file_definition_logical_record|파일]]·[[494_object_storage|오브젝트 스토리지]]는 저장 단위·접근 방식·확장 방식이 근본적으로 다르며, 워크로드 특성에 맞는 선택이 성능과 비용을 결정한다.
+> 2. 블록은 고성능 DB/[[598_vm_migration_nic|VM]](낮은 레이턴시), [[501_file_definition_logical_record|파일]]은 공유 [[543_nfs_network_file_system|NFS]]/CIFS(협업), 오브젝트는 무한 확장 [[004_unstructured_data|비정형 데이터]](S3)에 최적화되어 있다.
+> 3. 클라우드에서는 EBS(블록)·EFS([[501_file_definition_logical_record|파일]])·S3(오브젝트)를 혼합해 다계층 스토리지 아키텍처를 구성하는 것이 표준 패턴이다.
 
 ---
 
 ## Ⅰ. 세 가지 스토리지 유형 비교
 
-| 특성          | 블록 스토리지      | 파일 스토리지    | 오브젝트 스토리지  |
+| 특성          | 블록 스토리지      | [[501_file_definition_logical_record|파일]] 스토리지    | [[494_object_storage|오브젝트 스토리지]]  |
 |-------------|-----------------|---------------|-----------------|
-| 저장 단위     | 고정 크기 블록   | 파일/디렉토리   | 오브젝트(파일+메타)|
-| 접근 방식     | 블록 장치 (SAN)  | NFS/CIFS/SMB  | HTTP REST API    |
-| 데이터 수정   | 블록 단위 수정   | 파일 수정 가능  | 덮어쓰기만 가능   |
+| 저장 단위     | 고정 크기 블록   | [[501_file_definition_logical_record|파일]]/디렉토리   | 오브젝트([[501_file_definition_logical_record|파일]]+메타)|
+| 접근 방식     | [[442_block_device|블록 장치]] ([[493_san_storage_area_network|SAN]])  | [[543_nfs_network_file_system|NFS]]/CIFS/SMB  | [[461_http_stateless_connection_oriented|HTTP]] [[477_rest_api_architecture|REST API]]    |
+| [[001_dikw_pyramid|데이터]] 수정   | 블록 단위 수정   | [[501_file_definition_logical_record|파일]] 수정 가능  | 덮어쓰기만 가능   |
 | 확장성        | 제한적           | 중간           | 무한(페타바이트+) |
 | 레이턴시      | 매우 낮음 (μs)  | 낮음 (ms)      | 높음 (ms~s)      |
 | 비용          | 높음             | 중간           | 낮음             |
-| AWS 서비스   | EBS              | EFS / FSx     | S3               |
+| AWS [[090_service_kubernetes_network_load_balancing|서비스]]   | EBS              | EFS / FSx     | S3               |
 
-📢 **섹션 요약 비유**: 블록은 SSD 드라이브, 파일은 공유 폴더 네트워크, 오브젝트는 구글 드라이브와 같다 — 각각 속도, 공유, 무한 확장을 위해 만들어졌다.
+📢 **섹션 요약 비유**: 블록은 [[327_ssd|SSD]] 드라이브, [[501_file_definition_logical_record|파일]]은 공유 폴더 네트워크, 오브젝트는 구글 드라이브와 같다 — 각각 속도, 공유, 무한 확장을 위해 만들어졌다.
 
 ---
 
-## Ⅱ. 블록 스토리지 — EBS, SAN
+## Ⅱ. 블록 스토리지 — EBS, [[493_san_storage_area_network|SAN]]
 
 ### 블록 스토리지 동작 원리
 
@@ -45,18 +45,18 @@ EC2 인스턴스
 
 | 유형          | 특성                      | 사용 사례           |
 |-------------|--------------------------|-------------------|
-| gp3 (SSD)   | 범용, 16,000 IOPS        | 대부분 워크로드     |
-| io2 Block Express | 고성능, 256K IOPS  | Oracle DB, SAP    |
-| st1 (HDD)   | 처리량 최적화, 저렴        | 빅데이터, 로그      |
-| sc1 (HDD)   | 최저 비용                 | 아카이브 콜드 데이터 |
+| gp3 ([[327_ssd|SSD]])   | 범용, 16,000 IOPS        | 대부분 워크로드     |
+| io2 Block Express | 고성능, 256K IOPS  | [[188_pl_sql_t_sql_procedural|Oracle]] DB, SAP    |
+| st1 ([[465_hdd_structure|HDD]])   | [[139_throughput|처리량]] 최적화, 저렴        | 빅데이터, [[568_logs_distributed_logging_elk_fluentd|로그]]      |
+| sc1 ([[465_hdd_structure|HDD]])   | 최저 비용                 | 아카이브 [[676_cold_data_archiving|콜드 데이터]] |
 
 📢 **섹션 요약 비유**: 블록 스토리지는 컴퓨터에 직접 꽂는 SSD다 — 빠르고 신뢰할 수 있지만, 다른 컴퓨터와 동시에 쓰기가 어렵다.
 
 ---
 
-## Ⅲ. 파일 스토리지 — NFS, EFS
+## Ⅲ. [[501_file_definition_logical_record|파일]] 스토리지 — [[543_nfs_network_file_system|NFS]], EFS
 
-### 파일 스토리지 프로토콜
+### [[501_file_definition_logical_record|파일]] 스토리지 [[295_protocol_field_tcp_udp_icmp|프로토콜]]
 
 ```
 클라이언트 A ─────┐
@@ -73,18 +73,18 @@ EC2 인스턴스
 
 ### AWS EFS vs FSx 비교
 
-| 서비스      | 특성                    | 사용 사례          |
+| [[090_service_kubernetes_network_load_balancing|서비스]]      | 특성                    | 사용 사례          |
 |-----------|------------------------|------------------|
-| EFS       | 완전 관리형 NFS, 자동 확장 | 컨테이너 공유 볼륨 |
-| FSx Lustre | 고성능, ML 학습 데이터   | HPC, SageMaker    |
-| FSx Windows | SMB, AD 통합          | Windows 파일 서버  |
-| FSx NetApp | ONTAP, 멀티프로토콜     | 엔터프라이즈 NAS   |
+| EFS       | 완전 관리형 [[543_nfs_network_file_system|NFS]], 자동 확장 | [[561_container_based_deployment|컨테이너]] 공유 볼륨 |
+| FSx Lustre | 고성능, ML 학습 [[001_dikw_pyramid|데이터]]   | [[548_automotive_hpc|HPC]], SageMaker    |
+| FSx Windows | SMB, AD 통합          | Windows [[501_file_definition_logical_record|파일]] 서버  |
+| FSx NetApp | ONTAP, 멀티프로토콜     | 엔터프라이즈 [[492_nas_network_attached_storage|NAS]]   |
 
-📢 **섹션 요약 비유**: 파일 스토리지는 학교 서버의 공유 폴더다 — 여러 학생이 같은 폴더에 접속해 파일을 열고 수정하고 저장할 수 있다.
+📢 **섹션 요약 비유**: [[501_file_definition_logical_record|파일]] 스토리지는 학교 서버의 공유 폴더다 — 여러 학생이 같은 폴더에 접속해 [[501_file_definition_logical_record|파일]]을 열고 수정하고 저장할 수 있다.
 
 ---
 
-## Ⅳ. 오브젝트 스토리지 — S3 원리
+## Ⅳ. [[494_object_storage|오브젝트 스토리지]] — S3 원리
 
 ### 오브젝트 구조
 
@@ -99,14 +99,14 @@ EC2 인스턴스
 
 ### S3 스토리지 클래스 (비용 최적화)
 
-| 클래스              | 접근 빈도   | 비용      | 복구 시간 |
+| 클래스              | 접근 빈도   | 비용      | [[658_ir_recovery|복구]] 시간 |
 |------------------|-----------|---------|---------|
 | S3 Standard      | 자주       | 높음     | 즉시      |
 | S3 IA            | 가끔       | 중간     | 즉시      |
 | S3 Glacier Instant | 드물게   | 낮음     | 즉시      |
 | S3 Glacier Deep  | 거의 없음  | 매우 낮음 | 12시간   |
 
-📢 **섹션 요약 비유**: 오브젝트 스토리지는 거대한 창고 선반이다 — 번호표(Key)를 알면 어떤 박스(Object)든 꺼낼 수 있고, 선반은 무한히 늘어난다.
+📢 **섹션 요약 비유**: [[494_object_storage|오브젝트 스토리지]]는 거대한 창고 선반이다 — 번호표([[067_db_key_uniqueness_minimality|Key]])를 알면 어떤 박스(Object)든 꺼낼 수 있고, 선반은 무한히 늘어난다.
 
 ---
 
@@ -131,10 +131,10 @@ Web App ──→ EFS (공유 정적 파일)
 | 워크로드            | 권장 스토리지        |
 |------------------|-------------------|
 | RDBMS (RDS)      | EBS gp3/io2        |
-| 컨테이너 공유 볼륨 | EFS                |
+| [[561_container_based_deployment|컨테이너]] 공유 볼륨 | EFS                |
 | 대용량 미디어      | S3 + CloudFront   |
-| ML 학습 데이터셋   | FSx Lustre + S3   |
-| 백업·아카이브      | S3 Glacier         |
+| ML 학습 [[001_dikw_pyramid|데이터]]셋   | FSx Lustre + S3   |
+| [[555_backup_and_restore_strategy|백업]]·아카이브      | S3 Glacier         |
 
 📢 **섹션 요약 비유**: 다계층 스토리지는 집의 수납 공간이다 — 자주 쓰는 물건은 서랍(EBS), 가족이 함께 쓰는 것은 공용 선반(EFS), 거의 안 쓰는 것은 창고(S3 Glacier).
 
@@ -187,5 +187,5 @@ Web App ──→ EFS (공유 정적 파일)
 ## 👶 어린이를 위한 3줄 비유 설명
 
 1. 블록 스토리지는 개인 SSD다 — 혼자 빠르게 쓰는 데는 최고지만 친구와 나누기 어렵다.
-2. 파일 스토리지는 학교 공용 사물함이다 — 여러 명이 같은 파일을 꺼내 볼 수 있다.
-3. 오브젝트 스토리지는 구글 드라이브다 — 인터넷만 있으면 어디서든 파일을 올리고 내려받고, 용량은 거의 무한하다.
+2. [[501_file_definition_logical_record|파일]] 스토리지는 학교 공용 사물함이다 — 여러 명이 같은 [[501_file_definition_logical_record|파일]]을 꺼내 볼 수 있다.
+3. [[494_object_storage|오브젝트 스토리지]]는 구글 드라이브다 — 인터넷만 있으면 어디서든 [[501_file_definition_logical_record|파일]]을 올리고 내려받고, 용량은 거의 무한하다.

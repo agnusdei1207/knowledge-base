@@ -7,15 +7,15 @@ categories = "studynote-data-engineering"
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: A*(A-Star) 알고리즘은 휴리스틱 함수 h(n)을 이용해 최단 경로를 효율적으로 탐색하며, 미니맥스(Minimax)는 게임 트리에서 상대의 최선과 자신의 최선을 교차 선택해 최적 전략을 찾는다.
-> 2. **가치**: MCTS(Monte Carlo Tree Search)는 경우의 수가 폭발적으로 많은 바둑·체스에서 무작위 시뮬레이션 통계를 활용해 완전 탐색 없이 강력한 수를 선택하며, AlphaGo의 핵심 엔진이다.
-> 3. **판단 포인트**: 탐색 공간 크기와 실시간 요건에 따라 BFS/DFS(작은 공간)→A*(경로 찾기)→알파-베타(게임 AI)→MCTS(복잡 게임) 순으로 방법론을 선택한다.
+> 1. **본질**: A*([[017_a_star_algorithm|A-Star]]) [[001_algorithm_definition|알고리즘]]은 [[210_heuristics_scheduling|휴리스틱]] 함수 h(n)을 이용해 최단 경로를 효율적으로 탐색하며, [[239_minimax_alpha_beta_pruning|미니맥스]]([[239_minimax_alpha_beta_pruning|Minimax]])는 게임 트리에서 상대의 최선과 자신의 최선을 교차 선택해 최적 [[268_strategy_pattern|전략]]을 찾는다.
+> 2. **가치**: [[240_mcts_monte_carlo|MCTS]](Monte Carlo Tree Search)는 경우의 수가 폭발적으로 많은 바둑·체스에서 무작위 시뮬레이션 통계를 활용해 완전 탐색 없이 강력한 수를 선택하며, AlphaGo의 핵심 엔진이다.
+> 3. **판단 포인트**: 탐색 공간 크기와 실시간 요건에 따라 [[035_bfs|BFS]]/[[034_dfs|DFS]](작은 공간)→A*(경로 찾기)→알파-베타(게임 [[190_ai_llm_requirements_specification|AI]])→[[240_mcts_monte_carlo|MCTS]](복잡 게임) 순으로 방법론을 선택한다.
 
 ## Ⅰ. 개요 및 필요성
 
 ### 탐색(Search) 문제의 본질
 
-AI가 해결해야 하는 많은 문제는 **상태 공간(State Space) 탐색**으로 표현된다: 현재 상태에서 목표 상태까지 최적 경로를 찾는 것이다.
+AI가 해결해야 하는 많은 문제는 **상태 공간([[272_state_pattern|State]] Space) 탐색**으로 표현된다: 현재 상태에서 목표 상태까지 최적 경로를 찾는 것이다.
 
 | 문제 | 상태 | 행동 | 목표 |
 |:---|:---|:---|:---|
@@ -24,24 +24,24 @@ AI가 해결해야 하는 많은 문제는 **상태 공간(State Space) 탐색**
 | 퍼즐 (8-Puzzle) | 타일 배치 | 타일 이동 | 정렬 완성 |
 | 게임 나무 | 게임 상태 | 플레이어 이동 | 최대 점수 |
 
-탐색 알고리즘의 효율성은 **시간 복잡도**와 **최적성(Optimality)**의 트레이드오프로 결정된다.
+탐색 [[001_algorithm_definition|알고리즘]]의 효율성은 **[[002_time_complexity|시간 복잡도]]**와 **최적성(Optimality)**의 트레이드오프로 결정된다.
 
 📢 **섹션 요약 비유**: 탐색 문제는 미로 찾기다. BFS는 모든 방향을 동시에 확인하고, DFS는 한 방향으로 끝까지 가보며, A*는 "출구가 저 방향일 것 같다"는 직관으로 효율적으로 찾아간다.
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### 탐색 알고리즘 비교
+### 탐색 [[001_algorithm_definition|알고리즘]] 비교
 
-| 알고리즘 | 탐색 방식 | 최적성 | 시간복잡도 | 메모리 | 특징 |
+| [[001_algorithm_definition|알고리즘]] | 탐색 방식 | 최적성 | 시간복잡도 | 메모리 | 특징 |
 |:---|:---|:---:|:---:|:---:|:---|
-| BFS (너비 우선 탐색) | 레벨 순서 | ✅ (비가중) | O(b^d) | 높음 | 최단 홉 보장 |
-| DFS (깊이 우선 탐색) | 깊이 방향 | ❌ | O(b^m) | 낮음 | 무한 루프 위험 |
-| 다익스트라 (Dijkstra) | 비용 우선 | ✅ (가중) | O((V+E)logV) | 높음 | 음의 간선 불가 |
-| **A*** | 비용+휴리스틱 | ✅ (허용적 h) | O(b^d) | 높음 | 최단 경로 효율적 |
-| 미니맥스 (Minimax) | 게임 트리 전체 | ✅ | O(b^m) | 낮음 | 상대 최적 전략 가정 |
-| MCTS | 몬테카를로 샘플링 | 근사 | O(시뮬레이션 수) | 중간 | 복잡 게임에 강력 |
+| [[035_bfs|BFS]] ([[035_bfs|너비 우선 탐색]]) | 레벨 순서 | ✅ (비가중) | O(b^d) | 높음 | 최단 홉 보장 |
+| [[034_dfs|DFS]] ([[034_dfs|깊이 우선 탐색]]) | 깊이 방향 | ❌ | O(b^m) | 낮음 | 무한 루프 위험 |
+| [[036_dijkstra|다익스트라]] ([[036_dijkstra|Dijkstra]]) | 비용 우선 | ✅ (가중) | O((V+E)logV) | 높음 | 음의 간선 불가 |
+| **A*** | 비용+[[210_heuristics_scheduling|휴리스틱]] | ✅ (허용적 h) | O(b^d) | 높음 | 최단 경로 효율적 |
+| [[239_minimax_alpha_beta_pruning|미니맥스]] ([[239_minimax_alpha_beta_pruning|Minimax]]) | 게임 트리 전체 | ✅ | O(b^m) | 낮음 | 상대 최적 [[268_strategy_pattern|전략]] 가정 |
+| [[240_mcts_monte_carlo|MCTS]] | 몬테카를로 샘플링 | 근사 | O(시뮬레이션 수) | 중간 | 복잡 게임에 강력 |
 
-### A* 알고리즘 (A-Star Algorithm)
+### A* [[001_algorithm_definition|알고리즘]] ([[038_a_star_algorithm|A-Star Algorithm]])
 
 ```
 평가 함수: f(n) = g(n) + h(n)
@@ -59,7 +59,7 @@ AI가 해결해야 하는 많은 문제는 **상태 공간(State Space) 탐색**
   유클리드 거리: √((x1-x2)² + (y1-y2)²)  (직선 이동)
 ```
 
-**A* 탐색 과정 (ASCII 다이어그램)**
+**A* 탐색 과정 ([[103_ascii|ASCII]] 다이어그램)**
 ```
   S = 시작, G = 목표, 숫자 = g(n), 괄호 = h(n)
 
@@ -76,7 +76,7 @@ AI가 해결해야 하는 많은 문제는 **상태 공간(State Space) 탐색**
     A→G: f = g(7)+h(0) = 7  ← 최적!
 ```
 
-### 미니맥스 (Minimax) 알고리즘
+### [[239_minimax_alpha_beta_pruning|미니맥스]] ([[239_minimax_alpha_beta_pruning|Minimax]]) [[001_algorithm_definition|알고리즘]]
 
 2인 제로섬 게임에서 자신은 점수를 최대화(MAX), 상대는 최소화(MIN)한다고 가정하고 게임 트리 전체를 탐색한다.
 
@@ -98,9 +98,9 @@ MIN →   3  5 12  2     8  9  5   7
   → 최악 O(b^m) → 최적 O(b^(m/2)) 개선
 ```
 
-### MCTS (Monte Carlo Tree Search) 4단계
+### [[240_mcts_monte_carlo|MCTS]] (Monte Carlo Tree Search) 4단계
 
-AlphaGo에서 핵심적으로 사용된 알고리즘이다.
+AlphaGo에서 핵심적으로 사용된 [[001_algorithm_definition|알고리즘]]이다.
 
 ```
 ┌────────────────────────────────────────────────────────────┐
@@ -130,7 +130,7 @@ AlphaGo에서 핵심적으로 사용된 알고리즘이다.
 
 ## Ⅲ. 비교 및 연결
 
-### A* vs Dijkstra 핵심 차이
+### A* vs [[036_dijkstra|Dijkstra]] 핵심 차이
 
 ```
 다익스트라 (Dijkstra):
@@ -146,18 +146,18 @@ A* 알고리즘:
   A*:         방향성 있는 탐색 (좁음, 효율적)
 ```
 
-### 알파-베타 가지치기 효과
+### [[020_alpha_beta_pruning|알파-베타 가지치기]] 효과
 
 | 조건 | 시간복잡도 | 비고 |
 |:---|:---:|:---|
-| 가지치기 없는 미니맥스 | O(b^m) | b=분기, m=깊이 |
-| 최악 알파-베타 | O(b^m) | 가지치기 효과 없음 |
-| 평균 알파-베타 | O(b^(3m/4)) | 무작위 배열 |
+| [[435_pruning_hardware|가지치기]] 없는 [[239_minimax_alpha_beta_pruning|미니맥스]] | O(b^m) | b=분기, m=깊이 |
+| 최악 알파-베타 | O(b^m) | [[435_pruning_hardware|가지치기]] 효과 없음 |
+| 평균 알파-베타 | O(b^(3m/4)) | 무작위 [[055_array|배열]] |
 | **최적 알파-베타** | **O(b^(m/2))** | **최선 순서 정렬** |
 
-바둑의 경우 b≈250, m≈150이면 완전 탐색이 불가능 → MCTS + 신경망 필수
+바둑의 경우 b≈250, m≈150이면 완전 탐색이 불가능 → [[240_mcts_monte_carlo|MCTS]] + 신경망 필수
 
-### AlphaGo 구조 (MCTS + 딥러닝)
+### AlphaGo 구조 ([[240_mcts_monte_carlo|MCTS]] + 딥러닝)
 
 ```
 ┌─────────────────────────────────────────────┐
@@ -174,11 +174,11 @@ A* 알고리즘:
 └─────────────────────────────────────────────┘
 ```
 
-📢 **섹션 요약 비유**: 알파-베타 가지치기는 미리 "이 길은 절대 최선이 될 수 없다"고 판단해 탐색을 건너뛰는 것이다. 체스 선수가 "이 수는 분명 질 것 같으니 생각도 안 해"라고 하는 것과 같다.
+📢 **섹션 요약 비유**: [[020_alpha_beta_pruning|알파-베타 가지치기]]는 미리 "이 길은 절대 최선이 될 수 없다"고 판단해 탐색을 건너뛰는 것이다. 체스 선수가 "이 수는 분명 질 것 같으니 생각도 안 해"라고 하는 것과 같다.
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### 탐색 알고리즘 선택 기준
+### 탐색 [[001_algorithm_definition|알고리즘]] 선택 기준
 
 ```
 문제 유형별 알고리즘 선택:
@@ -193,44 +193,44 @@ A* 알고리즘:
 
 ### 실무 응용 사례
 
-| 분야 | 알고리즘 | 응용 |
+| 분야 | [[001_algorithm_definition|알고리즘]] | 응용 |
 |:---|:---|:---|
 | 자율주행 경로 계획 | A* / D* | 실시간 장애물 회피 경로 |
-| 게임 NPC AI | 미니맥스 + 알파-베타 | 체스·장기 AI |
-| 바둑 AI | MCTS + 딥러닝 | AlphaGo, KataGo |
-| 물류 최적화 | A* + 휴리스틱 | 배송 경로 최적화 |
-| 소켓 네트워크 라우팅 | 다익스트라 | OSPF 프로토콜 |
+| 게임 NPC [[190_ai_llm_requirements_specification|AI]] | [[239_minimax_alpha_beta_pruning|미니맥스]] + 알파-베타 | 체스·장기 [[190_ai_llm_requirements_specification|AI]] |
+| 바둑 [[190_ai_llm_requirements_specification|AI]] | [[240_mcts_monte_carlo|MCTS]] + 딥러닝 | AlphaGo, KataGo |
+| 물류 최적화 | A* + [[210_heuristics_scheduling|휴리스틱]] | 배송 경로 최적화 |
+| [[125_socket|소켓]] 네트워크 [[339_routing_overview_best_path_selection|라우팅]] | [[036_dijkstra|다익스트라]] | [[357_ospf_open_shortest_path_first_overview|OSPF]] [[295_protocol_field_tcp_udp_icmp|프로토콜]] |
 
 📢 **섹션 요약 비유**: A*는 "내비게이션 앱"처럼 목적지 방향을 알고 효율적으로 길을 찾는다. MCTS는 "바둑 고수"처럼 수천 번의 상상 대국으로 최선의 수를 고른다.
 
 ## Ⅴ. 기대효과 및 결론
 
-### 탐색 알고리즘 성능 비교 (동일 문제)
+### 탐색 [[001_algorithm_definition|알고리즘]] [[282_performance_tactics|성능]] 비교 (동일 문제)
 
-| 알고리즘 | 탐색 노드 수 | 최적 경로 보장 | 시나리오 |
+| [[001_algorithm_definition|알고리즘]] | 탐색 노드 수 | 최적 경로 보장 | 시나리오 |
 |:---|:---:|:---:|:---|
-| BFS | 1,000 | ✅ | 단순 격자 맵 |
-| 다익스트라 | 800 | ✅ | 가중 그래프 |
-| **A*** | **150** | ✅ | 좋은 휴리스틱 |
-| DFS | 500 | ❌ | 깊은 비최적 경로 |
+| [[035_bfs|BFS]] | 1,000 | ✅ | 단순 격자 맵 |
+| [[036_dijkstra|다익스트라]] | 800 | ✅ | 가중 [[070_graph_datastructure|그래프]] |
+| **A*** | **150** | ✅ | 좋은 [[210_heuristics_scheduling|휴리스틱]] |
+| [[034_dfs|DFS]] | 500 | ❌ | 깊은 비최적 경로 |
 
 ### 결론
 
-A*, 미니맥스, MCTS는 각각 경로 찾기, 게임 전략, 복잡 게임이라는 서로 다른 문제를 위해 최적화된 탐색 알고리즘이다. 공통점은 **탐색 효율성과 최적성의 트레이드오프를 어떻게 다루느냐**다. A*는 휴리스틱으로, 알파-베타는 가지치기로, MCTS는 확률적 샘플링으로 각각 무한한 탐색 공간을 현실적 범위로 줄인다.
+A*, [[239_minimax_alpha_beta_pruning|미니맥스]], MCTS는 각각 경로 찾기, 게임 [[268_strategy_pattern|전략]], 복잡 게임이라는 서로 다른 문제를 위해 최적화된 탐색 [[001_algorithm_definition|알고리즘]]이다. 공통점은 **탐색 효율성과 최적성의 트레이드오프를 어떻게 다루느냐**다. A*는 [[210_heuristics_scheduling|휴리스틱]]으로, 알파-베타는 [[435_pruning_hardware|가지치기]]로, MCTS는 확률적 샘플링으로 각각 무한한 탐색 공간을 현실적 범위로 줄인다.
 
-📢 **섹션 요약 비유**: A*, 미니맥스, MCTS는 각각 영리한 탐험가, 전략적 체스 선수, 통계에 능한 바둑 기사다. 같은 "최선을 찾는다"는 목표이지만 전혀 다른 방법으로 접근한다.
+📢 **섹션 요약 비유**: A*, [[239_minimax_alpha_beta_pruning|미니맥스]], MCTS는 각각 영리한 탐험가, [[268_strategy_pattern|전략]]적 체스 선수, 통계에 능한 바둑 기사다. 같은 "최선을 찾는다"는 목표이지만 전혀 다른 방법으로 접근한다.
 
 ### 📌 관련 개념 맵
 
-| 관계 | 개념 | 설명 |
+| [[083_relationship_in_er_model|관계]] | 개념 | 설명 |
 |:---|:---|:---|
-| 경로 탐색 | A* (A-Star) | g(n)+h(n) 평가 함수, 최단 경로 |
-| 휴리스틱 | 맨하탄/유클리드 거리 | A* 허용적 휴리스틱 |
-| 게임 트리 | 미니맥스 (Minimax) | MAX/MIN 교차 최적 전략 |
-| 가지치기 | 알파-베타 (Alpha-Beta Pruning) | 불필요 탐색 제거, O(b^m/2) |
-| 통계 탐색 | MCTS | 선택·확장·시뮬레이션·역전파 |
-| 응용 | AlphaGo | MCTS + 정책/가치 네트워크 |
-| 비교 | 다익스트라 | MCTS와 A*의 전신 알고리즘 |
+| 경로 탐색 | A* ([[017_a_star_algorithm|A-Star]]) | g(n)+h(n) 평가 함수, 최단 경로 |
+| [[210_heuristics_scheduling|휴리스틱]] | 맨하탄/유클리드 거리 | A* [[018_admissible_heuristic|허용적 휴리스틱]] |
+| 게임 트리 | [[239_minimax_alpha_beta_pruning|미니맥스]] ([[239_minimax_alpha_beta_pruning|Minimax]]) | MAX/MIN 교차 최적 [[268_strategy_pattern|전략]] |
+| [[435_pruning_hardware|가지치기]] | 알파-베타 ([[020_alpha_beta_pruning|Alpha-Beta Pruning]]) | 불필요 탐색 제거, O(b^m/2) |
+| 통계 탐색 | [[240_mcts_monte_carlo|MCTS]] | 선택·확장·시뮬레이션·[[272_backpropagation|역전파]] |
+| 응용 | AlphaGo | [[240_mcts_monte_carlo|MCTS]] + [[164_policy|정책]]/가치 네트워크 |
+| 비교 | [[036_dijkstra|다익스트라]] | MCTS와 A*의 전신 [[001_algorithm_definition|알고리즘]] |
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -250,5 +250,5 @@ A*: g(n) + h(n) 휴리스틱 탐색 (최적 + 효율)
     ▼
 AlphaGo: MCTS + 딥러닝 정책/가치 네트워크
 ```
-2. 미니맥스는 두 사람이 번갈아 두는 보드게임에서 "상대방은 나쁜 수를 두지 않는다"고 가정하고 내가 가장 유리한 수를 계산하는 방법이다.
+2. [[239_minimax_alpha_beta_pruning|미니맥스]]는 두 사람이 번갈아 두는 보드게임에서 "상대방은 나쁜 수를 두지 않는다"고 가정하고 내가 가장 유리한 수를 계산하는 방법이다.
 3. MCTS는 바둑에서 "이 자리에 두면 어떻게 될까"를 수천 번 상상으로 빠르게 대국해보고 가장 많이 이긴 자리에 두는 방법이다.

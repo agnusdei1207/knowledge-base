@@ -8,23 +8,23 @@ categories = "studynote-ai"
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: BPE (Byte Pair Encoding, 바이트 쌍 인코딩)는 가장 빈도 높은 문자 쌍을 반복적으로 병합해 서브워드 (Subword) 어휘집을 구성하며, 어휘 크기와 OOV (Out-Of-Vocabulary) 사이의 균형을 최적화한다.
-> 2. **가치**: 단어 단위 토크나이저의 OOV 문제와 문자 단위의 과도한 시퀀스 길이 문제를 동시에 해결하며, GPT-2, RoBERTa, LLaMA 등 현대 LLM의 표준 토크나이저다.
-> 3. **판단 포인트**: 어휘 크기(Vocab Size)는 BPE의 병합 횟수로 결정되며, 클수록 OOV가 줄고 시퀀스가 짧아지지만 임베딩 메모리와 학습 데이터가 더 필요하다.
+> 1. **본질**: BPE ([[378_bpe_byte_pair_encoding|Byte Pair Encoding]], [[074_byte|바이트]] 쌍 인코딩)는 가장 빈도 높은 문자 쌍을 반복적으로 병합해 서브워드 (Subword) 어휘집을 구성하며, 어휘 크기와 OOV (Out-Of-Vocabulary) 사이의 균형을 최적화한다.
+> 2. **가치**: 단어 단위 토크나이저의 OOV 문제와 문자 단위의 과도한 시퀀스 길이 문제를 동시에 해결하며, [[302_gpt_autoregressive|GPT]]-2, RoBERTa, LLaMA 등 현대 LLM의 표준 토크나이저다.
+> 3. **판단 포인트**: 어휘 크기(Vocab Size)는 BPE의 병합 횟수로 결정되며, 클수록 OOV가 줄고 시퀀스가 짧아지지만 [[278_instruction_tuning|임베딩]] 메모리와 학습 [[001_dikw_pyramid|데이터]]가 더 필요하다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-자연어 처리에서 토크나이저는 원시 텍스트를 모델이 처리할 수 있는 토큰 시퀀스로 변환한다. 토크나이저 단위 선택은 모델 성능과 효율에 직접 영향을 미친다.
+자연어 처리에서 토크나이저는 원시 텍스트를 모델이 처리할 수 있는 토큰 시퀀스로 변환한다. 토크나이저 단위 선택은 모델 [[282_performance_tactics|성능]]과 효율에 직접 영향을 미친다.
 
 | 방식 | 단위 | OOV | 시퀀스 길이 | 어휘 크기 |
 |:---|:---|:---|:---|:---|
-| 단어(Word) | 단어 | 심각 | 짧음 | 수십만 |
+| 단어([[075_word|Word]]) | 단어 | 심각 | 짧음 | 수십만 |
 | 문자(Char) | 문자 | 없음 | 매우 긺 | ~100 |
 | 서브워드(BPE) | 서브워드 | 거의 없음 | 중간 | 수만 |
 
-BPE는 원래 데이터 압축 알고리즘이었으나, Sennrich et al. (2016)이 NMT (Neural Machine Translation)에 도입했다.
+BPE는 원래 [[159_compression|데이터 압축]] [[001_algorithm_definition|알고리즘]]이었으나, Sennrich et al. (2016)이 NMT (Neural Machine Translation)에 도입했다.
 
 ```text
 ┌──────────────────────────────────────────────┐
@@ -41,7 +41,7 @@ BPE는 원래 데이터 압축 알고리즘이었으나, Sennrich et al. (2016)�
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### BPE 학습 알고리즘
+### BPE 학습 [[001_algorithm_definition|알고리즘]]
 
 ```
 1. 초기화: 모든 단어를 문자 단위로 분리 + 단어 끝 표시 </w>
@@ -79,16 +79,16 @@ BPE는 원래 데이터 압축 알고리즘이었으나, Sennrich et al. (2016)�
 ```
 → OOV 단어도 알려진 서브워드로 분해 가능
 
-### GPT-2 Byte-level BPE
+### [[302_gpt_autoregressive|GPT]]-2 [[074_byte|Byte]]-level BPE
 
-UTF-8 바이트를 기본 어휘로 사용 → 모든 유니코드 문자 처리 가능, OOV 완전 제거
+[[105_utf8|UTF-8]] [[074_byte|바이트]]를 기본 어휘로 사용 → 모든 [[104_unicode|유니코드]] 문자 처리 가능, OOV 완전 제거
 
 | 요소 | 역할 |
 |:---|:---|
-| 입력 표현 | 데이터를 토큰·벡터·특성 맵으로 바꾸는 전처리 계층이다. |
-| 모델 구조 | 정보를 축적·선택·생성하는 핵심 계산 흐름을 담당한다. |
+| 입력 표현 | [[001_dikw_pyramid|데이터]]를 토큰·벡터·[[099_feature_map_activation_map_cnn_output|특성 맵]]으로 바꾸는 전처리 계층이다. |
+| 모델 구조 | 정보를 축적·선택·[[087_process_state_transition|생성]]하는 핵심 계산 흐름을 담당한다. |
 | 경량화 | 배포 환경에 맞춰 메모리와 연산량을 조정한다. |
-| 응용 서비스 | 검색, 생성, 추천, 제어 등 실제 문제 해결 단계로 이어진다. |
+| 응용 [[090_service_kubernetes_network_load_balancing|서비스]] | 검색, [[087_process_state_transition|생성]], 추천, 제어 등 실제 문제 해결 단계로 이어진다. |
 
 - **📢 섹션 요약 비유**: BPE 병합은 자주 같이 오는 친구를 "단짝"으로 묶어 새 이름을 주는 것이다. 수천 번 반복하면 자주 쓰는 단어 조각들이 모두 이름을 갖게 된다.
 
@@ -96,29 +96,29 @@ UTF-8 바이트를 기본 어휘로 사용 → 모든 유니코드 문자 처리
 
 ## Ⅲ. 비교 및 연결
 
-| 토크나이저 | 알고리즘 | 결합 기준 | 사용 모델 |
+| 토크나이저 | [[001_algorithm_definition|알고리즘]] | 결합 기준 | 사용 모델 |
 |:---|:---|:---|:---|
-| BPE | 빈도 기반 병합 | 문자 쌍 빈도 | GPT-2, RoBERTa, LLaMA |
-| WordPiece | 우도 기반 병합 | 언어 모델 우도 증가량 | BERT, DistilBERT |
-| SentencePiece | BPE/Unigram | 직접 바이트 처리 | T5, LLaMA (내부) |
-| Unigram LM | 확률 기반 제거 | 우도 감소 최소 | AlBERT |
+| BPE | 빈도 기반 병합 | 문자 쌍 빈도 | [[302_gpt_autoregressive|GPT]]-2, RoBERTa, LLaMA |
+| WordPiece | 우도 기반 병합 | 언어 모델 우도 증가량 | [[301_bert_mlm|BERT]], DistilBERT |
+| SentencePiece | BPE/Unigram | 직접 [[074_byte|바이트]] 처리 | T5, LLaMA (내부) |
+| Unigram LM | [[130_probability|확률]] 기반 제거 | 우도 감소 최소 | AlBERT |
 
-- **📢 섹션 요약 비유**: BPE는 "가장 인기 있는 쌍부터 묶는 합산 방식", WordPiece는 "묶었을 때 언어 확률이 가장 올라가는 쌍부터 묶는 성과 방식"이다.
+- **📢 섹션 요약 비유**: BPE는 "가장 인기 있는 쌍부터 묶는 합산 방식", WordPiece는 "묶었을 때 언어 [[130_probability|확률]]이 가장 올라가는 쌍부터 묶는 성과 방식"이다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 **어휘 크기 선택**:
-- 영어 LLM: 32k ~ 100k (GPT-4: ~100k, LLaMA: 32k)
+- 영어 [[263_llm_large_language_model|LLM]]: 32k ~ 100k ([[302_gpt_autoregressive|GPT]]-4: ~100k, LLaMA: 32k)
 - 다국어 모델: 언어 수에 비례해 어휘 확장 필요
 - 한국어: 자소 분리 + BPE 조합으로 한글 형태소 특성 반영
 
 **토큰 길이와 비용**: 더 짧은 토큰 시퀀스 = 더 적은 컴퓨팅 비용
-- "unhappiness" → BERT: ["un", "##happy", "##ness"] (3토큰)
-- GPT-2: ["un", "h", "app", "iness"] (4토큰 경우도 있음)
+- "unhappiness" → [[301_bert_mlm|BERT]]: ["un", "##happy", "##ness"] (3토큰)
+- [[302_gpt_autoregressive|GPT]]-2: ["un", "h", "app", "iness"] (4토큰 경우도 있음)
 
-기술사 포인트: BPE 알고리즘의 3단계(초기화→병합→적용)와 OOV 해결 원리를 명확히 설명.
+기술사 포인트: BPE [[001_algorithm_definition|알고리즘]]의 3단계([[459_quic_fec_forward_error_correction|초기]]화→병합→적용)와 OOV 해결 원리를 명확히 설명.
 
 - **📢 섹션 요약 비유**: 어휘 크기 선택은 "사전의 두께"다. 두꺼우면 표현력이 좋지만 외워야 할 단어가 많고, 얇으면 가볍지만 알 수 없는 단어가 늘어난다.
 
@@ -126,7 +126,7 @@ UTF-8 바이트를 기본 어휘로 사용 → 모든 유니코드 문자 처리
 
 ## Ⅴ. 기대효과 및 결론
 
-BPE는 단순한 알고리즘으로 단어 단위 vs 문자 단위의 딜레마를 해결한 실용적 발명이다. Byte-level BPE는 OOV를 완전히 제거하며 다국어, 코드, 이모지까지 처리 가능한 범용 토크나이저로 진화했다. 현대 LLM의 토크나이저 설계는 BPE를 기반으로 계속 발전하고 있다.
+BPE는 단순한 [[001_algorithm_definition|알고리즘]]으로 단어 단위 vs 문자 단위의 딜레마를 해결한 실용적 발명이다. [[074_byte|Byte]]-level BPE는 OOV를 완전히 제거하며 다국어, 코드, 이모지까지 처리 가능한 범용 토크나이저로 진화했다. 현대 LLM의 토크나이저 설계는 BPE를 기반으로 계속 발전하고 있다.
 
 - **📢 섹션 요약 비유**: BPE는 모든 언어의 "공통 레고 블록"을 찾아내는 것이다. 어떤 언어든 기본 블록으로 분해하면 모델이 처리할 수 있다.
 
@@ -139,9 +139,9 @@ BPE는 단순한 알고리즘으로 단어 단위 vs 문자 단위의 딜레마�
 | BPE | 빈도 병합, 서브워드 / 현대 표준 토크나이저 |
 | OOV | Out-Of-Vocabulary / 서브워드로 해결 |
 | 어휘 크기 | Vocab Size, 병합 횟수 / 시퀀스 길이 vs 표현력 |
-| WordPiece | BERT, 우도 기반 / BPE 변형 |
+| WordPiece | [[301_bert_mlm|BERT]], 우도 기반 / BPE 변형 |
 | SentencePiece | T5, 언어 독립적 / BPE의 다국어 확장 |
-| Byte-level BPE | GPT-2, OOV 없음 / 바이트 단위 BPE |
+| [[074_byte|Byte]]-level BPE | [[302_gpt_autoregressive|GPT]]-2, OOV 없음 / [[074_byte|바이트]] 단위 BPE |
 
 ### 📈 관련 키워드 및 발전 흐름도
 

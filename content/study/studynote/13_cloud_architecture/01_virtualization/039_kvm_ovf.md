@@ -6,13 +6,13 @@ categories = "studynote-cloud-architecture"
 +++
 
 > **핵심 인사이트**
-> 1. KVM(Kernel-based Virtual Machine)은 Linux 커널에 내장된 하이퍼바이저로, 하드웨어 가상화 지원(Intel VT-x/AMD-V)을 활용하여 최소 오버헤드로 완전 가상화를 제공하며, QEMU와 결합하여 OpenStack·AWS Nitro·Google Cloud의 기반 기술로 사용된다.
-> 2. OVF(Open Virtualization Format)는 VMware·Red Hat·IBM 등이 공동 개발한 가상 어플라이언스 패키징 표준으로, 하이퍼바이저 독립적인 VM 이미지 배포를 가능하게 하는 인터오퍼러빌리티의 핵심이다.
-> 3. KVM의 핵심 구성 요소는 커널 모듈(kvm.ko) + QEMU(에뮬레이터) + libvirt(관리 API)의 3계층 — 이 분리 구조 덕분에 컨테이너(Docker/Kubernetes)와 공존하며 클라우드 인프라의 실질적 기반이 되었다.
+> 1. [[713_kvm_over_ip|KVM]](Kernel-based [[598_vm_migration_nic|Virtual Machine]])은 Linux [[022_kernel_role|커널]]에 내장된 [[054_hypervisor|하이퍼바이저]]로, 하드웨어 [[015_virtualization|가상화]] 지원([[658_intel_vtx|Intel VT-x]]/[[659_amd_v|AMD-V]])을 활용하여 최소 오버헤드로 완전 [[015_virtualization|가상화]]를 제공하며, QEMU와 결합하여 OpenStack·AWS Nitro·Google Cloud의 기반 기술로 사용된다.
+> 2. OVF(Open [[190_virtualization_computing_architecture_cloud|Virtualization]] Format)는 VMware·Red Hat·IBM 등이 공동 개발한 가상 어플라이언스 패키징 표준으로, [[054_hypervisor|하이퍼바이저]] 독립적인 [[598_vm_migration_nic|VM]] 이미지 배포를 가능하게 하는 인터오퍼러빌리티의 핵심이다.
+> 3. KVM의 핵심 구성 요소는 [[022_kernel_role|커널]] [[192_module_independence|모듈]]([[713_kvm_over_ip|kvm]].ko) + QEMU(에뮬레이터) + libvirt(관리 [[014_api_posix|API]])의 3계층 — 이 분리 구조 덕분에 [[561_container_based_deployment|컨테이너]]([[063_docker_architecture|Docker]]/[[205_kubernetes_container_orchestration|Kubernetes]])와 공존하며 클라우드 인프라의 실질적 기반이 되었다.
 
 ---
 
-## I. KVM 아키텍처
+## I. [[713_kvm_over_ip|KVM]] 아키텍처
 
 ```
 KVM (Kernel-based Virtual Machine, 2007):
@@ -40,11 +40,11 @@ libvirt:
   virsh, virt-manager, OpenStack 인터페이스
 ```
 
-> 📢 **섹션 요약 비유**: KVM은 아파트 건물(Linux 커널) 안에 독립된 집(VM)을 만드는 것 — 건물 관리인(kvm.ko)이 CPU/메모리 자원 배분.
+> 📢 **섹션 요약 비유**: KVM은 아파트 건물(Linux [[022_kernel_role|커널]]) 안에 독립된 집([[598_vm_migration_nic|VM]])을 만드는 것 — 건물 관리인([[713_kvm_over_ip|kvm]].ko)이 CPU/메모리 자원 배분.
 
 ---
 
-## II. KVM 가상화 메커니즘
+## II. [[713_kvm_over_ip|KVM]] [[015_virtualization|가상화]] 메커니즘
 
 ```
 하드웨어 지원 가상화:
@@ -105,11 +105,11 @@ OVA (Open Virtual Appliance):
   virt-v2v -i ova vm.ova -o local -of qcow2
 ```
 
-> 📢 **섹션 요약 비유**: OVA는 VM의 이사 박스 — 어느 집(하이퍼바이저)에서든 열어서 그대로 설치 가능한 표준 패키징.
+> 📢 **섹션 요약 비유**: OVA는 VM의 이사 박스 — 어느 집([[054_hypervisor|하이퍼바이저]])에서든 열어서 그대로 설치 가능한 표준 패키징.
 
 ---
 
-## IV. QEMU-KVM과 libvirt
+## [[288_version_ihl_tos_total_length|IV]]. QEMU-KVM과 libvirt
 
 ```
 QEMU (Quick Emulator):
@@ -150,7 +150,7 @@ XML 기반 VM 정의:
 
 ---
 
-## V. 실무 시나리오 — 프라이빗 클라우드 구성
+## V. 실무 시나리오 — [[008_private_cloud|프라이빗 클라우드]] 구성
 
 ```
 OpenStack + KVM 프라이빗 클라우드:
@@ -179,7 +179,7 @@ OVF를 이용한 마이그레이션:
   -> 유지보수를 위한 핵심 기능
 ```
 
-> 📢 **섹션 요약 비유**: libvirt migrate는 달리는 기차의 승객을 다른 기차로 옮기기 — VM을 끄지 않고 다른 서버로 이동 (라이브 마이그레이션).
+> 📢 **섹션 요약 비유**: libvirt migrate는 달리는 기차의 승객을 다른 기차로 옮기기 — VM을 끄지 않고 다른 서버로 이동 ([[629_live_migration_pre_copy|라이브 마이그레이션]]).
 
 ---
 
@@ -233,6 +233,6 @@ VM과 컨테이너를 혼용하는 구조
 
 ## 👶 어린이를 위한 3줄 비유 설명
 
-1. KVM은 Linux 커널 안에서 여러 개의 완전한 컴퓨터(VM)를 만들어 실행하는 기술로, CPU의 가상화 기능 덕분에 거의 실제 속도로 동작해요.
+1. KVM은 Linux [[022_kernel_role|커널]] 안에서 여러 개의 완전한 컴퓨터([[598_vm_migration_nic|VM]])를 만들어 실행하는 기술로, CPU의 [[015_virtualization|가상화]] 기능 덕분에 거의 실제 속도로 동작해요.
 2. OVF/OVA는 VM을 이삿짐처럼 표준 박스에 포장하는 방법 — VMware에서 만든 VM을 KVM에서도 열 수 있게 해주는 공통 표준이에요.
-3. OpenStack과 KVM을 결합하면 AWS 같은 프라이빗 클라우드를 회사 안에 직접 구축할 수 있고, VM을 끄지 않고 다른 서버로 이동시키는 라이브 마이그레이션도 가능해요!
+3. OpenStack과 KVM을 결합하면 AWS 같은 [[008_private_cloud|프라이빗 클라우드]]를 회사 안에 직접 구축할 수 있고, VM을 끄지 않고 다른 서버로 이동시키는 [[629_live_migration_pre_copy|라이브 마이그레이션]]도 가능해요!

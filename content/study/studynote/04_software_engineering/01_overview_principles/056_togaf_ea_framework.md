@@ -8,8 +8,8 @@ categories = "studynote-software-engineering"
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: TOGAF (The Open Group Architecture Framework)는 기업 아키텍처를 체계적으로 설계/운영하기 위한 프레임워크다.
-> 2. **가치**: ADM (Architecture Development Method)을 통해 비즈니스/데이터/애플리케이션/기술 아키텍처를 단계적으로 정리한다.
+> 1. **본질**: [[113_togaf|TOGAF]] ([[113_togaf|The Open Group]] [[319_architecture|Architecture]] Framework)는 기업 아키텍처를 체계적으로 설계/운영하기 위한 프레임워크다.
+> 2. **가치**: [[066_적응형_델타_변조_ADM|ADM]] ([[114_togaf_adm_architecture_development_method|Architecture Development Method]])을 통해 비즈니스/[[001_dikw_pyramid|데이터]]/애플리케이션/기술 아키텍처를 단계적으로 정리한다.
 > 3. **판단 포인트**: 표준, 거버넌스, 로드맵이 함께 있어야 실무 적용이 가능하다.
 
 ---
@@ -18,7 +18,7 @@ categories = "studynote-software-engineering"
 
 기업 아키텍처는 복잡한 시스템을 한 방향으로 정렬하는 작업이다. TOGAF는 이를 위한 대표적인 프레임워크다.
 
-전략과 실행 사이를 연결하는 구조가 필요할 때 사용한다.
+[[268_strategy_pattern|전략]]과 실행 사이를 연결하는 구조가 필요할 때 사용한다.
 
 - **📢 섹션 요약 비유**: TOGAF는 큰 집을 지을 때 설계도, 공정표, 검사표를 함께 쓰는 일이다.
 
@@ -34,8 +34,8 @@ Preliminary → Vision → Business → Data → Application → Technology → 
 
 | 영역 | 역할 |
 | :--- | :--- |
-| Business | 업무/전략 |
-| Data | 정보 구조 |
+| Business | 업무/[[268_strategy_pattern|전략]] |
+| [[001_dikw_pyramid|Data]] | 정보 구조 |
 | Application | 시스템 |
 | Technology | 인프라 |
 
@@ -47,13 +47,13 @@ Preliminary → Vision → Business → Data → Application → Technology → 
 
 ## Ⅲ. 비교 및 연결
 
-TOGAF는 Zachman처럼 전체 아키텍처를 다루지만, Zachman이 분류 체계라면 TOGAF는 절차와 방법론이 더 강하다.
+TOGAF는 Zachman처럼 전체 아키텍처를 다루지만, Zachman이 [[104_classification_analysis|분류]] 체계라면 TOGAF는 절차와 방법론이 더 강하다.
 
-| 항목 | Zachman | TOGAF |
+| 항목 | [[243_zachman_framework_matrix|Zachman]] | [[113_togaf|TOGAF]] |
 | :--- | :--- | :--- |
-| 성격 | 분류 | 방법론 |
+| 성격 | [[104_classification_analysis|분류]] | 방법론 |
 | 강점 | 누락 방지 | 실행 절차 |
-| 산출물 | 매트릭스 | ADM 결과물 |
+| 산출물 | 매트릭스 | [[066_적응형_델타_변조_ADM|ADM]] 결과물 |
 
 TOGAF는 거버넌스와 표준화에 유리하며, 큰 조직에서 특히 유용하다.
 
@@ -63,16 +63,16 @@ TOGAF는 거버넌스와 표준화에 유리하며, 큰 조직에서 특히 유�
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서는 Architecture Vision, Requirements, Roadmap, Governance를 함께 관리한다. 조직의 변화관리와 함께 가야 한다.
+실무에서는 [[319_architecture|Architecture]] Vision, Requirements, Roadmap, Governance를 함께 관리한다. 조직의 변화관리와 함께 가야 한다.
 
-### 체크리스트
+### [[435_checklist_based_testing|체크리스트]]
 
-1. ADM 단계가 정의되어 있는가?
+1. [[066_적응형_델타_변조_ADM|ADM]] 단계가 정의되어 있는가?
 2. 비즈니스와 기술이 연결되는가?
 3. 로드맵과 전환 계획이 있는가?
 4. 거버넌스가 작동하는가?
 
-### 안티패턴
+### [[128_water_scrum_fall_anti_pattern|안티패턴]]
 
 - 프레임워크를 문서 템플릿으로만 쓰는 경우
 - 개발과 무관한 아키텍처가 되는 경우
@@ -98,11 +98,11 @@ TOGAF는 전사 아키텍처를 체계적으로 정렬하고, 변화에 대한 �
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| ADM | 개발 방법 |
+| [[066_적응형_델타_변조_ADM|ADM]] | 개발 방법 |
 | Governance | 통제 |
 | Roadmap | 전환 계획 |
-| Business/Data/App/Tech | 아키텍처 도메인 |
-| Architecture Repository | 산출물 저장소 |
+| Business/[[001_dikw_pyramid|Data]]/App/Tech | 아키텍처 [[064_relation_domain|도메인]] |
+| [[319_architecture|Architecture]] Repository | 산출물 저장소 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -119,7 +119,7 @@ ADM
 로드맵 / 거버넌스
 ```
 
-이 흐름은 기업 아키텍처가 전략에서 실행으로 이어지는 과정을 보여준다.
+이 흐름은 기업 아키텍처가 [[268_strategy_pattern|전략]]에서 실행으로 이어지는 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

@@ -8,8 +8,8 @@ categories = "studynote-software-engineering"
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 이벤트 소싱 (Event Sourcing) - 상태 변경 이력을 이벤트 스트림으로 저장은(는) 소프트웨어 공학의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.
-> 2. **가치**: 이 개념을 올바르게 적용하면 소프트웨어의 품질·유지보수성·재사용성이 향상되고, 개발 생산성과 팀 협업 효율이 높아진다.
+> 1. **본질**: [[249_event_sourcing_append_only_state_reconstruction|이벤트 소싱]] ([[307_event_sourcing|Event Sourcing]]) - 상태 변경 이력을 이벤트 스트림으로 저장은(는) [[001_software_engineering_definition|소프트웨어 공학]]의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.
+> 2. **가치**: 이 개념을 올바르게 적용하면 소프트웨어의 품질·[[346_maintainability_portability|유지보수성]]·재사용성이 향상되고, 개발 생산성과 팀 협업 효율이 높아진다.
 > 3. **판단 포인트**: 도입 시에는 비용·복잡도·조직 성숙도를 함께 고려해야 하며, 맹목적 적용보다 프로젝트 특성에 맞는 선택적 적용이 핵심이다.
 
 ---
@@ -18,11 +18,11 @@ categories = "studynote-software-engineering"
 
 - 구형 게시판이나 쇼핑몰은 **UPDATE**라는 쿼리를 씁니다.
 - 홍길동의 주소가 '서울'이었는데 '부산'으로 엑셀을 `UPDATE` 덮어써버렸습니다.
-- **재앙**: 해커가 내일 당장 "너 원래 주소 어딨어 증명해 봐!"라고 하면 증명할 방법이 없습니다. 덮어써버려서 '서울'이라는 과거 데이터가 디스크에서 아예 갈려버렸기 때문입니다. 데이터의 역사(History)가 소멸하는 치명적 구조입니다.
+- **재앙**: 해커가 내일 당장 "너 원래 주소 어딨어 증명해 봐!"라고 하면 증명할 방법이 없습니다. 덮어써버려서 '서울'이라는 과거 [[001_dikw_pyramid|데이터]]가 디스크에서 아예 갈려버렸기 때문입니다. [[001_dikw_pyramid|데이터]]의 역사(History)가 소멸하는 치명적 구조입니다.
 
-- **📢 섹션 요약 비유**: 이벤트 소싱 (Event Sourcing)은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
+- **📢 섹션 요약 비유**: [[249_event_sourcing_append_only_state_reconstruction|이벤트 소싱]] ([[307_event_sourcing|Event Sourcing]])은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
-다음은 이벤트 소싱 (Event Sourci의 핵심 구조와 흐름을 보여주는 다이어그램이다.
+다음은 [[249_event_sourcing_append_only_state_reconstruction|이벤트 소싱]] (Event Sourci의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
 ```text
 ┌─────────────────────────────────────────────────────────────┐
@@ -37,7 +37,7 @@ categories = "studynote-software-engineering"
 └─────────────────────────────────────────────────────────────┘
 ```
 
-이 다이어그램은 이벤트 소싱 (Event Sourci가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
+이 다이어그램은 [[249_event_sourcing_append_only_state_reconstruction|이벤트 소싱]] (Event Sourci가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
 ---
 
@@ -47,13 +47,13 @@ categories = "studynote-software-engineering"
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-- **개념**: 데이터의 **최종 결과값(현재 상태) 자체를 DB에 저장하는 것을 포기하고, 대신 그 데이터에 가해진 모든 '상태 변경 행위(Event, 예: 5만 원 입금됨, 3만 원 출금됨)'의 내역들을 절대 지워지지 않는(Append-only) 영수증 다발의 스트림(Stream) 형태로 차곡차곡 저장하는 아키텍처 패턴**입니다.
+- **개념**: [[001_dikw_pyramid|데이터]]의 **최종 결과값([[178_as_is_to_be_analysis|현재 상태]]) 자체를 DB에 저장하는 것을 포기하고, 대신 그 [[001_dikw_pyramid|데이터]]에 가해진 모든 '상태 변경 행위(Event, 예: 5만 원 입금됨, 3만 원 출금됨)'의 내역들을 절대 지워지지 않는(Append-only) 영수증 다발의 스트림([[467_http2_stream_multiplexing_tcp_hol|Stream]]) 형태로 차곡차곡 저장하는 아키텍처 패턴**입니다.
 
-- **📢 섹션 요약 비유**: 이벤트 소싱 (Event Sourcing)은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
+- **📢 섹션 요약 비유**: [[249_event_sourcing_append_only_state_reconstruction|이벤트 소싱]] ([[307_event_sourcing|Event Sourcing]])은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
 | 항목 | 설명 | 비고 |
 | :--- | :--- | :--- |
-| 핵심 특성 | 이벤트 소싱 (Event Sourcing)의 핵심 특성과 동작 방식 | 필수 이해 요소 |
+| 핵심 특성 | [[249_event_sourcing_append_only_state_reconstruction|이벤트 소싱]] ([[307_event_sourcing|Event Sourcing]])의 핵심 특성과 동작 방식 | 필수 이해 요소 |
 | 적용 범위 | 어떤 프로젝트·상황에서 활용하는지 | 선택 기준 |
 | 제약 조건 | 적용 시 주의해야 할 전제·한계 | 트레이드오프 |
 
@@ -65,18 +65,18 @@ categories = "studynote-software-engineering"
 
 ## Ⅲ. 비교 및 연결
 
-이벤트 소싱 (Event Sourcing)을(를) 유사 개념과 비교하면 경계와 특성이 더 명확해진다.
+[[249_event_sourcing_append_only_state_reconstruction|이벤트 소싱]] ([[307_event_sourcing|Event Sourcing]])을(를) 유사 개념과 비교하면 경계와 특성이 더 명확해진다.
 
-| 비교 항목 | 이벤트 소싱 (Event Sourcing) | 유사 대안 |
+| 비교 항목 | [[249_event_sourcing_append_only_state_reconstruction|이벤트 소싱]] ([[307_event_sourcing|Event Sourcing]]) | 유사 대안 |
 | :--- | :--- | :--- |
 | 핵심 목적 | 체계적 품질·생산성 향상 | 임시 방편적 해결 |
 | 적용 규모 | 중·대규모 프로젝트에서 효과적 | 소규모에서는 오버헤드 발생 가능 |
 | 조직 요건 | 팀 전체의 공통 이해와 훈련 필요 | 개인 역량 의존 |
 | 측정 가능성 | 정량적 지표로 성과 측정 가능 | 주관적 판단에 의존 |
 
-다른 소프트웨어 공학 개념과의 연결을 보면, 이벤트 소싱 (Event Sourcing)은(는) 요구공학·설계·테스트·형상관리 전반에 걸쳐 영향을 미친다. 특히 품질 보증(QA, Quality Assurance)과 형상 관리(SCM, Software Configuration Management)와 긴밀하게 연계된다.
+다른 [[001_software_engineering_definition|소프트웨어 공학]] 개념과의 연결을 보면, [[249_event_sourcing_append_only_state_reconstruction|이벤트 소싱]] ([[307_event_sourcing|Event Sourcing]])은(는) 요구공학·설계·테스트·형상관리 전반에 걸쳐 영향을 미친다. 특히 품질 보증(QA, Quality Assurance)과 [[020_software_configuration_management|형상 관리]]([[167_scm_software_configuration_management|SCM]], [[020_software_configuration_management|Software Configuration Management]])와 긴밀하게 연계된다.
 
-- **📢 섹션 요약 비유**: 이벤트 소싱 (Event Sourcing)과 유사 대안의 차이는 지도를 가지고 산에 오르는 것과 감으로만 오르는 차이와 같다. 지도(체계적 방법)가 있으면 정상까지 최단 경로를 찾을 수 있지만, 없으면 같은 곳을 맴돌거나 낭떠러지에 빠질 수 있다.
+- **📢 섹션 요약 비유**: [[249_event_sourcing_append_only_state_reconstruction|이벤트 소싱]] ([[307_event_sourcing|Event Sourcing]])과 유사 대안의 차이는 지도를 가지고 산에 오르는 것과 감으로만 오르는 차이와 같다. 지도(체계적 방법)가 있으면 정상까지 최단 경로를 찾을 수 있지만, 없으면 같은 곳을 맴돌거나 낭떠러지에 빠질 수 있다.
 
 ---
 
@@ -86,11 +86,11 @@ categories = "studynote-software-engineering"
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-- 금융권(은행 원장), 회계 장부, 마이크로서비스(MSA) 간의 완벽한 비동기 데이터 동기화 파이프라인에서 무조건 1순위로 채택되는 고급 기술입니다. 반면 단순한 쇼핑몰 공지사항 게시판에 쓰면 배보다 배꼽이 큰 미친 짓(오버 엔지니어링)이 됩니다.
+- 금융권(은행 원장), 회계 장부, [[532_microservices_decomposition_patterns|마이크로서비스]]([[619_msa_traffic_hardware|MSA]]) 간의 완벽한 비동기 [[001_dikw_pyramid|데이터]] [[212_synchronization_mechanisms|동기화]] 파이프라인에서 무조건 1순위로 채택되는 고급 기술입니다. 반면 단순한 쇼핑몰 공지사항 게시판에 쓰면 배보다 배꼽이 큰 미친 짓(오버 엔지니어링)이 됩니다.
 
-> 📢 **섹션 요약 비유**: 기존의 **상태 기반 데이터베이스(CRUD)**는 선생님이 칠판에 적힌 숫자를 지우개로 빡빡 지우고 **'새로운 답(현재 상태)만 계속 덮어쓰는 짓'**입니다. 칠판에 '10'이 적혀있는데, 학생이 "선생님, 아까 3시간 전에는 저 숫자가 뭐였어요?"라고 물으면 선생님은 멘붕에 빠집니다(과거가 삭제됨). 이를 뒤집어엎은 **이벤트 소싱(Event Sourcing)**은 칠판을 버리고 **'무한히 긴 영수증 두루마리(이벤트 스트림)'**를 꺼내 든 것입니다. 선생님은 숫자를 지우지 않습니다. 오직 두루마리 끝에 "+5", "-2", "+7" 이라는 행위(이벤트)만 줄줄이 볼펜으로 영원히 추가(Append-only)해 나갈 뿐입니다. 학생이 "현재 답이 뭐예요?"라고 물으면, 선생님은 두루마리 맨 위부터 끝까지 촤라락 빛의 속도로 덧셈 뺄셈을 다시 재생(Replay)해서 "답은 10이다!"라고 말해줍니다. 지우개가 없으므로 누군가 조작할 수도 없고(절대 무결성), 3시간 전으로 돌아가고 싶으면 두루마리를 3시간 전까지만 잘라서 덧셈하면 끝나는, 데이터의 모든 파괴 행위를 금지하고 역사 그 자체를 시스템의 뼈대로 만들어버린 궁극의 진실 추적 아키텍처입니다.
+> 📢 **섹션 요약 비유**: 기존의 **상태 기반 [[002_database_definition|데이터베이스]](CRUD)**는 선생님이 칠판에 적힌 숫자를 지우개로 빡빡 지우고 **'새로운 답([[178_as_is_to_be_analysis|현재 상태]])만 계속 덮어쓰는 짓'**입니다. 칠판에 '[[489_raid_10_hybrid|10]]'이 적혀있는데, 학생이 "선생님, 아까 3시간 전에는 저 숫자가 뭐였어요?"라고 물으면 선생님은 멘붕에 빠집니다(과거가 삭제됨). 이를 뒤집어엎은 **[[249_event_sourcing_append_only_state_reconstruction|이벤트 소싱]]([[307_event_sourcing|Event Sourcing]])**은 칠판을 버리고 **'무한히 긴 영수증 두루마리(이벤트 스트림)'**를 꺼내 든 것입니다. 선생님은 숫자를 지우지 않습니다. 오직 두루마리 끝에 "+5", "-2", "+7" 이라는 행위(이벤트)만 줄줄이 볼펜으로 영원히 추가(Append-only)해 나갈 뿐입니다. 학생이 "현재 답이 뭐예요?"라고 물으면, 선생님은 두루마리 맨 위부터 끝까지 촤라락 빛의 속도로 덧셈 뺄셈을 다시 재생(Replay)해서 "답은 10이다!"라고 말해줍니다. 지우개가 없으므로 누군가 조작할 수도 없고(절대 [[003_integrity|무결성]]), 3시간 전으로 돌아가고 싶으면 두루마리를 3시간 전까지만 잘라서 덧셈하면 끝나는, [[001_dikw_pyramid|데이터]]의 모든 파괴 행위를 금지하고 역사 그 자체를 시스템의 뼈대로 만들어버린 궁극의 진실 추적 아키텍처입니다.
 
-- **📢 섹션 요약 비유**: 이벤트 소싱 (Event Sourcing)은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
+- **📢 섹션 요약 비유**: [[249_event_sourcing_append_only_state_reconstruction|이벤트 소싱]] ([[307_event_sourcing|Event Sourcing]])은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
 ---
 
@@ -100,21 +100,21 @@ categories = "studynote-software-engineering"
 
 ## Ⅴ. 기대효과 및 결론
 
-이벤트 소싱 (Event Sourcing)을(를) 올바르게 적용하면 소프트웨어 품질·유지보수성·팀 생산성이 동시에 향상된다. 그러나 도입에는 학습 비용과 초기 투자가 필요하며, 조직 전체의 공감과 훈련이 선행되어야 한다.
+[[249_event_sourcing_append_only_state_reconstruction|이벤트 소싱]] ([[307_event_sourcing|Event Sourcing]])을(를) 올바르게 적용하면 [[339_software_quality_definition|소프트웨어 품질]]·[[346_maintainability_portability|유지보수성]]·팀 생산성이 동시에 향상된다. 그러나 도입에는 학습 비용과 [[459_quic_fec_forward_error_correction|초기]] 투자가 필요하며, 조직 전체의 공감과 훈련이 선행되어야 한다.
 
 **한계와 전제 조건**:
 - 소규모 프로젝트에서는 오버헤드가 발생할 수 있다
 - 팀 전체의 충분한 교육과 실습 기간이 필요하다
-- 도구 지원 환경 구축에 초기 비용이 발생한다
+- 도구 지원 환경 구축에 [[459_quic_fec_forward_error_correction|초기]] 비용이 발생한다
 
 **미래 발전 방향**:
-- AI·LLM 기반 자동화 도구와의 통합으로 적용 효율 향상
-- 클라우드 네이티브·DevOps 환경에서의 진화적 적용
+- [[190_ai_llm_requirements_specification|AI]]·[[263_llm_large_language_model|LLM]] 기반 자동화 도구와의 통합으로 적용 효율 향상
+- [[531_cloud_native_architecture|클라우드 네이티브]]·[[652_devops_calms_culture|DevOps]] 환경에서의 진화적 적용
 - 정량적 측정 체계의 고도화를 통한 의사결정 지원 강화
 
-이벤트 소싱 (Event Sourcing)은 '어떻게 빠르게 짜는가'가 아니라 '어떻게 오래 유지할 수 있는 소프트웨어를 짜는가'에 대한 답이다. 단기 속도보다 장기 지속 가능성을 추구하는 관점으로 기억해야 한다.
+[[249_event_sourcing_append_only_state_reconstruction|이벤트 소싱]] ([[307_event_sourcing|Event Sourcing]])은 '어떻게 빠르게 짜는가'가 아니라 '어떻게 오래 유지할 수 있는 소프트웨어를 짜는가'에 대한 답이다. 단기 속도보다 장기 지속 가능성을 추구하는 관점으로 기억해야 한다.
 
-- **📢 섹션 요약 비유**: 이벤트 소싱 (Event Sourcing)의 기대효과는 마라톤 훈련과 같다. 처음에는 느리고 고통스럽지만, 올바른 훈련 원칙을 지킨 선수만이 결승선에서 최고의 기록을 낼 수 있다. 소프트웨어 공학의 원칙도 단기 편의보다 장기 완성도를 위한 투자다.
+- **📢 섹션 요약 비유**: [[249_event_sourcing_append_only_state_reconstruction|이벤트 소싱]] ([[307_event_sourcing|Event Sourcing]])의 기대효과는 마라톤 훈련과 같다. 처음에는 느리고 고통스럽지만, 올바른 훈련 원칙을 지킨 선수만이 결승선에서 최고의 기록을 낼 수 있다. [[001_software_engineering_definition|소프트웨어 공학]]의 원칙도 단기 편의보다 장기 완성도를 위한 투자다.
 
 ---
 
@@ -126,10 +126,10 @@ categories = "studynote-software-engineering"
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| 소프트웨어 공학 (Software Engineering) | 이벤트 소싱 (Event Sourcing)의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
-| 소프트웨어 생명주기 (SDLC, Software Development Life Cycle) | 이벤트 소싱 (Event Sourcing)은 SDLC의 특정 단계에서 핵심적으로 적용된다 |
-| 품질 보증 (QA, Quality Assurance) | 이벤트 소싱 (Event Sourcing) 적용 결과는 QA 활동을 통해 검증되고 측정된다 |
-| 형상 관리 (SCM, Software Configuration Management) | 이벤트 소싱 (Event Sourcing)에서 생성된 산출물은 SCM을 통해 체계적으로 관리된다 |
+| [[001_software_engineering_definition|소프트웨어 공학]] ([[001_software_engineering_definition|Software Engineering]]) | [[249_event_sourcing_append_only_state_reconstruction|이벤트 소싱]] ([[307_event_sourcing|Event Sourcing]])의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
+| [[003_sdlc|소프트웨어 생명주기]] ([[131_sdlc_system_development_life_cycle_waterfall_agile|SDLC]], Software Development Life Cycle) | [[249_event_sourcing_append_only_state_reconstruction|이벤트 소싱]] ([[307_event_sourcing|Event Sourcing]])은 SDLC의 특정 단계에서 핵심적으로 적용된다 |
+| 품질 보증 (QA, Quality Assurance) | [[249_event_sourcing_append_only_state_reconstruction|이벤트 소싱]] ([[307_event_sourcing|Event Sourcing]]) 적용 결과는 QA 활동을 통해 검증되고 측정된다 |
+| [[020_software_configuration_management|형상 관리]] ([[167_scm_software_configuration_management|SCM]], [[020_software_configuration_management|Software Configuration Management]]) | [[249_event_sourcing_append_only_state_reconstruction|이벤트 소싱]] ([[307_event_sourcing|Event Sourcing]])에서 생성된 산출물은 SCM을 통해 체계적으로 관리된다 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -149,10 +149,10 @@ categories = "studynote-software-engineering"
 지속적 개선 및 DevOps·MLOps 통합
 ```
 
-이 흐름은 소프트웨어 위기 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
+이 흐름은 [[002_software_crisis|소프트웨어 위기]] 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. 이벤트 소싱 (Event Sourcing)은 레고 블록으로 성을 만들 때처럼, 규칙을 정하고 역할을 나누어 함께 작업하는 방법이에요.
+1. [[249_event_sourcing_append_only_state_reconstruction|이벤트 소싱]] ([[307_event_sourcing|Event Sourcing]])은 레고 블록으로 성을 만들 때처럼, 규칙을 정하고 역할을 나누어 함께 작업하는 방법이에요.
 2. 혼자서 막 만들면 나중에 무너지거나 고치기 어렵지만, 약속을 지키면 누구나 쉽게 고치고 더 크게 만들 수 있어요.
-3. 그래서 소프트웨어 공학은 프로그래머들이 좋은 프로그램을 빠르고 안전하게 만들 수 있게 도와주는 '규칙 모음집'이에요.
+3. 그래서 [[001_software_engineering_definition|소프트웨어 공학]]은 프로그래머들이 좋은 프로그램을 빠르고 안전하게 만들 수 있게 도와주는 '규칙 모음집'이에요.

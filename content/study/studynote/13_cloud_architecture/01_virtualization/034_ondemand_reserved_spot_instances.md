@@ -7,8 +7,8 @@ categories = "studynote-cloud"
 
 > **핵심 인사이트 3줄**
 > 1. AWS EC2 인스턴스 구매 옵션은 온디맨드(즉시·고비용)·예약(약정·할인)·스팟(잉여 자원·최저가·중단 가능) 3가지로, 워크로드 특성에 맞는 조합이 클라우드 비용 최적화의 핵심이다.
-> 2. 스팟 인스턴스는 AWS 잉여 EC2 용량을 최대 90% 할인에 제공하나, AWS가 2분 전 통보 후 회수(인터럽트)할 수 있어 내결함성(Fault Tolerance)·무상태(Stateless) 워크로드에만 적합하다.
-> 3. FinOps 관점에서 예약 인스턴스(RI)와 Savings Plans는 1~3년 약정으로 최대 72% 절감하며, 컴퓨팅 Savings Plans가 서비스 간 유연성까지 제공해 현대 클라우드 비용 최적화의 표준이다.
+> 2. [[209_spot_instance_cloud_cost_optimization|스팟 인스턴스]]는 AWS 잉여 EC2 용량을 최대 90% 할인에 제공하나, AWS가 2분 전 통보 후 회수([[016_interrupt_mechanism|인터럽트]])할 수 있어 내결함성([[800_system_architecture_fault_tolerance_dual|Fault Tolerance]])·무상태([[239_stateless_redis|Stateless]]) 워크로드에만 적합하다.
+> 3. [[344_finops|FinOps]] 관점에서 예약 인스턴스(RI)와 Savings Plans는 1~3년 약정으로 최대 72% 절감하며, 컴퓨팅 Savings Plans가 [[090_service_kubernetes_network_load_balancing|서비스]] 간 유연성까지 제공해 현대 클라우드 비용 최적화의 표준이다.
 
 ---
 
@@ -18,7 +18,7 @@ categories = "studynote-cloud"
 |-------------|----------|---------|---------|------------------|
 | 온디맨드       | 기준가     | 없음      | 없음      | 단기·예측 불가 워크로드|
 | 예약 인스턴스  | 최대 72% 할인 | 1~3년  | 없음      | 안정적·예측 가능 워크로드|
-| 스팟 인스턴스  | 최대 90% 할인 | 없음   | 높음      | 배치·내결함성 워크로드 |
+| [[209_spot_instance_cloud_cost_optimization|스팟 인스턴스]]  | 최대 90% 할인 | 없음   | 높음      | 배치·내결함성 워크로드 |
 | Dedicated Host | 프리미엄   | 선택     | 없음      | 라이선스·규정 준수  |
 
 📢 **섹션 요약 비유**: 3가지 옵션은 택시·월정액 렌터카·공유 자전거다 — 그때그때(온디맨드), 장기 약정 할인(예약), 자리 나면 저렴하게(스팟).
@@ -47,11 +47,11 @@ Savings Plans 유형:
   → Standard RI와 유사한 절감율
 ```
 
-�� **섹션 요약 비유**: Savings Plans는 통합 교통 정기권이다 — 특정 버스 노선(EC2 RI) 대신, 지하철·버스·따릉이(EC2·Lambda·Fargate) 모두 쓸 수 있는 정기권이다.
+�� **섹션 요약 비유**: Savings Plans는 통합 교통 정기권이다 — 특정 [[344_bus|버스]] 노선(EC2 RI) 대신, 지하철·[[344_bus|버스]]·따릉이(EC2·[[216_lambda_kappa_architecture_batch_realtime|Lambda]]·Fargate) 모두 쓸 수 있는 정기권이다.
 
 ---
 
-## Ⅲ. 스팟 인스턴스 심화
+## Ⅲ. [[209_spot_instance_cloud_cost_optimization|스팟 인스턴스]] 심화
 
 ### 스팟 인터럽션 처리 패턴
 
@@ -74,11 +74,11 @@ Savings Plans 유형:
   ❌ 실시간 서비스 API (중단 불가)
 ```
 
-📢 **섹션 요약 비유**: 스팟 인스턴스는 대기 좌석 항공권이다 — 자리 나면 아주 저렴하게 탈 수 있지만, 자리가 없으면 내려야 한다. 중요한 회의(실시간 서비스)에는 쓰면 안 된다.
+📢 **섹션 요약 비유**: [[209_spot_instance_cloud_cost_optimization|스팟 인스턴스]]는 대기 좌석 항공권이다 — 자리 나면 아주 저렴하게 탈 수 있지만, 자리가 없으면 내려야 한다. 중요한 회의(실시간 [[090_service_kubernetes_network_load_balancing|서비스]])에는 쓰면 안 된다.
 
 ---
 
-## Ⅳ. FinOps 최적화 — 비용 절감 전략
+## Ⅳ. [[344_finops|FinOps]] 최적화 — 비용 절감 [[268_strategy_pattern|전략]]
 
 ```
 비용 최적화 레이어:
@@ -98,7 +98,7 @@ Savings Plans 유형:
   → 미사용 RI: 환불·재판매 (RI Marketplace)
 ```
 
-📢 **섹션 요약 비유**: FinOps 최적화는 가정 재정 관리다 — 낭비(미사용 리소스) 없애기, 통신비 묶음(Savings Plans), 매달 나가는 구독 최적화(rightsizing)를 단계적으로 한다.
+📢 **섹션 요약 비유**: [[344_finops|FinOps]] 최적화는 가정 재정 관리다 — 낭비(미사용 리소스) 없애기, 통신비 묶음(Savings Plans), 매달 나가는 구독 최적화(rightsizing)를 단계적으로 한다.
 
 ---
 
@@ -111,7 +111,7 @@ Savings Plans 유형:
 | GCP      | Committed Use Discounts| Preemptible VMs      |
 
 **핵심 원칙**: 
-- 기준 워크로드(baseline): 예약 100%
+- 기준 워크로드([[025_baseline|baseline]]): 예약 100%
 - 가변 워크로드(variable): 온디맨드
 - 내결함성 워크로드: 스팟 최대 활용
 
@@ -167,5 +167,5 @@ EC2 인스턴스 구매 옵션
 ## 👶 어린이를 위한 3줄 비유 설명
 
 1. 온디맨드는 편의점이고, 예약 인스턴스는 마트 월정액이다 — 편의점(온디맨드)은 비싸지만 바로 살 수 있고, 마트 월정액(예약)은 싸지만 약정 기간이 있다.
-2. 스팟 인스턴스는 대기 좌석 항공권이다 — 아주 싸게 살 수 있지만, 비행기 자리가 없으면(AWS가 자원 회수) 내려야 한다.
-3. Savings Plans는 통합 교통 정기권이다 — 지하철과 버스를 모두 쓸 수 있는 정기권처럼, EC2와 Lambda 모두에 할인이 적용된다.
+2. [[209_spot_instance_cloud_cost_optimization|스팟 인스턴스]]는 대기 좌석 항공권이다 — 아주 싸게 살 수 있지만, 비행기 자리가 없으면(AWS가 자원 회수) 내려야 한다.
+3. Savings Plans는 통합 교통 정기권이다 — 지하철과 [[344_bus|버스]]를 모두 쓸 수 있는 정기권처럼, EC2와 [[216_lambda_kappa_architecture_batch_realtime|Lambda]] 모두에 할인이 적용된다.

@@ -8,8 +8,8 @@ categories = "studynote-software-engineering"
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 블랙박스 테스트 (Black-box Test) - 입력/출력 기반 명세 검증은(는) 소프트웨어 공학의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.
-> 2. **가치**: 이 개념을 올바르게 적용하면 소프트웨어의 품질·유지보수성·재사용성이 향상되고, 개발 생산성과 팀 협업 효율이 높아진다.
+> 1. **본질**: 블랙박스 테스트 (Black-box Test) - 입력/출력 기반 명세 [[395_verification_process_review|검증]]은(는) [[001_software_engineering_definition|소프트웨어 공학]]의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.
+> 2. **가치**: 이 개념을 올바르게 적용하면 소프트웨어의 품질·[[346_maintainability_portability|유지보수성]]·재사용성이 향상되고, 개발 생산성과 팀 협업 효율이 높아진다.
 > 3. **판단 포인트**: 도입 시에는 비용·복잡도·조직 성숙도를 함께 고려해야 하며, 맹목적 적용보다 프로젝트 특성에 맞는 선택적 적용이 핵심이다.
 
 ---
@@ -17,8 +17,8 @@ categories = "studynote-software-engineering"
 ## Ⅰ. 개요 및 필요성
 
 - **개념**: 블랙박스 테스트 (Black-box Test)는 '명세 기반 테스트(Specification-based Testing)' 또는 '행위 기반 테스트(Behavioral Testing)'라고도 불린다. 테스터는 코드가 C++로 짜였는지 Java로 짜였는지, 내부에 if-else 문이 몇 개인지 전혀 신경 쓰지 않는다. 오직 "비밀번호를 5회 틀리면 계정이 잠겨야 한다"는 비즈니스 요구사항(명세서)이 주어졌을 때, 실제로 그렇게 동작하는지에만 집중한다.
-- **필요성**: 개발자는 코드를 작성하면서 자신이 만든 로직(Logic)에 매몰되는 경향이 있다. 자신이 짠 내부 논리를 기준으로 테스트(화이트박스 테스트)를 수행하면, "애초에 요구사항에서 요구했으나 코드로 구현하지 않고 빼먹은 기능"은 영원히 발견할 수 없다. 사용자는 내부 코드가 얼마나 아름다운지 관심이 없으며 오직 "내가 원하는 기능이 제대로 작동하는가"에만 돈을 지불한다. 따라서 사용자 관점을 대변하는 독립적인 블랙박스 테스트가 필수적이다.
-- **적용 단계**: 단위 테스트(Unit Test)보다는, 주로 시스템이 하나의 완전한 형태를 갖춘 후반부인 **시스템 테스트 (System Test)**와 **인수 테스트 (Acceptance Test)** 단계에서 광범위하게 적용된다.
+- **필요성**: 개발자는 코드를 작성하면서 자신이 만든 로직(Logic)에 매몰되는 경향이 있다. 자신이 짠 내부 [[369_logic_bomb|논리]]를 기준으로 테스트([[420_whitebox_testing|화이트박스 테스트]])를 수행하면, "애초에 요구사항에서 요구했으나 코드로 구현하지 않고 빼먹은 기능"은 영원히 발견할 수 없다. 사용자는 내부 코드가 얼마나 아름다운지 관심이 없으며 오직 "내가 원하는 기능이 제대로 작동하는가"에만 돈을 지불한다. 따라서 사용자 관점을 대변하는 독립적인 블랙박스 테스트가 필수적이다.
+- **적용 단계**: [[397_unit_test|단위 테스트]]([[397_unit_test|Unit Test]])보다는, 주로 시스템이 하나의 완전한 형태를 갖춘 후반부인 **[[405_system_test|시스템 테스트]] ([[405_system_test|System Test]])**와 **[[406_acceptance_test_uat|인수 테스트]] ([[406_acceptance_test_uat|Acceptance Test]])** 단계에서 광범위하게 적용된다.
 
 - **📢 섹션 요약 비유**: 새로 산 스마트폰이 좋은지 나쁜지 검사할 때, 드라이버로 폰을 다 뜯어서 안에 칩이 몇 개인지 구경하는 대신(화이트박스), 겉에서 화면을 막 터치해 보고 사진도 찍어보면서 "우와 잘 나오네!" 하고 겉모습과 결과만 확인하는 것과 같습니다.
 
@@ -39,7 +39,7 @@ categories = "studynote-software-engineering"
 └─────────────────────────────────────────────────────────────┘
 ```
 
-이 다이어그램은 블랙박스 테스트 (Black-box 가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
+이 다이어그램은 블랙박스 테스트 (Black-box 가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 [[395_verification_process_review|검증]]된 결과물을 산출하는 흐름을 보여준다.
 
 ---
 
@@ -49,7 +49,7 @@ categories = "studynote-software-engineering"
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-블랙박스 테스트는 화이트박스 테스트와 대척점에 있으며, 상호 보완적인 관계(Complementary)를 갖는다.
+블랙박스 테스트는 [[420_whitebox_testing|화이트박스 테스트]]와 대척점에 있으며, 상호 보완적인 [[083_relationship_in_er_model|관계]](Complementary)를 갖는다.
 
 ```text
 ┌────────────────────────────────────────────────────────────────────┐
@@ -78,7 +78,7 @@ categories = "studynote-software-engineering"
 ```
 
 **[다이어그램 해설]**
-블랙박스는 시스템을 불투명한 상자로 취급하여 명세서의 입력과 출력(I/O) 매핑에만 집중한다. 반면 화이트박스는 투명한 상자로 취급하여 내부의 조건 분기(if-else), 루프(for, while)를 모두 한 번씩 타보는 코드 커버리지(Code Coverage)에 집중한다. 따라서 실무에서는 개발 단계에서 개발자가 화이트박스 테스트를 수행하고, 시스템 통합 후 QA(Quality Assurance) 엔지니어가 블랙박스 테스트를 수행하는 투 트랙(Two-track) 방식을 채택한다.
+블랙박스는 시스템을 불투명한 상자로 취급하여 명세서의 입력과 출력(I/O) 매핑에만 집중한다. 반면 화이트박스는 투명한 상자로 취급하여 내부의 조건 분기(if-else), 루프(for, while)를 모두 한 번씩 타보는 [[078_code_coverage|코드 커버리지]]([[078_code_coverage|Code Coverage]])에 집중한다. 따라서 실무에서는 개발 단계에서 개발자가 [[420_whitebox_testing|화이트박스 테스트]]를 수행하고, 시스템 통합 후 QA(Quality Assurance) 엔지니어가 블랙박스 테스트를 수행하는 투 트랙(Two-track) 방식을 채택한다.
 
 - **📢 섹션 요약 비유**: 식당에서 음식을 평가할 때, 주방에 들어가서 요리사가 레시피대로 파를 몇 cm로 썰고 있는지 감시하는 것(화이트박스)이 아니라, 손님 테이블에 앉아 완성된 요리를 먹어보고 "짜다/싱겁다"를 평가하는 것(블랙박스)입니다.
 
@@ -100,14 +100,14 @@ categories = "studynote-software-engineering"
 
 무한대에 가까운 모든 입력값을 테스트하는 것은 불가능하다. 예를 들어 "1부터 100 사이의 나이를 입력하세요"라는 폼을 테스트할 때, 1, 2, 3... 100까지 100번을 모두 테스트하는 것은 비효율적이다.
 
-1. **동등 분할 (Equivalence Partitioning)**:
+1. **[[630_equivalence_partitioning_boundary_value_analysis|동등 분할]] ([[630_equivalence_partitioning_boundary_value_analysis|Equivalence Partitioning]])**:
    - 입력 영역을 시스템이 '동일하게 취급할 것으로 예상되는' 여러 그룹(클래스)으로 나눈다.
    - 각 클래스에서 대푯값 하나만 뽑아 테스트하면, 그 클래스의 나머지 값들도 동일한 결과를 낼 것이라고 수학적으로 가정한다.
    - 예: 나이 입력 (유효 클래스: 1~100, 무효 클래스 1: 0 이하, 무효 클래스 2: 101 이상). 대푯값 50, -5, 150 세 번만 테스트한다.
 
-2. **경계값 분석 (Boundary Value Analysis)**:
+2. **[[414_boundary_value_analysis|경계값 분석]] ([[414_boundary_value_analysis|Boundary Value Analysis]])**:
    - 프로그래머들이 주로 부등호(`<`, `<=`, `>`, `>=`)를 사용할 때 경계(Boundary)에서 가장 많은 버그(Off-by-one Error)를 만들어낸다는 경험적 통계에 기반한다.
-   - 동등 분할의 경계(가장자리)에 위치한 값들을 집중적으로 테스트한다.
+   - [[630_equivalence_partitioning_boundary_value_analysis|동등 분할]]의 경계(가장자리)에 위치한 값들을 집중적으로 테스트한다.
    - 예: 1~100 사이라면, 최소 경계 주변(0, 1, 2)과 최대 경계 주변(99, 100, 101)을 찌른다.
 
 ```text
@@ -127,9 +127,9 @@ categories = "studynote-software-engineering"
 ```
 
 **[다이어그램 해설]**
-이 기법을 적용하면 100번 넘게 해야 할 테스트를 단 5~6번의 핵심 테스트 케이스(0, 1, 50, 100, 101)로 압축할 수 있다. 이 6개의 값이 전체 입력 도메인의 결함 발생 확률을 90% 이상 커버(Coverage)한다는 것이 소프트웨어 테스팅의 핵심 원리다.
+이 기법을 적용하면 100번 넘게 해야 할 테스트를 단 5~6번의 핵심 [[441_test_case|테스트 케이스]](0, 1, 50, 100, 101)로 압축할 수 있다. 이 6개의 값이 전체 입력 도메인의 [[352_defect_definition|결함]] 발생 확률을 90% 이상 커버(Coverage)한다는 것이 소프트웨어 테스팅의 핵심 원리다.
 
-- **📢 섹션 요약 비유**: 사과 상자에서 사과가 썩었는지 확인할 때, 100개를 다 베어 무는 대신(전수 테스트), 상자 윗부분, 아랫부분, 가운데에서 하나씩만 뽑아서(동등 분할) 맛을 보는 영리한 검사법입니다.
+- **📢 섹션 요약 비유**: 사과 상자에서 사과가 썩었는지 확인할 때, 100개를 다 베어 무는 대신(전수 테스트), 상자 윗부분, 아랫부분, 가운데에서 하나씩만 뽑아서([[630_equivalence_partitioning_boundary_value_analysis|동등 분할]]) 맛을 보는 영리한 검사법입니다.
 
 ---
 
@@ -141,12 +141,12 @@ categories = "studynote-software-engineering"
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-입력 조건이 단일한 숫자가 아니라, 여러 조건의 논리적 조합(AND, OR, NOT)일 경우 동등 분할만으로는 해결할 수 없다.
+입력 조건이 단일한 숫자가 아니라, 여러 조건의 [[369_logic_bomb|논리]]적 조합(AND, OR, NOT)일 경우 [[630_equivalence_partitioning_boundary_value_analysis|동등 분할]]만으로는 해결할 수 없다.
 
-- **개념**: 시스템이 수행해야 할 다양한 논리적 조건(Cause)과 그에 따른 행동(Effect)을 진리표(Truth Table) 형태의 표로 구성하여 누락된 비즈니스 규칙이 없는지 촘촘하게 검증하는 기법이다.
+- **개념**: 시스템이 수행해야 할 다양한 [[369_logic_bomb|논리]]적 조건(Cause)과 그에 따른 행동(Effect)을 [[024_truth_table|진리표]]([[024_truth_table|Truth Table]]) 형태의 표로 구성하여 누락된 비즈니스 규칙이 없는지 촘촘하게 [[395_verification_process_review|검증]]하는 기법이다.
 - **적용 시나리오**: 금융권의 대출 승인 로직, 항공권 할인 조건 등 비즈니스 룰이 복잡하게 얽혀 있는 경우.
 
-| 테스트 케이스 ID | TC-01 | TC-02 | TC-03 | TC-04 |
+| [[441_test_case|테스트 케이스]] ID | TC-01 | TC-02 | TC-03 | TC-04 |
 |:---|:---:|:---:|:---:|:---:|
 | **조건 (Conditions)** | | | | |
 | 1. VIP 회원인가? | Y | Y | N | N |
@@ -156,7 +156,7 @@ categories = "studynote-software-engineering"
 | 20% 할인 쿠폰 제공 | X | | | |
 | 혜택 없음 | | | | X |
 
-- **장점**: 개발자가 코드를 짜면서 미처 생각하지 못한 '예외적인 논리 조합(예: VIP가 아니면서 10만 원을 넘긴 경우)'을 표를 그리는 과정에서 시각적으로 발견하고 강제할 수 있다.
+- **장점**: 개발자가 코드를 짜면서 미처 생각하지 못한 '예외적인 [[369_logic_bomb|논리]] 조합(예: VIP가 아니면서 10만 원을 넘긴 경우)'을 표를 그리는 과정에서 시각적으로 발견하고 강제할 수 있다.
 
 - **📢 섹션 요약 비유**: 복잡한 사다리 타기 게임을 할 때, 헷갈리지 않도록 펜으로 모든 경우의 수(출발점)를 그어서 도착점을 미리 표로 정리해 두고 하나씩 확인해 보는 것과 같습니다.
 
@@ -172,16 +172,16 @@ categories = "studynote-software-engineering"
 
 블랙박스 테스트는 단순히 값을 넣고 빼는 것을 넘어, 시스템의 '상태'나 '행위 흐름'을 모델링하여 테스트하기도 한다.
 
-1. **상태 전이 테스트 (State Transition Testing)**:
-   - 시스템이 특정 이벤트에 따라 상태(State)가 어떻게 변하는지 검증한다. (예: ATM 기기에서 '카드 삽입' -> '비밀번호 입력' -> '잠김' 또는 '인증됨' 상태로의 전이)
-2. **오류 예측 (Error Guessing)**:
-   - 테스터의 과거 경험, 직관, 기술적 감각에 의존하여 "이런 상황에서는 아마 버그가 있을 것이다"라고 추측하여 찔러보는 휴리스틱(Heuristic) 기법이다. (예: 특수문자를 넣거나 네트워크를 갑자기 끊어보기)
+1. **[[416_state_transition_testing|상태 전이 테스트]] ([[416_state_transition_testing|State Transition Testing]])**:
+   - 시스템이 특정 이벤트에 따라 상태([[272_state_pattern|State]])가 어떻게 변하는지 [[395_verification_process_review|검증]]한다. (예: [[272_atm_asynchronous_transfer_mode_53byte_cell|ATM]] 기기에서 '카드 삽입' -> '비밀번호 입력' -> '잠김' 또는 '인증됨' 상태로의 전이)
+2. **오류 예측 ([[434_error_guessing|Error Guessing]])**:
+   - 테스터의 과거 경험, 직관, 기술적 감각에 의존하여 "이런 상황에서는 아마 버그가 있을 것이다"라고 추측하여 찔러보는 [[210_heuristics_scheduling|휴리스틱]]([[236_a_star_heuristic_minimax_mcts_monte_carlo|Heuristic]]) 기법이다. (예: 특수문자를 넣거나 네트워크를 갑자기 끊어보기)
 
 **한계점**:
-- **미실행 코드 (Unreachable Code) 방치**: 시스템 내부에서 절대로 실행되지 않는 잉여 코드(Dead Code)나 백도어(Backdoor) 악성코드가 심어져 있더라도, 정상적인 명세서의 입출력만 테스트하므로 이를 결코 찾아낼 수 없다.
-- 따라서 무결성이 극도로 중요한 항공, 의료, 금융 시스템에서는 반드시 블랙박스 테스트와 화이트박스 테스트를 1:1 비율로 교차 검증(Cross Validation)해야 한다.
+- **미실행 코드 (Unreachable [[082_process_memory_structure|Code]]) 방치**: 시스템 내부에서 절대로 실행되지 않는 잉여 코드(Dead [[082_process_memory_structure|Code]])나 [[737_backdoor_c2_beacon_behavior_analysis|백도어]]([[727_backdoor|Backdoor]]) 악성코드가 심어져 있더라도, 정상적인 명세서의 입출력만 테스트하므로 이를 결코 찾아낼 수 없다.
+- 따라서 무결성이 극도로 중요한 항공, 의료, 금융 시스템에서는 반드시 블랙박스 테스트와 [[420_whitebox_testing|화이트박스 테스트]]를 1:1 비율로 [[250_cross_validation_kfold|교차 검증]]([[083_cross_validation|Cross Validation]])해야 한다.
 
-- **📢 섹션 요약 비유**: 집을 보러 온 사람이 수압이 좋은지, 전등이 잘 켜지는지는 확인할 수 있지만(블랙박스 테스트), 벽 안쪽에 부실한 전선이 꼬여서 합선 위험이 있는지는 벽을 뜯어보기 전(화이트박스 테스트)까지는 절대 모르는 한계와 같습니다.
+- **📢 섹션 요약 비유**: 집을 보러 온 사람이 수압이 좋은지, 전등이 잘 켜지는지는 확인할 수 있지만(블랙박스 테스트), 벽 안쪽에 부실한 전선이 꼬여서 합선 위험이 있는지는 벽을 뜯어보기 전([[420_whitebox_testing|화이트박스 테스트]])까지는 절대 모르는 한계와 같습니다.
 
 ---
 
@@ -200,10 +200,10 @@ categories = "studynote-software-engineering"
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| 소프트웨어 공학 (Software Engineering) | 블랙박스 테스트 (Black-box Test)의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
-| 소프트웨어 생명주기 (SDLC, Software Development Life Cycle) | 블랙박스 테스트 (Black-box Test)은 SDLC의 특정 단계에서 핵심적으로 적용된다 |
-| 품질 보증 (QA, Quality Assurance) | 블랙박스 테스트 (Black-box Test) 적용 결과는 QA 활동을 통해 검증되고 측정된다 |
-| 형상 관리 (SCM, Software Configuration Management) | 블랙박스 테스트 (Black-box Test)에서 생성된 산출물은 SCM을 통해 체계적으로 관리된다 |
+| [[001_software_engineering_definition|소프트웨어 공학]] ([[001_software_engineering_definition|Software Engineering]]) | 블랙박스 테스트 (Black-box Test)의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
+| [[003_sdlc|소프트웨어 생명주기]] ([[131_sdlc_system_development_life_cycle_waterfall_agile|SDLC]], Software Development Life Cycle) | 블랙박스 테스트 (Black-box Test)은 SDLC의 특정 단계에서 핵심적으로 적용된다 |
+| 품질 보증 (QA, Quality Assurance) | 블랙박스 테스트 (Black-box Test) 적용 결과는 QA 활동을 통해 [[395_verification_process_review|검증]]되고 측정된다 |
+| [[020_software_configuration_management|형상 관리]] ([[167_scm_software_configuration_management|SCM]], [[020_software_configuration_management|Software Configuration Management]]) | 블랙박스 테스트 (Black-box Test)에서 생성된 산출물은 SCM을 통해 체계적으로 관리된다 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -223,10 +223,10 @@ categories = "studynote-software-engineering"
 지속적 개선 및 DevOps·MLOps 통합
 ```
 
-이 흐름은 소프트웨어 위기 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
+이 흐름은 [[002_software_crisis|소프트웨어 위기]] 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. 블랙박스 테스트 (Black-box Test)은 레고 블록으로 성을 만들 때처럼, 규칙을 정하고 역할을 나누어 함께 작업하는 방법이에요.
 2. 혼자서 막 만들면 나중에 무너지거나 고치기 어렵지만, 약속을 지키면 누구나 쉽게 고치고 더 크게 만들 수 있어요.
-3. 그래서 소프트웨어 공학은 프로그래머들이 좋은 프로그램을 빠르고 안전하게 만들 수 있게 도와주는 '규칙 모음집'이에요.
+3. 그래서 [[001_software_engineering_definition|소프트웨어 공학]]은 프로그래머들이 좋은 프로그램을 빠르고 안전하게 만들 수 있게 도와주는 '규칙 모음집'이에요.

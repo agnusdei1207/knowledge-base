@@ -18,7 +18,7 @@ categories = "studynote-devops"
 
 수동으로 빌드하면 실수가 많다. 빌드 도구는 이 과정을 반복 가능하게 만든다.
 
-그래서 CI/CD의 기본 구성요소가 된다.
+그래서 [[090_configuration_item|CI]]/CD의 기본 구성요소가 된다.
 
 - **📢 섹션 요약 비유**: 레시피대로 자동으로 요리를 해 주는 주방이다.
 
@@ -53,12 +53,12 @@ Deploy
 | 도구 | 장점 | 단점 |
 | :-- | :-- | :-- |
 | Maven | 규칙 명확 | 유연성 낮음 |
-| Gradle | 성능/유연성 | 학습 곡선 |
+| Gradle | [[282_performance_tactics|성능]]/유연성 | 학습 곡선 |
 | npm | JS 친화 | 의존성 복잡 |
 
 | 기능 | 의미 |
 | :-- | :-- |
-| Dependency Management | 라이브러리 관리 |
+| [[612_dependency_management|Dependency Management]] | [[336_library_vs_framework|라이브러리]] 관리 |
 | Build Lifecycle | 빌드 단계 |
 | Script | 자동화 |
 
@@ -70,7 +70,7 @@ Deploy
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### 체크리스트
+### [[435_checklist_based_testing|체크리스트]]
 
 1. 의존성 선언이 명확한가?
 2. 빌드 재현성이 있는가?
@@ -78,14 +78,14 @@ Deploy
 4. CI와 연결되는가?
 5. 도구 선택이 생태계에 맞는가?
 
-### 안티패턴
+### [[128_water_scrum_fall_anti_pattern|안티패턴]]
 
 - 수동 빌드를 반복하는 설계
-- 버전 고정 없이 의존성을 쓰는 설계
+- [[288_version_ihl_tos_total_length|버전]] 고정 없이 의존성을 쓰는 설계
 - 도구별 특성을 무시하는 설계
 - 빌드와 테스트를 분리하지 않는 설계
 
-기술사 관점에서는 빌드 도구를 "자동화된 산출물 생성기"로 설명해야 한다.
+기술사 관점에서는 빌드 도구를 "자동화된 산출물 [[087_process_state_transition|생성]]기"로 설명해야 한다.
 
 - **📢 섹션 요약 비유**: 레시피대로 매번 같은 맛을 내는 주방장이다.
 

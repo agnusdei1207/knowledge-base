@@ -7,9 +7,9 @@ categories = "studynote-enterprise-systems"
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: 가치 사슬(Value Chain)은 마이클 포터(Michael Porter)가 1985년 《경쟁 우위(Competitive Advantage)》에서 제시한 프레임워크로, 기업이 제품·서비스를 생산하고 고객에게 전달하는 과정을 주활동(Primary Activities)과 지원 활동(Support Activities)으로 분해하여 경쟁 우위(Cost Advantage 또는 Differentiation)의 원천을 파악한다.
-> 2. **가치**: 가치 사슬 분석은 "어느 활동에서 비용을 낮추거나 차별화를 창출할 수 있는가?"를 체계적으로 진단한다. 디지털 전환(DX) 맥락에서 각 가치 사슬 활동에 IT/AI를 접목하여 경쟁 우위를 창출하는 "디지털 가치 사슬(Digital Value Chain)" 분석이 ERP·SCM·CRM 투자 정당화의 핵심 도구가 된다.
-> 3. **판단 포인트**: PEST 분석(외부 환경) → 포터 5 Forces(산업 구조) → 가치 사슬 분석(내부 역량) → SWOT(종합) 순서로 전략 분석을 진행하면 완전한 전략 수립 프레임워크가 완성된다. 기술사 시험에서 이 4단계의 순서와 연계성을 이해하는 것이 핵심이다.
+> 1. **본질**: [[249_value_chain_competitive_analysis|가치 사슬]]([[249_value_chain_competitive_analysis|Value Chain]])은 마이클 포터(Michael Porter)가 1985년 《경쟁 우위(Competitive Advantage)》에서 제시한 프레임워크로, 기업이 제품·[[090_service_kubernetes_network_load_balancing|서비스]]를 생산하고 고객에게 전달하는 과정을 주활동(Primary Activities)과 지원 활동([[084_support_association_rule_transaction|Support]] Activities)으로 분해하여 경쟁 우위(Cost Advantage 또는 Differentiation)의 원천을 파악한다.
+> 2. **가치**: [[249_value_chain_competitive_analysis|가치 사슬]] 분석은 "어느 활동에서 비용을 낮추거나 차별화를 창출할 수 있는가?"를 체계적으로 진단한다. [[055_digital_transformation|디지털 전환]]([[726_platform_engineering_idp_dx|DX]]) 맥락에서 각 [[249_value_chain_competitive_analysis|가치 사슬]] 활동에 IT/AI를 접목하여 경쟁 우위를 창출하는 "디지털 [[249_value_chain_competitive_analysis|가치 사슬]](Digital [[249_value_chain_competitive_analysis|Value Chain]])" 분석이 [[081_erp_enterprise_resource_planning|ERP]]·[[167_scm_software_configuration_management|SCM]]·[[107_crm_customer_relationship_management|CRM]] 투자 정당화의 핵심 도구가 된다.
+> 3. **판단 포인트**: [[102_isp_environmental_analysis_pest_5forces|PEST]] 분석(외부 환경) → 포터 5 Forces(산업 구조) → [[249_value_chain_competitive_analysis|가치 사슬]] 분석(내부 역량) → SWOT(종합) 순서로 [[268_strategy_pattern|전략]] 분석을 [[216_progress_in_synchronization|진행]]하면 완전한 [[268_strategy_pattern|전략]] 수립 프레임워크가 완성된다. 기술사 시험에서 이 4단계의 순서와 연계성을 이해하는 것이 핵심이다.
 
 ---
 
@@ -32,53 +32,53 @@ categories = "studynote-enterprise-systems"
 └──────────────────────────────────────────────────────────┘
 ```
 
-- **📢 섹션 요약 비유**: 가치 사슬은 레스토랑의 요리 과정이다. 식재료 구입(입고 물류) → 요리(운영) → 서빙(출고 물류) → 광고(마케팅·영업) → 후식·서비스(A/S). 각 단계에서 비용을 낮추거나 맛을 높여야(차별화) 이윤이 커진다.
+- **📢 섹션 요약 비유**: [[249_value_chain_competitive_analysis|가치 사슬]]은 레스토랑의 요리 과정이다. 식재료 구입(입고 물류) → 요리(운영) → 서빙(출고 물류) → 광고(마케팅·영업) → 후식·[[090_service_kubernetes_network_load_balancing|서비스]](A/S). 각 단계에서 비용을 낮추거나 맛을 높여야(차별화) 이윤이 커진다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### 디지털 가치 사슬 매핑 (IT 접목)
+### 디지털 [[249_value_chain_competitive_analysis|가치 사슬]] 매핑 (IT 접목)
 
-| 가치 사슬 활동 | IT/디지털 접목 | 경쟁 우위 효과 |
+| [[249_value_chain_competitive_analysis|가치 사슬]] 활동 | IT/디지털 접목 | 경쟁 우위 효과 |
 |:---|:---|:---|
-| **입고 물류** | RFID, IoT 재고 관리, SCM | 재고 비용↓, 납기 정확도↑ |
-| **운영** | MES (제조 실행), RPA, AI QC | 생산 효율↑, 불량률↓ |
-| **출고 물류** | WMS (창고 관리), 라스트마일 최적화 | 배송 속도↑, 비용↓ |
-| **마케팅·영업** | CRM, 추천 알고리즘, 디지털 광고 | 고객 전환↑, 획득 비용↓ |
-| **서비스** | 챗봇, 원격 A/S, IoT 예측 정비 | 만족도↑, 서비스 비용↓ |
-| **기술 개발** | AI/ML, 클라우드 R&D | 혁신 속도↑ |
+| **입고 물류** | RFID, [[101_iot_concept|IoT]] 재고 관리, [[167_scm_software_configuration_management|SCM]] | 재고 비용↓, 납기 정확도↑ |
+| **운영** | [[119_mes_manufacturing_execution_system|MES]] (제조 실행), [[060_rpa_hyperautomation|RPA]], [[190_ai_llm_requirements_specification|AI]] QC | 생산 효율↑, 불량률↓ |
+| **출고 물류** | [[097_wms_warehouse_management_system|WMS]] (창고 관리), 라스트마일 최적화 | 배송 속도↑, 비용↓ |
+| **마케팅·영업** | [[107_crm_customer_relationship_management|CRM]], 추천 [[001_algorithm_definition|알고리즘]], 디지털 광고 | 고객 전환↑, 획득 비용↓ |
+| **[[090_service_kubernetes_network_load_balancing|서비스]]** | 챗봇, 원격 A/S, [[101_iot_concept|IoT]] 예측 정비 | 만족도↑, [[090_service_kubernetes_network_load_balancing|서비스]] 비용↓ |
+| **기술 개발** | [[190_ai_llm_requirements_specification|AI]]/ML, 클라우드 R&D | 혁신 속도↑ |
 | **HRM** | HR 테크, 원격 협업 | 인재 확보·생산성↑ |
 
-- **📢 섹션 요약 비유**: 디지털 가치 사슬 매핑은 레스토랑 전체에 스마트 장비를 도입하는 것이다. 자동 주문 시스템(CRM), 로봇 요리사(운영 자동화), 드론 배달(출고 물류)로 각 단계를 업그레이드한다.
+- **📢 섹션 요약 비유**: 디지털 [[249_value_chain_competitive_analysis|가치 사슬]] 매핑은 레스토랑 전체에 스마트 장비를 도입하는 것이다. 자동 주문 시스템([[107_crm_customer_relationship_management|CRM]]), 로봇 요리사(운영 자동화), 드론 배달(출고 물류)로 각 단계를 업그레이드한다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-| 분석 도구 | 목적 | 가치 사슬과의 연계 |
+| 분석 도구 | 목적 | [[249_value_chain_competitive_analysis|가치 사슬]]과의 연계 |
 |:---|:---|:---|
-| **PEST** | 거시 외부 환경 | 가치 사슬 활동에 영향 주는 외부 요인 |
-| **5 Forces** | 산업 경쟁 구조 | 가치 사슬 어느 단계에서 협상력 취약? |
-| **SWOT** | 내외부 종합 | 가치 사슬 분석 = S·W 도출 근거 |
-| **BSC** | 전략 목표 측정 | 가치 사슬 활동별 KPI 수립 |
+| **[[102_isp_environmental_analysis_pest_5forces|PEST]]** | 거시 외부 환경 | [[249_value_chain_competitive_analysis|가치 사슬]] 활동에 영향 주는 외부 요인 |
+| **5 Forces** | 산업 경쟁 구조 | [[249_value_chain_competitive_analysis|가치 사슬]] 어느 단계에서 협상력 취약? |
+| **SWOT** | 내외부 종합 | [[249_value_chain_competitive_analysis|가치 사슬]] 분석 = S·W 도출 근거 |
+| **[[019_bsc|BSC]]** | [[268_strategy_pattern|전략]] 목표 측정 | [[249_value_chain_competitive_analysis|가치 사슬]] 활동별 [[018_kpi|KPI]] 수립 |
 
-- **📢 섹션 요약 비유**: 전략 분석 도구들은 같은 회사를 다른 렌즈로 보는 것이다. PEST는 망원경(외부 멀리), 5 Forces는 확대경(산업 내 경쟁), 가치 사슬은 X-ray(내부 구조), SWOT는 종합 진단서다.
+- **📢 섹션 요약 비유**: [[268_strategy_pattern|전략]] 분석 도구들은 같은 회사를 다른 렌즈로 보는 것이다. PEST는 망원경(외부 멀리), 5 Forces는 확대경(산업 내 경쟁), [[249_value_chain_competitive_analysis|가치 사슬]]은 X-ray(내부 구조), SWOT는 종합 진단서다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### 아마존의 가치 사슬 혁신
+### 아마존의 [[249_value_chain_competitive_analysis|가치 사슬]] 혁신
 - **입고/출고 물류**: Kiva 로봇(현 Amazon Robotics)으로 창고 피킹 시간 60% 단축 → 비용 우위.
 - **운영(플랫폼)**: AWS 클라우드 → 자사 IT 인프라 비용 혁신 → 잉여 인프라를 외부 판매(수익원).
-- **마케팅**: AI 추천 알고리즘 → 구매 전환율 35% 기여.
-결론: 모든 가치 사슬 활동에 IT 혁신을 적용 → 비용 우위 + 차별화 동시 달성.
+- **마케팅**: [[190_ai_llm_requirements_specification|AI]] 추천 [[001_algorithm_definition|알고리즘]] → 구매 전환율 35% 기여.
+결론: 모든 [[249_value_chain_competitive_analysis|가치 사슬]] 활동에 IT 혁신을 적용 → 비용 우위 + 차별화 동시 달성.
 
-### 안티패턴
-- 가치 사슬 분석 없이 전체 ERP를 도입하는 안티패턴. 어느 활동에서 문제가 발생하는지 분석 없이 "전사 ERP 도입"을 처방하면, 실제 병목(예: 영업 → CRM 문제)이 아닌 부분에 과투자가 발생한다.
+### [[128_water_scrum_fall_anti_pattern|안티패턴]]
+- [[249_value_chain_competitive_analysis|가치 사슬]] 분석 없이 전체 ERP를 도입하는 [[128_water_scrum_fall_anti_pattern|안티패턴]]. 어느 활동에서 문제가 발생하는지 분석 없이 "전사 [[081_erp_enterprise_resource_planning|ERP]] 도입"을 처방하면, 실제 병목(예: 영업 → [[107_crm_customer_relationship_management|CRM]] 문제)이 아닌 부분에 과투자가 발생한다.
 
-- **📢 섹션 요약 비유**: 가치 사슬 분석 없는 IT 투자는 몸 전체에 비타민을 주사하는 것이다. 어디가 아픈지(가치 사슬 문제 활동) 찾아서 그 부분을 치료(IT 투자)해야 한다.
+- **📢 섹션 요약 비유**: [[249_value_chain_competitive_analysis|가치 사슬]] 분석 없는 IT 투자는 몸 전체에 비타민을 주사하는 것이다. 어디가 아픈지([[249_value_chain_competitive_analysis|가치 사슬]] 문제 활동) 찾아서 그 부분을 치료(IT 투자)해야 한다.
 
 ---
 
@@ -86,13 +86,13 @@ categories = "studynote-enterprise-systems"
 
 | 기대효과 | 내용 |
 |:---|:---|
-| **경쟁 우위 원천 발굴** | 비용 우위 또는 차별화 활동 식별 |
-| **IT 투자 정당화** | 가치 사슬 활동별 ROI 근거 제시 |
-| **DX 로드맵** | 디지털 가치 사슬 단계별 혁신 계획 |
+| **경쟁 우위 원천 발굴** | 비용 우위 또는 차별화 활동 [[655_ir_detection_analysis|식별]] |
+| **IT 투자 정당화** | [[249_value_chain_competitive_analysis|가치 사슬]] 활동별 [[012_roi_return_on_investment|ROI]] 근거 제시 |
+| **[[726_platform_engineering_idp_dx|DX]] 로드맵** | 디지털 [[249_value_chain_competitive_analysis|가치 사슬]] 단계별 혁신 계획 |
 
-디지털 네이티브 기업(아마존, 넷플릭스)은 가치 사슬 자체를 플랫폼 비즈니스 모델로 재설계하여 전통적 가치 사슬 경쟁자를 압도했다. 이는 산업 경계를 초월한 "생태계 가치 사슬(Ecosystem Value Chain)"로의 진화다.
+디지털 네이티브 기업(아마존, 넷플릭스)은 [[249_value_chain_competitive_analysis|가치 사슬]] 자체를 [[033_platform_business_model|플랫폼 비즈니스 모델]]로 재설계하여 전통적 [[249_value_chain_competitive_analysis|가치 사슬]] 경쟁자를 압도했다. 이는 산업 경계를 초월한 "생태계 [[249_value_chain_competitive_analysis|가치 사슬]](Ecosystem [[249_value_chain_competitive_analysis|Value Chain]])"로의 진화다.
 
-- **📢 섹션 요약 비유**: 아마존은 레스토랑(유통)을 하다가 주방(AWS)을 외부에 빌려주고, 배달 서비스(라스트마일)도 외부에 팔기 시작한 것이다. 가치 사슬의 각 단계가 독립적인 사업이 될 수 있다.
+- **📢 섹션 요약 비유**: 아마존은 레스토랑(유통)을 하다가 주방(AWS)을 외부에 빌려주고, 배달 [[090_service_kubernetes_network_load_balancing|서비스]](라스트마일)도 외부에 팔기 시작한 것이다. [[249_value_chain_competitive_analysis|가치 사슬]]의 각 단계가 독립적인 사업이 될 수 있다.
 
 ---
 
@@ -100,11 +100,11 @@ categories = "studynote-enterprise-systems"
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **SWOT 분석** | 가치 사슬의 강·약점이 S·W 입력 |
-| **ERP/SCM/CRM** | 가치 사슬 주활동 디지털화 도구 |
-| **디지털 전환 (DX)** | 가치 사슬 전반의 디지털 혁신 |
-| **플랫폼 비즈니스** | 가치 사슬을 플랫폼으로 재설계 |
-| **5 Forces** | 가치 사슬 취약 활동의 경쟁 압력 파악 |
+| **SWOT 분석** | [[249_value_chain_competitive_analysis|가치 사슬]]의 강·약점이 S·W 입력 |
+| **[[081_erp_enterprise_resource_planning|ERP]]/[[167_scm_software_configuration_management|SCM]]/[[107_crm_customer_relationship_management|CRM]]** | [[249_value_chain_competitive_analysis|가치 사슬]] 주활동 디지털화 도구 |
+| **[[055_digital_transformation|디지털 전환]] ([[726_platform_engineering_idp_dx|DX]])** | [[249_value_chain_competitive_analysis|가치 사슬]] 전반의 디지털 혁신 |
+| **[[072_platform_business_two_sided_market|플랫폼 비즈니스]]** | [[249_value_chain_competitive_analysis|가치 사슬]]을 플랫폼으로 재설계 |
+| **5 Forces** | [[249_value_chain_competitive_analysis|가치 사슬]] 취약 활동의 경쟁 압력 파악 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -126,6 +126,6 @@ categories = "studynote-enterprise-systems"
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. 가치 사슬은 레스토랑 운영의 모든 단계예요! 재료 사오기 → 요리하기 → 서빙하기 → 광고하기 → 고객 서비스 각각에서 어떻게 더 잘할 수 있는지 분석해요.
+1. [[249_value_chain_competitive_analysis|가치 사슬]]은 레스토랑 운영의 모든 단계예요! 재료 사오기 → 요리하기 → 서빙하기 → 광고하기 → 고객 [[090_service_kubernetes_network_load_balancing|서비스]] 각각에서 어떻게 더 잘할 수 있는지 분석해요.
 2. 아마존은 모든 단계에 로봇과 AI를 넣어서 더 빠르고 저렴하게 만들었어요.
-3. 현대에는 각 단계를 디지털로 혁신하면(디지털 가치 사슬) 경쟁자보다 훨씬 유리한 위치를 차지할 수 있답니다!
+3. 현대에는 각 단계를 디지털로 혁신하면(디지털 [[249_value_chain_competitive_analysis|가치 사슬]]) 경쟁자보다 훨씬 유리한 위치를 차지할 수 있답니다!

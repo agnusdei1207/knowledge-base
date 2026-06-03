@@ -7,9 +7,9 @@ categories = "studynote-it-management"
 +++
 
 > **핵심 인사이트**
-> 1. AARRR 퍼널(Pirate Metrics)은 Dave McClure(500 Startups)가 제안한 고객 여정 5단계 측정 프레임워크로, Acquisition(획득)→Activation(활성화)→Retention(유지)→Referral(추천)→Revenue(수익)의 흐름을 정량 지표로 관리한다.
-> 2. 그로스 해킹(Growth Hacking)은 마케팅·제품·데이터를 통합하여 최소 비용으로 최대 성장을 달성하는 방법론으로, AARRR 퍼널에서 가장 취약한 단계를 찾아 실험(A/B 테스트)으로 빠르게 개선하는 것이 핵심이다.
-> 3. AARRR에서 가장 중요한 단계는 R(Retention)으로, 새 사용자를 끊임없이 획득(Acquisition)하더라도 유지하지 못하면 "밑 빠진 독에 물 붓기"이며, PMF(Product-Market Fit) 달성 여부가 Retention으로 판별된다.
+> 1. AARRR 퍼널([[043_aarrr_funnel_pirate_metrics|Pirate Metrics]])은 Dave McClure(500 Startups)가 제안한 고객 여정 5단계 측정 프레임워크로, [[042_aarrr_funnel|Acquisition]](획득)→Activation(활성화)→[[515_mvcc|Retention]](유지)→Referral(추천)→Revenue(수익)의 흐름을 정량 지표로 관리한다.
+> 2. [[041_growth_hacking|그로스 해킹]]([[041_growth_hacking|Growth Hacking]])은 마케팅·제품·데이터를 통합하여 최소 비용으로 최대 성장을 달성하는 방법론으로, AARRR 퍼널에서 가장 취약한 단계를 찾아 실험(A/B 테스트)으로 빠르게 개선하는 것이 핵심이다.
+> 3. AARRR에서 가장 중요한 단계는 R([[515_mvcc|Retention]])으로, 새 사용자를 끊임없이 획득([[042_aarrr_funnel|Acquisition]])하더라도 유지하지 못하면 "밑 빠진 독에 물 붓기"이며, PMF(Product-Market Fit) 달성 여부가 Retention으로 판별된다.
 
 ---
 
@@ -47,11 +47,11 @@ AARRR 퍼널 (Pirate Metrics):
   질문: "수익을 창출하는가?"
 ```
 
-> 📢 **섹션 요약 비유**: AARRR은 고깔 모양 체 — 넓게 들어오고(Acquisition), 경험하고(Activation), 남고(Retention), 퍼뜨리고(Referral), 수익을 낸다(Revenue).
+> 📢 **섹션 요약 비유**: AARRR은 고깔 모양 체 — 넓게 들어오고([[042_aarrr_funnel|Acquisition]]), 경험하고(Activation), 남고([[515_mvcc|Retention]]), 퍼뜨리고(Referral), 수익을 낸다(Revenue).
 
 ---
 
-## Ⅱ. 그로스 해킹 방법론
+## Ⅱ. [[041_growth_hacking|그로스 해킹]] 방법론
 
 ```
 그로스 해킹 프레임워크:
@@ -89,7 +89,7 @@ Famous Growth Hacks:
   LinkedIn: 주소록 연동 (Activation + Referral)
 ```
 
-> 📢 **섹션 요약 비유**: 그로스 해킹은 의사 역할 — AARRR 체크업으로 어느 장기(단계)가 약한지 진단하고, 처방(실험)을 빠르게 적용해 치료.
+> 📢 **섹션 요약 비유**: [[041_growth_hacking|그로스 해킹]]은 의사 역할 — AARRR 체크업으로 어느 장기(단계)가 약한지 진단하고, 처방(실험)을 빠르게 적용해 치료.
 
 ---
 
@@ -128,7 +128,7 @@ Viral Coefficient (K-factor):
   K = 0.5 = 2명당 1명 추가 (선형 성장)
 ```
 
-> 📢 **섹션 요약 비유**: LTV > 3×CAC는 고기잡이 법칙 — 낚싯대 구입 비용(CAC)의 3배 이상 물고기(LTV)를 잡아야 장사가 된다.
+> 📢 **섹션 요약 비유**: [[108_ltv_life_time_value|LTV]] > 3×CAC는 고기잡이 법칙 — 낚싯대 구입 비용(CAC)의 3배 이상 물고기([[108_ltv_life_time_value|LTV]])를 잡아야 장사가 된다.
 
 ---
 
@@ -168,7 +168,7 @@ A/B 테스트 방법론:
 
 ---
 
-## Ⅴ. 실무 시나리오 — SaaS 그로스 해킹
+## Ⅴ. 실무 시나리오 — [[309_saas|SaaS]] [[041_growth_hacking|그로스 해킹]]
 
 ```
 B2B SaaS A사 그로스 해킹 사례:
@@ -202,7 +202,7 @@ B2B SaaS A사 그로스 해킹 사례:
 성공 요인: Activation 개선 → Retention 개선 → Revenue 자연 증가
 ```
 
-> 📢 **섹션 요약 비유**: AARRR 취약 단계 개선은 파이프 막힌 곳 뚫기 — Activation이 막히면 Retention·Revenue도 흐르지 않는다.
+> 📢 **섹션 요약 비유**: AARRR 취약 단계 개선은 [[123_pipe|파이프]] 막힌 곳 뚫기 — Activation이 막히면 [[515_mvcc|Retention]]·Revenue도 흐르지 않는다.
 
 ---
 
@@ -256,6 +256,6 @@ Predictive Churn Prevention
 
 ## 👶 어린이를 위한 3줄 비유 설명
 
-1. AARRR은 손님이 가게에 오는 여정을 5단계로 나눈 것 — 처음 알게 되고(Acquisition), 맛보고(Activation), 단골 되고(Retention), 친구에게 알리고(Referral), 돈 쓰는 것(Revenue)!
-2. 그로스 해킹은 마치 의사처럼 — 어느 단계가 약한지 데이터로 찾아서(진단), 실험으로 빠르게 고쳐요(치료).
-3. 가장 중요한 R은 Retention — 새 손님을 계속 데려와도 기존 손님이 떠나면 "밑 빠진 독에 물 붓기"예요!
+1. AARRR은 손님이 가게에 오는 여정을 5단계로 나눈 것 — 처음 알게 되고([[042_aarrr_funnel|Acquisition]]), 맛보고(Activation), 단골 되고([[515_mvcc|Retention]]), 친구에게 알리고(Referral), 돈 쓰는 것(Revenue)!
+2. [[041_growth_hacking|그로스 해킹]]은 마치 의사처럼 — 어느 단계가 약한지 데이터로 찾아서(진단), 실험으로 빠르게 고쳐요(치료).
+3. 가장 중요한 R은 [[515_mvcc|Retention]] — 새 손님을 계속 데려와도 기존 손님이 떠나면 "밑 빠진 독에 물 붓기"예요!

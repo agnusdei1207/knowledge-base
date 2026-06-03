@@ -9,7 +9,7 @@ categories = ["13_cloud_architecture"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: Helm Chart는 Kubernetes 리소스를 패키지처럼 묶어 설치, 업그레이드, 롤백을 표준화하는 배포 단위다.
+> 1. **본질**: [[207_helm_kubernetes_package_manager_chart|Helm]] Chart는 [[205_kubernetes_container_orchestration|Kubernetes]] 리소스를 패키지처럼 묶어 설치, 업그레이드, 롤백을 표준화하는 배포 단위다.
 > 2. **가치**: values 파일로 환경별 설정을 바꾸면 같은 차트로 개발, 스테이징, 운영을 반복 배포할 수 있다.
 > 3. **판단 포인트**: 템플릿 복잡도, 값 관리, 릴리스 히스토리를 함께 보아야 Helm이 안정적으로 쓰인다.
 
@@ -17,7 +17,7 @@ categories = ["13_cloud_architecture"]
 
 ## Ⅰ. 개요 및 필요성
 
-Kubernetes 배포는 리소스가 많아질수록 복잡해진다. Deployment, Service, Ingress, ConfigMap 같은 파일을 매번 손으로 맞추면 실수가 생기기 쉽다.
+[[205_kubernetes_container_orchestration|Kubernetes]] 배포는 리소스가 많아질수록 복잡해진다. [[087_deployment_kubernetes_workload_rolling_update|Deployment]], [[090_service_kubernetes_network_load_balancing|Service]], [[094_ingress_kubernetes_l7_routing_gateway|Ingress]], [[102_configmap_secret_kubernetes_12_factor_app|ConfigMap]] 같은 파일을 매번 손으로 맞추면 실수가 생기기 쉽다.
 
 Helm은 이런 반복 작업을 차트(Chart)라는 패키지로 묶어 해결한다. 공통 구조는 유지하고, 환경별 차이는 값만 바꾸는 방식이다.
 
@@ -27,7 +27,7 @@ Helm은 이런 반복 작업을 차트(Chart)라는 패키지로 묶어 해결�
 
 ## Ⅱ. 차트 구조와 템플릿 원리
 
-Helm 차트는 메타데이터, 기본값, 템플릿, 의존성으로 구성된다.
+[[207_helm_kubernetes_package_manager_chart|Helm]] 차트는 [[012_metadata|메타데이터]], 기본값, 템플릿, 의존성으로 구성된다.
 
 ```text
 my-chart/
@@ -41,7 +41,7 @@ my-chart/
 └── README.md
 ```
 
-템플릿은 values.yaml의 값을 받아 실제 Kubernetes 매니페스트로 렌더링된다. 그래서 같은 차트라도 환경별로 다른 설정을 쉽게 적용할 수 있다.
+템플릿은 values.yaml의 값을 받아 실제 [[205_kubernetes_container_orchestration|Kubernetes]] 매니페스트로 렌더링된다. 그래서 같은 차트라도 환경별로 다른 설정을 쉽게 적용할 수 있다.
 
 - **📢 섹션 요약 비유**: 같은 틀에 다른 이름표만 붙여서 여러 버전의 제품을 만드는 방식이다.
 
@@ -65,9 +65,9 @@ Helm은 단순 배포 도구가 아니라 릴리스 관리 도구다.
 
 ## Ⅳ. 실무 적용과 의존성 관리
 
-Helm은 단일 앱보다 서비스 묶음을 다룰 때 더 빛난다.
+Helm은 단일 앱보다 [[090_service_kubernetes_network_load_balancing|서비스]] 묶음을 다룰 때 더 빛난다.
 
-- 서브차트로 데이터베이스, 캐시, 앱을 함께 배포한다.
+- 서브차트로 [[002_database_definition|데이터베이스]], 캐시, 앱을 함께 배포한다.
 - 차트 저장소에서 검증된 패키지를 재사용한다.
 - `helm dependency update`로 의존 차트를 맞춘다.
 - `helm hook`으로 사전/사후 작업을 넣는다.
@@ -116,7 +116,7 @@ install / upgrade / rollback
 1. 수동 YAML 배포 → 반복 실수와 관리 부담 증가
 2. 차트 패키징 → 공통 리소스 재사용
 3. values 기반 환경 분리 → 개발/운영 동시 관리
-4. 서브차트와 훅 → 복합 서비스 배포 자동화
+4. 서브차트와 훅 → 복합 [[090_service_kubernetes_network_load_balancing|서비스]] 배포 자동화
 5. GitOps와 결합 → 선언적 릴리스 운영으로 확장
 
 ---

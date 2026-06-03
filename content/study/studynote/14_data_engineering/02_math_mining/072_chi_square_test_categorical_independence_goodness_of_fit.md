@@ -36,7 +36,7 @@ Chi-square Statistic
 
 | 종류 | 의미 |
 | :-- | :-- |
-| Independence | 독립성 검정 |
+| [[133_independence|Independence]] | 독립성 검정 |
 | Goodness-of-fit | 적합성 검정 |
 | Expected Count | 기대도수 |
 
@@ -51,7 +51,7 @@ Chi-square Statistic
 | 검정 | 대상 | 차이 |
 | :-- | :-- | :-- |
 | Chi-square | 범주형 | 빈도 |
-| t-Test | 연속형 | 평균 |
+| [[070_t_test_independent_paired_mean_difference|t-Test]] | 연속형 | 평균 |
 
 | 요소 | 의미 |
 | :-- | :-- |
@@ -66,7 +66,7 @@ Chi-square Statistic
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### 체크리스트
+### [[435_checklist_based_testing|체크리스트]]
 
 1. 범주형 데이터인가?
 2. 기대도수를 계산했는가?
@@ -74,7 +74,7 @@ Chi-square Statistic
 4. 독립성과 적합성을 구분하는가?
 5. 교차표 해석이 가능한가?
 
-### 안티패턴
+### [[128_water_scrum_fall_anti_pattern|안티패턴]]
 
 - 연속형 데이터에 무분별하게 쓰는 설계
 - 기대도수를 무시하는 설계

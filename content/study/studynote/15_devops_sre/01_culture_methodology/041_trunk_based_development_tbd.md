@@ -7,13 +7,13 @@ categories = "studynote-devops-sre"
 +++
 
 > **핵심 인사이트**
-> 1. TBD(Trunk-Based Development) 고도화 핵심은 피처 플래그(Feature Flag)/피처 토글(Feature Toggle)을 활용하여 "미완성 코드도 메인 브랜치에 병합"이 가능한 상태를 유지하는 것으로, 이를 통해 장기 브랜치의 "통합 지옥(Integration Hell)"을 원천 방지한다.
-> 2. TBD와 CI/CD의 결합은 "코드가 메인에 병합되는 즉시 자동으로 프로덕션에 배포 가능한 상태"를 목표로 하며, DORA 지표에서 Elite 수행 팀의 배포 빈도(Daily/On-demand) 달성의 기반이 된다.
-> 3. 소규모 PR(Pull Request) 문화는 TBD의 실천적 핵심으로, PR당 변경 라인 200줄 이하 권고, 24시간 이내 리뷰 완료 목표는 코드 리뷰 부담을 낮추고 통합 위험을 분산시키는 동시에 팀 전체의 코드 이해도를 높인다.
+> 1. TBD([[040_trunk_based_development|Trunk-Based Development]]) 고도화 핵심은 [[576_feature_flag_ab_testing_rollout|피처 플래그]]([[576_feature_flag_ab_testing_rollout|Feature Flag]])/[[247_feature_label_variables|피처]] 토글(Feature Toggle)을 활용하여 "미완성 코드도 메인 브랜치에 병합"이 가능한 상태를 유지하는 것으로, 이를 통해 장기 브랜치의 "통합 지옥(Integration Hell)"을 원천 방지한다.
+> 2. TBD와 [[090_configuration_item|CI]]/CD의 결합은 "코드가 메인에 병합되는 즉시 자동으로 프로덕션에 배포 가능한 상태"를 목표로 하며, [[523_dhcp_dora_process|DORA]] 지표에서 Elite 수행 팀의 배포 빈도(Daily/On-demand) 달성의 기반이 된다.
+> 3. 소규모 [[067_pull_request_pr_merge_request_code_review|PR]]([[067_pull_request_pr_merge_request_code_review|Pull Request]]) 문화는 TBD의 실천적 핵심으로, PR당 변경 라인 200줄 이하 권고, 24시간 이내 리뷰 완료 목표는 [[330_code_review|코드 리뷰]] 부담을 낮추고 통합 위험을 [[136_variance|분산]]시키는 동시에 팀 전체의 코드 이해도를 높인다.
 
 ---
 
-## Ⅰ. TBD 고도화 핵심: 피처 플래그
+## Ⅰ. TBD 고도화 핵심: [[576_feature_flag_ab_testing_rollout|피처 플래그]]
 
 ```
 피처 플래그 (Feature Flag / Feature Toggle):
@@ -52,11 +52,11 @@ categories = "studynote-devops-sre"
      AWS AppConfig, Azure App Configuration
 ```
 
-> 📢 **섹션 요약 비유**: 피처 플래그는 TV 채널 리모컨 — 방송(코드)은 전송 완료, 시청자(사용자)별로 채널을 켜고 끄는 것은 리모컨(플래그)으로 제어.
+> 📢 **섹션 요약 비유**: [[576_feature_flag_ab_testing_rollout|피처 플래그]]는 TV 채널 리모컨 — 방송(코드)은 전송 완료, 시청자(사용자)별로 채널을 켜고 끄는 것은 리모컨([[186_character_stuffing_dle_stx_etx|플래그]])으로 제어.
 
 ---
 
-## Ⅱ. 소규모 PR과 코드 리뷰
+## Ⅱ. 소규모 PR과 [[330_code_review|코드 리뷰]]
 
 ```
 TBD 코드 리뷰 원칙:
@@ -94,7 +94,7 @@ PR 분할 전략:
 
 ---
 
-## Ⅲ. TBD + CI/CD 파이프라인 통합
+## Ⅲ. TBD + [[090_configuration_item|CI]]/CD [[123_pipe|파이프]]라인 통합
 
 ```
 TBD 기반 CI/CD 파이프라인:
@@ -133,11 +133,11 @@ TBD + GitOps:
   MTTR: 장애 복구 시간 1시간 이하 (Elite)
 ```
 
-> 📢 **섹션 요약 비유**: TBD + CI/CD는 자동 조립 라인 — 코드 커밋(재료 투입) → 자동 테스트(품질 검사) → 자동 배포(출고) 사이클이 하루에도 여러 번.
+> 📢 **섹션 요약 비유**: TBD + [[090_configuration_item|CI]]/CD는 자동 조립 라인 — 코드 커밋(재료 투입) → 자동 테스트(품질 검사) → 자동 배포(출고) 사이클이 하루에도 여러 번.
 
 ---
 
-## Ⅳ. TBD 안티패턴과 해결
+## Ⅳ. TBD [[128_water_scrum_fall_anti_pattern|안티패턴]]과 해결
 
 ```
 TBD 안티패턴:
@@ -174,7 +174,7 @@ TBD 성숙도 지표:
   Lv4: 자동화 롤백, 카오스 엔지니어링
 ```
 
-> 📢 **섹션 요약 비유**: TBD 안티패턴은 고속도로 끼어들기 — 한꺼번에 너무 많은 차(코드)가 들어오면 전체 정체(통합 지옥) 발생.
+> 📢 **섹션 요약 비유**: TBD [[128_water_scrum_fall_anti_pattern|안티패턴]]은 고속도로 끼어들기 — 한꺼번에 너무 많은 차(코드)가 들어오면 전체 정체(통합 지옥) 발생.
 
 ---
 
@@ -272,6 +272,6 @@ TBD + 셀프서비스 배포 플랫폼
 
 ## 👶 어린이를 위한 3줄 비유 설명
 
-1. TBD 고수들은 피처 플래그를 써서 아직 완성 안 된 기능도 메인 코드에 넣어두고, 버튼 하나로 켜고 끌 수 있어요!
-2. 작은 PR 200줄 = 숙제 10페이지씩 나눠 제출 — 선생님(리뷰어)이 꼼꼼히 봐주고, 틀린 것도 빨리 발견해요.
-3. TBD + CI/CD는 매일 조금씩 배포하는 것 — Google·Netflix는 하루에도 수천 번 배포해요!
+1. TBD 고수들은 [[576_feature_flag_ab_testing_rollout|피처 플래그]]를 써서 아직 완성 안 된 기능도 메인 코드에 넣어두고, 버튼 하나로 켜고 끌 수 있어요!
+2. 작은 [[067_pull_request_pr_merge_request_code_review|PR]] 200줄 = 숙제 10페이지씩 나눠 제출 — 선생님(리뷰어)이 꼼꼼히 봐주고, 틀린 것도 빨리 발견해요.
+3. TBD + [[090_configuration_item|CI]]/CD는 매일 조금씩 배포하는 것 — Google·Netflix는 하루에도 수천 번 배포해요!

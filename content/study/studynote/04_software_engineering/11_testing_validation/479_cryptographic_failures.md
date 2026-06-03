@@ -8,15 +8,15 @@ categories = "studynote-software-engineering"
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: Cryptographic Failures (암호화 실패)은(는) 소프트웨어 공학의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.
-> 2. **가치**: 이 개념을 올바르게 적용하면 소프트웨어의 품질·유지보수성·재사용성이 향상되고, 개발 생산성과 팀 협업 효율이 높아진다.
+> 1. **본질**: [[424_cryptographic_failures|Cryptographic Failures]] (암호화 실패)은(는) [[001_software_engineering_definition|소프트웨어 공학]]의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.
+> 2. **가치**: 이 개념을 올바르게 적용하면 소프트웨어의 품질·[[346_maintainability_portability|유지보수성]]·재사용성이 향상되고, 개발 생산성과 팀 협업 효율이 높아진다.
 > 3. **판단 포인트**: 도입 시에는 비용·복잡도·조직 성숙도를 함께 고려해야 하며, 맹목적 적용보다 프로젝트 특성에 맞는 선택적 적용이 핵심이다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-암호화 (Cryptography)는 데이터를 읽을 수 없는 형태로 바꾸거나, 무결성과 인증을 보장하는 기술이다. 실패하면 민감 정보가 쉽게 유출된다.
+암호화 ([[652_cryptography_concept_encryption_decryption|Cryptography]])는 [[001_dikw_pyramid|데이터]]를 읽을 수 없는 형태로 바꾸거나, 무결성과 인증을 보장하는 기술이다. 실패하면 민감 정보가 쉽게 유출된다.
 
 OWASP Top 10에서 자주 중요한 항목으로 다뤄지는 이유도 민감도 때문이다.
 
@@ -49,7 +49,7 @@ OWASP Top 10에서 자주 중요한 항목으로 다뤄지는 이유도 민감�
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-대표 원인은 약한 알고리즘, 잘못된 모드 사용, 키 관리 실패, 평문 저장이다.
+대표 원인은 약한 [[001_algorithm_definition|알고리즘]], 잘못된 모드 사용, 키 관리 실패, 평문 저장이다.
 
 ```text
 민감 데이터
@@ -60,8 +60,8 @@ OWASP Top 10에서 자주 중요한 항목으로 다뤄지는 이유도 민감�
 
 | 항목 | 의미 |
 |:---|:---|
-| 알고리즘 | 안전한 표준 사용 |
-| 키 관리 | 키 생성/보관/교체 |
+| [[001_algorithm_definition|알고리즘]] | 안전한 표준 사용 |
+| 키 관리 | 키 [[087_process_state_transition|생성]]/보관/교체 |
 | 저장/전송 | 암호화 범위 |
 
 암호화 자체보다 운영이 더 자주 문제를 만든다.
@@ -78,11 +78,11 @@ OWASP Top 10에서 자주 중요한 항목으로 다뤄지는 이유도 민감�
 
 ## Ⅲ. 비교 및 연결
 
-암호화 실패는 단순히 "SSL (Secure Sockets Layer) 사용 여부"만의 문제가 아니다. 저장, 전송, 로그, 백업까지 모두 봐야 한다.
+암호화 실패는 단순히 "SSL (Secure Sockets Layer) 사용 여부"만의 문제가 아니다. 저장, 전송, [[568_logs_distributed_logging_elk_fluentd|로그]], [[555_backup_and_restore_strategy|백업]]까지 모두 봐야 한다.
 
 | 구분 | 안전한 접근 | 위험한 접근 |
 |:---|:---|:---|
-| 전송 | TLS (Transport Layer Security) | 평문 전송 |
+| 전송 | [[694_thread_local_storage_tls|TLS]] (Transport Layer [[283_security_tactics|Security]]) | 평문 전송 |
 | 저장 | 암호화 저장 | 평문 저장 |
 | 키 | 분리 보관 | 코드 내 하드코딩 |
 
@@ -100,12 +100,12 @@ OWASP Top 10의 다른 항목과 결합되어 더 큰 사고로 이어지기도 
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서는 비밀번호 해시, 토큰 보호, 데이터베이스 암호화, 백업 보호가 중요하다.
+실무에서는 비밀번호 해시, 토큰 [[571_protection_vs_security|보호]], [[365_tde|데이터베이스 암호화]], [[555_backup_and_restore_strategy|백업]] [[571_protection_vs_security|보호]]가 중요하다.
 
 검토할 때는 다음을 본다.
-1. 민감 데이터가 어디에 있는가?
-2. 적절한 알고리즘과 키 관리가 있는가?
-3. 로그나 백업에 평문이 남지 않는가?
+1. 민감 [[001_dikw_pyramid|데이터]]가 어디에 있는가?
+2. 적절한 [[001_algorithm_definition|알고리즘]]과 키 관리가 있는가?
+3. [[568_logs_distributed_logging_elk_fluentd|로그]]나 [[555_backup_and_restore_strategy|백업]]에 평문이 남지 않는가?
 
 - **📢 섹션 요약 비유**: 비밀 메모는 책상뿐 아니라 서랍, 복사본, 쓰레기통까지 챙겨야 한다.
 
@@ -119,9 +119,9 @@ OWASP Top 10의 다른 항목과 결합되어 더 큰 사고로 이어지기도 
 
 ## Ⅴ. 기대효과 및 결론
 
-암호화 실패를 줄이면 정보 유출의 피해를 크게 낮출 수 있다. 특히 규제와 감사 대응에도 도움이 된다.
+암호화 실패를 줄이면 정보 유출의 피해를 크게 낮출 수 있다. 특히 규제와 [[606_auditing_linux_auditd|감사]] 대응에도 도움이 된다.
 
-결론적으로 이 항목은 "민감 데이터 보호 실패"다.
+결론적으로 이 항목은 "민감 [[001_dikw_pyramid|데이터]] [[571_protection_vs_security|보호]] 실패"다.
 
 - **📢 섹션 요약 비유**: 귀중품을 상자에 넣었는지보다, 상자 열쇠를 누가 갖고 있는지가 더 중요하다.
 
@@ -135,10 +135,10 @@ OWASP Top 10의 다른 항목과 결합되어 더 큰 사고로 이어지기도 
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| 소프트웨어 공학 (Software Engineering) | Cryptographic Failures (암호화 실패)의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
-| 소프트웨어 생명주기 (SDLC, Software Development Life Cycle) | Cryptographic Failures (암호화 실패)은 SDLC의 특정 단계에서 핵심적으로 적용된다 |
-| 품질 보증 (QA, Quality Assurance) | Cryptographic Failures (암호화 실패) 적용 결과는 QA 활동을 통해 검증되고 측정된다 |
-| 형상 관리 (SCM, Software Configuration Management) | Cryptographic Failures (암호화 실패)에서 생성된 산출물은 SCM을 통해 체계적으로 관리된다 |
+| [[001_software_engineering_definition|소프트웨어 공학]] ([[001_software_engineering_definition|Software Engineering]]) | [[424_cryptographic_failures|Cryptographic Failures]] (암호화 실패)의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
+| [[003_sdlc|소프트웨어 생명주기]] ([[131_sdlc_system_development_life_cycle_waterfall_agile|SDLC]], Software Development Life Cycle) | [[424_cryptographic_failures|Cryptographic Failures]] (암호화 실패)은 SDLC의 특정 단계에서 핵심적으로 적용된다 |
+| 품질 보증 (QA, Quality Assurance) | [[424_cryptographic_failures|Cryptographic Failures]] (암호화 실패) 적용 결과는 QA 활동을 통해 검증되고 측정된다 |
+| [[020_software_configuration_management|형상 관리]] ([[167_scm_software_configuration_management|SCM]], [[020_software_configuration_management|Software Configuration Management]]) | [[424_cryptographic_failures|Cryptographic Failures]] (암호화 실패)에서 [[087_process_state_transition|생성]]된 산출물은 SCM을 통해 체계적으로 관리된다 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -158,10 +158,10 @@ Cryptographic Failures (암호화 실패) 개념 정립
 지속적 개선 및 DevOps·MLOps 통합
 ```
 
-이 흐름은 소프트웨어 위기 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
+이 흐름은 [[002_software_crisis|소프트웨어 위기]] 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. Cryptographic Failures (암호화 실패)은 레고 블록으로 성을 만들 때처럼, 규칙을 정하고 역할을 나누어 함께 작업하는 방법이에요.
+1. [[424_cryptographic_failures|Cryptographic Failures]] (암호화 실패)은 레고 블록으로 성을 만들 때처럼, 규칙을 정하고 역할을 나누어 함께 작업하는 방법이에요.
 2. 혼자서 막 만들면 나중에 무너지거나 고치기 어렵지만, 약속을 지키면 누구나 쉽게 고치고 더 크게 만들 수 있어요.
-3. 그래서 소프트웨어 공학은 프로그래머들이 좋은 프로그램을 빠르고 안전하게 만들 수 있게 도와주는 '규칙 모음집'이에요.
+3. 그래서 [[001_software_engineering_definition|소프트웨어 공학]]은 프로그래머들이 좋은 프로그램을 빠르고 안전하게 만들 수 있게 도와주는 '규칙 모음집'이에요.

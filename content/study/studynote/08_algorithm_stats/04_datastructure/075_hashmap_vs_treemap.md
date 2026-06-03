@@ -7,16 +7,16 @@ categories = "studynote-algorithm-stats"
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: HashMap은 해시 함수(Hash Function)로 키를 배열 인덱스에 직접 매핑하여 평균 O(1) 접근을 달성하는 반면, TreeMap은 레드-블랙 트리(Red-Black Tree)를 기반으로 키를 정렬된 순서로 유지하면서 O(log n) 연산을 보장한다.
-> 2. **가치**: HashMap은 빠른 단건 조회·삽입·삭제가 필요할 때, TreeMap은 범위 조회(Range Query), 정렬된 순회, 최솟값·최댓값 조회가 필요할 때 선택하며, 두 자료구조의 선택이 알고리즘 전체 성능을 결정짓는다.
-> 3. **판단 포인트**: 해시 충돌(Hash Collision)과 리해싱(Rehashing) 비용, 정렬 여부 필요성, 메모리 사용량을 3가지 축으로 판단하며, 실시간 순위표·캐시·집계 처리에는 HashMap, 이벤트 스케줄러·범위 검색에는 TreeMap이 적합하다.
+> 1. **본질**: HashMap은 [[667_hash_function_integrity_one_way|해시 함수]]([[667_hash_function_integrity_one_way|Hash Function]])로 키를 [[055_array|배열]] [[154_database_index_b_tree_search_optimization|인덱스]]에 직접 매핑하여 평균 O(1) 접근을 달성하는 반면, TreeMap은 [[063_red_black_tree|레드-블랙 트리]]([[204_red_black_tree_cfs|Red-Black Tree]])를 기반으로 키를 정렬된 순서로 유지하면서 O(log n) 연산을 보장한다.
+> 2. **가치**: HashMap은 빠른 단건 조회·삽입·삭제가 필요할 때, TreeMap은 범위 조회(Range Query), 정렬된 순회, 최솟값·최댓값 조회가 필요할 때 선택하며, 두 자료구조의 선택이 [[001_algorithm_definition|알고리즘]] 전체 [[282_performance_tactics|성능]]을 결정짓는다.
+> 3. **판단 포인트**: [[563_hash_collision_chaining_linear_probing|해시 충돌]](Hash [[563_hash_collision_chaining_linear_probing|Collision]])과 리해싱(Rehashing) 비용, 정렬 여부 필요성, 메모리 사용량을 3가지 축으로 판단하며, 실시간 순위표·캐시·집계 처리에는 HashMap, 이벤트 [[079_kube_scheduler_pod_placement|스케줄러]]·범위 검색에는 TreeMap이 적합하다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-HashMap은 키-값(Key-Value) 쌍을 해시 테이블에 저장하는 자료구조로, 평균 O(1)의 접근 성능을 제공한다.
-TreeMap은 동일한 키-값 쌍을 이진 탐색 트리(BST, Binary Search Tree)의 균형 변형인 레드-블랙 트리에 저장하여 키의 정렬 순서를 항상 유지한다.
+HashMap은 키-값([[067_db_key_uniqueness_minimality|Key]]-Value) 쌍을 [[067_hash_table|해시 테이블]]에 저장하는 자료구조로, 평균 O(1)의 접근 [[282_performance_tactics|성능]]을 제공한다.
+TreeMap은 동일한 키-값 쌍을 [[061_binary_search_tree_bst|이진 탐색 트리]](BST, [[031_binary_search_algorithm|Binary Search]] Tree)의 균형 변형인 [[063_red_black_tree|레드-블랙 트리]]에 저장하여 키의 정렬 순서를 항상 유지한다.
 
 두 자료구조의 차이를 이해하지 못하면, 정렬이 필요한 작업에 HashMap을 쓰다가 O(n log n) 정렬을 매번 수행하거나, 단순 조회에 TreeMap을 써서 불필요하게 O(log n) 비용을 지불하게 된다.
 
@@ -49,12 +49,12 @@ TreeMap은 동일한 키-값 쌍을 이진 탐색 트리(BST, Binary Search Tree
 
 | 구성 요소 | 역할 | 상세 |
 |:---|:---|:---|
-| **해시 함수** | Key → 배열 인덱스 변환 | hashCode() % 배열크기 |
+| **[[667_hash_function_integrity_one_way|해시 함수]]** | [[067_db_key_uniqueness_minimality|Key]] → [[055_array|배열]] [[154_database_index_b_tree_search_optimization|인덱스]] 변환 | hashCode() % [[055_array|배열]]크기 |
 | **로드 팩터 (Load Factor)** | 리해싱 임계값 | 기본 0.75 (75% 찰 때 크기 2배 확장) |
-| **충돌 해결** | 같은 인덱스 키 처리 | 체이닝(LinkedList) 또는 오픈 어드레싱 |
+| **충돌 해결** | 같은 [[154_database_index_b_tree_search_optimization|인덱스]] 키 처리 | 체이닝(LinkedList) 또는 오픈 어드레싱 |
 | **Java 8+ 최적화** | 긴 체인 트리 변환 | 8개 초과 시 TreeMap으로 변환 (O(n)→O(log n)) |
 
-### TreeMap 핵심 메커니즘 (레드-블랙 트리)
+### TreeMap 핵심 메커니즘 ([[063_red_black_tree|레드-블랙 트리]])
 
 ```text
 ┌──────────────────────────────────────────────────────────┐
@@ -74,7 +74,7 @@ TreeMap은 동일한 키-값 쌍을 이진 탐색 트리(BST, Binary Search Tree
 └──────────────────────────────────────────────────────────┘
 ```
 
-- **📢 섹션 요약 비유**: 레드-블랙 트리는 도서관 사서가 매번 책을 꽂은 뒤 왼쪽-오른쪽 균형을 맞추는 것과 같다. 불균형해질 때마다 빨간-검정 색 규칙으로 즉시 재배치하여 항상 O(log n)을 보장한다.
+- **📢 섹션 요약 비유**: [[063_red_black_tree|레드-블랙 트리]]는 도서관 사서가 매번 책을 꽂은 뒤 왼쪽-오른쪽 균형을 맞추는 것과 같다. 불균형해질 때마다 빨간-검정 색 규칙으로 즉시 재배치하여 항상 O(log n)을 보장한다.
 
 ---
 
@@ -82,7 +82,7 @@ TreeMap은 동일한 키-값 쌍을 이진 탐색 트리(BST, Binary Search Tree
 
 | 항목 | HashMap | TreeMap | LinkedHashMap |
 |:---|:---|:---|:---|
-| **내부 구조** | 해시 테이블 | 레드-블랙 트리 | 해시 테이블 + 연결 리스트 |
+| **내부 구조** | [[067_hash_table|해시 테이블]] | [[063_red_black_tree|레드-블랙 트리]] | [[067_hash_table|해시 테이블]] + [[056_linked_list|연결 리스트]] |
 | **정렬** | 없음 | 키 기준 오름차순 | 삽입 순서 유지 |
 | **get/put** | 평균 O(1) | O(log n) | 평균 O(1) |
 | **범위 조회** | 불가 | subMap, headMap, tailMap | 불가 |
@@ -95,18 +95,18 @@ TreeMap은 동일한 키-값 쌍을 이진 탐색 트리(BST, Binary Search Tree
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### 실무 시나리오: 실시간 순위표 vs 이벤트 스케줄러
+### 실무 시나리오: 실시간 순위표 vs 이벤트 [[079_kube_scheduler_pod_placement|스케줄러]]
 
 **HashMap 적합**: 수백만 사용자의 포인트를 userId → point로 실시간 업데이트하는 게임 순위표 집계. 단건 갱신 빈도가 압도적으로 높으므로 O(1) HashMap이 최적.
 
-**TreeMap 적합**: 이벤트 발생 시각(long)을 키로 하는 스케줄러. `pollFirstEntry()`로 가장 이른 이벤트를 O(log n)으로 꺼내고, 특정 시간 범위의 이벤트를 `subMap(from, to)`으로 O(log n + k)에 추출.
+**TreeMap 적합**: 이벤트 발생 시각(long)을 키로 하는 [[079_kube_scheduler_pod_placement|스케줄러]]. `pollFirstEntry()`로 가장 이른 이벤트를 O(log n)으로 꺼내고, 특정 시간 범위의 이벤트를 `subMap(from, to)`으로 O(log n + k)에 추출.
 
-### 체크리스트
+### [[435_checklist_based_testing|체크리스트]]
 - 충돌 집중(Hash Skew) 발생 시 hashCode() 재정의로 균등 분배 확보.
-- TreeMap의 Comparator 지정 시 null 안전성과 일관성(equals와 일치) 보장.
+- TreeMap의 [[043_comparator|Comparator]] 지정 시 null 안전성과 [[194_consistency_database_integrity|일관성]](equals와 일치) 보장.
 - 멀티스레드 환경: HashMap → ConcurrentHashMap, TreeMap → ConcurrentSkipListMap.
 
-### 안티패턴
+### [[128_water_scrum_fall_anti_pattern|안티패턴]]
 - 정렬된 결과가 필요한 경우에 HashMap을 쓰고 나중에 매번 정렬하는 코드. O(n log n) 정렬이 반복 발생하여 TreeMap의 O(log n) 삽입 비용보다 훨씬 비싸진다.
 
 - **📢 섹션 요약 비유**: 정렬이 필요한데 HashMap을 쓰는 건, 창고에 물건을 아무렇게나 쌓고 주문마다 전부 꺼내 다시 정리하는 것과 같다. 처음부터 TreeMap(정렬 창고)을 쓰면 주문마다 정리 비용이 없어진다.
@@ -117,11 +117,11 @@ TreeMap은 동일한 키-값 쌍을 이진 탐색 트리(BST, Binary Search Tree
 
 | 기대효과 | HashMap | TreeMap |
 |:---|:---|:---|
-| **조회 성능** | 평균 O(1), 최악 O(n) | 보장 O(log n) |
+| **조회 [[282_performance_tactics|성능]]** | 평균 O(1), 최악 O(n) | 보장 O(log n) |
 | **적합 사례** | 캐시, 집계, 카운팅 | 범위 조회, 정렬 순회 |
 | **확장성** | 리해싱으로 O(n) 일시 발생 | 균형 보장으로 안정적 |
 
-올바른 Map 선택은 알고리즘 설계의 기초다. 실무에서 HashMap과 TreeMap은 서로 보완하여 사용되며, 레디스(Redis) 등 분산 캐시는 내부적으로 해시 테이블(Hash)과 정렬 집합(Sorted Set)을 둘 다 지원하여 이 두 자료구조의 특성을 모두 활용한다.
+올바른 Map 선택은 [[001_algorithm_definition|알고리즘]] 설계의 기초다. 실무에서 HashMap과 TreeMap은 서로 보완하여 사용되며, [[297_snowflake_schema|레디스]]([[542_redis|Redis]]) 등 [[136_variance|분산]] 캐시는 내부적으로 [[067_hash_table|해시 테이블]](Hash)과 정렬 집합(Sorted Set)을 둘 다 지원하여 이 두 자료구조의 특성을 모두 활용한다.
 
 - **📢 섹션 요약 비유**: HashMap은 스피드 레이서(빠르지만 정해진 코스만), TreeMap은 내비게이션 장착 차(약간 느리지만 어디든 최적 경로로 가능)다. 레이스(단건 조회)엔 전자, 여행(범위 탐색)엔 후자가 맞다.
 
@@ -131,11 +131,11 @@ TreeMap은 동일한 키-값 쌍을 이진 탐색 트리(BST, Binary Search Tree
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **해시 함수 (Hash Function)** | HashMap의 O(1) 성능의 근거; 키를 균등하게 분산 |
-| **레드-블랙 트리** | TreeMap의 내부 자료구조; 항상 O(log n) 보장 |
-| **해시 충돌 (Hash Collision)** | 성능 저하 요인; 체이닝 또는 오픈 어드레싱으로 해결 |
-| **ConcurrentHashMap** | HashMap의 스레드 안전 버전; 세그먼트 락 방식 |
-| **Skip List** | TreeMap의 분산 시스템 대안; ConcurrentSkipListMap의 기반 |
+| **[[667_hash_function_integrity_one_way|해시 함수]] ([[667_hash_function_integrity_one_way|Hash Function]])** | HashMap의 O(1) [[282_performance_tactics|성능]]의 근거; 키를 균등하게 [[136_variance|분산]] |
+| **[[063_red_black_tree|레드-블랙 트리]]** | TreeMap의 내부 자료구조; 항상 O(log n) 보장 |
+| **[[563_hash_collision_chaining_linear_probing|해시 충돌]] (Hash [[563_hash_collision_chaining_linear_probing|Collision]])** | [[282_performance_tactics|성능]] 저하 요인; 체이닝 또는 오픈 어드레싱으로 해결 |
+| **ConcurrentHashMap** | HashMap의 [[147_thread_safe|스레드 안전]] [[288_version_ihl_tos_total_length|버전]]; 세그먼트 락 방식 |
+| **[[110_skip_list|Skip List]]** | TreeMap의 [[136_variance|분산]] 시스템 대안; ConcurrentSkipListMap의 기반 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -154,7 +154,7 @@ TreeMap은 동일한 키-값 쌍을 이진 탐색 트리(BST, Binary Search Tree
     ▼
 [ConcurrentHashMap / Skip List — 분산/병렬 환경 확장]
 ```
-배열의 O(1) 접근에서 해시 테이블, 균형 트리로 진화하며, 멀티스레드와 분산 환경에서 ConcurrentHashMap/SkipList로 확장된다.
+[[055_array|배열]]의 O(1) 접근에서 [[067_hash_table|해시 테이블]], 균형 트리로 진화하며, 멀티스레드와 [[136_variance|분산]] 환경에서 ConcurrentHashMap/SkipList로 확장된다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

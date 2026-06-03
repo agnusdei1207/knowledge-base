@@ -8,9 +8,9 @@ categories = "studynote-operating-system"
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 컴퓨터virus는 다른 정상 프로그램이나 파일에 自己增殖(자기관증) 가능한 코드를 붙여넣어埋伏(매복)하며, 숙주 파일이 실행될 때 함께Activated(활성화)되어-system을 감염시키고被害(피해)를 주는 자기복제 기능이 있는 악성 소프트웨어다.
-> 2. **가치**: virus의 가장 큰 특징은virus学者(학자)들이 "비버(Biber)"라고 불렀다"Justاط會(교류)"하던1970년대 아르파넷(ARPANET) 시대에 처음으로 보고되었으며, 감염 경로가 다양하여 floppy disk, USB, email 첨부파일 등 다양한 매체를 통해扩散(확산)될 수 있다.
-> 3. **한계**:virus는 반드시 숙주 프로그램이 있어야 실행되므로 사용자의Interactor(상호작용)(파일 실행)이 필요하며, 현대 안티바이러스 솔루션은 휴리스틱(Heuristic) 분석과 시그니처 기반 탐지를 통해virus를 효과적으로 차단하고 있다.
+> 1. **본질**: 컴퓨터virus는 다른 정상 프로그램이나 [[501_file_definition_logical_record|파일]]에 自己增殖(자기관증) 가능한 코드를 붙여넣어埋伏(매복)하며, 숙주 [[501_file_definition_logical_record|파일]]이 실행될 때 함께Activated(활성화)되어-system을 감염시키고被害(피해)를 주는 자기복제 기능이 있는 악성 소프트웨어다.
+> 2. **가치**: virus의 가장 큰 특징은virus学者(학자)들이 "비버(Biber)"라고 불렀다"Justاط會(교류)"하던1970년대 아르파넷(ARPANET) 시대에 처음으로 보고되었으며, 감염 경로가 다양하여 floppy disk, [[359_usb|USB]], email 첨부파일 등 다양한 매체를 통해扩散(확산)될 수 있다.
+> 3. **한계**:virus는 반드시 숙주 프로그램이 있어야 실행되므로 사용자의Interactor(상호작용)([[501_file_definition_logical_record|파일]] 실행)이 필요하며, 현대 안티바이러스 솔루션은 [[210_heuristics_scheduling|휴리스틱]]([[236_a_star_heuristic_minimax_mcts_monte_carlo|Heuristic]]) 분석과 시그니처 기반 탐지를 통해virus를 효과적으로 차단하고 있다.
 
 ---
 
@@ -20,10 +20,10 @@ categories = "studynote-operating-system"
 컴퓨터virus의 개념은 1970년대에報告(보고)되었으며,"Creeper" virus가最早的(최초의) 보고된virus로 알려져 있다. virus는 원래 "곰층(감염자)"이라는 의미로, 정상 프로그램에 기생하여 그 생명周轉(주변)을 유지하는 점에서 생물학적virus와 유사하다.
 
 **virus vs的其他(기타) 멀웨어 비교:**
-|特性(특성)|virus|Worm|Trojan|
+|特性(특성)|virus|[[590_worm|Worm]]|Trojan|
 |---|---|---|---|
 | **자기복제** | 예 | 예 | 아니오 |
-| **감염 경로** | 파일/프로그램 | 네트워크 | 수동 배포 |
+| **감염 경로** | [[501_file_definition_logical_record|파일]]/프로그램 | 네트워크 | 수동 배포 |
 | **실행 방식** | 숙주 필요 | 자율적 | 사용자 запуска(실행) |
 | **분포 속도** | 중간 | 매우 빠름 | 느림 |
 
@@ -51,11 +51,11 @@ categories = "studynote-operating-system"
 ### 주요 유형
 | 유형 | 설명 | 위험 수준 |
 |---|---|---|
-| **파일 감염 virus** | 실행 파일(.exe, .com 등)에 부착 | 높음 |
-| **부트 섹터 virus** | MBR/부트 섹터에 감염 | 중간~높음 |
-| **매크로 virus** | Word/Excel VBA 매크로 활용 | 중간 |
+| **[[501_file_definition_logical_record|파일]] 감염 virus** | 실행 [[501_file_definition_logical_record|파일]](.exe, .com 등)에 부착 | 높음 |
+| **부트 섹터 virus** | [[515_mbr_vs_gpt|MBR]]/부트 섹터에 감염 | 중간~높음 |
+| **매크로 virus** | [[075_word|Word]]/Excel VBA 매크로 활용 | 중간 |
 | **스크립트 virus** | PowerShell, JavaScript 등 | 중간 |
-| **파일리스 virus** | 메모리 내에서만 동작 | 높음 |
+| **[[501_file_definition_logical_record|파일]]리스 virus** | 메모리 내에서만 동작 | 높음 |
 | **다형성 virus** | 매번 코드를 변형 | 높음 |
 | **메타모르픽 virus** | 전체 코드 변형 | 매우 높음 |
 
@@ -82,10 +82,10 @@ categories = "studynote-operating-system"
   숙주필요  비호스트      수동실행
 ```
 
-| 구분 |virus|Worm|Trojan|
+| 구분 |virus|[[590_worm|Worm]]|Trojan|
 |---|---|---|---|
 | **자기복제** | 예 | 예 | 아니오 |
-| **감염 방식** | 파일 부착 | 네트워크 | 가짜 프로그램 |
+| **감염 방식** | [[501_file_definition_logical_record|파일]] 부착 | 네트워크 | 가짜 프로그램 |
 | **확산 속도** | 느림~중간 | 매우 빠름 | 느림 |
 | **탐지 난이도** | 쉬움 | 중간 | 어려움 |
 
@@ -96,13 +96,13 @@ categories = "studynote-operating-system"
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 ### 사례: Melissa 매크로virus (1999)
-**개요**: Microsoft Word 문서에VBA 매크로 형태로感染(감염)되며, 감염된 문서를 열면 Outlook을 통해 50명의 연락처로 자발적으로扩散(확장)되었다. Within 3시간(3시간 이내)에 약 200만 명이 감염되었다.
+**개요**: Microsoft [[075_word|Word]] 문서에VBA 매크로 형태로感染(감염)되며, 감염된 문서를 열면 Outlook을 통해 50명의 연락처로 자발적으로扩散(확장)되었다. Within 3시간(3시간 이내)에 약 200만 명이 감염되었다.
 
 **대응 방안**:
 - 안티바이러스 Application Control(애플리케이션 제어) 배포
--macro 보안 설정 강화
+-macro 보안 [[009_config|설정]] 강화
 - USBAutorun(오토런) 기능 비활성화
-- FIM(파일 무결성 모니터링) 도입
+- FIM([[501_file_definition_logical_record|파일]] [[003_integrity|무결성]] 모니터링) 도입
 
 - **📢 섹션 요약 비유**: 운전자가 도로 상황에 따라 기어와 브레이크를 다르게 선택하는 것처럼 조건별 판단이 중요하다.
 
@@ -111,16 +111,16 @@ categories = "studynote-operating-system"
 ## Ⅴ. 기대효과 및 결론
 
 ### 정량 효과 비교
-| 구분 | 전통 AV만 | EDR + FIM + AV | 효과 |
+| 구분 | 전통 AV만 | [[325_edr|EDR]] + FIM + [[323_antivirus|AV]] | 효과 |
 |---|---|---|---|
 | **0-day virus 탐지** | < 15% | 65~80% | 크게 향상 |
 | **감염 확산 시간** | 수시간~수일 | 즉시 차단 | 최소화 |
-| **복구 시간** | 수일~수주 | 수시간 | 단축 |
+| **[[658_ir_recovery|복구]] 시간** | 수일~수주 | 수시간 | 단축 |
 
 ### 향후 전망
-- 다형성 및 메타모르픽virus 증가로 휴리스틱 탐지의 중요성 확대
-- AI 기반 행위 분석이 전통 시그니처 탐지 보완
-- 제로 트러스트(Zero Trust) 환경에서virus 탐지 새로운 패러다임으로 전환
+- 다형성 및 메타모르픽virus 증가로 [[210_heuristics_scheduling|휴리스틱]] 탐지의 중요성 확대
+- [[190_ai_llm_requirements_specification|AI]] 기반 행위 분석이 전통 시그니처 탐지 보완
+- [[667_zero_trust_runtime_integrity_measurement|제로 트러스트]]([[667_zero_trust_runtime_integrity_measurement|Zero Trust]]) 환경에서virus 탐지 새로운 패러다임으로 전환
 
 - **📢 섹션 요약 비유**: 도구의 장점만 외우는 것이 아니라 어디까지 믿고 어디서 보완해야 하는지 기억하는 정리 노트와 같다.
 
@@ -130,10 +130,10 @@ categories = "studynote-operating-system"
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| 트랩 도어 (Trap Door / Backdoor) | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
-| 로직 밤 (Logic Bomb) / 타이머 밤 | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
-| 웜 (Worm) | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
-| 버퍼 오버플로우 (Buffer Overflow) 원리 | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
+| [[587_backdoor_trapdoor|트랩 도어]] ([[677_trap_based_system_call_implementation|Trap]] Door / [[727_backdoor|Backdoor]]) | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
+| [[588_logic_bomb|로직 밤]] ([[588_logic_bomb|Logic Bomb]]) / 타이머 밤 | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
+| 웜 ([[590_worm|Worm]]) | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
+| [[591_buffer_overflow|버퍼 오버플로우]] ([[591_buffer_overflow|Buffer Overflow]]) 원리 | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -151,6 +151,6 @@ categories = "studynote-operating-system"
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. 컴퓨터virus는 감기에 걸린 사람과 같다. 다른 사람과 손을 잡거나 기침을 하면 병이 옮겨가는 것처럼,virus도 감염된 파일을 다른 사람에게 전달하면 Spread(확산)된다.
-2.virus는virus防疫(방역) 프로그램(백신)이 없으면 컴퓨터 속에서 몰래 퍼져나가서 파일을 죽이거나 비밀을 훔쳐가는 나쁜 썩은 물건이다.
-3. 우리느 출처가 불명확한 파일을 함부로 열거나, immunization(면역)이 안 된 컴퓨터에다가 이상한 프로그램을 깔아주면 안 된다. 그것이virus를 막는 가장 좋은 방법이다.
+1. 컴퓨터virus는 감기에 걸린 사람과 같다. 다른 사람과 손을 잡거나 기침을 하면 병이 옮겨가는 것처럼,virus도 감염된 [[501_file_definition_logical_record|파일]]을 다른 사람에게 전달하면 Spread(확산)된다.
+2.virus는virus防疫(방역) 프로그램(백신)이 없으면 컴퓨터 속에서 몰래 퍼져나가서 [[501_file_definition_logical_record|파일]]을 죽이거나 비밀을 훔쳐가는 나쁜 썩은 물건이다.
+3. 우리느 출처가 불명확한 [[501_file_definition_logical_record|파일]]을 함부로 열거나, immunization(면역)이 안 된 컴퓨터에다가 이상한 프로그램을 깔아주면 안 된다. 그것이virus를 막는 가장 좋은 방법이다.

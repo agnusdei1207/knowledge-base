@@ -7,9 +7,9 @@ categories = "studynote-cloud-architecture"
 +++
 
 > **핵심 인사이트**
-> 1. Re-platform(재플랫폼)은 6R 전략 중 Rehost(그대로 이전)와 Re-architect(전면 재설계)의 중간 단계로 — 최소한의 코드 변경으로 클라우드 관리형 서비스(RDS, EKS, Elastic Beanstalk 등)로 전환하여 운영 부담을 줄이면서 클라우드 이점을 부분적으로 활용한다.
-> 2. Re-platform의 핵심 원칙은 "Core Architecture는 유지, 단 플랫폼 레이어는 매니지드로"로 — 자체 운영 PostgreSQL을 AWS RDS로 교체하면 코드 변경 없이 자동 백업, 멀티 AZ, 패치 관리를 획득하며 DBA 운영 부담을 80% 이상 줄일 수 있다.
-> 3. Re-platform은 Rehost 이후 6~12개월 안정화 기간을 거친 후 진행하는 것이 최선이며 — 무리한 동시 마이그레이션은 장애 위험을 배가시키고, 단계적 접근이 클라우드 전환의 현실적 성공 전략이다.
+> 1. Re-platform(재플랫폼)은 6R [[268_strategy_pattern|전략]] 중 Rehost(그대로 이전)와 Re-architect(전면 재설계)의 중간 단계로 — 최소한의 코드 변경으로 클라우드 관리형 [[090_service_kubernetes_network_load_balancing|서비스]](RDS, EKS, Elastic Beanstalk 등)로 전환하여 운영 부담을 줄이면서 클라우드 이점을 부분적으로 활용한다.
+> 2. Re-platform의 핵심 원칙은 "Core Architecture는 유지, 단 플랫폼 레이어는 매니지드로"로 — 자체 운영 PostgreSQL을 AWS RDS로 교체하면 코드 변경 없이 자동 [[555_backup_and_restore_strategy|백업]], 멀티 AZ, 패치 관리를 획득하며 [[025_dba_database_administrator|DBA]] 운영 부담을 80% 이상 줄일 수 있다.
+> 3. Re-platform은 Rehost 이후 6~12개월 안정화 기간을 거친 후 [[216_progress_in_synchronization|진행]]하는 것이 최선이며 — 무리한 동시 마이그레이션은 장애 위험을 배가시키고, 단계적 접근이 클라우드 전환의 현실적 성공 [[268_strategy_pattern|전략]]이다.
 
 ---
 
@@ -93,7 +93,7 @@ Re-platform 시 주의:
   마이그레이션 다운타임 계획 (AWS DMS 활용)
 ```
 
-> 📢 **섹션 요약 비유**: Re-platform 패턴은 가전제품 업그레이드 — 냉장고(DB)를 자체 수리에서 삼성 서비스센터 AS 계약으로 바꾸는 것. 냉장고 안의 음식(데이터)은 그대로, 관리만 전문가에게.
+> 📢 **섹션 요약 비유**: Re-platform 패턴은 가전제품 업그레이드 — 냉장고(DB)를 자체 수리에서 삼성 [[090_service_kubernetes_network_load_balancing|서비스]]센터 [[344_as_autonomous_system_asn|AS]] 계약으로 바꾸는 것. 냉장고 안의 음식([[001_dikw_pyramid|데이터]])은 그대로, 관리만 전문가에게.
 
 ---
 
@@ -140,11 +140,11 @@ RDS 최적화:
   실질: 인건비 절감 시 총비용 40% 감소
 ```
 
-> 📢 **섹션 요약 비유**: DMS 마이그레이션은 물 흐르게 하면서 파이프 교체 — 물 공급 끊지 않고(서비스 지속), 새 파이프(RDS)로 조금씩 물을 유도해서 최종 전환.
+> 📢 **섹션 요약 비유**: DMS 마이그레이션은 물 흐르게 하면서 [[123_pipe|파이프]] 교체 — 물 공급 끊지 않고([[090_service_kubernetes_network_load_balancing|서비스]] 지속), 새 [[123_pipe|파이프]](RDS)로 조금씩 물을 유도해서 최종 전환.
 
 ---
 
-## Ⅳ. EKS/ECS 컨테이너화
+## Ⅳ. EKS/ECS [[561_container_based_deployment|컨테이너]]화
 
 ```
 VM 앱 → EKS/ECS 컨테이너화:
@@ -189,7 +189,7 @@ Fargate 활용:
   서버 패치, 용량 관리 부담 제거
 ```
 
-> 📢 **섹션 요약 비유**: ECS/EKS 컨테이너화는 배달 표준 박스 포장 — 어느 차(서버)에도 실을 수 있는 표준 박스(컨테이너)에 물건(앱)을 담으면, 배달 차(서버)만 바꿔도 됨.
+> 📢 **섹션 요약 비유**: ECS/EKS [[561_container_based_deployment|컨테이너]]화는 배달 표준 박스 포장 — 어느 차(서버)에도 실을 수 있는 표준 박스([[561_container_based_deployment|컨테이너]])에 물건(앱)을 담으면, 배달 차(서버)만 바꿔도 됨.
 
 ---
 
@@ -236,7 +236,7 @@ Re-platform 목표:
   스케일링: 수동 → 오토스케일링 (트래픽 5배 급증 자동 대응)
 ```
 
-> 📢 **섹션 요약 비유**: Re-platform은 집 수리 공정표 — 전기(DB), 수도(캐시), 방화(WAF) 공사를 순서대로 하나씩 진행. 동시에 다 하면 집에서 못 살아요.
+> 📢 **섹션 요약 비유**: Re-platform은 집 수리 공정표 — 전기(DB), 수도(캐시), 방화([[696_waf_web_application_firewall|WAF]]) 공사를 순서대로 하나씩 [[216_progress_in_synchronization|진행]]. 동시에 다 하면 집에서 못 살아요.
 
 ---
 
@@ -296,5 +296,5 @@ FinOps + 지속적 최적화
 ## 👶 어린이를 위한 3줄 비유 설명
 
 1. Re-platform은 집 리모델링 — 집 구조(앱 로직)는 그대로이지만, 낡은 보일러(DB)를 관리 편한 지역난방(RDS)으로 교체해요!
-2. RDS는 DB를 전문 관리 회사에 맡기는 것 — 백업, 보안 패치, 이중화를 AWS가 자동으로 해줘서 DBA 걱정이 줄어요.
-3. 단계적으로 진행 — 한 번에 모든 것을 바꾸면 위험하니까, 하나씩 천천히 교체해야 안전해요!
+2. RDS는 DB를 전문 관리 회사에 맡기는 것 — [[555_backup_and_restore_strategy|백업]], 보안 패치, 이중화를 AWS가 자동으로 해줘서 [[025_dba_database_administrator|DBA]] 걱정이 줄어요.
+3. 단계적으로 [[216_progress_in_synchronization|진행]] — 한 번에 모든 것을 바꾸면 위험하니까, 하나씩 천천히 교체해야 안전해요!

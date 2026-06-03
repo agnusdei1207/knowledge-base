@@ -8,17 +8,17 @@ categories = "studynote-it-management"
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 구독 경제는 제품을 소유하는 대신 서비스를 계속 이용하며 비용을 지불하는 소비 모델이다.
-> 2. **가치**: XaaS (Everything as a Service)는 소프트웨어를 넘어 인프라와 기능 전반을 서비스로 제공하는 확장 개념이다.
-> 3. **판단 포인트**: 반복 매출, 고객 생애 가치, 이탈률, 사용량 측정이 사업의 핵심 지표가 된다.
+> 1. **본질**: 구독 경제는 제품을 소유하는 대신 [[090_service_kubernetes_network_load_balancing|서비스]]를 계속 이용하며 비용을 지불하는 소비 모델이다.
+> 2. **가치**: XaaS (Everything [[344_as_autonomous_system_asn|as]] a [[090_service_kubernetes_network_load_balancing|Service]])는 소프트웨어를 넘어 인프라와 기능 전반을 [[090_service_kubernetes_network_load_balancing|서비스]]로 제공하는 확장 개념이다.
+> 3. **판단 포인트**: 반복 매출, [[108_ltv_life_time_value|고객 생애 가치]], 이탈률, 사용량 측정이 사업의 핵심 지표가 된다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-디지털 서비스는 한 번 팔고 끝내는 모델보다, 계속 관계를 유지하며 가치를 제공하는 모델로 이동하고 있다.
+디지털 [[090_service_kubernetes_network_load_balancing|서비스]]는 한 번 팔고 끝내는 모델보다, 계속 [[083_relationship_in_er_model|관계]]를 유지하며 가치를 제공하는 모델로 이동하고 있다.
 
-초기 투자 부담은 낮추고, 고객은 필요한 기간만 쓰고, 기업은 안정적인 반복 매출을 만든다.
+[[459_quic_fec_forward_error_correction|초기]] 투자 부담은 낮추고, 고객은 필요한 기간만 쓰고, 기업은 안정적인 반복 매출을 만든다.
 
 - **📢 섹션 요약 비유**: 책을 사서 쌓아 두는 대신, 필요한 동안만 빌려 보는 방식이다.
 
@@ -38,7 +38,7 @@ categories = "studynote-it-management"
 반복 매출
 ```
 
-핵심은 판매가 아니라 관계 관리다. 가입, 결제, 갱신, 해지, 재구매를 모두 잘 다뤄야 한다.
+핵심은 판매가 아니라 [[083_relationship_in_er_model|관계]] 관리다. 가입, 결제, 갱신, 해지, 재구매를 모두 잘 다뤄야 한다.
 
 - **📢 섹션 요약 비유**: 한 번 파는 가게가 아니라, 계속 찾아오게 만드는 동네 슈퍼다.
 
@@ -46,16 +46,16 @@ categories = "studynote-it-management"
 
 ## Ⅲ. XaaS의 확장
 
-XaaS는 모든 것을 서비스로 제공하는 흐름이다.
+XaaS는 모든 것을 [[090_service_kubernetes_network_load_balancing|서비스]]로 제공하는 흐름이다.
 
-- 인프라 서비스
-- 플랫폼 서비스
-- 소프트웨어 서비스
-- 보안 서비스
-- AI 서비스
-- 저장소 서비스
+- 인프라 [[090_service_kubernetes_network_load_balancing|서비스]]
+- 플랫폼 [[090_service_kubernetes_network_load_balancing|서비스]]
+- 소프트웨어 [[090_service_kubernetes_network_load_balancing|서비스]]
+- 보안 [[090_service_kubernetes_network_load_balancing|서비스]]
+- [[190_ai_llm_requirements_specification|AI]] [[090_service_kubernetes_network_load_balancing|서비스]]
+- 저장소 [[090_service_kubernetes_network_load_balancing|서비스]]
 
-서비스화가 진전될수록 고객은 초기 구축보다 이용에 집중하게 된다.
+[[090_service_kubernetes_network_load_balancing|서비스]]화가 진전될수록 고객은 [[459_quic_fec_forward_error_correction|초기]] 구축보다 이용에 집중하게 된다.
 
 - **📢 섹션 요약 비유**: 집을 직접 짓는 대신, 필요한 방만 빌려 쓰는 것과 같다.
 
@@ -78,13 +78,13 @@ XaaS는 모든 것을 서비스로 제공하는 흐름이다.
 
 ## Ⅴ. 장점, 지표, 한계
 
-구독 경제의 장점은 예측 가능한 수익과 장기 관계다. 그러나 결제 오류, 서비스 중단, 가격 피로, 해지 증가에 민감하다.
+구독 경제의 장점은 예측 가능한 수익과 장기 [[083_relationship_in_er_model|관계]]다. 그러나 결제 오류, [[090_service_kubernetes_network_load_balancing|서비스]] 중단, 가격 피로, 해지 증가에 민감하다.
 
 실무에서 자주 보는 지표는 다음과 같다.
 
 - 반복 매출
-- 고객 생애 가치
-- 고객 획득 비용
+- [[108_ltv_life_time_value|고객 생애 가치]]
+- [[109_cac_customer_acquisition_cost|고객 획득 비용]]
 - 이탈률
 - 활성 사용률
 
@@ -112,9 +112,9 @@ XaaS는 모든 것을 서비스로 제공하는 흐름이다.
 
 1. 제품 판매 중심 → 일회성 매출
 2. 구독 모델 → 반복 매출 구조
-3. 서비스형 전환 → XaaS 확장
+3. [[090_service_kubernetes_network_load_balancing|서비스]]형 전환 → XaaS 확장
 4. 사용량 측정과 고객 성공 → 유지 중심 운영
-5. 데이터 기반 수익 관리 → 장기 관계 최적화
+5. [[001_dikw_pyramid|데이터]] 기반 수익 관리 → 장기 [[083_relationship_in_er_model|관계]] 최적화
 
 ---
 

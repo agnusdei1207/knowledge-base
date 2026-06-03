@@ -10,13 +10,13 @@ categories = "studynote-enterprise"
 
 > 1. **본질**: IT 컴플라이언스는 법과 규제를 IT 시스템과 절차로 실제 준수하고 증명하는 일이다.
 > 2. **가치**: 벌금, 소송, 신뢰 하락을 막기 위해 보안과 거버넌스를 시스템에 내재화해야 한다.
-> 3. **판단 포인트**: SOX, GDPR, Basel, ISMS 같은 규제가 요구하는 통제와 증거를 명확히 관리해야 한다.
+> 3. **판단 포인트**: SOX, [[791_gdpr_eu|GDPR]], Basel, [[836_iso_27001_isms|ISMS]] 같은 규제가 요구하는 통제와 증거를 명확히 관리해야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-기업의 핵심 업무가 모두 시스템 위에서 돌아가는 시대에는, 규정을 어기는 순간 사업 리스크가 바로 된다.
+기업의 핵심 업무가 모두 시스템 위에서 돌아가는 시대에는, 규정을 어기는 순간 사업 [[096_risk_non_risk_architecture_evaluation_flaws|리스크]]가 바로 된다.
 
 컴플라이언스는 단순한 문서 작업이 아니라, 실제 시스템이 규칙을 지키도록 만드는 운영 체계다.
 
@@ -29,14 +29,14 @@ categories = "studynote-enterprise"
 실무에서 자주 만나는 규제는 서로 성격이 다르다.
 
 - **SOX (Sarbanes-Oxley Act)**: 회계 투명성과 내부 통제
-- **GDPR (General Data Protection Regulation)**: 개인정보 보호와 처리 책임
-- **Basel**: 금융 리스크와 자본 적정성
-- **ISMS**: 정보보호 관리체계
-- **PCI DSS (Payment Card Industry Data Security Standard)**: 결제 데이터 보안
+- **[[791_gdpr_eu|GDPR]] (General [[001_dikw_pyramid|Data]] [[571_protection_vs_security|Protection]] Regulation)**: [[781_personal_information|개인정보]] [[571_protection_vs_security|보호]]와 처리 책임
+- **Basel**: 금융 [[096_risk_non_risk_architecture_evaluation_flaws|리스크]]와 자본 적정성
+- **[[836_iso_27001_isms|ISMS]]**: 정보보호 관리체계
+- **[[355_pci|PCI]] DSS (Payment Card Industry [[001_dikw_pyramid|Data]] [[283_security_tactics|Security]] Standard)**: 결제 [[001_dikw_pyramid|데이터]] 보안
 
-규제는 다르지만 공통적으로 로그, 접근통제, 암호화, 책임 추적을 요구한다.
+규제는 다르지만 공통적으로 [[568_logs_distributed_logging_elk_fluentd|로그]], 접근통제, 암호화, 책임 추적을 요구한다.
 
-- **📢 섹션 요약 비유**: 서로 다른 나라의 시험이지만, 결국 노트 정리와 답안 검증이 필요하다.
+- **📢 섹션 요약 비유**: 서로 다른 나라의 시험이지만, 결국 노트 정리와 답안 [[395_verification_process_review|검증]]이 필요하다.
 
 ---
 
@@ -46,8 +46,8 @@ categories = "studynote-enterprise"
 
 - 접근 권한 분리
 - 암호화
-- 로그 보존
-- 변경 관리
+- [[568_logs_distributed_logging_elk_fluentd|로그]] 보존
+- [[079_change_enablement|변경 관리]]
 - 승인 흐름
 
 이런 통제가 있어야 "지켰다"는 말이 아니라 "증명할 수 있다"가 된다.
@@ -56,9 +56,9 @@ categories = "studynote-enterprise"
 
 ---
 
-## Ⅳ. 증거와 감사
+## Ⅳ. 증거와 [[606_auditing_linux_auditd|감사]]
 
-감사에서는 실제 화면, 로그, 정책, 설정, 승인 기록이 중요하다.
+[[606_auditing_linux_auditd|감사]]에서는 실제 화면, [[568_logs_distributed_logging_elk_fluentd|로그]], [[164_policy|정책]], [[009_config|설정]], 승인 기록이 중요하다.
 
 컴플라이언스는 선언이 아니라 증거로 완성된다. 그래서 증거를 남기기 쉬운 구조를 처음부터 설계해야 한다.
 
@@ -68,7 +68,7 @@ categories = "studynote-enterprise"
 
 ## Ⅴ. 운영 자동화와 주의점
 
-요즘은 Compliance-as-Code처럼 규정을 코드와 검사 도구로 자동화하려는 흐름이 강하다.
+요즘은 Compliance-[[344_as_autonomous_system_asn|as]]-Code처럼 규정을 코드와 검사 도구로 자동화하려는 흐름이 강하다.
 
 하지만 자동화가 있더라도 사람이 책임을 져야 한다. 규제를 체크박스로만 보고 실제 위험을 놓치면 안 된다.
 
@@ -93,10 +93,10 @@ categories = "studynote-enterprise"
 ## 관련 키워드 및 발전 흐름도
 
 1. SOX → 회계 통제 강화
-2. GDPR → 개인정보 보호 강화
-3. Basel → 금융 리스크 규율
-4. ISMS / PCI DSS → 정보보호와 결제 보안
-5. Compliance-as-Code → 자동 검증과 지속 운영
+2. [[791_gdpr_eu|GDPR]] → [[781_personal_information|개인정보]] [[571_protection_vs_security|보호]] 강화
+3. Basel → 금융 [[096_risk_non_risk_architecture_evaluation_flaws|리스크]] 규율
+4. [[836_iso_27001_isms|ISMS]] / [[355_pci|PCI]] DSS → 정보보호와 결제 보안
+5. Compliance-[[344_as_autonomous_system_asn|as]]-[[082_process_memory_structure|Code]] → 자동 [[395_verification_process_review|검증]]과 지속 운영
 
 ---
 

@@ -6,9 +6,9 @@ categories = "studynote-security"
 +++
 
 > **핵심 인사이트**
-> 1. 위험 경감(Risk Mitigation)은 보안 통제(Security Control)를 적용해 위험의 발생 확률(Likelihood) 또는 영향(Impact)을 허용 가능한 수준으로 낮추는 위험 처리 전략이다.
-> 2. 경감 통제는 예방적(Preventive)·탐지적(Detective)·교정적(Corrective) 세 유형으로 분류되며, 효과적인 보안은 세 유형의 심층 방어(Defense-in-Depth)를 통해 달성한다.
-> 3. 비용-효익 분석(Cost-Benefit Analysis)이 핵심 — 통제 적용 비용이 경감되는 위험의 재정적 기대 손실(ALE, Annualized Loss Expectancy)보다 낮아야 경제적으로 합리적이다.
+> 1. 위험 경감([[096_risk_non_risk_architecture_evaluation_flaws|Risk]] [[605_golden_silver_ticket_mitigation|Mitigation]])은 보안 통제([[283_security_tactics|Security]] Control)를 적용해 위험의 발생 [[130_probability|확률]](Likelihood) 또는 영향(Impact)을 허용 가능한 수준으로 낮추는 위험 처리 [[268_strategy_pattern|전략]]이다.
+> 2. 경감 통제는 예방적(Preventive)·탐지적(Detective)·교정적([[380_maintenance_types|Corrective]]) 세 유형으로 분류되며, 효과적인 보안은 세 유형의 심층 방어(Defense-in-Depth)를 통해 달성한다.
+> 3. 비용-효익 분석(Cost-Benefit Analysis)이 핵심 — 통제 적용 비용이 경감되는 위험의 재정적 기대 손실([[032_ale_annual_loss_expectancy|ALE]], Annualized Loss Expectancy)보다 낮아야 경제적으로 합리적이다.
 
 ---
 
@@ -27,7 +27,7 @@ categories = "studynote-security"
   -> 수용(Accept) 또는 추가 경감 결정 필요
 ```
 
-> 📢 **섹션 요약 비유**: 차 사고 위험 경감 = 안전벨트(영향 감소) + 방어 운전(확률 감소) + 에어백(영향 감소) — 위험이 0이 되지는 않는다.
+> 📢 **섹션 요약 비유**: 차 사고 위험 경감 = 안전벨트(영향 감소) + 방어 운전([[130_probability|확률]] 감소) + 에어백(영향 감소) — 위험이 0이 되지는 않는다.
 
 ---
 
@@ -56,11 +56,11 @@ categories = "studynote-security"
   +-- 격리 (Quarantine)
 ```
 
-> 📢 **섹션 요약 비유**: 예방=잠금장치, 탐지=CCTV·경보, 교정=보험+수리 — 세 가지 모두 있어야 완전한 보안이다.
+> 📢 **섹션 요약 비유**: 예방=잠금장치, 탐지=[[933_cctv|CCTV]]·경보, 교정=보험+수리 — 세 가지 모두 있어야 완전한 보안이다.
 
 ---
 
-## III. ALE 기반 비용-효익 분석
+## III. [[032_ale_annual_loss_expectancy|ALE]] 기반 비용-효익 분석
 
 ```
 경제성 분석 공식:
@@ -89,7 +89,7 @@ ALE (Annualized Loss Expectancy) = SLE × ARO
 
 ---
 
-## IV. 심층 방어 (Defense-in-Depth)
+## [[288_version_ihl_tos_total_length|IV]]. 심층 방어 (Defense-in-Depth)
 
 ```
 네트워크 경계
@@ -113,18 +113,18 @@ ALE (Annualized Loss Expectancy) = SLE × ARO
 
 ---
 
-## V. 실무 시나리오 — 랜섬웨어 경감 전략
+## V. 실무 시나리오 — [[730_ransomware|랜섬웨어]] 경감 [[268_strategy_pattern|전략]]
 
 | 통제 유형    | 구체적 통제                       | 목적                   |
 |-----------|----------------------------------|------------------------|
-| 예방       | MFA, 최소 권한 원칙 (PoLP)        | 계정 탈취 방지          |
-| 예방       | EDR (Endpoint Detection & Response)| 악성코드 실행 차단      |
-| 예방       | 이메일 필터링 (SPF, DKIM, DMARC)  | 피싱 메일 차단          |
-| 탐지       | SIEM + SOAR (자동 대응)           | 이상 징후 조기 탐지     |
-| 교정       | 3-2-1 백업 (3개 복사, 2매체, 1오프사이트)| 데이터 복구 보장     |
-| 교정       | IRP (인시던트 대응 계획)          | 신속한 피해 최소화      |
+| 예방       | [[552_mfa|MFA]], [[010_least_privilege|최소 권한 원칙]] (PoLP)        | 계정 탈취 방지          |
+| 예방       | [[325_edr|EDR]] (Endpoint [[961_deepfake_detection|Detection]] & Response)| 악성코드 실행 차단      |
+| 예방       | 이메일 필터링 ([[495_spf_sender_policy_framework|SPF]], [[496_dkim_domainkeys_identified_mail|DKIM]], [[497_dmarc_domain_based_message_authentication|DMARC]])  | [[752_phishing|피싱]] 메일 차단          |
+| 탐지       | [[624_siem|SIEM]] + [[745_soar_security_orchestration_automation_response|SOAR]] (자동 대응)           | 이상 징후 조기 탐지     |
+| 교정       | 3-2-1 [[555_backup_and_restore_strategy|백업]] (3개 복사, 2매체, 1오프사이트)| [[001_dikw_pyramid|데이터]] [[658_ir_recovery|복구]] 보장     |
+| 교정       | IRP ([[652_incident_response_nist_800_61|인시던트 대응]] 계획)          | 신속한 피해 최소화      |
 
-> 📢 **섹션 요약 비유**: 랜섬웨어 방어는 여러 겹의 보호막 — 하나가 뚫려도 다른 층이 막아주고, 만약 암호화되어도 백업으로 복구한다.
+> 📢 **섹션 요약 비유**: [[730_ransomware|랜섬웨어]] 방어는 여러 겹의 보호막 — 하나가 뚫려도 다른 층이 막아주고, 만약 암호화되어도 [[555_backup_and_restore_strategy|백업]]으로 [[658_ir_recovery|복구]]한다.
 
 ---
 
@@ -178,5 +178,5 @@ ALE (Annualized Loss Expectancy) = SLE × ARO
 ## 👶 어린이를 위한 3줄 비유 설명
 
 1. 위험 경감은 위험이 발생할 가능성이나 피해를 줄이기 위해 미리 대비하는 거예요.
-2. 안전벨트, CCTV, 소화기처럼 막고·보고·고치는 세 가지 방법을 모두 써야 해요.
+2. 안전벨트, [[933_cctv|CCTV]], 소화기처럼 막고·보고·고치는 세 가지 방법을 모두 써야 해요.
 3. 통제에 드는 비용이 예상 피해보다 적을 때 적용하는 게 스마트한 보안이에요!

@@ -7,30 +7,30 @@ categories = "studynote-data-engineering"
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: 모방 학습(Imitation Learning)은 전문가 시연(Expert Demonstration)에서 행동 정책(Policy)을 학습하는 방법으로, 보상 함수 설계 없이 복잡한 자율주행 정책을 효율적으로 획득한다.
-> 2. **가치**: 디지털 트윈(Digital Twin) 기반 시뮬레이터로 현실에서 수집 불가능한 위험 상황(코너 케이스)을 안전하게 무한 생성하여, 도메인 갭(Domain Gap) 극복이 자율주행 AI의 핵심 과제다.
-> 3. **판단 포인트**: DAgger(Dataset Aggregation)는 BC(Behavioral Cloning)의 분포 이탈(Covariate Shift) 문제를 반복적 전문가 피드백으로 해결하지만, 실제 전문가 비용과 합성 데이터의 현실성 사이의 트레이드오프를 이해해야 한다.
+> 1. **본질**: 모방 학습(Imitation [[240_switch_learning_forwarding_flooding|Learning]])은 전문가 시연(Expert Demonstration)에서 행동 [[164_policy|정책]]([[164_policy|Policy]])을 학습하는 방법으로, 보상 함수 설계 없이 복잡한 자율주행 [[164_policy|정책]]을 효율적으로 획득한다.
+> 2. **가치**: [[126_digital_twin_concept|디지털 트윈]]([[126_digital_twin_concept|Digital Twin]]) 기반 시뮬레이터로 현실에서 수집 불가능한 위험 상황(코너 케이스)을 안전하게 무한 [[087_process_state_transition|생성]]하여, [[064_relation_domain|도메인]] 갭([[064_relation_domain|Domain]] Gap) 극복이 자율주행 AI의 핵심 과제다.
+> 3. **판단 포인트**: DAgger(Dataset Aggregation)는 BC(Behavioral Cloning)의 분포 이탈(Covariate Shift) 문제를 반복적 전문가 피드백으로 해결하지만, 실제 전문가 비용과 [[818_synthetic_data|합성 데이터]]의 현실성 사이의 트레이드오프를 이해해야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-### 1.1 자율주행 AI 학습의 도전
+### 1.1 자율주행 [[190_ai_llm_requirements_specification|AI]] 학습의 도전
 
 자율주행은 인간의 생명을 다루는 안전 크리티컬(Safety-Critical) 시스템이다. 기존 강화학습(RL)은 시행착오를 통해 학습하는데, 실제 도로에서의 실패는 사고를 의미한다.
 
 | 학습 방법 | 장점 | 단점 |
 |:---|:---|:---|
 | 지도학습 (SL) | 간단, 인간 레이블 활용 | 엣지 케이스 대응 어려움 |
-| 강화학습 (RL) | 최적 정책 탐색 가능 | 보상 설계 어려움, 안전 위험 |
-| 모방 학습 (IL) | 전문가 경험 직접 학습 | 분포 이탈, 전문가 데이터 필요 |
-| 시뮬레이션 기반 | 무한 데이터, 안전 | 도메인 갭 (Sim-to-Real) |
+| 강화학습 (RL) | 최적 [[164_policy|정책]] 탐색 가능 | 보상 설계 어려움, 안전 위험 |
+| 모방 학습 (IL) | 전문가 경험 직접 학습 | 분포 이탈, 전문가 [[001_dikw_pyramid|데이터]] 필요 |
+| 시뮬레이션 기반 | 무한 [[001_dikw_pyramid|데이터]], 안전 | [[064_relation_domain|도메인]] 갭 (Sim-to-Real) |
 
-### 1.2 모방 학습 (Imitation Learning) 정의
+### 1.2 모방 학습 (Imitation [[240_switch_learning_forwarding_flooding|Learning]]) 정의
 
-모방 학습은 전문가(Expert)의 상태-행동 시연 데이터 `{(s₁,a₁), (s₂,a₂), ..., (sₙ,aₙ)}`에서 정책 `π: S → A`를 학습하는 방법이다. 보상 함수(Reward Function) 설계 없이 직접 전문가 행동을 모방한다.
+모방 학습은 전문가(Expert)의 상태-행동 시연 [[001_dikw_pyramid|데이터]] `{(s₁,a₁), (s₂,a₂), ..., (sₙ,aₙ)}`에서 [[164_policy|정책]] `π: S → A`를 학습하는 방법이다. 보상 함수(Reward Function) 설계 없이 직접 전문가 행동을 모방한다.
 
-### 1.3 자율주행 데이터의 현실
+### 1.3 자율주행 [[001_dikw_pyramid|데이터]]의 현실
 
 ```
 실제 주행 데이터 수집 현황 (예시)
@@ -54,9 +54,9 @@ Tesla: 수억 마일 실제 주행 Autopilot 데이터 수집
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### 2.1 BC (Behavioral Cloning, 행동 복제)
+### 2.1 BC (Behavioral Cloning, 행동 [[016_replication_factor|복제]])
 
-BC는 가장 단순한 모방 학습 방법으로, 전문가 데이터를 지도학습으로 직접 모방한다.
+BC는 가장 단순한 모방 학습 방법으로, 전문가 [[001_dikw_pyramid|데이터]]를 지도학습으로 직접 모방한다.
 
 ```
 BC 학습 구조
@@ -87,7 +87,7 @@ BC 문제점: 분포 이탈 (Covariate Shift)
 
 ### 2.2 DAgger (Dataset Aggregation)
 
-DAgger는 Ross et al. (2011)이 제안한 BC의 분포 이탈 문제 해결 알고리즘이다.
+DAgger는 Ross et al. (2011)이 제안한 BC의 분포 이탈 문제 해결 [[001_algorithm_definition|알고리즘]]이다.
 
 ```
 DAgger 반복 알고리즘
@@ -111,16 +111,16 @@ for 반복 t = 1, 2, ..., T:
 단점: 매 반복마다 전문가 개입 필요 (비용 높음)
 ```
 
-### 2.3 모방 학습 알고리즘 비교
+### 2.3 모방 학습 [[001_algorithm_definition|알고리즘]] 비교
 
-| 알고리즘 | 핵심 아이디어 | 장점 | 단점 |
+| [[001_algorithm_definition|알고리즘]] | 핵심 아이디어 | 장점 | 단점 |
 |:---|:---|:---|:---|
 | BC (Behavioral Cloning) | 지도학습으로 전문가 모방 | 간단, 구현 쉬움 | 분포 이탈 |
 | DAgger | 반복적 전문가 피드백 | 분포 이탈 해결 | 전문가 비용 높음 |
 | GAIL (Generative Adversarial IL) | GAN으로 보상 함수 학습 | 보상 함수 불필요 | 학습 불안정 |
 | IRL (Inverse RL) | 전문가 행동에서 보상 추론 | 보상 해석 가능 | 계산 비용 높음 |
 
-### 2.4 디지털 트윈 (Digital Twin) 기반 시뮬레이션
+### 2.4 [[126_digital_twin_concept|디지털 트윈]] ([[126_digital_twin_concept|Digital Twin]]) 기반 시뮬레이션
 
 ```
 자율주행 디지털 트윈 아키텍처
@@ -160,9 +160,9 @@ for 반복 t = 1, 2, ..., T:
 
 ## Ⅲ. 비교 및 연결
 
-### 3.1 도메인 갭 (Domain Gap, Sim-to-Real Gap) 극복
+### 3.1 [[064_relation_domain|도메인]] 갭 ([[064_relation_domain|Domain]] Gap, Sim-to-Real Gap) 극복
 
-시뮬레이터에서 학습한 모델이 실제 환경에서 성능이 저하되는 현상이다.
+시뮬레이터에서 학습한 모델이 실제 환경에서 [[282_performance_tactics|성능]]이 저하되는 현상이다.
 
 ```
 도메인 갭 발생 원인 및 해결책
@@ -198,14 +198,14 @@ for 반복 t = 1, 2, ..., T:
 
 | 시뮬레이터 | 개발사 | 특징 | 주요 사용처 |
 |:---|:---|:---|:---|
-| CARLA | 오픈소스 | 포토리얼, 다양한 시나리오 | 연구 |
-| SUMO | 오픈소스 | 교통 흐름 특화 | 교통 연구 |
+| CARLA | [[191_oss_license_compliance|오픈소스]] | 포토리얼, 다양한 시나리오 | 연구 |
+| SUMO | [[191_oss_license_compliance|오픈소스]] | 교통 흐름 특화 | 교통 연구 |
 | NVIDIA DRIVE Sim | NVIDIA | 최고 품질 렌더링 | 산업용 |
 | Waymo Simulation | Waymo | 폐쇄적, 대규모 | Waymo 내부 |
 | AirSim | Microsoft | 드론/자동차 | 연구 |
 | Carcraft | Waymo | 재현 시뮬레이션 | 사고 재현 |
 
-### 3.3 합성 데이터 (Synthetic Data) 생성 전략
+### 3.3 [[818_synthetic_data|합성 데이터]] ([[818_synthetic_data|Synthetic Data]]) [[087_process_state_transition|생성]] [[268_strategy_pattern|전략]]
 
 ```
 합성 데이터 생성 파이프라인
@@ -231,7 +231,7 @@ AI 모델 학습 및 검증
 실제 데이터로 도메인 적응 Fine-tuning
 ```
 
-📢 **섹션 요약 비유**: 도메인 랜덤화는 운전 연습을 다양한 날씨와 도로 조건에서 하는 것과 같다. 항상 맑은 날 고속도로만 연습하면 빗길 좁은 골목에서 당황하지만, 다양한 조건에서 연습하면 어떤 상황에서도 대응할 수 있다.
+📢 **섹션 요약 비유**: [[064_relation_domain|도메인]] 랜덤화는 운전 연습을 다양한 날씨와 도로 조건에서 하는 것과 같다. 항상 맑은 날 고속도로만 연습하면 빗길 좁은 골목에서 당황하지만, 다양한 조건에서 연습하면 어떤 상황에서도 대응할 수 있다.
 
 ---
 
@@ -267,24 +267,24 @@ AI 모델 학습 및 검증
    └─ 폐쇄 구간 실도로 테스트
 ```
 
-### 4.2 코너 케이스 (Corner Case) 자동 생성
+### 4.2 코너 케이스 (Corner Case) 자동 [[087_process_state_transition|생성]]
 
-| 카테고리 | 예시 시나리오 | 생성 방법 |
+| 카테고리 | 예시 시나리오 | [[087_process_state_transition|생성]] 방법 |
 |:---|:---|:---|
 | 극한 기상 | 폭설 + 야간 + 글레어 | 시뮬레이터 파라미터 |
 | 비정상 교통 참여자 | 역주행 오토바이, 취한 보행자 | 행동 모델 변형 |
 | 인프라 장애 | 신호등 오작동, 차선 표시 훼손 | 환경 훼손 모델 |
 | 복합 상황 | 공사 + 구급차 + 자전거 동시 | 시나리오 조합 |
-| 희귀 물체 | 트랙터, 가축, 이상한 적재물 | GAN 합성 |
+| 희귀 물체 | 트랙터, 가축, 이상한 적재물 | [[154_gan_generative_adversarial_network|GAN]] 합성 |
 
 ### 4.3 기술사 논술 핵심 판단 기준
 
 | 논점 | 핵심 내용 |
 |:---|:---|
 | BC vs DAgger 선택 | 전문가 비용 허용 범위로 결정 |
-| 도메인 갭 극복 | 랜덤화 + 포토리얼 + 도메인 적응 3단계 조합 |
-| 합성 데이터 한계 | 물리 법칙 정확성 + 비전 품질이 핵심 |
-| 안전 검증 | 시뮬 10억 마일 + 실도로 점진적 확장 |
+| [[064_relation_domain|도메인]] 갭 극복 | 랜덤화 + 포토리얼 + [[064_relation_domain|도메인]] 적응 3단계 조합 |
+| [[818_synthetic_data|합성 데이터]] 한계 | 물리 법칙 [[002_bigdata_5v|정확성]] + 비전 품질이 핵심 |
+| 안전 [[395_verification_process_review|검증]] | 시뮬 10억 마일 + 실도로 점진적 확장 |
 
 ### 4.4 자율주행 안전성 입증 방법론
 
@@ -302,7 +302,7 @@ HiL(하드웨어 통합 테스트)
 시뮬레이터 테스트 (수십억 마일)
 ```
 
-📢 **섹션 요약 비유**: 자율주행 코너 케이스 수집은 항공기 결함 데이터베이스와 같다. 실제 사고가 드물어 데이터가 부족하므로, 시뮬레이터로 "만약 이런 상황이라면?"을 무한 재현하여 모든 가능한 위험 상황을 안전하게 학습한다.
+📢 **섹션 요약 비유**: 자율주행 코너 케이스 수집은 항공기 [[352_defect_definition|결함]] [[001_dikw_pyramid|데이터]]베이스와 같다. 실제 사고가 드물어 [[001_dikw_pyramid|데이터]]가 부족하므로, 시뮬레이터로 "만약 이런 상황이라면?"을 무한 재현하여 모든 가능한 위험 상황을 안전하게 학습한다.
 
 ---
 
@@ -312,13 +312,13 @@ HiL(하드웨어 통합 테스트)
 
 | 효과 | 정량 지표 |
 |:---|:---|
-| 데이터 수집 비용 | 실제 대비 99% 절감 |
+| [[001_dikw_pyramid|데이터]] 수집 비용 | 실제 대비 99% 절감 |
 | 코너 케이스 커버리지 | 실제 수집 대비 100배+ |
-| 안전성 검증 속도 | 실도로 대비 1,000배+ |
+| 안전성 [[395_verification_process_review|검증]] 속도 | 실도로 대비 1,000배+ |
 | 사고 위험 | 시뮬레이션에서 0 (안전한 실험) |
 | 레이블링 비용 | 자동 레이블로 90% 절감 |
 
-### 5.2 자율주행 AI 미래 방향
+### 5.2 자율주행 [[190_ai_llm_requirements_specification|AI]] 미래 방향
 
 ```
 자율주행 AI 기술 발전
@@ -340,25 +340,25 @@ HiL(하드웨어 통합 테스트)
 
 ### 5.3 결론 요약
 
-자율주행 모방 학습과 디지털 트윈 시뮬레이션은 안전 크리티컬 AI 시스템 개발의 현실적 해결책이다. BC의 분포 이탈 문제를 DAgger로 보완하고, 시뮬레이터로 현실 수집 불가능한 코너 케이스를 무한 생성하는 방법론이 자율주행 안전성의 핵심이다. 기술사 관점에서는 **도메인 갭 극복 전략 3가지(랜덤화·포토리얼·도메인 적응), BC vs DAgger의 트레이드오프, 합성 데이터의 품질 평가 방법**을 명확히 설명할 수 있어야 한다.
+자율주행 모방 학습과 [[126_digital_twin_concept|디지털 트윈]] 시뮬레이션은 안전 크리티컬 [[190_ai_llm_requirements_specification|AI]] 시스템 개발의 현실적 해결책이다. BC의 분포 이탈 문제를 DAgger로 보완하고, 시뮬레이터로 현실 수집 불가능한 코너 케이스를 무한 [[087_process_state_transition|생성]]하는 방법론이 자율주행 안전성의 핵심이다. 기술사 관점에서는 **[[064_relation_domain|도메인]] 갭 극복 [[268_strategy_pattern|전략]] 3가지(랜덤화·포토리얼·[[064_relation_domain|도메인]] 적응), BC vs DAgger의 트레이드오프, [[818_synthetic_data|합성 데이터]]의 품질 평가 방법**을 명확히 설명할 수 있어야 한다.
 
-📢 **섹션 요약 비유**: 자율주행 디지털 트윈은 비행기 조종사 훈련용 비행 시뮬레이터와 같다. 실제 비행기(자동차)를 타기 전에 시뮬레이터(CARLA)로 모든 비상 상황(코너 케이스)을 수천 번 연습하여 실제 상황에서도 침착하게 대응할 수 있도록 한다.
+📢 **섹션 요약 비유**: 자율주행 [[126_digital_twin_concept|디지털 트윈]]은 비행기 조종사 훈련용 비행 시뮬레이터와 같다. 실제 비행기(자동차)를 타기 전에 시뮬레이터(CARLA)로 모든 비상 상황(코너 케이스)을 수천 번 연습하여 실제 상황에서도 침착하게 대응할 수 있도록 한다.
 
 ---
 
 ### 📌 관련 개념 맵
 
-| 관계 | 개념 | 설명 |
+| [[083_relationship_in_er_model|관계]] | 개념 | 설명 |
 |:---|:---|:---|
-| 핵심 기법 | Imitation Learning (모방 학습) | 전문가 시연에서 정책 학습 |
-| 기본 알고리즘 | BC (Behavioral Cloning) | 지도학습 방식 모방 |
-| 개선 알고리즘 | DAgger (Dataset Aggregation) | 반복적 전문가 피드백 |
-| 고급 알고리즘 | GAIL | GAN 기반 보상 없는 모방 |
-| 인프라 | Digital Twin (디지털 트윈) | 현실 환경의 가상 복제 |
-| 시뮬레이터 | CARLA | 오픈소스 자율주행 시뮬레이터 |
+| 핵심 기법 | Imitation [[240_switch_learning_forwarding_flooding|Learning]] (모방 학습) | 전문가 시연에서 [[164_policy|정책]] 학습 |
+| 기본 [[001_algorithm_definition|알고리즘]] | BC (Behavioral Cloning) | 지도학습 방식 모방 |
+| 개선 [[001_algorithm_definition|알고리즘]] | DAgger (Dataset Aggregation) | 반복적 전문가 피드백 |
+| 고급 [[001_algorithm_definition|알고리즘]] | GAIL | [[154_gan_generative_adversarial_network|GAN]] 기반 보상 없는 모방 |
+| 인프라 | [[126_digital_twin_concept|Digital Twin]] ([[126_digital_twin_concept|디지털 트윈]]) | 현실 환경의 가상 [[016_replication_factor|복제]] |
+| 시뮬레이터 | CARLA | [[191_oss_license_compliance|오픈소스]] 자율주행 시뮬레이터 |
 | 문제 | Covariate Shift (공변량 이탈) | 훈련-테스트 분포 불일치 |
-| 문제 | Domain Gap (도메인 갭) | 시뮬-현실 성능 차이 |
-| 해결책 | Domain Randomization | 시뮬 파라미터 랜덤화 |
+| 문제 | [[064_relation_domain|Domain]] Gap ([[064_relation_domain|도메인]] 갭) | 시뮬-현실 [[282_performance_tactics|성능]] 차이 |
+| 해결책 | [[064_relation_domain|Domain]] Randomization | 시뮬 파라미터 랜덤화 |
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -384,4 +384,4 @@ HiL(하드웨어 통합 테스트)
 Sim-to-Real Transfer → 실차 배포 · V2X 통신
 ```
 2. DAgger는 피아노 학원에서 틀린 부분만 선생님이 다시 시범 보여주는 것이에요. 연습하다가 막히는 부분(분포 이탈)에 딱 맞는 가르침(전문가 레이블)이 쌓여요.
-3. 디지털 트윈 시뮬레이터는 자동차 게임 같아요. 게임에서는 충돌해도 다시 살아나기 때문에, 현실에서 절대 못 해볼 위험한 상황(역주행 차, 폭설)을 안전하게 연습할 수 있어요.
+3. [[126_digital_twin_concept|디지털 트윈]] 시뮬레이터는 자동차 게임 같아요. 게임에서는 충돌해도 다시 살아나기 때문에, 현실에서 절대 못 해볼 위험한 상황(역주행 차, 폭설)을 안전하게 연습할 수 있어요.

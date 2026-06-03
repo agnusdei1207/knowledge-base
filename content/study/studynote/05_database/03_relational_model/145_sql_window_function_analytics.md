@@ -7,9 +7,9 @@ categories = "studynote-database"
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: Window Frame은 **ROWS(물리적 행 수)/RANGE(논리적 값 범위)로 현재 행 기준 참조 범위를 정의**하며, UNBOUNDED PRECEDING·CURRENT ROW·N FOLLOWING 등으로 세밀하게 제어한다.
-> 2. **가치**: SUM(sal) OVER (ORDER BY date ROWS BETWEEN 2 PRECEDING AND CURRENT ROW)처럼 **이동 평균·누적합·연속 N일 집계**를 SQL만으로 구현할 수 있어 별도 프로그래밍이 불필요하다.
-> 3. **판단 포인트**: ROWS(물리적 행 수, 동점 무관)와 RANGE(논리적 값, 동점 포함)의 차이를 이해하고, 기본 Frame(RANGE UNBOUNDED PRECEDING)을 명시적으로 지정하는 것이 안전하다.
+> 1. **본질**: Window Frame은 **ROWS(물리적 행 수)/RANGE([[369_logic_bomb|논리]]적 값 범위)로 현재 행 기준 [[316_reference_pattern_nosql|참조]] 범위를 정의**하며, UNBOUNDED PRECEDING·[[002_current|CURRENT]] ROW·N FOLLOWING 등으로 세밀하게 제어한다.
+> 2. **가치**: SUM(sal) OVER (ORDER BY date ROWS BETWEEN 2 PRECEDING AND [[002_current|CURRENT]] ROW)처럼 **이동 평균·누적합·연속 N일 집계**를 SQL만으로 구현할 수 있어 별도 프로그래밍이 불필요하다.
+> 3. **판단 포인트**: ROWS(물리적 행 수, 동점 무관)와 RANGE([[369_logic_bomb|논리]]적 값, 동점 포함)의 차이를 이해하고, 기본 Frame(RANGE UNBOUNDED PRECEDING)을 명시적으로 지정하는 것이 안전하다.
 
 ---
 
@@ -36,7 +36,7 @@ Window Frame은 **이동 평균·누적합·연속 집계의 핵심**이며, ROW
 | 개념 | 연결 포인트 |
 |:---|:---|
 | **ROWS** | 물리적 행 수 |
-| **RANGE** | 논리적 값 범위 |
+| **RANGE** | [[369_logic_bomb|논리]]적 값 범위 |
 | **UNBOUNDED** | 전체 범위 |
 | **누적합** | Running Total |
 | **이동 평균** | Moving Average |

@@ -6,14 +6,14 @@ weight = 70
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: MDM은 고객, 제품, 조직 같은 핵심 기준정보를 전사적으로 일관되게 관리하는 체계다.
-> 2. **가치**: 중복과 불일치를 줄여 Single Source of Truth(SSOT)를 만든다.
-> 3. **판단**: 마스터 데이터가 분산되면 보고·분석·운영이 모두 흔들린다.
+> 2. **가치**: 중복과 불일치를 줄여 [[119_gitops_single_source_of_truth|Single Source of Truth]](SSOT)를 만든다.
+> 3. **판단**: [[539_mdm_master_data_management|마스터 데이터]]가 [[136_variance|분산]]되면 보고·분석·운영이 모두 흔들린다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-회사 안에 같은 고객 정보가 여러 버전으로 있으면 문제가 생긴다. MDM은 이를 하나로 맞추는 작업이다.
+회사 안에 같은 고객 정보가 여러 [[288_version_ihl_tos_total_length|버전]]으로 있으면 문제가 생긴다. MDM은 이를 하나로 맞추는 작업이다.
 
 그래서 대기업과 멀티 시스템 환경에서 중요하다.
 
@@ -35,7 +35,7 @@ SSOT
 
 | 요소 | 의미 |
 | :-- | :-- |
-| Master Data | 기준정보 |
+| Master [[001_dikw_pyramid|Data]] | 기준정보 |
 | Golden Record | 통합된 정본 |
 | SSOT | 단일 진실 स्रोत |
 
@@ -49,13 +49,13 @@ MDM은 중복을 제거하고 규칙에 따라 하나의 정본을 만든다. �
 
 | 개념 | 초점 | 차이 |
 | :-- | :-- | :-- |
-| MDM | 기준정보 통합 | 운영/분석 공통 |
-| Metadata | 설명 정보 | 데이터의 데이터 |
-| Data Catalog | 검색/탐색 | 찾기 중심 |
+| [[539_mdm_master_data_management|MDM]] | 기준정보 통합 | 운영/분석 공통 |
+| [[012_metadata|Metadata]] | 설명 정보 | [[001_dikw_pyramid|데이터]]의 [[001_dikw_pyramid|데이터]] |
+| [[213_data_catalog_metadata|Data Catalog]] | 검색/탐색 | 찾기 중심 |
 
 | 대상 | 예 |
 | :-- | :-- |
-| Customer | 고객 |
+| [[026_three_c_analysis|Customer]] | 고객 |
 | Product | 제품 |
 | Org | 조직 |
 
@@ -67,20 +67,20 @@ MDM은 단순 저장이 아니라 정합성과 책임을 함께 관리하는 체
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### 체크리스트
+### [[435_checklist_based_testing|체크리스트]]
 
-1. 기준정보 도메인이 정의되었는가?
+1. 기준정보 [[064_relation_domain|도메인]]이 정의되었는가?
 2. Golden Record 규칙이 있는가?
 3. 소스 시스템 간 충돌 해결이 있는가?
-4. 데이터 책임자가 있는가?
+4. [[001_dikw_pyramid|데이터]] 책임자가 있는가?
 5. SSOT가 운영되는가?
 
-### 안티패턴
+### [[128_water_scrum_fall_anti_pattern|안티패턴]]
 
 - 각 시스템이 제각각 기준정보를 관리하는 설계
 - 정본 규칙 없이 중복만 합치는 설계
-- 데이터 품질 책임이 없는 설계
-- MDM을 단순 마스터 테이블로 보는 설계
+- [[001_dikw_pyramid|데이터]] 품질 책임이 없는 설계
+- MDM을 단순 [[172_maas_mobility_as_a_service|마스]]터 테이블로 보는 설계
 
 기술사 관점에서는 MDM을 "전사 기준정보의 단일화 체계"로 설명해야 한다.
 
@@ -90,7 +90,7 @@ MDM은 단순 저장이 아니라 정합성과 책임을 함께 관리하는 체
 
 ## Ⅴ. 기대효과 및 결론
 
-MDM은 고객/제품/조직 정보를 통합해 업무 일관성과 분석 신뢰성을 높인다.
+MDM은 고객/제품/조직 정보를 통합해 업무 [[194_consistency_database_integrity|일관성]]과 분석 [[642_reliability_mtbf_mttr_mttf_availability|신뢰성]]을 높인다.
 
 결론적으로 MDM은 전사 기준정보를 하나로 관리하는 체계다.
 

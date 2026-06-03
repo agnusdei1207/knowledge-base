@@ -8,17 +8,17 @@ categories = "studynote-operating-system"
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: Windows 동기화는 유저 모드와 커널 모드 두 계층으로 나뉘며, Critical Section (유저 모드 스핀락+뮤텍스 혼합), Mutex/Semaphore/Event (커널 모드 디스패처 객체)로 성능과 기능을 분리한다.
-> 2. **가치**: 커널 모드 디스패처 객체는 프로세스 간 공유와 Wait 통지를 지원하며, SRWLOCK (Slim Reader/Writer Lock)과 CONDITION_VARIABLE은 Vista 이후 저비용 고성능 동기화를 제공한다.
-> 3. **융합**: Windows I/O Completion Port (IOCP)는 비동기 I/O와 스레드 풀 동기화를 결합한 거대 규모 서버 설계의 핵심이며, ETW (Event Tracing for Windows)로 동기화 병목을 실시간 모니터링할 수 있다.
+> 1. **본질**: Windows [[212_synchronization_mechanisms|동기화]]는 유저 모드와 [[022_kernel_role|커널]] 모드 두 계층으로 나뉘며, [[214_critical_section|Critical Section]] (유저 모드 [[222_spinlock|스핀락]]+뮤텍스 혼합), [[223_mutex|Mutex]]/[[224_semaphore|Semaphore]]/Event ([[022_kernel_role|커널]] 모드 [[168_dispatcher|디스패처]] 객체)로 [[282_performance_tactics|성능]]과 기능을 분리한다.
+> 2. **가치**: [[022_kernel_role|커널]] 모드 [[168_dispatcher|디스패처]] 객체는 프로세스 간 공유와 Wait 통지를 지원하며, SRWLOCK (Slim Reader/Writer [[510_lock|Lock]])과 CONDITION_VARIABLE은 Vista 이후 저비용 고성능 [[212_synchronization_mechanisms|동기화]]를 제공한다.
+> 3. **융합**: Windows I/O Completion [[446_port_and_bus|Port]] (IOCP)는 비동기 I/O와 [[103_thread_pool|스레드 풀]] [[212_synchronization_mechanisms|동기화]]를 결합한 거대 규모 서버 설계의 핵심이며, ETW (Event [[657_observability|Tracing]] for Windows)로 [[212_synchronization_mechanisms|동기화]] 병목을 실시간 모니터링할 수 있다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-Windows NT 커널은 설계 초기부터 멀티프로세서 환경을 지원하도록 설계됐다. 동기화는 두 계층으로 분리됐는데, 유저 모드 객체는 커널 호출 없이 빠르게 동작하고, 커널 모드 객체는 프로세스 경계를 넘는 동기화와 다양한 대기 패턴을 지원한다.
+Windows NT [[022_kernel_role|커널]]은 설계 초기부터 멀티프로세서 환경을 지원하도록 설계됐다. [[212_synchronization_mechanisms|동기화]]는 두 계층으로 분리됐는데, 유저 모드 객체는 [[022_kernel_role|커널]] 호출 없이 빠르게 동작하고, [[022_kernel_role|커널]] 모드 객체는 프로세스 경계를 넘는 [[212_synchronization_mechanisms|동기화]]와 다양한 대기 패턴을 지원한다.
 
-**💡 비유**: Critical Section은 같은 건물 내 내부 출입문 자물쇠(빠르지만 건물 밖 불가), Kernel Mutex는 외부와도 공유할 수 있는 공식 계약서(느리지만 강력)다.
+**💡 비유**: Critical Section은 같은 건물 내 내부 출입문 자물쇠(빠르지만 건물 밖 불가), [[022_kernel_role|Kernel]] Mutex는 외부와도 공유할 수 있는 공식 계약서(느리지만 강력)다.
 
 ```text
 ┌───────────────────────────────────────────────────────────┐
@@ -42,13 +42,13 @@ Windows NT 커널은 설계 초기부터 멀티프로세서 환경을 지원하�
 └───────────────────────────────────────────────────────────┘
 ```
 
-**📢 섹션 요약 비유**: Windows 동기화는 사내 규정과 법적 계약 두 종류 — 사내 규정(Critical Section)은 빠르지만 회사 내부만, 법적 계약(Kernel 객체)은 느리지만 외부와도 유효합니다.
+**📢 섹션 요약 비유**: Windows [[212_synchronization_mechanisms|동기화]]는 사내 규정과 법적 계약 두 종류 — 사내 규정([[214_critical_section|Critical Section]])은 빠르지만 회사 내부만, 법적 계약([[022_kernel_role|Kernel]] 객체)은 느리지만 외부와도 유효합니다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### Critical Section — 유저 모드 혼합 락
+### [[214_critical_section|Critical Section]] — 유저 모드 혼합 락
 
 ```c
 CRITICAL_SECTION cs;
@@ -61,9 +61,9 @@ LeaveCriticalSection(&cs);   // 락 해제
 DeleteCriticalSection(&cs);  // 리소스 반환
 ```
 
-Critical Section은 먼저 유저 공간에서 스핀락을 시도하고, 스핀 횟수 초과 시에만 커널 뮤텍스(내부 Event 객체)로 전환한다. 단일 프로세스 내 스레드 간 동기화에만 사용 가능하며, 프로세스 경계를 넘을 수 없다.
+Critical Section은 먼저 유저 공간에서 [[222_spinlock|스핀락]]을 시도하고, 스핀 횟수 초과 시에만 [[022_kernel_role|커널]] 뮤텍스(내부 Event 객체)로 전환한다. 단일 프로세스 내 [[092_thread_lwp|스레드]] 간 [[212_synchronization_mechanisms|동기화]]에만 사용 가능하며, 프로세스 경계를 넘을 수 없다.
 
-### 커널 모드 Mutex / Event
+### [[022_kernel_role|커널]] 모드 [[223_mutex|Mutex]] / Event
 
 ```c
 // 이름 있는 Mutex (프로세스 간 공유)
@@ -102,7 +102,7 @@ ResetEvent(hEvent);  // 비신호 상태로 복원
 └──────────────────────────────────────────────────────────────┘
 ```
 
-**[다이어그램 해설]** Event 객체의 자동/수동 리셋 구분은 notify() vs notifyAll()과 정확히 대응한다. 자동 리셋은 생산자-소비자에서 하나의 소비자만 깨워야 할 때, 수동 리셋은 서버 종료 신호처럼 모든 스레드에 브로드캐스트해야 할 때 사용한다.
+**[다이어그램 해설]** Event 객체의 자동/수동 리셋 구분은 notify() vs notifyAll()과 정확히 대응한다. 자동 리셋은 생산자-소비자에서 하나의 소비자만 깨워야 할 때, 수동 리셋은 서버 종료 [[130_signal|신호]]처럼 모든 [[092_thread_lwp|스레드]]에 브로드캐스트해야 할 때 사용한다.
 
 ### WaitForMultipleObjects — 다중 객체 대기
 
@@ -125,7 +125,7 @@ switch (dwResult) {
 
 ## Ⅲ. 비교 및 연결
 
-### Critical Section vs Mutex 비교
+### [[214_critical_section|Critical Section]] vs [[223_mutex|Mutex]] 비교
 
 ```text
 ┌─────────────────────┬────────────────────┬──────────────────────────────┐
@@ -140,27 +140,27 @@ switch (dwResult) {
 └─────────────────────┴────────────────────┴──────────────────────────────┘
 ```
 
-**📢 섹션 요약 비유**: Critical Section이 스피드게이트(빠르지만 건물 내부만), Kernel Mutex가 정식 경비 부스(느리지만 어디서나 유효)입니다.
+**📢 섹션 요약 비유**: Critical Section이 스피드게이트(빠르지만 건물 내부만), [[022_kernel_role|Kernel]] Mutex가 정식 경비 부스(느리지만 어디서나 유효)입니다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 ### 실무 시나리오
-1. **SQL Server 내부 락**: Critical Section으로 버퍼 풀 접근을, Kernel Mutex로 파일 핸들 공유를 각각 분리 관리하여 성능 최적화.
-2. **Windows 서비스 종료**: 수동 리셋 Event로 모든 워커 스레드에 종료 신호를 동시 전파, WaitForMultipleObjects로 완료 확인.
+1. **SQL Server 내부 락**: Critical Section으로 버퍼 풀 접근을, [[022_kernel_role|Kernel]] Mutex로 [[501_file_definition_logical_record|파일]] 핸들 공유를 각각 분리 관리하여 [[282_performance_tactics|성능]] 최적화.
+2. **Windows [[090_service_kubernetes_network_load_balancing|서비스]] 종료**: 수동 리셋 Event로 모든 워커 [[092_thread_lwp|스레드]]에 종료 [[130_signal|신호]]를 동시 전파, WaitForMultipleObjects로 완료 [[396_validation|확인]].
 
-### 안티패턴
-- **Critical Section 중에 대기 함수 호출**: CS 보유 중 `WaitForSingleObject` 호출 → 교착 상태. CS는 반드시 최소 범위로 유지.
-- **CloseHandle 누락**: Kernel 객체 핸들을 닫지 않으면 커널 객체가 레퍼런스 카운트에 의해 누수.
+### [[128_water_scrum_fall_anti_pattern|안티패턴]]
+- **[[214_critical_section|Critical Section]] 중에 대기 [[294_function_calling_tool_use|함수 호출]]**: CS 보유 중 `WaitForSingleObject` 호출 → [[281_deadlock_definition|교착 상태]]. CS는 반드시 최소 범위로 유지.
+- **CloseHandle 누락**: [[022_kernel_role|Kernel]] 객체 핸들을 닫지 않으면 [[022_kernel_role|커널]] 객체가 레퍼런스 카운트에 의해 누수.
 
-**📢 섹션 요약 비유**: Windows 핸들은 빌린 열쇠 — 반드시 CloseHandle()로 반납해야 잠금장치(커널 객체)가 재사용될 수 있어요.
+**📢 섹션 요약 비유**: Windows 핸들은 빌린 열쇠 — 반드시 CloseHandle()로 반납해야 잠금장치([[022_kernel_role|커널]] 객체)가 재사용될 수 있어요.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-Windows 동기화 설계는 유저 모드와 커널 모드의 분리를 통해 성능과 기능의 트레이드오프를 명확히 한다. 현대 Windows 개발에서는 SRWLock(읽기-쓰기)과 CONDITION_VARIABLE(조건 대기)을 Critical Section과 조합하는 것이 권장 패턴이다.
+Windows [[212_synchronization_mechanisms|동기화]] 설계는 유저 모드와 [[022_kernel_role|커널]] 모드의 분리를 통해 [[282_performance_tactics|성능]]과 기능의 트레이드오프를 명확히 한다. 현대 Windows 개발에서는 SRWLock(읽기-쓰기)과 CONDITION_VARIABLE(조건 대기)을 Critical Section과 조합하는 것이 권장 패턴이다.
 
 - **📢 섹션 요약 비유**: 도구의 장점만 외우는 것이 아니라 어디까지 믿고 어디서 보완해야 하는지 기억하는 정리 노트와 같다.
 
@@ -170,10 +170,10 @@ Windows 동기화 설계는 유저 모드와 커널 모드의 분리를 통해 �
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| 자바 동기화 | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
-| Pthreads 동기화 | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
+| [[249_java_synchronization|자바 동기화]] | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
+| [[790_posix_threads_pthreads_standard_api|Pthreads]] [[212_synchronization_mechanisms|동기화]] | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
 | 이벤트 객체 (Event Object) | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
-| 리눅스 동기화 | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
+| 리눅스 [[212_synchronization_mechanisms|동기화]] | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -192,5 +192,5 @@ Windows 동기화 설계는 유저 모드와 커널 모드의 분리를 통해 �
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. Critical Section은 같은 반 안에서만 쓰는 내부 자물쇠 — 빠르지만 다른 반과 공유 불가.
-2. Kernel Mutex는 선생님 도장이 찍힌 공식 출입증 — 느리지만 학교 전체(다른 프로세스)에서도 인정.
-3. Event 객체는 '이제 들어와도 돼요' 신호등 — 자동 리셋은 한 명씩, 수동 리셋은 모두에게 신호!
+2. [[022_kernel_role|Kernel]] Mutex는 선생님 도장이 찍힌 공식 출입증 — 느리지만 학교 전체(다른 프로세스)에서도 인정.
+3. Event 객체는 '이제 들어와도 돼요' [[130_signal|신호]]등 — 자동 리셋은 한 명씩, 수동 리셋은 모두에게 [[130_signal|신호]]!

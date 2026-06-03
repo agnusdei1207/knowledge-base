@@ -7,9 +7,9 @@ categories = "studynote-ai"
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: 컨텍스트 벡터는 Seq2Seq 인코더가 **전체 입력 시퀀스를 하나의 고정 길이 벡터로 압축**한 것이며, 디코더가 출력을 생성할 때 참조하는 유일한 정보원이다.
-> 2. **가치**: 짧은 문장(5단어)은 잘 압축되지만, 긴 문장(50단어)은 하나의 벡터에 모든 의미를 담기 **불가능(정보 병목)**하여 번역 품질이 급격히 저하된다.
-> 3. **판단 포인트**: 이 병목을 해결하기 위해 Bahdanau(2014)가 **Attention**을 제안하여, 디코더가 컨텍스트 벡터 하나 대신 **인코더의 모든 Hidden State를 가중 참조**하게 되었고, 이것이 Transformer의 직접적 동기가 되었다.
+> 1. **본질**: [[033_context|컨텍스트]] 벡터는 [[245_seq2seq_context_vector_attention_dynamic_weight|Seq2Seq]] [[040_encoder|인코더]]가 **전체 입력 시퀀스를 하나의 고정 길이 벡터로 [[347_compaction|압축]]**한 것이며, [[039_decoder|디코더]]가 출력을 [[087_process_state_transition|생성]]할 때 [[316_reference_pattern_nosql|참조]]하는 유일한 정보원이다.
+> 2. **가치**: 짧은 문장(5단어)은 잘 [[347_compaction|압축]]되지만, 긴 문장(50단어)은 하나의 벡터에 모든 의미를 담기 **불가능(정보 병목)**하여 번역 품질이 급격히 저하된다.
+> 3. **판단 포인트**: 이 병목을 해결하기 위해 Bahdanau(2014)가 **Attention**을 제안하여, [[039_decoder|디코더]]가 [[033_context|컨텍스트]] 벡터 하나 대신 **[[040_encoder|인코더]]의 모든 Hidden State를 가중 [[316_reference_pattern_nosql|참조]]**하게 되었고, 이것이 Transformer의 직접적 동기가 되었다.
 
 ---
 
@@ -31,30 +31,30 @@ categories = "studynote-ai"
 └───────────────────────────────────────────────────────┘
 ```
 
-- **📢 섹션 요약 비유**: 컨텍스트 벡터는 1시간 강의를 **1줄 메모**로 요약하는 것이다. 짧은 강의는 OK이지만, 긴 강의는 중요한 내용이 빠진다.
+- **📢 섹션 요약 비유**: [[033_context|컨텍스트]] 벡터는 1시간 강의를 **1줄 메모**로 요약하는 것이다. 짧은 강의는 OK이지만, 긴 강의는 중요한 내용이 빠진다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### 컨텍스트 벡터 vs Attention
+### [[033_context|컨텍스트]] 벡터 vs Attention
 
-| 비교 | 컨텍스트 벡터 | Attention |
+| 비교 | [[033_context|컨텍스트]] 벡터 | Attention |
 |:---|:---|:---|
-| **참조** | 인코더 마지막 h만 | **모든 h₁~hₙ** |
-| **가중치** | 없음 (고정) | **학습된 가중치** |
+| **[[316_reference_pattern_nosql|참조]]** | [[040_encoder|인코더]] 마지막 h만 | **모든 h₁~hₙ** |
+| **[[267_weight_bias_activation|가중치]]** | 없음 (고정) | **학습된 [[267_weight_bias_activation|가중치]]** |
 | **긴 문장** | 정보 손실 | **손실 최소화** |
 
-- **📢 섹션 요약 비유**: 컨텍스트 벡터는 시험에서 **요약 노트 1페이지**만 볼 수 있는 것이고, Attention은 **전체 교과서를 보면서** 중요한 부분에 형광펜을 치는 것이다.
+- **📢 섹션 요약 비유**: [[033_context|컨텍스트]] 벡터는 시험에서 **요약 노트 1페이지**만 볼 수 있는 것이고, Attention은 **전체 교과서를 보면서** 중요한 부분에 형광펜을 치는 것이다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-| 비교 | 고정 컨텍스트 | Attention | Self-Attention |
+| 비교 | 고정 [[033_context|컨텍스트]] | Attention | [[124_self_attention|Self-Attention]] |
 |:---|:---|:---|:---|
-| **입력** | 인코더→디코더 | 인코더→디코더 | **자기 자신** |
-| **대표** | Seq2Seq (2014) | Bahdanau (2014) | **Transformer (2017)** |
+| **입력** | [[040_encoder|인코더]]→[[039_decoder|디코더]] | [[040_encoder|인코더]]→[[039_decoder|디코더]] | **자기 자신** |
+| **대표** | [[245_seq2seq_context_vector_attention_dynamic_weight|Seq2Seq]] (2014) | Bahdanau (2014) | **[[246_transformer_self_attention_parallel_positional_encoding|Transformer]] (2017)** |
 
 ---
 
@@ -69,7 +69,7 @@ categories = "studynote-ai"
 
 ## Ⅴ. 기대효과 및 결론
 
-컨텍스트 벡터의 병목 문제는 **Attention·Transformer·BERT·GPT로 이어지는 현대 AI 혁명의 출발점**이며, "왜 Attention이 필요했는가"를 이해하는 것이 딥러닝 아키텍처 이해의 핵심이다.
+[[033_context|컨텍스트]] 벡터의 병목 문제는 **Attention·[[246_transformer_self_attention_parallel_positional_encoding|Transformer]]·[[301_bert_mlm|BERT]]·GPT로 이어지는 현대 [[190_ai_llm_requirements_specification|AI]] 혁명의 출발점**이며, "왜 Attention이 필요했는가"를 이해하는 것이 딥러닝 아키텍처 이해의 핵심이다.
 
 ---
 
@@ -77,11 +77,11 @@ categories = "studynote-ai"
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **Seq2Seq** | 컨텍스트 벡터를 사용하는 원본 모델 |
+| **[[245_seq2seq_context_vector_attention_dynamic_weight|Seq2Seq]]** | [[033_context|컨텍스트]] 벡터를 사용하는 원본 모델 |
 | **정보 병목** | 고정 길이 벡터의 근본 한계 |
-| **Attention** | 병목 해결 (모든 h 가중 참조) |
-| **Self-Attention** | Transformer의 핵심 메커니즘 |
-| **Transformer** | Attention의 완전체 구현 |
+| **Attention** | 병목 해결 (모든 h 가중 [[316_reference_pattern_nosql|참조]]) |
+| **[[124_self_attention|Self-Attention]]** | Transformer의 핵심 메커니즘 |
+| **[[246_transformer_self_attention_parallel_positional_encoding|Transformer]]** | Attention의 완전체 구현 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -102,6 +102,6 @@ categories = "studynote-ai"
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
-1. 컨텍스트 벡터는 1시간 수업을 **1줄로 요약**하는 거예요. 짧은 수업은 OK!
+1. [[033_context|컨텍스트]] 벡터는 1시간 수업을 **1줄로 요약**하는 거예요. 짧은 수업은 OK!
 2. 하지만 긴 수업은 **중요한 내용이 빠져요** (병목).
 3. Attention은 **전체 교과서를 보면서** 중요한 부분에 형광펜을 치는 것이라 더 정확해요!

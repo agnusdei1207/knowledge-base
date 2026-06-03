@@ -7,13 +7,13 @@ categories = "studynote-bigdata"
 +++
 
 > **핵심 인사이트**
-> 1. 데이터 레이크하우스(Data Lakehouse)는 데이터 레이크의 유연성·저비용과 데이터 웨어하우스의 ACID·성능·거버넌스를 결합한 하이브리드 아키텍처 — Databricks·Delta Lake가 선도하며, 클라우드 스토리지(S3, ADLS) 위에서 OLAP 수준의 분석 성능을 달성한다.
-> 2. 레이크하우스의 핵심 기술은 오픈 테이블 포맷(Delta Lake, Apache Iceberg, Apache Hudi) — 파케이(Parquet) 파일 위에 메타데이터 레이어를 추가해 ACID 트랜잭션·스키마 진화·타임 트래블(Time Travel)을 지원하며, 벤더 잠금 없이 상호운용성을 보장한다.
-> 3. 레이크하우스는 데이터 레이크→웨어하우스 이중 구조의 비효율을 해결 — 동일 데이터를 레이크와 웨어하우스 양쪽에 중복 저장·동기화하는 비용과 복잡성을 제거하며, 데이터 사이언스(ML/AI)와 BI 분석을 단일 플랫폼에서 통합 지원한다.
+> 1. [[210_data_lakehouse_delta_lake|데이터 레이크하우스]]([[210_data_lakehouse_delta_lake|Data Lakehouse]])는 [[208_data_lake_schema_on_read|데이터 레이크]]의 유연성·저비용과 [[209_data_warehouse_schema_on_write|데이터 웨어하우스]]의 ACID·[[282_performance_tactics|성능]]·거버넌스를 결합한 하이브리드 아키텍처 — [[074_photon_engine|Databricks]]·Delta Lake가 선도하며, 클라우드 스토리지(S3, ADLS) 위에서 [[316_olap|OLAP]] 수준의 분석 [[282_performance_tactics|성능]]을 달성한다.
+> 2. [[146_lakehouse|레이크하우스]]의 핵심 기술은 [[054_open_table_format_iceberg_delta_hudi|오픈 테이블 포맷]]([[147_delta_lake|Delta Lake]], [[148_apache_iceberg|Apache Iceberg]], [[149_apache_hudi|Apache Hudi]]) — [[178_parquet_rle_encoding_columnar_compression|파케이]]([[178_parquet_rle_encoding_columnar_compression|Parquet]]) [[501_file_definition_logical_record|파일]] 위에 [[012_metadata|메타데이터]] 레이어를 추가해 ACID [[191_transaction_concept_states|트랜잭션]]·[[005_schema|스키마]] 진화·타임 트래블(Time Travel)을 지원하며, 벤더 잠금 없이 [[287_interoperability_tactics|상호운용성]]을 보장한다.
+> 3. [[146_lakehouse|레이크하우스]]는 [[208_data_lake_schema_on_read|데이터 레이크]]→웨어하우스 이중 구조의 비효율을 해결 — 동일 [[001_dikw_pyramid|데이터]]를 레이크와 웨어하우스 양쪽에 중복 저장·[[212_synchronization_mechanisms|동기화]]하는 비용과 복잡성을 제거하며, [[001_dikw_pyramid|데이터]] 사이언스(ML/[[190_ai_llm_requirements_specification|AI]])와 BI 분석을 단일 플랫폼에서 통합 지원한다.
 
 ---
 
-## Ⅰ. 레이크하우스 등장 배경
+## Ⅰ. [[146_lakehouse|레이크하우스]] 등장 배경
 
 ```
 데이터 아키텍처 진화:
@@ -55,11 +55,11 @@ categories = "studynote-bigdata"
   실시간 + 배치 통합
 ```
 
-> 📢 **섹션 요약 비유**: 레이크하우스는 복합 쇼핑몰 — 재래시장(레이크: 다양하지만 지저분)과 백화점(웨어하우스: 정갈하지만 비쌈)을 합친 것. 다양하면서도 체계적, 저렴하면서도 품질 있는!
+> 📢 **섹션 요약 비유**: [[146_lakehouse|레이크하우스]]는 복합 쇼핑몰 — 재래시장(레이크: 다양하지만 지저분)과 백화점(웨어하우스: 정갈하지만 비쌈)을 합친 것. 다양하면서도 체계적, 저렴하면서도 품질 있는!
 
 ---
 
-## Ⅱ. 오픈 테이블 포맷
+## Ⅱ. [[054_open_table_format_iceberg_delta_hudi|오픈 테이블 포맷]]
 
 ```
 오픈 테이블 포맷 (Open Table Format):
@@ -107,11 +107,11 @@ Apache Hudi (Uber, 2016):
   Hudi: 실시간 증분 처리 특화
 ```
 
-> 📢 **섹션 요약 비유**: 오픈 테이블 포맷은 스마트 서류 정리함 — 파케이 파일(서류)에 이력 관리(ACID), 수정 기록(타임 트래블), 목차(메타데이터)를 추가. 어떤 직원(쿼리 엔진)도 읽을 수 있어요!
+> 📢 **섹션 요약 비유**: [[054_open_table_format_iceberg_delta_hudi|오픈 테이블 포맷]]은 스마트 서류 정리함 — [[178_parquet_rle_encoding_columnar_compression|파케이]] [[501_file_definition_logical_record|파일]](서류)에 이력 관리(ACID), 수정 기록(타임 트래블), 목차([[012_metadata|메타데이터]])를 추가. 어떤 직원([[298_qkv_attention|쿼리]] 엔진)도 읽을 수 있어요!
 
 ---
 
-## Ⅲ. 레이크하우스 핵심 기능
+## Ⅲ. [[146_lakehouse|레이크하우스]] 핵심 기능
 
 ```
 레이크하우스 주요 기능:
@@ -162,11 +162,11 @@ Apache Hudi (Uber, 2016):
   Data Lineage (데이터 계보)
 ```
 
-> 📢 **섹션 요약 비유**: 레이크하우스 기능은 스마트 은행 통장 — ACID(안전한 거래), 타임 트래블(거래 내역 조회), 스키마 진화(통장 항목 추가). 단순 파일 저장에서 완전한 데이터 관리로!
+> 📢 **섹션 요약 비유**: [[146_lakehouse|레이크하우스]] 기능은 스마트 은행 통장 — ACID(안전한 거래), 타임 트래블(거래 내역 조회), [[005_schema|스키마]] 진화(통장 항목 추가). 단순 [[501_file_definition_logical_record|파일]] 저장에서 완전한 [[001_dikw_pyramid|데이터]] 관리로!
 
 ---
 
-## Ⅳ. Databricks Lakehouse 플랫폼
+## Ⅳ. [[074_photon_engine|Databricks]] [[146_lakehouse|Lakehouse]] 플랫폼
 
 ```
 Databricks Lakehouse Platform:
@@ -216,11 +216,11 @@ Unity Catalog:
   Snowflake = 성능·관리 편의성 강조
 ```
 
-> 📢 **섹션 요약 비유**: Databricks는 데이터 올인원 — 스토리지(Delta Lake), 쿼리(SQL), ML(MLflow), 거버넌스(Unity)를 하나로 묶은 데이터 플랫폼 슈퍼마켓. 벤더 잠금 없이!
+> 📢 **섹션 요약 비유**: Databricks는 [[001_dikw_pyramid|데이터]] 올인원 — 스토리지([[147_delta_lake|Delta Lake]]), [[298_qkv_attention|쿼리]](SQL), ML([[180_mlflow|MLflow]]), 거버넌스(Unity)를 하나로 묶은 [[001_dikw_pyramid|데이터]] 플랫폼 슈퍼마켓. 벤더 잠금 없이!
 
 ---
 
-## Ⅴ. 실무 시나리오 — 금융사 레이크하우스 전환
+## Ⅴ. 실무 시나리오 — 금융사 [[146_lakehouse|레이크하우스]] 전환
 
 ```
 핀테크 기업 레이크하우스 전환:
@@ -267,7 +267,7 @@ Unity Catalog:
   규제 감사 대응 시간: 2주 → 2시간
 ```
 
-> 📢 **섹션 요약 비유**: 금융사 레이크하우스는 단일 장부 — 레이크(창고 장부)와 웨어하우스(회계 장부) 이중으로 기록하다가, 하나의 스마트 장부(레이크하우스)로 통합. 비용 반, 시간 1/36!
+> 📢 **섹션 요약 비유**: 금융사 [[146_lakehouse|레이크하우스]]는 단일 장부 — 레이크(창고 장부)와 웨어하우스(회계 장부) 이중으로 기록하다가, 하나의 스마트 장부([[146_lakehouse|레이크하우스]])로 통합. 비용 반, 시간 1/36!
 
 ---
 
@@ -332,6 +332,6 @@ AI+BI 통합 플랫폼 수렴
 
 ## 👶 어린이를 위한 3줄 비유 설명
 
-1. 레이크하우스는 복합 쇼핑몰 — 재래시장(레이크: 뭐든 있지만 복잡)과 백화점(웨어하우스: 정갈하지만 비쌈)을 하나로 합쳤어요!
-2. 타임 트래블은 데이터 되감기 — 어제 실수로 지운 데이터? "어제 버전 보여줘!" 한 줄로 복구. 데이터에도 타임머신이 있어요!
-3. 오픈 포맷은 표준 USB — Delta Lake/Iceberg/Hudi 모두 같은 파케이 파일. 어떤 도구(Spark, Trino, Flink)로도 읽을 수 있는 표준 규격!
+1. [[146_lakehouse|레이크하우스]]는 복합 쇼핑몰 — 재래시장(레이크: 뭐든 있지만 복잡)과 백화점(웨어하우스: 정갈하지만 비쌈)을 하나로 합쳤어요!
+2. 타임 트래블은 [[001_dikw_pyramid|데이터]] 되감기 — 어제 실수로 지운 [[001_dikw_pyramid|데이터]]? "어제 [[288_version_ihl_tos_total_length|버전]] 보여줘!" 한 줄로 [[658_ir_recovery|복구]]. [[001_dikw_pyramid|데이터]]에도 타임머신이 있어요!
+3. 오픈 포맷은 표준 [[359_usb|USB]] — [[147_delta_lake|Delta Lake]]/Iceberg/Hudi 모두 같은 [[178_parquet_rle_encoding_columnar_compression|파케이]] [[501_file_definition_logical_record|파일]]. 어떤 도구(Spark, Trino, Flink)로도 읽을 수 있는 표준 규격!

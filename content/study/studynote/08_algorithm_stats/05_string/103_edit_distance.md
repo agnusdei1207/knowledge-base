@@ -8,8 +8,8 @@ categories = "studynote-algorithm"
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 편집 거리 (Edit Distance, Levenshtein Distance)는 한 문자열을 다른 문자열로 변환하는 데 필요한 최소 삽입·삭제·대체 연산 수를 동적 프로그래밍 (DP)으로 O(mn)에 계산하는 알고리즘이다.
-> 2. **가치**: 두 문자열이 "얼마나 다른가"를 정량화하므로, 맞춤법 교정·DNA 돌연변이 분석·퍼지 검색(Fuzzy Search)·자동 완성에서 유사도 기반 판단의 표준 척도가 된다.
+> 1. **본질**: 편집 거리 (Edit Distance, Levenshtein Distance)는 한 문자열을 다른 문자열로 변환하는 데 필요한 최소 삽입·삭제·대체 연산 수를 [[007_dynamic_programming|동적 프로그래밍]] (DP)으로 O(mn)에 계산하는 [[001_algorithm_definition|알고리즘]]이다.
+> 2. **가치**: 두 문자열이 "얼마나 다른가"를 정량화하므로, 맞춤법 교정·DNA [[638_mutation_testing_test_case_verification|돌연변이]] 분석·퍼지 검색(Fuzzy Search)·자동 완성에서 유사도 기반 판단의 표준 척도가 된다.
 > 3. **판단 포인트**: 삽입·삭제·대체만 허용하면 Levenshtein, 전치(Transposition)도 허용하면 Damerau-Levenshtein Distance를 사용하며, 임계값 d 이하의 유사 문자열만 검색하면 BK-tree 또는 SymSpell로 최적화한다.
 
 ---
@@ -25,7 +25,7 @@ categories = "studynote-algorithm"
 | 삽입 (Insert) | 문자 추가 | "cat" → "cart" |
 | 삭제 (Delete) | 문자 제거 | "cart" → "cat" |
 | 대체 (Substitute) | 문자 교체 | "cat" → "bat" |
-| 전치 (Transpose) | 인접 문자 교환 (DL only) | "ab" → "ba" |
+| 전치 (Transpose) | 인접 문자 교환 (DL only) | "ab" → "[[103_ba_as_is_analysis|ba]]" |
 
 📢 **섹션 요약 비유**: 편집 거리는 두 단어를 같은 단어로 만들기 위해 레고 블록을 추가·제거·교체하는 최소 횟수다.
 
@@ -106,9 +106,9 @@ curr_row = [0, ...]
 
 ## Ⅲ. 비교 및 연결
 
-### 편집 거리 vs LCS vs 자카드 유사도
+### 편집 거리 vs [[053_lcs|LCS]] vs 자카드 유사도
 
-| 항목 | 편집 거리 | LCS | 자카드 유사도 |
+| 항목 | 편집 거리 | [[053_lcs|LCS]] | 자카드 유사도 |
 |:---|:---|:---|:---|
 | 측정 | 변환 비용 (낮을수록 유사) | 공통 길이 (높을수록 유사) | 집합 교집합/합집합 |
 | 연산 | O(mn) | O(mn) | O(n+m) |
@@ -136,8 +136,8 @@ BK-tree:
 
 ### 주요 활용 사례
 
-- **맞춤법 교정 (Spell Checker)**: MS Word, Google 검색의 "혹시 이 단어를 찾으셨나요?" — DL Distance 기반
-- **DNA/단백질 서열 분석**: 돌연변이(Mutation) 수 = 편집 거리 (Smith-Waterma 변형)
+- **맞춤법 교정 (Spell Checker)**: MS [[075_word|Word]], Google 검색의 "혹시 이 단어를 찾으셨나요?" — DL Distance 기반
+- **DNA/단백질 서열 분석**: [[638_mutation_testing_test_case_verification|돌연변이]](Mutation) 수 = 편집 거리 (Smith-Waterma 변형)
 - **자동 완성 (Autocomplete)**: 오타 허용 검색, 편집 거리 ≤ 2인 단어 추천
 - **레코드 링크 (Record Linkage)**: 데이터베이스에서 동일인물/기업명 중복 탐지
 - **표절 탐지**: 일부 문자 변경 후 복사한 텍스트 탐지
@@ -167,14 +167,14 @@ DNA 전역 정렬                       →  Needleman-Wunsch
 
 ### 📌 관련 개념 맵
 
-| 개념 | 관계 |
+| 개념 | [[083_relationship_in_er_model|관계]] |
 |:---|:---|
-| LCS (Longest Common Subsequence) | 관련 DP, 편집 거리 = m+n-2×LCS |
+| [[053_lcs|LCS]] ([[053_lcs|Longest Common Subsequence]]) | 관련 DP, 편집 거리 = m+n-2×[[053_lcs|LCS]] |
 | Damerau-Levenshtein | 전치 연산 추가 확장 |
 | BK-tree | 편집 거리 기반 퍼지 검색 트리 |
-| SymSpell | O(1) 퍼지 검색 사전 알고리즘 |
+| SymSpell | O(1) 퍼지 검색 사전 [[001_algorithm_definition|알고리즘]] |
 | Smith-Waterman | DNA 국소 정렬 편집 거리 변형 |
-| 동적 프로그래밍 (DP) | 편집 거리의 핵심 풀이 패러다임 |
+| [[007_dynamic_programming|동적 프로그래밍]] (DP) | 편집 거리의 핵심 풀이 패러다임 |
 
 ---
 

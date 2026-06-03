@@ -8,8 +8,8 @@ categories = "studynote-software-engineering"
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 메모리 안전성 (Memory Safety) 보장을 위한 Rust, Go 도입 동향은(는) 소프트웨어 공학의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.
-> 2. **가치**: 이 개념을 올바르게 적용하면 소프트웨어의 품질·유지보수성·재사용성이 향상되고, 개발 생산성과 팀 협업 효율이 높아진다.
+> 1. **본질**: [[529_memory_safety_rust_go|메모리 안전성]] ([[529_memory_safety_rust_go|Memory Safety]]) 보장을 위한 [[782_memory_safety_rust_compiler_verification|Rust]], Go 도입 동향은(는) [[001_software_engineering_definition|소프트웨어 공학]]의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.
+> 2. **가치**: 이 개념을 올바르게 적용하면 소프트웨어의 품질·[[346_maintainability_portability|유지보수성]]·재사용성이 향상되고, 개발 생산성과 팀 협업 효율이 높아진다.
 > 3. **판단 포인트**: 도입 시에는 비용·복잡도·조직 성숙도를 함께 고려해야 하며, 맹목적 적용보다 프로젝트 특성에 맞는 선택적 적용이 핵심이다.
 
 ---
@@ -24,7 +24,7 @@ Rust와 Go는 이런 흐름에서 주목받는다.
 
 ---
 
-다음은 메모리 안전성 (Memory Safe의 핵심 구조와 흐름을 보여주는 다이어그램이다.
+다음은 [[529_memory_safety_rust_go|메모리 안전성]] (Memory Safe의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
 ```text
 ┌─────────────────────────────────────────────────────────────┐
@@ -39,7 +39,7 @@ Rust와 Go는 이런 흐름에서 주목받는다.
 └─────────────────────────────────────────────────────────────┘
 ```
 
-이 다이어그램은 메모리 안전성 (Memory Safe가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
+이 다이어그램은 [[529_memory_safety_rust_go|메모리 안전성]] (Memory Safe가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
 ---
 
@@ -49,7 +49,7 @@ Rust와 Go는 이런 흐름에서 주목받는다.
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-메모리 안전성은 소유권, 가비지 컬렉션, 경계 검사 같은 방법으로 확보된다.
+[[529_memory_safety_rust_go|메모리 안전성]]은 소유권, [[380_garbage_collection|가비지 컬렉션]], 경계 검사 같은 방법으로 확보된다.
 
 ```text
 안전한 언어 기능 -> 메모리 오류 감소 -> 보안 취약점 감소
@@ -57,8 +57,8 @@ Rust와 Go는 이런 흐름에서 주목받는다.
 
 | 언어 | 특징 |
 |:---|:---|
-| Rust | 소유권/빌림 검사 |
-| Go | 가비지 컬렉션 |
+| [[782_memory_safety_rust_compiler_verification|Rust]] | 소유권/빌림 검사 |
+| Go | [[380_garbage_collection|가비지 컬렉션]] |
 | 공통 | 안전성 우선 |
 
 - **📢 섹션 요약 비유**: 물건을 빌려 주고 돌려받는 규칙이 있으면 잃어버리기 어렵다.
@@ -73,12 +73,12 @@ Rust와 Go는 이런 흐름에서 주목받는다.
 
 ## Ⅲ. 비교 및 연결
 
-메모리 안전성은 성능과 개발 생산성과의 균형이 필요하다.
+[[529_memory_safety_rust_go|메모리 안전성]]은 [[282_performance_tactics|성능]]과 개발 생산성과의 균형이 필요하다.
 
-| 구분 | 전통 언어 | Rust/Go |
+| 구분 | 전통 언어 | [[782_memory_safety_rust_compiler_verification|Rust]]/Go |
 |:---|:---|:---|
 | 안전성 | 개발자 책임 | 언어 지원 |
-| 성능 | 높음 | 상황에 따라 다양 |
+| [[282_performance_tactics|성능]] | 높음 | 상황에 따라 다양 |
 | 생산성 | 익숙함 | 학습 필요 |
 
 보안 사고 예방 관점에서 채택이 늘고 있다.
@@ -95,12 +95,12 @@ Rust와 Go는 이런 흐름에서 주목받는다.
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서는 새로운 서비스, 보안 민감 모듈, 시스템 도구에 점진 적용한다.
+실무에서는 새로운 [[090_service_kubernetes_network_load_balancing|서비스]], 보안 민감 [[192_module_independence|모듈]], 시스템 도구에 점진 적용한다.
 
 점검 포인트는 다음과 같다.
 1. 메모리 오류가 줄어드는가?
 2. 기존 시스템과 통합 가능한가?
-3. 성능과 운영 복잡성이 허용되는가?
+3. [[282_performance_tactics|성능]]과 운영 복잡성이 허용되는가?
 
 - **📢 섹션 요약 비유**: 새 안전벨트를 달 때도 차에 잘 맞아야 한다.
 
@@ -114,7 +114,7 @@ Rust와 Go는 이런 흐름에서 주목받는다.
 
 ## Ⅴ. 기대효과 및 결론
 
-메모리 안전성은 보안 결함의 큰 원인을 줄인다.
+[[529_memory_safety_rust_go|메모리 안전성]]은 보안 결함의 큰 원인을 줄인다.
 
 결론적으로 이 항목은 "안전한 언어 도입을 통한 취약점 감소"다.
 
@@ -130,10 +130,10 @@ Rust와 Go는 이런 흐름에서 주목받는다.
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| 소프트웨어 공학 (Software Engineering) | 메모리 안전성 (Memory Safety) 보장을 위한 Rust, Go 도입 동향의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
-| 소프트웨어 생명주기 (SDLC, Software Development Life Cycle) | 메모리 안전성 (Memory Safety) 보장을 위한 Rust, Go 도입 동향은 SDLC의 특정 단계에서 핵심적으로 적용된다 |
-| 품질 보증 (QA, Quality Assurance) | 메모리 안전성 (Memory Safety) 보장을 위한 Rust, Go 도입 동향 적용 결과는 QA 활동을 통해 검증되고 측정된다 |
-| 형상 관리 (SCM, Software Configuration Management) | 메모리 안전성 (Memory Safety) 보장을 위한 Rust, Go 도입 동향에서 생성된 산출물은 SCM을 통해 체계적으로 관리된다 |
+| [[001_software_engineering_definition|소프트웨어 공학]] ([[001_software_engineering_definition|Software Engineering]]) | [[529_memory_safety_rust_go|메모리 안전성]] ([[529_memory_safety_rust_go|Memory Safety]]) 보장을 위한 [[782_memory_safety_rust_compiler_verification|Rust]], Go 도입 동향의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
+| [[003_sdlc|소프트웨어 생명주기]] ([[131_sdlc_system_development_life_cycle_waterfall_agile|SDLC]], Software Development Life Cycle) | [[529_memory_safety_rust_go|메모리 안전성]] ([[529_memory_safety_rust_go|Memory Safety]]) 보장을 위한 [[782_memory_safety_rust_compiler_verification|Rust]], Go 도입 동향은 SDLC의 특정 단계에서 핵심적으로 적용된다 |
+| 품질 보증 (QA, Quality Assurance) | [[529_memory_safety_rust_go|메모리 안전성]] ([[529_memory_safety_rust_go|Memory Safety]]) 보장을 위한 [[782_memory_safety_rust_compiler_verification|Rust]], Go 도입 동향 적용 결과는 QA 활동을 통해 검증되고 측정된다 |
+| [[020_software_configuration_management|형상 관리]] ([[167_scm_software_configuration_management|SCM]], [[020_software_configuration_management|Software Configuration Management]]) | [[529_memory_safety_rust_go|메모리 안전성]] ([[529_memory_safety_rust_go|Memory Safety]]) 보장을 위한 [[782_memory_safety_rust_compiler_verification|Rust]], Go 도입 동향에서 생성된 산출물은 SCM을 통해 체계적으로 관리된다 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -153,10 +153,10 @@ Rust와 Go는 이런 흐름에서 주목받는다.
 지속적 개선 및 DevOps·MLOps 통합
 ```
 
-이 흐름은 소프트웨어 위기 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
+이 흐름은 [[002_software_crisis|소프트웨어 위기]] 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. 메모리 안전성 (Memory Safety) 보장을 위한 Rust, Go 도입 동향은 레고 블록으로 성을 만들 때처럼, 규칙을 정하고 역할을 나누어 함께 작업하는 방법이에요.
+1. [[529_memory_safety_rust_go|메모리 안전성]] ([[529_memory_safety_rust_go|Memory Safety]]) 보장을 위한 [[782_memory_safety_rust_compiler_verification|Rust]], Go 도입 동향은 레고 블록으로 성을 만들 때처럼, 규칙을 정하고 역할을 나누어 함께 작업하는 방법이에요.
 2. 혼자서 막 만들면 나중에 무너지거나 고치기 어렵지만, 약속을 지키면 누구나 쉽게 고치고 더 크게 만들 수 있어요.
-3. 그래서 소프트웨어 공학은 프로그래머들이 좋은 프로그램을 빠르고 안전하게 만들 수 있게 도와주는 '규칙 모음집'이에요.
+3. 그래서 [[001_software_engineering_definition|소프트웨어 공학]]은 프로그래머들이 좋은 프로그램을 빠르고 안전하게 만들 수 있게 도와주는 '규칙 모음집'이에요.

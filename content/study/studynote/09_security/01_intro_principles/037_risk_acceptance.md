@@ -6,13 +6,13 @@ categories = "studynote-security"
 +++
 
 > **핵심 인사이트**
-> 1. 위험 수용(Risk Acceptance)은 4가지 위험 대응 전략(완화·회피·전가·수용) 중 하나로, 위험 처리 비용이 위험 발생 시 손실보다 크거나 비즈니스 필요에 의해 위험을 의도적으로 감내하는 결정이다.
-> 2. 위험 수용은 무기력한 방치가 아니라 임원급 의사결정자(CISO, CRO, CEO)의 명시적 승인을 받고 모니터링 계획을 수립하는 거버넌스 행위다 — 문서화와 주기적 재검토가 필수다.
-> 3. ALE(Annual Loss Expectancy = SLE × ARO)로 손실을 수치화하고 대응 비용과 비교해 수용 여부를 결정하는 정량적 위험 분석이 현대 보안 위험 관리의 표준이다.
+> 1. 위험 수용([[096_risk_non_risk_architecture_evaluation_flaws|Risk]] Acceptance)은 4가지 [[033_risk_response_strategies|위험 대응 전략]](완화·회피·전가·수용) 중 하나로, 위험 처리 비용이 위험 발생 시 손실보다 크거나 비즈니스 필요에 의해 위험을 의도적으로 감내하는 결정이다.
+> 2. 위험 수용은 무기력한 방치가 아니라 임원급 의사결정자([[173_ciso_role_and_responsibility|CISO]], CRO, CEO)의 명시적 승인을 받고 모니터링 계획을 수립하는 거버넌스 행위다 — 문서화와 주기적 재검토가 필수다.
+> 3. [[032_ale_annual_loss_expectancy|ALE]](Annual Loss Expectancy = SLE × ARO)로 손실을 수치화하고 대응 비용과 비교해 수용 여부를 결정하는 [[028_quantitative_risk_analysis|정량적 위험 분석]]이 현대 보안 위험 관리의 표준이다.
 
 ---
 
-## I. 4가지 위험 대응 전략
+## I. 4가지 [[033_risk_response_strategies|위험 대응 전략]]
 
 ```
 위험 대응 (Risk Response) 전략:
@@ -64,7 +64,7 @@ categories = "studynote-security"
 | 수용 조건              | 설명                            |
 |---------------------|--------------------------------|
 | 경제적 합리성          | 대응 비용 > 예상 손실           |
-| 잔여 위험 허용         | Risk Appetite 이내              |
+| [[038_residual_risk|잔여 위험]] 허용         | [[096_risk_non_risk_architecture_evaluation_flaws|Risk]] Appetite 이내              |
 | 기술적 불가능          | 현실적 완화 방법 없음            |
 | 명시적 승인           | 임원급 서명 문서화               |
 
@@ -72,7 +72,7 @@ categories = "studynote-security"
 
 ---
 
-## III. ALE 기반 정량적 위험 분석
+## III. [[032_ale_annual_loss_expectancy|ALE]] 기반 [[028_quantitative_risk_analysis|정량적 위험 분석]]
 
 ```
 위험 수용 결정을 위한 수치 계산:
@@ -101,7 +101,7 @@ ALE (Annual Loss Expectancy, 연간 손실 예상):
 
 ---
 
-## IV. 위험 수용서 (Risk Acceptance Form)
+## [[288_version_ihl_tos_total_length|IV]]. 위험 수용서 ([[096_risk_non_risk_architecture_evaluation_flaws|Risk]] Acceptance Form)
 
 ```
 위험 수용서 필수 항목:

@@ -7,15 +7,15 @@ categories = "studynote-algorithm"
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: 시간 복잡도는 입력 크기 n에 따른 연산 횟수 증가율을 수학적으로 표현하며, 알고리즘 성능의 언어다.
-> 2. **가치**: Big-O(최악), Ω(최선), Θ(평균) 표기법을 통해 다양한 환경에서 알고리즘의 동작을 예측하고 비교한다.
-> 3. **판단 포인트**: 실무에서는 Big-O 최악 케이스가 SLA 보장의 기준이 되며, 분할정복 알고리즘은 마스터 정리로 정확한 복잡도를 도출해야 한다.
+> 1. **본질**: 시간 복잡도는 입력 크기 n에 따른 연산 횟수 증가율을 수학적으로 표현하며, [[001_algorithm_definition|알고리즘]] 성능의 언어다.
+> 2. **가치**: Big-O(최악), Ω(최선), Θ(평균) 표기법을 통해 다양한 환경에서 [[001_algorithm_definition|알고리즘]]의 동작을 예측하고 비교한다.
+> 3. **판단 포인트**: 실무에서는 Big-O 최악 케이스가 [[085_sla|SLA]] 보장의 기준이 되며, 분할정복 [[001_algorithm_definition|알고리즘]]은 마스터 정리로 정확한 복잡도를 도출해야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-알고리즘의 효율성을 평가할 때 실제 실행 시간(초)을 측정하면 하드웨어, 언어, 운영체제 등의 환경 변수에 종속된다. **시간 복잡도 (Time Complexity)**는 이 한계를 극복하기 위해 **입력 크기 n의 함수로 연산 횟수를 추상화**하는 방법이다.
+[[001_algorithm_definition|알고리즘]]의 효율성을 평가할 때 실제 실행 시간(초)을 측정하면 하드웨어, 언어, [[001_operating_system_purpose|운영체제]] 등의 환경 변수에 종속된다. **시간 복잡도 (Time Complexity)**는 이 한계를 극복하기 위해 **입력 크기 n의 함수로 연산 횟수를 [[198_abstraction_control_data_process|추상화]]**하는 방법이다.
 
 ### 점근적 표기법 (Asymptotic Notation) 세 가지
 
@@ -25,13 +25,13 @@ categories = "studynote-algorithm"
 | **Ω(g(n))** | Big-Omega | f(n) ≥ c·g(n), n ≥ n₀ 인 c, n₀ 존재 | **하한(Best Case)** — "이보다 빠르지 않다" |
 | **Θ(g(n))** | Big-Theta | Ω이자 O | **정확한 경계(Average Case)** |
 
-실무에서는 주로 **Big-O**만 논하는데, 시스템이 최악의 경우에도 응답 시간 보장이 필요하기 때문이다.
+실무에서는 주로 **Big-O**만 논하는데, 시스템이 최악의 경우에도 [[138_response_time|응답 시간]] 보장이 필요하기 때문이다.
 
 ### 분석 방법론
 
-1. **최악 케이스 분석 (Worst-Case)**: 입력이 가장 불리할 때 — 보수적 SLA 설계의 기준
-2. **최선 케이스 분석 (Best-Case)**: 입력이 가장 유리할 때 — 알고리즘 잠재력 파악
-3. **평균 케이스 분석 (Average-Case)**: 입력 분포를 가정한 기댓값 — 확률적 분석 필요
+1. **최악 케이스 분석 (Worst-Case)**: 입력이 가장 불리할 때 — 보수적 [[085_sla|SLA]] 설계의 기준
+2. **최선 케이스 분석 (Best-Case)**: 입력이 가장 유리할 때 — [[001_algorithm_definition|알고리즘]] 잠재력 파악
+3. **평균 케이스 분석 (Average-Case)**: 입력 분포를 가정한 [[135_expected_value|기댓값]] — 확률적 분석 필요
 
 📢 **섹션 요약 비유**: 시간 복잡도는 마치 도로 교통 법규 같다. Big-O는 "최대 시속 100km", Ω는 "최소 시속 60km", Θ는 "보통 80km로 달린다"는 제한과 같이 속도의 범위를 규정한다.
 
@@ -41,17 +41,17 @@ categories = "studynote-algorithm"
 
 ### 주요 복잡도 클래스 비교
 
-| 복잡도 | 이름 | n=10 | n=100 | n=1000 | 예시 알고리즘 |
+| 복잡도 | 이름 | n=[[489_raid_10_hybrid|10]] | n=100 | n=1000 | 예시 [[001_algorithm_definition|알고리즘]] |
 |:---:|:---|:---:|:---:|:---:|:---|
-| O(1) | 상수 | 1 | 1 | 1 | 배열 인덱스 접근, 해시 조회 |
-| O(log n) | 로그 | 3 | 7 | 10 | 이진 탐색, AVL 트리 검색 |
-| O(n) | 선형 | 10 | 100 | 1,000 | 선형 탐색, 단순 순회 |
-| O(n log n) | 선형로그 | 33 | 664 | 9,966 | 병합 정렬, 힙 정렬 |
-| O(n²) | 이차 | 100 | 10,000 | 1,000,000 | 버블 정렬, 삽입 정렬 |
-| O(2ⁿ) | 지수 | 1,024 | 10³⁰ | — | 부분집합 열거, 피보나치(재귀) |
-| O(n!) | 팩토리얼 | 3,628,800 | — | — | 순열 생성, TSP 완전탐색 |
+| O(1) | 상수 | 1 | 1 | 1 | [[055_array|배열]] [[154_database_index_b_tree_search_optimization|인덱스]] 접근, 해시 조회 |
+| O(log n) | [[568_logs_distributed_logging_elk_fluentd|로그]] | 3 | 7 | [[489_raid_10_hybrid|10]] | [[031_binary_search_algorithm|이진 탐색]], AVL 트리 검색 |
+| O(n) | 선형 | [[489_raid_10_hybrid|10]] | 100 | 1,000 | [[030_linear_search|선형 탐색]], 단순 순회 |
+| O(n log n) | 선형로그 | 33 | 664 | 9,966 | 병합 정렬, [[080_heap_sort|힙 정렬]] |
+| O(n²) | 이차 | 100 | [[489_raid_10_hybrid|10]],000 | 1,000,000 | [[022_bubble_sort|버블 정렬]], [[052_insertion_sort_algorithm|삽입 정렬]] |
+| O(2ⁿ) | 지수 | 1,024 | 10³⁰ | — | 부분집합 열거, 피보나치([[014_recursion|재귀]]) |
+| O(n!) | 팩토리얼 | 3,628,800 | — | — | 순열 [[087_process_state_transition|생성]], [[106_fenwick_tree|TSP]] 완전탐색 |
 
-### 복잡도 성장 곡선 (ASCII 다이어그램)
+### 복잡도 성장 곡선 ([[103_ascii|ASCII]] 다이어그램)
 
 ```
 실행시간
@@ -69,9 +69,9 @@ categories = "studynote-algorithm"
 
 ### 마스터 정리 (Master Theorem)
 
-분할정복 알고리즘의 점화식 T(n) = a·T(n/b) + f(n) 을 해결하는 공식이다.
+분할정복 [[001_algorithm_definition|알고리즘]]의 점화식 T(n) = a·T(n/b) + f(n) 을 해결하는 공식이다.
 
-- **a**: 재귀 호출 수  
+- **a**: [[014_recursion|재귀]] 호출 수  
 - **b**: 문제 크기 감소 인자  
 - **f(n)**: 분할/병합 비용  
 - **c = log_b(a)**: 기준 지수
@@ -103,7 +103,7 @@ categories = "studynote-algorithm"
 
 ## Ⅲ. 비교 및 연결
 
-### Big-O vs Ω vs Θ 관계
+### Big-O vs Ω vs Θ [[083_relationship_in_er_model|관계]]
 
 ```
                   f(n)
@@ -117,19 +117,19 @@ categories = "studynote-algorithm"
     Θ(g(n)): 상한과 하한 사이에 갇힌 경우
 ```
 
-### 알고리즘별 복잡도 비교 (정렬 중심)
+### [[001_algorithm_definition|알고리즘]]별 복잡도 비교 (정렬 중심)
 
-| 알고리즘 | 최선 | 평균 | 최악 |
+| [[001_algorithm_definition|알고리즘]] | 최선 | 평균 | 최악 |
 |:---|:---:|:---:|:---:|
-| 버블 정렬 (Bubble Sort) | O(n) | O(n²) | O(n²) |
-| 선택 정렬 (Selection Sort) | O(n²) | O(n²) | O(n²) |
-| 삽입 정렬 (Insertion Sort) | O(n) | O(n²) | O(n²) |
-| 병합 정렬 (Merge Sort) | O(n log n) | O(n log n) | O(n log n) |
-| 퀵 정렬 (Quick Sort) | O(n log n) | O(n log n) | O(n²) |
-| 힙 정렬 (Heap Sort) | O(n log n) | O(n log n) | O(n log n) |
-| 이진 탐색 (Binary Search) | O(1) | O(log n) | O(log n) |
+| [[022_bubble_sort|버블 정렬]] ([[022_bubble_sort|Bubble Sort]]) | O(n) | O(n²) | O(n²) |
+| [[024_selection_sort|선택 정렬]] ([[024_selection_sort|Selection Sort]]) | O(n²) | O(n²) | O(n²) |
+| [[052_insertion_sort_algorithm|삽입 정렬]] ([[052_insertion_sort_algorithm|Insertion Sort]]) | O(n) | O(n²) | O(n²) |
+| 병합 정렬 ([[044_merge_sort|Merge Sort]]) | O(n log n) | O(n log n) | O(n log n) |
+| [[047_quick_sort|퀵 정렬]] ([[047_quick_sort|Quick Sort]]) | O(n log n) | O(n log n) | O(n²) |
+| [[080_heap_sort|힙 정렬]] ([[080_heap_sort|Heap Sort]]) | O(n log n) | O(n log n) | O(n log n) |
+| [[031_binary_search_algorithm|이진 탐색]] ([[031_binary_search_algorithm|Binary Search]]) | O(1) | O(log n) | O(log n) |
 
-📢 **섹션 요약 비유**: 정렬 알고리즘 비교는 마라톤 선수 선발 같다. 평균 기록(평균 케이스)도 중요하지만, 기록이 가장 안 좋을 때(최악 케이스)에도 완주를 보장할 수 있어야 실전 투입이 가능하다.
+📢 **섹션 요약 비유**: 정렬 [[001_algorithm_definition|알고리즘]] 비교는 마라톤 선수 선발 같다. 평균 기록(평균 케이스)도 중요하지만, 기록이 가장 안 좋을 때(최악 케이스)에도 완주를 보장할 수 있어야 실전 투입이 가능하다.
 
 ---
 
@@ -137,16 +137,16 @@ categories = "studynote-algorithm"
 
 ### 시스템 설계에서 복잡도 선택 기준
 
-**시나리오 1 — 검색 API**: n=100만 건 데이터에서 실시간 조회  
-→ O(n) 선형 탐색은 100만 연산, O(log n) 이진 탐색/인덱스는 20연산  
-→ **인덱스(B-트리) 구조로 O(log n) 보장 필수**
+**시나리오 1 — 검색 [[014_api_posix|API]]**: n=100만 건 [[001_dikw_pyramid|데이터]]에서 실시간 조회  
+→ O(n) [[030_linear_search|선형 탐색]]은 100만 연산, O(log n) [[031_binary_search_algorithm|이진 탐색]]/[[154_database_index_b_tree_search_optimization|인덱스]]는 20연산  
+→ **[[154_database_index_b_tree_search_optimization|인덱스]](B-트리) 구조로 O(log n) 보장 필수**
 
-**시나리오 2 — 실시간 정렬**: 스트리밍 데이터 실시간 랭킹  
-→ O(n²) 삽입 정렬은 n이 커지면 불가  
-→ **힙(Heap) 자료구조로 O(log n) 삽입/삭제 + O(n log n) 전체 정렬**
+**시나리오 2 — 실시간 정렬**: 스트리밍 [[001_dikw_pyramid|데이터]] 실시간 랭킹  
+→ O(n²) [[052_insertion_sort_algorithm|삽입 정렬]]은 n이 커지면 불가  
+→ **힙([[078_heap_datastructure|Heap]]) 자료구조로 O(log n) 삽입/삭제 + O(n log n) 전체 정렬**
 
-**시나리오 3 — ML 피처 연산**: 행렬 곱셈 기본 O(n³), 스트라센 O(n^2.81)  
-→ n=1000일 때 10억 vs 5억 연산, GPU 가속 필수
+**시나리오 3 — ML [[247_feature_label_variables|피처]] 연산**: 행렬 곱셈 기본 O(n³), 스트라센 O(n^2.81)  
+→ n=1000일 때 10억 vs 5억 연산, [[418_gpu|GPU]] 가속 필수
 
 ### 기술사 답안 핵심 포인트
 
@@ -162,7 +162,7 @@ categories = "studynote-algorithm"
 └──────────────────────────────────────────────────────┘
 ```
 
-📢 **섹션 요약 비유**: 시간 복잡도를 모르고 알고리즘을 선택하는 것은 연비를 모르고 차를 사는 것과 같다. 단거리에는 경차(O(1)), 장거리 화물에는 트럭(O(n log n))이 최적이다.
+📢 **섹션 요약 비유**: 시간 복잡도를 모르고 [[001_algorithm_definition|알고리즘]]을 선택하는 것은 연비를 모르고 차를 사는 것과 같다. 단거리에는 경차(O(1)), 장거리 화물에는 트럭(O(n log n))이 최적이다.
 
 ---
 
@@ -170,9 +170,9 @@ categories = "studynote-algorithm"
 
 ### 복잡도 분석의 가치
 
-1. **설계 단계에서 병목 예측**: 코드를 작성하기 전에 알고리즘의 확장성을 수학적으로 검증
-2. **코드 리뷰 기준**: O(n²) 이상의 루프 중첩을 발견하면 개선 필요성을 즉각 판단
-3. **SLA 수치화**: "99.9% 응답시간 100ms 이하" 목표와 복잡도를 연결해 최대 입력 크기 설계
+1. **설계 단계에서 병목 예측**: 코드를 작성하기 전에 [[001_algorithm_definition|알고리즘]]의 확장성을 수학적으로 [[395_verification_process_review|검증]]
+2. **[[330_code_review|코드 리뷰]] 기준**: O(n²) 이상의 루프 중첩을 발견하면 개선 필요성을 즉각 판단
+3. **[[085_sla|SLA]] 수치화**: "99.9% 응답시간 100ms 이하" 목표와 복잡도를 연결해 최대 입력 크기 설계
 
 ### 실무 복잡도 한계선
 
@@ -188,18 +188,18 @@ categories = "studynote-algorithm"
 └──────────────┴───────────┴──────────────────────────┘
 ```
 
-📢 **섹션 요약 비유**: 알고리즘 복잡도는 건물의 내진설계 등급과 같다. 지진이 오지 않으면(소규모 n) 등급이 낮아도 버티지만, 대지진(대규모 n)에서는 높은 설계 등급(낮은 복잡도)만이 시스템 붕괴를 막는다.
+📢 **섹션 요약 비유**: [[001_algorithm_definition|알고리즘]] 복잡도는 건물의 내진설계 등급과 같다. 지진이 오지 않으면(소규모 n) 등급이 낮아도 버티지만, 대지진(대규모 n)에서는 높은 설계 등급(낮은 복잡도)만이 시스템 붕괴를 막는다.
 
 ---
 
 ### 📌 관련 개념 맵
 
-| 개념 | 연결 관계 | 설명 |
+| 개념 | 연결 [[083_relationship_in_er_model|관계]] | 설명 |
 |:---|:---|:---|
 | 점근적 표기법 | → 시간 복잡도 | Big-O, Ω, Θ 정의 |
 | 마스터 정리 | → 분할정복 분석 | T(n)=aT(n/b)+f(n) 해법 |
-| 공간 복잡도 (Space Complexity) | ↔ 시간 복잡도 | 시간-공간 트레이드오프 |
-| 알고리즘 설계 패러다임 | → 복잡도 등급 결정 | 탐욕, DP, 분할정복 |
+| [[003_space_complexity|공간 복잡도]] ([[003_space_complexity|Space Complexity]]) | ↔ 시간 복잡도 | 시간-공간 트레이드오프 |
+| [[001_algorithm_definition|알고리즘]] 설계 패러다임 | → 복잡도 등급 결정 | 탐욕, DP, 분할정복 |
 | NP 완전 문제 | → 지수/팩토리얼 복잡도 | 다항 시간 해법 미존재 |
 
 ### 📈 관련 키워드 및 발전 흐름도
@@ -226,4 +226,4 @@ categories = "studynote-algorithm"
 
 🍭 **친구 100명에게 사탕 나눠주기**: 한 명씩 세어가며 나눠주면 O(n)이지만, 미리 이름 목록을 만들어 두면 O(1)에 찾을 수 있어요.  
 📚 **도서관에서 책 찾기**: 책이 무작위로 꽂혀 있으면 O(n)이지만, 알파벳 순서로 정렬되어 있으면 절반씩 줄여가며 O(log n)에 찾아요.  
-🏗️ **레고 블록 쌓기**: 블록이 10개면 쌓기 쉽지만 100개면 10,000번 비교해야 한다면(O(n²)), 빨리 포기하고 더 똑똑한 방법을 찾아야 해요!
+🏗️ **레고 블록 쌓기**: 블록이 10개면 쌓기 쉽지만 100개면 [[489_raid_10_hybrid|10]],000번 비교해야 한다면(O(n²)), 빨리 포기하고 더 똑똑한 방법을 찾아야 해요!

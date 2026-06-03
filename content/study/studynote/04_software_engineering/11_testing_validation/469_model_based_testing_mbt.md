@@ -8,17 +8,17 @@ categories = "studynote-software-engineering"
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 모델 기반 테스팅 (MBT, Model-Based Testing)은(는) 소프트웨어 공학의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.
-> 2. **가치**: 이 개념을 올바르게 적용하면 소프트웨어의 품질·유지보수성·재사용성이 향상되고, 개발 생산성과 팀 협업 효율이 높아진다.
+> 1. **본질**: 모델 기반 테스팅 (MBT, Model-Based Testing)은(는) [[001_software_engineering_definition|소프트웨어 공학]]의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.
+> 2. **가치**: 이 개념을 올바르게 적용하면 소프트웨어의 품질·[[346_maintainability_portability|유지보수성]]·재사용성이 향상되고, 개발 생산성과 팀 협업 효율이 높아진다.
 > 3. **판단 포인트**: 도입 시에는 비용·복잡도·조직 성숙도를 함께 고려해야 하며, 맹목적 적용보다 프로젝트 특성에 맞는 선택적 적용이 핵심이다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-MBT는 UML 같은 모델을 기준으로 테스트 케이스를 만든다. 즉, 구현이 아니라 설계 모델을 테스트의 출발점으로 삼는다.
+MBT는 [[232_uml_unified_modeling_language_overview|UML]] 같은 모델을 기준으로 [[441_test_case|테스트 케이스]]를 만든다. 즉, 구현이 아니라 설계 모델을 테스트의 출발점으로 삼는다.
 
-모델이 있으면 복잡한 상태 전이와 흐름을 체계적으로 커버할 수 있다.
+모델이 있으면 복잡한 [[632_state_transition_diagram_testing|상태 전이]]와 흐름을 체계적으로 커버할 수 있다.
 
 - **📢 섹션 요약 비유**: 지도에서 길을 뽑아 여행 계획을 만드는 것이다.
 
@@ -49,19 +49,19 @@ MBT는 UML 같은 모델을 기준으로 테스트 케이스를 만든다. 즉, 
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-모델에서 상태, 전이, 조건을 읽고 테스트 경로를 자동 생성한다.
+모델에서 상태, 전이, 조건을 읽고 테스트 경로를 자동 [[087_process_state_transition|생성]]한다.
 
 | 요소 | 의미 |
 |:---|:---|
 | 모델 | 테스트의 원천 |
 | 전이 | 상태 변화 |
-| 생성기 | 테스트 케이스 생산 |
+| [[087_process_state_transition|생성]]기 | [[441_test_case|테스트 케이스]] 생산 |
 
 ```text
 모델 -> 경로 추출 -> 테스트 케이스 생성 -> 실행
 ```
 
-수동 작성보다 일관성이 좋고, 복잡한 상태 시스템에 강하다.
+수동 작성보다 [[194_consistency_database_integrity|일관성]]이 좋고, 복잡한 상태 시스템에 강하다.
 
 - **📢 섹션 요약 비유**: 게임 규칙표에서 가능한 플레이를 모두 뽑아내는 것이다.
 
@@ -79,11 +79,11 @@ MBT는 사람 손으로 하나씩 쓰는 테스트보다 구조적이다. 다만
 
 | 구분 | 수동 작성 | MBT |
 |:---|:---|:---|
-| 생성 | 사람 | 모델 기반 자동 |
-| 일관성 | 편차 가능 | 높음 |
+| [[087_process_state_transition|생성]] | 사람 | 모델 기반 자동 |
+| [[194_consistency_database_integrity|일관성]] | 편차 가능 | 높음 |
 | 위험 | 누락 | 모델 오류 |
 
-상태 다이어그램, 시퀀스 다이어그램, 요구사항 모델과 연결된다.
+[[236_state_machine_diagram_uml_dynamic|상태 다이어그램]], [[235_sequence_diagram_dynamic_interaction_uml|시퀀스 다이어그램]], 요구사항 모델과 연결된다.
 
 - **📢 섹션 요약 비유**: 레시피가 정확해야 자동 조리 기계도 제대로 만든다.
 
@@ -97,12 +97,12 @@ MBT는 사람 손으로 하나씩 쓰는 테스트보다 구조적이다. 다만
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서는 프로토콜, 상태 전이, 업무 흐름이 복잡한 시스템에 적합하다. 모델 관리가 성패를 가른다.
+실무에서는 [[295_protocol_field_tcp_udp_icmp|프로토콜]], [[632_state_transition_diagram_testing|상태 전이]], 업무 흐름이 복잡한 시스템에 적합하다. 모델 관리가 성패를 가른다.
 
 체크 포인트는 다음과 같다.
 1. 모델의 정확성을 검증한다.
-2. 자동 생성 범위를 정한다.
-3. 생성된 테스트를 재검토한다.
+2. 자동 [[087_process_state_transition|생성]] 범위를 정한다.
+3. [[087_process_state_transition|생성]]된 테스트를 재검토한다.
 
 - **📢 섹션 요약 비유**: 설계도가 정확해야 집도 제대로 나온다.
 
@@ -132,10 +132,10 @@ MBT는 복잡한 시스템의 테스트를 구조화한다. 자동화와 모델 
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| 소프트웨어 공학 (Software Engineering) | 모델 기반 테스팅 (MBT, Model-Based Testing)의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
-| 소프트웨어 생명주기 (SDLC, Software Development Life Cycle) | 모델 기반 테스팅 (MBT, Model-Based Testing)은 SDLC의 특정 단계에서 핵심적으로 적용된다 |
+| [[001_software_engineering_definition|소프트웨어 공학]] ([[001_software_engineering_definition|Software Engineering]]) | 모델 기반 테스팅 (MBT, Model-Based Testing)의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
+| [[003_sdlc|소프트웨어 생명주기]] ([[131_sdlc_system_development_life_cycle_waterfall_agile|SDLC]], Software Development Life Cycle) | 모델 기반 테스팅 (MBT, Model-Based Testing)은 SDLC의 특정 단계에서 핵심적으로 적용된다 |
 | 품질 보증 (QA, Quality Assurance) | 모델 기반 테스팅 (MBT, Model-Based Testing) 적용 결과는 QA 활동을 통해 검증되고 측정된다 |
-| 형상 관리 (SCM, Software Configuration Management) | 모델 기반 테스팅 (MBT, Model-Based Testing)에서 생성된 산출물은 SCM을 통해 체계적으로 관리된다 |
+| [[020_software_configuration_management|형상 관리]] ([[167_scm_software_configuration_management|SCM]], [[020_software_configuration_management|Software Configuration Management]]) | 모델 기반 테스팅 (MBT, Model-Based Testing)에서 [[087_process_state_transition|생성]]된 산출물은 SCM을 통해 체계적으로 관리된다 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -155,10 +155,10 @@ MBT는 복잡한 시스템의 테스트를 구조화한다. 자동화와 모델 
 지속적 개선 및 DevOps·MLOps 통합
 ```
 
-이 흐름은 소프트웨어 위기 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
+이 흐름은 [[002_software_crisis|소프트웨어 위기]] 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. 모델 기반 테스팅 (MBT, Model-Based Testing)은 레고 블록으로 성을 만들 때처럼, 규칙을 정하고 역할을 나누어 함께 작업하는 방법이에요.
 2. 혼자서 막 만들면 나중에 무너지거나 고치기 어렵지만, 약속을 지키면 누구나 쉽게 고치고 더 크게 만들 수 있어요.
-3. 그래서 소프트웨어 공학은 프로그래머들이 좋은 프로그램을 빠르고 안전하게 만들 수 있게 도와주는 '규칙 모음집'이에요.
+3. 그래서 [[001_software_engineering_definition|소프트웨어 공학]]은 프로그래머들이 좋은 프로그램을 빠르고 안전하게 만들 수 있게 도와주는 '규칙 모음집'이에요.

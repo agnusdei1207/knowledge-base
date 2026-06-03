@@ -7,25 +7,25 @@ categories = "studynote-enterprise-systems"
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: SOA(Service Oriented Architecture)는 거대한 단일 쇳덩이(모놀리식) 시스템을 해체하여, 독립적인 명세서(WSDL)를 가진 '서비스(Service)' 덩어리로 쪼개고 이를 중앙 미들웨어 버스(ESB) 위에서 레고 블록처럼 조합(Orchestration)하는 설계 철학이다.
-> 2. **가치**: 낡은 C언어 시스템이나 Java 시스템 등 이기종 언어 장벽을 허물기 위해, 모든 통신을 플랫폼 중립적인 XML 웹 서비스(SOAP) 포맷으로 통일시켜 사내 IT 자산의 무한한 재사용(Reuse)과 연동을 가능하게 했다.
-> 3. **판단 포인트**: "중앙 버스(ESB)가 통신, 라우팅, 포맷 변환 등 모든 잡일을 다 해줄게"라는 지나치게 무거운 중앙집권적 사상 때문에 트래픽 폭주 시 병목 현상(SPOF)으로 파멸했으나, 그 '서비스 쪼개기' 철학만큼은 군살을 뺀 현대 마이크로서비스 아키텍처(MSA)의 위대한 조상 뼈대로 환생했다.
+> 1. **본질**: [[618_soa_hardware|SOA]]([[618_soa_hardware|Service Oriented Architecture]])는 거대한 단일 쇳덩이(모놀리식) 시스템을 해체하여, 독립적인 명세서([[152_wsdl_web_services_description_language|WSDL]])를 가진 '[[090_service_kubernetes_network_load_balancing|서비스]]([[090_service_kubernetes_network_load_balancing|Service]])' 덩어리로 쪼개고 이를 중앙 미들웨어 [[344_bus|버스]]([[146_esb_enterprise_service_bus_architecture|ESB]]) 위에서 레고 블록처럼 조합([[073_container_orchestration_tools|Orchestration]])하는 설계 철학이다.
+> 2. **가치**: 낡은 C언어 시스템이나 Java 시스템 등 이기종 언어 장벽을 허물기 위해, 모든 통신을 플랫폼 중립적인 XML 웹 [[090_service_kubernetes_network_load_balancing|서비스]]([[153_soap_simple_object_access_protocol|SOAP]]) 포맷으로 통일시켜 사내 IT 자산의 무한한 재사용(Reuse)과 연동을 가능하게 했다.
+> 3. **판단 포인트**: "중앙 [[344_bus|버스]]([[146_esb_enterprise_service_bus_architecture|ESB]])가 통신, [[339_routing_overview_best_path_selection|라우팅]], 포맷 변환 등 모든 잡일을 다 해줄게"라는 지나치게 무거운 중앙집권적 사상 때문에 트래픽 폭주 시 병목 현상([[454_spof|SPOF]])으로 파멸했으나, 그 '[[090_service_kubernetes_network_load_balancing|서비스]] 쪼개기' 철학만큼은 군살을 뺀 현대 [[213_msa_microservices_architecture|마이크로서비스 아키텍처]]([[619_msa_traffic_hardware|MSA]])의 위대한 조상 뼈대로 환생했다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-서비스 지향 아키텍처(SOA)는 비즈니스 프로세스를 달성하기 위해 코드를 바닥부터 다시 짜지 않고, 사내에 배포된 독립적 기능(Service) 블록들을 호출해 조합하는 소프트웨어 통합 아키텍처 모델이다.
+[[212_soa_service_oriented_architecture_esb|서비스 지향 아키텍처]]([[618_soa_hardware|SOA]])는 비즈니스 프로세스를 달성하기 위해 코드를 바닥부터 다시 짜지 않고, 사내에 배포된 독립적 기능([[090_service_kubernetes_network_load_balancing|Service]]) 블록들을 호출해 조합하는 소프트웨어 통합 아키텍처 모델이다.
 
-2000년대 대기업의 IT 시스템은 거대한 소스 파일 하나에 예금, 대출, 이체 로직이 모두 스파게티처럼 엉킨 모놀리식(Monolithic) 덩어리 사일로(Silo)였다. 스마트폰 뱅킹 앱을 새로 런칭할 때, 기존 코어뱅킹의 '대출 금리 계산 로직'만 떼어내 재사용할 수 없어 1,000줄의 똑같은 코드를 자바(Java)로 다시 짜는 최악의 중복 비용 낭비가 터졌다. 아키텍트들은 "시스템을 망치로 부숴 '금리 계산기' 덩어리만 밖으로 끄집어내고, 그 대문에 XML 표준 웹 서비스(SOAP API) 껍데기를 씌워 사내 공용으로 뿌려라!"라고 외쳤다. 폐쇄된 사일로의 배를 갈라, 비즈니스 핵심 로직을 독립 인터페이스 단위로 꺼내 사내 생태계의 부품으로 공유(Publish)하는 레고 조립 혁명이 SOA의 탄생이다.
+2000년대 대기업의 IT 시스템은 거대한 소스 [[501_file_definition_logical_record|파일]] 하나에 예금, 대출, 이체 로직이 모두 스파게티처럼 엉킨 모놀리식(Monolithic) 덩어리 [[002_silo_hyeonhyung|사일로]]([[002_silo_hyeonhyung|Silo]])였다. 스마트폰 뱅킹 앱을 새로 런칭할 때, 기존 코어뱅킹의 '대출 금리 계산 로직'만 떼어내 재사용할 수 없어 1,000줄의 똑같은 코드를 자바(Java)로 다시 짜는 최악의 중복 비용 낭비가 터졌다. 아키텍트들은 "시스템을 망치로 부숴 '금리 계산기' 덩어리만 밖으로 끄집어내고, 그 대문에 XML 표준 웹 [[090_service_kubernetes_network_load_balancing|서비스]]([[153_soap_simple_object_access_protocol|SOAP]] [[014_api_posix|API]]) 껍데기를 씌워 사내 공용으로 뿌려라!"라고 외쳤다. 폐쇄된 [[002_silo_hyeonhyung|사일로]]의 배를 갈라, 비즈니스 핵심 로직을 독립 인터페이스 단위로 꺼내 사내 생태계의 부품으로 공유(Publish)하는 레고 조립 혁명이 SOA의 탄생이다.
 
-- **📢 섹션 요약 비유**: 옛날 모놀리식 구조는 기능 10개가 1개 본체에 다 박혀있는 '빅토리녹스 스위스 만능칼'과 같아서, 십자드라이버 1개만 필요해도 무거운 칼 덩어리를 통째로 꺼내야 합니다. SOA는 이 만능칼 나사를 다 풀고 분리해서 드라이버, 가위 등 10개의 '개별 독립 도구(Service)'로 공구함에 흩어 둔 것입니다. 필요한 부품만 쏙쏙 핀셋으로 뽑아 연결하면 1초 만에 맞춤형 공구가 뚝딱 완성됩니다.
+- **📢 섹션 요약 비유**: 옛날 모놀리식 구조는 기능 10개가 1개 본체에 다 박혀있는 '빅토리녹스 스위스 만능칼'과 같아서, 십자드라이버 1개만 필요해도 무거운 칼 덩어리를 통째로 꺼내야 합니다. SOA는 이 만능칼 나사를 다 풀고 분리해서 드라이버, 가위 등 10개의 '개별 독립 도구([[090_service_kubernetes_network_load_balancing|Service]])'로 공구함에 흩어 둔 것입니다. 필요한 부품만 쏙쏙 핀셋으로 뽑아 연결하면 1초 만에 맞춤형 공구가 뚝딱 완성됩니다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-SOA 트라이앵글의 심장은 서비스 제공자, 서비스 소비자, 그리고 그 둘을 중개하는 거대한 중앙 전화번호부의 핑퐁 아키텍처다.
+[[618_soa_hardware|SOA]] [[087_trie|트라이]]앵글의 심장은 [[090_service_kubernetes_network_load_balancing|서비스]] 제공자, [[090_service_kubernetes_network_load_balancing|서비스]] 소비자, 그리고 그 둘을 중개하는 거대한 중앙 전화번호부의 핑퐁 아키텍처다.
 
 ```text
 ┌─────────────────────────────────────────────────────────────┐
@@ -45,56 +45,56 @@ SOA 트라이앵글의 심장은 서비스 제공자, 서비스 소비자, 그�
 └─────────────────────────────────────────────────────────────┘
 ```
 
-SOA 아키텍처를 구현하는 3대 웹 서비스(Web Service) 표준 헌법.
-1. **WSDL (Web Services Description Language)**: 서비스의 인터페이스 명세서 메뉴판. 컴퓨터가 100% 자동 해독(Machine-Readable)할 수 있도록 빡빡한 XML 태그 문법으로 강제 통일시켰다.
-2. **SOAP (Simple Object Access Protocol)**: 이기종(C# vs Java) 간에 호환성을 100% 보장하기 위해 던지는 데이터 텍스트를 무거운 이중 삼중 XML 비닐봉투(Envelope 껍데기)로 꽁꽁 싸매어 던지는 극도로 안전하고 뚱뚱한 메시징 헌법.
-3. **UDDI (Universal Description, Discovery and Integration)**: 위에서 말한 1만 개의 WSDL 명세서들을 한곳에 박아둔 거대한 사내 공용 [도메인 네임 서버(DNS) 도서관]이다. 동적 바인딩(Dynamic Discovery)의 주축이다.
+[[618_soa_hardware|SOA]] 아키텍처를 구현하는 3대 웹 [[090_service_kubernetes_network_load_balancing|서비스]](Web [[090_service_kubernetes_network_load_balancing|Service]]) 표준 헌법.
+1. **[[152_wsdl_web_services_description_language|WSDL]] ([[152_wsdl_web_services_description_language|Web Services Description Language]])**: [[090_service_kubernetes_network_load_balancing|서비스]]의 인터페이스 명세서 메뉴판. 컴퓨터가 100% 자동 해독(Machine-Readable)할 수 있도록 빡빡한 XML 태그 문법으로 강제 통일시켰다.
+2. **[[153_soap_simple_object_access_protocol|SOAP]] ([[153_soap_simple_object_access_protocol|Simple Object Access Protocol]])**: 이기종(C# vs Java) 간에 [[344_compatibility_usability|호환성]]을 100% 보장하기 위해 던지는 [[001_dikw_pyramid|데이터]] 텍스트를 무거운 이중 삼중 XML 비닐봉투(Envelope 껍데기)로 꽁꽁 싸매어 던지는 극도로 안전하고 뚱뚱한 [[389_mesh_topology|메시]]징 헌법.
+3. **[[151_uddi_universal_description_discovery_integration|UDDI]] (Universal Description, Discovery and Integration)**: 위에서 말한 1만 개의 [[152_wsdl_web_services_description_language|WSDL]] 명세서들을 한곳에 박아둔 거대한 사내 공용 [도메인 네임 서버([[511_dns_hierarchical_distributed_architecture|DNS]]) 도서관]이다. 동적 바인딩(Dynamic Discovery)의 주축이다.
 
-- **📢 섹션 요약 비유**: SOA의 UDDI 시스템은 '배달의민족 앱' 탄생과 같습니다. 옛날에는 수많은 중국집 전화번호 전단지를 내가 다 외우거나 들고 있어야(하드코딩 강결합) 했습니다. 하지만 배민(UDDI 전화번호부) 앱이 깔리면 중국집 사장들은 글 1개만 올려두면 끝(Publish)이고, 손님은 검색(Find)해서 1등 집 버튼만 누르면(Bind) 다이렉트 주문이 날아가는 분산 브로커 마법입니다.
+- **📢 섹션 요약 비유**: SOA의 [[151_uddi_universal_description_discovery_integration|UDDI]] 시스템은 '배달의민족 앱' 탄생과 같습니다. 옛날에는 수많은 중국집 전화번호 전단지를 내가 다 외우거나 들고 있어야(하드코딩 강결합) 했습니다. 하지만 배민([[151_uddi_universal_description_discovery_integration|UDDI]] 전화번호부) 앱이 깔리면 중국집 사장들은 글 1개만 올려두면 끝(Publish)이고, 손님은 검색(Find)해서 1등 집 버튼만 누르면(Bind) 다이렉트 주문이 날아가는 [[136_variance|분산]] 브로커 마법입니다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-SOA는 모놀리식을 벗어나고자 했지만 완벽하지 못했다. 2010년대 낡은 제국 SOA와 2026년 클라우드의 황태자 MSA(마이크로서비스)의 극명한 차이를 비교한다.
+SOA는 모놀리식을 벗어나고자 했지만 완벽하지 못했다. 2010년대 낡은 제국 SOA와 2026년 클라우드의 황태자 [[619_msa_traffic_hardware|MSA]]([[532_microservices_decomposition_patterns|마이크로서비스]])의 극명한 차이를 비교한다.
 
-| 비교 잣대 | SOA (Service Oriented Architecture / 과거) | MSA (Microservice Architecture / 현대 클라우드) |
+| 비교 잣대 | [[618_soa_hardware|SOA]] ([[618_soa_hardware|Service Oriented Architecture]] / 과거) | [[619_msa_traffic_hardware|MSA]] ([[365_msa_microservice_architecture|Microservice Architecture]] / 현대 클라우드) |
 | :--- | :--- | :--- |
-| **분해의 크기 단위** | **Macro(대형) 서비스**. [재무 통짜 모듈], [인사 통짜 모듈]. 크기가 여전히 커서 1개 서비스 코드가 수만 줄에 달함. | **Micro(극소형) 서비스**. [결제 버튼 API], [알람 발송 봇]. 1기능 당 컨테이너 1개로 극소형 초경량 쪼개기. |
-| **통신 인프라 뼈대** | 중앙의 똑똑하고 뚱뚱한 **ESB 버스 (Smart Pipe)**가 데이터 포맷 변환과 길 찾기를 독재 짬처리. | 중앙 ESB를 부수고 바보 같은 **Kafka (Dumb Pipe)** 통나무를 두어, 판단 지능을 양 끝단(Edge Endpoint) API로 분산 통치. |
-| **메시지 통신 껍데기** | 무결성 검사가 빡세지만 극도로 무거운 **SOAP (XML)**. | 가볍고 단순하게 대충 던져 파싱 속도를 극한으로 끌어올린 **REST API (JSON)**. |
-| **데이터베이스 저장소**| 분산된 서비스들이 여전히 1개의 거대한 사내 오라클 DB 쇳덩이를 같이 빨대 꽂고 공유함 **(Shared DB)**. | 1개의 극소형 서비스마다 1개의 작은 꼬마 DB를 따로 배정해 완벽 격리 이혼시킴 **(Database-per-service)**. |
+| **분해의 크기 단위** | **Macro(대형) [[090_service_kubernetes_network_load_balancing|서비스]]**. [재무 통짜 모듈], [인사 통짜 모듈]. 크기가 여전히 커서 1개 [[090_service_kubernetes_network_load_balancing|서비스]] 코드가 수만 줄에 달함. | **Micro(극소형) [[090_service_kubernetes_network_load_balancing|서비스]]**. [결제 버튼 [[014_api_posix|API]]], [알람 발송 봇]. 1기능 당 [[561_container_based_deployment|컨테이너]] 1개로 극소형 초경량 쪼개기. |
+| **통신 인프라 뼈대** | 중앙의 똑똑하고 뚱뚱한 **[[146_esb_enterprise_service_bus_architecture|ESB]] [[344_bus|버스]] (Smart [[123_pipe|Pipe]])**가 [[001_dikw_pyramid|데이터]] 포맷 변환과 길 찾기를 독재 짬처리. | 중앙 ESB를 부수고 바보 같은 **[[179_kafka_flink_watermark_time_window|Kafka]] (Dumb [[123_pipe|Pipe]])** 통나무를 두어, 판단 지능을 양 끝단(Edge Endpoint) API로 [[136_variance|분산]] 통치. |
+| **[[389_mesh_topology|메시]]지 통신 껍데기** | [[003_integrity|무결성]] 검사가 빡세지만 극도로 무거운 **[[153_soap_simple_object_access_protocol|SOAP]] (XML)**. | 가볍고 단순하게 대충 던져 파싱 속도를 극한으로 끌어올린 **[[477_rest_api_architecture|REST API]] ([[343_json|JSON]])**. |
+| **[[002_database_definition|데이터베이스]] 저장소**| [[136_variance|분산]]된 [[090_service_kubernetes_network_load_balancing|서비스]]들이 여전히 1개의 거대한 사내 오라클 DB 쇳덩이를 같이 빨대 꽂고 공유함 **(Shared DB)**. | 1개의 극소형 [[090_service_kubernetes_network_load_balancing|서비스]]마다 1개의 작은 꼬마 DB를 따로 배정해 완벽 격리 이혼시킴 **([[501_database|Database]]-per-[[090_service_kubernetes_network_load_balancing|service]])**. |
 
-아키텍트들의 뼈아픈 실수는 쇳덩이 저장소(DB)를 찢지 않았다는 점이다. 소스 코드가 아무리 예쁘게 SOA로 분산되어 있어도, 하단 오라클 DB가 1개로 묶여있으면 결제 서비스의 디스크 트랜잭션 락(Lock) 지연이 반대쪽 재고 서비스의 스레드까지 통째로 말려 죽이는 좀비 연쇄 붕괴를 막을 수 없었다. (이후 MSA가 이 DB 저장소마저 도끼로 찢어버려 완전한 격리를 이뤄낸다).
+아키텍트들의 뼈아픈 실수는 쇳덩이 저장소(DB)를 찢지 않았다는 점이다. 소스 코드가 아무리 예쁘게 SOA로 [[136_variance|분산]]되어 있어도, 하단 오라클 DB가 1개로 묶여있으면 결제 [[090_service_kubernetes_network_load_balancing|서비스]]의 디스크 [[191_transaction_concept_states|트랜잭션]] 락([[510_lock|Lock]]) [[015_지연_데이터_관점|지연]]이 반대쪽 재고 [[090_service_kubernetes_network_load_balancing|서비스]]의 [[092_thread_lwp|스레드]]까지 통째로 말려 죽이는 좀비 연쇄 붕괴를 막을 수 없었다. (이후 MSA가 이 DB 저장소마저 도끼로 찢어버려 완전한 격리를 이뤄낸다).
 
-- **📢 섹션 요약 비유**: SOA 시절 SOAP(XML)을 쓴 것은 이기종 외국인 100명이 모인 식당에서 억지로 '영어법을 100% 지킨 딱딱한 서류'로만 소통하라고 강제한 것입니다. 오해는 없지만 종이 쓰느라 시간이 오래 걸립니다(파싱 오버헤드). 현대 MSA의 REST/JSON은 외국인들이 스마트폰 번역기 들고 걍 "배고파 밥 줘!" 짧은 카톡(가벼운 JSON)으로 1초 만에 던지는 초고속 클라우드 쾌속 통신입니다.
+- **📢 섹션 요약 비유**: [[618_soa_hardware|SOA]] 시절 [[153_soap_simple_object_access_protocol|SOAP]](XML)을 쓴 것은 이기종 외국인 100명이 모인 식당에서 억지로 '영어법을 100% 지킨 딱딱한 서류'로만 소통하라고 강제한 것입니다. 오해는 없지만 종이 쓰느라 시간이 오래 걸립니다(파싱 오버헤드). 현대 MSA의 [[156_rest_representational_state_transfer|REST]]/JSON은 외국인들이 스마트폰 번역기 들고 걍 "배고파 밥 줘!" 짧은 카톡(가벼운 [[343_json|JSON]])으로 1초 만에 던지는 [[148_5g_embb_urllc_mmtc|초고속]] 클라우드 쾌속 통신입니다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-SOA 사상을 도입할 때 발생했던 거대 버스의 파국과 이를 극복하는 점진적 아키텍처 진화 전략이다.
+[[618_soa_hardware|SOA]] 사상을 도입할 때 발생했던 거대 [[344_bus|버스]]의 파국과 이를 극복하는 점진적 아키텍처 진화 [[268_strategy_pattern|전략]]이다.
 
 ### 실무 판단 시나리오
-1. **ESB 오버엔지니어링과 오케스트레이션(Orchestration) 붕괴**: A서비스 ➔ ESB ➔ B서비스 ➔ ESB ➔ C서비스 식으로, 모든 통신이 반드시 뚱뚱한 중앙 통제 파이프(ESB)를 통과해야만 했다. 이 오케스트레이션(중앙 지휘자 독재) 방식은 중앙 ESB 서버 1대가 트래픽 맞고 타 죽으면, 저 밑에 100개의 알짜배기 서비스 서버가 살아 쌩쌩해도 쇼핑몰 전체가 올스탑 블랙아웃(SPOF 대재앙)되는 파국을 불렀다. 
-   - **판단**: 독재의 위험성이다. 현대 이벤트 기반 MSA는 이 ESB 뇌를 폭파시키고, 각 서비스가 지 혼자서 버스(Kafka)에 눈치껏 던지고 알아서 주워 먹는 코레오그래피(Choreography 무중앙 분산 춤추기) 융합망으로 진화하여 거대 셧다운 스웜을 쉴드 쳐 냈다.
-2. **빅뱅 전환의 무덤과 Strangler Fig(교살자 덩굴) 메스 융합**: 대기업 100개 시스템을 한 방에 100% SOA 구조로 엎어서 런칭(빅뱅 오픈)하다가 오타 1개에 그룹사망 전체가 정전으로 뻗어버렸다. 
-   - **판단**: 클라우드 모던 아키텍트는 낡은 C언어 모놀리식(Legacy) 본체의 숨통을 살려둔 채, 가장 떼기 쉬운 [쿠폰 로직] 1천 줄만 먼저 핀셋 도려내어 스프링부트(API)로 새로 띄운다. 앞단 라우터로 트래픽 10%만 살짝 꺾어주고 이 짓을 야금야금 3년간 100번 반복한다(Strangler Fig 패턴). 레거시 괴물은 점진적으로 뼈만 남아 자연사하고, 100개의 독립 서비스(MSA)가 안전하게 전사망을 무혈 장악하는 최고의 스텔스 진화 생존 마법이다.
+1. **[[146_esb_enterprise_service_bus_architecture|ESB]] 오버엔지니어링과 [[073_container_orchestration_tools|오케스트레이션]]([[073_container_orchestration_tools|Orchestration]]) 붕괴**: A서비스 ➔ [[146_esb_enterprise_service_bus_architecture|ESB]] ➔ B서비스 ➔ [[146_esb_enterprise_service_bus_architecture|ESB]] ➔ C서비스 식으로, 모든 통신이 반드시 뚱뚱한 중앙 통제 [[123_pipe|파이프]]([[146_esb_enterprise_service_bus_architecture|ESB]])를 통과해야만 했다. 이 [[073_container_orchestration_tools|오케스트레이션]](중앙 지휘자 독재) 방식은 중앙 [[146_esb_enterprise_service_bus_architecture|ESB]] 서버 1대가 트래픽 맞고 타 죽으면, 저 밑에 100개의 알짜배기 [[090_service_kubernetes_network_load_balancing|서비스]] 서버가 살아 쌩쌩해도 쇼핑몰 전체가 올스탑 블랙아웃([[454_spof|SPOF]] 대재앙)되는 파국을 불렀다. 
+   - **판단**: 독재의 위험성이다. 현대 이벤트 기반 MSA는 이 [[146_esb_enterprise_service_bus_architecture|ESB]] 뇌를 폭파시키고, 각 [[090_service_kubernetes_network_load_balancing|서비스]]가 지 혼자서 [[344_bus|버스]]([[179_kafka_flink_watermark_time_window|Kafka]])에 눈치껏 던지고 알아서 주워 먹는 코레오그래피(Choreography 무중앙 [[136_variance|분산]] 춤추기) 융합망으로 진화하여 거대 셧다운 스웜을 쉴드 쳐 냈다.
+2. **빅뱅 전환의 무덤과 [[310_strangler_fig_pattern|Strangler Fig]](교살자 덩굴) 메스 융합**: 대기업 100개 시스템을 한 방에 100% [[618_soa_hardware|SOA]] 구조로 엎어서 런칭(빅뱅 오픈)하다가 오타 1개에 그룹사망 전체가 정전으로 뻗어버렸다. 
+   - **판단**: 클라우드 모던 아키텍트는 낡은 C언어 모놀리식(Legacy) 본체의 숨통을 살려둔 채, 가장 떼기 쉬운 [쿠폰 로직] 1천 줄만 먼저 핀셋 도려내어 스프링부트([[014_api_posix|API]])로 새로 띄운다. 앞단 라우터로 트래픽 [[489_raid_10_hybrid|10]]%만 살짝 꺾어주고 이 짓을 야금야금 3년간 100번 반복한다([[310_strangler_fig_pattern|Strangler Fig]] 패턴). 레거시 괴물은 점진적으로 뼈만 남아 자연사하고, 100개의 독립 [[090_service_kubernetes_network_load_balancing|서비스]]([[619_msa_traffic_hardware|MSA]])가 안전하게 전사망을 무혈 장악하는 최고의 스텔스 진화 생존 마법이다.
 
-### 안티패턴
-- **내부 DB 다이렉트 뚫어주기 (정보 은닉 파괴 사기극)**: 부서 간 SOA API 대문을 열어놓고도, 정작 속도 좀 빨리 빼겠다고 타 부서 시스템(서버)이 내 오라클 DB 창고 문을 열고 마음대로 `SELECT`를 직접 긁어가는(Direct DB Access) 포트 방화벽을 허용해버린 만행. 아무리 API 껍데기를 예쁘게 씌워도, 테이블 칼럼 1개 바꿀 때 100개 전사 시스템이 도미노로 다 터지는 짝퉁 분산망 스파게티 지옥이다. 모든 데이터는 무조건 캡슐화(Capsulation)된 내 대문 API 1개 구멍을 똑똑 두드려서만 간접적으로 받아 가게 강제 용접 봉쇄해야 한다.
+### [[128_water_scrum_fall_anti_pattern|안티패턴]]
+- **내부 DB 다이렉트 뚫어주기 ([[199_information_hiding_encapsulation|정보 은닉]] 파괴 사기극)**: 부서 간 [[618_soa_hardware|SOA]] [[014_api_posix|API]] 대문을 열어놓고도, 정작 속도 좀 빨리 빼겠다고 타 부서 시스템(서버)이 내 오라클 DB 창고 문을 열고 마음대로 `SELECT`를 직접 긁어가는([[176_direct_addressing|Direct]] DB Access) [[446_port_and_bus|포트]] [[690_firewall_generation_evolution|방화벽]]을 허용해버린 만행. 아무리 [[014_api_posix|API]] 껍데기를 예쁘게 씌워도, 테이블 칼럼 1개 바꿀 때 100개 전사 시스템이 도미노로 다 터지는 짝퉁 [[136_variance|분산]]망 스파게티 지옥이다. 모든 [[001_dikw_pyramid|데이터]]는 무조건 캡슐화(Capsulation)된 내 대문 [[014_api_posix|API]] 1개 구멍을 똑똑 두드려서만 간접적으로 받아 가게 강제 용접 봉쇄해야 한다.
 
-- **📢 섹션 요약 비유**: 오케스트레이션(중앙 지휘자 ESB) 방식은 교향악단 지휘자가 심장마비로 쓰러지면 단원 100명이 쌩쌩해도 연주회가 올스탑 폭사하는 치명적 1극 체제입니다. 코레오그래피(각자 춤추기 MSA) 방식은 댄스 배틀입니다! 대장 없이 1번 놈이 춤 다 추고 하이파이브(이벤트 핑퐁) 치고 빠지면 2번 놈이 눈치껏 나와 비보잉을 추기 때문에, 중간 1명이 뻗어도 릴레이 생존방벽 100%로 음악이 끊기지 않습니다.
+- **📢 섹션 요약 비유**: [[073_container_orchestration_tools|오케스트레이션]](중앙 지휘자 [[146_esb_enterprise_service_bus_architecture|ESB]]) 방식은 교향악단 지휘자가 심장마비로 쓰러지면 단원 100명이 쌩쌩해도 연주회가 올스탑 폭사하는 치명적 1극 체제입니다. 코레오그래피(각자 춤추기 [[619_msa_traffic_hardware|MSA]]) 방식은 댄스 배틀입니다! 대장 없이 1번 놈이 춤 다 추고 하이파이브(이벤트 핑퐁) 치고 빠지면 2번 놈이 눈치껏 나와 비보잉을 추기 때문에, 중간 1명이 뻗어도 릴레이 생존방벽 100%로 음악이 끊기지 않습니다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-SOA는 코드 생산 공학의 관점에서 '혁명'이었다. 기존에는 다른 플랫폼의 앱을 짤 때마다 핵심 코드를 수만 줄씩 밤새 카피 앤 페이스트(Copy & Paste)해야 했지만, UDDI 도서관에서 공용 '[로그인 API]'를 검색해 1줄로 호출(Bind)하게 되면서 자본주의의 소원인 IT 개발 공수(M/M) 타임과 코드의 중복 낭비를 극적으로 압살 소멸시켰다. 각 모듈은 완벽한 독립된 쇳덩이 블랙박스가 되어, 결제 코드 수정 시 전체가 터지는 상호 의존성(Dependency) 붕괴 도미노를 물리적으로 방어해 냈다.
+SOA는 코드 생산 공학의 관점에서 '혁명'이었다. 기존에는 다른 플랫폼의 앱을 짤 때마다 핵심 코드를 수만 줄씩 밤새 카피 앤 페이스트(Copy & Paste)해야 했지만, [[151_uddi_universal_description_discovery_integration|UDDI]] 도서관에서 공용 '[로그인 [[014_api_posix|API]]]'를 검색해 1줄로 호출(Bind)하게 되면서 자본주의의 소원인 IT 개발 공수(M/M) 타임과 코드의 중복 낭비를 극적으로 압살 소멸시켰다. 각 [[192_module_independence|모듈]]은 완벽한 독립된 쇳덩이 블랙박스가 되어, 결제 코드 수정 시 전체가 터지는 상호 의존성(Dependency) 붕괴 도미노를 물리적으로 방어해 냈다.
 
-이 낡은 XML 제국(SOA)은 2010년대를 지나며 무겁고 뚱뚱한 중앙집권 ESB 버스의 태생적 병목(SPOF)을 넘지 못하고 붕괴했다. 그러나 "거대한 덩어리를 찢어서 독립시켜라. 그리고 공용 도서관에 퍼블리시하여 무한 재사용(Reuse)하라"는 위대한 철학(Philosophy)만큼은 클라우드 대항해 시대에 JSON과 깡통 버스(Kafka), 도커 컨테이너(K8s)라는 깃털처럼 가벼운 옷으로 완벽히 갈아입은 현대 마이크로서비스(MSA)의 심장 박동으로 부활하여 21세기 분산 컴퓨팅의 영원한 0순위 성배로 타오르고 있다.
+이 낡은 XML 제국([[618_soa_hardware|SOA]])은 2010년대를 지나며 무겁고 뚱뚱한 중앙집권 [[146_esb_enterprise_service_bus_architecture|ESB]] [[344_bus|버스]]의 태생적 병목([[454_spof|SPOF]])을 넘지 못하고 붕괴했다. 그러나 "거대한 덩어리를 찢어서 독립시켜라. 그리고 공용 도서관에 퍼블리시하여 무한 재사용(Reuse)하라"는 위대한 철학(Philosophy)만큼은 클라우드 대항해 시대에 JSON과 깡통 [[344_bus|버스]]([[179_kafka_flink_watermark_time_window|Kafka]]), [[063_docker_architecture|도커]] [[561_container_based_deployment|컨테이너]](K8s)라는 깃털처럼 가벼운 옷으로 완벽히 갈아입은 현대 [[532_microservices_decomposition_patterns|마이크로서비스]]([[619_msa_traffic_hardware|MSA]])의 심장 박동으로 부활하여 21세기 [[136_variance|분산]] 컴퓨팅의 영원한 0순위 성배로 타오르고 있다.
 
-- **📢 섹션 요약 비유**: 모놀리식 1통짜리는 '통기타 1대'와 같아 기타 줄 1가닥(결제 로직)이 끊어지면 기타 전체가 고장 나 쇼핑몰 전체가 멈춥니다(강결합 파국). SOA의 철학은 '분리형 모듈 신디사이저 악기'입니다. 피아노 건반 모듈(회원가입), 드럼 비트 모듈(결제)이 완벽히 가위로 찢어진 독립 쇳덩이 기계입니다. 드럼 모듈 전원 선이 타서 죽어도, 건반 피아노 음악은 단 1초의 랙도 없이 계속 완벽히 연주되어 관객 셧다운 폭동을 100% 차단해 내는 기적의 쉴드 아키텍처입니다.
+- **📢 섹션 요약 비유**: 모놀리식 1통짜리는 '통기타 1대'와 같아 기타 줄 1가닥(결제 로직)이 끊어지면 기타 전체가 고장 나 쇼핑몰 전체가 멈춥니다(강결합 파국). SOA의 철학은 '분리형 [[192_module_independence|모듈]] 신디사이저 악기'입니다. 피아노 건반 [[192_module_independence|모듈]](회원가입), 드럼 [[073_bit|비트]] [[192_module_independence|모듈]](결제)이 완벽히 가위로 찢어진 독립 쇳덩이 기계입니다. 드럼 [[192_module_independence|모듈]] 전원 선이 타서 죽어도, 건반 피아노 음악은 단 1초의 랙도 없이 계속 완벽히 연주되어 관객 셧다운 폭동을 100% 차단해 내는 기적의 쉴드 아키텍처입니다.
 
 ---
 
@@ -102,11 +102,11 @@ SOA는 코드 생산 공학의 관점에서 '혁명'이었다. 기존에는 다�
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| **MSA (Microservice Architecture)** | SOA의 영혼을 100% 계승한 21세기 최종 변태 융합판. 무거운 XML 버리고 JSON 껍데기를 쓰며, 하단 오라클 DB마저 100개로 찢어 이혼시킨 극한의 독립 생존망. |
-| **ESB (Enterprise Service Bus)** | 100개 서비스가 직접 P2P로 치다 거미줄 얽혀 뻗는 걸 척살하려고 정가운데 박아넣은 파이프. 길 찾기와 데이터 변환 짬처리를 다 해주는 똑똑한 뇌. |
-| **WSDL (Web Services Description Language)** | XML 태그 문법으로 통일시켜, 컴퓨터 기계가 1초 만에 100% 자동 해독할 수 있게 빡빡하게 강제 락킹 건 무결점의 API 계약 메뉴판. |
-| **UDDI (Universal Description, Discovery and Integration)** | 사내 코더들이 짠 WSDL 메뉴판을 다 갖다 짱박아 둔 거대 공용 도서관. 여기서 동적 검색(Find)해 1초 만에 조립(Bind)해 버리는 IT 자산 복사기. |
-| **SOAP (Simple Object Access Protocol)** | 이기종 서버가 박 터지게 싸우는 걸 막기 위해 무거운 2중 3중 XML 껍데기 비닐봉지에 데이터를 담아 던지라고 강제한 통신 헌법. |
+| **[[619_msa_traffic_hardware|MSA]] ([[365_msa_microservice_architecture|Microservice Architecture]])** | SOA의 영혼을 100% 계승한 21세기 최종 변태 융합판. 무거운 XML 버리고 [[343_json|JSON]] 껍데기를 쓰며, 하단 오라클 DB마저 100개로 찢어 이혼시킨 극한의 독립 생존망. |
+| **[[146_esb_enterprise_service_bus_architecture|ESB]] ([[146_esb_enterprise_service_bus_architecture|Enterprise Service Bus]])** | 100개 [[090_service_kubernetes_network_load_balancing|서비스]]가 직접 P2P로 치다 거미줄 얽혀 뻗는 걸 척살하려고 정가운데 박아넣은 [[123_pipe|파이프]]. 길 찾기와 [[001_dikw_pyramid|데이터]] 변환 짬처리를 다 해주는 똑똑한 뇌. |
+| **[[152_wsdl_web_services_description_language|WSDL]] ([[152_wsdl_web_services_description_language|Web Services Description Language]])** | XML 태그 문법으로 통일시켜, 컴퓨터 기계가 1초 만에 100% 자동 해독할 수 있게 빡빡하게 강제 락킹 건 무결점의 [[014_api_posix|API]] 계약 메뉴판. |
+| **[[151_uddi_universal_description_discovery_integration|UDDI]] (Universal Description, Discovery and Integration)** | 사내 코더들이 짠 [[152_wsdl_web_services_description_language|WSDL]] 메뉴판을 다 갖다 짱박아 둔 거대 공용 도서관. 여기서 동적 검색(Find)해 1초 만에 조립(Bind)해 버리는 IT 자산 복사기. |
+| **[[153_soap_simple_object_access_protocol|SOAP]] ([[153_soap_simple_object_access_protocol|Simple Object Access Protocol]])** | 이기종 서버가 박 터지게 싸우는 걸 막기 위해 무거운 2중 3중 XML 껍데기 비닐봉지에 [[001_dikw_pyramid|데이터]]를 담아 던지라고 강제한 통신 헌법. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -132,5 +132,5 @@ MSA (마이크로서비스) 생태계 완전 도약 / 초경량 REST/JSON, 깡�
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. 옛날 장난감 로봇은 몸통부터 바퀴까지 본드 칠이 딱 되어있어서 바퀴 하나 부서지면 전체를 쓰레기통에 버려야 했어요(모놀리식 시스템 강결합 파국 💥).
-2. 똑똑한 발명가 대장님이 이 본드를 다 부수고(SOA), 자동차를 **'바퀴 1개', '핸들 1개' 완벽히 쪼개지는 조립식 레고 블록(서비스)**들로 분해해서 상자(UDDI 도서관)에 따로따로 잘 담아 놨어요!
+2. 똑똑한 발명가 대장님이 이 본드를 다 부수고([[618_soa_hardware|SOA]]), 자동차를 **'바퀴 1개', '핸들 1개' 완벽히 쪼개지는 조립식 레고 블록([[090_service_kubernetes_network_load_balancing|서비스]])**들로 분해해서 상자([[151_uddi_universal_description_discovery_integration|UDDI]] 도서관)에 따로따로 잘 담아 놨어요!
 3. 이제 삼촌들은 새로운 오토바이 장난감을 조립하고 싶을 때 처음부터 깎아 만들 필요 없이! 레고 상자에서 옛날에 쓰던 바퀴랑 핸들 블록만 핀셋으로 쏙쏙 빼서 딱 꼽으면(재사용) 1초 만에 새 오토바이가 탄생하는 엄청난 조립의 마법이랍니다!

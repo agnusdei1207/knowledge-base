@@ -8,9 +8,9 @@ categories = "studynote-operating-system"
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 벨-라파둘라 모델은 MAC(강제적 접근 제어)에서 적용되는 **"정보 유출(기밀성 침해)을 방지"**하기 위한 두 가지 기본 규칙을 제시한다. **No Read Up (NRU)**과 **No Write Down (NWD)**이 핵심이다.
+> 1. **본질**: 벨-라파둘라 모델은 [[673_mac_message_authentication_code|MAC]]([[579_mac_mandatory_access_control|강제적 접근 제어]])에서 적용되는 **"정보 유출([[002_confidentiality|기밀성]] 침해)을 방지"**하기 위한 두 가지 기본 규칙을 제시한다. **No Read Up (NRU)**과 **No Write Down (NWD)**이 핵심이다.
 > 2. **가치**: 이 규칙들에 의해 정보는 **항상 같거나 더 높은 보안 등급으로만 흐를 수** 있어, 낮은 등급의 사용자가 높은 등급의机密(비밀)에 접근하거나, 높은 등급의 정보를 낮은 등급으로 유출하는 것이 차단된다.
-> 3. **한계**: 정보의 **무결성(Integrity)** 보호는 보장하지 않는다. 높은 등급 사용자가 낮은 등급에 **허용되지 않은 정보를 쓸 수 있는(Write-Up)** 가능성으로 인해 데이터 변조가 발생할 수 있다.
+> 3. **한계**: 정보의 **[[003_integrity|무결성]]([[003_integrity|Integrity]])** [[571_protection_vs_security|보호]]는 보장하지 않는다. 높은 등급 사용자가 낮은 등급에 **허용되지 않은 정보를 쓸 수 있는(Write-Up)** 가능성으로 인해 [[001_dikw_pyramid|데이터]] 변조가 발생할 수 있다.
 
 ---
 
@@ -33,24 +33,24 @@ TOP SECRET > SECRET > CONFIDENTIAL > UNCLASSIFIED
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### 2.1 Simple Security Property (No Read Up, NRU)
+### 2.1 Simple [[283_security_tactics|Security]] Property (No Read Up, NRU)
 
 **"자신의 보안 등급보다 높은 등급의 객체는 읽을 수 없다"**
 
 | 사용자 등급 | 읽기 가능 | 읽기 불가 |
 |:---|:---|:---|
-| **TOP SECRET** | 모든 등급 | - |
-| **SECRET** | SECRET, CONFIDENTIAL, UNCLASSIFIED | TOP SECRET |
-| **CONFIDENTIAL** | CONFIDENTIAL, UNCLASSIFIED | TOP SECRET, SECRET |
+| **TOP [[514_secret_management_vault_kms|SECRET]]** | 모든 등급 | - |
+| **[[514_secret_management_vault_kms|SECRET]]** | [[514_secret_management_vault_kms|SECRET]], CONFIDENTIAL, UNCLASSIFIED | TOP [[514_secret_management_vault_kms|SECRET]] |
+| **CONFIDENTIAL** | CONFIDENTIAL, UNCLASSIFIED | TOP [[514_secret_management_vault_kms|SECRET]], [[514_secret_management_vault_kms|SECRET]] |
 
 ### 2.2 *-Property (Star Property, No Write Down, NWD)
 
 **"자신의 보안 등급보다 낮은 등급의 객체에 쓸 수 없다"**
 
-| 사용자 등급 | 쓰기 가능 | 쓰기 불가 |
+| 사용자 등급 | [[289_cqrs_db|쓰기]] 가능 | [[289_cqrs_db|쓰기]] 불가 |
 |:---|:---|:---|
-| **TOP SECRET** | TOP SECRET | SECRET, CONFIDENTIAL, UNCLASSIFIED |
-| **SECRET** | TOP SECRET, SECRET | CONFIDENTIAL, UNCLASSIFIED |
+| **TOP [[514_secret_management_vault_kms|SECRET]]** | TOP [[514_secret_management_vault_kms|SECRET]] | [[514_secret_management_vault_kms|SECRET]], CONFIDENTIAL, UNCLASSIFIED |
+| **[[514_secret_management_vault_kms|SECRET]]** | TOP [[514_secret_management_vault_kms|SECRET]], [[514_secret_management_vault_kms|SECRET]] | CONFIDENTIAL, UNCLASSIFIED |
 | **CONFIDENTIAL** | 모든 등급 | - |
 
 ### 2.3 두 규칙의効果
@@ -69,7 +69,7 @@ TOP SECRET 정보 -> SECRET 사용자가 읽기 불가 (NRU)
 
 ## Ⅲ. 비교 및 연결
 
-DSP는 ACL(접근 제어 목록)을 통해 **임의적 접근 제어**를 허용한다:
+DSP는 [[549_acl_access_control_list|ACL]]([[739_access_control_list_acl|접근 제어 목록]])을 통해 **[[578_dac_discretionary_access_control|임의적 접근 제어]]**를 허용한다:
 
 ```text
 [ DSP 규칙 ]
@@ -83,9 +83,9 @@ DSP는 ACL(접근 제어 목록)을 통해 **임의적 접근 제어**를 허용
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### 4.1 무결성 미보장
+### 4.1 [[003_integrity|무결성]] 미보장
 
-NRU/NWD는 기밀성은 보장하지만, **무결성은 보장하지 않는다**:
+NRU/NWD는 [[002_confidentiality|기밀성]]은 보장하지만, **[[003_integrity|무결성]]은 보장하지 않는다**:
 
 ```text
 [ 문제 상황 ]
@@ -96,7 +96,7 @@ NRU/NWD는 기밀성은 보장하지만, **무결성은 보장하지 않는다**
 
 ### 4.2 Practical Issue: 신뢰받는 Subject
 
-실제 시스템에서는 백업, 로깅 등을 위해 **신뢰받는 Subject**는 NWD 규칙을 면제받는다:
+실제 시스템에서는 [[555_backup_and_restore_strategy|백업]], 로깅 등을 위해 **신뢰받는 Subject**는 NWD 규칙을 면제받는다:
 
 ```text
 [ 예외 ]
@@ -109,9 +109,9 @@ NRU/NWD는 기밀성은 보장하지만, **무결성은 보장하지 않는다**
 
 ## Ⅴ. 기대효과 및 결론
 
-- **기밀성 완벽 보호**: 수학적 증명을 통해 정보 유출이 원천 차단됨
+- **[[002_confidentiality|기밀성]] 완벽 [[571_protection_vs_security|보호]]**: 수학적 증명을 통해 정보 유출이 원천 차단됨
 - **군사/정부 시스템 적합**: 국가 보안 수준의 접근 제어에 적합
-- **무결성 미보장**: 데이터 변조 가능성이 남아 있으므로, Biba 모델 등과의 병행 사용이 필요
+- **[[003_integrity|무결성]] 미보장**: [[001_dikw_pyramid|데이터]] 변조 가능성이 남아 있으므로, Biba 모델 등과의 병행 사용이 필요
 
 - **📢 섹션 요약 비유**: 도구의 장점만 외우는 것이 아니라 어디까지 믿고 어디서 보완해야 하는지 기억하는 정리 노트와 같다.
 
@@ -121,10 +121,10 @@ NRU/NWD는 기밀성은 보장하지만, **무결성은 보장하지 않는다**
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| 임의적 접근 제어 (DAC, Discretionary Access Control) | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
-| 강제적 접근 제어 (MAC, Mandatory Access Control) | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
-| 비바 모델 (Biba Model) | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
-| 리눅스 보안 모듈 (LSM, Linux Security Modules) | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
+| [[578_dac_discretionary_access_control|임의적 접근 제어]] (DAC, Discretionary [[547_access_control_rwx|Access Control]]) | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
+| [[579_mac_mandatory_access_control|강제적 접근 제어]] ([[673_mac_message_authentication_code|MAC]], Mandatory [[547_access_control_rwx|Access Control]]) | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
+| [[581_biba_model|비바 모델]] ([[581_biba_model|Biba Model]]) | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
+| [[582_linux_security_modules_lsm|리눅스 보안 모듈]] (LSM, Linux [[283_security_tactics|Security]] Modules) | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -148,4 +148,4 @@ NRU/NWD는 기밀성은 보장하지만, **무결성은 보장하지 않는다**
 
 3. **NWD (No Write Down)**는 **"위 계급 사람은 아래 계급에게 기밀 정보를 줄 수 없다"**는 규칙과 같다. 대대장이 이등병에게 비밀 작전 내용을 알려줄 수 없다.
 
-4. **한계**는 **"위 계급 사람이 아래 계급의 보고서를 수정할 수 있다"**는 점이다. 이등병의 순찰 보고서를 대대장이 고쳐버리면, 무결성이 깨질 수 있다.
+4. **한계**는 **"위 계급 사람이 아래 계급의 보고서를 수정할 수 있다"**는 점이다. 이등병의 순찰 보고서를 대대장이 고쳐버리면, [[003_integrity|무결성]]이 깨질 수 있다.

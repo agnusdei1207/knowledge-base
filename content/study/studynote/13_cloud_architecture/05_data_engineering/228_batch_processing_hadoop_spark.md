@@ -7,15 +7,15 @@ categories = "studynote-cloud-architecture"
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: 배치 처리(Batch Processing)는 데이터를 일정 기간·용량 단위로 모아 주기적으로 한 번에 처리하는 방식으로, **처리 지연을 수용하는 대신 처리량(Throughput)을 극대화**한다.
-> 2. **가치**: 야간 정산, 월말 리포트처럼 **즉시성이 불필요하지만 대용량**인 워크로드에 최적이며, 리소스를 예측 가능하게 스케줄링하여 비용을 제어할 수 있다.
-> 3. **판단 포인트**: 실시간성이 필요한 경우 스트림 처리로 전환하거나, **Lambda/Kappa 아키텍처**로 배치와 스트리밍을 함께 운용하는 하이브리드 전략을 선택한다.
+> 1. **본질**: 배치 처리(Batch Processing)는 [[001_dikw_pyramid|데이터]]를 일정 기간·용량 단위로 모아 주기적으로 한 번에 처리하는 방식으로, **처리 [[015_지연_데이터_관점|지연]]을 수용하는 대신 [[139_throughput|처리량]]([[139_throughput|Throughput]])을 극대화**한다.
+> 2. **가치**: 야간 정산, 월말 리포트처럼 **즉시성이 불필요하지만 대용량**인 워크로드에 최적이며, 리소스를 예측 가능하게 [[208_schedule_history_transaction_execution_order|스케줄]]링하여 비용을 제어할 수 있다.
+> 3. **판단 포인트**: 실시간성이 필요한 경우 [[229_stream_processing_kafka_flink|스트림 처리]]로 전환하거나, **[[216_lambda_kappa_architecture_batch_realtime|Lambda]]/[[235_kappa|Kappa]] 아키텍처**로 배치와 스트리밍을 함께 운용하는 하이브리드 [[268_strategy_pattern|전략]]을 선택한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-데이터를 처리하는 방식은 크게 두 가지다. **배치(Batch)**는 데이터를 모아서 나중에 처리하고, **스트리밍(Streaming)**은 도착하는 즉시 처리한다. 배치 처리는 컴퓨터의 역사만큼 오래된 방식으로, 야간 은행 정산, 월급 지급, 인구 통계 집계 등 실시간이 불필요한 대용량 처리의 표준이다.
+[[001_dikw_pyramid|데이터]]를 처리하는 방식은 크게 두 가지다. **배치(Batch)**는 [[001_dikw_pyramid|데이터]]를 모아서 나중에 처리하고, **스트리밍(Streaming)**은 도착하는 즉시 처리한다. 배치 처리는 컴퓨터의 역사만큼 오래된 방식으로, 야간 은행 정산, 월급 지급, 인구 통계 집계 등 실시간이 불필요한 대용량 처리의 표준이다.
 
 ```
 [배치 처리 개념]
@@ -32,16 +32,16 @@ categories = "studynote-cloud-architecture"
 
 **배치 처리가 필요한 이유:**
 - 은행 야간 이자 계산, 카드 정산 → 모든 거래 확정 후 일괄 처리
-- 추천 모델 학습 → 전일 거래 데이터 전체로 배치 학습
-- DW ETL → 야간 데이터 웨어하우스 갱신
+- 추천 모델 학습 → 전일 거래 [[001_dikw_pyramid|데이터]] 전체로 배치 학습
+- [[209_data_warehouse_schema_on_write|DW]] [[215_etl_vs_elt_pipeline|ETL]] → 야간 [[209_data_warehouse_schema_on_write|데이터 웨어하우스]] 갱신
 
-📢 **섹션 요약 비유**: 배치 처리는 빨래를 모아서 한 번에 세탁기에 돌리는 것이다. 한 벌씩 손빨래(실시간)하는 것보다 효율적이지만, 빨래가 다 모일 때까지 기다려야(지연) 한다.
+📢 **섹션 요약 비유**: 배치 처리는 빨래를 모아서 한 번에 세탁기에 돌리는 것이다. 한 벌씩 손빨래(실시간)하는 것보다 효율적이지만, 빨래가 다 모일 때까지 기다려야([[015_지연_데이터_관점|지연]]) 한다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### Apache Spark 배치 처리 아키텍처
+### [[206_spark_inmemory_rdd_lazy_evaluation_lineage|Apache Spark]] 배치 처리 아키텍처
 
 ```
 ┌──────────────────────────────────────────────────────────┐
@@ -62,18 +62,18 @@ categories = "studynote-cloud-architecture"
 └──────────────────────────────────────────────────────────┘
 ```
 
-### 배치 처리 최적화 전략
+### 배치 처리 최적화 [[268_strategy_pattern|전략]]
 
-| 전략 | 설명 | 효과 |
+| [[268_strategy_pattern|전략]] | 설명 | 효과 |
 |:---|:---|:---|
-| **파티션 분할** | 날짜/카테고리별 파티션 기준 데이터 분할 | 전체 스캔 방지 |
-| **컬럼 지향 포맷** | Parquet/ORC 사용 | 필요 열만 읽기, 압축률 ↑ |
-| **파티션 푸시다운** | WHERE 절 조건을 스토리지 레벨에서 필터링 | I/O 최소화 |
-| **브로드캐스트 JOIN** | 소형 테이블을 모든 Worker에 복제 | 셔플 비용 제거 |
-| **캐싱** | 반복 사용 중간 결과를 메모리 캐시 | 재계산 방지 |
-| **병렬도 조정** | spark.sql.shuffle.partitions 튜닝 | 리소스 효율 |
+| **[[514_partition_slice_volume|파티션]] 분할** | 날짜/카테고리별 [[514_partition_slice_volume|파티션]] 기준 [[001_dikw_pyramid|데이터]] 분할 | 전체 스캔 방지 |
+| **컬럼 지향 포맷** | [[178_parquet_rle_encoding_columnar_compression|Parquet]]/ORC 사용 | 필요 열만 읽기, 압축률 ↑ |
+| **[[514_partition_slice_volume|파티션]] 푸시다운** | WHERE 절 조건을 스토리지 레벨에서 필터링 | I/O 최소화 |
+| **브로드캐스트 [[521_join|JOIN]]** | 소형 테이블을 모든 Worker에 [[016_replication_factor|복제]] | 셔플 비용 제거 |
+| **[[456_caching|캐싱]]** | 반복 사용 중간 결과를 메모리 캐시 | 재계산 방지 |
+| **[[430_index_fast_full_scan|병렬]]도 조정** | spark.sql.shuffle.partitions 튜닝 | 리소스 효율 |
 
-### Lambda 아키텍처
+### [[216_lambda_kappa_architecture_batch_realtime|Lambda]] 아키텍처
 
 ```
 [Lambda 아키텍처: 배치 + 실시간 혼합]
@@ -88,34 +88,34 @@ categories = "studynote-cloud-architecture"
 실시간 뷰: 최근 수분 내 근사 집계
 ```
 
-📢 **섹션 요약 비유**: Spark의 DAG(방향성 비순환 그래프)는 공장 생산 공정도다. 어떤 작업이 어떤 순서로 실행되어야 하는지 설계도를 그린 뒤, 여러 공장(Worker)이 동시에 각자 담당 파트를 처리한다.
+📢 **섹션 요약 비유**: Spark의 [[401_bayesian_network_dag_causality|DAG]](방향성 비순환 [[070_graph_datastructure|그래프]])는 공장 생산 공정도다. 어떤 작업이 어떤 순서로 실행되어야 하는지 설계도를 그린 뒤, 여러 공장(Worker)이 동시에 각자 담당 파트를 처리한다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-### 배치 처리 vs 스트림 처리 비교
+### 배치 처리 vs [[229_stream_processing_kafka_flink|스트림 처리]] 비교
 
-| 비교 항목 | 배치 처리 | 스트림 처리 |
+| 비교 항목 | 배치 처리 | [[229_stream_processing_kafka_flink|스트림 처리]] |
 |:---|:---|:---|
 | **처리 시점** | 주기적 (시간/일/월) | 이벤트 발생 즉시 |
-| **지연 시간** | 높음 (분~시간) | 낮음 (밀리초~초) |
-| **처리량** | 매우 높음 | 보통~높음 |
+| **[[141_latency|지연 시간]]** | 높음 (분~시간) | 낮음 (밀리초~초) |
+| **[[139_throughput|처리량]]** | 매우 높음 | 보통~높음 |
 | **복잡도** | 낮음 | 높음 (상태관리, 윈도우) |
-| **비용** | 낮음 (스케줄 자원) | 높음 (상시 운영) |
+| **비용** | 낮음 ([[208_schedule_history_transaction_execution_order|스케줄]] 자원) | 높음 (상시 운영) |
 | **재처리** | 용이 | 복잡 |
-| **적합 사례** | 월말 정산, DW ETL | 실시간 이상감지, 알림 |
-| **대표 기술** | Spark, Hadoop MR | Flink, Spark Streaming |
+| **적합 사례** | 월말 정산, [[209_data_warehouse_schema_on_write|DW]] [[215_etl_vs_elt_pipeline|ETL]] | 실시간 이상감지, 알림 |
+| **대표 기술** | Spark, [[843_hadoop_rack_awareness_data_replication_topology|Hadoop]] MR | Flink, [[060_spark_streaming_dstream|Spark Streaming]] |
 
 ### 배치 프레임워크 비교
 
 | 프레임워크 | 특징 | 적합 사례 |
 |:---|:---|:---|
-| **Apache Spark** | 인메모리 처리, 범용 | 대용량 ETL, ML 학습 |
-| **Hadoop MapReduce** | 디스크 기반, 안정적 | 초대용량 배치, 레거시 |
-| **AWS Glue** | 서버리스 Spark, 관리형 | AWS 에코시스템 ETL |
+| **[[206_spark_inmemory_rdd_lazy_evaluation_lineage|Apache Spark]]** | 인메모리 처리, 범용 | 대용량 [[215_etl_vs_elt_pipeline|ETL]], ML 학습 |
+| **[[395_hadoop_mapreduce_disk_bottleneck|Hadoop MapReduce]]** | 디스크 기반, 안정적 | 초대용량 배치, 레거시 |
+| **AWS Glue** | [[206_serverless_cold_start|서버리스]] Spark, 관리형 | AWS 에코시스템 [[215_etl_vs_elt_pipeline|ETL]] |
 | **Google Dataflow** | Beam 기반, 배치+스트리밍 | GCP 통합 |
-| **dbt** | SQL 배치 변환, DW 내부 | ELT Transform |
+| **dbt** | SQL 배치 변환, [[209_data_warehouse_schema_on_write|DW]] 내부 | [[034_elt|ELT]] Transform |
 
 📢 **섹션 요약 비유**: 배치와 스트리밍 선택은 식당 운영 방식과 같다. 배치는 뷔페(일정 시간에 대량 준비), 스트리밍은 주문 즉시 조리하는 알라카르트다. 뷔페가 효율적이지만, 막 나온 음식을 원하는 손님에게는 알라카르트가 필요하다.
 
@@ -159,7 +159,7 @@ df_daily.write \
 | 요건 | 배치 선택 | 스트림 선택 |
 |:---|:---|:---|
 | 분 단위 이하 실시간성 필요 | ❌ | ✅ |
-| 대용량 역사적 데이터 처리 | ✅ | ❌ |
+| 대용량 역사적 [[001_dikw_pyramid|데이터]] 처리 | ✅ | ❌ |
 | 복잡한 집계·조인 | ✅ | 제한적 |
 | 비용 예측 가능성 | ✅ | ❌ (상시 클러스터) |
 | 장애 재처리 단순화 | ✅ | 어려움 |
@@ -174,19 +174,19 @@ df_daily.write \
 
 | 효과 | 내용 |
 |:---|:---|
-| **높은 처리량** | 병렬 처리로 테라바이트 규모 데이터 처리 |
-| **비용 예측** | 스케줄 기반 리소스 사용으로 비용 예측 가능 |
+| **높은 [[139_throughput|처리량]]** | [[430_index_fast_full_scan|병렬]] 처리로 테라바이트 규모 [[001_dikw_pyramid|데이터]] 처리 |
+| **비용 예측** | [[208_schedule_history_transaction_execution_order|스케줄]] 기반 리소스 사용으로 비용 예측 가능 |
 | **단순한 아키텍처** | 스트리밍 대비 상태 관리·윈도우 처리 불필요 |
-| **재처리 용이** | 파티션 기반 특정 날짜 재실행 간단 |
+| **재처리 용이** | [[514_partition_slice_volume|파티션]] 기반 특정 날짜 재실행 간단 |
 
 ### 한계 및 주의점
 
 | 한계 | 내용 |
 |:---|:---|
-| **지연 시간** | T+1일 배치면 당일 실시간 분석 불가 |
+| **[[141_latency|지연 시간]]** | T+1일 배치면 당일 실시간 분석 불가 |
 | **쏠림 현상** | 배치 실행 시 클러스터 리소스 집중 소비 |
 | **실패 재처리 비용** | 대용량 배치 실패 시 재처리에 오랜 시간 |
-| **데이터 신선도** | 배치 주기만큼 데이터 최신성 지연 |
+| **[[001_dikw_pyramid|데이터]] 신선도** | 배치 주기만큼 [[001_dikw_pyramid|데이터]] 최신성 [[015_지연_데이터_관점|지연]] |
 
 📢 **섹션 요약 비유**: 배치 처리는 야간에 도로를 공사하는 것과 같다. 차가 없을 때(유휴 시간) 대규모 공사(처리)를 하면 효율적이지만, 낮에 갑자기 도로를 바꿀 수 없다(실시간 한계). 응급 도로 보수(실시간 처리)는 스트리밍이 담당한다.
 
@@ -195,13 +195,13 @@ df_daily.write \
 ### 📌 관련 개념 맵
 | 개념 | 연결 포인트 |
 |:---|:---|
-| 스트림 처리 | 배치의 대조 개념, 지연vs처리량 트레이드오프 |
-| Apache Spark | 배치 처리의 현대 표준 프레임워크 |
-| ETL/ELT | 배치 처리 기반의 데이터 통합 파이프라인 |
-| Lambda 아키텍처 | 배치+스트리밍 혼합 설계 패턴 |
-| Kappa 아키텍처 | 스트리밍만으로 배치도 처리하는 단일화 설계 |
-| Apache Airflow | 배치 파이프라인 스케줄링·오케스트레이션 |
-| Parquet/ORC | 배치 처리 최적화 컬럼 지향 파일 포맷 |
+| [[229_stream_processing_kafka_flink|스트림 처리]] | 배치의 대조 개념, [[015_지연_데이터_관점|지연]]vs처리량 트레이드오프 |
+| [[206_spark_inmemory_rdd_lazy_evaluation_lineage|Apache Spark]] | 배치 처리의 현대 표준 프레임워크 |
+| [[215_etl_vs_elt_pipeline|ETL]]/[[034_elt|ELT]] | 배치 처리 기반의 [[001_dikw_pyramid|데이터]] 통합 파이프라인 |
+| [[216_lambda_kappa_architecture_batch_realtime|Lambda]] 아키텍처 | 배치+스트리밍 혼합 설계 패턴 |
+| [[235_kappa|Kappa]] 아키텍처 | 스트리밍만으로 배치도 처리하는 단일화 설계 |
+| [[168_airflow_dag_pipeline_scheduling|Apache Airflow]] | 배치 파이프라인 [[208_schedule_history_transaction_execution_order|스케줄]]링·[[073_container_orchestration_tools|오케스트레이션]] |
+| [[178_parquet_rle_encoding_columnar_compression|Parquet]]/ORC | 배치 처리 최적화 컬럼 지향 [[501_file_definition_logical_record|파일]] 포맷 |
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 배치 처리는 하루 동안 받은 모든 편지를 저녁에 한꺼번에 읽고 답장하는 것이다. 한 통 받을 때마다 바로 답장하는 것(스트리밍)보다 시간이 좀 걸리지만, 한 번에 여러 통을 처리하니 훨씬 효율적이다.
@@ -220,4 +220,4 @@ Stream Processing: 실시간 이벤트 처리 (Kafka · Flink)
 Lambda / Kappa Architecture: 배치 + 스트림 통합
 ```
 2. 은행이 하루 이자를 계산할 때처럼, 모든 거래가 완전히 끝난 자정에 전체 계좌를 한꺼번에 계산하면 정확하고 빠르다.
-3. Apache Spark는 큰 퍼즐을 여러 명이 동시에 맞추는 것처럼, 데이터를 작게 나눠서 많은 컴퓨터가 동시에 처리하므로 혼자 할 때보다 훨씬 빠르다.
+3. Apache Spark는 큰 퍼즐을 여러 명이 동시에 맞추는 것처럼, [[001_dikw_pyramid|데이터]]를 작게 나눠서 많은 컴퓨터가 동시에 처리하므로 혼자 할 때보다 훨씬 빠르다.

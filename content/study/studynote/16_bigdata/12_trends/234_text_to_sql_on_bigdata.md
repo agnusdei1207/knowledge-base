@@ -8,7 +8,7 @@ categories = "studynote-bigdata"
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: Text-to-SQL on BigData (LLM (Large Language Model)으로 자연어 쿼리 자동 생성)은 빅데이터 자연어 질의 관점에서 단계와 산출물을 표준화해 품질 편차를 줄이는 절차 방식를 다루는 주제다.
+> 1. **본질**: Text-to-SQL on BigData ([[263_llm_large_language_model|LLM]] ([[263_llm_large_language_model|Large Language Model]])으로 자연어 [[298_qkv_attention|쿼리]] 자동 [[087_process_state_transition|생성]])은 빅데이터 자연어 질의 관점에서 단계와 산출물을 표준화해 품질 편차를 줄이는 절차 방식를 다루는 주제다.
 > 2. **가치**: 반복 업무에서 실수와 재작업을 줄일 수 있다.
 > 3. **판단 포인트**: 입력-처리-출력이 끊기지 않고 추적 가능한지 본다.
 
@@ -16,7 +16,7 @@ categories = "studynote-bigdata"
 
 ## Ⅰ. 개요 및 필요성
 
-Text-to-SQL on BigData (LLM (Large Language Model)으로 자연어 쿼리 자동 생성)은 빅데이터 환경에서 자연어 질의을 실제 문서, 시스템, 운영 흐름에 연결하는 문제를 다룬다. 데이터 환경이 빠르게 바뀌어도 기준이 없으면 선택 기준이 흔들리고, 결국 비용과 품질이 같이 흔들린다. 그래서 이 주제는 최신 흐름을 따라가는 이야기이면서 동시에, 무엇을 기준으로 선택할지 정리하는 구조다.
+Text-to-SQL on BigData ([[263_llm_large_language_model|LLM]] ([[263_llm_large_language_model|Large Language Model]])으로 자연어 [[298_qkv_attention|쿼리]] 자동 [[087_process_state_transition|생성]])은 빅데이터 환경에서 자연어 질의을 실제 문서, 시스템, 운영 흐름에 연결하는 문제를 다룬다. [[001_dikw_pyramid|데이터]] 환경이 빠르게 바뀌어도 기준이 없으면 선택 기준이 흔들리고, 결국 비용과 품질이 같이 흔들린다. 그래서 이 주제는 최신 흐름을 따라가는 이야기이면서 동시에, 무엇을 기준으로 선택할지 정리하는 구조다.
 
 ```text
 ┌──────────────┐   ┌──────────────┐   ┌──────────────┐
@@ -30,12 +30,12 @@ Text-to-SQL on BigData (LLM (Large Language Model)으로 자연어 쿼리 자동
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-핵심은 기술 자체가 아니라 연결 방식이다. 개방형 포맷, 처리 구조, 파이프라인 신뢰성, 그리고 운영 통제가 어떻게 맞물리는지 봐야 실제 트렌드의 의미가 드러난다.
+핵심은 기술 자체가 아니라 연결 방식이다. 개방형 포맷, 처리 구조, [[123_pipe|파이프]]라인 [[642_reliability_mtbf_mttr_mttf_availability|신뢰성]], 그리고 운영 통제가 어떻게 맞물리는지 봐야 실제 트렌드의 의미가 드러난다.
 
 | 요소 | 역할 | 포인트 |
 |:---|:---|:---|
 | 입력 | 기준/입력 | 범위가 모호하면 뒤 단계도 흔들린다 |
-| 절차 | 처리/검증 | 절차와 자동화가 연결되어야 한다 |
+| 절차 | 처리/[[395_verification_process_review|검증]] | 절차와 자동화가 연결되어야 한다 |
 | 산출물 | 결과/증거 | 기록이 남아야 재현과 추적이 된다 |
 
 ```text
@@ -52,14 +52,14 @@ Text-to-SQL와 LLM은 이 흐름을 보강하는 대표 축이다. 하나는 기
 
 ## Ⅲ. 비교 및 연결
 
-Text-to-SQL on BigData (LLM (Large Language Model)으로 자연어 쿼리 자동 생성)은 단독으로 보기보다 대안과 비교할 때 경계가 선명해진다. 특히 자연어와의 비교는 구조를 이해하는 데 도움이 된다.
+Text-to-SQL on BigData ([[263_llm_large_language_model|LLM]] ([[263_llm_large_language_model|Large Language Model]])으로 자연어 [[298_qkv_attention|쿼리]] 자동 [[087_process_state_transition|생성]])은 단독으로 보기보다 대안과 비교할 때 경계가 선명해진다. 특히 자연어와의 비교는 구조를 이해하는 데 도움이 된다.
 
 | 항목 | 단계 1 | 단계 2 |
 |:---|:---|:---|
 | 수동 | 표준화 | 자동화 |
 | 개별 작업 | 공통 절차 | 재현성 |
 
-쿼리 자동 생성와도 연결해 보면, 기술 선택은 결국 데이터 규모, 응답 속도, 운영 복잡도의 균형 문제다. 그래서 시험에서도 "무엇과 비교했는가"를 함께 써야 답안의 깊이가 생긴다.
+[[298_qkv_attention|쿼리]] 자동 [[087_process_state_transition|생성]]와도 연결해 보면, 기술 선택은 결국 [[001_dikw_pyramid|데이터]] 규모, 응답 속도, 운영 복잡도의 균형 문제다. 그래서 시험에서도 "무엇과 비교했는가"를 함께 써야 답안의 깊이가 생긴다.
 
 - **📢 섹션 요약 비유**: 업무 매뉴얼는 같은 모양처럼 보여도 용도에 따라 완전히 다르다. 비교해야 차이가 보인다.
 
@@ -69,18 +69,18 @@ Text-to-SQL on BigData (LLM (Large Language Model)으로 자연어 쿼리 자동
 
 실무에서는 "도입 여부"보다 "어떤 조건에서 채택할 것인가"로 판단해야 한다.
 
-### 체크리스트
+### [[435_checklist_based_testing|체크리스트]]
 
 1. 단계별 책임이 정해졌는가?
 2. 산출물의 형식이 통일되었는가?
-3. 예외 처리와 복구 절차가 있는가?
+3. 예외 처리와 [[658_ir_recovery|복구]] 절차가 있는가?
 
-### 안티패턴
+### [[128_water_scrum_fall_anti_pattern|안티패턴]]
 
 - 사람마다 다른 절차
 - 산출물은 있는데 다음 단계가 없는 경우
 
-Text-to-SQL on BigData (LLM (Large Language Model)으로 자연어 쿼리 자동 생성)을 잘 쓰려면 기술 자체보다 운영 조건을 봐야 한다. 성능, 비용, 보안, 유지보수성 중 무엇이 우선인지가 다르면 선택도 달라진다.
+Text-to-SQL on BigData ([[263_llm_large_language_model|LLM]] ([[263_llm_large_language_model|Large Language Model]])으로 자연어 [[298_qkv_attention|쿼리]] 자동 [[087_process_state_transition|생성]])을 잘 쓰려면 기술 자체보다 운영 조건을 봐야 한다. [[282_performance_tactics|성능]], 비용, 보안, [[346_maintainability_portability|유지보수성]] 중 무엇이 우선인지가 다르면 [[170_selectivity_cardinality_distribution_tuning|선택도]] 달라진다.
 
 - **📢 섹션 요약 비유**: 조리 순서표은 고장 나기 전에 멈추는 장치다.
 
@@ -88,7 +88,7 @@ Text-to-SQL on BigData (LLM (Large Language Model)으로 자연어 쿼리 자동
 
 ## Ⅴ. 기대효과 및 결론
 
-Text-to-SQL on BigData (LLM (Large Language Model)으로 자연어 쿼리 자동 생성)의 기대효과는 명확하다. 기준이 통일되고, 증거가 남고, 조치가 닫히면 의사결정 속도와 품질 모두 좋아진다. 다만 이 효과는 문서, 도구, 운영이 같은 방향을 볼 때만 유지된다.
+Text-to-SQL on BigData ([[263_llm_large_language_model|LLM]] ([[263_llm_large_language_model|Large Language Model]])으로 자연어 [[298_qkv_attention|쿼리]] 자동 [[087_process_state_transition|생성]])의 기대효과는 명확하다. 기준이 통일되고, 증거가 남고, 조치가 닫히면 의사결정 속도와 품질 모두 좋아진다. 다만 이 효과는 문서, 도구, 운영이 같은 방향을 볼 때만 유지된다.
 
 - **📢 섹션 요약 비유**: 조립 라인처럼, 마지막엔 핵심만 남겨야 다음에 다시 꺼내 쓸 수 있다.
 
@@ -99,9 +99,9 @@ Text-to-SQL on BigData (LLM (Large Language Model)으로 자연어 쿼리 자동
 | 개념 | 연결 포인트 |
 |:---|:---|
 | Text-to-SQL | 자연어 질의과 연결되는 핵심 축 |
-| LLM | 자연어 질의과 연결되는 핵심 축 |
+| [[263_llm_large_language_model|LLM]] | 자연어 질의과 연결되는 핵심 축 |
 | 자연어 | 자연어 질의과 연결되는 핵심 축 |
-| 쿼리 자동 생성 | 자연어 질의과 연결되는 핵심 축 |
+| [[298_qkv_attention|쿼리]] 자동 [[087_process_state_transition|생성]] | 자연어 질의과 연결되는 핵심 축 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -121,10 +121,10 @@ Text-to-SQL on BigData (LLM (Large Language Model)으로 자연어 쿼리 자동
 [RAG (Retrieval-Augmented Generation)]
 ```
 
-이 흐름도는 Text-to-SQL에서 출발해 RAG (Retrieval-Augmented Generation)까지 이어지며, 중간 단계가 기초 개념을 실무 구조로 발전시키는 과정을 보여준다.
+이 흐름도는 Text-to-SQL에서 출발해 [[276_fine_tuning|RAG]] ([[585_rag_retrieval_augmented_generation|Retrieval-Augmented Generation]])까지 이어지며, 중간 단계가 기초 개념을 실무 구조로 발전시키는 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. Text-to-SQL on BigData (LLM (Large Language Model)으로 자연어 쿼리 자동 생성)은 일을 하기 전에 "어떤 규칙으로 할지" 먼저 정하는 거예요.
-2. 중간에 확인표가 있어야 틀린 곳을 빨리 고칠 수 있어요.
+1. Text-to-SQL on BigData ([[263_llm_large_language_model|LLM]] ([[263_llm_large_language_model|Large Language Model]])으로 자연어 [[298_qkv_attention|쿼리]] 자동 [[087_process_state_transition|생성]])은 일을 하기 전에 "어떤 규칙으로 할지" 먼저 정하는 거예요.
+2. 중간에 [[396_validation|확인]]표가 있어야 틀린 곳을 빨리 고칠 수 있어요.
 3. 그래서 끝까지 잘했다고 말하려면 증거와 순서가 같이 있어야 해요.

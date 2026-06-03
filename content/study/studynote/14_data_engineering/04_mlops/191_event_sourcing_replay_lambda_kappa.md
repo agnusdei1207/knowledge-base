@@ -7,31 +7,31 @@ categories = "studynote-data-engineering"
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: 이벤트 소싱(Event Sourcing)은 시스템 상태를 이벤트 스트림으로 저장해 언제든 과거 시점으로 재현(Replay)하는 패턴이다.
-> 2. **가치**: 람다(Lambda)는 배치+스트림 이중 경로로 정확성과 저지연을 동시에 달성하고, 카파(Kappa)는 스트림 단일 경로로 운영 복잡도를 줄인다.
-> 3. **판단 포인트**: 배치 재처리 비용과 운영 복잡도 허용 수준에 따라 람다 vs 카파를 선택하며, 최신 스트림 엔진(Flink, Spark Structured Streaming)은 카파 전환을 가속한다.
+> 1. **본질**: [[249_event_sourcing_append_only_state_reconstruction|이벤트 소싱]]([[307_event_sourcing|Event Sourcing]])은 시스템 상태를 이벤트 스트림으로 저장해 언제든 과거 시점으로 재현(Replay)하는 패턴이다.
+> 2. **가치**: [[216_lambda_kappa_architecture_batch_realtime|람다]]([[216_lambda_kappa_architecture_batch_realtime|Lambda]])는 배치+스트림 [[500_multipath_io|이중 경로]]로 정확성과 저지연을 동시에 달성하고, 카파([[235_kappa|Kappa]])는 스트림 단일 경로로 운영 복잡도를 줄인다.
+> 3. **판단 포인트**: 배치 재처리 비용과 운영 복잡도 허용 수준에 따라 [[216_lambda_kappa_architecture_batch_realtime|람다]] vs 카파를 선택하며, 최신 스트림 엔진(Flink, [[061_structured_streaming|Spark Structured Streaming]])은 카파 전환을 가속한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-### 1.1 이벤트 소싱 (Event Sourcing) 정의
+### 1.1 [[249_event_sourcing_append_only_state_reconstruction|이벤트 소싱]] ([[307_event_sourcing|Event Sourcing]]) 정의
 
-이벤트 소싱은 애플리케이션 상태 변화를 **이벤트(Event)** 의 연속으로 저장하고, 현재 상태를 이 이벤트들을 순서대로 재적용(Replay)하여 도출하는 패턴이다. 전통적 CRUD 방식이 최종 상태만 저장하는 것과 대비된다.
+[[249_event_sourcing_append_only_state_reconstruction|이벤트 소싱]]은 애플리케이션 상태 변화를 **이벤트(Event)** 의 연속으로 저장하고, [[178_as_is_to_be_analysis|현재 상태]]를 이 이벤트들을 순서대로 재적용(Replay)하여 도출하는 패턴이다. 전통적 CRUD 방식이 최종 상태만 저장하는 것과 대비된다.
 
 | 방식 | 저장 단위 | 특징 |
 |:---|:---|:---|
-| CRUD | 현재 상태(스냅샷) | 이력 손실, 간단한 구현 |
-| 이벤트 소싱 | 이벤트 스트림 | 완전한 이력, 재현 가능 |
+| CRUD | [[178_as_is_to_be_analysis|현재 상태]]([[022_snapshot_backup_architecture|스냅샷]]) | 이력 손실, 간단한 구현 |
+| [[249_event_sourcing_append_only_state_reconstruction|이벤트 소싱]] | 이벤트 스트림 | 완전한 이력, 재현 가능 |
 
-### 1.2 왜 이벤트 소싱이 필요한가?
+### 1.2 왜 [[249_event_sourcing_append_only_state_reconstruction|이벤트 소싱]]이 필요한가?
 
-- **감사 추적(Audit Trail)**: 모든 변경 사항이 불변(Immutable) 이벤트로 기록됨
+- **[[606_auditing_linux_auditd|감사]] 추적([[065_audit_trail_worm_storage_compliance|Audit Trail]])**: 모든 변경 사항이 불변([[298_immutable|Immutable]]) 이벤트로 기록됨
 - **시간 여행(Time Travel)**: 특정 시점의 상태 재현 가능
 - **새 로직 소급 적용**: 비즈니스 로직 변경 시 과거 이벤트 전체 재처리
-- **CQRS(Command Query Responsibility Segregation)** 와 자연스러운 결합
+- **[[306_cqrs|CQRS]]([[271_command_pattern|Command]] Query Responsibility Segregation)** 와 자연스러운 결합
 
-### 1.3 이벤트 소싱 이벤트 스트림 개념
+### 1.3 [[249_event_sourcing_append_only_state_reconstruction|이벤트 소싱]] 이벤트 스트림 개념
 
 ```
 시간 흐름 →
@@ -46,15 +46,15 @@ categories = "studynote-data-engineering"
 └─────────────────────────────────┘
 ```
 
-📢 **섹션 요약 비유**: 이벤트 소싱은 "가계부"와 같다. 잔액만 적어두면 과거를 알 수 없지만, 입출금 내역을 모두 기록하면 어느 날의 잔액이든 계산해낼 수 있다.
+📢 **섹션 요약 비유**: [[249_event_sourcing_append_only_state_reconstruction|이벤트 소싱]]은 "가계부"와 같다. 잔액만 적어두면 과거를 알 수 없지만, 입출금 내역을 모두 기록하면 어느 날의 잔액이든 계산해낼 수 있다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### 2.1 람다 아키텍처 (Lambda Architecture)
+### 2.1 [[095_lambda_architecture|람다 아키텍처]] ([[095_lambda_architecture|Lambda Architecture]])
 
-Nathan Marz가 제안한 빅데이터 처리 아키텍처로, 배치와 스트림 두 레이어를 병렬 운영하여 정확성과 저지연을 동시에 달성한다.
+Nathan Marz가 제안한 빅데이터 처리 아키텍처로, 배치와 스트림 두 레이어를 [[430_index_fast_full_scan|병렬]] 운영하여 정확성과 저지연을 동시에 달성한다.
 
 ```
 데이터 소스
@@ -83,15 +83,15 @@ Nathan Marz가 제안한 빅데이터 처리 아키텍처로, 배치와 스트�
 └─────────────────────────────────┘
 ```
 
-| 레이어 | 역할 | 기술 스택 | 지연 |
+| 레이어 | 역할 | 기술 [[057_stack|스택]] | [[015_지연_데이터_관점|지연]] |
 |:---|:---|:---|:---|
-| Batch Layer | 전체 데이터 정확 처리 | HDFS, Spark, Hive | 시간~일 |
-| Speed Layer | 최근 데이터 빠른 처리 | Kafka, Flink, Storm | 초~분 |
-| Serving Layer | 두 레이어 결과 병합 조회 | Cassandra, Redis, Druid | ms |
+| Batch Layer | 전체 [[001_dikw_pyramid|데이터]] 정확 처리 | [[013_hdfs|HDFS]], Spark, [[544_hive|Hive]] | 시간~일 |
+| [[092_GPT_NLP|Speed Layer]] | 최근 [[001_dikw_pyramid|데이터]] 빠른 처리 | [[179_kafka_flink_watermark_time_window|Kafka]], Flink, Storm | 초~분 |
+| Serving Layer | 두 레이어 결과 병합 조회 | [[541_cassandra|Cassandra]], [[542_redis|Redis]], Druid | ms |
 
-### 2.2 카파 아키텍처 (Kappa Architecture)
+### 2.2 [[096_kappa_architecture|카파 아키텍처]] ([[096_kappa_architecture|Kappa Architecture]])
 
-Jay Kreps(Kafka 창시자)가 람다의 복잡성을 비판하며 제안. **스트림 처리 단일 레이어**로 배치 역할까지 수행.
+Jay Kreps([[179_kafka_flink_watermark_time_window|Kafka]] 창시자)가 [[216_lambda_kappa_architecture_batch_realtime|람다]]의 복잡성을 비판하며 제안. **[[229_stream_processing_kafka_flink|스트림 처리]] 단일 레이어**로 배치 역할까지 수행.
 
 ```
 데이터 소스
@@ -120,20 +120,20 @@ Jay Kreps(Kafka 창시자)가 람다의 복잡성을 비판하며 제안. **스�
 └─────────────────────────────────┘
 ```
 
-### 2.3 람다 vs 카파 비교
+### 2.3 [[216_lambda_kappa_architecture_batch_realtime|람다]] vs 카파 비교
 
-| 항목 | 람다 아키텍처 | 카파 아키텍처 |
+| 항목 | [[095_lambda_architecture|람다 아키텍처]] | [[096_kappa_architecture|카파 아키텍처]] |
 |:---|:---|:---|
-| 처리 경로 | 배치 + 스트림 이중 경로 | 스트림 단일 경로 |
-| 운영 복잡도 | 높음 (코드 이중화) | 낮음 (단일 코드베이스) |
-| 재처리 방법 | 배치 재실행 | Kafka 오프셋 리셋 후 재처리 |
-| 정확도 | 배치 기준 높은 정확도 | 스트림 처리 정확도 (근사 허용) |
-| 적합 사례 | 복잡한 집계, ML 학습 | 이벤트 소싱, 실시간 파이프라인 |
+| 처리 경로 | 배치 + 스트림 [[500_multipath_io|이중 경로]] | 스트림 단일 경로 |
+| 운영 복잡도 | 높음 (코드 [[456_dual_redundancy|이중화]]) | 낮음 (단일 [[007_codebase|코드베이스]]) |
+| 재처리 방법 | 배치 재실행 | [[179_kafka_flink_watermark_time_window|Kafka]] 오프셋 리셋 후 재처리 |
+| 정확도 | 배치 기준 높은 정확도 | [[229_stream_processing_kafka_flink|스트림 처리]] 정확도 (근사 허용) |
+| 적합 사례 | 복잡한 집계, ML 학습 | [[249_event_sourcing_append_only_state_reconstruction|이벤트 소싱]], 실시간 파이프라인 |
 | 도입 난이도 | 복잡 | 비교적 단순 |
 
-### 2.4 CQRS (Command Query Responsibility Segregation)
+### 2.4 [[306_cqrs|CQRS]] ([[271_command_pattern|Command]] Query Responsibility Segregation)
 
-CQRS는 명령(Command: 쓰기)과 쿼리(Query: 읽기)를 분리하는 패턴이다. 이벤트 소싱과 결합하면 강력한 시스템을 구성한다.
+CQRS는 명령([[271_command_pattern|Command]]: [[289_cqrs_db|쓰기]])과 [[298_qkv_attention|쿼리]](Query: 읽기)를 분리하는 패턴이다. [[249_event_sourcing_append_only_state_reconstruction|이벤트 소싱]]과 결합하면 강력한 시스템을 구성한다.
 
 ```
 ┌─────────────────────────────────────────────────┐
@@ -156,13 +156,13 @@ CQRS는 명령(Command: 쓰기)과 쿼리(Query: 읽기)를 분리하는 패턴�
 └─────────────────────────────────────────────────┘
 ```
 
-📢 **섹션 요약 비유**: 람다는 두 개의 주방에서 요리하는 레스토랑(빠른 패스트푸드 창구 + 정성스러운 정식 주방)이고, 카파는 한 주방에서 빠르고 정확하게 모든 요리를 처리하는 효율적 주방이다.
+📢 **섹션 요약 비유**: [[216_lambda_kappa_architecture_batch_realtime|람다]]는 두 개의 주방에서 요리하는 레스토랑(빠른 패스트푸드 창구 + 정성스러운 정식 주방)이고, 카파는 한 주방에서 빠르고 정확하게 모든 요리를 처리하는 효율적 주방이다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-### 3.1 이벤트 소싱 Replay 상세 흐름
+### 3.1 [[249_event_sourcing_append_only_state_reconstruction|이벤트 소싱]] Replay 상세 흐름
 
 ```
 [기존 로직 v1 처리 중]
@@ -184,44 +184,44 @@ Kafka Topic: order-events (offset 0 ~ 100,000)
 v1 결과와 병행 운영 후 전환 (Blue/Green)
 ```
 
-### 3.2 Kafka를 이벤트 소싱 스토어로 활용
+### 3.2 Kafka를 [[249_event_sourcing_append_only_state_reconstruction|이벤트 소싱]] 스토어로 활용
 
-| Kafka 기능 | 이벤트 소싱 활용 |
+| [[179_kafka_flink_watermark_time_window|Kafka]] 기능 | [[249_event_sourcing_append_only_state_reconstruction|이벤트 소싱]] 활용 |
 |:---|:---|
-| 토픽(Topic) 파티션 | 엔티티(Entity) ID 기준 파티셔닝 |
+| 토픽(Topic) [[514_partition_slice_volume|파티션]] | 엔티티(Entity) ID 기준 [[179_table_partitioning_concept|파티셔닝]] |
 | 오프셋(Offset) | 이벤트 순서 보장 |
-| 보존 기간(Retention) | 무기한 보존으로 완전한 이력 |
-| 컨슈머 그룹 | 여러 Projection 병렬 처리 |
-| 압축(Log Compaction) | 최신 상태 스냅샷 유지 |
+| 보존 기간([[515_mvcc|Retention]]) | 무기한 보존으로 완전한 이력 |
+| [[191_consumer_group_kafka_partition_load_balancing|컨슈머 그룹]] | 여러 Projection [[430_index_fast_full_scan|병렬]] 처리 |
+| [[347_compaction|압축]]([[261_kafka_log_compaction_key_value|Log Compaction]]) | 최신 상태 [[022_snapshot_backup_architecture|스냅샷]] 유지 |
 
-### 3.3 이벤트 소싱 vs 전통 DB
+### 3.3 [[249_event_sourcing_append_only_state_reconstruction|이벤트 소싱]] vs 전통 DB
 
-| 비교 항목 | 전통 DB (CRUD) | 이벤트 소싱 |
+| 비교 항목 | 전통 DB (CRUD) | [[249_event_sourcing_append_only_state_reconstruction|이벤트 소싱]] |
 |:---|:---|:---|
-| 저장 단위 | 현재 상태 | 이벤트 스트림 |
-| 쿼리 복잡도 | 단순 SELECT | Projection 생성 필요 |
-| 이력 추적 | 별도 감사 테이블 필요 | 기본 제공 |
+| 저장 단위 | [[178_as_is_to_be_analysis|현재 상태]] | 이벤트 스트림 |
+| [[298_qkv_attention|쿼리]] 복잡도 | 단순 [[520_select|SELECT]] | Projection [[087_process_state_transition|생성]] 필요 |
+| 이력 추적 | 별도 [[606_auditing_linux_auditd|감사]] 테이블 필요 | 기본 제공 |
 | 확장성 | 수직적 확장 | 수평적 확장 |
 | 디버깅 | 어려움 | 이벤트 재현으로 용이 |
 | 스토리지 | 효율적 | 많은 스토리지 필요 |
 
-📢 **섹션 요약 비유**: Kafka의 오프셋(Offset)은 책의 페이지 번호와 같다. 어느 페이지부터든 다시 읽을 수 있고, 새 독자(새 컨슈머 그룹)는 1페이지부터 자신만의 읽기를 시작할 수 있다.
+📢 **섹션 요약 비유**: Kafka의 오프셋(Offset)은 책의 [[286_page_frame|페이지]] 번호와 같다. 어느 [[286_page_frame|페이지]]부터든 다시 읽을 수 있고, 새 독자(새 [[191_consumer_group_kafka_partition_load_balancing|컨슈머 그룹]])는 1페이지부터 자신만의 읽기를 시작할 수 있다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### 4.1 람다 vs 카파 선택 기준
+### 4.1 [[216_lambda_kappa_architecture_batch_realtime|람다]] vs 카파 선택 기준
 
 | 상황 | 권장 아키텍처 | 이유 |
 |:---|:---|:---|
-| 복잡한 집계 쿼리 + 정확도 최우선 | 람다 | 배치 레이어의 정확한 처리 |
+| 복잡한 집계 [[298_qkv_attention|쿼리]] + 정확도 최우선 | [[216_lambda_kappa_architecture_batch_realtime|람다]] | 배치 레이어의 정확한 처리 |
 | 실시간 이벤트 파이프라인 | 카파 | 단순한 운영, 재처리 용이 |
-| 팀 규모 작음 | 카파 | 이중 코드베이스 유지 부담 |
-| 레거시 배치 시스템 공존 | 람다 | 점진적 마이그레이션 |
-| Flink/Spark Structured Streaming 도입 | 카파 | 배치/스트림 통합 API |
+| 팀 규모 작음 | 카파 | 이중 [[007_codebase|코드베이스]] 유지 부담 |
+| 레거시 배치 시스템 공존 | [[216_lambda_kappa_architecture_batch_realtime|람다]] | 점진적 마이그레이션 |
+| Flink/[[061_structured_streaming|Spark Structured Streaming]] 도입 | 카파 | 배치/스트림 통합 [[014_api_posix|API]] |
 
-### 4.2 실무 구현 패턴: 이벤트 소싱 + 카파
+### 4.2 실무 구현 패턴: [[249_event_sourcing_append_only_state_reconstruction|이벤트 소싱]] + 카파
 
 ```
 [주문 시스템 예시]
@@ -246,22 +246,22 @@ Kafka Topic: order-events
 
 ### 4.3 재처리(Replay) 운영 절차
 
-1. **새 Consumer Group 생성**: `order-events-v2-consumer`
+1. **새 [[191_consumer_group_kafka_partition_load_balancing|Consumer Group]] [[087_process_state_transition|생성]]**: `order-events-v2-consumer`
 2. **오프셋 초기화**: `--reset-offsets --to-earliest`
-3. **새 로직 컨테이너 배포**: Blue/Green 전략으로 병렬 운영
-4. **재처리 완료 검증**: 처리 카운트 및 결과 검증
+3. **새 로직 [[561_container_based_deployment|컨테이너]] 배포**: Blue/Green 전략으로 [[430_index_fast_full_scan|병렬]] 운영
+4. **재처리 완료 [[395_verification_process_review|검증]]**: 처리 카운트 및 결과 [[395_verification_process_review|검증]]
 5. **트래픽 전환**: 서빙 레이어에서 v2 결과로 전환
-6. **기존 Consumer 제거**: v1 Consumer Group 중단
+6. **기존 Consumer 제거**: v1 [[191_consumer_group_kafka_partition_load_balancing|Consumer Group]] 중단
 
 ### 4.4 주요 도전과 해결책
 
 | 도전 과제 | 해결 방법 |
 |:---|:---|
-| 이벤트 스키마 변화 | Apache Avro + Schema Registry |
-| 재처리 시 성능 부하 | 별도 토픽/클러스터에서 재처리 |
-| 이벤트 순서 보장 | 동일 파티션 키 사용 |
-| 대용량 이벤트 스토어 | Kafka Tiered Storage |
-| 스냅샷 없이 긴 이력 재현 | 주기적 스냅샷 + 이후 이벤트 적용 |
+| 이벤트 [[005_schema|스키마]] 변화 | Apache Avro + [[505_schema|Schema]] [[235_registry_immutable_tag|Registry]] |
+| 재처리 시 [[282_performance_tactics|성능]] 부하 | 별도 토픽/클러스터에서 재처리 |
+| 이벤트 순서 보장 | 동일 [[514_partition_slice_volume|파티션]] 키 사용 |
+| 대용량 이벤트 스토어 | [[179_kafka_flink_watermark_time_window|Kafka]] Tiered Storage |
+| [[022_snapshot_backup_architecture|스냅샷]] 없이 긴 이력 재현 | 주기적 [[022_snapshot_backup_architecture|스냅샷]] + 이후 이벤트 적용 |
 
 📢 **섹션 요약 비유**: 재처리(Replay)는 비디오 녹화본을 처음부터 다시 돌려보는 것과 같다. 같은 영상이지만 새로운 시각(로직)으로 다시 분석하면 다른 결론을 낼 수 있다.
 
@@ -269,14 +269,14 @@ Kafka Topic: order-events
 
 ## Ⅴ. 기대효과 및 결론
 
-### 5.1 이벤트 소싱 + 카파 아키텍처의 기대효과
+### 5.1 [[249_event_sourcing_append_only_state_reconstruction|이벤트 소싱]] + [[096_kappa_architecture|카파 아키텍처]]의 기대효과
 
 | 효과 | 정량적 지표 |
 |:---|:---|
-| 운영 복잡도 감소 | 람다 대비 코드베이스 50% 감소 |
+| 운영 복잡도 감소 | [[216_lambda_kappa_architecture_batch_realtime|람다]] 대비 [[007_codebase|코드베이스]] 50% 감소 |
 | 재처리 자동화 | 수동 배치 재실행 제거 |
-| 완전한 감사 추적 | 모든 상태 변화 100% 추적 |
-| 새 기능 빠른 배포 | Consumer Group 추가로 무중단 확장 |
+| 완전한 [[606_auditing_linux_auditd|감사]] 추적 | 모든 상태 변화 100% 추적 |
+| 새 기능 빠른 배포 | [[191_consumer_group_kafka_partition_load_balancing|Consumer Group]] 추가로 무중단 확장 |
 
 ### 5.2 기술 선택 가이드라인 (기술사 관점)
 
@@ -297,35 +297,35 @@ Kafka Topic: order-events
 
 | 기업 | 아키텍처 | 용도 |
 |:---|:---|:---|
-| Netflix | 람다 → 카파 전환 | 실시간 추천 |
-| LinkedIn | 카파 (Kafka 기반) | 사용자 활동 스트림 |
-| Uber | 이벤트 소싱 + CQRS | 실시간 주문/위치 처리 |
-| Airbnb | 람다 → Flink 기반 카파 | 가격 최적화 |
+| Netflix | [[216_lambda_kappa_architecture_batch_realtime|람다]] → 카파 전환 | 실시간 추천 |
+| LinkedIn | 카파 ([[179_kafka_flink_watermark_time_window|Kafka]] 기반) | 사용자 활동 스트림 |
+| Uber | [[249_event_sourcing_append_only_state_reconstruction|이벤트 소싱]] + [[306_cqrs|CQRS]] | 실시간 주문/위치 처리 |
+| Airbnb | [[216_lambda_kappa_architecture_batch_realtime|람다]] → Flink 기반 카파 | 가격 최적화 |
 
 ### 5.4 결론 요약
 
-이벤트 소싱은 데이터의 불변성과 재현성을 보장하는 강력한 패턴이며, 카파 아키텍처와 결합 시 운영 단순성과 실시간 처리를 동시에 달성한다. 기술사 시험에서는 **람다 vs 카파의 트레이드오프**와 **Kafka를 이벤트 소싱 스토어로 활용하는 방법**이 핵심 논점이다.
+[[249_event_sourcing_append_only_state_reconstruction|이벤트 소싱]]은 [[001_dikw_pyramid|데이터]]의 불변성과 재현성을 보장하는 강력한 패턴이며, [[096_kappa_architecture|카파 아키텍처]]와 결합 시 운영 단순성과 실시간 처리를 동시에 달성한다. 기술사 시험에서는 **[[216_lambda_kappa_architecture_batch_realtime|람다]] vs 카파의 트레이드오프**와 **Kafka를 [[249_event_sourcing_append_only_state_reconstruction|이벤트 소싱]] 스토어로 활용하는 방법**이 핵심 논점이다.
 
-📢 **섹션 요약 비유**: 이벤트 소싱 + 카파 아키텍처는 "블랙박스 + 실시간 내비게이션" 조합과 같다. 블랙박스(이벤트 스토어)로 모든 주행 기록을 저장하고, 내비게이션(스트림 처리)이 실시간으로 최적 경로를 안내하며, 사고(장애) 시 블랙박스로 정확한 원인을 파악한다.
+📢 **섹션 요약 비유**: [[249_event_sourcing_append_only_state_reconstruction|이벤트 소싱]] + [[096_kappa_architecture|카파 아키텍처]]는 "블랙박스 + 실시간 내비게이션" 조합과 같다. 블랙박스(이벤트 스토어)로 모든 주행 기록을 저장하고, 내비게이션([[229_stream_processing_kafka_flink|스트림 처리]])이 실시간으로 최적 경로를 안내하며, 사고(장애) 시 블랙박스로 정확한 원인을 파악한다.
 
 ---
 
 ### 📌 관련 개념 맵
 
-| 관계 | 개념 | 설명 |
+| [[083_relationship_in_er_model|관계]] | 개념 | 설명 |
 |:---|:---|:---|
-| 저장 패턴 | Event Sourcing (이벤트 소싱) | 상태를 이벤트 스트림으로 저장 |
-| 아키텍처 패턴 | Lambda Architecture (람다 아키텍처) | 배치 + 스트림 이중 경로 |
-| 아키텍처 패턴 | Kappa Architecture (카파 아키텍처) | 스트림 단일 경로 |
-| 설계 패턴 | CQRS | 명령과 쿼리 분리 |
-| 인프라 | Kafka | 이벤트 스토어 + 메시지 큐 |
+| 저장 패턴 | [[307_event_sourcing|Event Sourcing]] ([[249_event_sourcing_append_only_state_reconstruction|이벤트 소싱]]) | 상태를 이벤트 스트림으로 저장 |
+| 아키텍처 패턴 | [[095_lambda_architecture|Lambda Architecture]] ([[095_lambda_architecture|람다 아키텍처]]) | 배치 + 스트림 [[500_multipath_io|이중 경로]] |
+| 아키텍처 패턴 | [[096_kappa_architecture|Kappa Architecture]] ([[096_kappa_architecture|카파 아키텍처]]) | 스트림 단일 경로 |
+| 설계 패턴 | [[306_cqrs|CQRS]] | 명령과 [[298_qkv_attention|쿼리]] 분리 |
+| 인프라 | [[179_kafka_flink_watermark_time_window|Kafka]] | 이벤트 스토어 + 메시지 큐 |
 | 재처리 | Replay (재현) | 오프셋 리셋 후 재처리 |
 | 표현 변환 | Projection (프로젝션) | 이벤트 → 읽기 모델 변환 |
-| 스키마 관리 | Schema Registry | 이벤트 스키마 버전 관리 |
+| [[005_schema|스키마]] 관리 | [[505_schema|Schema]] [[235_registry_immutable_tag|Registry]] | 이벤트 [[005_schema|스키마]] [[288_version_ihl_tos_total_length|버전]] 관리 |
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. 이벤트 소싱은 일기를 매일 쓰는 것과 같아요. 일기를 처음부터 다시 읽으면 오늘의 나를 정확히 이해할 수 있죠.
+1. [[249_event_sourcing_append_only_state_reconstruction|이벤트 소싱]]은 일기를 매일 쓰는 것과 같아요. 일기를 처음부터 다시 읽으면 오늘의 나를 정확히 이해할 수 있죠.
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -346,5 +346,5 @@ CRUD 기반 상태 저장 (현재 상태만 유지)
     ▼
 CQRS: 쓰기 모델(Command)과 읽기 모델(Query) 분리
 ```
-2. 람다 아키텍처는 두 개의 창구가 있는 은행이에요. 빠른 창구(스트림)와 정확한 창구(배치) 두 곳에서 결과를 합쳐요.
-3. 카파 아키텍처는 스트리밍 서비스처럼 한 곳에서 모든 영상을 보여주는데, 필요하면 처음부터 다시 재생해서 새로운 자막(로직)도 입힐 수 있어요.
+2. [[095_lambda_architecture|람다 아키텍처]]는 두 개의 창구가 있는 은행이에요. 빠른 창구(스트림)와 정확한 창구(배치) 두 곳에서 결과를 합쳐요.
+3. [[096_kappa_architecture|카파 아키텍처]]는 스트리밍 서비스처럼 한 곳에서 모든 영상을 보여주는데, 필요하면 처음부터 다시 재생해서 새로운 자막(로직)도 입힐 수 있어요.

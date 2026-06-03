@@ -8,41 +8,41 @@ categories = "studynote-operating-system"
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 락 프리(Lock-Free) 데이터 구조는 멀티스레드 환경에서 자원을 보호하기 위해 전통적인 상호 배제(Mutex, Spinlock)를 사용하지 않고, 하드웨어가 제공하는 **원자적 명령어(Atomic Instruction, 예: CAS)**를 활용하여 스레드 간의 동기화를 달성하는 알고리즘이다.
-> 2. **메커니즘**: 락 프리 스택(Treiber Stack)이나 큐(Michael-Scott Queue)의 핵심은, 데이터를 변경하기 전의 상태(Old)를 기억해 두고 변경을 시도(CAS)했을 때, 그 찰나의 순간에 다른 스레드가 개입했다면 변경을 실패시키고(Fail) 다시 처음부터 재시도(Retry 루프)하는 낙관적 동시성 제어 방식이다.
-> 3. **가치**: 락(Lock)을 획득하기 위한 스레드들의 대기(Block) 상태나 컨텍스트 스위칭 오버헤드가 원천적으로 사라지므로, 코어가 수십~수백 개인 현대 매니코어(Many-core) 서버와 고성능 커널/데이터베이스 엔진에서 **병목 없는 궁극의 확장성(Scalability)**을 제공한다.
+> 1. **본질**: 락 프리([[256_lock_free_data_structures|Lock-Free]]) [[001_dikw_pyramid|데이터]] 구조는 멀티스레드 환경에서 자원을 보호하기 위해 전통적인 [[283_mutual_exclusion|상호 배제]]([[223_mutex|Mutex]], [[222_spinlock|Spinlock]])를 사용하지 않고, 하드웨어가 제공하는 **원자적 [[158_instruction|명령어]](Atomic [[158_instruction|Instruction]], 예: [[768_cas_compare_and_swap_lock_free|CAS]])**를 활용하여 [[092_thread_lwp|스레드]] 간의 [[212_synchronization_mechanisms|동기화]]를 달성하는 [[001_algorithm_definition|알고리즘]]이다.
+> 2. **메커니즘**: 락 프리 [[057_stack|스택]](Treiber [[057_stack|Stack]])이나 큐(Michael-Scott [[058_queue|Queue]])의 핵심은, [[001_dikw_pyramid|데이터]]를 변경하기 전의 상태(Old)를 기억해 두고 변경을 시도([[768_cas_compare_and_swap_lock_free|CAS]])했을 때, 그 찰나의 순간에 다른 [[092_thread_lwp|스레드]]가 개입했다면 변경을 실패시키고(Fail) 다시 처음부터 재시도(Retry 루프)하는 [[223_optimistic_concurrency_control_validation|낙관적 동시성 제어]] 방식이다.
+> 3. **가치**: 락([[510_lock|Lock]])을 획득하기 위한 [[092_thread_lwp|스레드]]들의 대기(Block) 상태나 [[034_context_switch|컨텍스트 스위칭]] 오버헤드가 원천적으로 사라지므로, 코어가 수십~수백 개인 현대 매니코어(Many-core) 서버와 고성능 [[022_kernel_role|커널]]/[[002_database_definition|데이터베이스]] 엔진에서 **병목 없는 궁극의 확장성(Scalability)**을 제공한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
 - **개념**: 
-  - **블로킹(Blocking) 자료구조**: 공유 데이터를 수정할 때 락(Lock)을 걸어 다른 스레드의 접근을 원천 차단하는 방식.
-  - **넌블로킹(Non-blocking) 자료구조**: 락을 걸지 않고도 동시성을 보장하는 알고리즘의 총칭. 그중 **락 프리(Lock-Free)**는 시스템 전체의 관점에서 "최소한 한 스레드는 무조건 전진(Progress)한다"는 것을 보장하는 수준의 자료구조다. (특정 스레드는 계속 재시도를 반복하며 지연될 수 있음)
+  - **블로킹([[122_sync_async_communication|Blocking]]) 자료구조**: 공유 [[001_dikw_pyramid|데이터]]를 수정할 때 락([[510_lock|Lock]])을 걸어 다른 [[092_thread_lwp|스레드]]의 접근을 원천 차단하는 방식.
+  - **넌블로킹(Non-[[122_sync_async_communication|blocking]]) 자료구조**: 락을 걸지 않고도 [[014_concurrency|동시성]]을 보장하는 [[001_algorithm_definition|알고리즘]]의 총칭. 그중 **락 프리([[256_lock_free_data_structures|Lock-Free]])**는 시스템 전체의 관점에서 "최소한 한 [[092_thread_lwp|스레드]]는 무조건 전진([[216_progress_in_synchronization|Progress]])한다"는 것을 보장하는 수준의 자료구조다. (특정 [[092_thread_lwp|스레드]]는 계속 재시도를 반복하며 [[015_지연_데이터_관점|지연]]될 수 있음)
 
 - **필요성 (전통적 락의 한계 극복)**: 
-  - 코어가 4개일 때는 뮤텍스 락을 걸어도 큰 문제가 없었다. 하지만 코어가 64개인 서버에서 64개의 스레드가 큐(Queue) 하나에 데이터를 넣으려고 경쟁(Contention)하면, 1개만 작업하고 63개는 락을 얻기 위해 잠들거나 무한 루프(Busy-wait)를 돌며 CPU 사이클을 낭비한다.
-  - 더 최악인 상황은 락을 쥔 스레드가 OS의 스케줄링에 의해 CPU를 뺏기거나(Preemption) 페이지 폴트가 발생하여 멈춰버리면, 나머지 63개 스레드도 이유 없이 다 같이 멈추는 **"락 경합과 데드락의 늪"**에 빠진다는 것이다.
-  - **해결책**: 스레드 하나가 죽거나 멈춰도 다른 스레드들의 작업이 방해받지 않는, 운영체제(OS)의 스케줄링에 독립적인 스레드 안전성(Thread-Safety)을 하드웨어의 힘(CAS)을 빌려 구현해야 했다.
+  - 코어가 4개일 때는 뮤텍스 락을 걸어도 큰 문제가 없었다. 하지만 코어가 64개인 서버에서 64개의 [[092_thread_lwp|스레드]]가 큐([[058_queue|Queue]]) 하나에 [[001_dikw_pyramid|데이터]]를 넣으려고 경쟁(Contention)하면, 1개만 작업하고 63개는 락을 얻기 위해 잠들거나 무한 루프(Busy-wait)를 돌며 CPU 사이클을 낭비한다.
+  - 더 최악인 상황은 락을 쥔 [[092_thread_lwp|스레드]]가 OS의 스케줄링에 의해 CPU를 뺏기거나(Preemption) [[286_page_frame|페이지]] 폴트가 발생하여 멈춰버리면, 나머지 63개 [[092_thread_lwp|스레드]]도 이유 없이 다 같이 멈추는 **"락 경합과 데드락의 늪"**에 빠진다는 것이다.
+  - **해결책**: [[092_thread_lwp|스레드]] 하나가 죽거나 멈춰도 다른 [[092_thread_lwp|스레드]]들의 작업이 방해받지 않는, [[001_operating_system_purpose|운영체제]](OS)의 스케줄링에 독립적인 [[092_thread_lwp|스레드]] 안전성(Thread-Safety)을 하드웨어의 힘([[768_cas_compare_and_swap_lock_free|CAS]])을 빌려 구현해야 했다.
 
-  - **락(Lock) 방식**: 공용 화장실(자료구조)에 한 명씩 들어가서 문을 잠그는 방식. 안에 들어간 사람이 쓰러지면(스케줄링 아웃) 밖에 있는 100명이 영원히 화장실을 못 쓴다.
-  - **락 프리(Lock-Free) 방식**: 화장실 문이 아예 없다. 대신 물건을 놓을 자리(메모리)에 먼저 손을 뻗어놓고(Old 값 읽기), 물건을 내려놓는 순간(CAS) 다른 사람 손이 안 겹쳤으면 성공! 만약 동시에 여러 명이 손을 뻗어 부딪혔다면, 가장 먼저 도착한 1명만 성공하고 나머지 99명은 재빨리 손을 거두고 빈자리를 찾아 다시 손을 뻗는(Retry) 무한 눈치게임이다. 한 명이 쓰러져도 나머지 사람들은 계속 자리를 찾아 물건을 놓을 수 있다.
+  - **락([[510_lock|Lock]]) 방식**: 공용 화장실(자료구조)에 한 명씩 들어가서 문을 잠그는 방식. 안에 들어간 사람이 쓰러지면(스케줄링 아웃) 밖에 있는 100명이 영원히 화장실을 못 쓴다.
+  - **락 프리([[256_lock_free_data_structures|Lock-Free]]) 방식**: 화장실 문이 아예 없다. 대신 물건을 놓을 자리(메모리)에 먼저 손을 뻗어놓고(Old 값 읽기), 물건을 내려놓는 순간([[768_cas_compare_and_swap_lock_free|CAS]]) 다른 사람 손이 안 겹쳤으면 성공! 만약 동시에 여러 명이 손을 뻗어 부딪혔다면, 가장 먼저 도착한 1명만 성공하고 나머지 99명은 재빨리 손을 거두고 빈자리를 찾아 다시 손을 뻗는(Retry) 무한 눈치게임이다. 한 명이 쓰러져도 나머지 사람들은 계속 자리를 찾아 물건을 놓을 수 있다.
 
 - **발전 과정**:
-  1. **락 기반 동기화 (Mutex, Semaphore)**: 안전하지만 컨텍스트 스위치 오버헤드와 우선순위 역전 발생.
-  2. **하드웨어 지원 (CAS 연산 도입)**: Compare-And-Swap(x86의 `cmpxchg`) 명령어의 등장이 넌블로킹 프로그래밍의 문을 염.
-  3. **락 프리 알고리즘 (Treiber Stack, M&S Queue)**: 90년대 발표된 후 현대 고성능 서버 프레임워크의 표준 큐로 정착.
-  4. **웨이트 프리 (Wait-Free)**: 락 프리를 넘어, "모든" 스레드가 유한한 단계 안에 반드시 작업을 끝냄을 보장하는 궁극의 단계. (구현이 극도로 복잡함)
+  1. **락 기반 [[212_synchronization_mechanisms|동기화]] ([[223_mutex|Mutex]], [[224_semaphore|Semaphore]])**: 안전하지만 [[033_context|컨텍스트]] [[238_switch_operation_principles|스위치]] 오버헤드와 [[205_priority_inversion|우선순위 역전]] 발생.
+  2. **하드웨어 지원 ([[768_cas_compare_and_swap_lock_free|CAS]] 연산 도입)**: [[415_compare_and_swap|Compare-And-Swap]](x86의 `cmpxchg`) [[158_instruction|명령어]]의 등장이 넌블로킹 프로그래밍의 문을 염.
+  3. **락 프리 [[001_algorithm_definition|알고리즘]] (Treiber [[057_stack|Stack]], M&S [[058_queue|Queue]])**: 90년대 발표된 후 현대 고성능 서버 프레임워크의 표준 큐로 정착.
+  4. **웨이트 프리 (Wait-Free)**: 락 프리를 넘어, "모든" [[092_thread_lwp|스레드]]가 유한한 단계 안에 반드시 작업을 끝냄을 보장하는 궁극의 단계. (구현이 극도로 복잡함)
 
-- **📢 섹션 요약 비유**: 도로에 신호등(Lock)을 세워 차를 멈추게 하는 대신, 모든 차가 눈치껏 빈 공간에 차선 변경(CAS)을 시도하게 만들어 도로 전체의 흐름이 절대 멈추지 않게 하는 로터리 시스템입니다.
+- **📢 섹션 요약 비유**: 도로에 신호등([[510_lock|Lock]])을 세워 차를 멈추게 하는 대신, 모든 차가 눈치껏 빈 공간에 차선 변경([[768_cas_compare_and_swap_lock_free|CAS]])을 시도하게 만들어 도로 전체의 흐름이 절대 멈추지 않게 하는 로터리 시스템입니다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### 구성 요소: CAS (Compare-And-Swap) 원자적 명령어
+### 구성 요소: [[768_cas_compare_and_swap_lock_free|CAS]] ([[415_compare_and_swap|Compare-And-Swap]]) 원자적 [[158_instruction|명령어]]
 
-락 프리를 이해하기 위한 절대적 전제 조건은 하드웨어(CPU)가 제공하는 `CAS` 명령어다.
+락 프리를 이해하기 위한 절대적 전제 조건은 하드웨어(CPU)가 제공하는 `CAS` [[158_instruction|명령어]]다.
 
 | 연산 로직 (가상 코드) | 설명 | 비유 |
 |:---|:---|:---|
@@ -53,9 +53,9 @@ categories = "studynote-operating-system"
 
 ---
 
-### 1. 락 프리 스택 (Treiber Stack) 구조
+### 1. 락 프리 [[057_stack|스택]] (Treiber [[057_stack|Stack]]) 구조
 
-1986년 R. K. Treiber가 고안한 단일 연결 리스트 기반의 락 프리 LIFO(Last-In-First-Out) 구조다. Head(Top) 포인터 갱신에 CAS를 사용한다.
+1986년 R. K. Treiber가 고안한 단일 [[056_linked_list|연결 리스트]] 기반의 락 프리 LIFO(Last-In-First-Out) 구조다. Head(Top) 포인터 갱신에 CAS를 사용한다.
 
 ```text
   ┌───────────────────────────────────────────────────────────────────┐
@@ -87,13 +87,13 @@ categories = "studynote-operating-system"
   └───────────────────────────────────────────────────────────────────┘
 ```
 
-**[다이어그램 해설]** 스택의 연산은 구조상 항상 맨 앞(Top)에서만 일어난다. 내가 새 노드를 만들어 기존 Top을 가리키게 하는 작업은 내 로컬 메모리에서 일어나므로 안전하다. 진짜 위험한 순간은 공용 변수인 `Top`이 내가 만든 새 노드를 가리키게 방향을 트는 단 한순간이다. 이 찰나를 CAS로 보호한다. CAS가 실패했다는 것은 내가 작업하는 수 마이크로초 사이에 누군가 새 데이터를 밀어 넣거나 뺐다는 뜻이다. 락킹(Locking) 환경이라면 락을 기다렸겠지만, 락 프리에서는 쿨하게 실패를 인정하고 바뀐 Top을 기준으로 작업을 다시 시도한다.
+**[다이어그램 해설]** [[057_stack|스택]]의 연산은 구조상 항상 맨 앞(Top)에서만 일어난다. 내가 새 노드를 만들어 기존 Top을 가리키게 하는 작업은 내 로컬 메모리에서 일어나므로 안전하다. 진짜 위험한 순간은 공용 변수인 `Top`이 내가 만든 새 노드를 가리키게 방향을 트는 단 한순간이다. 이 찰나를 CAS로 보호한다. CAS가 실패했다는 것은 내가 작업하는 수 마이크로초 사이에 누군가 새 [[001_dikw_pyramid|데이터]]를 밀어 넣거나 뺐다는 뜻이다. 락킹([[213_locking_mechanism_concurrency_control|Locking]]) 환경이라면 락을 기다렸겠지만, 락 프리에서는 쿨하게 실패를 인정하고 바뀐 Top을 기준으로 작업을 다시 시도한다.
 
 ---
 
-### 2. 락 프리 큐 (Michael-Scott Queue) 구조
+### 2. 락 프리 큐 (Michael-Scott [[058_queue|Queue]]) 구조
 
-스택은 한쪽(Top)만 신경 쓰면 되지만, 큐(FIFO)는 넣는 곳(Tail)과 빼는 곳(Head) 두 군데를 관리해야 하므로 훨씬 복잡하다. 1996년 Maged M. Michael과 Michael L. Scott이 고안한 MS 큐가 사실상 업계 표준이다.
+[[057_stack|스택]]은 한쪽(Top)만 신경 쓰면 되지만, 큐([[261_fifo_page_replacement|FIFO]])는 넣는 곳(Tail)과 빼는 곳(Head) 두 군데를 관리해야 하므로 훨씬 복잡하다. 1996년 Maged M. Michael과 Michael L. Scott이 고안한 MS 큐가 사실상 업계 표준이다.
 
 ```text
   ┌───────────────────────────────────────────────────────────────────┐
@@ -124,27 +124,27 @@ categories = "studynote-operating-system"
   └───────────────────────────────────────────────────────────────────┘
 ```
 
-- **📢 섹션 요약 비유**: 스택(탑 쌓기)이 내가 블록을 얹을 때 누가 치지 않았나 눈치 보는 게임이라면, 큐(줄 서기)는 앞사람(Tail) 어깨에 손을 얹은 뒤(CAS 1), 줄의 안내판(Tail 포인터)을 내 자리로 끌어오는(CAS 2) 2단계 눈치 게임입니다. 만약 내가 안내판을 못 끌어오고 쓰러지면 뒷사람이 대신 끌어와 줍니다(협력).
+- **📢 섹션 요약 비유**: [[057_stack|스택]](탑 쌓기)이 내가 블록을 얹을 때 누가 치지 않았나 눈치 보는 게임이라면, 큐(줄 서기)는 앞사람(Tail) 어깨에 손을 얹은 뒤([[768_cas_compare_and_swap_lock_free|CAS]] 1), 줄의 안내판(Tail 포인터)을 내 자리로 끌어오는([[768_cas_compare_and_swap_lock_free|CAS]] 2) 2단계 눈치 게임입니다. 만약 내가 안내판을 못 끌어오고 쓰러지면 뒷사람이 대신 끌어와 줍니다(협력).
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-### 동기화 기법 스펙트럼 비교
+### [[212_synchronization_mechanisms|동기화]] 기법 스펙트럼 비교
 
-| 기법 / 특성 | Mutex (Sleep Lock) | Spinlock (바쁜 대기) | Lock-Free (CAS 루프) | Wait-Free |
+| 기법 / 특성 | [[223_mutex|Mutex]] (Sleep [[510_lock|Lock]]) | [[222_spinlock|Spinlock]] ([[227_busy_waiting|바쁜 대기]]) | [[256_lock_free_data_structures|Lock-Free]] ([[768_cas_compare_and_swap_lock_free|CAS]] 루프) | Wait-Free |
 |:---|:---|:---|:---|:---|
 | **기본 동작** | 락 획득 실패 시 CPU 양보(Sleep) | 락 획득까지 CPU 점유하며 무한 루프 | 락 없음. 실패 시 로직 처음부터 재수행 | 락 없음. 실패 없이 한 번에 성공 보장 |
-| **스케줄링 내성**| 매우 취약 (우선순위 역전, 데드락) | 취약 (소유자 Preempt 시 대참사) | **내성 강함 (1개가 죽어도 남은 전진)** | 완벽함 |
-| **경합 시 성능** | 문맥 교환 오버헤드로 폭락 | 코어 수 많아질수록 캐시 버스 폭발 | 재시도(Retry) 폭증 시 CPU 소모 큼 | 항상 일정함 |
+| **스케줄링 내성**| 매우 취약 ([[205_priority_inversion|우선순위 역전]], 데드락) | 취약 (소유자 Preempt 시 대참사) | **내성 강함 (1개가 죽어도 남은 전진)** | 완벽함 |
+| **경합 시 [[282_performance_tactics|성능]]** | [[211_context_switch|문맥 교환]] 오버헤드로 폭락 | 코어 수 많아질수록 캐시 [[344_bus|버스]] 폭발 | 재시도(Retry) 폭증 시 CPU 소모 큼 | 항상 일정함 |
 | **구현 난이도** | 쉬움 (일반 개발자 표준) | 쉬움 | **매우 어려움 (ABA 문제 등 발생)** | 극악 (학술적 영역) |
 
 ### 과목 융합 관점
 
-- **컴퓨터구조 (CA)**: `CAS` 명령어는 내부적으로 메모리 버스 잠금(Bus Lock)이나 캐시 일관성 프로토콜(MESI)의 캐시 라인 독점(Cacheline Locking)을 유발한다. 따라서 락 프리가 무조건 빠른 것은 아니며, 수십 개의 코어가 하나의 변수(Head)에 CAS를 남발하면 캐시 핑퐁(Ping-pong) 현상으로 인해 메모리 대역폭이 붕괴된다.
-- **운영체제 (OS)**: 메모리 할당(malloc/free)과 락 프리 알고리즘은 상극이다. 락 프리를 구현하려면 포인터 해제가 극도로 까다롭기 때문에(다른 스레드가 참조 중일 수 있음), OS 레벨의 RCU(Read-Copy-Update)나 Hazard Pointer 같은 메모리 재활용(Reclamation) 기법이 결합되어야만 메모리 누수나 크래시를 막을 수 있다.
+- **컴퓨터구조 ([[089_contract_account_smart_contract|CA]])**: `CAS` [[158_instruction|명령어]]는 내부적으로 메모리 [[344_bus|버스]] 잠금([[344_bus|Bus]] [[510_lock|Lock]])이나 [[402_cache_coherence|캐시 일관성]] [[295_protocol_field_tcp_udp_icmp|프로토콜]](MESI)의 캐시 라인 독점(Cacheline [[213_locking_mechanism_concurrency_control|Locking]])을 유발한다. 따라서 락 프리가 무조건 빠른 것은 아니며, 수십 개의 코어가 하나의 변수(Head)에 CAS를 남발하면 캐시 핑퐁(Ping-pong) 현상으로 인해 메모리 대역폭이 붕괴된다.
+- **[[001_operating_system_purpose|운영체제]] (OS)**: 메모리 할당(malloc/free)과 락 프리 [[001_algorithm_definition|알고리즘]]은 상극이다. 락 프리를 구현하려면 포인터 해제가 극도로 까다롭기 때문에(다른 [[092_thread_lwp|스레드]]가 [[316_reference_pattern_nosql|참조]] 중일 수 있음), OS 레벨의 [[254_rcu_read_copy_update|RCU]]([[254_rcu_read_copy_update|Read-Copy-Update]])나 Hazard Pointer 같은 메모리 재활용(Reclamation) 기법이 결합되어야만 메모리 누수나 크래시를 막을 수 있다.
 
-- **📢 섹션 요약 비유**: Mutex가 꽉 막힌 사거리의 신호등이라면, Spinlock은 꼬리물기이고, Lock-Free는 모든 차가 알아서 피해 가는 자율주행입니다. 단, 길이 하나(캐시 라인)뿐일 때는 자율주행도 서로 피하느라 시간이 걸립니다.
+- **📢 섹션 요약 비유**: Mutex가 꽉 막힌 사거리의 신호등이라면, Spinlock은 꼬리물기이고, [[510_lock|Lock]]-Free는 모든 차가 알아서 피해 가는 자율주행입니다. 단, 길이 하나(캐시 라인)뿐일 때는 자율주행도 서로 피하느라 시간이 걸립니다.
 
 ---
 
@@ -152,11 +152,11 @@ categories = "studynote-operating-system"
 
 ### 실무 시나리오
 
-1. **시나리오 — 락 프리 구조의 치명적 함정 'ABA 문제' 발생**: 락 프리 스택을 C++로 구현했다. 스레드 1이 `Pop`을 하려고 Top 노드 A를 읽어두고(Node A -> Node B) 잠깐 멈춘 사이, 스레드 2가 A를 Pop하고, B도 Pop한 뒤, 새로운 메모리 주소 A를 다시 할당받아 Push 해버렸다. 스레드 1이 깨어나 CAS(Top, A, B)를 실행하니 Top이 우연히 다시 A여서 "성공!"을 외치고 Top을 B로 바꿨다. 하지만 B는 이미 해제(Free)된 메모리라 시스템이 코어 덤프(Segfault)를 뿜고 죽었다.
-   - **대응 (기술사적 가이드)**: 이것이 그 유명한 **ABA 문제(ABA Problem)**다. 값이 A $\rightarrow$ B $\rightarrow$ A로 변했는데 CAS는 메모리 주소(값)만 보므로 속아 넘어간 것이다. 이를 막기 위해 64비트 포인터 옆에 변경 횟수를 뜻하는 **태그(Tag)나 버전(Version) 카운터**를 붙여 128비트 CAS(`cmpxchg16b`)를 수행하게 설계해야 한다. 즉, A(버전1)과 A(버전3)을 다르게 인식하게 만들어 ABA를 원천 봉쇄한다.
+1. **시나리오 — 락 프리 구조의 치명적 함정 'ABA 문제' 발생**: 락 프리 [[057_stack|스택]]을 C++로 구현했다. [[092_thread_lwp|스레드]] 1이 `Pop`을 하려고 Top 노드 A를 읽어두고(Node A -> Node B) 잠깐 멈춘 사이, [[092_thread_lwp|스레드]] 2가 A를 Pop하고, B도 Pop한 뒤, 새로운 메모리 주소 A를 다시 할당받아 Push 해버렸다. [[092_thread_lwp|스레드]] 1이 깨어나 [[768_cas_compare_and_swap_lock_free|CAS]](Top, A, B)를 실행하니 Top이 우연히 다시 A여서 "성공!"을 외치고 Top을 B로 바꿨다. 하지만 B는 이미 해제(Free)된 메모리라 시스템이 [[035_core_dump|코어 덤프]](Segfault)를 뿜고 죽었다.
+   - **대응 (기술사적 가이드)**: 이것이 그 유명한 **ABA 문제([[568_aba_problem|ABA Problem]])**다. 값이 A $\rightarrow$ B $\rightarrow$ A로 변했는데 CAS는 메모리 주소(값)만 보므로 속아 넘어간 것이다. 이를 막기 위해 64비트 포인터 옆에 변경 횟수를 뜻하는 **태그(Tag)나 [[288_version_ihl_tos_total_length|버전]](Version) [[059_counter|카운터]]**를 붙여 128비트 [[768_cas_compare_and_swap_lock_free|CAS]](`cmpxchg16b`)를 수행하게 설계해야 한다. 즉, A([[288_version_ihl_tos_total_length|버전]]1)과 A([[288_version_ihl_tos_total_length|버전]]3)을 다르게 인식하게 만들어 ABA를 원천 봉쇄한다.
 
-2. **시나리오 — 고빈도 거래(HFT) 시스템의 링 버퍼 병목**: 초당 백만 건의 호가 데이터를 생산자(Network)가 버퍼에 넣고 소비자(Trading Engine)가 빼가는 1:1 파이프라인. Mutex를 쓰면 지연 시간(Latency)이 튀어서 거래를 놓친다.
-   - **아키텍처 적용**: 단일 생산자-단일 소비자(SPSC) 환경이므로, 복잡한 MS 큐나 CAS 명령어조차 필요 없다. 단순히 읽기 포인터(Read Index)와 쓰기 포인터(Write Index)를 캐시 라인(64 Byte)이 겹치지 않게 떨어뜨려 배치(False Sharing 방지)하고, **메모리 배리어(Memory Barrier / Fence)**만 적절히 치면 락도 CAS도 없는 진정한 제로 오버헤드 락프리 링 버퍼(예: LMAX Disruptor)를 구축할 수 있다.
+2. **시나리오 — 고빈도 거래(HFT) 시스템의 링 버퍼 병목**: 초당 백만 건의 호가 [[001_dikw_pyramid|데이터]]를 생산자(Network)가 버퍼에 넣고 소비자(Trading Engine)가 빼가는 1:1 파이프라인. Mutex를 쓰면 [[141_latency|지연 시간]]([[141_latency|Latency]])이 튀어서 거래를 놓친다.
+   - **아키텍처 적용**: 단일 생산자-단일 소비자(SPSC) 환경이므로, 복잡한 MS 큐나 [[768_cas_compare_and_swap_lock_free|CAS]] [[158_instruction|명령어]]조차 필요 없다. 단순히 읽기 포인터(Read [[154_database_index_b_tree_search_optimization|Index]])와 [[289_cqrs_db|쓰기]] 포인터(Write [[154_database_index_b_tree_search_optimization|Index]])를 캐시 라인(64 [[074_byte|Byte]])이 겹치지 않게 떨어뜨려 배치([[409_false_sharing|False Sharing]] 방지)하고, **[[416_memory_barrier|메모리 배리어]]([[416_memory_barrier|Memory Barrier]] / Fence)**만 적절히 치면 락도 CAS도 없는 진정한 제로 오버헤드 락프리 링 버퍼(예: LMAX Disruptor)를 구축할 수 있다.
 
 ### 의사결정 및 튜닝 플로우
 
@@ -186,11 +186,11 @@ categories = "studynote-operating-system"
   └───────────────────────────────────────────────────────────────────┘
 ```
 
-**[다이어그램 해설]** "락 프리가 무조건 빠르다"는 주니어 개발자의 착각이다. 극심한 병목 상황에서는 수십 개의 스레드가 CAS 실패로 인한 `while(1)` 무한 재시도 루프를 돌며 CPU를 100% 태우는 라이브락(Livelock) 유사 증상을 겪고 성능이 Mutex보다 더 느려질 수 있다. 지연 시간(Latency)의 꼬리표(Tail Latency)를 잡아야 하는 극단적 상황에서만 전문가의 손길(ABA 방어, False sharing 방어)을 거쳐 락 프리를 도입하는 것이 기술사적 정답이다.
+**[다이어그램 해설]** "락 프리가 무조건 빠르다"는 주니어 개발자의 착각이다. 극심한 병목 상황에서는 수십 개의 [[092_thread_lwp|스레드]]가 [[768_cas_compare_and_swap_lock_free|CAS]] 실패로 인한 `while(1)` 무한 재시도 루프를 돌며 CPU를 100% 태우는 [[315_livelock_vs_deadlock|라이브락]]([[315_livelock_vs_deadlock|Livelock]]) 유사 증상을 겪고 [[282_performance_tactics|성능]]이 Mutex보다 더 느려질 수 있다. [[141_latency|지연 시간]]([[141_latency|Latency]])의 꼬리표(Tail [[141_latency|Latency]])를 잡아야 하는 극단적 상황에서만 전문가의 손길(ABA 방어, [[409_false_sharing|False sharing]] 방어)을 거쳐 락 프리를 도입하는 것이 기술사적 정답이다.
 
-### 도입 체크리스트
-- **메모리 해제 정책 (Memory Reclamation)**: Lock-Free 환경에서 노드를 함부로 `free()` 하면 다른 스레드의 CAS 연산 중에 페이지 폴트가 터진다. 이를 막기 위해 자바는 가비지 컬렉터(GC)에 의존하면 되지만, C/C++ 환경에서는 Hazard Pointer 기법을 프레임워크 레벨에서 구축했는가?
-- **메모리 오더링 (Memory Ordering)**: 컴파일러나 CPU 하드웨어가 실행 순서를 뒤바꾸는 최적화(Out-of-Order Execution)를 수행할 때 락 프리는 즉각 망가진다. C++11의 `std::atomic`을 사용하여 `memory_order_acquire / release` 시맨틱을 명확히 정의했는가?
+### 도입 [[435_checklist_based_testing|체크리스트]]
+- **메모리 해제 [[164_policy|정책]] (Memory Reclamation)**: [[256_lock_free_data_structures|Lock-Free]] 환경에서 노드를 함부로 `free()` 하면 다른 [[092_thread_lwp|스레드]]의 [[768_cas_compare_and_swap_lock_free|CAS]] 연산 중에 [[286_page_frame|페이지]] 폴트가 터진다. 이를 막기 위해 자바는 [[591_mvcc_garbage_collection_vacuum|가비지 컬렉터]](GC)에 의존하면 되지만, C/C++ 환경에서는 Hazard Pointer 기법을 프레임워크 레벨에서 구축했는가?
+- **메모리 오더링 (Memory [[277_semaphore_ordering|Ordering]])**: 컴파일러나 CPU 하드웨어가 실행 순서를 뒤바꾸는 최적화(Out-of-Order Execution)를 수행할 때 락 프리는 즉각 망가진다. C++11의 `std::atomic`을 사용하여 `memory_order_acquire / release` 시맨틱을 명확히 정의했는가?
 
 - **📢 섹션 요약 비유**: 락 프리는 날이 바짝 선 '면도칼'입니다. 고기를 썰 때는 막강하지만, 손잡이(ABA, 메모리 회수)를 잘못 쥐면 내 손(시스템)이 다칩니다. 필요할 때만 써야 하는 궁극의 무기입니다.
 
@@ -200,20 +200,20 @@ categories = "studynote-operating-system"
 
 ### 정량/정성 기대효과
 
-| 구분 | 락 기반 (Mutex) 큐 | 락 프리 (Lock-Free) 큐 | 개선 효과 |
+| 구분 | 락 기반 ([[223_mutex|Mutex]]) 큐 | 락 프리 ([[256_lock_free_data_structures|Lock-Free]]) 큐 | 개선 효과 |
 |:---|:---|:---|:---|
-| **정량 (처리량)** | 10만 Ops/sec (코어 수 증가 시 병목) | **수백만 Ops/sec** (코어 수에 비례 확장) | 스레드 스케일아웃 시 선형적(Linear) 성능 확장 |
-| **정량 (지연)** | 락 대기 및 Context Switch 오버헤드 | **평균 수백 나노초(ns)** 내 처리 | 테일 레이턴시(99th Percentile) 극단적 단축 |
-| **정성 (안정성)** | OS 스케줄링에 의해 전체 시스템 멈춤 위험 | 스레드 하나가 죽어도 나머지는 계속 동작 | 데드락/우선순위 역전 원천 배제 (Fault Tolerance) |
+| **정량 ([[139_throughput|처리량]])** | 10만 Ops/sec (코어 수 증가 시 병목) | **수백만 Ops/sec** (코어 수에 비례 확장) | [[092_thread_lwp|스레드]] 스케일아웃 시 선형적(Linear) [[282_performance_tactics|성능]] 확장 |
+| **정량 ([[015_지연_데이터_관점|지연]])** | 락 대기 및 [[211_context_switch|Context Switch]] 오버헤드 | **평균 수백 나노초(ns)** 내 처리 | 테일 레이턴시(99th Percentile) 극단적 단축 |
+| **정성 (안정성)** | OS 스케줄링에 의해 전체 시스템 멈춤 위험 | [[092_thread_lwp|스레드]] 하나가 죽어도 나머지는 계속 동작 | 데드락/[[205_priority_inversion|우선순위 역전]] 원천 배제 ([[800_system_architecture_fault_tolerance_dual|Fault Tolerance]]) |
 
 ### 미래 전망
-- **하드웨어 트랜잭셔널 메모리 (HTM, 예: Intel TSX)**: 복잡한 락 프리 알고리즘을 소프트웨어로 짜는 대신, CPU 캐시를 일종의 DB 트랜잭션처럼 묶어버리는 기술이다. "여러 변수를 한 번에 락 없이 수정"하고 충돌 시 하드웨어가 롤백(Rollback)해주는 기법(Lock Elision)이 보편화되면 소프트웨어 락 프리는 점차 H/W 트랜잭션으로 대체될 것이다.
-- **웨이트 프리(Wait-Free)의 상용화**: 어떤 스레드도 재시도(Retry) 루프에 빠지지 않고 정해진 스텝 안에 연산을 끝내는 궁극의 알고리즘. 과거에는 극도로 느리고 복잡했으나, 최근 학계의 성과(Fast Wait-free Queue)가 조금씩 실무 프레임워크에 이식되고 있다.
+- **[[269_htm_intel_tsx|하드웨어 트랜잭셔널 메모리]] ([[513_htm|HTM]], 예: Intel TSX)**: 복잡한 락 프리 [[001_algorithm_definition|알고리즘]]을 소프트웨어로 짜는 대신, CPU 캐시를 일종의 DB 트랜잭션처럼 묶어버리는 기술이다. "여러 변수를 한 번에 락 없이 수정"하고 충돌 시 하드웨어가 [[098_rollback_strategy_pipeline_error_threshold|롤백]]([[313_rollback|Rollback]])해주는 기법([[270_lock_elision|Lock Elision]])이 보편화되면 소프트웨어 락 프리는 점차 H/W 트랜잭션으로 대체될 것이다.
+- **웨이트 프리(Wait-Free)의 상용화**: 어떤 [[092_thread_lwp|스레드]]도 재시도(Retry) 루프에 빠지지 않고 정해진 스텝 안에 연산을 끝내는 궁극의 [[001_algorithm_definition|알고리즘]]. 과거에는 극도로 느리고 복잡했으나, 최근 학계의 성과(Fast Wait-free [[058_queue|Queue]])가 조금씩 실무 프레임워크에 이식되고 있다.
 
 ### 결론
-병행 프로그래밍에서 락 프리(Lock-Free) 자료구조의 설계는 현대 컴퓨터 과학이 이룩한 가장 정교한 예술 중 하나다. 락(Lock)이라는 원시적인 족쇄를 벗어던짐으로써 다중 코어 시스템의 진정한 잠재력을 해방시켰다. 이 기술은 운영체제 커널의 핵심 스케줄러부터 자바의 `ConcurrentHashMap`, Node.js의 이벤트 루프, 데이터베이스의 동시성 제어 엔진에 이르기까지 우리가 매일 쓰는 모든 고성능 소프트웨어의 보이지 않는 심장으로 뛰고 있다.
+병행 프로그래밍에서 락 프리([[256_lock_free_data_structures|Lock-Free]]) 자료구조의 설계는 현대 컴퓨터 과학이 이룩한 가장 정교한 예술 중 하나다. 락([[510_lock|Lock]])이라는 원시적인 족쇄를 벗어던짐으로써 다중 코어 시스템의 진정한 잠재력을 해방시켰다. 이 기술은 [[001_operating_system_purpose|운영체제]] [[022_kernel_role|커널]]의 핵심 스케줄러부터 자바의 `ConcurrentHashMap`, Node.js의 [[142_event_loop|이벤트 루프]], [[002_database_definition|데이터베이스]]의 [[014_concurrency|동시성]] 제어 엔진에 이르기까지 우리가 매일 쓰는 모든 고성능 소프트웨어의 보이지 않는 심장으로 뛰고 있다.
 
-- **📢 섹션 요약 비유**: 서로 부딪히지 않기 위해 멈춰 서서 양보(Lock)하던 마차의 시대에서 벗어나, 초고속으로 교차하면서도 단 1mm의 오차로 충돌을 피하는(CAS) 비행기들의 에어쇼가 바로 락 프리 시스템입니다.
+- **📢 섹션 요약 비유**: 서로 부딪히지 않기 위해 멈춰 서서 양보([[510_lock|Lock]])하던 마차의 시대에서 벗어나, 초고속으로 교차하면서도 단 1mm의 오차로 충돌을 피하는([[768_cas_compare_and_swap_lock_free|CAS]]) 비행기들의 에어쇼가 바로 락 프리 시스템입니다.
 
 ---
 
@@ -221,10 +221,10 @@ categories = "studynote-operating-system"
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| 벌루닝 (Ballooning) 하이퍼바이저 가상머신 동적 메모리 회수 기법 구조 | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
-| 무정전 업데이트 (Ksplice 등 커널 재부팅 없는 패치망 체계 구조) | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
-| 동시성 디버깅 경쟁 조건 재현 기법 퍼저/스레드 새니타이저 (ThreadSanitizer) | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
-| 다중 경로 I/O (Multipath I/O) 커널 모듈 아키텍처 | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
+| [[632_memory_ballooning_hypervisor|벌루닝]] ([[632_memory_ballooning_hypervisor|Ballooning]]) [[054_hypervisor|하이퍼바이저]] 가상머신 동적 메모리 회수 기법 구조 | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
+| [[633_live_patching_ksplice|무정전 업데이트]] (Ksplice 등 [[022_kernel_role|커널]] 재부팅 없는 패치망 체계 구조) | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
+| [[014_concurrency|동시성]] 디버깅 [[213_race_condition|경쟁 조건]] 재현 기법 퍼저/[[092_thread_lwp|스레드]] 새니타이저 ([[635_concurrency_debugging_tsan|ThreadSanitizer]]) | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
+| 다중 경로 I/O ([[500_multipath_io|Multipath]] I/O) [[022_kernel_role|커널]] [[192_module_independence|모듈]] 아키텍처 | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -242,6 +242,6 @@ categories = "studynote-operating-system"
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. 여러 친구들이 상자에 장난감을 넣으려고 해요. 원래는 자물쇠(Lock)가 있어서 한 명씩 차례대로 문을 열고 넣어야 했죠.
+1. 여러 친구들이 상자에 장난감을 넣으려고 해요. 원래는 자물쇠([[510_lock|Lock]])가 있어서 한 명씩 차례대로 문을 열고 넣어야 했죠.
 2. '락 프리'는 자물쇠를 없앤 거예요! 대신 친구들이 동시에 장난감을 휙 던져 넣고, 가장 먼저 정확히 들어간 1명만 성공해요.
 3. 튕겨 나온 친구들은 화내지 않고 다시 주워서 재빨리 던집니다. 자물쇠를 풀고 잠글 필요가 없어서 눈치만 빠르면 훨씬 빠르게 정리할 수 있답니다!

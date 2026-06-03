@@ -8,15 +8,15 @@ categories = "studynote-security"
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: Secure by Default는 시스템이 처음 켜지는 순간부터 가장 안전한 기본 설정으로 동작하도록 설계하는 원칙이다.
-> 2. **가치**: 사용자가 보안 전문가가 아니어도 최소 권한, 차단 우선, 비공개 우선 상태가 유지되어 설정 실수의 피해를 줄인다.
-> 3. **판단**: 클라우드, IoT (Internet of Things), 계정, API 모두에서 "기본값"이 실제 보안 수준을 결정한다.
+> 1. **본질**: Secure by Default는 시스템이 처음 켜지는 순간부터 가장 안전한 기본 [[009_config|설정]]으로 동작하도록 설계하는 원칙이다.
+> 2. **가치**: 사용자가 보안 전문가가 아니어도 최소 권한, 차단 우선, 비공개 우선 상태가 유지되어 [[009_config|설정]] 실수의 피해를 줄인다.
+> 3. **판단**: 클라우드, [[101_iot_concept|IoT]] (Internet of Things), 계정, [[014_api_posix|API]] 모두에서 "기본값"이 실제 보안 수준을 결정한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-많은 보안 사고는 복잡한 해킹보다 기본 비밀번호, 공개 버킷, 열린 포트처럼 초기 설정이 약해서 발생한다. 사용자가 항상 보안 전문가일 것이라 기대하는 것은 현실적이지 않다.
+많은 보안 사고는 복잡한 해킹보다 기본 비밀번호, 공개 버킷, 열린 [[446_port_and_bus|포트]]처럼 [[459_quic_fec_forward_error_correction|초기]] [[009_config|설정]]이 약해서 발생한다. 사용자가 항상 보안 전문가일 것이라 기대하는 것은 현실적이지 않다.
 
 Secure by Default는 사용자가 아무것도 바꾸지 않아도 안전하게 시작되도록 시스템을 설계하자는 약속이다. 즉, 위험한 기능은 기본적으로 꺼 두고, 정말 필요할 때만 켜게 만든다.
 
@@ -39,16 +39,16 @@ Secure by Default는 사용자가 아무것도 바꾸지 않아도 안전하게 
 | 원칙 | 의미 |
 | :-- | :-- |
 | Deny by Default | 허용이 없으면 차단 |
-| Least Privilege | 필요한 권한만 부여 |
-| Fail-safe | 오류 시 안전한 상태로 복귀 |
-| Secure Defaults | 제품 출고 시 안전한 설정 적용 |
+| [[010_least_privilege|Least Privilege]] | 필요한 권한만 부여 |
+| [[459_fail_safe|Fail-safe]] | 오류 시 안전한 상태로 복귀 |
+| Secure Defaults | 제품 출고 시 안전한 [[009_config|설정]] 적용 |
 
 | 적용 영역 | 예시 |
 | :-- | :-- |
 | Cloud | 공개 버킷 차단, 기본 암호화 |
-| Identity | 초기 비밀번호 강제 변경, MFA (Multi-Factor Authentication) |
-| Device | 원격 접속 포트 기본 차단 |
-| API | 인증 없이는 접근 불가 |
+| Identity | [[459_quic_fec_forward_error_correction|초기]] 비밀번호 강제 변경, [[552_mfa|MFA]] ([[552_mfa|Multi-Factor Authentication]]) |
+| Device | 원격 접속 [[446_port_and_bus|포트]] 기본 차단 |
+| [[014_api_posix|API]] | [[303_authentication_authorization_patterns|인증]] 없이는 접근 불가 |
 
 보안은 사용자가 "켜는 것"이 아니라, 시스템이 "이미 안전하게 시작하는 것"에서 출발한다.
 
@@ -58,20 +58,20 @@ Secure by Default는 사용자가 아무것도 바꾸지 않아도 안전하게 
 
 ## Ⅲ. 비교 및 연결
 
-| 항목 | Secure by Default | Security by Design |
+| 항목 | Secure by Default | [[058_security_by_design|Security by Design]] |
 | :-- | :-- | :-- |
-| 범위 | 기본 설정 | 전체 설계 철학 |
+| 범위 | 기본 [[009_config|설정]] | 전체 설계 철학 |
 | 초점 | 출고 직후 안전 | 개발 단계부터 안전 |
-| 관계 | 실천 원칙 | 상위 개념 |
+| [[083_relationship_in_er_model|관계]] | 실천 원칙 | 상위 개념 |
 
 | 대표 사례 | 보안 기본값 |
 | :-- | :-- |
 | S3 버킷 | Block Public Access |
-| 공유기 | 초기 비밀번호 강제 변경 |
-| IAM (Identity and Access Management) | 최소 권한 정책 기본화 |
-| 프레임워크 | CSRF, CORS, 비밀키 비노출 기본값 |
+| 공유기 | [[459_quic_fec_forward_error_correction|초기]] 비밀번호 강제 변경 |
+| [[526_iam|IAM]] (Identity and Access [[372_management|Management]]) | 최소 권한 [[164_policy|정책]] 기본화 |
+| 프레임워크 | [[728_csrf_cross_site_request_forgery_concept|CSRF]], CORS, 비밀키 비노출 기본값 |
 
-Secure by Default는 사용자 편의성을 해치지 않으면서도, 위험을 사용자가 직접 선택하게 만드는 구조다. 결과적으로 보안 사고의 절반 이상을 차지하는 설정 실수를 줄인다.
+Secure by Default는 사용자 편의성을 해치지 않으면서도, 위험을 사용자가 직접 선택하게 만드는 구조다. 결과적으로 보안 사고의 절반 이상을 차지하는 [[009_config|설정]] 실수를 줄인다.
 
 - **📢 섹션 요약 비유**: 자동차가 출고될 때부터 안전벨트가 기본으로 걸려 있는 상태와 같다.
 
@@ -79,22 +79,22 @@ Secure by Default는 사용자 편의성을 해치지 않으면서도, 위험을
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### 체크리스트
+### [[435_checklist_based_testing|체크리스트]]
 
 1. 처음 실행 시 가장 위험한 기능이 꺼져 있는가?
-2. 계정, 포트, 버킷, API가 기본 차단 상태인가?
+2. 계정, [[446_port_and_bus|포트]], 버킷, API가 기본 차단 상태인가?
 3. 사용자가 켜기 전에는 공개되지 않는가?
-4. 보안 설정이 문서가 아니라 제품 동작에 반영되는가?
+4. 보안 [[009_config|설정]]이 문서가 아니라 제품 동작에 반영되는가?
 5. 예외를 열 때도 감사와 로깅이 남는가?
 
-### 안티패턴
+### [[128_water_scrum_fall_anti_pattern|안티패턴]]
 
-- 초기 비밀번호를 그대로 두는 설계
+- [[459_quic_fec_forward_error_correction|초기]] 비밀번호를 그대로 두는 설계
 - 공개/비공개 전환이 기본값에서 헷갈리게 만드는 설계
 - 보안 옵션을 숨겨 두고 사용자가 찾아야만 하는 설계
 - "사용자 책임"만 강조하고 제조사 책임을 비우는 설계
 
-기술사 관점에서는 기본값이 곧 정책이라는 점을 기억해야 한다. 보안 옵션은 기능 추가가 아니라 제품 책임의 일부다.
+기술사 관점에서는 기본값이 곧 [[164_policy|정책]]이라는 점을 기억해야 한다. 보안 옵션은 기능 추가가 아니라 제품 책임의 일부다.
 
 - **📢 섹션 요약 비유**: 처음부터 창문에 철창이 달려 있어야 도둑이 들어오기 어렵다.
 

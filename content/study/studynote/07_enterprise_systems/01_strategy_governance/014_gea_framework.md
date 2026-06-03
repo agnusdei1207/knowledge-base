@@ -8,22 +8,22 @@ tags = ["EA", "GEA", "범정부EA", "공공정보화", "IT거버넌스", "엔터
 categories = ["studynote", "enterprise_systems"]
 +++
 
-# 14. 범정부 EA 프레임워크 (GEA, Government Enterprise Architecture)
+# 14. 범정부 [[110_enterprise_architecture_ea|EA]] 프레임워크 ([[115_gea_government_ea_framework|GEA]], Government [[010_ea_enterprise_architecture|Enterprise Architecture]])
 
 #### 핵심 인사이트 (3줄 요약)
-> 1. **본질**: 범정부 EA 프레임워크(GEA)는 개별 부처별로 난립하던 공공 정보시스템을 국가 차원에서 하나의 거대한 가상 엔터프라이즈로 간주하고 표준화, 통합, 상호운용성을 통제하기 위한 아키텍처 참조 모델이자 지침이다.
-> 2. **가치**: 미국의 FEAF를 모델로 하여, 중복 투자를 획기적으로 방지하고 범정부적 정보 공동 활용을 통해 대국민 서비스 질을 향상시키며 정보화 예산 편성을 과학화한다.
-> 3. **융합**: 비즈니스(BRM), 데이터(DRM), 서비스(SRM), 기술(TRM), 성과(PRM)의 5대 참조 모델을 기반으로 메타데이터를 통합하여 예산 기획과 IT 구축을 융합하는 강력한 거버넌스 도구이다.
+> 1. **본질**: 범정부 [[110_enterprise_architecture_ea|EA]] 프레임워크([[115_gea_government_ea_framework|GEA]])는 개별 부처별로 난립하던 공공 정보시스템을 국가 차원에서 하나의 거대한 가상 엔터프라이즈로 간주하고 표준화, 통합, [[287_interoperability_tactics|상호운용성]]을 통제하기 위한 아키텍처 [[116_reference_model|참조 모델]]이자 지침이다.
+> 2. **가치**: 미국의 FEAF를 모델로 하여, 중복 투자를 획기적으로 방지하고 범정부적 정보 공동 활용을 통해 대국민 [[090_service_kubernetes_network_load_balancing|서비스]] 질을 향상시키며 정보화 예산 편성을 과학화한다.
+> 3. **융합**: 비즈니스([[117_brm_business_reference_model|BRM]]), [[001_dikw_pyramid|데이터]]([[119_drm_data_reference_model_standard|DRM]]), [[090_service_kubernetes_network_load_balancing|서비스]]([[118_srm_service_reference_model|SRM]]), 기술([[120_trm_technical_reference_model|TRM]]), 성과([[121_prm_performance_reference_model_it_roi|PRM]])의 5대 [[116_reference_model|참조 모델]]을 기반으로 [[012_metadata|메타데이터]]를 통합하여 예산 기획과 IT 구축을 융합하는 강력한 거버넌스 도구이다.
 
 ---
 
-### Ⅰ. 개요 및 필요성 (Context & Necessity)
+### Ⅰ. 개요 및 필요성 ([[033_context|Context]] & Necessity)
 
-**범정부 EA 프레임워크(GEA)**는 국가 공공기관 전체의 정보화 아키텍처를 체계적으로 수립하고 관리하기 위해 행정안전부가 규정한 의무 지침이자 프레임워크이다. 과거 공공기관 정보화 사업은 각 부처가 독자적인 사일로(Silo) 형태로 진행하였다. 그 결과, 부처 간 데이터 연계가 불가능하여 국민이 동일한 서류를 여러 기관에 중복 제출해야 했고, 비슷한 성격의 시스템(예: 회계, 인사, 포털)이 기관마다 중복 구축되어 막대한 국가 예산이 낭비되는 치명적 한계에 봉착했다.
+**범정부 [[110_enterprise_architecture_ea|EA]] 프레임워크([[115_gea_government_ea_framework|GEA]])**는 국가 공공기관 전체의 정보화 아키텍처를 체계적으로 수립하고 관리하기 위해 행정안전부가 규정한 의무 지침이자 프레임워크이다. 과거 공공기관 정보화 사업은 각 부처가 독자적인 [[002_silo_hyeonhyung|사일로]]([[002_silo_hyeonhyung|Silo]]) 형태로 [[216_progress_in_synchronization|진행]]하였다. 그 결과, 부처 간 [[001_dikw_pyramid|데이터]] 연계가 불가능하여 국민이 동일한 서류를 여러 기관에 중복 제출해야 했고, 비슷한 성격의 시스템(예: 회계, 인사, 포털)이 기관마다 중복 구축되어 막대한 국가 예산이 낭비되는 치명적 한계에 봉착했다.
 
-이를 타개하기 위해 미국 연방정부의 FEAF (Federal Enterprise Architecture Framework) 사상을 도입하여 한국형 프레임워크인 GEA가 탄생하였다. GEA의 가장 큰 철학은 '정부는 하나의 거대한 기업(Single Enterprise)'이라는 시각이다. 따라서 개별 부처는 독자적인 회사가 아니라 정부라는 큰 우산 아래의 하위 본부에 불과하며, 정보시스템 구축 시 반드시 국가가 정한 공통 표준과 참조 모델(Reference Model)을 따라야 한다.
+이를 타개하기 위해 미국 연방정부의 FEAF (Federal [[010_ea_enterprise_architecture|Enterprise Architecture]] Framework) 사상을 도입하여 한국형 프레임워크인 GEA가 탄생하였다. GEA의 가장 큰 철학은 '정부는 하나의 거대한 기업(Single Enterprise)'이라는 시각이다. 따라서 개별 부처는 독자적인 회사가 아니라 정부라는 큰 우산 아래의 하위 본부에 불과하며, 정보시스템 구축 시 반드시 국가가 정한 공통 표준과 [[116_reference_model|참조 모델]]([[116_reference_model|Reference Model]])을 따라야 한다.
 
-이 프레임워크는 단순한 기술적 가이드라인을 넘어선다. 현재 공공기관에서 새로운 IT 사업 예산을 타내려면, 먼저 범정부 EA 메타시스템(EAMS)에 접속하여 기존에 다른 기관이 만들어둔 유사 시스템이나 데이터가 있는지 조회하고, 재사용이 불가능함을 증명해야만 예산 심의를 통과할 수 있는 강력한 컴플라이언스(Compliance) 도구로 작동한다.
+이 프레임워크는 단순한 기술적 가이드라인을 넘어선다. 현재 공공기관에서 새로운 IT 사업 예산을 타내려면, 먼저 범정부 [[110_enterprise_architecture_ea|EA]] 메타시스템([[124_eams_ea_management_system|EAMS]])에 접속하여 기존에 다른 기관이 만들어둔 유사 시스템이나 [[001_dikw_pyramid|데이터]]가 있는지 조회하고, 재사용이 불가능함을 증명해야만 예산 심의를 통과할 수 있는 강력한 컴플라이언스([[058_it_compliance_sox_basel_gdpr_isms|Compliance]]) 도구로 작동한다.
 
 ```text
 [공공기관 정보화 예산 낭비의 원인과 GEA 해결 구조]
@@ -41,23 +41,23 @@ categories = ["studynote", "enterprise_systems"]
        └─ [B부처] 70% 공통 서비스 재사용 + 30% 커스텀 (30억)
        => 데이터 공동 활용, 총 예산 140억 절감 및 상호운용성(Interoperability) 달성
 ```
-*해설: 이 개념도는 범정부 EA가 기술적 도구가 아니라 예산 최적화와 거버넌스 통제 수단임을 명확히 보여준다. 공공부문에서는 기술적 우수성보다 상호운용성과 재사용성을 통한 세금 낭비 방지가 최우선 가치이며, GEA는 이 통제를 시스템적으로 강제하는 게이트키퍼 역할을 한다.*
+*해설: 이 개념도는 범정부 EA가 기술적 도구가 아니라 예산 최적화와 거버넌스 통제 수단임을 명확히 보여준다. 공공부문에서는 기술적 우수성보다 [[287_interoperability_tactics|상호운용성]]과 재사용성을 통한 세금 낭비 방지가 최우선 가치이며, GEA는 이 통제를 시스템적으로 강제하는 게이트키퍼 역할을 한다.*
 
-📢 **섹션 요약 비유**: GEA는 국가라는 거대한 도시의 '중앙 도시계획 위원회 규정'과 같습니다. 각 부처가 마음대로 배관 크기나 전압을 다르게 집을 지으면 도시 전체가 마비되기 때문에, 중앙에서 정해준 규격(참조 모델) 부품만 사용하도록 강제하여 어느 집이든 수도와 전기가 완벽히 호환되게 만드는 것입니다.
+📢 **섹션 요약 비유**: GEA는 국가라는 거대한 도시의 '중앙 도시계획 위원회 규정'과 같습니다. 각 부처가 마음대로 배관 크기나 [[001_voltage|전압]]을 다르게 집을 지으면 도시 전체가 마비되기 때문에, 중앙에서 정해준 규격([[116_reference_model|참조 모델]]) 부품만 사용하도록 강제하여 어느 집이든 수도와 전기가 완벽히 호환되게 만드는 것입니다.
 
 ---
 
 ### Ⅱ. 아키텍처 및 핵심 원리 (Deep Dive)
 
-GEA의 핵심 구조는 방향성을 제시하는 **프레임워크 가이드라인**과, 실제 아키텍처를 구축할 때 템플릿과 기준이 되는 **5대 범정부 참조 모델(Reference Model, RM)**로 구성된다.
+GEA의 핵심 구조는 방향성을 제시하는 **프레임워크 가이드라인**과, 실제 아키텍처를 구축할 때 템플릿과 기준이 되는 **5대 범정부 [[116_reference_model|참조 모델]]([[116_reference_model|Reference Model]], [[197_rm_rate_monotonic_scheduling|RM]])**로 구성된다.
 
-#### 범정부 5대 참조 모델 (Reference Model)
-참조 모델은 각 기관이 아키텍처를 정의할 때 사용할 수 있는 '공통 표준 분류 체계'이다.
-1. **BRM (Business RM, 업무 참조 모델)**: 정부의 모든 업무 기능을 기능별, 목적별로 계층화하여 분류 (예: 복지, 국방, 행정지원).
-2. **SRM (Service RM, 서비스 참조 모델)**: IT 시스템이 제공하는 애플리케이션 서비스와 컴포넌트를 분류. (예: 대국민 민원 서비스 컴포넌트, 공통 인증 컴포넌트). 이를 통해 컴포넌트 단위의 재사용(Component Reuse)을 극대화한다.
-3. **DRM (Data RM, 데이터 참조 모델)**: 범정부적으로 공동 활용해야 할 데이터의 분류, 메타데이터 표준, 데이터 교환 구조 정의.
-4. **TRM (Technical RM, 기술 참조 모델)**: 정보시스템 구축에 필요한 기술 요소(플랫폼, 네트워크, 보안 등)를 분류하고, 각 영역별로 특정 벤더 기술이 아닌 개방형 표준(Open Standard) 프로파일을 지정.
-5. **PRM (Performance RM, 성과 참조 모델)**: 위 아키텍처들이 구축되었을 때 실제로 국가와 국민에게 어떤 성과(비용 절감, 만족도)를 냈는지 측정하는 평가 지표 프레임워크.
+#### 범정부 5대 [[116_reference_model|참조 모델]] ([[116_reference_model|Reference Model]])
+[[116_reference_model|참조 모델]]은 각 기관이 아키텍처를 정의할 때 사용할 수 있는 '공통 표준 [[104_classification_analysis|분류]] 체계'이다.
+1. **[[117_brm_business_reference_model|BRM]] (Business [[197_rm_rate_monotonic_scheduling|RM]], 업무 [[116_reference_model|참조 모델]])**: 정부의 모든 업무 기능을 기능별, 목적별로 계층화하여 [[104_classification_analysis|분류]] (예: 복지, 국방, 행정지원).
+2. **[[118_srm_service_reference_model|SRM]] ([[090_service_kubernetes_network_load_balancing|Service]] [[197_rm_rate_monotonic_scheduling|RM]], [[090_service_kubernetes_network_load_balancing|서비스]] [[116_reference_model|참조 모델]])**: IT 시스템이 제공하는 애플리케이션 [[090_service_kubernetes_network_load_balancing|서비스]]와 [[603_component_independent_deployment_unit|컴포넌트]]를 [[104_classification_analysis|분류]]. (예: 대국민 민원 [[090_service_kubernetes_network_load_balancing|서비스]] [[603_component_independent_deployment_unit|컴포넌트]], 공통 [[303_authentication_authorization_patterns|인증]] [[603_component_independent_deployment_unit|컴포넌트]]). 이를 통해 [[603_component_independent_deployment_unit|컴포넌트]] 단위의 재사용([[603_component_independent_deployment_unit|Component]] Reuse)을 극대화한다.
+3. **[[119_drm_data_reference_model_standard|DRM]] ([[001_dikw_pyramid|Data]] [[197_rm_rate_monotonic_scheduling|RM]], [[001_dikw_pyramid|데이터]] [[116_reference_model|참조 모델]])**: 범정부적으로 공동 활용해야 할 [[001_dikw_pyramid|데이터]]의 [[104_classification_analysis|분류]], [[012_metadata|메타데이터]] 표준, [[001_dikw_pyramid|데이터]] 교환 구조 정의.
+4. **[[120_trm_technical_reference_model|TRM]] (Technical [[197_rm_rate_monotonic_scheduling|RM]], 기술 [[116_reference_model|참조 모델]])**: 정보시스템 구축에 필요한 기술 요소(플랫폼, 네트워크, 보안 등)를 [[104_classification_analysis|분류]]하고, 각 영역별로 특정 벤더 기술이 아닌 개방형 표준(Open Standard) 프로파일을 지정.
+5. **[[121_prm_performance_reference_model_it_roi|PRM]] ([[282_performance_tactics|Performance]] [[197_rm_rate_monotonic_scheduling|RM]], 성과 [[116_reference_model|참조 모델]])**: 위 아키텍처들이 구축되었을 때 실제로 국가와 국민에게 어떤 성과(비용 절감, 만족도)를 냈는지 측정하는 평가 지표 프레임워크.
 
 이 5가지 모델은 고립되어 작동하지 않으며, 투자(예산)부터 구축, 평가까지의 라이프사이클을 관통한다.
 
@@ -78,25 +78,25 @@ GEA의 핵심 구조는 방향성을 제시하는 **프레임워크 가이드라
 │ └──────────────────┘            └──────────────────┘    │
 └─────────────────────────────────────────────────────────────┘
 ```
-*해설: 이 관계도는 5대 참조 모델의 유기적 결합을 나타낸다. BRM이 목표를 제시하면 SRM이 서비스를 구성하고 DRM이 혈액(데이터)을 공급하며 TRM이 뼈대(인프라)를 제공한다. 그리고 마지막으로 PRM이 전체 생태계의 건강 상태(ROI)를 진단한다. 실무적으로 정보화 사업 계획서(ISP) 작성 시, 이 5가지 분류 코드를 사업 내역에 의무적으로 매핑해야 한다.*
+*해설: 이 [[083_relationship_in_er_model|관계]]도는 5대 [[116_reference_model|참조 모델]]의 유기적 결합을 나타낸다. BRM이 목표를 제시하면 SRM이 [[090_service_kubernetes_network_load_balancing|서비스]]를 구성하고 DRM이 혈액([[001_dikw_pyramid|데이터]])을 공급하며 TRM이 뼈대(인프라)를 제공한다. 그리고 마지막으로 PRM이 전체 생태계의 건강 상태([[012_roi_return_on_investment|ROI]])를 진단한다. 실무적으로 정보화 사업 계획서([[101_isp_information_strategy_planning_4_steps|ISP]]) 작성 시, 이 5가지 [[104_classification_analysis|분류]] 코드를 사업 내역에 의무적으로 매핑해야 한다.*
 
-📢 **섹션 요약 비유**: 5대 참조 모델(RM)은 레고 블록의 '공식 카탈로그'입니다. BRM은 설명서, SRM은 조립된 문/창문 파츠, DRM은 블록 색상표, TRM은 호환되는 바닥판 규격이며, 마지막 PRM은 완성된 성이 얼마나 멋진지 평가하는 채점표 역할을 하여 일관된 작품을 만들게 합니다.
+📢 **섹션 요약 비유**: 5대 [[116_reference_model|참조 모델]]([[197_rm_rate_monotonic_scheduling|RM]])은 레고 블록의 '공식 [[394_catalog_metadata|카탈로그]]'입니다. BRM은 설명서, SRM은 조립된 문/창문 파츠, DRM은 블록 색상표, TRM은 호환되는 바닥판 규격이며, 마지막 PRM은 완성된 성이 얼마나 멋진지 평가하는 채점표 역할을 하여 일관된 작품을 만들게 합니다.
 
 ---
 
 ### Ⅲ. 융합 비교 및 다각도 분석 (Comparison & Synergy)
 
-GEA는 민간 영역의 엔터프라이즈 아키텍처(TOGAF 등)와 근본적인 사상은 공유하지만, 그 목적과 통제 방식에서 확연한 차이를 보인다.
+GEA는 민간 영역의 엔터프라이즈 아키텍처([[113_togaf|TOGAF]] 등)와 근본적인 사상은 공유하지만, 그 목적과 통제 방식에서 확연한 차이를 보인다.
 
-| 비교 기준 | 민간 기업 EA (TOGAF 기반 등) | 범정부 EA (GEA / FEAF) |
+| 비교 기준 | 민간 기업 [[110_enterprise_architecture_ea|EA]] ([[113_togaf|TOGAF]] 기반 등) | 범정부 [[110_enterprise_architecture_ea|EA]] ([[115_gea_government_ea_framework|GEA]] / FEAF) |
 |:---|:---|:---|
-| **최우선 목적** | 시장 경쟁력 확보, 민첩성, 이윤 극대화 (ROI) | 예산 중복 방지, 대국민 서비스 상호운용성 확보 |
+| **최우선 목적** | 시장 경쟁력 확보, 민첩성, 이윤 극대화 ([[012_roi_return_on_investment|ROI]]) | 예산 중복 방지, 대국민 [[090_service_kubernetes_network_load_balancing|서비스]] [[287_interoperability_tactics|상호운용성]] 확보 |
 | **통제 수준** | 유연함. 필요에 따라 프레임워크 테일러링(변형) | 매우 강력함. 법제화(ITA법)를 통한 의무화 및 강제 통제 |
-| **핵심 산출물** | 비즈니스 모델 캔버스, 아키텍처 이행 계획서 | 5대 참조 모델(PRM, BRM, SRM, DRM, TRM) 매핑서 |
+| **핵심 산출물** | 비즈니스 모델 캔버스, 아키텍처 이행 계획서 | 5대 [[116_reference_model|참조 모델]]([[121_prm_performance_reference_model_it_roi|PRM]], [[117_brm_business_reference_model|BRM]], [[118_srm_service_reference_model|SRM]], [[119_drm_data_reference_model_standard|DRM]], [[120_trm_technical_reference_model|TRM]]) 매핑서 |
 | **거버넌스 연계** | 사내 ARB (아키텍처 리뷰 보드) 심의 | 기획재정부/행정안전부 정보화 예산 편성 직접 연계 |
 
 **핵심 융합 관점: 예산(Budget)과 아키텍처의 결합**
-GEA의 가장 독특한 시너지는 IT 아키텍처가 재무/예산 통제와 완벽히 융합되어 있다는 점이다. 정부 부처가 정보화 사업 예산을 요구하면, 예산 부처(기재부)는 GEA 리포지토리를 조회하여 "요청한 시스템의 BRM/SRM이 타 부처에 이미 존재하는지" 검사한다. 중복도가 50%를 넘어가면 예산은 삭감되고, 기존 공통 서비스(행망, 공용 인증서 등)를 의무적으로 연계 API로 호출하도록 지시받는다. 이는 아키텍처가 단순한 기술 도면이 아니라 강력한 행정 권력임을 시사한다.
+GEA의 가장 독특한 시너지는 IT 아키텍처가 재무/예산 통제와 완벽히 융합되어 있다는 점이다. 정부 부처가 정보화 사업 예산을 요구하면, 예산 부처(기재부)는 [[115_gea_government_ea_framework|GEA]] 리포지토리를 조회하여 "요청한 시스템의 [[117_brm_business_reference_model|BRM]]/SRM이 타 부처에 이미 존재하는지" 검사한다. 중복도가 50%를 넘어가면 예산은 삭감되고, 기존 공통 [[090_service_kubernetes_network_load_balancing|서비스]](행망, 공용 [[303_authentication_authorization_patterns|인증]]서 등)를 의무적으로 연계 API로 호출하도록 지시받는다. 이는 아키텍처가 단순한 기술 도면이 아니라 강력한 행정 권력임을 시사한다.
 
 ```text
 [범정부 EA 거버넌스와 예산 심의 프로세스의 융합]
@@ -111,19 +111,19 @@ GEA의 가장 독특한 시너지는 IT 아키텍처가 재무/예산 통제와 
          ▼ (중복 없음, 표준 부합)
 [행안부 사전 협의 통과] ──▶ [기재부 예산 배정] ──▶ [시스템 구축 및 성과(PRM) 측정]
 ```
-*해설: 이 흐름은 공공 프로젝트에서 아키텍처가 예산을 배정받기 위한 '의무 관문(Gate)'으로 작동함을 보여준다. 민간은 중복투자를 하더라도 런칭 속도가 중요하면 진행하지만, 공공은 민첩성보다 혈세 낭비 방지와 벤더 종속(Lock-in) 회피를 위해 개방형 표준(TRM) 준수를 최우선으로 검증한다.*
+*해설: 이 흐름은 공공 프로젝트에서 아키텍처가 예산을 배정받기 위한 '의무 관문(Gate)'으로 작동함을 보여준다. 민간은 중복투자를 하더라도 런칭 속도가 중요하면 [[216_progress_in_synchronization|진행]]하지만, 공공은 민첩성보다 혈세 낭비 방지와 [[051_vendor_lock_in_cloud_computing|벤더 종속]]([[362_lock_in_portability|Lock-in]]) 회피를 위해 개방형 표준([[120_trm_technical_reference_model|TRM]]) 준수를 최우선으로 [[395_verification_process_review|검증]]한다.*
 
 📢 **섹션 요약 비유**: 민간 EA가 기업이 이윤을 내기 위한 '스피드 보트 튜닝 설명서'라면, 범정부 EA는 수백 대의 배가 부딪치지 않고 항해하기 위한 '국가 해상 교통 관제 시스템 및 선박 표준 규격법'입니다. 여기서는 속도보다 규정 준수와 충돌 방지가 우선입니다.
 
 ---
 
-### Ⅳ. 실무 적용 및 기술사적 판단 (Strategy & Decision)
+### Ⅳ. 실무 적용 및 기술사적 판단 ([[268_strategy_pattern|Strategy]] & Decision)
 
 공공 정보화 사업을 수주하거나 컨설팅하는 IT 전문가(감리, 아키텍트)에게 GEA의 이해는 프로젝트 성공의 당락을 가르는 절대적 요소이다.
 
-1. **상호운용성(Interoperability) 확보 전략**: 공공 시스템은 타 기관과의 연계를 기본으로 설계해야 한다. 자체적인 인증 시스템을 구축하는 것은 안티패턴이며, 범정부 공동 인증(SRM)과 행정망(TRM)을 활용하는 아키텍처를 제안해야 심의를 통과할 수 있다.
-2. **형식적 매핑의 늪(Paperwork Overhead) 주의**: 실무에서 가장 큰 병목은 5대 참조 모델 매핑을 실제 시스템 구조에 맞게 설계하는 것이 아니라, 단순히 예산을 따내기 위해 끼워 맞추기식(Paperwork) 문서 작성을 하는 것이다. 이 경우 구축 후 시스템 구조와 EAMS 시스템의 메타데이터가 불일치하여, 다음 해 예산 평가(PRM)에서 치명적인 페널티를 받게 된다.
-3. **클라우드 네이티브와 GEA의 충돌 해결**: 과거 GEA의 TRM은 물리적 서버와 온프레미스 SW 스택을 중심으로 구성되었다. 하지만 최근 민간 클라우드(공공 클라우드 존) 도입이 강제되면서, 기술사는 구형 TRM 규격에 얽매이지 않고 DaaS(Desktop as a Service), SaaS 중심의 클라우드 네이티브 참조 모델 확장 지침을 선제적으로 해석하여 아키텍처에 반영해야 한다.
+1. **[[287_interoperability_tactics|상호운용성]]([[084_blockchain_interoperability_polkadot_cosmos|Interoperability]]) 확보 [[268_strategy_pattern|전략]]**: 공공 시스템은 타 기관과의 연계를 기본으로 설계해야 한다. 자체적인 [[303_authentication_authorization_patterns|인증]] 시스템을 구축하는 것은 [[128_water_scrum_fall_anti_pattern|안티패턴]]이며, 범정부 공동 [[303_authentication_authorization_patterns|인증]]([[118_srm_service_reference_model|SRM]])과 행정망([[120_trm_technical_reference_model|TRM]])을 활용하는 아키텍처를 제안해야 심의를 통과할 수 있다.
+2. **형식적 매핑의 늪(Paperwork Overhead) 주의**: 실무에서 가장 큰 병목은 5대 [[116_reference_model|참조 모델]] 매핑을 실제 시스템 구조에 맞게 설계하는 것이 아니라, 단순히 예산을 따내기 위해 끼워 맞추기식(Paperwork) 문서 작성을 하는 것이다. 이 경우 구축 후 시스템 구조와 [[124_eams_ea_management_system|EAMS]] 시스템의 [[012_metadata|메타데이터]]가 불일치하여, 다음 해 예산 평가([[121_prm_performance_reference_model_it_roi|PRM]])에서 치명적인 페널티를 받게 된다.
+3. **[[531_cloud_native_architecture|클라우드 네이티브]]와 GEA의 충돌 해결**: 과거 GEA의 TRM은 물리적 서버와 [[061_on_premise_legacy_infrastructure|온프레미스]] SW [[057_stack|스택]]을 중심으로 구성되었다. 하지만 최근 민간 클라우드(공공 클라우드 존) 도입이 강제되면서, 기술사는 구형 [[120_trm_technical_reference_model|TRM]] 규격에 얽매이지 않고 DaaS(Desktop [[344_as_autonomous_system_asn|as]] a [[090_service_kubernetes_network_load_balancing|Service]]), [[309_saas|SaaS]] 중심의 [[531_cloud_native_architecture|클라우드 네이티브]] [[116_reference_model|참조 모델]] 확장 지침을 선제적으로 해석하여 아키텍처에 반영해야 한다.
 
 ```text
 [실무 의사결정 트리: 공공 정보화 사업 EA 검토 플로우]
@@ -140,34 +140,34 @@ GEA의 가장 독특한 시너지는 IT 아키텍처가 재무/예산 통제와 
                   └─ (No) ──▶ [PRM 매핑] 최종 구축 시 예상되는 정량적 성과 지표 확립
                                 └─▶ 범정부 EA 포털 등록 및 정보화 사업 승인
 ```
-*해설: 이 의사결정 트리는 공공 정보화 컨설턴트나 감리원이 설계도를 검열하는 핵심 기준이다. 특정 상용 DB를 고집하거나(TRM 위반), 타 부처의 주민 데이터를 중복으로 받아 저장하려 할 때(DRM 위반) 즉시 아키텍처를 재설계하도록 통제해야 한다. 이것이 실무에서의 진정한 아키텍처 거버넌스이다.*
+*해설: 이 [[124_decision_tree|의사결정 트리]]는 공공 정보화 컨설턴트나 감리원이 설계도를 검열하는 핵심 기준이다. 특정 상용 DB를 고집하거나([[120_trm_technical_reference_model|TRM]] 위반), 타 부처의 주민 [[001_dikw_pyramid|데이터]]를 중복으로 받아 저장하려 할 때([[119_drm_data_reference_model_standard|DRM]] 위반) 즉시 아키텍처를 재설계하도록 통제해야 한다. 이것이 실무에서의 진정한 아키텍처 거버넌스이다.*
 
-📢 **섹션 요약 비유**: 공공 프로젝트에서 GEA를 무시하고 시스템을 짜는 것은, 국가 고속도로를 설계하면서 일반 자동차 타이어와 호환되지 않는 특수 철로를 까는 것과 같습니다. 무조건 국가가 정한 바퀴 규격(TRM)과 신호등 체계(SRM)를 따라야만 도로 공사 허가가 나옵니다.
+📢 **섹션 요약 비유**: 공공 프로젝트에서 GEA를 무시하고 시스템을 짜는 것은, 국가 고속도로를 설계하면서 일반 자동차 타이어와 호환되지 않는 특수 철로를 까는 것과 같습니다. 무조건 국가가 정한 바퀴 규격([[120_trm_technical_reference_model|TRM]])과 [[130_signal|신호]]등 체계([[118_srm_service_reference_model|SRM]])를 따라야만 도로 공사 허가가 나옵니다.
 
 ---
 
 ### Ⅴ. 기대효과 및 결론 (Future & Standard)
 
-범정부 EA 프레임워크는 한국의 전자정부(e-Government) 수준을 세계 최고 반열에 올린 숨은 공신이자 핵심 인프라이다.
+범정부 [[110_enterprise_architecture_ea|EA]] 프레임워크는 한국의 전자정부(e-Government) 수준을 세계 최고 반열에 올린 숨은 공신이자 핵심 인프라이다.
 
 | 지표 | 정량적 / 정성적 기대효과 | 비고 |
 |:---|:---|:---|
 | **비용 절감** | 부처 간 중복 시스템 통합 및 인프라 공동 활용으로 예산 대폭 절감 | 국가 클라우드 전환 가속화 |
-| **행정 효율성** | 행정정보 공동 활용(DRM)을 통한 민원인의 무서류(Paperless) 원스톱 행정 구현 | 대국민 서비스 체감도 상승 |
-| **IT 생태계** | 전자정부 표준 프레임워크(eGovFrame) 적용을 통한 중소 SW 기업의 진입 장벽 완화 | 특정 대기업 벤더 종속성 타파 |
+| **행정 효율성** | 행정정보 공동 활용([[119_drm_data_reference_model_standard|DRM]])을 통한 민원인의 무서류(Paperless) 원스톱 행정 구현 | 대국민 [[090_service_kubernetes_network_load_balancing|서비스]] 체감도 상승 |
+| **IT 생태계** | 전자정부 표준 프레임워크(eGovFrame) 적용을 통한 중소 SW 기업의 진입 장벽 완화 | 특정 대기업 [[051_vendor_lock_in_cloud_computing|벤더 종속]]성 타파 |
 
-미래의 GEA는 정적이고 관료적인 메타데이터 관리 시스템에서 벗어나, '데이터 패브릭(Data Fabric)'과 마이크로서비스 중심의 '디지털플랫폼정부(DPG) 아키텍처'로 진화하고 있다. 데이터가 부처 간 물리적 장벽을 넘어 논리적으로 하나로 연결되고, AI 기반의 성과 분석(PRM)이 실시간으로 이루어지는 지능형 범정부 EA로의 발전이 핵심 방향이다.
+미래의 GEA는 정적이고 관료적인 [[125_metadata_management_system_mms|메타데이터 관리 시스템]]에서 벗어나, '[[212_data_fabric_virtualization|데이터 패브릭]]([[212_data_fabric_virtualization|Data Fabric]])'과 [[532_microservices_decomposition_patterns|마이크로서비스]] 중심의 '디지털플랫폼정부(DPG) 아키텍처'로 진화하고 있다. [[001_dikw_pyramid|데이터]]가 부처 간 물리적 장벽을 넘어 [[369_logic_bomb|논리]]적으로 하나로 연결되고, [[190_ai_llm_requirements_specification|AI]] 기반의 성과 분석([[121_prm_performance_reference_model_it_roi|PRM]])이 실시간으로 이루어지는 지능형 범정부 EA로의 발전이 핵심 방향이다.
 
-📢 **섹션 요약 비유**: GEA는 흩어져 있던 정부 부처라는 섬들을 하나로 연결한 튼튼한 대교(大橋)입니다. 이 다리 덕분에 국민이라는 자동차는 막힘없이 통합된 서비스를 누릴 수 있고, 국가는 중복된 나룻배를 운영할 세금을 절약하여 더 나은 미래를 투자할 수 있게 되었습니다.
+📢 **섹션 요약 비유**: GEA는 흩어져 있던 정부 부처라는 섬들을 하나로 연결한 튼튼한 대교(大橋)입니다. 이 다리 덕분에 국민이라는 자동차는 막힘없이 통합된 [[090_service_kubernetes_network_load_balancing|서비스]]를 누릴 수 있고, 국가는 중복된 나룻배를 운영할 세금을 절약하여 더 나은 미래를 투자할 수 있게 되었습니다.
 
 ---
 
-### 📌 관련 개념 맵 (Knowledge Graph)
-* **FEAF (Federal Enterprise Architecture Framework)** | 미국 연방 정부가 개발한 공공 EA 프레임워크로, 한국의 GEA 수립에 결정적 사상(5대 참조 모델)을 제공한 모태
-* **eGovFrame (전자정부 표준 프레임워크)** | GEA의 TRM/SRM 원칙을 준수하여 공공사업에 스프링(Spring) 프레임워크 기반의 공통 개발 기반을 제공하는 기술 표준
-* **ITA 법 (정보기술아키텍처 도입 의무화법)** | 공공기관이 의무적으로 EA를 도입하고 정보화 예산 평가 시 이를 증빙하도록 강제한 법적 근거
-* **EAMS (범정부 EA 포털)** | 전 부처의 아키텍처 참조 모델과 메타데이터가 등록, 통제, 공유되는 국가 통합 정보시스템
-* **Interoperability (상호운용성)** | GEA가 추구하는 최상위 가치로, 서로 다른 기관의 시스템이나 이기종 기술 간에 데이터와 서비스를 완벽히 교환하고 활용하는 능력
+### 📌 관련 개념 맵 ([[160_knowledge_graph_graphrag_integration|Knowledge Graph]])
+* **FEAF (Federal [[010_ea_enterprise_architecture|Enterprise Architecture]] Framework)** | 미국 연방 정부가 개발한 공공 [[110_enterprise_architecture_ea|EA]] 프레임워크로, 한국의 [[115_gea_government_ea_framework|GEA]] 수립에 결정적 사상(5대 [[116_reference_model|참조 모델]])을 제공한 모태
+* **eGovFrame (전자정부 표준 프레임워크)** | GEA의 [[120_trm_technical_reference_model|TRM]]/[[118_srm_service_reference_model|SRM]] 원칙을 준수하여 공공사업에 스프링(Spring) 프레임워크 기반의 공통 개발 기반을 제공하는 기술 표준
+* **[[015_ita_information_technology_architecture|ITA]] 법 (정보기술아키텍처 도입 의무화법)** | 공공기관이 의무적으로 EA를 도입하고 정보화 예산 평가 시 이를 증빙하도록 강제한 법적 근거
+* **[[124_eams_ea_management_system|EAMS]] (범정부 [[110_enterprise_architecture_ea|EA]] 포털)** | 전 부처의 아키텍처 [[116_reference_model|참조 모델]]과 [[012_metadata|메타데이터]]가 등록, 통제, 공유되는 국가 통합 정보시스템
+* **[[084_blockchain_interoperability_polkadot_cosmos|Interoperability]] ([[287_interoperability_tactics|상호운용성]])** | GEA가 추구하는 최상위 가치로, 서로 다른 기관의 시스템이나 이기종 기술 간에 [[001_dikw_pyramid|데이터]]와 [[090_service_kubernetes_network_load_balancing|서비스]]를 완벽히 교환하고 활용하는 능력
 
 
 ### 📈 관련 키워드 및 발전 흐름도
@@ -188,10 +188,10 @@ GEA의 가장 독특한 시너지는 IT 아키텍처가 재무/예산 통제와 
 [클라우드 퍼스트 (Cloud-First) 정책 — EA와 클라우드 전환 로드맵 통합]
 ```
 
-이 흐름은 기업 아키텍처 방법론(EA)이 공공 부문에 특화된 GEA로 발전하고, TOGAF 표준과 융합하여 디지털 정부 플랫폼 구축과 클라우드 전환 전략의 기반으로 자리잡는 과정을 보여준다.
+이 흐름은 기업 아키텍처 방법론([[110_enterprise_architecture_ea|EA]])이 공공 부문에 특화된 GEA로 발전하고, [[113_togaf|TOGAF]] 표준과 융합하여 디지털 정부 플랫폼 구축과 클라우드 전환 [[268_strategy_pattern|전략]]의 기반으로 자리잡는 과정을 보여준다.
 
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 우리나라에는 경찰청, 소방청, 교육부 같은 여러 관공서가 있어요. 옛날에는 각자 자기들만의 방식대로 컴퓨터를 만들어서 서로 대화가 안 통했어요.
-2. 그래서 나라에서 "이제부터 컴퓨터 시스템을 만들 때는 무조건 이 5가지 똑같은 규격과 레고 블록만 써라!" 하고 규칙을 정했는데, 이게 바로 범정부 EA(GEA)예요.
+2. 그래서 나라에서 "이제부터 컴퓨터 시스템을 만들 때는 무조건 이 5가지 똑같은 규격과 레고 블록만 써라!" 하고 규칙을 정했는데, 이게 바로 범정부 [[110_enterprise_architecture_ea|EA]]([[115_gea_government_ea_framework|GEA]])예요.
 3. 이 규칙 덕분에 관공서끼리 서로 정보를 쉽게 주고받을 수 있게 되어서, 우리가 서류를 한 번만 내도 모든 일이 척척 처리되는 마법 같은 전자정부가 만들어진 거랍니다!

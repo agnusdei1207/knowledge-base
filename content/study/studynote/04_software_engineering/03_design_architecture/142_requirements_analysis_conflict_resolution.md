@@ -7,9 +7,9 @@ categories = "studynote-software-engineering"
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: 요구 분석 갈등 해결은 **이해관계자 간 상충되는 요구(보안↔편의, 성능↔비용)를 식별·협상·우선순위화**하여 합의를 도출하는 과정이다.
-> 2. **가치**: 갈등을 방치하면 프로젝트 중반에 **요구 변경 폭발(Scope Creep)**이 발생하며, 초기에 갈등을 해결하면 변경 비용을 **10~100배** 절감한다.
-> 3. **판단 포인트**: MoSCoW(Must·Should·Could·Won't)·AHP(Analytic Hierarchy Process)·Kano 모델이 우선순위화 기법이며, 트레이드오프 매트릭스로 갈등을 시각화한다.
+> 1. **본질**: 요구 분석 갈등 해결은 **[[173_stakeholder_identification_impact_matrix|이해관계자]] 간 상충되는 요구(보안↔편의, [[282_performance_tactics|성능]]↔비용)를 [[655_ir_detection_analysis|식별]]·협상·우선순위화**하여 합의를 도출하는 과정이다.
+> 2. **가치**: 갈등을 방치하면 프로젝트 중반에 **요구 변경 폭발([[161_scope_creep_requirements_inflation_prevention|Scope Creep]])**이 발생하며, 초기에 갈등을 해결하면 변경 비용을 **[[489_raid_10_hybrid|10]]~100배** 절감한다.
+> 3. **판단 포인트**: MoSCoW(Must·Should·Could·Won't)·AHP([[213_swot_ahp_analytic_hierarchy_process_decision_making|Analytic Hierarchy Process]])·Kano 모델이 우선순위화 기법이며, 트레이드오프 매트릭스로 갈등을 [[003_bigdata_7v|시각화]]한다.
 
 ---
 
@@ -35,11 +35,11 @@ Kano: 기본(당연)·성능(비례)·매력(감동) 요구 분류
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **MoSCoW** | 우선순위 분류 |
-| **AHP** | 정량적 가중치 |
-| **Kano** | 요구 유형 분류 |
-| **트레이드오프** | 상충 요구 시각화 |
-| **Scope Creep** | 미해결 갈등의 결과 |
+| **MoSCoW** | 우선순위 [[104_classification_analysis|분류]] |
+| **AHP** | 정량적 [[267_weight_bias_activation|가중치]] |
+| **Kano** | 요구 유형 [[104_classification_analysis|분류]] |
+| **트레이드오프** | 상충 요구 [[003_bigdata_7v|시각화]] |
+| **[[161_scope_creep_requirements_inflation_prevention|Scope Creep]]** | 미해결 갈등의 결과 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 

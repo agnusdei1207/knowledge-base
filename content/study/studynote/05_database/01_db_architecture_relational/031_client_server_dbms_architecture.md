@@ -7,9 +7,9 @@ categories = "studynote-database"
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: 클라이언트-서버 DBMS 아키텍처는 DB 엔진을 서버에 중앙 집중화하고, 클라이언트는 SQL 요청만 전송하는 구조다. 파일 공유 방식(모든 클라이언트가 DB 파일 직접 접근)의 동시성·보안·무결성 문제를 해결했다.
-> 2. **가치**: 2-Tier(클라이언트-DB 서버), 3-Tier(클라이언트-앱서버-DB 서버), N-Tier(마이크로서비스) 구조로 발전하며 확장성과 보안성이 높아졌다. 3-Tier는 현대 웹 애플리케이션의 표준 구조다.
-> 3. **판단 포인트**: 데이터베이스 연결(Connection)은 비용이 크다. 커넥션 풀(Connection Pool)은 미리 N개 연결을 생성해두고 재사용하여 연결 생성 오버헤드를 제거한다. 적절한 풀 크기가 성능의 핵심이다.
+> 1. **본질**: 클라이언트-서버 [[502_dbms|DBMS]] 아키텍처는 DB 엔진을 서버에 중앙 집중화하고, 클라이언트는 SQL 요청만 전송하는 구조다. [[501_file_definition_logical_record|파일]] 공유 방식(모든 클라이언트가 DB [[501_file_definition_logical_record|파일]] 직접 접근)의 [[014_concurrency|동시성]]·보안·[[003_integrity|무결성]] 문제를 해결했다.
+> 2. **가치**: 2-Tier(클라이언트-DB 서버), 3-Tier(클라이언트-앱서버-DB 서버), N-Tier([[532_microservices_decomposition_patterns|마이크로서비스]]) 구조로 발전하며 확장성과 [[283_security_tactics|보안성]]이 높아졌다. 3-Tier는 현대 웹 애플리케이션의 표준 구조다.
+> 3. **판단 포인트**: [[002_database_definition|데이터베이스]] 연결(Connection)은 비용이 크다. 커넥션 풀(Connection Pool)은 미리 N개 연결을 [[087_process_state_transition|생성]]해두고 재사용하여 연결 [[087_process_state_transition|생성]] 오버헤드를 제거한다. 적절한 풀 크기가 [[282_performance_tactics|성능]]의 핵심이다.
 
 ---
 
@@ -35,7 +35,7 @@ N-Tier (MSA):
   → 서비스별 독립 DB
 ```
 
-- **📢 섹션 요약 비유**: 아키텍처 발전은 음식점 서비스 방식이다. 혼자 밥 해먹기(1-Tier), 식당 가서 주문(2-Tier), 배달앱으로 주문(3-Tier), 여러 배달 서비스 연동(MSA) 순으로 복잡성과 확장성이 증가한다.
+- **📢 섹션 요약 비유**: 아키텍처 발전은 음식점 [[090_service_kubernetes_network_load_balancing|서비스]] 방식이다. 혼자 밥 해먹기(1-Tier), 식당 가서 주문(2-Tier), 배달앱으로 주문(3-Tier), 여러 배달 [[090_service_kubernetes_network_load_balancing|서비스]] 연동([[619_msa_traffic_hardware|MSA]]) 순으로 복잡성과 확장성이 증가한다.
 
 ---
 
@@ -64,32 +64,32 @@ N-Tier (MSA):
 
 | 계층 | 역할 |
 |:---|:---|
-| **JDBC/ODBC** | 표준 DB 접근 API |
-| **ORM** | 객체-관계 매핑 (Hibernate, JPA) |
+| **JDBC/ODBC** | 표준 DB 접근 [[014_api_posix|API]] |
+| **ORM** | 객체-[[083_relationship_in_er_model|관계]] 매핑 (Hibernate, JPA) |
 | **커넥션 풀** | 연결 재사용 (HikariCP, DBCP) |
-| **프록시** | 연결 분산·캐싱 (ProxySQL, PgBouncer) |
-| **서비스 메시** | MSA DB 연결 관리 |
+| **[[264_proxy_pattern_surrogate_access_control|프록시]]** | 연결 [[136_variance|분산]]·[[456_caching|캐싱]] (ProxySQL, PgBouncer) |
+| **[[302_service_mesh_istio|서비스 메시]]** | [[284_msa_db|MSA DB]] 연결 관리 |
 
-- **📢 섹션 요약 비유**: 커넥션 풀은 택시 대기소다. 항상 10대의 택시(DB 연결)가 대기하고 있어서 손님(요청)이 오면 즉시 배차(연결 제공)한다. 매번 새 택시를 불러오는 것(새 연결 생성)보다 훨씬 빠르다.
+- **📢 섹션 요약 비유**: 커넥션 풀은 택시 대기소다. 항상 10대의 택시(DB 연결)가 대기하고 있어서 손님(요청)이 오면 즉시 배차(연결 제공)한다. 매번 새 택시를 불러오는 것(새 연결 [[087_process_state_transition|생성]])보다 훨씬 빠르다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-| 비교 | 2-Tier | 3-Tier | MSA |
+| 비교 | 2-Tier | 3-Tier | [[619_msa_traffic_hardware|MSA]] |
 |:---|:---|:---|:---|
-| 클라이언트 | Fat Client | Thin Client | API Client |
+| 클라이언트 | [[525_fat_file_allocation_table|Fat]] [[003_audit_stakeholders|Client]] | Thin [[003_audit_stakeholders|Client]] | [[014_api_posix|API]] [[003_audit_stakeholders|Client]] |
 | 확장성 | 낮음 | 중간 | 높음 |
-| 보안 | DB 직접 노출 | 앱 서버 방어 | API 게이트웨이 |
-| DB 수 | 1개 공유 | 1~2개 공유 | 서비스별 독립 |
+| 보안 | DB 직접 노출 | 앱 서버 방어 | [[014_api_posix|API]] 게이트웨이 |
+| DB 수 | 1개 공유 | 1~2개 공유 | [[090_service_kubernetes_network_load_balancing|서비스]]별 독립 |
 
-- **📢 섹션 요약 비유**: 2/3/MSA 계층은 회사 조직 구조다. 모두가 직접 사장에게 보고(2-Tier), 팀장을 통해 보고(3-Tier), 각 팀이 독립적으로 운영(MSA)으로 확장성이 달라진다.
+- **📢 섹션 요약 비유**: 2/3/[[619_msa_traffic_hardware|MSA]] 계층은 회사 조직 구조다. 모두가 직접 사장에게 보고(2-Tier), 팀장을 통해 보고(3-Tier), 각 팀이 독립적으로 운영([[619_msa_traffic_hardware|MSA]])으로 확장성이 달라진다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### HikariCP 최적 설정 (Spring Boot)
+### HikariCP 최적 [[009_config|설정]] (Spring Boot)
 
 ```yaml
 spring:
@@ -105,7 +105,7 @@ spring:
       connection-test-query: "SELECT 1"
 ```
 
-### 읽기-쓰기 분리 아키텍처
+### 읽기-[[289_cqrs_db|쓰기]] 분리 아키텍처
 
 ```text
 쓰기 연결 풀 → Primary DB (쓰기 전용)
@@ -117,7 +117,7 @@ spring:
   - 읽기 쿼리 다중 복제본 병렬 처리
 ```
 
-- **📢 섹션 요약 비유**: 읽기-쓰기 분리는 복사 센터 운영이다. 원본 작성(Primary/쓰기)과 복사 출력(Replica/읽기)을 분리하여, 복사 수요가 많아도 원본 작업에 방해가 없다.
+- **📢 섹션 요약 비유**: 읽기-[[289_cqrs_db|쓰기]] 분리는 복사 센터 운영이다. 원본 작성(Primary/[[289_cqrs_db|쓰기]])과 복사 출력(Replica/읽기)을 분리하여, 복사 수요가 많아도 원본 작업에 방해가 없다.
 
 ---
 
@@ -125,13 +125,13 @@ spring:
 
 | 기대효과 | 내용 |
 |:---|:---|
-| **성능** | 커넥션 풀로 연결 오버헤드 제거 |
+| **[[282_performance_tactics|성능]]** | 커넥션 풀로 연결 오버헤드 제거 |
 | **확장성** | 3-Tier/MSA로 수평 확장 용이 |
 | **보안** | DB 서버를 클라이언트로부터 격리 |
 
-서버리스·엣지 컴퓨팅 환경에서 DB 커넥션 풀이 새로운 도전을 받고 있다. Lambda 함수가 수천 개 동시 실행 시 커넥션 폭발(Connection Storm)이 발생하며, AWS RDS Proxy·PlanetScale serverless driver 같은 서버리스 전용 DB 프록시가 해결책으로 등장했다.
+[[206_serverless_cold_start|서버리스]]·[[235_edge_computing_smart_factory|엣지 컴퓨팅]] 환경에서 DB 커넥션 풀이 새로운 도전을 받고 있다. [[216_lambda_kappa_architecture_batch_realtime|Lambda]] 함수가 수천 개 동시 실행 시 커넥션 폭발(Connection Storm)이 발생하며, AWS RDS [[264_proxy_pattern_surrogate_access_control|Proxy]]·PlanetScale [[206_serverless_cold_start|serverless]] driver 같은 [[206_serverless_cold_start|서버리스]] 전용 DB [[264_proxy_pattern_surrogate_access_control|프록시]]가 해결책으로 등장했다.
 
-- **📢 섹션 요약 비유**: 서버리스 DB 프록시는 대형 행사 주차 관리다. 수천 명 동시 방문(Lambda 함수)에 주차 공간(DB 연결)이 부족하면 대기 줄이 생긴다. DB 프록시(주차 대행)가 연결을 중간에서 효율적으로 관리한다.
+- **📢 섹션 요약 비유**: [[206_serverless_cold_start|서버리스]] DB [[264_proxy_pattern_surrogate_access_control|프록시]]는 대형 행사 주차 관리다. 수천 명 동시 방문([[216_lambda_kappa_architecture_batch_realtime|Lambda]] 함수)에 주차 공간(DB 연결)이 부족하면 대기 줄이 생긴다. DB [[264_proxy_pattern_surrogate_access_control|프록시]](주차 대행)가 연결을 중간에서 효율적으로 관리한다.
 
 ---
 
@@ -139,11 +139,11 @@ spring:
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **커넥션 풀** | DB 연결 재사용 성능 최적화 |
+| **커넥션 풀** | DB 연결 재사용 [[282_performance_tactics|성능]] 최적화 |
 | **HikariCP** | Spring Boot 표준 커넥션 풀 |
-| **읽기-쓰기 분리** | Primary/Replica 부하 분산 |
-| **RDS Proxy** | 서버리스 환경 DB 연결 관리 |
-| **ORM** | 객체-DB 매핑 추상화 계층 |
+| **읽기-[[289_cqrs_db|쓰기]] 분리** | Primary/Replica 부하 [[136_variance|분산]] |
+| **RDS [[264_proxy_pattern_surrogate_access_control|Proxy]]** | [[206_serverless_cold_start|서버리스]] 환경 DB 연결 관리 |
+| **ORM** | 객체-DB 매핑 [[198_abstraction_control_data_process|추상화]] 계층 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -166,5 +166,5 @@ spring:
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. 클라이언트-서버 DB는 식당 주문 시스템이에요 — 손님(클라이언트)이 주문하면 주방(DB 서버)에서 처리해요!
-2. 커넥션 풀은 택시 대기소예요 — 미리 연결을 만들어둬서 요청이 오면 즉시 서비스해요!
+2. 커넥션 풀은 택시 대기소예요 — 미리 연결을 만들어둬서 요청이 오면 즉시 [[090_service_kubernetes_network_load_balancing|서비스]]해요!
 3. 현대 앱은 3-Tier로 브라우저→앱서버→DB 서버 구조로 동작해요!

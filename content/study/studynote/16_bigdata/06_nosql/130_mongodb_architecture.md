@@ -7,21 +7,21 @@ categories = "studynote-bigdata"
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-- **본질**: MongoDB의 ReplicaSet은 자동 장애 조치(Automatic Failover)를 제공하는 고가용성 단위이며, Sharding은 이 ReplicaSet을 기반으로 데이터를 수평 분산하여 무제한 확장을 실현한다.
-- **가치**: Mongos 라우터가 클라이언트에게 단일 엔드포인트를 제공하여 샤딩 복잡성을 추상화하며, WiredTiger 스토리지 엔진의 문서 수준 잠금으로 높은 동시성을 보장한다.
-- **판단 포인트**: 샤드 키 선택이 성능의 90%를 결정하며, 카디널리티(Cardinality)가 낮거나 단조 증가하는 키는 핫스팟(Hot Spot)을 유발하므로 복합 샤드 키를 설계해야 한다.
+- **본질**: MongoDB의 ReplicaSet은 자동 장애 조치(Automatic [[300_failover_architecture|Failover]])를 제공하는 고가용성 단위이며, Sharding은 이 ReplicaSet을 기반으로 [[001_dikw_pyramid|데이터]]를 수평 [[136_variance|분산]]하여 무제한 확장을 실현한다.
+- **가치**: Mongos 라우터가 클라이언트에게 단일 엔드포인트를 제공하여 [[280_sharding|샤딩]] 복잡성을 [[198_abstraction_control_data_process|추상화]]하며, WiredTiger 스토리지 엔진의 문서 수준 잠금으로 높은 [[014_concurrency|동시성]]을 보장한다.
+- **판단 포인트**: [[281_nosql_modeling_strategy|샤드 키]] 선택이 [[282_performance_tactics|성능]]의 90%를 결정하며, 카디널리티(Cardinality)가 낮거나 단조 증가하는 키는 핫스팟(Hot Spot)을 유발하므로 복합 [[281_nosql_modeling_strategy|샤드 키]]를 설계해야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-### MongoDB 아키텍처 3대 구성 요소
+### [[540_mongodb|MongoDB]] 아키텍처 3대 구성 요소
 
 | 구성 요소 | 역할 | 특징 |
 |:---:|:---|:---:|
-| **ReplicaSet** | 고가용성 + 데이터 복제 | 자동 프라이머리 선출 |
-| **Sharding** | 수평 확장 + 데이터 분산 | 청크(Chunk) 기반 분배 |
-| **Mongos** | 쿼리 라우터 | 클라이언트 단일 접점 |
+| **[[086_replicaset_kubernetes_controller_self_healing|ReplicaSet]]** | 고가용성 + [[001_dikw_pyramid|데이터]] [[016_replication_factor|복제]] | 자동 프라이머리 선출 |
+| **[[243_sharding_horizontal_scaling_database|Sharding]]** | 수평 확장 + [[001_dikw_pyramid|데이터]] [[136_variance|분산]] | 청크(Chunk) 기반 분배 |
+| **Mongos** | [[298_qkv_attention|쿼리]] 라우터 | 클라이언트 단일 접점 |
 
 ### WiredTiger 스토리지 엔진 특징
 
@@ -38,13 +38,13 @@ categories = "studynote-bigdata"
 ```
 
 📢 **섹션 요약 비유**
-> MongoDB 아키텍처는 대형 물류 센터와 같다. ReplicaSet은 각 창고의 자동 백업 시스템이고, Sharding은 물건을 여러 창고에 나눠 보관하는 분산 저장이며, Mongos는 어느 창고에 뭐가 있는지 알고 배송 경로를 안내하는 물류 AI다.
+> [[540_mongodb|MongoDB]] 아키텍처는 대형 물류 센터와 같다. ReplicaSet은 각 창고의 자동 [[555_backup_and_restore_strategy|백업]] 시스템이고, Sharding은 물건을 여러 창고에 나눠 보관하는 [[136_variance|분산]] 저장이며, Mongos는 어느 창고에 뭐가 있는지 알고 배송 경로를 안내하는 물류 AI다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### ReplicaSet 구조 및 장애 조치
+### [[086_replicaset_kubernetes_controller_self_healing|ReplicaSet]] 구조 및 장애 조치
 
 ```text
 ┌──────────────────────────────────────────────────────────┐
@@ -71,7 +71,7 @@ categories = "studynote-bigdata"
 └──────────────────────────────────────────────────────────┘
 ```
 
-### Sharding 전체 구조
+### [[243_sharding_horizontal_scaling_database|Sharding]] 전체 구조
 
 ```text
 ┌────────────────────────────────────────────────────────────┐
@@ -100,43 +100,43 @@ categories = "studynote-bigdata"
 └────────────────────────────────────────────────────────────┘
 ```
 
-### 샤드 키 전략 비교
+### [[281_nosql_modeling_strategy|샤드 키]] [[268_strategy_pattern|전략]] 비교
 
-| 전략 | 예시 | 장점 | 단점 |
+| [[268_strategy_pattern|전략]] | 예시 | 장점 | 단점 |
 |:---:|:---:|:---:|:---:|
-| **범위 기반(Range)** | 날짜, 숫자 ID | 범위 쿼리 효율 | 단조 증가 시 핫스팟 |
-| **해시 기반(Hash)** | hash(userId) | 균등 분산 | 범위 쿼리 불가 |
+| **범위 기반(Range)** | 날짜, 숫자 ID | 범위 [[298_qkv_attention|쿼리]] 효율 | 단조 증가 시 핫스팟 |
+| **해시 기반(Hash)** | hash(userId) | 균등 [[136_variance|분산]] | 범위 [[298_qkv_attention|쿼리]] 불가 |
 | **복합(Compound)** | {region, userId} | 핫스팟 방지 + 범위 | 설계 복잡 |
-| **영역 기반(Zone)** | {country: "KR"} | 지역 데이터 격리 | 수동 설정 필요 |
+| **영역 기반(Zone)** | {country: "KR"} | 지역 [[001_dikw_pyramid|데이터]] 격리 | 수동 [[009_config|설정]] 필요 |
 
-### MongoDB 인덱스 유형
+### [[540_mongodb|MongoDB]] [[154_database_index_b_tree_search_optimization|인덱스]] 유형
 
-| 인덱스 유형 | 용도 | 예시 |
+| [[154_database_index_b_tree_search_optimization|인덱스]] 유형 | 용도 | 예시 |
 |:---:|:---|:---:|
 | **단일 필드** | 기본 조회 최적화 | `{name: 1}` |
-| **복합(Compound)** | 다중 필드 쿼리 | `{category:1, price:-1}` |
+| **복합(Compound)** | 다중 필드 [[298_qkv_attention|쿼리]] | `{category:1, price:-1}` |
 | **텍스트(Text)** | 전문 검색 | `{description: "text"}` |
-| **지리공간(Geospatial)** | 위치 기반 쿼리 | `{location: "2dsphere"}` |
-| **와일드카드(Wildcard)** | 동적 필드 스키마 | `{"$**": 1}` |
-| **TTL** | 문서 자동 만료 | `{createdAt:1}, {expireAfterSeconds:3600}` |
+| **지리공간(Geospatial)** | 위치 기반 [[298_qkv_attention|쿼리]] | `{location: "2dsphere"}` |
+| **와일드카드(Wildcard)** | 동적 필드 [[005_schema|스키마]] | `{"$**": 1}` |
+| **[[294_ttl_time_to_live_looping_prevention|TTL]]** | 문서 자동 만료 | `{createdAt:1}, {expireAfterSeconds:3600}` |
 
 📢 **섹션 요약 비유**
-> 샤드 키 선택은 도서관 도서 분류 방법을 정하는 것과 같다. '가나다순 첫 글자'로만 분류하면 'ㄱ'으로 시작하는 책이 너무 많아 한 선반이 터진다(핫스팟). '주제+저자'의 복합 분류가 균형 잡힌 분산을 만든다.
+> [[281_nosql_modeling_strategy|샤드 키]] 선택은 도서관 도서 [[104_classification_analysis|분류]] 방법을 정하는 것과 같다. '가나다순 첫 글자'로만 [[104_classification_analysis|분류]]하면 'ㄱ'으로 시작하는 책이 너무 많아 한 선반이 터진다(핫스팟). '주제+저자'의 복합 [[104_classification_analysis|분류]]가 균형 잡힌 [[136_variance|분산]]을 만든다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-### ReplicaSet vs Sharding 목적 차이
+### [[086_replicaset_kubernetes_controller_self_healing|ReplicaSet]] vs [[243_sharding_horizontal_scaling_database|Sharding]] 목적 차이
 
-| 관점 | ReplicaSet | Sharding |
+| 관점 | [[086_replicaset_kubernetes_controller_self_healing|ReplicaSet]] | [[243_sharding_horizontal_scaling_database|Sharding]] |
 |:---:|:---:|:---:|
-| **목적** | 고가용성(HA) + 읽기 분산 | 수평 확장 + 쓰기 분산 |
-| **데이터** | 모든 노드에 전체 복사본 | 노드별 부분 데이터 |
+| **목적** | 고가용성(HA) + 읽기 [[136_variance|분산]] | 수평 확장 + [[289_cqrs_db|쓰기]] [[136_variance|분산]] |
+| **[[001_dikw_pyramid|데이터]]** | 모든 노드에 전체 복사본 | 노드별 부분 [[001_dikw_pyramid|데이터]] |
 | **노드 실패 시** | 자동 페일오버 | 해당 샤드만 영향 |
 | **언제 도입** | 항상 (최소 구성) | 단일 ReplicaSet이 한계 도달 시 |
 
-### 읽기 선호도(Read Preference) 설정
+### 읽기 선호도(Read Preference) [[009_config|설정]]
 
 ```text
 primaryPreferred   : 주로 Primary, 없으면 Secondary
@@ -146,7 +146,7 @@ nearest            : 네트워크 지연 최소 노드
 ```
 
 📢 **섹션 요약 비유**
-> ReplicaSet은 똑같은 복사본을 3개 만드는 복사기이고, Sharding은 큰 문서를 3등분해서 각각 다른 서랍에 넣는 파일링 시스템이다. 복사기는 하나를 잃어도 괜찮게 하고, 파일링 시스템은 서랍 하나가 꽉 차지 않게 한다.
+> ReplicaSet은 똑같은 복사본을 3개 만드는 복사기이고, Sharding은 큰 문서를 3등분해서 각각 다른 서랍에 넣는 [[501_file_definition_logical_record|파일]]링 시스템이다. 복사기는 하나를 잃어도 괜찮게 하고, [[501_file_definition_logical_record|파일]]링 시스템은 서랍 하나가 꽉 차지 않게 한다.
 
 ---
 
@@ -169,48 +169,48 @@ nearest            : 네트워크 지연 최소 노드
 기본 구성 유지, 모니터링 기반 단계적 확장
 ```
 
-### 운영 체크리스트
+### 운영 [[435_checklist_based_testing|체크리스트]]
 
-| 항목 | 권장 설정 | 이유 |
+| 항목 | 권장 [[009_config|설정]] | 이유 |
 |:---:|:---:|:---|
-| ReplicaSet 최소 멤버 | 3개 이상(홀수) | 과반수 투표 보장 |
+| [[086_replicaset_kubernetes_controller_self_healing|ReplicaSet]] 최소 멤버 | 3개 이상(홀수) | 과반수 투표 보장 |
 | 청크 크기 | 기본 128MB | 과도한 마이그레이션 방지 |
-| 샤드 밸런서 시간 | 피크 외 시간 | 밸런싱 중 성능 영향 최소화 |
-| 인덱스 빌드 | Rolling Build | Primary 부하 분산 |
-| Mongos 수 | 앱 서버당 1개 이상 | SPOF 방지 |
+| 샤드 밸런서 시간 | 피크 외 시간 | 밸런싱 중 [[282_performance_tactics|성능]] 영향 최소화 |
+| [[154_database_index_b_tree_search_optimization|인덱스]] 빌드 | Rolling Build | Primary 부하 [[136_variance|분산]] |
+| Mongos 수 | 앱 서버당 1개 이상 | [[454_spof|SPOF]] 방지 |
 
 📢 **섹션 요약 비유**
-> MongoDB 운영은 교통 관제와 같다. 평소에는 Mongos(교통 AI)가 쿼리를 최적 경로로 안내하고, 사고(노드 장애) 시에는 자동으로 우회로(페일오버)를 찾는다. 청크 밸런서는 야간에 조용히 도로 공사를 해서 낮에는 항상 원활한 소통을 유지한다.
+> [[540_mongodb|MongoDB]] 운영은 교통 관제와 같다. 평소에는 Mongos(교통 [[190_ai_llm_requirements_specification|AI]])가 [[298_qkv_attention|쿼리]]를 최적 경로로 안내하고, 사고(노드 장애) 시에는 자동으로 우회로(페일오버)를 찾는다. 청크 밸런서는 야간에 조용히 도로 공사를 해서 낮에는 항상 원활한 소통을 유지한다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-### 대규모 배포 사례 성능 지표
+### 대규모 배포 사례 [[282_performance_tactics|성능]] 지표
 
-| 규모 | 구성 | 성능 |
+| 규모 | 구성 | [[282_performance_tactics|성능]] |
 |:---:|:---:|:---:|
-| 소규모 | 1 ReplicaSet (3노드) | ~50K TPS |
-| 중규모 | 3 Shard × ReplicaSet | ~150K TPS |
-| 대규모 | 10+ Shard × ReplicaSet | ~500K+ TPS |
+| 소규모 | 1 [[086_replicaset_kubernetes_controller_self_healing|ReplicaSet]] (3노드) | ~50K TPS |
+| 중규모 | 3 Shard × [[086_replicaset_kubernetes_controller_self_healing|ReplicaSet]] | ~150K TPS |
+| 대규모 | [[489_raid_10_hybrid|10]]+ Shard × [[086_replicaset_kubernetes_controller_self_healing|ReplicaSet]] | ~500K+ TPS |
 
 ### 결론
-MongoDB의 ReplicaSet-Sharding 이중 구조는 고가용성과 무제한 확장을 동시에 달성하는 현존 최선의 문서형 DB 아키텍처다. 그러나 **샤드 키 선택 실수는 수정 비용이 극히 높으므로** 초기 데이터 접근 패턴 분석에 충분한 시간을 투자해야 한다. 기술사 시험에서는 ReplicaSet 선출 메커니즘, 샤드 키 핫스팟 문제, Mongos 역할이 단골 출제 포인트다.
+MongoDB의 [[086_replicaset_kubernetes_controller_self_healing|ReplicaSet]]-[[243_sharding_horizontal_scaling_database|Sharding]] 이중 구조는 고가용성과 무제한 확장을 동시에 달성하는 현존 최선의 문서형 DB 아키텍처다. 그러나 **[[281_nosql_modeling_strategy|샤드 키]] 선택 실수는 수정 비용이 극히 높으므로** [[459_quic_fec_forward_error_correction|초기]] [[001_dikw_pyramid|데이터]] 접근 패턴 분석에 충분한 시간을 투자해야 한다. 기술사 시험에서는 [[086_replicaset_kubernetes_controller_self_healing|ReplicaSet]] 선출 메커니즘, [[281_nosql_modeling_strategy|샤드 키]] 핫스팟 문제, Mongos 역할이 단골 출제 포인트다.
 
 📢 **섹션 요약 비유**
-> MongoDB 아키텍처 설계는 도시 건설 계획과 같다. 처음에 도로(샤드 키)를 잘못 놓으면 나중에 뜯어고치는 비용이 엄청나다. 처음부터 교통 흐름(쿼리 패턴)을 고려해 넓은 도로(높은 카디널리티 샤드 키)를 설계하면, 도시가 아무리 커져도 원활하게 확장된다.
+> [[540_mongodb|MongoDB]] 아키텍처 설계는 도시 건설 계획과 같다. 처음에 도로([[281_nosql_modeling_strategy|샤드 키]])를 잘못 놓으면 나중에 뜯어고치는 비용이 엄청나다. 처음부터 교통 흐름([[298_qkv_attention|쿼리]] 패턴)을 고려해 넓은 도로(높은 카디널리티 [[281_nosql_modeling_strategy|샤드 키]])를 설계하면, 도시가 아무리 커져도 원활하게 확장된다.
 
 ---
 
 ### 📌 관련 개념 맵
 
-| 개념 | 관계 | 설명 |
+| 개념 | [[083_relationship_in_er_model|관계]] | 설명 |
 |:---:|:---:|:---|
-| WiredTiger | 스토리지 엔진 | MVCC, 문서 수준 잠금 |
-| Oplog (Operation Log) | 복제 메커니즘 | Primary → Secondary 변경 전파 |
-| 청크(Chunk) | 샤딩 단위 | 기본 128MB, 분할/마이그레이션 |
-| Config Server | 메타데이터 | 청크 위치 정보 관리 |
-| ReadPreference | 읽기 분산 | Secondary 읽기 활용 |
+| WiredTiger | 스토리지 엔진 | [[449_mvcc|MVCC]], 문서 수준 잠금 |
+| Oplog ([[329_delta_encoding|Operation]] Log) | [[016_replication_factor|복제]] 메커니즘 | Primary → Secondary 변경 전파 |
+| 청크(Chunk) | [[280_sharding|샤딩]] 단위 | 기본 128MB, 분할/마이그레이션 |
+| [[009_config|Config]] Server | [[012_metadata|메타데이터]] | 청크 위치 정보 관리 |
+| ReadPreference | 읽기 [[136_variance|분산]] | Secondary 읽기 활용 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -230,7 +230,7 @@ MongoDB의 ReplicaSet-Sharding 이중 구조는 고가용성과 무제한 확장
 [Atlas (클라우드 MongoDB) — 서버리스 Document DB]
 ```
 
-MongoDB 아키텍처가 단일 노드에서 복제와 샤딩을 거쳐 완전 관리형 클라우드 서비스로 발전한 흐름이다.
+[[540_mongodb|MongoDB]] 아키텍처가 단일 노드에서 [[016_replication_factor|복제]]와 [[280_sharding|샤딩]]을 거쳐 완전 관리형 클라우드 [[090_service_kubernetes_network_load_balancing|서비스]]로 발전한 흐름이다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. ReplicaSet은 같은 책을 3권 인쇄해두는 것 — 한 권이 찢어져도 나머지 두 권으로 계속 읽을 수 있어요.

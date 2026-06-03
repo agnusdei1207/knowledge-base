@@ -8,21 +8,21 @@ categories = "studynote-software-engineering"
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 데이터 메시 (Data Mesh) - 데이터 소유권의 탈중앙화 (도메인 중심)은(는) 소프트웨어 공학의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.
-> 2. **가치**: 이 개념을 올바르게 적용하면 소프트웨어의 품질·유지보수성·재사용성이 향상되고, 개발 생산성과 팀 협업 효율이 높아진다.
+> 1. **본질**: [[211_data_mesh_domain_ownership|데이터 메시]] ([[320_data_mesh|Data Mesh]]) - [[001_dikw_pyramid|데이터]] 소유권의 [[010_decentralization|탈중앙화]] ([[064_relation_domain|도메인]] 중심)은(는) [[001_software_engineering_definition|소프트웨어 공학]]의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.
+> 2. **가치**: 이 개념을 올바르게 적용하면 소프트웨어의 품질·[[346_maintainability_portability|유지보수성]]·재사용성이 향상되고, 개발 생산성과 팀 협업 효율이 높아진다.
 > 3. **판단 포인트**: 도입 시에는 비용·복잡도·조직 성숙도를 함께 고려해야 하며, 맹목적 적용보다 프로젝트 특성에 맞는 선택적 적용이 핵심이다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-데이터가 커질수록 중앙 데이터팀만으로는 속도와 품질을 모두 맞추기 어렵다. 데이터 메시는 도메인이 자기 데이터를 직접 소유하게 한다.
+[[001_dikw_pyramid|데이터]]가 커질수록 중앙 [[001_dikw_pyramid|데이터]]팀만으로는 속도와 품질을 모두 맞추기 어렵다. [[211_data_mesh_domain_ownership|데이터 메시]]는 [[064_relation_domain|도메인]]이 자기 [[001_dikw_pyramid|데이터]]를 직접 소유하게 한다.
 
 - **📢 섹션 요약 비유**: 한 사람이 모든 반찬을 만드는 대신, 각 집이 자기 반찬을 책임지는 것과 같다.
 
 ---
 
-다음은 데이터 메시 (Data Mesh)의 핵심 구조와 흐름을 보여주는 다이어그램이다.
+다음은 [[211_data_mesh_domain_ownership|데이터 메시]] ([[320_data_mesh|Data Mesh]])의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
 ```text
 ┌─────────────────────────────────────────────────────────────┐
@@ -37,7 +37,7 @@ categories = "studynote-software-engineering"
 └─────────────────────────────────────────────────────────────┘
 ```
 
-이 다이어그램은 데이터 메시 (Data Mesh)가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
+이 다이어그램은 [[211_data_mesh_domain_ownership|데이터 메시]] ([[320_data_mesh|Data Mesh]])가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
 ---
 
@@ -47,7 +47,7 @@ categories = "studynote-software-engineering"
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-데이터 메시는 도메인별 데이터 제품(Data Product), 셀프 서비스 플랫폼, 연합 거버넌스를 기반으로 한다.
+[[211_data_mesh_domain_ownership|데이터 메시]]는 [[064_relation_domain|도메인]]별 [[154_data_product|데이터 제품]]([[154_data_product|Data Product]]), 셀프 [[090_service_kubernetes_network_load_balancing|서비스]] 플랫폼, 연합 거버넌스를 기반으로 한다.
 
 ```text
 Domain A -> Data Product
@@ -57,7 +57,7 @@ Platform -> Common Standards
 
 | 구성 | 역할 |
 |:---|:---|
-| Data Product | 도메인 산출물 |
+| [[154_data_product|Data Product]] | [[064_relation_domain|도메인]] 산출물 |
 | Platform | 공통 도구 |
 | Governance | 표준/품질 |
 
@@ -73,13 +73,13 @@ Platform -> Common Standards
 
 ## Ⅲ. 비교 및 연결
 
-데이터 레이크(Data Lake)나 중앙 DW(Data Warehouse)와 달리, 데이터 메시는 소유권을 도메인에 둔다.
+[[208_data_lake_schema_on_read|데이터 레이크]]([[208_data_lake_schema_on_read|Data Lake]])나 중앙 [[209_data_warehouse_schema_on_write|DW]]([[208_data_warehouse_schema_on_write_inmon|Data Warehouse]])와 달리, [[211_data_mesh_domain_ownership|데이터 메시]]는 소유권을 [[064_relation_domain|도메인]]에 둔다.
 
-| 구분 | Data Mesh | Centralized DW |
+| 구분 | [[320_data_mesh|Data Mesh]] | Centralized [[209_data_warehouse_schema_on_write|DW]] |
 |:---|:---|:---|
-| 소유권 | 도메인 | 중앙 |
+| 소유권 | [[064_relation_domain|도메인]] | 중앙 |
 | 속도 | 높음 | 중간 |
-| 품질 책임 | 분산 | 집중 |
+| 품질 책임 | [[136_variance|분산]] | 집중 |
 
 - **📢 섹션 요약 비유**: 모두가 같은 냉장고를 쓰는 대신, 각 집 냉장고를 정리하는 방식이다.
 
@@ -93,12 +93,12 @@ Platform -> Common Standards
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서는 메타데이터, 카탈로그, 품질 게이트를 자동화해야 한다.
+실무에서는 [[012_metadata|메타데이터]], [[394_catalog_metadata|카탈로그]], 품질 게이트를 자동화해야 한다.
 
 점검 포인트는 다음과 같다.
-1. 도메인이 데이터 품질 책임을 질 준비가 되었는가?
+1. [[064_relation_domain|도메인]]이 [[001_dikw_pyramid|데이터]] 품질 책임을 질 준비가 되었는가?
 2. 공통 표준이 너무 강해서 유연성을 해치지 않는가?
-3. 탐색 가능한 카탈로그가 있는가?
+3. 탐색 가능한 [[394_catalog_metadata|카탈로그]]가 있는가?
 
 - **📢 섹션 요약 비유**: 각자 맡되, 이름표와 규칙표는 똑같이 붙여야 한다.
 
@@ -112,9 +112,9 @@ Platform -> Common Standards
 
 ## Ⅴ. 기대효과 및 결론
 
-데이터 메시는 데이터 소유권을 분산하면서도 표준을 유지하는 균형점이다.
+[[211_data_mesh_domain_ownership|데이터 메시]]는 [[001_dikw_pyramid|데이터]] 소유권을 [[136_variance|분산]]하면서도 표준을 유지하는 균형점이다.
 
-결론적으로 이 항목은 "도메인 중심으로 데이터 책임을 분산하는 구조"다.
+결론적으로 이 항목은 "[[064_relation_domain|도메인]] 중심으로 [[001_dikw_pyramid|데이터]] 책임을 [[136_variance|분산]]하는 구조"다.
 
 - **📢 섹션 요약 비유**: 반찬 담당을 나누되, 맛 기준은 하나로 맞추는 일이다.
 
@@ -128,10 +128,10 @@ Platform -> Common Standards
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| 소프트웨어 공학 (Software Engineering) | 데이터 메시 (Data Mesh)의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
-| 소프트웨어 생명주기 (SDLC, Software Development Life Cycle) | 데이터 메시 (Data Mesh)은 SDLC의 특정 단계에서 핵심적으로 적용된다 |
-| 품질 보증 (QA, Quality Assurance) | 데이터 메시 (Data Mesh) 적용 결과는 QA 활동을 통해 검증되고 측정된다 |
-| 형상 관리 (SCM, Software Configuration Management) | 데이터 메시 (Data Mesh)에서 생성된 산출물은 SCM을 통해 체계적으로 관리된다 |
+| [[001_software_engineering_definition|소프트웨어 공학]] ([[001_software_engineering_definition|Software Engineering]]) | [[211_data_mesh_domain_ownership|데이터 메시]] ([[320_data_mesh|Data Mesh]])의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
+| [[003_sdlc|소프트웨어 생명주기]] ([[131_sdlc_system_development_life_cycle_waterfall_agile|SDLC]], Software Development Life Cycle) | [[211_data_mesh_domain_ownership|데이터 메시]] ([[320_data_mesh|Data Mesh]])은 SDLC의 특정 단계에서 핵심적으로 적용된다 |
+| 품질 보증 (QA, Quality Assurance) | [[211_data_mesh_domain_ownership|데이터 메시]] ([[320_data_mesh|Data Mesh]]) 적용 결과는 QA 활동을 통해 검증되고 측정된다 |
+| [[020_software_configuration_management|형상 관리]] ([[167_scm_software_configuration_management|SCM]], [[020_software_configuration_management|Software Configuration Management]]) | [[211_data_mesh_domain_ownership|데이터 메시]] ([[320_data_mesh|Data Mesh]])에서 생성된 산출물은 SCM을 통해 체계적으로 관리된다 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -151,10 +151,10 @@ Platform -> Common Standards
 지속적 개선 및 DevOps·MLOps 통합
 ```
 
-이 흐름은 소프트웨어 위기 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
+이 흐름은 [[002_software_crisis|소프트웨어 위기]] 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. 데이터 메시 (Data Mesh)은 레고 블록으로 성을 만들 때처럼, 규칙을 정하고 역할을 나누어 함께 작업하는 방법이에요.
+1. [[211_data_mesh_domain_ownership|데이터 메시]] ([[320_data_mesh|Data Mesh]])은 레고 블록으로 성을 만들 때처럼, 규칙을 정하고 역할을 나누어 함께 작업하는 방법이에요.
 2. 혼자서 막 만들면 나중에 무너지거나 고치기 어렵지만, 약속을 지키면 누구나 쉽게 고치고 더 크게 만들 수 있어요.
-3. 그래서 소프트웨어 공학은 프로그래머들이 좋은 프로그램을 빠르고 안전하게 만들 수 있게 도와주는 '규칙 모음집'이에요.
+3. 그래서 [[001_software_engineering_definition|소프트웨어 공학]]은 프로그래머들이 좋은 프로그램을 빠르고 안전하게 만들 수 있게 도와주는 '규칙 모음집'이에요.

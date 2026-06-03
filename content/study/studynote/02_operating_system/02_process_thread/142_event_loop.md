@@ -8,9 +8,9 @@ categories = "studynote-operating-system"
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 이벤트 루프 (Event Loop) 기반 비동기 처리 (Node.js)은 프로세스와 스레드의 생성·실행·협력에서 핵심 흐름을 결정하는 개념으로, 시스템이 무엇을 먼저 관리하고 어떤 순서로 제어할지를 분명하게 만든다.
-> 2. **가치**: 이 개념을 이해하면 자원 효율, 응답 시간, 안정성 사이의 균형을 더 정확하게 설명할 수 있고, 컨텍스트 스위칭 최소화를 위한 스레드 고정 (Thread Affinity/Pinning)로 이어지는 이유도 자연스럽게 파악된다.
-> 3. **판단 포인트**: 코루틴 (Coroutine)과의 관계를 함께 봐야 이벤트 루프 (Event Loop) 기반 비동기 처리 (Node.js)을 단순 정의가 아니라 실제 설계·운영 판단 기준으로 사용할 수 있다.
+> 1. **본질**: 이벤트 루프 (Event Loop) 기반 비동기 처리 (Node.js)은 프로세스와 [[092_thread_lwp|스레드]]의 [[087_process_state_transition|생성]]·실행·협력에서 핵심 흐름을 결정하는 개념으로, 시스템이 무엇을 먼저 관리하고 어떤 순서로 제어할지를 분명하게 만든다.
+> 2. **가치**: 이 개념을 이해하면 자원 효율, [[138_response_time|응답 시간]], 안정성 사이의 균형을 더 정확하게 설명할 수 있고, [[034_context_switch|컨텍스트 스위칭]] 최소화를 위한 [[092_thread_lwp|스레드]] 고정 ([[092_thread_lwp|Thread]] [[778_process_affinity_scheduling_pinning|Affinity]]/Pinning)로 이어지는 이유도 자연스럽게 파악된다.
+> 3. **판단 포인트**: [[141_coroutine|코루틴]] ([[141_coroutine|Coroutine]])과의 관계를 함께 봐야 이벤트 루프 (Event Loop) 기반 비동기 처리 (Node.js)을 단순 정의가 아니라 실제 설계·운영 판단 기준으로 사용할 수 있다.
 
 ---
 
@@ -18,9 +18,9 @@ categories = "studynote-operating-system"
 
 ### 1. 정의 및 특징
 
-이벤트 루프(Event Loop)는 단일 스레드에서 이벤트 큐를 순회하며 콜백 함수를 디스패치하는 비동기 처리 아키텍처다. 멀티스레딩 없이 동시성을 달성하는 핵심 메커니즘이다.
+이벤트 루프(Event Loop)는 단일 [[092_thread_lwp|스레드]]에서 이벤트 큐를 순회하며 콜백 함수를 디스패치하는 비동기 처리 아키텍처다. [[397_multithreading|멀티스레딩]] 없이 동시성을 달성하는 핵심 메커니즘이다.
 
-> **비유:** 식당 주방장이 혼자서 주문서를 하나씩 확인하고, 조리가 오래 걸리는 음식은 오븐에 맡겨놓고 다음 주문을 처리하는 방식과 같다.
+> **비유:** 식당 주방장이 혼자서 주문서를 하나씩 [[396_validation|확인]]하고, 조리가 오래 걸리는 음식은 오븐에 맡겨놓고 다음 주문을 처리하는 방식과 같다.
 
 ```
 ┌─────────────────────────────────────────────────┐
@@ -53,7 +53,7 @@ categories = "studynote-operating-system"
 
 ### 1. 논블로킹 I/O (Non-blocking I/O)
 
-I/O 연산이 완료될 때까지 스레드를 차단하지 않고 즉시 반환하며, 작업 완료 시 콜백을 큐에 등록한다.
+I/O 연산이 완료될 때까지 [[092_thread_lwp|스레드]]를 차단하지 않고 즉시 반환하며, 작업 완료 시 콜백을 큐에 등록한다.
 
 ### 2. 이벤트 루프의 5단계 (Node.js 기준)
 
@@ -84,12 +84,12 @@ I/O 연산이 완료될 때까지 스레드를 차단하지 않고 즉시 반환
 
 | 플랫폼 | 엔진 | 특징 |
 |--------|------|------|
-| **Node.js** | libuv | C++ 기반, 파일 I/O + 네트워크 모두 비동기 |
-| **Browser JS** | V8/SpiderMonkey | Web API 사용, UI 렌더링과 병행 |
-| **Python asyncio** | async/await | 코루틴 기반, `asyncio.run()` 진입점 |
-| **Go** | goroutine | M:N 스케줄링, runtime에 이벤트 루프 내장 |
+| **Node.js** | libuv | C++ 기반, [[501_file_definition_logical_record|파일]] I/O + 네트워크 모두 비동기 |
+| **Browser JS** | V8/SpiderMonkey | Web [[014_api_posix|API]] 사용, UI 렌더링과 병행 |
+| **Python asyncio** | async/await | [[141_coroutine|코루틴]] 기반, `asyncio.run()` 진입점 |
+| **Go** | [[140_goroutine|goroutine]] | M:N 스케줄링, runtime에 이벤트 루프 내장 |
 
-> **비유:** 이벤트 루프의 페이즈는 우체부가 아침에 배달(Timers), 미처 못한 편지(Pending), 새 편지 수거(Poll), 등기 확인(Check), 마감(Close) 순으로 돌리는 일과와 같다.
+> **비유:** 이벤트 루프의 페이즈는 우체부가 아침에 배달(Timers), 미처 못한 편지(Pending), 새 편지 수거(Poll), 등기 [[396_validation|확인]](Check), 마감(Close) 순으로 돌리는 일과와 같다.
 
 - **📢 섹션 요약 비유**: 공장 컨베이어벨트가 어떤 순서로 부품을 받아 가공하고 내보내는지 설계도를 펼쳐 보는 것과 같다.
 
@@ -126,7 +126,7 @@ I/O 연산이 완료될 때까지 스레드를 차단하지 않고 즉시 반환
 | 구분 | 예시 | 실행 시점 |
 |------|------|-----------|
 | **Microtask** | `Promise.then`, `queueMicrotask` | 현재 페이즈 종료 직후, 다음 페이즈 이전 |
-| **Macrotask** | `setTimeout`, `setImmediate` | 다음 이벤트 루프 틱(tick) |
+| **Macrotask** | `setTimeout`, `setImmediate` | 다음 이벤트 루프 틱([[073_tick_jiffies|tick]]) |
 
 - **📢 섹션 요약 비유**: 비슷해 보이는 공구를 나란히 놓고 언제 망치를 쓰고 언제 드라이버를 써야 하는지 구분하는 것과 같다.
 
@@ -136,8 +136,8 @@ I/O 연산이 완료될 때까지 스레드를 차단하지 않고 즉시 반환
 
 ### 1. 장점
 
-- 스레드 생성/컨텍스트 스위칭 오버헤드 없음
-- 메모리 사용량 적음 (단일 스레드)
+- [[092_thread_lwp|스레드]] [[087_process_state_transition|생성]]/[[034_context_switch|컨텍스트 스위칭]] 오버헤드 없음
+- 메모리 사용량 적음 (단일 [[092_thread_lwp|스레드]])
 - 수만 개의 동시 연결 처리 가능 (C10K 문제 해결)
 - 동기 코드와 비슷한 제어 흐름으로 작성 가능
 
@@ -157,7 +157,7 @@ I/O 연산이 완료될 때까지 스레드를 차단하지 않고 즉시 반환
 └─────────────────────────────────────┘
 ```
 
-해결책: **Worker Thread** 분리, **클러스터 모드** (멀티프로세스), **C++ Addon** 오프로딩
+해결책: **Worker [[092_thread_lwp|Thread]]** 분리, **클러스터 모드** (멀티프로세스), **C++ Addon** [[440_offloading|오프로딩]]
 
 - **📢 섹션 요약 비유**: 운전자가 도로 상황에 따라 기어와 브레이크를 다르게 선택하는 것처럼 조건별 판단이 중요하다.
 
@@ -200,10 +200,10 @@ I/O 연산이 완료될 때까지 스레드를 차단하지 않고 즉시 반환
 
 | 약어 | Full Name |
 |------|-----------|
-| **libuv** | Library for UV (Unified Virtualization) |
+| **libuv** | [[336_library_vs_framework|Library]] for UV (Unified [[190_virtualization_computing_architecture_cloud|Virtualization]]) |
 | **I/O** | Input/Output |
-| **API** | Application Programming Interface |
-| **C10K** | Client 10,000 Problem |
+| **[[014_api_posix|API]]** | [[014_api_posix|Application Programming Interface]] |
+| **C10K** | [[003_audit_stakeholders|Client]] [[489_raid_10_hybrid|10]],000 Problem |
 
 ---
 
@@ -219,10 +219,10 @@ I/O 연산이 완료될 때까지 스레드를 차단하지 않고 즉시 반환
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| 고루틴 (Goroutine) | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
-| 코루틴 (Coroutine) | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
-| 컨텍스트 스위칭 최소화를 위한 스레드 고정 (Thread Affinity/Pinning) | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
-| CPU 친화성 (CPU Affinity) | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
+| [[140_goroutine|고루틴]] ([[140_goroutine|Goroutine]]) | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
+| [[141_coroutine|코루틴]] ([[141_coroutine|Coroutine]]) | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
+| [[034_context_switch|컨텍스트 스위칭]] 최소화를 위한 [[092_thread_lwp|스레드]] 고정 ([[092_thread_lwp|Thread]] [[778_process_affinity_scheduling_pinning|Affinity]]/Pinning) | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
+| CPU 친화성 ([[144_cpu_affinity|CPU Affinity]]) | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -241,5 +241,5 @@ I/O 연산이 완료될 때까지 스레드를 차단하지 않고 즉시 반환
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. 이벤트 루프 (Event Loop) 기반 비동기 처리 (Node.js)은 컴퓨터가 여러 일을 나눠서 처리하고 서로 기다리게 하는 약속이에요.
-2. 먼저 코루틴 (Coroutine)을 이해하면 이벤트 루프 (Event Loop) 기반 비동기 처리 (Node.js)이 왜 필요한지 더 쉽게 보여요.
-3. 그래서 이벤트 루프 (Event Loop) 기반 비동기 처리 (Node.js)을 잘 알면 나중에 컨텍스트 스위칭 최소화를 위한 스레드 고정 (Thread Affinity/Pinning)도 훨씬 쉽게 배울 수 있어요.
+2. 먼저 [[141_coroutine|코루틴]] ([[141_coroutine|Coroutine]])을 이해하면 이벤트 루프 (Event Loop) 기반 비동기 처리 (Node.js)이 왜 필요한지 더 쉽게 보여요.
+3. 그래서 이벤트 루프 (Event Loop) 기반 비동기 처리 (Node.js)을 잘 알면 나중에 [[034_context_switch|컨텍스트 스위칭]] 최소화를 위한 [[092_thread_lwp|스레드]] 고정 ([[092_thread_lwp|Thread]] [[778_process_affinity_scheduling_pinning|Affinity]]/Pinning)도 훨씬 쉽게 배울 수 있어요.

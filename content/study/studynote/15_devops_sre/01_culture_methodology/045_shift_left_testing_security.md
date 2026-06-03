@@ -7,13 +7,13 @@ categories = "studynote-devops-sre"
 +++
 
 > **핵심 인사이트**
-> 1. 시프트 레프트(Shift Left)는 테스팅·보안 활동을 개발 생명주기의 왼쪽(초기 단계)으로 이동시키는 원칙 — 결함은 발견이 늦을수록 수정 비용이 기하급수적으로 증가하며(IBM: 운영 단계 결함 수정 비용 = 설계 단계의 100×), 초기 발견이 핵심이다.
-> 2. 시프트 레프트 테스팅은 테스트 피라미드와 TDD(테스트 주도 개발)로 구현 — 단위 테스트(70%)·통합 테스트(20%)·E2E 테스트(10%) 비율로 빠른 피드백 루프를 만들어 CI/CD 파이프라인에서 자동 검증한다.
-> 3. DevSecOps(시프트 레프트 보안)는 보안을 개발 프로세스에 내재화 — SAST(정적 분석)→DAST(동적 분석)→SCA(오픈소스 취약점)→컨테이너 스캔을 CI/CD 파이프라인에 자동화하며, "보안은 보안팀의 일"이 아닌 "모두의 일"로 만든다.
+> 1. [[242_shift_left_sdlc|시프트 레프트]](Shift Left)는 테스팅·보안 활동을 개발 생명주기의 왼쪽([[459_quic_fec_forward_error_correction|초기]] 단계)으로 이동시키는 원칙 — [[352_defect_definition|결함]]은 발견이 늦을수록 수정 비용이 기하급수적으로 증가하며(IBM: 운영 단계 [[352_defect_definition|결함]] 수정 비용 = 설계 단계의 100×), [[459_quic_fec_forward_error_correction|초기]] 발견이 핵심이다.
+> 2. [[466_shift_left_testing|시프트 레프트 테스팅]]은 테스트 피라미드와 [[164_tdd_test_driven_development|TDD]]([[077_tdd_test_driven_development|테스트 주도 개발]])로 구현 — [[397_unit_test|단위 테스트]](70%)·[[400_integration_testing|통합 테스트]](20%)·[[265_e2e_end_to_ui_selenium|E2E]] 테스트([[489_raid_10_hybrid|10]]%) 비율로 빠른 [[005_feedback_loop|피드백 루프]]를 만들어 [[090_configuration_item|CI]]/CD [[123_pipe|파이프]]라인에서 자동 [[395_verification_process_review|검증]]한다.
+> 3. [[653_devsecops_shift_left|DevSecOps]]([[242_shift_left_sdlc|시프트 레프트]] 보안)는 보안을 개발 프로세스에 내재화 — [[491_sast_static_analysis|SAST]]([[331_static_analysis|정적 분석]])→[[492_dast_dynamic_analysis|DAST]]([[332_dynamic_analysis|동적 분석]])→[[453_sca|SCA]]([[191_oss_license_compliance|오픈소스]] 취약점)→[[561_container_based_deployment|컨테이너]] 스캔을 [[090_configuration_item|CI]]/CD [[123_pipe|파이프]]라인에 자동화하며, "보안은 보안팀의 일"이 아닌 "모두의 일"로 만든다.
 
 ---
 
-## Ⅰ. 시프트 레프트 개념
+## Ⅰ. [[242_shift_left_sdlc|시프트 레프트]] 개념
 
 ```
 결함 수정 비용 곡선:
@@ -54,11 +54,11 @@ IBM 연구 (1970s, 여전히 통용):
   3. 성능 (Shift Left Performance)
 ```
 
-> 📢 **섹션 요약 비유**: 시프트 레프트는 요리할 때 식재료 확인 — 완성 후 맛 없으면(운영 결함) 다 버려야. 재료 살 때(요구사항) 신선한지 확인하면 훨씬 저렴!
+> 📢 **섹션 요약 비유**: [[242_shift_left_sdlc|시프트 레프트]]는 요리할 때 식재료 [[396_validation|확인]] — 완성 후 맛 없으면(운영 [[352_defect_definition|결함]]) 다 버려야. 재료 살 때(요구사항) 신선한지 [[396_validation|확인]]하면 훨씬 저렴!
 
 ---
 
-## Ⅱ. 시프트 레프트 테스팅
+## Ⅱ. [[466_shift_left_testing|시프트 레프트 테스팅]]
 
 ```
 테스트 피라미드 (Test Pyramid):
@@ -104,11 +104,11 @@ CI 파이프라인 통합:
   실패 시 즉시 알림
 ```
 
-> 📢 **섹션 요약 비유**: 테스트 피라미드는 건물 기초 — 단위 테스트(넓은 기초), 통합 테스트(벽), E2E(지붕). 기초가 탄탄해야 지붕이 올라가요. TDD는 청사진 먼저!
+> 📢 **섹션 요약 비유**: 테스트 피라미드는 건물 기초 — [[397_unit_test|단위 테스트]](넓은 기초), [[400_integration_testing|통합 테스트]](벽), [[265_e2e_end_to_ui_selenium|E2E]](지붕). 기초가 탄탄해야 지붕이 올라가요. TDD는 청사진 먼저!
 
 ---
 
-## Ⅲ. 시프트 레프트 보안 (DevSecOps)
+## Ⅲ. [[242_shift_left_sdlc|시프트 레프트]] 보안 ([[653_devsecops_shift_left|DevSecOps]])
 
 ```
 DevSecOps 파이프라인:
@@ -164,11 +164,11 @@ DevSecOps 파이프라인:
    S3 버킷 public → 차단
 ```
 
-> 📢 **섹션 요약 비유**: DevSecOps는 공장 품질 검사 라인 — SAST(코드 검사기), SCA(부품 결함 검사), DAST(완성품 충격 테스트), 컨테이너(포장 검사). 각 단계마다 검사!
+> 📢 **섹션 요약 비유**: DevSecOps는 공장 품질 검사 라인 — [[491_sast_static_analysis|SAST]](코드 검사기), [[453_sca|SCA]](부품 [[352_defect_definition|결함]] 검사), [[492_dast_dynamic_analysis|DAST]](완성품 충격 테스트), [[561_container_based_deployment|컨테이너]](포장 검사). 각 단계마다 검사!
 
 ---
 
-## Ⅳ. CI/CD 파이프라인 구성
+## Ⅳ. [[090_configuration_item|CI]]/CD [[123_pipe|파이프]]라인 구성
 
 ```
 시프트 레프트 CI/CD 파이프라인:
@@ -214,11 +214,11 @@ Stage 5 (CD - 프로덕션):
   Medium 이하: 리포트만
 ```
 
-> 📢 **섹션 요약 비유**: 시프트 레프트 CI/CD는 공항 보안 검색 — 수하물(코드)이 여러 검색대(Stage)를 통과. 초기 검색대(Pre-commit)에서 걸리면 가장 빠르고 저렴하게 해결!
+> 📢 **섹션 요약 비유**: [[242_shift_left_sdlc|시프트 레프트]] [[090_configuration_item|CI]]/CD는 공항 보안 검색 — 수하물(코드)이 여러 검색대(Stage)를 통과. [[459_quic_fec_forward_error_correction|초기]] 검색대(Pre-commit)에서 걸리면 가장 빠르고 저렴하게 해결!
 
 ---
 
-## Ⅴ. 실무 시나리오 — 핀테크 DevSecOps
+## Ⅴ. 실무 시나리오 — 핀테크 [[653_devsecops_shift_left|DevSecOps]]
 
 ```
 핀테크 스타트업 DevSecOps 도입:
@@ -266,7 +266,7 @@ ROI:
   보안팀 코드 리뷰 시간: 주 40시간 → 5시간
 ```
 
-> 📢 **섹션 요약 비유**: DevSecOps는 공장 품질 내재화 — 별도 품질팀(보안팀)이 마지막에 검사하는 대신, 각 작업자(개발자)가 만들면서 바로 검사. 불량(취약점) 초기에 잡기!
+> 📢 **섹션 요약 비유**: DevSecOps는 공장 품질 내재화 — 별도 품질팀(보안팀)이 마지막에 검사하는 대신, 각 작업자(개발자)가 만들면서 바로 검사. 불량(취약점) [[459_quic_fec_forward_error_correction|초기]]에 잡기!
 
 ---
 
@@ -326,6 +326,6 @@ SAST/DAST/SCA 자동화
 
 ## 👶 어린이를 위한 3줄 비유 설명
 
-1. 시프트 레프트는 조기 검사 — 완성된 제품(운영)에서 결함 발견이면 다 뜯어야. 재료 확인(요구사항)에서 미리 잡으면 훨씬 쉬워요!
-2. 테스트 피라미드는 집 기초 — 단위 테스트(기초) 많이, 통합(벽) 적당히, E2E(지붕) 조금. 기초가 튼튼해야 집이 안전!
+1. [[242_shift_left_sdlc|시프트 레프트]]는 조기 검사 — 완성된 제품(운영)에서 [[352_defect_definition|결함]] 발견이면 다 뜯어야. 재료 [[396_validation|확인]](요구사항)에서 미리 잡으면 훨씬 쉬워요!
+2. 테스트 피라미드는 집 기초 — [[397_unit_test|단위 테스트]](기초) 많이, 통합(벽) 적당히, [[265_e2e_end_to_ui_selenium|E2E]](지붕) 조금. 기초가 튼튼해야 집이 안전!
 3. DevSecOps는 모두가 보안팀 — 보안 전문가만 보안 책임지는 게 아니라, 개발자도 코딩할 때 자동으로 보안 체크. 팀 전체가 보안 수호자!

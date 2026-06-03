@@ -6,16 +6,16 @@ weight = 56
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: BCP (Business Continuity Plan)는 재난이 와도 핵심 업무를 멈추지 않게 만드는 전사 생존 계획이다.
-> 2. **가치**: 사람, 장소, 절차, 시스템을 함께 보지 않으면 DR (Disaster Recovery)만으로는 회사를 지킬 수 없다.
-> 3. **판단 포인트**: BIA (Business Impact Analysis)와 RA (Risk Assessment)로 우선순위를 정하고, RTO (Recovery Time Objective)와 RPO (Recovery Point Objective)를 기준으로 복구 전략을 짠다.
+> 2. **가치**: 사람, 장소, 절차, 시스템을 함께 보지 않으면 [[360_ospf_dr_bdr_designated_router_lsa_flooding|DR]] (Disaster [[658_ir_recovery|Recovery]])만으로는 회사를 지킬 수 없다.
+> 3. **판단 포인트**: [[212_bia_business_impact_analysis_rto_rpo_dr|BIA]] ([[212_bia_business_impact_analysis_rto_rpo_dr|Business Impact Analysis]])와 [[161_ra_registration_authority|RA]] ([[096_risk_non_risk_architecture_evaluation_flaws|Risk]] Assessment)로 우선순위를 정하고, [[176_rto_recovery_time_objective|RTO]] ([[176_rto_recovery_time_objective|Recovery Time Objective]])와 [[177_rpo_recovery_point_objective|RPO]] ([[177_rpo_recovery_point_objective|Recovery Point Objective]])를 기준으로 [[658_ir_recovery|복구]] [[268_strategy_pattern|전략]]을 짠다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-BCP는 "서버를 되살리는 문서"가 아니다. 재난이 발생했을 때 사람, 업무, 장소, 공급망, 시스템을 함께 움직여 회사의 생존을 이어 가는 운영 계획이다.
+BCP는 "서버를 되살리는 문서"가 아니다. 재난이 발생했을 때 사람, 업무, 장소, [[520_supply_chain_attack_and_ci_cd_security|공급망]], 시스템을 함께 움직여 회사의 생존을 이어 가는 운영 계획이다.
 
-과거에는 전산실이 멈추면 백업을 복원하는 DR 중심 사고가 많았다. 그러나 대형 재난은 직원 출근 불가, 통신망 장애, 대체 사무실 부재까지 동시에 만든다. 그래서 전사 관점의 연속성 계획이 필요하다.
+과거에는 전산실이 멈추면 [[555_backup_and_restore_strategy|백업]]을 복원하는 [[360_ospf_dr_bdr_designated_router_lsa_flooding|DR]] 중심 사고가 많았다. 그러나 대형 재난은 직원 출근 불가, 통신망 장애, 대체 사무실 부재까지 동시에 만든다. 그래서 전사 관점의 연속성 계획이 필요하다.
 
 - **📢 섹션 요약 비유**: BCP는 집이 흔들릴 때 벽 하나만 고치는 게 아니라, 가족이 어디로 모이고 무엇부터 챙길지 정해 두는 비상 계획이다.
 
@@ -37,9 +37,9 @@ RTO / RPO 설정
 복구 전략과 자원 배치
 ```
 
-- BIA (Business Impact Analysis)는 업무별 피해 규모와 복구 우선순위를 정한다.
-- RA (Risk Assessment)는 화재, 홍수, 랜섬웨어 같은 위협의 발생 가능성과 영향을 본다.
-- RTO (Recovery Time Objective)는 "얼마나 빨리 복구해야 하는가"를 뜻하고, RPO (Recovery Point Objective)는 "얼마나 많은 데이터 손실까지 허용하는가"를 뜻한다.
+- [[212_bia_business_impact_analysis_rto_rpo_dr|BIA]] ([[212_bia_business_impact_analysis_rto_rpo_dr|Business Impact Analysis]])는 업무별 피해 규모와 [[658_ir_recovery|복구]] 우선순위를 정한다.
+- [[161_ra_registration_authority|RA]] ([[096_risk_non_risk_architecture_evaluation_flaws|Risk]] Assessment)는 화재, 홍수, [[730_ransomware|랜섬웨어]] 같은 위협의 발생 가능성과 영향을 본다.
+- [[176_rto_recovery_time_objective|RTO]] ([[176_rto_recovery_time_objective|Recovery Time Objective]])는 "얼마나 빨리 [[658_ir_recovery|복구]]해야 하는가"를 뜻하고, [[177_rpo_recovery_point_objective|RPO]] ([[177_rpo_recovery_point_objective|Recovery Point Objective]])는 "얼마나 많은 [[001_dikw_pyramid|데이터]] 손실까지 허용하는가"를 뜻한다.
 
 - **📢 섹션 요약 비유**: 먼저 "누가 제일 급한 환자인지"를 정해야 응급차가 순서를 잘 잡을 수 있다.
 
@@ -49,25 +49,25 @@ RTO / RPO 설정
 
 BCP는 한 장짜리 선언이 아니라 여러 실행 항목의 묶음이다.
 
-1. **초기 대응 및 대피**: 인명 안전 확보, 비상 연락망, 출입 통제, 대피 경로 안내.
-2. **위기 관리 및 소통**: 고객, 임직원, 주주, 언론에 같은 메시지를 빠르게 전달.
+1. **[[459_quic_fec_forward_error_correction|초기]] 대응 및 대피**: 인명 안전 확보, 비상 연락망, 출입 통제, 대피 경로 안내.
+2. **위기 관리 및 소통**: 고객, 임직원, 주주, 언론에 같은 [[389_mesh_topology|메시]]지를 빠르게 전달.
 3. **대체 사업장 가동**: 본사 마비 시 대체 사무실, 원격근무, 대체 좌석 확보.
-4. **IT 재해 복구**: 핵심 시스템 백업 복원, 데이터 무결성 확인, 서비스 재가동.
-5. **공급망 연속성**: 주요 협력사, 결제, 물류, 외주 운영의 대체 경로 준비.
+4. **IT [[379_dr_architecture|재해 복구]]**: 핵심 시스템 [[555_backup_and_restore_strategy|백업]] 복원, [[001_dikw_pyramid|데이터]] [[003_integrity|무결성]] [[396_validation|확인]], [[090_service_kubernetes_network_load_balancing|서비스]] 재가동.
+5. **[[520_supply_chain_attack_and_ci_cd_security|공급망]] 연속성**: 주요 협력사, 결제, 물류, 외주 운영의 대체 경로 준비.
 
 - **📢 섹션 요약 비유**: BCP는 비상구, 구급상자, 대체 열쇠, 가족 연락망을 한 번에 챙겨 둔 집안 매뉴얼이다.
 
 ---
 
-## Ⅳ. 복구 전략과 대체 수단
+## Ⅳ. [[658_ir_recovery|복구]] [[268_strategy_pattern|전략]]과 대체 수단
 
-복구 전략은 "무엇을 어디까지 살릴 것인가"를 정하는 일이다. 모든 시스템을 똑같이 복구할 수는 없으므로, 핵심 업무 중심으로 자원을 배분한다.
+[[658_ir_recovery|복구]] [[268_strategy_pattern|전략]]은 "무엇을 어디까지 살릴 것인가"를 정하는 일이다. 모든 시스템을 똑같이 [[658_ir_recovery|복구]]할 수는 없으므로, 핵심 업무 중심으로 자원을 배분한다.
 
-- **Hot site**: 거의 즉시 전환 가능한 대체 센터
-- **Warm site**: 일부 준비가 되어 있어 단시간 내 전환 가능한 센터
-- **Cold site**: 기본 시설만 갖춘 저비용 대체 장소
+- **[[179_hot_site_dr|Hot site]]**: 거의 즉시 전환 가능한 대체 센터
+- **[[180_warm_site_dr|Warm site]]**: 일부 준비가 되어 있어 단시간 내 전환 가능한 센터
+- **[[181_cold_site_dr|Cold site]]**: 기본 시설만 갖춘 저비용 대체 장소
 
-사람과 절차도 복구 대상이다. 핵심 인력이 없으면 서버가 살아도 업무는 멈춘다. 그래서 백업 인력, 업무 인수인계, 수동 처리 절차가 함께 있어야 한다.
+사람과 절차도 [[658_ir_recovery|복구]] 대상이다. 핵심 인력이 없으면 서버가 살아도 업무는 멈춘다. 그래서 [[555_backup_and_restore_strategy|백업]] 인력, 업무 인수인계, 수동 처리 절차가 함께 있어야 한다.
 
 - **📢 섹션 요약 비유**: 자동차만 예비 바퀴로 바꿔서는 못 달린다. 운전자와 도로, 기름까지 같이 준비해야 한다.
 
@@ -79,10 +79,10 @@ BCP는 작성보다 운영이 더 중요하다. 계획은 시간이 지나면 �
 
 실무에서는 다음을 반복 점검한다.
 
-- Tabletop Exercise (모의 상황 회의)로 대응 순서를 확인한다.
-- Failover Drill (전환 훈련)로 시스템 전환이 실제로 되는지 본다.
-- 연락망, 협력사, 백업 장소, 복구 우선순위를 주기적으로 갱신한다.
-- 훈련 결과를 반영해 RTO/RPO와 복구 절차를 다시 조정한다.
+- [[660_tabletop_exercise|Tabletop Exercise]] (모의 상황 회의)로 대응 순서를 [[396_validation|확인]]한다.
+- [[300_failover_architecture|Failover]] Drill (전환 훈련)로 시스템 전환이 실제로 되는지 본다.
+- 연락망, 협력사, [[555_backup_and_restore_strategy|백업]] 장소, [[658_ir_recovery|복구]] 우선순위를 주기적으로 갱신한다.
+- 훈련 결과를 반영해 [[176_rto_recovery_time_objective|RTO]]/RPO와 [[658_ir_recovery|복구]] 절차를 다시 조정한다.
 
 - **📢 섹션 요약 비유**: 비상계획은 서랍 속 종이가 아니라, 주기적으로 열어 보고 손보는 살아 있는 지도다.
 
@@ -106,10 +106,10 @@ RTO / RPO
 
 ## 관련 키워드 및 발전 흐름도
 
-1. 과거의 DR 중심 사고 → 서버 복구에만 초점
-2. 9.11 테러와 대형 재난 경험 → 사람과 업무 연속성의 중요성 부각
-3. BIA와 RA 체계화 → 핵심 업무 우선순위화
-4. RTO와 RPO 기반 설계 → 복구 목표를 수치로 관리
+1. 과거의 [[360_ospf_dr_bdr_designated_router_lsa_flooding|DR]] 중심 사고 → 서버 [[658_ir_recovery|복구]]에만 초점
+2. 9.[[308_static_dynamic_nat_pat_port_address_translation|11]] 테러와 대형 재난 경험 → 사람과 업무 연속성의 중요성 부각
+3. BIA와 [[161_ra_registration_authority|RA]] 체계화 → 핵심 업무 우선순위화
+4. RTO와 [[177_rpo_recovery_point_objective|RPO]] 기반 설계 → [[658_ir_recovery|복구]] 목표를 수치로 관리
 5. 훈련과 복원력(resilience) 중심 운영 → 전사 연속성으로 확장
 
 ---

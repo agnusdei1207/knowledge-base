@@ -8,17 +8,17 @@ categories = "studynote-enterprise"
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 트랜잭셔널 아웃박스 (Transactional Outbox) 패턴은 비즈니스 데이터 변경과 이벤트 기록을 같은 로컬 트랜잭션 안에서 함께 커밋해, 이중 쓰기 (Dual Write) 실패를 "데이터 유실"이 아니라 "전달 지연" 문제로 바꾸는 설계다.
-> 2. **가치**: 주문은 저장됐지만 메시지는 사라지거나, 메시지는 발행됐지만 주문은 롤백되는 분산 불일치를 줄여, 마이크로서비스 아키텍처 (MSA, Microservices Architecture) 에서 최종적 일관성 (Eventual Consistency) 의 기반을 안정적으로 만든다.
-> 3. **판단 포인트**: 핵심 원자성은 Database 커밋 시점에 확보되고, CDC (Change Data Capture) 는 그 기록을 효율적으로 퍼 나르는 수단일 뿐이다. 따라서 소비자 멱등성, 순서 보장, 재시도, 정리 정책까지 함께 설계해야 패턴이 완성된다.
+> 1. **본질**: [[314_transactional_outbox_pattern|트랜잭셔널 아웃박스]] ([[314_transactional_outbox_pattern|Transactional Outbox]]) 패턴은 비즈니스 [[001_dikw_pyramid|데이터]] 변경과 이벤트 기록을 같은 [[548_local_vs_distributed_transactions|로컬 트랜잭션]] 안에서 함께 커밋해, 이중 [[289_cqrs_db|쓰기]] (Dual Write) 실패를 "[[001_dikw_pyramid|데이터]] 유실"이 아니라 "전달 [[015_지연_데이터_관점|지연]]" 문제로 바꾸는 설계다.
+> 2. **가치**: 주문은 저장됐지만 [[389_mesh_topology|메시]]지는 사라지거나, [[389_mesh_topology|메시]]지는 발행됐지만 주문은 [[098_rollback_strategy_pipeline_error_threshold|롤백]]되는 [[136_variance|분산]] 불일치를 줄여, [[213_msa_microservices_architecture|마이크로서비스 아키텍처]] ([[619_msa_traffic_hardware|MSA]], [[122_msa_microservices_architecture|Microservices Architecture]]) 에서 최종적 [[194_consistency_database_integrity|일관성]] ([[650_eventual_consistency|Eventual Consistency]]) 의 기반을 안정적으로 만든다.
+> 3. **판단 포인트**: 핵심 [[193_atomicity_all_or_nothing|원자성]]은 [[501_database|Database]] 커밋 시점에 확보되고, [[217_cdc_binlog_change_capture_debezium|CDC]] ([[217_cdc_binlog_change_capture_debezium|Change Data Capture]]) 는 그 기록을 효율적으로 퍼 나르는 수단일 뿐이다. 따라서 소비자 [[171_idempotency_iac_terraform|멱등성]], 순서 보장, 재시도, 정리 [[164_policy|정책]]까지 함께 설계해야 패턴이 완성된다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-트랜잭셔널 아웃박스는 "내 서비스의 데이터베이스에는 성공이 기록됐는데, 외부 메시지 브로커에는 그 사실이 전달되지 않는" 문제를 해결하기 위한 패턴이다. 모놀리식에서는 하나의 데이터베이스 트랜잭션 안에서 여러 테이블을 같이 커밋하면 됐지만, MSA에서는 서비스마다 Database가 나뉘어 있어 외부 브로커 발행까지 한 번에 묶기 어렵다. 결국 단순한 `save()` 다음 `publish()` 구조는 눈에 잘 띄지 않는 실패 구간을 남긴다.
+[[314_transactional_outbox_pattern|트랜잭셔널 아웃박스]]는 "내 [[090_service_kubernetes_network_load_balancing|서비스]]의 [[002_database_definition|데이터베이스]]에는 성공이 기록됐는데, 외부 [[145_message_broker_sync_async|메시지 브로커]]에는 그 사실이 전달되지 않는" 문제를 해결하기 위한 패턴이다. 모놀리식에서는 하나의 [[002_database_definition|데이터베이스]] [[191_transaction_concept_states|트랜잭션]] 안에서 여러 테이블을 같이 커밋하면 됐지만, MSA에서는 [[090_service_kubernetes_network_load_balancing|서비스]]마다 Database가 나뉘어 있어 외부 브로커 발행까지 한 번에 묶기 어렵다. 결국 단순한 `save()` 다음 `publish()` 구조는 눈에 잘 띄지 않는 실패 구간을 남긴다.
 
-문제의 핵심은 외부 네트워크 호출이 로컬 Database 트랜잭션과 같은 성질이 아니라는 점이다. 애플리케이션이 주문 저장 직후 죽으면 이벤트는 사라지고, 반대로 이벤트를 먼저 보내고 저장이 실패하면 없는 주문이 외부로 퍼진다. 이중 쓰기 실패는 코드가 부주의해서가 아니라, **서로 다른 두 시스템에 같은 순간 성공을 강제하려는 구조 자체**에서 생긴다.
+문제의 핵심은 외부 네트워크 호출이 로컬 [[501_database|Database]] [[191_transaction_concept_states|트랜잭션]]과 같은 성질이 아니라는 점이다. 애플리케이션이 주문 저장 직후 죽으면 이벤트는 사라지고, 반대로 이벤트를 먼저 보내고 저장이 실패하면 없는 주문이 외부로 퍼진다. 이중 [[289_cqrs_db|쓰기]] 실패는 코드가 부주의해서가 아니라, **서로 다른 두 시스템에 같은 순간 성공을 강제하려는 구조 자체**에서 생긴다.
 
 아래 그림은 아웃박스가 왜 필요한지 보여 주는 대표적인 실패 창을 요약한다.
 
@@ -38,7 +38,7 @@ categories = "studynote-enterprise"
 └────────────────────────────────────────────────────────────────────┘
 ```
 
-즉 아웃박스의 출발점은 "브로커 발행도 트랜잭션으로 묶자"가 아니라, **브로커로 내보낼 사실을 먼저 내 Database 안에 안전하게 남기자**는 것이다. 이 한 단계가 있어야 이후 재시도와 비동기 전달이 의미를 가진다.
+즉 아웃박스의 출발점은 "브로커 발행도 [[191_transaction_concept_states|트랜잭션]]으로 묶자"가 아니라, **브로커로 내보낼 사실을 먼저 내 [[501_database|Database]] 안에 안전하게 남기자**는 것이다. 이 한 단계가 있어야 이후 재시도와 비동기 전달이 의미를 가진다.
 
 - **📢 섹션 요약 비유**: 우체국에 바로 달려가 편지를 보내다 넘어질 수 있다면, 먼저 책상 위 발송함에 편지를 넣어 두는 편이 안전하다. 우체부가 늦을 수는 있어도 편지 자체는 사라지지 않는다.
 
@@ -46,20 +46,20 @@ categories = "studynote-enterprise"
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-아웃박스 패턴의 핵심 구조는 간단하다. 애플리케이션은 비즈니스 테이블에 데이터를 쓰는 같은 트랜잭션 안에서 `outbox` 테이블에도 이벤트 레코드를 함께 쓴다. 커밋이 성공하면 "업무 상태"와 "발행해야 할 사실"이 동시에 영속화된다. 그 뒤 별도 릴레이 프로세스가 Outbox를 읽어 메시지 브로커로 전달한다.
+아웃박스 패턴의 핵심 구조는 간단하다. 애플리케이션은 비즈니스 테이블에 [[001_dikw_pyramid|데이터]]를 쓰는 같은 [[191_transaction_concept_states|트랜잭션]] 안에서 `outbox` 테이블에도 이벤트 레코드를 함께 쓴다. 커밋이 성공하면 "업무 상태"와 "발행해야 할 사실"이 동시에 영속화된다. 그 뒤 별도 릴레이 프로세스가 Outbox를 읽어 [[145_message_broker_sync_async|메시지 브로커]]로 전달한다.
 
-중요한 포인트는 **원자성은 애플리케이션 코드가 아니라 로컬 Database 트랜잭션이 제공한다**는 점이다. 따라서 브로커 발행은 비동기여도 괜찮다. 이미 "발행해야 한다"는 사실이 Outbox에 남아 있으므로, 릴레이는 실패하면 재시도하면 되고, 잠시 늦더라도 정합성은 잃지 않는다.
+중요한 포인트는 **[[193_atomicity_all_or_nothing|원자성]]은 애플리케이션 코드가 아니라 로컬 [[501_database|Database]] [[191_transaction_concept_states|트랜잭션]]이 제공한다**는 점이다. 따라서 브로커 발행은 비동기여도 괜찮다. 이미 "발행해야 한다"는 사실이 Outbox에 남아 있으므로, 릴레이는 실패하면 재시도하면 되고, 잠시 늦더라도 정합성은 잃지 않는다.
 
 | 구성 요소 | 역할 | 설계 포인트 |
 | :--- | :--- | :--- |
-| 비즈니스 테이블 | 주문, 결제 등 시스템의 현재 상태 저장 | 서비스의 진실 원천 유지 |
+| 비즈니스 테이블 | 주문, 결제 등 시스템의 [[178_as_is_to_be_analysis|현재 상태]] 저장 | [[090_service_kubernetes_network_load_balancing|서비스]]의 진실 원천 유지 |
 | Outbox 테이블 | 외부에 발행할 이벤트를 로컬에 기록 | `event_id`, `aggregate_id`, `payload`, `occurred_at` 필요 |
-| 애플리케이션 트랜잭션 | 두 테이블을 함께 커밋 | 같은 Database, 같은 `COMMIT` 경계 필수 |
-| 릴레이 프로세스 | Outbox 레코드를 브로커로 전달 | 재시도, 순서, 장애 복구 |
-| 메시지 브로커 | 서비스 간 이벤트 확산 | 토픽, 파티션 키, 내구성 설정 |
-| 소비자 멱등성 | 중복 발행을 안전하게 흡수 | `event_id` 기반 중복 제거 |
+| 애플리케이션 [[191_transaction_concept_states|트랜잭션]] | 두 테이블을 함께 커밋 | 같은 [[501_database|Database]], 같은 `COMMIT` 경계 필수 |
+| 릴레이 프로세스 | Outbox 레코드를 브로커로 전달 | 재시도, 순서, 장애 [[658_ir_recovery|복구]] |
+| [[145_message_broker_sync_async|메시지 브로커]] | [[090_service_kubernetes_network_load_balancing|서비스]] 간 이벤트 확산 | 토픽, [[514_partition_slice_volume|파티션]] 키, 내구성 [[009_config|설정]] |
+| 소비자 [[171_idempotency_iac_terraform|멱등성]] | 중복 발행을 안전하게 흡수 | `event_id` 기반 중복 제거 |
 
-아래 그림은 Outbox + CDC 흐름을 한눈에 보여 준다.
+아래 그림은 Outbox + [[217_cdc_binlog_change_capture_debezium|CDC]] 흐름을 한눈에 보여 준다.
 
 ```text
 ┌────────────────────────────────────────────────────────────────────┐
@@ -76,9 +76,9 @@ categories = "studynote-enterprise"
 └────────────────────────────────────────────────────────────────────┘
 ```
 
-릴레이 방식은 크게 두 가지다. **폴링 (Polling)** 은 주기적으로 `outbox` 테이블을 조회해 새 레코드를 가져가므로 구현이 쉽다. **CDC** 는 Database 트랜잭션 로그를 읽어 변경을 감지하므로 조회 부하가 적고 지연시간도 짧다. 하지만 어떤 방식을 써도 핵심은 동일하다. **정합성은 Outbox row가 커밋된 순간 확보되고, 릴레이는 그 사실을 전달하는 후속 단계**다.
+릴레이 방식은 크게 두 가지다. **[[448_polling_programmed_io|폴링]] ([[747_io_polling_overhead|Polling]])** 은 주기적으로 `outbox` 테이블을 조회해 새 레코드를 가져가므로 구현이 쉽다. **[[217_cdc_binlog_change_capture_debezium|CDC]]** 는 [[501_database|Database]] [[191_transaction_concept_states|트랜잭션]] [[568_logs_distributed_logging_elk_fluentd|로그]]를 읽어 변경을 감지하므로 조회 부하가 적고 [[015_지연_데이터_관점|지연]]시간도 짧다. 하지만 어떤 방식을 써도 핵심은 동일하다. **정합성은 Outbox row가 커밋된 순간 확보되고, 릴레이는 그 사실을 전달하는 후속 단계**다.
 
-실무에서는 다음과 같은 형태의 Outbox 스키마를 자주 쓴다.
+실무에서는 다음과 같은 형태의 Outbox [[005_schema|스키마]]를 자주 쓴다.
 
 ```sql
 CREATE TABLE outbox (
@@ -92,7 +92,7 @@ CREATE TABLE outbox (
 );
 ```
 
-`published_at` 같은 상태 컬럼은 폴링 구현에서 유용하지만, CDC 기반에서는 로그 전달과 보관 전략에 따라 꼭 필요하지 않을 수도 있다. 즉 스키마도 전달 방식과 운영 전략에 맞춰 설계해야 한다.
+`published_at` 같은 상태 컬럼은 [[448_polling_programmed_io|폴링]] 구현에서 유용하지만, [[217_cdc_binlog_change_capture_debezium|CDC]] 기반에서는 [[568_logs_distributed_logging_elk_fluentd|로그]] 전달과 보관 [[268_strategy_pattern|전략]]에 따라 꼭 필요하지 않을 수도 있다. 즉 [[005_schema|스키마]]도 전달 방식과 운영 [[268_strategy_pattern|전략]]에 맞춰 설계해야 한다.
 
 - **📢 섹션 요약 비유**: 결재 문서와 발송 메모를 같은 결재판에 묶어 도장 찍는 것이 아웃박스다. 그 뒤 사무실 심부름봇이 메모만 떼어 각 부서에 전달하는 구조라고 보면 된다.
 
@@ -100,18 +100,18 @@ CREATE TABLE outbox (
 
 ## Ⅲ. 비교 및 연결
 
-트랜잭셔널 아웃박스를 이해하려면 단순 이중 쓰기, 2단계 커밋 (2PC, Two-Phase Commit), 이벤트 소싱 (Event Sourcing) 과 비교해야 한다. 이들은 모두 분산 정합성을 다루지만, 어디까지를 원자적으로 묶을지와 운영 비용이 다르다.
+[[314_transactional_outbox_pattern|트랜잭셔널 아웃박스]]를 이해하려면 단순 이중 [[289_cqrs_db|쓰기]], [[249_two_phase_commit_2pc_distributed|2단계 커밋]] ([[549_2pc_two_phase_commit_limitations_msa|2PC]], [[549_2pc_two_phase_commit_limitations_msa|Two-Phase Commit]]), [[249_event_sourcing_append_only_state_reconstruction|이벤트 소싱]] ([[307_event_sourcing|Event Sourcing]]) 과 비교해야 한다. 이들은 모두 [[136_variance|분산]] 정합성을 다루지만, 어디까지를 원자적으로 묶을지와 운영 비용이 다르다.
 
-| 방식 | 원자성 범위 | 장점 | 약점 | 잘 맞는 상황 |
+| 방식 | [[193_atomicity_all_or_nothing|원자성]] 범위 | 장점 | 약점 | 잘 맞는 상황 |
 | :--- | :--- | :--- | :--- | :--- |
-| 단순 이중 쓰기 | 없음 | 구현이 가장 쉬움 | 실패 창이 그대로 남음 | 피해야 할 기본 안티패턴 |
-| 아웃박스 + 폴링 | 로컬 Database 안 | 단순하고 도입 쉬움 | 조회 부하, 전달 지연 | 중간 규모 서비스 |
-| 아웃박스 + CDC | 로컬 Database 안 | 실시간성, 낮은 DB 부하 | 운영 복잡도 증가 | 고트래픽 이벤트 시스템 |
-| 2PC | 여러 시스템 전체 | 강한 동기 원자성 | 락, 병목, 장애 전파 | 제한된 강결합 환경 |
+| 단순 이중 [[289_cqrs_db|쓰기]] | 없음 | 구현이 가장 쉬움 | 실패 창이 그대로 남음 | 피해야 할 기본 [[128_water_scrum_fall_anti_pattern|안티패턴]] |
+| 아웃박스 + [[448_polling_programmed_io|폴링]] | 로컬 [[501_database|Database]] 안 | 단순하고 도입 쉬움 | 조회 부하, 전달 [[015_지연_데이터_관점|지연]] | 중간 규모 [[090_service_kubernetes_network_load_balancing|서비스]] |
+| 아웃박스 + [[217_cdc_binlog_change_capture_debezium|CDC]] | 로컬 [[501_database|Database]] 안 | 실시간성, 낮은 DB 부하 | 운영 복잡도 증가 | 고트래픽 이벤트 시스템 |
+| [[549_2pc_two_phase_commit_limitations_msa|2PC]] | 여러 시스템 전체 | 강한 동기 [[193_atomicity_all_or_nothing|원자성]] | 락, 병목, 장애 전파 | 제한된 강결합 환경 |
 
-여기서 중요한 구분은 **아웃박스는 "로컬 상태와 이벤트 기록"까지만 원자적으로 묶는다**는 점이다. 이후 다른 서비스까지 즉시 일관되게 만드는 것은 사가 (Saga), CQRS (Command Query Responsibility Segregation), 멱등 소비자 같은 다른 패턴과 함께 풀어야 한다. 즉 아웃박스는 전체 분산 트랜잭션의 만능 해법이 아니라, 이벤트 기반 아키텍처의 첫 단계를 안정화하는 기반 공사다.
+여기서 중요한 구분은 **아웃박스는 "로컬 상태와 이벤트 기록"까지만 원자적으로 묶는다**는 점이다. 이후 다른 [[090_service_kubernetes_network_load_balancing|서비스]]까지 즉시 일관되게 만드는 것은 [[312_saga_pattern_choreography_orchestration|사가]] ([[305_saga|Saga]]), [[306_cqrs|CQRS]] ([[250_cqrs_command_query_responsibility_segregation_pattern|Command Query Responsibility Segregation]]), 멱등 소비자 같은 다른 패턴과 함께 풀어야 한다. 즉 아웃박스는 전체 [[248_distributed_transaction_multiple_nodes|분산 트랜잭션]]의 만능 해법이 아니라, [[538_event_driven_architecture_eda|이벤트 기반 아키텍처]]의 첫 단계를 안정화하는 기반 공사다.
 
-이벤트 소싱과도 헷갈리기 쉽다. 이벤트 소싱은 이벤트 로그 자체가 시스템의 진실 원천이지만, 아웃박스는 보통 비즈니스 테이블이 여전히 주 저장소이고 Outbox는 외부 전파를 위한 보조 기록이다. 따라서 기존 CRUD 기반 시스템에 점진적으로 붙이기 쉽다는 점이 아웃박스의 강점이다.
+[[249_event_sourcing_append_only_state_reconstruction|이벤트 소싱]]과도 헷갈리기 쉽다. [[249_event_sourcing_append_only_state_reconstruction|이벤트 소싱]]은 이벤트 [[568_logs_distributed_logging_elk_fluentd|로그]] 자체가 시스템의 진실 원천이지만, 아웃박스는 보통 비즈니스 테이블이 여전히 주 저장소이고 Outbox는 외부 전파를 위한 보조 기록이다. 따라서 기존 CRUD 기반 시스템에 점진적으로 붙이기 쉽다는 점이 아웃박스의 강점이다.
 
 - **📢 섹션 요약 비유**: 2PC가 여러 사람이 동시에 한 자물쇠를 돌려야 문이 열리는 구조라면, 아웃박스는 각자가 자기 방에서는 확실히 기록해 두고 우편으로 연결하는 방식이다. 조금 늦을 수는 있어도 문 앞에서 모두 멈춰 서 있지는 않는다.
 
@@ -119,39 +119,39 @@ CREATE TABLE outbox (
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서 아웃박스를 적용할 때 가장 먼저 결정할 것은 "폴링이면 충분한가, CDC가 필요한가"다. 트래픽이 크지 않고 몇 초 안 전달이면 충분한 시스템은 폴링이 더 단순할 수 있다. 반면 높은 처리량, 낮은 전파 지연, Database 조회 부하 최소화가 중요하면 CDC가 적합하다. 기술사 답안에서는 CDC를 무조건 상위 개념처럼 쓰기보다, **Outbox의 전달 메커니즘 중 고급 구현**으로 설명하는 것이 더 정확하다.
+실무에서 아웃박스를 적용할 때 가장 먼저 결정할 것은 "[[448_polling_programmed_io|폴링]]이면 충분한가, CDC가 필요한가"다. 트래픽이 크지 않고 몇 초 안 전달이면 충분한 시스템은 [[448_polling_programmed_io|폴링]]이 더 단순할 수 있다. 반면 높은 [[139_throughput|처리량]], 낮은 [[016_전파_지연|전파 지연]], [[501_database|Database]] 조회 부하 최소화가 중요하면 CDC가 적합하다. 기술사 답안에서는 CDC를 무조건 상위 개념처럼 [[289_cqrs_db|쓰기]]보다, **Outbox의 전달 메커니즘 중 고급 구현**으로 설명하는 것이 더 정확하다.
 
 두 번째 판단은 소비자 설계다. 아웃박스는 보통 "최소 한 번 이상 전달 (At-Least-Once Delivery)" 특성을 가지므로, 중복 발행 가능성을 제거하지 않는다. 따라서 소비자는 `event_id` 기반 중복 제거, 유니크 키, 상태 검사로 멱등하게 동작해야 한다. 이를 빼면 Outbox는 이벤트 유실을 막는 대신 중복 처리 장애를 초래할 수 있다.
 
-### 기술사 판단 체크리스트
+### 기술사 판단 [[435_checklist_based_testing|체크리스트]]
 
-1. 비즈니스 데이터 변경과 Outbox insert가 정말 같은 로컬 트랜잭션 안에 들어 있는가?
+1. 비즈니스 [[001_dikw_pyramid|데이터]] 변경과 Outbox insert가 정말 같은 [[548_local_vs_distributed_transactions|로컬 트랜잭션]] 안에 들어 있는가?
 2. `event_id`, `aggregate_id`, `event_type` 이 재처리와 순서 판단에 충분한가?
-3. 파티션 키나 정렬 키를 통해 같은 Aggregate의 이벤트 순서를 보존할 수 있는가?
-4. 폴링/CDC 중 현재 트래픽과 운영 역량에 맞는 릴레이 방식을 골랐는가?
-5. 브로커 전송 실패, 독성 메시지, 컨슈머 장애에 대한 재시도와 DLQ (Dead Letter Queue) 전략이 있는가?
-6. Outbox 테이블 보관 기간, 삭제, 파티셔닝, 모니터링 기준이 정의돼 있는가?
+3. [[514_partition_slice_volume|파티션]] 키나 정렬 키를 통해 같은 Aggregate의 이벤트 순서를 보존할 수 있는가?
+4. [[448_polling_programmed_io|폴링]]/[[217_cdc_binlog_change_capture_debezium|CDC]] 중 현재 트래픽과 운영 역량에 맞는 릴레이 방식을 골랐는가?
+5. 브로커 전송 실패, 독성 [[389_mesh_topology|메시]]지, 컨슈머 장애에 대한 재시도와 DLQ (Dead Letter [[058_queue|Queue]]) [[268_strategy_pattern|전략]]이 있는가?
+6. Outbox 테이블 보관 기간, 삭제, [[179_table_partitioning_concept|파티셔닝]], [[229_monitor|모니터]]링 기준이 정의돼 있는가?
 
-### 자주 나오는 안티패턴
+### 자주 나오는 [[128_water_scrum_fall_anti_pattern|안티패턴]]
 
 - 주문 저장 후 같은 메서드에서 브로커 `send()` 까지 성공해야만 완료라고 보는 경우
-- 소비자 멱등성 없이 "우리 브로커가 알아서 정확히 한 번 해 줄 것"이라고 믿는 경우
-- 전송 성공 전에 Outbox 레코드를 먼저 삭제하거나, 반대로 영구 보관만 하고 정리 전략이 없는 경우
-- 한 토픽에 모든 서비스 이벤트를 뒤섞어 순서와 책임 경계를 잃는 경우
+- 소비자 [[171_idempotency_iac_terraform|멱등성]] 없이 "우리 브로커가 알아서 [[083_cross_validation|정확히 한 번]] 해 줄 것"이라고 믿는 경우
+- 전송 성공 전에 Outbox 레코드를 먼저 삭제하거나, 반대로 영구 보관만 하고 정리 [[268_strategy_pattern|전략]]이 없는 경우
+- 한 토픽에 모든 [[090_service_kubernetes_network_load_balancing|서비스]] 이벤트를 뒤섞어 순서와 책임 경계를 잃는 경우
 
-실무 의사결정에서 마지막으로 중요한 것은 관측성이다. Outbox 적체 건수, 최고 지연시간, 재시도 횟수, 브로커 전송 실패율이 보여야 운영할 수 있다. 결국 아웃박스는 코드 한 줄이 아니라 **트랜잭션 경계, 릴레이 파이프라인, 소비자 멱등성, 운영 대시보드를 함께 갖춘 시스템 패턴**이다.
+실무 의사결정에서 마지막으로 중요한 것은 관측성이다. Outbox 적체 건수, 최고 [[015_지연_데이터_관점|지연]]시간, 재시도 횟수, 브로커 전송 실패율이 보여야 운영할 수 있다. 결국 아웃박스는 코드 한 줄이 아니라 **[[191_transaction_concept_states|트랜잭션]] 경계, 릴레이 [[123_pipe|파이프]]라인, 소비자 [[171_idempotency_iac_terraform|멱등성]], 운영 대시보드를 함께 갖춘 시스템 패턴**이다.
 
-- **📢 섹션 요약 비유**: 우편함을 잘 만들어도 배달 추적표와 받는 사람 확인 절차가 없으면 결국 분실 사고가 난다. 아웃박스도 보내는 쪽만 안전해서는 충분하지 않다.
+- **📢 섹션 요약 비유**: 우편함을 잘 만들어도 배달 추적표와 받는 사람 [[396_validation|확인]] 절차가 없으면 결국 분실 사고가 난다. 아웃박스도 보내는 쪽만 안전해서는 충분하지 않다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-트랜잭셔널 아웃박스를 잘 적용하면 서비스는 외부 브로커의 일시 장애에 덜 흔들리면서도, 이벤트 기반 확장을 안정적으로 수행할 수 있다. 비즈니스 요청은 로컬 Database 커밋 시점에 빠르게 종료되고, 후속 알림·적재·색인·사가는 비동기로 이어질 수 있어 응답성과 정합성을 함께 잡기 쉽다.
+[[314_transactional_outbox_pattern|트랜잭셔널 아웃박스]]를 잘 적용하면 [[090_service_kubernetes_network_load_balancing|서비스]]는 외부 브로커의 일시 장애에 덜 흔들리면서도, 이벤트 기반 확장을 안정적으로 수행할 수 있다. 비즈니스 요청은 로컬 [[501_database|Database]] 커밋 시점에 빠르게 종료되고, 후속 알림·적재·색인·[[312_saga_pattern_choreography_orchestration|사가]]는 비동기로 이어질 수 있어 응답성과 정합성을 함께 잡기 쉽다.
 
-그러나 한계도 분명하다. 아웃박스만으로 시스템 전체에 즉시 강한 일관성이 생기지는 않으며, 중복 전달·순서 보장·스키마 진화·테이블 비대화 같은 운영 문제가 남는다. 특히 CDC 도입은 로그 권한, 커넥터 운영, 장애 복구 절차 같은 새로운 운영 책임을 가져온다.
+그러나 한계도 분명하다. 아웃박스만으로 시스템 전체에 즉시 강한 [[194_consistency_database_integrity|일관성]]이 생기지는 않으며, 중복 전달·순서 보장·[[005_schema|스키마]] 진화·테이블 비대화 같은 운영 문제가 남는다. 특히 [[217_cdc_binlog_change_capture_debezium|CDC]] 도입은 [[568_logs_distributed_logging_elk_fluentd|로그]] 권한, 커넥터 운영, 장애 [[658_ir_recovery|복구]] 절차 같은 새로운 운영 책임을 가져온다.
 
-결론적으로 트랜잭셔널 아웃박스는 "브로커까지 한 번에 커밋하는 기술"이 아니라, **브로커 발행 의도를 로컬 Database 안에 원자적으로 남겨 두고 이후 비동기 전달을 신뢰 가능하게 만드는 패턴**이다. 기억할 문장은 하나다. **데이터를 먼저 잃지 말고, 전달은 나중에 안전하게 반복하라.**
+결론적으로 [[314_transactional_outbox_pattern|트랜잭셔널 아웃박스]]는 "브로커까지 한 번에 커밋하는 기술"이 아니라, **브로커 발행 의도를 로컬 [[501_database|Database]] 안에 원자적으로 남겨 두고 이후 비동기 전달을 신뢰 가능하게 만드는 패턴**이다. 기억할 문장은 하나다. **[[001_dikw_pyramid|데이터]]를 먼저 잃지 말고, 전달은 나중에 안전하게 반복하라.**
 
 - **📢 섹션 요약 비유**: 중요한 부탁은 입으로만 전하지 말고 메모를 남겨 두어야 한다. 메모가 남아 있으면 전달이 늦어질 수는 있어도 부탁 자체가 사라지지는 않는다.
 
@@ -161,14 +161,14 @@ CREATE TABLE outbox (
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| 이중 쓰기 (Dual Write) | 아웃박스가 직접 해결하려는 실패 패턴 |
-| CDC (Change Data Capture) | Outbox 레코드를 효율적으로 브로커로 옮기는 고급 릴레이 방식 |
-| 폴링 (Polling) 릴레이 | 구현이 쉬운 기본 전송 방식 |
-| 멱등성 (Idempotency) | 중복 발행을 소비자 쪽에서 안전하게 흡수하는 필수 조건 |
-| 사가 (Saga) 패턴 | Outbox로 안전하게 퍼진 이벤트 위에서 장기 비즈니스 흐름을 구성 |
-| CQRS (Command Query Responsibility Segregation) | Outbox 이벤트를 읽기 모델 갱신에 활용하는 대표 패턴 |
-| 이벤트 소싱 (Event Sourcing) | Outbox와 달리 이벤트 자체를 진실 원천으로 삼는 대안적 모델 |
-| DLQ (Dead Letter Queue) | 반복 실패 메시지를 운영 가능하게 격리하는 보조 장치 |
+| 이중 [[289_cqrs_db|쓰기]] (Dual Write) | 아웃박스가 직접 해결하려는 실패 패턴 |
+| [[217_cdc_binlog_change_capture_debezium|CDC]] ([[217_cdc_binlog_change_capture_debezium|Change Data Capture]]) | Outbox 레코드를 효율적으로 브로커로 옮기는 고급 릴레이 방식 |
+| [[448_polling_programmed_io|폴링]] ([[747_io_polling_overhead|Polling]]) 릴레이 | 구현이 쉬운 기본 전송 방식 |
+| [[171_idempotency_iac_terraform|멱등성]] ([[194_idempotency|Idempotency]]) | 중복 발행을 소비자 쪽에서 안전하게 흡수하는 필수 조건 |
+| [[312_saga_pattern_choreography_orchestration|사가]] ([[305_saga|Saga]]) 패턴 | Outbox로 안전하게 퍼진 이벤트 위에서 장기 비즈니스 흐름을 구성 |
+| [[306_cqrs|CQRS]] ([[250_cqrs_command_query_responsibility_segregation_pattern|Command Query Responsibility Segregation]]) | Outbox 이벤트를 읽기 모델 갱신에 활용하는 대표 패턴 |
+| [[249_event_sourcing_append_only_state_reconstruction|이벤트 소싱]] ([[307_event_sourcing|Event Sourcing]]) | Outbox와 달리 이벤트 자체를 진실 원천으로 삼는 대안적 모델 |
+| DLQ (Dead Letter [[058_queue|Queue]]) | 반복 실패 [[389_mesh_topology|메시]]지를 운영 가능하게 격리하는 보조 장치 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 

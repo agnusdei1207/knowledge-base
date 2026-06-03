@@ -8,8 +8,8 @@ categories = "studynote-software-engineering"
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: BSIMM (Building Security In Maturity Model)은(는) 소프트웨어 공학의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.
-> 2. **가치**: 이 개념을 올바르게 적용하면 소프트웨어의 품질·유지보수성·재사용성이 향상되고, 개발 생산성과 팀 협업 효율이 높아진다.
+> 1. **본질**: [[472_bsimm_maturity_model|BSIMM]] (Building [[283_security_tactics|Security]] In [[011_maturity_model|Maturity Model]])은(는) [[001_software_engineering_definition|소프트웨어 공학]]의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.
+> 2. **가치**: 이 개념을 올바르게 적용하면 소프트웨어의 품질·[[346_maintainability_portability|유지보수성]]·재사용성이 향상되고, 개발 생산성과 팀 협업 효율이 높아진다.
 > 3. **판단 포인트**: 도입 시에는 비용·복잡도·조직 성숙도를 함께 고려해야 하며, 맹목적 적용보다 프로젝트 특성에 맞는 선택적 적용이 핵심이다.
 
 ---
@@ -24,7 +24,7 @@ BSIMM은 "보안이 조직 안에 얼마나 자리 잡았는가"를 본다. 단�
 
 ---
 
-다음은 BSIMM (Building Secu의 핵심 구조와 흐름을 보여주는 다이어그램이다.
+다음은 [[472_bsimm_maturity_model|BSIMM]] (Building Secu의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
 ```text
 ┌─────────────────────────────────────────────────────────────┐
@@ -39,7 +39,7 @@ BSIMM은 "보안이 조직 안에 얼마나 자리 잡았는가"를 본다. 단�
 └─────────────────────────────────────────────────────────────┘
 ```
 
-이 다이어그램은 BSIMM (Building Secu가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
+이 다이어그램은 [[472_bsimm_maturity_model|BSIMM]] (Building Secu가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
 ---
 
@@ -75,15 +75,15 @@ BSIMM은 보안 활동을 여러 영역으로 나눠 현 상태를 측정한다.
 
 ## Ⅲ. 비교 및 연결
 
-BSIMM은 체크리스트가 아니라 성숙도 모델이다. "무엇을 했는가"보다 "얼마나 체계적으로 했는가"를 본다.
+BSIMM은 [[435_checklist_based_testing|체크리스트]]가 아니라 성숙도 모델이다. "무엇을 했는가"보다 "얼마나 체계적으로 했는가"를 본다.
 
-| 구분 | 체크리스트 | BSIMM |
+| 구분 | [[435_checklist_based_testing|체크리스트]] | [[472_bsimm_maturity_model|BSIMM]] |
 |:---|:---|:---|
 | 초점 | 항목 유무 | 성숙도 |
 | 용도 | 점검 | 평가 |
 | 결과 | 수행 여부 | 발전 수준 |
 
-Secure SDLC, 거버넌스, DevSecOps와 연관된다.
+[[471_secure_sdlc|Secure SDLC]], 거버넌스, DevSecOps와 연관된다.
 
 - **📢 섹션 요약 비유**: 운동 기록표보다 생활 습관표에 가깝다.
 
@@ -132,10 +132,10 @@ BSIMM은 보안 문화를 수치와 단계로 보이게 한다. 그래서 조직
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| 소프트웨어 공학 (Software Engineering) | BSIMM (Building Security In Maturity Model)의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
-| 소프트웨어 생명주기 (SDLC, Software Development Life Cycle) | BSIMM (Building Security In Maturity Model)은 SDLC의 특정 단계에서 핵심적으로 적용된다 |
-| 품질 보증 (QA, Quality Assurance) | BSIMM (Building Security In Maturity Model) 적용 결과는 QA 활동을 통해 검증되고 측정된다 |
-| 형상 관리 (SCM, Software Configuration Management) | BSIMM (Building Security In Maturity Model)에서 생성된 산출물은 SCM을 통해 체계적으로 관리된다 |
+| [[001_software_engineering_definition|소프트웨어 공학]] ([[001_software_engineering_definition|Software Engineering]]) | [[472_bsimm_maturity_model|BSIMM]] (Building [[283_security_tactics|Security]] In [[011_maturity_model|Maturity Model]])의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
+| [[003_sdlc|소프트웨어 생명주기]] ([[131_sdlc_system_development_life_cycle_waterfall_agile|SDLC]], Software Development Life Cycle) | [[472_bsimm_maturity_model|BSIMM]] (Building [[283_security_tactics|Security]] In [[011_maturity_model|Maturity Model]])은 SDLC의 특정 단계에서 핵심적으로 적용된다 |
+| 품질 보증 (QA, Quality Assurance) | [[472_bsimm_maturity_model|BSIMM]] (Building [[283_security_tactics|Security]] In [[011_maturity_model|Maturity Model]]) 적용 결과는 QA 활동을 통해 검증되고 측정된다 |
+| [[020_software_configuration_management|형상 관리]] ([[167_scm_software_configuration_management|SCM]], [[020_software_configuration_management|Software Configuration Management]]) | [[472_bsimm_maturity_model|BSIMM]] (Building [[283_security_tactics|Security]] In [[011_maturity_model|Maturity Model]])에서 생성된 산출물은 SCM을 통해 체계적으로 관리된다 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -155,10 +155,10 @@ BSIMM (Building Security In Maturity Model) 개념 정립
 지속적 개선 및 DevOps·MLOps 통합
 ```
 
-이 흐름은 소프트웨어 위기 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
+이 흐름은 [[002_software_crisis|소프트웨어 위기]] 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. BSIMM (Building Security In Maturity Model)은 레고 블록으로 성을 만들 때처럼, 규칙을 정하고 역할을 나누어 함께 작업하는 방법이에요.
+1. [[472_bsimm_maturity_model|BSIMM]] (Building [[283_security_tactics|Security]] In [[011_maturity_model|Maturity Model]])은 레고 블록으로 성을 만들 때처럼, 규칙을 정하고 역할을 나누어 함께 작업하는 방법이에요.
 2. 혼자서 막 만들면 나중에 무너지거나 고치기 어렵지만, 약속을 지키면 누구나 쉽게 고치고 더 크게 만들 수 있어요.
-3. 그래서 소프트웨어 공학은 프로그래머들이 좋은 프로그램을 빠르고 안전하게 만들 수 있게 도와주는 '규칙 모음집'이에요.
+3. 그래서 [[001_software_engineering_definition|소프트웨어 공학]]은 프로그래머들이 좋은 프로그램을 빠르고 안전하게 만들 수 있게 도와주는 '규칙 모음집'이에요.

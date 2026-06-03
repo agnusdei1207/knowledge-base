@@ -8,15 +8,15 @@ categories = "studynote-data-engineering"
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 카프카 컨슈머 랙(Consumer Lag)은 **프로듀서(Producer)의 최신 오프셋(Log End Offset)과 컨슈머(Consumer)의 현재 오프셋(Current Offset) 차이**로, 메시지 처리 지연의 핵심 지표이자 스트리밍 파이프라인 건전성의 척도다.
-> 2. **가치**: Consumer Lag를 Prometheus + Grafana + AlertManager로 실시간 모니터링하고, 임계값 초과 시 자동으로 컨슈머 그룹을 스케일아웃하면 **SLA(서비스 수준 협약) 위반을 선제적으로 방지**할 수 있다.
-> 3. **판단 포인트**: Lag 증가 원인 분석—처리 로직 병목 vs 파티션 불균형 vs 외부 의존성 장애—을 구분하는 것이 핵심이며, 무조건 컨슈머 수 증가가 해결책이 아니라 파티션 수가 상한선임을 기억해야 한다.
+> 1. **본질**: [[179_kafka_flink_watermark_time_window|카프카]] 컨슈머 랙([[089_consumer_lag|Consumer Lag]])은 **프로듀서(Producer)의 최신 오프셋(Log End Offset)과 컨슈머(Consumer)의 현재 오프셋([[002_current|Current]] Offset) 차이**로, 메시지 처리 지연의 핵심 지표이자 스트리밍 파이프라인 건전성의 척도다.
+> 2. **가치**: Consumer Lag를 [[136_prometheus|Prometheus]] + [[168_grafana|Grafana]] + AlertManager로 실시간 모니터링하고, 임계값 초과 시 자동으로 컨슈머 그룹을 스케일아웃하면 **[[085_sla|SLA]]([[090_service_kubernetes_network_load_balancing|서비스]] 수준 협약) 위반을 선제적으로 방지**할 수 있다.
+> 3. **판단 포인트**: Lag 증가 원인 분석—처리 로직 병목 vs [[514_partition_slice_volume|파티션]] 불균형 vs 외부 의존성 장애—을 구분하는 것이 핵심이며, 무조건 컨슈머 수 증가가 해결책이 아니라 [[514_partition_slice_volume|파티션]] 수가 상한선임을 기억해야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-### 1.1 Kafka 아키텍처 기본 개념
+### 1.1 [[179_kafka_flink_watermark_time_window|Kafka]] 아키텍처 기본 개념
 
 ```
 Kafka 아키텍처:
@@ -41,16 +41,16 @@ Consumer Group: order-processor
 Total Group Lag = 10 + 50 + 10 + 50 = 120
 ```
 
-### 1.2 Consumer Lag 증가 원인 분류
+### 1.2 [[089_consumer_lag|Consumer Lag]] 증가 원인 [[104_classification_analysis|분류]]
 
 | 원인 | 증상 | 대응 |
 |:---|:---|:---|
 | 처리 속도 < 생산 속도 | Lag 지속 증가, 직선적 상승 | 컨슈머 스케일아웃 |
-| 처리 로직 병목 | 특정 시간대 급상승 | UDF 최적화, 외부 API 비동기화 |
-| 데이터 스큐 | 특정 파티션만 Lag 높음 | 파티션 재분배, 키 해시 재설계 |
+| 처리 로직 병목 | 특정 시간대 급상승 | UDF 최적화, 외부 [[014_api_posix|API]] 비동기화 |
+| [[001_dikw_pyramid|데이터]] 스큐 | 특정 [[514_partition_slice_volume|파티션]]만 Lag 높음 | [[514_partition_slice_volume|파티션]] 재분배, 키 해시 재설계 |
 | 컨슈머 장애 | 갑작스러운 Lag 급등 | 리밸런싱, 장애 컨슈머 재시작 |
 | GC 정지 | 주기적 Lag 상승 | JVM GC 튜닝 |
-| 외부 DB 장애 | 특정 시간 Lag 폭증 | 서킷 브레이커, 비동기 처리 |
+| 외부 DB 장애 | 특정 시간 Lag 폭증 | [[307_circuit_breaker_pattern|서킷 브레이커]], 비동기 처리 |
 
 📢 **섹션 요약 비유**: Consumer Lag는 마치 음식점의 주문 대기열이다. 주방(Consumer)이 요리를 만드는 속도보다 손님 주문(Producer)이 빠르면 대기 번호판(Lag)이 계속 올라간다. 주방장을 더 투입하거나(스케일아웃) 요리법을 단순화(최적화)해야 한다.
 
@@ -58,7 +58,7 @@ Total Group Lag = 10 + 50 + 10 + 50 = 120
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### 2.1 Consumer Lag 모니터링 도구 비교
+### 2.1 [[089_consumer_lag|Consumer Lag]] 모니터링 도구 비교
 
 ```
 ┌──────────────────────────────────────────────────────────┐
@@ -88,7 +88,7 @@ Total Group Lag = 10 + 50 + 10 + 50 = 120
 └──────────────────────────────────────────────────────────┘
 ```
 
-### 2.2 Prometheus + Grafana + AlertManager 모니터링 스택
+### 2.2 [[136_prometheus|Prometheus]] + [[168_grafana|Grafana]] + AlertManager 모니터링 [[057_stack|스택]]
 
 ```
 ┌──────────────────────────────────────────────────────────┐
@@ -114,7 +114,7 @@ Total Group Lag = 10 + 50 + 10 + 50 = 120
 └──────────────────────────────────────────────────────────┘
 ```
 
-### 2.3 Prometheus 경보 규칙 설계
+### 2.3 [[136_prometheus|Prometheus]] 경보 규칙 설계
 
 ```yaml
 # alertmanager_kafka_lag.yaml
@@ -161,7 +161,7 @@ groups:
       severity: critical
 ```
 
-📢 **섹션 요약 비유**: Prometheus + AlertManager는 마치 주방에 CCTV를 달고, 주문 대기열이 100개를 넘으면 주방장 핸드폰으로 자동 문자를 보내는 스마트 레스토랑 관리 시스템이다.
+📢 **섹션 요약 비유**: [[136_prometheus|Prometheus]] + AlertManager는 마치 주방에 CCTV를 달고, 주문 대기열이 100개를 넘으면 주방장 핸드폰으로 자동 문자를 보내는 스마트 레스토랑 관리 시스템이다.
 
 ---
 
@@ -233,7 +233,7 @@ Lag 패턴 분석:
   → 처리 가능하나 최대 처리량이 반으로 제한
 ```
 
-### 3.3 Kafka Auto Scaling 연계 (Kubernetes KEDA)
+### 3.3 [[179_kafka_flink_watermark_time_window|Kafka]] [[030_auto_scaling|Auto Scaling]] 연계 ([[205_kubernetes_container_orchestration|Kubernetes]] KEDA)
 
 ```yaml
 # KEDA ScaledObject - Kafka Lag 기반 자동 스케일링
@@ -256,13 +256,13 @@ spec:
       lagThreshold: "1000"  # 파티션당 Lag 1000 초과 시 스케일아웃
 ```
 
-📢 **섹션 요약 비유**: 컨슈머 수 ≤ 파티션 수 원칙은 마치 계산대(파티션) 4개인 마트에 계산원을 10명 고용해도 4명만 일할 수 있는 것과 같다. 계산대 수(파티션)를 먼저 늘려야 인력(컨슈머)을 효과적으로 활용할 수 있다.
+📢 **섹션 요약 비유**: 컨슈머 수 ≤ [[514_partition_slice_volume|파티션]] 수 원칙은 마치 계산대([[514_partition_slice_volume|파티션]]) 4개인 마트에 계산원을 10명 고용해도 4명만 일할 수 있는 것과 같다. 계산대 수([[514_partition_slice_volume|파티션]])를 먼저 늘려야 인력(컨슈머)을 효과적으로 활용할 수 있다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### 4.1 Consumer Lag SLA 설계 가이드
+### 4.1 [[089_consumer_lag|Consumer Lag]] [[085_sla|SLA]] 설계 가이드
 
 ```
 SLA 기반 Lag 임계값 설계:
@@ -286,7 +286,7 @@ SLA 기반 Lag 임계값 설계:
   배치 시스템 허용 지연 = 수 분~수 시간
 ```
 
-### 4.2 Kafka 파티션 수 계산
+### 4.2 [[179_kafka_flink_watermark_time_window|Kafka]] [[514_partition_slice_volume|파티션]] 수 계산
 
 ```
 파티션 수 설계:
@@ -315,22 +315,22 @@ Kafka Consumer Lag 모니터링 설계 시 필수 언급:
   ✓ 파티션 수 계산 방법 (목표 처리량 / 파티션당 처리량)
 ```
 
-📢 **섹션 요약 비유**: Kafka Consumer Lag SLA는 마치 택배 회사의 배송 약속이다. 당일 배송(실시간 결제)은 Lag 100개도 위험하고, 일반 택배(배치 ETL)는 Lag 10만 개도 허용된다. 서비스 성격에 따라 다른 기준을 적용해야 한다.
+📢 **섹션 요약 비유**: [[179_kafka_flink_watermark_time_window|Kafka]] [[089_consumer_lag|Consumer Lag]] SLA는 마치 택배 회사의 배송 약속이다. 당일 배송(실시간 결제)은 Lag 100개도 위험하고, 일반 택배(배치 [[215_etl_vs_elt_pipeline|ETL]])는 Lag 10만 개도 허용된다. [[090_service_kubernetes_network_load_balancing|서비스]] 성격에 따라 다른 기준을 적용해야 한다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-### 5.1 Consumer Lag 모니터링 도입 효과
+### 5.1 [[089_consumer_lag|Consumer Lag]] 모니터링 도입 효과
 
 | 효과 | 정량 지표 |
 |:---|:---|
-| 장애 선제 감지 | 서비스 중단 전 평균 10~30분 전 경보 |
-| SLA 위반 감소 | 프로액티브 스케일링으로 SLA 준수율 99.9% |
+| 장애 선제 감지 | [[090_service_kubernetes_network_load_balancing|서비스]] 중단 전 평균 [[489_raid_10_hybrid|10]]~30분 전 경보 |
+| [[085_sla|SLA]] 위반 감소 | 프로액티브 [[249_scaling_normalization_standardization|스케일링]]으로 [[085_sla|SLA]] 준수율 99.9% |
 | 운영 비용 절감 | Auto Scaling으로 야간 수동 모니터링 제거 |
-| RCA 시간 단축 | Lag 패턴 + 메트릭 연계로 5분 내 원인 분석 |
+| RCA 시간 단축 | Lag 패턴 + [[342_routing_metric_hop_bandwidth_delay|메트릭]] 연계로 5분 내 원인 분석 |
 
-### 5.2 Kafka 운영 성숙도 모델
+### 5.2 [[179_kafka_flink_watermark_time_window|Kafka]] 운영 성숙도 모델
 
 ```
 ┌──────────────────────────────────────────────────────┐
@@ -353,28 +353,28 @@ Kafka Consumer Lag 모니터링 설계 시 필수 언급:
 └──────────────────────────────────────────────────────┘
 ```
 
-📢 **섹션 요약 비유**: Kafka 운영 성숙도는 마치 공장 관리의 발전 단계와 같다. 처음엔 기계가 고장나야 알지만(Level 1), 나중엔 고장 예정을 미리 알고 부품을 교체하는(Level 5) 예측 정비 수준으로 발전한다.
+📢 **섹션 요약 비유**: [[179_kafka_flink_watermark_time_window|Kafka]] 운영 성숙도는 마치 공장 관리의 발전 단계와 같다. 처음엔 기계가 고장나야 알지만(Level 1), 나중엔 고장 예정을 미리 알고 부품을 교체하는(Level 5) 예측 정비 수준으로 발전한다.
 
 ---
 
 ### 📌 관련 개념 맵
 
-| 관계 | 개념 | 설명 |
+| [[083_relationship_in_er_model|관계]] | 개념 | 설명 |
 |:---|:---|:---|
-| 핵심 지표 | Consumer Lag | LEO - Current Offset 차이 |
-| 모니터링 표준 | Prometheus + Grafana | 메트릭 수집·시각화 스택 |
-| 경보 시스템 | AlertManager | 조건 기반 알림 라우팅 |
+| 핵심 지표 | [[089_consumer_lag|Consumer Lag]] | [[595_leo_low_earth_orbit_starlink_6g|LEO]] - [[002_current|Current]] Offset 차이 |
+| 모니터링 표준 | [[136_prometheus|Prometheus]] + [[168_grafana|Grafana]] | [[342_routing_metric_hop_bandwidth_delay|메트릭]] 수집·[[003_bigdata_7v|시각화]] [[057_stack|스택]] |
+| 경보 시스템 | AlertManager | 조건 기반 알림 [[339_routing_overview_best_path_selection|라우팅]] |
 | 심화 분석 | Burrow | Lag 추세 기반 상태 판단 |
-| 자동 복구 | KEDA | Kafka Lag 기반 Kubernetes 자동 스케일링 |
-| 근본 한계 | 파티션 수 | 컨슈머 수의 상한선 |
-| 균형 조정 | Cruise Control | 파티션 자동 재분배 |
-| 원인 분석 | Lag 패턴 | 선형/급등/파티션 스큐 패턴별 대응 |
+| 자동 [[658_ir_recovery|복구]] | KEDA | [[179_kafka_flink_watermark_time_window|Kafka]] Lag 기반 [[205_kubernetes_container_orchestration|Kubernetes]] 자동 [[249_scaling_normalization_standardization|스케일링]] |
+| 근본 한계 | [[514_partition_slice_volume|파티션]] 수 | 컨슈머 수의 상한선 |
+| 균형 조정 | Cruise Control | [[514_partition_slice_volume|파티션]] 자동 재분배 |
+| 원인 분석 | Lag 패턴 | 선형/급등/[[514_partition_slice_volume|파티션]] 스큐 패턴별 대응 |
 
 ---
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. **Consumer Lag**는 마치 카카오톡에서 메시지를 보낸 시각과 읽은 시각의 차이처럼, 카프카에서 메시지가 쓰여진 위치와 읽힌 위치의 차이를 숫자로 나타낸 것이에요—이 숫자가 클수록 처리가 많이 밀려있는 거예요.
+1. **[[089_consumer_lag|Consumer Lag]]**는 마치 카카오톡에서 메시지를 보낸 시각과 읽은 시각의 차이처럼, [[179_kafka_flink_watermark_time_window|카프카]]에서 메시지가 쓰여진 위치와 읽힌 위치의 차이를 숫자로 나타낸 것이에요—이 숫자가 클수록 처리가 많이 밀려있는 거예요.
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -396,5 +396,5 @@ Consumer Lag = Latest Offset - Consumer Offset
     ▼
 자동 대응: Consumer 스케일아웃 · 파티션 추가 · 경보
 ```
-2. **Consumer Lag 모니터링**은 마치 음식점에서 주문 대기열 번호판을 관리자 핸드폰으로 실시간 전송하는 것처럼, 카프카의 처리 지연을 자동으로 감지해서 경보를 보내는 시스템이에요.
-3. **컨슈머 수 ≤ 파티션 수** 원칙은 마치 계산대가 4개인 마트에 직원이 10명이어도 4명만 계산대에 설 수 있는 것처럼, 파티션 수보다 컨슈머를 더 많이 늘려도 추가 컨슈머는 아무 일도 못 하는 낭비가 된다는 뜻이에요.
+2. **[[089_consumer_lag|Consumer Lag]] 모니터링**은 마치 음식점에서 주문 대기열 번호판을 관리자 핸드폰으로 실시간 전송하는 것처럼, [[179_kafka_flink_watermark_time_window|카프카]]의 처리 지연을 자동으로 감지해서 경보를 보내는 시스템이에요.
+3. **컨슈머 수 ≤ [[514_partition_slice_volume|파티션]] 수** 원칙은 마치 계산대가 4개인 마트에 직원이 10명이어도 4명만 계산대에 설 수 있는 것처럼, [[514_partition_slice_volume|파티션]] 수보다 컨슈머를 더 많이 늘려도 추가 컨슈머는 아무 일도 못 하는 낭비가 된다는 뜻이에요.

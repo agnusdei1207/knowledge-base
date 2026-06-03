@@ -8,8 +8,8 @@ categories = "studynote-software-engineering"
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: MFA 인증 OIDC 인가 보안 구조은(는) 소프트웨어 공학의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.
-> 2. **가치**: 이 개념을 올바르게 적용하면 소프트웨어의 품질·유지보수성·재사용성이 향상되고, 개발 생산성과 팀 협업 효율이 높아진다.
+> 1. **본질**: [[552_mfa|MFA]] [[303_authentication_authorization_patterns|인증]] [[537_oidc_openid_connect|OIDC]] [[509_authorization_models_rbac_abac|인가]] 보안 구조은(는) [[001_software_engineering_definition|소프트웨어 공학]]의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.
+> 2. **가치**: 이 개념을 올바르게 적용하면 소프트웨어의 품질·[[346_maintainability_portability|유지보수성]]·재사용성이 향상되고, 개발 생산성과 팀 협업 효율이 높아진다.
 > 3. **판단 포인트**: 도입 시에는 비용·복잡도·조직 성숙도를 함께 고려해야 하며, 맹목적 적용보다 프로젝트 특성에 맞는 선택적 적용이 핵심이다.
 
 ---
@@ -18,15 +18,15 @@ categories = "studynote-software-engineering"
 
 웹 초창기에는 사용자가 사이트마다 아이디와 '비밀번호'를 새로 만들었다. 그런데 사용자들이 귀찮아서 모든 사이트에 똑같은 비밀번호를 쓰다 보니, 허술한 사이트 하나가 털리면 은행 계좌까지 다 털리는 대참사가 일어났다.
 
-이를 막기 위해 구글이나 카카오처럼 보안이 강력한 '중앙 인증 서버'에서 로그인을 한 번만 하고, 다른 사이트는 그 인증 결과를 믿고 문을 열어주는 **SSO(Single Sign-On)** 기술이 필요해졌다. 이때 "저 사람이 진짜 구글 로그인한 사람 맞아?"를 증명하기 위해 탄생한 표준이 **OIDC (OpenID Connect)**다.
+이를 막기 위해 구글이나 카카오처럼 보안이 강력한 '중앙 [[581_authentication_server|인증 서버]]'에서 로그인을 한 번만 하고, 다른 사이트는 그 [[303_authentication_authorization_patterns|인증]] 결과를 믿고 문을 열어주는 **[[531_sso|SSO]]([[531_sso|Single Sign-On]])** 기술이 필요해졌다. 이때 "저 사람이 진짜 구글 로그인한 사람 맞아?"를 증명하기 위해 탄생한 표준이 **[[537_oidc_openid_connect|OIDC]] ([[548_openid_connect|OpenID Connect]])**다.
 
-여기에 더해, 해커가 비밀번호를 알아내더라도 스마트폰 앱(Google Authenticator)이나 지문(FIDO)이 없으면 절대 로그인을 못 하게 막는 **MFA (Multi-Factor Authentication, 다중 인증)**가 클라우드 시대 제로 트러스트(Zero Trust)의 절대적 기본 방어막으로 자리 잡았다.
+여기에 더해, 해커가 비밀번호를 알아내더라도 스마트폰 앱(Google Authenticator)이나 지문(FIDO)이 없으면 절대 로그인을 못 하게 막는 **[[552_mfa|MFA]] ([[552_mfa|Multi-Factor Authentication]], 다중 [[303_authentication_authorization_patterns|인증]])**가 클라우드 시대 [[667_zero_trust_runtime_integrity_measurement|제로 트러스트]]([[667_zero_trust_runtime_integrity_measurement|Zero Trust]])의 절대적 기본 방어막으로 자리 잡았다.
 
-- **📢 섹션 요약 비유**: 클럽에 들어갈 때, 내 이름과 생일을 말하는 것(비밀번호)은 쉽게 도용당한다. 그래서 지문 인식(MFA)으로 문을 통과한 뒤, 클럽에서 발급해 준 'V.I.P 자유이용권 팔찌(OIDC ID 토큰)'를 차고 있으면 클럽 안의 모든 식당과 놀이기구를 매번 검사 없이 맘대로 탈 수 있는 원리다.
+- **📢 섹션 요약 비유**: 클럽에 들어갈 때, 내 이름과 생일을 말하는 것(비밀번호)은 쉽게 도용당한다. 그래서 지문 인식([[552_mfa|MFA]])으로 문을 통과한 뒤, 클럽에서 발급해 준 'V.I.P 자유이용권 팔찌([[537_oidc_openid_connect|OIDC]] ID 토큰)'를 차고 있으면 클럽 안의 모든 식당과 놀이기구를 매번 검사 없이 맘대로 탈 수 있는 원리다.
 
 ---
 
-다음은 MFA 인증 OIDC 인가 보안 구조의 핵심 구조와 흐름을 보여주는 다이어그램이다.
+다음은 [[552_mfa|MFA]] [[303_authentication_authorization_patterns|인증]] [[537_oidc_openid_connect|OIDC]] [[509_authorization_models_rbac_abac|인가]] 보안 구조의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
 ```text
 ┌─────────────────────────────────────────────────────────────┐
@@ -41,7 +41,7 @@ categories = "studynote-software-engineering"
 └─────────────────────────────────────────────────────────────┘
 ```
 
-이 다이어그램은 MFA 인증 OIDC 인가 보안 구조가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
+이 다이어그램은 [[552_mfa|MFA]] [[303_authentication_authorization_patterns|인증]] [[537_oidc_openid_connect|OIDC]] [[509_authorization_models_rbac_abac|인가]] 보안 구조가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
 ---
 
@@ -51,13 +51,13 @@ categories = "studynote-software-engineering"
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-MFA와 OIDC는 '인증(Authentication, 너 누구야?)'과 '인가(Authorization, 너 이거 할 권한 있어?)'의 개념을 완벽하게 분리하여 결합한다.
+MFA와 OIDC는 '[[303_authentication_authorization_patterns|인증]]([[604_authentication_factors|Authentication]], 너 누구야?)'과 '[[509_authorization_models_rbac_abac|인가]]([[509_authorization_models_rbac_abac|Authorization]], 너 이거 할 권한 있어?)'의 개념을 완벽하게 분리하여 결합한다.
 
-- **📢 섹션 요약 비유**: MFA 인증 OIDC 인가 보안 구조은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
+- **📢 섹션 요약 비유**: [[552_mfa|MFA]] [[303_authentication_authorization_patterns|인증]] [[537_oidc_openid_connect|OIDC]] [[509_authorization_models_rbac_abac|인가]] 보안 구조은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
 | 항목 | 설명 | 비고 |
 | :--- | :--- | :--- |
-| 핵심 특성 | MFA 인증 OIDC 인가 보안 구조의 핵심 특성과 동작 방식 | 필수 이해 요소 |
+| 핵심 특성 | [[552_mfa|MFA]] [[303_authentication_authorization_patterns|인증]] [[537_oidc_openid_connect|OIDC]] [[509_authorization_models_rbac_abac|인가]] 보안 구조의 핵심 특성과 동작 방식 | 필수 이해 요소 |
 | 적용 범위 | 어떤 프로젝트·상황에서 활용하는지 | 선택 기준 |
 | 제약 조건 | 적용 시 주의해야 할 전제·한계 | 트레이드오프 |
 
@@ -71,12 +71,12 @@ MFA와 OIDC는 '인증(Authentication, 너 누구야?)'과 '인가(Authorization
 
 OIDC가 나오기 전까지는 SAML이라는 옛날 기술이 기업용(B2B) SSO의 표준이었다.
 
-| 비교 항목 | SAML 2.0 | OAuth 2.0 | OIDC (OpenID Connect) |
+| 비교 항목 | SAML 2.0 | OAuth 2.0 | [[537_oidc_openid_connect|OIDC]] ([[548_openid_connect|OpenID Connect]]) |
 |:---|:---|:---|:---|
-| **목적** | B2B 기업용 통합 로그인 (SSO) | **API 접근 권한 위임 (인가)** | **모바일/웹 소셜 로그인 (인증+인가)** |
-| **데이터 포맷**| XML (매우 무겁고 복잡함) | JSON (가벼움) | **JWT** (JSON Web Token) |
-| **토큰 내용** | 인증 정보(Assertion) 포함 | 권한 정보만 있음 (신원 모름) | **ID 토큰 (신원) + Access 토큰 (권한)** |
-| **주요 환경** | 사내 인트라넷, 구형 웹 | 외부 API 호출 (예: 페이스북 글쓰기) | **카카오/구글 로그인, 최신 MSA 환경** |
+| **목적** | B2B 기업용 통합 로그인 ([[531_sso|SSO]]) | **[[014_api_posix|API]] 접근 권한 위임 ([[509_authorization_models_rbac_abac|인가]])** | **모바일/웹 소셜 로그인 ([[303_authentication_authorization_patterns|인증]]+[[509_authorization_models_rbac_abac|인가]])** |
+| **[[001_dikw_pyramid|데이터]] 포맷**| XML (매우 무겁고 복잡함) | [[343_json|JSON]] (가벼움) | **[[549_jwt_json_web_token|JWT]]** ([[549_jwt_json_web_token|JSON Web Token]]) |
+| **토큰 내용** | [[303_authentication_authorization_patterns|인증]] 정보(Assertion) 포함 | 권한 정보만 있음 (신원 모름) | **ID 토큰 (신원) + Access 토큰 (권한)** |
+| **주요 환경** | 사내 인트라넷, 구형 웹 | 외부 [[014_api_posix|API]] 호출 (예: 페이스북 글쓰기) | **카카오/구글 로그인, 최신 [[619_msa_traffic_hardware|MSA]] 환경** |
 
 과거에 "OAuth로 로그인 구현했다"고 하던 시절이 있었는데, 사실 OAuth는 권한만 주는 기술이라 이름과 이메일을 알 수 없었다. 그래서 편법으로 Access 토큰을 받은 뒤 다시 `/profile` API를 한 번 더 찌르는 꼼수를 썼다. OIDC는 이 바보 같은 짓을 없애기 위해 아예 처음부터 ID 토큰(명찰)을 같이 주도록 OAuth를 업그레이드한 것이다.
 
@@ -92,9 +92,9 @@ OIDC가 나오기 전까지는 SAML이라는 옛날 기술이 기업용(B2B) SSO
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-최근 클라우드와 MSA 환경에서는 모든 마이크로서비스가 세션(Session)을 공유할 수 없으므로, OIDC 기반의 토큰 보안(JWT)이 필수적이다.
+최근 클라우드와 [[619_msa_traffic_hardware|MSA]] 환경에서는 모든 마이크로서비스가 [[160_session_controlling_terminal|세션]]([[160_session_controlling_terminal|Session]])을 공유할 수 없으므로, [[537_oidc_openid_connect|OIDC]] 기반의 토큰 보안([[549_jwt_json_web_token|JWT]])이 필수적이다.
 
-- **📢 섹션 요약 비유**: MFA 인증 OIDC 인가 보안 구조은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
+- **📢 섹션 요약 비유**: [[552_mfa|MFA]] [[303_authentication_authorization_patterns|인증]] [[537_oidc_openid_connect|OIDC]] [[509_authorization_models_rbac_abac|인가]] 보안 구조은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
 ---
 
@@ -104,11 +104,11 @@ OIDC가 나오기 전까지는 SAML이라는 옛날 기술이 기업용(B2B) SSO
 
 ## Ⅴ. 기대효과 및 결론
 
-MFA와 OIDC 아키텍처를 도입하면, 기업은 수백만 고객의 비밀번호 유출 리스크라는 거대한 시한폭탄에서 해방된다. 사용자 역시 수십 개의 사이트마다 비밀번호를 찾느라 고통받지 않고, 소셜 로그인 한 번으로 물 흐르듯 서비스를 이용하는 최고의 UX를 누리게 된다.
+MFA와 [[537_oidc_openid_connect|OIDC]] 아키텍처를 도입하면, 기업은 수백만 고객의 비밀번호 유출 리스크라는 거대한 시한폭탄에서 해방된다. 사용자 역시 수십 개의 사이트마다 비밀번호를 찾느라 고통받지 않고, 소셜 로그인 한 번으로 물 흐르듯 서비스를 이용하는 최고의 UX를 누리게 된다.
 
-결론적으로 현대의 인증 아키텍처는 "우리가 너의 신원을 관리할게"에서 **"구글아, 네가 빡세게 인증(MFA)한 결과를 우리한테 증명서(OIDC)로 줘. 우린 그것만 믿을게"**라는 신뢰 위임(Trust Delegation) 모델로 완전히 바뀌었다. 기술 리더는 더 이상 인증 로직을 직접 짜지 말고, 글로벌 표준 프로토콜을 우아하게 연동하는 데 집중해야 한다.
+결론적으로 현대의 [[303_authentication_authorization_patterns|인증]] 아키텍처는 "우리가 너의 신원을 관리할게"에서 **"구글아, 네가 빡세게 [[303_authentication_authorization_patterns|인증]]([[552_mfa|MFA]])한 결과를 우리한테 증명서([[537_oidc_openid_connect|OIDC]])로 줘. 우린 그것만 믿을게"**라는 신뢰 위임(Trust Delegation) 모델로 완전히 바뀌었다. 기술 리더는 더 이상 [[303_authentication_authorization_patterns|인증]] 로직을 직접 짜지 말고, 글로벌 표준 프로토콜을 우아하게 연동하는 데 집중해야 한다.
 
-- **📢 섹션 요약 비유**: 작은 가게 사장님이 손님의 신용을 일일이 조사해서 외상을 주면(자체 인증) 떼일 확률이 높다. 그냥 "신용카드(OIDC) 가져와, 카드가 승인되면 난 카드사(Provider)를 믿고 물건을 주겠다"라고 하는 것이 현대 금융과 IT 보안의 완벽한 분업이다.
+- **📢 섹션 요약 비유**: 작은 가게 사장님이 손님의 신용을 일일이 조사해서 외상을 주면(자체 [[303_authentication_authorization_patterns|인증]]) 떼일 확률이 높다. 그냥 "신용카드([[537_oidc_openid_connect|OIDC]]) 가져와, 카드가 승인되면 난 카드사([[150_soa_triangle_architecture|Provider]])를 믿고 물건을 주겠다"라고 하는 것이 현대 금융과 IT 보안의 완벽한 분업이다.
 
 ---
 
@@ -122,10 +122,10 @@ MFA와 OIDC 아키텍처를 도입하면, 기업은 수백만 고객의 비밀�
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| 소프트웨어 공학 (Software Engineering) | MFA 인증 OIDC 인가 보안 구조의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
-| 소프트웨어 생명주기 (SDLC, Software Development Life Cycle) | MFA 인증 OIDC 인가 보안 구조은 SDLC의 특정 단계에서 핵심적으로 적용된다 |
-| 품질 보증 (QA, Quality Assurance) | MFA 인증 OIDC 인가 보안 구조 적용 결과는 QA 활동을 통해 검증되고 측정된다 |
-| 형상 관리 (SCM, Software Configuration Management) | MFA 인증 OIDC 인가 보안 구조에서 생성된 산출물은 SCM을 통해 체계적으로 관리된다 |
+| [[001_software_engineering_definition|소프트웨어 공학]] ([[001_software_engineering_definition|Software Engineering]]) | [[552_mfa|MFA]] [[303_authentication_authorization_patterns|인증]] [[537_oidc_openid_connect|OIDC]] [[509_authorization_models_rbac_abac|인가]] 보안 구조의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
+| [[003_sdlc|소프트웨어 생명주기]] ([[131_sdlc_system_development_life_cycle_waterfall_agile|SDLC]], Software Development Life Cycle) | [[552_mfa|MFA]] [[303_authentication_authorization_patterns|인증]] [[537_oidc_openid_connect|OIDC]] [[509_authorization_models_rbac_abac|인가]] 보안 구조은 SDLC의 특정 단계에서 핵심적으로 적용된다 |
+| 품질 보증 (QA, Quality Assurance) | [[552_mfa|MFA]] [[303_authentication_authorization_patterns|인증]] [[537_oidc_openid_connect|OIDC]] [[509_authorization_models_rbac_abac|인가]] 보안 구조 적용 결과는 QA 활동을 통해 검증되고 측정된다 |
+| [[020_software_configuration_management|형상 관리]] ([[167_scm_software_configuration_management|SCM]], [[020_software_configuration_management|Software Configuration Management]]) | [[552_mfa|MFA]] [[303_authentication_authorization_patterns|인증]] [[537_oidc_openid_connect|OIDC]] [[509_authorization_models_rbac_abac|인가]] 보안 구조에서 생성된 산출물은 SCM을 통해 체계적으로 관리된다 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -145,10 +145,10 @@ MFA 인증 OIDC 인가 보안 구조 개념 정립
 지속적 개선 및 DevOps·MLOps 통합
 ```
 
-이 흐름은 소프트웨어 위기 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
+이 흐름은 [[002_software_crisis|소프트웨어 위기]] 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. MFA 인증 OIDC 인가 보안 구조은 레고 블록으로 성을 만들 때처럼, 규칙을 정하고 역할을 나누어 함께 작업하는 방법이에요.
+1. [[552_mfa|MFA]] [[303_authentication_authorization_patterns|인증]] [[537_oidc_openid_connect|OIDC]] [[509_authorization_models_rbac_abac|인가]] 보안 구조은 레고 블록으로 성을 만들 때처럼, 규칙을 정하고 역할을 나누어 함께 작업하는 방법이에요.
 2. 혼자서 막 만들면 나중에 무너지거나 고치기 어렵지만, 약속을 지키면 누구나 쉽게 고치고 더 크게 만들 수 있어요.
-3. 그래서 소프트웨어 공학은 프로그래머들이 좋은 프로그램을 빠르고 안전하게 만들 수 있게 도와주는 '규칙 모음집'이에요.
+3. 그래서 [[001_software_engineering_definition|소프트웨어 공학]]은 프로그래머들이 좋은 프로그램을 빠르고 안전하게 만들 수 있게 도와주는 '규칙 모음집'이에요.

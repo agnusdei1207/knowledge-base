@@ -8,17 +8,17 @@ categories = "studynote-devops"
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 아티팩트 (Artifact)는 빌드가 끝난 결과물이고, Nexus Repository Manager와 Docker Registry는 그 결과물을 버전·검사·배포 단계별로 안전하게 보관하는 창고다.
-> 2. **가치**: 내부 저장소를 쓰면 외부 의존성을 캐시하고 재현 가능한 빌드를 만들 수 있으며, digest 기준 승격으로 "같은 이름 다른 파일" 문제를 막는다.
-> 3. **판단 포인트**: 운영 배포에는 mutable tag보다 immutable digest를 기준으로 하고, 공급망 보안은 저장이 아니라 검증까지 포함해야 한다.
+> 1. **본질**: 아티팩트 (Artifact)는 빌드가 끝난 결과물이고, Nexus Repository Manager와 [[063_docker_architecture|Docker]] Registry는 그 결과물을 [[288_version_ihl_tos_total_length|버전]]·검사·배포 단계별로 안전하게 보관하는 창고다.
+> 2. **가치**: 내부 저장소를 쓰면 외부 의존성을 캐시하고 재현 가능한 빌드를 만들 수 있으며, digest 기준 승격으로 "같은 이름 다른 [[501_file_definition_logical_record|파일]]" 문제를 막는다.
+> 3. **판단 포인트**: 운영 배포에는 mutable tag보다 [[298_immutable|immutable]] digest를 기준으로 하고, [[374_supply_chain_security|공급망 보안]]은 저장이 아니라 [[395_verification_process_review|검증]]까지 포함해야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-CI/CD (Continuous Integration/Continuous Deployment) 파이프라인은 빌드 결과물을 믿을 수 있게 남겨야 다음 단계가 안정된다. 아티팩트 관리는 단순 보관이 아니라, 어떤 산출물이 어느 검증을 통과했는지 추적하는 일이다.
+[[090_configuration_item|CI]]/CD ([[019_continuous_integration|Continuous Integration]]/[[165_continuous_deployment|Continuous Deployment]]) [[123_pipe|파이프]]라인은 빌드 결과물을 믿을 수 있게 남겨야 다음 단계가 안정된다. 아티팩트 관리는 단순 보관이 아니라, 어떤 산출물이 어느 [[395_verification_process_review|검증]]을 통과했는지 추적하는 일이다.
 
-Nexus와 Docker Registry는 저장 대상과 책임 범위가 다르다. 전자는 여러 패키지 형식을 다루는 저장소 관리자이고, 후자는 컨테이너 이미지를 다루는 전용 레지스트리다.
+Nexus와 [[063_docker_architecture|Docker]] Registry는 저장 대상과 책임 범위가 다르다. 전자는 여러 패키지 형식을 다루는 저장소 관리자이고, 후자는 [[561_container_based_deployment|컨테이너]] 이미지를 다루는 전용 [[235_registry_immutable_tag|레지스트리]]다.
 
 ```text
 build -> store -> scan -> promote -> deploy
@@ -26,7 +26,7 @@ build -> store -> scan -> promote -> deploy
             ├─ Nexus   └─ Docker Registry
 ```
 
-핵심은 파일을 쌓는 것이 아니라, 재현과 승격이 가능하게 만드는 데 있다.
+핵심은 [[501_file_definition_logical_record|파일]]을 쌓는 것이 아니라, 재현과 승격이 가능하게 만드는 데 있다.
 
 - **📢 섹션 요약 비유**: 완성품 창고가 있어야 다음 공정이 안 흔들린다.
 
@@ -34,12 +34,12 @@ build -> store -> scan -> promote -> deploy
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-Nexus Repository Manager는 여러 패키지 형식의 local, proxy, group repository를 관리한다. Docker Registry는 이미지와 manifest를 digest 기준으로 보관해 컨테이너 배포를 안정화한다.
+Nexus Repository Manager는 여러 패키지 형식의 local, [[264_proxy_pattern_surrogate_access_control|proxy]], group repository를 관리한다. [[063_docker_architecture|Docker]] Registry는 이미지와 manifest를 digest 기준으로 보관해 [[561_container_based_deployment|컨테이너]] 배포를 안정화한다.
 
-| 요소 | Nexus | Docker Registry |
+| 요소 | Nexus | [[063_docker_architecture|Docker]] [[235_registry_immutable_tag|Registry]] |
 | :--- | :--- | :--- |
-| 주 대상 | jar, npm, maven 등 | container image |
-| 핵심 기능 | proxy / group / local | push / pull / digest |
+| 주 대상 | jar, npm, maven 등 | [[194_container_virtualization_docker_namespace|container]] image |
+| 핵심 기능 | [[264_proxy_pattern_surrogate_access_control|proxy]] / group / local | push / pull / digest |
 | 운영 효과 | 외부 의존성 캐시 | 배포 이미지 표준화 |
 
 이 구조가 있어야 빌드는 외부 인터넷 상태에 덜 흔들리고, 배포는 같은 이름의 태그가 바뀌는 문제를 피할 수 있다.
@@ -54,11 +54,11 @@ Nexus Repository Manager는 여러 패키지 형식의 local, proxy, group repos
 
 | 비교 축 | Tag | Digest |
 | :--- | :--- | :--- |
-| 변경성 | mutable | immutable |
-| 가독성 | 좋음 | 보통 |
+| 변경성 | mutable | [[298_immutable|immutable]] |
+| [[333_readability_vs_efficiency|가독성]] | 좋음 | 보통 |
 | 배포 안전성 | 낮음 | 높음 |
 
-또한 Nexus의 proxy repo는 외부 저장소 앞에서 캐시 역할을 한다. 이것이 없으면 빌드마다 외부 네트워크를 통과해야 하므로, 재현성과 속도가 동시에 흔들린다.
+또한 Nexus의 [[264_proxy_pattern_surrogate_access_control|proxy]] repo는 외부 저장소 앞에서 캐시 역할을 한다. 이것이 없으면 빌드마다 외부 네트워크를 통과해야 하므로, 재현성과 속도가 동시에 흔들린다.
 
 - **📢 섹션 요약 비유**: 이름표는 편하지만, 바뀌지 않는 번호가 더 안전하다.
 
@@ -66,14 +66,14 @@ Nexus Repository Manager는 여러 패키지 형식의 local, proxy, group repos
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서는 스냅샷과 릴리즈를 분리하고, 이미지 서명과 취약점 스캔을 통과한 것만 승격한다. 개발·스테이징·운영 레포지토리도 따로 두는 편이 좋다.
+실무에서는 [[022_snapshot_backup_architecture|스냅샷]]과 릴리즈를 분리하고, 이미지 서명과 [[675_vulnerability_scanning|취약점 스캔]]을 통과한 것만 승격한다. 개발·스테이징·운영 레포지토리도 따로 두는 편이 좋다.
 
 체크 포인트는 다음과 같다.
-- 외부 의존성을 proxy repo로 받는가.
+- 외부 의존성을 [[264_proxy_pattern_surrogate_access_control|proxy]] repo로 받는가.
 - 최신 태그를 운영에 쓰지 않는가.
 - 승인된 digest만 배포하는가.
 
-안티패턴은 `latest`를 운영 표준으로 두는 것이다. 이렇게 하면 같은 태그가 서로 다른 바이너리를 가리키게 되어, 재현과 장애 분석이 어려워진다.
+[[128_water_scrum_fall_anti_pattern|안티패턴]]은 `latest`를 운영 표준으로 두는 것이다. 이렇게 하면 같은 태그가 서로 다른 바이너리를 가리키게 되어, 재현과 장애 분석이 어려워진다.
 
 - **📢 섹션 요약 비유**: 창고는 넓을수록 좋지만, 출고 기록이 없으면 위험하다.
 
@@ -81,9 +81,9 @@ Nexus Repository Manager는 여러 패키지 형식의 local, proxy, group repos
 
 ## Ⅴ. 기대효과 및 결론
 
-아티팩트 관리는 배포 속도보다 공급망 신뢰를 지키는 일이다. 좋은 저장소는 "무엇이 만들어졌고, 무엇이 검증됐고, 무엇이 배포됐는가"를 남긴다.
+아티팩트 관리는 배포 속도보다 [[520_supply_chain_attack_and_ci_cd_security|공급망]] 신뢰를 지키는 일이다. 좋은 저장소는 "무엇이 만들어졌고, 무엇이 [[395_verification_process_review|검증]]됐고, 무엇이 배포됐는가"를 남긴다.
 
-그래서 기억할 관점은 명확하다. Nexus는 다형 저장소 관리자이고, Docker Registry는 컨테이너 이미지 창고이며, 둘 다 운영 신뢰성의 기록장이다.
+그래서 기억할 관점은 명확하다. Nexus는 다형 저장소 관리자이고, [[063_docker_architecture|Docker]] Registry는 [[561_container_based_deployment|컨테이너]] 이미지 창고이며, 둘 다 운영 [[642_reliability_mtbf_mttr_mttf_availability|신뢰성]]의 기록장이다.
 
 - **📢 섹션 요약 비유**: 창고가 정리돼 있으면 출고도 빨라진다.
 
@@ -95,9 +95,9 @@ Nexus Repository Manager는 여러 패키지 형식의 local, proxy, group repos
 | :--- | :--- |
 | Artifact | 빌드 산출물 |
 | Repository | 저장과 배포 경계 |
-| Digest | 내용 기반 식별 |
-| Proxy | 외부 의존성 캐시 |
-| Scan / Sign | 공급망 검증 |
+| Digest | 내용 기반 [[655_ir_detection_analysis|식별]] |
+| [[264_proxy_pattern_surrogate_access_control|Proxy]] | 외부 의존성 캐시 |
+| Scan / Sign | [[520_supply_chain_attack_and_ci_cd_security|공급망]] [[395_verification_process_review|검증]] |
 
 ### 관련 키워드 및 발전 흐름도
 

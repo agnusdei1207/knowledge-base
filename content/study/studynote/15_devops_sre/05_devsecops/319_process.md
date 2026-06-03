@@ -5,9 +5,9 @@ categories = ["studynote-devops-sre"]
 +++
 
 > **핵심 인사이트**
-> - Blameless Postmortem (무비난 회고)은 장애 원인을 개인이 아닌 시스템·프로세스에서 찾아 근본적 개선을 이끄는 SRE 문화다.
+> - [[128_blameless_postmortem|Blameless Postmortem]] (무비난 회고)은 장애 원인을 개인이 아닌 시스템·프로세스에서 찾아 근본적 개선을 이끄는 [[100_sre_site_reliability_engineering_error_budget|SRE]] 문화다.
 > - 타임라인·근본 원인·영향 분석·재발 방지 액션 아이템이 Postmortem 문서의 4대 필수 요소다.
-> - 장애를 숨기지 않고 공유하는 문화가 조직 전체의 신뢰성 학습 속도를 높인다.
+> - 장애를 숨기지 않고 공유하는 문화가 조직 전체의 [[642_reliability_mtbf_mttr_mttf_availability|신뢰성]] 학습 속도를 높인다.
 
 ---
 
@@ -78,7 +78,7 @@ Blameless Postmortem은 "시스템이 왜 그 실수를 가능하게 했는가?"
 ## Ⅳ. 액션 아이템과 후속 관리
 
 효과적인 액션 아이템 조건:
-- **Specific**: "DB 타임아웃 설정 추가"처럼 구체적
+- **Specific**: "DB [[573_timeout_retry_backoff_strategy|타임아웃]] [[009_config|설정]] 추가"처럼 구체적
 - **Assignee**: 담당자 명시
 - **Due Date**: 완료 기한 명시
 - **Verifiable**: 완료 여부 측정 가능
@@ -102,7 +102,7 @@ Postmortem 리뷰:
 | Blameless           | 개인이 아닌 시스템 원인 분석 원칙        |
 | Postmortem          | 장애 후 공식 회고 문서                  |
 | 5-Why               | 근본 원인 도출 기법                     |
-| 타임라인            | 장애 감지~복구 시간순 기록              |
+| 타임라인            | 장애 감지~[[658_ir_recovery|복구]] 시간순 기록              |
 | 액션 아이템         | 담당자·기한이 있는 재발 방지 과제        |
 | Runbook             | 장애 대응 절차 매뉴얼                   |
 

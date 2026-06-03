@@ -8,17 +8,17 @@ categories = "studynote-bigdata"
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 통합 배치/스트리밍 플랫폼은 bounded 데이터와 unbounded 데이터를 하나의 엔진과 하나의 의미 체계로 처리해, Lambda Architecture의 이중 코드 문제를 줄이려는 설계 방향이다.
-> 2. **가치**: 같은 비즈니스 로직으로 실시간 처리와 재처리를 모두 수행하면 결과 불일치가 줄고, 백필(Backfill)·리플레이·실시간 서빙을 같은 파이프라인 철학 아래 운영할 수 있다.
-> 3. **판단 포인트**: 요구 지연시간, 상태 크기, Event Time 복잡도, 팀의 SQL (Structured Query Language) / 레이크하우스 친화성에 따라 Spark Structured Streaming과 Flink의 적합도가 달라진다.
+> 1. **본질**: 통합 배치/스트리밍 플랫폼은 bounded [[001_dikw_pyramid|데이터]]와 unbounded [[001_dikw_pyramid|데이터]]를 하나의 엔진과 하나의 의미 체계로 처리해, [[216_lambda_kappa_architecture_batch_realtime|Lambda]] Architecture의 이중 코드 문제를 줄이려는 설계 방향이다.
+> 2. **가치**: 같은 비즈니스 로직으로 실시간 처리와 재처리를 모두 수행하면 결과 불일치가 줄고, 백필(Backfill)·리플레이·실시간 서빙을 같은 [[123_pipe|파이프]]라인 철학 아래 운영할 수 있다.
+> 3. **판단 포인트**: 요구 [[015_지연_데이터_관점|지연]]시간, 상태 크기, Event Time 복잡도, 팀의 SQL (Structured Query Language) / [[146_lakehouse|레이크하우스]] 친화성에 따라 Spark Structured Streaming과 Flink의 적합도가 달라진다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-통합 배치/스트리밍 플랫폼은 "배치와 실시간은 본질적으로 다른가?"라는 질문에서 출발한다. 과거 Lambda Architecture는 배치 레이어와 스피드 레이어를 따로 두어 정확성과 실시간성을 동시에 얻으려 했다. 그러나 시간이 갈수록 같은 비즈니스 규칙을 두 코드베이스에 중복 구현해야 했고, 버그 수정과 스키마 변경이 두 경로에서 따로 발생하면서 운영 복잡도가 크게 증가했다.
+통합 배치/스트리밍 플랫폼은 "배치와 실시간은 본질적으로 다른가?"라는 질문에서 출발한다. 과거 [[216_lambda_kappa_architecture_batch_realtime|Lambda]] Architecture는 배치 레이어와 스피드 레이어를 따로 두어 [[002_bigdata_5v|정확성]]과 실시간성을 동시에 얻으려 했다. 그러나 시간이 갈수록 같은 비즈니스 규칙을 두 [[007_codebase|코드베이스]]에 중복 구현해야 했고, 버그 수정과 [[005_schema|스키마]] 변경이 두 경로에서 따로 발생하면서 운영 복잡도가 크게 증가했다.
 
-문제는 단순한 코드 중복이 아니다. 배치에서는 하루치 원본으로 계산한 수치와 스트리밍에서는 최근 몇 분 이벤트로 계산한 수치가 미묘하게 달라지기 시작하면, 운영팀은 "어느 숫자가 진짜인가"를 설명하느라 시간을 쓰게 된다. 특히 사용자 세션, 실시간 추천, 매출 누계, Change Data Capture (CDC) 기반 머티리얼라이즈드 뷰처럼 실시간성과 재처리 일관성이 모두 중요한 영역에서는 이 불일치가 치명적이다.
+문제는 단순한 코드 중복이 아니다. 배치에서는 하루치 원본으로 계산한 수치와 스트리밍에서는 최근 몇 분 이벤트로 계산한 수치가 미묘하게 달라지기 시작하면, 운영팀은 "어느 숫자가 진짜인가"를 설명하느라 시간을 쓰게 된다. 특히 사용자 [[160_session_controlling_terminal|세션]], 실시간 추천, 매출 누계, [[217_cdc_binlog_change_capture_debezium|Change Data Capture]] ([[217_cdc_binlog_change_capture_debezium|CDC]]) 기반 머티리얼라이즈드 뷰처럼 실시간성과 재처리 [[194_consistency_database_integrity|일관성]]이 모두 중요한 영역에서는 이 불일치가 치명적이다.
 
 아래 비교는 왜 통합 플랫폼이 등장했는지를 잘 보여 준다. 핵심은 배치와 스트리밍을 같은 인프라에서 돌리는 것보다, 같은 의미 체계와 같은 로직으로 유지하는 데 있다.
 
@@ -36,7 +36,7 @@ categories = "studynote-bigdata"
 └──────────────────────────────────────────────────────────────┘
 ```
 
-그래서 현대 플랫폼은 "모든 것은 스트림이다" 혹은 "스트리밍도 작은 배치들의 연속이다"라는 두 방향으로 수렴해 왔다. Apache Flink는 전자를, Spark Structured Streaming은 후자를 더 강하게 대표한다. 둘 다 목표는 같지만, 시간 처리 방식과 상태 관리 전략에서 차이를 보인다.
+그래서 현대 플랫폼은 "모든 것은 스트림이다" 혹은 "스트리밍도 작은 배치들의 연속이다"라는 두 방향으로 수렴해 왔다. Apache Flink는 전자를, Spark Structured Streaming은 후자를 더 강하게 대표한다. 둘 다 목표는 같지만, 시간 처리 방식과 상태 관리 [[268_strategy_pattern|전략]]에서 차이를 보인다.
 
 - **📢 섹션 요약 비유**: 통합 플랫폼은 같은 메뉴를 점심 주방과 저녁 주방에서 따로 만드는 방식이 아니라, 하나의 레시피와 하나의 조리 시스템으로 시간대만 달리 운영하는 주방과 같다.
 
@@ -44,14 +44,14 @@ categories = "studynote-bigdata"
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-통합 플랫폼의 공통 원리는 bounded source와 unbounded source를 동일한 논리 계획(Logical Plan)과 응용 프로그래밍 인터페이스(Application Programming Interface, API) 위에서 다루는 것이다. 파일이나 오브젝트 스토리지의 과거 데이터는 "끝이 있는 스트림"으로 보고, Kafka 같은 이벤트 로그는 "끝이 없는 스트림"으로 본다. 그러면 필터, 조인, 집계, 윈도우, 상태 저장, 체크포인트 같은 연산을 같은 실행 모델 안에서 재사용할 수 있다.
+통합 플랫폼의 공통 원리는 bounded source와 unbounded source를 동일한 [[369_logic_bomb|논리]] 계획(Logical Plan)과 응용 프로그래밍 인터페이스([[014_api_posix|Application Programming Interface]], [[014_api_posix|API]]) 위에서 다루는 것이다. [[501_file_definition_logical_record|파일]]이나 [[494_object_storage|오브젝트 스토리지]]의 과거 [[001_dikw_pyramid|데이터]]는 "끝이 있는 스트림"으로 보고, [[179_kafka_flink_watermark_time_window|Kafka]] 같은 이벤트 [[568_logs_distributed_logging_elk_fluentd|로그]]는 "끝이 없는 스트림"으로 본다. 그러면 필터, 조인, 집계, 윈도우, 상태 저장, 체크포인트 같은 연산을 같은 실행 모델 안에서 재사용할 수 있다.
 
-| 통합 전략 | 대표 엔진 | 핵심 생각 | 장점 | 주의점 |
+| 통합 [[268_strategy_pattern|전략]] | 대표 엔진 | 핵심 생각 | 장점 | 주의점 |
 | :--- | :--- | :--- | :--- | :--- |
-| Batch as Stream | Flink | 배치도 유한한 스트림으로 본다 | Event Time, 상태 처리 일관성 높음 | 상태·운영 난도 높음 |
-| Stream as Incremental Batch | Spark Structured Streaming | 스트리밍을 작은 배치의 연속으로 본다 | SQL·레이크하우스 친화성 높음 | 초저지연·세밀한 시간 제어는 제한적 |
+| Batch [[344_as_autonomous_system_asn|as]] [[467_http2_stream_multiplexing_tcp_hol|Stream]] | Flink | 배치도 유한한 스트림으로 본다 | Event Time, 상태 처리 [[194_consistency_database_integrity|일관성]] 높음 | 상태·운영 난도 높음 |
+| [[467_http2_stream_multiplexing_tcp_hol|Stream]] [[344_as_autonomous_system_asn|as]] Incremental Batch | [[061_structured_streaming|Spark Structured Streaming]] | 스트리밍을 작은 배치의 연속으로 본다 | SQL·[[146_lakehouse|레이크하우스]] 친화성 높음 | 초저지연·세밀한 시간 제어는 제한적 |
 
-아래 그림은 통합 엔진이 입력 종류와 상관없이 하나의 연산 그래프를 유지하는 방식을 보여준다. 여기서 핵심 구성요소는 소스 추상화, 상태 저장소, 체크포인트, 진행도 추적(Watermark 또는 오프셋), 그리고 여러 싱크로의 일관된 결과 반영이다.
+아래 그림은 통합 엔진이 입력 종류와 상관없이 하나의 연산 [[070_graph_datastructure|그래프]]를 유지하는 방식을 보여준다. 여기서 핵심 구성요소는 소스 [[198_abstraction_control_data_process|추상화]], 상태 저장소, 체크포인트, [[216_progress_in_synchronization|진행]]도 추적([[085_watermark|Watermark]] 또는 오프셋), 그리고 여러 싱크로의 일관된 결과 반영이다.
 
 ```text
 ┌──────────────────────────────────────────────────────────────┐
@@ -69,9 +69,9 @@ categories = "studynote-bigdata"
 └──────────────────────────────────────────────────────────────┘
 ```
 
-이 모델이 성립하려면 세 가지가 필요하다. 첫째, 데이터의 진행도를 추적해야 한다. 스트리밍에서는 Watermark, 배치에서는 파일 끝 또는 입력 종료가 그 역할을 한다. 둘째, 상태를 일관되게 보존해야 한다. 조인과 집계가 많아질수록 상태 저장소와 체크포인트가 엔진의 핵심이 된다. 셋째, 실패 후 재시작 시 같은 입력에 대해 같은 의미를 재현할 수 있어야 한다.
+이 모델이 성립하려면 세 가지가 필요하다. 첫째, [[001_dikw_pyramid|데이터]]의 [[216_progress_in_synchronization|진행]]도를 추적해야 한다. 스트리밍에서는 [[085_watermark|Watermark]], 배치에서는 [[501_file_definition_logical_record|파일]] 끝 또는 입력 종료가 그 역할을 한다. 둘째, 상태를 일관되게 보존해야 한다. 조인과 집계가 많아질수록 상태 저장소와 체크포인트가 엔진의 핵심이 된다. 셋째, 실패 후 재시작 시 같은 입력에 대해 같은 의미를 재현할 수 있어야 한다.
 
-Spark Structured Streaming은 DataFrame 중심의 통합과 레이크하우스 연계에 강하고, Flink는 Event Time과 대규모 상태, Exactly-Once 복구 제어에 더 강하다. 즉 둘 다 통합 엔진이지만, 하나는 분석 친화적 통합에, 다른 하나는 스트림 원리 중심 통합에 무게가 실려 있다.
+Spark Structured Streaming은 DataFrame 중심의 통합과 [[146_lakehouse|레이크하우스]] 연계에 강하고, Flink는 Event Time과 대규모 상태, Exactly-Once [[658_ir_recovery|복구]] 제어에 더 강하다. 즉 둘 다 통합 엔진이지만, 하나는 분석 친화적 통합에, 다른 하나는 스트림 원리 중심 통합에 무게가 실려 있다.
 
 - **📢 섹션 요약 비유**: 통합 엔진은 큰 냄비와 작은 냄비를 따로 쓰는 대신, 불 세기와 조리 시간만 바꿔 같은 조리법을 재사용하는 주방 장비와 같다.
 
@@ -79,17 +79,17 @@ Spark Structured Streaming은 DataFrame 중심의 통합과 레이크하우스 �
 
 ## Ⅲ. 비교 및 연결
 
-통합 배치/스트리밍을 이해할 때는 Lambda, Kappa, Unified 세 관점을 함께 비교하는 것이 좋다. Lambda는 정확한 배치 결과와 빠른 스트리밍 결과를 분리해 얻지만, 코드와 운영이 이중화된다. Kappa는 스트리밍과 리플레이를 중심에 두어 단순화하지만, 대규모 과거 재계산과 배치 도구 연계가 늘 쉬운 것은 아니다. Unified 플랫폼은 둘의 장점을 결합하려 하지만, 엔진이 더 많은 책임을 져야 한다.
+통합 배치/스트리밍을 이해할 때는 [[216_lambda_kappa_architecture_batch_realtime|Lambda]], [[235_kappa|Kappa]], Unified 세 관점을 함께 비교하는 것이 좋다. Lambda는 정확한 배치 결과와 빠른 스트리밍 결과를 분리해 얻지만, 코드와 운영이 [[456_dual_redundancy|이중화]]된다. Kappa는 스트리밍과 리플레이를 중심에 두어 단순화하지만, 대규모 과거 재계산과 배치 도구 연계가 늘 쉬운 것은 아니다. Unified 플랫폼은 둘의 장점을 결합하려 하지만, 엔진이 더 많은 책임을 져야 한다.
 
 | 아키텍처 | 장점 | 약점 | 잘 맞는 경우 |
 | :--- | :--- | :--- | :--- |
-| Lambda Architecture | 배치 정확도와 실시간 가시성 동시 확보 | 코드 중복, 결과 불일치, 운영 복잡도 큼 | 기존 분리 조직, 레거시 전환 초기 |
-| Kappa Architecture | 스트림 중심 단순화, 리플레이 용이 | 모든 재계산을 로그 리플레이에 의존 | 이벤트 로그가 강한 조직 |
-| Unified Batch/Streaming | 같은 로직과 의미 체계 유지 | 엔진 복잡도와 상태 관리 부담 증가 | 재처리와 실시간 일관성이 모두 중요한 환경 |
+| [[095_lambda_architecture|Lambda Architecture]] | 배치 정확도와 실시간 가시성 동시 확보 | 코드 중복, 결과 불일치, 운영 복잡도 큼 | 기존 분리 조직, 레거시 전환 [[459_quic_fec_forward_error_correction|초기]] |
+| [[096_kappa_architecture|Kappa Architecture]] | 스트림 중심 단순화, 리플레이 용이 | 모든 재계산을 [[568_logs_distributed_logging_elk_fluentd|로그]] 리플레이에 의존 | 이벤트 [[568_logs_distributed_logging_elk_fluentd|로그]]가 강한 조직 |
+| Unified Batch/Streaming | 같은 로직과 의미 체계 유지 | 엔진 복잡도와 상태 관리 부담 증가 | 재처리와 실시간 [[194_consistency_database_integrity|일관성]]이 모두 중요한 환경 |
 
-엔진 선택 관점에서는 Spark와 Flink의 차이를 알아야 한다. Spark는 레이크하우스, SQL, 대규모 배치 경험을 그대로 확장하는 데 유리하고, Flink는 millisecond~sub-second 지연과 Event Time, 대형 상태, 정교한 체크포인트에 강하다. 즉 "통합"이라는 목표는 같아도, 팀의 데이터 문화가 SQL·테이블 중심인지, 이벤트·상태 중심인지에 따라 최적점이 달라진다.
+엔진 선택 관점에서는 Spark와 Flink의 차이를 알아야 한다. Spark는 [[146_lakehouse|레이크하우스]], SQL, 대규모 배치 경험을 그대로 확장하는 데 유리하고, Flink는 millisecond~sub-second [[015_지연_데이터_관점|지연]]과 Event Time, 대형 상태, 정교한 체크포인트에 강하다. 즉 "통합"이라는 목표는 같아도, 팀의 [[001_dikw_pyramid|데이터]] 문화가 SQL·테이블 중심인지, 이벤트·상태 중심인지에 따라 최적점이 달라진다.
 
-통합 플랫폼은 레이크하우스와도 깊이 연결된다. 같은 엔진으로 실시간 CDC를 적재하고, 후속 배치 모델을 계산하며, 필요하면 다시 서빙용 머티리얼라이즈드 뷰를 만들 수 있기 때문이다. 결국 Unified Batch/Streaming은 스트리밍 기술 그 자체보다, 데이터 플랫폼의 논리적 중복을 줄이기 위한 운영 전략에 가깝다.
+통합 플랫폼은 [[146_lakehouse|레이크하우스]]와도 깊이 연결된다. 같은 엔진으로 실시간 CDC를 적재하고, 후속 배치 모델을 계산하며, 필요하면 다시 서빙용 머티리얼라이즈드 뷰를 만들 수 있기 때문이다. 결국 Unified Batch/Streaming은 스트리밍 기술 그 자체보다, [[001_dikw_pyramid|데이터]] 플랫폼의 [[369_logic_bomb|논리]]적 중복을 줄이기 위한 운영 [[268_strategy_pattern|전략]]에 가깝다.
 
 - **📢 섹션 요약 비유**: Lambda가 본관 주방과 별관 주방을 따로 운영하는 방식이라면, 통합 플랫폼은 한 주방에서 낮에는 대량 조리, 밤에는 주문형 조리를 모두 처리하는 방식과 같다.
 
@@ -97,38 +97,38 @@ Spark Structured Streaming은 DataFrame 중심의 통합과 레이크하우스 �
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서는 "하나의 엔진으로 모두 처리한다"는 구호보다, 어떤 워크로드를 같은 로직으로 묶고 어떤 워크로드는 자원 격리할지 결정하는 것이 더 중요하다. 실시간 경보, 세션 분석, CDC 적재, 과거 백필이 모두 한 엔진 위에서 가능하더라도, 우선순위와 지연 요구가 다르면 클러스터와 체크포인트 정책을 분리해야 할 수 있다.
+실무에서는 "하나의 엔진으로 모두 처리한다"는 구호보다, 어떤 워크로드를 같은 로직으로 묶고 어떤 워크로드는 자원 격리할지 결정하는 것이 더 중요하다. 실시간 경보, [[160_session_controlling_terminal|세션]] 분석, [[217_cdc_binlog_change_capture_debezium|CDC]] 적재, 과거 백필이 모두 한 엔진 위에서 가능하더라도, 우선순위와 [[015_지연_데이터_관점|지연]] 요구가 다르면 클러스터와 체크포인트 [[164_policy|정책]]을 분리해야 할 수 있다.
 
 | 요구사항 | 권장 판단 | 이유 |
 | :--- | :--- | :--- |
-| 초저지연 이상 탐지 + 큰 상태 | Flink 우선 검토 | Event Time, 상태 백엔드, 체크포인트 강점 |
-| 기존 데이터레이크 / 웨어하우스 중심 조직 | Spark Structured Streaming 우선 검토 | SQL, 배치 자산, Lakehouse 연계가 쉬움 |
-| 재처리와 실시간 결과의 강한 일관성 필요 | 하나의 로직 + 결정적 함수 유지 | 배치/스트림 코드 분기를 줄여야 함 |
-| 대규모 백필이 잦음 | 같은 API를 쓰되 자원 격리 | 재처리가 온라인 지연을 잡아먹지 않게 해야 함 |
+| 초저지연 [[236_anomaly_based_detection_zero_day_false_positive|이상 탐지]] + 큰 상태 | Flink 우선 검토 | Event Time, 상태 백엔드, 체크포인트 강점 |
+| 기존 [[001_dikw_pyramid|데이터]]레이크 / 웨어하우스 중심 조직 | [[061_structured_streaming|Spark Structured Streaming]] 우선 검토 | SQL, 배치 자산, [[146_lakehouse|Lakehouse]] 연계가 쉬움 |
+| 재처리와 실시간 결과의 강한 [[194_consistency_database_integrity|일관성]] 필요 | 하나의 로직 + 결정적 함수 유지 | 배치/스트림 코드 분기를 줄여야 함 |
+| 대규모 백필이 잦음 | 같은 API를 쓰되 자원 격리 | 재처리가 온라인 [[015_지연_데이터_관점|지연]]을 잡아먹지 않게 해야 함 |
 
-실무 체크리스트는 다음과 같다.
+실무 [[435_checklist_based_testing|체크리스트]]는 다음과 같다.
 
-1. 배치와 스트리밍이 같은 스키마 계약과 같은 비즈니스 규칙을 공유하는가?
-2. unbounded 입력에는 Event Time과 Watermark 정책이 정의되어 있는가?
+1. 배치와 스트리밍이 같은 [[005_schema|스키마]] 계약과 같은 비즈니스 규칙을 공유하는가?
+2. unbounded 입력에는 Event Time과 [[085_watermark|Watermark]] [[164_policy|정책]]이 정의되어 있는가?
 3. 결과 싱크는 idempotent한가, 아니면 Exactly-Once가 필요한가?
-4. 상태 TTL (Time To Live), 컴팩션, 체크포인트 간격이 데이터량에 맞는가?
-5. 백필 작업이 실시간 Service Level Agreement (SLA)를 침해하지 않도록 큐, 슬롯, 클러스터를 분리했는가?
+4. 상태 [[294_ttl_time_to_live_looping_prevention|TTL]] ([[294_ttl_time_to_live_looping_prevention|Time To Live]]), 컴팩션, 체크포인트 간격이 [[001_dikw_pyramid|데이터]]량에 맞는가?
+5. 백필 작업이 실시간 [[085_sla|Service Level Agreement]] ([[085_sla|SLA]])를 침해하지 않도록 큐, 슬롯, 클러스터를 분리했는가?
 
-흔한 안티패턴은 통합 엔진을 도입하고도 배치용 SQL과 스트리밍용 SQL을 따로 유지하는 것이다. 또 마이크로배치를 "실시간과 완전히 동일"하다고 과신하거나, 반대로 모든 배치 재처리를 무조건 스트림 엔진 하나로 몰아넣는 것도 문제다. 통합은 논리의 통합이지, 물리 자원 격리까지 포기하라는 뜻은 아니다.
+흔한 [[128_water_scrum_fall_anti_pattern|안티패턴]]은 통합 엔진을 도입하고도 배치용 SQL과 스트리밍용 SQL을 따로 유지하는 것이다. 또 마이크로배치를 "실시간과 완전히 동일"하다고 과신하거나, 반대로 모든 배치 재처리를 무조건 스트림 엔진 하나로 몰아넣는 것도 문제다. 통합은 [[369_logic_bomb|논리]]의 통합이지, 물리 자원 격리까지 포기하라는 뜻은 아니다.
 
-기술사 답안에서는 "Lambda의 한계를 해결한다"는 설명에 그치지 말고, Spark와 Flink의 통합 방식 차이, 체크포인트와 상태 관리, Event Time과 재처리 일관성, 레이크하우스 연결성까지 제시해야 설계 판단이 드러난다.
+기술사 답안에서는 "Lambda의 한계를 해결한다"는 설명에 그치지 말고, Spark와 Flink의 통합 방식 차이, 체크포인트와 상태 관리, Event Time과 재처리 [[194_consistency_database_integrity|일관성]], [[146_lakehouse|레이크하우스]] 연결성까지 제시해야 설계 판단이 드러난다.
 
-- **📢 섹션 요약 비유**: 통합 플랫폼 실무 설계는 같은 고속도로를 쓰더라도 화물차와 응급차의 차선을 어떻게 나눌지 정하는 것과 같다. 도로는 하나여도 운영 정책은 같을 수 없다.
+- **📢 섹션 요약 비유**: 통합 플랫폼 실무 설계는 같은 고속도로를 쓰더라도 화물차와 응급차의 차선을 어떻게 나눌지 정하는 것과 같다. 도로는 하나여도 운영 [[164_policy|정책]]은 같을 수 없다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-통합 배치/스트리밍 플랫폼의 가장 큰 효과는 데이터 로직의 중복을 줄인다는 점이다. 실시간 대시보드와 야간 재계산이 같은 계산 규칙을 공유하면 결과 신뢰도가 올라가고, 장애가 나도 같은 엔진으로 다시 계산해 복구하기 쉬워진다. 또한 개발자는 별도 스트리밍 전용 코드와 배치 전용 코드를 계속 맞춰 보지 않아도 되므로 생산성이 높아진다.
+통합 배치/스트리밍 플랫폼의 가장 큰 효과는 [[001_dikw_pyramid|데이터]] 로직의 중복을 줄인다는 점이다. 실시간 대시보드와 야간 재계산이 같은 계산 규칙을 공유하면 결과 [[085_confidence_association_rule_conditional_probability|신뢰도]]가 올라가고, 장애가 나도 같은 엔진으로 다시 계산해 [[658_ir_recovery|복구]]하기 쉬워진다. 또한 개발자는 별도 스트리밍 전용 코드와 배치 전용 코드를 계속 맞춰 보지 않아도 되므로 생산성이 높아진다.
 
-그러나 한계도 있다. 상태ful 스트리밍의 복잡성, 체크포인트 비용, 늦은 데이터 처리, 엔진 운영 난도는 여전히 남는다. 또 모든 워크로드를 한 엔진 하나로 끝낼 수 있는 것은 아니며, 데이터 웨어하우스·서빙 저장소·머신러닝 피처 스토어와의 역할 분리는 계속 필요하다.
+그러나 한계도 있다. 상태ful 스트리밍의 복잡성, 체크포인트 비용, 늦은 [[001_dikw_pyramid|데이터]] 처리, 엔진 운영 난도는 여전히 남는다. 또 모든 워크로드를 한 엔진 하나로 끝낼 수 있는 것은 아니며, [[209_data_warehouse_schema_on_write|데이터 웨어하우스]]·서빙 저장소·[[241_machine_learning_basics|머신러닝]] [[165_feature_store_training_serving_consistency|피처 스토어]]와의 역할 분리는 계속 필요하다.
 
-결론적으로 기억해야 할 핵심은 "통합"이 곧 "단일 물리 시스템"을 뜻하지는 않는다는 점이다. 진짜 통합은 bounded와 unbounded 데이터를 같은 의미 체계, 같은 로직, 같은 품질 기준으로 다루는 것이다. Spark든 Flink든 이 관점을 유지할 때 비로소 배치와 스트리밍의 경계 비용이 줄어든다.
+결론적으로 기억해야 할 핵심은 "통합"이 곧 "단일 물리 시스템"을 뜻하지는 않는다는 점이다. 진짜 통합은 bounded와 unbounded [[001_dikw_pyramid|데이터]]를 같은 의미 체계, 같은 로직, 같은 품질 기준으로 다루는 것이다. Spark든 Flink든 이 관점을 유지할 때 비로소 배치와 스트리밍의 경계 비용이 줄어든다.
 
 - **📢 섹션 요약 비유**: 통합 플랫폼은 하나의 악보로 연습과 공연을 모두 치르는 오케스트라와 같다. 연주 환경은 달라도, 곡의 구조와 해석은 같아야 음악이 흔들리지 않는다.
 
@@ -138,13 +138,13 @@ Spark Structured Streaming은 DataFrame 중심의 통합과 레이크하우스 �
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| Lambda Architecture | 통합 플랫폼이 줄이려는 이중 코드·이중 운영의 출발점 |
-| Kappa Architecture | 스트림과 리플레이 중심으로 단순화한 대안적 관점 |
-| Event Time / Watermark | unbounded 입력의 시간 진행을 정의하는 핵심 규칙 |
-| Checkpoint | 상태ful 연산을 실패 후에도 재현 가능하게 만드는 복구 장치 |
-| State Store | 조인·윈도우·집계 결과를 유지하는 엔진 내부 저장 계층 |
-| Lakehouse | 배치 재처리와 스트리밍 적재가 만나는 저장 기반 |
-| CDC (Change Data Capture) | 실시간 변경 이벤트를 통합 엔진으로 흘려 보내는 대표 입력 |
+| [[095_lambda_architecture|Lambda Architecture]] | 통합 플랫폼이 줄이려는 이중 코드·이중 운영의 출발점 |
+| [[096_kappa_architecture|Kappa Architecture]] | 스트림과 리플레이 중심으로 단순화한 대안적 관점 |
+| Event Time / [[085_watermark|Watermark]] | unbounded 입력의 시간 [[216_progress_in_synchronization|진행]]을 정의하는 핵심 규칙 |
+| Checkpoint | 상태ful 연산을 실패 후에도 재현 가능하게 만드는 [[658_ir_recovery|복구]] 장치 |
+| [[272_state_pattern|State]] Store | 조인·윈도우·집계 결과를 유지하는 엔진 내부 저장 계층 |
+| [[146_lakehouse|Lakehouse]] | 배치 재처리와 스트리밍 적재가 만나는 저장 기반 |
+| [[217_cdc_binlog_change_capture_debezium|CDC]] ([[217_cdc_binlog_change_capture_debezium|Change Data Capture]]) | 실시간 변경 이벤트를 통합 엔진으로 흘려 보내는 대표 입력 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -164,7 +164,7 @@ One Logic / One State Model
 Backfill + Realtime Serving + Lakehouse 연계
 ```
 
-이 흐름은 단순 배치와 단순 스트리밍의 병행 운영에서, 같은 의미 체계 위의 통합 데이터 플랫폼으로 진화하는 방향을 보여준다.
+이 흐름은 단순 배치와 단순 스트리밍의 병행 운영에서, 같은 의미 체계 위의 통합 [[001_dikw_pyramid|데이터]] 플랫폼으로 진화하는 방향을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

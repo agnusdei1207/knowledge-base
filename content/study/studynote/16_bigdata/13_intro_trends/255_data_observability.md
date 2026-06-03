@@ -7,13 +7,13 @@ categories = "studynote-bigdata"
 +++
 
 > **핵심 인사이트**
-> 1. 데이터 옵저버빌리티(Data Observability)는 파이프라인을 통해 흐르는 데이터의 상태를 실시간으로 감지·모니터링하는 능력으로 — 신선도(Freshness), 분포(Distribution), 볼륨(Volume), 스키마(Schema), 계보(Lineage) 5대 기둥으로 구성되며, 데이터 품질 이슈가 비즈니스에 도달하기 전에 사전 탐지한다.
-> 2. 데이터 다운타임(Data Downtime)은 데이터 파이프라인 오류나 품질 저하로 분석/ML 모델이 오염된 데이터를 사용하게 되는 상태를 말하며 — 조직의 79%가 경험하지만 평균 발견 시간이 9시간 이상이라는 연구 결과는, 사후 탐지보다 실시간 옵저버빌리티 체계가 필수임을 보여준다.
-> 3. Monte Carlo(오픈소스 아님, SaaS), Great Expectations(오픈소스), Soda Core(오픈소스)는 데이터 옵저버빌리티 도구의 대표 주자이며 — DataOps/MLOps 환경에서 데이터 계약(Data Contract)과 결합될 때 데이터 품질 SLA(Service Level Agreement)를 코드로 관리하는 "데이터 신뢰성 엔지니어링"으로 발전한다.
+> 1. [[001_dikw_pyramid|데이터]] [[642_observability_telemetry|옵저버빌리티]]([[001_dikw_pyramid|Data]] [[642_observability_telemetry|Observability]])는 [[123_pipe|파이프]]라인을 통해 흐르는 [[001_dikw_pyramid|데이터]]의 상태를 실시간으로 감지·[[229_monitor|모니터]]링하는 능력으로 — 신선도(Freshness), 분포(Distribution), 볼륨([[001_bigdata_3v_5v|Volume]]), [[005_schema|스키마]]([[505_schema|Schema]]), 계보(Lineage) 5대 기둥으로 구성되며, [[001_dikw_pyramid|데이터]] 품질 이슈가 비즈니스에 도달하기 전에 사전 탐지한다.
+> 2. [[001_dikw_pyramid|데이터]] 다운타임([[001_dikw_pyramid|Data]] Downtime)은 [[645_data_pipeline_acceleration|데이터 파이프라인]] 오류나 품질 저하로 분석/ML 모델이 오염된 [[001_dikw_pyramid|데이터]]를 사용하게 되는 상태를 말하며 — 조직의 79%가 경험하지만 평균 발견 시간이 9시간 이상이라는 연구 결과는, 사후 탐지보다 실시간 [[642_observability_telemetry|옵저버빌리티]] 체계가 필수임을 보여준다.
+> 3. Monte Carlo([[191_oss_license_compliance|오픈소스]] 아님, [[309_saas|SaaS]]), Great Expectations([[191_oss_license_compliance|오픈소스]]), Soda Core([[191_oss_license_compliance|오픈소스]])는 [[001_dikw_pyramid|데이터]] [[642_observability_telemetry|옵저버빌리티]] 도구의 대표 주자이며 — [[324_dataops|DataOps]]/[[348_mlops|MLOps]] 환경에서 [[236_data_contract|데이터 계약]]([[236_data_contract|Data Contract]])과 결합될 때 [[001_dikw_pyramid|데이터]] 품질 [[085_sla|SLA]]([[085_sla|Service Level Agreement]])를 코드로 관리하는 "[[001_dikw_pyramid|데이터]] [[642_reliability_mtbf_mttr_mttf_availability|신뢰성]] 엔지니어링"으로 발전한다.
 
 ---
 
-## Ⅰ. 데이터 옵저버빌리티 개념
+## Ⅰ. [[001_dikw_pyramid|데이터]] [[642_observability_telemetry|옵저버빌리티]] 개념
 
 ```
 데이터 옵저버빌리티 (Data Observability):
@@ -44,7 +44,7 @@ categories = "studynote-bigdata"
   5. 계보 (Lineage): 이 데이터는 어디서 왔는가?
 ```
 
-> 📢 **섹션 요약 비유**: 데이터 옵저버빌리티는 데이터 건강검진 — 혈압(볼륨), 체온(신선도), 혈액 성분(분포), 신분증(스키마), 가족력(계보)을 매시간 자동 체크하는 데이터 건강 모니터링.
+> 📢 **섹션 요약 비유**: [[001_dikw_pyramid|데이터]] [[642_observability_telemetry|옵저버빌리티]]는 [[001_dikw_pyramid|데이터]] 건강검진 — 혈압(볼륨), 체온(신선도), 혈액 성분(분포), 신분증([[005_schema|스키마]]), 가족력(계보)을 매시간 자동 체크하는 [[001_dikw_pyramid|데이터]] 건강 [[229_monitor|모니터]]링.
 
 ---
 
@@ -116,7 +116,7 @@ categories = "studynote-bigdata"
    → 계보 추적: Tableau 대시보드까지 영향 자동 알림
 ```
 
-> 📢 **섹션 요약 비유**: 5대 기둥은 데이터 상태 검침표 — 신선도=유통기한, 분포=영양성분, 볼륨=무게, 스키마=원재료, 계보=원산지. 5가지 모두 정상이면 "데이터 안전 확인!"
+> 📢 **섹션 요약 비유**: 5대 기둥은 [[001_dikw_pyramid|데이터]] 상태 검침표 — 신선도=유통기한, 분포=영양성분, 볼륨=무게, [[005_schema|스키마]]=원재료, 계보=원산지. 5가지 모두 정상이면 "[[001_dikw_pyramid|데이터]] 안전 [[396_validation|확인]]!"
 
 ---
 
@@ -179,7 +179,7 @@ categories = "studynote-bigdata"
 
 ---
 
-## Ⅳ. 데이터 계약
+## Ⅳ. [[236_data_contract|데이터 계약]]
 
 ```
 데이터 계약 (Data Contract):
@@ -226,11 +226,11 @@ categories = "studynote-bigdata"
   조직: 데이터 신뢰성 SLA 가시화
 ```
 
-> 📢 **섹션 요약 비유**: 데이터 계약은 데이터 배달 약속 — "이 데이터는 매 시간 갱신하고, NULL은 없고, 레코드 수는 최소 1만건". 공급자가 약속을 어기면 자동으로 알람이 울려요.
+> 📢 **섹션 요약 비유**: [[236_data_contract|데이터 계약]]은 [[001_dikw_pyramid|데이터]] 배달 약속 — "이 [[001_dikw_pyramid|데이터]]는 매 시간 갱신하고, NULL은 없고, 레코드 수는 최소 1만건". 공급자가 약속을 어기면 자동으로 알람이 울려요.
 
 ---
 
-## Ⅴ. 실무 시나리오 — ML 모델 데이터 모니터링
+## Ⅴ. 실무 시나리오 — ML 모델 [[001_dikw_pyramid|데이터]] [[229_monitor|모니터]]링
 
 ```
 E커머스 추천 ML 모델 데이터 파이프라인 모니터링:
@@ -277,7 +277,7 @@ E커머스 추천 ML 모델 데이터 파이프라인 모니터링:
   ROI: 추천 수익 손실 방지 (약 $10만)
 ```
 
-> 📢 **섹션 요약 비유**: ML 파이프라인 옵저버빌리티는 자동 식품 검사 — 오염된 재료(NULL 데이터)가 요리(ML 모델)에 들어가기 전에 입구에서 자동 탐지. 손님(사용자)에게 나쁜 음식이 가지 않도록!
+> 📢 **섹션 요약 비유**: ML [[123_pipe|파이프]]라인 [[642_observability_telemetry|옵저버빌리티]]는 자동 식품 검사 — 오염된 재료(NULL [[001_dikw_pyramid|데이터]])가 요리(ML 모델)에 들어가기 전에 입구에서 자동 탐지. 손님(사용자)에게 나쁜 음식이 가지 않도록!
 
 ---
 
@@ -338,6 +338,6 @@ MLOps 파이프라인 통합
 
 ## 👶 어린이를 위한 3줄 비유 설명
 
-1. 데이터 옵저버빌리티는 데이터 건강검진 — 혈압(볼륨), 체온(신선도), 혈액 성분(분포)을 매 시간 자동으로 재주는 의료 시스템!
-2. 5대 기둥 — 신선도·분포·볼륨·스키마·계보를 항상 체크하면 "데이터가 어디서 와서 어떤 상태인지" 다 알 수 있어요.
-3. 이상이 생기면 즉시 알람 — 오염된 데이터가 ML 모델이나 대시보드로 가기 전에 자동으로 잡아줘요!
+1. [[001_dikw_pyramid|데이터]] [[642_observability_telemetry|옵저버빌리티]]는 [[001_dikw_pyramid|데이터]] 건강검진 — 혈압(볼륨), 체온(신선도), 혈액 성분(분포)을 매 시간 자동으로 재주는 의료 시스템!
+2. 5대 기둥 — 신선도·분포·볼륨·[[005_schema|스키마]]·계보를 항상 체크하면 "[[001_dikw_pyramid|데이터]]가 어디서 와서 어떤 상태인지" 다 알 수 있어요.
+3. 이상이 생기면 즉시 알람 — 오염된 [[001_dikw_pyramid|데이터]]가 ML 모델이나 대시보드로 가기 전에 자동으로 잡아줘요!

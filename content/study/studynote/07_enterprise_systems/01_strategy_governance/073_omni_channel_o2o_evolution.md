@@ -5,9 +5,9 @@ weight = 73
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 옴니채널은 모든 접점에서 하나의 고객 경험을 제공하는 전략이다.
+> 1. **본질**: 옴니채널은 모든 접점에서 하나의 고객 경험을 제공하는 [[268_strategy_pattern|전략]]이다.
 > 2. **가치**: 채널 간 끊김을 줄여 고객 만족과 전환율을 높인다.
-> 3. **판단**: 멀티채널보다 통합된 데이터와 운영이 중요하다.
+> 3. **판단**: 멀티채널보다 통합된 [[001_dikw_pyramid|데이터]]와 운영이 중요하다.
 
 ---
 
@@ -32,8 +32,8 @@ Customer Experience
 | 요소 | 의미 |
 | :-- | :-- |
 | Channel Integration | 통합 |
-| Consistency | 일관성 |
-| Data Sync | 데이터 동기화 |
+| [[194_consistency_database_integrity|Consistency]] | [[194_consistency_database_integrity|일관성]] |
+| [[001_dikw_pyramid|Data]] Sync | [[001_dikw_pyramid|데이터]] [[212_synchronization_mechanisms|동기화]] |
 
 옴니채널은 모든 접점을 하나의 여정으로 연결한다.
 
@@ -47,12 +47,12 @@ Customer Experience
 | :-- | :-- | :-- |
 | 채널 | 여러 개 | 통합 |
 | 경험 | 분리 | 일관 |
-| 데이터 | 분산 | 공유 |
+| [[001_dikw_pyramid|데이터]] | [[136_variance|분산]] | 공유 |
 
 | 연관 | 의미 |
 | :-- | :-- |
-| O2O | 온오프 연계 |
-| DX | 디지털 전환 |
+| [[139_o2o_online_to_offline_platform|O2O]] | 온오프 연계 |
+| [[726_platform_engineering_idp_dx|DX]] | [[055_digital_transformation|디지털 전환]] |
 
 옴니채널은 단순 채널 추가가 아니라 고객 여정을 통합하는 것이다.
 
@@ -62,22 +62,22 @@ Customer Experience
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### 체크리스트
+### [[435_checklist_based_testing|체크리스트]]
 
-1. 채널 데이터가 통합되는가?
-2. 고객 식별이 일관적인가?
+1. 채널 [[001_dikw_pyramid|데이터]]가 통합되는가?
+2. 고객 [[655_ir_detection_analysis|식별]]이 일관적인가?
 3. 경험이 끊기지 않는가?
-4. 운영 정책이 통합되는가?
+4. 운영 [[164_policy|정책]]이 통합되는가?
 5. O2O를 넘어서는가?
 
-### 안티패턴
+### [[128_water_scrum_fall_anti_pattern|안티패턴]]
 
 - 채널만 늘리는 설계
-- 데이터가 분리된 설계
+- [[001_dikw_pyramid|데이터]]가 분리된 설계
 - 고객 경험이 끊기는 설계
 - 통합 없이 마케팅만 하는 설계
 
-기술사 관점에서는 옴니채널을 "채널 통합 기반 고객 경험 전략"으로 설명해야 한다.
+기술사 관점에서는 옴니채널을 "채널 통합 기반 고객 경험 [[268_strategy_pattern|전략]]"으로 설명해야 한다.
 
 - **📢 섹션 요약 비유**: 어느 문으로 와도 같은 집처럼 느껴지게 한다.
 
@@ -87,7 +87,7 @@ Customer Experience
 
 옴니채널은 고객 경험과 전환을 높인다.
 
-결론적으로 옴니채널은 모든 채널을 통합해 일관된 경험을 주는 전략이다.
+결론적으로 옴니채널은 모든 채널을 통합해 일관된 경험을 주는 [[268_strategy_pattern|전략]]이다.
 
 - **📢 섹션 요약 비유**: 어디서 와도 같은 친절을 받는 것이다.
 
@@ -121,4 +121,4 @@ Customer Journey
 
 어디로 와도 같아요.  
 기분 좋은 경험이 이어져요.  
-옴니채널은 그런 전략이에요.
+옴니채널은 그런 [[268_strategy_pattern|전략]]이에요.

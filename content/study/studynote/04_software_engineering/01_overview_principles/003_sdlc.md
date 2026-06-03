@@ -8,18 +8,18 @@ categories = ["Software Engineering"]
 tags = ["SDLC", "요구사항 분석", "시스템 설계", "구현 및 테스트", "유지보수"]
 +++
 
-# 소프트웨어 생명주기 (SDLC, Software Development Life Cycle)
+# 소프트웨어 생명주기 ([[131_sdlc_system_development_life_cycle_waterfall_agile|SDLC]], Software Development Life Cycle)
 #### 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 소프트웨어의 탄생(요구사항 수집)부터 폐기까지의 전 과정을 규격화하여, 예측 가능하고 통제 가능한 단계로 분할한 표준 프레임워크.
-> 2. **가치**: 대규모 프로젝트에서 각 단계별 산출물과 검증 지점을 명확히 함으로써, 품질 저하를 예방하고 비용/일정의 가시성을 확보함.
-> 3. **융합**: SDLC는 개발 방법론(폭포수, 애자일)의 뼈대가 되며, 최근에는 보안을 내재화한 SSDLC(Secure SDLC) 및 DevOps 파이프라인과 완벽히 융합됨.
+> 2. **가치**: 대규모 프로젝트에서 각 단계별 산출물과 [[395_verification_process_review|검증]] 지점을 명확히 함으로써, 품질 저하를 예방하고 비용/일정의 가시성을 확보함.
+> 3. **융합**: SDLC는 개발 방법론(폭포수, [[004_agile_relation|애자일]])의 뼈대가 되며, 최근에는 보안을 내재화한 SSDLC([[471_secure_sdlc|Secure SDLC]]) 및 [[652_devops_calms_culture|DevOps]] 파이프라인과 완벽히 융합됨.
 
 ---
 
-### Ⅰ. 개요 및 필요성 (Context & Necessity)
-소프트웨어 생명주기 (SDLC, Software Development Life Cycle)는 소프트웨어를 개발, 배포, 유지보수하는 전 과정을 체계적으로 분할한 프로세스 프레임워크다. 이는 단순히 순서를 정하는 것을 넘어, 각 단계에서 '누가, 무엇을, 언제, 어떻게' 수행하고 검증해야 하는지를 규정한다.
+### Ⅰ. 개요 및 필요성 ([[033_context|Context]] & Necessity)
+소프트웨어 생명주기 ([[131_sdlc_system_development_life_cycle_waterfall_agile|SDLC]], Software Development Life Cycle)는 소프트웨어를 개발, 배포, 유지보수하는 전 과정을 체계적으로 분할한 프로세스 프레임워크다. 이는 단순히 순서를 정하는 것을 넘어, 각 단계에서 '누가, 무엇을, 언제, 어떻게' 수행하고 [[395_verification_process_review|검증]]해야 하는지를 규정한다.
 
-과거에는 요구사항이 명확하지 않은 상태에서 곧바로 코딩(Code and Fix)에 돌입하는 경우가 많았다. 이로 인해 후반부 테스트 단계나 운영 환경에서 치명적인 설계 결함이 발견되었고, 이를 수정하기 위한 재작업 비용이 기하급수적으로 증가했다. 이러한 구조적 한계를 극복하기 위해, SDLC는 '설계 없는 구현'을 방지하고 각 단계마다 명확한 베이스라인(Baseline)을 설정하여 다음 단계로 넘어갈 수 있도록 통제하는 장치로써 반드시 필요해졌다.
+과거에는 요구사항이 명확하지 않은 상태에서 곧바로 코딩([[082_process_memory_structure|Code]] and Fix)에 돌입하는 경우가 많았다. 이로 인해 후반부 테스트 단계나 운영 환경에서 치명적인 설계 [[352_defect_definition|결함]]이 발견되었고, 이를 수정하기 위한 재작업 비용이 기하급수적으로 증가했다. 이러한 구조적 한계를 극복하기 위해, SDLC는 '설계 없는 구현'을 방지하고 각 단계마다 명확한 [[159_baseline_requirements_configuration_management|베이스라인]]([[025_baseline|Baseline]])을 설정하여 다음 단계로 넘어갈 수 있도록 통제하는 장치로써 반드시 필요해졌다.
 
 > 💡 **비유**: 건물을 지을 때 설계도면 없이 벽돌부터 쌓지 않고, 기획안 승인 → 조감도 작성 → 골조 공사 → 내부 인테리어 → 준공 검사의 순서를 엄격히 따르는 건설 공정과 같다.
 
@@ -32,20 +32,20 @@ tags = ["SDLC", "요구사항 분석", "시스템 설계", "구현 및 테스트
             * 병목: 아키텍처 부재로 인한 수정 비용 무한 증식
 ```
 **[도식 설명]**
-이 도식은 SDLC가 부재한 상태에서의 'Code and Fix' 안티패턴을 보여준다. 명확한 분석과 설계 단계가 없기 때문에 초기에는 빠르게 진행되는 것처럼 보이지만, 운영 환경에서 발견된 아키텍처 결함을 땜질식으로 수정하면서 시스템이 급격히 스파게티 코드로 전락하는 병목을 겪게 된다.
+이 도식은 SDLC가 부재한 상태에서의 '[[082_process_memory_structure|Code]] and Fix' 안티패턴을 보여준다. 명확한 분석과 설계 단계가 없기 때문에 [[459_quic_fec_forward_error_correction|초기]]에는 빠르게 [[216_progress_in_synchronization|진행]]되는 것처럼 보이지만, 운영 환경에서 발견된 아키텍처 [[352_defect_definition|결함]]을 땜질식으로 수정하면서 시스템이 급격히 스파게티 코드로 전락하는 병목을 겪게 된다.
 
 📢 **섹션 요약 비유**: SDLC는 아무 길이나 먼저 가고 보는 막무가내 탐험가에게, 정확한 나침반과 목적지별 체크포인트를 제공하는 정밀한 항해 지도와 같습니다.
 
 ### Ⅱ. 아키텍처 및 핵심 원리 (Deep Dive)
-SDLC는 일반적으로 요구사항 분석, 설계, 구현, 테스트, 유지보수의 5~6단계로 구성된다. 각 단계는 이전 단계의 산출물을 입력으로 받아 가공한 후, 다음 단계의 입력으로 전달하는 데이터 흐름을 갖는다.
+SDLC는 일반적으로 요구사항 분석, 설계, 구현, 테스트, 유지보수의 5~6단계로 구성된다. 각 단계는 이전 단계의 산출물을 입력으로 받아 가공한 후, 다음 단계의 입력으로 전달하는 [[001_dikw_pyramid|데이터]] 흐름을 갖는다.
 
 | 구성 요소 | 역할 | 핵심 산출물 및 기법 | 비유 |
 |:---|:---|:---|:---|
-| **1. 요구사항 분석** | 사용자의 'What(무엇을)'을 정의하고 제약 조건을 식별 | 요구사항 명세서 (SRS), Use Case 도출 | 고객의 주문서 작성 |
-| **2. 시스템 설계** | 'How(어떻게)' 구현할지 구조와 알고리즘, DB를 설계 | 아키텍처 다이어그램, ERD, API 명세서 | 건축 설계도 작성 |
-| **3. 구현 (Coding)** | 설계도를 바탕으로 실제 작동하는 소스 코드를 작성 | 소스 코드, 모듈별 단위 테스트 코드 | 시멘트 붓고 벽돌 쌓기 |
-| **4. 테스트 (Test)** | 요구사항과 일치하는지, 결함이 없는지 검증 | 테스트 케이스, 결함 보고서, 통합 테스트 | 안전 점검 및 품질 검사 |
-| **5. 유지보수 (Maintenance)** | 운영 환경에서 발생하는 버그 수정 및 환경 변화 적응 | 패치 파일, 버전 릴리즈 노트 | 건물 입주 후 보수 공사 |
+| **1. 요구사항 분석** | 사용자의 'What(무엇을)'을 정의하고 제약 조건을 [[655_ir_detection_analysis|식별]] | 요구사항 명세서 (SRS), Use Case 도출 | 고객의 주문서 작성 |
+| **2. 시스템 설계** | 'How(어떻게)' 구현할지 구조와 [[001_algorithm_definition|알고리즘]], DB를 설계 | 아키텍처 다이어그램, ERD, [[014_api_posix|API]] 명세서 | 건축 설계도 작성 |
+| **3. 구현 (Coding)** | 설계도를 바탕으로 실제 작동하는 소스 코드를 작성 | 소스 코드, 모듈별 [[397_unit_test|단위 테스트]] 코드 | 시멘트 붓고 벽돌 쌓기 |
+| **4. 테스트 (Test)** | 요구사항과 일치하는지, [[352_defect_definition|결함]]이 없는지 [[395_verification_process_review|검증]] | [[441_test_case|테스트 케이스]], [[352_defect_definition|결함]] 보고서, [[400_integration_testing|통합 테스트]] | 안전 점검 및 품질 검사 |
+| **5. 유지보수 (Maintenance)** | 운영 환경에서 발생하는 버그 수정 및 환경 변화 적응 | 패치 [[501_file_definition_logical_record|파일]], [[288_version_ihl_tos_total_length|버전]] 릴리즈 노트 | 건물 입주 후 보수 공사 |
 
 ```text
 [SDLC의 선형적 데이터 흐름 및 검증 피드백 루프]
@@ -65,20 +65,20 @@ SDLC는 일반적으로 요구사항 분석, 설계, 구현, 테스트, 유지�
                                                               [운영/유지보수]
 ```
 **[도식 설명]**
-이 도식은 전형적인 SDLC의 진행 흐름과 역방향의 '피드백 루프(Feedback Loop)'를 보여준다. 이상적으로는 데이터가 위에서 아래로 물 흐르듯 전달되어야 하지만, 현실에서는 테스트 단계에서 결함이 발견되면 다시 이전 단계(심지어 요구 분석 단계까지)로 거슬러 올라가야 한다. 여기서 핵심 병목은 '결함 발견 시점이 늦을수록 피드백 루프의 반경이 커지고 수정 비용이 지수 함수적으로 폭증한다'는 점이다.
+이 도식은 전형적인 SDLC의 [[216_progress_in_synchronization|진행]] 흐름과 역방향의 '[[005_feedback_loop|피드백 루프]]([[005_feedback_loop|Feedback Loop]])'를 보여준다. 이상적으로는 [[001_dikw_pyramid|데이터]]가 위에서 아래로 물 흐르듯 전달되어야 하지만, 현실에서는 테스트 단계에서 [[352_defect_definition|결함]]이 발견되면 다시 이전 단계(심지어 요구 분석 단계까지)로 거슬러 올라가야 한다. 여기서 핵심 병목은 '[[352_defect_definition|결함]] 발견 시점이 늦을수록 [[005_feedback_loop|피드백 루프]]의 반경이 커지고 수정 비용이 지수 함수적으로 폭증한다'는 점이다.
 
-이를 방지하기 위해 각 단계 완료 시점에 철저한 동료 검토(Peer Review)나 인스펙션(Inspection)을 수행하여 베이스라인(Baseline)을 확립하는 것이 SDLC 운영의 핵심 원리다.
+이를 방지하기 위해 각 단계 완료 시점에 철저한 [[163_peer_review|동료 검토]]([[163_peer_review|Peer Review]])나 [[161_inspection_formal_review|인스펙션]](Inspection)을 수행하여 [[159_baseline_requirements_configuration_management|베이스라인]]([[025_baseline|Baseline]])을 확립하는 것이 [[131_sdlc_system_development_life_cycle_waterfall_agile|SDLC]] 운영의 핵심 원리다.
 
 📢 **섹션 요약 비유**: 이는 마치 컨베이어 벨트를 따라 부품이 조립되면서 다음 단계로 넘어가고, 불량품이 발견되면 즉시 라인을 멈추고 원인을 찾아내는 체계적인 공장 조립 라인과 같습니다.
 
 ### Ⅲ. 융합 비교 및 다각도 분석 (Comparison & Synergy)
-SDLC는 프로젝트의 특성(불확실성, 규모)에 따라 폭포수, 나선형, 애자일 등 다양한 프로세스 모델로 파생된다.
+SDLC는 프로젝트의 특성(불확실성, 규모)에 따라 폭포수, 나선형, [[004_agile_relation|애자일]] 등 다양한 프로세스 모델로 파생된다.
 
-| 비교 항목 | 폭포수 (Waterfall) 모델 | 애자일 (Agile) 모델 | 판단 포인트 |
+| 비교 항목 | 폭포수 (Waterfall) 모델 | [[004_agile_relation|애자일]] ([[004_agile_relation|Agile]]) 모델 | 판단 포인트 |
 |:---|:---|:---|:---|
-| **SDLC 진행 방식** | 단 1회의 거대한 주기 (순차적) | 짧은 SDLC 주기의 무한 반복 (반복적) | 프로젝트 요구사항의 변동성 |
-| **산출물 중심** | 상세한 문서(Document) 중심 | 동작하는 소프트웨어 중심 | 컴플라이언스 및 규제 요구 수준 |
-| **위험 관리** | 초기 분석에 모든 것을 기름 | 스프린트 단위 피드백으로 위험 분산 | 신기술 적용 등 불확실성 수준 |
+| **[[131_sdlc_system_development_life_cycle_waterfall_agile|SDLC]] [[216_progress_in_synchronization|진행]] 방식** | 단 1회의 거대한 주기 (순차적) | 짧은 [[131_sdlc_system_development_life_cycle_waterfall_agile|SDLC]] 주기의 무한 반복 (반복적) | 프로젝트 요구사항의 변동성 |
+| **산출물 중심** | 상세한 문서([[037_document|Document]]) 중심 | 동작하는 소프트웨어 중심 | 컴플라이언스 및 규제 요구 수준 |
+| **위험 관리** | [[459_quic_fec_forward_error_correction|초기]] 분석에 모든 것을 기름 | [[067_sprint_timebox|스프린트]] 단위 피드백으로 위험 [[136_variance|분산]] | 신기술 적용 등 불확실성 수준 |
 
 ```text
 [SDLC 모델 선택을 위한 트레이드오프 매트릭스]
@@ -93,22 +93,22 @@ SDLC는 프로젝트의 특성(불확실성, 규모)에 따라 폭포수, 나선
       명확함 ◄── (요구사항) ──► 불명확함
 ```
 **[도식 설명]**
-이 매트릭스는 프로젝트가 처한 상황(위험도와 요구사항의 명확성)에 따라 어떤 SDLC 모델을 적용해야 하는지를 보여주는 의사결정 도구다. 요구사항이 명확하고 위험이 낮다면 고전적인 폭포수 모델이 효율적이지만, 요구사항이 계속 변하고 기술적 위험이 높다면 애자일이나 나선형 모델을 채택해야 한다. 실무에서 가장 큰 재앙은 우상단(요구 불명확, 위험 높음) 프로젝트에 폭포수 모델을 강제 적용할 때 발생한다.
+이 매트릭스는 프로젝트가 처한 상황(위험도와 요구사항의 명확성)에 따라 어떤 [[131_sdlc_system_development_life_cycle_waterfall_agile|SDLC]] 모델을 적용해야 하는지를 보여주는 의사결정 도구다. 요구사항이 명확하고 위험이 낮다면 고전적인 [[004_waterfall_model|폭포수 모델]]이 효율적이지만, 요구사항이 계속 변하고 기술적 위험이 높다면 [[004_agile_relation|애자일]]이나 나선형 모델을 채택해야 한다. 실무에서 가장 큰 재앙은 우상단(요구 불명확, 위험 높음) 프로젝트에 [[004_waterfall_model|폭포수 모델]]을 강제 적용할 때 발생한다.
 
-📢 **섹션 요약 비유**: 목적지가 확정된 고속도로 주행(폭포수)에는 크루즈 컨트롤이 좋지만, 어디서 적이 나타날지 모르는 오프로드(애자일)에서는 사륜구동과 운전자의 기민한 핸들링이 필요한 것과 같습니다.
+📢 **섹션 요약 비유**: 목적지가 확정된 고속도로 주행(폭포수)에는 크루즈 컨트롤이 좋지만, 어디서 적이 나타날지 모르는 오프로드([[004_agile_relation|애자일]])에서는 사륜구동과 운전자의 기민한 핸들링이 필요한 것과 같습니다.
 
-### Ⅳ. 실무 적용 및 기술사적 판단 (Strategy & Decision)
+### Ⅳ. 실무 적용 및 기술사적 판단 ([[268_strategy_pattern|Strategy]] & Decision)
 SDLC를 실무에 적용할 때 가장 주의해야 할 점은 문서 작업 자체에 매몰되어 정작 소프트웨어의 질을 떨어뜨리는 '형식주의'를 경계하는 것이다.
 
 - **실무 시나리오**: 금융권 차세대 시스템 구축
   - 상황: 금융 규제로 인해 수천 페이지의 요구사항 명세서와 설계 문서가 요구되는 폭포수 기반의 SDLC를 강제받고 있음. 그러나 실제 개발 돌입 시 최신 클라우드 환경과의 불일치 발생.
-  - 의사결정: 전체 큰 틀은 폭포수 SDLC를 유지(문서 베이스라인 확보)하되, 구현 단계 내부에서는 애자일 스프린트를 도입하여 핵심 모듈을 반복적으로 검증하는 '하이브리드 SDLC(Water-Scrum-Fall)' 전략을 채택함.
+  - 의사결정: 전체 큰 틀은 폭포수 SDLC를 유지(문서 [[159_baseline_requirements_configuration_management|베이스라인]] 확보)하되, 구현 단계 내부에서는 [[004_agile_relation|애자일]] [[067_sprint_timebox|스프린트]]를 도입하여 핵심 모듈을 반복적으로 [[395_verification_process_review|검증]]하는 '하이브리드 [[131_sdlc_system_development_life_cycle_waterfall_agile|SDLC]]([[128_water_scrum_fall_anti_pattern|Water-Scrum-Fall]])' 전략을 채택함.
 
-| 도입 체크리스트 (운영/보안) | 판단 기준 |
+| 도입 [[435_checklist_based_testing|체크리스트]] (운영/보안) | 판단 기준 |
 |:---|:---|
-| **보안 내재화 (SSDLC)** | 요구사항 분석 단계부터 보안 위협 모델링(Threat Modeling)을 수행하는가? |
-| **베이스라인 통제** | 각 단계가 끝날 때마다 형상 관리 위원회(CCB)의 승인을 거치는가? |
-| **추적성 확보** | 테스트 케이스가 본래의 요구사항 ID와 완벽하게 맵핑(추적 매트릭스)되는가? |
+| **보안 내재화 (SSDLC)** | 요구사항 분석 단계부터 보안 [[611_threat_modeling|위협 모델링]]([[611_threat_modeling|Threat Modeling]])을 수행하는가? |
+| **[[159_baseline_requirements_configuration_management|베이스라인]] 통제** | 각 단계가 끝날 때마다 [[020_software_configuration_management|형상 관리]] 위원회([[160_change_control_board_ccb_requirements_review|CCB]])의 승인을 거치는가? |
+| **추적성 확보** | [[441_test_case|테스트 케이스]]가 본래의 요구사항 ID와 완벽하게 맵핑(추적 매트릭스)되는가? |
 
 ```text
 [보안이 융합된 실무 SSDLC (Secure SDLC) 흐름도]
@@ -120,31 +120,31 @@ SDLC를 실무에 적용할 때 가장 주의해야 할 점은 문서 작업 자
 (STRIDE)    (아키텍처)  (SAST)     (DAST)      (Patch)
 ```
 **[도식 설명]**
-이 흐름도는 전통적인 SDLC의 각 단계 하단에 보안 활동이 1:1로 결합된 SSDLC(보안 내재화 생명주기)를 보여준다. 과거에는 운영 단계 직전에 모의해킹만 수행했으나, 이는 병목과 엄청난 재작업을 유발한다. 따라서 설계 단계부터 위협 모델링(STRIDE 등)을 수행하고, 구현 시 SAST(정적 분석)를 자동화하여 취약점 발생을 원천 차단하는 'Shift-Left' 전략이 최신 실무의 핵심이다.
+이 흐름도는 전통적인 SDLC의 각 단계 하단에 보안 활동이 1:1로 결합된 SSDLC(보안 내재화 생명주기)를 보여준다. 과거에는 운영 단계 직전에 모의해킹만 수행했으나, 이는 병목과 엄청난 재작업을 유발한다. 따라서 설계 단계부터 [[611_threat_modeling|위협 모델링]]([[097_stride_convolutional_neural_network_downsampling|STRIDE]] 등)을 수행하고, 구현 시 [[491_sast_static_analysis|SAST]]([[331_static_analysis|정적 분석]])를 자동화하여 취약점 발생을 원천 차단하는 '[[242_shift_left_sdlc|Shift-Left]]' 전략이 최신 실무의 핵심이다.
 
 📢 **섹션 요약 비유**: 이는 건물을 다 지은 뒤에 소방 점검을 하는 것이 아니라, 설계 단계부터 불연성 자재를 고르고 스프링클러 위치를 도면에 미리 박아넣는 선제적 안전 공학입니다.
 
 ### Ⅴ. 기대효과 및 결론 (Future & Standard)
 SDLC의 확립은 프로젝트의 가시성을 극대화하고 개발 구성원 간의 의사소통 기준점을 제공한다.
 
-| 지표 | SDLC 미준수 프로젝트 | SDLC 철저 준수 프로젝트 | 비고 |
+| 지표 | [[131_sdlc_system_development_life_cycle_waterfall_agile|SDLC]] 미준수 프로젝트 | [[131_sdlc_system_development_life_cycle_waterfall_agile|SDLC]] 철저 준수 프로젝트 | 비고 |
 |:---|:---|:---|:---|
-| **결함 발견 비용** | 후반부 폭증 (100배) | 초기에 발견하여 저렴함 (1배) | Shift-Left 효과 |
-| **진행 가시성** | "거의 다 됐습니다" (블랙박스) | "설계 단계 베이스라인 80% 달성" | 객체적 지표 관리 |
+| **[[352_defect_definition|결함]] 발견 비용** | 후반부 폭증 (100배) | [[459_quic_fec_forward_error_correction|초기]]에 발견하여 저렴함 (1배) | [[242_shift_left_sdlc|Shift-Left]] 효과 |
+| **[[216_progress_in_synchronization|진행]] 가시성** | "거의 다 됐습니다" (블랙박스) | "설계 단계 [[159_baseline_requirements_configuration_management|베이스라인]] 80% 달성" | 객체적 지표 관리 |
 | **유지보수 용이성** | 원작자 퇴사 시 코드 버림 | 산출물 연계를 통한 인수인계 원활 | 자산화 및 형상관리 |
 
-미래의 SDLC는 DevOps와 CI/CD 파이프라인과 완벽히 동기화되어, 분석-설계-구현-테스트가 명확히 분절된 단계가 아니라 하루에도 수십 번씩 톱니바퀴처럼 돌아가는 '지속적 생명주기(Continuous SDLC)' 형태로 발전하고 있다. 또한 ISO/IEC 12207 (소프트웨어 생명주기 공정 표준)은 조직이 SDLC를 어떻게 테일러링(Tailoring)하고 성숙시켜야 하는지 글로벌 가이드라인을 제시한다.
+미래의 SDLC는 DevOps와 [[090_configuration_item|CI]]/CD 파이프라인과 완벽히 동기화되어, 분석-설계-구현-테스트가 명확히 분절된 단계가 아니라 하루에도 수십 번씩 톱니바퀴처럼 돌아가는 '지속적 생명주기(Continuous [[131_sdlc_system_development_life_cycle_waterfall_agile|SDLC]])' 형태로 발전하고 있다. 또한 ISO/IEC 12207 (소프트웨어 생명주기 공정 표준)은 조직이 SDLC를 어떻게 테일러링([[058_methodology_tailoring|Tailoring]])하고 성숙시켜야 하는지 글로벌 가이드라인을 제시한다.
 
 📢 **섹션 요약 비유**: SDLC는 단순한 족쇄가 아니라, 수많은 톱니바퀴(개발자, 기획자, 테스터)가 엉키지 않고 하나의 거대한 시계탑을 정확하게 굴러가게 만드는 정교한 태엽 장치입니다.
 
 ---
 
-### 📌 관련 개념 맵 (Knowledge Graph)
-- 소프트웨어 공학 (Software Engineering) | SDLC를 관통하는 기본 학문이자 원칙
-- 폭포수 모델 (Waterfall Model) | SDLC를 가장 선형적이고 엄격하게 적용한 고전 모델
-- 애자일 방법론 (Agile) | SDLC를 짧은 주기로 무한 반복하여 유연성을 극대화한 현대적 접근
-- 형상 관리 (Configuration Management) | SDLC 각 단계에서 쏟아지는 산출물과 베이스라인의 변경을 통제
-- 요구공학 (Requirements Engineering) | SDLC의 첫 단추이자 가장 핵심적인 분석 단계의 전문 분야
+### 📌 관련 개념 맵 ([[160_knowledge_graph_graphrag_integration|Knowledge Graph]])
+- [[001_software_engineering_definition|소프트웨어 공학]] ([[001_software_engineering_definition|Software Engineering]]) | SDLC를 관통하는 기본 학문이자 원칙
+- [[004_waterfall_model|폭포수 모델]] ([[004_waterfall_model|Waterfall Model]]) | SDLC를 가장 선형적이고 엄격하게 적용한 고전 모델
+- [[012_agile_methodology|애자일 방법론]] ([[004_agile_relation|Agile]]) | SDLC를 짧은 주기로 무한 반복하여 유연성을 극대화한 현대적 접근
+- [[020_software_configuration_management|형상 관리]] ([[089_configuration_management|Configuration Management]]) | [[131_sdlc_system_development_life_cycle_waterfall_agile|SDLC]] 각 단계에서 쏟아지는 산출물과 [[159_baseline_requirements_configuration_management|베이스라인]]의 변경을 통제
+- 요구공학 ([[131_requirements_engineering|Requirements Engineering]]) | SDLC의 첫 단추이자 가장 핵심적인 분석 단계의 전문 분야
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -164,9 +164,9 @@ SDLC의 확립은 프로젝트의 가시성을 극대화하고 개발 구성원 
 [요구공학 (Requirements Engineering)]
 ```
 
-이 흐름도는 소프트웨어 공학 (Software Engineering)에서 출발해 요구공학 (Requirements Engineering)까지 이어지며, 중간 단계가 기초 개념을 실무 구조로 발전시키는 과정을 보여준다.
+이 흐름도는 [[001_software_engineering_definition|소프트웨어 공학]] ([[001_software_engineering_definition|Software Engineering]])에서 출발해 요구공학 ([[131_requirements_engineering|Requirements Engineering]])까지 이어지며, 중간 단계가 기초 개념을 실무 구조로 발전시키는 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 맛있는 케이크를 구우려면 레시피를 보고 재료를 사고, 반죽을 하고, 오븐에 굽는 순서를 꼭 지켜야 해요.
-2. 소프트웨어 생명주기(SDLC)는 컴퓨터 프로그램을 만들 때도 이렇게 순서대로 똑바로 만들도록 도와주는 '마법의 레시피' 랍니다.
+2. 소프트웨어 생명주기([[131_sdlc_system_development_life_cycle_waterfall_agile|SDLC]])는 컴퓨터 프로그램을 만들 때도 이렇게 순서대로 똑바로 만들도록 도와주는 '마법의 레시피' 랍니다.
 3. 이 순서대로만 만들면 중간에 빼먹는 것 없이 아주 훌륭하고 고장 안 나는 프로그램을 만들 수 있어요!

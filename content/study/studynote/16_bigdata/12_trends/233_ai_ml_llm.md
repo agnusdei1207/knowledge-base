@@ -8,15 +8,15 @@ categories = "studynote-bigdata"
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: AI + 빅데이터 융합 (대규모 ML 학습, LLM (Large Language Model) 기반 데이터 분석)은 빅데이터 AI 융합 관점에서 구성 요소와 경계를 설계해 복잡성을 줄이는 구조화 방식를 다루는 주제다.
-> 2. **가치**: 확장성, 유지보수성, 재사용성을 동시에 판단하기 쉽다.
+> 1. **본질**: [[190_ai_llm_requirements_specification|AI]] + 빅데이터 융합 (대규모 ML 학습, [[263_llm_large_language_model|LLM]] ([[263_llm_large_language_model|Large Language Model]]) 기반 [[001_dikw_pyramid|데이터]] 분석)은 빅데이터 [[190_ai_llm_requirements_specification|AI]] 융합 관점에서 구성 요소와 경계를 설계해 복잡성을 줄이는 구조화 방식를 다루는 주제다.
+> 2. **가치**: 확장성, [[346_maintainability_portability|유지보수성]], 재사용성을 동시에 판단하기 쉽다.
 > 3. **판단 포인트**: 계층 경계와 인터페이스가 명확하고 변경 영향이 제한되는지 본다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-AI + 빅데이터 융합 (대규모 ML 학습, LLM (Large Language Model) 기반 데이터 분석)은 빅데이터 환경에서 AI 융합을 실제 문서, 시스템, 운영 흐름에 연결하는 문제를 다룬다. 데이터 환경이 빠르게 바뀌어도 기준이 없으면 선택 기준이 흔들리고, 결국 비용과 품질이 같이 흔들린다. 그래서 이 주제는 최신 흐름을 따라가는 이야기이면서 동시에, 무엇을 기준으로 선택할지 정리하는 구조다.
+[[190_ai_llm_requirements_specification|AI]] + 빅데이터 융합 (대규모 ML 학습, [[263_llm_large_language_model|LLM]] ([[263_llm_large_language_model|Large Language Model]]) 기반 [[001_dikw_pyramid|데이터]] 분석)은 빅데이터 환경에서 [[190_ai_llm_requirements_specification|AI]] 융합을 실제 문서, 시스템, 운영 흐름에 연결하는 문제를 다룬다. [[001_dikw_pyramid|데이터]] 환경이 빠르게 바뀌어도 기준이 없으면 선택 기준이 흔들리고, 결국 비용과 품질이 같이 흔들린다. 그래서 이 주제는 최신 흐름을 따라가는 이야기이면서 동시에, 무엇을 기준으로 선택할지 정리하는 구조다.
 
 ```text
 ┌──────────────┐   ┌──────────────┐   ┌──────────────┐
@@ -30,12 +30,12 @@ AI + 빅데이터 융합 (대규모 ML 학습, LLM (Large Language Model) 기반
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-핵심은 기술 자체가 아니라 연결 방식이다. 개방형 포맷, 처리 구조, 파이프라인 신뢰성, 그리고 운영 통제가 어떻게 맞물리는지 봐야 실제 트렌드의 의미가 드러난다.
+핵심은 기술 자체가 아니라 연결 방식이다. 개방형 포맷, 처리 구조, [[123_pipe|파이프]]라인 [[642_reliability_mtbf_mttr_mttf_availability|신뢰성]], 그리고 운영 통제가 어떻게 맞물리는지 봐야 실제 트렌드의 의미가 드러난다.
 
 | 요소 | 역할 | 포인트 |
 |:---|:---|:---|
 | 요구사항 | 기준/입력 | 범위가 모호하면 뒤 단계도 흔들린다 |
-| 구성 요소 | 처리/검증 | 절차와 자동화가 연결되어야 한다 |
+| 구성 요소 | 처리/[[395_verification_process_review|검증]] | 절차와 자동화가 연결되어야 한다 |
 | 운영 결과 | 결과/증거 | 기록이 남아야 재현과 추적이 된다 |
 
 ```text
@@ -52,14 +52,14 @@ ML 학습와 LLM은 이 흐름을 보강하는 대표 축이다. 하나는 기�
 
 ## Ⅲ. 비교 및 연결
 
-AI + 빅데이터 융합 (대규모 ML 학습, LLM (Large Language Model) 기반 데이터 분석)은 단독으로 보기보다 대안과 비교할 때 경계가 선명해진다. 특히 데이터 분석와의 비교는 구조를 이해하는 데 도움이 된다.
+[[190_ai_llm_requirements_specification|AI]] + 빅데이터 융합 (대규모 ML 학습, [[263_llm_large_language_model|LLM]] ([[263_llm_large_language_model|Large Language Model]]) 기반 [[001_dikw_pyramid|데이터]] 분석)은 단독으로 보기보다 대안과 비교할 때 경계가 선명해진다. 특히 [[001_dikw_pyramid|데이터]] 분석와의 비교는 구조를 이해하는 데 도움이 된다.
 
 | 항목 | 단계 1 | 단계 2 |
 |:---|:---|:---|
-| 중앙집중 | 분산 | 확장성 |
-| 모놀리식 | 모듈화 | 변경 영향 |
+| 중앙집중 | [[136_variance|분산]] | 확장성 |
+| 모놀리식 | [[192_module_independence|모듈]]화 | 변경 영향 |
 
-대규모 처리와도 연결해 보면, 기술 선택은 결국 데이터 규모, 응답 속도, 운영 복잡도의 균형 문제다. 그래서 시험에서도 "무엇과 비교했는가"를 함께 써야 답안의 깊이가 생긴다.
+대규모 처리와도 연결해 보면, 기술 선택은 결국 [[001_dikw_pyramid|데이터]] 규모, 응답 속도, 운영 복잡도의 균형 문제다. 그래서 시험에서도 "무엇과 비교했는가"를 함께 써야 답안의 깊이가 생긴다.
 
 - **📢 섹션 요약 비유**: 부품이 맞물리는 레고 구조는 같은 모양처럼 보여도 용도에 따라 완전히 다르다. 비교해야 차이가 보인다.
 
@@ -69,18 +69,18 @@ AI + 빅데이터 융합 (대규모 ML 학습, LLM (Large Language Model) 기반
 
 실무에서는 "도입 여부"보다 "어떤 조건에서 채택할 것인가"로 판단해야 한다.
 
-### 체크리스트
+### [[435_checklist_based_testing|체크리스트]]
 
 1. 경계가 실제 책임 분리와 일치하는가?
 2. 인터페이스가 과도하게 복잡하지 않은가?
 3. 확장 시 병목이 어디서 생기는가?
 
-### 안티패턴
+### [[128_water_scrum_fall_anti_pattern|안티패턴]]
 
 - 아무 경계 없이 기능만 쌓는 설계
 - 확장성 없이 레이어만 늘리는 설계
 
-AI + 빅데이터 융합 (대규모 ML 학습, LLM (Large Language Model) 기반 데이터 분석)을 잘 쓰려면 기술 자체보다 운영 조건을 봐야 한다. 성능, 비용, 보안, 유지보수성 중 무엇이 우선인지가 다르면 선택도 달라진다.
+[[190_ai_llm_requirements_specification|AI]] + 빅데이터 융합 (대규모 ML 학습, [[263_llm_large_language_model|LLM]] ([[263_llm_large_language_model|Large Language Model]]) 기반 [[001_dikw_pyramid|데이터]] 분석)을 잘 쓰려면 기술 자체보다 운영 조건을 봐야 한다. [[282_performance_tactics|성능]], 비용, 보안, [[346_maintainability_portability|유지보수성]] 중 무엇이 우선인지가 다르면 [[170_selectivity_cardinality_distribution_tuning|선택도]] 달라진다.
 
 - **📢 섹션 요약 비유**: 설계 도면은 고장 나기 전에 멈추는 장치다.
 
@@ -88,9 +88,9 @@ AI + 빅데이터 융합 (대규모 ML 학습, LLM (Large Language Model) 기반
 
 ## Ⅴ. 기대효과 및 결론
 
-AI + 빅데이터 융합 (대규모 ML 학습, LLM (Large Language Model) 기반 데이터 분석)의 기대효과는 명확하다. 기준이 통일되고, 증거가 남고, 조치가 닫히면 의사결정 속도와 품질 모두 좋아진다. 다만 이 효과는 문서, 도구, 운영이 같은 방향을 볼 때만 유지된다.
+[[190_ai_llm_requirements_specification|AI]] + 빅데이터 융합 (대규모 ML 학습, [[263_llm_large_language_model|LLM]] ([[263_llm_large_language_model|Large Language Model]]) 기반 [[001_dikw_pyramid|데이터]] 분석)의 기대효과는 명확하다. 기준이 통일되고, 증거가 남고, 조치가 닫히면 의사결정 속도와 품질 모두 좋아진다. 다만 이 효과는 문서, 도구, 운영이 같은 방향을 볼 때만 유지된다.
 
-- **📢 섹션 요약 비유**: 모듈 설명서처럼, 마지막엔 핵심만 남겨야 다음에 다시 꺼내 쓸 수 있다.
+- **📢 섹션 요약 비유**: [[192_module_independence|모듈]] 설명서처럼, 마지막엔 핵심만 남겨야 다음에 다시 꺼내 쓸 수 있다.
 
 ---
 
@@ -98,10 +98,10 @@ AI + 빅데이터 융합 (대규모 ML 학습, LLM (Large Language Model) 기반
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| ML 학습 | AI 융합과 연결되는 핵심 축 |
-| LLM | AI 융합과 연결되는 핵심 축 |
-| 데이터 분석 | AI 융합과 연결되는 핵심 축 |
-| 대규모 처리 | AI 융합과 연결되는 핵심 축 |
+| ML 학습 | [[190_ai_llm_requirements_specification|AI]] 융합과 연결되는 핵심 축 |
+| [[263_llm_large_language_model|LLM]] | [[190_ai_llm_requirements_specification|AI]] 융합과 연결되는 핵심 축 |
+| [[001_dikw_pyramid|데이터]] 분석 | [[190_ai_llm_requirements_specification|AI]] 융합과 연결되는 핵심 축 |
+| 대규모 처리 | [[190_ai_llm_requirements_specification|AI]] 융합과 연결되는 핵심 축 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -125,6 +125,6 @@ AI + 빅데이터 융합 (대규모 ML 학습, LLM (Large Language Model) 기반
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. AI + 빅데이터 융합 (대규모 ML 학습, LLM (Large Language Model) 기반 데이터 분석)은 일을 하기 전에 "어떤 규칙으로 할지" 먼저 정하는 거예요.
-2. 중간에 확인표가 있어야 틀린 곳을 빨리 고칠 수 있어요.
+1. [[190_ai_llm_requirements_specification|AI]] + 빅데이터 융합 (대규모 ML 학습, [[263_llm_large_language_model|LLM]] ([[263_llm_large_language_model|Large Language Model]]) 기반 [[001_dikw_pyramid|데이터]] 분석)은 일을 하기 전에 "어떤 규칙으로 할지" 먼저 정하는 거예요.
+2. 중간에 [[396_validation|확인]]표가 있어야 틀린 곳을 빨리 고칠 수 있어요.
 3. 그래서 끝까지 잘했다고 말하려면 증거와 순서가 같이 있어야 해요.

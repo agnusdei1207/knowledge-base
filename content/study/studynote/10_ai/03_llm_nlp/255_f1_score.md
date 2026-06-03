@@ -8,30 +8,30 @@ categories = "studynote-ai"
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: F1 스코어(F1-Score)는 정밀도(Precision)와 재현율(Recall)의 조화 평균(Harmonic Mean)으로, 두 지표가 균형을 이룰 때 가장 높아진다.
-> 2. **가치**: 불균형 데이터셋(Imbalanced Dataset)에서 정확도(Accuracy)가 왜곡될 때, F1 스코어가 실질적인 모델 성능을 반영한다.
-> 3. **판단 포인트**: 매크로 F1(Macro F1), 마이크로 F1(Micro F1), 가중 F1(Weighted F1)의 차이를 도메인 특성에 맞게 선택해야 한다.
+> 1. **본질**: F1 스코어(F1-Score)는 [[233_precision_recall_f1_roc_auc_threshold|정밀도]]([[233_precision_recall_f1_roc_auc_threshold|Precision]])와 [[092_recall_sensitivity_hit_rate|재현율]]([[254_recall_sensitivity|Recall]])의 조화 평균(Harmonic Mean)으로, 두 지표가 균형을 이룰 때 가장 높아진다.
+> 2. **가치**: 불균형 [[001_dikw_pyramid|데이터]]셋(Imbalanced Dataset)에서 정확도(Accuracy)가 왜곡될 때, F1 스코어가 실질적인 모델 [[282_performance_tactics|성능]]을 반영한다.
+> 3. **판단 포인트**: 매크로 F1(Macro F1), 마이크로 F1(Micro F1), 가중 F1(Weighted F1)의 차이를 [[064_relation_domain|도메인]] 특성에 맞게 선택해야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-F1 스코어는 분류 모델의 성능을 단일 숫자로 표현하는 지표로, **정밀도와 재현율을 동시에 고려**한다.
+F1 스코어는 [[104_classification_analysis|분류]] 모델의 [[282_performance_tactics|성능]]을 단일 숫자로 표현하는 지표로, **[[233_precision_recall_f1_roc_auc_threshold|정밀도]]와 [[092_recall_sensitivity_hit_rate|재현율]]을 동시에 고려**한다.
 
-$$F1 = \frac{2 \times \text{Precision} \times \text{Recall}}{\text{Precision} + \text{Recall}}$$
+$$F1 = \frac{2 \times \text{[[233_precision_recall_f1_roc_auc_threshold|Precision]]} \times \text{[[254_recall_sensitivity|Recall]]}}{\text{[[233_precision_recall_f1_roc_auc_threshold|Precision]]} + \text{[[254_recall_sensitivity|Recall]]}}$$
 
 **왜 산술 평균이 아닌 조화 평균인가?**
 
 조화 평균은 두 값 중 **작은 값에 더 민감**하게 반응한다.
 
-| Precision | Recall | 산술 평균 | 조화 평균(F1) |
+| [[233_precision_recall_f1_roc_auc_threshold|Precision]] | [[254_recall_sensitivity|Recall]] | 산술 평균 | 조화 평균(F1) |
 |:---:|:---:|:---:|:---:|
 | 1.0 | 0.0 | 0.5 | **0.0** |
 | 0.9 | 0.1 | 0.5 | **0.18** |
 | 0.8 | 0.8 | 0.8 | **0.8** |
 | 0.7 | 0.7 | 0.7 | **0.7** |
 
-한 지표가 0에 가까우면 F1도 0에 수렴한다. 이는 "정밀도가 아무리 높아도 재현율이 0이면 의미 없다"는 현실을 수학적으로 반영한 것이다.
+한 지표가 0에 가까우면 F1도 0에 수렴한다. 이는 "[[233_precision_recall_f1_roc_auc_threshold|정밀도]]가 아무리 높아도 [[092_recall_sensitivity_hit_rate|재현율]]이 0이면 의미 없다"는 현실을 수학적으로 반영한 것이다.
 
 ```text
 ┌──────────────────────────────────────────────┐
@@ -42,7 +42,7 @@ $$F1 = \frac{2 \times \text{Precision} \times \text{Recall}}{\text{Precision} + 
 └──────────────────────────────────────────────┘
 ```
 
-- **📢 섹션 요약 비유**: F1은 두 발이 있는 의자다. 한 발이 짧으면(Precision 또는 Recall 중 하나가 낮으면) 아무리 다른 발이 길어도 의자가 기울어져 쓸 수 없다.
+- **📢 섹션 요약 비유**: F1은 두 발이 있는 의자다. 한 발이 짧으면([[233_precision_recall_f1_roc_auc_threshold|Precision]] 또는 [[254_recall_sensitivity|Recall]] 중 하나가 낮으면) 아무리 다른 발이 길어도 의자가 기울어져 쓸 수 없다.
 
 ---
 
@@ -90,25 +90,25 @@ $$F1 = \frac{2 \times \text{Precision} \times \text{Recall}}{\text{Precision} + 
 |:---|:---|:---|
 | Macro F1 | 단순 평균 | 소수 클래스도 중요한 경우 |
 | Micro F1 | 전체 합산 | 샘플이 많은 클래스가 중요한 경우 |
-| Weighted F1 | 지지도 가중 평균 | 불균형 데이터 일반 보고용 |
+| Weighted F1 | [[084_support_association_rule_transaction|지지도]] 가중 평균 | 불균형 [[001_dikw_pyramid|데이터]] 일반 보고용 |
 
 ### F-β 스코어 (F-Beta Score)
 
-F1의 일반화된 형태로 β 값으로 Precision/Recall의 가중치를 조정한다.
+F1의 일반화된 형태로 β 값으로 [[233_precision_recall_f1_roc_auc_threshold|Precision]]/Recall의 [[267_weight_bias_activation|가중치]]를 조정한다.
 
-$$F_\beta = \frac{(1 + \beta^2) \times \text{Precision} \times \text{Recall}}{\beta^2 \times \text{Precision} + \text{Recall}}$$
+$$F_\beta = \frac{(1 + \beta^2) \times \text{[[233_precision_recall_f1_roc_auc_threshold|Precision]]} \times \text{[[254_recall_sensitivity|Recall]]}}{\beta^2 \times \text{[[233_precision_recall_f1_roc_auc_threshold|Precision]]} + \text{[[254_recall_sensitivity|Recall]]}}$$
 
-- **β = 1**: F1 (Precision = Recall 동등 중시)
+- **β = 1**: F1 ([[233_precision_recall_f1_roc_auc_threshold|Precision]] = [[254_recall_sensitivity|Recall]] 동등 중시)
 - **β = 2**: F2 (Recall을 Precision보다 2배 중시) → 의료 진단
-- **β = 0.5**: F0.5 (Precision을 Recall보다 2배 중시) → 추천 시스템
+- **β = 0.5**: F0.5 (Precision을 Recall보다 2배 중시) → [[211_recommendation_system|추천 시스템]]
 
-- **📢 섹션 요약 비유**: F1은 시소의 중앙에 서는 것이다. β를 조정하면 시소 중심점을 한쪽으로 옮겨 원하는 쪽(Recall 또는 Precision)에 더 무게를 둘 수 있다.
+- **📢 섹션 요약 비유**: F1은 시소의 중앙에 서는 것이다. β를 조정하면 시소 중심점을 한쪽으로 옮겨 원하는 쪽([[254_recall_sensitivity|Recall]] 또는 [[233_precision_recall_f1_roc_auc_threshold|Precision]])에 더 무게를 둘 수 있다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-### F1 vs 정확도(Accuracy) — 불균형 데이터에서의 차이
+### F1 vs 정확도(Accuracy) — 불균형 [[001_dikw_pyramid|데이터]]에서의 차이
 
 ```
   예시: 암 검진 데이터 (암 환자 1%, 정상 99%)
@@ -120,15 +120,15 @@ $$F_\beta = \frac{(1 + \beta^2) \times \text{Precision} \times \text{Recall}}{\b
   → 불균형 클래스에서 F1이 Accuracy보다 신뢰할 수 있음
 ```
 
-### PR 곡선과 F1의 관계
+### [[067_pull_request_pr_merge_request_code_review|PR]] 곡선과 F1의 [[083_relationship_in_er_model|관계]]
 
-PR 곡선(Precision-Recall Curve)에서 **각 임계값별 F1 최대점**이 최적 운영점(Operating Point)이다.
+[[067_pull_request_pr_merge_request_code_review|PR]] 곡선([[233_precision_recall_f1_roc_auc_threshold|Precision]]-[[254_recall_sensitivity|Recall]] Curve)에서 **각 임계값별 F1 최대점**이 최적 운영점(Operating Point)이다.
 
 | 지표 | 강점 | 약점 |
 |:---|:---|:---|
 | F1 스코어 | 단일 숫자 요약, 불균형에 강함 | TN(True Negative) 무시 |
-| AUC-ROC | 임계값 독립적 전체 성능 | 극단적 불균형 시 왜곡 가능 |
-| AUC-PR | 불균형 데이터에 최적 | 해석 복잡 |
+| AUC-ROC | 임계값 독립적 전체 [[282_performance_tactics|성능]] | 극단적 불균형 시 왜곡 가능 |
+| AUC-[[067_pull_request_pr_merge_request_code_review|PR]] | 불균형 [[001_dikw_pyramid|데이터]]에 최적 | 해석 복잡 |
 
 - **📢 섹션 요약 비유**: 정확도는 "전체 답안 중 맞은 개수"고, F1은 "중요한 문제만 골라 채점"하는 것이다. 중요한 문제가 드물수록 F1이 더 정직한 성적표다.
 
@@ -136,14 +136,14 @@ PR 곡선(Precision-Recall Curve)에서 **각 임계값별 F1 최대점**이 최
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### 불균형 데이터 처리와 F1 최적화
+### [[356_imbalanced_data_sampling|불균형 데이터 처리]]와 F1 최적화
 
-불균형 데이터셋에서 F1을 높이는 전략:
+불균형 [[001_dikw_pyramid|데이터]]셋에서 F1을 높이는 [[268_strategy_pattern|전략]]:
 
-1. **오버샘플링**: SMOTE(Synthetic Minority Over-sampling Technique)로 소수 클래스 증강
-2. **클래스 가중치**: `class_weight='balanced'` 설정으로 손실 함수에서 소수 클래스 강화
-3. **임계값 조정**: 기본 0.5 대신 PR 곡선에서 F1 최대 임계값 탐색
-4. **앙상블 활용**: 배깅·부스팅으로 소수 클래스 예측 성능 향상
+1. **오버샘플링**: [[231_smote_oversampling_class_imbalance_augmentation|SMOTE]]([[231_smote_oversampling_class_imbalance_augmentation|Synthetic Minority Over-sampling Technique]])로 소수 클래스 증강
+2. **클래스 [[267_weight_bias_activation|가중치]]**: `class_weight='balanced'` [[009_config|설정]]으로 [[075_loss_function_cost_function|손실 함수]]에서 소수 클래스 강화
+3. **임계값 조정**: 기본 0.5 대신 [[067_pull_request_pr_merge_request_code_review|PR]] 곡선에서 F1 최대 임계값 탐색
+4. **[[257_ensemble_learning|앙상블]] 활용**: [[259_bagging_random_forest|배깅]]·[[127_boosting|부스팅]]으로 소수 클래스 예측 [[282_performance_tactics|성능]] 향상
 
 ### 기술사 답안 포인트
 
@@ -151,7 +151,7 @@ PR 곡선(Precision-Recall Curve)에서 **각 임계값별 F1 최대점**이 최
 - **"다중 클래스 F1 선택 기준"**: 소수 클래스가 중요하면 Macro, 샘플 수 비례면 Micro, 불균형 보고는 Weighted
 - **"F1 최적 임계값 선정"**: sklearn의 `precision_recall_curve`로 각 threshold별 F1 계산 후 argmax
 
-- **📢 섹션 요약 비유**: F1 최적화는 두 마리 토끼(Precision, Recall)를 모두 잡으려는 시도다. 불균형 데이터에서 정확도라는 "눈 가리개"를 벗고 F1이라는 "정직한 거울"을 보는 것이 핵심이다.
+- **📢 섹션 요약 비유**: F1 최적화는 두 마리 토끼([[233_precision_recall_f1_roc_auc_threshold|Precision]], [[254_recall_sensitivity|Recall]])를 모두 잡으려는 시도다. 불균형 [[001_dikw_pyramid|데이터]]에서 정확도라는 "눈 가리개"를 벗고 F1이라는 "정직한 거울"을 보는 것이 핵심이다.
 
 ---
 
@@ -159,12 +159,12 @@ PR 곡선(Precision-Recall Curve)에서 **각 임계값별 F1 최대점**이 최
 
 F1 스코어를 모델 평가 지표로 채택하면:
 
-1. **왜곡 없는 성능 측정**: 클래스 불균형에도 실질적인 모델 가치를 정확히 반영
-2. **비즈니스 목표 정렬**: β 조정을 통해 도메인 요구사항(FN 감소 vs FP 감소)을 지표에 직접 반영
-3. **하이퍼파라미터 튜닝 기준**: F1을 최적화 목표로 삼아 임계값·모델 구조 결정
-4. **의사결정 신뢰성 향상**: 단일 지표로 이해관계자에게 모델 성능을 명확히 전달
+1. **왜곡 없는 [[282_performance_tactics|성능]] 측정**: 클래스 불균형에도 실질적인 모델 가치를 정확히 반영
+2. **비즈니스 목표 정렬**: β 조정을 통해 [[064_relation_domain|도메인]] 요구사항(FN 감소 vs [[293_fp_function_point|FP]] 감소)을 지표에 직접 반영
+3. **[[041_bagging_boosting|하이퍼파라미터 튜닝]] 기준**: F1을 최적화 목표로 삼아 임계값·모델 구조 결정
+4. **의사결정 [[642_reliability_mtbf_mttr_mttf_availability|신뢰성]] 향상**: 단일 지표로 [[173_stakeholder_identification_impact_matrix|이해관계자]]에게 모델 [[282_performance_tactics|성능]]을 명확히 전달
 
-F1 스코어는 **불균형 데이터가 일반적인 실무 AI 시스템**에서 정확도를 대체하는 핵심 평가 지표로 자리 잡았다.
+F1 스코어는 **불균형 [[001_dikw_pyramid|데이터]]가 일반적인 실무 [[190_ai_llm_requirements_specification|AI]] 시스템**에서 정확도를 대체하는 핵심 평가 지표로 자리 잡았다.
 
 - **📢 섹션 요약 비유**: F1은 축구에서 "골 득실차"와 같다. 단순히 이긴 횟수(정확도)만 보면 약팀과 강팀을 구분 못하지만, 득실 균형(F1)을 보면 진짜 실력이 드러난다.
 
@@ -174,10 +174,10 @@ F1 스코어는 **불균형 데이터가 일반적인 실무 AI 시스템**에�
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| F1 스코어 (F1-Score) | 조화 평균(Harmonic Mean) / Precision·Recall 균형 지표 |
-| 정밀도 (Precision) | TP, FP / F1의 절반 구성요소 |
-| 재현율 (Recall) | TP, FN / F1의 나머지 절반 |
-| F-β 스코어 (F-Beta Score) | β=2(F2), β=0.5(F0.5) / F1의 일반화, 가중치 조정 |
+| F1 스코어 (F1-Score) | 조화 평균(Harmonic Mean) / [[233_precision_recall_f1_roc_auc_threshold|Precision]]·[[254_recall_sensitivity|Recall]] 균형 지표 |
+| [[233_precision_recall_f1_roc_auc_threshold|정밀도]] ([[233_precision_recall_f1_roc_auc_threshold|Precision]]) | TP, [[293_fp_function_point|FP]] / F1의 절반 구성요소 |
+| [[092_recall_sensitivity_hit_rate|재현율]] ([[254_recall_sensitivity|Recall]]) | TP, FN / F1의 나머지 절반 |
+| F-β 스코어 (F-Beta Score) | β=2(F2), β=0.5(F0.5) / F1의 일반화, [[267_weight_bias_activation|가중치]] 조정 |
 | Macro F1 | 클래스 단순 평균 / 소수 클래스 동등 취급 |
 | Micro F1 | 전체 합산 F1 / 샘플 수 비례 집계 |
 

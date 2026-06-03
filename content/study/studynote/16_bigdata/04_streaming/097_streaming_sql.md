@@ -8,9 +8,9 @@ categories = "studynote-bigdata"
 
 ## 핵심 인사이트 (3줄 요약)
 
-- **본질**: 스트리밍 SQL (Streaming SQL)은 무한 데이터 스트림에 지속적으로 실행되는 SQL 쿼리로, 표준 SQL에 윈도우 함수·워터마크·스트림-테이블 조인 등 스트리밍 고유 연산이 추가된 형태이며, ksqlDB (Confluent), Flink SQL (Apache Flink), Spark Structured Streaming SQL이 3대 주요 엔진이다.
-- **가치**: 스트리밍 처리를 위해 Java/Python API를 배우지 않아도 SQL 한 줄로 Kafka 스트림 집계·필터·조인을 구현할 수 있어 데이터 엔지니어의 진입 장벽을 낮추고, 선언적 쿼리로 옵티마이저가 실행 계획을 자동 최적화한다.
-- **판단 포인트**: ksqlDB는 Kafka-native로 운영이 단순하지만 Kafka 생태계에 종속되고, Flink SQL은 ANSI SQL 완전성과 이벤트 시간 정밀도가 가장 높으며, Spark SQL은 기존 Spark 인프라를 그대로 활용하는 마이크로배치 방식으로 지연 시간이 수 초 이상이다.
+- **본질**: 스트리밍 SQL (Streaming SQL)은 무한 [[001_dikw_pyramid|데이터]] 스트림에 지속적으로 실행되는 SQL [[298_qkv_attention|쿼리]]로, 표준 SQL에 윈도우 함수·[[085_watermark|워터마크]]·스트림-테이블 조인 등 스트리밍 고유 연산이 추가된 형태이며, ksqlDB ([[094_reinforcement_learning|Confluent]]), Flink SQL ([[215_flink_native_stream_watermark_window_time|Apache Flink]]), [[061_structured_streaming|Spark Structured Streaming]] SQL이 3대 주요 엔진이다.
+- **가치**: 스트리밍 처리를 위해 Java/Python API를 배우지 않아도 SQL 한 줄로 [[179_kafka_flink_watermark_time_window|Kafka]] 스트림 집계·필터·조인을 구현할 수 있어 [[001_dikw_pyramid|데이터]] 엔지니어의 진입 장벽을 낮추고, 선언적 [[298_qkv_attention|쿼리]]로 [[163_optimizer_sql_execution_plan_generator|옵티마이저]]가 [[166_execution_plan_optimizer_navigation_tree|실행 계획]]을 자동 최적화한다.
+- **판단 포인트**: ksqlDB는 [[179_kafka_flink_watermark_time_window|Kafka]]-native로 운영이 단순하지만 [[179_kafka_flink_watermark_time_window|Kafka]] 생태계에 종속되고, Flink SQL은 ANSI SQL 완전성과 이벤트 시간 [[233_precision_recall_f1_roc_auc_threshold|정밀도]]가 가장 높으며, Spark SQL은 기존 Spark 인프라를 그대로 활용하는 마이크로배치 방식으로 [[141_latency|지연 시간]]이 수 초 이상이다.
 
 ---
 
@@ -35,20 +35,20 @@ categories = "studynote-bigdata"
 
 ### 2. 3대 스트리밍 SQL 엔진 개요
 
-| 엔진 | 기반 | 배포 방식 | 지연 수준 |
+| 엔진 | 기반 | 배포 방식 | [[015_지연_데이터_관점|지연]] 수준 |
 |:---|:---|:---|:---|
-| ksqlDB | Kafka Streams | Kafka 클러스터와 함께 배포 | 밀리초~초 |
-| Flink SQL | Apache Flink | Flink 클러스터 필요 | 밀리초~초 |
-| Spark Structured Streaming | Apache Spark | Spark 클러스터 필요 | 초~분 (마이크로배치) |
+| ksqlDB | [[179_kafka_flink_watermark_time_window|Kafka]] Streams | [[179_kafka_flink_watermark_time_window|Kafka]] 클러스터와 함께 배포 | 밀리초~초 |
+| Flink SQL | [[215_flink_native_stream_watermark_window_time|Apache Flink]] | Flink 클러스터 필요 | 밀리초~초 |
+| [[061_structured_streaming|Spark Structured Streaming]] | [[206_spark_inmemory_rdd_lazy_evaluation_lineage|Apache Spark]] | Spark 클러스터 필요 | 초~분 (마이크로배치) |
 
 **📢 섹션 요약 비유**
-> 스트리밍 SQL은 "흐르는 강물에 그물(SQL)을 치는 것"이다. 물(데이터)이 흐르는 동안 그물이 지속적으로 물고기(집계 결과)를 잡아준다. 낚싯대(DataStream API)보다 그물(SQL)이 더 쉽고 생산적이다.
+> 스트리밍 SQL은 "흐르는 강물에 그물(SQL)을 치는 것"이다. 물([[001_dikw_pyramid|데이터]])이 흐르는 동안 그물이 지속적으로 물고기(집계 결과)를 잡아준다. 낚싯대(DataStream [[014_api_posix|API]])보다 그물(SQL)이 더 쉽고 생산적이다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### 1. ksqlDB (Confluent)
+### 1. ksqlDB ([[094_reinforcement_learning|Confluent]])
 
 ```sql
 -- ksqlDB: Kafka 토픽에서 직접 SQL 실행
@@ -99,7 +99,7 @@ FROM clicks
 GROUP BY page_url, TUMBLE(event_time, INTERVAL '5' MINUTE);
 ```
 
-### 3. Spark Structured Streaming SQL
+### 3. [[061_structured_streaming|Spark Structured Streaming]] SQL
 
 ```python
 # Spark Structured Streaming + SQL
@@ -131,17 +131,17 @@ result.writeStream.format("console").start()
 
 ### 4. 3엔진 비교
 
-| 항목 | ksqlDB | Flink SQL | Spark SQL (Streaming) |
+| 항목 | ksqlDB | Flink SQL | [[056_spark_sql|Spark SQL]] (Streaming) |
 |:---|:---|:---|:---|
-| SQL 표준 | Kafka 특화 SQL | ANSI SQL 완전 호환 | ANSI SQL (3.x+) |
-| 이벤트 시간 | ✅ | ✅ (Watermark 정밀) | ✅ (마이크로배치 기반) |
+| SQL 표준 | [[179_kafka_flink_watermark_time_window|Kafka]] 특화 SQL | ANSI SQL 완전 호환 | ANSI SQL (3.x+) |
+| 이벤트 시간 | ✅ | ✅ ([[085_watermark|Watermark]] 정밀) | ✅ (마이크로배치 기반) |
 | 처리 방식 | 이벤트 단위 | 이벤트 단위 | 마이크로배치 |
-| 스트림-테이블 조인 | ✅ (Kafka KTable) | ✅ (Temporal Join) | ✅ (Static join) |
-| 운영 단순성 | 최고 (Kafka 일체형) | 중간 | 기존 Spark 재활용 |
+| 스트림-테이블 조인 | ✅ ([[179_kafka_flink_watermark_time_window|Kafka]] KTable) | ✅ (Temporal [[521_join|Join]]) | ✅ (Static [[521_join|join]]) |
+| 운영 단순성 | 최고 ([[179_kafka_flink_watermark_time_window|Kafka]] 일체형) | 중간 | 기존 Spark 재활용 |
 | 성숙도 | 중간 | 높음 | 높음 |
 
 **📢 섹션 요약 비유**
-> ksqlDB는 "Kafka 전용 만능 스위스칼", Flink SQL은 "ANSI 표준 수술 도구 세트", Spark SQL 스트리밍은 "기존 연구소 장비(Spark)에 스트리밍 모듈 추가"이다. 각각의 환경에서 최적이다.
+> ksqlDB는 "[[179_kafka_flink_watermark_time_window|Kafka]] 전용 만능 스위스칼", Flink SQL은 "ANSI 표준 수술 도구 세트", [[056_spark_sql|Spark SQL]] 스트리밍은 "기존 연구소 장비(Spark)에 스트리밍 [[192_module_independence|모듈]] 추가"이다. 각각의 환경에서 최적이다.
 
 ---
 
@@ -164,12 +164,12 @@ LEFT JOIN users u ON c.user_id = u.user_id;
 
 ### 2. 연결 개념
 
-- **Window Operations**: 스트리밍 SQL의 GROUP BY TUMBLE/HOP/SESSION
-- **Watermark**: Flink SQL의 WATERMARK 선언으로 지연 이벤트 허용
-- **Exactly-Once**: Flink SQL의 체크포인팅과 연계
+- **[[086_window_operations|Window Operations]]**: 스트리밍 SQL의 [[522_group_by|GROUP BY]] TUMBLE/HOP/[[160_session_controlling_terminal|SESSION]]
+- **[[085_watermark|Watermark]]**: Flink SQL의 [[085_watermark|WATERMARK]] 선언으로 [[015_지연_데이터_관점|지연]] 이벤트 허용
+- **Exactly-Once**: Flink SQL의 [[071_checkpointing|체크포인팅]]과 연계
 
 **📢 섹션 요약 비유**
-> 스트리밍 SQL의 스트림-테이블 조인은 "흐르는 강(스트림)에서 주소록(테이블)을 참조해 편지 주인 이름을 찾는 것"이다. 편지(이벤트)가 계속 흘러와도 주소록은 고정되어 있어 언제든 이름을 찾을 수 있다.
+> 스트리밍 SQL의 스트림-테이블 조인은 "흐르는 강(스트림)에서 주소록(테이블)을 [[316_reference_pattern_nosql|참조]]해 편지 주인 이름을 찾는 것"이다. 편지(이벤트)가 계속 흘러와도 주소록은 고정되어 있어 언제든 이름을 찾을 수 있다.
 
 ---
 
@@ -179,22 +179,22 @@ LEFT JOIN users u ON c.user_id = u.user_id;
 
 | 상황 | 권장 엔진 |
 |:---|:---|
-| Kafka 생태계에서 빠른 프로토타이핑 | ksqlDB |
+| [[179_kafka_flink_watermark_time_window|Kafka]] 생태계에서 빠른 프로토타이핑 | ksqlDB |
 | 이벤트 시간 정밀 집계, 표준 SQL | Flink SQL |
-| 기존 Spark 클러스터 활용, 배치+스트리밍 통합 | Spark Structured Streaming |
-| 복잡한 JOIN + 이벤트 시간 + 멀티소스 | Flink SQL |
-| 비기술 사용자의 데이터 파이프라인 구축 | ksqlDB (가장 단순) |
+| 기존 Spark 클러스터 활용, 배치+스트리밍 통합 | [[061_structured_streaming|Spark Structured Streaming]] |
+| 복잡한 [[521_join|JOIN]] + 이벤트 시간 + 멀티소스 | Flink SQL |
+| 비기술 사용자의 [[645_data_pipeline_acceleration|데이터 파이프라인]] 구축 | ksqlDB (가장 단순) |
 
-### 2. 체크리스트
+### 2. [[435_checklist_based_testing|체크리스트]]
 
-- [ ] 이벤트 시간 필드와 워터마크 정책 정의
-- [ ] 윈도우 유형 (TUMBLE/HOP/SESSION) 비즈니스 요구에 맞게 선택
-- [ ] 스트림-테이블 조인 시 테이블 갱신 주기와 조인 일관성 검토
-- [ ] Exactly-Once 필요 여부 확인 → Flink SQL + 체크포인팅
-- [ ] NULL 및 지연 이벤트 처리 정책 명확화
+- [ ] 이벤트 시간 필드와 [[085_watermark|워터마크]] [[164_policy|정책]] 정의
+- [ ] 윈도우 유형 (TUMBLE/HOP/[[160_session_controlling_terminal|SESSION]]) 비즈니스 요구에 맞게 선택
+- [ ] 스트림-테이블 조인 시 테이블 갱신 주기와 조인 [[194_consistency_database_integrity|일관성]] 검토
+- [ ] Exactly-Once 필요 여부 [[396_validation|확인]] → Flink SQL + [[071_checkpointing|체크포인팅]]
+- [ ] NULL 및 [[015_지연_데이터_관점|지연]] 이벤트 처리 [[164_policy|정책]] 명확화
 
 **📢 섹션 요약 비유**
-> 스트리밍 SQL 선택은 "음식 조리 도구 선택"과 같다. ksqlDB는 전자레인지(빠르고 단순), Flink SQL은 풀 세트 주방(기능 완전), Spark SQL 스트리밍은 기존 주방 기기에 인덕션 추가(기존 환경 활용)이다.
+> 스트리밍 SQL 선택은 "음식 조리 도구 선택"과 같다. ksqlDB는 전자레인지(빠르고 단순), Flink SQL은 풀 세트 주방(기능 완전), [[056_spark_sql|Spark SQL]] 스트리밍은 기존 주방 기기에 인덕션 추가(기존 환경 활용)이다.
 
 ---
 
@@ -204,29 +204,29 @@ LEFT JOIN users u ON c.user_id = u.user_id;
 
 | 효과 | 설명 |
 |:---|:---|
-| 개발 생산성 | SQL로 스트리밍 파이프라인 10배 빠른 개발 |
-| 진입 장벽 감소 | Java/Scala API 없이 SQL로 스트리밍 구현 |
-| 자동 최적화 | SQL 옵티마이저가 실행 계획 자동 생성 |
-| 표준화 | 다른 팀과 쿼리 공유·재사용 용이 |
+| 개발 생산성 | SQL로 스트리밍 [[123_pipe|파이프]]라인 10배 빠른 개발 |
+| 진입 장벽 감소 | Java/Scala [[014_api_posix|API]] 없이 SQL로 스트리밍 구현 |
+| 자동 최적화 | SQL [[163_optimizer_sql_execution_plan_generator|옵티마이저]]가 [[166_execution_plan_optimizer_navigation_tree|실행 계획]] 자동 [[087_process_state_transition|생성]] |
+| 표준화 | 다른 팀과 [[298_qkv_attention|쿼리]] 공유·재사용 용이 |
 
 ### 2. 결론
 
-스트리밍 SQL은 **데이터 엔지니어링의 민주화**를 가능하게 하는 핵심 기술이다. 기술사 답안에서는 ksqlDB/Flink SQL/Spark Streaming SQL의 특성 비교, 스트리밍 고유 SQL 구문(TUMBLE, HOP, WATERMARK, EMIT CHANGES), 그리고 스트림-테이블 조인의 실무적 활용을 서술하면 된다.
+스트리밍 SQL은 **[[001_dikw_pyramid|데이터]] 엔지니어링의 민주화**를 가능하게 하는 핵심 기술이다. 기술사 답안에서는 ksqlDB/Flink SQL/[[060_spark_streaming_dstream|Spark Streaming]] SQL의 특성 비교, 스트리밍 고유 SQL 구문(TUMBLE, HOP, [[085_watermark|WATERMARK]], EMIT CHANGES), 그리고 스트림-테이블 조인의 실무적 활용을 서술하면 된다.
 
 **📢 섹션 요약 비유**
-> 스트리밍 SQL은 "강이 되어버린 데이터에 SQL 낚시 면허증"을 부여한 것이다. 이제 엔지니어뿐 아니라 SQL을 아는 분석가도 흐르는 강에서 직접 물고기(인사이트)를 잡을 수 있게 되었다.
+> 스트리밍 SQL은 "강이 되어버린 [[001_dikw_pyramid|데이터]]에 SQL 낚시 면허증"을 부여한 것이다. 이제 엔지니어뿐 아니라 SQL을 아는 분석가도 흐르는 강에서 직접 물고기(인사이트)를 잡을 수 있게 되었다.
 
 ---
 
 ### 📌 관련 개념 맵
 
-| 개념 | 관계 | 설명 |
+| 개념 | [[083_relationship_in_er_model|관계]] | 설명 |
 |:---|:---|:---|
-| Window Operations | 핵심 구현 | 스트리밍 SQL의 TUMBLE/HOP/SESSION |
-| Watermark | Flink SQL 연동 | 이벤트 시간 기반 집계의 지연 처리 |
-| Kafka (ksqlDB) | 소스 시스템 | ksqlDB의 데이터 소스 및 싱크 |
-| Exactly-Once | 신뢰성 | Flink SQL 체크포인팅으로 달성 |
-| CEP | 확장 기능 | Flink의 복합 이벤트 패턴 감지 |
+| [[086_window_operations|Window Operations]] | 핵심 구현 | 스트리밍 SQL의 TUMBLE/HOP/[[160_session_controlling_terminal|SESSION]] |
+| [[085_watermark|Watermark]] | Flink SQL 연동 | 이벤트 시간 기반 집계의 [[015_지연_데이터_관점|지연]] 처리 |
+| [[179_kafka_flink_watermark_time_window|Kafka]] (ksqlDB) | 소스 시스템 | ksqlDB의 [[001_dikw_pyramid|데이터]] 소스 및 싱크 |
+| Exactly-Once | [[642_reliability_mtbf_mttr_mttf_availability|신뢰성]] | Flink SQL [[071_checkpointing|체크포인팅]]으로 달성 |
+| [[098_cep|CEP]] | 확장 기능 | Flink의 복합 이벤트 패턴 감지 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -245,8 +245,8 @@ LEFT JOIN users u ON c.user_id = u.user_id;
     ▼
 [ksqlDB (Kafka) / Flink SQL — 프로덕션 스트리밍 SQL 표준]
 ```
-정적 SQL 문법을 흐르는 스트림에 적용하고, 창(Window)과 워터마크(Watermark)로 시간 지연을 처리하며, ksqlDB와 Flink SQL이 각각 Kafka·범용 스트리밍 표준으로 자리잡는 흐름이다.
+정적 SQL 문법을 흐르는 스트림에 적용하고, 창(Window)과 [[085_watermark|워터마크]]([[085_watermark|Watermark]])로 시간 [[015_지연_데이터_관점|지연]]을 처리하며, ksqlDB와 Flink SQL이 각각 [[179_kafka_flink_watermark_time_window|Kafka]]·범용 스트리밍 표준으로 자리잡는 흐름이다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-스트리밍 SQL은 "흐르는 물에 낚시 그물을 치는 것"이에요. SQL(그물 모양)만 설명하면 시스템이 알아서 계속 물고기(데이터)를 잡아줘요. ksqlDB는 Kafka 강에 사는 물고기 전용 그물, Flink SQL은 모든 강에서 쓸 수 있는 표준 그물, Spark SQL 스트리밍은 기존 낚시터(Spark)에 새 그물을 추가한 거예요!
+스트리밍 SQL은 "흐르는 물에 낚시 그물을 치는 것"이에요. SQL(그물 모양)만 설명하면 시스템이 알아서 계속 물고기([[001_dikw_pyramid|데이터]])를 잡아줘요. ksqlDB는 [[179_kafka_flink_watermark_time_window|Kafka]] 강에 사는 물고기 전용 그물, Flink SQL은 모든 강에서 쓸 수 있는 표준 그물, [[056_spark_sql|Spark SQL]] 스트리밍은 기존 낚시터(Spark)에 새 그물을 추가한 거예요!

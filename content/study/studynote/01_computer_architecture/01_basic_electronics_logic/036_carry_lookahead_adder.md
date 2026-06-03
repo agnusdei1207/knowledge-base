@@ -6,9 +6,9 @@ categories = "studynote-computer-architecture"
 +++
 
 > **핵심 인사이트**
-> 1. CLA (Carry Lookahead Adder)는 각 비트의 Generate(G)·Propagate(P) 신호를 이용해 캐리를 병렬로 미리 계산함으로써 RCA의 O(n) 직렬 지연을 O(log n)으로 줄인 고속 가산기다.
-> 2. G = A AND B (이 자리에서 캐리 생성), P = A XOR B (입력 캐리를 다음으로 전달)를 조합해 모든 자리의 캐리를 동시에 계산할 수 있다.
-> 3. 계층적 CLA(Hierarchical CLA)는 4-bit 블록을 다시 CLA로 묶어 32·64-bit 가산을 O(log n) 유지하면서 게이트 수를 관리하며, Kogge-Stone·Brent-Kung은 이를 더 최적화한 병렬 접두사 구조다.
+> 1. CLA (Carry Lookahead Adder)는 각 [[073_bit|비트]]의 Generate(G)·Propagate(P) 신호를 이용해 캐리를 [[430_index_fast_full_scan|병렬]]로 미리 계산함으로써 RCA의 O(n) [[149_serial_communication_rs232_rs485|직렬]] [[015_지연_데이터_관점|지연]]을 O(log n)으로 줄인 고속 가산기다.
+> 2. G = A AND B (이 자리에서 캐리 [[087_process_state_transition|생성]]), P = A XOR B (입력 캐리를 다음으로 전달)를 조합해 모든 자리의 캐리를 동시에 계산할 수 있다.
+> 3. 계층적 CLA(Hierarchical CLA)는 4-bit 블록을 다시 CLA로 묶어 32·64-bit 가산을 O(log n) 유지하면서 게이트 수를 관리하며, Kogge-Stone·Brent-Kung은 이를 더 최적화한 [[430_index_fast_full_scan|병렬]] 접두사 구조다.
 
 ---
 
@@ -48,9 +48,9 @@ categories = "studynote-computer-architecture"
 
 | 구조 요소    | 역할                   |
 |------------|----------------------|
-| G/P 생성기  | 각 비트 G, P 계산      |
-| CLA 로직    | 모든 캐리 병렬 계산    |
-| Sum 생성기  | Si = Pi XOR Ci        |
+| G/P [[087_process_state_transition|생성]]기  | 각 [[073_bit|비트]] G, P 계산      |
+| CLA 로직    | 모든 캐리 [[430_index_fast_full_scan|병렬]] 계산    |
+| Sum [[087_process_state_transition|생성]]기  | Si = [[009_process_innovation|Pi]] XOR [[090_configuration_item|Ci]]        |
 
 > 📢 **섹션 요약 비유**: 모든 심판이 동시에 준비 완료 신호를 계산 — 선수들은 신호가 오자마자 일제히 출발.
 
@@ -69,7 +69,7 @@ categories = "studynote-computer-architecture"
         -> 전체 O(log n) 유지
 ```
 
-| 방식              | 지연       | 게이트 수  |
+| 방식              | [[015_지연_데이터_관점|지연]]       | 게이트 수  |
 |-----------------|-----------|-----------|
 | RCA (32-bit)    | O(n)=32t  | 최소       |
 | CLA (flat)      | O(log n)  | 많음       |
@@ -81,7 +81,7 @@ categories = "studynote-computer-architecture"
 
 ---
 
-## IV. Kogge-Stone 아키텍처
+## [[288_version_ihl_tos_total_length|IV]]. Kogge-Stone 아키텍처
 
 ```
 Kogge-Stone: 완전 병렬 접두사 구조
@@ -101,13 +101,13 @@ Kogge-Stone: 완전 병렬 접두사 구조
 
 ---
 
-## V. 실무 — Intel/AMD CPU ALU
+## V. 실무 — Intel/AMD CPU [[117_alu|ALU]]
 
 | 제품                | 가산기 방식           | 목적                |
 |--------------------|---------------------|---------------------|
-| Intel Core 정수 ALU | Kogge-Stone 변형     | 1-cycle 64-bit 덧셈 |
-| AMD Zen ALU         | Ling Adder (변형 CLA)| 빠른 비교 연산       |
-| FPGA 구현           | 캐리 체인 LUT        | 면적·속도 균형       |
+| Intel Core 정수 [[117_alu|ALU]] | Kogge-Stone 변형     | 1-cycle 64-bit 덧셈 |
+| AMD Zen [[117_alu|ALU]]         | Ling Adder (변형 CLA)| 빠른 비교 연산       |
+| [[606_dynamic_partial_reconfiguration|FPGA]] 구현           | 캐리 체인 LUT        | 면적·속도 균형       |
 
 > 📢 **섹션 요약 비유**: 현대 CPU의 덧셈은 모두 CLA 계열 — 3GHz 클럭에서 1사이클에 덧셈을 끝내려면 캐리 예측이 필수.
 

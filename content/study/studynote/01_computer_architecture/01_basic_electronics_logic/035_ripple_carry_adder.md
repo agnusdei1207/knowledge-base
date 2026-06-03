@@ -6,13 +6,13 @@ categories = "studynote-computer-architecture"
 +++
 
 > **핵심 인사이트**
-> 1. RCA (Ripple Carry Adder)는 전가산기(FA)를 직렬 연결해 하위 비트 캐리가 상위 비트로 전파(ripple)되는 구조로, 구현이 단순하지만 캐리 전파 지연(Carry Propagation Delay)이 성능 병목이다.
-> 2. n-bit RCA의 최악 지연 시간은 O(n)이므로, 고속 가산이 필요한 CPU는 CLA (Carry Lookahead Adder) 또는 CSA (Carry Save Adder)로 대체한다.
+> 1. RCA (Ripple Carry Adder)는 [[034_full_adder|전가산기]](FA)를 [[149_serial_communication_rs232_rs485|직렬]] 연결해 하위 [[073_bit|비트]] 캐리가 상위 [[073_bit|비트]]로 전파(ripple)되는 구조로, 구현이 단순하지만 캐리 [[016_전파_지연|전파 지연]](Carry [[016_전파_지연|Propagation Delay]])이 [[282_performance_tactics|성능]] 병목이다.
+> 2. n-bit RCA의 최악 [[141_latency|지연 시간]]은 O(n)이므로, 고속 가산이 필요한 CPU는 CLA ([[036_carry_lookahead_adder|Carry Lookahead Adder]]) 또는 CSA (Carry Save Adder)로 대체한다.
 > 3. 비용·면적 vs 속도의 트레이드오프가 핵심: RCA는 게이트 수 최소, CLA는 빠르지만 게이트 수 증가.
 
 ---
 
-## Ⅰ. 기본 원리 — 전가산기의 체인
+## Ⅰ. 기본 원리 — [[034_full_adder|전가산기]]의 체인
 
 ```
   A3 B3    A2 B2    A1 B1    A0 B0
@@ -24,11 +24,11 @@ categories = "studynote-computer-architecture"
   Cout
 ```
 
-- **FA (Full Adder)** 하나가 1비트 합(Sum)과 캐리(Carry Out) 생성
+- **FA ([[034_full_adder|Full Adder]])** 하나가 1비트 합(Sum)과 캐리(Carry Out) [[087_process_state_transition|생성]]
 - Carry Out이 다음 FA의 Carry In으로 전달 → 물결처럼 전파
-- n-bit 합산 시 FA를 n개 직렬 연결
+- n-bit 합산 시 FA를 n개 [[149_serial_communication_rs232_rs485|직렬]] 연결
 
-### 진리표 (FA 단일)
+### [[024_truth_table|진리표]] (FA 단일)
 
 | A | B | Cin | Sum | Cout |
 |---|---|-----|-----|------|
@@ -41,7 +41,7 @@ categories = "studynote-computer-architecture"
 
 ---
 
-## Ⅱ. 지연 시간 분석
+## Ⅱ. [[141_latency|지연 시간]] 분석
 
 ```
 게이트 지연 단위 = t_gate
@@ -53,13 +53,13 @@ n-bit RCA 총 지연:
   - Sn-1: 2n·t           ← O(n) 선형 증가
 ```
 
-| 비트 수 | RCA 지연 | CLA 지연 |
+| [[073_bit|비트]] 수 | RCA [[015_지연_데이터_관점|지연]] | CLA [[015_지연_데이터_관점|지연]] |
 |---------|---------|---------|
 | 4-bit   | 8t      | 4t      |
 | 8-bit   | 16t     | 5t      |
 | 32-bit  | 64t     | 8t      |
 
-- **Critical Path**: 최하위 비트 캐리 → 최상위 비트 순전파 경로
+- **Critical Path**: 최하위 [[073_bit|비트]] 캐리 → 최상위 [[073_bit|비트]] [[271_forward_propagation|순전파]] 경로
 
 > 📢 **섹션 요약 비유**: 릴레이 경기처럼 바통을 한 명씩 전달 — 선수가 많을수록 총 시간이 선형 증가.
 
@@ -67,7 +67,7 @@ n-bit RCA 총 지연:
 
 ## Ⅲ. 개선 기법 — CLA와 CSA
 
-### 3-1. CLA (Carry Lookahead Adder)
+### 3-1. CLA ([[036_carry_lookahead_adder|Carry Lookahead Adder]])
 
 ```
 Generate: Gi = Ai AND Bi   → 이 자리에서 캐리 생성
@@ -78,8 +78,8 @@ C2 = G1 + P1·G0 + P1·P0·C0
 C3 = G2 + P2·G1 + P2·P1·G0 + P2·P1·P0·C0  (병렬 계산)
 ```
 
-- **O(log n)** 지연으로 단축
-- 상위 비트 캐리를 하위 비트 결과를 기다리지 않고 직접 계산
+- **O(log n)** [[015_지연_데이터_관점|지연]]으로 단축
+- 상위 [[073_bit|비트]] 캐리를 하위 [[073_bit|비트]] 결과를 기다리지 않고 직접 계산
 
 ### 3-2. CSA (Carry Save Adder) — 3피연산자 합산
 
@@ -91,7 +91,7 @@ C3 = G2 + P2·G1 + P2·P1·G0 + P2·P1·P0·C0  (병렬 계산)
 
 - 곱셈기(Multiplier) 내부에서 부분 합(Partial Product) 처리에 필수
 
-> 📢 **섹션 요약 비유**: CLA는 경기 전 각 구간 예상 결과를 미리 계산해두는 전략 — 모든 구간을 동시에 달릴 수는 없지만 바통 위치를 예측해 준비한다.
+> 📢 **섹션 요약 비유**: CLA는 경기 전 각 구간 예상 결과를 미리 계산해두는 [[268_strategy_pattern|전략]] — 모든 구간을 동시에 달릴 수는 없지만 바통 위치를 예측해 준비한다.
 
 ---
 
@@ -118,14 +118,14 @@ endmodule
 
 ---
 
-## Ⅴ. 실무 시나리오 — CPU ALU 설계
+## Ⅴ. 실무 시나리오 — CPU [[117_alu|ALU]] 설계
 
 | 상황              | 선택       | 이유                              |
 |-------------------|-----------|-----------------------------------|
 | 교육용 4-bit 계산기 | RCA       | 단순성 우선                        |
-| FPGA 32-bit 가산  | CLA       | 타이밍 클로저 요구                 |
-| GPU 누산기 내부    | CSA + CLA | 다수 피연산자 병렬 처리             |
-| RISC-V ALU       | CLA 2단계 | 게이트 수·속도 균형                |
+| [[606_dynamic_partial_reconfiguration|FPGA]] 32-bit 가산  | CLA       | 타이밍 클로저 요구                 |
+| [[418_gpu|GPU]] [[161_accumulator|누산기]] 내부    | CSA + CLA | 다수 [[160_operand|피연산자]] [[430_index_fast_full_scan|병렬]] 처리             |
+| [[200_riscv|RISC-V]] [[117_alu|ALU]]       | CLA 2단계 | 게이트 수·속도 균형                |
 
 > 📢 **섹션 요약 비유**: 단거리면 RCA, 마라톤 속도전이면 CLA — 도구는 목적에 맞게 선택한다.
 

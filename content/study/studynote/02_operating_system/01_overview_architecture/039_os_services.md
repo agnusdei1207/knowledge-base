@@ -6,13 +6,13 @@ categories = "studynote-operating-system"
 +++
 
 > **핵심 인사이트**
-> 1. 운영체제 서비스는 사용자/애플리케이션을 위한 서비스(UI, 프로그램 실행, I/O, 파일 시스템, 통신, 에러 처리)와 시스템 효율을 위한 서비스(자원 할당, 로깅, 보호·보안)로 구분되며, 이 모두가 시스템 콜(System Call)을 통해 제공된다.
-> 2. 시스템 콜(System Call)은 사용자 모드(User Mode) 애플리케이션이 커널 모드(Kernel Mode) 서비스를 요청하는 유일한 합법적 진입점으로, CPU의 모드 전환 메커니즘이 보안의 핵심 경계를 형성한다.
-> 3. OS 서비스 아키텍처는 모놀리식 vs 마이크로커널의 근본 트레이드오프를 결정 — 모놀리식은 서비스를 커널 공간에서 직접 실행(빠름), 마이크로커널은 사용자 공간 서버로 분리(안전·이식성).
+> 1. [[001_operating_system_purpose|운영체제]] [[090_service_kubernetes_network_load_balancing|서비스]]는 사용자/애플리케이션을 위한 [[090_service_kubernetes_network_load_balancing|서비스]](UI, 프로그램 실행, I/O, [[501_file_definition_logical_record|파일]] 시스템, 통신, 에러 처리)와 시스템 효율을 위한 [[090_service_kubernetes_network_load_balancing|서비스]]([[041_resource_allocation|자원 할당]], 로깅, [[571_protection_vs_security|보호]]·보안)로 구분되며, 이 모두가 시스템 콜([[013_system_call|System Call]])을 통해 제공된다.
+> 2. 시스템 콜([[013_system_call|System Call]])은 사용자 모드(User Mode) 애플리케이션이 [[022_kernel_role|커널]] 모드([[022_kernel_role|Kernel]] Mode) [[090_service_kubernetes_network_load_balancing|서비스]]를 요청하는 유일한 합법적 진입점으로, CPU의 모드 전환 메커니즘이 보안의 핵심 경계를 형성한다.
+> 3. OS [[090_service_kubernetes_network_load_balancing|서비스]] 아키텍처는 모놀리식 vs 마이크로커널의 근본 트레이드오프를 결정 — 모놀리식은 [[090_service_kubernetes_network_load_balancing|서비스]]를 [[022_kernel_role|커널]] 공간에서 직접 실행(빠름), 마이크로커널은 사용자 공간 서버로 분리(안전·이식성).
 
 ---
 
-## I. OS 서비스 분류
+## I. OS [[090_service_kubernetes_network_load_balancing|서비스]] [[104_classification_analysis|분류]]
 
 ```
 OS 서비스 두 가지 범주:
@@ -42,7 +42,7 @@ OS 서비스 두 가지 범주:
   9. 보호 및 보안
 ```
 
-> 📢 **섹션 요약 비유**: OS는 호텔 — 고객 서비스(프로그램 실행, I/O)와 내부 관리(자원 할당, 보안)를 동시에 운영.
+> 📢 **섹션 요약 비유**: OS는 호텔 — 고객 [[090_service_kubernetes_network_load_balancing|서비스]](프로그램 실행, I/O)와 내부 관리([[041_resource_allocation|자원 할당]], 보안)를 동시에 운영.
 
 ---
 
@@ -72,11 +72,11 @@ OS 서비스 두 가지 범주:
   -> 파일 디스크립터(stdout) -> 터미널 드라이버
 ```
 
-> 📢 **섹션 요약 비유**: 시스템 콜은 은행 창구 — 고객(앱)은 창구(시스템 콜)를 통해서만 금고(커널/하드웨어)에 접근, 직접 접근 불가.
+> 📢 **섹션 요약 비유**: 시스템 콜은 은행 창구 — 고객(앱)은 창구(시스템 콜)를 통해서만 금고([[022_kernel_role|커널]]/하드웨어)에 접근, 직접 접근 불가.
 
 ---
 
-## III. 사용자 모드 vs 커널 모드
+## III. 사용자 모드 vs [[022_kernel_role|커널]] 모드
 
 ```
 듀얼 모드 (Dual Mode) 동작:
@@ -104,11 +104,11 @@ CPU 모드 비트:
     EL2: 하이퍼바이저, EL3: 보안 모니터
 ```
 
-> 📢 **섹션 요약 비유**: 모드 전환은 일반 직원(User)이 금고실(Kernel) 진입 시 보안 카드 태그 — 통과 후 권한 확대, 나올 때 다시 제한.
+> 📢 **섹션 요약 비유**: 모드 전환은 일반 직원(User)이 금고실([[022_kernel_role|Kernel]]) 진입 시 보안 카드 태그 — 통과 후 권한 확대, 나올 때 다시 제한.
 
 ---
 
-## IV. OS 서비스 제공 구조
+## [[288_version_ihl_tos_total_length|IV]]. OS [[090_service_kubernetes_network_load_balancing|서비스]] 제공 구조
 
 ```
 서비스 제공 방식 비교:
@@ -135,7 +135,7 @@ CPU 모드 비트:
   컨테이너/VM 경량화 (Unikraft)
 ```
 
-> 📢 **섹션 요약 비유**: 모놀리식은 백화점(모든 서비스 한 건물), 마이크로커널은 쇼핑몰 입점 구조(각 서비스가 독립 매장) — 빠름 vs 안전성 트레이드오프.
+> 📢 **섹션 요약 비유**: 모놀리식은 백화점(모든 [[090_service_kubernetes_network_load_balancing|서비스]] 한 건물), 마이크로커널은 쇼핑몰 입점 구조(각 [[090_service_kubernetes_network_load_balancing|서비스]]가 독립 매장) — 빠름 vs 안전성 트레이드오프.
 
 ---
 
@@ -172,7 +172,7 @@ strace: 시스템 콜 추적 도구
   권한 오류 디버깅 (EPERM, EACCES)
 ```
 
-> 📢 **섹션 요약 비유**: strace는 앱의 커널 창구 방문 기록 — "언제, 어떤 서비스를, 얼마나 요청했는지" 전부 기록.
+> 📢 **섹션 요약 비유**: strace는 앱의 [[022_kernel_role|커널]] 창구 방문 기록 — "언제, 어떤 [[090_service_kubernetes_network_load_balancing|서비스]]를, 얼마나 요청했는지" 전부 기록.
 
 ---
 
@@ -225,6 +225,6 @@ eBPF로 커널 기능 동적 확장
 
 ## 👶 어린이를 위한 3줄 비유 설명
 
-1. OS 서비스는 호텔처럼 고객(앱)을 위한 서비스(파일, 인터넷)와 호텔 내부 관리(자원 배분, 보안)로 나뉘어요.
-2. 시스템 콜은 고객이 프런트 데스크(커널)에 요청하는 방법 — 직접 금고에 손대지 못하고 반드시 창구를 통해야 해요.
-3. strace를 쓰면 앱이 어떤 OS 서비스를 몇 번 요청했는지 전부 볼 수 있어서 느린 원인을 찾거나 에러를 디버깅할 때 유용해요!
+1. OS [[090_service_kubernetes_network_load_balancing|서비스]]는 호텔처럼 고객(앱)을 위한 [[090_service_kubernetes_network_load_balancing|서비스]]([[501_file_definition_logical_record|파일]], 인터넷)와 호텔 내부 관리(자원 배분, 보안)로 나뉘어요.
+2. 시스템 콜은 고객이 프런트 데스크([[022_kernel_role|커널]])에 요청하는 방법 — 직접 금고에 손대지 못하고 반드시 창구를 통해야 해요.
+3. strace를 쓰면 앱이 어떤 OS [[090_service_kubernetes_network_load_balancing|서비스]]를 몇 번 요청했는지 전부 볼 수 있어서 느린 원인을 찾거나 에러를 디버깅할 때 유용해요!

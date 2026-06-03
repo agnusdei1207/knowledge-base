@@ -7,17 +7,17 @@ categories = "studynote-data-engineering"
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: 피처 스토어 (Feature Store)는 ML 피처를 중앙에서 정의·저장·서빙하는 플랫폼으로, 훈련(Offline)과 서빙(Online) 간의 피처 계산 불일치인 Training-Serving Skew 문제를 근본적으로 해결한다.
-> 2. **가치**: 피처 재사용으로 중복 엔지니어링을 제거하고, Point-in-Time Correct 조인으로 데이터 누수(Data Leakage)를 방지하여 모델 신뢰성을 높이고 개발 속도를 가속한다.
-> 3. **판단 포인트**: 오프라인 스토어(배치 학습용)와 온라인 스토어(실시간 추론용)의 이중 구조가 핵심이며, 두 저장소 간 일관성(Consistency) 유지가 피처 스토어 설계의 최대 난제다.
+> 1. **본질**: [[247_feature_label_variables|피처]] 스토어 (Feature Store)는 ML [[247_feature_label_variables|피처]]를 중앙에서 정의·저장·서빙하는 플랫폼으로, 훈련(Offline)과 서빙(Online) 간의 [[247_feature_label_variables|피처]] 계산 불일치인 Training-Serving Skew 문제를 근본적으로 해결한다.
+> 2. **가치**: [[247_feature_label_variables|피처]] 재사용으로 중복 엔지니어링을 제거하고, Point-in-Time Correct 조인으로 [[001_dikw_pyramid|데이터]] 누수([[001_dikw_pyramid|Data]] Leakage)를 방지하여 모델 [[642_reliability_mtbf_mttr_mttf_availability|신뢰성]]을 높이고 개발 속도를 가속한다.
+> 3. **판단 포인트**: 오프라인 스토어(배치 학습용)와 온라인 스토어(실시간 추론용)의 이중 구조가 핵심이며, 두 저장소 간 [[194_consistency_database_integrity|일관성]]([[194_consistency_database_integrity|Consistency]]) 유지가 [[247_feature_label_variables|피처]] 스토어 설계의 최대 난제다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-### 1.1 피처 스토어란?
+### 1.1 [[247_feature_label_variables|피처]] 스토어란?
 
-**피처 스토어 (Feature Store)**는 ML 모델 개발 및 서빙에 사용되는 피처(특징 변수)를 중앙화하여 정의, 저장, 공유, 서빙하는 데이터 플랫폼이다.
+**[[247_feature_label_variables|피처]] 스토어 (Feature Store)**는 ML 모델 개발 및 서빙에 사용되는 [[247_feature_label_variables|피처]](특징 변수)를 중앙화하여 정의, 저장, 공유, 서빙하는 [[001_dikw_pyramid|데이터]] 플랫폼이다.
 
 ```
 피처 스토어 없는 세상 (문제 상황)
@@ -45,22 +45,22 @@ categories = "studynote-data-engineering"
 
 ### 1.2 Training-Serving Skew 문제
 
-**Training-Serving Skew**는 모델 훈련 시 계산된 피처와 실제 서빙 시 계산된 피처가 다른 현상으로, 모델 성능 저하의 주요 원인 중 하나다.
+**Training-Serving Skew**는 모델 훈련 시 계산된 [[247_feature_label_variables|피처]]와 실제 서빙 시 계산된 [[247_feature_label_variables|피처]]가 다른 현상으로, 모델 [[282_performance_tactics|성능]] 저하의 주요 원인 중 하나다.
 
 | Skew 원인 | 구체적 사례 |
 |:---|:---|
 | **코드 불일치** | Python으로 훈련, Java로 서빙 (반올림 오차, 로직 차이) |
 | **타임스탬프 오류** | 훈련 시 현재 날짜 기준, 서빙 시 다른 기준 |
 | **결측값 처리 차이** | 훈련: 평균 대체, 서빙: 0 대체 |
-| **스케일링 불일치** | 훈련 데이터 평균으로 정규화, 서빙 시 다른 평균 사용 |
+| **[[249_scaling_normalization_standardization|스케일링]] 불일치** | 훈련 [[001_dikw_pyramid|데이터]] 평균으로 [[093_normalization|정규화]], 서빙 시 다른 평균 사용 |
 
-📢 **섹션 요약 비유**: 피처 스토어는 요리 레시피 데이터베이스와 같다. 모든 요리사(팀)가 같은 레시피(피처 정의)로 재료를 준비하고, 훈련(연습)과 실전(서빙) 모두 동일한 레시피를 사용한다. 레시피가 달라지면 요리 맛(모델 성능)도 달라진다.
+📢 **섹션 요약 비유**: [[247_feature_label_variables|피처]] 스토어는 요리 레시피 [[001_dikw_pyramid|데이터]]베이스와 같다. 모든 요리사(팀)가 같은 레시피([[247_feature_label_variables|피처]] 정의)로 재료를 준비하고, 훈련(연습)과 실전(서빙) 모두 동일한 레시피를 사용한다. 레시피가 달라지면 요리 맛(모델 [[282_performance_tactics|성능]])도 달라진다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### 2.1 피처 스토어 핵심 구성요소
+### 2.1 [[247_feature_label_variables|피처]] 스토어 핵심 구성요소
 
 ```
 ┌─────────────────────────────────────────────────────────────────┐
@@ -96,15 +96,15 @@ categories = "studynote-data-engineering"
 | 항목 | 오프라인 스토어 | 온라인 스토어 |
 |:---|:---|:---|
 | **목적** | 배치 모델 학습 | 실시간 모델 추론 |
-| **저장 기술** | S3, GCS, BigQuery, Hive | Redis, DynamoDB, Cassandra |
-| **쿼리 방식** | 시간 범위 기반 배치 읽기 | 키-값 기반 단건 빠른 읽기 |
-| **지연시간** | 수 분 ~ 수 시간 | 수 밀리초 (ms) |
-| **저장 기간** | 수년 (히스토리 보관) | 수일 ~ 수주 (최신 데이터) |
-| **데이터 크기** | TB ~ PB 규모 | GB ~ TB 규모 |
+| **저장 기술** | S3, GCS, [[263_storage_compute_separation_bigquery|BigQuery]], [[544_hive|Hive]] | [[542_redis|Redis]], [[545_dynamodb|DynamoDB]], [[541_cassandra|Cassandra]] |
+| **[[298_qkv_attention|쿼리]] 방식** | 시간 범위 기반 배치 읽기 | 키-값 기반 단건 빠른 읽기 |
+| **[[015_지연_데이터_관점|지연]]시간** | 수 분 ~ 수 시간 | 수 밀리초 (ms) |
+| **저장 기간** | 수년 (히스토리 보관) | 수일 ~ 수주 (최신 [[001_dikw_pyramid|데이터]]) |
+| **[[001_dikw_pyramid|데이터]] 크기** | TB ~ PB 규모 | GB ~ TB 규모 |
 
 ### 2.3 Point-in-Time Correct 조인
 
-가장 중요한 피처 스토어 개념 중 하나인 **Point-in-Time Correct 조인**은 훈련 데이터 생성 시 각 레이블 시점에서 실제로 사용 가능했던 피처 값만 사용하도록 보장한다.
+가장 중요한 [[247_feature_label_variables|피처]] 스토어 개념 중 하나인 **Point-in-Time Correct 조인**은 훈련 [[001_dikw_pyramid|데이터]] [[087_process_state_transition|생성]] 시 각 레이블 시점에서 실제로 사용 가능했던 [[247_feature_label_variables|피처]] 값만 사용하도록 보장한다.
 
 ```
 데이터 누수 (Data Leakage) 문제 예시:
@@ -146,33 +146,33 @@ Point-in-Time Correct 조인 구현 (Feast 예시):
 └──────────────────────────────────────────────────────────┘
 ```
 
-### 2.4 주요 피처 스토어 제품 비교
+### 2.4 주요 [[247_feature_label_variables|피처]] 스토어 제품 비교
 
 | 제품 | 유형 | 오프라인 | 온라인 | 강점 |
 |:---|:---|:---:|:---:|:---|
-| **Feast** | 오픈소스 | S3/GCS/BQ | Redis/DynamoDB | 가장 많이 쓰이는 오픈소스 |
-| **Tecton** | SaaS | Spark/Snowflake | DynamoDB/Redis | 완전 관리형, 스트리밍 강점 |
-| **Hopsworks** | 오픈소스/SaaS | Hive | RonDB/MySQL | 사용 편의성, 오프라인 강점 |
-| **Vertex AI Feature Store** | GCP | BigQuery | Bigtable | GCP 완전 통합 |
-| **SageMaker Feature Store** | AWS | S3 | DynamoDB | AWS SageMaker 완전 통합 |
+| **Feast** | [[191_oss_license_compliance|오픈소스]] | S3/GCS/BQ | [[542_redis|Redis]]/[[545_dynamodb|DynamoDB]] | 가장 많이 쓰이는 [[191_oss_license_compliance|오픈소스]] |
+| **Tecton** | [[309_saas|SaaS]] | Spark/[[541_cassandra|Snowflake]] | [[545_dynamodb|DynamoDB]]/[[542_redis|Redis]] | 완전 관리형, 스트리밍 강점 |
+| **Hopsworks** | [[191_oss_license_compliance|오픈소스]]/[[309_saas|SaaS]] | [[544_hive|Hive]] | RonDB/MySQL | 사용 편의성, 오프라인 강점 |
+| **Vertex [[190_ai_llm_requirements_specification|AI]] Feature Store** | GCP | [[263_storage_compute_separation_bigquery|BigQuery]] | Bigtable | GCP 완전 통합 |
+| **SageMaker Feature Store** | AWS | S3 | [[545_dynamodb|DynamoDB]] | AWS SageMaker 완전 통합 |
 
-📢 **섹션 요약 비유**: 피처 스토어 아키텍처는 도서관 시스템과 같다. 오프라인 스토어는 넓은 도서관 창고(빠르게 찾기 어렵지만 모든 책 보관)이고, 온라인 스토어는 카운터 앞 빠른 참고 선반(즉시 꺼낼 수 있는 핵심 책들)이다. Point-in-Time 조인은 "2023년 당시 도서관에 있던 책들만 참고"하는 시간 여행 규칙이다.
+📢 **섹션 요약 비유**: [[247_feature_label_variables|피처]] 스토어 아키텍처는 도서관 시스템과 같다. 오프라인 스토어는 넓은 도서관 창고(빠르게 찾기 어렵지만 모든 책 보관)이고, 온라인 스토어는 [[059_counter|카운터]] 앞 빠른 참고 선반(즉시 꺼낼 수 있는 핵심 책들)이다. Point-in-Time 조인은 "2023년 당시 도서관에 있던 책들만 참고"하는 시간 여행 규칙이다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-### 3.1 피처 스토어 vs 데이터 웨어하우스 vs 데이터 레이크
+### 3.1 [[247_feature_label_variables|피처]] 스토어 vs [[209_data_warehouse_schema_on_write|데이터 웨어하우스]] vs [[208_data_lake_schema_on_read|데이터 레이크]]
 
-| 항목 | 데이터 레이크 | 데이터 웨어하우스 | 피처 스토어 |
+| 항목 | [[208_data_lake_schema_on_read|데이터 레이크]] | [[209_data_warehouse_schema_on_write|데이터 웨어하우스]] | [[247_feature_label_variables|피처]] 스토어 |
 |:---|:---|:---|:---|
-| **목적** | 원시 데이터 저장 | 분석용 구조화 | ML 피처 서빙 |
-| **사용자** | 데이터 엔지니어 | 데이터 분석가 | ML 엔지니어 |
-| **지연시간** | 분~시간 | 초~분 | ms (온라인) |
-| **버전 관리** | 파일/테이블 | 없음/제한적 | 완전 버전 관리 |
+| **목적** | 원시 [[001_dikw_pyramid|데이터]] 저장 | 분석용 구조화 | ML [[247_feature_label_variables|피처]] 서빙 |
+| **사용자** | [[001_dikw_pyramid|데이터]] 엔지니어 | [[001_dikw_pyramid|데이터]] 분석가 | ML 엔지니어 |
+| **[[015_지연_데이터_관점|지연]]시간** | 분~시간 | 초~분 | ms (온라인) |
+| **[[288_version_ihl_tos_total_length|버전]] 관리** | [[501_file_definition_logical_record|파일]]/테이블 | 없음/제한적 | 완전 [[288_version_ihl_tos_total_length|버전]] 관리 |
 | **실시간 서빙** | 불가 | 불가 | 핵심 기능 |
 
-### 3.2 피처 공유 재사용 효과
+### 3.2 [[247_feature_label_variables|피처]] 공유 재사용 효과
 
 ```
 피처 스토어 도입 전:
@@ -187,22 +187,22 @@ Point-in-Time Correct 조인 구현 (Feast 예시):
   총: 1.5주 + 코드 재사용 + 일관성 보장
 ```
 
-### 3.3 피처 스토어의 한계와 보완
+### 3.3 [[247_feature_label_variables|피처]] 스토어의 한계와 보완
 
 | 한계 | 설명 | 보완 방법 |
 |:---|:---|:---|
-| **오프라인-온라인 동기화** | 배치 업데이트 지연으로 최신성 부족 | 스트리밍 파이프라인 추가 |
-| **초기 구축 비용** | 피처 파이프라인 표준화에 시간 소요 | 점진적 마이그레이션 |
-| **거버넌스** | 피처 오너십, 접근 제어 관리 | 피처 레지스트리 + 권한 관리 |
+| **오프라인-온라인 [[212_synchronization_mechanisms|동기화]]** | 배치 업데이트 [[015_지연_데이터_관점|지연]]으로 최신성 부족 | 스트리밍 파이프라인 추가 |
+| **[[459_quic_fec_forward_error_correction|초기]] 구축 비용** | [[247_feature_label_variables|피처]] 파이프라인 표준화에 시간 소요 | 점진적 마이그레이션 |
+| **거버넌스** | [[247_feature_label_variables|피처]] 오너십, 접근 제어 관리 | [[247_feature_label_variables|피처]] [[235_registry_immutable_tag|레지스트리]] + 권한 관리 |
 | **스토리지 비용** | 온오프라인 이중 저장 | 콜드/웜/핫 계층화 저장 |
 
-📢 **섹션 요약 비유**: 피처 스토어 vs 데이터 웨어하우스의 차이는 도서관 창고(DW)와 빠른 배달 서비스(Feature Store)의 차이다. 창고에서 책을 꺼내는 건 느려도(분석용), 배달 서비스는 주문 즉시 수 밀리초 내 배달해야 한다(실시간 추론).
+📢 **섹션 요약 비유**: [[247_feature_label_variables|피처]] 스토어 vs [[209_data_warehouse_schema_on_write|데이터 웨어하우스]]의 차이는 도서관 창고([[209_data_warehouse_schema_on_write|DW]])와 빠른 배달 [[090_service_kubernetes_network_load_balancing|서비스]](Feature Store)의 차이다. 창고에서 책을 꺼내는 건 느려도(분석용), 배달 [[090_service_kubernetes_network_load_balancing|서비스]]는 주문 즉시 수 밀리초 내 배달해야 한다(실시간 추론).
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### 4.1 피처 스토어 도입 성숙도 모델
+### 4.1 [[247_feature_label_variables|피처]] 스토어 도입 성숙도 모델
 
 ```
 Level 1: 피처 파일 공유
@@ -228,16 +228,16 @@ Level 5: 스트리밍 피처 스토어
 
 ### 4.2 기술사 시험 핵심 포인트
 
-**Q. 피처 스토어의 Training-Serving Skew 문제를 해결하는 방법을 설명하시오.**
+**Q. [[247_feature_label_variables|피처]] 스토어의 Training-Serving Skew 문제를 해결하는 방법을 설명하시오.**
 
-Training-Serving Skew는 훈련 시 Python PySpark로 계산한 피처와 서빙 시 Java 코드로 계산한 피처 간 불일치에서 발생한다. 피처 스토어는 이를 다음 방법으로 해결한다:
-1. **단일 피처 변환 코드**: 오프라인과 온라인 모두 동일한 피처 정의 코드 실행
+Training-Serving Skew는 훈련 시 Python PySpark로 계산한 [[247_feature_label_variables|피처]]와 서빙 시 Java 코드로 계산한 [[247_feature_label_variables|피처]] 간 불일치에서 발생한다. [[247_feature_label_variables|피처]] 스토어는 이를 다음 방법으로 해결한다:
+1. **단일 [[247_feature_label_variables|피처]] 변환 코드**: 오프라인과 온라인 모두 동일한 [[247_feature_label_variables|피처]] 정의 코드 실행
 2. **사전 계산 저장**: 변환 결과를 스토어에 저장하여 서빙 시 재계산 없이 조회
-3. **피처 레지스트리**: 피처 정의, 버전, 메타데이터를 중앙 관리
+3. **[[247_feature_label_variables|피처]] [[235_registry_immutable_tag|레지스트리]]**: [[247_feature_label_variables|피처]] 정의, [[288_version_ihl_tos_total_length|버전]], [[012_metadata|메타데이터]]를 중앙 관리
 
-**Q. Point-in-Time Correct 조인으로 데이터 누수를 방지하는 원리를 설명하시오.**
+**Q. Point-in-Time Correct 조인으로 [[001_dikw_pyramid|데이터]] 누수를 방지하는 원리를 설명하시오.**
 
-데이터 누수는 미래 시점의 피처 정보를 학습에 사용하여 실제 배포 시보다 높은 성능을 보이는 문제다. Point-in-Time Correct 조인은 각 훈련 샘플의 레이블 생성 시점(event_timestamp)을 기준으로 **그 시점 이전에 실제 계산·저장된 피처 값만** 조인한다. Feast 등 피처 스토어는 이를 SQL의 `AS OF` 문법이나 내부 타임스탬프 기반 역방향 조회로 구현한다.
+[[001_dikw_pyramid|데이터]] 누수는 미래 시점의 [[247_feature_label_variables|피처]] 정보를 학습에 사용하여 실제 배포 시보다 높은 [[282_performance_tactics|성능]]을 보이는 문제다. Point-in-Time Correct 조인은 각 훈련 샘플의 레이블 [[087_process_state_transition|생성]] 시점(event_timestamp)을 기준으로 **그 시점 이전에 실제 계산·저장된 [[247_feature_label_variables|피처]] 값만** 조인한다. Feast 등 [[247_feature_label_variables|피처]] 스토어는 이를 SQL의 `AS OF` 문법이나 내부 타임스탬프 기반 역방향 조회로 구현한다.
 
 ### 4.3 Feast 아키텍처 상세
 
@@ -267,52 +267,52 @@ Training-Serving Skew는 훈련 시 Python PySpark로 계산한 피처와 서빙
 └──────────────────────────────────────────────────────────────┘
 ```
 
-📢 **섹션 요약 비유**: 피처 스토어 도입은 식당 주방에 재료 관리 시스템을 도입하는 것과 같다. 냉장고(오프라인 스토어)에는 모든 재료를 날짜별로 보관하고, 조리 직전 준비대(온라인 스토어)에는 오늘 가장 신선한 재료만 꺼내놓는다. 모든 요리사가 같은 재료 목록(피처 레지스트리)을 보고 동일한 재료를 사용한다.
+📢 **섹션 요약 비유**: [[247_feature_label_variables|피처]] 스토어 도입은 식당 주방에 재료 관리 시스템을 도입하는 것과 같다. 냉장고(오프라인 스토어)에는 모든 재료를 날짜별로 보관하고, 조리 직전 준비대(온라인 스토어)에는 오늘 가장 신선한 재료만 꺼내놓는다. 모든 요리사가 같은 재료 목록([[247_feature_label_variables|피처]] [[235_registry_immutable_tag|레지스트리]])을 보고 동일한 재료를 사용한다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-### 5.1 피처 스토어 도입 기대효과
+### 5.1 [[247_feature_label_variables|피처]] 스토어 도입 기대효과
 
 | 항목 | 도입 전 | 도입 후 | 개선 |
 |:---|:---|:---|:---|
-| **피처 개발 시간** | 신규 피처 2~4주 | 기존 피처 재사용 1~2일 | 80% 단축 |
-| **Training-Serving Skew** | 빈번히 발생 | 완전 제거 | 모델 신뢰성 향상 |
-| **데이터 누수** | 감지 어려움 | PIT 조인으로 방지 | 모델 정확도 현실화 |
-| **팀 간 피처 공유** | 없음 | 검색·재사용 가능 | 협업 효율 향상 |
-| **실시간 서빙 지연** | 수 초 (실시간 계산) | 수 ms (사전 계산) | SLA 충족 |
+| **[[247_feature_label_variables|피처]] 개발 시간** | 신규 [[247_feature_label_variables|피처]] 2~4주 | 기존 [[247_feature_label_variables|피처]] 재사용 1~2일 | 80% 단축 |
+| **Training-Serving Skew** | 빈번히 발생 | 완전 제거 | 모델 [[642_reliability_mtbf_mttr_mttf_availability|신뢰성]] 향상 |
+| **[[001_dikw_pyramid|데이터]] 누수** | 감지 어려움 | PIT 조인으로 방지 | 모델 정확도 현실화 |
+| **팀 간 [[247_feature_label_variables|피처]] 공유** | 없음 | 검색·재사용 가능 | 협업 효율 향상 |
+| **실시간 서빙 [[015_지연_데이터_관점|지연]]** | 수 초 (실시간 계산) | 수 ms (사전 계산) | [[085_sla|SLA]] 충족 |
 
 ### 5.2 결론
 
-피처 스토어는 대규모 ML 서비스에서 **피처 일관성·재사용·실시간 서빙**이라는 세 가지 요구를 동시에 해결하는 핵심 인프라다. Point-in-Time Correct 조인으로 데이터 누수를 방지하고, 오프라인/온라인 이중 구조로 배치 학습과 실시간 추론을 모두 지원한다.
+[[247_feature_label_variables|피처]] 스토어는 대규모 ML [[090_service_kubernetes_network_load_balancing|서비스]]에서 **[[247_feature_label_variables|피처]] [[194_consistency_database_integrity|일관성]]·재사용·실시간 서빙**이라는 세 가지 요구를 동시에 해결하는 핵심 인프라다. Point-in-Time Correct 조인으로 [[001_dikw_pyramid|데이터]] 누수를 방지하고, 오프라인/온라인 이중 구조로 배치 학습과 실시간 추론을 모두 지원한다.
 
-📢 **섹션 요약 비유**: 피처 스토어는 글로벌 체인 패스트푸드의 중앙 레시피 관리 시스템과 같다. 서울 매장이든 뉴욕 매장이든(훈련이든 서빙이든) 동일한 버거 레시피(피처 정의)를 사용하고, 신선한 재료(최신 데이터)는 냉장 트럭(스트리밍 파이프라인)으로 실시간 공급된다.
+📢 **섹션 요약 비유**: [[247_feature_label_variables|피처]] 스토어는 글로벌 체인 패스트푸드의 중앙 레시피 관리 시스템과 같다. 서울 매장이든 뉴욕 매장이든(훈련이든 서빙이든) 동일한 버거 레시피([[247_feature_label_variables|피처]] 정의)를 사용하고, 신선한 재료(최신 [[001_dikw_pyramid|데이터]])는 냉장 트럭(스트리밍 파이프라인)으로 실시간 공급된다.
 
 ---
 
 ### 📌 관련 개념 맵
 
-| 관계 | 개념 | 설명 |
+| [[083_relationship_in_er_model|관계]] | 개념 | 설명 |
 |:---|:---|:---|
-| 해결 문제 | Training-Serving Skew | 훈련/서빙 피처 불일치 |
-| 해결 문제 | 데이터 누수 (Data Leakage) | 미래 데이터 학습 사용 |
-| 핵심 기능 | Point-in-Time Correct 조인 | 시점 기준 피처 조인 |
-| 구성요소 | 오프라인 스토어 | 배치 학습용 피처 저장 |
-| 구성요소 | 온라인 스토어 | 실시간 추론용 피처 저장 |
-| 구성요소 | 피처 레지스트리 | 피처 정의·메타데이터 관리 |
-| 도구 | Feast | 오픈소스 피처 스토어 |
-| 도구 | Hopsworks | 오픈소스 피처 스토어 |
-| 도구 | Tecton | SaaS 피처 스토어 |
-| 상위 개념 | MLOps | 피처 스토어는 MLOps 핵심 인프라 |
-| 연관 | 모델 레지스트리 | 모델 버전 관리 (피처 스토어 협력) |
+| 해결 문제 | Training-Serving Skew | 훈련/서빙 [[247_feature_label_variables|피처]] 불일치 |
+| 해결 문제 | [[001_dikw_pyramid|데이터]] 누수 ([[001_dikw_pyramid|Data]] Leakage) | 미래 [[001_dikw_pyramid|데이터]] 학습 사용 |
+| 핵심 기능 | Point-in-Time Correct 조인 | 시점 기준 [[247_feature_label_variables|피처]] 조인 |
+| 구성요소 | 오프라인 스토어 | 배치 학습용 [[247_feature_label_variables|피처]] 저장 |
+| 구성요소 | 온라인 스토어 | 실시간 추론용 [[247_feature_label_variables|피처]] 저장 |
+| 구성요소 | [[247_feature_label_variables|피처]] [[235_registry_immutable_tag|레지스트리]] | [[247_feature_label_variables|피처]] 정의·[[203_metadata_management|메타데이터 관리]] |
+| 도구 | Feast | [[191_oss_license_compliance|오픈소스]] [[247_feature_label_variables|피처]] 스토어 |
+| 도구 | Hopsworks | [[191_oss_license_compliance|오픈소스]] [[247_feature_label_variables|피처]] 스토어 |
+| 도구 | Tecton | [[309_saas|SaaS]] [[247_feature_label_variables|피처]] 스토어 |
+| 상위 개념 | [[348_mlops|MLOps]] | [[247_feature_label_variables|피처]] 스토어는 [[348_mlops|MLOps]] 핵심 인프라 |
+| 연관 | [[166_model_registry_versioning_mlflow|모델 레지스트리]] | 모델 [[288_version_ihl_tos_total_length|버전]] 관리 ([[247_feature_label_variables|피처]] 스토어 협력) |
 
 ---
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. 피처 스토어는 레고 부품함과 같아요. 여러 사람이 같은 부품(피처)을 사용하고, 새 모델을 만들 때마다 부품을 새로 만들 필요 없이 부품함에서 가져다 쓸 수 있어요.
-2. 온라인 스토어는 냉장고, 오프라인 스토어는 창고와 같아요. 즉시 필요한 재료는 냉장고(Redis)에서, 긴 역사 기록은 창고(S3)에서 찾아요.
+1. [[247_feature_label_variables|피처]] 스토어는 레고 부품함과 같아요. 여러 사람이 같은 부품([[247_feature_label_variables|피처]])을 사용하고, 새 모델을 만들 때마다 부품을 새로 만들 필요 없이 부품함에서 가져다 쓸 수 있어요.
+2. 온라인 스토어는 냉장고, 오프라인 스토어는 창고와 같아요. 즉시 필요한 재료는 냉장고([[542_redis|Redis]])에서, 긴 역사 기록은 창고(S3)에서 찾아요.
 3. Point-in-Time 조인은 역사 시험 문제와 같아요. "1910년에 일어난 일"을 물을 때 1910년 이후 일어난 사건은 답이 될 수 없어요. 딱 그 시점까지의 정보만 써야 해요.
 
 ### 📈 관련 키워드 및 발전 흐름도

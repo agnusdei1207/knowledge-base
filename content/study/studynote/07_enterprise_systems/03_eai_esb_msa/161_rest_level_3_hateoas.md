@@ -8,17 +8,17 @@ categories = "studynote-enterprise-systems"
 
 ## 핵심 인사이트
 
-> 1. **본질**: 리처드슨 성숙도 모델 (Richardson Maturity Model)의 Level 3는 HATEOAS (Hypermedia As The Engine Of Application State)를 통해, 클라이언트가 **응답에 포함된 링크와 행위 정보로 다음 상태 전이를 발견**하게 만드는 단계다.
-> 2. **가치**: 클라이언트가 URI (Uniform Resource Identifier)를 하드코딩하는 정도를 줄여, 서버가 워크플로를 진화시켜도 결합도를 낮추고 자기 서술적인 API (Application Programming Interface)를 만들 수 있다.
-> 3. **판단 포인트**: Level 3는 REST (Representational State Transfer)의 이상형에 가깝지만, 모든 서비스에 필요한 것은 아니며 도메인 복잡도와 클라이언트 다양성을 보고 채택 범위를 정해야 한다.
+> 1. **본질**: 리처드슨 성숙도 모델 ([[157_restful_api_richardson_maturity_model|Richardson Maturity Model]])의 Level 3는 HATEOAS (Hypermedia [[344_as_autonomous_system_asn|As]] The Engine Of Application [[272_state_pattern|State]])를 통해, 클라이언트가 **응답에 포함된 링크와 행위 정보로 다음 [[632_state_transition_diagram_testing|상태 전이]]를 발견**하게 만드는 단계다.
+> 2. **가치**: 클라이언트가 URI (Uniform Resource [[088_identifier_in_er_model|Identifier]])를 하드코딩하는 정도를 줄여, 서버가 워크플로를 진화시켜도 [[195_coupling_levels|결합도]]를 낮추고 자기 서술적인 [[014_api_posix|API]] ([[014_api_posix|Application Programming Interface]])를 만들 수 있다.
+> 3. **판단 포인트**: Level 3는 [[156_rest_representational_state_transfer|REST]] ([[477_rest_api_architecture|Representational State Transfer]])의 이상형에 가깝지만, 모든 [[090_service_kubernetes_network_load_balancing|서비스]]에 필요한 것은 아니며 [[064_relation_domain|도메인]] 복잡도와 클라이언트 다양성을 보고 채택 범위를 정해야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-Level 3의 핵심은 서버가 단순 데이터만 주는 것이 아니라, **현재 상태에서 허용되는 다음 행동의 링크를 함께 제공**한다는 점이다. 예를 들어 주문이 `CREATED` 상태라면 `cancel`, `pay` 링크를 줄 수 있고, 이미 `SHIPPED` 상태라면 `track` 링크만 남길 수 있다. 클라이언트는 문서에 적힌 URI 규칙을 외워 두기보다, 서버가 보내 준 하이퍼미디어를 따라가며 애플리케이션 상태를 이동한다.
+Level 3의 핵심은 서버가 단순 [[001_dikw_pyramid|데이터]]만 주는 것이 아니라, **[[178_as_is_to_be_analysis|현재 상태]]에서 허용되는 다음 행동의 링크를 함께 제공**한다는 점이다. 예를 들어 주문이 `CREATED` 상태라면 `cancel`, `pay` 링크를 줄 수 있고, 이미 `SHIPPED` 상태라면 `track` 링크만 남길 수 있다. 클라이언트는 문서에 적힌 URI 규칙을 외워 두기보다, 서버가 보내 준 하이퍼미디어를 따라가며 애플리케이션 상태를 이동한다.
 
-이 단계가 필요한 이유는 Level 2에서도 여전히 클라이언트가 많은 업무 흐름을 코드에 하드코딩하기 쉽기 때문이다. `POST /orders/{id}/cancel` 같은 엔드포인트를 클라이언트가 직접 알고 있어야 한다면, URI 구조나 허용 가능한 상태 전이가 바뀔 때마다 앱 수정과 재배포가 뒤따른다. HATEOAS는 이 문제를 줄이기 위해, **워크플로의 일부를 응답 안에 노출**한다.
+이 단계가 필요한 이유는 Level 2에서도 여전히 클라이언트가 많은 업무 흐름을 코드에 하드코딩하기 쉽기 때문이다. `POST /orders/{id}/cancel` 같은 엔드포인트를 클라이언트가 직접 알고 있어야 한다면, URI 구조나 허용 가능한 [[632_state_transition_diagram_testing|상태 전이]]가 바뀔 때마다 앱 수정과 재배포가 뒤따른다. HATEOAS는 이 문제를 줄이기 위해, **워크플로의 일부를 응답 안에 노출**한다.
 
 결국 Level 3는 "링크를 더 붙이는 단계"가 아니라, API가 스스로 사용법을 어느 정도 안내하도록 만드는 단계다. HTML (HyperText Markup Language) 문서에서 사용자가 링크를 클릭하며 다음 화면으로 이동하듯, API도 하이퍼미디어를 통해 다음 행위를 제시하는 것이다.
 
@@ -28,7 +28,7 @@ Level 3의 핵심은 서버가 단순 데이터만 주는 것이 아니라, **�
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-HATEOAS 응답은 보통 리소스 데이터, 링크 관계(`rel`), 대상 URI, 필요한 경우 HTTP (HyperText Transfer Protocol) 메서드나 폼 정보로 구성된다. 핵심은 링크가 정적 목록이 아니라 **현재 리소스 상태에 따라 달라진다**는 점이다. 그래서 같은 주문 리소스라도 결제 전과 배송 후의 응답 링크 집합이 달라질 수 있다.
+HATEOAS 응답은 보통 리소스 [[001_dikw_pyramid|데이터]], 링크 [[083_relationship_in_er_model|관계]](`rel`), 대상 URI, 필요한 경우 [[461_http_stateless_connection_oriented|HTTP]] ([[461_http_stateless_connection_oriented|HyperText Transfer Protocol]]) 메서드나 폼 정보로 구성된다. 핵심은 링크가 정적 목록이 아니라 **현재 리소스 상태에 따라 달라진다**는 점이다. 그래서 같은 주문 리소스라도 결제 전과 배송 후의 응답 링크 집합이 달라질 수 있다.
 
 아래 그림은 주문 상태에 따른 Level 3 응답 개념을 나타낸다.
 
@@ -58,12 +58,12 @@ HATEOAS 응답은 보통 리소스 데이터, 링크 관계(`rel`), 대상 URI, 
 
 | 요소 | 의미 | 설계 포인트 |
 | :--- | :--- | :--- |
-| `rel` | 링크의 관계 의미 | `self`, `next`, `cancel`처럼 일관된 어휘 필요 |
+| `rel` | 링크의 [[083_relationship_in_er_model|관계]] 의미 | `self`, `next`, `cancel`처럼 일관된 어휘 필요 |
 | `href` | 다음 요청 대상 | 하드코딩 대신 서버가 제공 |
-| 상태 기반 링크 | 현재 상태에서 허용된 행위 | 비즈니스 규칙 반영 |
-| 표현 포맷 | HAL, JSON:API, Siren 등 | 조직 표준과 클라이언트 지원 고려 |
+| 상태 기반 링크 | [[178_as_is_to_be_analysis|현재 상태]]에서 허용된 행위 | 비즈니스 규칙 반영 |
+| 표현 포맷 | [[070_hal|HAL]], [[343_json|JSON]]:[[014_api_posix|API]], Siren 등 | 조직 표준과 클라이언트 지원 고려 |
 
-따라서 Level 3의 핵심 원리는 "데이터 + 링크 + 상태 전이 규칙"의 결합이다. 단순 CRUD (Create, Read, Update, Delete) API에서는 과할 수 있지만, 승인·결제·주문처럼 상태 전이가 중요한 도메인에서는 표현력이 높다.
+따라서 Level 3의 핵심 원리는 "[[001_dikw_pyramid|데이터]] + 링크 + [[632_state_transition_diagram_testing|상태 전이]] 규칙"의 결합이다. 단순 CRUD (Create, Read, Update, Delete) API에서는 과할 수 있지만, 승인·결제·주문처럼 [[632_state_transition_diagram_testing|상태 전이]]가 중요한 [[064_relation_domain|도메인]]에서는 표현력이 높다.
 
 - **📢 섹션 요약 비유**: HATEOAS는 박물관 오디오 가이드와 같다. 관람객이 다음 전시실 번호를 외우지 않아도, 현재 위치에 맞는 다음 동선을 계속 안내해 준다.
 
@@ -71,17 +71,17 @@ HATEOAS 응답은 보통 리소스 데이터, 링크 관계(`rel`), 대상 URI, 
 
 ## Ⅲ. 비교 및 연결
 
-Level 3를 이해하려면 Level 2와의 차이를 먼저 봐야 한다. Level 2는 리소스 URI와 HTTP 메서드를 올바르게 사용해도, 다음 행동의 발견 책임이 여전히 클라이언트에 남아 있는 경우가 많다. 반면 Level 3는 서버가 링크를 통해 가능한 전이를 알려 주므로, 클라이언트는 URI 규칙 자체보다 `rel` 의미에 더 집중하게 된다.
+Level 3를 이해하려면 Level 2와의 차이를 먼저 봐야 한다. Level 2는 리소스 URI와 [[461_http_stateless_connection_oriented|HTTP]] 메서드를 올바르게 사용해도, 다음 행동의 발견 책임이 여전히 클라이언트에 남아 있는 경우가 많다. 반면 Level 3는 서버가 링크를 통해 가능한 전이를 알려 주므로, 클라이언트는 URI 규칙 자체보다 `rel` 의미에 더 집중하게 된다.
 
 | 항목 | Level 2 | Level 3 |
 | :--- | :--- | :--- |
 | 다음 행동 탐색 | 문서와 클라이언트 코드에 의존 | 응답의 하이퍼미디어로 안내 |
-| URI 결합도 | 상대적으로 높음 | 상대적으로 낮음 |
+| URI [[195_coupling_levels|결합도]] | 상대적으로 높음 | 상대적으로 낮음 |
 | 구현 난이도 | 중간 | 높음 |
-| 대표 장점 | 표준 HTTP 활용 | 워크플로 자기 서술성 강화 |
-| 대표 한계 | 상태 전이 규칙이 코드에 분산 | 응답 설계와 클라이언트 처리 복잡 |
+| 대표 장점 | 표준 [[461_http_stateless_connection_oriented|HTTP]] 활용 | 워크플로 자기 서술성 강화 |
+| 대표 한계 | [[632_state_transition_diagram_testing|상태 전이]] 규칙이 코드에 [[136_variance|분산]] | 응답 설계와 클라이언트 처리 복잡 |
 
-또한 HATEOAS는 HTML 기반 웹의 동작 방식과 닮아 있다. 사용자는 쇼핑몰 페이지에서 서버가 제공한 버튼과 링크를 눌러 이동하지, 다음 URI를 직접 조합해 입력하지 않는다. 이런 의미에서 Level 3는 웹의 하이퍼미디어 철학을 API로 확장한 것이다. 다만 모바일 앱, 프런트엔드 단일 페이지 애플리케이션 (SPA, Single Page Application), API 게이트웨이 환경에서는 클라이언트 상태 관리와 문서화 방식에 따라 채택 강도가 달라질 수 있다.
+또한 HATEOAS는 HTML 기반 웹의 동작 방식과 닮아 있다. 사용자는 쇼핑몰 [[286_page_frame|페이지]]에서 서버가 제공한 버튼과 링크를 눌러 이동하지, 다음 URI를 직접 조합해 입력하지 않는다. 이런 의미에서 Level 3는 웹의 하이퍼미디어 철학을 API로 확장한 것이다. 다만 모바일 앱, 프런트엔드 [[317_spa_single_page_application|단일 페이지 애플리케이션]] (SPA, Single [[286_page_frame|Page]] Application), [[014_api_posix|API]] 게이트웨이 환경에서는 클라이언트 상태 관리와 문서화 방식에 따라 채택 강도가 달라질 수 있다.
 
 즉 Level 3는 "REST를 더 엄격하게 지키는가"만의 문제가 아니라, **클라이언트와 서버의 책임을 어디까지 분리할 것인가**를 결정하는 아키텍처 선택이다.
 
@@ -91,7 +91,7 @@ Level 3를 이해하려면 Level 2와의 차이를 먼저 봐야 한다. Level 2
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서는 모든 API를 Level 3로 만들 필요는 없다. 단순 조회·등록 중심의 내부 업무 API는 Level 2만으로도 충분한 경우가 많다. 반면 외부 파트너가 많고, 승인·주문·구독처럼 상태 전이가 복잡하며, 장기간 버전 호환이 중요한 도메인이라면 HATEOAS가 결합도 완화에 도움이 될 수 있다.
+실무에서는 모든 API를 Level 3로 만들 필요는 없다. 단순 조회·등록 중심의 내부 업무 API는 Level 2만으로도 충분한 경우가 많다. 반면 외부 파트너가 많고, 승인·주문·구독처럼 [[632_state_transition_diagram_testing|상태 전이]]가 복잡하며, 장기간 [[288_version_ihl_tos_total_length|버전]] 호환이 중요한 [[064_relation_domain|도메인]]이라면 HATEOAS가 [[195_coupling_levels|결합도]] 완화에 도움이 될 수 있다.
 
 ### 채택이 유리한 경우
 
@@ -99,13 +99,13 @@ Level 3를 이해하려면 Level 2와의 차이를 먼저 봐야 한다. Level 2
 2. 여러 종류의 클라이언트가 같은 업무 흐름을 따라야 하는 경우
 3. URI 구조를 진화시키면서도 클라이언트 수정 비용을 줄이고 싶은 경우
 
-### 안티패턴
+### [[128_water_scrum_fall_anti_pattern|안티패턴]]
 
 - 링크만 붙이고 `rel` 의미를 일관되게 설계하지 않는 경우
 - 문서화 없이 임의 필드명으로 링크를 흩뿌려 오히려 해석 난도를 높이는 경우
 - 단순 CRUD API에 과도한 하이퍼미디어 구조를 넣어 복잡도만 키우는 경우
 
-기술사 관점에서는 "Level 3가 무조건 최고이므로 항상 도입"이라는 답변보다, **도메인 복잡도 대비 비용과 효과를 따져 채택 범위를 설명하는 답변**이 더 적절하다. 즉 HATEOAS는 이상적인 REST 원칙이지만, 실무에서는 선택적 적용이 합리적일 수 있다.
+기술사 관점에서는 "Level 3가 무조건 최고이므로 항상 도입"이라는 답변보다, **[[064_relation_domain|도메인]] 복잡도 대비 비용과 효과를 따져 채택 범위를 설명하는 답변**이 더 적절하다. 즉 HATEOAS는 이상적인 [[156_rest_representational_state_transfer|REST]] 원칙이지만, 실무에서는 선택적 적용이 합리적일 수 있다.
 
 - **📢 섹션 요약 비유**: HATEOAS는 대형 공항의 동선 안내 시스템과 같다. 환승이 복잡한 곳에서는 큰 도움이 되지만, 방 하나짜리 작은 사무실에까지 같은 수준의 안내판을 설치하면 과해질 수 있다.
 
@@ -113,11 +113,11 @@ Level 3를 이해하려면 Level 2와의 차이를 먼저 봐야 한다. Level 2
 
 ## Ⅴ. 기대효과 및 결론
 
-Level 3를 적절히 적용하면 클라이언트가 서버의 상태 전이 규칙을 더 자연스럽게 따라갈 수 있고, URI 변경에 대한 민감도를 낮추며, API를 자기 설명적으로 만들 수 있다. 특히 장기 운영되는 플랫폼 API나 복잡한 워크플로 중심 서비스에서 이런 장점이 드러난다. 이는 단순 설계 미학이 아니라, 버전 관리와 클라이언트 호환성 비용을 낮추는 운영 전략이 될 수 있다.
+Level 3를 적절히 적용하면 클라이언트가 서버의 [[632_state_transition_diagram_testing|상태 전이]] 규칙을 더 자연스럽게 따라갈 수 있고, URI 변경에 대한 민감도를 낮추며, API를 자기 설명적으로 만들 수 있다. 특히 장기 운영되는 플랫폼 API나 복잡한 워크플로 중심 [[090_service_kubernetes_network_load_balancing|서비스]]에서 이런 장점이 드러난다. 이는 단순 설계 미학이 아니라, [[288_version_ihl_tos_total_length|버전]] 관리와 클라이언트 [[344_compatibility_usability|호환성]] 비용을 낮추는 운영 [[268_strategy_pattern|전략]]이 될 수 있다.
 
 그러나 응답 크기 증가, 표현 포맷 표준화, 클라이언트 구현 복잡도, 테스트 부담 같은 비용도 분명하다. 따라서 Level 3는 REST의 교과서적 완성형이지만, 실무에서는 **필요한 경계에만 정교하게 적용하는 것이 현실적**이다.
 
-결론적으로 HATEOAS는 "링크를 더 넣는 기법"이 아니라, **서버가 다음 상태 전이를 안내하는 인터페이스 철학**으로 기억해야 한다. 이 관점을 잡으면 Level 2와의 차이, HTML과의 연결, 실무 채택 기준까지 한 번에 정리할 수 있다.
+결론적으로 HATEOAS는 "링크를 더 넣는 기법"이 아니라, **서버가 다음 [[632_state_transition_diagram_testing|상태 전이]]를 안내하는 인터페이스 철학**으로 기억해야 한다. 이 관점을 잡으면 Level 2와의 차이, HTML과의 연결, 실무 채택 기준까지 한 번에 정리할 수 있다.
 
 - **📢 섹션 요약 비유**: 좋은 HATEOAS API는 사용자가 메뉴판만 봐도 다음에 무엇을 할 수 있는지 알게 해 주는 키오스크와 같다. 버튼이 현재 상황에 맞게 달라져야 진짜 도움이 된다.
 
@@ -127,11 +127,11 @@ Level 3를 적절히 적용하면 클라이언트가 서버의 상태 전이 규
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| Richardson Maturity Model | REST 성숙도를 Level 0~3으로 구분하는 기준 |
-| HTTP Method | 링크를 따라 수행할 행위 의미를 부여 |
-| `rel` | 링크 관계를 설명하는 핵심 어휘 |
-| HAL/JSON:API/Siren | 하이퍼미디어 표현을 구조화하는 포맷 |
-| 상태 전이 (State Transition) | HATEOAS가 안내하려는 핵심 대상 |
+| [[157_restful_api_richardson_maturity_model|Richardson Maturity Model]] | [[156_rest_representational_state_transfer|REST]] 성숙도를 Level 0~3으로 구분하는 기준 |
+| [[461_http_stateless_connection_oriented|HTTP]] Method | 링크를 따라 수행할 행위 의미를 부여 |
+| `rel` | 링크 [[083_relationship_in_er_model|관계]]를 설명하는 핵심 어휘 |
+| [[070_hal|HAL]]/[[343_json|JSON]]:[[014_api_posix|API]]/Siren | 하이퍼미디어 표현을 구조화하는 포맷 |
+| [[632_state_transition_diagram_testing|상태 전이]] ([[632_state_transition_diagram_testing|State Transition]]) | HATEOAS가 안내하려는 핵심 대상 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -151,7 +151,7 @@ HATEOAS (Hypermedia As The Engine Of Application State)
 자기 서술적 워크플로 API
 ```
 
-이 흐름은 "함수 호출형 인터페이스 → 리소스화 → 웹 의미 활용 → 상태 전이 안내"로 REST 성숙도가 발전하는 맥락을 보여준다.
+이 흐름은 "[[294_function_calling_tool_use|함수 호출]]형 인터페이스 → 리소스화 → 웹 의미 활용 → [[632_state_transition_diagram_testing|상태 전이]] 안내"로 [[156_rest_representational_state_transfer|REST]] 성숙도가 발전하는 맥락을 보여준다.
 
 ### 👶 어린이 비유 설명
 

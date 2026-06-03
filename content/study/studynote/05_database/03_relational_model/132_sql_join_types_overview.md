@@ -7,9 +7,9 @@ categories = "studynote-database"
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: SQL JOIN은 **두 테이블의 공통 컬럼(키)을 기준으로 행을 결합**하는 연산이며, INNER(교집합)·LEFT(좌측 전체+매칭)·RIGHT(우측 전체+매칭)·FULL(합집합)·CROSS(카테시안 곱)·SELF(자기 참조)로 구분된다.
-> 2. **가치**: JOIN은 **정규화된 DB에서 분리된 데이터를 하나로 합치는 유일한 수단**이며, JOIN 유형 선택이 결과 행 수와 NULL 처리를 결정한다.
-> 3. **판단 포인트**: INNER는 양쪽 모두 매칭, LEFT는 왼쪽 전체 보존(매칭 없으면 NULL), FULL OUTER는 양쪽 모두 보존이며, **인덱스·실행 계획 최적화**가 성능의 핵심이다.
+> 1. **본질**: SQL JOIN은 **두 테이블의 공통 컬럼(키)을 기준으로 행을 결합**하는 연산이며, INNER(교집합)·LEFT(좌측 전체+매칭)·RIGHT(우측 전체+매칭)·FULL(합집합)·CROSS(카테시안 곱)·SELF(자기 [[316_reference_pattern_nosql|참조]])로 구분된다.
+> 2. **가치**: JOIN은 **[[093_normalization|정규화]]된 DB에서 분리된 [[001_dikw_pyramid|데이터]]를 하나로 합치는 유일한 수단**이며, [[521_join|JOIN]] 유형 선택이 결과 행 수와 NULL 처리를 결정한다.
+> 3. **판단 포인트**: INNER는 양쪽 모두 매칭, LEFT는 왼쪽 전체 보존(매칭 없으면 NULL), FULL OUTER는 양쪽 모두 보존이며, **[[154_database_index_b_tree_search_optimization|인덱스]]·[[166_execution_plan_optimizer_navigation_tree|실행 계획]] 최적화**가 [[282_performance_tactics|성능]]의 핵심이다.
 
 ---
 
@@ -30,7 +30,7 @@ SELF JOIN:   A ⋈ A (자기 참조)
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-| JOIN | NULL 가능 | 행 수 |
+| [[521_join|JOIN]] | NULL 가능 | 행 수 |
 |:---|:---|:---|
 | **INNER** | 없음 | 매칭만 |
 | **LEFT** | 우측 NULL | **좌측 ≤ 결과** |
@@ -41,7 +41,7 @@ SELF JOIN:   A ⋈ A (자기 참조)
 
 ## Ⅲ~Ⅴ. 결론
 
-JOIN은 **관계형 DB의 핵심 연산**이며, 적절한 인덱스·JOIN 순서·실행 계획 분석이 성능을 결정한다.
+JOIN은 **[[083_relationship_in_er_model|관계]]형 DB의 핵심 연산**이며, 적절한 [[154_database_index_b_tree_search_optimization|인덱스]]·[[521_join|JOIN]] 순서·[[166_execution_plan_optimizer_navigation_tree|실행 계획]] 분석이 [[282_performance_tactics|성능]]을 결정한다.
 
 ---
 
@@ -49,11 +49,11 @@ JOIN은 **관계형 DB의 핵심 연산**이며, 적절한 인덱스·JOIN 순�
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **INNER JOIN** | 교집합 |
-| **LEFT JOIN** | 좌측 전체 보존 |
+| **INNER [[521_join|JOIN]]** | 교집합 |
+| **LEFT [[521_join|JOIN]]** | 좌측 전체 보존 |
 | **FULL OUTER** | 합집합 |
-| **Hash/Nested Loop/Merge** | JOIN 알고리즘 |
-| **인덱스** | JOIN 성능 핵심 |
+| **Hash/[[431_nested_loop_join|Nested Loop]]/Merge** | [[521_join|JOIN]] [[001_algorithm_definition|알고리즘]] |
+| **[[154_database_index_b_tree_search_optimization|인덱스]]** | [[521_join|JOIN]] [[282_performance_tactics|성능]] 핵심 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 

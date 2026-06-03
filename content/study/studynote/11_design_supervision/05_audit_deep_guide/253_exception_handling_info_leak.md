@@ -8,24 +8,24 @@ categories = "studynote-design-supervision"
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 예외 처리(Exception Handling) 미흡으로 인한 정보 노출은 스택 트레이스(Stack Trace), DB 오류 메시지, 서버 경로 등이 공격자에게 직접 노출되는 심각한 취약점이다.
-> 2. **가치**: 오류 메시지 하나가 SQL 테이블 구조, 서버 내부 경로, 사용 프레임워크 버전을 노출하여 후속 공격의 발판이 된다.
-> 3. **판단 포인트**: 사용자에게 노출되는 오류 메시지는 "일반화된 안내 문구"만 표시하고, 상세 정보는 서버 측 로그에만 기록하는지 확인한다.
+> 1. **본질**: 예외 처리(Exception Handling) 미흡으로 인한 정보 노출은 [[057_stack|스택]] 트레이스([[057_stack|Stack]] Trace), DB 오류 메시지, 서버 경로 등이 공격자에게 직접 노출되는 심각한 취약점이다.
+> 2. **가치**: 오류 메시지 하나가 SQL 테이블 구조, 서버 내부 경로, 사용 프레임워크 [[288_version_ihl_tos_total_length|버전]]을 노출하여 후속 공격의 발판이 된다.
+> 3. **판단 포인트**: 사용자에게 노출되는 오류 메시지는 "일반화된 안내 문구"만 표시하고, 상세 정보는 서버 측 [[568_logs_distributed_logging_elk_fluentd|로그]]에만 기록하는지 [[396_validation|확인]]한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
-예외 처리(Exception Handling)의 보안 목표는 두 가지다. 첫째, 시스템 내부 정보를 외부에 노출하지 않는 것. 둘째, 예외 발생 시에도 서비스가 안전하게 지속되는 것이다. 행정안전부 개발보안 가이드의 "오류 메시지를 통한 정보 노출" 항목은 Critical 등급으로 분류되어 있다.
+예외 처리(Exception Handling)의 보안 목표는 두 가지다. 첫째, 시스템 내부 정보를 외부에 노출하지 않는 것. 둘째, 예외 발생 시에도 서비스가 안전하게 지속되는 것이다. 행정안전부 개발보안 가이드의 "오류 메시지를 통한 정보 노출" 항목은 Critical 등급으로 [[104_classification_analysis|분류]]되어 있다.
 
 | 노출 정보 유형 | 예시 | 공격자 활용 방법 |
 |:---|:---|:---|
-| 스택 트레이스 | `NullPointerException at com.app.UserDAO:45` | 패키지 구조, 클래스 명, 라인 번호 파악 |
+| [[057_stack|스택]] 트레이스 | `NullPointerException at com.app.UserDAO:45` | 패키지 구조, 클래스 명, 라인 번호 파악 |
 | DB 오류 메시지 | `Table 'users' doesn't exist` | 테이블명, DB 종류 파악 |
-| SQL 구문 노출 | `Syntax error in SQL: SELECT * FROM user WHERE id=` | SQL 인젝션 공격 포인트 확인 |
-| 서버 경로 | `/usr/local/tomcat/webapps/app/WEB-INF/` | 파일 업로드 경로 추측 |
-| 프레임워크 버전 | `Apache Struts 2.3.5` | 알려진 취약점(CVE) 적용 |
+| SQL 구문 노출 | `Syntax error in SQL: SELECT * FROM user WHERE id=` | SQL [[480_injection|인젝션]] 공격 포인트 [[396_validation|확인]] |
+| 서버 경로 | `/usr/local/tomcat/webapps/app/WEB-INF/` | [[501_file_definition_logical_record|파일]] 업로드 경로 추측 |
+| 프레임워크 [[288_version_ihl_tos_total_length|버전]] | `Apache Struts 2.3.5` | 알려진 취약점([[409_cve_lifecycle|CVE]]) 적용 |
 
-- 개발 환경(`DEBUG` 모드)과 운영 환경(`PRODUCTION` 모드) 설정 미분리
+- 개발 환경(`DEBUG` 모드)과 운영 환경(`PRODUCTION` 모드) [[009_config|설정]] 미분리
 - 전역 예외 처리기(Global Exception Handler) 미구현
 - `catch (Exception e) { e.printStackTrace(); }` 패턴 남용
 
@@ -99,22 +99,22 @@ public class GlobalExceptionHandler {
 |:---|:---|:---|
 | 핵심 역할 | 입력·상태·출력을 분리하는 책임 경계 | 구현보다 경계를 먼저 본다. |
 | 제어 지점 | 조건, 이벤트, 정책이 만나는 곳 | 병목과 결합이 생기는 곳이다. |
-| 검증 포인트 | 테스트·로그·모니터링으로 확인할 지점 | 운영 가능성이 설계 품질을 결정한다. |
+| [[395_verification_process_review|검증]] 포인트 | 테스트·[[568_logs_distributed_logging_elk_fluentd|로그]]·모니터링으로 [[396_validation|확인]]할 지점 | 운영 가능성이 설계 품질을 결정한다. |
 
-- **📢 섹션 요약 비유**: 전역 예외 처리기는 "병원 접수창구"다. 의사의 진단 내용(상세 오류)은 의무기록실(서버 로그)에 보관되고, 환자(사용자)에게는 "다음에 다시 오세요"라는 안내만 전달한다.
+- **📢 섹션 요약 비유**: 전역 예외 처리기는 "병원 접수창구"다. 의사의 진단 내용(상세 오류)은 의무기록실(서버 [[568_logs_distributed_logging_elk_fluentd|로그]])에 보관되고, 환자(사용자)에게는 "다음에 다시 오세요"라는 안내만 전달한다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
-| 패턴 | 보안성 | 유지보수성 | 감리 판정 |
+| 패턴 | [[283_security_tactics|보안성]] | [[346_maintainability_portability|유지보수성]] | 감리 판정 |
 |:---|:---|:---|:---|
 | `e.printStackTrace()` 직접 출력 | ❌ 취약 | △ 개발 중에만 유용 | 지적 필수 |
-| HTTP 500 + 스택 트레이스 반환 | ❌ 취약 | △ | 지적 필수 |
+| [[461_http_stateless_connection_oriented|HTTP]] 500 + [[057_stack|스택]] 트레이스 반환 | ❌ 취약 | △ | 지적 필수 |
 | 전역 핸들러 + 일반 메시지 반환 | ✅ 안전 | ✅ | 권장 패턴 |
 | 오류 코드 기반 응답 | ✅ 안전 | ✅ 추적 용이 | 권장 패턴 |
 | 오류 발생 시 자동 알림(Slack/이메일) | ✅ 안전 | ✅✅ | 우수 사례 |
 
-| 설정 항목 | 개발 환경 | 운영 환경 |
+| [[009_config|설정]] 항목 | 개발 환경 | 운영 환경 |
 |:---|:---|:---|
 | `spring.profiles.active` | `dev` | `prod` |
 | `server.error.include-stacktrace` | `always` | `never` |
@@ -137,20 +137,20 @@ public class GlobalExceptionHandler {
 └─────────────────────────────────────────────────────────────┘
 ```
 
-- **📢 섹션 요약 비유**: 개발 환경과 운영 환경의 오류 설정 차이는 "연습장과 공연장의 차이"다. 연습 중엔 감독이 큰 소리로 지시를 외치지만, 공연 중엔 관객에게는 들리지 않게 귓속말로만 한다.
+- **📢 섹션 요약 비유**: 개발 환경과 운영 환경의 오류 [[009_config|설정]] 차이는 "연습장과 공연장의 차이"다. 연습 중엔 감독이 큰 소리로 지시를 외치지만, 공연 중엔 관객에게는 들리지 않게 귓속말로만 한다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 | 점검 단계 | 점검 방법 | 판정 기준 |
 |:---|:---|:---|
-| **1단계: 설정 파일 확인** | `application-prod.properties` 검토 | `include-stacktrace=never` |
+| **1단계: [[009_config|설정]] [[501_file_definition_logical_record|파일]] [[396_validation|확인]]** | `application-prod.properties` 검토 | `include-stacktrace=never` |
 | **2단계: 고의 오류 유발** | 존재하지 않는 URL 접근, 잘못된 파라미터 전송 | 일반 오류 메시지만 반환 |
-| **3단계: SQL 오류 확인** | `' OR '1'='1` 입력 후 응답 확인 | DB 오류 메시지 미노출 |
+| **3단계: SQL 오류 [[396_validation|확인]]** | `' OR '1'='1` 입력 후 응답 [[396_validation|확인]] | DB 오류 메시지 미노출 |
 | **4단계: 소스코드 검색** | `e.printStackTrace()` 패턴 검색 | 운영 코드에서 0건 |
-| **5단계: HTTP 헤더 확인** | 응답 헤더의 `Server:`, `X-Powered-By:` 확인 | 서버 정보 미노출 |
+| **5단계: [[461_http_stateless_connection_oriented|HTTP]] 헤더 [[396_validation|확인]]** | 응답 헤더의 `Server:`, `X-Powered-By:` [[396_validation|확인]] | 서버 정보 미노출 |
 
-HTTP 응답 헤더에서도 서버 정보가 노출될 수 있다.
+[[461_http_stateless_connection_oriented|HTTP]] 응답 헤더에서도 서버 정보가 노출될 수 있다.
 
 ```
 # 취약한 헤더 예시
@@ -164,43 +164,43 @@ X-Content-Type-Options: nosniff
 X-Frame-Options: DENY
 ```
 
-로그에 저장되는 상세 정보 또한 보안 관리가 필요하다. 로그에 개인정보(Personal Information), 비밀번호, 세션 토큰이 기록되지 않도록 마스킹(Masking) 처리가 필요하다.
+[[568_logs_distributed_logging_elk_fluentd|로그]]에 저장되는 상세 정보 또한 보안 관리가 필요하다. [[568_logs_distributed_logging_elk_fluentd|로그]]에 [[781_personal_information|개인정보]]([[781_personal_information|Personal Information]]), 비밀번호, [[160_session_controlling_terminal|세션]] 토큰이 기록되지 않도록 마스킹(Masking) 처리가 필요하다.
 
-### 판단 체크리스트
+### 판단 [[435_checklist_based_testing|체크리스트]]
 1. 위험 시나리오와 점검 범위가 문서로 합의되었는가?
-2. 지표·증적·로그가 재현 가능하게 수집되는가?
+2. 지표·증적·[[568_logs_distributed_logging_elk_fluentd|로그]]가 재현 가능하게 수집되는가?
 3. 예외 상황과 오탐·미탐 처리 절차가 있는가?
 4. 재시험 또는 후속 조치 기준이 수치로 정의되었는가?
 
-- **📢 섹션 요약 비유**: HTTP 응답 헤더에서 서버 버전을 노출하는 것은 "강도에게 '우리 집 자물쇠는 A사 2018년형'이라고 스티커를 붙여두는 것"이다. 버전 정보만으로도 알려진 취약점을 즉시 찾아낼 수 있다.
+- **📢 섹션 요약 비유**: [[461_http_stateless_connection_oriented|HTTP]] 응답 헤더에서 서버 [[288_version_ihl_tos_total_length|버전]]을 노출하는 것은 "강도에게 '우리 집 자물쇠는 A사 2018년형'이라고 스티커를 붙여두는 것"이다. [[288_version_ihl_tos_total_length|버전]] 정보만으로도 알려진 취약점을 즉시 찾아낼 수 있다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
-예외 처리 정보 노출을 방지하면 공격자가 시스템 구조를 역추적하는 첫 번째 발판을 차단한다. 많은 APT(Advanced Persistent Threat, 지능형 지속 공격) 사례에서 초기 정찰 단계의 핵심 정보는 오류 메시지 분석을 통해 수집되었다. 운영 환경의 오류 응답 일반화와 서버 측 로깅 체계 구축은 최소 비용으로 최대 효과를 얻는 보안 기초 조치다.
+예외 처리 정보 노출을 방지하면 공격자가 시스템 구조를 역추적하는 첫 번째 발판을 차단한다. 많은 [[748_apt|APT]]([[374_apt|Advanced Persistent Threat]], 지능형 지속 공격) 사례에서 [[459_quic_fec_forward_error_correction|초기]] 정찰 단계의 핵심 정보는 오류 메시지 분석을 통해 수집되었다. 운영 환경의 오류 응답 일반화와 서버 측 로깅 체계 구축은 최소 비용으로 최대 효과를 얻는 보안 기초 조치다.
 
-감리인은 단순히 코드 패턴 탐색에 그치지 않고, **실제 고의 오류를 유발하여 응답 내용을 확인**하는 블랙박스 테스트를 병행해야 한다.
+감리인은 단순히 코드 패턴 탐색에 그치지 않고, **실제 고의 오류를 유발하여 응답 내용을 [[396_validation|확인]]**하는 블랙박스 테스트를 병행해야 한다.
 
-확장 방향은 ① Policy as Code, ② Continuous Audit, ③ 인공지능(AI, Artificial Intelligence) 기반 이상 탐지와 결합하는 것이다.
+확장 방향은 ① [[164_policy|Policy]] [[344_as_autonomous_system_asn|as]] [[082_process_memory_structure|Code]], ② Continuous [[363_audit|Audit]], ③ [[231_ai_turing_test|인공지능]]([[190_ai_llm_requirements_specification|AI]], [[001_artificial_intelligence|Artificial Intelligence]]) 기반 이상 탐지와 결합하는 것이다.
 
-- **📢 섹션 요약 비유**: 예외 처리 감리는 "비상구 표시등이 제대로 작동하는지, 하지만 비상구 열쇠 위치는 외부에 공개되지 않는지" 모두를 확인하는 이중 점검이다.
+- **📢 섹션 요약 비유**: 예외 처리 감리는 "비상구 표시등이 제대로 작동하는지, 하지만 비상구 열쇠 위치는 외부에 공개되지 않는지" 모두를 [[396_validation|확인]]하는 이중 점검이다.
 
 ---
 
 ### 📌 관련 개념 맵
-| 관계 | 개념 | 설명 |
+| [[083_relationship_in_er_model|관계]] | 개념 | 설명 |
 |:---|:---|:---|
 | 상위 개념 | SW 개발보안 43개 항목 | 오류 메시지 정보 노출 포함 |
-| 상위 개념 | OWASP A09 - Security Misconfiguration | 오류 설정 미흡 분류 |
+| 상위 개념 | OWASP A09 - [[412_security_misconfiguration|Security Misconfiguration]] | 오류 [[009_config|설정]] 미흡 [[104_classification_analysis|분류]] |
 | 하위 개념 | 전역 예외 처리기 (Global Exception Handler) | @ControllerAdvice, web.xml |
-| 하위 개념 | 스택 트레이스 (Stack Trace) | 내부 코드 구조 노출 정보 |
-| 연관 개념 | SIEM (Security Information and Event Management) | 로그 통합 보안 모니터링 |
-| 연관 개념 | HTTP 보안 헤더 | Server, X-Powered-By 제거 |
+| 하위 개념 | [[057_stack|스택]] 트레이스 ([[057_stack|Stack]] Trace) | 내부 코드 구조 노출 정보 |
+| 연관 개념 | [[624_siem|SIEM]] ([[283_security_tactics|Security]] Information and [[074_event_management|Event Management]]) | [[568_logs_distributed_logging_elk_fluentd|로그]] 통합 보안 모니터링 |
+| 연관 개념 | [[461_http_stateless_connection_oriented|HTTP]] 보안 헤더 | Server, X-Powered-By 제거 |
 
 ### 📈 관련 키워드 및 발전 흐름도
-오류 분류 → 예외 처리 정보 노출 감리 → 관측 가능성·보안 로그
+오류 [[104_classification_analysis|분류]] → 예외 처리 정보 노출 감리 → [[111_observability_metrics_logs_traces|관측 가능성]]·보안 [[568_logs_distributed_logging_elk_fluentd|로그]]
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 프로그램이 오류 났을 때 내부 메시지를 그대로 보여주는 건 "넘어진 다음에 엑스레이 사진을 모두에게 보여주는 것"이야.
-2. 안전한 오류 처리는 "넘어졌을 때 '잠깐만요'라고만 말하고, 자세한 진단은 의사 선생님(서버 로그)한테만 전달"하는 거야.
+2. 안전한 오류 처리는 "넘어졌을 때 '잠깐만요'라고만 말하고, 자세한 진단은 의사 선생님(서버 [[568_logs_distributed_logging_elk_fluentd|로그]])한테만 전달"하는 거야.
 3. 해커는 오류 메시지 하나에서 집 열쇠 위치를 알아낼 수 있으니까, 항상 "괜찮아요!"라고만 말하는 연습이 필요해.

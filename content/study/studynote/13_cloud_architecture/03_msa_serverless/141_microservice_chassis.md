@@ -7,9 +7,9 @@ categories = "studynote-cloud-architecture"
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: Microservice Chassis는 **로깅·설정·헬스체크·메트릭·보안 등 모든 마이크로서비스에 공통으로 필요한 횡단 관심사(Cross-cutting Concerns)를 프레임워크로 제공**하여 보일러플레이트를 제거하는 패턴이다.
-> 2. **가치**: 각 서비스가 로깅·트레이싱·설정 로딩을 개별 구현하면 **중복·불일치**가 발생하지만, Chassis가 표준화된 구현을 제공하면 **일관성·개발 속도**가 향상된다.
-> 3. **판단 포인트**: Spring Boot(Java)·Go-kit(Go)·Dapr(사이드카 기반, 언어 무관)이 대표 Chassis이며, 서비스 메시(Istio)와 역할이 일부 중복된다.
+> 1. **본질**: Microservice Chassis는 **로깅·[[009_config|설정]]·헬스체크·[[342_routing_metric_hop_bandwidth_delay|메트릭]]·보안 등 모든 마이크로서비스에 공통으로 필요한 횡단 관심사(Cross-cutting Concerns)를 프레임워크로 제공**하여 보일러플레이트를 제거하는 패턴이다.
+> 2. **가치**: 각 [[090_service_kubernetes_network_load_balancing|서비스]]가 로깅·트레이싱·[[009_config|설정]] 로딩을 개별 구현하면 **중복·불일치**가 발생하지만, Chassis가 표준화된 구현을 제공하면 **[[194_consistency_database_integrity|일관성]]·개발 속도**가 향상된다.
+> 3. **판단 포인트**: Spring Boot(Java)·Go-kit(Go)·Dapr([[830_sidecar_proxy_architecture_envoy_decoupling|사이드카]] 기반, 언어 무관)이 대표 Chassis이며, [[302_service_mesh_istio|서비스 메시]]([[302_service_mesh_istio|Istio]])와 역할이 일부 중복된다.
 
 ---
 
@@ -31,7 +31,7 @@ Chassis 제공 기능:
 
 ## Ⅱ~Ⅴ. 결론
 
-Microservice Chassis는 **MSA 공통 기능의 표준화 프레임워크**이며, Dapr(사이드카)가 언어 무관 차세대 Chassis이다.
+Microservice Chassis는 **[[619_msa_traffic_hardware|MSA]] 공통 기능의 표준화 프레임워크**이며, Dapr([[830_sidecar_proxy_architecture_envoy_decoupling|사이드카]])가 언어 무관 차세대 Chassis이다.
 
 ---
 
@@ -41,8 +41,8 @@ Microservice Chassis는 **MSA 공통 기능의 표준화 프레임워크**이며
 |:---|:---|
 | **Chassis** | 공통 관심사 프레임워크 |
 | **Spring Boot** | Java Chassis |
-| **Dapr** | 사이드카 Chassis |
-| **서비스 메시** | 네트워크 레벨 Chassis |
+| **Dapr** | [[830_sidecar_proxy_architecture_envoy_decoupling|사이드카]] Chassis |
+| **[[302_service_mesh_istio|서비스 메시]]** | 네트워크 레벨 Chassis |
 | **Cross-cutting** | 횡단 관심사 |
 
 ### 📈 관련 키워드 및 발전 흐름도
@@ -56,4 +56,4 @@ Microservice Chassis는 **MSA 공통 기능의 표준화 프레임워크**이며
 ### 👶 어린이를 위한 3줄 비유 설명
 1. Chassis는 자동차의 **차대(프레임)**예요. 바퀴·핸들·브레이크가 **이미 있어요**.
 2. 개발자는 **엔진(비즈니스 로직)만** 만들면 돼요. 나머지는 Chassis가 제공해요.
-3. 모든 차(서비스)가 **같은 차대**를 쓰면 **부품 호환**이 쉬워요!
+3. 모든 차([[090_service_kubernetes_network_load_balancing|서비스]])가 **같은 차대**를 쓰면 **부품 호환**이 쉬워요!

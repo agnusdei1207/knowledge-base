@@ -8,17 +8,17 @@ categories = "studynote-design-supervision"
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 공간 기반 아키텍처 (SBA, Space-Based Architecture)는 분산 공유 메모리(Tuple Space / Data Grid)를 중앙 데이터 저장소로 사용하여, 처리 유닛(Processing Unit)들이 DB 대신 메모리 그리드에서 데이터를 직접 읽고 쓰며 극한의 확장성과 처리량을 달성하는 아키텍처 패턴이다.
-> 2. **가치**: DB 중심 아키텍처의 병목(DB Connection Pool, 트랜잭션 잠금)을 제거하고, 처리 유닛이 독립적으로 수평 확장되어 초당 수백만 트랜잭션을 처리하는 하이퍼스케일 시스템(티켓팅, 주식 거래, 게임 서버)에 적합하다.
-> 3. **판단 포인트**: 공간 기반 아키텍처는 극한의 확장성이 필요한 경우에만 적합하며, 분산 메모리의 데이터 일관성 보장과 장애 복구가 복잡하므로 구현·운영 비용이 매우 높다. 99%의 시스템은 더 단순한 아키텍처로 충분하다.
+> 1. **본질**: 공간 기반 아키텍처 ([[151_sba_service_based_architecture_5g|SBA]], [[186_space_based_architecture|Space-Based Architecture]])는 [[136_variance|분산]] [[118_shared_memory|공유 메모리]](Tuple Space / [[001_dikw_pyramid|Data]] Grid)를 중앙 [[001_dikw_pyramid|데이터]] 저장소로 사용하여, 처리 유닛(Processing Unit)들이 DB 대신 메모리 그리드에서 [[001_dikw_pyramid|데이터]]를 직접 읽고 쓰며 극한의 확장성과 [[139_throughput|처리량]]을 달성하는 아키텍처 패턴이다.
+> 2. **가치**: DB 중심 아키텍처의 병목(DB Connection Pool, [[191_transaction_concept_states|트랜잭션]] 잠금)을 제거하고, 처리 유닛이 독립적으로 수평 확장되어 초당 수백만 [[191_transaction_concept_states|트랜잭션]]을 처리하는 하이퍼스케일 시스템(티켓팅, 주식 거래, 게임 서버)에 적합하다.
+> 3. **판단 포인트**: 공간 기반 아키텍처는 극한의 확장성이 필요한 경우에만 적합하며, [[136_variance|분산]] 메모리의 [[001_dikw_pyramid|데이터]] [[194_consistency_database_integrity|일관성]] 보장과 장애 [[658_ir_recovery|복구]]가 복잡하므로 구현·운영 비용이 매우 높다. 99%의 시스템은 더 단순한 아키텍처로 충분하다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-전통적인 3-Tier 아키텍처(Presentation → Application → Database)에서 DB는 단일 확장 병목이다. 트래픽이 10배 증가하면 Application Tier는 인스턴스를 늘려 확장하지만, DB Connection Pool과 트랜잭션 잠금으로 DB가 병목이 된다.
+전통적인 3-Tier 아키텍처(Presentation → Application → [[501_database|Database]])에서 DB는 단일 확장 병목이다. 트래픽이 10배 증가하면 Application Tier는 인스턴스를 늘려 확장하지만, DB Connection Pool과 [[191_transaction_concept_states|트랜잭션]] 잠금으로 DB가 병목이 된다.
 
-공간 기반 아키텍처는 DB를 메모리 그리드(In-Memory Data Grid)로 대체한다. 모든 처리 유닛이 공유 메모리 공간(Tuple Space)에서 데이터를 읽고 쓰며, DB는 비동기 영속화 전용으로만 사용한다. 대표 구현: Hazelcast, Apache Ignite, GigaSpaces.
+공간 기반 아키텍처는 DB를 메모리 그리드(In-Memory [[001_dikw_pyramid|Data]] Grid)로 대체한다. 모든 처리 유닛이 [[118_shared_memory|공유 메모리]] 공간(Tuple Space)에서 [[001_dikw_pyramid|데이터]]를 읽고 쓰며, DB는 비동기 영속화 전용으로만 사용한다. 대표 구현: Hazelcast, Apache Ignite, GigaSpaces.
 
 ```text
 ┌─────────────────────────────────────────────────────────────┐
@@ -47,14 +47,14 @@ categories = "studynote-design-supervision"
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-SBA의 핵심 구성 요소: ① Processing Unit(처리 유닛): 비즈니스 로직과 로컬 인메모리 데이터를 포함하는 자급자족 처리 단위, ② Virtualized Middleware: 메시징 그리드(요청 분배), 데이터 그리드(공유 메모리), 처리 그리드(병렬 처리) 조합, ③ Data Pump: 처리 유닛이 처리한 데이터를 DB에 비동기 영속화하는 컴포넌트.
+SBA의 핵심 구성 요소: ① Processing Unit(처리 유닛): 비즈니스 로직과 로컬 인메모리 [[001_dikw_pyramid|데이터]]를 포함하는 자급자족 처리 단위, ② Virtualized Middleware: 메시징 그리드(요청 분배), [[001_dikw_pyramid|데이터]] 그리드([[118_shared_memory|공유 메모리]]), 처리 그리드([[430_index_fast_full_scan|병렬]] 처리) 조합, ③ [[001_dikw_pyramid|Data]] Pump: 처리 유닛이 처리한 [[001_dikw_pyramid|데이터]]를 DB에 비동기 영속화하는 [[603_component_independent_deployment_unit|컴포넌트]].
 
 | 항목 | 설명 | 포인트 |
 |:---|:---|:---|
-| In-Memory Data Grid | 분산 공유 메모리 | Hazelcast, Ignite |
-| Processing Unit | 비즈니스 로직 + 로컬 데이터 | Spring Boot 인스턴스 |
-| Messaging Grid | 요청 분배 | Kafka, RabbitMQ |
-| Data Pump | 비동기 DB 영속화 | CDC, 배치 |
+| In-Memory [[001_dikw_pyramid|Data]] Grid | [[136_variance|분산]] [[118_shared_memory|공유 메모리]] | Hazelcast, Ignite |
+| Processing Unit | 비즈니스 로직 + 로컬 [[001_dikw_pyramid|데이터]] | Spring Boot 인스턴스 |
+| Messaging Grid | 요청 분배 | [[179_kafka_flink_watermark_time_window|Kafka]], RabbitMQ |
+| [[001_dikw_pyramid|Data]] Pump | 비동기 DB 영속화 | [[217_cdc_binlog_change_capture_debezium|CDC]], 배치 |
 
 ```text
 ┌─────────────────────────────────────────────────────────────┐
@@ -68,7 +68,7 @@ SBA의 핵심 구성 요소: ① Processing Unit(처리 유닛): 비즈니스 �
 └─────────────────────────────────────────────────────────────┘
 ```
 
-- **📢 섹션 요약 비유**: 구글 독스(공유 메모리)에서 여러 사람이 동시에 편집하듯, 여러 처리 유닛이 공유 메모리 그리드에서 데이터를 동시에 읽고 쓴다.
+- **📢 섹션 요약 비유**: 구글 독스([[118_shared_memory|공유 메모리]])에서 여러 사람이 동시에 편집하듯, 여러 처리 유닛이 [[118_shared_memory|공유 메모리]] 그리드에서 [[001_dikw_pyramid|데이터]]를 동시에 읽고 쓴다.
 
 ---
 ## Ⅲ. 비교 및 연결
@@ -77,9 +77,9 @@ SBA의 핵심 구성 요소: ① Processing Unit(처리 유닛): 비즈니스 �
 
 | 비교 축 | A | B |
 |:---|:---|:---|
-| 데이터 접근 | DB 직접 접근 | 인메모리 그리드 |
+| [[001_dikw_pyramid|데이터]] 접근 | DB 직접 접근 | 인메모리 그리드 |
 | 확장성 | DB 병목 | 선형 확장 가능 |
-| 데이터 일관성 | ACID 트랜잭션 | 최종 일관성 |
+| [[001_dikw_pyramid|데이터]] [[194_consistency_database_integrity|일관성]] | ACID [[191_transaction_concept_states|트랜잭션]] | 최종 [[194_consistency_database_integrity|일관성]] |
 | 복잡성 | 낮음 | 매우 높음 |
 | 비용 | 낮음 | 높음 (메모리 비용) |
 
@@ -88,45 +88,45 @@ SBA의 핵심 구성 요소: ① Processing Unit(처리 유닛): 비즈니스 �
 ---
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-SBA의 가장 어려운 실무 문제는 인메모리 그리드 장애 시 데이터 손실 방지다. 복제 팩터(Replication Factor)를 높이면 메모리 사용량이 증가하고, 낮추면 장애 시 데이터 손실 위험이 있다. 일반적으로 복제 팩터 2(2개 노드에 복제)가 권장된다.
+SBA의 가장 어려운 실무 문제는 인메모리 그리드 장애 시 [[001_dikw_pyramid|데이터]] 손실 방지다. [[016_replication_factor|복제]] 팩터([[016_replication_factor|Replication Factor]])를 높이면 메모리 사용량이 증가하고, 낮추면 장애 시 [[001_dikw_pyramid|데이터]] 손실 위험이 있다. 일반적으로 [[016_replication_factor|복제]] 팩터 2(2개 노드에 [[016_replication_factor|복제]])가 권장된다.
 
-### 판단 체크리스트
+### 판단 [[435_checklist_based_testing|체크리스트]]
 1. 시스템이 DB 병목으로 인해 수평 확장이 불가능한 상황인가?
-2. 초당 수십만~수백만 트랜잭션을 처리해야 하는 극한 성능 요구사항이 있는가?
-3. 인메모리 데이터 손실 위험을 허용하거나 복구 전략이 있는가?
-4. 분산 트랜잭션과 최종 일관성(Eventual Consistency)을 비즈니스가 수용하는가?
+2. 초당 수십만~수백만 [[191_transaction_concept_states|트랜잭션]]을 처리해야 하는 극한 [[282_performance_tactics|성능]] 요구사항이 있는가?
+3. 인메모리 [[001_dikw_pyramid|데이터]] 손실 위험을 허용하거나 [[658_ir_recovery|복구]] 전략이 있는가?
+4. [[136_variance|분산]] [[191_transaction_concept_states|트랜잭션]]과 최종 [[194_consistency_database_integrity|일관성]]([[650_eventual_consistency|Eventual Consistency]])을 비즈니스가 수용하는가?
 5. 인메모리 그리드 운영 전문성과 비용을 감당할 수 있는가?
 
-- **📢 섹션 요약 비유**: 슈퍼컴퓨터(SBA)는 일반 계산(3-Tier)보다 월등히 빠르지만 구축·운영 비용이 수백 배 높다. 일반 업무에는 PC로 충분하다.
+- **📢 섹션 요약 비유**: 슈퍼컴퓨터([[151_sba_service_based_architecture_5g|SBA]])는 일반 계산(3-Tier)보다 월등히 빠르지만 구축·운영 비용이 수백 배 높다. 일반 업무에는 PC로 충분하다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-공간 기반 아키텍처를 적용하면 DB 병목을 제거하여 이론적으로 선형 확장(처리 유닛 2배 = 처리량 2배)이 가능하다. 티켓팅 시스템, 주식 거래, 온라인 게임 서버 등 초고트래픽 시스템에 적합하다.
+공간 기반 아키텍처를 적용하면 DB 병목을 제거하여 이론적으로 선형 확장(처리 유닛 2배 = [[139_throughput|처리량]] 2배)이 가능하다. 티켓팅 시스템, 주식 거래, 온라인 게임 서버 등 초고트래픽 시스템에 적합하다.
 
-한계는 구현·운영 복잡성과 높은 메모리 비용, 데이터 일관성 보장의 어려움이다. 99%의 시스템은 DB 캐싱(Redis), 읽기 복제본, CQRS 등 더 간단한 방법으로 충분한 성능을 달성할 수 있다.
+한계는 구현·운영 복잡성과 높은 메모리 비용, [[001_dikw_pyramid|데이터]] [[194_consistency_database_integrity|일관성]] 보장의 어려움이다. 99%의 시스템은 DB [[456_caching|캐싱]]([[542_redis|Redis]]), 읽기 [[016_replication_factor|복제]]본, [[306_cqrs|CQRS]] 등 더 간단한 방법으로 충분한 [[282_performance_tactics|성능]]을 달성할 수 있다.
 
-미래 방향으로는 ① 클라우드 네이티브 인메모리 그리드(Azure Cache for Redis Cluster, AWS ElastiCache), ② 서버리스 데이터 그리드 구현이 발전하고 있다.
+미래 방향으로는 ① [[531_cloud_native_architecture|클라우드 네이티브]] 인메모리 그리드(Azure Cache for [[542_redis|Redis]] Cluster, AWS ElastiCache), ② [[206_serverless_cold_start|서버리스]] [[001_dikw_pyramid|데이터]] 그리드 구현이 발전하고 있다.
 
-- **📢 섹션 요약 비유**: 번개(SBA)는 매우 빠르지만 매일 쓰기 어렵다. 필요할 때(극한 트래픽)만 사용하는 특수 도구다.
+- **📢 섹션 요약 비유**: 번개([[151_sba_service_based_architecture_5g|SBA]])는 매우 빠르지만 매일 [[289_cqrs_db|쓰기]] 어렵다. 필요할 때(극한 트래픽)만 사용하는 특수 도구다.
 
 ---
 
 ### 📌 관련 개념 맵
 
-[DB 병목 문제] → [공간 기반 아키텍처(SBA)] → [인메모리 데이터 그리드] → [선형 수평 확장] → [클라우드 네이티브 인메모리]
+[DB 병목 문제] → [공간 기반 아키텍처([[151_sba_service_based_architecture_5g|SBA]])] → [인메모리 [[001_dikw_pyramid|데이터]] 그리드] → [선형 수평 확장] → [클라우드 네이티브 인메모리]
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| In-Memory Data Grid | SBA의 핵심 공유 메모리 구현체 |
-| CQRS | SBA와 결합하여 읽기 성능 최적화 |
-| 최종 일관성 | SBA에서 비동기 영속화로 인한 일관성 모델 |
-| Hazelcast / Apache Ignite | SBA 구현 대표 프레임워크 |
+| In-Memory [[001_dikw_pyramid|Data]] Grid | SBA의 핵심 [[118_shared_memory|공유 메모리]] 구현체 |
+| [[306_cqrs|CQRS]] | SBA와 결합하여 읽기 [[282_performance_tactics|성능]] 최적화 |
+| 최종 [[194_consistency_database_integrity|일관성]] | SBA에서 비동기 영속화로 인한 [[194_consistency_database_integrity|일관성]] 모델 |
+| Hazelcast / Apache Ignite | [[151_sba_service_based_architecture_5g|SBA]] 구현 대표 프레임워크 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-[DB 확장 병목] → [Tuple Space 개념] → [In-Memory Data Grid] → [Hazelcast·Ignite] → [클라우드 서버리스 그리드]
+[DB 확장 병목] → [Tuple Space 개념] → [In-Memory [[001_dikw_pyramid|Data]] Grid] → [Hazelcast·Ignite] → [클라우드 [[206_serverless_cold_start|서버리스]] 그리드]
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

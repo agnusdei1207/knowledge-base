@@ -7,9 +7,9 @@ categories = "studynote-database"
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: Window Function은 **GROUP BY 없이 행 단위로 집계·순위·이전/다음 행 참조**를 수행하는 SQL:2003 표준 함수이며, OVER(PARTITION BY ... ORDER BY ...)로 윈도우를 정의한다.
-> 2. **가치**: GROUP BY는 결과를 그룹별 1행으로 축소하지만, Window Function은 **원본 행을 유지하면서 집계 결과를 함께 표시**하여 상관 서브쿼리를 대체하고 성능을 크게 향상시킨다.
-> 3. **판단 포인트**: ROW_NUMBER(순번)·RANK(순위)·SUM OVER(누적합)·LAG/LEAD(이전/다음 행)가 핵심이며, 페이지네이션·순위·이동 평균에 필수이다.
+> 1. **본질**: Window Function은 **[[522_group_by|GROUP BY]] 없이 행 단위로 집계·순위·이전/다음 행 [[316_reference_pattern_nosql|참조]]**를 수행하는 SQL:2003 표준 함수이며, OVER([[436_window_function_over|PARTITION BY]] ... ORDER BY ...)로 윈도우를 정의한다.
+> 2. **가치**: GROUP BY는 결과를 그룹별 1행으로 축소하지만, Window Function은 **원본 행을 유지하면서 집계 결과를 함께 표시**하여 [[144_correlated_subquery_nested_loop|상관 서브쿼리]]를 대체하고 [[282_performance_tactics|성능]]을 크게 향상시킨다.
+> 3. **판단 포인트**: ROW_NUMBER(순번)·RANK(순위)·SUM OVER(누적합)·LAG/LEAD(이전/다음 행)가 핵심이며, [[286_page_frame|페이지]]네이션·순위·이동 평균에 필수이다.
 
 ---
 
@@ -29,7 +29,7 @@ FROM emp;
 
 ## Ⅱ~Ⅴ. 결론
 
-Window Function은 **현대 SQL 분석의 핵심**이며, 상관 서브쿼리·자체 조인을 대체하여 성능과 가독성을 동시에 향상시킨다.
+Window Function은 **현대 SQL 분석의 핵심**이며, [[144_correlated_subquery_nested_loop|상관 서브쿼리]]·자체 조인을 대체하여 [[282_performance_tactics|성능]]과 [[333_readability_vs_efficiency|가독성]]을 동시에 향상시킨다.
 
 ---
 

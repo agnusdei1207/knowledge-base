@@ -8,30 +8,30 @@ categories = "studynote-operating-system"
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: CRIU (Checkpoint/Restore In Userspace)는 리눅스 환경에서 **실행 중인 프로세스(또는 컨테이너)를 일시 정지(Freeze)하고 메모리와 상태를 파일로 덤프(Checkpoint)한 뒤, 나중에 혹은 다른 서버에서 그 파일로부터 프로세스를 정확히 복원(Restore)하여 실행을 재개**하는 사용자 공간(User-space) 도구다.
-> 2. **메커니즘**: 커널의 Ptrace API와 `/proc` 파일 시스템을 이용하여 타겟 프로세스의 주소 공간, 레지스터, 열린 파일 디스크립터(FD), 네트워크 소켓 상태까지 완벽하게 추출하여 직렬화(Serialization)한다.
-> 3. **가치**: 무거운 가상머신(VM) 라이브 마이그레이션을 가벼운 컨테이너(Docker, LXC) 레벨로 끌어내렸으며, 서버리스(Serverless) 함수의 콜드 스타트(Cold Start) 지연을 극복하기 위한 '사전 부팅 후 멈춰두기(Pre-baking)' 아키텍처의 핵심 기반 기술이 되었다.
+> 1. **본질**: CRIU (Checkpoint/Restore In Userspace)는 리눅스 환경에서 **실행 중인 프로세스(또는 [[561_container_based_deployment|컨테이너]])를 일시 정지(Freeze)하고 메모리와 상태를 [[501_file_definition_logical_record|파일]]로 덤프(Checkpoint)한 뒤, 나중에 혹은 다른 서버에서 그 [[501_file_definition_logical_record|파일]]로부터 프로세스를 정확히 복원(Restore)하여 실행을 재개**하는 사용자 공간(User-space) 도구다.
+> 2. **메커니즘**: [[022_kernel_role|커널]]의 Ptrace API와 `/proc` [[501_file_definition_logical_record|파일]] 시스템을 이용하여 타겟 프로세스의 주소 공간, [[057_register|레지스터]], 열린 [[501_file_definition_logical_record|파일]] 디스크립터(FD), 네트워크 [[125_socket|소켓]] 상태까지 완벽하게 추출하여 직렬화(Serialization)한다.
+> 3. **가치**: 무거운 가상머신([[598_vm_migration_nic|VM]]) [[629_live_migration_pre_copy|라이브 마이그레이션]]을 가벼운 [[561_container_based_deployment|컨테이너]]([[063_docker_architecture|Docker]], LXC) 레벨로 끌어내렸으며, [[206_serverless_cold_start|서버리스]]([[206_serverless_cold_start|Serverless]]) 함수의 [[559_serverless_cold_start_mitigation|콜드 스타트]]([[347_cold_start_problem|Cold Start]]) [[015_지연_데이터_관점|지연]]을 극복하기 위한 '사전 부팅 후 멈춰두기(Pre-baking)' 아키텍처의 핵심 기반 기술이 되었다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
 - **개념**: 
-  - **Checkpoint (체크포인트)**: 실행 중인 프로세스의 상태(메모리, 레지스터, 소켓 등)를 얼려서 디스크(이미지 파일)로 저장하는 행위.
-  - **Restore (리스토어)**: 저장된 이미지 파일을 읽어, 똑같은 PID와 메모리 주소 공간을 가진 프로세스로 부활시키는 행위.
-  - **CRIU**: 이를 커널 모듈 추가 없이, 순수 사용자 공간(Userspace)에서 구현해 낸 리눅스의 사실상 표준 오픈소스 도구.
+  - **Checkpoint (체크포인트)**: 실행 중인 프로세스의 상태(메모리, [[057_register|레지스터]], [[125_socket|소켓]] 등)를 얼려서 디스크(이미지 [[501_file_definition_logical_record|파일]])로 저장하는 행위.
+  - **Restore (리스토어)**: 저장된 이미지 [[501_file_definition_logical_record|파일]]을 읽어, 똑같은 PID와 메모리 주소 공간을 가진 프로세스로 부활시키는 행위.
+  - **CRIU**: 이를 [[022_kernel_role|커널]] [[192_module_independence|모듈]] 추가 없이, 순수 사용자 공간(Userspace)에서 구현해 낸 리눅스의 사실상 표준 [[191_oss_license_compliance|오픈소스]] 도구.
 
-- **필요성 (컨테이너 상태 보존과 이동의 부재)**: 
-  - 가상머신(VM)은 하이퍼바이저가 통째로 복사해서 옆 서버로 옮기는 라이브 마이그레이션이 가능했다.
-  - 하지만 컨테이너는 커널을 공유하는 단순한 프로세스 묶음이므로 끄면 메모리가 증발(Stateless)한다. 1시간 동안 계산 중이던 도커 컨테이너를 서버 패치 때문에 다른 노드로 옮기려면, 처음부터 다시 1시간을 계산해야 했다.
-  - **해결책**: 프로세스의 '뇌(메모리, 레지스터)'와 '손발(파일, 소켓)'을 그대로 캡처해서 얼려두었다가(Freeze), 다른 서버에서 녹여서(Thaw) 곧바로 다시 뛰게 만드는 기술이 절실했다.
+- **필요성 ([[561_container_based_deployment|컨테이너]] 상태 보존과 이동의 부재)**: 
+  - 가상머신([[598_vm_migration_nic|VM]])은 [[054_hypervisor|하이퍼바이저]]가 통째로 복사해서 옆 서버로 옮기는 [[629_live_migration_pre_copy|라이브 마이그레이션]]이 가능했다.
+  - 하지만 [[561_container_based_deployment|컨테이너]]는 [[022_kernel_role|커널]]을 공유하는 단순한 프로세스 묶음이므로 끄면 메모리가 증발([[239_stateless_redis|Stateless]])한다. 1시간 동안 계산 중이던 [[063_docker_architecture|도커]] [[561_container_based_deployment|컨테이너]]를 서버 패치 때문에 다른 노드로 옮기려면, 처음부터 다시 1시간을 계산해야 했다.
+  - **해결책**: 프로세스의 '뇌(메모리, [[057_register|레지스터]])'와 '손발([[501_file_definition_logical_record|파일]], [[125_socket|소켓]])'을 그대로 캡처해서 얼려두었다가(Freeze), 다른 서버에서 녹여서(Thaw) 곧바로 다시 뛰게 만드는 기술이 절실했다.
 
-  - 닌텐도 스위치에서 게임을 하다가 전원 버튼을 누르면(Sleep), 현재 내가 서 있는 맵의 위치, 체력, 열어둔 아이템 창이 그대로 메모리에 저장된다. 나중에 켜면 로딩 없이 게임이 그 자리에서 1초 만에 재개(Wake up)된다. **CRIU**는 이것을 서버의 애플리케이션(DB, 웹서버 등) 단위로 해주는 '프로세스 강제 세이브/로드' 마법이다.
+  - 닌텐도 [[238_switch_operation_principles|스위치]]에서 게임을 하다가 전원 버튼을 누르면(Sleep), 현재 내가 서 있는 맵의 위치, 체력, 열어둔 아이템 창이 그대로 메모리에 저장된다. 나중에 켜면 로딩 없이 게임이 그 자리에서 1초 만에 재개(Wake up)된다. **CRIU**는 이것을 서버의 애플리케이션(DB, 웹서버 등) 단위로 해주는 '프로세스 강제 세이브/로드' 마법이다.
 
 - **발전 과정**:
-  1. **In-Kernel C/R (초기)**: 커널 내부에 체크포인트 로직을 넣으려 시도했으나, 커널 소스가 너무 복잡해지고 유지보수가 불가능하여 리누스 토발즈가 거부함.
-  2. **CRIU 등장 (2012)**: Virtuozzo(Parallels) 팀이 주도하여, 커널 수정 없이 사용자 공간에서 ptrace와 /proc을 쥐어짜 내어 구현한 CRIU가 메인스트림으로 등극.
-  3. **컨테이너/서버리스 통합 (현재)**: Docker, Podman에 `docker checkpoint` 명령어가 통합되었고, AWS Lambda 등 서버리스 콜드 스타트 극복용(Firecracker SnapStart)으로 대활약 중.
+  1. **In-Kernel C/R ([[459_quic_fec_forward_error_correction|초기]])**: [[022_kernel_role|커널]] 내부에 체크포인트 로직을 넣으려 시도했으나, [[022_kernel_role|커널]] 소스가 너무 복잡해지고 유지보수가 불가능하여 리누스 토발즈가 거부함.
+  2. **CRIU 등장 (2012)**: Virtuozzo(Parallels) 팀이 주도하여, [[022_kernel_role|커널]] 수정 없이 사용자 공간에서 ptrace와 /proc을 쥐어짜 내어 구현한 CRIU가 메인스트림으로 등극.
+  3. **[[561_container_based_deployment|컨테이너]]/[[206_serverless_cold_start|서버리스]] 통합 (현재)**: [[063_docker_architecture|Docker]], Podman에 `docker checkpoint` 명령어가 통합되었고, AWS [[216_lambda_kappa_architecture_batch_realtime|Lambda]] 등 [[377_serverless_cold_start|서버리스 콜드 스타트]] 극복용(Firecracker SnapStart)으로 대활약 중.
 
 - **📢 섹션 요약 비유**: 냉동 인간 기술입니다. 살아있는 사람(프로세스)의 피와 세포 상태를 완벽히 캡처해 얼려두었다가, 10년 뒤(또는 다른 서버에서) 해동시키면 곧바로 숨을 쉬며 하던 일을 계속하게 만듭니다.
 
@@ -74,44 +74,44 @@ categories = "studynote-operating-system"
 
 ### CRIU 리스토어 (Restore) 4단계 동작 원리
 
-저장된 이미지 파일로부터 프로세스를 다시 부활시키는 마법의 과정이다.
+저장된 이미지 [[501_file_definition_logical_record|파일]]로부터 프로세스를 다시 부활시키는 마법의 과정이다.
 
-1. **프로세스 뼈대 생성**: CRIU 데몬이 `fork()`를 호출하여 자식 프로세스를 만든다.
-2. **PID 복원 (핵심)**: 리눅스 커널의 특수 기능(`clone3` 또는 `/proc/sys/kernel/ns_last_pid`)을 이용해, 자식 프로세스의 번호를 아까 죽었던 타겟 프로세스의 옛날 PID로 강제 배정한다. (PID가 틀리면 복원 후 IPC 통신이 망가짐)
-3. **자원 매핑 (Morphing)**: 이미지 파일을 읽어 들여서 텅 빈 자식 프로세스의 메모리를 원본 메모리대로 채우고(mmap), 옛날에 열려있던 파일 디스크립터(예: fd 3번 = /var/log/nginx.log)를 똑같이 다시 열어준다.
-4. **점프 (Jump to Target)**: CPU 레지스터를 옛날 상태로 세팅하고 `sigreturn` 또는 문맥 교환을 호출하면, 자식 프로세스가 완벽하게 옛날 프로세스로 둔갑(Morphing)하여 실행을 재개한다.
+1. **프로세스 뼈대 [[087_process_state_transition|생성]]**: CRIU 데몬이 `fork()`를 호출하여 자식 프로세스를 만든다.
+2. **PID 복원 (핵심)**: 리눅스 [[022_kernel_role|커널]]의 특수 기능(`clone3` 또는 `/proc/sys/kernel/ns_last_pid`)을 이용해, 자식 프로세스의 번호를 아까 죽었던 타겟 프로세스의 옛날 PID로 강제 배정한다. (PID가 틀리면 복원 후 [[117_ipc|IPC]] 통신이 망가짐)
+3. **자원 매핑 (Morphing)**: 이미지 [[501_file_definition_logical_record|파일]]을 읽어 들여서 텅 빈 자식 프로세스의 메모리를 원본 메모리대로 채우고([[749_memory_mapped_file_mmap|mmap]]), 옛날에 열려있던 [[501_file_definition_logical_record|파일]] 디스크립터(예: fd 3번 = /var/log/nginx.log)를 똑같이 다시 열어준다.
+4. **점프 (Jump to Target)**: CPU [[057_register|레지스터]]를 옛날 상태로 세팅하고 `sigreturn` 또는 문맥 교환을 호출하면, 자식 프로세스가 완벽하게 옛날 프로세스로 둔갑(Morphing)하여 실행을 재개한다.
 
 ---
 
-### 가장 어려운 난제: 네트워크 TCP 소켓 복원 (TCP Connection Repair)
+### 가장 어려운 난제: 네트워크 [[405_tcp_transmission_control_protocol_connection_oriented|TCP]] [[125_socket|소켓]] 복원 ([[405_tcp_transmission_control_protocol_connection_oriented|TCP]] Connection Repair)
 
-파일이나 메모리는 덤프 뜨기 쉽다. 하지만 상대방 클라이언트와 이미 연결되어 패킷이 오가고 있던 **TCP 소켓(ESTABLISHED)**은 어떻게 얼리고 복원할까?
+[[501_file_definition_logical_record|파일]]이나 메모리는 덤프 뜨기 쉽다. 하지만 상대방 클라이언트와 이미 연결되어 패킷이 오가고 있던 **[[405_tcp_transmission_control_protocol_connection_oriented|TCP]] [[125_socket|소켓]](ESTABLISHED)**은 어떻게 얼리고 복원할까?
 
-- **TCP Repair Mode**: CRIU의 요청으로 리눅스 커널에 추가된 특별한 소켓 옵션(`TCP_REPAIR`)이다.
-- **동작**: 이 모드를 켜면, 커널의 TCP 스택이 멈춘다. CRIU는 현재 소켓의 Sequence Number, Window Size 등을 쏙 빼간다(Dump). 나중에 다른 서버에서 Restore 할 때, 다시 TCP Repair 모드를 켜고 이 시퀀스 넘버들을 쑤셔 넣은 뒤 모드를 해제한다. 그러면 OS 커널과 상대방 클라이언트는 "서버가 이동했다는 사실조차 눈치채지 못하고" TCP 통신을 자연스럽게 이어간다. (IP 주소가 바뀌면 안 되므로 컨테이너 네트워크 오버레이 환경이 전제됨).
+- **[[405_tcp_transmission_control_protocol_connection_oriented|TCP]] Repair Mode**: CRIU의 요청으로 리눅스 [[022_kernel_role|커널]]에 추가된 특별한 [[125_socket|소켓]] 옵션(`TCP_REPAIR`)이다.
+- **동작**: 이 모드를 켜면, [[022_kernel_role|커널]]의 [[405_tcp_transmission_control_protocol_connection_oriented|TCP]] 스택이 멈춘다. CRIU는 현재 [[125_socket|소켓]]의 Sequence Number, [[215_window_size_sender_receiver|Window Size]] 등을 쏙 빼간다(Dump). 나중에 다른 서버에서 Restore 할 때, 다시 [[405_tcp_transmission_control_protocol_connection_oriented|TCP]] Repair 모드를 켜고 이 시퀀스 넘버들을 쑤셔 넣은 뒤 모드를 해제한다. 그러면 OS [[022_kernel_role|커널]]과 상대방 클라이언트는 "서버가 이동했다는 사실조차 눈치채지 못하고" [[405_tcp_transmission_control_protocol_connection_oriented|TCP]] 통신을 자연스럽게 이어간다. (IP 주소가 바뀌면 안 되므로 [[561_container_based_deployment|컨테이너]] 네트워크 오버레이 환경이 전제됨).
 
-- **📢 섹션 요약 비유**: 전화 통화(TCP)를 하다가 갑자기 전화를 얼려버리고(TCP Repair), 옆 건물로 텔레포트한 뒤 전화를 녹였을 때, 상대방이 전화가 끊겼다는 사실조차 모르게 통화를 이어가게 하는 해킹 수준의 네트워크 조작입니다.
+- **📢 섹션 요약 비유**: 전화 통화([[405_tcp_transmission_control_protocol_connection_oriented|TCP]])를 하다가 갑자기 전화를 얼려버리고([[405_tcp_transmission_control_protocol_connection_oriented|TCP]] Repair), 옆 건물로 텔레포트한 뒤 전화를 녹였을 때, 상대방이 전화가 끊겼다는 사실조차 모르게 통화를 이어가게 하는 해킹 수준의 네트워크 조작입니다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-### 라이브 마이그레이션 기술 비교
+### [[629_live_migration_pre_copy|라이브 마이그레이션]] 기술 비교
 
-| 비교 항목 | 하이퍼바이저 기반 (KVM Pre-copy) | 컨테이너 기반 (CRIU) |
+| 비교 항목 | [[054_hypervisor|하이퍼바이저]] 기반 ([[713_kvm_over_ip|KVM]] Pre-copy) | [[561_container_based_deployment|컨테이너]] 기반 (CRIU) |
 |:---|:---|:---|
-| **복사 대상** | 게스트 OS 전체 (커널 + 앱) | **특정 프로세스 트리 (앱만)** |
+| **복사 대상** | 게스트 OS 전체 ([[022_kernel_role|커널]] + 앱) | **특정 프로세스 트리 (앱만)** |
 | **마이그레이션 풋프린트** | 무거움 (수십 GB 메모리 복사) | **가벼움 (수 MB ~ 수백 MB)** |
-| **의존성 (Dependency)** | 하드웨어(CPU) 세대 호환성 | **리눅스 커널 버전 및 라이브러리 호환성** |
-| **네트워크 보존** | 쉬움 (L2 스위치 GARP) | 극도로 까다로움 (TCP Repair + IP 보존) |
-| **주 사용처** | IaaS 클라우드 무중단 점검 | 컨테이너 이주, Serverless 콜드 스타트 감소 |
+| **의존성 (Dependency)** | 하드웨어(CPU) 세대 [[344_compatibility_usability|호환성]] | **리눅스 [[022_kernel_role|커널]] [[288_version_ihl_tos_total_length|버전]] 및 [[336_library_vs_framework|라이브러리]] [[344_compatibility_usability|호환성]]** |
+| **네트워크 보존** | 쉬움 (L2 [[238_switch_operation_principles|스위치]] GARP) | 극도로 까다로움 ([[405_tcp_transmission_control_protocol_connection_oriented|TCP]] Repair + IP 보존) |
+| **주 사용처** | [[183_iaas_infrastructure_as_a_service|IaaS]] 클라우드 무중단 점검 | [[561_container_based_deployment|컨테이너]] 이주, [[206_serverless_cold_start|Serverless]] [[559_serverless_cold_start_mitigation|콜드 스타트]] 감소 |
 
 ### 과목 융합 관점
 
-- **운영체제 (OS)**: 프로세스가 자신만의 가상 세계(Virtual Address Space)를 가지고 있다는 '환상'이 있기 때문에 CRIU가 가능하다. CRIU는 메모리 주소를 절대 주소 그대로 Restore 한다. 유저 스페이스 프로세스는 자기가 물리 메모리 어디에 얹혀 있는지 모르기 때문에 주소 공간만 그대로 복원해 주면 완벽하게 속아 넘어간다.
-- **소프트웨어공학 (SE)**: AWS Lambda나 Java Spring Boot 컨테이너는 뜰 때(Booting) 스프링 컨텍스트를 로드하느라 5초~10초가 걸린다(Cold Start). 이 10초를 없애기 위해, 앱을 띄워서 메모리에 다 올려둔 상태에서 CRIU로 덤프를 뜬다. 이후 사용자가 요청하면 덤프 이미지만 0.1초 만에 Restore 하여 응답하는 **SnapStart / CRaC (Coordinated Restore at Checkpoint)** 아키텍처가 서버리스 생태계를 혁신하고 있다.
+- **[[001_operating_system_purpose|운영체제]] (OS)**: 프로세스가 자신만의 가상 세계([[382_virtual_address_space|Virtual Address Space]])를 가지고 있다는 '환상'이 있기 때문에 CRIU가 가능하다. CRIU는 메모리 주소를 절대 주소 그대로 Restore 한다. 유저 스페이스 프로세스는 자기가 물리 메모리 어디에 얹혀 있는지 모르기 때문에 주소 공간만 그대로 복원해 주면 완벽하게 속아 넘어간다.
+- **소프트웨어공학 (SE)**: AWS Lambda나 Java Spring Boot [[561_container_based_deployment|컨테이너]]는 뜰 때(Booting) 스프링 컨텍스트를 로드하느라 5초~10초가 걸린다([[347_cold_start_problem|Cold Start]]). 이 10초를 없애기 위해, 앱을 띄워서 메모리에 다 올려둔 상태에서 CRIU로 덤프를 뜬다. 이후 사용자가 요청하면 덤프 이미지만 0.1초 만에 Restore 하여 응답하는 **SnapStart / CRaC (Coordinated Restore at Checkpoint)** 아키텍처가 [[206_serverless_cold_start|서버리스]] 생태계를 혁신하고 있다.
 
-- **📢 섹션 요약 비유**: VM 마이그레이션이 '집을 통째로 트럭에 실어 이사 가는 것'이라면, CRIU 마이그레이션은 '내 뇌의 기억과 손에 든 물건만 USB에 담아서, 새 집의 빈 클론 육체에 다운로드하는 것'입니다.
+- **📢 섹션 요약 비유**: [[598_vm_migration_nic|VM]] 마이그레이션이 '집을 통째로 트럭에 실어 이사 가는 것'이라면, CRIU 마이그레이션은 '내 뇌의 기억과 손에 든 물건만 USB에 담아서, 새 집의 빈 [[149_clone_system_call|클론]] 육체에 다운로드하는 것'입니다.
 
 ---
 
@@ -119,13 +119,13 @@ categories = "studynote-operating-system"
 
 ### 실무 시나리오
 
-1. **시나리오 — HPC(고성능 컴퓨팅) 노드의 선점형 스케줄링 (Spot Instance)**: AI/머신러닝 학습 모델이 GPU 노드에서 3일째 돌고 있는데, 회사의 더 긴급한 프로젝트(또는 클라우드 Spot 인스턴스 회수) 때문에 해당 노드를 비워줘야 한다.
-   - **대응 (CRIU 기반 멈춤/재개)**: Docker(Podman)에 통합된 CRIU를 이용하여 `docker checkpoint create --leave-running=false my_ml_container` 명령을 내린다. 딥러닝 프로세스의 메모리와 GPU(vGPU 연동 시) 상태가 압축되어 로컬 스토리지에 `.tar.gz`로 저장되고 컨테이너는 죽는다. 
+1. **시나리오 — [[548_automotive_hpc|HPC]](고성능 컴퓨팅) 노드의 [[166_preemptive_scheduling|선점형 스케줄링]] ([[209_spot_instance_cloud_cost_optimization|Spot Instance]])**: [[190_ai_llm_requirements_specification|AI]]/[[241_machine_learning_basics|머신러닝]] 학습 모델이 [[418_gpu|GPU]] 노드에서 3일째 돌고 있는데, 회사의 더 긴급한 프로젝트(또는 클라우드 Spot 인스턴스 회수) 때문에 해당 노드를 비워줘야 한다.
+   - **대응 (CRIU 기반 멈춤/재개)**: [[063_docker_architecture|Docker]](Podman)에 통합된 CRIU를 이용하여 `docker checkpoint create --leave-running=false my_ml_container` 명령을 내린다. 딥러닝 프로세스의 메모리와 [[418_gpu|GPU]](vGPU 연동 시) 상태가 압축되어 로컬 스토리지에 `.tar.gz`로 저장되고 [[561_container_based_deployment|컨테이너]]는 죽는다. 
    - **재개**: 이틀 뒤 여유 노드가 생겼을 때 `docker start --checkpoint my_checkpoint_id my_ml_container`를 치면, 3일 치 학습했던 그 지점(Epoch)에서 단 1초 만에 학습이 다시 시작된다.
 
-2. **시나리오 — 마이크로서비스 배포 시 라이브러리 호환성 크래시 (Restore 실패)**: A 서버에서 CRIU로 덤프를 뜬 컨테이너를 B 서버에서 리스토어 했더니, `libc.so.6` 매핑 에러가 나면서 프로세스가 죽어버림.
-   - **원인 분석**: CRIU는 완벽하지 않다. A 서버의 호스트 커널 버전(또는 호스트 마운트 볼륨)과 B 서버의 상태가 미세하게 다르면, Restore 시 파일 디스크립터나 라이브러리 메모리 오프셋이 어긋나면서 부활에 실패한다.
-   - **기술사적 판단**: 이식성을 높이려면 컨테이너 파일 시스템 안에 프로세스가 의존하는 모든 라이브러리를 완전히 캡슐화(Self-contained)해야 하며, A서버와 B서버의 커널 버전(Cgroups, Namespace 지원 등)을 100% 동일하게 일치시키는 형상 관리(Ansible/Terraform)가 선행되어야 CRIU 클러스터가 동작한다.
+2. **시나리오 — [[532_microservices_decomposition_patterns|마이크로서비스]] 배포 시 [[336_library_vs_framework|라이브러리]] [[344_compatibility_usability|호환성]] 크래시 (Restore 실패)**: A 서버에서 CRIU로 덤프를 뜬 [[561_container_based_deployment|컨테이너]]를 B 서버에서 리스토어 했더니, `libc.so.6` 매핑 에러가 나면서 프로세스가 죽어버림.
+   - **원인 분석**: CRIU는 완벽하지 않다. A 서버의 호스트 [[022_kernel_role|커널]] [[288_version_ihl_tos_total_length|버전]](또는 호스트 [[516_mount_mechanism|마운트]] 볼륨)과 B 서버의 상태가 미세하게 다르면, Restore 시 [[501_file_definition_logical_record|파일]] 디스크립터나 [[336_library_vs_framework|라이브러리]] 메모리 오프셋이 어긋나면서 부활에 실패한다.
+   - **기술사적 판단**: 이식성을 높이려면 [[561_container_based_deployment|컨테이너]] [[501_file_definition_logical_record|파일]] 시스템 안에 프로세스가 의존하는 모든 [[336_library_vs_framework|라이브러리]]를 완전히 캡슐화(Self-contained)해야 하며, A서버와 B서버의 [[022_kernel_role|커널]] [[288_version_ihl_tos_total_length|버전]]([[062_cgroups|Cgroups]], [[061_namespace|Namespace]] 지원 등)을 100% 동일하게 일치시키는 [[020_software_configuration_management|형상 관리]]([[198_ansible_os_configuration_management_ssh|Ansible]]/[[195_terraform_hashicorp_agnostic_aws_gcp|Terraform]])가 선행되어야 CRIU 클러스터가 동작한다.
 
 ### 의사결정 및 튜닝 플로우
 
@@ -154,11 +154,11 @@ categories = "studynote-operating-system"
   └───────────────────────────────────────────────────────────────────┘
 ```
 
-**[다이어그램 해설]** "상태(State)"를 저장한다는 것은 독이 든 성배다. CRIU가 프로세스를 얼렸다가 1시간 뒤에 녹였다면, 그 1시간 동안 세상(외부 DB)은 이미 변했다. 프로세스가 깨어나서 자기가 들고 있던(1시간 전) DB 커넥션으로 패킷을 보내면 DB는 "넌 이미 타임아웃으로 끊어졌어!"라며 RST를 날리고 앱은 크래시 난다. 따라서 현대의 CRIU 아키텍처는 인프라 도구(CRIU)와 애플리케이션 런타임(Java CRaC)이 서로 대화(Handshake)하며 "나 방금 깨어났으니 네트워크 다시 연결해!"라고 자가 치유하는 하이브리드 아키텍처로 진화하고 있다.
+**[다이어그램 해설]** "상태([[272_state_pattern|State]])"를 저장한다는 것은 독이 든 성배다. CRIU가 프로세스를 얼렸다가 1시간 뒤에 녹였다면, 그 1시간 동안 세상(외부 DB)은 이미 변했다. 프로세스가 깨어나서 자기가 들고 있던(1시간 전) DB 커넥션으로 패킷을 보내면 DB는 "넌 이미 타임아웃으로 끊어졌어!"라며 RST를 날리고 앱은 크래시 난다. 따라서 현대의 CRIU 아키텍처는 인프라 도구(CRIU)와 애플리케이션 런타임(Java CRaC)이 서로 대화(Handshake)하며 "나 방금 깨어났으니 네트워크 다시 연결해!"라고 자가 치유하는 하이브리드 아키텍처로 진화하고 있다.
 
-### 도입 체크리스트
-- **보안 권한 (CAP_SYS_PTRACE)**: Docker 컨테이너 안에서 스스로 CRIU를 돌리려면 컨테이너에 막강한 `SYS_PTRACE` 권한(남의 메모리 훔쳐보기)을 부여해야 한다. 이는 컨테이너 보안(Privilege Escalation)을 심각하게 훼손할 수 있으므로, 덤프는 반드시 컨테이너 밖의 권한 있는 데몬(Root)이 수행하도록 설계했는가?
-- **시간(Time)의 왜곡 방지**: 프로세스가 1년을 얼어 있다 깨어나면, 앱 내부의 타이머(`gettimeofday`)가 1년 점프한 것을 보고 타이머 큐가 폭주할 수 있다. CRIU의 Time Namespace 지원 기능을 통해 프로세스가 동결된 시간을 인식하지 못하도록 시간 보정(Time-warping)을 수행했는가?
+### 도입 [[435_checklist_based_testing|체크리스트]]
+- **보안 권한 (CAP_SYS_PTRACE)**: [[063_docker_architecture|Docker]] [[561_container_based_deployment|컨테이너]] 안에서 스스로 CRIU를 돌리려면 [[561_container_based_deployment|컨테이너]]에 막강한 `SYS_PTRACE` 권한(남의 메모리 훔쳐보기)을 부여해야 한다. 이는 [[513_container_security|컨테이너 보안]]([[356_privilege_escalation|Privilege Escalation]])을 심각하게 훼손할 수 있으므로, 덤프는 반드시 [[561_container_based_deployment|컨테이너]] 밖의 권한 있는 데몬(Root)이 수행하도록 설계했는가?
+- **시간(Time)의 왜곡 방지**: 프로세스가 1년을 얼어 있다 깨어나면, 앱 내부의 타이머(`gettimeofday`)가 1년 점프한 것을 보고 타이머 큐가 폭주할 수 있다. CRIU의 Time [[061_namespace|Namespace]] 지원 기능을 통해 프로세스가 동결된 시간을 인식하지 못하도록 시간 보정(Time-warping)을 수행했는가?
 
 - **📢 섹션 요약 비유**: 냉동 인간을 깨웠을 때, 가장 큰 문제는 몸(메모리)이 아니라 변해버린 주변 세상(외부 네트워크)입니다. 깨어난 사람이 바뀐 세상에 즉응할 수 있도록 재사회화(Reconnect Hook) 코드를 심어두는 것이 아키텍트의 의무입니다.
 
@@ -168,20 +168,20 @@ categories = "studynote-operating-system"
 
 ### 정량/정성 기대효과
 
-| 구분 | 일반 컨테이너 시작 | CRIU 덤프 기반 리스토어 (SnapStart) | 개선 효과 |
+| 구분 | 일반 [[561_container_based_deployment|컨테이너]] 시작 | CRIU 덤프 기반 리스토어 (SnapStart) | 개선 효과 |
 |:---|:---|:---|:---|
-| **정량 (부팅 속도)** | Java Spring Boot 구동 약 10,000ms | 덤프 이미지에서 메모리 직행 **약 200ms** | 콜드 스타트 지연 **98% 단축** |
+| **정량 (부팅 속도)** | Java Spring Boot 구동 약 [[489_raid_10_hybrid|10]],000ms | 덤프 이미지에서 메모리 직행 **약 200ms** | [[152_cold_start_latency_serverless|콜드 스타트 지연]] **98% 단축** |
 | **정성 (자원 효율)** | 유휴 상태에서도 메모리 100% 점유 | 얼려서 디스크에 보관, RAM 반환 | 노드(Node)의 메모리 오버커밋 극대화 |
-| **정성 (작업 연속성)**| 장애/패치 시 작업 초기화 (재시작) | 재시작 없이 수일 전 작업 이어서 수행 | HPC 및 과학 연산의 결함 허용(Fault Tolerance) 보장 |
+| **정성 (작업 연속성)**| 장애/패치 시 작업 [[459_quic_fec_forward_error_correction|초기]]화 (재시작) | 재시작 없이 수일 전 작업 이어서 수행 | [[548_automotive_hpc|HPC]] 및 과학 연산의 [[296_fault_tolerance_architecture|결함 허용]]([[800_system_architecture_fault_tolerance_dual|Fault Tolerance]]) 보장 |
 
 ### 미래 전망
-- **AWS SnapStart와 서버리스의 완성**: AWS Lambda가 Java 함수를 구동할 때, 코드 배포 시점에 파이어크래커(MicroVM) 환경에서 함수를 미리 한 번 띄운 뒤 CRIU(유사 기술)로 스냅샷을 찍어 캐싱해 둔다. 사용자가 API를 부르면 부팅이 아니라 스냅샷을 '리스토어'하여 즉각 응답한다. 서버리스 컴퓨팅의 최대 약점이었던 콜드 스타트가 이 기술로 완전히 정복되었다.
-- **GPU 텐서 마이그레이션**: CPU 메모리를 얼리는 것을 넘어, NVIDIA와 CRIU 진영이 협력하여 GPU VRAM과 컨텍스트까지 얼리고 복원하는 CUDA 상태 덤프 기술이 상용화되고 있어, AI 클러스터의 동적 자원 재배치가 현실화되고 있다.
+- **AWS SnapStart와 [[206_serverless_cold_start|서버리스]]의 완성**: AWS Lambda가 Java 함수를 구동할 때, 코드 배포 시점에 [[347_process|파이어크래커]](MicroVM) 환경에서 함수를 미리 한 번 띄운 뒤 CRIU(유사 기술)로 스냅샷을 찍어 캐싱해 둔다. 사용자가 API를 부르면 부팅이 아니라 스냅샷을 '리스토어'하여 즉각 응답한다. [[206_serverless_cold_start|서버리스]] 컴퓨팅의 최대 약점이었던 [[559_serverless_cold_start_mitigation|콜드 스타트]]가 이 기술로 완전히 정복되었다.
+- **[[418_gpu|GPU]] 텐서 마이그레이션**: CPU 메모리를 얼리는 것을 넘어, NVIDIA와 CRIU 진영이 협력하여 [[418_gpu|GPU]] VRAM과 컨텍스트까지 얼리고 복원하는 [[420_cuda|CUDA]] 상태 덤프 기술이 상용화되고 있어, [[190_ai_llm_requirements_specification|AI]] 클러스터의 동적 자원 재배치가 현실화되고 있다.
 
 ### 결론
-CRIU(프로세스 체크포인트/리스토어)는 운영체제 커널의 성역인 '프로세스 관리'를 유저 스페이스 해킹 기법(Ptrace)으로 우회하여 쟁취해 낸 오픈소스 진영의 위대한 해커 정신의 산물이다. 가상머신의 전유물이던 마이그레이션과 스냅샷을 가벼운 컨테이너 레벨로 끌어내림으로써, 자원을 1초 단위로 쪼개 파는 서버리스(Serverless) 시대의 경제학을 완성했다. "프로세스는 한 번 켜진 서버에서 죽을 때까지 살아야 한다"는 고정관념을 파괴한 이 기술은 차세대 클라우드 인프라의 마스터키다.
+CRIU(프로세스 체크포인트/리스토어)는 [[001_operating_system_purpose|운영체제]] [[022_kernel_role|커널]]의 성역인 '프로세스 관리'를 유저 스페이스 해킹 기법(Ptrace)으로 우회하여 쟁취해 낸 [[191_oss_license_compliance|오픈소스]] 진영의 위대한 해커 정신의 산물이다. 가상머신의 전유물이던 마이그레이션과 스냅샷을 가벼운 [[561_container_based_deployment|컨테이너]] 레벨로 끌어내림으로써, 자원을 1초 단위로 쪼개 파는 [[206_serverless_cold_start|서버리스]]([[206_serverless_cold_start|Serverless]]) 시대의 경제학을 완성했다. "프로세스는 한 번 켜진 서버에서 죽을 때까지 살아야 한다"는 고정관념을 파괴한 이 기술은 차세대 클라우드 인프라의 마스터키다.
 
-- **📢 섹션 요약 비유**: 공간(서버 이동)과 시간(실행 정지 후 재개)의 제약을 모두 끊어내어, 내 소중한 애플리케이션을 언제든 호주머니(USB)에 넣고 다니다가 어떤 컴퓨터에서든 1초 만에 하던 일을 이어서 하게 해주는 궁극의 마법입니다.
+- **📢 섹션 요약 비유**: 공간(서버 이동)과 시간(실행 정지 후 재개)의 제약을 모두 끊어내어, 내 소중한 애플리케이션을 언제든 호주머니([[359_usb|USB]])에 넣고 다니다가 어떤 컴퓨터에서든 1초 만에 하던 일을 이어서 하게 해주는 궁극의 마법입니다.
 
 ---
 
@@ -189,10 +189,10 @@ CRIU(프로세스 체크포인트/리스토어)는 운영체제 커널의 성역
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| 리눅스 시스템 콜 테이블 (sys_call_table) 확장 및 보안 훅 추가 | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
-| NUMA 인지형 메모리 할당기 커널 페이지 이동 정책 프레임워크 설계 | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
-| 커널 메모리 컴팩션 (Compaction) 외부 단편화 런타임 제거 백그라운드 스레드 구조 | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
-| 고가용성 클러스터 운영체제 하트비트/펜싱 (Fencing / STONITH) 뇌 분할(Split-Brain) 방어 메커니즘 | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
+| 리눅스 시스템 콜 테이블 ([[646_syscall_table_hooking_expansion|sys_call_table]]) 확장 및 보안 훅 추가 | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
+| [[377_numa_allocation|NUMA]] 인지형 메모리 할당기 [[022_kernel_role|커널]] [[286_page_frame|페이지]] 이동 [[164_policy|정책]] 프레임워크 설계 | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
+| [[649_kernel_memory_compaction|커널 메모리 컴팩션]] ([[347_compaction|Compaction]]) [[342_external_fragmentation|외부 단편화]] 런타임 제거 백그라운드 [[092_thread_lwp|스레드]] 구조 | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
+| 고가용성 클러스터 [[001_operating_system_purpose|운영체제]] 하트비트/펜싱 (Fencing / STONITH) 뇌 분할(Split-Brain) 방어 메커니즘 | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 

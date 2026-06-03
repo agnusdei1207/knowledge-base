@@ -7,15 +7,15 @@ categories = "studynote-devops-sre"
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: AWS SAM(Serverless Application Model)은 **CloudFormation의 확장 문법**으로, Lambda·API Gateway·DynamoDB·Step Functions 등 서버리스 리소스를 **간결한 YAML로 선언**하고 `sam deploy`로 배포하는 AWS 공식 IaC 도구다.
-> 2. **가치**: CloudFormation으로 Lambda를 배포하면 50+ 줄 YAML이 필요하지만, SAM은 `AWS::Serverless::Function` 매크로로 **10줄로 축약**하며, `sam local invoke`로 **로컬에서 Lambda를 Docker 에뮬레이션**하여 배포 전 테스트가 가능하다.
-> 3. **판단 포인트**: SAM은 AWS 전용(벤더 종속)이지만 CloudFormation 네이티브이므로 **기존 CF 스택과 완벽 호환**되며, Serverless Framework(멀티클라우드)·SST(TypeScript 네이티브)와 비교하여 AWS 올인 전략에서 가장 자연스러운 선택이다.
+> 1. **본질**: AWS SAM([[206_serverless_cold_start|Serverless]] Application Model)은 **CloudFormation의 확장 문법**으로, [[216_lambda_kappa_architecture_batch_realtime|Lambda]]·[[542_api_gateway|API Gateway]]·[[545_dynamodb|DynamoDB]]·Step Functions 등 [[206_serverless_cold_start|서버리스]] 리소스를 **간결한 YAML로 선언**하고 `sam deploy`로 배포하는 AWS 공식 [[793_iac_idempotency_template|IaC]] 도구다.
+> 2. **가치**: CloudFormation으로 Lambda를 배포하면 50+ 줄 YAML이 필요하지만, SAM은 `AWS::Serverless::Function` 매크로로 **10줄로 축약**하며, `sam local invoke`로 **로컬에서 Lambda를 [[063_docker_architecture|Docker]] 에뮬레이션**하여 배포 전 테스트가 가능하다.
+> 3. **판단 포인트**: SAM은 AWS 전용([[051_vendor_lock_in_cloud_computing|벤더 종속]])이지만 CloudFormation 네이티브이므로 **기존 CF [[057_stack|스택]]과 완벽 호환**되며, [[206_serverless_cold_start|Serverless]] Framework(멀티클라우드)·SST(TypeScript 네이티브)와 비교하여 AWS 올인 [[268_strategy_pattern|전략]]에서 가장 자연스러운 선택이다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-CloudFormation으로 Lambda + API Gateway를 배포하려면 `AWS::Lambda::Function`, `AWS::Lambda::Permission`, `AWS::ApiGateway::RestApi`, `AWS::ApiGateway::Method` 등 **5~10개 리소스를 각각 정의**해야 한다.
+CloudFormation으로 [[216_lambda_kappa_architecture_batch_realtime|Lambda]] + [[014_api_posix|API]] Gateway를 배포하려면 `AWS::Lambda::Function`, `AWS::Lambda::Permission`, `AWS::ApiGateway::RestApi`, `AWS::ApiGateway::Method` 등 **5~10개 리소스를 각각 정의**해야 한다.
 
 ```text
 ┌───────────────────────────────────────────────────────┐
@@ -45,22 +45,22 @@ CloudFormation으로 Lambda + API Gateway를 배포하려면 `AWS::Lambda::Funct
 
 ### SAM 핵심 리소스 타입
 
-| SAM 타입 | 확장 대상 | 자동 생성 리소스 |
+| SAM 타입 | 확장 대상 | 자동 [[087_process_state_transition|생성]] 리소스 |
 |:---|:---|:---|
-| `AWS::Serverless::Function` | Lambda | IAM Role, CloudWatch Logs |
-| `AWS::Serverless::Api` | API Gateway | RestApi, Stage, Deployment |
-| `AWS::Serverless::SimpleTable` | DynamoDB | 단일 키 테이블 |
+| `AWS::Serverless::Function` | [[216_lambda_kappa_architecture_batch_realtime|Lambda]] | [[526_iam|IAM]] Role, CloudWatch [[568_logs_distributed_logging_elk_fluentd|Logs]] |
+| `AWS::Serverless::Api` | [[542_api_gateway|API Gateway]] | RestApi, Stage, [[087_deployment_kubernetes_workload_rolling_update|Deployment]] |
+| `AWS::Serverless::SimpleTable` | [[545_dynamodb|DynamoDB]] | 단일 키 테이블 |
 | `AWS::Serverless::StateMachine` | Step Functions | 상태 머신 |
 
-### SAM CLI 핵심 명령어
+### SAM CLI 핵심 [[158_instruction|명령어]]
 
 | 명령 | 역할 |
 |:---|:---|
 | `sam init` | 프로젝트 스캐폴딩 |
-| `sam build` | 종속성 설치 + 패키징 |
-| `sam local invoke` | **로컬 Docker에서 Lambda 실행** |
-| `sam local start-api` | 로컬에서 API Gateway 에뮬레이션 |
-| `sam deploy --guided` | CloudFormation 스택 배포 |
+| `sam build` | [[008_dependencies|종속성]] 설치 + 패키징 |
+| `sam local invoke` | **로컬 Docker에서 [[216_lambda_kappa_architecture_batch_realtime|Lambda]] 실행** |
+| `sam local start-api` | 로컬에서 [[542_api_gateway|API Gateway]] 에뮬레이션 |
+| `sam deploy --guided` | CloudFormation [[057_stack|스택]] 배포 |
 
 - **📢 섹션 요약 비유**: `sam local invoke`는 요리를 손님에게 내기 전 **주방에서 맛보기**하는 것이다.
 
@@ -68,25 +68,25 @@ CloudFormation으로 Lambda + API Gateway를 배포하려면 `AWS::Lambda::Funct
 
 ## Ⅲ. 비교 및 연결
 
-| 비교 | SAM | Serverless Framework | SST |
+| 비교 | SAM | [[206_serverless_cold_start|Serverless]] Framework | SST |
 |:---|:---|:---|:---|
 | **클라우드** | AWS 전용 | 멀티클라우드 | AWS 전용 |
 | **기반** | CloudFormation | CF + 자체 플러그인 | CDK (TypeScript) |
-| **로컬 테스트** | **sam local (Docker)** | serverless-offline | Live Lambda Dev |
+| **로컬 테스트** | **sam local ([[063_docker_architecture|Docker]])** | [[206_serverless_cold_start|serverless]]-offline | Live [[216_lambda_kappa_architecture_batch_realtime|Lambda]] Dev |
 | **생태계** | AWS 공식 | 플러그인 풍부 | TypeScript 네이티브 |
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### CI/CD 통합
+### [[090_configuration_item|CI]]/CD 통합
 ```yaml
 # GitHub Actions 예시
 - run: sam build
 - run: sam deploy --no-confirm-changeset --stack-name prod
 ```
 
-### 안티패턴
+### [[128_water_scrum_fall_anti_pattern|안티패턴]]
 - **SAM으로 비서버리스 리소스 관리**: EC2·RDS 등은 SAM이 아닌 CDK/CF로 관리하는 것이 적합.
 
 ---
@@ -96,10 +96,10 @@ CloudFormation으로 Lambda + API Gateway를 배포하려면 `AWS::Lambda::Funct
 | 지표 | CF 직접 | SAM | 개선 |
 |:---|:---|:---|:---|
 | YAML 코드량 | 68줄 | **10줄** | 85% 감소 |
-| 로컬 테스트 | 불가 | **Docker 에뮬레이션** | 배포 전 검증 |
+| 로컬 테스트 | 불가 | **[[063_docker_architecture|Docker]] 에뮬레이션** | 배포 전 [[395_verification_process_review|검증]] |
 | 배포 속도 | 동일 | 동일 (CF 기반) | - |
 
-SAM은 AWS의 공식 서버리스 IaC로, CDK(Cloud Development Kit)와 통합하여 TypeScript/Python으로 SAM 템플릿을 생성하는 **SAM + CDK 하이브리드** 패턴이 주류가 되고 있다.
+SAM은 AWS의 공식 [[206_serverless_cold_start|서버리스]] IaC로, CDK(Cloud Development Kit)와 통합하여 TypeScript/Python으로 SAM 템플릿을 [[087_process_state_transition|생성]]하는 **SAM + CDK 하이브리드** 패턴이 주류가 되고 있다.
 
 ---
 
@@ -108,9 +108,9 @@ SAM은 AWS의 공식 서버리스 IaC로, CDK(Cloud Development Kit)와 통합�
 | 개념 | 연결 포인트 |
 |:---|:---|
 | **CloudFormation** | SAM의 기반, SAM 템플릿은 CF로 변환됨 |
-| **Lambda** | SAM이 관리하는 핵심 컴퓨팅 리소스 |
-| **API Gateway** | SAM Events로 자동 생성되는 HTTP 엔드포인트 |
-| **Serverless Framework** | 멀티클라우드 경쟁 IaC 도구 |
+| **[[216_lambda_kappa_architecture_batch_realtime|Lambda]]** | SAM이 관리하는 핵심 컴퓨팅 리소스 |
+| **[[542_api_gateway|API Gateway]]** | SAM Events로 자동 [[087_process_state_transition|생성]]되는 [[461_http_stateless_connection_oriented|HTTP]] 엔드포인트 |
+| **[[206_serverless_cold_start|Serverless]] Framework** | 멀티클라우드 경쟁 [[793_iac_idempotency_template|IaC]] 도구 |
 | **CDK** | SAM과 통합하여 프로그래밍 언어로 인프라 정의 |
 
 ### 📈 관련 키워드 및 발전 흐름도

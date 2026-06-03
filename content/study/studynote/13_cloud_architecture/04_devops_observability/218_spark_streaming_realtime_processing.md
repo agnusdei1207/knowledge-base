@@ -8,19 +8,19 @@ categories = "studynote-cloud-architecture"
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: Spark Structured Streaming은 실시간 스트림 데이터를 "무한히 쌓이는 테이블(Unbounded Table)"로 추상화하여 배치와 동일한 DataFrame API로 처리하는 실시간 처리 엔진이며, 마이크로 배치와 연속 처리 두 모드를 지원한다.
-> 2. **가치**: Kafka 소스와의 완전한 통합, 이벤트 시간(Event-time) 기반 윈도우 연산, 워터마크(Watermark)를 통한 지연 데이터 처리로 정확히 한 번(Exactly-once) 처리 의미론을 보장한다.
-> 3. **판단 포인트**: 마이크로 배치는 지연 시간 수백ms~수 초(Latency)지만 처리량(Throughput)이 높고, 연속 처리는 지연 시간 ~1ms이지만 처리량이 낮다. 대부분의 실무는 수 초 지연이 허용되므로 마이크로 배치가 표준이다.
+> 1. **본질**: Spark Structured Streaming은 실시간 스트림 [[001_dikw_pyramid|데이터]]를 "무한히 쌓이는 테이블(Unbounded Table)"로 추상화하여 배치와 동일한 DataFrame API로 처리하는 실시간 처리 엔진이며, 마이크로 배치와 연속 처리 두 모드를 지원한다.
+> 2. **가치**: [[179_kafka_flink_watermark_time_window|Kafka]] 소스와의 완전한 통합, 이벤트 시간(Event-time) 기반 [[086_window_operations|윈도우 연산]], [[085_watermark|워터마크]]([[085_watermark|Watermark]])를 통한 [[015_지연_데이터_관점|지연]] [[001_dikw_pyramid|데이터]] 처리로 [[083_cross_validation|정확히 한 번]](Exactly-once) 처리 의미론을 보장한다.
+> 3. **판단 포인트**: 마이크로 배치는 [[141_latency|지연 시간]] 수백ms~수 초([[141_latency|Latency]])지만 [[139_throughput|처리량]]([[139_throughput|Throughput]])이 높고, 연속 처리는 [[141_latency|지연 시간]] ~1ms이지만 [[139_throughput|처리량]]이 낮다. 대부분의 실무는 수 초 [[015_지연_데이터_관점|지연]]이 허용되므로 마이크로 배치가 표준이다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-기업의 데이터 처리 요구가 "어젯밤 로그 분석(배치)" 수준을 넘어 "지금 이 순간 이상 감지·추천·알림"으로 진화하면서 실시간 스트림 처리가 필수가 됐다. 넷플릭스가 사용자가 영상을 보는 동안 실시간으로 스트리밍 품질을 조정하고, 우버가 실시간으로 근방 드라이버를 매칭하는 것이 대표적 사례다.
+기업의 [[001_dikw_pyramid|데이터]] 처리 요구가 "어젯밤 [[119_log_analysis|로그 분석]](배치)" 수준을 넘어 "지금 이 순간 이상 감지·추천·알림"으로 진화하면서 실시간 [[229_stream_processing_kafka_flink|스트림 처리]]가 필수가 됐다. 넷플릭스가 사용자가 영상을 보는 동안 실시간으로 스트리밍 품질을 조정하고, 우버가 실시간으로 근방 드라이버를 매칭하는 것이 대표적 사례다.
 
-초기 Spark Streaming(Spark 1.x)은 DStream(Discretized Stream) API를 사용했다. 스트림 데이터를 고정 시간 간격(예: 1초)으로 RDD로 쪼개어 배치처럼 처리하는 방식이었다. 동작은 했지만 이벤트 시간 처리, 상태 관리, exactly-once 보장이 복잡했다.
+[[459_quic_fec_forward_error_correction|초기]] [[060_spark_streaming_dstream|Spark Streaming]](Spark 1.x)은 [[060_spark_streaming_dstream|DStream]](Discretized [[467_http2_stream_multiplexing_tcp_hol|Stream]]) API를 사용했다. 스트림 [[001_dikw_pyramid|데이터]]를 고정 시간 간격(예: 1초)으로 RDD로 쪼개어 배치처럼 처리하는 방식이었다. 동작은 했지만 이벤트 시간 처리, 상태 관리, exactly-once 보장이 복잡했다.
 
-Spark 2.0에서 등장한 **Structured Streaming**은 완전히 재설계됐다. 핵심 아이디어: **스트림을 끝없이 행이 추가되는 테이블**로 본다. 개발자는 이 테이블에 배치와 동일한 DataFrame/SQL 쿼리를 작성하고, Spark이 내부적으로 마이크로 배치로 쿼리를 반복 실행하여 결과를 점진적으로 업데이트한다.
+Spark 2.0에서 등장한 **[[061_structured_streaming|Structured Streaming]]**은 완전히 재설계됐다. 핵심 아이디어: **스트림을 끝없이 행이 추가되는 테이블**로 본다. 개발자는 이 테이블에 배치와 동일한 DataFrame/SQL [[298_qkv_attention|쿼리]]를 작성하고, Spark이 내부적으로 마이크로 배치로 [[298_qkv_attention|쿼리]]를 반복 실행하여 결과를 점진적으로 업데이트한다.
 
 📢 **섹션 요약 비유**: Structured Streaming은 뉴스 자막 기계와 같다. 자막 기계는 기자가 전송하는 뉴스(스트림)를 화면 아래에 계속 추가하는 테이블처럼 처리하여, 매초 새로운 자막을 자동으로 표시한다.
 
@@ -28,7 +28,7 @@ Spark 2.0에서 등장한 **Structured Streaming**은 완전히 재설계됐다.
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### Structured Streaming 실행 모델
+### [[061_structured_streaming|Structured Streaming]] 실행 모델
 
 ```
   ┌────────────────────────────────────────────────────────────┐
@@ -54,7 +54,7 @@ Spark 2.0에서 등장한 **Structured Streaming**은 완전히 재설계됐다.
   └────────────────────────────────────────────────────────────┘
 ```
 
-### Kafka 소스 연동 코드
+### [[179_kafka_flink_watermark_time_window|Kafka]] 소스 연동 코드
 
 ```python
 from pyspark.sql import SparkSession
@@ -105,15 +105,15 @@ query = windowed_counts.writeStream \
 query.awaitTermination()
 ```
 
-### 윈도우 연산 유형
+### [[086_window_operations|윈도우 연산]] 유형
 
 | 윈도우 유형 | 설명 | 예시 |
 |:---|:---|:---|
-| **Tumbling Window** | 겹치지 않는 고정 크기 윈도우 | 1분마다 초기화 |
+| **Tumbling Window** | 겹치지 않는 고정 크기 윈도우 | 1분마다 [[459_quic_fec_forward_error_correction|초기]]화 |
 | **Sliding Window** | 슬라이딩 간격으로 이동하는 윈도우 | 5분 윈도우, 1분마다 이동 |
-| **Session Window** | 비활성 기간으로 세션 구분 | 30초 이상 이벤트 없으면 세션 종료 |
+| **[[160_session_controlling_terminal|Session]] Window** | 비활성 기간으로 [[160_session_controlling_terminal|세션]] 구분 | 30초 이상 이벤트 없으면 [[160_session_controlling_terminal|세션]] 종료 |
 
-📢 **섹션 요약 비유**: 윈도우 연산은 버스 창문으로 바깥을 보는 것과 같다. Tumbling은 매 정류장마다 새 창문, Sliding은 창문이 조금씩 이동하면서 앞 풍경과 현재 풍경이 겹치는 것이다.
+📢 **섹션 요약 비유**: [[086_window_operations|윈도우 연산]]은 [[344_bus|버스]] 창문으로 바깥을 보는 것과 같다. Tumbling은 매 정류장마다 새 창문, Sliding은 창문이 조금씩 이동하면서 앞 풍경과 현재 풍경이 겹치는 것이다.
 
 ---
 
@@ -121,38 +121,38 @@ query.awaitTermination()
 
 ### 처리 모드 비교
 
-| 모드 | 최소 지연 | 처리량 | 정확도 | 사용 시나리오 |
+| 모드 | 최소 [[015_지연_데이터_관점|지연]] | [[139_throughput|처리량]] | 정확도 | 사용 시나리오 |
 |:---|:---:|:---:|:---:|:---|
 | 마이크로 배치 (기본) | ~100ms | 높음 | Exactly-once | 대부분의 실시간 처리 |
 | 연속 처리 (Spark 2.3+) | ~1ms | 낮음 | At-least-once | 초저지연 필요 시 |
-| 배치 처리 (비교용) | 분~시간 | 최고 | Exactly-once | 대규모 비실시간 |
+| [[228_batch_processing_hadoop_spark|배치 처리]] (비교용) | 분~시간 | 최고 | Exactly-once | 대규모 비실시간 |
 
 ### 출력 모드 (OutputMode)
 
-| 모드 | 설명 | 적합 쿼리 |
+| 모드 | 설명 | 적합 [[298_qkv_attention|쿼리]] |
 |:---|:---|:---|
-| **Append** | 새로 추가된 행만 출력 | 집계 없는 변환, 워터마크 적용 시 |
+| **Append** | 새로 추가된 행만 출력 | 집계 없는 변환, [[085_watermark|워터마크]] 적용 시 |
 | **Complete** | 결과 테이블 전체를 매번 출력 | 소규모 집계 결과 |
 | **Update** | 변경된 행만 출력 | 집계 + 실시간 대시보드 |
 
-### Spark Streaming vs Apache Flink
+### [[060_spark_streaming_dstream|Spark Streaming]] vs [[215_flink_native_stream_watermark_window_time|Apache Flink]]
 
-| 항목 | Spark Structured Streaming | Apache Flink |
+| 항목 | [[061_structured_streaming|Spark Structured Streaming]] | [[215_flink_native_stream_watermark_window_time|Apache Flink]] |
 |:---|:---|:---|
-| 처리 방식 | 마이크로 배치 (기본) | 진정한 스트림 처리 |
-| 지연 시간 | 수백ms~수 초 | ~수ms |
-| 처리량 | 높음 | 중간 |
-| 배치 통합 | ✅ (배치와 동일 API) | 별도 DataSet API |
+| 처리 방식 | 마이크로 배치 (기본) | 진정한 [[229_stream_processing_kafka_flink|스트림 처리]] |
+| [[141_latency|지연 시간]] | 수백ms~수 초 | ~수ms |
+| [[139_throughput|처리량]] | 높음 | 중간 |
+| 배치 통합 | ✅ (배치와 동일 [[014_api_posix|API]]) | 별도 DataSet [[014_api_posix|API]] |
 | 상태 관리 | 좋음 | 매우 강함 |
-| 적합 시나리오 | 처리량 우선 | 초저지연 필요 |
+| 적합 시나리오 | [[139_throughput|처리량]] 우선 | 초저지연 필요 |
 
-📢 **섹션 요약 비유**: Spark Streaming과 Flink의 차이는 편의점 계산대(Spark, 10초마다 일괄 처리)와 고속 체크아웃(Flink, 아이템마다 즉시 처리)의 차이다. 빠른 처리량은 편의점이, 즉각 반응은 고속 체크아웃이 강하다.
+📢 **섹션 요약 비유**: Spark Streaming과 Flink의 차이는 편의점 계산대(Spark, 10초마다 일괄 처리)와 고속 체크아웃(Flink, 아이템마다 즉시 처리)의 차이다. 빠른 [[139_throughput|처리량]]은 편의점이, 즉각 반응은 고속 체크아웃이 강하다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-**워터마크(Watermark) 설정**:
+**[[085_watermark|워터마크]]([[085_watermark|Watermark]]) [[009_config|설정]]**:
 ```python
 # 이벤트 시간 vs 처리 시간
 # 이벤트: 15:00:00에 발생 → 네트워크 지연으로 15:00:30에 도착
@@ -170,7 +170,7 @@ windowed = df \
 # 워터마크 있으면: 허용 시간 초과한 지연 데이터는 버리고 상태 메모리 정리
 ```
 
-**Kafka → Spark → S3 파이프라인**:
+**[[179_kafka_flink_watermark_time_window|Kafka]] → Spark → S3 파이프라인**:
 ```python
 # Delta Lake로 실시간 데이터 저장 (ACID 트랜잭션 지원)
 orders.writeStream \
@@ -184,8 +184,8 @@ orders.writeStream \
 
 **기술사 판단 포인트**:
 - Checkpoint Location은 장애 복구의 핵심이다. Spark가 재시작될 때 checkpoint에서 마지막 처리 오프셋을 읽어 중복 처리 없이 이어서 실행한다.
-- 상태 있는 집계(Stateful Aggregation)는 상태가 메모리에 축적되므로, 워터마크로 오래된 상태를 주기적으로 정리해야 메모리 문제를 방지한다.
-- Structured Streaming과 Delta Lake의 조합이 현대 실시간 데이터 레이크하우스 아키텍처의 표준이 되고 있다.
+- 상태 있는 집계(Stateful Aggregation)는 상태가 메모리에 축적되므로, [[085_watermark|워터마크]]로 오래된 상태를 주기적으로 정리해야 메모리 문제를 방지한다.
+- Structured Streaming과 Delta Lake의 조합이 현대 실시간 [[210_data_lakehouse_delta_lake|데이터 레이크하우스]] 아키텍처의 표준이 되고 있다.
 
 📢 **섹션 요약 비유**: Checkpoint는 게임 세이브처럼, 서버가 재시작되어도 마지막으로 처리한 위치에서 이어서 처리한다. Checkpoint 없으면 재시작 시 처음부터 또는 중복 처리가 발생한다.
 
@@ -196,13 +196,13 @@ orders.writeStream \
 | 기대효과 | 설명 |
 |:---|:---|
 | 배치·스트리밍 통합 | 동일한 DataFrame API로 배치와 스트리밍 처리 |
-| Exactly-once 보장 | 체크포인팅과 멱등 싱크로 정확히 한 번 처리 |
-| 이벤트 시간 처리 | 네트워크 지연 데이터를 워터마크로 처리 |
-| Kafka 완전 통합 | 오프셋 관리·체크포인팅 자동화 |
+| Exactly-once 보장 | [[071_checkpointing|체크포인팅]]과 멱등 싱크로 [[083_cross_validation|정확히 한 번]] 처리 |
+| 이벤트 시간 처리 | [[1002_network_delay_rtt_oneway_delay_components|네트워크 지연]] [[001_dikw_pyramid|데이터]]를 [[085_watermark|워터마크]]로 처리 |
+| [[179_kafka_flink_watermark_time_window|Kafka]] 완전 통합 | 오프셋 관리·[[071_checkpointing|체크포인팅]] 자동화 |
 
-Spark Structured Streaming은 "빅데이터 배치 처리의 강점을 실시간 처리로 확장"한 결과물이다. 카프카와의 통합, Delta Lake와의 조합으로 현대 Lambda 아키텍처와 Kappa 아키텍처를 모두 Spark 단일 플랫폼으로 구현할 수 있게 됐다. 정보통신기술사 시험에서 스트리밍 처리 아키텍처와 Kafka·Spark의 연계는 빈출 주제다.
+Spark Structured Streaming은 "빅데이터 [[228_batch_processing_hadoop_spark|배치 처리]]의 강점을 실시간 처리로 확장"한 결과물이다. 카프카와의 통합, Delta Lake와의 조합으로 현대 [[216_lambda_kappa_architecture_batch_realtime|Lambda]] 아키텍처와 [[235_kappa|Kappa]] 아키텍처를 모두 Spark 단일 플랫폼으로 구현할 수 있게 됐다. 정보통신기술사 시험에서 스트리밍 처리 아키텍처와 [[179_kafka_flink_watermark_time_window|Kafka]]·Spark의 연계는 빈출 주제다.
 
-📢 **섹션 요약 비유**: Structured Streaming은 강의 물흐름(스트림)을 배와 양동이(배치) 없이 수력 발전기로 직접 처리하는 것과 같다. 물이 흐르는 그 자리에서 즉시 에너지(인사이트)를 추출하여 지연 없이 활용한다.
+📢 **섹션 요약 비유**: Structured Streaming은 강의 물흐름(스트림)을 배와 양동이(배치) 없이 수력 발전기로 직접 처리하는 것과 같다. 물이 흐르는 그 자리에서 즉시 에너지(인사이트)를 추출하여 [[015_지연_데이터_관점|지연]] 없이 활용한다.
 
 ---
 
@@ -210,16 +210,16 @@ Spark Structured Streaming은 "빅데이터 배치 처리의 강점을 실시간
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| Apache Kafka | Structured Streaming의 가장 일반적인 소스 |
-| 워터마크 (Watermark) | 지연 데이터 처리와 상태 메모리 관리의 핵심 |
+| [[214_kafka_pubsub_topic_partition_offset_broker|Apache Kafka]] | Structured Streaming의 가장 일반적인 소스 |
+| [[085_watermark|워터마크]] ([[085_watermark|Watermark]]) | [[015_지연_데이터_관점|지연]] [[001_dikw_pyramid|데이터]] 처리와 상태 메모리 관리의 핵심 |
 | 마이크로 배치 | Structured Streaming의 기본 실행 모드 |
-| Delta Lake | Structured Streaming 결과 저장의 현대 표준 |
-| Apache Flink | 초저지연 스트리밍에서 Spark의 대안 도구 |
-| Exactly-once | 체크포인팅으로 보장하는 스트리밍 처리 의미론 |
+| [[147_delta_lake|Delta Lake]] | [[061_structured_streaming|Structured Streaming]] 결과 저장의 현대 표준 |
+| [[215_flink_native_stream_watermark_window_time|Apache Flink]] | 초저지연 스트리밍에서 Spark의 대안 도구 |
+| Exactly-once | [[071_checkpointing|체크포인팅]]으로 보장하는 스트리밍 처리 의미론 |
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. Structured Streaming은 쇼핑몰 CCTV처럼, 카메라(Kafka)에서 계속 들어오는 영상(이벤트)을 실시간으로 분석해서 도둑이 있는지(이상 감지) 알려줘.
+1. Structured Streaming은 쇼핑몰 CCTV처럼, 카메라([[179_kafka_flink_watermark_time_window|Kafka]])에서 계속 들어오는 영상(이벤트)을 실시간으로 분석해서 도둑이 있는지(이상 감지) 알려줘.
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -236,4 +236,4 @@ Structured Streaming: DataFrame API + Event-Time + Watermark
 Flink: True Streaming (이벤트별 처리) · 정확히 한 번 보장
 ```
 2. 마이크로 배치는 10초마다 영상을 묶어서 분석하는 것, 연속 처리는 프레임마다 즉시 분석하는 거야.
-3. 워터마크는 "이미 10분 지난 영상은 그냥 넘어가자"라는 규칙이야. 너무 늦게 온 데이터는 기다리지 않고 무시해서 메모리가 꽉 차지 않게 해.
+3. [[085_watermark|워터마크]]는 "이미 10분 지난 영상은 그냥 넘어가자"라는 규칙이야. 너무 늦게 온 [[001_dikw_pyramid|데이터]]는 기다리지 않고 무시해서 메모리가 꽉 차지 않게 해.

@@ -7,8 +7,8 @@ categories = "studynote-design-supervision"
 +++
 
 > **핵심 인사이트**
-> 1. 감리인 독립성(Auditor Independence)은 감리가 형식이 아닌 실질적 검증 기능을 하기 위한 전제 조건으로, 발주자·사업자로부터 독립된 제3자가 객관적 평가를 수행해야만 감리 결과에 신뢰성이 부여된다.
-> 2. 독립성은 외관적 독립성(Independence in Appearance)과 실질적 독립성(Independence in Fact) 두 차원으로 구분되며, 이해충돌(Conflict of Interest)·겸직 제한·회전문 제약(Cooling-off Period) 등이 외관적 독립성을 보장하는 제도적 장치다.
+> 1. 감리인 독립성(Auditor [[133_independence|Independence]])은 감리가 형식이 아닌 실질적 [[395_verification_process_review|검증]] 기능을 하기 위한 전제 조건으로, 발주자·사업자로부터 독립된 제3자가 객관적 평가를 수행해야만 감리 결과에 신뢰성이 부여된다.
+> 2. 독립성은 외관적 독립성([[133_independence|Independence]] in Appearance)과 실질적 독립성([[133_independence|Independence]] in Fact) 두 차원으로 구분되며, 이해충돌(Conflict of Interest)·겸직 제한·회전문 제약(Cooling-off Period) 등이 외관적 독립성을 보장하는 제도적 장치다.
 > 3. 정보화 사업 감리 법제에서 감리인 독립성 위반은 감리 결과 무효·과태료·자격 취소 사유이며, 정보시스템 감리법(2007년 제정)은 발주자·사업자와 이해관계 있는 자의 감리 참여를 명시적으로 금지한다.
 
 ---
@@ -116,7 +116,7 @@ categories = "studynote-design-supervision"
 
 ---
 
-## Ⅳ. 클라우드·AI 사업 감리 독립성 이슈
+## Ⅳ. 클라우드·[[190_ai_llm_requirements_specification|AI]] 사업 감리 독립성 이슈
 
 ```
 신기술 사업에서의 독립성 도전:
@@ -137,7 +137,7 @@ AI/ML 사업 감리:
   AI 감리 특화 독립성 지침 마련 (KISA)
 ```
 
-> 📢 **섹션 요약 비유**: AI 감리 독립성 문제는 언어 시험을 그 언어 원어민만 채점하는 상황 — 전문성과 독립성을 동시에 확보하는 것이 과제.
+> 📢 **섹션 요약 비유**: [[190_ai_llm_requirements_specification|AI]] 감리 독립성 문제는 언어 시험을 그 언어 원어민만 채점하는 상황 — 전문성과 독립성을 동시에 확보하는 것이 과제.
 
 ---
 

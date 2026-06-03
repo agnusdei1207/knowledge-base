@@ -8,17 +8,17 @@ categories = "studynote-data-engineering"
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: Dark Data(다크 데이터)는 쌓아 두기만 하고 쓰지 못하는 비정형 데이터이며, 발견(Discovery)되지 않으면 비용만 늘어난다.
-> 2. **확장**: NLP (Natural Language Processing), OCR (Optical Character Recognition), STT (Speech-to-Text)로 메타데이터를 붙여 데이터 카탈로그로 자산화한다.
-> 3. **보호**: Privacy Clean Room(프라이버시 클린 룸)은 원본을 노출하지 않고도 두 회사의 데이터를 안전하게 결합하고 통계만 얻는 협업 방식이다.
+> 1. **본질**: [[062_darkdata|Dark Data]]([[062_darkdata|다크 데이터]])는 쌓아 두기만 하고 쓰지 못하는 비정형 [[001_dikw_pyramid|데이터]]이며, 발견(Discovery)되지 않으면 비용만 늘어난다.
+> 2. **확장**: NLP (Natural Language Processing), OCR (Optical Character Recognition), [[819_stt_stateless_transport_tunneling_offload|STT]] (Speech-to-Text)로 메타데이터를 붙여 [[001_dikw_pyramid|데이터]] 카탈로그로 자산화한다.
+> 3. **[[571_protection_vs_security|보호]]**: [[400_privacy_clean_room_data_sharing|Privacy Clean Room]](프라이버시 클린 룸)은 원본을 노출하지 않고도 두 회사의 [[001_dikw_pyramid|데이터]]를 안전하게 결합하고 통계만 얻는 협업 방식이다.
 
 ---
 
-## Ⅰ. 다크 데이터의 공포와 발견
+## Ⅰ. [[062_darkdata|다크 데이터]]의 공포와 발견
 
-기업에는 로그, 음성 녹취, 이미지, 클릭 기록처럼 쌓이기만 하고 검색도 안 되는 데이터가 많다. 이런 데이터는 보관 비용을 늘리지만, 적절히 발견하면 중요한 인사이트의 원천이 된다.
+기업에는 [[568_logs_distributed_logging_elk_fluentd|로그]], 음성 녹취, 이미지, 클릭 기록처럼 쌓이기만 하고 검색도 안 되는 [[001_dikw_pyramid|데이터]]가 많다. 이런 [[001_dikw_pyramid|데이터]]는 보관 비용을 늘리지만, 적절히 발견하면 중요한 인사이트의 원천이 된다.
 
-발견(Discovery)의 핵심은 비정형 데이터를 읽을 수 있는 형태로 바꾸는 것이다. 그때 메타데이터와 태그가 붙고, 데이터 카탈로그에 올라가 자산으로 바뀐다.
+발견(Discovery)의 핵심은 비정형 [[001_dikw_pyramid|데이터]]를 읽을 수 있는 형태로 바꾸는 것이다. 그때 메타데이터와 태그가 붙고, [[001_dikw_pyramid|데이터]] 카탈로그에 올라가 자산으로 바뀐다.
 
 - **📢 섹션 요약 비유**: 창고에 쌓인 상자를 하나씩 열어 보고, 쓸모 있는 물건에 라벨을 붙여 정리장으로 옮기는 일이다.
 
@@ -40,11 +40,11 @@ Data Catalog
 | :-- | :-- |
 | NLP (Natural Language Processing) | 텍스트/대화의 의미를 추출 |
 | OCR (Optical Character Recognition) | 이미지에서 글자를 읽음 |
-| STT (Speech-to-Text) | 음성을 텍스트로 변환 |
-| Metadata | 검색과 분류를 돕는 설명 정보 |
-| Data Catalog | 자산화된 데이터를 찾고 관리하는 진열장 |
+| [[819_stt_stateless_transport_tunneling_offload|STT]] (Speech-to-Text) | 음성을 텍스트로 변환 |
+| [[012_metadata|Metadata]] | 검색과 분류를 돕는 설명 정보 |
+| [[213_data_catalog_metadata|Data Catalog]] | 자산화된 [[001_dikw_pyramid|데이터]]를 찾고 관리하는 진열장 |
 
-발견 단계에서 중요한 것은 "버리기"가 아니라 "분류하기"다. 규정 준수, 감사를 위해 남겨야 하는 데이터도 많기 때문에, 무의미한 보관이 아니라 의미 있는 보관 구조로 전환해야 한다.
+발견 단계에서 중요한 것은 "버리기"가 아니라 "분류하기"다. 규정 준수, [[606_auditing_linux_auditd|감사]]를 위해 남겨야 하는 [[001_dikw_pyramid|데이터]]도 많기 때문에, 무의미한 보관이 아니라 의미 있는 보관 구조로 전환해야 한다.
 
 - **📢 섹션 요약 비유**: 낡은 물건을 그냥 쌓아 두는 대신, 어디에 쓰는 물건인지 적어 두는 순간 창고가 보물창고로 바뀐다.
 
@@ -52,12 +52,12 @@ Data Catalog
 
 ## Ⅲ. 비교 및 연결
 
-| 구분 | 원본 공유 | Privacy Clean Room |
+| 구분 | 원본 공유 | [[400_privacy_clean_room_data_sharing|Privacy Clean Room]] |
 | :-- | :-- | :-- |
-| 데이터 노출 | 원본 행(row) 그대로 노출 | 원본 비노출 |
-| 결합 방식 | 파일 전송, SQL 덤프 | 정책 기반 쿼리 |
+| [[001_dikw_pyramid|데이터]] 노출 | 원본 행(row) 그대로 노출 | 원본 비노출 |
+| 결합 방식 | [[501_file_definition_logical_record|파일]] 전송, SQL 덤프 | [[164_policy|정책]] 기반 [[298_qkv_attention|쿼리]] |
 | 결과 | 원하는 만큼 자세함 | 집계/통계 중심 |
-| 리스크 | 개인정보 유출 | threshold/정책으로 통제 |
+| [[096_risk_non_risk_architecture_evaluation_flaws|리스크]] | [[781_personal_information|개인정보]] 유출 | threshold/[[164_policy|정책]]으로 통제 |
 
 ```text
 A사 데이터 -- hash/token --\
@@ -65,7 +65,7 @@ A사 데이터 -- hash/token --\
 B사 데이터 -- hash/token --/
 ```
 
-클린 룸은 보통 Hashing, Tokenization, HE (Homomorphic Encryption), MPC (Multi-Party Computation) 같은 기술을 조합해 원본을 숨긴다. 쿼리는 허용되지만, 결과는 작은 표본을 숨기고 집계만 내보내도록 설계한다.
+클린 룸은 보통 Hashing, [[820_tokenization|Tokenization]], HE ([[1019_homomorphic_encryption|Homomorphic Encryption]]), MPC (Multi-Party Computation) 같은 기술을 조합해 원본을 숨긴다. [[298_qkv_attention|쿼리]]는 허용되지만, 결과는 작은 표본을 숨기고 집계만 내보내도록 설계한다.
 
 - **📢 섹션 요약 비유**: 서로 열쇠를 바꾸지 않고도, 비밀 방 안에서 숫자만 세어 보는 안전한 공동 작업실이다.
 
@@ -73,22 +73,22 @@ B사 데이터 -- hash/token --/
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### 체크리스트
+### [[435_checklist_based_testing|체크리스트]]
 
-1. 개인정보와 민감정보가 충분히 비식별화되었는가?
-2. 데이터 결합 목적과 동의 범위가 명확한가?
-3. 쿼리 허용 범위, threshold, 출력 제한이 있는가?
-4. 원본 접근 권한과 감사 로그가 분리되어 있는가?
-5. 데이터 보존 기간과 파기 기준이 있는가?
+1. [[781_personal_information|개인정보]]와 민감정보가 충분히 비식별화되었는가?
+2. [[001_dikw_pyramid|데이터]] 결합 목적과 동의 범위가 명확한가?
+3. [[298_qkv_attention|쿼리]] 허용 범위, threshold, 출력 제한이 있는가?
+4. 원본 접근 권한과 [[606_auditing_linux_auditd|감사]] [[568_logs_distributed_logging_elk_fluentd|로그]]가 분리되어 있는가?
+5. [[001_dikw_pyramid|데이터]] 보존 기간과 파기 기준이 있는가?
 
-### 안티패턴
+### [[128_water_scrum_fall_anti_pattern|안티패턴]]
 
-- 원본 PII (Personally Identifiable Information)를 평문 파일로 주고받는 설계
-- 클린 룸을 데이터 레이크처럼 아무 쿼리나 허용하는 설계
+- 원본 PII (Personally Identifiable Information)를 평문 [[501_file_definition_logical_record|파일]]로 주고받는 설계
+- 클린 룸을 [[001_dikw_pyramid|데이터]] 레이크처럼 아무 [[298_qkv_attention|쿼리]]나 허용하는 설계
 - 소수 표본 결과까지 그대로 보여 주는 설계
 - 동의 없이 마케팅 목적 결합을 먼저 해 버리는 설계
 
-기술사 관점에서 중요한 것은 "어떤 알고리즘을 썼는가"보다 "누가 어떤 결과까지 볼 수 있는가"다. 데이터는 많을수록 좋은 것이 아니라, 목적에 맞게 통제된 상태로 써야 가치가 생긴다.
+기술사 관점에서 중요한 것은 "어떤 알고리즘을 썼는가"보다 "누가 어떤 결과까지 볼 수 있는가"다. [[001_dikw_pyramid|데이터]]는 많을수록 좋은 것이 아니라, 목적에 맞게 통제된 상태로 써야 가치가 생긴다.
 
 - **📢 섹션 요약 비유**: 손님 명단을 서로 보여 주지 않고도, 겹치는 손님 수만 안전하게 세는 계산기 방이다.
 
@@ -96,9 +96,9 @@ B사 데이터 -- hash/token --/
 
 ## Ⅴ. 기대효과 및 결론
 
-다크 데이터 발견은 저장 비용을 줄이고, 클린 룸은 그 데이터를 법과 프라이버시를 지키며 연결하게 해 준다. 둘을 함께 쓰면 잠자던 데이터를 자산으로 바꾸면서도 신뢰를 잃지 않는다.
+[[062_darkdata|다크 데이터]] 발견은 저장 비용을 줄이고, 클린 룸은 그 [[001_dikw_pyramid|데이터]]를 법과 프라이버시를 지키며 연결하게 해 준다. 둘을 함께 쓰면 잠자던 [[001_dikw_pyramid|데이터]]를 자산으로 바꾸면서도 신뢰를 잃지 않는다.
 
-결국 데이터 엔지니어링의 성숙도는 "얼마나 많이 모았는가"보다 "얼마나 안전하게 찾고, 안전하게 결합하는가"에서 드러난다.
+결국 [[001_dikw_pyramid|데이터]] 엔지니어링의 성숙도는 "얼마나 많이 모았는가"보다 "얼마나 안전하게 찾고, 안전하게 결합하는가"에서 드러난다.
 
 - **📢 섹션 요약 비유**: 창고 정리와 공동 장터를 동시에 잘해야 진짜 돈이 되는 것이다.
 
@@ -138,6 +138,6 @@ Clean Room
 
 ## 어린이를 위한 3줄 비유 설명
 
-다크 데이터는 창고에 묻혀 있는 장난감 상자예요.  
+[[062_darkdata|다크 데이터]]는 창고에 묻혀 있는 장난감 상자예요.  
 AI는 상자 안 물건에 이름표를 붙여 정리해 줘요.  
 클린 룸은 서로 장난감을 보여 주지 않고도 개수만 같이 세는 비밀 방이에요.

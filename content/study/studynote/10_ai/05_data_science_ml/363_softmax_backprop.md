@@ -8,15 +8,15 @@ categories = "studynote-ai"
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 소프트맥스(Softmax) 함수의 역전파는 출력들이 서로 의존적(합이 1)이기 때문에 스칼라 미분 대신 야코비안(Jacobian) 행렬이 필요하며, i=j와 i≠j 두 케이스로 나눠 유도한다.
-> 2. **가치**: 소프트맥스 + 교차 엔트로피(Cross Entropy) 손실의 결합 미분은 δ = ŷ - y (예측값 - 정답)로 극도로 단순해져, 다중 분류의 역전파 구현이 효율적이다.
-> 3. **판단 포인트**: 수치 안정성(Numerical Stability)을 위해 softmax(z-max(z))처럼 최대값을 빼주는 log-sum-exp 트릭을 반드시 적용하지 않으면 exp(z) 계산에서 오버플로가 발생한다.
+> 1. **본질**: [[270_softmax|소프트맥스]]([[270_softmax|Softmax]]) 함수의 [[272_backpropagation|역전파]]는 출력들이 서로 의존적(합이 1)이기 때문에 스칼라 미분 대신 야코비안(Jacobian) 행렬이 필요하며, i=j와 i≠j 두 케이스로 나눠 유도한다.
+> 2. **가치**: [[270_softmax|소프트맥스]] + 교차 [[151_entropy|엔트로피]]([[154_cross_entropy|Cross Entropy]]) 손실의 결합 미분은 δ = ŷ - y (예측값 - 정답)로 극도로 단순해져, 다중 [[104_classification_analysis|분류]]의 [[272_backpropagation|역전파]] 구현이 효율적이다.
+> 3. **판단 포인트**: 수치 안정성(Numerical [[021_stability|Stability]])을 위해 [[270_softmax|softmax]](z-max(z))처럼 최대값을 빼주는 log-sum-exp 트릭을 반드시 적용하지 않으면 exp(z) 계산에서 오버플로가 발생한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-다중 분류 신경망의 출력층에서 소프트맥스는 각 클래스의 점수(logit)를 확률로 변환한다. 역전파 시 ∂L/∂zᵢ를 계산해야 하는데, sᵢ = exp(zᵢ)/Σexp(zⱼ)에서 sᵢ는 모든 zⱼ에 의존하므로 단순 도함수가 아닌 야코비안 행렬 ∂sᵢ/∂zⱼ (i×j 행렬)이 필요하다. 이를 교차 엔트로피와 결합하면 아름답게 단순화된다.
+다중 [[104_classification_analysis|분류]] 신경망의 출력층에서 [[270_softmax|소프트맥스]]는 각 클래스의 점수(logit)를 [[130_probability|확률]]로 변환한다. [[272_backpropagation|역전파]] 시 ∂L/∂zᵢ를 계산해야 하는데, sᵢ = exp(zᵢ)/Σexp(zⱼ)에서 sᵢ는 모든 zⱼ에 의존하므로 단순 도함수가 아닌 야코비안 행렬 ∂sᵢ/∂zⱼ (i×j 행렬)이 필요하다. 이를 교차 [[151_entropy|엔트로피]]와 결합하면 아름답게 단순화된다.
 
 ```text
 ┌──────────────────────────────────────────────┐
@@ -27,7 +27,7 @@ categories = "studynote-ai"
 └──────────────────────────────────────────────┘
 ```
 
-- **📢 섹션 요약 비유**: 소프트맥스의 역전파는 "팀 점수 배분 게임의 미분"이다. 한 선수의 점수(zᵢ)가 오르면 자신의 확률이 오르고 다른 선수의 확률은 내려간다(상호의존). 이 복잡한 의존성을 야코비안 행렬로 한 번에 처리한다.
+- **📢 섹션 요약 비유**: [[270_softmax|소프트맥스]]의 [[272_backpropagation|역전파]]는 "팀 점수 배분 게임의 미분"이다. 한 선수의 점수(zᵢ)가 오르면 자신의 [[130_probability|확률]]이 오르고 다른 선수의 [[130_probability|확률]]은 내려간다(상호의존). 이 복잡한 의존성을 야코비안 행렬로 한 번에 처리한다.
 
 ---
 
@@ -60,39 +60,39 @@ categories = "studynote-ai"
 |:---|:---|:---|
 | i = j | sᵢ(1-sᵢ) | 자기 자신에 대한 기울기 |
 | i ≠ j | -sᵢ·sⱼ | 다른 출력의 영향 |
-| CE+Softmax 결합 | ŷᵢ - yᵢ | 예측 - 정답 (단순화) |
+| CE+[[270_softmax|Softmax]] 결합 | ŷᵢ - yᵢ | 예측 - 정답 (단순화) |
 
-- **📢 섹션 요약 비유**: CE+Softmax 결합 그래디언트(ŷ-y)는 "점수 오차만큼 가중치 조정"이다. 예측 확률 0.7에서 정답 1.0을 빼면 -0.3이라는 수정 신호가 나온다. 이 단순한 오차 신호가 전체 신경망을 통해 역전파된다.
+- **📢 섹션 요약 비유**: CE+[[270_softmax|Softmax]] 결합 그래디언트(ŷ-y)는 "점수 오차만큼 [[267_weight_bias_activation|가중치]] 조정"이다. 예측 [[130_probability|확률]] 0.7에서 정답 1.0을 빼면 -0.3이라는 수정 [[130_signal|신호]]가 나온다. 이 단순한 오차 [[130_signal|신호]]가 전체 신경망을 통해 [[272_backpropagation|역전파]]된다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-수치 안정성 문제: exp(1000) = ∞(오버플로), exp(-1000) = 0(언더플로). softmax(z - max(z)) 트릭을 쓰면 최대값이 0이 되어 분자는 ≤1, 분모는 ≥1이 되어 항상 수치적으로 안전하다. PyTorch의 F.cross_entropy()는 내부적으로 LogSoftmax + NLLLoss로 수치 안정적으로 구현되어 있어 별도 softmax를 출력에 추가하지 않는 것이 권장된다.
+수치 안정성 문제: exp([[489_raid_10_hybrid|10]]00) = ∞(오버플로), exp(-[[489_raid_10_hybrid|10]]00) = 0(언더플로). [[270_softmax|softmax]](z - max(z)) 트릭을 쓰면 최대값이 0이 되어 분자는 ≤1, 분모는 ≥1이 되어 항상 수치적으로 안전하다. PyTorch의 F.cross_entropy()는 내부적으로 LogSoftmax + NLLLoss로 수치 안정적으로 구현되어 있어 별도 softmax를 출력에 추가하지 않는 것이 권장된다.
 
 | 구분 | 핵심 초점 | 적용 상황 |
 |:---|:---|:---|
-| 기초 접근 | 원리 이해와 기준 설정 | 작은 규모, 개념 학습 |
-| 소프트맥스 역전파 (Softmax Backpropagation) | 성능과 실용성의 균형 | 대표적인 실무 적용 |
-| 확장 접근 | 자동화·대규모 최적화 | 서비스 고도화 단계 |
+| 기초 접근 | 원리 이해와 기준 [[009_config|설정]] | 작은 규모, 개념 학습 |
+| [[270_softmax|소프트맥스]] [[272_backpropagation|역전파]] ([[270_softmax|Softmax]] [[272_backpropagation|Backpropagation]]) | [[282_performance_tactics|성능]]과 실용성의 균형 | 대표적인 실무 적용 |
+| 확장 접근 | 자동화·대규모 최적화 | [[090_service_kubernetes_network_load_balancing|서비스]] 고도화 단계 |
 
-- **📢 섹션 요약 비유**: log-sum-exp 트릭은 "온도계 범위 조정"이다. 섭씨 1000°C를 섭씨로 재면 온도계가 터지지만(오버플로), 기준점(max)을 0°C로 맞추면 -0.3°C ~0°C 범위에서 안전하게 계산된다.
+- **📢 섹션 요약 비유**: log-sum-exp 트릭은 "온도계 범위 조정"이다. 섭씨 [[489_raid_10_hybrid|10]]00°C를 섭씨로 재면 온도계가 터지지만(오버플로), 기준점(max)을 0°C로 맞추면 -0.3°C ~0°C 범위에서 안전하게 계산된다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-다중 클래스 분류에서 마지막 레이어에 소프트맥스를 붙이고 nn.CrossEntropyLoss(PyTorch)를 사용하면 수치 안정적 구현이 자동으로 된다. 반면 nn.BCEWithLogitsLoss(이진 분류)는 Sigmoid + BCE를 안정적으로 결합한다. 온도 스케일링(Temperature Scaling): softmax(z/T)에서 T>1이면 분포가 평탄화(불확실한 예측), T<1이면 날카로워짐(확신). LLM의 생성 다양성 조절에 사용.
+다중 클래스 [[104_classification_analysis|분류]]에서 마지막 레이어에 [[270_softmax|소프트맥스]]를 붙이고 nn.CrossEntropyLoss(PyTorch)를 사용하면 수치 안정적 구현이 자동으로 된다. 반면 nn.BCEWithLogitsLoss(이진 [[104_classification_analysis|분류]])는 [[268_sigmoid_vanishing_gradient|Sigmoid]] + BCE를 안정적으로 결합한다. 온도 [[249_scaling_normalization_standardization|스케일링]]([[386_llm_temperature|Temperature]] Scaling): [[270_softmax|softmax]](z/T)에서 T>1이면 분포가 평탄화(불확실한 예측), T<1이면 날카로워짐(확신). LLM의 [[087_process_state_transition|생성]] 다양성 조절에 사용.
 
-- **📢 섹션 요약 비유**: 온도 스케일링은 "AI의 자신감 조절 다이얼"이다. T=1은 보통, T=2면 "좀 더 다양하게 대답해봐(창의적)", T=0.5면 "제일 확률 높은 것만 답해(확실하게)"다. ChatGPT의 temperature 파라미터가 바로 이것이다.
+- **📢 섹션 요약 비유**: 온도 [[249_scaling_normalization_standardization|스케일링]]은 "AI의 자신감 조절 다이얼"이다. T=1은 보통, T=2면 "좀 더 다양하게 대답해봐(창의적)", T=0.5면 "제일 [[130_probability|확률]] 높은 것만 답해(확실하게)"다. ChatGPT의 [[386_llm_temperature|temperature]] 파라미터가 바로 이것이다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-소프트맥스 역전파의 이해는 다중 분류 신경망의 학습 원리를 수학적으로 완전히 파악하는 핵심이다. 야코비안 유도(i=j, i≠j 케이스)와 CE+Softmax 결합 단순화, 수치 안정성 트릭을 함께 서술하면 딥러닝 구현 능력과 이론 이해 모두를 보여줄 수 있다.
+[[270_softmax|소프트맥스]] [[272_backpropagation|역전파]]의 이해는 다중 [[104_classification_analysis|분류]] 신경망의 학습 원리를 수학적으로 완전히 파악하는 핵심이다. 야코비안 유도(i=j, i≠j 케이스)와 CE+[[270_softmax|Softmax]] 결합 단순화, 수치 안정성 트릭을 함께 서술하면 딥러닝 구현 능력과 이론 이해 모두를 보여줄 수 있다.
 
-- **📢 섹션 요약 비유**: 소프트맥스 역전파는 "팀 투표의 책임 소재 계산"이다. 모든 선수가 총점을 나눠 가지므로 한 선수의 점수를 올리려면 다른 선수에게서 뺏어야 한다. 야코비안은 이 복잡한 뺏고 빼앗기는 관계를 행렬로 정확히 계산한다.
+- **📢 섹션 요약 비유**: [[270_softmax|소프트맥스]] [[272_backpropagation|역전파]]는 "팀 투표의 책임 소재 계산"이다. 모든 선수가 총점을 나눠 가지므로 한 선수의 점수를 올리려면 다른 선수에게서 뺏어야 한다. 야코비안은 이 복잡한 뺏고 빼앗기는 [[083_relationship_in_er_model|관계]]를 행렬로 정확히 계산한다.
 
 ---
 
@@ -100,9 +100,9 @@ categories = "studynote-ai"
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| 교차 엔트로피 (Cross Entropy) | 손실 함수 / Softmax와 결합 시 단순화 |
-| 야코비안 행렬 (Jacobian) | 벡터 미분 / Softmax 역전파의 핵심 도구 |
-| 온도 스케일링 | 생성 다양성 / Softmax z/T 변형 |
+| 교차 [[151_entropy|엔트로피]] ([[154_cross_entropy|Cross Entropy]]) | [[075_loss_function_cost_function|손실 함수]] / Softmax와 결합 시 단순화 |
+| 야코비안 행렬 (Jacobian) | 벡터 미분 / [[270_softmax|Softmax]] [[272_backpropagation|역전파]]의 핵심 도구 |
+| 온도 [[249_scaling_normalization_standardization|스케일링]] | [[087_process_state_transition|생성]] 다양성 / [[270_softmax|Softmax]] z/T 변형 |
 | LogSoftmax + NLLLoss | PyTorch 구현 / 수치 안정적 CE 구현 |
 
 ### 📈 관련 키워드 및 발전 흐름도
@@ -113,6 +113,6 @@ categories = "studynote-ai"
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. 소프트맥스는 "점수를 확률로 바꿔주는 마법"이에요. 예: [3, 1, 0.5] → [0.7, 0.2, 0.1]
-2. 역전파 때는 "예측 확률 - 정답"만 계산하면 되어서 아주 간단해요!
+1. [[270_softmax|소프트맥스]]는 "점수를 [[130_probability|확률]]로 바꿔주는 마법"이에요. 예: [3, 1, 0.5] → [0.7, 0.2, 0.1]
+2. [[272_backpropagation|역전파]] 때는 "예측 [[130_probability|확률]] - 정답"만 계산하면 되어서 아주 간단해요!
 3. 단, 큰 숫자가 들어오면 컴퓨터가 폭발(오버플로)할 수 있어서 최대값을 빼는 안전 장치가 필요해요.

@@ -6,13 +6,13 @@ categories = "studynote-security"
 +++
 
 > **핵심 인사이트 3줄**
-> 1. 위험 처리(Risk Treatment)는 회피(Avoidance)·감소(Reduction)·전가(Transfer)·수용(Acceptance) 4가지 전략의 조합으로, 각 위험의 발생 가능성·영향도·비용-편익 분석을 기반으로 선택한다.
-> 2. 위험 회피(Risk Avoidance)는 위험 유발 활동 자체를 중단하는 가장 확실한 전략이나, 비즈니스 기회 손실을 수반하므로 잔여 위험(Residual Risk)이 허용 불가 수준일 때만 적용한다.
-> 3. 현대 사이버보안에서는 제로 트러스트 아키텍처·보험(사이버보험)·MFA·EDR 등 다층적 위험 처리 전략의 조합이 표준으로, 단일 전략에 의존하는 것은 안티패턴이다.
+> 1. 위험 처리([[096_risk_non_risk_architecture_evaluation_flaws|Risk]] Treatment)는 회피(Avoidance)·감소(Reduction)·전가(Transfer)·수용(Acceptance) 4가지 [[268_strategy_pattern|전략]]의 조합으로, 각 위험의 발생 가능성·영향도·비용-편익 분석을 기반으로 선택한다.
+> 2. 위험 회피([[096_risk_non_risk_architecture_evaluation_flaws|Risk]] Avoidance)는 위험 유발 활동 자체를 중단하는 가장 확실한 [[268_strategy_pattern|전략]]이나, 비즈니스 기회 손실을 수반하므로 [[038_residual_risk|잔여 위험]]([[038_residual_risk|Residual Risk]])이 허용 불가 수준일 때만 적용한다.
+> 3. 현대 사이버보안에서는 [[184_zero_trust_architecture|제로 트러스트 아키텍처]]·보험(사이버보험)·[[552_mfa|MFA]]·[[325_edr|EDR]] 등 다층적 위험 처리 [[268_strategy_pattern|전략]]의 조합이 표준으로, 단일 [[268_strategy_pattern|전략]]에 의존하는 것은 안티패턴이다.
 
 ---
 
-## Ⅰ. 위험 처리 4대 전략
+## Ⅰ. 위험 처리 4대 [[268_strategy_pattern|전략]]
 
 ```
 위험 처리 (Risk Treatment) 옵션:
@@ -29,9 +29,9 @@ categories = "studynote-security"
                     영향도
 ```
 
-| 전략        | 정의                          | 적용 상황               |
+| [[268_strategy_pattern|전략]]        | 정의                          | 적용 상황               |
 |-----------|------------------------------|------------------------|
-| 회피 (Avoidance) | 위험 활동 자체 중단        | 잔여 위험 > 허용 한계   |
+| 회피 (Avoidance) | 위험 활동 자체 중단        | [[038_residual_risk|잔여 위험]] > 허용 한계   |
 | 감소 (Reduction) | 통제 적용으로 위험 축소    | 비용-편익 긍정적        |
 | 전가 (Transfer) | 보험·계약으로 책임 이전    | 보험 가능, 계약 가능   |
 | 수용 (Acceptance) | 위험 인식 후 허용          | 영향·가능성 모두 낮음   |
@@ -61,39 +61,39 @@ categories = "studynote-security"
 
 | 상황               | 위험 회피 결정                  |
 |-----------------|-------------------------------|
-| BYOD 정책        | 개인 기기 전면 금지 (민감 데이터 접근 위험)|
-| 오픈소스 라이브러리 | EOL 라이브러리 즉시 제거        |
-| 특정 국가 서비스  | 개인정보법 미충족 국가 서비스 철수|
-| IoT 연결         | 취약한 IoT 기기 네트워크 분리   |
+| BYOD [[164_policy|정책]]        | 개인 기기 전면 금지 (민감 [[001_dikw_pyramid|데이터]] 접근 위험)|
+| [[191_oss_license_compliance|오픈소스]] [[336_library_vs_framework|라이브러리]] | EOL [[336_library_vs_framework|라이브러리]] 즉시 제거        |
+| 특정 국가 [[090_service_kubernetes_network_load_balancing|서비스]]  | 개인정보법 미충족 국가 [[090_service_kubernetes_network_load_balancing|서비스]] 철수|
+| [[101_iot_concept|IoT]] 연결         | 취약한 [[101_iot_concept|IoT]] 기기 네트워크 분리   |
 
 📢 **섹션 요약 비유**: 위험 회피는 폭설 예보에 운전을 안 하는 것이다 — 아무리 좋은 타이어(통제)를 달아도 위험이 너무 크다면, 아예 운전(활동) 자체를 안 하는 것이 최선이다.
 
 ---
 
-## Ⅲ. 위험 전가 — 사이버 보험
+## Ⅲ. [[051_risk_transfer|위험 전가]] — [[1027_cyber_insurance|사이버 보험]]
 
-### 사이버 보험 커버리지
+### [[1027_cyber_insurance|사이버 보험]] 커버리지
 
 | 유형                | 보장 내용                       |
 |------------------|-------------------------------|
-| 1차 손해 (First Party) | 사고 대응·복구·포렌식 비용     |
-| 3자 배상 (Third Party) | 데이터 유출 피해자 손해배상    |
-| 비즈니스 중단       | 랜섬웨어·DDoS 피해 수익 손실    |
-| 규제 벌금           | GDPR·CCPA 과징금 일부          |
+| 1차 손해 (First Party) | [[009_incident_response|사고 대응]]·[[658_ir_recovery|복구]]·포렌식 비용     |
+| 3자 배상 (Third Party) | [[001_dikw_pyramid|데이터]] 유출 피해자 손해배상    |
+| 비즈니스 중단       | [[730_ransomware|랜섬웨어]]·DDoS 피해 수익 손실    |
+| 규제 벌금           | [[791_gdpr_eu|GDPR]]·[[800_ccpa|CCPA]] 과징금 일부          |
 
-### 사이버 보험 요율 결정 요소
+### [[1027_cyber_insurance|사이버 보험]] 요율 결정 요소
 
-- MFA(다중 인증) 적용 여부
-- EDR/XDR 솔루션 보유 여부
-- 정기 백업 및 복구 테스트
+- [[552_mfa|MFA]](다중 [[303_authentication_authorization_patterns|인증]]) 적용 여부
+- [[325_edr|EDR]]/[[127_xdr_external_data_representation|XDR]] 솔루션 보유 여부
+- 정기 [[555_backup_and_restore_strategy|백업]] 및 [[658_ir_recovery|복구]] 테스트
 - 직원 보안 교육 이수율
 - 이전 사고 이력
 
-📢 **섹션 요약 비유**: 사이버 보험은 자동차 보험이다 — 좋은 안전장치(MFA·EDR)를 갖출수록 보험료가 낮아지고, 사고가 나도 금전적 손해를 보전받는다.
+📢 **섹션 요약 비유**: [[1027_cyber_insurance|사이버 보험]]은 자동차 보험이다 — 좋은 안전장치([[552_mfa|MFA]]·[[325_edr|EDR]])를 갖출수록 보험료가 낮아지고, 사고가 나도 금전적 손해를 보전받는다.
 
 ---
 
-## Ⅳ. 위험 감소 — 다층 방어 전략
+## Ⅳ. 위험 감소 — 다층 방어 [[268_strategy_pattern|전략]]
 
 ```
 Defense in Depth (심층 방어):
@@ -111,11 +111,11 @@ Defense in Depth (심층 방어):
 사람: MFA·보안 교육·피싱 훈련
 ```
 
-📢 **섹션 요약 비유**: 심층 방어는 양파 껍질이다 — 한 층을 뚫어도 다음 층이 있어서, 공격자가 최종 목표(데이터)에 도달하기 전에 여러 장벽을 넘어야 한다.
+📢 **섹션 요약 비유**: 심층 방어는 양파 껍질이다 — 한 층을 뚫어도 다음 층이 있어서, 공격자가 최종 목표([[001_dikw_pyramid|데이터]])에 도달하기 전에 여러 장벽을 넘어야 한다.
 
 ---
 
-## Ⅴ. 제로 트러스트와 위험 처리 통합
+## Ⅴ. [[667_zero_trust_runtime_integrity_measurement|제로 트러스트]]와 위험 처리 통합
 
 ```
 제로 트러스트 원칙: "절대 신뢰하지 말고, 항상 검증하라"
@@ -130,7 +130,7 @@ Defense in Depth (심층 방어):
   IAM → MFA → Conditional Access → SIEM → SOAR
 ```
 
-📢 **섹션 요약 비유**: 제로 트러스트는 "ID 카드는 있어도 매번 검사"하는 보안이다 — 임직원(신뢰 내부자)도 매번 신원 확인(MFA)하고, 최소한 접근 권한만 준다.
+📢 **섹션 요약 비유**: [[667_zero_trust_runtime_integrity_measurement|제로 트러스트]]는 "ID 카드는 있어도 매번 검사"하는 보안이다 — 임직원(신뢰 내부자)도 매번 신원 [[396_validation|확인]]([[552_mfa|MFA]])하고, 최소한 접근 권한만 준다.
 
 ---
 
@@ -183,6 +183,6 @@ Defense in Depth (심층 방어):
 
 ## 👶 어린이를 위한 3줄 비유 설명
 
-1. 위험 처리 4전략은 비가 올 때 대처법이다 — 외출을 안 하기(회피), 우산 쓰기(감소), 비 피해 보험 들기(전가), 조금 맞아도 괜찮다고 하기(수용).
+1. 위험 처리 4전략은 비가 올 때 대처법이다 — 외출을 안 하기(회피), 우산 [[289_cqrs_db|쓰기]](감소), 비 피해 보험 들기(전가), 조금 맞아도 괜찮다고 하기(수용).
 2. 위험 회피는 폭설에 운전을 안 하는 것이다 — 아무리 좋은 스노우 타이어(통제)도 너무 위험하면, 아예 안 가는 것이 답이다.
 3. 심층 방어는 양파 껍질이다 — 한 겹을 뚫어도 다음 겹이 있어서, 결국 공격자가 모든 겹을 다 뚫어야만 성공할 수 있다.

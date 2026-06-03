@@ -7,15 +7,15 @@ categories = "studynote-cloud-architecture"
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: 컬럼 지향 스토리지(Columnar Storage)는 데이터를 **행(Row) 단위가 아닌 열(Column) 단위로 압축 저장**하여 OLAP 분석 쿼리 시 필요한 열만 읽어 I/O를 극적으로 절감한다.
-> 2. **가치**: 동일 열의 데이터는 타입이 동일하므로 **압축률이 5~10배 높고**, 특정 열만 선택적으로 읽는 OLAP 쿼리에서 로우 기반 대비 수십 배 빠른 스캔 성능을 발휘한다.
-> 3. **판단 포인트**: Apache Parquet은 범용 컬럼 포맷, Apache ORC는 Hive/Spark 최적화 포맷으로, 데이터 레이크·레이크하우스의 **표준 저장 포맷**으로 반드시 이해해야 한다.
+> 1. **본질**: 컬럼 지향 스토리지(Columnar Storage)는 [[001_dikw_pyramid|데이터]]를 **행(Row) 단위가 아닌 열(Column) 단위로 [[347_compaction|압축]] 저장**하여 [[316_olap|OLAP]] 분석 [[298_qkv_attention|쿼리]] 시 필요한 열만 읽어 I/O를 극적으로 절감한다.
+> 2. **가치**: 동일 열의 [[001_dikw_pyramid|데이터]]는 타입이 동일하므로 **[[347_compaction|압축]]률이 5~10배 높고**, 특정 열만 선택적으로 읽는 [[316_olap|OLAP]] [[298_qkv_attention|쿼리]]에서 로우 기반 대비 수십 배 빠른 스캔 [[282_performance_tactics|성능]]을 발휘한다.
+> 3. **판단 포인트**: Apache Parquet은 범용 컬럼 포맷, Apache ORC는 [[544_hive|Hive]]/Spark 최적화 포맷으로, [[208_data_lake_schema_on_read|데이터 레이크]]·레이크하우스의 **표준 저장 포맷**으로 반드시 이해해야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-전통 RDBMS는 한 행의 모든 컬럼을 디스크에 연속 저장한다(Row-oriented). INSERT/UPDATE 트랜잭션에는 효율적이지만, "전체 주문 중 매출 금액 합계"처럼 특정 컬럼만 읽는 OLAP 쿼리에서는 불필요한 컬럼까지 전부 읽어야 하는 I/O 낭비가 발생한다.
+전통 RDBMS는 한 행의 모든 컬럼을 디스크에 연속 저장한다(Row-oriented). INSERT/UPDATE [[191_transaction_concept_states|트랜잭션]]에는 효율적이지만, "전체 주문 중 매출 금액 합계"처럼 특정 컬럼만 읽는 [[316_olap|OLAP]] [[298_qkv_attention|쿼리]]에서는 불필요한 컬럼까지 전부 읽어야 하는 I/O 낭비가 발생한다.
 
 ```
 [Row-oriented 저장]
@@ -41,7 +41,7 @@ SELECT SUM(amount) FROM orders;  → amount 컬럼 파일만 읽음 (I/O 95% 절
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### Apache Parquet 파일 구조
+### Apache [[178_parquet_rle_encoding_columnar_compression|Parquet]] [[501_file_definition_logical_record|파일]] 구조
 
 ```
 ┌────────────────────────────────────────────────────────┐
@@ -67,15 +67,15 @@ SELECT SUM(amount) FROM orders;  → amount 컬럼 파일만 읽음 (I/O 95% 절
 └────────────────────────────────────────────────────────┘
 ```
 
-### Parquet 압축 및 인코딩 최적화
+### [[178_parquet_rle_encoding_columnar_compression|Parquet]] [[347_compaction|압축]] 및 인코딩 최적화
 
 | 최적화 기법 | 설명 | 효과 |
 |:---|:---|:---|
-| **Dictionary Encoding** | 반복 값을 정수 ID로 치환 | 문자열 컬럼 압축 우수 |
-| **RLE (Run-Length Encoding)** | 연속 동일 값 압축 | 정렬된 컬럼 효율적 |
-| **Delta Encoding** | 이전 값과의 차이만 저장 | 타임스탬프, 순차 ID |
-| **Bit Packing** | 필요 최소 비트 수로 저장 | 정수 범위 최적화 |
-| **압축 코덱** | Snappy, Zstd, Gzip | Snappy: 속도↑, Zstd: 압축률↑ |
+| **Dictionary Encoding** | 반복 값을 정수 ID로 치환 | 문자열 컬럼 [[347_compaction|압축]] 우수 |
+| **[[099_rle|RLE]] (Run-Length Encoding)** | 연속 동일 값 [[347_compaction|압축]] | 정렬된 컬럼 효율적 |
+| **[[329_delta_encoding|Delta Encoding]]** | 이전 값과의 차이만 저장 | 타임스탬프, 순차 ID |
+| **[[086_fenwick_tree|Bit]] Packing** | 필요 최소 [[073_bit|비트]] 수로 저장 | 정수 범위 최적화 |
+| **[[347_compaction|압축]] 코덱** | Snappy, Zstd, Gzip | Snappy: 속도↑, Zstd: [[347_compaction|압축]]률↑ |
 
 ### Predicate Pushdown (조건 푸시다운)
 
@@ -96,20 +96,20 @@ Parquet 엔진 동작:
 
 ## Ⅲ. 비교 및 연결
 
-### Parquet vs ORC vs Avro vs CSV
+### [[178_parquet_rle_encoding_columnar_compression|Parquet]] vs ORC vs Avro vs CSV
 
-| 비교 항목 | Parquet | ORC | Avro | CSV |
+| 비교 항목 | [[178_parquet_rle_encoding_columnar_compression|Parquet]] | ORC | Avro | CSV |
 |:---|:---|:---|:---|:---|
 | **저장 방식** | 컬럼 지향 | 컬럼 지향 | 행 지향 | 행 지향 |
-| **압축률** | 높음 | 높음 | 중간 | 낮음 |
-| **OLAP 쿼리** | 우수 | 우수 | 보통 | 나쁨 |
-| **쓰기 성능** | 보통 | 보통 | 우수 | 우수 |
+| **[[347_compaction|압축]]률** | 높음 | 높음 | 중간 | 낮음 |
+| **[[316_olap|OLAP]] [[298_qkv_attention|쿼리]]** | 우수 | 우수 | 보통 | 나쁨 |
+| **[[289_cqrs_db|쓰기]] [[282_performance_tactics|성능]]** | 보통 | 보통 | 우수 | 우수 |
 | **스트리밍** | 제한 | 제한 | 우수 | 우수 |
-| **스키마 진화** | 제한 | 제한 | 우수 | 없음 |
-| **생태계** | 범용 (Spark, Hive, Presto) | Hive/ORC 최적 | Kafka 스키마 | 범용 |
-| **적합 사례** | 데이터 레이크 OLAP | Hive DW | 스트리밍 직렬화 | 소규모 교환 |
+| **[[005_schema|스키마]] 진화** | 제한 | 제한 | 우수 | 없음 |
+| **생태계** | 범용 (Spark, [[544_hive|Hive]], Presto) | [[544_hive|Hive]]/ORC 최적 | [[179_kafka_flink_watermark_time_window|Kafka]] [[005_schema|스키마]] | 범용 |
+| **적합 사례** | [[208_data_lake_schema_on_read|데이터 레이크]] [[316_olap|OLAP]] | [[544_hive|Hive]] [[209_data_warehouse_schema_on_write|DW]] | 스트리밍 직렬화 | 소규모 교환 |
 
-### 파일 포맷 선택 기준
+### [[501_file_definition_logical_record|파일]] 포맷 선택 기준
 
 ```
 [워크로드별 포맷 선택]
@@ -121,13 +121,13 @@ Hive DW:               ORC (Hive 네이티브 최적화)
 ML 피처 스토어:         Parquet (Feast 등)
 ```
 
-📢 **섹션 요약 비유**: 포맷 선택은 짐을 싸는 방식이다. 여행 캐리어(Parquet/ORC)는 체계적으로 정리해 공간 절약, 긴급 배낭(Avro)은 빠르게 넣고 빼기, 비닐백(CSV)은 단순하지만 비효율이다. 분석 여행(OLAP)엔 캐리어, 마라톤(스트리밍)엔 배낭이 맞다.
+📢 **섹션 요약 비유**: 포맷 선택은 짐을 싸는 방식이다. 여행 캐리어([[178_parquet_rle_encoding_columnar_compression|Parquet]]/ORC)는 체계적으로 정리해 공간 절약, 긴급 배낭(Avro)은 빠르게 넣고 빼기, 비닐백(CSV)은 단순하지만 비효율이다. 분석 여행([[316_olap|OLAP]])엔 캐리어, 마라톤(스트리밍)엔 배낭이 맞다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### Parquet 최적화 실무 가이드
+### [[178_parquet_rle_encoding_columnar_compression|Parquet]] 최적화 실무 가이드
 
 ```python
 # Spark에서 Parquet 최적화 저장
@@ -146,7 +146,7 @@ df = spark.read.parquet("s3://bucket/silver/orders/") \
      .select("order_id", "amount", "status")  # Column Pruning
 ```
 
-### 파티셔닝 전략
+### [[179_table_partitioning_concept|파티셔닝]] [[268_strategy_pattern|전략]]
 
 ```
 [파티셔닝 설계 예시]
@@ -162,7 +162,7 @@ s3://bucket/orders/
      적정 파일 크기: 128MB ~ 512MB
 ```
 
-📢 **섹션 요약 비유**: 파티셔닝은 서류함에 날짜별로 구분자(탭)를 꽂아두는 것이다. 1월 15일 서류만 필요하면 전체를 뒤지지 않고 "1월 탭" 안에서 "15일 탭"을 바로 꺼낼 수 있다.
+📢 **섹션 요약 비유**: [[179_table_partitioning_concept|파티셔닝]]은 서류함에 날짜별로 구분자(탭)를 꽂아두는 것이다. 1월 15일 서류만 필요하면 전체를 뒤지지 않고 "1월 탭" 안에서 "15일 탭"을 바로 꺼낼 수 있다.
 
 ---
 
@@ -172,34 +172,34 @@ s3://bucket/orders/
 
 | 효과 | 정량 기준 |
 |:---|:---|
-| **압축률** | CSV 대비 5~10배 저장 공간 절감 |
-| **쿼리 속도** | Row 기반 대비 OLAP 쿼리 5~50배 빠름 |
-| **I/O 절감** | Column Pruning + Predicate Pushdown으로 90%+ I/O 절감 |
-| **스토리지 비용** | S3 비용 50~80% 절감 (CSV → Parquet 전환) |
+| **[[347_compaction|압축]]률** | CSV 대비 5~10배 저장 공간 절감 |
+| **[[298_qkv_attention|쿼리]] 속도** | Row 기반 대비 [[316_olap|OLAP]] [[298_qkv_attention|쿼리]] 5~50배 빠름 |
+| **I/O 절감** | Column [[435_pruning_hardware|Pruning]] + Predicate Pushdown으로 90%+ I/O 절감 |
+| **스토리지 비용** | S3 비용 50~80% 절감 (CSV → [[178_parquet_rle_encoding_columnar_compression|Parquet]] 전환) |
 
 ### 한계 및 주의점
 
 | 한계 | 내용 |
 |:---|:---|
-| **쓰기 성능** | Row 기반 대비 쓰기 속도 느림 (컬럼 재조합 비용) |
-| **소형 파일 문제** | 소규모 배치 쓰기 시 파일 수 폭발 (OPTIMIZE 필요) |
-| **스트리밍 직렬화 불리** | 이벤트 단위 쓰기에는 Avro/Protobuf 선호 |
+| **[[289_cqrs_db|쓰기]] [[282_performance_tactics|성능]]** | Row 기반 대비 [[289_cqrs_db|쓰기]] 속도 느림 (컬럼 재조합 비용) |
+| **소형 [[501_file_definition_logical_record|파일]] 문제** | 소규모 배치 [[289_cqrs_db|쓰기]] 시 [[501_file_definition_logical_record|파일]] 수 폭발 (OPTIMIZE 필요) |
+| **스트리밍 직렬화 불리** | 이벤트 단위 [[289_cqrs_db|쓰기]]에는 Avro/Protobuf 선호 |
 | **실시간 행 업데이트 어려움** | 컬럼 지향 특성 상 단건 UPDATE 비효율 |
 
-📢 **섹션 요약 비유**: Parquet은 연필 케이스다. 연필(데이터)을 종류별(컬럼별)로 정렬해 넣으면 꺼낼 때 빠르고 공간도 절약된다. 단, 처음 정리하는 시간(쓰기 비용)이 필요하고, 연필 한 자루씩 추가하는 것(단건 업데이트)은 번거롭다.
+📢 **섹션 요약 비유**: Parquet은 연필 케이스다. 연필([[001_dikw_pyramid|데이터]])을 종류별(컬럼별)로 정렬해 넣으면 꺼낼 때 빠르고 공간도 절약된다. 단, 처음 정리하는 시간([[289_cqrs_db|쓰기]] 비용)이 필요하고, 연필 한 자루씩 추가하는 것(단건 업데이트)은 번거롭다.
 
 ---
 
 ### 📌 관련 개념 맵
 | 개념 | 연결 포인트 |
 |:---|:---|
-| OLAP | 컬럼 지향 스토리지가 가장 큰 성능 이점을 발휘하는 쿼리 패턴 |
-| 데이터 레이크 | Parquet/ORC가 표준 파일 포맷으로 사용되는 저장소 |
-| Delta Lake / Iceberg | Parquet 위에 트랜잭션 레이어를 추가한 테이블 포맷 |
-| Predicate Pushdown | 컬럼 통계 기반 읽기 스킵으로 쿼리 최적화 |
-| Apache Spark | Parquet 읽기·쓰기 최적화의 핵심 엔진 |
-| 파티셔닝 | 컬럼 지향 포맷과 결합하여 쿼리 범위 최소화 |
-| Avro | 스트리밍 직렬화용 행 지향 포맷, Kafka 스키마 레지스트리 |
+| [[316_olap|OLAP]] | 컬럼 지향 스토리지가 가장 큰 [[282_performance_tactics|성능]] 이점을 발휘하는 [[298_qkv_attention|쿼리]] 패턴 |
+| [[208_data_lake_schema_on_read|데이터 레이크]] | [[178_parquet_rle_encoding_columnar_compression|Parquet]]/ORC가 표준 [[501_file_definition_logical_record|파일]] 포맷으로 사용되는 저장소 |
+| [[147_delta_lake|Delta Lake]] / Iceberg | [[178_parquet_rle_encoding_columnar_compression|Parquet]] 위에 [[191_transaction_concept_states|트랜잭션]] 레이어를 추가한 테이블 포맷 |
+| Predicate Pushdown | 컬럼 통계 기반 읽기 스킵으로 [[298_qkv_attention|쿼리]] 최적화 |
+| [[206_spark_inmemory_rdd_lazy_evaluation_lineage|Apache Spark]] | [[178_parquet_rle_encoding_columnar_compression|Parquet]] 읽기·[[289_cqrs_db|쓰기]] 최적화의 핵심 엔진 |
+| [[179_table_partitioning_concept|파티셔닝]] | 컬럼 지향 포맷과 결합하여 [[298_qkv_attention|쿼리]] 범위 최소화 |
+| Avro | 스트리밍 직렬화용 행 지향 포맷, [[179_kafka_flink_watermark_time_window|Kafka]] [[005_schema|스키마]] [[235_registry_immutable_tag|레지스트리]] |
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 컬럼 지향 저장은 학용품을 종류별로 보관하는 것이다. 연필통에는 연필만, 자 통에는 자만 넣으면, "연필 몇 개야?"라고 물을 때 연필통만 열면 된다.
@@ -217,5 +217,5 @@ s3://bucket/orders/
     ▼
 벡터화 실행: SIMD · Arrow 인메모리 포맷
 ```
-2. Parquet은 잘 정리된 서랍장이다. 각 서랍에 같은 종류의 물건이 빽빽이 정리되어(압축), 필요한 서랍만 열어도(컬럼 선택) 원하는 걸 빠르게 찾을 수 있다.
+2. Parquet은 잘 정리된 서랍장이다. 각 서랍에 같은 종류의 물건이 빽빽이 정리되어([[347_compaction|압축]]), 필요한 서랍만 열어도(컬럼 선택) 원하는 걸 빠르게 찾을 수 있다.
 3. CSV는 모든 물건을 큰 상자에 섞어 넣은 것이다. 단순하지만, 연필을 찾으려면 상자 전체를 뒤져야 해서 시간이 오래 걸린다.

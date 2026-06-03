@@ -7,13 +7,13 @@ categories = "studynote-bigdata"
 +++
 
 > **핵심 인사이트**
-> 1. 벡터 데이터베이스(Vector Database)는 고차원 벡터 임베딩을 저장하고 근사 최근접 이웃(ANN) 검색을 수행하도록 특화된 데이터베이스 — LLM·이미지 인식·추천 시스템에서 "의미적으로 유사한 항목을 빠르게 찾는" 핵심 인프라가 되었다.
-> 2. ANN(Approximate Nearest Neighbor) 알고리즘이 벡터 DB의 심장 — 정확한 최근접 이웃 탐색(Exact NN)은 고차원에서 O(N) 이상이지만, HNSW(계층적 탐색 그래프)·IVF·PQ 같은 ANN 알고리즘은 99%+ 리콜로 O(log N) 수준 성능을 달성한다.
-> 3. RAG(Retrieval-Augmented Generation) 아키텍처에서 벡터 DB가 필수 구성 요소 — LLM의 지식 한계를 극복하기 위해 문서를 임베딩하여 벡터 DB에 저장하고, 질의(Query) 벡터와 유사한 문서를 검색하여 LLM 컨텍스트로 제공하는 패턴이 표준화됐다.
+> 1. [[223_vector_database_embedding|벡터 데이터베이스]]([[223_vector_database_embedding|Vector Database]])는 고차원 벡터 [[278_instruction_tuning|임베딩]]을 저장하고 근사 최근접 이웃([[350_ann|ANN]]) 검색을 수행하도록 특화된 [[002_database_definition|데이터베이스]] — [[263_llm_large_language_model|LLM]]·이미지 인식·[[211_recommendation_system|추천 시스템]]에서 "의미적으로 유사한 항목을 빠르게 찾는" 핵심 인프라가 되었다.
+> 2. [[350_ann|ANN]]([[351_hnsw|Approximate Nearest Neighbor]]) [[001_algorithm_definition|알고리즘]]이 벡터 DB의 심장 — 정확한 최근접 이웃 탐색(Exact NN)은 고차원에서 O(N) 이상이지만, [[351_hnsw|HNSW]](계층적 탐색 [[070_graph_datastructure|그래프]])·IVF·[[391_qos_queuing_pq_cq_wfq_cbwfq_llq|PQ]] 같은 [[350_ann|ANN]] [[001_algorithm_definition|알고리즘]]은 99%+ 리콜로 O(log N) 수준 [[282_performance_tactics|성능]]을 달성한다.
+> 3. [[276_fine_tuning|RAG]]([[585_rag_retrieval_augmented_generation|Retrieval-Augmented Generation]]) 아키텍처에서 벡터 DB가 필수 구성 요소 — LLM의 지식 한계를 극복하기 위해 문서를 [[278_instruction_tuning|임베딩]]하여 벡터 DB에 저장하고, 질의(Query) 벡터와 유사한 문서를 검색하여 [[263_llm_large_language_model|LLM]] [[033_context|컨텍스트]]로 제공하는 패턴이 표준화됐다.
 
 ---
 
-## Ⅰ. 벡터 임베딩과 유사도
+## Ⅰ. 벡터 [[278_instruction_tuning|임베딩]]과 유사도
 
 ```
 벡터 임베딩 (Vector Embedding):
@@ -55,11 +55,11 @@ categories = "studynote-bigdata"
   → ANN 알고리즘으로 극복
 ```
 
-> 📢 **섹션 요약 비유**: 벡터 임베딩 = 의미 지도 좌표 — "고양이"와 "강아지"는 지도에서 가까운 좌표. "자동차"는 멀리. 코사인 유사도는 두 좌표가 같은 방향을 가리키는 정도!
+> 📢 **섹션 요약 비유**: 벡터 [[278_instruction_tuning|임베딩]] = 의미 지도 좌표 — "고양이"와 "강아지"는 지도에서 가까운 좌표. "자동차"는 멀리. [[359_cosine_similarity|코사인 유사도]]는 두 좌표가 같은 방향을 가리키는 정도!
 
 ---
 
-## Ⅱ. ANN 알고리즘
+## Ⅱ. [[350_ann|ANN]] [[001_algorithm_definition|알고리즘]]
 
 ```
 ANN (Approximate Nearest Neighbor):
@@ -117,7 +117,7 @@ ANN (Approximate Nearest Neighbor):
   알고리즘 선택 유연: IVF, HNSW, PQ 등
 ```
 
-> 📢 **섹션 요약 비유**: ANN = 도서관 검색 전략 — 모든 책(벡터) 다 보기(Exact NN: 느림) vs 주제별 분류(IVF), 가까운 서가 먼저(HNSW). 완벽하진 않지만 99% 정확도로 100배 빠름!
+> 📢 **섹션 요약 비유**: [[350_ann|ANN]] = 도서관 검색 [[268_strategy_pattern|전략]] — 모든 책(벡터) 다 보기(Exact NN: 느림) vs 주제별 [[104_classification_analysis|분류]](IVF), 가까운 서가 먼저([[351_hnsw|HNSW]]). 완벽하진 않지만 99% 정확도로 100배 빠름!
 
 ---
 
@@ -182,11 +182,11 @@ pgvector (PostgreSQL 확장):
   적합: 기존 Postgres 환경
 ```
 
-> 📢 **섹션 요약 비유**: 벡터 DB 선택 = 용도별 도구 — Pinecone(배달 음식: 빠르게 시작), Weaviate(레스토랑: 맞춤 서비스), Milvus(대형 식당: 대규모), ChromaDB(집에서 요리: 로컬 개발)!
+> 📢 **섹션 요약 비유**: 벡터 DB 선택 = 용도별 도구 — Pinecone(배달 음식: 빠르게 시작), Weaviate(레스토랑: 맞춤 [[090_service_kubernetes_network_load_balancing|서비스]]), [[320_gnn_vector_db_recommendation|Milvus]](대형 식당: 대규모), ChromaDB(집에서 요리: 로컬 개발)!
 
 ---
 
-## Ⅳ. RAG 아키텍처
+## Ⅳ. [[276_fine_tuning|RAG]] 아키텍처
 
 ```
 RAG (Retrieval-Augmented Generation):
@@ -244,11 +244,11 @@ HyDE (Hypothetical Document Embeddings):
   → 검색 정확도 향상
 ```
 
-> 📢 **섹션 요약 비유**: RAG = 오픈북 시험 — LLM이 암기(학습)만으로 답하면 오류. RAG는 관련 책 페이지(검색)를 펼쳐보고 답변. 사내 문서, 최신 정보도 LLM이 활용!
+> 📢 **섹션 요약 비유**: [[276_fine_tuning|RAG]] = 오픈북 시험 — LLM이 암기(학습)만으로 답하면 오류. RAG는 관련 책 [[286_page_frame|페이지]](검색)를 펼쳐보고 답변. 사내 문서, 최신 정보도 LLM이 활용!
 
 ---
 
-## Ⅴ. 실무 시나리오 — 기업 지식 검색 RAG
+## Ⅴ. 실무 시나리오 — 기업 지식 검색 [[276_fine_tuning|RAG]]
 
 ```
 대기업 사내 지식 관리 RAG 구축:
@@ -294,7 +294,7 @@ HyDE (Hypothetical Document Embeddings):
   긍정 피드백: 92%
 ```
 
-> 📢 **섹션 요약 비유**: 기업 RAG = AI 사내 도서관 사서 — 50만 문서를 의미 지도(임베딩)에 배치. 질문하면 관련 문서 5개 즉시 찾아 LLM이 요약 답변. 정보 탐색 시간 83% 감소!
+> 📢 **섹션 요약 비유**: 기업 [[276_fine_tuning|RAG]] = [[190_ai_llm_requirements_specification|AI]] 사내 도서관 사서 — 50만 문서를 의미 지도([[278_instruction_tuning|임베딩]])에 배치. 질문하면 관련 문서 5개 즉시 찾아 LLM이 요약 답변. 정보 [[324_seek_time|탐색 시간]] 83% 감소!
 
 ---
 
@@ -352,6 +352,6 @@ LLM 지식 한계 극복
 
 ## 👶 어린이를 위한 3줄 비유 설명
 
-1. 벡터 임베딩 = 의미 지도 좌표 — "고양이"와 "강아지"는 지도에서 가까운 좌표. "자동차"는 멀리. 비슷한 의미 = 가까운 위치!
-2. HNSW = 계층적 지름길 — 먼 곳 먼저 빠르게 이동(상위 레이어), 가까이서 정밀 탐색(하위 레이어). 99% 정확도로 100배 빠름!
-3. RAG = AI 오픈북 시험 — LLM이 암기만으로 답하면 오류. 관련 문서(벡터 DB 검색)를 펼쳐보고 답변. 최신 정보도 OK!
+1. 벡터 [[278_instruction_tuning|임베딩]] = 의미 지도 좌표 — "고양이"와 "강아지"는 지도에서 가까운 좌표. "자동차"는 멀리. 비슷한 의미 = 가까운 위치!
+2. [[351_hnsw|HNSW]] = 계층적 지름길 — 먼 곳 먼저 빠르게 이동(상위 레이어), 가까이서 정밀 탐색(하위 레이어). 99% 정확도로 100배 빠름!
+3. [[276_fine_tuning|RAG]] = [[190_ai_llm_requirements_specification|AI]] 오픈북 시험 — LLM이 암기만으로 답하면 오류. 관련 문서(벡터 DB 검색)를 펼쳐보고 답변. 최신 정보도 OK!

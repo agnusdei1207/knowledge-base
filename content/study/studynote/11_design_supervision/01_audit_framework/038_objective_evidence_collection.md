@@ -6,13 +6,13 @@ categories = "studynote-design-supervision"
 +++
 
 > **핵심 인사이트**
-> 1. 객관적 증거(Objective Evidence)는 사실에 기반하고 검증 가능한 정보로, 감리/감사의 발견 사항(Finding)이 법적 효력을 가지려면 주관적 판단이 아닌 구체적이고 반박하기 어려운 증거로 뒷받침되어야 한다.
-> 2. 증거 수집의 세 가지 핵심 방법 — 인터뷰(Interview), 문서 검토(Documentation Review), 현장 관찰(Observation) — 은 서로 교차 검증(Triangulation)될 때 증거의 신뢰성이 극대화된다.
+> 1. [[056_objective_evidence_collection|객관적 증거]]([[056_objective_evidence_collection|Objective Evidence]])는 사실에 기반하고 [[395_verification_process_review|검증]] 가능한 정보로, 감리/[[606_auditing_linux_auditd|감사]]의 발견 사항(Finding)이 법적 효력을 가지려면 주관적 판단이 아닌 구체적이고 반박하기 어려운 증거로 뒷받침되어야 한다.
+> 2. 증거 수집의 세 가지 핵심 방법 — 인터뷰(Interview), 문서 검토([[378_software_documentation|Documentation]] [[153_requirements_review_inspection_walkthrough|Review]]), 현장 관찰(Observation) — 은 서로 [[250_cross_validation_kfold|교차 검증]](Triangulation)될 때 증거의 신뢰성이 극대화된다.
 > 3. 증거의 충분성(Sufficiency)과 적합성(Appropriateness)이 증거 품질의 핵심 — "많이 모았다"가 아니라 "발견 사항을 합리적으로 지지하는 증거를 정확하게 모았는가"가 기준이다.
 
 ---
 
-## I. 객관적 증거의 특성
+## I. [[056_objective_evidence_collection|객관적 증거]]의 특성
 
 ```
 증거의 요건 (ISO 19011 감사 원칙):
@@ -36,7 +36,7 @@ categories = "studynote-design-supervision"
   객관: "보안 교육 이수율 32% (기준 90%)"
 ```
 
-> 📢 **섹션 요약 비유**: 재판에서 "그 사람이 나쁜 것 같다"는 의견이 아니라 "CCTV 영상, 목격자 진술, 지문"이 증거 — 감리도 마찬가지.
+> 📢 **섹션 요약 비유**: 재판에서 "그 사람이 나쁜 것 같다"는 의견이 아니라 "[[933_cctv|CCTV]] 영상, 목격자 진술, 지문"이 증거 — 감리도 마찬가지.
 
 ---
 
@@ -67,7 +67,7 @@ categories = "studynote-design-supervision"
   -> 문서 검토, 관찰로 교차 검증 필수
 ```
 
-> 📢 **섹션 요약 비유**: 인터뷰는 수사관의 진술 청취 — "저는 항상 절차대로 합니다"는 로그 확인으로 검증해야 함.
+> 📢 **섹션 요약 비유**: 인터뷰는 수사관의 진술 청취 — "저는 항상 절차대로 합니다"는 [[568_logs_distributed_logging_elk_fluentd|로그]] [[396_validation|확인]]으로 [[395_verification_process_review|검증]]해야 함.
 
 ---
 
@@ -101,11 +101,11 @@ categories = "studynote-design-supervision"
   수집 일시, 제공자 기록
 ```
 
-> 📢 **섹션 요약 비유**: 문서 검토는 세금 신고서 확인하기 — 신고한 내용과 실제 거래 내역(로그)이 일치하는지 대조.
+> 📢 **섹션 요약 비유**: 문서 검토는 세금 신고서 [[396_validation|확인]]하기 — 신고한 내용과 실제 거래 내역([[568_logs_distributed_logging_elk_fluentd|로그]])이 일치하는지 대조.
 
 ---
 
-## IV. 현장 관찰
+## [[288_version_ihl_tos_total_length|IV]]. 현장 관찰
 
 ```
 현장 관찰 기법:
@@ -134,11 +134,11 @@ categories = "studynote-design-supervision"
   -> 예상치 못한 시점에 관찰 또는 로그 검토 병행
 ```
 
-> 📢 **섹션 요약 비유**: 현장 관찰은 마스터셰프가 직접 주방에 들어가 조리 과정 확인하기 — 메뉴판(문서)만 봐서는 위생 상태를 알 수 없음.
+> 📢 **섹션 요약 비유**: 현장 관찰은 마스터셰프가 직접 주방에 들어가 조리 과정 [[396_validation|확인]]하기 — 메뉴판(문서)만 봐서는 위생 상태를 알 수 없음.
 
 ---
 
-## V. 실무 시나리오 — ISMS 감사 증거 수집
+## V. 실무 시나리오 — [[836_iso_27001_isms|ISMS]] [[606_auditing_linux_auditd|감사]] 증거 수집
 
 ```
 감사 목표: 패치 관리 통제 효과성 검증
@@ -215,6 +215,6 @@ AI 기반 이상 탐지 증거 활용
 
 ## 👶 어린이를 위한 3줄 비유 설명
 
-1. 객관적 증거는 재판에서 "제 생각에는..."이 아니라 CCTV, 지문, 목격자 진술처럼 누구나 확인할 수 있는 사실이에요.
-2. 감리사는 인터뷰(물어보기), 문서 검토(기록 확인), 현장 관찰(직접 보기) 세 가지로 증거를 모아 서로 맞는지 확인해요.
+1. [[056_objective_evidence_collection|객관적 증거]]는 재판에서 "제 생각에는..."이 아니라 [[933_cctv|CCTV]], 지문, 목격자 진술처럼 누구나 [[396_validation|확인]]할 수 있는 사실이에요.
+2. 감리사는 인터뷰(물어보기), 문서 검토(기록 [[396_validation|확인]]), 현장 관찰(직접 보기) 세 가지로 증거를 모아 서로 맞는지 [[396_validation|확인]]해요.
 3. 세 가지 방법이 모두 같은 문제를 가리키면 증거로서 힘이 훨씬 강해져서 누구도 반박하기 어려워요!

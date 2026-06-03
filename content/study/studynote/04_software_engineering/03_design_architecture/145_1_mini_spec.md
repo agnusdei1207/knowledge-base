@@ -9,7 +9,7 @@ categories = "studynote-software-engineering"
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: Mini-Spec은 **DFD의 최하위 프로세스(기본 프로세스)의 로직을 구조적 영어(Structured English)·의사결정표·의사결정트리**로 상세 기술하는 프로세스 명세서이다.
 > 2. **가치**: DFD는 "무엇을" 보여주지만 **"어떻게 변환하는지"**는 보여주지 않으며, Mini-Spec이 각 프로세스의 **입력→변환 규칙→출력을 명확히** 정의한다.
-> 3. **판단 포인트**: 구조적 영어(IF-THEN-ELSE, DO-WHILE), 의사결정표(Decision Table, 복합 조건), 의사결정트리(Decision Tree, 시각적) 중 상황에 맞는 표현을 선택한다.
+> 3. **판단 포인트**: 구조적 영어(IF-THEN-ELSE, DO-WHILE), 의사결정표([[631_decision_table_logical_combination|Decision Table]], 복합 조건), 의사결정트리([[124_decision_tree|Decision Tree]], 시각적) 중 상황에 맞는 표현을 선택한다.
 
 ---
 
@@ -32,7 +32,7 @@ categories = "studynote-software-engineering"
 
 ## Ⅱ~Ⅴ. 결론
 
-Mini-Spec은 **DFD 프로세스의 로직 명세 도구**이며, 구조적 영어·의사결정표·의사결정트리가 3대 표현 방법이다.
+Mini-Spec은 **[[144_dfd_data_flow_diagram|DFD]] 프로세스의 로직 명세 도구**이며, 구조적 영어·의사결정표·의사결정트리가 3대 표현 방법이다.
 
 ---
 
@@ -44,7 +44,7 @@ Mini-Spec은 **DFD 프로세스의 로직 명세 도구**이며, 구조적 영�
 | **구조적 영어** | IF-THEN-ELSE |
 | **의사결정표** | 복합 조건 매핑 |
 | **의사결정트리** | 시각적 조건 분기 |
-| **DFD** | Mini-Spec의 상위 |
+| **[[144_dfd_data_flow_diagram|DFD]]** | Mini-Spec의 상위 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
