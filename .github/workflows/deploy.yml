@@ -1,12 +1,15 @@
 name: Deploy Quartz to GitHub Pages
+
 on:
   push:
     branches:
       - main
+
 permissions:
   contents: read
   pages: write
   id-token: write
+
 concurrency:
   group: "pages"
   cancel-in-progress: false
@@ -24,11 +27,33 @@ jobs:
         with:
           node-version: 24
 
-      - name: Build Quartz (High-Performance Native Mode)
+      # Quartz 소스 캐시 (tarball 재다운로드 방지)
+      - name: Cache Quartz source
+        id: cache-quartz-src
+        uses: actions/cache@v4
+        with:
+          path: .quartz-src
+          key: quartz-src-v5-${{ hashFiles('quartz.config.yaml') }}
+          restore-keys: |
+            quartz-src-v5-
+
+      # npm 패키지 캐시 (node_modules 재설치 방지)
+      - name: Cache npm packages
+        uses: actions/cache@v4
+        with:
+          path: .quartz-src/.npm-cache
+          key: quartz-npm-v5-${{ hashFiles('.quartz-src/package-lock.json') }}
+          restore-keys: |
+            quartz-npm-v5-
+
+      - name: Build Quartz
         env:
           BASE_DIR: /knowledge-base
           USE_DOCKER: "false"
           NODE_OPTIONS: "--max-old-space-size=4096"
+          QUARTZ_SRC_CACHE: ".quartz-src"
+          NPM_CACHE_DIR: ".quartz-src/.npm-cache"
+          QUARTZ_SRC_CACHED: ${{ steps.cache-quartz-src.outputs.cache-hit }}
         run: bash scripts/build-quartz.sh .quartz-build/public
 
       - name: Upload artifact
