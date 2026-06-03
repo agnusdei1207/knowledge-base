@@ -1,5 +1,5 @@
 ---
-title: 🔬 R&D (연구 개발 허브)
+title: R&D (연구 개발 허브)
 tags:
 - r-and-d
 ---

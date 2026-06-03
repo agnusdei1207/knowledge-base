@@ -1,12 +1,12 @@
 ---
-title: 🔧 Quartz v5 아키텍처 분석 — 백링크·그래프 뷰·빌드 한계
+title: Quartz v5 아키텍처 분석 — 백링크·그래프 뷰·빌드 한계
 tags:
 - r-and-d
 - quartz
 - knowledge-base
 ---
 
-[ 🌌 [[index|종합 지식 포털]] ] > [[r-and-d/index|🔬 R&D]] > **🔧 Quartz 분석**
+[ [[index|종합 지식 포털]] ] > [[r-and-d/index|R&D]] > **Quartz 분석**
 
 ---
 

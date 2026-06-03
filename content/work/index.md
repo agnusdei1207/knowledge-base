@@ -1,5 +1,5 @@
 ---
-title: 🏢 Work (기업 업무 허브)
+title: Work (기업 업무 허브)
 tags:
 - work
 ---
