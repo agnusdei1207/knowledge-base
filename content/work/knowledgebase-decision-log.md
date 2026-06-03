@@ -3,7 +3,7 @@
 이 문서는 왜 우리 팀이 현재의 지식베이스 구조를 선택했는지, 어떤 대안을 검토했고 어떤 운영 원칙을 채택했는지를 정리한 기록입니다.
 
 관련 문서:
-- [[README]]
+- [README](../README.md)
 - [[quartz-deployment]]
 - [[business]]
 - [[r-and-d]]
@@ -99,7 +99,7 @@
 
 - 작성 원본: Markdown
 - 작성 공간: `content/`
-- 링크 방식: 위키링크(`[[문서명]]`)
+- 링크 방식: 위키링크(``문서명``)
 - 형상관리: GitHub
 - 웹 퍼블리싱: Quartz
 - 자동 배포: GitHub Actions

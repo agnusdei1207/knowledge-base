@@ -46,4 +46,4 @@ weight: 1
 ---
 
 > [!NOTE]
-> 업무 문서를 편집하거나 추가할 때는 항상 **[[knowledgebase-decision-log|운영 원칙]]** 및 **[[AGENTS.md|에이전트 규칙]]**을 준수해 주세요.
+> 업무 문서를 편집하거나 추가할 때는 항상 **[[knowledgebase-decision-log|운영 원칙]]** 및 **[에이전트 규칙](../../AGENTS.md)**을 준수해 주세요.

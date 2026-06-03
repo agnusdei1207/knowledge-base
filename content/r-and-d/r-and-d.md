@@ -1,6 +1,6 @@
 # 🧪 R&D 허브
 
-연구개발 관련 실험, 검증, 아키텍처 메모를 연결하는 상위 문서입니다. R&D 과정에서 습득한 원천 기술 지식은 **[[study/_index|Study 허브]]**의 **[[studynote/_index|Study Note]]**와 융합하여 체계적으로 학습 및 검증을 이어갑니다.
+연구개발 관련 실험, 검증, 아키텍처 메모를 연결하는 상위 문서입니다. R&D 과정에서 습득한 원천 기술 지식은 **[[study/_index|Study 허브]]**의 **[[study/studynote/_index|Study Note]]**와 융합하여 체계적으로 학습 및 검증을 이어갑니다.
 
 관련 문서:
 - [[r-and-d-roadmap]]
@@ -35,8 +35,8 @@ R&D 문서는 "연구 결과 보관소"가 아니라, 가설과 검증 결과를
 - 연결 문서 & 학습 배경:
   - [[tech-stack]]
   - [[business-pipeline]]
-  - **[[studynote/10_ai/_index|AI/LLM/RAG 이론 배경]]**
-  - **[[studynote/05_database/_index|DB/Vector DB 구조]]**
+  - **[[study/studynote/10_ai/_index|AI/LLM/RAG 이론 배경]]**
+  - **[[study/studynote/05_database/_index|DB/Vector DB 구조]]**
 
 ### B. 지식그래프형 위키 운영
 
@@ -58,7 +58,7 @@ R&D 문서는 "연구 결과 보관소"가 아니라, 가설과 검증 결과를
   - 파일명 규칙
   - 사람 검토 지점 정의
 - 관련 원칙:
-  - **[[studynote/04_software_engineering/_index|소프트웨어 품질 및 형상관리론]]**
+  - **[[study/studynote/04_software_engineering/_index|소프트웨어 품질 및 형상관리론]]**
 
 ---
 
@@ -76,5 +76,5 @@ R&D 문서는 "연구 결과 보관소"가 아니라, 가설과 검증 결과를
 - 기술 로드맵: [[r-and-d-roadmap]]
 - 기반 기술 정리: [[tech-stack]]
 - 사업 연결 관점: [[business]]
-- 기술사 스터디 노트: [[studynote/_index]]
+- 기술사 스터디 노트: [[study/studynote/_index]]
 
